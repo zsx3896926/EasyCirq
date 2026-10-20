@@ -57,6 +57,17 @@
 
 条目不是190条固定参数或认证规则：Agent按任务选择，落实设计与工具约束并回读/复验。经验继续积累到工程记录；经授权、脱敏和核对后再沉淀到共享Skill，不自动公开客户工程。不用经验数量代替真实工程和实物验收。
 
+## 从新版本协作包吸收的改进
+
+在保留上述能力的基础上，融合用户提供的`hw-eda-engineer 0.5.0`的方法，按当前Skill的工程边界改写：
+
+- [8种起步方案](design-hardware/references/starter-patterns.md)：灯/指示器、温湿度、开发板、电池电源、低压开关、USB键盘、RS485采集和电机小车；提供功能骨架，不照抄固定芯片/阻容值。
+- [外壳协同](design-hardware/references/enclosure-integration.md)：板框、孔、接口、插拔空间、天线/传感器、材料与加工文件一起核对。
+- [项目关联记录](design-hardware/references/project-coherence.md)：图纸、BOM、实际物理脚/GPIO、固件、外壳、制造和测试对应；沿用现有格式，不强制新手维护JSON。
+- [分层排障](design-hardware/references/troubleshooting.md)：从实际日志定位连接、图面、电气、制造、烧录与实物问题，不见到相似网名就自动合并。
+- [完整案例演练](design-hardware/references/product-example.md)：从花盆缺水提醒目标推进至实物验收，修正了两节AA经LDO维持3.3V、拔出探头代替真实土壤校准等不可靠做法。
+- 两个重新实现的可选离线辅助：电池侧状态续航估算，以及带文本边界/覆盖范围的原理图几何检查。Agent准备输入，不是每次画板的强制步骤。
+
 ## 没用过 EDA？这样开始
 
 首次需要在支持本机工具的 Agent 中安装本 Skill，并接通 EDA 执行工具。你可以先对 Agent 说：
@@ -218,6 +229,8 @@ design-hardware/
   assets/engineering-notes.md  可裁剪的工程记录模板
   scripts/calculate.py        无第三方依赖的基础计算工具
   scripts/netlist_check.py    显式连接表的只读结构自检
+  scripts/power_budget.py     显式电池侧状态续航估算
+  scripts/sch_layout_check.py 实际回读几何的候选问题提示
 ```
 
 计算工具支持 LED 限流、无负载分压、I2C 上拉范围和 LDO 压差/功耗初算。输入全部用 SI 单位，不访问网络、不写工程、不调用 EDA。运行以下命令查看输入字段：
@@ -236,11 +249,21 @@ python design-hardware/scripts/netlist_check.py design-hardware/assets/example-c
 
 示例使用虚构器件，不能拿来画真实电路。退出0仅表示输入中未发现结构阻断，缺失引脚表会单列覆盖不足；该工具不证明电源地无短路、去耦充分、额定满足或真实EDA连通。
 
+续航与图面辅助的字段、单位和覆盖范围见 [离线工具契约](design-hardware/references/offline-tools.md)。以下是虚构算例，不表示硬件参数或电路已经验证：
+
+```bash
+python design-hardware/scripts/power_budget.py design-hardware/assets/example-power-budget.json
+python design-hardware/scripts/sch_layout_check.py design-hardware/assets/example-layout.json
+```
+
+续航不默认可用容量折扣，不能混用负载端电流与电池容量；零耗电不报告无限寿命。几何检查的0退出不表示电气/图面通过，缺文字边界和实际对象时保持未覆盖；仍需要EDA回读、官方检查和实际导图复核。输入契约与来稿同名脚本不同，不能直接混用旧JSON。
+
 ## 验证状态
 
 - 已检查技能结构、内部引用及计算工具的典型值、边界和无效输入。
 - 已进行缺少工程/连接、未知参数、新手首次使用、工程师改板、采购数量/阶梯价、商城与SMT分流、缺货替代、完整产品目标及功能验收等场景试跑。
 - 原理图排版与工程细节经验库已加入结构检查；条目本身不是可执行的硬件自动验证器，场景试跑不等于真实EDA或首板验收。
+- 离线辅助脚本已覆盖状态积分、错误电流基准、目标未满足、零耗电、非有限/重复键输入，以及文字范围、线穿本体、相切、越页和覆盖缺失等实际反例；本地共48项测试。
 - **尚未完成这套 Skill 驱动真实原理图与 PCB 的端到端验收，也未完成商城/SMT账户操作、真实烧录或完整实物功能链的端到端实测。**
 - 不保证特定客户端、模型、EDA 版本或执行器支持全部操作。
 - DRC 通过、动作响应、连接回读与样机实测分别报告；未验证项不会默认通过。

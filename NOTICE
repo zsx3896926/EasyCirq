@@ -6,6 +6,12 @@ if a separately obtained upstream distribution includes them.
 
 The supplied scripts were reviewed; the connectivity checker in this repository
 is a new implementation with a different, explicit input/coverage contract.
+The later user-supplied hw-eda-engineer 0.5.0 package also declares MIT.
+Its enclosure/project coordination, starter patterns, troubleshooting, worked
+example, duty-cycle estimation and schematic geometry-review concepts informed
+this update. The battery and schematic geometry helpers are new implementations
+with explicit units, input validation and coverage limitations; the supplied
+cost, project and Gerber checkers are not included as executable capabilities.
 The original uploaded package is not included, including its environment-specific
 output paths and fictional examples presented as real device pin mappings.
 
