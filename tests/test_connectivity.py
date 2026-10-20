@@ -1,11 +1,14 @@
 import copy
 import importlib.util
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+
+os.environ.setdefault('PYTHONIOENCODING','utf-8')
 
 ROOT=Path(__file__).resolve().parents[1]
 SCRIPT=ROOT/'design-hardware/scripts/netlist_check.py'
@@ -62,7 +65,7 @@ class Connectivity(unittest.TestCase):
             f=Path(tmp)/'input.json'
             cases=[(json.dumps(self.data()),0),('{"components":[],"components":[]}',2),(json.dumps({'components':[{'ref':'R?','pins':{}}]}),1),('{"components":[null]}',2)]
             for content,code in cases:
-                f.write_text(content);r=subprocess.run([sys.executable,str(SCRIPT),str(f),'--json'],capture_output=True,text=True)
+                f.write_text(content);r=subprocess.run([sys.executable,str(SCRIPT),str(f),'--json'],capture_output=True,text=True,encoding='utf-8')
                 self.assertEqual(r.returncode,code,r.stderr+r.stdout);self.assertFalse(json.loads(r.stdout)['board_verified'])
 
 if __name__=='__main__':unittest.main()

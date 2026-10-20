@@ -1,0 +1,36 @@
+{
+  "coordinate_units": "mm (draft sheet coordinates authored for this offline exercise; not read back from an EDA tool)",
+  "components": [
+    {"id": "J1-usbc-body", "bbox": [20, 120, 50, 170]},
+    {"id": "F1-fuse-body", "bbox": [70, 135, 90, 155]},
+    {"id": "U2-charger-body", "bbox": [110, 115, 165, 175]},
+    {"id": "U1-buckboost-body", "bbox": [190, 115, 245, 175]},
+    {"id": "U3-module-body", "bbox": [270, 110, 335, 180]},
+    {"id": "U4-sensor-body", "bbox": [270, 200, 335, 250]}
+  ],
+  "texts": [
+    {"id": "T-J1", "bbox": [18, 105, 58, 115]},
+    {"id": "T-F1", "bbox": [68, 120, 92, 130]},
+    {"id": "T-U2", "bbox": [105, 100, 170, 112]},
+    {"id": "T-U1", "bbox": [185, 100, 250, 112]},
+    {"id": "T-U3", "bbox": [265, 92, 345, 104]},
+    {"id": "T-U4", "bbox": [340, 205, 405, 217]},
+    {"id": "N-VBUS", "bbox": [52, 132, 68, 142]},
+    {"id": "N-SYS", "bbox": [167, 132, 183, 142]},
+    {"id": "N-3V3", "bbox": [247, 132, 263, 142]},
+    {"id": "N-SDA", "bbox": [305, 183, 325, 193]},
+    {"id": "N-GND", "bbox": [140, 235, 160, 245]}
+  ],
+  "wires": [
+    {"id": "W-VBUS", "net": "VBUS", "points": [[50, 145], [70, 145]]},
+    {"id": "W-VBUSF", "net": "VBUS_F", "points": [[90, 145], [110, 145]]},
+    {"id": "W-SYS", "net": "SYS", "points": [[165, 145], [190, 145]]},
+    {"id": "W-3V3", "net": "3V3", "points": [[245, 145], [270, 145]]},
+    {"id": "W-SDA", "net": "SDA", "points": [[300, 180], [300, 200]]},
+    {"id": "W-GND", "net": "GND", "points": [[137, 175], [137, 265], [300, 265], [300, 250]]},
+    {"id": "W-3V3-U4", "net": "3V3", "points": [[217, 175], [217, 225], [270, 225]]}
+  ],
+  "page_bbox": [0, 0, 420, 297],
+  "expected_counts": {"components": 6, "texts": 11, "wires": 7},
+  "policy": {"max_wire_length": 300}
+}

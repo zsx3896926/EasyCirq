@@ -46,3 +46,9 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 ## 其他脚本思路如何使用
 
 保留来稿中“项目档案对账、BOM成本汇总、制造包清点”的目标，按本Skill的现有记录、商城配单、制造和验收流程落实，不默认执行未合入的脚本或不存在的`parts-select.py`。只核对网名集合不能证明GPIO/物理脚正确；猜Gerber文件名/坐标不能证明板框闭合、圆弧尺寸、钻孔工艺或可制造性。
+
+## 新增可执行计算与仿真
+
+- `calculate.py` 新增 `buck`、`boost`、`adc_settle`、`current_sense`、`wire` 模式；字段、公式前提和不能证明的内容见 [计算手册](calculations/README.md)。它们仍是简化模型，不证明补偿、稳定性、EMC、SOA 或整机精度。
+- `rc_settle_sim.py` 是可执行的二阶 RC 采样网络数值仿真（后向欧拉，不是 SPICE）。输入 `--help` 查看；输出 CSV 和 JSON，含 `simulation_executed:true`、`board_verified:false` 与模型限制。`assets/simulation/rc_sample.cir` 是同一网络的 SPICE 计划文件，当前标注 `NOT RUN`，不能声称已运行。
+- [仿真与测量](simulation-measurement.md) 给出测点、仪器、探头接法、带宽/负载、预期范围、停止条件和安全边界；没有执行的项目保持 `未执行`。

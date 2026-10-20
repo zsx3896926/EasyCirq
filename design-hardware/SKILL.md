@@ -130,8 +130,26 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 连接、检查、制造、烧录或实物出问题 | [分层排障](references/troubleshooting.md) |
 | 续航核算、已有实际回读几何需辅助检查 | [离线工具契约](references/offline-tools.md) |
 | 需要学习完整idea任务如何接续 | [花盆提醒器演练](references/product-example.md)，不可当成已验证设计 |
+| 具体电源/主控/接口/模拟/驱动/无线电路的设计方法、算例与选型 | [设计卡库](references/design-cards/README.md) |
+| 局部原理图/PCB 范例、局部短线与标签、常见错误 | [原理图/PCB 范例](references/examples/README.md) |
+| 两个模块单独正常但组合失败、接口契约 | [组合与接口契约](references/module-integration.md) |
+| 器件选型、替代分级、立创商城检索顺序 | [器件选型与替代](references/selection/README.md) |
+| 故障现象、根因证据、修复与复验 | [故障与反例库](references/failures/README.md) |
+| 带条件的计算、可执行仿真与测量方法 | [计算手册](references/calculations/README.md)、[仿真与测量](references/simulation-measurement.md) |
+| 商城购料自焊、嘉立创 PCB+SMT、整机交付 | [制造与交付路线](references/manufacturing-routes.md) |
+| 完整项目样本与完成级别 | [项目样本](references/projects/README.md) |
+| 任务场景、反例与确定性验收 | [任务场景](references/task-scenarios.md) |
 
 领域路由只声明工作方法覆盖，不证明某行业、协议、器件或产品已验证。不要因覆盖范围广而绕过证据要求。遇到超出当前资料/工具能力的任务，继续可独立完成部分，具体列出需专家、仿真、板厂或实验确认的项目。
+
+### 3.1 工程内容库的使用边界
+
+- **设计卡库（60 张）**：每张按“用途/边界、必要输入、拓扑、参数步骤、完整算例、选型、逐脚、原理图、PCB、异常、验证、来源”组织。卡片的 `evidence` 为 `E1`（本次核对原厂资料）、`E2`（通用方法，具体值待按型号核对）或 `E3`（离线分析/推断）。`E2/E3` 不得当保证值。
+- **具体值只在条件内成立**：某芯片的阻容、脚号、层数、线宽、匹配值和热阻只属于对应型号、板版、工况与手册版本；换芯片/换板重新核对，不把卡片当“通用电路库”。
+- **内容库与 190 条检查提示分工**：卡片负责设计方法与算例，`schematic-details.md` / `pcb-placement-details.md` / `pcb-routing-details.md` / `manufacturing-details.md` / `domain-design-details.md` 负责逐项检查；卡片引用 SC/PL/RT/MF/DM 编号，不重复整条文本。
+- **数量不等于验证**：60 张卡、12 组范例、22 个故障案例、35 个场景只说明覆盖与可检查性；没有实际 EDA 回读、仿真、制造和样机证据时，仍按 `待确认/未执行` 报告。
+- **选型与商城**：C 号、价格、库存、MOQ、包装、生命周期和 SMT 可贴状态必须实时核对；没有实时证据就写 `待查`。设计卡与选型表不内置商品承诺。
+- **项目样本**：完成级别只在“资料分析 / 离线规划 / 实际 EDA / 制造 / 样机 / 功能实测”中如实选择；离线连接表/布局草案不等于 EDA 工程。
 
 创建或实质修改原理图/PCB时，先按工程经验库选择当前阶段与领域条目，把适用项落实成实际设计、工具约束和检查证据。只改局部时同时检查其电源/接口/布局影响，不无目的重审全板。详细经验留在按需参考中；新手只看到重要取舍、真实进展与下一步，不负责判断技术正确性。开源图纸、作者已修缺陷和原厂指南分别作为观察/查证依据，不按星数决定正确性，不把来源已查看当当前工程已验证。
 
@@ -173,7 +191,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 
 ## 6. 后台计算与自动化
 
-需要时运行 `python scripts/calculate.py <mode> '<JSON>'`。支持 `led`、`divider`、`i2c`、`ldo`，全部采用SI单位，具体字段见脚本 `--help`。脚本只复核所声明的简化模型和输入，不能证明选型、稳定性、EMC或制造合格。无Python时手算并独立复核，不把脚本列为绘图的强制前置。
+需要时运行 `python scripts/calculate.py <mode> '<JSON>'`。支持 `led`、`divider`、`i2c`、`ldo`、`buck`、`boost`、`adc_settle`、`current_sense`、`wire`，全部采用SI单位，具体字段见脚本 `--help`。脚本只复核所声明的简化模型和输入，不能证明选型、稳定性、EMC或制造合格。无Python时手算并独立复核，不把脚本列为绘图的强制前置。
 
 需要离线连接表检查时运行 `python scripts/netlist_check.py <design.json> --json`，先读 [连接表契约](references/connectivity.md)。它只验证给定数据的一致性和显式要求；未知引脚表、外部电路和缺失快照不能变成已验证。它不接管EDA检查，也不作为每次操作的强制门禁。
 

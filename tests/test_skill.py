@@ -1,11 +1,14 @@
 import importlib.util
 import json
 import math
+import os
 from pathlib import Path
 import re
 import subprocess
 import sys
 import unittest
+
+os.environ.setdefault('PYTHONIOENCODING','utf-8')
 
 ROOT=Path(__file__).resolve().parents[1]
 SKILL=ROOT/'design-hardware'
@@ -79,7 +82,7 @@ class Calculations(unittest.TestCase):
                 calc.calculate('led',{**self.led(),**patch})
     def test_cli_exit_status(self):
         for data,status in [(self.i2c(),0),({**self.i2c(),'c_bus_max_F':2e-9},1),({'bad':1},2)]:
-            r=subprocess.run([sys.executable,str(SKILL/'scripts/calculate.py'),'i2c',json.dumps(data)],capture_output=True,text=True)
+            r=subprocess.run([sys.executable,str(SKILL/'scripts/calculate.py'),'i2c',json.dumps(data)],capture_output=True,text=True,encoding='utf-8')
             self.assertEqual(r.returncode,status,r.stdout+r.stderr)
             self.assertIsInstance(json.loads(r.stdout),dict)
 
