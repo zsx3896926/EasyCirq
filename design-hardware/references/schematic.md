@@ -1,5 +1,7 @@
 # 原理图工程习惯
 
+需要解释常见问题的原因与复验方法时，按需读 [原理图机制卡](schematic-lessons.md)；它展开现有检查，不另立无条件参数。
+
 新建或实质修改时按 [原理图细节](schematic-details.md) 选取相关对象，再读 [领域易漏项](domain-design-details.md) 的适用小节；来源与持续积累方法见 [经验库](design-experience.md)。只把重要问题与证据写入工程记录，不让用户逐项填表。
 
 ## 建库与选型

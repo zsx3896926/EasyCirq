@@ -1,5 +1,7 @@
 # PCB工程习惯
 
+需要解释布局/布线问题时，按需读 [PCB机制卡](pcb-lessons.md)，将动作落实到实际焊盘、铜层、装配与复验。
+
 按阶段加载 [布局细节](pcb-placement-details.md)、[布线与回流细节](pcb-routing-details.md)、[制造与首板细节](manufacturing-details.md)，再选择 [领域易漏项](domain-design-details.md) 的适用小节；来源和经验适用性见 [经验库](design-experience.md)。把关键约束落实到工具真实支持的规则/规划，未支持项保留可执行接续说明，不能只读清单就宣布通过。
 
 ## 机械与同步
