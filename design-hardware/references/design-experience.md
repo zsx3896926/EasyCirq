@@ -15,6 +15,10 @@
 
 对适用条目执行“识别对象/条件 → 查具体型号与版本 → 落实设计/约束 → 回读/测量/检查”。只在工程记录中列重要的通过证据、缺陷和未覆盖项；不把内部编号流水账发给新手。已知事实违反约束才判缺陷；没有资料/工具时标待确认；可选优化不得伪装为阻断。具体数值服从器件手册、项目约束和实际板厂订单。
 
+## 把经验落实到当前模块
+
+需要解释失效原因或检查方法时，再读 [原理图机制卡](schematic-lessons.md) 与 [PCB机制卡](pcb-lessons.md)。两者吸收用户提供的0.6.0新增经验并与现有190条去重，属于展开说明，不是额外数量指标。每模块只留适用条件、实际设计决定、回读/测量证据及剩余缺口；检查前后使用同一工程版本。
+
 ## 已查看的样本与资料
 
 核对日期：2026-10-20。下面区分实际图纸、作者修改记录、官方技术指导和仅入口资料；“看过”不代表复刻、测过或证明整个项目无缺陷。各细节文件是结合这些资料与通用工程知识的独立归纳，表中只归属明确支持的观察，不把所有条目都归给某一项目。
@@ -39,9 +43,10 @@
 | G07 [ST AN4488](https://www.st.com/resource/en/application_note/an4488-getting-started-with-stm32f4xxxx-mcu-hardware-development-stmicroelectronics.pdf) | STM32F4硬件指南章节 | 特殊供电脚、复位、启动和调试的查证入口；VCAP/电容和封装依实际型号 |
 | G08 [Bosch BME280 HSMI](https://www.bosch-sensortec.com/media/boschsensortec/downloads/handling_soldering_mounting_instructions/bst-bme280-hs006.pdf) | 热源、气路、机械应力、涂覆与清洗章节 | 传感器的环境接触/机械条件属于设计本体；不把大铜散热和涂覆保护强套给环境传感器 |
 | G09 [TI TUSB320LI](https://www.ti.com/product/TUSB320LI) | 官方CC控制器说明 | Type-C需要角色/方向与供电策略；具体电阻/状态仍读手册和协议 |
+| G10 [ADI AN88](https://www.analog.com/media/en/technical-documentation/application-notes/an88f.pdf) | 本次读取4页热插拔LC振铃与阻尼分析 | 陶瓷输入电容与线缆可产生过冲；文中器件/阻尼值仅适用其示例，不直接迁移 |
 | T01 [KiCad 9 PCB手册](https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html) | 铺铜、布线、规则与输出章节 | 铜区轮廓不代表已重填充；工具描述仅说明KiCad行为，不能冒充EasyEDA命令 |
 | M01 [嘉立创阻焊说明](https://www.jlc.com/portal/q6i34402.html) | Mask/Paste与阻焊桥说明 | 阻焊与钢网不同，阻焊桥受实际工艺限制；下单再查当前能力 |
-| M02 [嘉立创工艺总览](https://www.jlc.com/portal/vtechnology.html) | 搜索可定位，当前整页读取失败 | 仅保留后续查询入口，不引用未读表格数值；工艺参数必须重查实际订单 |
+| M02 [嘉立创工艺总览](https://www.jlc.com/portal/vtechnology.html) | 本次已读取FR4/孔/阻焊/成型和SMT对比正文，替代先前读取失败的状态 | 条件快照与冲突见 [生产规则](jlc-production.md)；实际订单组合、费用与厂方审核仍需独立核对 |
 
 ## 每次任务继续积累的方法
 

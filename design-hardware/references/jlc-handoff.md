@@ -1,5 +1,7 @@
 # 嘉立创业务：从图纸到实物的正确衔接
 
+打板/贴片任务同时执行 [生产规则接入](jlc-production.md)，由Agent按当前工艺/渠道建立 [生产档案](../assets/manufacturing-profile.md)。PCB能力、SMT装配和EDA实际规则分别核对；依 [PCB生产规则](jlc-pcb-rules.md) 与 [SMT生产规则](jlc-smt-rules.md) 选择适用项，不等到导出时才查制造要求。
+
 ## 按用户想收到什么选择路线
 | 用户想要的结果 | 主要业务与交付 |
 |---|---|

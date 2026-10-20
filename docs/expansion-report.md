@@ -38,6 +38,7 @@
 | 未计划的 `topics/board-thermal-design/` 草稿 | 移出仓库到研究区，未纳入交付 | 引用了不存在的 `tools/thermal_calc.py`、`cases.md`、`handoff.md`，属不完整草稿 |
 | 未计划的 `topics/passive-components/` 草稿 | 移出仓库到研究区；关键内容已吸收到 `selection/passives.md` | 不在任务结构内，避免与选型文档重复、避免未审查内容混入 |
 | 原有 190 条检查提示 | 保留，未删除、未改编号 | 新卡片引用 SC/PL/RT/MF/DM，不重复正文 |
+| `main` 新增的嘉立创生产规则与 0.6 机制卡 | 保留，未覆盖 | 合并 `origin/main` 4bac85c；README/SKILL/sources 冲突按双方内容并存解决，未强推 |
 
 ## 4. 来源、查阅范围与许可
 

@@ -15,6 +15,12 @@ cost, project and Gerber checkers are not included as executable capabilities.
 The original uploaded package is not included, including its environment-specific
 output paths and fictional examples presented as real device pin mappings.
 
+The later user-supplied hw-eda-engineer 0.6.0 package also declares MIT.
+Its schematic/PCB lessons and before/after-module review approach informed
+condition-scoped mechanism cards. Existing checks were retained and deduplicated;
+universal component values, manufacturing claims, unverified sources and old
+script contracts were not adopted as engineering guarantees.
+
 The MIT permission and warranty text for this distribution is in LICENSE.
 External EDA tools, manufacturer documentation, product names and trademarks
 remain governed by their respective owners and licenses.
