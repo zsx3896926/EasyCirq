@@ -255,7 +255,7 @@ T_surface = Ta + P/(h·A)
 h=8:  30 + 4/(8·0.02) = 30 + 25 = 55°C，余量 15 K
 h=5:  30 + 4/(5·0.02) = 30 + 40 = 70°C，余量 0 K
 h=10: 30 + 4/(10·0.02) = 30 + 20 = 50°C，余量 20 K
-所需 A（h=8，Tj,max=70）= 4/(8·40) = 0.0125 m²
+所需 A（h=8，limit_C=70）= 4/(8·40) = 0.0125 m²
 ```
 
 **结果（`thermal_calc.py enclosure`）：** h=8 → `surface_C=55`，`surface_rise_K=25`，`margin_to_limit_K=15`，`status=calculated`；h=5 → `surface_C=70`，`margin=0`，`status=tight`；h=10 → `surface_C=50`，`margin=20`，`status=calculated`。`limit_C` 是外壳表面限值，不是 Tj。

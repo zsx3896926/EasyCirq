@@ -25,7 +25,12 @@ def run(mode, data):
         text=True,
         check=False,
     )
-    return proc.returncode, json.loads(proc.stdout)
+    if proc.returncode not in (0, 1):
+        return proc.returncode, {"status": "unexpected_exit", "stderr": proc.stderr[-200:]}
+    try:
+        return proc.returncode, json.loads(proc.stdout)
+    except json.JSONDecodeError:
+        return proc.returncode, {"status": "invalid_json", "stdout": proc.stdout[-200:]}
 
 
 def close(actual, expected, tol=1e-3):
