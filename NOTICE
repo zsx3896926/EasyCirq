@@ -1,0 +1,14 @@
+This repository incorporates adapted workflow and documentation concepts from
+hw-eda-engineer, a skill package supplied by the project owner. Its supplied
+SKILL.md declares license: MIT. No separate author or copyright notice was
+provided in that package. Retain any original copyright and permission notices
+if a separately obtained upstream distribution includes them.
+
+The supplied scripts were reviewed; the connectivity checker in this repository
+is a new implementation with a different, explicit input/coverage contract.
+The original uploaded package is not included, including its environment-specific
+output paths and fictional examples presented as real device pin mappings.
+
+The MIT permission and warranty text for this distribution is in LICENSE.
+External EDA tools, manufacturer documentation, product names and trademarks
+remain governed by their respective owners and licenses.
