@@ -46,7 +46,7 @@
 | G10 [ADI AN88](https://www.analog.com/media/en/technical-documentation/application-notes/an88f.pdf) | 本次读取4页热插拔LC振铃与阻尼分析 | 陶瓷输入电容与线缆可产生过冲；文中器件/阻尼值仅适用其示例，不直接迁移 |
 | T01 [KiCad 9 PCB手册](https://docs.kicad.org/9.0/en/pcbnew/pcbnew.html) | 铺铜、布线、规则与输出章节 | 铜区轮廓不代表已重填充；工具描述仅说明KiCad行为，不能冒充EasyEDA命令 |
 | M01 [嘉立创阻焊说明](https://www.jlc.com/portal/q6i34402.html) | Mask/Paste与阻焊桥说明 | 阻焊与钢网不同，阻焊桥受实际工艺限制；下单再查当前能力 |
-| M02 [嘉立创工艺总览](https://www.jlc.com/portal/vtechnology.html) | 搜索可定位，当前整页读取失败 | 仅保留后续查询入口，不引用未读表格数值；工艺参数必须重查实际订单 |
+| M02 [嘉立创工艺总览](https://www.jlc.com/portal/vtechnology.html) | 本次已读取FR4/孔/阻焊/成型和SMT对比正文，替代先前读取失败的状态 | 条件快照与冲突见 [生产规则](jlc-production.md)；实际订单组合、费用与厂方审核仍需独立核对 |
 
 ## 每次任务继续积累的方法
 

@@ -50,3 +50,7 @@
 - 参考示例：TV-PRO项目介绍 https://wiki.lceda.cn/zh-hans/course-projects/smart-internet/tv-pro/tv-pro-introduce.html 。只作为存在跨硬件/软件/结构资料的定位入口，不能推定用户项目已实现或可无条件复用。
 - 立创开源硬件平台：https://oshwhub.com/ 。逐项目核对授权、附件和适用条件，不把平台展示当作商业许可。
 - 嘉立创SMT当前订单入口：https://www.jlc-smt.com/order 。若任务需要烧录/测试，核对实际订单选项、支持范围、报价和所需材料；入口字段不等于接受任意程序或完整产品验证。
+
+## 嘉立创PCB与SMT生产规则（核对日期：2026-10-20）
+
+已读范围、条件数值、冲突及当前未覆盖项集中维护于 [PCB规则来源表](jlc-pcb-rules.md) 与 [SMT规则](jlc-smt-rules.md)，执行顺序见 [生产规则接入](jlc-production.md)。主要入口为 [工艺总表](https://www.jlc.com/portal/vtechnology.html) 和 [SMT规范目录](https://www.jlc.com/portal/q7i64042.html)。不全量复制官网参数，不将目录中的标准名称当已读正式标准；正式标准/器件、实际工艺与项目确认范围仍分别查证。官方SMT子站部分链接本次返回不可读内容，所引用正文改从可读的嘉立创主站同名专题核对；不能从标题补全缺失规则。
