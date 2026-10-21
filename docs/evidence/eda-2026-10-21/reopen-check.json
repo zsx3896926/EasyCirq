@@ -1,0 +1,24 @@
+{
+  "status": "match",
+  "project": "<scratch>\\base-copy.eprj2",
+  "snapshot": "<scratch>\\evidence-demo-snapshot.json",
+  "closed_session": null,
+  "comparison": {
+    "match": true,
+    "differences": [],
+    "counts": {
+      "parts_before": 2,
+      "parts_after": 2,
+      "wires_before": 3,
+      "wires_after": 3
+    }
+  },
+  "actual_counts": {
+    "components": 5,
+    "parts": 2,
+    "netflags": 2,
+    "netports": 0,
+    "wires": 3,
+    "attributes": null
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "page": {"schematic_name": "EvidenceDemo", "page_name": "P1"},
+  "operations": [
+    {"op": "part", "key": "R901", "match": {"designator": "R901", "part": "0603WAF1002T5E", "supplier_id": "C25804"}, "place": {"x": 300, "y": 400, "rotation": 0}, "properties": {"designator": "R901"}},
+    {"op": "part", "key": "LED901", "match": {"designator": "LED901", "part": "KT-0603R", "supplier_id": "C2286"}, "place": {"x": 500, "y": 400, "rotation": 180}, "properties": {"designator": "LED901"}},
+    {"op": "net_flag", "key": "5V", "net": "5V", "type": "Power", "at": [150, 400]},
+    {"op": "net_flag", "key": "GND", "net": "GND", "type": "Ground", "at": [650, 400]},
+    {"op": "wire", "key": "w-5V", "net": "5V", "points": [280, 400, 150, 400]},
+    {"op": "wire", "key": "w-LED_A", "net": "LED_A", "points": [320, 400, 480, 400]},
+    {"op": "wire", "key": "w-GND", "net": "GND", "points": [520, 400, 650, 400]}
+  ]
+}
