@@ -116,7 +116,23 @@
 | power | 17 |
 | wireless | 10 |
 
+## 2026-10-22 工程深潜新增来源（D-S）
+
+本组来源的完整查阅范围、页码和“不能推广”见 [工程深潜来源](engineering-deepdives/sources.md)。这里只登记 ID，避免与既有 `PWR/ANA/MCU/IF/DRV/RF/MFG` 编号混用。
+
+| 来源 ID | 标题 | 发布者 | 版本/日期 | 用途 |
+|---|---|---|---|---|
+| D-S01 | TPS212x Priority Power MUX | TI | SLVSEA3F，2020-08 修订 | B1 电源切换/反灌 |
+| D-S02 | bq27441-G1 Impedance Track Fuel Gauge | TI | SLUSBH1C，2014-12 修订 | B3 电量计 |
+| D-S03 | Op Amp Input and Output Swing Limitations | TI | SBOA583，2023-12 | C3 运放共模/摆幅 |
+| D-S04 | OPAx333 Zero-Drift Op Amp | TI | SBOS351E，2015-12 修订 | C3 输入保护/噪声 |
+| D-S05 | OPAx340 Rail-to-Rail Op Amp | TI | SBOS073C，2016-08 修订 | C3 摆幅/负载 |
+| D-S06 | KDB 996369 D04 Module Integration Guide v01 | FCC OET | 2019-02-01 | D4 模组认证 vs 整机 |
+| D-S07 | LP2985/LP2985A LDO | TI | SLVS522S，2025-05 修订 | F23 LDO 反灌/被抬压 |
+| D-S08 | UM10204 I²C §3.1.16 Bus clear | NXP | Rev. 7.0，2021-10-01 | D1/F28 总线恢复 |
+
 ## 阻塞与未覆盖
 
 - 立创商城商品页/搜索页在 2026-10-20 返回 404/系统异常，未取得可核对的 C 号、价格、库存、MOQ、包装、生命周期或 SMT 可贴状态；相关内容一律标 `待查`。
 - 需要登录、付费标准或实物测试才能确认的内容不写成已验证。
+- Nordic nRF52840 Product Specification、Pinecil V2 原理图、FCC KDB 官方 PDF 在本轮分别遇到 403/503/403，未取得正文；相关结论标 `待补` 或用可读镜像并注明。
