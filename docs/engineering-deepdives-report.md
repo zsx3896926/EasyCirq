@@ -160,5 +160,6 @@
 ## 9. 提交与 PR
 
 - 分支：`feat/engineering-deepdives`
-- 提交：见 PR 页面（本报告随 PR 提交；最终 SHA 以 PR 为准）
-- PR：待创建后补充链接
+- 提交：`4dace97372a419b5fe1a9fa1a96f2a5d02560a3b`（本报告随该提交；后续仅文档更新会追加提交）
+- PR：https://github.com/zsx3896926/hardware-design-skill/pull/3
+- CI：`validate` 通过（108 个 unittest，2 次检查均 pass）
