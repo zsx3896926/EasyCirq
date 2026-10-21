@@ -6,7 +6,7 @@
 
 **Skill 名称：** `design-hardware` · **许可：** MIT · **主要语言：** 中文
 
-> 这是一套 Agent Skill，不是 EDA 软件或自动布线器。操作真实编辑器还需要已配置的 EDA 执行工具，例如 [easyeda-agent](https://github.com/zhoushoujianwork/easyeda-agent)。本项目独立维护，不代表嘉立创或其他工具厂商。程序与实物任务仍需匹配工具链、设备、制造与测试条件。
+> 这是一套 Agent Skill，不是 EDA 软件或自动布线器。操作真实编辑器还需要已配置的 EDA 执行工具；可使用官方 `lceda-pro` CLI（本仓库提供受控适配器 `scripts/eda_exec.py`），或使用 [easyeda-agent](https://github.com/zhoushoujianwork/easyeda-agent) 等执行 Skill。本项目独立维护，不代表嘉立创或其他工具厂商。程序与实物任务仍需匹配工具链、设备、制造与测试条件。
 
 ## 目标：idea落地，不止画完板
 
@@ -32,6 +32,7 @@
 | 任务 | 工作方式 |
 |---|---|
 | 从需求画原理图 | 明确关键约束、选型、查手册、核算、绘制、回读连接 |
+| 真实读写嘉立创EDA工程 | 先读快照→对账→只补差异→回读验证→保存→重开；冲突不盲写，超时不整批重跑 |
 | 整理混乱原理图 | 保全引脚和网络，按功能排版，局部短线、跨区网名连接，导出实际图面复核 |
 | 修改现有设计 | 读取实际工程，保留正确部分，跟踪修改影响 |
 | 选型、换料与建库 | 核对完整型号、封装、引脚和焊盘映射 |
@@ -71,7 +72,9 @@
 | 带条件计算手册 | 4份 + 5个新脚本模式 | [计算手册](design-hardware/references/calculations/README.md) | 电源预算/瞬态/热、电感、MOS、ADC建立、运放、电流采样、续航、载流/压降、传输线条件 |
 | 仿真与测量 | 1份 + 1个可执行数值仿真 | [仿真与测量](design-hardware/references/simulation-measurement.md) | 模型/激励/观察量/通过标准、测点/探头/带宽/停止条件 |
 | 制造与交付路线 | 3条 | [制造与交付路线](design-hardware/references/manufacturing-routes.md) | 商城购料自焊、嘉立创PCB+SMT、板+固件/结构+整机验收 |
-| 完整项目样本 | 3个 | [项目样本](design-hardware/references/projects/README.md) | 需求/验收、架构、选型、计算、连接基线、布局草案、BOM、固件、首板测试 |
+| 完整项目样本 | 4个 | [项目样本](design-hardware/references/projects/README.md) | 需求/验收、架构、选型、计算、连接基线、布局草案、BOM、固件、首板测试；P04 有真实EDA原理图证据 |
+| 真实EDA执行与回读 | 1个适配器 + 2份证据 | [EDA执行](design-hardware/references/eda-execution.md) | 工具存在/连通/工程可读/可写分层诊断；器件/属性/导线/端口/保存/导出/重开；PC未实现 |
+| 原理图排版基准 | 8类 | [排版基准](design-hardware/references/schematic-benchmarks.md) | 故意有缺陷的离线几何快照、预期候选、真实导图检查方法；不是8张真机图 |
 | 任务场景与反例 | 35个（含12个指定反例） | [任务场景](design-hardware/references/task-scenarios.md) | 新手/工程师、从零/改板/换料/整理/排障的可检查路径 |
 
 **内容库的边界：**
@@ -79,7 +82,7 @@
 - 设计卡用 `E1/E2/E3` 标注证据等级；`E2/E3` 的具体阻容、脚号、层数和线宽必须按当前型号手册重新核对。卡片数量、场景数量和脚本退出码都不等于真实工程验证。
 - 故障案例区分作者已证实、原厂/可复现资料、工程推断和未证实；论坛回复不会被写成定论。
 - 2026-10-20 尝试访问立创商城商品页/搜索页时返回 404/系统异常，因此新增内容不编造 C 号、价格、库存、MOQ、包装、生命周期或 SMT 可贴状态；这些字段一律 `待查`，按 [选型资料](design-hardware/references/selection/lcsc-verification.md) 的方法实时核对。
-- 本机没有 EDA/KiCad/SPICE，未执行真实绘图、导图、DRC、制造或样机实测；项目样本标为“离线规划”。可执行仿真只有 `scripts/rc_settle_sim.py`（自研二阶 RC 数值模型，不是 SPICE）；`assets/simulation/rc_sample.cir` 是标注 `NOT RUN` 的 SPICE 计划。
+- 2026-10-21/22 已在本机嘉立创EDA专业版 4.1.78 上完成真实原理图读写/回读/保存/重开/导图/网表（半离线会话）；F1 有真实 EDA 原理图证据。仍未完成 PCB、DRC/ERC、制造、烧录或样机实测；没有 SPICE 仿真。可执行仿真只有 `scripts/rc_settle_sim.py`（自研二阶 RC 数值模型，不是 SPICE）；`assets/simulation/rc_sample.cir` 是标注 `NOT RUN` 的 SPICE 计划。
 - 新增内容已接入结构、链接、计算、场景和反例测试；测试通过只证明这些自动化检查通过，不证明硬件设计已验证。
 
 ## 板级热设计与合并复核
@@ -209,13 +212,40 @@ WorkBuddy 是支持 Skill 与本机执行能力的候选宿主；**尚未完成�
 
 ## 配合嘉立创 EDA 实际绘图
 
-需要同时具备嘉立创 EDA 专业版、EDA Agent Connector、本机 easyeda CLI/daemon，以及对应的 easyeda-agent Skill。按 [easyeda-agent 安装说明](https://github.com/zhoushoujianwork/easyeda-agent) 完成配置，开启“允许外部交互”，打开目标工程后检查：
+**路线一：官方 `lceda-pro` CLI 适配器（本仓库自带）**
+
+需要嘉立创EDA专业版及官方 CLI。先诊断，不要直接写工程：
+
+```bash
+python design-hardware/scripts/eda_exec.py doctor
+python design-hardware/scripts/eda_exec.py doctor --project /path/to/authorized-copy.eprj2
+python design-hardware/scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo --page-name P1
+python design-hardware/scripts/eda_exec.py apply --project /path/to/copy.eprj2 --plan plan.json --dry-run
+python design-hardware/scripts/eda_exec.py apply --project /path/to/copy.eprj2 --plan plan.json --save
+python design-hardware/scripts/eda_exec.py export --session <id> --kind png --output page.png --width 1600
+python design-hardware/scripts/eda_exec.py reopen-check --project /path/to/copy.eprj2 --snapshot snapshot.json
+```
+
+它只发送本文件定义的受控动作（器件/位号/导线/电源标记/网络端口），不执行用户JS、不下单、不访问网络。`doctor` 只诊断；`apply --dry-run` 只对账；有冲突默认不写；`save` 只在逐项回读通过后发生；`reopen-check` 验证持久化。详细契约与能力矩阵见 [EDA执行](design-hardware/references/eda-execution.md)。
+
+**路线二：easyeda-agent 等执行 Skill**
+
+需要嘉立创 EDA 专业版、EDA Agent Connector、本机 easyeda CLI/daemon，以及对应的 easyeda-agent Skill。按其安装说明配置，开启“允许外部交互”，打开目标工程后检查：
 
 ```bash
 easyeda health
 ```
 
-两套 Skill 配合：`design-hardware` 负责工程方法、设计意图和验收；`easyeda-agent` 负责按当前协议执行 EDA 动作。不要用本技能覆盖其原有 Skill。
+两套 Skill 配合：`design-hardware` 负责工程方法、设计意图和验收；执行器负责按当前协议执行 EDA 动作。不要用本技能覆盖其原有 Skill。两条路线都以实际回读、保存和重开为准，不以“命令返回成功”代替设计正确。
+
+## 真实 EDA 执行闭环（2026-10-21/22）
+
+已在 Windows 11 + 嘉立创EDA专业版 `4.1.78.34f5b8d9` 上完成：
+
+- **执行闭环**：读取工程 → 计划对账 → 创建器件/电源标记/网络端口/导线 → 逐项回读 → 保存 → 关闭重开比对 → 导出 PNG/Protel 网表。证据：[执行闭环](docs/evidence/eda-2026-10-21/README.md)。
+- **F1 原理图**：16 个真实库器件、5V/3V3/GND、USB-C CC、EN/RST/IO0、TXD/RXD、LED；93 个动作逐项 verified、save true、reopen match；网表核对物理脚。证据：[F1](docs/evidence/f1-2026-10-22/README.md)。
+- **实测到的执行器边界**：`openDocument` 不保证激活，导出跟随活动文档；错误激活会导出旧页/工程级网表；创建后修改位号有异步延迟；同网多段线会被编辑器合并/重排；跨页位号必须唯一。这些已写入 [EDA执行](design-hardware/references/eda-execution.md) 和代码注释。
+- **明确未做**：全在线GUI复验、PCB、DRC/ERC、制造DFM/Gerber/BOM/坐标、商城实时库存/价格、打样/SMT、烧录、样机功能/热/EMC/安规。F1 图面仍拥挤，未达到工程师级排版验收；这些均标 `NOT RUN` 或 `PARTIAL`，不冒充完成。
 
 ## 常用需求
 
@@ -279,20 +309,26 @@ design-hardware/
     failures/                 22个证据分级故障案例
     selection/                器件选型、替代分级与商城核对
     calculations/             带条件的计算手册
-    projects/                 3个完整项目样本
+    projects/                 4个完整项目样本（P04 有真实EDA原理图证据）
     module-integration.md     跨模块接口契约与组合失败案例
     manufacturing-routes.md   三条制造/交付路线
     simulation-measurement.md 仿真与测量方法
+    eda-execution.md          真实EDA执行、恢复、保存/重开契约
+    schematic-benchmarks.md   8类排版基准与检查方法
     source-register.md        原始来源、版本与查阅范围
     task-scenarios.md         35个任务场景与12个指定反例
   assets/engineering-notes.md  可裁剪的工程记录模板
   assets/scenarios.json       机器可检查的任务场景
+  assets/schematic-benchmarks/ 8类可执行几何基准
+  assets/eda/plan-example.json 受控EDA计划示例
   assets/projects/            项目连接表/布局草案JSON
   assets/simulation/          SPICE计划文件（标注NOT RUN）
   scripts/calculate.py        无第三方依赖的基础计算工具
   scripts/netlist_check.py    显式连接表的只读结构自检
   scripts/power_budget.py     显式电池侧状态续航估算
   scripts/sch_layout_check.py 实际回读几何的候选问题提示
+  scripts/schematic_benchmark.py 8类排版基准运行器
+  scripts/eda_exec.py         嘉立创EDA官方CLI受控读写桥
   scripts/rc_settle_sim.py    可执行的二阶RC采样网络数值仿真
 ```
 
@@ -326,11 +362,12 @@ python design-hardware/scripts/sch_layout_check.py design-hardware/assets/exampl
 - 已检查技能结构、内部引用及计算工具的典型值、边界和无效输入。
 - 已进行缺少工程/连接、未知参数、新手首次使用、工程师改板、采购数量/阶梯价、商城与SMT分流、缺货替代、完整产品目标及功能验收等场景试跑。
 - 原理图排版与工程细节经验库已加入结构检查；条目本身不是可执行的硬件自动验证器，场景试跑不等于真实EDA或首板验收。
-- 离线辅助脚本已覆盖状态积分、错误电流基准、目标未满足、零耗电、非有限/重复键输入，以及文字范围、线穿本体、相切、越页和覆盖缺失等实际反例；早期48项测试保留。
-- 新增内容已做结构、内部链接、12节卡片完整性、22个故障案例结构、35个场景/12个指定反例、5个新计算模式和RC数值仿真的本地测试；当前 96 项全部通过（2026-10-20，`python -m unittest discover -s tests -v`）。
+- 离线辅助脚本已覆盖状态积分、错误电流基准、目标未满足、零耗电、非有限/重复键输入，以及文字范围、线穿本体、相切、越页、压图签、模块框、悬空端点、一脚多网和标签落点等实际反例。
+- 当前 **138 项 unittest 全部通过**（2026-10-22，`python -m unittest discover -s tests -v`）。其中新增 EDA 桥的 20 项单元测试、8 类排版基准回归、几何检查扩展回归；测试通过只证明这些自动化检查通过，不证明硬件设计已验证。
+- **已完成**：嘉立创EDA 4.1.78 真实工程副本上的原理图读取、受控写入、逐项回读、保存、关闭重开、PNG/Protel 网表导出；F1 有 16 器件真实原理图证据。证据见 [执行闭环](docs/evidence/eda-2026-10-21/README.md) 与 [F1](docs/evidence/f1-2026-10-22/README.md)。
+- **未完成**：全在线GUI会话复验、PCB读写/布局/布线/DRC、制造DFM/Gerber/BOM/坐标、商城实时库存/价格、打样/SMT、烧录、样机功能/热/EMC/安规实测。F1 图面仍拥挤，排版验收为 `PARTIAL`。
 - 新增计算模式（Buck/Boost/ADC建立/电流采样/PCB载流）和 `rc_settle_sim.py` 都是简化模型；它们不能证明稳定性、EMC、热、器件应力或整机精度。
-- **尚未完成这套 Skill 驱动真实原理图与 PCB 的端到端验收，也未完成商城/SMT账户操作、真实烧录或完整实物功能链的端到端实测。** 本机没有 EDA/KiCad/SPICE；项目样本是离线规划，SPICE 计划文件标注 `NOT RUN`。
-- 不保证特定客户端、模型、EDA 版本或执行器支持全部操作。
+- 不保证特定客户端、模型、EDA 版本或执行器支持全部操作；半离线结果不能写成全在线通过。
 - DRC 通过、动作响应、连接回读与样机实测分别报告；未验证项不会默认通过。
 - 高速、射频、安规隔离及汽车/医疗等项目仍需要适用资料、专业工具与相应工程签核。
 
