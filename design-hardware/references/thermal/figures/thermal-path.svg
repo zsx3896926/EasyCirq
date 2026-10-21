@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 640" role="img" aria-labelledby="title desc">
+  <title id="title">Board-level thermal paths and metrics</title>
+  <desc id="desc">Original diagram showing junction-to-case, junction-to-board, heatsink and ambient paths, with the meaning of RθJC, RθJB, RθJA, ΨJT and ΨJB.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#334155"/>
+    </marker>
+    <marker id="arrowDash" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#b45309"/>
+    </marker>
+    <style>
+      .box { fill: #ffffff; stroke: #64748b; stroke-width: 1.6; }
+      .hot { fill: #fff1e6; stroke: #c2410c; }
+      .cool { fill: #eef6ff; stroke: #2563eb; }
+      .amb { fill: #ecfdf5; stroke: #047857; }
+      .label { font: 600 17px/1.2 "Segoe UI", "Microsoft YaHei", sans-serif; fill: #0f172a; }
+      .sub { font: 400 13px/1.25 "Segoe UI", "Microsoft YaHei", sans-serif; fill: #334155; }
+      .metric { font: 600 14px/1.2 "Segoe UI", "Microsoft YaHei", sans-serif; fill: #1e293b; }
+      .note { font: 400 12px/1.35 "Segoe UI", "Microsoft YaHei", sans-serif; fill: #334155; }
+      .path { fill: none; stroke: #334155; stroke-width: 2.2; marker-end: url(#arrow); }
+      .pathdash { fill: none; stroke: #b45309; stroke-width: 2.2; stroke-dasharray: 8 6; marker-end: url(#arrowDash); }
+      .measure { fill: none; stroke: #7c3aed; stroke-width: 1.8; stroke-dasharray: 3 4; }
+      .dot { fill: #7c3aed; }
+    </style>
+  </defs>
+
+  <rect x="0" y="0" width="1000" height="640" fill="#f8fafc"/>
+  <text x="28" y="34" class="label" font-size="22">Board-level thermal paths and what each metric means</text>
+  <text x="28" y="58" class="sub">Original teaching model; not a package drawing or a measured board.</text>
+
+  <!-- Junction -->
+  <rect x="40" y="170" width="170" height="86" rx="10" class="box hot"/>
+  <text x="58" y="201" class="label">Junction / die</text>
+  <text x="58" y="224" class="sub">Tj, power P</text>
+  <text x="58" y="243" class="sub">hottest silicon</text>
+
+  <!-- Case -->
+  <rect x="300" y="130" width="180" height="70" rx="10" class="box"/>
+  <text x="318" y="158" class="label">Case / top</text>
+  <text x="318" y="180" class="sub">Tc; top-centre point</text>
+
+  <!-- Heatsink -->
+  <rect x="560" y="120" width="170" height="90" rx="10" class="box cool"/>
+  <text x="578" y="150" class="label">Heatsink</text>
+  <text x="578" y="172" class="sub">RθSA to ambient</text>
+  <text x="578" y="191" class="sub">airflow / orientation</text>
+
+  <!-- PCB -->
+  <rect x="300" y="330" width="220" height="95" rx="10" class="box cool"/>
+  <text x="318" y="359" class="label">PCB copper / plane</text>
+  <text x="318" y="382" class="sub">thermal pad, vias, Cu area</text>
+  <text x="318" y="401" class="sub">Tboard (non-uniform)</text>
+
+  <!-- Ambient top -->
+  <rect x="800" y="130" width="150" height="70" rx="10" class="box amb"/>
+  <text x="818" y="159" class="label">Ambient</text>
+  <text x="818" y="181" class="sub">Ta; define the point</text>
+
+  <!-- Ambient bottom -->
+  <rect x="640" y="430" width="150" height="70" rx="10" class="box amb"/>
+  <text x="658" y="459" class="label">Ambient</text>
+  <text x="658" y="481" class="sub">same reference?</text>
+
+  <!-- Conduction paths -->
+  <path class="path" d="M 210 200 C 245 190 260 170 300 165"/>
+  <text x="214" y="156" class="metric">RθJC(top)</text>
+
+  <path class="path" d="M 480 165 C 515 165 525 165 560 165"/>
+  <text x="496" y="152" class="metric">RθCS</text>
+
+  <path class="path" d="M 730 165 C 755 165 765 165 800 165"/>
+  <text x="736" y="152" class="metric">RθSA</text>
+
+  <path class="path" d="M 150 256 C 150 300 220 330 300 360"/>
+  <text x="168" y="312" class="metric">RθJB</text>
+
+  <path class="path" d="M 520 390 C 560 400 590 435 640 455"/>
+  <text x="515" y="474" class="metric">board → ambient</text>
+
+  <!-- System metric -->
+  <path class="pathdash" d="M 40 256 C 10 320 10 540 800 540 C 900 540 900 200 875 200"/>
+  <text x="500" y="562" class="metric" fill="#b45309">RθJA: a system-level comparison metric, not a package constant</text>
+
+  <!-- Measurement points -->
+  <circle cx="390" cy="130" r="5" class="dot"/>
+  <rect x="520" y="18" width="450" height="60" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.4"/>
+  <text x="534" y="40" class="metric">Tc measured at top centre:</text>
+  <text x="534" y="60" class="note">Tj ≈ Tc + ΨJT · P (no heatsink; ΨJT is not RθJC)</text>
+  <path class="measure" d="M 390 130 L 520 78"/>
+
+  <circle cx="410" cy="330" r="5" class="dot"/>
+  <rect x="640" y="310" width="330" height="60" rx="8" fill="#f5f3ff" stroke="#7c3aed" stroke-width="1.4"/>
+  <text x="654" y="332" class="metric">Tboard measured near the package:</text>
+  <text x="654" y="352" class="note">Tj ≈ Tboard + ΨJB · P (board is not isothermal)</text>
+  <path class="measure" d="M 410 330 L 410 295 L 640 295 L 640 310"/>
+
+  <!-- Notes -->
+  <rect x="28" y="580" width="944" height="52" rx="8" fill="#ffffff" stroke="#cbd5e1" stroke-width="1.2"/>
+  <text x="42" y="600" class="note">Use the heatsink chain (RθJC + RθCS + RθSA) only when a heatsink is attached. Use ZθJC for pulses.</text>
+  <text x="42" y="618" class="note">Every number needs the board, airflow and ambient condition that produced it. This diagram is not a vendor cross-section.</text>
+</svg>

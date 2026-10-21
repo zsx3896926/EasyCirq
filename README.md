@@ -57,6 +57,37 @@
 
 条目不是190条固定参数或认证规则：Agent按任务选择，落实设计与工具约束并回读/复验。经验继续积累到工程记录；经授权、脱敏和核对后再沉淀到共享Skill，不自动公开客户工程。不用经验数量代替真实工程和实物验收。
 
+## 工程内容库：从“检查提示”到“可执行设计决定”
+
+在保留上述190条检查提示、模块卡、脚本和协作流程的基础上，本轮新增按任务读取的设计资料。它们不是通用电路模板，每份都写明适用条件、计算顺序、失效边界和来源。
+
+| 内容 | 规模 | 入口 | 用来决定什么 |
+|---|---:|---|---|
+| 可复用电路设计卡 | 60张 | [设计卡库](design-hardware/references/design-cards/README.md) | LDO/Buck/Boost/充电/保护、MCU最小系统、I²C/SPI/RS-485/CAN/USB/以太网、分压/运放/ADC/基准/电流采样/4-20mA、低侧/高侧/继电器/半桥/H桥/LED/加热、Wi-Fi/天线/显示/音频/Flash/SD |
+| 原理图与PCB局部范例 | 12组 | [范例库](design-hardware/references/examples/README.md) | 模块内部怎么摆、哪些保留局部短线、哪些用标签、关键回路/回流/常见错误 |
+| 模块组合与接口契约 | 1份 + 12个组合失败案例 | [组合与接口契约](design-hardware/references/module-integration.md) | 两个模块单独正常、组合后为什么失效 |
+| 器件选型与替代 | 4类器件表 + 4级替代分类 | [选型资料](design-hardware/references/selection/README.md) | 必看参数、推荐/绝对最大、典型/保证值、封装热装配、商城检索与替代判定 |
+| 故障与反例库 | 22个有证据案例 | [故障库](design-hardware/references/failures/README.md) | 现象→工况→假设→区分检查→根因证据→修复→复验→边界 |
+| 带条件计算手册 | 4份 + 5个新脚本模式 | [计算手册](design-hardware/references/calculations/README.md) | 电源预算/瞬态/热、电感、MOS、ADC建立、运放、电流采样、续航、载流/压降、传输线条件 |
+| 仿真与测量 | 1份 + 1个可执行数值仿真 | [仿真与测量](design-hardware/references/simulation-measurement.md) | 模型/激励/观察量/通过标准、测点/探头/带宽/停止条件 |
+| 制造与交付路线 | 3条 | [制造与交付路线](design-hardware/references/manufacturing-routes.md) | 商城购料自焊、嘉立创PCB+SMT、板+固件/结构+整机验收 |
+| 完整项目样本 | 3个 | [项目样本](design-hardware/references/projects/README.md) | 需求/验收、架构、选型、计算、连接基线、布局草案、BOM、固件、首板测试 |
+| 任务场景与反例 | 35个（含12个指定反例） | [任务场景](design-hardware/references/task-scenarios.md) | 新手/工程师、从零/改板/换料/整理/排障的可检查路径 |
+
+**内容库的边界：**
+
+- 设计卡用 `E1/E2/E3` 标注证据等级；`E2/E3` 的具体阻容、脚号、层数和线宽必须按当前型号手册重新核对。卡片数量、场景数量和脚本退出码都不等于真实工程验证。
+- 故障案例区分作者已证实、原厂/可复现资料、工程推断和未证实；论坛回复不会被写成定论。
+- 2026-10-20 尝试访问立创商城商品页/搜索页时返回 404/系统异常，因此新增内容不编造 C 号、价格、库存、MOQ、包装、生命周期或 SMT 可贴状态；这些字段一律 `待查`，按 [选型资料](design-hardware/references/selection/lcsc-verification.md) 的方法实时核对。
+- 本机没有 EDA/KiCad/SPICE，未执行真实绘图、导图、DRC、制造或样机实测；项目样本标为“离线规划”。可执行仿真只有 `scripts/rc_settle_sim.py`（自研二阶 RC 数值模型，不是 SPICE）；`assets/simulation/rc_sample.cir` 是标注 `NOT RUN` 的 SPICE 计划。
+- 新增内容已接入结构、链接、计算、场景和反例测试；测试通过只证明这些自动化检查通过，不证明硬件设计已验证。
+
+## 板级热设计与合并复核
+
+新增 [热设计专题](design-hardware/references/thermal/topic.md)、[11组热算例](design-hardware/references/thermal/cases.md) 与离线热计算器，覆盖功耗、热指标、稳态/瞬态、PCB/外壳及测量。专题已纳入Skill安装目录与CI，来源编号仅在专题内有效。
+
+本次合并同时修正了原扩充稿中电气接线、保护阈值、热模型、采样建立与计算边界问题，具体范围见 [合并复核记录](docs/merge-review.md)。场景文件的自动检查只验证目录/路由及部分确定性计算，不等于35个Agent任务已真实执行，更不等于EDA或样机验收。
+
 ## 嘉立创PCB与SMT生产规则
 
 设计阶段就按实际生产路线核对厂规，保留原有选型、商城配单和原理图/PCB能力：
@@ -243,14 +274,29 @@ design-hardware/
   SKILL.md                    主入口与工程师交互方式
   agents/openai.yaml          客户端展示信息
   references/                 按任务读取的工程工作流与专业参考
+    design-cards/             60张按领域分组的可复用设计卡
+    examples/                 12组原理图/PCB局部范例
+    failures/                 22个证据分级故障案例
+    selection/                器件选型、替代分级与商城核对
+    calculations/             带条件的计算手册
+    projects/                 3个完整项目样本
+    module-integration.md     跨模块接口契约与组合失败案例
+    manufacturing-routes.md   三条制造/交付路线
+    simulation-measurement.md 仿真与测量方法
+    source-register.md        原始来源、版本与查阅范围
+    task-scenarios.md         35个任务场景与12个指定反例
   assets/engineering-notes.md  可裁剪的工程记录模板
+  assets/scenarios.json       机器可检查的任务场景
+  assets/projects/            项目连接表/布局草案JSON
+  assets/simulation/          SPICE计划文件（标注NOT RUN）
   scripts/calculate.py        无第三方依赖的基础计算工具
   scripts/netlist_check.py    显式连接表的只读结构自检
   scripts/power_budget.py     显式电池侧状态续航估算
   scripts/sch_layout_check.py 实际回读几何的候选问题提示
+  scripts/rc_settle_sim.py    可执行的二阶RC采样网络数值仿真
 ```
 
-计算工具支持 LED 限流、无负载分压、I2C 上拉范围和 LDO 压差/功耗初算。输入全部用 SI 单位，不访问网络、不写工程、不调用 EDA。运行以下命令查看输入字段：
+计算工具支持 LED 限流、无负载分压、I2C 上拉范围、LDO 压差/功耗初算，以及 Buck/Boost CCM 功率级、SAR ADC 建立、电流采样误差预算和 PCB 铜线载流压降。输入全部用 SI 单位，不访问网络、不写工程、不调用 EDA。运行以下命令查看输入字段：
 
 ```bash
 python design-hardware/scripts/calculate.py --help
@@ -280,8 +326,10 @@ python design-hardware/scripts/sch_layout_check.py design-hardware/assets/exampl
 - 已检查技能结构、内部引用及计算工具的典型值、边界和无效输入。
 - 已进行缺少工程/连接、未知参数、新手首次使用、工程师改板、采购数量/阶梯价、商城与SMT分流、缺货替代、完整产品目标及功能验收等场景试跑。
 - 原理图排版与工程细节经验库已加入结构检查；条目本身不是可执行的硬件自动验证器，场景试跑不等于真实EDA或首板验收。
-- 离线辅助脚本已覆盖状态积分、错误电流基准、目标未满足、零耗电、非有限/重复键输入，以及文字范围、线穿本体、相切、越页和覆盖缺失等实际反例；本地共48项测试。
-- **尚未完成这套 Skill 驱动真实原理图与 PCB 的端到端验收，也未完成商城/SMT账户操作、真实烧录或完整实物功能链的端到端实测。**
+- 离线辅助脚本已覆盖状态积分、错误电流基准、目标未满足、零耗电、非有限/重复键输入，以及文字范围、线穿本体、相切、越页和覆盖缺失等实际反例；早期48项测试保留。
+- 新增内容已做结构、内部链接、12节卡片完整性、22个故障案例结构、35个场景/12个指定反例、5个新计算模式和RC数值仿真的本地测试；当前 96 项全部通过（2026-10-20，`python -m unittest discover -s tests -v`）。
+- 新增计算模式（Buck/Boost/ADC建立/电流采样/PCB载流）和 `rc_settle_sim.py` 都是简化模型；它们不能证明稳定性、EMC、热、器件应力或整机精度。
+- **尚未完成这套 Skill 驱动真实原理图与 PCB 的端到端验收，也未完成商城/SMT账户操作、真实烧录或完整实物功能链的端到端实测。** 本机没有 EDA/KiCad/SPICE；项目样本是离线规划，SPICE 计划文件标注 `NOT RUN`。
 - 不保证特定客户端、模型、EDA 版本或执行器支持全部操作。
 - DRC 通过、动作响应、连接回读与样机实测分别报告；未验证项不会默认通过。
 - 高速、射频、安规隔离及汽车/医疗等项目仍需要适用资料、专业工具与相应工程签核。

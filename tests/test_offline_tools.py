@@ -1,9 +1,12 @@
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
 import tempfile
 import unittest
+
+os.environ.setdefault('PYTHONIOENCODING','utf-8')
 
 SCRIPTS = Path(__file__).resolve().parents[1] / 'design-hardware' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
@@ -169,7 +172,7 @@ class OfflineCli(unittest.TestCase):
             path = Path(temp) / 'input.json'
             for script, data, expected in cases:
                 path.write_text(json.dumps(data), encoding='utf-8')
-                result = subprocess.run([sys.executable, str(SCRIPTS / script), str(path)], capture_output=True, text=True)
+                result = subprocess.run([sys.executable, str(SCRIPTS / script), str(path)], capture_output=True, text=True, encoding='utf-8')
                 self.assertEqual(result.returncode, expected, result.stdout + result.stderr)
                 json.loads(result.stdout)
 
@@ -179,12 +182,12 @@ class OfflineCli(unittest.TestCase):
             for payload in ['{"capacity_Ah":1,"capacity_Ah":2}', '{"capacity_Ah":NaN}']:
                 path.write_text(payload, encoding='utf-8')
                 for script in ['power_budget.py', 'sch_layout_check.py']:
-                    result = subprocess.run([sys.executable, str(SCRIPTS / script), str(path)], capture_output=True, text=True)
+                    result = subprocess.run([sys.executable, str(SCRIPTS / script), str(path)], capture_output=True, text=True, encoding='utf-8')
                     self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
 
     def test_distributed_examples_run(self):
         for script, example in [('power_budget.py', 'example-power-budget.json'), ('sch_layout_check.py', 'example-layout.json')]:
-            result = subprocess.run([sys.executable, str(SCRIPTS / script), str(SCRIPTS.parent / 'assets' / example)], capture_output=True, text=True)
+            result = subprocess.run([sys.executable, str(SCRIPTS / script), str(SCRIPTS.parent / 'assets' / example)], capture_output=True, text=True, encoding='utf-8')
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
