@@ -1,26 +1,13 @@
-This repository incorporates adapted workflow and documentation concepts from
-hw-eda-engineer, a skill package supplied by the project owner. Its supplied
-SKILL.md declares license: MIT. No separate author or copyright notice was
-provided in that package. Retain any original copyright and permission notices
-if a separately obtained upstream distribution includes them.
+Hardware Design Skill and the hw-eda-engineer skill packages supplied by the
+project owner are the project owner's own work. Those packages do not require
+third-party acknowledgements. This distribution is licensed under LICENSE.
 
-The supplied scripts were reviewed; the connectivity checker in this repository
-is a new implementation with a different, explicit input/coverage contract.
-The later user-supplied hw-eda-engineer 0.5.0 package also declares MIT.
-Its enclosure/project coordination, starter patterns, troubleshooting, worked
-example, duty-cycle estimation and schematic geometry-review concepts informed
-this update. The battery and schematic geometry helpers are new implementations
-with explicit units, input validation and coverage limitations; the supplied
-cost, project and Gerber checkers are not included as executable capabilities.
-The original uploaded package is not included, including its environment-specific
-output paths and fictional examples presented as real device pin mappings.
+The independently maintained easyeda-agent project provides the external EDA
+execution tooling used by the recommended workflow:
+https://github.com/zhoushoujianwork/easyeda-agent
+Its implementation is not included in this repository and remains governed by
+its own license.
 
-The later user-supplied hw-eda-engineer 0.6.0 package also declares MIT.
-Its schematic/PCB lessons and before/after-module review approach informed
-condition-scoped mechanism cards. Existing checks were retained and deduplicated;
-universal component values, manufacturing claims, unverified sources and old
-script contracts were not adopted as engineering guarantees.
-
-The MIT permission and warranty text for this distribution is in LICENSE.
-External EDA tools, manufacturer documentation, product names and trademarks
-remain governed by their respective owners and licenses.
+External reference designs, manufacturer documentation, source material and
+trademarks remain governed by their respective owners and licenses. Source and
+license records in this repository are retained for those external materials.
