@@ -87,6 +87,8 @@ description: 配合AI Agent把自然语言idea推进为可验证使用的硬件�
 Agent先读取已知客户端/操作系统和可用工具，再发现已配置的EDA客户端和专用Skill。能由Agent执行的检查、命令、文件准备和已授权安装由Agent承担，不把整套安装文档或报错原文甩给新手。确实需要用户操作界面/登录时，一次给一个具体动作和可观察的成功标志，完成后Agent再检查。菜单名称以当前可见界面/官方文档为准，不编造按钮位置。
 
 使用easyeda-agent时读取其Skill、运行 `easyeda health`，依当前 `--help` 发现命令。使用嘉立创EDA专业版官方CLI时，先运行 `python scripts/eda_exec.py doctor`，需要工程时加 `--project <已授权副本>`；按 [EDA执行](references/eda-execution.md) 区分“工具存在/连通/工程可读/工程可写”，不要用前两层推断后两层。
+
+不知道当前客户端、Skill 装在哪、能否连 EDA 时，先运行 `python scripts/doctor_env.py --summary`；它按当前客户端判定，不把“任意客户端存在 + 任意目录装了 Skill”当成就绪，也不把 `versionMatch:false` 或工程不可读当成可执行。完整路径、能力矩阵与五步首次接通见 [客户端兼容与首次接通](references/client-compatibility.md)。
 - 使用本地客户端的真实命令执行能力；WorkBuddy、Claude Code、Codex等仅是宿主，不代表当前一定具备工具。
 - 缺少执行通道时仍可完成方案、计算或离线规划；明确列出未写入项，不把文本、JSON、图片或探针结果说成用户工程已完成。
 - 不静默安装/升级软件或导入插件来绕过故障；需要配置时先给准确诊断与最短操作路径，遵循用户对安装的授权。
@@ -119,7 +121,8 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 绘制/整理/换料/建库 | [原理图工程习惯](references/schematic.md) |
 | 新建原理图、增功能块、图面混乱或排版整理 | [原理图排版与看图验收](references/schematic-layout.md)，绘图前规划、写入后实际导图复核 |
 | 用8类典型任务校准排版检查、准备前后对比 | [原理图排版基准集](references/schematic-benchmarks.md)，运行 `python scripts/schematic_benchmark.py`；基准是离线示意，不是真机验收 |
-| 真实读写嘉立创EDA工程、恢复超时/重复执行、保存重开 | [EDA执行](references/eda-execution.md)；可用 `python scripts/eda_exec.py doctor/read/apply/save/export/reopen-check`，先读后写 |
+| 真实读写嘉立创EDA工程、恢复超时/重复执行、保存重开 | [EDA执行](references/eda-execution.md)；可用 `python scripts/eda_exec.py doctor/read/apply/save/export/drc/reopen-check`，先读后写；`apply` 支持受控删除，`netlist_diff.py` 做纯排版网表门禁 |
+| 不知道客户端、安装目录或首次接通 | [客户端兼容与首次接通](references/client-compatibility.md)；先跑 `python scripts/doctor_env.py --summary`，按当前客户端逐条判定 |
 | 导入PCB、布局、布线、铜皮、制造输出 | [PCB工程习惯](references/pcb.md) |
 | 设计审查、故障排查、样机上电 | [审查与验证](references/review.md) |
 | 查询官方资料入口 | [来源导航](references/sources.md) |

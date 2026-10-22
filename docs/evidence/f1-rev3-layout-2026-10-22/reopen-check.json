@@ -1,0 +1,47 @@
+{
+  "project": "C:\\Users\\jlc\\work\\hds-round3-int-scratch\\f1-rev3-layout.eprj2",
+  "snapshot": "C:\\Users\\jlc\\work\\hds-round3-int-scratch\\f1-layout-final-snap.json",
+  "closed_session": null,
+  "actual_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "actual_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "comparison": {
+    "match": true,
+    "differences": [],
+    "counts": {
+      "parts_before": 21,
+      "parts_after": 21,
+      "netflags_before": 37,
+      "netflags_after": 37,
+      "netports_before": 20,
+      "netports_after": 20,
+      "wires_before": 47,
+      "wires_after": 47
+    },
+    "compared_fields": [
+      "identity",
+      "parts(designator,part,name,supplier_id,footprint,unique_id,position,rotation,mirror,add_into_bom,add_into_pcb,manufacturer,manufacturer_id,supplier,component_uuid,symbol_uuid,footprint_uuid,other_property)",
+      "duplicate_designators",
+      "netflags(name,type,position,rotation,mirror)",
+      "netports(net,name,direction,position,rotation,mirror)",
+      "wires",
+      "unparsed_wires",
+      "attributes"
+    ]
+  },
+  "status": "match"
+}

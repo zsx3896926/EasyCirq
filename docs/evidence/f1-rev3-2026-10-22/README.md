@@ -2,6 +2,8 @@
 
 本目录记录 F1 USB 供电 MCU 小板的**电气修订**。它不是重排验收：图面仍拥挤，C3 重排未完成。
 
+> 2026-10-22 后续：以本目录 `f1-rev3b.net` 为 golden，完成了 rev3 的纯排版重排；网表 diff `match`、save/reopen `match`、DRC 5→3 warn。证据见 [F1 rev3 重排](../f1-rev3-layout-2026-10-22/README.md)。
+
 ## 环境与对象
 
 | 项 | 值 |

@@ -615,6 +615,10 @@ class ReopenComparisonCoverage(unittest.TestCase):
         self.assertFalse(result['match'])
         self.assertIn('unparsed_wires', {item['kind'] for item in result['differences']})
 
+    def test_delete_precondition_derives_port_direction_and_flag_type(self):
+        self.assertIn('direction: portDirectionOf', eda.APPLY_JS)
+        self.assertIn('flag_type: flagTypeOf', eda.APPLY_JS)
+
     def test_zero_length_wire_is_editor_normalization(self):
         before = snapshot()
         before['wires'].append({'net': '', 'line': [740, 460, 740, 460]})
@@ -648,6 +652,18 @@ class ReopenComparisonCoverage(unittest.TestCase):
         self.assertTrue(eda.compare_snapshots(snapshot(), after)['match'])
         after['parts'][0]['x'] = 300.02
         self.assertFalse(eda.compare_snapshots(snapshot(), after)['match'])
+
+    def test_symbol_binding_and_properties_are_compared(self):
+        before = snapshot()
+        after = copy.deepcopy(before)
+        after['parts'][0]['symbol'] = {'name': after['parts'][0]['symbol']['name'],
+                                       'uuid': 'different-symbol'}
+        after['parts'][0]['other_property'] = {'Datasheet': 'changed'}
+        result = eda.compare_snapshots(before, after)
+        self.assertFalse(result['match'])
+        fields = {item.get('field') for item in result['differences']}
+        self.assertIn('symbol_uuid', fields)
+        self.assertIn('other_property', fields)
 
     def test_page_identity_mismatch_is_not_a_match(self):
         after = snapshot()

@@ -1,0 +1,25 @@
+status: incomplete  cwd: C:\Users\jlc\work\hardware-design-skill-r3
+
+- Claude Code: C:\Users\jlc\AppData\Roaming\npm\claude.CMD (2.1.303 (Claude Code))
+    skill: not installed
+      - user: C:\Users\jlc\.claude\skills
+      - project: C:\Users\jlc\work\hardware-design-skill-r3\.claude\skills
+- Codex: C:\Users\jlc\AppData\Local\OpenAI\Codex\bin\896a0166b774037a\codex.exe (codex-cli 0.163.0-alpha.10.2)
+    skill: not installed
+      - user: C:\Users\jlc\.agents\skills
+      + user: C:\Users\jlc\.codex\skills
+      - project: C:\Users\jlc\work\hardware-design-skill-r3\.agents\skills
+      - project: C:\Users\jlc\work\hardware-design-skill-r3\.codex\skills
+- WorkBuddy: C:\Users\jlc\AppData\Local\Programs\WorkBuddy\WorkBuddy.exe (file present)
+    skill: not installed
+      + user: C:\Users\jlc\.workbuddy\skills
+      - project: C:\Users\jlc\work\hardware-design-skill-r3\.workbuddy\skills
+
+- EDA CLI: C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe
+- EDA connected: True  version match: True
+- easyeda command: not found
+
+missing / next:
+- design-hardware is not installed in any detected skill directory
+
+project writability is NOT tested; use apply on an authorized copy.
