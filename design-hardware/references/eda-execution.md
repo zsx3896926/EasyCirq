@@ -52,7 +52,7 @@ python scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo -
 | 电源/地标记 | `sch_PrimitiveComponent.createNetFlag(type, net, x, y)` | 可执行（`net_flag`） | 同名标记已在别处时冲突，不复制第二个；先决定是否移动/复用 |
 | 跨模块端口 | `sch_PrimitiveComponent.createNetPort(direction, net, x, y)` | 可执行（`net_port`） | 方向 IN/OUT/BI 从 `symbol.name`（`Netport-BI`）回读；同时核对 rotation/mirror |
 | 工程级位号清单 | `designators` 遍历全部原理图页读取 part 位号 | 可执行（`designators`） | 扫描会切换自有 CLI 会话的活动页；返回 `complete/errors/duplicates`，用于 `apply --project-designators` |
-| 删除图元 | `sch_PrimitiveWire.delete` / `sch_PrimitiveComponent.delete` | 可执行（`delete`，需 `--allow-delete`） | 必须带 `primitive_id` + `expected` 身份；删除后回读确认不存在；不允许按位号模糊删除 |
+| 删除图元 | `sch_PrimitiveWire.delete` / `sch_PrimitiveComponent.delete` | 可执行（`delete`，需 `--allow-delete`） | 必须带 `primitive_id` + 完整 `expected`：part=designator/component/x/y，net_flag=name/x/y，net_port=net/direction/x/y，wire=net；删除后回读确认不存在；不允许按位号模糊删除 |
 | 快照完整性 | 每个 `safe()` 字段读取失败写入 `integrity.read_errors` | 已实现 | `status!=complete` 时 `apply` 拒绝对账/写入，`reopen-check` 不返回 match |
 | 网络标签 | `sch_PrimitiveAttribute.createNetLabel(x, y, net)` | API可用，本桥不写网络标签 | 动作集没有 net_label；不要把它当作已实现的幂等写入 |
 | 模块框/说明文字 | `sch_PrimitiveRectangle`/`sch_PrimitiveText` 等 | 未纳入本桥 | 用官方API或人工；不要用装饰框冒充电气连接 |
@@ -104,7 +104,7 @@ python scripts/eda_exec.py reopen-check --project /path/to/copy.eprj2 --snapshot
 - **打开页不等于激活页**：4.1.78 的 `openDocument` 返回 `tabId`；必须 `activateDocument(tabId)`，再回读 `getCurrentDocumentInfo().uuid` 与目标页一致。否则导图/网表会跟随旧的活动页，出现“文件名是目标页、内容是旧页”的假证据。未确认激活时应失败（`page_not_activated`），不要继续导出。
 - **引脚旁走线**：新增导线不得从另一个引脚上穿过。F1 修订中 `U101-2(IO2)` 的竖直走线穿过 `U101-1(GND)`，编辑器把该段并入 GND，验证立即失败。连接前先用快照列出同器件所有引脚坐标，路径与任何其他引脚保持至少一个栅格。
 - **创建后立即改属性/画线**：4.1.78 的渲染器异步提交新图元；本桥在新器件后等待约0.8s再 `modify`，在首批导线前额外等待约2.5s，并在创建后轮询位号直到生效。固定等待不是协议保证，超时后仍要先回读。
-- **零长度导线不是垃圾**：4.1.78 的 `[x,y,x,y]` 零长度导线可能是引脚与网络端口/标记之间的实际连接图元；删除它会切断网络（F1 修订中 EN/RST/TXD/RXD 曾因此丢失）。几何比较可以忽略它，但清理前必须逐条确认该引脚仍有其他连接。斜线/多段非正交线无法用当前段模型比较，进入 `unparsed_wires` 并强制 `mismatch`。
+- **零长度导线不是垃圾**：4.1.78 的 `[x,y,x,y]` 零长度导线可能是引脚与网络端口/标记之间的实际连接图元；删除它会切断网络（F1 修订中 EN/RST/TXD/RXD 曾因此丢失）。清理前必须逐条确认该引脚仍有其他连接。重开比较不做几何解析，但会把零长度线的 `(net,x,y)` 集合纳入比较：删除、增补或改网都会强制 `mismatch`，不能再把零长线当作可忽略差异。斜线/多段非正交线进入 `unparsed_wires` 并强制 `mismatch`。
 - **同网导线批量创建会被合并**：一次 apply 创建多条不相连的同网导线时，4.1.78 会把它们合并成一条折线并插入连接段/斜线，产生不可解析几何甚至假连接。重排或新增连接应逐条 apply（标记/端口 + 一条短导线到引脚），每条回读后再写下一條；不要用批量同网导线做重排。
 - **保存后重开**：关闭自有会话再打开工程；比较工程/页 UUID、器件全字段（含 designator/mirror/manufacturer/add_into_bom/add_into_pcb）、重复位号、电源标记类型与几何、端口方向与几何、导线网名与段集合、属性。`primitive_id` 可能变化，不作为跨会话稳定键。
 
@@ -125,7 +125,7 @@ python scripts/eda_exec.py reopen-check --project /path/to/copy.eprj2 --snapshot
 python scripts/netlist_diff.py before.net after.net --output netlist-diff.json
 ```
 
-`status=match` 才允许宣称“连接未变”。工具比较器件身份字段（位号/型号/封装/BOM/PCB/供应商料号）和物理引脚→网络映射，不比较坐标、线段或格式。网表里的未连引脚在两侧都不出现，因此单靠网表不能证明 NC 状态；NC 需要快照/图面另行核对。删除动作必须先 `--dry-run` 审阅 target，再 `--allow-delete` 执行；删除后回读确认对象不存在。
+`status=match` 才允许宣称“连接未变”。工具比较器件身份字段（位号/型号/封装/BOM/PCB/供应商料号）和物理引脚→网络映射，不比较坐标、线段或格式。**纯排版要求整个 diff 为 `match`**：器件增删、身份字段变化、引脚增删、改网都必须为 0；`pin_net_changed=0` 只说明没有改网，不能覆盖器件增删或字段变化。只有电气修订才允许逐条列出的白名单差异。无效输入（缺 `PROTEL NETLIST 2.0` 头、未闭合块、缺 DESIGNATOR/PARTTYPE/FOOTPRINT、未知器件、重复位号/网络、空网络、引脚多网）返回 `invalid`，不能作为验收证据。网表里的未连引脚在两侧都不出现，因此单靠网表不能证明 NC 状态；NC 需要快照/图面另行核对。删除动作必须先 `--dry-run` 审阅 target，再 `--allow-delete` 执行；`--allow-delete` 只表示允许删除，不能替代 `expected` 的身份/状态核对。
 
 ## 6. 保存、重开与交付核验
 

@@ -622,6 +622,26 @@ class ReopenComparisonCoverage(unittest.TestCase):
         self.assertTrue(eda.compare_snapshots(before, after)['match'])
         self.assertEqual(eda._segments_from_line([740, 460, 740, 460]), ((), True))
 
+    def test_zero_length_wire_removal_is_not_a_match(self):
+        before = snapshot()
+        before['wires'].append({'primitive_id': 'z1', 'net': 'GND',
+                                'line': [740, 460, 740, 460]})
+        after = copy.deepcopy(before)
+        after['wires'] = [w for w in after['wires'] if w.get('primitive_id') != 'z1']
+        result = eda.compare_snapshots(before, after)
+        self.assertFalse(result['match'])
+        self.assertIn('zero_length_wires', {item['kind'] for item in result['differences']})
+
+    def test_zero_length_wire_net_change_is_not_a_match(self):
+        before = snapshot()
+        before['wires'].append({'primitive_id': 'z1', 'net': 'GND',
+                                'line': [740, 460, 740, 460]})
+        after = copy.deepcopy(before)
+        after['wires'][-1]['net'] = '3V3'
+        result = eda.compare_snapshots(before, after)
+        self.assertFalse(result['match'])
+        self.assertIn('zero_length_wires', {item['kind'] for item in result['differences']})
+
     def test_position_tolerance_matches_apply_verifier(self):
         after = snapshot()
         after['parts'][0]['x'] = 300.004
@@ -638,10 +658,36 @@ class ReopenComparisonCoverage(unittest.TestCase):
 
 
 class DeletePrimitive(unittest.TestCase):
+    DEFAULTS = {
+        'part': {'designator': 'R1', 'component': '0603WAF1002T5E', 'x': 300, 'y': 400},
+        'net_flag': {'name': '5V', 'x': 150, 'y': 400},
+        'net_port': {'net': 'CC1', 'direction': 'BI', 'x': 100, 'y': 100},
+        'wire': {'net': 'LED_A'},
+    }
+
     def delete_op(self, kind='wire', primitive_id='w-1', expected=None):
+        if expected is None:
+            expected = self.DEFAULTS[kind]
         return {'op': 'delete', 'key': 'del', 'target': {
-            'kind': kind, 'primitive_id': primitive_id, 'expected': expected or {},
+            'kind': kind, 'primitive_id': primitive_id, 'expected': expected,
         }}
+
+    def test_delete_requires_identity_expected(self):
+        for kind in self.DEFAULTS:
+            data = plan()
+            data['operations'] = [self.delete_op(kind=kind, expected={})]
+            with self.subTest(kind=kind), self.assertRaises(eda.EdaInputError):
+                eda.validate_plan(data)
+        data = plan()
+        data['operations'] = [self.delete_op(
+            kind='part', expected={'designator': 'R1', 'x': 300, 'y': 400})]
+        with self.assertRaises(eda.EdaInputError):
+            eda.validate_plan(data)
+        data['operations'] = [{'op': 'delete', 'key': 'del', 'target': {
+            'kind': 'net_port', 'primitive_id': 'p1',
+            'expected': {'net': 'CC1', 'x': 100, 'y': 100}}}]
+        with self.assertRaises(eda.EdaInputError):
+            eda.validate_plan(data)
 
     def test_validate_delete_requires_kind_and_primitive_id(self):
         data = plan()
@@ -678,12 +724,12 @@ class DeletePrimitive(unittest.TestCase):
         data = plan()
         data['operations'] = [self.delete_op(
             kind='part', primitive_id='prim-R1',
-            expected={'designator': 'R1', 'component': '0603WAF1002T5E'})]
+            expected={'designator': 'R1', 'component': '0603WAF1002T5E', 'x': 300, 'y': 400})]
         result = eda.reconcile(snap, eda.validate_plan(data))
         self.assertEqual(result['items'][0]['status'], 'delete')
         data['operations'] = [self.delete_op(
             kind='part', primitive_id='prim-R1',
-            expected={'designator': 'R1', 'component': 'WRONG-PART'})]
+            expected={'designator': 'R1', 'component': 'WRONG-PART', 'x': 300, 'y': 400})]
         result = eda.reconcile(snap, eda.validate_plan(data))
         self.assertEqual(result['conflicts'][0]['reason'], 'target_identity_mismatch')
 

@@ -1,13 +1,13 @@
 # F1 电路复核与电气修订报告（2026-10-22）
 
 工作包：C2 电路复核、C4 连接门禁、C5 DRC 的一部分。
-结论：**电气必须修改项已落地并有真实网表/DRC/重开证据；图面重排（C3）未做，F1 仍不能作为工程师级样板或可生产板。**
+结论：**电气必须修改项已落地并有真实网表/DRC/重开证据；C107 换型完成但电源稳定性未验证。图面重排（C3）未做，F1 仍不能作为工程师级样板或可生产板。**
 
 ## 1. 解决了什么问题
 
 | 审计 ID | 状态 | 处理 |
 |---|---|---|
-| F1-AUD-01 AMS1117 输出电容 | DONE | 删除 C103（10µF X5R 陶瓷），新增 C107 `CA45-E035K226T` 22µF 35V 钽（C169219，ESR 500mΩ@100kHz，±10%）。满足 AMS1117/LM1117 的 22µF 钽与 ESR 0.3–22Ω 要求；数据手册已下载核对 |
+| F1-AUD-01 AMS1117 输出电容 | PARTIAL（换型完成，稳定性未验证） | 删除 C103（10µF X5R 陶瓷），新增 C107 `CA45-E035K226T` 22µF 35V 钽（C169219，ESR 500mΩ@100kHz，±10%）。按 AMS1117 家族/LM1117 的 22µF 钽与 ESR 0.3–22Ω 建议选型；CA45 数据手册已下载核对。**未取得 C2891839 原厂手册，未验证并联电容网络、ESR 公差、环路稳定性与负载瞬态**，不能据此宣称电源稳定性已验证 |
 | F1-AUD-02 IO2 悬空 | DONE | 新增 R107 10kΩ，IO2→3V3；网表 `IO2: U101-2, R107-2`，DRC 的 CHECKFLOATPIN 不再包含 IO2 |
 | F1-AUD-03 重排门禁不足 | PARTIAL | 新增 `netlist_diff.py` 并在本次电气修订中实际使用：既有引脚 `pin_net_changed=0`；纯排版前后的 diff 仍 NOT RUN（因为重排未做） |
 | F1-AUD-04 USB-C 壳脚/ESD/保险 | PARTIAL | J101-1..4 已接 GND；新增 D102 SMBJ5.0A VBUS→GND TVS；CC/D+/D- ESD 阵列与自恢复保险未加 |
@@ -53,13 +53,13 @@
 
 ## 5. 对新手和工程师的实际影响
 
-- **新手**：F1 现在具备可启动的 IO2 上拉、LDO 稳定性所需的 22µF 钽、EN/RST 上电延时、VBUS TVS 和壳脚接地；不会拿到一个“网表正确但电气不合格”的样板。图面仍不宜作为阅读示范。
+- **新手**：F1 现在具备 IO2 上拉、按数据手册建议换用的 22µF 钽、EN/RST 上电延时、VBUS TVS 和壳脚接地；不再是一个“网表正确但明显缺保护/启动条件”的样板。但 LDO 稳定性仍未实测，图面仍不宜作为阅读示范。
 - **工程师**：可以直接看 `netlist_diff` 的 `pin_net_changed=0` 和最终网表，确认这次电气修订没有破坏既有连接；DRC 的 5 条警告已分类，剩余 6 个未用 USB 数据脚是明确的待处理项。
 - **诚实边界**：这不是重排验收，也不是 ERC 通过，更不是可生产板。标题栏仍 V1.0，必须改为 DRAFT。
 
 ## 6. 未完成与下一步
 
-1. **C3 重排（优先）**：重排 J101/R101/R102、U102 电源标记、U101 周边、J102 与新增 C104-C107；标题栏改 DRAFT；重排前后跑 `netlist_diff`，要求 `pin_net_changed=0`。
+1. **C3 重排（优先）**：重排 J101/R101/R102、U102 电源标记、U101 周边、J102 与新增 C104-C107；标题栏改 DRAFT；重排前后跑 `netlist_diff`，要求**整个 diff 为 `match`**（器件增删/身份字段/引脚增删/改网都为 0）；`pin_net_changed=0` 只说明没有改网，不能覆盖器件删除或身份变化。只有电气修订才允许逐条白名单差异。
 2. **NC 标记**：J101 SBU1/2、DN1/2、DP1/2 与 4 个壳脚（若仍不接）需要显式 NC 或保留理由；本桥目前不支持 NC 动作。
 3. **保护补齐**：USB-C CC/D+/D- ESD 阵列、VBUS 自恢复保险、J102 TXD/RXD 串阻、3V3 外供限流。
 4. **ERC 豁免表**：对 4 条超框和 6 个未用脚逐条说明处理/保留理由，不能以“常见警告”批量忽略。
@@ -86,3 +86,13 @@ python design-hardware/scripts/eda_exec.py reopen-check --project <copy> \
 ```
 
 环境：Windows 11、Python 3.13.15、嘉立创EDA专业版 4.1.78.34f5b8d9、半离线 CLI。所有写入在授权副本上完成。
+
+## 8. 复核后的门禁补强（2026-10-22）
+
+独立复核发现三处门禁漏洞，已修复并补反例测试：
+
+1. **零长度线消失仍可能 match**：`compare_snapshots` 现在把零长度线的 `(net,x,y)` 集合纳入比较；删除、增补或改网都会返回 `mismatch`（`kind=zero_length_wires`）。真机 `f1-gatecheck-reopen.json` 仍为 `match`，说明稳定零长线不会误报；单测覆盖删除与改网。
+2. **无效网表可比较**：`netlist_diff.py` 现在校验 `PROTEL NETLIST 2.0` 头、块闭合、`DESIGNATOR/PARTTYPE/FOOTPRINT`、未知器件、重复位号/网络、空网络、引脚多网。空文件、普通文本、截断文件均返回 `invalid`/exit 2；两个相同的坏输入不再得到 `match`。
+3. **删除可绕过 expected**：`validate_plan` 按类型强制 `expected`：part=designator/component/x/y，net_flag=name/x/y，net_port=net/direction/x/y，wire=net；`reconcile` 与 APPLY_JS 在写入前再次拒绝空 `expected`。`--allow-delete` 只表示允许删除，不替代身份/状态核对。
+
+测试：全仓 `191 tests, OK`；其中 `tests.test_eda_exec` 58 项、`tests.test_netlist_diff` 15 项。真机复跑：`f1-gatecheck-reopen.json` 为 `match`，零长线参与比较。

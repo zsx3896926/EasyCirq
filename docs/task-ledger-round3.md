@@ -31,7 +31,7 @@
 
 | 项 | 状态 | 证据 |
 |---|---|---|
-| C103 10µF 陶瓷 → C107 22µF 35V 钽 | DONE | `docs/evidence/f1-rev3-2026-10-22/`；ESR 500mΩ；网表 `C107-1=3V3, C107-2=GND` |
+| C103 10µF 陶瓷 → C107 22µF 35V 钽 | PARTIAL（换型完成，稳定性未实测） | `docs/evidence/f1-rev3-2026-10-22/`；ESR 500mΩ；网表 `C107-1=3V3, C107-2=GND`；未取得 C2891839 原厂手册，未验证并联网络/环路稳定性/负载瞬态 |
 | IO2 10k 上拉 | DONE | 网表 `IO2: U101-2, R107-2`；DRC 悬空列表移除 IO2 |
 | EN/RST 100nF RC | DONE | 网表 EN/RST 均含新电容与原有引脚 |
 | U101 本地 10µF | DONE（原理图） | C106 加入 3V3/GND；PCB 近端约束未执行 |
@@ -41,6 +41,7 @@
 | DRC | PARTIAL | 5 warn（4 超框 + 6 未用 USB 数据脚），0 error；无豁免表 |
 | 网表 diff | DONE（本次电气修订） | `pin_net_changed=0`；纯重排前后 diff 未做 |
 | 人工审图 C6 | NOT RUN | — |
+| 门禁复核（零长线/网表/删除 expected） | DONE（单测+真机重开） | 零长线纳入重开比较；网表严格拒绝无效输入；删除按类型强制 expected；191 tests OK；`f1-gatecheck-reopen.json` match |
 
 ## 0. 状态与证据口径
 

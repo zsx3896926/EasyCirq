@@ -62,6 +62,13 @@ DELETE_EXPECTED_FIELDS = {
     'net_port': {'net', 'direction', 'x', 'y'},
     'wire': {'net'},
 }
+# Deletion is destructive: these fields are mandatory identity/state checks.
+DELETE_REQUIRED_FIELDS = {
+    'part': ('designator', 'component', 'x', 'y'),
+    'net_flag': ('name', 'x', 'y'),
+    'net_port': ('net', 'direction', 'x', 'y'),
+    'wire': ('net',),
+}
 NET_FLAG_TYPES = {'Power', 'Ground', 'AnalogGround', 'ProtectGround'}
 NET_PORT_DIRECTIONS = {'IN', 'OUT', 'BI'}
 # Client versions on which the readback semantics in this adapter were probed.
@@ -1029,6 +1036,13 @@ for (const act of (A.actions || [])) {
         continue;
       }
       const checks = act.expected || {};
+      if (!Object.keys(checks).length) {
+        results.push({ key: act.key, ok: false, action: act.action,
+                       error: 'missing_expected',
+                       note: 'delete requires identity/state checks; primitive_id alone is not enough' });
+        await sleep2(120);
+        continue;
+      }
       const component = safe(() => target.getState_Component());
       const actual = {
         designator: safe(() => target.getState_Designator()),
@@ -1283,6 +1297,19 @@ def validate_plan(plan):
             if unknown:
                 raise EdaInputError(
                     f'{where}.target.expected: unknown fields for {target_kind}: {sorted(unknown)}')
+            required = DELETE_REQUIRED_FIELDS[target_kind]
+            missing = [field for field in required if field not in expected]
+            if missing:
+                raise EdaInputError(
+                    f'{where}.target.expected: missing required fields {missing} for '
+                    f'{target_kind}; delete requires identity and state, not only primitive_id')
+            for field in required:
+                if field in ('x', 'y'):
+                    continue
+                value = expected[field]
+                if not isinstance(value, str) or (field != 'net' and not value.strip()):
+                    raise EdaInputError(
+                        f'{where}.target.expected.{field}: non-empty string required')
             for field in ('x', 'y'):
                 if field in expected:
                     _coord(expected[field], f'{where}.target.expected.{field}')
@@ -1724,6 +1751,14 @@ def reconcile(snapshot, plan, project_designators=None):
             target_kind = target['kind']
             primitive_id = target['primitive_id']
             expected = target.get('expected') or {}
+            if not expected:
+                conflict(item, 'missing_expected', {
+                    'kind': target_kind,
+                    'required': list(DELETE_REQUIRED_FIELDS[target_kind]),
+                    'note': 'delete requires identity/state checks; primitive_id alone is not enough',
+                })
+                items.append(item)
+                continue
             collections = {
                 'part': parts, 'net_flag': netflags,
                 'net_port': netports, 'wire': wires,
@@ -2084,6 +2119,30 @@ def compare_snapshots(before, after, tolerance=0.01):
                             'before': before_unparsed[:10], 'after': after_unparsed[:10],
                             'note': 'geometry of these wires cannot be compared; persistence is not proven'})
 
+    def zero_length_wires(snapshot):
+        # A zero-length wire can be the actual pin-to-port/flag connection.
+        # Its geometry is irrelevant, but its presence, net and position are
+        # connection evidence and must not be ignored.
+        rows = []
+        for wire in snapshot.get('wires') or []:
+            line = wire.get('line') or []
+            if _zero_length_line(line) and len(line) >= 2:
+                rows.append((wire.get('net') or '',
+                             _round(line[0]) if line[0] is not None else None,
+                             _round(line[1]) if line[1] is not None else None))
+        return sorted(rows, key=repr)
+
+    before_zero, after_zero = zero_length_wires(before), zero_length_wires(after)
+    if before_zero != after_zero:
+        differences.append({
+            'kind': 'zero_length_wires',
+            'before_count': len(before_zero), 'after_count': len(after_zero),
+            'missing': [x for x in before_zero if x not in after_zero][:20],
+            'added': [x for x in after_zero if x not in before_zero][:20],
+            'note': ('zero-length wires can be pin-to-port connection primitives; '
+                     'a change means connectivity equivalence is not proven'),
+        })
+
     def flags_set(snapshot):
         rows = []
         for flag in snapshot.get('netflags') or []:
@@ -2139,7 +2198,7 @@ def compare_snapshots(before, after, tolerance=0.01):
                             'rotation,mirror,add_into_bom,add_into_pcb,manufacturer,manufacturer_id,supplier)',
                             'duplicate_designators', 'netflags(name,type,position,rotation,mirror)',
                             'netports(net,name,direction,position,rotation,mirror)', 'wires', 'unparsed_wires',
-                            'attributes'],
+                            'zero_length_wires(net,position)', 'attributes'],
     }
 
 

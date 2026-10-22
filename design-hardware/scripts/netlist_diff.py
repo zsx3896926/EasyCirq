@@ -57,27 +57,49 @@ def _clean(value):
 
 
 def parse_protel(text):
-    """Parse a Protel 2.0 netlist into components and nets.
+    """Parse and validate a Protel 2.0 netlist.
+
+    An invalid or truncated input raises NetlistError. Two identical bad
+    inputs must not be comparable: a diff is only evidence when both sides are
+    complete, structurally closed netlists with the required identity fields.
 
     Returns {'components': {designator: {...}}, 'nets': {name: set((des,pin))},
-             'duplicates': [...], 'pin_conflicts': [...], 'empty_nets': [...]}
+             'duplicates': [], 'pin_conflicts': [], 'empty_nets': []}
     """
+    text = text.lstrip('﻿')
     lines = text.replace('\r\n', '\n').replace('\r', '\n').split('\n')
+    header = next((index for index, raw in enumerate(lines) if raw.strip()), None)
+    if header is None:
+        raise NetlistError('empty netlist')
+    if lines[header].strip().upper() != 'PROTEL NETLIST 2.0':
+        raise NetlistError('missing PROTEL NETLIST 2.0 header', header + 1)
+
     components = {}
     nets = {}
     duplicates = []
     pin_owner = {}
     pin_conflicts = []
-    empty_nets = []
-    i = 0
+    i = header + 1
     while i < len(lines):
         line = lines[i].strip()
+        if not line:
+            i += 1
+            continue
         if line == '[':
             block = []
             i += 1
-            while i < len(lines) and lines[i].strip() != '*':
+            closed = False
+            while i < len(lines):
+                if lines[i].strip() == '*':
+                    closed = True
+                    break
                 block.append(lines[i])
                 i += 1
+            if not closed:
+                raise NetlistError('unterminated component block', len(lines))
+            i += 1  # consume '*'
+            if i >= len(lines) or lines[i].strip() != ']':
+                raise NetlistError('component block missing closing ]', i + 1)
             component = {}
             j = 0
             while j < len(block):
@@ -98,12 +120,22 @@ def parse_protel(text):
         elif line == '(':
             block = []
             i += 1
-            while i < len(lines) and lines[i].strip() != ')':
+            closed = False
+            while i < len(lines):
+                if lines[i].strip() == ')':
+                    closed = True
+                    break
                 block.append(lines[i])
                 i += 1
+            if not closed:
+                raise NetlistError('unterminated net block', len(lines))
             if not block:
                 raise NetlistError('empty net block', i + 1)
             name = block[0].strip()
+            if not name:
+                raise NetlistError('net with empty name', i + 1)
+            if name in nets:
+                raise NetlistError(f'duplicate net name {name!r}', i + 1)
             pins = set()
             for entry in block[1:]:
                 entry = entry.strip()
@@ -123,18 +155,39 @@ def parse_protel(text):
                 else:
                     pin_owner[(designator, pin)] = name
             if not pins:
-                empty_nets.append(name)
-            if name in nets:
-                nets[name] |= pins
-            else:
-                nets[name] = pins
+                raise NetlistError(f'net {name!r} has no pins', i + 1)
+            nets[name] = pins
+        else:
+            raise NetlistError(f'unexpected line outside a block: {line!r}', i + 1)
         i += 1
+
+    if not components:
+        raise NetlistError('no component blocks')
+    if not nets:
+        raise NetlistError('no net blocks')
+    for designator, component in components.items():
+        for field in ('DESIGNATOR', 'PARTTYPE', 'FOOTPRINT'):
+            if not component.get(field):
+                raise NetlistError(
+                    f'component {designator!r} missing required field {field}')
+    for name, pins in nets.items():
+        for designator, pin in pins:
+            if designator not in components:
+                raise NetlistError(
+                    f'net {name!r} references unknown component {designator!r}')
+    if duplicates:
+        raise NetlistError(f'duplicate designator(s): {sorted(set(duplicates))}')
+    if pin_conflicts:
+        conflict = pin_conflicts[0]
+        raise NetlistError(
+            f'pin {conflict["designator"]}-{conflict["pin"]} appears on multiple nets: '
+            f'{conflict["nets"]}')
     return {
         'components': components,
         'nets': nets,
-        'duplicates': sorted(set(duplicates)),
-        'pin_conflicts': pin_conflicts,
-        'empty_nets': sorted(set(empty_nets)),
+        'duplicates': [],
+        'pin_conflicts': [],
+        'empty_nets': [],
     }
 
 

@@ -69,17 +69,47 @@ class Parsing(unittest.TestCase):
         self.assertEqual(parsed['nets']['5V'], {('R1', '1'), ('C1', '1')})
         self.assertEqual(parsed['nets']['GND'], {('R1', '2'), ('C1', '2')})
 
-    def test_duplicate_designator_is_reported(self):
+    def test_duplicate_designator_is_invalid(self):
         text = FIXTURE.replace('DESIGNATOR\nC1', 'DESIGNATOR\nR1')
-        parsed = netlist_diff.parse_protel(text)
-        self.assertEqual(parsed['duplicates'], ['R1'])
+        with self.assertRaises(netlist_diff.NetlistError):
+            netlist_diff.parse_protel(text)
 
-    def test_pin_on_two_nets_is_reported(self):
+    def test_pin_on_two_nets_is_invalid(self):
         text = FIXTURE.replace('C1-1 100nF-1 Passive\n',
                                'C1-1 100nF-1 Passive\nC1-2 100nF-2 Passive\n')
-        parsed = netlist_diff.parse_protel(text)
-        self.assertEqual(parsed['pin_conflicts'][0]['designator'], 'C1')
-        self.assertEqual(parsed['pin_conflicts'][0]['pin'], '2')
+        with self.assertRaises(netlist_diff.NetlistError):
+            netlist_diff.parse_protel(text)
+
+    def test_empty_and_plain_text_are_invalid(self):
+        for text in ('', '   \n\n', 'not a netlist\n'):
+            with self.subTest(text=text), self.assertRaises(netlist_diff.NetlistError):
+                netlist_diff.parse_protel(text)
+
+    def test_truncated_blocks_are_invalid(self):
+        cases = [
+            FIXTURE.split('\n*\n', 1)[0] + '\n',  # component: no closing *
+            FIXTURE.rsplit('\n)\n', 1)[0] + '\n',  # net: no closing )
+        ]
+        for text in cases:
+            with self.subTest(text=text[-40:]), self.assertRaises(netlist_diff.NetlistError):
+                netlist_diff.parse_protel(text)
+
+    def test_missing_required_component_fields_are_invalid(self):
+        values = {'PARTTYPE': '10k', 'FOOTPRINT': 'R0603'}
+        for field, value in values.items():
+            text = FIXTURE.replace(f'{field}\n{value}\n', f'{field}\n\n', 1)
+            with self.subTest(field=field), self.assertRaises(netlist_diff.NetlistError):
+                netlist_diff.parse_protel(text)
+
+    def test_unknown_component_in_net_is_invalid(self):
+        text = FIXTURE.replace('C1-1 100nF-1 Passive\n', 'C9-1 100nF-1 Passive\n')
+        with self.assertRaises(netlist_diff.NetlistError):
+            netlist_diff.parse_protel(text)
+
+    def test_duplicate_net_name_is_invalid(self):
+        text = FIXTURE.replace('(\nGND\n', '(\n5V\n', 1)
+        with self.assertRaises(netlist_diff.NetlistError):
+            netlist_diff.parse_protel(text)
 
 
 class Comparison(unittest.TestCase):

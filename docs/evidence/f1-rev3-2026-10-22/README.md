@@ -18,7 +18,7 @@
 
 | 位号 | 变更 | 库料/依据 |
 |---|---|---|
-| C103 → C107 | 删除 10µF X5R 陶瓷，改为 22µF 35V 钽 | `CA45-E035K226T`，C169219，ESR 500mΩ@100kHz，±10%，[数据手册](https://atta.szlcsc.com/upload/public/pdf/source/20191009/C435293_78A410F3D73489DBEAC46056C4262F7A.pdf)；满足 AMS1117/LM1117 的 22µF 钽与 ESR 0.3–22Ω 要求 |
+| C103 → C107 | 删除 10µF X5R 陶瓷，改为 22µF 35V 钽 | `CA45-E035K226T`，C169219，ESR 500mΩ@100kHz，±10%，[数据手册](https://atta.szlcsc.com/upload/public/pdf/source/20191009/C435293_78A410F3D73489DBEAC46056C4262F7A.pdf)；按 AMS1117 家族/LM1117 的 22µF 钽与 ESR 0.3–22Ω 建议选型。**未取得 C2891839 原厂手册，未验证并联网络/ESR 公差/环路稳定性/负载瞬态** |
 | R107 | 新增 10kΩ，IO2→3V3 上拉 | `0603WAF1002T5E`，C25804 |
 | C104 | 新增 100nF，EN→GND | `CL10B104KB8NNNC`，C1591；Espressif 建议 10k+100nF RC |
 | C105 | 新增 100nF，RST→GND | 同上 |
@@ -82,6 +82,8 @@ C107 的符号 `+` 在旋转 180° 后位于 pin 1（左侧）；实际连接为
 | `drc-f1-rev3b.json` | `A7FDD9B8B793B5A4AC92207CABD767550C823A020245C91CA063B6F4F5E5BA26` |
 | `f1-rev3b-snap.json` | `CE9264C52E688B08C6A0BE15EFFAA304A83A58953A7344D837AEBA4D8B508725` |
 | `f1-rev3b-reopen.json` | `C698F080621C8CCA923D985070390EABFA504AB1BFE75C2D4F8AC03A177CFAAA` |
+| `f1-gatecheck-snap.json` | `CE9264C52E688B08C6A0BE15EFFAA304A83A58953A7344D837AEBA4D8B508725` |
+| `f1-gatecheck-reopen.json` | `103D6F54159BAC604C959A14A98067A0B1CD36757004207A22EF1AFCBE681D3B` |
 | `f1-rev3b.png` | `B206AF1F1A24656F031417139E445E8E49359E38F6BD7FCAFCB8B7A282EE862C` |
 | `apply-f1-rev3A.json` | `3F1805A1451BCC7EA384EE17C53AC1DD06526EE43D56CAA1B1E17B948C2FE4F6` |
 | `apply-shell-cleanup.json` | `0A37E51814526B1ADF0417F081AA5858279C507D238B249E13D5B0F927457A08` |
@@ -90,6 +92,16 @@ C107 的符号 `+` 在旋转 180° 后位于 pin 1（左侧）；实际连接为
 | `selected-parts.json` | `EC7035ACDD490B810C27C6FEA72B0EE1342F32863EA39E75AE091B5A70E87152` |
 
 `connections/` 保存 15 条逐连接 plan/result；每条 apply 单独执行并 `verified`。
+
+## 门禁复核补强（2026-10-22）
+
+独立复核发现并修复了三处门禁漏洞，本目录增加 `f1-gatecheck-snap.json` / `f1-gatecheck-reopen.json` 作为真机回归：
+
+1. **零长度线参与重开比较**：`compare_snapshots` 把零长度线的 `(net,x,y)` 集合纳入比较；删除、增补或改网返回 `mismatch`。真机重开仍为 `match`，稳定零长线不误报。
+2. **网表严格校验**：`netlist_diff.py` 拒绝空文件、普通文本、未闭合块、缺 `DESIGNATOR/PARTTYPE/FOOTPRINT`、未知器件、重复位号/网络、空网络、引脚多网；无效输入返回 `invalid`/exit 2，两个相同的坏输入不再得到 match。
+3. **删除必须带完整 expected**：part=designator/component/x/y，net_flag=name/x/y，net_port=net/direction/x/y，wire=net；`--allow-delete` 只表示允许删除，不替代身份/状态核对；reconcile 与 APPLY_JS 都拒绝空 expected。
+
+全仓测试：`191 tests, OK`（`tests.test_eda_exec` 58 项、`tests.test_netlist_diff` 15 项）。
 
 ## 未完成 / 限制
 

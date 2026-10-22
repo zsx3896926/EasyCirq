@@ -3,7 +3,7 @@
 基线：`C:/Users/jlc/work/hds-round3` @ `dc62f20`。状态与证据口径见 [task-ledger-round3.md](../task-ledger-round3.md)。
 排序依据：本轮 14 条交叉复核 finding 的修正严重度 + 是否会产生“错误 verified/重复写入/会话越权/虚假声明” + 真实硬件风险。P0 先修，P1 次之，P2/P3 随后。每条一行；证据中的 `AUD` = `C:/Users/jlc/work/hw-deepdive-scratch/round3-audit/`。
 
-> **2026-10-22 修复更新**：P0-01～P0-07 与 P1-01/P1-02 已由 [executor-fixes-2026-10-22.md](executor-fixes-2026-10-22.md) 处理。修复后状态：P0-01 PARTIAL（真实故障注入 NOT RUN）、P0-02 DONE、P0-03 DONE、P0-04 PARTIAL、P0-05 DONE（单测）、P0-06 DONE、P0-07 PARTIAL（全快照 hash NOT RUN）；P1-01/P1-02 PARTIAL～DONE。P0-09（AMS1117 电容）与 P0-10（IO2 悬空）已由 [F1 电气修订](f1-electrical-revision-2026-10-22.md) 修复；P1-05 的网表 diff 工具已完成，纯重排门禁仍 NOT RUN；P1-06/P1-07 仍待重排。下表保留审计时的原始状态作为历史快照，不再作为当前状态真源。
+> **2026-10-22 修复更新**：P0-01～P0-07 与 P1-01/P1-02 已由 [executor-fixes-2026-10-22.md](executor-fixes-2026-10-22.md) 处理。修复后状态：P0-01 PARTIAL（真实故障注入 NOT RUN）、P0-02 DONE、P0-03 DONE、P0-04 PARTIAL、P0-05 DONE（单测）、P0-06 DONE、P0-07 PARTIAL（全快照 hash NOT RUN）；P1-01/P1-02 PARTIAL～DONE。P0-09（AMS1117 电容）换型完成但电源稳定性未实测，P0-10（IO2 悬空）已由 [F1 电气修订](f1-electrical-revision-2026-10-22.md) 修复；P1-05 的网表 diff 工具已完成并加严（无效输入拒绝、纯重排要求整个 diff match），纯重排门禁仍 NOT RUN；P1-06/P1-07 仍待重排。下表保留审计时的原始状态作为历史快照，不再作为当前状态真源。
 
 ## P0：先修“错误成功、重复写入、越权、虚假声明、F1 电气阻断”
 
