@@ -1,0 +1,242 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/f1-b-2026-10-22/plan-b2-texts.json",
+  "session": {
+    "sessionId": "65a43873-0b91-49b7-9dbc-3922f46ca1e5",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "draft-marker",
+      "op": "text",
+      "status": "create",
+      "content": "DRAFT"
+    },
+    {
+      "key": "j101-unused-note",
+      "op": "text",
+      "status": "create",
+      "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)"
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_text",
+      "key": "draft-marker",
+      "x": 800,
+      "y": 580,
+      "content": "DRAFT",
+      "rotation": 0,
+      "font_size": 40
+    },
+    {
+      "action": "create_text",
+      "key": "j101-unused-note",
+      "x": 120,
+      "y": 780,
+      "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+      "rotation": 0,
+      "font_size": 12
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "draft-marker",
+        "ok": true,
+        "action": "create_text",
+        "primitive_id": "d9ed472c3974b617",
+        "expected": {
+          "content": "DRAFT"
+        },
+        "observed": {
+          "content": "DRAFT",
+          "x": 800,
+          "y": 580,
+          "rotation": 0,
+          "font_size": 40
+        }
+      },
+      {
+        "key": "j101-unused-note",
+        "ok": true,
+        "action": "create_text",
+        "primitive_id": "30d3cf0a7f39c231",
+        "expected": {
+          "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)"
+        },
+        "observed": {
+          "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+          "x": 120,
+          "y": 780,
+          "rotation": 0,
+          "font_size": 12
+        }
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "fcb2da4ee557dcd3135792c79c2f82b80c048ed269162e4c0269269fbe168362",
+      "friendly_name": "f1-rev3-b-package",
+      "name": "/f1-rev3-b-package"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "draft-marker",
+        "op": "text",
+        "status": "create",
+        "content": "DRAFT",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "content": "DRAFT",
+            "x": 800,
+            "y": 580,
+            "rotation": 0,
+            "font_size": 40
+          },
+          "observed": {
+            "primitive_id": "d9ed472c3974b617",
+            "content": "DRAFT",
+            "x": 800,
+            "y": 580,
+            "rotation": 0,
+            "font_size": 40
+          }
+        }
+      },
+      {
+        "key": "j101-unused-note",
+        "op": "text",
+        "status": "create",
+        "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+            "x": 120,
+            "y": 780,
+            "rotation": 0,
+            "font_size": 12
+          },
+          "observed": {
+            "primitive_id": "30d3cf0a7f39c231",
+            "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+            "x": 120,
+            "y": 780,
+            "rotation": 0,
+            "font_size": 12
+          }
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 79,
+      "wires": 57
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B2 step 2 of 2: re-add the two GND connections as clean single-segment wires with identical endpoints (250,710)->(200,710) and (250,560)->(200,560), replacing the deleted multi-segment polylines.",
+  "operations": [
+    {
+      "op": "wire",
+      "key": "add-clean-710",
+      "net": "GND",
+      "points": [250, 710, 200, 710]
+    },
+    {
+      "op": "wire",
+      "key": "add-clean-560",
+      "net": "GND",
+      "points": [250, 560, 200, 560]
+    }
+  ]
+}

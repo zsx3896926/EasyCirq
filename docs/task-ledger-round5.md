@@ -53,7 +53,7 @@
 | 包 | 内容 | 状态 | 已完成/剩余要点 | 下一条具体操作 |
 |---|---|---|---|---|
 | A | 状态盘点与统一台账 | **DONE** | 盘点+62 核验完成；本文件即交付 | 随工作推进维护本文件 |
-| B | F1 原理图排版/警告/审图 | NOT RUN | 图面仍拥挤、标题栏非 DRAFT、ERC 豁免表、独立审图均未做 | 在 `hds-round5-scratch` 复制 `f1-rev3-layout.eprj2` 做纯排版；先冻结 golden 网表 |
+| B | F1 原理图排版/警告/审图 | **DONE**（人工审图待做） | 副本 `f1-b-v3.eprj2`：ONENETNAME 根因（零长度中段多段线）定位并重画消除（DRC 3→1）；DRAFT 标识与 J101 未用脚注记真机写入；网表与 golden 逐字节一致；重开 match；处置表 `drc-erc-disposition.md`；AI 独立审图报告 `independent-review.md`（非人工审图，已标注） | 人工审图按报告清单执行；标题栏版本格 V1.0 需 GUI 会话一次操作（CLI 无入口） |
 | C | F1 电气依据/封装/验证计划 | NOT RUN | MPN 17/21、C107 稳定性未实测、USB-C/TVS 核对未做 | 从 selected-parts.json 出「待查清单」，逐项补原厂依据 |
 | D | 真实几何与排版检查闭环 | PARTIAL | `sch_layout_check.py` 存在但未接真实 EDA 几何 | 用 F1 快照导出坐标，接入检查器 |
 | E | PCB 执行器 | **DONE**（缺口明确列出） | 命令族实现+真机验收：读→最小写（线/过孔/铜区边框/器件 flat+search）→回读→保存→重开 match，四类原语全部成立；铺铜填充、DRC 明细、制造导出在 CLI 半离线不可用（记录在案）；板框专用原语、移动/旋转/删除未探测 | 未支持项已在 `pcb doctor` 与证据 README 明列；F 包使用前在 GUI 会话补板框验证 |

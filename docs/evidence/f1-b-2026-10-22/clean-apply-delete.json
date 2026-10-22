@@ -1,0 +1,220 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/f1-b-2026-10-22/plan-b2-delete-onenetname.json",
+  "session": {
+    "sessionId": "6e940e75-2be8-4aba-b8ef-e6f3852f833c",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "del-onenetname-1",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "49fae01dc70fc99a",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-onenetname-2",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "257ae6235df06193",
+      "expected": {
+        "net": "GND"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_primitive",
+      "key": "del-onenetname-1",
+      "kind": "wire",
+      "primitive_id": "49fae01dc70fc99a",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-onenetname-2",
+      "kind": "wire",
+      "primitive_id": "257ae6235df06193",
+      "expected": {
+        "net": "GND"
+      }
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "del-onenetname-1",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "49fae01dc70fc99a",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-onenetname-2",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "257ae6235df06193",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "d1b714198cedcb08542b6f649b0a73fd77918dc7953778edb9901a0e13baaab2",
+      "friendly_name": "f1-b-clean",
+      "name": "/f1-b-clean"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 55,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "del-onenetname-1",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "49fae01dc70fc99a",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "49fae01dc70fc99a",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-onenetname-2",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "257ae6235df06193",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "257ae6235df06193",
+          "still_present": false
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 79,
+      "wires": 55
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 55,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

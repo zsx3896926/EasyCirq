@@ -1,0 +1,187 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/f1-b-2026-10-22/plan-text-probe.json",
+  "session": {
+    "sessionId": "33e38c32-7a07-4eab-8b98-a724055ef13a",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "probe-center-text",
+      "op": "text",
+      "status": "create",
+      "content": "TEXT-PERSIST-PROBE"
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_text",
+      "key": "probe-center-text",
+      "x": 585,
+      "y": 412,
+      "content": "TEXT-PERSIST-PROBE",
+      "rotation": 0,
+      "font_size": 30
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "probe-center-text",
+        "ok": true,
+        "action": "create_text",
+        "primitive_id": "0e258f86109be83b",
+        "expected": {
+          "content": "TEXT-PERSIST-PROBE"
+        },
+        "observed": {
+          "content": "TEXT-PERSIST-PROBE",
+          "x": 585,
+          "y": 412,
+          "rotation": 0,
+          "font_size": 30
+        }
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "d1b714198cedcb08542b6f649b0a73fd77918dc7953778edb9901a0e13baaab2",
+      "friendly_name": "f1-b-clean",
+      "name": "/f1-b-clean"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "probe-center-text",
+        "op": "text",
+        "status": "create",
+        "content": "TEXT-PERSIST-PROBE",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "content": "TEXT-PERSIST-PROBE",
+            "x": 585,
+            "y": 412,
+            "rotation": 0,
+            "font_size": 30
+          },
+          "observed": {
+            "primitive_id": "0e258f86109be83b",
+            "content": "TEXT-PERSIST-PROBE",
+            "x": 585,
+            "y": 412,
+            "rotation": 0,
+            "font_size": 30
+          }
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 79,
+      "wires": 57
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

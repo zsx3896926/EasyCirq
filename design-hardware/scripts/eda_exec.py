@@ -54,10 +54,13 @@ OP_KEYS = {
     'net_flag': {'op', 'key', 'net', 'type', 'at', 'rotation', 'mirror', 'note'},
     'net_port': {'op', 'key', 'net', 'direction', 'at', 'rotation', 'mirror', 'note'},
     'wire': {'op', 'key', 'net', 'points', 'note'},
+    'text': {'op', 'key', 'at', 'content', 'rotation', 'font_size', 'note'},
+    'text_modify': {'op', 'key', 'target', 'at', 'content', 'rotation', 'font_size', 'note'},
     'delete': {'op', 'key', 'target', 'note'},
 }
-DELETE_KINDS = {'part', 'net_flag', 'net_port', 'wire'}
+DELETE_KINDS = {'part', 'net_flag', 'net_port', 'wire', 'text'}
 DELETE_EXPECTED_FIELDS = {
+    'text': {'content', 'x', 'y'},
     'part': {'designator', 'unique_id', 'x', 'y', 'component'},
     'net_flag': {'name', 'net', 'x', 'y'},
     'net_port': {'net', 'direction', 'x', 'y'},
@@ -65,6 +68,7 @@ DELETE_EXPECTED_FIELDS = {
 }
 # Deletion is destructive: these fields are mandatory identity/state checks.
 DELETE_REQUIRED_FIELDS = {
+    'text': ('content',),
     'part': ('designator', 'component', 'x', 'y'),
     'net_flag': ('name', 'x', 'y'),
     'net_port': ('net', 'direction', 'x', 'y'),
@@ -680,6 +684,17 @@ if (!componentsConsistent) {
 const complete = read_errors.length === 0 && pinsComplete
   && (A.include_attributes !== true || attributesComplete === true)
   && componentsConsistent;
+// Text primitives: read-only here; a failed read marks texts null so the
+// reconcile layer can say it cannot dedup them instead of blocking the page.
+const textsRaw = await safeAsync(() => eda.sch_PrimitiveText.getAll(), null);
+const texts = Array.isArray(textsRaw) ? textsRaw.map(t => ({
+  primitive_id: safe(() => t.getState_PrimitiveId()),
+  content: safe(() => t.getState_Content()),
+  x: safe(() => t.getState_X()),
+  y: safe(() => t.getState_Y()),
+  rotation: safe(() => t.getState_Rotation()),
+  font_size: safe(() => t.getState_FontSize()),
+})) : null;
 return {
   ok: true,
   env,
@@ -729,11 +744,13 @@ return {
     line_type: safe(() => w.getState_LineType()),
   })),
   attributes,
+  texts,
   coverage: {
     pins_complete: pinsComplete,
     pins_used: pinsUsed,
     attributes_included: A.include_attributes === true,
     attributes_complete: attributesComplete,
+    texts_included: texts !== null,
     read_errors: read_errors.length,
     not_checked: [
       'netlist pin-net equivalence until getNetlistFile is parsed',
@@ -1384,8 +1401,45 @@ for (const act of (A.actions || [])) {
         key: act.key, ok: true, action: act.action, primitive_id: wire.getState_PrimitiveId(),
         net: wire.getState_Net(), line: wire.getState_Line(),
       });
+    } else if (act.action === 'modify_text') {
+      const props = { x: act.x, y: act.y };
+      if (act.content != null) props.content = act.content;
+      if (act.rotation != null) props.rotation = act.rotation;
+      if (act.font_size != null) props.fontSize = act.font_size;
+      await eda.sch_PrimitiveText.modify(act.primitive_id, props);
+      await sleep2(300);
+      const refreshed = await safeAsync(() => eda.sch_PrimitiveText.get(act.primitive_id), null);
+      results.push({
+        key: act.key, ok: true, action: act.action, primitive_id: act.primitive_id,
+        expected: { content: act.content },
+        observed: refreshed ? {
+          content: safe(() => refreshed.getState_Content()),
+          x: safe(() => refreshed.getState_X()),
+          y: safe(() => refreshed.getState_Y()),
+          rotation: safe(() => refreshed.getState_Rotation()),
+          font_size: safe(() => refreshed.getState_FontSize()),
+        } : null,
+      });
+    } else if (act.action === 'create_text') {
+      const textArgs = [act.x, act.y, act.content, act.rotation || 0];
+      if (act.font_size != null) textArgs.push(null, null, act.font_size);
+      const text = await eda.sch_PrimitiveText.create(...textArgs);
+      await sleep2(300);
+      results.push({
+        key: act.key, ok: true, action: act.action, primitive_id: text.getState_PrimitiveId(),
+        expected: { content: act.content },
+        observed: {
+          content: safe(() => text.getState_Content()),
+          x: safe(() => text.getState_X()),
+          y: safe(() => text.getState_Y()),
+          rotation: safe(() => text.getState_Rotation()),
+          font_size: safe(() => text.getState_FontSize()),
+        },
+      });
     } else if (act.action === 'delete_primitive') {
-      const collection = act.kind === 'wire' ? eda.sch_PrimitiveWire : eda.sch_PrimitiveComponent;
+      const collection = act.kind === 'wire' ? eda.sch_PrimitiveWire
+        : act.kind === 'text' ? eda.sch_PrimitiveText
+        : eda.sch_PrimitiveComponent;
       const target = await safeAsync(() => collection.get(act.primitive_id), null);
       if (!target) {
         results.push({ key: act.key, ok: false, action: act.action,
@@ -1408,6 +1462,7 @@ for (const act of (A.actions || [])) {
         net: safe(() => target.getState_Net()),
         x: safe(() => target.getState_X()),
         y: safe(() => target.getState_Y()),
+        content: safe(() => target.getState_Content()),
         component: component && component.name ? component.name : null,
         direction: portDirectionOf(symbolNameOf(target) || (component && component.name)),
         flag_type: flagTypeOf(symbolNameOf(target) || (component && component.name)),
@@ -1639,6 +1694,48 @@ def validate_plan(plan):
             _text(op.get('net'), f'{where}.net')
             _canonical_segments(op.get('points'))
             normalized.append(op)
+        elif kind == 'text':
+            at = op.get('at')
+            if not isinstance(at, list) or len(at) != 2:
+                raise EdaInputError(f'{where}.at: [x,y] required')
+            _coord(at[0], f'{where}.at[0]')
+            _coord(at[1], f'{where}.at[1]')
+            _text(op.get('content'), f'{where}.content')
+            _rotation(op.get('rotation', 0), f'{where}.rotation')
+            if op.get('font_size') is not None:
+                value = _finite(op['font_size'], f'{where}.font_size')
+                if value <= 0:
+                    raise EdaInputError(f'{where}.font_size: positive value required')
+            normalized.append(op)
+        elif kind == 'text_modify':
+            target = op.get('target')
+            if not isinstance(target, dict):
+                raise EdaInputError(f'{where}.target: object required')
+            unknown = set(target) - {'primitive_id', 'expected'}
+            if unknown:
+                raise EdaInputError(f'{where}.target: unknown fields {sorted(unknown)}')
+            _text(target.get('primitive_id'), f'{where}.target.primitive_id')
+            expected = target.get('expected') or {}
+            if not isinstance(expected, dict):
+                raise EdaInputError(f'{where}.target.expected: object required')
+            unknown = set(expected) - {'content', 'x', 'y'}
+            if unknown:
+                raise EdaInputError(f'{where}.target.expected: unknown fields {sorted(unknown)}')
+            if 'content' not in expected:
+                raise EdaInputError(f'{where}.target.expected.content: required to guard the modify')
+            at = op.get('at')
+            if not isinstance(at, list) or len(at) != 2:
+                raise EdaInputError(f'{where}.at: [x,y] required')
+            _coord(at[0], f'{where}.at[0]')
+            _coord(at[1], f'{where}.at[1]')
+            if op.get('content') is not None:
+                _text(op['content'], f'{where}.content')
+            _rotation(op.get('rotation', 0), f'{where}.rotation')
+            if op.get('font_size') is not None:
+                value = _finite(op['font_size'], f'{where}.font_size')
+                if value <= 0:
+                    raise EdaInputError(f'{where}.font_size: positive value required')
+            normalized.append(op)
         elif kind == 'delete':
             target = op.get('target')
             if not isinstance(target, dict):
@@ -1826,6 +1923,7 @@ def reconcile(snapshot, plan, project_designators=None):
     netflags = snapshot.get('netflags') or []
     netports = snapshot.get('netports') or []
     wires = snapshot.get('wires') or []
+    texts = snapshot.get('texts') or []
     items, actions, conflicts = [], [], []
     designator_scope = 'page' if project_designators is None else 'project'
 
@@ -2106,6 +2204,68 @@ def reconcile(snapshot, plan, project_designators=None):
                         item.update({'status': 'create', 'net': op['net'],
                                      'segments': len(missing), 'existing_segments': len(target_segments) - len(missing)})
             items.append(item)
+        elif op['op'] == 'text_modify':
+            texts = snapshot.get('texts')
+            found = None
+            if isinstance(texts, list):
+                found = next((t for t in texts
+                              if t.get('primitive_id') == op['target']['primitive_id']), None)
+            if not isinstance(texts, list):
+                conflict(item, 'texts_unreadable_in_snapshot')
+            elif found is None:
+                conflict(item, 'target_not_found', {'primitive_id': op['target']['primitive_id']})
+            elif found.get('content') != op['target']['expected']['content'] or not _same_position(
+                    (found.get('x'), found.get('y')),
+                    (op['target']['expected']['x'], op['target']['expected']['y']), tolerance=0.01):
+                conflict(item, 'stale_target', {
+                    'expected': op['target']['expected'],
+                    'observed': {'content': found.get('content'), 'x': found.get('x'), 'y': found.get('y')}})
+            elif (_same_position((found.get('x'), found.get('y')), op['at'], tolerance=0.01)
+                  and (op.get('content') is None or found.get('content') == op['content'])
+                  and found.get('rotation') == op.get('rotation', 0)
+                  and (op.get('font_size') is None or found.get('font_size') == op['font_size'])):
+                item['status'] = 'skip'
+                item['reason'] = 'already_matches'
+            else:
+                actions.append({'action': 'modify_text', 'key': key,
+                                'primitive_id': op['target']['primitive_id'],
+                                'x': op['at'][0], 'y': op['at'][1],
+                                'content': op.get('content'), 'rotation': op.get('rotation'),
+                                'font_size': op.get('font_size')})
+                item.update({'status': 'modify', 'primitive_id': op['target']['primitive_id']})
+            items.append(item)
+        elif op['op'] == 'text':
+            texts = snapshot.get('texts')
+            same = []
+            if isinstance(texts, list):
+                same = [t for t in texts if t.get('content') == op['content']
+                        and _same_position((t.get('x'), t.get('y')), op['at'], tolerance=0.01)]
+            if texts is None:
+                # Without a text read we cannot prove idempotency; create is
+                # still allowed but the item says why dedup was skipped.
+                item.update({'status': 'create', 'reason': 'texts_unreadable_in_snapshot'})
+                actions.append({'action': 'create_text', 'key': key, 'x': op['at'][0], 'y': op['at'][1],
+                                'content': op['content'], 'rotation': op.get('rotation', 0),
+                                'font_size': op.get('font_size')})
+            elif len(same) > 1:
+                conflict(item, 'duplicate_text_at_position', {'count': len(same)})
+            elif same:
+                found = same[0]
+                if found.get('rotation') != op.get('rotation', 0) or (
+                        op.get('font_size') is not None and found.get('font_size') != op['font_size']):
+                    conflict(item, 'text_geometry_mismatch', {
+                        'rotation': [found.get('rotation'), op.get('rotation', 0)],
+                        'font_size': [found.get('font_size'), op.get('font_size')],
+                        'primitive_id': found.get('primitive_id')})
+                else:
+                    item['status'] = 'skip'
+                    item['reason'] = 'already_matches'
+            else:
+                actions.append({'action': 'create_text', 'key': key, 'x': op['at'][0], 'y': op['at'][1],
+                                'content': op['content'], 'rotation': op.get('rotation', 0),
+                                'font_size': op.get('font_size')})
+                item.update({'status': 'create', 'content': op['content']})
+            items.append(item)
         elif op['op'] == 'delete':
             target = op['target']
             target_kind = target['kind']
@@ -2122,6 +2282,7 @@ def reconcile(snapshot, plan, project_designators=None):
             collections = {
                 'part': parts, 'net_flag': netflags,
                 'net_port': netports, 'wire': wires,
+                'text': texts,
             }
             found = next((row for row in collections[target_kind]
                           if row.get('primitive_id') == primitive_id), None)
@@ -2187,6 +2348,7 @@ def verify_against_snapshot(snapshot, plan, items, execution=None):
     netflags = snapshot.get('netflags') or []
     netports = snapshot.get('netports') or []
     wires = snapshot.get('wires') or []
+    texts = snapshot.get('texts') or []
     executed = _execution_by_key(execution)
     results = []
     for item in items:
@@ -2357,6 +2519,72 @@ def verify_against_snapshot(snapshot, plan, items, execution=None):
                 passed = not missing
                 detail = {'net': op['net'], 'segments': len(target_segments),
                           'missing_segments': missing[:10], 'missing_count': len(missing)}
+        elif op['op'] == 'text_modify':
+            texts = snapshot.get('texts')
+            exec_row = executed.get(key) or {}
+            if not isinstance(texts, list):
+                passed = False
+                detail = {'reason': 'texts_not_in_snapshot',
+                          'note': 'cannot verify text placement without reading text primitives'}
+            else:
+                candidate = next((t for t in texts
+                                  if t.get('primitive_id') == op['target']['primitive_id']), None)
+                if candidate is None:
+                    passed = False
+                    detail = {'reason': 'text_not_found_after_apply', 'execution': exec_row}
+                else:
+                    failures = []
+                    if not _same_position((candidate.get('x'), candidate.get('y')), op['at'], tolerance=0.01):
+                        failures.append('position')
+                    if op.get('content') is not None and candidate.get('content') != op['content']:
+                        failures.append('content')
+                    if candidate.get('rotation') != op.get('rotation', 0):
+                        failures.append('rotation')
+                    if op.get('font_size') is not None and candidate.get('font_size') != op['font_size']:
+                        failures.append('font_size')
+                    passed = not failures
+                    detail = {'expected': {'content': op.get('content'), 'x': op['at'][0], 'y': op['at'][1],
+                                           'rotation': op.get('rotation', 0),
+                                           'font_size': op.get('font_size')},
+                              'observed': candidate}
+                    if failures:
+                        detail['reason'] = 'field_mismatch'
+                        detail['mismatched_fields'] = failures
+        elif op['op'] == 'text':
+            texts = snapshot.get('texts')
+            exec_row = executed.get(key) or {}
+            if not isinstance(texts, list):
+                passed = False
+                detail = {'reason': 'texts_not_in_snapshot',
+                          'note': 'cannot verify text placement without reading text primitives'}
+            else:
+                candidate = None
+                if exec_row.get('primitive_id'):
+                    candidate = next((t for t in texts
+                                      if t.get('primitive_id') == exec_row['primitive_id']), None)
+                if candidate is None:
+                    candidate = next((t for t in texts if t.get('content') == op['content']
+                                      and _same_position((t.get('x'), t.get('y')), op['at'],
+                                                         tolerance=0.01)), None)
+                if candidate is None:
+                    passed = False
+                    detail = {'reason': 'text_not_found_after_apply', 'execution': exec_row}
+                else:
+                    failures = []
+                    if candidate.get('content') != op['content']:
+                        failures.append('content')
+                    if candidate.get('rotation') != op.get('rotation', 0):
+                        failures.append('rotation')
+                    if op.get('font_size') is not None and candidate.get('font_size') != op['font_size']:
+                        failures.append('font_size')
+                    passed = not failures
+                    detail = {'expected': {'content': op['content'], 'x': op['at'][0], 'y': op['at'][1],
+                                           'rotation': op.get('rotation', 0),
+                                           'font_size': op.get('font_size')},
+                              'observed': candidate}
+                    if failures:
+                        detail['reason'] = 'field_mismatch'
+                        detail['mismatched_fields'] = failures
         elif op['op'] == 'delete':
             target = op['target']
             target_kind = target['kind']
@@ -2364,6 +2592,7 @@ def verify_against_snapshot(snapshot, plan, items, execution=None):
             collections = {
                 'part': parts, 'net_flag': netflags,
                 'net_port': netports, 'wire': wires,
+                'text': texts,
             }
             found = next((row for row in collections[target_kind]
                           if row.get('primitive_id') == primitive_id), None)
@@ -2550,6 +2779,18 @@ def compare_snapshots(before, after, tolerance=0.01):
         right = sorted(json.dumps(a, ensure_ascii=False, sort_keys=True) for a in (after_attributes or []))
         if left != right:
             differences.append({'kind': 'attributes', 'before_count': len(left), 'after_count': len(right),
+                                'missing': [x for x in left if x not in right][:5],
+                                'added': [x for x in right if x not in left][:5]})
+
+    before_texts = before.get('texts')
+    after_texts = after.get('texts')
+    if isinstance(before_texts, list) and isinstance(after_texts, list):
+        row = lambda t: json.dumps([t.get('content'), t.get('x'), t.get('y')],
+                                   ensure_ascii=False, sort_keys=True)
+        left = sorted(row(t) for t in before_texts)
+        right = sorted(row(t) for t in after_texts)
+        if left != right:
+            differences.append({'kind': 'texts', 'before_count': len(left), 'after_count': len(right),
                                 'missing': [x for x in left if x not in right][:5],
                                 'added': [x for x in right if x not in left][:5]})
 

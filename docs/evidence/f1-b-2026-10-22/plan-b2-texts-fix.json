@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B2 fix: the first text plan placed both texts with an inverted-Y assumption (schematic canvas y grows upward from the page bottom, PNG export grows downward). Delete the two misplaced texts (guarded by content+position expected) and recreate them: DRAFT above the title block, unused-pin note in the empty bottom-left strip.",
+  "operations": [
+    {
+      "op": "delete",
+      "key": "del-draft-misplaced",
+      "target": {
+        "kind": "text",
+        "primitive_id": "d9ed472c3974b617",
+        "expected": {"content": "DRAFT", "x": 800, "y": 580}
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-note-misplaced",
+      "target": {
+        "kind": "text",
+        "primitive_id": "30d3cf0a7f39c231",
+        "expected": {
+          "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+          "x": 120,
+          "y": 780
+        }
+      }
+    },
+    {
+      "op": "text",
+      "key": "draft-marker",
+      "at": [800, 215],
+      "content": "DRAFT",
+      "rotation": 0,
+      "font_size": 40
+    },
+    {
+      "op": "text",
+      "key": "j101-unused-note",
+      "at": [120, 75],
+      "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+      "rotation": 0,
+      "font_size": 12
+    }
+  ]
+}

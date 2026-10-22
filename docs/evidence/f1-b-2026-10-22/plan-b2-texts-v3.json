@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B2 texts v3: DRAFT lowered to y=200 after v2 visual review (v2 DRAFT top-left corner touched R105's right port hexagon). Canvas y grows upward; text anchor renders near the given y. Note unchanged (verified clear of the title block).",
+  "operations": [
+    {
+      "op": "text",
+      "key": "draft-marker",
+      "at": [300, 200],
+      "content": "DRAFT",
+      "rotation": 0,
+      "font_size": 40
+    },
+    {
+      "op": "text",
+      "key": "j101-unused-note",
+      "at": [60, 75],
+      "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained",
+      "rotation": 0,
+      "font_size": 12
+    }
+  ]
+}
