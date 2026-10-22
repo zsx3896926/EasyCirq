@@ -10,3 +10,4 @@ design-hardware/scripts/decision_asset_check.py text eol=lf
 tests/test_decisions_*.py text eol=lf
 docs/round4-report.md text eol=lf
 docs/task-ledger-round4.md text eol=lf
+docs/handoff-current.md text eol=lf
