@@ -26,6 +26,7 @@ Exit codes:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -435,6 +436,14 @@ def _json_for_js(value):
     return text.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
 
 
+def sha256_file(path):
+    digest = hashlib.sha256()
+    with open(path, 'rb') as handle:
+        for chunk in iter(lambda: handle.read(1 << 20), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 # ---------------------------------------------------------------------------
 # Fixed operation templates. Keep these small and typed; do not accept user JS.
 # ---------------------------------------------------------------------------
@@ -836,6 +845,314 @@ return {
   complete: errors.length === 0,
   note: 'scanning pages changes the active document in this owned CLI session; focus is restored best-effort',
 };
+'''
+
+PCB_SELECT_JS = r'''
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const safe = (fn, fallback = null) => { try { return fn(); } catch (e) { return fallback; } };
+const safeAsync = async (fn, fallback = null) => { try { return await fn(); } catch (e) { return fallback; } };
+const P = (A.pcb && typeof A.pcb === 'object') ? A.pcb : A;
+let pcbs = [];
+for (let i = 0; i < 12; i++) {
+  pcbs = await safeAsync(() => eda.dmt_Pcb.getAllPcbsInfo(), []);
+  if (pcbs && pcbs.length) break;
+  await sleep(600);
+}
+const pcbId = (x) => x && (x.uuid || x.pcbUuid);
+let selected = null;
+if (P.pcb_uuid) selected = (pcbs || []).find(x => pcbId(x) === P.pcb_uuid) || null;
+else if (P.pcb_name) {
+  const matches = (pcbs || []).filter(x => x.name === P.pcb_name);
+  if (matches.length !== 1) {
+    return { ok: false, error: matches.length === 0 ? 'pcb_not_found' : 'ambiguous_pcb_name',
+             pcb_name: P.pcb_name,
+             candidates: matches.map(x => ({ uuid: pcbId(x), name: x.name })) };
+  }
+  selected = matches[0];
+} else if ((pcbs || []).length === 1) {
+  // Exactly one PCB in the project: selection is deterministic, not a guess.
+  selected = pcbs[0];
+} else {
+  const current = await safeAsync(() => eda.dmt_SelectControl.getCurrentDocumentInfo());
+  if (current && current.documentType === 3) {
+    selected = (pcbs || []).find(x => pcbId(x) === current.uuid) || null;
+  }
+}
+if (!selected) {
+  return { ok: false, error: 'pcb_not_found', selection: P,
+           pcbs: (pcbs || []).map(x => ({ uuid: pcbId(x), name: x.name })) };
+}
+const pcbUuid = pcbId(selected);
+let tabId = null;
+try {
+  tabId = await eda.dmt_EditorControl.openDocument(pcbUuid);
+  // openDocument opens a tab but does not necessarily give it focus (4.1.78).
+  if (tabId) await safeAsync(() => eda.dmt_EditorControl.activateDocument(tabId));
+} catch (e) {
+  return { ok: false, error: 'open_document_failed', message: String(e && e.message || e), pcb_uuid: pcbUuid };
+}
+await Promise.race([
+  safeAsync(() => eda.dmt_EditorControl.waitForDocumentReady(8000)),
+  sleep(8500),
+]);
+let activatedConfirmed = false;
+for (let i = 0; i < 12; i++) {
+  const current = await safeAsync(() => eda.dmt_SelectControl.getCurrentDocumentInfo());
+  if (current && current.documentType === 3 && current.uuid === pcbUuid) {
+    activatedConfirmed = true;
+    break;
+  }
+  await sleep(300);
+}
+if (!activatedConfirmed) {
+  return { ok: false, error: 'pcb_not_activated', pcb_uuid: pcbUuid,
+           note: 'openDocument/activateDocument did not make the requested PCB the active document' };
+}
+const settle = Number.isFinite(Number(P.settle_ms)) ? Math.max(0, Math.min(30000, Number(P.settle_ms))) : 300;
+await sleep(settle);
+'''
+
+PCB_SNAPSHOT_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const env = {
+  online: safe(() => eda.sys_Environment.isOnlineMode()),
+  half_offline: safe(() => eda.sys_Environment.isHalfOfflineMode()),
+  offline: safe(() => eda.sys_Environment.isOfflineMode()),
+  version: safe(() => eda.sys_Environment.getEditorCurrentVersion()),
+  client: safe(() => eda.sys_Environment.isClient()),
+};
+const read_errors = [];
+const errorText = (e) => String((e && e.message) || e);
+const fail = (scope, field, e) => {
+  read_errors.push({ scope, field, error: errorText(e) });
+};
+const readField = async (fn, scope, field) => {
+  try { return await fn(); } catch (e) { fail(scope, field, e); return null; }
+};
+const budget = Number.isFinite(Number(A.max_primitives)) ? Math.max(1, Math.min(10000, Number(A.max_primitives))) : 2000;
+const project = await safeAsync(() => eda.dmt_Project.getCurrentProjectInfo());
+const counts = {};
+const list = async (name, fn) => {
+  const items = await readField(fn, name, 'getAll');
+  counts[name] = Array.isArray(items) ? items.length : null;
+  return items;
+};
+const components = await list('components', () => eda.pcb_PrimitiveComponent.getAll());
+const lines = await list('lines', () => eda.pcb_PrimitiveLine.getAll());
+const vias = await list('vias', () => eda.pcb_PrimitiveVia.getAll());
+const pours = await list('pours', () => eda.pcb_PrimitivePour.getAll());
+const poured = await list('poured', () => eda.pcb_PrimitivePoured.getAll());
+const pads = await list('pads', () => eda.pcb_PrimitivePad.getAll());
+const trimmed = (items) => {
+  const total = Array.isArray(items) ? items.length : 0;
+  return { items: (items || []).slice(0, budget), truncated: total > budget, total };
+};
+const state = (obj, fn, scope, field) => {
+  try { return fn(obj); } catch (e) { fail(scope, field, e); return null; }
+};
+const firstOf = (obj, getters, scope, field) => {
+  for (const name of getters) {
+    const value = state(obj, (x) => x[name](), scope, field);
+    if (value !== null && value !== undefined) return value;
+  }
+  return null;
+};
+const nameOf = (value) => {
+  if (value && typeof value === 'object' && value.name) return value.name;
+  if (typeof value === 'string') return value;
+  return null;
+};
+const componentRows = trimmed(components || []).items.map((c) => ({
+  id: state(c, (x) => x.getState_PrimitiveId(), 'components', 'primitive_id'),
+  designator: state(c, (x) => x.getState_Designator(), 'components', 'designator'),
+  layer: state(c, (x) => x.getState_Layer(), 'components', 'layer'),
+  x: firstOf(c, ['getState_X', 'getState_PositionX'], 'components', 'x'),
+  y: firstOf(c, ['getState_Y', 'getState_PositionY'], 'components', 'y'),
+  rotation: firstOf(c, ['getState_Rotation', 'getState_Angle'], 'components', 'rotation'),
+  footprint: nameOf(state(c, (x) => x.getState_Footprint(), 'components', 'footprint')),
+  component: nameOf(state(c, (x) => x.getState_Component(), 'components', 'component')),
+}));
+const lineRows = trimmed(lines || []).items.map((l) => ({
+  id: state(l, (x) => x.getState_PrimitiveId(), 'lines', 'primitive_id'),
+  net: state(l, (x) => x.getState_Net(), 'lines', 'net'),
+  layer: state(l, (x) => x.getState_Layer(), 'lines', 'layer'),
+  x1: firstOf(l, ['getState_StartX', 'getState_X1'], 'lines', 'x1'),
+  y1: firstOf(l, ['getState_StartY', 'getState_Y1'], 'lines', 'y1'),
+  x2: firstOf(l, ['getState_EndX', 'getState_X2'], 'lines', 'x2'),
+  y2: firstOf(l, ['getState_EndY', 'getState_Y2'], 'lines', 'y2'),
+  width: state(l, (x) => x.getState_LineWidth(), 'lines', 'width'),
+}));
+const viaRows = trimmed(vias || []).items.map((v) => ({
+  id: state(v, (x) => x.getState_PrimitiveId(), 'vias', 'primitive_id'),
+  net: state(v, (x) => x.getState_Net(), 'vias', 'net'),
+  x: firstOf(v, ['getState_X', 'getState_PositionX'], 'vias', 'x'),
+  y: firstOf(v, ['getState_Y', 'getState_PositionY'], 'vias', 'y'),
+  hole: state(v, (x) => x.getState_HoleDiameter(), 'vias', 'hole'),
+  diameter: state(v, (x) => x.getState_Diameter(), 'vias', 'diameter'),
+}));
+const pourRows = trimmed(pours || []).items.map((p) => ({
+  id: state(p, (x) => x.getState_PrimitiveId(), 'pours', 'primitive_id'),
+  net: state(p, (x) => x.getState_Net(), 'pours', 'net'),
+  layer: state(p, (x) => x.getState_Layer(), 'pours', 'layer'),
+  name: state(p, (x) => x.getState_Name(), 'pours', 'name'),
+}));
+const pouredRows = trimmed(poured || []).items.map((p) => ({
+  id: state(p, (x) => x.getState_PrimitiveId(), 'poured', 'primitive_id'),
+  net: state(p, (x) => x.getState_Net(), 'poured', 'net'),
+  layer: state(p, (x) => x.getState_Layer(), 'poured', 'layer'),
+}));
+const padRows = trimmed(pads || []).items.map((p) => ({
+  id: state(p, (x) => x.getState_PrimitiveId(), 'pads', 'primitive_id'),
+  net: state(p, (x) => x.getState_Net(), 'pads', 'net'),
+}));
+const netNames = await readField(() => eda.pcb_Net.getAllNetsName(), 'nets', 'getAllNetsName');
+const netRows = [];
+if (Array.isArray(netNames)) {
+  for (const n of netNames.slice(0, budget)) {
+    const length = await readField(() => eda.pcb_Net.getNetLength(n), 'nets', 'getNetLength');
+    const prims = await readField(() => eda.pcb_Net.getAllPrimitivesByNet(n), 'nets', 'getAllPrimitivesByNet');
+    netRows.push({ net: n, length, primitive_count: Array.isArray(prims) ? prims.length : null });
+  }
+}
+const outlineLines = (lines || []).filter(l => state(l, (x) => x.getState_Layer(), 'lines', 'layer') === 11)
+  .map(l => ({ id: state(l, (x) => x.getState_PrimitiveId(), 'lines', 'primitive_id'), layer: 11 }));
+return {
+  ok: true,
+  env,
+  project: project ? { uuid: project.uuid, friendly_name: project.friendlyName, name: project.name, path: project.path } : null,
+  pcbs: (pcbs || []).map(x => ({ uuid: pcbId(x), name: x.name })),
+  selection: { pcb_uuid: pcbUuid, pcb_name: selected.name },
+  counts,
+  components: { rows: componentRows, truncated: trimmed(components || []).truncated, total: trimmed(components || []).total },
+  lines: { rows: lineRows, truncated: trimmed(lines || []).truncated, total: trimmed(lines || []).total },
+  vias: { rows: viaRows, truncated: trimmed(vias || []).truncated, total: trimmed(vias || []).total },
+  pours: { rows: pourRows, truncated: trimmed(pours || []).truncated, total: trimmed(pours || []).total },
+  poured: { rows: pouredRows, truncated: trimmed(poured || []).truncated, total: trimmed(poured || []).total },
+  pads: { rows: padRows, truncated: trimmed(pads || []).truncated, total: trimmed(pads || []).total },
+  nets: netRows,
+  outline: { lines: outlineLines, count: outlineLines.length },
+  rule_config: safe(() => eda.pcb_Drc.getCurrentRuleConfigurationName()),
+  read_errors,
+  note: 'pours counts the outline, poured counts actual copper fills; they are not interchangeable',
+};
+'''
+
+PCB_APPLY_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const errorText = (e) => String((e && e.message) || e);
+const state = (obj, fn) => { try { return fn(obj); } catch (e) { return null; } };
+const pouredCount = async () => {
+  const v = await safeAsync(() => eda.pcb_PrimitivePoured.getAll(), null);
+  return Array.isArray(v) ? v.length : null;
+};
+const readback = (prim) => {
+  if (!prim) return { created: false, error: 'create returned nothing' };
+  return {
+    created: true,
+    id: state(prim, (x) => x.getState_PrimitiveId()),
+    net: state(prim, (x) => x.getState_Net()),
+    layer: state(prim, (x) => x.getState_Layer()),
+    width: state(prim, (x) => x.getState_LineWidth()),
+    hole: state(prim, (x) => x.getState_HoleDiameter()),
+    diameter: state(prim, (x) => x.getState_Diameter()),
+    designator: state(prim, (x) => x.getState_Designator()),
+    name: state(prim, (x) => x.getState_Name()),
+  };
+};
+const results = [];
+const poured_before = await pouredCount();
+for (const action of (A.actions || [])) {
+  try {
+    let prim = null;
+    if (action.op === 'line') {
+      prim = await eda.pcb_PrimitiveLine.create(action.net, action.layer, action.x1, action.y1, action.x2, action.y2, action.width, false);
+    } else if (action.op === 'via') {
+      prim = await eda.pcb_PrimitiveVia.create(action.net, action.x, action.y, action.hole, action.diameter, 0, null, null, false);
+    } else if (action.op === 'pour_outline') {
+      const poly = await eda.pcb_MathPolygon.createComplexPolygon([['R', action.x, action.y, action.w, action.h, 0, 0]]);
+      if (!poly) throw new Error('polygon create returned nothing');
+      prim = await eda.pcb_PrimitivePour.create(action.net, action.layer, poly, 'solid', false, action.name, 0, 10, false);
+    } else if (action.op === 'component_flat') {
+      prim = await eda.pcb_PrimitiveComponent.create({ libraryUuid: action.library_uuid, uuid: action.component_uuid }, action.layer, action.x, action.y, action.rotation, false);
+    } else if (action.op === 'component_search') {
+      const found = await eda.lib_Device.search(action.name, undefined, undefined, undefined, 5, 1);
+      if (!Array.isArray(found) || !found.length) throw new Error('no search result for ' + action.name);
+      const match = found.find(d => d.name === action.name) || found[0];
+      prim = await eda.pcb_PrimitiveComponent.create(match, action.layer, action.x, action.y, action.rotation, false);
+    } else {
+      throw new Error('unknown op ' + action.op);
+    }
+    await sleep(500);
+    results.push(Object.assign({ key: action.key, op: action.op }, readback(prim)));
+  } catch (e) {
+    results.push({ key: action.key, op: action.op, created: false, error: errorText(e) });
+  }
+}
+const poured_after = await pouredCount();
+return {
+  ok: true,
+  results,
+  poured_before,
+  poured_after,
+  poured_delta: (poured_before === null || poured_after === null) ? null : (poured_after - poured_before),
+  note: 'pour outlines create the border only; a non-zero poured_delta means the client recomputed copper fills',
+};
+'''
+
+PCB_SAVE_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const saved = await safeAsync(() => eda.pcb_Document.save(), false);
+const counts = {};
+for (const [name, fn] of [
+  ['components', () => eda.pcb_PrimitiveComponent.getAll()],
+  ['lines', () => eda.pcb_PrimitiveLine.getAll()],
+  ['vias', () => eda.pcb_PrimitiveVia.getAll()],
+  ['pours', () => eda.pcb_PrimitivePour.getAll()],
+  ['poured', () => eda.pcb_PrimitivePoured.getAll()],
+]) {
+  const v = await safeAsync(fn, null);
+  counts[name] = Array.isArray(v) ? v.length : null;
+}
+return { ok: true, saved: saved === true, saved_value: saved, counts };
+'''
+
+PCB_DRC_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const raw = await safeAsync(() => eda.pcb_Drc.check(false, false, false), null);
+const structure = raw === null ? 'null' : Array.isArray(raw) ? 'array' : typeof raw;
+return {
+  ok: true,
+  ran: raw !== null,
+  structure,
+  item_count: Array.isArray(raw) ? raw.length : null,
+  raw,
+  note: 'raw DRC result; interpretation is the caller\'s job, zero items does not mean manufacturable',
+};
+'''
+
+PCB_EXPORT_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const getters = {
+  gerber: () => eda.pcb_ManufactureData.getGerberFile(),
+  pickandplace: () => eda.pcb_ManufactureData.getPickAndPlaceFile(),
+  bom: () => eda.pcb_ManufactureData.getBomFile(),
+  pdf: () => eda.pcb_ManufactureData.getPdfFile(),
+  pcb_info: () => eda.pcb_ManufactureData.getPcbInfoFile(),
+};
+const fn = getters[A.kind];
+if (!fn) return { ok: false, error: 'unknown_export_kind', kind: A.kind };
+const raw = await safeAsync(fn, null);
+const structure = raw === null ? 'null' : Array.isArray(raw) ? 'array' : typeof raw;
+let hint = null;
+if (typeof raw === 'string') hint = raw.slice(0, 200);
+else if (raw && typeof raw === 'object') hint = Object.keys(raw).slice(0, 12);
+return { ok: true, kind: A.kind, structure, hint, raw,
+         note: 'ordering methods (placePcbOrder and friends) are intentionally not exposed' };
 '''
 
 APPLY_JS = r'''
@@ -2245,6 +2562,310 @@ def _page_args(args):
     return result
 
 
+# ---------------------------------------------------------------------------
+# PCB command family (beta). Same read-first discipline as the schematic
+# bridge: read a snapshot -> reconcile a typed plan in Python -> send only
+# typed primitive actions -> read back -> verify -> optionally save -> reopen.
+# ---------------------------------------------------------------------------
+
+PCB_COUNT_KEYS = ('components', 'lines', 'vias', 'pours', 'poured', 'pads')
+PCB_OPS = {
+    'line': {'net', 'layer', 'x1', 'y1', 'x2', 'y2', 'width'},
+    'via': {'net', 'x', 'y', 'hole', 'diameter'},
+    'pour_outline': {'net', 'layer', 'name', 'x', 'y', 'w', 'h'},
+    'component_flat': {'library_uuid', 'component_uuid', 'layer', 'x', 'y', 'rotation'},
+    'component_search': {'name', 'layer', 'x', 'y', 'rotation'},
+}
+PCB_EXPECTED = {
+    'line': {'net', 'layer', 'width'},
+    'via': {'net', 'hole', 'diameter'},
+    'pour_outline': {'net', 'layer', 'name'},
+    'component_flat': {'layer', 'designator'},
+    'component_search': {'layer', 'designator'},
+}
+PCB_WRITE_SUPPORT = {
+    # Verified by the round-3 audit (2026-10-22) against JLCEDA Pro 4.1.78
+    # bridge 4.1.78.34f5b8d9 in a half-offline CLI session on a scratch copy.
+    'verified': ['line', 'via', 'pour_outline', 'component_flat', 'component_search'],
+    'known_broken': [
+        'component via state footprint/component object (create throws; use the flat ref or search path)',
+        'pour fill recompute (outline create does not change the poured count; fills need a GUI recompute)',
+    ],
+    'not_probed': ['board_outline_primitive', 'component_move', 'component_rotate', 'delete', 'rule_config_write'],
+    'source': 'round3-audit-2026-10-22',
+}
+
+
+def _pcb_args(args):
+    result = {}
+    for name in ('pcb_uuid', 'pcb_name'):
+        if getattr(args, name, None):
+            result[name] = getattr(args, name)
+    return result
+
+
+def read_pcb_snapshot(pro, session, pcb_args, max_primitives=2000):
+    value = pro.invoke(session, PCB_SNAPSHOT_JS, {'pcb': pcb_args, 'max_primitives': max_primitives})
+    if not isinstance(value, dict):
+        raise EdaCommandError('pcb snapshot returned no object', 'EDA_PCB_SNAPSHOT_FAILED', {'value': value})
+    if value.get('ok') is False:
+        error = value.get('error') or 'pcb_snapshot_failed'
+        detail = {'value': value}
+        if error in ('pcb_not_found', 'ambiguous_pcb_name'):
+            raise EdaInputError('pcb not found: check pcb_uuid/pcb_name', detail)
+        if error in ('pcb_not_activated', 'open_document_failed'):
+            raise EdaCommandError(error, 'EDA_PCB_NOT_ACTIVATED', detail)
+        raise EdaCommandError(f'pcb snapshot failed: {error}', 'EDA_PCB_SNAPSHOT_FAILED', detail)
+    return value
+
+
+def read_pcb_with_retry(pro, session, pcb_args, attempts=3, max_primitives=2000):
+    last = None
+    for attempt in range(attempts):
+        try:
+            snapshot = read_pcb_snapshot(pro, session, pcb_args, max_primitives=max_primitives)
+            if snapshot.get('selection', {}).get('pcb_uuid'):
+                return snapshot
+            last = {'error': 'pcb snapshot missing pcb identity', 'value': snapshot}
+        except EdaInputError:
+            raise
+        except EdaTimeout as error:
+            last = {'error': str(error), 'code': error.code}
+        except EdaCommandError as error:
+            last = {'error': str(error), 'code': error.code, 'detail': error.detail}
+        if attempt + 1 < attempts:
+            time.sleep(1.0 + attempt)
+    raise EdaCommandError('pcb not readable after retries', 'EDA_PCB_NOT_READY', {'last': last})
+
+
+def pcb_snapshot_integrity(snapshot):
+    """A snapshot used as the basis for a write must have complete counts and no read errors."""
+    if not isinstance(snapshot, dict) or snapshot.get('ok') is not True:
+        return {'status': 'invalid', 'missing': [], 'read_errors': []}
+    selection = snapshot.get('selection') or {}
+    missing = [key for key in PCB_COUNT_KEYS if snapshot.get('counts', {}).get(key) is None]
+    if not selection.get('pcb_uuid'):
+        missing.append('pcb_uuid')
+    read_errors = snapshot.get('read_errors') or []
+    status = 'complete' if not missing and not read_errors else 'incomplete'
+    return {'status': status, 'missing': missing,
+            'read_error_count': len(read_errors), 'read_errors': read_errors[:20]}
+
+
+def validate_pcb_plan(plan):
+    if not isinstance(plan, dict):
+        raise EdaInputError('plan: JSON object required')
+    unknown = set(plan) - {'version', 'pcb', 'items', 'note'}
+    if unknown:
+        raise EdaInputError(f'plan: unknown fields {sorted(unknown)}')
+    if plan.get('version') != 1:
+        raise EdaInputError('plan.version: must be 1')
+    pcb = plan.get('pcb')
+    if pcb is not None:
+        if not isinstance(pcb, dict):
+            raise EdaInputError('plan.pcb: object required')
+        unknown = set(pcb) - {'pcb_uuid'}
+        if unknown:
+            raise EdaInputError(f'plan.pcb: unknown fields {sorted(unknown)}')
+        if pcb.get('pcb_uuid') is not None:
+            _text(pcb['pcb_uuid'], 'plan.pcb.pcb_uuid')
+    items = plan.get('items')
+    if not isinstance(items, list) or not 1 <= len(items) <= 200:
+        raise EdaInputError('plan.items: list of 1..200 items required')
+    keys = set()
+    for index, item in enumerate(items):
+        where = f'plan.items[{index}]'
+        if not isinstance(item, dict):
+            raise EdaInputError(f'{where}: object required')
+        op = item.get('op')
+        if op not in PCB_OPS:
+            raise EdaInputError(f'{where}.op: one of {sorted(PCB_OPS)} required')
+        unknown = set(item) - PCB_OPS[op] - {'op', 'key', 'expected'}
+        if unknown:
+            raise EdaInputError(f'{where}: unknown fields {sorted(unknown)}')
+        missing = [name for name in PCB_OPS[op] if name not in item]
+        if missing:
+            raise EdaInputError(f'{where}: missing fields {sorted(missing)} for op {op!r}')
+        key = _text(item.get('key'), f'{where}.key')
+        if key in keys:
+            raise EdaInputError(f'{where}.key: duplicate key {key!r}')
+        keys.add(key)
+        if op in ('line', 'via', 'pour_outline'):
+            _text(item.get('net'), f'{where}.net')
+        for name in ('x1', 'y1', 'x2', 'y2', 'x', 'y'):
+            if name in item:
+                _coord(item[name], f'{where}.{name}')
+        for name in ('width', 'hole', 'diameter', 'w', 'h'):
+            if name in item:
+                value = _finite(item[name], f'{where}.{name}')
+                if value <= 0:
+                    raise EdaInputError(f'{where}.{name}: positive value required')
+        layer = item.get('layer')
+        if layer is not None:
+            value = _finite(layer, f'{where}.layer')
+            if op in ('component_flat', 'component_search'):
+                if value not in (1, 2):
+                    raise EdaInputError(f'{where}.layer: 1 (top) or 2 (bottom) required for components')
+            elif not 1 <= value <= 64:
+                raise EdaInputError(f'{where}.layer: 1..64 required')
+        if op == 'component_flat':
+            _text(item.get('library_uuid'), f'{where}.library_uuid')
+            _text(item.get('component_uuid'), f'{where}.component_uuid')
+        if op == 'component_search':
+            _text(item.get('name'), f'{where}.name')
+        if op == 'pour_outline':
+            _text(item.get('name'), f'{where}.name')
+        if op in ('component_flat', 'component_search'):
+            _rotation(item['rotation'], f'{where}.rotation')
+        expected = item.get('expected')
+        if expected is not None:
+            if not isinstance(expected, dict):
+                raise EdaInputError(f'{where}.expected: object required')
+            unknown = set(expected) - PCB_EXPECTED[op]
+            if unknown:
+                raise EdaInputError(f'{where}.expected: unknown fields {sorted(unknown)} for op {op!r}')
+    return plan
+
+
+def _pcb_lines_contain(lines, net, layer, x1, y1, x2, y2, tolerance=0.6):
+    for row in lines:
+        if row.get('net') != net or row.get('layer') != layer:
+            continue
+        if None in (row.get('x1'), row.get('y1'), row.get('x2'), row.get('y2')):
+            return None  # cannot tell without endpoint geometry
+        same = (abs(row['x1'] - x1) <= tolerance and abs(row['y1'] - y1) <= tolerance
+                and abs(row['x2'] - x2) <= tolerance and abs(row['y2'] - y2) <= tolerance)
+        flipped = (abs(row['x1'] - x2) <= tolerance and abs(row['y1'] - y2) <= tolerance
+                   and abs(row['x2'] - x1) <= tolerance and abs(row['y2'] - y1) <= tolerance)
+        if same or flipped:
+            return True
+    return False
+
+
+def reconcile_pcb(snapshot, plan):
+    items, actions, conflicts = [], [], []
+    selection = snapshot.get('selection') or {}
+    plan_pcb = plan.get('pcb') or {}
+    if plan_pcb.get('pcb_uuid') and plan_pcb['pcb_uuid'] != selection.get('pcb_uuid'):
+        conflicts.append({'key': None, 'error': 'pcb_uuid_mismatch',
+                          'planned': plan_pcb['pcb_uuid'], 'actual': selection.get('pcb_uuid')})
+    nets = {row.get('net') for row in (snapshot.get('nets') or []) if row.get('net')}
+    lines = (snapshot.get('lines') or {}).get('rows', [])
+    vias = (snapshot.get('vias') or {}).get('rows', [])
+    pours = (snapshot.get('pours') or {}).get('rows', [])
+    for item in plan['items']:
+        op = item['op']
+        row = {'key': item['key'], 'op': op, 'action': None, 'dedup': 'checked'}
+        if op in ('line', 'via', 'pour_outline') and item['net'] not in nets:
+            conflicts.append({'key': item['key'], 'op': op, 'error': 'net_not_found',
+                              'net': item['net'], 'note': 'creating copper on a net missing from the PCB'})
+            row['action'] = 'skip_conflict'
+        elif op == 'line':
+            present = _pcb_lines_contain(lines, item['net'], item['layer'],
+                                         item['x1'], item['y1'], item['x2'], item['y2'])
+            if present is True:
+                row['action'] = 'already_present'
+            elif present is None:
+                row['action'] = 'create'
+                row['dedup'] = 'incomplete_read'
+            else:
+                row['action'] = 'create'
+        elif op == 'via':
+            match = [v for v in vias if v.get('net') == item['net']
+                     and v.get('x') is not None and v.get('y') is not None
+                     and _same_position([v['x'], v['y']], [item['x'], item['y']])]
+            row['action'] = 'already_present' if match else 'create'
+            if not match and any(v.get('net') == item['net'] and v.get('x') is None for v in vias):
+                row['dedup'] = 'incomplete_read'
+        elif op == 'pour_outline':
+            match = [p for p in pours if p.get('net') == item['net'] and p.get('layer') == item['layer']
+                     and (p.get('name') is None or p.get('name') == item['name'])]
+            row['action'] = 'already_present' if match else 'create'
+            if not match and any(p.get('net') == item['net'] and p.get('layer') == item['layer'] for p in pours):
+                row['dedup'] = 'incomplete_read'
+        else:
+            # Components get auto designators; re-running the plan would create
+            # duplicates, so components are always create and never dedup.
+            row['action'] = 'create'
+            row['dedup'] = 'never'
+        if row['action'] == 'create':
+            actions.append({key: item[key] for key in PCB_OPS[op]} | {'key': item['key'], 'op': op})
+        items.append(row)
+    return {'items': items, 'actions': actions, 'conflicts': conflicts,
+            'counts': {'items': len(items), 'actions': len(actions), 'conflicts': len(conflicts)}}
+
+
+def verify_pcb_items(execution, plan, reconcile_items, after):
+    by_key = {result.get('key'): result for result in (execution.get('results') or [])}
+    rows = []
+    failed = 0
+    for item in reconcile_items:
+        if item.get('action') not in ('create',):
+            # skipped conflicts and already-present items were never sent;
+            # their absence from the execution results is expected
+            continue
+        row = {'key': item['key'], 'op': item['op'], 'status': 'verified', 'mismatches': []}
+        result = by_key.get(item['key'])
+        if result is None:
+            row['status'] = 'missing_result'
+            row['error'] = 'the client returned no row for this action'
+        elif not result.get('created'):
+            row['status'] = 'create_failed'
+            row['error'] = result.get('error') or 'create failed'
+        elif not result.get('id'):
+            row['status'] = 'create_failed'
+            row['error'] = 'create returned no primitive id'
+        else:
+            row['id'] = result['id']
+            planned = next((p for p in plan['items'] if p.get('key') == item['key']), {})
+            expected = planned.get('expected') or {}
+            for field, want in expected.items():
+                got = result.get(field)
+                if got != want:
+                    row['status'] = 'mismatch'
+                    row['mismatches'].append({'field': field, 'expected': want, 'actual': got})
+        if row['status'] != 'verified':
+            failed += 1
+        rows.append(row)
+    status = 'verified' if failed == 0 else 'conflict'
+    poured_before = execution.get('poured_before')
+    poured_after = execution.get('poured_after')
+    pour_fill = {'poured_before': poured_before, 'poured_after': poured_after,
+                 'delta': (poured_after - poured_before) if poured_before is not None and poured_after is not None else None}
+    pour_fill['fill_recomputed'] = pour_fill['delta'] is not None and pour_fill['delta'] > 0
+    return rows, status, pour_fill
+
+
+def compare_pcb_snapshots(before, after, tolerance=0.01):
+    diffs = []
+    before_sel = (before or {}).get('selection') or {}
+    after_sel = (after or {}).get('selection') or {}
+    if before_sel.get('pcb_uuid') != after_sel.get('pcb_uuid'):
+        diffs.append({'domain': 'pcb_identity', 'before': before_sel.get('pcb_uuid'),
+                      'after': after_sel.get('pcb_uuid')})
+    for key in PCB_COUNT_KEYS:
+        before_count = (before or {}).get('counts', {}).get(key)
+        after_count = (after or {}).get('counts', {}).get(key)
+        if before_count != after_count:
+            diffs.append({'domain': 'counts', 'class': key, 'before': before_count, 'after': after_count})
+    for key in PCB_COUNT_KEYS:
+        before_ids = sorted({row.get('id') for row in (before or {}).get(key, {}).get('rows', []) if row.get('id')})
+        after_ids = sorted({row.get('id') for row in (after or {}).get(key, {}).get('rows', []) if row.get('id')})
+        if before_ids != after_ids:
+            removed = sorted(set(before_ids) - set(after_ids))
+            added = sorted(set(after_ids) - set(before_ids))
+            diffs.append({'domain': 'primitive_ids', 'class': key,
+                          'removed': removed[:20], 'removed_count': len(removed),
+                          'added': added[:20], 'added_count': len(added)})
+    before_nets = sorted({row.get('net') for row in (before or {}).get('nets', []) if row.get('net')})
+    after_nets = sorted({row.get('net') for row in (after or {}).get('nets', []) if row.get('net')})
+    if before_nets != after_nets:
+        diffs.append({'domain': 'nets', 'removed': sorted(set(before_nets) - set(after_nets)),
+                      'added': sorted(set(after_nets) - set(before_nets))})
+    return {'match': not diffs, 'diff_count': len(diffs), 'diffs': diffs}
+
+
+
 def read_snapshot(pro, session, page_args, include_attributes=False, include_pins=True):
     args = {**page_args, 'include_attributes': include_attributes, 'include_pins': include_pins}
     value = pro.invoke(session, SNAPSHOT_JS, args)
@@ -2824,6 +3445,352 @@ def command_close(args):
     return {'status': 'closed', **result}, EXIT_OK
 
 
+def command_pcb_doctor(args):
+    """Diagnose PCB API availability without writing. Write support is reported
+    from probe evidence, not from this run."""
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = pro.invoke(session, PCB_SNAPSHOT_JS,
+                           {'pcb': _pcb_args(args), 'max_primitives': 10},
+                           timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            error = (value or {}).get('error', 'pcb_probe_failed') if isinstance(value, dict) else 'pcb_probe_failed'
+            result = {'status': 'probe_failed', 'error': error, 'value': value,
+                      'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}
+            return result, EXIT_REVIEW
+        integrity = pcb_snapshot_integrity(value)
+        result = {
+            'status': integrity['status'],
+            'env': value.get('env'),
+            'pcbs': value.get('pcbs'),
+            'selection': value.get('selection'),
+            'counts': value.get('counts'),
+            'nets_read': len(value.get('nets') or []),
+            'rule_config': value.get('rule_config'),
+            'read_errors': integrity['read_errors'],
+            'write_support': PCB_WRITE_SUPPORT,
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+            'note': 'write support comes from prior probe evidence; re-probe after a client upgrade',
+        }
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if integrity['status'] == 'complete' else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_read(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        snapshot = read_pcb_with_retry(pro, session, _pcb_args(args),
+                                       max_primitives=args.max_primitives)
+        snapshot['integrity'] = pcb_snapshot_integrity(snapshot)
+        snapshot['session'] = {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}
+        if args.output:
+            Path(args.output).write_text(json.dumps(snapshot, ensure_ascii=False, indent=2), encoding='utf-8')
+            snapshot['output'] = str(Path(args.output).resolve())
+        return {'status': 'ok', 'snapshot': snapshot, 'output': snapshot.get('output'),
+                'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}, EXIT_OK
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def _load_pcb_plan(path):
+    try:
+        data = json.loads(Path(path).read_text(encoding='utf-8'))
+    except OSError as error:
+        raise EdaInputError(f'cannot read plan: {error}')
+    except json.JSONDecodeError as error:
+        raise EdaInputError(f'plan is not valid JSON: {error}')
+    return validate_pcb_plan(data)
+
+
+def command_pcb_apply(args):
+    plan = _load_pcb_plan(args.plan)
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        pcb_args = _pcb_args(args)
+        before = read_pcb_with_retry(pro, session, pcb_args)
+        integrity = pcb_snapshot_integrity(before)
+        result = {
+            'status': 'ok',
+            'plan': args.plan,
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+            'env': before.get('env'),
+            'pcb': before.get('selection'),
+            'before_counts': before.get('counts'),
+            'integrity': integrity,
+            'dry_run': bool(args.dry_run),
+        }
+        if integrity['status'] != 'complete':
+            result['status'] = 'snapshot_incomplete'
+            result['note'] = 'pcb snapshot has missing counts or read errors; reconcile and write were refused'
+            return result, EXIT_REVIEW
+        pinned_pcb = {'pcb_uuid': before['selection']['pcb_uuid']}
+        reconciliation = reconcile_pcb(before, plan)
+        result.update({
+            'status': reconciliation['conflicts'] and 'conflict' or 'ok',
+            'items': reconciliation['items'],
+            'actions': reconciliation['actions'],
+            'conflicts': reconciliation['conflicts'],
+            'pinned_pcb': pinned_pcb,
+        })
+        if args.dry_run:
+            result['status'] = 'dry_run'
+            result['note'] = 'no write was sent'
+            return result, EXIT_OK if not reconciliation['conflicts'] else EXIT_REVIEW
+        if reconciliation['conflicts'] and not args.allow_partial:
+            result['status'] = 'blocked'
+            result['note'] = 'conflicts present; nothing was written. Resolve them or inspect with pcb read.'
+            return result, EXIT_REVIEW
+        if not reconciliation['actions']:
+            result['status'] = 'no_changes'
+            result['verification'] = 'not_needed'
+            return result, EXIT_OK
+        if owned and not args.save:
+            result['status'] = 'needs_save'
+            result['note'] = ('a temporary --project session would lose writes on close; '
+                              're-run with --save or use an explicitly retained --session')
+            return result, EXIT_INPUT
+        if not client_version_verified(before.get('env')) and not args.allow_unverified_version:
+            result['status'] = 'version_unsupported'
+            result['note'] = (f'client version {before.get("env", {}).get("version")!r} is not in the verified '
+                              f'list {list(VERIFIED_CLIENT_PREFIXES)}; pass --allow-unverified-version to override')
+            return result, EXIT_REVIEW
+
+        try:
+            execution = pro.invoke(
+                session, PCB_APPLY_JS,
+                {'pcb': pinned_pcb, 'actions': reconciliation['actions']},
+                timeout_ms=args.invoke_timeout,
+            )
+        except EdaTimeout as error:
+            partial = None
+            try:
+                partial = read_pcb_snapshot(pro, session, pinned_pcb)
+            except EdaError as read_error:
+                partial = {'error': str(read_error), 'code': read_error.code}
+            result['status'] = 'partial_unknown'
+            result['error'] = str(error)
+            result['partial_counts'] = partial.get('counts') if isinstance(partial, dict) else None
+            result['partial_integrity'] = (
+                pcb_snapshot_integrity(partial)
+                if isinstance(partial, dict) and partial.get('ok') is True else None
+            )
+            result['note'] = ('invoke timed out; objects may exist. Re-read before retrying; '
+                              'do not replay the whole plan.')
+            if args.output:
+                Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+                result['output'] = str(Path(args.output).resolve())
+            return result, EXIT_TIMEOUT
+
+        result['execution'] = execution
+        if not isinstance(execution, dict) or execution.get('ok') is not True:
+            result['status'] = 'preflight_failed'
+            result['note'] = 'the client did not return a clean execution envelope'
+            return result, EXIT_REVIEW
+        time.sleep(1.0)
+        after = read_pcb_with_retry(pro, session, pinned_pcb)
+        after_integrity = pcb_snapshot_integrity(after)
+        result['after_counts'] = after.get('counts')
+        result['after_integrity'] = after_integrity
+        if after_integrity['status'] != 'complete':
+            result['status'] = 'readback_incomplete'
+            result['note'] = 'write was sent, but the readback is incomplete; verification and save are refused'
+            return result, EXIT_REVIEW
+        if after.get('selection', {}).get('pcb_uuid') != before.get('selection', {}).get('pcb_uuid'):
+            result['status'] = 'pcb_changed'
+            result['note'] = 'the active pcb changed between the before and after reads; no verification or save'
+            return result, EXIT_REVIEW
+        before_project = (before.get('project') or {}).get('uuid')
+        after_project = (after.get('project') or {}).get('uuid')
+        if before_project and after_project and before_project != after_project:
+            result['status'] = 'project_changed'
+            result['note'] = 'the active project changed between the before and after reads; no verification or save'
+            return result, EXIT_REVIEW
+
+        verified_items, verification_status, pour_fill = verify_pcb_items(
+            execution, plan, reconciliation['items'], after)
+        result['verification'] = {'status': verification_status, 'items': verified_items,
+                                  'pour_fill': pour_fill}
+        result['status'] = verification_status
+        save_confirmed = False
+        if args.save:
+            if verification_status == 'verified':
+                save_outcome = pro.invoke(session, PCB_SAVE_JS, {'pcb': pinned_pcb})
+                result['save'] = save_outcome if isinstance(save_outcome, dict) else {'invalid': save_outcome}
+                save_confirmed = isinstance(save_outcome, dict) and save_outcome.get('saved') is True
+                if not save_confirmed:
+                    result['status'] = 'save_failed'
+                    result['note'] = ('plan verified in memory, but the editor did not confirm save; '
+                                      'do not report persistence')
+                else:
+                    result['saved_counts'] = save_outcome.get('counts')
+            else:
+                result['save'] = {'not_attempted': 'verification did not pass; inspect before saving'}
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if verification_status == 'verified' and (not args.save or save_confirmed) else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_save(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        outcome = pro.invoke(session, PCB_SAVE_JS, {'pcb': _pcb_args(args)}, timeout_ms=args.invoke_timeout)
+        session_meta = {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}
+        if not isinstance(outcome, dict):
+            return {'status': 'save_failed', 'save': {'invalid': outcome}, 'session': session_meta}, EXIT_REVIEW
+        if outcome.get('saved') is not True:
+            return {'status': 'save_failed', 'save': outcome, 'session': session_meta,
+                    'note': 'the editor did not confirm save; do not report persistence'}, EXIT_REVIEW
+        return {'status': 'ok', 'save': outcome, 'session': session_meta,
+                'note': 'saved flag is the client\'s confirmation; reopen-check is the persistence proof'}, EXIT_OK
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_drc(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = pro.invoke(session, PCB_DRC_JS, {'pcb': _pcb_args(args)}, timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            raise EdaCommandError('pcb drc failed', 'EDA_PCB_DRC_FAILED', {'value': value})
+        result = {
+            'status': 'ran' if value.get('ran') else 'nothing_returned',
+            'structure': value.get('structure'),
+            'item_count': value.get('item_count'),
+            'raw': value.get('raw'),
+            'note': value.get('note'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+        }
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if value.get('ran') else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def _pcb_export_write(raw, structure, kind, out_dir, name):
+    """Persist whatever the client returned, without guessing about content.
+
+    A returned file path is copied and hashed. Anything else is captured
+    verbatim with a structural hint, and the caller must inspect it before
+    treating it as manufacturing data."""
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if structure == 'string' and isinstance(raw, str) and len(raw) < 4000:
+        candidate = Path(raw)
+        try:
+            candidate = candidate.expanduser().resolve()
+        except OSError:
+            candidate = None
+        if candidate and candidate.is_file():
+            destination = out_dir / f'{name}-{kind}{candidate.suffix}'
+            shutil.copy2(candidate, destination)
+            return {'disposition': 'file_copied', 'path': str(destination),
+                    'source': str(candidate), 'bytes': destination.stat().st_size,
+                    'sha256': sha256_file(destination)}
+    capture = out_dir / f'{name}-{kind}-raw.json'
+    capture.write_text(json.dumps({'kind': kind, 'structure': structure, 'raw': raw},
+                                  ensure_ascii=False, indent=2), encoding='utf-8')
+    return {'disposition': 'captured_raw', 'path': str(capture),
+            'bytes': capture.stat().st_size, 'sha256': sha256_file(capture),
+            'note': 'the client returned no usable file path; the raw value was captured verbatim'}
+
+
+def command_pcb_export(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = pro.invoke(session, PCB_EXPORT_JS, {'pcb': _pcb_args(args), 'kind': args.kind},
+                           timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            error = (value or {}).get('error', 'export_failed') if isinstance(value, dict) else 'export_failed'
+            return {'status': 'export_failed', 'error': error, 'kind': args.kind,
+                    'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}, EXIT_REVIEW
+        raw = value.get('raw')
+        structure = value.get('structure')
+        if structure == 'null' or raw is None:
+            result = {'status': 'nothing_returned', 'kind': args.kind, 'structure': structure,
+                      'note': 'the client returned no data for this export kind; treat as NOT RUN, not as a file',
+                      'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}
+            return result, EXIT_REVIEW
+        written = _pcb_export_write(raw, structure, args.kind, args.out_dir, args.name)
+        result = {'status': written['disposition'], 'kind': args.kind, 'structure': structure,
+                  'hint': value.get('hint'), 'written': written,
+                  'note': value.get('note'),
+                  'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}
+        return result, EXIT_OK
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_reopen_check(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    before = None
+    first_session = None
+    try:
+        if args.session:
+            entry = session_origin(pro, args.session)
+            if entry is None:
+                raise EdaInputError(f'session not found: {args.session}')
+            if entry.get('origin') != 'cli' and not args.force_close:
+                raise EdaInputError(
+                    f'refusing to close a session with origin {entry.get("origin")!r}; pass --force-close to proceed')
+            first_session = args.session
+            before = read_pcb_with_retry(pro, first_session, _pcb_args(args),
+                                         max_primitives=args.max_primitives)
+        elif args.project:
+            first_session = pro.open_project(args.project, headless=True)
+            before = read_pcb_with_retry(pro, first_session, _pcb_args(args),
+                                         max_primitives=args.max_primitives)
+        else:
+            raise EdaInputError('--session or --project is required')
+        pinned = {'pcb_uuid': before['selection']['pcb_uuid']}
+        closed = close_owned(pro, first_session, force=args.force_close)
+        second_session = pro.open_project(args.project, headless=True)
+        after = read_pcb_with_retry(pro, second_session, pinned,
+                                    max_primitives=args.max_primitives)
+        comparison = compare_pcb_snapshots(before, after)
+        result = {
+            'status': 'match' if comparison['match'] else 'mismatch',
+            'comparison': comparison,
+            'pcb': before.get('selection'),
+            'before_counts': before.get('counts'),
+            'after_counts': after.get('counts'),
+            'closed': closed,
+            'before_integrity': pcb_snapshot_integrity(before),
+            'after_integrity': pcb_snapshot_integrity(after),
+            'note': 'match covers pcb identity, counts, primitive ids and net names on this snapshot budget',
+        }
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if comparison['match'] else EXIT_REVIEW
+    finally:
+        if first_session:
+            try:
+                close_owned(pro, first_session, force=True)
+            except EdaError:
+                pass
+
+
 def build_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--exe', help='path to lceda-pro (default: LCEDA_PRO_EXE, PATH, common installs)')
@@ -2931,6 +3898,70 @@ def build_parser():
     close.add_argument('--session', required=True)
     close.add_argument('--force', action='store_true')
     close.set_defaults(func=command_close)
+
+    pcb = sub.add_parser('pcb', help='read/apply/save/check the PCB document (beta command family)')
+    pcb_sub = pcb.add_subparsers(dest='pcb_command', required=True)
+
+    def pcb_session_args(p):
+        p.add_argument('--session')
+        p.add_argument('--project')
+        p.add_argument('--pcb', dest='pcb_uuid')
+        p.add_argument('--pcb-name', dest='pcb_name')
+        p.add_argument('--allow-user-session', action='store_true',
+                       help='allow driving a session opened by the user (default: refuse)')
+        p.add_argument('--invoke-timeout', type=int, default=180000)
+
+    pcb_doctor = pcb_sub.add_parser('doctor',
+                                    help='diagnose pcb API availability without writing')
+    pcb_session_args(pcb_doctor)
+    pcb_doctor.add_argument('--output')
+    pcb_doctor.set_defaults(func=command_pcb_doctor)
+
+    pcb_read = pcb_sub.add_parser('read', help='read a pcb snapshot without writing')
+    pcb_session_args(pcb_read)
+    pcb_read.add_argument('--max-primitives', type=int, default=2000)
+    pcb_read.add_argument('--output')
+    pcb_read.set_defaults(func=command_pcb_read)
+
+    pcb_apply = pcb_sub.add_parser('apply', help='reconcile and apply a typed pcb plan, then read back')
+    pcb_session_args(pcb_apply)
+    pcb_apply.add_argument('--plan', required=True)
+    pcb_apply.add_argument('--save', action='store_true', help='save after successful verification')
+    pcb_apply.add_argument('--dry-run', action='store_true', help='reconcile only; write nothing')
+    pcb_apply.add_argument('--allow-partial', action='store_true', help='execute non-conflicting actions')
+    pcb_apply.add_argument('--allow-unverified-version', action='store_true',
+                           help='allow a write on a client version outside the probed list')
+    pcb_apply.add_argument('--output')
+    pcb_apply.set_defaults(func=command_pcb_apply)
+
+    pcb_save = pcb_sub.add_parser('save', help='save the pcb document and read counts back')
+    pcb_session_args(pcb_save)
+    pcb_save.set_defaults(func=command_pcb_save)
+
+    pcb_drc = pcb_sub.add_parser('drc', help='run pcb DRC and return the raw result')
+    pcb_session_args(pcb_drc)
+    pcb_drc.add_argument('--output')
+    pcb_drc.set_defaults(func=command_pcb_drc)
+
+    pcb_export = pcb_sub.add_parser('export', help='capture manufacturing exports from the pcb document')
+    pcb_session_args(pcb_export)
+    pcb_export.add_argument('--kind', required=True,
+                            choices=['gerber', 'pickandplace', 'bom', 'pdf', 'pcb_info'])
+    pcb_export.add_argument('--out-dir', required=True)
+    pcb_export.add_argument('--name', default='eda-pcb-export')
+    pcb_export.set_defaults(func=command_pcb_export)
+
+    pcb_reopen = pcb_sub.add_parser('reopen-check', help='close, reopen and compare pcb identity/connectivity')
+    pcb_reopen.add_argument('--session')
+    pcb_reopen.add_argument('--project', required=True)
+    pcb_reopen.add_argument('--pcb', dest='pcb_uuid')
+    pcb_reopen.add_argument('--pcb-name', dest='pcb_name')
+    pcb_reopen.add_argument('--force-close', action='store_true')
+    pcb_reopen.add_argument('--max-primitives', type=int, default=2000)
+    pcb_reopen.add_argument('--invoke-timeout', type=int, default=180000)
+    pcb_reopen.add_argument('--output')
+    pcb_reopen.set_defaults(func=command_pcb_reopen_check)
+
     return parser
 
 
