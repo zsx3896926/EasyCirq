@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "page": {
+  "schematic_name": "F1-USB-MCU-C",
+  "page_name": "P1"
+ },
+ "operations": [
+  {
+   "op": "net_flag",
+   "key": "c104_gnd",
+   "net": "GND",
+   "type": "Ground",
+   "at": [
+    740,
+    500
+   ]
+  },
+  {
+   "op": "wire",
+   "key": "w_c104_gnd",
+   "net": "GND",
+   "points": [
+    740,
+    500,
+    720,
+    500
+   ]
+  }
+ ]
+}

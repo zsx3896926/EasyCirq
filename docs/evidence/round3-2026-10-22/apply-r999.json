@@ -1,0 +1,205 @@
+{
+  "status": "verified",
+  "plan": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\plan-r999.json",
+  "session": {
+    "sessionId": "a8d873a6-bdec-4158-8046-ddd8e3083512",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "new_r",
+      "op": "part",
+      "status": "create",
+      "designator": "R999",
+      "part": "0603WAF1002T5E",
+      "designator_scope": "project",
+      "stable_identity": true
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_part",
+      "key": "new_r",
+      "part": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "x": 900,
+      "y": 700,
+      "rotation": 0,
+      "mirror": false,
+      "designator": "R999",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "new_r",
+        "ok": true,
+        "action": "create_part",
+        "primitive_id": "b7b9fec0c52206ab",
+        "expected": {
+          "designator": "R999"
+        },
+        "observed": {
+          "designator": "R999",
+          "unique_id": "",
+          "x": 900,
+          "y": 700,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "UNI-ROYAL(厚声)",
+          "manufacturer_id": "0603WAF1002T5E",
+          "supplier": "LCSC",
+          "supplier_id": "C25804",
+          "name": "={Value}"
+        }
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "d7a22030c26995924f412d5f11d89f6b56f20699bbc9413328f83908e5cc61eb",
+      "friendly_name": "round3-fix-apply",
+      "name": "/round3-fix-apply"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 61,
+    "parts": 17,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "new_r",
+        "op": "part",
+        "status": "create",
+        "designator": "R999",
+        "part": "0603WAF1002T5E",
+        "designator_scope": "project",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "R999",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 900,
+            "y": 700,
+            "rotation": 0
+          },
+          "observed": {
+            "designator": "R999",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 900,
+            "y": 700,
+            "rotation": 0
+          }
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 61,
+      "wires": 44
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 61,
+    "parts": 17,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}
