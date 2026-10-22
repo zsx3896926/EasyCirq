@@ -1,0 +1,22 @@
+{
+  "_note": "R4-P5 constructed 示例，E3/OFFLINE_PLANNING；V1/V2 的装配事实以 manufacturing-routes.md 的 §2.4 与 §9.4 为唯一权威，本文件只补闭包、数量生成与机器可检字段。全部 MPN 与包装步进待查。",
+  "schema": "variant-bom/v1",
+  "product": "R4-P5",
+  "master_bom": [
+    {"ref": "K1", "per_board": 1, "mpn": "待查", "exclusive_group": "output-switch", "requires": ["D2"], "package_step": "待查"},
+    {"ref": "Q1", "per_board": 1, "mpn": "待查", "requires": ["R1"], "package_step": "待查"},
+    {"ref": "D2", "per_board": 1, "mpn": "待查", "package_step": "待查"},
+    {"ref": "R1", "per_board": 1, "mpn": "待查", "package_step": "待查"},
+    {"ref": "Q2", "per_board": 1, "mpn": "待查", "exclusive_group": "output-switch", "requires": ["Rg", "TVS"], "package_step": "待查"},
+    {"ref": "Rg", "per_board": 1, "mpn": "待查", "package_step": "待查"},
+    {"ref": "TVS", "per_board": 1, "mpn": "待查", "package_step": "待查"},
+    {"ref": "J3", "per_board": 1, "mpn": "待查", "package_step": "待查"},
+    {"ref": "U1", "per_board": 1, "mpn": "待查", "package_step": "待查"},
+    {"ref": "C1", "per_board": 2, "mpn": "待查", "package_step": "待查"}
+  ],
+  "variants": [
+    {"id": "V1", "boards": 5, "attrition_rate": 0.05, "min_spare": 2, "requires": ["K1", "Q1", "J3", "U1", "C1"], "conflicts": [["K1", "Q2"], ["Q1", "Q2"]], "forbidden": ["Q2", "Rg", "TVS"], "dnp": ["Q2", "Rg", "TVS"], "firmware_config": "输出模式=继电器", "test_delta": "继电器吸合/释放、触点通断"},
+    {"id": "V2", "boards": 25, "attrition_rate": 0.05, "min_spare": 2, "requires": ["Q2", "J3", "U1", "C1"], "conflicts": [["K1", "Q2"], ["Q1", "Q2"]], "forbidden": ["K1", "Q1", "D2", "R1"], "dnp": ["K1", "Q1", "D2", "R1"], "firmware_config": "输出模式=PWM/MOSFET", "test_delta": "带载 PWM、续流/过压"},
+    {"id": "V0", "boards": 0, "attrition_rate": 0.0, "min_spare": 0, "requires": [], "conflicts": [], "forbidden": ["K1", "Q1", "D2", "R1", "Q2", "Rg", "TVS", "J3", "U1", "C1"], "dnp": ["K1", "Q1", "D2", "R1", "Q2", "Rg", "TVS", "J3", "U1", "C1"], "firmware_config": "不烧录", "test_delta": "只做来料/板检"}
+  ]
+}

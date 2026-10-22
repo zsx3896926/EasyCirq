@@ -1,0 +1,197 @@
+{
+  "record_id": "module-reuse.r4p2.example",
+  "schema_version": 1,
+  "project": "R4-P2",
+  "source_module": "P01 v1 电源段（USB-C → BQ24074 充电器 + power path → TPS63802 buck-boost → 3.3 V）",
+  "created": "2026-10-22",
+  "board_verified": false,
+  "execution": "OFFLINE_PLANNING",
+  "hardware_execution": "NOT RUN",
+  "source_ids": ["PWR-S07", "PWR-S09", "MCU-S09"],
+  "completeness_rule": "10 组合同字段任一组缺 value/conditions/evidence/unknowns 时，该块降为 blocked；不得空着判 accepted-with-conditions 或 reusable。",
+  "blocks": [
+    {
+      "block_id": "R4-P2-CHARGER-BQ24074",
+      "name": "BQ24074 线性充电器 + power path",
+      "decision": "blocked",
+      "decision_basis": "VBAT(REG) = 4.16/4.20/4.23 V 是 min/typ/max，不是三个可选电压值。P01 只给出电芯设计范围 3.0–4.2 V，未给出规格书硬上限；若规格书确认硬上限 ≤4.20 V，4.23 V max 超出 30 mV，判 rejected；若仅知标称 4.20 V 或设计范围，兼容性待核，判 blocked，不能直接判不兼容。保护板允许不能替代电芯规格书对充电条件的允许。",
+      "decision_rules": [
+        {"condition": "电芯规格书确认硬上限 ≤4.20 V", "decision": "rejected", "basis": "4.23 V max 超出硬上限 30 mV；不能按 typ 4.20 V 放行"},
+        {"condition": "仅知标称 4.20 V 或设计范围，硬上限未确认", "decision": "blocked", "basis": "兼容性未核实；暂不放行，保护板允许不能替代电芯允许"}
+      ],
+      "contract_groups": {
+        "function": {
+          "value": "USB-C 5 V 受电 → 1S 锂电线性充电，并给系统提供 power path；系统供电不因电池耗尽而中断。",
+          "conditions": "只覆盖单 USB 输入与 1S 电芯；不含第二路电源选择、ORing 或双源优先级。",
+          "evidence": ["PWR-S07（SLUS810N 登记范围 §8.1–8.5、§9.3.4–9.3.6，本轮未重开原厂正文）", "design-hardware/references/design-cards/power/p06-linear-charger.md:104-106"],
+          "unknowns": ["具体后缀型号的功能差异待查"]
+        },
+        "interface": {
+          "value": "输入为 USB VBUS/CC 5 V 受电；电池侧 1S 3.0–4.2 V；SYS 输出送 TPS63802。",
+          "conditions": "USB 输入电容必须 <10 µF（PWR-S07 登记范围）；CC 受电电阻与连接器额定待查。",
+          "evidence": ["PWR-S07（登记范围 §9.3.4）", "design-hardware/references/projects/p01-low-power-wireless-sensor.md:84-92"],
+          "unknowns": ["USB-C 连接器 MPN、额定与配对端子待查", "CC1/CC2 实际阻值待查"]
+        },
+        "input_load_environment_dependencies": {
+          "value": "输入 5 V USB；P01 充电目标 300 mA，500 mA 只在开盖/良好散热时成立；系统负载与电池补充由 DPPM 决定。",
+          "conditions": "密封壳按 300 mA 设计；500 mA 不得当默认能力；θJA 与 NTC 曲线必须按目标外壳重核。",
+          "evidence": ["design-hardware/references/projects/p01-low-power-wireless-sensor.md:168-174", "PWR-S07（登记范围 §9.3.5.8、§9.3.6）"],
+          "unknowns": ["BQ24074 θJA 待查", "密封壳 300 mA 温升 NOT RUN", "NTC 完整 R-T 曲线待查"]
+        },
+        "immutable": {
+          "value": "线性充电 + power path 拓扑、BQ24074 器件族、单 USB 输入边界、1S 电芯。",
+          "conditions": "改成开关充电器、去掉 power path 或增加第二路输入，都不再是本模块复用。",
+          "evidence": ["design-hardware/references/projects/p01-low-power-wireless-sensor.md:84-92"],
+          "unknowns": []
+        },
+        "allowed": {
+          "value": "RILIM 在 1.1–8 kΩ 内调整输入限流；NTC、终止电流与定时器参数可按目标条件重算。",
+          "conditions": "所有调整必须落在 PWR-S07 登记范围内；KILIM/KISET 与 KITERM 常数未读到，阻值待查。",
+          "evidence": ["PWR-S07（登记范围 §8.1–8.5、§9.3.4–9.3.6）"],
+          "unknowns": ["KILIM/KISET 常数待查", "KITERM 常数待查"]
+        },
+        "recompute": {
+          "value": "IIN = KILIM/RILIM；热耗 P ≈ (5 − VBAT)·ICHG；TJ = TA + PD·θJA；NTC 门限按所选曲线重算。",
+          "conditions": "必须用目标外壳、目标充电电流与目标电芯重新计算，不能沿用 P01 的 300 mA 目标值当实测。",
+          "evidence": ["design-hardware/references/design-cards/power/p06-linear-charger.md:159-161", "PWR-S07（登记范围 §9.3.5.8）"],
+          "unknowns": ["目标外壳 θJA 待查", "实际电芯允许充电上限待查"]
+        },
+        "source_version_licence": {
+          "value": "来源为 P01 v1 电源段；原厂来源 PWR-S07（SLUS810N，2008-09，REVISED OCTOBER 2021）。",
+          "conditions": "本轮只读来源登记范围，未重开原厂正文；许可与再分发条件未核。",
+          "evidence": ["design-hardware/references/source-register.md:80-80", "design-hardware/references/projects/p01-low-power-wireless-sensor.md:84-92"],
+          "unknowns": ["许可与再分发条件待查", "P01 板版/变体标识待查"]
+        },
+        "compatibility_matrix": {
+          "value": [
+            {"item": "充电调节电压上限", "source": "4.23 V max", "target": "电芯硬上限（待查；若规格书确认 4.20 V 则 fail）", "result": "unknown", "evidence": "design-hardware/references/design-cards/power/p06-linear-charger.md:104-106"},
+            {"item": "充电电流与热", "source": "300 mA 热可控目标；500 mA 仅开盖/良好散热", "target": "密封壳、无热实测", "result": "unknown", "evidence": "design-hardware/references/projects/p01-low-power-wireless-sensor.md:168-174"},
+            {"item": "输入源数量", "source": "单 USB 输入", "target": "USB + 第二路外部直流", "result": "fail", "evidence": "design-hardware/references/projects/p01-low-power-wireless-sensor.md:59-66"},
+            {"item": "产量口径", "source": "P01 计划首发 25 块、选择路线 B", "target": "1000 台假设需求", "result": "unknown", "evidence": "design-hardware/references/projects/p01-low-power-wireless-sensor.md:318-320"}
+          ],
+          "conditions": "矩阵结论只用 pass/fail/unknown；unknown 不得当作 pass。",
+          "evidence": ["PWR-S07（登记范围 §8.1–8.5）"],
+          "unknowns": ["1000 台供应、PCN 与一致性未核"]
+        },
+        "instantiation_verification": {
+          "value": [
+            {"check": "接口电压/门限", "status": "NOT RUN"},
+            {"check": "上电顺序与默认态", "status": "NOT RUN"},
+            {"check": "负载瞬态与热", "status": "NOT RUN"},
+            {"check": "异常恢复（欠压/拔插/短路）", "status": "NOT RUN"},
+            {"check": "旧产物对账", "status": "NOT RUN"}
+          ],
+          "conditions": "目标板执行前不得把 P01 的纸面结论升级为目标板证据；执行后逐项回读记录。",
+          "evidence": ["design-hardware/references/projects/p01-low-power-wireless-sensor.md:318-320"],
+          "unknowns": ["全部验证项 NOT RUN"]
+        },
+        "status_retirement": {
+          "value": "blocked：电芯硬上限未确认，充电子块暂不进入新设计；若规格书确认硬上限 ≤4.20 V，则 rejected。",
+          "conditions": "先补电芯规格书的硬上限与允许充电条件；若确认 ≤4.20 V，替代方向为 VBAT(REG) max ≤4.20 V 的充电器；若允许 ≥4.23 V，保留电芯规格书依据后重评。保护板允许不能替代电芯允许。",
+          "evidence": ["PWR-S07（登记范围 §8.5）", "design-hardware/references/design-cards/power/p06-linear-charger.md:104-106"],
+          "unknowns": ["替代充电器 MPN、C 号与库存待查"]
+        }
+      },
+      "rejection_clauses": [
+        "仅当电芯规格书确认硬上限 ≤4.20 V 时：4.23 V max 高于硬上限，且不能按 typ 4.20 V 放行；仅知标称 4.20 V 时为 blocked，不直接判拒绝。",
+        "500 mA 只在开盖/良好散热时成立，密封壳无热证据。",
+        "模块边界只有单 USB 输入，不含第二路电源选择/ORing。",
+        "首发 25 块计划不能外推到 1000 台的供应、PCN 与一致性。"
+      ]
+    },
+    {
+      "block_id": "R4-P2-RAIL-TPS63802",
+      "name": "TPS63802 四开关 buck-boost 3.3 V 轨",
+      "decision": "accepted-with-conditions",
+      "decision_basis": "输入 3.0–4.2 V、输出 3.3 V 落在 TPS63802 的工作范围内；但 2 A 能力只在 VI ≥ 2.3 V、VO = 3.3 V 条件成立，电感、输出电容、布局与热必须按目标板重算并验证。",
+      "contract_groups": {
+        "function": {
+          "value": "把 1S 电池/USB 系统电压转换为固定 3.3 V，供 ESP32-C3 模组与 I²C 传感器。",
+          "conditions": "只覆盖 1S 输入与 3.3 V 输出；不含第二路电源选择。",
+          "evidence": ["PWR-S09（SLVSEU9D 登记范围 §6.5、§9.3–9.4、§10.2.2，本轮未重开原厂正文）", "design-hardware/references/projects/p01-low-power-wireless-sensor.md:84-92"],
+          "unknowns": []
+        },
+        "interface": {
+          "value": "输入 3.0–4.2 V（1S 电池，USB 供电时经 power path）；输出 3.3 V；模组峰值按 350 mA（Wi-Fi）/340 mA（BLE）。",
+          "conditions": "输入 ≥2.3 V 时才可引用 2 A 能力；低于 2.3 V 必须按实际限流与效率重算。",
+          "evidence": ["PWR-S09（登记范围 §6.5）", "MCU-S09（登记范围 §6.1–6.5）"],
+          "unknowns": ["模组完整物理脚表待查"]
+        },
+        "input_load_environment_dependencies": {
+          "value": "输入来自 1S 电池或 USB power path；负载为模组峰值加传感器；环境为密封壳。",
+          "conditions": "负载瞬态与密封壳温升必须实测；电池内阻与线束压降计入输入最低值。",
+          "evidence": ["design-hardware/references/projects/p01-low-power-wireless-sensor.md:168-174", "PWR-S09（登记范围 §10.2.2）"],
+          "unknowns": ["密封壳热测试 NOT RUN", "电池内阻与线束压降待查"]
+        },
+        "immutable": {
+          "value": "四开关非反相 buck-boost 拓扑、3.3 V 输出、TPS63802 器件族。",
+          "conditions": "改成纯 Buck、纯 LDO 或 SEPIC 都不再是本模块复用。",
+          "evidence": ["PWR-S09（登记范围 §9.4.1.2–9.4.1.4）"],
+          "unknowns": []
+        },
+        "allowed": {
+          "value": "电感值与厂商、输出/输入电容组合、反馈外围与布局可按目标板调整。",
+          "conditions": "电感饱和电流按 PWR-S09 对该器件的建议留 20% 裕量；输出电容按有效容量；布局章节未读，布线要求待查。",
+          "evidence": ["PWR-S09（登记范围 §10.2.2.2–10.2.2.4）"],
+          "unknowns": ["数据手册布局章节未读，具体布线要求待查"]
+        },
+        "recompute": {
+          "value": "峰值电流按 Boost 最差点计算；ISAT 目标 > 计算峰值 ×1.2；输出电容按偏压/温度后的有效容量；效率与热按目标板重算。",
+          "conditions": "20% 饱和裕量是 PWR-S09 对该器件的建议，不能推广到其他变换器。",
+          "evidence": ["PWR-S09（登记范围 §10.2.2.2）", "design-hardware/references/calculations/power-thermal.md:528-531"],
+          "unknowns": ["实际电感 MPN 与 ISAT 待查", "实际输出电容有效容量待查"]
+        },
+        "source_version_licence": {
+          "value": "来源为 P01 v1 电源段；原厂来源 PWR-S09（SLVSEU9D，2018-11，REVISED JANUARY 2021）。",
+          "conditions": "本轮只读来源登记范围，未重开原厂正文；许可与再分发条件未核。",
+          "evidence": ["design-hardware/references/source-register.md:82-82", "design-hardware/references/projects/p01-low-power-wireless-sensor.md:84-92"],
+          "unknowns": ["许可与再分发条件待查"]
+        },
+        "compatibility_matrix": {
+          "value": [
+            {"item": "输入电压范围", "source": "1.3–5.5 V（启动 >1.8 V）", "target": "3.0–4.2 V", "result": "pass", "evidence": "PWR-S09（登记范围 §6.5）"},
+            {"item": "输出电压范围", "source": "1.8–5.2 V", "target": "3.3 V", "result": "pass", "evidence": "PWR-S09（登记范围 §6.5）"},
+            {"item": "输出电流能力", "source": "2 A 只在 VI ≥2.3 V、VO=3.3 V", "target": "模组峰值 350 mA + 系统余量", "result": "pass", "evidence": "PWR-S09（登记范围 §6.5）、MCU-S09"},
+            {"item": "电感饱和裕量", "source": "PWR-S09 建议 +20%", "target": "目标板电感未选", "result": "unknown", "evidence": "PWR-S09（登记范围 §10.2.2.2）"},
+            {"item": "热与布局", "source": "数据手册布局章节未读", "target": "密封壳", "result": "unknown", "evidence": "PWR-S09（登记范围第 31–38 页未读）"}
+          ],
+          "conditions": "unknown 项必须在目标板实例化验证前关闭；不得把 unknown 写成 pass。",
+          "evidence": ["PWR-S09（登记范围）"],
+          "unknowns": ["电感/电容具体 MPN 待查", "θJA 与密封壳温升待查"]
+        },
+        "instantiation_verification": {
+          "value": [
+            {"check": "3.3 V 输出电压与纹波", "status": "NOT RUN"},
+            {"check": "输入 3.0 V 与 4.2 V 两端负载瞬态", "status": "NOT RUN"},
+            {"check": "模式切换与上电默认态", "status": "NOT RUN"},
+            {"check": "密封壳温升", "status": "NOT RUN"},
+            {"check": "异常恢复（欠压/短路）", "status": "NOT RUN"}
+          ],
+          "conditions": "全部验证项在目标板执行并记录前，结论只能是 accepted-with-conditions。",
+          "evidence": ["PWR-S09（登记范围 §9.3.7–9.3.10）"],
+          "unknowns": ["全部验证项 NOT RUN"]
+        },
+        "status_retirement": {
+          "value": "conditional：可作为 3.3 V 轨候选，条件未满足前不得写 reusable。",
+          "conditions": "任一条件失败或出现更低 IQ/更宽输入的新器件时重评；退役时保留索引行并写替代 ID。",
+          "evidence": ["PWR-S09（登记范围）"],
+          "unknowns": ["替代器件与退役日期待查"]
+        }
+      },
+      "acceptance_conditions": [
+        "输入 ≥2.3 V 时才可引用 2 A 能力；3.0–2.3 V 区间按实际限流与效率重算。",
+        "电感 ISAT > 计算峰值 ×1.2（PWR-S09 对该器件的建议），并核对实际温度下的饱和电流。",
+        "输出电容按有效容量核算，不能只按标称值。",
+        "布局按数据手册执行；该章节本轮未读，具体要求待查。",
+        "密封壳热测试与负载瞬态测试必须执行，当前 NOT RUN。"
+      ]
+    }
+  ],
+  "not_checked": [
+    "BQ24074 电芯 4.23 V 兼容性未解决",
+    "BQ24074 θJA、KILIM/KISET、NTC 曲线",
+    "TPS63802 电感/输出电容具体 MPN、布局与热实测",
+    "两颗器件的 C 号、价格、库存、MOQ 与包装",
+    "目标板 EDA 回读、样机与量产一致性"
+  ]
+}

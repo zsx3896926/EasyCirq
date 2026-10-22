@@ -1,0 +1,28 @@
+{
+  "_template": "Agent 填写，用户不填",
+  "_format": "change-impact-graph/v1：有向边只允许 updates/invalidates/requires-reverification；从 invalidated 节点做闭包，下游不得仍为 unchanged；F1 只能是 baseline_only",
+  "graph_id": "IMP-<项目>-<序号>",
+  "change_id": "ECO-<项目>-<序号>",
+  "nodes": [
+    {"id": "schematic", "kind": "artifact", "state": "invalidated", "role": "changed", "evidence": "待查", "evidence_level": "E3"},
+    {"id": "netlist", "kind": "artifact", "state": "invalidated", "role": "downstream", "evidence": "待查", "evidence_level": "E3"}
+  ],
+  "edges": [
+    {"from": "schematic", "to": "netlist", "relation": "invalidates"}
+  ],
+  "old_parts": [
+    {"ref": "待查", "state": "invalidated", "note": "待查"}
+  ],
+  "batch_scope": {"mode": "unknown", "detail": "待查", "effective_from": "待查", "effective_to": "待查"},
+  "evidence": {
+    "eda_baseline": "F1",
+    "eda_baseline_level": "E1",
+    "eda_rerun_this_round": false,
+    "role": "baseline_only",
+    "revision_verified": false
+  },
+  "canonical_facts": [
+    {"id": "CF-01", "statement": "待查", "source": "待查"}
+  ],
+  "rollback": {"plan": "待查", "disposition": "unknown", "reason": "待查"}
+}

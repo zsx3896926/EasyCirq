@@ -16,6 +16,8 @@
 | 决定 | 选择及取舍 | 手册/参考/计算 | 受影响器件/网/PCB |
 |---|---|---|---|
 
+决策记录、五类 typed block 与复用合同见 [决策记录模板](decisions/decision-record.template.md)、[模块复用合同](decisions/module-reuse-record.template.md)；并入本记录，不另建台账。
+
 ## 必要预算与计算
 | 核算目标 | 输入范围与单位/来源 | 模型前提 | 结果/限值/余量 | 状态与待确认 |
 |---|---|---|---|---|

@@ -1,0 +1,53 @@
+{
+  "_note": "Agent 填写，用户不填；未知字段写“待查”，不要删除字段。resources 只写最终分配；候选、延期或已拒绝的资源写 candidates。",
+  "schema": "pin-plan/v1",
+  "board": "（项目/板名）",
+  "mcu": {
+    "mpn": "待查",
+    "package": "待查",
+    "package_pins": [],
+    "bank_voltages": {}
+  },
+  "pins": [
+    {
+      "physical_pin": "待查",
+      "logical": "GPIOx",
+      "usage": "（功能或网络名）",
+      "direction": "input|output|bidirectional|power|ground",
+      "voltage_domain": "3.3V",
+      "bank": "待查",
+      "reset_state": "high|low|hiz|unknown",
+      "boot_sample": "unknown",
+      "strap": "unknown",
+      "debug": "unknown",
+      "analog_used": false,
+      "package_bonded": "unknown",
+      "note": "（依据 path:start-end 或来源 ID）"
+    }
+  ],
+  "resources": [
+    {
+      "id": "（资源 ID，如 I2C_SDA）",
+      "kind": "gpio|adc|dac|timer|pwm|dma|uart|spi|i2c|interrupt|clock|debug",
+      "pin": "（logical 名）",
+      "note": "（分配依据；只写最终分配）"
+    }
+  ],
+  "candidates": [
+    {
+      "id": "（候选资源 ID，如 SECOND_UART_TX）",
+      "kind": "gpio|adc|dac|timer|pwm|dma|uart|spi|i2c|interrupt|clock|debug",
+      "status": "deferred|rejected",
+      "pin": "（logical 名；未定写待查）",
+      "note": "（为什么未进入 resources；关联的决策或验收项）"
+    }
+  ],
+  "unresolved": [
+    {
+      "item": "（未知项）",
+      "why": "（影响哪个决定）",
+      "owner": "（谁补）",
+      "stop_before": "（缺它不得进入哪一步）"
+    }
+  ]
+}

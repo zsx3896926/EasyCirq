@@ -1,0 +1,31 @@
+{
+  "_note": "Agent 填写，用户不填；未知写“待查”，不要删除字段，也不要加入价格/库存/MOQ/包装字段。",
+  "schema": "variant-bom/v1",
+  "product": "（项目/产品）",
+  "master_bom": [
+    {
+      "ref": "（位号或物料组）",
+      "per_board": 1,
+      "mpn": "待查",
+      "exclusive_group": "（可选：互斥装配组名）",
+      "requires": ["（可选：闭包依赖的 ref）"],
+      "package_step": "待查",
+      "note": "（依据 path:start-end 或来源 ID）"
+    }
+  ],
+  "variants": [
+    {
+      "id": "V1",
+      "boards": 5,
+      "attrition_rate": 0.05,
+      "min_spare": 2,
+      "requires": ["（必装件 ref）"],
+      "conflicts": [["（互斥件 A）", "（互斥件 B）"]],
+      "forbidden": ["（本变体不得出现的 ref）"],
+      "dnp": ["（本变体不装的 ref）"],
+      "firmware_config": "（输出模式/配置）",
+      "test_delta": "（本变体测试差异）",
+      "note": "（与权威变体表的对应关系）"
+    }
+  ]
+}
