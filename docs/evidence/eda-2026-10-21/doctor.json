@@ -1,0 +1,411 @@
+{
+  "status": "ok",
+  "host": {
+    "platform": "win32",
+    "os_name": "nt",
+    "python": "3.13.15"
+  },
+  "checks": {
+    "tool_present": true,
+    "tool_connected": true,
+    "project_readable": true,
+    "project_writable": "not_tested"
+  },
+  "capabilities": {
+    "sch_read": "available",
+    "sch_write_components_wires_flags_ports": "available",
+    "sch_save": "available",
+    "sch_export_png_svg_netlist_bom": "available",
+    "sch_drc": "available",
+    "pcb_read_write": "not_implemented_in_this_adapter",
+    "net_label_idempotent_apply": "not_implemented",
+    "source": "lceda-pro 4.1.78 doc api + live probe 2026-10-21"
+  },
+  "warnings": [],
+  "not_checked": [
+    "PCB",
+    "factory DFM",
+    "orders",
+    "realtime LCSC stock/price",
+    "write capability on this project was not probed; use apply --dry-run/--save on an authorized copy"
+  ],
+  "cli": {
+    "path": "<client>",
+    "explicit": false
+  },
+  "doctor": {
+    "endpoint": "JLCEDAProa0c9c6ce",
+    "connected": true,
+    "bridgeVersion": "4.1.78.34f5b8d9",
+    "versionMatch": true,
+    "resultChannel": true
+  },
+  "sessions": [
+    {
+      "sessionId": "c5305564-0fb8-4c54-a1f3-96ad253f8812",
+      "renderId": 1,
+      "status": "alive",
+      "headless": false,
+      "origin": "user",
+      "path": null,
+      "title": "test | 嘉立创EDA(专业版) - V4.1.78"
+    },
+    {
+      "sessionId": "b5dacaed-cc5a-496d-b5c5-7ad0c292bb3f",
+      "renderId": 2,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "ff8f7eeb-a27b-40c4-906a-0f8213d68104",
+      "renderId": 3,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "237f5e0a-db93-4413-83c0-0f1d6d94425f",
+      "renderId": 4,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "3dcb7893-0cc0-4565-bd8c-269e4f281344",
+      "renderId": 5,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "e6d5115c-ba9c-4a30-af7f-e0a52dc4b330",
+      "renderId": 6,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "8baf4db8-ee58-4927-8c5a-f1ea0c980a47",
+      "renderId": 7,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "ed93adff-452a-4071-91be-f724e369f906",
+      "renderId": 8,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "2e81584e-c986-4bcf-bc77-d58ed0dcceff",
+      "renderId": 9,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "0969c3d6-8fae-4e31-8e77-647cd9c61849",
+      "renderId": 10,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "5001e57d-3bd8-4b2c-9ce8-5ac025f58347",
+      "renderId": 11,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "271a54cd-4839-414d-a81c-808d52fb9bd7",
+      "renderId": 12,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "b3fae165-aae0-416d-8b21-489ff9c8dd20",
+      "renderId": 13,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "9486757c-69f5-4711-9588-f65d871de3cf",
+      "renderId": 14,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "f34bb5f5-1be2-4dbe-a6b5-ef43abda0ea5",
+      "renderId": 15,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "fd05f29b-e57c-4d0f-85aa-9c92df20143e",
+      "renderId": 16,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "1f23c97d-6d11-4d8c-8f20-da9d0dfc32b1",
+      "renderId": 17,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "c7c5be7f-2e5b-475a-bb44-29ee5d855a06",
+      "renderId": 18,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "ac425769-674b-4cfd-9a81-cf39dd96b5a1",
+      "renderId": 19,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "5446cb2b-6a28-4d43-ac88-267de74d9c86",
+      "renderId": 20,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "dc5f480c-0d3f-4ea6-a2d9-6be0bb2b3379",
+      "renderId": 21,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "335b77cc-4aa7-42dd-b72a-891588d4d27b",
+      "renderId": 22,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "58776446-3747-4e45-b18d-a43118340f39",
+      "renderId": 23,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "622427af-e4db-49a2-8e2f-4c8bc1383a17",
+      "renderId": 24,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "f1dd51df-b7a5-4275-9fb1-50fb2bf725a9",
+      "renderId": 25,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "65856151-63fd-4379-ba77-dee592a3785d",
+      "renderId": 26,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "aca95342-5d67-4049-8d72-e7e6237d9cc9",
+      "renderId": 27,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "55807b36-07bd-422a-9341-3925352f3e12",
+      "renderId": 28,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "da62c6e9-ee88-43c6-99c9-7c3d38288adb",
+      "renderId": 29,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "7deef135-c28e-4755-be74-cb0f85f79273",
+      "renderId": 30,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "f64434d5-01d0-4bb9-ae4c-dc017135f231",
+      "renderId": 31,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "d330fec1-0558-4745-b2c1-f43ccd9cb4db",
+      "renderId": 32,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "<scratch>\\base-copy.eprj2",
+      "title": null
+    }
+  ],
+  "functions_sample_session": "b5dacaed-cc5a-496d-b5c5-7ad0c292bb3f",
+  "functions_error": "session 'b5dacaed-cc5a-496d-b5c5-7ad0c292bb3f' is closed",
+  "project_probe": {
+    "ok": true,
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "a436e29c63c6f38e01aa0506c76870fd08527e419ba05619daa40c62f7a229d4",
+      "friendly_name": "base-copy",
+      "name": "/base-copy"
+    },
+    "schematics": [
+      {
+        "uuid": "82a499c56bdf4f39ae4adc65596891a6",
+        "name": "波形产生与变换",
+        "pages": [
+          {
+            "uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+            "name": "P1"
+          }
+        ]
+      },
+      {
+        "uuid": "3099edfd1e1dce3e",
+        "name": "BridgeTest",
+        "pages": [
+          {
+            "uuid": "c63c1a14ce515f12",
+            "name": "P1"
+          }
+        ]
+      },
+      {
+        "uuid": "467a090f5f487838",
+        "name": "BridgeTest2",
+        "pages": [
+          {
+            "uuid": "33625c81be294e22",
+            "name": "P1"
+          }
+        ]
+      },
+      {
+        "uuid": "626d594c2243c993",
+        "name": "BridgeTest3",
+        "pages": [
+          {
+            "uuid": "242f3c1f2c3f7551",
+            "name": "P1"
+          }
+        ]
+      },
+      {
+        "uuid": "1beb14d3c2dcc3bc",
+        "name": "EvidenceDemo",
+        "pages": [
+          {
+            "uuid": "d87f5882486c1b95",
+            "name": "P1"
+          }
+        ]
+      },
+      {
+        "uuid": "b8442b2ab84bd0d1",
+        "name": "Schematic1",
+        "pages": [
+          {
+            "uuid": "89f5ea900bedab67",
+            "name": "P1"
+          }
+        ]
+      }
+    ]
+  }
+}

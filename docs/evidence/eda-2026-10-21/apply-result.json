@@ -1,0 +1,375 @@
+{
+  "status": "verified",
+  "plan": "<scratch>\\plan-evidence.json",
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "1beb14d3c2dcc3bc",
+    "schematic_name": "EvidenceDemo",
+    "page_uuid": "d87f5882486c1b95",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 1,
+    "parts": 0,
+    "netflags": 0,
+    "netports": 0,
+    "wires": 0,
+    "attributes": null
+  },
+  "items": [
+    {
+      "key": "R901",
+      "op": "part",
+      "status": "create",
+      "designator": "R901",
+      "part": "0603WAF1002T5E",
+      "stable_identity": true
+    },
+    {
+      "key": "LED901",
+      "op": "part",
+      "status": "create",
+      "designator": "LED901",
+      "part": "KT-0603R",
+      "stable_identity": true
+    },
+    {
+      "key": "5V",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "GND",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "w-5V",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1
+    },
+    {
+      "key": "w-LED_A",
+      "op": "wire",
+      "status": "create",
+      "net": "LED_A",
+      "segments": 1
+    },
+    {
+      "key": "w-GND",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_part",
+      "key": "R901",
+      "part": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "x": 300,
+      "y": 400,
+      "rotation": 0,
+      "mirror": false,
+      "designator": "R901",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    },
+    {
+      "action": "create_part",
+      "key": "LED901",
+      "part": "KT-0603R",
+      "supplier_id": "C2286",
+      "x": 500,
+      "y": 400,
+      "rotation": 180,
+      "mirror": false,
+      "designator": "LED901",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    },
+    {
+      "action": "create_net_flag",
+      "key": "5V",
+      "type": "Power",
+      "net": "5V",
+      "x": 150,
+      "y": 400,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "GND",
+      "type": "Ground",
+      "net": "GND",
+      "x": 650,
+      "y": 400,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "w-5V",
+      "net": "5V",
+      "points": [
+        280.0,
+        400.0,
+        150.0,
+        400.0
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "w-LED_A",
+      "net": "LED_A",
+      "points": [
+        320.0,
+        400.0,
+        480.0,
+        400.0
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "w-GND",
+      "net": "GND",
+      "points": [
+        520.0,
+        400.0,
+        650.0,
+        400.0
+      ]
+    }
+  ],
+  "conflicts": [],
+  "dry_run": false,
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "R901",
+        "ok": true,
+        "action": "create_part",
+        "primitive_id": "0a9a0708cb256f34",
+        "designator": "R901",
+        "unique_id": "",
+        "x": 300,
+        "y": 400
+      },
+      {
+        "key": "LED901",
+        "ok": true,
+        "action": "create_part",
+        "primitive_id": "dcd2a560bc3dca0a",
+        "designator": "LED901",
+        "unique_id": "",
+        "x": 500,
+        "y": 400
+      },
+      {
+        "key": "5V",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "0cecc55c4c86a154",
+        "net": "5V"
+      },
+      {
+        "key": "GND",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "687ac00bd4cb3464",
+        "net": "GND"
+      },
+      {
+        "key": "w-5V",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "efe6f3e48f3b4552",
+        "net": "5V",
+        "line": [
+          [
+            150,
+            400,
+            280,
+            400
+          ]
+        ]
+      },
+      {
+        "key": "w-LED_A",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ad3610b11bf3d188",
+        "net": "LED_A",
+        "line": [
+          [
+            480,
+            400,
+            320,
+            400
+          ]
+        ]
+      },
+      {
+        "key": "w-GND",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ffe03ca293db39e0",
+        "net": "GND",
+        "line": [
+          [
+            650,
+            400,
+            520,
+            400
+          ]
+        ]
+      }
+    ]
+  },
+  "after_counts": {
+    "components": 5,
+    "parts": 2,
+    "netflags": 2,
+    "netports": 0,
+    "wires": 3,
+    "attributes": null
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "R901",
+        "op": "part",
+        "status": "create",
+        "designator": "R901",
+        "part": "0603WAF1002T5E",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "R901",
+          "part": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "x": 300,
+          "y": 400,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "LED901",
+        "op": "part",
+        "status": "create",
+        "designator": "LED901",
+        "part": "KT-0603R",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "LED901",
+          "part": "KT-0603R",
+          "supplier_id": "C2286",
+          "x": 500,
+          "y": 400,
+          "rotation": 180
+        }
+      },
+      {
+        "key": "5V",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "at": [
+            150,
+            400
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "GND",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            650,
+            400
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "w-5V",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "found": true
+        }
+      },
+      {
+        "key": "w-LED_A",
+        "op": "wire",
+        "status": "create",
+        "net": "LED_A",
+        "segments": 1,
+        "verification": "verified",
+        "observed": {
+          "net": "LED_A",
+          "segments": 1,
+          "found": true
+        }
+      },
+      {
+        "key": "w-GND",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "found": true
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 5,
+      "wires": 3
+    },
+    "page": {
+      "uuid": "d87f5882486c1b95",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 5,
+    "parts": 2,
+    "netflags": 2,
+    "netports": 0,
+    "wires": 3,
+    "attributes": null
+  }
+}
