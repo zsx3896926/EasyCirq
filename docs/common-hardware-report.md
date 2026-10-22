@@ -83,6 +83,7 @@
 - **USB-C**：P12 把 0.9 A 与 CC 档并列；改为 USB 2.0 500 mA / USB 3.x 900 mA（端口电流）/ Type-C 1.5/3 A（CC 广告）。F09/P12 两套 CC 窗口加版本说明。
 - **选型与索引**：selection 拆分“环境光/反射/对射/磁开关/磁力计/接近”；DM24/PL24 拆环境/光学/惯性；module-cards 蜂鸣器移到 HMI；W05 显示卡补 L 组入口；source-register 修正 PWR-S11/13/14、MCU-S06 列错位。
 - **MCU 调试/复位**：MCU-07 补 STDC14 pin 1/2、13/14；MCU-03 迟滞 6 mV 限定 TPS3808G01；P01 的 Q1 不再用 `Vgs(th)` 证明导通。
+- **五项工程结论复核（追加）**：Boost 谷值限流改为 `(1−D)(ILIM+ΔIL/2)`（TPS61023 SLVSF14B Eq.1）；HX711 补内部稳压/旁路两种供电模式；DS18B20 多点改广播转换（750 ms 一次）并修正 9 位 93.75 ms；风扇 TACH 改 Intel 12 V max 12.6 V 上拉 + 10k/3.3k 分压；继电器改 RL 解并区分线圈衰减与 release/dropout。详见 [rerun/README.md](evidence/common-hardware-2026-10-22/rerun/README.md)。
 
 未修正/仅记录的条目：需要标准正文、具体料号曲线或实物测试的项，保持 `待核实`，没有用竞品参数补齐。
 
