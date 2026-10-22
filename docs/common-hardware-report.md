@@ -113,7 +113,7 @@
 | 来源登记 | DONE | 200 条 `CHW-S`，`test_no_unregistered_source_ids` |
 | C 号/库存纪律 | DONE | `test_no_obvious_fabricated_c_numbers` |
 | 计算复核 | PARTIAL | ADC 建立用 `rc_settle_sim` 重跑；其余算例为手算/脚本复核，未逐一仿真 |
-| 五项工程结论复核 | DONE（离线） | [rerun/README.md](evidence/common-hardware-2026-10-22/rerun/README.md)：Boost 限流、HX711 供电、DS18B20 多点、风扇 TACH、继电器 RL 五项在 `4c9db61` 上重跑；发现的 4 处残留已在 `d97b6f3`/`662a7ab`/`e0710c7` 同步，`260 tests OK` |
+| 五项工程结论复核 | DONE（离线） | [rerun/README.md](evidence/common-hardware-2026-10-22/rerun/README.md)：Boost 限流、HX711 供电、DS18B20 多点、风扇 TACH、继电器 RL 五项在 `4c9db61` 上重跑；复核发现的多处残留已在 `d97b6f3`/`662a7ab`/`e0710c7`/`7c1b886` 同步，`260 tests OK` |
 | 真实 EDA | DONE（连接级） | [S1-NTC-ALARM](evidence/common-hardware-2026-10-22/eda/README.md)：12 器件、网表、save、reopen match、DRC 2 warn |
 | PCB/制造/样机 | NOT RUN | 无 Gerber/BOM/坐标/DFM/打样/SMT/实物 |
 | 全在线 GUI | NOT RUN | CLI 会话恒半离线 |
