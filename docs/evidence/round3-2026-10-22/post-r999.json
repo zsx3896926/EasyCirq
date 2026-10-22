@@ -1,0 +1,2993 @@
+{
+  "ok": true,
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "project": {
+    "uuid": "d7a22030c26995924f412d5f11d89f6b56f20699bbc9413328f83908e5cc61eb",
+    "friendly_name": "round3-fix-apply",
+    "name": "/round3-fix-apply"
+  },
+  "selection": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "page": {
+    "width": 1170,
+    "height": 825,
+    "size": "A4",
+    "title_block_position": "3",
+    "border": "1",
+    "title_block": "1"
+  },
+  "counts": {
+    "components": 61,
+    "parts": 17,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "read_errors": [],
+    "pins_complete": true,
+    "pins_used": 58,
+    "attributes_complete": null,
+    "components_consistent": true,
+    "components_seen": 61,
+    "components_classified": 61
+  },
+  "parts": [
+    {
+      "primitive_id": "84931dadefea5b69",
+      "component_type": "part",
+      "designator": "J101",
+      "name": "={Manufacturer Part}",
+      "x": 120,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge1",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "89371e9c779cde75",
+        "name": "Type-C-16P"
+      },
+      "symbol": {
+        "uuid": "93faf81cdd4d1ad8",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "TYPE-C-16P"
+      },
+      "footprint": {
+        "uuid": "87fb734bd845301f",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "USB-C-SMD_GT-USB-7010E"
+      },
+      "sub_part_name": "TYPE-C-16P.1",
+      "manufacturer": "",
+      "manufacturer_id": "Type-C-16P",
+      "supplier": "LCSC",
+      "supplier_id": "C9900216560",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "Type-C-16P",
+        "Supplier Footprint": "SMD",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "",
+        "Description": ""
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 150,
+          "y": 230,
+          "pinNumber": "3",
+          "pinName": "3",
+          "rotation": 270,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e3",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 140,
+          "y": 380,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 90,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e7",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 150,
+          "y": 380,
+          "pinNumber": "4",
+          "pinName": "4",
+          "rotation": 90,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e11",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 140,
+          "y": 230,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 270,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e15",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 340,
+          "pinNumber": "B8",
+          "pinName": "SBU2",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e19",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 320,
+          "pinNumber": "B7",
+          "pinName": "DN2",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e23",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 290,
+          "pinNumber": "B6",
+          "pinName": "DP2",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e27",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 270,
+          "pinNumber": "B5",
+          "pinName": "CC2",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e31",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 280,
+          "pinNumber": "A8",
+          "pinName": "SBU1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e35",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 300,
+          "pinNumber": "A7",
+          "pinName": "DN1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e39",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 310,
+          "pinNumber": "A6",
+          "pinName": "DP1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e43",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 330,
+          "pinNumber": "A5",
+          "pinName": "CC1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e47",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 250,
+          "pinNumber": "B1A12",
+          "pinName": "GND",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e51",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 260,
+          "pinNumber": "B4A9",
+          "pinName": "VBUS",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e55",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 350,
+          "pinNumber": "A4B9",
+          "pinName": "VBUS",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e59",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 90,
+          "y": 360,
+          "pinNumber": "A1B12",
+          "pinName": "GND",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "84931dadefea5b69-e63",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "6a4f98791d8643a6",
+      "component_type": "part",
+      "designator": "U102",
+      "name": "={Manufacturer Part}",
+      "x": 350,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge2",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "a008b5f0b60e3b68",
+        "name": "AMS1117-3.3"
+      },
+      "symbol": {
+        "uuid": "0f1fe17e8f1461bf",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "AMS1117-3.3_C2891839"
+      },
+      "footprint": {
+        "uuid": "85feb3c2ce3efde3",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "SOT-223-3_L6.5-W3.4-P2.30-LS7.0-BR"
+      },
+      "sub_part_name": "AMS1117-3.3_C2891839.1",
+      "manufacturer": "YONGYUTAI(永裕泰)",
+      "manufacturer_id": "AMS1117-3.3",
+      "supplier": "LCSC",
+      "supplier_id": "C2891839",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "3.3V 1A 18V",
+        "Supplier Footprint": "SOT-223-3",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/AMS1117-3.3/3119758.html",
+        "Output Configuration": "正极",
+        "Voltage - Supply": "18V",
+        "Output Voltage": "3.3V",
+        "Output Current": "1A",
+        "Power Supply Rejection Ratio (PSRR)": "60dB@(120Hz)",
+        "Voltage Dropout": "1.3V@(1A)",
+        "standby current": "10mA",
+        "Noise": "0.005%Vout",
+        "Features": "过流保护；热关断",
+        "Operating Temperature": "-40℃~+125℃@(Tj)",
+        "Output Type": "固定",
+        "Number of Outputs": "1",
+        "Description": "输出极性:正极;工作电压:18V;输出电压:3.3V;输出电流:1A;电源纹波抑制比(PSRR):60dB@(120Hz);输出类型:固定;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 290,
+          "y": 310,
+          "pinNumber": "1",
+          "pinName": "ADJ(GND)",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "6a4f98791d8643a6-e5",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 290,
+          "y": 300,
+          "pinNumber": "2",
+          "pinName": "VOUT",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "6a4f98791d8643a6-e9",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 290,
+          "y": 290,
+          "pinNumber": "3",
+          "pinName": "VIN",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "6a4f98791d8643a6-e13",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 400,
+          "y": 300,
+          "pinNumber": "4",
+          "pinName": "VOUT",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "6a4f98791d8643a6-e17",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "9caf259471fe8fbe",
+      "component_type": "part",
+      "designator": "U101",
+      "name": "={Value}",
+      "x": 620,
+      "y": 420,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge3",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "589a627b596c3f2c",
+        "name": "ESP-01S"
+      },
+      "symbol": {
+        "uuid": "35204cee405a3958",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "ESP-01S_C503582"
+      },
+      "footprint": {
+        "uuid": "e18f56cb314af7d0",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "WIFIM-TH_8P-L24.7-W14.4-P2.54"
+      },
+      "sub_part_name": "ESP-01S_C503582.1",
+      "manufacturer": "Ai-Thinker(安信可)",
+      "manufacturer_id": "ESP-01S",
+      "supplier": "LCSC",
+      "supplier_id": "C503582",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "完整的802.11b/g/nWi-FiSoC模块",
+        "Supplier Footprint": "插件",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/ESP-01S/516229.html",
+        "Utilized IC / Part": "ESP8266芯片",
+        "Wireless Standard": "802.11b/g/n；IP；TCP",
+        "Interface Type": "UART",
+        "Value": "2.4GHz",
+        "Antenna Type": "-",
+        "Output Power": "16dBm",
+        "Voltage - Supply": "3V~3.6V",
+        "Receive  Current": "56mA",
+        "Send  Current": "170mA",
+        "Sensitivity": "-90dBm",
+        "Operating Temperature": "-20℃~+70℃",
+        "Features": "在线OTA",
+        "Description": "核心芯片:ESP8266芯片;频率:2.4GHz;天线形式:-;发射功率:16dBm;接收灵敏度:-90dBm;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 585,
+          "y": 435,
+          "pinNumber": "1",
+          "pinName": "GND",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "9caf259471fe8fbe-e5",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 585,
+          "y": 425,
+          "pinNumber": "2",
+          "pinName": "IO2",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "9caf259471fe8fbe-e9",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 585,
+          "y": 415,
+          "pinNumber": "3",
+          "pinName": "IO0",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "9caf259471fe8fbe-e13",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 585,
+          "y": 405,
+          "pinNumber": "4",
+          "pinName": "RXD",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "9caf259471fe8fbe-e17",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 655,
+          "y": 405,
+          "pinNumber": "5",
+          "pinName": "TXD",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "9caf259471fe8fbe-e21",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 655,
+          "y": 415,
+          "pinNumber": "6",
+          "pinName": "EN",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "9caf259471fe8fbe-e25",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 655,
+          "y": 425,
+          "pinNumber": "7",
+          "pinName": "RST",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "9caf259471fe8fbe-e29",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 655,
+          "y": 435,
+          "pinNumber": "8",
+          "pinName": "VCC",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "9caf259471fe8fbe-e33",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "035a69b4bdf864c2",
+      "component_type": "part",
+      "designator": "R101",
+      "name": "={Value}",
+      "x": 40,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge4",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "c54a7e968901ddcf",
+        "name": "RMC06035.1K1%N"
+      },
+      "symbol": {
+        "uuid": "8190d68faf559d3f",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "RMC06035.1K1%N"
+      },
+      "footprint": {
+        "uuid": "639b574428ec33bd",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "R0603"
+      },
+      "sub_part_name": "RMC06035.1K1%N.1",
+      "manufacturer": "Tyohm(幸亚电阻)",
+      "manufacturer_id": "RMC06035.1K1%N",
+      "supplier": "LCSC",
+      "supplier_id": "C269716",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "厚膜电阻 5.1kΩ ±1% 100mW",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/RMC06035.1K1%2525N/259156.html",
+        "Type": "厚膜电阻",
+        "Value": "5.1kΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "50V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:5.1kΩ;精度:±1%;功率:100mW;工作电压:50V;温度系数:±100ppm/℃;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 60,
+          "y": 380,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "035a69b4bdf864c2-e4",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 20,
+          "y": 380,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "035a69b4bdf864c2-e8",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "68294bcd0484ce63",
+      "component_type": "part",
+      "designator": "R102",
+      "name": "={Value}",
+      "x": 40,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge5",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "c54a7e968901ddcf",
+        "name": "RMC06035.1K1%N"
+      },
+      "symbol": {
+        "uuid": "8190d68faf559d3f",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "RMC06035.1K1%N"
+      },
+      "footprint": {
+        "uuid": "639b574428ec33bd",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "R0603"
+      },
+      "sub_part_name": "RMC06035.1K1%N.1",
+      "manufacturer": "Tyohm(幸亚电阻)",
+      "manufacturer_id": "RMC06035.1K1%N",
+      "supplier": "LCSC",
+      "supplier_id": "C269716",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "厚膜电阻 5.1kΩ ±1% 100mW",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/RMC06035.1K1%2525N/259156.html",
+        "Type": "厚膜电阻",
+        "Value": "5.1kΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "50V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:5.1kΩ;精度:±1%;功率:100mW;工作电压:50V;温度系数:±100ppm/℃;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 60,
+          "y": 300,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "68294bcd0484ce63-e4",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 20,
+          "y": 300,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "68294bcd0484ce63-e8",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "c26543f0253a827f",
+      "component_type": "part",
+      "designator": "C101",
+      "name": "={Manufacturer Part}",
+      "x": 260,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge6",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "25f563636addd4c2",
+        "name": "CAPCER10UF25VX5R0805"
+      },
+      "symbol": {
+        "uuid": "539b0eede1eeec01",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "CAPCER10UF25VX5R0805"
+      },
+      "footprint": {
+        "uuid": "e82b306f4de3ecb6",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "C0805"
+      },
+      "sub_part_name": "CAPCER10UF25VX5R0805.1",
+      "manufacturer": "",
+      "manufacturer_id": "CAPCER10UF25VX5R0805",
+      "supplier": "LCSC",
+      "supplier_id": "C9900012828",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "CAPCER10UF25VX5R0805",
+        "Supplier Footprint": "C0805",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "",
+        "Description": ""
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 270,
+          "y": 220,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "c26543f0253a827f-e5",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 240,
+          "y": 220,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "c26543f0253a827f-e9",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "7f8a1de03b53efcf",
+      "component_type": "part",
+      "designator": "C103",
+      "name": "={Manufacturer Part}",
+      "x": 520,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge8",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "25f563636addd4c2",
+        "name": "CAPCER10UF25VX5R0805"
+      },
+      "symbol": {
+        "uuid": "539b0eede1eeec01",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "CAPCER10UF25VX5R0805"
+      },
+      "footprint": {
+        "uuid": "e82b306f4de3ecb6",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "C0805"
+      },
+      "sub_part_name": "CAPCER10UF25VX5R0805.1",
+      "manufacturer": "",
+      "manufacturer_id": "CAPCER10UF25VX5R0805",
+      "supplier": "LCSC",
+      "supplier_id": "C9900012828",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "CAPCER10UF25VX5R0805",
+        "Supplier Footprint": "C0805",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "",
+        "Description": ""
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 530,
+          "y": 220,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "7f8a1de03b53efcf-e5",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 500,
+          "y": 220,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "7f8a1de03b53efcf-e9",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "0a9968ad6b7a4199",
+      "component_type": "part",
+      "designator": "C102",
+      "name": "={Value}",
+      "x": 430,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge7",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "7e5379ba1fa9b109",
+        "name": "CL10B104KB8NNNC"
+      },
+      "symbol": {
+        "uuid": "afa1b35a9a78bd3e",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "CL10B104KB8NNNC"
+      },
+      "footprint": {
+        "uuid": "862c3d8aba7b7b20",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "C0603"
+      },
+      "sub_part_name": "CL10B104KB8NNNC.1",
+      "manufacturer": "SAMSUNG(三星)",
+      "manufacturer_id": "CL10B104KB8NNNC",
+      "supplier": "LCSC",
+      "supplier_id": "C1591",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "100nF ±10% 50V",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html",
+        "Value": "100nF",
+        "Tolerance": "±10%",
+        "Voltage Rating": "50V",
+        "Temperature Coefficient": "X7R",
+        "Description": "容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 410,
+          "y": 220,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "0a9968ad6b7a4199-e4",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 450,
+          "y": 220,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "0a9968ad6b7a4199-e10",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "0a512d993bf682eb",
+      "component_type": "part",
+      "designator": "R103",
+      "name": "={Value}",
+      "x": 760,
+      "y": 460,
+      "rotation": 180,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge9",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "0e40585460e4e797",
+        "name": "0603WAF1002T5E"
+      },
+      "symbol": {
+        "uuid": "4aaa7e5a4d78ec1c",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "0603WAF1002T5E"
+      },
+      "footprint": {
+        "uuid": "639b574428ec33bd",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "R0603"
+      },
+      "sub_part_name": "0603WAF1002T5E.1",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "manufacturer_id": "0603WAF1002T5E",
+      "supplier": "LCSC",
+      "supplier_id": "C25804",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "厚膜电阻 10kΩ ±1% 100mW",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Basic Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/0603WAF1002T5E/26547.html",
+        "Type": "厚膜电阻",
+        "Value": "10kΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "75V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 740,
+          "y": 460,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "0a512d993bf682eb-e3",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 780,
+          "y": 460,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "0a512d993bf682eb-e7",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "6a8d84a9a9805b67",
+      "component_type": "part",
+      "designator": "R104",
+      "name": "={Value}",
+      "x": 720,
+      "y": 425,
+      "rotation": 180,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge10",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "0e40585460e4e797",
+        "name": "0603WAF1002T5E"
+      },
+      "symbol": {
+        "uuid": "4aaa7e5a4d78ec1c",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "0603WAF1002T5E"
+      },
+      "footprint": {
+        "uuid": "639b574428ec33bd",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "R0603"
+      },
+      "sub_part_name": "0603WAF1002T5E.1",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "manufacturer_id": "0603WAF1002T5E",
+      "supplier": "LCSC",
+      "supplier_id": "C25804",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "厚膜电阻 10kΩ ±1% 100mW",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Basic Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/0603WAF1002T5E/26547.html",
+        "Type": "厚膜电阻",
+        "Value": "10kΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "75V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 700,
+          "y": 425,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "6a8d84a9a9805b67-e3",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 740,
+          "y": 425,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "6a8d84a9a9805b67-e7",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "405206ca1a429e67",
+      "component_type": "part",
+      "designator": "R105",
+      "name": "={Value}",
+      "x": 540,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge11",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "0e40585460e4e797",
+        "name": "0603WAF1002T5E"
+      },
+      "symbol": {
+        "uuid": "4aaa7e5a4d78ec1c",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "0603WAF1002T5E"
+      },
+      "footprint": {
+        "uuid": "639b574428ec33bd",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "R0603"
+      },
+      "sub_part_name": "0603WAF1002T5E.1",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "manufacturer_id": "0603WAF1002T5E",
+      "supplier": "LCSC",
+      "supplier_id": "C25804",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "厚膜电阻 10kΩ ±1% 100mW",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Basic Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/0603WAF1002T5E/26547.html",
+        "Type": "厚膜电阻",
+        "Value": "10kΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "75V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 560,
+          "y": 415,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "405206ca1a429e67-e3",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 520,
+          "y": 415,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "405206ca1a429e67-e7",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "b7b9fec0c52206ab",
+      "component_type": "part",
+      "designator": "R999",
+      "name": "={Value}",
+      "x": 900,
+      "y": 700,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "0e40585460e4e797",
+        "name": "0603WAF1002T5E"
+      },
+      "symbol": {
+        "uuid": "4aaa7e5a4d78ec1c",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "0603WAF1002T5E"
+      },
+      "footprint": {
+        "uuid": "639b574428ec33bd",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "R0603"
+      },
+      "sub_part_name": "0603WAF1002T5E.1",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "manufacturer_id": "0603WAF1002T5E",
+      "supplier": "LCSC",
+      "supplier_id": "C25804",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "厚膜电阻 10kΩ ±1% 100mW",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Basic Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/0603WAF1002T5E/26547.html",
+        "Type": "厚膜电阻",
+        "Value": "10kΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "75V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 920,
+          "y": 700,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "b7b9fec0c52206ab-e3",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 880,
+          "y": 700,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "b7b9fec0c52206ab-e7",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "10f1fb2706eb622f",
+      "component_type": "part",
+      "designator": "R106",
+      "name": "={Value}",
+      "x": 760,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge12",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "d3b251190ffe99f5",
+        "name": "0603WAF1001T5E"
+      },
+      "symbol": {
+        "uuid": "583f11eb59091d87",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "0603WAF1001T5E"
+      },
+      "footprint": {
+        "uuid": "639b574428ec33bd",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "R0603"
+      },
+      "sub_part_name": "0603WAF1001T5E.1",
+      "manufacturer": "UNI-ROYAL(厚声)",
+      "manufacturer_id": "0603WAF1001T5E",
+      "supplier": "LCSC",
+      "supplier_id": "C21190",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "1kΩ ±1% 100mW 厚膜电阻",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Basic Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/0603WAF1001T5E/21904.html",
+        "Type": "厚膜电阻",
+        "Value": "1kΩ",
+        "Tolerance": "±1%",
+        "Power(Watts)": "100mW",
+        "Voltage-Supply(Max)": "75V",
+        "Temperature Coefficient": "±100ppm/℃",
+        "Operating Temperature": "-55℃~+155℃",
+        "Description": "电阻类型:厚膜电阻;阻值:1kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 780,
+          "y": 300,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "10f1fb2706eb622f-e3",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 740,
+          "y": 300,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "IN",
+          "primitiveId": "10f1fb2706eb622f-e7",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "677445fb01de4b0d",
+      "component_type": "part",
+      "designator": "D101",
+      "name": "={Manufacturer Part}",
+      "x": 830,
+      "y": 300,
+      "rotation": 180,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge13",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "11648c5f4d44a216",
+        "name": "KT-0603R"
+      },
+      "symbol": {
+        "uuid": "51322bb41bb63ec6",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "KT-0603R"
+      },
+      "footprint": {
+        "uuid": "bb544c838c780ddc",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "LED-SMD_L1.6-W0.8-R-RD"
+      },
+      "sub_part_name": "KT-0603R.1",
+      "manufacturer": "KENTO",
+      "manufacturer_id": "KT-0603R",
+      "supplier": "LCSC",
+      "supplier_id": "C2286",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "0603 红灯 高亮",
+        "Supplier Footprint": "0603",
+        "JLCPCB Part Class": "Basic Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/KT-0603R/2659.html",
+        "Lamp Holder Type": "1.6mmx0.8mm方形灯头",
+        "Illumination Color": "红色",
+        "Voltage - Forward(Vf)": "1.8V~2.4V",
+        "Power(Watts)": "40mW",
+        "Forward Current": "20mA",
+        "Wavelength - Dominant": "615nm~630nm",
+        "Peak Wavelength": "645nm",
+        "Diode Configuration": "独立二极管",
+        "Lens Color": "无色透明透镜",
+        "Color Temperature": "-",
+        "Luminous Intensity": "300mcd",
+        "Viewing Angle": "120°",
+        "Mounting Style": "-",
+        "Operating Temperature": "-40℃~+85℃",
+        "Description": "灯头类型:1.6mmx0.8mm方形灯头;发光颜色:红色;正向压降(Vf):1.8V~2.4V;功率:40mW;正向电流:20mA;波长:615nm~630nm;二极管配置:独立二极管;透镜颜色:无色透明透镜;色温:-;发光强度:300mcd;发光角度:120°;载带方式:-;工作温度:-40℃~+85℃;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 850,
+          "y": 300,
+          "pinNumber": "2",
+          "pinName": "K",
+          "rotation": 0,
+          "pinLength": 15,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "677445fb01de4b0d-e5",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 810,
+          "y": 300,
+          "pinNumber": "1",
+          "pinName": "A",
+          "rotation": 180,
+          "pinLength": 15,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "677445fb01de4b0d-e11",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "cd1ca31b52802161",
+      "component_type": "part",
+      "designator": "SW101",
+      "name": "={Manufacturer Part}",
+      "x": 720,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge14",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "b3a347ba13d76048",
+        "name": "TS-1088-AR02026"
+      },
+      "symbol": {
+        "uuid": "b9c650589ed306ee",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "TS-1088-AR02026"
+      },
+      "footprint": {
+        "uuid": "86235ede4a10f71b",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "SW-SMD_L3.9-W3.0_TS-1088-AR02026"
+      },
+      "sub_part_name": "TS-1088-AR02026.1",
+      "manufacturer": "XUNPU(讯普)",
+      "manufacturer_id": "TS-1088-AR02026",
+      "supplier": "LCSC",
+      "supplier_id": "C52175904",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "3.9mm*3mm*2mm 12V 50mA",
+        "Supplier Footprint": "SMD,3.9x3mm",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/TS-1088-AR02026/54996849.html",
+        "Circuit": "单刀单掷",
+        "Actuator Style": "圆形按钮",
+        "Operating Force": "2.6N",
+        "Mounting Type": "立贴",
+        "Length": "3.9mm",
+        "Width": "3mm",
+        "Switch Height": "2mm",
+        "Contact Current": "50mA",
+        "Voltage Rating": "12V",
+        "Description": "电路结构:单刀单掷;按钮形状:圆形按钮;作用力:2.6N;安装方式:立贴;开关长度:3.9mm;开关宽度:3mm;开关高度:2mm;触点电流:50mA;额定电压:12V;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 690,
+          "y": 380,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "cd1ca31b52802161-e8",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 750,
+          "y": 380,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "cd1ca31b52802161-e12",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "ae63faba2a6864cc",
+      "component_type": "part",
+      "designator": "SW102",
+      "name": "={Manufacturer Part}",
+      "x": 540,
+      "y": 360,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge15",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "b3a347ba13d76048",
+        "name": "TS-1088-AR02026"
+      },
+      "symbol": {
+        "uuid": "b9c650589ed306ee",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "TS-1088-AR02026"
+      },
+      "footprint": {
+        "uuid": "86235ede4a10f71b",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "SW-SMD_L3.9-W3.0_TS-1088-AR02026"
+      },
+      "sub_part_name": "TS-1088-AR02026.1",
+      "manufacturer": "XUNPU(讯普)",
+      "manufacturer_id": "TS-1088-AR02026",
+      "supplier": "LCSC",
+      "supplier_id": "C52175904",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "3.9mm*3mm*2mm 12V 50mA",
+        "Supplier Footprint": "SMD,3.9x3mm",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/TS-1088-AR02026/54996849.html",
+        "Circuit": "单刀单掷",
+        "Actuator Style": "圆形按钮",
+        "Operating Force": "2.6N",
+        "Mounting Type": "立贴",
+        "Length": "3.9mm",
+        "Width": "3mm",
+        "Switch Height": "2mm",
+        "Contact Current": "50mA",
+        "Voltage Rating": "12V",
+        "Description": "电路结构:单刀单掷;按钮形状:圆形按钮;作用力:2.6N;安装方式:立贴;开关长度:3.9mm;开关宽度:3mm;开关高度:2mm;触点电流:50mA;额定电压:12V;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 510,
+          "y": 360,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "ae63faba2a6864cc-e8",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 570,
+          "y": 360,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 0,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "ae63faba2a6864cc-e12",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    },
+    {
+      "primitive_id": "394f21cb592e5b0d",
+      "component_type": "part",
+      "designator": "J102",
+      "name": "={Manufacturer Part}",
+      "x": 920,
+      "y": 320,
+      "rotation": 0,
+      "mirror": false,
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "unique_id": "gge16",
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "uuid": "da2b129f754ac087",
+        "name": "2.54-1*4P母"
+      },
+      "symbol": {
+        "uuid": "352d09e67d1958e9",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "2.54-1*4P母"
+      },
+      "footprint": {
+        "uuid": "618bfadcf872d4f1",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "HDR-TH_4P-P2.54-V-F"
+      },
+      "sub_part_name": "2.54-1*4P母.1",
+      "manufacturer": "BOOMELE(博穆精密)",
+      "manufacturer_id": "2.54-1*4P母",
+      "supplier": "LCSC",
+      "supplier_id": "C2718488",
+      "other_property": {
+        "PCB Layer": "Default",
+        "LCSC Part Name": "1x4P 间距:2.54mm 直插",
+        "Supplier Footprint": "插件,P=2.54mm",
+        "JLCPCB Part Class": "Extended Part",
+        "Datasheet": "https://item.szlcsc.com/datasheet/2.54-1*4P%25E6%25AF%258D/2834502.html",
+        "Holes Structure": "1x4P",
+        "Pitch": "2.54mm",
+        "Row Spacing": "-",
+        "Circular Hole / Square Hole": "方孔",
+        "Mounting Type": "直插",
+        "Number of Rows": "单排",
+        "Number of Positions": "4P",
+        "Current Rating": "3A",
+        "Voltage Rating (Max)": "-",
+        "Holes Direction": "顶部",
+        "Insulation Height": "8.5mm",
+        "Contact Material": "青铜",
+        "Contact Plating": "金",
+        "Operating Temperature": "-40℃~+105℃",
+        "PIN Length": "3.2mm",
+        "Description": "插孔结构:1x4P;间距:2.54mm;行距:-;圆孔/方孔:方孔;安装方式:直插;排数:单排;总孔位数:4P;额定电流:3A;额定电压:-;插孔方向:顶部;塑高:8.5mm;触头材质:青铜;触头镀层:金;工作温度:-40℃~+105℃;"
+      },
+      "pins": [
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 900,
+          "y": 335,
+          "pinNumber": "1",
+          "pinName": "1",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "394f21cb592e5b0d-e5",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 900,
+          "y": 325,
+          "pinNumber": "2",
+          "pinName": "2",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "394f21cb592e5b0d-e9",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 900,
+          "y": 315,
+          "pinNumber": "3",
+          "pinName": "3",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "394f21cb592e5b0d-e13",
+          "otherProperty": {},
+          "noConnected": false
+        },
+        {
+          "async": true,
+          "primitiveType": "ComponentPin",
+          "x": 900,
+          "y": 305,
+          "pinNumber": "4",
+          "pinName": "4",
+          "rotation": 180,
+          "pinLength": 10,
+          "pinColor": null,
+          "pinShape": "None",
+          "pinType": "Undefined",
+          "primitiveId": "394f21cb592e5b0d-e17",
+          "otherProperty": {},
+          "noConnected": false
+        }
+      ]
+    }
+  ],
+  "netflags": [
+    {
+      "primitive_id": "40543f585f64a26c",
+      "component_type": "netflag",
+      "name": "5V",
+      "net": "5V",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 60,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "c980906e59389d91",
+      "component_type": "netflag",
+      "name": "5V",
+      "net": "5V",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 60,
+      "y": 350,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "17afc95fd7c29b0c",
+      "component_type": "netflag",
+      "name": "5V",
+      "net": "5V",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 220,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "20350323f34b81d6",
+      "component_type": "netflag",
+      "name": "5V",
+      "net": "5V",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 250,
+      "y": 290,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "bb1dafd2c1fade33",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 250,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "5114b45293ec27ff",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 430,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "4ac324d5ea8227c0",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 390,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "de27143f4b7cd30c",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 500,
+      "y": 190,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "e57ed6dc05e77682",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 680,
+      "y": 435,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "54148e9f6d4dc8a9",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 800,
+      "y": 460,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "b58bf3d1423439f5",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 760,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "4278f4dc559bc757",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 500,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "796665db50623051",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 720,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "80cdcd8f3989ebcf",
+      "component_type": "netflag",
+      "name": "3V3",
+      "net": "3V3",
+      "flag_type": "Power",
+      "symbol_name": "Power-5V",
+      "component_name": "Power-5V",
+      "x": 840,
+      "y": 335,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "18c0061320f321b7",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 30,
+      "y": 250,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "c3b73645a8e7160d",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 30,
+      "y": 360,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "194e5d88d54bae97",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 10,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "a380d2e117269cb8",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 10,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "765850816424699e",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 290,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "ea05521f71e9e30f",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 250,
+      "y": 310,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "b0612878e9a6d361",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 470,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "9ccdb3aec0a20cf8",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 550,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "085411f657e903be",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 560,
+      "y": 435,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "ac28347df5c9b3f0",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 770,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "77ea315331003b43",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 590,
+      "y": 360,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "dda9b0b055b70f5e",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 870,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "4f5752fc3d1e2d06",
+      "component_type": "netflag",
+      "name": "GND",
+      "net": "GND",
+      "flag_type": "Ground",
+      "symbol_name": "Ground-GND",
+      "component_name": "Ground-GND",
+      "x": 840,
+      "y": 305,
+      "rotation": 0,
+      "mirror": false
+    }
+  ],
+  "netports": [
+    {
+      "primitive_id": "960727babd8cbb80",
+      "component_type": "netport",
+      "net": "CC1",
+      "name": "CC1",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 30,
+      "y": 330,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "04db9b8ea74e26ac",
+      "component_type": "netport",
+      "net": "CC2",
+      "name": "CC2",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 30,
+      "y": 270,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "29a56eb8eb7d36c7",
+      "component_type": "netport",
+      "net": "CC1",
+      "name": "CC1",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 60,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "04114913b502d3e8",
+      "component_type": "netport",
+      "net": "CC2",
+      "name": "CC2",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 60,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "1042cae56d0b89a2",
+      "component_type": "netport",
+      "net": "EN",
+      "name": "EN",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 740,
+      "y": 460,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "d0dc03f8f7e30405",
+      "component_type": "netport",
+      "net": "EN",
+      "name": "EN",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 655,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "11f9e26c00295e4e",
+      "component_type": "netport",
+      "net": "RST",
+      "name": "RST",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 700,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "ebffb4f56e1db48f",
+      "component_type": "netport",
+      "net": "RST",
+      "name": "RST",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 655,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "5ff0a849714a8df1",
+      "component_type": "netport",
+      "net": "IO0",
+      "name": "IO0",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 560,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "90e0dcf2f855f267",
+      "component_type": "netport",
+      "net": "IO0",
+      "name": "IO0",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 585,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "b6f7c7b75542fd13",
+      "component_type": "netport",
+      "net": "RST",
+      "name": "RST",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 690,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "9ef4bcbe71b063a5",
+      "component_type": "netport",
+      "net": "IO0",
+      "name": "IO0",
+      "direction": "BI",
+      "symbol_name": "Netport-BI",
+      "component_name": "Netport-BI",
+      "x": 510,
+      "y": 360,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "9bf2c7739b22d4e7",
+      "component_type": "netport",
+      "net": "TXD",
+      "name": "TXD",
+      "direction": "OUT",
+      "symbol_name": "Netport-OUT",
+      "component_name": "Netport-OUT",
+      "x": 860,
+      "y": 325,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "9cc1a6dfd924446e",
+      "component_type": "netport",
+      "net": "TXD",
+      "name": "TXD",
+      "direction": "OUT",
+      "symbol_name": "Netport-OUT",
+      "component_name": "Netport-OUT",
+      "x": 655,
+      "y": 405,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "d04c9e534752c905",
+      "component_type": "netport",
+      "net": "RXD",
+      "name": "RXD",
+      "direction": "IN",
+      "symbol_name": "Netport-IN",
+      "component_name": "Netport-IN",
+      "x": 880,
+      "y": 315,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "primitive_id": "ac72859bc80dc265",
+      "component_type": "netport",
+      "net": "RXD",
+      "name": "RXD",
+      "direction": "IN",
+      "symbol_name": "Netport-IN",
+      "component_name": "Netport-IN",
+      "x": 585,
+      "y": 405,
+      "rotation": 0,
+      "mirror": false
+    }
+  ],
+  "unclassified": [
+    {
+      "primitive_id": "3e65656271c635ed",
+      "component_type": "sheet"
+    }
+  ],
+  "wires": [
+    {
+      "primitive_id": "efd5ef4317462646",
+      "net": "5V",
+      "line": [
+        90,
+        260,
+        60,
+        260
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "18f2a381760ec17d",
+      "net": "GND",
+      "line": [
+        90,
+        250,
+        30,
+        250
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "fd66cd07430de4f2",
+      "net": "5V",
+      "line": [
+        90,
+        350,
+        60,
+        350
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "aa5b909f2ff16b22",
+      "net": "GND",
+      "line": [
+        90,
+        360,
+        30,
+        360
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "f500880b3b83d724",
+      "net": "CC1",
+      "line": [
+        90,
+        330,
+        30,
+        330
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "a330241731a1a1ad",
+      "net": "CC2",
+      "line": [
+        90,
+        270,
+        30,
+        270
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "c7a4414aed250306",
+      "net": "CC1",
+      "line": [
+        80,
+        380,
+        60,
+        380
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "7115cf4ecd33c6f5",
+      "net": "GND",
+      "line": [
+        20,
+        380,
+        10,
+        380
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "9d45835e2e38781c",
+      "net": "CC2",
+      "line": [
+        80,
+        300,
+        60,
+        300
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "b75805cade4ebea2",
+      "net": "GND",
+      "line": [
+        20,
+        300,
+        10,
+        300
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "4d4ed58458600dca",
+      "net": "5V",
+      "line": [
+        240,
+        220,
+        220,
+        220
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "70e08327a6eac7db",
+      "net": "GND",
+      "line": [
+        290,
+        220,
+        270,
+        220
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "d9f8c6b0792d3785",
+      "net": "5V",
+      "line": [
+        290,
+        290,
+        250,
+        290
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "72031477d8871538",
+      "net": "3V3",
+      "line": [
+        290,
+        300,
+        250,
+        300
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "e569946177d473cd",
+      "net": "GND",
+      "line": [
+        290,
+        310,
+        250,
+        310
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "1665060f71025135",
+      "net": "3V3",
+      "line": [
+        430,
+        300,
+        400,
+        300
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "b7544d62014087e5",
+      "net": "3V3",
+      "line": [
+        410,
+        220,
+        390,
+        220
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "93e050c47a78b8a6",
+      "net": "GND",
+      "line": [
+        470,
+        220,
+        450,
+        220
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "0b53f38272506d50",
+      "net": "3V3",
+      "line": [
+        500,
+        220,
+        500,
+        190
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "8ec0f5c503395a56",
+      "net": "GND",
+      "line": [
+        550,
+        220,
+        530,
+        220
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "132dbd5e794f45bb",
+      "net": "3V3",
+      "line": [
+        680,
+        435,
+        655,
+        435
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "3de7769321e53369",
+      "net": "GND",
+      "line": [
+        585,
+        435,
+        560,
+        435
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "d9363f0f19ae22ca",
+      "net": "3V3",
+      "line": [
+        800,
+        460,
+        780,
+        460
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "5302938a0e71a961",
+      "net": "",
+      "line": [
+        740,
+        460,
+        740,
+        460
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "ad8d2bf0f8b2d8fa",
+      "net": "",
+      "line": [
+        655,
+        415,
+        655,
+        415
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "f9bff1f520b501e0",
+      "net": "3V3",
+      "line": [
+        760,
+        425,
+        740,
+        425
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "c58691f3c7833c6f",
+      "net": "",
+      "line": [
+        700,
+        425,
+        700,
+        425
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "d41b2fc77f5611ea",
+      "net": "",
+      "line": [
+        655,
+        425,
+        655,
+        425
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "d575bda0357eba90",
+      "net": "3V3",
+      "line": [
+        520,
+        415,
+        500,
+        415
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "615df589ba9a6026",
+      "net": "",
+      "line": [
+        560,
+        415,
+        560,
+        415
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "1920721cdd7bbe3f",
+      "net": "",
+      "line": [
+        585,
+        415,
+        585,
+        415
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "f04701dd38eba68e",
+      "net": "",
+      "line": [
+        690,
+        380,
+        690,
+        380
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "621968a8fec33443",
+      "net": "GND",
+      "line": [
+        770,
+        380,
+        750,
+        380
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "b6a7b13bb3da4203",
+      "net": "",
+      "line": [
+        510,
+        360,
+        510,
+        360
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "827559cd64e5445e",
+      "net": "GND",
+      "line": [
+        590,
+        360,
+        570,
+        360
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "f08f6d6910368c05",
+      "net": "3V3",
+      "line": [
+        740,
+        300,
+        720,
+        300
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "d88d3513e6868f38",
+      "net": "LED_A",
+      "line": [
+        810,
+        300,
+        780,
+        300
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "cf0a3a019d46ea91",
+      "net": "GND",
+      "line": [
+        870,
+        300,
+        850,
+        300
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "138d10952dd7efe3",
+      "net": "3V3",
+      "line": [
+        900,
+        335,
+        840,
+        335
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "0a8fc9a4a8730c40",
+      "net": "TXD",
+      "line": [
+        900,
+        325,
+        860,
+        325
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "ee52086b2574fb82",
+      "net": "RXD",
+      "line": [
+        900,
+        315,
+        880,
+        315
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "7b0ae1eb1ba64973",
+      "net": "GND",
+      "line": [
+        900,
+        305,
+        840,
+        305
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "950ed48c9d0790c0",
+      "net": "",
+      "line": [
+        655,
+        405,
+        655,
+        405
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    },
+    {
+      "primitive_id": "422c8c228e6f4b9e",
+      "net": "",
+      "line": [
+        585,
+        405,
+        585,
+        405
+      ],
+      "color": null,
+      "line_width": null,
+      "line_type": null
+    }
+  ],
+  "attributes": [],
+  "coverage": {
+    "pins_complete": true,
+    "pins_used": 58,
+    "attributes_included": false,
+    "attributes_complete": null,
+    "read_errors": 0,
+    "not_checked": [
+      "netlist pin-net equivalence until getNetlistFile is parsed",
+      "PCB binding/placement",
+      "DRC",
+      "saved state and reopen persistence",
+      "user edits made after this snapshot"
+    ]
+  }
+}
