@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B 包 v5（最终交付）：v4 实验证明（1）修改 Manufacturer Part 会触发 ATTRMATCHCODE 并改变 BOM 身份字段，撤销；（2）搬迁端口会与零长度退化导线合并产生新的 ONENETNAME 双名记录，撤销。v5 只做三件经真机验证无回归的事：删除两条 ONENETNAME 折线（随后 A2 重建）、删除孤立错误电源符、写入 DRAFT 与未用脚注记。",
+  "operations": [
+    {
+      "op": "delete",
+      "key": "del-onenetname-1",
+      "target": {"kind": "wire", "primitive_id": "49fae01dc70fc99a", "expected": {"net": "GND"}}
+    },
+    {
+      "op": "delete",
+      "key": "del-onenetname-2",
+      "target": {"kind": "wire", "primitive_id": "257ae6235df06193", "expected": {"net": "GND"}}
+    },
+    {
+      "op": "delete",
+      "key": "del-isolated-3v3-flag",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "027ca788bcdee892",
+        "expected": {"name": "3V3", "x": 600, "y": 620}
+      }
+    },
+    {
+      "op": "text",
+      "key": "draft-marker",
+      "at": [300, 200],
+      "content": "DRAFT",
+      "rotation": 0,
+      "font_size": 40
+    },
+    {
+      "op": "text",
+      "key": "j101-unused-note",
+      "at": [60, 75],
+      "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained",
+      "rotation": 0,
+      "font_size": 12
+    }
+  ]
+}

@@ -1,0 +1,100 @@
+{
+  "status": "checked",
+  "drc": {
+    "ok": true,
+    "strict": true,
+    "result": [
+      {
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "net": "IO2、IO2",
+        "primitives": [
+          {
+            "primitiveId": "ada5c0e5da45fbf2",
+            "sheet": "f6d41a58df3fa849",
+            "name": "$1N111"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "ATTRMATCHCODE",
+        "primitives": [
+          {
+            "primitiveId": "c26543f0253a827f",
+            "sheet": "f6d41a58df3fa849",
+            "name": "C101($1I7)"
+          },
+          {
+            "primitiveId": "87e5af8567392818",
+            "sheet": "f6d41a58df3fa849",
+            "name": "C106($1I65)"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "CHECKFLOATPIN",
+        "primitives": [
+          {
+            "primitiveId": "84931dadefea5b69-e19",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e23",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e27",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B6"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e35",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e39",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e43",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A6"
+          }
+        ]
+      }
+    ],
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C"
+    }
+  },
+  "session": {
+    "sessionId": "00239979-ad95-4e1d-a1bf-c1146daae795",
+    "origin": "cli",
+    "owned": true
+  },
+  "summary": "violations_reported",
+  "violation_count": 3,
+  "by_type": {
+    "warn": 3
+  },
+  "by_rule": {
+    "ONENETNAME": 1,
+    "ATTRMATCHCODE": 1,
+    "CHECKFLOATPIN": 1
+  }
+}

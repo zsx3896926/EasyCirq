@@ -1,0 +1,958 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/f1-b-2026-10-22/plan-v4-b.json",
+  "session": {
+    "sessionId": "7cdd7299-5604-4c09-b013-23650609fc1e",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 78,
+    "parts": 21,
+    "netflags": 36,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "stub-txd",
+      "op": "wire",
+      "status": "create",
+      "net": "TXD",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "stub-en",
+      "op": "wire",
+      "status": "create",
+      "net": "EN",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "stub-rst",
+      "op": "wire",
+      "status": "create",
+      "net": "RST",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "stub-io0",
+      "op": "wire",
+      "status": "create",
+      "net": "IO0",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "stub-io2",
+      "op": "wire",
+      "status": "create",
+      "net": "IO2",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "del-port-txd",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "6775adf45d6d9f1d",
+      "expected": {
+        "net": "TXD",
+        "direction": "OUT",
+        "x": 455,
+        "y": 360
+      }
+    },
+    {
+      "key": "del-port-en",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "94d4ec23aa28fb9e",
+      "expected": {
+        "net": "EN",
+        "direction": "BI",
+        "x": 455,
+        "y": 370
+      }
+    },
+    {
+      "key": "del-port-rst",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "92e9e10f6c986dce",
+      "expected": {
+        "net": "RST",
+        "direction": "BI",
+        "x": 455,
+        "y": 380
+      }
+    },
+    {
+      "key": "del-port-io0",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "dd97fccb3155f62c",
+      "expected": {
+        "net": "IO0",
+        "direction": "BI",
+        "x": 385,
+        "y": 370
+      }
+    },
+    {
+      "key": "del-port-io2",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "a29e27b24519fc45",
+      "expected": {
+        "net": "IO2",
+        "direction": "BI",
+        "x": 365,
+        "y": 380
+      }
+    },
+    {
+      "key": "new-port-txd",
+      "op": "net_port",
+      "status": "create",
+      "net": "TXD"
+    },
+    {
+      "key": "new-port-en",
+      "op": "net_port",
+      "status": "create",
+      "net": "EN"
+    },
+    {
+      "key": "new-port-rst",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "new-port-io0",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    },
+    {
+      "key": "new-port-io2",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO2"
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_wire",
+      "key": "stub-txd#0",
+      "net": "TXD",
+      "points": [
+        455.0,
+        360.0,
+        525.0,
+        360.0
+      ],
+      "segments": [
+        [
+          455.0,
+          360.0,
+          525.0,
+          360.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "stub-en#0",
+      "net": "EN",
+      "points": [
+        455.0,
+        370.0,
+        555.0,
+        370.0
+      ],
+      "segments": [
+        [
+          455.0,
+          370.0,
+          555.0,
+          370.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "stub-rst#0",
+      "net": "RST",
+      "points": [
+        455.0,
+        380.0,
+        585.0,
+        380.0
+      ],
+      "segments": [
+        [
+          455.0,
+          380.0,
+          585.0,
+          380.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "stub-io0#0",
+      "net": "IO0",
+      "points": [
+        315.0,
+        370.0,
+        385.0,
+        370.0
+      ],
+      "segments": [
+        [
+          315.0,
+          370.0,
+          385.0,
+          370.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "stub-io2#0",
+      "net": "IO2",
+      "points": [
+        285.0,
+        380.0,
+        365.0,
+        380.0
+      ],
+      "segments": [
+        [
+          285.0,
+          380.0,
+          365.0,
+          380.0
+        ]
+      ]
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-txd",
+      "kind": "net_port",
+      "primitive_id": "6775adf45d6d9f1d",
+      "expected": {
+        "net": "TXD",
+        "direction": "OUT",
+        "x": 455,
+        "y": 360
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-en",
+      "kind": "net_port",
+      "primitive_id": "94d4ec23aa28fb9e",
+      "expected": {
+        "net": "EN",
+        "direction": "BI",
+        "x": 455,
+        "y": 370
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-rst",
+      "kind": "net_port",
+      "primitive_id": "92e9e10f6c986dce",
+      "expected": {
+        "net": "RST",
+        "direction": "BI",
+        "x": 455,
+        "y": 380
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-io0",
+      "kind": "net_port",
+      "primitive_id": "dd97fccb3155f62c",
+      "expected": {
+        "net": "IO0",
+        "direction": "BI",
+        "x": 385,
+        "y": 370
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-io2",
+      "kind": "net_port",
+      "primitive_id": "a29e27b24519fc45",
+      "expected": {
+        "net": "IO2",
+        "direction": "BI",
+        "x": 365,
+        "y": 380
+      }
+    },
+    {
+      "action": "create_net_port",
+      "key": "new-port-txd",
+      "direction": "OUT",
+      "net": "TXD",
+      "x": 525,
+      "y": 360,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "new-port-en",
+      "direction": "BI",
+      "net": "EN",
+      "x": 555,
+      "y": 370,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "new-port-rst",
+      "direction": "BI",
+      "net": "RST",
+      "x": 585,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "new-port-io0",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 315,
+      "y": 370,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "new-port-io2",
+      "direction": "BI",
+      "net": "IO2",
+      "x": 285,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "stub-txd#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "828eee545775730f",
+        "net": "TXD",
+        "line": [
+          [
+            525,
+            360,
+            455,
+            360
+          ]
+        ]
+      },
+      {
+        "key": "stub-en#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "68454c6c83790792",
+        "net": "EN",
+        "line": [
+          [
+            555,
+            370,
+            455,
+            370
+          ]
+        ]
+      },
+      {
+        "key": "stub-rst#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "73ff5a9309e619d8",
+        "net": "RST",
+        "line": [
+          [
+            585,
+            380,
+            455,
+            380
+          ]
+        ]
+      },
+      {
+        "key": "stub-io0#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "4102193e6d7f3ae6",
+        "net": "IO0",
+        "line": [
+          [
+            385,
+            370,
+            315,
+            370
+          ]
+        ]
+      },
+      {
+        "key": "stub-io2#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ada5c0e5da45fbf2",
+        "net": "IO2",
+        "line": [
+          [
+            385,
+            380,
+            365,
+            380
+          ],
+          [
+            365,
+            380,
+            285,
+            380
+          ]
+        ]
+      },
+      {
+        "key": "del-port-txd",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "6775adf45d6d9f1d",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-en",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "94d4ec23aa28fb9e",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-rst",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "92e9e10f6c986dce",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-io0",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "dd97fccb3155f62c",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-io2",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "a29e27b24519fc45",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "new-port-txd",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "762e82df292c46aa",
+        "expected": {
+          "direction": "OUT",
+          "net": "TXD"
+        },
+        "observed": {
+          "x": 525,
+          "y": 360,
+          "rotation": 0,
+          "mirror": false,
+          "name": "TXD"
+        }
+      },
+      {
+        "key": "new-port-en",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "dc4365f92c55f6fe",
+        "expected": {
+          "direction": "BI",
+          "net": "EN"
+        },
+        "observed": {
+          "x": 555,
+          "y": 370,
+          "rotation": 0,
+          "mirror": false,
+          "name": "EN"
+        }
+      },
+      {
+        "key": "new-port-rst",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "ba24ba66d21ce5e2",
+        "expected": {
+          "direction": "BI",
+          "net": "RST"
+        },
+        "observed": {
+          "x": 585,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false,
+          "name": "RST"
+        }
+      },
+      {
+        "key": "new-port-io0",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "9d50ba64fc3a1c12",
+        "expected": {
+          "direction": "BI",
+          "net": "IO0"
+        },
+        "observed": {
+          "x": 315,
+          "y": 370,
+          "rotation": 0,
+          "mirror": false,
+          "name": "IO0"
+        }
+      },
+      {
+        "key": "new-port-io2",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "329147eeb3fc8fa0",
+        "expected": {
+          "direction": "BI",
+          "net": "IO2"
+        },
+        "observed": {
+          "x": 285,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false,
+          "name": "IO2"
+        }
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "bc7579b4ed68d05eb9804c65e677c358594ebf83e67bfbb7288d6fbd5d8daa60",
+      "friendly_name": "f1-b-v4",
+      "name": "/f1-b-v4"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 78,
+    "parts": 21,
+    "netflags": 36,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "stub-txd",
+        "op": "wire",
+        "status": "create",
+        "net": "TXD",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "TXD",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "stub-en",
+        "op": "wire",
+        "status": "create",
+        "net": "EN",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "EN",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "stub-rst",
+        "op": "wire",
+        "status": "create",
+        "net": "RST",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "stub-io0",
+        "op": "wire",
+        "status": "create",
+        "net": "IO0",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "stub-io2",
+        "op": "wire",
+        "status": "create",
+        "net": "IO2",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "IO2",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "del-port-txd",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "6775adf45d6d9f1d",
+        "expected": {
+          "net": "TXD",
+          "direction": "OUT",
+          "x": 455,
+          "y": 360
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "6775adf45d6d9f1d",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-en",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "94d4ec23aa28fb9e",
+        "expected": {
+          "net": "EN",
+          "direction": "BI",
+          "x": 455,
+          "y": 370
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "94d4ec23aa28fb9e",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-rst",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "92e9e10f6c986dce",
+        "expected": {
+          "net": "RST",
+          "direction": "BI",
+          "x": 455,
+          "y": 380
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "92e9e10f6c986dce",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-io0",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "dd97fccb3155f62c",
+        "expected": {
+          "net": "IO0",
+          "direction": "BI",
+          "x": 385,
+          "y": 370
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "dd97fccb3155f62c",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-io2",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "a29e27b24519fc45",
+        "expected": {
+          "net": "IO2",
+          "direction": "BI",
+          "x": 365,
+          "y": 380
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "a29e27b24519fc45",
+          "still_present": false
+        }
+      },
+      {
+        "key": "new-port-txd",
+        "op": "net_port",
+        "status": "create",
+        "net": "TXD",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "OUT",
+            "net": "TXD",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "OUT",
+            "net": "TXD",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "new-port-en",
+        "op": "net_port",
+        "status": "create",
+        "net": "EN",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "EN",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "EN",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "new-port-rst",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "new-port-io0",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "IO0",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "IO0",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "new-port-io2",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO2",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "IO2",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "IO2",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 78,
+      "wires": 57
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 78,
+    "parts": 21,
+    "netflags": 36,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}
