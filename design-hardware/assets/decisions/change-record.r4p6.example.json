@@ -1,0 +1,99 @@
+{
+  "change_id": "ECO-P02-V1.1",
+  "title": "P02 V1 非隔离到 V1.1 的四类改型纸面影响",
+  "date": "2026-10-22",
+  "status": "draft",
+  "baseline": {
+    "product_baseline": "P02 V1 非隔离（离线规划；25 块为计划数量，不是出货批次）",
+    "eda_baseline": "F1",
+    "eda_baseline_level": "E1",
+    "eda_rerun_this_round": false,
+    "role": "baseline_only"
+  },
+  "changes": [
+    {
+      "change_id": "CHG-01",
+      "scenario": "shunt-change",
+      "level": 2,
+      "from": "100 Ω 分流",
+      "to": "50 Ω + 增益 2（待选型）",
+      "reason": "合规裕量与量程重算",
+      "status": "planned",
+      "bom_delta": {
+        "status": "planned",
+        "note": "分流与增益网络按新量程重算；MPN 与 C 号待查",
+        "items": [
+          {"ref": "R_SHUNT", "old": "100 Ω、0.1%、2512（MPN 待查）", "new": "50 Ω（MPN 待查）", "qty": 2, "dnp": "no", "reason": "量程与合规裕量重算"},
+          {"ref": "待查（增益电阻）", "old": "增益 1（阻值待查）", "new": "增益 2（阻值待查）", "qty": "待查", "dnp": "no", "reason": "配合 50 Ω 分流恢复满量程"}
+        ]
+      }
+    },
+    {
+      "change_id": "CHG-02",
+      "scenario": "mcu-package-change",
+      "level": 3,
+      "from": "STM32F4 类（后缀/封装待定）",
+      "to": "待查",
+      "reason": "封装与引脚变化",
+      "status": "planned",
+      "bom_delta": {
+        "status": "planned",
+        "note": "只确认封装变化方向；目标 MPN 与引脚映射待查",
+        "items": [
+          {"ref": "U5", "old": "STM32F4 类（后缀/封装待查）", "new": "待查", "qty": 1, "dnp": "no", "reason": "封装/引脚变化，需重画符号与封装并重映射固件"}
+        ]
+      }
+    },
+    {
+      "change_id": "CHG-03",
+      "scenario": "isolation-add",
+      "level": 3,
+      "from": "V1 非隔离",
+      "to": "V2 隔离（数字隔离器 + 隔离 DC/DC）",
+      "reason": "现场共模与隔离需求",
+      "status": "planned",
+      "bom_delta": {
+        "status": "planned",
+        "note": "隔离器与隔离电源 MPN、耐压等级、封装均待查",
+        "items": [
+          {"ref": "待查（新增隔离器）", "old": "无", "new": "数字隔离器（MPN 待查）", "qty": "待查", "dnp": "no", "reason": "隔离侧数字信号"},
+          {"ref": "待查（新增隔离 DC/DC）", "old": "无", "new": "隔离 DC/DC（MPN 待查）", "qty": "待查", "dnp": "no", "reason": "隔离侧供电"},
+          {"ref": "U4", "old": "3.3 V 半双工收发器（MPN 待查）", "new": "隔离侧收发器（MPN 待查）", "qty": 1, "dnp": "待查", "reason": "隔离侧重选"}
+        ]
+      }
+    },
+    {
+      "change_id": "CHG-04",
+      "scenario": "layout-only",
+      "level": "local-only",
+      "from": "V1 布局草案",
+      "to": "V1.1 重排（网表不变）",
+      "reason": "图面与装配优化",
+      "status": "planned",
+      "bom_delta": {
+        "status": "unchanged",
+        "note": "BOM 不变，CPL/坐标变化，NOT RUN",
+        "items": []
+      }
+    }
+  ],
+  "affected_artifacts": [
+    {"artifact": "schematic", "ref": "P02 V1 SCH（未导出）", "state": "invalidated", "reason": "CHG-01/02/03/04"},
+    {"artifact": "pcb", "ref": "P02 V1 PCB（未设计）", "state": "invalidated", "reason": "CHG-02/03/04"},
+    {"artifact": "bom", "ref": "P02 V1 BOM（未导出）", "state": "invalidated", "reason": "CHG-01/02/03"},
+    {"artifact": "firmware", "ref": "P02 V1 固件草案", "state": "invalidated", "reason": "增益与 iso=0 到 iso=1 配置"},
+    {"artifact": "enclosure", "ref": "导轨壳草案", "state": "unchanged", "reason": "四类场景未改接口位置或高度；PCB 定稿后复核"},
+    {"artifact": "certification", "ref": "无", "state": "not_applicable", "reason": "当前无认证持有"}
+  ],
+  "netlist_diff": {"status": "NOT RUN", "evidence": "无 after 快照或网表导出"},
+  "batch_scope": {"mode": "not_applicable", "detail": "无出货批次/序列号记录；25 块为计划数量", "effective_from": "待查", "effective_to": "待查"},
+  "verification": [
+    {"check": "换分流后误差与合规重算", "scope": "CHG-01", "result": "NOT RUN", "evidence_level": "E3", "evidence": ""},
+    {"check": "换 MCU 封装后引脚与固件映射", "scope": "CHG-02", "result": "NOT RUN", "evidence_level": "E3", "evidence": ""},
+    {"check": "隔离耐压、共模与爬电", "scope": "CHG-03", "result": "NOT RUN", "evidence_level": "E3", "evidence": ""},
+    {"check": "纯重排 after 网表 diff", "scope": "CHG-04", "result": "NOT RUN", "evidence_level": "E3", "evidence": ""}
+  ],
+  "rollback": {"plan": "V1.1 未执行；保留 V1 生产快照作为回退基线", "disposition": "not_applicable", "reason": "无在制或出货批次"},
+  "approvals": {"engineering": "待查", "manufacturing": "待查", "quality": "待查"},
+  "revision_verified": false
+}

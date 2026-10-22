@@ -218,6 +218,7 @@ F1 示例有 16 个真实库器件及网表证据，但图面仍需优化。当�
 - [工程资料、工具与验证记录](docs/readme-technical.md)
 - [原理图排版与看图验收](design-hardware/references/schematic-layout.md)
 - [设计卡库](design-hardware/references/design-cards/README.md)与[工程深潜](design-hardware/references/engineering-deepdives/README.md)
+- [工程设计决策库](design-hardware/references/decisions/README.md)：架构取舍、引脚/状态/接口、容差与实验、线束/变体、校准/变更/复用与资产有效性
 - [立创商城选型与配单](design-hardware/references/lcsc-sourcing.md)
 - [嘉立创 PCB / SMT 生产规则](design-hardware/references/jlc-production.md)
 - [想法到实物](design-hardware/references/idea-to-product.md)与[程序联调](design-hardware/references/firmware-bringup.md)

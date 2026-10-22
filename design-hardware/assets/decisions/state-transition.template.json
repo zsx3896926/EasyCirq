@@ -1,0 +1,42 @@
+{
+  "_note": "Agent 填写，用户不填；未知写“待查”，不要删除字段。",
+  "schema": "state-transition/v1",
+  "project": "（项目/板名）",
+  "revision": "待查",
+  "axes": {
+    "product_state": ["powered_off", "por", "boot", "run", "sleep", "debug_halt", "fault_recovery", "upgrade"],
+    "supply_condition": ["no_supply", "battery_only", "usb_only", "usb_and_battery"],
+    "reset_cause": ["por", "wdt", "brownout", "comm_loss", "debug_reset", "unknown", "not_applicable"]
+  },
+  "states": [
+    {"id": "ST-（状态 ID）", "product_state": "待查", "supply_condition": "待查", "reset_cause": "待查", "entry": "（进入条件与谁拉哪根线）", "exit": "（离开条件）", "completion": "（可观测完成判据）"}
+  ],
+  "transitions": [
+    {"id": "TR-（转换 ID）", "from": "ST-（来源）", "to": "ST-（目标）", "trigger": "（事件/阈值/超时）", "supply_change": "（哪条供电路径变化，先断/后断）", "control": "（谁在何时拉哪根线）", "load_state": "（转换前后负载与总线）", "completion": "（可观测完成判据）", "abort": "（失败/超时/掉电回退）"}
+  ],
+  "power_on_reset": {
+    "por_threshold": "待查",
+    "hold_time": "待查",
+    "bus_release": "待查",
+    "peer_not_driving": "待查"
+  },
+  "partial_power": [
+    {"scenario": "（场景）", "powered": ["（有电轨）"], "unpowered": ["（无电轨）"], "path": "（电流从哪到哪）", "disposition": "待查"}
+  ],
+  "reverse_feed": [
+    {"path": "（路径）", "when": "（何时发生）", "symptom": "（症状）", "disposition": "待查"}
+  ],
+  "state_interface_matrix": [
+    {"state": "ST-（状态 ID）", "interfaces": {"（网络）": "（电平/高阻/供电/释放时刻）"}}
+  ],
+  "upgrade": {
+    "applicable": "待查",
+    "reason": "（有/无 OTA 平台证据的理由）",
+    "platform_evidence": "待查",
+    "acceptance": "NOT RUN",
+    "coverage": "（PARTIAL 或 none）"
+  },
+  "unresolved": [
+    {"item": "（未知项）", "why": "（影响哪个决定）", "owner": "（谁补）", "stop_before": "（缺它不得进入哪一步）"}
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "_note": "Agent 填写，用户不填；未知写“待查”，不要删除字段。",
+  "schema": "interface-contract/v1",
+  "project": "（项目/整机名）",
+  "revision": "待查",
+  "connectors": [
+    {"ref": "J1", "mpn": "待查", "pin_count": "待查", "mating_part": "待查", "crimp_tool": "待查", "view": "待查"}
+  ],
+  "interfaces": [
+    {
+      "id": "IF-（网络名）",
+      "connector": "J1",
+      "connector_pin": "（脚号）",
+      "net": "（网络名）",
+      "domain": "（电压域）",
+      "direction": "A->B|B->A|bidirectional|power|ground|none",
+      "drive": "push-pull|open-drain|power|none|unknown",
+      "drivers": ["（器件.脚）"],
+      "receivers": ["（器件.脚）"],
+      "multi_driver": false,
+      "arbitration": "not_applicable|（仲裁方式）|待查",
+      "thresholds": {"voh_min": "待查", "vih_max": "待查", "vol_max": "待查", "vil_min": "待查", "absolute_max": "待查"},
+      "leakage": "待查",
+      "load": "待查",
+      "supply_state": "（哪条轨供电/是否可关断）",
+      "switchable": false,
+      "off_behavior": "not_applicable|（关断后电平/阻抗与对端义务）",
+      "owners": ["（上拉/方向/电源所有者）"],
+      "state_behavior": {"A_reset": "待查", "B_reset": "待查", "A_off": "待查", "B_off": "待查"},
+      "peer_obligations": ["（对端必须做什么）"],
+      "hotplug": {"user_accessible": false, "mating_sequence": "not_applicable|（地/电源/信号先后）"},
+      "verification": "NOT RUN",
+      "firmware": "待查",
+      "change_triggers": ["（换料/改版/变体）"],
+      "basis": "（path:start-end 或来源 ID）",
+      "stale": false
+    }
+  ],
+  "unresolved": [
+    {"item": "（未知项）", "why": "（影响哪个决定）", "owner": "（谁补）", "stop_before": "（缺它不得进入哪一步）"}
+  ]
+}

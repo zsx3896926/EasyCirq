@@ -1,0 +1,49 @@
+{
+  "_note": "R4-P1 第二串口/前面板按键/状态灯/I2C 传感器的已知信息；pins 只列已确认存在的逻辑脚，resources 只列最终分配，A02 拒绝或延期的候选写 candidates。物理脚、pinmux、ADC 通道与封装 NC 未核对。",
+  "schema": "pin-plan/v1",
+  "board": "R4-P1 多外设主控板（P01 派生）",
+  "mcu": {
+    "mpn": "ESP32-C3-MINI-1",
+    "package": "待查",
+    "package_pins": [],
+    "bank_voltages": {}
+  },
+  "pins": [
+    {"physical_pin": "待查", "logical": "EN", "usage": "CHIP_EN", "direction": "input", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "low", "boot_sample": false, "strap": false, "debug": false, "analog_used": false, "package_bonded": "待查", "note": "P01:268"},
+    {"physical_pin": "待查", "logical": "GPIO9", "usage": "BOOT", "direction": "input", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "high", "boot_sample": true, "strap": true, "debug": false, "analog_used": false, "package_bonded": "待查", "note": "P01:269、P01:393"},
+    {"physical_pin": "待查", "logical": "GPIO4", "usage": "I2C_SDA", "direction": "bidirectional", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "hiz", "boot_sample": false, "strap": false, "debug": false, "analog_used": false, "package_bonded": "待查", "note": "P01:271、P01:387"},
+    {"physical_pin": "待查", "logical": "GPIO5", "usage": "I2C_SCL", "direction": "bidirectional", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "hiz", "boot_sample": false, "strap": false, "debug": false, "analog_used": false, "package_bonded": "待查", "note": "P01:271、P01:387"},
+    {"physical_pin": "待查", "logical": "GPIO0", "usage": "ADC_VBAT", "direction": "input", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "hiz", "boot_sample": false, "strap": false, "debug": false, "analog_used": true, "package_bonded": "待查", "note": "P01:272、P01:388"},
+    {"physical_pin": "待查", "logical": "GPIO10", "usage": "VBAT_SW", "direction": "output", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "high", "boot_sample": false, "strap": false, "debug": false, "analog_used": false, "package_bonded": "待查", "note": "P01:273、P01:389"},
+    {"physical_pin": "待查", "logical": "GPIO1", "usage": "PGOOD", "direction": "input", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "hiz", "boot_sample": false, "strap": false, "debug": false, "analog_used": false, "package_bonded": "待查", "note": "P01:264、P01:390"},
+    {"physical_pin": "待查", "logical": "U0TXD", "usage": "DEBUG_UART_TX", "direction": "output", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "high", "boot_sample": false, "strap": false, "debug": true, "analog_used": false, "package_bonded": "待查", "note": "P01:270、P01:394"},
+    {"physical_pin": "待查", "logical": "U0RXD", "usage": "DEBUG_UART_RX", "direction": "input", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "hiz", "boot_sample": false, "strap": false, "debug": true, "analog_used": false, "package_bonded": "待查", "note": "P01:270、P01:394"},
+    {"physical_pin": "待查", "logical": "GPIO18", "usage": "USB_DN", "direction": "bidirectional", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "hiz", "boot_sample": false, "strap": false, "debug": false, "analog_used": false, "package_bonded": "待查", "note": "P01:274、P01:395"},
+    {"physical_pin": "待查", "logical": "GPIO19", "usage": "USB_DP", "direction": "bidirectional", "voltage_domain": "3.3V", "bank": "待查", "reset_state": "hiz", "boot_sample": false, "strap": false, "debug": false, "analog_used": false, "package_bonded": "待查", "note": "P01:274、P01:395"}
+  ],
+  "resources": [
+    {"id": "I2C_SDA", "kind": "i2c", "pin": "GPIO4", "note": "P01:271；最终分配"},
+    {"id": "I2C_SCL", "kind": "i2c", "pin": "GPIO5", "note": "P01:271；最终分配"},
+    {"id": "ADC_VBAT", "kind": "adc", "pin": "GPIO0", "note": "P01:272；最终分配"},
+    {"id": "VBAT_SW", "kind": "gpio", "pin": "GPIO10", "note": "P01:273；最终分配"},
+    {"id": "PGOOD", "kind": "gpio", "pin": "GPIO1", "note": "P01:264；最终分配"},
+    {"id": "DEBUG_UART_TX", "kind": "debug", "pin": "U0TXD", "note": "P01:270；保留给下载/调试"},
+    {"id": "DEBUG_UART_RX", "kind": "debug", "pin": "U0RXD", "note": "P01:270；保留给下载/调试"},
+    {"id": "USB_DN", "kind": "gpio", "pin": "GPIO18", "note": "P01:274；最终分配"},
+    {"id": "USB_DP", "kind": "gpio", "pin": "GPIO19", "note": "P01:274；最终分配"}
+  ],
+  "candidates": [
+    {"id": "FRONT_KEY", "kind": "gpio", "status": "deferred", "pin": "待查", "note": "A02：有条件保留，须补可观察验收项并核对物理脚；未分配，不得写入 resources"},
+    {"id": "STATUS_LED", "kind": "gpio", "status": "rejected", "pin": "待查", "note": "A02：拒绝首版；继续用 U2 CHG 直接驱动状态灯（P01:264、P01:391）"},
+    {"id": "SECOND_UART_TX", "kind": "uart", "status": "rejected", "pin": "待查", "note": "A02：拒绝首版；B01 保留 U0 下载/调试，恢复前先核对 UART1 候选脚（待查）"},
+    {"id": "SECOND_UART_RX", "kind": "uart", "status": "rejected", "pin": "待查", "note": "A02：拒绝首版；与 SECOND_UART_TX 同一决定，未分配"}
+  ],
+  "unresolved": [
+    {"item": "ESP32-C3-MINI-1 完整物理脚号与 pinmux", "why": "决定新增功能能否落图", "owner": "集成人/硬件工程师", "stop_before": "原理图落图"},
+    {"item": "ADC 通道、参考与衰减档限制", "why": "决定电池采样与新增模拟量能否共用", "owner": "硬件工程师", "stop_before": "ADC 网络定稿"},
+    {"item": "模组封装 NC/未引出脚清单", "why": "决定候选脚是否存在", "owner": "硬件工程师", "stop_before": "PCB 封装建库"},
+    {"item": "第二串口候选脚是否与 U0 下载/调试口复用", "why": "决定第二串口能否保留", "owner": "固件/硬件工程师", "stop_before": "固件引脚配置冻结"},
+    {"item": "连接器脚位与板级网络名映射", "why": "决定线束与测试点", "owner": "系统/结构工程师", "stop_before": "连接器选型冻结"},
+    {"item": "前面板按键的可观察验收项与物理脚", "why": "决定按键是否进入首版及占用哪个 GPIO", "owner": "用户/硬件工程师", "stop_before": "原理图落图"}
+  ]
+}
