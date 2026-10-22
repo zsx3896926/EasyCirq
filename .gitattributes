@@ -1,0 +1,13 @@
+# Round-4 decision assets and tests use LF on every platform.
+design-hardware/references/decisions/** text eol=lf
+design-hardware/assets/decisions/** text eol=lf
+design-hardware/scripts/pin_plan_check.py text eol=lf
+design-hardware/scripts/interface_contract_check.py text eol=lf
+design-hardware/scripts/harness_check.py text eol=lf
+design-hardware/scripts/variant_bom.py text eol=lf
+design-hardware/scripts/decision_record_check.py text eol=lf
+design-hardware/scripts/decision_asset_check.py text eol=lf
+tests/test_decisions_*.py text eol=lf
+docs/round4-report.md text eol=lf
+docs/task-ledger-round4.md text eol=lf
+docs/handoff-current.md text eol=lf
