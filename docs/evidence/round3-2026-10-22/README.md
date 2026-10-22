@@ -85,6 +85,19 @@ python design-hardware/scripts/eda_exec.py reopen-check --project <copy> \
 
 结果：`status=mismatch`，差异包含 `part/presence/R999` 与工程身份差异。说明新增对象不会被误报成 match。
 
+### 7. 删除图元（真实）
+
+```bash
+python design-hardware/scripts/eda_exec.py apply --project <copy> \
+  --plan plan-delete-zero.json --allow-delete --save
+```
+
+结果：删除零长度导线 `5302938a0e71a961`，`verification=verified`、`observed.still_present=false`、`save.saved=true`，保存后导线计数 44→43。`plan-delete-zero.json` 与 `apply-delete-zero.json` 保存在本目录。
+
+### 8. 网表 diff 门禁
+
+`design-hardware/scripts/netlist_diff.py` 对两份 Protel 网表做确定性比较；`tests/test_netlist_diff.py` 覆盖相同网表、引脚移网、网络改名、器件字段变化、重复位号与 CLI 退出码。真实 F1 网表解析为 16 器件、11 网络、45 个已连引脚。
+
 ## 关键修复对应的可见变化
 
 1. 快照字段读取失败进入 `integrity.read_errors`；不完整快照让 `apply` 返回 `snapshot_incomplete`，让 `reopen-check` 返回 `incomplete`，不再产生“核对通过”。
@@ -108,6 +121,8 @@ python design-hardware/scripts/eda_exec.py reopen-check --project <copy> \
 | `reopen-post2.json` | `8A585382E5E0225EDF7C8C4FAFB92C3CA11831FFF9F861570B72E6D901EBC88E` |
 | `reopen-pre.json` | `6D26CCCD8D093A02A66873B99F08A490F9E44B7EA399880D67527A64EBEC9E3E` |
 | `round3-fix-snapshot.json` | `48BDECD52AF173514B522D6D9DD13B3C2FA4E012D06BB9ED2373CB22DB89359E` |
+| `apply-delete-zero.json` | `8D08451E3800435FCBF7E205250E4C6FD4CD750852391882EF9183892E916F2F` |
+| `plan-delete-zero.json` | `21DD7F74617A52C8EF55D7DC7669A0F662CD21057B8B74299979C3E00E8D78C0` |
 
 ## 未执行 / 限制
 

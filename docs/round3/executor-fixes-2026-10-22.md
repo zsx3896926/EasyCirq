@@ -29,7 +29,7 @@
 | B8-03 reopen 关闭无关工程 | PARTIAL | 关闭前核对会话工程 UUID/路径；比较工程/页身份 | 真机 reopen；错误会话关闭未真机注入 |
 | B1-02 异常破坏 JSON 契约 | PARTIAL | 只接受含 `ok/value` 的 CLI 响应；`value` 缺失报错；快照/重开输入包装为 `EdaInputError` | 单测 `OutputParsing` |
 | B1-03 current/settle_ms/重试分类 | PARTIAL | current 固化；`settle_ms` 真实传入并生效；page_not_found 不重试，超时保留超时语义 | 代码；真机 current 路径未单独注入 |
-| T-01 测试只覆盖理想路径 | PARTIAL | `tests/test_eda_exec.py` 从 23 增至 50 项；全仓 168 项通过；新增完整性/位号/验证/比较/会话/解析用例 | `python -m unittest discover -s tests` |
+| T-01 测试只覆盖理想路径 | PARTIAL | `tests/test_eda_exec.py` 从 23 增至 53 项，新增 10 个网表 diff 用例；全仓 181 项通过；新增完整性/位号/验证/比较/会话/解析/删除用例 | `python -m unittest discover -s tests` |
 
 ## 2. 修改了哪些文件和行为
 
@@ -37,7 +37,9 @@
 |---|---|
 | `design-hardware/scripts/eda_exec.py` | 快照 `integrity/read_errors`；字段级回读；工程级位号扫描 `designators`；计划/页/工程三级位号查重；`expected` 漂移检查；冻结页 UUID；孤儿认领；完整验证域；重开比较域；会话来源与版本门禁；超时部分结果；零长度导线规范化；CLI 响应解析加固 |
 | `design-hardware/references/eda-execution.md` | 同步执行契约：完整性门槛、工程级位号命令、冻结页身份、逐字段验证、重开比较域、零长度线/不可解析线、版本与会话门禁 |
-| `tests/test_eda_exec.py` | 新增 27 个回归用例，覆盖本轮全部修复面 |
+| `tests/test_eda_exec.py` | 新增 30 个回归用例，覆盖本轮全部修复面（含删除原语） |
+| `design-hardware/scripts/netlist_diff.py` | 新增 Protel 2.0 网表确定性 diff：器件身份 + 物理引脚→网络 + 网络划分 + 重复位号/多网引脚 |
+| `tests/test_netlist_diff.py` | 新增 10 个网表 diff 用例 |
 | `docs/evidence/round3-2026-10-22/` | 9 份真机结果与哈希 |
 | `docs/task-ledger-round3.md` / `docs/round3/backlog.md` | 顶部增加本轮修复状态覆盖，避免旧 DEFECT 状态过期 |
 | `docs/round3/capability-matrix.md` | 顶部增加修复后口径说明 |
@@ -47,8 +49,9 @@
 ### 3.1 自动化
 
 ```bash
-python -m unittest tests.test_eda_exec -v   # 50 tests, OK
-python -m unittest discover -s tests        # 168 tests, OK
+python -m unittest tests.test_eda_exec -v   # 53 tests, OK
+python -m unittest tests.test_netlist_diff  # 10 tests, OK
+python -m unittest discover -s tests        # 181 tests, OK
 ```
 
 ### 3.2 真实 EDA（全部在独立副本、CLI 自有 headless 会话）
@@ -63,6 +66,8 @@ python -m unittest discover -s tests        # 168 tests, OK
 | `apply --save` 新建 `R999` | `verified`；expected/observed 全字段一致；`save.saved=true`；61 元件/17 器件 |
 | `reopen-check` 对保存后快照 | `match`；17 器件/27 标记/16 端口/34 归一化线；`actual_integrity=complete` |
 | `reopen-check` 对创建前快照 | `mismatch`；`R999` presence 差异被报告 |
+| `apply --allow-delete` 删除零长度导线 | `verified`；`still_present=false`；`save.saved=true`；导线 44→43 |
+| `netlist_diff.py` 真实 F1 网表 | 16 器件/11 网络/45 已连引脚解析通过；同一文件比较 `match` |
 
 ## 4. 结果与证据位置
 

@@ -2,7 +2,7 @@
 
 - 仓库/基线：`C:/Users/jlc/work/hds-round3`，审计基线 `dc62f20`；执行修复已同步到 `origin/main` `0fe5cf8` 之上（`feat/round3-engineering`）。
 - 本轮性质：11 个审计域只读审计 + 综合台账 + P0 执行器修复。审计阶段除台账/协议/矩阵/覆盖复核外未改代码；修复阶段改 `eda_exec.py`、执行契约、测试与证据，详见 [executor-fixes-2026-10-22.md](round3/executor-fixes-2026-10-22.md)。
-- 测试基线：审计时 `Ran 141 tests / OK`；修复后 `Ran 168 tests / OK`（其中 `tests.test_eda_exec` 50 项）。
+- 测试基线：审计时 `Ran 141 tests / OK`；修复后 `Ran 181 tests / OK`（其中 `tests.test_eda_exec` 53 项、`tests.test_netlist_diff` 10 项）。
 - 真实 EDA：F1/EDA 证据来自嘉立创EDA专业版 `4.1.78.34f5b8d9` 半离线会话；第三轮仅 PCB 能力探针在 scratch 副本上真机执行，其余审计为代码走查、仓库证据复核与离线复现。
 - 证据根：`AUD = C:/Users/jlc/work/hw-deepdive-scratch/round3-audit/`。仓库内路径均相对仓库根。
 - 本轮审计产出：14 条经交叉复核的 `confirmed_findings`（13 DEFECT + 1 GAP；0 条被否决，0 个审计域失败），另有各审计域未进入交叉复核的 `AREA` 级发现。两者分开标注，不混为同一证据等级。
@@ -25,7 +25,7 @@
 | B6-01 / B6-03 孤儿与超时 | PARTIAL（代码+单测，真实超时注入 NOT RUN） | 代码；`partial_unknown` 路径 |
 | B7-01/B7-02/B7-03 重开比较 | DONE | `reopen-post2.json` match（17/27/16/34）；`reopen-pre.json` mismatch；零长度线归一 |
 | B8-01/B8-02/B8-03 版本与会话 | DONE/PARTIAL | 版本门禁、origin 门禁、reopen 会话工程核对；错误会话关闭未真机注入 |
-| T-01 测试覆盖 | PARTIAL | 23→50 EDA 测试；全仓 168 通过；函数级覆盖 NOT RUN |
+| T-01 测试覆盖 | PARTIAL | 23→53 EDA 测试、新增 10 个网表 diff 测试；全仓 181 通过；函数级覆盖 NOT RUN |
 
 ## 0. 状态与证据口径
 

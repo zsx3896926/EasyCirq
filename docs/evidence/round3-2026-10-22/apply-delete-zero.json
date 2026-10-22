@@ -1,0 +1,176 @@
+{
+  "status": "verified",
+  "plan": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\plan-delete-zero.json",
+  "session": {
+    "sessionId": "7d88ed87-218b-469d-bb8d-a906e328be5f",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "zero_wire",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "5302938a0e71a961",
+      "expected": {
+        "net": ""
+      }
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_primitive",
+      "key": "zero_wire",
+      "kind": "wire",
+      "primitive_id": "5302938a0e71a961",
+      "expected": {
+        "net": ""
+      }
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "zero_wire",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "5302938a0e71a961",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "3f88c1945e53cf29bfc63f53d4392ed7010436eb6bfb43b3d6065a8f9d8ac5be",
+      "friendly_name": "round3-delete-probe",
+      "name": "/round3-delete-probe"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 43,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "zero_wire",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "5302938a0e71a961",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "5302938a0e71a961",
+          "still_present": false
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 60,
+      "wires": 43
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 43,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

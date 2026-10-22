@@ -52,6 +52,7 @@ python scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo -
 | 电源/地标记 | `sch_PrimitiveComponent.createNetFlag(type, net, x, y)` | 可执行（`net_flag`） | 同名标记已在别处时冲突，不复制第二个；先决定是否移动/复用 |
 | 跨模块端口 | `sch_PrimitiveComponent.createNetPort(direction, net, x, y)` | 可执行（`net_port`） | 方向 IN/OUT/BI 从 `symbol.name`（`Netport-BI`）回读；同时核对 rotation/mirror |
 | 工程级位号清单 | `designators` 遍历全部原理图页读取 part 位号 | 可执行（`designators`） | 扫描会切换自有 CLI 会话的活动页；返回 `complete/errors/duplicates`，用于 `apply --project-designators` |
+| 删除图元 | `sch_PrimitiveWire.delete` / `sch_PrimitiveComponent.delete` | 可执行（`delete`，需 `--allow-delete`） | 必须带 `primitive_id` + `expected` 身份；删除后回读确认不存在；不允许按位号模糊删除 |
 | 快照完整性 | 每个 `safe()` 字段读取失败写入 `integrity.read_errors` | 已实现 | `status!=complete` 时 `apply` 拒绝对账/写入，`reopen-check` 不返回 match |
 | 网络标签 | `sch_PrimitiveAttribute.createNetLabel(x, y, net)` | API可用，本桥不写网络标签 | 动作集没有 net_label；不要把它当作已实现的幂等写入 |
 | 模块框/说明文字 | `sch_PrimitiveRectangle`/`sch_PrimitiveText` 等 | 未纳入本桥 | 用官方API或人工；不要用装饰框冒充电气连接 |
@@ -113,6 +114,16 @@ python scripts/eda_exec.py reopen-check --project /path/to/copy.eprj2 --snapshot
 - 冲突：位号存在但完整型号/供应商不符、同名网络标识在别处、同网导线端点相同但路径不同、同一计划 key 重复——一律 `conflict`，不猜。
 - 迁移/换料：先核对完整MPN、封装、pin-pad映射；本桥不做自动替换，换料后必须重新读引脚并重画受影响连接。
 - 位号/属性修改必须回读；创建返回的 `designator` 可能是 `R?`，以回读为准。
+
+## 5.1 改图/重排的连接门禁
+
+纯排版或局部改图前后各导出一次 Protel 网表，先跑确定性 diff：
+
+```bash
+python scripts/netlist_diff.py before.net after.net --output netlist-diff.json
+```
+
+`status=match` 才允许宣称“连接未变”。工具比较器件身份字段（位号/型号/封装/BOM/PCB/供应商料号）和物理引脚→网络映射，不比较坐标、线段或格式。网表里的未连引脚在两侧都不出现，因此单靠网表不能证明 NC 状态；NC 需要快照/图面另行核对。删除动作必须先 `--dry-run` 审阅 target，再 `--allow-delete` 执行；删除后回读确认对象不存在。
 
 ## 6. 保存、重开与交付核验
 

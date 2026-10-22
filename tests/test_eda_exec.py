@@ -618,6 +618,61 @@ class ReopenComparisonCoverage(unittest.TestCase):
         self.assertIn('identity', {item['kind'] for item in result['differences']})
 
 
+class DeletePrimitive(unittest.TestCase):
+    def delete_op(self, kind='wire', primitive_id='w-1', expected=None):
+        return {'op': 'delete', 'key': 'del', 'target': {
+            'kind': kind, 'primitive_id': primitive_id, 'expected': expected or {},
+        }}
+
+    def test_validate_delete_requires_kind_and_primitive_id(self):
+        data = plan()
+        data['operations'] = [self.delete_op(kind='wire', primitive_id='w-1')]
+        validated = eda.validate_plan(data)
+        self.assertEqual(validated['operations'][0]['target']['kind'], 'wire')
+        bad = plan()
+        bad['operations'] = [{'op': 'delete', 'key': 'del',
+                              'target': {'kind': 'unknown', 'primitive_id': 'x'}}]
+        with self.assertRaises(eda.EdaInputError):
+            eda.validate_plan(bad)
+
+    def test_delete_target_must_exist_and_match_expected(self):
+        snap = snapshot()
+        snap['wires'].append({'primitive_id': 'w-1', 'net': 'LED_A',
+                              'line': [600, 600, 700, 600]})
+        data = plan()
+        data['operations'] = [self.delete_op(expected={'net': 'LED_A'})]
+        result = eda.reconcile(snap, eda.validate_plan(data))
+        self.assertEqual(result['items'][0]['status'], 'delete')
+        self.assertEqual(result['actions'][0]['action'], 'delete_primitive')
+
+        data['operations'] = [self.delete_op(expected={'net': 'GND'})]
+        result = eda.reconcile(snap, eda.validate_plan(data))
+        self.assertEqual(result['status'], 'blocked')
+        self.assertEqual(result['conflicts'][0]['reason'], 'target_identity_mismatch')
+
+        data['operations'] = [self.delete_op(primitive_id='missing')]
+        result = eda.reconcile(snap, eda.validate_plan(data))
+        self.assertEqual(result['conflicts'][0]['reason'], 'target_not_found')
+
+    def test_delete_is_verified_by_absence(self):
+        operation = self.delete_op(kind='wire', primitive_id='w-1', expected={'net': 'LED_A'})
+        data = plan()
+        data['operations'] = [operation]
+        validated = eda.validate_plan(data)
+        before = snapshot()
+        before['wires'].append({'primitive_id': 'w-1', 'net': 'LED_A',
+                                'line': [600, 600, 700, 600]})
+        reconciliation = eda.reconcile(before, validated)
+        after = snapshot()  # w-1 removed
+        items, status = eda.verify_against_snapshot(after, validated, reconciliation['items'])
+        self.assertEqual(status, 'verified')
+        after['wires'].append({'primitive_id': 'w-1', 'net': 'LED_A',
+                               'line': [600, 600, 700, 600]})
+        items, status = eda.verify_against_snapshot(after, validated, reconciliation['items'])
+        self.assertEqual(status, 'failed')
+        self.assertEqual(items[0]['observed']['reason'], 'target_still_present')
+
+
 class SessionSafetyExtended(unittest.TestCase):
     class Pro:
         def __init__(self, entries):

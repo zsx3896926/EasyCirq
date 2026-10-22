@@ -53,6 +53,14 @@ OP_KEYS = {
     'net_flag': {'op', 'key', 'net', 'type', 'at', 'rotation', 'mirror', 'note'},
     'net_port': {'op', 'key', 'net', 'direction', 'at', 'rotation', 'mirror', 'note'},
     'wire': {'op', 'key', 'net', 'points', 'note'},
+    'delete': {'op', 'key', 'target', 'note'},
+}
+DELETE_KINDS = {'part', 'net_flag', 'net_port', 'wire'}
+DELETE_EXPECTED_FIELDS = {
+    'part': {'designator', 'unique_id', 'x', 'y', 'component'},
+    'net_flag': {'name', 'net', 'x', 'y'},
+    'net_port': {'net', 'direction', 'x', 'y'},
+    'wire': {'net'},
 }
 NET_FLAG_TYPES = {'Power', 'Ground', 'AnalogGround', 'ProtectGround'}
 NET_PORT_DIRECTIONS = {'IN', 'OUT', 'BI'}
@@ -1011,6 +1019,46 @@ for (const act of (A.actions || [])) {
         key: act.key, ok: true, action: act.action, primitive_id: wire.getState_PrimitiveId(),
         net: wire.getState_Net(), line: wire.getState_Line(),
       });
+    } else if (act.action === 'delete_primitive') {
+      const collection = act.kind === 'wire' ? eda.sch_PrimitiveWire : eda.sch_PrimitiveComponent;
+      const target = await safeAsync(() => collection.get(act.primitive_id), null);
+      if (!target) {
+        results.push({ key: act.key, ok: false, action: act.action,
+                       error: 'target_not_found', primitive_id: act.primitive_id });
+        await sleep2(120);
+        continue;
+      }
+      const checks = act.expected || {};
+      const component = safe(() => target.getState_Component());
+      const actual = {
+        designator: safe(() => target.getState_Designator()),
+        name: safe(() => target.getState_Name()),
+        net: safe(() => target.getState_Net()),
+        x: safe(() => target.getState_X()),
+        y: safe(() => target.getState_Y()),
+        component: component && component.name ? component.name : null,
+      };
+      const drift = [];
+      for (const field of Object.keys(checks)) {
+        if (field === 'x' || field === 'y') {
+          if (Math.abs(Number(actual[field]) - Number(checks[field])) > 0.01) drift.push(field);
+        } else if (actual[field] !== checks[field]) {
+          drift.push(field);
+        }
+      }
+      if (drift.length) {
+        results.push({ key: act.key, ok: false, action: act.action, error: 'stale_target',
+                       drift, expected: checks, observed: actual });
+        await sleep2(120);
+        continue;
+      }
+      const returned = await collection.delete(act.primitive_id);
+      await sleep2(400);
+      const still = await safeAsync(() => collection.get(act.primitive_id), null);
+      results.push({
+        key: act.key, ok: !still, action: act.action, primitive_id: act.primitive_id,
+        deleted: !still, still_present: !!still, returned,
+      });
     } else {
       throw new Error('unsupported action: ' + act.action);
     }
@@ -1203,6 +1251,34 @@ def validate_plan(plan):
         elif kind == 'wire':
             _text(op.get('net'), f'{where}.net')
             _canonical_segments(op.get('points'))
+            normalized.append(op)
+        elif kind == 'delete':
+            target = op.get('target')
+            if not isinstance(target, dict):
+                raise EdaInputError(f'{where}.target: object required')
+            unknown = set(target) - {'kind', 'primitive_id', 'expected'}
+            if unknown:
+                raise EdaInputError(f'{where}.target: unknown fields {sorted(unknown)}')
+            target_kind = target.get('kind')
+            if target_kind not in DELETE_KINDS:
+                raise EdaInputError(f'{where}.target.kind: one of {sorted(DELETE_KINDS)} required')
+            _text(target.get('primitive_id'), f'{where}.target.primitive_id')
+            expected = target.get('expected') or {}
+            if not isinstance(expected, dict):
+                raise EdaInputError(f'{where}.target.expected: object required')
+            unknown = set(expected) - DELETE_EXPECTED_FIELDS[target_kind]
+            if unknown:
+                raise EdaInputError(
+                    f'{where}.target.expected: unknown fields for {target_kind}: {sorted(unknown)}')
+            for field in ('x', 'y'):
+                if field in expected:
+                    _coord(expected[field], f'{where}.target.expected.{field}')
+            if 'designator' in expected:
+                _text(expected['designator'], f'{where}.target.expected.designator')
+            if 'component' in expected:
+                _text(expected['component'], f'{where}.target.expected.component')
+            if 'direction' in expected and expected['direction'] not in NET_PORT_DIRECTIONS:
+                raise EdaInputError(f'{where}.target.expected.direction: one of {sorted(NET_PORT_DIRECTIONS)}')
             normalized.append(op)
     return {**plan, 'operations': normalized}
 
@@ -1630,6 +1706,48 @@ def reconcile(snapshot, plan, project_designators=None):
                         item.update({'status': 'create', 'net': op['net'],
                                      'segments': len(missing), 'existing_segments': len(target_segments) - len(missing)})
             items.append(item)
+        elif op['op'] == 'delete':
+            target = op['target']
+            target_kind = target['kind']
+            primitive_id = target['primitive_id']
+            expected = target.get('expected') or {}
+            collections = {
+                'part': parts, 'net_flag': netflags,
+                'net_port': netports, 'wire': wires,
+            }
+            found = next((row for row in collections[target_kind]
+                          if row.get('primitive_id') == primitive_id), None)
+            if found is None:
+                conflict(item, 'target_not_found', {
+                    'kind': target_kind, 'primitive_id': primitive_id,
+                })
+            else:
+                mismatches = []
+                observed = {}
+                for field, value in expected.items():
+                    actual = found.get(field)
+                    observed[field] = actual
+                    if field in ('x', 'y'):
+                        if not _same_position((actual, 0), (value, 0), tolerance=0.01):
+                            mismatches.append(field)
+                    elif actual != value:
+                        mismatches.append(field)
+                if mismatches:
+                    conflict(item, 'target_identity_mismatch', {
+                        'kind': target_kind, 'primitive_id': primitive_id,
+                        'mismatched_fields': mismatches, 'observed': observed,
+                    })
+                else:
+                    item.update({
+                        'status': 'delete', 'kind': target_kind,
+                        'primitive_id': primitive_id, 'expected': expected,
+                    })
+                    actions.append({
+                        'action': 'delete_primitive', 'key': key,
+                        'kind': target_kind, 'primitive_id': primitive_id,
+                        'expected': expected,
+                    })
+            items.append(item)
     return {
         'items': items,
         'actions': actions,
@@ -1828,6 +1946,22 @@ def verify_against_snapshot(snapshot, plan, items, execution=None):
                 passed = not missing
                 detail = {'net': op['net'], 'segments': len(target_segments),
                           'missing_segments': missing[:10], 'missing_count': len(missing)}
+        elif op['op'] == 'delete':
+            target = op['target']
+            target_kind = target['kind']
+            primitive_id = target['primitive_id']
+            collections = {
+                'part': parts, 'net_flag': netflags,
+                'net_port': netports, 'wire': wires,
+            }
+            found = next((row for row in collections[target_kind]
+                          if row.get('primitive_id') == primitive_id), None)
+            passed = found is None
+            detail = {'kind': target_kind, 'primitive_id': primitive_id,
+                      'still_present': found is not None}
+            if found is not None:
+                detail['reason'] = 'target_still_present'
+                detail['observed'] = found
         results.append({**item, 'verification': 'verified' if passed else 'failed', 'observed': detail})
     statuses = {r['verification'] for r in results}
     if 'failed' in statuses or 'conflict' in statuses:
@@ -2330,6 +2464,11 @@ def command_apply(args):
             result['status'] = 'dry_run'
             result['note'] = 'no write was sent'
             return result, EXIT_OK if not reconciliation['conflicts'] else EXIT_REVIEW
+        if any(op['op'] == 'delete' for op in plan['operations']) and not args.allow_delete:
+            result['status'] = 'delete_requires_flag'
+            result['note'] = ('plan contains delete operations; review the targets with --dry-run, '
+                              'then pass --allow-delete to write')
+            return result, EXIT_INPUT
         if reconciliation['conflicts'] and not args.allow_partial:
             result['status'] = 'blocked'
             result['note'] = 'conflicts present; nothing was written. Resolve them or inspect with read.'
@@ -2577,6 +2716,8 @@ def build_parser():
     apply_cmd.add_argument('--save', action='store_true', help='save after successful verification')
     apply_cmd.add_argument('--dry-run', action='store_true', help='reconcile only; write nothing')
     apply_cmd.add_argument('--allow-partial', action='store_true', help='execute non-conflicting actions')
+    apply_cmd.add_argument('--allow-delete', action='store_true',
+                           help='allow delete operations after reviewing their targets')
     apply_cmd.add_argument('--project-designators',
                            help='JSON from the designators command; enables project-level uniqueness checks')
     apply_cmd.add_argument('--allow-unverified-version', action='store_true',
