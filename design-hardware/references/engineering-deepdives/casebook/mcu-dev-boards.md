@@ -1,5 +1,10 @@
 # MCU/开发板开源硬件案例集（OSHW-01…06）
 
+## 内容导航
+
+- [本组覆盖缺口](#本组覆盖缺口)
+
+
 - 覆盖项目数：6（OSHW-01 Arduino UNO R3、OSHW-02 SparkFun ESP32 Thing Plus、OSHW-03 iCEBreaker、OSHW-04 TinyFPGA BX、OSHW-05 OLinuXino A20 Lime、OSHW-06 BeagleBone Black）。
 - 实际读取的文件类别：PDF（文本层与渲染图）、EAGLE XML `.sch/.brd`、KiCad legacy `.sch`、KiCad `.kicad_pcb`、EAGLE 二进制 `.sch/.brd`（仅字符串级）、README/LICENSE、GitHub API（commit/issue/tree）。
 - 未能读取的项目及原因：没有整项目完全未读；但布局级证据缺口如下：Arduino 无 PCB/gerber；BeagleBone 的 Allegro `.brd`（43 MB）在 GitHub 远程存在，未纳入本地快照、未解析；OLinuXino 的 `.sch/.brd` 实为 EAGLE 二进制（任务提示称 KiCad legacy，与文件实际格式不符），只能做字符串提取；ESP32 未逐页看 EAGLE 图形符号，只解析了网表与 PCB 几何。详见文末“本组覆盖缺口”。

@@ -36,15 +36,15 @@
 
 | ID | 项目 | 领域 | 仓库/版本 | 许可 | 实际查阅（摘要） | 不能照搬 |
 |---|---|---|---|---|---|---|
-| OSHW-01 | Arduino UNO R3 | MCU/开发板 | 官方 A000066 图纸 PDF，2 页 | CC BY-SA 4.0（PDF 第 2 页） | 电源选择、USB/桶形插座、5V/3.3V 轨、ATmega16U2、复位 | 旧器件/单面板布局；AVR 外围不能套到 32 位 MCU |
-| OSHW-02 | SparkFun ESP32 Thing Plus | 无线/MCU | `sparkfun/ESP32_Thing_Plus`，`ed6d941070` | CC BY-SA 4.0（LICENSE.md） | EAGLE `.sch/.brd`；USB-C/充电、3.3V LDO、EN/strap、天线净空、I2C 上拉 | 天线净空/匹配值只对该板/叠层；ESP32 系列 strap 不同 |
+| OSHW-01 | Arduino UNO R3 | MCU/开发板 | 官方 A000066 图纸 PDF，2 页 | CC BY-SA 4.0（PDF 第 2 页） | 电源选择、USB/桶形插座、5V/3.3V 轨、ATmega16U2、复位 | 旧器件/具体板版与叠层；AVR 外围不能套到 32 位 MCU |
+| OSHW-02 | SparkFun ESP32 Thing Plus | 无线/MCU | `sparkfun/ESP32_Thing_Plus`，`ed6d941070` | CC BY-SA 4.0（LICENSE.md） | EAGLE `.sch/.brd`；micro-USB/充电、3.3V LDO、EN/strap、天线净空、I2C 上拉 | 天线净空/匹配值只对该板/叠层；ESP32 系列 strap 不同 |
 | OSHW-03 | iCEBreaker | FPGA/开发板 | `esden/iCEBreaker`，`7d5f912927` | 未找到许可证文件；README 称 open-source | v0.1a→v1.0e 的 KiCad legacy 原理图/PCB；电源、USB、FPGA 配置、PMOD | 许可未明确，不能复制文件；FPGA 电源/配置只对 iCE40UP5K |
-| OSHW-04 | TinyFPGA BX | FPGA/开发板 | `tinyfpga/TinyFPGA-BX`，`27c97a3695` | CERN OHL 1.2 | KiCad legacy；USB、3.3V/1.2V、FPGA 配置、板载天线 | 低成本 USB-FPGA 的取舍；不能把 1.2V 核心/配置脚套到其他 FPGA |
+| OSHW-04 | TinyFPGA BX | FPGA/开发板 | `tinyfpga/TinyFPGA-BX`，`27c97a3695` | CERN OHL 1.2 | KiCad legacy；USB、3.3V/1.2V、FPGA 配置、板框与接口 | 低成本 USB-FPGA 的取舍；不能把 1.2V 核心/配置脚套到其他 FPGA |
 | OSHW-05 | OLinuXino A20 Lime | 工业 SBC | `olimex/OLINUXINO`，`b48543c967` | 未找到许可证文件；产品页称 open-source hardware | A20-Lime Rev I1 的 EAGLE `.sch/.brd`；多轨上电、DDR、以太网、USB、调试串口 | 未明确许可；A20 电源时序/DDR 布局只对该 SoC |
 | OSHW-06 | BeagleBone Black | SBC/以太网 | `beagleboard/beaglebone-black`，`c7bbdb9676` | OSHW 认证 US000236；仓库无许可证文件 | PDF 11 页；TPS65217 PMIC、DDR3、以太网 PHY、USB、复位 | 未明确许可；PMIC/DDR 布局只对该板 |
 | OSHW-07 | Crazyflie 2.1 | 无线/电池/电机 | `bitcraze/hardware`，图纸 Rev.B，2018-12-07 | CC BY-NC-SA 4.0（图纸页标注） | 3 页 PDF（无文本层，读图）；STM32F405、nRF51822、BQ24075、电机 MOSFET、RF 前端、EEPROM | 非商业许可；电机/RF/电池只对该微型四轴 |
 | OSHW-08 | Crazyflie 2.1 Brushless | 电机/热 | `bitcraze/hardware`，Rev.G，2024-08-12 | CC BY-NC-SA 4.0（图纸页标注） | 7 页 PDF；独立电调、功率级、电流采样、热、电池连接器 | 电调功率/热只对该板；不能套到其他 BLDC |
-| OSHW-09 | Adafruit Feather nRF52840 Sense | 低功耗无线/传感器 | `adafruit/Adafruit-Feather-nRF52840-Sense-PCB`，`afeb0acb67` | CC BY-SA 3.0（license.txt） | EAGLE `.sch/.brd`；USB-C/充电、nRF52840 去耦、传感器 I2C/SPI、电池监测分压 | 传感器组合/天线/电源只对该板；nRF52 睡眠电流未取得手册 |
+| OSHW-09 | Adafruit Feather nRF52840 Sense | 低功耗无线/传感器 | `adafruit/Adafruit-Feather-nRF52840-Sense-PCB`，`afeb0acb67` | CC BY-SA 3.0（license.txt） | EAGLE `.sch/.brd`；micro-USB/充电、nRF52840 去耦、传感器 I2C/SPI、电池监测分压 | 传感器组合/天线/电源只对该板；nRF52 睡眠电流未取得手册 |
 | OSHW-10 | LibreSolar BMS C1 | 电池管理 | `LibreSolar/bms-c1`，`0ca09706f4`，v0.4.2 | CERN-OHL-W-2.0 | KiCad modern；BQ76952、DSG/CHG MOSFET、预充、分流、ESP32-C3、CAN | 70–100 A 等额定值只对该板/散热；BQ76952 配置需按手册 |
 | OSHW-11 | LibreSolar MPPT 2420 HC | 光伏/电池/CAN | `LibreSolar/mppt-2420-hc`，`b1c11fee82` | CERN-OHL-W-2.0 | KiCad legacy；同步 Buck、栅驱、电流采样、CAN、负载开关 | 光伏输入/电池电压范围只对该板；未读 mcu/load-switch 子页 |
 | OSHW-12 | MNT Reform 2 | 笔记本/电源/键盘 | `source.mnt.re/reform/reform`，`9dcb9a8df5` | CERN-OHL-S-2.0 | KiCad legacy；LTC4020 电源路径、多轨稳压、USB、电池包、键盘 | 模块化笔记本的电源/结构只对该平台；未做整机热/EMC |
@@ -53,14 +53,14 @@
 | OSHW-15 | Smoothieboard | 3D 打印/加热/MOSFET | `Smoothieware/Smoothieboard`，`8f87131dce` | CERN OHL 1.2+（README） | EAGLE `.sch/.brd`；加热器 MOSFET、热敏输入、步进驱动、24V 输入、连接器 | 24V/加热器电流只对该板；未读 BOM/装配 |
 | OSHW-16 | Pixhawk FMUv2 | 飞控/电源/接口 | `pixhawk/Hardware`，`bbf3de5360` | CC BY-SA 3.0（README） | EAGLE `.sch/.brd`；电源模块检测、双 IMU、SD、GPS/Telem、复位 | 飞控冗余/传感器只对该板；未做振动/EMC |
 | OSHW-17 | ULX3S | FPGA/电源 | `emard/ulx3s`，`6a92cec6b1` | MIT 式许可 + 丝印条件（LICENSE.md） | KiCad legacy；多轨电源、DDR、HDMI、GPIO、SD | 丝印条件；FPGA 电源/ DDR 只对该板 |
-| OSHW-18 | Mutable Braids | 音频/DAC | `pichenettes/eurorack`，`f4cfa76970` | 硬件 CC BY-SA 3.0（README） | EAGLE `.sch/.brd`；STM32 DAC/音频输出、运放滤波、CV 输入、±12V | 音频拓扑/运放只对该模块；不能复制图纸 |
+| OSHW-18 | Mutable Braids | 音频/DAC | `pichenettes/eurorack`，`f4cfa76970` | 硬件 CC BY-SA 3.0（README） | EAGLE `.sch/.brd`；STM32 DAC/音频输出、运放滤波、CV 输入、±12V | 音频拓扑/运放只对该模块；本仓库不收录原图；复用须核对并遵守原许可 |
 | OSHW-19 | Mutable Clouds | 音频/DSP | 同上 | 硬件 CC BY-SA 3.0 | EAGLE `.sch/.brd`；codec/DSP、模拟 I/O、CV、电源 | 同上 |
 | OSHW-20 | Mutable Edges | 音频/ADC-DAC | 同上 | 硬件 CC BY-SA 3.0 | EAGLE `.sch/.brd`；多路 ADC/DAC、比较器、输出驱动、电源 | 同上 |
 | OSHW-21 | EEZ BB3 AUX-PS | 精密电源/模拟 | `eez-open/modular-psu`，`c3d30a6210` | TAPR OHL 1.0 | KiCad modern；辅助电源、隔离/非隔离、风扇、输入保护、测量 | 辅助电源/测量只对该模块；未读主控/功率模块 |
 | OSHW-22 | HackRF One | RF/USB 高速 | `greatscottgadgets/hackrf`，`468c5d93b6` | GPL-2.0（COPYING） | KiCad 6；RF 前端/收发开关、MAX2837/MAX5864/Si5351、USB、电源、屏蔽 | RF 匹配/屏蔽只对该板；未做插损/隔离度实测 |
-| OSHW-23 | Glasgow revB | FPGA/电平转换/USB-C | `GlasgowEmbedded/glasgow`，`9388b5f51f` | 0BSD | KiCad legacy；FPGA 配置、USB-C、可变 IO 电平/保护、电源轨 | 可变 IO 只对该板；未做 SI/保护实测 |
+| OSHW-23 | Glasgow revB | FPGA/电平转换/USB | `GlasgowEmbedded/glasgow`，`9388b5f51f` | 0BSD | KiCad legacy；FPGA 配置、Micro-B USB、可变 IO 电平/保护、电源轨 | 可变 IO 只对该板；未做 SI/保护实测 |
 | OSHW-24 | Fomu | FPGA/USB | `im-tomu/fomu-hardware`，`9fdebede73` | CC-BY-SA-4.0 | KiCad legacy；USB 直连 FPGA、1.2V 核心、Flash、按钮、RGB | 极小 USB-FPGA 的取舍；不能套到其他 FPGA |
-| OSHW-25 | Keyboardio Model01 | HMI/键盘/连接器 | `keyboardio/Model01`，`affe7f5361` | 未找到许可证文件 | 左右手 PDF；键矩阵、LED 驱动、左右手连接器、ESD、电源 | 未明确许可；不能复制图纸；键矩阵/连接器只对该键盘 |
+| OSHW-25 | Keyboardio Model01 | HMI/键盘/连接器 | `keyboardio/Model01`，`affe7f5361` | 未找到许可证文件 | 左右手 PDF；键矩阵、LED 驱动、左右手连接器、ESD、电源 | 未明确许可；本仓库不收录原图；复用须核对并遵守原许可；键矩阵/连接器只对该键盘 |
 
 ### 官方参考设计（不计入开源项目数）
 
@@ -75,3 +75,13 @@
 2. 开源项目的作者修订（CHANGELOG/commit/issue）标 `A`；原厂手册支持机理但本板未实测标 `B`；工程推断标 `C`。
 3. 未读章节、未取得 PDF、未实测的内容保持 `待补/未执行`，不因为“项目有名”升级为已验证。
 4. 许可未明确的 OSHW 项目只做阅读分析，不复制图纸/文件；商用/再分发前必须单独核对许可。
+
+## 合并复核补充来源与许可说明（2026-10-22）
+
+- [CC BY-SA 3.0官方说明](https://creativecommons.org/licenses/by-sa/3.0/deed.en)允许在署名、许可与相同方式共享等条件下复制/改编（包括商业用途）；本仓库选择不打包第三方图纸，不能表述为该许可禁止复制。每个实际文件仍按其自身许可与其他权利核对。
+- [TI SSZT842](https://www.ti.com/document-viewer/lit/html/SSZT842/GUID-9549F798-DB33-4CAC-992E-D779B5C09E31)：A-to-C插头中的CC/Rp，支持E03修订。
+- [TI SLLA337 Fig.1-2](https://www.ti.com/lit/pdf/slla337)：CAN总线本征共模，支持D3修订；实际包络按具体收发器保证值。
+- [TI BQ25619 §7.3.5.1](https://www.ti.com/lit/ds/symlink/bq25619.pdf)：NVDC的SYS/BAT关系，支持B3修订。
+- [TI TPS7A02 §7.3.2](https://www.ti.com/lit/ds/symlink/tps7a02.pdf)：反向电流限制是用户要求，不是内置反向保护，支持F23修订。
+
+本次为问题导向抽查与独立复算，未重新验证全部25个项目或来源页码；原作者查阅记录与维护者本次复核范围分开。

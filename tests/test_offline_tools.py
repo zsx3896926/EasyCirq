@@ -159,6 +159,73 @@ class GeometryReview(unittest.TestCase):
             with self.subTest(data=data), self.assertRaises(ValueError):
                 layout.analyze(data)
 
+    def test_title_block_frames_and_membership(self):
+        data = drawing()
+        data.update(page_bbox=[0, 0, 200, 100], title_block=[150, 0, 200, 30],
+                    texts=[dict(id='title-text', bbox=[160, 10, 180, 20]),
+                           dict(id='note', bbox=[40, 40, 50, 50])],
+                    wires=[dict(id='w-title', points=[[0, 10], [170, 10]])],
+                    module_frames=[dict(id='f1', bbox=[15, 15, 100, 80], contains=['U1'])],
+                    expected_counts=dict(components=1, texts=2, wires=1))
+        found = codes(data)
+        self.assertTrue({'overlaps_title_block', 'wire_enters_title_block',
+                         'frame_border_crosses_object', 'frame_membership_gap'} <= found)
+        self.assertIn('title_block', layout.analyze(data)['checks_run'])
+
+    def test_dangling_endpoint_and_pin_multiple_nets(self):
+        data = dict(
+            coordinate_units='test-units',
+            components=[dict(id='U1', bbox=[10, 10, 20, 20])], texts=[],
+            wires=[dict(id='a', net='A', points=[[20, 15], [50, 15]]),
+                   dict(id='b', net='B', points=[[20, 15], [20, 40]]),
+                   dict(id='c', net='C', points=[[50, 50], [60, 60]])],
+            page_bbox=[0, 0, 100, 100],
+            attachment_points=[dict(id='P1', x=20, y=15, kind='pin'),
+                               dict(id='P2', x=50, y=15, kind='pin')],
+            policy=dict(connection_tolerance=1),
+            expected_counts=dict(components=1, texts=0, wires=3),
+        )
+        result = layout.analyze(data)
+        codes = {finding['code'] for finding in result['findings']}
+        self.assertIn('dangling_wire_endpoint', codes)
+        self.assertIn('pin_multiple_nets', codes)
+        self.assertIn('wire_endpoints_and_pin_nets', result['checks_run'])
+
+    def test_label_anchor_connection_and_mismatch(self):
+        data = dict(
+            coordinate_units='test-units', components=[], texts=[],
+            wires=[dict(id='w', net='A', points=[[0, 0], [10, 0]])],
+            page_bbox=[0, 0, 100, 100],
+            label_anchors=[dict(id='l1', net='A', x=5, y=0),
+                           dict(id='l2', net='B', x=5, y=0),
+                           dict(id='l3', net='C', x=50, y=50)],
+            policy=dict(connection_tolerance=1),
+            expected_counts=dict(components=0, texts=0, wires=1),
+        )
+        result = layout.analyze(data)
+        codes = {finding['code'] for finding in result['findings']}
+        self.assertTrue({'label_net_mismatch', 'label_anchor_conflict',
+                         'label_anchor_off_connection'} <= codes)
+
+    def test_connection_checks_skipped_without_tolerance(self):
+        data = drawing()
+        data['attachment_points'] = [dict(id='P1', x=10, y=10, kind='pin')]
+        result = layout.analyze(data)
+        self.assertTrue(any(entry.startswith('connection checks') for entry in result['checks_skipped']))
+
+    def test_invalid_optional_fields(self):
+        variants = []
+        data = drawing(); data['title_block'] = [0, 0, 0, 10]; variants.append(data)
+        data = drawing(); data['module_frames'] = [dict(id='f', bbox=[0, 0, 1, 1], contains='U1')]; variants.append(data)
+        data = drawing(); data['module_frames'] = [dict(id='f', bbox=[0, 0, 1, 1]),
+                                                   dict(id='f', bbox=[2, 2, 3, 3])]; variants.append(data)
+        data = drawing(); data['attachment_points'] = [dict(id='P1', x=0, y=0), dict(id='P1', x=1, y=1)]; variants.append(data)
+        data = drawing(); data['label_anchors'] = [dict(id='l', net='', x=0, y=0)]; variants.append(data)
+        data = drawing(); data['policy'] = dict(connection_tolerance=0); variants.append(data)
+        for data in variants:
+            with self.subTest(data=data), self.assertRaises(ValueError):
+                layout.analyze(data)
+
 
 class OfflineCli(unittest.TestCase):
     def test_cli_codes_and_json(self):

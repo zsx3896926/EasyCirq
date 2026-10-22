@@ -1,5 +1,10 @@
 # 低功耗无线/电池类开源硬件案例集（OSHW-07…11）
 
+## 内容导航
+
+- [本组覆盖缺口](#本组覆盖缺口)
+
+
 - 覆盖项目数：5（OSHW-07 Crazyflie 2.1、OSHW-08 Crazyflie 2.1 Brushless、OSHW-09 Adafruit Feather nRF52840 Sense、OSHW-10 LibreSolar BMS C1、OSHW-11 LibreSolar MPPT 2420 HC）。
 - 实际读取的文件类别：PDF 渲染页与可提取文本（Crazyflie 2.1 无文本层；Brushless 有部分文本层，已与渲染图交叉核对；另下载同作者仓库的 Crazyflie 2.0 Rev.C 第 1–3 页做版本对比，外部 PDF 未随本地快照）；EAGLE XML `.sch/.brd`（Feather）；KiCad modern `.kicad_sch/.kicad_pcb`（BMS）；KiCad legacy `.sch/.kicad_pcb`（MPPT）；BOM CSV；README/LICENSE；GitHub API 的 commit/issue/PR/tree；Crazyflie nRF 固件 `config/custom_board.h` 与 `src/pm.c`。
 - 未能读取的项目及原因：没有整个项目完全未读；缺口集中在子文件与布局级证据。BMS 顶层 `bms-c1.kicad_sch` 引用的 `power_supply.kicad_sch` 本地缺失（3.3 V buck/LMR38010、10 mm 电解电容无法核对）；MPPT 顶层引用的 `mcu.sch`、`load-switch.sch` 本地缺失（STM32G431、负载开关/CP_OUT/I_LOAD 无法核对）；Crazyflie 2.1 与 Brushless 本地只有原理图 PDF，没有 `.brd/.kicad_pcb`，PCB 决定只能写“资料不足，不能判断”；BQ76952、LM5107、MCP73831、RT9080、BQ24075、MCMNP2065 的原厂数据手册不在本地，相关机理按 B 级处理。详见文末“本组覆盖缺口”。

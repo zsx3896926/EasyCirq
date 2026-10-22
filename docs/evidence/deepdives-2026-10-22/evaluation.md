@@ -1,6 +1,9 @@
 # 审图练习内容层试验：评分与问题
 
-> 试验设计见 [README.md](README.md)。两名学生只读题面盲答；评分员对照 [answers.md](../answers.md) 逐题打分。
+> **历史记录：** 输入含题型提示，评分使用当时答案；以下分数及评分员判断不作为当前正确性结论，未按本次修订重新评分。参见[试验限制](README.md)。
+
+
+> 试验设计见 [README.md](README.md)。两名学生只读题面答案文件隔离试答；评分员对照 [answers.md](../../../design-hardware/references/engineering-deepdives/exercises/answers.md) 逐题打分。
 >
 > 结论只对本批题面负责，不是模型能力认证。
 

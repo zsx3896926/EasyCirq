@@ -1,0 +1,1837 @@
+{
+  "version": 1,
+  "coordinate_note": "All coordinates are illustrative grid units for the offline checker, not real EDA millimetres or pixels. Cases are intentionally flawed examples; do not copy their geometry or connectivity as a design.",
+  "cases": [
+    {
+      "id": "B1-MCU-MIN",
+      "title": "MCU 最小系统",
+      "domain": "mcu",
+      "problem": "位号文字压在芯片本体上；SWD 与复位线交叉；说明文字未纳入模块框。",
+      "target": "把位号/说明移到本体外，SWD 与复位线错开或改短引线+标签；模块框成员完整。",
+      "connectivity": [
+        "U1: 3V3/GND/NRST/SWDIO",
+        "C1: 3V3/GND",
+        "R1: NRST/3V3",
+        "J1: SWDIO/NRST/GND"
+      ],
+      "expected_codes": [
+        "bbox_overlap",
+        "different_named_wires_cross",
+        "frame_membership_gap",
+        "label_anchor_off_connection"
+      ],
+      "inspection": "真实导图检查位号/文字是否压本体；回读 SWDIO/NRST 的物理脚网络；确认模块框成员与说明文字归属。",
+      "evidence_level": "Offline illustrative geometry snapshot. Not a real EDA project, not electrically verified, not visually verified.",
+      "layout": {
+        "coordinate_units": "benchmark grid units (illustrative, not millimetres)",
+        "components": [
+          {
+            "id": "U1",
+            "bbox": [
+              40,
+              120,
+              120,
+              220
+            ]
+          },
+          {
+            "id": "C1",
+            "bbox": [
+              140,
+              190,
+              155,
+              205
+            ]
+          },
+          {
+            "id": "R1",
+            "bbox": [
+              160,
+              120,
+              175,
+              135
+            ]
+          }
+        ],
+        "texts": [
+          {
+            "id": "t-u1",
+            "bbox": [
+              70,
+              170,
+              110,
+              185
+            ]
+          },
+          {
+            "id": "t-3v3",
+            "bbox": [
+              140,
+              210,
+              160,
+              220
+            ]
+          }
+        ],
+        "wires": [
+          {
+            "id": "w-3v3",
+            "net": "3V3",
+            "points": [
+              [
+                120,
+                200
+              ],
+              [
+                140,
+                200
+              ]
+            ]
+          },
+          {
+            "id": "w-gnd",
+            "net": "GND",
+            "points": [
+              [
+                80,
+                120
+              ],
+              [
+                80,
+                100
+              ]
+            ]
+          },
+          {
+            "id": "w-nrst",
+            "net": "NRST",
+            "points": [
+              [
+                175,
+                128
+              ],
+              [
+                220,
+                128
+              ]
+            ]
+          },
+          {
+            "id": "w-swd",
+            "net": "SWDIO",
+            "points": [
+              [
+                220,
+                120
+              ],
+              [
+                180,
+                160
+              ]
+            ]
+          }
+        ],
+        "page_bbox": [
+          0,
+          0,
+          400,
+          300
+        ],
+        "expected_counts": {
+          "components": 3,
+          "texts": 2,
+          "wires": 4
+        },
+        "policy": {
+          "connection_tolerance": 1.0
+        },
+        "module_frames": [
+          {
+            "id": "frame-mcu",
+            "bbox": [
+              20,
+              100,
+              240,
+              240
+            ],
+            "contains": [
+              "U1",
+              "C1",
+              "R1"
+            ]
+          }
+        ],
+        "attachment_points": [
+          {
+            "id": "U1-3V3",
+            "x": 120,
+            "y": 200,
+            "kind": "pin"
+          },
+          {
+            "id": "C1-1",
+            "x": 140,
+            "y": 200,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-GND",
+            "x": 80,
+            "y": 120,
+            "kind": "pin"
+          },
+          {
+            "id": "R1-1",
+            "x": 175,
+            "y": 128,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-NRST",
+            "x": 220,
+            "y": 128,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-SWDIO",
+            "x": 180,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-SWDIO",
+            "x": 220,
+            "y": 120,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-GND",
+            "x": 80,
+            "y": 100,
+            "kind": "pin"
+          }
+        ],
+        "label_anchors": [
+          {
+            "id": "l-3v3",
+            "net": "3V3",
+            "x": 140,
+            "y": 215
+          }
+        ]
+      }
+    },
+    {
+      "id": "B2-POWER",
+      "title": "电源转换",
+      "domain": "power",
+      "problem": "反馈线穿过功率级本体并绕行；输入/开关/输出节点跨度过长；说明文字未纳入模块框。",
+      "target": "按输入电容→开关管→电感→输出电容缩短关键回路；反馈从输出采样点短引线回控；文字归入模块。",
+      "connectivity": [
+        "U1: VIN/SW/FB/GND",
+        "L1: SW/3V3",
+        "CIN: VIN/GND",
+        "COUT: 3V3/GND"
+      ],
+      "expected_codes": [
+        "wire_enters_bbox",
+        "long_wire",
+        "frame_membership_gap"
+      ],
+      "inspection": "真实导图看反馈/开关回路是否绕行；PCB阶段核对输入电容-开关-电感-输出电容回路面积与回流。",
+      "evidence_level": "Offline illustrative geometry snapshot. Not a real EDA project, not electrically verified, not visually verified.",
+      "layout": {
+        "coordinate_units": "benchmark grid units (illustrative, not millimetres)",
+        "components": [
+          {
+            "id": "U1",
+            "bbox": [
+              50,
+              150,
+              100,
+              200
+            ]
+          },
+          {
+            "id": "L1",
+            "bbox": [
+              110,
+              170,
+              140,
+              185
+            ]
+          },
+          {
+            "id": "CIN",
+            "bbox": [
+              40,
+              210,
+              55,
+              225
+            ]
+          },
+          {
+            "id": "COUT",
+            "bbox": [
+              150,
+              150,
+              165,
+              165
+            ]
+          }
+        ],
+        "texts": [
+          {
+            "id": "t-sw",
+            "bbox": [
+              115,
+              190,
+              155,
+              200
+            ]
+          },
+          {
+            "id": "t-vin",
+            "bbox": [
+              40,
+              230,
+              60,
+              240
+            ]
+          }
+        ],
+        "wires": [
+          {
+            "id": "w-vin",
+            "net": "VIN",
+            "points": [
+              [
+                40,
+                215
+              ],
+              [
+                50,
+                215
+              ]
+            ]
+          },
+          {
+            "id": "w-sw",
+            "net": "SW",
+            "points": [
+              [
+                100,
+                180
+              ],
+              [
+                110,
+                180
+              ]
+            ]
+          },
+          {
+            "id": "w-vout",
+            "net": "3V3",
+            "points": [
+              [
+                140,
+                175
+              ],
+              [
+                150,
+                175
+              ]
+            ]
+          },
+          {
+            "id": "w-fb",
+            "net": "FB",
+            "points": [
+              [
+                150,
+                160
+              ],
+              [
+                60,
+                160
+              ]
+            ]
+          }
+        ],
+        "page_bbox": [
+          0,
+          0,
+          400,
+          300
+        ],
+        "expected_counts": {
+          "components": 4,
+          "texts": 2,
+          "wires": 4
+        },
+        "policy": {
+          "connection_tolerance": 1.0,
+          "max_wire_length": 80
+        },
+        "module_frames": [
+          {
+            "id": "frame-power",
+            "bbox": [
+              20,
+              140,
+              200,
+              250
+            ],
+            "contains": [
+              "U1",
+              "L1",
+              "CIN",
+              "COUT"
+            ]
+          }
+        ],
+        "attachment_points": [
+          {
+            "id": "CIN-1",
+            "x": 40,
+            "y": 215,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-VIN",
+            "x": 50,
+            "y": 215,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-SW",
+            "x": 100,
+            "y": 180,
+            "kind": "pin"
+          },
+          {
+            "id": "L1-1",
+            "x": 110,
+            "y": 180,
+            "kind": "pin"
+          },
+          {
+            "id": "L1-2",
+            "x": 140,
+            "y": 175,
+            "kind": "pin"
+          },
+          {
+            "id": "COUT-1",
+            "x": 150,
+            "y": 175,
+            "kind": "pin"
+          },
+          {
+            "id": "COUT-2",
+            "x": 150,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-FB",
+            "x": 60,
+            "y": 160,
+            "kind": "pin"
+          }
+        ]
+      }
+    },
+    {
+      "id": "B3-ANALOG",
+      "title": "模拟采集",
+      "domain": "analog",
+      "problem": "ADC 网络标签贴到错误网络；VREF 标签悬空；说明文字未归入模块。",
+      "target": "标签落在真实端点且网名与导线一致；VREF 接到真实去耦/基准节点；模块成员完整。",
+      "connectivity": [
+        "U1: AIN/ADC_IN/GND",
+        "A1: IN/OUT",
+        "R1/R2: 反馈分压"
+      ],
+      "expected_codes": [
+        "label_net_mismatch",
+        "label_anchor_off_connection",
+        "frame_membership_gap"
+      ],
+      "inspection": "真实导图核对 ADC 输入/基准标签是否落在正确端点；回读模拟链路物理脚网络；不要只看网名。",
+      "evidence_level": "Offline illustrative geometry snapshot. Not a real EDA project, not electrically verified, not visually verified.",
+      "layout": {
+        "coordinate_units": "benchmark grid units (illustrative, not millimetres)",
+        "components": [
+          {
+            "id": "U1",
+            "bbox": [
+              60,
+              80,
+              120,
+              160
+            ]
+          },
+          {
+            "id": "A1",
+            "bbox": [
+              150,
+              100,
+              190,
+              140
+            ]
+          },
+          {
+            "id": "R1",
+            "bbox": [
+              130,
+              120,
+              145,
+              135
+            ]
+          },
+          {
+            "id": "R2",
+            "bbox": [
+              130,
+              150,
+              145,
+              165
+            ]
+          }
+        ],
+        "texts": [
+          {
+            "id": "t-adc",
+            "bbox": [
+              160,
+              150,
+              200,
+              160
+            ]
+          },
+          {
+            "id": "t-vref",
+            "bbox": [
+              60,
+              170,
+              90,
+              180
+            ]
+          }
+        ],
+        "wires": [
+          {
+            "id": "w-in",
+            "net": "AIN",
+            "points": [
+              [
+                120,
+                120
+              ],
+              [
+                130,
+                120
+              ]
+            ]
+          },
+          {
+            "id": "w-out",
+            "net": "ADC_IN",
+            "points": [
+              [
+                190,
+                120
+              ],
+              [
+                220,
+                120
+              ]
+            ]
+          },
+          {
+            "id": "w-fb",
+            "net": "FB",
+            "points": [
+              [
+                145,
+                135
+              ],
+              [
+                160,
+                135
+              ]
+            ]
+          },
+          {
+            "id": "w-gnd",
+            "net": "GND",
+            "points": [
+              [
+                150,
+                160
+              ],
+              [
+                210,
+                160
+              ]
+            ]
+          }
+        ],
+        "page_bbox": [
+          0,
+          0,
+          400,
+          300
+        ],
+        "expected_counts": {
+          "components": 4,
+          "texts": 2,
+          "wires": 4
+        },
+        "policy": {
+          "connection_tolerance": 1.0
+        },
+        "module_frames": [
+          {
+            "id": "frame-analog",
+            "bbox": [
+              40,
+              70,
+              240,
+              190
+            ],
+            "contains": [
+              "U1",
+              "A1",
+              "R1",
+              "R2"
+            ]
+          }
+        ],
+        "attachment_points": [
+          {
+            "id": "U1-AIN",
+            "x": 120,
+            "y": 120,
+            "kind": "pin"
+          },
+          {
+            "id": "R1-1",
+            "x": 130,
+            "y": 120,
+            "kind": "pin"
+          },
+          {
+            "id": "A1-OUT",
+            "x": 190,
+            "y": 120,
+            "kind": "pin"
+          },
+          {
+            "id": "J-ADC",
+            "x": 220,
+            "y": 120,
+            "kind": "pin"
+          },
+          {
+            "id": "R1-2",
+            "x": 145,
+            "y": 135,
+            "kind": "pin"
+          },
+          {
+            "id": "A1-IN",
+            "x": 160,
+            "y": 135,
+            "kind": "pin"
+          },
+          {
+            "id": "A1-GND",
+            "x": 150,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "J-GND",
+            "x": 210,
+            "y": 160,
+            "kind": "pin"
+          }
+        ],
+        "label_anchors": [
+          {
+            "id": "l-adc",
+            "net": "AIN",
+            "x": 220,
+            "y": 120
+          },
+          {
+            "id": "l-vref",
+            "net": "VREF",
+            "x": 75,
+            "y": 185
+          }
+        ]
+      }
+    },
+    {
+      "id": "B4-COMM",
+      "title": "工业通信",
+      "domain": "comm",
+      "problem": "A/B 差分标签贴错网络；说明文字跨越模块框边界；终端电阻说明未归入模块。",
+      "target": "差分对成对呈现、标签各随其线；框线不切文字；终端说明与电阻同块。",
+      "connectivity": [
+        "U1: A/B/TERM/GND",
+        "J1: A/B/GND",
+        "R1: TERM"
+      ],
+      "expected_codes": [
+        "label_net_mismatch",
+        "frame_border_crosses_object",
+        "frame_membership_gap"
+      ],
+      "inspection": "真实导图核对 A/B 成对走向与标签；回读收发器/连接器物理脚；终端电阻按实际总线位置核对。",
+      "evidence_level": "Offline illustrative geometry snapshot. Not a real EDA project, not electrically verified, not visually verified.",
+      "layout": {
+        "coordinate_units": "benchmark grid units (illustrative, not millimetres)",
+        "components": [
+          {
+            "id": "U1",
+            "bbox": [
+              50,
+              150,
+              100,
+              190
+            ]
+          },
+          {
+            "id": "J1",
+            "bbox": [
+              180,
+              150,
+              210,
+              190
+            ]
+          },
+          {
+            "id": "R1",
+            "bbox": [
+              120,
+              120,
+              135,
+              135
+            ]
+          },
+          {
+            "id": "R2",
+            "bbox": [
+              120,
+              180,
+              135,
+              195
+            ]
+          }
+        ],
+        "texts": [
+          {
+            "id": "t-ab",
+            "bbox": [
+              150,
+              210,
+              180,
+              220
+            ]
+          },
+          {
+            "id": "t-term",
+            "bbox": [
+              120,
+              105,
+              150,
+              115
+            ]
+          }
+        ],
+        "wires": [
+          {
+            "id": "w-a",
+            "net": "RS485_A",
+            "points": [
+              [
+                100,
+                160
+              ],
+              [
+                180,
+                160
+              ]
+            ]
+          },
+          {
+            "id": "w-b",
+            "net": "RS485_B",
+            "points": [
+              [
+                100,
+                180
+              ],
+              [
+                180,
+                180
+              ]
+            ]
+          },
+          {
+            "id": "w-term",
+            "net": "TERM",
+            "points": [
+              [
+                135,
+                128
+              ],
+              [
+                180,
+                128
+              ]
+            ]
+          },
+          {
+            "id": "w-gnd",
+            "net": "GND",
+            "points": [
+              [
+                100,
+                190
+              ],
+              [
+                180,
+                190
+              ]
+            ]
+          }
+        ],
+        "page_bbox": [
+          0,
+          0,
+          400,
+          300
+        ],
+        "expected_counts": {
+          "components": 4,
+          "texts": 2,
+          "wires": 4
+        },
+        "policy": {
+          "connection_tolerance": 1.0
+        },
+        "module_frames": [
+          {
+            "id": "frame-comm",
+            "bbox": [
+              30,
+              110,
+              230,
+              230
+            ],
+            "contains": [
+              "U1",
+              "J1",
+              "R1",
+              "R2"
+            ]
+          }
+        ],
+        "attachment_points": [
+          {
+            "id": "U1-A",
+            "x": 100,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-A",
+            "x": 180,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-B",
+            "x": 100,
+            "y": 180,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-B",
+            "x": 180,
+            "y": 180,
+            "kind": "pin"
+          },
+          {
+            "id": "R1-1",
+            "x": 135,
+            "y": 128,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-TERM",
+            "x": 180,
+            "y": 128,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-GND",
+            "x": 100,
+            "y": 190,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-GND",
+            "x": 180,
+            "y": 190,
+            "kind": "pin"
+          }
+        ],
+        "label_anchors": [
+          {
+            "id": "l-a",
+            "net": "RS485_A",
+            "x": 150,
+            "y": 160
+          },
+          {
+            "id": "l-b",
+            "net": "RS485_A",
+            "x": 150,
+            "y": 180
+          }
+        ]
+      }
+    },
+    {
+      "id": "B5-BATTERY",
+      "title": "电池与保护",
+      "domain": "battery",
+      "problem": "器件越出页边界；保护模块框越出页；说明文字未归入模块。",
+      "target": "把电池/保护/输出限制在图框内；模块框与内容一起移动；越页项先解决再谈紧凑。",
+      "connectivity": [
+        "BT1: BAT+/GND",
+        "U1: BAT/BMS_OUT/GND",
+        "Q1: BMS_OUT/LOAD"
+      ],
+      "expected_codes": [
+        "outside_page",
+        "module_frame_outside_page",
+        "frame_membership_gap"
+      ],
+      "inspection": "真实导图先看页边界与图框；回读电池/保护/负载网络；机械与安规条件另列，不由几何脚本判定。",
+      "evidence_level": "Offline illustrative geometry snapshot. Not a real EDA project, not electrically verified, not visually verified.",
+      "layout": {
+        "coordinate_units": "benchmark grid units (illustrative, not millimetres)",
+        "components": [
+          {
+            "id": "BT1",
+            "bbox": [
+              40,
+              120,
+              100,
+              180
+            ]
+          },
+          {
+            "id": "U1",
+            "bbox": [
+              130,
+              130,
+              170,
+              170
+            ]
+          },
+          {
+            "id": "Q1",
+            "bbox": [
+              190,
+              140,
+              210,
+              160
+            ]
+          },
+          {
+            "id": "Q2",
+            "bbox": [
+              380,
+              280,
+              420,
+              300
+            ]
+          }
+        ],
+        "texts": [
+          {
+            "id": "t-bat",
+            "bbox": [
+              40,
+              190,
+              80,
+              200
+            ]
+          },
+          {
+            "id": "t-bms",
+            "bbox": [
+              130,
+              180,
+              170,
+              190
+            ]
+          }
+        ],
+        "wires": [
+          {
+            "id": "w-bat",
+            "net": "BAT",
+            "points": [
+              [
+                100,
+                150
+              ],
+              [
+                130,
+                150
+              ]
+            ]
+          },
+          {
+            "id": "w-out",
+            "net": "BMS_OUT",
+            "points": [
+              [
+                170,
+                150
+              ],
+              [
+                190,
+                150
+              ]
+            ]
+          },
+          {
+            "id": "w-gnd",
+            "net": "GND",
+            "points": [
+              [
+                100,
+                130
+              ],
+              [
+                130,
+                130
+              ]
+            ]
+          }
+        ],
+        "page_bbox": [
+          0,
+          0,
+          400,
+          300
+        ],
+        "expected_counts": {
+          "components": 4,
+          "texts": 2,
+          "wires": 3
+        },
+        "policy": {
+          "connection_tolerance": 1.0
+        },
+        "module_frames": [
+          {
+            "id": "frame-battery",
+            "bbox": [
+              20,
+              100,
+              230,
+              210
+            ],
+            "contains": [
+              "BT1",
+              "U1",
+              "Q1"
+            ]
+          },
+          {
+            "id": "frame-extra",
+            "bbox": [
+              300,
+              200,
+              450,
+              280
+            ],
+            "contains": []
+          }
+        ],
+        "attachment_points": [
+          {
+            "id": "BT1-1",
+            "x": 100,
+            "y": 150,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-BAT",
+            "x": 130,
+            "y": 150,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-OUT",
+            "x": 170,
+            "y": 150,
+            "kind": "pin"
+          },
+          {
+            "id": "Q1-1",
+            "x": 190,
+            "y": 150,
+            "kind": "pin"
+          },
+          {
+            "id": "BT1-2",
+            "x": 100,
+            "y": 130,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-GND",
+            "x": 130,
+            "y": 130,
+            "kind": "pin"
+          }
+        ]
+      }
+    },
+    {
+      "id": "B6-MOTOR",
+      "title": "电机/感性负载",
+      "domain": "motor",
+      "problem": "采样线端点悬空；同一电机端子被两条不同网络导线占用；说明文字未归入模块。",
+      "target": "明确测试点或删除悬空线；同一端子只保留一个网络；驱动/续流/采样同块表达。",
+      "connectivity": [
+        "U1: PWM/OUT/RET",
+        "M1: A/B",
+        "D1: K/A",
+        "J1: PWM"
+      ],
+      "expected_codes": [
+        "dangling_wire_endpoint",
+        "pin_multiple_nets",
+        "frame_membership_gap"
+      ],
+      "inspection": "真实导图确认采样端点有测试点或连接；回读电机端子网络；续流/驱动/采样链路在PCB阶段核对回流与电流路径。",
+      "evidence_level": "Offline illustrative geometry snapshot. Not a real EDA project, not electrically verified, not visually verified.",
+      "layout": {
+        "coordinate_units": "benchmark grid units (illustrative, not millimetres)",
+        "components": [
+          {
+            "id": "U1",
+            "bbox": [
+              50,
+              140,
+              100,
+              180
+            ]
+          },
+          {
+            "id": "M1",
+            "bbox": [
+              160,
+              120,
+              210,
+              180
+            ]
+          },
+          {
+            "id": "D1",
+            "bbox": [
+              120,
+              100,
+              140,
+              120
+            ]
+          }
+        ],
+        "texts": [
+          {
+            "id": "t-pwm",
+            "bbox": [
+              50,
+              190,
+              90,
+              200
+            ]
+          },
+          {
+            "id": "t-motor",
+            "bbox": [
+              160,
+              190,
+              200,
+              200
+            ]
+          }
+        ],
+        "wires": [
+          {
+            "id": "w-pwm",
+            "net": "PWM",
+            "points": [
+              [
+                50,
+                160
+              ],
+              [
+                30,
+                160
+              ]
+            ]
+          },
+          {
+            "id": "w-out",
+            "net": "MOTOR_A",
+            "points": [
+              [
+                100,
+                150
+              ],
+              [
+                160,
+                150
+              ]
+            ]
+          },
+          {
+            "id": "w-ret",
+            "net": "MOTOR_B",
+            "points": [
+              [
+                160,
+                170
+              ],
+              [
+                100,
+                170
+              ]
+            ]
+          },
+          {
+            "id": "w-sense",
+            "net": "SENSE",
+            "points": [
+              [
+                140,
+                110
+              ],
+              [
+                140,
+                90
+              ]
+            ]
+          },
+          {
+            "id": "w-brake",
+            "net": "BRAKE",
+            "points": [
+              [
+                160,
+                150
+              ],
+              [
+                180,
+                150
+              ]
+            ]
+          }
+        ],
+        "page_bbox": [
+          0,
+          0,
+          400,
+          300
+        ],
+        "expected_counts": {
+          "components": 3,
+          "texts": 2,
+          "wires": 5
+        },
+        "policy": {
+          "connection_tolerance": 1.0
+        },
+        "module_frames": [
+          {
+            "id": "frame-motor",
+            "bbox": [
+              30,
+              90,
+              230,
+              220
+            ],
+            "contains": [
+              "U1",
+              "M1",
+              "D1"
+            ]
+          }
+        ],
+        "attachment_points": [
+          {
+            "id": "U1-PWM",
+            "x": 50,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-PWM",
+            "x": 30,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-OUT",
+            "x": 100,
+            "y": 150,
+            "kind": "pin"
+          },
+          {
+            "id": "M1-A",
+            "x": 160,
+            "y": 150,
+            "kind": "pin"
+          },
+          {
+            "id": "M1-B",
+            "x": 160,
+            "y": 170,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-RET",
+            "x": 100,
+            "y": 170,
+            "kind": "pin"
+          },
+          {
+            "id": "D1-K",
+            "x": 140,
+            "y": 110,
+            "kind": "pin"
+          },
+          {
+            "id": "J-BRAKE",
+            "x": 180,
+            "y": 150,
+            "kind": "pin"
+          }
+        ]
+      }
+    },
+    {
+      "id": "B7-WIRELESS",
+      "title": "无线模块",
+      "domain": "wireless",
+      "problem": "天线净空框与主控框重叠；净空框说明文字未归入框；模块边界不清。",
+      "target": "天线净空区独立且不被其他模块框覆盖；净空说明归入净空框；RF走线短而直。",
+      "connectivity": [
+        "U1: RF/3V3/GND",
+        "A1: RF",
+        "C1: 3V3/GND"
+      ],
+      "expected_codes": [
+        "module_frames_overlap",
+        "frame_membership_gap"
+      ],
+      "inspection": "真实导图确认天线净空区没有被其他框/器件占用；PCB阶段按模块天线手册核对净空、地平面与外壳条件。",
+      "evidence_level": "Offline illustrative geometry snapshot. Not a real EDA project, not electrically verified, not visually verified.",
+      "layout": {
+        "coordinate_units": "benchmark grid units (illustrative, not millimetres)",
+        "components": [
+          {
+            "id": "U1",
+            "bbox": [
+              60,
+              120,
+              120,
+              180
+            ]
+          },
+          {
+            "id": "A1",
+            "bbox": [
+              130,
+              150,
+              170,
+              170
+            ]
+          },
+          {
+            "id": "C1",
+            "bbox": [
+              40,
+              200,
+              55,
+              215
+            ]
+          }
+        ],
+        "texts": [
+          {
+            "id": "t-ant",
+            "bbox": [
+              130,
+              180,
+              160,
+              190
+            ]
+          },
+          {
+            "id": "t-keepout",
+            "bbox": [
+              130,
+              100,
+              190,
+              110
+            ]
+          }
+        ],
+        "wires": [
+          {
+            "id": "w-rf",
+            "net": "RF",
+            "points": [
+              [
+                120,
+                160
+              ],
+              [
+                130,
+                160
+              ]
+            ]
+          },
+          {
+            "id": "w-3v3",
+            "net": "3V3",
+            "points": [
+              [
+                60,
+                200
+              ],
+              [
+                40,
+                200
+              ]
+            ]
+          },
+          {
+            "id": "w-gnd",
+            "net": "GND",
+            "points": [
+              [
+                90,
+                120
+              ],
+              [
+                90,
+                90
+              ]
+            ]
+          }
+        ],
+        "page_bbox": [
+          0,
+          0,
+          400,
+          300
+        ],
+        "expected_counts": {
+          "components": 3,
+          "texts": 2,
+          "wires": 3
+        },
+        "policy": {
+          "connection_tolerance": 1.0
+        },
+        "module_frames": [
+          {
+            "id": "frame-main",
+            "bbox": [
+              40,
+              100,
+              150,
+              220
+            ],
+            "contains": [
+              "U1",
+              "C1"
+            ]
+          },
+          {
+            "id": "frame-rf",
+            "bbox": [
+              120,
+              90,
+              200,
+              190
+            ],
+            "contains": [
+              "A1"
+            ]
+          }
+        ],
+        "attachment_points": [
+          {
+            "id": "U1-RF",
+            "x": 120,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "A1-RF",
+            "x": 130,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-3V3",
+            "x": 60,
+            "y": 200,
+            "kind": "pin"
+          },
+          {
+            "id": "C1-1",
+            "x": 40,
+            "y": 200,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-GND",
+            "x": 90,
+            "y": 120,
+            "kind": "pin"
+          },
+          {
+            "id": "GND",
+            "x": 90,
+            "y": 90,
+            "kind": "pin"
+          }
+        ],
+        "label_anchors": [
+          {
+            "id": "l-rf",
+            "net": "RF",
+            "x": 125,
+            "y": 160
+          }
+        ]
+      }
+    },
+    {
+      "id": "B8-MULTI",
+      "title": "多模块组合页面",
+      "domain": "multi",
+      "problem": "跨页长地线；说明文字/导线压入标题栏；模块成员不完整；UART 标签贴错网络。",
+      "target": "按电源→主控→接口阅读顺序分块；跨块用短引线+标签；标题栏留空；模块成员与标签一致。",
+      "connectivity": [
+        "U1: 3V3/GND",
+        "U2: 3V3/UART_TX/UART_RX/GND",
+        "J1: UART_TX/UART_RX/GND"
+      ],
+      "expected_codes": [
+        "long_wire",
+        "overlaps_title_block",
+        "wire_enters_title_block",
+        "frame_membership_gap",
+        "label_net_mismatch"
+      ],
+      "inspection": "真实导图按阅读顺序检查分块与跨块标签；回读 UART/电源物理脚；标题栏、页边界与模块留白实际看图。",
+      "evidence_level": "Offline illustrative geometry snapshot. Not a real EDA project, not electrically verified, not visually verified.",
+      "layout": {
+        "coordinate_units": "benchmark grid units (illustrative, not millimetres)",
+        "components": [
+          {
+            "id": "U1",
+            "bbox": [
+              40,
+              120,
+              100,
+              180
+            ]
+          },
+          {
+            "id": "U2",
+            "bbox": [
+              160,
+              120,
+              220,
+              180
+            ]
+          },
+          {
+            "id": "J1",
+            "bbox": [
+              280,
+              120,
+              310,
+              180
+            ]
+          }
+        ],
+        "texts": [
+          {
+            "id": "t-power",
+            "bbox": [
+              40,
+              200,
+              80,
+              210
+            ]
+          },
+          {
+            "id": "t-mcu",
+            "bbox": [
+              160,
+              200,
+              190,
+              210
+            ]
+          },
+          {
+            "id": "t-io",
+            "bbox": [
+              280,
+              200,
+              300,
+              210
+            ]
+          },
+          {
+            "id": "t-note",
+            "bbox": [
+              300,
+              20,
+              350,
+              40
+            ]
+          }
+        ],
+        "wires": [
+          {
+            "id": "w-3v3",
+            "net": "3V3",
+            "points": [
+              [
+                100,
+                150
+              ],
+              [
+                160,
+                150
+              ]
+            ]
+          },
+          {
+            "id": "w-tx",
+            "net": "UART_TX",
+            "points": [
+              [
+                220,
+                140
+              ],
+              [
+                280,
+                140
+              ]
+            ]
+          },
+          {
+            "id": "w-rx",
+            "net": "UART_RX",
+            "points": [
+              [
+                220,
+                160
+              ],
+              [
+                280,
+                160
+              ]
+            ]
+          },
+          {
+            "id": "w-gnd",
+            "net": "GND",
+            "points": [
+              [
+                40,
+                120
+              ],
+              [
+                280,
+                120
+              ]
+            ]
+          },
+          {
+            "id": "w-note",
+            "net": "NOTE",
+            "points": [
+              [
+                300,
+                30
+              ],
+              [
+                350,
+                30
+              ]
+            ]
+          }
+        ],
+        "page_bbox": [
+          0,
+          0,
+          400,
+          300
+        ],
+        "expected_counts": {
+          "components": 3,
+          "texts": 4,
+          "wires": 5
+        },
+        "policy": {
+          "connection_tolerance": 1.0,
+          "max_wire_length": 200
+        },
+        "title_block": [
+          280,
+          0,
+          400,
+          50
+        ],
+        "module_frames": [
+          {
+            "id": "frame-power",
+            "bbox": [
+              20,
+              110,
+              120,
+              220
+            ],
+            "contains": [
+              "U1"
+            ]
+          },
+          {
+            "id": "frame-mcu",
+            "bbox": [
+              140,
+              110,
+              240,
+              220
+            ],
+            "contains": [
+              "U2"
+            ]
+          },
+          {
+            "id": "frame-io",
+            "bbox": [
+              260,
+              110,
+              340,
+              220
+            ],
+            "contains": [
+              "J1"
+            ]
+          }
+        ],
+        "attachment_points": [
+          {
+            "id": "U1-3V3",
+            "x": 100,
+            "y": 150,
+            "kind": "pin"
+          },
+          {
+            "id": "U2-3V3",
+            "x": 160,
+            "y": 150,
+            "kind": "pin"
+          },
+          {
+            "id": "U2-TX",
+            "x": 220,
+            "y": 140,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-TX",
+            "x": 280,
+            "y": 140,
+            "kind": "pin"
+          },
+          {
+            "id": "U2-RX",
+            "x": 220,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-RX",
+            "x": 280,
+            "y": 160,
+            "kind": "pin"
+          },
+          {
+            "id": "U1-GND",
+            "x": 40,
+            "y": 120,
+            "kind": "pin"
+          },
+          {
+            "id": "J1-GND",
+            "x": 280,
+            "y": 120,
+            "kind": "pin"
+          },
+          {
+            "id": "J-NOTE-START",
+            "x": 300,
+            "y": 30,
+            "kind": "pin"
+          },
+          {
+            "id": "J-NOTE",
+            "x": 350,
+            "y": 30,
+            "kind": "pin"
+          }
+        ],
+        "label_anchors": [
+          {
+            "id": "l-tx",
+            "net": "UART_TX",
+            "x": 250,
+            "y": 140
+          },
+          {
+            "id": "l-rx",
+            "net": "UART_TX",
+            "x": 250,
+            "y": 160
+          }
+        ]
+      }
+    }
+  ]
+}

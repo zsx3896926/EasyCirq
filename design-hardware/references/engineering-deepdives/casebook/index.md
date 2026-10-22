@@ -36,7 +36,7 @@
 | OSHW-06 | BeagleBone Black | SBC/以太网 | `c7bbdb9676` | OSHW 认证 US000236 | TPS65217 PMIC、DDR3、以太网 PHY | 无源文件许可；PDF 11 页 |
 | OSHW-07 | Crazyflie 2.1 | 无线/电池/电机 | Rev.B，2018-12-07 | CC BY-NC-SA 4.0 | nRF 常开轨/VEN_D 门控、BQ24075、电机 MOSFET | 非商业；无 PCB |
 | OSHW-08 | Crazyflie 2.1 Brushless | 电机/热 | Rev.G，2024-08-12 | 以图纸页为准 | 独立电调、功率级、热 | 无 PCB；未实测 |
-| OSHW-09 | Adafruit Feather nRF52840 Sense | 低功耗无线/传感器 | `afeb0acb67` | CC BY-SA 3.0 | 电池分压门控、micro-USB/充电、传感器总线 | nRF52 睡眠电流手册未取得 |
+| OSHW-09 | Adafruit Feather nRF52840 Sense | 低功耗无线/传感器 | `afeb0acb67` | CC BY-SA 3.0 | 常接电池分压、micro-USB/充电、传感器总线 | nRF52 睡眠电流手册未取得 |
 | OSHW-10 | LibreSolar BMS C1 | 电池管理 | `0ca09706f4`，v0.4.2 | CERN-OHL-W-2.0 | BQ76952、DSG/CHG、预充、分流 | 70–100 A 只对该板/散热 |
 | OSHW-11 | LibreSolar MPPT 2420 HC | 光伏/电池/CAN | `b1c11fee82` | CERN-OHL-W-2.0 | 同步 Buck、栅驱、CAN | 未读 mcu/load-switch 子页 |
 | OSHW-12 | MNT Reform 2 | 笔记本/电源/键盘 | `9dcb9a8df5` | CERN-OHL-S-2.0 | LTC4020 电源路径、多轨、电池包 | 未做整机热/EMC |
@@ -45,7 +45,7 @@
 | OSHW-15 | Smoothieboard | 3D 打印/加热 | `8f87131dce` | CERN OHL 1.2+ | 加热器 MOSFET、热敏、步进、24V 输入 | 未读 BOM/装配 |
 | OSHW-16 | Pixhawk FMUv2 | 飞控/电源/接口 | `bbf3de5360` | CC BY-SA 3.0 | 电源模块检测、双 IMU 位（共用总线，不能同时独立工作）、GPS/Telem | 未做振动/EMC |
 | OSHW-17 | ULX3S | FPGA/电源 | `6a92cec6b1` | MIT 式 + 丝印条件 | 多轨电源、DDR、HDMI | 丝印条件；只对该板 |
-| OSHW-18 | Mutable Braids | 音频/DAC | `f4cfa76970` | CC BY-SA 3.0（硬件） | CV 两级电平搬移、DAC/运放 | 不能复制图纸 |
+| OSHW-18 | Mutable Braids | 音频/DAC | `f4cfa76970` | CC BY-SA 3.0（硬件） | CV 两级电平搬移、DAC/运放 | 本仓库不收录原图；复用须核对并遵守原许可 |
 | OSHW-19 | Mutable Clouds | 音频/DSP | 同上 | CC BY-SA 3.0 | codec/DSP、模拟 I/O | 同上 |
 | OSHW-20 | Mutable Edges | 音频/ADC-DAC | 同上 | CC BY-SA 3.0 | 多路 ADC/DAC、比较器 | 同上 |
 | OSHW-21 | EEZ BB3 AUX-PS | 精密电源/模拟 | `c3d30a6210` | TAPR OHL 1.0 | 辅助电源、隔离、风扇、测量 | 未读主控/功率模块 |

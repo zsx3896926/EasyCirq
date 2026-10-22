@@ -1,5 +1,10 @@
 # HMI、连接器与电源组案例集（OSHW-12、OSHW-25）
 
+## 内容导航
+
+- [本组覆盖缺口](#本组覆盖缺口)
+
+
 **编号说明**：编号与 [sources.md](../../sources.md) 的 OSHW 台账一致；正文以项目名为准。
 
 - 覆盖项目数：2 个（Keyboardio Model 01 左右手、MNT Reform 2 主板与电池包）。

@@ -1,5 +1,8 @@
 # 审图练习使用说明
 
+独立试答使用[无类型提示输入](blind-prompts.md)；带题型的学习版不用于盲判评估。历史试验的输入泄漏与旧评分限制见[试验说明](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/README.md)。
+
+
 > 20 道单题 + 8 对成对案例。目标不是“找错越多越好”，而是学会区分：明确错误、条件风险、有意取舍、看似异常实际合理、信息不足。
 >
 > 题目在 [exercises.md](exercises.md)，成对案例在 [paired-cases.md](paired-cases.md)，参考答案在 [answers.md](answers.md)。
@@ -24,7 +27,7 @@
 ## 完成级别
 
 - 题目与参考答案：已完成（作者编写，基于本轮专题与来源）。
-- 独立 Agent 盲答：已运行（2 名 Agent、20 题）；原始回答见 [trial/responses.md](trial/responses.md)，评分与歧义见 [trial/evaluation.md](trial/evaluation.md)。
+- 独立 Agent 答案文件隔离试答：已运行（2 名 Agent、20 题）；原始回答见 [trial/responses.md](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/responses.md)，评分与歧义见 [trial/evaluation.md](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/evaluation.md)。
 - 这些题不是认证考试，也不证明 Agent 在真实工程中一定能判断正确；它们只覆盖本组题面的错误类型。
 
 ## 与专题的关系

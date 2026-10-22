@@ -1,5 +1,10 @@
 # 电机、功率与工业控制组案例集（OSHW-13 ~ OSHW-17）
 
+## 内容导航
+
+- [本组覆盖缺口](#本组覆盖缺口)
+
+
 **编号说明**：编号与 [sources.md](../../sources.md) 的 OSHW 台账一致；正文以项目名为准。
 
 - 覆盖项目数：5 个（ODrive v3、VESC BLDC_4、Smoothieboard、Pixhawk FMUv2.3、ULX3S）。
@@ -197,7 +202,7 @@
 **调试、制造或可维护性考虑（一项）**
 - 事实：[A] USB 输入有 US1（FTDI）和 US2（FPGA）两个 micro-USB；VBUS 经 D8（STPS2L40AF，2 A/30 V 肖特基）进板，D9 为 0 Ω/保险丝/跳线选项；作者注记“Parts reduction: Only D8 is required. D9 D51 D52 can be 1206 1A polyfuses or 0-ohm/2A jumpers”；USB D+/D- 的 15 k 下拉 R63/R64 是“Deviation from USB specification in pulldowns for BOM simplification. With series diode, correct value R63 R64 should be 12k but 15k is used.”
 - 证据：[A] `schematics_v317.pdf` 第 6 页（USB 部分）D8/D9、R63/R64、D20/D21、R49/R50/R52/R53；`power.sch`/`gpio.sch` 中 D51/D52 的“Leave empty”注记。
-- 对 Agent 的启示：[A] 这是一处作者明确记录的有意偏离：串联二极管改变了 USB 下拉的等效电压，15 k 是为了补偿，不是错值。审图/改板时不要把它“修正”成 12 k；若去掉 D8，才应回到 12 k 并重新验证枚举。[B] 双 USB 连接器、二极管 OR 和 0 Ω 选项会让“插哪个口、谁来供电”变得不直观；调试时先量 USB5V/FT2V5 和 D8 两端压降，再判断是枚举问题还是供电问题。
+- 对 Agent 的启示：[A] 这是一处作者明确记录的有意偏离：作者称带串联二极管时应为 12 kΩ，却为简化 BOM 保留 15 kΩ；不能反过来把 15 kΩ 解释为补偿值。该注记的具体电路依据仍需核对；若移除二极管，不应据此推荐改成 12 kΩ，应按实际 USB 主机下拉规范（常规标称 15 kΩ）与接口电路重新验证。[B] 双 USB 连接器、二极管 OR 和 0 Ω 选项会让“插哪个口、谁来供电”变得不直观；调试时先量 USB5V/FT2V5 和 D8 两端压降，再判断是枚举问题还是供电问题。
 
 **版本迭代/修板历史**
 - 找到的记录：[A] commit `5a4ef2739a`（2020-08-23）“increase RTC quartz load capacitors C56,C57 3.3->4.7 pF (RTC was running too fast)”；`89ab30474f`（2018-07-05）“change RTC PCF8523 -> MCP7940NT”；`d0e01b6022`（2018-07-27）“C60 (B0 debouncer) smaller capacitor 2.2uF->220nF, note PWRBTn to PROGRAMN”；`0f35cf56a0`（2018-07-03）“Noise filter for ADC (L4,C58,C59)”；`3e832aa000`（2018-07-05）“instead of 0-ohm resistors, use normally closed PCB solder jumper”。

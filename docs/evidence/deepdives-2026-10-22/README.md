@@ -1,5 +1,8 @@
 # 审图练习内容层试验（G4）
 
+> **复核更正：** 原输入exercises.md已显式给出每题类型和题型分布，因此两次试答不能作为题型盲判/Skill效果验证。196/200与197/200只保留为旧题面、旧参考答案下的历史评分；答案已有技术修正，未重新评分。原始题面见[带提示输入存档](original-labeled-prompts.txt)，原始回答/grade.json保持不变。新[无类型提示输入](../../../design-hardware/references/engineering-deepdives/exercises/blind-prompts.md)尚未运行，且仅题面试答不等于验证Skill带来的增益。
+
+
 > 目的：检查这 20 道题是否真的能区分“明确错误 / 条件风险 / 有意取舍 / 看似异常实际合理 / 信息不足”，以及 Agent 在只读题面时会不会乱报。
 >
 > 这不是模型能力认证，也不是排行榜。样本很小、题目由本轮作者设计，结论只对本批题面负责。
@@ -8,10 +11,10 @@
 
 | 项 | 设置 |
 |---|---|
-| 输入 | 仅 [exercises.md](../exercises.md)；禁止读 answers.md、专题草稿、案例库、网络 |
+| 输入 | 仅 [exercises.md](../../../design-hardware/references/engineering-deepdives/exercises/exercises.md)；禁止读 answers.md、专题草稿、案例库、网络 |
 | 被试 | 2 个独立 Agent，同一模型、同一提示，互不可见 |
 | 输出 | 每题：结论类型、判断、依据、还需补什么、建议动作、置信度 |
-| 评分 | 对照 [answers.md](../answers.md)，按 5 个维度打分（见下） |
+| 评分 | 对照 [answers.md](../../../design-hardware/references/engineering-deepdives/exercises/answers.md)，按 5 个维度打分（见下） |
 | 记录 | `responses.md` 保存原始回答；`evaluation.md` 保存评分与错误类型 |
 
 ## 评分维度
