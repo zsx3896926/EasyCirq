@@ -67,7 +67,7 @@
 | J | 三客户端与新手流程 | PARTIAL | CC/Codex 有最小流程证据；WorkBuddy BLOCKED（GUI 登录未做）；完整项目流程无 | 用户 GUI 登录 WorkBuddy 后复测；Codex 267 定位 |
 | K | 知识库审校 | PARTIAL | C40/C76 两条未关闭；原厂依据不足 | 逐条按「历史问题→当前状态→依据→复算」关闭 |
 | L | Agent 行为评测 | NOT RUN | 场景与评价维度已定，试验未跑 | 用决策库案例做同条件对照（无 Skill 基线） |
-| M | 固件/首板 | PARTIAL | 文档/测试计划在；代码无、实物无 | 先按 rev3 引脚出最小固件骨架（不依赖实物） |
+| M | 固件/首板 | PARTIAL | M1 完成：按 ESP8266 ESP-01S 的板级引脚表、最小固件、构建/烧录命令、串口判据、上电检查表（12 项）、结果模板；构建 **NOT RUN**（本机无 PlatformIO）；实物验证 BLOCKED | 安装 PlatformIO 后 `pio run` 产出 firmware.bin；首板按检查表执行并回填结果 |
 | N | 发布/教程/交接 | NOT RUN | 依赖其余各包实际完成项 | 每包 DONE 后更新 README/教程差异与限制 |
 
 ## 3. 能力矩阵（用户动作 → 当前可复核状态）

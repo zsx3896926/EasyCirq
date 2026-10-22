@@ -13,7 +13,9 @@ B 包完成（`docs/evidence/f1-b-2026-10-22/`，交付副本 `f1-b-v3.eprj2`）
 多段线，重画消除（DRC 3→1）；DRAFT 与未用脚注记真机写入；网表与 golden 逐字节一致；重开 match；
 处置表 + AI 独立审图（非人工）。C 包完成（`docs/evidence/f1-c-2026-10-22/`）：21 位号身份表、
 LCSC 核对、电源/CC/启动复位独立复算。**重要勘误：U101 是 ESP-01S（ESP8266），不是 ESP32-C3。**
-下一步：F（F1 PCB 闭环）、G（换料与实时库存）、J（WorkBuddy GUI 复测）、M（ESP8266 固件骨架）。
+M1 固件骨架完成（`firmware/f1-esp01s/`：引脚表、最小固件、烧录命令、12 项上电检查表；构建 NOT RUN，
+本机无 PlatformIO）。下一步：F（F1 PCB 闭环）、G（换料与实时库存）、J（WorkBuddy GUI 复测）、
+M1 构建与首板实测。
 
 历史交接保留在下方；旧分支、HEAD 与“未合并”描述只对应当时状态。
 
