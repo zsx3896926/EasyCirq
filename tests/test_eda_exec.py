@@ -326,6 +326,12 @@ class FakePro:
     def sessions(self):
         return []
 
+    def open_project(self, project, headless=True):
+        return 's2'
+
+    def close_session(self, session, destroy=True):
+        return {'sessionId': session, 'closed': True, 'destroy': destroy}
+
 
 class CommandFlow(unittest.TestCase):
     def args(self, **overrides):
@@ -403,6 +409,89 @@ class CommandFlow(unittest.TestCase):
         self.assertTrue(result['drc']['passed'])
         self.assertIn(eda.DRC_JS, [code for code, _ in fake.calls])
         self.assertNotIn(eda.APPLY_JS, [code for code, _ in fake.calls])
+
+    def test_apply_pins_the_page_it_actually_read(self):
+        before = snapshot()
+        after = snapshot()
+        after['parts'][0]['x'] = 320
+        data = plan()
+        data['operations'] = [{'op': 'part', 'key': 'R1',
+                               'match': {'designator': 'R1', 'part': '0603WAF1002T5E'},
+                               'place': {'x': 320, 'y': 400, 'rotation': 0}}]
+        fake = FakePro([before, after])
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'plan.json'
+            path.write_text(json.dumps(data), encoding='utf-8')
+            result, code = self.run_apply(fake, self.args(plan=str(path)))
+        self.assertEqual(code, 0, result)
+        apply_call = next(args for code, args in fake.calls if code == eda.APPLY_JS)
+        self.assertEqual(apply_call['page'], {'page_uuid': 'page-1'})
+
+    def test_incomplete_pin_coverage_refuses_to_write(self):
+        before = snapshot()
+        before['coverage'] = {'pins_complete': False, 'pins_missing': ['R1']}
+        data = plan()
+        data['operations'] = [{'op': 'part', 'key': 'R1',
+                               'match': {'designator': 'R1', 'part': '0603WAF1002T5E'},
+                               'place': {'x': 320, 'y': 400}}]
+        fake = FakePro([before])
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'plan.json'
+            path.write_text(json.dumps(data), encoding='utf-8')
+            result, code = self.run_apply(fake, self.args(plan=str(path), save=True))
+        self.assertEqual(code, eda.EXIT_REVIEW)
+        self.assertEqual(result['status'], 'blocked')
+        self.assertIn('pin coverage', result['note'])
+        self.assertNotIn(eda.APPLY_JS, [code for code, _ in fake.calls])
+
+    def test_reopen_identity_mismatch_is_not_match(self):
+        expected = snapshot()
+        expected['project'] = {'uuid': 'project-1'}
+        actual = snapshot()
+        actual['project'] = {'uuid': 'project-2'}
+        fake = FakePro([actual])
+        args = argparse.Namespace(exe=None, timeout=1000, project='copy.eprj2',
+                                  snapshot='snap.json', session=None, force_close=False,
+                                  page_uuid=None, schematic_name=None, page_name=None)
+        original = eda.LcedaPro
+        eda.LcedaPro = lambda *a, **k: fake
+        try:
+            with tempfile.TemporaryDirectory() as temp:
+                path = Path(temp) / 'snap.json'
+                path.write_text(json.dumps(expected), encoding='utf-8')
+                args.snapshot = str(path)
+                result, code = eda.command_reopen_check(args)
+        finally:
+            eda.LcedaPro = original
+        self.assertEqual(code, eda.EXIT_REVIEW)
+        self.assertEqual(result['status'], 'mismatch')
+        self.assertFalse(result['identity']['project_uuid']['match'])
+
+    def test_verification_checks_mirror_and_requested_properties(self):
+        before = snapshot()
+        after = snapshot()
+        after['parts'].append(part('C1', 700, 400, supplier='C1591', name='CL10B104KB8NNNC'))
+        after['parts'][-1]['mirror'] = True
+        data = plan()
+        data['operations'] = [{'op': 'part', 'key': 'C1',
+                               'match': {'designator': 'C1', 'part': 'CL10B104KB8NNNC',
+                                         'supplier_id': 'C1591'},
+                               'place': {'x': 700, 'y': 400, 'mirror': False},
+                               'properties': {'designator': 'C1', 'name': 'Requested Name'}}]
+        fake = FakePro([before, after], {'ok': True, 'results': [{'key': 'C1', 'ok': True, 'action': 'create_part'}]})
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'plan.json'
+            path.write_text(json.dumps(data), encoding='utf-8')
+            result, code = self.run_apply(fake, self.args(plan=str(path), save=True))
+        self.assertEqual(code, eda.EXIT_REVIEW)
+        self.assertEqual(result['status'], 'failed')
+        reasons = {reason for item in result['verification']['items']
+                   for reason in item['observed'].get('reasons', [])}
+        self.assertIn('mirror_mismatch', reasons)
+        self.assertIn('name_mismatch', reasons)
+
+    def test_preflight_rejects_ambiguous_library_matches(self):
+        self.assertIn("error: 'ambiguous_part'", eda.APPLY_JS)
 
     def test_save_failure_is_not_reported_as_success(self):
         before = snapshot()

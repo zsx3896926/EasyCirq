@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 5: replace the two multi-segment L wires rejected by readback with single-segment wires.",
+  "operations": [
+    {
+      "op": "delete_wire",
+      "key": "del-3v3-c103",
+      "match": {
+        "primitive_id": "0de79ee7a1fe5202",
+        "net": "3V3"
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-gnd-j102",
+      "match": {
+        "primitive_id": "92f7f565344bb982",
+        "net": "GND"
+      }
+    },
+    {
+      "op": "wire",
+      "key": "w-3v3-v",
+      "net": "3V3",
+      "points": [
+        690,
+        260,
+        690,
+        240
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "w-3v3-h",
+      "net": "3V3",
+      "points": [
+        690,
+        240,
+        650,
+        240
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "w-gnd-h",
+      "net": "GND",
+      "points": [
+        1060,
+        355,
+        1030,
+        355
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "w-gnd-v",
+      "net": "GND",
+      "points": [
+        1030,
+        355,
+        1030,
+        345
+      ]
+    }
+  ]
+}

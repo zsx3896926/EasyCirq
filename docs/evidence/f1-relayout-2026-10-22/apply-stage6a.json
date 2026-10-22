@@ -1,0 +1,203 @@
+{
+  "status": "verified",
+  "plan": "C:/Users/jlc/work/hw-eda-round3/plan6a-delete.json",
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  },
+  "items": [
+    {
+      "key": "del-io0-sw",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "IO0"
+    },
+    {
+      "key": "del-gnd-sw",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-gnd-flag",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-io0-port",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_wire",
+      "key": "del-io0-sw",
+      "primitive_id": "a3ea6744562f4087",
+      "net": "IO0"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-gnd-sw",
+      "primitive_id": "f53bd396cf8a0f3f",
+      "net": "GND"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-gnd-flag",
+      "primitive_id": "44b06457fbe7a485",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-io0-port",
+      "primitive_id": "83d57b912681e05e",
+      "component_type": "netport"
+    }
+  ],
+  "conflicts": [],
+  "dry_run": false,
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "del-io0-sw",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "a3ea6744562f4087",
+        "deleted": true,
+        "before": {
+          "net": "IO0",
+          "line": [
+            670,
+            490,
+            650,
+            490
+          ]
+        }
+      },
+      {
+        "key": "del-gnd-sw",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "f53bd396cf8a0f3f",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            590,
+            490,
+            580,
+            490,
+            550,
+            490,
+            580,
+            490
+          ]
+        }
+      },
+      {
+        "key": "del-gnd-flag",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "44b06457fbe7a485",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 550,
+          "y": 490
+        }
+      },
+      {
+        "key": "del-io0-port",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "83d57b912681e05e",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "IO0",
+          "net": "IO0",
+          "x": 670,
+          "y": 490
+        }
+      }
+    ]
+  },
+  "after_counts": {
+    "components": 56,
+    "parts": 16,
+    "netflags": 26,
+    "netports": 13,
+    "wires": 39,
+    "attributes": null
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "del-io0-sw",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "a3ea6744562f4087",
+          "net": "IO0",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-gnd-sw",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "f53bd396cf8a0f3f",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-gnd-flag",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "44b06457fbe7a485",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-io0-port",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "83d57b912681e05e",
+          "component_type": "netport",
+          "still_present": false
+        }
+      }
+    ]
+  }
+}

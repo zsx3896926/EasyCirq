@@ -1,0 +1,4109 @@
+{
+  "status": "partial",
+  "plan": "C:/Users/jlc/work/hw-eda-round3/plan4-annotations.json",
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 17,
+    "parts": 16,
+    "netflags": 0,
+    "netports": 0,
+    "wires": 0,
+    "attributes": null
+  },
+  "items": [
+    {
+      "key": "wire-0",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-0",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-1",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-1",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "wire-2",
+      "op": "wire",
+      "status": "create",
+      "net": "CC2",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-2",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC2"
+    },
+    {
+      "key": "wire-3",
+      "op": "wire",
+      "status": "create",
+      "net": "CC1",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-3",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC1"
+    },
+    {
+      "key": "wire-4",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-4",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "wire-5",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-5",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-6",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-6",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-7",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-7",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-8",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-8",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "wire-9",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-9",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "wire-10",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-10",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-11",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-11",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "wire-12",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-12",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "wire-13",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-13",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-14",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-14",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "wire-15",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-15",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-16",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 2,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-16",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "wire-17",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-17",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-18",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-18",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-19",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-19",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "wire-20",
+      "op": "wire",
+      "status": "create",
+      "net": "IO0",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-20",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    },
+    {
+      "key": "wire-21",
+      "op": "wire",
+      "status": "create",
+      "net": "RXD",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-21",
+      "op": "net_port",
+      "status": "create",
+      "net": "RXD"
+    },
+    {
+      "key": "wire-22",
+      "op": "wire",
+      "status": "create",
+      "net": "TXD",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-22",
+      "op": "net_port",
+      "status": "create",
+      "net": "TXD"
+    },
+    {
+      "key": "wire-23",
+      "op": "wire",
+      "status": "create",
+      "net": "EN",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-23",
+      "op": "net_port",
+      "status": "create",
+      "net": "EN"
+    },
+    {
+      "key": "wire-24",
+      "op": "wire",
+      "status": "create",
+      "net": "RST",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-24",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "wire-25",
+      "op": "wire",
+      "status": "create",
+      "net": "EN",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-25",
+      "op": "net_port",
+      "status": "create",
+      "net": "EN"
+    },
+    {
+      "key": "wire-26",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-26",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "wire-27",
+      "op": "wire",
+      "status": "create",
+      "net": "RST",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-27",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "wire-28",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-28",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "wire-29",
+      "op": "wire",
+      "status": "create",
+      "net": "RST",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-29",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "wire-30",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-30",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-31",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-31",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "wire-32",
+      "op": "wire",
+      "status": "create",
+      "net": "IO0",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-32",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    },
+    {
+      "key": "wire-33",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-33",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-34",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-34",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "wire-35",
+      "op": "wire",
+      "status": "create",
+      "net": "LED_A",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-35",
+      "op": "net_port",
+      "status": "create",
+      "net": "LED_A"
+    },
+    {
+      "key": "wire-36",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-36",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-37",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 2,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-37",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "wire-38",
+      "op": "wire",
+      "status": "create",
+      "net": "RXD",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-38",
+      "op": "net_port",
+      "status": "create",
+      "net": "RXD"
+    },
+    {
+      "key": "wire-39",
+      "op": "wire",
+      "status": "create",
+      "net": "TXD",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "port-39",
+      "op": "net_port",
+      "status": "create",
+      "net": "TXD"
+    },
+    {
+      "key": "wire-40",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 2,
+      "existing_segments": 0
+    },
+    {
+      "key": "flag-40",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_wire",
+      "key": "wire-0#0",
+      "net": "GND",
+      "points": [
+        90.0,
+        240.0,
+        170.0,
+        240.0
+      ],
+      "segments": [
+        [
+          90.0,
+          240.0,
+          170.0,
+          240.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-0",
+      "type": "Ground",
+      "net": "GND",
+      "x": 90,
+      "y": 240,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-1#0",
+      "net": "5V",
+      "points": [
+        130.0,
+        250.0,
+        170.0,
+        250.0
+      ],
+      "segments": [
+        [
+          130.0,
+          250.0,
+          170.0,
+          250.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-1",
+      "type": "Power",
+      "net": "5V",
+      "x": 130,
+      "y": 250,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-2#0",
+      "net": "CC2",
+      "points": [
+        140.0,
+        260.0,
+        170.0,
+        260.0
+      ],
+      "segments": [
+        [
+          140.0,
+          260.0,
+          170.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-2",
+      "direction": "BI",
+      "net": "CC2",
+      "x": 150,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-3#0",
+      "net": "CC1",
+      "points": [
+        140.0,
+        320.0,
+        170.0,
+        320.0
+      ],
+      "segments": [
+        [
+          140.0,
+          320.0,
+          170.0,
+          320.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-3",
+      "direction": "BI",
+      "net": "CC1",
+      "x": 150,
+      "y": 320,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-4#0",
+      "net": "5V",
+      "points": [
+        130.0,
+        340.0,
+        170.0,
+        340.0
+      ],
+      "segments": [
+        [
+          130.0,
+          340.0,
+          170.0,
+          340.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-4",
+      "type": "Power",
+      "net": "5V",
+      "x": 130,
+      "y": 340,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-5#0",
+      "net": "GND",
+      "points": [
+        90.0,
+        350.0,
+        170.0,
+        350.0
+      ],
+      "segments": [
+        [
+          90.0,
+          350.0,
+          170.0,
+          350.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-5",
+      "type": "Ground",
+      "net": "GND",
+      "x": 90,
+      "y": 350,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-6#0",
+      "net": "GND",
+      "points": [
+        60.0,
+        260.0,
+        100.0,
+        260.0
+      ],
+      "segments": [
+        [
+          60.0,
+          260.0,
+          100.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-6",
+      "type": "Ground",
+      "net": "GND",
+      "x": 60,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-7#0",
+      "net": "GND",
+      "points": [
+        60.0,
+        320.0,
+        100.0,
+        320.0
+      ],
+      "segments": [
+        [
+          60.0,
+          320.0,
+          100.0,
+          320.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-7",
+      "type": "Ground",
+      "net": "GND",
+      "x": 60,
+      "y": 320,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-8#0",
+      "net": "5V",
+      "points": [
+        440.0,
+        330.0,
+        480.0,
+        330.0
+      ],
+      "segments": [
+        [
+          440.0,
+          330.0,
+          480.0,
+          330.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-8",
+      "type": "Power",
+      "net": "5V",
+      "x": 440,
+      "y": 330,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-9#0",
+      "net": "3V3",
+      "points": [
+        400.0,
+        340.0,
+        480.0,
+        340.0
+      ],
+      "segments": [
+        [
+          400.0,
+          340.0,
+          480.0,
+          340.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-9",
+      "type": "Power",
+      "net": "3V3",
+      "x": 400,
+      "y": 340,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-10#0",
+      "net": "GND",
+      "points": [
+        360.0,
+        350.0,
+        480.0,
+        350.0
+      ],
+      "segments": [
+        [
+          360.0,
+          350.0,
+          480.0,
+          350.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-10",
+      "type": "Ground",
+      "net": "GND",
+      "x": 360,
+      "y": 350,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-11#0",
+      "net": "3V3",
+      "points": [
+        590.0,
+        340.0,
+        630.0,
+        340.0
+      ],
+      "segments": [
+        [
+          590.0,
+          340.0,
+          630.0,
+          340.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-11",
+      "type": "Power",
+      "net": "3V3",
+      "x": 630,
+      "y": 340,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-12#0",
+      "net": "5V",
+      "points": [
+        390.0,
+        260.0,
+        430.0,
+        260.0
+      ],
+      "segments": [
+        [
+          390.0,
+          260.0,
+          430.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-12",
+      "type": "Power",
+      "net": "5V",
+      "x": 390,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-13#0",
+      "net": "GND",
+      "points": [
+        460.0,
+        260.0,
+        500.0,
+        260.0
+      ],
+      "segments": [
+        [
+          460.0,
+          260.0,
+          500.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-13",
+      "type": "Ground",
+      "net": "GND",
+      "x": 500,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-14#0",
+      "net": "3V3",
+      "points": [
+        560.0,
+        260.0,
+        600.0,
+        260.0
+      ],
+      "segments": [
+        [
+          560.0,
+          260.0,
+          600.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-14",
+      "type": "Power",
+      "net": "3V3",
+      "x": 560,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-15#0",
+      "net": "GND",
+      "points": [
+        640.0,
+        260.0,
+        680.0,
+        260.0
+      ],
+      "segments": [
+        [
+          640.0,
+          260.0,
+          680.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-15",
+      "type": "Ground",
+      "net": "GND",
+      "x": 680,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-16#0",
+      "net": "3V3",
+      "points": [
+        650.0,
+        240.0,
+        690.0,
+        240.0
+      ],
+      "segments": [
+        [
+          650.0,
+          240.0,
+          690.0,
+          240.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-16#1",
+      "net": "3V3",
+      "points": [
+        690.0,
+        240.0,
+        690.0,
+        260.0
+      ],
+      "segments": [
+        [
+          690.0,
+          240.0,
+          690.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-16",
+      "type": "Power",
+      "net": "3V3",
+      "x": 650,
+      "y": 240,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-17#0",
+      "net": "GND",
+      "points": [
+        720.0,
+        260.0,
+        760.0,
+        260.0
+      ],
+      "segments": [
+        [
+          720.0,
+          260.0,
+          760.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-17",
+      "type": "Ground",
+      "net": "GND",
+      "x": 760,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-18#0",
+      "net": "GND",
+      "points": [
+        625.0,
+        445.0,
+        665.0,
+        445.0
+      ],
+      "segments": [
+        [
+          625.0,
+          445.0,
+          665.0,
+          445.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-18",
+      "type": "Ground",
+      "net": "GND",
+      "x": 625,
+      "y": 445,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-19#0",
+      "net": "3V3",
+      "points": [
+        735.0,
+        445.0,
+        775.0,
+        445.0
+      ],
+      "segments": [
+        [
+          735.0,
+          445.0,
+          775.0,
+          445.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-19",
+      "type": "Power",
+      "net": "3V3",
+      "x": 775,
+      "y": 445,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-20#0",
+      "net": "IO0",
+      "points": [
+        640.0,
+        425.0,
+        665.0,
+        425.0
+      ],
+      "segments": [
+        [
+          640.0,
+          425.0,
+          665.0,
+          425.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-20",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 650,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-21#0",
+      "net": "RXD",
+      "points": [
+        645.0,
+        415.0,
+        665.0,
+        415.0
+      ],
+      "segments": [
+        [
+          645.0,
+          415.0,
+          665.0,
+          415.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-21",
+      "direction": "IN",
+      "net": "RXD",
+      "x": 645,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-22#0",
+      "net": "TXD",
+      "points": [
+        735.0,
+        415.0,
+        755.0,
+        415.0
+      ],
+      "segments": [
+        [
+          735.0,
+          415.0,
+          755.0,
+          415.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-22",
+      "direction": "OUT",
+      "net": "TXD",
+      "x": 755,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-23#0",
+      "net": "EN",
+      "points": [
+        735.0,
+        425.0,
+        755.0,
+        425.0
+      ],
+      "segments": [
+        [
+          735.0,
+          425.0,
+          755.0,
+          425.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-23",
+      "direction": "BI",
+      "net": "EN",
+      "x": 755,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-24#0",
+      "net": "RST",
+      "points": [
+        735.0,
+        435.0,
+        755.0,
+        435.0
+      ],
+      "segments": [
+        [
+          735.0,
+          435.0,
+          755.0,
+          435.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-24",
+      "direction": "BI",
+      "net": "RST",
+      "x": 755,
+      "y": 435,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-25#0",
+      "net": "EN",
+      "points": [
+        840.0,
+        390.0,
+        860.0,
+        390.0
+      ],
+      "segments": [
+        [
+          840.0,
+          390.0,
+          860.0,
+          390.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-25",
+      "direction": "BI",
+      "net": "EN",
+      "x": 840,
+      "y": 390,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-26#0",
+      "net": "3V3",
+      "points": [
+        900.0,
+        390.0,
+        940.0,
+        390.0
+      ],
+      "segments": [
+        [
+          900.0,
+          390.0,
+          940.0,
+          390.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-26",
+      "type": "Power",
+      "net": "3V3",
+      "x": 940,
+      "y": 390,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-27#0",
+      "net": "RST",
+      "points": [
+        800.0,
+        415.0,
+        820.0,
+        415.0
+      ],
+      "segments": [
+        [
+          800.0,
+          415.0,
+          820.0,
+          415.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-27",
+      "direction": "BI",
+      "net": "RST",
+      "x": 800,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-28#0",
+      "net": "3V3",
+      "points": [
+        860.0,
+        415.0,
+        900.0,
+        415.0
+      ],
+      "segments": [
+        [
+          860.0,
+          415.0,
+          900.0,
+          415.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-28",
+      "type": "Power",
+      "net": "3V3",
+      "x": 900,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-29#0",
+      "net": "RST",
+      "points": [
+        790.0,
+        450.0,
+        810.0,
+        450.0
+      ],
+      "segments": [
+        [
+          790.0,
+          450.0,
+          810.0,
+          450.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-29",
+      "direction": "BI",
+      "net": "RST",
+      "x": 790,
+      "y": 450,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-30#0",
+      "net": "GND",
+      "points": [
+        870.0,
+        450.0,
+        910.0,
+        450.0
+      ],
+      "segments": [
+        [
+          870.0,
+          450.0,
+          910.0,
+          450.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-30",
+      "type": "Ground",
+      "net": "GND",
+      "x": 910,
+      "y": 450,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-31#0",
+      "net": "3V3",
+      "points": [
+        560.0,
+        425.0,
+        600.0,
+        425.0
+      ],
+      "segments": [
+        [
+          560.0,
+          425.0,
+          600.0,
+          425.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-31",
+      "type": "Power",
+      "net": "3V3",
+      "x": 560,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-32#0",
+      "net": "IO0",
+      "points": [
+        650.0,
+        490.0,
+        670.0,
+        490.0
+      ],
+      "segments": [
+        [
+          650.0,
+          490.0,
+          670.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-32",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 670,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-33#0",
+      "net": "GND",
+      "points": [
+        550.0,
+        490.0,
+        590.0,
+        490.0
+      ],
+      "segments": [
+        [
+          550.0,
+          490.0,
+          590.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-33",
+      "type": "Ground",
+      "net": "GND",
+      "x": 550,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-34#0",
+      "net": "3V3",
+      "points": [
+        780.0,
+        230.0,
+        820.0,
+        230.0
+      ],
+      "segments": [
+        [
+          780.0,
+          230.0,
+          820.0,
+          230.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-34",
+      "type": "Power",
+      "net": "3V3",
+      "x": 780,
+      "y": 230,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-35#0",
+      "net": "LED_A",
+      "points": [
+        860.0,
+        230.0,
+        890.0,
+        230.0
+      ],
+      "segments": [
+        [
+          860.0,
+          230.0,
+          890.0,
+          230.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-35",
+      "direction": "BI",
+      "net": "LED_A",
+      "x": 875,
+      "y": 230,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-36#0",
+      "net": "GND",
+      "points": [
+        930.0,
+        230.0,
+        970.0,
+        230.0
+      ],
+      "segments": [
+        [
+          930.0,
+          230.0,
+          970.0,
+          230.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-36",
+      "type": "Ground",
+      "net": "GND",
+      "x": 970,
+      "y": 230,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-37#0",
+      "net": "GND",
+      "points": [
+        1030.0,
+        345.0,
+        1030.0,
+        355.0
+      ],
+      "segments": [
+        [
+          1030.0,
+          345.0,
+          1030.0,
+          355.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-37#1",
+      "net": "GND",
+      "points": [
+        1030.0,
+        355.0,
+        1060.0,
+        355.0
+      ],
+      "segments": [
+        [
+          1030.0,
+          355.0,
+          1060.0,
+          355.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-37",
+      "type": "Ground",
+      "net": "GND",
+      "x": 1030,
+      "y": 345,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-38#0",
+      "net": "RXD",
+      "points": [
+        990.0,
+        365.0,
+        1060.0,
+        365.0
+      ],
+      "segments": [
+        [
+          990.0,
+          365.0,
+          1060.0,
+          365.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-38",
+      "direction": "OUT",
+      "net": "RXD",
+      "x": 990,
+      "y": 365,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-39#0",
+      "net": "TXD",
+      "points": [
+        950.0,
+        375.0,
+        1060.0,
+        375.0
+      ],
+      "segments": [
+        [
+          950.0,
+          375.0,
+          1060.0,
+          375.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-39",
+      "direction": "IN",
+      "net": "TXD",
+      "x": 950,
+      "y": 375,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-40#0",
+      "net": "3V3",
+      "points": [
+        1030.0,
+        385.0,
+        1030.0,
+        395.0
+      ],
+      "segments": [
+        [
+          1030.0,
+          385.0,
+          1030.0,
+          395.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-40#1",
+      "net": "3V3",
+      "points": [
+        1030.0,
+        385.0,
+        1060.0,
+        385.0
+      ],
+      "segments": [
+        [
+          1030.0,
+          385.0,
+          1060.0,
+          385.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-40",
+      "type": "Power",
+      "net": "3V3",
+      "x": 1030,
+      "y": 395,
+      "rotation": 0,
+      "mirror": false
+    }
+  ],
+  "conflicts": [],
+  "dry_run": false,
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "wire-0#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "bb46b9e06c36e7a7",
+        "net": "GND",
+        "line": [
+          [
+            170,
+            240,
+            90,
+            240
+          ]
+        ]
+      },
+      {
+        "key": "flag-0",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "07c4e337fd052b6d",
+        "net": "GND"
+      },
+      {
+        "key": "wire-1#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "e738441396166e07",
+        "net": "5V",
+        "line": [
+          [
+            170,
+            250,
+            130,
+            250
+          ]
+        ]
+      },
+      {
+        "key": "flag-1",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "a38b0ef1fffbad84",
+        "net": "5V"
+      },
+      {
+        "key": "wire-2#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "8e4f480855351acb",
+        "net": "CC2",
+        "line": [
+          [
+            170,
+            260,
+            140,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "port-2",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "b7258c0515d62c39",
+        "net": "CC2"
+      },
+      {
+        "key": "wire-3#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "0c285a82e79bf20f",
+        "net": "CC1",
+        "line": [
+          [
+            170,
+            320,
+            140,
+            320
+          ]
+        ]
+      },
+      {
+        "key": "port-3",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "0c719c9408ef204b",
+        "net": "CC1"
+      },
+      {
+        "key": "wire-4#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "8c46103740052ec3",
+        "net": "5V",
+        "line": [
+          [
+            170,
+            340,
+            130,
+            340
+          ]
+        ]
+      },
+      {
+        "key": "flag-4",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e63965a5e5bab0f3",
+        "net": "5V"
+      },
+      {
+        "key": "wire-5#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "b40f5a7ed8c3da82",
+        "net": "GND",
+        "line": [
+          [
+            170,
+            350,
+            90,
+            350
+          ]
+        ]
+      },
+      {
+        "key": "flag-5",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "6cc6da2a8ef756a5",
+        "net": "GND"
+      },
+      {
+        "key": "wire-6#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "80e7b4b94789c359",
+        "net": "GND",
+        "line": [
+          [
+            100,
+            260,
+            60,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "flag-6",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "4936e9e5a6baff8f",
+        "net": "GND"
+      },
+      {
+        "key": "wire-7#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "de8cfa0c383dece1",
+        "net": "GND",
+        "line": [
+          [
+            100,
+            320,
+            60,
+            320
+          ]
+        ]
+      },
+      {
+        "key": "flag-7",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "c67191d3f25a9cfe",
+        "net": "GND"
+      },
+      {
+        "key": "wire-8#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "3254ba3e9bac934f",
+        "net": "5V",
+        "line": [
+          [
+            480,
+            330,
+            440,
+            330
+          ]
+        ]
+      },
+      {
+        "key": "flag-8",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "8b041355fa47e305",
+        "net": "5V"
+      },
+      {
+        "key": "wire-9#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "513a07e742fafbc8",
+        "net": "3V3",
+        "line": [
+          [
+            480,
+            340,
+            400,
+            340
+          ]
+        ]
+      },
+      {
+        "key": "flag-9",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "d04cbf7f800bca3e",
+        "net": "3V3"
+      },
+      {
+        "key": "wire-10#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "adb54531edfb6c77",
+        "net": "GND",
+        "line": [
+          [
+            480,
+            350,
+            360,
+            350
+          ]
+        ]
+      },
+      {
+        "key": "flag-10",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e33ccb2002b5ab64",
+        "net": "GND"
+      },
+      {
+        "key": "wire-11#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "d31f92d21faa6c85",
+        "net": "3V3",
+        "line": [
+          [
+            630,
+            340,
+            590,
+            340
+          ]
+        ]
+      },
+      {
+        "key": "flag-11",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "7fa67434ae235077",
+        "net": "3V3"
+      },
+      {
+        "key": "wire-12#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "570af7567bef8ab2",
+        "net": "5V",
+        "line": [
+          [
+            430,
+            260,
+            390,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "flag-12",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "76580fad638ec52f",
+        "net": "5V"
+      },
+      {
+        "key": "wire-13#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ac5c3f985336dd51",
+        "net": "GND",
+        "line": [
+          [
+            500,
+            260,
+            460,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "flag-13",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e6e9de6e318532c6",
+        "net": "GND"
+      },
+      {
+        "key": "wire-14#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "2fea65bb2ff39ad6",
+        "net": "3V3",
+        "line": [
+          [
+            600,
+            260,
+            560,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "flag-14",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "20cb49d0b85b0e32",
+        "net": "3V3"
+      },
+      {
+        "key": "wire-15#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "11e90f78418027a7",
+        "net": "GND",
+        "line": [
+          [
+            680,
+            260,
+            640,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "flag-15",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "5578bdcf210c1c88",
+        "net": "GND"
+      },
+      {
+        "key": "wire-16#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "0de79ee7a1fe5202",
+        "net": "3V3",
+        "line": [
+          [
+            690,
+            240,
+            650,
+            240
+          ]
+        ]
+      },
+      {
+        "key": "wire-16#1",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "0de79ee7a1fe5202",
+        "net": "3V3",
+        "line": [
+          [
+            690,
+            240,
+            650,
+            240
+          ],
+          [
+            690,
+            260,
+            690,
+            240
+          ]
+        ]
+      },
+      {
+        "key": "flag-16",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "c9173e6b423aa2f1",
+        "net": "3V3"
+      },
+      {
+        "key": "wire-17#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "69ab914bca85da25",
+        "net": "GND",
+        "line": [
+          [
+            760,
+            260,
+            720,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "flag-17",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "0a5c260543baf594",
+        "net": "GND"
+      },
+      {
+        "key": "wire-18#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "4dc21ca491e9113d",
+        "net": "GND",
+        "line": [
+          [
+            665,
+            445,
+            625,
+            445
+          ]
+        ]
+      },
+      {
+        "key": "flag-18",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "1a15ebbe13082fd8",
+        "net": "GND"
+      },
+      {
+        "key": "wire-19#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ac7fdea0b37a953a",
+        "net": "3V3",
+        "line": [
+          [
+            775,
+            445,
+            735,
+            445
+          ]
+        ]
+      },
+      {
+        "key": "flag-19",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "b3301bc1c6283354",
+        "net": "3V3"
+      },
+      {
+        "key": "wire-20#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "2d7cbd40d9c99aba",
+        "net": "IO0",
+        "line": [
+          [
+            665,
+            425,
+            640,
+            425
+          ]
+        ]
+      },
+      {
+        "key": "port-20",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "5a4dea6ea48acb7c",
+        "net": "IO0"
+      },
+      {
+        "key": "wire-21#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "61f645d52c5d4b10",
+        "net": "RXD",
+        "line": [
+          [
+            665,
+            415,
+            645,
+            415
+          ]
+        ]
+      },
+      {
+        "key": "port-21",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "92bd21b68ae57e73",
+        "net": "RXD"
+      },
+      {
+        "key": "wire-22#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "7f2f7c752a53fc5c",
+        "net": "TXD",
+        "line": [
+          [
+            755,
+            415,
+            735,
+            415
+          ]
+        ]
+      },
+      {
+        "key": "port-22",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "0c40abca919c3e5b",
+        "net": "TXD"
+      },
+      {
+        "key": "wire-23#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "294d762eae19f743",
+        "net": "EN",
+        "line": [
+          [
+            755,
+            425,
+            735,
+            425
+          ]
+        ]
+      },
+      {
+        "key": "port-23",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "a241d17af9297080",
+        "net": "EN"
+      },
+      {
+        "key": "wire-24#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "51eb8ca9e26717f0",
+        "net": "RST",
+        "line": [
+          [
+            755,
+            435,
+            735,
+            435
+          ]
+        ]
+      },
+      {
+        "key": "port-24",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "7b77ca3a228cb0a5",
+        "net": "RST"
+      },
+      {
+        "key": "wire-25#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "1482e5985a87da42",
+        "net": "EN",
+        "line": [
+          [
+            860,
+            390,
+            840,
+            390
+          ]
+        ]
+      },
+      {
+        "key": "port-25",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "9156717c02455c66",
+        "net": "EN"
+      },
+      {
+        "key": "wire-26#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "b836d61fb57c66aa",
+        "net": "3V3",
+        "line": [
+          [
+            940,
+            390,
+            900,
+            390
+          ]
+        ]
+      },
+      {
+        "key": "flag-26",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "94651d6e97677ebd",
+        "net": "3V3"
+      },
+      {
+        "key": "wire-27#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "e126a2b9170b23b0",
+        "net": "RST",
+        "line": [
+          [
+            820,
+            415,
+            800,
+            415
+          ]
+        ]
+      },
+      {
+        "key": "port-27",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "7b58abf73bef511d",
+        "net": "RST"
+      },
+      {
+        "key": "wire-28#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "822e614ef3dbed36",
+        "net": "3V3",
+        "line": [
+          [
+            900,
+            415,
+            860,
+            415
+          ]
+        ]
+      },
+      {
+        "key": "flag-28",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "74ae643d02fd85d1",
+        "net": "3V3"
+      },
+      {
+        "key": "wire-29#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "79d5d4581a92a5da",
+        "net": "RST",
+        "line": [
+          [
+            810,
+            450,
+            790,
+            450
+          ]
+        ]
+      },
+      {
+        "key": "port-29",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "603e0f192cfed8a0",
+        "net": "RST"
+      },
+      {
+        "key": "wire-30#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "8617348c1f3b923e",
+        "net": "GND",
+        "line": [
+          [
+            910,
+            450,
+            870,
+            450
+          ]
+        ]
+      },
+      {
+        "key": "flag-30",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "0b05061d1fd2af46",
+        "net": "GND"
+      },
+      {
+        "key": "wire-31#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "899483e51baa7a60",
+        "net": "3V3",
+        "line": [
+          [
+            600,
+            425,
+            560,
+            425
+          ]
+        ]
+      },
+      {
+        "key": "flag-31",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "0f9b255f26e8ce87",
+        "net": "3V3"
+      },
+      {
+        "key": "wire-32#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "a3ea6744562f4087",
+        "net": "IO0",
+        "line": [
+          [
+            670,
+            490,
+            650,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "port-32",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "83d57b912681e05e",
+        "net": "IO0"
+      },
+      {
+        "key": "wire-33#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "f53bd396cf8a0f3f",
+        "net": "GND",
+        "line": [
+          [
+            590,
+            490,
+            580,
+            490
+          ],
+          [
+            550,
+            490,
+            580,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "flag-33",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "44b06457fbe7a485",
+        "net": "GND"
+      },
+      {
+        "key": "wire-34#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "346f7590492f19ff",
+        "net": "3V3",
+        "line": [
+          [
+            820,
+            230,
+            780,
+            230
+          ]
+        ]
+      },
+      {
+        "key": "flag-34",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "ab48ab7ae6fc1efb",
+        "net": "3V3"
+      },
+      {
+        "key": "wire-35#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "77f97a8b49fad79e",
+        "net": "LED_A",
+        "line": [
+          [
+            890,
+            230,
+            860,
+            230
+          ]
+        ]
+      },
+      {
+        "key": "port-35",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "70aefa3a7908c0d9",
+        "net": "LED_A"
+      },
+      {
+        "key": "wire-36#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "be62f1ebe3ef37d1",
+        "net": "GND",
+        "line": [
+          [
+            970,
+            230,
+            930,
+            230
+          ]
+        ]
+      },
+      {
+        "key": "flag-36",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "4c8e5638d7e5419c",
+        "net": "GND"
+      },
+      {
+        "key": "wire-37#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "92f7f565344bb982",
+        "net": "GND",
+        "line": [
+          [
+            1030,
+            355,
+            1030,
+            345
+          ]
+        ]
+      },
+      {
+        "key": "wire-37#1",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "92f7f565344bb982",
+        "net": "GND",
+        "line": [
+          [
+            1030,
+            355,
+            1030,
+            345
+          ],
+          [
+            1060,
+            355,
+            1030,
+            355
+          ]
+        ]
+      },
+      {
+        "key": "flag-37",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "60d6ac0d34cf2e1e",
+        "net": "GND"
+      },
+      {
+        "key": "wire-38#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "89e32c9be1c92253",
+        "net": "RXD",
+        "line": [
+          [
+            1060,
+            365,
+            990,
+            365
+          ]
+        ]
+      },
+      {
+        "key": "port-38",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "60fb92e5b3e8f514",
+        "net": "RXD"
+      },
+      {
+        "key": "wire-39#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "cca65af2db48e1ec",
+        "net": "TXD",
+        "line": [
+          [
+            1060,
+            375,
+            950,
+            375
+          ]
+        ]
+      },
+      {
+        "key": "port-39",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "b26e085e3fb73307",
+        "net": "TXD"
+      },
+      {
+        "key": "wire-40#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "89075ab98787e966",
+        "net": "3V3",
+        "line": [
+          [
+            1030,
+            395,
+            1030,
+            385
+          ]
+        ]
+      },
+      {
+        "key": "wire-40#1",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "89075ab98787e966",
+        "net": "3V3",
+        "line": [
+          [
+            1030,
+            395,
+            1030,
+            385
+          ],
+          [
+            1060,
+            385,
+            1030,
+            385
+          ]
+        ]
+      },
+      {
+        "key": "flag-40",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "c45146c7b1dfd119",
+        "net": "3V3"
+      }
+    ]
+  },
+  "after_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  },
+  "verification": {
+    "status": "partial",
+    "items": [
+      {
+        "key": "wire-0",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-0",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            90,
+            240
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-1",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-1",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "at": [
+            130,
+            250
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-2",
+        "op": "wire",
+        "status": "create",
+        "net": "CC2",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC2",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-2",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC2",
+        "verification": "verified",
+        "observed": {
+          "net": "CC2",
+          "at": [
+            150,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-3",
+        "op": "wire",
+        "status": "create",
+        "net": "CC1",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC1",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-3",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC1",
+        "verification": "verified",
+        "observed": {
+          "net": "CC1",
+          "at": [
+            150,
+            320
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-4",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-4",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "at": [
+            130,
+            340
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-5",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-5",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            90,
+            350
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-6",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-6",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            60,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-7",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-7",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            60,
+            320
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-8",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-8",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "at": [
+            440,
+            330
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-9",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-9",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            400,
+            340
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-10",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-10",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            360,
+            350
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-11",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-11",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            630,
+            340
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-12",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-12",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "at": [
+            390,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-13",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-13",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            500,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-14",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-14",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            560,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-15",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-15",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            680,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-16",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 2,
+        "existing_segments": 0,
+        "verification": "failed",
+        "observed": {
+          "net": "3V3",
+          "segments": 2,
+          "missing_segments": [
+            [
+              [
+                650.0,
+                240.0
+              ],
+              [
+                690.0,
+                240.0
+              ]
+            ],
+            [
+              [
+                690.0,
+                240.0
+              ],
+              [
+                690.0,
+                260.0
+              ]
+            ]
+          ],
+          "missing_count": 2
+        }
+      },
+      {
+        "key": "flag-16",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            650,
+            240
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-17",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-17",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            760,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-18",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-18",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            625,
+            445
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-19",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-19",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            775,
+            445
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-20",
+        "op": "wire",
+        "status": "create",
+        "net": "IO0",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-20",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "at": [
+            650,
+            425
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-21",
+        "op": "wire",
+        "status": "create",
+        "net": "RXD",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "RXD",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-21",
+        "op": "net_port",
+        "status": "create",
+        "net": "RXD",
+        "verification": "verified",
+        "observed": {
+          "net": "RXD",
+          "at": [
+            645,
+            415
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-22",
+        "op": "wire",
+        "status": "create",
+        "net": "TXD",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "TXD",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-22",
+        "op": "net_port",
+        "status": "create",
+        "net": "TXD",
+        "verification": "verified",
+        "observed": {
+          "net": "TXD",
+          "at": [
+            755,
+            415
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-23",
+        "op": "wire",
+        "status": "create",
+        "net": "EN",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "EN",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-23",
+        "op": "net_port",
+        "status": "create",
+        "net": "EN",
+        "verification": "verified",
+        "observed": {
+          "net": "EN",
+          "at": [
+            755,
+            425
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-24",
+        "op": "wire",
+        "status": "create",
+        "net": "RST",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-24",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "at": [
+            755,
+            435
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-25",
+        "op": "wire",
+        "status": "create",
+        "net": "EN",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "EN",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-25",
+        "op": "net_port",
+        "status": "create",
+        "net": "EN",
+        "verification": "verified",
+        "observed": {
+          "net": "EN",
+          "at": [
+            840,
+            390
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-26",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-26",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            940,
+            390
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-27",
+        "op": "wire",
+        "status": "create",
+        "net": "RST",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-27",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "at": [
+            800,
+            415
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-28",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-28",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            900,
+            415
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-29",
+        "op": "wire",
+        "status": "create",
+        "net": "RST",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-29",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "at": [
+            790,
+            450
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-30",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-30",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            910,
+            450
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-31",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-31",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            560,
+            425
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-32",
+        "op": "wire",
+        "status": "create",
+        "net": "IO0",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-32",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "at": [
+            670,
+            490
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-33",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-33",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            550,
+            490
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-34",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-34",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            780,
+            230
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-35",
+        "op": "wire",
+        "status": "create",
+        "net": "LED_A",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "LED_A",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-35",
+        "op": "net_port",
+        "status": "create",
+        "net": "LED_A",
+        "verification": "verified",
+        "observed": {
+          "net": "LED_A",
+          "at": [
+            875,
+            230
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-36",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-36",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            970,
+            230
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-37",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 2,
+        "existing_segments": 0,
+        "verification": "failed",
+        "observed": {
+          "net": "GND",
+          "segments": 2,
+          "missing_segments": [
+            [
+              [
+                1030.0,
+                345.0
+              ],
+              [
+                1030.0,
+                355.0
+              ]
+            ],
+            [
+              [
+                1030.0,
+                355.0
+              ],
+              [
+                1060.0,
+                355.0
+              ]
+            ]
+          ],
+          "missing_count": 2
+        }
+      },
+      {
+        "key": "flag-37",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            1030,
+            345
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-38",
+        "op": "wire",
+        "status": "create",
+        "net": "RXD",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "RXD",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-38",
+        "op": "net_port",
+        "status": "create",
+        "net": "RXD",
+        "verification": "verified",
+        "observed": {
+          "net": "RXD",
+          "at": [
+            990,
+            365
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-39",
+        "op": "wire",
+        "status": "create",
+        "net": "TXD",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "TXD",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "port-39",
+        "op": "net_port",
+        "status": "create",
+        "net": "TXD",
+        "verification": "verified",
+        "observed": {
+          "net": "TXD",
+          "at": [
+            950,
+            375
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-40",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 2,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 2,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "flag-40",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            1030,
+            395
+          ],
+          "found": true
+        }
+      }
+    ]
+  },
+  "save": {
+    "not_attempted": "verification did not pass; inspect before saving"
+  }
+}

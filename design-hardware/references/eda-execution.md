@@ -56,7 +56,10 @@ python scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo -
 | 保存 | `sch_Document.save()` | 可执行 | 返回 `true` 仍需重开回读；保存成功不等于内容正确 |
 | 导出图 | `sch_ManufactureData.getPngFile/getSvgFile` | 可执行 | 导出**活动文档**；`openDocument` 只开标签页，必须 `activateDocument(tabId)` 并回读当前文档UUID；多页SVG可能是zip；必须实际看图 |
 | 导出网表 | `sch_ManufactureData.getNetlistFile('Protel2')` | 可执行 | 跟随活动文档；未激活目标页会导出旧页/工程级网表；用于核对物理脚-网络，内容必须与计划比对 |
-| 原理图DRC | `sch_Drc.check(strict, false, true)` | 可执行，本桥暂未封装 | 阈值来自当前规则；DRC通过不替代连接回读/看图 |
+| 原理图DRC | `sch_Drc.check(strict, false, true)` | 可执行（`drc`） | 阈值来自当前规则；返回原始 `rule/type/primitives`；DRC通过不替代连接回读/看图 |
+| 删除已有导线 | `sch_PrimitiveWire.delete(id)` | 可执行（`delete_wire`） | 必须给 `primitive_id`+`net`；可带 `points` 做几何核对；只删计划对象 |
+| 删除电源标记/网络端口 | `sch_PrimitiveComponent.delete(id)` | 可执行（`delete_component`） | 只允许 `component_type` 为 `netflag`/`netport`，禁止借此删除器件 |
+| 导出BOM | `sch_ManufactureData.getBomFile(name,type)` | 可执行（`export --kind bom`） | 默认 CSV；BOM 的 C 号/库存仍需另查，导出成功不等于可采购 |
 | PCB读取/布局/布线 | `PCB_*` API | 本桥未实现 | 不要用原理图动作声称PCB已改；PCB任务按实际工具单独验收 |
 | 下单/采购/库存 | 无本桥动作 | 不支持 | 不做付费采购、生产下单或外部消息发送 |
 
@@ -71,7 +74,14 @@ python scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo -
 3. **受控动作**：只发送本文件定义的原语动作（创建器件/改位号位置/建网络标识/建端口/建导线），不发送用户JS。
 4. **回读逐项验证**：重新读同一页，核对位号、库身份、供应商、坐标、网络、导线段；写入返回成功不算验证。
 5. **保存**：`apply --save` 仅在逐项 `verified` 时保存；保存返回失败必须作为失败报告。若计划没有写入动作，apply 不会顺手保存当前文档。独立的 `save` 子命令是显式人工保存，不代表该工程已经通过设计验证。
-6. **重开**：关闭自有会话，重新打开工程，比较稳定身份/连接；重开不一致就报 `mismatch`，不能宣称持久化完成。
+6. **重开**：关闭自有会话，重新打开工程，比较 project/schematic/page 身份以及器件、导线、电源标记、网络端口；任何一项不一致就报 `mismatch`，不能宣称持久化完成。
+
+补充约束：
+
+- **页面锁定**：`before` 读成功后，`apply`/`after`/`save` 只使用 `before.selection.page_uuid`，不再按 `current` 或示意图名重新解析；after 页身份变化直接报 `page_changed` 且不保存。多页示意图只给 `schematic_name` 时，实际目标可能不是你以为的那一页。
+- **快照完整性**：引脚读取失败会置 `coverage.pins_complete:false` 并列出 `pins_missing`；`apply` 在快照引脚不完整时拒绝写入。器件类型读取失败计入 `counts.unclassified`，不再静默丢弃。
+- **失败保留现场**：验证失败、超时或写入结果未知时，自有会话不再 `--destroy`，而是保留并记录 `session_retained`，先回读实际状态再决定重试；重试仍按“已存在项 skip/只补差异”。
+- **删除原语**：`delete_wire` 和 `delete_component` 只删计划中明确列出的对象；目标是器件、net/name/position 不符或已不存在时分别为 `conflict`/`skip`，不会猜。删除与同网新建放在同一计划会让对账把旧线视为已覆盖，应拆成“先删、后建”两个计划。
 
 示例计划见 [EDA计划示例](../assets/eda/plan-example.json)。坐标单位是当前原理图的画布单位（A4图页实测 `Width=1170, Height=825`），不是毫米/像素；必须从页面回读取值，不能写死。
 
@@ -97,6 +107,8 @@ python scripts/eda_exec.py reopen-check --project /path/to/copy.eprj2 --snapshot
 - **重复执行同一需求**：对账会把已匹配项标 `skip`，只补差异；这是本桥的幂等边界。网络标签尚未进入该边界，重复写入前要人工确认。
 - **打开页不等于激活页**：4.1.78 的 `openDocument` 返回 `tabId`；必须 `activateDocument(tabId)`，再回读 `getCurrentDocumentInfo().uuid` 与目标页一致。否则导图/网表会跟随旧的活动页，出现“文件名是目标页、内容是旧页”的假证据。未确认激活时应失败（`page_not_activated`），不要继续导出。
 - **创建后立即改属性/画线**：4.1.78 的渲染器异步提交新图元；本桥在新器件后等待约0.8s再 `modify`，在首批导线前额外等待约2.5s。固定等待不是协议保证，超时后仍要先回读。
+- **L 形多段线会被扁平化**：传 `[[x,y,x,y],[x,y,x,y]]` 的 L 形路径后，`getState_Line()` 可能返回一条扁平折线（含斜线段），归一化/验证会失败。4.1.78 上应把每个 L 形拆成两条**单段**导线；本桥仍接受多段输入，但验证失败时不要保存。
+- **零长度导线桩**：网络端口处可能留下 `line:[x,y,x,y]`、`net:""` 的零长度图元。`read` 的 `counts.wires` 会把它们算进去，而 `_segments_from_line` 会忽略；证据应写“有效段数（X 个图元，含 Y 个零长度）”并单列，不能把图元数当布线段数。
 - **保存后重开**：关闭自有会话再打开工程；比较 `designator/unique_id/component/supplier/footprint/x/y/rotation`、导线网名与段集合、网络标识位置。`primitive_id` 可能变化，不作为跨会话稳定键。
 
 ## 5. 对象身份与局部修改

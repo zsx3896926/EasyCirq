@@ -1,0 +1,391 @@
+{
+  "status": "verified",
+  "plan": "C:/Users/jlc/work/hw-eda-round3/plan5-fix-lwires.json",
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  },
+  "items": [
+    {
+      "key": "del-3v3-c103",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-gnd-j102",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "w-3v3-v",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "w-3v3-h",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "w-gnd-h",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "w-gnd-v",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_wire",
+      "key": "del-3v3-c103",
+      "primitive_id": "0de79ee7a1fe5202",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-gnd-j102",
+      "primitive_id": "92f7f565344bb982",
+      "net": "GND"
+    },
+    {
+      "action": "create_wire",
+      "key": "w-3v3-v#0",
+      "net": "3V3",
+      "points": [
+        690.0,
+        240.0,
+        690.0,
+        260.0
+      ],
+      "segments": [
+        [
+          690.0,
+          240.0,
+          690.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "w-3v3-h#0",
+      "net": "3V3",
+      "points": [
+        650.0,
+        240.0,
+        690.0,
+        240.0
+      ],
+      "segments": [
+        [
+          650.0,
+          240.0,
+          690.0,
+          240.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "w-gnd-h#0",
+      "net": "GND",
+      "points": [
+        1030.0,
+        355.0,
+        1060.0,
+        355.0
+      ],
+      "segments": [
+        [
+          1030.0,
+          355.0,
+          1060.0,
+          355.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "w-gnd-v#0",
+      "net": "GND",
+      "points": [
+        1030.0,
+        345.0,
+        1030.0,
+        355.0
+      ],
+      "segments": [
+        [
+          1030.0,
+          345.0,
+          1030.0,
+          355.0
+        ]
+      ]
+    }
+  ],
+  "conflicts": [],
+  "dry_run": false,
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "del-3v3-c103",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "0de79ee7a1fe5202",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            690,
+            240,
+            650,
+            240,
+            690,
+            260,
+            690,
+            240
+          ]
+        }
+      },
+      {
+        "key": "del-gnd-j102",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "92f7f565344bb982",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            1030,
+            355,
+            1030,
+            345,
+            1060,
+            355,
+            1030,
+            355
+          ]
+        }
+      },
+      {
+        "key": "w-3v3-v#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "29fde0e19897afc9",
+        "net": "3V3",
+        "line": [
+          [
+            690,
+            260,
+            690,
+            240
+          ]
+        ]
+      },
+      {
+        "key": "w-3v3-h#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "29fde0e19897afc9",
+        "net": "3V3",
+        "line": [
+          [
+            690,
+            260,
+            690,
+            240
+          ],
+          [
+            690,
+            240,
+            650,
+            240
+          ]
+        ]
+      },
+      {
+        "key": "w-gnd-h#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "df3d8e85704de2aa",
+        "net": "GND",
+        "line": [
+          [
+            1060,
+            355,
+            1030,
+            355
+          ]
+        ]
+      },
+      {
+        "key": "w-gnd-v#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "df3d8e85704de2aa",
+        "net": "GND",
+        "line": [
+          [
+            1060,
+            355,
+            1030,
+            355
+          ],
+          [
+            1030,
+            355,
+            1030,
+            345
+          ]
+        ]
+      }
+    ]
+  },
+  "after_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "del-3v3-c103",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "0de79ee7a1fe5202",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-gnd-j102",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "92f7f565344bb982",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "w-3v3-v",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "w-3v3-h",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "w-gnd-h",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "w-gnd-v",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 58,
+      "wires": 41
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  }
+}

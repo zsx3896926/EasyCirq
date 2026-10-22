@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 7a: remove the misaligned SW102 wires.",
+  "operations": [
+    {
+      "op": "delete_wire",
+      "key": "d-gnd",
+      "match": {
+        "primitive_id": "7c71af37d3fc3ddd",
+        "net": "GND"
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "d-io0",
+      "match": {
+        "primitive_id": "8c26584799201640",
+        "net": "IO0"
+      }
+    }
+  ]
+}

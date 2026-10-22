@@ -1,0 +1,127 @@
+{
+  "status": "verified",
+  "plan": "C:/Users/jlc/work/hw-eda-round3/plan7a-delete.json",
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  },
+  "items": [
+    {
+      "key": "d-gnd",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "d-io0",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "IO0"
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_wire",
+      "key": "d-gnd",
+      "primitive_id": "7c71af37d3fc3ddd",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "d-io0",
+      "primitive_id": "8c26584799201640",
+      "net": "IO0"
+    }
+  ],
+  "conflicts": [],
+  "dry_run": false,
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "d-gnd",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "7c71af37d3fc3ddd",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            690,
+            490,
+            650,
+            490
+          ]
+        }
+      },
+      {
+        "key": "d-io0",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "8c26584799201640",
+        "deleted": true,
+        "before": {
+          "net": "IO0",
+          "line": [
+            590,
+            490,
+            580,
+            490,
+            550,
+            490,
+            580,
+            490
+          ]
+        }
+      }
+    ]
+  },
+  "after_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 39,
+    "attributes": null
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "d-gnd",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "7c71af37d3fc3ddd",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "d-io0",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "8c26584799201640",
+          "net": "IO0",
+          "still_present": false
+        }
+      }
+    ]
+  }
+}

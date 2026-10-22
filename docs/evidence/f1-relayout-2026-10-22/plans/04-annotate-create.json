@@ -1,0 +1,1088 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 4: readable short-stub annotations with staggered x lanes.",
+  "operations": [
+    {
+      "op": "wire",
+      "key": "wire-0",
+      "net": "GND",
+      "points": [
+        [
+          170,
+          240
+        ],
+        [
+          90,
+          240
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-0",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        90,
+        240
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-1",
+      "net": "5V",
+      "points": [
+        [
+          170,
+          250
+        ],
+        [
+          130,
+          250
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-1",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        130,
+        250
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-2",
+      "net": "CC2",
+      "points": [
+        [
+          170,
+          260
+        ],
+        [
+          140,
+          260
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-2",
+      "net": "CC2",
+      "direction": "BI",
+      "at": [
+        150,
+        260
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-3",
+      "net": "CC1",
+      "points": [
+        [
+          170,
+          320
+        ],
+        [
+          140,
+          320
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-3",
+      "net": "CC1",
+      "direction": "BI",
+      "at": [
+        150,
+        320
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-4",
+      "net": "5V",
+      "points": [
+        [
+          170,
+          340
+        ],
+        [
+          130,
+          340
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-4",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        130,
+        340
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-5",
+      "net": "GND",
+      "points": [
+        [
+          170,
+          350
+        ],
+        [
+          90,
+          350
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-5",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        90,
+        350
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-6",
+      "net": "GND",
+      "points": [
+        [
+          100,
+          260
+        ],
+        [
+          60,
+          260
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-6",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        60,
+        260
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-7",
+      "net": "GND",
+      "points": [
+        [
+          100,
+          320
+        ],
+        [
+          60,
+          320
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-7",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        60,
+        320
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-8",
+      "net": "5V",
+      "points": [
+        [
+          480,
+          330
+        ],
+        [
+          440,
+          330
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-8",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        440,
+        330
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-9",
+      "net": "3V3",
+      "points": [
+        [
+          480,
+          340
+        ],
+        [
+          400,
+          340
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-9",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        400,
+        340
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-10",
+      "net": "GND",
+      "points": [
+        [
+          480,
+          350
+        ],
+        [
+          360,
+          350
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-10",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        360,
+        350
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-11",
+      "net": "3V3",
+      "points": [
+        [
+          590,
+          340
+        ],
+        [
+          630,
+          340
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-11",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        630,
+        340
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-12",
+      "net": "5V",
+      "points": [
+        [
+          430,
+          260
+        ],
+        [
+          390,
+          260
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-12",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        390,
+        260
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-13",
+      "net": "GND",
+      "points": [
+        [
+          460,
+          260
+        ],
+        [
+          500,
+          260
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-13",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        500,
+        260
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-14",
+      "net": "3V3",
+      "points": [
+        [
+          600,
+          260
+        ],
+        [
+          560,
+          260
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-14",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        560,
+        260
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-15",
+      "net": "GND",
+      "points": [
+        [
+          640,
+          260
+        ],
+        [
+          680,
+          260
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-15",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        680,
+        260
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-16",
+      "net": "3V3",
+      "points": [
+        [
+          690,
+          260
+        ],
+        [
+          690,
+          240
+        ],
+        [
+          650,
+          240
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-16",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        650,
+        240
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-17",
+      "net": "GND",
+      "points": [
+        [
+          720,
+          260
+        ],
+        [
+          760,
+          260
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-17",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        760,
+        260
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-18",
+      "net": "GND",
+      "points": [
+        [
+          665,
+          445
+        ],
+        [
+          625,
+          445
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-18",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        625,
+        445
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-19",
+      "net": "3V3",
+      "points": [
+        [
+          735,
+          445
+        ],
+        [
+          775,
+          445
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-19",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        775,
+        445
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-20",
+      "net": "IO0",
+      "points": [
+        [
+          665,
+          425
+        ],
+        [
+          640,
+          425
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-20",
+      "net": "IO0",
+      "direction": "BI",
+      "at": [
+        650,
+        425
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-21",
+      "net": "RXD",
+      "points": [
+        [
+          665,
+          415
+        ],
+        [
+          645,
+          415
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-21",
+      "net": "RXD",
+      "direction": "IN",
+      "at": [
+        645,
+        415
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-22",
+      "net": "TXD",
+      "points": [
+        [
+          735,
+          415
+        ],
+        [
+          755,
+          415
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-22",
+      "net": "TXD",
+      "direction": "OUT",
+      "at": [
+        755,
+        415
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-23",
+      "net": "EN",
+      "points": [
+        [
+          735,
+          425
+        ],
+        [
+          755,
+          425
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-23",
+      "net": "EN",
+      "direction": "BI",
+      "at": [
+        755,
+        425
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-24",
+      "net": "RST",
+      "points": [
+        [
+          735,
+          435
+        ],
+        [
+          755,
+          435
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-24",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        755,
+        435
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-25",
+      "net": "EN",
+      "points": [
+        [
+          860,
+          390
+        ],
+        [
+          840,
+          390
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-25",
+      "net": "EN",
+      "direction": "BI",
+      "at": [
+        840,
+        390
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-26",
+      "net": "3V3",
+      "points": [
+        [
+          900,
+          390
+        ],
+        [
+          940,
+          390
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-26",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        940,
+        390
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-27",
+      "net": "RST",
+      "points": [
+        [
+          820,
+          415
+        ],
+        [
+          800,
+          415
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-27",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        800,
+        415
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-28",
+      "net": "3V3",
+      "points": [
+        [
+          860,
+          415
+        ],
+        [
+          900,
+          415
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-28",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        900,
+        415
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-29",
+      "net": "RST",
+      "points": [
+        [
+          810,
+          450
+        ],
+        [
+          790,
+          450
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-29",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        790,
+        450
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-30",
+      "net": "GND",
+      "points": [
+        [
+          870,
+          450
+        ],
+        [
+          910,
+          450
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-30",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        910,
+        450
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-31",
+      "net": "3V3",
+      "points": [
+        [
+          600,
+          425
+        ],
+        [
+          560,
+          425
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-31",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        560,
+        425
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-32",
+      "net": "IO0",
+      "points": [
+        [
+          650,
+          490
+        ],
+        [
+          670,
+          490
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-32",
+      "net": "IO0",
+      "direction": "BI",
+      "at": [
+        670,
+        490
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-33",
+      "net": "GND",
+      "points": [
+        [
+          590,
+          490
+        ],
+        [
+          550,
+          490
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-33",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        550,
+        490
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-34",
+      "net": "3V3",
+      "points": [
+        [
+          820,
+          230
+        ],
+        [
+          780,
+          230
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-34",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        780,
+        230
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-35",
+      "net": "LED_A",
+      "points": [
+        [
+          860,
+          230
+        ],
+        [
+          890,
+          230
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-35",
+      "net": "LED_A",
+      "direction": "BI",
+      "at": [
+        875,
+        230
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-36",
+      "net": "GND",
+      "points": [
+        [
+          930,
+          230
+        ],
+        [
+          970,
+          230
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-36",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        970,
+        230
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-37",
+      "net": "GND",
+      "points": [
+        [
+          1060,
+          355
+        ],
+        [
+          1030,
+          355
+        ],
+        [
+          1030,
+          345
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-37",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        1030,
+        345
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-38",
+      "net": "RXD",
+      "points": [
+        [
+          1060,
+          365
+        ],
+        [
+          990,
+          365
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-38",
+      "net": "RXD",
+      "direction": "OUT",
+      "at": [
+        990,
+        365
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-39",
+      "net": "TXD",
+      "points": [
+        [
+          1060,
+          375
+        ],
+        [
+          950,
+          375
+        ]
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "port-39",
+      "net": "TXD",
+      "direction": "IN",
+      "at": [
+        950,
+        375
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-40",
+      "net": "3V3",
+      "points": [
+        [
+          1060,
+          385
+        ],
+        [
+          1030,
+          385
+        ],
+        [
+          1030,
+          395
+        ]
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-40",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        1030,
+        395
+      ],
+      "rotation": 0
+    }
+  ]
+}

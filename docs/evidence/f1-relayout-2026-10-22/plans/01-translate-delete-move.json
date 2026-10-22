@@ -1,0 +1,1409 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 1: remove annotation primitives, then rigidly translate physically-connected clusters.",
+  "operations": [
+    {
+      "op": "delete_wire",
+      "key": "del-wire-18f2a381760ec17d",
+      "match": {
+        "primitive_id": "18f2a381760ec17d",
+        "net": "GND",
+        "points": [
+          90,
+          250,
+          30,
+          250
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-fd66cd07430de4f2",
+      "match": {
+        "primitive_id": "fd66cd07430de4f2",
+        "net": "5V",
+        "points": [
+          90,
+          350,
+          60,
+          350
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-aa5b909f2ff16b22",
+      "match": {
+        "primitive_id": "aa5b909f2ff16b22",
+        "net": "GND",
+        "points": [
+          90,
+          360,
+          30,
+          360
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-f500880b3b83d724",
+      "match": {
+        "primitive_id": "f500880b3b83d724",
+        "net": "CC1",
+        "points": [
+          90,
+          330,
+          30,
+          330
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-a330241731a1a1ad",
+      "match": {
+        "primitive_id": "a330241731a1a1ad",
+        "net": "CC2",
+        "points": [
+          90,
+          270,
+          30,
+          270
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-c7a4414aed250306",
+      "match": {
+        "primitive_id": "c7a4414aed250306",
+        "net": "CC1",
+        "points": [
+          80,
+          380,
+          60,
+          380
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-7115cf4ecd33c6f5",
+      "match": {
+        "primitive_id": "7115cf4ecd33c6f5",
+        "net": "GND",
+        "points": [
+          20,
+          380,
+          10,
+          380
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-9d45835e2e38781c",
+      "match": {
+        "primitive_id": "9d45835e2e38781c",
+        "net": "CC2",
+        "points": [
+          80,
+          300,
+          60,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-b75805cade4ebea2",
+      "match": {
+        "primitive_id": "b75805cade4ebea2",
+        "net": "GND",
+        "points": [
+          20,
+          300,
+          10,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-4d4ed58458600dca",
+      "match": {
+        "primitive_id": "4d4ed58458600dca",
+        "net": "5V",
+        "points": [
+          240,
+          220,
+          220,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-70e08327a6eac7db",
+      "match": {
+        "primitive_id": "70e08327a6eac7db",
+        "net": "GND",
+        "points": [
+          290,
+          220,
+          270,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-d9f8c6b0792d3785",
+      "match": {
+        "primitive_id": "d9f8c6b0792d3785",
+        "net": "5V",
+        "points": [
+          290,
+          290,
+          250,
+          290
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-72031477d8871538",
+      "match": {
+        "primitive_id": "72031477d8871538",
+        "net": "3V3",
+        "points": [
+          290,
+          300,
+          250,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-e569946177d473cd",
+      "match": {
+        "primitive_id": "e569946177d473cd",
+        "net": "GND",
+        "points": [
+          290,
+          310,
+          250,
+          310
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-1665060f71025135",
+      "match": {
+        "primitive_id": "1665060f71025135",
+        "net": "3V3",
+        "points": [
+          430,
+          300,
+          400,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-b7544d62014087e5",
+      "match": {
+        "primitive_id": "b7544d62014087e5",
+        "net": "3V3",
+        "points": [
+          410,
+          220,
+          390,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-93e050c47a78b8a6",
+      "match": {
+        "primitive_id": "93e050c47a78b8a6",
+        "net": "GND",
+        "points": [
+          470,
+          220,
+          450,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-0b53f38272506d50",
+      "match": {
+        "primitive_id": "0b53f38272506d50",
+        "net": "3V3",
+        "points": [
+          500,
+          220,
+          500,
+          190
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-8ec0f5c503395a56",
+      "match": {
+        "primitive_id": "8ec0f5c503395a56",
+        "net": "GND",
+        "points": [
+          550,
+          220,
+          530,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-132dbd5e794f45bb",
+      "match": {
+        "primitive_id": "132dbd5e794f45bb",
+        "net": "3V3",
+        "points": [
+          680,
+          435,
+          655,
+          435
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-3de7769321e53369",
+      "match": {
+        "primitive_id": "3de7769321e53369",
+        "net": "GND",
+        "points": [
+          585,
+          435,
+          560,
+          435
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-d9363f0f19ae22ca",
+      "match": {
+        "primitive_id": "d9363f0f19ae22ca",
+        "net": "3V3",
+        "points": [
+          800,
+          460,
+          780,
+          460
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-5302938a0e71a961",
+      "match": {
+        "primitive_id": "5302938a0e71a961",
+        "net": "",
+        "points": [
+          740,
+          460,
+          740,
+          460
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-ad8d2bf0f8b2d8fa",
+      "match": {
+        "primitive_id": "ad8d2bf0f8b2d8fa",
+        "net": "",
+        "points": [
+          655,
+          415,
+          655,
+          415
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-f9bff1f520b501e0",
+      "match": {
+        "primitive_id": "f9bff1f520b501e0",
+        "net": "3V3",
+        "points": [
+          760,
+          425,
+          740,
+          425
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-c58691f3c7833c6f",
+      "match": {
+        "primitive_id": "c58691f3c7833c6f",
+        "net": "",
+        "points": [
+          700,
+          425,
+          700,
+          425
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-d41b2fc77f5611ea",
+      "match": {
+        "primitive_id": "d41b2fc77f5611ea",
+        "net": "",
+        "points": [
+          655,
+          425,
+          655,
+          425
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-d575bda0357eba90",
+      "match": {
+        "primitive_id": "d575bda0357eba90",
+        "net": "3V3",
+        "points": [
+          520,
+          415,
+          500,
+          415
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-615df589ba9a6026",
+      "match": {
+        "primitive_id": "615df589ba9a6026",
+        "net": "",
+        "points": [
+          560,
+          415,
+          560,
+          415
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-1920721cdd7bbe3f",
+      "match": {
+        "primitive_id": "1920721cdd7bbe3f",
+        "net": "",
+        "points": [
+          585,
+          415,
+          585,
+          415
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-f04701dd38eba68e",
+      "match": {
+        "primitive_id": "f04701dd38eba68e",
+        "net": "",
+        "points": [
+          690,
+          380,
+          690,
+          380
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-621968a8fec33443",
+      "match": {
+        "primitive_id": "621968a8fec33443",
+        "net": "GND",
+        "points": [
+          770,
+          380,
+          750,
+          380
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-b6a7b13bb3da4203",
+      "match": {
+        "primitive_id": "b6a7b13bb3da4203",
+        "net": "",
+        "points": [
+          510,
+          360,
+          510,
+          360
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-827559cd64e5445e",
+      "match": {
+        "primitive_id": "827559cd64e5445e",
+        "net": "GND",
+        "points": [
+          590,
+          360,
+          570,
+          360
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-f08f6d6910368c05",
+      "match": {
+        "primitive_id": "f08f6d6910368c05",
+        "net": "3V3",
+        "points": [
+          740,
+          300,
+          720,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-d88d3513e6868f38",
+      "match": {
+        "primitive_id": "d88d3513e6868f38",
+        "net": "LED_A",
+        "points": [
+          810,
+          300,
+          780,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-cf0a3a019d46ea91",
+      "match": {
+        "primitive_id": "cf0a3a019d46ea91",
+        "net": "GND",
+        "points": [
+          870,
+          300,
+          850,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-138d10952dd7efe3",
+      "match": {
+        "primitive_id": "138d10952dd7efe3",
+        "net": "3V3",
+        "points": [
+          900,
+          335,
+          840,
+          335
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-0a8fc9a4a8730c40",
+      "match": {
+        "primitive_id": "0a8fc9a4a8730c40",
+        "net": "TXD",
+        "points": [
+          900,
+          325,
+          860,
+          325
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-ee52086b2574fb82",
+      "match": {
+        "primitive_id": "ee52086b2574fb82",
+        "net": "RXD",
+        "points": [
+          900,
+          315,
+          880,
+          315
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-7b0ae1eb1ba64973",
+      "match": {
+        "primitive_id": "7b0ae1eb1ba64973",
+        "net": "GND",
+        "points": [
+          900,
+          305,
+          840,
+          305
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-950ed48c9d0790c0",
+      "match": {
+        "primitive_id": "950ed48c9d0790c0",
+        "net": "",
+        "points": [
+          655,
+          405,
+          655,
+          405
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-422c8c228e6f4b9e",
+      "match": {
+        "primitive_id": "422c8c228e6f4b9e",
+        "net": "",
+        "points": [
+          585,
+          405,
+          585,
+          405
+        ]
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-wire-d8d9da3795fbd1b0",
+      "match": {
+        "primitive_id": "d8d9da3795fbd1b0",
+        "net": "5V",
+        "points": [
+          60,
+          260,
+          90,
+          260
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-18c0061320f321b7",
+      "match": {
+        "primitive_id": "18c0061320f321b7",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          30,
+          250
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-c3b73645a8e7160d",
+      "match": {
+        "primitive_id": "c3b73645a8e7160d",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          30,
+          360
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-194e5d88d54bae97",
+      "match": {
+        "primitive_id": "194e5d88d54bae97",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          10,
+          380
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-a380d2e117269cb8",
+      "match": {
+        "primitive_id": "a380d2e117269cb8",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          10,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-765850816424699e",
+      "match": {
+        "primitive_id": "765850816424699e",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          290,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-ea05521f71e9e30f",
+      "match": {
+        "primitive_id": "ea05521f71e9e30f",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          250,
+          310
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-b0612878e9a6d361",
+      "match": {
+        "primitive_id": "b0612878e9a6d361",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          470,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-9ccdb3aec0a20cf8",
+      "match": {
+        "primitive_id": "9ccdb3aec0a20cf8",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          550,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-085411f657e903be",
+      "match": {
+        "primitive_id": "085411f657e903be",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          560,
+          435
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-ac28347df5c9b3f0",
+      "match": {
+        "primitive_id": "ac28347df5c9b3f0",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          770,
+          380
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-77ea315331003b43",
+      "match": {
+        "primitive_id": "77ea315331003b43",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          590,
+          360
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-dda9b0b055b70f5e",
+      "match": {
+        "primitive_id": "dda9b0b055b70f5e",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          870,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-4f5752fc3d1e2d06",
+      "match": {
+        "primitive_id": "4f5752fc3d1e2d06",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          840,
+          305
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-c980906e59389d91",
+      "match": {
+        "primitive_id": "c980906e59389d91",
+        "component_type": "netflag",
+        "name": "5V",
+        "at": [
+          60,
+          350
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-17afc95fd7c29b0c",
+      "match": {
+        "primitive_id": "17afc95fd7c29b0c",
+        "component_type": "netflag",
+        "name": "5V",
+        "at": [
+          220,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-20350323f34b81d6",
+      "match": {
+        "primitive_id": "20350323f34b81d6",
+        "component_type": "netflag",
+        "name": "5V",
+        "at": [
+          250,
+          290
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-bb1dafd2c1fade33",
+      "match": {
+        "primitive_id": "bb1dafd2c1fade33",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          250,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-5114b45293ec27ff",
+      "match": {
+        "primitive_id": "5114b45293ec27ff",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          430,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-4ac324d5ea8227c0",
+      "match": {
+        "primitive_id": "4ac324d5ea8227c0",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          390,
+          220
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-de27143f4b7cd30c",
+      "match": {
+        "primitive_id": "de27143f4b7cd30c",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          500,
+          190
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-e57ed6dc05e77682",
+      "match": {
+        "primitive_id": "e57ed6dc05e77682",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          680,
+          435
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-54148e9f6d4dc8a9",
+      "match": {
+        "primitive_id": "54148e9f6d4dc8a9",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          800,
+          460
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-b58bf3d1423439f5",
+      "match": {
+        "primitive_id": "b58bf3d1423439f5",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          760,
+          425
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-4278f4dc559bc757",
+      "match": {
+        "primitive_id": "4278f4dc559bc757",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          500,
+          415
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-796665db50623051",
+      "match": {
+        "primitive_id": "796665db50623051",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          720,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-80cdcd8f3989ebcf",
+      "match": {
+        "primitive_id": "80cdcd8f3989ebcf",
+        "component_type": "netflag",
+        "name": "3V3",
+        "at": [
+          840,
+          335
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-flag-6579225cba6e0b2f",
+      "match": {
+        "primitive_id": "6579225cba6e0b2f",
+        "component_type": "netflag",
+        "name": "5V",
+        "at": [
+          60,
+          260
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-04db9b8ea74e26ac",
+      "match": {
+        "primitive_id": "04db9b8ea74e26ac",
+        "component_type": "netport",
+        "net": "CC2",
+        "at": [
+          30,
+          270
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-29a56eb8eb7d36c7",
+      "match": {
+        "primitive_id": "29a56eb8eb7d36c7",
+        "component_type": "netport",
+        "net": "CC1",
+        "at": [
+          60,
+          380
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-04114913b502d3e8",
+      "match": {
+        "primitive_id": "04114913b502d3e8",
+        "component_type": "netport",
+        "net": "CC2",
+        "at": [
+          60,
+          300
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-1042cae56d0b89a2",
+      "match": {
+        "primitive_id": "1042cae56d0b89a2",
+        "component_type": "netport",
+        "net": "EN",
+        "at": [
+          740,
+          460
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-d0dc03f8f7e30405",
+      "match": {
+        "primitive_id": "d0dc03f8f7e30405",
+        "component_type": "netport",
+        "net": "EN",
+        "at": [
+          655,
+          415
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-11f9e26c00295e4e",
+      "match": {
+        "primitive_id": "11f9e26c00295e4e",
+        "component_type": "netport",
+        "net": "RST",
+        "at": [
+          700,
+          425
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-ebffb4f56e1db48f",
+      "match": {
+        "primitive_id": "ebffb4f56e1db48f",
+        "component_type": "netport",
+        "net": "RST",
+        "at": [
+          655,
+          425
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-5ff0a849714a8df1",
+      "match": {
+        "primitive_id": "5ff0a849714a8df1",
+        "component_type": "netport",
+        "net": "IO0",
+        "at": [
+          560,
+          415
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-90e0dcf2f855f267",
+      "match": {
+        "primitive_id": "90e0dcf2f855f267",
+        "component_type": "netport",
+        "net": "IO0",
+        "at": [
+          585,
+          415
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-b6f7c7b75542fd13",
+      "match": {
+        "primitive_id": "b6f7c7b75542fd13",
+        "component_type": "netport",
+        "net": "RST",
+        "at": [
+          690,
+          380
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-9ef4bcbe71b063a5",
+      "match": {
+        "primitive_id": "9ef4bcbe71b063a5",
+        "component_type": "netport",
+        "net": "IO0",
+        "at": [
+          510,
+          360
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-620e05ada8c9d5cc",
+      "match": {
+        "primitive_id": "620e05ada8c9d5cc",
+        "component_type": "netport",
+        "net": "CC1",
+        "at": [
+          30,
+          330
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-9bf2c7739b22d4e7",
+      "match": {
+        "primitive_id": "9bf2c7739b22d4e7",
+        "component_type": "netport",
+        "net": "TXD",
+        "at": [
+          860,
+          325
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-9cc1a6dfd924446e",
+      "match": {
+        "primitive_id": "9cc1a6dfd924446e",
+        "component_type": "netport",
+        "net": "TXD",
+        "at": [
+          655,
+          405
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-d04c9e534752c905",
+      "match": {
+        "primitive_id": "d04c9e534752c905",
+        "component_type": "netport",
+        "net": "RXD",
+        "at": [
+          880,
+          315
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-port-ac72859bc80dc265",
+      "match": {
+        "primitive_id": "ac72859bc80dc265",
+        "component_type": "netport",
+        "net": "RXD",
+        "at": [
+          585,
+          405
+        ]
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-J101",
+      "match": {
+        "designator": "J101",
+        "part": "Type-C-16P",
+        "supplier_id": "C9900216560"
+      },
+      "place": {
+        "x": 200,
+        "y": 290,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-U102",
+      "match": {
+        "designator": "U102",
+        "part": "AMS1117-3.3",
+        "supplier_id": "C2891839"
+      },
+      "place": {
+        "x": 540,
+        "y": 340,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-U101",
+      "match": {
+        "designator": "U101",
+        "part": "ESP-01S",
+        "supplier_id": "C503582"
+      },
+      "place": {
+        "x": 700,
+        "y": 430,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R101",
+      "match": {
+        "designator": "R101",
+        "part": "RMC06035.1K1%N",
+        "supplier_id": "C269716"
+      },
+      "place": {
+        "x": 100,
+        "y": 360,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R102",
+      "match": {
+        "designator": "R102",
+        "part": "RMC06035.1K1%N",
+        "supplier_id": "C269716"
+      },
+      "place": {
+        "x": 120,
+        "y": 220,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-C101",
+      "match": {
+        "designator": "C101",
+        "part": "CAPCER10UF25VX5R0805",
+        "supplier_id": "C9900012828"
+      },
+      "place": {
+        "x": 450,
+        "y": 260,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-C103",
+      "match": {
+        "designator": "C103",
+        "part": "CAPCER10UF25VX5R0805",
+        "supplier_id": "C9900012828"
+      },
+      "place": {
+        "x": 710,
+        "y": 260,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-C102",
+      "match": {
+        "designator": "C102",
+        "part": "CL10B104KB8NNNC",
+        "supplier_id": "C1591"
+      },
+      "place": {
+        "x": 620,
+        "y": 260,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R103",
+      "match": {
+        "designator": "R103",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 880,
+        "y": 390,
+        "rotation": 180
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R104",
+      "match": {
+        "designator": "R104",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 840,
+        "y": 415,
+        "rotation": 180
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R105",
+      "match": {
+        "designator": "R105",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 620,
+        "y": 425,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R106",
+      "match": {
+        "designator": "R106",
+        "part": "0603WAF1001T5E",
+        "supplier_id": "C21190"
+      },
+      "place": {
+        "x": 840,
+        "y": 230,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-D101",
+      "match": {
+        "designator": "D101",
+        "part": "KT-0603R",
+        "supplier_id": "C2286"
+      },
+      "place": {
+        "x": 910,
+        "y": 230,
+        "rotation": 180
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-SW101",
+      "match": {
+        "designator": "SW101",
+        "part": "TS-1088-AR02026",
+        "supplier_id": "C52175904"
+      },
+      "place": {
+        "x": 840,
+        "y": 450,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-SW102",
+      "match": {
+        "designator": "SW102",
+        "part": "TS-1088-AR02026",
+        "supplier_id": "C52175904"
+      },
+      "place": {
+        "x": 620,
+        "y": 490,
+        "rotation": 0
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-J102",
+      "match": {
+        "designator": "J102",
+        "part": "2.54-1*4P母",
+        "supplier_id": "C2718488"
+      },
+      "place": {
+        "x": 1080,
+        "y": 370,
+        "rotation": 0
+      }
+    }
+  ]
+}

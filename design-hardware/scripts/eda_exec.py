@@ -458,6 +458,7 @@ const pageFacts = {
 const comps = await eda.sch_PrimitiveComponent.getAll();
 const wires = await eda.sch_PrimitiveWire.getAll();
 let pinsComplete = A.include_pins !== false;
+const pinsMissing = [];
 const pinBudget = A.max_pins || 6000;
 let pinsUsed = 0;
 const mapPart = (c) => ({
@@ -483,33 +484,47 @@ const mapPart = (c) => ({
   other_property: A.include_properties === false ? null : safe(() => c.getState_OtherProperty()),
   pins: [],
 });
-const parts = comps.filter(c => safe(() => c.getState_ComponentType()) === 'part').map(mapPart);
+// Do not silently drop a primitive whose type getter fails: that would make a
+// live component look absent and could trigger a duplicate create on retry.
+const classified = [];
+let unclassified = 0;
+for (const c of comps) {
+  try { classified.push({ c, type: c.getState_ComponentType() }); }
+  catch (e) { unclassified += 1; }
+}
+const parts = classified.filter(x => x.type === 'part').map(x => mapPart(x.c));
 if (pinsComplete) {
   for (const part of parts) {
     if (pinsUsed >= pinBudget) { pinsComplete = false; break; }
-    const pins = await safeAsync(() => eda.sch_PrimitiveComponent.getAllPinsByPrimitiveId(part.primitive_id), []);
-    part.pins = (pins || []).map(p => ({ ...p }));
-    pinsUsed += part.pins.length;
+    try {
+      const pins = await eda.sch_PrimitiveComponent.getAllPinsByPrimitiveId(part.primitive_id);
+      part.pins = (pins || []).map(p => ({ ...p }));
+      pinsUsed += part.pins.length;
+    } catch (e) {
+      // An unreadable pin list is not the same as a part with zero pins.
+      pinsComplete = false;
+      pinsMissing.push(part.designator || part.primitive_id);
+    }
   }
 }
-const netflags = comps.filter(c => safe(() => c.getState_ComponentType()) === 'netflag').map(c => ({
-  primitive_id: safe(() => c.getState_PrimitiveId()),
-  name: safe(() => c.getState_Name()),
-  x: safe(() => c.getState_X()),
-  y: safe(() => c.getState_Y()),
-  rotation: safe(() => c.getState_Rotation()),
-  mirror: safe(() => c.getState_Mirror()),
+const netflags = classified.filter(x => x.type === 'netflag').map(x => ({
+  primitive_id: safe(() => x.c.getState_PrimitiveId()),
+  name: safe(() => x.c.getState_Name()),
+  x: safe(() => x.c.getState_X()),
+  y: safe(() => x.c.getState_Y()),
+  rotation: safe(() => x.c.getState_Rotation()),
+  mirror: safe(() => x.c.getState_Mirror()),
 }));
-const netports = comps.filter(c => safe(() => c.getState_ComponentType()) === 'netport').map(c => ({
-  primitive_id: safe(() => c.getState_PrimitiveId()),
-  net: safe(() => c.getState_Net()),
-  name: safe(() => c.getState_Name()),
-  x: safe(() => c.getState_X()),
-  y: safe(() => c.getState_Y()),
-  rotation: safe(() => c.getState_Rotation()),
+const netports = classified.filter(x => x.type === 'netport').map(x => ({
+  primitive_id: safe(() => x.c.getState_PrimitiveId()),
+  net: safe(() => x.c.getState_Net()),
+  name: safe(() => x.c.getState_Name()),
+  x: safe(() => x.c.getState_X()),
+  y: safe(() => x.c.getState_Y()),
+  rotation: safe(() => x.c.getState_Rotation()),
 }));
 let attributes = [];
-let attributesComplete = true;
+let attributesComplete = null;
 if (A.include_attributes) {
   const raw = await safeAsync(() => eda.sch_PrimitiveAttribute.getAll(), []);
   attributesComplete = raw.length <= 500;
@@ -541,6 +556,7 @@ return {
     netflags: netflags.length,
     netports: netports.length,
     wires: wires.length,
+    unclassified,
     attributes: A.include_attributes ? attributes.length : null,
   },
   parts,
@@ -558,6 +574,8 @@ return {
   coverage: {
     pins_complete: pinsComplete,
     pins_used: pinsUsed,
+    pins_missing: pinsMissing,
+    unclassified,
     attributes_included: A.include_attributes === true,
     attributes_complete: attributesComplete,
     not_checked: [
@@ -598,15 +616,25 @@ for (const act of (A.actions || [])) {
   if (act.action === 'create_part') {
     try {
       const devices = await eda.lib_Device.search(act.part, undefined, undefined, undefined, 10, 1);
-      const device = (devices || []).find(d => d.name === act.part && (!act.supplier_id || d.supplierId === act.supplier_id));
-      if (!device) {
+      const matches = (devices || []).filter(
+        d => d.name === act.part && (!act.supplier_id || d.supplierId === act.supplier_id)
+      );
+      if (!matches.length) {
         preflight.push({
           key: act.key, error: 'part_not_found',
           expected: { part: act.part, supplier_id: act.supplier_id || null },
           candidates: (devices || []).map(d => ({ name: d.name, supplier_id: d.supplierId, footprint: d.footprintName })),
         });
+      } else if (matches.length > 1) {
+        // Picking the first same-name device can bind the wrong footprint.
+        preflight.push({
+          key: act.key, error: 'ambiguous_part',
+          expected: { part: act.part, supplier_id: act.supplier_id || null },
+          candidates: matches.map(d => ({ name: d.name, supplier_id: d.supplierId, footprint: d.footprintName })),
+          note: 'add supplier_id (LCSC C-number) to select exactly one library device',
+        });
       } else {
-        act._device = device;
+        act._device = matches[0];
       }
     } catch (e) {
       preflight.push({ key: act.key, error: 'library_search_failed', message: String(e && e.message || e) });
@@ -1061,7 +1089,11 @@ def reconcile(snapshot, plan):
                     for field, value in props.items():
                         if field == 'other_property':
                             current = existing.get('other_property') or {}
-                            if current != value:
+                            # Compare requested keys only: a full-dictionary
+                            # write would erase JLCPCB/assembly metadata that
+                            # the plan never mentioned.
+                            if not isinstance(current, dict) or any(
+                                    current.get(k) != v for k, v in value.items()):
                                 changes[_wire_prop(field)] = value
                         elif field in PART_KEYS:
                             current = existing.get(field)
@@ -1269,22 +1301,38 @@ def verify_against_snapshot(snapshot, plan, items):
             else:
                 detail = {'designator': candidate.get('designator'), 'part': _part_name(candidate), 'supplier_id': candidate.get('supplier_id'), 'x': candidate.get('x'), 'y': candidate.get('y'), 'rotation': candidate.get('rotation')}
                 passed = True
+                reasons = []
                 if expected_part and _part_name(candidate) != expected_part:
-                    passed = False
-                    detail['reason'] = 'part_name_mismatch'
+                    reasons.append('part_name_mismatch')
                 if expected_supplier and candidate.get('supplier_id') != expected_supplier:
-                    passed = False
-                    detail['reason'] = 'supplier_mismatch'
+                    reasons.append('supplier_mismatch')
                 place = op.get('place') or {}
                 if 'x' in place and not _same_position((candidate.get('x'), 0), (place['x'], 0), tolerance=0.01):
-                    passed = False
-                    detail['reason'] = 'x_mismatch'
+                    reasons.append('x_mismatch')
                 if 'y' in place and not _same_position((candidate.get('y'), 0), (place['y'], 0), tolerance=0.01):
-                    passed = False
-                    detail['reason'] = 'y_mismatch'
+                    reasons.append('y_mismatch')
                 if 'rotation' in place and candidate.get('rotation') != place['rotation']:
+                    reasons.append('rotation_mismatch')
+                if 'mirror' in place and candidate.get('mirror') != place['mirror']:
+                    reasons.append('mirror_mismatch')
+                for flag_name in ('add_into_bom', 'add_into_pcb'):
+                    if flag_name in op and candidate.get(flag_name) != op[flag_name]:
+                        reasons.append(flag_name + '_mismatch')
+                if designator and candidate.get('designator') != designator:
+                    reasons.append('designator_mismatch')
+                for field, value in props.items():
+                    if field == 'other_property':
+                        current = candidate.get('other_property') or {}
+                        if not isinstance(current, dict) or any(current.get(k) != v for k, v in value.items()):
+                            reasons.append('other_property_mismatch')
+                    else:
+                        current = candidate.get(field)
+                        if current != value:
+                            reasons.append(field + '_mismatch')
+                if reasons:
                     passed = False
-                    detail['reason'] = 'rotation_mismatch'
+                    detail['reasons'] = reasons
+                    detail['reason'] = reasons[-1]
         elif op['op'] == 'net_flag':
             candidate = next((f for f in netflags if f.get('name') == op['net'] and _same_position((f.get('x'), f.get('y')), op['at'])), None)
             passed = candidate is not None
@@ -1423,13 +1471,13 @@ def session_origin(pro, session):
     return None
 
 
-def close_owned(pro, session, force=False):
+def close_owned(pro, session, force=False, destroy=True):
     entry = session_origin(pro, session)
     if entry is None:
         return {'closed': False, 'reason': 'session_not_found_or_already_closed'}
     if entry.get('origin') == 'user' and not force:
         raise EdaInputError('refusing to close a session opened by the user; close it yourself or pass --force')
-    return {'closed': True, 'session': pro.close_session(session)}
+    return {'closed': True, 'session': pro.close_session(session, destroy=destroy)}
 
 
 def _open_for_command(pro, args):
@@ -1457,8 +1505,9 @@ def command_doctor(args):
             'sch_write_components_wires_flags_ports': 'available',
             'sch_save': 'available',
             'sch_export_png_svg_netlist': 'available',
-            'sch_export_bom': 'not_implemented_in_this_adapter',
-            'sch_drc': 'not_implemented_in_this_adapter',
+            'sch_export_bom': 'available',
+            'sch_drc': 'available',
+            'sch_delete_netflag_netport_wire': 'available',
             'pcb_read_write': 'not_implemented_in_this_adapter',
             'net_label_idempotent_apply': 'not_implemented',
             'source': 'lceda-pro 4.1.78 doc api + live probe 2026-10-21',
@@ -1573,46 +1622,108 @@ def command_apply(args):
     plan = _load_plan(args.plan)
     pro = LcedaPro(args.exe, timeout_ms=args.timeout)
     session, owned = _open_for_command(pro, args)
-    page_args = {k: v for k, v in plan['page'].items() if k in ('page_uuid', 'schematic_name', 'page_name')}
+    requested_page = {k: v for k, v in plan['page'].items()
+                      if k in ('page_uuid', 'schematic_name', 'page_name')}
+    closed = False
+
+    def finish(result, code, retain_session=False):
+        nonlocal closed
+        if owned and retain_session and not closed:
+            try:
+                result['session_retained'] = True
+                result['session_close'] = close_owned(pro, session, destroy=False)
+            except EdaError as error:
+                result['session_close_error'] = str(error)
+            closed = True
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, code
+
     try:
-        before = read_with_retry(pro, session, page_args)
-        reconciliation = reconcile(before, plan)
+        before = read_with_retry(pro, session, requested_page)
+        selection = before.get('selection') or {}
+        page_uuid = selection.get('page_uuid')
+        if not page_uuid:
+            return finish({'status': 'blocked', 'note': 'page identity was not resolved; nothing was written',
+                           'page': selection}, EXIT_REVIEW)
+        # Pin every subsequent read/write/save to the page that was actually
+        # read. Otherwise `current` or a schematic-name-only plan can write one
+        # page and verify another in the same run.
+        page_args = {'page_uuid': page_uuid}
         result = {
-            'status': reconciliation['status'],
+            'status': 'pending',
             'plan': args.plan,
-            'page': before.get('selection'),
+            'requested_page': requested_page,
+            'page': selection,
+            'page_pinned': page_args,
             'before_counts': before.get('counts'),
+            'coverage': before.get('coverage'),
+            'dry_run': bool(args.dry_run),
+        }
+        if before.get('coverage', {}).get('pins_complete') is False:
+            result['status'] = 'blocked'
+            result['note'] = ('snapshot pin coverage is incomplete; refusing to write because wire '
+                              'endpoints cannot be verified against real pins')
+            return finish(result, EXIT_REVIEW)
+        reconciliation = reconcile(before, plan)
+        result.update({
+            'status': reconciliation['status'],
             'items': reconciliation['items'],
             'actions': reconciliation['actions'],
             'conflicts': reconciliation['conflicts'],
-            'dry_run': bool(args.dry_run),
-        }
+        })
         if args.dry_run:
             result['status'] = 'dry_run'
             result['note'] = 'no write was sent'
-            return result, EXIT_OK if not reconciliation['conflicts'] else EXIT_REVIEW
+            return finish(result, EXIT_OK if not reconciliation['conflicts'] else EXIT_REVIEW)
         if reconciliation['conflicts'] and not args.allow_partial:
             result['status'] = 'blocked'
             result['note'] = 'conflicts present; nothing was written. Resolve them or inspect with read.'
-            return result, EXIT_REVIEW
+            return finish(result, EXIT_REVIEW)
         if not reconciliation['actions']:
             result['status'] = 'no_changes'
             result['verification'] = 'not_needed'
-            return result, EXIT_OK
+            return finish(result, EXIT_OK)
         if owned and not args.save:
             result['status'] = 'needs_save'
             result['note'] = ('a temporary --project session would lose writes on close; '
                               're-run with --save or use an explicitly retained --session')
-            return result, EXIT_INPUT
-        execution = pro.invoke(session, APPLY_JS, {'page': page_args, 'actions': reconciliation['actions']}, timeout_ms=args.invoke_timeout)
-        result['execution'] = execution
-        if not isinstance(execution, dict) or execution.get('ok') is False:
-            result['status'] = 'preflight_failed'
-            result['note'] = 'no write was sent because one or more parts could not be resolved'
-            return result, EXIT_REVIEW
-        import time
-        time.sleep(1.0)
-        after = read_with_retry(pro, session, page_args)
+            return finish(result, EXIT_INPUT)
+        try:
+            execution = pro.invoke(
+                session, APPLY_JS,
+                {'page': page_args, 'actions': reconciliation['actions']},
+                timeout_ms=args.invoke_timeout,
+            )
+            result['execution'] = execution
+            if not isinstance(execution, dict) or execution.get('ok') is False:
+                result['status'] = 'preflight_failed'
+                detail = (execution or {}).get('preflight') if isinstance(execution, dict) else None
+                result['note'] = ('no write was sent because one or more parts could not be resolved '
+                                  'or a page could not be activated')
+                if detail:
+                    result['preflight'] = detail
+                # A page failure is not a part failure; keep the raw cause.
+                if isinstance(execution, dict) and execution.get('error'):
+                    result['error'] = execution.get('error')
+                return finish(result, EXIT_REVIEW)
+            import time
+            time.sleep(1.0)
+            after = read_with_retry(pro, session, page_args)
+        except EdaError as error:
+            result['status'] = 'apply_unknown'
+            result['error'] = str(error)
+            result['code'] = error.code
+            result['note'] = ('the write may have partially changed the page; the session is kept '
+                              'open so the actual state can be read before retrying')
+            return finish(result, EXIT_REVIEW, retain_session=True)
+        after_page = (after.get('selection') or {}).get('page_uuid')
+        if after_page != page_uuid:
+            result['status'] = 'page_changed'
+            result['note'] = 'the active page changed during apply; verification and save were skipped'
+            result['after_page'] = after_page
+            return finish(result, EXIT_REVIEW, retain_session=True)
         verified_items, verification_status = verify_against_snapshot(after, plan, reconciliation['items'])
         result['after_counts'] = after.get('counts')
         result['verification'] = {'status': verification_status, 'items': verified_items}
@@ -1624,14 +1735,14 @@ def command_apply(args):
                 if not result['save'].get('saved'):
                     result['status'] = 'save_failed'
                     result['note'] = 'plan verified in memory, but the editor did not confirm save; do not report persistence'
+                    return finish(result, EXIT_REVIEW, retain_session=True)
             else:
                 result['save'] = {'not_attempted': 'verification did not pass; inspect before saving'}
-        if args.output:
-            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
-            result['output'] = str(Path(args.output).resolve())
-        return result, EXIT_OK if verification_status == 'verified' and (not args.save or result['save'].get('saved')) else EXIT_REVIEW
+                return finish(result, EXIT_REVIEW, retain_session=True)
+        code = EXIT_OK if result['status'] == 'verified' else EXIT_REVIEW
+        return finish(result, code)
     finally:
-        if owned:
+        if owned and not closed:
             close_owned(pro, session)
 
 
@@ -1700,16 +1811,38 @@ def command_reopen_check(args):
     session = pro.open_project(args.project, headless=True)
     try:
         actual = read_with_retry(pro, session, _page_args(args))
+
+        def identity(snapshot):
+            selection = snapshot.get('selection') or {}
+            project = snapshot.get('project') or {}
+            return {
+                'project_uuid': project.get('uuid'),
+                'schematic_uuid': selection.get('schematic_uuid'),
+                'page_uuid': selection.get('page_uuid'),
+            }
+
+        expected_ids, actual_ids = identity(expected), identity(actual)
+        identity_check = {
+            key: {'expected': expected_ids.get(key), 'actual': actual_ids.get(key),
+                  'match': bool(expected_ids.get(key)) and expected_ids.get(key) == actual_ids.get(key)}
+            for key in ('project_uuid', 'schematic_uuid', 'page_uuid')
+        }
+        identity_match = all(item['match'] for item in identity_check.values())
         comparison = compare_snapshots(expected, actual)
+        matched = comparison['match'] and identity_match
         result = {
-            'status': 'match' if comparison['match'] else 'mismatch',
+            'status': 'match' if matched else 'mismatch',
             'project': str(Path(args.project).resolve()),
             'snapshot': str(Path(args.snapshot).resolve()),
             'closed_session': closed,
+            'identity': identity_check,
             'comparison': comparison,
             'actual_counts': actual.get('counts'),
         }
-        return result, EXIT_OK if comparison['match'] else EXIT_REVIEW
+        if not identity_match:
+            result['note'] = ('project/schematic/page identity differs from the snapshot; '
+                              'object-level comparison alone cannot establish a reopen match')
+        return result, EXIT_OK if matched else EXIT_REVIEW
     finally:
         close_owned(pro, session)
 

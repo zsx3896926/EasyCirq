@@ -1,0 +1,884 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 2: recreate the same flags, ports and wire segments at translated coordinates.",
+  "operations": [
+    {
+      "op": "net_flag",
+      "key": "flag-18c0061320f321b7",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        110,
+        240
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-c3b73645a8e7160d",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        110,
+        350
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-194e5d88d54bae97",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        70,
+        360
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-a380d2e117269cb8",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        90,
+        220
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-765850816424699e",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        480,
+        260
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-ea05521f71e9e30f",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        440,
+        350
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-b0612878e9a6d361",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        660,
+        260
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-9ccdb3aec0a20cf8",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        740,
+        260
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-085411f657e903be",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        640,
+        445
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-ac28347df5c9b3f0",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        890,
+        450
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-77ea315331003b43",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        670,
+        490
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-dda9b0b055b70f5e",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        950,
+        230
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-4f5752fc3d1e2d06",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        1000,
+        355
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-c980906e59389d91",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        140,
+        340
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-17afc95fd7c29b0c",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        410,
+        260
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-20350323f34b81d6",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        440,
+        330
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-bb1dafd2c1fade33",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        440,
+        340
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-5114b45293ec27ff",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        620,
+        340
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-4ac324d5ea8227c0",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        580,
+        260
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-de27143f4b7cd30c",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        690,
+        230
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-e57ed6dc05e77682",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        760,
+        445
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-54148e9f6d4dc8a9",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        920,
+        390
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-b58bf3d1423439f5",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        880,
+        415
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-4278f4dc559bc757",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        580,
+        425
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-796665db50623051",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        800,
+        230
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-80cdcd8f3989ebcf",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        1000,
+        385
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-6579225cba6e0b2f",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        140,
+        250
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-04db9b8ea74e26ac",
+      "net": "CC2",
+      "direction": "BI",
+      "at": [
+        110,
+        260
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-29a56eb8eb7d36c7",
+      "net": "CC1",
+      "direction": "BI",
+      "at": [
+        120,
+        360
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-04114913b502d3e8",
+      "net": "CC2",
+      "direction": "BI",
+      "at": [
+        140,
+        220
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-1042cae56d0b89a2",
+      "net": "EN",
+      "direction": "BI",
+      "at": [
+        860,
+        390
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-d0dc03f8f7e30405",
+      "net": "EN",
+      "direction": "BI",
+      "at": [
+        735,
+        425
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-11f9e26c00295e4e",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        820,
+        415
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-ebffb4f56e1db48f",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        735,
+        435
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-5ff0a849714a8df1",
+      "net": "IO0",
+      "direction": "BI",
+      "at": [
+        640,
+        425
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-90e0dcf2f855f267",
+      "net": "IO0",
+      "direction": "BI",
+      "at": [
+        665,
+        425
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-b6f7c7b75542fd13",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        810,
+        450
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-9ef4bcbe71b063a5",
+      "net": "IO0",
+      "direction": "BI",
+      "at": [
+        590,
+        490
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-620e05ada8c9d5cc",
+      "net": "CC1",
+      "direction": "BI",
+      "at": [
+        110,
+        320
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-9bf2c7739b22d4e7",
+      "net": "TXD",
+      "direction": "IN",
+      "at": [
+        1020,
+        375
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-9cc1a6dfd924446e",
+      "net": "TXD",
+      "direction": "OUT",
+      "at": [
+        735,
+        415
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-d04c9e534752c905",
+      "net": "RXD",
+      "direction": "OUT",
+      "at": [
+        1040,
+        365
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "net_port",
+      "key": "port-ac72859bc80dc265",
+      "net": "RXD",
+      "direction": "IN",
+      "at": [
+        665,
+        415
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "wire-18f2a381760ec17d",
+      "net": "GND",
+      "points": [
+        170,
+        240,
+        110,
+        240
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-fd66cd07430de4f2",
+      "net": "5V",
+      "points": [
+        170,
+        340,
+        140,
+        340
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-aa5b909f2ff16b22",
+      "net": "GND",
+      "points": [
+        170,
+        350,
+        110,
+        350
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-f500880b3b83d724",
+      "net": "CC1",
+      "points": [
+        170,
+        320,
+        110,
+        320
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-a330241731a1a1ad",
+      "net": "CC2",
+      "points": [
+        170,
+        260,
+        110,
+        260
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-c7a4414aed250306",
+      "net": "CC1",
+      "points": [
+        140,
+        360,
+        120,
+        360
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-7115cf4ecd33c6f5",
+      "net": "GND",
+      "points": [
+        80,
+        360,
+        70,
+        360
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-9d45835e2e38781c",
+      "net": "CC2",
+      "points": [
+        160,
+        220,
+        140,
+        220
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-b75805cade4ebea2",
+      "net": "GND",
+      "points": [
+        100,
+        220,
+        90,
+        220
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-4d4ed58458600dca",
+      "net": "5V",
+      "points": [
+        430,
+        260,
+        410,
+        260
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-70e08327a6eac7db",
+      "net": "GND",
+      "points": [
+        480,
+        260,
+        460,
+        260
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-d9f8c6b0792d3785",
+      "net": "5V",
+      "points": [
+        480,
+        330,
+        440,
+        330
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-72031477d8871538",
+      "net": "3V3",
+      "points": [
+        480,
+        340,
+        440,
+        340
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-e569946177d473cd",
+      "net": "GND",
+      "points": [
+        480,
+        350,
+        440,
+        350
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-1665060f71025135",
+      "net": "3V3",
+      "points": [
+        620,
+        340,
+        590,
+        340
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-b7544d62014087e5",
+      "net": "3V3",
+      "points": [
+        600,
+        260,
+        580,
+        260
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-93e050c47a78b8a6",
+      "net": "GND",
+      "points": [
+        660,
+        260,
+        640,
+        260
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-0b53f38272506d50",
+      "net": "3V3",
+      "points": [
+        690,
+        260,
+        690,
+        230
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-8ec0f5c503395a56",
+      "net": "GND",
+      "points": [
+        740,
+        260,
+        720,
+        260
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-132dbd5e794f45bb",
+      "net": "3V3",
+      "points": [
+        760,
+        445,
+        735,
+        445
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-3de7769321e53369",
+      "net": "GND",
+      "points": [
+        665,
+        445,
+        640,
+        445
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-d9363f0f19ae22ca",
+      "net": "3V3",
+      "points": [
+        920,
+        390,
+        900,
+        390
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-f9bff1f520b501e0",
+      "net": "3V3",
+      "points": [
+        880,
+        415,
+        860,
+        415
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-d575bda0357eba90",
+      "net": "3V3",
+      "points": [
+        600,
+        425,
+        580,
+        425
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-621968a8fec33443",
+      "net": "GND",
+      "points": [
+        890,
+        450,
+        870,
+        450
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-827559cd64e5445e",
+      "net": "GND",
+      "points": [
+        670,
+        490,
+        650,
+        490
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-f08f6d6910368c05",
+      "net": "3V3",
+      "points": [
+        820,
+        230,
+        800,
+        230
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-d88d3513e6868f38",
+      "net": "LED_A",
+      "points": [
+        890,
+        230,
+        860,
+        230
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-cf0a3a019d46ea91",
+      "net": "GND",
+      "points": [
+        950,
+        230,
+        930,
+        230
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-138d10952dd7efe3",
+      "net": "3V3",
+      "points": [
+        1060,
+        385,
+        1000,
+        385
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-0a8fc9a4a8730c40",
+      "net": "TXD",
+      "points": [
+        1060,
+        375,
+        1020,
+        375
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-ee52086b2574fb82",
+      "net": "RXD",
+      "points": [
+        1060,
+        365,
+        1040,
+        365
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-7b0ae1eb1ba64973",
+      "net": "GND",
+      "points": [
+        1060,
+        355,
+        1000,
+        355
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-d8d9da3795fbd1b0",
+      "net": "5V",
+      "points": [
+        140,
+        250,
+        170,
+        250
+      ]
+    }
+  ]
+}

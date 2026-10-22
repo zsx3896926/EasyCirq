@@ -1,0 +1,122 @@
+{
+  "status": "ok",
+  "drc": {
+    "ok": true,
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    },
+    "passed": false,
+    "count": 4,
+    "violations": [
+      {
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "net": "3V3、3V3",
+        "primitives": [
+          {
+            "primitiveId": "89075ab98787e966",
+            "sheet": "f6d41a58df3fa849",
+            "name": "$1N138"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "net": "3V3、3V3",
+        "primitives": [
+          {
+            "primitiveId": "29fde0e19897afc9",
+            "sheet": "f6d41a58df3fa849",
+            "name": "$1N139"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "net": "GND、GND",
+        "primitives": [
+          {
+            "primitiveId": "df3d8e85704de2aa",
+            "sheet": "f6d41a58df3fa849",
+            "name": "$1N140"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "CHECKFLOATPIN",
+        "primitives": [
+          {
+            "primitiveId": "84931dadefea5b69-e3",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "3"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e7",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "1"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e11",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "4"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e15",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "2"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e19",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e23",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e27",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B6"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e35",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e39",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e43",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A6"
+          },
+          {
+            "primitiveId": "9caf259471fe8fbe-e9",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "U101",
+            "name": "2"
+          }
+        ]
+      }
+    ]
+  }
+}

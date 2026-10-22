@@ -1,0 +1,177 @@
+{
+  "status": "verified",
+  "plan": "C:/Users/jlc/work/hw-eda-round3/plan7b-create.json",
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 39,
+    "attributes": null
+  },
+  "items": [
+    {
+      "key": "w-gnd",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "w-io0",
+      "op": "wire",
+      "status": "create",
+      "net": "IO0",
+      "segments": 1,
+      "existing_segments": 0
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_wire",
+      "key": "w-gnd#0",
+      "net": "GND",
+      "points": [
+        640.0,
+        490.0,
+        690.0,
+        490.0
+      ],
+      "segments": [
+        [
+          640.0,
+          490.0,
+          690.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "w-io0#0",
+      "net": "IO0",
+      "points": [
+        550.0,
+        490.0,
+        580.0,
+        490.0
+      ],
+      "segments": [
+        [
+          550.0,
+          490.0,
+          580.0,
+          490.0
+        ]
+      ]
+    }
+  ],
+  "conflicts": [],
+  "dry_run": false,
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "w-gnd#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "f48687c27703406e",
+        "net": "GND",
+        "line": [
+          [
+            690,
+            490,
+            640,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "w-io0#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "e4debf1ec543427b",
+        "net": "IO0",
+        "line": [
+          [
+            580,
+            490,
+            550,
+            490
+          ]
+        ]
+      }
+    ]
+  },
+  "after_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "w-gnd",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "w-io0",
+        "op": "wire",
+        "status": "create",
+        "net": "IO0",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 58,
+      "wires": 41
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  }
+}

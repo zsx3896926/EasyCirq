@@ -1,0 +1,12 @@
+{
+  "status": "ok",
+  "export": {
+    "ok": true,
+    "name": "eda-export.csv",
+    "size": 1960,
+    "output": "C:\\Users\\jlc\\work\\hw-eda-round3\\f1-bom.csv",
+    "sha256": "b98e6c3a09400a1e2a5d1a938b71fd8665b8c3edbc64a2d5416b194c709fd302",
+    "decoded_size": 1960
+  },
+  "output": "C:\\Users\\jlc\\work\\hw-eda-round3\\f1-bom.csv"
+}

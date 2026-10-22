@@ -1,0 +1,3635 @@
+{
+  "status": "verified",
+  "plan": "C:/Users/jlc/work/hw-eda-round3/plan2-recreate.json",
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 17,
+    "parts": 16,
+    "netflags": 0,
+    "netports": 0,
+    "wires": 0,
+    "attributes": null
+  },
+  "items": [
+    {
+      "key": "flag-18c0061320f321b7",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-c3b73645a8e7160d",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-194e5d88d54bae97",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-a380d2e117269cb8",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-765850816424699e",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-ea05521f71e9e30f",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-b0612878e9a6d361",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-9ccdb3aec0a20cf8",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-085411f657e903be",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-ac28347df5c9b3f0",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-77ea315331003b43",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-dda9b0b055b70f5e",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-4f5752fc3d1e2d06",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-c980906e59389d91",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "flag-17afc95fd7c29b0c",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "flag-20350323f34b81d6",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "flag-bb1dafd2c1fade33",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-5114b45293ec27ff",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-4ac324d5ea8227c0",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-de27143f4b7cd30c",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-e57ed6dc05e77682",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-54148e9f6d4dc8a9",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-b58bf3d1423439f5",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-4278f4dc559bc757",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-796665db50623051",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-80cdcd8f3989ebcf",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-6579225cba6e0b2f",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "port-04db9b8ea74e26ac",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC2"
+    },
+    {
+      "key": "port-29a56eb8eb7d36c7",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC1"
+    },
+    {
+      "key": "port-04114913b502d3e8",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC2"
+    },
+    {
+      "key": "port-1042cae56d0b89a2",
+      "op": "net_port",
+      "status": "create",
+      "net": "EN"
+    },
+    {
+      "key": "port-d0dc03f8f7e30405",
+      "op": "net_port",
+      "status": "create",
+      "net": "EN"
+    },
+    {
+      "key": "port-11f9e26c00295e4e",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "port-ebffb4f56e1db48f",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "port-5ff0a849714a8df1",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    },
+    {
+      "key": "port-90e0dcf2f855f267",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    },
+    {
+      "key": "port-b6f7c7b75542fd13",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "port-9ef4bcbe71b063a5",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    },
+    {
+      "key": "port-620e05ada8c9d5cc",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC1"
+    },
+    {
+      "key": "port-9bf2c7739b22d4e7",
+      "op": "net_port",
+      "status": "create",
+      "net": "TXD"
+    },
+    {
+      "key": "port-9cc1a6dfd924446e",
+      "op": "net_port",
+      "status": "create",
+      "net": "TXD"
+    },
+    {
+      "key": "port-d04c9e534752c905",
+      "op": "net_port",
+      "status": "create",
+      "net": "RXD"
+    },
+    {
+      "key": "port-ac72859bc80dc265",
+      "op": "net_port",
+      "status": "create",
+      "net": "RXD"
+    },
+    {
+      "key": "wire-18f2a381760ec17d",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-fd66cd07430de4f2",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-aa5b909f2ff16b22",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-f500880b3b83d724",
+      "op": "wire",
+      "status": "create",
+      "net": "CC1",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-a330241731a1a1ad",
+      "op": "wire",
+      "status": "create",
+      "net": "CC2",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-c7a4414aed250306",
+      "op": "wire",
+      "status": "create",
+      "net": "CC1",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-7115cf4ecd33c6f5",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-9d45835e2e38781c",
+      "op": "wire",
+      "status": "create",
+      "net": "CC2",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-b75805cade4ebea2",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-4d4ed58458600dca",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-70e08327a6eac7db",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-d9f8c6b0792d3785",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-72031477d8871538",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-e569946177d473cd",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-1665060f71025135",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-b7544d62014087e5",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-93e050c47a78b8a6",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-0b53f38272506d50",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-8ec0f5c503395a56",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-132dbd5e794f45bb",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-3de7769321e53369",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-d9363f0f19ae22ca",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-f9bff1f520b501e0",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-d575bda0357eba90",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-621968a8fec33443",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-827559cd64e5445e",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-f08f6d6910368c05",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-d88d3513e6868f38",
+      "op": "wire",
+      "status": "create",
+      "net": "LED_A",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-cf0a3a019d46ea91",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-138d10952dd7efe3",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-0a8fc9a4a8730c40",
+      "op": "wire",
+      "status": "create",
+      "net": "TXD",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-ee52086b2574fb82",
+      "op": "wire",
+      "status": "create",
+      "net": "RXD",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-7b0ae1eb1ba64973",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-d8d9da3795fbd1b0",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_net_flag",
+      "key": "flag-18c0061320f321b7",
+      "type": "Ground",
+      "net": "GND",
+      "x": 110,
+      "y": 240,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-c3b73645a8e7160d",
+      "type": "Ground",
+      "net": "GND",
+      "x": 110,
+      "y": 350,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-194e5d88d54bae97",
+      "type": "Ground",
+      "net": "GND",
+      "x": 70,
+      "y": 360,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-a380d2e117269cb8",
+      "type": "Ground",
+      "net": "GND",
+      "x": 90,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-765850816424699e",
+      "type": "Ground",
+      "net": "GND",
+      "x": 480,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-ea05521f71e9e30f",
+      "type": "Ground",
+      "net": "GND",
+      "x": 440,
+      "y": 350,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-b0612878e9a6d361",
+      "type": "Ground",
+      "net": "GND",
+      "x": 660,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-9ccdb3aec0a20cf8",
+      "type": "Ground",
+      "net": "GND",
+      "x": 740,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-085411f657e903be",
+      "type": "Ground",
+      "net": "GND",
+      "x": 640,
+      "y": 445,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-ac28347df5c9b3f0",
+      "type": "Ground",
+      "net": "GND",
+      "x": 890,
+      "y": 450,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-77ea315331003b43",
+      "type": "Ground",
+      "net": "GND",
+      "x": 670,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-dda9b0b055b70f5e",
+      "type": "Ground",
+      "net": "GND",
+      "x": 950,
+      "y": 230,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-4f5752fc3d1e2d06",
+      "type": "Ground",
+      "net": "GND",
+      "x": 1000,
+      "y": 355,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-c980906e59389d91",
+      "type": "Power",
+      "net": "5V",
+      "x": 140,
+      "y": 340,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-17afc95fd7c29b0c",
+      "type": "Power",
+      "net": "5V",
+      "x": 410,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-20350323f34b81d6",
+      "type": "Power",
+      "net": "5V",
+      "x": 440,
+      "y": 330,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-bb1dafd2c1fade33",
+      "type": "Power",
+      "net": "3V3",
+      "x": 440,
+      "y": 340,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-5114b45293ec27ff",
+      "type": "Power",
+      "net": "3V3",
+      "x": 620,
+      "y": 340,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-4ac324d5ea8227c0",
+      "type": "Power",
+      "net": "3V3",
+      "x": 580,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-de27143f4b7cd30c",
+      "type": "Power",
+      "net": "3V3",
+      "x": 690,
+      "y": 230,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-e57ed6dc05e77682",
+      "type": "Power",
+      "net": "3V3",
+      "x": 760,
+      "y": 445,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-54148e9f6d4dc8a9",
+      "type": "Power",
+      "net": "3V3",
+      "x": 920,
+      "y": 390,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-b58bf3d1423439f5",
+      "type": "Power",
+      "net": "3V3",
+      "x": 880,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-4278f4dc559bc757",
+      "type": "Power",
+      "net": "3V3",
+      "x": 580,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-796665db50623051",
+      "type": "Power",
+      "net": "3V3",
+      "x": 800,
+      "y": 230,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-80cdcd8f3989ebcf",
+      "type": "Power",
+      "net": "3V3",
+      "x": 1000,
+      "y": 385,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-6579225cba6e0b2f",
+      "type": "Power",
+      "net": "5V",
+      "x": 140,
+      "y": 250,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-04db9b8ea74e26ac",
+      "direction": "BI",
+      "net": "CC2",
+      "x": 110,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-29a56eb8eb7d36c7",
+      "direction": "BI",
+      "net": "CC1",
+      "x": 120,
+      "y": 360,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-04114913b502d3e8",
+      "direction": "BI",
+      "net": "CC2",
+      "x": 140,
+      "y": 220,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-1042cae56d0b89a2",
+      "direction": "BI",
+      "net": "EN",
+      "x": 860,
+      "y": 390,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-d0dc03f8f7e30405",
+      "direction": "BI",
+      "net": "EN",
+      "x": 735,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-11f9e26c00295e4e",
+      "direction": "BI",
+      "net": "RST",
+      "x": 820,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-ebffb4f56e1db48f",
+      "direction": "BI",
+      "net": "RST",
+      "x": 735,
+      "y": 435,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-5ff0a849714a8df1",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 640,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-90e0dcf2f855f267",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 665,
+      "y": 425,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-b6f7c7b75542fd13",
+      "direction": "BI",
+      "net": "RST",
+      "x": 810,
+      "y": 450,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-9ef4bcbe71b063a5",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 590,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-620e05ada8c9d5cc",
+      "direction": "BI",
+      "net": "CC1",
+      "x": 110,
+      "y": 320,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-9bf2c7739b22d4e7",
+      "direction": "IN",
+      "net": "TXD",
+      "x": 1020,
+      "y": 375,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-9cc1a6dfd924446e",
+      "direction": "OUT",
+      "net": "TXD",
+      "x": 735,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-d04c9e534752c905",
+      "direction": "OUT",
+      "net": "RXD",
+      "x": 1040,
+      "y": 365,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-ac72859bc80dc265",
+      "direction": "IN",
+      "net": "RXD",
+      "x": 665,
+      "y": 415,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-18f2a381760ec17d#0",
+      "net": "GND",
+      "points": [
+        110.0,
+        240.0,
+        170.0,
+        240.0
+      ],
+      "segments": [
+        [
+          110.0,
+          240.0,
+          170.0,
+          240.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-fd66cd07430de4f2#0",
+      "net": "5V",
+      "points": [
+        140.0,
+        340.0,
+        170.0,
+        340.0
+      ],
+      "segments": [
+        [
+          140.0,
+          340.0,
+          170.0,
+          340.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-aa5b909f2ff16b22#0",
+      "net": "GND",
+      "points": [
+        110.0,
+        350.0,
+        170.0,
+        350.0
+      ],
+      "segments": [
+        [
+          110.0,
+          350.0,
+          170.0,
+          350.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-f500880b3b83d724#0",
+      "net": "CC1",
+      "points": [
+        110.0,
+        320.0,
+        170.0,
+        320.0
+      ],
+      "segments": [
+        [
+          110.0,
+          320.0,
+          170.0,
+          320.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-a330241731a1a1ad#0",
+      "net": "CC2",
+      "points": [
+        110.0,
+        260.0,
+        170.0,
+        260.0
+      ],
+      "segments": [
+        [
+          110.0,
+          260.0,
+          170.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-c7a4414aed250306#0",
+      "net": "CC1",
+      "points": [
+        120.0,
+        360.0,
+        140.0,
+        360.0
+      ],
+      "segments": [
+        [
+          120.0,
+          360.0,
+          140.0,
+          360.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-7115cf4ecd33c6f5#0",
+      "net": "GND",
+      "points": [
+        70.0,
+        360.0,
+        80.0,
+        360.0
+      ],
+      "segments": [
+        [
+          70.0,
+          360.0,
+          80.0,
+          360.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-9d45835e2e38781c#0",
+      "net": "CC2",
+      "points": [
+        140.0,
+        220.0,
+        160.0,
+        220.0
+      ],
+      "segments": [
+        [
+          140.0,
+          220.0,
+          160.0,
+          220.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-b75805cade4ebea2#0",
+      "net": "GND",
+      "points": [
+        90.0,
+        220.0,
+        100.0,
+        220.0
+      ],
+      "segments": [
+        [
+          90.0,
+          220.0,
+          100.0,
+          220.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-4d4ed58458600dca#0",
+      "net": "5V",
+      "points": [
+        410.0,
+        260.0,
+        430.0,
+        260.0
+      ],
+      "segments": [
+        [
+          410.0,
+          260.0,
+          430.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-70e08327a6eac7db#0",
+      "net": "GND",
+      "points": [
+        460.0,
+        260.0,
+        480.0,
+        260.0
+      ],
+      "segments": [
+        [
+          460.0,
+          260.0,
+          480.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-d9f8c6b0792d3785#0",
+      "net": "5V",
+      "points": [
+        440.0,
+        330.0,
+        480.0,
+        330.0
+      ],
+      "segments": [
+        [
+          440.0,
+          330.0,
+          480.0,
+          330.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-72031477d8871538#0",
+      "net": "3V3",
+      "points": [
+        440.0,
+        340.0,
+        480.0,
+        340.0
+      ],
+      "segments": [
+        [
+          440.0,
+          340.0,
+          480.0,
+          340.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-e569946177d473cd#0",
+      "net": "GND",
+      "points": [
+        440.0,
+        350.0,
+        480.0,
+        350.0
+      ],
+      "segments": [
+        [
+          440.0,
+          350.0,
+          480.0,
+          350.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-1665060f71025135#0",
+      "net": "3V3",
+      "points": [
+        590.0,
+        340.0,
+        620.0,
+        340.0
+      ],
+      "segments": [
+        [
+          590.0,
+          340.0,
+          620.0,
+          340.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-b7544d62014087e5#0",
+      "net": "3V3",
+      "points": [
+        580.0,
+        260.0,
+        600.0,
+        260.0
+      ],
+      "segments": [
+        [
+          580.0,
+          260.0,
+          600.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-93e050c47a78b8a6#0",
+      "net": "GND",
+      "points": [
+        640.0,
+        260.0,
+        660.0,
+        260.0
+      ],
+      "segments": [
+        [
+          640.0,
+          260.0,
+          660.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-0b53f38272506d50#0",
+      "net": "3V3",
+      "points": [
+        690.0,
+        230.0,
+        690.0,
+        260.0
+      ],
+      "segments": [
+        [
+          690.0,
+          230.0,
+          690.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-8ec0f5c503395a56#0",
+      "net": "GND",
+      "points": [
+        720.0,
+        260.0,
+        740.0,
+        260.0
+      ],
+      "segments": [
+        [
+          720.0,
+          260.0,
+          740.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-132dbd5e794f45bb#0",
+      "net": "3V3",
+      "points": [
+        735.0,
+        445.0,
+        760.0,
+        445.0
+      ],
+      "segments": [
+        [
+          735.0,
+          445.0,
+          760.0,
+          445.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-3de7769321e53369#0",
+      "net": "GND",
+      "points": [
+        640.0,
+        445.0,
+        665.0,
+        445.0
+      ],
+      "segments": [
+        [
+          640.0,
+          445.0,
+          665.0,
+          445.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-d9363f0f19ae22ca#0",
+      "net": "3V3",
+      "points": [
+        900.0,
+        390.0,
+        920.0,
+        390.0
+      ],
+      "segments": [
+        [
+          900.0,
+          390.0,
+          920.0,
+          390.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-f9bff1f520b501e0#0",
+      "net": "3V3",
+      "points": [
+        860.0,
+        415.0,
+        880.0,
+        415.0
+      ],
+      "segments": [
+        [
+          860.0,
+          415.0,
+          880.0,
+          415.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-d575bda0357eba90#0",
+      "net": "3V3",
+      "points": [
+        580.0,
+        425.0,
+        600.0,
+        425.0
+      ],
+      "segments": [
+        [
+          580.0,
+          425.0,
+          600.0,
+          425.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-621968a8fec33443#0",
+      "net": "GND",
+      "points": [
+        870.0,
+        450.0,
+        890.0,
+        450.0
+      ],
+      "segments": [
+        [
+          870.0,
+          450.0,
+          890.0,
+          450.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-827559cd64e5445e#0",
+      "net": "GND",
+      "points": [
+        650.0,
+        490.0,
+        670.0,
+        490.0
+      ],
+      "segments": [
+        [
+          650.0,
+          490.0,
+          670.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-f08f6d6910368c05#0",
+      "net": "3V3",
+      "points": [
+        800.0,
+        230.0,
+        820.0,
+        230.0
+      ],
+      "segments": [
+        [
+          800.0,
+          230.0,
+          820.0,
+          230.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-d88d3513e6868f38#0",
+      "net": "LED_A",
+      "points": [
+        860.0,
+        230.0,
+        890.0,
+        230.0
+      ],
+      "segments": [
+        [
+          860.0,
+          230.0,
+          890.0,
+          230.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-cf0a3a019d46ea91#0",
+      "net": "GND",
+      "points": [
+        930.0,
+        230.0,
+        950.0,
+        230.0
+      ],
+      "segments": [
+        [
+          930.0,
+          230.0,
+          950.0,
+          230.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-138d10952dd7efe3#0",
+      "net": "3V3",
+      "points": [
+        1000.0,
+        385.0,
+        1060.0,
+        385.0
+      ],
+      "segments": [
+        [
+          1000.0,
+          385.0,
+          1060.0,
+          385.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-0a8fc9a4a8730c40#0",
+      "net": "TXD",
+      "points": [
+        1020.0,
+        375.0,
+        1060.0,
+        375.0
+      ],
+      "segments": [
+        [
+          1020.0,
+          375.0,
+          1060.0,
+          375.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-ee52086b2574fb82#0",
+      "net": "RXD",
+      "points": [
+        1040.0,
+        365.0,
+        1060.0,
+        365.0
+      ],
+      "segments": [
+        [
+          1040.0,
+          365.0,
+          1060.0,
+          365.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-7b0ae1eb1ba64973#0",
+      "net": "GND",
+      "points": [
+        1000.0,
+        355.0,
+        1060.0,
+        355.0
+      ],
+      "segments": [
+        [
+          1000.0,
+          355.0,
+          1060.0,
+          355.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-d8d9da3795fbd1b0#0",
+      "net": "5V",
+      "points": [
+        140.0,
+        250.0,
+        170.0,
+        250.0
+      ],
+      "segments": [
+        [
+          140.0,
+          250.0,
+          170.0,
+          250.0
+        ]
+      ]
+    }
+  ],
+  "conflicts": [],
+  "dry_run": false,
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "flag-18c0061320f321b7",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "d3482cb6ec34ecc7",
+        "net": "GND"
+      },
+      {
+        "key": "flag-c3b73645a8e7160d",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "dfbee6f3348d5be9",
+        "net": "GND"
+      },
+      {
+        "key": "flag-194e5d88d54bae97",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "3a7f3e0e4a659726",
+        "net": "GND"
+      },
+      {
+        "key": "flag-a380d2e117269cb8",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "b2c3a696e9aea595",
+        "net": "GND"
+      },
+      {
+        "key": "flag-765850816424699e",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "351e068ffde88fb3",
+        "net": "GND"
+      },
+      {
+        "key": "flag-ea05521f71e9e30f",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "ad2bbaaba523f007",
+        "net": "GND"
+      },
+      {
+        "key": "flag-b0612878e9a6d361",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "8768933a75ec9b88",
+        "net": "GND"
+      },
+      {
+        "key": "flag-9ccdb3aec0a20cf8",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "29739378685aa917",
+        "net": "GND"
+      },
+      {
+        "key": "flag-085411f657e903be",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e824be6815b3b540",
+        "net": "GND"
+      },
+      {
+        "key": "flag-ac28347df5c9b3f0",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "093819db2beb378a",
+        "net": "GND"
+      },
+      {
+        "key": "flag-77ea315331003b43",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "326054c5d3459cf0",
+        "net": "GND"
+      },
+      {
+        "key": "flag-dda9b0b055b70f5e",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "2dc6668755a569f7",
+        "net": "GND"
+      },
+      {
+        "key": "flag-4f5752fc3d1e2d06",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "55194221459a19e8",
+        "net": "GND"
+      },
+      {
+        "key": "flag-c980906e59389d91",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "b7e618f90c91c95a",
+        "net": "5V"
+      },
+      {
+        "key": "flag-17afc95fd7c29b0c",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "c4a4ef2846f7d5a6",
+        "net": "5V"
+      },
+      {
+        "key": "flag-20350323f34b81d6",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "72981468c5a89298",
+        "net": "5V"
+      },
+      {
+        "key": "flag-bb1dafd2c1fade33",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "313c0042ec357591",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-5114b45293ec27ff",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "7f600d4492984da3",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-4ac324d5ea8227c0",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "42a91e32e9a4f1c0",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-de27143f4b7cd30c",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "718772ad62c01658",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-e57ed6dc05e77682",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "8355b9ed9ef9ca4a",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-54148e9f6d4dc8a9",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "f319d2f0bd50f8c4",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-b58bf3d1423439f5",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "1c7f2bf10d779cae",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-4278f4dc559bc757",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "b9b643fe9db6e630",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-796665db50623051",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "6019db405c2ac176",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-80cdcd8f3989ebcf",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "184ddbbffcb227ae",
+        "net": "3V3"
+      },
+      {
+        "key": "flag-6579225cba6e0b2f",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "72d1baf7a895a722",
+        "net": "5V"
+      },
+      {
+        "key": "port-04db9b8ea74e26ac",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "892f2e373a63b05c",
+        "net": "CC2"
+      },
+      {
+        "key": "port-29a56eb8eb7d36c7",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "e83908b77963d0fd",
+        "net": "CC1"
+      },
+      {
+        "key": "port-04114913b502d3e8",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "52f4c803d6fd8b5d",
+        "net": "CC2"
+      },
+      {
+        "key": "port-1042cae56d0b89a2",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "2f3baac22e47fbf8",
+        "net": "EN"
+      },
+      {
+        "key": "port-d0dc03f8f7e30405",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "e8600870b4f72874",
+        "net": "EN"
+      },
+      {
+        "key": "port-11f9e26c00295e4e",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "e1eae9eed4d9fa87",
+        "net": "RST"
+      },
+      {
+        "key": "port-ebffb4f56e1db48f",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "403d421c4e47295f",
+        "net": "RST"
+      },
+      {
+        "key": "port-5ff0a849714a8df1",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "92b0109f64b92be0",
+        "net": "IO0"
+      },
+      {
+        "key": "port-90e0dcf2f855f267",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "226fd7e6e270b018",
+        "net": "IO0"
+      },
+      {
+        "key": "port-b6f7c7b75542fd13",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "c869ffa9048571b1",
+        "net": "RST"
+      },
+      {
+        "key": "port-9ef4bcbe71b063a5",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "a569825d3b1a5ff1",
+        "net": "IO0"
+      },
+      {
+        "key": "port-620e05ada8c9d5cc",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "0aad87f5c986b5e4",
+        "net": "CC1"
+      },
+      {
+        "key": "port-9bf2c7739b22d4e7",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "654ab273dce4f63f",
+        "net": "TXD"
+      },
+      {
+        "key": "port-9cc1a6dfd924446e",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "96540972c2e46fbd",
+        "net": "TXD"
+      },
+      {
+        "key": "port-d04c9e534752c905",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "2f200518a19ecb18",
+        "net": "RXD"
+      },
+      {
+        "key": "port-ac72859bc80dc265",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "f5b6a7bcbc65d1de",
+        "net": "RXD"
+      },
+      {
+        "key": "wire-18f2a381760ec17d#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "8ffb8495f15c5a55",
+        "net": "GND",
+        "line": [
+          [
+            170,
+            240,
+            110,
+            240
+          ]
+        ]
+      },
+      {
+        "key": "wire-fd66cd07430de4f2#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "31a00d2bfcc09e98",
+        "net": "5V",
+        "line": [
+          [
+            170,
+            340,
+            140,
+            340
+          ]
+        ]
+      },
+      {
+        "key": "wire-aa5b909f2ff16b22#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "26590c3d2bc3f760",
+        "net": "GND",
+        "line": [
+          [
+            170,
+            350,
+            110,
+            350
+          ]
+        ]
+      },
+      {
+        "key": "wire-f500880b3b83d724#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "d96c2c259b49a4ac",
+        "net": "CC1",
+        "line": [
+          [
+            170,
+            320,
+            110,
+            320
+          ]
+        ]
+      },
+      {
+        "key": "wire-a330241731a1a1ad#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "bb081626418f945b",
+        "net": "CC2",
+        "line": [
+          [
+            170,
+            260,
+            110,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "wire-c7a4414aed250306#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "305ea80a9db9f5cb",
+        "net": "CC1",
+        "line": [
+          [
+            140,
+            360,
+            120,
+            360
+          ]
+        ]
+      },
+      {
+        "key": "wire-7115cf4ecd33c6f5#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "bfc64e45ee4b4eef",
+        "net": "GND",
+        "line": [
+          [
+            80,
+            360,
+            70,
+            360
+          ]
+        ]
+      },
+      {
+        "key": "wire-9d45835e2e38781c#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "b864c0bbe3caa81c",
+        "net": "CC2",
+        "line": [
+          [
+            160,
+            220,
+            140,
+            220
+          ]
+        ]
+      },
+      {
+        "key": "wire-b75805cade4ebea2#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "90784ee5c760cc20",
+        "net": "GND",
+        "line": [
+          [
+            100,
+            220,
+            90,
+            220
+          ]
+        ]
+      },
+      {
+        "key": "wire-4d4ed58458600dca#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "8b7c635974d7310b",
+        "net": "5V",
+        "line": [
+          [
+            430,
+            260,
+            410,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "wire-70e08327a6eac7db#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "e074dc93e544312c",
+        "net": "GND",
+        "line": [
+          [
+            480,
+            260,
+            460,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "wire-d9f8c6b0792d3785#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "f501dc36df2f7bc3",
+        "net": "5V",
+        "line": [
+          [
+            480,
+            330,
+            440,
+            330
+          ]
+        ]
+      },
+      {
+        "key": "wire-72031477d8871538#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "da9c85890c46e2fd",
+        "net": "3V3",
+        "line": [
+          [
+            480,
+            340,
+            440,
+            340
+          ]
+        ]
+      },
+      {
+        "key": "wire-e569946177d473cd#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "1e5b65ef95d87913",
+        "net": "GND",
+        "line": [
+          [
+            480,
+            350,
+            440,
+            350
+          ]
+        ]
+      },
+      {
+        "key": "wire-1665060f71025135#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "0cdf979d2743b2c6",
+        "net": "3V3",
+        "line": [
+          [
+            620,
+            340,
+            590,
+            340
+          ]
+        ]
+      },
+      {
+        "key": "wire-b7544d62014087e5#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "a37f7b821d962690",
+        "net": "3V3",
+        "line": [
+          [
+            600,
+            260,
+            580,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "wire-93e050c47a78b8a6#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "5edd25f94bdbbf8c",
+        "net": "GND",
+        "line": [
+          [
+            660,
+            260,
+            640,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "wire-0b53f38272506d50#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ef87e22352d9ef20",
+        "net": "3V3",
+        "line": [
+          [
+            690,
+            260,
+            690,
+            230
+          ]
+        ]
+      },
+      {
+        "key": "wire-8ec0f5c503395a56#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "fbf07a932682e6d6",
+        "net": "GND",
+        "line": [
+          [
+            740,
+            260,
+            720,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "wire-132dbd5e794f45bb#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "90409cb0244f20e4",
+        "net": "3V3",
+        "line": [
+          [
+            760,
+            445,
+            735,
+            445
+          ]
+        ]
+      },
+      {
+        "key": "wire-3de7769321e53369#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "fdb0f38ff94ee528",
+        "net": "GND",
+        "line": [
+          [
+            665,
+            445,
+            640,
+            445
+          ]
+        ]
+      },
+      {
+        "key": "wire-d9363f0f19ae22ca#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "b3a851f347e0b831",
+        "net": "3V3",
+        "line": [
+          [
+            920,
+            390,
+            900,
+            390
+          ]
+        ]
+      },
+      {
+        "key": "wire-f9bff1f520b501e0#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "5c6b281ac442c53e",
+        "net": "3V3",
+        "line": [
+          [
+            880,
+            415,
+            860,
+            415
+          ]
+        ]
+      },
+      {
+        "key": "wire-d575bda0357eba90#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "d36298ac85c961e6",
+        "net": "3V3",
+        "line": [
+          [
+            600,
+            425,
+            580,
+            425
+          ]
+        ]
+      },
+      {
+        "key": "wire-621968a8fec33443#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "92bbe6490d86e4b3",
+        "net": "GND",
+        "line": [
+          [
+            890,
+            450,
+            870,
+            450
+          ]
+        ]
+      },
+      {
+        "key": "wire-827559cd64e5445e#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "59751aba19561d9e",
+        "net": "GND",
+        "line": [
+          [
+            670,
+            490,
+            650,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "wire-f08f6d6910368c05#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "6299182e00feb0e3",
+        "net": "3V3",
+        "line": [
+          [
+            820,
+            230,
+            800,
+            230
+          ]
+        ]
+      },
+      {
+        "key": "wire-d88d3513e6868f38#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "a2d1a790b54a23f0",
+        "net": "LED_A",
+        "line": [
+          [
+            890,
+            230,
+            860,
+            230
+          ]
+        ]
+      },
+      {
+        "key": "wire-cf0a3a019d46ea91#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "08e3008df4e0651d",
+        "net": "GND",
+        "line": [
+          [
+            950,
+            230,
+            930,
+            230
+          ]
+        ]
+      },
+      {
+        "key": "wire-138d10952dd7efe3#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "b9aac3a0a06ef92e",
+        "net": "3V3",
+        "line": [
+          [
+            1060,
+            385,
+            1000,
+            385
+          ]
+        ]
+      },
+      {
+        "key": "wire-0a8fc9a4a8730c40#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ec0981d7f7dd3580",
+        "net": "TXD",
+        "line": [
+          [
+            1060,
+            375,
+            1020,
+            375
+          ]
+        ]
+      },
+      {
+        "key": "wire-ee52086b2574fb82#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ecd31d472a4b050e",
+        "net": "RXD",
+        "line": [
+          [
+            1060,
+            365,
+            1040,
+            365
+          ]
+        ]
+      },
+      {
+        "key": "wire-7b0ae1eb1ba64973#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "5291b4446d1be961",
+        "net": "GND",
+        "line": [
+          [
+            1060,
+            355,
+            1000,
+            355
+          ]
+        ]
+      },
+      {
+        "key": "wire-d8d9da3795fbd1b0#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "59b21526b63996b7",
+        "net": "5V",
+        "line": [
+          [
+            170,
+            250,
+            140,
+            250
+          ]
+        ]
+      }
+    ]
+  },
+  "after_counts": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "wires": 44,
+    "attributes": null
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "flag-18c0061320f321b7",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            110,
+            240
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-c3b73645a8e7160d",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            110,
+            350
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-194e5d88d54bae97",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            70,
+            360
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-a380d2e117269cb8",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            90,
+            220
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-765850816424699e",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            480,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-ea05521f71e9e30f",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            440,
+            350
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-b0612878e9a6d361",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            660,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-9ccdb3aec0a20cf8",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            740,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-085411f657e903be",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            640,
+            445
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-ac28347df5c9b3f0",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            890,
+            450
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-77ea315331003b43",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            670,
+            490
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-dda9b0b055b70f5e",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            950,
+            230
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-4f5752fc3d1e2d06",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            1000,
+            355
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-c980906e59389d91",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "at": [
+            140,
+            340
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-17afc95fd7c29b0c",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "at": [
+            410,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-20350323f34b81d6",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "at": [
+            440,
+            330
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-bb1dafd2c1fade33",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            440,
+            340
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-5114b45293ec27ff",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            620,
+            340
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-4ac324d5ea8227c0",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            580,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-de27143f4b7cd30c",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            690,
+            230
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-e57ed6dc05e77682",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            760,
+            445
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-54148e9f6d4dc8a9",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            920,
+            390
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-b58bf3d1423439f5",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            880,
+            415
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-4278f4dc559bc757",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            580,
+            425
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-796665db50623051",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            800,
+            230
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-80cdcd8f3989ebcf",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "at": [
+            1000,
+            385
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "flag-6579225cba6e0b2f",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "at": [
+            140,
+            250
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-04db9b8ea74e26ac",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC2",
+        "verification": "verified",
+        "observed": {
+          "net": "CC2",
+          "at": [
+            110,
+            260
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-29a56eb8eb7d36c7",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC1",
+        "verification": "verified",
+        "observed": {
+          "net": "CC1",
+          "at": [
+            120,
+            360
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-04114913b502d3e8",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC2",
+        "verification": "verified",
+        "observed": {
+          "net": "CC2",
+          "at": [
+            140,
+            220
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-1042cae56d0b89a2",
+        "op": "net_port",
+        "status": "create",
+        "net": "EN",
+        "verification": "verified",
+        "observed": {
+          "net": "EN",
+          "at": [
+            860,
+            390
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-d0dc03f8f7e30405",
+        "op": "net_port",
+        "status": "create",
+        "net": "EN",
+        "verification": "verified",
+        "observed": {
+          "net": "EN",
+          "at": [
+            735,
+            425
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-11f9e26c00295e4e",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "at": [
+            820,
+            415
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-ebffb4f56e1db48f",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "at": [
+            735,
+            435
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-5ff0a849714a8df1",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "at": [
+            640,
+            425
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-90e0dcf2f855f267",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "at": [
+            665,
+            425
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-b6f7c7b75542fd13",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "at": [
+            810,
+            450
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-9ef4bcbe71b063a5",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "at": [
+            590,
+            490
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-620e05ada8c9d5cc",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC1",
+        "verification": "verified",
+        "observed": {
+          "net": "CC1",
+          "at": [
+            110,
+            320
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-9bf2c7739b22d4e7",
+        "op": "net_port",
+        "status": "create",
+        "net": "TXD",
+        "verification": "verified",
+        "observed": {
+          "net": "TXD",
+          "at": [
+            1020,
+            375
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-9cc1a6dfd924446e",
+        "op": "net_port",
+        "status": "create",
+        "net": "TXD",
+        "verification": "verified",
+        "observed": {
+          "net": "TXD",
+          "at": [
+            735,
+            415
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-d04c9e534752c905",
+        "op": "net_port",
+        "status": "create",
+        "net": "RXD",
+        "verification": "verified",
+        "observed": {
+          "net": "RXD",
+          "at": [
+            1040,
+            365
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "port-ac72859bc80dc265",
+        "op": "net_port",
+        "status": "create",
+        "net": "RXD",
+        "verification": "verified",
+        "observed": {
+          "net": "RXD",
+          "at": [
+            665,
+            415
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "wire-18f2a381760ec17d",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-fd66cd07430de4f2",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-aa5b909f2ff16b22",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-f500880b3b83d724",
+        "op": "wire",
+        "status": "create",
+        "net": "CC1",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC1",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-a330241731a1a1ad",
+        "op": "wire",
+        "status": "create",
+        "net": "CC2",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC2",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-c7a4414aed250306",
+        "op": "wire",
+        "status": "create",
+        "net": "CC1",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC1",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-7115cf4ecd33c6f5",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-9d45835e2e38781c",
+        "op": "wire",
+        "status": "create",
+        "net": "CC2",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC2",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-b75805cade4ebea2",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-4d4ed58458600dca",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-70e08327a6eac7db",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-d9f8c6b0792d3785",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-72031477d8871538",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-e569946177d473cd",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-1665060f71025135",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-b7544d62014087e5",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-93e050c47a78b8a6",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-0b53f38272506d50",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-8ec0f5c503395a56",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-132dbd5e794f45bb",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-3de7769321e53369",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-d9363f0f19ae22ca",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-f9bff1f520b501e0",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-d575bda0357eba90",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-621968a8fec33443",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-827559cd64e5445e",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-f08f6d6910368c05",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-d88d3513e6868f38",
+        "op": "wire",
+        "status": "create",
+        "net": "LED_A",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "LED_A",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-cf0a3a019d46ea91",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-138d10952dd7efe3",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-0a8fc9a4a8730c40",
+        "op": "wire",
+        "status": "create",
+        "net": "TXD",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "TXD",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-ee52086b2574fb82",
+        "op": "wire",
+        "status": "create",
+        "net": "RXD",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "RXD",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-7b0ae1eb1ba64973",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-d8d9da3795fbd1b0",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 60,
+      "wires": 44
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "wires": 44,
+    "attributes": null
+  }
+}

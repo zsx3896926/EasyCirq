@@ -1,0 +1,259 @@
+{
+  "status": "verified",
+  "plan": "C:/Users/jlc/work/hw-eda-round3/plan6b-create.json",
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 56,
+    "parts": 16,
+    "netflags": 26,
+    "netports": 13,
+    "wires": 39,
+    "attributes": null
+  },
+  "items": [
+    {
+      "key": "w-gnd",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "f-gnd",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "w-io0",
+      "op": "wire",
+      "status": "create",
+      "net": "IO0",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "p-io0",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_wire",
+      "key": "w-gnd#0",
+      "net": "GND",
+      "points": [
+        650.0,
+        490.0,
+        690.0,
+        490.0
+      ],
+      "segments": [
+        [
+          650.0,
+          490.0,
+          690.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "f-gnd",
+      "type": "Ground",
+      "net": "GND",
+      "x": 690,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "w-io0#0",
+      "net": "IO0",
+      "points": [
+        550.0,
+        490.0,
+        590.0,
+        490.0
+      ],
+      "segments": [
+        [
+          550.0,
+          490.0,
+          590.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_port",
+      "key": "p-io0",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 550,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    }
+  ],
+  "conflicts": [],
+  "dry_run": false,
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "w-gnd#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "7c71af37d3fc3ddd",
+        "net": "GND",
+        "line": [
+          [
+            690,
+            490,
+            650,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "f-gnd",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "a02f7044630adbb7",
+        "net": "GND"
+      },
+      {
+        "key": "w-io0#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "8c26584799201640",
+        "net": "IO0",
+        "line": [
+          [
+            590,
+            490,
+            580,
+            490
+          ],
+          [
+            550,
+            490,
+            580,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "p-io0",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "2da6c2e23e19c3b7",
+        "net": "IO0"
+      }
+    ]
+  },
+  "after_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "w-gnd",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "f-gnd",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "at": [
+            690,
+            490
+          ],
+          "found": true
+        }
+      },
+      {
+        "key": "w-io0",
+        "op": "wire",
+        "status": "create",
+        "net": "IO0",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "p-io0",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "net": "IO0",
+          "at": [
+            550,
+            490
+          ],
+          "found": true
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 58,
+      "wires": 41
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "attributes": null
+  }
+}

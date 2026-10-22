@@ -1,0 +1,53 @@
+{
+  "status": "match",
+  "project": "C:\\Users\\jlc\\work\\hw-eda-round3\\f1-layout.eprj2",
+  "snapshot": "C:\\Users\\jlc\\work\\hw-eda-round3\\f1-v3-final.json",
+  "closed_session": {
+    "closed": true,
+    "session": {
+      "sessionId": "db817a1b-6409-4b92-8ca8-52d68a91af49",
+      "status": "closed",
+      "headless": true
+    }
+  },
+  "identity": {
+    "project_uuid": {
+      "expected": "3f22a755f85873f36620a1c24cd8ed1e746674d4c2703b1b18c66f6fb1dc9dda",
+      "actual": "3f22a755f85873f36620a1c24cd8ed1e746674d4c2703b1b18c66f6fb1dc9dda",
+      "match": true
+    },
+    "schematic_uuid": {
+      "expected": "7156417783355f32",
+      "actual": "7156417783355f32",
+      "match": true
+    },
+    "page_uuid": {
+      "expected": "f6d41a58df3fa849",
+      "actual": "f6d41a58df3fa849",
+      "match": true
+    }
+  },
+  "comparison": {
+    "match": true,
+    "differences": [],
+    "counts": {
+      "parts_before": 16,
+      "parts_after": 16,
+      "wires_before": 44,
+      "wires_after": 44,
+      "netflags_before": 27,
+      "netflags_after": 27,
+      "netports_before": 14,
+      "netports_after": 14
+    }
+  },
+  "actual_counts": {
+    "components": 58,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 14,
+    "wires": 41,
+    "unclassified": 0,
+    "attributes": null
+  }
+}

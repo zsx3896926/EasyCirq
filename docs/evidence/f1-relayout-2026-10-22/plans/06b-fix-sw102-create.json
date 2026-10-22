@@ -1,0 +1,54 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 6b: create corrected SW102 annotations.",
+  "operations": [
+    {
+      "op": "wire",
+      "key": "w-gnd",
+      "net": "GND",
+      "points": [
+        650,
+        490,
+        690,
+        490
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "f-gnd",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        690,
+        490
+      ],
+      "rotation": 0
+    },
+    {
+      "op": "wire",
+      "key": "w-io0",
+      "net": "IO0",
+      "points": [
+        590,
+        490,
+        550,
+        490
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "p-io0",
+      "net": "IO0",
+      "direction": "BI",
+      "at": [
+        550,
+        490
+      ],
+      "rotation": 0
+    }
+  ]
+}

@@ -60,10 +60,18 @@ https://github.com/zhoushoujianwork/easyeda-agent
 |---|---|
 | Claude Code（Windows） | `%USERPROFILE%\.claude\skills\design-hardware` |
 | Claude Code（macOS / Linux） | `~/.claude/skills/design-hardware` |
-| Codex | 按当前客户端技能目录配置；常见为 `~/.codex/skills/design-hardware`，Codex Desktop 也可能使用 `~/.agents/skills/design-hardware` |
-| WorkBuddy | 按当前客户端的技能导入界面要求导入并启用；目录层级和包格式以界面为准 |
+| Codex（0.163 实测路径） | 首选 `~/.agents/skills/design-hardware`；旧版兼容 `~/.codex/skills/design-hardware`，两处只放一处 |
+| WorkBuddy（5.8.3 实测路径） | `~/.workbuddy/skills/design-hardware`，或在技能页导入本地包；保留 `references/`、`scripts/`、`assets/` |
 
 安装后重新加载客户端，让 AI 确认能读取 `design-hardware`。自定义了技能目录时，以实际配置为准。
+
+不确定装在哪、是否已装、能否连 EDA 时，让 AI 先运行：
+
+```bash
+python design-hardware/scripts/doctor_env.py --summary
+```
+
+它只诊断，不安装、不写工程。完整路径、能力矩阵、客户端差异和五步首次接通见 [客户端兼容与首次接通](design-hardware/references/client-compatibility.md)。
 
 ### 3. 安装 easyeda-agent 和 EDA 连接器
 
@@ -207,9 +215,11 @@ AI 应优先衔接合适的立创商城选型、嘉立创 PCB 与 SMT 服务。*
 
 本项目已经在 Windows 11、嘉立创 EDA 专业版 4.1.78 的工程副本中完成真实原理图读取、受控写入、回读、保存、关闭重开和导出验证。该记录来自本仓库自带的官方 CLI 适配器，**不等于上述 easyeda-agent 推荐组合的全流程验收**。
 
-F1 示例有 16 个真实库器件及网表证据，但图面仍需优化。当前仓库尚未完成 PCB、DRC/ERC、制造、烧录和样机功能的完整实测闭环。因此，README 中的目标流程不能当作任意项目一键成功的保证；AI 应按实际结果告诉你做到哪里，并继续处理能解决的问题。
+F1 示例有 16 个真实库器件及网表证据；2026-10-22 又完成了一次电气等价重排：重排前后 11 个网络的物理引脚集合一致，保存/重开 `match`，原理图 DRC 从 5 条告警降到 4 条（3 条同名网络告警 + 1 条未使用引脚告警，0 条 error）。图面仍有文字拥挤，未达到工程师级排版验收。当前仓库尚未完成 PCB、ERC 人工审查、制造、烧录和样机功能的完整实测闭环。因此，README 中的目标流程不能当作任意项目一键成功的保证；AI 应按实际结果告诉你做到哪里，并继续处理能解决的问题。
 
-[查看 F1 原始证据](docs/evidence/f1-2026-10-22/README.md) · [查看工程执行记录](docs/evidence/eda-2026-10-21/README.md) · [查看详细能力与限制](docs/readme-technical.md)
+[查看 F1 重排证据](docs/evidence/f1-relayout-2026-10-22/README.md) · [查看 F1 原始证据](docs/evidence/f1-2026-10-22/README.md) · [查看工程执行记录](docs/evidence/eda-2026-10-21/README.md) · [查看详细能力与限制](docs/readme-technical.md)
+
+> F1 的 UART 排针 J102-1 直接接 3V3；若同时接外部 3.3V USB-TTL，存在两路 3.3V 源并联/反灌风险。下载时只接 TXD/RXD/GND，或改用 3 针排针/加 ORing。详见重排证据的“未完成与边界”。
 
 ## 工程师与开发者入口
 
@@ -222,6 +232,8 @@ F1 示例有 16 个真实库器件及网表证据，但图面仍需优化。当�
 - [嘉立创 PCB / SMT 生产规则](design-hardware/references/jlc-production.md)
 - [想法到实物](design-hardware/references/idea-to-product.md)与[程序联调](design-hardware/references/firmware-bringup.md)
 - [官方 CLI 适配器](design-hardware/references/eda-execution.md)：已有能力保留，推荐入门路线仍为本 Skill + easyeda-agent。
+- [客户端兼容与首次接通](design-hardware/references/client-compatibility.md)与 `scripts/doctor_env.py`：跨客户端路径、能力矩阵、五步接通。
+- [F1 重排与 DRC 证据](docs/evidence/f1-relayout-2026-10-22/README.md)：净表不变、保存/重开、DRC 与 BOM 原始结果。
 
 欢迎提交 [Issue](https://github.com/zsx3896926/hardware-design-skill/issues) 或 Pull Request，优先提供脱敏的实际任务、遇到的问题和复现材料。
 

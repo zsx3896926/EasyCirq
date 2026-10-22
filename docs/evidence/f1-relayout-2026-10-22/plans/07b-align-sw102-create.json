@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 7b: attach SW102 pin2 (GND, x=640) and pin1 (IO0, x=580).",
+  "operations": [
+    {
+      "op": "wire",
+      "key": "w-gnd",
+      "net": "GND",
+      "points": [
+        640,
+        490,
+        690,
+        490
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "w-io0",
+      "net": "IO0",
+      "points": [
+        580,
+        490,
+        550,
+        490
+      ]
+    }
+  ]
+}

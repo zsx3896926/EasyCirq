@@ -247,7 +247,8 @@ easyeda health
 - **执行闭环**：读取工程 → 计划对账 → 创建器件/电源标记/网络端口/导线 → 逐项回读 → 保存 → 关闭重开比对 → 导出 PNG/Protel 网表。证据：[执行闭环](../docs/evidence/eda-2026-10-21/README.md)。
 - **F1 原理图**：16 个真实库器件、5V/3V3/GND、USB-C CC、EN/RST/IO0、TXD/RXD、LED；93 个动作逐项 verified、save true、reopen match；网表核对物理脚。证据：[F1](../docs/evidence/f1-2026-10-22/README.md)。
 - **实测到的执行器边界**：`openDocument` 不保证激活，导出跟随活动文档；错误激活会导出旧页/工程级网表；创建后修改位号有异步延迟；同网多段线会被编辑器合并/重排；跨页位号必须唯一。这些已写入 [EDA执行](../design-hardware/references/eda-execution.md) 和代码注释。
-- **明确未做**：全在线GUI复验、PCB、DRC/ERC、制造DFM/Gerber/BOM/坐标、商城实时库存/价格、打样/SMT、烧录、样机功能/热/EMC/安规。F1 图面仍拥挤，未达到工程师级排版验收；这些均标 `NOT RUN` 或 `PARTIAL`，不冒充完成。
+- **2026-10-22 增量**：F1 完成电气等价重排，11 网络逐脚一致、save/reopen match、原理图 DRC 从 5 warn 降到 4 warn（0 error），并从真实设计导出 BOM（11 行/16 件）。证据：[F1 重排](../docs/evidence/f1-relayout-2026-10-22/README.md)。
+- **明确未做**：全在线GUI复验、PCB、ERC 人工审查、制造DFM/Gerber/坐标、商城实时库存/价格、打样/SMT、烧录、样机功能/热/EMC/安规。F1 图面仍拥挤，未达到工程师级排版验收；这些均标 `NOT RUN` 或 `PARTIAL`，不冒充完成。
 
 ## 常用需求
 
@@ -365,9 +366,9 @@ python design-hardware/scripts/sch_layout_check.py design-hardware/assets/exampl
 - 已进行缺少工程/连接、未知参数、新手首次使用、工程师改板、采购数量/阶梯价、商城与SMT分流、缺货替代、完整产品目标及功能验收等场景试跑。
 - 原理图排版与工程细节经验库已加入结构检查；条目本身不是可执行的硬件自动验证器，场景试跑不等于真实EDA或首板验收。
 - 离线辅助脚本已覆盖状态积分、错误电流基准、目标未满足、零耗电、非有限/重复键输入，以及文字范围、线穿本体、相切、越页、压图签、模块框、悬空端点、一脚多网和标签落点等实际反例。
-- 当前 **141 项 unittest 全部通过**（2026-10-22，`python -m unittest discover -s tests -v`）。其中新增 EDA 桥的 20 项单元测试、8 类排版基准回归、几何检查扩展回归；测试通过只证明这些自动化检查通过，不证明硬件设计已验证。
+- 当前 **157 项 unittest 全部通过**（2026-10-22，`python -m unittest discover -s tests -v`，commit `2474ad1` 之后的 `feat/cross-client-round3`）。其中 EDA 桥 35 项（含删除原语、页面锁定、快照完整性、重开身份、属性回读回归）、`doctor_env` 4 项、8 类排版基准回归和几何检查扩展回归；测试通过只证明这些自动化检查通过，不证明硬件设计已验证。
 - **已完成**：嘉立创EDA 4.1.78 真实工程副本上的原理图读取、受控写入、逐项回读、保存、关闭重开、PNG/Protel 网表导出；F1 有 16 器件真实原理图证据。证据见 [执行闭环](../docs/evidence/eda-2026-10-21/README.md) 与 [F1](../docs/evidence/f1-2026-10-22/README.md)。
-- **未完成**：全在线GUI会话复验、PCB读写/布局/布线/DRC、制造DFM/Gerber/BOM/坐标、商城实时库存/价格、打样/SMT、烧录、样机功能/热/EMC/安规实测。F1 图面仍拥挤，排版验收为 `PARTIAL`。
+- **未完成**：全在线GUI会话复验、PCB读写/布局/布线/DRC、ERC 人工审查、制造DFM/Gerber/坐标、商城实时库存/价格、打样/SMT、烧录、样机功能/热/EMC/安规实测。F1 图面仍拥挤，排版验收为 `PARTIAL`；原理图 DRC 与 BOM 导出已执行，见重排证据。
 - 新增计算模式（Buck/Boost/ADC建立/电流采样/PCB载流）和 `rc_settle_sim.py` 都是简化模型；它们不能证明稳定性、EMC、热、器件应力或整机精度。
 - 不保证特定客户端、模型、EDA 版本或执行器支持全部操作；半离线结果不能写成全在线通过。
 - DRC 通过、动作响应、连接回读与样机实测分别报告；未验证项不会默认通过。

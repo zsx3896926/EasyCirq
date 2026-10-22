@@ -1,0 +1,52 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 6a: remove the swapped SW102 annotations.",
+  "operations": [
+    {
+      "op": "delete_wire",
+      "key": "del-io0-sw",
+      "match": {
+        "primitive_id": "a3ea6744562f4087",
+        "net": "IO0"
+      }
+    },
+    {
+      "op": "delete_wire",
+      "key": "del-gnd-sw",
+      "match": {
+        "primitive_id": "f53bd396cf8a0f3f",
+        "net": "GND"
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-gnd-flag",
+      "match": {
+        "primitive_id": "44b06457fbe7a485",
+        "component_type": "netflag",
+        "name": "GND",
+        "at": [
+          550,
+          490
+        ]
+      }
+    },
+    {
+      "op": "delete_component",
+      "key": "del-io0-port",
+      "match": {
+        "primitive_id": "83d57b912681e05e",
+        "component_type": "netport",
+        "net": "IO0",
+        "at": [
+          670,
+          490
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+import importlib.util
+import os
+from pathlib import Path
+import tempfile
+import unittest
+
+ROOT = Path(__file__).resolve().parents[1]
+SCRIPT = ROOT / 'design-hardware' / 'scripts' / 'doctor_env.py'
+spec = importlib.util.spec_from_file_location('doctor_env', SCRIPT)
+doctor = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(doctor)
+
+
+class DoctorEnv(unittest.TestCase):
+    def test_repo_skill_detection(self):
+        with tempfile.TemporaryDirectory() as temp:
+            self.assertFalse(doctor._repo_skill(temp)['present'])
+            skill = Path(temp) / 'design-hardware' / 'SKILL.md'
+            skill.parent.mkdir(parents=True)
+            skill.write_text('---\nname: design-hardware\n---\n', encoding='utf-8')
+            self.assertTrue(doctor._repo_skill(temp)['present'])
+
+    def test_client_rows_include_expected_user_and_project_dirs(self):
+        with tempfile.TemporaryDirectory() as temp:
+            rows = doctor._client_rows(temp)
+        names = {row['name'] for row in rows}
+        self.assertEqual(names, {'Claude Code', 'Codex', 'WorkBuddy'})
+        for row in rows:
+            scopes = {item['scope'] for item in row['skill_dirs']}
+            self.assertEqual(scopes, {'user', 'project'})
+            self.assertTrue(all('design-hardware' not in item['path'] for item in row['skill_dirs']))
+
+    def test_summary_never_claims_writability(self):
+        report = {
+            'status': 'incomplete',
+            'host': {'cwd': 'X'},
+            'clients': [],
+            'eda': {'cli': None, 'connected': False, 'version_match': None,
+                    'easyeda_command': None},
+            'missing': ['lceda-pro CLI not found'],
+        }
+        text = doctor.render_summary(report)
+        self.assertIn('NOT tested', text)
+        self.assertNotIn('writable: true', text.lower())
+
+    def test_installed_skill_is_detected_in_temp_skill_dir(self):
+        with tempfile.TemporaryDirectory() as temp:
+            skill = Path(temp) / '.claude' / 'skills' / 'design-hardware' / 'SKILL.md'
+            skill.parent.mkdir(parents=True)
+            skill.write_text('---\nname: design-hardware\n---\n', encoding='utf-8')
+            original = doctor.CLIENTS
+            try:
+                doctor.CLIENTS = [{
+                    'name': 'Claude Code', 'commands': [], 'user_skill_dirs': [],
+                    'project_skill_dirs': ['.claude/skills'], 'reload': '', 'source': '',
+                }]
+                rows = doctor._client_rows(temp)
+            finally:
+                doctor.CLIENTS = original
+        self.assertTrue(rows[0]['installed'])
+
+
+if __name__ == '__main__':
+    unittest.main()

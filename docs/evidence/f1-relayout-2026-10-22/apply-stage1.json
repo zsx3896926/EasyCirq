@@ -1,0 +1,4429 @@
+{
+  "status": "verified",
+  "plan": "C:/Users/jlc/work/hw-eda-round3/plan1-delete-move.json",
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "wires": 44,
+    "attributes": null
+  },
+  "items": [
+    {
+      "key": "del-wire-18f2a381760ec17d",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-fd66cd07430de4f2",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "5V"
+    },
+    {
+      "key": "del-wire-aa5b909f2ff16b22",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-f500880b3b83d724",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "CC1"
+    },
+    {
+      "key": "del-wire-a330241731a1a1ad",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "CC2"
+    },
+    {
+      "key": "del-wire-c7a4414aed250306",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "CC1"
+    },
+    {
+      "key": "del-wire-7115cf4ecd33c6f5",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-9d45835e2e38781c",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "CC2"
+    },
+    {
+      "key": "del-wire-b75805cade4ebea2",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-4d4ed58458600dca",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "5V"
+    },
+    {
+      "key": "del-wire-70e08327a6eac7db",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-d9f8c6b0792d3785",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "5V"
+    },
+    {
+      "key": "del-wire-72031477d8871538",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-e569946177d473cd",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-1665060f71025135",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-b7544d62014087e5",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-93e050c47a78b8a6",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-0b53f38272506d50",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-8ec0f5c503395a56",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-132dbd5e794f45bb",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-3de7769321e53369",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-d9363f0f19ae22ca",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-5302938a0e71a961",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-ad8d2bf0f8b2d8fa",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-f9bff1f520b501e0",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-c58691f3c7833c6f",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-d41b2fc77f5611ea",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-d575bda0357eba90",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-615df589ba9a6026",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-1920721cdd7bbe3f",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-f04701dd38eba68e",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-621968a8fec33443",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-b6a7b13bb3da4203",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-827559cd64e5445e",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-f08f6d6910368c05",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-d88d3513e6868f38",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "LED_A"
+    },
+    {
+      "key": "del-wire-cf0a3a019d46ea91",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-138d10952dd7efe3",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "3V3"
+    },
+    {
+      "key": "del-wire-0a8fc9a4a8730c40",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "TXD"
+    },
+    {
+      "key": "del-wire-ee52086b2574fb82",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "RXD"
+    },
+    {
+      "key": "del-wire-7b0ae1eb1ba64973",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "GND"
+    },
+    {
+      "key": "del-wire-950ed48c9d0790c0",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-422c8c228e6f4b9e",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": ""
+    },
+    {
+      "key": "del-wire-d8d9da3795fbd1b0",
+      "op": "delete_wire",
+      "status": "delete",
+      "net": "5V"
+    },
+    {
+      "key": "del-flag-18c0061320f321b7",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-c3b73645a8e7160d",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-194e5d88d54bae97",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-a380d2e117269cb8",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-765850816424699e",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-ea05521f71e9e30f",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-b0612878e9a6d361",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-9ccdb3aec0a20cf8",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-085411f657e903be",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-ac28347df5c9b3f0",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-77ea315331003b43",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-dda9b0b055b70f5e",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-4f5752fc3d1e2d06",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-c980906e59389d91",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-17afc95fd7c29b0c",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-20350323f34b81d6",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-bb1dafd2c1fade33",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-5114b45293ec27ff",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-4ac324d5ea8227c0",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-de27143f4b7cd30c",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-e57ed6dc05e77682",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-54148e9f6d4dc8a9",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-b58bf3d1423439f5",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-4278f4dc559bc757",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-796665db50623051",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-80cdcd8f3989ebcf",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-flag-6579225cba6e0b2f",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netflag"
+    },
+    {
+      "key": "del-port-04db9b8ea74e26ac",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-29a56eb8eb7d36c7",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-04114913b502d3e8",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-1042cae56d0b89a2",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-d0dc03f8f7e30405",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-11f9e26c00295e4e",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-ebffb4f56e1db48f",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-5ff0a849714a8df1",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-90e0dcf2f855f267",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-b6f7c7b75542fd13",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-9ef4bcbe71b063a5",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-620e05ada8c9d5cc",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-9bf2c7739b22d4e7",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-9cc1a6dfd924446e",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-d04c9e534752c905",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "del-port-ac72859bc80dc265",
+      "op": "delete_component",
+      "status": "delete",
+      "component_type": "netport"
+    },
+    {
+      "key": "move-J101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 200,
+        "y": 290
+      },
+      "primitive_id": "84931dadefea5b69",
+      "designator": "J101",
+      "stable_identity": true
+    },
+    {
+      "key": "move-U102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 540,
+        "y": 340
+      },
+      "primitive_id": "6a4f98791d8643a6",
+      "designator": "U102",
+      "stable_identity": true
+    },
+    {
+      "key": "move-U101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 700,
+        "y": 430
+      },
+      "primitive_id": "9caf259471fe8fbe",
+      "designator": "U101",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 100,
+        "y": 360
+      },
+      "primitive_id": "035a69b4bdf864c2",
+      "designator": "R101",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 120,
+        "y": 220
+      },
+      "primitive_id": "68294bcd0484ce63",
+      "designator": "R102",
+      "stable_identity": true
+    },
+    {
+      "key": "move-C101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 450,
+        "y": 260
+      },
+      "primitive_id": "c26543f0253a827f",
+      "designator": "C101",
+      "stable_identity": true
+    },
+    {
+      "key": "move-C103",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 710,
+        "y": 260
+      },
+      "primitive_id": "7f8a1de03b53efcf",
+      "designator": "C103",
+      "stable_identity": true
+    },
+    {
+      "key": "move-C102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 620,
+        "y": 260
+      },
+      "primitive_id": "0a9968ad6b7a4199",
+      "designator": "C102",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R103",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 880,
+        "y": 390
+      },
+      "primitive_id": "0a512d993bf682eb",
+      "designator": "R103",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R104",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 840,
+        "y": 415
+      },
+      "primitive_id": "6a8d84a9a9805b67",
+      "designator": "R104",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R105",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 620,
+        "y": 425
+      },
+      "primitive_id": "405206ca1a429e67",
+      "designator": "R105",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R106",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 840,
+        "y": 230
+      },
+      "primitive_id": "10f1fb2706eb622f",
+      "designator": "R106",
+      "stable_identity": true
+    },
+    {
+      "key": "move-D101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 910,
+        "y": 230
+      },
+      "primitive_id": "677445fb01de4b0d",
+      "designator": "D101",
+      "stable_identity": true
+    },
+    {
+      "key": "move-SW101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 840,
+        "y": 450
+      },
+      "primitive_id": "cd1ca31b52802161",
+      "designator": "SW101",
+      "stable_identity": true
+    },
+    {
+      "key": "move-SW102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 620,
+        "y": 490
+      },
+      "primitive_id": "ae63faba2a6864cc",
+      "designator": "SW102",
+      "stable_identity": true
+    },
+    {
+      "key": "move-J102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 1080,
+        "y": 370
+      },
+      "primitive_id": "394f21cb592e5b0d",
+      "designator": "J102",
+      "stable_identity": true
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_wire",
+      "key": "del-wire-18f2a381760ec17d",
+      "primitive_id": "18f2a381760ec17d",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-fd66cd07430de4f2",
+      "primitive_id": "fd66cd07430de4f2",
+      "net": "5V"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-aa5b909f2ff16b22",
+      "primitive_id": "aa5b909f2ff16b22",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-f500880b3b83d724",
+      "primitive_id": "f500880b3b83d724",
+      "net": "CC1"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-a330241731a1a1ad",
+      "primitive_id": "a330241731a1a1ad",
+      "net": "CC2"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-c7a4414aed250306",
+      "primitive_id": "c7a4414aed250306",
+      "net": "CC1"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-7115cf4ecd33c6f5",
+      "primitive_id": "7115cf4ecd33c6f5",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-9d45835e2e38781c",
+      "primitive_id": "9d45835e2e38781c",
+      "net": "CC2"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-b75805cade4ebea2",
+      "primitive_id": "b75805cade4ebea2",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-4d4ed58458600dca",
+      "primitive_id": "4d4ed58458600dca",
+      "net": "5V"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-70e08327a6eac7db",
+      "primitive_id": "70e08327a6eac7db",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-d9f8c6b0792d3785",
+      "primitive_id": "d9f8c6b0792d3785",
+      "net": "5V"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-72031477d8871538",
+      "primitive_id": "72031477d8871538",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-e569946177d473cd",
+      "primitive_id": "e569946177d473cd",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-1665060f71025135",
+      "primitive_id": "1665060f71025135",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-b7544d62014087e5",
+      "primitive_id": "b7544d62014087e5",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-93e050c47a78b8a6",
+      "primitive_id": "93e050c47a78b8a6",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-0b53f38272506d50",
+      "primitive_id": "0b53f38272506d50",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-8ec0f5c503395a56",
+      "primitive_id": "8ec0f5c503395a56",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-132dbd5e794f45bb",
+      "primitive_id": "132dbd5e794f45bb",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-3de7769321e53369",
+      "primitive_id": "3de7769321e53369",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-d9363f0f19ae22ca",
+      "primitive_id": "d9363f0f19ae22ca",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-5302938a0e71a961",
+      "primitive_id": "5302938a0e71a961",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-ad8d2bf0f8b2d8fa",
+      "primitive_id": "ad8d2bf0f8b2d8fa",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-f9bff1f520b501e0",
+      "primitive_id": "f9bff1f520b501e0",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-c58691f3c7833c6f",
+      "primitive_id": "c58691f3c7833c6f",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-d41b2fc77f5611ea",
+      "primitive_id": "d41b2fc77f5611ea",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-d575bda0357eba90",
+      "primitive_id": "d575bda0357eba90",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-615df589ba9a6026",
+      "primitive_id": "615df589ba9a6026",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-1920721cdd7bbe3f",
+      "primitive_id": "1920721cdd7bbe3f",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-f04701dd38eba68e",
+      "primitive_id": "f04701dd38eba68e",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-621968a8fec33443",
+      "primitive_id": "621968a8fec33443",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-b6a7b13bb3da4203",
+      "primitive_id": "b6a7b13bb3da4203",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-827559cd64e5445e",
+      "primitive_id": "827559cd64e5445e",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-f08f6d6910368c05",
+      "primitive_id": "f08f6d6910368c05",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-d88d3513e6868f38",
+      "primitive_id": "d88d3513e6868f38",
+      "net": "LED_A"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-cf0a3a019d46ea91",
+      "primitive_id": "cf0a3a019d46ea91",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-138d10952dd7efe3",
+      "primitive_id": "138d10952dd7efe3",
+      "net": "3V3"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-0a8fc9a4a8730c40",
+      "primitive_id": "0a8fc9a4a8730c40",
+      "net": "TXD"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-ee52086b2574fb82",
+      "primitive_id": "ee52086b2574fb82",
+      "net": "RXD"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-7b0ae1eb1ba64973",
+      "primitive_id": "7b0ae1eb1ba64973",
+      "net": "GND"
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-950ed48c9d0790c0",
+      "primitive_id": "950ed48c9d0790c0",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-422c8c228e6f4b9e",
+      "primitive_id": "422c8c228e6f4b9e",
+      "net": ""
+    },
+    {
+      "action": "delete_wire",
+      "key": "del-wire-d8d9da3795fbd1b0",
+      "primitive_id": "d8d9da3795fbd1b0",
+      "net": "5V"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-18c0061320f321b7",
+      "primitive_id": "18c0061320f321b7",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-c3b73645a8e7160d",
+      "primitive_id": "c3b73645a8e7160d",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-194e5d88d54bae97",
+      "primitive_id": "194e5d88d54bae97",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-a380d2e117269cb8",
+      "primitive_id": "a380d2e117269cb8",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-765850816424699e",
+      "primitive_id": "765850816424699e",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-ea05521f71e9e30f",
+      "primitive_id": "ea05521f71e9e30f",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-b0612878e9a6d361",
+      "primitive_id": "b0612878e9a6d361",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-9ccdb3aec0a20cf8",
+      "primitive_id": "9ccdb3aec0a20cf8",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-085411f657e903be",
+      "primitive_id": "085411f657e903be",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-ac28347df5c9b3f0",
+      "primitive_id": "ac28347df5c9b3f0",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-77ea315331003b43",
+      "primitive_id": "77ea315331003b43",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-dda9b0b055b70f5e",
+      "primitive_id": "dda9b0b055b70f5e",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-4f5752fc3d1e2d06",
+      "primitive_id": "4f5752fc3d1e2d06",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-c980906e59389d91",
+      "primitive_id": "c980906e59389d91",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-17afc95fd7c29b0c",
+      "primitive_id": "17afc95fd7c29b0c",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-20350323f34b81d6",
+      "primitive_id": "20350323f34b81d6",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-bb1dafd2c1fade33",
+      "primitive_id": "bb1dafd2c1fade33",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-5114b45293ec27ff",
+      "primitive_id": "5114b45293ec27ff",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-4ac324d5ea8227c0",
+      "primitive_id": "4ac324d5ea8227c0",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-de27143f4b7cd30c",
+      "primitive_id": "de27143f4b7cd30c",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-e57ed6dc05e77682",
+      "primitive_id": "e57ed6dc05e77682",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-54148e9f6d4dc8a9",
+      "primitive_id": "54148e9f6d4dc8a9",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-b58bf3d1423439f5",
+      "primitive_id": "b58bf3d1423439f5",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-4278f4dc559bc757",
+      "primitive_id": "4278f4dc559bc757",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-796665db50623051",
+      "primitive_id": "796665db50623051",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-80cdcd8f3989ebcf",
+      "primitive_id": "80cdcd8f3989ebcf",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-flag-6579225cba6e0b2f",
+      "primitive_id": "6579225cba6e0b2f",
+      "component_type": "netflag"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-04db9b8ea74e26ac",
+      "primitive_id": "04db9b8ea74e26ac",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-29a56eb8eb7d36c7",
+      "primitive_id": "29a56eb8eb7d36c7",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-04114913b502d3e8",
+      "primitive_id": "04114913b502d3e8",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-1042cae56d0b89a2",
+      "primitive_id": "1042cae56d0b89a2",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-d0dc03f8f7e30405",
+      "primitive_id": "d0dc03f8f7e30405",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-11f9e26c00295e4e",
+      "primitive_id": "11f9e26c00295e4e",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-ebffb4f56e1db48f",
+      "primitive_id": "ebffb4f56e1db48f",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-5ff0a849714a8df1",
+      "primitive_id": "5ff0a849714a8df1",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-90e0dcf2f855f267",
+      "primitive_id": "90e0dcf2f855f267",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-b6f7c7b75542fd13",
+      "primitive_id": "b6f7c7b75542fd13",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-9ef4bcbe71b063a5",
+      "primitive_id": "9ef4bcbe71b063a5",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-620e05ada8c9d5cc",
+      "primitive_id": "620e05ada8c9d5cc",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-9bf2c7739b22d4e7",
+      "primitive_id": "9bf2c7739b22d4e7",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-9cc1a6dfd924446e",
+      "primitive_id": "9cc1a6dfd924446e",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-d04c9e534752c905",
+      "primitive_id": "d04c9e534752c905",
+      "component_type": "netport"
+    },
+    {
+      "action": "delete_component",
+      "key": "del-port-ac72859bc80dc265",
+      "primitive_id": "ac72859bc80dc265",
+      "component_type": "netport"
+    },
+    {
+      "action": "modify_part",
+      "key": "move-J101",
+      "primitive_id": "84931dadefea5b69",
+      "changes": {
+        "x": 200,
+        "y": 290
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-U102",
+      "primitive_id": "6a4f98791d8643a6",
+      "changes": {
+        "x": 540,
+        "y": 340
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-U101",
+      "primitive_id": "9caf259471fe8fbe",
+      "changes": {
+        "x": 700,
+        "y": 430
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R101",
+      "primitive_id": "035a69b4bdf864c2",
+      "changes": {
+        "x": 100,
+        "y": 360
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R102",
+      "primitive_id": "68294bcd0484ce63",
+      "changes": {
+        "x": 120,
+        "y": 220
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-C101",
+      "primitive_id": "c26543f0253a827f",
+      "changes": {
+        "x": 450,
+        "y": 260
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-C103",
+      "primitive_id": "7f8a1de03b53efcf",
+      "changes": {
+        "x": 710,
+        "y": 260
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-C102",
+      "primitive_id": "0a9968ad6b7a4199",
+      "changes": {
+        "x": 620,
+        "y": 260
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R103",
+      "primitive_id": "0a512d993bf682eb",
+      "changes": {
+        "x": 880,
+        "y": 390
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R104",
+      "primitive_id": "6a8d84a9a9805b67",
+      "changes": {
+        "x": 840,
+        "y": 415
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R105",
+      "primitive_id": "405206ca1a429e67",
+      "changes": {
+        "x": 620,
+        "y": 425
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R106",
+      "primitive_id": "10f1fb2706eb622f",
+      "changes": {
+        "x": 840,
+        "y": 230
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-D101",
+      "primitive_id": "677445fb01de4b0d",
+      "changes": {
+        "x": 910,
+        "y": 230
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-SW101",
+      "primitive_id": "cd1ca31b52802161",
+      "changes": {
+        "x": 840,
+        "y": 450
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-SW102",
+      "primitive_id": "ae63faba2a6864cc",
+      "changes": {
+        "x": 620,
+        "y": 490
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-J102",
+      "primitive_id": "394f21cb592e5b0d",
+      "changes": {
+        "x": 1080,
+        "y": 370
+      }
+    }
+  ],
+  "conflicts": [],
+  "dry_run": false,
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "del-wire-18f2a381760ec17d",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "18f2a381760ec17d",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            90,
+            250,
+            30,
+            250
+          ]
+        }
+      },
+      {
+        "key": "del-wire-fd66cd07430de4f2",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "fd66cd07430de4f2",
+        "deleted": true,
+        "before": {
+          "net": "5V",
+          "line": [
+            90,
+            350,
+            60,
+            350
+          ]
+        }
+      },
+      {
+        "key": "del-wire-aa5b909f2ff16b22",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "aa5b909f2ff16b22",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            90,
+            360,
+            30,
+            360
+          ]
+        }
+      },
+      {
+        "key": "del-wire-f500880b3b83d724",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "f500880b3b83d724",
+        "deleted": true,
+        "before": {
+          "net": "CC1",
+          "line": [
+            90,
+            330,
+            30,
+            330
+          ]
+        }
+      },
+      {
+        "key": "del-wire-a330241731a1a1ad",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "a330241731a1a1ad",
+        "deleted": true,
+        "before": {
+          "net": "CC2",
+          "line": [
+            90,
+            270,
+            30,
+            270
+          ]
+        }
+      },
+      {
+        "key": "del-wire-c7a4414aed250306",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "c7a4414aed250306",
+        "deleted": true,
+        "before": {
+          "net": "CC1",
+          "line": [
+            80,
+            380,
+            60,
+            380
+          ]
+        }
+      },
+      {
+        "key": "del-wire-7115cf4ecd33c6f5",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "7115cf4ecd33c6f5",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            20,
+            380,
+            10,
+            380
+          ]
+        }
+      },
+      {
+        "key": "del-wire-9d45835e2e38781c",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "9d45835e2e38781c",
+        "deleted": true,
+        "before": {
+          "net": "CC2",
+          "line": [
+            80,
+            300,
+            60,
+            300
+          ]
+        }
+      },
+      {
+        "key": "del-wire-b75805cade4ebea2",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "b75805cade4ebea2",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            20,
+            300,
+            10,
+            300
+          ]
+        }
+      },
+      {
+        "key": "del-wire-4d4ed58458600dca",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "4d4ed58458600dca",
+        "deleted": true,
+        "before": {
+          "net": "5V",
+          "line": [
+            240,
+            220,
+            220,
+            220
+          ]
+        }
+      },
+      {
+        "key": "del-wire-70e08327a6eac7db",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "70e08327a6eac7db",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            290,
+            220,
+            270,
+            220
+          ]
+        }
+      },
+      {
+        "key": "del-wire-d9f8c6b0792d3785",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "d9f8c6b0792d3785",
+        "deleted": true,
+        "before": {
+          "net": "5V",
+          "line": [
+            290,
+            290,
+            250,
+            290
+          ]
+        }
+      },
+      {
+        "key": "del-wire-72031477d8871538",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "72031477d8871538",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            290,
+            300,
+            250,
+            300
+          ]
+        }
+      },
+      {
+        "key": "del-wire-e569946177d473cd",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "e569946177d473cd",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            290,
+            310,
+            250,
+            310
+          ]
+        }
+      },
+      {
+        "key": "del-wire-1665060f71025135",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "1665060f71025135",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            430,
+            300,
+            400,
+            300
+          ]
+        }
+      },
+      {
+        "key": "del-wire-b7544d62014087e5",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "b7544d62014087e5",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            410,
+            220,
+            390,
+            220
+          ]
+        }
+      },
+      {
+        "key": "del-wire-93e050c47a78b8a6",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "93e050c47a78b8a6",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            470,
+            220,
+            450,
+            220
+          ]
+        }
+      },
+      {
+        "key": "del-wire-0b53f38272506d50",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "0b53f38272506d50",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            500,
+            220,
+            500,
+            190
+          ]
+        }
+      },
+      {
+        "key": "del-wire-8ec0f5c503395a56",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "8ec0f5c503395a56",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            550,
+            220,
+            530,
+            220
+          ]
+        }
+      },
+      {
+        "key": "del-wire-132dbd5e794f45bb",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "132dbd5e794f45bb",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            680,
+            435,
+            655,
+            435
+          ]
+        }
+      },
+      {
+        "key": "del-wire-3de7769321e53369",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "3de7769321e53369",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            585,
+            435,
+            560,
+            435
+          ]
+        }
+      },
+      {
+        "key": "del-wire-d9363f0f19ae22ca",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "d9363f0f19ae22ca",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            800,
+            460,
+            780,
+            460
+          ]
+        }
+      },
+      {
+        "key": "del-wire-5302938a0e71a961",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "5302938a0e71a961",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            740,
+            460,
+            740,
+            460
+          ]
+        }
+      },
+      {
+        "key": "del-wire-ad8d2bf0f8b2d8fa",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "ad8d2bf0f8b2d8fa",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            655,
+            415,
+            655,
+            415
+          ]
+        }
+      },
+      {
+        "key": "del-wire-f9bff1f520b501e0",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "f9bff1f520b501e0",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            760,
+            425,
+            740,
+            425
+          ]
+        }
+      },
+      {
+        "key": "del-wire-c58691f3c7833c6f",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "c58691f3c7833c6f",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            700,
+            425,
+            700,
+            425
+          ]
+        }
+      },
+      {
+        "key": "del-wire-d41b2fc77f5611ea",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "d41b2fc77f5611ea",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            655,
+            425,
+            655,
+            425
+          ]
+        }
+      },
+      {
+        "key": "del-wire-d575bda0357eba90",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "d575bda0357eba90",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            520,
+            415,
+            500,
+            415
+          ]
+        }
+      },
+      {
+        "key": "del-wire-615df589ba9a6026",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "615df589ba9a6026",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            560,
+            415,
+            560,
+            415
+          ]
+        }
+      },
+      {
+        "key": "del-wire-1920721cdd7bbe3f",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "1920721cdd7bbe3f",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            585,
+            415,
+            585,
+            415
+          ]
+        }
+      },
+      {
+        "key": "del-wire-f04701dd38eba68e",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "f04701dd38eba68e",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            690,
+            380,
+            690,
+            380
+          ]
+        }
+      },
+      {
+        "key": "del-wire-621968a8fec33443",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "621968a8fec33443",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            770,
+            380,
+            750,
+            380
+          ]
+        }
+      },
+      {
+        "key": "del-wire-b6a7b13bb3da4203",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "b6a7b13bb3da4203",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            510,
+            360,
+            510,
+            360
+          ]
+        }
+      },
+      {
+        "key": "del-wire-827559cd64e5445e",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "827559cd64e5445e",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            590,
+            360,
+            570,
+            360
+          ]
+        }
+      },
+      {
+        "key": "del-wire-f08f6d6910368c05",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "f08f6d6910368c05",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            740,
+            300,
+            720,
+            300
+          ]
+        }
+      },
+      {
+        "key": "del-wire-d88d3513e6868f38",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "d88d3513e6868f38",
+        "deleted": true,
+        "before": {
+          "net": "LED_A",
+          "line": [
+            810,
+            300,
+            780,
+            300
+          ]
+        }
+      },
+      {
+        "key": "del-wire-cf0a3a019d46ea91",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "cf0a3a019d46ea91",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            870,
+            300,
+            850,
+            300
+          ]
+        }
+      },
+      {
+        "key": "del-wire-138d10952dd7efe3",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "138d10952dd7efe3",
+        "deleted": true,
+        "before": {
+          "net": "3V3",
+          "line": [
+            900,
+            335,
+            840,
+            335
+          ]
+        }
+      },
+      {
+        "key": "del-wire-0a8fc9a4a8730c40",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "0a8fc9a4a8730c40",
+        "deleted": true,
+        "before": {
+          "net": "TXD",
+          "line": [
+            900,
+            325,
+            860,
+            325
+          ]
+        }
+      },
+      {
+        "key": "del-wire-ee52086b2574fb82",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "ee52086b2574fb82",
+        "deleted": true,
+        "before": {
+          "net": "RXD",
+          "line": [
+            900,
+            315,
+            880,
+            315
+          ]
+        }
+      },
+      {
+        "key": "del-wire-7b0ae1eb1ba64973",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "7b0ae1eb1ba64973",
+        "deleted": true,
+        "before": {
+          "net": "GND",
+          "line": [
+            900,
+            305,
+            840,
+            305
+          ]
+        }
+      },
+      {
+        "key": "del-wire-950ed48c9d0790c0",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "950ed48c9d0790c0",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            655,
+            405,
+            655,
+            405
+          ]
+        }
+      },
+      {
+        "key": "del-wire-422c8c228e6f4b9e",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "422c8c228e6f4b9e",
+        "deleted": true,
+        "before": {
+          "net": "",
+          "line": [
+            585,
+            405,
+            585,
+            405
+          ]
+        }
+      },
+      {
+        "key": "del-wire-d8d9da3795fbd1b0",
+        "ok": true,
+        "action": "delete_wire",
+        "primitive_id": "d8d9da3795fbd1b0",
+        "deleted": true,
+        "before": {
+          "net": "5V",
+          "line": [
+            60,
+            260,
+            90,
+            260
+          ]
+        }
+      },
+      {
+        "key": "del-flag-18c0061320f321b7",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "18c0061320f321b7",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 30,
+          "y": 250
+        }
+      },
+      {
+        "key": "del-flag-c3b73645a8e7160d",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "c3b73645a8e7160d",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 30,
+          "y": 360
+        }
+      },
+      {
+        "key": "del-flag-194e5d88d54bae97",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "194e5d88d54bae97",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 10,
+          "y": 380
+        }
+      },
+      {
+        "key": "del-flag-a380d2e117269cb8",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "a380d2e117269cb8",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 10,
+          "y": 300
+        }
+      },
+      {
+        "key": "del-flag-765850816424699e",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "765850816424699e",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 290,
+          "y": 220
+        }
+      },
+      {
+        "key": "del-flag-ea05521f71e9e30f",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "ea05521f71e9e30f",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 250,
+          "y": 310
+        }
+      },
+      {
+        "key": "del-flag-b0612878e9a6d361",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "b0612878e9a6d361",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 470,
+          "y": 220
+        }
+      },
+      {
+        "key": "del-flag-9ccdb3aec0a20cf8",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "9ccdb3aec0a20cf8",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 550,
+          "y": 220
+        }
+      },
+      {
+        "key": "del-flag-085411f657e903be",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "085411f657e903be",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 560,
+          "y": 435
+        }
+      },
+      {
+        "key": "del-flag-ac28347df5c9b3f0",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "ac28347df5c9b3f0",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 770,
+          "y": 380
+        }
+      },
+      {
+        "key": "del-flag-77ea315331003b43",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "77ea315331003b43",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 590,
+          "y": 360
+        }
+      },
+      {
+        "key": "del-flag-dda9b0b055b70f5e",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "dda9b0b055b70f5e",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 870,
+          "y": 300
+        }
+      },
+      {
+        "key": "del-flag-4f5752fc3d1e2d06",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "4f5752fc3d1e2d06",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "GND",
+          "net": "GND",
+          "x": 840,
+          "y": 305
+        }
+      },
+      {
+        "key": "del-flag-c980906e59389d91",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "c980906e59389d91",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "5V",
+          "net": "5V",
+          "x": 60,
+          "y": 350
+        }
+      },
+      {
+        "key": "del-flag-17afc95fd7c29b0c",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "17afc95fd7c29b0c",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "5V",
+          "net": "5V",
+          "x": 220,
+          "y": 220
+        }
+      },
+      {
+        "key": "del-flag-20350323f34b81d6",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "20350323f34b81d6",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "5V",
+          "net": "5V",
+          "x": 250,
+          "y": 290
+        }
+      },
+      {
+        "key": "del-flag-bb1dafd2c1fade33",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "bb1dafd2c1fade33",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 250,
+          "y": 300
+        }
+      },
+      {
+        "key": "del-flag-5114b45293ec27ff",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "5114b45293ec27ff",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 430,
+          "y": 300
+        }
+      },
+      {
+        "key": "del-flag-4ac324d5ea8227c0",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "4ac324d5ea8227c0",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 390,
+          "y": 220
+        }
+      },
+      {
+        "key": "del-flag-de27143f4b7cd30c",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "de27143f4b7cd30c",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 500,
+          "y": 190
+        }
+      },
+      {
+        "key": "del-flag-e57ed6dc05e77682",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "e57ed6dc05e77682",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 680,
+          "y": 435
+        }
+      },
+      {
+        "key": "del-flag-54148e9f6d4dc8a9",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "54148e9f6d4dc8a9",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 800,
+          "y": 460
+        }
+      },
+      {
+        "key": "del-flag-b58bf3d1423439f5",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "b58bf3d1423439f5",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 760,
+          "y": 425
+        }
+      },
+      {
+        "key": "del-flag-4278f4dc559bc757",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "4278f4dc559bc757",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 500,
+          "y": 415
+        }
+      },
+      {
+        "key": "del-flag-796665db50623051",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "796665db50623051",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 720,
+          "y": 300
+        }
+      },
+      {
+        "key": "del-flag-80cdcd8f3989ebcf",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "80cdcd8f3989ebcf",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "3V3",
+          "net": "3V3",
+          "x": 840,
+          "y": 335
+        }
+      },
+      {
+        "key": "del-flag-6579225cba6e0b2f",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "6579225cba6e0b2f",
+        "deleted": true,
+        "before": {
+          "component_type": "netflag",
+          "name": "5V",
+          "net": "5V",
+          "x": 60,
+          "y": 260
+        }
+      },
+      {
+        "key": "del-port-04db9b8ea74e26ac",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "04db9b8ea74e26ac",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "CC2",
+          "net": "CC2",
+          "x": 30,
+          "y": 270
+        }
+      },
+      {
+        "key": "del-port-29a56eb8eb7d36c7",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "29a56eb8eb7d36c7",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "CC1",
+          "net": "CC1",
+          "x": 60,
+          "y": 380
+        }
+      },
+      {
+        "key": "del-port-04114913b502d3e8",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "04114913b502d3e8",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "CC2",
+          "net": "CC2",
+          "x": 60,
+          "y": 300
+        }
+      },
+      {
+        "key": "del-port-1042cae56d0b89a2",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "1042cae56d0b89a2",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "EN",
+          "net": "EN",
+          "x": 740,
+          "y": 460
+        }
+      },
+      {
+        "key": "del-port-d0dc03f8f7e30405",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "d0dc03f8f7e30405",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "EN",
+          "net": "EN",
+          "x": 655,
+          "y": 415
+        }
+      },
+      {
+        "key": "del-port-11f9e26c00295e4e",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "11f9e26c00295e4e",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "RST",
+          "net": "RST",
+          "x": 700,
+          "y": 425
+        }
+      },
+      {
+        "key": "del-port-ebffb4f56e1db48f",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "ebffb4f56e1db48f",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "RST",
+          "net": "RST",
+          "x": 655,
+          "y": 425
+        }
+      },
+      {
+        "key": "del-port-5ff0a849714a8df1",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "5ff0a849714a8df1",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "IO0",
+          "net": "IO0",
+          "x": 560,
+          "y": 415
+        }
+      },
+      {
+        "key": "del-port-90e0dcf2f855f267",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "90e0dcf2f855f267",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "IO0",
+          "net": "IO0",
+          "x": 585,
+          "y": 415
+        }
+      },
+      {
+        "key": "del-port-b6f7c7b75542fd13",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "b6f7c7b75542fd13",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "RST",
+          "net": "RST",
+          "x": 690,
+          "y": 380
+        }
+      },
+      {
+        "key": "del-port-9ef4bcbe71b063a5",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "9ef4bcbe71b063a5",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "IO0",
+          "net": "IO0",
+          "x": 510,
+          "y": 360
+        }
+      },
+      {
+        "key": "del-port-620e05ada8c9d5cc",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "620e05ada8c9d5cc",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "CC1",
+          "net": "CC1",
+          "x": 30,
+          "y": 330
+        }
+      },
+      {
+        "key": "del-port-9bf2c7739b22d4e7",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "9bf2c7739b22d4e7",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "TXD",
+          "net": "TXD",
+          "x": 860,
+          "y": 325
+        }
+      },
+      {
+        "key": "del-port-9cc1a6dfd924446e",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "9cc1a6dfd924446e",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "TXD",
+          "net": "TXD",
+          "x": 655,
+          "y": 405
+        }
+      },
+      {
+        "key": "del-port-d04c9e534752c905",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "d04c9e534752c905",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "RXD",
+          "net": "RXD",
+          "x": 880,
+          "y": 315
+        }
+      },
+      {
+        "key": "del-port-ac72859bc80dc265",
+        "ok": true,
+        "action": "delete_component",
+        "primitive_id": "ac72859bc80dc265",
+        "deleted": true,
+        "before": {
+          "component_type": "netport",
+          "name": "RXD",
+          "net": "RXD",
+          "x": 585,
+          "y": 405
+        }
+      },
+      {
+        "key": "move-J101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "84931dadefea5b69",
+        "before": {
+          "designator": "J101",
+          "x": 120,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "J101",
+          "x": 200,
+          "y": 290,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-U102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "6a4f98791d8643a6",
+        "before": {
+          "designator": "U102",
+          "x": 350,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "U102",
+          "x": 540,
+          "y": 340,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-U101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "9caf259471fe8fbe",
+        "before": {
+          "designator": "U101",
+          "x": 620,
+          "y": 420,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "U101",
+          "x": 700,
+          "y": 430,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-R101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "035a69b4bdf864c2",
+        "before": {
+          "designator": "R101",
+          "x": 40,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "R101",
+          "x": 100,
+          "y": 360,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-R102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "68294bcd0484ce63",
+        "before": {
+          "designator": "R102",
+          "x": 40,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "R102",
+          "x": 120,
+          "y": 220,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-C101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "c26543f0253a827f",
+        "before": {
+          "designator": "C101",
+          "x": 260,
+          "y": 220,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "C101",
+          "x": 450,
+          "y": 260,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-C103",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "7f8a1de03b53efcf",
+        "before": {
+          "designator": "C103",
+          "x": 520,
+          "y": 220,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "C103",
+          "x": 710,
+          "y": 260,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-C102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "0a9968ad6b7a4199",
+        "before": {
+          "designator": "C102",
+          "x": 430,
+          "y": 220,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "C102",
+          "x": 620,
+          "y": 260,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-R103",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "0a512d993bf682eb",
+        "before": {
+          "designator": "R103",
+          "x": 760,
+          "y": 460,
+          "rotation": 180,
+          "mirror": false
+        },
+        "after": {
+          "designator": "R103",
+          "x": 880,
+          "y": 390,
+          "rotation": 180,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-R104",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "6a8d84a9a9805b67",
+        "before": {
+          "designator": "R104",
+          "x": 720,
+          "y": 425,
+          "rotation": 180,
+          "mirror": false
+        },
+        "after": {
+          "designator": "R104",
+          "x": 840,
+          "y": 415,
+          "rotation": 180,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-R105",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "405206ca1a429e67",
+        "before": {
+          "designator": "R105",
+          "x": 540,
+          "y": 415,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "R105",
+          "x": 620,
+          "y": 425,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-R106",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "10f1fb2706eb622f",
+        "before": {
+          "designator": "R106",
+          "x": 760,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "R106",
+          "x": 840,
+          "y": 230,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-D101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "677445fb01de4b0d",
+        "before": {
+          "designator": "D101",
+          "x": 830,
+          "y": 300,
+          "rotation": 180,
+          "mirror": false
+        },
+        "after": {
+          "designator": "D101",
+          "x": 910,
+          "y": 230,
+          "rotation": 180,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-SW101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "cd1ca31b52802161",
+        "before": {
+          "designator": "SW101",
+          "x": 720,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "SW101",
+          "x": 840,
+          "y": 450,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-SW102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "ae63faba2a6864cc",
+        "before": {
+          "designator": "SW102",
+          "x": 540,
+          "y": 360,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "SW102",
+          "x": 620,
+          "y": 490,
+          "rotation": 0,
+          "mirror": false
+        }
+      },
+      {
+        "key": "move-J102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "394f21cb592e5b0d",
+        "before": {
+          "designator": "J102",
+          "x": 920,
+          "y": 320,
+          "rotation": 0,
+          "mirror": false
+        },
+        "after": {
+          "designator": "J102",
+          "x": 1080,
+          "y": 370,
+          "rotation": 0,
+          "mirror": false
+        }
+      }
+    ]
+  },
+  "after_counts": {
+    "components": 17,
+    "parts": 16,
+    "netflags": 0,
+    "netports": 0,
+    "wires": 0,
+    "attributes": null
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "del-wire-18f2a381760ec17d",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "18f2a381760ec17d",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-fd66cd07430de4f2",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "fd66cd07430de4f2",
+          "net": "5V",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-aa5b909f2ff16b22",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "aa5b909f2ff16b22",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-f500880b3b83d724",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "CC1",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "f500880b3b83d724",
+          "net": "CC1",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-a330241731a1a1ad",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "CC2",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "a330241731a1a1ad",
+          "net": "CC2",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-c7a4414aed250306",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "CC1",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "c7a4414aed250306",
+          "net": "CC1",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-7115cf4ecd33c6f5",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "7115cf4ecd33c6f5",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-9d45835e2e38781c",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "CC2",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "9d45835e2e38781c",
+          "net": "CC2",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-b75805cade4ebea2",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "b75805cade4ebea2",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-4d4ed58458600dca",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "4d4ed58458600dca",
+          "net": "5V",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-70e08327a6eac7db",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "70e08327a6eac7db",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d9f8c6b0792d3785",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "d9f8c6b0792d3785",
+          "net": "5V",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-72031477d8871538",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "72031477d8871538",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-e569946177d473cd",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "e569946177d473cd",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-1665060f71025135",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "1665060f71025135",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-b7544d62014087e5",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "b7544d62014087e5",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-93e050c47a78b8a6",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "93e050c47a78b8a6",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-0b53f38272506d50",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "0b53f38272506d50",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-8ec0f5c503395a56",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "8ec0f5c503395a56",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-132dbd5e794f45bb",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "132dbd5e794f45bb",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-3de7769321e53369",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "3de7769321e53369",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d9363f0f19ae22ca",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "d9363f0f19ae22ca",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-5302938a0e71a961",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "5302938a0e71a961",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-ad8d2bf0f8b2d8fa",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "ad8d2bf0f8b2d8fa",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-f9bff1f520b501e0",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "f9bff1f520b501e0",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-c58691f3c7833c6f",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "c58691f3c7833c6f",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d41b2fc77f5611ea",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "d41b2fc77f5611ea",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d575bda0357eba90",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "d575bda0357eba90",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-615df589ba9a6026",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "615df589ba9a6026",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-1920721cdd7bbe3f",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "1920721cdd7bbe3f",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-f04701dd38eba68e",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "f04701dd38eba68e",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-621968a8fec33443",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "621968a8fec33443",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-b6a7b13bb3da4203",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "b6a7b13bb3da4203",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-827559cd64e5445e",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "827559cd64e5445e",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-f08f6d6910368c05",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "f08f6d6910368c05",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d88d3513e6868f38",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "LED_A",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "d88d3513e6868f38",
+          "net": "LED_A",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-cf0a3a019d46ea91",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "cf0a3a019d46ea91",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-138d10952dd7efe3",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "138d10952dd7efe3",
+          "net": "3V3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-0a8fc9a4a8730c40",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "TXD",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "0a8fc9a4a8730c40",
+          "net": "TXD",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-ee52086b2574fb82",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "RXD",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "ee52086b2574fb82",
+          "net": "RXD",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-7b0ae1eb1ba64973",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "7b0ae1eb1ba64973",
+          "net": "GND",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-950ed48c9d0790c0",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "950ed48c9d0790c0",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-422c8c228e6f4b9e",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "422c8c228e6f4b9e",
+          "net": "",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d8d9da3795fbd1b0",
+        "op": "delete_wire",
+        "status": "delete",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "d8d9da3795fbd1b0",
+          "net": "5V",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-18c0061320f321b7",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "18c0061320f321b7",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-c3b73645a8e7160d",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "c3b73645a8e7160d",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-194e5d88d54bae97",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "194e5d88d54bae97",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-a380d2e117269cb8",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "a380d2e117269cb8",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-765850816424699e",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "765850816424699e",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-ea05521f71e9e30f",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "ea05521f71e9e30f",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-b0612878e9a6d361",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "b0612878e9a6d361",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-9ccdb3aec0a20cf8",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "9ccdb3aec0a20cf8",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-085411f657e903be",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "085411f657e903be",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-ac28347df5c9b3f0",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "ac28347df5c9b3f0",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-77ea315331003b43",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "77ea315331003b43",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-dda9b0b055b70f5e",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "dda9b0b055b70f5e",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-4f5752fc3d1e2d06",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "4f5752fc3d1e2d06",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-c980906e59389d91",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "c980906e59389d91",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-17afc95fd7c29b0c",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "17afc95fd7c29b0c",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-20350323f34b81d6",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "20350323f34b81d6",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-bb1dafd2c1fade33",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "bb1dafd2c1fade33",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-5114b45293ec27ff",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "5114b45293ec27ff",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-4ac324d5ea8227c0",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "4ac324d5ea8227c0",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-de27143f4b7cd30c",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "de27143f4b7cd30c",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-e57ed6dc05e77682",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "e57ed6dc05e77682",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-54148e9f6d4dc8a9",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "54148e9f6d4dc8a9",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-b58bf3d1423439f5",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "b58bf3d1423439f5",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-4278f4dc559bc757",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "4278f4dc559bc757",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-796665db50623051",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "796665db50623051",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-80cdcd8f3989ebcf",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "80cdcd8f3989ebcf",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-6579225cba6e0b2f",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netflag",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "6579225cba6e0b2f",
+          "component_type": "netflag",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-04db9b8ea74e26ac",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "04db9b8ea74e26ac",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-29a56eb8eb7d36c7",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "29a56eb8eb7d36c7",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-04114913b502d3e8",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "04114913b502d3e8",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-1042cae56d0b89a2",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "1042cae56d0b89a2",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-d0dc03f8f7e30405",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "d0dc03f8f7e30405",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-11f9e26c00295e4e",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "11f9e26c00295e4e",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-ebffb4f56e1db48f",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "ebffb4f56e1db48f",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-5ff0a849714a8df1",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "5ff0a849714a8df1",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-90e0dcf2f855f267",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "90e0dcf2f855f267",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-b6f7c7b75542fd13",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "b6f7c7b75542fd13",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-9ef4bcbe71b063a5",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "9ef4bcbe71b063a5",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-620e05ada8c9d5cc",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "620e05ada8c9d5cc",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-9bf2c7739b22d4e7",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "9bf2c7739b22d4e7",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-9cc1a6dfd924446e",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "9cc1a6dfd924446e",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-d04c9e534752c905",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "d04c9e534752c905",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-ac72859bc80dc265",
+        "op": "delete_component",
+        "status": "delete",
+        "component_type": "netport",
+        "verification": "verified",
+        "observed": {
+          "primitive_id": "ac72859bc80dc265",
+          "component_type": "netport",
+          "still_present": false
+        }
+      },
+      {
+        "key": "move-J101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 200,
+          "y": 290
+        },
+        "primitive_id": "84931dadefea5b69",
+        "designator": "J101",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "J101",
+          "part": "Type-C-16P",
+          "supplier_id": "C9900216560",
+          "x": 200,
+          "y": 290,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-U102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 540,
+          "y": 340
+        },
+        "primitive_id": "6a4f98791d8643a6",
+        "designator": "U102",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "U102",
+          "part": "AMS1117-3.3",
+          "supplier_id": "C2891839",
+          "x": 540,
+          "y": 340,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-U101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 700,
+          "y": 430
+        },
+        "primitive_id": "9caf259471fe8fbe",
+        "designator": "U101",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "U101",
+          "part": "ESP-01S",
+          "supplier_id": "C503582",
+          "x": 700,
+          "y": 430,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-R101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 100,
+          "y": 360
+        },
+        "primitive_id": "035a69b4bdf864c2",
+        "designator": "R101",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "R101",
+          "part": "RMC06035.1K1%N",
+          "supplier_id": "C269716",
+          "x": 100,
+          "y": 360,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-R102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 120,
+          "y": 220
+        },
+        "primitive_id": "68294bcd0484ce63",
+        "designator": "R102",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "R102",
+          "part": "RMC06035.1K1%N",
+          "supplier_id": "C269716",
+          "x": 120,
+          "y": 220,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-C101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 450,
+          "y": 260
+        },
+        "primitive_id": "c26543f0253a827f",
+        "designator": "C101",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "C101",
+          "part": "CAPCER10UF25VX5R0805",
+          "supplier_id": "C9900012828",
+          "x": 450,
+          "y": 260,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-C103",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 710,
+          "y": 260
+        },
+        "primitive_id": "7f8a1de03b53efcf",
+        "designator": "C103",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "C103",
+          "part": "CAPCER10UF25VX5R0805",
+          "supplier_id": "C9900012828",
+          "x": 710,
+          "y": 260,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-C102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 620,
+          "y": 260
+        },
+        "primitive_id": "0a9968ad6b7a4199",
+        "designator": "C102",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "C102",
+          "part": "CL10B104KB8NNNC",
+          "supplier_id": "C1591",
+          "x": 620,
+          "y": 260,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-R103",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 880,
+          "y": 390
+        },
+        "primitive_id": "0a512d993bf682eb",
+        "designator": "R103",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "R103",
+          "part": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "x": 880,
+          "y": 390,
+          "rotation": 180
+        }
+      },
+      {
+        "key": "move-R104",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 840,
+          "y": 415
+        },
+        "primitive_id": "6a8d84a9a9805b67",
+        "designator": "R104",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "R104",
+          "part": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "x": 840,
+          "y": 415,
+          "rotation": 180
+        }
+      },
+      {
+        "key": "move-R105",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 620,
+          "y": 425
+        },
+        "primitive_id": "405206ca1a429e67",
+        "designator": "R105",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "R105",
+          "part": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "x": 620,
+          "y": 425,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-R106",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 840,
+          "y": 230
+        },
+        "primitive_id": "10f1fb2706eb622f",
+        "designator": "R106",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "R106",
+          "part": "0603WAF1001T5E",
+          "supplier_id": "C21190",
+          "x": 840,
+          "y": 230,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-D101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 910,
+          "y": 230
+        },
+        "primitive_id": "677445fb01de4b0d",
+        "designator": "D101",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "D101",
+          "part": "KT-0603R",
+          "supplier_id": "C2286",
+          "x": 910,
+          "y": 230,
+          "rotation": 180
+        }
+      },
+      {
+        "key": "move-SW101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 840,
+          "y": 450
+        },
+        "primitive_id": "cd1ca31b52802161",
+        "designator": "SW101",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "SW101",
+          "part": "TS-1088-AR02026",
+          "supplier_id": "C52175904",
+          "x": 840,
+          "y": 450,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-SW102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 620,
+          "y": 490
+        },
+        "primitive_id": "ae63faba2a6864cc",
+        "designator": "SW102",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "SW102",
+          "part": "TS-1088-AR02026",
+          "supplier_id": "C52175904",
+          "x": 620,
+          "y": 490,
+          "rotation": 0
+        }
+      },
+      {
+        "key": "move-J102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 1080,
+          "y": 370
+        },
+        "primitive_id": "394f21cb592e5b0d",
+        "designator": "J102",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "designator": "J102",
+          "part": "2.54-1*4P母",
+          "supplier_id": "C2718488",
+          "x": 1080,
+          "y": 370,
+          "rotation": 0
+        }
+      }
+    ]
+  }
+}
