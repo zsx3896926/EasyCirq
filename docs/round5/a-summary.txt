@@ -1,0 +1,167 @@
+verifications: 59 confirmed, 3 refuted
+
+--- scope 0: Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/ha
+  DONE     GIT-01                   基线 7a6edb7 与 HEAD/origin/main/GitHub main 一致
+  DONE     GIT-02                   PR 全量状态：8 merged / 1 closed / 0 open
+  DONE     GIT-03                   远端分支与 main 的关系矩阵
+  DONE     GIT-04                   CI 当前全绿，历史 5 次失败均已取代
+  PARTIAL  GIT-05                   main 无分支保护，baseline 为直接 push
+  DONE     GIT-06                   8 个 worktree 均存在且无 prunable 条目
+  STALE    GIT-07                   共享检出仍在已合并旧分支，且有 36 个从未提交的决策文件
+  STALE    GIT-08                   本地 main 落后 origin/main 50 个提交
+  PARTIAL  GIT-09                   第 5 轮分支仅本地存在，upstream 指向 origin/main
+  STALE    GIT-10                   PR #8 合并后分支仍多出 1 个未入 main 的 docs 提交
+  STALE    GIT-11                   PR #4 关闭分支保存 main 仍引用的旧证据，形成断链
+  STALE    GIT-12                   旧 round4 分支：决策库已合并，1 个 eda 提交未入 main
+  STALE    GIT-13                   多处文档仍写「未合并」，与当前 PR 状态冲突
+  PARTIAL  GIT-14                   并非所有 main 内容都有独立 PR：octopus merge 与无 PR 分支
+
+--- scope 1: 仓库根 C:/Users/jlc/work/hds-round5，范围=文档与任务台账（A–N 包中
+  DONE     handoff-pr-merge         交接顶部 PR 合并声明与 PR #4/#6 实际状态
+  DONE     handoff-495-tests        交接的 495 项 unittest 验收
+  PARTIAL  f1-device-count          F1 16 器件 vs 21 器件的当前基线
+  DONE     handoff-layout           rev3 纯排版网表等价证据
+  DONE     handoff-boundaries       交接的未完成边界声明
+  STALE    drc-warning-count        DRC 3 条 vs 5 条
+  STALE    r3-meta                  第三轮台账的基线与测试数字
+  DONE     r3-executor-fixed        执行器 P0 已实现并验证的门禁
+  PARTIAL  r3-executor-partial      执行器仍缺的真实故障验证与入口
+  PARTIAL  r3-rev3-electrical       F1 rev3 电气修订状态
+  PARTIAL  r3-relayout              C3 重排状态：NOT RUN 已被 PARTIAL 取代
+  PARTIAL  r3-pkg-a                 第三轮工作包 A 当前状态
+  PARTIAL  r3-pkg-b                 第三轮工作包 B 当前状态
+  NOT RUN  r3-pkg-c                 第三轮工作包 C 当前状态
+  PARTIAL  r3-pkg-d                 第三轮工作包 D 当前状态
+  NOT RUN  r3-pkg-e                 第三轮工作包 E（PCB）当前状态
+  PARTIAL  r3-pkg-f                 第三轮工作包 F（制造/供应链）当前状态
+  PARTIAL  r3-pkg-g                 第三轮工作包 G（电源/热）当前状态
+  PARTIAL  r3-pkg-h                 第三轮工作包 H（电池/电源）当前状态
+  PARTIAL  r3-pkg-i                 第三轮工作包 I（模拟/接口）当前状态 [REFUTED->PARTIAL]
+  PARTIAL  r3-pkg-j                 第三轮工作包 J（Skill 结构/声明）当前状态
+  NOT RUN  r3-pkg-k                 第三轮工作包 K（评测/行为验证）当前状态
+  PARTIAL  r3-pkg-l                 第三轮工作包 L（台账/状态/门禁）当前状态
+  PARTIAL  r3-backlog-p0            第三轮 backlog P0 当前状态
+  PARTIAL  r3-backlog-p1            第三轮 backlog P1 当前状态
+  NOT RUN  r3-backlog-p2p3          第三轮 backlog P2/P3 当前状态 [REFUTED->PARTIAL]
+  DONE     r4-ledger                第四轮 12 个工作包 DONE 与离线边界
+  DONE     r4-tests                 第四轮 431/438 tests 与 CI
+  PARTIAL  r4-manual-review         第四轮人工复核声明的证据
+  STALE    merge-review-stale       merge-review/expansion-report 的“未运行真实 EDA”声明
+  STALE    merge-review-numbers     merge-review/pr3 历史测试数字
+  PARTIAL  pr3-review               PR #3 集成复核的状态声明
+  STALE    r2-ledger                round2 台账的过期状态
+  DONE     ch-counts                常用硬件 13 组/102 主题/12 应用
+  PARTIAL  ch-260-tests             常用硬件 260/148 tests 声明不可复现
+  DONE     ch-s1-eda                S1-NTC-ALARM 真实 EDA 连接级证据
+  DONE     ch-blind                 常用硬件盲测 6/6 路线
+  DONE     ch-boundaries            常用硬件的未完成边界
+  STALE    ch-sources               CHW-S 来源数量与段号
+  PARTIAL  ch-gap                   常用硬件缺口分析：盘点已用、计划被取代、78 条只修子集
+  DONE     evidence-hashes          F1 证据 SHA256 表
+  PARTIAL  evidence-aud             第三轮审计证据在仓库外
+  STALE    evidence-dangling        client-env README 的悬空证据链接
+  PARTIAL  client-flow-unmerged     Claude/Codex 完整流程证据只在未合并分支
+  BLOCKED  external-blockers        WorkBuddy/全在线/实时供应链三项外部阻塞
+
+--- scope 2: 原理图执行器与 F1 rev3 证据（仓库 C:/Users/jlc/work/hds-round5
+  DONE     verification-baseline    复核基线：HEAD 7a6edb7、客户端 4.1.78、半离线
+  DONE     netlist-diff-match       重排前后网表 diff 为真 match
+  DONE     rev1-rev3-diff           rev1→rev3 的 mismatch 是电气修订预期差异
+  DONE     save-reopen-match        保存后重开为 match（当前门禁）
+  DONE     drc-counts               DRC 3 条与 5 条分别对应重排后与 rev3/rev1
+  PARTIAL  drc-acceptance           DRC 未 clean：ONENETNAME 新增、6 脚仍悬空
+  DONE     object-counts            21/12/60 成立，但 60 是网表已连接引脚而非 66 个物理引脚
+  DONE     title-block              标题栏仍是 V1.0，不是 DRAFT
+  DONE     j101-nc                  J101 未用脚仍无 NC
+  DONE     evidence-sha             证据 SHA256 全部可复核，PNG/网表可从保存工程复现
+  DONE     executor-gates           执行器命令族与安全门禁已实现
+  PARTIAL  gate-coverage            标题栏、NC、pin 级与 DRC 阈值无自动化门禁
+  PARTIAL  electrical-reasonableness 网表等价不等于电气合理
+  STALE    reference-stale          eda-execution.md 与当前执行器不一致
+  STALE    test-count-stale         测试数量声明过期
+  STALE    connections-stale        connections/ 并非 15 条都 verified
+
+--- scope 3: E 包（PCB 执行器现状与客户端 PCB API 能力）— 仓库 C:/Users/jlc/wor
+  DONE     E-00                     PCB 能力声明与当前代码一致，无过度声明
+  NOT RUN  E-01                     eda_exec.py 没有 PCB 命令族（E-01 DoD 未闭合）
+  PARTIAL  E-02                     板框：仅 layer 11 折线，PARTIAL
+  PARTIAL  E-03                     器件放置：仅扁平引用单点成功，PARTIAL
+  PARTIAL  E-04                     走线：仅自由区段，PARTIAL
+  PARTIAL  E-05                     过孔：仅通孔单点，PARTIAL
+  PARTIAL  E-06                     铜区/覆铜边框：只建边框，PARTIAL
+  NOT RUN  E-07                     铺铜填充：明确空操作，NOT RUN
+  PARTIAL  E-08                     丝印：只读可验证、从未写入，PARTIAL
+  PARTIAL  E-09                     DRC：可调用但基线脏、无增量门禁，PARTIAL
+  PARTIAL  E-10                     Gerber/CPL 导出：只有内存对象大小，PARTIAL
+  PARTIAL  E-11                     PCB 保存/重开：只比计数，PARTIAL
+  STALE    E-12                     F1 PCB 纵向闭环证据已被 rev3 取代（STALE）
+  NOT RUN  E-13                     仅 API 存在：层叠/规则/自动布线/PCB 网表
+  BLOCKED  E-14                     全在线 GUI 复验仍 BLOCKED
+  PARTIAL  E-15                     探针与证据完整性：仓库外、无 runner、哈希标签误导
+  NOT RUN  E-16                     PCB 项目就绪竞态：立即读返回空列表 [REFUTED->PARTIAL]
+
+--- scope 4: 选料、BOM、制造资料与嘉立创规则（F1 rev3，21 器件；对应第三轮台账 F 包）
+  PARTIAL  SEL-01                   21 器件选料字段：C 号/封装齐全，MPN 不齐，库存为空
+  BLOCKED  SEL-02                   实时库存/价格/MOQ/交期：0/21，最近查询 2026-10-20 失败
+  NOT RUN  SMT-01                   SMT 可贴状态：0/21 核对
+  NOT RUN  ALT-01                   替代料：无 F1 替代分析
+  STALE    BOM-01                   当前 21 器件 BOM：未生成；历史 16 位号 BOM 已失效
+  NOT RUN  CPL-01                   CPL/坐标：未生成，F1 无 PCB
+  NOT RUN  MFG-01                   Gerber/钻孔/钢网/装配图：F1 未生成
+  PARTIAL  MAN-01                   证据 manifest：只有 SHA256 表，缺生成元数据；导线计数不一致
+  PARTIAL  JLC-01                   嘉立创规则：有 2026-10-20 文档快照，但无 F1 生产档案/DFM，且存在旧表述与 Mark 冲突
+  PARTIAL  VBOM-01                  variant_bom.py：工具可用，但未用于 F1，且不含采购/可贴判断
+  STALE    DOC-01                   README/P04 仍按 16 器件 rev1 描述 F1
+
+--- scope 5: 三客户端与新手指引证据
+  PARTIAL  CC-1                     Claude Code：Skill 发现、只读流程、最小写入/保存/重开均有会话级证据；本地文件往返与完整项目未做
+  PARTIAL  CX-1                     Codex：Skill 发现 PASS（一次 pwsh 267 后 node_repl 读取），最小写入/保存/重开在 scratch 日志
+  BLOCKED  WB-1                     WorkBuddy：CLI 在 `/login` 处 BLOCKED，GUI 登录态与 Skill 调用无证据，design-hardwar
+  PARTIAL  ENV-0                    client-env：宿主/版本/EDA 可识别，但用户级安装、实际注入与工程可写性未证明
+  PARTIAL  ENV-1                    GUI/CLI 登录态与 EDA 在线模式：Claude/Codex CLI 可用，WorkBuddy CLI 未登录；所有 EDA 写入为
+  PARTIAL  AC-1                     Agent 协作契约：三方分工文档存在，真实协作/故障恢复/用户接管无证据
+  PARTIAL  BJ-1                     新手指引：文档与 8 个新手场景齐全，但没有真实新手对话/首次接通证据
+  STALE    DOC-1                    仓库内三客户端结论已落后：README 说只完成 Skill 发现，实际 20:59–21:01 已跑写入/重开；且测试用的是旧 SKILL
+  PARTIAL  PROJ-1                   完整项目：Claude Code 有 F1 rev3 全页重排的项目级证据但无客户端身份；Codex/WorkBuddy 无完整项目
+
+--- scope 6: 知识库与固件/首板准备盘点：design-hardware/references/common-ha
+  DONE     KB-01                    common-hardware 结构：13 组 / 102 主题 / 12 应用全部落地
+  PARTIAL  KB-02                    原厂资料复核：102/102 主题有 E1 声称，但仅为作者核对
+  PARTIAL  KB-03                    旧内容审校未闭环：C40 的 S11 35+j0 与 C76 的场景缺口仍在
+  STALE    KB-04                    知识库元数据过期：99-sources 悬空、同步修正清单仍写“未修改仓库”
+  PARTIAL  KB-05                    12 个组合应用：11 个仅离线设计，1 个到连接级 EDA
+  DONE     DEC-01                   决策库 A–L：12 参考、13 案例、14 模板、6 脚本齐全
+  PARTIAL  DEC-02                   决策库全部案例停在离线规划，关键未知未关闭
+  PARTIAL  DD-01                    工程深潜内容齐全，但 25 个开源项目未逐项复核、新盲测未运行
+  PARTIAL  FL-01                    故障库 33 个案，证据以 B 级机理为主，F23–F33 为构造案例
+  DONE     FW-01                    firmware-bringup 与 product-acceptance 是方法文档，不是项目计划
+  NOT RUN  FW-02                    仓库没有实际固件代码、固件构建配置或固件产物
+  PARTIAL  FW-03                    板级引脚配置只有逻辑分配，物理脚/pinmux/封装 NC 未定
+  PARTIAL  FW-04                    构建/烧录命令与首板测试计划均为文本，全部未执行
+  NOT RUN  F1-01                    F1 首板固件/上电验证未开始，且受 PCB/制造缺失阻断
+
+--- scope 7: Skill 包完整性与安装（design-hardware）。只读盘点，未安装。仓库根：C:/Use
+  DONE     PKG-01                   目录结构与 git 归档完整性
+  DONE     PKG-02                   SKILL.md 路由与相对链接
+  DONE     PKG-03                   脚本 import 与第三方依赖
+  PARTIAL  PKG-04                   脚本 CLI 健壮性（--help 与 python -I）
+  PARTIAL  PKG-05                   包内引用在仅安装 design-hardware 后的可移植性
+  DONE     PKG-06                   同名重复 Skill 与安装冲突风险
+  DONE     PKG-07                   README 安装说明与当前仓库/doctor_env 一致性
+  STALE    PKG-08                   安装状态文档与当前证据不一致
+  PARTIAL  PKG-09                   真实安装与三客户端调用验收
+  PARTIAL  PKG-10                   License/NOTICE 未随 design-hardware 安装目录分发
+
+--- scope 8: 环境快照：git 工作树、Python/Node/npm/Claude/Codex/WorkBudd
+  DONE     ENV-01                   git 分支/HEAD/工作区
+  DONE     ENV-02                   Python/Node/npm/Claude Code 版本
+  DONE     ENV-03                   嘉立创EDA专业版版本
+  DONE     ENV-04                   eda_exec doctor 运行结果
+  PARTIAL  ENV-05                   doctor 结果通道不稳定与 functions 采样缺陷
+  DONE     ENV-06                   EDA sessions 只读快照
+  DONE     ENV-07                   EDA GUI 用户会话与用户占用
+  BLOCKED  ENV-08                   全在线模式判定
+  DONE     ENV-09                   Codex CLI 可用性
+  DONE     ENV-10                   WorkBuddy 安装与运行
+  STALE    ENV-11                   交接文档会话数已过期
+
