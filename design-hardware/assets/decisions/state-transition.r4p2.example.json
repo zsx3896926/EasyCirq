@@ -1,0 +1,103 @@
+{
+  "_note": "R4-P2 示例，E3/离线规划；未知写“待查”，不得当作已验证。",
+  "evidence": "E3",
+  "execution": "OFFLINE_PLANNING",
+  "hardware_execution": "NOT RUN",
+  "board_verified": false,
+  "schema": "state-transition/v1",
+  "project": "R4-P2",
+  "revision": "P01 派生纸面基线；板版 ID 待查",
+  "axes": {
+    "product_state": ["powered_off", "por", "boot", "run", "sleep", "debug_halt", "fault_recovery", "upgrade"],
+    "supply_condition": ["no_supply", "battery_only", "usb_only", "usb_and_battery"],
+    "reset_cause": ["por", "wdt", "brownout", "comm_loss", "debug_reset", "unknown", "not_applicable"]
+  },
+  "states": [
+    {"id": "ST-OFF", "product_state": "powered_off", "supply_condition": "no_supply", "reset_cause": "unknown", "entry": "USB 与电池均移除；VUSB/BAT/SYS/3V3 下降", "exit": "任一供电路径恢复到启动门限", "completion": "VUSB<0.5 V、BAT<1.0 V、3V3<0.3 V（阈值待查）"},
+    {"id": "ST-POR-BAT", "product_state": "por", "supply_condition": "battery_only", "reset_cause": "por", "entry": "电池接入；BQ24074 OUT 建立 SYS；U1 EN 接 SYS", "exit": "复位保持结束且 3V3 进入 3.0–3.6 V", "completion": "EN 释放、3V3 在窗口内、复位低电平保持时间待查"},
+    {"id": "ST-POR-USB", "product_state": "por", "supply_condition": "usb_only", "reset_cause": "por", "entry": "USB-C 5 V 接入且无电池；BQ24074 power path 给 SYS", "exit": "复位保持结束且 3V3 进入 3.0–3.6 V", "completion": "PGOOD 状态、3V3 窗口与无电池环路行为待查"},
+    {"id": "ST-BOOT-BAT", "product_state": "boot", "supply_condition": "battery_only", "reset_cause": "por", "entry": "EN 释放；固件从 Flash 启动", "exit": "初始化完成或超时", "completion": "串口日志/版本可读；启动时间待查"},
+    {"id": "ST-BOOT-USB", "product_state": "boot", "supply_condition": "usb_only", "reset_cause": "por", "entry": "EN 释放；固件从 Flash 启动", "exit": "初始化完成或超时", "completion": "串口日志/版本可读；USB 供电路径待查"},
+    {"id": "ST-RUN-BAT", "product_state": "run", "supply_condition": "battery_only", "reset_cause": "not_applicable", "entry": "初始化完成；电池经 power path 供 SYS", "exit": "休眠、USB 插入、故障或断电", "completion": "3V3 在 3.0–3.6 V；I2C/射频按固件运行"},
+    {"id": "ST-RUN-USB", "product_state": "run", "supply_condition": "usb_only", "reset_cause": "not_applicable", "entry": "初始化完成；无电池，USB 经 power path 供 SYS", "exit": "USB 移除、调试 halt 或故障", "completion": "3V3 在窗口内；无电池时充电环路行为待查"},
+    {"id": "ST-RUN-USB-BAT", "product_state": "run", "supply_condition": "usb_and_battery", "reset_cause": "not_applicable", "entry": "USB 插入且电池在位；BQ24074 同时供系统与充电", "exit": "USB 移除、故障或断电", "completion": "SYS 不跌出 U1 输入范围；充电电流/温升待查"},
+    {"id": "ST-SLEEP-BAT", "product_state": "sleep", "supply_condition": "battery_only", "reset_cause": "not_applicable", "entry": "固件定时器到期；关闭传感器电源并进入深睡", "exit": "定时唤醒、按键或复位", "completion": "睡眠电流 ≤25 µA 待实测；唤醒源待查"},
+    {"id": "ST-HALT-DEBUG", "product_state": "debug_halt", "supply_condition": "battery_only", "reset_cause": "debug_reset", "entry": "调试器接 U0TXD/U0RXD/GND 并 halt 内核；是否经 USB 供电待查", "exit": "调试器恢复运行或复位", "completion": "CPU 停止；GPIO/总线保持还是高阻待查"},
+    {"id": "ST-FAULT-WDT", "product_state": "fault_recovery", "supply_condition": "battery_only", "reset_cause": "wdt", "entry": "看门狗超时；电源未跌出范围", "exit": "复位完成回到 POR 或恢复运行", "completion": "复位标志可读；外设与总线默认态待查"},
+    {"id": "ST-FAULT-BROWN", "product_state": "fault_recovery", "supply_condition": "battery_only", "reset_cause": "brownout", "entry": "轨跌破 BOR/POR 或负载跌出推荐范围", "exit": "电压恢复且复位释放", "completion": "欠压门限、保持时间与复位标志待查"},
+    {"id": "ST-FAULT-COMM", "product_state": "fault_recovery", "supply_condition": "battery_only", "reset_cause": "comm_loss", "entry": "通信超时；电源与复位正常", "exit": "重试成功或退避超时", "completion": "总线释放、对端状态与重试计数待查"},
+    {"id": "ST-UPGRADE-NA", "product_state": "upgrade", "supply_condition": "usb_only", "reset_cause": "not_applicable", "entry": "不触发：P01 明确不做 OTA，无升级平台证据", "exit": "不适用", "completion": "不适用；acceptance NOT RUN，coverage PARTIAL"}
+  ],
+  "transitions": [
+    {"id": "TR-POR-BAT", "from": "ST-OFF", "to": "ST-POR-BAT", "trigger": "电池接入且 VBAT 超过启动门限（待查）", "supply_change": "BAT→BQ24074→SYS；USB 保持断开", "control": "U2 CE 由 JP1 选择；U1 EN 接 SYS（P01:263-265）", "load_state": "3V3 负载未上电；I2C 上拉随 3V3", "completion": "3V3 进入 3.0–3.6 V 且复位释放", "abort": "VBAT 不足/跌落→ST-OFF；复位超时→ST-FAULT-BROWN"},
+    {"id": "TR-POR-USB", "from": "ST-OFF", "to": "ST-POR-USB", "trigger": "USB-C 5 V 接入且无电池", "supply_change": "VUSB→F1→BQ24074→SYS", "control": "U2 CE 由 JP1；U1 EN 接 SYS", "load_state": "BAT 节点无电池；充电环路未知", "completion": "3V3 进入窗口且 PGOOD 状态明确", "abort": "VBUS 跌落→ST-OFF；无电池环路异常→ST-FAULT-BROWN"},
+    {"id": "TR-BOOT-BAT", "from": "ST-POR-BAT", "to": "ST-BOOT-BAT", "trigger": "复位释放且时钟稳定", "supply_change": "无", "control": "模组内部复位释放；BOOT/strap 保持默认", "load_state": "3V3 负载开始取电；I2C 未初始化", "completion": "启动日志/版本可读", "abort": "启动超时→ST-FAULT-WDT 或 ST-FAULT-BROWN"},
+    {"id": "TR-BOOT-USB", "from": "ST-POR-USB", "to": "ST-BOOT-USB", "trigger": "复位释放且时钟稳定", "supply_change": "无", "control": "模组内部复位释放；BOOT/strap 默认", "load_state": "3V3 负载开始取电", "completion": "启动日志/版本可读", "abort": "启动超时或 VBUS 跌落→ST-OFF"},
+    {"id": "TR-RUN-BAT", "from": "ST-BOOT-BAT", "to": "ST-RUN-BAT", "trigger": "外设初始化完成", "supply_change": "无", "control": "固件配置 GPIO/I2C/射频", "load_state": "传感器与上拉使能", "completion": "3V3 在窗口内且首轮采集成功", "abort": "初始化失败→ST-FAULT-WDT"},
+    {"id": "TR-RUN-USB", "from": "ST-BOOT-USB", "to": "ST-RUN-USB", "trigger": "外设初始化完成", "supply_change": "无", "control": "固件配置 GPIO/I2C/射频", "load_state": "无电池；系统由 USB 供电", "completion": "3V3 在窗口内且首轮采集成功", "abort": "初始化失败或 VBUS 跌落→ST-OFF"},
+    {"id": "TR-USB-INSERT", "from": "ST-RUN-BAT", "to": "ST-RUN-USB-BAT", "trigger": "VBUS 有效且 CC 判定完成（tCCDebounce 100–200 ms，IF-S12）", "supply_change": "VUSB 接入；BQ24074 power path 接管 SYS 并给 BAT 充电", "control": "U2 自动；固件读 PGOOD/CHG（P01:264）", "load_state": "3V3 负载保持；充电电流按 RILIM/RISET（待查）", "completion": "SYS 不跌出 U1 输入范围；3V3 保持窗口", "abort": "VBUS 跌落/过流→回 ST-RUN-BAT；SYS 跌落→ST-FAULT-BROWN"},
+    {"id": "TR-USB-REMOVE", "from": "ST-RUN-USB-BAT", "to": "ST-RUN-BAT", "trigger": "VBUS 低于有效门限", "supply_change": "VUSB 断开；BAT 接管 SYS", "control": "U2 power path 自动切换；固件更新 PGOOD", "load_state": "3V3 负载保持；充电停止", "completion": "3V3 不跌出窗口且无复位", "abort": "SYS 跌落→ST-FAULT-BROWN；复位→ST-POR-BAT"},
+    {"id": "TR-USB-REMOVE-NOBAT", "from": "ST-RUN-USB", "to": "ST-OFF", "trigger": "VBUS 移除且无电池", "supply_change": "VUSB 断开；无其它供电路径", "control": "U1 EN 随 SYS 下降", "load_state": "全部负载掉电", "completion": "3V3<0.3 V（阈值待查）", "abort": "若 BAT 实际在位→按 ST-RUN-BAT 处理"},
+    {"id": "TR-SLEEP", "from": "ST-RUN-BAT", "to": "ST-SLEEP-BAT", "trigger": "定时 300 s 到期且无 USB/调试连接", "supply_change": "无；传感器电源由固件关闭（若支持）", "control": "固件关闭 Q1/传感器电源并 esp_deep_sleep_start()", "load_state": "3V3 保持；I2C 上拉仍带电；Q1 关断", "completion": "睡眠电流 ≤25 µA（待实测）", "abort": "唤醒源异常→ST-FAULT-WDT"},
+    {"id": "TR-WAKE", "from": "ST-SLEEP-BAT", "to": "ST-RUN-BAT", "trigger": "定时器/按键唤醒", "supply_change": "无", "control": "模组唤醒；固件恢复 GPIO/I2C", "load_state": "传感器电源按需接通", "completion": "3V3 在窗口内且采集恢复", "abort": "唤醒失败→ST-FAULT-WDT"},
+    {"id": "TR-WDT", "from": "ST-RUN-BAT", "to": "ST-FAULT-WDT", "trigger": "看门狗超时", "supply_change": "无", "control": "模组复位；固件记录复位标志（待查）", "load_state": "外设复位；总线可能被拉低", "completion": "复位标志可读", "abort": "复位不释放→ST-FAULT-BROWN"},
+    {"id": "TR-WDT-RECOVER", "from": "ST-FAULT-WDT", "to": "ST-POR-BAT", "trigger": "看门狗复位完成", "supply_change": "无", "control": "复位释放；固件按复位原因分支", "load_state": "负载重新初始化", "completion": "回到启动流程并记录原因", "abort": "反复复位→ST-FAULT-WDT 并停止"},
+    {"id": "TR-BROWN", "from": "ST-RUN-BAT", "to": "ST-FAULT-BROWN", "trigger": "3V3 或 SYS 跌破 BOR/POR（门限待查）", "supply_change": "电池内阻/负载瞬态导致轨跌落", "control": "U1/模组 BOR 动作；固件不可依赖", "load_state": "负载可能掉电；总线状态不确定", "completion": "复位标志/欠压事件可读", "abort": "电压不恢复→ST-OFF"},
+    {"id": "TR-BROWN-RECOVER", "from": "ST-FAULT-BROWN", "to": "ST-POR-BAT", "trigger": "电压恢复且复位释放", "supply_change": "供电路径恢复", "control": "U1 重新启动；固件记录欠压", "load_state": "负载重新初始化", "completion": "3V3 回到窗口且启动完成", "abort": "再次跌落→ST-FAULT-BROWN"},
+    {"id": "TR-COMM-LOSS", "from": "ST-RUN-BAT", "to": "ST-FAULT-COMM", "trigger": "通信超时（阈值待查）", "supply_change": "无", "control": "固件停止总线驱动并重试/退避", "load_state": "总线应释放；对端状态待查", "completion": "总线释放且重试计数可读", "abort": "重试耗尽→ST-FAULT-WDT 或保持降级"},
+    {"id": "TR-COMM-RETRY", "from": "ST-FAULT-COMM", "to": "ST-RUN-BAT", "trigger": "重试成功或退避结束", "supply_change": "无", "control": "固件恢复总线驱动", "load_state": "总线重新初始化", "completion": "通信恢复且无总线锁死", "abort": "再次超时→ST-FAULT-COMM"},
+    {"id": "TR-DEBUG-ATTACH", "from": "ST-RUN-BAT", "to": "ST-HALT-DEBUG", "trigger": "调试器连接并 halt", "supply_change": "无；调试器接 U0TXD/U0RXD/GND，是否经 USB 供电待查", "control": "调试器 halt 内核；GPIO 状态待查", "load_state": "CPU 停止；总线可能保持或释放", "completion": "CPU 停止且调试器可读寄存器", "abort": "调试器掉线→ST-RUN-BAT 或 ST-FAULT-WDT"},
+    {"id": "TR-DEBUG-RESUME", "from": "ST-HALT-DEBUG", "to": "ST-RUN-BAT", "trigger": "调试器恢复运行", "supply_change": "调试器供电撤除（若曾供电）", "control": "调试器释放内核；固件恢复外设", "load_state": "总线重新初始化", "completion": "运行状态与 3V3 正常", "abort": "复位→ST-POR-BAT"},
+    {"id": "TR-POWER-CYCLE", "from": "ST-RUN-BAT", "to": "ST-OFF", "trigger": "电池与 USB 均移除", "supply_change": "BAT/USB 断开；SYS/3V3 放电", "control": "无；U1 EN 随 SYS 下降", "load_state": "全部负载掉电", "completion": "3V3<0.3 V 且 SYS<0.5 V（阈值待查）", "abort": "若仍有反灌→ST-FAULT-BROWN 并记录"}
+  ],
+  "power_on_reset": {
+    "por_threshold": "待查（BQ24074/TPS63802/ESP32-C3 的 POR/BOR 门限未在登记范围核对；TPS63802 启动 >1.8 V 不是复位门限）",
+    "hold_time": "待查（P01:268-268 的 10 kΩ+1 µF 仅得 τ=10 ms 的 RC 筛查；模组 EN 低电平最小 50 µs 来自 MCU-S04/MCU-S09，释放等待待查）",
+    "bus_release": "待查（I2C SDA/SCL 在 MCU 复位/掉电时的高阻时刻；按 D-S08 的总线清除方法测）",
+    "peer_not_driving": "待查（BQ24074 PGOOD/CHG 开漏上拉到 3V3；3V3 掉电时对端是否经 ESD 二极管驱动 GPIO1 未核）"
+  },
+  "partial_power": [
+    {"scenario": "usb_only_no_battery", "powered": ["VUSB", "SYS", "3V3"], "unpowered": ["BAT"], "path": "BQ24074 power path 的 OUT 给 SYS；无电池时环路行为待查", "disposition": "待查"},
+    {"scenario": "battery_only_no_usb", "powered": ["BAT", "SYS", "3V3"], "unpowered": ["VUSB"], "path": "电池经 BQ24074 power path 到 SYS；USB 口不得被反灌（IF-S11）", "disposition": "待查（反向电流/Ioff 未核）"},
+    {"scenario": "usb_and_deeply_discharged_battery", "powered": ["VUSB", "SYS", "3V3"], "unpowered": ["BAT（深放电）"], "path": "充电与系统取电的分配未核", "disposition": "待查"},
+    {"scenario": "debug_probe_powered_target_off", "powered": ["调试器"], "unpowered": ["VUSB", "BAT", "SYS", "3V3"], "path": "USB-Serial-JTAG 或调试口可能寄生供电", "disposition": "待查（工具 T_VCC 语义未核）"},
+    {"scenario": "3v3_off_sys_on", "powered": ["VUSB", "SYS"], "unpowered": ["3V3"], "path": "P01 的 U1 EN 接 SYS，设计为常开；人为拉低 EN 不在当前设计内", "disposition": "not_applicable（当前无 3V3 关断）"}
+  ],
+  "reverse_feed": [
+    {"path": "BAT → BQ24074 → VUSB", "when": "USB 未插入", "symptom": "设备向 VBUS 供电，违反 USB", "disposition": "待查（BQ24074 反向阻断/Ioff 未核；IF-S11）"},
+    {"path": "3V3 → TPS63802 → SYS", "when": "SYS 掉电、3V3 电容仍存电", "symptom": "反向电流", "disposition": "待查（转换器反向行为未核）"},
+    {"path": "PGOOD/CHG 上拉到 3V3 → U2 开漏", "when": "3V3 掉电、SYS 仍有电", "symptom": "GPIO1 被钳位/漏电", "disposition": "待查（P01:264）"},
+    {"path": "Q1 体二极管 SYS → VSENSE_TOP", "when": "Q1 关断", "symptom": "分压节点被 SYS 抬高", "disposition": "待查（P01:276 明确方向未核）"}
+  ],
+  "state_interface_matrix": [
+    {"state": "ST-OFF", "interfaces": {"VUSB": "0 V", "SYS": "0 V", "3V3": "0 V", "BAT": "0 V/电池移除", "I2C": "高阻/上拉无电", "PGOOD": "高阻", "EN": "0 V"}},
+    {"state": "ST-POR-BAT", "interfaces": {"VUSB": "0 V", "SYS": "建立中", "3V3": "上升/复位保持", "BAT": "电池电压", "I2C": "上拉随 3V3 上升", "PGOOD": "待查", "EN": "低/释放中"}},
+    {"state": "ST-POR-USB", "interfaces": {"VUSB": "5 V", "SYS": "建立中", "3V3": "上升/复位保持", "BAT": "无电池", "I2C": "上拉随 3V3 上升", "PGOOD": "待查", "EN": "低/释放中"}},
+    {"state": "ST-BOOT-BAT", "interfaces": {"VUSB": "0 V", "SYS": "由 BAT 供电", "3V3": "3.0–3.6 V", "BAT": "电池电压", "I2C": "未初始化/上拉有效", "PGOOD": "待查", "EN": "高"}},
+    {"state": "ST-BOOT-USB", "interfaces": {"VUSB": "5 V", "SYS": "由 USB 供电", "3V3": "3.0–3.6 V", "BAT": "无电池", "I2C": "未初始化/上拉有效", "PGOOD": "待查", "EN": "高"}},
+    {"state": "ST-RUN-BAT", "interfaces": {"VUSB": "0 V", "SYS": "由 BAT 供电", "3V3": "3.0–3.6 V", "BAT": "放电", "I2C": "正常/上拉在 3V3", "PGOOD": "待查", "EN": "高"}},
+    {"state": "ST-RUN-USB", "interfaces": {"VUSB": "5 V", "SYS": "由 USB 供电", "3V3": "3.0–3.6 V", "BAT": "无电池", "I2C": "正常/上拉在 3V3", "PGOOD": "待查", "EN": "高"}},
+    {"state": "ST-RUN-USB-BAT", "interfaces": {"VUSB": "5 V", "SYS": "由 USB 供电", "3V3": "3.0–3.6 V", "BAT": "充电", "I2C": "正常/上拉在 3V3", "PGOOD": "待查", "EN": "高"}},
+    {"state": "ST-SLEEP-BAT", "interfaces": {"VUSB": "0 V", "SYS": "由 BAT 供电", "3V3": "保持", "BAT": "微安级放电", "I2C": "上拉仍带电/总线空闲", "PGOOD": "待查", "EN": "高"}},
+    {"state": "ST-HALT-DEBUG", "interfaces": {"VUSB": "0 V（UART 调试；USB 供电待查）", "SYS": "由 BAT 供电", "3V3": "保持", "BAT": "放电", "I2C": "保持或高阻待查", "PGOOD": "待查", "EN": "高"}},
+    {"state": "ST-FAULT-WDT", "interfaces": {"VUSB": "视供电路径", "SYS": "保持/跌落", "3V3": "复位/恢复", "BAT": "视供电路径", "I2C": "可能被拉低", "PGOOD": "待查", "EN": "复位"}},
+    {"state": "ST-FAULT-BROWN", "interfaces": {"VUSB": "视供电路径", "SYS": "跌落", "3V3": "跌破 BOR/POR", "BAT": "大电流放电", "I2C": "不确定", "PGOOD": "待查", "EN": "复位"}},
+    {"state": "ST-FAULT-COMM", "interfaces": {"VUSB": "0 V", "SYS": "由 BAT 供电", "3V3": "保持", "BAT": "放电", "I2C": "应释放/重试", "PGOOD": "待查", "EN": "高"}},
+    {"state": "ST-UPGRADE-NA", "interfaces": {"VUSB": "not_applicable", "SYS": "not_applicable", "3V3": "not_applicable", "BAT": "not_applicable", "I2C": "not_applicable", "PGOOD": "not_applicable", "EN": "not_applicable"}}
+  ],
+  "upgrade": {
+    "applicable": false,
+    "reason": "P01 明确不做 OTA（P01:50-50）；无升级平台、镜像校验或回滚证据",
+    "platform_evidence": "待查（无 OTA 平台证据）",
+    "acceptance": "NOT RUN",
+    "coverage": "PARTIAL"
+  },
+  "unresolved": [
+    {"item": "4.20 V 电芯与 BQ24074 4.23 V max 的终止电压匹配", "why": "决定充电配置能否放行", "owner": "硬件工程师", "stop_before": "充电配置冻结与首板充电测试"},
+    {"item": "POR/BOR 门限、保持时间与释放顺序", "why": "决定能否写“上电可靠”", "owner": "硬件工程师", "stop_before": "原理图落图与状态机实现"},
+    {"item": "复位源可观测性（WDT/欠压/软件复位）", "why": "决定恢复动作能否区分", "owner": "固件工程师", "stop_before": "固件状态机冻结"},
+    {"item": "部分供电与反灌路径（USB 无电池、调试器带电、Q1 Ioff）", "why": "决定 Ioff/串阻/理想二极管与测试项", "owner": "硬件工程师", "stop_before": "电源路径冻结与首板上电"},
+    {"item": "OTA 平台证据", "why": "决定 upgrade 是否 applicable", "owner": "产品/固件", "stop_before": "建立升级状态或承诺 OTA"},
+    {"item": "连接器 MPN、每针额定、配对端子与压接工具", "why": "决定 J1/J2 能否下单与装配", "owner": "硬件/结构", "stop_before": "BOM 下单与线束加工"}
+  ]
+}

@@ -78,6 +78,7 @@
 | 真实EDA执行与回读 | 1个适配器 + 2份证据 | [EDA执行](../design-hardware/references/eda-execution.md) | 工具存在/连通/工程可读/可写分层诊断；器件/属性/导线/端口/保存/导出/重开；PCB未实现 |
 | 原理图排版基准 | 8类 | [排版基准](../design-hardware/references/schematic-benchmarks.md) | 故意有缺陷的离线几何快照、预期候选、真实导图检查方法；不是8张真机图 |
 | 任务场景与反例 | 35个（含12个指定反例） | [任务场景](../design-hardware/references/task-scenarios.md) | 新手/工程师、从零/改板/换料/整理/排障的可检查路径 |
+| 工程设计决策库 | 12份参考+13个案例+14个模板+6个检查脚本 | [设计决策库](../design-hardware/references/decisions/README.md) | 架构为何值得、资源冲突、状态转换、接口逐条、容差角点、线束/变体、校准/变更/复用/资产有效性 |
 
 **内容库的边界：**
 

@@ -1,0 +1,47 @@
+{
+  "record_id": "CAL-P3-001",
+  "magic": "CALREC",
+  "schema_version": 1,
+  "length": 440,
+  "identity": {
+    "model": "待查",
+    "hw_rev": "待查",
+    "variant": "V1",
+    "serial": "待查"
+  },
+  "cal_date": "待查",
+  "cal_temp_c": "待查",
+  "source_id": "待查",
+  "channels": [
+    {
+      "channel": 1,
+      "offset": "待查",
+      "gain": "待查",
+      "range": "待查",
+      "unit": "待查"
+    },
+    {
+      "channel": 2,
+      "offset": "待查",
+      "gain": "待查",
+      "range": "待查",
+      "unit": "待查"
+    }
+  ],
+  "slots": {
+    "A": {
+      "sequence": 0,
+      "crc32": "0xBDA6BB38",
+      "status": "uncalibrated"
+    },
+    "B": {
+      "sequence": 0,
+      "crc32": "0xBDA6BB38",
+      "status": "uncalibrated"
+    }
+  },
+  "status": "uncalibrated",
+  "valid": false,
+  "valid_until": "待查",
+  "invalid_reason": ""
+}
