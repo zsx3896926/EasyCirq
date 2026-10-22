@@ -1,0 +1,76 @@
+{
+  "status": "dry_run",
+  "plan": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\plan-r999.json",
+  "session": {
+    "sessionId": "e0e34b03-cd95-4386-b088-5304dba7f5f8",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": true,
+  "items": [
+    {
+      "key": "new_r",
+      "op": "part",
+      "status": "create",
+      "designator": "R999",
+      "part": "0603WAF1002T5E",
+      "designator_scope": "project",
+      "stable_identity": true
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_part",
+      "key": "new_r",
+      "part": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "x": 900,
+      "y": 700,
+      "rotation": 0,
+      "mirror": false,
+      "designator": "R999",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "no write was sent"
+}

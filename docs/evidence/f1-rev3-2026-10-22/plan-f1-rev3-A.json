@@ -1,0 +1,157 @@
+{
+ "version": 1,
+ "page": {
+  "schematic_name": "F1-USB-MCU-C",
+  "page_name": "P1"
+ },
+ "operations": [
+  {
+   "op": "part",
+   "key": "C107",
+   "match": {
+    "designator": "C107",
+    "part": "CA45-E035K226T",
+    "supplier_id": "C169219"
+   },
+   "place": {
+    "x": 510,
+    "y": 220,
+    "rotation": 180
+   },
+   "properties": {
+    "designator": "C107"
+   }
+  },
+  {
+   "op": "part",
+   "key": "R107",
+   "match": {
+    "designator": "R107",
+    "part": "0603WAF1002T5E",
+    "supplier_id": "C25804"
+   },
+   "place": {
+    "x": 480,
+    "y": 500,
+    "rotation": 0
+   },
+   "properties": {
+    "designator": "R107"
+   }
+  },
+  {
+   "op": "part",
+   "key": "C104",
+   "match": {
+    "designator": "C104",
+    "part": "CL10B104KB8NNNC",
+    "supplier_id": "C1591"
+   },
+   "place": {
+    "x": 700,
+    "y": 500,
+    "rotation": 0
+   },
+   "properties": {
+    "designator": "C104"
+   }
+  },
+  {
+   "op": "part",
+   "key": "C105",
+   "match": {
+    "designator": "C105",
+    "part": "CL10B104KB8NNNC",
+    "supplier_id": "C1591"
+   },
+   "place": {
+    "x": 700,
+    "y": 540,
+    "rotation": 0
+   },
+   "properties": {
+    "designator": "C105"
+   }
+  },
+  {
+   "op": "part",
+   "key": "C106",
+   "match": {
+    "designator": "C106",
+    "part": "CAPCER10UF25VX5R0805",
+    "supplier_id": "C9900012828"
+   },
+   "place": {
+    "x": 780,
+    "y": 540,
+    "rotation": 0
+   },
+   "properties": {
+    "designator": "C106"
+   }
+  },
+  {
+   "op": "part",
+   "key": "D102",
+   "match": {
+    "designator": "D102",
+    "part": "SMBJ5.0A",
+    "supplier_id": "C357965"
+   },
+   "place": {
+    "x": 300,
+    "y": 160,
+    "rotation": 0
+   },
+   "properties": {
+    "designator": "D102"
+   }
+  },
+  {
+   "op": "delete",
+   "key": "del_C103",
+   "target": {
+    "kind": "part",
+    "primitive_id": "7f8a1de03b53efcf",
+    "expected": {
+     "designator": "C103",
+     "x": 520,
+     "y": 220,
+     "component": "CAPCER10UF25VX5R0805"
+    }
+   }
+  },
+  {
+   "op": "delete",
+   "key": "del_C103_3v3",
+   "target": {
+    "kind": "wire",
+    "primitive_id": "0b53f38272506d50",
+    "expected": {
+     "net": "3V3"
+    }
+   }
+  },
+  {
+   "op": "net_flag",
+   "key": "c107_3v3",
+   "net": "3V3",
+   "type": "Power",
+   "at": [
+    490,
+    190
+   ]
+  },
+  {
+   "op": "wire",
+   "key": "w_c107_3v3",
+   "net": "3V3",
+   "points": [
+    490,
+    190,
+    490,
+    220
+   ]
+  }
+ ]
+}

@@ -1,0 +1,1420 @@
+{
+  "ok": true,
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78"
+  },
+  "project": null,
+  "pages": [
+    {
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1",
+      "parts": 34
+    },
+    {
+      "schematic_uuid": "3099edfd1e1dce3e",
+      "schematic_name": "BridgeTest",
+      "page_uuid": "c63c1a14ce515f12",
+      "page_name": "P1",
+      "parts": 2
+    },
+    {
+      "schematic_uuid": "467a090f5f487838",
+      "schematic_name": "BridgeTest2",
+      "page_uuid": "33625c81be294e22",
+      "page_name": "P1",
+      "parts": 2
+    },
+    {
+      "schematic_uuid": "626d594c2243c993",
+      "schematic_name": "BridgeTest3",
+      "page_uuid": "242f3c1f2c3f7551",
+      "page_name": "P1",
+      "parts": 2
+    },
+    {
+      "schematic_uuid": "1beb14d3c2dcc3bc",
+      "schematic_name": "EvidenceDemo",
+      "page_uuid": "d87f5882486c1b95",
+      "page_name": "P1",
+      "parts": 2
+    },
+    {
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1",
+      "parts": 16
+    },
+    {
+      "schematic_uuid": "e7e7201305ec0c3a",
+      "schematic_name": "F1-USB-MCU-B",
+      "page_uuid": "a6f8b8a793965372",
+      "page_name": "P1",
+      "parts": 0
+    },
+    {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1",
+      "parts": 16
+    },
+    {
+      "schematic_uuid": "c74c67f73632f3c7",
+      "schematic_name": "PortTest",
+      "page_uuid": "50217e5198820d7f",
+      "page_name": "P1",
+      "parts": 2
+    },
+    {
+      "schematic_uuid": "b8442b2ab84bd0d1",
+      "schematic_name": "Schematic1",
+      "page_uuid": "89f5ea900bedab67",
+      "page_name": "P1",
+      "parts": 2
+    }
+  ],
+  "designators": [
+    {
+      "designator": "DC1",
+      "unique_id": "gge1",
+      "primitive_id": "e4213",
+      "component_name": "DC005-T20",
+      "supplier_id": "C111567",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "D1",
+      "unique_id": "gge2",
+      "primitive_id": "e4390",
+      "component_name": "1N4148TR",
+      "supplier_id": "C84410",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "D3",
+      "unique_id": "gge22",
+      "primitive_id": "e8666",
+      "component_name": "1N4148TR",
+      "supplier_id": "C84410",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "D2",
+      "unique_id": "gge24",
+      "primitive_id": "e10820",
+      "component_name": "1N4148TR",
+      "supplier_id": "C84410",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "U1",
+      "unique_id": "gge3",
+      "primitive_id": "e4682",
+      "component_name": "DB301V-5.0-2P-BU-P",
+      "supplier_id": "C430621",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R1",
+      "unique_id": "gge4",
+      "primitive_id": "e4807",
+      "component_name": "MFR-25JT-52-1K",
+      "supplier_id": "C176465",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R9",
+      "unique_id": "gge31",
+      "primitive_id": "e17465",
+      "component_name": "MFR-25JT-52-1K",
+      "supplier_id": "C176465",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R2",
+      "unique_id": "gge5",
+      "primitive_id": "e4916",
+      "component_name": "MFR0W4F2002A50",
+      "supplier_id": "C58594",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R3",
+      "unique_id": "gge6",
+      "primitive_id": "e5028",
+      "component_name": "MFR0W4F1003A50",
+      "supplier_id": "C58597",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R6",
+      "unique_id": "gge7",
+      "primitive_id": "e5370",
+      "component_name": "MFR-25FTE52-47K",
+      "supplier_id": "C173021",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R4",
+      "unique_id": "gge29",
+      "primitive_id": "e15928",
+      "component_name": "MFR-25FTE52-47K",
+      "supplier_id": "C173021",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R7",
+      "unique_id": "gge8",
+      "primitive_id": "e5483",
+      "component_name": "MF1/4W ±1% 16K STB5",
+      "supplier_id": "C337151",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R8",
+      "unique_id": "gge9",
+      "primitive_id": "e5598",
+      "component_name": "3296W-1-103",
+      "supplier_id": "C330432",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R5",
+      "unique_id": "gge23",
+      "primitive_id": "e10302",
+      "component_name": "3296W-1-103",
+      "supplier_id": "C330432",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R10",
+      "unique_id": "gge10",
+      "primitive_id": "e5839",
+      "component_name": "3296W-1-101LF",
+      "supplier_id": "C83688",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "LED1",
+      "unique_id": "gge11",
+      "primitive_id": "e5968",
+      "component_name": "204-10SDRD/S530-A3-L",
+      "supplier_id": "C84774",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "P2",
+      "unique_id": "gge12",
+      "primitive_id": "e6389",
+      "component_name": "2.54-1*2P母",
+      "supplier_id": "C49661",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "P1",
+      "unique_id": "gge13",
+      "primitive_id": "e6866",
+      "component_name": "2.54-1*2P母",
+      "supplier_id": "C49661",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "P5",
+      "unique_id": "gge14",
+      "primitive_id": "e7318",
+      "component_name": "2.54-1*2P母",
+      "supplier_id": "C49661",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "P3",
+      "unique_id": "gge15",
+      "primitive_id": "e7337",
+      "component_name": "2.54-1*2P母",
+      "supplier_id": "C49661",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "P6",
+      "unique_id": "gge16",
+      "primitive_id": "e7521",
+      "component_name": "2.54-1*2P母",
+      "supplier_id": "C49661",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "P4",
+      "unique_id": "gge17",
+      "primitive_id": "e7540",
+      "component_name": "2.54-1*2P母",
+      "supplier_id": "C49661",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C1",
+      "unique_id": "gge18",
+      "primitive_id": "e8053",
+      "component_name": "CD1H473KC9BER1E000",
+      "supplier_id": "C263197",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C2",
+      "unique_id": "gge19",
+      "primitive_id": "e8169",
+      "component_name": "CT4-0805B103K500F1",
+      "supplier_id": "C169112",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C4",
+      "unique_id": "gge20",
+      "primitive_id": "e8407",
+      "component_name": "DCS104M26Y5UF6FJ5A0",
+      "supplier_id": "C2896063",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C3",
+      "unique_id": "gge27",
+      "primitive_id": "e15108",
+      "component_name": "DCS104M26Y5UF6FJ5A0",
+      "supplier_id": "C2896063",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C7",
+      "unique_id": "gge28",
+      "primitive_id": "e15340",
+      "component_name": "DCS104M26Y5UF6FJ5A0",
+      "supplier_id": "C2896063",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C5",
+      "unique_id": "gge21",
+      "primitive_id": "e8531",
+      "component_name": "RF063M101LO8*16TA-1A1E",
+      "supplier_id": "C516329",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C6",
+      "unique_id": "gge25",
+      "primitive_id": "e12918",
+      "component_name": "LW100M2501017PV4",
+      "supplier_id": "C2847239",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C8",
+      "unique_id": "gge30",
+      "primitive_id": "e17050",
+      "component_name": "LW100M2501017PV4",
+      "supplier_id": "C2847239",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "U3",
+      "unique_id": "gge33",
+      "primitive_id": "e14117",
+      "component_name": "TL072CP",
+      "supplier_id": "C7236",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "U3",
+      "unique_id": "gge33",
+      "primitive_id": "e21050",
+      "component_name": "TL072CP",
+      "supplier_id": "C7236",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R11",
+      "unique_id": "gge26",
+      "primitive_id": "e14369",
+      "component_name": "MF1/4W-8.2KΩ±1%T52_1",
+      "supplier_id": "C714014",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "U4",
+      "unique_id": "gge32",
+      "primitive_id": "e21567",
+      "component_name": "NE555DR",
+      "supplier_id": "C7593",
+      "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+      "schematic_name": "波形产生与变换",
+      "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R1",
+      "unique_id": "",
+      "primitive_id": "424c0aae56bd3f1c",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "3099edfd1e1dce3e",
+      "schematic_name": "BridgeTest",
+      "page_uuid": "c63c1a14ce515f12",
+      "page_name": "P1"
+    },
+    {
+      "designator": "LED1",
+      "unique_id": "",
+      "primitive_id": "8984fbe6a208c876",
+      "component_name": "KT-0603R",
+      "supplier_id": "C2286",
+      "schematic_uuid": "3099edfd1e1dce3e",
+      "schematic_name": "BridgeTest",
+      "page_uuid": "c63c1a14ce515f12",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R1",
+      "unique_id": "gge1",
+      "primitive_id": "68cb629686dd8c95",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "467a090f5f487838",
+      "schematic_name": "BridgeTest2",
+      "page_uuid": "33625c81be294e22",
+      "page_name": "P1"
+    },
+    {
+      "designator": "LED1",
+      "unique_id": "gge2",
+      "primitive_id": "778bece221c3c13f",
+      "component_name": "KT-0603R",
+      "supplier_id": "C2286",
+      "schematic_uuid": "467a090f5f487838",
+      "schematic_name": "BridgeTest2",
+      "page_uuid": "33625c81be294e22",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R1",
+      "unique_id": "",
+      "primitive_id": "4bc836f07b9c5fcc",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "626d594c2243c993",
+      "schematic_name": "BridgeTest3",
+      "page_uuid": "242f3c1f2c3f7551",
+      "page_name": "P1"
+    },
+    {
+      "designator": "LED1",
+      "unique_id": "",
+      "primitive_id": "aaa798ea11bdced5",
+      "component_name": "KT-0603R",
+      "supplier_id": "C2286",
+      "schematic_uuid": "626d594c2243c993",
+      "schematic_name": "BridgeTest3",
+      "page_uuid": "242f3c1f2c3f7551",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R901",
+      "unique_id": "gge1",
+      "primitive_id": "0a9a0708cb256f34",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "1beb14d3c2dcc3bc",
+      "schematic_name": "EvidenceDemo",
+      "page_uuid": "d87f5882486c1b95",
+      "page_name": "P1"
+    },
+    {
+      "designator": "LED901",
+      "unique_id": "gge2",
+      "primitive_id": "dcd2a560bc3dca0a",
+      "component_name": "KT-0603R",
+      "supplier_id": "C2286",
+      "schematic_uuid": "1beb14d3c2dcc3bc",
+      "schematic_name": "EvidenceDemo",
+      "page_uuid": "d87f5882486c1b95",
+      "page_name": "P1"
+    },
+    {
+      "designator": "J1",
+      "unique_id": "",
+      "primitive_id": "acf1da59147522ae",
+      "component_name": "Type-C-16P",
+      "supplier_id": "C9900216560",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "U2",
+      "unique_id": "",
+      "primitive_id": "1caf25bc956c5458",
+      "component_name": "AMS1117-3.3",
+      "supplier_id": "C2891839",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "U1",
+      "unique_id": "",
+      "primitive_id": "8055f050eaef8b7b",
+      "component_name": "ESP-01S",
+      "supplier_id": "C503582",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R1",
+      "unique_id": "",
+      "primitive_id": "1b81511587ad2bfd",
+      "component_name": "RMC06035.1K1%N",
+      "supplier_id": "C269716",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R2",
+      "unique_id": "",
+      "primitive_id": "929a9d1ed4a945a9",
+      "component_name": "RMC06035.1K1%N",
+      "supplier_id": "C269716",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C1",
+      "unique_id": "",
+      "primitive_id": "44ad25e594962a0c",
+      "component_name": "CAPCER10UF25VX5R0805",
+      "supplier_id": "C9900012828",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C3",
+      "unique_id": "",
+      "primitive_id": "cacc52db4ebee6ba",
+      "component_name": "CAPCER10UF25VX5R0805",
+      "supplier_id": "C9900012828",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C2",
+      "unique_id": "",
+      "primitive_id": "42fefd9e49511100",
+      "component_name": "CL10B104KB8NNNC",
+      "supplier_id": "C1591",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R3",
+      "unique_id": "",
+      "primitive_id": "7a8e170940826b13",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R4",
+      "unique_id": "",
+      "primitive_id": "ec7e07be408bbeb3",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R5",
+      "unique_id": "",
+      "primitive_id": "ee7e4f7adb722ec4",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R6",
+      "unique_id": "",
+      "primitive_id": "c62088d091c70e0c",
+      "component_name": "0603WAF1001T5E",
+      "supplier_id": "C21190",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "D1",
+      "unique_id": "",
+      "primitive_id": "490125284d667d9d",
+      "component_name": "KT-0603R",
+      "supplier_id": "C2286",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "SW1",
+      "unique_id": "",
+      "primitive_id": "765c48b0bfbff2f9",
+      "component_name": "TS-1088-AR02026",
+      "supplier_id": "C52175904",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "SW2",
+      "unique_id": "",
+      "primitive_id": "f8f352be6574b9eb",
+      "component_name": "TS-1088-AR02026",
+      "supplier_id": "C52175904",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "J2",
+      "unique_id": "",
+      "primitive_id": "72f6125e1975b4fa",
+      "component_name": "2.54-1*4P母",
+      "supplier_id": "C2718488",
+      "schematic_uuid": "c670c377a2f70377",
+      "schematic_name": "F1-USB-MCU",
+      "page_uuid": "27f220ff1f5463f9",
+      "page_name": "P1"
+    },
+    {
+      "designator": "J101",
+      "unique_id": "gge1",
+      "primitive_id": "84931dadefea5b69",
+      "component_name": "Type-C-16P",
+      "supplier_id": "C9900216560",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "U102",
+      "unique_id": "gge2",
+      "primitive_id": "6a4f98791d8643a6",
+      "component_name": "AMS1117-3.3",
+      "supplier_id": "C2891839",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "U101",
+      "unique_id": "gge3",
+      "primitive_id": "9caf259471fe8fbe",
+      "component_name": "ESP-01S",
+      "supplier_id": "C503582",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R101",
+      "unique_id": "gge4",
+      "primitive_id": "035a69b4bdf864c2",
+      "component_name": "RMC06035.1K1%N",
+      "supplier_id": "C269716",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R102",
+      "unique_id": "gge5",
+      "primitive_id": "68294bcd0484ce63",
+      "component_name": "RMC06035.1K1%N",
+      "supplier_id": "C269716",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C101",
+      "unique_id": "gge6",
+      "primitive_id": "c26543f0253a827f",
+      "component_name": "CAPCER10UF25VX5R0805",
+      "supplier_id": "C9900012828",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C103",
+      "unique_id": "gge8",
+      "primitive_id": "7f8a1de03b53efcf",
+      "component_name": "CAPCER10UF25VX5R0805",
+      "supplier_id": "C9900012828",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "C102",
+      "unique_id": "gge7",
+      "primitive_id": "0a9968ad6b7a4199",
+      "component_name": "CL10B104KB8NNNC",
+      "supplier_id": "C1591",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R103",
+      "unique_id": "gge9",
+      "primitive_id": "0a512d993bf682eb",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R104",
+      "unique_id": "gge10",
+      "primitive_id": "6a8d84a9a9805b67",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R105",
+      "unique_id": "gge11",
+      "primitive_id": "405206ca1a429e67",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R106",
+      "unique_id": "gge12",
+      "primitive_id": "10f1fb2706eb622f",
+      "component_name": "0603WAF1001T5E",
+      "supplier_id": "C21190",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "D101",
+      "unique_id": "gge13",
+      "primitive_id": "677445fb01de4b0d",
+      "component_name": "KT-0603R",
+      "supplier_id": "C2286",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "SW101",
+      "unique_id": "gge14",
+      "primitive_id": "cd1ca31b52802161",
+      "component_name": "TS-1088-AR02026",
+      "supplier_id": "C52175904",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "SW102",
+      "unique_id": "gge15",
+      "primitive_id": "ae63faba2a6864cc",
+      "component_name": "TS-1088-AR02026",
+      "supplier_id": "C52175904",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "J102",
+      "unique_id": "gge16",
+      "primitive_id": "394f21cb592e5b0d",
+      "component_name": "2.54-1*4P母",
+      "supplier_id": "C2718488",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R1",
+      "unique_id": "gge1",
+      "primitive_id": "23e32213d8c28956",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "c74c67f73632f3c7",
+      "schematic_name": "PortTest",
+      "page_uuid": "50217e5198820d7f",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R2",
+      "unique_id": "gge2",
+      "primitive_id": "35e9135d6e01d913",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "c74c67f73632f3c7",
+      "schematic_name": "PortTest",
+      "page_uuid": "50217e5198820d7f",
+      "page_name": "P1"
+    },
+    {
+      "designator": "R1",
+      "unique_id": "gge1",
+      "primitive_id": "bba26541cd5a75ff",
+      "component_name": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "schematic_uuid": "b8442b2ab84bd0d1",
+      "schematic_name": "Schematic1",
+      "page_uuid": "89f5ea900bedab67",
+      "page_name": "P1"
+    },
+    {
+      "designator": "LED1",
+      "unique_id": "gge2",
+      "primitive_id": "a334a9389f13d0b6",
+      "component_name": "KT-0603R",
+      "supplier_id": "C2286",
+      "schematic_uuid": "b8442b2ab84bd0d1",
+      "schematic_name": "Schematic1",
+      "page_uuid": "89f5ea900bedab67",
+      "page_name": "P1"
+    }
+  ],
+  "errors": [],
+  "complete": true,
+  "note": "scanning pages changes the active document in this owned CLI session; focus is restored best-effort",
+  "counts": {
+    "pages": 10,
+    "parts": 78,
+    "duplicate_designators": 13
+  },
+  "duplicates": [
+    {
+      "designator": "C1",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "C1",
+          "unique_id": "gge18",
+          "primitive_id": "e8053",
+          "component_name": "CD1H473KC9BER1E000",
+          "supplier_id": "C263197",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "C1",
+          "unique_id": "",
+          "primitive_id": "44ad25e594962a0c",
+          "component_name": "CAPCER10UF25VX5R0805",
+          "supplier_id": "C9900012828",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "C2",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "C2",
+          "unique_id": "gge19",
+          "primitive_id": "e8169",
+          "component_name": "CT4-0805B103K500F1",
+          "supplier_id": "C169112",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "C2",
+          "unique_id": "",
+          "primitive_id": "42fefd9e49511100",
+          "component_name": "CL10B104KB8NNNC",
+          "supplier_id": "C1591",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "C3",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "C3",
+          "unique_id": "gge27",
+          "primitive_id": "e15108",
+          "component_name": "DCS104M26Y5UF6FJ5A0",
+          "supplier_id": "C2896063",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "C3",
+          "unique_id": "",
+          "primitive_id": "cacc52db4ebee6ba",
+          "component_name": "CAPCER10UF25VX5R0805",
+          "supplier_id": "C9900012828",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "D1",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "D1",
+          "unique_id": "gge2",
+          "primitive_id": "e4390",
+          "component_name": "1N4148TR",
+          "supplier_id": "C84410",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "D1",
+          "unique_id": "",
+          "primitive_id": "490125284d667d9d",
+          "component_name": "KT-0603R",
+          "supplier_id": "C2286",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "LED1",
+      "count": 5,
+      "entries": [
+        {
+          "designator": "LED1",
+          "unique_id": "gge11",
+          "primitive_id": "e5968",
+          "component_name": "204-10SDRD/S530-A3-L",
+          "supplier_id": "C84774",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "LED1",
+          "unique_id": "",
+          "primitive_id": "8984fbe6a208c876",
+          "component_name": "KT-0603R",
+          "supplier_id": "C2286",
+          "schematic_uuid": "3099edfd1e1dce3e",
+          "schematic_name": "BridgeTest",
+          "page_uuid": "c63c1a14ce515f12",
+          "page_name": "P1"
+        },
+        {
+          "designator": "LED1",
+          "unique_id": "gge2",
+          "primitive_id": "778bece221c3c13f",
+          "component_name": "KT-0603R",
+          "supplier_id": "C2286",
+          "schematic_uuid": "467a090f5f487838",
+          "schematic_name": "BridgeTest2",
+          "page_uuid": "33625c81be294e22",
+          "page_name": "P1"
+        },
+        {
+          "designator": "LED1",
+          "unique_id": "",
+          "primitive_id": "aaa798ea11bdced5",
+          "component_name": "KT-0603R",
+          "supplier_id": "C2286",
+          "schematic_uuid": "626d594c2243c993",
+          "schematic_name": "BridgeTest3",
+          "page_uuid": "242f3c1f2c3f7551",
+          "page_name": "P1"
+        },
+        {
+          "designator": "LED1",
+          "unique_id": "gge2",
+          "primitive_id": "a334a9389f13d0b6",
+          "component_name": "KT-0603R",
+          "supplier_id": "C2286",
+          "schematic_uuid": "b8442b2ab84bd0d1",
+          "schematic_name": "Schematic1",
+          "page_uuid": "89f5ea900bedab67",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "R1",
+      "count": 7,
+      "entries": [
+        {
+          "designator": "R1",
+          "unique_id": "gge4",
+          "primitive_id": "e4807",
+          "component_name": "MFR-25JT-52-1K",
+          "supplier_id": "C176465",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R1",
+          "unique_id": "",
+          "primitive_id": "424c0aae56bd3f1c",
+          "component_name": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "schematic_uuid": "3099edfd1e1dce3e",
+          "schematic_name": "BridgeTest",
+          "page_uuid": "c63c1a14ce515f12",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R1",
+          "unique_id": "gge1",
+          "primitive_id": "68cb629686dd8c95",
+          "component_name": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "schematic_uuid": "467a090f5f487838",
+          "schematic_name": "BridgeTest2",
+          "page_uuid": "33625c81be294e22",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R1",
+          "unique_id": "",
+          "primitive_id": "4bc836f07b9c5fcc",
+          "component_name": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "schematic_uuid": "626d594c2243c993",
+          "schematic_name": "BridgeTest3",
+          "page_uuid": "242f3c1f2c3f7551",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R1",
+          "unique_id": "",
+          "primitive_id": "1b81511587ad2bfd",
+          "component_name": "RMC06035.1K1%N",
+          "supplier_id": "C269716",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R1",
+          "unique_id": "gge1",
+          "primitive_id": "23e32213d8c28956",
+          "component_name": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "schematic_uuid": "c74c67f73632f3c7",
+          "schematic_name": "PortTest",
+          "page_uuid": "50217e5198820d7f",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R1",
+          "unique_id": "gge1",
+          "primitive_id": "bba26541cd5a75ff",
+          "component_name": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "schematic_uuid": "b8442b2ab84bd0d1",
+          "schematic_name": "Schematic1",
+          "page_uuid": "89f5ea900bedab67",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "R2",
+      "count": 3,
+      "entries": [
+        {
+          "designator": "R2",
+          "unique_id": "gge5",
+          "primitive_id": "e4916",
+          "component_name": "MFR0W4F2002A50",
+          "supplier_id": "C58594",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R2",
+          "unique_id": "",
+          "primitive_id": "929a9d1ed4a945a9",
+          "component_name": "RMC06035.1K1%N",
+          "supplier_id": "C269716",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R2",
+          "unique_id": "gge2",
+          "primitive_id": "35e9135d6e01d913",
+          "component_name": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "schematic_uuid": "c74c67f73632f3c7",
+          "schematic_name": "PortTest",
+          "page_uuid": "50217e5198820d7f",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "R3",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "R3",
+          "unique_id": "gge6",
+          "primitive_id": "e5028",
+          "component_name": "MFR0W4F1003A50",
+          "supplier_id": "C58597",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R3",
+          "unique_id": "",
+          "primitive_id": "7a8e170940826b13",
+          "component_name": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "R4",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "R4",
+          "unique_id": "gge29",
+          "primitive_id": "e15928",
+          "component_name": "MFR-25FTE52-47K",
+          "supplier_id": "C173021",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R4",
+          "unique_id": "",
+          "primitive_id": "ec7e07be408bbeb3",
+          "component_name": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "R5",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "R5",
+          "unique_id": "gge23",
+          "primitive_id": "e10302",
+          "component_name": "3296W-1-103",
+          "supplier_id": "C330432",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R5",
+          "unique_id": "",
+          "primitive_id": "ee7e4f7adb722ec4",
+          "component_name": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "R6",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "R6",
+          "unique_id": "gge7",
+          "primitive_id": "e5370",
+          "component_name": "MFR-25FTE52-47K",
+          "supplier_id": "C173021",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "R6",
+          "unique_id": "",
+          "primitive_id": "c62088d091c70e0c",
+          "component_name": "0603WAF1001T5E",
+          "supplier_id": "C21190",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "U1",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "U1",
+          "unique_id": "gge3",
+          "primitive_id": "e4682",
+          "component_name": "DB301V-5.0-2P-BU-P",
+          "supplier_id": "C430621",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "U1",
+          "unique_id": "",
+          "primitive_id": "8055f050eaef8b7b",
+          "component_name": "ESP-01S",
+          "supplier_id": "C503582",
+          "schematic_uuid": "c670c377a2f70377",
+          "schematic_name": "F1-USB-MCU",
+          "page_uuid": "27f220ff1f5463f9",
+          "page_name": "P1"
+        }
+      ]
+    },
+    {
+      "designator": "U3",
+      "count": 2,
+      "entries": [
+        {
+          "designator": "U3",
+          "unique_id": "gge33",
+          "primitive_id": "e14117",
+          "component_name": "TL072CP",
+          "supplier_id": "C7236",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        },
+        {
+          "designator": "U3",
+          "unique_id": "gge33",
+          "primitive_id": "e21050",
+          "component_name": "TL072CP",
+          "supplier_id": "C7236",
+          "schematic_uuid": "82a499c56bdf4f39ae4adc65596891a6",
+          "schematic_name": "波形产生与变换",
+          "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "page_name": "P1"
+        }
+      ]
+    }
+  ],
+  "session": {
+    "sessionId": "fd85fda9-01e6-49db-99de-f0b0bcf5d92c",
+    "origin": "cli",
+    "owned": true
+  }
+}

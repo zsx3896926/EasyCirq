@@ -1,0 +1,243 @@
+{
+  "status": "verified",
+  "plan": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\connections\\plan-c104_gnd.json",
+  "session": {
+    "sessionId": "5730e503-dd22-4518-a19e-d9ca36a322a6",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 70,
+    "parts": 21,
+    "netflags": 29,
+    "netports": 19,
+    "unclassified": 1,
+    "wires": 48,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "c104_gnd",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "w_c104_gnd",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_net_flag",
+      "key": "c104_gnd",
+      "type": "Ground",
+      "net": "GND",
+      "x": 740,
+      "y": 500,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "w_c104_gnd#0",
+      "net": "GND",
+      "points": [
+        720.0,
+        500.0,
+        740.0,
+        500.0
+      ],
+      "segments": [
+        [
+          720.0,
+          500.0,
+          740.0,
+          500.0
+        ]
+      ]
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "c104_gnd",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e51e0a360eaac324",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 740,
+          "y": 500,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "w_c104_gnd#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "09ca02b25d8366cf",
+        "net": "GND",
+        "line": [
+          [
+            740,
+            500,
+            720,
+            500
+          ]
+        ]
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "36f18cb07b899b7d3c8902255d3e1efea8f0c0b23dc67ea73a479767a1c3d631",
+      "friendly_name": "f1-rev3",
+      "name": "/f1-rev3"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 71,
+    "parts": 21,
+    "netflags": 30,
+    "netports": 19,
+    "unclassified": 1,
+    "wires": 49,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "c104_gnd",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "w_c104_gnd",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 71,
+      "wires": 49
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 71,
+    "parts": 21,
+    "netflags": 30,
+    "netports": 19,
+    "unclassified": 1,
+    "wires": 49,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

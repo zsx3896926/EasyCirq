@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "page": {
+  "schematic_name": "F1-USB-MCU-C",
+  "page_name": "P1"
+ },
+ "operations": [
+  {
+   "op": "net_flag",
+   "key": "d102_5v",
+   "net": "5V",
+   "type": "Power",
+   "at": [
+    280,
+    130
+   ]
+  },
+  {
+   "op": "wire",
+   "key": "w_d102_5v",
+   "net": "5V",
+   "points": [
+    280,
+    130,
+    280,
+    160
+   ]
+  }
+ ]
+}

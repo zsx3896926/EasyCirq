@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "page": {
+  "schematic_name": "F1-USB-MCU-C",
+  "page_name": "P1"
+ },
+ "operations": [
+  {
+   "op": "net_port",
+   "key": "c105_rst",
+   "net": "RST",
+   "direction": "BI",
+   "at": [
+    680,
+    570
+   ]
+  },
+  {
+   "op": "wire",
+   "key": "w_c105_rst",
+   "net": "RST",
+   "points": [
+    680,
+    570,
+    680,
+    540
+   ]
+  }
+ ]
+}

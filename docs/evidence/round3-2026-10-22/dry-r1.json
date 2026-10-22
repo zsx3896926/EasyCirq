@@ -1,0 +1,149 @@
+{
+  "status": "dry_run",
+  "plan": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\plan-r1.json",
+  "session": {
+    "sessionId": "f832ec16-5e2a-44ad-b6ab-4a60c349bcfe",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": true,
+  "items": [
+    {
+      "key": "new_r",
+      "op": "part",
+      "status": "conflict",
+      "designator_scope": "project",
+      "reason": "designator_already_exists_project",
+      "detail": {
+        "designator": "R1",
+        "owners": [
+          {
+            "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+            "page_name": "P1",
+            "unique_id": "gge4"
+          },
+          {
+            "page_uuid": "c63c1a14ce515f12",
+            "page_name": "P1",
+            "unique_id": ""
+          },
+          {
+            "page_uuid": "33625c81be294e22",
+            "page_name": "P1",
+            "unique_id": "gge1"
+          },
+          {
+            "page_uuid": "242f3c1f2c3f7551",
+            "page_name": "P1",
+            "unique_id": ""
+          },
+          {
+            "page_uuid": "27f220ff1f5463f9",
+            "page_name": "P1",
+            "unique_id": ""
+          },
+          {
+            "page_uuid": "50217e5198820d7f",
+            "page_name": "P1",
+            "unique_id": "gge1"
+          },
+          {
+            "page_uuid": "89f5ea900bedab67",
+            "page_name": "P1",
+            "unique_id": "gge1"
+          }
+        ]
+      },
+      "stable_identity": true
+    }
+  ],
+  "actions": [],
+  "conflicts": [
+    {
+      "key": "new_r",
+      "op": "part",
+      "status": "conflict",
+      "designator_scope": "project",
+      "reason": "designator_already_exists_project",
+      "detail": {
+        "designator": "R1",
+        "owners": [
+          {
+            "page_uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+            "page_name": "P1",
+            "unique_id": "gge4"
+          },
+          {
+            "page_uuid": "c63c1a14ce515f12",
+            "page_name": "P1",
+            "unique_id": ""
+          },
+          {
+            "page_uuid": "33625c81be294e22",
+            "page_name": "P1",
+            "unique_id": "gge1"
+          },
+          {
+            "page_uuid": "242f3c1f2c3f7551",
+            "page_name": "P1",
+            "unique_id": ""
+          },
+          {
+            "page_uuid": "27f220ff1f5463f9",
+            "page_name": "P1",
+            "unique_id": ""
+          },
+          {
+            "page_uuid": "50217e5198820d7f",
+            "page_name": "P1",
+            "unique_id": "gge1"
+          },
+          {
+            "page_uuid": "89f5ea900bedab67",
+            "page_name": "P1",
+            "unique_id": "gge1"
+          }
+        ]
+      },
+      "stable_identity": true
+    }
+  ],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "no write was sent"
+}

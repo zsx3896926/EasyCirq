@@ -1,0 +1,125 @@
+{
+ "version": 1,
+ "page": {
+  "schematic_name": "F1-USB-MCU-C",
+  "page_name": "P1"
+ },
+ "operations": [
+  {
+   "op": "delete",
+   "key": "del_shell_wire_top",
+   "target": {
+    "kind": "wire",
+    "primitive_id": "3abd1f9f24cdce6a",
+    "expected": {
+     "net": "GND"
+    }
+   }
+  },
+  {
+   "op": "delete",
+   "key": "del_shell_wire_bot",
+   "target": {
+    "kind": "wire",
+    "primitive_id": "11a0b72d7f84b351",
+    "expected": {
+     "net": "GND"
+    }
+   }
+  },
+  {
+   "op": "delete",
+   "key": "del_shell_flag_160_380",
+   "target": {
+    "kind": "net_flag",
+    "primitive_id": "33273c5b6e6ec03a",
+    "expected": {
+     "name": "GND",
+     "x": 160,
+     "y": 380
+    }
+   }
+  },
+  {
+   "op": "delete",
+   "key": "del_shell_flag_170_380",
+   "target": {
+    "kind": "net_flag",
+    "primitive_id": "cdf24ca92005302d",
+    "expected": {
+     "name": "GND",
+     "x": 170,
+     "y": 380
+    }
+   }
+  },
+  {
+   "op": "delete",
+   "key": "del_shell_flag_160_230",
+   "target": {
+    "kind": "net_flag",
+    "primitive_id": "1ad6cd14b2e9c776",
+    "expected": {
+     "name": "GND",
+     "x": 160,
+     "y": 230
+    }
+   }
+  },
+  {
+   "op": "delete",
+   "key": "del_shell_flag_170_230",
+   "target": {
+    "kind": "net_flag",
+    "primitive_id": "f5faf3e3970e6a59",
+    "expected": {
+     "name": "GND",
+     "x": 170,
+     "y": 230
+    }
+   }
+  },
+  {
+   "op": "net_flag",
+   "key": "shell_top",
+   "net": "GND",
+   "type": "Ground",
+   "at": [
+    190,
+    380
+   ]
+  },
+  {
+   "op": "wire",
+   "key": "w_shell_top",
+   "net": "GND",
+   "points": [
+    140,
+    380,
+    190,
+    380
+   ]
+  },
+  {
+   "op": "net_flag",
+   "key": "shell_bot",
+   "net": "GND",
+   "type": "Ground",
+   "at": [
+    190,
+    230
+   ]
+  },
+  {
+   "op": "wire",
+   "key": "w_shell_bot",
+   "net": "GND",
+   "points": [
+    140,
+    230,
+    190,
+    230
+   ]
+  }
+ ]
+}

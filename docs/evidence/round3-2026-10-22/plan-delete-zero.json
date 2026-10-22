@@ -1,0 +1,20 @@
+{
+ "version": 1,
+ "page": {
+  "schematic_name": "F1-USB-MCU-C",
+  "page_name": "P1"
+ },
+ "operations": [
+  {
+   "op": "delete",
+   "key": "zero_wire",
+   "target": {
+    "kind": "wire",
+    "primitive_id": "5302938a0e71a961",
+    "expected": {
+     "net": ""
+    }
+   }
+  }
+ ]
+}
