@@ -93,6 +93,7 @@ class PlanValidation(unittest.TestCase):
         data = plan(); data['operations'][2]['type'] = 'VCC'; cases.append(data)
         data = plan(); data['operations'][4]['points'] = [1, 2]; cases.append(data)
         data = plan(); data['operations'][0]['match']['supplier_id'] = 'CABC'; cases.append(data)
+        data = plan(); data['page'] = {'current': 'true'}; cases.append(data)
         for data in cases:
             with self.subTest(data=data), self.assertRaises(eda.EdaInputError):
                 eda.validate_plan(data)
@@ -211,9 +212,10 @@ class SnapshotComparison(unittest.TestCase):
 
 
 class FakePro:
-    def __init__(self, snapshots, execution=None):
+    def __init__(self, snapshots, execution=None, save_result=None):
         self.snapshots = list(snapshots)
         self.execution = execution
+        self.save_result = save_result or {'ok': True, 'saved': True, 'counts': {'components': 5, 'wires': 3}}
         self.calls = []
 
     def invoke(self, session, code, args=None, timeout_ms=None):
@@ -223,7 +225,7 @@ class FakePro:
         if code == eda.APPLY_JS:
             return self.execution or {'ok': True, 'results': []}
         if code == eda.SAVE_JS:
-            return {'ok': True, 'saved': True, 'counts': {'components': 5, 'wires': 3}}
+            return self.save_result
         raise AssertionError('unexpected operation')
 
     def sessions(self):
@@ -293,6 +295,35 @@ class CommandFlow(unittest.TestCase):
         self.assertEqual(result['status'], 'failed')
         self.assertNotIn(eda.SAVE_JS, [code for code, _ in fake.calls])
         self.assertIn('not_attempted', result['save'])
+
+    def test_save_failure_is_not_reported_as_success(self):
+        before = snapshot()
+        after = snapshot()
+        after['parts'].append(part('C1', 700, 400, supplier='C1591', name='CL10B104KB8NNNC'))
+        data = plan()
+        data['operations'] = [{'op': 'part', 'key': 'C1',
+                               'match': {'designator': 'C1', 'part': 'CL10B104KB8NNNC', 'supplier_id': 'C1591'},
+                               'place': {'x': 700, 'y': 400}, 'properties': {'designator': 'C1'}}]
+        fake = FakePro([before, after, after],
+                       {'ok': True, 'results': [{'key': 'C1', 'ok': True, 'action': 'create_part'}]},
+                       {'ok': True, 'saved': False, 'counts': {'components': 5, 'wires': 3}})
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'plan.json'
+            path.write_text(json.dumps(data), encoding='utf-8')
+            result, code = self.run_apply(fake, self.args(plan=str(path), save=True))
+        self.assertEqual(code, eda.EXIT_REVIEW)
+        self.assertEqual(result['verification']['status'], 'verified')
+        self.assertEqual(result['status'], 'save_failed')
+        self.assertIn('do not report persistence', result['note'])
+
+
+class SnapshotScriptRegressions(unittest.TestCase):
+    def test_large_pin_budget_can_mark_snapshot_incomplete(self):
+        self.assertIn('let pinsComplete = A.include_pins !== false;', eda.SNAPSHOT_JS)
+
+    def test_current_page_selection_never_falls_back_to_first_page(self):
+        self.assertIn("if (!selected) return { ok: false, error: 'page_not_found'", eda.PAGE_SELECT_JS)
+        self.assertNotIn('selected = { s, p: s.page[0] }', eda.PAGE_SELECT_JS)
 
 
 class SessionSafety(unittest.TestCase):

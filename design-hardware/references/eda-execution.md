@@ -70,7 +70,7 @@ python scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo -
 2. **Python对账**：把计划的每一项与快照比较，得到 `skip / modify / create / conflict`。有冲突默认不写；只有显式 `--allow-partial` 才执行无冲突项。
 3. **受控动作**：只发送本文件定义的原语动作（创建器件/改位号位置/建网络标识/建端口/建导线），不发送用户JS。
 4. **回读逐项验证**：重新读同一页，核对位号、库身份、供应商、坐标、网络、导线段；写入返回成功不算验证。
-5. **保存**：仅在逐项 `verified` 时保存；保存后再回读计数。
+5. **保存**：`apply --save` 仅在逐项 `verified` 时保存；保存返回失败必须作为失败报告。若计划没有写入动作，apply 不会顺手保存当前文档。独立的 `save` 子命令是显式人工保存，不代表该工程已经通过设计验证。
 6. **重开**：关闭自有会话，重新打开工程，比较稳定身份/连接；重开不一致就报 `mismatch`，不能宣称持久化完成。
 
 示例计划见 [EDA计划示例](../assets/eda/plan-example.json)。坐标单位是当前原理图的画布单位（A4图页实测 `Width=1170, Height=825`），不是毫米/像素；必须从页面回读取值，不能写死。
@@ -86,6 +86,8 @@ python scripts/eda_exec.py reopen-check --project /path/to/copy.eprj2 --snapshot
 ```
 
 临时 `--project` 会话在 `apply` 时必须带 `--save`，否则关闭会话会丢失未保存修改；工具会返回 `needs_save` 而不是悄悄丢弃。已有 `--session` 不会被隐式关闭。
+
+页面选择必须能唯一解析到指定UUID/原理图与页名，或真实当前活动原理图页。请求 `current` 却无法读取活动原理图时返回 `page_not_found`；不自动退回工程第一页，避免把写操作落到错误页面。
 
 ## 4. 中断、超时与重复执行
 

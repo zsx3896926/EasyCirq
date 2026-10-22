@@ -397,10 +397,6 @@ else if (P.schematic_name) {
 } else {
   const current = await safeAsync(() => eda.dmt_SelectControl.getCurrentDocumentInfo());
   if (current && current.documentType === 1) selected = allPages.find(x => x.p.uuid === current.uuid) || null;
-  if (!selected && (schs || [])[0] && ((schs || [])[0].page || [])[0]) {
-    const s = (schs || [])[0];
-    selected = { s, p: s.page[0] };
-  }
 }
 if (!selected) return { ok: false, error: 'page_not_found', selection: P };
 let tabId = null;
@@ -456,7 +452,7 @@ const pageFacts = {
 };
 const comps = await eda.sch_PrimitiveComponent.getAll();
 const wires = await eda.sch_PrimitiveWire.getAll();
-const pinsComplete = A.include_pins !== false;
+let pinsComplete = A.include_pins !== false;
 const pinBudget = A.max_pins || 6000;
 let pinsUsed = 0;
 const mapPart = (c) => ({
@@ -744,6 +740,8 @@ def validate_plan(plan):
         raise EdaInputError(f'plan.page: unknown fields {sorted(unknown)}')
     if not any(page.get(k) for k in ('page_uuid', 'schematic_name', 'current')):
         raise EdaInputError('plan.page: one of page_uuid, schematic_name, current is required')
+    if 'current' in page and (type(page['current']) is not bool or page['current'] is not True):
+        raise EdaInputError('plan.page.current: when present it must be true')
     if page.get('page_uuid') is not None:
         _text(page['page_uuid'], 'plan.page.page_uuid')
     if page.get('schematic_name') is not None:
@@ -1281,8 +1279,9 @@ def command_doctor(args):
             'sch_read': 'available',
             'sch_write_components_wires_flags_ports': 'available',
             'sch_save': 'available',
-            'sch_export_png_svg_netlist_bom': 'available',
-            'sch_drc': 'available',
+            'sch_export_png_svg_netlist': 'available',
+            'sch_export_bom': 'not_implemented_in_this_adapter',
+            'sch_drc': 'not_implemented_in_this_adapter',
             'pcb_read_write': 'not_implemented_in_this_adapter',
             'net_label_idempotent_apply': 'not_implemented',
             'source': 'lceda-pro 4.1.78 doc api + live probe 2026-10-21',
@@ -1422,8 +1421,6 @@ def command_apply(args):
         if not reconciliation['actions']:
             result['status'] = 'no_changes'
             result['verification'] = 'not_needed'
-            if args.save:
-                result['save'] = pro.invoke(session, SAVE_JS, {'page': page_args})
             return result, EXIT_OK
         if owned and not args.save:
             result['status'] = 'needs_save'
@@ -1447,12 +1444,15 @@ def command_apply(args):
             if verification_status == 'verified':
                 result['save'] = pro.invoke(session, SAVE_JS, {'page': page_args})
                 result['saved_readback'] = read_with_retry(pro, session, page_args).get('counts')
+                if not result['save'].get('saved'):
+                    result['status'] = 'save_failed'
+                    result['note'] = 'plan verified in memory, but the editor did not confirm save; do not report persistence'
             else:
                 result['save'] = {'not_attempted': 'verification did not pass; inspect before saving'}
         if args.output:
             Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
             result['output'] = str(Path(args.output).resolve())
-        return result, EXIT_OK if verification_status == 'verified' else EXIT_REVIEW
+        return result, EXIT_OK if verification_status == 'verified' and (not args.save or result['save'].get('saved')) else EXIT_REVIEW
     finally:
         if owned:
             close_owned(pro, session)
