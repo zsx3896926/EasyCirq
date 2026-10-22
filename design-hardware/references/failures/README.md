@@ -27,5 +27,33 @@
 | F20 | 商城有货但 SMT 不可贴 | B | [MFG-S02, MFG-S04, MFG-S10, MFG-S15] | [f20-lcsc-stock-vs-smt.md](f20-lcsc-stock-vs-smt.md) |
 | F21 | 焊接完成但未烧录/未功能测试 | B | [MFG-S16] | [f21-soldered-not-tested.md](f21-soldered-not-tested.md) |
 | F22 | ADC 建立时间/采样误差 | B | [ANA-S02, ANA-S03] | [f22-adc-settling.md](f22-adc-settling.md) |
+| F23 | 下载器连接后异常供电（T_VCC 反灌/LDO 被抬压） | B/C | [MCU-S07, MCU-S01, D-S07] | [f23-debugger-backpower.md](f23-debugger-backpower.md) |
+| F24 | 复位脚被外围拉错（推挽复位 IC/电容/漏电） | B/C | [MCU-S01, MCU-S06] | [f24-nrst-pulled-by-peripheral.md](f24-nrst-pulled-by-peripheral.md) |
+| F25 | 无线发射导致系统复位（burst/源阻抗） | B | [RF-S03, MCU-S09] | [f25-radio-tx-resets-system.md](f25-radio-tx-resets-system.md) |
+| F26 | 电机启动干扰模拟采集（地弹/耦合/混叠） | B | [ANA-S06, ANA-S14] | [f26-motor-start-corrupts-adc.md](f26-motor-start-corrupts-adc.md) |
+| F27 | USB 接入后地环路或电源冲突 | B | [PWR-S06, IF-S11] | [f27-usb-ground-loop-source-conflict.md](f27-usb-ground-loop-source-conflict.md) |
+| F28 | I²C 设备掉电后拖死总线 | B | [IF-S01 §3.1.16] | [f28-i2c-unpowered-device-lockup.md](f28-i2c-unpowered-device-lockup.md) |
+| F29 | SPI 写正常、读不稳定 | B | [IF-S08, IF-S03] | [f29-spi-write-ok-read-unstable.md](f29-spi-write-ok-read-unstable.md) |
+| F30 | GPIO 在上电阶段误触发负载 | B | [MCU-S01, MCU-S04] | [f30-gpio-power-on-glitch.md](f30-gpio-power-on-glitch.md) |
+| F31 | 换料后典型工况正常、边界工况失败 | B | [selection/replacement-classes] | [f31-replacement-passes-typical-fails-corner.md](f31-replacement-passes-typical-fails-corner.md) |
+| F32 | 外壳安装后无线或热性能下降 | B | [RF-S01, RF-S02, thermal] | [f32-enclosure-degrades-rf-and-thermal.md](f32-enclosure-degrades-rf-and-thermal.md) |
+| F33 | 测量接法错误导致错误修板 | B | [ANA-S06, simulation-measurement §5] | [f33-measurement-caused-wrong-rework.md](f33-measurement-caused-wrong-rework.md) |
 
-复验未执行时，文件内写 `未执行`；不能把修复方案当成已验证。
+## 跨模块 12 类覆盖（本轮补齐）
+
+| # | 用户点名的问题 | 本库对应 |
+|---:|---|---|
+| 1 | 下载器连接后异常供电 | F23；B1 专题 §2.9/§7.3 |
+| 2 | MCU 复位或启动脚被外围拉错 | F24；F03（strap）；D1 专题 |
+| 3 | 无线发射导致系统复位 | F25；B4 专题 |
+| 4 | 电机启动干扰模拟采集 | F26；C2/C4 专题 |
+| 5 | USB 接入后地环路或电源冲突 | F27；B1 专题 |
+| 6 | I²C 设备掉电后拖死总线 | F28；D1 专题 §7 |
+| 7 | SPI 写正常、读不稳定 | F29；D1/D3 专题 |
+| 8 | GPIO 在上电阶段误触发负载 | F30；D1 专题 |
+| 9 | 更换器件后典型工况正常、边界工况失败 | F31；selection/replacement-classes |
+| 10 | 外壳安装后无线或热性能下降 | F32；F18（天线）；E3 专题 |
+| 11 | 软件引脚配置与实际板版不一致 | F30、F31；D1 专题 §11 |
+| 12 | 测量接法错误导致错误修板 | F33；C4 专题 |
+
+复验未执行时，文件内写 `未执行`；不能把修复方案当成已验证。F23–F33 均为**构造案例**（除已在正文标注作者记录的部分），不是真实用户故障记录；根因证据按 B/C 分级，不能当实测。

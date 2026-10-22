@@ -120,7 +120,7 @@ related_checks: [SC17, SC18, PL16, MF16]
    **用途：** 线缆长/源弱时，VIN-DPM 会比 DPPM 更早介入；实测要覆盖低压源。
 
 5. **判据：功耗与热。**
-   **公式：** `PD ≈ (VIN − VOUT)·(ICHG + ISYS)`；VOUT 为 power path 输出，通常接近 VBAT（加 dropout）。
+   **公式：** 线性power-path两段合计 `PD≈(VIN−VBAT)·ICHG+(VIN−VOUT)·ISYS+VIN·Iq`；等价于输入到OUT段加OUT到BAT充电段。只用`(VIN−VOUT)·(ICHG+ISYS)`会漏掉充电支路的后段损耗。若VOUT≥VBAT且忽略Iq，`(VIN−VBAT)·(ICHG+ISYS)`可作偏保守筛查。
    **依据：** 线性调整器的输入电流≈输出电流（SLVA118A §3）；BQ2407x `VDO(IN-OUT)` 300 mV typ/475 mV max（VIN=4.3 V、IIN=1 A、VBAT=4.2 V）。
    **计算：** `θJA(max) = (TJ(target) − TA)/PD(max)`。
    **选择：** 数据手册 θJA 必须 ≤ 计算值；否则热调节会降流，实际充电时间变长。

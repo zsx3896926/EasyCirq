@@ -141,6 +141,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 两个模块单独正常但组合失败、接口契约 | [组合与接口契约](references/module-integration.md) |
 | 器件选型、替代分级、立创商城检索顺序 | [器件选型与替代](references/selection/README.md) |
 | 故障现象、根因证据、修复与复验 | [故障与反例库](references/failures/README.md) |
+| 真实设计为什么这样、为什么失败、跨模块失效与审图训练 | [工程深潜](references/engineering-deepdives/README.md)、[审图练习](references/engineering-deepdives/exercises/README.md) |
 | 热预算、结温/瞬态、PCB散热/外壳、温度测量 | [板级热设计](references/thermal/topic.md)、[热算例](references/thermal/cases.md)、[热来源](references/thermal/sources.md)，S编号仅本专题有效 |
 | 带条件的计算、可执行仿真与测量方法 | [计算手册](references/calculations/README.md)、[仿真与测量](references/simulation-measurement.md) |
 | 商城购料自焊、嘉立创 PCB+SMT、整机交付 | [制造与交付路线](references/manufacturing-routes.md) |
@@ -154,7 +155,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 - **设计卡库（60 张）**：每张按“用途/边界、必要输入、拓扑、参数步骤、完整算例、选型、逐脚、原理图、PCB、异常、验证、来源”组织。卡片的 `evidence` 为 `E1`（本次核对原厂资料）、`E2`（通用方法，具体值待按型号核对）或 `E3`（离线分析/推断）。`E2/E3` 不得当保证值。
 - **具体值只在条件内成立**：某芯片的阻容、脚号、层数、线宽、匹配值和热阻只属于对应型号、板版、工况与手册版本；换芯片/换板重新核对，不把卡片当“通用电路库”。
 - **内容库与 190 条检查提示分工**：卡片负责设计方法与算例，`schematic-details.md` / `pcb-placement-details.md` / `pcb-routing-details.md` / `manufacturing-details.md` / `domain-design-details.md` 负责逐项检查；卡片引用 SC/PL/RT/MF/DM 编号，不重复整条文本。
-- **数量不等于验证**：60 张卡、12 组范例、22 个故障案例、35 个场景只说明覆盖与可检查性；没有实际 EDA 回读、仿真、制造和样机证据时，仍按 `待确认/未执行` 报告。
+- **数量不等于验证**：60 张卡、12 组范例、33 个故障案例、35 个场景只说明覆盖与可检查性；没有实际 EDA 回读、仿真、制造和样机证据时，仍按 `待确认/未执行` 报告。
 - **选型与商城**：C 号、价格、库存、MOQ、包装、生命周期和 SMT 可贴状态必须实时核对；没有实时证据就写 `待查`。设计卡与选型表不内置商品承诺。
 - **项目样本**：完成级别只在“资料分析 / 离线规划 / 实际 EDA / 制造 / 样机 / 功能实测”中如实选择；离线连接表/布局草案不等于 EDA 工程。
 
