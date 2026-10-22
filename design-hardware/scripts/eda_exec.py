@@ -1087,6 +1087,19 @@ const wires = await eda.sch_PrimitiveWire.getAll();
 return { ok: true, saved: !!saved, counts: { components: comps.length, wires: wires.length }, page: { uuid: selected.p.uuid, name: selected.p.name } };
 '''
 
+DRC_JS = r'''
+const A = __ARGS__;
+''' + PAGE_SELECT_JS + r'''
+const checked = await eda.sch_Drc.check(A.strict !== false, false, true);
+return {
+  ok: true,
+  strict: A.strict !== false,
+  result: checked,
+  page: { uuid: selected.p.uuid, name: selected.p.name,
+          schematic_uuid: selected.s.uuid, schematic_name: selected.s.name },
+};
+'''
+
 EXPORT_JS = r'''
 const A = __ARGS__;
 ''' + PAGE_SELECT_JS + r'''
@@ -1725,7 +1738,10 @@ def reconcile(snapshot, plan, project_designators=None):
                 mismatches = []
                 observed = {}
                 for field, value in expected.items():
-                    actual = found.get(field)
+                    if field == 'component' and target_kind == 'part':
+                        actual = _part_name(found)
+                    else:
+                        actual = found.get(field)
                     observed[field] = actual
                     if field in ('x', 'y'):
                         if not _same_position((actual, 0), (value, 0), tolerance=0.01):
@@ -2243,8 +2259,8 @@ def command_doctor(args):
             'sch_save': 'available',
             'sch_export_png_svg_netlist': 'available',
             'sch_export_bom': 'not_implemented_in_this_adapter',
-            'sch_drc': 'not_implemented_in_this_adapter',
-            'sch_drc_api': 'available_not_wrapped',
+            'sch_drc': 'available',
+            'sch_drc_api': 'wrapped_as_drc_command',
             'pcb_read_write': 'not_implemented_in_this_adapter',
             'pcb_api': 'available_not_wrapped',
             'project_designators': 'available',
@@ -2585,6 +2601,52 @@ def command_save(args):
             close_owned(pro, session)
 
 
+def command_drc(args):
+    """Run the schematic design-rule check on the selected page.
+
+    The raw result is returned as-is: a boolean or a list of violations varies
+    by client build. Never translate "no exception" into "DRC passed".
+    """
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = pro.invoke(session, DRC_JS,
+                           {'page': _page_args(args), 'strict': not args.no_strict},
+                           timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is False:
+            raise EdaCommandError('DRC failed', 'EDA_DRC_FAILED', {'value': value})
+        result = {
+            'status': 'checked',
+            'drc': value,
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+        }
+        checked = value.get('result')
+        if checked is True or checked == [] or checked == {}:
+            result['summary'] = 'no_violations_reported'
+        elif checked is False:
+            result['summary'] = 'check_returned_false'
+        elif isinstance(checked, list):
+            result['summary'] = 'violations_reported'
+            result['violation_count'] = len(checked)
+            by_type = {}
+            by_rule = {}
+            for row in checked:
+                if isinstance(row, dict):
+                    by_type[row.get('type')] = by_type.get(row.get('type'), 0) + 1
+                    by_rule[row.get('rule')] = by_rule.get(row.get('rule'), 0) + 1
+            result['by_type'] = by_type
+            result['by_rule'] = by_rule
+        else:
+            result['summary'] = 'result_reported'
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
 def command_export(args):
     pro = LcedaPro(args.exe, timeout_ms=args.timeout)
     session, owned, entry = _open_for_command(pro, args)
@@ -2736,6 +2798,18 @@ def build_parser():
     save.add_argument('--page-name', dest='page_name')
     save.add_argument('--allow-user-session', action='store_true')
     save.set_defaults(func=command_save)
+
+    drc = sub.add_parser('drc', help='run schematic DRC on the selected page and return the raw result')
+    drc.add_argument('--session')
+    drc.add_argument('--project')
+    drc.add_argument('--page', dest='page_uuid')
+    drc.add_argument('--schematic', dest='schematic_name')
+    drc.add_argument('--page-name', dest='page_name')
+    drc.add_argument('--no-strict', action='store_true', help='call sch_Drc.check with strict=false')
+    drc.add_argument('--invoke-timeout', type=int, default=180000)
+    drc.add_argument('--allow-user-session', action='store_true')
+    drc.add_argument('--output')
+    drc.set_defaults(func=command_drc)
 
     export = sub.add_parser('export', help='export PNG/netlist/SVG from the current page')
     export.add_argument('--session')

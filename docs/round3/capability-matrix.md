@@ -5,7 +5,7 @@
 - 范围：综合本轮各审计域的结论、仓库内真实 EDA 证据与官方 `doc api` 只读探测。本矩阵不新增 EDA 写入，不连接商城，不下单，不做烧录或样机测试。
 - 基线漂移：审计期间 `origin/main` 已到 `0fe5cf80ab0dd8196c900ed9878bad40d4f6c8b9`（`dc62f20` 之后 3 个提交，仅涉及 `README.md`、`NOTICE`、`docs/readme-technical.md`）。本矩阵按任务指定基线 `dc62f20`，不覆盖这 3 个提交；它们不改变 EDA、PCB、制造与供应链结论。
 - 写入边界：本文件是能力矩阵综合产物；同期还写入了 `execution-protocol.md`、`coverage-review.md`、`../task-ledger-round3.md`、`backlog.md`，以及执行器修复报告与证据。临时证据在 `C:/Users/jlc/work/hw-deepdive-scratch/round3-audit/`。
-- **2026-10-22 修复后口径**：原理图快照完整性、字段级回读、工程级位号、页身份冻结、重开比较域与会话/版本门禁已在 `eda_exec.py` 实现并有真机证据；本文件第 2 节中“未比对 designator/mirror/端口方向”“netports 不在重开比较域”等描述是审计时状态，已被修复，阅读时以 [executor-fixes-2026-10-22.md](executor-fixes-2026-10-22.md) 为准。PCB 适配器仍未实现。
+- **2026-10-22 修复后口径**：原理图快照完整性、字段级回读、工程级位号、页身份冻结、重开比较域与会话/版本门禁已在 `eda_exec.py` 实现并有真机证据；本文件第 2 节中“未比对 designator/mirror/端口方向”“netports 不在重开比较域”等描述是审计时状态，已被修复，阅读时以 [executor-fixes-2026-10-22.md](executor-fixes-2026-10-22.md) 为准。F1 的 C103 输出电容与 IO2 悬空已在 [F1 电气修订](f1-electrical-revision-2026-10-22.md) 中修正；重排与 PCB 仍未完成。PCB 适配器仍未实现。
 
 ## 0. 结论先行
 

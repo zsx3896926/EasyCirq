@@ -276,6 +276,9 @@ class FakePro:
             return self.execution or {'ok': True, 'results': []}
         if code == eda.SAVE_JS:
             return self.save_result
+        if code == eda.DRC_JS:
+            return {'ok': True, 'strict': True, 'result': True,
+                    'page': {'uuid': 'page-1', 'name': 'P1'}}
         raise AssertionError('unexpected operation')
 
     def sessions(self):
@@ -345,6 +348,22 @@ class CommandFlow(unittest.TestCase):
         self.assertEqual(result['status'], 'failed')
         self.assertNotIn(eda.SAVE_JS, [code for code, _ in fake.calls])
         self.assertIn('not_attempted', result['save'])
+
+    def test_drc_result_is_returned_without_claiming_success(self):
+        fake = FakePro([snapshot()])
+        args = self.args()
+        args.page_uuid = None
+        args.no_strict = False
+        args.invoke_timeout = 1000
+        original = eda.LcedaPro
+        eda.LcedaPro = lambda *a, **k: fake
+        try:
+            result, code = eda.command_drc(args)
+        finally:
+            eda.LcedaPro = original
+        self.assertEqual(code, 0)
+        self.assertEqual(result['status'], 'checked')
+        self.assertEqual(result['summary'], 'no_violations_reported')
 
     def test_save_failure_is_not_reported_as_success(self):
         before = snapshot()
@@ -653,6 +672,20 @@ class DeletePrimitive(unittest.TestCase):
         data['operations'] = [self.delete_op(primitive_id='missing')]
         result = eda.reconcile(snap, eda.validate_plan(data))
         self.assertEqual(result['conflicts'][0]['reason'], 'target_not_found')
+
+    def test_delete_part_compares_component_name(self):
+        snap = snapshot()
+        data = plan()
+        data['operations'] = [self.delete_op(
+            kind='part', primitive_id='prim-R1',
+            expected={'designator': 'R1', 'component': '0603WAF1002T5E'})]
+        result = eda.reconcile(snap, eda.validate_plan(data))
+        self.assertEqual(result['items'][0]['status'], 'delete')
+        data['operations'] = [self.delete_op(
+            kind='part', primitive_id='prim-R1',
+            expected={'designator': 'R1', 'component': 'WRONG-PART'})]
+        result = eda.reconcile(snap, eda.validate_plan(data))
+        self.assertEqual(result['conflicts'][0]['reason'], 'target_identity_mismatch')
 
     def test_delete_is_verified_by_absence(self):
         operation = self.delete_op(kind='wire', primitive_id='w-1', expected={'net': 'LED_A'})

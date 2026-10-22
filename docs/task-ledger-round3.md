@@ -27,6 +27,21 @@
 | B8-01/B8-02/B8-03 版本与会话 | DONE/PARTIAL | 版本门禁、origin 门禁、reopen 会话工程核对；错误会话关闭未真机注入 |
 | T-01 测试覆盖 | PARTIAL | 23→53 EDA 测试、新增 10 个网表 diff 测试；全仓 181 通过；函数级覆盖 NOT RUN |
 
+## 0.2 2026-10-22 F1 电气修订（rev3）
+
+| 项 | 状态 | 证据 |
+|---|---|---|
+| C103 10µF 陶瓷 → C107 22µF 35V 钽 | DONE | `docs/evidence/f1-rev3-2026-10-22/`；ESR 500mΩ；网表 `C107-1=3V3, C107-2=GND` |
+| IO2 10k 上拉 | DONE | 网表 `IO2: U101-2, R107-2`；DRC 悬空列表移除 IO2 |
+| EN/RST 100nF RC | DONE | 网表 EN/RST 均含新电容与原有引脚 |
+| U101 本地 10µF | DONE（原理图） | C106 加入 3V3/GND；PCB 近端约束未执行 |
+| VBUS TVS / USB-C 壳脚 GND | DONE（原理图） | D102 SMBJ5.0A；J101-1..4 在 GND |
+| CC/D+/D- ESD、VBUS 保险、J102 串阻 | NOT RUN | 见 F1 修订报告 §6 |
+| 重排 C3 | NOT RUN | 图面仍拥挤；标题栏仍 V1.0 |
+| DRC | PARTIAL | 5 warn（4 超框 + 6 未用 USB 数据脚），0 error；无豁免表 |
+| 网表 diff | DONE（本次电气修订） | `pin_net_changed=0`；纯重排前后 diff 未做 |
+| 人工审图 C6 | NOT RUN | — |
+
 ## 0. 状态与证据口径
 
 | 状态 | 定义 | 反例（不得记 DONE） |

@@ -1,0 +1,243 @@
+{
+  "status": "verified",
+  "plan": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\connections\\plan-d102_5v.json",
+  "session": {
+    "sessionId": "a165c91c-d26b-4cd5-b18e-467f198ec823",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 75,
+    "parts": 21,
+    "netflags": 33,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 53,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "d102_5v",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "w_d102_5v",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_net_flag",
+      "key": "d102_5v",
+      "type": "Power",
+      "net": "5V",
+      "x": 280,
+      "y": 130,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "w_d102_5v#0",
+      "net": "5V",
+      "points": [
+        280.0,
+        130.0,
+        280.0,
+        160.0
+      ],
+      "segments": [
+        [
+          280.0,
+          130.0,
+          280.0,
+          160.0
+        ]
+      ]
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "d102_5v",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "2cc6383a8518ea29",
+        "expected": {
+          "type": "Power",
+          "net": "5V"
+        },
+        "observed": {
+          "x": 280,
+          "y": 130,
+          "rotation": 0,
+          "mirror": false,
+          "name": "5V"
+        }
+      },
+      {
+        "key": "w_d102_5v#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "69edfbafd79ffa62",
+        "net": "5V",
+        "line": [
+          [
+            280,
+            160,
+            280,
+            130
+          ]
+        ]
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "36f18cb07b899b7d3c8902255d3e1efea8f0c0b23dc67ea73a479767a1c3d631",
+      "friendly_name": "f1-rev3",
+      "name": "/f1-rev3"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 76,
+    "parts": 21,
+    "netflags": 34,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 54,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "d102_5v",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "w_d102_5v",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 76,
+      "wires": 54
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 76,
+    "parts": 21,
+    "netflags": 34,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 54,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

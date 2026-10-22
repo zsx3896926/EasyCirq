@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "page": {
+  "schematic_name": "F1-USB-MCU-C",
+  "page_name": "P1"
+ },
+ "operations": [
+  {
+   "op": "net_port",
+   "key": "c104_en",
+   "net": "EN",
+   "direction": "BI",
+   "at": [
+    680,
+    470
+   ]
+  },
+  {
+   "op": "wire",
+   "key": "w_c104_en",
+   "net": "EN",
+   "points": [
+    680,
+    470,
+    680,
+    500
+   ]
+  }
+ ]
+}

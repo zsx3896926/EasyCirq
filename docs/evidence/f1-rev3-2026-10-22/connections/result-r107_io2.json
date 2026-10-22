@@ -1,0 +1,64 @@
+{
+  "status": "no_changes",
+  "plan": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\connections\\plan-r107_io2.json",
+  "session": {
+    "sessionId": "2b9f06af-2e2f-49c0-8c03-e8afe6230a02",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 68,
+    "parts": 21,
+    "netflags": 29,
+    "netports": 17,
+    "unclassified": 1,
+    "wires": 46,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "r107_io2",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "w_r107_io2",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    }
+  ],
+  "actions": [],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "verification": "not_needed"
+}
