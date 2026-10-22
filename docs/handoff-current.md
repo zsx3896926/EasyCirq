@@ -28,6 +28,7 @@
 3. 跨客户端：
    - `design-hardware/scripts/doctor_env.py` + 4 项测试；本机识别 Claude Code 2.1.303、Codex 0.163.0-alpha.10.2、WorkBuddy 5.8.3、EDA 4.1.78（connected）。
    - `design-hardware/references/client-compatibility.md`：路径、格式、能力、五步首次接通。
+   - `docs/evidence/client-env-2026-10-22/`：本机 doctor_env 报告与临时项目级安装格式验证（`skill: installed`）。
    - README 已把 Codex 路径改为 `~/.agents/skills`（旧 `~/.codex/skills` 兼容），WorkBuddy 改为 `~/.workbuddy/skills`。
 4. F1 重排证据：`docs/evidence/f1-relayout-2026-10-22/`
    - 16 器件 / 27 电源标记 / 14 网络端口 / 41 个导线对象（44 个归一化线段）。

@@ -14,13 +14,13 @@
 
 | 工作包 | 状态 | 实际交付/证据 | 未完成/边界 |
 |---|---|---|---|
-| A1 客户端能力矩阵 | PARTIAL | [client-compatibility.md](../design-hardware/references/client-compatibility.md)：Claude Code 2.1.303、Codex 0.163.0-alpha.10.2、WorkBuddy 5.8.3 的路径/格式/能力分层；本机路径实测 | 三客户端均未实际安装/调用 design-hardware；WorkBuddy GUI 导入未跑 |
+| A1 客户端能力矩阵 | PARTIAL | [client-compatibility.md](../design-hardware/references/client-compatibility.md)：Claude Code 2.1.303、Codex 0.163.0-alpha.10.2、WorkBuddy 5.8.3 的路径/格式/能力分层；本机路径与诊断见 [client-env-2026-10-22](evidence/client-env-2026-10-22/README.md) | 三客户端均未实际安装/调用 design-hardware；WorkBuddy GUI 导入未跑 |
 | A2 统一环境诊断 | DONE | `design-hardware/scripts/doctor_env.py` + `tests/test_doctor_env.py`；本机实跑输出 Claude/Codex/WorkBuddy/EDA 状态 | 只诊断；不测可写性，不安装 |
 | A3 环境差异 | PARTIAL | 文档覆盖 Windows 路径、PATH 刷新、cwd 差异、半离线、云端无本机 EDA | macOS/Linux 未实测；中文/空格路径未做专项回归 |
 | A4 结果语义 | PARTIAL | `apply` 区分 verified/partial/failed/blocked/needs_save/apply_unknown/page_changed/save_failed；失败保留会话 | 未统一成跨客户端共享 schema；文本提示仍可能被误读 |
 | B1 最短安装入口 | PARTIAL | README 与 client-compatibility 按“已有客户端”给路线；不再要求三套全装 | 未做安装包/一键脚本；未在全新机器实测 |
-| B2 Skill 安装包 | NOT RUN | 只给目录复制/导入说明 | 未生成 zip/包校验清单 |
-| B3 安装前后检查 | NOT RUN | `doctor_env` 可查“目录存在/已安装” | 重复安装、损坏包、版本不匹配未做专项 |
+| B2 Skill 安装包 | PARTIAL | 目录格式在临时项目级目录实测：`doctor_env --cwd <temp>` 识别 `design-hardware/SKILL.md`；证据 [client-env](evidence/client-env-2026-10-22/README.md) | 未生成 zip/包校验清单；未做用户级实际安装 |
+| B3 安装前后检查 | PARTIAL | `doctor_env` 可查“目录存在/已安装”，临时安装前后状态可复现 | 重复安装、损坏包、版本不匹配未做专项 |
 | B4 连接器引导 | DONE（文档） | 明确 EDA Agent Connector 装在 EDA 内；`easyeda health` 边界 | 本机无 `easyeda`，未实跑 |
 | B5 首次接通小任务 | PARTIAL | 五步清单写入 client-compatibility；EDA 读/写/保存/重开在 F1 副本真实通过 | 三客户端自身的五步未逐项执行 |
 | C 需求与产品预期 | NOT RUN | 沿用上一轮内容 | 本轮没有真实多轮新手任务 |
