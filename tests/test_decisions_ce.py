@@ -234,6 +234,35 @@ class InterfaceContractUnknown(unittest.TestCase):
         self.assertEqual(result["summary"]["blocking"], 0)
         self.assertEqual(codes(result), {"UNKNOWN_CONNECTOR"})
 
+    def test_multi_driver_unknown_is_not_pass(self):
+        item = iface(multi_driver="待查")
+        proc = run_cli(contract(interfaces=[item]))
+        self.assertEqual(proc.returncode, 1, proc.stderr)
+        result = json.loads(proc.stdout)
+        self.assertEqual(result["status"], "needs_review")
+        self.assertEqual(result["summary"]["blocking"], 0)
+        self.assertEqual(result["summary"]["unknown"], 1)
+        self.assertEqual(codes(result), {"MULTI_DRIVER_UNKNOWN"})
+
+    def test_same_connector_pin_two_nets_is_blocking(self):
+        first = iface(id="IF-A", connector_pin="1", net="NET_A")
+        second = iface(id="IF-B", connector_pin="1", net="NET_B")
+        proc = run_cli(contract(interfaces=[first, second]))
+        self.assertEqual(proc.returncode, 1, proc.stderr)
+        result = json.loads(proc.stdout)
+        self.assertEqual(result["status"], "blocked")
+        self.assertEqual(result["summary"]["blocking"], 1)
+        self.assertIn("DUPLICATE_CONNECTOR_PIN", codes(result))
+
+    def test_connector_pin_out_of_range_is_blocking(self):
+        item = iface(connector_pin="99")
+        proc = run_cli(contract(interfaces=[item]))
+        self.assertEqual(proc.returncode, 1, proc.stderr)
+        result = json.loads(proc.stdout)
+        self.assertEqual(result["status"], "blocked")
+        self.assertEqual(result["summary"]["blocking"], 1)
+        self.assertIn("PIN_OUT_OF_RANGE", codes(result))
+
     def test_empty_interfaces_is_warning_not_pass(self):
         proc = run_cli(contract(interfaces=[]))
         self.assertEqual(proc.returncode, 1, proc.stderr)

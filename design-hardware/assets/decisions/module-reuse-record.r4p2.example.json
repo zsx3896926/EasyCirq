@@ -13,8 +13,12 @@
     {
       "block_id": "R4-P2-CHARGER-BQ24074",
       "name": "BQ24074 线性充电器 + power path",
-      "decision": "rejected",
-      "decision_basis": "VBAT(REG) = 4.16/4.20/4.23 V 是 min/typ/max，不是三个可选电压值；4.23 V max 对 4.20 V 电芯超出 30 mV，不能按 typ 4.20 V 放行。除非电芯或保护板书面确认允许 ≥4.23 V，否则该子块判 rejected。",
+      "decision": "blocked",
+      "decision_basis": "VBAT(REG) = 4.16/4.20/4.23 V 是 min/typ/max，不是三个可选电压值。P01 只给出电芯设计范围 3.0–4.2 V，未给出规格书硬上限；若规格书确认硬上限 ≤4.20 V，4.23 V max 超出 30 mV，判 rejected；若仅知标称 4.20 V 或设计范围，兼容性待核，判 blocked，不能直接判不兼容。保护板允许不能替代电芯规格书对充电条件的允许。",
+      "decision_rules": [
+        {"condition": "电芯规格书确认硬上限 ≤4.20 V", "decision": "rejected", "basis": "4.23 V max 超出硬上限 30 mV；不能按 typ 4.20 V 放行"},
+        {"condition": "仅知标称 4.20 V 或设计范围，硬上限未确认", "decision": "blocked", "basis": "兼容性未核实；暂不放行，保护板允许不能替代电芯允许"}
+      ],
       "contract_groups": {
         "function": {
           "value": "USB-C 5 V 受电 → 1S 锂电线性充电，并给系统提供 power path；系统供电不因电池耗尽而中断。",
@@ -60,7 +64,7 @@
         },
         "compatibility_matrix": {
           "value": [
-            {"item": "充电调节电压上限", "source": "4.23 V max", "target": "4.20 V 电芯上限", "result": "fail", "evidence": "design-hardware/references/design-cards/power/p06-linear-charger.md:104-106"},
+            {"item": "充电调节电压上限", "source": "4.23 V max", "target": "电芯硬上限（待查；若规格书确认 4.20 V 则 fail）", "result": "unknown", "evidence": "design-hardware/references/design-cards/power/p06-linear-charger.md:104-106"},
             {"item": "充电电流与热", "source": "300 mA 热可控目标；500 mA 仅开盖/良好散热", "target": "密封壳、无热实测", "result": "unknown", "evidence": "design-hardware/references/projects/p01-low-power-wireless-sensor.md:168-174"},
             {"item": "输入源数量", "source": "单 USB 输入", "target": "USB + 第二路外部直流", "result": "fail", "evidence": "design-hardware/references/projects/p01-low-power-wireless-sensor.md:59-66"},
             {"item": "产量口径", "source": "P01 计划首发 25 块、选择路线 B", "target": "1000 台假设需求", "result": "unknown", "evidence": "design-hardware/references/projects/p01-low-power-wireless-sensor.md:318-320"}
@@ -82,14 +86,14 @@
           "unknowns": ["全部验证项 NOT RUN"]
         },
         "status_retirement": {
-          "value": "blocked：充电子块对 4.20 V 电芯 rejected，不进入新设计。",
-          "conditions": "替代方向为 VBAT(REG) max ≤4.20 V 的充电器，或取得电芯/保护板允许 ≥4.23 V 的书面依据后重新评估。",
+          "value": "blocked：电芯硬上限未确认，充电子块暂不进入新设计；若规格书确认硬上限 ≤4.20 V，则 rejected。",
+          "conditions": "先补电芯规格书的硬上限与允许充电条件；若确认 ≤4.20 V，替代方向为 VBAT(REG) max ≤4.20 V 的充电器；若允许 ≥4.23 V，保留电芯规格书依据后重评。保护板允许不能替代电芯允许。",
           "evidence": ["PWR-S07（登记范围 §8.5）", "design-hardware/references/design-cards/power/p06-linear-charger.md:104-106"],
           "unknowns": ["替代充电器 MPN、C 号与库存待查"]
         }
       },
       "rejection_clauses": [
-        "4.23 V max 高于 4.20 V 电芯上限，且不能按 typ 4.20 V 放行。",
+        "仅当电芯规格书确认硬上限 ≤4.20 V 时：4.23 V max 高于硬上限，且不能按 typ 4.20 V 放行；仅知标称 4.20 V 时为 blocked，不直接判拒绝。",
         "500 mA 只在开盖/良好散热时成立，密封壳无热证据。",
         "模块边界只有单 USB 输入，不含第二路电源选择/ORing。",
         "首发 25 块计划不能外推到 1000 台的供应、PCN 与一致性。"

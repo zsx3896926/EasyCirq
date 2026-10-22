@@ -17,7 +17,7 @@
 
 - 12 份参考、13 个案例、14 个模板、6 个检查脚本、6 个工作流测试 + 1 个索引门禁。
 - SKILL 路由、README/技术文档入口、工程记录指针、索引与案例族谱。
-- 全量测试：干净 PR 分支 427 OK；工作分支 434 OK；CI validate 通过。
+- 全量测试：干净 PR 分支 431 OK；工作分支 438 OK；CI validate 通过。
 
 ## 证据与边界
 
@@ -27,12 +27,12 @@
 
 ## 未决/阻塞
 
-- BQ24074 4.23 V max 对 4.20 V 电芯的兼容性未解决；J01 判 rejected，未编造替代型号。
+- BQ24074 4.23 V max 与电芯硬上限的兼容性未确认；J01 当前 `blocked`，若电芯规格书确认硬上限 ≤4.20 V 则 `rejected`；保护板允许不能替代电芯允许；未编造替代型号。
 - P02 §4.4 的 3905/0.524 LSB 是单极点代理值；两节点复算为 3740.25 LSB 与 ~2.27e-36 LSB。
 - P5 是 constructed 双销售配置；F1 只作前轮 E1 基线，不是改型证据。
 
 ## 下一条具体操作
 
-1. 在 `C:\Users\jlc\work\hds-round4` 运行 `python -m unittest discover -s tests`，确认 427 tests OK（PR 分支）。
+1. 在 `C:\Users\jlc\work\hds-round4` 运行 `python -m unittest discover -s tests`，确认 431 tests OK（PR 分支）。
 2. 按 PR #6 评审意见修改；修改后在 PR 分支提交并推送。
 3. 合并前在干净检出重跑全量测试；合并后更新本文件与 `docs/task-ledger-round4.md`。

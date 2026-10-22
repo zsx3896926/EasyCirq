@@ -58,7 +58,7 @@ sources: [PWR-S07, PWR-S09, MCU-S09, PWR-S06]
 
 | 拒绝条款 | 判定 | 证据 |
 |---|---|---|
-| 充电调节电压上限高于电芯上限 | 4.23 V max 对 4.20 V 电芯不通过；不得按 typ 4.20 V 放行 | `design-hardware/references/design-cards/power/p06-linear-charger.md:104-106`；PWR-S07 §8.5 |
+| 充电调节电压上限高于电芯硬上限 | 电芯规格书确认硬上限 ≤4.20 V 时，4.23 V max 不通过；仅知标称 4.20 V 或设计范围时，兼容性 `blocked`/待核，不得直接判不通过或按 typ 放行 | `design-hardware/references/design-cards/power/p06-linear-charger.md:104-106`；PWR-S07 §8.5 |
 | 把 500 mA 当默认能力 | 500 mA 只在开盖/良好散热条件成立；密封壳按 300 mA 设计 | `design-hardware/references/projects/p01-low-power-wireless-sensor.md:168-174` |
 | 单输入块直接用于双源节点 | 模块边界只有 USB 输入，不含第二路电源选择/ORing | `design-hardware/references/projects/p01-low-power-wireless-sensor.md:59-66` |
 | 25 块试产结论外推到 1000 台 | 供应、PCN、寿命与一致性未核，不能写 `reusable` | `design-hardware/references/projects/p01-low-power-wireless-sensor.md:318-320` |
@@ -73,9 +73,9 @@ sources: [PWR-S07, PWR-S09, MCU-S09, PWR-S06]
 
 `design-hardware/references/decisions/cases/r4-case-j01-charger-power-path-reuse.md`（R4-P2，E3 / OFFLINE_PLANNING / hardware_execution NOT RUN）。
 
-- 决定：P01 充电器 + power path 子块对 4.20 V 电芯判 `rejected`——`VBAT(REG)` 的 4.16/4.20/4.23 V 是 min/typ/max，4.23 V max 超出 4.20 V 上限，不能按 typ 4.20 V 放行。TPS63802 升降压子块单独判 `accepted-with-conditions`（3.3 V 轨、输入范围、电感/输出电容与热测试为条件）。
-- 代价：充电器需换 `VBAT(REG)` max ≤4.20 V 的型号，或取得电芯/保护板允许 ≥4.23 V 的书面依据；充电时间与热测试仍要补，第二路电源选择不在块内。
-- 下一个检查或待查：BQ24074 具体后缀的 `VBAT(REG)` min/typ/max、电芯/保护板 OVP 允许上限、`KILIM`/`KISET`、θJA、NTC 曲线，均待查；TPS63802 电感/输出电容与密封壳热测试 `NOT RUN`。
+- 决定：分两档。① 电芯规格书确认硬上限 ≤4.20 V → 充电器 + power path 子块 `rejected`（4.23 V max 超出硬上限 30 mV）。② 仅知标称 4.20 V 或设计范围、硬上限未确认 → `blocked`/待核，暂不放行，不能直接判 `rejected`。R4-P2 当前是②，电芯型号待查。保护板 OVP/允许电压只作保护协调，不能替代电芯规格书对充电条件的允许。TPS63802 升降压子块单独判 `accepted-with-conditions`（3.3 V 轨、输入范围、电感/输出电容与热测试为条件）。
+- 代价：先补电芯规格书与允许充电条件；若确认硬上限 4.20 V，换 `VBAT(REG)` max ≤4.20 V 的型号；若规格书允许 ≥4.23 V，保留依据后重评。充电时间与热测试仍要补，第二路电源选择不在块内。
+- 下一个检查或待查：电芯型号/硬上限/允许充电条件；BQ24074 具体后缀的 `VBAT(REG)` min/typ/max、`KILIM`/`KISET`、θJA、NTC 曲线，均待查；保护板 OVP 只作协调。TPS63802 电感/输出电容与密封壳热测试 `NOT RUN`。
 
 ## 8. 证据与验证方式
 
@@ -95,6 +95,6 @@ sources: [PWR-S07, PWR-S09, MCU-S09, PWR-S06]
 - MCU-S09：§6.1–6.5（登记范围）；本轮未重开原厂正文。用于模组 3.0–3.6 V、≥0.5 A。
 - PWR-S06：SLVAE57B §2–§6（登记范围）；本轮未重开原厂正文。用于反接保护与反向电流阻断的区别。
 
-**未知：** P01 4.2 V 电芯与 BQ24074 4.23 V max 的兼容性未解决；充电器 θJA、`KILIM`/`KISET` 常数、NTC 曲线、模组完整物理脚表、所有 C 号与库存字段，均待查。
+**未知：** P01 电芯型号、硬上限与允许充电条件未确认，因此 BQ24074 4.23 V max 的兼容性为 `blocked`，不是已判 `rejected`；充电器 θJA、`KILIM`/`KISET` 常数、NTC 曲线、模组完整物理脚表、所有 C 号与库存字段，均待查。
 
-**重评触发：** 电芯上限或化学体系改变；充电电流或外壳散热改变；输入从单 USB 改为双源；产量跨过试产；原厂发布 PCN/EOL；许可条件变化。
+**重评触发：** 电芯规格书确认硬上限或允许充电条件；充电电流或外壳散热改变；输入从单 USB 改为双源；产量跨过试产；原厂发布 PCN/EOL；许可条件变化。

@@ -45,15 +45,15 @@ R4-P3 要在 -20/25/60 °C 做两路 4–20 mA 采集，25 °C 目标 ±0.5% FS�
 | SHUNT_TEMP | 分流 25 ppm/°C × 45 K（25→-20 最坏） | -22.5 | 0 | +22.5 | µA | ΔT=45 K | -20..60 °C | E3 | drift | temp_field | post-cal | P02:122-124 | 22.5 | n/a（相关） | 2（全温） | conditional |
 | TEMP_FIELD | 温度场相关组（6+7，同向最坏） | -45 | 0 | +45 | µA | ΔT=45 K | -20..60 °C | E3 | correlated | temp_field | post-cal | P02:122-124 | 45 | n/a（相关） | 1（全温；含于 CAL_RESIDUAL） | conditional |
 | MUX_CROSSTALK | 两通道/MUX 串扰 | 待查 | 待查 | 待查 | µA | 前通道 20→0 mA 切换 | -20..60 °C | E3 | dynamic | mux_sequence | not-calibratable | P02:205-205 | 待查 | n/a | 待查 | cannot_conclude |
-| CAL_RESIDUAL | 两点 4/20 mA 校准后残差 | 待查 | 待查 | ≥45（下限；其余待查） | µA | 校准后；全温 | -20..60 °C | E3 | residual | calibration | post-cal | P02:405-416；C1:179-191 | ≥45 | n/a | 1（post-cal 汇总） | conditional |
+| CAL_RESIDUAL | 两点 4/20 mA 校准后残差 | 待查 | 待查 | 45（已知温漂项最坏情况预算；其余项未齐，总误差待定） | µA | 校准后；全温 | -20..60 °C | E3 | residual | calibration | post-cal | P02:405-416；C1:179-191 | 45（预算） | n/a | 1（post-cal 汇总） | conditional |
 | SETTLE_470P | 100 Ω+470 pF；10 µs 建立 | ≈0 | ≈0 | ≈0（<1e-6 LSB；模型四舍五入） | LSB | 两节点模型；25 °C | 25 °C | E3 | dynamic | settling | not-calibratable | JSON:buffered-470pF-10us | ≈0 | n/a | n/a | conditional |
 | SETTLE_UNBUFFERED | 1 kΩ+100 nF 直接采样；10 µs | 0 | 0 | 3740.2475 | LSB | 两节点模型；25 °C | 25 °C | E3 | dynamic | settling | not-calibratable | JSON:direct-unbuffered | 3740.2475 | n/a | 1（替代方案） | fail |
 | INL_LONGTERM | ADC INL + 长期漂移 | 待查 | 待查 | 待查 | LSB | 全码/寿命 | -20..60 °C | E3 | nonlinear | adc_nonlinear+aging | not-calibratable | 待查；周期校准见动作表 | 待查 | n/a | 分解项（含于 CAL_RESIDUAL） | cannot_conclude |
 > 源列缩写：`P02`=`design-hardware/references/projects/p02-industrial-rs485-analog.md`；`C1`=`design-hardware/references/engineering-deepdives/topics/c1-sensor-to-adc-error-chain.md`；`JSON`=`design-hardware/assets/decisions/adc-settle.r4p3.recompute.json`；`:N-M` 均指对应文件的 path:start-end。
-> 行 6/7 是 TEMP_FIELD 的组内分解；post-cal 汇总只取 CAL_RESIDUAL，不得再加 TEMP_FIELD/INL/噪声（CAL_RESIDUAL = TEMP_FIELD + INL + 噪声 + 校准源不确定度，后三项待查）。conditional 统一落地：owner=硬件负责人（R4-P3）；到期日=首板 bring-up 前；条件=补齐 MUX 串扰、INL/噪声、校准源不确定度与增益网络温漂并复核本表；未满足前保持 conditional，不得写 guaranteed_pass；无 owner/到期日的 MUX_CROSSTALK 与 INL_LONGTERM 已判 cannot_conclude。
+> 行 6/7 是 TEMP_FIELD 的组内分解；post-cal 汇总只取 CAL_RESIDUAL，不得再加 TEMP_FIELD/INL/噪声。CAL_RESIDUAL 暂以已知 TEMP_FIELD 的 45 µA 作最坏情况预算；INL/噪声/校准源不确定度未齐，总残差暂不能定论，不得把 45 写成实际下限。conditional 统一落地：owner=硬件负责人（R4-P3）；到期日=首板 bring-up 前；条件=补齐 MUX 串扰、INL/噪声、校准源不确定度与增益网络温漂并复核本表；未满足前保持 conditional，不得写 guaranteed_pass；无 owner/到期日的 MUX_CROSSTALK 与 INL_LONGTERM 已判 cannot_conclude。
 - 汇总（1 LSB=6.1035 µA；LSB 行先折算再与 µA 行合成；除注明外均为 20 mA 满量程）：25 °C 未校准 known worst = 10+20+20+10+3.05 = 63.05 µA（0.315% FS）；P02 原表不含基准为 43.1 µA；全温未校准 worst = 63.05+45 = 108.05 µA（0.540% FS），对 R3 的 1% 只剩 0.460% 给未知项；增益网络温漂未计。
 - P02 原口径 RSS = sqrt(10²+20²+20²+10²+3.05²) = 31.77 µA（0.159%）；D01 把基准当共同系统项，mixed bound = 20+sqrt(10²+20²+10²+3.05²) = 44.68 µA（0.223%）。
-- post-cal：25 °C 只剩 QUANT 3.05 µA + SETTLE≈0 + INL/噪声/校准源不确定度（待查）→ cannot_conclude；全温只加 CAL_RESIDUAL（≥45 µA，0.225% FS，仅温漂下限）+ QUANT 3.05 µA + 未知项 → conditional。
+- post-cal：25 °C 只剩 QUANT 3.05 µA + SETTLE≈0 + INL/噪声/校准源不确定度（待查）→ cannot_conclude；全温只加 CAL_RESIDUAL（45 µA，0.225% FS，已知温漂项最坏情况预算；其他项未齐，总误差暂不能定论）+ QUANT 3.05 µA + 未知项 → conditional。
 角点组合（gain 与 tempco 类按读数缩放，4 mA 取 0.2；Vos 与量化不缩放；不把不同时发生的 max 硬乘）：
 | 组合 ID | 温度 | 输入 | 供电/基准 | 通道状态 | 同时取极值的项 | 结论 |
 |---|---|---|---|---|---|---|

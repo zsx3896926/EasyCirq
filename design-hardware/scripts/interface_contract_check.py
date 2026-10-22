@@ -99,6 +99,7 @@ def analyze(data):
         )
 
     connector_refs = set()
+    connector_pin_counts = {}
     if not connectors:
         add("NO_CONNECTORS", "warning", "connectors 为空，无法核对连接器字段", "connectors")
     for index, connector in enumerate(connectors):
@@ -113,6 +114,9 @@ def analyze(data):
             if ref in connector_refs:
                 add("DUP_CONNECTOR", "blocking", f"连接器 {ref} 重复声明", f"{label}.ref")
             connector_refs.add(ref)
+            pin_count = connector.get("pin_count")
+            if isinstance(pin_count, str) and re.fullmatch(r"\d+", pin_count.strip()):
+                connector_pin_counts[ref] = int(pin_count.strip())
         for field in CONNECTOR_FIELDS:
             value = connector.get(field)
             if is_unknown(value):
@@ -128,6 +132,7 @@ def analyze(data):
     if not interfaces:
         add("NO_INTERFACES", "warning", "interfaces 为空，没有可检查的接口", "interfaces")
     interface_ids = set()
+    used_connector_pins = {}
     for index, item in enumerate(interfaces):
         label = f"interfaces[{index}]"
         if not isinstance(item, dict):
@@ -181,6 +186,41 @@ def analyze(data):
                 )
             elif not isinstance(value, str):
                 raise ValueError(f"{label}.{field}: require string")
+
+        connector_value = item.get("connector")
+        pin_value = item.get("connector_pin")
+        net_value = item.get("net")
+        if (
+            isinstance(connector_value, str)
+            and not is_unknown(connector_value)
+            and isinstance(pin_value, str)
+            and not is_unknown(pin_value)
+            and isinstance(net_value, str)
+            and not is_unknown(net_value)
+        ):
+            connector_key = connector_value.strip()
+            pin_key = pin_value.strip()
+            net_key = net_value.strip()
+            if connector_key in connector_pin_counts and re.fullmatch(r"\d+", pin_key):
+                pin_number = int(pin_key)
+                pin_count = connector_pin_counts[connector_key]
+                if pin_number < 1 or pin_number > pin_count:
+                    add(
+                        "PIN_OUT_OF_RANGE",
+                        "blocking",
+                        f"接口 {iface_id} 使用连接器 {connector_key} 的第 {pin_number} 针，但声明只有 {pin_count} 针",
+                        f"{label}.connector_pin",
+                    )
+            pin_owner = used_connector_pins.get((connector_key, pin_key))
+            if pin_owner is None:
+                used_connector_pins[(connector_key, pin_key)] = (net_key, iface_id)
+            elif pin_owner[0] != net_key:
+                add(
+                    "DUPLICATE_CONNECTOR_PIN",
+                    "blocking",
+                    f"连接器 {connector_key} 的针 {pin_key} 同时分配给 {pin_owner[0]}（{pin_owner[1]}）和 {net_key}（{iface_id}）",
+                    f"{label}.connector_pin",
+                )
 
         direction_raw = item.get("direction")
         direction = None
@@ -328,9 +368,25 @@ def analyze(data):
                 )
 
         multi_driver = item.get("multi_driver")
-        if multi_driver is not None and not isinstance(multi_driver, bool):
-            if not is_unknown(multi_driver):
+        if multi_driver is None:
+            add(
+                "MISSING_FIELD",
+                "unknown",
+                f"接口 {iface_id} 缺字段 multi_driver",
+                f"{label}.multi_driver",
+            )
+        elif isinstance(multi_driver, str):
+            if is_unknown(multi_driver):
+                add(
+                    "MULTI_DRIVER_UNKNOWN",
+                    "unknown",
+                    f"接口 {iface_id} 的 multi_driver 待查",
+                    f"{label}.multi_driver",
+                )
+            else:
                 raise ValueError(f"{label}.multi_driver: require boolean or 待查")
+        elif not isinstance(multi_driver, bool):
+            raise ValueError(f"{label}.multi_driver: require boolean or 待查")
         driver_count = len(drivers) if drivers is not None else 0
         effective_multi = multi_driver is True or driver_count > 1
         arbitration = item.get("arbitration")
@@ -370,17 +426,9 @@ def analyze(data):
                 f"接口 {iface_id} 声明多驱动但驱动器少于两个",
                 f"{label}.multi_driver",
             )
-        if multi_driver is None:
-            add(
-                "MISSING_FIELD",
-                "unknown",
-                f"接口 {iface_id} 缺字段 multi_driver",
-                f"{label}.multi_driver",
-            )
-
         switchable = item.get("switchable")
         switchable_known = None
-        if switchable is None or (isinstance(switchable, str) and switchable.strip() in UNKNOWN_VALUES):
+        if switchable is None or (isinstance(switchable, str) and is_unknown(switchable)):
             add(
                 "SWITCHABLE_UNKNOWN" if switchable is not None else "MISSING_FIELD",
                 "unknown",
@@ -426,7 +474,7 @@ def analyze(data):
         else:
             user_accessible = hotplug.get("user_accessible")
             if user_accessible is None or (
-                isinstance(user_accessible, str) and user_accessible.strip() in UNKNOWN_VALUES
+                isinstance(user_accessible, str) and is_unknown(user_accessible)
             ):
                 add(
                     "HOTPLUG_ACCESS_UNKNOWN",
@@ -488,7 +536,7 @@ def analyze(data):
                     f"接口 {iface_id} 标记为 stale，必须重核",
                     f"{label}.stale",
                 )
-        elif stale is None or (isinstance(stale, str) and stale.strip() in UNKNOWN_VALUES):
+        elif stale is None or (isinstance(stale, str) and is_unknown(stale)):
             add(
                 "STALE_UNKNOWN",
                 "unknown",
