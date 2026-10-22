@@ -41,6 +41,8 @@
 | 独立资料审校 | NOT RUN | 本轮未单独派审校员逐条复核；已做作者核对 + 集成人抽查 |
 | 盲测路由 | DONE（6/6） | [blind/eval.md](blind/eval.md)：B1–B6 路线均正确；B2/B6 各一处分支/默认值问题已修；原始回答见 [blind/](blind/) |
 
+五项工程结论的修复复核：[rerun/README.md](rerun/README.md)。Boost 谷值限流公式、HX711 旁路供电、DS18B20 广播转换、风扇 TACH 12 V 上拉与 12.6 V 分压、继电器 release/dropout 语义均在 `4c9db61` 上由独立 Agent 重跑；发现的残留已在 `d97b6f3`/`662a7ab`/`e0710c7` 同步，最终 `260 tests OK`。原始盲测回答保持在 `blind/`，B2 的供电扣分以 [rerun/eval-addendum.md](rerun/eval-addendum.md) 为准。S1 仍为连接级证据。
+
 盲测暴露并已修的 routing 缺口：
 
 - 11/12 应用在盲测时尚未生成 → 现已生成，全量测试通过。
