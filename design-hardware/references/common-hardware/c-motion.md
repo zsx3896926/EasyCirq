@@ -656,7 +656,8 @@ X2SON（DMR，4 脚）：1=VCC、2=GND、3=NC（FA/FB/AJ）或 OUT2（DU/FD）�
 | 每转脉冲数 N | 决定 RPM 换算 | 4 线风扇规范：2 pulses/rev |
 | 输出类型 | 开漏必须上拉，推挽可直接读 | 风扇 TACH：open-collector/open-drain |
 | 最高/最低频率 | 决定计数/周期法与滤波 | 3000 RPM、N=2 → 100 Hz |
-| 上拉/PWM 电平 | 开漏边沿与调速接口 | 主板可上拉 12 V max 12.6 V；MCU 侧 3.3 V；PWM 25 kHz（21–28 kHz）、VIL 0.8 V、Vmax 5.25 V |
+| TACH 上拉 | 开漏输出的电平边界 | 主板侧 12 V max 12.6 V；3.3 V MCU 用 10 kΩ/3.3 kΩ 分压到 3.13 V（12.6 V）/2.98 V（12 V） |
+| PWM 电平 | 风扇 PWM 输入 | 25 kHz（21–28 kHz）、VIL 0.8 V、灌电流 5 mA、Vmax 5.25 V（这是 PWM 脚，不是 TACH） |
 | 采样/更新率 | 最高可测转速 | DRV5032 5/20/80 Hz；AS5600 2.2 ms 慢滤波 |
 
 ### 电路组成
