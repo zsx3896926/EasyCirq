@@ -45,14 +45,14 @@ def snapshot():
             part('LED1', 500, 400, rotation=180, supplier='C2286', name='KT-0603R'),
         ],
         'netflags': [
-            {'name': '5V', 'x': 150, 'y': 400},
-            {'name': 'GND', 'x': 650, 'y': 400},
+            {'primitive_id': 'flag-5V', 'name': '5V', 'x': 150, 'y': 400},
+            {'primitive_id': 'flag-GND', 'name': 'GND', 'x': 650, 'y': 400},
         ],
         'netports': [],
         'wires': [
-            {'net': '5V', 'line': [150, 400, 280, 400]},
-            {'net': 'LED_A', 'line': [320, 400, 480, 400]},
-            {'net': 'GND', 'line': [520, 400, 650, 400]},
+            {'primitive_id': 'wire-5V', 'net': '5V', 'line': [150, 400, 280, 400]},
+            {'primitive_id': 'wire-LED_A', 'net': 'LED_A', 'line': [320, 400, 480, 400]},
+            {'primitive_id': 'wire-GND', 'net': 'GND', 'line': [520, 400, 650, 400]},
         ],
         'attributes': [],
     }
@@ -110,6 +110,24 @@ class PlanValidation(unittest.TestCase):
             data = plan()
             data['operations'] = [{'op': 'wire', 'key': 'w', 'net': 'N', 'points': points}]
             self.assertEqual(len(eda.validate_plan(data)['operations']), 1)
+
+    def test_delete_ops_require_explicit_identity_and_safe_type(self):
+        data = plan()
+        data['operations'] = [{'op': 'delete_wire', 'key': 'd1',
+                               'match': {'primitive_id': 'wire-5V', 'net': '5V'}}]
+        self.assertEqual(eda.validate_plan(data)['operations'][0]['op'], 'delete_wire')
+        data['operations'] = [{'op': 'delete_component', 'key': 'd2',
+                               'match': {'primitive_id': 'flag-5V', 'component_type': 'netflag'}}]
+        self.assertEqual(eda.validate_plan(data)['operations'][0]['op'], 'delete_component')
+        for bad in (
+            {'op': 'delete_wire', 'key': 'd', 'match': {'primitive_id': 'wire-5V'}},
+            {'op': 'delete_component', 'key': 'd', 'match': {'primitive_id': 'prim-R1', 'component_type': 'part'}},
+            {'op': 'delete_component', 'key': 'd', 'match': {'primitive_id': 'flag-5V'}},
+        ):
+            data = plan()
+            data['operations'] = [bad]
+            with self.subTest(bad=bad), self.assertRaises(eda.EdaInputError):
+                eda.validate_plan(data)
 
 
 class Reconciliation(unittest.TestCase):
@@ -188,6 +206,43 @@ class Reconciliation(unittest.TestCase):
         self.assertEqual(result['actions'][0]['action'], 'create_part')
         self.assertEqual(result['actions'][0]['designator'], 'C1')
 
+    def test_delete_wire_is_idempotent_and_rejects_net_mismatch(self):
+        data = plan()
+        data['operations'] = [{'op': 'delete_wire', 'key': 'd1',
+                               'match': {'primitive_id': 'wire-5V', 'net': '5V'}}]
+        result = eda.reconcile(snapshot(), eda.validate_plan(data))
+        self.assertEqual(result['status'], 'changes')
+        self.assertEqual(result['actions'][0]['action'], 'delete_wire')
+        data['operations'] = [{'op': 'delete_wire', 'key': 'd1',
+                               'match': {'primitive_id': 'wire-missing', 'net': '5V'}}]
+        result = eda.reconcile(snapshot(), eda.validate_plan(data))
+        self.assertEqual(result['status'], 'no_changes')
+        self.assertEqual(result['items'][0]['reason'], 'already_absent')
+        data['operations'] = [{'op': 'delete_wire', 'key': 'd1',
+                               'match': {'primitive_id': 'wire-5V', 'net': 'GND'}}]
+        result = eda.reconcile(snapshot(), eda.validate_plan(data))
+        self.assertEqual(result['status'], 'blocked')
+        self.assertEqual(result['conflicts'][0]['reason'], 'wire_net_mismatch')
+
+    def test_delete_component_cannot_touch_a_part_or_wrong_position(self):
+        data = plan()
+        data['operations'] = [{'op': 'delete_component', 'key': 'd1',
+                               'match': {'primitive_id': 'flag-5V', 'component_type': 'netflag', 'name': '5V'}}]
+        result = eda.reconcile(snapshot(), eda.validate_plan(data))
+        self.assertEqual(result['actions'][0]['action'], 'delete_component')
+        data['operations'] = [{'op': 'delete_component', 'key': 'd1',
+                               'match': {'primitive_id': 'prim-R1', 'component_type': 'netflag'}}]
+        result = eda.reconcile(snapshot(), eda.validate_plan(data))
+        self.assertEqual(result['status'], 'no_changes')
+        data['operations'] = [{'op': 'delete_component', 'key': 'd1',
+                               'match': {'primitive_id': 'flag-5V', 'component_type': 'netport'}}]
+        result = eda.reconcile(snapshot(), eda.validate_plan(data))
+        self.assertEqual(result['conflicts'][0]['reason'], 'component_type_mismatch')
+        data['operations'] = [{'op': 'delete_component', 'key': 'd1',
+                               'match': {'primitive_id': 'flag-5V', 'component_type': 'netflag', 'at': [0, 0]}}]
+        result = eda.reconcile(snapshot(), eda.validate_plan(data))
+        self.assertEqual(result['conflicts'][0]['reason'], 'component_position_mismatch')
+
 
 class SnapshotComparison(unittest.TestCase):
     def test_primitive_ids_are_ignored_but_geometry_is_not(self):
@@ -210,6 +265,44 @@ class SnapshotComparison(unittest.TestCase):
         kinds = {item['kind'] for item in result['differences']}
         self.assertEqual(kinds, {'wires', 'netflags'})
 
+    def test_netport_changes_are_reported(self):
+        before = snapshot()
+        before['netports'] = [{'primitive_id': 'port-1', 'net': 'CC1', 'x': 10, 'y': 20}]
+        after = copy.deepcopy(before)
+        after['netports'][0]['x'] = 30
+        result = eda.compare_snapshots(before, after)
+        self.assertFalse(result['match'])
+        self.assertEqual({item['kind'] for item in result['differences']}, {'netports'})
+
+
+class DeleteVerification(unittest.TestCase):
+    def build(self):
+        data = plan()
+        data['operations'] = [
+            {'op': 'delete_wire', 'key': 'd-wire',
+             'match': {'primitive_id': 'wire-5V', 'net': '5V'}},
+            {'op': 'delete_component', 'key': 'd-flag',
+             'match': {'primitive_id': 'flag-5V', 'component_type': 'netflag', 'name': '5V'}},
+        ]
+        validated = eda.validate_plan(data)
+        reconciled = eda.reconcile(snapshot(), validated)
+        return validated, reconciled['items']
+
+    def test_absence_after_apply_is_verified(self):
+        data, items = self.build()
+        after = snapshot()
+        after['wires'] = [w for w in after['wires'] if w['primitive_id'] != 'wire-5V']
+        after['netflags'] = [f for f in after['netflags'] if f['primitive_id'] != 'flag-5V']
+        results, status = eda.verify_against_snapshot(after, data, items)
+        self.assertEqual(status, 'verified')
+        self.assertTrue(all(item['verification'] == 'verified' for item in results))
+
+    def test_still_present_after_apply_fails(self):
+        data, items = self.build()
+        results, status = eda.verify_against_snapshot(snapshot(), data, items)
+        self.assertEqual(status, 'failed')
+        self.assertTrue(all(item['verification'] == 'failed' for item in results))
+
 
 class FakePro:
     def __init__(self, snapshots, execution=None, save_result=None):
@@ -226,6 +319,8 @@ class FakePro:
             return self.execution or {'ok': True, 'results': []}
         if code == eda.SAVE_JS:
             return self.save_result
+        if code == eda.DRC_JS:
+            return {'ok': True, 'passed': True, 'count': 0, 'violations': []}
         raise AssertionError('unexpected operation')
 
     def sessions(self):
@@ -295,6 +390,19 @@ class CommandFlow(unittest.TestCase):
         self.assertEqual(result['status'], 'failed')
         self.assertNotIn(eda.SAVE_JS, [code for code, _ in fake.calls])
         self.assertIn('not_attempted', result['save'])
+
+    def test_drc_returns_violations_without_writing(self):
+        fake = FakePro([])
+        original = eda.LcedaPro
+        eda.LcedaPro = lambda *a, **k: fake
+        try:
+            result, code = eda.command_drc(self.args())
+        finally:
+            eda.LcedaPro = original
+        self.assertEqual(code, 0)
+        self.assertTrue(result['drc']['passed'])
+        self.assertIn(eda.DRC_JS, [code for code, _ in fake.calls])
+        self.assertNotIn(eda.APPLY_JS, [code for code, _ in fake.calls])
 
     def test_save_failure_is_not_reported_as_success(self):
         before = snapshot()
