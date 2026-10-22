@@ -396,7 +396,7 @@
 | `--timeout` 传递 | DONE | `diagnose(timeout=...)` → `_eda_probe(timeout=...)`；测试断言 4321 被传入 | 真实长任务未做超时注入 |
 | 重开比较域 | DONE | rev3 已有 mirror/BOM/PCB/端口方向/不可解析导线；本轮再补 `name`、symbol/component/footprint UUID、`other_property`；回归测试 | `ONENETNAME` 仍未逐条豁免 |
 | rev3 重排 | PARTIAL | [F1 rev3 重排证据](evidence/f1-rev3-layout-2026-10-22/README.md)：`netlist_diff match`、21/12/60 不变、save/reopen match、DRC 5→3 warn；PNG 已看 | 图面仍拥挤、留白大；标题栏未改 DRAFT；未做 ERC/人工审图/PCB |
-| 三客户端实际调用 | PARTIAL | [客户端调用证据](evidence/client-invocation-2026-10-22/README.md)：Claude Code PASS、Codex PASS（读取 Skill）、WorkBuddy BLOCKED（CLI 要求登录） | 未完成“需求→读工程→最小写入→保存重开”的逐客户端全流程 |
+| 三客户端实际调用 | PARTIAL | [客户端调用证据](evidence/client-invocation-2026-10-22/README.md)：Claude Code 完整流程 PASS（read/apply/save/reopen）、Codex 完整流程 PASS（danger-full-access）、WorkBuddy BLOCKED（CLI 要求登录） | WorkBuddy GUI 登录后复测；Codex read-only 沙箱 267 未修 |
 | 删除前置条件 direction bug | DONE | `delete_primitive` 用 `portDirectionOf/flagTypeOf` 派生实际值；回归断言 | 尚无真实 EDA 删除重试证据 |
 
 **最重要的结论**：rev3 的 `f1-rev3b.net` 是 golden；本次重排导出的网表与它 SHA256 完全相同，说明这是纯排版变更。不要把 rev1 的 16 器件重排结果合并进 rev3。

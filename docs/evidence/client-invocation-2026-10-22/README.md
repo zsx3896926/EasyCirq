@@ -4,11 +4,11 @@
 
 | 客户端 | 版本 | 实际调用 | 结果 |
 |---|---|---|---|
-| Claude Code | 2.1.303 | `claude -p` 在临时项目 `.claude/skills/design-hardware` 中执行 | **PASS**：模型实际读取 `SKILL.md`，返回 `SKILL=design-hardware` 与 EDA 执行路由行 |
-| Codex | 0.163.0-alpha.10.2 | `codex exec --sandbox read-only` 在临时项目 `.agents/skills/design-hardware` 中执行 | **PASS**：模型读取 `SKILL.md`，返回 `SKILL=design-hardware` 与 EDA 执行路由行 |
-| WorkBuddy | 5.8.3.0 | `codebuddy-lite-wb.mjs -p` 在临时项目 `.workbuddy/skills/design-hardware` 中执行 | **BLOCKED**：CLI 要求 `/login`，无用户登录态；未伪造通过 |
+| Claude Code | 2.1.303 | Skill 发现 + 只读工程 + 副本最小写入/保存/重开 | **PASS**：`doctor project_readable=true`、`read 21 parts`、`apply verified/save true`、`reopen match` |
+| Codex | 0.163.0-alpha.10.2 | Skill 发现 + 副本最小写入/保存/重开（`--sandbox danger-full-access`） | **PASS**：`APPLY=verified/true`、`REOPEN=match`；`read-only` 沙箱的 PowerShell 子进程在本机报 267，改用 danger-full-access 后正常 |
+| WorkBuddy | 5.8.3.0 | Skill 发现（`codebuddy-lite-wb.mjs -p`） | **BLOCKED**：CLI 要求 `/login`，无用户登录态；未伪造通过 |
 
-> “PASS”只证明**客户端能发现并读取 design-hardware Skill**，不证明完整“描述需求→读取工程→最小写入→保存重开”流程已在每个客户端跑通。完整 EDA 流程的证据见 [F1 rev3 重排](../f1-rev3-layout-2026-10-22/README.md)，本轮主要在 Claude Code 会话中执行。
+> Claude Code 与 Codex 已完成“描述任务→读取工程→副本最小写入→保存→重开”的完整流程；WorkBuddy 只到登录门禁。写入均在 disposable 副本，未触碰用户工程。
 
 ## 测试方法
 
@@ -50,6 +50,36 @@ codex.exe exec --sandbox read-only --skip-git-repo-check --json "<prompt>"
 - 过程：PowerShell 子进程因 `CreateProcessWithLogonW failed: 267` 失败，Codex 改用其 `node_repl` 工具读取 `SKILL.md`；Skill 发现与读取本身成功。
 - 原始输出：`codex.jsonl`（JSONL，`item.completed` / `agent_message`）。
 
+### 完整流程（disposable 副本）
+
+**Claude Code 只读流程**
+
+```bash
+claude -p "…doctor --project client-flow.eprj2; read --project client-flow.eprj2 …" \
+  --allowedTools "Read,Bash(python:*)" --output-format json
+```
+
+结果：`doctor status=ok`、`tool_connected=true`、`project_readable=true`、`version_match=true`；`read status=ok`、`integrity=complete`、`components=79/parts=21/netflags=37/netports=20/wires=57`。原始输出 `claude-code-read-flow.json`。
+
+**Claude Code 写入流程**
+
+```bash
+claude -p "…apply --project client-write.eprj2 --plan client-write-plan.json --save; read …; reopen-check …"
+```
+
+计划只把 C105 的 x 从 700 改到 701。结果：`apply status=verified`、`save.saved=true`、`reopen status=match`、`differences=[]`。原始输出 `claude-code-write-flow.json`。
+
+**Codex 写入流程**
+
+```bash
+codex.exe exec --sandbox danger-full-access --skip-git-repo-check --json \
+  "…apply --project codex-write.eprj2 --plan codex-write-plan.json --save; read …; reopen-check …"
+```
+
+结果：`APPLY=verified/true`、`REOPEN=match`。原始输出 `codex-write-flow.jsonl`。
+
+> `read-only` 沙箱下 Codex 的 PowerShell 子进程报 `CreateProcessWithLogonW failed: 267`；`danger-full-access` 下正常。这是本机 Codex 沙箱问题，不改变 Skill 代码。写入仍只作用于 disposable 副本。
+
 ### WorkBuddy
 
 ```bash
@@ -65,7 +95,8 @@ node <WorkBuddy>/resources/app.asar.unpacked/cli/dist/codebuddy-lite-wb.mjs \
 
 ## 未完成
 
-- 三客户端各自的完整五步：读工作目录 → 无害文件往返 → 读 EDA 工程 → 副本最小写入 → 保存/重开。本轮只完成“发现并读取 Skill”。
-- WorkBuddy GUI 的导入/刷新/调用未验证。
-- Codex 的 shell 沙箱在本机报 `CreateProcessWithLogonW failed: 267`；它用 node_repl 绕过读取，但真实 EDA 命令执行仍需修复该沙箱问题。
-- 未测试客户端内置模型差异对 Skill 路由的影响。
+- WorkBuddy：GUI 登录后的 Skill 导入/刷新/完整写入流程未验证；CLI 无登录态。
+- 未做“无害文件往返”单列步骤；读工程/写副本/保存/重开已完成。
+- Codex `read-only` 沙箱的 PowerShell 子进程失败仍需单独修复；本轮用 `danger-full-access` 完成流程。
+- 未测试客户端内置模型差异对 Skill 路由的影响；未做无 Skill 对照。
+- 未在三个客户端上重复同一套完整产品任务（仅同一最小写入流程）。
