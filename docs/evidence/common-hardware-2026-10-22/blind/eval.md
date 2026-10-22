@@ -1,5 +1,7 @@
 # 盲测评分：B1–B6
 
+> **集成人注（19:20）：** 本评分写于应用文件按批次生成期间。`11-data-logger.md` 与 `12-solenoid-controller.md` 已于 19:19 生成，P0-1 关闭；P0-2/P0-3/P0-4/P1-5/P1-6 已修（README 路由行、03 变体、05/08 行、A2 DS18B20 温区），全量 260 tests OK。以下保留原始评分与发现，作为审计记录。
+
 > 输出文件：`C:\Users\jlc\work\hds-common-scratch\blind\eval.md`
 >
 > 评分对象：`C:\Users\jlc\work\hds-common-scratch\blind\B1.md`–`B6.md`。复核仓库：`C:\Users\jlc\work\hardware-design-skill`（HEAD `0fe5cf80`，工作区含未提交的 common-hardware 内容）。
