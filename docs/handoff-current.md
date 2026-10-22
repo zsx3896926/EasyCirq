@@ -2,7 +2,7 @@
 
 更新时间：2026-10-22
 仓库：`C:\Users\jlc\work\hds-round3`（worktree）
-分支：`feat/round3-engineering`，HEAD `5699674`，已推送 `origin/feat/round3-engineering`
+分支：`feat/round3-engineering`，HEAD `bf10dc1`，已推送 `origin/feat/round3-engineering`
 工作区：干净；无未提交修改
 
 ## 1. 目标与任务表
@@ -21,6 +21,7 @@
 | `fb810fd` | 执行器 P0：快照完整性、字段级回读、计划/页/工程级位号、冻结页 UUID、漂移检查、会话/版本门禁、重开比较域、超时部分结果；23→50 项 EDA 测试 |
 | `2f93a97` | `netlist_diff.py` 网表确定性 diff；受控删除原语（`delete` + `--allow-delete`，删除后回读确认不存在） |
 | `5699674` | F1 电气修订 rev3：C103→22µF 35V 钽、IO2 10k 上拉、EN/RST 100nF、U101 本地 10µF、VBUS SMBJ5.0A、USB-C 壳脚 GND；`drc` 命令；删除器件 component 比较修正 |
+| `bf10dc1` | 门禁复核补强：零长度线纳入重开比较；`netlist_diff` 严格拒绝无效/截断输入；删除按类型强制完整 `expected`；C107 状态降为 PARTIAL（稳定性未实测） |
 
 ## 3. 关键证据
 
@@ -34,10 +35,11 @@
 
 ## 4. 验证状态
 
-- 全量测试：`python -m unittest discover -s tests` = **183 tests, OK**。
+- 全量测试：`python -m unittest discover -s tests` = **191 tests, OK**（`tests.test_eda_exec` 58 项、`tests.test_netlist_diff` 15 项）。
 - 真实 EDA：嘉立创EDA专业版 `4.1.78.34f5b8d9`，半离线 CLI；本轮所有写入在 scratch 副本。
 - F1 rev3：
-  - 网表 diff：既有引脚 `pin_net_changed=0`；27 条 blocking 全部是预期的器件增删/引脚追加。
+  - 网表 diff：既有引脚 `pin_net_changed=0`；27 条 blocking 全部是预期的器件增删/引脚追加。这是电气修订的白名单结果，不是纯排版验收。
+  - 零长度线：重开比较现在纳入 `(net,x,y)`；真机 `f1-gatecheck-reopen.json` 仍 match，删除/改网会 mismatch。
   - DRC：5 warn（4× OBJECTOUTSIDESHEET，1× CHECKFLOATPIN 6 个未用 USB 数据脚），0 error。
   - 保存后重开：`match`，21 器件/37 标记/20 端口/57 导线。
   - 图面：仍拥挤，C3 重排未做；标题栏仍 V1.0。
@@ -62,7 +64,7 @@
 
 ## 7. 下一条具体操作
 
-1. **F1 重排（C3）**：先冻结 `f1-rev3b.net` 为 golden baseline；在副本上重排 J101/R101/R102、U102 电源标记、U101 周边、J102 与 C104-C107；标题栏改 `DRAFT`；重排后导出网表，跑 `netlist_diff` 要求 `pin_net_changed=0`；导出 PNG 人工看图；跑 `drc` 并逐条写豁免/保留理由。
+1. **F1 重排（C3）**：先冻结 `f1-rev3b.net` 为 golden baseline；在副本上重排 J101/R101/R102、U102 电源标记、U101 周边、J102 与 C104-C107；标题栏改 `DRAFT`；重排后导出网表，跑 `netlist_diff` 要求**整个 diff 为 `match`**（器件增删/身份字段/引脚增删/改网都为 0），不能只看 `pin_net_changed=0`；导出 PNG 人工看图；跑 `drc` 并逐条写豁免/保留理由。
 2. **ERC 豁免表**：对 4 条超框与 6 个未用 USB 数据脚逐条给出处理/保留理由，不能批量忽略。
 3. **PCB 纵向闭环（E）**：在 `eda_exec.py` 增加 PCB 命令族（`pcb-read/apply/save/export/reopen-check`），按 audit 的 `probe-*.json` 路径实现板框→导入→放置→布线→DRC→Gerber/CPL→保存重开；先以 F1 rev3 做回归。
 4. **供应链/制造（F）**：用最终 BOM（21 器件）核对 C 号/库存/封装，生成 BOM/CPL/manifest 与 SHA256；不授权下单。
