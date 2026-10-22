@@ -17,7 +17,7 @@
 | 项目 | 主责案例（事实源） | 不能漂移的事实 | 仍未知 |
 |---|---|---|---|
 | R4-P1 | [A02](r4-case-a02-overdesign-gate.md) §2 | P01 逻辑脚表与固件配置；新增按键/LED/第二串口/I2C；物理脚未核 | ESP32-C3 物理脚、pinmux、ADC 限制、封装 NC |
-| R4-P2 | [C01](r4-case-c01-battery-plus-external-supply-states.md) §2 | P01 的 1S+USB-C+BQ24074+TPS63802；计划首发 25 块、选路线 B、制造 NOT RUN；1000 台是假设；BQ24074 4.23 V max 对 4.20 V 电芯不兼容 | 电芯型号、NTC、θJA、许可、OTA 平台 |
+| R4-P2 | [C01](r4-case-c01-battery-plus-external-supply-states.md) §2 | P01 的 1S+USB-C+BQ24074+TPS63802；计划首发 25 块、选路线 B、制造 NOT RUN；1000 台是假设；BQ24074 4.23 V max 与电芯硬上限的匹配：硬上限确认 4.20 V 时 `rejected`，仅标称 4.20 V 时 `blocked`/待核 | 电芯型号/硬上限/允许条件、NTC、θJA、许可、OTA 平台 |
 | R4-P3 | [D01](r4-case-d01-acquisition-tolerance.md) §2 | P02 的两路 100 Ω 分流、2.5 V/0.1% 基准、12 位 ADC；P02 §4.4 的 3905/0.524 LSB 用 recompute JSON 重算 | 实际 ADC/基准/运放、校准源、恒温箱、老化 |
 | R4-P4 | [E01](r4-case-e01-multiboard-interface-contract.md) §2 | J1 10-pin 表来自 module-integration §17.2；J2/J3 与第三块板是构造假设 | 连接器 MPN/额定/配对端子/压接工具、线长/线规 |
 | R4-P5 | [G01](r4-case-g01-two-sales-configs-one-board.md) §2 | manufacturing-routes §9.4 的 V1 继电器/V2 MOSFET；constructed | 全部 MPN/C 号/价格/库存/MOQ/包装/认证 |

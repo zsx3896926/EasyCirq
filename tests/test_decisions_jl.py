@@ -403,14 +403,26 @@ class ModuleReuseJson(unittest.TestCase):
                 self.assertIsInstance(group["evidence"], list)
                 self.assertIsInstance(group["unknowns"], list)
 
-    def test_charger_is_rejected_by_423_max(self):
+    def test_charger_is_blocked_until_cell_hard_max_confirmed(self):
         charger = self.data["blocks"][0]
-        self.assertEqual(charger["decision"], "rejected")
+        self.assertEqual(charger["decision"], "blocked")
         basis = charger["decision_basis"]
         self.assertIn("min/typ/max", basis)
         self.assertIn("4.23 V max", basis)
-        self.assertIn("4.20 V", basis)
+        self.assertIn("硬上限", basis)
+        self.assertIn("blocked", basis)
+        self.assertIn("保护板", basis)
         self.assertNotIn("4.20 V 档", basis)
+        rules = {rule["decision"] for rule in charger.get("decision_rules", [])}
+        self.assertEqual(rules, {"rejected", "blocked"})
+
+    def test_case_separates_confirmed_hard_max_from_nominal(self):
+        text = J01_CASE.read_text(encoding="utf-8")
+        self.assertIn("硬上限", text)
+        self.assertIn("blocked", text)
+        self.assertIn("不能直接判不兼容", text)
+        self.assertIn("保护板", text)
+        self.assertIn("不能替代电芯", text)
 
     def test_rail_is_accepted_with_conditions(self):
         rail = self.data["blocks"][1]

@@ -78,7 +78,7 @@ sources: [PWR-S07, PWR-S09, MCU-S04, MCU-S09, MCU-S06, D-S08, IF-S11]
 ## 6. 改变哪个工程决定
 - 改变 EN/复位 RC、电源路径与负载开关、上拉电源域、串联限流、理想二极管/ORing、固件初始化顺序与复位标志、测试计划与 BOM；可关断轨还改变变体与 DNP。
 ## 7. 完整案例
-- [R4-CASE-C01：电池与 USB 外部供电共存节点的状态契约](cases/r4-case-c01-battery-plus-external-supply-states.md)。决定：三轴建状态，升级标 applicable:false。代价：POR 四项与反灌路径全部待查，不能放行充电配置。下一个检查：4.20 V 电芯与 BQ24074 4.23 V max 的终止电压匹配（待查）。
+- [R4-CASE-C01：电池与 USB 外部供电共存节点的状态契约](cases/r4-case-c01-battery-plus-external-supply-states.md)。决定：三轴建状态，升级标 applicable:false。代价：POR 四项与反灌路径全部待查，不能放行充电配置。下一个检查：电芯规格书硬上限/允许充电条件与 BQ24074 4.23 V max 的匹配（硬上限确认 4.20 V 时 `rejected`；仅标称 4.20 V 时 `blocked`/待核）。
 ## 8. 证据与验证方式
 - 本文 E3：只整理方法与项目纸面事实，本轮未重开原厂正文、未运行 EDA、未实测；`execution=OFFLINE_PLANNING`，`hardware_execution=NOT RUN`。
 - 验证方式：状态/转换/矩阵逐项回指 path:start-end 与来源 ID；POR 四项、反灌路径与恢复动作写成可测项。不能证明具体器件的 POR/BOR、总线释放时刻、部分供电行为与固件状态机。

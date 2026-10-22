@@ -690,6 +690,9 @@ class D01BudgetArithmetic(unittest.TestCase):
         # post-cal number is driven by CAL_RESIDUAL alone.
         text = read_text(D01_CASE)
         self.assertIn("post-cal 汇总只取 CAL_RESIDUAL", text)
+        self.assertNotIn("≥45（下限", text)
+        self.assertIn("最坏情况预算", text)
+        self.assertIn("总误差暂不能定论", text)
 
 
 class K01ModelPrediction(unittest.TestCase):
