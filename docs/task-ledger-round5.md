@@ -47,6 +47,9 @@
    待定位）；WorkBuddy BLOCKED（CLI `/login`）；均无「完整项目」证据。
 9. 知识库：13 组/102 主题/12 应用结构完整；原厂资料复核仅在线交叉核对；C40/C76 两条审校未关闭。
 10. 固件：仓库无实际固件代码，只有文档与测试计划（firmware-bringup/product-acceptance）。
+11. **勘误（C 包核实）**：U101 = **Ai-Thinker ESP-01S（ESP8266，8 脚）**，不是此前文档所写的 ESP32-C3。
+    图面引脚 VCC/GND/TXD/RXD/EN/RST/IO0/IO2 与 ESP-01S 一致；M 包固件、烧录与引脚配置一律按 ESP8266
+    重写，历史 ESP32-C3 叙述作废。
 
 ## 2. 本轮任务台账（A–N）
 
@@ -54,7 +57,7 @@
 |---|---|---|---|---|
 | A | 状态盘点与统一台账 | **DONE** | 盘点+62 核验完成；本文件即交付 | 随工作推进维护本文件 |
 | B | F1 原理图排版/警告/审图 | **DONE**（人工审图待做） | 副本 `f1-b-v3.eprj2`：ONENETNAME 根因（零长度中段多段线）定位并重画消除（DRC 3→1）；DRAFT 标识与 J101 未用脚注记真机写入；网表与 golden 逐字节一致；重开 match；处置表 `drc-erc-disposition.md`；AI 独立审图报告 `independent-review.md`（非人工审图，已标注） | 人工审图按报告清单执行；标题栏版本格 V1.0 需 GUI 会话一次操作（CLI 无入口） |
-| C | F1 电气依据/封装/验证计划 | NOT RUN | MPN 17/21、C107 稳定性未实测、USB-C/TVS 核对未做 | 从 selected-parts.json 出「待查清单」，逐项补原厂依据 |
+| C | F1 电气依据/封装/验证计划 | **DONE**（C2/C5 子项 PARTIAL） | 21 位号身份表+证据等级（`docs/evidence/f1-c-2026-10-22/part-evidence.md`）；LCSC 核对 U101/U102/D102；电源压差/热/ESR 独立复算；CC/TVS/J102 反灌结论；启动复位 RC 核对；焊盘级映射如实 PARTIAL | C2 取 YONGYUTAI 原厂 PDF 或换料比较；C5 焊盘表随 F 包导入核对 |
 | D | 真实几何与排版检查闭环 | PARTIAL | `sch_layout_check.py` 存在但未接真实 EDA 几何 | 用 F1 快照导出坐标，接入检查器 |
 | E | PCB 执行器 | **DONE**（缺口明确列出） | 命令族实现+真机验收：读→最小写（线/过孔/铜区边框/器件 flat+search）→回读→保存→重开 match，四类原语全部成立；铺铜填充、DRC 明细、制造导出在 CLI 半离线不可用（记录在案）；板框专用原语、移动/旋转/删除未探测 | 未支持项已在 `pcb doctor` 与证据 README 明列；F 包使用前在 GUI 会话补板框验证 |
 | F | F1 PCB 完整闭环 | NOT RUN | 需先 B/C 收尾；F1 PCB 尚未从 rev3 导入 | B 完成后：导入→布局→布线→DRC→重开→导出 |
