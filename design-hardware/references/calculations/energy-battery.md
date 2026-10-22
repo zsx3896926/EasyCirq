@@ -103,10 +103,10 @@
 ### 3.4 充电
 
 - CC/CV：先恒流 `Ichg` 到 `VBAT(REG)`，再恒压到 `ITERM`；CC 时间 `t_cc ≈ C·(SOC_target−SOC_start)/Ichg`；CV 尾时间取决于 `ITERM`、电芯/温度，不能只用 CC 公式。
-- 线性充电器功耗：`PD ≈ (Vin−Vbat)·Ichg + Vin·Iq`；结温 `TJ = TA + PD·θJA`；热调节门限（BQ2407x `TJ(REG)=125 °C`、`TJ(OFF)=155 °C`）会减小/关断充电。**有 power path 时 pass FET 还承载系统电流**，`PD` 要按 `Ichg+Isys` 算，不能只算充电电流。
+- 线性充电器功耗：`PD ≈ (Vin−Vbat)·Ichg + (Vin−Vout)·Isys + Vin·Iq`；无 power path 时 `Isys` 项为 0（或系统由电池供电），有 power path 时必须保留系统电流项。结温 `TJ = TA + PD·θJA`；热调节门限（BQ2407x `TJ(REG)=125 °C`、`TJ(OFF)=155 °C`）会减小/关断充电。**有 power path 时 pass FET 还承载系统电流**，不能只算充电电流。
 - 开关充电器：`Pin = Pout/η`；`Iin = Pout/(η·Vin)`；热调节门限（BQ25619 `TJ(REG)=110 °C`、`TSHUT=150/130 °C`）。
 - 输入限流/DPPM：输入电流 = 充电电流 + 系统电流；超过 `IIN_MAX` 时先减小充电电流，系统优先；DPPM 期间禁止终止（PWR-S07 §9.3.4）。
-- USB 输入电容：USB 规范允许硬启动 10 µF，对应 >100 mA 时最大浪涌电荷 50 µC；PWR-S07 要求输入电容 <10 µF，因为这部分充电电流不受限。
+- USB 输入电容：USB 2.0 允许硬启动 10 µF，对应 >100 mA 时最大浪涌电荷 50 µC；BQ2407x 要求输入电容 <10 µF，因为这部分充电电流不受限（PWR-S07）。这是 **BQ2407x/USB 2.0 条件**；Type-C 的 VBUS 电容/放电与 PD 上限另查，不能把 10 µF 当所有 USB 入口的通用值。
 - USB-C：5 V 档 500 mA/1.5 A/3 A；原生最大 15 W（3 A@5 V）；PD 不在本组来源内（PWR-S16 只读 CC 章节）。TUSB320 只支持 Type-C 1.1、无 e-marking（PWR-S15）；规范当前 Release 2.5（2026-04-08）只作为版本元数据，正文未读（PWR-S17）。因此本文只写 5 V 档，不写 PD/EPR。
 - 充电时间不是“容量/电流”这么简单：系统负载、输入限流、CV 尾、温度降额、DPPM 都会拉长。
 
@@ -495,7 +495,7 @@ python scripts/power_budget.py budget.json
 | 区域 | 约束 | 适用检查 |
 |---|---|---|
 | 电池/保护 | 保护 FET 在回流；NTC 贴电芯；防反接 | SC17、PL15、RT01 |
-| 充电器 | 输入电容 <10 µF（USB 浪涌）；热焊盘/铜 | SC12、PL16、RT29 |
+| 充电器 | 输入电容按具体充电器/USB 条件（BQ2407x ≤10 µF 只是该型号条件）；热焊盘/铜 | SC12、PL16、RT29 |
 | 3V3 | 电感/电容靠近；反馈取样 | PL09–PL12 |
 | 无线 | 天线净空/馈线按模组指南；远离电池/金属 | PL26–PL27、RT25–RT26 |
 | 阀门/输出 | 续流/钳位；端子载流；默认关断 | SC21、SC39、RT01 |

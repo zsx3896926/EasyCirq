@@ -1,0 +1,354 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "S1-NTC-ALARM",
+    "page_name": "P1"
+  },
+  "note": "Wired S1 page: dividers wired vertically, comparator output tree wired, ports for the two high-impedance inputs and external alarm.",
+  "operations": [
+    {
+      "op": "wire",
+      "key": "ntc-divider",
+      "net": "NTC_NODE",
+      "points": [
+        320,
+        500,
+        320,
+        620
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "th-divider",
+      "net": "TH_NODE",
+      "points": [
+        880,
+        500,
+        880,
+        620
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "out-1",
+      "net": "OUT1",
+      "points": [
+        690,
+        500,
+        720,
+        500
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "out-2",
+      "net": "OUT1",
+      "points": [
+        720,
+        500,
+        720,
+        560
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "out-3",
+      "net": "OUT1",
+      "points": [
+        720,
+        560,
+        760,
+        560
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "out-4",
+      "net": "OUT1",
+      "points": [
+        720,
+        500,
+        720,
+        400
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "out-5",
+      "net": "OUT1",
+      "points": [
+        720,
+        500,
+        720,
+        700
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "out-6",
+      "net": "OUT1",
+      "points": [
+        720,
+        700,
+        680,
+        700
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "gate-1",
+      "net": "GATE",
+      "points": [
+        680,
+        400,
+        650,
+        400
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "gate-2",
+      "net": "GATE",
+      "points": [
+        650,
+        400,
+        650,
+        320
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "gate-3",
+      "net": "GATE",
+      "points": [
+        650,
+        320,
+        670,
+        320
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "buz-1",
+      "net": "BUZ_D",
+      "points": [
+        700,
+        340,
+        700,
+        240
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "buz-2",
+      "net": "BUZ_D",
+      "points": [
+        700,
+        240,
+        900,
+        240
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "buz-3",
+      "net": "BUZ_D",
+      "points": [
+        900,
+        240,
+        900,
+        300
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "3v3-r201",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        320,
+        460
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "3v3-r202",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        880,
+        460
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "3v3-r206",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        680,
+        660
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "3v3-u201",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        650,
+        540
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "3v3-c201",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        730,
+        620
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "3v3-bz201",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        910,
+        300
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "3v3-j201",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        105,
+        310
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "gnd-rt201",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        320,
+        660
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "gnd-r203",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        880,
+        660
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "gnd-u201",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        650,
+        460
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "gnd-c201",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        770,
+        620
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "gnd-q201",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        700,
+        300
+      ]
+    },
+    {
+      "op": "net_flag",
+      "key": "gnd-j201",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        105,
+        300
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "ntc-mid",
+      "net": "NTC_NODE",
+      "direction": "BI",
+      "at": [
+        320,
+        560
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "ntc-pin",
+      "net": "NTC_NODE",
+      "direction": "BI",
+      "at": [
+        610,
+        510
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "th-mid",
+      "net": "TH_NODE",
+      "direction": "BI",
+      "at": [
+        880,
+        560
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "th-pin",
+      "net": "TH_NODE",
+      "direction": "BI",
+      "at": [
+        610,
+        490
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "out-pin",
+      "net": "OUT1",
+      "direction": "BI",
+      "at": [
+        690,
+        500
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "out-ext",
+      "net": "OUT1",
+      "direction": "BI",
+      "at": [
+        105,
+        290
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "page": {"schematic_name": "S1-NTC-ALARM", "page_name": "P1"},
+  "operations": [
+    {"op": "wire", "key": "ntc-new2", "net": "NTC_NODE", "points": [320, 620, 320, 500]},
+    {"op": "wire", "key": "th-new2", "net": "TH_NODE", "points": [880, 620, 880, 500]}
+  ]
+}

@@ -242,7 +242,8 @@ python scripts/calculate.py adc_settle '{"r_source_ohm":7500,"r_switch_ohm":100,
 | 量 | 值 |
 |---|---:|
 | `tau_upper_s` | 7.6304 µs |
-| `settling_error_LSB_full_scale` | 1085.50 LSB（两节点解析、两电容零初值） |
+| `settling_error_LSB_full_scale` | 1085.50 LSB（两节点解析、两电容零初值；工具按 3.3 V 阶跃） |
+| `settling_error_LSB_2v5_step` | 822.42 LSB（同一模型按本分压节点实际 2.5 V 阶跃重跑；仍不通过） |
 | `required_tau_for_0p5LSB_s` | 1.1098 µs |
 | `max_total_resistance_for_0p5LSB_ohm` | 1105.3 Ω |
 | `status` | `insufficient_settling` |
@@ -252,7 +253,8 @@ python scripts/calculate.py adc_settle '{"r_source_ohm":7500,"r_switch_ohm":100,
 **二阶数值模型（实际执行）：**
 
 ```bash
-python scripts/rc_settle_sim.py --vin 3.3 --r-source 7500 --r-switch 100 --c-ext 1e-9 --c-sample 4e-12 --t-close 0 --t-end 50e-6 --dt 1e-9 --bits 12 --vref 3.3 --out rc_unbuffered.csv
+python scripts/rc_settle_sim.py --vin 2.5 --r-source 7500 --r-switch 100 --c-ext 1e-9 --c-sample 4e-12 --t-close 0 --t-end 10e-6 --dt 1e-9 --bits 12 --vref 3.3 --out rc_unbuffered.csv
+# 本分压节点实际阶跃 2.5 V；用 --vin 3.3 会得到 1085.50 LSB，约高估 32%。
 python scripts/rc_settle_sim.py --vin 3.3 --r-source 50 --r-switch 100 --c-ext 1e-9 --c-sample 4e-12 --t-close 0 --t-end 10e-6 --dt 1e-9 --bits 12 --vref 3.3 --out rc_buffered.csv
 ```
 

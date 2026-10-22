@@ -1,15 +1,17 @@
 ---
 id: PWR-08
 category: power
-title: 1S 电池保护与 BMS
+title: 1S 电池保护（保护 IC + 背靠背 FET）
 evidence: E2
 last_reviewed: 2026-10-20
 sources: [PWR-S10, PWR-S07]
 related_checks: [SC17, SC18, PL16, DM13]
 ---
 
-# 1S 电池保护与 BMS
+# 1S 电池保护（保护 IC + 背靠背 FET）
 
+> **范围：** 本卡只覆盖单节锂电池的保护 IC + 背靠背 MOSFET（过充/过放/过流/短路）；不覆盖多串电池包、均衡、电量计或完整 BMS，这些见 H5 与 B3 专题。
+>
 > **一句话用途：** 为单节锂电池包选定保护 IC 的门限与延时、背靠背 MOSFET 的 Rds(on)/Vds/栅压，并把过充、过放、过流、短路保护与充电器、NTC 的职责分开。
 >
 > **证据等级：**
