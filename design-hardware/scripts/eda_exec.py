@@ -52,9 +52,14 @@ OP_KEYS = {
     'net_flag': {'op', 'key', 'net', 'type', 'at', 'rotation', 'mirror', 'note'},
     'net_port': {'op', 'key', 'net', 'direction', 'at', 'rotation', 'mirror', 'note'},
     'wire': {'op', 'key', 'net', 'points', 'note'},
+    'delete_wire': {'op', 'key', 'match', 'note'},
+    'delete_component': {'op', 'key', 'match', 'note'},
 }
 NET_FLAG_TYPES = {'Power', 'Ground', 'AnalogGround', 'ProtectGround'}
 NET_PORT_DIRECTIONS = {'IN', 'OUT', 'BI'}
+DELETE_WIRE_MATCH_KEYS = {'primitive_id', 'net', 'points'}
+DELETE_COMPONENT_MATCH_KEYS = {'primitive_id', 'component_type', 'name', 'net', 'at'}
+DELETABLE_COMPONENT_TYPES = {'netflag', 'netport'}
 
 
 class EdaError(Exception):
@@ -676,6 +681,38 @@ for (const act of (A.actions || [])) {
         key: act.key, ok: true, action: act.action, primitive_id: wire.getState_PrimitiveId(),
         net: wire.getState_Net(), line: wire.getState_Line(),
       });
+    } else if (act.action === 'delete_wire') {
+      const before = await eda.sch_PrimitiveWire.get(act.primitive_id);
+      if (!before) throw new Error('wire_not_found: ' + act.primitive_id);
+      const beforeNet = before.getState_Net();
+      if (beforeNet !== act.net) throw new Error('wire_net_changed: ' + beforeNet + ' != ' + act.net);
+      const deleted = await eda.sch_PrimitiveWire.delete(act.primitive_id);
+      await sleep2(300);
+      results.push({
+        key: act.key, ok: !!deleted, action: act.action, primitive_id: act.primitive_id,
+        deleted: !!deleted, before: { net: beforeNet, line: before.getState_Line() },
+      });
+    } else if (act.action === 'delete_component') {
+      const before = await eda.sch_PrimitiveComponent.get(act.primitive_id);
+      if (!before) throw new Error('component_not_found: ' + act.primitive_id);
+      const beforeType = before.getState_ComponentType();
+      if (beforeType !== act.component_type) {
+        throw new Error('component_type_changed: ' + beforeType + ' != ' + act.component_type);
+      }
+      if (act.component_type !== 'netflag' && act.component_type !== 'netport') {
+        throw new Error('refusing to delete component type: ' + beforeType);
+      }
+      const deleted = await eda.sch_PrimitiveComponent.delete(act.primitive_id);
+      await sleep2(300);
+      results.push({
+        key: act.key, ok: !!deleted, action: act.action, primitive_id: act.primitive_id,
+        deleted: !!deleted, before: {
+          component_type: beforeType,
+          name: safe(() => before.getState_Name()),
+          net: safe(() => before.getState_Net()),
+          x: safe(() => before.getState_X()), y: safe(() => before.getState_Y()),
+        },
+      });
     } else {
       throw new Error('unsupported action: ' + act.action);
     }
@@ -697,6 +734,23 @@ const wires = await eda.sch_PrimitiveWire.getAll();
 return { ok: true, saved: !!saved, counts: { components: comps.length, wires: wires.length }, page: { uuid: selected.p.uuid, name: selected.p.name } };
 '''
 
+DRC_JS = r'''
+const A = __ARGS__;
+''' + PAGE_SELECT_JS + r'''
+const raw = await eda.sch_Drc.check(true, false, true);
+const violations = (raw || []).map(v => {
+  if (typeof v === 'string') return v;
+  try { return JSON.parse(JSON.stringify(v)); } catch (e) { return String(v); }
+});
+return {
+  ok: true,
+  page: { uuid: selected.p.uuid, name: selected.p.name },
+  passed: violations.length === 0,
+  count: violations.length,
+  violations,
+};
+'''
+
 EXPORT_JS = r'''
 const A = __ARGS__;
 ''' + PAGE_SELECT_JS + r'''
@@ -705,6 +759,8 @@ if (A.kind === 'png') {
   file = await eda.sch_ManufactureData.getPngFile(A.name || 'export', A.resolution || { width: 1600 });
 } else if (A.kind === 'netlist') {
   file = await eda.sch_ManufactureData.getNetlistFile(A.name || 'export', A.netlist_type || 'Protel2');
+} else if (A.kind === 'bom') {
+  file = await eda.sch_ManufactureData.getBomFile(A.name || 'export', A.bom_type || 'csv');
 } else if (A.kind === 'svg') {
   file = await eda.sch_ManufactureData.getSvgFile(A.name || 'export');
 } else {
@@ -853,6 +909,53 @@ def validate_plan(plan):
         elif kind == 'wire':
             _text(op.get('net'), f'{where}.net')
             _canonical_segments(op.get('points'))
+            normalized.append(op)
+        elif kind == 'delete_wire':
+            match = op.get('match')
+            if not isinstance(match, dict):
+                raise EdaInputError(f'{where}.match: object required')
+            unknown = set(match) - DELETE_WIRE_MATCH_KEYS
+            if unknown:
+                raise EdaInputError(f'{where}.match: unknown fields {sorted(unknown)}')
+            _text(match.get('primitive_id'), f'{where}.match.primitive_id')
+            net = match.get('net')
+            if not isinstance(net, str):
+                raise EdaInputError(f'{where}.match.net: string required')
+            if net:
+                _text(net, f'{where}.match.net')
+            else:
+                # 4.1.78 leaves zero-length, unnamed wire stubs at net ports.
+                # They carry no connectivity but must be identifiable for cleanup.
+                if not match.get('points'):
+                    raise EdaInputError(f'{where}.match.points: required for an unnamed wire')
+                flat = match['points']
+                if isinstance(flat, list) and flat and isinstance(flat[0], list):
+                    flat = [v for segment in flat for v in segment]
+                if len(flat) < 4 or len(flat) % 2:
+                    raise EdaInputError(f'{where}.match.points: flat even-length coordinate list required')
+                for value in flat:
+                    _coord(value, f'{where}.match.points')
+            if net and match.get('points') is not None:
+                _canonical_segments(match['points'])
+            normalized.append(op)
+        elif kind == 'delete_component':
+            match = op.get('match')
+            if not isinstance(match, dict):
+                raise EdaInputError(f'{where}.match: object required')
+            unknown = set(match) - DELETE_COMPONENT_MATCH_KEYS
+            if unknown:
+                raise EdaInputError(f'{where}.match: unknown fields {sorted(unknown)}')
+            _text(match.get('primitive_id'), f'{where}.match.primitive_id')
+            if match.get('component_type') not in DELETABLE_COMPONENT_TYPES:
+                raise EdaInputError(
+                    f'{where}.match.component_type: one of {sorted(DELETABLE_COMPONENT_TYPES)} required'
+                )
+            if match.get('name') is not None:
+                _text(match['name'], f'{where}.match.name')
+            if match.get('net') is not None:
+                _text(match['net'], f'{where}.match.net')
+            if match.get('at') is not None:
+                _at(match['at'], f'{where}.match.at')
             normalized.append(op)
     return {**plan, 'operations': normalized}
 
@@ -1073,6 +1176,57 @@ def reconcile(snapshot, plan):
                     item.update({'status': 'create', 'net': op['net'],
                                  'segments': len(missing), 'existing_segments': len(target_segments) - len(missing)})
             items.append(item)
+        elif op['op'] == 'delete_wire':
+            match = op['match']
+            existing = next((w for w in wires if w.get('primitive_id') == match['primitive_id']), None)
+            if existing is None:
+                item['status'] = 'skip'
+                item['reason'] = 'already_absent'
+            elif existing.get('net') != match['net']:
+                conflict(item, 'wire_net_mismatch', {'existing': existing.get('net'), 'planned': match['net']})
+            elif match.get('points') and match['net']:
+                target_segments, _ = _canonical_segments(match['points'])
+                actual_segments, _ = _segments_from_line(existing.get('line') or [])
+                missing = [segment for segment in target_segments
+                           if not _segment_covered(segment, actual_segments)]
+                if missing:
+                    conflict(item, 'wire_geometry_mismatch', {'missing_segments': missing[:10]})
+                else:
+                    action = {'action': 'delete_wire', 'key': key,
+                              'primitive_id': match['primitive_id'], 'net': match['net']}
+                    item.update({'status': 'delete', 'net': match['net']})
+                    actions.append(action)
+            else:
+                action = {'action': 'delete_wire', 'key': key,
+                          'primitive_id': match['primitive_id'], 'net': match['net']}
+                item.update({'status': 'delete', 'net': match['net']})
+                actions.append(action)
+            items.append(item)
+        elif op['op'] == 'delete_component':
+            match = op['match']
+            flag = next((f for f in netflags if f.get('primitive_id') == match['primitive_id']), None)
+            port = next((p for p in netports if p.get('primitive_id') == match['primitive_id']), None)
+            existing = flag or port
+            actual_type = 'netflag' if flag else ('netport' if port else None)
+            if existing is None:
+                item['status'] = 'skip'
+                item['reason'] = 'already_absent'
+            elif actual_type != match['component_type']:
+                conflict(item, 'component_type_mismatch', {'existing': actual_type, 'planned': match['component_type']})
+            elif match.get('name') is not None and existing.get('name') != match['name']:
+                conflict(item, 'component_name_mismatch', {'existing': existing.get('name'), 'planned': match['name']})
+            elif match.get('net') is not None and existing.get('net') != match['net']:
+                conflict(item, 'component_net_mismatch', {'existing': existing.get('net'), 'planned': match['net']})
+            elif match.get('at') is not None and not _same_position(
+                    (existing.get('x'), existing.get('y')), match['at']):
+                conflict(item, 'component_position_mismatch', {
+                    'existing': [existing.get('x'), existing.get('y')], 'planned': match['at']})
+            else:
+                action = {'action': 'delete_component', 'key': key,
+                          'primitive_id': match['primitive_id'], 'component_type': actual_type}
+                item.update({'status': 'delete', 'component_type': actual_type})
+                actions.append(action)
+            items.append(item)
     return {
         'items': items,
         'actions': actions,
@@ -1151,6 +1305,20 @@ def verify_against_snapshot(snapshot, plan, items):
             passed = not missing
             detail = {'net': op['net'], 'segments': len(target_segments),
                       'missing_segments': missing[:10], 'missing_count': len(missing)}
+        elif op['op'] == 'delete_wire':
+            match = op['match']
+            found = next((w for w in wires if w.get('primitive_id') == match['primitive_id']), None)
+            passed = found is None
+            detail = {'primitive_id': match['primitive_id'], 'net': match['net'],
+                      'still_present': found is not None}
+        elif op['op'] == 'delete_component':
+            match = op['match']
+            found = next((f for f in netflags + netports
+                          if f.get('primitive_id') == match['primitive_id']), None)
+            passed = found is None
+            detail = {'primitive_id': match['primitive_id'],
+                      'component_type': match['component_type'],
+                      'still_present': found is not None}
         results.append({**item, 'verification': 'verified' if passed else 'failed', 'observed': detail})
     statuses = {r['verification'] for r in results}
     if 'failed' in statuses or 'conflict' in statuses:
@@ -1185,9 +1353,14 @@ def compare_snapshots(before, after):
     def flags_set(snapshot):
         return sorted((f.get('name'), _round(f.get('x')), _round(f.get('y'))) for f in (snapshot.get('netflags') or []))
 
+    def ports_set(snapshot):
+        return sorted((p.get('net'), _round(p.get('x')), _round(p.get('y')))
+                      for p in (snapshot.get('netports') or []))
+
     bparts, aparts = parts_map(before), parts_map(after)
     bwires, awires = wires_set(before), wires_set(after)
     bflags, aflags = flags_set(before), flags_set(after)
+    bports, aports = ports_set(before), ports_set(after)
     differences = []
     for key in sorted(set(bparts) | set(aparts)):
         if bparts.get(key) != aparts.get(key):
@@ -1198,9 +1371,13 @@ def compare_snapshots(before, after):
                             'added': [x for x in awires if x not in bwires][:10]})
     if bflags != aflags:
         differences.append({'kind': 'netflags', 'before': bflags, 'after': aflags})
+    if bports != aports:
+        differences.append({'kind': 'netports', 'before': bports, 'after': aports})
     return {'match': not differences, 'differences': differences,
             'counts': {'parts_before': len(bparts), 'parts_after': len(aparts),
-                       'wires_before': len(bwires), 'wires_after': len(awires)}}
+                       'wires_before': len(bwires), 'wires_after': len(awires),
+                       'netflags_before': len(bflags), 'netflags_after': len(aflags),
+                       'netports_before': len(bports), 'netports_after': len(aports)}}
 
 
 # ---------------------------------------------------------------------------
@@ -1473,7 +1650,8 @@ def command_export(args):
     pro = LcedaPro(args.exe, timeout_ms=args.timeout)
     session, owned = _open_for_command(pro, args)
     try:
-        payload = {'kind': args.kind, 'name': args.name, 'netlist_type': args.netlist_type}
+        payload = {'kind': args.kind, 'name': args.name,
+                   'netlist_type': args.netlist_type, 'bom_type': args.bom_type}
         if args.kind == 'png':
             resolution = {}
             if args.width:
@@ -1494,6 +1672,20 @@ def command_export(args):
         value['sha256'] = __import__('hashlib').sha256(raw).hexdigest()
         value['decoded_size'] = len(raw)
         return {'status': 'ok', 'export': value, 'output': value['output']}, EXIT_OK
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_drc(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned = _open_for_command(pro, args)
+    try:
+        payload = {'page': _page_args(args)}
+        value = pro.invoke(session, DRC_JS, payload, timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is False:
+            raise EdaCommandError('schematic DRC failed', 'EDA_DRC_FAILED', {'value': value})
+        return {'status': 'ok', 'drc': value}, EXIT_OK
     finally:
         if owned:
             close_owned(pro, session)
@@ -1577,16 +1769,26 @@ def build_parser():
     export = sub.add_parser('export', help='export PNG/netlist/SVG from the current page')
     export.add_argument('--session')
     export.add_argument('--project')
-    export.add_argument('--kind', required=True, choices=['png', 'netlist', 'svg'])
+    export.add_argument('--kind', required=True, choices=['png', 'netlist', 'svg', 'bom'])
     export.add_argument('--output', required=True)
     export.add_argument('--name', default='eda-export')
     export.add_argument('--width', type=int)
     export.add_argument('--height', type=int)
     export.add_argument('--netlist-type', default='Protel2')
+    export.add_argument('--bom-type', default='csv', choices=['csv', 'xlsx'])
     export.add_argument('--page', dest='page_uuid')
     export.add_argument('--schematic', dest='schematic_name')
     export.add_argument('--page-name', dest='page_name')
     export.set_defaults(func=command_export)
+
+    drc = sub.add_parser('drc', help='run the editor schematic DRC on the current page')
+    drc.add_argument('--session')
+    drc.add_argument('--project')
+    drc.add_argument('--page', dest='page_uuid')
+    drc.add_argument('--schematic', dest='schematic_name')
+    drc.add_argument('--page-name', dest='page_name')
+    drc.add_argument('--invoke-timeout', type=int, default=180000)
+    drc.set_defaults(func=command_drc)
 
     reopen = sub.add_parser('reopen-check', help='close, reopen and compare stable identity/connectivity')
     reopen.add_argument('--project', required=True)
