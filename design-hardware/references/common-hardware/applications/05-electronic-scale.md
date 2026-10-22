@@ -74,7 +74,7 @@ NTC 10k ── 10k 分压 ── ADC CH1（E7 辅助通道）
 |---|---|---|
 | `VBUS` | USB-C 5 V → HX711 VSUP、LDO IN | USB 5 V±5%；内部稳压模式下 HX711 AVDD 需比 VSUP 低 ≥100 mV（本设计 5 V→3.3 V）；备选 3×AAA 时 `VBUS=VBAT 4.5 V`、3.5 V 截止 |
 | `+3V3` | LDO OUT、MCU、OLED、HX711 DVDD | 与 I²C 上拉同域；上电先 3V3 再释放总线 |
-| `AVDD` | HX711 内部稳压输出、桥 `EXC+` | 本设计 3.3 V；比率测量时它同时是 ADC 参考，不能用外部 5 V 单独激励 |
+| `AVDD` | HX711 内部稳压输出、桥 `EXC+` | 本设计 3.3 V；比率测量时它同时是 ADC 参考。外部 5 V 单独激励只允许在旁路模式（VSUP=AVDD=5 V、VFB=GND、BASE=NC）并核对桥/ADC 额定，不能在内部稳压模式下把 AVDD 接 5 V |
 | `EXC+/EXC−` | HX711 AVDD/AGND → 桥激励 | 激励电流路径与 `SIG`/`SENSE` 分开走 |
 | `SIG+/SIG−` | 桥输出 → 对称 RC → INA± | 高阻节点，不挂测试点；RC 两侧同阻值同封装 |
 | `SENSE+/SENSE−` | 六线桥的远程感测对 | **HX711 没有 SENSE 脚**：六线只能在连接器处把 SENSE 并回 EXC，等于放弃远程感测；要真六线请改 ADS1232 |
