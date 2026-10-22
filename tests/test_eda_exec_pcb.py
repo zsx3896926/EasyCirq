@@ -61,6 +61,7 @@ def pcb_snapshot(**overrides):
         'outline': {'lines': [], 'count': 0},
         'rule_config': 'Default',
         'read_errors': [],
+        'field_notes': [],
         'note': 'pours counts the outline, poured counts actual copper fills; they are not interchangeable',
     }
     snap.update(overrides)
@@ -306,6 +307,14 @@ class PcbSnapshotIntegrity(unittest.TestCase):
         snap = pcb_snapshot()
         snap['read_errors'] = [{'scope': 'nets', 'field': 'getAllNetsName', 'error': 'boom'}]
         self.assertEqual(eda.pcb_snapshot_integrity(snap)['status'], 'incomplete')
+
+    def test_field_notes_do_not_block_writes(self):
+        snap = pcb_snapshot()
+        snap['field_notes'] = [{'scope': 'poured', 'field': 'net',
+                                'error': 'x.getState_Net is not a function'}]
+        integrity = eda.pcb_snapshot_integrity(snap)
+        self.assertEqual(integrity['status'], 'complete')
+        self.assertEqual(integrity['field_note_count'], 1)
 
     def test_invalid_envelope(self):
         self.assertEqual(eda.pcb_snapshot_integrity({'ok': False})['status'], 'invalid')

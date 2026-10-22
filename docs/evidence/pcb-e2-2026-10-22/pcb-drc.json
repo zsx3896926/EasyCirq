@@ -1,0 +1,12 @@
+{
+  "status": "ran",
+  "structure": "boolean",
+  "item_count": null,
+  "raw": false,
+  "note": "raw DRC result; interpretation is the caller's job, zero items does not mean manufacturable",
+  "session": {
+    "sessionId": "880e8c10-372a-43d2-b768-d2c04377b961",
+    "origin": "cli",
+    "owned": true
+  }
+}

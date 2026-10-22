@@ -923,9 +923,13 @@ const env = {
   client: safe(() => eda.sys_Environment.isClient()),
 };
 const read_errors = [];
+const field_notes = [];
 const errorText = (e) => String((e && e.message) || e);
 const fail = (scope, field, e) => {
   read_errors.push({ scope, field, error: errorText(e) });
+};
+const note = (scope, field, e) => {
+  field_notes.push({ scope, field, error: errorText(e) });
 };
 const readField = async (fn, scope, field) => {
   try { return await fn(); } catch (e) { fail(scope, field, e); return null; }
@@ -948,14 +952,23 @@ const trimmed = (items) => {
   const total = Array.isArray(items) ? items.length : 0;
   return { items: (items || []).slice(0, budget), truncated: total > budget, total };
 };
+// Field-level getter failures are recorded as notes, not errors: an unknown
+// getter name means we do not read that field, while a failed getAll means we
+// cannot trust the class count at all. Only the latter blocks writes.
 const state = (obj, fn, scope, field) => {
-  try { return fn(obj); } catch (e) { fail(scope, field, e); return null; }
+  try { return fn(obj); } catch (e) { note(scope, field, e); return null; }
+};
+const silentOf = (obj, names) => {
+  for (const name of names) {
+    try { const value = obj[name](); if (value !== null && value !== undefined) return value; } catch (e) { /* optional field */ }
+  }
+  return null;
 };
 const firstOf = (obj, getters, scope, field) => {
   for (const name of getters) {
-    const value = state(obj, (x) => x[name](), scope, field);
-    if (value !== null && value !== undefined) return value;
+    try { return obj[name](); } catch (e) { /* try the next candidate */ }
   }
+  note(scope, field, 'no getter matched: ' + getters.join(', '));
   return null;
 };
 const nameOf = (value) => {
@@ -995,12 +1008,12 @@ const pourRows = trimmed(pours || []).items.map((p) => ({
   id: state(p, (x) => x.getState_PrimitiveId(), 'pours', 'primitive_id'),
   net: state(p, (x) => x.getState_Net(), 'pours', 'net'),
   layer: state(p, (x) => x.getState_Layer(), 'pours', 'layer'),
-  name: state(p, (x) => x.getState_Name(), 'pours', 'name'),
+  name: silentOf(p, ['getState_Name']),
 }));
 const pouredRows = trimmed(poured || []).items.map((p) => ({
   id: state(p, (x) => x.getState_PrimitiveId(), 'poured', 'primitive_id'),
-  net: state(p, (x) => x.getState_Net(), 'poured', 'net'),
-  layer: state(p, (x) => x.getState_Layer(), 'poured', 'layer'),
+  net: silentOf(p, ['getState_Net']),
+  layer: silentOf(p, ['getState_Layer']),
 }));
 const padRows = trimmed(pads || []).items.map((p) => ({
   id: state(p, (x) => x.getState_PrimitiveId(), 'pads', 'primitive_id'),
@@ -1015,7 +1028,7 @@ if (Array.isArray(netNames)) {
     netRows.push({ net: n, length, primitive_count: Array.isArray(prims) ? prims.length : null });
   }
 }
-const outlineLines = (lines || []).filter(l => state(l, (x) => x.getState_Layer(), 'lines', 'layer') === 11)
+const outlineLines = (lines || []).filter(l => { try { return l.getState_Layer() === 11; } catch (e) { return false; } })
   .map(l => ({ id: state(l, (x) => x.getState_PrimitiveId(), 'lines', 'primitive_id'), layer: 11 }));
 return {
   ok: true,
@@ -1034,6 +1047,7 @@ return {
   outline: { lines: outlineLines, count: outlineLines.length },
   rule_config: safe(() => eda.pcb_Drc.getCurrentRuleConfigurationName()),
   read_errors,
+  field_notes,
   note: 'pours counts the outline, poured counts actual copper fills; they are not interchangeable',
 };
 '''
@@ -2638,8 +2652,24 @@ def read_pcb_with_retry(pro, session, pcb_args, attempts=3, max_primitives=2000)
     raise EdaCommandError('pcb not readable after retries', 'EDA_PCB_NOT_READY', {'last': last})
 
 
+def invoke_pcb_with_retry(pro, session, code, args, attempts=3, timeout_ms=None):
+    """Retry only the activation race. pcb_not_activated is reported before any
+    action runs, so retrying it cannot duplicate a write; every other failure
+    is returned as-is."""
+    last = None
+    for attempt in range(attempts):
+        value = pro.invoke(session, code, args, timeout_ms=timeout_ms)
+        if isinstance(value, dict) and value.get('ok') is False and value.get('error') == 'pcb_not_activated':
+            last = value
+            time.sleep(1.0 + attempt)
+            continue
+        return value
+    return last
+
+
 def pcb_snapshot_integrity(snapshot):
-    """A snapshot used as the basis for a write must have complete counts and no read errors."""
+    """A snapshot used as the basis for a write must have complete counts and
+    no class-level read errors. Field-level getter misses are notes, not blockers."""
     if not isinstance(snapshot, dict) or snapshot.get('ok') is not True:
         return {'status': 'invalid', 'missing': [], 'read_errors': []}
     selection = snapshot.get('selection') or {}
@@ -2647,9 +2677,11 @@ def pcb_snapshot_integrity(snapshot):
     if not selection.get('pcb_uuid'):
         missing.append('pcb_uuid')
     read_errors = snapshot.get('read_errors') or []
+    field_notes = snapshot.get('field_notes') or []
     status = 'complete' if not missing and not read_errors else 'incomplete'
     return {'status': status, 'missing': missing,
-            'read_error_count': len(read_errors), 'read_errors': read_errors[:20]}
+            'read_error_count': len(read_errors), 'read_errors': read_errors[:20],
+            'field_note_count': len(field_notes), 'field_notes': field_notes[:10]}
 
 
 def validate_pcb_plan(plan):
@@ -2972,15 +3004,16 @@ def command_doctor(args):
             'sch_export_bom': 'not_implemented_in_this_adapter',
             'sch_drc': 'available',
             'sch_drc_api': 'wrapped_as_drc_command',
-            'pcb_read_write': 'not_implemented_in_this_adapter',
-            'pcb_api': 'available_not_wrapped',
+            'pcb_read_write': 'available_beta',
+            'pcb_api': 'wrapped_as_pcb_command',
+            'pcb_pour_fill': 'outline_only; fill recompute needs a GUI session',
             'project_designators': 'available',
             'net_label_idempotent_apply': 'not_implemented',
             'verified_client_prefixes': list(VERIFIED_CLIENT_PREFIXES),
-            'source': 'lceda-pro 4.1.78 doc api + live probe 2026-10-21',
+            'source': 'lceda-pro 4.1.78 doc api + live probe 2026-10-21/22',
         },
         'warnings': [],
-        'not_checked': ['PCB', 'factory DFM', 'orders', 'realtime LCSC stock/price'],
+        'not_checked': ['PCB DFM', 'factory DFM', 'orders', 'realtime LCSC stock/price'],
     }
     explicit = args.exe or os.environ.get('LCEDA_PRO_EXE')
     cli = find_cli(explicit)
@@ -3451,9 +3484,9 @@ def command_pcb_doctor(args):
     pro = LcedaPro(args.exe, timeout_ms=args.timeout)
     session, owned, entry = _open_for_command(pro, args)
     try:
-        value = pro.invoke(session, PCB_SNAPSHOT_JS,
-                           {'pcb': _pcb_args(args), 'max_primitives': 10},
-                           timeout_ms=args.invoke_timeout)
+        value = invoke_pcb_with_retry(pro, session, PCB_SNAPSHOT_JS,
+                                     {'pcb': _pcb_args(args), 'max_primitives': 10},
+                                     timeout_ms=args.invoke_timeout)
         if not isinstance(value, dict) or value.get('ok') is not True:
             error = (value or {}).get('error', 'pcb_probe_failed') if isinstance(value, dict) else 'pcb_probe_failed'
             result = {'status': 'probe_failed', 'error': error, 'value': value,
@@ -3565,8 +3598,8 @@ def command_pcb_apply(args):
             return result, EXIT_REVIEW
 
         try:
-            execution = pro.invoke(
-                session, PCB_APPLY_JS,
+            execution = invoke_pcb_with_retry(
+                pro, session, PCB_APPLY_JS,
                 {'pcb': pinned_pcb, 'actions': reconciliation['actions']},
                 timeout_ms=args.invoke_timeout,
             )
@@ -3623,7 +3656,7 @@ def command_pcb_apply(args):
         save_confirmed = False
         if args.save:
             if verification_status == 'verified':
-                save_outcome = pro.invoke(session, PCB_SAVE_JS, {'pcb': pinned_pcb})
+                save_outcome = invoke_pcb_with_retry(pro, session, PCB_SAVE_JS, {'pcb': pinned_pcb})
                 result['save'] = save_outcome if isinstance(save_outcome, dict) else {'invalid': save_outcome}
                 save_confirmed = isinstance(save_outcome, dict) and save_outcome.get('saved') is True
                 if not save_confirmed:
@@ -3647,7 +3680,7 @@ def command_pcb_save(args):
     pro = LcedaPro(args.exe, timeout_ms=args.timeout)
     session, owned, entry = _open_for_command(pro, args)
     try:
-        outcome = pro.invoke(session, PCB_SAVE_JS, {'pcb': _pcb_args(args)}, timeout_ms=args.invoke_timeout)
+        outcome = invoke_pcb_with_retry(pro, session, PCB_SAVE_JS, {'pcb': _pcb_args(args)}, timeout_ms=args.invoke_timeout)
         session_meta = {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}
         if not isinstance(outcome, dict):
             return {'status': 'save_failed', 'save': {'invalid': outcome}, 'session': session_meta}, EXIT_REVIEW
@@ -3665,7 +3698,7 @@ def command_pcb_drc(args):
     pro = LcedaPro(args.exe, timeout_ms=args.timeout)
     session, owned, entry = _open_for_command(pro, args)
     try:
-        value = pro.invoke(session, PCB_DRC_JS, {'pcb': _pcb_args(args)}, timeout_ms=args.invoke_timeout)
+        value = invoke_pcb_with_retry(pro, session, PCB_DRC_JS, {'pcb': _pcb_args(args)}, timeout_ms=args.invoke_timeout)
         if not isinstance(value, dict) or value.get('ok') is not True:
             raise EdaCommandError('pcb drc failed', 'EDA_PCB_DRC_FAILED', {'value': value})
         result = {
@@ -3717,8 +3750,8 @@ def command_pcb_export(args):
     pro = LcedaPro(args.exe, timeout_ms=args.timeout)
     session, owned, entry = _open_for_command(pro, args)
     try:
-        value = pro.invoke(session, PCB_EXPORT_JS, {'pcb': _pcb_args(args), 'kind': args.kind},
-                           timeout_ms=args.invoke_timeout)
+        value = invoke_pcb_with_retry(pro, session, PCB_EXPORT_JS, {'pcb': _pcb_args(args), 'kind': args.kind},
+                                     timeout_ms=args.invoke_timeout)
         if not isinstance(value, dict) or value.get('ok') is not True:
             error = (value or {}).get('error', 'export_failed') if isinstance(value, dict) else 'export_failed'
             return {'status': 'export_failed', 'error': error, 'kind': args.kind,
@@ -3745,6 +3778,7 @@ def command_pcb_reopen_check(args):
     pro = LcedaPro(args.exe, timeout_ms=args.timeout)
     before = None
     first_session = None
+    second_session = None
     try:
         if args.session:
             entry = session_origin(pro, args.session)
@@ -3784,11 +3818,12 @@ def command_pcb_reopen_check(args):
             result['output'] = str(Path(args.output).resolve())
         return result, EXIT_OK if comparison['match'] else EXIT_REVIEW
     finally:
-        if first_session:
-            try:
-                close_owned(pro, first_session, force=True)
-            except EdaError:
-                pass
+        for owned_session in (first_session, second_session):
+            if owned_session:
+                try:
+                    close_owned(pro, owned_session, force=True)
+                except EdaError:
+                    pass
 
 
 def build_parser():
