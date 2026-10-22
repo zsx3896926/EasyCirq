@@ -17,13 +17,17 @@
 | 最小写入 | `pcb apply --plan plan-minimal.json --save` | `verified`：line d995f855 / via e6f48254 / pour 边框全部创建+回读匹配；保存确认 saved:true；计数 98→99 线、0→1 孔、1→2 铜区边框 | pcb-apply.json |
 | 铺铜事实 | apply 内 poured 计数 | 1→1，delta 0，`fill_recomputed: false` —— 边框创建不重算填充 | pcb-apply.json |
 | 关闭重开 | `pcb reopen-check` | `match`：pcb 身份、6 类计数、primitive id 集合、网络名集合全部一致，diffs 为空 | pcb-reopen-check.json |
+| 器件放置 | `pcb apply --plan plan-components.json --save` | `verified`：component_flat（footprint ref）→ DC2、component_search（DC005-T20）→ DC3，均 layer 1；33→35 器件；保存确认；再次重开 `match` | pcb-apply-components.json、pcb-reopen-check-2.json |
 | DRC | `pcb drc` | `ran`，但 `pcb_Drc.check(false,false,false)` 返回 **boolean**，无错误明细 | pcb-drc.json |
 | 制造导出 | `pcb export` × 5 种 | gerber/pickandplace/bom/pdf/pcb_info **全部返回空对象** `{}`，仅存 raw 捕获 | exports/*-raw.json |
 
 ## 能力结论（E1 矩阵更新）
 
-- 已验证可用（半离线 CLI）：pcb 枚举、激活、六类计数读、器件/线/过孔/铜区边框行级读、网络名/长度/图元数读、
-  线创建、过孔创建、铜区**边框**创建、器件创建（flat ref / search item，round-3 证据）、保存、关闭重开比较。
+- 已验证可用（半离线 CLI，2026-10-22 本轮真机复测）：pcb 枚举、激活、六类计数读、
+  器件（含 footprint_ref/component_ref）/线/过孔/铜区边框行级读、网络名/长度/图元数读、
+  线创建、过孔创建、铜区**边框**创建、器件创建（flat ref 与 search 两条路径都真机通过）、
+  保存、关闭重开比较。**E 包验收序列（读→最小修改→回读→保存→关闭→重开→比较）对
+  器件/线/过孔/铜区边框四类原语全部成立。**
 - 明确不可用：
   - 铺铜填充重算（边框创建后 poured 计数不变；需 GUI 动作）。
   - DRC 错误明细（check 返回 boolean）。

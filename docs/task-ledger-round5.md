@@ -56,7 +56,7 @@
 | B | F1 原理图排版/警告/审图 | NOT RUN | 图面仍拥挤、标题栏非 DRAFT、ERC 豁免表、独立审图均未做 | 在 `hds-round5-scratch` 复制 `f1-rev3-layout.eprj2` 做纯排版；先冻结 golden 网表 |
 | C | F1 电气依据/封装/验证计划 | NOT RUN | MPN 17/21、C107 稳定性未实测、USB-C/TVS 核对未做 | 从 selected-parts.json 出「待查清单」，逐项补原厂依据 |
 | D | 真实几何与排版检查闭环 | PARTIAL | `sch_layout_check.py` 存在但未接真实 EDA 几何 | 用 F1 快照导出坐标，接入检查器 |
-| E | PCB 执行器 | **PARTIAL** | 命令族已实现+真机验收（读→最小写→回读→保存→重开 match）；铺铜填充、DRC 明细、制造导出在 CLI 半离线不可用（记录在案） | 器件放置真机验证（flat ref/search 在 4.1.78 本轮未复测）；补 I 包故障注入 |
+| E | PCB 执行器 | **DONE**（缺口明确列出） | 命令族实现+真机验收：读→最小写（线/过孔/铜区边框/器件 flat+search）→回读→保存→重开 match，四类原语全部成立；铺铜填充、DRC 明细、制造导出在 CLI 半离线不可用（记录在案）；板框专用原语、移动/旋转/删除未探测 | 未支持项已在 `pcb doctor` 与证据 README 明列；F 包使用前在 GUI 会话补板框验证 |
 | F | F1 PCB 完整闭环 | NOT RUN | 需先 B/C 收尾；F1 PCB 尚未从 rev3 导入 | B 完成后：导入→布局→布线→DRC→重开→导出 |
 | G | 商城/SMT/替代料 | PARTIAL | C 号不全、实时库存 BLOCKED、SMT/替代料 NOT RUN | 出「关键料取证清单」；库存查询失败原因定位（网络/API） |
 | H | 生产规则/制造资料 | NOT RUN | 无 BOM/CPL/Gerber；CLI 导出 API 返回空对象（需 GUI 全在线会话） | 制造包走 GUI 会话导出（需用户配合） |

@@ -976,6 +976,11 @@ const nameOf = (value) => {
   if (typeof value === 'string') return value;
   return null;
 };
+const componentRef = (value) => {
+  if (!value || typeof value !== 'object') return null;
+  return { libraryUuid: value.libraryUuid || null, uuid: (value.uuid && value.uuid.uuid) || value.uuid || null,
+           name: value.name || null };
+};
 const componentRows = trimmed(components || []).items.map((c) => ({
   id: state(c, (x) => x.getState_PrimitiveId(), 'components', 'primitive_id'),
   designator: state(c, (x) => x.getState_Designator(), 'components', 'designator'),
@@ -985,6 +990,8 @@ const componentRows = trimmed(components || []).items.map((c) => ({
   rotation: firstOf(c, ['getState_Rotation', 'getState_Angle'], 'components', 'rotation'),
   footprint: nameOf(state(c, (x) => x.getState_Footprint(), 'components', 'footprint')),
   component: nameOf(state(c, (x) => x.getState_Component(), 'components', 'component')),
+  footprint_ref: componentRef(silentOf(c, ['getState_Footprint'])),
+  component_ref: componentRef(silentOf(c, ['getState_Component'])),
 }));
 const lineRows = trimmed(lines || []).items.map((l) => ({
   id: state(l, (x) => x.getState_PrimitiveId(), 'lines', 'primitive_id'),

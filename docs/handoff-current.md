@@ -4,9 +4,10 @@
 分支 `feat/round5-release-acceptance` @ `0e254dc` 已推送；worktree `C:/Users/jlc/work/hds-round5`。
 
 本轮进展（2026-10-22 晚）：A 包盘点完成（147 发现 + 62 独立核验，59 CONFIRMED / 3 REFUTED 修正为 PARTIAL）；
-E 包 PCB 命令族已实现并在半离线 CLI 真机验收通过（读→最小写 line/via/pour 边框→回读→保存→重开 match）；
-真机确认 CLI 半离线会话拿不到 DRC 明细（check 返回 boolean）与制造导出（getter 全返回空对象）——需 GUI 全在线会话。
-测试 546 OK（基线 495 + PCB 51）。证据 `docs/evidence/pcb-e2-2026-10-22/`。
+E 包 PCB 命令族已实现并在半离线 CLI 真机验收通过——读→最小写（线/过孔/铜区边框/器件 flat+search
+四条路径）→回读→保存→重开 match；真机确认 CLI 半离线会话拿不到 DRC 明细（check 返回 boolean）与
+制造导出（getter 全返回空对象）——需 GUI 全在线会话。测试 546 OK（基线 495 + PCB 51）。
+证据 `docs/evidence/pcb-e2-2026-10-22/`。下一步：B/C 包（F1 排版收尾与电气取证）与 G 包（选料取证）。
 
 历史交接保留在下方；旧分支、HEAD 与“未合并”描述只对应当时状态。
 

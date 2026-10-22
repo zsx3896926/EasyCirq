@@ -1,0 +1,171 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/pcb-e2-2026-10-22/plan-components.json",
+  "session": {
+    "sessionId": "f1902782-ab44-40dc-8021-967c24aa845f",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true
+  },
+  "pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3",
+    "pcb_name": "PCB"
+  },
+  "before_counts": {
+    "components": 33,
+    "lines": 99,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 83
+  },
+  "integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": []
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "e2-comp-flat",
+      "op": "component_flat",
+      "action": "create",
+      "dedup": "never"
+    },
+    {
+      "key": "e2-comp-search",
+      "op": "component_search",
+      "action": "create",
+      "dedup": "never"
+    }
+  ],
+  "actions": [
+    {
+      "component_uuid": "89d274450d804193a8b3479f450ef9b0",
+      "y": -900,
+      "library_uuid": "3f0b288f1e9622842664ed1a958aaad48f9265dcaf2c94a3a83564ff04c2c1a2",
+      "layer": 1,
+      "rotation": 0,
+      "x": 2800,
+      "key": "e2-comp-flat",
+      "op": "component_flat"
+    },
+    {
+      "y": -900,
+      "name": "DC005-T20",
+      "layer": 1,
+      "rotation": 0,
+      "x": 3000,
+      "key": "e2-comp-search",
+      "op": "component_search"
+    }
+  ],
+  "conflicts": [],
+  "pinned_pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "e2-comp-flat",
+        "op": "component_flat",
+        "created": true,
+        "id": "b8b89f8f79f7425f",
+        "net": null,
+        "layer": 1,
+        "width": null,
+        "hole": null,
+        "diameter": null,
+        "designator": "DC2",
+        "name": ""
+      },
+      {
+        "key": "e2-comp-search",
+        "op": "component_search",
+        "created": true,
+        "id": "8cf70237352bd006",
+        "net": null,
+        "layer": 1,
+        "width": null,
+        "hole": null,
+        "diameter": null,
+        "designator": "DC3",
+        "name": "={Manufacturer Part}"
+      }
+    ],
+    "poured_before": 1,
+    "poured_after": 1,
+    "poured_delta": 0,
+    "note": "pour outlines create the border only; a non-zero poured_delta means the client recomputed copper fills"
+  },
+  "after_counts": {
+    "components": 35,
+    "lines": 99,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 89
+  },
+  "after_integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": []
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "e2-comp-flat",
+        "op": "component_flat",
+        "status": "verified",
+        "mismatches": [],
+        "id": "b8b89f8f79f7425f"
+      },
+      {
+        "key": "e2-comp-search",
+        "op": "component_search",
+        "status": "verified",
+        "mismatches": [],
+        "id": "8cf70237352bd006"
+      }
+    ],
+    "pour_fill": {
+      "poured_before": 1,
+      "poured_after": 1,
+      "delta": 0,
+      "fill_recomputed": false
+    }
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "saved_value": true,
+    "counts": {
+      "components": 35,
+      "lines": 99,
+      "vias": 1,
+      "pours": 2,
+      "poured": 1
+    }
+  },
+  "saved_counts": {
+    "components": 35,
+    "lines": 99,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1
+  }
+}
