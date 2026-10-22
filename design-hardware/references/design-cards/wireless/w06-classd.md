@@ -5,7 +5,7 @@ title: Class-D 音频功放
 evidence: E1
 last_reviewed: 2026-10-20
 sources: [RF-S07]
-related_checks: [SC39, PL16, RT22, DM37]
+related_checks: [SC39, PL16, RT22, DM38]
 ---
 
 # Class-D 音频功放

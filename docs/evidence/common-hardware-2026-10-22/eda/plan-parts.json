@@ -1,0 +1,214 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "S1-NTC-ALARM",
+    "page_name": "P1"
+  },
+  "note": "S1 NTC temperature alarm: place real library parts only; wires planned after pin readback.",
+  "operations": [
+    {
+      "op": "part",
+      "key": "part-j201",
+      "match": {
+        "designator": "J201",
+        "part": "2.54-1*3P针",
+        "supplier_id": "C49257"
+      },
+      "place": {
+        "x": 120,
+        "y": 160,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "J201"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-c201",
+      "match": {
+        "designator": "C201",
+        "part": "CL10B104KB8NNNC",
+        "supplier_id": "C1591"
+      },
+      "place": {
+        "x": 300,
+        "y": 140,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "C201"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-u201",
+      "match": {
+        "designator": "U201",
+        "part": "LM393PWRG3",
+        "supplier_id": "C2868887"
+      },
+      "place": {
+        "x": 520,
+        "y": 300,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "U201"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-rt201",
+      "match": {
+        "designator": "RT201",
+        "part": "NTCG103JX103DT1",
+        "supplier_id": "C5343518"
+      },
+      "place": {
+        "x": 220,
+        "y": 560,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "RT201"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-r201",
+      "match": {
+        "designator": "R201",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 220,
+        "y": 440,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "R201"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-r202",
+      "match": {
+        "designator": "R202",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 700,
+        "y": 150,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "R202"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-r203",
+      "match": {
+        "designator": "R203",
+        "part": "0603WAF4701T5E",
+        "supplier_id": "C23162"
+      },
+      "place": {
+        "x": 700,
+        "y": 260,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "R203"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-r204",
+      "match": {
+        "designator": "R204",
+        "part": "0603WAF1001T5E",
+        "supplier_id": "C21190"
+      },
+      "place": {
+        "x": 430,
+        "y": 500,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "R204"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-r205",
+      "match": {
+        "designator": "R205",
+        "part": "0603WAF1004T5E",
+        "supplier_id": "C22935"
+      },
+      "place": {
+        "x": 780,
+        "y": 360,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "R205"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-r206",
+      "match": {
+        "designator": "R206",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 620,
+        "y": 140,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "R206"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-q201",
+      "match": {
+        "designator": "Q201",
+        "part": "2N7002-13-01-F",
+        "supplier_id": "C526222"
+      },
+      "place": {
+        "x": 430,
+        "y": 620,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "Q201"
+      }
+    },
+    {
+      "op": "part",
+      "key": "part-bz201",
+      "match": {
+        "designator": "BZ201",
+        "part": "有源蜂鸣器直径9*5.5mm3V",
+        "supplier_id": "C9900012728"
+      },
+      "place": {
+        "x": 280,
+        "y": 720,
+        "rotation": 0
+      },
+      "properties": {
+        "designator": "BZ201"
+      }
+    }
+  ]
+}

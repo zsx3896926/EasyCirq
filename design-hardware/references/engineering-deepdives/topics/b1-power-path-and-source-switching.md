@@ -25,7 +25,7 @@ related: [PWR-05, PWR-06, PWR-07, PWR-09, PWR-10, PWR-12, PWR-14, MCU-07, F09, F
 
 > **一句话用途：** 当板上有 USB、适配器、电池、调试器四类电源中的两类以上时，用一张 `2^n` 组合表把“谁供谁、什么时候切换、哪里会倒灌、状态怎么检测”落到网络和位号，再选肖特基、P-MOS、理想二极管、优先级 mux 或带 power path 的充电器。
 >
-> **适用：** 2.8–24 V 输入、1S 锂电、USB 5 V、调试器 `T_VCC`；需要解释拔插、反接、holdup、假上电和优先级抖动。**不适用：** USB PD 高压协商、>24 V 工业/汽车瞬态、隔离与安规、电池包内部保护设计；这些另见 [PWR-12](../../design-cards/power/p12-usbc-sink.md)、[PWR-09](../../design-cards/power/p09-reverse-polarity.md)、[PWR-08](../../design-cards/power/p08-battery-protection.md)。
+> **适用：** 2.8–24 V 输入、1S 锂电、USB 5 V、调试器 `T_VCC`；需要解释拔插、反接、holdup、假上电和优先级抖动。**不适用：** USB PD 高压协商、>24 V 工业/汽车瞬态、隔离与安规、电池包内部保护设计；PD 见 [常用硬件 F3](../../common-hardware/f-input-protection.md)（旧卡 PWR-12/13 只做 5 V），反接见 [PWR-09](../../design-cards/power/p09-reverse-polarity.md)，电池包见 [PWR-08](../../design-cards/power/p08-battery-protection.md)。
 >
 > **证据等级：** `A/B/C` 混合。A = 作者图纸/注释（MNT、Crazyflie、ODrive 的原理图文字）；B = 已核对的原厂手册/应用笔记（SLVAE57B、SLUS810N、SLUSDF8F、SLVA673A、SLVAEI4A、SLVSEA3F）；C = 工程推断或构造算例。全文用【已核对原厂资料】【作者记录】【工程推断】【构造案例】【未执行】显式标注。
 >

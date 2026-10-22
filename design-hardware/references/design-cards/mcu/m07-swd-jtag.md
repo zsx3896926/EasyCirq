@@ -94,7 +94,7 @@ related_checks: [SC24, SC25, SC40]
 
 1. **判据：** 选哪种连接器。
    **保证值（UM2448）：**
-   - STDC14（CN1）：pin 3 = T_VCC（输入）、pin 4 = T_JTMS/T_SWDIO、pin 6 = T_JCLK/T_SWCLK、pin 8 = T_JTDO/T_SWO（可选）、pin 10 = T_JTDI/NC、pin 12 = T_NRST、pin 11 = GNDDetect；
+   - STDC14（CN1）：pin 1/2 = Reserved/NC、pin 3 = T_VCC（输入）、pin 4 = T_JTMS/T_SWDIO、pin 6 = T_JCLK/T_SWCLK、pin 8 = T_JTDO/T_SWO（可选）、pin 10 = T_JTDI/NC、pin 12 = T_NRST、pin 13/14 = T_VCP_RX/T_VCP_TX（虚拟串口，可选）、pin 11 = GNDDetect；
    - 20-pin（CN2）：pin 1 = T_VCC、pin 7 = SWDIO、pin 9 = SWCLK、pin 13 = SWO、pin 15 = T_NRST，偶数脚 GND；
    - 6-pin（CN6）：1 = T_VCC、2 = SWCLK、3 = GND、4 = SWDIO、5 = T_NRST、6 = SWO。
    **注意：** 三种接口的 SWDIO/SWCLK 位置不同，转接必须逐脚核；STLINK-V3SET 不管理 20-pin 的 JTAG TRST（pin 3）。

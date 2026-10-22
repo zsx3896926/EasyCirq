@@ -1,0 +1,38 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "S1-NTC-ALARM",
+    "page_name": "P1"
+  },
+  "note": "Use named ports for the buzzer low-side net instead of a multi-segment wire that the editor reorders.",
+  "operations": [
+    {
+      "op": "delete_wire",
+      "key": "del-buz-chain",
+      "match": {
+        "primitive_id": "c283a2c127f08a2e",
+        "net": "BUZ_D"
+      }
+    },
+    {
+      "op": "net_port",
+      "key": "buz-drain",
+      "net": "BUZ_D",
+      "direction": "BI",
+      "at": [
+        700,
+        340
+      ]
+    },
+    {
+      "op": "net_port",
+      "key": "buz-minus",
+      "net": "BUZ_D",
+      "direction": "BI",
+      "at": [
+        900,
+        300
+      ]
+    }
+  ]
+}

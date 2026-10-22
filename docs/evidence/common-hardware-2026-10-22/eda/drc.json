@@ -1,0 +1,38 @@
+{
+  "status": "ok",
+  "drc": {
+    "ok": true,
+    "page": {
+      "uuid": "80a42541a1fb30b1",
+      "name": "P1"
+    },
+    "passed": false,
+    "count": 2,
+    "violations": [
+      {
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "net": "OUT1、OUT1、OUT1、OUT1、OUT1、OUT1",
+        "primitives": [
+          {
+            "primitiveId": "1aec7e14e99a461a",
+            "sheet": "80a42541a1fb30b1",
+            "name": "$1N32"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "net": "GATE、GATE、GATE",
+        "primitives": [
+          {
+            "primitiveId": "3cdbabee847021a7",
+            "sheet": "80a42541a1fb30b1",
+            "name": "$1N33"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -92,6 +92,8 @@
 
 ### 无线、显示、音频与存储（8 张）
 
+> 显示/音频卡位于 `wireless/` 是历史归类；HMI 的用户话术、选屏/触摸/按键/蜂鸣器内容见 [常用硬件 L 组](../common-hardware/l-hmi.md)。
+
 | ID | 卡片 | 证据 | 关联检查 | 文件 |
 |---|---|---|---|---|
 | RF-01 | Wi-Fi / BLE 模组 | E1 | SC09, SC20, PL26, PL27, DM33 | [w01-wifi-ble.md](wireless/w01-wifi-ble.md) |
@@ -99,7 +101,7 @@
 | RF-03 | 蜂窝模组电源 | E2 | SC09, SC16, PL26, DM33 | [w03-cellular.md](wireless/w03-cellular.md) |
 | RF-04 | GNSS 模组 | E2 | SC37, PL26, PL27, DM35 | [w04-gnss.md](wireless/w04-gnss.md) |
 | RF-05 | SPI TFT 显示与背光 | E1 | SC40, PL07, PL16, DM39 | [w05-display.md](wireless/w05-display.md) |
-| RF-06 | Class-D 音频功放 | E1 | SC39, PL16, RT22, DM37 | [w06-classd.md](wireless/w06-classd.md) |
+| RF-06 | Class-D 音频功放 | E1 | SC39, PL16, RT22, DM38 | [w06-classd.md](wireless/w06-classd.md) |
 | RF-07 | SPI NOR Flash | E1 | SC25, SC28, PL20, DM31 | [w07-spi-flash.md](wireless/w07-spi-flash.md) |
 | RF-08 | microSD 接口 | E1 | SC25, SC28, SC40, DM31 | [w08-microsd.md](wireless/w08-microsd.md) |
 

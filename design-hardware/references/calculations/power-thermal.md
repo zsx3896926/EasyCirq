@@ -94,7 +94,7 @@
 | 占空比 | `D = VOUT/(VIN·η)`，用 `VIN(max)` 算最大开关电流 | `D = 1 − VIN·η/VOUT`，用 `VIN(min)` 算最大开关电流 |
 | 电感纹波 | `ΔIL = (VIN − VOUT)·D/(fS·L)` | `ΔIL = VIN·D/(fS·L)` |
 | 峰值 | `ISW(max) = IOUT + ΔIL/2` | `ISW(max) = IOUT/(1−D) + ΔIL/2` |
-| 芯片可输出 | `IMAXOUT = ILIM(min) − ΔIL/2` | `IMAXOUT = ILIM(min)·(1−D) − ΔIL/2` |
+| 芯片可输出 | `IMAXOUT = ILIM(min) − ΔIL/2`（峰值限流） | 谷值限流 `IMAXOUT = (1−D)·(ILIM(min)+ΔIL/2)`；峰值限流 `IMAXOUT = (1−D)·(ILIM(min)−ΔIL/2)` |
 | 输出电容 | `COUT(min) = ΔIL/(8·fS·ΔVOUT)` | `COUT(min) = IOUT·D/(fS·ΔVOUT)` |
 | 二极管平均电流 | `IF = IOUT·(1−D)` | `IF = IOUT` |
 

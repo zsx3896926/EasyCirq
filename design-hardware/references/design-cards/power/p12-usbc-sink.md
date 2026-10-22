@@ -36,7 +36,7 @@ related_checks: [SC30, SC31, PL15, DM29]
 
 ## 1. 用途与适用范围
 
-USB-C sink 在 CC1、CC2 上各放一个 Rd 下拉，source 在 CC 上放 Rp 上拉并监测电压，据此判断“有设备接入、插头方向、能提供多大电流”。典型范围：5 V、0.5/0.9/1.5/3 A，不带 USB PD，不带 Alternate Mode。
+USB-C sink 在 CC1、CC2 上各放一个 Rd 下拉，source 在 CC 上放 Rp 上拉并监测电压，据此判断“有设备接入、插头方向、能提供多大电流”。典型范围：5 V；USB 2.0 端口 0.5 A、USB 3.x 端口 0.9 A（这是端口电流，不经 CC 广告）；Type-C 经 CC 广告 1.5/3 A。不带 USB PD，不带 Alternate Mode。
 
 本卡解决四个决定：Rd 取 5.1 kΩ 的哪种容差、CC 电压窗怎么判、VBUS 路径能不能在最低输入下工作、以及 A-to-C 线缆下如何不误以为能拿 1.5 A。**USB-C 的外形不等于 PD 能力**（SC30）；本卡只覆盖 5 V 档，PD 的 PDO/APDO 协商不在已读来源内。
 

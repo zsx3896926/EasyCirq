@@ -1,0 +1,929 @@
+PROTEL NETLIST 2.0
+[
+DESIGNATOR
+J201
+FOOTPRINT
+HDR-TH_3P-P2.54-V-M-1
+PARTTYPE
+2.54-1*3P针
+DESCRIPTION
+插针结构:1x3P;间距:2.54mm;行距:-;圆针/方针:方针;安装方式:直插;排数:单排;总PIN位数:3P;额定电流:3A;额定电压:-;配合针长度:6mm;塑高:2.5mm;端接针长度:3mm;触头材质:黄铜;触头镀层:金;工作温度:-40℃~+105℃;颜色:黑色;
+Component Kind
+Standard
+Unique ID
+gge1
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+2.54-1*3P针
+PCB Layer
+Default
+Symbol
+Header-Male-2.54_1x3
+Designator
+J201
+LCSC Part Name
+1x3P 间距:2.54mm 方针 直插
+Supplier Part
+C49257
+Manufacturer
+BOOMELE(博穆精密)
+Manufacturer Part
+2.54-1*3P针
+Supplier Footprint
+插件,P=2.54mm
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://item.szlcsc.com/datasheet/2.54-1*3P%25E9%2592%2588/50265.html
+Supplier
+LCSC
+3D Model Title
+HDR-M-2.54_1x3
+Pin Structure
+1x3P
+Pitch
+2.54mm
+Row Spacing
+-
+Circluar Pins/Square Pins
+方针
+Mounting Type
+直插
+Number of Rows
+单排
+Number of Pins
+3P
+Current Rating
+3A
+Voltage Rating (Max)
+-
+Length of Mating Pin
+6mm
+Insulation Height
+2.5mm
+Length of End Connection Pin
+3mm
+Contact Material
+黄铜
+Contact Plating
+金
+Operating Temperature
+-40℃~+105℃
+Color
+黑色
+Name
+2.54-1*3P针
+Description
+插针结构:1x3P;间距:2.54mm;行距:-;圆针/方针:方针;安装方式:直插;排数:单排;总PIN位数:3P;额定电流:3A;额定电压:-;配合针长度:6mm;塑高:2.5mm;端接针长度:3mm;触头材质:黄铜;触头镀层:金;工作温度:-40℃~+105℃;颜色:黑色;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+C201
+FOOTPRINT
+C0603
+PARTTYPE
+CL10B104KB8NNNC
+DESCRIPTION
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+Component Kind
+Standard
+Unique ID
+gge2
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+CL10B104KB8NNNC
+PCB Layer
+Default
+Symbol
+CL10B104KB8NNNC
+Designator
+C201
+LCSC Part Name
+100nF ±10% 50V
+Supplier Part
+C1591
+Manufacturer
+SAMSUNG(三星)
+Manufacturer Part
+CL10B104KB8NNNC
+Supplier Footprint
+0603
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://item.szlcsc.com/datasheet/CL10B104KB8NNNC/1943.html
+Supplier
+LCSC
+3D Model Title
+C0603_L1.6-W0.8-H0.8
+Value
+100nF
+Tolerance
+±10%
+Voltage Rating
+50V
+Temperature Coefficient
+X7R
+Name
+100nF
+Description
+容值:100nF;精度:±10%;额定电压:50V;温度系数:X7R;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+U201
+FOOTPRINT
+TSSOP-8_L4.4-W3.0-P0.65-LS6.4-BL
+PARTTYPE
+LM393PWRG3
+DESCRIPTION
+输入失调电压(Vos):5mV;输入偏置电流(Ib):250nA;
+Component Kind
+Standard
+Unique ID
+gge3
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+LM393PWRG3
+PCB Layer
+Default
+Symbol
+LM393PWRG3
+Relevance
+[]
+Designator
+U201
+LCSC Part Name
+LM393PWRG3
+Supplier Part
+C2868887
+Manufacturer
+TI(德州仪器)
+Manufacturer Part
+LM393PWRG3
+Supplier Footprint
+TSSOP-8
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://www.ti.com/cn/lit/gpn/lm393a
+Supplier
+LCSC
+3D Model Title
+TSSOP-8_L4.4-W3.0-P0.65-LS6.4-BL-2
+Input Offset Voltage (Vos)
+5mV
+Input Bias Current (Ib)
+250nA
+Input Hysteresis Voltage (Vhys)
+-
+Common Mode Rejection Ratio (CMRR)
+-
+Supply Voltage
+1V~18V；2V~36V
+Output Type
+开集
+Output Mode
+-
+Operating Temperature
+0℃~+70℃
+Name
+LM393PWRG3
+Description
+输入失调电压(Vos):5mV;输入偏置电流(Ib):250nA;
+Multi-Part Group
+
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+RT201
+FOOTPRINT
+R0402
+PARTTYPE
+NTCG103JX103DT1
+DESCRIPTION
+功率:100mW;阻值:10kΩ;电阻精度:±0.5%;B值精度:±0.7%;B值(25℃/50℃):3380K;最大稳态电流(25℃):310uA;
+Component Kind
+Standard
+Unique ID
+gge4
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+NTCG103JX103DT1
+PCB Layer
+Default
+Symbol
+NTCG103JX103DT1
+Designator
+RT201
+LCSC Part Name
+NTCG103JX103DT1
+Supplier Part
+C5343518
+Manufacturer
+TDK
+Manufacturer Part
+NTCG103JX103DT1
+Supplier Footprint
+0402
+JLCPCB Part Class
+
+Datasheet
+https://item.szlcsc.com/datasheet/NTCG103JX103DT1/6120719.html
+Supplier
+LCSC
+3D Model Title
+R0402_L1.0-W0.5-H0.4
+Power(Watts)
+100mW
+Resistance @ 25℃
+10kΩ
+Resistance Tolerance
+±0.5%
+B Constant Tolerance
+±0.7%
+B Constant (25℃/50℃)
+3380K
+B Constant (25℃/75℃)
+3422K
+B Constant (25℃/85℃)
+3435K
+B Constant (25℃/100℃)
+3453K
+Steady State Current (Max)
+310uA
+Dissipation Factor
+1mW/℃
+Thermal Time Constant
+-
+Operating Temperature
+-40℃~+125℃
+Diameter (φD)
+-
+Length
+1mm
+Width
+0.5mm
+Height
+0.5mm
+Pitch
+-
+Name
+NTCG103JX103DT1
+Description
+功率:100mW;阻值:10kΩ;电阻精度:±0.5%;B值精度:±0.7%;B值(25℃/50℃):3380K;最大稳态电流(25℃):310uA;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+R201
+FOOTPRINT
+R0603
+PARTTYPE
+0603WAF1002T5E
+DESCRIPTION
+电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Component Kind
+Standard
+Unique ID
+gge5
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+0603WAF1002T5E
+PCB Layer
+Default
+Symbol
+0603WAF1002T5E
+Designator
+R201
+LCSC Part Name
+厚膜电阻 10kΩ ±1% 100mW
+Supplier Part
+C25804
+Manufacturer
+UNI-ROYAL(厚声)
+Manufacturer Part
+0603WAF1002T5E
+Supplier Footprint
+0603
+JLCPCB Part Class
+Basic Part
+Datasheet
+https://item.szlcsc.com/datasheet/0603WAF1002T5E/26547.html
+Supplier
+LCSC
+3D Model Title
+R0603
+Type
+厚膜电阻
+Value
+10kΩ
+Tolerance
+±1%
+Power(Watts)
+100mW
+Voltage-Supply(Max)
+75V
+Temperature Coefficient
+±100ppm/℃
+Operating Temperature
+-55℃~+155℃
+Name
+10kΩ
+Description
+电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+R202
+FOOTPRINT
+R0603
+PARTTYPE
+0603WAF1002T5E
+DESCRIPTION
+电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Component Kind
+Standard
+Unique ID
+gge6
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+0603WAF1002T5E
+PCB Layer
+Default
+Symbol
+0603WAF1002T5E
+Designator
+R202
+LCSC Part Name
+厚膜电阻 10kΩ ±1% 100mW
+Supplier Part
+C25804
+Manufacturer
+UNI-ROYAL(厚声)
+Manufacturer Part
+0603WAF1002T5E
+Supplier Footprint
+0603
+JLCPCB Part Class
+Basic Part
+Datasheet
+https://item.szlcsc.com/datasheet/0603WAF1002T5E/26547.html
+Supplier
+LCSC
+3D Model Title
+R0603
+Type
+厚膜电阻
+Value
+10kΩ
+Tolerance
+±1%
+Power(Watts)
+100mW
+Voltage-Supply(Max)
+75V
+Temperature Coefficient
+±100ppm/℃
+Operating Temperature
+-55℃~+155℃
+Name
+10kΩ
+Description
+电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+R203
+FOOTPRINT
+R0603
+PARTTYPE
+0603WAF4701T5E
+DESCRIPTION
+电阻类型:厚膜电阻;阻值:4.7kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Component Kind
+Standard
+Unique ID
+gge7
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+0603WAF4701T5E
+PCB Layer
+Default
+Symbol
+0603WAF4701T5E
+Designator
+R203
+LCSC Part Name
+厚膜电阻 4.7kΩ ±1%
+Supplier Part
+C23162
+Manufacturer
+UNI-ROYAL(厚声)
+Manufacturer Part
+0603WAF4701T5E
+Supplier Footprint
+0603
+JLCPCB Part Class
+Basic Part
+Datasheet
+https://item.szlcsc.com/datasheet/0603WAF4701T5E/23889.html
+Supplier
+LCSC
+3D Model Title
+R0603
+Type
+厚膜电阻
+Value
+4.7kΩ
+Tolerance
+±1%
+Power(Watts)
+100mW
+Voltage-Supply(Max)
+75V
+Temperature Coefficient
+±100ppm/℃
+Operating Temperature
+-55℃~+155℃
+Name
+4.7kΩ
+Description
+电阻类型:厚膜电阻;阻值:4.7kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+R204
+FOOTPRINT
+R0603
+PARTTYPE
+0603WAF1001T5E
+DESCRIPTION
+电阻类型:厚膜电阻;阻值:1kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Component Kind
+Standard
+Unique ID
+gge8
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+0603WAF1001T5E
+PCB Layer
+Default
+Symbol
+0603WAF1001T5E
+Designator
+R204
+LCSC Part Name
+1kΩ ±1% 100mW 厚膜电阻
+Supplier Part
+C21190
+Manufacturer
+UNI-ROYAL(厚声)
+Manufacturer Part
+0603WAF1001T5E
+Supplier Footprint
+0603
+JLCPCB Part Class
+Basic Part
+Datasheet
+https://item.szlcsc.com/datasheet/0603WAF1001T5E/21904.html
+Supplier
+LCSC
+3D Model Title
+R0603
+Type
+厚膜电阻
+Value
+1kΩ
+Tolerance
+±1%
+Power(Watts)
+100mW
+Voltage-Supply(Max)
+75V
+Temperature Coefficient
+±100ppm/℃
+Operating Temperature
+-55℃~+155℃
+Name
+1kΩ
+Description
+电阻类型:厚膜电阻;阻值:1kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+R205
+FOOTPRINT
+R0603
+PARTTYPE
+0603WAF1004T5E
+DESCRIPTION
+电阻类型:厚膜电阻;阻值:1MΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Component Kind
+Standard
+Unique ID
+gge9
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+0603WAF1004T5E
+PCB Layer
+Default
+Symbol
+0603WAF1004T5E
+Designator
+R205
+LCSC Part Name
+1MΩ ±1% 100mW 厚膜电阻
+Supplier Part
+C22935
+Manufacturer
+UNI-ROYAL(厚声)
+Manufacturer Part
+0603WAF1004T5E
+Supplier Footprint
+0603
+JLCPCB Part Class
+Basic Part
+Datasheet
+https://item.szlcsc.com/datasheet/0603WAF1004T5E/23662.html
+Supplier
+LCSC
+3D Model Title
+R0603
+Type
+厚膜电阻
+Value
+1MΩ
+Tolerance
+±1%
+Power(Watts)
+100mW
+Voltage-Supply(Max)
+75V
+Temperature Coefficient
+±100ppm/℃
+Operating Temperature
+-55℃~+155℃
+Name
+1MΩ
+Description
+电阻类型:厚膜电阻;阻值:1MΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+R206
+FOOTPRINT
+R0603
+PARTTYPE
+0603WAF1002T5E
+DESCRIPTION
+电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Component Kind
+Standard
+Unique ID
+gge10
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+0603WAF1002T5E
+PCB Layer
+Default
+Symbol
+0603WAF1002T5E
+Designator
+R206
+LCSC Part Name
+厚膜电阻 10kΩ ±1% 100mW
+Supplier Part
+C25804
+Manufacturer
+UNI-ROYAL(厚声)
+Manufacturer Part
+0603WAF1002T5E
+Supplier Footprint
+0603
+JLCPCB Part Class
+Basic Part
+Datasheet
+https://item.szlcsc.com/datasheet/0603WAF1002T5E/26547.html
+Supplier
+LCSC
+3D Model Title
+R0603
+Type
+厚膜电阻
+Value
+10kΩ
+Tolerance
+±1%
+Power(Watts)
+100mW
+Voltage-Supply(Max)
+75V
+Temperature Coefficient
+±100ppm/℃
+Operating Temperature
+-55℃~+155℃
+Name
+10kΩ
+Description
+电阻类型:厚膜电阻;阻值:10kΩ;精度:±1%;功率:100mW;工作电压:75V;温度系数:±100ppm/℃;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+Q201
+FOOTPRINT
+SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR
+PARTTYPE
+2N7002-13-01-F
+DESCRIPTION
+数量:1个N沟道;漏源电压(Vdss):60V;连续漏极电流(Id):210mA;导通电阻(RDS(on)):7.5Ω@5V;耗散功率(Pd):370mW;阈值电压(Vgs(th)):2.5V;
+Component Kind
+Standard
+Unique ID
+gge11
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+2N7002-13-01-F
+PCB Layer
+Default
+Symbol
+2N7002-13-01-F
+Designator
+Q201
+LCSC Part Name
+2N7002-13-01-F
+Supplier Part
+C526222
+Manufacturer
+DIODES(美台)
+Manufacturer Part
+2N7002-13-01-F
+Supplier Footprint
+SOT-23
+JLCPCB Part Class
+Extended Part
+Datasheet
+https://item.szlcsc.com/datasheet/2N7002-13-01-F/544537.html
+Supplier
+LCSC
+3D Model Title
+SOT-23-3P_L2.9-W1.3-H1.0-LS2.4-P0.95
+Number
+1个N沟道
+Drain to Source Voltage
+60V
+Current - Continuous Drain(Id)
+210mA
+RDS(on)
+7.5Ω@5V
+Pd - Power Dissipation
+370mW
+Gate Threshold Voltage (Vgs(th))
+2.5V
+Gate Charge(Qg)
+223pC@4.5V
+Input Capacitance(Ciss)
+50pF
+Reverse Transfer Capacitance (Crss@Vds)
+5pF
+Operating Temperature
+-55℃~+150℃
+Configuration
+-
+Type
+N沟道
+Output Capacitance(Coss)
+11pF
+Vgs
+±20V
+Name
+2N7002-13-01-F
+Description
+数量:1个N沟道;漏源电压(Vdss):60V;连续漏极电流(Id):210mA;导通电阻(RDS(on)):7.5Ω@5V;耗散功率(Pd):370mW;阈值电压(Vgs(th)):2.5V;
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+[
+DESIGNATOR
+BZ201
+FOOTPRINT
+BUZ-TH_BD9.0-P5.00-D0.6-L-FD
+PARTTYPE
+有源蜂鸣器直径9*5.5mm3V
+DESCRIPTION
+
+Component Kind
+Standard
+Unique ID
+gge12
+Add into BOM
+yes
+Convert to PCB
+yes
+Device
+有源蜂鸣器直径9*5.5mm3V
+PCB Layer
+Default
+Symbol
+有源蜂鸣器直径9*5.5MM3V
+Designator
+BZ201
+LCSC Part Name
+有源蜂鸣器直径9*5.5mm3V
+Supplier Part
+C9900012728
+Manufacturer
+
+Manufacturer Part
+有源蜂鸣器直径9*5.5mm3V
+Supplier Footprint
+0905
+JLCPCB Part Class
+Extended Part
+Datasheet
+
+Supplier
+LCSC
+3D Model Title
+BUZ-TH_BD9.0-P5.00-D0.6-L-FD
+Name
+有源蜂鸣器直径9*5.5mm3V
+Description
+
+Reuse Block
+
+Group ID
+
+Channel ID
+
+
+*
+]
+(
+OUT1 
+J201-3 2.54-1*3P针-3 Input   
+U201-1 LM393PWRG3-1OUT Output  
+R204-2 0603WAF1001T5E-2 Input   
+R205-1 0603WAF1004T5E-1 Input   
+R206-2 0603WAF1002T5E-2 Input   
+)
+(
+3V3 
+J201-1 2.54-1*3P针-1 Input   
+C201-1 CL10B104KB8NNNC-1 Passive 
+U201-8 LM393PWRG3-VCC Passive 
+R201-1 0603WAF1002T5E-1 Input   
+R202-1 0603WAF1002T5E-1 Input   
+R206-1 0603WAF1002T5E-1 Input   
+BZ201-1 有源蜂鸣器直径9*5.5mm3V-+ Passive 
+)
+(
+GND 
+J201-2 2.54-1*3P针-2 Input   
+C201-2 CL10B104KB8NNNC-2 Passive 
+U201-4 LM393PWRG3-GND Passive 
+RT201-2 NTCG103JX103DT1-2 Passive 
+R203-2 0603WAF4701T5E-2 Input   
+Q201-2 2N7002-13-01-F-S Passive 
+)
+(
+NTC_NODE 
+U201-2 LM393PWRG3-1IN- Passive 
+RT201-1 NTCG103JX103DT1-1 Passive 
+R201-2 0603WAF1002T5E-2 Input   
+)
+(
+TH_NODE 
+U201-3 LM393PWRG3-1IN+ Passive 
+R202-2 0603WAF1002T5E-2 Input   
+R203-1 0603WAF4701T5E-1 Input   
+R205-2 0603WAF1004T5E-2 Input   
+)
+(
+GATE 
+R204-1 0603WAF1001T5E-1 Input   
+Q201-1 2N7002-13-01-F-G Passive 
+)
+(
+BUZ_D 
+Q201-3 2N7002-13-01-F-D Passive 
+BZ201-2 有源蜂鸣器直径9*5.5mm3V-- Passive 
+)

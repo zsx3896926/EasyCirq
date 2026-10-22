@@ -1,0 +1,35 @@
+{
+  "status": "match",
+  "project": "C:\\Users\\jlc\\work\\hw-common-eda\\base.eprj2",
+  "snapshot": "C:\\Users\\jlc\\work\\hw-common-eda\\s1-before-reopen.json",
+  "closed_session": {
+    "closed": true,
+    "session": {
+      "sessionId": "01cbfd01-0ced-4780-be1c-a560bb4771a8",
+      "status": "closed",
+      "headless": true
+    }
+  },
+  "comparison": {
+    "match": true,
+    "differences": [],
+    "counts": {
+      "parts_before": 12,
+      "parts_after": 12,
+      "wires_before": 5,
+      "wires_after": 5,
+      "netflags_before": 13,
+      "netflags_after": 13,
+      "netports_before": 9,
+      "netports_after": 9
+    }
+  },
+  "actual_counts": {
+    "components": 35,
+    "parts": 12,
+    "netflags": 13,
+    "netports": 9,
+    "wires": 23,
+    "attributes": null
+  }
+}
