@@ -84,3 +84,14 @@ python design-hardware/scripts/eda_exec.py reopen-check --project <copy> --snaps
 ```
 
 环境：Windows 11、Python 3.13.15、嘉立创EDA专业版 4.1.78.34f5b8d9、CLI 半离线。所有写入必须使用授权副本；默认拒绝用户 GUI 会话。
+
+## 9. 2026-10-22 后续：rev3 重排 + 跨客户端诊断
+
+- 工作位置：`C:\Users\jlc\work\hds-round3-int`，分支 `feat/rev3-relayout`（从 `feat/round3-engineering` @ `8d95975` 建）。`C:\Users\jlc\work\hds-round3` 里另一会话的未提交修改未触碰。
+- 已完成：
+  - `doctor_env.py` 按当前客户端判定，`versionMatch:false`/工程不可读计入 `incomplete`，`--timeout` 真正传入；7 项测试。
+  - `compare_snapshots` 补 `name`、symbol/component/footprint UUID、`other_property`；rev3 原有 mirror/BOM/PCB/端口方向/不可解析导线比较保留。
+  - rev3 纯排版重排：21 器件、12 网络、60 引脚不变，`netlist-after.net` 与 golden `f1-rev3b.net` SHA256 相同；save/reopen match；DRC 5→3 warn（2 ONENETNAME + 1 CHECKFLOATPIN），0 error。
+  - 客户端实际调用：Claude Code PASS、Codex PASS（Skill 发现/读取）、WorkBuddy BLOCKED（CLI 要求 `/login`）。
+- 未完成：F1 图面仍拥挤（J101 内部、页面留白）、标题栏 DRAFT、ERC 豁免表、人工审图、PCB、制造、固件/首板、三客户端完整五步、WorkBuddy GUI 登录后复测。
+- 下一条：在 WorkBuddy GUI 登录后用同一提示词复测；然后做 ERC 豁免表和 J101 内部重排；PCB 按原 backlog 继续。

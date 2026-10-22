@@ -834,6 +834,26 @@ return {
 APPLY_JS = r'''
 const A = __ARGS__;
 ''' + PAGE_SELECT_JS + r'''
+const componentName = (c) => {
+  const value = safe(() => c.getState_Component());
+  return value && value.name ? value.name : null;
+};
+const symbolNameOf = (c) => {
+  const value = safe(() => c.getState_Symbol());
+  return value && value.name ? value.name : null;
+};
+const portDirectionOf = (name) => {
+  const match = /Netport-(IN|OUT|BI)/i.exec(name || '');
+  return match ? match[1].toUpperCase() : null;
+};
+const flagTypeOf = (name) => {
+  if (!name) return null;
+  if (/ProtectGround/i.test(name)) return 'ProtectGround';
+  if (/AnalogGround/i.test(name)) return 'AnalogGround';
+  if (/Ground/i.test(name)) return 'Ground';
+  if (/Power/i.test(name)) return 'Power';
+  return null;
+};
 const env = {
   online: safe(() => eda.sys_Environment.isOnlineMode()),
   half_offline: safe(() => eda.sys_Environment.isHalfOfflineMode()),
@@ -1037,6 +1057,8 @@ for (const act of (A.actions || [])) {
         x: safe(() => target.getState_X()),
         y: safe(() => target.getState_Y()),
         component: component && component.name ? component.name : null,
+        direction: portDirectionOf(symbolNameOf(target) || (component && component.name)),
+        flag_type: flagTypeOf(symbolNameOf(target) || (component && component.name)),
       };
       const drift = [];
       for (const field of Object.keys(checks)) {
@@ -2029,8 +2051,12 @@ def compare_snapshots(before, after, tolerance=0.01):
         return result
 
     def part_view(part):
+        component = part.get('component') or {}
+        symbol = part.get('symbol') or {}
+        footprint = part.get('footprint') or {}
         return {
             'designator': part.get('designator'), 'part': _part_name(part),
+            'name': part.get('name'),
             'supplier_id': part.get('supplier_id'), 'footprint': _footprint_name(part),
             'unique_id': part.get('unique_id'), 'rotation': part.get('rotation'),
             'mirror': bool(part.get('mirror')) if part.get('mirror') is not None else None,
@@ -2038,6 +2064,10 @@ def compare_snapshots(before, after, tolerance=0.01):
             'manufacturer': part.get('manufacturer'),
             'manufacturer_id': part.get('manufacturer_id'),
             'supplier': part.get('supplier'),
+            'component_uuid': component.get('uuid'),
+            'symbol_uuid': symbol.get('uuid'),
+            'footprint_uuid': footprint.get('uuid'),
+            'other_property': part.get('other_property'),
         }
 
     before_parts, after_parts = parts_by_key(before), parts_by_key(after)
@@ -2135,8 +2165,9 @@ def compare_snapshots(before, after, tolerance=0.01):
             'netports_before': len(before_ports), 'netports_after': len(after_ports),
             'wires_before': len(before_wires), 'wires_after': len(after_wires),
         },
-        'compared_fields': ['identity', 'parts(designator,part,supplier_id,footprint,unique_id,position,'
-                            'rotation,mirror,add_into_bom,add_into_pcb,manufacturer,manufacturer_id,supplier)',
+        'compared_fields': ['identity', 'parts(designator,part,name,supplier_id,footprint,unique_id,position,'
+                            'rotation,mirror,add_into_bom,add_into_pcb,manufacturer,manufacturer_id,supplier,'
+                            'component_uuid,symbol_uuid,footprint_uuid,other_property)',
                             'duplicate_designators', 'netflags(name,type,position,rotation,mirror)',
                             'netports(net,name,direction,position,rotation,mirror)', 'wires', 'unparsed_wires',
                             'attributes'],

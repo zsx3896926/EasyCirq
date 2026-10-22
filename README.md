@@ -60,10 +60,18 @@ https://github.com/zhoushoujianwork/easyeda-agent
 |---|---|
 | Claude Code（Windows） | `%USERPROFILE%\.claude\skills\design-hardware` |
 | Claude Code（macOS / Linux） | `~/.claude/skills/design-hardware` |
-| Codex | 按当前客户端技能目录配置；常见为 `~/.codex/skills/design-hardware`，Codex Desktop 也可能使用 `~/.agents/skills/design-hardware` |
-| WorkBuddy | 按当前客户端的技能导入界面要求导入并启用；目录层级和包格式以界面为准 |
+| Codex（0.163 实测路径） | 首选 `~/.agents/skills/design-hardware`；旧版兼容 `~/.codex/skills/design-hardware`，两处只放一处 |
+| WorkBuddy（5.8.3 实测路径） | `~/.workbuddy/skills/design-hardware`，或在技能页导入本地包；保留 `references/`、`scripts/`、`assets/` |
 
 安装后重新加载客户端，让 AI 确认能读取 `design-hardware`。自定义了技能目录时，以实际配置为准。
+
+不确定装在哪、是否已装、当前客户端能否连 EDA 时，让 AI 先运行：
+
+```bash
+python design-hardware/scripts/doctor_env.py --summary
+```
+
+它按**当前客户端**判定状态（未检测到就要求 `--client`），并把 `versionMatch:false`、工程不可读计入 `incomplete`；只诊断，不安装、不写工程。完整路径、能力矩阵和五步首次接通见 [客户端兼容与首次接通](design-hardware/references/client-compatibility.md)。
 
 ### 3. 安装 easyeda-agent 和 EDA 连接器
 

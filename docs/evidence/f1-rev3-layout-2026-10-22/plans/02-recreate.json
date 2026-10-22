@@ -1,0 +1,1255 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 2: recreate rev3 flags, ports and single-segment wires at translated coordinates.",
+  "operations": [
+    {
+      "op": "net_flag",
+      "key": "flag-40543f585f64a26c",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        120,
+        590
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-c980906e59389d91",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        120,
+        680
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-17afc95fd7c29b0c",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        380,
+        550
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-20350323f34b81d6",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        470,
+        480
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-bb1dafd2c1fade33",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        470,
+        490
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-5114b45293ec27ff",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        650,
+        490
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-4ac324d5ea8227c0",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        780,
+        550
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-de27143f4b7cd30c",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        600,
+        620
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-e57ed6dc05e77682",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        480,
+        390
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-54148e9f6d4dc8a9",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        580,
+        300
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-b58bf3d1423439f5",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        580,
+        240
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-4278f4dc559bc757",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        220,
+        280
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-796665db50623051",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        650,
+        380
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-80cdcd8f3989ebcf",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        850,
+        290
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-4beb6c48ff2ecd48",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        680,
+        550
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-84f6c73e9e1466b3",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        100,
+        280
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-63e2554638564c85",
+      "net": "3V3",
+      "type": "Power",
+      "at": [
+        900,
+        550
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-2cc6383a8518ea29",
+      "net": "5V",
+      "type": "Power",
+      "at": [
+        470,
+        630
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-18c0061320f321b7",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        90,
+        580
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-c3b73645a8e7160d",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        90,
+        690
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-194e5d88d54bae97",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        270,
+        410
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-a380d2e117269cb8",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        270,
+        490
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-765850816424699e",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        450,
+        550
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-ea05521f71e9e30f",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        470,
+        500
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-b0612878e9a6d361",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        860,
+        550
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-9ccdb3aec0a20cf8",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        740,
+        580
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-085411f657e903be",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        360,
+        390
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-ac28347df5c9b3f0",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        690,
+        240
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-77ea315331003b43",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        300,
+        340
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-dda9b0b055b70f5e",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        800,
+        380
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-4f5752fc3d1e2d06",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        850,
+        260
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-e51e0a360eaac324",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        160,
+        230
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-eaf7bd7c36db7f10",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        160,
+        130
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-d0a9c888f5b05120",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        950,
+        580
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-6b6378a16e8d6665",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        530,
+        660
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-e69626a1c40427e4",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        250,
+        710
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_flag",
+      "key": "flag-2bd4c9ebd26965f9",
+      "net": "GND",
+      "type": "Ground",
+      "at": [
+        250,
+        560
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-960727babd8cbb80",
+      "net": "CC1",
+      "direction": "BI",
+      "at": [
+        90,
+        660
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-04db9b8ea74e26ac",
+      "net": "CC2",
+      "direction": "BI",
+      "at": [
+        90,
+        600
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-29a56eb8eb7d36c7",
+      "net": "CC1",
+      "direction": "BI",
+      "at": [
+        320,
+        410
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-04114913b502d3e8",
+      "net": "CC2",
+      "direction": "BI",
+      "at": [
+        320,
+        490
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-1042cae56d0b89a2",
+      "net": "EN",
+      "direction": "BI",
+      "at": [
+        520,
+        300
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-d0dc03f8f7e30405",
+      "net": "EN",
+      "direction": "BI",
+      "at": [
+        455,
+        370
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-11f9e26c00295e4e",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        520,
+        240
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-ebffb4f56e1db48f",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        455,
+        380
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-5ff0a849714a8df1",
+      "net": "IO0",
+      "direction": "BI",
+      "at": [
+        280,
+        280
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-90e0dcf2f855f267",
+      "net": "IO0",
+      "direction": "BI",
+      "at": [
+        385,
+        370
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-b6f7c7b75542fd13",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        610,
+        240
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-9ef4bcbe71b063a5",
+      "net": "IO0",
+      "direction": "BI",
+      "at": [
+        220,
+        340
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-4d660020fa009b67",
+      "net": "IO2",
+      "direction": "BI",
+      "at": [
+        140,
+        280
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-1388494f2584d67e",
+      "net": "IO2",
+      "direction": "BI",
+      "at": [
+        365,
+        380
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-66ae43cfaa7fbbb0",
+      "net": "EN",
+      "direction": "BI",
+      "at": [
+        100,
+        200
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-4a6c3e96d8654a47",
+      "net": "RST",
+      "direction": "BI",
+      "at": [
+        100,
+        160
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-9bf2c7739b22d4e7",
+      "net": "TXD",
+      "direction": "OUT",
+      "at": [
+        870,
+        280
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-9cc1a6dfd924446e",
+      "net": "TXD",
+      "direction": "OUT",
+      "at": [
+        455,
+        360
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-d04c9e534752c905",
+      "net": "RXD",
+      "direction": "IN",
+      "at": [
+        890,
+        270
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "net_port",
+      "key": "port-ac72859bc80dc265",
+      "net": "RXD",
+      "direction": "IN",
+      "at": [
+        385,
+        360
+      ],
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "op": "wire",
+      "key": "wire-1",
+      "net": "5V",
+      "points": [
+        150,
+        590,
+        120,
+        590
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-2",
+      "net": "GND",
+      "points": [
+        150,
+        580,
+        90,
+        580
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-3",
+      "net": "5V",
+      "points": [
+        150,
+        680,
+        120,
+        680
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-4",
+      "net": "GND",
+      "points": [
+        150,
+        690,
+        90,
+        690
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-5",
+      "net": "CC1",
+      "points": [
+        150,
+        660,
+        90,
+        660
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-6",
+      "net": "CC2",
+      "points": [
+        150,
+        600,
+        90,
+        600
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-7",
+      "net": "CC1",
+      "points": [
+        340,
+        410,
+        320,
+        410
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-8",
+      "net": "GND",
+      "points": [
+        280,
+        410,
+        270,
+        410
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-9",
+      "net": "CC2",
+      "points": [
+        340,
+        490,
+        320,
+        490
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-10",
+      "net": "GND",
+      "points": [
+        280,
+        490,
+        270,
+        490
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-11",
+      "net": "5V",
+      "points": [
+        400,
+        550,
+        380,
+        550
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-12",
+      "net": "GND",
+      "points": [
+        450,
+        550,
+        430,
+        550
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-13",
+      "net": "5V",
+      "points": [
+        510,
+        480,
+        470,
+        480
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-14",
+      "net": "3V3",
+      "points": [
+        510,
+        490,
+        470,
+        490
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-15",
+      "net": "GND",
+      "points": [
+        510,
+        500,
+        470,
+        500
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-16",
+      "net": "3V3",
+      "points": [
+        650,
+        490,
+        620,
+        490
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-17",
+      "net": "3V3",
+      "points": [
+        800,
+        550,
+        780,
+        550
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-18",
+      "net": "GND",
+      "points": [
+        860,
+        550,
+        840,
+        550
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-19",
+      "net": "GND",
+      "points": [
+        740,
+        580,
+        720,
+        580
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-20",
+      "net": "3V3",
+      "points": [
+        480,
+        390,
+        455,
+        390
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-21",
+      "net": "GND",
+      "points": [
+        385,
+        390,
+        360,
+        390
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-22",
+      "net": "3V3",
+      "points": [
+        580,
+        300,
+        560,
+        300
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-23",
+      "net": "3V3",
+      "points": [
+        580,
+        240,
+        560,
+        240
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-24",
+      "net": "3V3",
+      "points": [
+        240,
+        280,
+        220,
+        280
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-25",
+      "net": "GND",
+      "points": [
+        690,
+        240,
+        670,
+        240
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-26",
+      "net": "GND",
+      "points": [
+        300,
+        340,
+        280,
+        340
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-27",
+      "net": "3V3",
+      "points": [
+        670,
+        380,
+        650,
+        380
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-28",
+      "net": "LED_A",
+      "points": [
+        740,
+        380,
+        710,
+        380
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-29",
+      "net": "GND",
+      "points": [
+        800,
+        380,
+        780,
+        380
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-30",
+      "net": "3V3",
+      "points": [
+        910,
+        290,
+        850,
+        290
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-31",
+      "net": "TXD",
+      "points": [
+        910,
+        280,
+        870,
+        280
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-32",
+      "net": "RXD",
+      "points": [
+        910,
+        270,
+        890,
+        270
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-33",
+      "net": "GND",
+      "points": [
+        910,
+        260,
+        850,
+        260
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-34",
+      "net": "3V3",
+      "points": [
+        680,
+        580,
+        680,
+        550
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-35",
+      "net": "3V3",
+      "points": [
+        100,
+        310,
+        100,
+        280
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-36",
+      "net": "IO2",
+      "points": [
+        140,
+        310,
+        140,
+        280
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-37",
+      "net": "IO2",
+      "points": [
+        385,
+        380,
+        365,
+        380
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-38",
+      "net": "EN",
+      "points": [
+        100,
+        230,
+        100,
+        200
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-39",
+      "net": "GND",
+      "points": [
+        160,
+        230,
+        140,
+        230
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-40",
+      "net": "RST",
+      "points": [
+        100,
+        160,
+        100,
+        130
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-41",
+      "net": "GND",
+      "points": [
+        160,
+        130,
+        140,
+        130
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-42",
+      "net": "3V3",
+      "points": [
+        900,
+        580,
+        900,
+        550
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-43",
+      "net": "GND",
+      "points": [
+        950,
+        580,
+        930,
+        580
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-44",
+      "net": "5V",
+      "points": [
+        470,
+        660,
+        470,
+        630
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-45",
+      "net": "GND",
+      "points": [
+        530,
+        660,
+        510,
+        660
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-46",
+      "net": "GND",
+      "points": [
+        250,
+        710,
+        210,
+        710
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-47",
+      "net": "GND",
+      "points": [
+        210,
+        710,
+        200,
+        710
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-48",
+      "net": "GND",
+      "points": [
+        200,
+        710,
+        210,
+        710
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-49",
+      "net": "GND",
+      "points": [
+        250,
+        560,
+        210,
+        560
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-50",
+      "net": "GND",
+      "points": [
+        210,
+        560,
+        200,
+        560
+      ]
+    },
+    {
+      "op": "wire",
+      "key": "wire-51",
+      "net": "GND",
+      "points": [
+        200,
+        560,
+        210,
+        560
+      ]
+    }
+  ]
+}

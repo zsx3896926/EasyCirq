@@ -1,0 +1,95 @@
+{
+  "status": "checked",
+  "drc": {
+    "ok": true,
+    "strict": true,
+    "result": [
+      {
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "net": "GND、GND、GND",
+        "primitives": [
+          {
+            "primitiveId": "49fae01dc70fc99a",
+            "sheet": "f6d41a58df3fa849",
+            "name": "$1N120"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "ONENETNAME",
+        "net": "GND、GND、GND",
+        "primitives": [
+          {
+            "primitiveId": "257ae6235df06193",
+            "sheet": "f6d41a58df3fa849",
+            "name": "$1N121"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "CHECKFLOATPIN",
+        "primitives": [
+          {
+            "primitiveId": "84931dadefea5b69-e19",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e23",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e27",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B6"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e35",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e39",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e43",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A6"
+          }
+        ]
+      }
+    ],
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C"
+    }
+  },
+  "session": {
+    "sessionId": "a38be901-ff32-402b-90ea-c7d6b511919c",
+    "origin": "cli",
+    "owned": false
+  },
+  "summary": "violations_reported",
+  "violation_count": 3,
+  "by_type": {
+    "warn": 3
+  },
+  "by_rule": {
+    "ONENETNAME": 2,
+    "CHECKFLOATPIN": 1
+  }
+}
