@@ -53,11 +53,11 @@
                       ├── 风扇 12 V bulk/陶瓷去耦
                       └── G2 Buck ── 3.3 V ── MCU / NTC 分压 / TMP117 / LED
 MCU ── 25 kHz PWM ── FAN pin4（开漏或低边 FET，禁止外部上拉）
-FAN pin3 TACH ── 12 V 上拉 10 kΩ ── 分压 3.6 kΩ 到地（3.18 V）── 100 Ω ── MCU 输入捕获
+FAN pin3 TACH ── 12 V 上拉 10 kΩ ── 分压 3.3 kΩ 到地（3.13 V @12.6 V）── 100 Ω ── MCU 输入捕获
 NTC ── 24.9 kΩ 上拉到 3.3 V ── RC ── ADC；TMP117 ── I²C ── MCU
 ```
 
-4 线连接器按 Intel 规范 Table 1：pin1 GND（黑）、pin2 +12 V（黄）、pin3 Sense/TACH（绿）、pin4 Control/PWM（蓝）。风扇内部已把 PWM 脚上拉到不高于 5.25 V，主板侧**不得**再加 pull-up/pull-down；3.3 V MCU 若引脚不耐 5 V，用 5 V 耐压开漏缓冲（如 74LVC1G07）或低边 N-FET（BSS138/2N7002，漏极接 PWM、源极接地、栅极由 MCU 驱动并加下拉）。TACH 是开集电极/开漏；Intel §2.1.3 的**主板侧上拉是 12 V（最大 12.6 V）**，3.3 V MCU 要 12 V 上拉 + 分压/电平转换（10 kΩ/3.6 kΩ → 3.18 V），不要把 12 V 直接进 GPIO。3.3 V 上拉不是规范测试条件，需按具体风扇实测。
+4 线连接器按 Intel 规范 Table 1：pin1 GND（黑）、pin2 +12 V（黄）、pin3 Sense/TACH（绿）、pin4 Control/PWM（蓝）。风扇内部已把 PWM 脚上拉到不高于 5.25 V，主板侧**不得**再加 pull-up/pull-down；3.3 V MCU 若引脚不耐 5 V，用 5 V 耐压开漏缓冲（如 74LVC1G07）或低边 N-FET（BSS138/2N7002，漏极接 PWM、源极接地、栅极由 MCU 驱动并加下拉）。TACH 是开集电极/开漏；Intel §2.1.3 的**主板侧上拉是 12 V（最大 12.6 V）**，3.3 V MCU 要 12 V 上拉 + 分压/电平转换（10 kΩ/3.3 kΩ → 3.13 V @12.6 V），不要把 12 V 直接进 GPIO。3.3 V 上拉不是规范测试条件，需按具体风扇实测。
 
 3 线风扇只去掉 PWM 脚：pin1 GND、pin2 +12 V、pin3 TACH。调速若用低边斩波，TACH 在关断期间没有输出，只能测导通期；更稳妥的是用可调 Buck/线性稳压调压，或只做通断。2 线风扇没有 TACH，只能通断；需要调速时用调压，不要用 25 kHz 斩波，且要接受低速可能不启动。2/3 线的低侧开关见 [D01 低侧开关](../../design-cards/drive/d01-low-side.md)：AO3400A 源极接地、漏极接风扇地，栅极 100 Ω + 100 kΩ 下拉，风扇两端加 SS34（阴极接 +12 V）和 bulk 电容。
 
@@ -85,7 +85,7 @@ NTC ── 24.9 kΩ 上拉到 3.3 V ── RC ── ADC；TMP117 ── I²C �
 
 建议 5 张图：① 12 V 输入、保险/TVS、风扇连接器与 bulk 电容；② G2 Buck 3.3 V、EN 上拉、输出电容与测试点；③ MCU、SWD、复位、去耦；④ 传感器（NTC 分压+RC、TMP117 I²C 上拉/ALERT）；⑤ 风扇接口与 LED、测试点。网络名统一：`FANn_12V`、`FANn_TACH`、`FANn_PWM`、`NTC_AIN`、`TMP_SCL/SDA`、`+3V3`。
 
-4 线接口逐脚：pin1 接功率地，pin2 接 12 V（常供；可经保险/高边保护，但不做 PWM 斩波），pin3 经 **12 V 上拉 10 kΩ + 3.6 kΩ 分压到 3.18 V**、100 Ω 串阻进捕获脚，pin4 接 MCU 开漏/低边 FET，主板侧不加 pull-up/pull-down。连接器旁加 ESD/TVS；TACH 可加 1 nF 到地，但 10 kΩ×1 nF 的上升时间约 10 µs，25 kHz 以下无问题。2/3 线接口单独画：AO3400A 低侧、栅极 100 Ω+100 kΩ 下拉、SS34 续流、100 µF bulk；3 线 TACH 同样 12 V 上拉 + 分压到 3.3 V。图上注明“4 线 12 V 常供”“PWM 25 kHz”“TACH 2 脉冲/转”，避免后续改图时把 4 线当 3 线。
+4 线接口逐脚：pin1 接功率地，pin2 接 12 V（常供；可经保险/高边保护，但不做 PWM 斩波），pin3 经 **12 V 上拉 10 kΩ + 3.3 kΩ 分压到 3.13 V @12.6 V**、100 Ω 串阻进捕获脚，pin4 接 MCU 开漏/低边 FET，主板侧不加 pull-up/pull-down。连接器旁加 ESD/TVS；TACH 可加 1 nF 到地，但 10 kΩ×1 nF 的上升时间约 10 µs，25 kHz 以下无问题。2/3 线接口单独画：AO3400A 低侧、栅极 100 Ω+100 kΩ 下拉、SS34 续流、100 µF bulk；3 线 TACH 同样 12 V 上拉 + 分压到 3.3 V。图上注明“4 线 12 V 常供”“PWM 25 kHz”“TACH 2 脉冲/转”，避免后续改图时把 4 线当 3 线。
 
 原理图必须标清：风扇型号/线数/针序、PWM 频率与占空比范围、TACH 上拉电压、NTC 的 R25/B/R_TOP/温区、Buck 的 L/C/反馈值、LED 的 Vf 分档与限流电阻。NTC 分压的细节和误差预算复用 [ANA-10](../../design-cards/analog/a10-rtd-thermistor.md)，Buck 功率级复用 [PWR-02](../../design-cards/power/p02-buck.md)，不在这里重复整段。
 
