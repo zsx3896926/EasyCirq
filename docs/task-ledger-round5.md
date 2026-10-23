@@ -63,7 +63,7 @@
 | F | F1 PCB 完整闭环 | **BLOCKED**（导入/板框需 GUI；其后步骤已验证） | 真机确认：`importChanges` 返回 true 但 0 物化；layer 11 板框被 API 拒绝；`autoLayout` 33/33、`autoRouting` 13–16/17、保存重开 match 均可用，已封装 `pcb import/layout/route/outline`；演示跑在工程内旧板（非 F1） | 用户在 GUI 完成 F1 导入 + 板框各一次；随后 CLI：layout → route --save → drc → reopen-check |
 | G | 商城/SMT/替代料 | PARTIAL | C 号不全、实时库存 BLOCKED、SMT/替代料 NOT RUN | 出「关键料取证清单」；库存查询失败原因定位（网络/API） |
 | H | 生产规则/制造资料 | NOT RUN | 无 BOM/CPL/Gerber；CLI 导出 API 返回空对象（需 GUI 全在线会话） | 制造包走 GUI 会话导出（需用户配合） |
-| I | 异常恢复与故障注入 | NOT RUN | 单元级路径有测试；真实 EDA 故障注入未做 | 超时/断连/页切换场景在 scratch 副本实测 |
+| I | 异常恢复与故障注入 | **PARTIAL** | 真实注入 3/8：超时→partial_unknown 且不重复写、复跑→no_changes、错误身份→blocked 零写入；保存失败/断连/作业延迟等 5 项 NOT RUN（原因已记） | 作业模型（startAutoRouting + getAutoJobStatus）实测；保存失败注入需 GUI/宿主手段 |
 | J | 三客户端与新手流程 | PARTIAL | CC/Codex 有最小流程证据；WorkBuddy BLOCKED（GUI 登录未做）；完整项目流程无 | 用户 GUI 登录 WorkBuddy 后复测；Codex 267 定位 |
 | K | 知识库审校 | PARTIAL | C40/C76 两条未关闭；原厂依据不足 | 逐条按「历史问题→当前状态→依据→复算」关闭 |
 | L | Agent 行为评测 | NOT RUN | 场景与评价维度已定，试验未跑 | 用决策库案例做同条件对照（无 Skill 基线） |

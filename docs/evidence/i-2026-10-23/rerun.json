@@ -1,0 +1,63 @@
+{
+  "status": "no_changes",
+  "plan": "docs/evidence/pcb-e2-2026-10-22/plan-minimal.json",
+  "session": {
+    "sessionId": "1cf58c6b-1780-4f97-a0db-6234a1f52a38",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true
+  },
+  "pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3",
+    "pcb_name": "PCB"
+  },
+  "before_counts": {
+    "components": 33,
+    "lines": 153,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 83
+  },
+  "integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": []
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "e2-line",
+      "op": "line",
+      "action": "already_present",
+      "dedup": "checked"
+    },
+    {
+      "key": "e2-via",
+      "op": "via",
+      "action": "already_present",
+      "dedup": "checked"
+    },
+    {
+      "key": "e2-pour",
+      "op": "pour_outline",
+      "action": "already_present",
+      "dedup": "checked"
+    }
+  ],
+  "actions": [],
+  "conflicts": [],
+  "pinned_pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3"
+  },
+  "verification": "not_needed"
+}
