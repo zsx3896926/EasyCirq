@@ -1,0 +1,572 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/f1-b-2026-10-22/plan-v6-degenerate.json",
+  "session": {
+    "sessionId": "6fa7cb29-8c1d-42f8-acbd-f4b1dfff3f27",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 78,
+    "parts": 21,
+    "netflags": 36,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "z1",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "8893bd5fa7509148",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "z2",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "7a33102f2deb9384",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "z3",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "b3124a252bd52e48",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "z4",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "27208e4845428a56",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "z5",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "2bf0444e05f47f65",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "z6",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "73b9662569c4e45b",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "z7",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "11ad58edc1091177",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "z8",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "2b328ea8ce7ea7ad",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "z9",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "3aa914a0d708bcf5",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "z10",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "54a799cf815f23cc",
+      "expected": {
+        "net": ""
+      }
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_primitive",
+      "key": "z1",
+      "kind": "wire",
+      "primitive_id": "8893bd5fa7509148",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "z2",
+      "kind": "wire",
+      "primitive_id": "7a33102f2deb9384",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "z3",
+      "kind": "wire",
+      "primitive_id": "b3124a252bd52e48",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "z4",
+      "kind": "wire",
+      "primitive_id": "27208e4845428a56",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "z5",
+      "kind": "wire",
+      "primitive_id": "2bf0444e05f47f65",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "z6",
+      "kind": "wire",
+      "primitive_id": "73b9662569c4e45b",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "z7",
+      "kind": "wire",
+      "primitive_id": "11ad58edc1091177",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "z8",
+      "kind": "wire",
+      "primitive_id": "2b328ea8ce7ea7ad",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "z9",
+      "kind": "wire",
+      "primitive_id": "3aa914a0d708bcf5",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "z10",
+      "kind": "wire",
+      "primitive_id": "54a799cf815f23cc",
+      "expected": {
+        "net": ""
+      }
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "z1",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "8893bd5fa7509148",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "z2",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "7a33102f2deb9384",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "z3",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "b3124a252bd52e48",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "z4",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "27208e4845428a56",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "z5",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "2bf0444e05f47f65",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "z6",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "73b9662569c4e45b",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "z7",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "11ad58edc1091177",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "z8",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "2b328ea8ce7ea7ad",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "z9",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "3aa914a0d708bcf5",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "z10",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "54a799cf815f23cc",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "0f2b1e486deae7cbe16b392596589e5050353defd00db1a47dc425a1d46d9b0d",
+      "friendly_name": "f1-b-v6",
+      "name": "/f1-b-v6"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 78,
+    "parts": 21,
+    "netflags": 36,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 47,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "z1",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "8893bd5fa7509148",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "8893bd5fa7509148",
+          "still_present": false
+        }
+      },
+      {
+        "key": "z2",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "7a33102f2deb9384",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "7a33102f2deb9384",
+          "still_present": false
+        }
+      },
+      {
+        "key": "z3",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "b3124a252bd52e48",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "b3124a252bd52e48",
+          "still_present": false
+        }
+      },
+      {
+        "key": "z4",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "27208e4845428a56",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "27208e4845428a56",
+          "still_present": false
+        }
+      },
+      {
+        "key": "z5",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "2bf0444e05f47f65",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "2bf0444e05f47f65",
+          "still_present": false
+        }
+      },
+      {
+        "key": "z6",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "73b9662569c4e45b",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "73b9662569c4e45b",
+          "still_present": false
+        }
+      },
+      {
+        "key": "z7",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "11ad58edc1091177",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "11ad58edc1091177",
+          "still_present": false
+        }
+      },
+      {
+        "key": "z8",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "2b328ea8ce7ea7ad",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "2b328ea8ce7ea7ad",
+          "still_present": false
+        }
+      },
+      {
+        "key": "z9",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "3aa914a0d708bcf5",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "3aa914a0d708bcf5",
+          "still_present": false
+        }
+      },
+      {
+        "key": "z10",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "54a799cf815f23cc",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "54a799cf815f23cc",
+          "still_present": false
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 78,
+      "wires": 47
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 78,
+    "parts": 21,
+    "netflags": 36,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 47,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

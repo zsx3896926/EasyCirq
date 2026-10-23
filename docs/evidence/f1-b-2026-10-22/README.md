@@ -32,9 +32,12 @@
 | 端口挤压（RST/EN/TXD 与 IO2/IO0 垂直 10 单位） | **未修**：v4 实验（短导线+删端口+重建）与零长度退化线合并出 `ONENETNAME(IO2、IO2)`，已撤销 |
 | C101/C106 值串可读性 | **未修**：v4 实验改 Manufacturer Part 触发 `ATTRMATCHCODE` 并改变 BOM 身份字段，已撤销 |
 | v4 实验证据 | v4-apply-a1/a2/b.json、v4-drc.json、v4-netlist.net、v4-layout.png、v4-reopen.json（保留为失败记录） |
+| v6 实验（清退化线） | **失败**：删除 10 条零长度退化导线后网表 60→50 引脚（R103-2/EN、R104-2/RST…失连），证明它们承载端口—引脚连接；v6 副本弃用，保留 `v6-apply-degenerate.json`、`v6-netlist.net`、`v6-netlist-diff.json` |
 
-**安全修法（下一步）**：先受控清理 10 条零长度退化导线（每删一条网表 diff 验证连接不变），
-再搬端口；值串显示需 GUI 改属性文本或换正确 MPN（G 包）。
+**结论（2026-10-23）**：端口挤压与值串可读性在 CLI 半离线通道下**无安全修法**——
+（a）删零长度线会断开端口连接（v6 实证）；（b）搬端口会被客户端把短导线并入零长度线产生
+`ONENETNAME`（v4 实证）；（c）改 Manufacturer Part 触发 `ATTRMATCHCODE` 且改 BOM 身份（v4 实证）。
+这两项留给 GUI 会话（移动端口/调整属性文本），或在 G 包换正确 MPN 后重导价值串。
 
 ## 客户端文本图元能力矩阵（4.1.78 半离线 CLI，实测）
 

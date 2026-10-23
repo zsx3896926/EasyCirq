@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B 包 v6 实验：清理 10 条零长度退化导线（net 为空、位于端口/引脚同点）。删除后必须导出网表与 v5 逐字节/逐网络比对；任何连接变化即回退。",
+  "operations": [
+    {"op": "delete", "key": "z1", "target": {"kind": "wire", "primitive_id": "8893bd5fa7509148", "expected": {"net": ""}}},
+    {"op": "delete", "key": "z2", "target": {"kind": "wire", "primitive_id": "7a33102f2deb9384", "expected": {"net": ""}}},
+    {"op": "delete", "key": "z3", "target": {"kind": "wire", "primitive_id": "b3124a252bd52e48", "expected": {"net": ""}}},
+    {"op": "delete", "key": "z4", "target": {"kind": "wire", "primitive_id": "27208e4845428a56", "expected": {"net": ""}}},
+    {"op": "delete", "key": "z5", "target": {"kind": "wire", "primitive_id": "2bf0444e05f47f65", "expected": {"net": ""}}},
+    {"op": "delete", "key": "z6", "target": {"kind": "wire", "primitive_id": "73b9662569c4e45b", "expected": {"net": ""}}},
+    {"op": "delete", "key": "z7", "target": {"kind": "wire", "primitive_id": "11ad58edc1091177", "expected": {"net": ""}}},
+    {"op": "delete", "key": "z8", "target": {"kind": "wire", "primitive_id": "2b328ea8ce7ea7ad", "expected": {"net": ""}}},
+    {"op": "delete", "key": "z9", "target": {"kind": "wire", "primitive_id": "3aa914a0d708bcf5", "expected": {"net": ""}}},
+    {"op": "delete", "key": "z10", "target": {"kind": "wire", "primitive_id": "54a799cf815f23cc", "expected": {"net": ""}}}
+  ]
+}
