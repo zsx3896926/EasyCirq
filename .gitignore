@@ -3,3 +3,6 @@ __pycache__/
 .venv/
 .DS_Store
 Thumbs.db
+
+# PlatformIO build artifacts
+firmware/**/.pio/
