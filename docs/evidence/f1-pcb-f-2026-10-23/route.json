@@ -1,0 +1,50 @@
+{
+  "status": "ran",
+  "result": {
+    "success": true,
+    "totalNetsCount": 17,
+    "successNetsCount": 13,
+    "failedNets": [
+      "VCC_IN",
+      "$1N6954",
+      "$1N13327",
+      "$1N10660"
+    ],
+    "duration": 10656
+  },
+  "failed_nets": [
+    "VCC_IN",
+    "$1N6954",
+    "$1N13327",
+    "$1N10660"
+  ],
+  "counts_before": {
+    "lines": 98,
+    "vias": 0,
+    "nets": 17
+  },
+  "counts_after": {
+    "lines": 172,
+    "vias": 0,
+    "nets": 17
+  },
+  "note": "routed/success counts are the client report; inspect failedNets and DRC afterwards",
+  "session": {
+    "sessionId": "78dcd419-7399-48c2-9622-4d14b646bfa4",
+    "origin": "cli",
+    "owned": true
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "saved_value": true,
+    "counts": {
+      "components": 33,
+      "lines": 172,
+      "vias": 0,
+      "pours": 1,
+      "poured": 1
+    }
+  },
+  "saved": true
+}

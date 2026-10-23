@@ -15,8 +15,9 @@ B 包完成（`docs/evidence/f1-b-2026-10-22/`，交付副本 `f1-b-v5.eprj2`）
 端口挤压与值串可读性经 v4 实验会回归（ONENETNAME/ATTRMATCHCODE），已撤销并记录安全修法。C 包完成（`docs/evidence/f1-c-2026-10-22/`）：21 位号身份表、
 LCSC 核对、电源/CC/启动复位独立复算。**重要勘误：U101 是 ESP-01S（ESP8266），不是 ESP32-C3。**
 M1 固件骨架完成（`firmware/f1-esp01s/`：引脚表、最小固件、烧录命令、12 项上电检查表；构建 NOT RUN，
-本机无 PlatformIO）。下一步：F（F1 PCB 闭环）、G（换料与实时库存）、J（WorkBuddy GUI 复测）、
-M1 构建与首板实测。
+本机无 PlatformIO）。F 包结论：半离线 CLI 下 `importChanges` 空实现、layer 11 板框被拒（均需 GUI 一次操作）；
+其后的 layout/route/save/reopen 已验证可用并封装为命令。证据 `docs/evidence/f1-pcb-f-2026-10-23/`。
+下一步：GUI 完成 F1 导入+板框 → CLI 布局/布线/DRC/重开；G 换料与实时库存；J WorkBuddy 复测；M1 构建与首板。
 
 历史交接保留在下方；旧分支、HEAD 与“未合并”描述只对应当时状态。
 

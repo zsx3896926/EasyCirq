@@ -326,6 +326,7 @@ class FakePcbPro:
         self.execution = execution
         self.save_result = save_result or {'ok': True, 'saved': True,
                                            'counts': {'components': 3, 'lines': 4, 'vias': 0, 'pours': 1, 'poured': 1}}
+        self.build = {}
         self.calls = []
 
     def invoke(self, session, code, args=None, timeout_ms=None):
@@ -338,6 +339,8 @@ class FakePcbPro:
             return self.execution or {'ok': True, 'results': []}
         if code == eda.PCB_SAVE_JS:
             return self.save_result
+        if code in (eda.PCB_IMPORT_JS, eda.PCB_LAYOUT_JS, eda.PCB_ROUTE_JS, eda.PCB_OUTLINE_JS):
+            return self.build.get(code)
         if code == eda.PCB_DRC_JS:
             return {'ok': True, 'ran': True, 'structure': 'array', 'item_count': 2, 'raw': [1, 2],
                     'note': 'raw DRC result; interpretation is the caller\'s job'}
@@ -620,6 +623,106 @@ class PcbCommandFlow(unittest.TestCase):
         result, code = self.run_command(eda.command_pcb_reopen_check, args, fake)
         self.assertEqual(code, 1)
         self.assertEqual(result['status'], 'mismatch')
+
+
+class PcbBuildFlow(unittest.TestCase):
+    def run_command(self, func, args, fake):
+        original = eda.LcedaPro
+        eda.LcedaPro = lambda *a, **k: fake
+        try:
+            return func(args)
+        finally:
+            eda.LcedaPro = original
+
+    def args(self, **overrides):
+        values = dict(exe=None, timeout=1000, session='s1', project=None,
+                      pcb_uuid=None, pcb_name=None, allow_user_session=False,
+                      invoke_timeout=1000, output=None, schematic=None,
+                      margin=250.0, save=False)
+        values.update(overrides)
+        return argparse.Namespace(**values)
+
+    def test_import_materialized_is_ok(self):
+        fake = FakePcbPro([])
+        fake.build[eda.PCB_IMPORT_JS] = {
+            'ok': True, 'imported': True, 'materialized': True,
+            'counts_before': {'components': 0, 'pads': 0},
+            'counts_after': {'components': 21, 'pads': 60}}
+        result, code = self.run_command(eda.command_pcb_import,
+                                        self.args(schematic='sch-1'), fake)
+        self.assertEqual(code, 0)
+        self.assertEqual(result['status'], 'materialized')
+
+    def test_import_no_effect_is_review_not_success(self):
+        fake = FakePcbPro([])
+        fake.build[eda.PCB_IMPORT_JS] = {
+            'ok': True, 'imported': True, 'materialized': False,
+            'counts_before': {'components': 0}, 'counts_after': {'components': 0}}
+        result, code = self.run_command(eda.command_pcb_import,
+                                        self.args(schematic='sch-1'), fake)
+        self.assertEqual(code, 1)
+        self.assertEqual(result['status'], 'no_effect')
+        self.assertIn('do not treat this as done', result['note'])
+
+    def test_layout_result_is_reported(self):
+        fake = FakePcbPro([])
+        fake.build[eda.PCB_LAYOUT_JS] = {
+            'ok': True, 'result': {'success': True, 'totalComponentsCount': 5,
+                                   'successComponentsCount': 5, 'failedComponents': []},
+            'components_before': 5, 'components_after': 5}
+        result, code = self.run_command(eda.command_pcb_layout, self.args(), fake)
+        self.assertEqual(code, 0)
+        self.assertEqual(result['status'], 'ran')
+        self.assertEqual(result['result']['successComponentsCount'], 5)
+
+    def test_layout_nothing_returned_is_review(self):
+        fake = FakePcbPro([])
+        fake.build[eda.PCB_LAYOUT_JS] = {'ok': True, 'result': None}
+        result, code = self.run_command(eda.command_pcb_layout, self.args(), fake)
+        self.assertEqual(code, 1)
+        self.assertEqual(result['status'], 'nothing_returned')
+
+    def test_route_reports_failed_nets(self):
+        fake = FakePcbPro([])
+        fake.build[eda.PCB_ROUTE_JS] = {
+            'ok': True, 'result': {'success': True, 'totalNetsCount': 12,
+                                   'successNetsCount': 11, 'failedNets': ['X1']},
+            'counts_before': {'lines': 10}, 'counts_after': {'lines': 40}}
+        result, code = self.run_command(eda.command_pcb_route, self.args(save=False), fake)
+        self.assertEqual(code, 0)
+        self.assertEqual(result['status'], 'ran')
+        self.assertEqual(result['failed_nets'], ['X1'])
+
+    def test_route_failure_is_review(self):
+        fake = FakePcbPro([])
+        fake.build[eda.PCB_ROUTE_JS] = {'ok': True, 'result': {'success': False}, 'counts_before': {}, 'counts_after': {}}
+        result, code = self.run_command(eda.command_pcb_route, self.args(), fake)
+        self.assertEqual(code, 1)
+
+    def test_route_save_not_confirmed_is_review(self):
+        fake = FakePcbPro([])
+        fake.build[eda.PCB_ROUTE_JS] = {'ok': True, 'result': {'success': True}, 'counts_before': {}, 'counts_after': {}}
+        fake.save_result = {'ok': True, 'saved': False}
+        result, code = self.run_command(eda.command_pcb_route, self.args(save=True), fake)
+        self.assertEqual(code, 1)
+        self.assertFalse(result['saved'])
+
+    def test_outline_ok(self):
+        fake = FakePcbPro([])
+        fake.build[eda.PCB_OUTLINE_JS] = {
+            'ok': True, 'rect': {'minX': 0, 'maxX': 1000, 'minY': 0, 'maxY': 800},
+            'created': [{'ok': True, 'id': f'l{i}'} for i in range(4)], 'outline_lines': 4}
+        result, code = self.run_command(eda.command_pcb_outline, self.args(), fake)
+        self.assertEqual(code, 0)
+        self.assertEqual(result['status'], 'ok')
+        self.assertEqual(result['outline_lines'], 4)
+
+    def test_outline_without_components_is_review(self):
+        fake = FakePcbPro([])
+        fake.build[eda.PCB_OUTLINE_JS] = {'ok': False, 'error': 'no_component_coordinates'}
+        result, code = self.run_command(eda.command_pcb_outline, self.args(), fake)
+        self.assertEqual(code, 1)
+        self.assertEqual(result['status'], 'failed')
 
 
 class PcbTemplateGuards(unittest.TestCase):

@@ -1,0 +1,29 @@
+{
+  "status": "incomplete",
+  "rect": {
+    "minX": -59.8425,
+    "maxX": 3272.441,
+    "minY": -2218.504,
+    "maxY": -143.67090000000007
+  },
+  "created": [
+    {
+      "ok": false
+    },
+    {
+      "ok": false
+    },
+    {
+      "ok": false
+    },
+    {
+      "ok": false
+    }
+  ],
+  "outline_lines": 0,
+  "session": {
+    "sessionId": "c2dff73f-94ef-4514-83a1-64e81b7da031",
+    "origin": "cli",
+    "owned": true
+  }
+}

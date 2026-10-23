@@ -1193,6 +1193,109 @@ return { ok: true, kind: A.kind, structure, hint, raw,
          note: 'ordering methods (placePcbOrder and friends) are intentionally not exposed' };
 '''
 
+PCB_IMPORT_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const counts = async () => {
+  const c = {};
+  for (const [name, fn] of [
+    ['components', () => eda.pcb_PrimitiveComponent.getAll()],
+    ['lines', () => eda.pcb_PrimitiveLine.getAll()],
+    ['pads', () => eda.pcb_PrimitivePad.getAll()],
+    ['nets', () => eda.pcb_Net.getAllNetsName()],
+  ]) {
+    const v = await safeAsync(fn, null);
+    c[name] = Array.isArray(v) ? v.length : null;
+  }
+  return c;
+};
+const before = await counts();
+let imported = null;
+if (A.schematic_uuid) {
+  imported = await safeAsync(() => eda.pcb_Document.importChanges({ uuid: A.schematic_uuid, force: true }), null);
+} else {
+  imported = await safeAsync(() => eda.pcb_Document.importChanges(), null);
+}
+await sleep(2000);
+const after = await counts();
+return {
+  ok: true,
+  imported,
+  counts_before: before,
+  counts_after: after,
+  materialized: (after.components || 0) > (before.components || 0),
+  note: 'importChanges may return true while materializing nothing (observed in 4.1.78 half-offline); judge by counts, not by the boolean',
+};
+'''
+
+PCB_LAYOUT_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const countComponents = async () => {
+  const v = await safeAsync(() => eda.pcb_PrimitiveComponent.getAll(), null);
+  return Array.isArray(v) ? v.length : null;
+};
+const before = await countComponents();
+const result = await safeAsync(() => eda.pcb_Document.autoLayout(), null);
+await sleep(1000);
+const after = await countComponents();
+return { ok: true, result, components_before: before, components_after: after,
+         note: 'autoLayout result is the client report; placement quality is not judged here' };
+'''
+
+PCB_ROUTE_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const counts = async () => {
+  const c = {};
+  for (const [name, fn] of [
+    ['lines', () => eda.pcb_PrimitiveLine.getAll()],
+    ['vias', () => eda.pcb_PrimitiveVia.getAll()],
+    ['nets', () => eda.pcb_Net.getAllNetsName()],
+  ]) {
+    const v = await safeAsync(fn, null);
+    c[name] = Array.isArray(v) ? v.length : null;
+  }
+  return c;
+};
+const before = await counts();
+const result = await safeAsync(() => eda.pcb_Document.autoRouting(), null);
+await sleep(1000);
+const after = await counts();
+return { ok: true, result, counts_before: before, counts_after: after,
+         note: 'routed/success counts are the client report; inspect failedNets and DRC afterwards' };
+'''
+
+PCB_OUTLINE_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const margin = Number.isFinite(Number(A.margin)) ? Math.max(0, Number(A.margin)) : 250;
+const comps = await safeAsync(() => eda.pcb_PrimitiveComponent.getAll(), []);
+const xs = [], ys = [];
+for (const c of (comps || [])) {
+  const x = safe(() => c.getState_X());
+  const y = safe(() => c.getState_Y());
+  if (typeof x === 'number') xs.push(x);
+  if (typeof y === 'number') ys.push(y);
+}
+if (!xs.length) return { ok: false, error: 'no_component_coordinates' };
+const minX = Math.min(...xs) - margin, maxX = Math.max(...xs) + margin;
+const minY = Math.min(...ys) - margin, maxY = Math.max(...ys) + margin;
+const lines = [[minX, minY, maxX, minY], [maxX, minY, maxX, maxY], [maxX, maxY, minX, maxY], [minX, maxY, minX, minY]];
+const created = [];
+for (const [x1, y1, x2, y2] of lines) {
+  const item = await safeAsync(async () => {
+    const l = await eda.pcb_PrimitiveLine.create('', 11, x1, y1, x2, y2, 10, false);
+    return { ok: true, id: l ? safe(() => l.getState_PrimitiveId()) : null };
+  }, (e) => ({ ok: false, error: String((e && e.message) || e) }));
+  created.push(item);
+}
+const all = await safeAsync(() => eda.pcb_PrimitiveLine.getAll(), []);
+const outlineCount = Array.isArray(all)
+  ? all.filter(l => safe(() => l.getState_Layer()) === 11).length : null;
+return { ok: true, rect: { minX, maxX, minY, maxY }, created, outline_lines: outlineCount };
+'''
+
 APPLY_JS = r'''
 const A = __ARGS__;
 ''' + PAGE_SELECT_JS + r'''
@@ -2852,6 +2955,7 @@ PCB_WRITE_SUPPORT = {
     'known_broken': [
         'component via state footprint/component object (create throws; use the flat ref or search path)',
         'pour fill recompute (outline create does not change the poured count; fills need a GUI recompute)',
+        'board outline line creation (pcb_PrimitiveLine.create refuses layer 11 for every net variant; draw the outline in a GUI session)',
     ],
     'not_probed': ['board_outline_primitive', 'component_move', 'component_rotate', 'delete', 'rule_config_write'],
     'source': 'round3-audit-2026-10-22',
@@ -4022,6 +4126,134 @@ def command_pcb_export(args):
             close_owned(pro, session)
 
 
+def command_pcb_import(args):
+    """Schematic -> PCB import. The client's boolean is not evidence: the result
+    is judged by whether component counts actually changed."""
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(
+            pro, session, PCB_IMPORT_JS,
+            {'pcb': _pcb_args(args), 'schematic_uuid': args.schematic},
+            timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            raise EdaCommandError('pcb import failed', 'EDA_PCB_IMPORT_FAILED', {'value': value})
+        materialized = bool(value.get('materialized'))
+        result = {
+            'status': 'materialized' if materialized else 'no_effect',
+            'imported_boolean': value.get('imported'),
+            'counts_before': value.get('counts_before'),
+            'counts_after': value.get('counts_after'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+            'note': value.get('note'),
+        }
+        if not materialized:
+            result['note'] = ('the client reported success but no PCB component was created; '
+                              'in 4.1.78 half-offline CLI the import is a no-op - do not treat this as done')
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if materialized else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_layout(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(pro, session, PCB_LAYOUT_JS,
+                                      {'pcb': _pcb_args(args)},
+                                      timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            raise EdaCommandError('pcb auto layout failed', 'EDA_PCB_LAYOUT_FAILED', {'value': value})
+        result = {
+            'status': 'ran' if isinstance(value.get('result'), dict) else 'nothing_returned',
+            'result': value.get('result'),
+            'components_before': value.get('components_before'),
+            'components_after': value.get('components_after'),
+            'note': value.get('note'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+        }
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        ok = result['status'] == 'ran' and (value.get('result') or {}).get('success') is True
+        return result, EXIT_OK if ok else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_route(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(pro, session, PCB_ROUTE_JS,
+                                      {'pcb': _pcb_args(args)},
+                                      timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            raise EdaCommandError('pcb auto route failed', 'EDA_PCB_ROUTE_FAILED', {'value': value})
+        route = value.get('result') or {}
+        result = {
+            'status': 'ran' if isinstance(value.get('result'), dict) else 'nothing_returned',
+            'result': route if isinstance(route, dict) else value.get('result'),
+            'failed_nets': route.get('failedNets') if isinstance(route, dict) else None,
+            'counts_before': value.get('counts_before'),
+            'counts_after': value.get('counts_after'),
+            'note': value.get('note'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+        }
+        if args.save and result['status'] == 'ran':
+            save_outcome = invoke_pcb_with_retry(pro, session, PCB_SAVE_JS, {'pcb': _pcb_args(args)})
+            result['save'] = save_outcome
+            result['saved'] = isinstance(save_outcome, dict) and save_outcome.get('saved') is True
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        ok = result['status'] == 'ran' and route.get('success') is True
+        if args.save and not result.get('saved'):
+            ok = False
+        return result, EXIT_OK if ok else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_outline(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(pro, session, PCB_OUTLINE_JS,
+                                      {'pcb': _pcb_args(args), 'margin': args.margin},
+                                      timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            error = (value or {}).get('error', 'outline_failed') if isinstance(value, dict) else 'outline_failed'
+            result = {'status': 'failed', 'error': error,
+                      'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}
+            return result, EXIT_REVIEW
+        result = {
+            'status': 'ok' if (value.get('outline_lines') or 0) >= 4 else 'incomplete',
+            'rect': value.get('rect'),
+            'created': value.get('created'),
+            'outline_lines': value.get('outline_lines'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+        }
+        if args.save and result['status'] == 'ok':
+            save_outcome = invoke_pcb_with_retry(pro, session, PCB_SAVE_JS, {'pcb': _pcb_args(args)})
+            result['save'] = save_outcome
+            result['saved'] = isinstance(save_outcome, dict) and save_outcome.get('saved') is True
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        ok = result['status'] == 'ok' and (not args.save or result.get('saved'))
+        return result, EXIT_OK if ok else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
 def command_pcb_reopen_check(args):
     pro = LcedaPro(args.exe, timeout_ms=args.timeout)
     before = None
@@ -4233,6 +4465,30 @@ def build_parser():
     pcb_export.add_argument('--out-dir', required=True)
     pcb_export.add_argument('--name', default='eda-pcb-export')
     pcb_export.set_defaults(func=command_pcb_export)
+
+    pcb_import = pcb_sub.add_parser('import', help='import schematic changes into the pcb (judged by counts)')
+    pcb_session_args(pcb_import)
+    pcb_import.add_argument('--schematic', help='schematic uuid; default: the board-linked schematic')
+    pcb_import.add_argument('--output')
+    pcb_import.set_defaults(func=command_pcb_import)
+
+    pcb_layout = pcb_sub.add_parser('layout', help='run the client auto-layout')
+    pcb_session_args(pcb_layout)
+    pcb_layout.add_argument('--output')
+    pcb_layout.set_defaults(func=command_pcb_layout)
+
+    pcb_route = pcb_sub.add_parser('route', help='run the client auto-router')
+    pcb_session_args(pcb_route)
+    pcb_route.add_argument('--save', action='store_true', help='save after routing')
+    pcb_route.add_argument('--output')
+    pcb_route.set_defaults(func=command_pcb_route)
+
+    pcb_outline = pcb_sub.add_parser('outline', help='draw a rectangular board outline around placed components')
+    pcb_session_args(pcb_outline)
+    pcb_outline.add_argument('--margin', type=float, default=250.0)
+    pcb_outline.add_argument('--save', action='store_true', help='save after drawing the outline')
+    pcb_outline.add_argument('--output')
+    pcb_outline.set_defaults(func=command_pcb_outline)
 
     pcb_reopen = pcb_sub.add_parser('reopen-check', help='close, reopen and compare pcb identity/connectivity')
     pcb_reopen.add_argument('--session')
