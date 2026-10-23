@@ -37,7 +37,9 @@ pio device monitor -p COM5 -b 115200
 构建产物路径 `firmware/f1-esp01s/.pio/build/esp01_1m/firmware.bin`。若不用 PlatformIO，
 可用 Arduino IDE（ESP8266 core 3.x，Generic ESP8266 Module / 1MB / 无 SPIFFS）+ esptool 烧录。
 
-**构建状态：NOT RUN**（本机无 pio/esptool；命令已给出，未执行不得声称编译通过）。
+**构建状态：BLOCKED（2026-10-23 更新）**。本机已安装 PlatformIO 6.2.0；`pio run` 首次拉取
+espressif8266 平台时在公司网络下停滞（20 分钟仅下载 0.2 MB，未生成 .platformio/packages），
+已停止。未编译成功，不得声称构建通过。恢复条件：换可访问 PlatformIO 资源域的网络，或预置离线工具链后重跑 `pio run`。
 
 ## 3. 串口预期输出（用于首板判定）
 

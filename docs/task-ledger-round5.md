@@ -67,7 +67,7 @@
 | J | 三客户端与新手流程 | **PARTIAL** | Skill 已装三客户端（各 329 文件，无重复）；Claude Code headless 发现 **PASS**；Codex 为桌面应用、无 CLI，发现待 GUI 确认；WorkBuddy GUI 登录 BLOCKED；新手流程证据以既有 CC/Codex 最小流程为准 | Codex/WorkBuddy GUI 各确认一次技能可见并跑最小流程；WorkBuddy 需用户登录 |
 | K | 知识库审校 | PARTIAL | C40/C76 两条未关闭；原厂依据不足 | 逐条按「历史问题→当前状态→依据→复算」关闭 |
 | L | Agent 行为评测 | NOT RUN | 场景与评价维度已定，试验未跑 | 用决策库案例做同条件对照（无 Skill 基线） |
-| M | 固件/首板 | PARTIAL | M1 完成：按 ESP8266 ESP-01S 的板级引脚表、最小固件、构建/烧录命令、串口判据、上电检查表（12 项）、结果模板；构建 **NOT RUN**（本机无 PlatformIO）；实物验证 BLOCKED | 安装 PlatformIO 后 `pio run` 产出 firmware.bin；首板按检查表执行并回填结果 |
+| M | 固件/首板 | PARTIAL | M1 完成：按 ESP8266 ESP-01S 的板级引脚表、最小固件、构建/烧录命令、串口判据、上电检查表（12 项）、结果模板；构建 **BLOCKED**（已装 PlatformIO 6.2.0，但公司网络拉取 espressif8266 平台停滞：20 分钟 0.2MB）；实物验证 BLOCKED | 安装 PlatformIO 后 `pio run` 产出 firmware.bin；首板按检查表执行并回填结果 |
 | N | 发布/教程/交接 | NOT RUN | 依赖其余各包实际完成项 | 每包 DONE 后更新 README/教程差异与限制 |
 
 ## 3. 能力矩阵（用户动作 → 当前可复核状态）
