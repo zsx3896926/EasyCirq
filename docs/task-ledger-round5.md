@@ -61,11 +61,11 @@
 | D | 真实几何与排版检查闭环 | PARTIAL | `sch_layout_check.py` 存在但未接真实 EDA 几何 | 用 F1 快照导出坐标，接入检查器 |
 | E | PCB 执行器 | **DONE**（缺口明确列出） | 命令族实现+真机验收：读→最小写（线/过孔/铜区边框/器件 flat+search）→回读→保存→重开 match，四类原语全部成立；铺铜填充、DRC 明细、制造导出在 CLI 半离线不可用（记录在案）；板框专用原语、移动/旋转/删除未探测 | 未支持项已在 `pcb doctor` 与证据 README 明列；F 包使用前在 GUI 会话补板框验证 |
 | F | F1 PCB 完整闭环 | **BLOCKED**（导入/板框需 GUI；其后步骤已验证） | 真机确认：`importChanges` 返回 true 但 0 物化；layer 11 板框被 API 拒绝；`autoLayout` 33/33、`autoRouting` 13–16/17、保存重开 match 均可用，已封装 `pcb import/layout/route/outline`；演示跑在工程内旧板（非 F1） | 用户在 GUI 完成 F1 导入 + 板框各一次；随后 CLI：layout → route --save → drc → reopen-check |
-| G | 商城/SMT/替代料 | PARTIAL | C 号不全、实时库存 BLOCKED、SMT/替代料 NOT RUN | 出「关键料取证清单」；库存查询失败原因定位（网络/API） |
+| G | 商城/SMT/替代料 | **PARTIAL** | 换料取证完成：10µF 主选 C15850（Samsung，抓取时库存 264 万）、备选 C84416/C386085；J101 原型号停产，主选 C2843967（GT-USB-7010C，焊盘级兼容，库存 7,775）、备选 C2988369（107,020）；库存/价格带 2026-10-23 时间戳 | EDA/BOM 内换料（supplier_id 更新）与 SMT 可贴性、DC bias 降额未做 |
 | H | 生产规则/制造资料 | **PARTIAL** | 生产规则映射+检查清单完成（`docs/evidence/h-2026-10-23/`）；制造包（Gerber/钻孔/CPL/BOM 导出）BLOCKED：CLI getter 返回空对象、F 未出 PCB | F 完成后按清单在 GUI 导出并逐项回填 |
 | I | 异常恢复与故障注入 | **PARTIAL** | 真实注入 3/8：超时→partial_unknown 且不重复写、复跑→no_changes、错误身份→blocked 零写入；保存失败/断连/作业延迟等 5 项 NOT RUN（原因已记） | 作业模型（startAutoRouting + getAutoJobStatus）实测；保存失败注入需 GUI/宿主手段 |
 | J | 三客户端与新手流程 | **PARTIAL** | Skill 已装三客户端（各 329 文件，无重复）；Claude Code headless 发现 **PASS**；Codex 为桌面应用、无 CLI，发现待 GUI 确认；WorkBuddy GUI 登录 BLOCKED；新手流程证据以既有 CC/Codex 最小流程为准 | Codex/WorkBuddy GUI 各确认一次技能可见并跑最小流程；WorkBuddy 需用户登录 |
-| K | 知识库审校 | PARTIAL | C40/C76 两条未关闭；原厂依据不足 | 逐条按「历史问题→当前状态→依据→复算」关闭 |
+| K | 知识库审校 | **DONE** | C40 关闭：35+j0=芯片共轭阻抗点 Ω（原页复核+跨 5 文件统一+来源登记）；C76 关闭：场景 35→47（运动/称重/光学/HMI/Sub-GHz/NFC/一次电池），task-scenarios 与 SKILL 数量同步；574 tests OK | 其余审计条目按 gap-analysis 既有状态，不在本轮范围 |
 | L | Agent 行为评测 | NOT RUN | 场景与评价维度已定，试验未跑 | 用决策库案例做同条件对照（无 Skill 基线） |
 | M | 固件/首板 | PARTIAL | M1 完成：按 ESP8266 ESP-01S 的板级引脚表、最小固件、构建/烧录命令、串口判据、上电检查表（12 项）、结果模板；构建 **BLOCKED**（已装 PlatformIO 6.2.0，但公司网络拉取 espressif8266 平台停滞：20 分钟 0.2MB）；实物验证 BLOCKED | 安装 PlatformIO 后 `pio run` 产出 firmware.bin；首板按检查表执行并回填结果 |
 | N | 发布/教程/交接 | NOT RUN | 依赖其余各包实际完成项 | 每包 DONE 后更新 README/教程差异与限制 |
