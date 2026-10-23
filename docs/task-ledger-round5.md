@@ -56,7 +56,7 @@
 | 包 | 内容 | 状态 | 已完成/剩余要点 | 下一条具体操作 |
 |---|---|---|---|---|
 | A | 状态盘点与统一台账 | **DONE** | 盘点+62 核验完成；本文件即交付 | 随工作推进维护本文件 |
-| B | F1 原理图排版/警告/审图 | **DONE**（人工审图待做） | 最终副本 `f1-b-v5.eprj2`：ONENETNAME 根因定位并重画消除（DRC 3→1）；孤立错误电源符删除；DRAFT 与 J101 未用脚注记真机写入；网表 golden 逐字节一致；重开 match；处置表 + AI 独立审图（非人工）。审图必须修复项：U101 身份已澄清（ESP-01S）、孤立符已修；端口挤压与值串可读性经 v4/v6 三组实验证明 CLI 无安全修法（删退化线断连、搬端口合并出 ONENETNAME、改属性触发 ATTRMATCHCODE），留 GUI | 人工审图按报告清单执行；先清 10 条零长度退化线再搬端口；标题栏 V1.0 需 GUI 改 |
+| B | F1 原理图排版/警告/审图 | **DONE**（人工审图待做） | 最终副本 `f1-b-v5.eprj2`：ONENETNAME 根因定位并重画消除（DRC 3→1）；孤立错误电源符删除；DRAFT 与 J101 未用脚注记真机写入；网表 golden 逐字节一致；重开 match；处置表 + AI 独立审图（非人工）。审图必须修复项：U101 身份已澄清（ESP-01S）、孤立符已修；端口挤压与值串可读性经 v4/v6 三组实验证明 CLI 无安全修法（删退化线断连、搬端口合并出 ONENETNAME、改属性触发 ATTRMATCHCODE），留 GUI | 人工审图按报告清单执行；端口挤压/值串需 GUI 会话（清退化线已证伪，勿再试）；标题栏 V1.0 需 GUI 改 |
 | C | F1 电气依据/封装/验证计划 | **DONE**（C2/C5 子项 PARTIAL） | 21 位号身份表+证据等级（`docs/evidence/f1-c-2026-10-22/part-evidence.md`）；LCSC 核对 U101/U102/D102；电源压差/热/ESR 独立复算；CC/TVS/J102 反灌结论；启动复位 RC 核对；焊盘级映射如实 PARTIAL | C2 取 YONGYUTAI 原厂 PDF 或换料比较；C5 焊盘表随 F 包导入核对 |
 | D | 真实几何与排版检查闭环 | PARTIAL | `sch_layout_check.py` 存在但未接真实 EDA 几何 | 用 F1 快照导出坐标，接入检查器 |
 | E | PCB 执行器 | **DONE**（缺口明确列出） | 命令族实现+真机验收：读→最小写（线/过孔/铜区边框/器件 flat+search）→回读→保存→重开 match，四类原语全部成立；铺铜填充、DRC 明细、制造导出在 CLI 半离线不可用（记录在案）；板框专用原语、移动/旋转/删除未探测 | 未支持项已在 `pcb doctor` 与证据 README 明列；F 包使用前在 GUI 会话补板框验证 |
@@ -67,8 +67,8 @@
 | J | 三客户端与新手流程 | **PARTIAL** | Skill 已装三客户端（各 329 文件，无重复）；Claude Code headless 发现 **PASS**；Codex 为桌面应用、无 CLI，发现待 GUI 确认；WorkBuddy GUI 登录 BLOCKED；新手流程证据以既有 CC/Codex 最小流程为准 | Codex/WorkBuddy GUI 各确认一次技能可见并跑最小流程；WorkBuddy 需用户登录 |
 | K | 知识库审校 | **DONE** | C40 关闭：35+j0=芯片共轭阻抗点 Ω（原页复核+跨 5 文件统一+来源登记）；C76 关闭：场景 35→47（运动/称重/光学/HMI/Sub-GHz/NFC/一次电池），task-scenarios 与 SKILL 数量同步；574 tests OK | 其余审计条目按 gap-analysis 既有状态，不在本轮范围 |
 | L | Agent 行为评测 | NOT RUN | 场景与评价维度已定，试验未跑 | 用决策库案例做同条件对照（无 Skill 基线） |
-| M | 固件/首板 | PARTIAL | M1 完成：按 ESP8266 ESP-01S 的板级引脚表、最小固件、构建/烧录命令、串口判据、上电检查表（12 项）、结果模板；构建 **BLOCKED**（已装 PlatformIO 6.2.0，但公司网络拉取 espressif8266 平台停滞：20 分钟 0.2MB）；实物验证 BLOCKED | 安装 PlatformIO 后 `pio run` 产出 firmware.bin；首板按检查表执行并回填结果 |
-| N | 发布/教程/交接 | NOT RUN | 依赖其余各包实际完成项 | 每包 DONE 后更新 README/教程差异与限制 |
+| M | 固件/首板 | PARTIAL | M1 完成：按 ESP8266 ESP-01S 的板级引脚表、最小固件、构建/烧录命令、串口判据、上电检查表（12 项）、结果模板；构建 **BLOCKED**（已装 PlatformIO 6.2.0，但公司网络拉取 espressif8266 平台停滞：20 分钟 0.2MB）；实物验证 BLOCKED | 换可访问 PlatformIO 资源域的网络（或预置离线工具链）后 `pio run`；首板按检查表执行并回填结果 |
+| N | 发布/教程/交接 | **PARTIAL** | README 验证状态已重写为新手口径；三客户端安装/差异与限制入 README 与 `docs/evidence/j-2026-10-23/`；发布说明 `docs/round5/release-notes.md` | 等 L 结果补评测节后定稿；教程 PDF 未重制（现有教程与主线一致，无实际变化） |
 
 ## 3. 能力矩阵（用户动作 → 当前可复核状态）
 
