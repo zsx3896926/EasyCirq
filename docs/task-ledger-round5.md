@@ -58,7 +58,7 @@
 | A | 状态盘点与统一台账 | **DONE** | 盘点+62 核验完成；本文件即交付 | 随工作推进维护本文件 |
 | B | F1 原理图排版/警告/审图 | **DONE**（人工审图待做） | 最终副本 `f1-b-v5.eprj2`：ONENETNAME 根因定位并重画消除（DRC 3→1）；孤立错误电源符删除；DRAFT 与 J101 未用脚注记真机写入；网表 golden 逐字节一致；重开 match；处置表 + AI 独立审图（非人工）。审图必须修复项：U101 身份已澄清（ESP-01S）、孤立符已修；端口挤压与值串可读性经 v4/v6 三组实验证明 CLI 无安全修法（删退化线断连、搬端口合并出 ONENETNAME、改属性触发 ATTRMATCHCODE），留 GUI | 人工审图按报告清单执行；端口挤压/值串需 GUI 会话（清退化线已证伪，勿再试）；标题栏 V1.0 需 GUI 改 |
 | C | F1 电气依据/封装/验证计划 | **DONE**（C2/C5 子项 PARTIAL） | 21 位号身份表+证据等级（`docs/evidence/f1-c-2026-10-22/part-evidence.md`）；LCSC 核对 U101/U102/D102；电源压差/热/ESR 独立复算；CC/TVS/J102 反灌结论；启动复位 RC 核对；焊盘级映射如实 PARTIAL | C2 取 YONGYUTAI 原厂 PDF 或换料比较；C5 焊盘表随 F 包导入核对 |
-| D | 真实几何与排版检查闭环 | PARTIAL | `sch_layout_check.py` 存在但未接真实 EDA 几何 | 用 F1 快照导出坐标，接入检查器 |
+| D | 真实几何与排版检查闭环 | **PARTIAL** | 新增 `layout_from_snapshot.py`；F1 v5 图页实际进入检查器（review_required，47 线/102 连接点/20 标签锚点；dangling 端点可解释）；明确报告 components/texts/title_block/module_frames 未覆盖 | 获取符号本体/文字边界后重跑；修复前后对比解释候选变化 |
 | E | PCB 执行器 | **DONE**（缺口明确列出） | 命令族实现+真机验收：读→最小写（线/过孔/铜区边框/器件 flat+search）→回读→保存→重开 match，四类原语全部成立；铺铜填充、DRC 明细、制造导出在 CLI 半离线不可用（记录在案）；板框专用原语、移动/旋转/删除未探测 | 未支持项已在 `pcb doctor` 与证据 README 明列；F 包使用前在 GUI 会话补板框验证 |
 | F | F1 PCB 完整闭环 | **BLOCKED**（导入/板框需 GUI；其后步骤已验证） | 真机确认：`importChanges` 返回 true 但 0 物化；layer 11 板框被 API 拒绝；`autoLayout` 33/33、`autoRouting` 13–16/17、保存重开 match 均可用，已封装 `pcb import/layout/route/outline`；演示跑在工程内旧板（非 F1） | 用户在 GUI 完成 F1 导入 + 板框各一次；随后 CLI：layout → route --save → drc → reopen-check |
 | G | 商城/SMT/替代料 | **PARTIAL** | 换料取证完成：10µF 主选 C15850（Samsung，抓取时库存 264 万）、备选 C84416/C386085；J101 原型号停产，主选 C2843967（GT-USB-7010C，焊盘级兼容，库存 7,775）、备选 C2988369（107,020）；库存/价格带 2026-10-23 时间戳 | EDA/BOM 内换料（supplier_id 更新）与 SMT 可贴性、DC bias 降额未做 |
