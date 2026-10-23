@@ -62,7 +62,7 @@
 | E | PCB 执行器 | **DONE**（缺口明确列出） | 命令族实现+真机验收：读→最小写（线/过孔/铜区边框/器件 flat+search）→回读→保存→重开 match，四类原语全部成立；铺铜填充、DRC 明细、制造导出在 CLI 半离线不可用（记录在案）；板框专用原语、移动/旋转/删除未探测 | 未支持项已在 `pcb doctor` 与证据 README 明列；F 包使用前在 GUI 会话补板框验证 |
 | F | F1 PCB 完整闭环 | **BLOCKED**（导入/板框需 GUI；其后步骤已验证） | 真机确认：`importChanges` 返回 true 但 0 物化；layer 11 板框被 API 拒绝；`autoLayout` 33/33、`autoRouting` 13–16/17、保存重开 match 均可用，已封装 `pcb import/layout/route/outline`；演示跑在工程内旧板（非 F1） | 用户在 GUI 完成 F1 导入 + 板框各一次；随后 CLI：layout → route --save → drc → reopen-check |
 | G | 商城/SMT/替代料 | PARTIAL | C 号不全、实时库存 BLOCKED、SMT/替代料 NOT RUN | 出「关键料取证清单」；库存查询失败原因定位（网络/API） |
-| H | 生产规则/制造资料 | NOT RUN | 无 BOM/CPL/Gerber；CLI 导出 API 返回空对象（需 GUI 全在线会话） | 制造包走 GUI 会话导出（需用户配合） |
+| H | 生产规则/制造资料 | **PARTIAL** | 生产规则映射+检查清单完成（`docs/evidence/h-2026-10-23/`）；制造包（Gerber/钻孔/CPL/BOM 导出）BLOCKED：CLI getter 返回空对象、F 未出 PCB | F 完成后按清单在 GUI 导出并逐项回填 |
 | I | 异常恢复与故障注入 | **PARTIAL** | 真实注入 3/8：超时→partial_unknown 且不重复写、复跑→no_changes、错误身份→blocked 零写入；保存失败/断连/作业延迟等 5 项 NOT RUN（原因已记） | 作业模型（startAutoRouting + getAutoJobStatus）实测；保存失败注入需 GUI/宿主手段 |
 | J | 三客户端与新手流程 | PARTIAL | CC/Codex 有最小流程证据；WorkBuddy BLOCKED（GUI 登录未做）；完整项目流程无 | 用户 GUI 登录 WorkBuddy 后复测；Codex 267 定位 |
 | K | 知识库审校 | PARTIAL | C40/C76 两条未关闭；原厂依据不足 | 逐条按「历史问题→当前状态→依据→复算」关闭 |
