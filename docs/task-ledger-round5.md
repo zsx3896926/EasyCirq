@@ -64,7 +64,7 @@
 | G | 商城/SMT/替代料 | PARTIAL | C 号不全、实时库存 BLOCKED、SMT/替代料 NOT RUN | 出「关键料取证清单」；库存查询失败原因定位（网络/API） |
 | H | 生产规则/制造资料 | **PARTIAL** | 生产规则映射+检查清单完成（`docs/evidence/h-2026-10-23/`）；制造包（Gerber/钻孔/CPL/BOM 导出）BLOCKED：CLI getter 返回空对象、F 未出 PCB | F 完成后按清单在 GUI 导出并逐项回填 |
 | I | 异常恢复与故障注入 | **PARTIAL** | 真实注入 3/8：超时→partial_unknown 且不重复写、复跑→no_changes、错误身份→blocked 零写入；保存失败/断连/作业延迟等 5 项 NOT RUN（原因已记） | 作业模型（startAutoRouting + getAutoJobStatus）实测；保存失败注入需 GUI/宿主手段 |
-| J | 三客户端与新手流程 | PARTIAL | CC/Codex 有最小流程证据；WorkBuddy BLOCKED（GUI 登录未做）；完整项目流程无 | 用户 GUI 登录 WorkBuddy 后复测；Codex 267 定位 |
+| J | 三客户端与新手流程 | **PARTIAL** | Skill 已装三客户端（各 329 文件，无重复）；Claude Code headless 发现 **PASS**；Codex 为桌面应用、无 CLI，发现待 GUI 确认；WorkBuddy GUI 登录 BLOCKED；新手流程证据以既有 CC/Codex 最小流程为准 | Codex/WorkBuddy GUI 各确认一次技能可见并跑最小流程；WorkBuddy 需用户登录 |
 | K | 知识库审校 | PARTIAL | C40/C76 两条未关闭；原厂依据不足 | 逐条按「历史问题→当前状态→依据→复算」关闭 |
 | L | Agent 行为评测 | NOT RUN | 场景与评价维度已定，试验未跑 | 用决策库案例做同条件对照（无 Skill 基线） |
 | M | 固件/首板 | PARTIAL | M1 完成：按 ESP8266 ESP-01S 的板级引脚表、最小固件、构建/烧录命令、串口判据、上电检查表（12 项）、结果模板；构建 **NOT RUN**（本机无 PlatformIO）；实物验证 BLOCKED | 安装 PlatformIO 后 `pio run` 产出 firmware.bin；首板按检查表执行并回填结果 |
