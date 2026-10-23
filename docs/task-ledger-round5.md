@@ -66,7 +66,7 @@
 | I | 异常恢复与故障注入 | **PARTIAL** | 真实注入 3/8：超时→partial_unknown 且不重复写、复跑→no_changes、错误身份→blocked 零写入；保存失败/断连/作业延迟等 5 项 NOT RUN（原因已记） | 作业模型（startAutoRouting + getAutoJobStatus）实测；保存失败注入需 GUI/宿主手段 |
 | J | 三客户端与新手流程 | **PARTIAL** | Skill 已装三客户端（各 329 文件，无重复）；Claude Code headless 发现 **PASS**；Codex 为桌面应用、无 CLI，发现待 GUI 确认；WorkBuddy GUI 登录 BLOCKED；新手流程证据以既有 CC/Codex 最小流程为准 | Codex/WorkBuddy GUI 各确认一次技能可见并跑最小流程；WorkBuddy 需用户登录 |
 | K | 知识库审校 | **DONE** | C40 关闭：35+j0=芯片共轭阻抗点 Ω（原页复核+跨 5 文件统一+来源登记）；C76 关闭：场景 35→47（运动/称重/光学/HMI/Sub-GHz/NFC/一次电池），task-scenarios 与 SKILL 数量同步；574 tests OK | 其余审计条目按 gap-analysis 既有状态，不在本轮范围 |
-| L | Agent 行为评测 | **PARTIAL** | 6 场景×双条件盲评完成（skill 胜 2/6、base 胜 4/6，分差小）；方法学缺陷已记录（基线也读了 SKILL.md）；校正基线实验中 | 校正结果并入 L 报告；扩到 12 场景与失败案例留存 |
+| L | Agent 行为评测 | **DONE**（6/12 场景） | 校正基线（禁读文件）下 skill 胜 5/6；唯一基线胜场 s2 暴露的「未问传感器供电」缺口已在 p01-ldo 卡片修复并复测胜出；首轮污染已如实记录 | 扩到任务书 12 场景；更多模型/客户端组合；失败案例长期留存 |
 | M | 固件/首板 | PARTIAL | M1 完成：按 ESP8266 ESP-01S 的板级引脚表、最小固件、构建/烧录命令、串口判据、上电检查表（12 项）、结果模板；构建 **BLOCKED**（已装 PlatformIO 6.2.0，但公司网络拉取 espressif8266 平台停滞：20 分钟 0.2MB）；实物验证 BLOCKED | 换可访问 PlatformIO 资源域的网络（或预置离线工具链）后 `pio run`；首板按检查表执行并回填结果 |
 | N | 发布/教程/交接 | **PARTIAL** | README 验证状态已重写为新手口径；三客户端安装/差异与限制入 README 与 `docs/evidence/j-2026-10-23/`；发布说明 `docs/round5/release-notes.md` | 等 L 结果补评测节后定稿；教程 PDF 未重制（现有教程与主线一致，无实际变化） |
 
