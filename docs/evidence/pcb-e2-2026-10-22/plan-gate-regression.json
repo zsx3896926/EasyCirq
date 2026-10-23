@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "pcb": {"pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3"},
+  "note": "Gate-regression run after the verify/compare/integrity fixes: one short GND line at a free coordinate.",
+  "items": [
+    {"op": "line", "key": "gate-line", "net": "GND", "layer": 1,
+     "x1": 3000, "y1": -600, "x2": 3100, "y2": -600, "width": 12,
+     "expected": {"net": "GND", "layer": 1, "width": 12}}
+  ]
+}

@@ -1068,6 +1068,8 @@ return {
   poured: { rows: pouredRows, truncated: trimmed(poured || []).truncated, total: trimmed(poured || []).total },
   pads: { rows: padRows, truncated: trimmed(pads || []).truncated, total: trimmed(pads || []).total },
   nets: netRows,
+  nets_total: Array.isArray(netNames) ? netNames.length : null,
+  nets_truncated: Array.isArray(netNames) ? netNames.length > budget : null,
   outline: { lines: outlineLines, count: outlineLines.length },
   rule_config: safe(() => eda.pcb_Drc.getCurrentRuleConfigurationName()),
   read_errors,
@@ -3020,20 +3022,56 @@ def invoke_pcb_with_retry(pro, session, code, args, attempts=3, timeout_ms=None)
 
 
 def pcb_snapshot_integrity(snapshot):
-    """A snapshot used as the basis for a write must have complete counts and
-    no class-level read errors. Field-level getter misses are notes, not blockers."""
+    """A snapshot used as the basis for a write or a reopen comparison must have
+    complete class coverage: counts present, no truncated row lists, no row-budget
+    mismatch and no class-level read errors. Field-level getter misses are notes."""
     if not isinstance(snapshot, dict) or snapshot.get('ok') is not True:
-        return {'status': 'invalid', 'missing': [], 'read_errors': []}
+        return {'status': 'invalid', 'missing': [], 'read_errors': [], 'coverage_issues': []}
     selection = snapshot.get('selection') or {}
-    missing = [key for key in PCB_COUNT_KEYS if snapshot.get('counts', {}).get(key) is None]
+    counts = snapshot.get('counts') or {}
+    missing = [key for key in PCB_COUNT_KEYS if counts.get(key) is None]
     if not selection.get('pcb_uuid'):
         missing.append('pcb_uuid')
     read_errors = snapshot.get('read_errors') or []
     field_notes = snapshot.get('field_notes') or []
-    status = 'complete' if not missing and not read_errors else 'incomplete'
+    coverage_issues = []
+    for key in PCB_COUNT_KEYS:
+        section = snapshot.get(key)
+        count = counts.get(key)
+        if key in missing:
+            continue
+        if not isinstance(section, dict):
+            coverage_issues.append({'class': key, 'issue': 'section_missing'})
+            continue
+        rows = section.get('rows')
+        total = section.get('total')
+        truncated = section.get('truncated')
+        if not isinstance(rows, list):
+            coverage_issues.append({'class': key, 'issue': 'rows_not_a_list'})
+            continue
+        if truncated is True:
+            coverage_issues.append({'class': key, 'issue': 'truncated',
+                                    'total': total, 'rows': len(rows)})
+        if truncated is not True and isinstance(total, int) and total != len(rows):
+            coverage_issues.append({'class': key, 'issue': 'row_count_mismatch',
+                                    'total': total, 'rows': len(rows)})
+        if isinstance(total, int) and isinstance(count, int) and count != total:
+            coverage_issues.append({'class': key, 'issue': 'count_total_mismatch',
+                                    'count': count, 'total': total})
+    nets = snapshot.get('nets')
+    nets_total = snapshot.get('nets_total')
+    if snapshot.get('nets_truncated') is True:
+        coverage_issues.append({'class': 'nets', 'issue': 'truncated',
+                                'total': nets_total,
+                                'rows': len(nets) if isinstance(nets, list) else None})
+    if isinstance(nets_total, int) and isinstance(nets, list) and len(nets) < nets_total:
+        coverage_issues.append({'class': 'nets', 'issue': 'row_count_mismatch',
+                                'total': nets_total, 'rows': len(nets)})
+    status = 'complete' if not missing and not read_errors and not coverage_issues else 'incomplete'
     return {'status': status, 'missing': missing,
             'read_error_count': len(read_errors), 'read_errors': read_errors[:20],
-            'field_note_count': len(field_notes), 'field_notes': field_notes[:10]}
+            'field_note_count': len(field_notes), 'field_notes': field_notes[:10],
+            'coverage_issue_count': len(coverage_issues), 'coverage_issues': coverage_issues[:20]}
 
 
 def validate_pcb_plan(plan):
@@ -3179,14 +3217,44 @@ def reconcile_pcb(snapshot, plan):
             'counts': {'items': len(items), 'actions': len(actions), 'conflicts': len(conflicts)}}
 
 
+PCB_READBACK_CLASS = {
+    'line': 'lines',
+    'via': 'vias',
+    'pour_outline': 'pours',
+    'component_flat': 'components',
+    'component_search': 'components',
+}
+PCB_READBACK_FIELDS = {
+    'line': ('net', 'layer', 'x1', 'y1', 'x2', 'y2', 'width'),
+    'via': ('net', 'x', 'y', 'hole', 'diameter'),
+    'pour_outline': ('net', 'layer'),
+    'component_flat': ('designator', 'layer', 'x', 'y', 'rotation'),
+    'component_search': ('designator', 'layer', 'x', 'y', 'rotation'),
+}
+PCB_FLOAT_FIELDS = {'x', 'y', 'x1', 'y1', 'x2', 'y2', 'width', 'hole', 'diameter', 'rotation'}
+
+
+def _pcb_readback_section(after, op):
+    """Return the row list for an op from the after snapshot, or None."""
+    section = (after or {}).get(PCB_READBACK_CLASS.get(op, ''))
+    if not isinstance(section, dict):
+        return None
+    rows = section.get('rows')
+    return rows if isinstance(rows, list) else None
+
+
 def verify_pcb_items(execution, plan, reconcile_items, after):
+    """Verify created objects against the AFTER snapshot by primitive id.
+
+    The execution response is only used to resolve the id; every compared
+    attribute comes from the re-read snapshot. An object that is absent from
+    the readback fails, and an unreadable required field is not a pass.
+    """
     by_key = {result.get('key'): result for result in (execution.get('results') or [])}
     rows = []
     failed = 0
     for item in reconcile_items:
         if item.get('action') not in ('create',):
-            # skipped conflicts and already-present items were never sent;
-            # their absence from the execution results is expected
             continue
         row = {'key': item['key'], 'op': item['op'], 'status': 'verified', 'mismatches': []}
         result = by_key.get(item['key'])
@@ -3201,13 +3269,54 @@ def verify_pcb_items(execution, plan, reconcile_items, after):
             row['error'] = 'create returned no primitive id'
         else:
             row['id'] = result['id']
-            planned = next((p for p in plan['items'] if p.get('key') == item['key']), {})
-            expected = planned.get('expected') or {}
-            for field, want in expected.items():
-                got = result.get(field)
-                if got != want:
-                    row['status'] = 'mismatch'
-                    row['mismatches'].append({'field': field, 'expected': want, 'actual': got})
+            section_rows = _pcb_readback_section(after, item['op'])
+            if section_rows is None:
+                row['status'] = 'readback_unavailable'
+                row['error'] = f"the after snapshot has no readable {PCB_READBACK_CLASS.get(item['op'])} section"
+            else:
+                found = next((r for r in section_rows if r.get('id') == result['id']), None)
+                if found is None:
+                    row['status'] = 'not_in_readback'
+                    row['error'] = 'the created id is absent from the after snapshot'
+                else:
+                    planned = next((p for p in plan['items'] if p.get('key') == item['key']), {})
+                    expected = dict(planned.get('expected') or {})
+                    unreadable = []
+                    for field in PCB_READBACK_FIELDS[item['op']]:
+                        if field in expected:
+                            want = expected[field]
+                        elif field == 'designator':
+                            continue
+                        elif field == 'x1':
+                            want = planned.get('x1')
+                        elif field == 'y1':
+                            want = planned.get('y1')
+                        elif field == 'x2':
+                            want = planned.get('x2')
+                        elif field == 'y2':
+                            want = planned.get('y2')
+                        else:
+                            want = planned.get(field)
+                        if want is None:
+                            continue
+                        got = found.get(field)
+                        if got is None:
+                            unreadable.append(field)
+                            continue
+                        if field in PCB_FLOAT_FIELDS:
+                            try:
+                                same = abs(float(got) - float(want)) <= 0.01
+                            except (TypeError, ValueError):
+                                same = False
+                        else:
+                            same = got == want
+                        if not same:
+                            row['status'] = 'mismatch'
+                            row['mismatches'].append({'field': field, 'expected': want, 'actual': got})
+                    if unreadable and row['status'] == 'verified':
+                        row['status'] = 'unverified_fields'
+                        row['error'] = 'required fields missing from the readback'
+                        row['unreadable'] = unreadable
         if row['status'] != 'verified':
             failed += 1
         rows.append(row)
@@ -3217,11 +3326,32 @@ def verify_pcb_items(execution, plan, reconcile_items, after):
     pour_fill = {'poured_before': poured_before, 'poured_after': poured_after,
                  'delta': (poured_after - poured_before) if poured_before is not None and poured_after is not None else None}
     pour_fill['fill_recomputed'] = pour_fill['delta'] is not None and pour_fill['delta'] > 0
+    snapshot_poured = ((after or {}).get('counts') or {}).get('poured')
+    if poured_after is not None and snapshot_poured is not None and poured_after != snapshot_poured:
+        pour_fill['counter_mismatch'] = {'execution_poured_after': poured_after,
+                                         'snapshot_poured': snapshot_poured}
     return rows, status, pour_fill
+
+PCB_COMPARE_FIELDS = {
+    'components': ('designator', 'layer', 'x', 'y', 'rotation', 'footprint'),
+    'lines': ('net', 'layer', 'x1', 'y1', 'x2', 'y2', 'width'),
+    'vias': ('net', 'x', 'y', 'hole', 'diameter'),
+    'pours': ('net', 'layer'),
+    'poured': (),
+    'pads': ('net',),
+}
+PCB_IDENTITY_KEY = {'components': 'designator'}
 
 
 def compare_pcb_snapshots(before, after, tolerance=0.01):
+    """Compare pcb identity, class coverage, primitive ids and the actual
+    geometry/attributes of every object - not just counts.
+
+    ``complete`` is false when a required field could not be read on both
+    sides; reopen-check must not report ``match`` in that case.
+    """
     diffs = []
+    unverified = []
     before_sel = (before or {}).get('selection') or {}
     after_sel = (after or {}).get('selection') or {}
     if before_sel.get('pcb_uuid') != after_sel.get('pcb_uuid'):
@@ -3233,22 +3363,73 @@ def compare_pcb_snapshots(before, after, tolerance=0.01):
         if before_count != after_count:
             diffs.append({'domain': 'counts', 'class': key, 'before': before_count, 'after': after_count})
     for key in PCB_COUNT_KEYS:
-        before_ids = sorted({row.get('id') for row in (before or {}).get(key, {}).get('rows', []) if row.get('id')})
-        after_ids = sorted({row.get('id') for row in (after or {}).get(key, {}).get('rows', []) if row.get('id')})
-        if before_ids != after_ids:
-            removed = sorted(set(before_ids) - set(after_ids))
-            added = sorted(set(after_ids) - set(before_ids))
-            diffs.append({'domain': 'primitive_ids', 'class': key,
+        before_rows = (before or {}).get(key, {}).get('rows')
+        after_rows = (after or {}).get(key, {}).get('rows')
+        if not isinstance(before_rows, list) or not isinstance(after_rows, list):
+            unverified.append({'class': key, 'reason': 'rows_not_a_list'})
+            continue
+        if (before or {}).get(key, {}).get('truncated') or (after or {}).get(key, {}).get('truncated'):
+            unverified.append({'class': key, 'reason': 'truncated'})
+            continue
+        key_field = PCB_IDENTITY_KEY.get(key, 'id')
+        before_map = {r.get(key_field): r for r in before_rows if r.get(key_field)}
+        after_map = {r.get(key_field): r for r in after_rows if r.get(key_field)}
+        removed = sorted(set(before_map) - set(after_map))
+        added = sorted(set(after_map) - set(before_map))
+        if removed or added:
+            diffs.append({'domain': 'objects', 'class': key, 'key': key_field,
                           'removed': removed[:20], 'removed_count': len(removed),
                           'added': added[:20], 'added_count': len(added)})
+        for object_key in sorted(set(before_map) & set(after_map)):
+            left, right = before_map[object_key], after_map[object_key]
+            for field in PCB_COMPARE_FIELDS[key]:
+                a, b = left.get(field), right.get(field)
+                if a is None and b is None:
+                    unverified.append({'class': key, 'object': object_key, 'field': field,
+                                       'reason': 'unreadable_on_both_sides'})
+                    continue
+                if field in PCB_FLOAT_FIELDS and a is not None and b is not None:
+                    try:
+                        same = abs(float(a) - float(b)) <= tolerance
+                    except (TypeError, ValueError):
+                        same = False
+                else:
+                    same = a == b
+                if not same:
+                    diffs.append({'domain': 'field', 'class': key, 'object': object_key,
+                                  'field': field, 'before': a, 'after': b})
     before_nets = sorted({row.get('net') for row in (before or {}).get('nets', []) if row.get('net')})
     after_nets = sorted({row.get('net') for row in (after or {}).get('nets', []) if row.get('net')})
     if before_nets != after_nets:
         diffs.append({'domain': 'nets', 'removed': sorted(set(before_nets) - set(after_nets)),
                       'added': sorted(set(after_nets) - set(before_nets))})
-    return {'match': not diffs, 'diff_count': len(diffs), 'diffs': diffs}
-
-
+    def net_metrics(snapshot):
+        out = {}
+        for row in (snapshot or {}).get('nets', []) or []:
+            if row.get('net'):
+                out[row['net']] = (row.get('length'), row.get('primitive_count'))
+        return out
+    before_metrics, after_metrics = net_metrics(before), net_metrics(after)
+    for net in sorted(set(before_metrics) & set(after_metrics)):
+        a_len, a_count = before_metrics[net]
+        b_len, b_count = after_metrics[net]
+        if a_len is None or b_len is None:
+            unverified.append({'class': 'nets', 'object': net, 'field': 'length',
+                               'reason': 'unreadable_on_both_sides'})
+        else:
+            try:
+                same_len = abs(float(a_len) - float(b_len)) <= tolerance
+            except (TypeError, ValueError):
+                same_len = False
+            if not same_len:
+                diffs.append({'domain': 'net_metrics', 'net': net, 'field': 'length',
+                              'before': a_len, 'after': b_len})
+        if a_count != b_count:
+            diffs.append({'domain': 'net_metrics', 'net': net, 'field': 'primitive_count',
+                          'before': a_count, 'after': b_count})
+    return {'match': not diffs, 'complete': not unverified, 'diff_count': len(diffs),
+            'diffs': diffs, 'unverified': unverified[:50],
+            'unverified_count': len(unverified)}
 
 def read_snapshot(pro, session, page_args, include_attributes=False, include_pins=True):
     args = {**page_args, 'include_attributes': include_attributes, 'include_pins': include_pins}
@@ -4282,8 +4463,14 @@ def command_pcb_reopen_check(args):
         after = read_pcb_with_retry(pro, second_session, pinned,
                                     max_primitives=args.max_primitives)
         comparison = compare_pcb_snapshots(before, after)
+        if comparison['match'] and comparison.get('complete', True):
+            comparison_status = 'match'
+        elif comparison['match']:
+            comparison_status = 'incomplete'
+        else:
+            comparison_status = 'mismatch'
         result = {
-            'status': 'match' if comparison['match'] else 'mismatch',
+            'status': comparison_status,
             'comparison': comparison,
             'pcb': before.get('selection'),
             'before_counts': before.get('counts'),
@@ -4291,12 +4478,13 @@ def command_pcb_reopen_check(args):
             'closed': closed,
             'before_integrity': pcb_snapshot_integrity(before),
             'after_integrity': pcb_snapshot_integrity(after),
-            'note': 'match covers pcb identity, counts, primitive ids and net names on this snapshot budget',
+            'note': ('match requires pcb identity, class coverage, object ids and the actual '
+                     'geometry/attributes of components, lines, vias, pours, pads and net metrics'),
         }
         if args.output:
             Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
             result['output'] = str(Path(args.output).resolve())
-        return result, EXIT_OK if comparison['match'] else EXIT_REVIEW
+        return result, EXIT_OK if comparison_status == 'match' else EXIT_REVIEW
     finally:
         for owned_session in (first_session, second_session):
             if owned_session:

@@ -65,6 +65,19 @@ def pcb_snapshot(**overrides):
         'note': 'pours counts the outline, poured counts actual copper fills; they are not interchangeable',
     }
     snap.update(overrides)
+    return sync_counts(snap)
+
+
+def sync_counts(snap):
+    """Keep section totals and counts consistent with the rows after a test mutation."""
+    for key in ('components', 'lines', 'vias', 'pours', 'poured', 'pads'):
+        section = snap.get(key)
+        if isinstance(section, dict) and isinstance(section.get('rows'), list):
+            section['total'] = len(section['rows'])
+            section['truncated'] = False
+            snap.setdefault('counts', {})[key] = len(section['rows'])
+    snap['nets_total'] = len(snap.get('nets') or [])
+    snap['nets_truncated'] = False
     return snap
 
 
@@ -219,42 +232,79 @@ class PcbVerification(unittest.TestCase):
     def reconcile_items(self, items):
         return eda.reconcile_pcb(pcb_snapshot(), plan(items=items))['items']
 
+    def after_with_line(self, **overrides):
+        """An after snapshot that actually contains the created primitive."""
+        snap = pcb_snapshot()
+        row = {'id': 'new-1', 'net': 'GND', 'layer': 1,
+               'x1': 200, 'y1': 0, 'x2': 300, 'y2': 0, 'width': 10}
+        row.update(overrides)
+        snap['lines']['rows'].append(row)
+        return sync_counts(snap)
+
     def test_matching_expected_verifies(self):
         execution = {'ok': True, 'results': [{'key': 'w1', 'op': 'line', 'created': True,
                                               'id': 'new-1', 'net': 'GND', 'layer': 1, 'width': 10}],
                      'poured_before': 1, 'poured_after': 1}
         rows, status, pour = eda.verify_pcb_items(
-            execution, plan(), self.reconcile_items([line_item()]), pcb_snapshot())
+            execution, plan(), self.reconcile_items([line_item()]), self.after_with_line())
         self.assertEqual(status, 'verified')
+        self.assertEqual(rows[0]['status'], 'verified')
         self.assertEqual(pour['fill_recomputed'], False)
 
-    def test_expected_mismatch_is_a_conflict(self):
+    def test_created_object_missing_from_readback_fails(self):
+        # Reviewer counterexample: execution claims an id that the after snapshot lacks.
         execution = {'ok': True, 'results': [{'key': 'w1', 'op': 'line', 'created': True,
-                                              'id': 'new-1', 'net': 'GND', 'layer': 2, 'width': 10}],
+                                              'id': 'ghost-1', 'net': 'GND', 'layer': 1, 'width': 10}],
                      'poured_before': 1, 'poured_after': 1}
         rows, status, _ = eda.verify_pcb_items(
-            execution, plan(), self.reconcile_items([line_item()]), pcb_snapshot())
+            execution, plan(), self.reconcile_items([line_item()]), self.after_with_line())
+        self.assertEqual(status, 'conflict')
+        self.assertEqual(rows[0]['status'], 'not_in_readback')
+
+    def test_expected_mismatch_is_a_conflict(self):
+        # The execution return says layer 1, but the readback shows layer 2: the
+        # readback must win.
+        execution = {'ok': True, 'results': [{'key': 'w1', 'op': 'line', 'created': True,
+                                              'id': 'new-1', 'net': 'GND', 'layer': 1, 'width': 10}],
+                     'poured_before': 1, 'poured_after': 1}
+        rows, status, _ = eda.verify_pcb_items(
+            execution, plan(), self.reconcile_items([line_item()]), self.after_with_line(layer=2))
         self.assertEqual(status, 'conflict')
         self.assertEqual(rows[0]['mismatches'][0]['field'], 'layer')
+
+    def test_unreadable_readback_fields_are_not_a_pass(self):
+        execution = {'ok': True, 'results': [{'key': 'w1', 'op': 'line', 'created': True,
+                                              'id': 'new-1', 'net': 'GND', 'layer': 1, 'width': 10}],
+                     'poured_before': 1, 'poured_after': 1}
+        rows, status, _ = eda.verify_pcb_items(
+            execution, plan(), self.reconcile_items([line_item()]),
+            self.after_with_line(x1=None, y1=None, x2=None, y2=None))
+        self.assertEqual(status, 'conflict')
+        self.assertEqual(rows[0]['status'], 'unverified_fields')
+        self.assertIn('x1', rows[0]['unreadable'])
 
     def test_create_failure_and_missing_row_are_conflicts(self):
         execution = {'ok': True, 'results': [{'key': 'w1', 'op': 'line', 'created': False, 'error': 'boom'}],
                      'poured_before': 1, 'poured_after': 1}
         rows, status, _ = eda.verify_pcb_items(
-            execution, plan(), self.reconcile_items([line_item()]), pcb_snapshot())
+            execution, plan(), self.reconcile_items([line_item()]), self.after_with_line())
         self.assertEqual(status, 'conflict')
         self.assertEqual(rows[0]['status'], 'create_failed')
         rows, status, _ = eda.verify_pcb_items(
-            {'ok': True, 'results': []}, plan(), self.reconcile_items([line_item()]), pcb_snapshot())
+            {'ok': True, 'results': []}, plan(), self.reconcile_items([line_item()]), self.after_with_line())
         self.assertEqual(status, 'conflict')
         self.assertEqual(rows[0]['status'], 'missing_result')
 
     def test_skipped_items_are_not_verified(self):
         items = self.reconcile_items([line_item(net='12V_MISSING'), line_item(key='w2', x1=1)])
+        snap = pcb_snapshot()
+        snap['lines']['rows'].append({'id': 'n2', 'net': 'GND', 'layer': 1,
+                                      'x1': 1, 'y1': 0, 'x2': 300, 'y2': 0, 'width': 10})
+        snap = sync_counts(snap)
         execution = {'ok': True, 'results': [{'key': 'w2', 'op': 'line', 'created': True, 'id': 'n2'}],
                      'poured_before': 1, 'poured_after': 1}
         rows, status, _ = eda.verify_pcb_items(execution, plan(items=[
-            line_item(net='12V_MISSING'), line_item(key='w2', x1=1)]), items, pcb_snapshot())
+            line_item(net='12V_MISSING'), line_item(key='w2', x1=1)]), items, snap)
         self.assertEqual(status, 'verified')
         self.assertEqual([r['key'] for r in rows], ['w2'])
 
@@ -285,11 +335,114 @@ class PcbSnapshotComparison(unittest.TestCase):
         after = pcb_snapshot()
         after['lines']['rows'] = after['lines']['rows'][:-1]
         comparison = eda.compare_pcb_snapshots(pcb_snapshot(), after)
-        self.assertIn('primitive_ids', [d['domain'] for d in comparison['diffs']])
+        self.assertIn('objects', [d['domain'] for d in comparison['diffs']])
         after = pcb_snapshot()
         after['nets'] = after['nets'][:-1]
         comparison = eda.compare_pcb_snapshots(pcb_snapshot(), after)
         self.assertIn('nets', [d['domain'] for d in comparison['diffs']])
+
+
+class PcbDeepComparison(unittest.TestCase):
+    """Reviewer counterexamples: same ids/counts but substantive changes."""
+
+    def test_moved_component_is_a_diff(self):
+        after = pcb_snapshot()
+        after['components']['rows'][0]['x'] = 250
+        comparison = eda.compare_pcb_snapshots(pcb_snapshot(), after)
+        self.assertFalse(comparison['match'])
+        self.assertTrue(comparison['complete'])
+        self.assertTrue(any(d.get('domain') == 'field' and d.get('class') == 'components'
+                            and d.get('field') == 'x' for d in comparison['diffs']))
+
+    def test_rotated_component_is_a_diff(self):
+        after = pcb_snapshot()
+        after['components']['rows'][0]['rotation'] = 90
+        comparison = eda.compare_pcb_snapshots(pcb_snapshot(), after)
+        self.assertFalse(comparison['match'])
+
+    def test_line_net_and_width_changes_are_diffs(self):
+        after = pcb_snapshot()
+        after['lines']['rows'][0]['net'] = 'VBUS'
+        after['lines']['rows'][0]['width'] = 20
+        comparison = eda.compare_pcb_snapshots(pcb_snapshot(), after)
+        fields = {(d.get('class'), d.get('field')) for d in comparison['diffs'] if d.get('domain') == 'field'}
+        self.assertIn(('lines', 'net'), fields)
+        self.assertIn(('lines', 'width'), fields)
+        self.assertFalse(comparison['match'])
+
+    def test_line_endpoint_change_is_a_diff(self):
+        after = pcb_snapshot()
+        after['lines']['rows'][0]['x2'] = 120
+        comparison = eda.compare_pcb_snapshots(pcb_snapshot(), after)
+        self.assertFalse(comparison['match'])
+        self.assertTrue(any(d.get('field') == 'x2' for d in comparison['diffs']))
+
+    def test_via_and_pour_fields_are_compared(self):
+        before = pcb_snapshot()
+        before['vias']['rows'] = [via_row('vx', 'GND', 500, 500)]
+        sync_counts(before)
+        after = pcb_snapshot()
+        after['vias']['rows'] = [via_row('vx', 'GND', 500, 500, hole=25)]
+        sync_counts(after)
+        comparison = eda.compare_pcb_snapshots(before, after)
+        self.assertFalse(comparison['match'])
+        before2 = pcb_snapshot()
+        after2 = pcb_snapshot()
+        after2['pours']['rows'][0]['layer'] = 1
+        comparison = eda.compare_pcb_snapshots(before2, after2)
+        self.assertFalse(comparison['match'])
+
+    def test_unreadable_geometry_marks_comparison_incomplete(self):
+        before = pcb_snapshot()
+        after = pcb_snapshot()
+        for snap in (before, after):
+            for field in ('x1', 'y1', 'x2', 'y2'):
+                snap['lines']['rows'][0][field] = None
+        comparison = eda.compare_pcb_snapshots(before, after)
+        self.assertFalse(comparison['complete'])
+        self.assertTrue(comparison['unverified'])
+        self.assertTrue(comparison['match'])  # no positive differences, but not provable
+
+    def test_net_length_change_is_a_diff(self):
+        after = pcb_snapshot()
+        after['nets'][0]['length'] = 999
+        comparison = eda.compare_pcb_snapshots(pcb_snapshot(), after)
+        self.assertFalse(comparison['match'])
+        self.assertTrue(any(d.get('domain') == 'net_metrics' for d in comparison['diffs']))
+
+
+class PcbIntegrityCoverage(unittest.TestCase):
+    """Reviewer counterexample: truncated lists must not count as complete."""
+
+    def test_truncated_component_list_blocks_integrity(self):
+        snap = pcb_snapshot()
+        snap['components']['rows'] = []
+        snap['components']['truncated'] = True
+        integrity = eda.pcb_snapshot_integrity(snap)
+        self.assertEqual(integrity['status'], 'incomplete')
+        self.assertTrue(any(issue['class'] == 'components' and issue['issue'] == 'truncated'
+                            for issue in integrity['coverage_issues']))
+
+    def test_row_budget_mismatch_blocks_integrity(self):
+        snap = pcb_snapshot()
+        snap['lines']['rows'] = snap['lines']['rows'][:2]
+        integrity = eda.pcb_snapshot_integrity(snap)
+        self.assertEqual(integrity['status'], 'incomplete')
+        self.assertTrue(any(issue['issue'] == 'row_count_mismatch' for issue in integrity['coverage_issues']))
+
+    def test_nets_truncation_blocks_integrity(self):
+        snap = pcb_snapshot()
+        snap['nets_total'] = 50
+        snap['nets_truncated'] = True
+        integrity = eda.pcb_snapshot_integrity(snap)
+        self.assertEqual(integrity['status'], 'incomplete')
+
+    def test_missing_section_blocks_integrity(self):
+        snap = pcb_snapshot()
+        snap.pop('vias')
+        integrity = eda.pcb_snapshot_integrity(snap)
+        self.assertEqual(integrity['status'], 'incomplete')
+        self.assertTrue(any(issue['issue'] == 'section_missing' for issue in integrity['coverage_issues']))
 
 
 class PcbSnapshotIntegrity(unittest.TestCase):
@@ -383,7 +536,7 @@ class PcbCommandFlow(unittest.TestCase):
     def test_apply_create_verify_save(self):
         after = pcb_snapshot()
         after['lines']['rows'] = after['lines']['rows'] + [line_row('new-1', 'GND', 1, 200, 0, 300, 0)]
-        after['counts']['lines'] = 5
+        sync_counts(after)
         execution = {'ok': True, 'results': [{'key': 'w1', 'op': 'line', 'created': True,
                                               'id': 'new-1', 'net': 'GND', 'layer': 1, 'width': 10}],
                      'poured_before': 1, 'poured_after': 1}
@@ -421,7 +574,7 @@ class PcbCommandFlow(unittest.TestCase):
     def test_save_not_confirmed_is_reported(self):
         after = pcb_snapshot()
         after['lines']['rows'] = after['lines']['rows'] + [line_row('new-1', 'GND', 1, 200, 0, 300, 0)]
-        after['counts']['lines'] = 5
+        sync_counts(after)
         execution = {'ok': True, 'results': [{'key': 'w1', 'op': 'line', 'created': True,
                                               'id': 'new-1', 'net': 'GND', 'layer': 1, 'width': 10}],
                      'poured_before': 1, 'poured_after': 1}

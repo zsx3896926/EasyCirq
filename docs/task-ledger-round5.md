@@ -56,17 +56,17 @@
 | 包 | 内容 | 状态 | 已完成/剩余要点 | 下一条具体操作 |
 |---|---|---|---|---|
 | A | 状态盘点与统一台账 | **DONE** | 盘点+62 核验完成；本文件即交付 | 随工作推进维护本文件 |
-| B | F1 原理图排版/警告/审图 | **DONE**（人工审图待做） | 最终副本 `f1-b-v5.eprj2`：ONENETNAME 根因定位并重画消除（DRC 3→1）；孤立错误电源符删除；DRAFT 与 J101 未用脚注记真机写入；网表 golden 逐字节一致；重开 match；处置表 + AI 独立审图（非人工）。审图必须修复项：U101 身份已澄清（ESP-01S）、孤立符已修；端口挤压与值串可读性经 v4/v6 三组实验证明 CLI 无安全修法（删退化线断连、搬端口合并出 ONENETNAME、改属性触发 ATTRMATCHCODE），留 GUI | 人工审图按报告清单执行；端口挤压/值串需 GUI 会话（清退化线已证伪，勿再试）；标题栏 V1.0 需 GUI 改 |
-| C | F1 电气依据/封装/验证计划 | **DONE**（C2/C5 子项 PARTIAL） | 21 位号身份表+证据等级（`docs/evidence/f1-c-2026-10-22/part-evidence.md`）；LCSC 核对 U101/U102/D102；电源压差/热/ESR 独立复算；CC/TVS/J102 反灌结论；启动复位 RC 核对；焊盘级映射如实 PARTIAL | C2 取 YONGYUTAI 原厂 PDF 或换料比较；C5 焊盘表随 F 包导入核对 |
+| B | F1 原理图排版/警告/审图 | **PARTIAL**（人工审图未完成） | 最终副本 `f1-b-v5.eprj2`：ONENETNAME 根因定位并重画消除（DRC 3→1）；孤立错误电源符删除；DRAFT 与 J101 未用脚注记真机写入；网表 golden 逐字节一致；重开 match；处置表 + AI 独立审图（非人工）。审图必须修复项：U101 身份已澄清（ESP-01S）、孤立符已修；端口挤压与值串可读性经 v4/v6 三组实验证明 CLI 无安全修法（删退化线断连、搬端口合并出 ONENETNAME、改属性触发 ATTRMATCHCODE），留 GUI | 人工审图按报告清单执行；端口挤压/值串需 GUI 会话（清退化线已证伪，勿再试）；标题栏 V1.0 需 GUI 改 |
+| C | F1 电气依据/封装/验证计划 | **PARTIAL**（C2/C5 未完成） | 21 位号身份表+证据等级（`docs/evidence/f1-c-2026-10-22/part-evidence.md`）；LCSC 核对 U101/U102/D102；电源压差/热/ESR 独立复算；CC/TVS/J102 反灌结论；启动复位 RC 核对；焊盘级映射如实 PARTIAL | C2 取 YONGYUTAI 原厂 PDF 或换料比较；C5 焊盘表随 F 包导入核对 |
 | D | 真实几何与排版检查闭环 | **PARTIAL** | 新增 `layout_from_snapshot.py`；F1 v5 图页实际进入检查器（review_required，47 线/102 连接点/20 标签锚点；dangling 端点可解释）；明确报告 components/texts/title_block/module_frames 未覆盖 | 获取符号本体/文字边界后重跑；修复前后对比解释候选变化 |
-| E | PCB 执行器 | **DONE**（缺口明确列出） | 命令族实现+真机验收：读→最小写（线/过孔/铜区边框/器件 flat+search）→回读→保存→重开 match，四类原语全部成立；铺铜填充、DRC 明细、制造导出在 CLI 半离线不可用（记录在案）；板框专用原语、移动/旋转/删除未探测 | 未支持项已在 `pcb doctor` 与证据 README 明列；F 包使用前在 GUI 会话补板框验证 |
+| E | PCB 执行器 | **DONE**（门禁已按评审修复） | 命令族实现+真机验收；评审三项漏洞（回读未用快照、深比较缺失、截断误判完整）已修复并加 13 项回归，真机 apply/reopen 回归通过（`gate-fixes.md`）；其余客户端限制照旧 | 未支持项已在 `pcb doctor` 与证据 README 明列；F 包使用前在 GUI 会话补板框验证 |
 | F | F1 PCB 完整闭环 | **BLOCKED**（导入/板框需 GUI；其后步骤已验证） | 真机确认：`importChanges` 返回 true 但 0 物化；layer 11 板框被 API 拒绝；`autoLayout` 33/33、`autoRouting` 13–16/17、保存重开 match 均可用，已封装 `pcb import/layout/route/outline`；演示跑在工程内旧板（非 F1） | 用户在 GUI 完成 F1 导入 + 板框各一次；随后 CLI：layout → route --save → drc → reopen-check |
 | G | 商城/SMT/替代料 | **PARTIAL** | 换料取证完成：10µF 主选 C15850（Samsung，抓取时库存 264 万）、备选 C84416/C386085；J101 原型号停产，主选 C2843967（GT-USB-7010C，焊盘级兼容，库存 7,775）、备选 C2988369（107,020）；库存/价格带 2026-10-23 时间戳 | EDA/BOM 内换料（supplier_id 更新）与 SMT 可贴性、DC bias 降额未做 |
 | H | 生产规则/制造资料 | **PARTIAL** | 生产规则映射+检查清单完成（`docs/evidence/h-2026-10-23/`）；制造包（Gerber/钻孔/CPL/BOM 导出）BLOCKED：CLI getter 返回空对象、F 未出 PCB | F 完成后按清单在 GUI 导出并逐项回填 |
 | I | 异常恢复与故障注入 | **PARTIAL** | 真实注入 3/8：超时→partial_unknown 且不重复写、复跑→no_changes、错误身份→blocked 零写入；保存失败/断连/作业延迟等 5 项 NOT RUN（原因已记） | 作业模型（startAutoRouting + getAutoJobStatus）实测；保存失败注入需 GUI/宿主手段 |
 | J | 三客户端与新手流程 | **PARTIAL** | Skill 已装三客户端（各 329 文件，无重复）；Claude Code headless 发现 **PASS**；Codex 为桌面应用、无 CLI，发现待 GUI 确认；WorkBuddy GUI 登录 BLOCKED；新手流程证据以既有 CC/Codex 最小流程为准 | Codex/WorkBuddy GUI 各确认一次技能可见并跑最小流程；WorkBuddy 需用户登录 |
 | K | 知识库审校 | **DONE** | C40 关闭：35+j0=芯片共轭阻抗点 Ω（原页复核+跨 5 文件统一+来源登记）；C76 关闭：场景 35→47（运动/称重/光学/HMI/Sub-GHz/NFC/一次电池），task-scenarios 与 SKILL 数量同步；574 tests OK | 其余审计条目按 gap-analysis 既有状态，不在本轮范围 |
-| L | Agent 行为评测 | **DONE**（6/12 场景） | 校正基线（禁读文件）下 skill 胜 5/6；唯一基线胜场 s2 暴露的「未问传感器供电」缺口已在 p01-ldo 卡片修复并复测胜出；首轮污染已如实记录 | 扩到任务书 12 场景；更多模型/客户端组合；失败案例长期留存 |
+| L | Agent 行为评测 | **PARTIAL**（首批 6/12 场景完成） | 校正基线（禁读文件）下 skill 胜 5/6；唯一基线胜场 s2 暴露的「未问传感器供电」缺口已在 p01-ldo 卡片修复并复测胜出；首轮污染已如实记录 | 扩到任务书 12 场景；更多模型/客户端组合；失败案例长期留存 |
 | M | 固件/首板 | PARTIAL | M1 完成：按 ESP8266 ESP-01S 的板级引脚表、最小固件、构建/烧录命令、串口判据、上电检查表（12 项）、结果模板；构建 **BLOCKED**（已装 PlatformIO 6.2.0，但公司网络拉取 espressif8266 平台停滞：20 分钟 0.2MB）；实物验证 BLOCKED | 换可访问 PlatformIO 资源域的网络（或预置离线工具链）后 `pio run`；首板按检查表执行并回填结果 |
 | N | 发布/教程/交接 | **PARTIAL** | README 验证状态已重写为新手口径；三客户端安装/差异与限制入 README 与 `docs/evidence/j-2026-10-23/`；发布说明 `docs/round5/release-notes.md` | 等 L 结果补评测节后定稿；教程 PDF 未重制（现有教程与主线一致，无实际变化） |
 
