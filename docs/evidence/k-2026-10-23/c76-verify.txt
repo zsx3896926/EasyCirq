@@ -1,0 +1,25 @@
+HEAD total: 35 count: 35
+WORK total: 47 count: 47
+existing S01-S35 unchanged: True
+new ids: S36,S37,S38,S39,S40,S41,S42,S43,S44,S45,S46,S47
+all required negative cases present: True
+ids missing from markdown: []
+missing route files: []
+
+C76 category -> scenario:
+  运动/位置/转速: S37,S38,S39
+  称重: S40
+  压力: S41
+  液位: S42
+  流量: S42
+  光学: S36
+  HMI: S45
+  Sub-GHz: S46
+  NFC: S47
+  一次电池: S43
+  低电量: S44
+
+user types: {'beginner': 14, 'engineer': 33}
+new user types: {'beginner': 6, 'engineer': 6}
+new task types: {'from_zero': 8, 'troubleshoot': 2, 'design_change': 1, 'review': 1}
+new scenarios with >=3 must_do / >=2 must_not_claim: True

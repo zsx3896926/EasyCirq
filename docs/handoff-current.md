@@ -1,12 +1,36 @@
-# 集成交接（2026-10-22）
+# 集成交接（2026-10-23，第五轮收尾）
 
-当前主线已合入：PR #6 决策库、PR #5（经 #7 集成）的常用硬件库、PR #9 执行器修复、PR #8 跨客户端诊断与 F1 rev3 重排。旧 PR #4 由 #8 接替，不再整包合入；历史证据仍可在原分支与 PR 查看。
+**第五轮状态真源：`docs/task-ledger-round5.md`（本文件只保留指针与最新一段）。**
+分支 `feat/round5-release-acceptance` 已推送（HEAD 见 `git log`）；worktree `C:/Users/jlc/work/hds-round5`。
 
-最终整合树运行 495 项 unittest 全部通过；这些测试不替代真实 EDA、制造和实物验证。本次集成人未执行新的真实 EDA 操作。
+## 本轮状态一览（详见台账）
 
-F1 当前电气基线为 rev3；#8 提供纯排版网表等价证据，但图面仍拥挤、标题栏未改 DRAFT、DRC/ERC 警告处置与独立人工审图未完成。WorkBuddy 登录受阻，三客户端完整需求到写入流程尚未完成。PCB、制造、实时供应链、固件与实物验证仍未完成。
+| 包 | 状态 | 一句话 |
+|---|---|---|
+| A | DONE | 147 发现 + 62 独立核验（59 确认/3 修正） |
+| B | DONE（人工审图待做） | 交付 `f1-b-v5.eprj2`；DRC 3→1；网表 golden 逐字节一致；重开 match |
+| C | DONE（C2/C5 PARTIAL） | 21 位号身份表；LCSC 核对；电源/CC/启动复算；**U101=ESP-01S（ESP8266）勘误** |
+| D | PARTIAL | 真机快照已接入 `sch_layout_check.py`；components/texts 覆盖缺失明示 |
+| E | DONE | PCB 命令族真机验收（线/过孔/铜区边框/器件）；缺口明列 |
+| F | BLOCKED | 导入/板框需 GUI；layout/route/save/reopen 已验证并封装 |
+| G | PARTIAL | 换料取证：10µF→C15850 主选；USB-C→C2843967 主选（原型号停产） |
+| H | PARTIAL | 生产规则映射+检查清单；制造包 BLOCKED |
+| I | PARTIAL | 超时/幂等/身份阻断 3 项真机注入通过；其余 5 项 NOT RUN |
+| J | PARTIAL | 三客户端已装（329 文件）；Claude Code 发现 PASS；Codex/WorkBuddy GUI 待确认 |
+| K | DONE | C40（35+j0）与 C76（场景 35→47）关闭 |
+| L | 见台账 | Agent 行为评测（工作流收尾后更新） |
+| M | PARTIAL | ESP-01S 固件骨架；构建 BLOCKED（网络拉不动 PlatformIO 平台） |
+| N | PARTIAL | README/安装/发布说明；L 结果后定稿 |
 
-下方保留各轮历史交接；其中旧分支、HEAD、测试数量与“未合并”等描述仅对应当时状态，以本节及 GitHub main 为当前状态。
+测试：576 OK。关键证据：`docs/evidence/{f1-b,f1-c,pcb-e2,f1-pcb-f,g,k,j,d,i}-*`、
+`docs/round5/release-notes.md`。
+
+**下一条具体操作**：用户在 GUI 全在线会话完成 F1 原理图→PCB 导入并画板框（各一次），
+然后 CLI：`pcb layout → pcb route --save → pcb drc → pcb reopen-check`。
+
+历史交接保留在下方；旧分支、HEAD 与“未合并”描述只对应当时状态。
+
+## 第五轮之前的历史交接
 
 ## 第四轮历史交接
 

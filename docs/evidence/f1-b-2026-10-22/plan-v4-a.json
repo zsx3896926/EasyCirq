@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B 包 v4 修订 A：按独立审图必须修复项处理——重画两条 ONENETNAME 导线、DRAFT 与未用脚注记、删除孤立错误电源符（3V3 网名套 Power-5V 符号，primitive 027ca788bcdee892）、把 C101/C106 的 Manufacturer Part 从库名改为可读值串。电气连接不变，网表须保持 golden 哈希。",
+  "operations": [
+    {
+      "op": "delete",
+      "key": "del-onenetname-1",
+      "target": {"kind": "wire", "primitive_id": "49fae01dc70fc99a", "expected": {"net": "GND"}}
+    },
+    {
+      "op": "delete",
+      "key": "del-onenetname-2",
+      "target": {"kind": "wire", "primitive_id": "257ae6235df06193", "expected": {"net": "GND"}}
+    },
+    {
+      "op": "wire",
+      "key": "add-clean-710",
+      "net": "GND",
+      "points": [250, 710, 200, 710]
+    },
+    {
+      "op": "wire",
+      "key": "add-clean-560",
+      "net": "GND",
+      "points": [250, 560, 200, 560]
+    },
+    {
+      "op": "text",
+      "key": "draft-marker",
+      "at": [300, 200],
+      "content": "DRAFT",
+      "rotation": 0,
+      "font_size": 40
+    },
+    {
+      "op": "text",
+      "key": "j101-unused-note",
+      "at": [60, 75],
+      "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained",
+      "rotation": 0,
+      "font_size": 12
+    },
+    {
+      "op": "delete",
+      "key": "del-isolated-3v3-flag",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "027ca788bcdee892",
+        "expected": {"name": "3V3", "x": 600, "y": 620}
+      }
+    },
+    {
+      "op": "part",
+      "key": "c101-readable-value",
+      "match": {"designator": "C101", "unique_id": "gge6"},
+      "properties": {"manufacturer_id": "10uF/25V X5R 0805"}
+    },
+    {
+      "op": "part",
+      "key": "c106-readable-value",
+      "match": {"designator": "C106", "unique_id": "gge21"},
+      "properties": {"manufacturer_id": "10uF/25V X5R 0805"}
+    }
+  ]
+}

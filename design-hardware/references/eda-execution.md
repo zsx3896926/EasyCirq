@@ -27,7 +27,7 @@ python scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo -
 
 ## 1. 当前已验证的客户端与通道
 
-2026-10-21 在本机 Windows 11 实测：
+2026-10-21 在本机 Windows 11 实测；2026-10-22/23 追加原理图文本图元、PCB 命令族与建板/布局/布线/板框探针（结论见下表与 `docs/evidence/`）：
 
 - 客户端：嘉立创EDA专业版 `4.1.78.34f5b8d9`。
 - 官方 CLI：`C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe`。
@@ -55,13 +55,16 @@ python scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo -
 | 删除图元 | `sch_PrimitiveWire.delete` / `sch_PrimitiveComponent.delete` | 可执行（`delete`，需 `--allow-delete`） | 必须带 `primitive_id` + 完整 `expected`：part=designator/component/x/y，net_flag=name/x/y，net_port=net/direction/x/y，wire=net；删除后回读确认不存在；不允许按位号模糊删除 |
 | 快照完整性 | 每个 `safe()` 字段读取失败写入 `integrity.read_errors` | 已实现 | `status!=complete` 时 `apply` 拒绝对账/写入，`reopen-check` 不返回 match |
 | 网络标签 | `sch_PrimitiveAttribute.createNetLabel(x, y, net)` | API可用，本桥不写网络标签 | 动作集没有 net_label；不要把它当作已实现的幂等写入 |
-| 模块框/说明文字 | `sch_PrimitiveRectangle`/`sch_PrimitiveText` 等 | 未纳入本桥 | 用官方API或人工；不要用装饰框冒充电气连接 |
+| 说明文字 | `sch_PrimitiveText.create/modify/delete` | 可执行（`text` / `text_modify`；delete 已接线） | 4.1.78 半离线实测：create 持久且渲染；delete 与 modify **仅内存生效**（save 返回 true 但重开复原），放错只能靠新副本重做；不要用装饰框冒充电气连接 |
 | 修改已有工程 | 先 `read` 快照，再 `modify`/补缺失 | 可执行 | 以 `primitive_id`/`unique_id`/位号定位；身份不符即冲突，不重建 |
 | 保存 | `sch_Document.save()` | 可执行 | 返回 `true` 仍需重开回读；保存成功不等于内容正确 |
 | 导出图 | `sch_ManufactureData.getPngFile/getSvgFile` | 可执行 | 导出**活动文档**；`openDocument` 只开标签页，必须 `activateDocument(tabId)` 并回读当前文档UUID；多页SVG可能是zip；必须实际看图 |
 | 导出网表 | `sch_ManufactureData.getNetlistFile('Protel2')` | 可执行 | 跟随活动文档；未激活目标页会导出旧页/工程级网表；用于核对物理脚-网络，内容必须与计划比对 |
 | 原理图DRC | `sch_Drc.check(strict, false, true)` | 可执行，本桥暂未封装 | 阈值来自当前规则；DRC通过不替代连接回读/看图 |
-| PCB读取/布局/布线 | `PCB_*` API | 本桥未实现 | 不要用原理图动作声称PCB已改；PCB任务按实际工具单独验收 |
+| PCB 读/写 | `pcb read/apply/save/drc/export/reopen-check` | 已实现（beta） | 线/过孔/铜区边框/器件（flat ref、search）真机验证；铺铜填充不重算；DRC 仅布尔；导出 getter 返回空对象 |
+| PCB 建板/导入 | `pcb import`、`DMT_Pcb.createPcb`、`DMT_Board.createBoard` | 建板可用；导入不可用 | `importChanges` 返回 true 但 0 物化（半离线）；导入与板框需 GUI 会话 |
+| PCB 布局/布线 | `pcb layout`、`pcb route` | 可执行 | `autoLayout` 33/33；`autoRouting` 13–16/17，`failedNets` 必须逐条核对；success 标志不等于连通 |
+| PCB 板框 | `pcb outline` | **不可用** | `pcb_PrimitiveLine.create` 拒绝 layer 11 的所有网络变体；需 GUI |
 | 下单/采购/库存 | 无本桥动作 | 不支持 | 不做付费采购、生产下单或外部消息发送 |
 
 `lceda-pro doc api` 可逐类查当前版本；常用类包括 `SCH_PrimitiveComponent`、`SCH_PrimitiveWire`、`SCH_PrimitiveAttribute`、`SCH_Document`、`SCH_ManufactureData`、`SCH_Drc`、`DMT_Schematic`、`DMT_SelectControl`、`DMT_Project`。不要凭旧教程写 `--fn runCliAgent`：4.1.78 的 `--fn` 只接受常量 `run`。

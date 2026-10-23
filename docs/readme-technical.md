@@ -77,7 +77,7 @@
 | 完整项目样本 | 4个 | [项目样本](../design-hardware/references/projects/README.md) | 需求/验收、架构、选型、计算、连接基线、布局草案、BOM、固件、首板测试；P04 有真实EDA原理图证据 |
 | 真实EDA执行与回读 | 1个适配器 + 2份证据 | [EDA执行](../design-hardware/references/eda-execution.md) | 工具存在/连通/工程可读/可写分层诊断；器件/属性/导线/端口/保存/导出/重开；PCB未实现 |
 | 原理图排版基准 | 8类 | [排版基准](../design-hardware/references/schematic-benchmarks.md) | 故意有缺陷的离线几何快照、预期候选、真实导图检查方法；不是8张真机图 |
-| 任务场景与反例 | 35个（含12个指定反例） | [任务场景](../design-hardware/references/task-scenarios.md) | 新手/工程师、从零/改板/换料/整理/排障的可检查路径 |
+| 任务场景与反例 | 47个（含12个指定反例） | [任务场景](../design-hardware/references/task-scenarios.md) | 新手/工程师、从零/改板/换料/整理/排障的可检查路径 |
 | 工程设计决策库 | 12份参考+13个案例+14个模板+6个检查脚本 | [设计决策库](../design-hardware/references/decisions/README.md) | 架构为何值得、资源冲突、状态转换、接口逐条、容差角点、线束/变体、校准/变更/复用/资产有效性 |
 
 **内容库的边界：**
@@ -92,7 +92,7 @@
 
 新增 [热设计专题](../design-hardware/references/thermal/topic.md)、[11组热算例](../design-hardware/references/thermal/cases.md) 与离线热计算器，覆盖功耗、热指标、稳态/瞬态、PCB/外壳及测量。专题已纳入Skill安装目录与CI，来源编号仅在专题内有效。
 
-本次合并同时修正了原扩充稿中电气接线、保护阈值、热模型、采样建立与计算边界问题，具体范围见 [合并复核记录](../docs/merge-review.md)。场景文件的自动检查只验证目录/路由及部分确定性计算，不等于35个Agent任务已真实执行，更不等于EDA或样机验收。
+本次合并同时修正了原扩充稿中电气接线、保护阈值、热模型、采样建立与计算边界问题，具体范围见 [合并复核记录](../docs/merge-review.md)。场景文件的自动检查只验证目录/路由及部分确定性计算，不等于47个Agent任务已真实执行，更不等于EDA或样机验收。
 
 ## 嘉立创PCB与SMT生产规则
 
@@ -319,7 +319,7 @@ design-hardware/
     eda-execution.md          真实EDA执行、恢复、保存/重开契约
     schematic-benchmarks.md   8类排版基准与检查方法
     source-register.md        原始来源、版本与查阅范围
-    task-scenarios.md         35个任务场景与12个指定反例
+    task-scenarios.md         47个任务场景与12个指定反例
   assets/engineering-notes.md  可裁剪的工程记录模板
   assets/scenarios.json       机器可检查的任务场景
   assets/schematic-benchmarks/ 8类可执行几何基准

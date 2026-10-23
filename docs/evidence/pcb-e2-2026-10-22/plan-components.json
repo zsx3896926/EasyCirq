@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "pcb": {"pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3"},
+  "note": "E-package component placement verification on the same scratch copy: one flat-ref create (DC1 footprint at a new position) and one search create (DC005-T20). Designators are auto-assigned; expected only pins the layer.",
+  "items": [
+    {
+      "op": "component_flat",
+      "key": "e2-comp-flat",
+      "library_uuid": "3f0b288f1e9622842664ed1a958aaad48f9265dcaf2c94a3a83564ff04c2c1a2",
+      "component_uuid": "89d274450d804193a8b3479f450ef9b0",
+      "layer": 1,
+      "x": 2800,
+      "y": -900,
+      "rotation": 0,
+      "expected": {"layer": 1}
+    },
+    {
+      "op": "component_search",
+      "key": "e2-comp-search",
+      "name": "DC005-T20",
+      "layer": 1,
+      "x": 3000,
+      "y": -900,
+      "rotation": 0,
+      "expected": {"layer": 1}
+    }
+  ]
+}

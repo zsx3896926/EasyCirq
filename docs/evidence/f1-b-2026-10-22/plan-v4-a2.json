@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B 包 v4 修订 A2：A1 删除旧折线后，重建两条 GND 单段导线 (250,710)->(200,710) 与 (250,560)->(200,560)。必须独立成计划，否则 reconcile 会因旧线覆盖而跳过创建。",
+  "operations": [
+    {"op": "wire", "key": "add-clean-710", "net": "GND", "points": [250, 710, 200, 710]},
+    {"op": "wire", "key": "add-clean-560", "net": "GND", "points": [250, 560, 200, 560]}
+  ]
+}

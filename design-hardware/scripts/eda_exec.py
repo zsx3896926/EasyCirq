@@ -26,6 +26,7 @@ Exit codes:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -53,10 +54,13 @@ OP_KEYS = {
     'net_flag': {'op', 'key', 'net', 'type', 'at', 'rotation', 'mirror', 'note'},
     'net_port': {'op', 'key', 'net', 'direction', 'at', 'rotation', 'mirror', 'note'},
     'wire': {'op', 'key', 'net', 'points', 'note'},
+    'text': {'op', 'key', 'at', 'content', 'rotation', 'font_size', 'note'},
+    'text_modify': {'op', 'key', 'target', 'at', 'content', 'rotation', 'font_size', 'note'},
     'delete': {'op', 'key', 'target', 'note'},
 }
-DELETE_KINDS = {'part', 'net_flag', 'net_port', 'wire'}
+DELETE_KINDS = {'part', 'net_flag', 'net_port', 'wire', 'text'}
 DELETE_EXPECTED_FIELDS = {
+    'text': {'content', 'x', 'y'},
     'part': {'designator', 'unique_id', 'x', 'y', 'component'},
     'net_flag': {'name', 'net', 'x', 'y'},
     'net_port': {'net', 'direction', 'x', 'y'},
@@ -64,6 +68,7 @@ DELETE_EXPECTED_FIELDS = {
 }
 # Deletion is destructive: these fields are mandatory identity/state checks.
 DELETE_REQUIRED_FIELDS = {
+    'text': ('content',),
     'part': ('designator', 'component', 'x', 'y'),
     'net_flag': ('name', 'x', 'y'),
     'net_port': ('net', 'direction', 'x', 'y'),
@@ -435,6 +440,14 @@ def _json_for_js(value):
     return text.replace('\u2028', '\\u2028').replace('\u2029', '\\u2029')
 
 
+def sha256_file(path):
+    digest = hashlib.sha256()
+    with open(path, 'rb') as handle:
+        for chunk in iter(lambda: handle.read(1 << 20), b''):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
 # ---------------------------------------------------------------------------
 # Fixed operation templates. Keep these small and typed; do not accept user JS.
 # ---------------------------------------------------------------------------
@@ -671,6 +684,17 @@ if (!componentsConsistent) {
 const complete = read_errors.length === 0 && pinsComplete
   && (A.include_attributes !== true || attributesComplete === true)
   && componentsConsistent;
+// Text primitives: read-only here; a failed read marks texts null so the
+// reconcile layer can say it cannot dedup them instead of blocking the page.
+const textsRaw = await safeAsync(() => eda.sch_PrimitiveText.getAll(), null);
+const texts = Array.isArray(textsRaw) ? textsRaw.map(t => ({
+  primitive_id: safe(() => t.getState_PrimitiveId()),
+  content: safe(() => t.getState_Content()),
+  x: safe(() => t.getState_X()),
+  y: safe(() => t.getState_Y()),
+  rotation: safe(() => t.getState_Rotation()),
+  font_size: safe(() => t.getState_FontSize()),
+})) : null;
 return {
   ok: true,
   env,
@@ -720,11 +744,13 @@ return {
     line_type: safe(() => w.getState_LineType()),
   })),
   attributes,
+  texts,
   coverage: {
     pins_complete: pinsComplete,
     pins_used: pinsUsed,
     attributes_included: A.include_attributes === true,
     attributes_complete: attributesComplete,
+    texts_included: texts !== null,
     read_errors: read_errors.length,
     not_checked: [
       'netlist pin-net equivalence until getNetlistFile is parsed',
@@ -836,6 +862,440 @@ return {
   complete: errors.length === 0,
   note: 'scanning pages changes the active document in this owned CLI session; focus is restored best-effort',
 };
+'''
+
+PCB_SELECT_JS = r'''
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const safe = (fn, fallback = null) => { try { return fn(); } catch (e) { return fallback; } };
+const safeAsync = async (fn, fallback = null) => { try { return await fn(); } catch (e) { return fallback; } };
+const P = (A.pcb && typeof A.pcb === 'object') ? A.pcb : A;
+let pcbs = [];
+for (let i = 0; i < 12; i++) {
+  pcbs = await safeAsync(() => eda.dmt_Pcb.getAllPcbsInfo(), []);
+  if (pcbs && pcbs.length) break;
+  await sleep(600);
+}
+const pcbId = (x) => x && (x.uuid || x.pcbUuid);
+let selected = null;
+if (P.pcb_uuid) selected = (pcbs || []).find(x => pcbId(x) === P.pcb_uuid) || null;
+else if (P.pcb_name) {
+  const matches = (pcbs || []).filter(x => x.name === P.pcb_name);
+  if (matches.length !== 1) {
+    return { ok: false, error: matches.length === 0 ? 'pcb_not_found' : 'ambiguous_pcb_name',
+             pcb_name: P.pcb_name,
+             candidates: matches.map(x => ({ uuid: pcbId(x), name: x.name })) };
+  }
+  selected = matches[0];
+} else if ((pcbs || []).length === 1) {
+  // Exactly one PCB in the project: selection is deterministic, not a guess.
+  selected = pcbs[0];
+} else {
+  const current = await safeAsync(() => eda.dmt_SelectControl.getCurrentDocumentInfo());
+  if (current && current.documentType === 3) {
+    selected = (pcbs || []).find(x => pcbId(x) === current.uuid) || null;
+  }
+}
+if (!selected) {
+  return { ok: false, error: 'pcb_not_found', selection: P,
+           pcbs: (pcbs || []).map(x => ({ uuid: pcbId(x), name: x.name })) };
+}
+const pcbUuid = pcbId(selected);
+let tabId = null;
+try {
+  tabId = await eda.dmt_EditorControl.openDocument(pcbUuid);
+  // openDocument opens a tab but does not necessarily give it focus (4.1.78).
+  if (tabId) await safeAsync(() => eda.dmt_EditorControl.activateDocument(tabId));
+} catch (e) {
+  return { ok: false, error: 'open_document_failed', message: String(e && e.message || e), pcb_uuid: pcbUuid };
+}
+await Promise.race([
+  safeAsync(() => eda.dmt_EditorControl.waitForDocumentReady(8000)),
+  sleep(8500),
+]);
+let activatedConfirmed = false;
+for (let i = 0; i < 12; i++) {
+  const current = await safeAsync(() => eda.dmt_SelectControl.getCurrentDocumentInfo());
+  if (current && current.documentType === 3 && current.uuid === pcbUuid) {
+    activatedConfirmed = true;
+    break;
+  }
+  await sleep(300);
+}
+if (!activatedConfirmed) {
+  return { ok: false, error: 'pcb_not_activated', pcb_uuid: pcbUuid,
+           note: 'openDocument/activateDocument did not make the requested PCB the active document' };
+}
+const settle = Number.isFinite(Number(P.settle_ms)) ? Math.max(0, Math.min(30000, Number(P.settle_ms))) : 300;
+await sleep(settle);
+'''
+
+PCB_SNAPSHOT_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const env = {
+  online: safe(() => eda.sys_Environment.isOnlineMode()),
+  half_offline: safe(() => eda.sys_Environment.isHalfOfflineMode()),
+  offline: safe(() => eda.sys_Environment.isOfflineMode()),
+  version: safe(() => eda.sys_Environment.getEditorCurrentVersion()),
+  client: safe(() => eda.sys_Environment.isClient()),
+};
+const read_errors = [];
+const field_notes = [];
+const errorText = (e) => String((e && e.message) || e);
+const fail = (scope, field, e) => {
+  read_errors.push({ scope, field, error: errorText(e) });
+};
+const note = (scope, field, e) => {
+  field_notes.push({ scope, field, error: errorText(e) });
+};
+const readField = async (fn, scope, field) => {
+  try { return await fn(); } catch (e) { fail(scope, field, e); return null; }
+};
+const budget = Number.isFinite(Number(A.max_primitives)) ? Math.max(1, Math.min(10000, Number(A.max_primitives))) : 2000;
+const project = await safeAsync(() => eda.dmt_Project.getCurrentProjectInfo());
+const counts = {};
+const list = async (name, fn) => {
+  const items = await readField(fn, name, 'getAll');
+  counts[name] = Array.isArray(items) ? items.length : null;
+  return items;
+};
+const components = await list('components', () => eda.pcb_PrimitiveComponent.getAll());
+const lines = await list('lines', () => eda.pcb_PrimitiveLine.getAll());
+const vias = await list('vias', () => eda.pcb_PrimitiveVia.getAll());
+const pours = await list('pours', () => eda.pcb_PrimitivePour.getAll());
+const poured = await list('poured', () => eda.pcb_PrimitivePoured.getAll());
+const pads = await list('pads', () => eda.pcb_PrimitivePad.getAll());
+const trimmed = (items) => {
+  const total = Array.isArray(items) ? items.length : 0;
+  return { items: (items || []).slice(0, budget), truncated: total > budget, total };
+};
+// Field-level getter failures are recorded as notes, not errors: an unknown
+// getter name means we do not read that field, while a failed getAll means we
+// cannot trust the class count at all. Only the latter blocks writes.
+const state = (obj, fn, scope, field) => {
+  try { return fn(obj); } catch (e) { note(scope, field, e); return null; }
+};
+const silentOf = (obj, names) => {
+  for (const name of names) {
+    try { const value = obj[name](); if (value !== null && value !== undefined) return value; } catch (e) { /* optional field */ }
+  }
+  return null;
+};
+const firstOf = (obj, getters, scope, field) => {
+  for (const name of getters) {
+    try { return obj[name](); } catch (e) { /* try the next candidate */ }
+  }
+  note(scope, field, 'no getter matched: ' + getters.join(', '));
+  return null;
+};
+const nameOf = (value) => {
+  if (value && typeof value === 'object' && value.name) return value.name;
+  if (typeof value === 'string') return value;
+  return null;
+};
+const componentRef = (value) => {
+  if (!value || typeof value !== 'object') return null;
+  return { libraryUuid: value.libraryUuid || null, uuid: (value.uuid && value.uuid.uuid) || value.uuid || null,
+           name: value.name || null };
+};
+const componentRows = trimmed(components || []).items.map((c) => ({
+  id: state(c, (x) => x.getState_PrimitiveId(), 'components', 'primitive_id'),
+  designator: state(c, (x) => x.getState_Designator(), 'components', 'designator'),
+  layer: state(c, (x) => x.getState_Layer(), 'components', 'layer'),
+  x: firstOf(c, ['getState_X', 'getState_PositionX'], 'components', 'x'),
+  y: firstOf(c, ['getState_Y', 'getState_PositionY'], 'components', 'y'),
+  rotation: firstOf(c, ['getState_Rotation', 'getState_Angle'], 'components', 'rotation'),
+  footprint: nameOf(state(c, (x) => x.getState_Footprint(), 'components', 'footprint')),
+  component: nameOf(state(c, (x) => x.getState_Component(), 'components', 'component')),
+  footprint_ref: componentRef(silentOf(c, ['getState_Footprint'])),
+  component_ref: componentRef(silentOf(c, ['getState_Component'])),
+}));
+const lineRows = trimmed(lines || []).items.map((l) => ({
+  id: state(l, (x) => x.getState_PrimitiveId(), 'lines', 'primitive_id'),
+  net: state(l, (x) => x.getState_Net(), 'lines', 'net'),
+  layer: state(l, (x) => x.getState_Layer(), 'lines', 'layer'),
+  x1: firstOf(l, ['getState_StartX', 'getState_X1'], 'lines', 'x1'),
+  y1: firstOf(l, ['getState_StartY', 'getState_Y1'], 'lines', 'y1'),
+  x2: firstOf(l, ['getState_EndX', 'getState_X2'], 'lines', 'x2'),
+  y2: firstOf(l, ['getState_EndY', 'getState_Y2'], 'lines', 'y2'),
+  width: state(l, (x) => x.getState_LineWidth(), 'lines', 'width'),
+}));
+const viaRows = trimmed(vias || []).items.map((v) => ({
+  id: state(v, (x) => x.getState_PrimitiveId(), 'vias', 'primitive_id'),
+  net: state(v, (x) => x.getState_Net(), 'vias', 'net'),
+  x: firstOf(v, ['getState_X', 'getState_PositionX'], 'vias', 'x'),
+  y: firstOf(v, ['getState_Y', 'getState_PositionY'], 'vias', 'y'),
+  hole: state(v, (x) => x.getState_HoleDiameter(), 'vias', 'hole'),
+  diameter: state(v, (x) => x.getState_Diameter(), 'vias', 'diameter'),
+}));
+const pourRows = trimmed(pours || []).items.map((p) => ({
+  id: state(p, (x) => x.getState_PrimitiveId(), 'pours', 'primitive_id'),
+  net: state(p, (x) => x.getState_Net(), 'pours', 'net'),
+  layer: state(p, (x) => x.getState_Layer(), 'pours', 'layer'),
+  name: silentOf(p, ['getState_Name']),
+}));
+const pouredRows = trimmed(poured || []).items.map((p) => ({
+  id: state(p, (x) => x.getState_PrimitiveId(), 'poured', 'primitive_id'),
+  net: silentOf(p, ['getState_Net']),
+  layer: silentOf(p, ['getState_Layer']),
+}));
+const padRows = trimmed(pads || []).items.map((p) => ({
+  id: state(p, (x) => x.getState_PrimitiveId(), 'pads', 'primitive_id'),
+  net: state(p, (x) => x.getState_Net(), 'pads', 'net'),
+}));
+const netNames = await readField(() => eda.pcb_Net.getAllNetsName(), 'nets', 'getAllNetsName');
+const netRows = [];
+if (Array.isArray(netNames)) {
+  for (const n of netNames.slice(0, budget)) {
+    const length = await readField(() => eda.pcb_Net.getNetLength(n), 'nets', 'getNetLength');
+    const prims = await readField(() => eda.pcb_Net.getAllPrimitivesByNet(n), 'nets', 'getAllPrimitivesByNet');
+    netRows.push({ net: n, length, primitive_count: Array.isArray(prims) ? prims.length : null });
+  }
+}
+const outlineLines = (lines || []).filter(l => { try { return l.getState_Layer() === 11; } catch (e) { return false; } })
+  .map(l => ({ id: state(l, (x) => x.getState_PrimitiveId(), 'lines', 'primitive_id'), layer: 11 }));
+return {
+  ok: true,
+  env,
+  project: project ? { uuid: project.uuid, friendly_name: project.friendlyName, name: project.name, path: project.path } : null,
+  pcbs: (pcbs || []).map(x => ({ uuid: pcbId(x), name: x.name })),
+  selection: { pcb_uuid: pcbUuid, pcb_name: selected.name },
+  counts,
+  components: { rows: componentRows, truncated: trimmed(components || []).truncated, total: trimmed(components || []).total },
+  lines: { rows: lineRows, truncated: trimmed(lines || []).truncated, total: trimmed(lines || []).total },
+  vias: { rows: viaRows, truncated: trimmed(vias || []).truncated, total: trimmed(vias || []).total },
+  pours: { rows: pourRows, truncated: trimmed(pours || []).truncated, total: trimmed(pours || []).total },
+  poured: { rows: pouredRows, truncated: trimmed(poured || []).truncated, total: trimmed(poured || []).total },
+  pads: { rows: padRows, truncated: trimmed(pads || []).truncated, total: trimmed(pads || []).total },
+  nets: netRows,
+  nets_total: Array.isArray(netNames) ? netNames.length : null,
+  nets_truncated: Array.isArray(netNames) ? netNames.length > budget : null,
+  outline: { lines: outlineLines, count: outlineLines.length },
+  rule_config: safe(() => eda.pcb_Drc.getCurrentRuleConfigurationName()),
+  read_errors,
+  field_notes,
+  note: 'pours counts the outline, poured counts actual copper fills; they are not interchangeable',
+};
+'''
+
+PCB_APPLY_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const errorText = (e) => String((e && e.message) || e);
+const state = (obj, fn) => { try { return fn(obj); } catch (e) { return null; } };
+const pouredCount = async () => {
+  const v = await safeAsync(() => eda.pcb_PrimitivePoured.getAll(), null);
+  return Array.isArray(v) ? v.length : null;
+};
+const readback = (prim) => {
+  if (!prim) return { created: false, error: 'create returned nothing' };
+  return {
+    created: true,
+    id: state(prim, (x) => x.getState_PrimitiveId()),
+    net: state(prim, (x) => x.getState_Net()),
+    layer: state(prim, (x) => x.getState_Layer()),
+    width: state(prim, (x) => x.getState_LineWidth()),
+    hole: state(prim, (x) => x.getState_HoleDiameter()),
+    diameter: state(prim, (x) => x.getState_Diameter()),
+    designator: state(prim, (x) => x.getState_Designator()),
+    name: state(prim, (x) => x.getState_Name()),
+  };
+};
+const results = [];
+const poured_before = await pouredCount();
+for (const action of (A.actions || [])) {
+  try {
+    let prim = null;
+    if (action.op === 'line') {
+      prim = await eda.pcb_PrimitiveLine.create(action.net, action.layer, action.x1, action.y1, action.x2, action.y2, action.width, false);
+    } else if (action.op === 'via') {
+      prim = await eda.pcb_PrimitiveVia.create(action.net, action.x, action.y, action.hole, action.diameter, 0, null, null, false);
+    } else if (action.op === 'pour_outline') {
+      const poly = await eda.pcb_MathPolygon.createComplexPolygon([['R', action.x, action.y, action.w, action.h, 0, 0]]);
+      if (!poly) throw new Error('polygon create returned nothing');
+      prim = await eda.pcb_PrimitivePour.create(action.net, action.layer, poly, 'solid', false, action.name, 0, 10, false);
+    } else if (action.op === 'component_flat') {
+      prim = await eda.pcb_PrimitiveComponent.create({ libraryUuid: action.library_uuid, uuid: action.component_uuid }, action.layer, action.x, action.y, action.rotation, false);
+    } else if (action.op === 'component_search') {
+      const found = await eda.lib_Device.search(action.name, undefined, undefined, undefined, 5, 1);
+      if (!Array.isArray(found) || !found.length) throw new Error('no search result for ' + action.name);
+      const match = found.find(d => d.name === action.name) || found[0];
+      prim = await eda.pcb_PrimitiveComponent.create(match, action.layer, action.x, action.y, action.rotation, false);
+    } else {
+      throw new Error('unknown op ' + action.op);
+    }
+    await sleep(500);
+    results.push(Object.assign({ key: action.key, op: action.op }, readback(prim)));
+  } catch (e) {
+    results.push({ key: action.key, op: action.op, created: false, error: errorText(e) });
+  }
+}
+const poured_after = await pouredCount();
+return {
+  ok: true,
+  results,
+  poured_before,
+  poured_after,
+  poured_delta: (poured_before === null || poured_after === null) ? null : (poured_after - poured_before),
+  note: 'pour outlines create the border only; a non-zero poured_delta means the client recomputed copper fills',
+};
+'''
+
+PCB_SAVE_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const saved = await safeAsync(() => eda.pcb_Document.save(), false);
+const counts = {};
+for (const [name, fn] of [
+  ['components', () => eda.pcb_PrimitiveComponent.getAll()],
+  ['lines', () => eda.pcb_PrimitiveLine.getAll()],
+  ['vias', () => eda.pcb_PrimitiveVia.getAll()],
+  ['pours', () => eda.pcb_PrimitivePour.getAll()],
+  ['poured', () => eda.pcb_PrimitivePoured.getAll()],
+]) {
+  const v = await safeAsync(fn, null);
+  counts[name] = Array.isArray(v) ? v.length : null;
+}
+return { ok: true, saved: saved === true, saved_value: saved, counts };
+'''
+
+PCB_DRC_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const raw = await safeAsync(() => eda.pcb_Drc.check(false, false, false), null);
+const structure = raw === null ? 'null' : Array.isArray(raw) ? 'array' : typeof raw;
+return {
+  ok: true,
+  ran: raw !== null,
+  structure,
+  item_count: Array.isArray(raw) ? raw.length : null,
+  raw,
+  note: 'raw DRC result; interpretation is the caller\'s job, zero items does not mean manufacturable',
+};
+'''
+
+PCB_EXPORT_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const getters = {
+  gerber: () => eda.pcb_ManufactureData.getGerberFile(),
+  pickandplace: () => eda.pcb_ManufactureData.getPickAndPlaceFile(),
+  bom: () => eda.pcb_ManufactureData.getBomFile(),
+  pdf: () => eda.pcb_ManufactureData.getPdfFile(),
+  pcb_info: () => eda.pcb_ManufactureData.getPcbInfoFile(),
+};
+const fn = getters[A.kind];
+if (!fn) return { ok: false, error: 'unknown_export_kind', kind: A.kind };
+const raw = await safeAsync(fn, null);
+const structure = raw === null ? 'null' : Array.isArray(raw) ? 'array' : typeof raw;
+let hint = null;
+if (typeof raw === 'string') hint = raw.slice(0, 200);
+else if (raw && typeof raw === 'object') hint = Object.keys(raw).slice(0, 12);
+return { ok: true, kind: A.kind, structure, hint, raw,
+         note: 'ordering methods (placePcbOrder and friends) are intentionally not exposed' };
+'''
+
+PCB_IMPORT_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const counts = async () => {
+  const c = {};
+  for (const [name, fn] of [
+    ['components', () => eda.pcb_PrimitiveComponent.getAll()],
+    ['lines', () => eda.pcb_PrimitiveLine.getAll()],
+    ['pads', () => eda.pcb_PrimitivePad.getAll()],
+    ['nets', () => eda.pcb_Net.getAllNetsName()],
+  ]) {
+    const v = await safeAsync(fn, null);
+    c[name] = Array.isArray(v) ? v.length : null;
+  }
+  return c;
+};
+const before = await counts();
+let imported = null;
+if (A.schematic_uuid) {
+  imported = await safeAsync(() => eda.pcb_Document.importChanges({ uuid: A.schematic_uuid, force: true }), null);
+} else {
+  imported = await safeAsync(() => eda.pcb_Document.importChanges(), null);
+}
+await sleep(2000);
+const after = await counts();
+return {
+  ok: true,
+  imported,
+  counts_before: before,
+  counts_after: after,
+  materialized: (after.components || 0) > (before.components || 0),
+  note: 'importChanges may return true while materializing nothing (observed in 4.1.78 half-offline); judge by counts, not by the boolean',
+};
+'''
+
+PCB_LAYOUT_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const countComponents = async () => {
+  const v = await safeAsync(() => eda.pcb_PrimitiveComponent.getAll(), null);
+  return Array.isArray(v) ? v.length : null;
+};
+const before = await countComponents();
+const result = await safeAsync(() => eda.pcb_Document.autoLayout(), null);
+await sleep(1000);
+const after = await countComponents();
+return { ok: true, result, components_before: before, components_after: after,
+         note: 'autoLayout result is the client report; placement quality is not judged here' };
+'''
+
+PCB_ROUTE_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const counts = async () => {
+  const c = {};
+  for (const [name, fn] of [
+    ['lines', () => eda.pcb_PrimitiveLine.getAll()],
+    ['vias', () => eda.pcb_PrimitiveVia.getAll()],
+    ['nets', () => eda.pcb_Net.getAllNetsName()],
+  ]) {
+    const v = await safeAsync(fn, null);
+    c[name] = Array.isArray(v) ? v.length : null;
+  }
+  return c;
+};
+const before = await counts();
+const result = await safeAsync(() => eda.pcb_Document.autoRouting(), null);
+await sleep(1000);
+const after = await counts();
+return { ok: true, result, counts_before: before, counts_after: after,
+         note: 'routed/success counts are the client report; inspect failedNets and DRC afterwards' };
+'''
+
+PCB_OUTLINE_JS = r'''
+const A = __ARGS__;
+''' + PCB_SELECT_JS + r'''
+const margin = Number.isFinite(Number(A.margin)) ? Math.max(0, Number(A.margin)) : 250;
+const comps = await safeAsync(() => eda.pcb_PrimitiveComponent.getAll(), []);
+const xs = [], ys = [];
+for (const c of (comps || [])) {
+  const x = safe(() => c.getState_X());
+  const y = safe(() => c.getState_Y());
+  if (typeof x === 'number') xs.push(x);
+  if (typeof y === 'number') ys.push(y);
+}
+if (!xs.length) return { ok: false, error: 'no_component_coordinates' };
+const minX = Math.min(...xs) - margin, maxX = Math.max(...xs) + margin;
+const minY = Math.min(...ys) - margin, maxY = Math.max(...ys) + margin;
+const lines = [[minX, minY, maxX, minY], [maxX, minY, maxX, maxY], [maxX, maxY, minX, maxY], [minX, maxY, minX, minY]];
+const created = [];
+for (const [x1, y1, x2, y2] of lines) {
+  const item = await safeAsync(async () => {
+    const l = await eda.pcb_PrimitiveLine.create('', 11, x1, y1, x2, y2, 10, false);
+    return { ok: true, id: l ? safe(() => l.getState_PrimitiveId()) : null };
+  }, (e) => ({ ok: false, error: String((e && e.message) || e) }));
+  created.push(item);
+}
+const all = await safeAsync(() => eda.pcb_PrimitiveLine.getAll(), []);
+const outlineCount = Array.isArray(all)
+  ? all.filter(l => safe(() => l.getState_Layer()) === 11).length : null;
+return { ok: true, rect: { minX, maxX, minY, maxY }, created, outline_lines: outlineCount };
 '''
 
 APPLY_JS = r'''
@@ -1046,8 +1506,45 @@ for (const act of (A.actions || [])) {
         key: act.key, ok: true, action: act.action, primitive_id: wire.getState_PrimitiveId(),
         net: wire.getState_Net(), line: wire.getState_Line(),
       });
+    } else if (act.action === 'modify_text') {
+      const props = { x: act.x, y: act.y };
+      if (act.content != null) props.content = act.content;
+      if (act.rotation != null) props.rotation = act.rotation;
+      if (act.font_size != null) props.fontSize = act.font_size;
+      await eda.sch_PrimitiveText.modify(act.primitive_id, props);
+      await sleep2(300);
+      const refreshed = await safeAsync(() => eda.sch_PrimitiveText.get(act.primitive_id), null);
+      results.push({
+        key: act.key, ok: true, action: act.action, primitive_id: act.primitive_id,
+        expected: { content: act.content },
+        observed: refreshed ? {
+          content: safe(() => refreshed.getState_Content()),
+          x: safe(() => refreshed.getState_X()),
+          y: safe(() => refreshed.getState_Y()),
+          rotation: safe(() => refreshed.getState_Rotation()),
+          font_size: safe(() => refreshed.getState_FontSize()),
+        } : null,
+      });
+    } else if (act.action === 'create_text') {
+      const textArgs = [act.x, act.y, act.content, act.rotation || 0];
+      if (act.font_size != null) textArgs.push(null, null, act.font_size);
+      const text = await eda.sch_PrimitiveText.create(...textArgs);
+      await sleep2(300);
+      results.push({
+        key: act.key, ok: true, action: act.action, primitive_id: text.getState_PrimitiveId(),
+        expected: { content: act.content },
+        observed: {
+          content: safe(() => text.getState_Content()),
+          x: safe(() => text.getState_X()),
+          y: safe(() => text.getState_Y()),
+          rotation: safe(() => text.getState_Rotation()),
+          font_size: safe(() => text.getState_FontSize()),
+        },
+      });
     } else if (act.action === 'delete_primitive') {
-      const collection = act.kind === 'wire' ? eda.sch_PrimitiveWire : eda.sch_PrimitiveComponent;
+      const collection = act.kind === 'wire' ? eda.sch_PrimitiveWire
+        : act.kind === 'text' ? eda.sch_PrimitiveText
+        : eda.sch_PrimitiveComponent;
       const target = await safeAsync(() => collection.get(act.primitive_id), null);
       if (!target) {
         results.push({ key: act.key, ok: false, action: act.action,
@@ -1070,6 +1567,7 @@ for (const act of (A.actions || [])) {
         net: safe(() => target.getState_Net()),
         x: safe(() => target.getState_X()),
         y: safe(() => target.getState_Y()),
+        content: safe(() => target.getState_Content()),
         component: component && component.name ? component.name : null,
         direction: portDirectionOf(symbolNameOf(target) || (component && component.name)),
         flag_type: flagTypeOf(symbolNameOf(target) || (component && component.name)),
@@ -1301,6 +1799,48 @@ def validate_plan(plan):
             _text(op.get('net'), f'{where}.net')
             _canonical_segments(op.get('points'))
             normalized.append(op)
+        elif kind == 'text':
+            at = op.get('at')
+            if not isinstance(at, list) or len(at) != 2:
+                raise EdaInputError(f'{where}.at: [x,y] required')
+            _coord(at[0], f'{where}.at[0]')
+            _coord(at[1], f'{where}.at[1]')
+            _text(op.get('content'), f'{where}.content')
+            _rotation(op.get('rotation', 0), f'{where}.rotation')
+            if op.get('font_size') is not None:
+                value = _finite(op['font_size'], f'{where}.font_size')
+                if value <= 0:
+                    raise EdaInputError(f'{where}.font_size: positive value required')
+            normalized.append(op)
+        elif kind == 'text_modify':
+            target = op.get('target')
+            if not isinstance(target, dict):
+                raise EdaInputError(f'{where}.target: object required')
+            unknown = set(target) - {'primitive_id', 'expected'}
+            if unknown:
+                raise EdaInputError(f'{where}.target: unknown fields {sorted(unknown)}')
+            _text(target.get('primitive_id'), f'{where}.target.primitive_id')
+            expected = target.get('expected') or {}
+            if not isinstance(expected, dict):
+                raise EdaInputError(f'{where}.target.expected: object required')
+            unknown = set(expected) - {'content', 'x', 'y'}
+            if unknown:
+                raise EdaInputError(f'{where}.target.expected: unknown fields {sorted(unknown)}')
+            if 'content' not in expected:
+                raise EdaInputError(f'{where}.target.expected.content: required to guard the modify')
+            at = op.get('at')
+            if not isinstance(at, list) or len(at) != 2:
+                raise EdaInputError(f'{where}.at: [x,y] required')
+            _coord(at[0], f'{where}.at[0]')
+            _coord(at[1], f'{where}.at[1]')
+            if op.get('content') is not None:
+                _text(op['content'], f'{where}.content')
+            _rotation(op.get('rotation', 0), f'{where}.rotation')
+            if op.get('font_size') is not None:
+                value = _finite(op['font_size'], f'{where}.font_size')
+                if value <= 0:
+                    raise EdaInputError(f'{where}.font_size: positive value required')
+            normalized.append(op)
         elif kind == 'delete':
             target = op.get('target')
             if not isinstance(target, dict):
@@ -1488,6 +2028,7 @@ def reconcile(snapshot, plan, project_designators=None):
     netflags = snapshot.get('netflags') or []
     netports = snapshot.get('netports') or []
     wires = snapshot.get('wires') or []
+    texts = snapshot.get('texts') or []
     items, actions, conflicts = [], [], []
     designator_scope = 'page' if project_designators is None else 'project'
 
@@ -1768,6 +2309,68 @@ def reconcile(snapshot, plan, project_designators=None):
                         item.update({'status': 'create', 'net': op['net'],
                                      'segments': len(missing), 'existing_segments': len(target_segments) - len(missing)})
             items.append(item)
+        elif op['op'] == 'text_modify':
+            texts = snapshot.get('texts')
+            found = None
+            if isinstance(texts, list):
+                found = next((t for t in texts
+                              if t.get('primitive_id') == op['target']['primitive_id']), None)
+            if not isinstance(texts, list):
+                conflict(item, 'texts_unreadable_in_snapshot')
+            elif found is None:
+                conflict(item, 'target_not_found', {'primitive_id': op['target']['primitive_id']})
+            elif found.get('content') != op['target']['expected']['content'] or not _same_position(
+                    (found.get('x'), found.get('y')),
+                    (op['target']['expected']['x'], op['target']['expected']['y']), tolerance=0.01):
+                conflict(item, 'stale_target', {
+                    'expected': op['target']['expected'],
+                    'observed': {'content': found.get('content'), 'x': found.get('x'), 'y': found.get('y')}})
+            elif (_same_position((found.get('x'), found.get('y')), op['at'], tolerance=0.01)
+                  and (op.get('content') is None or found.get('content') == op['content'])
+                  and found.get('rotation') == op.get('rotation', 0)
+                  and (op.get('font_size') is None or found.get('font_size') == op['font_size'])):
+                item['status'] = 'skip'
+                item['reason'] = 'already_matches'
+            else:
+                actions.append({'action': 'modify_text', 'key': key,
+                                'primitive_id': op['target']['primitive_id'],
+                                'x': op['at'][0], 'y': op['at'][1],
+                                'content': op.get('content'), 'rotation': op.get('rotation'),
+                                'font_size': op.get('font_size')})
+                item.update({'status': 'modify', 'primitive_id': op['target']['primitive_id']})
+            items.append(item)
+        elif op['op'] == 'text':
+            texts = snapshot.get('texts')
+            same = []
+            if isinstance(texts, list):
+                same = [t for t in texts if t.get('content') == op['content']
+                        and _same_position((t.get('x'), t.get('y')), op['at'], tolerance=0.01)]
+            if texts is None:
+                # Without a text read we cannot prove idempotency; create is
+                # still allowed but the item says why dedup was skipped.
+                item.update({'status': 'create', 'reason': 'texts_unreadable_in_snapshot'})
+                actions.append({'action': 'create_text', 'key': key, 'x': op['at'][0], 'y': op['at'][1],
+                                'content': op['content'], 'rotation': op.get('rotation', 0),
+                                'font_size': op.get('font_size')})
+            elif len(same) > 1:
+                conflict(item, 'duplicate_text_at_position', {'count': len(same)})
+            elif same:
+                found = same[0]
+                if found.get('rotation') != op.get('rotation', 0) or (
+                        op.get('font_size') is not None and found.get('font_size') != op['font_size']):
+                    conflict(item, 'text_geometry_mismatch', {
+                        'rotation': [found.get('rotation'), op.get('rotation', 0)],
+                        'font_size': [found.get('font_size'), op.get('font_size')],
+                        'primitive_id': found.get('primitive_id')})
+                else:
+                    item['status'] = 'skip'
+                    item['reason'] = 'already_matches'
+            else:
+                actions.append({'action': 'create_text', 'key': key, 'x': op['at'][0], 'y': op['at'][1],
+                                'content': op['content'], 'rotation': op.get('rotation', 0),
+                                'font_size': op.get('font_size')})
+                item.update({'status': 'create', 'content': op['content']})
+            items.append(item)
         elif op['op'] == 'delete':
             target = op['target']
             target_kind = target['kind']
@@ -1784,6 +2387,7 @@ def reconcile(snapshot, plan, project_designators=None):
             collections = {
                 'part': parts, 'net_flag': netflags,
                 'net_port': netports, 'wire': wires,
+                'text': texts,
             }
             found = next((row for row in collections[target_kind]
                           if row.get('primitive_id') == primitive_id), None)
@@ -1849,6 +2453,7 @@ def verify_against_snapshot(snapshot, plan, items, execution=None):
     netflags = snapshot.get('netflags') or []
     netports = snapshot.get('netports') or []
     wires = snapshot.get('wires') or []
+    texts = snapshot.get('texts') or []
     executed = _execution_by_key(execution)
     results = []
     for item in items:
@@ -2019,6 +2624,72 @@ def verify_against_snapshot(snapshot, plan, items, execution=None):
                 passed = not missing
                 detail = {'net': op['net'], 'segments': len(target_segments),
                           'missing_segments': missing[:10], 'missing_count': len(missing)}
+        elif op['op'] == 'text_modify':
+            texts = snapshot.get('texts')
+            exec_row = executed.get(key) or {}
+            if not isinstance(texts, list):
+                passed = False
+                detail = {'reason': 'texts_not_in_snapshot',
+                          'note': 'cannot verify text placement without reading text primitives'}
+            else:
+                candidate = next((t for t in texts
+                                  if t.get('primitive_id') == op['target']['primitive_id']), None)
+                if candidate is None:
+                    passed = False
+                    detail = {'reason': 'text_not_found_after_apply', 'execution': exec_row}
+                else:
+                    failures = []
+                    if not _same_position((candidate.get('x'), candidate.get('y')), op['at'], tolerance=0.01):
+                        failures.append('position')
+                    if op.get('content') is not None and candidate.get('content') != op['content']:
+                        failures.append('content')
+                    if candidate.get('rotation') != op.get('rotation', 0):
+                        failures.append('rotation')
+                    if op.get('font_size') is not None and candidate.get('font_size') != op['font_size']:
+                        failures.append('font_size')
+                    passed = not failures
+                    detail = {'expected': {'content': op.get('content'), 'x': op['at'][0], 'y': op['at'][1],
+                                           'rotation': op.get('rotation', 0),
+                                           'font_size': op.get('font_size')},
+                              'observed': candidate}
+                    if failures:
+                        detail['reason'] = 'field_mismatch'
+                        detail['mismatched_fields'] = failures
+        elif op['op'] == 'text':
+            texts = snapshot.get('texts')
+            exec_row = executed.get(key) or {}
+            if not isinstance(texts, list):
+                passed = False
+                detail = {'reason': 'texts_not_in_snapshot',
+                          'note': 'cannot verify text placement without reading text primitives'}
+            else:
+                candidate = None
+                if exec_row.get('primitive_id'):
+                    candidate = next((t for t in texts
+                                      if t.get('primitive_id') == exec_row['primitive_id']), None)
+                if candidate is None:
+                    candidate = next((t for t in texts if t.get('content') == op['content']
+                                      and _same_position((t.get('x'), t.get('y')), op['at'],
+                                                         tolerance=0.01)), None)
+                if candidate is None:
+                    passed = False
+                    detail = {'reason': 'text_not_found_after_apply', 'execution': exec_row}
+                else:
+                    failures = []
+                    if candidate.get('content') != op['content']:
+                        failures.append('content')
+                    if candidate.get('rotation') != op.get('rotation', 0):
+                        failures.append('rotation')
+                    if op.get('font_size') is not None and candidate.get('font_size') != op['font_size']:
+                        failures.append('font_size')
+                    passed = not failures
+                    detail = {'expected': {'content': op['content'], 'x': op['at'][0], 'y': op['at'][1],
+                                           'rotation': op.get('rotation', 0),
+                                           'font_size': op.get('font_size')},
+                              'observed': candidate}
+                    if failures:
+                        detail['reason'] = 'field_mismatch'
+                        detail['mismatched_fields'] = failures
         elif op['op'] == 'delete':
             target = op['target']
             target_kind = target['kind']
@@ -2026,6 +2697,7 @@ def verify_against_snapshot(snapshot, plan, items, execution=None):
             collections = {
                 'part': parts, 'net_flag': netflags,
                 'net_port': netports, 'wire': wires,
+                'text': texts,
             }
             found = next((row for row in collections[target_kind]
                           if row.get('primitive_id') == primitive_id), None)
@@ -2215,6 +2887,18 @@ def compare_snapshots(before, after, tolerance=0.01):
                                 'missing': [x for x in left if x not in right][:5],
                                 'added': [x for x in right if x not in left][:5]})
 
+    before_texts = before.get('texts')
+    after_texts = after.get('texts')
+    if isinstance(before_texts, list) and isinstance(after_texts, list):
+        row = lambda t: json.dumps([t.get('content'), t.get('x'), t.get('y')],
+                                   ensure_ascii=False, sort_keys=True)
+        left = sorted(row(t) for t in before_texts)
+        right = sorted(row(t) for t in after_texts)
+        if left != right:
+            differences.append({'kind': 'texts', 'before_count': len(left), 'after_count': len(right),
+                                'missing': [x for x in left if x not in right][:5],
+                                'added': [x for x in right if x not in left][:5]})
+
     return {
         'match': not differences,
         'differences': differences,
@@ -2244,6 +2928,508 @@ def _page_args(args):
             result[name] = getattr(args, name)
     return result
 
+
+# ---------------------------------------------------------------------------
+# PCB command family (beta). Same read-first discipline as the schematic
+# bridge: read a snapshot -> reconcile a typed plan in Python -> send only
+# typed primitive actions -> read back -> verify -> optionally save -> reopen.
+# ---------------------------------------------------------------------------
+
+PCB_COUNT_KEYS = ('components', 'lines', 'vias', 'pours', 'poured', 'pads')
+PCB_OPS = {
+    'line': {'net', 'layer', 'x1', 'y1', 'x2', 'y2', 'width'},
+    'via': {'net', 'x', 'y', 'hole', 'diameter'},
+    'pour_outline': {'net', 'layer', 'name', 'x', 'y', 'w', 'h'},
+    'component_flat': {'library_uuid', 'component_uuid', 'layer', 'x', 'y', 'rotation'},
+    'component_search': {'name', 'layer', 'x', 'y', 'rotation'},
+}
+PCB_EXPECTED = {
+    'line': {'net', 'layer', 'width'},
+    'via': {'net', 'hole', 'diameter'},
+    'pour_outline': {'net', 'layer', 'name'},
+    'component_flat': {'layer', 'designator'},
+    'component_search': {'layer', 'designator'},
+}
+PCB_WRITE_SUPPORT = {
+    # Verified by the round-3 audit (2026-10-22) against JLCEDA Pro 4.1.78
+    # bridge 4.1.78.34f5b8d9 in a half-offline CLI session on a scratch copy.
+    'verified': ['line', 'via', 'pour_outline', 'component_flat', 'component_search'],
+    'known_broken': [
+        'component via state footprint/component object (create throws; use the flat ref or search path)',
+        'pour fill recompute (outline create does not change the poured count; fills need a GUI recompute)',
+        'board outline line creation (pcb_PrimitiveLine.create refuses layer 11 for every net variant; draw the outline in a GUI session)',
+    ],
+    'not_probed': ['board_outline_primitive', 'component_move', 'component_rotate', 'delete', 'rule_config_write'],
+    'source': 'round3-audit-2026-10-22',
+}
+
+
+def _pcb_args(args):
+    result = {}
+    for name in ('pcb_uuid', 'pcb_name'):
+        if getattr(args, name, None):
+            result[name] = getattr(args, name)
+    return result
+
+
+def read_pcb_snapshot(pro, session, pcb_args, max_primitives=2000):
+    value = pro.invoke(session, PCB_SNAPSHOT_JS, {'pcb': pcb_args, 'max_primitives': max_primitives})
+    if not isinstance(value, dict):
+        raise EdaCommandError('pcb snapshot returned no object', 'EDA_PCB_SNAPSHOT_FAILED', {'value': value})
+    if value.get('ok') is False:
+        error = value.get('error') or 'pcb_snapshot_failed'
+        detail = {'value': value}
+        if error in ('pcb_not_found', 'ambiguous_pcb_name'):
+            raise EdaInputError('pcb not found: check pcb_uuid/pcb_name', detail)
+        if error in ('pcb_not_activated', 'open_document_failed'):
+            raise EdaCommandError(error, 'EDA_PCB_NOT_ACTIVATED', detail)
+        raise EdaCommandError(f'pcb snapshot failed: {error}', 'EDA_PCB_SNAPSHOT_FAILED', detail)
+    return value
+
+
+def read_pcb_with_retry(pro, session, pcb_args, attempts=3, max_primitives=2000):
+    last = None
+    for attempt in range(attempts):
+        try:
+            snapshot = read_pcb_snapshot(pro, session, pcb_args, max_primitives=max_primitives)
+            if snapshot.get('selection', {}).get('pcb_uuid'):
+                return snapshot
+            last = {'error': 'pcb snapshot missing pcb identity', 'value': snapshot}
+        except EdaInputError:
+            raise
+        except EdaTimeout as error:
+            last = {'error': str(error), 'code': error.code}
+        except EdaCommandError as error:
+            last = {'error': str(error), 'code': error.code, 'detail': error.detail}
+        if attempt + 1 < attempts:
+            time.sleep(1.0 + attempt)
+    raise EdaCommandError('pcb not readable after retries', 'EDA_PCB_NOT_READY', {'last': last})
+
+
+def invoke_pcb_with_retry(pro, session, code, args, attempts=3, timeout_ms=None):
+    """Retry only the activation race. pcb_not_activated is reported before any
+    action runs, so retrying it cannot duplicate a write; every other failure
+    is returned as-is."""
+    last = None
+    for attempt in range(attempts):
+        value = pro.invoke(session, code, args, timeout_ms=timeout_ms)
+        if isinstance(value, dict) and value.get('ok') is False and value.get('error') == 'pcb_not_activated':
+            last = value
+            time.sleep(1.0 + attempt)
+            continue
+        return value
+    return last
+
+
+def pcb_snapshot_integrity(snapshot):
+    """A snapshot used as the basis for a write or a reopen comparison must have
+    complete class coverage: counts present, no truncated row lists, no row-budget
+    mismatch and no class-level read errors. Field-level getter misses are notes."""
+    if not isinstance(snapshot, dict) or snapshot.get('ok') is not True:
+        return {'status': 'invalid', 'missing': [], 'read_errors': [], 'coverage_issues': []}
+    selection = snapshot.get('selection') or {}
+    counts = snapshot.get('counts') or {}
+    missing = [key for key in PCB_COUNT_KEYS if counts.get(key) is None]
+    if not selection.get('pcb_uuid'):
+        missing.append('pcb_uuid')
+    read_errors = snapshot.get('read_errors') or []
+    field_notes = snapshot.get('field_notes') or []
+    coverage_issues = []
+    for key in PCB_COUNT_KEYS:
+        section = snapshot.get(key)
+        count = counts.get(key)
+        if key in missing:
+            continue
+        if not isinstance(section, dict):
+            coverage_issues.append({'class': key, 'issue': 'section_missing'})
+            continue
+        rows = section.get('rows')
+        total = section.get('total')
+        truncated = section.get('truncated')
+        if not isinstance(rows, list):
+            coverage_issues.append({'class': key, 'issue': 'rows_not_a_list'})
+            continue
+        if truncated is True:
+            coverage_issues.append({'class': key, 'issue': 'truncated',
+                                    'total': total, 'rows': len(rows)})
+        if truncated is not True and isinstance(total, int) and total != len(rows):
+            coverage_issues.append({'class': key, 'issue': 'row_count_mismatch',
+                                    'total': total, 'rows': len(rows)})
+        if isinstance(total, int) and isinstance(count, int) and count != total:
+            coverage_issues.append({'class': key, 'issue': 'count_total_mismatch',
+                                    'count': count, 'total': total})
+    nets = snapshot.get('nets')
+    nets_total = snapshot.get('nets_total')
+    if snapshot.get('nets_truncated') is True:
+        coverage_issues.append({'class': 'nets', 'issue': 'truncated',
+                                'total': nets_total,
+                                'rows': len(nets) if isinstance(nets, list) else None})
+    if isinstance(nets_total, int) and isinstance(nets, list) and len(nets) < nets_total:
+        coverage_issues.append({'class': 'nets', 'issue': 'row_count_mismatch',
+                                'total': nets_total, 'rows': len(nets)})
+    status = 'complete' if not missing and not read_errors and not coverage_issues else 'incomplete'
+    return {'status': status, 'missing': missing,
+            'read_error_count': len(read_errors), 'read_errors': read_errors[:20],
+            'field_note_count': len(field_notes), 'field_notes': field_notes[:10],
+            'coverage_issue_count': len(coverage_issues), 'coverage_issues': coverage_issues[:20]}
+
+
+def validate_pcb_plan(plan):
+    if not isinstance(plan, dict):
+        raise EdaInputError('plan: JSON object required')
+    unknown = set(plan) - {'version', 'pcb', 'items', 'note'}
+    if unknown:
+        raise EdaInputError(f'plan: unknown fields {sorted(unknown)}')
+    if plan.get('version') != 1:
+        raise EdaInputError('plan.version: must be 1')
+    pcb = plan.get('pcb')
+    if pcb is not None:
+        if not isinstance(pcb, dict):
+            raise EdaInputError('plan.pcb: object required')
+        unknown = set(pcb) - {'pcb_uuid'}
+        if unknown:
+            raise EdaInputError(f'plan.pcb: unknown fields {sorted(unknown)}')
+        if pcb.get('pcb_uuid') is not None:
+            _text(pcb['pcb_uuid'], 'plan.pcb.pcb_uuid')
+    items = plan.get('items')
+    if not isinstance(items, list) or not 1 <= len(items) <= 200:
+        raise EdaInputError('plan.items: list of 1..200 items required')
+    keys = set()
+    for index, item in enumerate(items):
+        where = f'plan.items[{index}]'
+        if not isinstance(item, dict):
+            raise EdaInputError(f'{where}: object required')
+        op = item.get('op')
+        if op not in PCB_OPS:
+            raise EdaInputError(f'{where}.op: one of {sorted(PCB_OPS)} required')
+        unknown = set(item) - PCB_OPS[op] - {'op', 'key', 'expected'}
+        if unknown:
+            raise EdaInputError(f'{where}: unknown fields {sorted(unknown)}')
+        missing = [name for name in PCB_OPS[op] if name not in item]
+        if missing:
+            raise EdaInputError(f'{where}: missing fields {sorted(missing)} for op {op!r}')
+        key = _text(item.get('key'), f'{where}.key')
+        if key in keys:
+            raise EdaInputError(f'{where}.key: duplicate key {key!r}')
+        keys.add(key)
+        if op in ('line', 'via', 'pour_outline'):
+            _text(item.get('net'), f'{where}.net')
+        for name in ('x1', 'y1', 'x2', 'y2', 'x', 'y'):
+            if name in item:
+                _coord(item[name], f'{where}.{name}')
+        for name in ('width', 'hole', 'diameter', 'w', 'h'):
+            if name in item:
+                value = _finite(item[name], f'{where}.{name}')
+                if value <= 0:
+                    raise EdaInputError(f'{where}.{name}: positive value required')
+        layer = item.get('layer')
+        if layer is not None:
+            value = _finite(layer, f'{where}.layer')
+            if op in ('component_flat', 'component_search'):
+                if value not in (1, 2):
+                    raise EdaInputError(f'{where}.layer: 1 (top) or 2 (bottom) required for components')
+            elif not 1 <= value <= 64:
+                raise EdaInputError(f'{where}.layer: 1..64 required')
+        if op == 'component_flat':
+            _text(item.get('library_uuid'), f'{where}.library_uuid')
+            _text(item.get('component_uuid'), f'{where}.component_uuid')
+        if op == 'component_search':
+            _text(item.get('name'), f'{where}.name')
+        if op == 'pour_outline':
+            _text(item.get('name'), f'{where}.name')
+        if op in ('component_flat', 'component_search'):
+            _rotation(item['rotation'], f'{where}.rotation')
+        expected = item.get('expected')
+        if expected is not None:
+            if not isinstance(expected, dict):
+                raise EdaInputError(f'{where}.expected: object required')
+            unknown = set(expected) - PCB_EXPECTED[op]
+            if unknown:
+                raise EdaInputError(f'{where}.expected: unknown fields {sorted(unknown)} for op {op!r}')
+    return plan
+
+
+def _pcb_lines_contain(lines, net, layer, x1, y1, x2, y2, tolerance=0.6):
+    for row in lines:
+        if row.get('net') != net or row.get('layer') != layer:
+            continue
+        if None in (row.get('x1'), row.get('y1'), row.get('x2'), row.get('y2')):
+            return None  # cannot tell without endpoint geometry
+        same = (abs(row['x1'] - x1) <= tolerance and abs(row['y1'] - y1) <= tolerance
+                and abs(row['x2'] - x2) <= tolerance and abs(row['y2'] - y2) <= tolerance)
+        flipped = (abs(row['x1'] - x2) <= tolerance and abs(row['y1'] - y2) <= tolerance
+                   and abs(row['x2'] - x1) <= tolerance and abs(row['y2'] - y1) <= tolerance)
+        if same or flipped:
+            return True
+    return False
+
+
+def reconcile_pcb(snapshot, plan):
+    items, actions, conflicts = [], [], []
+    selection = snapshot.get('selection') or {}
+    plan_pcb = plan.get('pcb') or {}
+    if plan_pcb.get('pcb_uuid') and plan_pcb['pcb_uuid'] != selection.get('pcb_uuid'):
+        conflicts.append({'key': None, 'error': 'pcb_uuid_mismatch',
+                          'planned': plan_pcb['pcb_uuid'], 'actual': selection.get('pcb_uuid')})
+    nets = {row.get('net') for row in (snapshot.get('nets') or []) if row.get('net')}
+    lines = (snapshot.get('lines') or {}).get('rows', [])
+    vias = (snapshot.get('vias') or {}).get('rows', [])
+    pours = (snapshot.get('pours') or {}).get('rows', [])
+    for item in plan['items']:
+        op = item['op']
+        row = {'key': item['key'], 'op': op, 'action': None, 'dedup': 'checked'}
+        if op in ('line', 'via', 'pour_outline') and item['net'] not in nets:
+            conflicts.append({'key': item['key'], 'op': op, 'error': 'net_not_found',
+                              'net': item['net'], 'note': 'creating copper on a net missing from the PCB'})
+            row['action'] = 'skip_conflict'
+        elif op == 'line':
+            present = _pcb_lines_contain(lines, item['net'], item['layer'],
+                                         item['x1'], item['y1'], item['x2'], item['y2'])
+            if present is True:
+                row['action'] = 'already_present'
+            elif present is None:
+                row['action'] = 'create'
+                row['dedup'] = 'incomplete_read'
+            else:
+                row['action'] = 'create'
+        elif op == 'via':
+            match = [v for v in vias if v.get('net') == item['net']
+                     and v.get('x') is not None and v.get('y') is not None
+                     and _same_position([v['x'], v['y']], [item['x'], item['y']])]
+            row['action'] = 'already_present' if match else 'create'
+            if not match and any(v.get('net') == item['net'] and v.get('x') is None for v in vias):
+                row['dedup'] = 'incomplete_read'
+        elif op == 'pour_outline':
+            match = [p for p in pours if p.get('net') == item['net'] and p.get('layer') == item['layer']
+                     and (p.get('name') is None or p.get('name') == item['name'])]
+            row['action'] = 'already_present' if match else 'create'
+            if not match and any(p.get('net') == item['net'] and p.get('layer') == item['layer'] for p in pours):
+                row['dedup'] = 'incomplete_read'
+        else:
+            # Components get auto designators; re-running the plan would create
+            # duplicates, so components are always create and never dedup.
+            row['action'] = 'create'
+            row['dedup'] = 'never'
+        if row['action'] == 'create':
+            actions.append({key: item[key] for key in PCB_OPS[op]} | {'key': item['key'], 'op': op})
+        items.append(row)
+    return {'items': items, 'actions': actions, 'conflicts': conflicts,
+            'counts': {'items': len(items), 'actions': len(actions), 'conflicts': len(conflicts)}}
+
+
+PCB_READBACK_CLASS = {
+    'line': 'lines',
+    'via': 'vias',
+    'pour_outline': 'pours',
+    'component_flat': 'components',
+    'component_search': 'components',
+}
+PCB_READBACK_FIELDS = {
+    'line': ('net', 'layer', 'x1', 'y1', 'x2', 'y2', 'width'),
+    'via': ('net', 'x', 'y', 'hole', 'diameter'),
+    'pour_outline': ('net', 'layer'),
+    'component_flat': ('designator', 'layer', 'x', 'y', 'rotation'),
+    'component_search': ('designator', 'layer', 'x', 'y', 'rotation'),
+}
+PCB_FLOAT_FIELDS = {'x', 'y', 'x1', 'y1', 'x2', 'y2', 'width', 'hole', 'diameter', 'rotation'}
+
+
+def _pcb_readback_section(after, op):
+    """Return the row list for an op from the after snapshot, or None."""
+    section = (after or {}).get(PCB_READBACK_CLASS.get(op, ''))
+    if not isinstance(section, dict):
+        return None
+    rows = section.get('rows')
+    return rows if isinstance(rows, list) else None
+
+
+def verify_pcb_items(execution, plan, reconcile_items, after):
+    """Verify created objects against the AFTER snapshot by primitive id.
+
+    The execution response is only used to resolve the id; every compared
+    attribute comes from the re-read snapshot. An object that is absent from
+    the readback fails, and an unreadable required field is not a pass.
+    """
+    by_key = {result.get('key'): result for result in (execution.get('results') or [])}
+    rows = []
+    failed = 0
+    for item in reconcile_items:
+        if item.get('action') not in ('create',):
+            continue
+        row = {'key': item['key'], 'op': item['op'], 'status': 'verified', 'mismatches': []}
+        result = by_key.get(item['key'])
+        if result is None:
+            row['status'] = 'missing_result'
+            row['error'] = 'the client returned no row for this action'
+        elif not result.get('created'):
+            row['status'] = 'create_failed'
+            row['error'] = result.get('error') or 'create failed'
+        elif not result.get('id'):
+            row['status'] = 'create_failed'
+            row['error'] = 'create returned no primitive id'
+        else:
+            row['id'] = result['id']
+            section_rows = _pcb_readback_section(after, item['op'])
+            if section_rows is None:
+                row['status'] = 'readback_unavailable'
+                row['error'] = f"the after snapshot has no readable {PCB_READBACK_CLASS.get(item['op'])} section"
+            else:
+                found = next((r for r in section_rows if r.get('id') == result['id']), None)
+                if found is None:
+                    row['status'] = 'not_in_readback'
+                    row['error'] = 'the created id is absent from the after snapshot'
+                else:
+                    planned = next((p for p in plan['items'] if p.get('key') == item['key']), {})
+                    expected = dict(planned.get('expected') or {})
+                    unreadable = []
+                    for field in PCB_READBACK_FIELDS[item['op']]:
+                        if field in expected:
+                            want = expected[field]
+                        elif field == 'designator':
+                            continue
+                        elif field == 'x1':
+                            want = planned.get('x1')
+                        elif field == 'y1':
+                            want = planned.get('y1')
+                        elif field == 'x2':
+                            want = planned.get('x2')
+                        elif field == 'y2':
+                            want = planned.get('y2')
+                        else:
+                            want = planned.get(field)
+                        if want is None:
+                            continue
+                        got = found.get(field)
+                        if got is None:
+                            unreadable.append(field)
+                            continue
+                        if field in PCB_FLOAT_FIELDS:
+                            try:
+                                same = abs(float(got) - float(want)) <= 0.01
+                            except (TypeError, ValueError):
+                                same = False
+                        else:
+                            same = got == want
+                        if not same:
+                            row['status'] = 'mismatch'
+                            row['mismatches'].append({'field': field, 'expected': want, 'actual': got})
+                    if unreadable and row['status'] == 'verified':
+                        row['status'] = 'unverified_fields'
+                        row['error'] = 'required fields missing from the readback'
+                        row['unreadable'] = unreadable
+        if row['status'] != 'verified':
+            failed += 1
+        rows.append(row)
+    status = 'verified' if failed == 0 else 'conflict'
+    poured_before = execution.get('poured_before')
+    poured_after = execution.get('poured_after')
+    pour_fill = {'poured_before': poured_before, 'poured_after': poured_after,
+                 'delta': (poured_after - poured_before) if poured_before is not None and poured_after is not None else None}
+    pour_fill['fill_recomputed'] = pour_fill['delta'] is not None and pour_fill['delta'] > 0
+    snapshot_poured = ((after or {}).get('counts') or {}).get('poured')
+    if poured_after is not None and snapshot_poured is not None and poured_after != snapshot_poured:
+        pour_fill['counter_mismatch'] = {'execution_poured_after': poured_after,
+                                         'snapshot_poured': snapshot_poured}
+    return rows, status, pour_fill
+
+PCB_COMPARE_FIELDS = {
+    'components': ('designator', 'layer', 'x', 'y', 'rotation', 'footprint'),
+    'lines': ('net', 'layer', 'x1', 'y1', 'x2', 'y2', 'width'),
+    'vias': ('net', 'x', 'y', 'hole', 'diameter'),
+    'pours': ('net', 'layer'),
+    'poured': (),
+    'pads': ('net',),
+}
+PCB_IDENTITY_KEY = {'components': 'designator'}
+
+
+def compare_pcb_snapshots(before, after, tolerance=0.01):
+    """Compare pcb identity, class coverage, primitive ids and the actual
+    geometry/attributes of every object - not just counts.
+
+    ``complete`` is false when a required field could not be read on both
+    sides; reopen-check must not report ``match`` in that case.
+    """
+    diffs = []
+    unverified = []
+    before_sel = (before or {}).get('selection') or {}
+    after_sel = (after or {}).get('selection') or {}
+    if before_sel.get('pcb_uuid') != after_sel.get('pcb_uuid'):
+        diffs.append({'domain': 'pcb_identity', 'before': before_sel.get('pcb_uuid'),
+                      'after': after_sel.get('pcb_uuid')})
+    for key in PCB_COUNT_KEYS:
+        before_count = (before or {}).get('counts', {}).get(key)
+        after_count = (after or {}).get('counts', {}).get(key)
+        if before_count != after_count:
+            diffs.append({'domain': 'counts', 'class': key, 'before': before_count, 'after': after_count})
+    for key in PCB_COUNT_KEYS:
+        before_rows = (before or {}).get(key, {}).get('rows')
+        after_rows = (after or {}).get(key, {}).get('rows')
+        if not isinstance(before_rows, list) or not isinstance(after_rows, list):
+            unverified.append({'class': key, 'reason': 'rows_not_a_list'})
+            continue
+        if (before or {}).get(key, {}).get('truncated') or (after or {}).get(key, {}).get('truncated'):
+            unverified.append({'class': key, 'reason': 'truncated'})
+            continue
+        key_field = PCB_IDENTITY_KEY.get(key, 'id')
+        before_map = {r.get(key_field): r for r in before_rows if r.get(key_field)}
+        after_map = {r.get(key_field): r for r in after_rows if r.get(key_field)}
+        removed = sorted(set(before_map) - set(after_map))
+        added = sorted(set(after_map) - set(before_map))
+        if removed or added:
+            diffs.append({'domain': 'objects', 'class': key, 'key': key_field,
+                          'removed': removed[:20], 'removed_count': len(removed),
+                          'added': added[:20], 'added_count': len(added)})
+        for object_key in sorted(set(before_map) & set(after_map)):
+            left, right = before_map[object_key], after_map[object_key]
+            for field in PCB_COMPARE_FIELDS[key]:
+                a, b = left.get(field), right.get(field)
+                if a is None and b is None:
+                    unverified.append({'class': key, 'object': object_key, 'field': field,
+                                       'reason': 'unreadable_on_both_sides'})
+                    continue
+                if field in PCB_FLOAT_FIELDS and a is not None and b is not None:
+                    try:
+                        same = abs(float(a) - float(b)) <= tolerance
+                    except (TypeError, ValueError):
+                        same = False
+                else:
+                    same = a == b
+                if not same:
+                    diffs.append({'domain': 'field', 'class': key, 'object': object_key,
+                                  'field': field, 'before': a, 'after': b})
+    before_nets = sorted({row.get('net') for row in (before or {}).get('nets', []) if row.get('net')})
+    after_nets = sorted({row.get('net') for row in (after or {}).get('nets', []) if row.get('net')})
+    if before_nets != after_nets:
+        diffs.append({'domain': 'nets', 'removed': sorted(set(before_nets) - set(after_nets)),
+                      'added': sorted(set(after_nets) - set(before_nets))})
+    def net_metrics(snapshot):
+        out = {}
+        for row in (snapshot or {}).get('nets', []) or []:
+            if row.get('net'):
+                out[row['net']] = (row.get('length'), row.get('primitive_count'))
+        return out
+    before_metrics, after_metrics = net_metrics(before), net_metrics(after)
+    for net in sorted(set(before_metrics) & set(after_metrics)):
+        a_len, a_count = before_metrics[net]
+        b_len, b_count = after_metrics[net]
+        if a_len is None or b_len is None:
+            unverified.append({'class': 'nets', 'object': net, 'field': 'length',
+                               'reason': 'unreadable_on_both_sides'})
+        else:
+            try:
+                same_len = abs(float(a_len) - float(b_len)) <= tolerance
+            except (TypeError, ValueError):
+                same_len = False
+            if not same_len:
+                diffs.append({'domain': 'net_metrics', 'net': net, 'field': 'length',
+                              'before': a_len, 'after': b_len})
+        if a_count != b_count:
+            diffs.append({'domain': 'net_metrics', 'net': net, 'field': 'primitive_count',
+                          'before': a_count, 'after': b_count})
+    return {'match': not diffs, 'complete': not unverified, 'diff_count': len(diffs),
+            'diffs': diffs, 'unverified': unverified[:50],
+            'unverified_count': len(unverified)}
 
 def read_snapshot(pro, session, page_args, include_attributes=False, include_pins=True):
     args = {**page_args, 'include_attributes': include_attributes, 'include_pins': include_pins}
@@ -2351,15 +3537,16 @@ def command_doctor(args):
             'sch_export_bom': 'not_implemented_in_this_adapter',
             'sch_drc': 'available',
             'sch_drc_api': 'wrapped_as_drc_command',
-            'pcb_read_write': 'not_implemented_in_this_adapter',
-            'pcb_api': 'available_not_wrapped',
+            'pcb_read_write': 'available_beta',
+            'pcb_api': 'wrapped_as_pcb_command',
+            'pcb_pour_fill': 'outline_only; fill recompute needs a GUI session',
             'project_designators': 'available',
             'net_label_idempotent_apply': 'not_implemented',
             'verified_client_prefixes': list(VERIFIED_CLIENT_PREFIXES),
-            'source': 'lceda-pro 4.1.78 doc api + live probe 2026-10-21',
+            'source': 'lceda-pro 4.1.78 doc api + live probe 2026-10-21/22',
         },
         'warnings': [],
-        'not_checked': ['PCB', 'factory DFM', 'orders', 'realtime LCSC stock/price'],
+        'not_checked': ['PCB DFM', 'factory DFM', 'orders', 'realtime LCSC stock/price'],
     }
     explicit = args.exe or os.environ.get('LCEDA_PRO_EXE')
     cli = find_cli(explicit)
@@ -2824,6 +4011,489 @@ def command_close(args):
     return {'status': 'closed', **result}, EXIT_OK
 
 
+def command_pcb_doctor(args):
+    """Diagnose PCB API availability without writing. Write support is reported
+    from probe evidence, not from this run."""
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(pro, session, PCB_SNAPSHOT_JS,
+                                     {'pcb': _pcb_args(args), 'max_primitives': 10},
+                                     timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            error = (value or {}).get('error', 'pcb_probe_failed') if isinstance(value, dict) else 'pcb_probe_failed'
+            result = {'status': 'probe_failed', 'error': error, 'value': value,
+                      'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}
+            return result, EXIT_REVIEW
+        integrity = pcb_snapshot_integrity(value)
+        result = {
+            'status': integrity['status'],
+            'env': value.get('env'),
+            'pcbs': value.get('pcbs'),
+            'selection': value.get('selection'),
+            'counts': value.get('counts'),
+            'nets_read': len(value.get('nets') or []),
+            'rule_config': value.get('rule_config'),
+            'read_errors': integrity['read_errors'],
+            'write_support': PCB_WRITE_SUPPORT,
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+            'note': 'write support comes from prior probe evidence; re-probe after a client upgrade',
+        }
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if integrity['status'] == 'complete' else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_read(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        snapshot = read_pcb_with_retry(pro, session, _pcb_args(args),
+                                       max_primitives=args.max_primitives)
+        snapshot['integrity'] = pcb_snapshot_integrity(snapshot)
+        snapshot['session'] = {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}
+        if args.output:
+            Path(args.output).write_text(json.dumps(snapshot, ensure_ascii=False, indent=2), encoding='utf-8')
+            snapshot['output'] = str(Path(args.output).resolve())
+        return {'status': 'ok', 'snapshot': snapshot, 'output': snapshot.get('output'),
+                'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}, EXIT_OK
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def _load_pcb_plan(path):
+    try:
+        data = json.loads(Path(path).read_text(encoding='utf-8'))
+    except OSError as error:
+        raise EdaInputError(f'cannot read plan: {error}')
+    except json.JSONDecodeError as error:
+        raise EdaInputError(f'plan is not valid JSON: {error}')
+    return validate_pcb_plan(data)
+
+
+def command_pcb_apply(args):
+    plan = _load_pcb_plan(args.plan)
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        pcb_args = _pcb_args(args)
+        before = read_pcb_with_retry(pro, session, pcb_args)
+        integrity = pcb_snapshot_integrity(before)
+        result = {
+            'status': 'ok',
+            'plan': args.plan,
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+            'env': before.get('env'),
+            'pcb': before.get('selection'),
+            'before_counts': before.get('counts'),
+            'integrity': integrity,
+            'dry_run': bool(args.dry_run),
+        }
+        if integrity['status'] != 'complete':
+            result['status'] = 'snapshot_incomplete'
+            result['note'] = 'pcb snapshot has missing counts or read errors; reconcile and write were refused'
+            return result, EXIT_REVIEW
+        pinned_pcb = {'pcb_uuid': before['selection']['pcb_uuid']}
+        reconciliation = reconcile_pcb(before, plan)
+        result.update({
+            'status': reconciliation['conflicts'] and 'conflict' or 'ok',
+            'items': reconciliation['items'],
+            'actions': reconciliation['actions'],
+            'conflicts': reconciliation['conflicts'],
+            'pinned_pcb': pinned_pcb,
+        })
+        if args.dry_run:
+            result['status'] = 'dry_run'
+            result['note'] = 'no write was sent'
+            return result, EXIT_OK if not reconciliation['conflicts'] else EXIT_REVIEW
+        if reconciliation['conflicts'] and not args.allow_partial:
+            result['status'] = 'blocked'
+            result['note'] = 'conflicts present; nothing was written. Resolve them or inspect with pcb read.'
+            return result, EXIT_REVIEW
+        if not reconciliation['actions']:
+            result['status'] = 'no_changes'
+            result['verification'] = 'not_needed'
+            return result, EXIT_OK
+        if owned and not args.save:
+            result['status'] = 'needs_save'
+            result['note'] = ('a temporary --project session would lose writes on close; '
+                              're-run with --save or use an explicitly retained --session')
+            return result, EXIT_INPUT
+        if not client_version_verified(before.get('env')) and not args.allow_unverified_version:
+            result['status'] = 'version_unsupported'
+            result['note'] = (f'client version {before.get("env", {}).get("version")!r} is not in the verified '
+                              f'list {list(VERIFIED_CLIENT_PREFIXES)}; pass --allow-unverified-version to override')
+            return result, EXIT_REVIEW
+
+        try:
+            execution = invoke_pcb_with_retry(
+                pro, session, PCB_APPLY_JS,
+                {'pcb': pinned_pcb, 'actions': reconciliation['actions']},
+                timeout_ms=args.invoke_timeout,
+            )
+        except EdaTimeout as error:
+            partial = None
+            try:
+                partial = read_pcb_snapshot(pro, session, pinned_pcb)
+            except EdaError as read_error:
+                partial = {'error': str(read_error), 'code': read_error.code}
+            result['status'] = 'partial_unknown'
+            result['error'] = str(error)
+            result['partial_counts'] = partial.get('counts') if isinstance(partial, dict) else None
+            result['partial_integrity'] = (
+                pcb_snapshot_integrity(partial)
+                if isinstance(partial, dict) and partial.get('ok') is True else None
+            )
+            result['note'] = ('invoke timed out; objects may exist. Re-read before retrying; '
+                              'do not replay the whole plan.')
+            if args.output:
+                Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+                result['output'] = str(Path(args.output).resolve())
+            return result, EXIT_TIMEOUT
+
+        result['execution'] = execution
+        if not isinstance(execution, dict) or execution.get('ok') is not True:
+            result['status'] = 'preflight_failed'
+            result['note'] = 'the client did not return a clean execution envelope'
+            return result, EXIT_REVIEW
+        time.sleep(1.0)
+        after = read_pcb_with_retry(pro, session, pinned_pcb)
+        after_integrity = pcb_snapshot_integrity(after)
+        result['after_counts'] = after.get('counts')
+        result['after_integrity'] = after_integrity
+        if after_integrity['status'] != 'complete':
+            result['status'] = 'readback_incomplete'
+            result['note'] = 'write was sent, but the readback is incomplete; verification and save are refused'
+            return result, EXIT_REVIEW
+        if after.get('selection', {}).get('pcb_uuid') != before.get('selection', {}).get('pcb_uuid'):
+            result['status'] = 'pcb_changed'
+            result['note'] = 'the active pcb changed between the before and after reads; no verification or save'
+            return result, EXIT_REVIEW
+        before_project = (before.get('project') or {}).get('uuid')
+        after_project = (after.get('project') or {}).get('uuid')
+        if before_project and after_project and before_project != after_project:
+            result['status'] = 'project_changed'
+            result['note'] = 'the active project changed between the before and after reads; no verification or save'
+            return result, EXIT_REVIEW
+
+        verified_items, verification_status, pour_fill = verify_pcb_items(
+            execution, plan, reconciliation['items'], after)
+        result['verification'] = {'status': verification_status, 'items': verified_items,
+                                  'pour_fill': pour_fill}
+        result['status'] = verification_status
+        save_confirmed = False
+        if args.save:
+            if verification_status == 'verified':
+                save_outcome = invoke_pcb_with_retry(pro, session, PCB_SAVE_JS, {'pcb': pinned_pcb})
+                result['save'] = save_outcome if isinstance(save_outcome, dict) else {'invalid': save_outcome}
+                save_confirmed = isinstance(save_outcome, dict) and save_outcome.get('saved') is True
+                if not save_confirmed:
+                    result['status'] = 'save_failed'
+                    result['note'] = ('plan verified in memory, but the editor did not confirm save; '
+                                      'do not report persistence')
+                else:
+                    result['saved_counts'] = save_outcome.get('counts')
+            else:
+                result['save'] = {'not_attempted': 'verification did not pass; inspect before saving'}
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if verification_status == 'verified' and (not args.save or save_confirmed) else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_save(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        outcome = invoke_pcb_with_retry(pro, session, PCB_SAVE_JS, {'pcb': _pcb_args(args)}, timeout_ms=args.invoke_timeout)
+        session_meta = {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}
+        if not isinstance(outcome, dict):
+            return {'status': 'save_failed', 'save': {'invalid': outcome}, 'session': session_meta}, EXIT_REVIEW
+        if outcome.get('saved') is not True:
+            return {'status': 'save_failed', 'save': outcome, 'session': session_meta,
+                    'note': 'the editor did not confirm save; do not report persistence'}, EXIT_REVIEW
+        return {'status': 'ok', 'save': outcome, 'session': session_meta,
+                'note': 'saved flag is the client\'s confirmation; reopen-check is the persistence proof'}, EXIT_OK
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_drc(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(pro, session, PCB_DRC_JS, {'pcb': _pcb_args(args)}, timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            raise EdaCommandError('pcb drc failed', 'EDA_PCB_DRC_FAILED', {'value': value})
+        result = {
+            'status': 'ran' if value.get('ran') else 'nothing_returned',
+            'structure': value.get('structure'),
+            'item_count': value.get('item_count'),
+            'raw': value.get('raw'),
+            'note': value.get('note'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+        }
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if value.get('ran') else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def _pcb_export_write(raw, structure, kind, out_dir, name):
+    """Persist whatever the client returned, without guessing about content.
+
+    A returned file path is copied and hashed. Anything else is captured
+    verbatim with a structural hint, and the caller must inspect it before
+    treating it as manufacturing data."""
+    out_dir = Path(out_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    if structure == 'string' and isinstance(raw, str) and len(raw) < 4000:
+        candidate = Path(raw)
+        try:
+            candidate = candidate.expanduser().resolve()
+        except OSError:
+            candidate = None
+        if candidate and candidate.is_file():
+            destination = out_dir / f'{name}-{kind}{candidate.suffix}'
+            shutil.copy2(candidate, destination)
+            return {'disposition': 'file_copied', 'path': str(destination),
+                    'source': str(candidate), 'bytes': destination.stat().st_size,
+                    'sha256': sha256_file(destination)}
+    capture = out_dir / f'{name}-{kind}-raw.json'
+    capture.write_text(json.dumps({'kind': kind, 'structure': structure, 'raw': raw},
+                                  ensure_ascii=False, indent=2), encoding='utf-8')
+    return {'disposition': 'captured_raw', 'path': str(capture),
+            'bytes': capture.stat().st_size, 'sha256': sha256_file(capture),
+            'note': 'the client returned no usable file path; the raw value was captured verbatim'}
+
+
+def command_pcb_export(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(pro, session, PCB_EXPORT_JS, {'pcb': _pcb_args(args), 'kind': args.kind},
+                                     timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            error = (value or {}).get('error', 'export_failed') if isinstance(value, dict) else 'export_failed'
+            return {'status': 'export_failed', 'error': error, 'kind': args.kind,
+                    'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}, EXIT_REVIEW
+        raw = value.get('raw')
+        structure = value.get('structure')
+        if structure == 'null' or raw is None:
+            result = {'status': 'nothing_returned', 'kind': args.kind, 'structure': structure,
+                      'note': 'the client returned no data for this export kind; treat as NOT RUN, not as a file',
+                      'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}
+            return result, EXIT_REVIEW
+        written = _pcb_export_write(raw, structure, args.kind, args.out_dir, args.name)
+        result = {'status': written['disposition'], 'kind': args.kind, 'structure': structure,
+                  'hint': value.get('hint'), 'written': written,
+                  'note': value.get('note'),
+                  'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}
+        return result, EXIT_OK
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_import(args):
+    """Schematic -> PCB import. The client's boolean is not evidence: the result
+    is judged by whether component counts actually changed."""
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(
+            pro, session, PCB_IMPORT_JS,
+            {'pcb': _pcb_args(args), 'schematic_uuid': args.schematic},
+            timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            raise EdaCommandError('pcb import failed', 'EDA_PCB_IMPORT_FAILED', {'value': value})
+        materialized = bool(value.get('materialized'))
+        result = {
+            'status': 'materialized' if materialized else 'no_effect',
+            'imported_boolean': value.get('imported'),
+            'counts_before': value.get('counts_before'),
+            'counts_after': value.get('counts_after'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+            'note': value.get('note'),
+        }
+        if not materialized:
+            result['note'] = ('the client reported success but no PCB component was created; '
+                              'in 4.1.78 half-offline CLI the import is a no-op - do not treat this as done')
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if materialized else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_layout(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(pro, session, PCB_LAYOUT_JS,
+                                      {'pcb': _pcb_args(args)},
+                                      timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            raise EdaCommandError('pcb auto layout failed', 'EDA_PCB_LAYOUT_FAILED', {'value': value})
+        result = {
+            'status': 'ran' if isinstance(value.get('result'), dict) else 'nothing_returned',
+            'result': value.get('result'),
+            'components_before': value.get('components_before'),
+            'components_after': value.get('components_after'),
+            'note': value.get('note'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+        }
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        ok = result['status'] == 'ran' and (value.get('result') or {}).get('success') is True
+        return result, EXIT_OK if ok else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_route(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(pro, session, PCB_ROUTE_JS,
+                                      {'pcb': _pcb_args(args)},
+                                      timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            raise EdaCommandError('pcb auto route failed', 'EDA_PCB_ROUTE_FAILED', {'value': value})
+        route = value.get('result') or {}
+        result = {
+            'status': 'ran' if isinstance(value.get('result'), dict) else 'nothing_returned',
+            'result': route if isinstance(route, dict) else value.get('result'),
+            'failed_nets': route.get('failedNets') if isinstance(route, dict) else None,
+            'counts_before': value.get('counts_before'),
+            'counts_after': value.get('counts_after'),
+            'note': value.get('note'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+        }
+        if args.save and result['status'] == 'ran':
+            save_outcome = invoke_pcb_with_retry(pro, session, PCB_SAVE_JS, {'pcb': _pcb_args(args)})
+            result['save'] = save_outcome
+            result['saved'] = isinstance(save_outcome, dict) and save_outcome.get('saved') is True
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        ok = result['status'] == 'ran' and route.get('success') is True
+        if args.save and not result.get('saved'):
+            ok = False
+        return result, EXIT_OK if ok else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_outline(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    session, owned, entry = _open_for_command(pro, args)
+    try:
+        value = invoke_pcb_with_retry(pro, session, PCB_OUTLINE_JS,
+                                      {'pcb': _pcb_args(args), 'margin': args.margin},
+                                      timeout_ms=args.invoke_timeout)
+        if not isinstance(value, dict) or value.get('ok') is not True:
+            error = (value or {}).get('error', 'outline_failed') if isinstance(value, dict) else 'outline_failed'
+            result = {'status': 'failed', 'error': error,
+                      'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned}}
+            return result, EXIT_REVIEW
+        result = {
+            'status': 'ok' if (value.get('outline_lines') or 0) >= 4 else 'incomplete',
+            'rect': value.get('rect'),
+            'created': value.get('created'),
+            'outline_lines': value.get('outline_lines'),
+            'session': {'sessionId': session, 'origin': entry.get('origin'), 'owned': owned},
+        }
+        if args.save and result['status'] == 'ok':
+            save_outcome = invoke_pcb_with_retry(pro, session, PCB_SAVE_JS, {'pcb': _pcb_args(args)})
+            result['save'] = save_outcome
+            result['saved'] = isinstance(save_outcome, dict) and save_outcome.get('saved') is True
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        ok = result['status'] == 'ok' and (not args.save or result.get('saved'))
+        return result, EXIT_OK if ok else EXIT_REVIEW
+    finally:
+        if owned:
+            close_owned(pro, session)
+
+
+def command_pcb_reopen_check(args):
+    pro = LcedaPro(args.exe, timeout_ms=args.timeout)
+    before = None
+    first_session = None
+    second_session = None
+    try:
+        if args.session:
+            entry = session_origin(pro, args.session)
+            if entry is None:
+                raise EdaInputError(f'session not found: {args.session}')
+            if entry.get('origin') != 'cli' and not args.force_close:
+                raise EdaInputError(
+                    f'refusing to close a session with origin {entry.get("origin")!r}; pass --force-close to proceed')
+            first_session = args.session
+            before = read_pcb_with_retry(pro, first_session, _pcb_args(args),
+                                         max_primitives=args.max_primitives)
+        elif args.project:
+            first_session = pro.open_project(args.project, headless=True)
+            before = read_pcb_with_retry(pro, first_session, _pcb_args(args),
+                                         max_primitives=args.max_primitives)
+        else:
+            raise EdaInputError('--session or --project is required')
+        pinned = {'pcb_uuid': before['selection']['pcb_uuid']}
+        closed = close_owned(pro, first_session, force=args.force_close)
+        second_session = pro.open_project(args.project, headless=True)
+        after = read_pcb_with_retry(pro, second_session, pinned,
+                                    max_primitives=args.max_primitives)
+        comparison = compare_pcb_snapshots(before, after)
+        if comparison['match'] and comparison.get('complete', True):
+            comparison_status = 'match'
+        elif comparison['match']:
+            comparison_status = 'incomplete'
+        else:
+            comparison_status = 'mismatch'
+        result = {
+            'status': comparison_status,
+            'comparison': comparison,
+            'pcb': before.get('selection'),
+            'before_counts': before.get('counts'),
+            'after_counts': after.get('counts'),
+            'closed': closed,
+            'before_integrity': pcb_snapshot_integrity(before),
+            'after_integrity': pcb_snapshot_integrity(after),
+            'note': ('match requires pcb identity, class coverage, object ids and the actual '
+                     'geometry/attributes of components, lines, vias, pours, pads and net metrics'),
+        }
+        if args.output:
+            Path(args.output).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            result['output'] = str(Path(args.output).resolve())
+        return result, EXIT_OK if comparison_status == 'match' else EXIT_REVIEW
+    finally:
+        for owned_session in (first_session, second_session):
+            if owned_session:
+                try:
+                    close_owned(pro, owned_session, force=True)
+                except EdaError:
+                    pass
+
+
 def build_parser():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--exe', help='path to lceda-pro (default: LCEDA_PRO_EXE, PATH, common installs)')
@@ -2931,6 +4601,94 @@ def build_parser():
     close.add_argument('--session', required=True)
     close.add_argument('--force', action='store_true')
     close.set_defaults(func=command_close)
+
+    pcb = sub.add_parser('pcb', help='read/apply/save/check the PCB document (beta command family)')
+    pcb_sub = pcb.add_subparsers(dest='pcb_command', required=True)
+
+    def pcb_session_args(p):
+        p.add_argument('--session')
+        p.add_argument('--project')
+        p.add_argument('--pcb', dest='pcb_uuid')
+        p.add_argument('--pcb-name', dest='pcb_name')
+        p.add_argument('--allow-user-session', action='store_true',
+                       help='allow driving a session opened by the user (default: refuse)')
+        p.add_argument('--invoke-timeout', type=int, default=180000)
+
+    pcb_doctor = pcb_sub.add_parser('doctor',
+                                    help='diagnose pcb API availability without writing')
+    pcb_session_args(pcb_doctor)
+    pcb_doctor.add_argument('--output')
+    pcb_doctor.set_defaults(func=command_pcb_doctor)
+
+    pcb_read = pcb_sub.add_parser('read', help='read a pcb snapshot without writing')
+    pcb_session_args(pcb_read)
+    pcb_read.add_argument('--max-primitives', type=int, default=2000)
+    pcb_read.add_argument('--output')
+    pcb_read.set_defaults(func=command_pcb_read)
+
+    pcb_apply = pcb_sub.add_parser('apply', help='reconcile and apply a typed pcb plan, then read back')
+    pcb_session_args(pcb_apply)
+    pcb_apply.add_argument('--plan', required=True)
+    pcb_apply.add_argument('--save', action='store_true', help='save after successful verification')
+    pcb_apply.add_argument('--dry-run', action='store_true', help='reconcile only; write nothing')
+    pcb_apply.add_argument('--allow-partial', action='store_true', help='execute non-conflicting actions')
+    pcb_apply.add_argument('--allow-unverified-version', action='store_true',
+                           help='allow a write on a client version outside the probed list')
+    pcb_apply.add_argument('--output')
+    pcb_apply.set_defaults(func=command_pcb_apply)
+
+    pcb_save = pcb_sub.add_parser('save', help='save the pcb document and read counts back')
+    pcb_session_args(pcb_save)
+    pcb_save.set_defaults(func=command_pcb_save)
+
+    pcb_drc = pcb_sub.add_parser('drc', help='run pcb DRC and return the raw result')
+    pcb_session_args(pcb_drc)
+    pcb_drc.add_argument('--output')
+    pcb_drc.set_defaults(func=command_pcb_drc)
+
+    pcb_export = pcb_sub.add_parser('export', help='capture manufacturing exports from the pcb document')
+    pcb_session_args(pcb_export)
+    pcb_export.add_argument('--kind', required=True,
+                            choices=['gerber', 'pickandplace', 'bom', 'pdf', 'pcb_info'])
+    pcb_export.add_argument('--out-dir', required=True)
+    pcb_export.add_argument('--name', default='eda-pcb-export')
+    pcb_export.set_defaults(func=command_pcb_export)
+
+    pcb_import = pcb_sub.add_parser('import', help='import schematic changes into the pcb (judged by counts)')
+    pcb_session_args(pcb_import)
+    pcb_import.add_argument('--schematic', help='schematic uuid; default: the board-linked schematic')
+    pcb_import.add_argument('--output')
+    pcb_import.set_defaults(func=command_pcb_import)
+
+    pcb_layout = pcb_sub.add_parser('layout', help='run the client auto-layout')
+    pcb_session_args(pcb_layout)
+    pcb_layout.add_argument('--output')
+    pcb_layout.set_defaults(func=command_pcb_layout)
+
+    pcb_route = pcb_sub.add_parser('route', help='run the client auto-router')
+    pcb_session_args(pcb_route)
+    pcb_route.add_argument('--save', action='store_true', help='save after routing')
+    pcb_route.add_argument('--output')
+    pcb_route.set_defaults(func=command_pcb_route)
+
+    pcb_outline = pcb_sub.add_parser('outline', help='draw a rectangular board outline around placed components')
+    pcb_session_args(pcb_outline)
+    pcb_outline.add_argument('--margin', type=float, default=250.0)
+    pcb_outline.add_argument('--save', action='store_true', help='save after drawing the outline')
+    pcb_outline.add_argument('--output')
+    pcb_outline.set_defaults(func=command_pcb_outline)
+
+    pcb_reopen = pcb_sub.add_parser('reopen-check', help='close, reopen and compare pcb identity/connectivity')
+    pcb_reopen.add_argument('--session')
+    pcb_reopen.add_argument('--project', required=True)
+    pcb_reopen.add_argument('--pcb', dest='pcb_uuid')
+    pcb_reopen.add_argument('--pcb-name', dest='pcb_name')
+    pcb_reopen.add_argument('--force-close', action='store_true')
+    pcb_reopen.add_argument('--max-primitives', type=int, default=2000)
+    pcb_reopen.add_argument('--invoke-timeout', type=int, default=180000)
+    pcb_reopen.add_argument('--output')
+    pcb_reopen.set_defaults(func=command_pcb_reopen_check)
+
     return parser
 
 

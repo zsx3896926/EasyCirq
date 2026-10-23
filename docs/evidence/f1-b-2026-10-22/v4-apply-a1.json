@@ -1,0 +1,548 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/f1-b-2026-10-22/plan-v4-a1.json",
+  "session": {
+    "sessionId": "68c53c1a-b4b4-4e97-8b3f-392374202689",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "del-onenetname-1",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "49fae01dc70fc99a",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-onenetname-2",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "257ae6235df06193",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-isolated-3v3-flag",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "027ca788bcdee892",
+      "expected": {
+        "name": "3V3",
+        "x": 600,
+        "y": 620
+      }
+    },
+    {
+      "key": "draft-marker",
+      "op": "text",
+      "status": "create",
+      "content": "DRAFT"
+    },
+    {
+      "key": "j101-unused-note",
+      "op": "text",
+      "status": "create",
+      "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained"
+    },
+    {
+      "key": "c101-readable-value",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "manufacturerId": "10uF/25V X5R 0805"
+      },
+      "primitive_id": "c26543f0253a827f",
+      "designator": "C101",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "c106-readable-value",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "manufacturerId": "10uF/25V X5R 0805"
+      },
+      "primitive_id": "87e5af8567392818",
+      "designator": "C106",
+      "designator_scope": "page",
+      "stable_identity": true
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_primitive",
+      "key": "del-onenetname-1",
+      "kind": "wire",
+      "primitive_id": "49fae01dc70fc99a",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-onenetname-2",
+      "kind": "wire",
+      "primitive_id": "257ae6235df06193",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-isolated-3v3-flag",
+      "kind": "net_flag",
+      "primitive_id": "027ca788bcdee892",
+      "expected": {
+        "name": "3V3",
+        "x": 600,
+        "y": 620
+      }
+    },
+    {
+      "action": "create_text",
+      "key": "draft-marker",
+      "x": 300,
+      "y": 200,
+      "content": "DRAFT",
+      "rotation": 0,
+      "font_size": 40
+    },
+    {
+      "action": "create_text",
+      "key": "j101-unused-note",
+      "x": 60,
+      "y": 75,
+      "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained",
+      "rotation": 0,
+      "font_size": 12
+    },
+    {
+      "action": "modify_part",
+      "key": "c101-readable-value",
+      "primitive_id": "c26543f0253a827f",
+      "changes": {
+        "manufacturerId": "10uF/25V X5R 0805"
+      },
+      "expected": {
+        "designator": "C101",
+        "unique_id": "gge6",
+        "x": 420,
+        "y": 550,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "c106-readable-value",
+      "primitive_id": "87e5af8567392818",
+      "changes": {
+        "manufacturerId": "10uF/25V X5R 0805"
+      },
+      "expected": {
+        "designator": "C106",
+        "unique_id": "gge21",
+        "x": 920,
+        "y": 580,
+        "rotation": 0,
+        "mirror": false
+      }
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "del-onenetname-1",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "49fae01dc70fc99a",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-onenetname-2",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "257ae6235df06193",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-isolated-3v3-flag",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "027ca788bcdee892",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "draft-marker",
+        "ok": true,
+        "action": "create_text",
+        "primitive_id": "f43b2565f7a66e5f",
+        "expected": {
+          "content": "DRAFT"
+        },
+        "observed": {
+          "content": "DRAFT",
+          "x": 300,
+          "y": 200,
+          "rotation": 0,
+          "font_size": 40
+        }
+      },
+      {
+        "key": "j101-unused-note",
+        "ok": true,
+        "action": "create_text",
+        "primitive_id": "f28f5c79c70d8a7d",
+        "expected": {
+          "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained"
+        },
+        "observed": {
+          "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained",
+          "x": 60,
+          "y": 75,
+          "rotation": 0,
+          "font_size": 12
+        }
+      },
+      {
+        "key": "c101-readable-value",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "c26543f0253a827f",
+        "expected": {
+          "designator": "C101",
+          "unique_id": "gge6",
+          "x": 420,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "C101",
+          "unique_id": "gge6",
+          "x": 420,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "",
+          "manufacturer_id": "10uF/25V X5R 0805",
+          "supplier": "LCSC",
+          "supplier_id": "C9900012828",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "c106-readable-value",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "87e5af8567392818",
+        "expected": {
+          "designator": "C106",
+          "unique_id": "gge21",
+          "x": 920,
+          "y": 580,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "C106",
+          "unique_id": "gge21",
+          "x": 920,
+          "y": 580,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "",
+          "manufacturer_id": "10uF/25V X5R 0805",
+          "supplier": "LCSC",
+          "supplier_id": "C9900012828",
+          "name": "={Manufacturer Part}"
+        }
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "bc7579b4ed68d05eb9804c65e677c358594ebf83e67bfbb7288d6fbd5d8daa60",
+      "friendly_name": "f1-b-v4",
+      "name": "/f1-b-v4"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 78,
+    "parts": 21,
+    "netflags": 36,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 55,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "del-onenetname-1",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "49fae01dc70fc99a",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "49fae01dc70fc99a",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-onenetname-2",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "257ae6235df06193",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "257ae6235df06193",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-isolated-3v3-flag",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "027ca788bcdee892",
+        "expected": {
+          "name": "3V3",
+          "x": 600,
+          "y": 620
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "027ca788bcdee892",
+          "still_present": false
+        }
+      },
+      {
+        "key": "draft-marker",
+        "op": "text",
+        "status": "create",
+        "content": "DRAFT",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "content": "DRAFT",
+            "x": 300,
+            "y": 200,
+            "rotation": 0,
+            "font_size": 40
+          },
+          "observed": {
+            "primitive_id": "f43b2565f7a66e5f",
+            "content": "DRAFT",
+            "x": 300,
+            "y": 200,
+            "rotation": 0,
+            "font_size": 40
+          }
+        }
+      },
+      {
+        "key": "j101-unused-note",
+        "op": "text",
+        "status": "create",
+        "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained",
+            "x": 60,
+            "y": 75,
+            "rotation": 0,
+            "font_size": 12
+          },
+          "observed": {
+            "primitive_id": "f28f5c79c70d8a7d",
+            "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained",
+            "x": 60,
+            "y": 75,
+            "rotation": 0,
+            "font_size": 12
+          }
+        }
+      },
+      {
+        "key": "c101-readable-value",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "manufacturerId": "10uF/25V X5R 0805"
+        },
+        "primitive_id": "c26543f0253a827f",
+        "designator": "C101",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C101",
+            "unique_id": "gge6",
+            "component": null,
+            "supplier_id": null,
+            "manufacturer_id": "10uF/25V X5R 0805"
+          },
+          "observed": {
+            "designator": "C101",
+            "unique_id": "gge6",
+            "component": "CAPCER10UF25VX5R0805",
+            "supplier_id": "C9900012828",
+            "manufacturer_id": "10uF/25V X5R 0805"
+          }
+        }
+      },
+      {
+        "key": "c106-readable-value",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "manufacturerId": "10uF/25V X5R 0805"
+        },
+        "primitive_id": "87e5af8567392818",
+        "designator": "C106",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C106",
+            "unique_id": "gge21",
+            "component": null,
+            "supplier_id": null,
+            "manufacturer_id": "10uF/25V X5R 0805"
+          },
+          "observed": {
+            "designator": "C106",
+            "unique_id": "gge21",
+            "component": "CAPCER10UF25VX5R0805",
+            "supplier_id": "C9900012828",
+            "manufacturer_id": "10uF/25V X5R 0805"
+          }
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 78,
+      "wires": 55
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 78,
+    "parts": 21,
+    "netflags": 36,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 55,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

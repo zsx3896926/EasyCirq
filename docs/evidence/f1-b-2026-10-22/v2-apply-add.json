@@ -1,0 +1,258 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/f1-b-2026-10-22/plan-b2-add-clean-wires.json",
+  "session": {
+    "sessionId": "5dc48886-31ae-4abc-98f9-8791d780115d",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 55,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "add-clean-710",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "add-clean-560",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_wire",
+      "key": "add-clean-710#0",
+      "net": "GND",
+      "points": [
+        200.0,
+        710.0,
+        250.0,
+        710.0
+      ],
+      "segments": [
+        [
+          200.0,
+          710.0,
+          250.0,
+          710.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "add-clean-560#0",
+      "net": "GND",
+      "points": [
+        200.0,
+        560.0,
+        250.0,
+        560.0
+      ],
+      "segments": [
+        [
+          200.0,
+          560.0,
+          250.0,
+          560.0
+        ]
+      ]
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "add-clean-710#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "834af3d75d3fc93d",
+        "net": "GND",
+        "line": [
+          [
+            250,
+            710,
+            210,
+            710
+          ],
+          [
+            200,
+            710,
+            210,
+            710
+          ]
+        ]
+      },
+      {
+        "key": "add-clean-560#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "5a5eaf3a0ceae8f9",
+        "net": "GND",
+        "line": [
+          [
+            250,
+            560,
+            210,
+            560
+          ],
+          [
+            200,
+            560,
+            210,
+            560
+          ]
+        ]
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "ebc341f366513b6db541b6c4c2747d820de66307641b5a58b6cf11f4a1b86fd4",
+      "friendly_name": "f1-b-v2",
+      "name": "/f1-b-v2"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "add-clean-710",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "add-clean-560",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 79,
+      "wires": 57
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

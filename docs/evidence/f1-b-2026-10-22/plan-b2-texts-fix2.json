@@ -1,0 +1,29 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B2 fix2: sch_PrimitiveText.delete does not persist in JLCEDA Pro 4.1.78 half-offline CLI (verified: deletes vanish on reopen after save). The two misplaced texts are therefore MOVED (modify persists) to exactly overlay their corrected twins, so the page renders exactly the intended two texts. Duplicate primitives remain in the document and are recorded as a client defect in the evidence README.",
+  "operations": [
+    {
+      "op": "text_modify",
+      "key": "move-draft-onto-twin",
+      "target": {
+        "primitive_id": "d9ed472c3974b617",
+        "expected": {"content": "DRAFT", "x": 800, "y": 580}
+      },
+      "at": [800, 215]
+    },
+    {
+      "op": "text_modify",
+      "key": "move-note-onto-twin",
+      "target": {
+        "primitive_id": "30d3cf0a7f39c231",
+        "expected": {
+          "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+          "x": 120,
+          "y": 780
+        }
+      },
+      "at": [120, 75]
+    }
+  ]
+}

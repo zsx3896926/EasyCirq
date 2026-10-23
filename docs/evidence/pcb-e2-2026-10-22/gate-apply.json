@@ -1,0 +1,141 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/pcb-e2-2026-10-22/plan-gate-regression.json",
+  "session": {
+    "sessionId": "4307e251-6cd2-4ced-a96b-e8756dacf302",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true
+  },
+  "pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3",
+    "pcb_name": "PCB"
+  },
+  "before_counts": {
+    "components": 35,
+    "lines": 100,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 89
+  },
+  "integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": [],
+    "coverage_issue_count": 0,
+    "coverage_issues": []
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "gate-line",
+      "op": "line",
+      "action": "create",
+      "dedup": "checked"
+    }
+  ],
+  "actions": [
+    {
+      "x1": 3000,
+      "y2": -600,
+      "y1": -600,
+      "layer": 1,
+      "x2": 3100,
+      "width": 12,
+      "net": "GND",
+      "key": "gate-line",
+      "op": "line"
+    }
+  ],
+  "conflicts": [],
+  "pinned_pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "gate-line",
+        "op": "line",
+        "created": true,
+        "id": "4ed84aea48ebeb86",
+        "net": "GND",
+        "layer": 1,
+        "width": 12,
+        "hole": null,
+        "diameter": null,
+        "designator": null,
+        "name": null
+      }
+    ],
+    "poured_before": 1,
+    "poured_after": 1,
+    "poured_delta": 0,
+    "note": "pour outlines create the border only; a non-zero poured_delta means the client recomputed copper fills"
+  },
+  "after_counts": {
+    "components": 35,
+    "lines": 101,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 89
+  },
+  "after_integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": [],
+    "coverage_issue_count": 0,
+    "coverage_issues": []
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "gate-line",
+        "op": "line",
+        "status": "verified",
+        "mismatches": [],
+        "id": "4ed84aea48ebeb86"
+      }
+    ],
+    "pour_fill": {
+      "poured_before": 1,
+      "poured_after": 1,
+      "delta": 0,
+      "fill_recomputed": false
+    }
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "saved_value": true,
+    "counts": {
+      "components": 35,
+      "lines": 101,
+      "vias": 1,
+      "pours": 2,
+      "poured": 1
+    }
+  },
+  "saved_counts": {
+    "components": 35,
+    "lines": 101,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1
+  }
+}

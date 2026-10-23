@@ -1,0 +1,70 @@
+{
+  "status": "checked",
+  "drc": {
+    "ok": true,
+    "strict": true,
+    "result": [
+      {
+        "type": "warn",
+        "rule": "CHECKFLOATPIN",
+        "primitives": [
+          {
+            "primitiveId": "84931dadefea5b69-e19",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e23",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e27",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B6"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e35",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e39",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e43",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A6"
+          }
+        ]
+      }
+    ],
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C"
+    }
+  },
+  "session": {
+    "sessionId": "3020fb99-a92a-485c-893b-ba4d15724111",
+    "origin": "cli",
+    "owned": true
+  },
+  "summary": "violations_reported",
+  "violation_count": 1,
+  "by_type": {
+    "warn": 1
+  },
+  "by_rule": {
+    "CHECKFLOATPIN": 1
+  }
+}

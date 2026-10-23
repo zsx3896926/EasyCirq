@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B2: visible DRAFT marker (title block fields themselves are not editable through the CLI API; sheet primitive not exposed) plus a note for the six intentionally unconnected USB data/SBU pins of J101. Both placed in verified-empty page areas.",
+  "operations": [
+    {
+      "op": "text",
+      "key": "draft-marker",
+      "at": [800, 580],
+      "content": "DRAFT",
+      "rotation": 0,
+      "font_size": 40
+    },
+    {
+      "op": "text",
+      "key": "j101-unused-note",
+      "at": [120, 780],
+      "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+      "rotation": 0,
+      "font_size": 12
+    }
+  ]
+}

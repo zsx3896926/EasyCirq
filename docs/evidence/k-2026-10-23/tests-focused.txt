@@ -1,0 +1,31 @@
+test_battery_estimate_is_not_verified (tests.test_scenarios.DeterministicNegativeChecks.test_battery_estimate_is_not_verified) ... ok
+test_every_check_uses_a_known_tool_and_expected_result (tests.test_scenarios.DeterministicNegativeChecks.test_every_check_uses_a_known_tool_and_expected_result) ... ok
+test_geometry_zero_is_incomplete_without_inventory (tests.test_scenarios.DeterministicNegativeChecks.test_geometry_zero_is_incomplete_without_inventory) ... ok
+test_parallel_pullups_exceed_sink_current (tests.test_scenarios.DeterministicNegativeChecks.test_parallel_pullups_exceed_sink_current) ... ok
+test_two_aa_ldo_is_infeasible (tests.test_scenarios.DeterministicNegativeChecks.test_two_aa_ldo_is_infeasible) ... ok
+test_wrong_physical_pin_is_blocking (tests.test_scenarios.DeterministicNegativeChecks.test_wrong_physical_pin_is_blocking) ... ok
+test_all_required_negative_cases_are_present (tests.test_scenarios.ScenarioCatalog.test_all_required_negative_cases_are_present) ... ok
+test_count_ids_and_fields (tests.test_scenarios.ScenarioCatalog.test_count_ids_and_fields) ... ok
+test_markdown_index_lists_every_id (tests.test_scenarios.ScenarioCatalog.test_markdown_index_lists_every_id) ... ok
+test_route_files_exist (tests.test_scenarios.ScenarioCatalog.test_route_files_exist) ... ok
+test_cli_exit_status (tests.test_skill.Calculations.test_cli_exit_status) ... ok
+test_divider_unloaded_corners (tests.test_skill.Calculations.test_divider_unloaded_corners) ... ok
+test_i2c_document_example (tests.test_skill.Calculations.test_i2c_document_example) ... ok
+test_i2c_no_passive_solution (tests.test_skill.Calculations.test_i2c_no_passive_solution) ... ok
+test_invalid_bounds_and_types (tests.test_skill.Calculations.test_invalid_bounds_and_types) ... ok
+test_ldo_dropout_failure_no_regulated_power_claim (tests.test_skill.Calculations.test_ldo_dropout_failure_no_regulated_power_claim) ... ok
+test_ldo_power (tests.test_skill.Calculations.test_ldo_power) ... ok
+test_led_below_forward_voltage (tests.test_skill.Calculations.test_led_below_forward_voltage) ... ok
+test_led_corners (tests.test_skill.Calculations.test_led_corners) ... ok
+test_entry_and_references (tests.test_skill.SkillStructure.test_entry_and_references) ... ok
+test_portable_package (tests.test_skill.SkillStructure.test_portable_package) ... ok
+test_twelve_applications_with_required_sections (tests.test_common_hardware.CommonHardwareApplications.test_twelve_applications_with_required_sections) ... ok
+test_all_group_files_and_topics_exist (tests.test_common_hardware.CommonHardwareGroups.test_all_group_files_and_topics_exist) ... ok
+test_no_unmarked_c_numbers (tests.test_common_hardware.CommonHardwareGroups.test_no_unmarked_c_numbers) ... ok
+test_no_unregistered_source_ids (tests.test_common_hardware.CommonHardwareGroups.test_no_unregistered_source_ids) ... ok
+test_readme_routes_all_groups_and_apps (tests.test_common_hardware.CommonHardwareIndex.test_readme_routes_all_groups_and_apps) ... ok
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.473s
+
+OK

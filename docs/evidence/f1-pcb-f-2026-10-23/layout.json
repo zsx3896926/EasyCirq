@@ -1,0 +1,18 @@
+{
+  "status": "ran",
+  "result": {
+    "success": true,
+    "totalComponentsCount": 33,
+    "successComponentsCount": 33,
+    "failedComponents": [],
+    "duration": 16743
+  },
+  "components_before": 33,
+  "components_after": 33,
+  "note": "autoLayout result is the client report; placement quality is not judged here",
+  "session": {
+    "sessionId": "88d44f3f-d75d-4f4f-a251-61e24f516c84",
+    "origin": "cli",
+    "owned": true
+  }
+}

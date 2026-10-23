@@ -1,0 +1,60 @@
+{
+  "status": "match",
+  "comparison": {
+    "match": true,
+    "complete": true,
+    "diff_count": 0,
+    "diffs": [],
+    "unverified": [],
+    "unverified_count": 0
+  },
+  "pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3",
+    "pcb_name": "PCB"
+  },
+  "before_counts": {
+    "components": 35,
+    "lines": 101,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 89
+  },
+  "after_counts": {
+    "components": 35,
+    "lines": 101,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 89
+  },
+  "closed": {
+    "closed": true,
+    "session": {
+      "sessionId": "37937f7c-635e-40be-ac5b-4d1854143c48",
+      "status": "closed",
+      "headless": true
+    }
+  },
+  "before_integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": [],
+    "coverage_issue_count": 0,
+    "coverage_issues": []
+  },
+  "after_integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": [],
+    "coverage_issue_count": 0,
+    "coverage_issues": []
+  },
+  "note": "match requires pcb identity, class coverage, object ids and the actual geometry/attributes of components, lines, vias, pours, pads and net metrics"
+}
