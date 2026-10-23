@@ -348,7 +348,7 @@ SX1262 的 PA 最佳负载不是 50 Ω：AN1200.40 在 915 MHz 给出 SX1261 的
 - 传导：TX 功率、频率误差、谐波/杂散、占用带宽；用频谱仪/综测仪，至少覆盖低/中/高信道。
 - 接收：灵敏度（PER/BER）、邻道/阻塞、SF/BW 组合；记录误包率而不是只看 RSSI。
 - 距离：PER vs 距离，裸板/装壳/天线方向/高度分别测；至少一条视距和一条遮挡路径。
-- 天线：VNA 测 S11（按天线厂要求，不写“35+j0”），装壳/装电池复测。
+- 天线：VNA 测 S11（按天线厂要求；ESP32-S3 的“35+j0”是芯片共轭阻抗点 Ω，不是 dB 门限，见 M1/RF-02），装壳/装电池复测。
 - 不能证明：长期频率漂移、批量天线一致性、极端温度/湿度、整机 EMC。
 
 ### 常见误判
@@ -999,7 +999,7 @@ GND1 ────────── 屏障 ────────── GND2�
 
 ## 需要同步修正
 
-以下为本次写作中发现的既有内容问题。按要求只记录，不直接修改仓库文件；请集成人按条目分派。
+以下为本次写作中发现的既有内容问题。按要求只记录，不直接修改仓库文件；请集成人按条目分派（2026-10-23：第 2 条已由集成人关闭，其余条目状态不变）。
 
 1. **PWR-14 结论段单位错误（确定，放大 1000 倍）**
    - 文件：`design-hardware/references/design-cards/power/p14-supercap-backup.md:159`
@@ -1007,10 +1007,10 @@ GND1 ────────── 屏障 ────────── GND2�
    - 同文件 `:136` 的正确计算是 `ΔQ = 25 µC`、`ΔV = 25 µC / 1 F = 25 µV`。
    - 建议改法：把“25 mV”改为“25 µV”，并补一句“该值只适用 1 F 示例；实际以电容容差/漏电为准”。否则 RTC/备份漏电结论被放大 1000 倍。
 
-2. **“35+j0”S11 目标仍在多处传播（需回读原页后统一）**
-   - 文件：`design-cards/wireless/w02-antenna.md:90`（已注明来源定义不完整）、`engineering-deepdives/topics/d4-wireless-integration.md:470`、`simulation-measurement.md:80,294,359,668`
-   - 原结论：把“S11 约 35+j0”当作 ESP32-S3 的调谐目标/验收门限。
-   - 建议改法：回读 Espressif RF Tuning 原页；在确认前统一写成“按模组/芯片原厂要求；疑似应为 S11 ≤ −35 dB，不能用 35+j0 当数值门限”。本组 M1/M3/M5 已按此口径写。
+2. **“35+j0”S11 目标已按原页定义统一（2026-10-23 关闭）**
+   - 历史问题：`design-cards/wireless/w02-antenna.md`、`engineering-deepdives/topics/d4-wireless-integration.md`、`simulation-measurement.md`、`failures/f18-antenna-enclosure.md` 把“35+j0”当作 ESP32-S3 的 S11 验收门限，且曾推断“疑似应为 S11 ≤ −35 dB”。
+   - 原页核对：Espressif《Schematic Checklist - ESP32-S3》RF Tuning 节原文 “If S11 is close to the chip conjugate point 35+j0 and S21 is less than -35 dB at 4.8 GHz and 7.2 GHz, the matching circuit can satisfy transmission requirements.”（2026-10-23 复核）。35+j0 是 Smith 圆图上的芯片共轭阻抗点（Ω，Port 1 靠芯片端看进去的输入阻抗），−35 dB 属 S21 谐波抑制；推断的“S11 ≤ −35 dB”不成立。
+   - 已改：上述文件统一写成“芯片共轭点 35+j0（Ω），不是 dB 门限”，并给出 50 Ω 归一化换算 `Γ=(35−50)/(35+50)=−0.176`、`|S11|≈−15.1 dB`、`VSWR≈1.43`（仅换算，不能当门限）。逐项记录见 `docs/evidence/k-2026-10-23/closure-c40.md`。
 
 3. **EG915N 2G 数据被当作蜂窝默认量级（默认条件过时）**
    - 文件：`design-cards/wireless/w03-cellular.md:1-197`、`module-integration.md:442-449`、`d4-wireless-integration.md:187,554`

@@ -16,7 +16,7 @@
 
 title: D4 无线性能与整机环境：从模组上板到整机射频
 evidence: B（原厂指南、FCC KDB 与开源设计文件已核对；本稿未做任何 RF/EMC 实测）
-last_reviewed: 2026-10-22
+last_reviewed: 2026-10-23
 sources: [RF-S01, RF-S02, RF-S03, RF-S04, D-S06]
 related: [RF-01, RF-02, RF-04, F18, module-integration §12/§13 案例 C06, simulation-measurement §5/§6]
 ---
@@ -467,7 +467,7 @@ ESR 跌落 = Iburst × ESR = 0.5 × 5 mΩ = 2.5 mV
 
 | 测量 | 仪器/夹具 | 看什么 | 通过条件 | 备注 |
 |---|---|---|---|---|
-| S11 | VNA，校准到测试口/馈线端 | 谐振点、带宽、回波 | 按模组/天线要求；ESP32-S3 参考给 `35+j0` 目标，但来源笔记对其定义记录不完整，使用前回读原页 | 裸板/装壳/装电池/手靠近分别测 |
+| S11 | VNA，校准到测试口/馈线端 | 谐振点、带宽、回波 | 按模组/天线要求；ESP32-S3 判据是 S11 接近芯片共轭点 `35+j0`（Ω）：Port 1（靠芯片端）看进去的输入阻抗≈35 Ω；50 Ω 归一化下 S11≈−15.1 dB、VSWR≈1.43（仅换算）；−35 dB 是 S21 在 4.8/7.2 GHz 的谐波抑制，不是 S11 门限（RF-S01“RF Tuning”，2026-10-23 复核） | 裸板/装壳/装电池/手靠近分别测 |
 | S21/馈线损耗 | VNA 双端口 | 匹配前后/馈线损耗 | 按产品预算；ESP32-S3 参考给 4.8/7.2 GHz `S21 < −35 dB` | 连接器/线缆/夹具要算进去 |
 | OTA/吞吐/灵敏度 | 暗室/屏蔽箱/综测仪 | RSSI、吞吐、PER、灵敏度 | 按产品要求；不能拿裸板 S11 代替 | 低/中/高信道，3 个方向 |
 | 电源跌落 | 电流探头+示波器 | `VDD`、`EN`、`TXEN`、burst 同步 | 不低于模组 min；复位/掉网消失 | 探头地线要短；测模组引脚，不测远处 |
@@ -621,7 +621,7 @@ ESR 跌落 = Iburst × ESR = 0.5 × 5 mΩ = 2.5 mV
 **证据：**
 
 - `[设计文件]` SparkFun `U2` 无 RF net（模组自带天线）；Crazyflie 有 `U12`/`U13`/`C36`/`L2`/`L3`/`L4` 外部前端（说明“有外部前端”和“自带天线”是两种边界）。
-- `[原厂]` RF-S01：RF 走线 50 Ω、匹配网络靠近芯片、优先 CLC；参考值只是起点，不能证明已匹配。
+- `[原厂]` RF-S01：RF 走线 50 Ω、匹配网络靠近芯片、优先 CLC；参考值只是起点，不能证明已匹配（调谐目标是芯片共轭点 35+j0 Ω，不是 S11 的 dB 门限）。
 - `[设计卡]` [RF-02](../../design-cards/wireless/w02-antenna.md) §4–§5 已给 CLC 初值/灵敏度/电长度算法，本文不重复。
 - `[未执行]` 没有本产品的 S11 A/B 数据；不能判断“加匹配一定变差”，只能给检查顺序。
 
@@ -687,7 +687,7 @@ S01/S02/S04 的逐条摘录与“不能推广”边界见 `本轮笔记/source-n
 
 | ID/文件 | 文档/版本 | 实际读取范围 | 支持什么 | 不能推广什么 |
 |---|---|---|---|---|
-| RF-S01 | Espressif《Schematic Checklist - ESP32-S3》，页面 “latest”，版权 2023–2026，查阅 2026-10-20 | 整页；“Power Supply”“Chip Power-up and Reset Timing”“RF”“RF Circuit”“RF Tuning”“Strapping Pins”等 | 3.3 V 入口 ≥500 mA、10 µF、EN 10 k/1 µF、50 µs、RF 50 Ω/CLC、S11/S21 参考、strap | 裸片 S3 检查表，不是所有模组；500 mA/10 µF 不是通用峰值预算；匹配范围只是起点 |
+| RF-S01 | Espressif《Schematic Checklist - ESP32-S3》，页面 “latest”，版权 2023–2026，查阅 2026-10-20；RF Tuning 节 2026-10-23 复核 | 整页；“Power Supply”“Chip Power-up and Reset Timing”“RF”“RF Circuit”“RF Tuning”“Strapping Pins”等 | 3.3 V 入口 ≥500 mA、10 µF、EN 10 k/1 µF、50 µs、RF 50 Ω/CLC、S11/S21 参考（35+j0 为芯片共轭阻抗点 Ω，−35 dB 属 S21@4.8/7.2 GHz 谐波抑制）、strap | 裸片 S3 检查表，不是所有模组；500 mA/10 µF 不是通用峰值预算；匹配范围只是起点；35+j0 不是 S11 dB 门限 |
 | RF-S02 | Espressif《PCB Layout Design - ESP32-S3》，页面 “latest”，版权 2023–2026，查阅 2026-10-20 | 整页；“RF”“General Principles of PCB Layout for Modules”“Power Supply”“Crystal”等 | 四层建议、RF 不走孔/不分叉、模组天线伸出板边、外壳 ≥15 mm、最终 RF 测试 | S3 参考建议，不是所有模组/板厂强制值；15 mm 是天线到壳体条件 |
 | RF-S03 | Quectel《EG915N Series Hardware Design》V1.1，2022-10-14，Released | 第 30–33 页（3.6/3.6.1–3.6.3、3.7.1）、第 66 页 Table 34 | VBAT 3.4/3.8/4.5 V；EGSM900 burst 2.0 A typ/2.5 A max；跌落 ≤400 mV；100 µF 低 ESR；up to 3.0 A | 只适用 EG915N 的 2G 条件；不能套 Wi-Fi/BLE/其他蜂窝模组 |
 | RF-S04 | u-blox《GNSS antennas - RF design considerations》UBX-15030289 R03，2019-10-16 | 第 5–9 页（§2.1–§2.4、§3.3.1）、第 24–28 页（§6.2.1/§6.3） | 芯片天线 keep-out 典型 5 mm、地平面尺寸/安装方式、屏蔽 30–40 dB、C/N0 44 dBHz 条件 | GNSS 接收机/天线条件；5 mm 是典型值，具体天线厂优先 |

@@ -1,0 +1,133 @@
+..........................................................................................................................................................................................................................................................................................................................F...................................................................................................................................................................................................................................................................
+======================================================================
+FAIL: test_each_card_has_frontmatter_and_twelve_sections (test_design_content.DesignCards.test_each_card_has_frontmatter_and_twelve_sections) (card='references\\design-cards\\wireless\\w02-antenna.md')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\jlc\work\hds-round5\tests\test_design_content.py", line 75, in test_each_card_has_frontmatter_and_twelve_sections
+    self.assertEqual(meta.get('last_reviewed'), '2026-10-20')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '2026-10-23' != '2026-10-20'
+- 2026-10-23
+?          ^
++ 2026-10-20
+?          ^
+
+
+----------------------------------------------------------------------
+Ran 574 tests in 19.250s
+
+FAILED (failures=1)
+{
+  "status": "match",
+  "match": true,
+  "before": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "after": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "differences": [],
+  "blocking_differences": [],
+  "compared_fields": [
+    "component designator/parttype/footprint/BOM/PCB/supplier/manufacturer/unique_id",
+    "physical pin -> net",
+    "net partition",
+    "duplicate designators",
+    "pin on multiple nets",
+    "empty nets (*reported, not blocking by itself)"
+  ],
+  "limitations": [
+    "a component pin that is unconnected in both netlists is absent from both; this tool cannot prove NC state from a Protel netlist alone",
+    "coordinates, wire geometry and formatting are intentionally not compared"
+  ]
+}
+{
+  "status": "mismatch",
+  "match": false,
+  "before": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "after": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "differences": [
+    {
+      "kind": "component_field",
+      "designator": "R1",
+      "field": "PARTTYPE",
+      "before": "10k",
+      "after": "22k"
+    }
+  ],
+  "blocking_differences": [
+    {
+      "kind": "component_field",
+      "designator": "R1",
+      "field": "PARTTYPE",
+      "before": "10k",
+      "after": "22k"
+    }
+  ],
+  "compared_fields": [
+    "component designator/parttype/footprint/BOM/PCB/supplier/manufacturer/unique_id",
+    "physical pin -> net",
+    "net partition",
+    "duplicate designators",
+    "pin on multiple nets",
+    "empty nets (*reported, not blocking by itself)"
+  ],
+  "limitations": [
+    "a component pin that is unconnected in both netlists is absent from both; this tool cannot prove NC state from a Protel netlist alone",
+    "coordinates, wire geometry and formatting are intentionally not compared"
+  ]
+}
+{
+  "status": "invalid",
+  "error": "[Errno 2] No such file or directory: 'C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Temp\\\\tmpf5xo1x1w\\\\missing.net'"
+}
+PASS ldo fail status
+PASS ldo power
+PASS ldo required theta
+PASS ldo 60C tj
+PASS mosfet good tj
+PASS mosfet good power
+PASS mosfet bad status
+PASS mosfet bad power
+PASS mosfet bad tj
+PASS led heat
+PASS led required rth_sa
+PASS led model status
+PASS led good tj
+PASS via 9
+PASS enclosure surface
+PASS heatsink tj
+PASS heatsink required sa
+PASS ldo rejects vout>vin
+PASS via rejects over-plating
+PASS via rejects fractional count
+PASS ldo project margin tight
+PASS enclosure zero margin tight
+PASS led electrical basis tj
+PASS led electrical basis status
+PASS huge integer rejected
+PASS led rejects fractional series
+PASS led rejects optical=1
+PASS ldo rejects zero dropout
+PASS mosfet duty=0 no switching
+29/29 checks passed

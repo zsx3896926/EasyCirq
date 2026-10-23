@@ -1,6 +1,6 @@
 {
-  "version": "2026-10-20",
-  "total": 35,
+  "version": "2026-10-23",
+  "total": 47,
   "required_negative_cases": [
     "two_aa_ldo",
     "same_package_different_pinout",
@@ -1174,6 +1174,368 @@
         "重贴/复验结果"
       ],
       "negative_case": "bom_cpl_version_mismatch",
+      "check": null
+    },
+    {
+      "id": "S36",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "天黑自动开灯",
+      "prompt": "院里想装个小灯，天黑了自动亮、天亮了自动灭，用光敏电阻还是买光照传感器？",
+      "expected_route": [
+        "references/common-hardware/b-optics.md",
+        "references/design-cards/analog/a01-divider.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "先确认要绝对照度还是只要亮/暗开关",
+        "核对光学窗口材料、光源光谱与红外成分",
+        "阈值设双门限并加迟滞，记录现场干扰源",
+        "用现场光照记录验证开关点"
+      ],
+      "must_not_claim": [
+        "把LDR分压读数当绝对lux",
+        "只看传感器量程，不看光窗与安装",
+        "没做现场实测就宣称能用"
+      ],
+      "evidence_required": [
+        "光窗/安装说明",
+        "现场照度与开关点记录",
+        "迟滞/误触发测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S37",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "测设备倾斜/振动（运动传感）",
+      "prompt": "我想做个水平仪，设备歪了能报警，还想知道有没有在振动，选什么传感器？",
+      "expected_route": [
+        "references/common-hardware/c-motion.md",
+        "references/design-cards/analog/a04-adc-driver.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "先区分静态倾角和动态振动，分别定量程与带宽",
+        "用噪声密度/ODR折算角度分辨率，不拿位数当精度",
+        "做六面校准消零偏，并评估温漂与安装应力",
+        "振动场景先保证ODR和安装刚性，再谈滤波"
+      ],
+      "must_not_claim": [
+        "把分辨率当精度",
+        "用±2g倾角型号硬扛冲击/振动",
+        "未校准就宣称角度准确"
+      ],
+      "evidence_required": [
+        "量程/带宽选择依据",
+        "六面校准记录",
+        "倾角与振动实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S38",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "旋钮调音量/选菜单",
+      "prompt": "想做个拧一下就调音量、选菜单的旋钮，用普通电位器还是编码器？",
+      "expected_route": [
+        "references/common-hardware/c-motion.md",
+        "references/common-hardware/l-hmi.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "先确认要绝对位置还是相对计数、是否需要按压",
+        "把PPR、档位数和解码倍数分开，买料前核对pulse/detent组合",
+        "A/B加上拉与RC，软件去抖2-3ms并做正交解码",
+        "评估寿命、最高转速与面板安装"
+      ],
+      "must_not_claim": [
+        "把PPR当档位数",
+        "只换模块不看上拉/去抖",
+        "用增量编码器给绝对角度而不做上电基准"
+      ],
+      "evidence_required": [
+        "编码器型号/PPR/detent",
+        "解码与去抖参数",
+        "旋钮手感/跳档测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S39",
+      "user_type": "engineer",
+      "task_type": "troubleshoot",
+      "title": "风扇测速偏低/跳变",
+      "prompt": "4线风扇的转速读数总是偏低，低速干脆显示0，TACH直接接3.3V单片机对不对？",
+      "expected_route": [
+        "references/common-hardware/c-motion.md",
+        "references/common-hardware/k-drive.md",
+        "references/common-hardware/applications/02-fan-control.md"
+      ],
+      "must_do": [
+        "确认每转脉冲数与TACH开漏/推挽类型",
+        "核对TACH上拉电平；12V上拉需分压/电平转换后再进3.3V GPIO",
+        "低速用周期法、高速用计数或M/T，核算闸门量化误差",
+        "检查丢脉冲、堵转与地线回流"
+      ],
+      "must_not_claim": [
+        "把12V TACH直接进GPIO",
+        "用固定100ms闸门覆盖全速域",
+        "读数低就归因于风扇坏"
+      ],
+      "evidence_required": [
+        "风扇规范/每转脉冲",
+        "TACH波形与上拉",
+        "全速域RPM对照"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S40",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "做5kg厨房秤（称重）",
+      "prompt": "想做个5公斤的厨房秤，误差2克，HX711模块买来就能用吗？",
+      "expected_route": [
+        "references/common-hardware/d-force.md",
+        "references/design-cards/analog/a09-bridge.md",
+        "references/common-hardware/applications/05-electronic-scale.md"
+      ],
+      "must_do": [
+        "先定容量、分辨率、偏载/蠕变与校准条件",
+        "核对传感器灵敏度/桥阻/激励与四线或六线接法",
+        "按满量程输出和HX711增益算噪声/有效位，不拿24bit当精度",
+        "用砝码做零点/量程/偏载/蠕变验证"
+      ],
+      "must_not_claim": [
+        "显示0.1g就是0.1g准确度",
+        "只看ADC位数不看传感器重复性/蠕变",
+        "没砝码校准就宣称2g误差"
+      ],
+      "evidence_required": [
+        "传感器规格/量程/灵敏度",
+        "砝码校准记录",
+        "偏载/蠕变/重复性测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S41",
+      "user_type": "engineer",
+      "task_type": "design_change",
+      "title": "5V压力传感器直连3.3V ADC（反例）",
+      "prompt": "买了个5V供电、0.2-4.7V输出的水压传感器，直接接3.3V单片机的ADC可以吗？",
+      "expected_route": [
+        "references/common-hardware/d-force.md",
+        "references/design-cards/analog/a01-divider.md",
+        "references/design-cards/analog/a04-adc-driver.md"
+      ],
+      "must_do": [
+        "确认表压/绝压/差压、量程、proof/burst与介质",
+        "核对5V比率输出满量程会超过3.3V ADC输入，需分压/缓冲并防过压",
+        "按比率测量处理基准，核对分压电阻公差与ADC建立时间",
+        "核对端口密封、凝露与电气保护"
+      ],
+      "must_not_claim": [
+        "5V输出可以直接进3.3V ADC",
+        "用电阻分压后仍按5V基准算压力",
+        "没做满量程/过压核对就下单"
+      ],
+      "evidence_required": [
+        "传感器量程/输出/供电",
+        "分压与ADC输入核算",
+        "满量程/过压测试"
+      ],
+      "negative_case": "pressure_5v_output_direct_to_3v3_adc",
+      "check": null
+    },
+    {
+      "id": "S42",
+      "user_type": "engineer",
+      "task_type": "from_zero",
+      "title": "水塔自动补水并累计用水量",
+      "prompt": "想给楼顶水塔做自动补水，缺水开泵、满了停泵，还想知道每天用了多少水。",
+      "expected_route": [
+        "references/common-hardware/d-force.md",
+        "references/common-hardware/applications/06-water-level-alarm.md",
+        "references/common-hardware/k-drive.md"
+      ],
+      "must_do": [
+        "先分点式/连续量，确认浮球还是超声/静压，并说明泡沫/蒸汽/凝露限制",
+        "泵控做滞回、最短停机/最长运行与干转判断",
+        "流量计核对K系数、脉宽与最小流量，用捕获计数而不是轮询",
+        "累计量掉电保存，低流量检查量化误差"
+      ],
+      "must_not_claim": [
+        "把点式浮球当连续液位计",
+        "把10ms消抖套到2.22ms流量脉冲",
+        "没算最小流量就宣称计量准确"
+      ],
+      "evidence_required": [
+        "液位/流量计规格与K系数",
+        "泵控状态机/滞回参数",
+        "补水与累计量实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S43",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "CR2032门窗提醒用一年",
+      "prompt": "想做个门窗被打开就手机提醒的小东西，用CR2032纽扣电池能撑一年吗？",
+      "expected_route": [
+        "references/common-hardware/h-battery.md",
+        "references/common-hardware/c-motion.md",
+        "references/common-hardware/applications/04-door-window-reminder.md",
+        "references/common-hardware/m-wireless-time.md"
+      ],
+      "must_do": [
+        "把一年拆成睡眠、采样、发射、重试的电流/占空比预算",
+        "核对CR2032脉冲能力与发射电流，必要时降发射电流/加本地电容",
+        "确认一次电池不可充电，画ORing/结构防反装",
+        "确认门磁用干簧还是霍尔（C4），核对气隙、安装偏差、采样门控与低电量告警点"
+      ],
+      "must_not_claim": [
+        "用典型待机电流乘算一年当保证",
+        "让CR2032直接带几十mA射频/电机",
+        "把模型寿命说成实测寿命"
+      ],
+      "evidence_required": [
+        "电池脉冲曲线/负载预算",
+        "整机平均电流实测",
+        "门窗动作与续航测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S44",
+      "user_type": "engineer",
+      "task_type": "troubleshoot",
+      "title": "低电量突然关机/电量显示不准",
+      "prompt": "锂电池设备电量还有30%就突然关机，显示也不准，调低关机阈值能解决吗？",
+      "expected_route": [
+        "references/common-hardware/h-battery.md",
+        "references/calculations/energy-battery.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "协调系统UVLO、保护板UVP、峰值IR压降与转换器最低输入四个电压",
+        "用最低温度/最大内阻/最大峰值复算告警点、关机点与恢复迟滞",
+        "确认告警提前量是否覆盖有序关机，平台区不准就改gauge",
+        "按实测放电曲线验证，不按标称电压百分比拍阈值"
+      ],
+      "must_not_claim": [
+        "调低关机阈值就解决突然关机",
+        "用电压百分比宣称5%电量精度",
+        "没实测曲线就保证告警提前量"
+      ],
+      "evidence_required": [
+        "电芯OCV/内阻与放电曲线",
+        "告警/关机/恢复点实测",
+        "峰值负载下的电池端波形"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S45",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "ESP32加2.4寸彩屏和蜂鸣器（HMI）",
+      "prompt": "想用ESP32做个带2.4寸彩屏和蜂鸣器的小设备，用200mA的LDO供电够吗？",
+      "expected_route": [
+        "references/common-hardware/l-hmi.md",
+        "references/common-hardware/i-mcu.md",
+        "references/common-hardware/g-power-conversion.md",
+        "references/common-hardware/applications/03-humidity-display.md"
+      ],
+      "must_do": [
+        "按分辨率×色深×刷新率算屏带宽，决定SPI/并口与局部刷新",
+        "核对ESP32峰值电流与屏/背光电流，供电选Buck并留储能",
+        "确认蜂鸣器有源/无源、驱动管与续流，5V型号在3.3V下声压下降",
+        "核对屏模块自带LDO/电平转换，避免重复添加"
+      ],
+      "must_not_claim": [
+        "200mA LDO能带ESP32+彩屏",
+        "SPI能点亮就能全屏动画",
+        "蜂鸣器直接接GPIO不用驱动"
+      ],
+      "evidence_required": [
+        "屏/背光/模组电流",
+        "电源余量与峰值波形",
+        "刷新率/声压实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S46",
+      "user_type": "engineer",
+      "task_type": "from_zero",
+      "title": "Sub-GHz远距离低功耗节点",
+      "prompt": "农田传感器离网关几百米、中间有几堵墙，想几节电池用几年，Wi-Fi不行吧？",
+      "expected_route": [
+        "references/common-hardware/m-wireless-time.md",
+        "references/common-hardware/h-battery.md",
+        "references/common-hardware/applications/10-soil-monitor.md"
+      ],
+      "must_do": [
+        "先定频段法规、发射功率、占空比与目标市场",
+        "按距离/墙体/天线形式选Sub-GHz，核对链路预算与实测",
+        "按发射/接收/睡眠占空比算电池平均电流与脉冲能力",
+        "核对天线净空、模组认证与整机认证边界"
+      ],
+      "must_not_claim": [
+        "标称距离等于现场距离",
+        "模组认证等于整机认证",
+        "只测空旷通信就宣称穿墙可用"
+      ],
+      "evidence_required": [
+        "频段/功率/占空比合规核对",
+        "现场RSSI/PER与距离",
+        "电池平均电流实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S47",
+      "user_type": "engineer",
+      "task_type": "review",
+      "title": "MIFARE Classic做身份门禁（NFC反例）",
+      "prompt": "公司NFC门禁想用MIFARE Classic卡，读卡号就能当身份凭证，这样安全吗？",
+      "expected_route": [
+        "references/common-hardware/m-wireless-time.md",
+        "references/design-cards/interfaces/i01-i2c.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "先定读什么标签、距离、是否写卡、金属环境与是否身份级安全",
+        "说明MIFARE Classic Crypto1已被公开研究破解，只能做低安全门禁/消费",
+        "身份级改用DESFire/CPU卡+密钥体系/SAM",
+        "核对13.56MHz线圈近场天线与场强，不套2.4GHz 50Ω匹配"
+      ],
+      "must_not_claim": [
+        "读UID或MIFARE Classic加密就是身份级",
+        "13.56MHz天线按50Ω CLC匹配",
+        "未做密钥/生命周期设计就宣称安全"
+      ],
+      "evidence_required": [
+        "标签类型与安全等级",
+        "读卡距离/场强测试",
+        "密钥/挂失/生命周期方案"
+      ],
+      "negative_case": "mifare_classic_as_identity",
       "check": null
     }
   ]
