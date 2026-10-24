@@ -2,7 +2,8 @@
 
 **本轮状态真源：`docs/round7-report.md`；证据索引：`docs/evidence/round7/README.md`。**
 分支 `feat/sch-layout-engine-round7`；worktree `C:\Users\jlc\work\hds-round7`；
-基线 `origin/main` `fe950d3`；HEAD 见 `git log`。
+基线 `origin/main` `fe950d3`；提交 `6fcd723`；PR
+https://github.com/zsx3896926/hardware-design-skill/pull/11。
 
 ## 当前结论
 

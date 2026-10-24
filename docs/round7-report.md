@@ -148,7 +148,8 @@ python -m unittest discover -s tests  → exit 0
 
 ## 7. 提交与证据
 
-- 分支：`feat/sch-layout-engine-round7`；基线 `fe950d3`。
+- 分支：`feat/sch-layout-engine-round7`；基线 `fe950d3`；提交 `6fcd723`；
+  PR https://github.com/zsx3896926/hardware-design-skill/pull/11；CI 结果见 PR。
 - 证据目录（仓库外）：
   `C:\Users\jlc\work\temp-alarm-20261024\evidence\round7\final\`。
 - 仓库内证据索引：`docs/evidence/round7/README.md`。
