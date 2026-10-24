@@ -17,8 +17,10 @@ https://github.com/zsx3896926/hardware-design-skill/pull/11。
   留下无效事务，已 `doc reload` 并弃用。
 - **并行会话 `jlc-ea` 已在 scratch 上完成真实重排**。本会话把其最终备份导入
   `temp-alarm-r7-verify`（`a5689d21…`）独立复核：26/26 器件身份一致、65/65 引脚
-  网络分区完全一致、`sch gate` pass、PCB DRC 0；但官方 `layout-score` 60.7，
-  8 个 netport 反向。详见 `docs/round7-peer-verification.md`。
+  网络分区完全一致、`sch gate` pass、PCB DRC 0。官方 `layout-score` 60.7（无 zone
+  claims）/ 66.7（加 zone 后），其 reversed-label fix 与引脚外法线冲突
+  （R10.1/C1.1/R14.1 outward=180°，fix 却要求 right），**不执行**；clusters 24 条
+  逐对 vs 5 条分组，均无 ERROR。详见 `docs/round7-peer-verification.md`。
 - 用户工程 `test` 未被修改。隔离副本：`temp-alarm-r7-scratch`（并行会话）、
   `temp-alarm-r7-layout`（官方回退失败，弃用）、`temp-alarm-r7-final`
   （干净基线 + 绑定，未重排）、`temp-alarm-r7-verify`（并行最终备份的只读复核）。
