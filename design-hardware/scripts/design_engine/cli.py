@@ -13,12 +13,26 @@ import sys
 from . import ENGINE_VERSION
 from .adapters import build_ir
 from .audit import audit
+from .assembly import audit_cpl, generic_components, write_cpl
+from .benchmarks import run as run_benchmarks
 from .compare import compare_ir
+from .constraints import compile_intent
+from .gerber import audit_layers
+from .critical import audit_critical
 from .ir import read_ir, summary, validate_ir, write_ir
 from .labels import plan_label_moves, to_easyeda_moves, verify_plan
+from .manufacturing import audit_package
 from .pack import pack_modules
 from .pcb import audit_pcb, build_pcb_ir
+from .placement import plan_placement
+from .reuse import plan_reuse
 from .router import route, validate_route
+from .routability import analyze_congestion
+from .silk import audit_silk
+from .sourcing import audit_bom, match_candidates, read_bom
+from .state import (add_evidence, new_state, read_state, resume_summary,
+                    verify_evidence, write_state)
+from .variants import apply_variant, variant_closure
 from .templates import load_templates
 
 
@@ -96,7 +110,7 @@ def command_audit(args):
 
 def command_plan(args):
     ir, source = _load_input(args)
-    plan = plan_label_moves(ir)
+    plan = plan_label_moves(ir, include_advisory=getattr(args, 'include_advisory', False))
     plan['source']['reading'] = source
     if args.out:
         _dump(plan, args.out)
@@ -223,6 +237,282 @@ def command_pack(args):
     return 0 if result['status'] == 'packed' else 1
 
 
+def command_constraints(args):
+    with open(args.intent, encoding='utf-8-sig') as handle:
+        intent = json.load(handle)
+    result = compile_intent(intent)
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"约束: {result['counts']}; 状态 {result['status']}; 冲突 {len(result['conflicts'])}")
+        for item in result['constraints']:
+            print(f"  [{item['kind']}] {item['subject']} {item['predicate']} "
+                  f"{item.get('op', '')} {item.get('value')} {item.get('unit')} "
+                  f"({item.get('source')})")
+    return 0 if result['status'] == 'compiled' else 1
+
+
+def command_critical(args):
+    pcb = build_pcb_ir(args.bundle)
+    constraints = None
+    if args.constraints:
+        with open(args.constraints, encoding='utf-8-sig') as handle:
+            constraints = json.load(handle)
+    result = audit_critical(pcb, constraints)
+    result['source'] = {'kind': 'pcb-bundle', 'path': args.bundle}
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"关键回路: {result['status']}; hard={result['hard_count']} "
+              f"advisory={result['advisory_count']}")
+        for finding in result['findings']:
+            print(f"  [{finding['scope']}] {finding['code']}: {finding['message']}")
+        print('电气已验证: 否')
+    return 0 if result['status'] == 'pass' else 1
+
+
+def command_placement(args):
+    pcb = build_pcb_ir(args.bundle)
+    constraints = None
+    if args.constraints:
+        with open(args.constraints, encoding='utf-8-sig') as handle:
+            constraints = json.load(handle)
+    result = plan_placement(pcb, constraints)
+    result['source'] = {'kind': 'pcb-bundle', 'path': args.bundle}
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"布局候选: {result['status']}; 选中 {result['selected']}; "
+              f"移动 {len(result['plan'])} 个器件")
+        for candidate in result['candidates']:
+            print(f"  {candidate['id']}: hard={candidate['hard_ok']} "
+                  f"critical={candidate['critical_findings']} "
+                  f"congestion={candidate['congestion']['overflow']} "
+                  f"hpwl={candidate['hpwl']:.1f} neatness={candidate['neatness']:.3f}")
+        print('eda_apply: NOT RUN')
+    return 0 if result['status'] == 'selected' else 1
+
+
+def command_routability(args):
+    pcb = build_pcb_ir(args.bundle)
+    result = analyze_congestion(pcb)
+    result['source'] = {'kind': 'pcb-bundle', 'path': args.bundle}
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"拥塞: max={result['congestion']['max']} "
+              f"overflow={result['congestion']['overflow']} cells={result['congestion']['cells']}")
+        print(f"最近异网焊盘间距: {result['min_pad_spacing_mil']} mil; "
+              f"<10 mil 的焊盘对: {len(result['tight_pad_pairs'])}; "
+              f"不同网包围盒重叠: {len(result['network_separation_overlaps'])}")
+        print('实际布通率: NOT RUN')
+    return 0
+
+
+def command_reuse(args):
+    reference = read_ir(args.reference_ir)
+    target = read_ir(args.target_ir)
+    with open(args.reference_map, encoding='utf-8-sig') as handle:
+        reference_map = json.load(handle)
+    with open(args.target_map, encoding='utf-8-sig') as handle:
+        target_map = json.load(handle)
+    template = load_templates()[args.template]
+    result = plan_reuse(template, reference, reference_map, target, target_map)
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"复用: {result['status']}; 操作 {len(result['operations'])}; "
+              f"锁定 {len(result.get('locked_components') or [])}")
+        for issue in result.get('issues') or []:
+            print(f"  {issue}")
+        print('eda_apply: NOT RUN')
+    return 0 if result['status'] == 'planned' else 1
+
+
+def command_silk(args):
+    pcb = build_pcb_ir(args.bundle)
+    result = audit_silk(pcb)
+    result['source'] = {'kind': 'pcb-bundle', 'path': args.bundle}
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"丝印: {result['status']}; hard={result['hard_count']} "
+              f"advisory={result['advisory_count']}; 建议 {len(result['suggestions'])}")
+        for finding in result['findings']:
+            print(f"  [{finding['scope']}] {finding['code']}: {finding['message']}")
+        print('eda_apply: NOT RUN')
+    return 0 if result['status'] == 'pass' else 1
+
+
+def _bom_designators(path):
+    import csv as csv_module
+    import io
+    with open(path, 'rb') as handle:
+        raw = handle.read()
+    if raw.startswith((b'\xff\xfe', b'\xfe\xff')):
+        text = raw.decode('utf-16')
+    else:
+        text = raw.decode('utf-8-sig')
+    stream = io.StringIO(text)
+    reader = csv_module.DictReader(stream, delimiter='\t')
+    if reader.fieldnames and 'Designator' not in reader.fieldnames:
+        stream.seek(0)
+        reader = csv_module.DictReader(stream)
+    result = []
+    for row in reader:
+        value = row.get('Designator') or row.get('designator') or ''
+        result.extend(item.strip() for item in value.split(',') if item.strip())
+    return result
+
+
+def command_cpl(args):
+    pcb = build_pcb_ir(args.bundle)
+    bom = _bom_designators(args.bom) if args.bom else None
+    rules = None
+    if args.rules:
+        with open(args.rules, encoding='utf-8-sig') as handle:
+            rules = json.load(handle).get('rules')
+    result = audit_cpl(pcb, bom_designators=bom, rules=rules)
+    if args.out_json:
+        _dump(result, args.out_json)
+    if args.out_csv:
+        write_cpl(result['rows'], args.out_csv)
+    if args.generic_out:
+        _dump(generic_components(pcb), args.generic_out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"CPL: {result['status']}; 行 {len(result['rows'])}; "
+              f"top={result['sides']['top']} bottom={result['sides']['bottom']}; "
+              f"hard={result['hard_count']}")
+        for finding in result['findings']:
+            print(f"  [{finding['scope']}] {finding['code']}: {finding['message']}")
+        print('eda_apply: NOT RUN')
+    return 0 if result['status'] == 'pass' else 1
+
+
+def command_package(args):
+    result = audit_package(args.dir, manifest_path=args.manifest)
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"制造包: {result['status']}; hard={result['hard_count']}; "
+              f"文件 {len(result['files'])}")
+        for finding in result['findings']:
+            print(f"  [{finding.get('scope')}] {finding['code']}: {finding['message']}")
+        print('制造/贴片/实测: NOT RUN')
+    return 0 if result['status'] == 'pass' else 1
+
+
+def command_variants(args):
+    with open(args.parts, encoding='utf-8-sig') as handle:
+        rows = json.load(handle)
+    if isinstance(rows, dict):
+        rows = rows.get('parts') or []
+    applied = apply_variant(rows, args.variant)
+    closure = variant_closure(rows, applied['rows'])
+    result = {'variant': applied, 'closure': closure}
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"变体 {args.variant}: 行 {len(applied['rows'])}; 排除 {len(applied['excluded'])}; "
+              f"状态 {applied['status']}")
+        print(f"变更闭包: +{len(closure['added'])} -{len(closure['removed'])} "
+              f"改 {len(closure['changed'])}; 状态 {closure['status']}")
+    return 0 if applied['status'] == 'ok' and closure['status'] == 'ok' else 1
+
+
+def command_sourcing(args):
+    rows = read_bom(args.bom)
+    audit = audit_bom(rows)
+    result = {'audit': audit}
+    if args.candidates:
+        with open(args.candidates, encoding='utf-8-sig') as handle:
+            candidates = json.load(handle)
+        result['match'] = match_candidates(rows, candidates, args.fetched_at)
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"BOM: {audit['status']}; 行 {audit['rows']} 器件 {audit['parts']}; "
+              f"hard={audit['hard_count']}")
+        for finding in audit['findings']:
+            print(f"  {finding['code']}: {finding['message']}")
+        if 'match' in result:
+            print(f"候选匹配: {result['match']['status']}; "
+                  f"fetched_at={result['match']['fetched_at']}")
+        print('实时库存/价格/SMT: NOT CHECKED')
+    return 0 if audit['status'] == 'pass' else 1
+
+
+def command_state(args):
+    if args.init:
+        state = new_state({'name': args.init, 'uuid': None, 'page': None},
+                          stage=args.stage or 'S0_read', next_action=args.next or '')
+        for path in args.evidence or []:
+            add_evidence(state, path)
+        write_state(state, args.file)
+        print(f'已初始化状态: {args.file}')
+        return 0
+    state = read_state(args.file)
+    if args.add_evidence:
+        add_evidence(state, args.add_evidence)
+        write_state(state, args.file)
+    if args.verify:
+        result = verify_evidence(state)
+        _dump(result, args.out)
+        return 0 if result['status'] == 'match' else 1
+    _dump(resume_summary(state), args.out)
+    return 0
+
+
+def command_benchmarks(args):
+    result = run_benchmarks()
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"基准: {result['status']}; {result['passed']}/{result['total']} "
+              f"passed, {result['failed']} failed")
+        for case in result['cases']:
+            print(f"  {case['id']}: {case['status']} {case['missing'] or ''}")
+        print('证据级别: synthetic offline geometry; 不是真机图')
+    return 0 if result['status'] == 'ok' else 1
+
+
+def command_gerber(args):
+    result = audit_layers(args.gerber, args.drill)
+    if args.out:
+        _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"Gerber/钻孔: {result['status']}; hard={result['hard_count']}; "
+              f"层 {len(result['layers'])}; 孔 {result['drill']['holes'] if result['drill'] else 0}")
+        for finding in result['findings']:
+            print(f"  {finding['code']}: {finding['message']}")
+        print('渲染/重开/DFM: NOT RUN')
+    return 0 if result['status'] == 'pass' else 1
+
+
 def command_templates(args):
     templates = load_templates()
     if args.list:
@@ -304,6 +594,8 @@ def build_parser():
         item.add_argument('--json', action='store_true')
         if name == 'plan-labels':
             item.add_argument('--moves-dir', help='write easyeda sch attribute-move JSON documents')
+            item.add_argument('--include-advisory', action='store_true',
+                              help='also move attributes that only touch a wire edge')
         item.set_defaults(func=func)
 
     verify = sub.add_parser('verify-plan', help='check preconditions and simulate a label plan')
@@ -312,6 +604,89 @@ def build_parser():
     verify.add_argument('--out')
     verify.add_argument('--json', action='store_true')
     verify.set_defaults(func=command_verify)
+
+    constraints = sub.add_parser('constraints', help='compile intent into hard/preferred/unknown constraints')
+    constraints.add_argument('--intent', required=True)
+    constraints.add_argument('--out')
+    constraints.add_argument('--json', action='store_true')
+    constraints.set_defaults(func=command_constraints)
+
+    critical = sub.add_parser('critical', help='pin-level decoupling/protection/crystal/feedback checks')
+    critical.add_argument('--bundle', required=True)
+    critical.add_argument('--constraints')
+    critical.add_argument('--out')
+    critical.add_argument('--json', action='store_true')
+    critical.set_defaults(func=command_critical)
+
+    state_parser = sub.add_parser('state', help='create/read/verify a resumable task state')
+    state_parser.add_argument('--file', required=True)
+    state_parser.add_argument('--init')
+    state_parser.add_argument('--stage')
+    state_parser.add_argument('--next')
+    state_parser.add_argument('--evidence', action='append')
+    state_parser.add_argument('--add-evidence')
+    state_parser.add_argument('--verify', action='store_true')
+    state_parser.add_argument('--out')
+    state_parser.add_argument('--json', action='store_true')
+    state_parser.set_defaults(func=command_state)
+
+    sourcing = sub.add_parser('sourcing', help='offline BOM identity and exact candidate matching')
+    sourcing.add_argument('--bom', required=True)
+    sourcing.add_argument('--candidates')
+    sourcing.add_argument('--fetched-at')
+    sourcing.add_argument('--out')
+    sourcing.add_argument('--json', action='store_true')
+    sourcing.set_defaults(func=command_sourcing)
+
+    variants = sub.add_parser('variants', help='assembly variant/DNP/substitute impact closure')
+    variants.add_argument('--parts', required=True)
+    variants.add_argument('--variant', default='base')
+    variants.add_argument('--out')
+    variants.add_argument('--json', action='store_true')
+    variants.set_defaults(func=command_variants)
+
+    gerber = sub.add_parser('gerber', help='independent Gerber/drill layer-header check')
+    gerber.add_argument('--gerber', action='append', required=True)
+    gerber.add_argument('--drill')
+    gerber.add_argument('--out')
+    gerber.add_argument('--json', action='store_true')
+    gerber.set_defaults(func=command_gerber)
+
+    package = sub.add_parser('package', help='manufacturing package completeness audit')
+    package.add_argument('--dir', required=True)
+    package.add_argument('--manifest')
+    package.add_argument('--out')
+    package.add_argument('--json', action='store_true')
+    package.set_defaults(func=command_package)
+
+    cpl = sub.add_parser('cpl', help='CPL rows, center offset, BOM consistency and generic assembly view')
+    cpl.add_argument('--bundle', required=True)
+    cpl.add_argument('--bom')
+    cpl.add_argument('--rules')
+    cpl.add_argument('--out-json')
+    cpl.add_argument('--out-csv')
+    cpl.add_argument('--generic-out')
+    cpl.add_argument('--json', action='store_true')
+    cpl.set_defaults(func=command_cpl)
+
+    silk = sub.add_parser('silk', help='silkscreen designator/mirroring/overlap audit')
+    silk.add_argument('--bundle', required=True)
+    silk.add_argument('--out')
+    silk.add_argument('--json', action='store_true')
+    silk.set_defaults(func=command_silk)
+
+    routability = sub.add_parser('routability', help='congestion/escape/network-separation proxy')
+    routability.add_argument('--bundle', required=True)
+    routability.add_argument('--out')
+    routability.add_argument('--json', action='store_true')
+    routability.set_defaults(func=command_routability)
+
+    placement = sub.add_parser('placement', help='multi-candidate PCB placement with layered scoring')
+    placement.add_argument('--bundle', required=True)
+    placement.add_argument('--constraints')
+    placement.add_argument('--out')
+    placement.add_argument('--json', action='store_true')
+    placement.set_defaults(func=command_placement)
 
     pcb_ingest = sub.add_parser('pcb-ingest', help='build a PCB IR from pcb-dump/drc/check files')
     pcb_ingest.add_argument('--bundle', required=True)
@@ -343,6 +718,21 @@ def build_parser():
     pack_parser.add_argument('--out')
     pack_parser.add_argument('--json', action='store_true')
     pack_parser.set_defaults(func=command_pack)
+
+    reuse = sub.add_parser('reuse', help='plan a repeated module with identity/pin-set checks')
+    reuse.add_argument('--template', required=True)
+    reuse.add_argument('--reference-ir', required=True)
+    reuse.add_argument('--reference-map', required=True)
+    reuse.add_argument('--target-ir', required=True)
+    reuse.add_argument('--target-map', required=True)
+    reuse.add_argument('--out')
+    reuse.add_argument('--json', action='store_true')
+    reuse.set_defaults(func=command_reuse)
+
+    benchmarks = sub.add_parser('benchmarks', help='run the 12 synthetic geometry benchmarks')
+    benchmarks.add_argument('--out')
+    benchmarks.add_argument('--json', action='store_true')
+    benchmarks.set_defaults(func=command_benchmarks)
 
     templates = sub.add_parser('templates', help='list/validate the 12 common-circuit templates')
     templates.add_argument('--list', action='store_true')

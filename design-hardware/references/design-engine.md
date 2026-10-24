@@ -75,7 +75,9 @@ python design_engine_cli.py pcb-audit --bundle <bundle> --sch-ir ir.json --out p
  "reason":"text_overlap","finding_ids":["finding:text_overlap:..."]}
 ```
 
-`--moves-dir` 生成 `sch attribute-move --from` 所需的 JSON：`projectUuid`、`documentUuid`、`primitiveId`、`x`、`y`、`expected`（完整原始属性记录）。应用后必须重新回读、重新 `audit`、重新导出图；计划里的模拟结果不是 EDA 验收。
+`--moves-dir` 生成 `sch attribute-move --from` 所需的 JSON：`projectUuid`、`documentUuid`、`primitiveId`、`x`、`y`、`expected`（完整原始属性记录）。不接受额外字段；应用后必须重新回读、重新 `audit`、重新导出图；计划里的模拟结果不是 EDA 验收。
+
+本仓库已在独立导入副本上验证过 9 个 Name/Designator 移动、保存和重开（见 [真实应用](../../docs/round7/a08-real-apply.md)）；仍不移动净标签、旗形或器件属性值。
 
 ### 4.2 前后比较
 
@@ -97,7 +99,26 @@ python design_engine_cli.py pcb-audit --bundle <bundle> --sch-ir ir.json --out p
 
 `sch-clusters.json` 的 L1 组是诊断分组，不是声明功能区；默认拒绝装箱。只有显式 `--allow-groups` 才把它们当候选，并在结果中保留 `allow_diagnostic_groups: true`。
 
-### 4.5 PCB 审计
+### 4.5 约束、关键回路与布局候选
+
+- `constraints`：把结构化条件或有限自然语言句式编译成 `hard/preferred/unknown`；硬冲突返回 `unsolvable`；未知不是 false；软偏好不能抵消硬失败。
+- `critical`：按真实焊盘坐标检查去耦、接口保护、晶振、反馈距离；有硬约束时违规为 `hard`，否则为 `advisory`。报告实际焊盘路径，不用总 ratsnest 代替。
+- `placement`：参考布局 + 3 个确定性力导向 + 关键优先吸附，先过硬合法（板框/重叠/固定件），再比关键回路、拥塞、HPWL、整齐度；保留每个候选的指标。PCB 器件移动执行器未验证，`eda_apply` 恒为 `NOT RUN`。
+- `routability`：拥塞栅格、最近异网焊盘间距、异网包围盒重叠；`route_rate` 恒为 `NOT RUN`，不把代理指标当布通率。
+
+### 4.6 丝印、装配与制造
+
+- `silk`：可见位号、底层镜像、压焊盘、越框、侧向、重复位号；建议位置只给坐标，`eeada_apply: NOT RUN`。
+- `cpl`：器件原点与焊盘质心差、BOM/CPL 位号集合、底层/顶层计数；旋转修正只接受完整 footprint UUID + 层 + 原旋转的精确规则。`--generic-out` 输出候选装配 JSON，`ihmb_compatibility: NOT VERIFIED`。
+- `package`：Gerber/钻孔/BOM/CPL 角色、空文件、BOM/CPL 位号差、重复位号、Gerber/钻孔单位一致、manifest 哈希；只证明文件存在与一致，不证明可制造。
+- `gerber`：独立读取 Gerber 的 `FileFunction/Polarity/units/apertures/EOF` 与钻孔的 `M48/METRIC/孔数/M30`，检查顶层/底层/阻焊/丝印/外形层和单位一致；不渲染铜、不替代编辑器重开。
+- `sourcing`：BOM 必须有完整 MPN、封装、C 号；候选只按精确 MPN+封装匹配；库存/价格/SMT 状态不查询。
+- `variants`：DNP、销售变体、替代料影响闭包；封装/脚数变化必须复核，不能当 drop-in。
+- `reuse`：重复模块要求完整型号/封装/脚表一致；只移动目标模块，其他器件锁定。
+- `benchmarks`：12 个合成几何电路基准，验证检查器能复现声明候选；不是真机图。
+- `state`：可恢复状态（阶段、最佳候选、未决项、下一条动作、证据哈希）；证据变化会报告。
+
+### 4.7 PCB 审计
 
 `pcb-audit` 检查板框 bbox 包含、同层器件本体重叠、焊盘中心越框、pin/pad 逐脚对账、走线/过孔连通和原生 DRC 身份。
 

@@ -1,0 +1,51 @@
+{
+  "schema": "design-engine-compare/v1",
+  "identity": {
+    "match": true,
+    "added_components": [],
+    "removed_components": [],
+    "added_pins": [],
+    "removed_pins": [],
+    "changed_pin_nets": [],
+    "nets_before": [
+      "+5V",
+      "BUZ_D",
+      "D1_N1",
+      "D1_N3",
+      "D1_N4",
+      "GATE",
+      "GND",
+      "LED_A",
+      "NODE",
+      "OUT",
+      "PWR_LED_A",
+      "REF_BOT",
+      "REF_TOP",
+      "VREF"
+    ],
+    "nets_after": [
+      "+5V",
+      "BUZ_D",
+      "D1_N1",
+      "D1_N3",
+      "D1_N4",
+      "GATE",
+      "GND",
+      "LED_A",
+      "NODE",
+      "OUT",
+      "PWR_LED_A",
+      "REF_BOT",
+      "REF_TOP",
+      "VREF"
+    ]
+  },
+  "layout": {
+    "moved_components": [],
+    "moved_attributes": [],
+    "wire_count_before": 65,
+    "wire_count_after": 65
+  },
+  "electrical_verified": false,
+  "note": "identity is from exported pin/net tables; a native netlist diff remains the authoritative gate"
+}

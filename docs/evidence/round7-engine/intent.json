@@ -1,0 +1,64 @@
+{
+  "constraints": [
+    {
+      "kind": "hard",
+      "subject": "U1",
+      "predicate": "distance_to",
+      "target": "C2",
+      "op": "<=",
+      "value": 2.54,
+      "unit": "mm",
+      "source": "JLC decoupling rule (native DFM)"
+    },
+    {
+      "kind": "hard",
+      "subject": "U1",
+      "predicate": "distance_to",
+      "target": "C3",
+      "op": "<=",
+      "value": 2.54,
+      "unit": "mm",
+      "source": "JLC decoupling rule (native DFM)"
+    },
+    {
+      "kind": "hard",
+      "subject": "U1",
+      "predicate": "distance_to",
+      "target": "C4",
+      "op": "<=",
+      "value": 2.54,
+      "unit": "mm",
+      "source": "JLC decoupling rule (native DFM)"
+    },
+    {
+      "kind": "hard",
+      "subject": "U1",
+      "predicate": "distance_to",
+      "target": "C5",
+      "op": "<=",
+      "value": 2.54,
+      "unit": "mm",
+      "source": "JLC decoupling rule (native DFM)"
+    },
+    {
+      "kind": "preferred",
+      "subject": "J1",
+      "predicate": "distance_to",
+      "target": "D3",
+      "op": "<=",
+      "value": 5.08,
+      "unit": "mm",
+      "source": "layout review"
+    },
+    {
+      "kind": "unknown",
+      "subject": "C2 ESR",
+      "predicate": "unknown",
+      "reason": "datasheet not checked in this round"
+    }
+  ],
+  "text": [
+    "去耦电容距 U1 ≤ 100 mil",
+    "这个参数待查"
+  ]
+}

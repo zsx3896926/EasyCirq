@@ -1,0 +1,1514 @@
+{
+  "schema": "design-engine-placement-plan/v1",
+  "status": "selected",
+  "candidates": [
+    {
+      "id": "reference",
+      "source": "current",
+      "hard_ok": true,
+      "hard_problems": [],
+      "critical_findings": 5,
+      "critical_decoupling": 4,
+      "congestion": {
+        "max": 108,
+        "overflow": 2186,
+        "cells": 2601
+      },
+      "routability": {
+        "schema": "design-engine-routability/v1",
+        "cell_mil": 100.0,
+        "congestion": {
+          "max": 6,
+          "overflow": 76,
+          "cells": 670,
+          "hotspots": [
+            {
+              "gx": 20,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 21,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 22,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 23,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 24,
+              "gy": -20,
+              "count": 6
+            },
+            {
+              "gx": 24,
+              "gy": -19,
+              "count": 6
+            },
+            {
+              "gx": 24,
+              "gy": -18,
+              "count": 6
+            },
+            {
+              "gx": 24,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 25,
+              "gy": -20,
+              "count": 6
+            },
+            {
+              "gx": 25,
+              "gy": -19,
+              "count": 6
+            }
+          ]
+        },
+        "tight_pad_pairs": [],
+        "min_pad_spacing_mil": 28.0,
+        "network_separation_overlaps": [
+          [
+            "BUZ_D",
+            "+5V"
+          ],
+          [
+            "BUZ_D",
+            "GND"
+          ],
+          [
+            "BUZ_D",
+            "VREF"
+          ],
+          [
+            "BUZ_D",
+            "LED_A"
+          ],
+          [
+            "BUZ_D",
+            "PWR_LED_A"
+          ],
+          [
+            "BUZ_D",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "GND"
+          ],
+          [
+            "+5V",
+            "NODE"
+          ],
+          [
+            "+5V",
+            "VREF"
+          ],
+          [
+            "+5V",
+            "D1_N1"
+          ],
+          [
+            "+5V",
+            "LED_A"
+          ],
+          [
+            "+5V",
+            "PWR_LED_A"
+          ],
+          [
+            "+5V",
+            "D1_N3"
+          ],
+          [
+            "+5V",
+            "D1_N4"
+          ],
+          [
+            "+5V",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "REF_TOP"
+          ],
+          [
+            "+5V",
+            "REF_BOT"
+          ],
+          [
+            "+5V",
+            "OUT"
+          ],
+          [
+            "GND",
+            "NODE"
+          ],
+          [
+            "GND",
+            "VREF"
+          ],
+          [
+            "GND",
+            "D1_N1"
+          ],
+          [
+            "GND",
+            "LED_A"
+          ],
+          [
+            "GND",
+            "PWR_LED_A"
+          ],
+          [
+            "GND",
+            "D1_N3"
+          ],
+          [
+            "GND",
+            "D1_N4"
+          ],
+          [
+            "GND",
+            "GATE"
+          ],
+          [
+            "GND",
+            "REF_TOP"
+          ],
+          [
+            "GND",
+            "REF_BOT"
+          ],
+          [
+            "GND",
+            "OUT"
+          ],
+          [
+            "NODE",
+            "OUT"
+          ],
+          [
+            "VREF",
+            "LED_A"
+          ],
+          [
+            "VREF",
+            "PWR_LED_A"
+          ],
+          [
+            "VREF",
+            "GATE"
+          ],
+          [
+            "VREF",
+            "REF_TOP"
+          ],
+          [
+            "VREF",
+            "REF_BOT"
+          ],
+          [
+            "VREF",
+            "OUT"
+          ],
+          [
+            "D1_N1",
+            "D1_N3"
+          ],
+          [
+            "D1_N1",
+            "D1_N4"
+          ],
+          [
+            "LED_A",
+            "PWR_LED_A"
+          ],
+          [
+            "LED_A",
+            "GATE"
+          ],
+          [
+            "LED_A",
+            "OUT"
+          ],
+          [
+            "REF_TOP",
+            "REF_BOT"
+          ]
+        ],
+        "route_rate": "NOT RUN",
+        "note": "proxy only; actual completion/DRC requires a router and native readback"
+      },
+      "hpwl": 25078.7,
+      "neatness": 0.03076923076923077,
+      "hpwl_better_but_congested": false
+    },
+    {
+      "id": "force-0",
+      "source": "force-directed",
+      "hard_ok": true,
+      "hard_problems": [],
+      "critical_findings": 5,
+      "critical_decoupling": 4,
+      "congestion": {
+        "max": 112,
+        "overflow": 1877,
+        "cells": 2140
+      },
+      "routability": {
+        "schema": "design-engine-routability/v1",
+        "cell_mil": 100.0,
+        "congestion": {
+          "max": 6,
+          "overflow": 56,
+          "cells": 572,
+          "hotspots": [
+            {
+              "gx": 21,
+              "gy": -18,
+              "count": 6
+            },
+            {
+              "gx": 21,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 22,
+              "gy": -18,
+              "count": 6
+            },
+            {
+              "gx": 22,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 9,
+              "gy": -21,
+              "count": 5
+            },
+            {
+              "gx": 9,
+              "gy": -20,
+              "count": 5
+            },
+            {
+              "gx": 9,
+              "gy": -19,
+              "count": 5
+            },
+            {
+              "gx": 9,
+              "gy": -18,
+              "count": 5
+            },
+            {
+              "gx": 15,
+              "gy": -17,
+              "count": 5
+            },
+            {
+              "gx": 15,
+              "gy": -16,
+              "count": 5
+            }
+          ]
+        },
+        "tight_pad_pairs": [],
+        "min_pad_spacing_mil": 28.0,
+        "network_separation_overlaps": [
+          [
+            "BUZ_D",
+            "+5V"
+          ],
+          [
+            "BUZ_D",
+            "GND"
+          ],
+          [
+            "BUZ_D",
+            "LED_A"
+          ],
+          [
+            "BUZ_D",
+            "PWR_LED_A"
+          ],
+          [
+            "BUZ_D",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "GND"
+          ],
+          [
+            "+5V",
+            "NODE"
+          ],
+          [
+            "+5V",
+            "VREF"
+          ],
+          [
+            "+5V",
+            "D1_N1"
+          ],
+          [
+            "+5V",
+            "LED_A"
+          ],
+          [
+            "+5V",
+            "PWR_LED_A"
+          ],
+          [
+            "+5V",
+            "D1_N3"
+          ],
+          [
+            "+5V",
+            "D1_N4"
+          ],
+          [
+            "+5V",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "REF_TOP"
+          ],
+          [
+            "+5V",
+            "REF_BOT"
+          ],
+          [
+            "+5V",
+            "OUT"
+          ],
+          [
+            "GND",
+            "NODE"
+          ],
+          [
+            "GND",
+            "VREF"
+          ],
+          [
+            "GND",
+            "D1_N1"
+          ],
+          [
+            "GND",
+            "LED_A"
+          ],
+          [
+            "GND",
+            "PWR_LED_A"
+          ],
+          [
+            "GND",
+            "D1_N3"
+          ],
+          [
+            "GND",
+            "D1_N4"
+          ],
+          [
+            "GND",
+            "GATE"
+          ],
+          [
+            "GND",
+            "REF_TOP"
+          ],
+          [
+            "GND",
+            "REF_BOT"
+          ],
+          [
+            "GND",
+            "OUT"
+          ],
+          [
+            "NODE",
+            "VREF"
+          ],
+          [
+            "NODE",
+            "OUT"
+          ],
+          [
+            "VREF",
+            "LED_A"
+          ],
+          [
+            "VREF",
+            "GATE"
+          ],
+          [
+            "VREF",
+            "REF_TOP"
+          ],
+          [
+            "VREF",
+            "REF_BOT"
+          ],
+          [
+            "VREF",
+            "OUT"
+          ],
+          [
+            "D1_N1",
+            "D1_N3"
+          ],
+          [
+            "D1_N1",
+            "D1_N4"
+          ],
+          [
+            "LED_A",
+            "PWR_LED_A"
+          ],
+          [
+            "LED_A",
+            "GATE"
+          ],
+          [
+            "LED_A",
+            "OUT"
+          ],
+          [
+            "PWR_LED_A",
+            "GATE"
+          ],
+          [
+            "D1_N3",
+            "D1_N4"
+          ],
+          [
+            "REF_TOP",
+            "REF_BOT"
+          ]
+        ],
+        "route_rate": "NOT RUN",
+        "note": "proxy only; actual completion/DRC requires a router and native readback"
+      },
+      "hpwl": 22474.886,
+      "neatness": 0.009230769230769232,
+      "hpwl_better_but_congested": false
+    },
+    {
+      "id": "force-1",
+      "source": "force-directed",
+      "hard_ok": true,
+      "hard_problems": [],
+      "critical_findings": 5,
+      "critical_decoupling": 4,
+      "congestion": {
+        "max": 105,
+        "overflow": 1850,
+        "cells": 2079
+      },
+      "routability": {
+        "schema": "design-engine-routability/v1",
+        "cell_mil": 100.0,
+        "congestion": {
+          "max": 7,
+          "overflow": 61,
+          "cells": 550,
+          "hotspots": [
+            {
+              "gx": 24,
+              "gy": -18,
+              "count": 7
+            },
+            {
+              "gx": 25,
+              "gy": -18,
+              "count": 7
+            },
+            {
+              "gx": 21,
+              "gy": -18,
+              "count": 6
+            },
+            {
+              "gx": 22,
+              "gy": -18,
+              "count": 6
+            },
+            {
+              "gx": 22,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 23,
+              "gy": -18,
+              "count": 6
+            },
+            {
+              "gx": 23,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 24,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 25,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 9,
+              "gy": -21,
+              "count": 5
+            }
+          ]
+        },
+        "tight_pad_pairs": [],
+        "min_pad_spacing_mil": 28.0,
+        "network_separation_overlaps": [
+          [
+            "BUZ_D",
+            "+5V"
+          ],
+          [
+            "BUZ_D",
+            "GND"
+          ],
+          [
+            "BUZ_D",
+            "LED_A"
+          ],
+          [
+            "BUZ_D",
+            "PWR_LED_A"
+          ],
+          [
+            "BUZ_D",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "GND"
+          ],
+          [
+            "+5V",
+            "NODE"
+          ],
+          [
+            "+5V",
+            "VREF"
+          ],
+          [
+            "+5V",
+            "D1_N1"
+          ],
+          [
+            "+5V",
+            "LED_A"
+          ],
+          [
+            "+5V",
+            "PWR_LED_A"
+          ],
+          [
+            "+5V",
+            "D1_N3"
+          ],
+          [
+            "+5V",
+            "D1_N4"
+          ],
+          [
+            "+5V",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "REF_TOP"
+          ],
+          [
+            "+5V",
+            "REF_BOT"
+          ],
+          [
+            "+5V",
+            "OUT"
+          ],
+          [
+            "GND",
+            "NODE"
+          ],
+          [
+            "GND",
+            "VREF"
+          ],
+          [
+            "GND",
+            "D1_N1"
+          ],
+          [
+            "GND",
+            "LED_A"
+          ],
+          [
+            "GND",
+            "PWR_LED_A"
+          ],
+          [
+            "GND",
+            "D1_N3"
+          ],
+          [
+            "GND",
+            "D1_N4"
+          ],
+          [
+            "GND",
+            "GATE"
+          ],
+          [
+            "GND",
+            "REF_TOP"
+          ],
+          [
+            "GND",
+            "REF_BOT"
+          ],
+          [
+            "GND",
+            "OUT"
+          ],
+          [
+            "NODE",
+            "VREF"
+          ],
+          [
+            "NODE",
+            "OUT"
+          ],
+          [
+            "VREF",
+            "LED_A"
+          ],
+          [
+            "VREF",
+            "GATE"
+          ],
+          [
+            "VREF",
+            "REF_TOP"
+          ],
+          [
+            "VREF",
+            "REF_BOT"
+          ],
+          [
+            "VREF",
+            "OUT"
+          ],
+          [
+            "D1_N1",
+            "D1_N3"
+          ],
+          [
+            "D1_N1",
+            "D1_N4"
+          ],
+          [
+            "LED_A",
+            "PWR_LED_A"
+          ],
+          [
+            "LED_A",
+            "GATE"
+          ],
+          [
+            "LED_A",
+            "OUT"
+          ],
+          [
+            "PWR_LED_A",
+            "GATE"
+          ],
+          [
+            "D1_N3",
+            "D1_N4"
+          ],
+          [
+            "REF_TOP",
+            "REF_BOT"
+          ]
+        ],
+        "route_rate": "NOT RUN",
+        "note": "proxy only; actual completion/DRC requires a router and native readback"
+      },
+      "hpwl": 22631.286,
+      "neatness": 0.021538461538461538,
+      "hpwl_better_but_congested": false
+    },
+    {
+      "id": "force-2",
+      "source": "force-directed",
+      "hard_ok": true,
+      "hard_problems": [],
+      "critical_findings": 5,
+      "critical_decoupling": 4,
+      "congestion": {
+        "max": 109,
+        "overflow": 1756,
+        "cells": 2095
+      },
+      "routability": {
+        "schema": "design-engine-routability/v1",
+        "cell_mil": 100.0,
+        "congestion": {
+          "max": 6,
+          "overflow": 57,
+          "cells": 541,
+          "hotspots": [
+            {
+              "gx": 16,
+              "gy": -17,
+              "count": 6
+            },
+            {
+              "gx": 16,
+              "gy": -16,
+              "count": 6
+            },
+            {
+              "gx": 16,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 19,
+              "gy": -17,
+              "count": 6
+            },
+            {
+              "gx": 19,
+              "gy": -16,
+              "count": 6
+            },
+            {
+              "gx": 20,
+              "gy": -17,
+              "count": 6
+            },
+            {
+              "gx": 20,
+              "gy": -16,
+              "count": 6
+            },
+            {
+              "gx": 20,
+              "gy": -14,
+              "count": 6
+            },
+            {
+              "gx": 21,
+              "gy": -18,
+              "count": 6
+            },
+            {
+              "gx": 21,
+              "gy": -17,
+              "count": 6
+            }
+          ]
+        },
+        "tight_pad_pairs": [],
+        "min_pad_spacing_mil": 28.0,
+        "network_separation_overlaps": [
+          [
+            "BUZ_D",
+            "+5V"
+          ],
+          [
+            "BUZ_D",
+            "GND"
+          ],
+          [
+            "BUZ_D",
+            "LED_A"
+          ],
+          [
+            "BUZ_D",
+            "PWR_LED_A"
+          ],
+          [
+            "BUZ_D",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "GND"
+          ],
+          [
+            "+5V",
+            "NODE"
+          ],
+          [
+            "+5V",
+            "VREF"
+          ],
+          [
+            "+5V",
+            "D1_N1"
+          ],
+          [
+            "+5V",
+            "LED_A"
+          ],
+          [
+            "+5V",
+            "PWR_LED_A"
+          ],
+          [
+            "+5V",
+            "D1_N3"
+          ],
+          [
+            "+5V",
+            "D1_N4"
+          ],
+          [
+            "+5V",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "REF_TOP"
+          ],
+          [
+            "+5V",
+            "REF_BOT"
+          ],
+          [
+            "+5V",
+            "OUT"
+          ],
+          [
+            "GND",
+            "NODE"
+          ],
+          [
+            "GND",
+            "VREF"
+          ],
+          [
+            "GND",
+            "D1_N1"
+          ],
+          [
+            "GND",
+            "LED_A"
+          ],
+          [
+            "GND",
+            "PWR_LED_A"
+          ],
+          [
+            "GND",
+            "D1_N3"
+          ],
+          [
+            "GND",
+            "D1_N4"
+          ],
+          [
+            "GND",
+            "GATE"
+          ],
+          [
+            "GND",
+            "REF_TOP"
+          ],
+          [
+            "GND",
+            "REF_BOT"
+          ],
+          [
+            "GND",
+            "OUT"
+          ],
+          [
+            "NODE",
+            "VREF"
+          ],
+          [
+            "NODE",
+            "OUT"
+          ],
+          [
+            "VREF",
+            "LED_A"
+          ],
+          [
+            "VREF",
+            "PWR_LED_A"
+          ],
+          [
+            "VREF",
+            "GATE"
+          ],
+          [
+            "VREF",
+            "REF_TOP"
+          ],
+          [
+            "VREF",
+            "REF_BOT"
+          ],
+          [
+            "VREF",
+            "OUT"
+          ],
+          [
+            "D1_N1",
+            "D1_N3"
+          ],
+          [
+            "D1_N1",
+            "D1_N4"
+          ],
+          [
+            "LED_A",
+            "PWR_LED_A"
+          ],
+          [
+            "LED_A",
+            "GATE"
+          ],
+          [
+            "LED_A",
+            "OUT"
+          ],
+          [
+            "PWR_LED_A",
+            "GATE"
+          ],
+          [
+            "REF_TOP",
+            "REF_BOT"
+          ]
+        ],
+        "route_rate": "NOT RUN",
+        "note": "proxy only; actual completion/DRC requires a router and native readback"
+      },
+      "hpwl": 20779.608600000003,
+      "neatness": 0.018461538461538463,
+      "hpwl_better_but_congested": false
+    },
+    {
+      "id": "critical-snap",
+      "source": "critical-first",
+      "hard_ok": true,
+      "hard_problems": [],
+      "critical_findings": 5,
+      "critical_decoupling": 4,
+      "congestion": {
+        "max": 103,
+        "overflow": 2283,
+        "cells": 2567
+      },
+      "routability": {
+        "schema": "design-engine-routability/v1",
+        "cell_mil": 100.0,
+        "congestion": {
+          "max": 6,
+          "overflow": 106,
+          "cells": 669,
+          "hotspots": [
+            {
+              "gx": 20,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 21,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 22,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 23,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 24,
+              "gy": -20,
+              "count": 6
+            },
+            {
+              "gx": 24,
+              "gy": -19,
+              "count": 6
+            },
+            {
+              "gx": 24,
+              "gy": -18,
+              "count": 6
+            },
+            {
+              "gx": 24,
+              "gy": -15,
+              "count": 6
+            },
+            {
+              "gx": 25,
+              "gy": -20,
+              "count": 6
+            },
+            {
+              "gx": 25,
+              "gy": -19,
+              "count": 6
+            }
+          ]
+        },
+        "tight_pad_pairs": [],
+        "min_pad_spacing_mil": 28.0,
+        "network_separation_overlaps": [
+          [
+            "BUZ_D",
+            "+5V"
+          ],
+          [
+            "BUZ_D",
+            "GND"
+          ],
+          [
+            "BUZ_D",
+            "VREF"
+          ],
+          [
+            "BUZ_D",
+            "LED_A"
+          ],
+          [
+            "BUZ_D",
+            "PWR_LED_A"
+          ],
+          [
+            "BUZ_D",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "GND"
+          ],
+          [
+            "+5V",
+            "NODE"
+          ],
+          [
+            "+5V",
+            "VREF"
+          ],
+          [
+            "+5V",
+            "D1_N1"
+          ],
+          [
+            "+5V",
+            "LED_A"
+          ],
+          [
+            "+5V",
+            "PWR_LED_A"
+          ],
+          [
+            "+5V",
+            "D1_N3"
+          ],
+          [
+            "+5V",
+            "D1_N4"
+          ],
+          [
+            "+5V",
+            "GATE"
+          ],
+          [
+            "+5V",
+            "REF_TOP"
+          ],
+          [
+            "+5V",
+            "REF_BOT"
+          ],
+          [
+            "+5V",
+            "OUT"
+          ],
+          [
+            "GND",
+            "NODE"
+          ],
+          [
+            "GND",
+            "VREF"
+          ],
+          [
+            "GND",
+            "D1_N1"
+          ],
+          [
+            "GND",
+            "LED_A"
+          ],
+          [
+            "GND",
+            "PWR_LED_A"
+          ],
+          [
+            "GND",
+            "D1_N3"
+          ],
+          [
+            "GND",
+            "D1_N4"
+          ],
+          [
+            "GND",
+            "GATE"
+          ],
+          [
+            "GND",
+            "REF_TOP"
+          ],
+          [
+            "GND",
+            "REF_BOT"
+          ],
+          [
+            "GND",
+            "OUT"
+          ],
+          [
+            "NODE",
+            "VREF"
+          ],
+          [
+            "NODE",
+            "OUT"
+          ],
+          [
+            "VREF",
+            "LED_A"
+          ],
+          [
+            "VREF",
+            "PWR_LED_A"
+          ],
+          [
+            "VREF",
+            "GATE"
+          ],
+          [
+            "VREF",
+            "REF_TOP"
+          ],
+          [
+            "VREF",
+            "REF_BOT"
+          ],
+          [
+            "VREF",
+            "OUT"
+          ],
+          [
+            "D1_N1",
+            "D1_N3"
+          ],
+          [
+            "D1_N1",
+            "D1_N4"
+          ],
+          [
+            "LED_A",
+            "PWR_LED_A"
+          ],
+          [
+            "LED_A",
+            "GATE"
+          ],
+          [
+            "LED_A",
+            "OUT"
+          ],
+          [
+            "REF_TOP",
+            "REF_BOT"
+          ]
+        ],
+        "route_rate": "NOT RUN",
+        "note": "proxy only; actual completion/DRC requires a router and native readback"
+      },
+      "hpwl": 25204.452,
+      "neatness": 0.03076923076923077,
+      "hpwl_better_but_congested": false
+    }
+  ],
+  "selected": "force-2",
+  "plan": [
+    {
+      "component_id": "pcbpart:BZ1",
+      "designator": "BZ1",
+      "from": {
+        "x": 3210,
+        "y": -1715
+      },
+      "to": {
+        "x": 2910.0,
+        "y": -1715.0
+      }
+    },
+    {
+      "component_id": "pcbpart:C1",
+      "designator": "C1",
+      "from": {
+        "x": 1878.6915,
+        "y": -485.7894
+      },
+      "to": {
+        "x": 1878.6915,
+        "y": -438.8963999999999
+      }
+    },
+    {
+      "component_id": "pcbpart:C2",
+      "designator": "C2",
+      "from": {
+        "x": 2634.9815,
+        "y": -861.8284
+      },
+      "to": {
+        "x": 2334.9815,
+        "y": -861.8284
+      }
+    },
+    {
+      "component_id": "pcbpart:C3",
+      "designator": "C3",
+      "from": {
+        "x": 3168.607,
+        "y": -1402.1254
+      },
+      "to": {
+        "x": 2868.607,
+        "y": -1402.1254
+      }
+    },
+    {
+      "component_id": "pcbpart:D4",
+      "designator": "D4",
+      "from": {
+        "x": 2498.0445,
+        "y": -2127.5574
+      },
+      "to": {
+        "x": 2439.589500000001,
+        "y": -1828.0574000000001
+      }
+    },
+    {
+      "component_id": "pcbpart:D5",
+      "designator": "D5",
+      "from": {
+        "x": 2806.9415,
+        "y": -1920.0574000000001
+      },
+      "to": {
+        "x": 2506.9415,
+        "y": -1920.0574000000001
+      }
+    },
+    {
+      "component_id": "pcbpart:D6",
+      "designator": "D6",
+      "from": {
+        "x": 3168.607,
+        "y": -2024.3574
+      },
+      "to": {
+        "x": 2868.607,
+        "y": -2024.3574
+      }
+    },
+    {
+      "component_id": "pcbpart:Q1",
+      "designator": "Q1",
+      "from": {
+        "x": 2498.0445,
+        "y": -1717.3404
+      },
+      "to": {
+        "x": 2198.0445,
+        "y": -1717.3404
+      }
+    },
+    {
+      "component_id": "pcbpart:R10",
+      "designator": "R10",
+      "from": {
+        "x": 2328.2785,
+        "y": -303.5594
+      },
+      "to": {
+        "x": 2193.2785,
+        "y": -603.5594
+      }
+    },
+    {
+      "component_id": "pcbpart:R11",
+      "designator": "R11",
+      "from": {
+        "x": 1659.0755,
+        "y": -786.5564
+      },
+      "to": {
+        "x": 1659.0755,
+        "y": -1086.5564
+      }
+    },
+    {
+      "component_id": "pcbpart:R12",
+      "designator": "R12",
+      "from": {
+        "x": 1680,
+        "y": -1145
+      },
+      "to": {
+        "x": 1635.0,
+        "y": -1437.2223999999999
+      }
+    },
+    {
+      "component_id": "pcbpart:R13",
+      "designator": "R13",
+      "from": {
+        "x": 2498.0445,
+        "y": -225.85839999999996
+      },
+      "to": {
+        "x": 2303.0445,
+        "y": -525.8584
+      }
+    },
+    {
+      "component_id": "pcbpart:R14",
+      "designator": "R14",
+      "from": {
+        "x": 2110,
+        "y": -1420
+      },
+      "to": {
+        "x": 2110.0,
+        "y": -1355.0
+      }
+    },
+    {
+      "component_id": "pcbpart:R15",
+      "designator": "R15",
+      "from": {
+        "x": 2005,
+        "y": -1495
+      },
+      "to": {
+        "x": 1705.0,
+        "y": -1487.4824
+      }
+    },
+    {
+      "component_id": "pcbpart:R16",
+      "designator": "R16",
+      "from": {
+        "x": 2028.2435,
+        "y": -1326.8534
+      },
+      "to": {
+        "x": 1903.2435,
+        "y": -1346.8534
+      }
+    },
+    {
+      "component_id": "pcbpart:R17",
+      "designator": "R17",
+      "from": {
+        "x": 1759.1104999999998,
+        "y": -1822.7424
+      },
+      "to": {
+        "x": 1759.1104999999998,
+        "y": -1537.7424
+      }
+    },
+    {
+      "component_id": "pcbpart:RT1",
+      "designator": "RT1",
+      "from": {
+        "x": 1878.6915,
+        "y": -225.85839999999996
+      },
+      "to": {
+        "x": 1878.6915,
+        "y": -505.85839999999996
+      }
+    },
+    {
+      "component_id": "pcbpart:RV1",
+      "designator": "RV1",
+      "from": {
+        "x": 1500,
+        "y": -1985
+      },
+      "to": {
+        "x": 1500.0,
+        "y": -1685.0
+      }
+    },
+    {
+      "component_id": "pcbpart:U1",
+      "designator": "U1",
+      "from": {
+        "x": 2985.5315,
+        "y": -601.4189
+      },
+      "to": {
+        "x": 2685.5315,
+        "y": -601.4189
+      }
+    }
+  ],
+  "eeada_apply": "NOT RUN",
+  "note": "hard legality first; HPWL is only a lower tie-breaker; no PCB component-move executor is verified",
+  "source": {
+    "kind": "pcb-bundle",
+    "path": "docs\\evidence\\round7-baseline-2026-10-24"
+  }
+}

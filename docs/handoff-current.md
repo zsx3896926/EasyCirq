@@ -5,11 +5,12 @@
 - 分支 `feat/design-engine-round7`，worktree `C:\Users\jlc\work\hds-engine`，基线 `fe950d3`，实现提交 `6468d0f`（已推送）。
 - 状态真源：[docs/task-ledger-round7-engine.md](task-ledger-round7-engine.md)；报告：[docs/round7/engine-report.md](round7/engine-report.md)。
 - 入口：`design-hardware/scripts/design_engine_cli.py`；契约：[design-hardware/references/design-engine.md](../design-hardware/references/design-engine.md)。
-- 已完成：A01–A04/A06/A08 骨架、S01–S05/S08–S10 的离线子集、PCB 板框/焊盘/连通/DRC 身份、12 模板、628 tests OK。
-- 真实数据：原理图 26 器件/65 导线/14 网/34 净标签；审计 10 hard → 计划模拟 4 hard；PCB DRC 18（16+2）、+5V 2 个断开组、GND 铺铜 `not_checked`。
-- `eda_apply`、保存重开、after 导图、人工审图、原生网表 diff、铺铜连通、制造/样机：**NOT RUN**。
-- 并发边界：另一会话在 `hds-round7` 与 `temp-alarm-r7-scratch` 上做原理图重排；本会话未写该工程，只复制了 21:16 的冻结基线。两个分支不要直接互并。
-- 下一条：在独占 scratch 副本执行 4 个 `attribute-move`，回读/audit/导图；再扩展 eda_exec 快照 bbox。
+- 已完成：A01–A08 骨架；S01–S10、P01–P08、R04/R05、M01/M02/M04/M05、Q01–Q03、U03 的离线子集；658 tests OK。
+- 真实数据：原理图 26 器件/65 导线/14 网/34 净标签；PCB DRC 18（16+2）、+5V 2 个断开组、GND 铺铜 `not_checked`。
+- **真实 EDA 应用**：导入副本 `engine-verify-round7-imported`（UUID `64ab79c4…`）；9 个 Name/Designator 移动；audit 11→1 hard；原生 check 5→3 warnings；原生 DRC 0；layout-score 84.2→86.7；identity match；保存重开 match；after3 PNG 已检视。详见 [a08](round7/a08-real-apply.md)。
+- 仍未做：器件/导线/旗形移动、PCB 写入、人工盲审、断电重启、原生网表 diff、铺铜连通、制造/样机。
+- 并发边界：另一会话在 `hds-round7` / `temp-alarm-r7-scratch` 上做原理图重排；本会话只使用独立导入副本，未写该工程。两个分支不要直接互并。
+- 下一条：在导入副本或另一个独占副本上验证 PCB 布局候选/回读；补原生网表 diff 与人工审图。
 
 ## 第五轮收尾（2026-10-23）
 

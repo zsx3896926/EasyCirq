@@ -1,0 +1,3 @@
+sheet-geometry: template "a-series-landscape", bbox [0.00,0.00 → 1170.00,825.00]
+  titleBlock (visible, source=known-template-ratio): bbox [468.00,0.00 → 1170.00,198.00]
+  keepout "titleBlock" (hard): [468.00,0.00 → 1170.00,198.00]

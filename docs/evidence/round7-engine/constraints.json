@@ -1,0 +1,106 @@
+{
+  "schema": "design-engine-constraints/v1",
+  "constraints": [
+    {
+      "kind": "hard",
+      "subject": "U1",
+      "predicate": "distance_to",
+      "target": "C2",
+      "op": "<=",
+      "value": 2.54,
+      "unit": "mm",
+      "source": "JLC decoupling rule (native DFM)",
+      "condition": null,
+      "raw": null
+    },
+    {
+      "kind": "hard",
+      "subject": "U1",
+      "predicate": "distance_to",
+      "target": "C3",
+      "op": "<=",
+      "value": 2.54,
+      "unit": "mm",
+      "source": "JLC decoupling rule (native DFM)",
+      "condition": null,
+      "raw": null
+    },
+    {
+      "kind": "hard",
+      "subject": "U1",
+      "predicate": "distance_to",
+      "target": "C4",
+      "op": "<=",
+      "value": 2.54,
+      "unit": "mm",
+      "source": "JLC decoupling rule (native DFM)",
+      "condition": null,
+      "raw": null
+    },
+    {
+      "kind": "hard",
+      "subject": "U1",
+      "predicate": "distance_to",
+      "target": "C5",
+      "op": "<=",
+      "value": 2.54,
+      "unit": "mm",
+      "source": "JLC decoupling rule (native DFM)",
+      "condition": null,
+      "raw": null
+    },
+    {
+      "kind": "preferred",
+      "subject": "J1",
+      "predicate": "distance_to",
+      "target": "D3",
+      "op": "<=",
+      "value": 5.08,
+      "unit": "mm",
+      "source": "layout review",
+      "condition": null,
+      "raw": null
+    },
+    {
+      "kind": "unknown",
+      "subject": "C2 ESR",
+      "predicate": "unknown",
+      "target": null,
+      "op": "<=",
+      "value": null,
+      "unit": null,
+      "source": "user",
+      "condition": null,
+      "raw": null,
+      "reason": "unknown constraint"
+    },
+    {
+      "kind": "hard",
+      "subject": "U1",
+      "predicate": "distance_to",
+      "target": null,
+      "op": "<=",
+      "value": 2.54,
+      "unit": "mm",
+      "source": "text[0]",
+      "condition": null,
+      "raw": "去耦电容距 U1 ≤ 100 mil"
+    },
+    {
+      "kind": "unknown",
+      "subject": "这个参数",
+      "predicate": "unparsed",
+      "source": "text[1]",
+      "raw": "这个参数待查",
+      "reason": "explicit unknown or unparsed intent"
+    }
+  ],
+  "counts": {
+    "hard": 5,
+    "preferred": 1,
+    "unknown": 2
+  },
+  "conflicts": [],
+  "status": "incomplete",
+  "note": "unknown/stale constraints are not false; a hard conflict is reported, never averaged into a score"
+}

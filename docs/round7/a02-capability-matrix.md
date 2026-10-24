@@ -34,7 +34,7 @@
 | 能力 | 可用入口 | 限制 | 本轮状态 |
 |---|---|---|---|
 | 移动器件/创建导线/改文字 | `eda_exec.py apply`（官方 CLI 固定动作） | 只发固定模板，不执行用户 JS；写入前对账 | 未在本轮真机应用 |
-| 移动 Name/Designator | `easyeda sch attribute-move --from move.json` | 只支持 Name/Designator；要求完整原始属性记录与 project/document UUID；x/y 为 Y-up 原始坐标 | 生成了 4 个参数文件，**未执行** |
+| 移动 Name/Designator | `easyeda sch attribute-move --from move.json` | 只支持 Name/Designator；要求完整原始属性记录与 project/document UUID；x/y 为 Y-up 原始坐标；不接受额外字段 | **已验证**：隔离副本 10 次操作/9 个属性，`moved/verified/preserved=true`；保存重开 match |
 | 移动净标签/旗形 | 无独立 API | 锚点属于导线/符号；改坐标会脱离所属对象 | 计划中标记 `unplanned` |
 | 改 Value/其它属性 | 无受控单属性入口 | 需要改器件或重建，影响身份 | 不做 |
 | PCB 写入/布线 | `eda_exec` PCB 命令族 / easyeda 路由 | 需激活 PCB、串行写入 | 本轮未做 |
@@ -46,7 +46,11 @@
 3. **应用**：`eda_exec.py`（器件/导线/文字）或 easyeda-agent 的 `sch attribute-move`（Name/Designator）；每次应用前带完整 `expected`，应用后重新回读、重新 audit、重新导图。
 4. **最终电气门禁**：`netlist_diff.py` 原生网表 diff；本引擎的 `compare` 只是辅助。
 
-## 5. 已确认的缺口
+## 5. 本轮新增的离线能力
+
+`design_engine_cli.py` 已实现并测试：IR/覆盖、标签计划与校验、正交路由候选、模块装箱、12 模板、PCB 板框/焊盘/连通/DRC、约束编译、关键回路、布局候选、可布性代理、丝印、CPL/装配视图、制造包、Gerber 层、选型、变体、复用、基准、状态与故障注入。它们全部不访问 EDA；`eda_apply`/`route_rate`/`IHMB compatibility` 等保持 `NOT RUN`/`NOT VERIFIED`。
+
+## 6. 已确认的缺口
 
 - `sch list` 不返回“净标签”图元；净标签实际是导线的 `Name` 属性（`ParentPrimitiveId` 属于导线）。不解析它会把正常导线端误报为悬空。
 - 原生 bbox 只对位号提供；其它可见文字需要 SVG 锚点 + 字体度量，来源标记为 `windows_gdi_font_metrics` 或 `font_table_estimate`。

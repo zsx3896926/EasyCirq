@@ -1,0 +1,26 @@
+{
+  "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+  "documentUuid": "6a8364999a809cb4",
+  "primitiveId": "4ce49a64c53f3877",
+  "x": 820.0,
+  "y": 275.0,
+  "expected": {
+    "AlignMode": null,
+    "Bold": null,
+    "Color": null,
+    "FillColor": null,
+    "FontName": null,
+    "FontSize": null,
+    "Italic": null,
+    "Key": "Name",
+    "KeyVisible": null,
+    "ParentPrimitiveId": "b095fbd42ab4f69a",
+    "Rotation": 0,
+    "UnderLine": null,
+    "Value": "={Manufacturer Part}",
+    "ValueVisible": true,
+    "X": 885,
+    "Y": 190,
+    "primitiveId": "4ce49a64c53f3877"
+  }
+}

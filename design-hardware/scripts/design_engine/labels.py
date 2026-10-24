@@ -15,7 +15,7 @@ import copy
 import json
 import math
 
-from .audit import HARD, audit
+from .audit import ADVISORY, HARD, audit
 from .geometry import (point_in_rect, rect_contains, rect_expand, rect_overlap,
                        segment_intersects_rect)
 from .ir import validate_ir
@@ -63,16 +63,21 @@ def _other_boxes(ir, skip_ids):
     return boxes
 
 
-def _candidates(x, y, grid=5, max_radius=40):
-    """Deterministic ring search: same row/column first, then diagonal rings."""
+def _candidates(x, y, grid=5, max_radius=120):
+    """Deterministic grid search ordered by Manhattan distance, then x/y.
+
+    A full bounded grid is used instead of only eight ring points: label
+    placement around a dense symbol often has a legal slot off the axis.
+    """
     yield 0.0, 0.0
-    radius = grid
-    while radius <= max_radius:
-        for dx, dy in ((radius, 0), (-radius, 0), (0, radius), (0, -radius)):
-            yield dx, dy
-        for dx, dy in ((radius, radius), (radius, -radius), (-radius, radius), (-radius, -radius)):
-            yield dx, dy
-        radius += grid
+    offsets = []
+    for dx in range(-max_radius, max_radius + 1, grid):
+        for dy in range(-max_radius, max_radius + 1, grid):
+            if dx == 0 and dy == 0:
+                continue
+            offsets.append((abs(dx) + abs(dy), abs(dx), dx, dy))
+    for _, _, dx, dy in sorted(offsets):
+        yield dx, dy
 
 
 def _legal_position(ir, component, attribute, boxes, page, title):
@@ -83,8 +88,10 @@ def _legal_position(ir, component, attribute, boxes, page, title):
     if type(original_x) not in (int, float) or type(original_y) not in (int, float):
         return None, 'anchor_not_measured'
     own_body = component.get('body_bbox')
-    for dx, dy in _candidates(original_x, original_y):
-        x, y = original_x + dx, original_y + dy
+    base_x = round(original_x / 5.0) * 5.0
+    base_y = round(original_y / 5.0) * 5.0
+    for dx, dy in _candidates(base_x, base_y):
+        x, y = base_x + dx, base_y + dy
         if abs(x / 5.0 - round(x / 5.0)) > 1e-9 or abs(y / 5.0 - round(y / 5.0)) > 1e-9:
             continue
         box, _ = _text_box(attribute, x, y)
@@ -110,16 +117,17 @@ def _legal_position(ir, component, attribute, boxes, page, title):
         # A value/designator may sit next to a wire, but not across its ink.
         for wire in ir.get('wires') or []:
             points = wire.get('points') or []
-            if any(segment_intersects_rect(a, b, box) for a, b in zip(points, points[1:])):
+            if any(segment_intersects_rect(a, b, rect_expand(box, 1.0))
+                   for a, b in zip(points, points[1:])):
                 conflict = True
                 break
         if conflict:
             continue
         return (x, y, list(box)), None
-    return None, 'no_legal_position_within_40_units'
+    return None, 'no_legal_position_within_120_units'
 
 
-def plan_label_moves(ir, max_rounds=40):
+def plan_label_moves(ir, max_rounds=80, include_advisory=False):
     """Move one implicated attribute at a time, re-auditing after each move."""
     working = copy.deepcopy(ir)
     index = _attribute_index(working)
@@ -128,6 +136,10 @@ def plan_label_moves(ir, max_rounds=40):
     for _ in range(max_rounds):
         result = audit(working)
         hard = [finding for finding in result['findings'] if finding['scope'] == HARD]
+        if include_advisory:
+            hard += [finding for finding in result['findings']
+                     if finding['scope'] == ADVISORY and
+                     finding['code'] == 'wire_touches_text_bbox']
         chosen = None
         for finding in hard:
             for identity in finding['objects']:
@@ -309,6 +321,5 @@ def to_easyeda_moves(plan, ir):
             'x': operation['to']['x'],
             'y': operation['to']['y'],
             'expected': attribute.get('native'),
-            'note': f"design-engine plan: {operation.get('reason')}",
         })
     return documents

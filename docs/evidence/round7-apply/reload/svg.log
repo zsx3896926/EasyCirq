@@ -1,0 +1,47 @@
+{
+  "id": "req_6860",
+  "type": "response",
+  "version": "v1",
+  "windowId": "fdcf9c6f-041a-4e07-8900-715bd123cba0",
+  "createdAt": "2026-10-24T14:58:40.8616796Z",
+  "ok": true,
+  "result": {
+    "artifactId": "art_c79fb0e6-b228-41f0-bb48-d0dbd9ef673f",
+    "artifactPath": "C:\\Users\\jlc\\work\\hds-engine\\.easyeda\\artifacts\\20261024-225840-schematic_export-c79fb0e6.svg",
+    "bytes": 176639,
+    "fileName": "sch-baseline.svg.svg",
+    "format": "svg",
+    "scope": "page",
+    "selectedCount": 0
+  },
+  "context": {
+    "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+    "projectName": "engine-verify-round7-imported",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+    "projectName": "engine-verify-round7-imported",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "artifacts": [
+    {
+      "id": "art_c79fb0e6-b228-41f0-bb48-d0dbd9ef673f",
+      "kind": "schematic_export",
+      "path": "C:\\Users\\jlc\\work\\hds-engine\\.easyeda\\artifacts\\20261024-225840-schematic_export-c79fb0e6.svg",
+      "fileName": "sch-baseline.svg.svg",
+      "mimeType": "image/svg+xml",
+      "size": 176639,
+      "sha256": "440ba6d57412bb26f1e058b726845152e226979fced5b6be470e041ff1a30ed8"
+    }
+  ],
+  "seq": 87,
+  "seqAbandoned": 0
+}

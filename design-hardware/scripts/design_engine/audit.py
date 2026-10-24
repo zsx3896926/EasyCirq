@@ -294,6 +294,11 @@ def audit(ir, min_gap=0.0):
                     findings.append(_finding('wire_enters_text', 'major', HARD,
                                              [wire['id'], text['id']],
                                              f"{wire['id']} crosses {text['label']}"))
+                elif any(segment_intersects_rect(a, b, rect_expand(text['bbox'], 1.0))
+                         for a, b in segments):
+                    findings.append(_finding('wire_touches_text_bbox', 'minor', ADVISORY,
+                                             [wire['id'], text['id']],
+                                             f"{wire['id']} touches the edge of {text['label']}"))
         checks_run.append('wire_contacts')
         anchors = _wire_anchors(ir, 1.0)
         tolerance = 1.0

@@ -77,19 +77,47 @@ PCB：
 - 原生 DRC 18 条按 `rule/objType/net/layer/x/y/objs` 逐条保留；状态 `blocked`。
 - 电气/视觉/制造/实物：全部未验证。
 
+## 6.1 扩展包（P02–P08、M01–M05、Q01/Q03、U03）
+
+- **P02 约束**：`constraints.py` 编译 hard/preferred/unknown，支持 mm/mil/in/V/A、单位显式、硬冲突 `unsolvable`；本页 5 hard + 1 preferred + 2 unknown，状态 `incomplete`（未知不冒充 false）。
+- **P03 关键回路**：`critical.py` 用真实焊盘坐标得到 C2/C3/C4/C5 与 U1 的去耦距离 **442.2 / 790.8 / 1698.9 / 1432.8 mil**，与原生 DFM 摘要逐项一致；D3 距 J1 GND 212.7 mil。换流回路/Kelvin/参考面未检查。
+- **P05 布局候选**：`placement.py` 生成 reference + 3 force + critical-snap 共 5 个候选；全部硬合法；force-2 选中，HPWL 25,078.7 → 20,779.6 mil（-17.7%），拥塞 overflow 2186 → 1756；关键回路仍 5 条，没有把“候选”说成已改善。
+- **P06 可布性**：`routability.py` 拥塞 max 6、overflow 76、不同网包围盒重叠 42、最近异网焊盘 28 mil；实际布通率 `NOT RUN`。
+- **P07 复用**：`reuse.py` 要求封装/脚表一致才复用，只移动目标模块；无真实多路实例。
+- **P08 丝印**：`silk.py` 找出 2 处压焊盘（C5/R12.1、R14/R16.2）和 R1/R2 侧向，与原生 DFM 摘要一致；给出 2 条位置建议，未应用。
+- **M01 选型**：真实 BOM 21 行/26 件，MPN/C号/封装齐全；只做精确 MPN+封装匹配，库存/价格/SMT `NOT CHECKED`。
+- **M02 制造包**：`manufacturing.py` 检查 Gerber/drill/BOM/CPL 角色、空文件、位号集合、单位、manifest 哈希；真实项目没有 Gerber/drill，状态 `BLOCKED`，未冒充可制造。
+- **M04 变体**：DNP/销售变体/替代料影响闭包；封装/脚数变化必须复核。
+- **M05 装配**：26 行 CPL、全部顶层；J1 原点与焊盘质心差 70.7 mil、Q1 13.1、U1 10.2；BOM 一致；generic JSON 标 `IHMB NOT VERIFIED`。
+- **Q01 基准**：12 个合成几何用例全部复现声明候选；真实几何只有温度报警板一个，F1 是真实网表但无 bbox，不能算几何金样。
+- **Q03 故障**：噪声 JSON、截断、缺几何、重复位号、过期计划、身份变化、证据哈希均有用例；保存重开/超时/并发仍 `NOT RUN`。
+- **U03 状态**：`state.py` 记录阶段、最佳候选、未决项、下一条动作、预算与证据哈希；没有真机中断恢复演练。
+
+## 6.2 真实 EDA 应用（隔离副本）
+
+详见 [a08-real-apply.md](a08-real-apply.md)。
+
+- 将 `before-round7.epro2`（SHA-256 `f5f1…`）导入独立项目 `engine-verify-round7-imported`（UUID `64ab79c4…`），页 UUID 保持 `6a8364999a809cb4`。
+- 3 批共 9 个不同 Name/Designator 属性移动；每次 `moved/verified/preserved=true`。
+- 引擎 audit：11 hard → **1 hard**（剩余 sheet Name 越页）；原生 `sch check` 5 → **3 warnings**；原生 DRC **0**；原生 layout-score **84.2 → 86.7**（frame-fit 76 → 100）。
+- 身份 compare：`identity.match=true`，`changed_pin_nets=0`；保存后重开回读与 after3 一致（moved attrs 0）。
+- 剩余 3 条原生警告都不在 Name/Designator 移动范围：GND 旗形重叠、sheet Name 越页、未画分区框。
+- 未做：器件/导线/旗形移动、PCB 写入、人工盲审、断电重启、制造/样机。
+
 ## 7. 测试与可复现性
 
-- `python -m unittest discover -s tests` → **628 tests, OK**（基线 589；新增 39）。
-- 新增测试覆盖：单位/旋转/镜像、IR 身份与重复脚号、真实 bundle 结构、pin/net 对账、审计规则、标签计划与校验、路由有解/无解/不同网、装箱/超大模块、12 模板绑定、PCB 真实 bundle 与合成反例、CLI 退出码、容错 JSON。
-- 证据 manifest 记录 22 个文件的 SHA-256；基线 bundle 另有 manifest。
+- `python -m unittest discover -s tests` → **658 tests, OK**（基线 589；新增 69）。
+- 新增测试覆盖：单位/旋转/镜像、IR 身份与重复脚号、真实 bundle 结构、pin/net 对账、审计规则、标签计划与校验、路由有解/无解/不同网、装箱/超大模块、12 模板绑定、PCB 真实 bundle 与合成反例、CLI 退出码、容错 JSON；另有约束冲突、关键回路、布局候选、可布性、丝印、CPL、制造包、Gerber 层、选型、变体、复用、基准、状态与故障注入。
+- 引擎证据 manifest 记录 62 个文件的 SHA-256；真实应用证据另见 [docs/evidence/round7-apply/manifest.json](../evidence/round7-apply/manifest.json)（195 个文件）。
 
 ## 8. 没有做到的部分
 
-- 没有在真实 EDA 中应用任何移动/布线/装箱；没有保存重开、没有 after 导图、没有人工审图。
-- 没有实现 S06（ELK）、S07（libavoid）、P02/P03/P05/P06/P07/P08、R01–R03/R06、M01–M06、H01–H04、U02。
+- 没有在真实 EDA 中应用器件/布线/装箱；只应用了 9 个 Name/Designator 移动。没有人工审图、断电重启、制造/样机。
+- 没有实现 S06（ELK）、S07（libavoid）、R01–R03/R06、M03/M06、H01–H04、U02；P02/P03/P05/P06/P07/P08、M01/M02/M04/M05 只有离线子集。
 - S05 只是候选生成器：29/51 条被自己的验证器拒绝，尚不能作为可应用布线。
 - S09 只覆盖“属性/标签局部修复”，没有器件/导线簇修复；S08 的模块来源是诊断组，不是已声明功能区。
-- 铺铜连通、原生网表 diff、ERC、DFM、制造文件、实物功能均未验证。
+- P05 布局候选只证明离线指标变化，未证明可布通或可制造；关键回路仍 5 条，没有解决。
+- 铺铜连通、原生网表 diff、ERC、DFM、真实制造文件、实物功能均未验证。
 - 没有改动用户原工程 `test`；冻结对象是 `temp-alarm-r7-scratch` 副本。
 
 ## 9. 下一步

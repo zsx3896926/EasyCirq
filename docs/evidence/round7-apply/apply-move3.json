@@ -1,0 +1,95 @@
+{
+  "id": "req_6711",
+  "type": "response",
+  "version": "v1",
+  "windowId": "fdcf9c6f-041a-4e07-8900-715bd123cba0",
+  "createdAt": "2026-10-24T14:57:18.9292718Z",
+  "ok": true,
+  "result": {
+    "after": {
+      "AlignMode": null,
+      "Bold": null,
+      "Color": null,
+      "FillColor": null,
+      "FontName": null,
+      "FontSize": null,
+      "Italic": null,
+      "Key": "Name",
+      "KeyVisible": null,
+      "ParentPrimitiveId": "7b51f49b56444d43",
+      "Rotation": 0,
+      "UnderLine": null,
+      "Value": "={Manufacturer Part}",
+      "ValueVisible": true,
+      "X": 990,
+      "Y": 215,
+      "primitiveId": "cfbe66a831e04fb8"
+    },
+    "attempted": true,
+    "before": {
+      "AlignMode": null,
+      "Bold": null,
+      "Color": null,
+      "FillColor": null,
+      "FontName": null,
+      "FontSize": null,
+      "Italic": null,
+      "Key": "Name",
+      "KeyVisible": null,
+      "ParentPrimitiveId": "7b51f49b56444d43",
+      "Rotation": 0,
+      "UnderLine": null,
+      "Value": "={Manufacturer Part}",
+      "ValueVisible": true,
+      "X": 990,
+      "Y": 220,
+      "primitiveId": "cfbe66a831e04fb8"
+    },
+    "errors": [],
+    "identityAfter": {
+      "documentType": "schematic",
+      "documentUuid": "6a8364999a809cb4",
+      "pageVisibility": "hidden",
+      "projectName": "engine-verify-round7-imported",
+      "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+      "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f"
+    },
+    "identityBefore": {
+      "documentType": "schematic",
+      "documentUuid": "6a8364999a809cb4",
+      "pageVisibility": "hidden",
+      "projectName": "engine-verify-round7-imported",
+      "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+      "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f"
+    },
+    "moved": true,
+    "partial": false,
+    "preserved": true,
+    "primitiveId": "cfbe66a831e04fb8",
+    "requested": {
+      "x": 990,
+      "y": 215
+    },
+    "scope": "attribute-position-only",
+    "verified": true
+  },
+  "context": {
+    "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+    "projectName": "engine-verify-round7-imported",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+    "projectName": "engine-verify-round7-imported",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 33,
+  "seqAbandoned": 0
+}

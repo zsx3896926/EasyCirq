@@ -1,0 +1,724 @@
+{
+  "schema": "design-engine-generic-components/v1",
+  "components": [
+    {
+      "designator": "BZ1",
+      "layer": "top",
+      "footprint": "GMD9505RB-5V2700",
+      "value": "GMD9505RB-5V2700",
+      "x": 3210,
+      "y": -1715,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "BUZ_D",
+          "x": 3308.4,
+          "y": -1715
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 3111.6,
+          "y": -1715
+        }
+      ]
+    },
+    {
+      "designator": "C1",
+      "layer": "top",
+      "footprint": "CC0603KRX7R9BB104",
+      "value": "CC0603KRX7R9BB104",
+      "x": 1878.6915,
+      "y": -485.7894,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 1906.3,
+          "y": -485.8
+        },
+        {
+          "number": "1",
+          "net": "NODE",
+          "x": 1851.1,
+          "y": -485.8
+        }
+      ]
+    },
+    {
+      "designator": "C2",
+      "layer": "top",
+      "footprint": "CC0603KRX7R9BB104",
+      "value": "CC0603KRX7R9BB104",
+      "x": 2634.9815,
+      "y": -861.8284,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 2662.5,
+          "y": -861.8
+        },
+        {
+          "number": "1",
+          "net": "VREF",
+          "x": 2607.4,
+          "y": -861.8
+        }
+      ]
+    },
+    {
+      "designator": "C3",
+      "layer": "top",
+      "footprint": "CC0603KRX7R9BB104",
+      "value": "CC0603KRX7R9BB104",
+      "x": 3168.607,
+      "y": -1402.1254,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 3196.2,
+          "y": -1402.1
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 3141,
+          "y": -1402.1
+        }
+      ]
+    },
+    {
+      "designator": "C4",
+      "layer": "top",
+      "footprint": "GRM21BR61H106KE43L",
+      "value": "GRM21BR61H106KE43L",
+      "x": 1499.3625,
+      "y": -1483.0153999999998,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 1538.7,
+          "y": -1483
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 1460,
+          "y": -1483
+        }
+      ]
+    },
+    {
+      "designator": "C5",
+      "layer": "top",
+      "footprint": "CC0603KRX7R9BB104",
+      "value": "CC0603KRX7R9BB104",
+      "x": 1659.0755,
+      "y": -1235.1084,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 1686.6,
+          "y": -1235.1
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 1631.5,
+          "y": -1235.1
+        }
+      ]
+    },
+    {
+      "designator": "D1",
+      "layer": "top",
+      "footprint": "SS34",
+      "value": "SS34",
+      "x": 125.98,
+      "y": -1058.2654,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "D1_N1",
+          "x": 212.6,
+          "y": -1058.3
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 39.4,
+          "y": -1058.3
+        }
+      ]
+    },
+    {
+      "designator": "D3",
+      "layer": "top",
+      "footprint": "SMAJ5.0A",
+      "value": "SMAJ5.0A",
+      "x": 820,
+      "y": -1880,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 906.3,
+          "y": -1880
+        },
+        {
+          "number": "1",
+          "net": "D1_N1",
+          "x": 733.7,
+          "y": -1880
+        }
+      ]
+    },
+    {
+      "designator": "D4",
+      "layer": "top",
+      "footprint": "KT-0805R",
+      "value": "KT-0805R",
+      "x": 2498.0445,
+      "y": -2127.5574,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "BUZ_D",
+          "x": 2456.7,
+          "y": -2127.6
+        },
+        {
+          "number": "1",
+          "net": "LED_A",
+          "x": 2539.4,
+          "y": -2127.6
+        }
+      ]
+    },
+    {
+      "designator": "D5",
+      "layer": "top",
+      "footprint": "KT-0805G",
+      "value": "KT-0805G",
+      "x": 2806.9415,
+      "y": -1920.0574000000001,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 2765.6,
+          "y": -1920.1
+        },
+        {
+          "number": "1",
+          "net": "PWR_LED_A",
+          "x": 2848.3,
+          "y": -1920.1
+        }
+      ]
+    },
+    {
+      "designator": "D6",
+      "layer": "top",
+      "footprint": "1N4148W",
+      "value": "1N4148W",
+      "x": 3168.607,
+      "y": -2024.3574,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "BUZ_D",
+          "x": 3235.5,
+          "y": -2024.4
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 3101.7,
+          "y": -2024.4
+        }
+      ]
+    },
+    {
+      "designator": "J1",
+      "layer": "top",
+      "footprint": "USB3.1TYPE-C16P",
+      "value": "USB3.1TYPE-C16P",
+      "x": 840,
+      "y": -2110,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "A1B12",
+          "net": "GND",
+          "x": 713,
+          "y": -2009.7
+        },
+        {
+          "number": "B1A12",
+          "net": "GND",
+          "x": 967,
+          "y": -2009.7
+        },
+        {
+          "number": "A4B9",
+          "net": "D1_N1",
+          "x": 743.2,
+          "y": -2009.7
+        },
+        {
+          "number": "B4A9",
+          "net": "D1_N1",
+          "x": 936.9,
+          "y": -2009.7
+        },
+        {
+          "number": "B8",
+          "net": null,
+          "x": 771.1,
+          "y": -2009.7
+        },
+        {
+          "number": "A5",
+          "net": "D1_N3",
+          "x": 790.8,
+          "y": -2009.7
+        },
+        {
+          "number": "B7",
+          "net": null,
+          "x": 810.5,
+          "y": -2009.7
+        },
+        {
+          "number": "A6",
+          "net": null,
+          "x": 830.2,
+          "y": -2009.7
+        },
+        {
+          "number": "B5",
+          "net": "D1_N4",
+          "x": 908.9,
+          "y": -2009.7
+        },
+        {
+          "number": "A8",
+          "net": null,
+          "x": 889.2,
+          "y": -2009.7
+        },
+        {
+          "number": "B6",
+          "net": null,
+          "x": 869.5,
+          "y": -2009.7
+        },
+        {
+          "number": "A7",
+          "net": null,
+          "x": 849.8,
+          "y": -2009.7
+        },
+        {
+          "number": "8",
+          "net": "GND",
+          "x": 640.4,
+          "y": -2045.7
+        },
+        {
+          "number": "9",
+          "net": "GND",
+          "x": 1039.6,
+          "y": -2045.7
+        },
+        {
+          "number": "10",
+          "net": "GND",
+          "x": 640.4,
+          "y": -2210.3
+        },
+        {
+          "number": "11",
+          "net": "GND",
+          "x": 1039.6,
+          "y": -2210.3
+        }
+      ]
+    },
+    {
+      "designator": "Q1",
+      "layer": "top",
+      "footprint": "2N7002",
+      "value": "2N7002",
+      "x": 2498.0445,
+      "y": -1717.3404,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "1",
+          "net": "GATE",
+          "x": 2537.4,
+          "y": -1754.7
+        },
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 2537.4,
+          "y": -1679.9
+        },
+        {
+          "number": "3",
+          "net": "BUZ_D",
+          "x": 2458.7,
+          "y": -1717.3
+        }
+      ]
+    },
+    {
+      "designator": "R1",
+      "layer": "top",
+      "footprint": "0402WGF5101TCE",
+      "value": "0402WGF5101TCE",
+      "x": 820,
+      "y": -1750,
+      "rotation": 90,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 820,
+          "y": -1733
+        },
+        {
+          "number": "1",
+          "net": "D1_N3",
+          "x": 820,
+          "y": -1767
+        }
+      ]
+    },
+    {
+      "designator": "R2",
+      "layer": "top",
+      "footprint": "0402WGF5101TCE",
+      "value": "0402WGF5101TCE",
+      "x": 950,
+      "y": -1750,
+      "rotation": 90,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 950,
+          "y": -1733
+        },
+        {
+          "number": "1",
+          "net": "D1_N4",
+          "x": 950,
+          "y": -1767
+        }
+      ]
+    },
+    {
+      "designator": "R10",
+      "layer": "top",
+      "footprint": "RC0603FR-0722KL",
+      "value": "RC0603FR-0722KL",
+      "x": 2328.2785,
+      "y": -303.5594,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 2357.9,
+          "y": -303.6
+        },
+        {
+          "number": "1",
+          "net": "NODE",
+          "x": 2298.6,
+          "y": -303.6
+        }
+      ]
+    },
+    {
+      "designator": "R11",
+      "layer": "top",
+      "footprint": "RMC04022.2K1%N",
+      "value": "RMC04022.2K1%N",
+      "x": 1659.0755,
+      "y": -786.5564,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "REF_TOP",
+          "x": 1676.1,
+          "y": -786.6
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 1642,
+          "y": -786.6
+        }
+      ]
+    },
+    {
+      "designator": "R12",
+      "layer": "top",
+      "footprint": "0402WGF1002TCE",
+      "value": "0402WGF1002TCE",
+      "x": 1680,
+      "y": -1145,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 1697,
+          "y": -1145
+        },
+        {
+          "number": "1",
+          "net": "REF_BOT",
+          "x": 1663,
+          "y": -1145
+        }
+      ]
+    },
+    {
+      "designator": "R13",
+      "layer": "top",
+      "footprint": "RC0603FR-07470KL",
+      "value": "RC0603FR-07470KL",
+      "x": 2498.0445,
+      "y": -225.85839999999996,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "NODE",
+          "x": 2527.7,
+          "y": -225.9
+        },
+        {
+          "number": "1",
+          "net": "OUT",
+          "x": 2468.4,
+          "y": -225.9
+        }
+      ]
+    },
+    {
+      "designator": "R14",
+      "layer": "top",
+      "footprint": "0402WGF1001TCE",
+      "value": "0402WGF1001TCE",
+      "x": 2110,
+      "y": -1420,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GATE",
+          "x": 2127,
+          "y": -1420
+        },
+        {
+          "number": "1",
+          "net": "OUT",
+          "x": 2093,
+          "y": -1420
+        }
+      ]
+    },
+    {
+      "designator": "R15",
+      "layer": "top",
+      "footprint": "0402WGF1003TCE",
+      "value": "0402WGF1003TCE",
+      "x": 2005,
+      "y": -1495,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 2022,
+          "y": -1495
+        },
+        {
+          "number": "1",
+          "net": "GATE",
+          "x": 1988,
+          "y": -1495
+        }
+      ]
+    },
+    {
+      "designator": "R16",
+      "layer": "top",
+      "footprint": "0805W8F4700T5E",
+      "value": "0805W8F4700T5E",
+      "x": 2028.2435,
+      "y": -1326.8534,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "LED_A",
+          "x": 2067.6,
+          "y": -1326.9
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 1988.9,
+          "y": -1326.9
+        }
+      ]
+    },
+    {
+      "designator": "R17",
+      "layer": "top",
+      "footprint": "0402WGF1001TCE",
+      "value": "0402WGF1001TCE",
+      "x": 1759.1104999999998,
+      "y": -1822.7424,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "PWR_LED_A",
+          "x": 1776.2,
+          "y": -1822.7
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 1742.1,
+          "y": -1822.7
+        }
+      ]
+    },
+    {
+      "designator": "RT1",
+      "layer": "top",
+      "footprint": "NTCG163JX103DT1S",
+      "value": "NTCG163JX103DT1S",
+      "x": 1878.6915,
+      "y": -225.85839999999996,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "NODE",
+          "x": 1908.4,
+          "y": -225.9
+        },
+        {
+          "number": "1",
+          "net": "+5V",
+          "x": 1849,
+          "y": -225.9
+        }
+      ]
+    },
+    {
+      "designator": "RV1",
+      "layer": "top",
+      "footprint": "3296W-1-103",
+      "value": "3296W-1-103",
+      "x": 1500,
+      "y": -1985,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "2",
+          "net": "VREF",
+          "x": 1500,
+          "y": -1985
+        },
+        {
+          "number": "1",
+          "net": "REF_TOP",
+          "x": 1401.6,
+          "y": -1985
+        },
+        {
+          "number": "3",
+          "net": "REF_BOT",
+          "x": 1598.4,
+          "y": -1985
+        }
+      ]
+    },
+    {
+      "designator": "U1",
+      "layer": "top",
+      "footprint": "MCP6541T-I/OT",
+      "value": "MCP6541T-I/OT",
+      "x": 2985.5315,
+      "y": -601.4189,
+      "rotation": 0,
+      "pads": [
+        {
+          "number": "5",
+          "net": "+5V",
+          "x": 2934.3,
+          "y": -638.8
+        },
+        {
+          "number": "4",
+          "net": "VREF",
+          "x": 2934.3,
+          "y": -564
+        },
+        {
+          "number": "3",
+          "net": "NODE",
+          "x": 3036.7,
+          "y": -564
+        },
+        {
+          "number": "2",
+          "net": "GND",
+          "x": 3036.7,
+          "y": -601.4
+        },
+        {
+          "number": "1",
+          "net": "OUT",
+          "x": 3036.7,
+          "y": -638.8
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "project": "temp-alarm-r7-scratch",
+    "pcb_uuid": "6cde899fca734109",
+    "source": "pcb-dump.json"
+  },
+  "ihmb_compatibility": "NOT VERIFIED",
+  "note": "candidate assembly view; run the chosen InteractiveHtmlBom release and compare DATAFORMAT before claiming import support"
+}

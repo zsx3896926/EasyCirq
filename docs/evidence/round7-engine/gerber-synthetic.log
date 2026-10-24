@@ -1,0 +1,112 @@
+{
+  "schema": "design-engine-gerber/v1",
+  "status": "pass",
+  "layers": [
+    {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\top.gbr",
+      "file_function": "Copper,L1,Top",
+      "polarity": null,
+      "units": "MM",
+      "apertures": 1,
+      "points": 2,
+      "extent": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "has_end_of_file": true
+    },
+    {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\bot.gbr",
+      "file_function": "Copper,L2,Bot",
+      "polarity": null,
+      "units": "MM",
+      "apertures": 1,
+      "points": 2,
+      "extent": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "has_end_of_file": true
+    },
+    {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\mask-top.gbr",
+      "file_function": "Soldermask,Top",
+      "polarity": null,
+      "units": "MM",
+      "apertures": 1,
+      "points": 2,
+      "extent": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "has_end_of_file": true
+    },
+    {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\mask-bot.gbr",
+      "file_function": "Soldermask,Bot",
+      "polarity": null,
+      "units": "MM",
+      "apertures": 1,
+      "points": 2,
+      "extent": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "has_end_of_file": true
+    },
+    {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\silk-top.gbr",
+      "file_function": "Legend,Top",
+      "polarity": null,
+      "units": "MM",
+      "apertures": 1,
+      "points": 2,
+      "extent": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "has_end_of_file": true
+    },
+    {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\outline.gbr",
+      "file_function": "Profile,NP",
+      "polarity": null,
+      "units": "MM",
+      "apertures": 1,
+      "points": 2,
+      "extent": [
+        0,
+        0,
+        1000,
+        1000
+      ],
+      "has_end_of_file": true
+    }
+  ],
+  "drill": {
+    "path": "docs\\evidence\\round7-engine\\synthetic-package\\board.drl",
+    "tools": 1,
+    "holes": 2,
+    "units": "MM",
+    "has_header": true,
+    "has_end": true
+  },
+  "findings": [],
+  "hard_count": 0,
+  "not_run": [
+    "copper rendering",
+    "native editor reopen",
+    "impedance/DFM sign-off"
+  ],
+  "note": "independent file-header check only; it does not prove the manufacturing process"
+}

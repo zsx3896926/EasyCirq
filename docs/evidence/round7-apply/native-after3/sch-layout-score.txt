@@ -1,0 +1,6 @@
+sch layout-score: 综合 86.7 [good]  (5 维:folded-labels 100 / reversed-labels 100 / proximity 38 / stub-tidiness 100 / frame-fit 100)
+  proximity        -37.5  R13 距核心 J1 边距 413(>150 开始扣分)— 建议移到 J1 上方 (485,570) 附近后重连(未分区,按全页最大件推核心,建议先 sch zones set 落认领再复核)
+      fix: easyeda sch modify --id 2621a59ea8a70d60 --patch '{"x":485,"y":570}'
+  proximity        -24.8  R14 距核心 J1 边距 323(>150 开始扣分)— 建议移到 J1 下方 (485,420) 附近后重连(未分区,按全页最大件推核心,建议先 sch zones set 落认领再复核)
+      fix: easyeda sch modify --id 57e6443b47db3c84 --patch '{"x":485,"y":420}'
+sch layout-score: 综合 86.7 [good] — 5 维已测 / 0 维未测(skipped≠满分),58 图元

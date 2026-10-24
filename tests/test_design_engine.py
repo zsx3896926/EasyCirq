@@ -17,14 +17,28 @@ from design_engine import ENGINE_VERSION, IR_SCHEMA
 from design_engine.adapters import build_ir, load_json_tolerant
 from design_engine.audit import audit, reconcile_pins
 from design_engine.cli import main as cli_main
+from design_engine.assembly import apply_rotation_rules, audit_cpl, cpl_rows, generic_components
+from design_engine.benchmarks import run as run_benchmarks
 from design_engine.compare import compare_ir
+from design_engine.constraints import compile_intent, compile_text, evaluate
+from design_engine.critical import audit_critical
 from design_engine.geometry import (SCH_UNIT_TO_MM, bbox_dict, parse_svg_texts,
                                     rect_rotate, text_bbox, transform_local_to_world)
 from design_engine.ir import blank_ir, read_ir, summary, validate_ir, write_ir
 from design_engine.labels import plan_label_moves, to_easyeda_moves, verify_plan
+from design_engine.gerber import audit_layers, parse_drill, parse_gerber
+from design_engine.manufacturing import audit_package
 from design_engine.pack import pack_modules
 from design_engine.pcb import audit_pcb, build_pcb_ir
+from design_engine.placement import plan_placement
+from design_engine.reuse import plan_reuse
 from design_engine.router import route, validate_route
+from design_engine.routability import analyze_congestion
+from design_engine.silk import audit_silk
+from design_engine.sourcing import audit_bom, match_candidates, read_bom
+from design_engine.state import (add_evidence, new_state, read_state, resume_summary,
+                                  verify_evidence, write_state)
+from design_engine.variants import apply_variant, validate_substitute, variant_closure
 from design_engine.templates import bind_template, instantiate_plan, load_templates, validate_template
 
 BUNDLE = ROOT / 'docs' / 'evidence' / 'round7-baseline-2026-10-24'
@@ -274,6 +288,15 @@ class RealBundleTests(unittest.TestCase):
         self.assertTrue(result['identity']['match'])
         self.assertEqual(len(result['layout']['moved_attributes']), 1)
 
+    def test_stale_plan_precondition_is_rejected(self):
+        plan = copy.deepcopy(self.plan)
+        if not plan['operations']:
+            self.skipTest('no planned operation')
+        plan['operations'][0]['from']['x'] += 1
+        result = verify_plan(self.ir, plan)
+        self.assertEqual(result['status'], 'review')
+        self.assertTrue(any(issue['code'] == 'stale_from_position' for issue in result['issues']))
+
     def test_compare_pin_net_change_breaks_identity(self):
         changed = copy.deepcopy(self.ir)
         changed['components'][0]['pins'][0]['net'] = 'WRONG'
@@ -343,6 +366,316 @@ class PCBUnitTests(unittest.TestCase):
         self.assertIn('pcb_net_disconnected', codes)
 
 
+@unittest.skipUnless(BUNDLE.is_dir(), 'frozen baseline bundle not present')
+class SilkAndRoutabilityTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.pcb = build_pcb_ir(str(BUNDLE))
+
+    def test_silk_matches_native_dfm_summary(self):
+        report = audit_silk(self.pcb)
+        codes = [item['code'] for item in report['findings']]
+        self.assertEqual(codes.count('silk_over_pad'), 2)
+        sideways = [item['message'] for item in report['findings']
+                    if item['code'] == 'silk_designator_sideways']
+        self.assertTrue(any('R1' in message for message in sideways))
+        self.assertTrue(any('R2' in message for message in sideways))
+        self.assertEqual(len(report['suggestions']), 2)
+        self.assertEqual(report['eeada_apply'], 'NOT RUN')
+
+    def test_silk_bottom_mirroring_is_hard(self):
+        pcb = copy.deepcopy(self.pcb)
+        pcb['silk'].append({'id': 'bottom-1', 'key': 'Designator', 'text': 'X1',
+                            'component_id': 'x', 'component_layer': 2, 'visible': True,
+                            'mirror': False, 'reverse': False, 'rotation': 0,
+                            'bbox': [100, 100, 120, 110], 'x': 100, 'y': 100})
+        report = audit_silk(pcb)
+        codes = {item['code'] for item in report['findings']}
+        self.assertIn('silk_bottom_not_mirrored', codes)
+        self.assertEqual(report['status'], 'blocked')
+
+    def test_routability_proxy_reports_no_fake_rate(self):
+        report = analyze_congestion(self.pcb)
+        self.assertGreater(report['congestion']['cells'], 0)
+        self.assertEqual(report['route_rate'], 'NOT RUN')
+        self.assertIsNotNone(report['min_pad_spacing_mil'])
+
+
+@unittest.skipUnless(BUNDLE.is_dir(), 'frozen baseline bundle not present')
+class AssemblyTests(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.pcb = build_pcb_ir(str(BUNDLE))
+
+    def test_cpl_rows_and_bom_consistency(self):
+        bom = ['BZ1', 'C1', 'C2', 'C3', 'C4', 'C5', 'D1', 'D3', 'D4', 'D5', 'D6',
+               'J1', 'Q1', 'R1', 'R2', 'R10', 'R11', 'R12', 'R13', 'R14', 'R15',
+               'R16', 'R17', 'RT1', 'RV1', 'U1']
+        report = audit_cpl(self.pcb, bom_designators=bom)
+        self.assertEqual(len(report['rows']), 26)
+        self.assertEqual(report['sides'], {'top': 26, 'bottom': 0})
+        self.assertNotIn('cpl_bom_missing', {item['code'] for item in report['findings']})
+        self.assertNotIn('cpl_bom_extra', {item['code'] for item in report['findings']})
+        self.assertIn('cpl_center_offset', {item['code'] for item in report['findings']})
+        self.assertEqual(report['eeada_apply'], 'NOT RUN')
+
+    def test_rotation_rule_is_exact_and_scoped(self):
+        rows = cpl_rows(self.pcb)
+        rules = [{'footprint_uuid': 'does-not-exist', 'layer': 'top', 'source_rotation': 0,
+                  'target_rotation': 90, 'source': 'test'}]
+        applied, ignored = apply_rotation_rules(rows, rules)
+        self.assertEqual(applied, [])
+        self.assertEqual(len(ignored), len(rows))
+
+    def test_generic_export_is_not_claimed_ihmb_compatible(self):
+        result = generic_components(self.pcb)
+        self.assertEqual(len(result['components']), 26)
+        self.assertEqual(result['ihmb_compatibility'], 'NOT VERIFIED')
+
+    def test_bom_mismatch_is_hard(self):
+        report = audit_cpl(self.pcb, bom_designators=['BZ1', 'ZZ9'])
+        codes = {item['code'] for item in report['findings']}
+        self.assertIn('cpl_bom_missing', codes)
+        self.assertIn('cpl_bom_extra', codes)
+        self.assertEqual(report['status'], 'blocked')
+
+
+@unittest.skipUnless((BUNDLE / 'BOM.csv').is_file(), 'BOM not present')
+class BenchmarkTests(unittest.TestCase):
+    def test_twelve_synthetic_cases_reproduce_declared_codes(self):
+        result = run_benchmarks()
+        self.assertEqual(result['status'], 'ok')
+        self.assertEqual(result['total'], 12)
+        self.assertEqual(result['passed'], 12)
+        self.assertTrue(all(case['evidence_level'].startswith('synthetic_offline')
+                            for case in result['cases']))
+        self.assertFalse(any(case['electrical_verified'] or case['visual_verified']
+                             for case in result['cases']))
+
+
+class StateTests(unittest.TestCase):
+    def test_round_trip_and_summary(self):
+        state = new_state({'name': 'demo', 'uuid': None, 'page': None},
+                          stage='S3_schematic', next_action='run audit')
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'state.json'
+            write_state(state, path)
+            loaded = read_state(path)
+        self.assertEqual(resume_summary(loaded)['next_action'], 'run audit')
+
+    def test_open_items_require_next_action(self):
+        state = new_state({'name': 'demo'})
+        state['open_items'] = [{'id': 'O1'}]
+        with self.assertRaises(ValueError):
+            write_state(state, 'unused.json')
+
+    def test_evidence_hash_change_is_reported(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'evidence.json'
+            path.write_text('{"a": 1}', encoding='utf-8')
+            state = new_state({'name': 'demo'})
+            add_evidence(state, str(path))
+            self.assertEqual(verify_evidence(state)['status'], 'match')
+            path.write_text('{"a": 2}', encoding='utf-8')
+            self.assertEqual(verify_evidence(state)['status'], 'review')
+
+
+class SourcingTests(unittest.TestCase):
+    def test_real_bom_identity_is_complete(self):
+        rows = read_bom(str(BUNDLE / 'BOM.csv'))
+        report = audit_bom(rows)
+        self.assertEqual(report['status'], 'pass')
+        self.assertEqual(report['rows'], 21)
+        self.assertEqual(report['parts'], 26)
+
+    def test_missing_and_invalid_cnumber_are_hard(self):
+        rows = [{'designators': ['R1'], 'mpn': 'X', 'footprint': '0603',
+                 'supplier_part': None},
+                {'designators': ['R2'], 'mpn': 'Y', 'footprint': '0603',
+                 'supplier_part': 'LCSC-1'}]
+        report = audit_bom(rows)
+        codes = {item['code'] for item in report['findings']}
+        self.assertIn('bom_missing_cnumber', codes)
+        self.assertIn('bom_invalid_cnumber', codes)
+        self.assertEqual(report['status'], 'blocked')
+
+    def test_candidate_matching_requires_exact_mpn_and_footprint(self):
+        rows = [{'designators': ['R1'], 'mpn': 'X', 'footprint': '0603',
+                 'supplier_part': 'C1'}]
+        exact = match_candidates(rows, [{'mpn': 'X', 'footprint': '0603'}], '2026-10-24')
+        self.assertEqual(exact['status'], 'ok')
+        self.assertEqual(exact['results'][0]['freshness'], '2026-10-24')
+        fuzzy = match_candidates(rows, [{'mpn': 'X', 'footprint': '0805'}], '2026-10-24')
+        self.assertEqual(fuzzy['results'][0]['status'], 'not_found')
+
+
+class VariantTests(unittest.TestCase):
+    def rows(self):
+        return [
+            {'designator': 'R1', 'mpn': 'A', 'footprint': '0603', 'pin_count': 2,
+             'value': '10k', 'variants': ['base', 'alt']},
+            {'designator': 'R2', 'mpn': 'B', 'footprint': '0603', 'pin_count': 2,
+             'value': '1k', 'variants': ['base'], 'dnp': True},
+        ]
+
+    def test_dnp_and_variant_exclusion(self):
+        result = apply_variant(self.rows(), 'alt')
+        self.assertEqual([row['designator'] for row in result['rows']], ['R1'])
+        self.assertEqual(result['excluded'][0]['designator'], 'R2')
+        self.assertEqual(result['status'], 'ok')
+
+    def test_substitute_requires_exact_footprint_and_pins(self):
+        base = self.rows()[0]
+        same = {'mpn': 'C', 'footprint': '0603', 'pin_count': 2}
+        self.assertEqual(validate_substitute(base, same)['status'], 'match')
+        changed = {'mpn': 'C', 'footprint': '0805', 'pin_count': 2}
+        result = validate_substitute(base, changed)
+        self.assertEqual(result['status'], 'review')
+        self.assertIn('substitute_footprint_changed', {item['code'] for item in result['issues']})
+        approved = validate_substitute(base, {**changed, 'approved_by': 'eng',
+                                              'approval_scope': 'thermal check done'})
+        self.assertEqual(approved['status'], 'approved_with_review')
+
+    def test_variant_closure_marks_layout_review(self):
+        base = self.rows()
+        variant = [dict(base[0], footprint='0805'), base[1]]
+        closure = variant_closure(base, variant)
+        self.assertEqual(closure['status'], 'review')
+        self.assertTrue(any(item['review'] for item in closure['changed']))
+
+
+class GerberTests(unittest.TestCase):
+    def write_layers(self, directory):
+        directory = Path(directory)
+        names = {
+            'top.gbr': 'Copper,L1,Top',
+            'bot.gbr': 'Copper,L2,Bot',
+            'mask-top.gbr': 'Soldermask,Top',
+            'mask-bot.gbr': 'Soldermask,Bot',
+            'silk-top.gbr': 'Legend,Top',
+            'outline.gbr': 'Profile,NP',
+        }
+        paths = []
+        for name, function in names.items():
+            path = directory / name
+            path.write_text(f'%TF.FileFunction,{function}*%\n%MOMM*%\n%ADD10C,0.2*%\nX0Y0D02*\nM02*\n',
+                            encoding='utf-8')
+            paths.append(str(path))
+        drill = directory / 'board.drl'
+        drill.write_text('M48\nMETRIC\nT1C0.3\nX0Y0\nM30\n', encoding='utf-8')
+        return paths, str(drill)
+
+    def test_complete_layer_set_passes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            paths, drill = self.write_layers(temp)
+            result = audit_layers(paths, drill)
+            self.assertEqual(result['status'], 'pass')
+            self.assertEqual(result['drill']['holes'], 1)
+
+    def test_missing_layer_and_units_mismatch(self):
+        with tempfile.TemporaryDirectory() as temp:
+            paths, drill = self.write_layers(temp)
+            Path(paths[0]).write_text('%TF.FileFunction,Copper,L1,Top*%\n%MOIN*%\nX0Y0*\nM02*\n',
+                                      encoding='utf-8')
+            result = audit_layers(paths, drill)
+            codes = {item['code'] for item in result['findings']}
+            self.assertIn('gerber_drill_units_mismatch', codes)
+            result = audit_layers(paths[:-1], drill)
+            self.assertIn('gerber_layer_missing', {item['code'] for item in result['findings']})
+
+
+class ManufacturingTests(unittest.TestCase):
+    def package(self, directory):
+        directory = Path(directory)
+        (directory / 'board.gbr').write_text('%MOMM*%\nG04 test*\n', encoding='utf-8')
+        (directory / 'board.drl').write_text('M48\nMETRIC\nT1C0.3\n%\n', encoding='utf-8')
+        (directory / 'BOM.csv').write_text('Designator\tQuantity\nR1,R2\t2\n', encoding='utf-8')
+        (directory / 'cpl.csv').write_text('Designator,X,Y\nR1,1,2\nR2,3,4\n', encoding='utf-8')
+        return directory
+
+    def test_complete_package_passes(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = self.package(temp)
+            result = audit_package(str(directory))
+            self.assertEqual(result['status'], 'pass')
+            self.assertEqual(result['units'], {'gerber': ['MM'], 'drill': ['MM']})
+
+    def test_missing_drill_and_mismatch_are_blocked(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = self.package(temp)
+            (directory / 'board.drl').unlink()
+            result = audit_package(str(directory))
+            self.assertEqual(result['status'], 'blocked')
+            self.assertIn('package_drill_missing', {item['code'] for item in result['findings']})
+        with tempfile.TemporaryDirectory() as temp:
+            directory = self.package(temp)
+            (directory / 'board.gbr').write_text('%MOIN*%\n', encoding='utf-8')
+            result = audit_package(str(directory))
+            self.assertIn('package_units_mismatch', {item['code'] for item in result['findings']})
+
+    def test_bom_cpl_designator_mismatch(self):
+        with tempfile.TemporaryDirectory() as temp:
+            directory = self.package(temp)
+            (directory / 'cpl.csv').write_text('Designator,X,Y\nR1,1,2\n', encoding='utf-8')
+            result = audit_package(str(directory))
+            codes = {item['code'] for item in result['findings']}
+            self.assertIn('package_cpl_missing_designator', codes)
+
+
+class ConstraintTests(unittest.TestCase):
+    def test_compile_text_units_and_kind(self):
+        item = compile_text('去耦电容距 U1 ≤ 100 mil', source='datasheet')
+        self.assertEqual(item['kind'], 'hard')
+        self.assertEqual(item['subject'], 'U1')
+        self.assertAlmostEqual(item['value'], 2.54)
+
+    def test_unparsed_and_unknown_are_not_false(self):
+        item = compile_text('这个参数待查')
+        self.assertEqual(item['kind'], 'unknown')
+        result = compile_intent({'constraints': [], 'text': ['不清楚的东西']})
+        self.assertEqual(result['status'], 'incomplete')
+        self.assertEqual(result['counts']['unknown'], 1)
+
+    def test_hard_conflict_and_soft_does_not_offset(self):
+        result = compile_intent({'constraints': [
+            {'kind': 'hard', 'subject': 'U1', 'predicate': 'distance_to',
+             'target': 'C1', 'op': '>=', 'value': 5, 'unit': 'mm'},
+            {'kind': 'hard', 'subject': 'U1', 'predicate': 'distance_to',
+             'target': 'C1', 'op': '<=', 'value': 2, 'unit': 'mm'},
+        ]})
+        self.assertEqual(result['status'], 'unsolvable')
+        self.assertTrue(result['conflicts'])
+        evaluated = evaluate(result, {('U1', 'distance_to', 'C1'): 3.0})
+        self.assertFalse(evaluated['hard_ok'])
+
+
+class CriticalTests(unittest.TestCase):
+    @unittest.skipUnless(BUNDLE.is_dir(), 'frozen baseline bundle not present')
+    def test_decoupling_and_protection_findings_match_native_summary(self):
+        pcb = build_pcb_ir(str(BUNDLE))
+        report = audit_critical(pcb)
+        messages = ' '.join(item['message'] for item in report['findings'])
+        for token in ('C2.1', 'C3.1', 'C4.1', 'C5.1', '442.2', '790.8', '1698.9', '1432.8'):
+            self.assertIn(token, messages)
+        self.assertIn('critical_protection_far', {item['code'] for item in report['findings']})
+        self.assertFalse(report['electrical_verified'])
+
+
+class PlacementTests(unittest.TestCase):
+    @unittest.skipUnless(BUNDLE.is_dir(), 'frozen baseline bundle not present')
+    def test_candidates_are_hard_legal_and_not_auto_applied(self):
+        pcb = build_pcb_ir(str(BUNDLE))
+        result = plan_placement(pcb)
+        self.assertEqual(result['status'], 'selected')
+        self.assertGreaterEqual(len(result['candidates']), 4)
+        self.assertTrue(all(item['hard_ok'] for item in result['candidates']))
+        self.assertGreater(len(result['plan']), 0)
+        self.assertEqual(result['eeada_apply'], 'NOT RUN')
+        reference = result['candidates'][0]
+        selected = next(item for item in result['candidates'] if item['id'] == result['selected'])
+        self.assertLessEqual(selected['hpwl'], reference['hpwl'])
+
+
 class RouterTests(unittest.TestCase):
     def test_routes_between_two_bodies(self):
         ir = synthetic_ir()
@@ -409,6 +742,67 @@ class PackTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             pack_modules([{'id': 'g', 'bbox': [0, 0, 10, 10], 'declared_zone': False}],
                          [0, 0, 200, 150])
+
+
+class ReuseTests(unittest.TestCase):
+    def module_ir(self, prefix, x_offset=0.0):
+        ir = synthetic_ir()
+        template = [
+            ('R', 'part', '1', '2'),
+            ('R', 'part', '3', '4'),
+            ('C', 'part', '5', '6'),
+        ]
+        components = []
+        for index, (prefix_letter, kind, first, second) in enumerate(template):
+            identity = f'{prefix_letter}{index + 1}'
+            component = copy.deepcopy(ir['components'][0])
+            component['id'] = f'part:{prefix}-{identity}'
+            component['designator'] = f'{prefix}{identity}'
+            component['primitive_id'] = f'{prefix}-{identity}'
+            component['unique_id'] = f'{prefix}-u{identity}'
+            component['symbol'] = {'uuid': 'sym-1', 'name': 'R'}
+            component['footprint'] = {'uuid': 'fp-1', 'name': 'R0603'}
+            component['placement'] = {'x': 50.0 + index * 20 + x_offset, 'y': 50.0,
+                                      'rotation': 0, 'mirror': False}
+            component['body_bbox'] = [40.0 + index * 20 + x_offset, 45.0,
+                                      60.0 + index * 20 + x_offset, 55.0]
+            component['pins'] = [
+                {'id': f'pin:{component["id"]}:1', 'primitive_id': f'{prefix}-{identity}-1',
+                 'number': '1', 'name': '1', 'net': 'A', 'no_connect': False,
+                 'x': 40.0 + index * 20 + x_offset, 'y': 50.0, 'rotation': 0, 'native': {}},
+                {'id': f'pin:{component["id"]}:2', 'primitive_id': f'{prefix}-{identity}-2',
+                 'number': '2', 'name': '2', 'net': 'B', 'no_connect': False,
+                 'x': 60.0 + index * 20 + x_offset, 'y': 50.0, 'rotation': 0, 'native': {}},
+            ]
+            components.append(component)
+        ir['components'] = components
+        ir['connections'] = []
+        ir['nets'] = []
+        ir['wires'] = []
+        return ir
+
+    def test_reuse_plans_only_target_module(self):
+        template = load_templates()['divider-sense']
+        reference = self.module_ir('R')
+        target = self.module_ir('X', x_offset=200.0)
+        reference_map = {'R1': 'part:R-R1', 'R2': 'part:R-R2', 'C1': 'part:R-C3'}
+        target_map = {'R1': 'part:X-R1', 'R2': 'part:X-R2', 'C1': 'part:X-C3'}
+        result = plan_reuse(template, reference, reference_map, target, target_map)
+        self.assertEqual(result['status'], 'planned')
+        self.assertEqual(len(result['operations']), 3)
+        self.assertEqual(result['eeada_apply'], 'NOT RUN')
+
+    def test_footprint_mismatch_rejects_reuse(self):
+        template = load_templates()['divider-sense']
+        reference = self.module_ir('R')
+        target = self.module_ir('X', x_offset=200.0)
+        target['components'][0]['footprint'] = {'uuid': 'fp-other', 'name': 'SOT23'}
+        result = plan_reuse(template, reference,
+                            {'R1': 'part:R-R1', 'R2': 'part:R-R2', 'C1': 'part:R-C3'},
+                            target,
+                            {'R1': 'part:X-R1', 'R2': 'part:X-R2', 'C1': 'part:X-C3'})
+        self.assertEqual(result['status'], 'rejected')
+        self.assertTrue(any(issue['code'] == 'footprint_mismatch' for issue in result['issues']))
 
 
 class TemplateTests(unittest.TestCase):

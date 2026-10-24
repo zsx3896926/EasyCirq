@@ -1,0 +1,109 @@
+{
+  "id": "req_6871",
+  "ok": true,
+  "result": {
+    "passed": false,
+    "summary": {
+      "floatingPins": 0,
+      "componentsWithFloating": 0,
+      "geomNetMismatches": 0,
+      "netMarkerMismatches": 0,
+      "multiNetWires": 0,
+      "wireCrossings": 0,
+      "wireOverPins": 0,
+      "zeroLengthWires": 0,
+      "danglingWires": 0,
+      "duplicateNetMarkers": 0,
+      "titleblockOverlaps": 0,
+      "outOfSheet": 1,
+      "markerOverlaps": 1,
+      "missingPartitions": 1,
+      "redundantNetMarkers": 0,
+      "foldedNetLabels": 0,
+      "reversedNetFlags": 0,
+      "polarityConventionOutliers": 0,
+      "total": 5
+    },
+    "findings": [
+      {
+        "type": "marker-overlap",
+        "level": "warn",
+        "primitiveId": "0484ef7189f64ea7",
+        "markerNet": "GND",
+        "message": "GND(netflag) 与 GND(netflag) 视觉重叠 10.00×10.00 — `sch destagger` 可自动搬(默认只算不动),或换方向/offset",
+        "componentType": "netflag",
+        "primitiveIds": [
+          "0484ef7189f64ea7",
+          "b84abb2f4e79df36"
+        ],
+        "bbox": {
+          "minX": 899.5,
+          "minY": 240.5,
+          "maxX": 920.5,
+          "maxY": 250.5
+        },
+        "other": {
+          "primitiveId": "b84abb2f4e79df36",
+          "componentType": "netflag",
+          "net": "GND",
+          "bbox": {
+            "minX": 900.5,
+            "minY": 239.5,
+            "maxX": 910.5,
+            "maxY": 260.5
+          }
+        },
+        "overlapX": 10,
+        "overlapY": 10
+      },
+      {
+        "type": "out-of-sheet",
+        "level": "warn",
+        "primitiveId": "3fcc0b756fafb102",
+        "message": "sheet 的可见属性 Name 超出纸张（0..23 × -20..-10）— 打印不出来；移回图内，或不需要显示时关闭该属性的显示",
+        "bbox": {
+          "minX": 0,
+          "minY": -20,
+          "maxX": 23.3404541015625,
+          "maxY": -10
+        }
+      },
+      {
+        "type": "designator-wire-overlap",
+        "level": "warn",
+        "designator": "D6",
+        "primitiveId": "243afe9dc3307f9c",
+        "wirePrimitiveId": "913747749ee178bc",
+        "message": "wire crosses Designator text bbox",
+        "bbox": {
+          "minX": 990,
+          "minY": 250,
+          "maxX": 1001.185302734375,
+          "maxY": 260
+        }
+      },
+      {
+        "type": "designator-wire-overlap",
+        "level": "warn",
+        "designator": "D4",
+        "primitiveId": "abe6aefa4f258847",
+        "wirePrimitiveId": "4492e19b0a02455b",
+        "message": "wire crosses Designator text bbox",
+        "bbox": {
+          "minX": 885,
+          "minY": 230,
+          "maxX": 896.185302734375,
+          "maxY": 240
+        }
+      },
+      {
+        "type": "missing-partition",
+        "level": "warn",
+        "count": 26,
+        "message": "26 个器件的页没有功能分区框 — 铁律#15:`sch zones set` → `sch zone-draw`(整纸版式 `--mode partition`);交付前必须有"
+      }
+    ]
+  },
+  "type": "response",
+  "version": "v1"
+}

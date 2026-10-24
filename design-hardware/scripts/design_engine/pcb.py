@@ -76,9 +76,11 @@ def build_pcb_ir(directory):
         box = raw.get('bbox')
         components.append({
             'id': f"pcbpart:{raw.get('designator') or index}",
+            'primitive_id': raw.get('primitiveId'),
             'designator': raw.get('designator'),
             'unique_id': raw.get('uniqueId'),
             'device': raw.get('device'),
+            'footprint': raw.get('footprint'),
             'layer': raw.get('layer'),
             'placement': {'x': raw.get('x'), 'y': raw.get('y'),
                           'rotation': raw.get('rotation', 0)},
@@ -133,6 +135,26 @@ def build_pcb_ir(directory):
             'counts': drc_value.get('counts') or {}, 'violations': violations,
         }
     dfm = _parse_external_text(check_text, r'PCB check \(DFM\):\s*(\d+) track') if check_text else None
+    silk = []
+    for raw in dump.get('silk') or []:
+        box = raw.get('BBox')
+        silk.append({
+            'id': raw.get('ID'),
+            'key': raw.get('Key'),
+            'text': raw.get('Text'),
+            'layer': raw.get('Layer'),
+            'component_id': raw.get('CompID'),
+            'component_layer': raw.get('CompLayer'),
+            'visible': bool(raw.get('visible')),
+            'mirror': bool(raw.get('Mirror')),
+            'reverse': bool(raw.get('Reverse')),
+            'rotation': raw.get('Rotation', 0),
+            'font_size': raw.get('FontSize'),
+            'x': raw.get('X'),
+            'y': raw.get('Y'),
+            'bbox': [box['MinX'], box['MinY'], box['MaxX'], box['MaxY']] if box else None,
+            'native': raw,
+        })
     coverage = {
         'components': {'status': 'complete' if dump.get('availability', {}).get('components') == 'available' else 'partial',
                        'observed': len(components)},
@@ -170,6 +192,7 @@ def build_pcb_ir(directory):
         'tracks': lines,
         'vias': vias,
         'pours': pours,
+        'silk': silk,
         'drc': drc_report,
         'dfm': dfm,
         'coverage': coverage,
