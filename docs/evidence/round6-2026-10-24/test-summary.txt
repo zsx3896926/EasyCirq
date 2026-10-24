@@ -1,0 +1,6 @@
+command: python -m unittest discover -s tests -v
+exit: 0
+result: Ran 661 tests in 37.386s; OK
+python: 3.13.15
+date: 2026-10-24
+note: full verbose log in unittest-full-v.log; this summary is the reportable evidence

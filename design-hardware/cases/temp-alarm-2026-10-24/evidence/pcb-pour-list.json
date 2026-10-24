@@ -1,0 +1,128 @@
+{
+  "id": "req_1173",
+  "type": "response",
+  "version": "v1",
+  "windowId": "bd1cb5f2-df3c-4a99-852f-d4b4d89ebd5e",
+  "createdAt": "2026-10-24T07:40:21.3361921Z",
+  "ok": true,
+  "result": {
+    "count": 4,
+    "pours": [
+      {
+        "fillMethod": "solid",
+        "geometryAvailable": true,
+        "layer": 1,
+        "lineWidth": 0.2,
+        "locked": false,
+        "net": "GND",
+        "pourName": "POUR1",
+        "primitiveId": "312882b2040d46ee",
+        "priority": 3,
+        "source": [
+          -95,
+          -2268.6074,
+          "L",
+          -95,
+          -101.8504,
+          3472.5465,
+          -101.8504,
+          3472.5465,
+          -2268.6074,
+          -95,
+          -2268.6074
+        ]
+      },
+      {
+        "fillMethod": "solid",
+        "geometryAvailable": true,
+        "layer": 2,
+        "lineWidth": 0.2,
+        "locked": false,
+        "net": "GND",
+        "pourName": "POUR2",
+        "primitiveId": "0d19839647fae7d1",
+        "priority": 1,
+        "source": [
+          -95,
+          -2268.6074,
+          "L",
+          -95,
+          -101.8504,
+          3472.5465,
+          -101.8504,
+          3472.5465,
+          -2268.6074,
+          -95,
+          -2268.6074
+        ]
+      },
+      {
+        "fillMethod": "solid",
+        "geometryAvailable": true,
+        "layer": 1,
+        "lineWidth": 0.2,
+        "locked": false,
+        "net": "+5V",
+        "pourName": "POUR3",
+        "primitiveId": "7c11a7296fea7220",
+        "priority": 1,
+        "source": [
+          -20.6,
+          -2240,
+          "L",
+          -20.6,
+          -165.9,
+          3201,
+          -165.9,
+          3201,
+          -2240,
+          -20.6,
+          -2240
+        ]
+      },
+      {
+        "fillMethod": "solid",
+        "geometryAvailable": true,
+        "layer": 1,
+        "lineWidth": 0.2,
+        "locked": false,
+        "net": "VREF",
+        "pourName": "POUR4",
+        "primitiveId": "87008fb984dac108",
+        "priority": 2,
+        "source": [
+          1385,
+          -2240,
+          "L",
+          1385,
+          -504,
+          2994.3,
+          -504,
+          2994.3,
+          -2240,
+          1385,
+          -2240
+        ]
+      }
+    ]
+  },
+  "context": {
+    "projectUuid": "d71c031469054b24b71c3ace8f045b1d",
+    "projectName": "test",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@d71c031469054b24b71c3ace8f045b1d",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "d71c031469054b24b71c3ace8f045b1d",
+    "projectName": "test",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@d71c031469054b24b71c3ace8f045b1d",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 1029,
+  "seqAbandoned": 0
+}

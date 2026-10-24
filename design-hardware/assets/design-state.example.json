@@ -1,0 +1,79 @@
+{
+  "schema": "design-state/v1",
+  "project": {
+    "name": "<project-name>",
+    "board_revision": "<rev0>",
+    "stage": "G0",
+    "updated": "<YYYY-MM-DD>"
+  },
+  "requirements": {
+    "delivery_level": {"status": "pending"},
+    "size_limit": {"status": "pending"},
+    "enclosure_mounting": {"status": "pending"},
+    "assembly": {"status": "pending"},
+    "quantity_budget": {"status": "pending"},
+    "usb_role": {"status": "pending"},
+    "test_points": {"status": "pending"},
+    "display": {"status": "pending"},
+    "firmware": {"status": "pending"},
+    "threshold_interaction": {"status": "pending"},
+    "alarm_behavior": {"status": "pending"},
+    "environment_accuracy": {"status": "pending"}
+  },
+  "function_freeze": {
+    "status": "not-frozen",
+    "frozen_at": "",
+    "required": [],
+    "optional": [],
+    "removed_after_freeze": []
+  },
+  "schematic": {
+    "netlist_audit": {"status": "pending"},
+    "titleblock": {"status": "pending"},
+    "png_review": {"status": "pending"},
+    "single_pin_nets": {"status": "pending"},
+    "net_naming": {"status": "pending"}
+  },
+  "layout": {
+    "board_outline": {"status": "pending"},
+    "mounting_holes": {"status": "pending"},
+    "connector_escape": {"status": "pending"},
+    "auto_place_used": false,
+    "auto_place_metrics": {},
+    "frozen": false,
+    "frozen_at": ""
+  },
+  "stackup": {
+    "layers": 2,
+    "decision": {"status": "pending"},
+    "power_ground_strategy": {"status": "pending"},
+    "inner_layers": [],
+    "drc_rules_recorded": false,
+    "rules_verified_at": ""
+  },
+  "routing": {
+    "plan": {"status": "pending"},
+    "key_nets": [],
+    "key_net_proofs": {},
+    "save_reload": {"status": "pending"},
+    "silk_align": {"status": "pending"},
+    "drc_rounds": [],
+    "stop_rule_triggered": false
+  },
+  "manufacturing": {
+    "artifacts": [],
+    "profile": {"status": "pending"},
+    "project_export": {"path": "", "sha256": "", "restore_verified": false},
+    "test_plan": {"path": "docs/test-plan.md", "status": "pending"}
+  },
+  "sourcing": {
+    "stock_checked_at": "",
+    "smt_checked_at": "",
+    "smt_required": true,
+    "smt_not_required_reason": ""
+  },
+  "waivers": [],
+  "assumptions": [],
+  "risks": [],
+  "open_items": []
+}

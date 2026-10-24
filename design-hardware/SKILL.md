@@ -156,6 +156,12 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 容差/最坏情况、受控实验与采用决定 | [容差与最坏情况](references/decisions/d01-tolerance-and-worst-case.md)、[受控实验](references/decisions/k01-controlled-experiment.md) |
 | 线束/连接器、产品变体与差异 BOM | [整机线束](references/decisions/f01-harness-and-board-external.md)、[产品变体](references/decisions/g01-product-variants.md) |
 | 校准/设备身份、工程变更、模块复用、资产有效性 | [校准与身份](references/decisions/h01-calibration-and-identity.md)、[变更影响](references/decisions/i01-change-impact.md)、[模块复用](references/decisions/j01-module-reuse.md)、[资产有效性](references/decisions/l01-asset-validity.md) |
+| 阶段门禁、设计状态、G0–G6 退出证据 | [阶段门禁](references/design-gates.md)、[状态示例](assets/design-state.example.json)，运行 `python scripts/gate_check.py` |
+| 层数选择、电源/地策略、布线计划、连接器逃逸 | [PCB布线策略](references/pcb-routing-strategy.md)、[布线计划模板](assets/routing-plan.md) |
+| 工具报错、命令行为、前台/超时/部分写入 | [工具陷阱](references/tool-gotchas.md) |
+| 设计前核算：阈值/回差、NTC、LED/蜂鸣器、压降、载流 | [设计计算模板](assets/design-calc.md)，需要可执行核算时用 `scripts/calculate.py` |
+| 机械/热/丝印装配/制造包/验证记录 | [机械](assets/docs/mechanical.md)、[温度传感器](assets/docs/thermal-sensor.md)、[丝印装配](assets/docs/silk-assembly.md)、[制造包](assets/docs/manufacturing-package.md)、[验证](assets/docs/verification.md) |
+| BOM/引脚结构化检查、Skill 自检与回归案例 | [零件示例](assets/parts.example.json)、[引脚图示例](assets/pinmap.example.json)、`scripts/bom_check.py`、`scripts/skill_selftest.py`、[temp-alarm 回归案例](cases/temp-alarm-2026-10-24/README.md) |
 
 领域路由只声明工作方法覆盖，不证明某行业、协议、器件或产品已验证。不要因覆盖范围广而绕过证据要求。遇到超出当前资料/工具能力的任务，继续可独立完成部分，具体列出需专家、仿真、板厂或实验确认的项目。
 
@@ -173,6 +179,18 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 创建或实质修改原理图/PCB时，先按工程经验库选择当前阶段与领域条目，把适用项落实成实际设计、工具约束和检查证据。每个功能模块写入前把适用经验落实到具体元件/网络/布局约束，写入后回读，交付前复核受影响链路；不将经验清单变成额外审批或要求新手逐项确认。只改局部时同时检查其电源/接口/布局影响，不无目的重审全板。详细经验留在按需参考中；新手只看到重要取舍、真实进展与下一步，不负责判断技术正确性。开源图纸、作者已修缺陷和原厂指南分别作为观察/查证依据，不按星数决定正确性，不把来源已查看当当前工程已验证。
 
 制造相关设计由Agent按 [生产档案模板](assets/manufacturing-profile.md) 记录关键工艺和适用规则，优先合并进已有工程记录。读取官方规则、选择项目值、写入真实EDA、回读/DRC与厂方审核分别报告；工艺/服务变化后重查受影响项，不自动覆盖更严格规则或用最小能力作为默认设计目标。
+
+### 3.2 阶段门禁 G0–G6
+
+门禁是**阶段退出证据门，不是审批门**：在用户已授权的设计/修改范围内自查、记录并继续，不新增等待点；只有证据缺失或门禁失败时停住依赖链路。G0–G6 是 S1–S5 的退出条件，不是第二套流程；定义、命令、证据与豁免见 [阶段门禁](references/design-gates.md)。
+
+- **门禁键**：`G0_requirements`、`G1_function_freeze`、`G2_schematic`、`G3_layout`、`G4_power_ground`、`G5_routing`、`G6_manufacturing`；报告与 `gate_check.py` 使用同一组键，不另造别名。
+
+- **状态载体**：非平凡项目用 `design-state.json`（模板 [状态示例](assets/design-state.example.json)）记录需求、功能冻结、布局/层叠/布线/制造证据、假设与未决项；小修改可沿用 [工程记录](assets/engineering-notes.md)，不重复建同义文件。
+- **硬规则**：G2 未过不导入/布局 PCB；G3 未过不布线；G5 未过不谈制造；G6 未过不说可打样/可量产。G3 与 G4 是布线的并列前置条件，不能先布完再补声明。
+- **离线复核**：`python scripts/gate_check.py --project <name> --evidence-dir <dir> --design-state <file> [--waiver-file <json>]` 只读证据，不连 daemon、不写工程；输出 `PASS / PASS_WITH_WAIVER / BLOCKED / UNSUPPORTED` 与 `next_command`。缺证据判 `BLOCKED`，不默认通过。
+- **豁免**：电气 DRC、网表审计、PCB DRC、关键网证明、保存重载、Gerber/BOM/恢复演练不可豁免；风格警告、安装孔、连接器逃逸、布局冻结、丝印、测试计划等可带理由豁免，必须落盘到 `--waiver-file`（`design-waivers/v1`）并写清范围、剩余风险与复验条件。`PASS_WITH_WAIVER` 不是 `PASS`。
+- **工具边界**：Gerber/钻孔/CPL 在 easyeda-agent v1.14.0 没有 CLI/typed action，只能由用户在 EDA GUI 导出并落证据；缺人工证据时 G6 仍 `BLOCKED`。门禁通过只说明列出的检查在给定对象/版本/范围内通过，不证明实物功能。
 
 ## 4. 用轻量工程状态驱动工作
 
@@ -221,6 +239,12 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 电池项目可用 `python scripts/power_budget.py budget.json`，先读 [离线工具契约](references/offline-tools.md)：用明确可用容量和互斥整板电池侧电流估算，供电拓扑/峰值/长期寿命仍另验。已有实际图面几何时可用 `python scripts/sch_layout_check.py layout.json` 提示文字/本体矩形重叠、线穿越、越页等候选；它不读取EDA、不判连通，也不替代真实导图看图。Agent准备输入，新手不操作JSON。未设置的经验阈值不偷偷补默认值，未覆盖的内容不借0退出码变成通过。
 
 需要检查决策记录时，按需运行 `python scripts/pin_plan_check.py`、`interface_contract_check.py`、`harness_check.py`、`variant_bom.py`、`decision_record_check.py`、`decision_asset_check.py`，先读 [设计决策库](references/decisions/README.md)。它们只检查声明的记录完整性与交叉引用，不判断电气正确、连接器额定、校准有效或可下单；未知字段输出 `unknown`，不得用退出码 0 代替工程结论。
+
+阶段门禁用 `python scripts/gate_check.py --project <name> --evidence-dir <dir> --design-state <file>`，先读 [阶段门禁](references/design-gates.md)。它只读证据目录和状态文件，不连 daemon、不写工程；缺证据判 `BLOCKED`，`PASS` 也不证明实物。有豁免时用 `--waiver-file` 落盘，未使用的豁免会标 `unused`。
+
+BOM/装配结构用 `python scripts/bom_check.py parts.json`，先按 [零件示例](assets/parts.example.json) 准备输入。它检查 role/MPN/封装/装配方式/C 号存在性/备选结构；库存、价格、MOQ 与 SMT 可贴状态仍按立创商城和嘉立创渠道实时核对，脚本不访问网络。
+
+Skill 包自检用 `python scripts/skill_selftest.py`：检查必需文件、相对链接、门禁命名、回归案例结果与脚本可运行。它只证明包结构与本轮案例一致，不证明任何硬件或 EDA 工程已验证。
 
 需要真实读写嘉立创EDA工程时运行 `python scripts/eda_exec.py` 的子命令，先读 [EDA执行](references/eda-execution.md)。`doctor` 只诊断，`read` 只回读，`apply --dry-run` 只对账；写入必须在已授权副本上，冲突默认不写，保存后按 `reopen-check` 验证持久化。它只支持本文件列出的原理图原语，不覆盖PCB、下单或任意JS。
 

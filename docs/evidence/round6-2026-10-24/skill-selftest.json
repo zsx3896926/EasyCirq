@@ -1,0 +1,66 @@
+{
+  "schema": "skill-selftest/v1",
+  "selftest_only": "SELF-TEST ONLY — not a hardware verification",
+  "skill_root": "C:\\Users\\jlc\\work\\hds-round6\\design-hardware",
+  "skill_version": "0.6.0",
+  "checks": [
+    {
+      "id": "required-files",
+      "status": "PASS",
+      "summary": "17 required paths present",
+      "details": [
+        "SKILL.md",
+        "references/design-gates.md",
+        "references/pcb-routing-strategy.md",
+        "references/tool-gotchas.md",
+        "assets/design-state.example.json",
+        "assets/design-brief.md",
+        "assets/routing-plan.md",
+        "assets/design-calc.md",
+        "scripts/gate_check.py",
+        "scripts/bom_check.py",
+        "cases/temp-alarm-2026-10-24/README.md",
+        "cases/temp-alarm-2026-10-24/expected.json",
+        "assets/docs/manufacturing-package.md",
+        "assets/docs/mechanical.md",
+        "assets/docs/silk-assembly.md",
+        "assets/docs/thermal-sensor.md",
+        "assets/docs/verification.md"
+      ]
+    },
+    {
+      "id": "markdown-links",
+      "status": "PASS",
+      "summary": "2028 relative link(s) in 289 Markdown file(s) resolve",
+      "details": []
+    },
+    {
+      "id": "gate-naming",
+      "status": "PASS",
+      "summary": "7 gate keys and 4 status words consistent",
+      "details": []
+    },
+    {
+      "id": "case-regression",
+      "status": "PASS",
+      "summary": "7 gate status(es) match expected.json",
+      "details": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe C:\\Users\\jlc\\work\\hds-round6\\design-hardware\\scripts\\gate_check.py --project temp-alarm --project-dir C:\\Users\\jlc\\work\\hds-round6\\design-hardware\\cases\\temp-alarm-2026-10-24 --evidence-dir C:\\Users\\jlc\\work\\hds-round6\\design-hardware\\cases\\temp-alarm-2026-10-24\\evidence --json --design-state C:\\Users\\jlc\\work\\hds-round6\\design-hardware\\cases\\temp-alarm-2026-10-24\\design-state.json --waiver-file C:\\Users\\jlc\\work\\hds-round6\\design-hardware\\cases\\temp-alarm-2026-10-24\\waivers.json",
+        "exit=1",
+        "report schema=design-gate-report/v1"
+      ]
+    },
+    {
+      "id": "python-compile",
+      "status": "PASS",
+      "summary": "20 script(s) compile with py_compile",
+      "details": []
+    }
+  ],
+  "summary": {
+    "pass": 5,
+    "fail": 0,
+    "not_run": 0,
+    "exit_code": 0
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "id": "req_2143",
+  "ok": true,
+  "result": {
+    "bytes": 364810,
+    "format": "epro2",
+    "path": "C:\\Users\\jlc\\work\\temp-alarm-20261024\\temp-alarm-test.epro2",
+    "restoreVerified": false,
+    "sha256": "6dcf4d87331e1034e38df748a5041f26de5bf79f21833f3c92abc20b47800d9e",
+    "uuid": "d71c031469054b24b71c3ace8f045b1d",
+    "zipIntegrityVerified": true
+  },
+  "type": "response",
+  "version": "v1"
+}

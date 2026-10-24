@@ -1,0 +1,83 @@
+{
+  "_note": "示例，不是已核对器件：EX-MCU8 为虚构型号，只演示 pinmap/v1 的行格式、NC 行和电源/地行。datasheet_pin 与 footprint_pad 未对照原厂 datasheet 或封装 drawing，不得直接用于落图、建库或下单。嵌入 pin-plan/v1 时，把本文件的 pinmap 数组原样放到顶层 pinmap。",
+  "schema": "pinmap/v1",
+  "device": {
+    "ref": "U1",
+    "mpn": "EX-MCU8",
+    "package": "SOIC-8",
+    "verified": false
+  },
+  "pinmap": [
+    {
+      "ref": "U1",
+      "symbol_pin": "VDD",
+      "datasheet_pin": "1",
+      "footprint_pad": "1",
+      "net": "+5V",
+      "nc": false,
+      "notes": "电源脚；示例值，未核对 datasheet"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "PA0",
+      "datasheet_pin": "2",
+      "footprint_pad": "2",
+      "net": "NODE",
+      "nc": false,
+      "notes": "NTC 分压节点"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "PA1",
+      "datasheet_pin": "3",
+      "footprint_pad": "3",
+      "net": "VREF",
+      "nc": false,
+      "notes": "阈值电位器"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "PA2",
+      "datasheet_pin": "4",
+      "footprint_pad": "4",
+      "net": "LED_D",
+      "nc": false,
+      "notes": "报警灯驱动"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "VSS",
+      "datasheet_pin": "5",
+      "footprint_pad": "5",
+      "net": "GND",
+      "nc": false,
+      "notes": "地脚；示例值，未核对 datasheet"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "PA3",
+      "datasheet_pin": "6",
+      "footprint_pad": "6",
+      "net": "BUZ_D",
+      "nc": false,
+      "notes": "蜂鸣器驱动"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "PA4",
+      "datasheet_pin": "7",
+      "footprint_pad": "7",
+      "net": "TEST",
+      "nc": false,
+      "notes": "测试点"
+    },
+    {
+      "ref": "U1",
+      "symbol_pin": "NC",
+      "datasheet_pin": "8",
+      "footprint_pad": "8",
+      "nc": true,
+      "notes": "未用脚；nc=true 时不填 net，也不得接网"
+    }
+  ]
+}
