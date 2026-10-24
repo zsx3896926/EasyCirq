@@ -116,4 +116,4 @@ python scripts/eda_exec.py reopen-check --project <副本> --snapshot after.json
 
 检索立创开源硬件参考时同样要求打开实际原理图，核对作者、版本、原始文件与许可，再抽取适合当前项目的表达方式。不要仅凭封面、点赞、成品照或“开源”标签认定电路与图面都优秀；无需因追求排版而换掉已经验证的电气方案。
 
-8类典型任务的离线几何基准、预期候选与检查方法见 [原理图排版基准集](schematic-benchmarks.md)；运行 `python scripts/schematic_benchmark.py` 可复现候选。基准是故意有缺陷的离线快照，不是8张已真机绘制的图。真实执行通道的读写/保存/重开/导图证据见 [EDA执行证据](../../docs/evidence/eda-2026-10-21/README.md)，它只证明该演示页的闭环，不能扩展成所有排版案例都已真机验证。
+8类典型任务的离线几何基准、预期候选与检查方法见 [原理图排版基准集](schematic-benchmarks.md)；运行 `python scripts/schematic_benchmark.py` 可复现候选。基准是故意有缺陷的离线快照，不是8张已真机绘制的图。真实执行通道的读写/保存/重开/导图证据见 `docs/evidence/eda-2026-10-21/README.md`（仓库内证据，未随 Skill 安装），它只证明该演示页的闭环，不能扩展成所有排版案例都已真机验证。

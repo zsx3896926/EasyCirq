@@ -13,3 +13,7 @@ SKILL.md 88fa79005abeebf71ea06b615c26180174f5d5bae8ce1487b64fff4623bc8b6d
 scripts/gate_check.py 195431e4f9c3872915e3dd12e22c3d03e623ec5f185bf722d7634cb71aab8dd5
 .version 97a5d6e540a6120d09c39ddb667e0e8e2bac7fcc2ffef813b82e08fd60365bce
 note: installed skill content changes take effect on the next session/skill reload; this session has already loaded the old SKILL.md
+
+second_sync: after repo-only evidence link fix (8 files); 356/356 files, 0 hash mismatches
+installed_selftest: 5 PASS / 0 FAIL / 0 NOT RUN
+repo_selftest: 5 PASS / 0 FAIL / 0 NOT RUN

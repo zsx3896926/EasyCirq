@@ -368,7 +368,7 @@ python scripts/power_budget.py budget.json
 
 ### 6.1 立创商城/嘉立创字段纪律
 
-本文不写任何 C 号、价格、库存、MOQ、包装、交期、生命周期或 SMT 可贴状态；这些字段一律 `待查`。本项目记录：**2026-10-20 尝试访问立创商城商品页/搜索页时返回 404/系统异常**，未取得实时字段（记录见 [README](../../../README.md) 与 [manufacturing-routes.md](../manufacturing-routes.md) §7.2）。
+本文不写任何 C 号、价格、库存、MOQ、包装、交期、生命周期或 SMT 可贴状态；这些字段一律 `待查`。本项目记录：**2026-10-20 尝试访问立创商城商品页/搜索页时返回 404/系统异常**，未取得实时字段（记录见 `README.md`（仓库根，未随 Skill 安装） 与 [manufacturing-routes.md](../manufacturing-routes.md) §7.2）。
 
 | 字段 | 本文值 | 核验来源 | 核验日期 | 核验结果 |
 |---|---|---|---|---|
