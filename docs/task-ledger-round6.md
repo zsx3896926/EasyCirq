@@ -80,3 +80,11 @@ python design-hardware/scripts/gate_check.py --project temp-alarm \
 1. 备份并同步 `C:\Users\jlc\.claude\skills\design-hardware`；逐文件哈希核对。
 2. 提交并推送 `feat/design-gates-round6`。
 3. 独立验收（只读）：全量 unittest、doctor_env、案例对照、链接/命名一致性。
+
+## 8. 交付记录
+
+- 提交：`b3eb244`（feat(skill): add G0-G6 design gates and temp-alarm regression）
+- 分支：`feat/design-gates-round6`，已推送并跟踪 `origin/feat/design-gates-round6`
+- 安装同步：源 356 文件 / 安装 356 文件，0 哈希差异，0 额外文件；备份 `C:\Users\jlc\work\_skill-backups\design-hardware-20261024-215856`
+- 证据：`docs/evidence/round6-2026-10-24/`（CLI help、测试日志、测试摘要、自检 JSON、安装同步）
+- 独立验收：待 jlc-0d 只读复核；结果见最终报告
