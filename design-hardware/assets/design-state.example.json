@@ -72,6 +72,37 @@
     "smt_required": true,
     "smt_not_required_reason": ""
   },
+  "decisions": [
+    {"id": "D1", "topic": "<topic>", "choice": "<choice>", "rationale": "<why>", "date": "<YYYY-MM-DD>"}
+  ],
+  "gates": {
+    "last_run": "<YYYY-MM-DD>",
+    "results": {
+      "G0_requirements": "<PASS|PASS_WITH_WAIVER|BLOCKED|UNSUPPORTED>",
+      "G1_function_freeze": "<...>",
+      "G2_schematic": "<...>",
+      "G3_layout": "<...>",
+      "G4_power_ground": "<...>",
+      "G5_routing": "<...>",
+      "G6_manufacturing": "<...>"
+    }
+  },
+  "evidence": {
+    "manifest": [
+      {"role": "<sch_drc>", "path": "<evidence/sch-drc.json>", "sha256": "<...>", "command": "<command>", "exit_code": 0, "captured_at": "<YYYY-MM-DDTHH:MM:SSZ>"}
+    ]
+  },
+  "bom": {
+    "file": "BOM.csv",
+    "rows": 0,
+    "total_quantity": 0,
+    "missing_c": 0
+  },
+  "pcb": {
+    "components": 0,
+    "copper_layers": 2,
+    "outline_mm": {"width": 0, "height": 0}
+  },
   "waivers": [],
   "assumptions": [],
   "risks": [],
