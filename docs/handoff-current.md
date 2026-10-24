@@ -2,7 +2,7 @@
 
 ## 第七轮引擎纵切片（2026-10-24）
 
-- 分支 `feat/design-engine-round7`，worktree `C:\Users\jlc\work\hds-engine`，基线 `fe950d3`，实现提交 `6468d0f`（已推送）。
+- 分支 `feat/design-engine-round7`，worktree `C:\Users\jlc\work\hds-engine`，基线 `fe950d3`，实现提交 `b96076a`（已推送）。
 - 状态真源：[docs/task-ledger-round7-engine.md](task-ledger-round7-engine.md)；报告：[docs/round7/engine-report.md](round7/engine-report.md)。
 - 入口：`design-hardware/scripts/design_engine_cli.py`；契约：[design-hardware/references/design-engine.md](../design-hardware/references/design-engine.md)。
 - 已完成：A01–A08 骨架；S01–S10、P01–P08、R04/R05、M01/M02/M04/M05、Q01–Q03、U03 的离线子集；658 tests OK。

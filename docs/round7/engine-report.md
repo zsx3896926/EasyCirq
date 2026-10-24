@@ -1,6 +1,6 @@
 # 第七轮：确定性设计引擎纵切片报告
 
-日期：2026-10-24。基线代码 `fe950d3`；工作分支 `feat/design-engine-round7`；实现提交 `6468d0f`；隔离 worktree `C:\Users\jlc\work\hds-engine`。
+日期：2026-10-24。基线代码 `fe950d3`；工作分支 `feat/design-engine-round7`；实现提交 `b96076a`；隔离 worktree `C:\Users\jlc\work\hds-engine`。
 本报告只描述本轮实际写入、实际运行和实际测量的内容；没有执行的项目明确标 `NOT RUN`。
 
 ## 1. 本轮完成什么
