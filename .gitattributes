@@ -11,3 +11,13 @@ tests/test_decisions_*.py text eol=lf
 docs/round4-report.md text eol=lf
 docs/task-ledger-round4.md text eol=lf
 docs/handoff-current.md text eol=lf
+
+# Round-7 design engine, evidence and reports use LF on every platform.
+design-hardware/scripts/design_engine/** text eol=lf
+design-hardware/scripts/design_engine_cli.py text eol=lf
+design-hardware/references/design-engine.md text eol=lf
+tests/test_design_engine.py text eol=lf
+docs/round7/** text eol=lf
+docs/task-ledger-round7-engine.md text eol=lf
+docs/evidence/round7-engine/** text eol=lf
+docs/evidence/round7-baseline-2026-10-24/** text eol=lf

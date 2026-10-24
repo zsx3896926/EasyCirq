@@ -1,0 +1,122 @@
+[
+ {
+  "file": "pcb-check.json",
+  "bytes": 8329,
+  "sha256": "762c5929b047efe69335f8a7fe05fa0e1bb8cbe3e890486f8d637ecdf32dc110"
+ },
+ {
+  "file": "pcb-drc.json",
+  "bytes": 47817,
+  "sha256": "207a877e0fc1de524f55462b466d91da02649231e1056c1fc070aea927d16b0c"
+ },
+ {
+  "file": "pcb-dump.json",
+  "bytes": 276262,
+  "sha256": "fe730d81bf244ab47afccd991c68870e2bc5b2ea699f104815c0ecc8c793e00c"
+ },
+ {
+  "file": "pcb-layout-lint.json",
+  "bytes": 2661,
+  "sha256": "ee3d1783d6838edef318c7f6973390dc7bc355512f7fe014d665e68c8466a1eb"
+ },
+ {
+  "file": "pcb-list.json",
+  "bytes": 14985,
+  "sha256": "f9484c479a418fe386d9878214661f177f395211dfbf2b5c9f6f410aa2f5bcf2"
+ },
+ {
+  "file": "pcb-nets.json",
+  "bytes": 3617,
+  "sha256": "f2b2f0381a16fc7dec318bc09f9cee22da8632701c89408cbbc97fde11a400b6"
+ },
+ {
+  "file": "pcb-outline.json",
+  "bytes": 1674,
+  "sha256": "d1a9a2aa378e4b5ec6405a1e2adf3d294a9b42e823cd07a1ba239966056e670c"
+ },
+ {
+  "file": "pcb-report.json",
+  "bytes": 2018,
+  "sha256": "d2d7355bdd6f4298cc711398ab5a945e6bf2b622c3959abe11360100e19776ac"
+ },
+ {
+  "file": "pcb-stackup.json",
+  "bytes": 1688,
+  "sha256": "10541e0f92a8765f9243c16f8592b3f9ea7d2fca48bb0c0bd6f0e4b11af7947c"
+ },
+ {
+  "file": "sch-baseline.svg",
+  "bytes": 176631,
+  "sha256": "0eafbadad2e5c7c0f44d5434e5a3da1e06662b3ca7f05c4273204a776cf0d25a"
+ },
+ {
+  "file": "sch-check.json",
+  "bytes": 1598,
+  "sha256": "4057a241903b0af44f7acf6d09733f5414dc0409d4c26b980cb41656a8ad086b"
+ },
+ {
+  "file": "sch-clusters.json",
+  "bytes": 19003,
+  "sha256": "8d26a0541b9535181a2d3da8de17999b0854c9bba2c96ebf854107e7c0457747"
+ },
+ {
+  "file": "sch-connectivity.json",
+  "bytes": 41229,
+  "sha256": "f1ca39c4a7315287f2e55b215f6a74525b752d3615851f10ed22b978a0e28a1d"
+ },
+ {
+  "file": "sch-designator-geometry.json",
+  "bytes": 10695,
+  "sha256": "347fa8309b54d114523ff567b72dcbaf787f6a0cb19bb5688e81606d19b35255"
+ },
+ {
+  "file": "sch-drc.json",
+  "bytes": 120,
+  "sha256": "b4fef88a7425121b2854f57e78cd2c6f6145d339da44cac2451571f61d92c38c"
+ },
+ {
+  "file": "sch-layout-lint.json",
+  "bytes": 594,
+  "sha256": "3d24574bac9bf351bf5e8046632dbe20fccd6149c945502950e3abf65da76012"
+ },
+ {
+  "file": "sch-layout-score.json",
+  "bytes": 2723,
+  "sha256": "2b1c1f7e5c11969305cbba8526a281d0515936000a6ba8dbd0b43da276ffa093"
+ },
+ {
+  "file": "sch-list-full.json",
+  "bytes": 1126560,
+  "sha256": "c556d3a62f710b49e516096e73fd0a9f468a6a829f72c33c9fc3ffc08870a2bb"
+ },
+ {
+  "file": "sch-netlist-kicad.net",
+  "bytes": 329,
+  "sha256": "d04955c7b9761f639067190d8e109e0ecc55d0e1660c33f89f18d0ca9b3b7f51"
+ },
+ {
+  "file": "sch-nets.json",
+  "bytes": 95,
+  "sha256": "874e61d5ea561fb0f871f1f7db3f7aab565264cf0c0e999172c22060be5a04c7"
+ },
+ {
+  "file": "sch-status.json",
+  "bytes": 1024,
+  "sha256": "d1447eb468ed3919c5af4326d99719149ee2991877db58c49051d9e71c8e2694"
+ },
+ {
+  "file": "sch-text-list.json",
+  "bytes": 990,
+  "sha256": "4fee333fff976754e1a81acf490b50a334a5949ece76fc0bd4486c2cf0b8c2d0"
+ },
+ {
+  "file": "sch-titleblock.json",
+  "bytes": 4830,
+  "sha256": "2ac4bc8e39a45fe52992fd79c0a63b5678927f6577c42171b3cbb0de2725bafc"
+ },
+ {
+  "file": "sheet-geometry.json",
+  "bytes": 675,
+  "sha256": "d980356645e350a83cadcb60921ad037f9397645090e29cf031f1c2328dabc4e"
+ }
+]

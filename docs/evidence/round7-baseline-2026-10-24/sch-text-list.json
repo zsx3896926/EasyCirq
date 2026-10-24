@@ -1,0 +1,35 @@
+{
+  "id": "req_2458",
+  "type": "response",
+  "version": "v1",
+  "windowId": "bd1cb5f2-df3c-4a99-852f-d4b4d89ebd5e",
+  "createdAt": "2026-10-24T13:28:37.2653406Z",
+  "ok": true,
+  "result": {
+    "count": 0,
+    "scope": "activePage",
+    "texts": []
+  },
+  "context": {
+    "projectUuid": "7985fed220664da5a84e8c72ec3c9486",
+    "projectName": "temp-alarm-r7-scratch",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@7985fed220664da5a84e8c72ec3c9486",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "7985fed220664da5a84e8c72ec3c9486",
+    "projectName": "temp-alarm-r7-scratch",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@7985fed220664da5a84e8c72ec3c9486",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 1789,
+  "seqAbandoned": 1,
+  "abandonedIds": [
+    "req_2392"
+  ]
+}

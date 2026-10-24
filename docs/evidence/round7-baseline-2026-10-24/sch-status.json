@@ -1,0 +1,14 @@
+sch status — 工程 "temp-alarm-r7-scratch" · 激活页 · **全部实测自活体,不落盘、不会过期**
+
+  页                  图纸     页名     组      框      器件     导线
+  6a8364999a809cb4   ✓      ✓      0      0      26     65
+
+  ✓ S1  图纸/分页      1 页,页名皆有功能语义
+  ○ S2  编组/分区      没有虚拟组 —— `sch block-apply` 落块自动归组,手工页 `sch group create`
+  ✓ S3  摆放         26 件已落位
+  ✓ S4  布线         65 段导线(接得对不对由 S5 判)
+  ? S5  校验门        未验 —— status 只报进度;逐页 `sch gate --strict --doc <页>`(或本命令加 --gate)
+  ? S6  存盘         平台不暴露脏标记,无法从活体判定 —— daemon 防抖 autosave 已开(默认 3s),交付前显式 `sch save --doc <页>` 并确认 saved:true
+
+next: easyeda sch zone-plan --json  →  easyeda sch zone-draw
+  (S2 未完:没有虚拟组 —— `sch block-apply` 落块自动归组,手工页 `sch group create`)

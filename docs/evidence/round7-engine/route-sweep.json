@@ -1,0 +1,422 @@
+{
+  "schema": "design-engine-route-sweep/v1",
+  "source": "docs/evidence/round7-engine/ir.json",
+  "counts": {
+    "routed": 47,
+    "no_solution": 4
+  },
+  "validation_valid": 22,
+  "validation_review_or_invalid": 29,
+  "rows": [
+    {
+      "net": "D1_N1",
+      "from": "D1.2",
+      "to": "J1.A4B9",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "D1_N1",
+      "from": "J1.A4B9",
+      "to": "J1.B4A9",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "D1_N1",
+      "from": "J1.B4A9",
+      "to": "D3.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "+5V",
+      "from": "D1.1",
+      "to": "RT1.1",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "+5V",
+      "from": "RT1.1",
+      "to": "C3.1",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "+5V",
+      "from": "C3.1",
+      "to": "C5.1",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "+5V",
+      "from": "C5.1",
+      "to": "R11.1",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "+5V",
+      "from": "R11.1",
+      "to": "U1.5",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "+5V",
+      "from": "U1.5",
+      "to": "R17.1",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "+5V",
+      "from": "R17.1",
+      "to": "BZ1.1",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "+5V",
+      "from": "BZ1.1",
+      "to": "D6.1",
+      "status": "no_solution",
+      "validation": "no_solution",
+      "issues": 0
+    },
+    {
+      "net": "+5V",
+      "from": "D6.1",
+      "to": "R16.1",
+      "status": "no_solution",
+      "validation": "no_solution",
+      "issues": 0
+    },
+    {
+      "net": "+5V",
+      "from": "R16.1",
+      "to": "C4.1",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "J1.11",
+      "to": "J1.10",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "J1.10",
+      "to": "J1.9",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "J1.9",
+      "to": "J1.8",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "J1.8",
+      "to": "J1.A1B12",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "J1.A1B12",
+      "to": "J1.B1A12",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "J1.B1A12",
+      "to": "R2.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "R2.2",
+      "to": "R1.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "R1.2",
+      "to": "D3.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "D3.2",
+      "to": "R10.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "R10.2",
+      "to": "C1.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "C1.2",
+      "to": "C2.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "C2.2",
+      "to": "C3.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "C3.2",
+      "to": "C5.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "C5.2",
+      "to": "R12.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "R12.2",
+      "to": "U1.2",
+      "status": "no_solution",
+      "validation": "no_solution",
+      "issues": 0
+    },
+    {
+      "net": "GND",
+      "from": "U1.2",
+      "to": "R15.2",
+      "status": "no_solution",
+      "validation": "no_solution",
+      "issues": 0
+    },
+    {
+      "net": "GND",
+      "from": "R15.2",
+      "to": "Q1.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 2
+    },
+    {
+      "net": "GND",
+      "from": "Q1.2",
+      "to": "D5.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 3
+    },
+    {
+      "net": "GND",
+      "from": "D5.2",
+      "to": "C4.2",
+      "status": "routed",
+      "validation": "review",
+      "issues": 3
+    },
+    {
+      "net": "D1_N4",
+      "from": "J1.B5",
+      "to": "R2.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "D1_N3",
+      "from": "J1.A5",
+      "to": "R1.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "NODE",
+      "from": "RT1.2",
+      "to": "R10.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "NODE",
+      "from": "R10.1",
+      "to": "C1.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "NODE",
+      "from": "C1.1",
+      "to": "U1.3",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "NODE",
+      "from": "U1.3",
+      "to": "R13.2",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "VREF",
+      "from": "C2.1",
+      "to": "RV1.2",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "VREF",
+      "from": "RV1.2",
+      "to": "U1.4",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "REF_TOP",
+      "from": "R11.2",
+      "to": "RV1.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "REF_BOT",
+      "from": "RV1.3",
+      "to": "R12.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "OUT",
+      "from": "U1.1",
+      "to": "R13.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "OUT",
+      "from": "R13.1",
+      "to": "R14.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "GATE",
+      "from": "R14.2",
+      "to": "R15.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "GATE",
+      "from": "R15.1",
+      "to": "Q1.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "PWR_LED_A",
+      "from": "R17.2",
+      "to": "D5.1",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "BUZ_D",
+      "from": "Q1.3",
+      "to": "BZ1.2",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "BUZ_D",
+      "from": "BZ1.2",
+      "to": "D6.2",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "BUZ_D",
+      "from": "D6.2",
+      "to": "D4.2",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    },
+    {
+      "net": "LED_A",
+      "from": "D4.1",
+      "to": "R16.2",
+      "status": "routed",
+      "validation": "valid",
+      "issues": 0
+    }
+  ],
+  "electrical_verified": false,
+  "note": "consecutive same-net pin pairs; candidates only, not applied"
+}

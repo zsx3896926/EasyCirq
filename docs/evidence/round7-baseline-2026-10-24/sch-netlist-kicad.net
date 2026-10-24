@@ -1,0 +1,14 @@
+{
+  "id": "req_2344",
+  "type": "response",
+  "version": "v1",
+  "windowId": "bd1cb5f2-df3c-4a99-852f-d4b4d89ebd5e",
+  "createdAt": "2026-10-24T13:20:04.0735436Z",
+  "ok": false,
+  "error": {
+    "code": "EDA_CALL_FAILED",
+    "message": "Netlist export returned no file."
+  },
+  "seq": 1710,
+  "seqAbandoned": 0
+}

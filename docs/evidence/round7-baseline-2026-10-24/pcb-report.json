@@ -1,0 +1,94 @@
+{
+  "id": "req_2476",
+  "type": "response",
+  "version": "v1",
+  "windowId": "bd1cb5f2-df3c-4a99-852f-d4b4d89ebd5e",
+  "createdAt": "2026-10-24T13:35:10.780872Z",
+  "ok": true,
+  "result": {
+    "differentialPairs": [],
+    "equalLengthNetGroups": [],
+    "netClasses": [],
+    "netCount": 14,
+    "nets": [
+      {
+        "length": 316.74,
+        "net": "GND"
+      },
+      {
+        "length": 1803.7,
+        "net": "BUZ_D"
+      },
+      {
+        "length": 1705.7,
+        "net": "D1_N1"
+      },
+      {
+        "length": 959.1,
+        "net": "GATE"
+      },
+      {
+        "length": 1939,
+        "net": "NODE"
+      },
+      {
+        "length": 4229.7,
+        "net": "OUT"
+      },
+      {
+        "length": 1169.5,
+        "net": "PWR_LED_A"
+      },
+      {
+        "length": 904.6,
+        "net": "REF_BOT"
+      },
+      {
+        "length": 6544.527,
+        "net": "+5V"
+      },
+      {
+        "length": 3505.3,
+        "net": "VREF"
+      },
+      {
+        "length": 1417.3,
+        "net": "LED_A"
+      },
+      {
+        "length": 493.5,
+        "net": "D1_N3"
+      },
+      {
+        "length": 343.8,
+        "net": "D1_N4"
+      },
+      {
+        "length": 2352.9,
+        "net": "REF_TOP"
+      }
+    ]
+  },
+  "context": {
+    "projectUuid": "7985fed220664da5a84e8c72ec3c9486",
+    "projectName": "temp-alarm-r7-scratch",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@7985fed220664da5a84e8c72ec3c9486",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "7985fed220664da5a84e8c72ec3c9486",
+    "projectName": "temp-alarm-r7-scratch",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@7985fed220664da5a84e8c72ec3c9486",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 1801,
+  "seqAbandoned": 1,
+  "abandonedIds": [
+    "req_2392"
+  ]
+}

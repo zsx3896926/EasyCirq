@@ -1,4 +1,17 @@
-# 集成交接（2026-10-23，第五轮收尾）
+# 集成交接
+
+## 第七轮引擎纵切片（2026-10-24）
+
+- 分支 `feat/design-engine-round7`，worktree `C:\Users\jlc\work\hds-engine`，基线 `fe950d3`。
+- 状态真源：[docs/task-ledger-round7-engine.md](task-ledger-round7-engine.md)；报告：[docs/round7/engine-report.md](round7/engine-report.md)。
+- 入口：`design-hardware/scripts/design_engine_cli.py`；契约：[design-hardware/references/design-engine.md](../design-hardware/references/design-engine.md)。
+- 已完成：A01–A04/A06/A08 骨架、S01–S05/S08–S10 的离线子集、PCB 板框/焊盘/连通/DRC 身份、12 模板、628 tests OK。
+- 真实数据：原理图 26 器件/65 导线/14 网/34 净标签；审计 10 hard → 计划模拟 4 hard；PCB DRC 18（16+2）、+5V 2 个断开组、GND 铺铜 `not_checked`。
+- `eda_apply`、保存重开、after 导图、人工审图、原生网表 diff、铺铜连通、制造/样机：**NOT RUN**。
+- 并发边界：另一会话在 `hds-round7` 与 `temp-alarm-r7-scratch` 上做原理图重排；本会话未写该工程，只复制了 21:16 的冻结基线。两个分支不要直接互并。
+- 下一条：在独占 scratch 副本执行 4 个 `attribute-move`，回读/audit/导图；再扩展 eda_exec 快照 bbox。
+
+## 第五轮收尾（2026-10-23）
 
 **第五轮状态真源：`docs/task-ledger-round5.md`（本文件只保留指针与最新一段）。**
 分支 `feat/round5-release-acceptance` 已推送（HEAD 见 `git log`）；worktree `C:/Users/jlc/work/hds-round5`。

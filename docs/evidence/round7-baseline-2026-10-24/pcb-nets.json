@@ -1,0 +1,175 @@
+{
+  "id": "req_2471",
+  "type": "response",
+  "version": "v1",
+  "windowId": "bd1cb5f2-df3c-4a99-852f-d4b4d89ebd5e",
+  "createdAt": "2026-10-24T13:35:10.6610914Z",
+  "ok": true,
+  "result": {
+    "count": 14,
+    "nets": [
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 316.7399999999999,
+        "net": "GND"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 1803.7000000000003,
+        "net": "BUZ_D"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 1705.6999999999998,
+        "net": "D1_N1"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 959.0999999999999,
+        "net": "GATE"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 1938.9999999999998,
+        "net": "NODE"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 4229.700000000001,
+        "net": "OUT"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 1169.5000000000002,
+        "net": "PWR_LED_A"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 904.6000000000001,
+        "net": "REF_BOT"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 6544.527,
+        "net": "+5V"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 3505.3,
+        "net": "VREF"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 1417.3000000000002,
+        "net": "LED_A"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 493.5000000000001,
+        "net": "D1_N3"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 343.80000000000007,
+        "net": "D1_N4"
+      },
+      {
+        "color": {
+          "alpha": 1,
+          "b": 0,
+          "g": 0,
+          "r": 0
+        },
+        "length": 2352.9,
+        "net": "REF_TOP"
+      }
+    ]
+  },
+  "context": {
+    "projectUuid": "7985fed220664da5a84e8c72ec3c9486",
+    "projectName": "temp-alarm-r7-scratch",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@7985fed220664da5a84e8c72ec3c9486",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "7985fed220664da5a84e8c72ec3c9486",
+    "projectName": "temp-alarm-r7-scratch",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@7985fed220664da5a84e8c72ec3c9486",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 1798,
+  "seqAbandoned": 1,
+  "abandonedIds": [
+    "req_2392"
+  ]
+}
