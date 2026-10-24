@@ -124,18 +124,22 @@ python -m unittest discover -s tests  → exit 0
 - 26/26 器件身份与封装一致；65/65 引脚网络**分区完全一致**，14 个网；
   改名 `D1_N1→VBUS`、`D1_N3→CC1`、`D1_N4→CC2` 不改变任何分区；6 个 USB 数据脚 NC。
 - `sch gate` pass；`layout-lint` 0 overlap / 0 tight / 0 pin-coincidence / 0 off-grid。
-- `sch clusters` 24 条，全部 WARN `tight`，无 ERROR。
-- 官方 `layout-score` **60.7 / fair**：folded 100、frame-fit 100，但
-  **reversed-labels 0**（8 个 netport 反向）、proximity 57.9、stub-tidiness 72。
+- `sch clusters`：本会话逐对统计 24 条 WARN `tight`（gap 6–19 raw，小于默认 20）；
+  对方按簇/组聚合报 5 条。两者均无 ERROR，差异是统计口径，不是几何冲突。
+- 官方 `layout-score` **60.7 / fair**（无 zone claims）；对方加 zone 认领后复跑为
+  **66.7 / fair**（proximity 85.7）。reversed-labels 仍 0，但其 fix 与引脚外法线
+  冲突：实测 `R10.1`/`C1.1`/`R14.1` 的 outward rotation 均为 180°（朝左），
+  score 却要求 `--direction right`。这是评分器“以核心为参照”的口径问题，不是真实
+  缺陷；盲翻会被 `sch connect` 拒绝或把标签穿进器件，因此未执行。
 - 本会话 `sch_layout_quality.py`：**0 error / 6 warn / 3 info**（改前 5 error）。
   剩余 warning 是页面上重下轻、粗网格空置率 65.6%、usb/sensor/comp/driver
-  四个模块的成员离核心较远（大量 netport）。
+  四个模块的成员离核心较远（大量 netport），属于风格取舍。
 - PCB `pcb drc`：**passed, total 0**；`pcb layout-lint` 92/easy、71/71 焊盘、
   2 crossings、ratsnest 5,632.51 mil。
 
-结论：真实原理图已经显著改善且电气等价；但仍不是“排版完成”——官方评分指出的
-8 个反向 netport 和邻近度问题需要局部返工。制造包（Gerber/CPL/BOM）仍 `BLOCKED`，
-未打样、未下单。
+结论：真实原理图已经显著改善且电气等价。官方评分仍是 fair，但其 reversed-label
+fix 与引脚外法线冲突（见 3.5），不执行；剩余是 netport 风格与标题栏造成的留白
+取舍，不是电气或几何错误。制造包（Gerber/CPL/BOM）仍 `BLOCKED`，未打样、未下单。
 
 ## 4. 为什么没有强行写入
 
@@ -151,7 +155,7 @@ python -m unittest discover -s tests  → exit 0
 | 项 | 缺什么 | 为什么未完成 | 已准备 | 下一条具体动作 | 环境 |
 |---|---|---|---|---|---|
 | 本流水线整页写入 | D4 可用的符号/姿态 | D4 引脚偏移 -14，不在 5-grid | 6 区候选、195 步队列、compose 校验 | 用 `sch rebind-symbol` 为 D4 换一个引脚在 5-grid 的等价 LED 符号（保持封装/脚号/网络），或把驱动模块改为刚体区并单独写入 | EasyEDA 4.1.78 + 隔离副本 |
-| 反向 netport 标签 | 8 个 netport 的方向修正 | 真实重排已完成，但未做局部返工 | `layout-score` 的逐条 fix 命令、质量检查 | 按 `score.json` 的 fix 逐条 `sch disconnect` + `sch connect --direction ...`，重跑 gate/score/网表 | 并行会话的 scratch 或复核副本 |
+| 反向 netport 标签 | —（已评估，不执行） | score 的 fix 与引脚外法线冲突：R10.1/C1.1/R14.1 outward=180°，fix 要求 right | `score.json`、`list.json` 引脚旋转 | 维持现状；除非换评分口径或人工审图另有要求，不翻标签 | 不适用 |
 | 制造包 | Gerber/drill/CPL/BOM 导出 | CLI 无导出能力，隐藏标签页 BOM 返回 no file | 最终 `.epro2`、BOM 表 | GUI 全在线会话导出并核对层叠/阻焊/板框/位号 | 用户 GUI 会话 |
 | 第二项目验证 | 另一结构的低压电路 | 本轮时间用于单项目闭环 | 模块模板与流水线 | 换一个 2–3 模块电路，跑同一 model/pipeline/quality | 离线 + EDA 副本 |
 | 局部刚体区 | 驱动区 compositions 的 flags 精确重建 | 当前未实现按区保留既有 flags 的转换 | 驱动区当前几何、solver flag 格式 | 为 driver 生成 rigid zone（placements/wires/flags 原样），重跑 compose | 同上 |

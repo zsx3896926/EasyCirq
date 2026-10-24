@@ -24,8 +24,8 @@ final archive.
 | NC | 6 J1 data pins (B6/B7/B8/A6/A7/A8), unchanged |
 | `sch gate` | **pass** (layout-lint, clusters, check, bridge-check, drc) |
 | `layout-lint` | 0 overlap, 0 tight, 0 pin-coincidence, 0 off-grid, 0 out-of-sheet |
-| `sch clusters` | 24 findings, all WARN `tight`; no ERROR |
-| `layout-score` | **60.7 / fair** — folded 100, reversed-labels **0**, proximity 57.9, stub-tidiness 72, frame-fit 100 |
+| `sch clusters` | 24 pairwise WARN `tight` (gaps 6–19 raw, default 20); the parallel session reports 5 cluster-level warnings. Both zero ERROR; aggregation differs, geometry does not |
+| `layout-score` | **60.7 / fair** on the imported copy (no zone claims) — folded 100, reversed-labels **0**, proximity 57.9, stub-tidiness 72, frame-fit 100. The parallel session reports **66.7 / fair** after adding workflow zone claims (proximity 85.7, reversed still 0) |
 | Independent `sch_layout_quality.py` | **0 error**, 6 warn, 3 info; before was 5 error, 6 warn, 2 info |
 | PCB `pcb drc` | **passed: true, total 0** |
 | PCB `layout-lint` | 92 / easy, 26 parts, 71/71 pads measured, 2 crossings, ratsnest 5,632.51 mil |
@@ -43,14 +43,32 @@ final archive.
 | Official `layout-score` | 94 (misleading) | **60.7 / fair** | not run (offline) |
 | Applied to EDA | — | **yes** | no |
 
+## Score interpretation: do not execute the reversed-label fixes blindly
+
+`layout-score`'s reversed-label rule measures a netport against a **module/core
+direction**, not against the host pin's outward normal. On this page the two disagree:
+
+| Pin | Measured outward rotation | Score's suggested direction |
+|---|---|---|
+| `R10.1` | 180° (left) | `--direction right` |
+| `C1.1` | 180° (left) | `--direction right` |
+| `R14.1` | 180° (left) | `--direction right` |
+
+Following those `fix` strings would point the port into the component, or be rejected
+by `sch connect`; it is not a real readability defect. The score remains useful as a
+diagnostic of proximity/stub length, but its reversed-label fixes must be checked
+against `pins[].rotation` before use. The parallel session correctly declined to apply
+them and kept the electrically verified page.
+
 ## Interpretation
 
 - The parallel result is a real, electrically equivalent improvement: no module
   overlaps, balanced page, gate pass, 65/65 pin partition unchanged, PCB DRC 0.
-- It is not "done": the official score exposes 8 reversed netport labels and poor
-  proximity (57.9); our checker additionally sees top/bottom imbalance, sparse page
-  and four fragmented modules (labels/ports far from their core). These are
-  readability issues, not electrical ones.
+- The official score (60.7 without zone claims, 66.7 with the parallel session's zone
+  claims) is diagnostic, not a gate. Its reversed-label fixes conflict with pin
+  normals and were not applied. The remaining readability trade-offs are netport
+  style/proximity and the title-block-driven top/bottom whitespace; our checker sees
+  no errors, 6 warnings and 3 info.
 - This session's compose candidate is more compact (1805 wire length, 2 warnings) but
   **has not been applied**; its driver module is blocked by the D4 off-grid symbol.
 - The two approaches are complementary: the parallel session's netport + group-move

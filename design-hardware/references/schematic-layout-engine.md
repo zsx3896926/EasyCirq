@@ -275,6 +275,8 @@ easyeda sch export-image --project <project> --page <page> --format png --out af
 - **网络自动改名**：`web reload`/保存后，EDA 可能把自动网名从 `D1_N1` 改成 `VBUS` 等。模块计划的网名要与新鲜 IR 对齐；跨会话复用旧 JSON 前先 diff 网名。
 - **场景哈希漂移**：官方 `designators verify` 对整页场景做哈希；页面有任何自动保存/属性变化都会拒绝。逐件回读比整页哈希更适合有并发/自动保存的环境。
 - **`layout-score` 不是可读性门**：它可以给失衡页面 94 分；必须跑独立质量检查并看图。
+- **`layout-score` 的 reversed-label fix 不能照抄**：它按“模块核心方向”判断，不按宿主引脚外法线。实测 `R10.1`/`C1.1`/`R14.1` 的 outward rotation 均为 180°（朝左），fix 却要求 `--direction right`；照做会被 `sch connect` 拒绝或把端口穿进器件。使用前先核对 `pins[].rotation`。
+- **`sch clusters` 有逐对/分组两种计数**：同一页可报 24 条逐对 `tight` 或 5 条按簇聚合；都没有 ERROR 时不要当成两套矛盾结论，先统一命令与聚合口径。
 - **`layout-render` 是简化预览**：只验证几何转译，不验证官方符号、字体、电气或现场。
 - **`layout-sheet-plan` 的 `flow:compact`**：可能输出框重叠；逐框全局坐标复核。
 - **文本测量只覆盖位号**：`designator-geometry` 不测型号/参数/自由文字；这些文字的遮挡仍是缺测项，不能声称已验证。
