@@ -15,7 +15,7 @@
 
 ### 修改
 
-- `SKILL.md`：新增阶段门禁入口与硬规则（G2 未过不进 PCB、G3 未过不布线、G5/G6 未过不谈制造）。
+- `SKILL.md`：新增阶段门禁入口与硬规则（G2 未过不进 PCB、G3 未过不布线、G5 未过不谈制造、G6 未过不说可打样/可量产）。
 - `references/agent-collaboration.md`、`part-selection.md`、`lcsc-sourcing.md`、`pcb.md`、`schematic.md`、`eda-execution.md`、`beginner-journey.md`：补逐针回读、停止规则、选型/库存/SMT 核对、工具陷阱和新手标定说明。
 
 ### 边界

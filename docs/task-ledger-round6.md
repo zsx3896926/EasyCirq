@@ -71,20 +71,20 @@ python design-hardware/scripts/gate_check.py --project temp-alarm \
 ## 6. 未做 / 边界
 
 - `NOT RUN`：真实 EDA 操作、Gerber/钻孔/CPL 导出、下单、样机实测、`.epro2` 恢复演练。
-- `BLOCKED`：本机安装目录同步前的用户确认（备份后复制并逐文件哈希）。
+- `已同步`：安装目录已备份并复制；356/356 文件、0 哈希差异（备份路径见 §8）。
 - 回归案例只读证据，不证明该板可制造；库存/SMT/价格为旧值，必须重查。
 - 未新增任何 `[A-Z]{2,4}-S\d+` 来源编号；引用既有 PL/RT/SC/MF/DM。
 
-## 7. 下一步
+## 7. 已完成
 
-1. 备份并同步 `C:\Users\jlc\.claude\skills\design-hardware`；逐文件哈希核对。
-2. 提交并推送 `feat/design-gates-round6`。
-3. 独立验收（只读）：全量 unittest、doctor_env、案例对照、链接/命名一致性。
+1. 安装目录备份并同步；逐文件哈希核对通过（356/356，0 差异）。
+2. 提交并推送 `feat/design-gates-round6`；远程分支与本地同步。
+3. 独立验收（只读）：全量 unittest、doctor_env、案例对照、链接/命名一致性均通过；最终 SHA 见报告。
 
 ## 8. 交付记录
 
-- 提交：`b3eb244`（feat(skill): add G0-G6 design gates and temp-alarm regression）
+- 提交历史：`b3eb244`（G0-G6 门禁与回归案例）、`ba42a78`（R1–R50 覆盖表）、`e6804d6`（仓库级证据链接改为包内安全路径）；最新 HEAD 以 `git log --oneline -1` 为准。
 - 分支：`feat/design-gates-round6`，已推送并跟踪 `origin/feat/design-gates-round6`
 - 安装同步：源 356 文件 / 安装 356 文件，0 哈希差异，0 额外文件；备份 `C:\Users\jlc\work\_skill-backups\design-hardware-20261024-215856`
 - 证据：`docs/evidence/round6-2026-10-24/`（CLI help、测试日志、测试摘要、自检 JSON、安装同步）
-- 独立验收：待 jlc-0d 只读复核；结果见最终报告
+- 独立验收：jlc-0d 只读复核 661 tests OK、doctor_env exit 0、回归 7 门全对、安装 356/356、skill_selftest 5 PASS
