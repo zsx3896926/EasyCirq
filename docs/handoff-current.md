@@ -1,7 +1,7 @@
 # 集成交接（2026-10-24，第六轮收尾）
 
 **第六轮状态真源：`docs/task-ledger-round6.md`；覆盖表 `docs/r50-coverage.md`。**
-分支 `feat/design-gates-round6`，HEAD `ccafefb`，已推送；worktree `C:/Users/jlc/work/hds-round6`。
+分支 `feat/design-gates-round6`，已推送；HEAD 以 `git log --oneline -1` 为准（功能提交 `ccafefb`）；worktree `C:/Users/jlc/work/hds-round6`。
 安装：`C:\Users\jlc\.claude\skills\design-hardware` 0.6.0（356/356 源文件，0 哈希差异）；
 备份 `C:\Users\jlc\work\_skill-backups\design-hardware-20261024-215856`（321 文件）。
 
