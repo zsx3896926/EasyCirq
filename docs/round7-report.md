@@ -14,7 +14,11 @@
 
 - 能证明：同一份 26 器件、14 网络、65 连接的工程，程序可以算出单页 6 模块、
   0 个质量 error 的候选图，并给出与改前图的量化对比。
-- 不能证明：该候选已经写进 EDA、保存重开、网表逐脚一致。该项为 `BLOCKED`。
+- 另一并行会话（`jlc-ea`）用 netport + group-move 路径在 scratch 上完成了真实重排；
+  本会话对该最终备份做了独立回读：**65/65 引脚网络分区完全一致、gate pass、
+  PCB DRC 0**。详见 `docs/round7-peer-verification.md`。
+- 不能证明：本会话的 compose 候选已经写进 EDA。该路径仍被 D4 的 off-grid 符号
+  阻塞；真实重排来自并行会话，不是本流水线。
 
 ## 2. 能力表
 
@@ -25,11 +29,11 @@
 | 模块内部布局 | DONE（离线） | USB/NTC/阈值/比较/驱动/指示 | `final/planned/zones-geom.json` | 驱动模块含 D4，apply 不可用 |
 | 正交连线 | DONE（离线） | 116 段导线、32 个电源/地标记 | `final/planned/pages.json` | 5 处异网 X 交叉，需人工判读 |
 | 标签与文字避让 | PARTIAL | 26 个位号 bbox 实测 | `before-designators.json`、`planned-quality.json` | 型号/参数/自由文本未测量 |
-| 页面布局与分页 | DONE（离线） | 6 模块单页、图签 keep-out | `final/planned/layout.svg`、`layout-full.png` | `flow:compact` 实测会输出重叠框，未采用 |
-| 电气等价 | PARTIAL | 改前 65 连接；compose 对 5 区通过 | `before-conn.json`、`compose` 错误输出 | 整页 compose 因 D4 拒绝，未 apply |
-| 实际 EDA 写入 | PARTIAL | 稳定 ID 绑定 26/26；保存回读 | `final/` 快照与绑定回读 | 只写自定义属性，未移动/重连 |
-| 保存重开 | DONE（绑定） | `sch save` + `doc reload` | 绑定脚本输出、回读 | 重排后的保存重开 `NOT RUN` |
-| 局部返工 | NOT RUN | — | — | 未进入 apply，无法演示 |
+| 页面布局与分页 | DONE | 并行会话真实单页 6 框；本会话离线 6 区 | `verify/sch.png`、`final/planned/layout.svg` | 本会话候选未 apply |
+| 电气等价 | DONE（独立复核） | 26 器件、65 引脚、14 网分区一致 | `docs/round7-peer-verification.md`、`verify/connectivity.json` | 仅原理图；PCB 另核 |
+| 实际 EDA 写入 | DONE（并行会话） | 真实重排、gate pass、PCB DRC 0 | `verify/`、对方 `final-report.md` | 本会话 compose 路径仍 BLOCKED |
+| 保存重开 | DONE（对方记录 + 我方导入回读） | 65/65 引脚；26/26 PCB 位置 | 对方 save/reload 日志、`verify` 导入 | 本会话未直接重开对方活工程 |
+| 局部返工 | PARTIAL（并行会话） | 模块移动后修重叠/标记 | 对方报告 | 本会话引擎未演示 |
 | 官方 autolayout 回退 | BLOCKED | 26 件移动后重连超时 | `evidence/round7/layout` 外部日志 | 留下无效事务，已 `doc reload`，状态弃用 |
 
 ## 3. 实际做了什么
@@ -111,6 +115,28 @@ python -m unittest discover -s tests  → exit 0
    到 225，写入时会比计划 pins 偏 1 raw。`sch_layout_pipeline.py` 在 apply 前就
    用 `anchor translation differs from pin translation` 拦住了它。
 
+### 3.5 并行会话的真实重排与独立复核
+
+并行会话 `jlc-ea` 在 `temp-alarm-r7-scratch` 上完成了真实重排，最终备份
+`temp-alarm-r7-final.epro2`（387,055 bytes，SHA-256 `E4BD1B9E…7B41A13E`）。
+本会话把它导入为 `temp-alarm-r7-verify`（`a5689d21…`），只读核对：
+
+- 26/26 器件身份与封装一致；65/65 引脚网络**分区完全一致**，14 个网；
+  改名 `D1_N1→VBUS`、`D1_N3→CC1`、`D1_N4→CC2` 不改变任何分区；6 个 USB 数据脚 NC。
+- `sch gate` pass；`layout-lint` 0 overlap / 0 tight / 0 pin-coincidence / 0 off-grid。
+- `sch clusters` 24 条，全部 WARN `tight`，无 ERROR。
+- 官方 `layout-score` **60.7 / fair**：folded 100、frame-fit 100，但
+  **reversed-labels 0**（8 个 netport 反向）、proximity 57.9、stub-tidiness 72。
+- 本会话 `sch_layout_quality.py`：**0 error / 6 warn / 3 info**（改前 5 error）。
+  剩余 warning 是页面上重下轻、粗网格空置率 65.6%、usb/sensor/comp/driver
+  四个模块的成员离核心较远（大量 netport）。
+- PCB `pcb drc`：**passed, total 0**；`pcb layout-lint` 92/easy、71/71 焊盘、
+  2 crossings、ratsnest 5,632.51 mil。
+
+结论：真实原理图已经显著改善且电气等价；但仍不是“排版完成”——官方评分指出的
+8 个反向 netport 和邻近度问题需要局部返工。制造包（Gerber/CPL/BOM）仍 `BLOCKED`，
+未打样、未下单。
+
 ## 4. 为什么没有强行写入
 
 - 任务要求不得为好看改变电气连接、不得整页删除重建、不得手改队列坐标绕过守卫。
@@ -124,7 +150,10 @@ python -m unittest discover -s tests  → exit 0
 
 | 项 | 缺什么 | 为什么未完成 | 已准备 | 下一条具体动作 | 环境 |
 |---|---|---|---|---|---|
-| 整页写入 | D4 可用的符号/姿态 | D4 引脚偏移 -14，不在 5-grid | 6 区候选、195 步队列、compose 校验 | 用 `sch rebind-symbol` 为 D4 换一个引脚在 5-grid 的等价 LED 符号（保持封装/脚号/网络），或把驱动模块改为刚体区并单独写入 | EasyEDA 4.1.78 + 隔离副本 |
+| 本流水线整页写入 | D4 可用的符号/姿态 | D4 引脚偏移 -14，不在 5-grid | 6 区候选、195 步队列、compose 校验 | 用 `sch rebind-symbol` 为 D4 换一个引脚在 5-grid 的等价 LED 符号（保持封装/脚号/网络），或把驱动模块改为刚体区并单独写入 | EasyEDA 4.1.78 + 隔离副本 |
+| 反向 netport 标签 | 8 个 netport 的方向修正 | 真实重排已完成，但未做局部返工 | `layout-score` 的逐条 fix 命令、质量检查 | 按 `score.json` 的 fix 逐条 `sch disconnect` + `sch connect --direction ...`，重跑 gate/score/网表 | 并行会话的 scratch 或复核副本 |
+| 制造包 | Gerber/drill/CPL/BOM 导出 | CLI 无导出能力，隐藏标签页 BOM 返回 no file | 最终 `.epro2`、BOM 表 | GUI 全在线会话导出并核对层叠/阻焊/板框/位号 | 用户 GUI 会话 |
+| 第二项目验证 | 另一结构的低压电路 | 本轮时间用于单项目闭环 | 模块模板与流水线 | 换一个 2–3 模块电路，跑同一 model/pipeline/quality | 离线 + EDA 副本 |
 | 局部刚体区 | 驱动区 compositions 的 flags 精确重建 | 当前未实现按区保留既有 flags 的转换 | 驱动区当前几何、solver flag 格式 | 为 driver 生成 rigid zone（placements/wires/flags 原样），重跑 compose | 同上 |
 | 局部返工演示 | 一次 apply 成功 | 依赖上两项 | 质量检查与网表 diff 脚本 | apply 后只改一个模块，重跑全量网表与质量对比 | 同上 |
 | 文字避让 | 型号/参数/自由文本 bbox | `designator-geometry` 只测位号 | 位号 bbox 26/26 | 补官方属性 bbox 导出或 SVG 文本测量 | EDA + 官方 SVG |
@@ -151,8 +180,12 @@ python -m unittest discover -s tests  → exit 0
 - 分支：`feat/sch-layout-engine-round7`；基线 `fe950d3`；提交 `6fcd723`；
   PR https://github.com/zsx3896926/hardware-design-skill/pull/11；CI 结果见 PR。
 - 证据目录（仓库外）：
-  `C:\Users\jlc\work\temp-alarm-20261024\evidence\round7\final\`。
-- 仓库内证据索引：`docs/evidence/round7/README.md`。
+  `C:\Users\jlc\work\temp-alarm-20261024\evidence\round7\final\`（本会话）与
+  `...\evidence\round7\verify\`（并行会话最终备份的独立复核）。
+- 并行会话最终备份：`evidence/round7/temp-alarm-r7-final.epro2`，387,055 bytes，
+  SHA-256 `E4BD1B9E80E39FBF87D9F38FD34EA5D9C7341DE7B5DFC4A0DE931CED7B41A13E`。
+- 仓库内证据索引：`docs/evidence/round7/README.md`；独立复核：
+  `docs/round7-peer-verification.md`。
 - 用户工程 `test`：只读，未改变；最终 EDA 窗口会切回 `test`。
 - 隔离副本：`temp-alarm-r7-scratch`（另一会话使用）、
   `temp-alarm-r7-layout`（官方回退失败，弃用）、`temp-alarm-r7-final`

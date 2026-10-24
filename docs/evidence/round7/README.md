@@ -71,6 +71,25 @@ python design-hardware/scripts/sch_layout_quality.py planned/planned-quality-inp
 `pagePrimitives.pins` class removed; the original snapshot is preserved. The note is in
 `before-list-compose.note.json` in the external evidence directory.
 
+## Parallel-session final result (independently verified)
+
+`verify/` contains the read-only check of the parallel session's final archive
+`temp-alarm-r7-final.epro2` (387,055 bytes, SHA-256
+`E4BD1B9E80E39FBF87D9F38FD34EA5D9C7341DE7B5DFC4A0DE931CED7B41A13E`), imported as
+`temp-alarm-r7-verify`:
+
+- `connectivity.json` — 26 parts / 14 nets / 65 connections; pin partition equal to
+  the baseline after the `D1_N1→VBUS`, `D1_N3→CC1`, `D1_N4→CC2` rename.
+- `gate.json` — pass; `lint.json` — 0 overlap / 0 tight / 0 pin-coincidence / 0 off-grid.
+- `score.json` — 60.7 fair; reversed-labels 0, proximity 57.9.
+- `quality.json` — 0 error / 6 warn / 3 info (baseline: 5 error / 6 warn / 2 info).
+- `clusters.json` — 24 findings, all WARN tight.
+- `sch.png` — official export of the final page.
+
+The full narrative and comparison with this session's offline candidate are in
+`docs/round7-peer-verification.md`. The parallel session performed the apply; this
+session only verified the archive.
+
 ## External raw evidence
 
 `C:\Users\jlc\work\temp-alarm-20261024\evidence\round7\final\` contains the full
