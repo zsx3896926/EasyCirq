@@ -1,0 +1,174 @@
+{
+  "schema": "design-engine-pcb-placement/v1",
+  "status": "pass",
+  "hard_ok": true,
+  "findings": [],
+  "constraints": [
+    {
+      "constraint_id": "FIX-J1",
+      "type": "fixed",
+      "status": "pass",
+      "severity": "hard",
+      "actual": [
+        250.0,
+        550.0,
+        270.0,
+        1
+      ],
+      "expected": [
+        250.0,
+        550.0,
+        270.0,
+        1
+      ],
+      "source": "mechanical: 5V terminal at left edge; opening verified outward by pcb check"
+    },
+    {
+      "constraint_id": "EDGE-J1",
+      "type": "edge",
+      "status": "pass",
+      "severity": "hard",
+      "edge": "left",
+      "distance_mil": 87.51799999999994,
+      "max_inset_mil": 150.0,
+      "facing_ok": true,
+      "source": "5V terminal must be reachable at the left board edge"
+    },
+    {
+      "constraint_id": "KO-MH-TL",
+      "type": "keepout",
+      "status": "pass",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil"
+    },
+    {
+      "constraint_id": "KO-MH-TR",
+      "type": "keepout",
+      "status": "pass",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil"
+    },
+    {
+      "constraint_id": "KO-MH-BL",
+      "type": "keepout",
+      "status": "pass",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil"
+    },
+    {
+      "constraint_id": "KO-MH-BR",
+      "type": "keepout",
+      "status": "pass",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil"
+    },
+    {
+      "constraint_id": "NP-C2-U1",
+      "type": "near_pin",
+      "status": "pass",
+      "severity": "hard",
+      "distance_mil": 150.0,
+      "max_mil": 200.0,
+      "min_mil": null,
+      "source": "LM358 VCC pin 8 supply bypass; 150 mil measured, power pour carries the return",
+      "role": "decap",
+      "measurement": "pad-centre-euclidean",
+      "copper_path_verified": false
+    },
+    {
+      "constraint_id": "NP-C3-U2",
+      "type": "near_pin",
+      "status": "pass",
+      "severity": "preferred",
+      "distance_mil": 203.1,
+      "max_mil": 250.0,
+      "min_mil": null,
+      "source": "TL431 reference filter; 203 mil measured",
+      "role": "decap",
+      "measurement": "pad-centre-euclidean",
+      "copper_path_verified": false
+    },
+    {
+      "constraint_id": "NP-R4-U1",
+      "type": "near_pin",
+      "status": "pass",
+      "severity": "hard",
+      "distance_mil": 254.077,
+      "max_mil": 300.0,
+      "min_mil": null,
+      "source": "hysteresis feedback returns to U1.3; 254 mil measured",
+      "role": "feedback",
+      "measurement": "pad-centre-euclidean",
+      "copper_path_verified": false
+    },
+    {
+      "constraint_id": "NP-R5-U1",
+      "type": "near_pin",
+      "status": "pass",
+      "severity": "preferred",
+      "distance_mil": 405.814,
+      "max_mil": 900.0,
+      "min_mil": null,
+      "source": "comparator output to base drive; 406 mil measured",
+      "role": "drive",
+      "measurement": "pad-centre-euclidean",
+      "copper_path_verified": false
+    },
+    {
+      "constraint_id": "NP-C1-U1",
+      "type": "near_pin",
+      "status": "pass",
+      "severity": "preferred",
+      "distance_mil": 889.737,
+      "max_mil": 1200.0,
+      "min_mil": null,
+      "source": "bulk input capacitor to comparator supply; 890 mil measured",
+      "role": "bulk",
+      "measurement": "pad-centre-euclidean",
+      "copper_path_verified": false
+    },
+    {
+      "constraint_id": "ROT-U1",
+      "type": "allowed_rotation",
+      "status": "pass",
+      "severity": "preferred",
+      "actual": 0.0,
+      "allowed": [
+        0.0,
+        90.0,
+        180.0,
+        270.0
+      ],
+      "source": "DIP-8 orientation used by the verified schematic/PCB reference"
+    },
+    {
+      "constraint_id": "ROT-LED1",
+      "type": "allowed_rotation",
+      "status": "pass",
+      "severity": "preferred",
+      "actual": 180.0,
+      "allowed": [
+        0.0,
+        180.0
+      ],
+      "source": "LED polarity/visibility orientation"
+    },
+    {
+      "constraint_id": "GROUP-U1-C2",
+      "type": "group",
+      "status": "pass",
+      "severity": "preferred",
+      "spread_mil": 589.3499999999999,
+      "max_spread_mil": 600.0,
+      "source": "keep the supply bypass inside the comparator local cluster"
+    }
+  ],
+  "counts": {
+    "findings": 0,
+    "hard_findings": 0,
+    "constraint_rows": 14,
+    "hard_failed": 0,
+    "hard_unmeasured": 0
+  },
+  "measurement_note": "bbox/pad geometry from pcb dump; pad distances are centre distances, not copper paths"
+}

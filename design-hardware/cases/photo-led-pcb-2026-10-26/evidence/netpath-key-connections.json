@@ -1,0 +1,216 @@
+{
+  "rows": [
+    {
+      "from": "C2.1",
+      "to": "U1.8",
+      "net": "+5V",
+      "status": "connected",
+      "length_mil": 149.9862,
+      "vias": 0,
+      "layers": [
+        2
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "C1.1",
+      "to": "U1.8",
+      "net": "+5V",
+      "status": "connected",
+      "length_mil": 985.12,
+      "vias": 0,
+      "layers": [
+        2
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "D1.1",
+      "to": "U1.8",
+      "net": "+5V",
+      "status": "connected",
+      "length_mil": 1506.3156,
+      "vias": 0,
+      "layers": [
+        1,
+        2
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "J1.1",
+      "to": "D1.2",
+      "net": "VIN",
+      "status": "connected",
+      "length_mil": 612.0289,
+      "vias": 0,
+      "layers": [
+        1
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "C3.2",
+      "to": "U2.3",
+      "net": "VREF_2V5",
+      "status": "connected",
+      "length_mil": 203.0977,
+      "vias": 0,
+      "layers": [
+        2
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "R4.1",
+      "to": "U1.3",
+      "net": "VTH",
+      "status": "connected",
+      "length_mil": 266.3319,
+      "vias": 0,
+      "layers": [
+        2
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "R5.1",
+      "to": "U1.1",
+      "net": "LED_CTRL",
+      "status": "connected",
+      "length_mil": 439.6888,
+      "vias": 0,
+      "layers": [
+        1
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "Q1.3",
+      "to": "LED1.2",
+      "net": "LED_K",
+      "status": "connected",
+      "length_mil": 227.2565,
+      "vias": 0,
+      "layers": [
+        2
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "LED1.1",
+      "to": "R7.1",
+      "net": "LED_A",
+      "status": "connected",
+      "length_mil": 309.3562,
+      "vias": 0,
+      "layers": [
+        1
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "LDR1.1",
+      "to": "U1.2",
+      "net": "LDR_SIG",
+      "status": "connected",
+      "length_mil": 1775.4025,
+      "vias": 0,
+      "layers": [
+        1,
+        2
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "RV1.2",
+      "to": "R3.1",
+      "net": "VTH_ADJ",
+      "status": "connected",
+      "length_mil": 929.346,
+      "vias": 0,
+      "layers": [
+        2
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "R3.2",
+      "to": "U1.3",
+      "net": "VTH",
+      "status": "connected",
+      "length_mil": 745.6978,
+      "vias": 0,
+      "layers": [
+        2
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "R5.2",
+      "to": "Q1.2",
+      "net": "Q1_B",
+      "status": "connected",
+      "length_mil": 1005.1084,
+      "vias": 0,
+      "layers": [
+        1
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    },
+    {
+      "from": "R6.2",
+      "to": "Q1.2",
+      "net": "Q1_B",
+      "status": "connected",
+      "length_mil": 355.4713,
+      "vias": 0,
+      "layers": [
+        1
+      ],
+      "widths": [
+        10
+      ],
+      "path_kind": "exact-centerline"
+    }
+  ]
+}

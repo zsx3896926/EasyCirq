@@ -1,0 +1,15 @@
+{
+  "schema": "pcb-placement-proposal/v1",
+  "project": "mcu-i2c-s3-20261026",
+  "partial": true,
+  "placements": [
+    {
+      "designator": "C99",
+      "x": 1380,
+      "y": 600,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "round9 baseline position"
+    }
+  ]
+}

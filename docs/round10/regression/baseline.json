@@ -1,0 +1,26 @@
+{
+  "schema": "design-engine-pcb-regression-baseline/v1",
+  "captured_at": "2026-10-26T14:45:00Z",
+  "boards": {
+    "A": {
+      "project": "photo-led-pcb-20261026",
+      "doc": "PCB1",
+      "dump_semantic_sha256": "6f9dae9a307ad81b4d8171d61768884b068aa9da0fe8d3f96a8bb2b04b1649c6",
+      "dump_path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-final.json",
+      "bom_sha256": "c88181adb026e7bdf09ecc72a7488e38c067576a6fcf91db6b266ad5d91973cc",
+      "actual_svg_sha256": "fbbd06a91dfd327b773ebc9280f4199c2954ebac883c4d3f5624efe3ad8e114f",
+      "drc_passed": true,
+      "check_errors": 0
+    },
+    "B": {
+      "project": "mcu-i2c-s3-20261026",
+      "doc": "PCB2",
+      "dump_semantic_sha256": "a83459175183547da179a8763086305e10f535a8a766ef0a827b73f60b5c3c1a",
+      "dump_path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json",
+      "bom_sha256": "f2628a128b853b0ffcdbf91e0ad38220ffb49114ac951fbe35a046cf62bede46",
+      "actual_svg_sha256": "c6f67e6eca329e7634142a2a84267c53a311839634211e69b9910b78b7c77ad4",
+      "drc_passed": true,
+      "check_errors": 0
+    }
+  }
+}

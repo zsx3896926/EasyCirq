@@ -1,0 +1,327 @@
+{
+  "schema": "design-engine-pcb-apply-plan/v1",
+  "status": "verified",
+  "version": {
+    "adapter": "pcb_apply_plan.py",
+    "adapter_version": "2.0",
+    "skill": "0.9.2",
+    "playbook_format": 1,
+    "python": "3.13.15"
+  },
+  "plan": {
+    "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\c99-playbook.json",
+    "kind": "playbook",
+    "ops": {
+      "place": 1,
+      "track": 0,
+      "via": 0,
+      "pour": 0
+    },
+    "placements": 1,
+    "partial": true,
+    "scope": {
+      "designators": [
+        "C99"
+      ],
+      "nets": [
+        "+3V3",
+        "GND"
+      ]
+    },
+    "base_semantic_sha256": "1ac1de2961338a69fba336317af75a5347db27ea6c2bd9037c5b6bf4df8949d3"
+  },
+  "check": {
+    "schema": "design-engine-pcb-placement/v1",
+    "status": "pass",
+    "hard_ok": true,
+    "findings": [],
+    "constraints": [
+      {
+        "constraint_id": "FIX-J1",
+        "type": "fixed",
+        "status": "pass",
+        "severity": "hard",
+        "actual": [
+          2320.0,
+          885.0,
+          180.0,
+          1
+        ],
+        "expected": [
+          2320.0,
+          885.0,
+          180.0,
+          1
+        ],
+        "source": "USB-C at the right board edge; opening/insertion verified in round9"
+      },
+      {
+        "constraint_id": "EDGE-J1",
+        "type": "edge",
+        "status": "pass",
+        "severity": "hard",
+        "edge": "right",
+        "distance_mil": 32.98849999999993,
+        "max_inset_mil": 150.0,
+        "facing_ok": true,
+        "source": "USB-C must stay reachable at the right edge"
+      },
+      {
+        "constraint_id": "FIX-U2",
+        "type": "fixed",
+        "status": "pass",
+        "severity": "hard",
+        "actual": [
+          900.0,
+          651.0,
+          180.0,
+          1
+        ],
+        "expected": [
+          900.0,
+          651.0,
+          180.0,
+          1
+        ],
+        "source": "ESP32-S3-WROOM-1; antenna end at the bottom board edge"
+      },
+      {
+        "constraint_id": "FIX-U90",
+        "type": "fixed",
+        "status": "pass",
+        "severity": "hard",
+        "actual": [
+          250.0,
+          1350.0,
+          0.0,
+          1
+        ],
+        "expected": [
+          250.0,
+          1350.0,
+          0.0,
+          1
+        ],
+        "source": "SHT40 at top-left, away from the LDO heat source"
+      },
+      {
+        "constraint_id": "NP-C99-U2",
+        "type": "near_pin",
+        "status": "pass",
+        "severity": "preferred",
+        "distance_mil": 271.595,
+        "max_mil": 300.0,
+        "min_mil": null,
+        "source": "C99 100nF +3V3 decoupling; the round9 baseline measured 272 mil from U2.2",
+        "role": "decap",
+        "measurement": "pad-centre-euclidean",
+        "copper_path_verified": false
+      }
+    ],
+    "counts": {
+      "findings": 0,
+      "hard_findings": 0,
+      "constraint_rows": 5,
+      "hard_failed": 0,
+      "hard_unmeasured": 0
+    },
+    "measurement_note": "bbox/pad geometry from pcb dump; pad distances are centre distances, not copper paths"
+  },
+  "playbook": {
+    "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\c99.apply.json",
+    "status": "written",
+    "sha256": "18e0a5d76d820fdbed537e34d14d6898b15a472790aae1eec69cbc2e9d3eb087",
+    "schema": "design-engine-pcb-playbook/v1",
+    "version": 1,
+    "steps": [
+      {
+        "id": "place-C99",
+        "kind": "run",
+        "target": "pcb modify",
+        "assert": {
+          "$.verified": "true"
+        },
+        "checkpoint": false
+      },
+      {
+        "id": "save",
+        "kind": "action",
+        "target": "pcb.save",
+        "assert": {
+          "$.saved": "true"
+        },
+        "checkpoint": true
+      },
+      {
+        "id": "reload",
+        "kind": "run",
+        "target": "doc reload",
+        "assert": {},
+        "checkpoint": false
+      },
+      {
+        "id": "dump",
+        "kind": "run",
+        "target": "pcb dump",
+        "assert": {},
+        "checkpoint": false
+      }
+    ],
+    "counts": {
+      "total": 4,
+      "ops": 1,
+      "place": 1,
+      "track": 0,
+      "via": 0,
+      "pour": 0
+    }
+  },
+  "journal": {
+    "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\c99.apply.journal.jsonl",
+    "offset": 0,
+    "status": "pass",
+    "header": {
+      "playbookSha256": "18e0a5d76d820fdbed537e34d14d6898b15a472790aae1eec69cbc2e9d3eb087",
+      "name": "pcb-apply-plan",
+      "project": "mcu-i2c-s3-edit-r10b-20261026",
+      "startedAt": "2026-10-26T23:32:23+08:00"
+    },
+    "steps": [
+      {
+        "idx": 1,
+        "id": "place-C99",
+        "status": "ok",
+        "ms": 1365
+      },
+      {
+        "idx": 2,
+        "id": "save",
+        "status": "ok",
+        "ms": 750
+      },
+      {
+        "idx": 3,
+        "id": "reload",
+        "status": "ok",
+        "ms": 5954
+      },
+      {
+        "idx": 4,
+        "id": "dump",
+        "status": "ok",
+        "ms": 3916
+      }
+    ],
+    "missing": [],
+    "failed": [],
+    "problems": []
+  },
+  "apply": {
+    "argv": [
+      "C:/Users/jlc/.local/bin/easyeda.exe",
+      "apply",
+      "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\c99.apply.json",
+      "--project",
+      "mcu-i2c-s3-edit-r10b-20261026",
+      "--doc",
+      "PCB2",
+      "--journal",
+      "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\c99.apply.journal.jsonl"
+    ],
+    "exit": 0,
+    "ok": true,
+    "started_at": "2026-10-26T15:32:23.106234Z",
+    "ended_at": "2026-10-26T15:32:37.977784Z",
+    "stdout_sha256": "05a7a1bb7d6abd1ff1aea779c4f3523b86fe58e08282b805acbcc72e7aa924bf",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exit_zero": true,
+    "easyeda": "C:/Users/jlc/.local/bin/easyeda.exe"
+  },
+  "save": {
+    "step": "save",
+    "status": "ok"
+  },
+  "reload": {
+    "step": "reload",
+    "status": "ok"
+  },
+  "dump": {
+    "before": {
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-before.json",
+      "status": "ok",
+      "sha256": "b3a89c2e982befd10247f1a4439e41413d60043ec6d7a64376c8ce4910d06ceb",
+      "bytes": 360104
+    },
+    "after": {
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-after-apply.json",
+      "status": "ok",
+      "bytes": 360086,
+      "sha256": "89351eb30ff5bdb869e381cf3b8acc92999a1616530cd61bb46235034a9b85ff",
+      "fresh": true
+    }
+  },
+  "diff": {
+    "schema": "design-engine-pcb-diff/v1",
+    "status": "changed",
+    "identity_changes": [],
+    "geometry_changes": [
+      {
+        "kind": "pose_changed",
+        "designator": "C99",
+        "before": [
+          54.72099999999999,
+          -234.8074,
+          0,
+          1
+        ],
+        "after": [
+          1380,
+          600,
+          0,
+          1
+        ]
+      }
+    ],
+    "copper_changes": [],
+    "unrelated_changes": [],
+    "copper_geometry_changes": [],
+    "counts": {
+      "identity": 0,
+      "geometry": 1,
+      "copper": 0,
+      "unrelated": 0,
+      "copper_geometry": 0
+    },
+    "scope": {
+      "designators": [
+        "C99"
+      ],
+      "nets": [
+        "+3V3",
+        "GND"
+      ]
+    },
+    "note": "primitiveId is not stable across document reload; compare identity and geometry, not IDs alone"
+  },
+  "diff_accepted": true,
+  "records": [
+    {
+      "op": "place",
+      "index": 0,
+      "designator": "C99",
+      "net": null,
+      "steps": [
+        "place-C99"
+      ],
+      "status": "applied",
+      "step_statuses": [
+        "ok"
+      ]
+    }
+  ],
+  "failure": null,
+  "notes": [
+    "playbook v1; defaults retry=0, continueOnError=false, timeoutSec=120",
+    "verified by apply(journal) + fresh dump + independent scoped diff; save/reload/dump evidence is in this report"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "schema": "design-engine-pcb-power/v1",
+  "status": "pass",
+  "nets": [
+    {
+      "net": "+5V",
+      "status": "pass",
+      "strategy": "track",
+      "source": "local rail pour produced no materialized copper on this dump (poured-list count 0); replaced by 10 mil tracks sized for ~25 mA, 1 oz, IPC-2221 screening",
+      "required_width_mil": 0.073,
+      "min_track_width_mil": 10.0,
+      "tracks": 11,
+      "ipc2221": {
+        "width_mil": 0.07296152709351322,
+        "area_mil2": 0.10054098433486122,
+        "current_a": 0.025,
+        "copper_oz": 1.0,
+        "temp_rise_c": 10.0,
+        "external": true,
+        "source": "IPC-2221 chart fit; screening only, not a thermal/EMC validation"
+      }
+    },
+    {
+      "net": "VIN",
+      "status": "pass",
+      "strategy": "track",
+      "source": "local rail pour produced no materialized copper on this dump (poured-list count 0); replaced by 10 mil tracks sized for ~25 mA, 1 oz, IPC-2221 screening",
+      "required_width_mil": 0.073,
+      "min_track_width_mil": 10.0,
+      "tracks": 2,
+      "ipc2221": {
+        "width_mil": 0.07296152709351322,
+        "area_mil2": 0.10054098433486122,
+        "current_a": 0.025,
+        "copper_oz": 1.0,
+        "temp_rise_c": 10.0,
+        "external": true,
+        "source": "IPC-2221 chart fit; screening only, not a thermal/EMC validation"
+      }
+    },
+    {
+      "net": "GND",
+      "status": "pass",
+      "strategy": "pour",
+      "source": "two-layer GND pour; return is not proven by this check",
+      "pours": 2,
+      "pour_layers": [
+        1,
+        2
+      ]
+    },
+    {
+      "net": "VREF_2V5",
+      "status": "pass",
+      "strategy": "track",
+      "source": "TL431 reference, <1 mA; 10 mil track is a screened width",
+      "required_width_mil": 0.001,
+      "min_track_width_mil": 10.0,
+      "tracks": 12,
+      "ipc2221": {
+        "width_mil": 0.000860797109200472,
+        "area_mil2": 0.0011861784164782503,
+        "current_a": 0.001,
+        "copper_oz": 1.0,
+        "temp_rise_c": 10.0,
+        "external": true,
+        "source": "IPC-2221 chart fit; screening only, not a thermal/EMC validation"
+      }
+    }
+  ],
+  "decaps": [
+    {
+      "part": "C2",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "8",
+      "role": "decap",
+      "distance_mil": 150.0,
+      "max_mil": 200,
+      "status": "pass",
+      "measurement": "pad-centre-euclidean",
+      "copper_path_verified": false
+    },
+    {
+      "part": "C3",
+      "pad": "2",
+      "owner": "U2",
+      "owner_pad": "3",
+      "role": "decap",
+      "distance_mil": 203.1,
+      "max_mil": 250,
+      "status": "pass",
+      "measurement": "pad-centre-euclidean",
+      "copper_path_verified": false
+    },
+    {
+      "part": "C1",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "8",
+      "role": "bulk",
+      "distance_mil": 889.737,
+      "max_mil": 1200,
+      "status": "pass",
+      "measurement": "pad-centre-euclidean",
+      "copper_path_verified": false
+    }
+  ],
+  "failed": [],
+  "unmeasured": [],
+  "note": "decaps include only near_pin constraints with role decap/bulk/bypass; width screening uses IPC-2221 inputs; pour connectivity/thermal/EMC are not proven here"
+}

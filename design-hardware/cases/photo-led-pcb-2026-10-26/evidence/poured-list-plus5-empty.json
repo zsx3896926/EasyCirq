@@ -1,0 +1,32 @@
+{
+  "id": "req_5443",
+  "type": "response",
+  "version": "v1",
+  "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+  "createdAt": "2026-10-26T12:44:26.2932373Z",
+  "ok": true,
+  "result": {
+    "available": true,
+    "count": 0,
+    "poured": []
+  },
+  "context": {
+    "projectUuid": "e56848aaf64d49d7a465352291670aef",
+    "projectName": "photo-led-pcb-20261026",
+    "documentUuid": "99b8366b0bdc971f",
+    "documentType": "pcb",
+    "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "e56848aaf64d49d7a465352291670aef",
+    "projectName": "photo-led-pcb-20261026",
+    "documentUuid": "99b8366b0bdc971f",
+    "documentType": "pcb",
+    "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 4608,
+  "seqAbandoned": 0
+}

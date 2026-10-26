@@ -1,0 +1,170 @@
+{
+  "schema": "design-engine-pcb-warn-disposition/v1",
+  "source": {
+    "path": "../cases/mcu-i2c-s3-2026-10-26/evidence/pcb-check-final.json",
+    "sha256": "7c5449402562369e075214d4e50c38075f64284fbf65f854c2b2b29ce564c835",
+    "captured_at": "2026-10-26T13:38:57Z"
+  },
+  "project": "mcu-i2c-s3-20261026",
+  "doc": "PCB2",
+  "findings": [
+    {
+      "type": "acute-angle",
+      "net": "I2C_SDA",
+      "disposition": "accepted",
+      "reason": "45-degree bend on a 400 kHz I2C signal; no acute acid-trap geometry at this angle and no current-carrying concern.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if I2C speed or current changes"
+    },
+    {
+      "type": "parallel-coupling",
+      "nets": [
+        "BOOT",
+        "EN"
+      ],
+      "disposition": "accepted",
+      "reason": "Both nets are low-speed static/diagnostic; the 28.8 mil gap is 1.2 mil below the 3W heuristic over a 41 mil run.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if BOOT/EN become switching signals"
+    },
+    {
+      "type": "parallel-coupling",
+      "nets": [
+        "USB_DM_MCU",
+        "USB_DP_CONN"
+      ],
+      "disposition": "accepted",
+      "reason": "Full-speed USB (12 Mbps) prototype; the 29 mil coupled run is short and no high-speed SI signoff was claimed.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck before USB high-speed or compliance testing"
+    },
+    {
+      "type": "parallel-coupling",
+      "nets": [
+        "CC1",
+        "USB_DP_CONN"
+      ],
+      "disposition": "accepted",
+      "reason": "CC1 is a DC configuration signal; coupling into a 25 mil DP run is negligible at full speed.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if CC becomes active or USB HS is used"
+    },
+    {
+      "type": "parallel-coupling",
+      "nets": [
+        "USB_DP_CONN",
+        "VBUS_5V"
+      ],
+      "disposition": "accepted",
+      "reason": "Short 21 mil parallel run between a power rail and DP; prototype-level risk accepted without SI signoff.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if VBUS current or USB speed increases"
+    },
+    {
+      "type": "decap-too-far",
+      "designator": "C1",
+      "disposition": "accepted",
+      "reason": "C1 is the LDO 100 nF output bypass, not an MCU pin decap; the checker compares it to the nearest +3V3 pin, which is not its function.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if C1 is repurposed as a local MCU decap",
+      "net": "+3V3"
+    },
+    {
+      "type": "decap-too-far",
+      "designator": "C3",
+      "disposition": "accepted",
+      "reason": "C3 is the 22 uF LDO output bulk capacitor; its role is regulator stability, so the 100 mil IC-decap heuristic does not apply.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "stability/load-step test still NOT VERIFIED",
+      "net": "+3V3"
+    },
+    {
+      "type": "decap-too-far",
+      "designator": "C4",
+      "disposition": "accepted",
+      "reason": "139 mil is 39 mil over the 100 mil heuristic; the part is still within about 3.5 mm of the +3V3 pin.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if the rail shows transient noise",
+      "net": "+3V3"
+    },
+    {
+      "type": "decap-too-far",
+      "designator": "C6",
+      "disposition": "accepted",
+      "reason": "140 mil is 40 mil over the heuristic and the part remains close to U2.2; accepted for the prototype.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if the rail shows transient noise",
+      "net": "+3V3"
+    },
+    {
+      "type": "decap-too-far",
+      "designator": "C90",
+      "disposition": "accepted",
+      "reason": "128 mil is 28 mil over the heuristic; this decouples a low-power I2C sensor, not a high-speed core rail.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if sensor noise or I2C errors appear",
+      "net": "+3V3"
+    },
+    {
+      "type": "antenna-keepout",
+      "designator": "U2",
+      "disposition": "accepted",
+      "reason": "A local all-layer no-copper region under the antenna is present; the CLI warns because its expected shape is the full board-edge band. No copper was placed under the antenna.",
+      "evidence": [
+        "pcb-check-final.json",
+        "pcb-dump-final.json"
+      ],
+      "recheck_condition": "re-measure with a full-band keepout or confirm with RF test"
+    },
+    {
+      "type": "power-not-poured",
+      "net": "+3V3",
+      "disposition": "accepted",
+      "reason": "+3V3 is a low-current rail carried by sized tracks; the board keeps a solid GND pour. Pouring +3V3 was not justified by current.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck under measured load and voltage-drop test"
+    },
+    {
+      "type": "width-under-spec",
+      "net": "GND",
+      "disposition": "accepted",
+      "reason": "The 10 mil GND segments are stubs into the double-sided GND pour; the return current is carried by the pour, not the thin stubs.",
+      "evidence": [
+        "pcb-check-final.json",
+        "pcb-dump-final.json"
+      ],
+      "recheck_condition": "recheck return path if the pour is removed or the current increases"
+    },
+    {
+      "type": "fiducial-missing",
+      "disposition": "accepted",
+      "reason": "JLC panel rails add fiducials; the per-board 3-mark requirement was not applied to this prototype. Accepted with panel-maker responsibility.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "confirm fiducials on the panel before SMT"
+    }
+  ]
+}

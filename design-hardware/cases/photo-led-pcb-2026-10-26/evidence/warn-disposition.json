@@ -1,0 +1,74 @@
+{
+  "schema": "design-engine-pcb-warn-disposition/v1",
+  "source": {
+    "path": "../cases/photo-led-pcb-2026-10-26/evidence/pcb-check-final.json",
+    "sha256": "2587eb236057e30a2ddb99872856621305dbf940c9712a9ed795fd852d72d9f7",
+    "captured_at": "2026-10-26T12:50:00Z"
+  },
+  "project": "photo-led-pcb-20261026",
+  "doc": "PCB1",
+  "findings": [
+    {
+      "type": "decap-too-far",
+      "designator": "C1",
+      "net": "+5V",
+      "disposition": "accepted",
+      "reason": "C1 is the 10 uF bulk input capacitor after the reverse-polarity diode, not a pin decap; the 100 mil heuristic does not describe its role.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if C1 is repurposed as a local comparator decap"
+    },
+    {
+      "type": "decap-too-far",
+      "designator": "C2",
+      "net": "+5V",
+      "disposition": "accepted",
+      "reason": "C2 is 150 mil from U1.8, 50 mil over the heuristic; still about 3.8 mm from the pin and the +5V/VIN rails are poured.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if comparator supply noise appears"
+    },
+    {
+      "type": "power-not-poured",
+      "net": "+5V",
+      "disposition": "accepted",
+      "reason": "+5V carries only the LED, comparator and buzzer currents; it is routed with 10 mil tracks sized for the measured load, not a thin default.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck under a measured load/voltage-drop test"
+    },
+    {
+      "type": "power-not-poured",
+      "net": "VIN",
+      "disposition": "accepted",
+      "reason": "VIN is a two-pad pre-diode segment fed from the screw terminal; the 10 mil track is sized for the same low current.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if the input load or terminal current increases"
+    },
+    {
+      "type": "width-under-spec",
+      "net": "+5V",
+      "disposition": "accepted",
+      "reason": "The 11 segments below the power-trunk heuristic carry low LED/comparator current; the original board calculation used the measured load.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if the +5V load exceeds the calculated current"
+    },
+    {
+      "type": "width-under-spec",
+      "net": "VIN",
+      "disposition": "accepted",
+      "reason": "The two VIN segments are short pre-diode feeds at the same low current; widening them would not change the thermal result.",
+      "evidence": [
+        "pcb-check-final.json"
+      ],
+      "recheck_condition": "recheck if the input current increases"
+    }
+  ]
+}

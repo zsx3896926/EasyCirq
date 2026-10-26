@@ -1,0 +1,78 @@
+{
+  "schema": "design-engine-pcb-key-nets/v1",
+  "project": "photo-led-pcb-20261026",
+  "doc": "PCB1",
+  "source": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/netpath-key-connections.json",
+  "nets": [
+    {
+      "net": "+5V",
+      "from": "C2.1",
+      "to": "U1.8"
+    },
+    {
+      "net": "+5V",
+      "from": "C1.1",
+      "to": "U1.8"
+    },
+    {
+      "net": "+5V",
+      "from": "D1.1",
+      "to": "U1.8"
+    },
+    {
+      "net": "VIN",
+      "from": "J1.1",
+      "to": "D1.2"
+    },
+    {
+      "net": "VREF_2V5",
+      "from": "C3.2",
+      "to": "U2.3"
+    },
+    {
+      "net": "VTH",
+      "from": "R4.1",
+      "to": "U1.3"
+    },
+    {
+      "net": "LED_CTRL",
+      "from": "R5.1",
+      "to": "U1.1"
+    },
+    {
+      "net": "LED_K",
+      "from": "Q1.3",
+      "to": "LED1.2"
+    },
+    {
+      "net": "LED_A",
+      "from": "LED1.1",
+      "to": "R7.1"
+    },
+    {
+      "net": "LDR_SIG",
+      "from": "LDR1.1",
+      "to": "U1.2"
+    },
+    {
+      "net": "VTH_ADJ",
+      "from": "RV1.2",
+      "to": "R3.1"
+    },
+    {
+      "net": "VTH",
+      "from": "R3.2",
+      "to": "U1.3"
+    },
+    {
+      "net": "Q1_B",
+      "from": "R5.2",
+      "to": "Q1.2"
+    },
+    {
+      "net": "Q1_B",
+      "from": "R6.2",
+      "to": "Q1.2"
+    }
+  ]
+}

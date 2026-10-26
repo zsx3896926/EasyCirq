@@ -1,0 +1,116 @@
+{
+  "day": "2026-10-26",
+  "from": "13:10:00",
+  "to": "13:52:32",
+  "wallMinutes": 42.535373928333335,
+  "daemonMinutes": 12.832600000000001,
+  "thinkMinutes": 29.702773928333336,
+  "calls": 2775,
+  "failures": 9,
+  "failRate": 0.003243243243243243,
+  "probes": 1453,
+  "probeShare": 0.5236036036036036,
+  "probeSeconds": 80.58,
+  "mutations": 263,
+  "tokens": 0,
+  "topActions": [
+    {
+      "action": "schematic.components.list",
+      "calls": 178,
+      "failures": 0,
+      "seconds": 205.814
+    },
+    {
+      "action": "document.open",
+      "calls": 53,
+      "failures": 1,
+      "seconds": 130.55
+    },
+    {
+      "action": "pcb.route.auto",
+      "calls": 6,
+      "failures": 0,
+      "seconds": 126.168
+    },
+    {
+      "action": "document.current",
+      "calls": 856,
+      "failures": 3,
+      "seconds": 43.708
+    },
+    {
+      "action": "pcb.components.list",
+      "calls": 168,
+      "failures": 0,
+      "seconds": 37.804
+    },
+    {
+      "action": "schematic.check",
+      "calls": 16,
+      "failures": 1,
+      "seconds": 31.708
+    },
+    {
+      "action": "pcb.drc.check",
+      "calls": 15,
+      "failures": 0,
+      "seconds": 28.787
+    },
+    {
+      "action": "schematic.pages.list",
+      "calls": 299,
+      "failures": 0,
+      "seconds": 21.669
+    },
+    {
+      "action": "pcb.documents.list",
+      "calls": 298,
+      "failures": 0,
+      "seconds": 15.203
+    },
+    {
+      "action": "pcb.save",
+      "calls": 69,
+      "failures": 0,
+      "seconds": 14.57
+    },
+    {
+      "action": "schematic.read",
+      "calls": 15,
+      "failures": 0,
+      "seconds": 12.39
+    },
+    {
+      "action": "pcb.silk.align",
+      "calls": 1,
+      "failures": 0,
+      "seconds": 10.673
+    }
+  ],
+  "topFailures": [
+    {
+      "action": "schematic.power.connect_pin",
+      "calls": 21,
+      "failures": 4,
+      "seconds": 5.893
+    },
+    {
+      "action": "document.current",
+      "calls": 856,
+      "failures": 3,
+      "seconds": 43.708
+    },
+    {
+      "action": "document.open",
+      "calls": 53,
+      "failures": 1,
+      "seconds": 130.55
+    },
+    {
+      "action": "schematic.check",
+      "calls": 16,
+      "failures": 1,
+      "seconds": 31.708
+    }
+  ]
+}

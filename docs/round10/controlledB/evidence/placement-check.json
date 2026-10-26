@@ -1,0 +1,97 @@
+{
+  "schema": "design-engine-pcb-placement/v1",
+  "status": "pass",
+  "hard_ok": true,
+  "findings": [],
+  "constraints": [
+    {
+      "constraint_id": "FIX-J1",
+      "type": "fixed",
+      "status": "pass",
+      "severity": "hard",
+      "actual": [
+        2320.0,
+        885.0,
+        180.0,
+        1
+      ],
+      "expected": [
+        2320.0,
+        885.0,
+        180.0,
+        1
+      ],
+      "source": "USB-C at the right board edge; opening/insertion verified in round9"
+    },
+    {
+      "constraint_id": "EDGE-J1",
+      "type": "edge",
+      "status": "pass",
+      "severity": "hard",
+      "edge": "right",
+      "distance_mil": 32.98849999999993,
+      "max_inset_mil": 150.0,
+      "facing_ok": true,
+      "source": "USB-C must stay reachable at the right edge"
+    },
+    {
+      "constraint_id": "FIX-U2",
+      "type": "fixed",
+      "status": "pass",
+      "severity": "hard",
+      "actual": [
+        900.0,
+        651.0,
+        180.0,
+        1
+      ],
+      "expected": [
+        900.0,
+        651.0,
+        180.0,
+        1
+      ],
+      "source": "ESP32-S3-WROOM-1; antenna end at the bottom board edge"
+    },
+    {
+      "constraint_id": "FIX-U90",
+      "type": "fixed",
+      "status": "pass",
+      "severity": "hard",
+      "actual": [
+        250.0,
+        1350.0,
+        0.0,
+        1
+      ],
+      "expected": [
+        250.0,
+        1350.0,
+        0.0,
+        1
+      ],
+      "source": "SHT40 at top-left, away from the LDO heat source"
+    },
+    {
+      "constraint_id": "NP-C99-U2",
+      "type": "near_pin",
+      "status": "pass",
+      "severity": "preferred",
+      "distance_mil": 271.595,
+      "max_mil": 300.0,
+      "min_mil": null,
+      "source": "C99 100nF +3V3 decoupling; the round9 baseline measured 272 mil from U2.2",
+      "role": "decap",
+      "measurement": "pad-centre-euclidean",
+      "copper_path_verified": false
+    }
+  ],
+  "counts": {
+    "findings": 0,
+    "hard_findings": 0,
+    "constraint_rows": 5,
+    "hard_failed": 0,
+    "hard_unmeasured": 0
+  },
+  "measurement_note": "bbox/pad geometry from pcb dump; pad distances are centre distances, not copper paths"
+}

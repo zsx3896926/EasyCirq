@@ -1,0 +1,341 @@
+{
+  "schema": "design-engine-pcb-sch-pcb-compare/v1",
+  "status": "match",
+  "schematic_components": 19,
+  "pcb_components": 19,
+  "pins": 47,
+  "component_mismatches": [],
+  "mismatches": [],
+  "rows": [
+    {
+      "designator": "C1",
+      "pin": "1",
+      "schematic_net": "+5V",
+      "pcb_net": "+5V",
+      "status": "match"
+    },
+    {
+      "designator": "C1",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C2",
+      "pin": "1",
+      "schematic_net": "+5V",
+      "pcb_net": "+5V",
+      "status": "match"
+    },
+    {
+      "designator": "C2",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C3",
+      "pin": "1",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C3",
+      "pin": "2",
+      "schematic_net": "VREF_2V5",
+      "pcb_net": "VREF_2V5",
+      "status": "match"
+    },
+    {
+      "designator": "C4",
+      "pin": "1",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C4",
+      "pin": "2",
+      "schematic_net": "LDR_SIG",
+      "pcb_net": "LDR_SIG",
+      "status": "match"
+    },
+    {
+      "designator": "D1",
+      "pin": "1",
+      "schematic_net": "+5V",
+      "pcb_net": "+5V",
+      "status": "match"
+    },
+    {
+      "designator": "D1",
+      "pin": "2",
+      "schematic_net": "VIN",
+      "pcb_net": "VIN",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "1",
+      "schematic_net": "VIN",
+      "pcb_net": "VIN",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "LDR1",
+      "pin": "1",
+      "schematic_net": "LDR_SIG",
+      "pcb_net": "LDR_SIG",
+      "status": "match"
+    },
+    {
+      "designator": "LDR1",
+      "pin": "2",
+      "schematic_net": "VREF_2V5",
+      "pcb_net": "VREF_2V5",
+      "status": "match"
+    },
+    {
+      "designator": "LED1",
+      "pin": "1",
+      "schematic_net": "LED_A",
+      "pcb_net": "LED_A",
+      "status": "match"
+    },
+    {
+      "designator": "LED1",
+      "pin": "2",
+      "schematic_net": "LED_K",
+      "pcb_net": "LED_K",
+      "status": "match"
+    },
+    {
+      "designator": "Q1",
+      "pin": "1",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "Q1",
+      "pin": "2",
+      "schematic_net": "Q1_B",
+      "pcb_net": "Q1_B",
+      "status": "match"
+    },
+    {
+      "designator": "Q1",
+      "pin": "3",
+      "schematic_net": "LED_K",
+      "pcb_net": "LED_K",
+      "status": "match"
+    },
+    {
+      "designator": "R1",
+      "pin": "1",
+      "schematic_net": "VREF_2V5",
+      "pcb_net": "VREF_2V5",
+      "status": "match"
+    },
+    {
+      "designator": "R1",
+      "pin": "2",
+      "schematic_net": "+5V",
+      "pcb_net": "+5V",
+      "status": "match"
+    },
+    {
+      "designator": "R2",
+      "pin": "1",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "R2",
+      "pin": "2",
+      "schematic_net": "LDR_SIG",
+      "pcb_net": "LDR_SIG",
+      "status": "match"
+    },
+    {
+      "designator": "R3",
+      "pin": "1",
+      "schematic_net": "VTH_ADJ",
+      "pcb_net": "VTH_ADJ",
+      "status": "match"
+    },
+    {
+      "designator": "R3",
+      "pin": "2",
+      "schematic_net": "VTH",
+      "pcb_net": "VTH",
+      "status": "match"
+    },
+    {
+      "designator": "R4",
+      "pin": "1",
+      "schematic_net": "VTH",
+      "pcb_net": "VTH",
+      "status": "match"
+    },
+    {
+      "designator": "R4",
+      "pin": "2",
+      "schematic_net": "LED_CTRL",
+      "pcb_net": "LED_CTRL",
+      "status": "match"
+    },
+    {
+      "designator": "R5",
+      "pin": "1",
+      "schematic_net": "LED_CTRL",
+      "pcb_net": "LED_CTRL",
+      "status": "match"
+    },
+    {
+      "designator": "R5",
+      "pin": "2",
+      "schematic_net": "Q1_B",
+      "pcb_net": "Q1_B",
+      "status": "match"
+    },
+    {
+      "designator": "R6",
+      "pin": "1",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "R6",
+      "pin": "2",
+      "schematic_net": "Q1_B",
+      "pcb_net": "Q1_B",
+      "status": "match"
+    },
+    {
+      "designator": "R7",
+      "pin": "1",
+      "schematic_net": "LED_A",
+      "pcb_net": "LED_A",
+      "status": "match"
+    },
+    {
+      "designator": "R7",
+      "pin": "2",
+      "schematic_net": "+5V",
+      "pcb_net": "+5V",
+      "status": "match"
+    },
+    {
+      "designator": "RV1",
+      "pin": "1",
+      "schematic_net": "VREF_2V5",
+      "pcb_net": "VREF_2V5",
+      "status": "match"
+    },
+    {
+      "designator": "RV1",
+      "pin": "2",
+      "schematic_net": "VTH_ADJ",
+      "pcb_net": "VTH_ADJ",
+      "status": "match"
+    },
+    {
+      "designator": "RV1",
+      "pin": "3",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "1",
+      "schematic_net": "LED_CTRL",
+      "pcb_net": "LED_CTRL",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "2",
+      "schematic_net": "LDR_SIG",
+      "pcb_net": "LDR_SIG",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "3",
+      "schematic_net": "VTH",
+      "pcb_net": "VTH",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "4",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "5",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "6",
+      "schematic_net": "U1B_TIE",
+      "pcb_net": "U1B_TIE",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "7",
+      "schematic_net": "U1B_TIE",
+      "pcb_net": "U1B_TIE",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "8",
+      "schematic_net": "+5V",
+      "pcb_net": "+5V",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "1",
+      "schematic_net": "VREF_2V5",
+      "pcb_net": "VREF_2V5",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "3",
+      "schematic_net": "VREF_2V5",
+      "pcb_net": "VREF_2V5",
+      "status": "match"
+    }
+  ],
+  "note": "designator+pad-number comparison; combination pads require pin_aliases"
+}

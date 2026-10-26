@@ -1,0 +1,99 @@
+{
+  "schema": "design-engine-pcb-constraints/v1",
+  "status": "compiled",
+  "constraints": [
+    {
+      "id": "FIX-J1",
+      "type": "fixed",
+      "severity": "hard",
+      "source": "USB-C at the right board edge; opening/insertion verified in round9",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "designator": "J1",
+      "x": 2320.0,
+      "y": 885.0,
+      "rotation": 180.0,
+      "layer": 1
+    },
+    {
+      "id": "EDGE-J1",
+      "type": "edge",
+      "severity": "hard",
+      "source": "USB-C must stay reachable at the right edge",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "designator": "J1",
+      "edge": "right",
+      "max_inset_mil": 150.0,
+      "facing_rotation": 180.0
+    },
+    {
+      "id": "FIX-U2",
+      "type": "fixed",
+      "severity": "hard",
+      "source": "ESP32-S3-WROOM-1; antenna end at the bottom board edge",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "designator": "U2",
+      "x": 900.0,
+      "y": 651.0,
+      "rotation": 180.0,
+      "layer": 1
+    },
+    {
+      "id": "FIX-U90",
+      "type": "fixed",
+      "severity": "hard",
+      "source": "SHT40 at top-left, away from the LDO heat source",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "designator": "U90",
+      "x": 250.0,
+      "y": 1350.0,
+      "rotation": 0.0,
+      "layer": 1
+    },
+    {
+      "id": "NP-C99-U2",
+      "type": "near_pin",
+      "severity": "preferred",
+      "source": "C99 100nF +3V3 decoupling; the round9 baseline measured 272 mil from U2.2",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "part": "C99",
+      "pad": "1",
+      "owner": "U2",
+      "owner_pad": "2",
+      "role": "decap",
+      "max_mil": 300.0
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "edge_fixed_requires_pose_check",
+      "constraints": [
+        "FIX-J1",
+        "EDGE-J1"
+      ],
+      "objects": [
+        "J1"
+      ],
+      "message": "edge intent and fixed pose both apply; validate_placement checks the pose",
+      "source": "USB-C must stay reachable at the right edge"
+    }
+  ],
+  "unknown": [],
+  "counts": {
+    "constraints": 5,
+    "hard": 4,
+    "preferred": 1,
+    "conflicts": 1,
+    "unknown": 0
+  },
+  "note": "soft preferences never offset a hard failure; unknown references are not silently dropped"
+}

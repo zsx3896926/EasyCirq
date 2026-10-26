@@ -1,0 +1,128 @@
+{
+  "schema": "design-engine-pcb-intent/v1",
+  "project": "mcu-i2c-s3-20261026",
+  "units": "mil",
+  "board_margin_mil": [
+    200,
+    200
+  ],
+  "constraints": [
+    {
+      "id": "FIX-J1",
+      "type": "fixed",
+      "severity": "hard",
+      "source": "USB-C at the right board edge; opening/insertion verified in round9",
+      "designator": "J1",
+      "x": 2320,
+      "y": 885,
+      "rotation": 180,
+      "layer": 1,
+      "unit": "mil"
+    },
+    {
+      "id": "EDGE-J1",
+      "type": "edge",
+      "severity": "hard",
+      "source": "USB-C must stay reachable at the right edge",
+      "designator": "J1",
+      "edge": "right",
+      "max_inset_mil": 150,
+      "facing_rotation": 180,
+      "unit": "mil"
+    },
+    {
+      "id": "FIX-U2",
+      "type": "fixed",
+      "severity": "hard",
+      "source": "ESP32-S3-WROOM-1; antenna end at the bottom board edge",
+      "designator": "U2",
+      "x": 900,
+      "y": 651,
+      "rotation": 180,
+      "layer": 1,
+      "unit": "mil"
+    },
+    {
+      "id": "FIX-U90",
+      "type": "fixed",
+      "severity": "hard",
+      "source": "SHT40 at top-left, away from the LDO heat source",
+      "designator": "U90",
+      "x": 250,
+      "y": 1350,
+      "rotation": 0,
+      "layer": 1,
+      "unit": "mil"
+    },
+    {
+      "id": "NP-C99-U2",
+      "type": "near_pin",
+      "severity": "preferred",
+      "source": "C99 100nF +3V3 decoupling; the round9 baseline measured 272 mil from U2.2",
+      "part": "C99",
+      "pad": "1",
+      "owner": "U2",
+      "owner_pad": "2",
+      "max_mil": 300,
+      "unit": "mil",
+      "role": "decap"
+    }
+  ],
+  "sensors": [
+    {
+      "designator": "U90",
+      "no_copper_under": {
+        "margin_mil": 8
+      },
+      "source": "measured no-pours region under the SHT40 body"
+    }
+  ],
+  "rf": [
+    {
+      "designator": "U2",
+      "antenna_keepout": {
+        "bbox": [
+          526,
+          0,
+          1274,
+          260
+        ]
+      },
+      "source": "measured local no-wires/no-pours region under the antenna end"
+    }
+  ],
+  "components": [
+    {
+      "designator": "U90",
+      "ep": true,
+      "ep_pads": [
+        "5"
+      ],
+      "source": "SHT40 library pad 5 is the exposed/thermal pad; its net is NC in the schematic"
+    }
+  ],
+  "connectors": [
+    {
+      "designator": "J1",
+      "opening": {
+        "edge": "right",
+        "max_inset_mil": 150,
+        "facing_rotation": 180
+      },
+      "source": "USB-C opening at the right board edge"
+    }
+  ],
+  "power_nets": [
+    {
+      "net": "+3V3",
+      "strategy": "track",
+      "current_a": 0.5,
+      "source": "ESP32-S3 + SHT40 peak budget (screening)"
+    },
+    {
+      "net": "GND",
+      "strategy": "pour",
+      "source": "double-sided GND pour"
+    }
+  ]
+}

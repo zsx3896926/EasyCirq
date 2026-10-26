@@ -1,0 +1,349 @@
+{
+  "status": "found",
+  "host": "127.0.0.1",
+  "ports": "60832-60841",
+  "found": {
+    "port": 60832,
+    "service": "easyeda-agent",
+    "raw": {
+      "pid": 32064,
+      "service": "easyeda-agent",
+      "version": "v1.15.0",
+      "status": "ok",
+      "port": 60832,
+      "windows": [
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "connectorVersion": "1.15.0",
+          "easyedaVersion": "4.1.78",
+          "capabilities": [
+            "schematic.v1",
+            "pcb.v1"
+          ],
+          "host": {
+            "kind": "electron",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) JLCEDAPro/4.1.78.34f5b8d9 Chrome/146.0.7680.188 Electron/41.2.1-jlc-sa-win-x64.6 Safari/537.36"
+          },
+          "context": {
+            "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+            "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+            "documentUuid": "40b81985cfb4a5ed",
+            "documentType": "pcb",
+            "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba",
+            "pageVisibility": "visible"
+          },
+          "connectedAt": "2026-10-26T09:00:47.0956836Z",
+          "lastSeen": "2026-10-26T15:47:40.5934696Z",
+          "connectorVersionOk": true
+        }
+      ],
+      "writeHealth": {
+        "5175351c-a00b-4788-a922-2f6e0bd80756": {
+          "samples": 20,
+          "failures": 0,
+          "failureRate": 0,
+          "consecutiveFailures": 0,
+          "degraded": false,
+          "verified": 0
+        }
+      },
+      "autosave": [
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+            "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+            "documentUuid": "40b81985cfb4a5ed",
+            "documentType": "pcb",
+            "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:42:47.8466716Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+            "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+            "documentUuid": "55802435b3566a73",
+            "documentType": "schematic",
+            "tabId": "55802435b3566a73@06a53de15aa34286ab2eaf0be41d91ba",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:31:47.5384876Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "0b2bf7329ce149408fa35d15a242e488",
+            "projectName": "mcu-i2c-s3-edit-r10-20261026",
+            "documentUuid": "40b81985cfb4a5ed",
+            "documentType": "pcb",
+            "tabId": "40b81985cfb4a5ed@0b2bf7329ce149408fa35d15a242e488",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: pcb.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-26T15:20:34.2022951Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "0b2bf7329ce149408fa35d15a242e488",
+            "projectName": "mcu-i2c-s3-edit-r10-20261026",
+            "documentUuid": "55802435b3566a73",
+            "documentType": "schematic",
+            "tabId": "55802435b3566a73@0b2bf7329ce149408fa35d15a242e488",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:13:18.8435392Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "283b0ccaaa9c404d87056886a29c2562",
+            "projectName": "mcu-i2c-s3-edit-20261026",
+            "documentUuid": "40b81985cfb4a5ed",
+            "documentType": "pcb",
+            "tabId": "40b81985cfb4a5ed@283b0ccaaa9c404d87056886a29c2562",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:48:25.9498444Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "283b0ccaaa9c404d87056886a29c2562",
+            "projectName": "mcu-i2c-s3-edit-20261026",
+            "documentUuid": "55802435b3566a73",
+            "documentType": "schematic",
+            "tabId": "55802435b3566a73@283b0ccaaa9c404d87056886a29c2562",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:45:24.6074142Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "7686883008644dea9fd9317d949a5f92",
+            "projectName": "ams1117-3v3-20261026",
+            "documentUuid": "86faeee12e6b50e6",
+            "documentType": "schematic",
+            "tabId": "86faeee12e6b50e6@7686883008644dea9fd9317d949a5f92",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T12:33:30.2844716Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "856ec8994a544ad999a5adf69be04dd9",
+            "projectName": "ne555-blinker-1hz-20261026",
+            "documentUuid": "2beb0746a6a6c75a",
+            "documentType": "schematic",
+            "tabId": "2beb0746a6a6c75a@856ec8994a544ad999a5adf69be04dd9",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T12:34:11.1710789Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "031412f8ae5a3f5c",
+            "documentType": "schematic",
+            "tabId": "031412f8ae5a3f5c@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "hidden"
+          },
+          "state": "unavailable",
+          "saved": false,
+          "error": "connector could not certify mutation/save document identity: handler-boundary documentUuid changed; autosave was not armed",
+          "updatedAt": "2026-10-26T13:03:07.7545848Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "40b81985cfb4a5ed",
+            "documentType": "pcb",
+            "tabId": "40b81985cfb4a5ed@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:11:57.2362552Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "55802435b3566a73",
+            "documentType": "schematic",
+            "tabId": "55802435b3566a73@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:17:20.636315Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "761d4937a703ddb9",
+            "documentType": "schematic",
+            "tabId": "761d4937a703ddb9@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:18:18.0455679Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "90fe28e330b043ce",
+            "documentType": "schematic",
+            "tabId": "90fe28e330b043ce@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:19:08.3037299Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "e4a2b5aced774684bdd455c9f7a9059d",
+            "projectName": "photo-led-5v-20261026",
+            "documentUuid": "cd008f919db36eba",
+            "documentType": "schematic",
+            "tabId": "cd008f919db36eba@e4a2b5aced774684bdd455c9f7a9059d",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:08:47.3788796Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "e56848aaf64d49d7a465352291670aef",
+            "projectName": "photo-led-pcb-20261026",
+            "documentUuid": "99b8366b0bdc971f",
+            "documentType": "pcb",
+            "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:10:09.6262013Z"
+        }
+      ]
+    }
+  },
+  "versionGate": {
+    "cli": "v1.15.0",
+    "daemon": "v1.15.0",
+    "connectors": [
+      "1.15.0"
+    ],
+    "verdict": "ok",
+    "findings": [
+      {
+        "component": "daemon",
+        "version": "v1.15.0",
+        "severity": "ok",
+        "reason": "与 CLI 同版 v1.15.0"
+      },
+      {
+        "component": "connector",
+        "version": "1.15.0",
+        "severity": "ok",
+        "reason": "与 CLI 同版 v1.15.0"
+      }
+    ]
+  },
+  "hostCompatibility": {
+    "baseline": "4.0.0",
+    "recommended": "4.1.60",
+    "verdict": "ok",
+    "findings": [
+      {
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "version": "4.1.78",
+        "severity": "ok",
+        "reason": "EasyEDA Pro 4.1.78 满足 V4 主线基线"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "daemon",
+      "status": "ok",
+      "detail": "v1.15.0 运行在端口 60832"
+    },
+    {
+      "name": "connector",
+      "status": "ok",
+      "detail": "1 个窗口已连接（连接器 v1.15.0）"
+    },
+    {
+      "name": "versions",
+      "status": "ok",
+      "detail": "版本一致性:CLI / daemon 同版,connector major.minor 兼容 v1.15.0"
+    },
+    {
+      "name": "easyeda",
+      "status": "ok",
+      "detail": "EasyEDA 宿主:V4 主线（推荐基线 4.1.60）"
+    },
+    {
+      "name": "project",
+      "status": "ok",
+      "detail": "mcu-i2c-s3-edit-r10b-20261026（当前 pcb）"
+    }
+  ],
+  "checked": [
+    {
+      "port": 60832,
+      "status": "ok"
+    }
+  ]
+}

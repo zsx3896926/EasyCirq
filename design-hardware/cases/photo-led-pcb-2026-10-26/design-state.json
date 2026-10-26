@@ -1,0 +1,136 @@
+{
+  "schema": "design-engine-state/v1",
+  "project": {
+    "name": "photo-led-pcb-20261026",
+    "uuid": "e56848aaf64d49d7a465352291670aef",
+    "pcb": "PCB1",
+    "pcb_uuid": "99b8366b0bdc971f"
+  },
+  "stage": "S5_delivery",
+  "best_candidate": "signal-chain",
+  "open_items": [
+    "Gerber/drill/CPL 导出：当前 typed CLI 不提供，制造包 BLOCKED",
+    "未做实物、热、EMC、光照阈值/迟滞实测",
+    "本板三项局部改板（换封装/移接口/加器件）未做",
+    "跨工程模块铜复用未支持；仅布局契约复用",
+    "板 B（MCU+I2C）创建与验证"
+  ],
+  "next_action": "板 A 制造包被 CLI 能力阻断；继续板 B 创建与验证，并补局部改板/复用证据",
+  "budget": {
+    "kind": "none",
+    "spent": 0,
+    "remaining": null
+  },
+  "recovery": {
+    "checkpoint_epro2": "photo-led-pcb-final.epro2",
+    "sha256": "d9ef9201e574c7ba944c7c77c77aa3364802464790e4e7daca1969884a826491",
+    "drc0_checkpoint": "photo-led-pcb-drc0.epro2",
+    "drc0_sha256": "6542f416c08ed4c88982ce1ac9d6d05fa3a3f52f0fe924ac939731c26a420400",
+    "note": "最终归档；DRC 0、save/reload diff match、BOM 已导出；Gerber/CPL 未导出"
+  },
+  "evidence": [
+    {
+      "role": "pcb-dump-final",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/pcb-dump-final.json",
+      "sha256": "3a07ade567e725d918410b21b3846fd6bfa414486a63db58a6c0dbfdb69199e2",
+      "bytes": 261386
+    },
+    {
+      "role": "pcb-dump-after-reload",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/pcb-dump-after-reload.json",
+      "sha256": "510c52ce9140e3abe2e80b4e0d88a0a3ec5d222907a9599260c2acf1db3da9b1",
+      "bytes": 261384
+    },
+    {
+      "role": "save-reload-diff",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/save-reload-diff.json",
+      "sha256": "6abb4c65476c1b7e965e2d032935ff9c7d461e8317b6f2c27b36652a2805ae41",
+      "bytes": 384
+    },
+    {
+      "role": "pcb-drc-final",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/pcb-drc-final.json",
+      "sha256": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad",
+      "bytes": 147
+    },
+    {
+      "role": "pcb-check-final",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/pcb-check-final.json",
+      "sha256": "2587eb236057e30a2ddb99872856621305dbf940c9712a9ed795fd852d72d9f7",
+      "bytes": 3788
+    },
+    {
+      "role": "netpath-key",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/netpath-key-connections.json",
+      "sha256": "f360a2542cf60c0ff9503cd9736bee018b320b43cd96f31abb286254ef04008f",
+      "bytes": 3984
+    },
+    {
+      "role": "sch-pcb-compare",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/sch-pcb-compare.json",
+      "sha256": "bb45d679d207e216838f31b9eafc81b4596d38d05468f3fa2667bc908f7fcf7e",
+      "bytes": 119
+    },
+    {
+      "role": "placement-check-final",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/placement-check-final.json",
+      "sha256": "c8b22799a055682b45b9c2caa227cfc3a3a912bd2a11161e312cd5a160f1750a",
+      "bytes": 4588
+    },
+    {
+      "role": "fabrication-check-final",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/fabrication-check-final.json",
+      "sha256": "bc6d225f43a07a1727ba50ae8d93602c10bf3b785520f673a4e939feddf884a8",
+      "bytes": 775
+    },
+    {
+      "role": "power-check-final",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/power-check-final.json",
+      "sha256": "2c9732abc1758c99196fab034e098d3bb32ec94911ce62ffb775b5093b27a81e",
+      "bytes": 3224
+    },
+    {
+      "role": "bom",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/BOM.csv",
+      "sha256": "c88181adb026e7bdf09ecc72a7488e38c067576a6fcf91db6b266ad5d91973cc",
+      "bytes": 1471
+    },
+    {
+      "role": "bom-audit",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/bom-audit.json",
+      "sha256": "0f4812954ac8108a93aca47c71150e0696168365013f4602672479bcb7937a34",
+      "bytes": 249
+    },
+    {
+      "role": "image-top",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/pcb-final-top.png",
+      "sha256": "d942aaecc33d7f75d947ccc4d9f0e4e472780fff00ecb3669536f09e776afe9e",
+      "bytes": 164801
+    },
+    {
+      "role": "image-bottom",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/pcb-final-bottom.png",
+      "sha256": "34e69a46ce398fd21dc7a9861c7dc43d35ecc316081712ef6e42e935a12b41a5",
+      "bytes": 144024
+    },
+    {
+      "role": "actual-svg",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/pcb-final-actual.svg",
+      "sha256": "fbbd06a91dfd327b773ebc9280f4199c2954ebac883c4d3f5624efe3ad8e114f",
+      "bytes": 65936
+    },
+    {
+      "role": "placement-plan-final",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/placement-plan-final.json",
+      "sha256": "2f0a703d1a5fee69e7f2ff658e660d5f98b5b431dce78e1f801128fb0e7effa9",
+      "bytes": 5397
+    },
+    {
+      "role": "intent-final",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/pcb-intent-final.json",
+      "sha256": "91bd3207e05f3af3f225e35161c2c97f66362c6555594f8924e3a9f6815854f8",
+      "bytes": 8946
+    }
+  ],
+  "updated": null
+}

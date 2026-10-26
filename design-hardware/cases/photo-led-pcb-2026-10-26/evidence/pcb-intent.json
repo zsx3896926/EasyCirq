@@ -1,0 +1,388 @@
+{
+  "schema": "design-engine-pcb-intent/v1",
+  "project": "photo-led-pcb-20261026",
+  "units": "mil",
+  "board_margin_mil": [
+    200,
+    200
+  ],
+  "constraints": [
+    {
+      "id": "FIX-J1",
+      "type": "fixed",
+      "severity": "hard",
+      "source": "mechanical: 5V terminal at left edge; opening verified outward by pcb check",
+      "designator": "J1",
+      "x": 250,
+      "y": 550,
+      "rotation": 270,
+      "layer": 1,
+      "unit": "mil"
+    },
+    {
+      "id": "EDGE-J1",
+      "type": "edge",
+      "severity": "hard",
+      "source": "5V terminal must be reachable at the left board edge",
+      "designator": "J1",
+      "edge": "left",
+      "max_inset_mil": 150,
+      "facing_rotation": 270,
+      "unit": "mil"
+    },
+    {
+      "id": "KO-MH-TL",
+      "type": "keepout",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil",
+      "shape": "circle",
+      "center": [
+        195,
+        2167.2
+      ],
+      "radius": 118,
+      "unit": "mil"
+    },
+    {
+      "id": "KO-MH-TR",
+      "type": "keepout",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil",
+      "shape": "circle",
+      "center": [
+        3348.3,
+        2167.2
+      ],
+      "radius": 118,
+      "unit": "mil"
+    },
+    {
+      "id": "KO-MH-BL",
+      "type": "keepout",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil",
+      "shape": "circle",
+      "center": [
+        195,
+        195
+      ],
+      "radius": 118,
+      "unit": "mil"
+    },
+    {
+      "id": "KO-MH-BR",
+      "type": "keepout",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil",
+      "shape": "circle",
+      "center": [
+        3348.3,
+        195
+      ],
+      "radius": 118,
+      "unit": "mil"
+    },
+    {
+      "id": "NP-C2-U1",
+      "type": "near_pin",
+      "severity": "hard",
+      "source": "LM358 VCC pin 8 supply bypass; 150 mil measured, power pour carries the return",
+      "part": "C2",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "8",
+      "max_mil": 200,
+      "unit": "mil",
+      "role": "decap"
+    },
+    {
+      "id": "NP-C3-U2",
+      "type": "near_pin",
+      "severity": "preferred",
+      "source": "TL431 reference filter; 203 mil measured",
+      "part": "C3",
+      "pad": "2",
+      "owner": "U2",
+      "owner_pad": "3",
+      "max_mil": 250,
+      "unit": "mil",
+      "role": "decap"
+    },
+    {
+      "id": "NP-R4-U1",
+      "type": "near_pin",
+      "severity": "hard",
+      "source": "hysteresis feedback returns to U1.3; 254 mil measured",
+      "part": "R4",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "3",
+      "max_mil": 300,
+      "unit": "mil",
+      "role": "feedback"
+    },
+    {
+      "id": "NP-R5-U1",
+      "type": "near_pin",
+      "severity": "preferred",
+      "source": "comparator output to base drive; 406 mil measured",
+      "part": "R5",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "1",
+      "max_mil": 900,
+      "unit": "mil",
+      "role": "drive"
+    },
+    {
+      "id": "NP-C1-U1",
+      "type": "near_pin",
+      "severity": "preferred",
+      "source": "bulk input capacitor to comparator supply; 890 mil measured",
+      "part": "C1",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "8",
+      "max_mil": 1200,
+      "unit": "mil",
+      "role": "bulk"
+    },
+    {
+      "id": "ROT-U1",
+      "type": "allowed_rotation",
+      "severity": "preferred",
+      "source": "DIP-8 orientation used by the verified schematic/PCB reference",
+      "designator": "U1",
+      "angles": [
+        0,
+        90,
+        180,
+        270
+      ]
+    },
+    {
+      "id": "ROT-LED1",
+      "type": "allowed_rotation",
+      "severity": "preferred",
+      "source": "LED polarity/visibility orientation",
+      "designator": "LED1",
+      "angles": [
+        0,
+        180
+      ]
+    },
+    {
+      "id": "GROUP-U1-C2",
+      "type": "group",
+      "severity": "preferred",
+      "source": "keep the supply bypass inside the comparator local cluster",
+      "members": [
+        "U1",
+        "C2"
+      ],
+      "rigid": false,
+      "max_spread_mil": 600,
+      "unit": "mil"
+    }
+  ],
+  "modules": [
+    {
+      "id": "power-input",
+      "template": "connector-protection-core",
+      "order": 0,
+      "target": {
+        "x": 250,
+        "y": 550,
+        "rotation": 270
+      },
+      "roles": {
+        "connector": {
+          "designator": "J1",
+          "pads": {
+            "out": "1",
+            "return": "2"
+          }
+        },
+        "series": {
+          "designator": "D1",
+          "pads": {
+            "anode": "2",
+            "cathode": "1"
+          }
+        },
+        "bulk": {
+          "designator": "C1",
+          "pads": {
+            "power": "1",
+            "gnd": "2"
+          }
+        },
+        "core": {
+          "designator": "U1",
+          "pads": {
+            "power": "8",
+            "gnd": "4"
+          }
+        }
+      }
+    },
+    {
+      "id": "decoupling",
+      "template": "ic-decap-gnd",
+      "order": 1,
+      "target": {
+        "x": 1500,
+        "y": 1200,
+        "rotation": 0
+      },
+      "roles": {
+        "core": {
+          "designator": "U1",
+          "pads": {
+            "power": "8",
+            "gnd": "4"
+          }
+        },
+        "cap": {
+          "designator": "C2",
+          "pads": {
+            "power": "1",
+            "gnd": "2"
+          }
+        }
+      }
+    },
+    {
+      "id": "sense-feedback",
+      "template": "opamp-feedback",
+      "order": 2,
+      "target": {
+        "x": 1500,
+        "y": 1200,
+        "rotation": 0
+      },
+      "roles": {
+        "opamp": {
+          "designator": "U1",
+          "pads": {
+            "inverting": "2",
+            "noninverting": "3",
+            "output": "1",
+            "power": "8",
+            "gnd": "4"
+          }
+        },
+        "feedback": {
+          "designator": "R4",
+          "pads": {
+            "from": "2",
+            "to": "1"
+          }
+        },
+        "sensor": {
+          "designator": "LDR1",
+          "pads": {
+            "top": "2",
+            "mid": "1"
+          }
+        },
+        "bottom": {
+          "designator": "R2",
+          "pads": {
+            "mid": "2",
+            "gnd": "1"
+          }
+        },
+        "filter": {
+          "designator": "C4",
+          "pads": {
+            "mid": "2",
+            "gnd": "1"
+          }
+        }
+      }
+    },
+    {
+      "id": "driver",
+      "template": "low-side-driver-load-return",
+      "order": 3,
+      "target": {
+        "x": 3000,
+        "y": 1400,
+        "rotation": 0
+      },
+      "roles": {
+        "transistor": {
+          "designator": "Q1",
+          "pads": {
+            "base": "2",
+            "collector": "3",
+            "emitter": "1"
+          }
+        },
+        "base_series": {
+          "designator": "R5",
+          "pads": {
+            "drive": "1",
+            "base": "2"
+          }
+        },
+        "base_pulldown": {
+          "designator": "R6",
+          "pads": {
+            "base": "2",
+            "gnd": "1"
+          }
+        },
+        "led": {
+          "designator": "LED1",
+          "pads": {
+            "anode": "1",
+            "cathode": "2"
+          }
+        },
+        "led_resistor": {
+          "designator": "R7",
+          "pads": {
+            "power": "2",
+            "led": "1"
+          }
+        }
+      }
+    }
+  ],
+  "power_nets": [
+    {
+      "net": "+5V",
+      "strategy": "pour",
+      "source": "+5V rail is poured locally; total load is the LED (<=20 mA) plus LM358/TL431 bias",
+      "current_a": 0.025,
+      "copper_oz": 1.0,
+      "temp_rise_c": 10
+    },
+    {
+      "net": "VIN",
+      "strategy": "pour",
+      "source": "5V input connector to reverse-polarity diode; short local copper",
+      "current_a": 0.025,
+      "copper_oz": 1.0,
+      "temp_rise_c": 10
+    },
+    {
+      "net": "GND",
+      "strategy": "pour",
+      "source": "two-layer GND pour; return is not proven by this check",
+      "current_a": 0.025,
+      "copper_oz": 1.0,
+      "temp_rise_c": 10
+    },
+    {
+      "net": "VREF_2V5",
+      "strategy": "track",
+      "source": "TL431 reference, <1 mA; 10 mil track is a screened width",
+      "current_a": 0.001,
+      "copper_oz": 1.0,
+      "temp_rise_c": 10
+    }
+  ]
+}

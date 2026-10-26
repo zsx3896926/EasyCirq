@@ -1,0 +1,150 @@
+{
+  "created": 4,
+  "failed": 0,
+  "gndLayers": [
+    1,
+    2
+  ],
+  "inset": 10,
+  "ok": true,
+  "pours": [
+    {
+      "kind": "gnd-plane",
+      "layer": 1,
+      "net": "GND",
+      "pads": 12,
+      "result": {
+        "fill": "solid",
+        "layer": 1,
+        "lineWidth": 0.2,
+        "locked": false,
+        "net": "GND",
+        "pourName": "POUR1",
+        "poured": true,
+        "primitiveId": "30fa23755ac6ab2c",
+        "priority": 1,
+        "prioritySource": "sdk",
+        "priorityVerified": false,
+        "rebuildAttempted": true,
+        "source": [
+          5,
+          5,
+          "L",
+          5,
+          2357.2,
+          3538.3,
+          2357.2,
+          3538.3,
+          5,
+          5,
+          5
+        ],
+        "verified": true
+      }
+    },
+    {
+      "kind": "gnd-plane",
+      "layer": 2,
+      "net": "GND",
+      "pads": 12,
+      "result": {
+        "fill": "solid",
+        "layer": 2,
+        "lineWidth": 0.2,
+        "locked": false,
+        "net": "GND",
+        "pourName": "POUR2",
+        "poured": true,
+        "primitiveId": "3ad6e5b1fa9518b4",
+        "priority": 1,
+        "prioritySource": "sdk",
+        "priorityVerified": false,
+        "rebuildAttempted": true,
+        "source": [
+          5,
+          5,
+          "L",
+          5,
+          2357.2,
+          3538.3,
+          2357.2,
+          3538.3,
+          5,
+          5,
+          5
+        ],
+        "verified": true
+      }
+    },
+    {
+      "kind": "rail-local",
+      "layer": 1,
+      "net": "+5V",
+      "pads": 6,
+      "result": {
+        "fill": "solid",
+        "layer": 1,
+        "lineWidth": 0.2,
+        "locked": false,
+        "net": "+5V",
+        "pourName": "POUR3",
+        "poured": true,
+        "primitiveId": "3d8108da0449662c",
+        "priority": 1,
+        "prioritySource": "sdk",
+        "priorityVerified": false,
+        "rebuildAttempted": true,
+        "source": [
+          418.7,
+          490,
+          "L",
+          418.7,
+          2166.7,
+          3110,
+          2166.7,
+          3110,
+          490,
+          418.7,
+          490
+        ],
+        "verified": true
+      }
+    },
+    {
+      "kind": "rail-local",
+      "layer": 1,
+      "net": "VIN",
+      "pads": 2,
+      "result": {
+        "fill": "solid",
+        "layer": 1,
+        "lineWidth": 0.2,
+        "locked": false,
+        "net": "VIN",
+        "pourName": "POUR4",
+        "poured": true,
+        "primitiveId": "a75ef6885f8c95f5",
+        "priority": 2,
+        "prioritySource": "sdk",
+        "priorityVerified": false,
+        "rebuildAttempted": true,
+        "source": [
+          190,
+          490,
+          "L",
+          190,
+          708.4,
+          881.3,
+          708.4,
+          881.3,
+          490,
+          190,
+          490
+        ],
+        "verified": true
+      }
+    }
+  ],
+  "railsMode": "pour",
+  "rebuilt": true
+}

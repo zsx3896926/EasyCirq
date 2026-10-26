@@ -1,0 +1,33 @@
+{
+  "activeUuid": "40b81985cfb4a5ed",
+  "documents": [
+    {
+      "uuid": "40b81985cfb4a5ed",
+      "type": "pcb",
+      "name": "PCB2",
+      "parent": "06a53de15aa34286ab2eaf0be41d91ba",
+      "active": true
+    },
+    {
+      "uuid": "761d4937a703ddb9",
+      "type": "schematic",
+      "name": "P1",
+      "parent": "46b1524c58d59268",
+      "active": false
+    },
+    {
+      "uuid": "55802435b3566a73",
+      "type": "schematic",
+      "name": "P2",
+      "parent": "46b1524c58d59268",
+      "active": false
+    },
+    {
+      "uuid": "90fe28e330b043ce",
+      "type": "schematic",
+      "name": "P3",
+      "parent": "46b1524c58d59268",
+      "active": false
+    }
+  ]
+}

@@ -59,6 +59,16 @@ python design_engine_cli.py route --ir ir.json --start 120,500 --end 400,500 --n
 python design_engine_cli.py pack --ir ir.json --allow-groups --out pack.json
 python design_engine_cli.py pcb-ingest --bundle <bundle> --out pcb-ir.json
 python design_engine_cli.py pcb-audit --bundle <bundle> --sch-ir ir.json --out pcb-audit.json
+python design_engine_cli.py pcb-normalize --dump board.json --out board-normalized.json
+python design_engine_cli.py pcb-constraints --dump board.json --intent pcb-intent.json --out constraints.json
+python design_engine_cli.py pcb-check-plan --dump board.json --plan placement.json --constraints constraints.json
+python design_engine_cli.py pcb-candidates --dump board.json --intent pcb-intent.json --out candidates.json
+python design_engine_cli.py pcb-escapes --dump board.json --length 100 --json
+python design_engine_cli.py pcb-power --dump board.json --intent pcb-intent.json --json
+python design_engine_cli.py pcb-fabrication --dump board.json --json
+python design_engine_cli.py pcb-diff --before before.json --after after.json --scope scope.json --json
+python design_engine_cli.py pcb-extract-module --dump board.json --members U1,C2,R4 --anchor U1 --out module.json
+python design_engine_cli.py pcb-reuse-plan --module module.json --target target.json --binding binding.json --anchor 1500,1200,0
 ```
 
 退出码：`0` 无候选/身份 match；`1` 有 review/blocked/几何不足；`2` 参数、IO 或 schema 错误。
@@ -126,6 +136,22 @@ python design_engine_cli.py pcb-audit --bundle <bundle> --sch-ir ir.json --out p
 - 走线连通按 net + layer 建图：焊盘/过孔/线段按实际几何距离合并；`layer=12` 与过孔视为跨层。T 形连接按点到线段距离处理。
 - 有铺铜的网络标记 `not_checked`：filled polygon 含孤岛和热焊盘，简化成实心平面会伪造“已连通”。因此 GND 的铺铜连通性不在本引擎结论内。
 - `pcb-drc.json` 的每一条违规按 `rule/objType/net/layer/x/y/objs` 保留身份，不按类别数量比较。
+
+### 4.8 PCB 执行工作流（实测 dump）
+
+`pcb_workflow.py` 在原有 `pcb-ingest/pcb-audit` 之外增加一层面向执行的离线检查：
+
+- `pcb-normalize`：把真实 `pcb dump` 归一化成器件/bbox/pad/outline/copper 视图，保留原始对象，coverage 显式。
+- `pcb-constraints`：编译 `fixed/edge/near_pin/ordered_chain/keepout/allowed_layer/allowed_rotation/group/route_channel`，每条有稳定 id、source、单位、hard/preferred；未知引用和硬冲突分别报告。
+- `pcb-check-plan`：把布局提案按实测 bbox/pad 变换后逐项核验，额外检查越框、同层重叠、pad 越框；硬失败或硬项未测量都不通过。
+- `pcb-candidates`：用 `assets/pcb-placement-templates.json` 的角色/物理脚绑定生成 signal-chain/density/mechanical 三种候选；先淘汰硬失败，再按近引脚失败、逃线阻塞、HPWL、模块面积比较，不输出综合总分。
+- `pcb-escapes`：对实测 pad 做短走廊阻塞预判，明确 `proxy=true`、`routing_verified=false`；不是路由器。
+- `pcb-power`：按声明的电流/铜厚/温升计算 IPC-2221 筛查宽度，检查声明铺铜/走线；没有输入就是 `unmeasured`。
+- `pcb-fabrication`：从 dump 检查可见丝印压同面焊盘/越框/倒置、无网络铺铜、无材料化铜、无网络过孔/过孔焊盘网络不符；只读 dump BBox，和 `pcb check` 的实时字框可能不同，需实际导图复核。
+- `pcb-diff`：比较两次实测 dump 的身份/几何/铜；`scope` 外的变化进入 `unrelated_changes` 并判 `mismatch`。
+- `pcb-extract-module` / `pcb-reuse-plan`：提取相对布局 + pad→net 契约，在目标板按 anchor 旋转/平移应用；身份/层/pad 集合/网络不一致即拒绝；铜复用固定 `not_supported`。
+
+边界：不连接 EDA、不写工程、不证明铺铜连通/阻抗/EMC/热；`near_pin` 是 pad 中心距，不是铜路径；模板是方法级/离线验证，不是已画完实例。实际写入仍由 typed `easyeda pcb ...` 完成，保存重开后用 fresh dump 再跑 `pcb-diff`。
 
 ## 5. 常用画法模板
 

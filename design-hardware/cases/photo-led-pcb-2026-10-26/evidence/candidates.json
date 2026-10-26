@@ -1,0 +1,2902 @@
+{
+  "schema": "design-engine-pcb-candidates/v1",
+  "status": "selected",
+  "selected": "signal-chain",
+  "candidates": [
+    {
+      "id": "signal-chain",
+      "strategy": "signal-chain",
+      "anchors": {
+        "power-input": {
+          "x": 250.0,
+          "y": 550.0,
+          "rotation": 270.0
+        },
+        "decoupling": {
+          "x": 1500.0,
+          "y": 1200.0,
+          "rotation": 0.0
+        },
+        "sense-feedback": {
+          "x": 1500.0,
+          "y": 1200.0,
+          "rotation": 0.0
+        },
+        "driver": {
+          "x": 3000.0,
+          "y": 1400.0,
+          "rotation": 0.0
+        }
+      },
+      "placements": [
+        {
+          "designator": "J1",
+          "x": 250.0,
+          "y": 550.0,
+          "rotation": 270.0,
+          "layer": 1
+        },
+        {
+          "designator": "D1",
+          "x": 650.0,
+          "y": 550.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "series"
+        },
+        {
+          "designator": "C1",
+          "x": 1000.0,
+          "y": 550.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "bulk"
+        },
+        {
+          "designator": "U1",
+          "x": 1500.0,
+          "y": 1200.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "core"
+        },
+        {
+          "designator": "C2",
+          "x": 1546.84,
+          "y": 1500.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "cap"
+        },
+        {
+          "designator": "R4",
+          "x": 1600.0,
+          "y": 850.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "feedback"
+        },
+        {
+          "designator": "C4",
+          "x": 1300.0,
+          "y": 1900.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "filter"
+        },
+        {
+          "designator": "R2",
+          "x": 1000.0,
+          "y": 1950.0,
+          "rotation": 90.0,
+          "layer": 1,
+          "role": "bottom"
+        },
+        {
+          "designator": "LDR1",
+          "x": 700.0,
+          "y": 2100.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "sensor"
+        },
+        {
+          "designator": "Q1",
+          "x": 3000.0,
+          "y": 1400.0,
+          "rotation": 0.0,
+          "layer": 1
+        },
+        {
+          "designator": "R5",
+          "x": 1950.0,
+          "y": 1150.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "base_series"
+        },
+        {
+          "designator": "R6",
+          "x": 2700.0,
+          "y": 1200.0,
+          "rotation": 90.0,
+          "layer": 1,
+          "role": "base_pulldown"
+        },
+        {
+          "designator": "LED1",
+          "x": 3250.0,
+          "y": 1550.0,
+          "rotation": 180.0,
+          "layer": 1,
+          "role": "led"
+        },
+        {
+          "designator": "R7",
+          "x": 3050.0,
+          "y": 1900.0,
+          "rotation": 90.0,
+          "layer": 1,
+          "role": "led_resistor"
+        },
+        {
+          "designator": "C3",
+          "x": 2300,
+          "y": 500,
+          "rotation": 90,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "R1",
+          "x": 2250,
+          "y": 1250,
+          "rotation": 90,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "R3",
+          "x": 1900,
+          "y": 1450,
+          "rotation": 90,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "RV1",
+          "x": 2200,
+          "y": 1700,
+          "rotation": 0,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "U2",
+          "x": 2250,
+          "y": 900,
+          "rotation": 0,
+          "layer": 1,
+          "role": "reference"
+        }
+      ],
+      "hard_ok": true,
+      "hard_findings": [],
+      "constraint_report": {
+        "schema": "design-engine-pcb-placement/v1",
+        "status": "pass",
+        "hard_ok": true,
+        "findings": [],
+        "constraints": [
+          {
+            "constraint_id": "FIX-J1",
+            "type": "fixed",
+            "status": "pass",
+            "severity": "hard",
+            "actual": [
+              250.0,
+              550.0,
+              270.0,
+              1
+            ],
+            "expected": [
+              250.0,
+              550.0,
+              270.0,
+              1
+            ],
+            "source": "mechanical: 5V terminal at left edge; opening verified outward by pcb check"
+          },
+          {
+            "constraint_id": "EDGE-J1",
+            "type": "edge",
+            "status": "pass",
+            "severity": "hard",
+            "edge": "left",
+            "distance_mil": 87.51799999999992,
+            "max_inset_mil": 150.0,
+            "facing_ok": true,
+            "source": "5V terminal must be reachable at the left board edge"
+          },
+          {
+            "constraint_id": "NP-C2-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "hard",
+            "distance_mil": 150.0,
+            "max_mil": 200.0,
+            "min_mil": null,
+            "source": "LM358 VCC pin 8 supply bypass; 150 mil measured, power pour carries the return",
+            "role": "decap",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-C3-U2",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "preferred",
+            "distance_mil": 203.1,
+            "max_mil": 250.0,
+            "min_mil": null,
+            "source": "TL431 reference filter; 203 mil measured",
+            "role": "decap",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-R4-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "hard",
+            "distance_mil": 254.077,
+            "max_mil": 300.0,
+            "min_mil": null,
+            "source": "hysteresis feedback returns to U1.3; 254 mil measured",
+            "role": "feedback",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-R5-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "preferred",
+            "distance_mil": 405.814,
+            "max_mil": 900.0,
+            "min_mil": null,
+            "source": "comparator output to base drive; 406 mil measured",
+            "role": "drive",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-C1-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "preferred",
+            "distance_mil": 889.737,
+            "max_mil": 1200.0,
+            "min_mil": null,
+            "source": "bulk input capacitor to comparator supply; 890 mil measured",
+            "role": "bulk",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "ROT-U1",
+            "type": "allowed_rotation",
+            "status": "pass",
+            "severity": "preferred",
+            "actual": 0.0,
+            "allowed": [
+              0.0,
+              90.0,
+              180.0,
+              270.0
+            ],
+            "source": "DIP-8 orientation used by the verified schematic/PCB reference"
+          },
+          {
+            "constraint_id": "ROT-LED1",
+            "type": "allowed_rotation",
+            "status": "pass",
+            "severity": "preferred",
+            "actual": 180.0,
+            "allowed": [
+              0.0,
+              180.0
+            ],
+            "source": "LED polarity/visibility orientation"
+          },
+          {
+            "constraint_id": "GROUP-U1-C2",
+            "type": "group",
+            "status": "pass",
+            "severity": "preferred",
+            "spread_mil": 589.3499999999999,
+            "max_spread_mil": 600.0,
+            "source": "keep the supply bypass inside the comparator local cluster"
+          }
+        ],
+        "counts": {
+          "findings": 0,
+          "hard_findings": 0,
+          "constraint_rows": 10,
+          "hard_failed": 0,
+          "hard_unmeasured": 0
+        },
+        "measurement_note": "bbox/pad geometry from pcb dump; pad distances are centre distances, not copper paths"
+      },
+      "near_pin_failures": [],
+      "escape_blocked": [
+        {
+          "pad": "C1.1",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "D1"
+          ],
+          "corridor": [
+            829.02,
+            518.42,
+            992.1800000000001,
+            581.58
+          ]
+        },
+        {
+          "pad": "C2.2",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R3"
+          ],
+          "corridor": [
+            1707.72,
+            1464.02,
+            1879.68,
+            1535.98
+          ]
+        },
+        {
+          "pad": "C4.1",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R2"
+          ],
+          "corridor": [
+            967.22,
+            1864.02,
+            1139.18,
+            1935.98
+          ]
+        },
+        {
+          "pad": "D1.2",
+          "net": "VIN",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C1"
+          ],
+          "corridor": [
+            779.8699999999999,
+            508.57,
+            962.73,
+            591.4300000000001
+          ]
+        },
+        {
+          "pad": "D1.1",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "J1"
+          ],
+          "corridor": [
+            337.27,
+            508.57,
+            520.13,
+            591.4300000000001
+          ]
+        },
+        {
+          "pad": "J1.2",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "KO-MH-BL"
+          ],
+          "corridor": [
+            204.66999999999996,
+            306.27000000000004,
+            295.33,
+            496.93
+          ]
+        },
+        {
+          "pad": "Q1.3",
+          "net": "LED_K",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "LED1"
+          ],
+          "corridor": [
+            3012.52,
+            1362.52,
+            3187.48,
+            1437.48
+          ]
+        },
+        {
+          "pad": "R1.1",
+          "net": "VREF_2V5",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "U2"
+          ],
+          "corridor": [
+            2216.47,
+            909.77,
+            2283.53,
+            1076.83
+          ]
+        },
+        {
+          "pad": "R1.2",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "RV1"
+          ],
+          "corridor": [
+            2216.47,
+            1423.17,
+            2283.53,
+            1590.23
+          ]
+        },
+        {
+          "pad": "R3.1",
+          "net": "VTH_ADJ",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R5"
+          ],
+          "corridor": [
+            1866.47,
+            1109.77,
+            1933.53,
+            1276.83
+          ]
+        },
+        {
+          "pad": "R5.1",
+          "net": "LED_CTRL",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "U1"
+          ],
+          "corridor": [
+            1609.77,
+            1116.47,
+            1776.83,
+            1183.53
+          ]
+        },
+        {
+          "pad": "R5.2",
+          "net": "Q1_B",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R1"
+          ],
+          "corridor": [
+            2123.1699999999996,
+            1116.47,
+            2290.23,
+            1183.53
+          ]
+        },
+        {
+          "pad": "RV1.3",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R1"
+          ],
+          "corridor": [
+            2164.02,
+            1464.02,
+            2235.98,
+            1635.98
+          ]
+        },
+        {
+          "pad": "U1.8",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C2"
+          ],
+          "corridor": [
+            1308.07,
+            1308.07,
+            1391.93,
+            1491.93
+          ]
+        },
+        {
+          "pad": "U1.7",
+          "net": "U1B_TIE",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C2"
+          ],
+          "corridor": [
+            1408.07,
+            1308.07,
+            1491.93,
+            1491.93
+          ]
+        },
+        {
+          "pad": "U1.6",
+          "net": "U1B_TIE",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C2"
+          ],
+          "corridor": [
+            1508.07,
+            1308.07,
+            1591.93,
+            1491.93
+          ]
+        }
+      ],
+      "hpwl_mil": 18664.6,
+      "module_area_mil2": 3945153.678
+    },
+    {
+      "id": "density",
+      "strategy": "density",
+      "anchors": {
+        "power-input": {
+          "x": 401.8510000000001,
+          "y": 362.4820000000001,
+          "rotation": 0.0
+        },
+        "decoupling": {
+          "x": 2253.4465000000005,
+          "y": 385.92499999999995,
+          "rotation": 0.0
+        },
+        "sense-feedback": {
+          "x": 1095.6,
+          "y": 1798.6830000000002,
+          "rotation": 0.0
+        },
+        "driver": {
+          "x": 2914.098,
+          "y": 1832.6560000000002,
+          "rotation": 0.0
+        }
+      },
+      "placements": [
+        {
+          "designator": "J1",
+          "x": 401.8510000000001,
+          "y": 362.4820000000001,
+          "rotation": 0.0,
+          "layer": 1
+        },
+        {
+          "designator": "D1",
+          "x": 801.8510000000001,
+          "y": 362.4820000000001,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "series"
+        },
+        {
+          "designator": "C1",
+          "x": 1151.851,
+          "y": 362.4820000000001,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "bulk"
+        },
+        {
+          "designator": "U1",
+          "x": 1651.851,
+          "y": 1012.4820000000001,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "core"
+        },
+        {
+          "designator": "C2",
+          "x": 2300.2865000000006,
+          "y": 685.925,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "cap"
+        },
+        {
+          "designator": "R4",
+          "x": 1195.6,
+          "y": 1448.6830000000002,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "feedback"
+        },
+        {
+          "designator": "C4",
+          "x": 895.5999999999999,
+          "y": 2498.683,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "filter"
+        },
+        {
+          "designator": "R2",
+          "x": 595.5999999999999,
+          "y": 2548.683,
+          "rotation": 90.0,
+          "layer": 1,
+          "role": "bottom"
+        },
+        {
+          "designator": "LDR1",
+          "x": 295.5999999999999,
+          "y": 2698.683,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "sensor"
+        },
+        {
+          "designator": "Q1",
+          "x": 2914.098,
+          "y": 1832.6560000000002,
+          "rotation": 0.0,
+          "layer": 1
+        },
+        {
+          "designator": "R5",
+          "x": 1864.098,
+          "y": 1582.6560000000002,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "base_series"
+        },
+        {
+          "designator": "R6",
+          "x": 2614.098,
+          "y": 1632.6560000000002,
+          "rotation": 90.0,
+          "layer": 1,
+          "role": "base_pulldown"
+        },
+        {
+          "designator": "LED1",
+          "x": 3164.098,
+          "y": 1982.6560000000002,
+          "rotation": 180.0,
+          "layer": 1,
+          "role": "led"
+        },
+        {
+          "designator": "R7",
+          "x": 2964.098,
+          "y": 2332.656,
+          "rotation": 90.0,
+          "layer": 1,
+          "role": "led_resistor"
+        },
+        {
+          "designator": "C3",
+          "x": 2300,
+          "y": 500,
+          "rotation": 90,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "R1",
+          "x": 2250,
+          "y": 1250,
+          "rotation": 90,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "R3",
+          "x": 1900,
+          "y": 1450,
+          "rotation": 90,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "RV1",
+          "x": 2200,
+          "y": 1700,
+          "rotation": 0,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "U2",
+          "x": 2250,
+          "y": 900,
+          "rotation": 0,
+          "layer": 1,
+          "role": "reference"
+        }
+      ],
+      "hard_ok": false,
+      "hard_findings": [
+        {
+          "code": "outside_outline",
+          "severity": "hard",
+          "objects": [
+            "C4"
+          ],
+          "message": "component body is outside the board outline",
+          "evidence": {
+            "bbox": [
+              654.3789999999999,
+              2395.258,
+              1136.821,
+              2602.108
+            ],
+            "outline": [
+              0.0,
+              0.0,
+              3543.3,
+              2362.2
+            ]
+          }
+        },
+        {
+          "code": "pad_outside_outline",
+          "severity": "hard",
+          "objects": [
+            "C4.2"
+          ],
+          "message": "pad centre is outside the board outline",
+          "evidence": {}
+        },
+        {
+          "code": "pad_outside_outline",
+          "severity": "hard",
+          "objects": [
+            "C4.1"
+          ],
+          "message": "pad centre is outside the board outline",
+          "evidence": {}
+        },
+        {
+          "code": "outside_outline",
+          "severity": "hard",
+          "objects": [
+            "LDR1"
+          ],
+          "message": "component body is outside the board outline",
+          "evidence": {
+            "bbox": [
+              200.0,
+              2587.302439672182,
+              383.29999999999984,
+              2810.059413962696
+            ],
+            "outline": [
+              0.0,
+              0.0,
+              3543.3,
+              2362.2
+            ]
+          }
+        },
+        {
+          "code": "pad_outside_outline",
+          "severity": "hard",
+          "objects": [
+            "LDR1.2"
+          ],
+          "message": "pad centre is outside the board outline",
+          "evidence": {}
+        },
+        {
+          "code": "pad_outside_outline",
+          "severity": "hard",
+          "objects": [
+            "LDR1.1"
+          ],
+          "message": "pad centre is outside the board outline",
+          "evidence": {}
+        },
+        {
+          "code": "outside_outline",
+          "severity": "hard",
+          "objects": [
+            "R2"
+          ],
+          "message": "component body is outside the board outline",
+          "evidence": {
+            "bbox": [
+              545.3239999999998,
+              2314.434,
+              645.876,
+              2782.9320000000002
+            ],
+            "outline": [
+              0.0,
+              0.0,
+              3543.3,
+              2362.2
+            ]
+          }
+        },
+        {
+          "code": "pad_outside_outline",
+          "severity": "hard",
+          "objects": [
+            "R2.2"
+          ],
+          "message": "pad centre is outside the board outline",
+          "evidence": {}
+        },
+        {
+          "code": "outside_outline",
+          "severity": "hard",
+          "objects": [
+            "R7"
+          ],
+          "message": "component body is outside the board outline",
+          "evidence": {
+            "bbox": [
+              2913.822,
+              2098.407,
+              3014.374,
+              2566.905
+            ],
+            "outline": [
+              0.0,
+              0.0,
+              3543.3,
+              2362.2
+            ]
+          }
+        },
+        {
+          "code": "pad_outside_outline",
+          "severity": "hard",
+          "objects": [
+            "R7.2"
+          ],
+          "message": "pad centre is outside the board outline",
+          "evidence": {}
+        },
+        {
+          "code": "bbox_overlap",
+          "severity": "hard",
+          "objects": [
+            "C2",
+            "C3"
+          ],
+          "message": "same-side component bodies overlap",
+          "evidence": {
+            "first": [
+              2059.0655000000006,
+              582.5,
+              2541.5075000000006,
+              789.3499999999999
+            ],
+            "second": [
+              2196.575,
+              258.779,
+              2403.425,
+              741.221
+            ]
+          }
+        },
+        {
+          "code": "bbox_overlap",
+          "severity": "hard",
+          "objects": [
+            "D1",
+            "J1"
+          ],
+          "message": "same-side component bodies overlap",
+          "evidence": {
+            "first": [
+              595.1580000000001,
+              302.3640000000001,
+              1008.5530000000001,
+              422.60000000000014
+            ],
+            "second": [
+              199.99999999999997,
+              200.00000000000003,
+              622.4230000000002,
+              509.21400000000017
+            ]
+          }
+        },
+        {
+          "code": "bbox_overlap",
+          "severity": "hard",
+          "objects": [
+            "R3",
+            "R5"
+          ],
+          "message": "same-side component bodies overlap",
+          "evidence": {
+            "first": [
+              1849.724,
+              1215.751,
+              1950.276,
+              1684.249
+            ],
+            "second": [
+              1629.849,
+              1532.38,
+              2098.347,
+              1632.9320000000002
+            ]
+          }
+        },
+        {
+          "code": "bbox_overlap",
+          "severity": "hard",
+          "objects": [
+            "R5",
+            "RV1"
+          ],
+          "message": "same-side component bodies overlap",
+          "evidence": {
+            "first": [
+              1629.849,
+              1532.38,
+              2098.347,
+              1632.9320000000002
+            ],
+            "second": [
+              2087.362,
+              1505.0,
+              2307.362,
+              1895.0
+            ]
+          }
+        },
+        {
+          "code": "fixed_pose_changed",
+          "severity": "hard",
+          "objects": [
+            "J1"
+          ],
+          "message": "fixed part is not at the declared pose",
+          "evidence": {
+            "constraint_id": "FIX-J1",
+            "actual": [
+              401.8510000000001,
+              362.4820000000001,
+              0.0,
+              1
+            ],
+            "expected": [
+              250.0,
+              550.0,
+              270.0,
+              1
+            ]
+          }
+        },
+        {
+          "code": "edge_constraint_failed",
+          "severity": "hard",
+          "objects": [
+            "J1"
+          ],
+          "message": "part does not satisfy the declared edge/facing constraint",
+          "evidence": {
+            "constraint_id": "EDGE-J1",
+            "distance_mil": 199.99999999999997,
+            "max_inset_mil": 150.0,
+            "facing_ok": false
+          }
+        },
+        {
+          "code": "keepout_collision",
+          "severity": "hard",
+          "objects": [
+            "LED1"
+          ],
+          "message": "component intersects a declared keepout",
+          "evidence": {
+            "constraint_id": "KO-MH-TR",
+            "keepout": "KO-MH-TR"
+          }
+        },
+        {
+          "code": "keepout_collision",
+          "severity": "hard",
+          "objects": [
+            "J1"
+          ],
+          "message": "component intersects a declared keepout",
+          "evidence": {
+            "constraint_id": "KO-MH-BL",
+            "keepout": "KO-MH-BL"
+          }
+        },
+        {
+          "code": "near_pin_failed",
+          "severity": "hard",
+          "objects": [
+            "C2.1",
+            "U1.8"
+          ],
+          "message": "pad-centre distance violates the declared pin relation",
+          "evidence": {
+            "constraint_id": "NP-C2-U1",
+            "distance_mil": 767.4788074398217,
+            "max_mil": 200.0,
+            "min_mil": null
+          }
+        },
+        {
+          "code": "near_pin_failed",
+          "severity": "hard",
+          "objects": [
+            "R4.1",
+            "U1.3"
+          ],
+          "message": "pad-centre distance violates the declared pin relation",
+          "evidence": {
+            "constraint_id": "NP-R4-U1",
+            "distance_mil": 923.0009430125197,
+            "max_mil": 300.0,
+            "min_mil": null
+          }
+        },
+        {
+          "code": "group_spread_failed",
+          "severity": "hard",
+          "objects": [
+            "U1",
+            "C2"
+          ],
+          "message": "group spread exceeds the declared limit",
+          "evidence": {
+            "constraint_id": "GROUP-U1-C2",
+            "spread_mil": 1096.4720000000007
+          }
+        },
+        {
+          "code": "module_pose_conflict",
+          "severity": "hard",
+          "objects": [
+            "U1"
+          ],
+          "message": "shared part has two different poses across modules",
+          "evidence": {
+            "first": {
+              "designator": "U1",
+              "x": 1651.851,
+              "y": 1012.4820000000001,
+              "rotation": 0.0,
+              "layer": 1,
+              "role": "core"
+            },
+            "second": {
+              "designator": "U1",
+              "x": 2253.4465000000005,
+              "y": 385.92499999999995,
+              "rotation": 0.0,
+              "layer": 1
+            }
+          }
+        },
+        {
+          "code": "module_pose_conflict",
+          "severity": "hard",
+          "objects": [
+            "U1"
+          ],
+          "message": "shared part has two different poses across modules",
+          "evidence": {
+            "first": {
+              "designator": "U1",
+              "x": 1651.851,
+              "y": 1012.4820000000001,
+              "rotation": 0.0,
+              "layer": 1,
+              "role": "core"
+            },
+            "second": {
+              "designator": "U1",
+              "x": 1095.6,
+              "y": 1798.6830000000002,
+              "rotation": 0.0,
+              "layer": 1
+            }
+          }
+        }
+      ],
+      "constraint_report": {
+        "schema": "design-engine-pcb-placement/v1",
+        "status": "review",
+        "hard_ok": false,
+        "findings": [
+          {
+            "code": "outside_outline",
+            "severity": "hard",
+            "objects": [
+              "C4"
+            ],
+            "message": "component body is outside the board outline",
+            "evidence": {
+              "bbox": [
+                654.3789999999999,
+                2395.258,
+                1136.821,
+                2602.108
+              ],
+              "outline": [
+                0.0,
+                0.0,
+                3543.3,
+                2362.2
+              ]
+            }
+          },
+          {
+            "code": "pad_outside_outline",
+            "severity": "hard",
+            "objects": [
+              "C4.2"
+            ],
+            "message": "pad centre is outside the board outline",
+            "evidence": {}
+          },
+          {
+            "code": "pad_outside_outline",
+            "severity": "hard",
+            "objects": [
+              "C4.1"
+            ],
+            "message": "pad centre is outside the board outline",
+            "evidence": {}
+          },
+          {
+            "code": "outside_outline",
+            "severity": "hard",
+            "objects": [
+              "LDR1"
+            ],
+            "message": "component body is outside the board outline",
+            "evidence": {
+              "bbox": [
+                200.0,
+                2587.302439672182,
+                383.29999999999984,
+                2810.059413962696
+              ],
+              "outline": [
+                0.0,
+                0.0,
+                3543.3,
+                2362.2
+              ]
+            }
+          },
+          {
+            "code": "pad_outside_outline",
+            "severity": "hard",
+            "objects": [
+              "LDR1.2"
+            ],
+            "message": "pad centre is outside the board outline",
+            "evidence": {}
+          },
+          {
+            "code": "pad_outside_outline",
+            "severity": "hard",
+            "objects": [
+              "LDR1.1"
+            ],
+            "message": "pad centre is outside the board outline",
+            "evidence": {}
+          },
+          {
+            "code": "outside_outline",
+            "severity": "hard",
+            "objects": [
+              "R2"
+            ],
+            "message": "component body is outside the board outline",
+            "evidence": {
+              "bbox": [
+                545.3239999999998,
+                2314.434,
+                645.876,
+                2782.9320000000002
+              ],
+              "outline": [
+                0.0,
+                0.0,
+                3543.3,
+                2362.2
+              ]
+            }
+          },
+          {
+            "code": "pad_outside_outline",
+            "severity": "hard",
+            "objects": [
+              "R2.2"
+            ],
+            "message": "pad centre is outside the board outline",
+            "evidence": {}
+          },
+          {
+            "code": "outside_outline",
+            "severity": "hard",
+            "objects": [
+              "R7"
+            ],
+            "message": "component body is outside the board outline",
+            "evidence": {
+              "bbox": [
+                2913.822,
+                2098.407,
+                3014.374,
+                2566.905
+              ],
+              "outline": [
+                0.0,
+                0.0,
+                3543.3,
+                2362.2
+              ]
+            }
+          },
+          {
+            "code": "pad_outside_outline",
+            "severity": "hard",
+            "objects": [
+              "R7.2"
+            ],
+            "message": "pad centre is outside the board outline",
+            "evidence": {}
+          },
+          {
+            "code": "bbox_overlap",
+            "severity": "hard",
+            "objects": [
+              "C2",
+              "C3"
+            ],
+            "message": "same-side component bodies overlap",
+            "evidence": {
+              "first": [
+                2059.0655000000006,
+                582.5,
+                2541.5075000000006,
+                789.3499999999999
+              ],
+              "second": [
+                2196.575,
+                258.779,
+                2403.425,
+                741.221
+              ]
+            }
+          },
+          {
+            "code": "bbox_overlap",
+            "severity": "hard",
+            "objects": [
+              "D1",
+              "J1"
+            ],
+            "message": "same-side component bodies overlap",
+            "evidence": {
+              "first": [
+                595.1580000000001,
+                302.3640000000001,
+                1008.5530000000001,
+                422.60000000000014
+              ],
+              "second": [
+                199.99999999999997,
+                200.00000000000003,
+                622.4230000000002,
+                509.21400000000017
+              ]
+            }
+          },
+          {
+            "code": "bbox_overlap",
+            "severity": "hard",
+            "objects": [
+              "R3",
+              "R5"
+            ],
+            "message": "same-side component bodies overlap",
+            "evidence": {
+              "first": [
+                1849.724,
+                1215.751,
+                1950.276,
+                1684.249
+              ],
+              "second": [
+                1629.849,
+                1532.38,
+                2098.347,
+                1632.9320000000002
+              ]
+            }
+          },
+          {
+            "code": "bbox_overlap",
+            "severity": "hard",
+            "objects": [
+              "R5",
+              "RV1"
+            ],
+            "message": "same-side component bodies overlap",
+            "evidence": {
+              "first": [
+                1629.849,
+                1532.38,
+                2098.347,
+                1632.9320000000002
+              ],
+              "second": [
+                2087.362,
+                1505.0,
+                2307.362,
+                1895.0
+              ]
+            }
+          },
+          {
+            "code": "fixed_pose_changed",
+            "severity": "hard",
+            "objects": [
+              "J1"
+            ],
+            "message": "fixed part is not at the declared pose",
+            "evidence": {
+              "constraint_id": "FIX-J1",
+              "actual": [
+                401.8510000000001,
+                362.4820000000001,
+                0.0,
+                1
+              ],
+              "expected": [
+                250.0,
+                550.0,
+                270.0,
+                1
+              ]
+            }
+          },
+          {
+            "code": "edge_constraint_failed",
+            "severity": "hard",
+            "objects": [
+              "J1"
+            ],
+            "message": "part does not satisfy the declared edge/facing constraint",
+            "evidence": {
+              "constraint_id": "EDGE-J1",
+              "distance_mil": 199.99999999999997,
+              "max_inset_mil": 150.0,
+              "facing_ok": false
+            }
+          },
+          {
+            "code": "keepout_collision",
+            "severity": "hard",
+            "objects": [
+              "LED1"
+            ],
+            "message": "component intersects a declared keepout",
+            "evidence": {
+              "constraint_id": "KO-MH-TR",
+              "keepout": "KO-MH-TR"
+            }
+          },
+          {
+            "code": "keepout_collision",
+            "severity": "hard",
+            "objects": [
+              "J1"
+            ],
+            "message": "component intersects a declared keepout",
+            "evidence": {
+              "constraint_id": "KO-MH-BL",
+              "keepout": "KO-MH-BL"
+            }
+          },
+          {
+            "code": "near_pin_failed",
+            "severity": "hard",
+            "objects": [
+              "C2.1",
+              "U1.8"
+            ],
+            "message": "pad-centre distance violates the declared pin relation",
+            "evidence": {
+              "constraint_id": "NP-C2-U1",
+              "distance_mil": 767.4788074398217,
+              "max_mil": 200.0,
+              "min_mil": null
+            }
+          },
+          {
+            "code": "near_pin_failed",
+            "severity": "hard",
+            "objects": [
+              "R4.1",
+              "U1.3"
+            ],
+            "message": "pad-centre distance violates the declared pin relation",
+            "evidence": {
+              "constraint_id": "NP-R4-U1",
+              "distance_mil": 923.0009430125197,
+              "max_mil": 300.0,
+              "min_mil": null
+            }
+          },
+          {
+            "code": "group_spread_failed",
+            "severity": "hard",
+            "objects": [
+              "U1",
+              "C2"
+            ],
+            "message": "group spread exceeds the declared limit",
+            "evidence": {
+              "constraint_id": "GROUP-U1-C2",
+              "spread_mil": 1096.4720000000007
+            }
+          },
+          {
+            "code": "module_pose_conflict",
+            "severity": "hard",
+            "objects": [
+              "U1"
+            ],
+            "message": "shared part has two different poses across modules",
+            "evidence": {
+              "first": {
+                "designator": "U1",
+                "x": 1651.851,
+                "y": 1012.4820000000001,
+                "rotation": 0.0,
+                "layer": 1,
+                "role": "core"
+              },
+              "second": {
+                "designator": "U1",
+                "x": 2253.4465000000005,
+                "y": 385.92499999999995,
+                "rotation": 0.0,
+                "layer": 1
+              }
+            }
+          },
+          {
+            "code": "module_pose_conflict",
+            "severity": "hard",
+            "objects": [
+              "U1"
+            ],
+            "message": "shared part has two different poses across modules",
+            "evidence": {
+              "first": {
+                "designator": "U1",
+                "x": 1651.851,
+                "y": 1012.4820000000001,
+                "rotation": 0.0,
+                "layer": 1,
+                "role": "core"
+              },
+              "second": {
+                "designator": "U1",
+                "x": 1095.6,
+                "y": 1798.6830000000002,
+                "rotation": 0.0,
+                "layer": 1
+              }
+            }
+          }
+        ],
+        "constraints": [
+          {
+            "constraint_id": "FIX-J1",
+            "type": "fixed",
+            "status": "fail",
+            "severity": "hard",
+            "actual": [
+              401.8510000000001,
+              362.4820000000001,
+              0.0,
+              1
+            ],
+            "expected": [
+              250.0,
+              550.0,
+              270.0,
+              1
+            ],
+            "source": "mechanical: 5V terminal at left edge; opening verified outward by pcb check"
+          },
+          {
+            "constraint_id": "EDGE-J1",
+            "type": "edge",
+            "status": "fail",
+            "severity": "hard",
+            "edge": "left",
+            "distance_mil": 199.99999999999997,
+            "max_inset_mil": 150.0,
+            "facing_ok": false,
+            "source": "5V terminal must be reachable at the left board edge"
+          },
+          {
+            "constraint_id": "KO-MH-TR",
+            "type": "keepout",
+            "status": "fail",
+            "severity": "hard",
+            "object": "LED1",
+            "source": "pcb mount-holes M3 washer keep-out 118 mil"
+          },
+          {
+            "constraint_id": "KO-MH-BL",
+            "type": "keepout",
+            "status": "fail",
+            "severity": "hard",
+            "object": "J1",
+            "source": "pcb mount-holes M3 washer keep-out 118 mil"
+          },
+          {
+            "constraint_id": "NP-C2-U1",
+            "type": "near_pin",
+            "status": "fail",
+            "severity": "hard",
+            "distance_mil": 767.479,
+            "max_mil": 200.0,
+            "min_mil": null,
+            "source": "LM358 VCC pin 8 supply bypass; 150 mil measured, power pour carries the return",
+            "role": "decap",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-C3-U2",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "preferred",
+            "distance_mil": 203.1,
+            "max_mil": 250.0,
+            "min_mil": null,
+            "source": "TL431 reference filter; 203 mil measured",
+            "role": "decap",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-R4-U1",
+            "type": "near_pin",
+            "status": "fail",
+            "severity": "hard",
+            "distance_mil": 923.001,
+            "max_mil": 300.0,
+            "min_mil": null,
+            "source": "hysteresis feedback returns to U1.3; 254 mil measured",
+            "role": "feedback",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-R5-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "preferred",
+            "distance_mil": 736.78,
+            "max_mil": 900.0,
+            "min_mil": null,
+            "source": "comparator output to base drive; 406 mil measured",
+            "role": "drive",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-C1-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "preferred",
+            "distance_mil": 889.737,
+            "max_mil": 1200.0,
+            "min_mil": null,
+            "source": "bulk input capacitor to comparator supply; 890 mil measured",
+            "role": "bulk",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "ROT-U1",
+            "type": "allowed_rotation",
+            "status": "pass",
+            "severity": "preferred",
+            "actual": 0.0,
+            "allowed": [
+              0.0,
+              90.0,
+              180.0,
+              270.0
+            ],
+            "source": "DIP-8 orientation used by the verified schematic/PCB reference"
+          },
+          {
+            "constraint_id": "ROT-LED1",
+            "type": "allowed_rotation",
+            "status": "pass",
+            "severity": "preferred",
+            "actual": 180.0,
+            "allowed": [
+              0.0,
+              180.0
+            ],
+            "source": "LED polarity/visibility orientation"
+          },
+          {
+            "constraint_id": "GROUP-U1-C2",
+            "type": "group",
+            "status": "fail",
+            "severity": "preferred",
+            "spread_mil": 1096.4720000000007,
+            "max_spread_mil": 600.0,
+            "source": "keep the supply bypass inside the comparator local cluster"
+          }
+        ],
+        "counts": {
+          "findings": 21,
+          "hard_findings": 23,
+          "constraint_rows": 12,
+          "hard_failed": 6,
+          "hard_unmeasured": 0
+        },
+        "measurement_note": "bbox/pad geometry from pcb dump; pad distances are centre distances, not copper paths"
+      },
+      "near_pin_failures": [
+        {
+          "constraint_id": "NP-C2-U1",
+          "type": "near_pin",
+          "status": "fail",
+          "severity": "hard",
+          "distance_mil": 767.479,
+          "max_mil": 200.0,
+          "min_mil": null,
+          "source": "LM358 VCC pin 8 supply bypass; 150 mil measured, power pour carries the return",
+          "role": "decap",
+          "measurement": "pad-centre-euclidean",
+          "copper_path_verified": false
+        },
+        {
+          "constraint_id": "NP-R4-U1",
+          "type": "near_pin",
+          "status": "fail",
+          "severity": "hard",
+          "distance_mil": 923.001,
+          "max_mil": 300.0,
+          "min_mil": null,
+          "source": "hysteresis feedback returns to U1.3; 254 mil measured",
+          "role": "feedback",
+          "measurement": "pad-centre-euclidean",
+          "copper_path_verified": false
+        }
+      ],
+      "escape_blocked": [
+        {
+          "pad": "C1.1",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "D1"
+          ],
+          "corridor": [
+            980.871,
+            330.9020000000001,
+            1144.031,
+            394.06200000000007
+          ]
+        },
+        {
+          "pad": "C3.2",
+          "net": "VREF_2V5",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C2"
+          ],
+          "corridor": [
+            2264.02,
+            660.92,
+            2335.98,
+            832.88
+          ]
+        },
+        {
+          "pad": "C4.2",
+          "net": "LDR_SIG",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "board_edge"
+          ],
+          "corridor": [
+            1056.52,
+            2462.703,
+            1228.48,
+            2534.663
+          ]
+        },
+        {
+          "pad": "C4.1",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R2",
+            "board_edge"
+          ],
+          "corridor": [
+            562.8199999999999,
+            2462.703,
+            734.78,
+            2534.663
+          ]
+        },
+        {
+          "pad": "D1.2",
+          "net": "VIN",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C1"
+          ],
+          "corridor": [
+            931.721,
+            321.0520000000001,
+            1114.5810000000001,
+            403.9120000000001
+          ]
+        },
+        {
+          "pad": "D1.1",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "J1"
+          ],
+          "corridor": [
+            489.12100000000015,
+            321.0520000000001,
+            671.9810000000002,
+            403.9120000000001
+          ]
+        },
+        {
+          "pad": "J1.2",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "D1"
+          ],
+          "corridor": [
+            454.9210000000001,
+            317.1520000000001,
+            645.5810000000001,
+            407.81200000000007
+          ]
+        },
+        {
+          "pad": "LDR1.2",
+          "net": "VREF_2V5",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "board_edge"
+          ],
+          "corridor": [
+            259.6199999999999,
+            2495.803,
+            331.5799999999999,
+            2667.763
+          ]
+        },
+        {
+          "pad": "LDR1.1",
+          "net": "LDR_SIG",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "board_edge"
+          ],
+          "corridor": [
+            259.6199999999999,
+            2729.603,
+            331.5799999999999,
+            2901.563
+          ]
+        },
+        {
+          "pad": "Q1.3",
+          "net": "LED_K",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "LED1"
+          ],
+          "corridor": [
+            2926.618,
+            1795.1760000000002,
+            3101.578,
+            1870.1360000000002
+          ]
+        },
+        {
+          "pad": "R1.1",
+          "net": "VREF_2V5",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "U2"
+          ],
+          "corridor": [
+            2216.47,
+            909.77,
+            2283.53,
+            1076.83
+          ]
+        },
+        {
+          "pad": "R1.2",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "RV1"
+          ],
+          "corridor": [
+            2216.47,
+            1423.17,
+            2283.53,
+            1590.23
+          ]
+        },
+        {
+          "pad": "R2.1",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "board_edge"
+          ],
+          "corridor": [
+            562.0699999999999,
+            2208.453,
+            629.1299999999999,
+            2375.5130000000004
+          ]
+        },
+        {
+          "pad": "R2.2",
+          "net": "LDR_SIG",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "board_edge"
+          ],
+          "corridor": [
+            562.0699999999999,
+            2721.8529999999996,
+            629.1299999999999,
+            2888.913
+          ]
+        },
+        {
+          "pad": "R3.2",
+          "net": "VTH",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R5"
+          ],
+          "corridor": [
+            1866.47,
+            1623.17,
+            1933.53,
+            1790.23
+          ]
+        },
+        {
+          "pad": "R5.2",
+          "net": "Q1_B",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "RV1"
+          ],
+          "corridor": [
+            2037.2679999999998,
+            1549.1260000000002,
+            2204.328,
+            1616.1860000000001
+          ]
+        },
+        {
+          "pad": "R7.2",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "board_edge"
+          ],
+          "corridor": [
+            2930.5679999999998,
+            2505.8259999999996,
+            2997.628,
+            2672.886
+          ]
+        },
+        {
+          "pad": "RV1.3",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R1"
+          ],
+          "corridor": [
+            2164.02,
+            1464.02,
+            2235.98,
+            1635.98
+          ]
+        },
+        {
+          "pad": "U2.2",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C2"
+          ],
+          "corridor": [
+            2212.52,
+            762.52,
+            2287.48,
+            937.48
+          ]
+        }
+      ],
+      "hpwl_mil": 22218.676,
+      "module_area_mil2": 3945153.678
+    },
+    {
+      "id": "mechanical",
+      "strategy": "mechanical",
+      "anchors": {
+        "power-input": {
+          "x": 250.0,
+          "y": 550.0,
+          "rotation": 270.0
+        },
+        "decoupling": {
+          "x": 1500.0,
+          "y": 1200.0,
+          "rotation": 0.0
+        },
+        "sense-feedback": {
+          "x": 1500.0,
+          "y": 1200.0,
+          "rotation": 0.0
+        },
+        "driver": {
+          "x": 3000.0,
+          "y": 1400.0,
+          "rotation": 0.0
+        }
+      },
+      "placements": [
+        {
+          "designator": "J1",
+          "x": 250.0,
+          "y": 550.0,
+          "rotation": 270.0,
+          "layer": 1
+        },
+        {
+          "designator": "D1",
+          "x": 650.0,
+          "y": 550.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "series"
+        },
+        {
+          "designator": "C1",
+          "x": 1000.0,
+          "y": 550.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "bulk"
+        },
+        {
+          "designator": "U1",
+          "x": 1500.0,
+          "y": 1200.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "core"
+        },
+        {
+          "designator": "C2",
+          "x": 1546.84,
+          "y": 1500.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "cap"
+        },
+        {
+          "designator": "R4",
+          "x": 1600.0,
+          "y": 850.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "feedback"
+        },
+        {
+          "designator": "C4",
+          "x": 1300.0,
+          "y": 1900.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "filter"
+        },
+        {
+          "designator": "R2",
+          "x": 1000.0,
+          "y": 1950.0,
+          "rotation": 90.0,
+          "layer": 1,
+          "role": "bottom"
+        },
+        {
+          "designator": "LDR1",
+          "x": 700.0,
+          "y": 2100.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "sensor"
+        },
+        {
+          "designator": "Q1",
+          "x": 3000.0,
+          "y": 1400.0,
+          "rotation": 0.0,
+          "layer": 1
+        },
+        {
+          "designator": "R5",
+          "x": 1950.0,
+          "y": 1150.0,
+          "rotation": 0.0,
+          "layer": 1,
+          "role": "base_series"
+        },
+        {
+          "designator": "R6",
+          "x": 2700.0,
+          "y": 1200.0,
+          "rotation": 90.0,
+          "layer": 1,
+          "role": "base_pulldown"
+        },
+        {
+          "designator": "LED1",
+          "x": 3250.0,
+          "y": 1550.0,
+          "rotation": 180.0,
+          "layer": 1,
+          "role": "led"
+        },
+        {
+          "designator": "R7",
+          "x": 3050.0,
+          "y": 1900.0,
+          "rotation": 90.0,
+          "layer": 1,
+          "role": "led_resistor"
+        },
+        {
+          "designator": "C3",
+          "x": 2300,
+          "y": 500,
+          "rotation": 90,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "R1",
+          "x": 2250,
+          "y": 1250,
+          "rotation": 90,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "R3",
+          "x": 1900,
+          "y": 1450,
+          "rotation": 90,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "RV1",
+          "x": 2200,
+          "y": 1700,
+          "rotation": 0,
+          "layer": 1,
+          "role": "reference"
+        },
+        {
+          "designator": "U2",
+          "x": 2250,
+          "y": 900,
+          "rotation": 0,
+          "layer": 1,
+          "role": "reference"
+        }
+      ],
+      "hard_ok": true,
+      "hard_findings": [],
+      "constraint_report": {
+        "schema": "design-engine-pcb-placement/v1",
+        "status": "pass",
+        "hard_ok": true,
+        "findings": [],
+        "constraints": [
+          {
+            "constraint_id": "FIX-J1",
+            "type": "fixed",
+            "status": "pass",
+            "severity": "hard",
+            "actual": [
+              250.0,
+              550.0,
+              270.0,
+              1
+            ],
+            "expected": [
+              250.0,
+              550.0,
+              270.0,
+              1
+            ],
+            "source": "mechanical: 5V terminal at left edge; opening verified outward by pcb check"
+          },
+          {
+            "constraint_id": "EDGE-J1",
+            "type": "edge",
+            "status": "pass",
+            "severity": "hard",
+            "edge": "left",
+            "distance_mil": 87.51799999999992,
+            "max_inset_mil": 150.0,
+            "facing_ok": true,
+            "source": "5V terminal must be reachable at the left board edge"
+          },
+          {
+            "constraint_id": "NP-C2-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "hard",
+            "distance_mil": 150.0,
+            "max_mil": 200.0,
+            "min_mil": null,
+            "source": "LM358 VCC pin 8 supply bypass; 150 mil measured, power pour carries the return",
+            "role": "decap",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-C3-U2",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "preferred",
+            "distance_mil": 203.1,
+            "max_mil": 250.0,
+            "min_mil": null,
+            "source": "TL431 reference filter; 203 mil measured",
+            "role": "decap",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-R4-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "hard",
+            "distance_mil": 254.077,
+            "max_mil": 300.0,
+            "min_mil": null,
+            "source": "hysteresis feedback returns to U1.3; 254 mil measured",
+            "role": "feedback",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-R5-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "preferred",
+            "distance_mil": 405.814,
+            "max_mil": 900.0,
+            "min_mil": null,
+            "source": "comparator output to base drive; 406 mil measured",
+            "role": "drive",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "NP-C1-U1",
+            "type": "near_pin",
+            "status": "pass",
+            "severity": "preferred",
+            "distance_mil": 889.737,
+            "max_mil": 1200.0,
+            "min_mil": null,
+            "source": "bulk input capacitor to comparator supply; 890 mil measured",
+            "role": "bulk",
+            "measurement": "pad-centre-euclidean",
+            "copper_path_verified": false
+          },
+          {
+            "constraint_id": "ROT-U1",
+            "type": "allowed_rotation",
+            "status": "pass",
+            "severity": "preferred",
+            "actual": 0.0,
+            "allowed": [
+              0.0,
+              90.0,
+              180.0,
+              270.0
+            ],
+            "source": "DIP-8 orientation used by the verified schematic/PCB reference"
+          },
+          {
+            "constraint_id": "ROT-LED1",
+            "type": "allowed_rotation",
+            "status": "pass",
+            "severity": "preferred",
+            "actual": 180.0,
+            "allowed": [
+              0.0,
+              180.0
+            ],
+            "source": "LED polarity/visibility orientation"
+          },
+          {
+            "constraint_id": "GROUP-U1-C2",
+            "type": "group",
+            "status": "pass",
+            "severity": "preferred",
+            "spread_mil": 589.3499999999999,
+            "max_spread_mil": 600.0,
+            "source": "keep the supply bypass inside the comparator local cluster"
+          }
+        ],
+        "counts": {
+          "findings": 0,
+          "hard_findings": 0,
+          "constraint_rows": 10,
+          "hard_failed": 0,
+          "hard_unmeasured": 0
+        },
+        "measurement_note": "bbox/pad geometry from pcb dump; pad distances are centre distances, not copper paths"
+      },
+      "near_pin_failures": [],
+      "escape_blocked": [
+        {
+          "pad": "C1.1",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "D1"
+          ],
+          "corridor": [
+            829.02,
+            518.42,
+            992.1800000000001,
+            581.58
+          ]
+        },
+        {
+          "pad": "C2.2",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R3"
+          ],
+          "corridor": [
+            1707.72,
+            1464.02,
+            1879.68,
+            1535.98
+          ]
+        },
+        {
+          "pad": "C4.1",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R2"
+          ],
+          "corridor": [
+            967.22,
+            1864.02,
+            1139.18,
+            1935.98
+          ]
+        },
+        {
+          "pad": "D1.2",
+          "net": "VIN",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C1"
+          ],
+          "corridor": [
+            779.8699999999999,
+            508.57,
+            962.73,
+            591.4300000000001
+          ]
+        },
+        {
+          "pad": "D1.1",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "J1"
+          ],
+          "corridor": [
+            337.27,
+            508.57,
+            520.13,
+            591.4300000000001
+          ]
+        },
+        {
+          "pad": "J1.2",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "KO-MH-BL"
+          ],
+          "corridor": [
+            204.66999999999996,
+            306.27000000000004,
+            295.33,
+            496.93
+          ]
+        },
+        {
+          "pad": "Q1.3",
+          "net": "LED_K",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "LED1"
+          ],
+          "corridor": [
+            3012.52,
+            1362.52,
+            3187.48,
+            1437.48
+          ]
+        },
+        {
+          "pad": "R1.1",
+          "net": "VREF_2V5",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "U2"
+          ],
+          "corridor": [
+            2216.47,
+            909.77,
+            2283.53,
+            1076.83
+          ]
+        },
+        {
+          "pad": "R1.2",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "RV1"
+          ],
+          "corridor": [
+            2216.47,
+            1423.17,
+            2283.53,
+            1590.23
+          ]
+        },
+        {
+          "pad": "R3.1",
+          "net": "VTH_ADJ",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R5"
+          ],
+          "corridor": [
+            1866.47,
+            1109.77,
+            1933.53,
+            1276.83
+          ]
+        },
+        {
+          "pad": "R5.1",
+          "net": "LED_CTRL",
+          "status": "blocked",
+          "direction": [
+            -1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "U1"
+          ],
+          "corridor": [
+            1609.77,
+            1116.47,
+            1776.83,
+            1183.53
+          ]
+        },
+        {
+          "pad": "R5.2",
+          "net": "Q1_B",
+          "status": "blocked",
+          "direction": [
+            1.0,
+            0.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R1"
+          ],
+          "corridor": [
+            2123.1699999999996,
+            1116.47,
+            2290.23,
+            1183.53
+          ]
+        },
+        {
+          "pad": "RV1.3",
+          "net": "GND",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            -1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "R1"
+          ],
+          "corridor": [
+            2164.02,
+            1464.02,
+            2235.98,
+            1635.98
+          ]
+        },
+        {
+          "pad": "U1.8",
+          "net": "+5V",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C2"
+          ],
+          "corridor": [
+            1308.07,
+            1308.07,
+            1391.93,
+            1491.93
+          ]
+        },
+        {
+          "pad": "U1.7",
+          "net": "U1B_TIE",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C2"
+          ],
+          "corridor": [
+            1408.07,
+            1308.07,
+            1491.93,
+            1491.93
+          ]
+        },
+        {
+          "pad": "U1.6",
+          "net": "U1B_TIE",
+          "status": "blocked",
+          "direction": [
+            0.0,
+            1.0
+          ],
+          "length_mil": 100.0,
+          "blockers": [
+            "C2"
+          ],
+          "corridor": [
+            1508.07,
+            1308.07,
+            1591.93,
+            1491.93
+          ]
+        }
+      ],
+      "hpwl_mil": 18664.6,
+      "module_area_mil2": 3945153.678
+    }
+  ],
+  "comparison": [
+    {
+      "id": "signal-chain",
+      "strategy": "signal-chain",
+      "hard_ok": true,
+      "hard_findings": [],
+      "near_pin_failures": 0,
+      "escape_blocked": 16,
+      "hpwl_mil": 18664.6,
+      "module_area_mil2": 3945153.678,
+      "changed_parts": [
+        "C1",
+        "C2",
+        "C4",
+        "D1",
+        "J1",
+        "LDR1",
+        "LED1",
+        "Q1",
+        "R2",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "U1"
+      ]
+    },
+    {
+      "id": "density",
+      "strategy": "density",
+      "hard_ok": false,
+      "hard_findings": [
+        "outside_outline",
+        "pad_outside_outline",
+        "pad_outside_outline",
+        "outside_outline",
+        "pad_outside_outline",
+        "pad_outside_outline",
+        "outside_outline",
+        "pad_outside_outline",
+        "outside_outline",
+        "pad_outside_outline",
+        "bbox_overlap",
+        "bbox_overlap",
+        "bbox_overlap",
+        "bbox_overlap",
+        "fixed_pose_changed",
+        "edge_constraint_failed",
+        "keepout_collision",
+        "keepout_collision",
+        "near_pin_failed",
+        "near_pin_failed",
+        "group_spread_failed",
+        "module_pose_conflict",
+        "module_pose_conflict"
+      ],
+      "near_pin_failures": 2,
+      "escape_blocked": 19,
+      "hpwl_mil": 22218.676,
+      "module_area_mil2": 3945153.678,
+      "changed_parts": [
+        "C1",
+        "C2",
+        "C4",
+        "D1",
+        "J1",
+        "LDR1",
+        "LED1",
+        "Q1",
+        "R2",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "U1"
+      ]
+    },
+    {
+      "id": "mechanical",
+      "strategy": "mechanical",
+      "hard_ok": true,
+      "hard_findings": [],
+      "near_pin_failures": 0,
+      "escape_blocked": 16,
+      "hpwl_mil": 18664.6,
+      "module_area_mil2": 3945153.678,
+      "changed_parts": [
+        "C1",
+        "C2",
+        "C4",
+        "D1",
+        "J1",
+        "LDR1",
+        "LED1",
+        "Q1",
+        "R2",
+        "R4",
+        "R5",
+        "R6",
+        "R7",
+        "U1"
+      ]
+    }
+  ],
+  "budget": {
+    "strategies": 3,
+    "evaluated": 3,
+    "exhausted": false
+  },
+  "selection_rule": "hard legality -> near-pin failures -> blocked escapes -> HPWL -> module area; no weighted total",
+  "note": "a candidate is a plan only; it must be applied with typed pcb modify and re-read"
+}

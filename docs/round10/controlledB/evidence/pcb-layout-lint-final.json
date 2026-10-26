@@ -1,0 +1,81 @@
+{
+  "report": {
+    "ok": true,
+    "incomplete": false,
+    "coverage": {
+      "complete": true,
+      "componentsInventoryKnown": true,
+      "padsInventoryKnown": true,
+      "componentCount": 24,
+      "totalPads": 114,
+      "knownGeometryPads": 114,
+      "unsupportedGeometryPads": 0,
+      "unknownGeometryPads": 0,
+      "legacyGeometryPads": 0
+    },
+    "score": 68,
+    "verdict": "moderate",
+    "componentCount": 24,
+    "minGapMil": 5.98,
+    "overlaps": null,
+    "outsideOutline": null,
+    "tightSpacing": null,
+    "sides": {
+      "top": 24
+    },
+    "signalNets": 11,
+    "ratsnestLenMil": 8044.5,
+    "crossingCount": 8,
+    "crossings": [
+      {
+        "netA": "BOOT",
+        "netB": "EN",
+        "x": 394.76,
+        "y": 776.02
+      },
+      {
+        "netA": "I2C_SCL",
+        "netB": "I2C_SDA",
+        "x": 288.53,
+        "y": 1314.94
+      },
+      {
+        "netA": "I2C_SCL",
+        "netB": "I2C_SDA",
+        "x": 833.33,
+        "y": 1089.8
+      },
+      {
+        "netA": "USB_DM_CONN",
+        "netB": "USB_DP_CONN",
+        "x": 2281.56,
+        "y": 762.53
+      },
+      {
+        "netA": "USB_DM_CONN",
+        "netB": "USB_DP_CONN",
+        "x": 2158.44,
+        "y": 667.22
+      },
+      {
+        "netA": "USB_DM_CONN",
+        "netB": "VBUS_5V",
+        "x": 2221.43,
+        "y": 715.98
+      },
+      {
+        "netA": "USB_DP_CONN",
+        "netB": "VBUS_5V",
+        "x": 1955.48,
+        "y": 712.16
+      },
+      {
+        "netA": "USB_DP_CONN",
+        "netB": "VBUS_5V",
+        "x": 2219.82,
+        "y": 653.63
+      }
+    ],
+    "summary": "score 68/100 (moderate): 24 comps, 0 short, 0 overlap, 0 off-board, 0 tight; 11 signal nets, ratsnest 8044mil, 8 crossings"
+  }
+}

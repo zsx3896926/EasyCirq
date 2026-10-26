@@ -1,0 +1,1 @@
+✅ 24 component(s), outline=polygon → C:\Users\jlc\work\hds-pcb-round9\docs\round10\controlledB\evidence\pcb-dump-after-reload.json

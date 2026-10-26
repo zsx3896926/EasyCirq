@@ -1,0 +1,18 @@
+{
+  "schema": "design-engine-pcb-diff/v1",
+  "status": "match",
+  "identity_changes": [],
+  "geometry_changes": [],
+  "copper_changes": [],
+  "unrelated_changes": [],
+  "copper_geometry_changes": [],
+  "counts": {
+    "identity": 0,
+    "geometry": 0,
+    "copper": 0,
+    "unrelated": 0,
+    "copper_geometry": 0
+  },
+  "scope": {},
+  "note": "primitiveId is not stable across document reload; compare identity and geometry, not IDs alone"
+}

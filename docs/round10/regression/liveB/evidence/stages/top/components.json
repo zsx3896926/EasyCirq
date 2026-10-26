@@ -1,0 +1,4366 @@
+{
+  "components": [
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2137.402,
+        "maxY": 172.671,
+        "minX": 2062.598,
+        "minY": 127.32900000000001
+      },
+      "captureErrors": {},
+      "designator": "C1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "CL05B104KO5NNNC",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "f3b97f0c5b221395e17",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.7,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.7,
+          "x": 2116.5,
+          "y": 150
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "f3b97f0c5b221395e18",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.7,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.7,
+          "x": 2083.5,
+          "y": 150
+        }
+      ],
+      "primitiveId": "f3b97f0c5b221395",
+      "rotation": 0,
+      "supplierId": "C1525",
+      "uniqueId": "gge15",
+      "x": 2100,
+      "y": 150
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2030.307,
+        "maxY": 738.575,
+        "minX": 1869.693,
+        "minY": 661.425
+      },
+      "captureErrors": {},
+      "designator": "C2",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "GRM21BR61H106KE43L",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 53.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "d0258e32fb7cc1cee15",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            55.5,
+            53.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.5,
+          "x": 1989.4,
+          "y": 700
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 53.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "VBUS_5V",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "d0258e32fb7cc1cee16",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            55.5,
+            53.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.5,
+          "x": 1910.6,
+          "y": 700
+        }
+      ],
+      "primitiveId": "d0258e32fb7cc1ce",
+      "rotation": 0,
+      "supplierId": "C440198",
+      "uniqueId": "gge13",
+      "x": 1950,
+      "y": 700
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2030.307,
+        "maxY": 288.57500000000005,
+        "minX": 1869.693,
+        "minY": 211.42499999999998
+      },
+      "captureErrors": {},
+      "designator": "C3",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "CL21A226MAQNNNE",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 53.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "22d8f4d1b1c88400e15",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            55.5,
+            53.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.5,
+          "x": 1989.4,
+          "y": 250
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 53.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "22d8f4d1b1c88400e16",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            55.5,
+            53.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.5,
+          "x": 1910.6,
+          "y": 250
+        }
+      ],
+      "primitiveId": "22d8f4d1b1c88400",
+      "rotation": 0,
+      "supplierId": "C45783",
+      "uniqueId": "gge14",
+      "x": 1950,
+      "y": 250
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1460.307,
+        "maxY": 288.57500000000005,
+        "minX": 1299.693,
+        "minY": 211.42499999999998
+      },
+      "captureErrors": {},
+      "designator": "C4",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "GRM21BR61H106KE43L",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 53.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "cf1f3f0f451798dee15",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            55.5,
+            53.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.5,
+          "x": 1419.4,
+          "y": 250
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 53.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "cf1f3f0f451798dee16",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            55.5,
+            53.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.5,
+          "x": 1340.6,
+          "y": 250
+        }
+      ],
+      "primitiveId": "cf1f3f0f451798de",
+      "rotation": 0,
+      "supplierId": "C440198",
+      "uniqueId": "gge21",
+      "x": 1380,
+      "y": 250
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1387.4019999999998,
+        "maxY": 372.671,
+        "minX": 1312.5980000000002,
+        "minY": 327.329
+      },
+      "captureErrors": {},
+      "designator": "C5",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "CL05A105KA5NQNC",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "7010b74b28e833ffe17",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.7,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.7,
+          "x": 1366.5,
+          "y": 350
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "EN",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "7010b74b28e833ffe18",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.7,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.7,
+          "x": 1333.5,
+          "y": 350
+        }
+      ],
+      "primitiveId": "7010b74b28e833ff",
+      "rotation": 0,
+      "supplierId": "C52923",
+      "uniqueId": "gge17",
+      "x": 1350,
+      "y": 350
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1397.4019999999998,
+        "maxY": 472.671,
+        "minX": 1322.5980000000002,
+        "minY": 427.329
+      },
+      "captureErrors": {},
+      "designator": "C6",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "CL05B104KO5NNNC",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "c297de670109cefae17",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.7,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.7,
+          "x": 1376.5,
+          "y": 450
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "c297de670109cefae18",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.7,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.7,
+          "x": 1343.5,
+          "y": 450
+        }
+      ],
+      "primitiveId": "c297de670109cefa",
+      "rotation": 0,
+      "supplierId": "C1525",
+      "uniqueId": "gge18",
+      "x": 1360,
+      "y": 450
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 459.7250000410136,
+        "maxY": 1452.957,
+        "minX": 340.27899983599895,
+        "minY": 1387.046
+      },
+      "captureErrors": {},
+      "designator": "C90",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "CC0603KRX7R9BB104",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "86bf8ce976f7345ce14",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            31.5,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 31.5,
+          "x": 427.6,
+          "y": 1420
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "86bf8ce976f7345ce15",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            31.5,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 31.5,
+          "x": 372.4,
+          "y": 1420
+        }
+      ],
+      "primitiveId": "86bf8ce976f7345c",
+      "rotation": 0,
+      "supplierId": "C14663",
+      "uniqueId": "gge2",
+      "x": 400,
+      "y": 1420
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2179.9610000000002,
+        "maxY": 672.086,
+        "minX": 2120.038,
+        "minY": 627.914
+      },
+      "captureErrors": {},
+      "designator": "D1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "ESD5311N-2/TR",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 27.6,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "a83f6b9c38241face5",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            15.7,
+            27.6,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 15.7,
+          "x": 2163.8,
+          "y": 650
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 27.6,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DM_CONN",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "a83f6b9c38241face6",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            15.7,
+            27.6,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 15.7,
+          "x": 2136.2,
+          "y": 650
+        }
+      ],
+      "primitiveId": "a83f6b9c38241fac",
+      "rotation": 0,
+      "supplierId": "C153721",
+      "uniqueId": "gge7",
+      "x": 2150,
+      "y": 650
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2279.9610000000002,
+        "maxY": 672.086,
+        "minX": 2220.038,
+        "minY": 627.914
+      },
+      "captureErrors": {},
+      "designator": "D2",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "ESD5311N-2/TR",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 27.6,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "2c71ff646a2a5691e5",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            15.7,
+            27.6,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 15.7,
+          "x": 2263.8,
+          "y": 650
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 27.6,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DP_CONN",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "2c71ff646a2a5691e6",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            15.7,
+            27.6,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 15.7,
+          "x": 2236.2,
+          "y": 650
+        }
+      ],
+      "primitiveId": "2c71ff646a2a5691",
+      "rotation": 0,
+      "supplierId": "C153721",
+      "uniqueId": "gge8",
+      "x": 2250,
+      "y": 650
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2557.0115,
+        "maxY": 1092.656,
+        "minX": 2082.9885,
+        "minY": 741.202
+      },
+      "captureErrors": {},
+      "designator": "J1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "USB3.1TYPE-C16P",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "A1B12",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade13",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            21.7,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 21.700000000000006,
+          "x": 2447,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "B1A12",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade14",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            21.7,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 21.700000000000006,
+          "x": 2193,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "VBUS_5V",
+          "padNumber": "A4B9",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade15",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            21.7,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 21.700000000000006,
+          "x": 2416.9,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "VBUS_5V",
+          "padNumber": "B4A9",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade16",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            21.7,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 21.700000000000006,
+          "x": 2223.2,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "B8",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade17",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            11.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 11.800000000000008,
+          "x": 2388.9,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "CC1",
+          "padNumber": "A5",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade18",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            11.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 11.800000000000008,
+          "x": 2369.2,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DM_CONN",
+          "padNumber": "B7",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade19",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            11.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 11.800000000000008,
+          "x": 2349.5,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DP_CONN",
+          "padNumber": "A6",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade20",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            11.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 11.800000000000008,
+          "x": 2329.8,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "CC2",
+          "padNumber": "B5",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade21",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            11.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 11.800000000000008,
+          "x": 2251.1,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "A8",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade22",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            11.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 11.800000000000008,
+          "x": 2270.8,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DP_CONN",
+          "padNumber": "B6",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade23",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            11.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 11.800000000000008,
+          "x": 2290.5,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.1,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DM_CONN",
+          "padNumber": "A7",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade24",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            11.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 11.800000000000008,
+          "x": 2310.2,
+          "y": 784.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.10000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "8",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade25",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            74.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 74.8,
+          "x": 2519.6,
+          "y": 820.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 57.10000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "9",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade26",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            74.8,
+            57.1,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 74.8,
+          "x": 2120.4,
+          "y": 820.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 51.20000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "10",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade27",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            74.8,
+            51.2,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 74.8,
+          "x": 2519.6,
+          "y": 985.3
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 51.20000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "11",
+          "padType": 0,
+          "primitiveId": "e30a775dcf6bebade28",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            74.8,
+            51.2,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 74.8,
+          "x": 2120.4,
+          "y": 985.3
+        }
+      ],
+      "primitiveId": "e30a775dcf6bebad",
+      "rotation": 180,
+      "supplierId": "C9900012665",
+      "uniqueId": "gge9",
+      "x": 2320,
+      "y": 885
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2040.1750000000002,
+        "maxY": 1102.63,
+        "minX": 1959.8249999999998,
+        "minY": 1057.37
+      },
+      "captureErrors": {},
+      "designator": "R1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "0402WGF5101TCE",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "03827ff966a52fece12",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 2017,
+          "y": 1080
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "CC1",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "03827ff966a52fece13",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 1983,
+          "y": 1080
+        }
+      ],
+      "primitiveId": "03827ff966a52fec",
+      "rotation": 0,
+      "supplierId": "C25905",
+      "uniqueId": "gge10",
+      "x": 2000,
+      "y": 1080
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1940.1750000000002,
+        "maxY": 1102.63,
+        "minX": 1859.8249999999998,
+        "minY": 1057.37
+      },
+      "captureErrors": {},
+      "designator": "R2",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "0402WGF5101TCE",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "9a23e01ee752a59be12",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 1917,
+          "y": 1080
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "CC2",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "9a23e01ee752a59be13",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 1883,
+          "y": 1080
+        }
+      ],
+      "primitiveId": "9a23e01ee752a59b",
+      "rotation": 0,
+      "supplierId": "C25905",
+      "uniqueId": "gge11",
+      "x": 1900,
+      "y": 1080
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1490.1750000000002,
+        "maxY": 372.63,
+        "minX": 1409.8249999999998,
+        "minY": 327.37
+      },
+      "captureErrors": {},
+      "designator": "R3",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "0402WGF1002TCE",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "39342ad0b3db49d7e12",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 1467,
+          "y": 350
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "EN",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "39342ad0b3db49d7e13",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 1433,
+          "y": 350
+        }
+      ],
+      "primitiveId": "39342ad0b3db49d7",
+      "rotation": 0,
+      "supplierId": "C25744",
+      "uniqueId": "gge19",
+      "x": 1450,
+      "y": 350
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 490.17499999999995,
+        "maxY": 822.6300000000001,
+        "minX": 409.82500000000005,
+        "minY": 777.3699999999999
+      },
+      "captureErrors": {},
+      "designator": "R4",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "0402WGF1002TCE",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "4b688d45599ac534e12",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 467,
+          "y": 800
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "BOOT",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "4b688d45599ac534e13",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 433,
+          "y": 800
+        }
+      ],
+      "primitiveId": "4b688d45599ac534",
+      "rotation": 0,
+      "supplierId": "C25744",
+      "uniqueId": "gge20",
+      "x": 450,
+      "y": 800
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 372.63,
+        "maxY": 1290.1750000000002,
+        "minX": 327.37,
+        "minY": 1209.825
+      },
+      "captureErrors": {},
+      "designator": "R90",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "0402WGF2201TCE",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 22.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "I2C_SDA",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "a7fea414b93a89aee12",
+          "rotation": 90,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 21.3,
+          "x": 350,
+          "y": 1267
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 22.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "a7fea414b93a89aee13",
+          "rotation": 90,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 21.3,
+          "x": 350,
+          "y": 1233
+        }
+      ],
+      "primitiveId": "a7fea414b93a89ae",
+      "rotation": 90,
+      "supplierId": "C25879",
+      "uniqueId": "gge3",
+      "x": 350,
+      "y": 1250
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 472.63,
+        "maxY": 1290.1750000000002,
+        "minX": 427.37,
+        "minY": 1209.825
+      },
+      "captureErrors": {},
+      "designator": "R91",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "0402WGF2201TCE",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 22.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "I2C_SCL",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "9e503ad41b0f6a03e12",
+          "rotation": 90,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 21.3,
+          "x": 450,
+          "y": 1267
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 22.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "9e503ad41b0f6a03e13",
+          "rotation": 90,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 21.3,
+          "x": 450,
+          "y": 1233
+        }
+      ],
+      "primitiveId": "9e503ad41b0f6a03",
+      "rotation": 90,
+      "supplierId": "C25879",
+      "uniqueId": "gge4",
+      "x": 450,
+      "y": 1250
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1390.1750000000002,
+        "maxY": 872.6300000000001,
+        "minX": 1309.8249999999998,
+        "minY": 827.3699999999999
+      },
+      "captureErrors": {},
+      "designator": "R92",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "0402WGF220JTCE",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DP_MCU",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "4ea159547b6e11c4e12",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 1367,
+          "y": 850
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DP_CONN",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "4ea159547b6e11c4e13",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 1333,
+          "y": 850
+        }
+      ],
+      "primitiveId": "4ea159547b6e11c4",
+      "rotation": 0,
+      "supplierId": "C25092",
+      "uniqueId": "gge5",
+      "x": 1350,
+      "y": 850
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1390.1750000000002,
+        "maxY": 802.6300000000001,
+        "minX": 1309.8249999999998,
+        "minY": 757.3699999999999
+      },
+      "captureErrors": {},
+      "designator": "R93",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "0402WGF220JTCE",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DM_MCU",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "0db5f8ec2cf9f317e12",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 1367,
+          "y": 780
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 21.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DM_CONN",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "0db5f8ec2cf9f317e13",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            22.3,
+            21.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 22.3,
+          "x": 1333,
+          "y": 780
+        }
+      ],
+      "primitiveId": "0db5f8ec2cf9f317",
+      "rotation": 0,
+      "supplierId": "C25092",
+      "uniqueId": "gge6",
+      "x": 1350,
+      "y": 780
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 310.2325,
+        "maxY": 663.677,
+        "minX": 89.76749999999998,
+        "minY": 536.323
+      },
+      "captureErrors": {},
+      "designator": "SW1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "TS-1088-AR02016",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 73.2,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "BOOT",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "1c4d41a4600abdfbe5",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            48.4,
+            73.2,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 48.4,
+          "x": 114,
+          "y": 600
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 73.2,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "1c4d41a4600abdfbe6",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            48.4,
+            73.2,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 48.4,
+          "x": 286,
+          "y": 600
+        }
+      ],
+      "primitiveId": "1c4d41a4600abdfb",
+      "rotation": 0,
+      "supplierId": "C720477",
+      "uniqueId": "gge22",
+      "x": 200,
+      "y": 600
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 310.2325,
+        "maxY": 963.677,
+        "minX": 89.76749999999998,
+        "minY": 836.323
+      },
+      "captureErrors": {},
+      "designator": "SW2",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "TS-1088-AR02016",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 73.2,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "EN",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "a8b0e78336c5f8aee5",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            48.4,
+            73.2,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 48.4,
+          "x": 114,
+          "y": 900
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 73.2,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "a8b0e78336c5f8aee6",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            48.4,
+            73.2,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 48.4,
+          "x": 286,
+          "y": 900
+        }
+      ],
+      "primitiveId": "a8b0e78336c5f8ae",
+      "rotation": 0,
+      "supplierId": "C720477",
+      "uniqueId": "gge23",
+      "x": 200,
+      "y": 900
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2298.8845,
+        "maxY": 583.953,
+        "minX": 1937.009,
+        "minY": 316.047
+      },
+      "captureErrors": {},
+      "designator": "U1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "AMS1117-3.3",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 43.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "44059ace00b43ca8e8",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            98.4,
+            43.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 98.4,
+          "x": 2216.9,
+          "y": 359.5
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 43.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "44059ace00b43ca8e9",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            98.4,
+            43.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 98.4,
+          "x": 2216.9,
+          "y": 450
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 43.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "VBUS_5V",
+          "padNumber": "3",
+          "padType": 0,
+          "primitiveId": "44059ace00b43ca8e10",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            98.4,
+            43.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 98.4,
+          "x": 2216.9,
+          "y": 540.6
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 141.7,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "4",
+          "padType": 0,
+          "primitiveId": "44059ace00b43ca8e11",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            92.1,
+            141.7,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 92.1,
+          "x": 1983.1,
+          "y": 450
+        }
+      ],
+      "primitiveId": "44059ace00b43ca8",
+      "rotation": 0,
+      "supplierId": "C6186",
+      "uniqueId": "gge12",
+      "x": 2100,
+      "y": 450
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1274.0175000000002,
+        "maxY": 1030.7224999999999,
+        "minX": 525.9824999999998,
+        "minY": 0.5289999999999395
+      },
+      "captureErrors": {},
+      "designator": "U2",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "ESP32-S3-WROOM-1",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e54",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 300.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e55",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 350.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "EN",
+          "padNumber": "3",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e56",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 400.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "4",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e57",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 450.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "5",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e58",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 500.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "6",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e59",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 550.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "7",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e60",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 600.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "8",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e61",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 650.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "9",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e62",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 700.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "10",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e63",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 750.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "11",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e64",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 800.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "12",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e65",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 850.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DM_MCU",
+          "padNumber": "13",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e66",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 900.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.400000000000006,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "USB_DP_MCU",
+          "padNumber": "14",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e67",
+          "rotation": 180,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.10000000000001,
+          "x": 1244.5,
+          "y": 950.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "15",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e68",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 1175,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "16",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e69",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 1125,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "I2C_SDA",
+          "padNumber": "17",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e70",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 1075,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "I2C_SCL",
+          "padNumber": "18",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e71",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 1025,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "19",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e72",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 975,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "20",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e73",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 925,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "21",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e74",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 875,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "22",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e75",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 825,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "23",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e76",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 775,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "24",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e77",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 725,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "25",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e78",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 675,
+          "y": 1001.2
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 59.100000000000016,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "26",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e79",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000002,
+          "x": 625,
+          "y": 1000
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "BOOT",
+          "padNumber": "27",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e80",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 950.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "28",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e81",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 900.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "29",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e82",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 850.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "30",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e83",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 800.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "31",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e84",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 750.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "32",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e85",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 700.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "33",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e86",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 650.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "34",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e87",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 600.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "35",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e88",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 550.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "MCU_RX",
+          "padNumber": "36",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e89",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 500.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "MCU_TX",
+          "padNumber": "37",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e90",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 450.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "38",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e91",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 400.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "39",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e92",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 350.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.4,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "40",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e93",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            59.1,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 59.1,
+          "x": 555.5,
+          "y": 300.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.40000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "41",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e94",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            35.4,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000001,
+          "x": 903.9,
+          "y": 659.9
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.40000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "41",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e95",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            35.4,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000001,
+          "x": 959.1,
+          "y": 659.9
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.40000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "41",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e96",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            35.4,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000001,
+          "x": 1014.2,
+          "y": 659.9
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.40000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "41",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e97",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            35.4,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000001,
+          "x": 1014.2,
+          "y": 549.6
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.40000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "41",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e98",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            35.4,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000001,
+          "x": 959.1,
+          "y": 549.6
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.40000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "41",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e99",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            35.4,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000001,
+          "x": 903.9,
+          "y": 549.6
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.40000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "41",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e100",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            35.4,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000001,
+          "x": 903.9,
+          "y": 604.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.40000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "41",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e101",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            35.4,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000001,
+          "x": 1014.2,
+          "y": 604.7
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 35.40000000000001,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "41",
+          "padType": 0,
+          "primitiveId": "ad2958c9ca585b87e102",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "RECT",
+            35.4,
+            35.4,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.40000000000001,
+          "x": 959.1,
+          "y": 604.7
+        }
+      ],
+      "primitiveId": "ad2958c9ca585b87",
+      "rotation": 180,
+      "supplierId": "C9900163599",
+      "uniqueId": "gge16",
+      "x": 900,
+      "y": 651
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 286.611,
+        "maxY": 1385.5269999999998,
+        "minX": 207.12600000000003,
+        "minY": 1314.4720000000002
+      },
+      "captureErrors": {},
+      "designator": "U90",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "SHT40-CD1B-R3",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 43.3,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "",
+          "padNumber": "5",
+          "padType": 0,
+          "primitiveId": "754f0a336fa74608ie5",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            15.7,
+            43.3,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 15.7,
+          "x": 250,
+          "y": 1350
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 16.5,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "4",
+          "padType": 0,
+          "primitiveId": "754f0a336fa74608ie6",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.9,
+            16.5,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.9,
+          "x": 276.7,
+          "y": 1365.8
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 16.5,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "+3V3",
+          "padNumber": "3",
+          "padType": 0,
+          "primitiveId": "754f0a336fa74608ie7",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.9,
+            16.5,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.9,
+          "x": 276.7,
+          "y": 1334.3
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 16.5,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "I2C_SCL",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "754f0a336fa74608ie8",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.9,
+            16.5,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.9,
+          "x": 223.3,
+          "y": 1334.3
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 16.5,
+          "hole": null,
+          "layer": 1,
+          "metallization": true,
+          "net": "I2C_SDA",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "754f0a336fa74608ie9",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            19.9,
+            16.5,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 19.9,
+          "x": 223.3,
+          "y": 1365.8
+        }
+      ],
+      "primitiveId": "754f0a336fa74608",
+      "rotation": 0,
+      "supplierId": "C7461852",
+      "uniqueId": "gge1",
+      "x": 250,
+      "y": 1350
+    }
+  ],
+  "count": 23,
+  "coverage": {
+    "bbox": {
+      "available": 23,
+      "notRequested": 0,
+      "requested": true,
+      "unavailable": 0
+    },
+    "pads": {
+      "available": 23,
+      "failed": 0,
+      "geometryAvailable": 112,
+      "geometryUnavailable": 0,
+      "notRequested": 0,
+      "observed": 112,
+      "requested": true,
+      "serialized": 112,
+      "unavailable": 0
+    }
+  },
+  "incomplete": false,
+  "partial": false
+}

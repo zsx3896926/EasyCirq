@@ -1,0 +1,83 @@
+{
+  "schema": "design-engine-pcb-key-nets/v1",
+  "project": "mcu-i2c-s3-20261026",
+  "doc": "PCB2",
+  "source": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/netpath-key-connections.json",
+  "nets": [
+    {
+      "net": "VBUS_5V",
+      "from": "J1.A4B9",
+      "to": "U1.3"
+    },
+    {
+      "net": "+3V3",
+      "from": "U1.2",
+      "to": "U2.2"
+    },
+    {
+      "net": "+3V3",
+      "from": "U1.2",
+      "to": "U90.3"
+    },
+    {
+      "net": "+3V3",
+      "from": "U1.2",
+      "to": "C4.1"
+    },
+    {
+      "net": "+3V3",
+      "from": "U1.2",
+      "to": "C6.1"
+    },
+    {
+      "net": "I2C_SDA",
+      "from": "U90.1",
+      "to": "U2.17"
+    },
+    {
+      "net": "I2C_SCL",
+      "from": "U90.2",
+      "to": "U2.18"
+    },
+    {
+      "net": "USB_DP_CONN",
+      "from": "J1.A6",
+      "to": "R92.1"
+    },
+    {
+      "net": "USB_DP_MCU",
+      "from": "R92.2",
+      "to": "U2.14"
+    },
+    {
+      "net": "USB_DM_CONN",
+      "from": "J1.A7",
+      "to": "R93.1"
+    },
+    {
+      "net": "USB_DM_MCU",
+      "from": "R93.2",
+      "to": "U2.13"
+    },
+    {
+      "net": "EN",
+      "from": "U2.3",
+      "to": "SW2.1"
+    },
+    {
+      "net": "BOOT",
+      "from": "U2.27",
+      "to": "SW1.1"
+    },
+    {
+      "net": "+3V3",
+      "from": "C90.1",
+      "to": "U90.3"
+    },
+    {
+      "net": "VBUS_5V",
+      "from": "C2.1",
+      "to": "U1.3"
+    }
+  ]
+}

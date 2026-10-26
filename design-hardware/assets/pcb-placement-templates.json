@@ -1,0 +1,796 @@
+{
+  "schema": "design-engine-pcb-templates/v1",
+  "note": "Local PCB placement templates. Offsets are relative, in mil, in the template/core frame; they are rotated with the core. A template is rejected unless its roles bind to real pads and the declared net roles agree. Conditions are measured bbox checks. These are method-level templates, not verified instances.",
+  "templates": [
+    {
+      "id": "ic-decap-gnd",
+      "title": "IC 电源脚—去耦电容—地",
+      "category": "power",
+      "core_role": "core",
+      "roles": {
+        "core": {
+          "pins": {
+            "power": "power",
+            "gnd": "gnd"
+          }
+        },
+        "cap": {
+          "pins": {
+            "power": "power",
+            "gnd": "gnd"
+          }
+        }
+      },
+      "net_roles": {
+        "core.power": "POWER",
+        "cap.power": "POWER",
+        "core.gnd": "GND",
+        "cap.gnd": "GND"
+      },
+      "relative": [
+        {
+          "role": "cap",
+          "dx": 46.84,
+          "dy": 300.0,
+          "rotation": 0,
+          "unit": "mil",
+          "note": "DIP-8 + 12mm THT cap measured reference; re-measure for other packages"
+        }
+      ],
+      "conditions": [
+        {
+          "role": "core",
+          "field": "bbox_long_mil",
+          "min": 350,
+          "max": 450
+        },
+        {
+          "role": "cap",
+          "field": "bbox_long_mil",
+          "min": 450,
+          "max": 520
+        }
+      ],
+      "checks": [
+        "cap power pad is on the same net as the serving IC power pad",
+        "cap ground pad is on the same net as the IC ground pad",
+        "measured pad-centre distance is reported; copper path is not proven"
+      ],
+      "source": "LM358 datasheet supply bypass guidance; measured photo-led DIP-8 layout",
+      "status": "offline-validated"
+    },
+    {
+      "id": "connector-protection-core",
+      "title": "接口—保护/串联器件—核心输入",
+      "category": "interface",
+      "core_role": "connector",
+      "frame": "board",
+      "roles": {
+        "connector": {
+          "pins": {
+            "out": "out",
+            "return": "return"
+          }
+        },
+        "series": {
+          "pins": {
+            "anode": "anode",
+            "cathode": "cathode"
+          }
+        },
+        "bulk": {
+          "pins": {
+            "power": "power",
+            "gnd": "gnd"
+          }
+        },
+        "core": {
+          "pins": {
+            "power": "power",
+            "gnd": "gnd"
+          }
+        }
+      },
+      "net_roles": {
+        "connector.out": "RAW",
+        "series.anode": "RAW",
+        "series.cathode": "POWER",
+        "bulk.power": "POWER",
+        "core.power": "POWER",
+        "connector.return": "GND",
+        "bulk.gnd": "GND",
+        "core.gnd": "GND"
+      },
+      "relative": [
+        {
+          "role": "series",
+          "dx": 400.0,
+          "dy": 0.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "bulk",
+          "dx": 750.0,
+          "dy": 0.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "core",
+          "dx": 1250.0,
+          "dy": 650.0,
+          "rotation": 0,
+          "unit": "mil"
+        }
+      ],
+      "conditions": [
+        {
+          "role": "connector",
+          "field": "bbox_long_mil",
+          "min": 250,
+          "max": 500
+        },
+        {
+          "role": "series",
+          "field": "bbox_long_mil",
+          "min": 350,
+          "max": 500
+        },
+        {
+          "role": "bulk",
+          "field": "bbox_long_mil",
+          "min": 150,
+          "max": 300
+        },
+        {
+          "role": "core",
+          "field": "bbox_long_mil",
+          "min": 350,
+          "max": 450
+        }
+      ],
+      "checks": [
+        "series device sits between the connector and the core",
+        "bulk capacitor is on the protected rail, not the raw input",
+        "connector return and core ground share the declared ground net"
+      ],
+      "source": "photo-led 5V input (J1-D1-C1) measured reference; reverse-polarity/diode drop must be checked per part",
+      "status": "offline-validated"
+    },
+    {
+      "id": "opamp-feedback",
+      "title": "运放/比较器反馈与输入网络",
+      "category": "analog",
+      "core_role": "opamp",
+      "roles": {
+        "opamp": {
+          "pins": {
+            "inverting": "inverting",
+            "noninverting": "noninverting",
+            "output": "output",
+            "power": "power",
+            "gnd": "gnd"
+          }
+        },
+        "feedback": {
+          "pins": {
+            "from": "from",
+            "to": "to"
+          }
+        },
+        "sensor": {
+          "pins": {
+            "top": "top",
+            "mid": "mid"
+          }
+        },
+        "bottom": {
+          "pins": {
+            "mid": "mid",
+            "gnd": "gnd"
+          }
+        },
+        "filter": {
+          "pins": {
+            "mid": "mid",
+            "gnd": "gnd"
+          }
+        }
+      },
+      "net_roles": {
+        "opamp.inverting": "SENSE",
+        "sensor.mid": "SENSE",
+        "bottom.mid": "SENSE",
+        "filter.mid": "SENSE",
+        "opamp.output": "OUT",
+        "feedback.from": "OUT",
+        "opamp.noninverting": "THRESHOLD",
+        "feedback.to": "THRESHOLD",
+        "sensor.top": "REFERENCE",
+        "opamp.power": "POWER",
+        "opamp.gnd": "GND",
+        "bottom.gnd": "GND",
+        "filter.gnd": "GND"
+      },
+      "relative": [
+        {
+          "role": "feedback",
+          "dx": 100.0,
+          "dy": -350.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "filter",
+          "dx": -200.0,
+          "dy": 700.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "bottom",
+          "dx": -500.0,
+          "dy": 750.0,
+          "rotation": 90,
+          "unit": "mil"
+        },
+        {
+          "role": "sensor",
+          "dx": -800.0,
+          "dy": 900.0,
+          "rotation": 0,
+          "unit": "mil"
+        }
+      ],
+      "conditions": [
+        {
+          "role": "opamp",
+          "field": "bbox_long_mil",
+          "min": 350,
+          "max": 450
+        },
+        {
+          "role": "feedback",
+          "field": "bbox_long_mil",
+          "min": 400,
+          "max": 520
+        },
+        {
+          "role": "bottom",
+          "field": "bbox_long_mil",
+          "min": 400,
+          "max": 520
+        },
+        {
+          "role": "filter",
+          "field": "bbox_long_mil",
+          "min": 450,
+          "max": 520
+        },
+        {
+          "role": "sensor",
+          "field": "bbox_long_mil",
+          "min": 150,
+          "max": 250
+        }
+      ],
+      "checks": [
+        "feedback resistor connects output to the declared input",
+        "sensor divider midpoint reaches the declared input pin",
+        "filter capacitor returns to the declared ground",
+        "feedback/sense distances are pad-centre measurements, not copper proofs"
+      ],
+      "source": "LM358/TL431 photo-led measured reference; divider/filter values must be checked against the actual sensor",
+      "status": "offline-validated"
+    },
+    {
+      "id": "low-side-driver-load-return",
+      "title": "低侧晶体管驱动—负载接口—电流返回",
+      "category": "driver",
+      "core_role": "transistor",
+      "roles": {
+        "transistor": {
+          "pins": {
+            "base": "base",
+            "collector": "collector",
+            "emitter": "emitter"
+          }
+        },
+        "base_series": {
+          "pins": {
+            "drive": "drive",
+            "base": "base"
+          }
+        },
+        "base_pulldown": {
+          "pins": {
+            "base": "base",
+            "gnd": "gnd"
+          }
+        },
+        "led": {
+          "pins": {
+            "anode": "anode",
+            "cathode": "cathode"
+          }
+        },
+        "led_resistor": {
+          "pins": {
+            "power": "power",
+            "led": "led"
+          }
+        }
+      },
+      "net_roles": {
+        "transistor.base": "BASE",
+        "base_series.base": "BASE",
+        "base_pulldown.base": "BASE",
+        "base_series.drive": "DRIVE",
+        "transistor.collector": "LOAD_K",
+        "led.cathode": "LOAD_K",
+        "led.anode": "LOAD_A",
+        "led_resistor.led": "LOAD_A",
+        "led_resistor.power": "POWER",
+        "transistor.emitter": "GND",
+        "base_pulldown.gnd": "GND"
+      },
+      "relative": [
+        {
+          "role": "base_series",
+          "dx": -1050.0,
+          "dy": -250.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "base_pulldown",
+          "dx": -300.0,
+          "dy": -200.0,
+          "rotation": 90,
+          "unit": "mil"
+        },
+        {
+          "role": "led",
+          "dx": 250.0,
+          "dy": 150.0,
+          "rotation": 180,
+          "unit": "mil"
+        },
+        {
+          "role": "led_resistor",
+          "dx": 50.0,
+          "dy": 500.0,
+          "rotation": 90,
+          "unit": "mil"
+        }
+      ],
+      "conditions": [
+        {
+          "role": "transistor",
+          "field": "bbox_long_mil",
+          "min": 150,
+          "max": 260
+        },
+        {
+          "role": "base_series",
+          "field": "bbox_long_mil",
+          "min": 400,
+          "max": 520
+        },
+        {
+          "role": "base_pulldown",
+          "field": "bbox_long_mil",
+          "min": 400,
+          "max": 520
+        },
+        {
+          "role": "led",
+          "field": "bbox_long_mil",
+          "min": 150,
+          "max": 300
+        },
+        {
+          "role": "led_resistor",
+          "field": "bbox_long_mil",
+          "min": 400,
+          "max": 520
+        }
+      ],
+      "checks": [
+        "base series resistor is between the drive net and the base",
+        "base pulldown returns to the declared ground",
+        "load current returns through the transistor emitter and ground",
+        "inductive loads require a flyback device checked against the actual part"
+      ],
+      "source": "S8050 LED driver photo-led measured reference; this template does not add flyback protection for inductive loads",
+      "status": "offline-validated"
+    },
+    {
+      "id": "module-decap",
+      "title": "模组电源脚去耦与体电容",
+      "category": "power",
+      "core_role": "module",
+      "roles": {
+        "module": {"pins": {"power": "power", "gnd": "gnd"}},
+        "hf_cap": {"pins": {"power": "power", "gnd": "gnd"}},
+        "bulk_cap": {"pins": {"power": "power", "gnd": "gnd"}}
+      },
+      "net_roles": {
+        "module.power": "POWER", "hf_cap.power": "POWER", "bulk_cap.power": "POWER",
+        "module.gnd": "GND", "hf_cap.gnd": "GND", "bulk_cap.gnd": "GND"
+      },
+      "relative": [
+        {"role": "hf_cap", "dx": 120.0, "dy": 260.0, "rotation": 90, "unit": "mil"},
+        {"role": "bulk_cap", "dx": 320.0, "dy": 260.0, "rotation": 90, "unit": "mil"}
+      ],
+      "conditions": [
+        {"role": "module", "field": "bbox_long_mil", "min": 600, "max": 1800},
+        {"role": "hf_cap", "field": "bbox_long_mil", "min": 30, "max": 90},
+        {"role": "bulk_cap", "field": "bbox_long_mil", "min": 60, "max": 130}
+      ],
+      "checks": ["HF decoupling is on the module supply net and close to a real power pad",
+                 "bulk capacitor is on the same rail, not a different regulator output",
+                 "module ground pad and capacitor returns share the declared ground net"],
+      "source": "ESP32-S3-WROOM-1 block decap guidance; exact pin numbers must come from the placed module symbol",
+      "status": "offline-validated"
+    },
+    {
+      "id": "ldo-caps",
+      "title": "LDO 输入/输出电容与供电连接",
+      "category": "power",
+      "core_role": "ldo",
+      "roles": {
+        "ldo": {
+          "pins": {
+            "vin": "vin",
+            "vout": "vout",
+            "gnd": "gnd"
+          }
+        },
+        "cin": {
+          "pins": {
+            "power": "power",
+            "gnd": "gnd"
+          }
+        },
+        "cout": {
+          "pins": {
+            "power": "power",
+            "gnd": "gnd"
+          }
+        }
+      },
+      "net_roles": {
+        "ldo.vin": "VIN",
+        "cin.power": "VIN",
+        "ldo.vout": "VOUT",
+        "cout.power": "VOUT",
+        "ldo.gnd": "GND",
+        "cin.gnd": "GND",
+        "cout.gnd": "GND"
+      },
+      "relative": [
+        {
+          "role": "cin",
+          "dx": -250.0,
+          "dy": 0.0,
+          "rotation": 90,
+          "unit": "mil"
+        },
+        {
+          "role": "cout",
+          "dx": 250.0,
+          "dy": 0.0,
+          "rotation": 90,
+          "unit": "mil"
+        }
+      ],
+      "conditions": [
+        {
+          "role": "ldo",
+          "field": "bbox_long_mil",
+          "min": 150,
+          "max": 320
+        },
+        {
+          "role": "cin",
+          "field": "bbox_long_mil",
+          "min": 40,
+          "max": 130
+        },
+        {
+          "role": "cout",
+          "field": "bbox_long_mil",
+          "min": 40,
+          "max": 130
+        }
+      ],
+      "checks": [
+        "input and output capacitors are on the correct sides of the regulator",
+        "stability/ESR requirements must be checked against the exact LDO part",
+        "dropout and thermal limits are not checked by this template"
+      ],
+      "source": "AMS1117-style SOT-223 engineering method; verify the exact part datasheet before use",
+      "status": "method-only"
+    },
+    {
+      "id": "i2c-sensor",
+      "title": "I²C 传感器、上拉与去耦",
+      "category": "sensor",
+      "core_role": "sensor",
+      "roles": {
+        "sensor": {
+          "pins": {
+            "vcc": "vcc",
+            "gnd": "gnd",
+            "sda": "sda",
+            "scl": "scl"
+          }
+        },
+        "sda_pullup": {
+          "pins": {
+            "power": "power",
+            "sda": "sda"
+          }
+        },
+        "scl_pullup": {
+          "pins": {
+            "power": "power",
+            "scl": "scl"
+          }
+        },
+        "decap": {
+          "pins": {
+            "power": "power",
+            "gnd": "gnd"
+          }
+        }
+      },
+      "net_roles": {
+        "sensor.vcc": "POWER",
+        "sda_pullup.power": "POWER",
+        "scl_pullup.power": "POWER",
+        "decap.power": "POWER",
+        "sensor.gnd": "GND",
+        "decap.gnd": "GND",
+        "sensor.sda": "SDA",
+        "sda_pullup.sda": "SDA",
+        "sensor.scl": "SCL",
+        "scl_pullup.scl": "SCL"
+      },
+      "relative": [
+        {
+          "role": "decap",
+          "dx": 180.0,
+          "dy": 200.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "sda_pullup",
+          "dx": -180.0,
+          "dy": 260.0,
+          "rotation": 90,
+          "unit": "mil"
+        },
+        {
+          "role": "scl_pullup",
+          "dx": 0.0,
+          "dy": 300.0,
+          "rotation": 90,
+          "unit": "mil"
+        }
+      ],
+      "conditions": [
+        {
+          "role": "sensor",
+          "field": "bbox_long_mil",
+          "min": 40,
+          "max": 120
+        },
+        {
+          "role": "decap",
+          "field": "bbox_long_mil",
+          "min": 30,
+          "max": 90
+        },
+        {
+          "role": "sda_pullup",
+          "field": "bbox_long_mil",
+          "min": 30,
+          "max": 90
+        },
+        {
+          "role": "scl_pullup",
+          "field": "bbox_long_mil",
+          "min": 30,
+          "max": 90
+        }
+      ],
+      "checks": [
+        "exactly one pull-up set is placed on the bus",
+        "sensor VCC and decoupling share the measured power net",
+        "bus capacitance and address straps still need the part datasheet"
+      ],
+      "source": "SHT40/DFN sensor and 0603 pull-up engineering method; verify the exact address and bus voltage",
+      "status": "method-only"
+    },
+    {
+      "id": "mcu-debug",
+      "title": "MCU 下载接口与复位/启动",
+      "category": "digital",
+      "core_role": "mcu",
+      "frame": "board",
+      "roles": {
+        "mcu": {
+          "pins": {
+            "vcc": "vcc",
+            "gnd": "gnd",
+            "tx": "tx",
+            "rx": "rx",
+            "reset": "reset",
+            "boot": "boot"
+          }
+        },
+        "header": {
+          "pins": {
+            "vcc": "vcc",
+            "gnd": "gnd",
+            "tx": "tx",
+            "rx": "rx"
+          }
+        },
+        "reset_btn": {
+          "pins": {
+            "a": "a",
+            "b": "b"
+          }
+        },
+        "boot_btn": {
+          "pins": {
+            "a": "a",
+            "b": "b"
+          }
+        }
+      },
+      "net_roles": {
+        "mcu.vcc": "VCC",
+        "header.vcc": "VCC",
+        "mcu.gnd": "GND",
+        "header.gnd": "GND",
+        "reset_btn.b": "GND",
+        "boot_btn.b": "GND",
+        "mcu.tx": "TX",
+        "header.tx": "TX",
+        "mcu.rx": "RX",
+        "header.rx": "RX",
+        "mcu.reset": "RESET",
+        "reset_btn.a": "RESET",
+        "mcu.boot": "BOOT",
+        "boot_btn.a": "BOOT"
+      },
+      "relative": [
+        {
+          "role": "header",
+          "dx": -900.0,
+          "dy": 0.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "reset_btn",
+          "dx": -350.0,
+          "dy": 300.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "boot_btn",
+          "dx": -350.0,
+          "dy": -300.0,
+          "rotation": 0,
+          "unit": "mil"
+        }
+      ],
+      "conditions": [
+        {
+          "role": "mcu",
+          "field": "bbox_long_mil",
+          "min": 250,
+          "max": 900
+        },
+        {
+          "role": "header",
+          "field": "bbox_long_mil",
+          "min": 80,
+          "max": 300
+        }
+      ],
+      "checks": [
+        "download header pins map to the MCU boot/UART pins",
+        "reset and boot buttons return to ground",
+        "debug access is reachable after assembly (mechanical check still required)"
+      ],
+      "source": "generic MCU minimum-system method; the exact boot strapping must come from the selected MCU datasheet",
+      "status": "method-only"
+    },
+    {
+      "id": "crystal-guard",
+      "title": "晶振与负载电容",
+      "category": "digital",
+      "core_role": "crystal",
+      "roles": {
+        "crystal": {
+          "pins": {
+            "xin": "xin",
+            "xout": "xout"
+          }
+        },
+        "load_xin": {
+          "pins": {
+            "crystal": "crystal",
+            "gnd": "gnd"
+          }
+        },
+        "load_xout": {
+          "pins": {
+            "crystal": "crystal",
+            "gnd": "gnd"
+          }
+        }
+      },
+      "net_roles": {
+        "crystal.xin": "XIN",
+        "load_xin.crystal": "XIN",
+        "crystal.xout": "XOUT",
+        "load_xout.crystal": "XOUT",
+        "load_xin.gnd": "GND",
+        "load_xout.gnd": "GND"
+      },
+      "relative": [
+        {
+          "role": "load_xin",
+          "dx": -180.0,
+          "dy": -200.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "load_xout",
+          "dx": 180.0,
+          "dy": -200.0,
+          "rotation": 0,
+          "unit": "mil"
+        }
+      ],
+      "conditions": [
+        {
+          "role": "crystal",
+          "field": "bbox_long_mil",
+          "min": 50,
+          "max": 160
+        },
+        {
+          "role": "load_xin",
+          "field": "bbox_long_mil",
+          "min": 30,
+          "max": 90
+        },
+        {
+          "role": "load_xout",
+          "field": "bbox_long_mil",
+          "min": 30,
+          "max": 90
+        }
+      ],
+      "checks": [
+        "load capacitors are on the correct crystal pins",
+        "load-cap values come from the crystal and MCU datasheets, never from the frequency alone",
+        "a guard/keep-out is a board-specific decision; this template only places the three parts"
+      ],
+      "source": "generic crystal layout method; exact load capacitance and drive level require the selected parts",
+      "status": "method-only"
+    }
+  ]
+}

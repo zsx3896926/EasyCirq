@@ -1,0 +1,19 @@
+{
+  "span": [
+    "2026-10-26T15:31:09.3705998Z",
+    "2026-10-26T15:33:24.7102225Z"
+  ],
+  "calls": 202,
+  "mutations": 18,
+  "probes": 112,
+  "failures": 1,
+  "wall_min": 2.2556603833333333,
+  "daemon_min": 1.7534166666666666,
+  "distinct_cli_processes": 20,
+  "pcb_save": 7,
+  "drc": 1,
+  "autoroute": 1,
+  "rip_up": 1,
+  "modify": 1,
+  "pour": 1
+}

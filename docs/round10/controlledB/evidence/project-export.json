@@ -1,0 +1,15 @@
+{
+  "id": "req_12829",
+  "ok": true,
+  "result": {
+    "bytes": 135860,
+    "format": "epro2",
+    "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\controlledB-final.epro2",
+    "restoreVerified": false,
+    "sha256": "781ebf9989298744f2e325c80f5c89887bad403bb1ecc8417617bc585240e104",
+    "uuid": "06a53de15aa34286ab2eaf0be41d91ba",
+    "zipIntegrityVerified": true
+  },
+  "type": "response",
+  "version": "v1"
+}

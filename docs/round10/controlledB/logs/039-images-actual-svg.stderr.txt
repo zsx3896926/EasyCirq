@@ -1,0 +1,1 @@
+pcb layout render: actual readback (both; auxiliary, not official EDA capture) → C:\Users\jlc\work\hds-pcb-round9\docs\round10\controlledB\evidence\pcb-final-actual.svg

@@ -1,0 +1,469 @@
+{
+  "schema": "design-engine-pcb-gate/v1",
+  "status": "pass_with_gaps",
+  "profile": "regression",
+  "case": "docs\\round10\\regression\\liveB",
+  "evidence_dir": "docs\\round10\\regression\\liveB\\evidence",
+  "images_dir": "docs\\round10\\regression\\liveB\\evidence",
+  "generated_at": "2026-10-26T15:22:07.515193Z",
+  "stages": [
+    {
+      "id": "PG1_placement",
+      "title": "Placement constraints / measured placement check",
+      "status": "not_run",
+      "required": false,
+      "findings": [
+        {
+          "code": "missing_evidence",
+          "severity": "advisory",
+          "message": "placement/constraint evidence missing: constraints, placement",
+          "roles": [
+            "constraints",
+            "placement"
+          ]
+        }
+      ],
+      "evidence": [],
+      "metrics": {
+        "missing_roles": [
+          "constraints",
+          "placement"
+        ],
+        "reason": "placement/constraint evidence missing"
+      }
+    },
+    {
+      "id": "PG2_layout",
+      "title": "Layout lint quality",
+      "status": "pass",
+      "required": false,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "lint",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-layout-lint-final.json",
+          "candidates": 1,
+          "selected_because": "explicit override",
+          "sha256": "17d2f172a64802905eeb253fe8a4cd06309515167cabc2959d79a326c9cde3e9",
+          "bytes": 1738,
+          "mtime": "2026-10-26T15:22:04.266222Z"
+        }
+      ],
+      "metrics": {
+        "score": 68,
+        "crossings": 8,
+        "components": 23,
+        "overlap": 0,
+        "off_board": 0,
+        "short": 0,
+        "tight": 0,
+        "silk_over_pad": 0,
+        "coverage_complete": true,
+        "incomplete": false
+      }
+    },
+    {
+      "id": "PG3_drc",
+      "title": "Native PCB DRC",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "drc",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-drc-final.json",
+          "candidates": 1,
+          "selected_because": "explicit override",
+          "sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+          "bytes": 137,
+          "mtime": "2026-10-26T15:22:04.038030Z"
+        }
+      ],
+      "metrics": {
+        "passed": true,
+        "total": 0,
+        "connection_violations": 0,
+        "counts": {}
+      }
+    },
+    {
+      "id": "PG4_check",
+      "title": "PCB check errors + WARN dispositions",
+      "status": "not_run",
+      "required": false,
+      "findings": [],
+      "evidence": [],
+      "metrics": {
+        "reason": "regression profile"
+      }
+    },
+    {
+      "id": "PG5_netpath",
+      "title": "Key-net continuity (net-path)",
+      "status": "not_run",
+      "required": false,
+      "findings": [],
+      "evidence": [],
+      "metrics": {
+        "reason": "regression profile"
+      }
+    },
+    {
+      "id": "PG6_sch_pcb",
+      "title": "SCH-PCB component/pin reconciliation",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "sch",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\sch-read.json",
+          "candidates": 1,
+          "selected_because": "explicit override",
+          "sha256": "94b54f6d60b7ba83b3211a0020a8033fd3eec3ded1944630f1a43b5e2f810879",
+          "bytes": 20332,
+          "mtime": "2026-10-26T15:11:39.409563Z"
+        },
+        {
+          "role": "dump_after",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-dump-after-reload.json",
+          "candidates": 1,
+          "selected_because": "explicit override",
+          "sha256": "4b5df612ecd756a5843bacc675e87aa4409c788161d2bbc7a5bffdf3fcbd0bfe",
+          "bytes": 355891,
+          "mtime": "2026-10-26T15:11:48.446986Z",
+          "captured_at": "2026-10-26T15:11:48.173025Z"
+        }
+      ],
+      "metrics": {
+        "source": "computed_from_sch_and_final_dump",
+        "fresh": true,
+        "status": "match",
+        "schematic_components": 23,
+        "pcb_components": 23,
+        "pins": 104,
+        "mismatches": 0,
+        "component_mismatches": 0
+      }
+    },
+    {
+      "id": "PG7_save_reload",
+      "title": "Save -> reload -> fresh dump persistence",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "dump_before",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-dump-before.json",
+          "candidates": 1,
+          "selected_because": "explicit override",
+          "sha256": "d4326525e9b2bcadafd71adf85fb4752bd3d275296f3d84f2c0716e38b6a4cb0",
+          "bytes": 355894,
+          "mtime": "2026-10-26T15:11:00.891999Z",
+          "captured_at": "2026-10-26T15:11:00.660723Z"
+        },
+        {
+          "role": "dump_after",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-dump-after-reload.json",
+          "candidates": 1,
+          "selected_because": "explicit override",
+          "sha256": "4b5df612ecd756a5843bacc675e87aa4409c788161d2bbc7a5bffdf3fcbd0bfe",
+          "bytes": 355891,
+          "mtime": "2026-10-26T15:11:48.446986Z",
+          "captured_at": "2026-10-26T15:11:48.173025Z"
+        },
+        {
+          "role": "save_reload",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\save-reload-diff.json",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "6abb4c65476c1b7e965e2d032935ff9c7d461e8317b6f2c27b36652a2805ae41",
+          "bytes": 384,
+          "mtime": "2026-10-26T15:11:48.603908Z"
+        }
+      ],
+      "metrics": {
+        "mode": "pure_persistence",
+        "scope": null,
+        "diff_status": "match",
+        "diff_counts": {
+          "identity": 0,
+          "geometry": 0,
+          "copper": 0,
+          "unrelated": 0
+        },
+        "semantic_sha256_before": "a83459175183547da179a8763086305e10f535a8a766ef0a827b73f60b5c3c1a",
+        "semantic_sha256_after": "a83459175183547da179a8763086305e10f535a8a766ef0a827b73f60b5c3c1a",
+        "document_uuid": "40b81985cfb4a5ed",
+        "project_uuid": "b4327168b80347f492b53baf9f04bd20"
+      }
+    },
+    {
+      "id": "PG8_delivery",
+      "title": "Delivery artifacts (images/BOM/archive)",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "image_top",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-final-top.png",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "f9b473099e5baefbfa1a36ff8af1b3637ad2dd0750e5a498cec0376f1bb5694b",
+          "bytes": 193137,
+          "mtime": "2026-10-26T15:21:35.230690Z"
+        },
+        {
+          "role": "image_bottom",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-final-bottom.png",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "e632cdbc9ef59306f432315e6920f5387258223cd39a7a495e549f1812f34a23",
+          "bytes": 102497,
+          "mtime": "2026-10-26T15:21:35.289106Z"
+        },
+        {
+          "role": "actual_svg",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-final-actual.svg",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "6f37599c462b6894bf759b46934720fe225b7eeae04f400633483d20d3a7ae88",
+          "bytes": 76782,
+          "mtime": "2026-10-26T15:11:59.995939Z"
+        },
+        {
+          "role": "bom",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\BOM.csv",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "f2628a128b853b0ffcdbf91e0ad38220ffb49114ac951fbe35a046cf62bede46",
+          "bytes": 1401,
+          "mtime": "2026-10-26T15:12:04.821092Z"
+        },
+        {
+          "role": "archive",
+          "path": "docs\\round10\\regression\\liveB\\evidence\\boardB-live.epro2",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "f27168647a8f9e0affaaaadbebf963324d8998e1241133d3b9a80dee586c0377",
+          "bytes": 132755,
+          "mtime": "2026-10-26T15:12:06.107270Z"
+        }
+      ],
+      "metrics": {
+        "images": {
+          "image_top": {
+            "width": 1608,
+            "height": 714
+          },
+          "image_bottom": {
+            "width": 1608,
+            "height": 714
+          }
+        },
+        "svg": {
+          "bytes": 75381
+        },
+        "bom": {
+          "bytes": 1401,
+          "rows": 16
+        },
+        "archive": {
+          "bytes": 132755,
+          "zip": true
+        },
+        "archive_sha256": "f27168647a8f9e0affaaaadbebf963324d8998e1241133d3b9a80dee586c0377",
+        "baseline": {
+          "provided": false
+        }
+      }
+    }
+  ],
+  "counts": {
+    "stages": 8,
+    "pass": 5,
+    "fail": 0,
+    "blocked": 0,
+    "not_run": 3,
+    "required_fail": 0,
+    "required_blocked": 0,
+    "optional_not_run": 3,
+    "findings": 1,
+    "advisory_findings": 1
+  },
+  "not_checked": [
+    {
+      "stage": "PG1_placement",
+      "check": "stage",
+      "reason": "optional in the regression profile and evidence is absent: constraints, placement"
+    },
+    {
+      "stage": "PG4_check",
+      "check": "pcb_check_dispositions",
+      "reason": "pcb check and WARN dispositions are full-profile only"
+    },
+    {
+      "stage": "PG5_netpath",
+      "check": "key_net_continuity",
+      "reason": "key-net net-path proofs are full-profile only"
+    },
+    {
+      "stage": "PG7_save_reload",
+      "check": "reload_timestamps",
+      "reason": "save/reload evidence carries no capture timestamp; reload order is inferred from the two dumps only"
+    },
+    {
+      "stage": "PG8_delivery",
+      "check": "baseline_manifest",
+      "reason": "no --baseline-manifest was supplied; image/BOM/archive hashes are recorded but not compared"
+    },
+    {
+      "stage": "PG8_delivery",
+      "check": "archive_restore",
+      "reason": ".epro2 restore/open verification is not performed by this gate"
+    },
+    {
+      "stage": "*",
+      "check": "functional_thermal_emc_manufacturing",
+      "reason": "DRC/lint/pcb-check/net-path do not prove firmware function, thermal, EMC, assembly or manufacturability"
+    }
+  ],
+  "next_command": "python scripts/pcb_gate.py --case docs\\round10\\regression\\liveB --profile full",
+  "strict_advisory": false,
+  "key_nets": null,
+  "baseline_manifest": null,
+  "edit_scope": null,
+  "evidence": {
+    "actual_svg": {
+      "role": "actual_svg",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-final-actual.svg",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "6f37599c462b6894bf759b46934720fe225b7eeae04f400633483d20d3a7ae88",
+      "bytes": 76782,
+      "mtime": "2026-10-26T15:11:59.995939Z"
+    },
+    "archive": {
+      "role": "archive",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\boardB-live.epro2",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "f27168647a8f9e0affaaaadbebf963324d8998e1241133d3b9a80dee586c0377",
+      "bytes": 132755,
+      "mtime": "2026-10-26T15:12:06.107270Z"
+    },
+    "bom": {
+      "role": "bom",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\BOM.csv",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "f2628a128b853b0ffcdbf91e0ad38220ffb49114ac951fbe35a046cf62bede46",
+      "bytes": 1401,
+      "mtime": "2026-10-26T15:12:04.821092Z"
+    },
+    "check": {
+      "role": "check",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-check.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "d6f1f7837065fe48cb85887059a6a26c107cfb286ffa21a794dcf3f17d085b7d",
+      "bytes": 6612,
+      "mtime": "2026-10-26T15:11:06.294915Z"
+    },
+    "drc": {
+      "role": "drc",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-drc-final.json",
+      "candidates": 1,
+      "selected_because": "explicit override",
+      "sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+      "bytes": 137,
+      "mtime": "2026-10-26T15:22:04.038030Z"
+    },
+    "dump_after": {
+      "role": "dump_after",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-dump-after-reload.json",
+      "candidates": 1,
+      "selected_because": "explicit override",
+      "sha256": "4b5df612ecd756a5843bacc675e87aa4409c788161d2bbc7a5bffdf3fcbd0bfe",
+      "bytes": 355891,
+      "mtime": "2026-10-26T15:11:48.446986Z",
+      "captured_at": "2026-10-26T15:11:48.173025Z"
+    },
+    "dump_before": {
+      "role": "dump_before",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-dump-before.json",
+      "candidates": 1,
+      "selected_because": "explicit override",
+      "sha256": "d4326525e9b2bcadafd71adf85fb4752bd3d275296f3d84f2c0716e38b6a4cb0",
+      "bytes": 355894,
+      "mtime": "2026-10-26T15:11:00.891999Z",
+      "captured_at": "2026-10-26T15:11:00.660723Z"
+    },
+    "image_bottom": {
+      "role": "image_bottom",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-final-bottom.png",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "e632cdbc9ef59306f432315e6920f5387258223cd39a7a495e549f1812f34a23",
+      "bytes": 102497,
+      "mtime": "2026-10-26T15:21:35.289106Z"
+    },
+    "image_top": {
+      "role": "image_top",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-final-top.png",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "f9b473099e5baefbfa1a36ff8af1b3637ad2dd0750e5a498cec0376f1bb5694b",
+      "bytes": 193137,
+      "mtime": "2026-10-26T15:21:35.230690Z"
+    },
+    "lint": {
+      "role": "lint",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\pcb-layout-lint-final.json",
+      "candidates": 1,
+      "selected_because": "explicit override",
+      "sha256": "17d2f172a64802905eeb253fe8a4cd06309515167cabc2959d79a326c9cde3e9",
+      "bytes": 1738,
+      "mtime": "2026-10-26T15:22:04.266222Z"
+    },
+    "netpath": {
+      "role": "netpath",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\netpath-key-connections.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "d39c5687d86e72a5fd48a338a81f29255a56959600a39ea2995bfcbb5e240e75",
+      "bytes": 3769,
+      "mtime": "2026-10-26T15:11:16.540095Z"
+    },
+    "save_reload": {
+      "role": "save_reload",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\save-reload-diff.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "6abb4c65476c1b7e965e2d032935ff9c7d461e8317b6f2c27b36652a2805ae41",
+      "bytes": 384,
+      "mtime": "2026-10-26T15:11:48.603908Z"
+    },
+    "sch": {
+      "role": "sch",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\sch-read.json",
+      "candidates": 1,
+      "selected_because": "explicit override",
+      "sha256": "94b54f6d60b7ba83b3211a0020a8033fd3eec3ded1944630f1a43b5e2f810879",
+      "bytes": 20332,
+      "mtime": "2026-10-26T15:11:39.409563Z"
+    },
+    "sch_pcb": {
+      "role": "sch_pcb",
+      "path": "docs\\round10\\regression\\liveB\\evidence\\sch-pcb-compare.json",
+      "candidates": 1,
+      "selected_because": "explicit override",
+      "sha256": "16bc6b51e972e6d50062ae15b61966e1d9ff19868bbaf8a16ee1488fba3f5332",
+      "bytes": 15384,
+      "mtime": "2026-10-26T15:11:39.412651Z"
+    }
+  },
+  "warnings": []
+}

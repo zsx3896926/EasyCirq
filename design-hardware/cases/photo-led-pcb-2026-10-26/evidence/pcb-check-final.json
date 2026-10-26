@@ -1,0 +1,122 @@
+{
+  "passed": false,
+  "summary": {
+    "danglingEnds": 0,
+    "acuteAngles": 0,
+    "nonOrthogonal": 0,
+    "trackOverPad": 0,
+    "clearance": 0,
+    "silkscreenFlipped": 0,
+    "overlappingVias": 0,
+    "singleLayerVias": 0,
+    "widthMismatches": 0,
+    "duplicateSegments": 0,
+    "parallelCoupling": 0,
+    "antennaKeepout": 0,
+    "netlessPours": 0,
+    "viaCrossesPlane": 0,
+    "floatingIslands": 0,
+    "powerNotPoured": 2,
+    "netlessViaInPad": 0,
+    "widthUnderSpec": 2,
+    "silkOverPad": 0,
+    "silkOffBoard": 0,
+    "decapTooFar": 2,
+    "viaInPad": 0,
+    "copperNearEdge": 0,
+    "fiducialMissing": 0,
+    "zoneViolation": 0,
+    "internalOnEdge": 0,
+    "connectorPlugClearance": 0,
+    "connectorMatingBlocked": 0,
+    "connectorOpeningInward": 0,
+    "errors": 0,
+    "warnings": 6,
+    "total": 6
+  },
+  "trackCount": 67,
+  "viaCount": 0,
+  "padCount": 47,
+  "findings": [
+    {
+      "type": "decap-too-far",
+      "level": "WARN",
+      "net": "+5V",
+      "designator": "C1",
+      "message": "decoupling cap C1 sits 890mil (22.6mm) from the nearest +5V pin U1.8 — a decap must hug its IC (≤100mil / 2.54mm) [规范 §3.1 去耦电容紧贴IC — pcb-design-rules.md]",
+      "at": {
+        "x": 960.6,
+        "y": 550
+      }
+    },
+    {
+      "type": "decap-too-far",
+      "level": "WARN",
+      "net": "+5V",
+      "designator": "C2",
+      "message": "decoupling cap C2 sits 150mil (3.8mm) from the nearest +5V pin U1.8 — a decap must hug its IC (≤100mil / 2.54mm) [规范 §3.1 去耦电容紧贴IC — pcb-design-rules.md]",
+      "at": {
+        "x": 1350,
+        "y": 1500
+      }
+    },
+    {
+      "type": "power-not-poured",
+      "level": "WARN",
+      "net": "+5V",
+      "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+    },
+    {
+      "type": "power-not-poured",
+      "level": "WARN",
+      "net": "VIN",
+      "message": "power net VIN (2 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net VIN` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+    },
+    {
+      "type": "width-under-spec",
+      "level": "WARN",
+      "net": "+5V",
+      "primitives": [
+        "e745e52a6f5b51f7"
+      ],
+      "widths": [
+        10,
+        15.75
+      ],
+      "message": "power net +5V: 11 track(s) below the power-trunk spec width 15.7 mil (thinnest 10 mil) — widen for current capacity (route-short sizes by role; pour it instead, or --width-power to override) [规范 §1.2 推荐线宽 — pcb-design-rules.md]",
+      "at": {
+        "x": 1350,
+        "y": 1424.99
+      }
+    },
+    {
+      "type": "width-under-spec",
+      "level": "WARN",
+      "net": "VIN",
+      "primitives": [
+        "650ddd1a6bcb5278"
+      ],
+      "widths": [
+        10,
+        19.69
+      ],
+      "message": "power net VIN: 2 track(s) below the high-current spec width 19.7 mil (thinnest 10 mil) — widen for current capacity (route-short sizes by role; pour it instead, or --width-power to override) [规范 §1.2 推荐线宽 — pcb-design-rules.md]",
+      "at": {
+        "x": 772.04,
+        "y": 599.21
+      }
+    }
+  ],
+  "incomplete": false,
+  "coverage": {
+    "complete": true,
+    "componentsInventoryKnown": true,
+    "padsInventoryKnown": true,
+    "componentCount": 19,
+    "totalPads": 47,
+    "knownGeometryPads": 47,
+    "unsupportedGeometryPads": 0,
+    "unknownGeometryPads": 0,
+    "legacyGeometryPads": 0
+  }
+}

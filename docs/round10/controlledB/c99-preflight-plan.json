@@ -1,0 +1,19 @@
+{
+  "schema": "pcb-placement-proposal/v1",
+  "project": "mcu-i2c-s3-edit-r10b-20261026",
+  "partial": true,
+  "base_semantic_sha256": "1ac1de2961338a69fba336317af75a5347db27ea6c2bd9037c5b6bf4df8949d3",
+  "primitive_ids": {
+    "C99": "f665009d20ba26a6"
+  },
+  "placements": [
+    {
+      "designator": "C99",
+      "x": 1380,
+      "y": 600,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "round9 baseline position"
+    }
+  ]
+}

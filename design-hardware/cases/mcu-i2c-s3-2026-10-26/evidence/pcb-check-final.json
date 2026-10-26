@@ -1,0 +1,215 @@
+{
+  "passed": false,
+  "summary": {
+    "danglingEnds": 0,
+    "acuteAngles": 1,
+    "nonOrthogonal": 0,
+    "trackOverPad": 0,
+    "clearance": 0,
+    "silkscreenFlipped": 0,
+    "overlappingVias": 0,
+    "singleLayerVias": 0,
+    "widthMismatches": 0,
+    "duplicateSegments": 0,
+    "parallelCoupling": 4,
+    "antennaKeepout": 1,
+    "netlessPours": 0,
+    "viaCrossesPlane": 0,
+    "floatingIslands": 0,
+    "powerNotPoured": 1,
+    "netlessViaInPad": 0,
+    "widthUnderSpec": 1,
+    "silkOverPad": 0,
+    "silkOffBoard": 0,
+    "decapTooFar": 5,
+    "viaInPad": 0,
+    "copperNearEdge": 0,
+    "fiducialMissing": 1,
+    "zoneViolation": 0,
+    "internalOnEdge": 0,
+    "connectorPlugClearance": 0,
+    "connectorMatingBlocked": 0,
+    "connectorOpeningInward": 0,
+    "errors": 0,
+    "warnings": 13,
+    "total": 14
+  },
+  "trackCount": 233,
+  "viaCount": 16,
+  "padCount": 112,
+  "findings": [
+    {
+      "type": "acute-angle",
+      "level": "WARN",
+      "net": "I2C_SDA",
+      "layer": 1,
+      "primitives": [
+        "3a32fa4930ed26bb",
+        "3010e2a1ef32eaf6"
+      ],
+      "angleDeg": 45,
+      "message": "trace bends 45° (\u003c90°) — acid-trap acute angle [规范 §4.1 转角禁直角/锐角 — pcb-design-rules.md]",
+      "at": {
+        "x": 351.26,
+        "y": 1450.26
+      }
+    },
+    {
+      "type": "parallel-coupling",
+      "level": "WARN",
+      "nets": [
+        "BOOT",
+        "EN"
+      ],
+      "layer": 1,
+      "primitives": [
+        "4f0a655f909eb5f0",
+        "d78bda449ed5a408"
+      ],
+      "message": "parallel traces 28.8 mil apart over 41 mil (\u003c 30.0 mil = 3×W) — crosstalk/3W risk [规范 §4.2 减少串扰 — pcb-design-rules.md]"
+    },
+    {
+      "type": "parallel-coupling",
+      "level": "WARN",
+      "nets": [
+        "USB_DM_MCU",
+        "USB_DP_CONN"
+      ],
+      "layer": 1,
+      "primitives": [
+        "83c0c0673d75fcec",
+        "92b0893c9bc5bcdf"
+      ],
+      "message": "parallel traces 16.9 mil apart over 29 mil (\u003c 30.0 mil = 3×W) — crosstalk/3W risk [规范 §4.2 减少串扰 — pcb-design-rules.md]"
+    },
+    {
+      "type": "parallel-coupling",
+      "level": "WARN",
+      "nets": [
+        "CC1",
+        "USB_DP_CONN"
+      ],
+      "layer": 1,
+      "primitives": [
+        "97d9fdf2819708ba",
+        "3a656a2207544484"
+      ],
+      "message": "parallel traces 23.6 mil apart over 25 mil (\u003c 30.0 mil = 3×W) — crosstalk/3W risk [规范 §4.2 减少串扰 — pcb-design-rules.md]"
+    },
+    {
+      "type": "parallel-coupling",
+      "level": "WARN",
+      "nets": [
+        "USB_DP_CONN",
+        "VBUS_5V"
+      ],
+      "layer": 1,
+      "primitives": [
+        "b983e85886e88ec6",
+        "5c07eaf750a905f0"
+      ],
+      "message": "parallel traces 19.3 mil apart over 21 mil (\u003c 30.0 mil = 3×W) — crosstalk/3W risk [规范 §4.2 减少串扰 — pcb-design-rules.md]"
+    },
+    {
+      "type": "decap-too-far",
+      "level": "WARN",
+      "net": "+3V3",
+      "designator": "C1",
+      "message": "decoupling cap C1 sits 316mil (8.0mm) from the nearest +3V3 pin U1.4 — a decap must hug its IC (≤100mil / 2.54mm) [规范 §3.1 去耦电容紧贴IC — pcb-design-rules.md]",
+      "at": {
+        "x": 2083.5,
+        "y": 150
+      }
+    },
+    {
+      "type": "decap-too-far",
+      "level": "WARN",
+      "net": "+3V3",
+      "designator": "C3",
+      "message": "decoupling cap C3 sits 213mil (5.4mm) from the nearest +3V3 pin U1.4 — a decap must hug its IC (≤100mil / 2.54mm) [规范 §3.1 去耦电容紧贴IC — pcb-design-rules.md]",
+      "at": {
+        "x": 1910.6,
+        "y": 250
+      }
+    },
+    {
+      "type": "decap-too-far",
+      "level": "WARN",
+      "net": "+3V3",
+      "designator": "C4",
+      "message": "decoupling cap C4 sits 139mil (3.5mm) from the nearest +3V3 pin U2.2 — a decap must hug its IC (≤100mil / 2.54mm) [规范 §3.1 去耦电容紧贴IC — pcb-design-rules.md]",
+      "at": {
+        "x": 1340.6,
+        "y": 250
+      }
+    },
+    {
+      "type": "decap-too-far",
+      "level": "WARN",
+      "net": "+3V3",
+      "designator": "C6",
+      "message": "decoupling cap C6 sits 140mil (3.6mm) from the nearest +3V3 pin U2.2 — a decap must hug its IC (≤100mil / 2.54mm) [规范 §3.1 去耦电容紧贴IC — pcb-design-rules.md]",
+      "at": {
+        "x": 1343.5,
+        "y": 450
+      }
+    },
+    {
+      "type": "decap-too-far",
+      "level": "WARN",
+      "net": "+3V3",
+      "designator": "C90",
+      "message": "decoupling cap C90 sits 128mil (3.3mm) from the nearest +3V3 pin U90.3 — a decap must hug its IC (≤100mil / 2.54mm) [规范 §3.1 去耦电容紧贴IC — pcb-design-rules.md]",
+      "at": {
+        "x": 372.4,
+        "y": 1420
+      }
+    },
+    {
+      "type": "fiducial-missing",
+      "level": "INFO",
+      "message": "board has 112 top-layer pads (SMT-scale) but only 0 fiducial(s) (FID*/MARK*) — SMT wants ≥3 non-collinear 1mm marks (JLC panel rails add their own; local marks needed for fine-pitch) [规范 §9 Mark点设计 — pcb-design-rules.md]"
+    },
+    {
+      "type": "antenna-keepout",
+      "level": "WARN",
+      "designator": "U2",
+      "message": "antenna component U2 (ESP32-S3-WROOM-1) lacks complete polygon/rule coverage on: top (L1), bottom (L2) — copper there detunes the antenna (每层都要禁铺铜) [规范 §5.3 天线下禁止铺铜 — pcb-design-rules.md]"
+    },
+    {
+      "type": "power-not-poured",
+      "level": "WARN",
+      "net": "+3V3",
+      "message": "power net +3V3 (13 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +3V3` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+    },
+    {
+      "type": "width-under-spec",
+      "level": "WARN",
+      "net": "GND",
+      "primitives": [
+        "02ce791a5582d06c"
+      ],
+      "widths": [
+        10,
+        19.69
+      ],
+      "message": "power net GND: 69 track(s) below the gnd spec width 19.7 mil (thinnest 10 mil) — widen for current capacity (route-short sizes by role; pour it instead, or --width-power to override) [规范 §1.2 推荐线宽 — pcb-design-rules.md]",
+      "at": {
+        "x": 278.54,
+        "y": 1363.88
+      }
+    }
+  ],
+  "incomplete": false,
+  "coverage": {
+    "complete": true,
+    "componentsInventoryKnown": true,
+    "padsInventoryKnown": true,
+    "componentCount": 23,
+    "totalPads": 112,
+    "knownGeometryPads": 112,
+    "unsupportedGeometryPads": 0,
+    "unknownGeometryPads": 0,
+    "legacyGeometryPads": 0
+  }
+}
