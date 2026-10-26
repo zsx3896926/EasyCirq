@@ -1,20 +1,112 @@
-# Current handoff — 2026-10-26: schematic readability
+# Current handoff — 2026-10-26 — v0.9 PR #20
 
-Repository: hardware-design-skill. Worktree: C:/Users/jlc/work/hds-merge-20261026.
-Branch: fix/schematic-readability-contract, based on the exact merged main tree
-b28648d98806f1004aef94b1041cbd86c751d542 (remote cd2c203).
+## 范围冻结（2026-10-26）
 
-Mandatory entry guidance and existing layout references now require functional
-zones, a one-page-first plan for simple projects, justified page splits, local
-short wires, anchored labels, complete text bounds and actual visual acceptance.
-The existing sch_layout_check.py gains --strict and different-net collinear
-collision detection. Strict mode rejects missing coverage, label text bounds,
-module title/purpose references, missing/ambiguous component membership and
-incomplete inventory; page checks include label and attachment anchors.
+用户已复核 v16 官方图/checker/身份/BOM，决定：接受 7 个反向旗为已知限制，进入合并评审；
+本轮不再扩展 compose 修复。**合并定位是“工具链能力升级”，不是“绘图效果已理想”**。
+评审者尚未独立重跑 960 tests/selftest。未自动合并 PR #20。
 
-All fixtures are synthetic offline checks, not EDA evidence. No live drawing or
-installed executor/skill changed. User plans a simple real project next: explicitly
-load this worktree's design-hardware/SKILL.md so an older installed copy is not
-mistaken for the changed source. Plan one page, then draw, export every page and
-inspect whole/local views, compare pin-net, native checks, save/reopen/read back.
-No restricted-domain requests or changes to the ongoing oscilloscope project.
+已知视觉/选型限制：photo-led 阈值区纵向过长、反馈绕行大、R3/R4/R5/R7 位号偏远、
+LED 区留白；AMS1117 22µF 0805 陶瓷输出电容稳定性未验证，不能作为已验证电路推荐。
+
+## 仓库与分支
+
+- 仓库：`hardware-design-skill`；工作树：`C:/Users/jlc/work/hds-pr20-verify`
+- 分支：`feat/skill-v0.9-eda-verify`，基于 `origin/feat/skill-v0.9-reviewed` `108403c`
+- 当前 HEAD：`54f034e`（含 `d1c5deb` + `366f6f8`、BOM C 号审计与 v18 证据）
+- PR #20 head 仍是 `feat/skill-v0.9-reviewed`；本分支尚未推送
+- 另一个工作树 `C:/Users/jlc/work/hds-merge-20261026` 有他人未提交 WIP
+  （`layout_move_plan.py`、`readback_verify.py` 及测试），未触碰、未采用
+
+## 本轮工具链改动
+
+- `scripts/svg_text_bbox.py`：无头 Chromium/Edge 实测官方 SVG 全部渲染 `<text>`；
+  photo-led 同页 134 条、v14 136 条，与既有实测逐项一致。
+- `scripts/layout_from_easyeda.py`：`sch list --include-page-primitives` +
+  `visible_text` + `sheet-geometry` + 渲染文字 → `sch_layout_check` 输入；
+  分类 pin_name/pin_number/netflag/net_label/wire_name/title_block/border/unowned；
+  `wire_endpoint_check=false`（连通性交给 `sch check`）。
+- `sch_layout_check.py`：新增 `unowned_visible_text`、`duplicate_net_text`、
+  `unanchored_net_text`、`netflag_rotation_outlier`、`netflag_text_vertical`、
+  `zone_reading_order`、`title_block_duplicate_text`、`text_wire_clearance`；
+  符号自有脚名/脚号不再当普通碰撞；info-only 不阻塞（`--fail-on-info` 可升级）；
+  `--out` UTF-8 落盘。
+- `scripts/pin_net_intent_check.py`：设计意图 vs `sch read` 的物理引脚连通组比较；
+  网名拼写可不同，支持 `sch read` 的 `number` 字段；功能脚名需 `pinMap`。
+- `scripts/component_identity_check.py`（jlc-61）：device/symbol/footprint/BOM 身份；
+  可选 PCB 绑定（无 PCB 输入时 `pcb_binding=not_run`）。
+- `tests/test_sch_acceptance.py`、`tests/test_pin_net_intent.py`、
+  `tests/test_sch_acceptance_v14.py`、`tests/test_component_identity_check.py`；
+  真实 fixture `tests/fixtures/photo-led-acceptance.json`、`photo-led-v14/`。
+- 验证：`python -m unittest discover -s tests` → **966 tests OK**；
+  `skill_selftest.py` → **5 PASS / 0 FAIL**。
+- `d1c5deb` 追加：自身导线边缘级豁免、无结点交叉必须有宿主 junction 证据、
+  实例 uniqueId/component.uuid 与 `--expected-changes` 声明门禁。
+- `366f6f8` 追加：junction 证据绑定 pageId + snapshotSha256 + 两段导线 ID；
+  页/哈希/导线不匹配按 stale evidence 拒绝，不再降 hint。
+
+## 真实 EDA（本机 EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
+
+### 1) photo-led-5v-20261026（协作完成）
+
+- P1 `cd008f919db36eba`；12 网 / 47 脚 / 0 floating / 37 组件。
+- 编号按阅读顺序 1 光敏 / 2 供电 / 3 阈值 / 4 LED；标题在框左上；purpose 持久修复。
+- 图签两处 Claude Code 已消除（绘制/审阅留空，避免平台双渲染重复）。
+- v16 追加：R3 Name 上移 10 raw；VREF 短桩绕开 zone2 purpose（先下移、再绕左/上，
+  避开文字与线名）。`strict_missing: []`、`status: info_only`；3 条无结点交叉 hint
+  已绑定页 `cd008f919db36eba`、快照 SHA-256 `0392d03c…` 和两段导线 ID（`25209c69…#3`
+  等），另有 3 条 5 raw 内贴线 hint。
+- 身份核验（v14→v16）：`pass_sch_only`，19/19 位号/uniqueId/component.uuid/
+  device/symbol/封装/脚名不变；1 条 expected_change_unused info；BOM 导出与
+  SCH↔PCB 仍 NOT RUN。
+- 7 个反向旗的“原地修”已实测不可行并回退：删除后在原锚点按桩方向重建
+  （rotation 90/270）使原生 `reversedNetFlags` 降到 0，但产生 7 个竖排电源/地
+  文字并引入 2 处 blocking 文字接触（zone3 purpose 等）；随后删新旗、按原位置
+  rot=0 重建，回到 v18。`sch check` 仍有 7 条 reversed，按 BLOCKED 保留；
+  正确修法是改桩线走向/数据驱动 compose，不是原地转旗。
+- BOM 已实际导出并用项目本地映射 enrichment：`evidence/photo-led-bom-enriched.csv`
+  （15/15 回填，SHA-256 `493F5D75…`）；`bom_cnumber_check.py` 对 RV1=`10kΩ`
+  及 15 行检查 pass。默认 standard-parts 表 0/15，本地映射补足；库存/价格/
+  MOQ/SMT 未核对。图签 Drawed 留空。
+- SCH↔PCB：项目内 PCB1 `99b8366b0bdc971f` 已 linked，但 `pcb list` 为 0 器件，
+  无法核验，BLOCKED；未导入/创建 PCB 器件。
+- 最终证据：`evidence/final-v16.png/.svg`、`v16-check.json`、`v16-list.json`、
+  `v16-identity-check.json`；v14 原生 `.epro2` SHA-256 `502D6FD2…`（v16 未重导）。
+
+### 2) ne555-blinker-1hz-20261026（新建，已保存重开）
+
+- 工程 `856ec8994a544ad999a5adf69be04dd9`；P1 `2beb0746a6a6c75a`；
+  10 器件 / 7 网 / 0 floating；`sch gate` PASS；pin-net intent `match`。
+- 1k/68k/10µF → f≈1.05Hz、D≈50.4%；OUT→330Ω→LED。
+- 证据：`C:/Users/jlc/work/ne555-blinker-1hz-20261026/evidence/`（final-v2、
+  final-after-reload、check9、gate、pin-net-diff）。
+- 残留：多个电源/地标记竖排文字（管脚水平导致），方向不统一；无 purpose 文字；
+  Drawed 留空；原生归档 `evidence/final.epro2`（44,712 B，SHA-256 `0b7ad4a3…`，
+  restoreVerified=false）；PCB/仿真/实物 NOT RUN。
+
+### 3) ams1117-3v3-20261026（新建，已保存重开）
+
+- 工程 `7686883008644dea9fd9317d949a5f92`；P1 `86faeee12e6b50e6`；
+  6 器件 / 3 网 / 0 floating；`sch gate` PASS；pin-net intent `match`。
+- J1→10µF→AMS1117-3.3→22µF+100nF→J2；三功能区框。
+- 证据：`C:/Users/jlc/work/ams1117-3v3-20261026/evidence/`（final-v2、
+  final-after-reload、check-final、gate、pin-net-diff）。
+- 残留：输出电容为 22µF 0805 陶瓷，**不是**数据表保证的 22µF 固体钽，稳定性未验证；
+  多个电源/地标记竖排文字；无 purpose 文字；未做负载/纹波/热/PCB；原生归档
+  `evidence/final.epro2`（35,416 B，SHA-256 `793169d7…`，restoreVerified=false）。
+
+## 明确未做 / 边界
+
+- 未把任何配方标成 `eda-verified`：三张图仍有可见文字方向/注释缺口，且新工程主要用
+  CLI typed 流程而非 `sch_recipe` 直接落地。
+- 未发布 Release、未替换用户已安装 Skill、未合并 PR。
+- 未推送本轮 commit；PR #20 描述待重写。
+- 未做 PCB 全流程（jlc-29 在用窗口做独立 PCB 测试，21:30 前需归还）。
+- 半离线 CLI 会话未用于本验收；全部为全在线 GUI 会话。
+
+## 下一条具体动作
+
+1. 跑通 `git status`，提交项目文档/证据索引并推送本分支到 PR #20 head。
+2. 重写 PR #20 描述：工具链、三工程真实结果、残留与 NOT RUN。
+3. 若继续：为 555/稳压器补 purpose 文字（等待 typed 文本创建）、统一竖排电源/地标记、
+   稳压器换 22µF 固体钽并做负载/热测试；导出原生 `.epro2`。

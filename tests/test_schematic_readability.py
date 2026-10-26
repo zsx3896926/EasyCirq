@@ -49,6 +49,40 @@ class ReadabilityTests(unittest.TestCase):
     def test_text_on_symbol(self):
         s=snapshot();s['texts'][1]['bbox']=[21,41,29,49]
         self.assertIn('bbox_overlap',self.codes(s))
+
+    def test_owned_text_edge_contact_is_info_not_overlap(self):
+        s=snapshot();s['texts'][1]['bbox']=[20,39.5,30,40.5]
+        s['texts'][1]['owner']='R1';s['policy']['self_text_contact_tolerance']=1.0
+        result=check.analyze(s,strict=True)
+        codes={f['code'] for f in result['findings']}
+        self.assertIn('symbol_text_edge_contact',codes)
+        self.assertNotIn('bbox_overlap',codes)
+        edge=next(f for f in result['findings'] if f['code']=='symbol_text_edge_contact')
+        self.assertEqual(edge['severity'],'info')
+        self.assertEqual(edge['overlap'],[10.0,0.5])
+        self.assertEqual(result['self_text_contact_tolerance'],1.0)
+
+    def test_owned_text_deep_overlap_stays_candidate(self):
+        s=snapshot();s['texts'][1]['bbox']=[21,41,29,49]
+        s['texts'][1]['owner']='R1';s['policy']['self_text_contact_tolerance']=1.0
+        self.assertIn('bbox_overlap',self.codes(s))
+        self.assertNotIn('symbol_text_edge_contact',self.codes(s))
+
+    def test_title_block_owned_text_is_exempt_only_from_title_overlap(self):
+        s=snapshot();s['texts'][1]['bbox']=[172,88,190,92]
+        s['title_block_owned']=['value']
+        self.assertNotIn('overlaps_title_block',self.codes(s))
+        s['title_block_owned']=[]
+        self.assertIn('overlaps_title_block',self.codes(s))
+
+    def test_invalid_ownership_declarations_refuse(self):
+        for change in ('blank owner','unknown title id','duplicate title id','negative tolerance'):
+            s=snapshot()
+            if change=='blank owner':s['texts'][1]['owner']=' '
+            if change=='unknown title id':s['title_block_owned']=['missing']
+            if change=='duplicate title id':s['title_block_owned']=['value','value']
+            if change=='negative tolerance':s['policy']['self_text_contact_tolerance']=-1
+            with self.subTest(change=change),self.assertRaises(ValueError):check.analyze(s)
     def test_flying_label(self):
         s=snapshot();s['label_anchors'][0]['y']=70
         self.assertIn('label_anchor_off_connection',self.codes(s))
