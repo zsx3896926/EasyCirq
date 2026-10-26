@@ -1,0 +1,282 @@
+{
+  "project": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\round3-fix-apply.eprj2",
+  "snapshot": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\round3-fix-snapshot.json",
+  "closed_session": null,
+  "actual_counts": {
+    "components": 61,
+    "parts": 17,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "actual_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "comparison": {
+    "match": false,
+    "differences": [
+      {
+        "kind": "identity",
+        "field": "project_uuid",
+        "before": "b8dc5178646f73aabfb371dfb4cedc86c14a22d5619c5582df47794f55fcb255",
+        "after": "d7a22030c26995924f412d5f11d89f6b56f20699bbc9413328f83908e5cc61eb"
+      },
+      {
+        "kind": "part",
+        "key": "R999",
+        "field": "presence",
+        "before": null,
+        "after": {
+          "designator": "R999",
+          "part": "0603WAF1002T5E",
+          "supplier_id": "C25804",
+          "footprint": "R0603",
+          "unique_id": "",
+          "rotation": 0,
+          "mirror": false,
+          "add_into_bom": true,
+          "add_into_pcb": true,
+          "manufacturer": "UNI-ROYAL(厚声)",
+          "manufacturer_id": "0603WAF1002T5E",
+          "supplier": "LCSC"
+        }
+      },
+      {
+        "kind": "unparsed_wires",
+        "before": [
+          {
+            "primitive_id": "5302938a0e71a961",
+            "net": "",
+            "line": [
+              740,
+              460,
+              740,
+              460
+            ]
+          },
+          {
+            "primitive_id": "ad8d2bf0f8b2d8fa",
+            "net": "",
+            "line": [
+              655,
+              415,
+              655,
+              415
+            ]
+          },
+          {
+            "primitive_id": "c58691f3c7833c6f",
+            "net": "",
+            "line": [
+              700,
+              425,
+              700,
+              425
+            ]
+          },
+          {
+            "primitive_id": "d41b2fc77f5611ea",
+            "net": "",
+            "line": [
+              655,
+              425,
+              655,
+              425
+            ]
+          },
+          {
+            "primitive_id": "615df589ba9a6026",
+            "net": "",
+            "line": [
+              560,
+              415,
+              560,
+              415
+            ]
+          },
+          {
+            "primitive_id": "1920721cdd7bbe3f",
+            "net": "",
+            "line": [
+              585,
+              415,
+              585,
+              415
+            ]
+          },
+          {
+            "primitive_id": "f04701dd38eba68e",
+            "net": "",
+            "line": [
+              690,
+              380,
+              690,
+              380
+            ]
+          },
+          {
+            "primitive_id": "b6a7b13bb3da4203",
+            "net": "",
+            "line": [
+              510,
+              360,
+              510,
+              360
+            ]
+          },
+          {
+            "primitive_id": "950ed48c9d0790c0",
+            "net": "",
+            "line": [
+              655,
+              405,
+              655,
+              405
+            ]
+          },
+          {
+            "primitive_id": "422c8c228e6f4b9e",
+            "net": "",
+            "line": [
+              585,
+              405,
+              585,
+              405
+            ]
+          }
+        ],
+        "after": [
+          {
+            "primitive_id": "5302938a0e71a961",
+            "net": "",
+            "line": [
+              740,
+              460,
+              740,
+              460
+            ]
+          },
+          {
+            "primitive_id": "ad8d2bf0f8b2d8fa",
+            "net": "",
+            "line": [
+              655,
+              415,
+              655,
+              415
+            ]
+          },
+          {
+            "primitive_id": "c58691f3c7833c6f",
+            "net": "",
+            "line": [
+              700,
+              425,
+              700,
+              425
+            ]
+          },
+          {
+            "primitive_id": "d41b2fc77f5611ea",
+            "net": "",
+            "line": [
+              655,
+              425,
+              655,
+              425
+            ]
+          },
+          {
+            "primitive_id": "615df589ba9a6026",
+            "net": "",
+            "line": [
+              560,
+              415,
+              560,
+              415
+            ]
+          },
+          {
+            "primitive_id": "1920721cdd7bbe3f",
+            "net": "",
+            "line": [
+              585,
+              415,
+              585,
+              415
+            ]
+          },
+          {
+            "primitive_id": "f04701dd38eba68e",
+            "net": "",
+            "line": [
+              690,
+              380,
+              690,
+              380
+            ]
+          },
+          {
+            "primitive_id": "b6a7b13bb3da4203",
+            "net": "",
+            "line": [
+              510,
+              360,
+              510,
+              360
+            ]
+          },
+          {
+            "primitive_id": "950ed48c9d0790c0",
+            "net": "",
+            "line": [
+              655,
+              405,
+              655,
+              405
+            ]
+          },
+          {
+            "primitive_id": "422c8c228e6f4b9e",
+            "net": "",
+            "line": [
+              585,
+              405,
+              585,
+              405
+            ]
+          }
+        ],
+        "note": "geometry of these wires cannot be compared; persistence is not proven"
+      }
+    ],
+    "counts": {
+      "parts_before": 16,
+      "parts_after": 17,
+      "netflags_before": 27,
+      "netflags_after": 27,
+      "netports_before": 16,
+      "netports_after": 16,
+      "wires_before": 34,
+      "wires_after": 34
+    },
+    "compared_fields": [
+      "identity",
+      "parts(designator,part,supplier_id,footprint,unique_id,position,rotation,mirror,add_into_bom,add_into_pcb,manufacturer,manufacturer_id,supplier)",
+      "duplicate_designators",
+      "netflags(name,type,position,rotation,mirror)",
+      "netports(net,name,direction,position,rotation,mirror)",
+      "wires",
+      "unparsed_wires",
+      "attributes"
+    ]
+  },
+  "status": "mismatch"
+}

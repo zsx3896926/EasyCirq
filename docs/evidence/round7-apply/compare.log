@@ -1,0 +1,91 @@
+{
+  "schema": "design-engine-compare/v1",
+  "identity": {
+    "match": true,
+    "added_components": [],
+    "removed_components": [],
+    "added_pins": [],
+    "removed_pins": [],
+    "changed_pin_nets": [],
+    "nets_before": [
+      "+5V",
+      "BUZ_D",
+      "D1_N1",
+      "D1_N3",
+      "D1_N4",
+      "GATE",
+      "GND",
+      "LED_A",
+      "NODE",
+      "OUT",
+      "PWR_LED_A",
+      "REF_BOT",
+      "REF_TOP",
+      "VREF"
+    ],
+    "nets_after": [
+      "+5V",
+      "BUZ_D",
+      "D1_N1",
+      "D1_N3",
+      "D1_N4",
+      "GATE",
+      "GND",
+      "LED_A",
+      "NODE",
+      "OUT",
+      "PWR_LED_A",
+      "REF_BOT",
+      "REF_TOP",
+      "VREF"
+    ]
+  },
+  "layout": {
+    "moved_components": [],
+    "moved_attributes": [
+      {
+        "attribute_id": "attr:30e8c6499ea4e2dc",
+        "before": {
+          "x": 850,
+          "y": 545,
+          "value": "RV1"
+        },
+        "after": {
+          "x": 830,
+          "y": 545,
+          "value": "RV1"
+        }
+      },
+      {
+        "attribute_id": "attr:86d6306d597fc0ba",
+        "before": {
+          "x": 930,
+          "y": 300,
+          "value": "Q1"
+        },
+        "after": {
+          "x": 930,
+          "y": 305,
+          "value": "Q1"
+        }
+      },
+      {
+        "attribute_id": "attr:cfbe66a831e04fb8",
+        "before": {
+          "x": 990,
+          "y": 220,
+          "value": "={Manufacturer Part}"
+        },
+        "after": {
+          "x": 990,
+          "y": 215,
+          "value": "={Manufacturer Part}"
+        }
+      }
+    ],
+    "wire_count_before": 65,
+    "wire_count_after": 65
+  },
+  "electrical_verified": false,
+  "note": "identity is from exported pin/net tables; a native netlist diff remains the authoritative gate"
+}

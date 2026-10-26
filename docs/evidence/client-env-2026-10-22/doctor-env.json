@@ -1,0 +1,110 @@
+{
+  "status": "incomplete",
+  "host": {
+    "platform": "win32",
+    "os_name": "nt",
+    "python": "3.13.15",
+    "cwd": "C:\\Users\\jlc\\work\\hardware-design-skill-r3",
+    "can_run_local_commands": true
+  },
+  "repo_skill": {
+    "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\design-hardware\\SKILL.md",
+    "present": true
+  },
+  "clients": [
+    {
+      "name": "Claude Code",
+      "command": "C:\\Users\\jlc\\AppData\\Roaming\\npm\\claude.CMD",
+      "version": "2.1.303 (Claude Code)",
+      "skill_dirs": [
+        {
+          "scope": "user",
+          "path": "C:\\Users\\jlc\\.claude\\skills",
+          "exists": false,
+          "installed": false
+        },
+        {
+          "scope": "project",
+          "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\.claude\\skills",
+          "exists": false,
+          "installed": false
+        }
+      ],
+      "installed": false,
+      "reload": "start a new session or reload skills in the client",
+      "source": "https://code.claude.com/docs/en/skills"
+    },
+    {
+      "name": "Codex",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\OpenAI\\Codex\\bin\\896a0166b774037a\\codex.exe",
+      "version": "codex-cli 0.163.0-alpha.10.2",
+      "skill_dirs": [
+        {
+          "scope": "user",
+          "path": "C:\\Users\\jlc\\.agents\\skills",
+          "exists": false,
+          "installed": false
+        },
+        {
+          "scope": "user",
+          "path": "C:\\Users\\jlc\\.codex\\skills",
+          "exists": true,
+          "installed": false
+        },
+        {
+          "scope": "project",
+          "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\.agents\\skills",
+          "exists": false,
+          "installed": false
+        },
+        {
+          "scope": "project",
+          "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\.codex\\skills",
+          "exists": false,
+          "installed": false
+        }
+      ],
+      "installed": false,
+      "reload": "start a new Codex session; $CODEX_HOME/skills is a legacy fallback",
+      "source": "https://github.com/openai/codex (skills host roots, v0.163)"
+    },
+    {
+      "name": "WorkBuddy",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\WorkBuddy\\WorkBuddy.exe",
+      "version": "file present",
+      "skill_dirs": [
+        {
+          "scope": "user",
+          "path": "C:\\Users\\jlc\\.workbuddy\\skills",
+          "exists": true,
+          "installed": false
+        },
+        {
+          "scope": "project",
+          "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\.workbuddy\\skills",
+          "exists": false,
+          "installed": false
+        }
+      ],
+      "installed": false,
+      "reload": "refresh/reopen the Skills page; the app rescans watched skill directories",
+      "source": "https://www.workbuddy.ai/docs/zh/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market"
+    }
+  ],
+  "eda": {
+    "cli": "C:\\Users\\jlc\\AppData\\Local\\Programs\\lceda-pro\\lceda-pro.exe",
+    "easyeda_command": null,
+    "connected": true,
+    "version_match": true,
+    "project_readable": "not_probed",
+    "bridge_version": "4.1.78.34f5b8d9",
+    "timeout_ms": 120000
+  },
+  "missing": [
+    "design-hardware is not installed in any detected skill directory"
+  ],
+  "notes": [
+    "project_writable is never inferred here; verify it with apply --dry-run/--save on an authorized copy",
+    "a project may be readable in half-offline mode; full-online conclusions need the user GUI session"
+  ]
+}

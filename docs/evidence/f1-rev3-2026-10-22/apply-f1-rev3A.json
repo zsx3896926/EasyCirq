@@ -1,0 +1,778 @@
+{
+  "status": "verified",
+  "plan": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\plan-f1-rev3-A.json",
+  "session": {
+    "sessionId": "633fcdea-5e6e-4405-a413-da6c434d773e",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "C107",
+      "op": "part",
+      "status": "create",
+      "designator": "C107",
+      "part": "CA45-E035K226T",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "R107",
+      "op": "part",
+      "status": "create",
+      "designator": "R107",
+      "part": "0603WAF1002T5E",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "C104",
+      "op": "part",
+      "status": "create",
+      "designator": "C104",
+      "part": "CL10B104KB8NNNC",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "C105",
+      "op": "part",
+      "status": "create",
+      "designator": "C105",
+      "part": "CL10B104KB8NNNC",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "C106",
+      "op": "part",
+      "status": "create",
+      "designator": "C106",
+      "part": "CAPCER10UF25VX5R0805",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "D102",
+      "op": "part",
+      "status": "create",
+      "designator": "D102",
+      "part": "SMBJ5.0A",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "del_C103",
+      "op": "delete",
+      "status": "delete",
+      "kind": "part",
+      "primitive_id": "7f8a1de03b53efcf",
+      "expected": {
+        "designator": "C103",
+        "x": 520,
+        "y": 220,
+        "component": "CAPCER10UF25VX5R0805"
+      }
+    },
+    {
+      "key": "del_C103_3v3",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "0b53f38272506d50",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "c107_3v3",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "w_c107_3v3",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_part",
+      "key": "C107",
+      "part": "CA45-E035K226T",
+      "supplier_id": "C169219",
+      "x": 510,
+      "y": 220,
+      "rotation": 180,
+      "mirror": false,
+      "designator": "C107",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    },
+    {
+      "action": "create_part",
+      "key": "R107",
+      "part": "0603WAF1002T5E",
+      "supplier_id": "C25804",
+      "x": 480,
+      "y": 500,
+      "rotation": 0,
+      "mirror": false,
+      "designator": "R107",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    },
+    {
+      "action": "create_part",
+      "key": "C104",
+      "part": "CL10B104KB8NNNC",
+      "supplier_id": "C1591",
+      "x": 700,
+      "y": 500,
+      "rotation": 0,
+      "mirror": false,
+      "designator": "C104",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    },
+    {
+      "action": "create_part",
+      "key": "C105",
+      "part": "CL10B104KB8NNNC",
+      "supplier_id": "C1591",
+      "x": 700,
+      "y": 540,
+      "rotation": 0,
+      "mirror": false,
+      "designator": "C105",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    },
+    {
+      "action": "create_part",
+      "key": "C106",
+      "part": "CAPCER10UF25VX5R0805",
+      "supplier_id": "C9900012828",
+      "x": 780,
+      "y": 540,
+      "rotation": 0,
+      "mirror": false,
+      "designator": "C106",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    },
+    {
+      "action": "create_part",
+      "key": "D102",
+      "part": "SMBJ5.0A",
+      "supplier_id": "C357965",
+      "x": 300,
+      "y": 160,
+      "rotation": 0,
+      "mirror": false,
+      "designator": "D102",
+      "add_into_bom": true,
+      "add_into_pcb": true,
+      "post_modify": null
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del_C103",
+      "kind": "part",
+      "primitive_id": "7f8a1de03b53efcf",
+      "expected": {
+        "designator": "C103",
+        "x": 520,
+        "y": 220,
+        "component": "CAPCER10UF25VX5R0805"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del_C103_3v3",
+      "kind": "wire",
+      "primitive_id": "0b53f38272506d50",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "create_net_flag",
+      "key": "c107_3v3",
+      "type": "Power",
+      "net": "3V3",
+      "x": 490,
+      "y": 190,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "w_c107_3v3#0",
+      "net": "3V3",
+      "points": [
+        490.0,
+        190.0,
+        490.0,
+        220.0
+      ],
+      "segments": [
+        [
+          490.0,
+          190.0,
+          490.0,
+          220.0
+        ]
+      ]
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "C107",
+        "ok": true,
+        "action": "create_part",
+        "primitive_id": "b1793b6b786fee10",
+        "expected": {
+          "designator": "C107"
+        },
+        "observed": {
+          "designator": "C107",
+          "unique_id": "",
+          "x": 510,
+          "y": 220,
+          "rotation": 180,
+          "mirror": false,
+          "manufacturer": "湘怡中元/湘江",
+          "manufacturer_id": "CA45-E035K226T",
+          "supplier": "LCSC",
+          "supplier_id": "C169219",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "R107",
+        "ok": true,
+        "action": "create_part",
+        "primitive_id": "3faed8c7e4b0a41d",
+        "expected": {
+          "designator": "R107"
+        },
+        "observed": {
+          "designator": "R107",
+          "unique_id": "",
+          "x": 480,
+          "y": 500,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "UNI-ROYAL(厚声)",
+          "manufacturer_id": "0603WAF1002T5E",
+          "supplier": "LCSC",
+          "supplier_id": "C25804",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "C104",
+        "ok": true,
+        "action": "create_part",
+        "primitive_id": "e4687e87ad3d0cfd",
+        "expected": {
+          "designator": "C104"
+        },
+        "observed": {
+          "designator": "C104",
+          "unique_id": "",
+          "x": 700,
+          "y": 500,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "SAMSUNG(三星)",
+          "manufacturer_id": "CL10B104KB8NNNC",
+          "supplier": "LCSC",
+          "supplier_id": "C1591",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "C105",
+        "ok": true,
+        "action": "create_part",
+        "primitive_id": "8d27056fcaca7bdf",
+        "expected": {
+          "designator": "C105"
+        },
+        "observed": {
+          "designator": "C105",
+          "unique_id": "",
+          "x": 700,
+          "y": 540,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "SAMSUNG(三星)",
+          "manufacturer_id": "CL10B104KB8NNNC",
+          "supplier": "LCSC",
+          "supplier_id": "C1591",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "C106",
+        "ok": true,
+        "action": "create_part",
+        "primitive_id": "87e5af8567392818",
+        "expected": {
+          "designator": "C106"
+        },
+        "observed": {
+          "designator": "C106",
+          "unique_id": "",
+          "x": 780,
+          "y": 540,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "",
+          "manufacturer_id": "CAPCER10UF25VX5R0805",
+          "supplier": "LCSC",
+          "supplier_id": "C9900012828",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "D102",
+        "ok": true,
+        "action": "create_part",
+        "primitive_id": "e04f8a717dedcc70",
+        "expected": {
+          "designator": "D102"
+        },
+        "observed": {
+          "designator": "D102",
+          "unique_id": "",
+          "x": 300,
+          "y": 160,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "DOWO(东沃)",
+          "manufacturer_id": "SMBJ5.0A",
+          "supplier": "LCSC",
+          "supplier_id": "C357965",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "del_C103",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "7f8a1de03b53efcf",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del_C103_3v3",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "0b53f38272506d50",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "c107_3v3",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "4beb6c48ff2ecd48",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 490,
+          "y": 190,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "w_c107_3v3#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "e191bed274d047d3",
+        "net": "3V3",
+        "line": [
+          [
+            490,
+            220,
+            490,
+            190
+          ]
+        ]
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "36f18cb07b899b7d3c8902255d3e1efea8f0c0b23dc67ea73a479767a1c3d631",
+      "friendly_name": "f1-rev3",
+      "name": "/f1-rev3"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 66,
+    "parts": 21,
+    "netflags": 28,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "C107",
+        "op": "part",
+        "status": "create",
+        "designator": "C107",
+        "part": "CA45-E035K226T",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C107",
+            "component": "CA45-E035K226T",
+            "supplier_id": "C169219",
+            "x": 510,
+            "y": 220,
+            "rotation": 180
+          },
+          "observed": {
+            "designator": "C107",
+            "component": "CA45-E035K226T",
+            "supplier_id": "C169219",
+            "x": 510,
+            "y": 220,
+            "rotation": 180
+          }
+        }
+      },
+      {
+        "key": "R107",
+        "op": "part",
+        "status": "create",
+        "designator": "R107",
+        "part": "0603WAF1002T5E",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "R107",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 480,
+            "y": 500,
+            "rotation": 0
+          },
+          "observed": {
+            "designator": "R107",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 480,
+            "y": 500,
+            "rotation": 0
+          }
+        }
+      },
+      {
+        "key": "C104",
+        "op": "part",
+        "status": "create",
+        "designator": "C104",
+        "part": "CL10B104KB8NNNC",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C104",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 700,
+            "y": 500,
+            "rotation": 0
+          },
+          "observed": {
+            "designator": "C104",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 700,
+            "y": 500,
+            "rotation": 0
+          }
+        }
+      },
+      {
+        "key": "C105",
+        "op": "part",
+        "status": "create",
+        "designator": "C105",
+        "part": "CL10B104KB8NNNC",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C105",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 700,
+            "y": 540,
+            "rotation": 0
+          },
+          "observed": {
+            "designator": "C105",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 700,
+            "y": 540,
+            "rotation": 0
+          }
+        }
+      },
+      {
+        "key": "C106",
+        "op": "part",
+        "status": "create",
+        "designator": "C106",
+        "part": "CAPCER10UF25VX5R0805",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C106",
+            "component": "CAPCER10UF25VX5R0805",
+            "supplier_id": "C9900012828",
+            "x": 780,
+            "y": 540,
+            "rotation": 0
+          },
+          "observed": {
+            "designator": "C106",
+            "component": "CAPCER10UF25VX5R0805",
+            "supplier_id": "C9900012828",
+            "x": 780,
+            "y": 540,
+            "rotation": 0
+          }
+        }
+      },
+      {
+        "key": "D102",
+        "op": "part",
+        "status": "create",
+        "designator": "D102",
+        "part": "SMBJ5.0A",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "D102",
+            "component": "SMBJ5.0A",
+            "supplier_id": "C357965",
+            "x": 300,
+            "y": 160,
+            "rotation": 0
+          },
+          "observed": {
+            "designator": "D102",
+            "component": "SMBJ5.0A",
+            "supplier_id": "C357965",
+            "x": 300,
+            "y": 160,
+            "rotation": 0
+          }
+        }
+      },
+      {
+        "key": "del_C103",
+        "op": "delete",
+        "status": "delete",
+        "kind": "part",
+        "primitive_id": "7f8a1de03b53efcf",
+        "expected": {
+          "designator": "C103",
+          "x": 520,
+          "y": 220,
+          "component": "CAPCER10UF25VX5R0805"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "part",
+          "primitive_id": "7f8a1de03b53efcf",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del_C103_3v3",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "0b53f38272506d50",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "0b53f38272506d50",
+          "still_present": false
+        }
+      },
+      {
+        "key": "c107_3v3",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "w_c107_3v3",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 66,
+      "wires": 44
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 66,
+    "parts": 21,
+    "netflags": 28,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

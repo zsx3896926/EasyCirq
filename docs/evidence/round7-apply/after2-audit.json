@@ -1,0 +1,238 @@
+{
+  "schema": "design-engine-audit/v1",
+  "engine_version": "1.0.0",
+  "reading": {
+    "schema": "design-engine-ir/v1",
+    "project": "engine-verify-round7-imported",
+    "project_uuid": "64ab79c43f24454e8066801ade20d42f",
+    "page": "P1",
+    "document_uuid": "6a8364999a809cb4",
+    "files": [
+      {
+        "path": "sch-list-full.json",
+        "sha256": "baf4f2d66208cfb621a94fbfb949ea1c0401cdc436e78d01e376b40d6d6c6fe5",
+        "bytes": 1087811
+      },
+      {
+        "path": "sch-connectivity.json",
+        "sha256": "33f8bf14e5a91ae37d2b5e7bd5975d3ddf44a5cfd838aac020ace2e981ee7eeb",
+        "bytes": 39584
+      },
+      {
+        "path": "sch-designator-geometry.json",
+        "sha256": "b35db6a9385063316d1d824dd68283d8f7004f02aa8edc2f8f3f99220477fcba",
+        "bytes": 10322
+      },
+      {
+        "path": "sheet-geometry.json",
+        "sha256": "11e61ef892fbd1d566c899531a5d484b9b4ad8a9f84411caacfcc106e7380dc1",
+        "bytes": 904
+      },
+      {
+        "path": "sch-titleblock.json",
+        "sha256": "e9362ca84f1420f9bf8c7e7a08cb2cce6498a29475bf6ee073804f2bb62a7141",
+        "bytes": 4655
+      },
+      {
+        "path": "sch-text-list.json",
+        "sha256": "ea82a63fe7797ec2fb381cb1ad9306387bcb47d81841b2dad834bc8edd1f1474",
+        "bytes": 930
+      },
+      {
+        "path": "sch-baseline.svg",
+        "sha256": "b348a06bf12d5a48c460cfbadab863757b25477527bb5c8943a7d778c451faa2",
+        "bytes": 176639
+      }
+    ]
+  },
+  "summary": {
+    "schema": "design-engine-ir/v1",
+    "project": "engine-verify-round7-imported",
+    "page": "P1",
+    "components": {
+      "part": 26
+    },
+    "nets": 14,
+    "connections": 65,
+    "wires": 65,
+    "labels": 31,
+    "net_labels": 34,
+    "texts": 53,
+    "modules": 0,
+    "groups": 0,
+    "text_bbox_sources": {
+      "windows_gdi_font_metrics": 70,
+      "native_sdk_bbox": 26
+    },
+    "coverage": {
+      "components": "complete",
+      "pins": "complete",
+      "attributes": "complete",
+      "text_bboxes": "complete",
+      "wires": "complete",
+      "net_labels": "complete",
+      "nets": "complete",
+      "title_block": "complete",
+      "module_frames": "absent",
+      "groups": "absent",
+      "reasons": []
+    }
+  },
+  "status": "blocked",
+  "findings": [
+    {
+      "id": "finding:off_grid:part:D4",
+      "code": "off_grid",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "part:D4"
+      ],
+      "message": "D4 anchor (900, 224) is not on a 5-unit grid",
+      "evidence": {}
+    },
+    {
+      "id": "finding:outside_page:text:3fcc0b756fafb102",
+      "code": "outside_page",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "text:3fcc0b756fafb102"
+      ],
+      "message": "text:Name is outside the page [0.0, 0.0, 1170.0, 825.0]",
+      "evidence": {
+        "bbox": [
+          0.0,
+          -20.0,
+          26.0,
+          -7.0
+        ],
+        "page": [
+          0.0,
+          0.0,
+          1170.0,
+          825.0
+        ]
+      }
+    },
+    {
+      "id": "finding:label_overlap:label:netflag:b84abb2f4e79df36|label:netflag:0484ef7189f64ea7",
+      "code": "label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "label:netflag:b84abb2f4e79df36",
+        "label:netflag:0484ef7189f64ea7"
+      ],
+      "message": "net label GND overlaps GND",
+      "evidence": {}
+    },
+    {
+      "id": "finding:net_label_overlap:netlabel:11ab6c3069e0df5b|netlabel:f0716cfd895ef448",
+      "code": "net_label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "netlabel:11ab6c3069e0df5b",
+        "netlabel:f0716cfd895ef448"
+      ],
+      "message": "net labels PWR_LED_A and BUZ_D overlap",
+      "evidence": {}
+    },
+    {
+      "id": "finding:net_label_overlap:netlabel:2810d562818e2f1f|netlabel:baabcb8449b80a8c",
+      "code": "net_label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "netlabel:2810d562818e2f1f",
+        "netlabel:baabcb8449b80a8c"
+      ],
+      "message": "net labels OUT and NODE overlap",
+      "evidence": {}
+    },
+    {
+      "id": "finding:net_label_overlap:netlabel:2a4b653e36b26122|netlabel:c97bdfb920d17461",
+      "code": "net_label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "netlabel:2a4b653e36b26122",
+        "netlabel:c97bdfb920d17461"
+      ],
+      "message": "net labels BUZ_D and GATE overlap",
+      "evidence": {}
+    },
+    {
+      "id": "finding:net_label_overlap:netlabel:40fc679523ba8b91|netlabel:a3fecf0bffd13df0",
+      "code": "net_label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "netlabel:40fc679523ba8b91",
+        "netlabel:a3fecf0bffd13df0"
+      ],
+      "message": "net labels REF_TOP and REF_BOT overlap",
+      "evidence": {}
+    },
+    {
+      "id": "finding:missing_partition:page",
+      "code": "missing_partition",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "page"
+      ],
+      "message": "26 parts on one page without declared module frames",
+      "evidence": {}
+    }
+  ],
+  "hard_count": 1,
+  "advisory_count": 7,
+  "checks_run": [
+    "component_bodies",
+    "off_grid",
+    "text_overlaps",
+    "text_component_overlap",
+    "outside_page",
+    "title_block",
+    "wire_body_text_crossings",
+    "wire_contacts",
+    "different_net_crossings",
+    "labels"
+  ],
+  "checks_skipped": [
+    "module_frames: no declared module frames"
+  ],
+  "coverage_issues": [],
+  "pin_reconciliation": {
+    "status": "match",
+    "issues": [],
+    "connected_pins": 65,
+    "duplicate_pin_numbers_preserved": {},
+    "coverage": "Pin table + connectivity export + NC flags; not an independent native netlist diff."
+  },
+  "electrical_verified": false,
+  "visual_verified": false,
+  "coverage_note": "Geometry and identity only; wire-level connectivity, ERC and visual review remain separate.",
+  "metrics": {
+    "components": 26,
+    "attributes": 96,
+    "texts": 53,
+    "wires": 65,
+    "labels": 31,
+    "net_labels": 34,
+    "nets": 14,
+    "findings_by_code": {
+      "label_overlap": 1,
+      "missing_partition": 1,
+      "net_label_overlap": 4,
+      "off_grid": 1,
+      "outside_page": 1
+    }
+  },
+  "source": {
+    "kind": "ir",
+    "path": "docs\\evidence\\round7-apply\\after2-ir.json"
+  }
+}

@@ -1,0 +1,95 @@
+{
+  "id": "req_6708",
+  "type": "response",
+  "version": "v1",
+  "windowId": "fdcf9c6f-041a-4e07-8900-715bd123cba0",
+  "createdAt": "2026-10-24T14:57:18.8131436Z",
+  "ok": true,
+  "result": {
+    "after": {
+      "AlignMode": null,
+      "Bold": false,
+      "Color": null,
+      "FillColor": null,
+      "FontName": null,
+      "FontSize": null,
+      "Italic": false,
+      "Key": "Designator",
+      "KeyVisible": false,
+      "ParentPrimitiveId": "36a5af48e54d8ca6",
+      "Rotation": 0,
+      "UnderLine": false,
+      "Value": "Q1",
+      "ValueVisible": true,
+      "X": 930,
+      "Y": 305,
+      "primitiveId": "86d6306d597fc0ba"
+    },
+    "attempted": true,
+    "before": {
+      "AlignMode": null,
+      "Bold": false,
+      "Color": null,
+      "FillColor": null,
+      "FontName": null,
+      "FontSize": null,
+      "Italic": false,
+      "Key": "Designator",
+      "KeyVisible": false,
+      "ParentPrimitiveId": "36a5af48e54d8ca6",
+      "Rotation": 0,
+      "UnderLine": false,
+      "Value": "Q1",
+      "ValueVisible": true,
+      "X": 930,
+      "Y": 300,
+      "primitiveId": "86d6306d597fc0ba"
+    },
+    "errors": [],
+    "identityAfter": {
+      "documentType": "schematic",
+      "documentUuid": "6a8364999a809cb4",
+      "pageVisibility": "hidden",
+      "projectName": "engine-verify-round7-imported",
+      "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+      "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f"
+    },
+    "identityBefore": {
+      "documentType": "schematic",
+      "documentUuid": "6a8364999a809cb4",
+      "pageVisibility": "hidden",
+      "projectName": "engine-verify-round7-imported",
+      "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+      "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f"
+    },
+    "moved": true,
+    "partial": false,
+    "preserved": true,
+    "primitiveId": "86d6306d597fc0ba",
+    "requested": {
+      "x": 930,
+      "y": 305
+    },
+    "scope": "attribute-position-only",
+    "verified": true
+  },
+  "context": {
+    "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+    "projectName": "engine-verify-round7-imported",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+    "projectName": "engine-verify-round7-imported",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 32,
+  "seqAbandoned": 0
+}

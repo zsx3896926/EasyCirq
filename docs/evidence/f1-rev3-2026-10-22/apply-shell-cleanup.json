@@ -1,0 +1,654 @@
+{
+  "status": "verified",
+  "plan": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\plan-shell-cleanup.json",
+  "session": {
+    "sessionId": "577ec8dd-d1b8-4596-a5cf-a6b6d6ced4b7",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 81,
+    "parts": 21,
+    "netflags": 39,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "del_shell_wire_top",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "3abd1f9f24cdce6a",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del_shell_wire_bot",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "11a0b72d7f84b351",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del_shell_flag_160_380",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "33273c5b6e6ec03a",
+      "expected": {
+        "name": "GND",
+        "x": 160,
+        "y": 380
+      }
+    },
+    {
+      "key": "del_shell_flag_170_380",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "cdf24ca92005302d",
+      "expected": {
+        "name": "GND",
+        "x": 170,
+        "y": 380
+      }
+    },
+    {
+      "key": "del_shell_flag_160_230",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "1ad6cd14b2e9c776",
+      "expected": {
+        "name": "GND",
+        "x": 160,
+        "y": 230
+      }
+    },
+    {
+      "key": "del_shell_flag_170_230",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "f5faf3e3970e6a59",
+      "expected": {
+        "name": "GND",
+        "x": 170,
+        "y": 230
+      }
+    },
+    {
+      "key": "shell_top",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "w_shell_top",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "shell_bot",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "w_shell_bot",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_primitive",
+      "key": "del_shell_wire_top",
+      "kind": "wire",
+      "primitive_id": "3abd1f9f24cdce6a",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del_shell_wire_bot",
+      "kind": "wire",
+      "primitive_id": "11a0b72d7f84b351",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del_shell_flag_160_380",
+      "kind": "net_flag",
+      "primitive_id": "33273c5b6e6ec03a",
+      "expected": {
+        "name": "GND",
+        "x": 160,
+        "y": 380
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del_shell_flag_170_380",
+      "kind": "net_flag",
+      "primitive_id": "cdf24ca92005302d",
+      "expected": {
+        "name": "GND",
+        "x": 170,
+        "y": 380
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del_shell_flag_160_230",
+      "kind": "net_flag",
+      "primitive_id": "1ad6cd14b2e9c776",
+      "expected": {
+        "name": "GND",
+        "x": 160,
+        "y": 230
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del_shell_flag_170_230",
+      "kind": "net_flag",
+      "primitive_id": "f5faf3e3970e6a59",
+      "expected": {
+        "name": "GND",
+        "x": 170,
+        "y": 230
+      }
+    },
+    {
+      "action": "create_net_flag",
+      "key": "shell_top",
+      "type": "Ground",
+      "net": "GND",
+      "x": 190,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "w_shell_top#0",
+      "net": "GND",
+      "points": [
+        140.0,
+        380.0,
+        190.0,
+        380.0
+      ],
+      "segments": [
+        [
+          140.0,
+          380.0,
+          190.0,
+          380.0
+        ]
+      ]
+    },
+    {
+      "action": "create_net_flag",
+      "key": "shell_bot",
+      "type": "Ground",
+      "net": "GND",
+      "x": 190,
+      "y": 230,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "w_shell_bot#0",
+      "net": "GND",
+      "points": [
+        140.0,
+        230.0,
+        190.0,
+        230.0
+      ],
+      "segments": [
+        [
+          140.0,
+          230.0,
+          190.0,
+          230.0
+        ]
+      ]
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "del_shell_wire_top",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "3abd1f9f24cdce6a",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del_shell_wire_bot",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "11a0b72d7f84b351",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del_shell_flag_160_380",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "33273c5b6e6ec03a",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del_shell_flag_170_380",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "cdf24ca92005302d",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del_shell_flag_160_230",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "1ad6cd14b2e9c776",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del_shell_flag_170_230",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "f5faf3e3970e6a59",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "shell_top",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e69626a1c40427e4",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 190,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "w_shell_top#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "cdb9df2a2be5a729",
+        "net": "GND",
+        "line": [
+          [
+            190,
+            380,
+            150,
+            380
+          ],
+          [
+            140,
+            380,
+            150,
+            380
+          ]
+        ]
+      },
+      {
+        "key": "shell_bot",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "2bd4c9ebd26965f9",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 190,
+          "y": 230,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "w_shell_bot#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "bcae1d9e342152be",
+        "net": "GND",
+        "line": [
+          [
+            190,
+            230,
+            150,
+            230
+          ],
+          [
+            140,
+            230,
+            150,
+            230
+          ]
+        ]
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "36f18cb07b899b7d3c8902255d3e1efea8f0c0b23dc67ea73a479767a1c3d631",
+      "friendly_name": "f1-rev3",
+      "name": "/f1-rev3"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "del_shell_wire_top",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "3abd1f9f24cdce6a",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "3abd1f9f24cdce6a",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del_shell_wire_bot",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "11a0b72d7f84b351",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "11a0b72d7f84b351",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del_shell_flag_160_380",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "33273c5b6e6ec03a",
+        "expected": {
+          "name": "GND",
+          "x": 160,
+          "y": 380
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "33273c5b6e6ec03a",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del_shell_flag_170_380",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "cdf24ca92005302d",
+        "expected": {
+          "name": "GND",
+          "x": 170,
+          "y": 380
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "cdf24ca92005302d",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del_shell_flag_160_230",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "1ad6cd14b2e9c776",
+        "expected": {
+          "name": "GND",
+          "x": 160,
+          "y": 230
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "1ad6cd14b2e9c776",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del_shell_flag_170_230",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "f5faf3e3970e6a59",
+        "expected": {
+          "name": "GND",
+          "x": 170,
+          "y": 230
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "f5faf3e3970e6a59",
+          "still_present": false
+        }
+      },
+      {
+        "key": "shell_top",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "w_shell_top",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "shell_bot",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "w_shell_bot",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 79,
+      "wires": 57
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

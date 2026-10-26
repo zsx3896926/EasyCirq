@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "pcb": {"pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3"},
+  "note": "Diagnostic: does line create work at these coordinates (GND/layer1), and does the outline variant (empty net/layer11) fail?",
+  "items": [
+    {"op": "line", "key": "diag-normal", "net": "GND", "layer": 1,
+     "x1": 100, "y1": 100, "x2": 600, "y2": 100, "width": 10},
+    {"op": "line", "key": "diag-outline", "net": "", "layer": 11,
+     "x1": 100, "y1": 200, "x2": 600, "y2": 200, "width": 10}
+  ]
+}

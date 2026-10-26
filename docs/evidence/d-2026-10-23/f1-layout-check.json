@@ -1,0 +1,118 @@
+{
+  "status": "review_required",
+  "counts": {
+    "components": 0,
+    "texts": 0,
+    "wires": 47
+  },
+  "declared_inventory_matches": null,
+  "optional_counts": {
+    "module_frames": 0,
+    "attachment_points": 102,
+    "label_anchors": 20
+  },
+  "checks_run": [
+    "wire_endpoints_and_pin_nets",
+    "label_anchors"
+  ],
+  "checks_skipped": [
+    "title_block: title_block not supplied",
+    "module_frames: module_frames not supplied"
+  ],
+  "findings": [
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "edb522f140092bee",
+        1
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "bc74621b5a1f62f9",
+        1
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "9a58d5948beaa725",
+        0
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "599ead93945a4808",
+        0
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "adab218e8d133bac",
+        1
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "ca85ee074eebdd42",
+        1
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "36c9d801a311ed37",
+        1
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "ada5c0e5da45fbf2",
+        1
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "d660a2e8100c4165",
+        1
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "dangling_wire_endpoint",
+      "objects": [
+        "fd02d5b3bf99aff6",
+        0
+      ],
+      "status": "review_candidate"
+    }
+  ],
+  "electrical_verified": false,
+  "visual_verified": false,
+  "coverage": "Only supplied symbol-body/text rectangles, polylines, page/title/frame bounds and declared attachment/label points.",
+  "not_checked": [
+    "actual EDA connectivity, pins, NC and junctions",
+    "shape-accurate outlines and intentional overlaps",
+    "missing/stale snapshot objects",
+    "module/title margins and reading quality",
+    "decoupling or PCB electrical distance",
+    "collinear overlaps and endpoint junction topology",
+    "frame intent/membership beyond supplied contains",
+    "attachment completeness beyond supplied points",
+    "pin-electrical-type conflicts and netlister rules"
+  ]
+}

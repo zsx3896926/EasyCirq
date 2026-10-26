@@ -1,0 +1,12 @@
+{
+  "project": "fictional-connectivity-example-not-a-circuit",
+  "power_nets": ["VLOGIC"],
+  "ground_nets": ["GND"],
+  "external_nets": ["VLOGIC", "GND"],
+  "components": [
+    {"ref":"U1","part":"FICTIONAL_IC_NOT_FOR_EDA","physical_pins":["A1","B1","EP"],"pins":{"A1":"BUS_SDA","B1":"VLOGIC","EP":"GND"},"nc":[]},
+    {"ref":"R1","kind":"resistor","physical_pins":["1","2"],"pins":{"1":"BUS_SDA","2":"VLOGIC"},"fitted":true},
+    {"ref":"TP1","physical_pins":["1"],"pins":{"1":"GND"}}
+  ],
+  "net_rules":{"BUS_SDA":{"pullup":true,"power_net":"VLOGIC"}}
+}

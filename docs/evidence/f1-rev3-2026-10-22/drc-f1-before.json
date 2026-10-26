@@ -1,0 +1,145 @@
+{
+  "status": "checked",
+  "drc": {
+    "ok": true,
+    "strict": true,
+    "result": [
+      {
+        "type": "warn",
+        "rule": "OBJECTOUTSIDESHEET",
+        "primitives": [
+          {
+            "primitiveId": "194e5d88d54bae97",
+            "sheet": "f6d41a58df3fa849",
+            "name": "GND"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "OBJECTOUTSIDESHEET",
+        "primitives": [
+          {
+            "primitiveId": "a380d2e117269cb8",
+            "sheet": "f6d41a58df3fa849",
+            "name": "GND"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "OBJECTOUTSIDESHEET",
+        "primitives": [
+          {
+            "primitiveId": "7115cf4ecd33c6f5",
+            "sheet": "f6d41a58df3fa849",
+            "name": "GND"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "OBJECTOUTSIDESHEET",
+        "primitives": [
+          {
+            "primitiveId": "b75805cade4ebea2",
+            "sheet": "f6d41a58df3fa849",
+            "name": "GND"
+          }
+        ]
+      },
+      {
+        "type": "warn",
+        "rule": "CHECKFLOATPIN",
+        "primitives": [
+          {
+            "primitiveId": "84931dadefea5b69-e3",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "3"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e7",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "1"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e11",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "4"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e15",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "2"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e19",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e23",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e27",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "B6"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e35",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A8"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e39",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A7"
+          },
+          {
+            "primitiveId": "84931dadefea5b69-e43",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "J101",
+            "name": "A6"
+          },
+          {
+            "primitiveId": "9caf259471fe8fbe-e9",
+            "sheet": "f6d41a58df3fa849",
+            "designator": "U101",
+            "name": "2"
+          }
+        ]
+      }
+    ],
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1",
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C"
+    }
+  },
+  "session": {
+    "sessionId": "56de20f3-42b8-44c8-a57b-444afeee6e8b",
+    "origin": "cli",
+    "owned": true
+  },
+  "summary": "violations_reported",
+  "violation_count": 5,
+  "by_type": {
+    "warn": 5
+  },
+  "by_rule": {
+    "OBJECTOUTSIDESHEET": 4,
+    "CHECKFLOATPIN": 1
+  }
+}

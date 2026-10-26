@@ -1,0 +1,63 @@
+{
+  "schema": "design-engine-state/v1",
+  "project": {
+    "name": "temp-alarm-r7-engine",
+    "uuid": null,
+    "page": null
+  },
+  "stage": "S5_delivery",
+  "best_candidate": null,
+  "open_items": [],
+  "next_action": "verify PCB placement candidates in an exclusive copy; add native netlist diff and human review",
+  "budget": {
+    "kind": "none",
+    "spent": 0,
+    "remaining": null
+  },
+  "recovery": null,
+  "evidence": [
+    {
+      "role": "evidence",
+      "path": "docs\\evidence\\round7-engine\\audit-schematic.json",
+      "sha256": "2edb569566a8c537ae80b81c12b7032f8d684a3b8b92a8e032b8497493f82b48",
+      "bytes": 10222
+    },
+    {
+      "role": "evidence",
+      "path": "docs\\evidence\\round7-engine\\label-plan.json",
+      "sha256": "afec7c0585d78a48cc447ee88784bce1c9fcbb209a7f8d1bd900f36a027f56ad",
+      "bytes": 4054
+    },
+    {
+      "role": "evidence",
+      "path": "docs\\evidence\\round7-engine\\pcb-audit.json",
+      "sha256": "3d7600d30dec12b752e78db35fb5433c70c951e8b78d9fd01d36616b9044583b",
+      "bytes": 13216
+    },
+    {
+      "role": "evidence",
+      "path": "docs\\evidence\\round7-engine\\placement.json",
+      "sha256": "0829c3ef110bc0d2581fbe3fb6b47e22bd58f3af802905cd1a96cdceafe9903a",
+      "bytes": 28001
+    },
+    {
+      "role": "evidence",
+      "path": "docs\\evidence\\round7-engine\\critical.json",
+      "sha256": "d3ad98c188f8e260fd870172c0cc9e5301ebb41eb99e1c1db87e1f861ab470cb",
+      "bytes": 4167
+    },
+    {
+      "role": "evidence",
+      "path": "docs\\evidence\\round7-apply\\after3-audit.json",
+      "sha256": "5b8ceef678095dbce7dd5408d3403e2abc69b48697e51e7b94bdc2fe1d915bdb",
+      "bytes": 6408
+    },
+    {
+      "role": "evidence",
+      "path": "docs\\evidence\\round7-apply\\compare3.json",
+      "sha256": "f9f626bf7e2aa754d769328ff9145fdbad3f533656c590f853ad4a27d4942ac9",
+      "bytes": 3428
+    }
+  ],
+  "updated": null
+}

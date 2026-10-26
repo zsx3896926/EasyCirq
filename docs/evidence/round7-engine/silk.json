@@ -1,0 +1,114 @@
+{
+  "schema": "design-engine-silk/v1",
+  "status": "review",
+  "findings": [
+    {
+      "id": "finding:silk_over_pad:20846f3ca6882c23e18|R12.1",
+      "code": "silk_over_pad",
+      "severity": "major",
+      "scope": "advisory",
+      "objects": [
+        "20846f3ca6882c23e18",
+        "R12.1"
+      ],
+      "message": "designator 'C5' overlaps pad R12.1",
+      "evidence": {}
+    },
+    {
+      "id": "finding:silk_designator_sideways:8931182f05848194e16",
+      "code": "silk_designator_sideways",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "8931182f05848194e16"
+      ],
+      "message": "designator 'R1' is rotated 90°",
+      "evidence": {}
+    },
+    {
+      "id": "finding:silk_designator_sideways:801642a863a9fcb9e16",
+      "code": "silk_designator_sideways",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "801642a863a9fcb9e16"
+      ],
+      "message": "designator 'R2' is rotated 90°",
+      "evidence": {}
+    },
+    {
+      "id": "finding:silk_over_pad:683ee50fcc02414ae16|R16.2",
+      "code": "silk_over_pad",
+      "severity": "major",
+      "scope": "advisory",
+      "objects": [
+        "683ee50fcc02414ae16",
+        "R16.2"
+      ],
+      "message": "designator 'R14' overlaps pad R16.2",
+      "evidence": {}
+    }
+  ],
+  "hard_count": 0,
+  "advisory_count": 4,
+  "checks_run": [
+    "visible_designators",
+    "mirroring",
+    "pad_overlap",
+    "board_edge",
+    "orientation"
+  ],
+  "coverage": {
+    "visible_entries": 26,
+    "components": 26,
+    "visible_designators": 26
+  },
+  "suggestions": [
+    {
+      "silk_id": "20846f3ca6882c23e18",
+      "text": "C5",
+      "component_id": "20846f3ca6882c23",
+      "from": {
+        "x": 1599.3545,
+        "y": -1197.1514
+      },
+      "to": {
+        "x": 1659.0755,
+        "y": -1215.1084,
+        "bbox": [
+          1659.0755,
+          -1215.1084,
+          1712.2755,
+          -1170.1084
+        ]
+      },
+      "status": "suggested"
+    },
+    {
+      "silk_id": "683ee50fcc02414ae16",
+      "text": "R14",
+      "component_id": "683ee50fcc02414a",
+      "from": {
+        "x": 2069.825,
+        "y": -1392.37
+      },
+      "to": {
+        "x": 2110,
+        "y": -1400,
+        "bbox": [
+          2110,
+          -1400,
+          2181.1,
+          -1355.0
+        ]
+      },
+      "status": "suggested"
+    }
+  ],
+  "eeada_apply": "NOT RUN",
+  "note": "assembly drawing and functional silk intent are separate; no text was moved",
+  "source": {
+    "kind": "pcb-bundle",
+    "path": "docs\\evidence\\round7-baseline-2026-10-24"
+  }
+}

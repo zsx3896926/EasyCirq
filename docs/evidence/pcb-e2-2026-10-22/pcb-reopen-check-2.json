@@ -1,0 +1,53 @@
+{
+  "status": "match",
+  "comparison": {
+    "match": true,
+    "diff_count": 0,
+    "diffs": []
+  },
+  "pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3",
+    "pcb_name": "PCB"
+  },
+  "before_counts": {
+    "components": 35,
+    "lines": 99,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 89
+  },
+  "after_counts": {
+    "components": 35,
+    "lines": 99,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 89
+  },
+  "closed": {
+    "closed": true,
+    "session": {
+      "sessionId": "0e1364d6-4f12-4c1b-b13e-adcc41056c4a",
+      "status": "closed",
+      "headless": true
+    }
+  },
+  "before_integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": []
+  },
+  "after_integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": []
+  },
+  "note": "match covers pcb identity, counts, primitive ids and net names on this snapshot budget"
+}

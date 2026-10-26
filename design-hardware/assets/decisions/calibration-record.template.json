@@ -1,0 +1,42 @@
+{
+  "_template": "Agent 填写，用户不填",
+  "_format": "calibration-record/v1：payload 为除 record_id/length/slots/status/valid/valid_until/invalid_reason 外的字段，按键排序、无空格、UTF-8 规范化；其字节数为 length，zlib CRC32 写入 A/B 槽；record_id 用 CAL-项目-序号；未知值写“待查”，不得填 0 冒充；valid/expired 的 valid_until 必须是真实 YYYY-MM-DD",
+  "record_id": "CAL-项目-序号",
+  "magic": "CALREC",
+  "schema_version": 1,
+  "length": 0,
+  "identity": {
+    "model": "待查",
+    "hw_rev": "待查",
+    "variant": "待查",
+    "serial": "待查"
+  },
+  "cal_date": "待查",
+  "cal_temp_c": "待查",
+  "source_id": "待查",
+  "channels": [
+    {
+      "channel": 1,
+      "offset": "待查",
+      "gain": "待查",
+      "range": "待查",
+      "unit": "待查"
+    }
+  ],
+  "slots": {
+    "A": {
+      "sequence": 0,
+      "crc32": "待计算",
+      "status": "uncalibrated"
+    },
+    "B": {
+      "sequence": 0,
+      "crc32": "待计算",
+      "status": "uncalibrated"
+    }
+  },
+  "status": "uncalibrated",
+  "valid": false,
+  "valid_until": "待查",
+  "invalid_reason": ""
+}

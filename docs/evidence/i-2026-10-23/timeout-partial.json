@@ -1,0 +1,112 @@
+{
+  "status": "partial_unknown",
+  "plan": "docs/evidence/pcb-e2-2026-10-22/plan-minimal.json",
+  "session": {
+    "sessionId": "0888ed77-b2e1-48a9-9db8-ba33ab62c020",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true
+  },
+  "pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3",
+    "pcb_name": "PCB"
+  },
+  "before_counts": {
+    "components": 33,
+    "lines": 152,
+    "vias": 0,
+    "pours": 1,
+    "poured": 1,
+    "pads": 83
+  },
+  "integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": []
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "e2-line",
+      "op": "line",
+      "action": "create",
+      "dedup": "checked"
+    },
+    {
+      "key": "e2-via",
+      "op": "via",
+      "action": "create",
+      "dedup": "checked"
+    },
+    {
+      "key": "e2-pour",
+      "op": "pour_outline",
+      "action": "create",
+      "dedup": "checked"
+    }
+  ],
+  "actions": [
+    {
+      "y1": -500,
+      "x2": 2600,
+      "y2": -500,
+      "layer": 1,
+      "net": "GND",
+      "x1": 2500,
+      "width": 15,
+      "key": "e2-line",
+      "op": "line"
+    },
+    {
+      "x": 2700,
+      "y": -500,
+      "net": "GND",
+      "hole": 20,
+      "diameter": 40,
+      "key": "e2-via",
+      "op": "via"
+    },
+    {
+      "w": 400,
+      "x": 2500,
+      "y": -800,
+      "layer": 2,
+      "net": "GND",
+      "h": 300,
+      "name": "R5_E2_POUR",
+      "key": "e2-pour",
+      "op": "pour_outline"
+    }
+  ],
+  "conflicts": [],
+  "pinned_pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3"
+  },
+  "error": "lceda-pro invoke exceeded 1 ms; inspect the project before retrying",
+  "partial_counts": {
+    "components": 33,
+    "lines": 152,
+    "vias": 0,
+    "pours": 1,
+    "poured": 1,
+    "pads": 83
+  },
+  "partial_integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": []
+  },
+  "note": "invoke timed out; objects may exist. Re-read before retrying; do not replay the whole plan."
+}

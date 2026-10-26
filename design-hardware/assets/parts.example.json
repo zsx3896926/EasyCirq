@@ -1,0 +1,135 @@
+{
+  "schema": "parts/v1",
+  "project": "temp-alarm",
+  "_note": "示例文件，不是已核数据：器件行形状取自 temp-alarm 项目 BOM；stock 全部 unchecked，smt_class 为 pending，datasheet 为占位路径，不代表已核库存、价格、SMT 可贴状态或手册来源。运行 scripts/bom_check.py 只应得到 warning；采购前逐项查商城/订单页并填 checked_at。",
+  "parts": [
+    {
+      "role": "比较器",
+      "designators": ["U1"],
+      "mpn": "MCP6541T-I/OT",
+      "manufacturer": "Microchip",
+      "lcsc": "C80839",
+      "footprint": "SOT-23-5_L3.0-W1.7-P0.95-LS2.8-BR",
+      "package": "SOT-23-5",
+      "assembly": "smt",
+      "datasheet": "datasheet/MCP6541T-I-OT.pdf",
+      "stock": {"status": "unchecked", "qty": null, "checked_at": null},
+      "smt_class": "pending",
+      "alternates": [
+        {
+          "mpn": "ALT-COMP-01",
+          "lcsc": {"status": "pending", "note": "示例替代，未核"},
+          "difference": "示例：仅演示字段，未做电气/封装核对"
+        }
+      ]
+    },
+    {
+      "role": "分压电阻",
+      "designators": ["R1", "R2"],
+      "mpn": "0402WGF5101TCE",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": "C25905",
+      "footprint": "R0402",
+      "package": "0402",
+      "assembly": "smt",
+      "datasheet": "datasheet/0402WGF5101TCE.pdf",
+      "stock": {"status": "unchecked", "qty": null, "checked_at": null},
+      "smt_class": "pending",
+      "alternates": []
+    },
+    {
+      "role": "去耦电容",
+      "designators": ["C1", "C2", "C3", "C5"],
+      "mpn": "CC0603KRX7R9BB104",
+      "manufacturer": "YAGEO",
+      "lcsc": "C14663",
+      "footprint": "C0603",
+      "package": "0603",
+      "assembly": "smt",
+      "datasheet": "datasheet/CC0603KRX7R9BB104.pdf",
+      "stock": {"status": "unchecked", "qty": null, "checked_at": null},
+      "smt_class": "pending",
+      "alternates": []
+    },
+    {
+      "role": "NTC 测温",
+      "designators": ["RT1"],
+      "mpn": "NTCG163JX103DT1S",
+      "manufacturer": "TDK",
+      "lcsc": "C524452",
+      "footprint": "R0603",
+      "package": "0603",
+      "assembly": "smt",
+      "datasheet": "datasheet/NTCG163JX103DT1S.pdf",
+      "stock": {"status": "unchecked", "qty": null, "checked_at": null},
+      "smt_class": "pending",
+      "alternates": []
+    },
+    {
+      "role": "报警驱动 MOS",
+      "designators": ["Q1"],
+      "mpn": "2N7002",
+      "manufacturer": "CJ",
+      "lcsc": "C8545",
+      "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "package": "SOT-23",
+      "assembly": "smt",
+      "datasheet": "datasheet/2N7002.pdf",
+      "stock": {"status": "unchecked", "qty": null, "checked_at": null},
+      "smt_class": "pending",
+      "alternates": []
+    },
+    {
+      "role": "电源防反接二极管",
+      "designators": ["D1"],
+      "mpn": "SS34",
+      "manufacturer": "MDD",
+      "lcsc": "C8678",
+      "footprint": "SMA_L4.3-W2.6-LS5.2-RD",
+      "package": "SMA",
+      "assembly": "smt",
+      "datasheet": "datasheet/SS34.pdf",
+      "stock": {"status": "unchecked", "qty": null, "checked_at": null},
+      "smt_class": "pending",
+      "alternates": []
+    },
+    {
+      "role": "阈值电位器",
+      "designators": ["RV1"],
+      "mpn": "3296W-1-103",
+      "manufacturer": "BOCHEN",
+      "lcsc": "C118954",
+      "footprint": "RES-ADJ-TH_3P-L10.0-W10.0-P2.50-L",
+      "package": "直插 10x10",
+      "assembly": "hand",
+      "datasheet": "datasheet/3296W-1-103.pdf",
+      "stock": {"status": "unchecked", "qty": null, "checked_at": null},
+      "alternates": []
+    },
+    {
+      "role": "有源蜂鸣器",
+      "designators": ["BZ1"],
+      "mpn": "GMD9505RB-5V2700",
+      "manufacturer": "INGHAi",
+      "lcsc": "C530400",
+      "footprint": "BUZ-TH_BD9.5-P5.00-D0.6-L_GMD9505RB-5V2700",
+      "package": "直插 Ø9.5",
+      "assembly": "tht",
+      "datasheet": "datasheet/GMD9505RB-5V2700.pdf",
+      "stock": {"status": "unchecked", "qty": null, "checked_at": null},
+      "alternates": []
+    },
+    {
+      "role": "可选调试跳线（DNP 示例）",
+      "designators": ["R18"],
+      "mpn": "0603WAF0000T5E",
+      "manufacturer": "UNI-ROYAL",
+      "lcsc": {"status": "pending", "note": "示例 DNP 行；启用前补实际 C 号"},
+      "footprint": "R0603",
+      "package": "0603",
+      "assembly": "dnp",
+      "datasheet": "datasheet/0603WAF0000T5E.pdf",
+      "alternates": []
+    }
+  ]
+}

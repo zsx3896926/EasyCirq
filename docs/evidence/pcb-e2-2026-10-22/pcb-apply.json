@@ -1,0 +1,209 @@
+{
+  "status": "verified",
+  "plan": "docs/evidence/pcb-e2-2026-10-22/plan-minimal.json",
+  "session": {
+    "sessionId": "0869c120-4b5e-4130-a728-b9253587fb62",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true
+  },
+  "pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3",
+    "pcb_name": "PCB"
+  },
+  "before_counts": {
+    "components": 33,
+    "lines": 98,
+    "vias": 0,
+    "pours": 1,
+    "poured": 1,
+    "pads": 83
+  },
+  "integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": []
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "e2-line",
+      "op": "line",
+      "action": "create",
+      "dedup": "checked"
+    },
+    {
+      "key": "e2-via",
+      "op": "via",
+      "action": "create",
+      "dedup": "checked"
+    },
+    {
+      "key": "e2-pour",
+      "op": "pour_outline",
+      "action": "create",
+      "dedup": "checked"
+    }
+  ],
+  "actions": [
+    {
+      "x1": 2500,
+      "net": "GND",
+      "x2": 2600,
+      "width": 15,
+      "layer": 1,
+      "y1": -500,
+      "y2": -500,
+      "key": "e2-line",
+      "op": "line"
+    },
+    {
+      "x": 2700,
+      "diameter": 40,
+      "net": "GND",
+      "y": -500,
+      "hole": 20,
+      "key": "e2-via",
+      "op": "via"
+    },
+    {
+      "x": 2500,
+      "name": "R5_E2_POUR",
+      "net": "GND",
+      "w": 400,
+      "layer": 2,
+      "y": -800,
+      "h": 300,
+      "key": "e2-pour",
+      "op": "pour_outline"
+    }
+  ],
+  "conflicts": [],
+  "pinned_pcb": {
+    "pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "e2-line",
+        "op": "line",
+        "created": true,
+        "id": "d995f855840a2615",
+        "net": "GND",
+        "layer": 1,
+        "width": 15,
+        "hole": null,
+        "diameter": null,
+        "designator": null,
+        "name": null
+      },
+      {
+        "key": "e2-via",
+        "op": "via",
+        "created": true,
+        "id": "e6f4825437b7d5fb",
+        "net": "GND",
+        "layer": null,
+        "width": null,
+        "hole": 20,
+        "diameter": 40,
+        "designator": null,
+        "name": null
+      },
+      {
+        "key": "e2-pour",
+        "op": "pour_outline",
+        "created": true,
+        "id": "ffd681e8bec3e886",
+        "net": "GND",
+        "layer": 2,
+        "width": 10,
+        "hole": null,
+        "diameter": null,
+        "designator": null,
+        "name": null
+      }
+    ],
+    "poured_before": 1,
+    "poured_after": 1,
+    "poured_delta": 0,
+    "note": "pour outlines create the border only; a non-zero poured_delta means the client recomputed copper fills"
+  },
+  "after_counts": {
+    "components": 33,
+    "lines": 99,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1,
+    "pads": 83
+  },
+  "after_integrity": {
+    "status": "complete",
+    "missing": [],
+    "read_error_count": 0,
+    "read_errors": [],
+    "field_note_count": 0,
+    "field_notes": []
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "e2-line",
+        "op": "line",
+        "status": "verified",
+        "mismatches": [],
+        "id": "d995f855840a2615"
+      },
+      {
+        "key": "e2-via",
+        "op": "via",
+        "status": "verified",
+        "mismatches": [],
+        "id": "e6f4825437b7d5fb"
+      },
+      {
+        "key": "e2-pour",
+        "op": "pour_outline",
+        "status": "verified",
+        "mismatches": [],
+        "id": "ffd681e8bec3e886"
+      }
+    ],
+    "pour_fill": {
+      "poured_before": 1,
+      "poured_after": 1,
+      "delta": 0,
+      "fill_recomputed": false
+    }
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "saved_value": true,
+    "counts": {
+      "components": 33,
+      "lines": 99,
+      "vias": 1,
+      "pours": 2,
+      "poured": 1
+    }
+  },
+  "saved_counts": {
+    "components": 33,
+    "lines": 99,
+    "vias": 1,
+    "pours": 2,
+    "poured": 1
+  }
+}

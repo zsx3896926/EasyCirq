@@ -1,0 +1,32 @@
+{
+  "status": "match",
+  "match": true,
+  "before": {
+    "components": 21,
+    "nets": 12,
+    "pins": 60,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "after": {
+    "components": 21,
+    "nets": 12,
+    "pins": 60,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "differences": [],
+  "blocking_differences": [],
+  "compared_fields": [
+    "component designator/parttype/footprint/BOM/PCB/supplier/manufacturer/unique_id",
+    "physical pin -> net",
+    "net partition",
+    "duplicate designators",
+    "pin on multiple nets",
+    "empty nets (*reported, not blocking by itself)"
+  ],
+  "limitations": [
+    "a component pin that is unconnected in both netlists is absent from both; this tool cannot prove NC state from a Protel netlist alone",
+    "coordinates, wire geometry and formatting are intentionally not compared"
+  ]
+}

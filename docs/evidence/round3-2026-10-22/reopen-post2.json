@@ -1,0 +1,47 @@
+{
+  "project": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\round3-fix-apply.eprj2",
+  "snapshot": "C:\\Users\\jlc\\work\\hw-deepdive-scratch\\round3-audit\\post-r999.json",
+  "closed_session": null,
+  "actual_counts": {
+    "components": 61,
+    "parts": 17,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "actual_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "comparison": {
+    "match": true,
+    "differences": [],
+    "counts": {
+      "parts_before": 17,
+      "parts_after": 17,
+      "netflags_before": 27,
+      "netflags_after": 27,
+      "netports_before": 16,
+      "netports_after": 16,
+      "wires_before": 34,
+      "wires_after": 34
+    },
+    "compared_fields": [
+      "identity",
+      "parts(designator,part,supplier_id,footprint,unique_id,position,rotation,mirror,add_into_bom,add_into_pcb,manufacturer,manufacturer_id,supplier)",
+      "duplicate_designators",
+      "netflags(name,type,position,rotation,mirror)",
+      "netports(net,name,direction,position,rotation,mirror)",
+      "wires",
+      "unparsed_wires",
+      "attributes"
+    ]
+  },
+  "status": "match"
+}

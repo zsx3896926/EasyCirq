@@ -1,0 +1,626 @@
+{
+  "status": "dry_run",
+  "plan": "docs\\evidence\\f1-2026-10-22\\plan.json",
+  "session": {
+    "sessionId": "86830d79-9501-4030-9bf8-b5a348467a3b",
+    "origin": "cli",
+    "owned": true
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 60,
+    "parts": 16,
+    "netflags": 27,
+    "netports": 16,
+    "unclassified": 1,
+    "wires": 44,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": true,
+  "items": [
+    {
+      "key": "part-J101",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-U102",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-U101",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-R101",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-R102",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-C101",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-C102",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-C103",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-R103",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-R104",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-R105",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-R106",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-D101",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-SW101",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-SW102",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "part-J102",
+      "op": "part",
+      "status": "skip",
+      "reason": "already_matches",
+      "stable_identity": true
+    },
+    {
+      "key": "flag-1",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-2",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-3",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-4",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-5",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-6",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-7",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-8",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-9",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-10",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-11",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-12",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-13",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-14",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-15",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-16",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-17",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-18",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-19",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-20",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-21",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-22",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-23",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-24",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-25",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-26",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-27",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-28",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-29",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-30",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-31",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-32",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-33",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-34",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-35",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-36",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-37",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-38",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-39",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-40",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-41",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-42",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-43",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-44",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-45",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-46",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-47",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-48",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-49",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-50",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-51",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-52",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-53",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-54",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-55",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-56",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-57",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-58",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-59",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-60",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-61",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-62",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-63",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-64",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-65",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-66",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-67",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-68",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-69",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-70",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-71",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-72",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-73",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "flag-74",
+      "op": "net_flag",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "wire-75",
+      "op": "wire",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-76",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    },
+    {
+      "key": "port-77",
+      "op": "net_port",
+      "status": "skip",
+      "reason": "already_matches"
+    }
+  ],
+  "actions": [],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "no write was sent"
+}

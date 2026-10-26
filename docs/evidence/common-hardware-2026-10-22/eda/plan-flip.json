@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "page": {"schematic_name": "S1-NTC-ALARM", "page_name": "P1"},
+  "note": "Put 3V3 at the top and GND at the bottom of both dividers.",
+  "operations": [
+    {"op": "delete_wire", "key": "del-ntc", "match": {"primitive_id": "d5343a91a80918aa", "net": "NTC_NODE"}},
+    {"op": "delete_wire", "key": "del-th", "match": {"primitive_id": "3157312fb0d02d0e", "net": "TH_NODE"}},
+    {"op": "delete_component", "key": "del-f1", "match": {"primitive_id": "cfa9c6e42d2bb03f", "component_type": "netflag"}},
+    {"op": "delete_component", "key": "del-f2", "match": {"primitive_id": "5dbbf7e6a46b2a9a", "component_type": "netflag"}},
+    {"op": "delete_component", "key": "del-f3", "match": {"primitive_id": "46e9b67bd0ba1907", "component_type": "netflag"}},
+    {"op": "delete_component", "key": "del-f4", "match": {"primitive_id": "4dc29ce8c24e6bee", "component_type": "netflag"}},
+    {"op": "part", "key": "move-r201", "match": {"designator": "R201"}, "place": {"x": 320, "y": 640, "rotation": 270}},
+    {"op": "part", "key": "move-rt201", "match": {"designator": "RT201"}, "place": {"x": 320, "y": 480, "rotation": 270}},
+    {"op": "part", "key": "move-r202", "match": {"designator": "R202"}, "place": {"x": 880, "y": 640, "rotation": 270}},
+    {"op": "part", "key": "move-r203", "match": {"designator": "R203"}, "place": {"x": 880, "y": 480, "rotation": 270}},
+    {"op": "wire", "key": "ntc-new", "net": "NTC_NODE", "points": [320, 620, 320, 500]},
+    {"op": "wire", "key": "th-new", "net": "TH_NODE", "points": [880, 620, 880, 500]},
+    {"op": "net_flag", "key": "f-3v3-1", "net": "3V3", "type": "Power", "at": [320, 660]},
+    {"op": "net_flag", "key": "f-3v3-2", "net": "3V3", "type": "Power", "at": [880, 660]},
+    {"op": "net_flag", "key": "f-gnd-1", "net": "GND", "type": "Ground", "at": [320, 460]},
+    {"op": "net_flag", "key": "f-gnd-2", "net": "GND", "type": "Ground", "at": [880, 460]}
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "pcb": {"pcb_uuid": "b2f4d387989c4c63ac68533b05f0eee3"},
+  "note": "E-package minimal write verification on a scratch copy (pcb-e2-verify.eprj2): one line, one via, one pour outline on GND. No components, no deletes.",
+  "items": [
+    {
+      "op": "line",
+      "key": "e2-line",
+      "net": "GND",
+      "layer": 1,
+      "x1": 2500,
+      "y1": -500,
+      "x2": 2600,
+      "y2": -500,
+      "width": 15,
+      "expected": {"net": "GND", "layer": 1, "width": 15}
+    },
+    {
+      "op": "via",
+      "key": "e2-via",
+      "net": "GND",
+      "x": 2700,
+      "y": -500,
+      "hole": 20,
+      "diameter": 40,
+      "expected": {"net": "GND", "hole": 20, "diameter": 40}
+    },
+    {
+      "op": "pour_outline",
+      "key": "e2-pour",
+      "net": "GND",
+      "layer": 2,
+      "name": "R5_E2_POUR",
+      "x": 2500,
+      "y": -800,
+      "w": 400,
+      "h": 300,
+      "expected": {"net": "GND", "layer": 2}
+    }
+  ]
+}

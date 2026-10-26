@@ -1,0 +1,11 @@
+{
+  "capacity_Ah": 2.0,
+  "usable_fraction": 0.75,
+  "current_basis": "battery_input",
+  "sleep_current_A": 0.00001,
+  "states": [
+    {"name": "fictional measurement", "current_A": 0.02, "duration_s": 0.5, "events_per_day": 48},
+    {"name": "fictional connection and notification", "current_A": 0.12, "duration_s": 5, "events_per_day": 3}
+  ],
+  "target_days": 90
+}

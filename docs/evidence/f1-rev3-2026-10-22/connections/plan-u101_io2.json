@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "page": {
+  "schematic_name": "F1-USB-MCU-C",
+  "page_name": "P1"
+ },
+ "operations": [
+  {
+   "op": "net_port",
+   "key": "u101_io2",
+   "net": "IO2",
+   "direction": "BI",
+   "at": [
+    565,
+    425
+   ]
+  },
+  {
+   "op": "wire",
+   "key": "w_u101_io2",
+   "net": "IO2",
+   "points": [
+    585,
+    425,
+    565,
+    425
+   ]
+  }
+ ]
+}

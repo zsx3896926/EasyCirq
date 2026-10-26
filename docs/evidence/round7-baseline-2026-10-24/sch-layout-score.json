@@ -1,0 +1,91 @@
+{
+  "overall": 84.2,
+  "verdict": "good",
+  "dimensions": [
+    {
+      "id": "folded-labels",
+      "title": "标签折叠",
+      "status": "scored",
+      "score": 100,
+      "weight": 1.2
+    },
+    {
+      "id": "reversed-labels",
+      "title": "标签反向",
+      "status": "scored",
+      "score": 100,
+      "weight": 1.2
+    },
+    {
+      "id": "proximity",
+      "title": "外围贴核心",
+      "status": "scored",
+      "score": 37.7,
+      "weight": 1,
+      "attributions": [
+        {
+          "dimension": "proximity",
+          "target": "R13",
+          "penalty": 37.5,
+          "message": "R13 距核心 J1 边距 413(\u003e150 开始扣分)— 建议移到 J1 上方 (485,570) 附近后重连(未分区,按全页最大件推核心,建议先 sch zones set 落认领再复核)",
+          "fix": "easyeda sch modify --id 2621a59ea8a70d60 --patch '{\"x\":485,\"y\":570}'",
+          "at": {
+            "x": 900,
+            "y": 720
+          }
+        },
+        {
+          "dimension": "proximity",
+          "target": "R14",
+          "penalty": 24.8,
+          "message": "R14 距核心 J1 边距 323(\u003e150 开始扣分)— 建议移到 J1 下方 (485,420) 附近后重连(未分区,按全页最大件推核心,建议先 sch zones set 落认领再复核)",
+          "fix": "easyeda sch modify --id 57e6443b47db3c84 --patch '{\"x\":485,\"y\":420}'",
+          "at": {
+            "x": 840,
+            "y": 360
+          }
+        }
+      ]
+    },
+    {
+      "id": "stub-tidiness",
+      "title": "长链/挤压",
+      "status": "scored",
+      "score": 100,
+      "weight": 0.8
+    },
+    {
+      "id": "frame-fit",
+      "title": "版面整洁",
+      "status": "scored",
+      "score": 76,
+      "weight": 0.5,
+      "reason": "现场框/自由文字/位号 bbox 已测；非位号属性文字按验收范围排除；标记文字带为估算",
+      "attributions": [
+        {
+          "dimension": "frame-fit",
+          "target": "D4",
+          "penalty": 12,
+          "message": "designator-wire-overlap: wire crosses Designator text bbox"
+        },
+        {
+          "dimension": "frame-fit",
+          "target": "D6",
+          "penalty": 12,
+          "message": "designator-wire-overlap: wire crosses Designator text bbox"
+        }
+      ]
+    }
+  ],
+  "dimensionScores": {
+    "folded-labels": 100,
+    "frame-fit": 76,
+    "proximity": 37.7,
+    "reversed-labels": 100,
+    "stub-tidiness": 100
+  },
+  "componentCount": 58,
+  "scoredDims": 5,
+  "skippedDims": 0,
+  "summary": "sch layout-score: 综合 84.2 [good] — 5 维已测 / 0 维未测(skipped≠满分),58 图元"
+}

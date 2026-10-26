@@ -1,0 +1,1542 @@
+{
+  "version": "2026-10-23",
+  "total": 47,
+  "required_negative_cases": [
+    "two_aa_ldo",
+    "same_package_different_pinout",
+    "same_net_wrong_physical_pin",
+    "parallel_pullup_over_sink",
+    "reset_download_load_actuation",
+    "schematic_cap_bad_pcb_loop",
+    "diff_pair_cross_split",
+    "lcsc_stock_not_smt",
+    "geometry_zero_missing_text_bounds",
+    "drc_pass_power_condition_unmet",
+    "soldered_not_flashed_tested",
+    "estimate_claimed_verified"
+  ],
+  "scenarios": [
+    {
+      "id": "S01",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "花盆缺水手机提醒",
+      "prompt": "我想做个花盆土干了能给手机提醒的小东西，不懂EDA，也不会写程序。请带我做到能用。",
+      "expected_route": [
+        "references/beginner-journey.md",
+        "references/idea-to-product.md",
+        "references/design-cards/wireless/w01-wifi-ble.md",
+        "references/design-cards/analog/a01-divider.md",
+        "references/projects/p01-low-power-wireless-sensor.md",
+        "references/firmware-bringup.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "先复述目标并只问1-2个影响路线的生活化问题",
+        "区分硬件、固件、手机端和实物验收",
+        "先建立土壤传感与供电方案，再谈外壳",
+        "列出真实卡点和下一步"
+      ],
+      "must_not_claim": [
+        "把图纸完成说成设备能用",
+        "把拔出探头测试说成真实土壤校准",
+        "把估算续航说成已验证"
+      ],
+      "evidence_required": [
+        "需求复述",
+        "传感/供电选择依据",
+        "手机通知链实际测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S02",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "USB 小灯/指示器",
+      "prompt": "我没用过EDA，想做一个插USB就亮的小灯，最好能调亮度。",
+      "expected_route": [
+        "references/starter-patterns.md",
+        "references/design-cards/power/p12-usbc-sink.md",
+        "references/design-cards/drive/d07-led-cc.md",
+        "references/beginner-journey.md"
+      ],
+      "must_do": [
+        "先确认USB-C sink角色和C-to-C供电",
+        "按LED Vf/电流选限流或恒流方案",
+        "解释是否真的需要MCU",
+        "给出手焊/打样两条路线"
+      ],
+      "must_not_claim": [
+        "把Type-C外形当成PD能力",
+        "直接套5.1k到所有Type-C角色",
+        "未测就说亮度/调光已实现"
+      ],
+      "evidence_required": [
+        "USB角色与CC方案",
+        "LED电流计算",
+        "实际插电/调光测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S03",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "手机看温湿度",
+      "prompt": "我想在房间里放一个小盒子，手机能看温度和湿度，最好用电池。",
+      "expected_route": [
+        "references/starter-patterns.md",
+        "references/design-cards/wireless/w01-wifi-ble.md",
+        "references/design-cards/analog/a10-rtd-thermistor.md",
+        "references/design-cards/power/p01-ldo.md",
+        "references/enclosure-integration.md"
+      ],
+      "must_do": [
+        "确认室内/室外、电池/插电、查看距离",
+        "核对模组峰值电流与传感器气路",
+        "把壳体影响纳入验收",
+        "分别报告原型与定制板状态"
+      ],
+      "must_not_claim": [
+        "用模组典型电流代替峰值",
+        "把开发板跑通说成定制板已验证",
+        "把背光/亮灯说成数据已上报"
+      ],
+      "evidence_required": [
+        "电源峰值预算",
+        "传感器气路/热源",
+        "手机端实际收到数据"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S04",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "电池供电无线按钮",
+      "prompt": "我想做一个贴在墙上的无线按钮，按一下手机能收到提醒，电池最好能用一年。",
+      "expected_route": [
+        "references/starter-patterns.md",
+        "references/design-cards/wireless/w01-wifi-ble.md",
+        "references/design-cards/power/p08-battery-protection.md",
+        "references/offline-tools.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "把“一年”转成可测的每日事件/睡眠预算",
+        "核对唤醒、发射、确认、重试状态",
+        "说明电池化学体系与截止电压",
+        "给出实测电流的方法"
+      ],
+      "must_not_claim": [
+        "用典型待机电流直接乘算一年",
+        "把模型寿命说成已验证",
+        "忽略弱网重试和低温"
+      ],
+      "evidence_required": [
+        "整板输入侧状态电流",
+        "电池容量/截止条件",
+        "长期实测计划"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S05",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "12V 小水泵定时开关",
+      "prompt": "我想定时开关一个12V的小水泵，能用手机设置时间。",
+      "expected_route": [
+        "references/starter-patterns.md",
+        "references/design-cards/drive/d01-low-side.md",
+        "references/design-cards/power/p11-efuse.md",
+        "references/design-cards/mcu/m01-bare-mcu.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "取得水泵铭牌/启动/堵转电流",
+        "按感性负载处理续流与浪涌",
+        "设计复位/掉电默认关闭",
+        "核对继电器或MOSFET的真实额定"
+      ],
+      "must_not_claim": [
+        "把水泵当电阻负载",
+        "只按平均电流选开关",
+        "让固件单独承担安全默认态"
+      ],
+      "evidence_required": [
+        "水泵铭牌/启动电流",
+        "开关与续流应力",
+        "断电/复位/堵转实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S06",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "两节 AA 经 LDO 维持 3.3V（反例）",
+      "prompt": "我想用两节AA电池，经过一个3.3V LDO给ESP32小板供电，可以吗？",
+      "expected_route": [
+        "references/product-example.md",
+        "references/design-cards/power/p01-ldo.md",
+        "references/design-cards/power/p03-boost.md",
+        "references/offline-tools.md"
+      ],
+      "must_do": [
+        "用2.0-3.2V输入范围跑LDO压差计算",
+        "明确指出LDO无法维持3.3V",
+        "提出升压/升降压或改变电池组合",
+        "不要把usable_fraction调低当解决方案"
+      ],
+      "must_not_claim": [
+        "说LDO“加个大电容就行”",
+        "说电池标称3V所以能输出3.3V",
+        "把计算模型说成实测"
+      ],
+      "evidence_required": [
+        "LDO压差计算",
+        "电池放电曲线",
+        "替代拓扑的效率/静态电流"
+      ],
+      "negative_case": "two_aa_ldo",
+      "check": {
+        "tool": "calculate",
+        "mode": "ldo",
+        "input": {
+          "vin_min_V": 2.0,
+          "vin_max_V": 3.2,
+          "vout_min_V": 3.234,
+          "vout_max_V": 3.366,
+          "iout_max_A": 0.15,
+          "iq_max_A": 5e-06,
+          "dropout_max_V": 0.25
+        },
+        "expect_status": "infeasible"
+      }
+    },
+    {
+      "id": "S07",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "只有一句想法，没有工程",
+      "prompt": "我只有一个想法，还没有任何工程文件，也不知道该选什么芯片。",
+      "expected_route": [
+        "references/beginner-journey.md",
+        "references/interaction.md",
+        "references/workflow.md"
+      ],
+      "must_do": [
+        "用一句话复述目标",
+        "只问1-2个真正影响路线的问题",
+        "给出推荐起点和理由",
+        "不要求用户先选芯片/封装/层数"
+      ],
+      "must_not_claim": [
+        "把选型作业推给用户",
+        "要求用户填写完整需求表",
+        "把推荐方案说成已画好图"
+      ],
+      "evidence_required": [
+        "目标复述",
+        "推荐路线理由",
+        "下一步具体动作"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S08",
+      "user_type": "beginner",
+      "task_type": "troubleshoot",
+      "title": "收到焊好的板但不会烧录",
+      "prompt": "我在嘉立创贴片收到板子了，插上电脑没反应，是不是板子坏了？",
+      "expected_route": [
+        "references/firmware-bringup.md",
+        "references/troubleshooting.md",
+        "references/manufacturing-routes.md",
+        "references/projects/p01-low-power-wireless-sensor.md"
+      ],
+      "must_do": [
+        "先核对板版、装配变体、供电和下载口",
+        "区分未烧录、BOOT状态、驱动/工具和硬件故障",
+        "一次只让用户做一个可观察动作",
+        "保留实际日志和测量证据"
+      ],
+      "must_not_claim": [
+        "从一次失败直接判板子坏",
+        "让用户随便短接/乱按BOOT",
+        "把工厂电测说成功能已通过"
+      ],
+      "evidence_required": [
+        "板版/装配核对",
+        "供电与BOOT状态",
+        "烧录工具日志"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S09",
+      "user_type": "engineer",
+      "task_type": "design_change",
+      "title": "改现有工程的 4-20mA 输入",
+      "prompt": "读取当前工程，把这一路传感器改为4-20mA输入。保留接口和板框，完成原理图与PCB修改并检查。",
+      "expected_route": [
+        "references/workflow.md",
+        "references/design-cards/analog/a08-4-20ma.md",
+        "references/schematic-details.md",
+        "references/pcb-routing-details.md"
+      ],
+      "must_do": [
+        "先读实际工程、接口和板框",
+        "确认两线/三线/四线、回路供电和共模",
+        "核对采样电阻、compliance、保护和ADC",
+        "只改受影响链路并回读"
+      ],
+      "must_not_claim": [
+        "把4-20mA当普通电压输入",
+        "擅自改接口/板框",
+        "未回读就说连接保持"
+      ],
+      "evidence_required": [
+        "原工程连接基线",
+        "compliance/共模计算",
+        "修改后网表与PCB回读"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S10",
+      "user_type": "engineer",
+      "task_type": "tidy",
+      "title": "整理混乱原理图但保持连接",
+      "prompt": "把当前原理图整理得好读，保持所有器件、脚号、网络、NC和PCB绑定不变。",
+      "expected_route": [
+        "references/schematic-layout.md",
+        "references/schematic-details.md",
+        "references/connectivity.md"
+      ],
+      "must_do": [
+        "先建立pin-net基线",
+        "按功能做模块几何再组合页面",
+        "局部短线与跨区标签分别处理",
+        "导出整页和局部图复核"
+      ],
+      "must_not_claim": [
+        "交换脚号或合并相似网名",
+        "把所有局部连接都改成标签",
+        "用ERC 0代替实际导图验收"
+      ],
+      "evidence_required": [
+        "整理前后pin-net对比",
+        "实际整页/局部导图",
+        "遮挡/越界修复记录"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S11",
+      "user_type": "engineer",
+      "task_type": "design_change",
+      "title": "优化现有 PCB 布局，保留机械约束",
+      "prompt": "优化当前PCB布局布线，保留板框、安装孔、连接器位置和锁定器件，优先解决电源回路和回流。",
+      "expected_route": [
+        "references/pcb-placement-details.md",
+        "references/pcb-routing-details.md",
+        "references/examples/x01-buck-loop.md"
+      ],
+      "must_do": [
+        "先锁定机械约束和锁定器件",
+        "按开关状态找关键电流回路",
+        "检查参考层/回流和载流瓶颈",
+        "报告实际未布线/DRC/未覆盖项"
+      ],
+      "must_not_claim": [
+        "无目的整体重排",
+        "移动锁定器件",
+        "用铺铜隐藏飞线"
+      ],
+      "evidence_required": [
+        "机械约束清单",
+        "关键回路前后对比",
+        "未布线与DRC实际结果"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S12",
+      "user_type": "engineer",
+      "task_type": "part_change",
+      "title": "同封装但不同脚位的替代（反例）",
+      "prompt": "这个芯片买不到了，我找到一个封装一样的，直接把BOM里的型号换掉可以吗？",
+      "expected_route": [
+        "references/part-selection.md",
+        "references/selection/replacement-classes.md",
+        "references/schematic-details.md"
+      ],
+      "must_do": [
+        "核对完整MPN、引脚定义、焊盘映射和电气条件",
+        "把替代判为需要改原理图/封装/PCB的类别",
+        "更新源工程、BOM、固件和装配变体",
+        "重跑受影响检查"
+      ],
+      "must_not_claim": [
+        "只换BOM里的C号/型号",
+        "凭封装相同判pin-to-pin",
+        "未核对就宣称可直接替换"
+      ],
+      "evidence_required": [
+        "两料完整MPN/引脚表",
+        "pin-pad映射差异",
+        "改图后回读与BOM一致性"
+      ],
+      "negative_case": "same_package_different_pinout",
+      "check": null
+    },
+    {
+      "id": "S13",
+      "user_type": "engineer",
+      "task_type": "review",
+      "title": "同一网名出现在错误物理脚（反例）",
+      "prompt": "检查这块板，网名看起来都对，但我觉得有几个脚可能接错了。",
+      "expected_route": [
+        "references/connectivity.md",
+        "references/schematic-details.md",
+        "scripts/netlist_check.py"
+      ],
+      "must_do": [
+        "按完整物理引脚ID核对pin-net",
+        "区分逻辑脚名、物理脚号和焊盘号",
+        "发现缺脚/多脚/错脚后修源数据",
+        "回读并给出受影响网络"
+      ],
+      "must_not_claim": [
+        "因为网名相同就判为同一网络",
+        "把相似网名自动合并",
+        "用ERC 0掩盖缺脚"
+      ],
+      "evidence_required": [
+        "完整引脚清单",
+        "pin-net回读",
+        "修复前后连接对比"
+      ],
+      "negative_case": "same_net_wrong_physical_pin",
+      "check": {
+        "tool": "netlist_check",
+        "input": {
+          "components": [
+            {
+              "ref": "U1",
+              "physical_pins": [
+                "1",
+                "2",
+                "3"
+              ],
+              "pins": {
+                "A1": "SDA",
+                "B1": "SCL",
+                "C1": "GND"
+              }
+            }
+          ]
+        },
+        "expect_codes": [
+          "missing_pins",
+          "unknown_pins"
+        ]
+      }
+    },
+    {
+      "id": "S14",
+      "user_type": "engineer",
+      "task_type": "review",
+      "title": "模块上拉并联后超出灌电流（反例）",
+      "prompt": "四个I2C模块每个都带4.7k上拉，直接并在总线上应该没问题吧？",
+      "expected_route": [
+        "references/design-cards/interfaces/i01-i2c.md",
+        "scripts/calculate.py",
+        "references/schematic-details.md"
+      ],
+      "must_do": [
+        "把所有并联上拉折算成等效电阻",
+        "用最弱器件的IOL/VOL保证值算灌电流",
+        "核对总线电容和上升时间",
+        "只保留一组或按计算改值"
+      ],
+      "must_not_claim": [
+        "重复套4.7k",
+        "只看单个模块的上拉",
+        "用典型IOL代替保证值"
+      ],
+      "evidence_required": [
+        "等效上拉电阻",
+        "最弱器件灌电流",
+        "上升时间/总线电容"
+      ],
+      "negative_case": "parallel_pullup_over_sink",
+      "check": {
+        "tool": "calculate",
+        "mode": "i2c",
+        "input": {
+          "v_pullup_max_V": 3.3,
+          "vol_max_V": 0.4,
+          "iol_A": 0.001,
+          "c_bus_max_F": 5e-11,
+          "tr_max_s": 3e-07,
+          "r_tol": 0.01
+        },
+        "expect_status": "calculated",
+        "parallel_resistors_ohm": 4700,
+        "parallel_count": 4
+      }
+    },
+    {
+      "id": "S15",
+      "user_type": "engineer",
+      "task_type": "review",
+      "title": "复位/下载状态导致负载误动作（反例）",
+      "prompt": "板子一复位电机就抖一下，下载程序时继电器也会吸合，怎么改？",
+      "expected_route": [
+        "references/schematic-details.md",
+        "references/design-cards/drive/d01-low-side.md",
+        "references/design-cards/mcu/m04-boot-strap.md"
+      ],
+      "must_do": [
+        "列出高阻、复位、bootloader、崩溃四种状态",
+        "检查控制脚外部默认态",
+        "加硬件下拉/关断路径",
+        "验证下载和复位时负载不动作"
+      ],
+      "must_not_claim": [
+        "只靠固件初始化保持关闭",
+        "把复位抖动当正常",
+        "未测就宣称已修复"
+      ],
+      "evidence_required": [
+        "各状态脚电压/负载电流",
+        "硬件默认态",
+        "复位/下载复测"
+      ],
+      "negative_case": "reset_download_load_actuation",
+      "check": null
+    },
+    {
+      "id": "S16",
+      "user_type": "engineer",
+      "task_type": "review",
+      "title": "差分等长却跨参考平面分割（反例）",
+      "prompt": "这对差分线长度已经等长了，为什么还说有问题？",
+      "expected_route": [
+        "references/pcb-routing-details.md",
+        "references/analog-rf-highspeed.md"
+      ],
+      "must_do": [
+        "逐段追踪参考平面",
+        "检查换层回流过孔",
+        "确认差分对共模回流",
+        "长度报告不能替代参考连续性"
+      ],
+      "must_not_claim": [
+        "把等长当信号完整性通过",
+        "只看差分间距",
+        "用DRC代替SI检查"
+      ],
+      "evidence_required": [
+        "参考平面分段图",
+        "换层/回流路径",
+        "长度与参考检查记录"
+      ],
+      "negative_case": "diff_pair_cross_split",
+      "check": null
+    },
+    {
+      "id": "S17",
+      "user_type": "engineer",
+      "task_type": "from_zero",
+      "title": "低功耗无线温湿度节点",
+      "prompt": "从零设计一个电池供电的温湿度节点，每5分钟上报一次，目标续航6个月。",
+      "expected_route": [
+        "references/projects/p01-low-power-wireless-sensor.md",
+        "references/design-cards/wireless/w01-wifi-ble.md",
+        "references/design-cards/power/p07-switching-charger.md",
+        "references/calculations/energy-battery.md"
+      ],
+      "must_do": [
+        "先写需求和验收标准",
+        "建立电池输入侧状态预算",
+        "核对模组峰值/睡眠/传感器稳定时间",
+        "给出BOM、测试计划和完成级别"
+      ],
+      "must_not_claim": [
+        "把6个月估算说成已验证",
+        "忽略弱网重试和低温",
+        "把开发板结果直接当定制板"
+      ],
+      "evidence_required": [
+        "状态电流表",
+        "续航模型与假设",
+        "首板测试计划"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S18",
+      "user_type": "engineer",
+      "task_type": "from_zero",
+      "title": "工业 RS485/4-20mA 采集节点",
+      "prompt": "做一个24V供电、RS485 Modbus、带4-20mA输入的采集节点。",
+      "expected_route": [
+        "references/projects/p02-industrial-rs485-analog.md",
+        "references/design-cards/interfaces/i07-rs485.md",
+        "references/design-cards/analog/a08-4-20ma.md",
+        "references/design-cards/power/p02-buck.md"
+      ],
+      "must_do": [
+        "确认24V范围、隔离/非隔离、节点数和线缆",
+        "核对RS485端接/偏置/共模/保护",
+        "核对4-20mA compliance和采样",
+        "做电源/热/浪涌预算"
+      ],
+      "must_not_claim": [
+        "把RS485当TTL",
+        "每个节点都装终端",
+        "用“工业级”名称代替标准/保护分析"
+      ],
+      "evidence_required": [
+        "24V/隔离架构",
+        "总线端接与共模",
+        "4-20mA误差预算"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S19",
+      "user_type": "engineer",
+      "task_type": "from_zero",
+      "title": "低压有刷电机驱动板",
+      "prompt": "做一个12V/3A有刷电机驱动板，带电流采样和正反转。",
+      "expected_route": [
+        "references/projects/p03-low-voltage-power-drive.md",
+        "references/design-cards/drive/d05-h-bridge.md",
+        "references/design-cards/drive/d04-half-bridge.md",
+        "references/calculations/power-thermal.md"
+      ],
+      "must_do": [
+        "核对启动/堵转/回生",
+        "算MOSFET导通/开关/SOA",
+        "设计死区、栅驱、自举和默认态",
+        "做母线电容/续流/采样布局"
+      ],
+      "must_not_claim": [
+        "只按额定3A选器件",
+        "忽略堵转和回生",
+        "把空载测试当额定通过"
+      ],
+      "evidence_required": [
+        "堵转/启动电流",
+        "MOS损耗/SOA",
+        "栅极/母线波形"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S20",
+      "user_type": "engineer",
+      "task_type": "from_zero",
+      "title": "USB-C 5V 供电小板",
+      "prompt": "做一块USB-C供电的5V小板，给外部传感器供电。",
+      "expected_route": [
+        "references/design-cards/power/p12-usbc-sink.md",
+        "references/design-cards/interfaces/i10-usbc-data.md",
+        "references/examples/x08-usbc.md"
+      ],
+      "must_do": [
+        "确认sink/source角色和C-to-C场景",
+        "核对CC/Rd和VBUS路径",
+        "加ESD/限流/保护",
+        "说明电流能力和线缆影响"
+      ],
+      "must_not_claim": [
+        "把所有Type-C都加5.1k",
+        "把USB-C外形当PD",
+        "忽略C-to-C无源线场景"
+      ],
+      "evidence_required": [
+        "CC/VBUS实测",
+        "C-to-C与A-to-C",
+        "保护/温升"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S21",
+      "user_type": "engineer",
+      "task_type": "design_change",
+      "title": "把 LDO 换成 Buck",
+      "prompt": "现在3.3V用LDO，发热太大，想换成Buck，直接替换可以吗？",
+      "expected_route": [
+        "references/design-cards/power/p01-ldo.md",
+        "references/design-cards/power/p02-buck.md",
+        "scripts/calculate.py",
+        "references/examples/x01-buck-loop.md"
+      ],
+      "must_do": [
+        "比较输入/输出范围、效率、纹波和面积",
+        "算电感/电容/峰值电流",
+        "核对反馈、补偿和轻载",
+        "更新原理图/PCB/BOM并复测"
+      ],
+      "must_not_claim": [
+        "把LDO脚对脚换Buck",
+        "只看效率不看纹波/EMI",
+        "不改反馈和布局"
+      ],
+      "evidence_required": [
+        "损耗对比",
+        "Buck功率级计算",
+        "输出纹波/热实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S22",
+      "user_type": "engineer",
+      "task_type": "design_change",
+      "title": "增加一路 CAN",
+      "prompt": "在现有板上加一路CAN，接口用板边连接器。",
+      "expected_route": [
+        "references/design-cards/interfaces/i08-can.md",
+        "references/design-cards/mcu/m01-bare-mcu.md",
+        "references/schematic-details.md",
+        "references/pcb-routing-details.md"
+      ],
+      "must_do": [
+        "确认CAN版本、速率、节点/线缆",
+        "核对收发器电源、端接、共模和隔离",
+        "检查MCU引脚复用和默认态",
+        "更新接口保护/布局"
+      ],
+      "must_not_claim": [
+        "每个节点都加120Ω",
+        "把CANH/CANL当UART",
+        "忽略共模/地偏移"
+      ],
+      "evidence_required": [
+        "收发器/端接方案",
+        "引脚复用",
+        "总线波形/终端实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S23",
+      "user_type": "engineer",
+      "task_type": "design_change",
+      "title": "增加电池充电与电源路径",
+      "prompt": "加一块单节锂电池和USB-C充电，插USB时设备也要能工作。",
+      "expected_route": [
+        "references/design-cards/power/p06-linear-charger.md",
+        "references/design-cards/power/p05-power-mux.md",
+        "references/design-cards/power/p08-battery-protection.md",
+        "references/calculations/energy-battery.md"
+      ],
+      "must_do": [
+        "区分充电、保护、电量计和power path",
+        "核对充电电流/热/终止",
+        "检查USB与电池同时供电/反灌",
+        "做续航和温升预算"
+      ],
+      "must_not_claim": [
+        "把保护板当充电器",
+        "充电时带载不核对终止",
+        "忽略USB拔插瞬态"
+      ],
+      "evidence_required": [
+        "电源路径状态表",
+        "充电热预算",
+        "插拔/反灌实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S24",
+      "user_type": "engineer",
+      "task_type": "design_change",
+      "title": "改板：FPC 方向/Pin-1（反例）",
+      "prompt": "屏幕排线换成同针数的另一家，应该可以直接插吧？",
+      "expected_route": [
+        "references/schematic-details.md",
+        "references/pcb-placement-details.md",
+        "references/design-cards/wireless/w05-display.md"
+      ],
+      "must_do": [
+        "核对完整料号、FPC接触面、Pin-1和脚序",
+        "区分上接/下接、同面/异面",
+        "核对连接器视角和装配方向",
+        "改图后做实际导图/装配检查"
+      ],
+      "must_not_claim": [
+        "同针数判兼容",
+        "只看3D外形",
+        "未核对就下单"
+      ],
+      "evidence_required": [
+        "两屏FPC定义",
+        "连接器视角",
+        "装配后点亮/触摸测试"
+      ],
+      "negative_case": "fpc_pin1_reversed",
+      "check": null
+    },
+    {
+      "id": "S25",
+      "user_type": "engineer",
+      "task_type": "part_change",
+      "title": "替代料需要改阻容/固件",
+      "prompt": "原来的稳压器缺货，找到一个功能类似的，但反馈电压不一样，能直接换吗？",
+      "expected_route": [
+        "references/selection/replacement-classes.md",
+        "references/part-selection.md",
+        "references/design-cards/power/p02-buck.md"
+      ],
+      "must_do": [
+        "把替代判为需要改阻容/配置/固件的类别",
+        "重算反馈分压和补偿",
+        "核对启动/时序/引脚",
+        "更新BOM/固件并复验"
+      ],
+      "must_not_claim": [
+        "只换C号",
+        "按典型反馈电压算",
+        "不核对软启动/时序"
+      ],
+      "evidence_required": [
+        "两料关键参数对照",
+        "反馈/补偿复算",
+        "改后复验"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S26",
+      "user_type": "engineer",
+      "task_type": "part_change",
+      "title": "商城有货但不满足 SMT 供料（反例）",
+      "prompt": "这个料立创商城有现货，为什么SMT说不能贴？",
+      "expected_route": [
+        "references/lcsc-sourcing.md",
+        "references/jlc-handoff.md",
+        "references/manufacturing-routes.md"
+      ],
+      "must_do": [
+        "区分商城库存与SMT可贴/备料状态",
+        "核对包装、编带、MOQ、 feeder和订单选项",
+        "确认是否需要客供料/换料",
+        "保留查询来源和时间"
+      ],
+      "must_not_claim": [
+        "把商城有货等同SMT可贴",
+        "把个人散料当工厂库存",
+        "编造费用/交期"
+      ],
+      "evidence_required": [
+        "商城与SMT两条通道记录",
+        "包装/订单条件",
+        "替代/客供料方案"
+      ],
+      "negative_case": "lcsc_stock_not_smt",
+      "check": null
+    },
+    {
+      "id": "S27",
+      "user_type": "engineer",
+      "task_type": "part_change",
+      "title": "替代料资料不足",
+      "prompt": "这个国产替代只有一页简介，能不能先换上试试？",
+      "expected_route": [
+        "references/selection/replacement-classes.md",
+        "references/part-selection.md",
+        "references/lcsc-sourcing.md"
+      ],
+      "must_do": [
+        "把替代判为资料不足/暂不能判定",
+        "列出缺失的手册/引脚/额定/PCN",
+        "要求样品/完整资料/测试",
+        "不拿相似名称或价格当依据"
+      ],
+      "must_not_claim": [
+        "凭一页简介批准替代",
+        "把“可替代”推荐当原厂保证",
+        "未验证就量产"
+      ],
+      "evidence_required": [
+        "缺失资料清单",
+        "替代类别4",
+        "验证/样品计划"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S28",
+      "user_type": "engineer",
+      "task_type": "tidy",
+      "title": "原理图有电容但 PCB 回路不合理（反例）",
+      "prompt": "原理图上每个电源脚都有0.1uF，为什么还说去耦不够？",
+      "expected_route": [
+        "references/examples/x01-buck-loop.md",
+        "references/examples/x02-ldo-thermal.md",
+        "references/pcb-placement-details.md",
+        "references/pcb-routing-details.md"
+      ],
+      "must_do": [
+        "按电源脚-电容-参考的完整回路检查",
+        "看电容端子到开关/负载的实际路径",
+        "核对过孔/参考层/回路面积",
+        "用实际布局图而非元件数量证明"
+      ],
+      "must_not_claim": [
+        "数电容数量当去耦完成",
+        "只看电容离芯片中心的距离",
+        "用DRC代替回路检查"
+      ],
+      "evidence_required": [
+        "电容-引脚-参考回路图",
+        "关键回路面积/过孔",
+        "实际布局前后对比"
+      ],
+      "negative_case": "schematic_cap_bad_pcb_loop",
+      "check": null
+    },
+    {
+      "id": "S29",
+      "user_type": "engineer",
+      "task_type": "tidy",
+      "title": "几何脚本返回0但缺文字边界（反例）",
+      "prompt": "几何检查脚本返回0，是不是说明原理图排版没问题？",
+      "expected_route": [
+        "references/offline-tools.md",
+        "scripts/sch_layout_check.py",
+        "references/schematic-layout.md"
+      ],
+      "must_do": [
+        "检查输入是否有完整文字边界/对象计数",
+        "缺expected_counts或文字bbox时判incomplete",
+        "仍要做实际导图整页/局部复核",
+        "退出0不等于电气/视觉通过"
+      ],
+      "must_not_claim": [
+        "把退出0当排版通过",
+        "用锚点冒充文字边界",
+        "删掉难处理对象换0退出"
+      ],
+      "evidence_required": [
+        "输入覆盖范围",
+        "脚本status",
+        "实际导图复核"
+      ],
+      "negative_case": "geometry_zero_missing_text_bounds",
+      "check": {
+        "tool": "sch_layout_check",
+        "input": {
+          "coordinate_units": "mm",
+          "components": [
+            {
+              "id": "U1",
+              "bbox": [
+                10,
+                10,
+                20,
+                20
+              ]
+            }
+          ],
+          "texts": [],
+          "wires": []
+        },
+        "expect_status": "incomplete"
+      }
+    },
+    {
+      "id": "S30",
+      "user_type": "engineer",
+      "task_type": "tidy",
+      "title": "DRC 通过但器件/功率条件不满足（反例）",
+      "prompt": "板子DRC全绿，为什么上电还是发热/烧器件？",
+      "expected_route": [
+        "references/review.md",
+        "references/calculations/power-thermal.md",
+        "references/part-selection.md",
+        "references/design-cards/drive/d01-low-side.md"
+      ],
+      "must_do": [
+        "区分DRC几何规则与电气/热/功率条件",
+        "复算电压/电流/SOA/热",
+        "核对器件实际Vgs/温度/封装",
+        "做受控上电与波形测量"
+      ],
+      "must_not_claim": [
+        "把DRC通过当电气通过",
+        "只降额不计算",
+        "用保险丝掩盖器件应力"
+      ],
+      "evidence_required": [
+        "器件应力复算",
+        "热/波形测量",
+        "DRC覆盖边界"
+      ],
+      "negative_case": "drc_pass_power_condition_unmet",
+      "check": null
+    },
+    {
+      "id": "S31",
+      "user_type": "engineer",
+      "task_type": "troubleshoot",
+      "title": "上电反复复位",
+      "prompt": "板子一上电就反复重启，串口偶尔能打印一点。",
+      "expected_route": [
+        "references/troubleshooting.md",
+        "references/design-cards/power/p01-ldo.md",
+        "references/design-cards/mcu/m03-reset-supervisor.md",
+        "references/review.md"
+      ],
+      "must_do": [
+        "先测输入/电源轨/电流和复位脚",
+        "核对brownout、负载瞬态和启动顺序",
+        "区分复位、 bootloop、看门狗和供电跌落",
+        "异常先停止受影响供电"
+      ],
+      "must_not_claim": [
+        "先怪固件",
+        "盲目加大限流",
+        "让用户摸发热芯片"
+      ],
+      "evidence_required": [
+        "电源/复位波形",
+        "启动电流",
+        "复位原因"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S32",
+      "user_type": "engineer",
+      "task_type": "troubleshoot",
+      "title": "电流采样偏差/ADC异常",
+      "prompt": "电机电流采样读数跳得厉害，低速时偏差更大。",
+      "expected_route": [
+        "references/design-cards/analog/a06-low-side-sense.md",
+        "references/design-cards/analog/a04-adc-driver.md",
+        "references/pcb-routing-details.md",
+        "references/troubleshooting.md"
+      ],
+      "must_do": [
+        "核对shunt/Kelvin/增益/偏置",
+        "检查ADC建立时间和采样时刻",
+        "区分功率回路噪声与基准/地压降",
+        "用已知电流源/示波器交叉验证"
+      ],
+      "must_not_claim": [
+        "直接改阈值让读数好看",
+        "把跳变都归因于软件滤波",
+        "忽略采样时刻"
+      ],
+      "evidence_required": [
+        "Kelvin/回流路径",
+        "ADC建立计算",
+        "已知电流校准"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S33",
+      "user_type": "engineer",
+      "task_type": "troubleshoot",
+      "title": "焊接完成但未烧录/未功能测试（反例）",
+      "prompt": "板子已经从嘉立创贴片回来了，是不是就可以交付了？",
+      "expected_route": [
+        "references/manufacturing-routes.md",
+        "references/firmware-bringup.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "区分工厂电测/AOI、烧录、功能测试和用户验收",
+        "核对板版/固件/装配变体",
+        "制定首板测试和停止条件",
+        "没有证据就写未执行"
+      ],
+      "must_not_claim": [
+        "把贴片完成当交付完成",
+        "把AOI当功能测试",
+        "没烧录就说设备能用"
+      ],
+      "evidence_required": [
+        "制造/测试记录",
+        "烧录版本",
+        "功能验收证据"
+      ],
+      "negative_case": "soldered_not_flashed_tested",
+      "check": null
+    },
+    {
+      "id": "S34",
+      "user_type": "engineer",
+      "task_type": "troubleshoot",
+      "title": "仅估算却宣称半年续航已验证（反例）",
+      "prompt": "我用脚本算出来能用200天，是不是可以写“半年续航已验证”？",
+      "expected_route": [
+        "references/offline-tools.md",
+        "references/calculations/energy-battery.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "区分模型估算与实测",
+        "检查输入电流是否在电池侧",
+        "列出未测的睡眠/发射/低温/老化",
+        "只有实测+条件才可写已验证"
+      ],
+      "must_not_claim": [
+        "把脚本输出当实测",
+        "把典型电流乘算当保证",
+        "忽略电池可用容量条件"
+      ],
+      "evidence_required": [
+        "模型输入/假设",
+        "实测状态电流",
+        "长期测试条件"
+      ],
+      "negative_case": "estimate_claimed_verified",
+      "check": {
+        "tool": "power_budget",
+        "input": {
+          "capacity_Ah": 2.0,
+          "usable_fraction": 0.8,
+          "current_basis": "battery_input",
+          "sleep_current_A": 3e-05,
+          "states": [
+            {
+              "name": "measure_tx",
+              "current_A": 0.12,
+              "duration_s": 5,
+              "events_per_day": 288
+            }
+          ],
+          "target_days": 180
+        },
+        "expect_status": "target_missed"
+      }
+    },
+    {
+      "id": "S35",
+      "user_type": "engineer",
+      "task_type": "troubleshoot",
+      "title": "BOM/坐标/DNP 版本不一致",
+      "prompt": "工厂说BOM和坐标对不上，有一顆料贴到了另一面。",
+      "expected_route": [
+        "references/manufacturing-routes.md",
+        "references/manufacturing-details.md",
+        "references/jlc-handoff.md"
+      ],
+      "must_do": [
+        "冻结同一工程版本再导出BOM/坐标/Gerber",
+        "核对位号/面/旋转/原点/单位/DNP",
+        "区分装配变体与替代料",
+        "重导并逐项对账"
+      ],
+      "must_not_claim": [
+        "直接删BOM行掩盖差异",
+        "拿旧坐标配新BOM",
+        "把工厂匹配结果当工程等价"
+      ],
+      "evidence_required": [
+        "同版导出记录",
+        "位号/面/旋转对账",
+        "重贴/复验结果"
+      ],
+      "negative_case": "bom_cpl_version_mismatch",
+      "check": null
+    },
+    {
+      "id": "S36",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "天黑自动开灯",
+      "prompt": "院里想装个小灯，天黑了自动亮、天亮了自动灭，用光敏电阻还是买光照传感器？",
+      "expected_route": [
+        "references/common-hardware/b-optics.md",
+        "references/design-cards/analog/a01-divider.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "先确认要绝对照度还是只要亮/暗开关",
+        "核对光学窗口材料、光源光谱与红外成分",
+        "阈值设双门限并加迟滞，记录现场干扰源",
+        "用现场光照记录验证开关点"
+      ],
+      "must_not_claim": [
+        "把LDR分压读数当绝对lux",
+        "只看传感器量程，不看光窗与安装",
+        "没做现场实测就宣称能用"
+      ],
+      "evidence_required": [
+        "光窗/安装说明",
+        "现场照度与开关点记录",
+        "迟滞/误触发测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S37",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "测设备倾斜/振动（运动传感）",
+      "prompt": "我想做个水平仪，设备歪了能报警，还想知道有没有在振动，选什么传感器？",
+      "expected_route": [
+        "references/common-hardware/c-motion.md",
+        "references/design-cards/analog/a04-adc-driver.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "先区分静态倾角和动态振动，分别定量程与带宽",
+        "用噪声密度/ODR折算角度分辨率，不拿位数当精度",
+        "做六面校准消零偏，并评估温漂与安装应力",
+        "振动场景先保证ODR和安装刚性，再谈滤波"
+      ],
+      "must_not_claim": [
+        "把分辨率当精度",
+        "用±2g倾角型号硬扛冲击/振动",
+        "未校准就宣称角度准确"
+      ],
+      "evidence_required": [
+        "量程/带宽选择依据",
+        "六面校准记录",
+        "倾角与振动实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S38",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "旋钮调音量/选菜单",
+      "prompt": "想做个拧一下就调音量、选菜单的旋钮，用普通电位器还是编码器？",
+      "expected_route": [
+        "references/common-hardware/c-motion.md",
+        "references/common-hardware/l-hmi.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "先确认要绝对位置还是相对计数、是否需要按压",
+        "把PPR、档位数和解码倍数分开，买料前核对pulse/detent组合",
+        "A/B加上拉与RC，软件去抖2-3ms并做正交解码",
+        "评估寿命、最高转速与面板安装"
+      ],
+      "must_not_claim": [
+        "把PPR当档位数",
+        "只换模块不看上拉/去抖",
+        "用增量编码器给绝对角度而不做上电基准"
+      ],
+      "evidence_required": [
+        "编码器型号/PPR/detent",
+        "解码与去抖参数",
+        "旋钮手感/跳档测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S39",
+      "user_type": "engineer",
+      "task_type": "troubleshoot",
+      "title": "风扇测速偏低/跳变",
+      "prompt": "4线风扇的转速读数总是偏低，低速干脆显示0，TACH直接接3.3V单片机对不对？",
+      "expected_route": [
+        "references/common-hardware/c-motion.md",
+        "references/common-hardware/k-drive.md",
+        "references/common-hardware/applications/02-fan-control.md"
+      ],
+      "must_do": [
+        "确认每转脉冲数与TACH开漏/推挽类型",
+        "核对TACH上拉电平；12V上拉需分压/电平转换后再进3.3V GPIO",
+        "低速用周期法、高速用计数或M/T，核算闸门量化误差",
+        "检查丢脉冲、堵转与地线回流"
+      ],
+      "must_not_claim": [
+        "把12V TACH直接进GPIO",
+        "用固定100ms闸门覆盖全速域",
+        "读数低就归因于风扇坏"
+      ],
+      "evidence_required": [
+        "风扇规范/每转脉冲",
+        "TACH波形与上拉",
+        "全速域RPM对照"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S40",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "做5kg厨房秤（称重）",
+      "prompt": "想做个5公斤的厨房秤，误差2克，HX711模块买来就能用吗？",
+      "expected_route": [
+        "references/common-hardware/d-force.md",
+        "references/design-cards/analog/a09-bridge.md",
+        "references/common-hardware/applications/05-electronic-scale.md"
+      ],
+      "must_do": [
+        "先定容量、分辨率、偏载/蠕变与校准条件",
+        "核对传感器灵敏度/桥阻/激励与四线或六线接法",
+        "按满量程输出和HX711增益算噪声/有效位，不拿24bit当精度",
+        "用砝码做零点/量程/偏载/蠕变验证"
+      ],
+      "must_not_claim": [
+        "显示0.1g就是0.1g准确度",
+        "只看ADC位数不看传感器重复性/蠕变",
+        "没砝码校准就宣称2g误差"
+      ],
+      "evidence_required": [
+        "传感器规格/量程/灵敏度",
+        "砝码校准记录",
+        "偏载/蠕变/重复性测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S41",
+      "user_type": "engineer",
+      "task_type": "design_change",
+      "title": "5V压力传感器直连3.3V ADC（反例）",
+      "prompt": "买了个5V供电、0.2-4.7V输出的水压传感器，直接接3.3V单片机的ADC可以吗？",
+      "expected_route": [
+        "references/common-hardware/d-force.md",
+        "references/design-cards/analog/a01-divider.md",
+        "references/design-cards/analog/a04-adc-driver.md"
+      ],
+      "must_do": [
+        "确认表压/绝压/差压、量程、proof/burst与介质",
+        "核对5V比率输出满量程会超过3.3V ADC输入，需分压/缓冲并防过压",
+        "按比率测量处理基准，核对分压电阻公差与ADC建立时间",
+        "核对端口密封、凝露与电气保护"
+      ],
+      "must_not_claim": [
+        "5V输出可以直接进3.3V ADC",
+        "用电阻分压后仍按5V基准算压力",
+        "没做满量程/过压核对就下单"
+      ],
+      "evidence_required": [
+        "传感器量程/输出/供电",
+        "分压与ADC输入核算",
+        "满量程/过压测试"
+      ],
+      "negative_case": "pressure_5v_output_direct_to_3v3_adc",
+      "check": null
+    },
+    {
+      "id": "S42",
+      "user_type": "engineer",
+      "task_type": "from_zero",
+      "title": "水塔自动补水并累计用水量",
+      "prompt": "想给楼顶水塔做自动补水，缺水开泵、满了停泵，还想知道每天用了多少水。",
+      "expected_route": [
+        "references/common-hardware/d-force.md",
+        "references/common-hardware/applications/06-water-level-alarm.md",
+        "references/common-hardware/k-drive.md"
+      ],
+      "must_do": [
+        "先分点式/连续量，确认浮球还是超声/静压，并说明泡沫/蒸汽/凝露限制",
+        "泵控做滞回、最短停机/最长运行与干转判断",
+        "流量计核对K系数、脉宽与最小流量，用捕获计数而不是轮询",
+        "累计量掉电保存，低流量检查量化误差"
+      ],
+      "must_not_claim": [
+        "把点式浮球当连续液位计",
+        "把10ms消抖套到2.22ms流量脉冲",
+        "没算最小流量就宣称计量准确"
+      ],
+      "evidence_required": [
+        "液位/流量计规格与K系数",
+        "泵控状态机/滞回参数",
+        "补水与累计量实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S43",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "CR2032门窗提醒用一年",
+      "prompt": "想做个门窗被打开就手机提醒的小东西，用CR2032纽扣电池能撑一年吗？",
+      "expected_route": [
+        "references/common-hardware/h-battery.md",
+        "references/common-hardware/c-motion.md",
+        "references/common-hardware/applications/04-door-window-reminder.md",
+        "references/common-hardware/m-wireless-time.md"
+      ],
+      "must_do": [
+        "把一年拆成睡眠、采样、发射、重试的电流/占空比预算",
+        "核对CR2032脉冲能力与发射电流，必要时降发射电流/加本地电容",
+        "确认一次电池不可充电，画ORing/结构防反装",
+        "确认门磁用干簧还是霍尔（C4），核对气隙、安装偏差、采样门控与低电量告警点"
+      ],
+      "must_not_claim": [
+        "用典型待机电流乘算一年当保证",
+        "让CR2032直接带几十mA射频/电机",
+        "把模型寿命说成实测寿命"
+      ],
+      "evidence_required": [
+        "电池脉冲曲线/负载预算",
+        "整机平均电流实测",
+        "门窗动作与续航测试"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S44",
+      "user_type": "engineer",
+      "task_type": "troubleshoot",
+      "title": "低电量突然关机/电量显示不准",
+      "prompt": "锂电池设备电量还有30%就突然关机，显示也不准，调低关机阈值能解决吗？",
+      "expected_route": [
+        "references/common-hardware/h-battery.md",
+        "references/calculations/energy-battery.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "协调系统UVLO、保护板UVP、峰值IR压降与转换器最低输入四个电压",
+        "用最低温度/最大内阻/最大峰值复算告警点、关机点与恢复迟滞",
+        "确认告警提前量是否覆盖有序关机，平台区不准就改gauge",
+        "按实测放电曲线验证，不按标称电压百分比拍阈值"
+      ],
+      "must_not_claim": [
+        "调低关机阈值就解决突然关机",
+        "用电压百分比宣称5%电量精度",
+        "没实测曲线就保证告警提前量"
+      ],
+      "evidence_required": [
+        "电芯OCV/内阻与放电曲线",
+        "告警/关机/恢复点实测",
+        "峰值负载下的电池端波形"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S45",
+      "user_type": "beginner",
+      "task_type": "from_zero",
+      "title": "ESP32加2.4寸彩屏和蜂鸣器（HMI）",
+      "prompt": "想用ESP32做个带2.4寸彩屏和蜂鸣器的小设备，用200mA的LDO供电够吗？",
+      "expected_route": [
+        "references/common-hardware/l-hmi.md",
+        "references/common-hardware/i-mcu.md",
+        "references/common-hardware/g-power-conversion.md",
+        "references/common-hardware/applications/03-humidity-display.md"
+      ],
+      "must_do": [
+        "按分辨率×色深×刷新率算屏带宽，决定SPI/并口与局部刷新",
+        "核对ESP32峰值电流与屏/背光电流，供电选Buck并留储能",
+        "确认蜂鸣器有源/无源、驱动管与续流，5V型号在3.3V下声压下降",
+        "核对屏模块自带LDO/电平转换，避免重复添加"
+      ],
+      "must_not_claim": [
+        "200mA LDO能带ESP32+彩屏",
+        "SPI能点亮就能全屏动画",
+        "蜂鸣器直接接GPIO不用驱动"
+      ],
+      "evidence_required": [
+        "屏/背光/模组电流",
+        "电源余量与峰值波形",
+        "刷新率/声压实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S46",
+      "user_type": "engineer",
+      "task_type": "from_zero",
+      "title": "Sub-GHz远距离低功耗节点",
+      "prompt": "农田传感器离网关几百米、中间有几堵墙，想几节电池用几年，Wi-Fi不行吧？",
+      "expected_route": [
+        "references/common-hardware/m-wireless-time.md",
+        "references/common-hardware/h-battery.md",
+        "references/common-hardware/applications/10-soil-monitor.md"
+      ],
+      "must_do": [
+        "先定频段法规、发射功率、占空比与目标市场",
+        "按距离/墙体/天线形式选Sub-GHz，核对链路预算与实测",
+        "按发射/接收/睡眠占空比算电池平均电流与脉冲能力",
+        "核对天线净空、模组认证与整机认证边界"
+      ],
+      "must_not_claim": [
+        "标称距离等于现场距离",
+        "模组认证等于整机认证",
+        "只测空旷通信就宣称穿墙可用"
+      ],
+      "evidence_required": [
+        "频段/功率/占空比合规核对",
+        "现场RSSI/PER与距离",
+        "电池平均电流实测"
+      ],
+      "negative_case": null,
+      "check": null
+    },
+    {
+      "id": "S47",
+      "user_type": "engineer",
+      "task_type": "review",
+      "title": "MIFARE Classic做身份门禁（NFC反例）",
+      "prompt": "公司NFC门禁想用MIFARE Classic卡，读卡号就能当身份凭证，这样安全吗？",
+      "expected_route": [
+        "references/common-hardware/m-wireless-time.md",
+        "references/design-cards/interfaces/i01-i2c.md",
+        "references/product-acceptance.md"
+      ],
+      "must_do": [
+        "先定读什么标签、距离、是否写卡、金属环境与是否身份级安全",
+        "说明MIFARE Classic Crypto1已被公开研究破解，只能做低安全门禁/消费",
+        "身份级改用DESFire/CPU卡+密钥体系/SAM",
+        "核对13.56MHz线圈近场天线与场强，不套2.4GHz 50Ω匹配"
+      ],
+      "must_not_claim": [
+        "读UID或MIFARE Classic加密就是身份级",
+        "13.56MHz天线按50Ω CLC匹配",
+        "未做密钥/生命周期设计就宣称安全"
+      ],
+      "evidence_required": [
+        "标签类型与安全等级",
+        "读卡距离/场强测试",
+        "密钥/挂失/生命周期方案"
+      ],
+      "negative_case": "mifare_classic_as_identity",
+      "check": null
+    }
+  ]
+}

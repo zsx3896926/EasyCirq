@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B2 texts v2: coordinates corrected after visual review of v1 (DRAFT clipped J102's GND flag; the long note crossed the title block). Canvas y grows upward. DRAFT in the verified-empty mid-left band; shortened unused-pin note in the bottom-left strip left of the title block (ends before x=460u). Text create is the only persistent text operation in 4.1.78 half-offline CLI.",
+  "operations": [
+    {
+      "op": "text",
+      "key": "draft-marker",
+      "at": [300, 240],
+      "content": "DRAFT",
+      "rotation": 0,
+      "font_size": 40
+    },
+    {
+      "op": "text",
+      "key": "j101-unused-note",
+      "at": [60, 75],
+      "content": "J101 DP1/DN1/DP2/DN2/SBU1/SBU2 unused; DRC float-pin warn retained",
+      "rotation": 0,
+      "font_size": 12
+    }
+  ]
+}

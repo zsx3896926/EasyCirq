@@ -1,0 +1,1 @@
+Authentication required. Please use /login command to sign in to your account

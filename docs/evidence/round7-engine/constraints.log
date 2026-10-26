@@ -1,0 +1,9 @@
+约束: {'hard': 5, 'preferred': 1, 'unknown': 2}; 状态 incomplete; 冲突 0
+  [hard] U1 distance_to <= 2.54 mm (JLC decoupling rule (native DFM))
+  [hard] U1 distance_to <= 2.54 mm (JLC decoupling rule (native DFM))
+  [hard] U1 distance_to <= 2.54 mm (JLC decoupling rule (native DFM))
+  [hard] U1 distance_to <= 2.54 mm (JLC decoupling rule (native DFM))
+  [preferred] J1 distance_to <= 5.08 mm (layout review)
+  [unknown] C2 ESR unknown <= None None (user)
+  [hard] U1 distance_to <= 2.54 mm (text[0])
+  [unknown] 这个参数 unparsed  None None (text[1])

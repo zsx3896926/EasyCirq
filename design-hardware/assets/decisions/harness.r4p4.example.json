@@ -1,0 +1,29 @@
+{
+  "_note": "R4-P4 构造示例，E3/OFFLINE_PLANNING；连接器 MPN、配对壳体/端子、压接工具、额定与线材字段一律待查，逐线记录 NOT RUN。",
+  "schema": "harness-package/v1",
+  "package_id": "R4-P4-HARNESS-H1",
+  "revisions": {
+    "harness_rev": "H1",
+    "board_rev": "待查",
+    "enclosure_rev": "待查",
+    "binding": ["H1"]
+  },
+  "connectors": [
+    {"id": "J1", "side": "board", "mate": "P1", "mpn": "待查", "mating_housing": "待查", "mating_terminal": "待查", "crimp_tool": "待查", "status": "planned", "rated_current_a": "待查", "rated_voltage_v": "待查", "wire_gauge_range": "待查", "shielding": "待查", "keying": "A", "lock": "待查"},
+    {"id": "P1", "side": "harness", "mate": "J1", "mpn": "待查", "mating_housing": "待查", "mating_terminal": "待查", "crimp_tool": "待查", "status": "planned", "rated_current_a": "待查", "rated_voltage_v": "待查", "wire_gauge_range": "待查", "shielding": "待查", "keying": "A", "lock": "待查"},
+    {"id": "J2", "side": "board", "mate": "P2", "mpn": "待查", "mating_housing": "待查", "mating_terminal": "待查", "crimp_tool": "待查", "status": "planned", "rated_current_a": "待查", "rated_voltage_v": "待查", "wire_gauge_range": "待查", "shielding": "待查", "keying": "B", "lock": "待查"},
+    {"id": "P2", "side": "harness", "mate": "J2", "mpn": "待查", "mating_housing": "待查", "mating_terminal": "待查", "crimp_tool": "待查", "status": "planned", "rated_current_a": "待查", "rated_voltage_v": "待查", "wire_gauge_range": "待查", "shielding": "待查", "keying": "B", "lock": "待查"}
+  ],
+  "wires": [
+    {"net": "3V3", "board": "J1.1", "harness": "P1.1", "gauge": "待查", "length_m": "待查", "shielding": "待查", "continuity": "NOT RUN", "pull_test": "NOT RUN", "latch_check": "NOT RUN", "label": "NOT RUN", "bend_radius_mm": "待查", "evidence": "待查"},
+    {"net": "GND", "board": "J1.2", "harness": "P1.2", "gauge": "待查", "length_m": "待查", "shielding": "待查", "continuity": "NOT RUN", "pull_test": "NOT RUN", "latch_check": "NOT RUN", "label": "NOT RUN", "bend_radius_mm": "待查", "evidence": "待查"},
+    {"net": "24V", "board": "J2.1", "harness": "P2.1", "gauge": "待查", "length_m": "待查", "shielding": "待查", "continuity": "NOT RUN", "pull_test": "NOT RUN", "latch_check": "NOT RUN", "label": "NOT RUN", "bend_radius_mm": "待查", "evidence": "待查"},
+    {"net": "GND", "board": "J2.2", "harness": "P2.2", "gauge": "待查", "length_m": "待查", "shielding": "待查", "continuity": "NOT RUN", "pull_test": "NOT RUN", "latch_check": "NOT RUN", "label": "NOT RUN", "bend_radius_mm": "待查", "evidence": "待查"}
+  ],
+  "misconnection_matrix": [
+    {"a": "J1", "b": "J2", "result": "blocked", "note": "键位 A/B 不同且针数不同，计划用不同壳体防插错"},
+    {"a": "J1", "b": "P2", "result": "blocked", "note": "母座与线束端键位不同"},
+    {"a": "P1", "b": "J2", "result": "blocked", "note": "线束端插头不能插入控制板电源座"},
+    {"a": "P1", "b": "P2", "result": "blocked", "note": "两条线束的插头键位不同"}
+  ]
+}

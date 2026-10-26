@@ -1,0 +1,22 @@
+{
+  "status": "no_effect",
+  "imported_boolean": true,
+  "counts_before": {
+    "components": 0,
+    "lines": 0,
+    "pads": 0,
+    "nets": 0
+  },
+  "counts_after": {
+    "components": 0,
+    "lines": 0,
+    "pads": 0,
+    "nets": 0
+  },
+  "session": {
+    "sessionId": "4fa45560-3822-4b51-83d7-b2a116c08c37",
+    "origin": "cli",
+    "owned": true
+  },
+  "note": "the client reported success but no PCB component was created; in 4.1.78 half-offline CLI the import is a no-op - do not treat this as done"
+}

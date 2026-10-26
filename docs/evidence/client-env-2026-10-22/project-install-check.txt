@@ -1,0 +1,22 @@
+status: ok  cwd: C:\Users\jlc\AppData\Local\Temp\tmp.5CqwTqepOz
+
+- Claude Code: C:\Users\jlc\AppData\Roaming\npm\claude.CMD (2.1.303 (Claude Code))
+    skill: installed
+      - user: C:\Users\jlc\.claude\skills
+      * project: C:\Users\jlc\AppData\Local\Temp\tmp.5CqwTqepOz\.claude\skills
+- Codex: C:\Users\jlc\AppData\Local\OpenAI\Codex\bin\896a0166b774037a\codex.exe (codex-cli 0.163.0-alpha.10.2)
+    skill: not installed
+      - user: C:\Users\jlc\.agents\skills
+      + user: C:\Users\jlc\.codex\skills
+      - project: C:\Users\jlc\AppData\Local\Temp\tmp.5CqwTqepOz\.agents\skills
+      - project: C:\Users\jlc\AppData\Local\Temp\tmp.5CqwTqepOz\.codex\skills
+- WorkBuddy: C:\Users\jlc\AppData\Local\Programs\WorkBuddy\WorkBuddy.exe (file present)
+    skill: not installed
+      + user: C:\Users\jlc\.workbuddy\skills
+      - project: C:\Users\jlc\AppData\Local\Temp\tmp.5CqwTqepOz\.workbuddy\skills
+
+- EDA CLI: C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe
+- EDA connected: True  version match: True
+- easyeda command: not found
+
+project writability is NOT tested; use apply on an authorized copy.

@@ -1,0 +1,47 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B 包 v4 修订 B：按独立审图必须修复项——U101 两侧网络端口垂直仅隔 10 单位互相叠压。处理：为每个端口加水平短导线，guarded delete 原端口，在同一导线末端以相同 net/direction 重建端口（网络名不变，网表须保持 golden 哈希）。删除均带 expected 守卫；若坐标不符会先阻塞而非误删。",
+  "operations": [
+    {"op": "wire", "key": "stub-txd", "net": "TXD", "points": [455, 360, 525, 360]},
+    {"op": "wire", "key": "stub-en", "net": "EN", "points": [455, 370, 555, 370]},
+    {"op": "wire", "key": "stub-rst", "net": "RST", "points": [455, 380, 585, 380]},
+    {"op": "wire", "key": "stub-io0", "net": "IO0", "points": [385, 370, 315, 370]},
+    {"op": "wire", "key": "stub-io2", "net": "IO2", "points": [365, 380, 285, 380]},
+    {
+      "op": "delete",
+      "key": "del-port-txd",
+      "target": {"kind": "net_port", "primitive_id": "6775adf45d6d9f1d",
+                 "expected": {"net": "TXD", "direction": "OUT", "x": 455, "y": 360}}
+    },
+    {
+      "op": "delete",
+      "key": "del-port-en",
+      "target": {"kind": "net_port", "primitive_id": "94d4ec23aa28fb9e",
+                 "expected": {"net": "EN", "direction": "BI", "x": 455, "y": 370}}
+    },
+    {
+      "op": "delete",
+      "key": "del-port-rst",
+      "target": {"kind": "net_port", "primitive_id": "92e9e10f6c986dce",
+                 "expected": {"net": "RST", "direction": "BI", "x": 455, "y": 380}}
+    },
+    {
+      "op": "delete",
+      "key": "del-port-io0",
+      "target": {"kind": "net_port", "primitive_id": "dd97fccb3155f62c",
+                 "expected": {"net": "IO0", "direction": "BI", "x": 385, "y": 370}}
+    },
+    {
+      "op": "delete",
+      "key": "del-port-io2",
+      "target": {"kind": "net_port", "primitive_id": "a29e27b24519fc45",
+                 "expected": {"net": "IO2", "direction": "BI", "x": 365, "y": 380}}
+    },
+    {"op": "net_port", "key": "new-port-txd", "net": "TXD", "direction": "OUT", "at": [525, 360], "rotation": 0},
+    {"op": "net_port", "key": "new-port-en", "net": "EN", "direction": "BI", "at": [555, 370], "rotation": 0},
+    {"op": "net_port", "key": "new-port-rst", "net": "RST", "direction": "BI", "at": [585, 380], "rotation": 0},
+    {"op": "net_port", "key": "new-port-io0", "net": "IO0", "direction": "BI", "at": [315, 370], "rotation": 0},
+    {"op": "net_port", "key": "new-port-io2", "net": "IO2", "direction": "BI", "at": [285, 380], "rotation": 0}
+  ]
+}

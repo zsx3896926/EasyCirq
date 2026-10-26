@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B2: replace the two ONENETNAME-flagged GND polylines (each carries a zero-length middle segment, so three per-segment name records) with clean single-segment wires of identical endpoints and net. Step 1 of 2: delete the two old wires.",
+  "operations": [
+    {
+      "op": "delete",
+      "key": "del-onenetname-1",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "49fae01dc70fc99a",
+        "expected": {"net": "GND"}
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-onenetname-2",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "257ae6235df06193",
+        "expected": {"net": "GND"}
+      }
+    }
+  ]
+}

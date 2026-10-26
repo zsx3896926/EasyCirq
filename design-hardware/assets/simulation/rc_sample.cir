@@ -1,0 +1,23 @@
+* rc_sample.cir
+* STATUS: NOT RUN in this repository as of 2026-10-20 (ngspice/LTspice not installed).
+* This is a runnable ngspice deck for the same two-node RC sampling network
+* simulated by scripts/rc_settle_sim.py. Do not present its output as measured
+* or as having been executed here.
+*
+* Circuit: ideal 3.3 V step -> R_source -> node a (C_ext) -> switch -> node b (C_sample)
+* Switch closes at 1 us; R_on = 100 ohm, R_off = 1e12 ohm.
+* Expected: V(b) settles toward 3.3 V. Use .meas and inspect the waveform.
+
+V1 in 0 PWL(0 0 1n 3.3)
+R1 in a 1k
+C1 a 0 1n
+S1 a b ctrl 0 SW
+C2 b 0 4p
+Vctrl ctrl 0 PWL(0 0 0.999u 0 1u 5)
+
+.model SW SW(Ron=100 Roff=1e12 Vt=2.5)
+
+.tran 1n 20u
+.meas tran vfinal FIND V(b) AT=20u
+.meas tran verror FIND PARAM='3.3-V(b)' AT=20u
+.end

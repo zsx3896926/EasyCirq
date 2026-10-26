@@ -1,0 +1,347 @@
+{
+  "schema": "design-engine-evidence/v1",
+  "baseline_bundle": "docs/evidence/round7-baseline-2026-10-24",
+  "engine_version": "1.0.0",
+  "commands": [
+    "python design-hardware/scripts/design_engine_cli.py ingest --bundle docs/evidence/round7-baseline-2026-10-24 --out docs/evidence/round7-engine/ir.json --json",
+    "python design-hardware/scripts/design_engine_cli.py audit --ir docs/evidence/round7-engine/ir.json --out docs/evidence/round7-engine/audit-schematic.json --json",
+    "python design-hardware/scripts/design_engine_cli.py plan-labels --ir docs/evidence/round7-engine/ir.json --out docs/evidence/round7-engine/label-plan.json --moves-dir docs/evidence/round7-engine/moves --json",
+    "python design-hardware/scripts/design_engine_cli.py verify-plan --ir docs/evidence/round7-engine/ir.json --plan docs/evidence/round7-engine/label-plan.json --out docs/evidence/round7-engine/label-plan-verify.json --json",
+    "python design-hardware/scripts/design_engine_cli.py route --ir docs/evidence/round7-engine/ir.json --start 120,500 --end 530,470 --net D1_N1 --out docs/evidence/round7-engine/route-valid.json --json",
+    "python design-hardware/scripts/design_engine_cli.py route --ir docs/evidence/round7-engine/ir.json --start 1020,300 --end 980,240 --net +5V --out docs/evidence/round7-engine/route-no-solution.json --json",
+    "python design-hardware/scripts/design_engine_cli.py pack --ir docs/evidence/round7-engine/ir.json --allow-groups --out docs/evidence/round7-engine/pack-candidate.json --json",
+    "python design-hardware/scripts/design_engine_cli.py pcb-ingest --bundle docs/evidence/round7-baseline-2026-10-24 --out docs/evidence/round7-engine/pcb-ir.json --quiet",
+    "python design-hardware/scripts/design_engine_cli.py pcb-audit --bundle docs/evidence/round7-baseline-2026-10-24 --sch-ir docs/evidence/round7-engine/ir.json --out docs/evidence/round7-engine/pcb-audit.json --json"
+  ],
+  "status": {
+    "schematic_audit": "blocked (10 hard, 7 advisory on the frozen baseline)",
+    "label_plan": "4 planned moves; simulated 10 -> 4 hard; eda_apply NOT RUN",
+    "route_sweep": "47 routed / 4 no_solution; 22 pass independent validation, 29 rejected; not applied",
+    "pack_candidate": "26 diagnostic groups pack into 1 page; diagnostic candidate only",
+    "pcb_audit": "blocked (18 native DRC; +5V 2 disconnected pad groups); pour connectivity NOT RUN",
+    "visual_review": "NOT RUN",
+    "constraints": "compiled; 5 hard + 1 preferred + 2 unknown; status incomplete",
+    "critical": "4 decoupling + 1 protection advisory; hard with supplied hard constraints",
+    "placement": "5 candidates; force-2 selected; HPWL -17.7%; critical remains 5",
+    "routability": "max 6 / overflow 76; route_rate NOT RUN",
+    "silk": "2 over-pad + 2 sideways; matches native DFM summary",
+    "cpl": "26 rows, top 26; J1 70.7 mil centroid offset; BOM consistent",
+    "package": "real project has no Gerber/drill -> BLOCKED; synthetic package passes",
+    "gerber": "synthetic 6-layer package passes; no real manufacturing files",
+    "sourcing": "real BOM 21 rows / 26 parts complete; stock/price NOT CHECKED",
+    "benchmarks": "12/12 synthetic geometry cases reproduce declared candidates",
+    "state": "evidence hashes match; resume point recorded"
+  },
+  "files": [
+    {
+      "file": "audit-schematic.json",
+      "bytes": 10222,
+      "sha256": "2edb569566a8c537ae80b81c12b7032f8d684a3b8b92a8e032b8497493f82b48"
+    },
+    {
+      "file": "audit.log",
+      "bytes": 10591,
+      "sha256": "988aab903ca700fb4875f6328c2224c7a658d82081ee0e8b5e6bc121ad2f99db"
+    },
+    {
+      "file": "benchmarks.json",
+      "bytes": 5275,
+      "sha256": "2ef70350612ac8ddc64819996989293b6b421a6e33cb50f7aa53d8e9459dd1a8"
+    },
+    {
+      "file": "benchmarks.log",
+      "bytes": 5483,
+      "sha256": "516fed48a22990bf8559a42da047888d39157a3baa684010d3c21c22511d883e"
+    },
+    {
+      "file": "constraints.json",
+      "bytes": 2393,
+      "sha256": "f3139ce452043abb786a7d9bb17b5ec49d174981934df29a73649876dfa4a6f9"
+    },
+    {
+      "file": "constraints.log",
+      "bytes": 571,
+      "sha256": "36b90be4aaeb37575f946fb6e0a6bbfdf132b1164e29890f3a869bbbf5588a8f"
+    },
+    {
+      "file": "cpl-audit.json",
+      "bytes": 11226,
+      "sha256": "c9065e22e3e9c4c94cc4446d8a12fbeb11207aee18f308278febf9777a27b0d2"
+    },
+    {
+      "file": "cpl.csv",
+      "bytes": 1178,
+      "sha256": "a15d8214757de14765fb2bd3b76efbd65d73ec9cd73caf09ee85f435d5f26a5c"
+    },
+    {
+      "file": "cpl.log",
+      "bytes": 11676,
+      "sha256": "ac9cd0ebbb97e87352192e00d16ec06935b0495a552345f8d0bf51d79ecbe8cb"
+    },
+    {
+      "file": "critical.json",
+      "bytes": 4167,
+      "sha256": "d3ad98c188f8e260fd870172c0cc9e5301ebb41eb99e1c1db87e1f861ab470cb"
+    },
+    {
+      "file": "critical.log",
+      "bytes": 4335,
+      "sha256": "191aff7051016860d1e366bfa83324c34cd9dcc42322e5dbe86bd04846ce59d4"
+    },
+    {
+      "file": "generic-components.json",
+      "bytes": 14210,
+      "sha256": "48e8b1e572853f0af9e33990769e41a209b059de775161c2a18fa0c627004d0b"
+    },
+    {
+      "file": "gerber-synthetic.json",
+      "bytes": 2434,
+      "sha256": "1850f7c37505d15732266d9bd92c1fbb2868d7df0d5d1a637fd21c253e8aa7ba"
+    },
+    {
+      "file": "gerber-synthetic.log",
+      "bytes": 2546,
+      "sha256": "a7b13e017fc75d3076137c57bd09e356058aae28c429e2b7edd271618a23e7bf"
+    },
+    {
+      "file": "ingest.log",
+      "bytes": 863,
+      "sha256": "0c5950d8cbac79b563857590bcb5f26601ddbc611a0bb3f8bd80cac5b07c823b"
+    },
+    {
+      "file": "intent.json",
+      "bytes": 1423,
+      "sha256": "7ac589fabe9425c73aacd397f78a9a93cc82d84a2a01d0b8d0bb0e9a2ff783fb"
+    },
+    {
+      "file": "ir.json",
+      "bytes": 426415,
+      "sha256": "05390bfb1869b789f1c82019aaaf574c24c498107178a8f1ae4c0c109c464878"
+    },
+    {
+      "file": "label-plan-verify.json",
+      "bytes": 521,
+      "sha256": "94fcfe08ed177bd73bbd358404bc0d2596c8dfe7f6c7d4af356e3780438a6cc0"
+    },
+    {
+      "file": "label-plan.json",
+      "bytes": 4054,
+      "sha256": "afec7c0585d78a48cc447ee88784bce1c9fcbb209a7f8d1bd900f36a027f56ad"
+    },
+    {
+      "file": "pack-candidate.json",
+      "bytes": 8916,
+      "sha256": "a53ab90cff50718fefdbdabca162f0faaac1fe2794b476c36b9105f818c3a54f"
+    },
+    {
+      "file": "pack.log",
+      "bytes": 9329,
+      "sha256": "28402797ea438930b01ba548d6cbdaab08b90e8c9c6c16f9261a965d30ffa80b"
+    },
+    {
+      "file": "package-audit.json",
+      "bytes": 10163,
+      "sha256": "4f7239db70bd89b20dc737b05702410fd3aeb056f2c2a301c1e37428f6caca85"
+    },
+    {
+      "file": "package-synthetic.json",
+      "bytes": 2853,
+      "sha256": "8d2dec4c0c60ac28c8a6437ea904f45a73d457b6a2c4cf67f785ab83eb086fe6"
+    },
+    {
+      "file": "package-synthetic.log",
+      "bytes": 2957,
+      "sha256": "4e4cac2062b370b99287ece5d4bab1d76761ed20e9f0d58cf12c416572e968ae"
+    },
+    {
+      "file": "package.log",
+      "bytes": 10477,
+      "sha256": "80e8d73635f9d280906e14391f992baa2e6e05eec2838bc8d61ec7d9ca2d5d5c"
+    },
+    {
+      "file": "parts.json",
+      "bytes": 6060,
+      "sha256": "f5296d7958a9c8362f73dfeaa918943f94ef141de39b681f7fbbb8e3b39b1e4c"
+    },
+    {
+      "file": "pcb-audit.json",
+      "bytes": 13216,
+      "sha256": "3d7600d30dec12b752e78db35fb5433c70c951e8b78d9fd01d36616b9044583b"
+    },
+    {
+      "file": "pcb-audit.log",
+      "bytes": 13756,
+      "sha256": "03d3d63747682d80420ce44bc47904235648c5cce18f5e8e5114a26560d65d0f"
+    },
+    {
+      "file": "pcb-ir.json",
+      "bytes": 259456,
+      "sha256": "7d4b28e6fb1257027285673675c0c4caee4e2486d32392da57895780604b0536"
+    },
+    {
+      "file": "placement.json",
+      "bytes": 28001,
+      "sha256": "0829c3ef110bc0d2581fbe3fb6b47e22bd58f3af802905cd1a96cdceafe9903a"
+    },
+    {
+      "file": "placement.log",
+      "bytes": 29515,
+      "sha256": "5ec040cba56a89f9c5bd751a6c1d1b6706d0135bab5e7d84374ce19cad39c8d7"
+    },
+    {
+      "file": "plan.log",
+      "bytes": 4313,
+      "sha256": "08f8a0cd4d89fb38b21461bc13c19bab277337d4d18e4fefcd71dfeda4b9556b"
+    },
+    {
+      "file": "routability.json",
+      "bytes": 2926,
+      "sha256": "49996dd3604bb2ee9d7332c5d38a124a9ccb7d0ae8715c2bcc30668fa39995bb"
+    },
+    {
+      "file": "routability.log",
+      "bytes": 3165,
+      "sha256": "3878f62cfa52ae6ee5560e4f23229df4284bd49e1048156747e0b0b44bf60408"
+    },
+    {
+      "file": "route-no-solution.json",
+      "bytes": 171,
+      "sha256": "e5c794efb9019d551d6c1f05d00776d770ef3ef2a58260786dda7aaae8bd65db"
+    },
+    {
+      "file": "route-no-solution.log",
+      "bytes": 180,
+      "sha256": "88a4f9e8a0001ee6f0250f7eddbd65e3d66a23553e72322043f0912ac02f655b"
+    },
+    {
+      "file": "route-sweep.json",
+      "bytes": 8488,
+      "sha256": "7faaafed48617a0515af71533925cbcc48cab2fcffb7b0b8cbb3b4306bce8a13"
+    },
+    {
+      "file": "route-valid.json",
+      "bytes": 501,
+      "sha256": "c6fb50f4d46023d596f8dc2173ce529bd92ecc4a6b2506b133ffc2603503452f"
+    },
+    {
+      "file": "route-valid.log",
+      "bytes": 534,
+      "sha256": "884c8ce1223dde9d3789b4b152578039100d04a1000821e24005b2e986f9444a"
+    },
+    {
+      "file": "silk.json",
+      "bytes": 2603,
+      "sha256": "acf40cc5cdac0319c5aa2bf5ee3eadd4ec9a900b8a3336ddab766b071996aabf"
+    },
+    {
+      "file": "silk.log",
+      "bytes": 2717,
+      "sha256": "9f0114973670858d75bdb05c0f3b66a3336e591005614e5cec7afb687c73e668"
+    },
+    {
+      "file": "sourcing.json",
+      "bytes": 249,
+      "sha256": "bb95ddf6b52a42d46498ef82b965b9e1fe670b89c15a810c86d4d48fa8007c0f"
+    },
+    {
+      "file": "sourcing.log",
+      "bytes": 260,
+      "sha256": "a3a590c1c661d4926b9b08d9322bd282bdfbcaeb7b74cb26333c5cc142b014b0"
+    },
+    {
+      "file": "state-verify.json",
+      "bytes": 746,
+      "sha256": "efa04203075f4c6fb37e73ffdf60df19affe1b132691c0e392f39d26bde682d2"
+    },
+    {
+      "file": "state-verify.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "state.json",
+      "bytes": 1906,
+      "sha256": "a608f7617a1bc56547c107033ba5dc16b4794c7687d813aae090bf3aa58d0bfe"
+    },
+    {
+      "file": "variants-base.json",
+      "bytes": 6799,
+      "sha256": "6833c5f6cf0458997ace702329d873bc7effb5785ccce828b7f770f642851aec"
+    },
+    {
+      "file": "variants.log",
+      "bytes": 7071,
+      "sha256": "9ec8473bc75388f221bb583d7043128ba6169fec621ee595a70890caed2ac6c4"
+    },
+    {
+      "file": "verify.log",
+      "bytes": 545,
+      "sha256": "eb7fbaa768db8e4edfb9e9e2a8c59f54ea5e283b57581ec28363750e3f0f2b9c"
+    },
+    {
+      "file": "moves/move-001-30e8c6499ea4e2dc.json",
+      "bytes": 621,
+      "sha256": "85165abaf0f9b3ad16abe57bfe6c36b0b7730496d914ee8605623ad13abc6a83"
+    },
+    {
+      "file": "moves/move-002-86d6306d597fc0ba.json",
+      "bytes": 620,
+      "sha256": "a6a42b7a25af7259bc103abf3b0f5d71caab1ef984e7a2f5d3a6d8d5aef3e918"
+    },
+    {
+      "file": "moves/move-003-cfbe66a831e04fb8.json",
+      "bytes": 628,
+      "sha256": "6d7cf6c9f22ec697bf2b325bd27a9f22462ca3edd72c9fea59ebb7529701a16f"
+    },
+    {
+      "file": "moves/move-004-9549f23e0bf7051d.json",
+      "bytes": 638,
+      "sha256": "c6bd6123f9b69c11ed9863f26b548df9be85d68d33618fb2f44c12cea72e66e6"
+    },
+    {
+      "file": "synthetic-package/BOM.csv",
+      "bytes": 30,
+      "sha256": "49c018346333616e410fe6d63273e358b412d60cb755f5305fff57d43da5d83f"
+    },
+    {
+      "file": "synthetic-package/board.drl",
+      "bytes": 44,
+      "sha256": "71b4fbea960b3cead7d9198e1f1a47a29ce89cd63bcb26f6098ba99001e0b72e"
+    },
+    {
+      "file": "synthetic-package/bot.gbr",
+      "bytes": 90,
+      "sha256": "de50fc5092e0ae3b856fa65273bbc4d34b4eca4bd91fbcb83069dea107988ef1"
+    },
+    {
+      "file": "synthetic-package/cpl.csv",
+      "bytes": 32,
+      "sha256": "ddd3b205fa9a0b2c1ed7925299864289d1c25350a042a27cc15e671fd843ad5b"
+    },
+    {
+      "file": "synthetic-package/mask-bot.gbr",
+      "bytes": 91,
+      "sha256": "38ae9598fe402228a18592b96b9cabf1b2b9fafe77b1c370836a63a2c6137a83"
+    },
+    {
+      "file": "synthetic-package/mask-top.gbr",
+      "bytes": 91,
+      "sha256": "3753fb484278a4653f9a36c8dec627dd9666c153b28344deb4abacccef3cfb1d"
+    },
+    {
+      "file": "synthetic-package/outline.gbr",
+      "bytes": 87,
+      "sha256": "3281acb9673af083d829d49d5bf248a5f5082504f06ff95c2692016e6efd8b6d"
+    },
+    {
+      "file": "synthetic-package/silk-top.gbr",
+      "bytes": 87,
+      "sha256": "94865e6dd9ef079e1f44d2a2a249bc0ec5712f1f2698c19fccdb37dc0ce36741"
+    },
+    {
+      "file": "synthetic-package/top.gbr",
+      "bytes": 90,
+      "sha256": "45e15ccb7fb95c5a6ff6179873cd0dc4a1eda96e0e0a01660b23f8c97002cffe"
+    }
+  ]
+}

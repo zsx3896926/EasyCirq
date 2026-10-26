@@ -1,0 +1,30 @@
+{
+ "version": 1,
+ "page": {
+  "schematic_name": "F1-USB-MCU-C",
+  "page_name": "P1"
+ },
+ "operations": [
+  {
+   "op": "net_flag",
+   "key": "c106_3v3",
+   "net": "3V3",
+   "type": "Power",
+   "at": [
+    760,
+    510
+   ]
+  },
+  {
+   "op": "wire",
+   "key": "w_c106_3v3",
+   "net": "3V3",
+   "points": [
+    760,
+    510,
+    760,
+    540
+   ]
+  }
+ ]
+}

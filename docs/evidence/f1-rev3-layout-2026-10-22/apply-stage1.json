@@ -1,0 +1,7463 @@
+{
+  "status": "verified",
+  "plan": "C:/Users/jlc/work/hds-round3-int-scratch/plan-rev3-stage1-delete-move.json",
+  "session": {
+    "sessionId": "a38be901-ff32-402b-90ea-c7d6b511919c",
+    "origin": "cli",
+    "owned": false
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "del-flag-40543f585f64a26c",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "40543f585f64a26c",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 60,
+        "y": 260
+      }
+    },
+    {
+      "key": "del-flag-c980906e59389d91",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "c980906e59389d91",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 60,
+        "y": 350
+      }
+    },
+    {
+      "key": "del-flag-17afc95fd7c29b0c",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "17afc95fd7c29b0c",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 220,
+        "y": 220
+      }
+    },
+    {
+      "key": "del-flag-20350323f34b81d6",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "20350323f34b81d6",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 250,
+        "y": 290
+      }
+    },
+    {
+      "key": "del-flag-bb1dafd2c1fade33",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "bb1dafd2c1fade33",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 250,
+        "y": 300
+      }
+    },
+    {
+      "key": "del-flag-5114b45293ec27ff",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "5114b45293ec27ff",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 430,
+        "y": 300
+      }
+    },
+    {
+      "key": "del-flag-4ac324d5ea8227c0",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "4ac324d5ea8227c0",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 390,
+        "y": 220
+      }
+    },
+    {
+      "key": "del-flag-de27143f4b7cd30c",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "de27143f4b7cd30c",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 500,
+        "y": 190
+      }
+    },
+    {
+      "key": "del-flag-e57ed6dc05e77682",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "e57ed6dc05e77682",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 680,
+        "y": 435
+      }
+    },
+    {
+      "key": "del-flag-54148e9f6d4dc8a9",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "54148e9f6d4dc8a9",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 800,
+        "y": 460
+      }
+    },
+    {
+      "key": "del-flag-b58bf3d1423439f5",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "b58bf3d1423439f5",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 760,
+        "y": 425
+      }
+    },
+    {
+      "key": "del-flag-4278f4dc559bc757",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "4278f4dc559bc757",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 500,
+        "y": 415
+      }
+    },
+    {
+      "key": "del-flag-796665db50623051",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "796665db50623051",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 720,
+        "y": 300
+      }
+    },
+    {
+      "key": "del-flag-80cdcd8f3989ebcf",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "80cdcd8f3989ebcf",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 840,
+        "y": 335
+      }
+    },
+    {
+      "key": "del-flag-4beb6c48ff2ecd48",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "4beb6c48ff2ecd48",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 490,
+        "y": 190
+      }
+    },
+    {
+      "key": "del-flag-84f6c73e9e1466b3",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "84f6c73e9e1466b3",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 460,
+        "y": 470
+      }
+    },
+    {
+      "key": "del-flag-63e2554638564c85",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "63e2554638564c85",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 760,
+        "y": 510
+      }
+    },
+    {
+      "key": "del-flag-2cc6383a8518ea29",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "2cc6383a8518ea29",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 280,
+        "y": 130
+      }
+    },
+    {
+      "key": "del-flag-18c0061320f321b7",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "18c0061320f321b7",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 30,
+        "y": 250
+      }
+    },
+    {
+      "key": "del-flag-c3b73645a8e7160d",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "c3b73645a8e7160d",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 30,
+        "y": 360
+      }
+    },
+    {
+      "key": "del-flag-194e5d88d54bae97",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "194e5d88d54bae97",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 10,
+        "y": 380
+      }
+    },
+    {
+      "key": "del-flag-a380d2e117269cb8",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "a380d2e117269cb8",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 10,
+        "y": 300
+      }
+    },
+    {
+      "key": "del-flag-765850816424699e",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "765850816424699e",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 290,
+        "y": 220
+      }
+    },
+    {
+      "key": "del-flag-ea05521f71e9e30f",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "ea05521f71e9e30f",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 250,
+        "y": 310
+      }
+    },
+    {
+      "key": "del-flag-b0612878e9a6d361",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "b0612878e9a6d361",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 470,
+        "y": 220
+      }
+    },
+    {
+      "key": "del-flag-9ccdb3aec0a20cf8",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "9ccdb3aec0a20cf8",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 550,
+        "y": 220
+      }
+    },
+    {
+      "key": "del-flag-085411f657e903be",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "085411f657e903be",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 560,
+        "y": 435
+      }
+    },
+    {
+      "key": "del-flag-ac28347df5c9b3f0",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "ac28347df5c9b3f0",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 770,
+        "y": 380
+      }
+    },
+    {
+      "key": "del-flag-77ea315331003b43",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "77ea315331003b43",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 590,
+        "y": 360
+      }
+    },
+    {
+      "key": "del-flag-dda9b0b055b70f5e",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "dda9b0b055b70f5e",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 870,
+        "y": 300
+      }
+    },
+    {
+      "key": "del-flag-4f5752fc3d1e2d06",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "4f5752fc3d1e2d06",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 840,
+        "y": 305
+      }
+    },
+    {
+      "key": "del-flag-e51e0a360eaac324",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "e51e0a360eaac324",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 740,
+        "y": 500
+      }
+    },
+    {
+      "key": "del-flag-eaf7bd7c36db7f10",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "eaf7bd7c36db7f10",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 740,
+        "y": 540
+      }
+    },
+    {
+      "key": "del-flag-d0a9c888f5b05120",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "d0a9c888f5b05120",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 810,
+        "y": 540
+      }
+    },
+    {
+      "key": "del-flag-6b6378a16e8d6665",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "6b6378a16e8d6665",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 340,
+        "y": 160
+      }
+    },
+    {
+      "key": "del-flag-e69626a1c40427e4",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "e69626a1c40427e4",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 190,
+        "y": 380
+      }
+    },
+    {
+      "key": "del-flag-2bd4c9ebd26965f9",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_flag",
+      "primitive_id": "2bd4c9ebd26965f9",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 190,
+        "y": 230
+      }
+    },
+    {
+      "key": "del-port-960727babd8cbb80",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "960727babd8cbb80",
+      "expected": {
+        "net": "CC1",
+        "x": 30,
+        "y": 330
+      }
+    },
+    {
+      "key": "del-port-04db9b8ea74e26ac",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "04db9b8ea74e26ac",
+      "expected": {
+        "net": "CC2",
+        "x": 30,
+        "y": 270
+      }
+    },
+    {
+      "key": "del-port-29a56eb8eb7d36c7",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "29a56eb8eb7d36c7",
+      "expected": {
+        "net": "CC1",
+        "x": 60,
+        "y": 380
+      }
+    },
+    {
+      "key": "del-port-04114913b502d3e8",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "04114913b502d3e8",
+      "expected": {
+        "net": "CC2",
+        "x": 60,
+        "y": 300
+      }
+    },
+    {
+      "key": "del-port-1042cae56d0b89a2",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "1042cae56d0b89a2",
+      "expected": {
+        "net": "EN",
+        "x": 740,
+        "y": 460
+      }
+    },
+    {
+      "key": "del-port-d0dc03f8f7e30405",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "d0dc03f8f7e30405",
+      "expected": {
+        "net": "EN",
+        "x": 655,
+        "y": 415
+      }
+    },
+    {
+      "key": "del-port-11f9e26c00295e4e",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "11f9e26c00295e4e",
+      "expected": {
+        "net": "RST",
+        "x": 700,
+        "y": 425
+      }
+    },
+    {
+      "key": "del-port-ebffb4f56e1db48f",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "ebffb4f56e1db48f",
+      "expected": {
+        "net": "RST",
+        "x": 655,
+        "y": 425
+      }
+    },
+    {
+      "key": "del-port-5ff0a849714a8df1",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "5ff0a849714a8df1",
+      "expected": {
+        "net": "IO0",
+        "x": 560,
+        "y": 415
+      }
+    },
+    {
+      "key": "del-port-90e0dcf2f855f267",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "90e0dcf2f855f267",
+      "expected": {
+        "net": "IO0",
+        "x": 585,
+        "y": 415
+      }
+    },
+    {
+      "key": "del-port-b6f7c7b75542fd13",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "b6f7c7b75542fd13",
+      "expected": {
+        "net": "RST",
+        "x": 690,
+        "y": 380
+      }
+    },
+    {
+      "key": "del-port-9ef4bcbe71b063a5",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "9ef4bcbe71b063a5",
+      "expected": {
+        "net": "IO0",
+        "x": 510,
+        "y": 360
+      }
+    },
+    {
+      "key": "del-port-4d660020fa009b67",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "4d660020fa009b67",
+      "expected": {
+        "net": "IO2",
+        "x": 500,
+        "y": 470
+      }
+    },
+    {
+      "key": "del-port-1388494f2584d67e",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "1388494f2584d67e",
+      "expected": {
+        "net": "IO2",
+        "x": 565,
+        "y": 425
+      }
+    },
+    {
+      "key": "del-port-66ae43cfaa7fbbb0",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "66ae43cfaa7fbbb0",
+      "expected": {
+        "net": "EN",
+        "x": 680,
+        "y": 470
+      }
+    },
+    {
+      "key": "del-port-4a6c3e96d8654a47",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "4a6c3e96d8654a47",
+      "expected": {
+        "net": "RST",
+        "x": 680,
+        "y": 570
+      }
+    },
+    {
+      "key": "del-port-9bf2c7739b22d4e7",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "9bf2c7739b22d4e7",
+      "expected": {
+        "net": "TXD",
+        "x": 860,
+        "y": 325
+      }
+    },
+    {
+      "key": "del-port-9cc1a6dfd924446e",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "9cc1a6dfd924446e",
+      "expected": {
+        "net": "TXD",
+        "x": 655,
+        "y": 405
+      }
+    },
+    {
+      "key": "del-port-d04c9e534752c905",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "d04c9e534752c905",
+      "expected": {
+        "net": "RXD",
+        "x": 880,
+        "y": 315
+      }
+    },
+    {
+      "key": "del-port-ac72859bc80dc265",
+      "op": "delete",
+      "status": "delete",
+      "kind": "net_port",
+      "primitive_id": "ac72859bc80dc265",
+      "expected": {
+        "net": "RXD",
+        "x": 585,
+        "y": 405
+      }
+    },
+    {
+      "key": "del-wire-efd5ef4317462646",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "efd5ef4317462646",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "key": "del-wire-18f2a381760ec17d",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "18f2a381760ec17d",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-fd66cd07430de4f2",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "fd66cd07430de4f2",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "key": "del-wire-aa5b909f2ff16b22",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "aa5b909f2ff16b22",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-f500880b3b83d724",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "f500880b3b83d724",
+      "expected": {
+        "net": "CC1"
+      }
+    },
+    {
+      "key": "del-wire-a330241731a1a1ad",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "a330241731a1a1ad",
+      "expected": {
+        "net": "CC2"
+      }
+    },
+    {
+      "key": "del-wire-c7a4414aed250306",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "c7a4414aed250306",
+      "expected": {
+        "net": "CC1"
+      }
+    },
+    {
+      "key": "del-wire-7115cf4ecd33c6f5",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "7115cf4ecd33c6f5",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-9d45835e2e38781c",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "9d45835e2e38781c",
+      "expected": {
+        "net": "CC2"
+      }
+    },
+    {
+      "key": "del-wire-b75805cade4ebea2",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "b75805cade4ebea2",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-4d4ed58458600dca",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "4d4ed58458600dca",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "key": "del-wire-70e08327a6eac7db",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "70e08327a6eac7db",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-d9f8c6b0792d3785",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "d9f8c6b0792d3785",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "key": "del-wire-72031477d8871538",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "72031477d8871538",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-e569946177d473cd",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "e569946177d473cd",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-1665060f71025135",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "1665060f71025135",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-b7544d62014087e5",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "b7544d62014087e5",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-93e050c47a78b8a6",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "93e050c47a78b8a6",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-8ec0f5c503395a56",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "8ec0f5c503395a56",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-132dbd5e794f45bb",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "132dbd5e794f45bb",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-3de7769321e53369",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "3de7769321e53369",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-d9363f0f19ae22ca",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "d9363f0f19ae22ca",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-5302938a0e71a961",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "5302938a0e71a961",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-ad8d2bf0f8b2d8fa",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "ad8d2bf0f8b2d8fa",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-f9bff1f520b501e0",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "f9bff1f520b501e0",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-c58691f3c7833c6f",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "c58691f3c7833c6f",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-d41b2fc77f5611ea",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "d41b2fc77f5611ea",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-d575bda0357eba90",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "d575bda0357eba90",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-615df589ba9a6026",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "615df589ba9a6026",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-1920721cdd7bbe3f",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "1920721cdd7bbe3f",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-f04701dd38eba68e",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "f04701dd38eba68e",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-621968a8fec33443",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "621968a8fec33443",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-b6a7b13bb3da4203",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "b6a7b13bb3da4203",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-827559cd64e5445e",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "827559cd64e5445e",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-f08f6d6910368c05",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "f08f6d6910368c05",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-d88d3513e6868f38",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "d88d3513e6868f38",
+      "expected": {
+        "net": "LED_A"
+      }
+    },
+    {
+      "key": "del-wire-cf0a3a019d46ea91",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "cf0a3a019d46ea91",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-138d10952dd7efe3",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "138d10952dd7efe3",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-0a8fc9a4a8730c40",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "0a8fc9a4a8730c40",
+      "expected": {
+        "net": "TXD"
+      }
+    },
+    {
+      "key": "del-wire-ee52086b2574fb82",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "ee52086b2574fb82",
+      "expected": {
+        "net": "RXD"
+      }
+    },
+    {
+      "key": "del-wire-7b0ae1eb1ba64973",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "7b0ae1eb1ba64973",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-950ed48c9d0790c0",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "950ed48c9d0790c0",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-422c8c228e6f4b9e",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "422c8c228e6f4b9e",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "key": "del-wire-e191bed274d047d3",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "e191bed274d047d3",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-b90b03341f100c7d",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "b90b03341f100c7d",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-9604d62083d95b11",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "9604d62083d95b11",
+      "expected": {
+        "net": "IO2"
+      }
+    },
+    {
+      "key": "del-wire-f78f0d77f9ffdee4",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "f78f0d77f9ffdee4",
+      "expected": {
+        "net": "IO2"
+      }
+    },
+    {
+      "key": "del-wire-c4bc6e65af429225",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "c4bc6e65af429225",
+      "expected": {
+        "net": "EN"
+      }
+    },
+    {
+      "key": "del-wire-09ca02b25d8366cf",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "09ca02b25d8366cf",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-638876a357f89ed6",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "638876a357f89ed6",
+      "expected": {
+        "net": "RST"
+      }
+    },
+    {
+      "key": "del-wire-0ef3183ddda74bb0",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "0ef3183ddda74bb0",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-7c972bf02a7ba519",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "7c972bf02a7ba519",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "key": "del-wire-988e64165550ecba",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "988e64165550ecba",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-69edfbafd79ffa62",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "69edfbafd79ffa62",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "key": "del-wire-0646f185a1bd18a4",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "0646f185a1bd18a4",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-cdb9df2a2be5a729",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "cdb9df2a2be5a729",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "del-wire-bcae1d9e342152be",
+      "op": "delete",
+      "status": "delete",
+      "kind": "wire",
+      "primitive_id": "bcae1d9e342152be",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "key": "move-J101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 180,
+        "y": 630
+      },
+      "primitive_id": "84931dadefea5b69",
+      "designator": "J101",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-U102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 570,
+        "y": 490
+      },
+      "primitive_id": "6a4f98791d8643a6",
+      "designator": "U102",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-U101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 420,
+        "y": 375
+      },
+      "primitive_id": "9caf259471fe8fbe",
+      "designator": "U101",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 300,
+        "y": 410
+      },
+      "primitive_id": "035a69b4bdf864c2",
+      "designator": "R101",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 300,
+        "y": 490
+      },
+      "primitive_id": "68294bcd0484ce63",
+      "designator": "R102",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-C101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 420,
+        "y": 550
+      },
+      "primitive_id": "c26543f0253a827f",
+      "designator": "C101",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-C106",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 920,
+        "y": 580
+      },
+      "primitive_id": "87e5af8567392818",
+      "designator": "C106",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-C102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 820,
+        "y": 550
+      },
+      "primitive_id": "0a9968ad6b7a4199",
+      "designator": "C102",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-C104",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 120,
+        "y": 230
+      },
+      "primitive_id": "e4687e87ad3d0cfd",
+      "designator": "C104",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-C105",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 120,
+        "y": 130
+      },
+      "primitive_id": "8d27056fcaca7bdf",
+      "designator": "C105",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R103",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 540,
+        "y": 300
+      },
+      "primitive_id": "0a512d993bf682eb",
+      "designator": "R103",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R104",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 540,
+        "y": 240
+      },
+      "primitive_id": "6a8d84a9a9805b67",
+      "designator": "R104",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R105",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 260,
+        "y": 280
+      },
+      "primitive_id": "405206ca1a429e67",
+      "designator": "R105",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R107",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 120,
+        "y": 310
+      },
+      "primitive_id": "3faed8c7e4b0a41d",
+      "designator": "R107",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-R106",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 690,
+        "y": 380
+      },
+      "primitive_id": "10f1fb2706eb622f",
+      "designator": "R106",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-D101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 760,
+        "y": 380
+      },
+      "primitive_id": "677445fb01de4b0d",
+      "designator": "D101",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-SW101",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 640,
+        "y": 240
+      },
+      "primitive_id": "cd1ca31b52802161",
+      "designator": "SW101",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-SW102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 250,
+        "y": 340
+      },
+      "primitive_id": "ae63faba2a6864cc",
+      "designator": "SW102",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-J102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 930,
+        "y": 275
+      },
+      "primitive_id": "394f21cb592e5b0d",
+      "designator": "J102",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-C107",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 700,
+        "y": 580
+      },
+      "primitive_id": "b1793b6b786fee10",
+      "designator": "C107",
+      "designator_scope": "page",
+      "stable_identity": true
+    },
+    {
+      "key": "move-D102",
+      "op": "part",
+      "status": "modify",
+      "changes": {
+        "x": 490,
+        "y": 660
+      },
+      "primitive_id": "e04f8a717dedcc70",
+      "designator": "D102",
+      "designator_scope": "page",
+      "stable_identity": true
+    }
+  ],
+  "actions": [
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-40543f585f64a26c",
+      "kind": "net_flag",
+      "primitive_id": "40543f585f64a26c",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 60,
+        "y": 260
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-c980906e59389d91",
+      "kind": "net_flag",
+      "primitive_id": "c980906e59389d91",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 60,
+        "y": 350
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-17afc95fd7c29b0c",
+      "kind": "net_flag",
+      "primitive_id": "17afc95fd7c29b0c",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 220,
+        "y": 220
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-20350323f34b81d6",
+      "kind": "net_flag",
+      "primitive_id": "20350323f34b81d6",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 250,
+        "y": 290
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-bb1dafd2c1fade33",
+      "kind": "net_flag",
+      "primitive_id": "bb1dafd2c1fade33",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 250,
+        "y": 300
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-5114b45293ec27ff",
+      "kind": "net_flag",
+      "primitive_id": "5114b45293ec27ff",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 430,
+        "y": 300
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-4ac324d5ea8227c0",
+      "kind": "net_flag",
+      "primitive_id": "4ac324d5ea8227c0",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 390,
+        "y": 220
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-de27143f4b7cd30c",
+      "kind": "net_flag",
+      "primitive_id": "de27143f4b7cd30c",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 500,
+        "y": 190
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-e57ed6dc05e77682",
+      "kind": "net_flag",
+      "primitive_id": "e57ed6dc05e77682",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 680,
+        "y": 435
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-54148e9f6d4dc8a9",
+      "kind": "net_flag",
+      "primitive_id": "54148e9f6d4dc8a9",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 800,
+        "y": 460
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-b58bf3d1423439f5",
+      "kind": "net_flag",
+      "primitive_id": "b58bf3d1423439f5",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 760,
+        "y": 425
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-4278f4dc559bc757",
+      "kind": "net_flag",
+      "primitive_id": "4278f4dc559bc757",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 500,
+        "y": 415
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-796665db50623051",
+      "kind": "net_flag",
+      "primitive_id": "796665db50623051",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 720,
+        "y": 300
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-80cdcd8f3989ebcf",
+      "kind": "net_flag",
+      "primitive_id": "80cdcd8f3989ebcf",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 840,
+        "y": 335
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-4beb6c48ff2ecd48",
+      "kind": "net_flag",
+      "primitive_id": "4beb6c48ff2ecd48",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 490,
+        "y": 190
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-84f6c73e9e1466b3",
+      "kind": "net_flag",
+      "primitive_id": "84f6c73e9e1466b3",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 460,
+        "y": 470
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-63e2554638564c85",
+      "kind": "net_flag",
+      "primitive_id": "63e2554638564c85",
+      "expected": {
+        "name": "3V3",
+        "net": "3V3",
+        "x": 760,
+        "y": 510
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-2cc6383a8518ea29",
+      "kind": "net_flag",
+      "primitive_id": "2cc6383a8518ea29",
+      "expected": {
+        "name": "5V",
+        "net": "5V",
+        "x": 280,
+        "y": 130
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-18c0061320f321b7",
+      "kind": "net_flag",
+      "primitive_id": "18c0061320f321b7",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 30,
+        "y": 250
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-c3b73645a8e7160d",
+      "kind": "net_flag",
+      "primitive_id": "c3b73645a8e7160d",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 30,
+        "y": 360
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-194e5d88d54bae97",
+      "kind": "net_flag",
+      "primitive_id": "194e5d88d54bae97",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 10,
+        "y": 380
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-a380d2e117269cb8",
+      "kind": "net_flag",
+      "primitive_id": "a380d2e117269cb8",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 10,
+        "y": 300
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-765850816424699e",
+      "kind": "net_flag",
+      "primitive_id": "765850816424699e",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 290,
+        "y": 220
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-ea05521f71e9e30f",
+      "kind": "net_flag",
+      "primitive_id": "ea05521f71e9e30f",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 250,
+        "y": 310
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-b0612878e9a6d361",
+      "kind": "net_flag",
+      "primitive_id": "b0612878e9a6d361",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 470,
+        "y": 220
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-9ccdb3aec0a20cf8",
+      "kind": "net_flag",
+      "primitive_id": "9ccdb3aec0a20cf8",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 550,
+        "y": 220
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-085411f657e903be",
+      "kind": "net_flag",
+      "primitive_id": "085411f657e903be",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 560,
+        "y": 435
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-ac28347df5c9b3f0",
+      "kind": "net_flag",
+      "primitive_id": "ac28347df5c9b3f0",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 770,
+        "y": 380
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-77ea315331003b43",
+      "kind": "net_flag",
+      "primitive_id": "77ea315331003b43",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 590,
+        "y": 360
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-dda9b0b055b70f5e",
+      "kind": "net_flag",
+      "primitive_id": "dda9b0b055b70f5e",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 870,
+        "y": 300
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-4f5752fc3d1e2d06",
+      "kind": "net_flag",
+      "primitive_id": "4f5752fc3d1e2d06",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 840,
+        "y": 305
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-e51e0a360eaac324",
+      "kind": "net_flag",
+      "primitive_id": "e51e0a360eaac324",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 740,
+        "y": 500
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-eaf7bd7c36db7f10",
+      "kind": "net_flag",
+      "primitive_id": "eaf7bd7c36db7f10",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 740,
+        "y": 540
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-d0a9c888f5b05120",
+      "kind": "net_flag",
+      "primitive_id": "d0a9c888f5b05120",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 810,
+        "y": 540
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-6b6378a16e8d6665",
+      "kind": "net_flag",
+      "primitive_id": "6b6378a16e8d6665",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 340,
+        "y": 160
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-e69626a1c40427e4",
+      "kind": "net_flag",
+      "primitive_id": "e69626a1c40427e4",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 190,
+        "y": 380
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-flag-2bd4c9ebd26965f9",
+      "kind": "net_flag",
+      "primitive_id": "2bd4c9ebd26965f9",
+      "expected": {
+        "name": "GND",
+        "net": "GND",
+        "x": 190,
+        "y": 230
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-960727babd8cbb80",
+      "kind": "net_port",
+      "primitive_id": "960727babd8cbb80",
+      "expected": {
+        "net": "CC1",
+        "x": 30,
+        "y": 330
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-04db9b8ea74e26ac",
+      "kind": "net_port",
+      "primitive_id": "04db9b8ea74e26ac",
+      "expected": {
+        "net": "CC2",
+        "x": 30,
+        "y": 270
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-29a56eb8eb7d36c7",
+      "kind": "net_port",
+      "primitive_id": "29a56eb8eb7d36c7",
+      "expected": {
+        "net": "CC1",
+        "x": 60,
+        "y": 380
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-04114913b502d3e8",
+      "kind": "net_port",
+      "primitive_id": "04114913b502d3e8",
+      "expected": {
+        "net": "CC2",
+        "x": 60,
+        "y": 300
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-1042cae56d0b89a2",
+      "kind": "net_port",
+      "primitive_id": "1042cae56d0b89a2",
+      "expected": {
+        "net": "EN",
+        "x": 740,
+        "y": 460
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-d0dc03f8f7e30405",
+      "kind": "net_port",
+      "primitive_id": "d0dc03f8f7e30405",
+      "expected": {
+        "net": "EN",
+        "x": 655,
+        "y": 415
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-11f9e26c00295e4e",
+      "kind": "net_port",
+      "primitive_id": "11f9e26c00295e4e",
+      "expected": {
+        "net": "RST",
+        "x": 700,
+        "y": 425
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-ebffb4f56e1db48f",
+      "kind": "net_port",
+      "primitive_id": "ebffb4f56e1db48f",
+      "expected": {
+        "net": "RST",
+        "x": 655,
+        "y": 425
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-5ff0a849714a8df1",
+      "kind": "net_port",
+      "primitive_id": "5ff0a849714a8df1",
+      "expected": {
+        "net": "IO0",
+        "x": 560,
+        "y": 415
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-90e0dcf2f855f267",
+      "kind": "net_port",
+      "primitive_id": "90e0dcf2f855f267",
+      "expected": {
+        "net": "IO0",
+        "x": 585,
+        "y": 415
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-b6f7c7b75542fd13",
+      "kind": "net_port",
+      "primitive_id": "b6f7c7b75542fd13",
+      "expected": {
+        "net": "RST",
+        "x": 690,
+        "y": 380
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-9ef4bcbe71b063a5",
+      "kind": "net_port",
+      "primitive_id": "9ef4bcbe71b063a5",
+      "expected": {
+        "net": "IO0",
+        "x": 510,
+        "y": 360
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-4d660020fa009b67",
+      "kind": "net_port",
+      "primitive_id": "4d660020fa009b67",
+      "expected": {
+        "net": "IO2",
+        "x": 500,
+        "y": 470
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-1388494f2584d67e",
+      "kind": "net_port",
+      "primitive_id": "1388494f2584d67e",
+      "expected": {
+        "net": "IO2",
+        "x": 565,
+        "y": 425
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-66ae43cfaa7fbbb0",
+      "kind": "net_port",
+      "primitive_id": "66ae43cfaa7fbbb0",
+      "expected": {
+        "net": "EN",
+        "x": 680,
+        "y": 470
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-4a6c3e96d8654a47",
+      "kind": "net_port",
+      "primitive_id": "4a6c3e96d8654a47",
+      "expected": {
+        "net": "RST",
+        "x": 680,
+        "y": 570
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-9bf2c7739b22d4e7",
+      "kind": "net_port",
+      "primitive_id": "9bf2c7739b22d4e7",
+      "expected": {
+        "net": "TXD",
+        "x": 860,
+        "y": 325
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-9cc1a6dfd924446e",
+      "kind": "net_port",
+      "primitive_id": "9cc1a6dfd924446e",
+      "expected": {
+        "net": "TXD",
+        "x": 655,
+        "y": 405
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-d04c9e534752c905",
+      "kind": "net_port",
+      "primitive_id": "d04c9e534752c905",
+      "expected": {
+        "net": "RXD",
+        "x": 880,
+        "y": 315
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-port-ac72859bc80dc265",
+      "kind": "net_port",
+      "primitive_id": "ac72859bc80dc265",
+      "expected": {
+        "net": "RXD",
+        "x": 585,
+        "y": 405
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-efd5ef4317462646",
+      "kind": "wire",
+      "primitive_id": "efd5ef4317462646",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-18f2a381760ec17d",
+      "kind": "wire",
+      "primitive_id": "18f2a381760ec17d",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-fd66cd07430de4f2",
+      "kind": "wire",
+      "primitive_id": "fd66cd07430de4f2",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-aa5b909f2ff16b22",
+      "kind": "wire",
+      "primitive_id": "aa5b909f2ff16b22",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-f500880b3b83d724",
+      "kind": "wire",
+      "primitive_id": "f500880b3b83d724",
+      "expected": {
+        "net": "CC1"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-a330241731a1a1ad",
+      "kind": "wire",
+      "primitive_id": "a330241731a1a1ad",
+      "expected": {
+        "net": "CC2"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-c7a4414aed250306",
+      "kind": "wire",
+      "primitive_id": "c7a4414aed250306",
+      "expected": {
+        "net": "CC1"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-7115cf4ecd33c6f5",
+      "kind": "wire",
+      "primitive_id": "7115cf4ecd33c6f5",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-9d45835e2e38781c",
+      "kind": "wire",
+      "primitive_id": "9d45835e2e38781c",
+      "expected": {
+        "net": "CC2"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-b75805cade4ebea2",
+      "kind": "wire",
+      "primitive_id": "b75805cade4ebea2",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-4d4ed58458600dca",
+      "kind": "wire",
+      "primitive_id": "4d4ed58458600dca",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-70e08327a6eac7db",
+      "kind": "wire",
+      "primitive_id": "70e08327a6eac7db",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-d9f8c6b0792d3785",
+      "kind": "wire",
+      "primitive_id": "d9f8c6b0792d3785",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-72031477d8871538",
+      "kind": "wire",
+      "primitive_id": "72031477d8871538",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-e569946177d473cd",
+      "kind": "wire",
+      "primitive_id": "e569946177d473cd",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-1665060f71025135",
+      "kind": "wire",
+      "primitive_id": "1665060f71025135",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-b7544d62014087e5",
+      "kind": "wire",
+      "primitive_id": "b7544d62014087e5",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-93e050c47a78b8a6",
+      "kind": "wire",
+      "primitive_id": "93e050c47a78b8a6",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-8ec0f5c503395a56",
+      "kind": "wire",
+      "primitive_id": "8ec0f5c503395a56",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-132dbd5e794f45bb",
+      "kind": "wire",
+      "primitive_id": "132dbd5e794f45bb",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-3de7769321e53369",
+      "kind": "wire",
+      "primitive_id": "3de7769321e53369",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-d9363f0f19ae22ca",
+      "kind": "wire",
+      "primitive_id": "d9363f0f19ae22ca",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-5302938a0e71a961",
+      "kind": "wire",
+      "primitive_id": "5302938a0e71a961",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-ad8d2bf0f8b2d8fa",
+      "kind": "wire",
+      "primitive_id": "ad8d2bf0f8b2d8fa",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-f9bff1f520b501e0",
+      "kind": "wire",
+      "primitive_id": "f9bff1f520b501e0",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-c58691f3c7833c6f",
+      "kind": "wire",
+      "primitive_id": "c58691f3c7833c6f",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-d41b2fc77f5611ea",
+      "kind": "wire",
+      "primitive_id": "d41b2fc77f5611ea",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-d575bda0357eba90",
+      "kind": "wire",
+      "primitive_id": "d575bda0357eba90",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-615df589ba9a6026",
+      "kind": "wire",
+      "primitive_id": "615df589ba9a6026",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-1920721cdd7bbe3f",
+      "kind": "wire",
+      "primitive_id": "1920721cdd7bbe3f",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-f04701dd38eba68e",
+      "kind": "wire",
+      "primitive_id": "f04701dd38eba68e",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-621968a8fec33443",
+      "kind": "wire",
+      "primitive_id": "621968a8fec33443",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-b6a7b13bb3da4203",
+      "kind": "wire",
+      "primitive_id": "b6a7b13bb3da4203",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-827559cd64e5445e",
+      "kind": "wire",
+      "primitive_id": "827559cd64e5445e",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-f08f6d6910368c05",
+      "kind": "wire",
+      "primitive_id": "f08f6d6910368c05",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-d88d3513e6868f38",
+      "kind": "wire",
+      "primitive_id": "d88d3513e6868f38",
+      "expected": {
+        "net": "LED_A"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-cf0a3a019d46ea91",
+      "kind": "wire",
+      "primitive_id": "cf0a3a019d46ea91",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-138d10952dd7efe3",
+      "kind": "wire",
+      "primitive_id": "138d10952dd7efe3",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-0a8fc9a4a8730c40",
+      "kind": "wire",
+      "primitive_id": "0a8fc9a4a8730c40",
+      "expected": {
+        "net": "TXD"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-ee52086b2574fb82",
+      "kind": "wire",
+      "primitive_id": "ee52086b2574fb82",
+      "expected": {
+        "net": "RXD"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-7b0ae1eb1ba64973",
+      "kind": "wire",
+      "primitive_id": "7b0ae1eb1ba64973",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-950ed48c9d0790c0",
+      "kind": "wire",
+      "primitive_id": "950ed48c9d0790c0",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-422c8c228e6f4b9e",
+      "kind": "wire",
+      "primitive_id": "422c8c228e6f4b9e",
+      "expected": {
+        "net": ""
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-e191bed274d047d3",
+      "kind": "wire",
+      "primitive_id": "e191bed274d047d3",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-b90b03341f100c7d",
+      "kind": "wire",
+      "primitive_id": "b90b03341f100c7d",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-9604d62083d95b11",
+      "kind": "wire",
+      "primitive_id": "9604d62083d95b11",
+      "expected": {
+        "net": "IO2"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-f78f0d77f9ffdee4",
+      "kind": "wire",
+      "primitive_id": "f78f0d77f9ffdee4",
+      "expected": {
+        "net": "IO2"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-c4bc6e65af429225",
+      "kind": "wire",
+      "primitive_id": "c4bc6e65af429225",
+      "expected": {
+        "net": "EN"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-09ca02b25d8366cf",
+      "kind": "wire",
+      "primitive_id": "09ca02b25d8366cf",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-638876a357f89ed6",
+      "kind": "wire",
+      "primitive_id": "638876a357f89ed6",
+      "expected": {
+        "net": "RST"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-0ef3183ddda74bb0",
+      "kind": "wire",
+      "primitive_id": "0ef3183ddda74bb0",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-7c972bf02a7ba519",
+      "kind": "wire",
+      "primitive_id": "7c972bf02a7ba519",
+      "expected": {
+        "net": "3V3"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-988e64165550ecba",
+      "kind": "wire",
+      "primitive_id": "988e64165550ecba",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-69edfbafd79ffa62",
+      "kind": "wire",
+      "primitive_id": "69edfbafd79ffa62",
+      "expected": {
+        "net": "5V"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-0646f185a1bd18a4",
+      "kind": "wire",
+      "primitive_id": "0646f185a1bd18a4",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-cdb9df2a2be5a729",
+      "kind": "wire",
+      "primitive_id": "cdb9df2a2be5a729",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "delete_primitive",
+      "key": "del-wire-bcae1d9e342152be",
+      "kind": "wire",
+      "primitive_id": "bcae1d9e342152be",
+      "expected": {
+        "net": "GND"
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-J101",
+      "primitive_id": "84931dadefea5b69",
+      "changes": {
+        "x": 180,
+        "y": 630
+      },
+      "expected": {
+        "designator": "J101",
+        "unique_id": "gge1",
+        "x": 120,
+        "y": 300,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-U102",
+      "primitive_id": "6a4f98791d8643a6",
+      "changes": {
+        "x": 570,
+        "y": 490
+      },
+      "expected": {
+        "designator": "U102",
+        "unique_id": "gge2",
+        "x": 350,
+        "y": 300,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-U101",
+      "primitive_id": "9caf259471fe8fbe",
+      "changes": {
+        "x": 420,
+        "y": 375
+      },
+      "expected": {
+        "designator": "U101",
+        "unique_id": "gge3",
+        "x": 620,
+        "y": 420,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R101",
+      "primitive_id": "035a69b4bdf864c2",
+      "changes": {
+        "x": 300,
+        "y": 410
+      },
+      "expected": {
+        "designator": "R101",
+        "unique_id": "gge4",
+        "x": 40,
+        "y": 380,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R102",
+      "primitive_id": "68294bcd0484ce63",
+      "changes": {
+        "x": 300,
+        "y": 490
+      },
+      "expected": {
+        "designator": "R102",
+        "unique_id": "gge5",
+        "x": 40,
+        "y": 300,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-C101",
+      "primitive_id": "c26543f0253a827f",
+      "changes": {
+        "x": 420,
+        "y": 550
+      },
+      "expected": {
+        "designator": "C101",
+        "unique_id": "gge6",
+        "x": 260,
+        "y": 220,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-C106",
+      "primitive_id": "87e5af8567392818",
+      "changes": {
+        "x": 920,
+        "y": 580
+      },
+      "expected": {
+        "designator": "C106",
+        "unique_id": "gge21",
+        "x": 780,
+        "y": 540,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-C102",
+      "primitive_id": "0a9968ad6b7a4199",
+      "changes": {
+        "x": 820,
+        "y": 550
+      },
+      "expected": {
+        "designator": "C102",
+        "unique_id": "gge7",
+        "x": 430,
+        "y": 220,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-C104",
+      "primitive_id": "e4687e87ad3d0cfd",
+      "changes": {
+        "x": 120,
+        "y": 230
+      },
+      "expected": {
+        "designator": "C104",
+        "unique_id": "gge19",
+        "x": 700,
+        "y": 500,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-C105",
+      "primitive_id": "8d27056fcaca7bdf",
+      "changes": {
+        "x": 120,
+        "y": 130
+      },
+      "expected": {
+        "designator": "C105",
+        "unique_id": "gge20",
+        "x": 700,
+        "y": 540,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R103",
+      "primitive_id": "0a512d993bf682eb",
+      "changes": {
+        "x": 540,
+        "y": 300
+      },
+      "expected": {
+        "designator": "R103",
+        "unique_id": "gge9",
+        "x": 760,
+        "y": 460,
+        "rotation": 180,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R104",
+      "primitive_id": "6a8d84a9a9805b67",
+      "changes": {
+        "x": 540,
+        "y": 240
+      },
+      "expected": {
+        "designator": "R104",
+        "unique_id": "gge10",
+        "x": 720,
+        "y": 425,
+        "rotation": 180,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R105",
+      "primitive_id": "405206ca1a429e67",
+      "changes": {
+        "x": 260,
+        "y": 280
+      },
+      "expected": {
+        "designator": "R105",
+        "unique_id": "gge11",
+        "x": 540,
+        "y": 415,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R107",
+      "primitive_id": "3faed8c7e4b0a41d",
+      "changes": {
+        "x": 120,
+        "y": 310
+      },
+      "expected": {
+        "designator": "R107",
+        "unique_id": "gge18",
+        "x": 480,
+        "y": 500,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-R106",
+      "primitive_id": "10f1fb2706eb622f",
+      "changes": {
+        "x": 690,
+        "y": 380
+      },
+      "expected": {
+        "designator": "R106",
+        "unique_id": "gge12",
+        "x": 760,
+        "y": 300,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-D101",
+      "primitive_id": "677445fb01de4b0d",
+      "changes": {
+        "x": 760,
+        "y": 380
+      },
+      "expected": {
+        "designator": "D101",
+        "unique_id": "gge13",
+        "x": 830,
+        "y": 300,
+        "rotation": 180,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-SW101",
+      "primitive_id": "cd1ca31b52802161",
+      "changes": {
+        "x": 640,
+        "y": 240
+      },
+      "expected": {
+        "designator": "SW101",
+        "unique_id": "gge14",
+        "x": 720,
+        "y": 380,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-SW102",
+      "primitive_id": "ae63faba2a6864cc",
+      "changes": {
+        "x": 250,
+        "y": 340
+      },
+      "expected": {
+        "designator": "SW102",
+        "unique_id": "gge15",
+        "x": 540,
+        "y": 360,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-J102",
+      "primitive_id": "394f21cb592e5b0d",
+      "changes": {
+        "x": 930,
+        "y": 275
+      },
+      "expected": {
+        "designator": "J102",
+        "unique_id": "gge16",
+        "x": 920,
+        "y": 320,
+        "rotation": 0,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-C107",
+      "primitive_id": "b1793b6b786fee10",
+      "changes": {
+        "x": 700,
+        "y": 580
+      },
+      "expected": {
+        "designator": "C107",
+        "unique_id": "gge17",
+        "x": 510,
+        "y": 220,
+        "rotation": 180,
+        "mirror": false
+      }
+    },
+    {
+      "action": "modify_part",
+      "key": "move-D102",
+      "primitive_id": "e04f8a717dedcc70",
+      "changes": {
+        "x": 490,
+        "y": 660
+      },
+      "expected": {
+        "designator": "D102",
+        "unique_id": "gge22",
+        "x": 300,
+        "y": 160,
+        "rotation": 0,
+        "mirror": false
+      }
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "del-flag-40543f585f64a26c",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "40543f585f64a26c",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-c980906e59389d91",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "c980906e59389d91",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-17afc95fd7c29b0c",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "17afc95fd7c29b0c",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-20350323f34b81d6",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "20350323f34b81d6",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-bb1dafd2c1fade33",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "bb1dafd2c1fade33",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-5114b45293ec27ff",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "5114b45293ec27ff",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-4ac324d5ea8227c0",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "4ac324d5ea8227c0",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-de27143f4b7cd30c",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "de27143f4b7cd30c",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-e57ed6dc05e77682",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "e57ed6dc05e77682",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-54148e9f6d4dc8a9",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "54148e9f6d4dc8a9",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-b58bf3d1423439f5",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "b58bf3d1423439f5",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-4278f4dc559bc757",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "4278f4dc559bc757",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-796665db50623051",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "796665db50623051",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-80cdcd8f3989ebcf",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "80cdcd8f3989ebcf",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-4beb6c48ff2ecd48",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "4beb6c48ff2ecd48",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-84f6c73e9e1466b3",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "84f6c73e9e1466b3",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-63e2554638564c85",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "63e2554638564c85",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-2cc6383a8518ea29",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "2cc6383a8518ea29",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-18c0061320f321b7",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "18c0061320f321b7",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-c3b73645a8e7160d",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "c3b73645a8e7160d",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-194e5d88d54bae97",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "194e5d88d54bae97",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-a380d2e117269cb8",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "a380d2e117269cb8",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-765850816424699e",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "765850816424699e",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-ea05521f71e9e30f",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "ea05521f71e9e30f",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-b0612878e9a6d361",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "b0612878e9a6d361",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-9ccdb3aec0a20cf8",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "9ccdb3aec0a20cf8",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-085411f657e903be",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "085411f657e903be",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-ac28347df5c9b3f0",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "ac28347df5c9b3f0",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-77ea315331003b43",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "77ea315331003b43",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-dda9b0b055b70f5e",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "dda9b0b055b70f5e",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-4f5752fc3d1e2d06",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "4f5752fc3d1e2d06",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-e51e0a360eaac324",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "e51e0a360eaac324",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-eaf7bd7c36db7f10",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "eaf7bd7c36db7f10",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-d0a9c888f5b05120",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "d0a9c888f5b05120",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-6b6378a16e8d6665",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "6b6378a16e8d6665",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-e69626a1c40427e4",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "e69626a1c40427e4",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-flag-2bd4c9ebd26965f9",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "2bd4c9ebd26965f9",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-960727babd8cbb80",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "960727babd8cbb80",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-04db9b8ea74e26ac",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "04db9b8ea74e26ac",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-29a56eb8eb7d36c7",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "29a56eb8eb7d36c7",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-04114913b502d3e8",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "04114913b502d3e8",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-1042cae56d0b89a2",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "1042cae56d0b89a2",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-d0dc03f8f7e30405",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "d0dc03f8f7e30405",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-11f9e26c00295e4e",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "11f9e26c00295e4e",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-ebffb4f56e1db48f",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "ebffb4f56e1db48f",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-5ff0a849714a8df1",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "5ff0a849714a8df1",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-90e0dcf2f855f267",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "90e0dcf2f855f267",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-b6f7c7b75542fd13",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "b6f7c7b75542fd13",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-9ef4bcbe71b063a5",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "9ef4bcbe71b063a5",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-4d660020fa009b67",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "4d660020fa009b67",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-1388494f2584d67e",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "1388494f2584d67e",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-66ae43cfaa7fbbb0",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "66ae43cfaa7fbbb0",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-4a6c3e96d8654a47",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "4a6c3e96d8654a47",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-9bf2c7739b22d4e7",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "9bf2c7739b22d4e7",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-9cc1a6dfd924446e",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "9cc1a6dfd924446e",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-d04c9e534752c905",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "d04c9e534752c905",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-port-ac72859bc80dc265",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "ac72859bc80dc265",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-efd5ef4317462646",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "efd5ef4317462646",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-18f2a381760ec17d",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "18f2a381760ec17d",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-fd66cd07430de4f2",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "fd66cd07430de4f2",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-aa5b909f2ff16b22",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "aa5b909f2ff16b22",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-f500880b3b83d724",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "f500880b3b83d724",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-a330241731a1a1ad",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "a330241731a1a1ad",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-c7a4414aed250306",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "c7a4414aed250306",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-7115cf4ecd33c6f5",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "7115cf4ecd33c6f5",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-9d45835e2e38781c",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "9d45835e2e38781c",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-b75805cade4ebea2",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "b75805cade4ebea2",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-4d4ed58458600dca",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "4d4ed58458600dca",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-70e08327a6eac7db",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "70e08327a6eac7db",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-d9f8c6b0792d3785",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "d9f8c6b0792d3785",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-72031477d8871538",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "72031477d8871538",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-e569946177d473cd",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "e569946177d473cd",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-1665060f71025135",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "1665060f71025135",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-b7544d62014087e5",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "b7544d62014087e5",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-93e050c47a78b8a6",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "93e050c47a78b8a6",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-8ec0f5c503395a56",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "8ec0f5c503395a56",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-132dbd5e794f45bb",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "132dbd5e794f45bb",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-3de7769321e53369",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "3de7769321e53369",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-d9363f0f19ae22ca",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "d9363f0f19ae22ca",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-5302938a0e71a961",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "5302938a0e71a961"
+      },
+      {
+        "key": "del-wire-ad8d2bf0f8b2d8fa",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "ad8d2bf0f8b2d8fa"
+      },
+      {
+        "key": "del-wire-f9bff1f520b501e0",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "f9bff1f520b501e0",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-c58691f3c7833c6f",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "c58691f3c7833c6f"
+      },
+      {
+        "key": "del-wire-d41b2fc77f5611ea",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "d41b2fc77f5611ea"
+      },
+      {
+        "key": "del-wire-d575bda0357eba90",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "d575bda0357eba90",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-615df589ba9a6026",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "615df589ba9a6026"
+      },
+      {
+        "key": "del-wire-1920721cdd7bbe3f",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "1920721cdd7bbe3f"
+      },
+      {
+        "key": "del-wire-f04701dd38eba68e",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "f04701dd38eba68e"
+      },
+      {
+        "key": "del-wire-621968a8fec33443",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "621968a8fec33443",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-b6a7b13bb3da4203",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "b6a7b13bb3da4203"
+      },
+      {
+        "key": "del-wire-827559cd64e5445e",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "827559cd64e5445e",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-f08f6d6910368c05",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "f08f6d6910368c05",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-d88d3513e6868f38",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "d88d3513e6868f38",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-cf0a3a019d46ea91",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "cf0a3a019d46ea91",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-138d10952dd7efe3",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "138d10952dd7efe3",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-0a8fc9a4a8730c40",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "0a8fc9a4a8730c40",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-ee52086b2574fb82",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "ee52086b2574fb82",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-7b0ae1eb1ba64973",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "7b0ae1eb1ba64973",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-950ed48c9d0790c0",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "950ed48c9d0790c0"
+      },
+      {
+        "key": "del-wire-422c8c228e6f4b9e",
+        "ok": false,
+        "action": "delete_primitive",
+        "error": "target_not_found",
+        "primitive_id": "422c8c228e6f4b9e"
+      },
+      {
+        "key": "del-wire-e191bed274d047d3",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "e191bed274d047d3",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-b90b03341f100c7d",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "b90b03341f100c7d",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-9604d62083d95b11",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "9604d62083d95b11",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-f78f0d77f9ffdee4",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "f78f0d77f9ffdee4",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-c4bc6e65af429225",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "c4bc6e65af429225",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-09ca02b25d8366cf",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "09ca02b25d8366cf",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-638876a357f89ed6",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "638876a357f89ed6",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-0ef3183ddda74bb0",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "0ef3183ddda74bb0",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-7c972bf02a7ba519",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "7c972bf02a7ba519",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-988e64165550ecba",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "988e64165550ecba",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-69edfbafd79ffa62",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "69edfbafd79ffa62",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-0646f185a1bd18a4",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "0646f185a1bd18a4",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-cdb9df2a2be5a729",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "cdb9df2a2be5a729",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "del-wire-bcae1d9e342152be",
+        "ok": true,
+        "action": "delete_primitive",
+        "primitive_id": "bcae1d9e342152be",
+        "deleted": true,
+        "still_present": false,
+        "returned": true
+      },
+      {
+        "key": "move-J101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "84931dadefea5b69",
+        "expected": {
+          "designator": "J101",
+          "unique_id": "gge1",
+          "x": 120,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "J101",
+          "unique_id": "gge1",
+          "x": 180,
+          "y": 630,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "",
+          "manufacturer_id": "Type-C-16P",
+          "supplier": "LCSC",
+          "supplier_id": "C9900216560",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "move-U102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "6a4f98791d8643a6",
+        "expected": {
+          "designator": "U102",
+          "unique_id": "gge2",
+          "x": 350,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "U102",
+          "unique_id": "gge2",
+          "x": 570,
+          "y": 490,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "YONGYUTAI(永裕泰)",
+          "manufacturer_id": "AMS1117-3.3",
+          "supplier": "LCSC",
+          "supplier_id": "C2891839",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "move-U101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "9caf259471fe8fbe",
+        "expected": {
+          "designator": "U101",
+          "unique_id": "gge3",
+          "x": 620,
+          "y": 420,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "U101",
+          "unique_id": "gge3",
+          "x": 420,
+          "y": 375,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "Ai-Thinker(安信可)",
+          "manufacturer_id": "ESP-01S",
+          "supplier": "LCSC",
+          "supplier_id": "C503582",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-R101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "035a69b4bdf864c2",
+        "expected": {
+          "designator": "R101",
+          "unique_id": "gge4",
+          "x": 40,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "R101",
+          "unique_id": "gge4",
+          "x": 300,
+          "y": 410,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "Tyohm(幸亚电阻)",
+          "manufacturer_id": "RMC06035.1K1%N",
+          "supplier": "LCSC",
+          "supplier_id": "C269716",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-R102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "68294bcd0484ce63",
+        "expected": {
+          "designator": "R102",
+          "unique_id": "gge5",
+          "x": 40,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "R102",
+          "unique_id": "gge5",
+          "x": 300,
+          "y": 490,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "Tyohm(幸亚电阻)",
+          "manufacturer_id": "RMC06035.1K1%N",
+          "supplier": "LCSC",
+          "supplier_id": "C269716",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-C101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "c26543f0253a827f",
+        "expected": {
+          "designator": "C101",
+          "unique_id": "gge6",
+          "x": 260,
+          "y": 220,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "C101",
+          "unique_id": "gge6",
+          "x": 420,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "",
+          "manufacturer_id": "CAPCER10UF25VX5R0805",
+          "supplier": "LCSC",
+          "supplier_id": "C9900012828",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "move-C106",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "87e5af8567392818",
+        "expected": {
+          "designator": "C106",
+          "unique_id": "gge21",
+          "x": 780,
+          "y": 540,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "C106",
+          "unique_id": "gge21",
+          "x": 920,
+          "y": 580,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "",
+          "manufacturer_id": "CAPCER10UF25VX5R0805",
+          "supplier": "LCSC",
+          "supplier_id": "C9900012828",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "move-C102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "0a9968ad6b7a4199",
+        "expected": {
+          "designator": "C102",
+          "unique_id": "gge7",
+          "x": 430,
+          "y": 220,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "C102",
+          "unique_id": "gge7",
+          "x": 820,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "SAMSUNG(三星)",
+          "manufacturer_id": "CL10B104KB8NNNC",
+          "supplier": "LCSC",
+          "supplier_id": "C1591",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-C104",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "e4687e87ad3d0cfd",
+        "expected": {
+          "designator": "C104",
+          "unique_id": "gge19",
+          "x": 700,
+          "y": 500,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "C104",
+          "unique_id": "gge19",
+          "x": 120,
+          "y": 230,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "SAMSUNG(三星)",
+          "manufacturer_id": "CL10B104KB8NNNC",
+          "supplier": "LCSC",
+          "supplier_id": "C1591",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-C105",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "8d27056fcaca7bdf",
+        "expected": {
+          "designator": "C105",
+          "unique_id": "gge20",
+          "x": 700,
+          "y": 540,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "C105",
+          "unique_id": "gge20",
+          "x": 120,
+          "y": 130,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "SAMSUNG(三星)",
+          "manufacturer_id": "CL10B104KB8NNNC",
+          "supplier": "LCSC",
+          "supplier_id": "C1591",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-R103",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "0a512d993bf682eb",
+        "expected": {
+          "designator": "R103",
+          "unique_id": "gge9",
+          "x": 760,
+          "y": 460,
+          "rotation": 180,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "R103",
+          "unique_id": "gge9",
+          "x": 540,
+          "y": 300,
+          "rotation": 180,
+          "mirror": false,
+          "manufacturer": "UNI-ROYAL(厚声)",
+          "manufacturer_id": "0603WAF1002T5E",
+          "supplier": "LCSC",
+          "supplier_id": "C25804",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-R104",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "6a8d84a9a9805b67",
+        "expected": {
+          "designator": "R104",
+          "unique_id": "gge10",
+          "x": 720,
+          "y": 425,
+          "rotation": 180,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "R104",
+          "unique_id": "gge10",
+          "x": 540,
+          "y": 240,
+          "rotation": 180,
+          "mirror": false,
+          "manufacturer": "UNI-ROYAL(厚声)",
+          "manufacturer_id": "0603WAF1002T5E",
+          "supplier": "LCSC",
+          "supplier_id": "C25804",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-R105",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "405206ca1a429e67",
+        "expected": {
+          "designator": "R105",
+          "unique_id": "gge11",
+          "x": 540,
+          "y": 415,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "R105",
+          "unique_id": "gge11",
+          "x": 260,
+          "y": 280,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "UNI-ROYAL(厚声)",
+          "manufacturer_id": "0603WAF1002T5E",
+          "supplier": "LCSC",
+          "supplier_id": "C25804",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-R107",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "3faed8c7e4b0a41d",
+        "expected": {
+          "designator": "R107",
+          "unique_id": "gge18",
+          "x": 480,
+          "y": 500,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "R107",
+          "unique_id": "gge18",
+          "x": 120,
+          "y": 310,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "UNI-ROYAL(厚声)",
+          "manufacturer_id": "0603WAF1002T5E",
+          "supplier": "LCSC",
+          "supplier_id": "C25804",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-R106",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "10f1fb2706eb622f",
+        "expected": {
+          "designator": "R106",
+          "unique_id": "gge12",
+          "x": 760,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "R106",
+          "unique_id": "gge12",
+          "x": 690,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "UNI-ROYAL(厚声)",
+          "manufacturer_id": "0603WAF1001T5E",
+          "supplier": "LCSC",
+          "supplier_id": "C21190",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-D101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "677445fb01de4b0d",
+        "expected": {
+          "designator": "D101",
+          "unique_id": "gge13",
+          "x": 830,
+          "y": 300,
+          "rotation": 180,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "D101",
+          "unique_id": "gge13",
+          "x": 760,
+          "y": 380,
+          "rotation": 180,
+          "mirror": false,
+          "manufacturer": "KENTO",
+          "manufacturer_id": "KT-0603R",
+          "supplier": "LCSC",
+          "supplier_id": "C2286",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "move-SW101",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "cd1ca31b52802161",
+        "expected": {
+          "designator": "SW101",
+          "unique_id": "gge14",
+          "x": 720,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "SW101",
+          "unique_id": "gge14",
+          "x": 640,
+          "y": 240,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "XUNPU(讯普)",
+          "manufacturer_id": "TS-1088-AR02026",
+          "supplier": "LCSC",
+          "supplier_id": "C52175904",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "move-SW102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "ae63faba2a6864cc",
+        "expected": {
+          "designator": "SW102",
+          "unique_id": "gge15",
+          "x": 540,
+          "y": 360,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "SW102",
+          "unique_id": "gge15",
+          "x": 250,
+          "y": 340,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "XUNPU(讯普)",
+          "manufacturer_id": "TS-1088-AR02026",
+          "supplier": "LCSC",
+          "supplier_id": "C52175904",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "move-J102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "394f21cb592e5b0d",
+        "expected": {
+          "designator": "J102",
+          "unique_id": "gge16",
+          "x": 920,
+          "y": 320,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "J102",
+          "unique_id": "gge16",
+          "x": 930,
+          "y": 275,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "BOOMELE(博穆精密)",
+          "manufacturer_id": "2.54-1*4P母",
+          "supplier": "LCSC",
+          "supplier_id": "C2718488",
+          "name": "={Manufacturer Part}"
+        }
+      },
+      {
+        "key": "move-C107",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "b1793b6b786fee10",
+        "expected": {
+          "designator": "C107",
+          "unique_id": "gge17",
+          "x": 510,
+          "y": 220,
+          "rotation": 180,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "C107",
+          "unique_id": "gge17",
+          "x": 700,
+          "y": 580,
+          "rotation": 180,
+          "mirror": false,
+          "manufacturer": "湘怡中元/湘江",
+          "manufacturer_id": "CA45-E035K226T",
+          "supplier": "LCSC",
+          "supplier_id": "C169219",
+          "name": "={Value}"
+        }
+      },
+      {
+        "key": "move-D102",
+        "ok": true,
+        "action": "modify_part",
+        "primitive_id": "e04f8a717dedcc70",
+        "expected": {
+          "designator": "D102",
+          "unique_id": "gge22",
+          "x": 300,
+          "y": 160,
+          "rotation": 0,
+          "mirror": false
+        },
+        "observed": {
+          "designator": "D102",
+          "unique_id": "gge22",
+          "x": 490,
+          "y": 660,
+          "rotation": 0,
+          "mirror": false,
+          "manufacturer": "DOWO(东沃)",
+          "manufacturer_id": "SMBJ5.0A",
+          "supplier": "LCSC",
+          "supplier_id": "C357965",
+          "name": "={Manufacturer Part}"
+        }
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "4eb88f3d663e090206ff1df037dca7c0e966275d4ea2a955fc6304281fd9c580",
+      "friendly_name": "f1-rev3-layout",
+      "name": "/f1-rev3-layout"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 22,
+    "parts": 21,
+    "netflags": 0,
+    "netports": 0,
+    "unclassified": 1,
+    "wires": 0,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "del-flag-40543f585f64a26c",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "40543f585f64a26c",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 60,
+          "y": 260
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "40543f585f64a26c",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-c980906e59389d91",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "c980906e59389d91",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 60,
+          "y": 350
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "c980906e59389d91",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-17afc95fd7c29b0c",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "17afc95fd7c29b0c",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 220,
+          "y": 220
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "17afc95fd7c29b0c",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-20350323f34b81d6",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "20350323f34b81d6",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 250,
+          "y": 290
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "20350323f34b81d6",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-bb1dafd2c1fade33",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "bb1dafd2c1fade33",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 250,
+          "y": 300
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "bb1dafd2c1fade33",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-5114b45293ec27ff",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "5114b45293ec27ff",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 430,
+          "y": 300
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "5114b45293ec27ff",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-4ac324d5ea8227c0",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "4ac324d5ea8227c0",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 390,
+          "y": 220
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "4ac324d5ea8227c0",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-de27143f4b7cd30c",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "de27143f4b7cd30c",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 500,
+          "y": 190
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "de27143f4b7cd30c",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-e57ed6dc05e77682",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "e57ed6dc05e77682",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 680,
+          "y": 435
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "e57ed6dc05e77682",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-54148e9f6d4dc8a9",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "54148e9f6d4dc8a9",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 800,
+          "y": 460
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "54148e9f6d4dc8a9",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-b58bf3d1423439f5",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "b58bf3d1423439f5",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 760,
+          "y": 425
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "b58bf3d1423439f5",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-4278f4dc559bc757",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "4278f4dc559bc757",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 500,
+          "y": 415
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "4278f4dc559bc757",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-796665db50623051",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "796665db50623051",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 720,
+          "y": 300
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "796665db50623051",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-80cdcd8f3989ebcf",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "80cdcd8f3989ebcf",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 840,
+          "y": 335
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "80cdcd8f3989ebcf",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-4beb6c48ff2ecd48",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "4beb6c48ff2ecd48",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 490,
+          "y": 190
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "4beb6c48ff2ecd48",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-84f6c73e9e1466b3",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "84f6c73e9e1466b3",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 460,
+          "y": 470
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "84f6c73e9e1466b3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-63e2554638564c85",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "63e2554638564c85",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 760,
+          "y": 510
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "63e2554638564c85",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-2cc6383a8518ea29",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "2cc6383a8518ea29",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 280,
+          "y": 130
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "2cc6383a8518ea29",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-18c0061320f321b7",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "18c0061320f321b7",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 30,
+          "y": 250
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "18c0061320f321b7",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-c3b73645a8e7160d",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "c3b73645a8e7160d",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 30,
+          "y": 360
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "c3b73645a8e7160d",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-194e5d88d54bae97",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "194e5d88d54bae97",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 10,
+          "y": 380
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "194e5d88d54bae97",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-a380d2e117269cb8",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "a380d2e117269cb8",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 10,
+          "y": 300
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "a380d2e117269cb8",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-765850816424699e",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "765850816424699e",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 290,
+          "y": 220
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "765850816424699e",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-ea05521f71e9e30f",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "ea05521f71e9e30f",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 250,
+          "y": 310
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "ea05521f71e9e30f",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-b0612878e9a6d361",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "b0612878e9a6d361",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 470,
+          "y": 220
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "b0612878e9a6d361",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-9ccdb3aec0a20cf8",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "9ccdb3aec0a20cf8",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 550,
+          "y": 220
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "9ccdb3aec0a20cf8",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-085411f657e903be",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "085411f657e903be",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 560,
+          "y": 435
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "085411f657e903be",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-ac28347df5c9b3f0",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "ac28347df5c9b3f0",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 770,
+          "y": 380
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "ac28347df5c9b3f0",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-77ea315331003b43",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "77ea315331003b43",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 590,
+          "y": 360
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "77ea315331003b43",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-dda9b0b055b70f5e",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "dda9b0b055b70f5e",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 870,
+          "y": 300
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "dda9b0b055b70f5e",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-4f5752fc3d1e2d06",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "4f5752fc3d1e2d06",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 840,
+          "y": 305
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "4f5752fc3d1e2d06",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-e51e0a360eaac324",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "e51e0a360eaac324",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 740,
+          "y": 500
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "e51e0a360eaac324",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-eaf7bd7c36db7f10",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "eaf7bd7c36db7f10",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 740,
+          "y": 540
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "eaf7bd7c36db7f10",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-d0a9c888f5b05120",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "d0a9c888f5b05120",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 810,
+          "y": 540
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "d0a9c888f5b05120",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-6b6378a16e8d6665",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "6b6378a16e8d6665",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 340,
+          "y": 160
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "6b6378a16e8d6665",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-e69626a1c40427e4",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "e69626a1c40427e4",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 190,
+          "y": 380
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "e69626a1c40427e4",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-flag-2bd4c9ebd26965f9",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_flag",
+        "primitive_id": "2bd4c9ebd26965f9",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 190,
+          "y": 230
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_flag",
+          "primitive_id": "2bd4c9ebd26965f9",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-960727babd8cbb80",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "960727babd8cbb80",
+        "expected": {
+          "net": "CC1",
+          "x": 30,
+          "y": 330
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "960727babd8cbb80",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-04db9b8ea74e26ac",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "04db9b8ea74e26ac",
+        "expected": {
+          "net": "CC2",
+          "x": 30,
+          "y": 270
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "04db9b8ea74e26ac",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-29a56eb8eb7d36c7",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "29a56eb8eb7d36c7",
+        "expected": {
+          "net": "CC1",
+          "x": 60,
+          "y": 380
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "29a56eb8eb7d36c7",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-04114913b502d3e8",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "04114913b502d3e8",
+        "expected": {
+          "net": "CC2",
+          "x": 60,
+          "y": 300
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "04114913b502d3e8",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-1042cae56d0b89a2",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "1042cae56d0b89a2",
+        "expected": {
+          "net": "EN",
+          "x": 740,
+          "y": 460
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "1042cae56d0b89a2",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-d0dc03f8f7e30405",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "d0dc03f8f7e30405",
+        "expected": {
+          "net": "EN",
+          "x": 655,
+          "y": 415
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "d0dc03f8f7e30405",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-11f9e26c00295e4e",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "11f9e26c00295e4e",
+        "expected": {
+          "net": "RST",
+          "x": 700,
+          "y": 425
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "11f9e26c00295e4e",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-ebffb4f56e1db48f",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "ebffb4f56e1db48f",
+        "expected": {
+          "net": "RST",
+          "x": 655,
+          "y": 425
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "ebffb4f56e1db48f",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-5ff0a849714a8df1",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "5ff0a849714a8df1",
+        "expected": {
+          "net": "IO0",
+          "x": 560,
+          "y": 415
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "5ff0a849714a8df1",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-90e0dcf2f855f267",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "90e0dcf2f855f267",
+        "expected": {
+          "net": "IO0",
+          "x": 585,
+          "y": 415
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "90e0dcf2f855f267",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-b6f7c7b75542fd13",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "b6f7c7b75542fd13",
+        "expected": {
+          "net": "RST",
+          "x": 690,
+          "y": 380
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "b6f7c7b75542fd13",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-9ef4bcbe71b063a5",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "9ef4bcbe71b063a5",
+        "expected": {
+          "net": "IO0",
+          "x": 510,
+          "y": 360
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "9ef4bcbe71b063a5",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-4d660020fa009b67",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "4d660020fa009b67",
+        "expected": {
+          "net": "IO2",
+          "x": 500,
+          "y": 470
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "4d660020fa009b67",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-1388494f2584d67e",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "1388494f2584d67e",
+        "expected": {
+          "net": "IO2",
+          "x": 565,
+          "y": 425
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "1388494f2584d67e",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-66ae43cfaa7fbbb0",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "66ae43cfaa7fbbb0",
+        "expected": {
+          "net": "EN",
+          "x": 680,
+          "y": 470
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "66ae43cfaa7fbbb0",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-4a6c3e96d8654a47",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "4a6c3e96d8654a47",
+        "expected": {
+          "net": "RST",
+          "x": 680,
+          "y": 570
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "4a6c3e96d8654a47",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-9bf2c7739b22d4e7",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "9bf2c7739b22d4e7",
+        "expected": {
+          "net": "TXD",
+          "x": 860,
+          "y": 325
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "9bf2c7739b22d4e7",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-9cc1a6dfd924446e",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "9cc1a6dfd924446e",
+        "expected": {
+          "net": "TXD",
+          "x": 655,
+          "y": 405
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "9cc1a6dfd924446e",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-d04c9e534752c905",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "d04c9e534752c905",
+        "expected": {
+          "net": "RXD",
+          "x": 880,
+          "y": 315
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "d04c9e534752c905",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-port-ac72859bc80dc265",
+        "op": "delete",
+        "status": "delete",
+        "kind": "net_port",
+        "primitive_id": "ac72859bc80dc265",
+        "expected": {
+          "net": "RXD",
+          "x": 585,
+          "y": 405
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "net_port",
+          "primitive_id": "ac72859bc80dc265",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-efd5ef4317462646",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "efd5ef4317462646",
+        "expected": {
+          "net": "5V"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "efd5ef4317462646",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-18f2a381760ec17d",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "18f2a381760ec17d",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "18f2a381760ec17d",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-fd66cd07430de4f2",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "fd66cd07430de4f2",
+        "expected": {
+          "net": "5V"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "fd66cd07430de4f2",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-aa5b909f2ff16b22",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "aa5b909f2ff16b22",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "aa5b909f2ff16b22",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-f500880b3b83d724",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "f500880b3b83d724",
+        "expected": {
+          "net": "CC1"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "f500880b3b83d724",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-a330241731a1a1ad",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "a330241731a1a1ad",
+        "expected": {
+          "net": "CC2"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "a330241731a1a1ad",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-c7a4414aed250306",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "c7a4414aed250306",
+        "expected": {
+          "net": "CC1"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "c7a4414aed250306",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-7115cf4ecd33c6f5",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "7115cf4ecd33c6f5",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "7115cf4ecd33c6f5",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-9d45835e2e38781c",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "9d45835e2e38781c",
+        "expected": {
+          "net": "CC2"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "9d45835e2e38781c",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-b75805cade4ebea2",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "b75805cade4ebea2",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "b75805cade4ebea2",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-4d4ed58458600dca",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "4d4ed58458600dca",
+        "expected": {
+          "net": "5V"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "4d4ed58458600dca",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-70e08327a6eac7db",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "70e08327a6eac7db",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "70e08327a6eac7db",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d9f8c6b0792d3785",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "d9f8c6b0792d3785",
+        "expected": {
+          "net": "5V"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "d9f8c6b0792d3785",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-72031477d8871538",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "72031477d8871538",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "72031477d8871538",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-e569946177d473cd",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "e569946177d473cd",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "e569946177d473cd",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-1665060f71025135",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "1665060f71025135",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "1665060f71025135",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-b7544d62014087e5",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "b7544d62014087e5",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "b7544d62014087e5",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-93e050c47a78b8a6",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "93e050c47a78b8a6",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "93e050c47a78b8a6",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-8ec0f5c503395a56",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "8ec0f5c503395a56",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "8ec0f5c503395a56",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-132dbd5e794f45bb",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "132dbd5e794f45bb",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "132dbd5e794f45bb",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-3de7769321e53369",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "3de7769321e53369",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "3de7769321e53369",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d9363f0f19ae22ca",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "d9363f0f19ae22ca",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "d9363f0f19ae22ca",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-5302938a0e71a961",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "5302938a0e71a961",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "5302938a0e71a961",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-ad8d2bf0f8b2d8fa",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "ad8d2bf0f8b2d8fa",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "ad8d2bf0f8b2d8fa",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-f9bff1f520b501e0",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "f9bff1f520b501e0",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "f9bff1f520b501e0",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-c58691f3c7833c6f",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "c58691f3c7833c6f",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "c58691f3c7833c6f",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d41b2fc77f5611ea",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "d41b2fc77f5611ea",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "d41b2fc77f5611ea",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d575bda0357eba90",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "d575bda0357eba90",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "d575bda0357eba90",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-615df589ba9a6026",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "615df589ba9a6026",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "615df589ba9a6026",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-1920721cdd7bbe3f",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "1920721cdd7bbe3f",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "1920721cdd7bbe3f",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-f04701dd38eba68e",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "f04701dd38eba68e",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "f04701dd38eba68e",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-621968a8fec33443",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "621968a8fec33443",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "621968a8fec33443",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-b6a7b13bb3da4203",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "b6a7b13bb3da4203",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "b6a7b13bb3da4203",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-827559cd64e5445e",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "827559cd64e5445e",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "827559cd64e5445e",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-f08f6d6910368c05",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "f08f6d6910368c05",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "f08f6d6910368c05",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-d88d3513e6868f38",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "d88d3513e6868f38",
+        "expected": {
+          "net": "LED_A"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "d88d3513e6868f38",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-cf0a3a019d46ea91",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "cf0a3a019d46ea91",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "cf0a3a019d46ea91",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-138d10952dd7efe3",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "138d10952dd7efe3",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "138d10952dd7efe3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-0a8fc9a4a8730c40",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "0a8fc9a4a8730c40",
+        "expected": {
+          "net": "TXD"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "0a8fc9a4a8730c40",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-ee52086b2574fb82",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "ee52086b2574fb82",
+        "expected": {
+          "net": "RXD"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "ee52086b2574fb82",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-7b0ae1eb1ba64973",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "7b0ae1eb1ba64973",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "7b0ae1eb1ba64973",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-950ed48c9d0790c0",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "950ed48c9d0790c0",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "950ed48c9d0790c0",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-422c8c228e6f4b9e",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "422c8c228e6f4b9e",
+        "expected": {
+          "net": ""
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "422c8c228e6f4b9e",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-e191bed274d047d3",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "e191bed274d047d3",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "e191bed274d047d3",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-b90b03341f100c7d",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "b90b03341f100c7d",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "b90b03341f100c7d",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-9604d62083d95b11",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "9604d62083d95b11",
+        "expected": {
+          "net": "IO2"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "9604d62083d95b11",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-f78f0d77f9ffdee4",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "f78f0d77f9ffdee4",
+        "expected": {
+          "net": "IO2"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "f78f0d77f9ffdee4",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-c4bc6e65af429225",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "c4bc6e65af429225",
+        "expected": {
+          "net": "EN"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "c4bc6e65af429225",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-09ca02b25d8366cf",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "09ca02b25d8366cf",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "09ca02b25d8366cf",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-638876a357f89ed6",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "638876a357f89ed6",
+        "expected": {
+          "net": "RST"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "638876a357f89ed6",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-0ef3183ddda74bb0",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "0ef3183ddda74bb0",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "0ef3183ddda74bb0",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-7c972bf02a7ba519",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "7c972bf02a7ba519",
+        "expected": {
+          "net": "3V3"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "7c972bf02a7ba519",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-988e64165550ecba",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "988e64165550ecba",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "988e64165550ecba",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-69edfbafd79ffa62",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "69edfbafd79ffa62",
+        "expected": {
+          "net": "5V"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "69edfbafd79ffa62",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-0646f185a1bd18a4",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "0646f185a1bd18a4",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "0646f185a1bd18a4",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-cdb9df2a2be5a729",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "cdb9df2a2be5a729",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "cdb9df2a2be5a729",
+          "still_present": false
+        }
+      },
+      {
+        "key": "del-wire-bcae1d9e342152be",
+        "op": "delete",
+        "status": "delete",
+        "kind": "wire",
+        "primitive_id": "bcae1d9e342152be",
+        "expected": {
+          "net": "GND"
+        },
+        "verification": "verified",
+        "observed": {
+          "kind": "wire",
+          "primitive_id": "bcae1d9e342152be",
+          "still_present": false
+        }
+      },
+      {
+        "key": "move-J101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 180,
+          "y": 630
+        },
+        "primitive_id": "84931dadefea5b69",
+        "designator": "J101",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "J101",
+            "component": "Type-C-16P",
+            "supplier_id": "C9900216560",
+            "x": 180,
+            "y": 630,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "J101",
+            "component": "Type-C-16P",
+            "supplier_id": "C9900216560",
+            "x": 180,
+            "y": 630,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-U102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 570,
+          "y": 490
+        },
+        "primitive_id": "6a4f98791d8643a6",
+        "designator": "U102",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "U102",
+            "component": "AMS1117-3.3",
+            "supplier_id": "C2891839",
+            "x": 570,
+            "y": 490,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "U102",
+            "component": "AMS1117-3.3",
+            "supplier_id": "C2891839",
+            "x": 570,
+            "y": 490,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-U101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 420,
+          "y": 375
+        },
+        "primitive_id": "9caf259471fe8fbe",
+        "designator": "U101",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "U101",
+            "component": "ESP-01S",
+            "supplier_id": "C503582",
+            "x": 420,
+            "y": 375,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "U101",
+            "component": "ESP-01S",
+            "supplier_id": "C503582",
+            "x": 420,
+            "y": 375,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-R101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 300,
+          "y": 410
+        },
+        "primitive_id": "035a69b4bdf864c2",
+        "designator": "R101",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "R101",
+            "component": "RMC06035.1K1%N",
+            "supplier_id": "C269716",
+            "x": 300,
+            "y": 410,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "R101",
+            "component": "RMC06035.1K1%N",
+            "supplier_id": "C269716",
+            "x": 300,
+            "y": 410,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-R102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 300,
+          "y": 490
+        },
+        "primitive_id": "68294bcd0484ce63",
+        "designator": "R102",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "R102",
+            "component": "RMC06035.1K1%N",
+            "supplier_id": "C269716",
+            "x": 300,
+            "y": 490,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "R102",
+            "component": "RMC06035.1K1%N",
+            "supplier_id": "C269716",
+            "x": 300,
+            "y": 490,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-C101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 420,
+          "y": 550
+        },
+        "primitive_id": "c26543f0253a827f",
+        "designator": "C101",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C101",
+            "component": "CAPCER10UF25VX5R0805",
+            "supplier_id": "C9900012828",
+            "x": 420,
+            "y": 550,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "C101",
+            "component": "CAPCER10UF25VX5R0805",
+            "supplier_id": "C9900012828",
+            "x": 420,
+            "y": 550,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-C106",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 920,
+          "y": 580
+        },
+        "primitive_id": "87e5af8567392818",
+        "designator": "C106",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C106",
+            "component": "CAPCER10UF25VX5R0805",
+            "supplier_id": "C9900012828",
+            "x": 920,
+            "y": 580,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "C106",
+            "component": "CAPCER10UF25VX5R0805",
+            "supplier_id": "C9900012828",
+            "x": 920,
+            "y": 580,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-C102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 820,
+          "y": 550
+        },
+        "primitive_id": "0a9968ad6b7a4199",
+        "designator": "C102",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C102",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 820,
+            "y": 550,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "C102",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 820,
+            "y": 550,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-C104",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 120,
+          "y": 230
+        },
+        "primitive_id": "e4687e87ad3d0cfd",
+        "designator": "C104",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C104",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 120,
+            "y": 230,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "C104",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 120,
+            "y": 230,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-C105",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 120,
+          "y": 130
+        },
+        "primitive_id": "8d27056fcaca7bdf",
+        "designator": "C105",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C105",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 120,
+            "y": 130,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "C105",
+            "component": "CL10B104KB8NNNC",
+            "supplier_id": "C1591",
+            "x": 120,
+            "y": 130,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-R103",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 540,
+          "y": 300
+        },
+        "primitive_id": "0a512d993bf682eb",
+        "designator": "R103",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "R103",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 540,
+            "y": 300,
+            "rotation": 180,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "R103",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 540,
+            "y": 300,
+            "rotation": 180,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-R104",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 540,
+          "y": 240
+        },
+        "primitive_id": "6a8d84a9a9805b67",
+        "designator": "R104",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "R104",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 540,
+            "y": 240,
+            "rotation": 180,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "R104",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 540,
+            "y": 240,
+            "rotation": 180,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-R105",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 260,
+          "y": 280
+        },
+        "primitive_id": "405206ca1a429e67",
+        "designator": "R105",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "R105",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 260,
+            "y": 280,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "R105",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 260,
+            "y": 280,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-R107",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 120,
+          "y": 310
+        },
+        "primitive_id": "3faed8c7e4b0a41d",
+        "designator": "R107",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "R107",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 120,
+            "y": 310,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "R107",
+            "component": "0603WAF1002T5E",
+            "supplier_id": "C25804",
+            "x": 120,
+            "y": 310,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-R106",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 690,
+          "y": 380
+        },
+        "primitive_id": "10f1fb2706eb622f",
+        "designator": "R106",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "R106",
+            "component": "0603WAF1001T5E",
+            "supplier_id": "C21190",
+            "x": 690,
+            "y": 380,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "R106",
+            "component": "0603WAF1001T5E",
+            "supplier_id": "C21190",
+            "x": 690,
+            "y": 380,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-D101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 760,
+          "y": 380
+        },
+        "primitive_id": "677445fb01de4b0d",
+        "designator": "D101",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "D101",
+            "component": "KT-0603R",
+            "supplier_id": "C2286",
+            "x": 760,
+            "y": 380,
+            "rotation": 180,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "D101",
+            "component": "KT-0603R",
+            "supplier_id": "C2286",
+            "x": 760,
+            "y": 380,
+            "rotation": 180,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-SW101",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 640,
+          "y": 240
+        },
+        "primitive_id": "cd1ca31b52802161",
+        "designator": "SW101",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "SW101",
+            "component": "TS-1088-AR02026",
+            "supplier_id": "C52175904",
+            "x": 640,
+            "y": 240,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "SW101",
+            "component": "TS-1088-AR02026",
+            "supplier_id": "C52175904",
+            "x": 640,
+            "y": 240,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-SW102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 250,
+          "y": 340
+        },
+        "primitive_id": "ae63faba2a6864cc",
+        "designator": "SW102",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "SW102",
+            "component": "TS-1088-AR02026",
+            "supplier_id": "C52175904",
+            "x": 250,
+            "y": 340,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "SW102",
+            "component": "TS-1088-AR02026",
+            "supplier_id": "C52175904",
+            "x": 250,
+            "y": 340,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-J102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 930,
+          "y": 275
+        },
+        "primitive_id": "394f21cb592e5b0d",
+        "designator": "J102",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "J102",
+            "component": "2.54-1*4P母",
+            "supplier_id": "C2718488",
+            "x": 930,
+            "y": 275,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "J102",
+            "component": "2.54-1*4P母",
+            "supplier_id": "C2718488",
+            "x": 930,
+            "y": 275,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-C107",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 700,
+          "y": 580
+        },
+        "primitive_id": "b1793b6b786fee10",
+        "designator": "C107",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "C107",
+            "component": "CA45-E035K226T",
+            "supplier_id": "C169219",
+            "x": 700,
+            "y": 580,
+            "rotation": 180,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "C107",
+            "component": "CA45-E035K226T",
+            "supplier_id": "C169219",
+            "x": 700,
+            "y": 580,
+            "rotation": 180,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "move-D102",
+        "op": "part",
+        "status": "modify",
+        "changes": {
+          "x": 490,
+          "y": 660
+        },
+        "primitive_id": "e04f8a717dedcc70",
+        "designator": "D102",
+        "designator_scope": "page",
+        "stable_identity": true,
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "designator": "D102",
+            "component": "SMBJ5.0A",
+            "supplier_id": "C357965",
+            "x": 490,
+            "y": 660,
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "designator": "D102",
+            "component": "SMBJ5.0A",
+            "supplier_id": "C357965",
+            "x": 490,
+            "y": 660,
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      }
+    ]
+  }
+}

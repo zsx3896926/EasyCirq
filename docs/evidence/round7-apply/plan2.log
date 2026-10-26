@@ -1,0 +1,166 @@
+{
+  "schema": "design-engine-label-plan/v1",
+  "source": {
+    "project_uuid": "64ab79c43f24454e8066801ade20d42f",
+    "page_name": "P1",
+    "ir_schema": "design-engine-ir/v1",
+    "reading": {
+      "kind": "ir",
+      "path": "docs\\evidence\\round7-apply\\after-ir.json"
+    }
+  },
+  "operations": [
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:856b2a6219e7df58",
+      "primitive_id": "856b2a6219e7df58",
+      "component_id": "part:Q1",
+      "designator": "Q1",
+      "key": "Name",
+      "value": "={Manufacturer Part}",
+      "from": {
+        "x": 930,
+        "y": 290
+      },
+      "to": {
+        "x": 930.0,
+        "y": 380.0
+      },
+      "bbox_before": [
+        930.0,
+        290.0,
+        1017.0,
+        303.0
+      ],
+      "bbox_after": [
+        930.0,
+        380.0,
+        1017.0,
+        393.0
+      ],
+      "reason": "text_component_overlap",
+      "finding_ids": [
+写入 4 个 attribute-move 参数文件: docs\evidence\round7-apply\moves2
+        "finding:text_component_overlap:attr:856b2a6219e7df58|part:BZ1"
+      ]
+    },
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:9549f23e0bf7051d",
+      "primitive_id": "9549f23e0bf7051d",
+      "component_id": "part:D5",
+      "designator": "D5",
+      "key": "Name",
+      "value": "={Manufacturer Part}",
+      "from": {
+        "x": 945,
+        "y": 230
+      },
+      "to": {
+        "x": 990.0,
+        "y": 200.0
+      },
+      "bbox_before": [
+        945.0,
+        230.0,
+        1032.0,
+        243.0
+      ],
+      "bbox_after": [
+        990.0,
+        200.0,
+        1077.0,
+        213.0
+      ],
+      "reason": "text_component_overlap",
+      "finding_ids": [
+        "finding:text_component_overlap:attr:9549f23e0bf7051d|part:D6"
+      ]
+    },
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:4ce49a64c53f3877",
+      "primitive_id": "4ce49a64c53f3877",
+      "component_id": "part:D4",
+      "designator": "D4",
+      "key": "Name",
+      "value": "={Manufacturer Part}",
+      "from": {
+        "x": 885,
+        "y": 190
+      },
+      "to": {
+        "x": 820.0,
+        "y": 275.0
+      },
+      "bbox_before": [
+        885.0,
+        190.0,
+        972.0,
+        203.0
+      ],
+      "bbox_after": [
+        820.0,
+        275.0,
+        907.0,
+        288.0
+      ],
+      "reason": "title_block_overlap",
+      "finding_ids": [
+        "finding:title_block_overlap:attr:4ce49a64c53f3877"
+      ]
+    },
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:cfad267e7ce2ec51",
+      "primitive_id": "cfad267e7ce2ec51",
+      "component_id": "part:J1",
+      "designator": "J1",
+      "key": "Name",
+      "value": "={Manufacturer Part}",
+      "from": {
+        "x": 450,
+        "y": 440
+      },
+      "to": {
+        "x": 495.0,
+        "y": 440.0
+      },
+      "bbox_before": [
+        450.0,
+        440.0,
+        537.0,
+        453.0
+      ],
+      "bbox_after": [
+        495.0,
+        440.0,
+        582.0,
+        453.0
+      ],
+      "reason": "wire_enters_text",
+      "finding_ids": [
+        "finding:wire_enters_text:wire:eac7d89f513f570a|attr:cfad267e7ce2ec51"
+      ]
+    }
+  ],
+  "unplanned": [],
+  "before": {
+    "status": "blocked",
+    "hard_count": 8
+  },
+  "after_simulation": {
+    "status": "blocked",
+    "hard_count": 1,
+    "advisory_count": 7,
+    "findings_by_code": {
+      "label_overlap": 1,
+      "missing_partition": 1,
+      "net_label_overlap": 4,
+      "off_grid": 1,
+      "outside_page": 1
+    }
+  },
+  "eeada_apply": "NOT RUN",
+  "note": "positions are an offline simulation; apply through a connector, then re-read and re-export"
+}

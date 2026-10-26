@@ -1,0 +1,6141 @@
+{
+  "status": "verified",
+  "plan": "C:/Users/jlc/work/hds-round3-int-scratch/plan-rev3-stage2-recreate.json",
+  "session": {
+    "sessionId": "a38be901-ff32-402b-90ea-c7d6b511919c",
+    "origin": "cli",
+    "owned": false
+  },
+  "env": {
+    "online": false,
+    "half_offline": true,
+    "offline": false,
+    "version": "4.1.78",
+    "client": true,
+    "jlc_pro": true
+  },
+  "page": {
+    "basis": "schematic_name",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "before_counts": {
+    "components": 22,
+    "parts": 21,
+    "netflags": 0,
+    "netports": 0,
+    "unclassified": 1,
+    "wires": 0,
+    "attributes": null
+  },
+  "integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "dry_run": false,
+  "items": [
+    {
+      "key": "flag-40543f585f64a26c",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "flag-c980906e59389d91",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "flag-17afc95fd7c29b0c",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "flag-20350323f34b81d6",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "flag-bb1dafd2c1fade33",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-5114b45293ec27ff",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-4ac324d5ea8227c0",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-de27143f4b7cd30c",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-e57ed6dc05e77682",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-54148e9f6d4dc8a9",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-b58bf3d1423439f5",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-4278f4dc559bc757",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-796665db50623051",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-80cdcd8f3989ebcf",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-4beb6c48ff2ecd48",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-84f6c73e9e1466b3",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-63e2554638564c85",
+      "op": "net_flag",
+      "status": "create",
+      "net": "3V3"
+    },
+    {
+      "key": "flag-2cc6383a8518ea29",
+      "op": "net_flag",
+      "status": "create",
+      "net": "5V"
+    },
+    {
+      "key": "flag-18c0061320f321b7",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-c3b73645a8e7160d",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-194e5d88d54bae97",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-a380d2e117269cb8",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-765850816424699e",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-ea05521f71e9e30f",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-b0612878e9a6d361",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-9ccdb3aec0a20cf8",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-085411f657e903be",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-ac28347df5c9b3f0",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-77ea315331003b43",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-dda9b0b055b70f5e",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-4f5752fc3d1e2d06",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-e51e0a360eaac324",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-eaf7bd7c36db7f10",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-d0a9c888f5b05120",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-6b6378a16e8d6665",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-e69626a1c40427e4",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "flag-2bd4c9ebd26965f9",
+      "op": "net_flag",
+      "status": "create",
+      "net": "GND"
+    },
+    {
+      "key": "port-960727babd8cbb80",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC1"
+    },
+    {
+      "key": "port-04db9b8ea74e26ac",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC2"
+    },
+    {
+      "key": "port-29a56eb8eb7d36c7",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC1"
+    },
+    {
+      "key": "port-04114913b502d3e8",
+      "op": "net_port",
+      "status": "create",
+      "net": "CC2"
+    },
+    {
+      "key": "port-1042cae56d0b89a2",
+      "op": "net_port",
+      "status": "create",
+      "net": "EN"
+    },
+    {
+      "key": "port-d0dc03f8f7e30405",
+      "op": "net_port",
+      "status": "create",
+      "net": "EN"
+    },
+    {
+      "key": "port-11f9e26c00295e4e",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "port-ebffb4f56e1db48f",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "port-5ff0a849714a8df1",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    },
+    {
+      "key": "port-90e0dcf2f855f267",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    },
+    {
+      "key": "port-b6f7c7b75542fd13",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "port-9ef4bcbe71b063a5",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO0"
+    },
+    {
+      "key": "port-4d660020fa009b67",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO2"
+    },
+    {
+      "key": "port-1388494f2584d67e",
+      "op": "net_port",
+      "status": "create",
+      "net": "IO2"
+    },
+    {
+      "key": "port-66ae43cfaa7fbbb0",
+      "op": "net_port",
+      "status": "create",
+      "net": "EN"
+    },
+    {
+      "key": "port-4a6c3e96d8654a47",
+      "op": "net_port",
+      "status": "create",
+      "net": "RST"
+    },
+    {
+      "key": "port-9bf2c7739b22d4e7",
+      "op": "net_port",
+      "status": "create",
+      "net": "TXD"
+    },
+    {
+      "key": "port-9cc1a6dfd924446e",
+      "op": "net_port",
+      "status": "create",
+      "net": "TXD"
+    },
+    {
+      "key": "port-d04c9e534752c905",
+      "op": "net_port",
+      "status": "create",
+      "net": "RXD"
+    },
+    {
+      "key": "port-ac72859bc80dc265",
+      "op": "net_port",
+      "status": "create",
+      "net": "RXD"
+    },
+    {
+      "key": "wire-1",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-2",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-3",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-4",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-5",
+      "op": "wire",
+      "status": "create",
+      "net": "CC1",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-6",
+      "op": "wire",
+      "status": "create",
+      "net": "CC2",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-7",
+      "op": "wire",
+      "status": "create",
+      "net": "CC1",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-8",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-9",
+      "op": "wire",
+      "status": "create",
+      "net": "CC2",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-10",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-11",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-12",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-13",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-14",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-15",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-16",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-17",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-18",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-19",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-20",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-21",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-22",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-23",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-24",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-25",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-26",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-27",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-28",
+      "op": "wire",
+      "status": "create",
+      "net": "LED_A",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-29",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-30",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-31",
+      "op": "wire",
+      "status": "create",
+      "net": "TXD",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-32",
+      "op": "wire",
+      "status": "create",
+      "net": "RXD",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-33",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-34",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-35",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-36",
+      "op": "wire",
+      "status": "create",
+      "net": "IO2",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-37",
+      "op": "wire",
+      "status": "create",
+      "net": "IO2",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-38",
+      "op": "wire",
+      "status": "create",
+      "net": "EN",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-39",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-40",
+      "op": "wire",
+      "status": "create",
+      "net": "RST",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-41",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-42",
+      "op": "wire",
+      "status": "create",
+      "net": "3V3",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-43",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-44",
+      "op": "wire",
+      "status": "create",
+      "net": "5V",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-45",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-46",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-47",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-48",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-49",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-50",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    },
+    {
+      "key": "wire-51",
+      "op": "wire",
+      "status": "create",
+      "net": "GND",
+      "segments": 1,
+      "existing_segments": 0
+    }
+  ],
+  "actions": [
+    {
+      "action": "create_net_flag",
+      "key": "flag-40543f585f64a26c",
+      "type": "Power",
+      "net": "5V",
+      "x": 120,
+      "y": 590,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-c980906e59389d91",
+      "type": "Power",
+      "net": "5V",
+      "x": 120,
+      "y": 680,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-17afc95fd7c29b0c",
+      "type": "Power",
+      "net": "5V",
+      "x": 380,
+      "y": 550,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-20350323f34b81d6",
+      "type": "Power",
+      "net": "5V",
+      "x": 470,
+      "y": 480,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-bb1dafd2c1fade33",
+      "type": "Power",
+      "net": "3V3",
+      "x": 470,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-5114b45293ec27ff",
+      "type": "Power",
+      "net": "3V3",
+      "x": 650,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-4ac324d5ea8227c0",
+      "type": "Power",
+      "net": "3V3",
+      "x": 780,
+      "y": 550,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-de27143f4b7cd30c",
+      "type": "Power",
+      "net": "3V3",
+      "x": 600,
+      "y": 620,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-e57ed6dc05e77682",
+      "type": "Power",
+      "net": "3V3",
+      "x": 480,
+      "y": 390,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-54148e9f6d4dc8a9",
+      "type": "Power",
+      "net": "3V3",
+      "x": 580,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-b58bf3d1423439f5",
+      "type": "Power",
+      "net": "3V3",
+      "x": 580,
+      "y": 240,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-4278f4dc559bc757",
+      "type": "Power",
+      "net": "3V3",
+      "x": 220,
+      "y": 280,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-796665db50623051",
+      "type": "Power",
+      "net": "3V3",
+      "x": 650,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-80cdcd8f3989ebcf",
+      "type": "Power",
+      "net": "3V3",
+      "x": 850,
+      "y": 290,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-4beb6c48ff2ecd48",
+      "type": "Power",
+      "net": "3V3",
+      "x": 680,
+      "y": 550,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-84f6c73e9e1466b3",
+      "type": "Power",
+      "net": "3V3",
+      "x": 100,
+      "y": 280,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-63e2554638564c85",
+      "type": "Power",
+      "net": "3V3",
+      "x": 900,
+      "y": 550,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-2cc6383a8518ea29",
+      "type": "Power",
+      "net": "5V",
+      "x": 470,
+      "y": 630,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-18c0061320f321b7",
+      "type": "Ground",
+      "net": "GND",
+      "x": 90,
+      "y": 580,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-c3b73645a8e7160d",
+      "type": "Ground",
+      "net": "GND",
+      "x": 90,
+      "y": 690,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-194e5d88d54bae97",
+      "type": "Ground",
+      "net": "GND",
+      "x": 270,
+      "y": 410,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-a380d2e117269cb8",
+      "type": "Ground",
+      "net": "GND",
+      "x": 270,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-765850816424699e",
+      "type": "Ground",
+      "net": "GND",
+      "x": 450,
+      "y": 550,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-ea05521f71e9e30f",
+      "type": "Ground",
+      "net": "GND",
+      "x": 470,
+      "y": 500,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-b0612878e9a6d361",
+      "type": "Ground",
+      "net": "GND",
+      "x": 860,
+      "y": 550,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-9ccdb3aec0a20cf8",
+      "type": "Ground",
+      "net": "GND",
+      "x": 740,
+      "y": 580,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-085411f657e903be",
+      "type": "Ground",
+      "net": "GND",
+      "x": 360,
+      "y": 390,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-ac28347df5c9b3f0",
+      "type": "Ground",
+      "net": "GND",
+      "x": 690,
+      "y": 240,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-77ea315331003b43",
+      "type": "Ground",
+      "net": "GND",
+      "x": 300,
+      "y": 340,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-dda9b0b055b70f5e",
+      "type": "Ground",
+      "net": "GND",
+      "x": 800,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-4f5752fc3d1e2d06",
+      "type": "Ground",
+      "net": "GND",
+      "x": 850,
+      "y": 260,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-e51e0a360eaac324",
+      "type": "Ground",
+      "net": "GND",
+      "x": 160,
+      "y": 230,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-eaf7bd7c36db7f10",
+      "type": "Ground",
+      "net": "GND",
+      "x": 160,
+      "y": 130,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-d0a9c888f5b05120",
+      "type": "Ground",
+      "net": "GND",
+      "x": 950,
+      "y": 580,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-6b6378a16e8d6665",
+      "type": "Ground",
+      "net": "GND",
+      "x": 530,
+      "y": 660,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-e69626a1c40427e4",
+      "type": "Ground",
+      "net": "GND",
+      "x": 250,
+      "y": 710,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_flag",
+      "key": "flag-2bd4c9ebd26965f9",
+      "type": "Ground",
+      "net": "GND",
+      "x": 250,
+      "y": 560,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-960727babd8cbb80",
+      "direction": "BI",
+      "net": "CC1",
+      "x": 90,
+      "y": 660,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-04db9b8ea74e26ac",
+      "direction": "BI",
+      "net": "CC2",
+      "x": 90,
+      "y": 600,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-29a56eb8eb7d36c7",
+      "direction": "BI",
+      "net": "CC1",
+      "x": 320,
+      "y": 410,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-04114913b502d3e8",
+      "direction": "BI",
+      "net": "CC2",
+      "x": 320,
+      "y": 490,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-1042cae56d0b89a2",
+      "direction": "BI",
+      "net": "EN",
+      "x": 520,
+      "y": 300,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-d0dc03f8f7e30405",
+      "direction": "BI",
+      "net": "EN",
+      "x": 455,
+      "y": 370,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-11f9e26c00295e4e",
+      "direction": "BI",
+      "net": "RST",
+      "x": 520,
+      "y": 240,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-ebffb4f56e1db48f",
+      "direction": "BI",
+      "net": "RST",
+      "x": 455,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-5ff0a849714a8df1",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 280,
+      "y": 280,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-90e0dcf2f855f267",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 385,
+      "y": 370,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-b6f7c7b75542fd13",
+      "direction": "BI",
+      "net": "RST",
+      "x": 610,
+      "y": 240,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-9ef4bcbe71b063a5",
+      "direction": "BI",
+      "net": "IO0",
+      "x": 220,
+      "y": 340,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-4d660020fa009b67",
+      "direction": "BI",
+      "net": "IO2",
+      "x": 140,
+      "y": 280,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-1388494f2584d67e",
+      "direction": "BI",
+      "net": "IO2",
+      "x": 365,
+      "y": 380,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-66ae43cfaa7fbbb0",
+      "direction": "BI",
+      "net": "EN",
+      "x": 100,
+      "y": 200,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-4a6c3e96d8654a47",
+      "direction": "BI",
+      "net": "RST",
+      "x": 100,
+      "y": 160,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-9bf2c7739b22d4e7",
+      "direction": "OUT",
+      "net": "TXD",
+      "x": 870,
+      "y": 280,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-9cc1a6dfd924446e",
+      "direction": "OUT",
+      "net": "TXD",
+      "x": 455,
+      "y": 360,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-d04c9e534752c905",
+      "direction": "IN",
+      "net": "RXD",
+      "x": 890,
+      "y": 270,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_net_port",
+      "key": "port-ac72859bc80dc265",
+      "direction": "IN",
+      "net": "RXD",
+      "x": 385,
+      "y": 360,
+      "rotation": 0,
+      "mirror": false
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-1#0",
+      "net": "5V",
+      "points": [
+        120.0,
+        590.0,
+        150.0,
+        590.0
+      ],
+      "segments": [
+        [
+          120.0,
+          590.0,
+          150.0,
+          590.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-2#0",
+      "net": "GND",
+      "points": [
+        90.0,
+        580.0,
+        150.0,
+        580.0
+      ],
+      "segments": [
+        [
+          90.0,
+          580.0,
+          150.0,
+          580.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-3#0",
+      "net": "5V",
+      "points": [
+        120.0,
+        680.0,
+        150.0,
+        680.0
+      ],
+      "segments": [
+        [
+          120.0,
+          680.0,
+          150.0,
+          680.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-4#0",
+      "net": "GND",
+      "points": [
+        90.0,
+        690.0,
+        150.0,
+        690.0
+      ],
+      "segments": [
+        [
+          90.0,
+          690.0,
+          150.0,
+          690.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-5#0",
+      "net": "CC1",
+      "points": [
+        90.0,
+        660.0,
+        150.0,
+        660.0
+      ],
+      "segments": [
+        [
+          90.0,
+          660.0,
+          150.0,
+          660.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-6#0",
+      "net": "CC2",
+      "points": [
+        90.0,
+        600.0,
+        150.0,
+        600.0
+      ],
+      "segments": [
+        [
+          90.0,
+          600.0,
+          150.0,
+          600.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-7#0",
+      "net": "CC1",
+      "points": [
+        320.0,
+        410.0,
+        340.0,
+        410.0
+      ],
+      "segments": [
+        [
+          320.0,
+          410.0,
+          340.0,
+          410.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-8#0",
+      "net": "GND",
+      "points": [
+        270.0,
+        410.0,
+        280.0,
+        410.0
+      ],
+      "segments": [
+        [
+          270.0,
+          410.0,
+          280.0,
+          410.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-9#0",
+      "net": "CC2",
+      "points": [
+        320.0,
+        490.0,
+        340.0,
+        490.0
+      ],
+      "segments": [
+        [
+          320.0,
+          490.0,
+          340.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-10#0",
+      "net": "GND",
+      "points": [
+        270.0,
+        490.0,
+        280.0,
+        490.0
+      ],
+      "segments": [
+        [
+          270.0,
+          490.0,
+          280.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-11#0",
+      "net": "5V",
+      "points": [
+        380.0,
+        550.0,
+        400.0,
+        550.0
+      ],
+      "segments": [
+        [
+          380.0,
+          550.0,
+          400.0,
+          550.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-12#0",
+      "net": "GND",
+      "points": [
+        430.0,
+        550.0,
+        450.0,
+        550.0
+      ],
+      "segments": [
+        [
+          430.0,
+          550.0,
+          450.0,
+          550.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-13#0",
+      "net": "5V",
+      "points": [
+        470.0,
+        480.0,
+        510.0,
+        480.0
+      ],
+      "segments": [
+        [
+          470.0,
+          480.0,
+          510.0,
+          480.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-14#0",
+      "net": "3V3",
+      "points": [
+        470.0,
+        490.0,
+        510.0,
+        490.0
+      ],
+      "segments": [
+        [
+          470.0,
+          490.0,
+          510.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-15#0",
+      "net": "GND",
+      "points": [
+        470.0,
+        500.0,
+        510.0,
+        500.0
+      ],
+      "segments": [
+        [
+          470.0,
+          500.0,
+          510.0,
+          500.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-16#0",
+      "net": "3V3",
+      "points": [
+        620.0,
+        490.0,
+        650.0,
+        490.0
+      ],
+      "segments": [
+        [
+          620.0,
+          490.0,
+          650.0,
+          490.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-17#0",
+      "net": "3V3",
+      "points": [
+        780.0,
+        550.0,
+        800.0,
+        550.0
+      ],
+      "segments": [
+        [
+          780.0,
+          550.0,
+          800.0,
+          550.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-18#0",
+      "net": "GND",
+      "points": [
+        840.0,
+        550.0,
+        860.0,
+        550.0
+      ],
+      "segments": [
+        [
+          840.0,
+          550.0,
+          860.0,
+          550.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-19#0",
+      "net": "GND",
+      "points": [
+        720.0,
+        580.0,
+        740.0,
+        580.0
+      ],
+      "segments": [
+        [
+          720.0,
+          580.0,
+          740.0,
+          580.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-20#0",
+      "net": "3V3",
+      "points": [
+        455.0,
+        390.0,
+        480.0,
+        390.0
+      ],
+      "segments": [
+        [
+          455.0,
+          390.0,
+          480.0,
+          390.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-21#0",
+      "net": "GND",
+      "points": [
+        360.0,
+        390.0,
+        385.0,
+        390.0
+      ],
+      "segments": [
+        [
+          360.0,
+          390.0,
+          385.0,
+          390.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-22#0",
+      "net": "3V3",
+      "points": [
+        560.0,
+        300.0,
+        580.0,
+        300.0
+      ],
+      "segments": [
+        [
+          560.0,
+          300.0,
+          580.0,
+          300.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-23#0",
+      "net": "3V3",
+      "points": [
+        560.0,
+        240.0,
+        580.0,
+        240.0
+      ],
+      "segments": [
+        [
+          560.0,
+          240.0,
+          580.0,
+          240.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-24#0",
+      "net": "3V3",
+      "points": [
+        220.0,
+        280.0,
+        240.0,
+        280.0
+      ],
+      "segments": [
+        [
+          220.0,
+          280.0,
+          240.0,
+          280.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-25#0",
+      "net": "GND",
+      "points": [
+        670.0,
+        240.0,
+        690.0,
+        240.0
+      ],
+      "segments": [
+        [
+          670.0,
+          240.0,
+          690.0,
+          240.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-26#0",
+      "net": "GND",
+      "points": [
+        280.0,
+        340.0,
+        300.0,
+        340.0
+      ],
+      "segments": [
+        [
+          280.0,
+          340.0,
+          300.0,
+          340.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-27#0",
+      "net": "3V3",
+      "points": [
+        650.0,
+        380.0,
+        670.0,
+        380.0
+      ],
+      "segments": [
+        [
+          650.0,
+          380.0,
+          670.0,
+          380.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-28#0",
+      "net": "LED_A",
+      "points": [
+        710.0,
+        380.0,
+        740.0,
+        380.0
+      ],
+      "segments": [
+        [
+          710.0,
+          380.0,
+          740.0,
+          380.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-29#0",
+      "net": "GND",
+      "points": [
+        780.0,
+        380.0,
+        800.0,
+        380.0
+      ],
+      "segments": [
+        [
+          780.0,
+          380.0,
+          800.0,
+          380.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-30#0",
+      "net": "3V3",
+      "points": [
+        850.0,
+        290.0,
+        910.0,
+        290.0
+      ],
+      "segments": [
+        [
+          850.0,
+          290.0,
+          910.0,
+          290.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-31#0",
+      "net": "TXD",
+      "points": [
+        870.0,
+        280.0,
+        910.0,
+        280.0
+      ],
+      "segments": [
+        [
+          870.0,
+          280.0,
+          910.0,
+          280.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-32#0",
+      "net": "RXD",
+      "points": [
+        890.0,
+        270.0,
+        910.0,
+        270.0
+      ],
+      "segments": [
+        [
+          890.0,
+          270.0,
+          910.0,
+          270.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-33#0",
+      "net": "GND",
+      "points": [
+        850.0,
+        260.0,
+        910.0,
+        260.0
+      ],
+      "segments": [
+        [
+          850.0,
+          260.0,
+          910.0,
+          260.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-34#0",
+      "net": "3V3",
+      "points": [
+        680.0,
+        550.0,
+        680.0,
+        580.0
+      ],
+      "segments": [
+        [
+          680.0,
+          550.0,
+          680.0,
+          580.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-35#0",
+      "net": "3V3",
+      "points": [
+        100.0,
+        280.0,
+        100.0,
+        310.0
+      ],
+      "segments": [
+        [
+          100.0,
+          280.0,
+          100.0,
+          310.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-36#0",
+      "net": "IO2",
+      "points": [
+        140.0,
+        280.0,
+        140.0,
+        310.0
+      ],
+      "segments": [
+        [
+          140.0,
+          280.0,
+          140.0,
+          310.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-37#0",
+      "net": "IO2",
+      "points": [
+        365.0,
+        380.0,
+        385.0,
+        380.0
+      ],
+      "segments": [
+        [
+          365.0,
+          380.0,
+          385.0,
+          380.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-38#0",
+      "net": "EN",
+      "points": [
+        100.0,
+        200.0,
+        100.0,
+        230.0
+      ],
+      "segments": [
+        [
+          100.0,
+          200.0,
+          100.0,
+          230.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-39#0",
+      "net": "GND",
+      "points": [
+        140.0,
+        230.0,
+        160.0,
+        230.0
+      ],
+      "segments": [
+        [
+          140.0,
+          230.0,
+          160.0,
+          230.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-40#0",
+      "net": "RST",
+      "points": [
+        100.0,
+        130.0,
+        100.0,
+        160.0
+      ],
+      "segments": [
+        [
+          100.0,
+          130.0,
+          100.0,
+          160.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-41#0",
+      "net": "GND",
+      "points": [
+        140.0,
+        130.0,
+        160.0,
+        130.0
+      ],
+      "segments": [
+        [
+          140.0,
+          130.0,
+          160.0,
+          130.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-42#0",
+      "net": "3V3",
+      "points": [
+        900.0,
+        550.0,
+        900.0,
+        580.0
+      ],
+      "segments": [
+        [
+          900.0,
+          550.0,
+          900.0,
+          580.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-43#0",
+      "net": "GND",
+      "points": [
+        930.0,
+        580.0,
+        950.0,
+        580.0
+      ],
+      "segments": [
+        [
+          930.0,
+          580.0,
+          950.0,
+          580.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-44#0",
+      "net": "5V",
+      "points": [
+        470.0,
+        630.0,
+        470.0,
+        660.0
+      ],
+      "segments": [
+        [
+          470.0,
+          630.0,
+          470.0,
+          660.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-45#0",
+      "net": "GND",
+      "points": [
+        510.0,
+        660.0,
+        530.0,
+        660.0
+      ],
+      "segments": [
+        [
+          510.0,
+          660.0,
+          530.0,
+          660.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-46#0",
+      "net": "GND",
+      "points": [
+        210.0,
+        710.0,
+        250.0,
+        710.0
+      ],
+      "segments": [
+        [
+          210.0,
+          710.0,
+          250.0,
+          710.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-47#0",
+      "net": "GND",
+      "points": [
+        200.0,
+        710.0,
+        210.0,
+        710.0
+      ],
+      "segments": [
+        [
+          200.0,
+          710.0,
+          210.0,
+          710.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-48#0",
+      "net": "GND",
+      "points": [
+        200.0,
+        710.0,
+        210.0,
+        710.0
+      ],
+      "segments": [
+        [
+          200.0,
+          710.0,
+          210.0,
+          710.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-49#0",
+      "net": "GND",
+      "points": [
+        210.0,
+        560.0,
+        250.0,
+        560.0
+      ],
+      "segments": [
+        [
+          210.0,
+          560.0,
+          250.0,
+          560.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-50#0",
+      "net": "GND",
+      "points": [
+        200.0,
+        560.0,
+        210.0,
+        560.0
+      ],
+      "segments": [
+        [
+          200.0,
+          560.0,
+          210.0,
+          560.0
+        ]
+      ]
+    },
+    {
+      "action": "create_wire",
+      "key": "wire-51#0",
+      "net": "GND",
+      "points": [
+        200.0,
+        560.0,
+        210.0,
+        560.0
+      ],
+      "segments": [
+        [
+          200.0,
+          560.0,
+          210.0,
+          560.0
+        ]
+      ]
+    }
+  ],
+  "conflicts": [],
+  "pinned_page": {
+    "page_uuid": "f6d41a58df3fa849",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "execution": {
+    "ok": true,
+    "results": [
+      {
+        "key": "flag-40543f585f64a26c",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "66615a6fa6d461ed",
+        "expected": {
+          "type": "Power",
+          "net": "5V"
+        },
+        "observed": {
+          "x": 120,
+          "y": 590,
+          "rotation": 0,
+          "mirror": false,
+          "name": "5V"
+        }
+      },
+      {
+        "key": "flag-c980906e59389d91",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "3e0008e3169bddad",
+        "expected": {
+          "type": "Power",
+          "net": "5V"
+        },
+        "observed": {
+          "x": 120,
+          "y": 680,
+          "rotation": 0,
+          "mirror": false,
+          "name": "5V"
+        }
+      },
+      {
+        "key": "flag-17afc95fd7c29b0c",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "06e70fdfdf13d635",
+        "expected": {
+          "type": "Power",
+          "net": "5V"
+        },
+        "observed": {
+          "x": 380,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false,
+          "name": "5V"
+        }
+      },
+      {
+        "key": "flag-20350323f34b81d6",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e95d2999e6eedd24",
+        "expected": {
+          "type": "Power",
+          "net": "5V"
+        },
+        "observed": {
+          "x": 470,
+          "y": 480,
+          "rotation": 0,
+          "mirror": false,
+          "name": "5V"
+        }
+      },
+      {
+        "key": "flag-bb1dafd2c1fade33",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "f200019c4cf29100",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 470,
+          "y": 490,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-5114b45293ec27ff",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "8d9dc43877e353b3",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 650,
+          "y": 490,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-4ac324d5ea8227c0",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "a0be8b29c8dc3bf1",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 780,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-de27143f4b7cd30c",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "027ca788bcdee892",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 600,
+          "y": 620,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-e57ed6dc05e77682",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "434941881656a692",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 480,
+          "y": 390,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-54148e9f6d4dc8a9",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "ba896080c5b17b99",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 580,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-b58bf3d1423439f5",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "0f23eadf2c22419a",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 580,
+          "y": 240,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-4278f4dc559bc757",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "47b59210757202fc",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 220,
+          "y": 280,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-796665db50623051",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "44a6325e212c2889",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 650,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-80cdcd8f3989ebcf",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "621e03d648d90242",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 850,
+          "y": 290,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-4beb6c48ff2ecd48",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "92fbffb55d165f78",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 680,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-84f6c73e9e1466b3",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "d633833cf7f2fae9",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 100,
+          "y": 280,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-63e2554638564c85",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "ea08eb51a4fd2c52",
+        "expected": {
+          "type": "Power",
+          "net": "3V3"
+        },
+        "observed": {
+          "x": 900,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false,
+          "name": "3V3"
+        }
+      },
+      {
+        "key": "flag-2cc6383a8518ea29",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "ff012250401b304f",
+        "expected": {
+          "type": "Power",
+          "net": "5V"
+        },
+        "observed": {
+          "x": 470,
+          "y": 630,
+          "rotation": 0,
+          "mirror": false,
+          "name": "5V"
+        }
+      },
+      {
+        "key": "flag-18c0061320f321b7",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "f68ae65b54298187",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 90,
+          "y": 580,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-c3b73645a8e7160d",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "0f5984387b7a1eba",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 90,
+          "y": 690,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-194e5d88d54bae97",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "cf36fa44d359df09",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 270,
+          "y": 410,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-a380d2e117269cb8",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "84f14d0de60ac69c",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 270,
+          "y": 490,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-765850816424699e",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e534b95ecd991dd1",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 450,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-ea05521f71e9e30f",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "5f46b965053abe7b",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 470,
+          "y": 500,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-b0612878e9a6d361",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "63241bf1978a52bb",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 860,
+          "y": 550,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-9ccdb3aec0a20cf8",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "38c038dcb8eaf29f",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 740,
+          "y": 580,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-085411f657e903be",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "971eccfbdd4dac44",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 360,
+          "y": 390,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-ac28347df5c9b3f0",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "d43e6e7524b8795b",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 690,
+          "y": 240,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-77ea315331003b43",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "512c5a958e29b46d",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 300,
+          "y": 340,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-dda9b0b055b70f5e",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "08ebc90f5580bb50",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 800,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-4f5752fc3d1e2d06",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "c1359e2d074dcbfd",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 850,
+          "y": 260,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-e51e0a360eaac324",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "872a34886b5e19b0",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 160,
+          "y": 230,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-eaf7bd7c36db7f10",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e08aa02aadd97cf8",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 160,
+          "y": 130,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-d0a9c888f5b05120",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "8c54848d219e2360",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 950,
+          "y": 580,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-6b6378a16e8d6665",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "ac017aa9d6fe7058",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 530,
+          "y": 660,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-e69626a1c40427e4",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "e0ea593385ee77a0",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 250,
+          "y": 710,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "flag-2bd4c9ebd26965f9",
+        "ok": true,
+        "action": "create_net_flag",
+        "primitive_id": "fe0a42b8359a82de",
+        "expected": {
+          "type": "Ground",
+          "net": "GND"
+        },
+        "observed": {
+          "x": 250,
+          "y": 560,
+          "rotation": 0,
+          "mirror": false,
+          "name": "GND"
+        }
+      },
+      {
+        "key": "port-960727babd8cbb80",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "8eacf7ac1defcaf4",
+        "expected": {
+          "direction": "BI",
+          "net": "CC1"
+        },
+        "observed": {
+          "x": 90,
+          "y": 660,
+          "rotation": 0,
+          "mirror": false,
+          "name": "CC1"
+        }
+      },
+      {
+        "key": "port-04db9b8ea74e26ac",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "ba9e50a90fd6423c",
+        "expected": {
+          "direction": "BI",
+          "net": "CC2"
+        },
+        "observed": {
+          "x": 90,
+          "y": 600,
+          "rotation": 0,
+          "mirror": false,
+          "name": "CC2"
+        }
+      },
+      {
+        "key": "port-29a56eb8eb7d36c7",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "a2cc24e047153ce7",
+        "expected": {
+          "direction": "BI",
+          "net": "CC1"
+        },
+        "observed": {
+          "x": 320,
+          "y": 410,
+          "rotation": 0,
+          "mirror": false,
+          "name": "CC1"
+        }
+      },
+      {
+        "key": "port-04114913b502d3e8",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "c6371acf70ebeba0",
+        "expected": {
+          "direction": "BI",
+          "net": "CC2"
+        },
+        "observed": {
+          "x": 320,
+          "y": 490,
+          "rotation": 0,
+          "mirror": false,
+          "name": "CC2"
+        }
+      },
+      {
+        "key": "port-1042cae56d0b89a2",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "e7c9ac544d50da6a",
+        "expected": {
+          "direction": "BI",
+          "net": "EN"
+        },
+        "observed": {
+          "x": 520,
+          "y": 300,
+          "rotation": 0,
+          "mirror": false,
+          "name": "EN"
+        }
+      },
+      {
+        "key": "port-d0dc03f8f7e30405",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "94d4ec23aa28fb9e",
+        "expected": {
+          "direction": "BI",
+          "net": "EN"
+        },
+        "observed": {
+          "x": 455,
+          "y": 370,
+          "rotation": 0,
+          "mirror": false,
+          "name": "EN"
+        }
+      },
+      {
+        "key": "port-11f9e26c00295e4e",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "4a02c06d919b3d51",
+        "expected": {
+          "direction": "BI",
+          "net": "RST"
+        },
+        "observed": {
+          "x": 520,
+          "y": 240,
+          "rotation": 0,
+          "mirror": false,
+          "name": "RST"
+        }
+      },
+      {
+        "key": "port-ebffb4f56e1db48f",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "92e9e10f6c986dce",
+        "expected": {
+          "direction": "BI",
+          "net": "RST"
+        },
+        "observed": {
+          "x": 455,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false,
+          "name": "RST"
+        }
+      },
+      {
+        "key": "port-5ff0a849714a8df1",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "f9af68ea71ddb809",
+        "expected": {
+          "direction": "BI",
+          "net": "IO0"
+        },
+        "observed": {
+          "x": 280,
+          "y": 280,
+          "rotation": 0,
+          "mirror": false,
+          "name": "IO0"
+        }
+      },
+      {
+        "key": "port-90e0dcf2f855f267",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "dd97fccb3155f62c",
+        "expected": {
+          "direction": "BI",
+          "net": "IO0"
+        },
+        "observed": {
+          "x": 385,
+          "y": 370,
+          "rotation": 0,
+          "mirror": false,
+          "name": "IO0"
+        }
+      },
+      {
+        "key": "port-b6f7c7b75542fd13",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "98a7132039a714e0",
+        "expected": {
+          "direction": "BI",
+          "net": "RST"
+        },
+        "observed": {
+          "x": 610,
+          "y": 240,
+          "rotation": 0,
+          "mirror": false,
+          "name": "RST"
+        }
+      },
+      {
+        "key": "port-9ef4bcbe71b063a5",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "d6d3dc910cfa0e9e",
+        "expected": {
+          "direction": "BI",
+          "net": "IO0"
+        },
+        "observed": {
+          "x": 220,
+          "y": 340,
+          "rotation": 0,
+          "mirror": false,
+          "name": "IO0"
+        }
+      },
+      {
+        "key": "port-4d660020fa009b67",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "d40de665bfee183c",
+        "expected": {
+          "direction": "BI",
+          "net": "IO2"
+        },
+        "observed": {
+          "x": 140,
+          "y": 280,
+          "rotation": 0,
+          "mirror": false,
+          "name": "IO2"
+        }
+      },
+      {
+        "key": "port-1388494f2584d67e",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "a29e27b24519fc45",
+        "expected": {
+          "direction": "BI",
+          "net": "IO2"
+        },
+        "observed": {
+          "x": 365,
+          "y": 380,
+          "rotation": 0,
+          "mirror": false,
+          "name": "IO2"
+        }
+      },
+      {
+        "key": "port-66ae43cfaa7fbbb0",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "0363c46afea50c13",
+        "expected": {
+          "direction": "BI",
+          "net": "EN"
+        },
+        "observed": {
+          "x": 100,
+          "y": 200,
+          "rotation": 0,
+          "mirror": false,
+          "name": "EN"
+        }
+      },
+      {
+        "key": "port-4a6c3e96d8654a47",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "f9617fb839bdf947",
+        "expected": {
+          "direction": "BI",
+          "net": "RST"
+        },
+        "observed": {
+          "x": 100,
+          "y": 160,
+          "rotation": 0,
+          "mirror": false,
+          "name": "RST"
+        }
+      },
+      {
+        "key": "port-9bf2c7739b22d4e7",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "d36ab3bdcab3e0a6",
+        "expected": {
+          "direction": "OUT",
+          "net": "TXD"
+        },
+        "observed": {
+          "x": 870,
+          "y": 280,
+          "rotation": 0,
+          "mirror": false,
+          "name": "TXD"
+        }
+      },
+      {
+        "key": "port-9cc1a6dfd924446e",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "6775adf45d6d9f1d",
+        "expected": {
+          "direction": "OUT",
+          "net": "TXD"
+        },
+        "observed": {
+          "x": 455,
+          "y": 360,
+          "rotation": 0,
+          "mirror": false,
+          "name": "TXD"
+        }
+      },
+      {
+        "key": "port-d04c9e534752c905",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "d40753262b60f618",
+        "expected": {
+          "direction": "IN",
+          "net": "RXD"
+        },
+        "observed": {
+          "x": 890,
+          "y": 270,
+          "rotation": 0,
+          "mirror": false,
+          "name": "RXD"
+        }
+      },
+      {
+        "key": "port-ac72859bc80dc265",
+        "ok": true,
+        "action": "create_net_port",
+        "primitive_id": "706d2acb0f2ce103",
+        "expected": {
+          "direction": "IN",
+          "net": "RXD"
+        },
+        "observed": {
+          "x": 385,
+          "y": 360,
+          "rotation": 0,
+          "mirror": false,
+          "name": "RXD"
+        }
+      },
+      {
+        "key": "wire-1#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "f8602672619ffbc3",
+        "net": "5V",
+        "line": [
+          [
+            150,
+            590,
+            120,
+            590
+          ]
+        ]
+      },
+      {
+        "key": "wire-2#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ed0d8c9c80347326",
+        "net": "GND",
+        "line": [
+          [
+            150,
+            580,
+            90,
+            580
+          ]
+        ]
+      },
+      {
+        "key": "wire-3#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "e27faaf4c3dee52a",
+        "net": "5V",
+        "line": [
+          [
+            150,
+            680,
+            120,
+            680
+          ]
+        ]
+      },
+      {
+        "key": "wire-4#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "d1ebfbd119c6a884",
+        "net": "GND",
+        "line": [
+          [
+            150,
+            690,
+            90,
+            690
+          ]
+        ]
+      },
+      {
+        "key": "wire-5#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "edb522f140092bee",
+        "net": "CC1",
+        "line": [
+          [
+            150,
+            660,
+            90,
+            660
+          ]
+        ]
+      },
+      {
+        "key": "wire-6#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "bc74621b5a1f62f9",
+        "net": "CC2",
+        "line": [
+          [
+            150,
+            600,
+            90,
+            600
+          ]
+        ]
+      },
+      {
+        "key": "wire-7#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "9a58d5948beaa725",
+        "net": "CC1",
+        "line": [
+          [
+            340,
+            410,
+            320,
+            410
+          ]
+        ]
+      },
+      {
+        "key": "wire-8#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "32995bcb42efbfc1",
+        "net": "GND",
+        "line": [
+          [
+            280,
+            410,
+            270,
+            410
+          ]
+        ]
+      },
+      {
+        "key": "wire-9#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "599ead93945a4808",
+        "net": "CC2",
+        "line": [
+          [
+            340,
+            490,
+            320,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "wire-10#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "28e8c55e25eea482",
+        "net": "GND",
+        "line": [
+          [
+            280,
+            490,
+            270,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "wire-11#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "55d634ca171534d5",
+        "net": "5V",
+        "line": [
+          [
+            400,
+            550,
+            380,
+            550
+          ]
+        ]
+      },
+      {
+        "key": "wire-12#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "2ef544f696c19e48",
+        "net": "GND",
+        "line": [
+          [
+            450,
+            550,
+            430,
+            550
+          ]
+        ]
+      },
+      {
+        "key": "wire-13#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "5e9ce8ea783a41ea",
+        "net": "5V",
+        "line": [
+          [
+            510,
+            480,
+            470,
+            480
+          ]
+        ]
+      },
+      {
+        "key": "wire-14#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "54ea401c7699e432",
+        "net": "3V3",
+        "line": [
+          [
+            510,
+            490,
+            470,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "wire-15#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "4a07c6fa8c52141f",
+        "net": "GND",
+        "line": [
+          [
+            510,
+            500,
+            470,
+            500
+          ]
+        ]
+      },
+      {
+        "key": "wire-16#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "4d140a11a6d501b7",
+        "net": "3V3",
+        "line": [
+          [
+            650,
+            490,
+            620,
+            490
+          ]
+        ]
+      },
+      {
+        "key": "wire-17#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "85351d881ab53bbb",
+        "net": "3V3",
+        "line": [
+          [
+            800,
+            550,
+            780,
+            550
+          ]
+        ]
+      },
+      {
+        "key": "wire-18#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "7e9bbb15285109ff",
+        "net": "GND",
+        "line": [
+          [
+            860,
+            550,
+            840,
+            550
+          ]
+        ]
+      },
+      {
+        "key": "wire-19#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "15a795d4d1faef87",
+        "net": "GND",
+        "line": [
+          [
+            740,
+            580,
+            720,
+            580
+          ]
+        ]
+      },
+      {
+        "key": "wire-20#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "522516f6baf01a25",
+        "net": "3V3",
+        "line": [
+          [
+            480,
+            390,
+            455,
+            390
+          ]
+        ]
+      },
+      {
+        "key": "wire-21#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ec28d051e78e362c",
+        "net": "GND",
+        "line": [
+          [
+            385,
+            390,
+            360,
+            390
+          ]
+        ]
+      },
+      {
+        "key": "wire-22#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "d905de4d044f4d77",
+        "net": "3V3",
+        "line": [
+          [
+            580,
+            300,
+            560,
+            300
+          ]
+        ]
+      },
+      {
+        "key": "wire-23#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "3302c360afcf2996",
+        "net": "3V3",
+        "line": [
+          [
+            580,
+            240,
+            560,
+            240
+          ]
+        ]
+      },
+      {
+        "key": "wire-24#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "7b960c5d0c087bbe",
+        "net": "3V3",
+        "line": [
+          [
+            240,
+            280,
+            220,
+            280
+          ]
+        ]
+      },
+      {
+        "key": "wire-25#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "038b355c3d267946",
+        "net": "GND",
+        "line": [
+          [
+            690,
+            240,
+            670,
+            240
+          ]
+        ]
+      },
+      {
+        "key": "wire-26#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "2af87c065b155ecf",
+        "net": "GND",
+        "line": [
+          [
+            300,
+            340,
+            280,
+            340
+          ]
+        ]
+      },
+      {
+        "key": "wire-27#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "93ce482d3f094587",
+        "net": "3V3",
+        "line": [
+          [
+            670,
+            380,
+            650,
+            380
+          ]
+        ]
+      },
+      {
+        "key": "wire-28#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "921a3dcc92b9dc1d",
+        "net": "LED_A",
+        "line": [
+          [
+            740,
+            380,
+            710,
+            380
+          ]
+        ]
+      },
+      {
+        "key": "wire-29#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "b7d16c90b2ac31f3",
+        "net": "GND",
+        "line": [
+          [
+            800,
+            380,
+            780,
+            380
+          ]
+        ]
+      },
+      {
+        "key": "wire-30#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "d04bef420bec66dd",
+        "net": "3V3",
+        "line": [
+          [
+            910,
+            290,
+            850,
+            290
+          ]
+        ]
+      },
+      {
+        "key": "wire-31#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "adab218e8d133bac",
+        "net": "TXD",
+        "line": [
+          [
+            910,
+            280,
+            870,
+            280
+          ]
+        ]
+      },
+      {
+        "key": "wire-32#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ca85ee074eebdd42",
+        "net": "RXD",
+        "line": [
+          [
+            910,
+            270,
+            890,
+            270
+          ]
+        ]
+      },
+      {
+        "key": "wire-33#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "11b81f1b3b62412d",
+        "net": "GND",
+        "line": [
+          [
+            910,
+            260,
+            850,
+            260
+          ]
+        ]
+      },
+      {
+        "key": "wire-34#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "67049295da7af019",
+        "net": "3V3",
+        "line": [
+          [
+            680,
+            580,
+            680,
+            550
+          ]
+        ]
+      },
+      {
+        "key": "wire-35#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "2e5d19ae9fdce45b",
+        "net": "3V3",
+        "line": [
+          [
+            100,
+            310,
+            100,
+            280
+          ]
+        ]
+      },
+      {
+        "key": "wire-36#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "36c9d801a311ed37",
+        "net": "IO2",
+        "line": [
+          [
+            140,
+            310,
+            140,
+            280
+          ]
+        ]
+      },
+      {
+        "key": "wire-37#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "ada5c0e5da45fbf2",
+        "net": "IO2",
+        "line": [
+          [
+            385,
+            380,
+            365,
+            380
+          ]
+        ]
+      },
+      {
+        "key": "wire-38#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "d660a2e8100c4165",
+        "net": "EN",
+        "line": [
+          [
+            100,
+            230,
+            100,
+            200
+          ]
+        ]
+      },
+      {
+        "key": "wire-39#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "dc9838207381cd1b",
+        "net": "GND",
+        "line": [
+          [
+            160,
+            230,
+            140,
+            230
+          ]
+        ]
+      },
+      {
+        "key": "wire-40#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "fd02d5b3bf99aff6",
+        "net": "RST",
+        "line": [
+          [
+            100,
+            160,
+            100,
+            130
+          ]
+        ]
+      },
+      {
+        "key": "wire-41#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "bd3498bf74fc0aed",
+        "net": "GND",
+        "line": [
+          [
+            160,
+            130,
+            140,
+            130
+          ]
+        ]
+      },
+      {
+        "key": "wire-42#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "a0c56861576a1394",
+        "net": "3V3",
+        "line": [
+          [
+            900,
+            580,
+            900,
+            550
+          ]
+        ]
+      },
+      {
+        "key": "wire-43#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "8a693822f0ee3759",
+        "net": "GND",
+        "line": [
+          [
+            950,
+            580,
+            930,
+            580
+          ]
+        ]
+      },
+      {
+        "key": "wire-44#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "7d791400ec865995",
+        "net": "5V",
+        "line": [
+          [
+            470,
+            660,
+            470,
+            630
+          ]
+        ]
+      },
+      {
+        "key": "wire-45#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "0468d6d7bd7e3010",
+        "net": "GND",
+        "line": [
+          [
+            530,
+            660,
+            510,
+            660
+          ]
+        ]
+      },
+      {
+        "key": "wire-46#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "49fae01dc70fc99a",
+        "net": "GND",
+        "line": [
+          [
+            250,
+            710,
+            210,
+            710
+          ]
+        ]
+      },
+      {
+        "key": "wire-47#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "49fae01dc70fc99a",
+        "net": "GND",
+        "line": [
+          [
+            250,
+            710,
+            210,
+            710
+          ],
+          [
+            210,
+            710,
+            200,
+            710
+          ]
+        ]
+      },
+      {
+        "key": "wire-48#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "49fae01dc70fc99a",
+        "net": "GND",
+        "line": [
+          [
+            250,
+            710,
+            210,
+            710
+          ],
+          [
+            210,
+            710,
+            200,
+            710
+          ]
+        ]
+      },
+      {
+        "key": "wire-49#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "257ae6235df06193",
+        "net": "GND",
+        "line": [
+          [
+            250,
+            560,
+            210,
+            560
+          ]
+        ]
+      },
+      {
+        "key": "wire-50#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "257ae6235df06193",
+        "net": "GND",
+        "line": [
+          [
+            250,
+            560,
+            210,
+            560
+          ],
+          [
+            210,
+            560,
+            200,
+            560
+          ]
+        ]
+      },
+      {
+        "key": "wire-51#0",
+        "ok": true,
+        "action": "create_wire",
+        "primitive_id": "257ae6235df06193",
+        "net": "GND",
+        "line": [
+          [
+            250,
+            560,
+            210,
+            560
+          ],
+          [
+            210,
+            560,
+            200,
+            560
+          ]
+        ]
+      }
+    ],
+    "env": {
+      "online": false,
+      "half_offline": true,
+      "offline": false,
+      "version": "4.1.78"
+    },
+    "project": {
+      "uuid": "4eb88f3d663e090206ff1df037dca7c0e966275d4ea2a955fc6304281fd9c580",
+      "friendly_name": "f1-rev3-layout",
+      "name": "/f1-rev3-layout"
+    },
+    "selection": {
+      "schematic_uuid": "7156417783355f32",
+      "schematic_name": "F1-USB-MCU-C",
+      "page_uuid": "f6d41a58df3fa849",
+      "page_name": "P1"
+    }
+  },
+  "after_counts": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "after_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  },
+  "page_after": {
+    "basis": "page_uuid",
+    "schematic_uuid": "7156417783355f32",
+    "schematic_name": "F1-USB-MCU-C",
+    "page_uuid": "f6d41a58df3fa849",
+    "page_name": "P1"
+  },
+  "verification": {
+    "status": "verified",
+    "items": [
+      {
+        "key": "flag-40543f585f64a26c",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-c980906e59389d91",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-17afc95fd7c29b0c",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-20350323f34b81d6",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-bb1dafd2c1fade33",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-5114b45293ec27ff",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-4ac324d5ea8227c0",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-de27143f4b7cd30c",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-e57ed6dc05e77682",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-54148e9f6d4dc8a9",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-b58bf3d1423439f5",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-4278f4dc559bc757",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-796665db50623051",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-80cdcd8f3989ebcf",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-4beb6c48ff2ecd48",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-84f6c73e9e1466b3",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-63e2554638564c85",
+        "op": "net_flag",
+        "status": "create",
+        "net": "3V3",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "3V3",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-2cc6383a8518ea29",
+        "op": "net_flag",
+        "status": "create",
+        "net": "5V",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Power",
+            "net": "5V",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-18c0061320f321b7",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-c3b73645a8e7160d",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-194e5d88d54bae97",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-a380d2e117269cb8",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-765850816424699e",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-ea05521f71e9e30f",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-b0612878e9a6d361",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-9ccdb3aec0a20cf8",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-085411f657e903be",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-ac28347df5c9b3f0",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-77ea315331003b43",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-dda9b0b055b70f5e",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-4f5752fc3d1e2d06",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-e51e0a360eaac324",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-eaf7bd7c36db7f10",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-d0a9c888f5b05120",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-6b6378a16e8d6665",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-e69626a1c40427e4",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "flag-2bd4c9ebd26965f9",
+        "op": "net_flag",
+        "status": "create",
+        "net": "GND",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "flag_type": "Ground",
+            "net": "GND",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-960727babd8cbb80",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC1",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "CC1",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "CC1",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-04db9b8ea74e26ac",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC2",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "CC2",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "CC2",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-29a56eb8eb7d36c7",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC1",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "CC1",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "CC1",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-04114913b502d3e8",
+        "op": "net_port",
+        "status": "create",
+        "net": "CC2",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "CC2",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "CC2",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-1042cae56d0b89a2",
+        "op": "net_port",
+        "status": "create",
+        "net": "EN",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "EN",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "EN",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-d0dc03f8f7e30405",
+        "op": "net_port",
+        "status": "create",
+        "net": "EN",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "EN",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "EN",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-11f9e26c00295e4e",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-ebffb4f56e1db48f",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-5ff0a849714a8df1",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "IO0",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "IO0",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-90e0dcf2f855f267",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "IO0",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "IO0",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-b6f7c7b75542fd13",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-9ef4bcbe71b063a5",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO0",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "IO0",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "IO0",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-4d660020fa009b67",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO2",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "IO2",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "IO2",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-1388494f2584d67e",
+        "op": "net_port",
+        "status": "create",
+        "net": "IO2",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "IO2",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "IO2",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-66ae43cfaa7fbbb0",
+        "op": "net_port",
+        "status": "create",
+        "net": "EN",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "EN",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "EN",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-4a6c3e96d8654a47",
+        "op": "net_port",
+        "status": "create",
+        "net": "RST",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "BI",
+            "net": "RST",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-9bf2c7739b22d4e7",
+        "op": "net_port",
+        "status": "create",
+        "net": "TXD",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "OUT",
+            "net": "TXD",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "OUT",
+            "net": "TXD",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-9cc1a6dfd924446e",
+        "op": "net_port",
+        "status": "create",
+        "net": "TXD",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "OUT",
+            "net": "TXD",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "OUT",
+            "net": "TXD",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-d04c9e534752c905",
+        "op": "net_port",
+        "status": "create",
+        "net": "RXD",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "IN",
+            "net": "RXD",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "IN",
+            "net": "RXD",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "port-ac72859bc80dc265",
+        "op": "net_port",
+        "status": "create",
+        "net": "RXD",
+        "verification": "verified",
+        "observed": {
+          "expected": {
+            "direction": "IN",
+            "net": "RXD",
+            "rotation": 0,
+            "mirror": false
+          },
+          "observed": {
+            "direction": "IN",
+            "net": "RXD",
+            "rotation": 0,
+            "mirror": false
+          }
+        }
+      },
+      {
+        "key": "wire-1",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-2",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-3",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-4",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-5",
+        "op": "wire",
+        "status": "create",
+        "net": "CC1",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC1",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-6",
+        "op": "wire",
+        "status": "create",
+        "net": "CC2",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC2",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-7",
+        "op": "wire",
+        "status": "create",
+        "net": "CC1",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC1",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-8",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-9",
+        "op": "wire",
+        "status": "create",
+        "net": "CC2",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "CC2",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-10",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-11",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-12",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-13",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-14",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-15",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-16",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-17",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-18",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-19",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-20",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-21",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-22",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-23",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-24",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-25",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-26",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-27",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-28",
+        "op": "wire",
+        "status": "create",
+        "net": "LED_A",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "LED_A",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-29",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-30",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-31",
+        "op": "wire",
+        "status": "create",
+        "net": "TXD",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "TXD",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-32",
+        "op": "wire",
+        "status": "create",
+        "net": "RXD",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "RXD",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-33",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-34",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-35",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-36",
+        "op": "wire",
+        "status": "create",
+        "net": "IO2",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "IO2",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-37",
+        "op": "wire",
+        "status": "create",
+        "net": "IO2",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "IO2",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-38",
+        "op": "wire",
+        "status": "create",
+        "net": "EN",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "EN",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-39",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-40",
+        "op": "wire",
+        "status": "create",
+        "net": "RST",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "RST",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-41",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-42",
+        "op": "wire",
+        "status": "create",
+        "net": "3V3",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "3V3",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-43",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-44",
+        "op": "wire",
+        "status": "create",
+        "net": "5V",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "5V",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-45",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-46",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-47",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-48",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-49",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-50",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      },
+      {
+        "key": "wire-51",
+        "op": "wire",
+        "status": "create",
+        "net": "GND",
+        "segments": 1,
+        "existing_segments": 0,
+        "verification": "verified",
+        "observed": {
+          "net": "GND",
+          "segments": 1,
+          "missing_segments": [],
+          "missing_count": 0
+        }
+      }
+    ]
+  },
+  "save": {
+    "ok": true,
+    "saved": true,
+    "counts": {
+      "components": 79,
+      "wires": 57
+    },
+    "page": {
+      "uuid": "f6d41a58df3fa849",
+      "name": "P1"
+    }
+  },
+  "saved_readback": {
+    "components": 79,
+    "parts": 21,
+    "netflags": 37,
+    "netports": 20,
+    "unclassified": 1,
+    "wires": 57,
+    "attributes": null
+  },
+  "saved_integrity": {
+    "status": "complete",
+    "reason": null,
+    "read_errors": [],
+    "pins_complete": true,
+    "attributes_complete": null,
+    "components_consistent": true
+  }
+}

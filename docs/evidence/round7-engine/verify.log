@@ -1,0 +1,24 @@
+{
+  "status": "match",
+  "issues": [],
+  "regression": false,
+  "hard_count_before": 10,
+  "hard_count_after": 4,
+  "operations": 4,
+  "after_simulation": {
+    "status": "blocked",
+    "hard_count": 4,
+    "advisory_count": 7,
+    "findings_by_code": {
+      "label_overlap": 1,
+      "missing_partition": 1,
+      "net_label_overlap": 4,
+      "off_grid": 1,
+      "outside_page": 1,
+      "text_component_overlap": 1,
+      "wire_enters_text": 2
+    }
+  },
+  "electrical_verified": false,
+  "eeada_apply": "NOT RUN"
+}

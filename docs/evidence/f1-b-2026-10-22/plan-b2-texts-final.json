@@ -1,0 +1,23 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "B2 final texts on a pristine copy (schematic canvas y grows upward; PNG y grows downward, verified by TEXT-PERSIST-PROBE). DRAFT marker above the title block; note for the six intentionally unconnected J101 USB data/SBU pins in the empty bottom-left strip. Text create is the only persistent text operation in 4.1.78 half-offline CLI, so no delete/modify is used.",
+  "operations": [
+    {
+      "op": "text",
+      "key": "draft-marker",
+      "at": [800, 215],
+      "content": "DRAFT",
+      "rotation": 0,
+      "font_size": 40
+    },
+    {
+      "op": "text",
+      "key": "j101-unused-note",
+      "at": [120, 75],
+      "content": "J101 DP1 DN1 DP2 DN2 SBU1 SBU2 unused in this design (no NC primitive in client API; DRC CHECKFLOATPIN retained by design)",
+      "rotation": 0,
+      "font_size": 12
+    }
+  ]
+}

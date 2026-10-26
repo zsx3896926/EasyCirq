@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "page": {"page_uuid": "f6d41a58df3fa849"},
+  "note": "Controlled experiment: single text at page center to determine create persistence and PNG rendering in 4.1.78 half-offline CLI.",
+  "operations": [
+    {
+      "op": "text",
+      "key": "probe-center-text",
+      "at": [585, 412],
+      "content": "TEXT-PERSIST-PROBE",
+      "rotation": 0,
+      "font_size": 30
+    }
+  ]
+}

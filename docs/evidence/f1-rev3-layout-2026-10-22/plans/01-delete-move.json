@@ -1,0 +1,1793 @@
+{
+  "version": 1,
+  "page": {
+    "schematic_name": "F1-USB-MCU-C",
+    "page_name": "P1"
+  },
+  "note": "Stage 1: delete annotations and rigidly translate rev3 clusters.",
+  "operations": [
+    {
+      "op": "delete",
+      "key": "del-flag-40543f585f64a26c",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "40543f585f64a26c",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 60,
+          "y": 260
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-c980906e59389d91",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "c980906e59389d91",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 60,
+          "y": 350
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-17afc95fd7c29b0c",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "17afc95fd7c29b0c",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 220,
+          "y": 220
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-20350323f34b81d6",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "20350323f34b81d6",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 250,
+          "y": 290
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-bb1dafd2c1fade33",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "bb1dafd2c1fade33",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 250,
+          "y": 300
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-5114b45293ec27ff",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "5114b45293ec27ff",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 430,
+          "y": 300
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-4ac324d5ea8227c0",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "4ac324d5ea8227c0",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 390,
+          "y": 220
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-de27143f4b7cd30c",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "de27143f4b7cd30c",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 500,
+          "y": 190
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-e57ed6dc05e77682",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "e57ed6dc05e77682",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 680,
+          "y": 435
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-54148e9f6d4dc8a9",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "54148e9f6d4dc8a9",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 800,
+          "y": 460
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-b58bf3d1423439f5",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "b58bf3d1423439f5",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 760,
+          "y": 425
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-4278f4dc559bc757",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "4278f4dc559bc757",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 500,
+          "y": 415
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-796665db50623051",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "796665db50623051",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 720,
+          "y": 300
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-80cdcd8f3989ebcf",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "80cdcd8f3989ebcf",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 840,
+          "y": 335
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-4beb6c48ff2ecd48",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "4beb6c48ff2ecd48",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 490,
+          "y": 190
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-84f6c73e9e1466b3",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "84f6c73e9e1466b3",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 460,
+          "y": 470
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-63e2554638564c85",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "63e2554638564c85",
+        "expected": {
+          "name": "3V3",
+          "net": "3V3",
+          "x": 760,
+          "y": 510
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-2cc6383a8518ea29",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "2cc6383a8518ea29",
+        "expected": {
+          "name": "5V",
+          "net": "5V",
+          "x": 280,
+          "y": 130
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-18c0061320f321b7",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "18c0061320f321b7",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 30,
+          "y": 250
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-c3b73645a8e7160d",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "c3b73645a8e7160d",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 30,
+          "y": 360
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-194e5d88d54bae97",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "194e5d88d54bae97",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 10,
+          "y": 380
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-a380d2e117269cb8",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "a380d2e117269cb8",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 10,
+          "y": 300
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-765850816424699e",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "765850816424699e",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 290,
+          "y": 220
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-ea05521f71e9e30f",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "ea05521f71e9e30f",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 250,
+          "y": 310
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-b0612878e9a6d361",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "b0612878e9a6d361",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 470,
+          "y": 220
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-9ccdb3aec0a20cf8",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "9ccdb3aec0a20cf8",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 550,
+          "y": 220
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-085411f657e903be",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "085411f657e903be",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 560,
+          "y": 435
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-ac28347df5c9b3f0",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "ac28347df5c9b3f0",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 770,
+          "y": 380
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-77ea315331003b43",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "77ea315331003b43",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 590,
+          "y": 360
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-dda9b0b055b70f5e",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "dda9b0b055b70f5e",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 870,
+          "y": 300
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-4f5752fc3d1e2d06",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "4f5752fc3d1e2d06",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 840,
+          "y": 305
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-e51e0a360eaac324",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "e51e0a360eaac324",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 740,
+          "y": 500
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-eaf7bd7c36db7f10",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "eaf7bd7c36db7f10",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 740,
+          "y": 540
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-d0a9c888f5b05120",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "d0a9c888f5b05120",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 810,
+          "y": 540
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-6b6378a16e8d6665",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "6b6378a16e8d6665",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 340,
+          "y": 160
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-e69626a1c40427e4",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "e69626a1c40427e4",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 190,
+          "y": 380
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-flag-2bd4c9ebd26965f9",
+      "target": {
+        "kind": "net_flag",
+        "primitive_id": "2bd4c9ebd26965f9",
+        "expected": {
+          "name": "GND",
+          "net": "GND",
+          "x": 190,
+          "y": 230
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-960727babd8cbb80",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "960727babd8cbb80",
+        "expected": {
+          "net": "CC1",
+          "x": 30,
+          "y": 330
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-04db9b8ea74e26ac",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "04db9b8ea74e26ac",
+        "expected": {
+          "net": "CC2",
+          "x": 30,
+          "y": 270
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-29a56eb8eb7d36c7",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "29a56eb8eb7d36c7",
+        "expected": {
+          "net": "CC1",
+          "x": 60,
+          "y": 380
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-04114913b502d3e8",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "04114913b502d3e8",
+        "expected": {
+          "net": "CC2",
+          "x": 60,
+          "y": 300
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-1042cae56d0b89a2",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "1042cae56d0b89a2",
+        "expected": {
+          "net": "EN",
+          "x": 740,
+          "y": 460
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-d0dc03f8f7e30405",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "d0dc03f8f7e30405",
+        "expected": {
+          "net": "EN",
+          "x": 655,
+          "y": 415
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-11f9e26c00295e4e",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "11f9e26c00295e4e",
+        "expected": {
+          "net": "RST",
+          "x": 700,
+          "y": 425
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-ebffb4f56e1db48f",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "ebffb4f56e1db48f",
+        "expected": {
+          "net": "RST",
+          "x": 655,
+          "y": 425
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-5ff0a849714a8df1",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "5ff0a849714a8df1",
+        "expected": {
+          "net": "IO0",
+          "x": 560,
+          "y": 415
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-90e0dcf2f855f267",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "90e0dcf2f855f267",
+        "expected": {
+          "net": "IO0",
+          "x": 585,
+          "y": 415
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-b6f7c7b75542fd13",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "b6f7c7b75542fd13",
+        "expected": {
+          "net": "RST",
+          "x": 690,
+          "y": 380
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-9ef4bcbe71b063a5",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "9ef4bcbe71b063a5",
+        "expected": {
+          "net": "IO0",
+          "x": 510,
+          "y": 360
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-4d660020fa009b67",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "4d660020fa009b67",
+        "expected": {
+          "net": "IO2",
+          "x": 500,
+          "y": 470
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-1388494f2584d67e",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "1388494f2584d67e",
+        "expected": {
+          "net": "IO2",
+          "x": 565,
+          "y": 425
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-66ae43cfaa7fbbb0",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "66ae43cfaa7fbbb0",
+        "expected": {
+          "net": "EN",
+          "x": 680,
+          "y": 470
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-4a6c3e96d8654a47",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "4a6c3e96d8654a47",
+        "expected": {
+          "net": "RST",
+          "x": 680,
+          "y": 570
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-9bf2c7739b22d4e7",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "9bf2c7739b22d4e7",
+        "expected": {
+          "net": "TXD",
+          "x": 860,
+          "y": 325
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-9cc1a6dfd924446e",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "9cc1a6dfd924446e",
+        "expected": {
+          "net": "TXD",
+          "x": 655,
+          "y": 405
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-d04c9e534752c905",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "d04c9e534752c905",
+        "expected": {
+          "net": "RXD",
+          "x": 880,
+          "y": 315
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-port-ac72859bc80dc265",
+      "target": {
+        "kind": "net_port",
+        "primitive_id": "ac72859bc80dc265",
+        "expected": {
+          "net": "RXD",
+          "x": 585,
+          "y": 405
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-efd5ef4317462646",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "efd5ef4317462646",
+        "expected": {
+          "net": "5V"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-18f2a381760ec17d",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "18f2a381760ec17d",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-fd66cd07430de4f2",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "fd66cd07430de4f2",
+        "expected": {
+          "net": "5V"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-aa5b909f2ff16b22",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "aa5b909f2ff16b22",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-f500880b3b83d724",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "f500880b3b83d724",
+        "expected": {
+          "net": "CC1"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-a330241731a1a1ad",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "a330241731a1a1ad",
+        "expected": {
+          "net": "CC2"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-c7a4414aed250306",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "c7a4414aed250306",
+        "expected": {
+          "net": "CC1"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-7115cf4ecd33c6f5",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "7115cf4ecd33c6f5",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-9d45835e2e38781c",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "9d45835e2e38781c",
+        "expected": {
+          "net": "CC2"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-b75805cade4ebea2",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "b75805cade4ebea2",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-4d4ed58458600dca",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "4d4ed58458600dca",
+        "expected": {
+          "net": "5V"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-70e08327a6eac7db",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "70e08327a6eac7db",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-d9f8c6b0792d3785",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "d9f8c6b0792d3785",
+        "expected": {
+          "net": "5V"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-72031477d8871538",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "72031477d8871538",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-e569946177d473cd",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "e569946177d473cd",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-1665060f71025135",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "1665060f71025135",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-b7544d62014087e5",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "b7544d62014087e5",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-93e050c47a78b8a6",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "93e050c47a78b8a6",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-8ec0f5c503395a56",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "8ec0f5c503395a56",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-132dbd5e794f45bb",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "132dbd5e794f45bb",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-3de7769321e53369",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "3de7769321e53369",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-d9363f0f19ae22ca",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "d9363f0f19ae22ca",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-5302938a0e71a961",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "5302938a0e71a961",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-ad8d2bf0f8b2d8fa",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "ad8d2bf0f8b2d8fa",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-f9bff1f520b501e0",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "f9bff1f520b501e0",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-c58691f3c7833c6f",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "c58691f3c7833c6f",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-d41b2fc77f5611ea",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "d41b2fc77f5611ea",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-d575bda0357eba90",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "d575bda0357eba90",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-615df589ba9a6026",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "615df589ba9a6026",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-1920721cdd7bbe3f",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "1920721cdd7bbe3f",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-f04701dd38eba68e",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "f04701dd38eba68e",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-621968a8fec33443",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "621968a8fec33443",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-b6a7b13bb3da4203",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "b6a7b13bb3da4203",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-827559cd64e5445e",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "827559cd64e5445e",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-f08f6d6910368c05",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "f08f6d6910368c05",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-d88d3513e6868f38",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "d88d3513e6868f38",
+        "expected": {
+          "net": "LED_A"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-cf0a3a019d46ea91",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "cf0a3a019d46ea91",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-138d10952dd7efe3",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "138d10952dd7efe3",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-0a8fc9a4a8730c40",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "0a8fc9a4a8730c40",
+        "expected": {
+          "net": "TXD"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-ee52086b2574fb82",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "ee52086b2574fb82",
+        "expected": {
+          "net": "RXD"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-7b0ae1eb1ba64973",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "7b0ae1eb1ba64973",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-950ed48c9d0790c0",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "950ed48c9d0790c0",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-422c8c228e6f4b9e",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "422c8c228e6f4b9e",
+        "expected": {
+          "net": ""
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-e191bed274d047d3",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "e191bed274d047d3",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-b90b03341f100c7d",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "b90b03341f100c7d",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-9604d62083d95b11",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "9604d62083d95b11",
+        "expected": {
+          "net": "IO2"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-f78f0d77f9ffdee4",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "f78f0d77f9ffdee4",
+        "expected": {
+          "net": "IO2"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-c4bc6e65af429225",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "c4bc6e65af429225",
+        "expected": {
+          "net": "EN"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-09ca02b25d8366cf",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "09ca02b25d8366cf",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-638876a357f89ed6",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "638876a357f89ed6",
+        "expected": {
+          "net": "RST"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-0ef3183ddda74bb0",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "0ef3183ddda74bb0",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-7c972bf02a7ba519",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "7c972bf02a7ba519",
+        "expected": {
+          "net": "3V3"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-988e64165550ecba",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "988e64165550ecba",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-69edfbafd79ffa62",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "69edfbafd79ffa62",
+        "expected": {
+          "net": "5V"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-0646f185a1bd18a4",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "0646f185a1bd18a4",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-cdb9df2a2be5a729",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "cdb9df2a2be5a729",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "delete",
+      "key": "del-wire-bcae1d9e342152be",
+      "target": {
+        "kind": "wire",
+        "primitive_id": "bcae1d9e342152be",
+        "expected": {
+          "net": "GND"
+        }
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-J101",
+      "match": {
+        "designator": "J101",
+        "part": "Type-C-16P",
+        "supplier_id": "C9900216560"
+      },
+      "place": {
+        "x": 180,
+        "y": 630,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "J101"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-U102",
+      "match": {
+        "designator": "U102",
+        "part": "AMS1117-3.3",
+        "supplier_id": "C2891839"
+      },
+      "place": {
+        "x": 570,
+        "y": 490,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "U102"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-U101",
+      "match": {
+        "designator": "U101",
+        "part": "ESP-01S",
+        "supplier_id": "C503582"
+      },
+      "place": {
+        "x": 420,
+        "y": 375,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "U101"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R101",
+      "match": {
+        "designator": "R101",
+        "part": "RMC06035.1K1%N",
+        "supplier_id": "C269716"
+      },
+      "place": {
+        "x": 300,
+        "y": 410,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "R101"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R102",
+      "match": {
+        "designator": "R102",
+        "part": "RMC06035.1K1%N",
+        "supplier_id": "C269716"
+      },
+      "place": {
+        "x": 300,
+        "y": 490,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "R102"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-C101",
+      "match": {
+        "designator": "C101",
+        "part": "CAPCER10UF25VX5R0805",
+        "supplier_id": "C9900012828"
+      },
+      "place": {
+        "x": 420,
+        "y": 550,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "C101"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-C106",
+      "match": {
+        "designator": "C106",
+        "part": "CAPCER10UF25VX5R0805",
+        "supplier_id": "C9900012828"
+      },
+      "place": {
+        "x": 920,
+        "y": 580,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "C106"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-C102",
+      "match": {
+        "designator": "C102",
+        "part": "CL10B104KB8NNNC",
+        "supplier_id": "C1591"
+      },
+      "place": {
+        "x": 820,
+        "y": 550,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "C102"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-C104",
+      "match": {
+        "designator": "C104",
+        "part": "CL10B104KB8NNNC",
+        "supplier_id": "C1591"
+      },
+      "place": {
+        "x": 120,
+        "y": 230,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "C104"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-C105",
+      "match": {
+        "designator": "C105",
+        "part": "CL10B104KB8NNNC",
+        "supplier_id": "C1591"
+      },
+      "place": {
+        "x": 120,
+        "y": 130,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "C105"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R103",
+      "match": {
+        "designator": "R103",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 540,
+        "y": 300,
+        "rotation": 180,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "R103"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R104",
+      "match": {
+        "designator": "R104",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 540,
+        "y": 240,
+        "rotation": 180,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "R104"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R105",
+      "match": {
+        "designator": "R105",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 260,
+        "y": 280,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "R105"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R107",
+      "match": {
+        "designator": "R107",
+        "part": "0603WAF1002T5E",
+        "supplier_id": "C25804"
+      },
+      "place": {
+        "x": 120,
+        "y": 310,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "R107"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-R106",
+      "match": {
+        "designator": "R106",
+        "part": "0603WAF1001T5E",
+        "supplier_id": "C21190"
+      },
+      "place": {
+        "x": 690,
+        "y": 380,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "R106"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-D101",
+      "match": {
+        "designator": "D101",
+        "part": "KT-0603R",
+        "supplier_id": "C2286"
+      },
+      "place": {
+        "x": 760,
+        "y": 380,
+        "rotation": 180,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "D101"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-SW101",
+      "match": {
+        "designator": "SW101",
+        "part": "TS-1088-AR02026",
+        "supplier_id": "C52175904"
+      },
+      "place": {
+        "x": 640,
+        "y": 240,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "SW101"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-SW102",
+      "match": {
+        "designator": "SW102",
+        "part": "TS-1088-AR02026",
+        "supplier_id": "C52175904"
+      },
+      "place": {
+        "x": 250,
+        "y": 340,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "SW102"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-J102",
+      "match": {
+        "designator": "J102",
+        "part": "2.54-1*4P母",
+        "supplier_id": "C2718488"
+      },
+      "place": {
+        "x": 930,
+        "y": 275,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "J102"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-C107",
+      "match": {
+        "designator": "C107",
+        "part": "CA45-E035K226T",
+        "supplier_id": "C169219"
+      },
+      "place": {
+        "x": 700,
+        "y": 580,
+        "rotation": 180,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "C107"
+      }
+    },
+    {
+      "op": "part",
+      "key": "move-D102",
+      "match": {
+        "designator": "D102",
+        "part": "SMBJ5.0A",
+        "supplier_id": "C357965"
+      },
+      "place": {
+        "x": 490,
+        "y": 660,
+        "rotation": 0,
+        "mirror": false
+      },
+      "properties": {
+        "designator": "D102"
+      }
+    }
+  ]
+}

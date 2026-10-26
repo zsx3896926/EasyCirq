@@ -1,0 +1,8 @@
+{
+  "coordinate_units": "fictional schematic units",
+  "components": [{"id": "U1-body", "bbox": [100, 100, 180, 200]}],
+  "texts": [{"id": "U1-reference", "bbox": [120, 210, 160, 225]}],
+  "wires": [{"id": "wire-1", "net": "EXAMPLE_NET", "points": [[180, 160], [220, 160]]}],
+  "page_bbox": [0, 0, 400, 300],
+  "expected_counts": {"components": 1, "texts": 1, "wires": 1}
+}
