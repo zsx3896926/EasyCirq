@@ -1,84 +1,82 @@
-# Current handoff — 2026-10-26 — v0.9
+# Current handoff — 2026-10-26 — v0.9 PR #20
 
 ## 仓库与分支
 
-- 仓库：`hardware-design-skill`；工作树：`C:/Users/jlc/work/hds-merge-20261026`
-- 分支：`feat/skill-v0.9`
-- 基线：`origin/main` `66a1d22`（v0.8.1 内容；本地历史以 `ce9a0d9` 等价树重建）
-- 本文件记录的起点提交：`ce9a0d9`；后续提交以 `git log --oneline -5` 为准
+- 仓库：`hardware-design-skill`；工作树：`C:/Users/jlc/work/hds-pr20-verify`
+- 分支：`feat/skill-v0.9-eda-verify`，基于 `origin/feat/skill-v0.9-reviewed` `108403c`
+- 当前 HEAD：`a13c6c2`（含 jlc-61 的 `feat/v09-toolchain-review` 快进合并）
+- PR #20 head 仍是 `feat/skill-v0.9-reviewed`；本分支尚未推送
+- 另一个工作树 `C:/Users/jlc/work/hds-merge-20261026` 有他人未提交 WIP
+  （`layout_move_plan.py`、`readback_verify.py` 及测试），未触碰、未采用
 
-## v0.9 目标
+## 本轮工具链改动
 
-在 0.8.1 的真实 EDA 能力上，继续提升原理图/PCB 自动设计质量，顺序为：
+- `scripts/svg_text_bbox.py`：无头 Chromium/Edge 实测官方 SVG 全部渲染 `<text>`；
+  photo-led 同页 134 条、v14 136 条，与既有实测逐项一致。
+- `scripts/layout_from_easyeda.py`：`sch list --include-page-primitives` +
+  `visible_text` + `sheet-geometry` + 渲染文字 → `sch_layout_check` 输入；
+  分类 pin_name/pin_number/netflag/net_label/wire_name/title_block/border/unowned；
+  `wire_endpoint_check=false`（连通性交给 `sch check`）。
+- `sch_layout_check.py`：新增 `unowned_visible_text`、`duplicate_net_text`、
+  `unanchored_net_text`、`netflag_rotation_outlier`、`netflag_text_vertical`、
+  `zone_reading_order`、`title_block_duplicate_text`、`text_wire_clearance`；
+  符号自有脚名/脚号不再当普通碰撞；info-only 不阻塞（`--fail-on-info` 可升级）；
+  `--out` UTF-8 落盘。
+- `scripts/pin_net_intent_check.py`：设计意图 vs `sch read` 的物理引脚连通组比较；
+  网名拼写可不同，支持 `sch read` 的 `number` 字段；功能脚名需 `pinMap`。
+- `scripts/component_identity_check.py`（jlc-61）：device/symbol/footprint/BOM 身份；
+  可选 PCB 绑定（无 PCB 输入时 `pcb_binding=not_run`）。
+- `tests/test_sch_acceptance.py`、`tests/test_pin_net_intent.py`、
+  `tests/test_sch_acceptance_v14.py`、`tests/test_component_identity_check.py`；
+  真实 fixture `tests/fixtures/photo-led-acceptance.json`、`photo-led-v14/`。
+- 验证：`python -m unittest discover -s tests` → **945 tests OK**；
+  `skill_selftest.py` → **5 PASS / 0 FAIL**。
 
-1. 确定性布局：角色/相对约束 → 可复算候选 → 受保护写入 → 几何一致性。
-2. 工程设计规则：只做可由实测网表/几何确定性判定的规则，不伪造器件模型。
-3. EDA 原生编辑：候选必须能转成执行器 typed 计划，不靠原始 JS。
-4. 读回验证：写入/保存/重开后的身份、引脚—网络、几何、文字覆盖分别报告。
-5. PCB：布局/布线/DRC/制造前的确定性质量检查。
+## 真实 EDA（本机 EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
 
-## 已完成并验证（本会话接手时未提交）
+### 1) photo-led-5v-20261026（协作完成）
 
-- `references/schematic-authoring.md`：绘图执行顺序、能力盘点、局部闭环、文字实测与失败处理；
-  明确 0.9 固定真实任务为 555 闪灯、光控 LED、稳压电源。
-- `references/schematic-recipes.md` + `assets/schematic-recipes.json` + `scripts/sch_recipe.py`：
-  5 个参数化局部配方（divider、npn-led-driver、opamp-inverting-feedback、555-astable、
-  regulator-decoupling），只做平移、保持 rotation/mirror 与 pin-net，输出
-  `experimental_unverified_in_eda` 候选和离线 SVG。
-- `scripts/sch_text_audit.py`：实测可见文字 bbox 的 text-text 重叠/过近审计；覆盖七类文字，
-  缺类/零面积/无 bbox 一律不能 strict 通过；明确 `visual_verified=false`。
-- `scripts/sch_layout_pipeline.py`：单页质量证据 fail-closed；模型 blocker、分页、quality
-  退出码与报告矛盾、非法 JSON 都使 `status != planned`；记录 before 哈希与
-  `placement_consistency`，不执行 compose。
-- `design-hardware/.version` 升至 `0.9.0`；`SKILL.md` 入口改为“先生成可复用布局，再执行与验收”。
-- 测试合并：新 8 个 pipeline 测试并入 `tests/test_sch_layout_pipeline.py`，删除误放在
-  `design-hardware/scripts/` 下的重复文件（原位置会导致 `unittest discover` 全量失败）。
-- 证据：`python -m unittest discover -s tests` → **896 tests OK（33.657 s）**；
-  `python design-hardware/scripts/skill_selftest.py` → **5 PASS / 0 FAIL**。
-  新增定向测试 19 个（recipe 4、text audit 7、pipeline 8）。
-- 边界：以上全部是离线合成/离线几何测试，**不是真机 EDA 写入或视觉验收**。
-  `tests/fixtures/photo-led-visible-text.json` 是历史实测载荷，不含引脚名/自动线名。
+- P1 `cd008f919db36eba`；12 网 / 47 脚 / 0 floating / 37 组件。
+- 编号按阅读顺序 1 光敏 / 2 供电 / 3 阈值 / 4 LED；标题在框左上；purpose 持久修复。
+- 图签两处 Claude Code 已消除（绘制/审阅留空，避免平台双渲染重复）。
+- 最终：`evidence/final-v14.png/.svg`、`final-v14.epro2`（SHA-256
+  `502D6FD2…`）、`v14-checker-strict.json`；无 text-text overlap、无
+  zone_reading_order、无 title_block_duplicate_text。
+- 残留：4 条 wire_enters_bbox、1 条 R3 文字贴本体、1 条 text_wire_clearance、
+  2 条异网正交交叉（hint）、无 purpose 文字（typed API 限制）。
 
-### WP2 图面检查三分类（2026-10-26 本会话）
+### 2) ne555-blinker-1hz-20261026（新建，已保存重开）
 
-- `sch_layout_check.py` 新增可选 `texts[].owner`、`title_block_owned`、
-  `policy.self_text_contact_tolerance`：
-  - 已声明 owner 的文字浅贴自身符号边缘（默认阈值 0，项目可设 0.5 raw）→
-    `symbol_text_edge_contact`（info），不再混同普通 `bbox_overlap`；深入本体仍报重叠。
-  - 图签自身字段文字只豁免 `overlaps_title_block`，仍参与其他碰撞检查；未知 ID 视为输入无效。
-  - 所有 `bbox_overlap`/`overlaps_title_block` 输出实际重叠宽高，便于人工分诊。
-- `references/offline-tools.md` 已同步契约与边界：分类不等于通过，coverage 仍须完整。
-- 测试：`tests/test_schematic_readability.py` 新增 5 个分类/拒绝用例；全量 **900 tests OK**；
-  skill_selftest **5 PASS**。
+- 工程 `856ec8994a544ad999a5adf69be04dd9`；P1 `2beb0746a6a6c75a`；
+  10 器件 / 7 网 / 0 floating；`sch gate` PASS；pin-net intent `match`。
+- 1k/68k/10µF → f≈1.05Hz、D≈50.4%；OUT→330Ω→LED。
+- 证据：`C:/Users/jlc/work/ne555-blinker-1hz-20261026/evidence/`（final-v2、
+  final-after-reload、check9、gate、pin-net-diff）。
+- 残留：多个电源/地标记竖排文字（管脚水平导致），方向不统一；无 purpose 文字；
+  Drawed 留空；未导出 `.epro2`；PCB/仿真/实物 NOT RUN。
 
-## 真实 EDA 现状（外部工程，非本仓库工作树）
+### 3) ams1117-3v3-20261026（新建，已保存重开）
 
-`C:/Users/jlc/work/photo-led-5v-20261026`：5V 光控 LED 板，已实际绘制、保存重开、官方导图；
-`sch gate` PASS，`sch check` 0，19 器件/12 网回读 MATCH。本会话重跑了修正后的
-`docs/build_layout_snapshot.py`（标题改为从 `frame-apply-v3.log` 取最终ID、`contains`
-剔除netflag、补owner/title_block_owned），strict 结果从 80+ 条误报降到 7 条：
-- 4 条 `symbol_text_edge_contact`（U1/J1 属性文字与本体 0.5 raw 贴边，info）；
-- 1 条真实文字叠印：U2 的 Name 与网名标签文字（重叠约 39×10 raw）；
-- 1 条导线穿 R4 的 Name 文字；
-- 1 条 C2 的 Name 文字跨越 zone1-power 分区框下边。
-strict 仍为 `incomplete`，唯一 `strict_missing` 是 `coverage.texts`：符号内部脚名/自动线名
-无 bbox API，属于真实能力缺口，**不得改成 complete**。图面已实际查看官方 PNG，
-U2 叠字与 C2 跨框肉眼可见。下一步用原生属性移动修复这 3 处，再 save/reload/导图复核。
+- 工程 `7686883008644dea9fd9317d949a5f92`；P1 `86faeee12e6b50e6`；
+  6 器件 / 3 网 / 0 floating；`sch gate` PASS；pin-net intent `match`。
+- J1→10µF→AMS1117-3.3→22µF+100nF→J2；三功能区框。
+- 证据：`C:/Users/jlc/work/ams1117-3v3-20261026/evidence/`（final-v2、
+  final-after-reload、check-final、gate、pin-net-diff）。
+- 残留：输出电容为 22µF 0805 陶瓷，**不是**数据表保证的 22µF 固体钽，稳定性未验证；
+  多个电源/地标记竖排文字；无 purpose 文字；未做负载/纹波/热/PCB；未导出 `.epro2`。
 
-## 后续工作包（按序，完成后更新本文件）
+## 明确未做 / 边界
 
-- **WP3 配方→原生编辑**：把 `sch_recipe`/`layout-source` 候选转成 `eda_exec` 的
-  `part.match+place` 计划（执行器没有 move op），写入后做 pin-net、刚体平移和
-  netlist 不变核验；未完成真机验证前保持 `NOT RUN`。
-- **WP4 工程规则门禁**：只实现实测网表可判定的规则（去耦、上拉、限流、稳压器输入/输出电容、
-  NC/悬空、电源网冲突等），每条规则带证据等级和误报边界。
-- **WP5 PCB 质量**：基于 PCB 回读的 courtyard/丝印/板框/安装孔/电源回路/DRC 可判定项，
-  与既有 `gate_check` 分工，不重复已有 gate。
-- **WP6 固定真实任务**：555 闪灯、光控 LED、稳压电源；每个记录首个候选、返工次数、
-  重复失败机制和官方导图结果；未做就如实写 `NOT RUN`。
+- 未把任何配方标成 `eda-verified`：三张图仍有可见文字方向/注释缺口，且新工程主要用
+  CLI typed 流程而非 `sch_recipe` 直接落地。
+- 未发布 Release、未替换用户已安装 Skill、未合并 PR。
+- 未推送本轮 commit；PR #20 描述待重写。
+- 未做 PCB 全流程（jlc-29 在用窗口做独立 PCB 测试，21:30 前需归还）。
+- 半离线 CLI 会话未用于本验收；全部为全在线 GUI 会话。
 
 ## 下一条具体动作
 
-1. 提交本工作包（authoring/recipes/text audit/pipeline/version/tests）。
-2. 运行修正后的 photo-led 快照构造与两项检查，把真实图面问题与快照问题分开。
-3. 按能力盘点结果落 WP2，先写失败测试再改代码。
+1. 跑通 `git status`，提交项目文档/证据索引并推送本分支到 PR #20 head。
+2. 重写 PR #20 描述：工具链、三工程真实结果、残留与 NOT RUN。
+3. 若继续：为 555/稳压器补 purpose 文字（等待 typed 文本创建）、统一竖排电源/地标记、
+   稳压器换 22µF 固体钽并做负载/热测试；导出原生 `.epro2`。

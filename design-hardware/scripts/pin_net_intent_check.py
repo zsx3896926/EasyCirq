@@ -90,7 +90,10 @@ def read_pins(read):
         if not ref:
             continue
         for pin in component.get('pins') or []:
-            number = str(pin.get('pinNumber'))
+            number = pin.get('pinNumber', pin.get('number'))
+            if number is None:
+                fail(f'{ref}: pin without number')
+            number = str(number)
             net = pin.get('net')
             key = f'{ref}.{number}'
             pins[key] = net

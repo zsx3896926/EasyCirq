@@ -103,6 +103,22 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 和局部图 → 保存重开。任何一层 PASS 都不能替代另一层；`info_only` 只表示没有阻塞候选，
 不表示图面已合格。
 
+### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
+
+- `photo-led-5v-20261026` P1：编号 1→4 按阅读顺序、标题左上、图签重复消除；
+  136 条渲染文字无 text-text overlap；仍有无结点交叉/贴线 hint 和 2 处轻微文字接触。
+- `ne555-blinker-1hz-20261026` P1：10 器件/7 网，gate PASS，pin-net intent match，
+  save→reload 保持；残留为 5 个竖排电源/地标记、3 处文字/本体接触、无 purpose 文字。
+- `ams1117-3v3-20261026` P1：6 器件/3 网，gate PASS，pin-net intent match，
+  save→reload 保持；残留为 8 个竖排标记、22µF 陶瓷输出电容的稳定性未验证、
+  无 purpose 文字、未做负载/热测试。
+- 因此三张图都没有标成 `eda-verified`；当前证据等级是“真实写入/保存重开/导图，
+  仍有已列视觉或选型残留”。竖排标记来自水平管脚上的 flag 方向；要全水平需
+  逐脚改成短桩+旋转 0 的 flag，不能靠隐藏文字。
+- 平台限制：free text 的 `move/setState/SDK delete` 不持久，删除需 `sch prim-delete`；
+  新 free text 必须 `alignMode=2` 才左对齐；titleblock 的可见 Drawed 字段会与
+  sheet 属性各渲染一次，填作者会产生两处重复；typed API 当前没有自由文本创建入口。
+
 ## 5. 从项目经验晋升为模板
 
 经验必须有可复用资产：角色/连接条件、相对位置约束、实测输入、失败样例、成功证据和失效条件。不得只追加“下次注意”。

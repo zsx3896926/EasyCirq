@@ -50,6 +50,13 @@ class PinNetIntent(unittest.TestCase):
                                                'TIMING': '$1N3', 'DISCH': '$1N4'}))
         self.assertEqual(result['status'], 'match')
 
+    def test_sch_read_number_field_is_accepted(self):
+        live = read()
+        for component in live['components']:
+            for pin in component['pins']:
+                pin['number'] = pin.pop('pinNumber')
+        self.assertEqual(check.compare(intent(), live)['status'], 'match')
+
     def test_missing_pin_mismatch(self):
         live = read()
         live['components'][0]['pins'][1]['net'] = 'OTHER'
