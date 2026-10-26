@@ -1,0 +1,189 @@
+{
+  "schema": "design-engine-pcb-netpath-rows/v1",
+  "rows": [
+    {
+      "from": "J1.A4B9",
+      "to": "U1.3",
+      "net": "VBUS_5V",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 406.4511,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "U1.2",
+      "to": "U2.2",
+      "net": "+3V3",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 1517.298,
+      "vias": 2,
+      "layers": [
+        1,
+        2
+      ]
+    },
+    {
+      "from": "U1.2",
+      "to": "U90.3",
+      "net": "+3V3",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 2892.9968,
+      "vias": 2,
+      "layers": [
+        1,
+        2
+      ]
+    },
+    {
+      "from": "U1.2",
+      "to": "C4.1",
+      "net": "+3V3",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 1681.7493,
+      "vias": 2,
+      "layers": [
+        1,
+        2
+      ]
+    },
+    {
+      "from": "U1.2",
+      "to": "C6.1",
+      "net": "+3V3",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 1009.3502,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "U90.1",
+      "to": "U2.17",
+      "net": "I2C_SDA",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 1121.8932,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "U90.2",
+      "to": "U2.18",
+      "net": "I2C_SCL",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 1020.8259,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "J1.A6",
+      "to": "R92.1",
+      "net": "USB_DP_CONN",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 1229.6305,
+      "vias": 2,
+      "layers": [
+        1,
+        2
+      ]
+    },
+    {
+      "from": "R92.2",
+      "to": "U2.14",
+      "net": "USB_DP_MCU",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 175.3859,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "J1.A7",
+      "to": "R93.1",
+      "net": "USB_DM_CONN",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 1774.5982,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "R93.2",
+      "to": "U2.13",
+      "net": "USB_DM_MCU",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 195.4527,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "U2.3",
+      "to": "SW2.1",
+      "net": "EN",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 1481.7653,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "U2.27",
+      "to": "SW1.1",
+      "net": "BOOT",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 627.1939,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "C90.1",
+      "to": "U90.3",
+      "net": "+3V3",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 377.7464,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    },
+    {
+      "from": "C2.1",
+      "to": "U1.3",
+      "net": "VBUS_5V",
+      "status": "connected",
+      "path_kind": "exact-centerline",
+      "length_mil": 519.8292,
+      "vias": 0,
+      "layers": [
+        1
+      ]
+    }
+  ]
+}

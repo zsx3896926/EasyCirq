@@ -1,0 +1,53 @@
+{
+  "count": 2,
+  "pours": [
+    {
+      "fillMethod": "solid",
+      "geometryAvailable": true,
+      "layer": 1,
+      "lineWidth": 0.2,
+      "locked": false,
+      "net": "GND",
+      "pourName": "POUR1",
+      "primitiveId": "468bc72736e0f471",
+      "priority": 1,
+      "source": [
+        5,
+        5,
+        "L",
+        5,
+        1766.7,
+        2585,
+        1766.7,
+        2585,
+        5,
+        5,
+        5
+      ]
+    },
+    {
+      "fillMethod": "solid",
+      "geometryAvailable": true,
+      "layer": 2,
+      "lineWidth": 0.2,
+      "locked": false,
+      "net": "GND",
+      "pourName": "POUR2",
+      "primitiveId": "4687d56d672837f8",
+      "priority": 1,
+      "source": [
+        5,
+        5,
+        "L",
+        5,
+        1766.7,
+        2585,
+        1766.7,
+        2585,
+        5,
+        5,
+        5
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2252 @@
+{
+  "components": [
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1104.3355,
+        "maxY": 654.3354999999999,
+        "minX": 895.6645000000001,
+        "minY": 445.66450000000003
+      },
+      "captureErrors": {},
+      "designator": "C1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "10UF50VC110GL",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 51.2,
+          "hole": [
+            "ROUND",
+            3.5433999999999997,
+            3.5433999999999997
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "59d1dc4f9a7d12bde14",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            51.2,
+            51.2
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 51.2,
+          "x": 1039.4,
+          "y": 550
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 51.2,
+          "hole": [
+            "ROUND",
+            3.5433999999999997,
+            3.5433999999999997
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "+5V",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "59d1dc4f9a7d12bde15",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            51.2,
+            51.2
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 51.2,
+          "x": 960.6,
+          "y": 550
+        }
+      ],
+      "primitiveId": "59d1dc4f9a7d12bd",
+      "rotation": 0,
+      "supplierId": "C46867109",
+      "uniqueId": "gge4",
+      "x": 1000,
+      "y": 550
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1788.061,
+        "maxY": 1603.425,
+        "minX": 1305.6190000000001,
+        "minY": 1396.575
+      },
+      "captureErrors": {},
+      "designator": "C2",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "RAD104J250V",
+      "name": "100nF",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3.6,
+            3.6
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "1b6026e6fcd2441ee9",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 1743.7,
+          "y": 1500
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3.6,
+            3.6
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "+5V",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "1b6026e6fcd2441ee10",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 1350,
+          "y": 1500
+        }
+      ],
+      "primitiveId": "1b6026e6fcd2441e",
+      "rotation": 0,
+      "supplierId": "C9900014931",
+      "uniqueId": "gge5",
+      "x": 1546.84,
+      "y": 1500
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2403.425,
+        "maxY": 741.221,
+        "minX": 2196.575,
+        "minY": 258.779
+      },
+      "captureErrors": {},
+      "designator": "C3",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "RAD104J250V",
+      "name": "100nF",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3.6,
+            3.6
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VREF_2V5",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "11aba7d5eecc0e2ae9",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 2300,
+          "y": 696.9
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3.6,
+            3.6
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "11aba7d5eecc0e2ae10",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 2300,
+          "y": 303.2
+        }
+      ],
+      "primitiveId": "11aba7d5eecc0e2a",
+      "rotation": 90,
+      "supplierId": "C9900014931",
+      "uniqueId": "gge11",
+      "x": 2300,
+      "y": 500
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1541.221,
+        "maxY": 2003.425,
+        "minX": 1058.779,
+        "minY": 1796.575
+      },
+      "captureErrors": {},
+      "designator": "C4",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "RAD104J250V",
+      "name": "100nF",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3.6,
+            3.6
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LDR_SIG",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "380570021a22f990e9",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 1496.9,
+          "y": 1900
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3.6,
+            3.6
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "380570021a22f990e10",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 1103.2,
+          "y": 1900
+        }
+      ],
+      "primitiveId": "380570021a22f990",
+      "rotation": 0,
+      "supplierId": "C9900014931",
+      "uniqueId": "gge8",
+      "x": 1300,
+      "y": 1900
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 856.702,
+        "maxY": 610.118,
+        "minX": 443.3070000000001,
+        "minY": 489.882
+      },
+      "captureErrors": {},
+      "designator": "D1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "1N5819S",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 70.9,
+          "hole": [
+            "ROUND",
+            3.937,
+            3.937
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VIN",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "d40a0356d0e41490e21",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            70.9,
+            70.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 70.9,
+          "x": 821.3,
+          "y": 550
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 70.9,
+          "hole": [
+            "ROUND",
+            3.937,
+            3.937
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "+5V",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "d40a0356d0e41490e22",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            70.9,
+            70.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 70.9,
+          "x": 478.7,
+          "y": 550
+        }
+      ],
+      "primitiveId": "d40a0356d0e41490",
+      "rotation": 0,
+      "supplierId": "C54795757",
+      "uniqueId": "gge3",
+      "x": 650,
+      "y": 550
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 396.732,
+        "maxY": 751.8510000000001,
+        "minX": 87.518,
+        "minY": 329.428
+      },
+      "captureErrors": {},
+      "designator": "J1",
+      "layer": 1,
+      "locked": true,
+      "manufacturerId": "KF301-2P接线端子",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 78.7,
+          "hole": [
+            "ROUND",
+            4.7244,
+            4.7244
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VIN",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "49392d816f69ba3ce24",
+          "rotation": -90,
+          "shape": [
+            "ELLIPSE",
+            78.7,
+            78.7
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 78.7,
+          "x": 250,
+          "y": 648.4
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 78.7,
+          "hole": [
+            "ROUND",
+            4.7244,
+            4.7244
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "49392d816f69ba3ce25",
+          "rotation": -90,
+          "shape": [
+            "ELLIPSE",
+            78.7,
+            78.7
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 78.7,
+          "x": 250,
+          "y": 451.6
+        }
+      ],
+      "primitiveId": "49392d816f69ba3c",
+      "rotation": -90,
+      "supplierId": "C9900016950",
+      "uniqueId": "gge2",
+      "x": 250,
+      "y": 550
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 787.6999999999999,
+        "maxY": 2211.376413962696,
+        "minX": 604.4000000000001,
+        "minY": 1988.6194396721821
+      },
+      "captureErrors": {},
+      "designator": "LDR1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "GL5528",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3,
+            3
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VREF_2V5",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "dfe5a1bc3b26c31die21",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 700,
+          "y": 2033.1
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3,
+            3
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LDR_SIG",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "dfe5a1bc3b26c31die22",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 700,
+          "y": 2166.9
+        }
+      ],
+      "primitiveId": "dfe5a1bc3b26c31d",
+      "rotation": 0,
+      "supplierId": "C125627",
+      "uniqueId": "gge6",
+      "x": 700,
+      "y": 2100
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 3379.999984592086,
+        "maxY": 1679.9999931520383,
+        "minX": 3145,
+        "minY": 1420.0000068479617
+      },
+      "captureErrors": {},
+      "designator": "LED1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "5mm LED 雾发红",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 63,
+          "hole": [
+            "ROUND",
+            3.937,
+            3.937
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LED_A",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "586203db286aa86be12",
+          "rotation": 180,
+          "shape": [
+            "ELLIPSE",
+            63,
+            63
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 63,
+          "x": 3300,
+          "y": 1550
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 63,
+          "hole": [
+            "ROUND",
+            3.937,
+            3.937
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LED_K",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "586203db286aa86be13",
+          "rotation": 180,
+          "shape": [
+            "ELLIPSE",
+            63,
+            63
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 63,
+          "x": 3200,
+          "y": 1550
+        }
+      ],
+      "primitiveId": "586203db286aa86b",
+      "rotation": 180,
+      "supplierId": "C9900034380",
+      "uniqueId": "gge19",
+      "x": 3250,
+      "y": 1550
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 3102.796002562829,
+        "maxY": 1502.7405774042395,
+        "minX": 2897.203997437171,
+        "minY": 1334.9
+      },
+      "captureErrors": {},
+      "designator": "Q1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "S8050-TO-92",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 63,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LED_K",
+          "padNumber": "3",
+          "padType": 0,
+          "primitiveId": "7a6df6bd23be73b0e10",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            35.4,
+            63
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.4,
+          "x": 3050,
+          "y": 1400
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 63,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "Q1_B",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "7a6df6bd23be73b0e11",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            35.4,
+            63
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.4,
+          "x": 3000,
+          "y": 1400
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 63,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "7a6df6bd23be73b0e12",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            35.4,
+            63,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.4,
+          "x": 2950,
+          "y": 1400
+        }
+      ],
+      "primitiveId": "7a6df6bd23be73b0",
+      "rotation": 0,
+      "supplierId": "C50229532",
+      "uniqueId": "gge17",
+      "x": 3000,
+      "y": 1400
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2300.276,
+        "maxY": 1484.249,
+        "minX": 2199.724,
+        "minY": 1015.751
+      },
+      "captureErrors": {},
+      "designator": "R1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "MF1/4W-1KΩ±1% T",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VREF_2V5",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "7ad7579e49ea8ccfe13",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 2250,
+          "y": 1043.3
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "+5V",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "7ad7579e49ea8ccfe14",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 2250,
+          "y": 1456.7
+        }
+      ],
+      "primitiveId": "7ad7579e49ea8ccf",
+      "rotation": 90,
+      "supplierId": "C119324",
+      "uniqueId": "gge10",
+      "x": 2250,
+      "y": 1250
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1050.276,
+        "maxY": 2184.2490000000003,
+        "minX": 949.7239999999999,
+        "minY": 1715.751
+      },
+      "captureErrors": {},
+      "designator": "R2",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "MF1/4W-4.7KΩ±1% T",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "80c4fc491e76176fe13",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 1000,
+          "y": 1743.3
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LDR_SIG",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "80c4fc491e76176fe14",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 1000,
+          "y": 2156.7
+        }
+      ],
+      "primitiveId": "80c4fc491e76176f",
+      "rotation": 90,
+      "supplierId": "C119339",
+      "uniqueId": "gge7",
+      "x": 1000,
+      "y": 1950
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1950.276,
+        "maxY": 1684.249,
+        "minX": 1849.724,
+        "minY": 1215.751
+      },
+      "captureErrors": {},
+      "designator": "R3",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "MF1/4W-10KΩ±1% T",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VTH_ADJ",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "f8c67259936f0ea0e13",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 1900,
+          "y": 1243.3
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VTH",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "f8c67259936f0ea0e14",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 1900,
+          "y": 1656.7
+        }
+      ],
+      "primitiveId": "f8c67259936f0ea0",
+      "rotation": 90,
+      "supplierId": "C119347",
+      "uniqueId": "gge13",
+      "x": 1900,
+      "y": 1450
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1834.249,
+        "maxY": 900.2760000000001,
+        "minX": 1365.751,
+        "minY": 799.7239999999999
+      },
+      "captureErrors": {},
+      "designator": "R4",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "MF1/4W-100KΩ±1% T",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VTH",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "ca558ded3c03c63be13",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 1393.3,
+          "y": 850
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LED_CTRL",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "ca558ded3c03c63be14",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 1806.7,
+          "y": 850
+        }
+      ],
+      "primitiveId": "ca558ded3c03c63b",
+      "rotation": 0,
+      "supplierId": "C119369",
+      "uniqueId": "gge14",
+      "x": 1600,
+      "y": 850
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2184.2490000000003,
+        "maxY": 1200.276,
+        "minX": 1715.751,
+        "minY": 1099.724
+      },
+      "captureErrors": {},
+      "designator": "R5",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "MF1/4W-10KΩ±1% T",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LED_CTRL",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "90f19e8114475d00e13",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 1743.3,
+          "y": 1150
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "Q1_B",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "90f19e8114475d00e14",
+          "rotation": 0,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 2156.7,
+          "y": 1150
+        }
+      ],
+      "primitiveId": "90f19e8114475d00",
+      "rotation": 0,
+      "supplierId": "C119347",
+      "uniqueId": "gge15",
+      "x": 1950,
+      "y": 1150
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2750.276,
+        "maxY": 1434.249,
+        "minX": 2649.724,
+        "minY": 965.751
+      },
+      "captureErrors": {},
+      "designator": "R6",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "MF1/4W-100KΩ±1% T",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "afa96c654686aa73e13",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 2700,
+          "y": 993.3
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "Q1_B",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "afa96c654686aa73e14",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 2700,
+          "y": 1406.7
+        }
+      ],
+      "primitiveId": "afa96c654686aa73",
+      "rotation": 90,
+      "supplierId": "C119369",
+      "uniqueId": "gge16",
+      "x": 2700,
+      "y": 1200
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 3100.276,
+        "maxY": 2134.2490000000003,
+        "minX": 2999.724,
+        "minY": 1665.751
+      },
+      "captureErrors": {},
+      "designator": "R7",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "MF1/4W-330Ω±1% T",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LED_A",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "226bb6420a45929ce13",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 3050,
+          "y": 1693.3
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 55.1,
+          "hole": [
+            "ROUND",
+            2.756,
+            2.756
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "+5V",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "226bb6420a45929ce14",
+          "rotation": 90,
+          "shape": [
+            "ELLIPSE",
+            55.1,
+            55.1
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 55.1,
+          "x": 3050,
+          "y": 2106.7
+        }
+      ],
+      "primitiveId": "226bb6420a45929c",
+      "rotation": 90,
+      "supplierId": "C119313",
+      "uniqueId": "gge18",
+      "x": 3050,
+      "y": 1900
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2307.362,
+        "maxY": 1895,
+        "minX": 2087.362,
+        "minY": 1505
+      },
+      "captureErrors": {},
+      "designator": "RV1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "3296W-1-103",
+      "name": "={Value}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3,
+            3
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VTH_ADJ",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "7549205b26a704b7e15",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 2200,
+          "y": 1700
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3,
+            3
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VREF_2V5",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "7549205b26a704b7e16",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 2200,
+          "y": 1800
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 60,
+          "hole": [
+            "ROUND",
+            3,
+            3
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "3",
+          "padType": 0,
+          "primitiveId": "7549205b26a704b7e17",
+          "rotation": -90.00000000000001,
+          "shape": [
+            "ELLIPSE",
+            60,
+            60
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 60,
+          "x": 2200,
+          "y": 1600
+        }
+      ],
+      "primitiveId": "7549205b26a704b7",
+      "rotation": 0,
+      "supplierId": "C56237",
+      "uniqueId": "gge12",
+      "x": 2200,
+      "y": 1700
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 1694.7800000000002,
+        "maxY": 1385.925,
+        "minX": 1293.1844999999998,
+        "minY": 1014.075
+      },
+      "captureErrors": {},
+      "designator": "U1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "LM358P",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 71.9,
+          "hole": [
+            "ROUND",
+            3.1496,
+            3.1496
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LED_CTRL",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "bc9fe46028ebaf2ae26",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            57.5,
+            71.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 57.5,
+          "x": 1350,
+          "y": 1050
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 71.9,
+          "hole": [
+            "ROUND",
+            3.1496,
+            3.1496
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "LDR_SIG",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "bc9fe46028ebaf2ae27",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            57.5,
+            71.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 57.5,
+          "x": 1450,
+          "y": 1050
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 71.9,
+          "hole": [
+            "ROUND",
+            3.1496,
+            3.1496
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VTH",
+          "padNumber": "3",
+          "padType": 0,
+          "primitiveId": "bc9fe46028ebaf2ae28",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            57.5,
+            71.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 57.5,
+          "x": 1550,
+          "y": 1050
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 71.9,
+          "hole": [
+            "ROUND",
+            3.1496,
+            3.1496
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "4",
+          "padType": 0,
+          "primitiveId": "bc9fe46028ebaf2ae29",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            57.5,
+            71.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 57.5,
+          "x": 1650,
+          "y": 1050
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 71.9,
+          "hole": [
+            "ROUND",
+            3.1496,
+            3.1496
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "+5V",
+          "padNumber": "8",
+          "padType": 0,
+          "primitiveId": "bc9fe46028ebaf2ae30",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            57.5,
+            71.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 57.5,
+          "x": 1350,
+          "y": 1350
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 71.9,
+          "hole": [
+            "ROUND",
+            3.1496,
+            3.1496
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "U1B_TIE",
+          "padNumber": "7",
+          "padType": 0,
+          "primitiveId": "bc9fe46028ebaf2ae31",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            57.5,
+            71.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 57.5,
+          "x": 1450,
+          "y": 1350
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 71.9,
+          "hole": [
+            "ROUND",
+            3.1496,
+            3.1496
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "U1B_TIE",
+          "padNumber": "6",
+          "padType": 0,
+          "primitiveId": "bc9fe46028ebaf2ae32",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            57.5,
+            71.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 57.5,
+          "x": 1550,
+          "y": 1350
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 71.9,
+          "hole": [
+            "ROUND",
+            3.1496,
+            3.1496
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "5",
+          "padType": 0,
+          "primitiveId": "bc9fe46028ebaf2ae33",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            57.5,
+            71.9
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 57.5,
+          "x": 1650,
+          "y": 1350
+        }
+      ],
+      "primitiveId": "bc9fe46028ebaf2a",
+      "rotation": 0,
+      "supplierId": "C5213",
+      "uniqueId": "gge1",
+      "x": 1500,
+      "y": 1200
+    },
+    {
+      "addIntoBom": true,
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      },
+      "bbox": {
+        "maxX": 2350.6529988031907,
+        "maxY": 1000.6538041345073,
+        "minX": 2149.3470011968093,
+        "minY": 840.136
+      },
+      "captureErrors": {},
+      "designator": "U2",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "TL431-TO-92",
+      "name": "={Manufacturer Part}",
+      "padFailures": [],
+      "pads": [
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 63,
+          "hole": [
+            "ROUND",
+            2.9528,
+            2.9528
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VREF_2V5",
+          "padNumber": "3",
+          "padType": 0,
+          "primitiveId": "fabf1e7507dc5649e9",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            35.4,
+            63
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.4,
+          "x": 2300,
+          "y": 900
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 63,
+          "hole": [
+            "ROUND",
+            2.9528,
+            2.9528
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "GND",
+          "padNumber": "2",
+          "padType": 0,
+          "primitiveId": "fabf1e7507dc5649e10",
+          "rotation": 0,
+          "shape": [
+            "OVAL",
+            35.4,
+            63
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.4,
+          "x": 2250,
+          "y": 900
+        },
+        {
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          },
+          "captureErrors": {},
+          "captureSources": {
+            "hole": "getState_Hole",
+            "shape": "getState_Pad",
+            "specialPad": "getState_SpecialPad"
+          },
+          "height": 63,
+          "hole": [
+            "ROUND",
+            2.9528,
+            2.9528
+          ],
+          "layer": 12,
+          "metallization": true,
+          "net": "VREF_2V5",
+          "padNumber": "1",
+          "padType": 0,
+          "primitiveId": "fabf1e7507dc5649e11",
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            35.4,
+            63,
+            0
+          ],
+          "specialPad": [],
+          "specialPadPresent": false,
+          "width": 35.4,
+          "x": 2200,
+          "y": 900
+        }
+      ],
+      "primitiveId": "fabf1e7507dc5649",
+      "rotation": 0,
+      "supplierId": "C50229484",
+      "uniqueId": "gge9",
+      "x": 2250,
+      "y": 900
+    }
+  ],
+  "count": 19,
+  "coverage": {
+    "bbox": {
+      "available": 19,
+      "notRequested": 0,
+      "requested": true,
+      "unavailable": 0
+    },
+    "pads": {
+      "available": 19,
+      "failed": 0,
+      "geometryAvailable": 47,
+      "geometryUnavailable": 0,
+      "notRequested": 0,
+      "observed": 47,
+      "requested": true,
+      "serialized": 47,
+      "unavailable": 0
+    }
+  },
+  "incomplete": false,
+  "partial": false
+}

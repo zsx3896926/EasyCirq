@@ -1,0 +1,185 @@
+{
+  "schema": "design-engine-pcb-ab-regression/v1",
+  "boards": {
+    "A": {
+      "project": "photo-led-pcb-20261026",
+      "doc": "PCB1",
+      "dump_semantic_sha256": {
+        "baseline": "6f9dae9a307ad81b4d8171d61768884b068aa9da0fe8d3f96a8bb2b04b1649c6",
+        "live": "6f9dae9a307ad81b4d8171d61768884b068aa9da0fe8d3f96a8bb2b04b1649c6",
+        "match": true
+      },
+      "drc": {
+        "passed": true,
+        "total": 0,
+        "counts": {},
+        "violations": [],
+        "nativeResult": {
+          "passed": true,
+          "violations": []
+        }
+      },
+      "pcb_check_summary": {
+        "danglingEnds": 0,
+        "acuteAngles": 0,
+        "nonOrthogonal": 0,
+        "trackOverPad": 0,
+        "clearance": 0,
+        "silkscreenFlipped": 0,
+        "overlappingVias": 0,
+        "singleLayerVias": 0,
+        "widthMismatches": 0,
+        "duplicateSegments": 0,
+        "parallelCoupling": 0,
+        "antennaKeepout": 0,
+        "netlessPours": 0,
+        "viaCrossesPlane": 0,
+        "floatingIslands": 0,
+        "powerNotPoured": 2,
+        "netlessViaInPad": 0,
+        "widthUnderSpec": 2,
+        "silkOverPad": 0,
+        "silkOffBoard": 0,
+        "decapTooFar": 2,
+        "viaInPad": 0,
+        "copperNearEdge": 0,
+        "fiducialMissing": 0,
+        "zoneViolation": 0,
+        "internalOnEdge": 0,
+        "connectorPlugClearance": 0,
+        "connectorMatingBlocked": 0,
+        "connectorOpeningInward": 0,
+        "errors": 0,
+        "warnings": 6,
+        "total": 6
+      },
+      "lint": 80,
+      "netpath": {
+        "rows": 14,
+        "connected": 14
+      },
+      "sch_pcb": "match",
+      "save_reload": "match",
+      "bom": {
+        "baseline": "c88181adb026e7bdf09ecc72a7488e38c067576a6fcf91db6b266ad5d91973cc",
+        "live": "c88181adb026e7bdf09ecc72a7488e38c067576a6fcf91db6b266ad5d91973cc",
+        "match": true
+      },
+      "image_top": {
+        "baseline": "d942aaecc33d7f75d947ccc4d9f0e4e472780fff00ecb3669536f09e776afe9e",
+        "live": "230a596eafa3e8c83aa9b700d5d4f1ef2ca870db164f0ff4cbb5fbfdd3505574",
+        "match": false
+      },
+      "image_bottom": {
+        "baseline": "34e69a46ce398fd21dc7a9861c7dc43d35ecc316081712ef6e42e935a12b41a5",
+        "live": "34e69a46ce398fd21dc7a9861c7dc43d35ecc316081712ef6e42e935a12b41a5",
+        "match": true
+      },
+      "gate": {
+        "status": "pass_with_gaps",
+        "counts": {
+          "stages": 8,
+          "pass": 5,
+          "fail": 0,
+          "blocked": 0,
+          "not_run": 3,
+          "required_fail": 0,
+          "required_blocked": 0,
+          "optional_not_run": 3,
+          "findings": 1,
+          "advisory_findings": 1
+        }
+      }
+    },
+    "B": {
+      "project": "mcu-i2c-s3-20261026",
+      "doc": "PCB2",
+      "dump_semantic_sha256": {
+        "baseline": "a83459175183547da179a8763086305e10f535a8a766ef0a827b73f60b5c3c1a",
+        "live": "a83459175183547da179a8763086305e10f535a8a766ef0a827b73f60b5c3c1a",
+        "match": true
+      },
+      "drc": {
+        "passed": true,
+        "total": 0,
+        "counts": {},
+        "violations": [],
+        "nativeResult": {
+          "passed": true,
+          "violations": []
+        }
+      },
+      "pcb_check_summary": {
+        "danglingEnds": 0,
+        "acuteAngles": 1,
+        "nonOrthogonal": 0,
+        "trackOverPad": 0,
+        "clearance": 0,
+        "silkscreenFlipped": 0,
+        "overlappingVias": 0,
+        "singleLayerVias": 0,
+        "widthMismatches": 0,
+        "duplicateSegments": 0,
+        "parallelCoupling": 4,
+        "antennaKeepout": 1,
+        "netlessPours": 0,
+        "viaCrossesPlane": 0,
+        "floatingIslands": 0,
+        "powerNotPoured": 1,
+        "netlessViaInPad": 0,
+        "widthUnderSpec": 1,
+        "silkOverPad": 0,
+        "silkOffBoard": 0,
+        "decapTooFar": 5,
+        "viaInPad": 0,
+        "copperNearEdge": 0,
+        "fiducialMissing": 1,
+        "zoneViolation": 0,
+        "internalOnEdge": 0,
+        "connectorPlugClearance": 0,
+        "connectorMatingBlocked": 0,
+        "connectorOpeningInward": 0,
+        "errors": 0,
+        "warnings": 13,
+        "total": 14
+      },
+      "lint": 68,
+      "netpath": {
+        "rows": 15,
+        "connected": 15
+      },
+      "sch_pcb": "match",
+      "save_reload": "match",
+      "bom": {
+        "baseline": "f2628a128b853b0ffcdbf91e0ad38220ffb49114ac951fbe35a046cf62bede46",
+        "live": "f2628a128b853b0ffcdbf91e0ad38220ffb49114ac951fbe35a046cf62bede46",
+        "match": true
+      },
+      "image_top": {
+        "baseline": "7c880ebcf2b7e136cac1c9a39e15449d919e761b03579dec9003feabfc670fef",
+        "live": "f9b473099e5baefbfa1a36ff8af1b3637ad2dd0750e5a498cec0376f1bb5694b",
+        "match": false
+      },
+      "image_bottom": {
+        "baseline": "e50e4bc0966543960f7d6b89a16be995686ad6446840d17f7519965ef61a890c",
+        "live": "e632cdbc9ef59306f432315e6920f5387258223cd39a7a495e549f1812f34a23",
+        "match": false
+      },
+      "gate": {
+        "status": "pass_with_gaps",
+        "counts": {
+          "stages": 8,
+          "pass": 5,
+          "fail": 0,
+          "blocked": 0,
+          "not_run": 3,
+          "required_fail": 0,
+          "required_blocked": 0,
+          "optional_not_run": 3,
+          "findings": 1,
+          "advisory_findings": 1
+        }
+      }
+    }
+  }
+}

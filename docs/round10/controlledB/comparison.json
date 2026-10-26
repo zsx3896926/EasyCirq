@@ -1,0 +1,122 @@
+{
+  "schema": "design-engine-pcb-controlled-comparison/v1",
+  "task": "B2 copy + C99 100nF +3V3/GND local edit",
+  "case": "docs/round10/controlledB",
+  "baseline": {
+    "window": "2026-10-26T13:44:51.304-13:48:31.984Z",
+    "calls": 260,
+    "mutations": 30,
+    "probes": 160,
+    "probe_share": 0.615,
+    "wall_min": 3.678,
+    "daemon_min": 1.274,
+    "failures": 2,
+    "distinct_cli_processes": 39,
+    "pcb_save_actions": 10,
+    "pcb_drc_calls": 3,
+    "drc_failed_runs": 2,
+    "autoroute_calls": 2,
+    "rip_up_calls": 4,
+    "component_modify_calls": 2,
+    "pour_rebuild_calls": 3,
+    "rework_rounds": 2
+  },
+  "new": {
+    "window": [
+      "2026-10-26T15:31:09.3705998Z",
+      "2026-10-26T15:33:24.7102225Z"
+    ],
+    "calls": 202,
+    "mutations": 18,
+    "probes": 112,
+    "probe_share": 0.554,
+    "wall_min": 2.256,
+    "daemon_min": 1.753,
+    "failures": 1,
+    "distinct_cli_processes": 20,
+    "pcb_save_actions": 7,
+    "pcb_drc_calls": 1,
+    "drc_failed_runs": 0,
+    "autoroute_calls": 1,
+    "rip_up_calls": 1,
+    "component_modify_calls": 1,
+    "pour_rebuild_calls": 1,
+    "rework_rounds": 0
+  },
+  "deltas": {
+    "calls": -58,
+    "calls_pct": -22.3,
+    "mutations": -12,
+    "mutations_pct": -40.0,
+    "probes": -48,
+    "probes_pct": -30.0,
+    "wall_min": -1.422,
+    "wall_pct": -38.7,
+    "daemon_min": 0.48,
+    "daemon_pct": 37.7
+  },
+  "quality": {
+    "drc": "passed=true total=0 on the first post-route run",
+    "scoped_diff": {
+      "status": "changed",
+      "identity": 0,
+      "geometry": 1,
+      "copper": 135,
+      "unrelated": 0,
+      "copper_geometry": 1
+    },
+    "save_reload": "match",
+    "pcb_check": {
+      "errors": 0,
+      "warnings": 15,
+      "infos": 1,
+      "total": 16
+    },
+    "sch_pcb": {
+      "status": "match",
+      "components": 24,
+      "pins": 106,
+      "mismatches": 0
+    },
+    "netpath": {
+      "connected": 15,
+      "required": 15
+    },
+    "lint": {
+      "score": 68,
+      "crossings": 8,
+      "components": 24
+    },
+    "gate": {
+      "status": "pass",
+      "stages": 8
+    },
+    "case": {
+      "status": "complete",
+      "checks": 17,
+      "artifacts": 16
+    }
+  },
+  "runs": [
+    {
+      "name": "first new-flow run",
+      "calls": 209,
+      "wall_min": 3.857,
+      "daemon_min": 0.762,
+      "note": "first new-flow run; its evidence directory was removed after the clean rerun (numbers retained)"
+    },
+    {
+      "name": "clean rerun",
+      "calls": 202,
+      "wall_min": 2.256,
+      "daemon_min": 1.753,
+      "note": "primary case docs/round10/controlledB"
+    }
+  ],
+  "caveats": [
+    "Two new-flow runs differ in wall/daemon time (3.86/0.76 vs 2.26/1.75); wall and daemon are not stable enough to claim a fixed percentage.",
+    "The stable deltas are calls, mutations and probes; DRC first-pass and rework 0 also held in both runs.",
+    "Token cost is NOT RECORDED on both sides.",
+    "The new flow ran one easyeda apply for the placement; routing still uses the official router."
+  ]
+}

@@ -1,84 +1,81 @@
-# Current handoff — 2026-10-26 — v0.9 PR #20
+# Current handoff — 2026-10-26 — round10 Skill 提速/提质（rev4）
 
-## 仓库与分支
+## 1. 目标与任务表
 
-- 仓库：`hardware-design-skill`；工作树：`C:/Users/jlc/work/hds-pr20-verify`
-- 分支：`feat/skill-v0.9-eda-verify`，基于 `origin/feat/skill-v0.9-reviewed` `108403c`
-- 当前 HEAD：`a13c6c2`（含 jlc-61 的 `feat/v09-toolchain-review` 快进合并）
-- PR #20 head 仍是 `feat/skill-v0.9-reviewed`；本分支尚未推送
-- 另一个工作树 `C:/Users/jlc/work/hds-merge-20261026` 有他人未提交 WIP
-  （`layout_move_plan.py`、`readback_verify.py` 及测试），未触碰、未采用
+- 目标：把 PCB 局部改板从逐件 CLI 改成 `preflight → 批处理 apply → gate → case`，
+  用同一冻结任务量化速度/质量，不扩板数量。
+- 任务表：`docs/round10/task-ledger.md`
+- 报告：`docs/skill-speed-quality-report.md`
 
-## 本轮工具链改动
+## 2. 仓库/分支/版本
 
-- `scripts/svg_text_bbox.py`：无头 Chromium/Edge 实测官方 SVG 全部渲染 `<text>`；
-  photo-led 同页 134 条、v14 136 条，与既有实测逐项一致。
-- `scripts/layout_from_easyeda.py`：`sch list --include-page-primitives` +
-  `visible_text` + `sheet-geometry` + 渲染文字 → `sch_layout_check` 输入；
-  分类 pin_name/pin_number/netflag/net_label/wire_name/title_block/border/unowned；
-  `wire_endpoint_check=false`（连通性交给 `sch check`）。
-- `sch_layout_check.py`：新增 `unowned_visible_text`、`duplicate_net_text`、
-  `unanchored_net_text`、`netflag_rotation_outlier`、`netflag_text_vertical`、
-  `zone_reading_order`、`title_block_duplicate_text`、`text_wire_clearance`；
-  符号自有脚名/脚号不再当普通碰撞；info-only 不阻塞（`--fail-on-info` 可升级）；
-  `--out` UTF-8 落盘。
-- `scripts/pin_net_intent_check.py`：设计意图 vs `sch read` 的物理引脚连通组比较；
-  网名拼写可不同，支持 `sch read` 的 `number` 字段；功能脚名需 `pinMap`。
-- `scripts/component_identity_check.py`（jlc-61）：device/symbol/footprint/BOM 身份；
-  可选 PCB 绑定（无 PCB 输入时 `pcb_binding=not_run`）。
-- `tests/test_sch_acceptance.py`、`tests/test_pin_net_intent.py`、
-  `tests/test_sch_acceptance_v14.py`、`tests/test_component_identity_check.py`；
-  真实 fixture `tests/fixtures/photo-led-acceptance.json`、`photo-led-v14/`。
-- 验证：`python -m unittest discover -s tests` → **945 tests OK**；
-  `skill_selftest.py` → **5 PASS / 0 FAIL**。
+- worktree：`C:/Users/jlc/work/hds-pcb-round9`
+- 分支：`feat/pcb-layout-round9`；HEAD `60f2f2c`（本轮改动全部**未提交**）
+- Skill 版本：`0.9.2`（`design-hardware/.version`）；已安装客户端仍 **0.9.0**
+- PR：**#21**（draft，base 仍是已合并的 `feat/skill-v0.9-reviewed`）；未合并、未发 Release
 
-## 真实 EDA（本机 EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
+## 3. 已完成
 
-### 1) photo-led-5v-20261026（协作完成）
+### 3.1 工具
 
-- P1 `cd008f919db36eba`；12 网 / 47 脚 / 0 floating / 37 组件。
-- 编号按阅读顺序 1 光敏 / 2 供电 / 3 阈值 / 4 LED；标题在框左上；purpose 持久修复。
-- 图签两处 Claude Code 已消除（绘制/审阅留空，避免平台双渲染重复）。
-- 最终：`evidence/final-v14.png/.svg`、`final-v14.epro2`（SHA-256
-  `502D6FD2…`）、`v14-checker-strict.json`；无 text-text overlap、无
-  zone_reading_order、无 title_block_duplicate_text。
-- 残留：4 条 wire_enters_bbox、1 条 R3 文字贴本体、1 条 text_wire_clearance、
-  2 条异网正交交叉（hint）、无 purpose 文字（typed API 限制）。
+- `scripts/pcb_preflight.py`（`design-engine-pcb-preflight/v1`）
+- `scripts/pcb_apply_plan.py`（批量 `easyeda apply` playbook；一次 apply → save/reload/dump/diff）
+- `scripts/pcb_gate.py`（`design-engine-pcb-gate/v1`；PG1–PG8，full/regression）
+- `scripts/pcb_case.py`（`design-engine-pcb-case/v1`；live/`--skip-live`、`--before-dump`）
+- 共享：`scripts/pcb_cli.py`、`scripts/pcb_evidence.py`
+- `references/pcb-command-map.json`；`SKILL.md`/`references/pcb-execution.md`/`CHANGELOG.md` 同步
 
-### 2) ne555-blinker-1hz-20261026（新建，已保存重开）
+### 3.2 core 修正
 
-- 工程 `856ec8994a544ad999a5adf69be04dd9`；P1 `2beb0746a6a6c75a`；
-  10 器件 / 7 网 / 0 floating；`sch gate` PASS；pin-net intent `match`。
-- 1k/68k/10µF → f≈1.05Hz、D≈50.4%；OUT→330Ω→LED。
-- 证据：`C:/Users/jlc/work/ne555-blinker-1hz-20261026/evidence/`（final-v2、
-  final-after-reload、check9、gate、pin-net-diff）。
-- 残留：多个电源/地标记竖排文字（管脚水平导致），方向不统一；无 purpose 文字；
-  Drawed 留空；原生归档 `evidence/final.epro2`（44,712 B，SHA-256 `0b7ad4a3…`，
-  restoreVerified=false）；PCB/仿真/实物 NOT RUN。
+- `validate_placement(partial=)`；preferred 约束不再硬阻塞
+- edge 距离按实测板框；`min_inset` 生效
+- `diff_boards` 纳入铺铜 `source` 与 `poured/fills/regions` 语义签名；outline bbox 兼容 dict/list
+- 独立复核发现的 fail-open（空 scope、缺字段默认 0、case 旧 gate、过期 lint）已修
 
-### 3) ams1117-3v3-20261026（新建，已保存重开）
+### 3.3 验证
 
-- 工程 `7686883008644dea9fd9317d949a5f92`；P1 `86faeee12e6b50e6`；
-  6 器件 / 3 网 / 0 floating；`sch gate` PASS；pin-net intent `match`。
-- J1→10µF→AMS1117-3.3→22µF+100nF→J2；三功能区框。
-- 证据：`C:/Users/jlc/work/ams1117-3v3-20261026/evidence/`（final-v2、
-  final-after-reload、check-final、gate、pin-net-diff）。
-- 残留：输出电容为 22µF 0805 陶瓷，**不是**数据表保证的 22µF 固体钽，稳定性未验证；
-  多个电源/地标记竖排文字；无 purpose 文字；未做负载/纹波/热/PCB；原生归档
-  `evidence/final.epro2`（35,416 B，SHA-256 `793169d7…`，restoreVerified=false）。
+- `python -m unittest discover -s tests` → **1112 tests OK**
+- `python design-hardware/scripts/skill_selftest.py` → **5 PASS / 0 FAIL / 0 NOT RUN**
+- 受控 clean case：`docs/round10/controlledB/manifest.json` → `complete`，17/17 checks，
+  gate `pass` 8/8，0 failure
+- A/B 回归：`docs/round10/regression/liveA|liveB/gate-report.json` → 两板 `pass_with_gaps`，
+  required 全 pass；dump semantic hash 与冻结值一致；BOM 字节哈希一致
+- 受控速度（clean run）：202 calls / 18 mutations / 112 probes / 2.256 min；
+  基线 260 / 30 / 160 / 3.678；DRC 首轮 0、返工 0
 
-## 明确未做 / 边界
+## 4. 真机窗口/进程
 
-- 未把任何配方标成 `eda-verified`：三张图仍有可见文字方向/注释缺口，且新工程主要用
-  CLI typed 流程而非 `sch_recipe` 直接落地。
-- 未发布 Release、未替换用户已安装 Skill、未合并 PR。
-- 未推送本轮 commit；PR #20 描述待重写。
-- 未做 PCB 全流程（jlc-29 在用窗口做独立 PCB 测试，21:30 前需归还）。
-- 半离线 CLI 会话未用于本验收；全部为全在线 GUI 会话。
+- EasyEDA Pro 4.1.78，PID 20296，窗口 `5175351c-a00b-4788-a922-2f6e0bd80756`
+- 当前打开的工程：`mcu-i2c-s3-edit-r10b-20261026` / `PCB2`
+- 本轮新导入的隔离副本：
+  - `mcu-i2c-s3-edit-r10-20261026`（UUID `0b2bf7329ce149408fa35d15a242e488`，第一次运行，已被取代）
+  - `mcu-i2c-s3-edit-r10b-20261026`（UUID `06a53de15aa34286ab2eaf0be41d91ba`，clean run）
+- 原始 `photo-led-5v-20261026` 在切换前已 `sch save`；未被修改
+- 不要改 `ne555-blinker-1hz-20261026`、`ams1117-3v3-20261026`、`photo-led-5v-20261026`
 
-## 下一条具体动作
+## 5. 明确未完成 / BLOCKED
 
-1. 跑通 `git status`，提交项目文档/证据索引并推送本分支到 PR #20 head。
-2. 重写 PR #20 描述：工具链、三工程真实结果、残留与 NOT RUN。
-3. 若继续：为 555/稳压器补 purpose 文字（等待 typed 文本创建）、统一竖排电源/地标记、
-   稳压器换 22µF 固体钽并做负载/热测试；导出原生 `.epro2`。
+- C 板派生未见任务：NOT RUN（按砍单顺序）
+- Gerber/drill/CPL：BLOCKED（typed CLI 无导出）；未下单、未做板厂 DFM
+- 实物/热/EMC/固件：NOT RUN
+- 图像字节级回归：A top、B top/bottom 字节不同；设计不变仅由 dump semantic hash 证明
+- 墙钟/daemon：两次新流程分别为 3.857/0.762 与 2.256/1.753 min，不稳定；不宣称固定提升
+- token 成本：NOT RECORDED
+- 已安装 Skill 未升级到 0.9.2；PR #21 未合并
+
+## 6. 下一条具体动作
+
+1. 复核 `git status`，只暂存本轮相关文件（审计输入已归档到 `docs/round10/baseline/audit/`；旧 `docs/round10/controlled` 已删除），提交并推送 `feat/pcb-layout-round9`。
+2. 更新 PR #21 描述：四个工具、core 修正、A/B 回归、受控 clean case、未完成边界；
+   base 是否改到 `main` 由维护者决定，不合并。
+3. 如需让用户直接使用：用 `skill_update.py pack/install` 把 0.9.2 安装到四个客户端，
+   每个跑 `skill_selftest.py`；本轮未执行。
+4. 收尾时把 EDA 窗口切回用户原来的 `photo-led-5v-20261026`（本轮结束前）。
+
+## 7. 关键证据
+
+- 基线：`docs/round10/baseline/baseline-metrics.json`
+- 受控 case：`docs/round10/controlledB/`（manifest、gate-report、comparison、evidence）
+- A/B 回归：`docs/round10/regression/liveA|liveB/`（gate-report、evidence、comparison）
+- 契约：`docs/round10/interface-contract.md`
+- 报告：`docs/skill-speed-quality-report.md`

@@ -143,7 +143,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 批量写入、超时恢复、版本化缓存、通道模板复用、执行耗时与多Agent分工 | [EDA执行效率](references/eda-efficiency.md)；先用 `design_inventory.py`/`channel_map_check.py`/`library_precheck.py`/`eda_cache.py`，同一工程单写入者，save/reload 后回读才算验收 |
 | 不知道客户端、安装目录或首次接通 | [客户端兼容与首次接通](references/client-compatibility.md)；先跑 `python scripts/doctor_env.py --summary`，按当前客户端逐条判定 |
 | 导入PCB、布局、布线、铜皮、制造输出 | [PCB工程习惯](references/pcb.md) |
-| 真实PCB布局布线、约束/局部模板/候选、逃线迭代、保存重开 | [PCB执行工作流](references/pcb-execution.md)，先读实测dump与sch引脚，再生成约束/候选；执行仍走typed CLI |
+| 真实PCB布局布线、约束/局部模板/候选、逃线迭代、保存重开 | [PCB执行工作流](references/pcb-execution.md)，命令与证据角色见 [PCB命令映射](references/pcb-command-map.json)：放件前 `scripts/pcb_preflight.py`，批量写入 `scripts/pcb_apply_plan.py`，交付前 `scripts/pcb_gate.py`，整案证据 `scripts/pcb_case.py`；先读实测dump与sch引脚 |
 | 设计审查、故障排查、样机上电 | [审查与验证](references/review.md) |
 | 查询官方资料入口 | [来源导航](references/sources.md) |
 | 新建/实质修改SCH或PCB，需要选取适用经验 | [工程经验库与来源](references/design-experience.md)，按当前对象选择，避免全量加载 |
@@ -270,7 +270,7 @@ Skill 包自检用 `python scripts/skill_selftest.py`：检查必需文件、相
 
 需要真实读写嘉立创EDA工程时运行 `python scripts/eda_exec.py` 的子命令，先读 [EDA执行](references/eda-execution.md)。`doctor` 只诊断，`read` 只回读，`apply --dry-run` 只对账；写入必须在已授权副本上，冲突默认不写，保存后按 `reopen-check` 验证持久化。它只支持本文件列出的原理图原语，不覆盖PCB、下单或任意JS。
 
-真实PCB任务先读 [PCB执行工作流](references/pcb-execution.md)：用 `easyeda pcb dump --include-copper` 与 `sch read` 取实测几何/引脚，运行 `python scripts/design_engine_cli.py pcb-constraints/pcb-check-plan/pcb-candidates/pcb-escapes/pcb-power/pcb-diff`。这些命令只做离线约束、模板、候选和回读比对，不写工程；写入、布线、铺铜、丝印和 DRC 仍用当前 typed `easyeda pcb ...` 命令。硬约束失败不能被候选总分抵消；模板缺少实测引脚/适用条件时拒绝；`near_pin` 的中心距和逃线预判都不是铜路径证明。
+真实PCB任务先读 [PCB执行工作流](references/pcb-execution.md) 与 [PCB命令映射](references/pcb-command-map.json)：用 `easyeda pcb dump --include-copper` 与 `sch read` 取实测几何/引脚，运行 `python scripts/design_engine_cli.py pcb-constraints/pcb-check-plan/pcb-candidates/pcb-escapes/pcb-power/pcb-diff`。按阶段串工具：落位前 `python scripts/pcb_preflight.py`（`ready/review/blocked`，`review` 不是通过）；写入走 `python scripts/pcb_apply_plan.py` 的 playbook 批量路径（place/track/via/pour，默认 dry-run，一次 apply 后回读）；交付前 `python scripts/pcb_gate.py --profile full`（缺证据 `blocked`，不能当通过）；整案证据用 `python scripts/pcb_case.py` 生成 manifest。离线命令只读本地 JSON；写入、布线、铺铜、丝印和 DRC 仍用当前 typed `easyeda pcb ...` 命令并回读。硬约束失败不能被候选总分抵消；模板缺少实测引脚/适用条件时拒绝；`near_pin` 的中心距和逃线预判都不是铜路径证明。
 
 ## 7. 让用户看懂进度和结果
 

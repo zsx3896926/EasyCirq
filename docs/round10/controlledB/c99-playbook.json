@@ -1,0 +1,48 @@
+{
+  "schema": "design-engine-pcb-playbook/v1",
+  "name": "b2-add-c99-r10b",
+  "project": "mcu-i2c-s3-edit-r10b-20261026",
+  "doc": "PCB2",
+  "partial": true,
+  "base": {
+    "semantic_sha256": "1ac1de2961338a69fba336317af75a5347db27ea6c2bd9037c5b6bf4df8949d3",
+    "captured_at": "2026-10-26T15:32:07.0869987Z"
+  },
+  "ops": [
+    {
+      "op": "place",
+      "designator": "C99",
+      "primitive_id": "f665009d20ba26a6",
+      "from": {
+        "x": 54.72099999999999,
+        "y": -234.8074,
+        "rotation": 0,
+        "layer": 1
+      },
+      "to": {
+        "x": 1380,
+        "y": 600,
+        "rotation": 0,
+        "layer": 1
+      },
+      "reason": "round9 baseline C99 position"
+    }
+  ],
+  "scope": {
+    "designators": [
+      "C99"
+    ],
+    "nets": [
+      "+3V3",
+      "GND"
+    ]
+  },
+  "policy": {
+    "save": true,
+    "reload": true,
+    "fresh_dump": true,
+    "diff": true,
+    "timeout_sec": 120,
+    "retry": 0
+  }
+}

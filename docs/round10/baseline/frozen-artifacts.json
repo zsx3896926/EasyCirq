@@ -1,0 +1,175 @@
+{
+  "schema": "design-engine-pcb-frozen-artifacts/v1",
+  "captured_at": "2026-10-26T14:40:00Z",
+  "note": "Hashes recomputed from the files; these are the T-0 frozen inputs.",
+  "artifacts": [
+    {
+      "board": "A",
+      "role": "archive",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/photo-led-pcb-final.epro2",
+      "sha256": "d9ef9201e574c7ba944c7c77c77aa3364802464790e4e7daca1969884a826491",
+      "bytes": 230203
+    },
+    {
+      "board": "A",
+      "role": "dump_final",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-final.json",
+      "sha256": "3a07ade567e725d918410b21b3846fd6bfa414486a63db58a6c0dbfdb69199e2",
+      "bytes": 261386
+    },
+    {
+      "board": "A",
+      "role": "dump_after_reload",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-after-reload.json",
+      "sha256": "510c52ce9140e3abe2e80b4e0d88a0a3ec5d222907a9599260c2acf1db3da9b1",
+      "bytes": 261384
+    },
+    {
+      "board": "A",
+      "role": "drc",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-drc-final.json",
+      "sha256": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad",
+      "bytes": 147
+    },
+    {
+      "board": "A",
+      "role": "check",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-check-final.json",
+      "sha256": "2587eb236057e30a2ddb99872856621305dbf940c9712a9ed795fd852d72d9f7",
+      "bytes": 3788
+    },
+    {
+      "board": "A",
+      "role": "bom",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/BOM.csv",
+      "sha256": "c88181adb026e7bdf09ecc72a7488e38c067576a6fcf91db6b266ad5d91973cc",
+      "bytes": 1471
+    },
+    {
+      "board": "A",
+      "role": "image_top",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-final-top.png",
+      "sha256": "d942aaecc33d7f75d947ccc4d9f0e4e472780fff00ecb3669536f09e776afe9e",
+      "bytes": 164801
+    },
+    {
+      "board": "A",
+      "role": "image_bottom",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-final-bottom.png",
+      "sha256": "34e69a46ce398fd21dc7a9861c7dc43d35ecc316081712ef6e42e935a12b41a5",
+      "bytes": 144024
+    },
+    {
+      "board": "A",
+      "role": "actual_svg",
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-final-actual.svg",
+      "sha256": "fbbd06a91dfd327b773ebc9280f4199c2954ebac883c4d3f5624efe3ad8e114f",
+      "bytes": 65936
+    },
+    {
+      "board": "B",
+      "role": "archive",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/boardB-final.epro2",
+      "sha256": "312f3cd456fe4b9c5bf72b94e6618d08b9fdf9e1e38e76d3323db35fa6651cc1",
+      "bytes": 132270
+    },
+    {
+      "board": "B",
+      "role": "dump_final",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json",
+      "sha256": "42acfe23ba0b7cb499653b218033b91ca67562b7d88d7fa99d4ee994b0a0c1c4",
+      "bytes": 355879
+    },
+    {
+      "board": "B",
+      "role": "dump_after_reload",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-after-reload.json",
+      "sha256": "2702c7bdeb6d08629a3c69e488fc40b911228136618c361749eca788dcf24c00",
+      "bytes": 355881
+    },
+    {
+      "board": "B",
+      "role": "drc",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-drc-final.json",
+      "sha256": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad",
+      "bytes": 147
+    },
+    {
+      "board": "B",
+      "role": "check",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-check-final.json",
+      "sha256": "7c5449402562369e075214d4e50c38075f64284fbf65f854c2b2b29ce564c835",
+      "bytes": 6827
+    },
+    {
+      "board": "B",
+      "role": "bom",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/BOM.csv",
+      "sha256": "f2628a128b853b0ffcdbf91e0ad38220ffb49114ac951fbe35a046cf62bede46",
+      "bytes": 1401
+    },
+    {
+      "board": "B",
+      "role": "image_top",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-final-top.png",
+      "sha256": "7c880ebcf2b7e136cac1c9a39e15449d919e761b03579dec9003feabfc670fef",
+      "bytes": 192823
+    },
+    {
+      "board": "B",
+      "role": "image_bottom",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-final-bottom.png",
+      "sha256": "e50e4bc0966543960f7d6b89a16be995686ad6446840d17f7519965ef61a890c",
+      "bytes": 102986
+    },
+    {
+      "board": "B",
+      "role": "actual_svg",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-final-actual.svg",
+      "sha256": "c6f67e6eca329e7634142a2a84267c53a311839634211e69b9910b78b7c77ad4",
+      "bytes": 76782
+    },
+    {
+      "board": "C99",
+      "role": "archive",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-final.epro2",
+      "sha256": "f65654cb7144c184137002c2efe5a8af7ed8ff7f5c79997d554f71251776e025",
+      "bytes": 135173
+    },
+    {
+      "board": "C99",
+      "role": "dump",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-dump.json",
+      "sha256": "a32ea2a5494059c8798f9c5cdd8db8f6b88bbf5dcf6965a5b813a3d74dd61fd7",
+      "bytes": 360359
+    },
+    {
+      "board": "C99",
+      "role": "drc",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-drc.json",
+      "sha256": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad",
+      "bytes": 147
+    },
+    {
+      "board": "C99",
+      "role": "check",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-check.json",
+      "sha256": "bb3d34b3c397d55dc2bc63f5fad6937a8790afdac537f13cd197824af3397a1e",
+      "bytes": 7508
+    },
+    {
+      "board": "C99",
+      "role": "scoped_diff",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-scoped-diff.json",
+      "sha256": "5de326c50d4d51a4e16b2ac9fc09aba5e8c6ac51a1feeb101827495a9dde4fe3",
+      "bytes": 11848
+    },
+    {
+      "board": "C99",
+      "role": "save_reload_diff",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-save-reload-diff.json",
+      "sha256": "6abb4c65476c1b7e965e2d032935ff9c7d461e8317b6f2c27b36652a2805ae41",
+      "bytes": 384
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "schema": "design-engine-pcb-baseline/v1",
+  "captured_at": "2026-10-26T14:40:00Z",
+  "note": "T-0 baseline measured from the EasyEDA audit JSONL; see docs/round10/recon/baseline.md for derivations.",
+  "controlled_task": {
+    "name": "B2 copy + C99 100nF +3V3/GND local edit",
+    "input_archive": {
+      "role": "input_archive",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/boardB-final.epro2",
+      "sha256": "312f3cd456fe4b9c5bf72b94e6618d08b9fdf9e1e38e76d3323db35fa6651cc1",
+      "bytes": 132270
+    },
+    "project": "mcu-i2c-s3-edit-20261026",
+    "project_uuid": "283b0ccaaa9c404d87056886a29c2562",
+    "pcb_doc_uuid": "40b81985cfb4a5ed",
+    "acceptance": [
+      "native DRC passed=true total=0",
+      "scoped diff unrelated_changes=0",
+      "save -> reload -> fresh dump diff match"
+    ],
+    "window_utc": "2026-10-26T13:44:51.3047907Z/2026-10-26T13:48:31.9844613Z"
+  },
+  "measured": {
+    "calls": 260,
+    "mutations": 30,
+    "probes": 160,
+    "probe_share": 0.6153846153846154,
+    "wall_minutes": 3.6779945166666668,
+    "daemon_minutes": 1.2736666666666667,
+    "failures": 2,
+    "write_failures": 0,
+    "fail_rate": 0.007692307692307693,
+    "pcb_save_actions": 10,
+    "explicit_pcb_save_commands": 5,
+    "reload_save_actions": 5,
+    "pcb_drc_calls": 3,
+    "drc_failed_runs": 2,
+    "pcb_route_auto_calls": 2,
+    "autoroute_seconds": 42.196,
+    "pcb_route_rip_up_calls": 4,
+    "pcb_component_modify_calls": 2,
+    "project_import_calls": 1,
+    "pcb_import_changes_calls": 1,
+    "schematic_component_place_calls": 1,
+    "pcb_pour_rebuild_calls": 3,
+    "document_open_calls": 7,
+    "distinct_cli_processes": 39,
+    "through_final_check_calls": 312,
+    "through_final_check_wall_minutes": 4.083675883333333,
+    "through_final_check_probes": 177
+  },
+  "quality": {
+    "drc_passed": true,
+    "drc_total": 0,
+    "scoped_diff": {
+      "status": "changed",
+      "identity": 1,
+      "geometry": 0,
+      "copper": 135,
+      "unrelated": 0
+    },
+    "copper_net_split": {
+      "+3V3": 59,
+      "GND": 76,
+      "other": 0,
+      "unmatched": 0
+    },
+    "save_reload_diff": "match",
+    "pcb_check": {
+      "errors": 0,
+      "warnings": 15,
+      "infos": 1,
+      "total": 16
+    },
+    "new_warn": "C99 decap 272 mil from nearest +3V3",
+    "rework_rounds": 2
+  },
+  "not_recorded": [
+    "LLM token cost",
+    "manual GUI vs agent think split",
+    "user/agent turn count",
+    "root cause of first DRC track-track clearance"
+  ],
+  "sources": [
+    {
+      "role": "audit_window",
+      "path": "docs/round10/baseline/audit/_audit-edit-only.json",
+      "sha256": "4488b39d85928a497f2a55918c18e0a85ee9b41435a9f535fac81666738c40fc",
+      "bytes": 1862
+    },
+    {
+      "role": "audit_window_broad",
+      "path": "docs/round10/baseline/audit/_audit-edit-window.json",
+      "sha256": "61edf9bd695eb4629d1e6434644ae7d47cd13a16192537697aa3bd0e38953791",
+      "bytes": 2226
+    },
+    {
+      "role": "action_catalog",
+      "path": "docs/round10/baseline/audit/_actions-catalog.json",
+      "sha256": "bdede60fba6148ad93f68002499a7b0fa0c7a5b622253cabf36dc5df7628414f",
+      "bytes": 152410
+    },
+    {
+      "role": "edit_drc",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-drc.json",
+      "sha256": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad",
+      "bytes": 147
+    },
+    {
+      "role": "edit_scoped_diff",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-scoped-diff.json",
+      "sha256": "5de326c50d4d51a4e16b2ac9fc09aba5e8c6ac51a1feeb101827495a9dde4fe3",
+      "bytes": 11848
+    },
+    {
+      "role": "edit_save_reload",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-save-reload-diff.json",
+      "sha256": "6abb4c65476c1b7e965e2d032935ff9c7d461e8317b6f2c27b36652a2805ae41",
+      "bytes": 384
+    },
+    {
+      "role": "edit_check",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-check.json",
+      "sha256": "bb3d34b3c397d55dc2bc63f5fad6937a8790afdac537f13cd197824af3397a1e",
+      "bytes": 7508
+    },
+    {
+      "role": "edit_archive",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/edit-add-decap-final.epro2",
+      "sha256": "f65654cb7144c184137002c2efe5a8af7ed8ff7f5c79997d554f71251776e025",
+      "bytes": 135173
+    }
+  ]
+}

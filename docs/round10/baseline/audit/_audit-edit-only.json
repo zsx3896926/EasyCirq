@@ -1,0 +1,98 @@
+{
+  "day": "2026-10-26",
+  "from": "13:40:06",
+  "to": "13:48:56",
+  "wallMinutes": 8.836774416666668,
+  "daemonMinutes": 1.6821833333333334,
+  "thinkMinutes": 7.154591083333334,
+  "calls": 439,
+  "failures": 2,
+  "failRate": 0.004555808656036446,
+  "probes": 241,
+  "probeShare": 0.5489749430523918,
+  "probeSeconds": 4.175,
+  "mutations": 39,
+  "tokens": 0,
+  "topActions": [
+    {
+      "action": "pcb.route.auto",
+      "calls": 2,
+      "failures": 0,
+      "seconds": 42.196
+    },
+    {
+      "action": "document.open",
+      "calls": 15,
+      "failures": 0,
+      "seconds": 22.11
+    },
+    {
+      "action": "schematic.components.list",
+      "calls": 23,
+      "failures": 0,
+      "seconds": 11.218
+    },
+    {
+      "action": "pcb.drc.check",
+      "calls": 5,
+      "failures": 0,
+      "seconds": 6.425
+    },
+    {
+      "action": "project.import",
+      "calls": 1,
+      "failures": 0,
+      "seconds": 3.93
+    },
+    {
+      "action": "document.current",
+      "calls": 134,
+      "failures": 2,
+      "seconds": 2.507
+    },
+    {
+      "action": "pcb.import_changes",
+      "calls": 1,
+      "failures": 0,
+      "seconds": 1.583
+    },
+    {
+      "action": "pcb.pour.rebuild",
+      "calls": 3,
+      "failures": 0,
+      "seconds": 1.573
+    },
+    {
+      "action": "schematic.pages.list",
+      "calls": 54,
+      "failures": 0,
+      "seconds": 1.375
+    },
+    {
+      "action": "pcb.save",
+      "calls": 15,
+      "failures": 0,
+      "seconds": 1.233
+    },
+    {
+      "action": "schematic.component.place",
+      "calls": 1,
+      "failures": 0,
+      "seconds": 1.074
+    },
+    {
+      "action": "document.close",
+      "calls": 7,
+      "failures": 0,
+      "seconds": 1.058
+    }
+  ],
+  "topFailures": [
+    {
+      "action": "document.current",
+      "calls": 134,
+      "failures": 2,
+      "seconds": 2.507
+    }
+  ]
+}

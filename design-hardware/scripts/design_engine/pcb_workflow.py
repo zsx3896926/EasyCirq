@@ -72,6 +72,19 @@ def _bbox(raw):
     return box
 
 
+def _bbox_list(value):
+    """Accept either the raw dump's {minX,...} bbox or a [minX,...] list."""
+    if isinstance(value, dict):
+        return _bbox(value)
+    if isinstance(value, (list, tuple)) and len(value) == 4:
+        try:
+            box = [float(item) for item in value]
+        except (TypeError, ValueError):
+            return None
+        return box if all(math.isfinite(item) for item in box) else None
+    return None
+
+
 def _box_center(box):
     return ((box[0] + box[2]) / 2.0, (box[1] + box[3]) / 2.0)
 
@@ -596,7 +609,22 @@ def _finding(code, severity, objects, message, **evidence):
             'message': message, 'evidence': evidence}
 
 
-def _edge_distance(box, edge):
+def _edge_distance(box, edge, outline_box=None):
+    """Distance from a component bbox to one board edge, in mil.
+
+    The board origin is not guaranteed to be (0, 0) — the measured outline is
+    the reference.  Using the raw bbox coordinate for ``right``/``top``
+    silently reported a whole-board offset as the distance.
+    """
+    if outline_box:
+        if edge == 'left':
+            return box[0] - outline_box[0]
+        if edge == 'right':
+            return outline_box[2] - box[2]
+        if edge == 'bottom':
+            return box[1] - outline_box[1]
+        if edge == 'top':
+            return outline_box[3] - box[3]
     if edge == 'left':
         return box[0]
     if edge == 'right':
@@ -608,13 +636,19 @@ def _edge_distance(box, edge):
     raise ValueError(f'unknown edge {edge!r}')
 
 
-def validate_placement(board, plan, constraint_set=None, placement=None):
+def validate_placement(board, plan, constraint_set=None, placement=None,
+                       partial=False):
     """Validate a placement proposal against measured geometry and constraints.
 
     ``plan`` may be a placement list or ``{"placements": [...]}``.  If
     ``placement`` is supplied it is used directly (the board is assumed to be
     the measured reference).  Returns ``pass`` only when every hard constraint
     and every generic geometric check is satisfied and measured.
+
+    ``partial=True`` validates only the designators listed in the plan: an
+    unlisted component keeps its measured reference pose and is not reported as
+    ``unplaced_component``.  This is the local-edit path; the default stays the
+    whole-board contract used by the planners.
     """
     placements = placement
     if placements is None:
@@ -650,11 +684,12 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
             findings.append(_finding(
                 'stale_plan_object', 'hard', [str(designator)],
                 'plan references a component that is absent from the measured board'))
-    for designator in reference_components:
-        if designator not in {str(item.get('designator')) for item in placements}:
-            findings.append(_finding('unplaced_component', 'hard', [designator],
-                                     'component has no proposed placement; reference pose retained'))
-            candidate_components[designator] = reference_components[designator]
+    if not partial:
+        for designator in reference_components:
+            if designator not in {str(item.get('designator')) for item in placements}:
+                findings.append(_finding('unplaced_component', 'hard', [designator],
+                                         'component has no proposed placement; reference pose retained'))
+                candidate_components[designator] = reference_components[designator]
     outline_box = (board.get('outline') or {}).get('bbox')
     if not outline_box:
         findings.append(_finding('outline_missing', 'hard', [], 'board outline is not measured'))
@@ -701,6 +736,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
     for item in constraints:
         cid = item['id']
         severity = item['severity']
+        finding_severity = 'hard' if severity == 'hard' else 'preferred'
         if item['type'] == 'fixed':
             component = candidate_components.get(item['designator'])
             if not component:
@@ -717,7 +753,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                          'severity': severity, 'actual': actual, 'expected': expected,
                          'source': item['source']})
             if not ok:
-                findings.append(_finding('fixed_pose_changed', 'hard', [item['designator']],
+                findings.append(_finding('fixed_pose_changed', finding_severity, [item['designator']],
                                          'fixed part is not at the declared pose',
                                          constraint_id=cid, actual=actual, expected=expected))
         elif item['type'] == 'edge':
@@ -726,9 +762,11 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
             if not box:
                 rows.append({'constraint_id': cid, 'status': 'unmeasured', 'severity': severity})
                 continue
-            distance = _edge_distance(box, item['edge'])
+            distance = _edge_distance(box, item['edge'], outline_box)
             limit = item.get('max_inset_mil')
-            ok = limit is None or distance <= limit
+            min_limit = item.get('min_inset_mil')
+            ok = ((limit is None or distance <= limit) and
+                  (min_limit is None or distance >= min_limit))
             facing_ok = True
             if 'facing_rotation' in item:
                 actual = float(component.get('rotation') or 0) % 360
@@ -740,7 +778,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                          'max_inset_mil': limit, 'facing_ok': facing_ok,
                          'source': item['source']})
             if not ok:
-                findings.append(_finding('edge_constraint_failed', 'hard', [item['designator']],
+                findings.append(_finding('edge_constraint_failed', finding_severity, [item['designator']],
                                          'part does not satisfy the declared edge/facing constraint',
                                          constraint_id=cid, distance_mil=distance,
                                          max_inset_mil=limit, facing_ok=facing_ok))
@@ -770,7 +808,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                          'role': item.get('role'),
                          'measurement': 'pad-centre-euclidean', 'copper_path_verified': False})
             if not ok:
-                findings.append(_finding('near_pin_failed', 'hard',
+                findings.append(_finding('near_pin_failed', finding_severity,
                                          [f"{item['part']}.{item['pad']}",
                                           f"{item['owner']}.{item['owner_pad']}"],
                                          'pad-centre distance violates the declared pin relation',
@@ -801,7 +839,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                          'gaps_mil': gaps, 'ordered': ordered, 'max_gap_mil': max_gap,
                          'source': item['source']})
             if not ok:
-                findings.append(_finding('ordered_chain_failed', 'hard', item['parts'],
+                findings.append(_finding('ordered_chain_failed', finding_severity, item['parts'],
                                          'declared signal chain is not ordered within the gap limit',
                                          constraint_id=cid, values=values, gaps=gaps))
         elif item['type'] == 'keepout':
@@ -810,7 +848,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                 box = _component_box(component)
                 if box and _keepout_hits_box(item, box):
                     keepout_hits.append(designator)
-                    findings.append(_finding('keepout_collision', 'hard', [designator],
+                    findings.append(_finding('keepout_collision', finding_severity, [designator],
                                              'component intersects a declared keepout',
                                              constraint_id=cid, keepout=item.get('id')))
                     rows.append({'constraint_id': cid, 'type': 'keepout', 'status': 'fail',
@@ -827,7 +865,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                          'status': 'pass' if ok else 'fail', 'severity': severity,
                          'actual': actual, 'allowed': item['layers'], 'source': item['source']})
             if not ok:
-                findings.append(_finding('layer_not_allowed', 'hard', [item['designator']],
+                findings.append(_finding('layer_not_allowed', finding_severity, [item['designator']],
                                          'component layer is not in the allowed set',
                                          constraint_id=cid, actual=actual, allowed=item['layers']))
         elif item['type'] == 'allowed_rotation':
@@ -840,7 +878,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                          'status': 'pass' if ok else 'fail', 'severity': severity,
                          'actual': actual, 'allowed': item['angles'], 'source': item['source']})
             if not ok:
-                findings.append(_finding('rotation_not_allowed', 'hard', [item['designator']],
+                findings.append(_finding('rotation_not_allowed', finding_severity, [item['designator']],
                                          'component rotation is not in the allowed set',
                                          constraint_id=cid, actual=actual, allowed=item['angles']))
         elif item['type'] == 'group':
@@ -857,7 +895,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                          'severity': severity, 'spread_mil': spread, 'max_spread_mil': limit,
                          'source': item['source']})
             if not ok:
-                findings.append(_finding('group_spread_failed', 'hard', item['members'],
+                findings.append(_finding('group_spread_failed', finding_severity, item['members'],
                                          'group spread exceeds the declared limit',
                                          constraint_id=cid, spread_mil=spread))
         elif item['type'] == 'route_channel':
@@ -868,7 +906,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                     continue
                 if _overlap(item['rect'], box):
                     channel_hits.append(designator)
-                    findings.append(_finding('channel_occupied', 'hard', [designator],
+                    findings.append(_finding('channel_occupied', finding_severity, [designator],
                                              'component occupies a declared route channel',
                                              constraint_id=cid, channel=item.get('id')))
                     rows.append({'constraint_id': cid, 'type': 'route_channel',
@@ -1797,7 +1835,7 @@ def diff_boards(before, after, scope=None):
     scope = scope or {}
     scope_parts = set(str(value) for value in scope.get('designators') or [])
     scope_nets = set(str(value) for value in scope.get('nets') or [])
-    scope_box = scope.get('bbox')
+    scope_box = _bbox_list(scope.get('bbox'))
 
     def in_scope(designator=None, net=None, box=None):
         if not scope_parts and not scope_nets and not scope_box:
@@ -1841,7 +1879,8 @@ def diff_boards(before, after, scope=None):
     first_outline = (before.get('outline') or {}).get('points') or []
     second_outline = (after.get('outline') or {}).get('points') or []
     if first_outline != second_outline:
-        (geometry if in_scope(box=(before.get('outline') or {}).get('bbox')) else unrelated).append(
+        (geometry if in_scope(box=_bbox_list((before.get('outline') or {}).get('bbox')))
+         else unrelated).append(
             {'kind': 'outline_changed',
              'before': len(first_outline), 'after': len(second_outline)})
     if before.get('rules') != after.get('rules'):
@@ -1879,7 +1918,7 @@ def diff_boards(before, after, scope=None):
         first_items, second_items = copper_items(before, key), copper_items(after, key)
         matched_after = set()
         fields = ('net', 'layer', 'lineWidth', 'startX', 'startY', 'endX', 'endY',
-                  'x', 'y', 'diameter', 'holeDiameter', 'fillMethod')
+                  'x', 'y', 'diameter', 'holeDiameter', 'fillMethod', 'source')
         for pid in sorted(first_items):
             first = first_items[pid]
             second = second_items.get(pid)
@@ -1907,14 +1946,44 @@ def diff_boards(before, after, scope=None):
         for pid in sorted(set(second_items) - matched_after):
             (copper if in_scope(net=second_items[pid].get('net')) else unrelated).append(
                 {'kind': f'{label}_added', 'primitive_id': pid})
-    status = 'match' if not identity and not geometry and not copper and not unrelated \
+    # Materialized pour/fill/region geometry is not tied to one primitiveId and
+    # the pour's net is on the boundary, not on every fill.  Compare a semantic
+    # signature set: a save/reload must be match (empty scope -> copper change),
+    # while a scoped local edit records them separately so a legitimate re-pour
+    # is not misreported as an unrelated change.
+    def collection_signatures(dump, key):
+        values = []
+        for item in (dump.get('copper') or {}).get(key) or []:
+            if not isinstance(item, dict):
+                continue
+            signature = {name: value for name, value in item.items()
+                         if name not in ('primitiveId', 'id', 'locked',
+                                         'geometryAvailable', 'native')}
+            values.append(json.dumps(signature, sort_keys=True,
+                                     ensure_ascii=True, default=str))
+        return sorted(values)
+
+    copper_geometry = []
+    scoped = bool(scope_parts or scope_nets or scope_box)
+    for key, label in (('poured', 'poured'), ('fills', 'fill'),
+                       ('regions', 'region')):
+        if collection_signatures(before, key) != collection_signatures(after, key):
+            change = {'kind': f'{label}_changed'}
+            if scoped:
+                copper_geometry.append(change)
+            else:
+                copper.append(change)
+    status = 'match' if not identity and not geometry and not copper and \
+        not copper_geometry and not unrelated \
         else ('mismatch' if unrelated else 'changed')
     return {
         'schema': SCHEMA_DIFF, 'status': status,
         'identity_changes': identity, 'geometry_changes': geometry,
         'copper_changes': copper, 'unrelated_changes': unrelated,
+        'copper_geometry_changes': copper_geometry,
         'counts': {'identity': len(identity), 'geometry': len(geometry),
-                   'copper': len(copper), 'unrelated': len(unrelated)},
+                   'copper': len(copper), 'unrelated': len(unrelated),
+                   'copper_geometry': len(copper_geometry)},
         'scope': scope,
         'note': 'primitiveId is not stable across document reload; compare identity and geometry, not IDs alone',
     }

@@ -1,0 +1,242 @@
+{
+  "availability": {
+    "components.json": "available",
+    "drc.json": "available",
+    "nets.json": "available",
+    "pours.json": "available",
+    "snapshot.png": "available",
+    "tracks.json": "available",
+    "vias.json": "available"
+  },
+  "blank": false,
+  "capture": {
+    "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+    "projectUuid": "e56848aaf64d49d7a465352291670aef",
+    "projectName": "photo-led-pcb-20261026",
+    "documentUuid": "99b8366b0bdc971f",
+    "documentType": "pcb",
+    "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef",
+    "startedAt": "2026-10-26T15:09:59.7042891Z",
+    "completedAt": "2026-10-26T15:10:01.0785044Z",
+    "consistency": "sequential-response-boundaries",
+    "identityVerified": true,
+    "requests": [
+      {
+        "action": "pcb.snapshot",
+        "requestId": "req_10499",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:09:59.7042891Z",
+        "completedAt": "2026-10-26T15:09:59.8121995Z",
+        "responseCreatedAt": "2026-10-26T15:09:59.8106575Z",
+        "resultSha256": "17169827c05a405ddd6f3a98c236d2af6dd1d4397fee172a0dc8da7bde869dfe",
+        "context": {
+          "projectUuid": "e56848aaf64d49d7a465352291670aef",
+          "projectName": "photo-led-pcb-20261026",
+          "documentUuid": "99b8366b0bdc971f",
+          "documentType": "pcb",
+          "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 8565,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.components.list",
+        "requestId": "req_10500",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:09:59.8205237Z",
+        "completedAt": "2026-10-26T15:09:59.8419412Z",
+        "responseCreatedAt": "2026-10-26T15:09:59.838292Z",
+        "resultSha256": "fdf9c4929613d4d1b1172561ce8207f720e11c685e4f9371b091c993c8be1030",
+        "context": {
+          "projectUuid": "e56848aaf64d49d7a465352291670aef",
+          "projectName": "photo-led-pcb-20261026",
+          "documentUuid": "99b8366b0bdc971f",
+          "documentType": "pcb",
+          "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 8566,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.line.list",
+        "requestId": "req_10501",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:09:59.8434824Z",
+        "completedAt": "2026-10-26T15:09:59.8518216Z",
+        "responseCreatedAt": "2026-10-26T15:09:59.8502797Z",
+        "resultSha256": "b5aaaf885bde5e789473e6b6360081aaee05544d55e666b8aeebedf99904cadd",
+        "context": {
+          "projectUuid": "e56848aaf64d49d7a465352291670aef",
+          "projectName": "photo-led-pcb-20261026",
+          "documentUuid": "99b8366b0bdc971f",
+          "documentType": "pcb",
+          "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 8567,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.via.list",
+        "requestId": "req_10502",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:09:59.8523426Z",
+        "completedAt": "2026-10-26T15:09:59.8588926Z",
+        "responseCreatedAt": "2026-10-26T15:09:59.8583902Z",
+        "resultSha256": "3ebdd5ba8869fde231f904ec153c60513572e2fa13fe0b2f9349ca0b8ae8aece",
+        "context": {
+          "projectUuid": "e56848aaf64d49d7a465352291670aef",
+          "projectName": "photo-led-pcb-20261026",
+          "documentUuid": "99b8366b0bdc971f",
+          "documentType": "pcb",
+          "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 8568,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.pour.list",
+        "requestId": "req_10503",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:09:59.8604548Z",
+        "completedAt": "2026-10-26T15:09:59.8671815Z",
+        "responseCreatedAt": "2026-10-26T15:09:59.8661444Z",
+        "resultSha256": "0030c987df07cd619740fa40a16ec2ab66c6b0c97c8545ff83f73df69614e432",
+        "context": {
+          "projectUuid": "e56848aaf64d49d7a465352291670aef",
+          "projectName": "photo-led-pcb-20261026",
+          "documentUuid": "99b8366b0bdc971f",
+          "documentType": "pcb",
+          "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 8569,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.nets.list",
+        "requestId": "req_10504",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:09:59.8677345Z",
+        "completedAt": "2026-10-26T15:09:59.8755083Z",
+        "responseCreatedAt": "2026-10-26T15:09:59.874001Z",
+        "resultSha256": "e75a03cafb8c9a4fb06044c22845f2d5a5bd8d39e87896cdcf4e4e8ebdca8b11",
+        "context": {
+          "projectUuid": "e56848aaf64d49d7a465352291670aef",
+          "projectName": "photo-led-pcb-20261026",
+          "documentUuid": "99b8366b0bdc971f",
+          "documentType": "pcb",
+          "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 8570,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.drc.check",
+        "requestId": "req_10505",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:09:59.8760565Z",
+        "completedAt": "2026-10-26T15:10:01.0785044Z",
+        "responseCreatedAt": "2026-10-26T15:10:01.0767803Z",
+        "resultSha256": "154d017e77ddc9ccb55157c420637a672eab22e3c2f9d362c4371698592b2b42",
+        "context": {
+          "projectUuid": "e56848aaf64d49d7a465352291670aef",
+          "projectName": "photo-led-pcb-20261026",
+          "documentUuid": "99b8366b0bdc971f",
+          "documentType": "pcb",
+          "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 8571,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      }
+    ]
+  },
+  "captureKind": "board-fitted-viewport-png",
+  "dataFiles": [
+    "components.json",
+    "tracks.json",
+    "vias.json",
+    "pours.json",
+    "nets.json",
+    "drc.json"
+  ],
+  "dir": "docs\\round10\\regression\\liveA\\evidence\\stages\\top",
+  "drcPassKnown": true,
+  "drcPassed": true,
+  "fileHashes": {
+    "components.json": "ec2285e28342494ae07155ef1ad7a701a4f15bb260870c750985e9ac5d9e1381",
+    "drc.json": "0adf2161214843baf9b6ed41e8cfad06e2c8474843e04ca775077787e2174b89",
+    "nets.json": "94a3275f502e05779fc9148cfe2504a130f6d6124343c5276958d31662657973",
+    "pours.json": "25cb10d8708ccde241aca33e6c366e5832ad22bfb74896725816f8e4f5529685",
+    "snapshot.png": "230a596eafa3e8c83aa9b700d5d4f1ef2ca870db164f0ff4cbb5fbfdd3505574",
+    "tracks.json": "d6adec5ffb8db1cc136b8356708b9063449789bb788d0312b044ff079c15ac93",
+    "vias.json": "5980bdf09bfbb007516b642d70d5a500013989248b3a5a1c8131182d45e54846"
+  },
+  "fitApi": "eda.pcb_Document.zoomToBoardOutline",
+  "fitMode": "board",
+  "frameColors": 70,
+  "frameContent": 0.9630369630369631,
+  "imageValid": true,
+  "objectLevelExport": false,
+  "partial": [],
+  "sameImageAsPrevious": false,
+  "sha256": "230a596eafa3e8c83aa9b700d5d4f1ef2ca870db164f0ff4cbb5fbfdd3505574",
+  "sha256Source": "cli-artifact",
+  "snapshot": "docs\\round10\\regression\\liveA\\evidence\\stages\\top\\snapshot.png",
+  "stage": "top",
+  "stale": false
+}

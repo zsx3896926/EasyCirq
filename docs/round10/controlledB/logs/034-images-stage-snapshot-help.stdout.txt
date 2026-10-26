@@ -1,0 +1,43 @@
+Capture one recording/demo STAGE in a single call:
+
+  1. a public-API PCB viewport PNG  → <out>/<stage>/snapshot.png
+  2. a data bundle (the proof)      → components/tracks/vias/pours/nets/drc .json
+  3. a stage.json manifest with the frame verdict
+
+Missing, corrupt, mismatched-hash or BLANK PNGs exit NON-ZERO. Each data
+response records identity and timing; an observed document switch rejects the
+bundle. --previous-sha256 is a legacy opt-in DUPLICATE-IMAGE gate, not proof of
+capture age: unchanged designs may legitimately produce identical fresh PNGs.
+--allow-stale downgrades that explicit duplicate gate to a warning.
+
+No public API can force a hidden window to repaint. Use typed document switching
+to activate the target PCB and re-run; if it remains BLANK, record the render as
+unavailable instead of falling back to GUI operation. The default --fit-mode
+board uses pcb_Document.zoomToBoardOutline before capture. This is not the editor
+menu's object-level Copy-as-PNG/SVG export, which public eda.* does not expose.
+
+Usage:
+  easyeda pcb stage-snapshot [flags]
+
+Examples:
+  easyeda pcb stage-snapshot --project ceshi --stage "P7 routing"
+  PREV=$(easyeda pcb stage-snapshot --stage P6 --out ./rec | jq -r .sha256)
+  easyeda pcb stage-snapshot --stage P7 --out ./rec --previous-sha256 "$PREV"
+
+Flags:
+      --allow-stale              downgrade a stale (but non-blank) frame from error to warning
+      --fit-mode string          viewport fit: board | all | none (default board) (default "board")
+  -h, --help                     help for stage-snapshot
+      --no-fit                   legacy alias for --fit-mode none
+      --out string               output root (default ./.easyeda/stages)
+      --previous-sha256 string   legacy opt-in duplicate-image gate; identical pixels alone do not prove stale capture
+      --stage string             stage label, e.g. "P7 routing" (required)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID

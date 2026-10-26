@@ -1,0 +1,2312 @@
+{
+  "schema": "design-engine-pcb-case/v1",
+  "case_id": "controlledB",
+  "created_at": "2026-10-26T15:51:33.376679Z",
+  "status": "complete",
+  "mode": "live",
+  "project": {
+    "name": "mcu-i2c-s3-edit-r10b-20261026",
+    "uuid": "06a53de15aa34286ab2eaf0be41d91ba",
+    "doc": "PCB2",
+    "doc_uuid": "40b81985cfb4a5ed"
+  },
+  "versions": {
+    "skill": "0.9.2",
+    "easyeda_agent": "1.15.0",
+    "connector": "1.15.0",
+    "python": "3.13.15",
+    "os": "Windows 11",
+    "git_head": "60f2f2c"
+  },
+  "source": {
+    "dump_plan_base": {
+      "path": "evidence/pcb-dump-plan-base.json",
+      "sha256": "b3a89c2e982befd10247f1a4439e41413d60043ec6d7a64376c8ce4910d06ceb"
+    },
+    "dump_before": {
+      "path": "evidence/pcb-dump-before-reload.json",
+      "sha256": "0aca6df1e5ad23095b8e427d5fe99b17547042829b126e7456cb879e20611a91"
+    },
+    "dump_after": {
+      "path": "evidence/pcb-dump-after-reload.json",
+      "sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c"
+    },
+    "final_dump": {
+      "role": "pcb-dump-after-reload",
+      "path": "evidence/pcb-dump-after-reload.json",
+      "sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c"
+    }
+  },
+  "inputs": {
+    "key_nets": {
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\baseline\\key-nets-b2.json",
+      "sha256": "2131c176cc18e4805dcd2330bcf05b64b453a393d0c0e653b5a4800aab50832d",
+      "external": true
+    },
+    "warn_disposition": {
+      "path": "evidence/warn-disposition.json",
+      "sha256": "f0c005b8f6b4252cc6a0906d415382c183e8717b8773b9b5f01869d5e0940a49",
+      "external": false
+    }
+  },
+  "artifacts": [
+    {
+      "role": "pcb-dump-plan-base",
+      "stage": "dump",
+      "path": "evidence/pcb-dump-plan-base.json",
+      "sha256": "b3a89c2e982befd10247f1a4439e41413d60043ec6d7a64376c8ce4910d06ceb",
+      "bytes": 360104,
+      "produced_at": "2026-10-26T15:47:44.830529Z",
+      "source_dump_sha256": "b3a89c2e982befd10247f1a4439e41413d60043ec6d7a64376c8ce4910d06ceb",
+      "run_after_final_reload": false,
+      "command": {
+        "name": "imported-before-dump",
+        "ok": true,
+        "source_path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-before.json",
+        "note": "pre-edit dump imported via --before-dump"
+      },
+      "source_binding": "imported"
+    },
+    {
+      "role": "pcb-dump-before-reload",
+      "stage": "save-reload",
+      "path": "evidence/pcb-dump-before-reload.json",
+      "sha256": "0aca6df1e5ad23095b8e427d5fe99b17547042829b126e7456cb879e20611a91",
+      "bytes": 360451,
+      "produced_at": "2026-10-26T15:47:53.971954Z",
+      "source_dump_sha256": "0aca6df1e5ad23095b8e427d5fe99b17547042829b126e7456cb879e20611a91",
+      "run_after_final_reload": false,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "pcb",
+          "dump",
+          "--project",
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "--doc",
+          "PCB2",
+          "--include-copper",
+          "--out",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-before-reload.json"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:47:44.835296Z",
+        "ended_at": "2026-10-26T15:47:53.979465Z",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "6a9c4d59032be823bd44f4eaa2d326dbeaa6c025f2167f063e8fd188797602e3",
+        "stdout_path": "logs/004-save-reload-pcb-dump-before-reload.stdout.txt",
+        "stderr_path": "logs/004-save-reload-pcb-dump-before-reload.stderr.txt",
+        "step": "save-reload",
+        "label": "pcb-dump-before-reload"
+      },
+      "source_binding": "recorded"
+    },
+    {
+      "role": "pcb-dump-after-reload",
+      "stage": "save-reload",
+      "path": "evidence/pcb-dump-after-reload.json",
+      "sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "bytes": 360454,
+      "produced_at": "2026-10-26T15:48:13.706075Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "pcb",
+          "dump",
+          "--project",
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "--doc",
+          "PCB2",
+          "--include-copper",
+          "--out",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-after-reload.json"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:48:05.453319Z",
+        "ended_at": "2026-10-26T15:48:13.718386Z",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "b9fd6806ca48e101fcec96b11424c34ff756bd17133a7f250969a9940d0fac1e",
+        "stdout_path": "logs/007-save-reload-pcb-dump-after-reload.stdout.txt",
+        "stderr_path": "logs/007-save-reload-pcb-dump-after-reload.stderr.txt",
+        "step": "save-reload",
+        "label": "pcb-dump-after-reload"
+      },
+      "source_binding": "recorded"
+    },
+    {
+      "role": "save-reload-diff",
+      "stage": "save-reload",
+      "path": "evidence/save-reload-diff.json",
+      "sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+      "bytes": 443,
+      "produced_at": "2026-10-26T15:48:13.727136Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "pcb",
+          "dump",
+          "--project",
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "--doc",
+          "PCB2",
+          "--include-copper",
+          "--out",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-after-reload.json"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:48:05.453319Z",
+        "ended_at": "2026-10-26T15:48:13.718386Z",
+        "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr_sha256": "b9fd6806ca48e101fcec96b11424c34ff756bd17133a7f250969a9940d0fac1e",
+        "stdout_path": "logs/007-save-reload-pcb-dump-after-reload.stdout.txt",
+        "stderr_path": "logs/007-save-reload-pcb-dump-after-reload.stderr.txt",
+        "step": "save-reload",
+        "label": "pcb-dump-after-reload",
+        "name": "diff_boards",
+        "note": "derived from the before/after measured dumps"
+      },
+      "source_binding": "recorded"
+    },
+    {
+      "role": "pcb-drc",
+      "stage": "drc",
+      "path": "evidence/pcb-drc-final.json",
+      "sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+      "bytes": 137,
+      "produced_at": "2026-10-26T15:48:19.219251Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "pcb",
+          "drc",
+          "--project",
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "--doc",
+          "PCB2",
+          "--json",
+          "--timeout",
+          "120"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:48:13.728432Z",
+        "ended_at": "2026-10-26T15:48:19.219010Z",
+        "stdout_sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "evidence/pcb-drc-final.json",
+        "stderr_path": "logs/008-drc-pcb-drc.stderr.txt",
+        "step": "drc",
+        "label": "pcb-drc"
+      },
+      "source_binding": "recorded"
+    },
+    {
+      "role": "pcb-check",
+      "stage": "check",
+      "path": "evidence/pcb-check-final.json",
+      "sha256": "3c09a59221c73401e1e063f3d906d3c7760d1b332fb2c842c40ac93198897e9d",
+      "bytes": 7271,
+      "produced_at": "2026-10-26T15:48:33.437186Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "pcb",
+          "check",
+          "--project",
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "--doc",
+          "PCB2",
+          "--json"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:48:19.221407Z",
+        "ended_at": "2026-10-26T15:48:33.436532Z",
+        "stdout_sha256": "3c09a59221c73401e1e063f3d906d3c7760d1b332fb2c842c40ac93198897e9d",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "evidence/pcb-check-final.json",
+        "stderr_path": "logs/009-check-pcb-check.stderr.txt",
+        "step": "check",
+        "label": "pcb-check"
+      },
+      "source_binding": "recorded"
+    },
+    {
+      "role": "pcb-layout-lint",
+      "stage": "lint",
+      "path": "evidence/pcb-layout-lint-final.json",
+      "sha256": "52a5728803e303387b1461e3a59e7420957f2eb41971cb83645a72bb58abc53b",
+      "bytes": 1738,
+      "produced_at": "2026-10-26T15:48:40.454682Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "pcb",
+          "layout-lint",
+          "--project",
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "--doc",
+          "PCB2",
+          "--json"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:48:33.440435Z",
+        "ended_at": "2026-10-26T15:48:40.454396Z",
+        "stdout_sha256": "52a5728803e303387b1461e3a59e7420957f2eb41971cb83645a72bb58abc53b",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "evidence/pcb-layout-lint-final.json",
+        "stderr_path": "logs/010-lint-pcb-layout-lint.stderr.txt",
+        "step": "lint",
+        "label": "pcb-layout-lint"
+      },
+      "source_binding": "recorded"
+    },
+    {
+      "role": "netpath-key-connections",
+      "stage": "netpath",
+      "path": "evidence/netpath-key-connections.json",
+      "sha256": "e45fcbdb86220b659c48813b213c55d019bd25990d0011e4968d5cf144752468",
+      "bytes": 24816,
+      "produced_at": "2026-10-26T15:49:30.756237Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "kind": "aggregate",
+        "argv": [
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "J1.A4B9",
+            "--to",
+            "U1.3",
+            "--net",
+            "VBUS_5V",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "U1.2",
+            "--to",
+            "U2.2",
+            "--net",
+            "+3V3",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "U1.2",
+            "--to",
+            "U90.3",
+            "--net",
+            "+3V3",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "U1.2",
+            "--to",
+            "C4.1",
+            "--net",
+            "+3V3",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "U1.2",
+            "--to",
+            "C6.1",
+            "--net",
+            "+3V3",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "U90.1",
+            "--to",
+            "U2.17",
+            "--net",
+            "I2C_SDA",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "U90.2",
+            "--to",
+            "U2.18",
+            "--net",
+            "I2C_SCL",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "J1.A6",
+            "--to",
+            "R92.1",
+            "--net",
+            "USB_DP_CONN",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "R92.2",
+            "--to",
+            "U2.14",
+            "--net",
+            "USB_DP_MCU",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "J1.A7",
+            "--to",
+            "R93.1",
+            "--net",
+            "USB_DM_CONN",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "R93.2",
+            "--to",
+            "U2.13",
+            "--net",
+            "USB_DM_MCU",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "U2.3",
+            "--to",
+            "SW2.1",
+            "--net",
+            "EN",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "U2.27",
+            "--to",
+            "SW1.1",
+            "--net",
+            "BOOT",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "C90.1",
+            "--to",
+            "U90.3",
+            "--net",
+            "+3V3",
+            "--json"
+          ],
+          [
+            "C:/Users/jlc/.local/bin/easyeda.exe",
+            "pcb",
+            "net-path",
+            "--project",
+            "mcu-i2c-s3-edit-r10b-20261026",
+            "--doc",
+            "PCB2",
+            "--from",
+            "C2.1",
+            "--to",
+            "U1.3",
+            "--net",
+            "VBUS_5V",
+            "--json"
+          ]
+        ],
+        "exit": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "stdout_sha256": [
+          "6060b7ddff7958c112f208c468d461b88d73576423a7f26de1a8be0fc0ed9f1e",
+          "e652fb37f09aec0e77d4b5fa51c722ded152fe8f4ab582a23061a8ed7f59404c",
+          "ad37c168ce0312f87f872778cbef34473278472bf165c62f8ed7a8f481c884cf",
+          "62a1bc93db3ec2d5bc421022f604cefbdb52ab32d83a07177b3df1709561e33a",
+          "4a38622ca24fe1184b58fac12e7ed62e3e40d3d186a03f2aa5ce3a531eb11664",
+          "b9ac664a6487d5d9b056e08b0ea03fe7dcdd8858c672d1e469a6e2bba3b90ea9",
+          "816a81e926699dfdea348f653a88826c7c79a0da8c3cdac8f8d8acf8b689b55d",
+          "47a2e957151e734f52cafee7cd0df62f42ff697ded3bba6abc94d34d8aafef5a",
+          "8b7a1247ed29d8f2317001fd4fde0ed8384c464d87ea76158d182f77e89c6732",
+          "baaeab3460b1783234a40a2424d690168ae4b1c57b2e44c2b34278e009f60ed8",
+          "9cf4e15d4ad5cac400a7768718c0a899429d021709b03e8d0a9db138900d1045",
+          "50f6ac35d4586ca9489a5ff00a957f71fb6058659b741385c143b734fbd53f42",
+          "126d09f6d9f337bfc9e5f5a0ec955595c3e966a7c2110597fa39f7b08aedb183",
+          "e84498d761aac5bf7f826e65a056b06a67a7e4520ffa1952eb929c6a166291fa",
+          "86ffecb2881e1cf6b699c53611a99b4641bda00cc0fbfd524815290703d38a59"
+        ],
+        "stderr_sha256": [
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        ],
+        "stdout_path": [
+          "logs/011-netpath-pair-01.stdout.txt",
+          "logs/012-netpath-pair-02.stdout.txt",
+          "logs/013-netpath-pair-03.stdout.txt",
+          "logs/014-netpath-pair-04.stdout.txt",
+          "logs/015-netpath-pair-05.stdout.txt",
+          "logs/016-netpath-pair-06.stdout.txt",
+          "logs/017-netpath-pair-07.stdout.txt",
+          "logs/018-netpath-pair-08.stdout.txt",
+          "logs/019-netpath-pair-09.stdout.txt",
+          "logs/020-netpath-pair-10.stdout.txt",
+          "logs/021-netpath-pair-11.stdout.txt",
+          "logs/022-netpath-pair-12.stdout.txt",
+          "logs/023-netpath-pair-13.stdout.txt",
+          "logs/024-netpath-pair-14.stdout.txt",
+          "logs/025-netpath-pair-15.stdout.txt"
+        ],
+        "stderr_path": [
+          "logs/011-netpath-pair-01.stderr.txt",
+          "logs/012-netpath-pair-02.stderr.txt",
+          "logs/013-netpath-pair-03.stderr.txt",
+          "logs/014-netpath-pair-04.stderr.txt",
+          "logs/015-netpath-pair-05.stderr.txt",
+          "logs/016-netpath-pair-06.stderr.txt",
+          "logs/017-netpath-pair-07.stderr.txt",
+          "logs/018-netpath-pair-08.stderr.txt",
+          "logs/019-netpath-pair-09.stderr.txt",
+          "logs/020-netpath-pair-10.stderr.txt",
+          "logs/021-netpath-pair-11.stderr.txt",
+          "logs/022-netpath-pair-12.stderr.txt",
+          "logs/023-netpath-pair-13.stderr.txt",
+          "logs/024-netpath-pair-14.stderr.txt",
+          "logs/025-netpath-pair-15.stderr.txt"
+        ],
+        "ok": true,
+        "note": "one pcb net-path call per required pair"
+      },
+      "source_binding": "recorded"
+    },
+    {
+      "role": "sch-read",
+      "stage": "sch-pcb",
+      "path": "evidence/sch-read.json",
+      "sha256": "69326d0e60d1247141be34d301916d3cce001ecd33ad4507af600ae878e5365e",
+      "bytes": 20005,
+      "produced_at": "2026-10-26T15:50:42.794303Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "name": "sch read multi-page",
+        "ok": true,
+        "pages": [
+          "P1",
+          "P2",
+          "P3"
+        ],
+        "reads": [
+          {
+            "argv": [
+              "C:/Users/jlc/.local/bin/easyeda.exe",
+              "sch",
+              "read",
+              "--project",
+              "mcu-i2c-s3-edit-r10b-20261026"
+            ],
+            "exit": 0,
+            "ok": true,
+            "started_at": "2026-10-26T15:49:51.595315Z",
+            "ended_at": "2026-10-26T15:50:01.371793Z",
+            "stdout_sha256": "fe278808b5ac9a71191956a18b9952ff7bee5e8e89536af966c1b25d5fc0de2e",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "result_keys": [
+              "check",
+              "componentCount",
+              "components",
+              "floatingPinCount",
+              "floatingPins",
+              "netCount",
+              "netlistAvailable",
+              "nets"
+            ],
+            "stdout_path": "logs/028-sch-pcb-sch-read-P1.stdout.txt",
+            "stderr_path": "logs/028-sch-pcb-sch-read-P1.stderr.txt",
+            "step": "sch-pcb",
+            "label": "sch-read-P1"
+          },
+          {
+            "argv": [
+              "C:/Users/jlc/.local/bin/easyeda.exe",
+              "sch",
+              "read",
+              "--project",
+              "mcu-i2c-s3-edit-r10b-20261026"
+            ],
+            "exit": 0,
+            "ok": true,
+            "started_at": "2026-10-26T15:50:14.162799Z",
+            "ended_at": "2026-10-26T15:50:20.549716Z",
+            "stdout_sha256": "c10db137e8e1a0efc44ae8fa0dc213a3427f068b2c62a3ff7f4d9e5564d5a8f3",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "result_keys": [
+              "check",
+              "componentCount",
+              "components",
+              "floatingPinCount",
+              "floatingPins",
+              "netCount",
+              "netlistAvailable",
+              "nets"
+            ],
+            "stdout_path": "logs/030-sch-pcb-sch-read-P2.stdout.txt",
+            "stderr_path": "logs/030-sch-pcb-sch-read-P2.stderr.txt",
+            "step": "sch-pcb",
+            "label": "sch-read-P2"
+          },
+          {
+            "argv": [
+              "C:/Users/jlc/.local/bin/easyeda.exe",
+              "sch",
+              "read",
+              "--project",
+              "mcu-i2c-s3-edit-r10b-20261026"
+            ],
+            "exit": 0,
+            "ok": true,
+            "started_at": "2026-10-26T15:50:33.658270Z",
+            "ended_at": "2026-10-26T15:50:39.277789Z",
+            "stdout_sha256": "6cad35910a2004f955d9ba5866d772d25949850fee87a9dff512af4fc4bdd30a",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "result_keys": [
+              "check",
+              "componentCount",
+              "components",
+              "floatingPinCount",
+              "floatingPins",
+              "netCount",
+              "netlistAvailable",
+              "nets"
+            ],
+            "stdout_path": "logs/032-sch-pcb-sch-read-P3.stdout.txt",
+            "stderr_path": "logs/032-sch-pcb-sch-read-P3.stderr.txt",
+            "step": "sch-pcb",
+            "label": "sch-read-P3"
+          }
+        ]
+      },
+      "source_binding": "recorded",
+      "note": "raw schematic read (all pages) for SCH-PCB comparison"
+    },
+    {
+      "role": "sch-pcb-compare",
+      "stage": "sch-pcb",
+      "path": "evidence/sch-pcb-compare.json",
+      "sha256": "6c0652c6d64793b24bb6fe8939cfd09973920a37e0527b5f4462dec447fe9443",
+      "bytes": 14920,
+      "produced_at": "2026-10-26T15:50:42.796378Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "name": "compare_sch_pcb",
+        "ok": true,
+        "note": "derived from sch read + measured pcb dump"
+      },
+      "source_binding": "recorded",
+      "note": "designator+pad-number comparison; combination pads need aliases"
+    },
+    {
+      "role": "image-top",
+      "stage": "images",
+      "path": "evidence/pcb-final-top.png",
+      "sha256": "5a4dc7e77926b322f36edc5cd8816d217e793d3d0fb046a9cb4bc0f4f50f4e24",
+      "bytes": 194637,
+      "produced_at": "2026-10-26T15:50:55.466046Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "pcb",
+          "stage-snapshot",
+          "--stage",
+          "top",
+          "--out",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\stages",
+          "--project",
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "--doc",
+          "PCB2"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:50:45.239744Z",
+        "ended_at": "2026-10-26T15:50:55.463435Z",
+        "stdout_sha256": "a6c183520da86f80636249f8df38583e4183a039e5932b4d558d9c4a62758e8c",
+        "stderr_sha256": "517d14d9b2568ecffb1ca97c362affe92f2b86b3142775979e4dae90ba6cb2dd",
+        "stdout_path": "logs/036-images-stage-snapshot-top.stdout.txt",
+        "stderr_path": "logs/036-images-stage-snapshot-top.stderr.txt",
+        "step": "images",
+        "label": "stage-snapshot-top"
+      },
+      "source_binding": "recorded",
+      "source_path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\stages\\top\\snapshot.png"
+    },
+    {
+      "role": "image-bottom",
+      "stage": "images",
+      "path": "evidence/pcb-final-bottom.png",
+      "sha256": "22da021610b440d1b76edd5e140f665276dd862af0256b100b749de99e9c0c53",
+      "bytes": 100866,
+      "produced_at": "2026-10-26T15:51:06.647432Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "pcb",
+          "stage-snapshot",
+          "--stage",
+          "bottom",
+          "--out",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\stages",
+          "--project",
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "--doc",
+          "PCB2"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:50:57.850874Z",
+        "ended_at": "2026-10-26T15:51:06.646144Z",
+        "stdout_sha256": "1b81b1d24351c244e2e986a80a56207053b26ce5f61c14e3a3efe92d635744b8",
+        "stderr_sha256": "06e218760ddc8938743de6b7c8ccbbf4a348d1db5a9a62e57aba9f08bf3da5ae",
+        "stdout_path": "logs/038-images-stage-snapshot-bottom.stdout.txt",
+        "stderr_path": "logs/038-images-stage-snapshot-bottom.stderr.txt",
+        "step": "images",
+        "label": "stage-snapshot-bottom"
+      },
+      "source_binding": "recorded",
+      "source_path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\stages\\bottom\\snapshot.png"
+    },
+    {
+      "role": "actual-svg",
+      "stage": "images",
+      "path": "evidence/pcb-final-actual.svg",
+      "sha256": "8ed252ff09bdbcd55e6858c7e0b007154c4ad1c02e5a857cbcf68f44240335c1",
+      "bytes": 78466,
+      "produced_at": "2026-10-26T15:51:07.410347Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "pcb",
+          "layout",
+          "render",
+          "--actual",
+          "--board",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-after-reload.json",
+          "--side",
+          "both",
+          "--out",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-final-actual.svg"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:51:06.649314Z",
+        "ended_at": "2026-10-26T15:51:07.414580Z",
+        "stdout_sha256": "b3f308d73223bd303f8f0e2c9f2df92c7af91551b739f49f4a1b63348cd73ce1",
+        "stderr_sha256": "63c01a3cfa762728069f67339b1dbb4137327dbd2933f7c0515c66c9f320e6b1",
+        "stdout_path": "logs/039-images-actual-svg.stdout.txt",
+        "stderr_path": "logs/039-images-actual-svg.stderr.txt",
+        "step": "images",
+        "label": "actual-svg"
+      },
+      "source_binding": "recorded"
+    },
+    {
+      "role": "bom",
+      "stage": "bom",
+      "path": "evidence/BOM.csv",
+      "sha256": "359a27de4c45ccdc1cab8415f04c19403e10179b898bde8afc2376f47032c418",
+      "bytes": 2554,
+      "produced_at": "2026-10-26T15:51:33.167891Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:/Users/jlc/.local/bin/easyeda.exe",
+          "bom",
+          "export",
+          "--type",
+          "csv",
+          "--enrich=false",
+          "--project",
+          "mcu-i2c-s3-edit-r10b-20261026"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:51:28.350914Z",
+        "ended_at": "2026-10-26T15:51:30.105815Z",
+        "stdout_sha256": "9f1573b82e40efeb06c8b6d1dc14fc511976d2b3a62993cd525e7281fc85260f",
+        "stderr_sha256": "9df2ccf73cba583e4309b1f455f39eda79a117707adb002d099a240e197ade1b",
+        "result_keys": [
+          "artifactId",
+          "artifactPath",
+          "fileType"
+        ],
+        "stdout_path": "logs/042-bom-bom-export.stdout.txt",
+        "stderr_path": "logs/042-bom-bom-export.stderr.txt",
+        "step": "bom",
+        "label": "bom-export"
+      },
+      "source_binding": "recorded",
+      "source_path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\.easyeda\\artifacts\\20261026-235130-schematic_bom-d2424ead.csv",
+      "note": "raw --enrich=false export; C-number enrichment is separate"
+    },
+    {
+      "role": "archive",
+      "stage": "archive",
+      "path": "evidence/controlledB-final.epro2",
+      "sha256": "781ebf9989298744f2e325c80f5c89887bad403bb1ecc8417617bc585240e104",
+      "bytes": 135860,
+      "produced_at": "2026-10-26T15:35:35.898555Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": null,
+      "source_binding": "recorded",
+      "note": "existing archive reused; project export was not re-run"
+    },
+    {
+      "role": "project-export-receipt",
+      "stage": "archive",
+      "path": "evidence/project-export.json",
+      "sha256": "a30fe717e66cf8cc82031e2d1fedfc9345628dda27588fc6d8d06020d7229efe",
+      "bytes": 450,
+      "produced_at": "2026-10-26T15:35:35.903913Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": null,
+      "source_binding": "recorded",
+      "note": "raw project export receipt (previous run)"
+    },
+    {
+      "role": "gate-report",
+      "stage": "gate",
+      "path": "gate-report.json",
+      "sha256": "5f1cadb4a5ccd39f2636ff9854cf4b0031742b1fe59298fbc70eaf60778ad928",
+      "bytes": 22040,
+      "produced_at": "2026-10-26T15:51:33.345404Z",
+      "source_dump_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c",
+      "run_after_final_reload": true,
+      "command": {
+        "argv": [
+          "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\design-hardware\\scripts\\pcb_gate.py",
+          "--case",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB",
+          "--profile",
+          "full",
+          "--out",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\gate-report.json",
+          "--json",
+          "--key-nets",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\baseline\\key-nets-b2.json",
+          "--warn-disposition",
+          "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\warn-disposition.json"
+        ],
+        "exit": 0,
+        "ok": true,
+        "started_at": "2026-10-26T15:51:33.173428Z",
+        "ended_at": "2026-10-26T15:51:33.357900Z",
+        "stdout_sha256": "5f1cadb4a5ccd39f2636ff9854cf4b0031742b1fe59298fbc70eaf60778ad928",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_path": "logs/044-gate-pcb-gate.stdout.txt",
+        "stderr_path": "logs/044-gate-pcb-gate.stderr.txt",
+        "step": "gate",
+        "label": "pcb-gate"
+      },
+      "source_binding": "recorded"
+    }
+  ],
+  "commands": [
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "version"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:47:41.642948Z",
+      "ended_at": "2026-10-26T15:47:42.471977Z",
+      "stdout_sha256": "9b5dc635861e383103abb8c7a0bee80ccebdf17e4ccbf980da39b45dea4905a9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/001-versions-easyeda-version.stdout.txt",
+      "stderr_path": "logs/001-versions-easyeda-version.stderr.txt",
+      "step": "versions",
+      "label": "easyeda-version"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "health"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:47:42.473471Z",
+      "ended_at": "2026-10-26T15:47:42.533863Z",
+      "stdout_sha256": "2f93b51e290b1a1374f3d26c510b983f3c5b0b7b9a5864a05ba3d2da3d15b1d9",
+      "stderr_sha256": "76b20f2f0820250f9aba2237fbb2ee491cc2a8f8c7c9b26460e44bc0a7482b38",
+      "stdout_path": "logs/002-versions-easyeda-health.stdout.txt",
+      "stderr_path": "logs/002-versions-easyeda-health.stderr.txt",
+      "step": "versions",
+      "label": "easyeda-health"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "switch",
+        "PCB2",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:47:42.535626Z",
+      "ended_at": "2026-10-26T15:47:44.828899Z",
+      "stdout_sha256": "188f7b421cb85d82ea8abaef8517f9664434b9b672a070dd1e715a7a0d446143",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/003-dump-doc-switch.stdout.txt",
+      "stderr_path": "logs/003-dump-doc-switch.stderr.txt",
+      "step": "dump",
+      "label": "doc-switch"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "dump",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--include-copper",
+        "--out",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-before-reload.json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:47:44.835296Z",
+      "ended_at": "2026-10-26T15:47:53.979465Z",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6a9c4d59032be823bd44f4eaa2d326dbeaa6c025f2167f063e8fd188797602e3",
+      "stdout_path": "logs/004-save-reload-pcb-dump-before-reload.stdout.txt",
+      "stderr_path": "logs/004-save-reload-pcb-dump-before-reload.stderr.txt",
+      "step": "save-reload",
+      "label": "pcb-dump-before-reload"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "save",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:47:53.985076Z",
+      "ended_at": "2026-10-26T15:47:56.201665Z",
+      "stdout_sha256": "603a16e4d88067baa8177ff5f0d1615d4d44f417a92b76fcce9b4bc56abb93b1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result_keys": [
+        "saved"
+      ],
+      "stdout_path": "logs/005-save-reload-pcb-save.stdout.txt",
+      "stderr_path": "logs/005-save-reload-pcb-save.stderr.txt",
+      "step": "save-reload",
+      "label": "pcb-save"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "reload",
+        "PCB2",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:47:56.204036Z",
+      "ended_at": "2026-10-26T15:48:05.452096Z",
+      "stdout_sha256": "e983ec06b57e1fea76d4bb7dfde4f8471efa4b7eb05127d4fa5337558492eba3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/006-save-reload-doc-reload.stdout.txt",
+      "stderr_path": "logs/006-save-reload-doc-reload.stderr.txt",
+      "step": "save-reload",
+      "label": "doc-reload"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "dump",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--include-copper",
+        "--out",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-after-reload.json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:05.453319Z",
+      "ended_at": "2026-10-26T15:48:13.718386Z",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "b9fd6806ca48e101fcec96b11424c34ff756bd17133a7f250969a9940d0fac1e",
+      "stdout_path": "logs/007-save-reload-pcb-dump-after-reload.stdout.txt",
+      "stderr_path": "logs/007-save-reload-pcb-dump-after-reload.stderr.txt",
+      "step": "save-reload",
+      "label": "pcb-dump-after-reload"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "drc",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--json",
+        "--timeout",
+        "120"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:13.728432Z",
+      "ended_at": "2026-10-26T15:48:19.219010Z",
+      "stdout_sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "evidence/pcb-drc-final.json",
+      "stderr_path": "logs/008-drc-pcb-drc.stderr.txt",
+      "step": "drc",
+      "label": "pcb-drc"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "check",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:19.221407Z",
+      "ended_at": "2026-10-26T15:48:33.436532Z",
+      "stdout_sha256": "3c09a59221c73401e1e063f3d906d3c7760d1b332fb2c842c40ac93198897e9d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "evidence/pcb-check-final.json",
+      "stderr_path": "logs/009-check-pcb-check.stderr.txt",
+      "step": "check",
+      "label": "pcb-check"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "layout-lint",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:33.440435Z",
+      "ended_at": "2026-10-26T15:48:40.454396Z",
+      "stdout_sha256": "52a5728803e303387b1461e3a59e7420957f2eb41971cb83645a72bb58abc53b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "evidence/pcb-layout-lint-final.json",
+      "stderr_path": "logs/010-lint-pcb-layout-lint.stderr.txt",
+      "step": "lint",
+      "label": "pcb-layout-lint"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "J1.A4B9",
+        "--to",
+        "U1.3",
+        "--net",
+        "VBUS_5V",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:40.456803Z",
+      "ended_at": "2026-10-26T15:48:43.943758Z",
+      "stdout_sha256": "6060b7ddff7958c112f208c468d461b88d73576423a7f26de1a8be0fc0ed9f1e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/011-netpath-pair-01.stdout.txt",
+      "stderr_path": "logs/011-netpath-pair-01.stderr.txt",
+      "step": "netpath",
+      "label": "pair-01"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "U1.2",
+        "--to",
+        "U2.2",
+        "--net",
+        "+3V3",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:43.945245Z",
+      "ended_at": "2026-10-26T15:48:47.456908Z",
+      "stdout_sha256": "e652fb37f09aec0e77d4b5fa51c722ded152fe8f4ab582a23061a8ed7f59404c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/012-netpath-pair-02.stdout.txt",
+      "stderr_path": "logs/012-netpath-pair-02.stderr.txt",
+      "step": "netpath",
+      "label": "pair-02"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "U1.2",
+        "--to",
+        "U90.3",
+        "--net",
+        "+3V3",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:47.457982Z",
+      "ended_at": "2026-10-26T15:48:50.436475Z",
+      "stdout_sha256": "ad37c168ce0312f87f872778cbef34473278472bf165c62f8ed7a8f481c884cf",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/013-netpath-pair-03.stdout.txt",
+      "stderr_path": "logs/013-netpath-pair-03.stderr.txt",
+      "step": "netpath",
+      "label": "pair-03"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "U1.2",
+        "--to",
+        "C4.1",
+        "--net",
+        "+3V3",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:50.437718Z",
+      "ended_at": "2026-10-26T15:48:53.986499Z",
+      "stdout_sha256": "62a1bc93db3ec2d5bc421022f604cefbdb52ab32d83a07177b3df1709561e33a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/014-netpath-pair-04.stdout.txt",
+      "stderr_path": "logs/014-netpath-pair-04.stderr.txt",
+      "step": "netpath",
+      "label": "pair-04"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "U1.2",
+        "--to",
+        "C6.1",
+        "--net",
+        "+3V3",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:53.987769Z",
+      "ended_at": "2026-10-26T15:48:57.456743Z",
+      "stdout_sha256": "4a38622ca24fe1184b58fac12e7ed62e3e40d3d186a03f2aa5ce3a531eb11664",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/015-netpath-pair-05.stdout.txt",
+      "stderr_path": "logs/015-netpath-pair-05.stderr.txt",
+      "step": "netpath",
+      "label": "pair-05"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "U90.1",
+        "--to",
+        "U2.17",
+        "--net",
+        "I2C_SDA",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:48:57.457859Z",
+      "ended_at": "2026-10-26T15:49:01.072755Z",
+      "stdout_sha256": "b9ac664a6487d5d9b056e08b0ea03fe7dcdd8858c672d1e469a6e2bba3b90ea9",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/016-netpath-pair-06.stdout.txt",
+      "stderr_path": "logs/016-netpath-pair-06.stderr.txt",
+      "step": "netpath",
+      "label": "pair-06"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "U90.2",
+        "--to",
+        "U2.18",
+        "--net",
+        "I2C_SCL",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:01.073962Z",
+      "ended_at": "2026-10-26T15:49:04.456266Z",
+      "stdout_sha256": "816a81e926699dfdea348f653a88826c7c79a0da8c3cdac8f8d8acf8b689b55d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/017-netpath-pair-07.stdout.txt",
+      "stderr_path": "logs/017-netpath-pair-07.stderr.txt",
+      "step": "netpath",
+      "label": "pair-07"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "J1.A6",
+        "--to",
+        "R92.1",
+        "--net",
+        "USB_DP_CONN",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:04.457446Z",
+      "ended_at": "2026-10-26T15:49:08.045557Z",
+      "stdout_sha256": "47a2e957151e734f52cafee7cd0df62f42ff697ded3bba6abc94d34d8aafef5a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/018-netpath-pair-08.stdout.txt",
+      "stderr_path": "logs/018-netpath-pair-08.stderr.txt",
+      "step": "netpath",
+      "label": "pair-08"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "R92.2",
+        "--to",
+        "U2.14",
+        "--net",
+        "USB_DP_MCU",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:08.046896Z",
+      "ended_at": "2026-10-26T15:49:10.751713Z",
+      "stdout_sha256": "8b7a1247ed29d8f2317001fd4fde0ed8384c464d87ea76158d182f77e89c6732",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/019-netpath-pair-09.stdout.txt",
+      "stderr_path": "logs/019-netpath-pair-09.stderr.txt",
+      "step": "netpath",
+      "label": "pair-09"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "J1.A7",
+        "--to",
+        "R93.1",
+        "--net",
+        "USB_DM_CONN",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:10.753016Z",
+      "ended_at": "2026-10-26T15:49:13.611264Z",
+      "stdout_sha256": "baaeab3460b1783234a40a2424d690168ae4b1c57b2e44c2b34278e009f60ed8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/020-netpath-pair-10.stdout.txt",
+      "stderr_path": "logs/020-netpath-pair-10.stderr.txt",
+      "step": "netpath",
+      "label": "pair-10"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "R93.2",
+        "--to",
+        "U2.13",
+        "--net",
+        "USB_DM_MCU",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:13.612572Z",
+      "ended_at": "2026-10-26T15:49:16.742087Z",
+      "stdout_sha256": "9cf4e15d4ad5cac400a7768718c0a899429d021709b03e8d0a9db138900d1045",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/021-netpath-pair-11.stdout.txt",
+      "stderr_path": "logs/021-netpath-pair-11.stderr.txt",
+      "step": "netpath",
+      "label": "pair-11"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "U2.3",
+        "--to",
+        "SW2.1",
+        "--net",
+        "EN",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:16.743321Z",
+      "ended_at": "2026-10-26T15:49:20.321766Z",
+      "stdout_sha256": "50f6ac35d4586ca9489a5ff00a957f71fb6058659b741385c143b734fbd53f42",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/022-netpath-pair-12.stdout.txt",
+      "stderr_path": "logs/022-netpath-pair-12.stderr.txt",
+      "step": "netpath",
+      "label": "pair-12"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "U2.27",
+        "--to",
+        "SW1.1",
+        "--net",
+        "BOOT",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:20.323524Z",
+      "ended_at": "2026-10-26T15:49:23.755888Z",
+      "stdout_sha256": "126d09f6d9f337bfc9e5f5a0ec955595c3e966a7c2110597fa39f7b08aedb183",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/023-netpath-pair-13.stdout.txt",
+      "stderr_path": "logs/023-netpath-pair-13.stderr.txt",
+      "step": "netpath",
+      "label": "pair-13"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "C90.1",
+        "--to",
+        "U90.3",
+        "--net",
+        "+3V3",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:23.757055Z",
+      "ended_at": "2026-10-26T15:49:27.324081Z",
+      "stdout_sha256": "e84498d761aac5bf7f826e65a056b06a67a7e4520ffa1952eb929c6a166291fa",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/024-netpath-pair-14.stdout.txt",
+      "stderr_path": "logs/024-netpath-pair-14.stderr.txt",
+      "step": "netpath",
+      "label": "pair-14"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "net-path",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2",
+        "--from",
+        "C2.1",
+        "--to",
+        "U1.3",
+        "--net",
+        "VBUS_5V",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:27.325272Z",
+      "ended_at": "2026-10-26T15:49:30.754703Z",
+      "stdout_sha256": "86ffecb2881e1cf6b699c53611a99b4641bda00cc0fbfd524815290703d38a59",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/025-netpath-pair-15.stdout.txt",
+      "stderr_path": "logs/025-netpath-pair-15.stderr.txt",
+      "step": "netpath",
+      "label": "pair-15"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "ls",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:30.757805Z",
+      "ended_at": "2026-10-26T15:49:32.392621Z",
+      "stdout_sha256": "7c0bb176c257cdc59916f793c70453d3c986faa6a4686d5b21517e34b31ed9c3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/026-sch-pcb-doc-ls.stdout.txt",
+      "stderr_path": "logs/026-sch-pcb-doc-ls.stderr.txt",
+      "step": "sch-pcb",
+      "label": "doc-ls"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "switch",
+        "P1",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:32.393870Z",
+      "ended_at": "2026-10-26T15:49:51.594148Z",
+      "stdout_sha256": "35c7af4358686630b07890eaf99c06162f2505306942ae26b461e1af2ea4371c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/027-sch-pcb-doc-switch-P1.stdout.txt",
+      "stderr_path": "logs/027-sch-pcb-doc-switch-P1.stderr.txt",
+      "step": "sch-pcb",
+      "label": "doc-switch-P1"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "sch",
+        "read",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:49:51.595315Z",
+      "ended_at": "2026-10-26T15:50:01.371793Z",
+      "stdout_sha256": "fe278808b5ac9a71191956a18b9952ff7bee5e8e89536af966c1b25d5fc0de2e",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result_keys": [
+        "check",
+        "componentCount",
+        "components",
+        "floatingPinCount",
+        "floatingPins",
+        "netCount",
+        "netlistAvailable",
+        "nets"
+      ],
+      "stdout_path": "logs/028-sch-pcb-sch-read-P1.stdout.txt",
+      "stderr_path": "logs/028-sch-pcb-sch-read-P1.stderr.txt",
+      "step": "sch-pcb",
+      "label": "sch-read-P1"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "switch",
+        "P2",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:01.373103Z",
+      "ended_at": "2026-10-26T15:50:14.161768Z",
+      "stdout_sha256": "bc3bf54c658359efa523ba696fbb727797f91831bd472b53499af1d63ba6d007",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/029-sch-pcb-doc-switch-P2.stdout.txt",
+      "stderr_path": "logs/029-sch-pcb-doc-switch-P2.stderr.txt",
+      "step": "sch-pcb",
+      "label": "doc-switch-P2"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "sch",
+        "read",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:14.162799Z",
+      "ended_at": "2026-10-26T15:50:20.549716Z",
+      "stdout_sha256": "c10db137e8e1a0efc44ae8fa0dc213a3427f068b2c62a3ff7f4d9e5564d5a8f3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result_keys": [
+        "check",
+        "componentCount",
+        "components",
+        "floatingPinCount",
+        "floatingPins",
+        "netCount",
+        "netlistAvailable",
+        "nets"
+      ],
+      "stdout_path": "logs/030-sch-pcb-sch-read-P2.stdout.txt",
+      "stderr_path": "logs/030-sch-pcb-sch-read-P2.stderr.txt",
+      "step": "sch-pcb",
+      "label": "sch-read-P2"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "switch",
+        "P3",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:20.550909Z",
+      "ended_at": "2026-10-26T15:50:33.657076Z",
+      "stdout_sha256": "4adcb75c48d61dafdd4fbe1a2b9cff6bc633fa0014241002b49f1b55e0c34fc8",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/031-sch-pcb-doc-switch-P3.stdout.txt",
+      "stderr_path": "logs/031-sch-pcb-doc-switch-P3.stderr.txt",
+      "step": "sch-pcb",
+      "label": "doc-switch-P3"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "sch",
+        "read",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:33.658270Z",
+      "ended_at": "2026-10-26T15:50:39.277789Z",
+      "stdout_sha256": "6cad35910a2004f955d9ba5866d772d25949850fee87a9dff512af4fc4bdd30a",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result_keys": [
+        "check",
+        "componentCount",
+        "components",
+        "floatingPinCount",
+        "floatingPins",
+        "netCount",
+        "netlistAvailable",
+        "nets"
+      ],
+      "stdout_path": "logs/032-sch-pcb-sch-read-P3.stdout.txt",
+      "stderr_path": "logs/032-sch-pcb-sch-read-P3.stderr.txt",
+      "step": "sch-pcb",
+      "label": "sch-read-P3"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "switch",
+        "PCB2",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:39.279126Z",
+      "ended_at": "2026-10-26T15:50:42.792808Z",
+      "stdout_sha256": "188f7b421cb85d82ea8abaef8517f9664434b9b672a070dd1e715a7a0d446143",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/033-sch-pcb-doc-switch-pcb.stdout.txt",
+      "stderr_path": "logs/033-sch-pcb-doc-switch-pcb.stderr.txt",
+      "step": "sch-pcb",
+      "label": "doc-switch-pcb"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "stage-snapshot",
+        "--help"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:42.797641Z",
+      "ended_at": "2026-10-26T15:50:43.569112Z",
+      "stdout_sha256": "d5d3479392b828e6fbeaf60777517010d98ce590f20c0e24f6dbd22132559fd4",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/034-images-stage-snapshot-help.stdout.txt",
+      "stderr_path": "logs/034-images-stage-snapshot-help.stderr.txt",
+      "step": "images",
+      "label": "stage-snapshot-help"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "call",
+        "pcb.view.side",
+        "--payload",
+        "{\"side\": \"top\"}",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:43.570335Z",
+      "ended_at": "2026-10-26T15:50:45.238489Z",
+      "stdout_sha256": "938e501e37d06928fd05d1496bcba8868ef9c2aab013d088fc2415314fe94cca",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result_keys": [
+        "currentLayer",
+        "focusedLayers",
+        "note",
+        "side"
+      ],
+      "stdout_path": "logs/035-images-view-side-top.stdout.txt",
+      "stderr_path": "logs/035-images-view-side-top.stderr.txt",
+      "step": "images",
+      "label": "view-side-top"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "stage-snapshot",
+        "--stage",
+        "top",
+        "--out",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\stages",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:45.239744Z",
+      "ended_at": "2026-10-26T15:50:55.463435Z",
+      "stdout_sha256": "a6c183520da86f80636249f8df38583e4183a039e5932b4d558d9c4a62758e8c",
+      "stderr_sha256": "517d14d9b2568ecffb1ca97c362affe92f2b86b3142775979e4dae90ba6cb2dd",
+      "stdout_path": "logs/036-images-stage-snapshot-top.stdout.txt",
+      "stderr_path": "logs/036-images-stage-snapshot-top.stderr.txt",
+      "step": "images",
+      "label": "stage-snapshot-top"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "call",
+        "pcb.view.side",
+        "--payload",
+        "{\"side\": \"bottom\"}",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:55.467917Z",
+      "ended_at": "2026-10-26T15:50:57.849733Z",
+      "stdout_sha256": "6f132079afa236b8c41c8e407dcf9b3a756c7ed508f3fa433ce894ab3b893fd1",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "result_keys": [
+        "currentLayer",
+        "focusedLayers",
+        "note",
+        "side"
+      ],
+      "stdout_path": "logs/037-images-view-side-bottom.stdout.txt",
+      "stderr_path": "logs/037-images-view-side-bottom.stderr.txt",
+      "step": "images",
+      "label": "view-side-bottom"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "stage-snapshot",
+        "--stage",
+        "bottom",
+        "--out",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\stages",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--doc",
+        "PCB2"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:50:57.850874Z",
+      "ended_at": "2026-10-26T15:51:06.646144Z",
+      "stdout_sha256": "1b81b1d24351c244e2e986a80a56207053b26ce5f61c14e3a3efe92d635744b8",
+      "stderr_sha256": "06e218760ddc8938743de6b7c8ccbbf4a348d1db5a9a62e57aba9f08bf3da5ae",
+      "stdout_path": "logs/038-images-stage-snapshot-bottom.stdout.txt",
+      "stderr_path": "logs/038-images-stage-snapshot-bottom.stderr.txt",
+      "step": "images",
+      "label": "stage-snapshot-bottom"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "pcb",
+        "layout",
+        "render",
+        "--actual",
+        "--board",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-after-reload.json",
+        "--side",
+        "both",
+        "--out",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-final-actual.svg"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:51:06.649314Z",
+      "ended_at": "2026-10-26T15:51:07.414580Z",
+      "stdout_sha256": "b3f308d73223bd303f8f0e2c9f2df92c7af91551b739f49f4a1b63348cd73ce1",
+      "stderr_sha256": "63c01a3cfa762728069f67339b1dbb4137327dbd2933f7c0515c66c9f320e6b1",
+      "stdout_path": "logs/039-images-actual-svg.stdout.txt",
+      "stderr_path": "logs/039-images-actual-svg.stderr.txt",
+      "step": "images",
+      "label": "actual-svg"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "ls",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026",
+        "--json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:51:07.417933Z",
+      "ended_at": "2026-10-26T15:51:08.928967Z",
+      "stdout_sha256": "7c0bb176c257cdc59916f793c70453d3c986faa6a4686d5b21517e34b31ed9c3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/040-sch-pcb-doc-ls.stdout.txt",
+      "stderr_path": "logs/040-sch-pcb-doc-ls.stderr.txt",
+      "step": "sch-pcb",
+      "label": "doc-ls"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "switch",
+        "P1",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:51:08.930243Z",
+      "ended_at": "2026-10-26T15:51:28.349565Z",
+      "stdout_sha256": "35c7af4358686630b07890eaf99c06162f2505306942ae26b461e1af2ea4371c",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/041-bom-doc-switch-schematic.stdout.txt",
+      "stderr_path": "logs/041-bom-doc-switch-schematic.stderr.txt",
+      "step": "bom",
+      "label": "doc-switch-schematic"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "bom",
+        "export",
+        "--type",
+        "csv",
+        "--enrich=false",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:51:28.350914Z",
+      "ended_at": "2026-10-26T15:51:30.105815Z",
+      "stdout_sha256": "9f1573b82e40efeb06c8b6d1dc14fc511976d2b3a62993cd525e7281fc85260f",
+      "stderr_sha256": "9df2ccf73cba583e4309b1f455f39eda79a117707adb002d099a240e197ade1b",
+      "result_keys": [
+        "artifactId",
+        "artifactPath",
+        "fileType"
+      ],
+      "stdout_path": "logs/042-bom-bom-export.stdout.txt",
+      "stderr_path": "logs/042-bom-bom-export.stderr.txt",
+      "step": "bom",
+      "label": "bom-export"
+    },
+    {
+      "argv": [
+        "C:/Users/jlc/.local/bin/easyeda.exe",
+        "doc",
+        "switch",
+        "PCB2",
+        "--project",
+        "mcu-i2c-s3-edit-r10b-20261026"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:51:30.106977Z",
+      "ended_at": "2026-10-26T15:51:33.166432Z",
+      "stdout_sha256": "188f7b421cb85d82ea8abaef8517f9664434b9b672a070dd1e715a7a0d446143",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/043-bom-doc-switch-pcb.stdout.txt",
+      "stderr_path": "logs/043-bom-doc-switch-pcb.stderr.txt",
+      "step": "bom",
+      "label": "doc-switch-pcb"
+    },
+    {
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\design-hardware\\scripts\\pcb_gate.py",
+        "--case",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB",
+        "--profile",
+        "full",
+        "--out",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\gate-report.json",
+        "--json",
+        "--key-nets",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\baseline\\key-nets-b2.json",
+        "--warn-disposition",
+        "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\warn-disposition.json"
+      ],
+      "exit": 0,
+      "ok": true,
+      "started_at": "2026-10-26T15:51:33.173428Z",
+      "ended_at": "2026-10-26T15:51:33.357900Z",
+      "stdout_sha256": "5f1cadb4a5ccd39f2636ff9854cf4b0031742b1fe59298fbc70eaf60778ad928",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_path": "logs/044-gate-pcb-gate.stdout.txt",
+      "stderr_path": "logs/044-gate-pcb-gate.stderr.txt",
+      "step": "gate",
+      "label": "pcb-gate"
+    }
+  ],
+  "steps": [
+    {
+      "id": "dump",
+      "status": "pass"
+    },
+    {
+      "id": "save-reload",
+      "status": "pass"
+    },
+    {
+      "id": "drc",
+      "status": "pass"
+    },
+    {
+      "id": "check",
+      "status": "pass"
+    },
+    {
+      "id": "lint",
+      "status": "pass"
+    },
+    {
+      "id": "netpath",
+      "status": "pass"
+    },
+    {
+      "id": "sch-pcb",
+      "status": "pass"
+    },
+    {
+      "id": "images",
+      "status": "pass"
+    },
+    {
+      "id": "bom",
+      "status": "pass"
+    },
+    {
+      "id": "archive",
+      "status": "pass"
+    },
+    {
+      "id": "gate",
+      "status": "pass"
+    }
+  ],
+  "gate": {
+    "path": "gate-report.json",
+    "sha256": "5f1cadb4a5ccd39f2636ff9854cf4b0031742b1fe59298fbc70eaf60778ad928",
+    "status": "pass"
+  },
+  "failures": [],
+  "not_run": [],
+  "waivers": [
+    {
+      "key": "acute-angle|I2C_SDA",
+      "disposition": "accepted",
+      "reason": "45-degree bend on a 400 kHz I2C signal; no acute acid-trap geometry at this angle and no current-carrying concern."
+    },
+    {
+      "key": "antenna-keepout|U2",
+      "disposition": "accepted",
+      "reason": "A local all-layer no-copper region under the antenna is present; the CLI warns because its expected shape is the full board-edge band. No copper was placed under the antenna."
+    },
+    {
+      "key": "decap-too-far|+3V3|C1",
+      "disposition": "accepted",
+      "reason": "C1 is the LDO 100 nF output bypass, not an MCU pin decap; the checker compares it to the nearest +3V3 pin, which is not its function."
+    },
+    {
+      "key": "decap-too-far|+3V3|C3",
+      "disposition": "accepted",
+      "reason": "C3 is the 22 uF LDO output bulk capacitor; its role is regulator stability, so the 100 mil IC-decap heuristic does not apply."
+    },
+    {
+      "key": "decap-too-far|+3V3|C4",
+      "disposition": "accepted",
+      "reason": "139 mil is 39 mil over the 100 mil heuristic; the part is still within about 3.5 mm of the +3V3 pin."
+    },
+    {
+      "key": "decap-too-far|+3V3|C6",
+      "disposition": "accepted",
+      "reason": "140 mil is 40 mil over the heuristic and the part remains close to U2.2; accepted for the prototype."
+    },
+    {
+      "key": "decap-too-far|+3V3|C90",
+      "disposition": "accepted",
+      "reason": "128 mil is 28 mil over the heuristic; this decouples a low-power I2C sensor, not a high-speed core rail."
+    },
+    {
+      "key": "decap-too-far|+3V3|C99",
+      "disposition": "accepted",
+      "reason": "C99 is 272 mil (6.9 mm) from U2.2, the same position as the round9 baseline; it is tied to +3V3 and the GND pour. Accepted for the prototype; recheck if the rail shows transient noise."
+    },
+    {
+      "key": "duplicate-segment|+3V3",
+      "disposition": "accepted",
+      "reason": "The official router left one 17 mil collinear overlap on +3V3; it is redundant copper, not an open or short. Accepted for the prototype; recheck if the net is rerouted."
+    },
+    {
+      "key": "parallel-coupling|BOOT|EN",
+      "disposition": "accepted",
+      "reason": "Both nets are low-speed static/diagnostic; the 28.8 mil gap is 1.2 mil below the 3W heuristic over a 41 mil run."
+    },
+    {
+      "key": "parallel-coupling|CC1|USB_DP_CONN",
+      "disposition": "accepted",
+      "reason": "CC1 is a DC configuration signal; coupling into a 25 mil DP run is negligible at full speed."
+    },
+    {
+      "key": "parallel-coupling|USB_DM_MCU|USB_DP_CONN",
+      "disposition": "accepted",
+      "reason": "Full-speed USB (12 Mbps) prototype; the 29 mil coupled run is short and no high-speed SI signoff was claimed."
+    },
+    {
+      "key": "parallel-coupling|USB_DP_CONN|VBUS_5V",
+      "disposition": "accepted",
+      "reason": "Short 21 mil parallel run between a power rail and DP; prototype-level risk accepted without SI signoff."
+    },
+    {
+      "key": "power-not-poured|+3V3",
+      "disposition": "accepted",
+      "reason": "+3V3 is a low-current rail carried by sized tracks; the board keeps a solid GND pour. Pouring +3V3 was not justified by current."
+    },
+    {
+      "key": "width-under-spec|GND",
+      "disposition": "accepted",
+      "reason": "The 10 mil GND segments are stubs into the double-sided GND pour; the return current is carried by the pour, not the thin stubs."
+    },
+    {
+      "key": "fiducial-missing|",
+      "disposition": "accepted",
+      "reason": "JLC panel rails add fiducials; the per-board 3-mark requirement was not applied to this prototype. Accepted with panel-maker responsibility."
+    }
+  ],
+  "verification": {
+    "status": "pass",
+    "checks": [
+      {
+        "id": "artifact_hashes",
+        "status": "pass",
+        "detail": "artifact hashes match the files on disk",
+        "mismatched": []
+      },
+      {
+        "id": "previous_manifest",
+        "status": "pass",
+        "detail": "no previous manifest; first assembly"
+      },
+      {
+        "id": "design_state_evidence",
+        "status": "pass",
+        "detail": "no design-state evidence index to compare"
+      },
+      {
+        "id": "dumps_parse",
+        "status": "pass",
+        "detail": "measured dumps parse as board dumps",
+        "problems": []
+      },
+      {
+        "id": "project_identity",
+        "status": "pass",
+        "detail": "project/doc identity agrees with the measured dumps",
+        "problems": []
+      },
+      {
+        "id": "save_reload_diff",
+        "status": "pass",
+        "detail": "save/reload diff is match (identity/geometry/copper/unrelated)",
+        "problems": []
+      },
+      {
+        "id": "drc",
+        "status": "pass",
+        "detail": "native DRC passed with zero violations",
+        "total": 0,
+        "counts": {}
+      },
+      {
+        "id": "check",
+        "status": "pass",
+        "detail": "pcb check reported no ERROR findings",
+        "counts": {
+          "errors": 0,
+          "warnings": 15,
+          "infos": 1,
+          "total": 16
+        }
+      },
+      {
+        "id": "warn_disposition",
+        "status": "pass",
+        "detail": "every WARN/INFO has a valid disposition",
+        "missing": [],
+        "stale": [],
+        "invalid": [],
+        "problems": []
+      },
+      {
+        "id": "lint",
+        "status": "pass",
+        "detail": "layout-lint coverage is complete",
+        "score": 68,
+        "crossings": 8,
+        "incomplete": false
+      },
+      {
+        "id": "netpath",
+        "status": "pass",
+        "detail": "every required pad-to-pad path is a connected exact centerline",
+        "missing": [],
+        "failed": []
+      },
+      {
+        "id": "sch_pcb",
+        "status": "pass",
+        "detail": "schematic pins and PCB pads match",
+        "mismatch_count": 0
+      },
+      {
+        "id": "images",
+        "status": "pass",
+        "detail": "top/bottom PNG and actual SVG are structurally valid",
+        "problems": [],
+        "svg_source_sha256": "2bf8e5860a53223c4104f3fd6e0c3f1f5720f558649399afcda58942d2e6280c"
+      },
+      {
+        "id": "bom",
+        "status": "pass",
+        "detail": "BOM has component rows",
+        "rows": 17
+      },
+      {
+        "id": "archive",
+        "status": "pass",
+        "detail": ".epro2 archive is a zip container",
+        "sha256": "781ebf9989298744f2e325c80f5c89887bad403bb1ecc8417617bc585240e104",
+        "bytes": 135860
+      },
+      {
+        "id": "final_binding",
+        "status": "pass",
+        "detail": "every check artifact binds the final dump after the last reload",
+        "issues": []
+      },
+      {
+        "id": "gate",
+        "status": "pass",
+        "detail": "gate status=pass",
+        "gate": {
+          "path": "gate-report.json",
+          "sha256": "5f1cadb4a5ccd39f2636ff9854cf4b0031742b1fe59298fbc70eaf60778ad928",
+          "status": "pass"
+        }
+      }
+    ]
+  },
+  "notes": [
+    "live execution order: dump -> save-reload (final dump) -> drc/check/lint/netpath/sch-pcb -> images/bom/archive -> gate; checks run after the final reload and bind that dump",
+    "archive existed and was reused: evidence/controlledB-final.epro2"
+  ]
+}

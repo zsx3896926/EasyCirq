@@ -67,6 +67,11 @@ REQUIRED_FILES = [
     "scripts/layout_from_easyeda.py",
     "scripts/svg_text_bbox.py",
     "scripts/pin_net_intent_check.py",
+    "scripts/pcb_preflight.py",
+    "scripts/pcb_apply_plan.py",
+    "scripts/pcb_gate.py",
+    "scripts/pcb_case.py",
+    "references/pcb-command-map.json",
     "cases/temp-alarm-2026-10-24/README.md",
     "cases/temp-alarm-2026-10-24/expected.json",
 ]

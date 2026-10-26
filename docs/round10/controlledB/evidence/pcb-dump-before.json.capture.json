@@ -1,0 +1,344 @@
+{
+  "availability": {
+    "components": "available",
+    "copper": "available",
+    "layers": "available",
+    "outline": "available",
+    "routedLines": "available",
+    "rules": "available",
+    "silk": "available"
+  },
+  "bytes": 360104,
+  "capture": {
+    "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+    "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+    "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+    "documentUuid": "40b81985cfb4a5ed",
+    "documentType": "pcb",
+    "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba",
+    "startedAt": "2026-10-26T15:32:07.0869987Z",
+    "completedAt": "2026-10-26T15:32:10.8419822Z",
+    "consistency": "sequential-response-boundaries",
+    "identityVerified": true,
+    "requests": [
+      {
+        "action": "pcb.components.list",
+        "requestId": "req_12434",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:07.0869987Z",
+        "completedAt": "2026-10-26T15:32:08.2644331Z",
+        "responseCreatedAt": "2026-10-26T15:32:08.2576737Z",
+        "resultSha256": "8ec0017f6b63552a80def8574fff1f4b69dcb63fd50f2a5a2e591988e2dc212f",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10006,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.outline.get",
+        "requestId": "req_12435",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:08.2654682Z",
+        "completedAt": "2026-10-26T15:32:08.4161252Z",
+        "responseCreatedAt": "2026-10-26T15:32:08.4144481Z",
+        "resultSha256": "f545a31202e2f27993a02244b0810fbcaf09717e5603e814c823653164e0d97b",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10007,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.line.list",
+        "requestId": "req_12436",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:08.4161252Z",
+        "completedAt": "2026-10-26T15:32:08.5428939Z",
+        "responseCreatedAt": "2026-10-26T15:32:08.5387657Z",
+        "resultSha256": "32a2a729156c9092511a4809c0eb00cd725adce0acf53e22fc6da76deeeb2cbb",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10008,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.silk.list",
+        "requestId": "req_12437",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:08.5428939Z",
+        "completedAt": "2026-10-26T15:32:09.7619869Z",
+        "responseCreatedAt": "2026-10-26T15:32:09.7571546Z",
+        "resultSha256": "fe4936d7c03e45345a0ca1469960224dacca6f810e39f5f6b082b1023696c216",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10009,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.drc.rules",
+        "requestId": "req_12438",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:09.7630328Z",
+        "completedAt": "2026-10-26T15:32:09.8699259Z",
+        "responseCreatedAt": "2026-10-26T15:32:09.8666061Z",
+        "resultSha256": "dbc085c8494d4e445af9d260128a36f285aa8cd789150774ccb5d6eb7946c02f",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10010,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.layers.list",
+        "requestId": "req_12439",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:09.8699259Z",
+        "completedAt": "2026-10-26T15:32:10.0440208Z",
+        "responseCreatedAt": "2026-10-26T15:32:10.0392566Z",
+        "resultSha256": "ea9e6d365d278d2bc10bfc917c5ffb1841e0fcdf64e345c627ac75076253300d",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10011,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.line.list",
+        "requestId": "req_12440",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:10.0445423Z",
+        "completedAt": "2026-10-26T15:32:10.1715731Z",
+        "responseCreatedAt": "2026-10-26T15:32:10.1673683Z",
+        "resultSha256": "32a2a729156c9092511a4809c0eb00cd725adce0acf53e22fc6da76deeeb2cbb",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10012,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.via.list",
+        "requestId": "req_12441",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:10.1720872Z",
+        "completedAt": "2026-10-26T15:32:10.2804565Z",
+        "responseCreatedAt": "2026-10-26T15:32:10.2794238Z",
+        "resultSha256": "bb414ed7299c10e4b00c8abce23c942b2e598500bc2ac89bf22cc3b1dda9299c",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10013,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.pour.list",
+        "requestId": "req_12442",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:10.2804565Z",
+        "completedAt": "2026-10-26T15:32:10.3967314Z",
+        "responseCreatedAt": "2026-10-26T15:32:10.3955942Z",
+        "resultSha256": "f44d673d871be93fb0ee8ae9faf34c36cec2b84e7f06f6192b584a135c5a60a9",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10014,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.poured.list",
+        "requestId": "req_12443",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:10.3967314Z",
+        "completedAt": "2026-10-26T15:32:10.5363743Z",
+        "responseCreatedAt": "2026-10-26T15:32:10.5301123Z",
+        "resultSha256": "b8af13738f8a77d54c1c69a2b11996f5bbdb803f318a2cbdf92fa263485597bf",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10015,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.region.list",
+        "requestId": "req_12444",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:10.5368809Z",
+        "completedAt": "2026-10-26T15:32:10.6919499Z",
+        "responseCreatedAt": "2026-10-26T15:32:10.6909302Z",
+        "resultSha256": "49749bb6c954b755633f0916b3d90394acc249d2937b695052e6bb8e99af8496",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10016,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.fill.list",
+        "requestId": "req_12445",
+        "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+        "startedAt": "2026-10-26T15:32:10.6919499Z",
+        "completedAt": "2026-10-26T15:32:10.8419822Z",
+        "responseCreatedAt": "2026-10-26T15:32:10.8404581Z",
+        "resultSha256": "45e92303bf229e1fa1c014ece062c60bab73818b40faa377a7ae2b64bbc6577c",
+        "context": {
+          "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+          "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+          "documentUuid": "40b81985cfb4a5ed",
+          "documentType": "pcb",
+          "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 10017,
+          "SeqAbandoned": 1,
+          "Unordered": false,
+          "AbandonedIDs": [
+            "req_7249"
+          ]
+        },
+        "status": "available"
+      }
+    ]
+  },
+  "capturedAt": "2026-10-26T15:32:07.0869987Z",
+  "kind": "pcb-dump-file",
+  "partial": null,
+  "sha256": "b3a89c2e982befd10247f1a4439e41413d60043ec6d7a64376c8ce4910d06ceb",
+  "snapshot": "pcb-dump-before.json",
+  "version": 1
+}

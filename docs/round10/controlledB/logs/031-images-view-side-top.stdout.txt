@@ -1,0 +1,39 @@
+{
+  "id": "req_12783",
+  "type": "response",
+  "version": "v1",
+  "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+  "createdAt": "2026-10-26T15:35:04.2904716Z",
+  "ok": true,
+  "result": {
+    "currentLayer": null,
+    "focusedLayers": [
+      1,
+      3
+    ],
+    "note": "Layer-focus approximation (no native canvas flip API). Take pcb.snapshot next; thread its sha256 back as previousSha256 to defeat a stale frame.",
+    "side": "top"
+  },
+  "context": {
+    "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+    "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+    "documentUuid": "40b81985cfb4a5ed",
+    "documentType": "pcb",
+    "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba",
+    "pageVisibility": "visible"
+  },
+  "mutationContext": {
+    "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+    "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+    "documentUuid": "40b81985cfb4a5ed",
+    "documentType": "pcb",
+    "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba",
+    "pageVisibility": "visible"
+  },
+  "mutationContextAvailable": true,
+  "seq": 10260,
+  "seqAbandoned": 1,
+  "abandonedIds": [
+    "req_7249"
+  ]
+}

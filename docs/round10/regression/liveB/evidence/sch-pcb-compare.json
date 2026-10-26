@@ -1,0 +1,740 @@
+{
+  "schema": "design-engine-pcb-sch-pcb-compare/v1",
+  "status": "match",
+  "schematic_components": 23,
+  "pcb_components": 23,
+  "pins": 104,
+  "component_mismatches": [],
+  "mismatches": [],
+  "rows": [
+    {
+      "designator": "C1",
+      "pin": "1",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "C1",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C2",
+      "pin": "1",
+      "schematic_net": "VBUS_5V",
+      "pcb_net": "VBUS_5V",
+      "status": "match"
+    },
+    {
+      "designator": "C2",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C3",
+      "pin": "1",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "C3",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C4",
+      "pin": "1",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "C4",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C5",
+      "pin": "1",
+      "schematic_net": "EN",
+      "pcb_net": "EN",
+      "status": "match"
+    },
+    {
+      "designator": "C5",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C6",
+      "pin": "1",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "C6",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "C90",
+      "pin": "1",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "C90",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "D1",
+      "pin": "1",
+      "schematic_net": "USB_DM_CONN",
+      "pcb_net": "USB_DM_CONN",
+      "status": "match"
+    },
+    {
+      "designator": "D1",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "D2",
+      "pin": "1",
+      "schematic_net": "USB_DP_CONN",
+      "pcb_net": "USB_DP_CONN",
+      "status": "match"
+    },
+    {
+      "designator": "D2",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "10",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "11",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "8",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "9",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "A1B12",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "A4B9",
+      "schematic_net": "VBUS_5V",
+      "pcb_net": "VBUS_5V",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "A5",
+      "schematic_net": "CC1",
+      "pcb_net": "CC1",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "A6",
+      "schematic_net": "USB_DP_CONN",
+      "pcb_net": "USB_DP_CONN",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "A7",
+      "schematic_net": "USB_DM_CONN",
+      "pcb_net": "USB_DM_CONN",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "A8",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "B1A12",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "B4A9",
+      "schematic_net": "VBUS_5V",
+      "pcb_net": "VBUS_5V",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "B5",
+      "schematic_net": "CC2",
+      "pcb_net": "CC2",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "B6",
+      "schematic_net": "USB_DP_CONN",
+      "pcb_net": "USB_DP_CONN",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "B7",
+      "schematic_net": "USB_DM_CONN",
+      "pcb_net": "USB_DM_CONN",
+      "status": "match"
+    },
+    {
+      "designator": "J1",
+      "pin": "B8",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "R1",
+      "pin": "1",
+      "schematic_net": "CC1",
+      "pcb_net": "CC1",
+      "status": "match"
+    },
+    {
+      "designator": "R1",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "R2",
+      "pin": "1",
+      "schematic_net": "CC2",
+      "pcb_net": "CC2",
+      "status": "match"
+    },
+    {
+      "designator": "R2",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "R3",
+      "pin": "1",
+      "schematic_net": "EN",
+      "pcb_net": "EN",
+      "status": "match"
+    },
+    {
+      "designator": "R3",
+      "pin": "2",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "R4",
+      "pin": "1",
+      "schematic_net": "BOOT",
+      "pcb_net": "BOOT",
+      "status": "match"
+    },
+    {
+      "designator": "R4",
+      "pin": "2",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "R90",
+      "pin": "1",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "R90",
+      "pin": "2",
+      "schematic_net": "I2C_SDA",
+      "pcb_net": "I2C_SDA",
+      "status": "match"
+    },
+    {
+      "designator": "R91",
+      "pin": "1",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "R91",
+      "pin": "2",
+      "schematic_net": "I2C_SCL",
+      "pcb_net": "I2C_SCL",
+      "status": "match"
+    },
+    {
+      "designator": "R92",
+      "pin": "1",
+      "schematic_net": "USB_DP_CONN",
+      "pcb_net": "USB_DP_CONN",
+      "status": "match"
+    },
+    {
+      "designator": "R92",
+      "pin": "2",
+      "schematic_net": "USB_DP_MCU",
+      "pcb_net": "USB_DP_MCU",
+      "status": "match"
+    },
+    {
+      "designator": "R93",
+      "pin": "1",
+      "schematic_net": "USB_DM_CONN",
+      "pcb_net": "USB_DM_CONN",
+      "status": "match"
+    },
+    {
+      "designator": "R93",
+      "pin": "2",
+      "schematic_net": "USB_DM_MCU",
+      "pcb_net": "USB_DM_MCU",
+      "status": "match"
+    },
+    {
+      "designator": "SW1",
+      "pin": "1",
+      "schematic_net": "BOOT",
+      "pcb_net": "BOOT",
+      "status": "match"
+    },
+    {
+      "designator": "SW1",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "SW2",
+      "pin": "1",
+      "schematic_net": "EN",
+      "pcb_net": "EN",
+      "status": "match"
+    },
+    {
+      "designator": "SW2",
+      "pin": "2",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "1",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "2",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "3",
+      "schematic_net": "VBUS_5V",
+      "pcb_net": "VBUS_5V",
+      "status": "match"
+    },
+    {
+      "designator": "U1",
+      "pin": "4",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "1",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "10",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "11",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "12",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "13",
+      "schematic_net": "USB_DM_MCU",
+      "pcb_net": "USB_DM_MCU",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "14",
+      "schematic_net": "USB_DP_MCU",
+      "pcb_net": "USB_DP_MCU",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "15",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "16",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "17",
+      "schematic_net": "I2C_SDA",
+      "pcb_net": "I2C_SDA",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "18",
+      "schematic_net": "I2C_SCL",
+      "pcb_net": "I2C_SCL",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "19",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "2",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "20",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "21",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "22",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "23",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "24",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "25",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "26",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "27",
+      "schematic_net": "BOOT",
+      "pcb_net": "BOOT",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "28",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "29",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "3",
+      "schematic_net": "EN",
+      "pcb_net": "EN",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "30",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "31",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "32",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "33",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "34",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "35",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "36",
+      "schematic_net": "MCU_RX",
+      "pcb_net": "MCU_RX",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "37",
+      "schematic_net": "MCU_TX",
+      "pcb_net": "MCU_TX",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "38",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "39",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "4",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "40",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "41",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "5",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "6",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "7",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "8",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U2",
+      "pin": "9",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    },
+    {
+      "designator": "U90",
+      "pin": "1",
+      "schematic_net": "I2C_SDA",
+      "pcb_net": "I2C_SDA",
+      "status": "match"
+    },
+    {
+      "designator": "U90",
+      "pin": "2",
+      "schematic_net": "I2C_SCL",
+      "pcb_net": "I2C_SCL",
+      "status": "match"
+    },
+    {
+      "designator": "U90",
+      "pin": "3",
+      "schematic_net": "+3V3",
+      "pcb_net": "+3V3",
+      "status": "match"
+    },
+    {
+      "designator": "U90",
+      "pin": "4",
+      "schematic_net": "GND",
+      "pcb_net": "GND",
+      "status": "match"
+    },
+    {
+      "designator": "U90",
+      "pin": "5",
+      "schematic_net": null,
+      "pcb_net": null,
+      "status": "match"
+    }
+  ],
+  "note": "designator+pad-number comparison; combination pads require pin_aliases"
+}

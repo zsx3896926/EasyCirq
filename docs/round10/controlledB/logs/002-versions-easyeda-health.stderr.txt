@@ -1,0 +1,6 @@
+✓ daemon    v1.15.0 运行在端口 60832
+✓ connector 1 个窗口已连接（连接器 v1.15.0）
+✓ versions  版本一致性:CLI / daemon 同版,connector major.minor 兼容 v1.15.0
+✓ easyeda   EasyEDA 宿主:V4 主线（推荐基线 4.1.60）
+✓ project   mcu-i2c-s3-edit-r10b-20261026（当前 pcb）
+就绪：可以开始操作 EasyEDA。

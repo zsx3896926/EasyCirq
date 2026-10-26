@@ -1,0 +1,63 @@
+{
+  "report": {
+    "ok": true,
+    "incomplete": false,
+    "coverage": {
+      "complete": true,
+      "componentsInventoryKnown": true,
+      "padsInventoryKnown": true,
+      "componentCount": 19,
+      "totalPads": 47,
+      "knownGeometryPads": 47,
+      "unsupportedGeometryPads": 0,
+      "unknownGeometryPads": 0,
+      "legacyGeometryPads": 0
+    },
+    "score": 80,
+    "verdict": "moderate",
+    "componentCount": 19,
+    "minGapMil": 5.98,
+    "overlaps": null,
+    "outsideOutline": null,
+    "tightSpacing": null,
+    "sides": {
+      "top": 19
+    },
+    "signalNets": 9,
+    "ratsnestLenMil": 8156.59,
+    "crossingCount": 5,
+    "crossings": [
+      {
+        "netA": "LDR_SIG",
+        "netB": "LED_CTRL",
+        "x": 1451.42,
+        "y": 1075.79
+      },
+      {
+        "netA": "LDR_SIG",
+        "netB": "U1B_TIE",
+        "x": 1466.55,
+        "y": 1350
+      },
+      {
+        "netA": "LDR_SIG",
+        "netB": "VREF_2V5",
+        "x": 1471.26,
+        "y": 1913.25
+      },
+      {
+        "netA": "LED_CTRL",
+        "netB": "VTH",
+        "x": 1584.38,
+        "y": 1109.59
+      },
+      {
+        "netA": "Q1_B",
+        "netB": "VREF_2V5",
+        "x": 2240.34,
+        "y": 1189.52
+      }
+    ],
+    "summary": "score 80/100 (moderate): 19 comps, 0 short, 0 overlap, 0 off-board, 0 tight; 9 signal nets, ratsnest 8157mil, 5 crossings"
+  }
+}

@@ -1,0 +1,44 @@
+official auto-route (existing copper kept): map[cornerStyle:45 layers:[1 2] nets:[+3V3 GND] optimization:completion] — may take minutes
+{
+  "after": {
+    "arcs": 0,
+    "tracks": 253,
+    "vias": 16
+  },
+  "before": {
+    "arcs": 0,
+    "tracks": 111,
+    "vias": 5
+  },
+  "created": {
+    "arcs": 0,
+    "tracks": 142,
+    "vias": 11
+  },
+  "lockedBefore": 0,
+  "lockedLost": [],
+  "props": {
+    "RoutingNets": [
+      "+3V3",
+      "GND"
+    ],
+    "cornerStyle": 0,
+    "existingPrimitiveMode": "keep",
+    "layers": [
+      1,
+      2
+    ],
+    "optimization": 1
+  },
+  "removedPrimitiveIds": [],
+  "router": {
+    "duration": 22758,
+    "failedNets": [],
+    "success": true,
+    "successNetsCount": 2,
+    "totalNetsCount": 2
+  }
+}
+router: success=true nets 2/2 routed, failed=[], 22758ms
+created: map[arcs:0 tracks:142 vias:11]; removed: []
+next: pcb save → doc reload → pcb drc / pcb check (routing results read before a reload may be stale)

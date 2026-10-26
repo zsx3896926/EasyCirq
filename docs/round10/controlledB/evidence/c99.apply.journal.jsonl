@@ -1,0 +1,5 @@
+{"playbookSha256":"18e0a5d76d820fdbed537e34d14d6898b15a472790aae1eec69cbc2e9d3eb087","name":"pcb-apply-plan","project":"mcu-i2c-s3-edit-r10b-20261026","startedAt":"2026-10-26T23:32:23+08:00"}
+{"idx":1,"id":"place-C99","status":"ok","ms":1365}
+{"idx":2,"id":"save","status":"ok","ms":750}
+{"idx":3,"id":"reload","status":"ok","ms":5954}
+{"idx":4,"id":"dump","status":"ok","ms":3916}

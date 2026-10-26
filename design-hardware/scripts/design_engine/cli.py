@@ -612,7 +612,8 @@ def command_pcb_check_plan(args):
     board = normalize_board(_read_json_file(args.dump))
     plan = _read_json_file(args.plan)
     constraint_set = _read_json_file(args.constraints) if args.constraints else None
-    result = validate_placement(board, plan, constraint_set)
+    partial = bool(plan.get('partial')) if isinstance(plan, dict) else False
+    result = validate_placement(board, plan, constraint_set, partial=partial)
     _dump(result, args.out)
     if args.json:
         _dump(result)

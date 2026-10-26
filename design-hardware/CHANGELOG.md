@@ -1,5 +1,28 @@
 # 变更记录
 
+## 0.9.2 — 2026-10-26
+
+round10 PCB 阶段工具链整合。
+
+### 新增
+
+- `scripts/pcb_preflight.py`（`design-engine-pcb-preflight/v1`）：落位前用实测 dump/约束/plan 检查 coverage、项目/文档身份、base hash、primitiveId、near_pin/EP/fabrication 等；`ready→0 / review→1 / blocked|incomplete→2`，没有证据的检查只能 `unmeasured`。
+- `scripts/pcb_gate.py`（`design-engine-pcb-gate/v1`）：只读 case 证据，运行 PG1_placement–PG8_delivery 八阶段门禁；支持 `full/regression` profile；缺证据 `blocked`/`not_run`，过期 DRC/lint 与未处置 WARN 判 fail/blocked。
+- `scripts/pcb_case.py`（`design-engine-pcb-case/v1`）：实时采集或 `--skip-live` 组装 case manifest；产物记录 SHA/bytes/source_dump_sha256/run_after_final_reload，失败与未运行如实记录。
+- `references/pcb-command-map.json`：easyeda PCB 命令 argv、必需/可选参数、输出角色与校验点映射。
+- 测试：`tests/test_pcb_preflight.py`、`test_pcb_apply_plan.py`、`test_pcb_gate.py`、`test_pcb_case.py`，使用 fake `easyeda`，不调用真实 EDA。
+
+### 修改
+
+- `scripts/pcb_apply_plan.py` 升级为 playbook 批量路径：接受 placements/playbook 三种形状，编译 `easyeda apply` playbook v1，一次 apply 后校验 journal、fresh dump 与 scoped diff；preferred 约束失败不再计为 hard。默认 dry-run。
+- `SKILL.md` 与 `references/pcb-execution.md` 按“preflight → apply → gate → case”阶段路由，补充命令、schema、退出码与失败边界；旧的逐件 `pcb modify` 适配器描述由批量路径替代，局部改板规则保留。
+- `scripts/skill_selftest.py` 的 REQUIRED_FILES 登记四个新脚本与命令映射；行为由 unittest 覆盖，不新增刚性断言。
+
+### 边界
+
+- 单元测试使用 fake `easyeda`，不调用真实 CLI；round10 的真机验收（A/B 回归与受控 C99 改板）记录在 `docs/skill-speed-quality-report.md`，本轮确实在隔离副本上用真实 `easyeda apply`/DRC/归档跑过。Gerber/CPL 导出仍 `BLOCKED`，不引入外部布线器、不合并 PR、不下单。
+- `pcb_gate.py` 的 `pass` 只证明列出的证据在给定 case 内通过，不证明实物功能、EMC、热或可制造性。
+
 ## 0.8.1 — 2026-10-26
 
 - 更新检查同时覆盖 design-hardware 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。

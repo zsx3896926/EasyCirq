@@ -1,0 +1,510 @@
+{
+  "schema": "design-engine-pcb-preflight/v1",
+  "status": "review",
+  "checks": [
+    {
+      "id": "dump.components_coverage",
+      "status": "pass",
+      "severity": "hard",
+      "objects": {
+        "coverage": "complete",
+        "components": 24
+      },
+      "message": "component inventory is measured as complete",
+      "source": "dump"
+    },
+    {
+      "id": "dump.outline_coverage",
+      "status": "pass",
+      "severity": "hard",
+      "objects": {
+        "coverage": "complete",
+        "bbox": [
+          0.0,
+          0.0,
+          2590.0,
+          1771.7
+        ]
+      },
+      "message": "board outline is measured",
+      "source": "dump"
+    },
+    {
+      "id": "dump.project_identity",
+      "status": "pass",
+      "severity": "hard",
+      "objects": {
+        "expected": "mcu-i2c-s3-edit-r10b-20261026",
+        "measured": [
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "mcu-i2c-s3-edit-r10b-20261026",
+          "06a53de15aa34286ab2eaf0be41d91ba"
+        ]
+      },
+      "message": "project matches the measured dump identity",
+      "source": "dump"
+    },
+    {
+      "id": "dump.document_identity",
+      "status": "pass",
+      "severity": "hard",
+      "objects": {
+        "expected": "40b81985cfb4a5ed",
+        "measured": [
+          "40b81985cfb4a5ed",
+          "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba"
+        ]
+      },
+      "message": "document matches the measured dump identity",
+      "source": "dump"
+    },
+    {
+      "id": "constraints.compiled",
+      "status": "pass",
+      "severity": "hard",
+      "objects": {
+        "status": "compiled",
+        "conflict_kinds": [
+          "edge_fixed_requires_pose_check"
+        ],
+        "blocking_conflicts": [],
+        "unknown": [],
+        "counts": {
+          "constraints": 5,
+          "hard": 4,
+          "preferred": 1,
+          "conflicts": 1,
+          "unknown": 0
+        }
+      },
+      "message": "constraints compiled; only benign pose-check notes are present",
+      "source": "constraints"
+    },
+    {
+      "id": "placement.hard",
+      "status": "pass",
+      "severity": "hard",
+      "objects": {
+        "counts": {
+          "findings": 0,
+          "hard_findings": 0,
+          "constraint_rows": 5,
+          "hard_failed": 0,
+          "hard_unmeasured": 0
+        },
+        "hard_finding_codes": []
+      },
+      "message": "placement satisfies every hard constraint and measured geometry check",
+      "source": "plan"
+    },
+    {
+      "id": "plan.base_hash",
+      "status": "pass",
+      "severity": "hard",
+      "objects": {
+        "plan": "1ac1de2961338a69fba336317af75a5347db27ea6c2bd9037c5b6bf4df8949d3",
+        "dump": "1ac1de2961338a69fba336317af75a5347db27ea6c2bd9037c5b6bf4df8949d3"
+      },
+      "message": "plan base hash matches the measured dump",
+      "source": "plan"
+    },
+    {
+      "id": "plan.primitive_ids",
+      "status": "pass",
+      "severity": "hard",
+      "objects": {
+        "declared": 1,
+        "resolved": 1,
+        "resolved_from_dump": [],
+        "stale": [],
+        "missing": [],
+        "duplicate_claims": {},
+        "declaration_conflicts": [],
+        "duplicate_dump_ids": []
+      },
+      "message": "every placement resolves to a unique measured primitiveId",
+      "source": "plan"
+    },
+    {
+      "id": "plan.designators_measured",
+      "status": "pass",
+      "severity": "hard",
+      "objects": {
+        "placements": 1,
+        "duplicates": [],
+        "unknown": []
+      },
+      "message": "every plan designator is measured on the board",
+      "source": "plan"
+    },
+    {
+      "id": "dump.component_geometry",
+      "status": "unmeasured",
+      "severity": "advisory",
+      "objects": {
+        "components": 24,
+        "missing_bbox": [],
+        "missing_pad_centres": [],
+        "duplicate_pad_numbers": [
+          "U2.41",
+          "U2.41",
+          "U2.41",
+          "U2.41",
+          "U2.41",
+          "U2.41",
+          "U2.41",
+          "U2.41"
+        ],
+        "coverage": "complete"
+      },
+      "message": "duplicate pad numbers exist; pad-count comparison is ambiguous",
+      "source": "dump"
+    },
+    {
+      "id": "schematic.pad_counts",
+      "status": "skipped",
+      "severity": "advisory",
+      "objects": {},
+      "message": "no --schematic supplied; pad counts are not cross-checked",
+      "source": "schematic"
+    },
+    {
+      "id": "intent.ep",
+      "status": "pass",
+      "severity": "advisory",
+      "objects": {
+        "passed": [
+          {
+            "designator": "U90",
+            "pads": [
+              "5"
+            ]
+          }
+        ],
+        "failed": [],
+        "unmeasured": []
+      },
+      "message": "every declared exposed/thermal pad exists in the measured dump",
+      "source": "intent"
+    },
+    {
+      "id": "placement.constraints",
+      "status": "pass",
+      "severity": "advisory",
+      "objects": {
+        "rows": 5,
+        "failed": [],
+        "unmeasured": []
+      },
+      "message": "fixed/edge/near_pin/keepout constraints all pass",
+      "source": "constraints"
+    },
+    {
+      "id": "placement.preferred",
+      "status": "pass",
+      "severity": "advisory",
+      "objects": {
+        "preferred_constraints": [
+          "NP-C99-U2"
+        ],
+        "finding_codes": [],
+        "rows": []
+      },
+      "message": "all declared preferred constraints are satisfied",
+      "source": "constraints"
+    },
+    {
+      "id": "near_pin.decap_feedback",
+      "status": "pass",
+      "severity": "advisory",
+      "objects": {
+        "rows": [
+          {
+            "constraint_id": "NP-C99-U2",
+            "part": "C99.1",
+            "owner": "U2.2",
+            "role": "decap",
+            "part_net": "+3V3",
+            "owner_net": "+3V3",
+            "status": "pass"
+          }
+        ],
+        "note": "pad-centre relation only; copper path is not proven here"
+      },
+      "message": "every decap/feedback near_pin pair has both pads measured on the same net",
+      "source": "constraints"
+    },
+    {
+      "id": "intent.connectors",
+      "status": "pass",
+      "severity": "advisory",
+      "objects": {
+        "passed": [
+          {
+            "designator": "J1",
+            "checks": [
+              {
+                "condition": "edge",
+                "edge": "right",
+                "distance_mil": 32.98849999999993,
+                "max_inset_mil": 150.0,
+                "status": "pass"
+              },
+              {
+                "condition": "facing_rotation",
+                "actual": 180,
+                "expected": 180.0,
+                "status": "pass"
+              }
+            ]
+          }
+        ],
+        "failed": [],
+        "unmeasured": []
+      },
+      "message": "declared connector openings match the measured geometry",
+      "source": "intent"
+    },
+    {
+      "id": "intent.rf",
+      "status": "unmeasured",
+      "severity": "advisory",
+      "objects": {
+        "passed": [],
+        "failed": [],
+        "unmeasured": [
+          {
+            "designator": "U2",
+            "reason": "pour boundary 468bc72736e0f471 on layer 1 has no fill geometry in the dump; copper under the declared region cannot be proven absent"
+          }
+        ]
+      },
+      "message": "an antenna keepout is not fully measurable from the dump",
+      "source": "intent"
+    },
+    {
+      "id": "intent.sensors",
+      "status": "fail",
+      "severity": "advisory",
+      "objects": {
+        "passed": [],
+        "failed": [
+          {
+            "designator": "U90",
+            "reason": "measured copper lies under the sensor",
+            "hits": [
+              {
+                "kind": "track",
+                "object": "2b3d508b03f3894a",
+                "net": "I2C_SCL"
+              },
+              {
+                "kind": "track",
+                "object": "12b9fde9641f3c11",
+                "net": "I2C_SCL"
+              },
+              {
+                "kind": "track",
+                "object": "943e13cd67a41754",
+                "net": "I2C_SDA"
+              },
+              {
+                "kind": "track",
+                "object": "5048e3078184b8b5",
+                "net": "I2C_SDA"
+              },
+              {
+                "kind": "track",
+                "object": "374ce3183d2e3d79",
+                "net": "+3V3"
+              },
+              {
+                "kind": "track",
+                "object": "305c27dbfdb8900e",
+                "net": "GND"
+              },
+              {
+                "kind": "track",
+                "object": "02ce791a5582d06c",
+                "net": "GND"
+              }
+            ],
+            "region": [
+              199.12600000000003,
+              1306.4720000000002,
+              294.611,
+              1393.5269999999998
+            ],
+            "layers": [
+              1,
+              2
+            ]
+          }
+        ],
+        "unmeasured": []
+      },
+      "message": "measured copper lies under a declared sensor",
+      "source": "intent"
+    },
+    {
+      "id": "fabrication.audit",
+      "status": "pass",
+      "severity": "advisory",
+      "objects": {
+        "status": "review",
+        "counts": {
+          "silk_items": 75,
+          "visible_silk": 24,
+          "pours": 2,
+          "vias": 16,
+          "findings": 1,
+          "hard": 1
+        },
+        "hard_findings": [],
+        "preferred_findings": [],
+        "skipped_for_moved_parts": [
+          "moved-part silk: silk_off_board"
+        ]
+      },
+      "message": "no measured silk/pour/via fabrication issue was found",
+      "source": "dump"
+    },
+    {
+      "id": "power.audit",
+      "status": "pass",
+      "severity": "advisory",
+      "objects": {
+        "status": "pass",
+        "failed": [],
+        "unmeasured": [],
+        "nets": [
+          {
+            "net": "+3V3",
+            "status": "pass"
+          },
+          {
+            "net": "GND",
+            "status": "pass"
+          }
+        ]
+      },
+      "message": "declared power widths/pours pass the IPC-2221 screening check",
+      "source": "intent"
+    },
+    {
+      "id": "intent.modules",
+      "status": "skipped",
+      "severity": "advisory",
+      "objects": {},
+      "message": "no intent.modules section; no template binding was declared",
+      "source": "intent"
+    },
+    {
+      "id": "identity.check",
+      "status": "unmeasured",
+      "severity": "advisory",
+      "objects": {},
+      "message": "no --identity supplied; component identity is not verified",
+      "source": "identity"
+    }
+  ],
+  "counts": {
+    "pass": 16,
+    "fail": 1,
+    "unmeasured": 3,
+    "hard_fail": 0,
+    "hard_unmeasured": 0
+  },
+  "board": {
+    "source": {
+      "project_uuid": "06a53de15aa34286ab2eaf0be41d91ba",
+      "project_name": "mcu-i2c-s3-edit-r10b-20261026",
+      "document_uuid": "40b81985cfb4a5ed",
+      "captured_at": "2026-10-26T15:32:07.0869987Z",
+      "semantic_sha256": "1ac1de2961338a69fba336317af75a5347db27ea6c2bd9037c5b6bf4df8949d3"
+    },
+    "project": "mcu-i2c-s3-edit-r10b-20261026",
+    "document_uuid": "40b81985cfb4a5ed",
+    "document_type": "pcb",
+    "captured_at": "2026-10-26T15:32:07.0869987Z",
+    "units": "mil",
+    "coverage": {
+      "components": "complete",
+      "outline": "complete",
+      "copper": "complete",
+      "silk": "complete",
+      "rules": "complete",
+      "courtyard": {
+        "status": "absent",
+        "substitute": "measured rendered bbox",
+        "note": "the dump has no IPC courtyard; bbox includes rendered attributes/silk and is conservative"
+      }
+    },
+    "component_count": 24,
+    "pad_count": 114,
+    "outline_bbox": [
+      0.0,
+      0.0,
+      2590.0,
+      1771.7
+    ],
+    "copper_layers": 2,
+    "silk_count": 75,
+    "copper_counts": {
+      "lines": 233,
+      "vias": 16,
+      "pours": 2
+    },
+    "plan": {
+      "supplied": true,
+      "placements": 1,
+      "base_semantic_sha256": "1ac1de2961338a69fba336317af75a5347db27ea6c2bd9037c5b6bf4df8949d3"
+    }
+  },
+  "notes": [
+    "offline preflight: no easyeda command is executed",
+    "hard check fail/unmeasured blocks; advisory items only cause review",
+    "preferred constraints are advisory by contract and never block",
+    "near_pin distances are pad-centre measurements, not copper-path proofs",
+    "fabrication audit covers only measured silk bboxes, pour fills and via rows; it is not manufacturing approval"
+  ],
+  "not_checked": [
+    "post-move silk for 1 component(s) requires a fresh dump",
+    {
+      "check": "dump.component_geometry",
+      "reason": "duplicate pad numbers exist; pad-count comparison is ambiguous"
+    },
+    {
+      "check": "schematic.pad_counts",
+      "reason": "no --schematic supplied; pad counts are not cross-checked"
+    },
+    {
+      "check": "intent.rf",
+      "reason": "an antenna keepout is not fully measurable from the dump"
+    },
+    {
+      "check": "intent.modules",
+      "reason": "no intent.modules section; no template binding was declared"
+    },
+    {
+      "check": "identity.check",
+      "reason": "no --identity supplied; component identity is not verified"
+    },
+    {
+      "check": "global",
+      "reason": "native DRC / pcb check were not run (pcb_gate owns those stages)"
+    },
+    {
+      "check": "global",
+      "reason": "copper-path connectivity through pours is not proven by geometry alone"
+    },
+    {
+      "check": "global",
+      "reason": "impedance/EMC/thermal and manufacturing files are out of preflight scope"
+    },
+    {
+      "check": "global",
+      "reason": "live-vs-dump freshness is not observable in an offline preflight"
+    }
+  ]
+}

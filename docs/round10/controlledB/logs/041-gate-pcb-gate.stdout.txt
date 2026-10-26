@@ -1,0 +1,590 @@
+{
+  "schema": "design-engine-pcb-gate/v1",
+  "status": "fail",
+  "profile": "full",
+  "case": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB",
+  "evidence_dir": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence",
+  "images_dir": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence",
+  "generated_at": "2026-10-26T15:35:36.099125Z",
+  "stages": [
+    {
+      "id": "PG1_placement",
+      "title": "Placement constraints / measured placement check",
+      "status": "blocked",
+      "required": true,
+      "findings": [
+        {
+          "code": "missing_evidence",
+          "severity": "hard",
+          "message": "placement/constraint evidence missing: constraints",
+          "roles": [
+            "constraints"
+          ]
+        }
+      ],
+      "evidence": [],
+      "metrics": {
+        "missing_roles": [
+          "constraints"
+        ],
+        "reason": "placement/constraint evidence missing"
+      }
+    },
+    {
+      "id": "PG2_layout",
+      "title": "Layout lint quality",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "lint",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-layout-lint-final.json",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "52a5728803e303387b1461e3a59e7420957f2eb41971cb83645a72bb58abc53b",
+          "bytes": 1738,
+          "mtime": "2026-10-26T15:34:19.634776Z"
+        }
+      ],
+      "metrics": {
+        "score": 68,
+        "crossings": 8,
+        "components": 24,
+        "overlap": 0,
+        "off_board": 0,
+        "short": 0,
+        "tight": 0,
+        "silk_over_pad": 0,
+        "coverage_complete": true,
+        "incomplete": false
+      }
+    },
+    {
+      "id": "PG3_drc",
+      "title": "Native PCB DRC",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "drc",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-drc-final.json",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+          "bytes": 137,
+          "mtime": "2026-10-26T15:34:07.542292Z"
+        }
+      ],
+      "metrics": {
+        "passed": true,
+        "total": 0,
+        "connection_violations": 0,
+        "counts": {}
+      }
+    },
+    {
+      "id": "PG4_check",
+      "title": "PCB check errors + WARN dispositions",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "check",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-check-final.json",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "3c09a59221c73401e1e063f3d906d3c7760d1b332fb2c842c40ac93198897e9d",
+          "bytes": 7271,
+          "mtime": "2026-10-26T15:34:15.465853Z"
+        },
+        {
+          "role": "warn_disposition",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\warn-disposition.json",
+          "candidates": 1,
+          "selected_because": "explicit override",
+          "sha256": "f0c005b8f6b4252cc6a0906d415382c183e8717b8773b9b5f01869d5e0940a49",
+          "bytes": 6848,
+          "mtime": "2026-10-26T15:33:45.415720Z"
+        }
+      ],
+      "metrics": {
+        "errors": 0,
+        "warnings": 15,
+        "infos": 1,
+        "total": 16,
+        "disposition_present": true,
+        "disposition_required": true
+      }
+    },
+    {
+      "id": "PG5_netpath",
+      "title": "Key-net continuity (net-path)",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "netpath",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\netpath-key-connections.json",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "c95728bd4268dd7b92a5f52a2c0ae04261df04fa8b76eea6e382a814c938b426",
+          "bytes": 24816,
+          "mtime": "2026-10-26T15:34:47.727342Z",
+          "captured_at": "2026-10-26T15:34:47.726802Z"
+        }
+      ],
+      "metrics": {
+        "required": 15,
+        "connected": 15,
+        "missing": 0,
+        "failed": 0
+      }
+    },
+    {
+      "id": "PG6_sch_pcb",
+      "title": "SCH-PCB component/pin reconciliation",
+      "status": "blocked",
+      "required": true,
+      "findings": [
+        {
+          "code": "missing_evidence",
+          "severity": "hard",
+          "message": "SCH-PCB comparison evidence missing (provide --sch + --dump-after or --sch-pcb): sch_pcb, sch",
+          "roles": [
+            "sch_pcb",
+            "sch"
+          ]
+        }
+      ],
+      "evidence": [],
+      "metrics": {
+        "missing_roles": [
+          "sch_pcb",
+          "sch"
+        ],
+        "reason": "SCH-PCB comparison evidence missing (provide --sch + --dump-after or --sch-pcb)"
+      }
+    },
+    {
+      "id": "PG7_save_reload",
+      "title": "Save -> reload -> fresh dump persistence",
+      "status": "fail",
+      "required": true,
+      "findings": [
+        {
+          "code": "save_reload_changed",
+          "severity": "hard",
+          "message": "pure save/reload must be match, got 'changed'",
+          "counts": {
+            "identity": 0,
+            "geometry": 1,
+            "copper": 136,
+            "unrelated": 0,
+            "copper_geometry": 0
+          }
+        },
+        {
+          "code": "semantic_hash_changed",
+          "severity": "hard",
+          "message": "semanticSha256 changed across a pure save/reload",
+          "before": "1ac1de2961338a69fba336317af75a5347db27ea6c2bd9037c5b6bf4df8949d3",
+          "after": "fbf6dc958b9f78ea5f3956aa788995958d4231108fa9f318e2b0b703c54b80a7"
+        }
+      ],
+      "evidence": [
+        {
+          "role": "dump_before",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-before.json",
+          "candidates": 2,
+          "selected_because": "newest compatible match among 2 candidate(s)",
+          "sha256": "b3a89c2e982befd10247f1a4439e41413d60043ec6d7a64376c8ce4910d06ceb",
+          "bytes": 360104,
+          "mtime": "2026-10-26T15:32:10.852439Z",
+          "captured_at": "2026-10-26T15:32:07.086998Z"
+        },
+        {
+          "role": "dump_after",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-after-reload.json",
+          "candidates": 4,
+          "selected_because": "newest compatible match among 4 candidate(s)",
+          "sha256": "20b1134cac8058bf2e0910b2435172c4ec066c4d6039ac9e7c85de38a8d52765",
+          "bytes": 360449,
+          "mtime": "2026-10-26T15:34:03.917666Z",
+          "captured_at": "2026-10-26T15:34:00.243659Z"
+        },
+        {
+          "role": "save_reload",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\save-reload-diff.json",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "9b0166f97ecadb4f98e4442c89052180e3f36a4841e515689477346cf42d0366",
+          "bytes": 12037,
+          "mtime": "2026-10-26T15:34:03.966599Z"
+        }
+      ],
+      "metrics": {
+        "mode": "pure_persistence",
+        "scope": null,
+        "diff_status": "changed",
+        "diff_counts": {
+          "identity": 0,
+          "geometry": 1,
+          "copper": 136,
+          "unrelated": 0,
+          "copper_geometry": 0
+        },
+        "semantic_sha256_before": "1ac1de2961338a69fba336317af75a5347db27ea6c2bd9037c5b6bf4df8949d3",
+        "semantic_sha256_after": "fbf6dc958b9f78ea5f3956aa788995958d4231108fa9f318e2b0b703c54b80a7",
+        "document_uuid": "40b81985cfb4a5ed",
+        "project_uuid": "06a53de15aa34286ab2eaf0be41d91ba"
+      }
+    },
+    {
+      "id": "PG8_delivery",
+      "title": "Delivery artifacts (images/BOM/archive)",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "image_top",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-final-top.png",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "c409c78da7f015ed6570d1fc3ce593c7cc93342daf7a4d615cb41e1b9e19c444",
+          "bytes": 194441,
+          "mtime": "2026-10-26T15:35:10.351072Z"
+        },
+        {
+          "role": "image_bottom",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-final-bottom.png",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "913248bfff0cd67f16d002f3a28f6824e8f17c686b9d1fcfa44413d0ba643645",
+          "bytes": 100986,
+          "mtime": "2026-10-26T15:35:18.204771Z"
+        },
+        {
+          "role": "actual_svg",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-final-actual.svg",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "1bb0da0fd9e89cf358a357be2cc4550eb8a6c7d263e9b3ad0699aa0126da2a75",
+          "bytes": 78466,
+          "mtime": "2026-10-26T15:35:19.027860Z"
+        },
+        {
+          "role": "bom",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\BOM.csv",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "359a27de4c45ccdc1cab8415f04c19403e10179b898bde8afc2376f47032c418",
+          "bytes": 2554,
+          "mtime": "2026-10-26T15:35:34.378146Z"
+        },
+        {
+          "role": "archive",
+          "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\controlledB-final.epro2",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "781ebf9989298744f2e325c80f5c89887bad403bb1ecc8417617bc585240e104",
+          "bytes": 135860,
+          "mtime": "2026-10-26T15:35:35.898555Z"
+        }
+      ],
+      "metrics": {
+        "images": {
+          "image_top": {
+            "width": 1608,
+            "height": 714
+          },
+          "image_bottom": {
+            "width": 1608,
+            "height": 714
+          }
+        },
+        "svg": {
+          "bytes": 77042
+        },
+        "bom": {
+          "bytes": 2554,
+          "rows": 17
+        },
+        "archive": {
+          "bytes": 135860,
+          "zip": true
+        },
+        "archive_sha256": "781ebf9989298744f2e325c80f5c89887bad403bb1ecc8417617bc585240e104",
+        "baseline": {
+          "provided": false
+        }
+      }
+    }
+  ],
+  "counts": {
+    "stages": 8,
+    "pass": 5,
+    "fail": 1,
+    "blocked": 2,
+    "not_run": 0,
+    "required_fail": 1,
+    "required_blocked": 2,
+    "optional_not_run": 0,
+    "findings": 4,
+    "advisory_findings": 0
+  },
+  "not_checked": [
+    {
+      "stage": "PG1_placement",
+      "check": "stage",
+      "reason": "blocked: required evidence is missing: constraints"
+    },
+    {
+      "stage": "PG5_netpath",
+      "check": "copper_pours",
+      "reason": "net-path proves listed tracks/vias only; copper pours need DRC + poured-list evidence"
+    },
+    {
+      "stage": "PG6_sch_pcb",
+      "check": "stage",
+      "reason": "blocked: required evidence is missing: sch_pcb, sch"
+    },
+    {
+      "stage": "PG7_save_reload",
+      "check": "reload_timestamps",
+      "reason": "save/reload evidence carries no capture timestamp; reload order is inferred from the two dumps only"
+    },
+    {
+      "stage": "PG8_delivery",
+      "check": "baseline_manifest",
+      "reason": "no --baseline-manifest was supplied; image/BOM/archive hashes are recorded but not compared"
+    },
+    {
+      "stage": "PG8_delivery",
+      "check": "archive_restore",
+      "reason": ".epro2 restore/open verification is not performed by this gate"
+    },
+    {
+      "stage": "*",
+      "check": "functional_thermal_emc_manufacturing",
+      "reason": "DRC/lint/pcb-check/net-path do not prove firmware function, thermal, EMC, assembly or manufacturability"
+    }
+  ],
+  "next_command": "python scripts/design_engine_cli.py pcb-constraints --dump C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB --intent <intent.json> --out C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\constraints.json --json",
+  "strict_advisory": false,
+  "key_nets": [
+    {
+      "net": "VBUS_5V",
+      "from": "J1.A4B9",
+      "to": "U1.3"
+    },
+    {
+      "net": "+3V3",
+      "from": "U1.2",
+      "to": "U2.2"
+    },
+    {
+      "net": "+3V3",
+      "from": "U1.2",
+      "to": "U90.3"
+    },
+    {
+      "net": "+3V3",
+      "from": "U1.2",
+      "to": "C4.1"
+    },
+    {
+      "net": "+3V3",
+      "from": "U1.2",
+      "to": "C6.1"
+    },
+    {
+      "net": "I2C_SDA",
+      "from": "U90.1",
+      "to": "U2.17"
+    },
+    {
+      "net": "I2C_SCL",
+      "from": "U90.2",
+      "to": "U2.18"
+    },
+    {
+      "net": "USB_DP_CONN",
+      "from": "J1.A6",
+      "to": "R92.1"
+    },
+    {
+      "net": "USB_DP_MCU",
+      "from": "R92.2",
+      "to": "U2.14"
+    },
+    {
+      "net": "USB_DM_CONN",
+      "from": "J1.A7",
+      "to": "R93.1"
+    },
+    {
+      "net": "USB_DM_MCU",
+      "from": "R93.2",
+      "to": "U2.13"
+    },
+    {
+      "net": "EN",
+      "from": "U2.3",
+      "to": "SW2.1"
+    },
+    {
+      "net": "BOOT",
+      "from": "U2.27",
+      "to": "SW1.1"
+    },
+    {
+      "net": "+3V3",
+      "from": "C90.1",
+      "to": "U90.3"
+    },
+    {
+      "net": "VBUS_5V",
+      "from": "C2.1",
+      "to": "U1.3"
+    }
+  ],
+  "baseline_manifest": null,
+  "edit_scope": null,
+  "evidence": {
+    "actual_svg": {
+      "role": "actual_svg",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-final-actual.svg",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "1bb0da0fd9e89cf358a357be2cc4550eb8a6c7d263e9b3ad0699aa0126da2a75",
+      "bytes": 78466,
+      "mtime": "2026-10-26T15:35:19.027860Z"
+    },
+    "archive": {
+      "role": "archive",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\controlledB-final.epro2",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "781ebf9989298744f2e325c80f5c89887bad403bb1ecc8417617bc585240e104",
+      "bytes": 135860,
+      "mtime": "2026-10-26T15:35:35.898555Z"
+    },
+    "bom": {
+      "role": "bom",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\BOM.csv",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "359a27de4c45ccdc1cab8415f04c19403e10179b898bde8afc2376f47032c418",
+      "bytes": 2554,
+      "mtime": "2026-10-26T15:35:34.378146Z"
+    },
+    "check": {
+      "role": "check",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-check-final.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "3c09a59221c73401e1e063f3d906d3c7760d1b332fb2c842c40ac93198897e9d",
+      "bytes": 7271,
+      "mtime": "2026-10-26T15:34:15.465853Z"
+    },
+    "drc": {
+      "role": "drc",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-drc-final.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+      "bytes": 137,
+      "mtime": "2026-10-26T15:34:07.542292Z"
+    },
+    "dump_after": {
+      "role": "dump_after",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-after-reload.json",
+      "candidates": 4,
+      "selected_because": "newest compatible match among 4 candidate(s)",
+      "sha256": "20b1134cac8058bf2e0910b2435172c4ec066c4d6039ac9e7c85de38a8d52765",
+      "bytes": 360449,
+      "mtime": "2026-10-26T15:34:03.917666Z",
+      "captured_at": "2026-10-26T15:34:00.243659Z"
+    },
+    "dump_before": {
+      "role": "dump_before",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-dump-before.json",
+      "candidates": 2,
+      "selected_because": "newest compatible match among 2 candidate(s)",
+      "sha256": "b3a89c2e982befd10247f1a4439e41413d60043ec6d7a64376c8ce4910d06ceb",
+      "bytes": 360104,
+      "mtime": "2026-10-26T15:32:10.852439Z",
+      "captured_at": "2026-10-26T15:32:07.086998Z"
+    },
+    "image_bottom": {
+      "role": "image_bottom",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-final-bottom.png",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "913248bfff0cd67f16d002f3a28f6824e8f17c686b9d1fcfa44413d0ba643645",
+      "bytes": 100986,
+      "mtime": "2026-10-26T15:35:18.204771Z"
+    },
+    "image_top": {
+      "role": "image_top",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-final-top.png",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "c409c78da7f015ed6570d1fc3ce593c7cc93342daf7a4d615cb41e1b9e19c444",
+      "bytes": 194441,
+      "mtime": "2026-10-26T15:35:10.351072Z"
+    },
+    "lint": {
+      "role": "lint",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\pcb-layout-lint-final.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "52a5728803e303387b1461e3a59e7420957f2eb41971cb83645a72bb58abc53b",
+      "bytes": 1738,
+      "mtime": "2026-10-26T15:34:19.634776Z"
+    },
+    "netpath": {
+      "role": "netpath",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\netpath-key-connections.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "c95728bd4268dd7b92a5f52a2c0ae04261df04fa8b76eea6e382a814c938b426",
+      "bytes": 24816,
+      "mtime": "2026-10-26T15:34:47.727342Z",
+      "captured_at": "2026-10-26T15:34:47.726802Z"
+    },
+    "placement": {
+      "role": "placement",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\placement-check.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "f7df6573313c463f76bcaebbf195e14888510dea91541f02e74c1c1d67734f67",
+      "bytes": 2162,
+      "mtime": "2026-10-26T15:32:22.858152Z"
+    },
+    "save_reload": {
+      "role": "save_reload",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\save-reload-diff.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "9b0166f97ecadb4f98e4442c89052180e3f36a4841e515689477346cf42d0366",
+      "bytes": 12037,
+      "mtime": "2026-10-26T15:34:03.966599Z"
+    },
+    "warn_disposition": {
+      "role": "warn_disposition",
+      "path": "C:\\Users\\jlc\\work\\hds-pcb-round9\\docs\\round10\\controlledB\\evidence\\warn-disposition.json",
+      "candidates": 1,
+      "selected_because": "explicit override",
+      "sha256": "f0c005b8f6b4252cc6a0906d415382c183e8717b8773b9b5f01869d5e0940a49",
+      "bytes": 6848,
+      "mtime": "2026-10-26T15:33:45.415720Z"
+    }
+  },
+  "warnings": []
+}
