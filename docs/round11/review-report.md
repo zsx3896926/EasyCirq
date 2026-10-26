@@ -82,7 +82,7 @@
 
 ## 7. 独立复核
 
-本轮改动经过 4 个维度的独立审查（证据解析、门禁 provenance、执行/几何、离线入口/文档），每条候选再由独立 verifier 尝试反驳；共确认 25 条缺陷并已修复/补测，包括：真实 lint 的 `null` 明细数组被误判未测量、summary.total 大于逐项 findings 仍 clean、多对一 alias 分区误判、duplicate manifest role 静默回退、`inferred_mtime` 被当内容时间、显式 override 混用 manifest、manifest 路径受 glob 限制、keepout 约束未进入铜检查、实测 rotation 被 normalize_board 补 0、凹板 pour 边/keepout 宽度/覆铜覆盖 keepout、preferred 约束被硬拒绝、journal 头校验失败仍 confirmed、复用网络未测量/旋转偏移、locked/fixed mm 坐标重复缩放、no-op 无 primitiveId 被拒绝、arc outline 被标 exact、文档批量替换损坏、guard shell 绕过、0 测试假绿、`--out` 父目录缺失、基准输入未全部哈希、变形基准 base 非 match 等。复核中也有一条“sch_visual 阈值过宽”被 verifier 判为非缺陷（真实残差对象确实保留）。
+本轮改动经过 4 个维度的独立审查（证据解析、门禁 provenance、执行/几何、离线入口/文档），每条候选再由独立 verifier 尝试反驳；共确认 30 条缺陷并已修复/补测，包括：真实 lint 的 `null` 明细数组被误判未测量、summary.total 大于逐项 findings 仍 clean、多对一 alias 分区误判、duplicate manifest role 静默回退、`inferred_mtime` 被当内容时间、显式 override 混用 manifest、manifest 路径受 glob 限制、keepout 约束未进入铜检查、实测 rotation 被 normalize_board 补 0、凹板 pour 边/keepout 宽度/覆铜覆盖 keepout、preferred 约束被硬拒绝、journal 头校验失败仍 confirmed、复用网络未测量/旋转偏移、locked/fixed mm 坐标重复缩放、no-op 无 primitiveId 被拒绝、arc outline 被标 exact、文档批量替换损坏、guard shell 绕过、0 测试假绿、`--out` 父目录缺失、基准输入未全部哈希、变形基准 base 非 match 等。复核中也有一条“sch_visual 阈值过宽”被 verifier 判为非缺陷（真实残差对象确实保留）。
 
 ## 8. 结论边界
 
