@@ -40,6 +40,37 @@ def fixture(recipe,scale=1):
 
 
 class RecipeTests(unittest.TestCase):
+    def test_fixed_obstacle_moves_candidate_outward_without_changing_alignment(self):
+        recipe = RECIPES[0]
+        source, bindings = fixture(recipe)
+        initial = mod.instantiate(source, bindings, recipe)
+        lower = next(p for p in initial['placements'] if p['role'] == 'lower')
+        obstacle = copy.deepcopy(source['components'][1])
+        obstacle['id'] = 'fixed-obstacle'
+        obstacle['measurement'] = copy.deepcopy(lower['measurement'])
+        source['components'].append(obstacle)
+        before = copy.deepcopy(source)
+        result = mod.instantiate(source, bindings, recipe)
+        moved = next(p for p in result['placements'] if p['role'] == 'lower')
+        self.assertTrue(mod.separated(mod.envelope(moved['measurement']), mod.envelope(obstacle['measurement']), 20))
+        self.assertEqual(moved['measurement']['x'], lower['measurement']['x'])
+        self.assertLess(moved['measurement']['y'], lower['measurement']['y'])
+        self.assertGreater(result['placementSearch'][0]['steps'], 0)
+        self.assertEqual(source, before)
+        self.assertEqual(result, mod.instantiate(source, bindings, recipe))
+        exhausted = mod.instantiate(source, bindings, recipe, max_steps=0)
+        self.assertEqual(exhausted['status'], 'needs_review')
+        self.assertIn('placement_search_exhausted', [w['code'] for w in exhausted['warnings']])
+        self.assertEqual(exhausted['routingStatus'], 'NOT RUN')
+
+    def test_invalid_search_budget(self):
+        recipe = RECIPES[0]
+        source, bindings = fixture(recipe)
+        for budget in (-1, 1.5, True, 10001):
+            with self.assertRaises(ValueError):
+                mod.instantiate(source, bindings, recipe, max_steps=budget)
+
+
     def test_all_recipes_two_measured_sizes_preserve_geometry_and_nets(self):
         for recipe in RECIPES:
             for scale in (1,3):

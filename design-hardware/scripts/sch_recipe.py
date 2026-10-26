@@ -48,7 +48,18 @@ def translate(m, dx, dy):
         box['maxY'] += dy
 
 
-def instantiate(source, bindings, recipe, gap=20):
+def separated(a, b, gap):
+    return (a[2]+gap <= b[0] or b[2]+gap <= a[0]
+            or a[3]+gap <= b[1] or b[3]+gap <= a[1])
+
+
+def shifted(box, dx, dy):
+    return [box[0]+dx, box[1]+dy, box[2]+dx, box[3]+dy]
+
+
+def instantiate(source, bindings, recipe, gap=20, max_steps=200):
+    if type(max_steps) is not int or not 0 <= max_steps <= 10000:
+        raise ValueError('max_steps must be an integer in 0..10000')
     if source.get('schemaVersion') != 1:
         raise ValueError('expected layout-source schemaVersion 1')
     if number(gap) <= 0 or gap % 5:
@@ -88,7 +99,13 @@ def instantiate(source, bindings, recipe, gap=20):
     for a,b in recipe['connections']:
         if not semantic[a].get('net') or semantic[a].get('net') != semantic[b].get('net'):
             raise ValueError(f'topology mismatch: {a} and {b} must already share a nonempty net')
+    fixed = [(c['id'], envelope(c['measurement'])) for c in source['components'] if c['id'] not in used]
     placed = {recipe['core']}
+    core_box = envelope(selected[recipe['core']]['measurement'])
+    for ident, bounds in fixed:
+        if not separated(core_box, bounds, gap):
+            warnings.append({'code': 'fixed_core_conflict', 'componentId': ident})
+    search_records = []
     for rule in recipe['placements']:
         role, target = rule['role'], rule['relativeTo']
         if target not in placed or role in placed:
@@ -108,6 +125,22 @@ def instantiate(source, bindings, recipe, gap=20):
             dx,dy = q['x']-p['x'], math.floor((other[1]-gap-own[3])/5)*5
         else:
             raise ValueError('unknown side')
+        # Outward-only search preserves semantic pin alignment and orientation.
+        obstacles = fixed + [(r, envelope(selected[r]['measurement'])) for r in sorted(placed)]
+        vx, vy = {'left':(-5,0), 'right':(5,0), 'above':(0,5), 'below':(0,-5)}[side]
+        accepted = None
+        for step in range(max_steps + 1):
+            candidate = shifted(own, dx+step*vx, dy+step*vy)
+            if all(separated(candidate, b, gap) for _,b in obstacles):
+                accepted = step
+                break
+        search_records.append({'role': role, 'steps': accepted, 'budget': max_steps,
+                               'alignmentPreserved': True})
+        if accepted is None:
+            warnings.append({'code': 'placement_search_exhausted', 'role': role,
+                             'maxSteps': max_steps})
+        else:
+            dx,dy = dx+accepted*vx,dy+accepted*vy
         translate(m,dx,dy)
         placed.add(role)
     if placed != set(selected):
@@ -133,6 +166,7 @@ def instantiate(source, bindings, recipe, gap=20):
             'evidenceStatus':'experimental_unverified_in_eda',
             'routingStatus':'NOT RUN','liveApplyStatus':'NOT RUN',
             'placements':placements,'connectionIntents':intents,'warnings':warnings,
+            'placementSearch':search_records, 'obstacleScope':'selected and unselected measured component envelopes; wires and sheet NOT checked',
             'checks':recipe['checks']}
 
 
@@ -163,6 +197,7 @@ def main(argv=None):
     parser.add_argument('--bindings',required=True,type=Path)
     parser.add_argument('--recipe',required=True)
     parser.add_argument('--gap',default=20,type=int)
+    parser.add_argument('--max-steps', default=200, type=int)
     parser.add_argument('--out-dir',required=True,type=Path)
     args = parser.parse_args(argv)
     try:
@@ -171,7 +206,7 @@ def main(argv=None):
         if recipe is None:
             raise ValueError('unknown recipe')
         result = instantiate(json.loads(args.source.read_text(encoding='utf-8')),
-                             json.loads(args.bindings.read_text(encoding='utf-8')),recipe,args.gap)
+                             json.loads(args.bindings.read_text(encoding='utf-8')),recipe,args.gap,args.max_steps)
         result['provenance'] = {name:hashlib.sha256(path.read_bytes()).hexdigest()
                                 for name,path in [('source',args.source),('bindings',args.bindings),('catalog',CATALOG)]}
         args.out_dir.mkdir(parents=True,exist_ok=True)
