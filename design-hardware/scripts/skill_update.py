@@ -426,10 +426,43 @@ def check(target, refresh=False):
     return {'status': 'update_available' if available else 'current', 'installed_version': cv,
             'latest_version': m['version'], 'notes': m.get('notes', ''), 'automatic_install': False}
 
+def companion_module():
+    import importlib.util
+    path = Path(__file__).resolve().with_name('companion_update.py')
+    spec = importlib.util.spec_from_file_location('hardware_companion_update', path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def check_all(target, client, home, refresh=False, exe=None):
+    # Check both independently: our missing release must not hide runtime problems.
+    try:
+        own = check(target, refresh)
+    except (UpdateError, OSError, ValueError, KeyError) as e:
+        own = {'status': 'unverified', 'message': str(e)}
+    cache = state_dir(target) / 'companion-update-cache.json'
+    dep = None
+    if not refresh and cache.is_file():
+        stored = read_json(cache)
+        if stored.get('client') == client and stored.get('exe') == str(exe) and 0 <= time.time() - stored.get('checked_at', 0) < 86400:
+            dep = stored['result']
+    if dep is None:
+        try:
+            dep = companion_module().check(client, home, exe)
+        except (ImportError, OSError, ValueError) as e:
+            dep = {'status': 'unverified', 'message': str(e)}
+        if dep.get('status') == 'current':
+            cache.parent.mkdir(parents=True, exist_ok=True)
+            write_json(cache, {'client': client, 'exe': str(exe), 'checked_at': time.time(), 'result': dep})
+    return {'status': 'current' if own.get('status') == dep.get('status') == 'current' else 'needs_attention',
+            'design_hardware': own, 'easyeda_agent': dep, 'automatic_install': False}
+
+
 def menu(home=None):
     print('硬件设计 Skill：安装与更新')
-    print('1 安装  2 检查更新  3 升级  4 安装状态  5 回退  6 修复  7 恢复中断')
-    actions = dict(zip('1234567', ['install', 'check', 'update', 'status', 'rollback', 'repair', 'recover']))
+    print('1 安装  2 检查更新  3 升级本Skill  4 安装状态  5 回退  6 修复  7 恢复中断  8 升级EDA执行器')
+    actions = dict(zip('12345678', ['install', 'check', 'update', 'status', 'rollback', 'repair', 'recover', 'update-agent']))
     action = actions.get(input('操作编号：').strip())
     print('1 Claude Code  2 Codex  3 WorkBuddy')
     client = {'1': 'claude', '2': 'codex', '3': 'workbuddy'}.get(input('客户端编号：').strip())
@@ -438,12 +471,14 @@ def menu(home=None):
     args = [action, '--client', client]
     if home is not None:
         args += ['--home', str(home)]
-    if action in ('install', 'update', 'repair', 'rollback'):
+    if action in ('install', 'update', 'repair', 'rollback', 'update-agent'):
         print('请先结束当前画板任务。文件操作后需重载技能或开启新会话。')
         if action == 'repair':
             print('修复恢复同版本发布文件，本地改动整体保存在备份中。')
         if input('确认执行？输入 YES：').strip() != 'YES':
             return 0
+    if action == 'update-agent':
+        args.append('--idle')
     if action == 'install' and input('旧版手动安装是否备份后迁移？输入 YES 或直接回车：').strip() == 'YES':
         args.append('--adopt')
     local = Path(__file__).resolve().parent / 'release.json'
@@ -462,7 +497,7 @@ def main(argv=None):
         if hasattr(stream, 'reconfigure'):
             stream.reconfigure(encoding='utf-8', errors='backslashreplace')
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument('action', choices=['menu', 'discover', 'status', 'check', 'install', 'update', 'repair', 'rollback', 'recover', 'pack'])
+    p.add_argument('action', choices=['menu', 'discover', 'status', 'check', 'install', 'update', 'repair', 'rollback', 'recover', 'pack', 'update-agent'])
     p.add_argument('--client', choices=list(ROOTS))
     p.add_argument('--home', type=Path, default=Path.home())
     p.add_argument('--target', type=Path)
@@ -470,6 +505,9 @@ def main(argv=None):
     p.add_argument('--manifest', type=Path, help='Detached release.json for archive SHA256 validation')
     p.add_argument('--adopt', action='store_true', help='Explicitly back up and migrate an unmanaged installation')
     p.add_argument('--refresh', action='store_true')
+    p.add_argument('--easyeda', type=Path, help='Explicit easyeda executable for companion updates')
+    p.add_argument('--agent-version', help='Pin a stable easyeda-agent version')
+    p.add_argument('--idle', action='store_true', help='Confirm no EDA task is running before companion upgrade')
     p.add_argument('--source', type=Path)
     p.add_argument('--output', type=Path)
     p.add_argument('--source-commit', default='unknown')
@@ -492,7 +530,15 @@ def main(argv=None):
             if a.action in ('status', 'rollback', 'recover'):
                 result = globals()[a.action](target)
             elif a.action == 'check':
-                result = check(target, a.refresh)
+                if not a.client:
+                    raise UpdateError('Unified check requires --client')
+                result = check_all(target, a.client, a.home, a.refresh, a.easyeda)
+            elif a.action == 'update-agent':
+                if not a.client:
+                    raise UpdateError('Companion upgrade requires --client')
+                with locked(target):
+                    result = companion_module().update(a.client, a.home, state_dir(target), a.easyeda, a.agent_version, a.idle)
+                    (state_dir(target) / 'companion-update-cache.json').unlink(missing_ok=True)
             elif a.package:
                 result = install(target, a.package, read_json(a.manifest) if a.manifest else None,
                                  adopt=a.adopt, repair=a.action == 'repair')
@@ -503,6 +549,8 @@ def main(argv=None):
                     package.write_bytes(download(m['download_url']))
                     result = install(target, package, m, adopt=a.adopt, repair=a.action == 'repair')
         print(json.dumps(result, ensure_ascii=False, indent=2))
+        if a.action == 'update-agent' and result.get('status') not in ('complete', 'already_current'):
+            return 1
         return 0
     except (UpdateError, OSError, ValueError, KeyError, zipfile.BadZipFile) as exc:
         print(json.dumps({'status': 'error', 'message': str(exc)}, ensure_ascii=False), file=sys.stderr)

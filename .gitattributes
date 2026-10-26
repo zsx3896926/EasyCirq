@@ -35,3 +35,6 @@ distribution/*.cmd text eol=crlf
 distribution/*.ps1 text eol=crlf
 tests/test_skill_update.py text eol=lf
 .github/workflows/skill-updater.yml text eol=lf
+
+design-hardware/scripts/companion_update.py text eol=lf
+tests/test_companion_update.py text eol=lf
