@@ -1,0 +1,2624 @@
+{
+ "window": {
+  "from": "2026-10-26T02:55:54.676488+00:00",
+  "to": "2026-10-26T06:07:35.941976+00:00",
+  "span_min": 191.69
+ },
+ "calls": 9245,
+ "by_project_in_window": {
+  "NONE": 259,
+  "temp-alarm-p1-20261026": 7,
+  "dual-scope-instrument-01": 9245,
+  "pcb-import-probe-01": 80
+ },
+ "daemon_min": 97.1,
+ "think_min_gt2s": 167.56,
+ "failures": 0,
+ "probe_calls": 7296,
+ "probe_seconds": 3123.1,
+ "probe_share_calls": 0.7892,
+ "mutation_calls": 1939,
+ "mutation_seconds": 2670.8,
+ "result_mb": 211.7,
+ "actions": [
+  {
+   "action": "schematic.components.list",
+   "calls": 3863,
+   "failures": 0,
+   "seconds": 2765.2,
+   "median_ms": 66,
+   "p95_ms": 3359,
+   "max_ms": 99444,
+   "max_ts": "2026-10-26T05:26:08.395690+00:00",
+   "payload_mb": 200.2
+  },
+  {
+   "action": "schematic.component.place",
+   "calls": 526,
+   "failures": 0,
+   "seconds": 1226.7,
+   "median_ms": 938.0,
+   "p95_ms": 9476,
+   "max_ms": 15759,
+   "max_ts": "2026-10-26T05:12:18.218605+00:00",
+   "payload_mb": 1.3
+  },
+  {
+   "action": "schematic.power.connect_pin",
+   "calls": 1132,
+   "failures": 0,
+   "seconds": 916.6,
+   "median_ms": 268.5,
+   "p95_ms": 5495,
+   "max_ms": 18095,
+   "max_ts": "2026-10-26T04:53:54.494658+00:00",
+   "payload_mb": 1.6
+  },
+  {
+   "action": "schematic.save",
+   "calls": 107,
+   "failures": 0,
+   "seconds": 273.1,
+   "median_ms": 30,
+   "p95_ms": 10123,
+   "max_ms": 55334,
+   "max_ts": "2026-10-26T05:05:34.880569+00:00",
+   "payload_mb": 0.1
+  },
+  {
+   "action": "schematic.library.search",
+   "calls": 287,
+   "failures": 0,
+   "seconds": 160.0,
+   "median_ms": 474,
+   "p95_ms": 1086,
+   "max_ms": 2392,
+   "max_ts": "2026-10-26T03:07:32.081004+00:00",
+   "payload_mb": 0.5
+  },
+  {
+   "action": "document.open",
+   "calls": 94,
+   "failures": 0,
+   "seconds": 151.5,
+   "median_ms": 683.5,
+   "p95_ms": 4262,
+   "max_ms": 20804,
+   "max_ts": "2026-10-26T05:23:44.533949+00:00",
+   "payload_mb": 0.1
+  },
+  {
+   "action": "document.current",
+   "calls": 2406,
+   "failures": 0,
+   "seconds": 79.9,
+   "median_ms": 4.0,
+   "p95_ms": 277,
+   "max_ms": 937,
+   "max_ts": "2026-10-26T05:08:48.559901+00:00",
+   "payload_mb": 2.3
+  },
+  {
+   "action": "schematic.export.image",
+   "calls": 4,
+   "failures": 0,
+   "seconds": 34.9,
+   "median_ms": 5433.5,
+   "p95_ms": 23355,
+   "max_ms": 23355,
+   "max_ts": "2026-10-26T06:02:57.400160+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.page.create",
+   "calls": 16,
+   "failures": 0,
+   "seconds": 34.9,
+   "median_ms": 1897.0,
+   "p95_ms": 3041,
+   "max_ms": 10505,
+   "max_ts": "2026-10-26T03:57:52.861008+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.pages.list",
+   "calls": 145,
+   "failures": 0,
+   "seconds": 34.7,
+   "median_ms": 37,
+   "p95_ms": 516,
+   "max_ms": 17439,
+   "max_ts": "2026-10-26T04:27:54.382667+00:00",
+   "payload_mb": 0.5
+  },
+  {
+   "action": "library.device.get",
+   "calls": 48,
+   "failures": 0,
+   "seconds": 27.3,
+   "median_ms": 526.0,
+   "p95_ms": 994,
+   "max_ms": 1150,
+   "max_ts": "2026-10-26T03:12:45.826714+00:00",
+   "payload_mb": 0.1
+  },
+  {
+   "action": "library.symbol.export_source",
+   "calls": 47,
+   "failures": 0,
+   "seconds": 18.1,
+   "median_ms": 352,
+   "p95_ms": 567,
+   "max_ms": 900,
+   "max_ts": "2026-10-26T03:12:47.043757+00:00",
+   "payload_mb": 0.1
+  },
+  {
+   "action": "pcb.import_changes",
+   "calls": 1,
+   "failures": 0,
+   "seconds": 16.1,
+   "median_ms": 16097,
+   "p95_ms": 16097,
+   "max_ms": 16097,
+   "max_ts": "2026-10-26T05:25:18.373041+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.page.clear",
+   "calls": 23,
+   "failures": 0,
+   "seconds": 14.4,
+   "median_ms": 88,
+   "p95_ms": 4697,
+   "max_ms": 6656,
+   "max_ts": "2026-10-26T04:43:56.519606+00:00",
+   "payload_mb": 0.1
+  },
+  {
+   "action": "schematic.check",
+   "calls": 18,
+   "failures": 0,
+   "seconds": 11.4,
+   "median_ms": 94.5,
+   "p95_ms": 1195,
+   "max_ms": 8767,
+   "max_ts": "2026-10-26T04:56:48.854499+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.visible_text.bboxes",
+   "calls": 18,
+   "failures": 0,
+   "seconds": 9.9,
+   "median_ms": 79.0,
+   "p95_ms": 193,
+   "max_ms": 8426,
+   "max_ts": "2026-10-26T04:57:06.995785+00:00",
+   "payload_mb": 0.3
+  },
+  {
+   "action": "pcb.documents.list",
+   "calls": 133,
+   "failures": 0,
+   "seconds": 8.7,
+   "median_ms": 4,
+   "p95_ms": 416,
+   "max_ms": 430,
+   "max_ts": "2026-10-26T05:25:58.936046+00:00",
+   "payload_mb": 0.1
+  },
+  {
+   "action": "schematic.pin.set_no_connect",
+   "calls": 20,
+   "failures": 0,
+   "seconds": 8.6,
+   "median_ms": 331.0,
+   "p95_ms": 1007,
+   "max_ms": 1330,
+   "max_ts": "2026-10-26T04:34:29.773614+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.component.replace",
+   "calls": 2,
+   "failures": 0,
+   "seconds": 6.9,
+   "median_ms": 3462.0,
+   "p95_ms": 3605,
+   "max_ms": 3605,
+   "max_ts": "2026-10-26T05:57:54.902897+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "project.export",
+   "calls": 2,
+   "failures": 0,
+   "seconds": 5.9,
+   "median_ms": 2964.5,
+   "p95_ms": 4398,
+   "max_ms": 4398,
+   "max_ts": "2026-10-26T05:32:04.956867+00:00",
+   "payload_mb": 3.8
+  },
+  {
+   "action": "project.create",
+   "calls": 1,
+   "failures": 0,
+   "seconds": 4.3,
+   "median_ms": 4303,
+   "p95_ms": 4303,
+   "max_ms": 4303,
+   "max_ts": "2026-10-26T02:55:54.676488+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.primitives.delete",
+   "calls": 12,
+   "failures": 0,
+   "seconds": 3.6,
+   "median_ms": 348.0,
+   "p95_ms": 425,
+   "max_ms": 477,
+   "max_ts": "2026-10-26T04:01:37.923479+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.text.list",
+   "calls": 185,
+   "failures": 0,
+   "seconds": 2.9,
+   "median_ms": 4,
+   "p95_ms": 41,
+   "max_ms": 349,
+   "max_ts": "2026-10-26T04:40:36.422959+00:00",
+   "payload_mb": 0.2
+  },
+  {
+   "action": "project.open",
+   "calls": 1,
+   "failures": 0,
+   "seconds": 2.9,
+   "median_ms": 2868,
+   "p95_ms": 2868,
+   "max_ms": 2868,
+   "max_ts": "2026-10-26T05:56:22.415089+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "project.current",
+   "calls": 70,
+   "failures": 0,
+   "seconds": 1.6,
+   "median_ms": 5.0,
+   "p95_ms": 260,
+   "max_ms": 435,
+   "max_ts": "2026-10-26T04:57:17.489870+00:00",
+   "payload_mb": 0.1
+  },
+  {
+   "action": "debug.exec_js",
+   "calls": 54,
+   "failures": 0,
+   "seconds": 1.2,
+   "median_ms": 5.0,
+   "p95_ms": 12,
+   "max_ms": 319,
+   "max_ts": "2026-10-26T04:57:16.004512+00:00",
+   "payload_mb": 0.2
+  },
+  {
+   "action": "library.symbol.get",
+   "calls": 1,
+   "failures": 0,
+   "seconds": 1.0,
+   "median_ms": 1036,
+   "p95_ms": 1036,
+   "max_ms": 1036,
+   "max_ts": "2026-10-26T03:09:18.790978+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "pcb.board.info",
+   "calls": 1,
+   "failures": 0,
+   "seconds": 0.6,
+   "median_ms": 643,
+   "p95_ms": 643,
+   "max_ms": 643,
+   "max_ts": "2026-10-26T05:25:09.782613+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "pcb.outline.get",
+   "calls": 1,
+   "failures": 0,
+   "seconds": 0.6,
+   "median_ms": 616,
+   "p95_ms": 616,
+   "max_ms": 616,
+   "max_ts": "2026-10-26T05:25:42.656697+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.pin.disconnect",
+   "calls": 2,
+   "failures": 0,
+   "seconds": 0.5,
+   "median_ms": 268.0,
+   "p95_ms": 278,
+   "max_ms": 278,
+   "max_ts": "2026-10-26T04:01:03.559335+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "pcb.components.list",
+   "calls": 1,
+   "failures": 0,
+   "seconds": 0.5,
+   "median_ms": 513,
+   "p95_ms": 513,
+   "max_ms": 513,
+   "max_ts": "2026-10-26T05:25:42.030845+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.component.modify",
+   "calls": 3,
+   "failures": 0,
+   "seconds": 0.5,
+   "median_ms": 155,
+   "p95_ms": 249,
+   "max_ms": 249,
+   "max_ts": "2026-10-26T03:48:14.250412+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "schematic.titleblock.get",
+   "calls": 19,
+   "failures": 0,
+   "seconds": 0.4,
+   "median_ms": 6,
+   "p95_ms": 9,
+   "max_ms": 303,
+   "max_ts": "2026-10-26T04:57:17.928917+00:00",
+   "payload_mb": 0.1
+  },
+  {
+   "action": "schematic.library.get_by_lcsc",
+   "calls": 1,
+   "failures": 0,
+   "seconds": 0.2,
+   "median_ms": 186,
+   "p95_ms": 186,
+   "max_ms": 186,
+   "max_ts": "2026-10-26T03:26:19.602152+00:00",
+   "payload_mb": 0.0
+  },
+  {
+   "action": "board.list",
+   "calls": 1,
+   "failures": 0,
+   "seconds": 0.0,
+   "median_ms": 10,
+   "p95_ms": 10,
+   "max_ms": 10,
+   "max_ts": "2026-10-26T02:56:05.141269+00:00",
+   "payload_mb": 0.0
+  }
+ ],
+ "commands": [
+  {
+   "command": "easyeda sch autoconnect",
+   "records": 5193,
+   "clients": 167,
+   "seconds": 2304.6,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.components.list",
+     2518
+    ],
+    [
+     "document.current",
+     1348
+    ],
+    [
+     "schematic.power.connect_pin",
+     1132
+    ],
+    [
+     "schematic.text.list",
+     169
+    ],
+    [
+     "schematic.pages.list",
+     8
+    ],
+    [
+     "pcb.documents.list",
+     8
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch place",
+   "records": 2359,
+   "clients": 498,
+   "seconds": 1919.1,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.components.list",
+     1135
+    ],
+    [
+     "document.current",
+     629
+    ],
+    [
+     "schematic.component.place",
+     526
+    ],
+    [
+     "schematic.pages.list",
+     23
+    ],
+    [
+     "pcb.documents.list",
+     23
+    ],
+    [
+     "document.open",
+     23
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch list",
+   "records": 267,
+   "clients": 44,
+   "seconds": 767.5,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.components.list",
+     123
+    ],
+    [
+     "document.current",
+     43
+    ],
+    [
+     "schematic.pages.list",
+     43
+    ],
+    [
+     "pcb.documents.list",
+     43
+    ],
+    [
+     "document.open",
+     15
+    ]
+   ]
+  },
+  {
+   "command": "(none)",
+   "records": 60,
+   "clients": 1,
+   "seconds": 256.3,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.save",
+     60
+    ]
+   ]
+  },
+  {
+   "command": "easyeda lib search",
+   "records": 287,
+   "clients": 270,
+   "seconds": 160.0,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.library.search",
+     287
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch export-image",
+   "records": 16,
+   "clients": 5,
+   "seconds": 86.2,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.export.image",
+     4
+    ],
+    [
+     "document.current",
+     3
+    ],
+    [
+     "schematic.pages.list",
+     3
+    ],
+    [
+     "pcb.documents.list",
+     3
+    ],
+    [
+     "schematic.components.list",
+     2
+    ],
+    [
+     "document.open",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch save",
+   "records": 159,
+   "clients": 45,
+   "seconds": 73.0,
+   "failures": 0,
+   "top_actions": [
+    [
+     "document.current",
+     73
+    ],
+    [
+     "schematic.save",
+     47
+    ],
+    [
+     "schematic.pages.list",
+     13
+    ],
+    [
+     "pcb.documents.list",
+     13
+    ],
+    [
+     "document.open",
+     13
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch check",
+   "records": 359,
+   "clients": 20,
+   "seconds": 62.0,
+   "failures": 0,
+   "top_actions": [
+    [
+     "document.current",
+     89
+    ],
+    [
+     "schematic.components.list",
+     57
+    ],
+    [
+     "debug.exec_js",
+     54
+    ],
+    [
+     "project.current",
+     34
+    ],
+    [
+     "schematic.pages.list",
+     20
+    ],
+    [
+     "pcb.documents.list",
+     20
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch clear",
+   "records": 204,
+   "clients": 23,
+   "seconds": 39.5,
+   "failures": 0,
+   "top_actions": [
+    [
+     "document.current",
+     117
+    ],
+    [
+     "schematic.page.clear",
+     23
+    ],
+    [
+     "project.current",
+     22
+    ],
+    [
+     "schematic.pages.list",
+     14
+    ],
+    [
+     "pcb.documents.list",
+     14
+    ],
+    [
+     "document.open",
+     14
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch page-new",
+   "records": 16,
+   "clients": 16,
+   "seconds": 34.9,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.page.create",
+     16
+    ]
+   ]
+  },
+  {
+   "command": "easyeda lib device get",
+   "records": 48,
+   "clients": 48,
+   "seconds": 27.3,
+   "failures": 0,
+   "top_actions": [
+    [
+     "library.device.get",
+     48
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch pages",
+   "records": 13,
+   "clients": 13,
+   "seconds": 18.3,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.pages.list",
+     13
+    ]
+   ]
+  },
+  {
+   "command": "easyeda lib symbol export-source",
+   "records": 47,
+   "clients": 47,
+   "seconds": 18.1,
+   "failures": 0,
+   "top_actions": [
+    [
+     "library.symbol.export_source",
+     47
+    ]
+   ]
+  },
+  {
+   "command": "easyeda pcb import-changes",
+   "records": 1,
+   "clients": 1,
+   "seconds": 16.1,
+   "failures": 0,
+   "top_actions": [
+    [
+     "pcb.import_changes",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch no-connect",
+   "records": 43,
+   "clients": 23,
+   "seconds": 8.9,
+   "failures": 0,
+   "top_actions": [
+    [
+     "document.current",
+     23
+    ],
+    [
+     "schematic.pin.set_no_connect",
+     20
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch replace",
+   "records": 18,
+   "clients": 2,
+   "seconds": 8.5,
+   "failures": 0,
+   "top_actions": [
+    [
+     "document.current",
+     6
+    ],
+    [
+     "schematic.components.list",
+     4
+    ],
+    [
+     "schematic.pages.list",
+     2
+    ],
+    [
+     "pcb.documents.list",
+     2
+    ],
+    [
+     "document.open",
+     2
+    ],
+    [
+     "schematic.component.replace",
+     2
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch prim-delete",
+   "records": 114,
+   "clients": 15,
+   "seconds": 6.3,
+   "failures": 0,
+   "top_actions": [
+    [
+     "document.current",
+     68
+    ],
+    [
+     "schematic.components.list",
+     15
+    ],
+    [
+     "project.current",
+     13
+    ],
+    [
+     "schematic.primitives.delete",
+     12
+    ],
+    [
+     "schematic.pages.list",
+     2
+    ],
+    [
+     "pcb.documents.list",
+     2
+    ]
+   ]
+  },
+  {
+   "command": "easyeda project export",
+   "records": 2,
+   "clients": 2,
+   "seconds": 5.9,
+   "failures": 0,
+   "top_actions": [
+    [
+     "project.export",
+     2
+    ]
+   ]
+  },
+  {
+   "command": "easyeda project create",
+   "records": 1,
+   "clients": 1,
+   "seconds": 4.3,
+   "failures": 0,
+   "top_actions": [
+    [
+     "project.create",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda project open",
+   "records": 1,
+   "clients": 1,
+   "seconds": 2.9,
+   "failures": 0,
+   "top_actions": [
+    [
+     "project.open",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda doc ls",
+   "records": 7,
+   "clients": 3,
+   "seconds": 1.4,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.pages.list",
+     3
+    ],
+    [
+     "pcb.documents.list",
+     3
+    ],
+    [
+     "document.current",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda lib symbol get",
+   "records": 1,
+   "clients": 1,
+   "seconds": 1.0,
+   "failures": 0,
+   "top_actions": [
+    [
+     "library.symbol.get",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch modify",
+   "records": 12,
+   "clients": 3,
+   "seconds": 0.9,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.components.list",
+     6
+    ],
+    [
+     "document.current",
+     3
+    ],
+    [
+     "schematic.component.modify",
+     3
+    ]
+   ]
+  },
+  {
+   "command": "easyeda doc switch",
+   "records": 7,
+   "clients": 1,
+   "seconds": 0.8,
+   "failures": 0,
+   "top_actions": [
+    [
+     "document.current",
+     2
+    ],
+    [
+     "schematic.components.list",
+     2
+    ],
+    [
+     "schematic.pages.list",
+     1
+    ],
+    [
+     "pcb.documents.list",
+     1
+    ],
+    [
+     "document.open",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda pcb board-info",
+   "records": 1,
+   "clients": 1,
+   "seconds": 0.6,
+   "failures": 0,
+   "top_actions": [
+    [
+     "pcb.board.info",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda pcb outline-get",
+   "records": 1,
+   "clients": 1,
+   "seconds": 0.6,
+   "failures": 0,
+   "top_actions": [
+    [
+     "pcb.outline.get",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda pcb list",
+   "records": 1,
+   "clients": 1,
+   "seconds": 0.5,
+   "failures": 0,
+   "top_actions": [
+    [
+     "pcb.components.list",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda lib by-lcsc",
+   "records": 1,
+   "clients": 1,
+   "seconds": 0.2,
+   "failures": 0,
+   "top_actions": [
+    [
+     "schematic.library.get_by_lcsc",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda sch sheet-geometry",
+   "records": 3,
+   "clients": 1,
+   "seconds": 0.1,
+   "failures": 0,
+   "top_actions": [
+    [
+     "document.current",
+     1
+    ],
+    [
+     "schematic.components.list",
+     1
+    ],
+    [
+     "schematic.titleblock.get",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda board list",
+   "records": 1,
+   "clients": 1,
+   "seconds": 0.0,
+   "failures": 0,
+   "top_actions": [
+    [
+     "board.list",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda project info",
+   "records": 1,
+   "clients": 1,
+   "seconds": 0.0,
+   "failures": 0,
+   "top_actions": [
+    [
+     "project.current",
+     1
+    ]
+   ]
+  },
+  {
+   "command": "easyeda pcb docs",
+   "records": 1,
+   "clients": 1,
+   "seconds": 0.0,
+   "failures": 0,
+   "top_actions": [
+    [
+     "pcb.documents.list",
+     1
+    ]
+   ]
+  }
+ ],
+ "documents": [
+  {
+   "document": "3a6bc41ccd30345f",
+   "records": 2280,
+   "seconds": 2304.0,
+   "failures": 0,
+   "opens": 6,
+   "saves": 18,
+   "lists": 1047,
+   "list_seconds": 1184.0,
+   "places": 86,
+   "connects": 393,
+   "first": "2026-10-26T03:24:07.465443+00:00",
+   "last": "2026-10-26T06:07:35.941976+00:00"
+  },
+  {
+   "document": "16f93f802f1f2c16",
+   "records": 167,
+   "seconds": 753.1,
+   "failures": 0,
+   "opens": 3,
+   "saves": 7,
+   "lists": 70,
+   "list_seconds": 374.6,
+   "places": 30,
+   "connects": 0,
+   "first": "2026-10-26T03:24:13.501628+00:00",
+   "last": "2026-10-26T05:22:27.487111+00:00"
+  },
+  {
+   "document": "5042e927fb8effd2",
+   "records": 115,
+   "seconds": 513.8,
+   "failures": 0,
+   "opens": 3,
+   "saves": 4,
+   "lists": 51,
+   "list_seconds": 244.5,
+   "places": 22,
+   "connects": 0,
+   "first": "2026-10-26T03:40:44.151481+00:00",
+   "last": "2026-10-26T05:32:16.887856+00:00"
+  },
+  {
+   "document": "4e543b44b6cf4b06",
+   "records": 115,
+   "seconds": 433.5,
+   "failures": 0,
+   "opens": 2,
+   "saves": 3,
+   "lists": 52,
+   "list_seconds": 240.0,
+   "places": 23,
+   "connects": 0,
+   "first": "2026-10-26T03:24:09.511842+00:00",
+   "last": "2026-10-26T05:20:10.996737+00:00"
+  },
+  {
+   "document": "3d0c41eb8994b8fe",
+   "records": 2117,
+   "seconds": 338.2,
+   "failures": 0,
+   "opens": 13,
+   "saves": 27,
+   "lists": 944,
+   "list_seconds": 100.2,
+   "places": 125,
+   "connects": 260,
+   "first": "2026-10-26T03:24:05.485407+00:00",
+   "last": "2026-10-26T06:02:35.374859+00:00"
+  },
+  {
+   "document": "86ba6c25b129b9da",
+   "records": 617,
+   "seconds": 277.3,
+   "failures": 0,
+   "opens": 9,
+   "saves": 8,
+   "lists": 180,
+   "list_seconds": 110.5,
+   "places": 15,
+   "connects": 59,
+   "first": "2026-10-26T03:16:22.069041+00:00",
+   "last": "2026-10-26T06:06:44.189353+00:00"
+  },
+  {
+   "document": "5c2d0e8284e8a094",
+   "records": 54,
+   "seconds": 275.8,
+   "failures": 0,
+   "opens": 2,
+   "saves": 2,
+   "lists": 22,
+   "list_seconds": 164.9,
+   "places": 8,
+   "connects": 0,
+   "first": "2026-10-26T03:24:11.485652+00:00",
+   "last": "2026-10-26T05:20:19.174923+00:00"
+  },
+  {
+   "document": "82e694c4a09f61f2",
+   "records": 925,
+   "seconds": 213.9,
+   "failures": 0,
+   "opens": 9,
+   "saves": 8,
+   "lists": 386,
+   "list_seconds": 60.3,
+   "places": 90,
+   "connects": 88,
+   "first": "2026-10-26T03:49:02.623917+00:00",
+   "last": "2026-10-26T04:44:20.559277+00:00"
+  },
+  {
+   "document": "5c43266561531ce8",
+   "records": 805,
+   "seconds": 151.2,
+   "failures": 0,
+   "opens": 9,
+   "saves": 4,
+   "lists": 360,
+   "list_seconds": 56.6,
+   "places": 42,
+   "connects": 116,
+   "first": "2026-10-26T03:24:00.718174+00:00",
+   "last": "2026-10-26T06:02:29.099277+00:00"
+  },
+  {
+   "document": "3f8f4311ac1d0a48",
+   "records": 461,
+   "seconds": 135.4,
+   "failures": 0,
+   "opens": 9,
+   "saves": 5,
+   "lists": 174,
+   "list_seconds": 76.6,
+   "places": 11,
+   "connects": 57,
+   "first": "2026-10-26T03:24:02.569391+00:00",
+   "last": "2026-10-26T06:02:30.959475+00:00"
+  },
+  {
+   "document": "1093a44e8a348cb1",
+   "records": 212,
+   "seconds": 117.6,
+   "failures": 0,
+   "opens": 7,
+   "saves": 8,
+   "lists": 67,
+   "list_seconds": 94.0,
+   "places": 6,
+   "connects": 11,
+   "first": "2026-10-26T04:01:15.368683+00:00",
+   "last": "2026-10-26T04:23:54.503632+00:00"
+  },
+  {
+   "document": "(none)",
+   "records": 141,
+   "seconds": 91.4,
+   "failures": 0,
+   "opens": 0,
+   "saves": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "first": "2026-10-26T02:55:54.676488+00:00",
+   "last": "2026-10-26T05:56:31.470275+00:00"
+  },
+  {
+   "document": "5de8fb141b41474b",
+   "records": 355,
+   "seconds": 60.8,
+   "failures": 0,
+   "opens": 5,
+   "saves": 4,
+   "lists": 155,
+   "list_seconds": 15.6,
+   "places": 24,
+   "connects": 44,
+   "first": "2026-10-26T04:27:54.382667+00:00",
+   "last": "2026-10-26T04:33:05.702995+00:00"
+  },
+  {
+   "document": "8647f339f0bdb334",
+   "records": 354,
+   "seconds": 57.0,
+   "failures": 0,
+   "opens": 9,
+   "saves": 3,
+   "lists": 144,
+   "list_seconds": 16.6,
+   "places": 14,
+   "connects": 48,
+   "first": "2026-10-26T03:24:03.556993+00:00",
+   "last": "2026-10-26T06:02:32.967641+00:00"
+  },
+  {
+   "document": "e68283a824c1e483",
+   "records": 411,
+   "seconds": 54.1,
+   "failures": 0,
+   "opens": 6,
+   "saves": 5,
+   "lists": 173,
+   "list_seconds": 23.9,
+   "places": 24,
+   "connects": 44,
+   "first": "2026-10-26T04:30:02.180322+00:00",
+   "last": "2026-10-26T04:32:40.805893+00:00"
+  },
+  {
+   "document": "ac253fa030dfe2bd",
+   "records": 6,
+   "seconds": 18.6,
+   "failures": 0,
+   "opens": 0,
+   "saves": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "first": "2026-10-26T05:25:18.373041+00:00",
+   "last": "2026-10-26T05:25:58.936046+00:00"
+  },
+  {
+   "document": "51c5025fcb65c7ac",
+   "records": 90,
+   "seconds": 11.3,
+   "failures": 0,
+   "opens": 2,
+   "saves": 1,
+   "lists": 38,
+   "list_seconds": 2.9,
+   "places": 6,
+   "connects": 12,
+   "first": "2026-10-26T04:28:30.262367+00:00",
+   "last": "2026-10-26T04:31:28.927982+00:00"
+  },
+  {
+   "document": "004cde4d99de4fe3",
+   "records": 1,
+   "seconds": 10.5,
+   "failures": 0,
+   "opens": 0,
+   "saves": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "first": "2026-10-26T03:57:52.861008+00:00",
+   "last": "2026-10-26T03:57:52.861008+00:00"
+  },
+  {
+   "document": "29dafbb1f45a1d49",
+   "records": 6,
+   "seconds": 3.1,
+   "failures": 0,
+   "opens": 0,
+   "saves": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "first": "2026-10-26T03:58:06.440051+00:00",
+   "last": "2026-10-26T03:59:01.888833+00:00"
+  },
+  {
+   "document": "2fd8a6a67c536700",
+   "records": 1,
+   "seconds": 3.0,
+   "failures": 0,
+   "opens": 0,
+   "saves": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "first": "2026-10-26T03:58:03.415929+00:00",
+   "last": "2026-10-26T03:58:03.415929+00:00"
+  },
+  {
+   "document": "80f699c84790b779",
+   "records": 6,
+   "seconds": 1.1,
+   "failures": 0,
+   "opens": 0,
+   "saves": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "first": "2026-10-26T03:40:45.044416+00:00",
+   "last": "2026-10-26T03:41:01.035870+00:00"
+  },
+  {
+   "document": "a46148ddda2cd3fb",
+   "records": 6,
+   "seconds": 1.1,
+   "failures": 0,
+   "opens": 0,
+   "saves": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "first": "2026-10-26T06:04:57.685898+00:00",
+   "last": "2026-10-26T06:05:43.618733+00:00"
+  }
+ ],
+ "buckets": [
+  {
+   "bucket": "02:50",
+   "records": 7,
+   "seconds": 4.3,
+   "failures": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "saves": 0
+  },
+  {
+   "bucket": "03:00",
+   "records": 58,
+   "seconds": 35.7,
+   "failures": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "saves": 0
+  },
+  {
+   "bucket": "03:10",
+   "records": 92,
+   "seconds": 58.9,
+   "failures": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "saves": 0
+  },
+  {
+   "bucket": "03:20",
+   "records": 169,
+   "seconds": 91.3,
+   "failures": 0,
+   "lists": 15,
+   "list_seconds": 2.3,
+   "places": 1,
+   "connects": 2,
+   "saves": 3
+  },
+  {
+   "bucket": "03:30",
+   "records": 109,
+   "seconds": 45.2,
+   "failures": 0,
+   "lists": 0,
+   "list_seconds": 0.0,
+   "places": 0,
+   "connects": 0,
+   "saves": 0
+  },
+  {
+   "bucket": "03:40",
+   "records": 657,
+   "seconds": 106.6,
+   "failures": 0,
+   "lists": 309,
+   "list_seconds": 19.2,
+   "places": 61,
+   "connects": 46,
+   "saves": 9
+  },
+  {
+   "bucket": "03:50",
+   "records": 1628,
+   "seconds": 270.4,
+   "failures": 0,
+   "lists": 740,
+   "list_seconds": 63.4,
+   "places": 112,
+   "connects": 238,
+   "saves": 17
+  },
+  {
+   "bucket": "04:00",
+   "records": 586,
+   "seconds": 106.5,
+   "failures": 0,
+   "lists": 207,
+   "list_seconds": 38.5,
+   "places": 33,
+   "connects": 40,
+   "saves": 9
+  },
+  {
+   "bucket": "04:10",
+   "records": 751,
+   "seconds": 325.6,
+   "failures": 0,
+   "lists": 312,
+   "list_seconds": 216.0,
+   "places": 40,
+   "connects": 91,
+   "saves": 10
+  },
+  {
+   "bucket": "04:20",
+   "records": 1384,
+   "seconds": 295.9,
+   "failures": 0,
+   "lists": 624,
+   "list_seconds": 142.4,
+   "places": 56,
+   "connects": 222,
+   "saves": 8
+  },
+  {
+   "bucket": "04:30",
+   "records": 1778,
+   "seconds": 702.8,
+   "failures": 0,
+   "lists": 808,
+   "list_seconds": 354.4,
+   "places": 85,
+   "connects": 270,
+   "saves": 14
+  },
+  {
+   "bucket": "04:40",
+   "records": 218,
+   "seconds": 801.2,
+   "failures": 0,
+   "lists": 92,
+   "list_seconds": 438.8,
+   "places": 22,
+   "connects": 19,
+   "saves": 6
+  },
+  {
+   "bucket": "04:50",
+   "records": 175,
+   "seconds": 864.1,
+   "failures": 0,
+   "lists": 76,
+   "list_seconds": 453.7,
+   "places": 13,
+   "connects": 21,
+   "saves": 6
+  },
+  {
+   "bucket": "05:00",
+   "records": 177,
+   "seconds": 789.4,
+   "failures": 0,
+   "lists": 85,
+   "list_seconds": 445.9,
+   "places": 37,
+   "connects": 0,
+   "saves": 4
+  },
+  {
+   "bucket": "05:10",
+   "records": 77,
+   "seconds": 452.3,
+   "failures": 0,
+   "lists": 32,
+   "list_seconds": 238.2,
+   "places": 11,
+   "connects": 0,
+   "saves": 4
+  },
+  {
+   "bucket": "05:20",
+   "records": 133,
+   "seconds": 514.8,
+   "failures": 0,
+   "lists": 43,
+   "list_seconds": 229.5,
+   "places": 19,
+   "connects": 0,
+   "saves": 5
+  },
+  {
+   "bucket": "05:30",
+   "records": 19,
+   "seconds": 106.1,
+   "failures": 0,
+   "lists": 8,
+   "list_seconds": 39.7,
+   "places": 3,
+   "connects": 0,
+   "saves": 2
+  },
+  {
+   "bucket": "05:50",
+   "records": 436,
+   "seconds": 90.6,
+   "failures": 0,
+   "lists": 159,
+   "list_seconds": 34.1,
+   "places": 0,
+   "connects": 52,
+   "saves": 2
+  },
+  {
+   "bucket": "06:00",
+   "records": 791,
+   "seconds": 164.1,
+   "failures": 0,
+   "lists": 353,
+   "list_seconds": 49.2,
+   "places": 33,
+   "connects": 131,
+   "saves": 8
+  }
+ ],
+ "slowest": [
+  {
+   "ts": "2026-10-26T05:26:08.395690+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch list",
+   "ms": 99444,
+   "doc": "5042e927fb8effd2",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T05:16:32.119028+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch list",
+   "ms": 93001,
+   "doc": "16f93f802f1f2c16",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T05:01:47.940642+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch list",
+   "ms": 74983,
+   "doc": "4e543b44b6cf4b06",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T05:05:16.345292+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch list",
+   "ms": 73375,
+   "doc": "5c2d0e8284e8a094",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T05:03:14.447543+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch list",
+   "ms": 69498,
+   "doc": "5c2d0e8284e8a094",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T05:06:33.406102+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch list",
+   "ms": 63928,
+   "doc": "16f93f802f1f2c16",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:55:36.530432+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch list",
+   "ms": 62182,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:57:35.629045+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch list",
+   "ms": 59866,
+   "doc": "4e543b44b6cf4b06",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:13:57.247730+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch list",
+   "ms": 58341,
+   "doc": "86ba6c25b129b9da",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T05:05:34.880569+00:00",
+   "action": "schematic.save",
+   "cmd": "",
+   "ms": 55334,
+   "doc": "5c2d0e8284e8a094",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:49:28.458767+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 51165,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T05:13:36.994146+00:00",
+   "action": "schematic.save",
+   "cmd": "",
+   "ms": 46997,
+   "doc": "16f93f802f1f2c16",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:46:09.170552+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 43409,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:41:30.081151+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 42745,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:42:19.413954+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 42136,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:40:42.324713+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 41749,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:39:56.955331+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 39457,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:40:01.404483+00:00",
+   "action": "schematic.save",
+   "cmd": "",
+   "ms": 35223,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:46:17.892560+00:00",
+   "action": "schematic.save",
+   "cmd": "",
+   "ms": 34774,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:37:01.362696+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 31634,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:22:59.973007+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 27079,
+   "doc": "1093a44e8a348cb1",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T06:02:57.400160+00:00",
+   "action": "schematic.export.image",
+   "cmd": "easyeda sch export-image",
+   "ms": 23355,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:16:01.182430+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 21343,
+   "doc": "1093a44e8a348cb1",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T05:23:44.533949+00:00",
+   "action": "document.open",
+   "cmd": "easyeda sch export-image",
+   "ms": 20804,
+   "doc": "86ba6c25b129b9da",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:53:54.494658+00:00",
+   "action": "schematic.power.connect_pin",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 18095,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:21:06.174794+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 17933,
+   "doc": "3f8f4311ac1d0a48",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:54:12.868705+00:00",
+   "action": "schematic.power.connect_pin",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 17462,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:27:54.382667+00:00",
+   "action": "schematic.pages.list",
+   "cmd": "easyeda sch pages",
+   "ms": 17439,
+   "doc": "5de8fb141b41474b",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:54:47.666405+00:00",
+   "action": "schematic.power.connect_pin",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 17328,
+   "doc": "3a6bc41ccd30345f",
+   "ok": true,
+   "err": " "
+  },
+  {
+   "ts": "2026-10-26T04:15:20.270403+00:00",
+   "action": "schematic.components.list",
+   "cmd": "easyeda sch autoconnect",
+   "ms": 17233,
+   "doc": "1093a44e8a348cb1",
+   "ok": true,
+   "err": " "
+  }
+ ],
+ "dup_reads_identical_within_120s": {
+  "per_doc": {
+   "86ba6c25b129b9da": 96,
+   "3d0c41eb8994b8fe": 475,
+   "82e694c4a09f61f2": 189,
+   "1093a44e8a348cb1": 32,
+   "3f8f4311ac1d0a48": 98,
+   "5c43266561531ce8": 186,
+   "8647f339f0bdb334": 74,
+   "e68283a824c1e483": 94,
+   "5de8fb141b41474b": 80,
+   "51c5025fcb65c7ac": 18,
+   "3a6bc41ccd30345f": 525,
+   "4e543b44b6cf4b06": 28,
+   "5c2d0e8284e8a094": 13,
+   "16f93f802f1f2c16": 39,
+   "5042e927fb8effd2": 26
+  },
+  "seconds": 1840.2,
+  "examples": [
+   {
+    "ts": "2026-10-26T03:24:39.732576+00:00",
+    "doc": "86ba6c25b129b9da",
+    "sig": "1|0|29550378a63c",
+    "gap_s": 0.4,
+    "ms": 7
+   },
+   {
+    "ts": "2026-10-26T03:24:39.806673+00:00",
+    "doc": "86ba6c25b129b9da",
+    "sig": "1|0|29550378a63c",
+    "gap_s": 0.1,
+    "ms": 4
+   },
+   {
+    "ts": "2026-10-26T03:24:47.096637+00:00",
+    "doc": "86ba6c25b129b9da",
+    "sig": "2|0|fb52d0cd76b7",
+    "gap_s": 5.7,
+    "ms": 2186
+   },
+   {
+    "ts": "2026-10-26T03:24:49.295456+00:00",
+    "doc": "86ba6c25b129b9da",
+    "sig": "2|0|fb52d0cd76b7",
+    "gap_s": 2.2,
+    "ms": 4
+   },
+   {
+    "ts": "2026-10-26T03:24:57.738861+00:00",
+    "doc": "86ba6c25b129b9da",
+    "sig": "2|1|fb52d0cd76b7",
+    "gap_s": 0.0,
+    "ms": 5
+   },
+   {
+    "ts": "2026-10-26T03:25:03.694087+00:00",
+    "doc": "86ba6c25b129b9da",
+    "sig": "3|0|d623c3abe7d0",
+    "gap_s": 0.1,
+    "ms": 9
+   },
+   {
+    "ts": "2026-10-26T03:25:04.107294+00:00",
+    "doc": "86ba6c25b129b9da",
+    "sig": "3|0|d623c3abe7d0",
+    "gap_s": 0.4,
+    "ms": 9
+   },
+   {
+    "ts": "2026-10-26T03:25:04.119531+00:00",
+    "doc": "86ba6c25b129b9da",
+    "sig": "3|0|d623c3abe7d0",
+    "gap_s": 0.0,
+    "ms": 38
+   },
+   {
+    "ts": "2026-10-26T03:41:36.498984+00:00",
+    "doc": "3d0c41eb8994b8fe",
+    "sig": "2|0|c6b06086d4da",
+    "gap_s": 0.1,
+    "ms": 6
+   },
+   {
+    "ts": "2026-10-26T03:41:38.273253+00:00",
+    "doc": "3d0c41eb8994b8fe",
+    "sig": "3|0|3b96176419ca",
+    "gap_s": 0.1,
+    "ms": 24
+   },
+   {
+    "ts": "2026-10-26T03:41:40.066700+00:00",
+    "doc": "3d0c41eb8994b8fe",
+    "sig": "4|0|c123a1dce4f2",
+    "gap_s": 0.1,
+    "ms": 9
+   },
+   {
+    "ts": "2026-10-26T03:41:42.050290+00:00",
+    "doc": "3d0c41eb8994b8fe",
+    "sig": "5|0|95479a498b83",
+    "gap_s": 0.1,
+    "ms": 11
+   }
+  ]
+ },
+ "identical_page_state_reads": [
+  {
+   "doc": "e68283a824c1e483",
+   "sig": "9|8|b490809d1052",
+   "reads": 20
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "sig": "37|0|4618cda26ba0",
+   "reads": 16
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "sig": "37|0|d6fb5ba1fe84",
+   "reads": 15
+  },
+  {
+   "doc": "5c43266561531ce8",
+   "sig": "68|69|701631f232d7",
+   "reads": 14
+  },
+  {
+   "doc": "3a6bc41ccd30345f",
+   "sig": "91|93|448db247183e",
+   "reads": 14
+  },
+  {
+   "doc": "3f8f4311ac1d0a48",
+   "sig": "54|0|57ca30b4111a",
+   "reads": 13
+  },
+  {
+   "doc": "3a6bc41ccd30345f",
+   "sig": "105|102|ba2521bef2a3",
+   "reads": 11
+  },
+  {
+   "doc": "5de8fb141b41474b",
+   "sig": "20|22|995c193f9a51",
+   "reads": 10
+  },
+  {
+   "doc": "3f8f4311ac1d0a48",
+   "sig": "10|0|9e20f46e4df4",
+   "reads": 9
+  },
+  {
+   "doc": "3a6bc41ccd30345f",
+   "sig": "69|67|3f761bccbfdd",
+   "reads": 9
+  },
+  {
+   "doc": "86ba6c25b129b9da",
+   "sig": "1|0|29550378a63c",
+   "reads": 8
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "sig": "87|0|64c3996f661d",
+   "reads": 8
+  }
+ ],
+ "blind_retry_groups": [],
+ "duplicate_saves_within_30s": [
+  {
+   "doc": "86ba6c25b129b9da",
+   "gap_s": 9.2,
+   "first": "2026-10-26T03:24:44.355916+00:00",
+   "second": "2026-10-26T03:24:53.515844+00:00",
+   "ms": 30
+  },
+  {
+   "doc": "86ba6c25b129b9da",
+   "gap_s": 13.1,
+   "first": "2026-10-26T03:24:53.515844+00:00",
+   "second": "2026-10-26T03:25:06.597927+00:00",
+   "ms": 10
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 23.8,
+   "first": "2026-10-26T03:47:00.844461+00:00",
+   "second": "2026-10-26T03:47:24.677442+00:00",
+   "ms": 27
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 6.2,
+   "first": "2026-10-26T03:48:18.760702+00:00",
+   "second": "2026-10-26T03:48:25.004066+00:00",
+   "ms": 16
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 11.7,
+   "first": "2026-10-26T03:48:25.004066+00:00",
+   "second": "2026-10-26T03:48:36.749113+00:00",
+   "ms": 25
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 13.6,
+   "first": "2026-10-26T03:50:50.762034+00:00",
+   "second": "2026-10-26T03:51:04.318154+00:00",
+   "ms": 39
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 21.1,
+   "first": "2026-10-26T03:51:57.420857+00:00",
+   "second": "2026-10-26T03:52:18.545187+00:00",
+   "ms": 33
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 20.3,
+   "first": "2026-10-26T03:53:09.606145+00:00",
+   "second": "2026-10-26T03:53:29.897088+00:00",
+   "ms": 15
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 14.1,
+   "first": "2026-10-26T03:54:11.877191+00:00",
+   "second": "2026-10-26T03:54:25.975982+00:00",
+   "ms": 23
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 16.7,
+   "first": "2026-10-26T03:55:00.778236+00:00",
+   "second": "2026-10-26T03:55:17.523114+00:00",
+   "ms": 37
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 12.9,
+   "first": "2026-10-26T03:55:17.523114+00:00",
+   "second": "2026-10-26T03:55:30.406232+00:00",
+   "ms": 37
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 20.2,
+   "first": "2026-10-26T04:00:35.432079+00:00",
+   "second": "2026-10-26T04:00:55.583080+00:00",
+   "ms": 6
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 8.4,
+   "first": "2026-10-26T04:00:55.583080+00:00",
+   "second": "2026-10-26T04:01:04.003763+00:00",
+   "ms": 28
+  },
+  {
+   "doc": "3d0c41eb8994b8fe",
+   "gap_s": 12.7,
+   "first": "2026-10-26T04:01:41.929609+00:00",
+   "second": "2026-10-26T04:01:54.581912+00:00",
+   "ms": 4
+  },
+  {
+   "doc": "1093a44e8a348cb1",
+   "gap_s": 22.2,
+   "first": "2026-10-26T04:02:32.502059+00:00",
+   "second": "2026-10-26T04:02:54.745995+00:00",
+   "ms": 19
+  },
+  {
+   "doc": "1093a44e8a348cb1",
+   "gap_s": 9.6,
+   "first": "2026-10-26T04:16:27.416674+00:00",
+   "second": "2026-10-26T04:16:36.993356+00:00",
+   "ms": 4
+  },
+  {
+   "doc": "e68283a824c1e483",
+   "gap_s": 16.6,
+   "first": "2026-10-26T04:31:44.326359+00:00",
+   "second": "2026-10-26T04:32:00.920060+00:00",
+   "ms": 4
+  },
+  {
+   "doc": "e68283a824c1e483",
+   "gap_s": 23.0,
+   "first": "2026-10-26T04:32:00.920060+00:00",
+   "second": "2026-10-26T04:32:23.908701+00:00",
+   "ms": 167
+  },
+  {
+   "doc": "e68283a824c1e483",
+   "gap_s": 16.7,
+   "first": "2026-10-26T04:32:23.908701+00:00",
+   "second": "2026-10-26T04:32:40.564250+00:00",
+   "ms": 27
+  },
+  {
+   "doc": "5de8fb141b41474b",
+   "gap_s": 16.8,
+   "first": "2026-10-26T04:32:41.227609+00:00",
+   "second": "2026-10-26T04:32:58.068475+00:00",
+   "ms": 22
+  }
+ ],
+ "document_opens": {
+  "count": 94,
+  "rapid_switches_le10s": 37,
+  "per_doc": {
+   "86ba6c25b129b9da": 9,
+   "3d0c41eb8994b8fe": 13,
+   "82e694c4a09f61f2": 9,
+   "1093a44e8a348cb1": 7,
+   "3f8f4311ac1d0a48": 9,
+   "5c43266561531ce8": 9,
+   "8647f339f0bdb334": 9,
+   "e68283a824c1e483": 6,
+   "5de8fb141b41474b": 5,
+   "51c5025fcb65c7ac": 2,
+   "3a6bc41ccd30345f": 6,
+   "4e543b44b6cf4b06": 2,
+   "5c2d0e8284e8a094": 2,
+   "16f93f802f1f2c16": 3,
+   "5042e927fb8effd2": 3
+  },
+  "sequence": [
+   {
+    "ts": "2026-10-26T03:24:38.589858+00:00",
+    "doc": "86ba6c25b129b9da"
+   },
+   {
+    "ts": "2026-10-26T03:41:01.040495+00:00",
+    "doc": "86ba6c25b129b9da"
+   },
+   {
+    "ts": "2026-10-26T03:41:33.388985+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T03:49:43.064793+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T03:50:07.505964+00:00",
+    "doc": "82e694c4a09f61f2"
+   },
+   {
+    "ts": "2026-10-26T03:50:33.887824+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T03:51:54.521993+00:00",
+    "doc": "82e694c4a09f61f2"
+   },
+   {
+    "ts": "2026-10-26T03:51:56.472776+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T03:52:18.864542+00:00",
+    "doc": "82e694c4a09f61f2"
+   },
+   {
+    "ts": "2026-10-26T03:53:03.798582+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T03:53:06.735921+00:00",
+    "doc": "82e694c4a09f61f2"
+   },
+   {
+    "ts": "2026-10-26T03:53:08.719342+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T03:53:30.039227+00:00",
+    "doc": "82e694c4a09f61f2"
+   },
+   {
+    "ts": "2026-10-26T03:53:55.658889+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T03:55:42.722931+00:00",
+    "doc": "82e694c4a09f61f2"
+   },
+   {
+    "ts": "2026-10-26T03:59:01.920914+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T03:59:04.423482+00:00",
+    "doc": "82e694c4a09f61f2"
+   },
+   {
+    "ts": "2026-10-26T03:59:06.936888+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T04:01:36.059484+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T04:01:46.291024+00:00",
+    "doc": "1093a44e8a348cb1"
+   },
+   {
+    "ts": "2026-10-26T04:01:52.786899+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T04:02:29.147288+00:00",
+    "doc": "1093a44e8a348cb1"
+   },
+   {
+    "ts": "2026-10-26T04:03:00.499366+00:00",
+    "doc": "3d0c41eb8994b8fe"
+   },
+   {
+    "ts": "2026-10-26T04:03:04.164680+00:00",
+    "doc": "1093a44e8a348cb1"
+   },
+   {
+    "ts": "2026-10-26T04:03:12.590183+00:00",
+    "doc": "82e694c4a09f61f2"
+   },
+   {
+    "ts": "2026-10-26T04:11:59.648294+00:00",
+    "doc": "86ba6c25b129b9da"
+   },
+   {
+    "ts": "2026-10-26T04:15:16.553504+00:00",
+    "doc": "1093a44e8a348cb1"
+   },
+   {
+    "ts": "2026-10-26T04:16:32.059849+00:00",
+    "doc": "86ba6c25b129b9da"
+   },
+   {
+    "ts": "2026-10-26T04:16:34.163870+00:00",
+    "doc": "1093a44e8a348cb1"
+   },
+   {
+    "ts": "2026-10-26T04:16:37.153025+00:00",
+    "doc": "3f8f4311ac1d0a48"
+   },
+   {
+    "ts": "2026-10-26T04:22:11.794070+00:00",
+    "doc": "1093a44e8a348cb1"
+   },
+   {
+    "ts": "2026-10-26T04:23:33.895790+00:00",
+    "doc": "3f8f4311ac1d0a48"
+   },
+   {
+    "ts": "2026-10-26T04:23:35.603913+00:00",
+    "doc": "1093a44e8a348cb1"
+   },
+   {
+    "ts": "2026-10-26T04:23:54.510353+00:00",
+    "doc": "3f8f4311ac1d0a48"
+   },
+   {
+    "ts": "2026-10-26T04:24:33.498449+00:00",
+    "doc": "5c43266561531ce8"
+   },
+   {
+    "ts": "2026-10-26T04:28:30.347226+00:00",
+    "doc": "5c43266561531ce8"
+   },
+   {
+    "ts": "2026-10-26T04:28:32.541897+00:00",
+    "doc": "8647f339f0bdb334"
+   },
+   {
+    "ts": "2026-10-26T04:28:34.251767+00:00",
+    "doc": "5c43266561531ce8"
+   },
+   {
+    "ts": "2026-10-26T04:29:07.993816+00:00",
+    "doc": "8647f339f0bdb334"
+   },
+   {
+    "ts": "2026-10-26T04:29:58.734415+00:00",
+    "doc": "5c43266561531ce8"
+   },
+   {
+    "ts": "2026-10-26T04:30:01.007963+00:00",
+    "doc": "8647f339f0bdb334"
+   },
+   {
+    "ts": "2026-10-26T04:30:02.180322+00:00",
+    "doc": "e68283a824c1e483"
+   },
+   {
+    "ts": "2026-10-26T04:30:21.694269+00:00",
+    "doc": "5de8fb141b41474b"
+   },
+   {
+    "ts": "2026-10-26T04:30:41.944238+00:00",
+    "doc": "51c5025fcb65c7ac"
+   },
+   {
+    "ts": "2026-10-26T04:31:00.771361+00:00",
+    "doc": "e68283a824c1e483"
+   },
+   {
+    "ts": "2026-10-26T04:31:02.140468+00:00",
+    "doc": "51c5025fcb65c7ac"
+   },
+   {
+    "ts": "2026-10-26T04:31:28.932448+00:00",
+    "doc": "e68283a824c1e483"
+   },
+   {
+    "ts": "2026-10-26T04:31:44.491403+00:00",
+    "doc": "5de8fb141b41474b"
+   },
+   {
+    "ts": "2026-10-26T04:31:53.802992+00:00",
+    "doc": "e68283a824c1e483"
+   },
+   {
+    "ts": "2026-10-26T04:32:01.099802+00:00",
+    "doc": "5de8fb141b41474b"
+   },
+   {
+    "ts": "2026-10-26T04:32:19.209988+00:00",
+    "doc": "e68283a824c1e483"
+   },
+   {
+    "ts": "2026-10-26T04:32:21.090068+00:00",
+    "doc": "5de8fb141b41474b"
+   },
+   {
+    "ts": "2026-10-26T04:32:23.386237+00:00",
+    "doc": "e68283a824c1e483"
+   },
+   {
+    "ts": "2026-10-26T04:32:40.815878+00:00",
+    "doc": "5de8fb141b41474b"
+   },
+   {
+    "ts": "2026-10-26T04:33:05.709316+00:00",
+    "doc": "3a6bc41ccd30345f"
+   },
+   {
+    "ts": "2026-10-26T04:44:04.088074+00:00",
+    "doc": "82e694c4a09f61f2"
+   },
+   {
+    "ts": "2026-10-26T04:44:20.740418+00:00",
+    "doc": "3a6bc41ccd30345f"
+   },
+   {
+    "ts": "2026-10-26T04:57:33.364006+00:00",
+    "doc": "4e543b44b6cf4b06"
+   },
+   {
+    "ts": "2026-10-26T05:03:12.007837+00:00",
+    "doc": "5c2d0e8284e8a094"
+   },
+   {
+    "ts": "2026-10-26T05:06:30.964972+00:00",
+    "doc": "16f93f802f1f2c16"
+   },
+   {
+    "ts": "2026-10-26T05:18:06.536145+00:00",
+    "doc": "5042e927fb8effd2"
+   },
+   {
+    "ts": "2026-10-26T05:19:43.792857+00:00",
+    "doc": "4e543b44b6cf4b06"
+   },
+   {
+    "ts": "2026-10-26T05:20:11.419761+00:00",
+    "doc": "5c2d0e8284e8a094"
+   },
+   {
+    "ts": "2026-10-26T05:20:19.576657+00:00",
+    "doc": "16f93f802f1f2c16"
+   },
+   {
+    "ts": "2026-10-26T05:20:42.730079+00:00",
+    "doc": "5042e927fb8effd2"
+   },
+   {
+    "ts": "2026-10-26T05:21:57.767242+00:00",
+    "doc": "16f93f802f1f2c16"
+   },
+   {
+    "ts": "2026-10-26T05:23:44.533949+00:00",
+    "doc": "86ba6c25b129b9da"
+   },
+   {
+    "ts": "2026-10-26T05:25:59.369552+00:00",
+    "doc": "5042e927fb8effd2"
+   },
+   {
+    "ts": "2026-10-26T05:56:31.479274+00:00",
+    "doc": "86ba6c25b129b9da"
+   },
+   {
+    "ts": "2026-10-26T05:56:35.053868+00:00",
+    "doc": "3f8f4311ac1d0a48"
+   },
+   {
+    "ts": "2026-10-26T05:56:37.322448+00:00",
+    "doc": "86ba6c25b129b9da"
+   },
+   {
+    "ts": "2026-10-26T05:57:20.356338+00:00",
+    "doc": "3f8f4311ac1d0a48"
+   },
+   {
+    "ts": "2026-10-26T05:57:22.115605+00:00",
+    "doc": "5c43266561531ce8"
+   },
+   {
+    "ts": "2026-10-26T05:57:24.283314+00:00",
+    "doc": "8647f339f0bdb334"
+   },
+   {
+    "ts": "2026-10-26T05:57:53.168963+00:00",
+    "doc": "5c43266561531ce8"
+   },
+   {
+    "ts": "2026-10-26T05:57:58.621211+00:00",
+    "doc": "8647f339f0bdb334"
+   },
+   {
+    "ts": "2026-10-26T05:58:14.879158+00:00",
+    "doc": "3f8f4311ac1d0a48"
+   },
+   {
+    "ts": "2026-10-26T05:58:16.572773+00:00",
+    "doc": "5c43266561531ce8"
+   },
+   {
+    "ts": "2026-10-26T05:58:18.225471+00:00",
+    "doc": "8647f339f0bdb334"
+   },
+   {
+    "ts": "2026-10-26T05:58:19.881081+00:00",
+    "doc": "5c43266561531ce8"
+   }
+  ]
+ },
+ "duration_histogram": {
+  "2000-5000ms": 264,
+  "0-200ms": 6426,
+  "500-1000ms": 695,
+  "200-500ms": 1294,
+  "1000-2000ms": 287,
+  "5000-10000ms": 199,
+  "10000-30000ms": 60,
+  "30000-60000ms": 13,
+  "60000-1000000000ms": 7
+ },
+ "big_gaps_ge30s": [
+  {
+   "gap_s": 1445.5,
+   "at": "2026-10-26T05:56:22.415089+00:00",
+   "from": "schematic.export.image",
+   "to": "project.open"
+  },
+  {
+   "gap_s": 309.4,
+   "at": "2026-10-26T03:40:44.151481+00:00",
+   "from": "schematic.library.search",
+   "to": "schematic.page.create"
+  },
+  {
+   "gap_s": 301.8,
+   "at": "2026-10-26T03:01:08.931817+00:00",
+   "from": "pcb.documents.list",
+   "to": "schematic.library.search"
+  },
+  {
+   "gap_s": 281.1,
+   "at": "2026-10-26T03:05:53.777133+00:00",
+   "from": "schematic.library.search",
+   "to": "schematic.library.search"
+  },
+  {
+   "gap_s": 223.8,
+   "at": "2026-10-26T03:35:33.281925+00:00",
+   "from": "schematic.library.search",
+   "to": "schematic.library.search"
+  },
+  {
+   "gap_s": 214.8,
+   "at": "2026-10-26T03:23:53.084903+00:00",
+   "from": "library.symbol.export_source",
+   "to": "schematic.pages.list"
+  },
+  {
+   "gap_s": 205.5,
+   "at": "2026-10-26T03:16:22.069041+00:00",
+   "from": "library.symbol.export_source",
+   "to": "schematic.library.search"
+  },
+  {
+   "gap_s": 195.4,
+   "at": "2026-10-26T03:19:39.666196+00:00",
+   "from": "schematic.library.search",
+   "to": "schematic.library.search"
+  },
+  {
+   "gap_s": 150.2,
+   "at": "2026-10-26T04:10:01.666483+00:00",
+   "from": "document.current",
+   "to": "document.current"
+  },
+  {
+   "gap_s": 150.1,
+   "at": "2026-10-26T04:21:06.170156+00:00",
+   "from": "document.current",
+   "to": "document.current"
+  },
+  {
+   "gap_s": 150.1,
+   "at": "2026-10-26T04:07:31.486061+00:00",
+   "from": "document.current",
+   "to": "document.current"
+  },
+  {
+   "gap_s": 143.1,
+   "at": "2026-10-26T03:29:33.090904+00:00",
+   "from": "schematic.library.search",
+   "to": "schematic.library.search"
+  },
+  {
+   "gap_s": 120.3,
+   "at": "2026-10-26T06:04:57.685898+00:00",
+   "from": "schematic.export.image",
+   "to": "schematic.page.create"
+  },
+  {
+   "gap_s": 117.5,
+   "at": "2026-10-26T03:57:52.861008+00:00",
+   "from": "schematic.save",
+   "to": "schematic.page.create"
+  },
+  {
+   "gap_s": 99.5,
+   "at": "2026-10-26T05:27:47.906781+00:00",
+   "from": "schematic.components.list",
+   "to": "document.current"
+  },
+  {
+   "gap_s": 94.4,
+   "at": "2026-10-26T05:16:09.525916+00:00",
+   "from": "schematic.components.list",
+   "to": "document.current"
+  },
+  {
+   "gap_s": 93.5,
+   "at": "2026-10-26T04:27:54.382667+00:00",
+   "from": "schematic.components.list",
+   "to": "schematic.pages.list"
+  },
+  {
+   "gap_s": 93.1,
+   "at": "2026-10-26T05:18:05.265491+00:00",
+   "from": "schematic.components.list",
+   "to": "document.current"
+  },
+  {
+   "gap_s": 89.8,
+   "at": "2026-10-26T05:19:39.044768+00:00",
+   "from": "schematic.components.list",
+   "to": "document.current"
+  },
+  {
+   "gap_s": 86.4,
+   "at": "2026-10-26T06:02:25.109309+00:00",
+   "from": "schematic.components.list",
+   "to": "document.current"
+  }
+ ]
+}

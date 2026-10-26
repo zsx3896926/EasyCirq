@@ -1,0 +1,20 @@
+{
+ "schema": "library-precheck/v1",
+ "status": "pass",
+ "summary": {
+  "parts": 337,
+  "device_identities": 79,
+  "lcsc_numbers": 79,
+  "table_entries": 89,
+  "blocking_findings": 0,
+  "warnings": 0,
+  "identity_not_in_table": 0
+ },
+ "findings": [],
+ "not_checked": [
+  "器件库中 symbol/footprint 的真实存在性与几何",
+  "引脚号与符号引脚、PCB 焊盘的映射",
+  "库存、价格、MOQ、SMT 可贴状态（需实时查询）",
+  "替代料的电气/时序等价性"
+ ]
+}
