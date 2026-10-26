@@ -1,0 +1,533 @@
+{
+  "id": "req_5643",
+  "type": "response",
+  "version": "v1",
+  "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+  "createdAt": "2026-10-26T12:47:02.8800584Z",
+  "ok": true,
+  "result": {
+    "aligned": 19,
+    "appliedIds": [
+      "90f19e8114475d00e16",
+      "d40a0356d0e41490e24",
+      "1b6026e6fcd2441ee12",
+      "f8c67259936f0ea0e16",
+      "7ad7579e49ea8ccfe16",
+      "bc9fe46028ebaf2ae35",
+      "49392d816f69ba3ce27",
+      "80c4fc491e76176fe16",
+      "380570021a22f990e12",
+      "7a6df6bd23be73b0e14",
+      "59d1dc4f9a7d12bde2",
+      "7549205b26a704b7e19",
+      "fabf1e7507dc5649e13",
+      "dfe5a1bc3b26c31de24",
+      "586203db286aa86be15",
+      "226bb6420a45929ce16",
+      "11aba7d5eecc0e2ae12",
+      "afa96c654686aa73e16",
+      "ca558ded3c03c63be16"
+    ],
+    "details": [
+      {
+        "clean": true,
+        "designator": "R5",
+        "ok": true,
+        "primitiveId": "90f19e8114475d00e16",
+        "x": 1924.0000000000002,
+        "y": 1022.2239999999999
+      },
+      {
+        "clean": true,
+        "designator": "D1",
+        "ok": true,
+        "primitiveId": "d40a0356d0e41490e24",
+        "x": 629.5045,
+        "y": 642.618
+      },
+      {
+        "clean": true,
+        "designator": "C2",
+        "ok": true,
+        "primitiveId": "1b6026e6fcd2441ee12",
+        "x": 1219.9190000000003,
+        "y": 1477.5
+      },
+      {
+        "clean": true,
+        "designator": "R3",
+        "ok": true,
+        "primitiveId": "f8c67259936f0ea0e16",
+        "x": 1982.776,
+        "y": 1427.5
+      },
+      {
+        "clean": true,
+        "designator": "R1",
+        "ok": true,
+        "primitiveId": "7ad7579e49ea8ccfe16",
+        "x": 2332.776,
+        "y": 1227.5
+      },
+      {
+        "clean": true,
+        "designator": "U1",
+        "ok": true,
+        "primitiveId": "bc9fe46028ebaf2ae35",
+        "x": 1219.6844999999998,
+        "y": 1177.5
+      },
+      {
+        "clean": true,
+        "designator": "J1",
+        "ok": true,
+        "primitiveId": "49392d816f69ba3ce27",
+        "x": 224.075,
+        "y": 784.3510000000001
+      },
+      {
+        "clean": true,
+        "designator": "R2",
+        "ok": true,
+        "primitiveId": "80c4fc491e76176fe16",
+        "x": 974.0000000000001,
+        "y": 1638.2509999999997
+      },
+      {
+        "clean": true,
+        "designator": "C4",
+        "ok": true,
+        "primitiveId": "380570021a22f990e12",
+        "x": 1272.8000000000002,
+        "y": 1719.0749999999996
+      },
+      {
+        "clean": true,
+        "designator": "Q1",
+        "ok": true,
+        "primitiveId": "7a6df6bd23be73b0e14",
+        "x": 2978.3,
+        "y": 1257.4
+      },
+      {
+        "clean": true,
+        "designator": "C1",
+        "ok": true,
+        "primitiveId": "59d1dc4f9a7d12bde2",
+        "x": 978.9000000000001,
+        "y": 686.8354999999999
+      },
+      {
+        "clean": true,
+        "designator": "RV1",
+        "ok": true,
+        "primitiveId": "7549205b26a704b7e19",
+        "x": 2161.1620000000003,
+        "y": 1927.5
+      },
+      {
+        "clean": true,
+        "designator": "U2",
+        "ok": true,
+        "primitiveId": "fabf1e7507dc5649e13",
+        "x": 2064.8470011968093,
+        "y": 897.8949020672536
+      },
+      {
+        "clean": true,
+        "designator": "LDR1",
+        "ok": true,
+        "primitiveId": "dfe5a1bc3b26c31de24",
+        "x": 647.9,
+        "y": 1911.1194396721824
+      },
+      {
+        "clean": true,
+        "designator": "LED1",
+        "ok": true,
+        "primitiveId": "586203db286aa86be15",
+        "x": 3214.949992296043,
+        "y": 1342.5000068479617
+      },
+      {
+        "clean": true,
+        "designator": "R7",
+        "ok": true,
+        "primitiveId": "226bb6420a45929ce16",
+        "x": 2915.224,
+        "y": 1877.5
+      },
+      {
+        "clean": true,
+        "designator": "C3",
+        "ok": true,
+        "primitiveId": "11aba7d5eecc0e2ae12",
+        "x": 2110.875,
+        "y": 477.5
+      },
+      {
+        "clean": true,
+        "designator": "R6",
+        "ok": true,
+        "primitiveId": "afa96c654686aa73e16",
+        "x": 2674.6000000000004,
+        "y": 1466.749
+      },
+      {
+        "clean": true,
+        "designator": "R4",
+        "ok": true,
+        "primitiveId": "ca558ded3c03c63be16",
+        "x": 1866.749,
+        "y": 827.5
+      }
+    ],
+    "geometryScope": "rendered component envelopes, measured pads and text; outline bounding-box containment",
+    "normalization": [
+      {
+        "designator": "C3",
+        "ok": true,
+        "primitiveId": "11aba7d5eecc0e2ae12",
+        "requested": {
+          "layer": 3,
+          "mirror": false,
+          "reverse": false,
+          "rotation": 0
+        }
+      },
+      {
+        "designator": "J1",
+        "ok": true,
+        "primitiveId": "49392d816f69ba3ce27",
+        "requested": {
+          "layer": 3,
+          "mirror": false,
+          "reverse": false,
+          "rotation": 0
+        }
+      },
+      {
+        "designator": "LED1",
+        "ok": true,
+        "primitiveId": "586203db286aa86be15",
+        "requested": {
+          "layer": 3,
+          "mirror": false,
+          "reverse": false,
+          "rotation": 0
+        }
+      },
+      {
+        "designator": "R1",
+        "ok": true,
+        "primitiveId": "7ad7579e49ea8ccfe16",
+        "requested": {
+          "layer": 3,
+          "mirror": false,
+          "reverse": false,
+          "rotation": 0
+        }
+      },
+      {
+        "designator": "R2",
+        "ok": true,
+        "primitiveId": "80c4fc491e76176fe16",
+        "requested": {
+          "layer": 3,
+          "mirror": false,
+          "reverse": false,
+          "rotation": 0
+        }
+      },
+      {
+        "designator": "R3",
+        "ok": true,
+        "primitiveId": "f8c67259936f0ea0e16",
+        "requested": {
+          "layer": 3,
+          "mirror": false,
+          "reverse": false,
+          "rotation": 0
+        }
+      },
+      {
+        "designator": "R6",
+        "ok": true,
+        "primitiveId": "afa96c654686aa73e16",
+        "requested": {
+          "layer": 3,
+          "mirror": false,
+          "reverse": false,
+          "rotation": 0
+        }
+      },
+      {
+        "designator": "R7",
+        "ok": true,
+        "primitiveId": "226bb6420a45929ce16",
+        "requested": {
+          "layer": 3,
+          "mirror": false,
+          "reverse": false,
+          "rotation": 0
+        }
+      }
+    ],
+    "partial": false,
+    "skipped": 0,
+    "skippedDetails": [],
+    "unresolved": 0,
+    "unresolvedDetails": [],
+    "verification": [
+      {
+        "bbox": {
+          "maxX": 1976.0000000000002,
+          "maxY": 1067.224,
+          "minX": 1924.0000000000005,
+          "minY": 1022.2239999999999
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "R5",
+        "primitiveId": "90f19e8114475d00e16"
+      },
+      {
+        "bbox": {
+          "maxX": 670.5045000000001,
+          "maxY": 687.618,
+          "minX": 629.5045,
+          "minY": 642.618
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "D1",
+        "primitiveId": "d40a0356d0e41490e24"
+      },
+      {
+        "bbox": {
+          "maxX": 1273.1190000000001,
+          "maxY": 1522.5,
+          "minX": 1219.9190000000003,
+          "minY": 1477.5
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "C2",
+        "primitiveId": "1b6026e6fcd2441ee12"
+      },
+      {
+        "bbox": {
+          "maxX": 2034.7759999999998,
+          "maxY": 1472.5,
+          "minX": 1982.776,
+          "minY": 1427.5
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "R3",
+        "primitiveId": "f8c67259936f0ea0e16"
+      },
+      {
+        "bbox": {
+          "maxX": 2373.776,
+          "maxY": 1272.5,
+          "minX": 2332.776,
+          "minY": 1227.5
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "R1",
+        "primitiveId": "7ad7579e49ea8ccfe16"
+      },
+      {
+        "bbox": {
+          "maxX": 1260.6844999999998,
+          "maxY": 1222.5,
+          "minX": 1219.6844999999998,
+          "minY": 1177.5
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "U1",
+        "primitiveId": "bc9fe46028ebaf2ae35"
+      },
+      {
+        "bbox": {
+          "maxX": 260.17499999999995,
+          "maxY": 829.3510000000001,
+          "minX": 224.075,
+          "minY": 784.3510000000001
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "J1",
+        "primitiveId": "49392d816f69ba3ce27"
+      },
+      {
+        "bbox": {
+          "maxX": 1026,
+          "maxY": 1683.2509999999997,
+          "minX": 974,
+          "minY": 1638.2509999999997
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "R2",
+        "primitiveId": "80c4fc491e76176fe16"
+      },
+      {
+        "bbox": {
+          "maxX": 1327.2000000000003,
+          "maxY": 1764.0749999999998,
+          "minX": 1272.8000000000002,
+          "minY": 1719.0749999999998
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "C4",
+        "primitiveId": "380570021a22f990e12"
+      },
+      {
+        "bbox": {
+          "maxX": 3021.7000000000003,
+          "maxY": 1302.4,
+          "minX": 2978.3,
+          "minY": 1257.4
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "Q1",
+        "primitiveId": "7a6df6bd23be73b0e14"
+      },
+      {
+        "bbox": {
+          "maxX": 1021.1000000000001,
+          "maxY": 731.8354999999999,
+          "minX": 978.9000000000001,
+          "minY": 686.8354999999999
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "C1",
+        "primitiveId": "59d1dc4f9a7d12bde2"
+      },
+      {
+        "bbox": {
+          "maxX": 2233.5620000000004,
+          "maxY": 1972.5,
+          "minX": 2161.1620000000003,
+          "minY": 1927.5
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "RV1",
+        "primitiveId": "7549205b26a704b7e19"
+      },
+      {
+        "bbox": {
+          "maxX": 2116.8470011968093,
+          "maxY": 942.8949020672536,
+          "minX": 2064.8470011968093,
+          "minY": 897.8949020672536
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "U2",
+        "primitiveId": "fabf1e7507dc5649e13"
+      },
+      {
+        "bbox": {
+          "maxX": 744.1999999999998,
+          "maxY": 1956.1194396721821,
+          "minX": 647.8999999999999,
+          "minY": 1911.1194396721821
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "LDR1",
+        "primitiveId": "dfe5a1bc3b26c31de24"
+      },
+      {
+        "bbox": {
+          "maxX": 3310.0499922960435,
+          "maxY": 1387.5000068479617,
+          "minX": 3214.949992296043,
+          "minY": 1342.5000068479617
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "LED1",
+        "primitiveId": "586203db286aa86be15"
+      },
+      {
+        "bbox": {
+          "maxX": 2967.224,
+          "maxY": 1922.5,
+          "minX": 2915.224,
+          "minY": 1877.5
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "R7",
+        "primitiveId": "226bb6420a45929ce16"
+      },
+      {
+        "bbox": {
+          "maxX": 2164.075,
+          "maxY": 522.5,
+          "minX": 2110.875,
+          "minY": 477.5
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "C3",
+        "primitiveId": "11aba7d5eecc0e2ae12"
+      },
+      {
+        "bbox": {
+          "maxX": 2725.4,
+          "maxY": 1511.749,
+          "minX": 2674.6000000000004,
+          "minY": 1466.749
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "R6",
+        "primitiveId": "afa96c654686aa73e16"
+      },
+      {
+        "bbox": {
+          "maxX": 1919.949,
+          "maxY": 872.5,
+          "minX": 1866.749,
+          "minY": 827.5
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "R4",
+        "primitiveId": "ca558ded3c03c63be16"
+      }
+    ],
+    "verified": true,
+    "warned": 0
+  },
+  "context": {
+    "projectUuid": "e56848aaf64d49d7a465352291670aef",
+    "projectName": "photo-led-pcb-20261026",
+    "documentUuid": "99b8366b0bdc971f",
+    "documentType": "pcb",
+    "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef",
+    "pageVisibility": "visible"
+  },
+  "mutationContext": {
+    "projectUuid": "e56848aaf64d49d7a465352291670aef",
+    "projectName": "photo-led-pcb-20261026",
+    "documentUuid": "99b8366b0bdc971f",
+    "documentType": "pcb",
+    "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef",
+    "pageVisibility": "visible"
+  },
+  "mutationContextAvailable": true,
+  "seq": 4750,
+  "seqAbandoned": 0
+}

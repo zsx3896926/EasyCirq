@@ -1,0 +1,260 @@
+{
+  "schema": "pcb-placement-proposal/v1",
+  "project": "photo-led-pcb-20261026",
+  "board": {
+    "units": "mil",
+    "layers": 2,
+    "outline": [
+      [
+        0,
+        0
+      ],
+      [
+        3543.3,
+        0
+      ],
+      [
+        3543.3,
+        2362.2
+      ],
+      [
+        0,
+        2362.2
+      ]
+    ]
+  },
+  "keepouts": [
+    {
+      "id": "MH-TL",
+      "center": [
+        195,
+        2167.2
+      ],
+      "radius": 118,
+      "source": "M3 washer keep-out, pcb mount-holes"
+    },
+    {
+      "id": "MH-TR",
+      "center": [
+        3348.3,
+        2167.2
+      ],
+      "radius": 118,
+      "source": "M3 washer keep-out, pcb mount-holes"
+    },
+    {
+      "id": "MH-BL",
+      "center": [
+        195,
+        195
+      ],
+      "radius": 118,
+      "source": "M3 washer keep-out, pcb mount-holes"
+    },
+    {
+      "id": "MH-BR",
+      "center": [
+        3348.3,
+        195
+      ],
+      "radius": 118,
+      "source": "M3 washer keep-out, pcb mount-holes"
+    }
+  ],
+  "placements": [
+    {
+      "designator": "J1",
+      "x": 250,
+      "y": 550,
+      "rotation": 270,
+      "layer": 1,
+      "reason": "5V screw terminal at left edge; opening outward; source: user mechanical assumption"
+    },
+    {
+      "designator": "D1",
+      "x": 650,
+      "y": 550,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "reverse-polarity diode between J1 VIN and +5V rail; source: schematic"
+    },
+    {
+      "designator": "C1",
+      "x": 1000,
+      "y": 550,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "bulk input capacitor after D1; source: 10uF input"
+    },
+    {
+      "designator": "U1",
+      "x": 1500,
+      "y": 1200,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "LM358 comparator core, central-left"
+    },
+    {
+      "designator": "C2",
+      "x": 1546.84,
+      "y": 1500,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "U1 supply decoupling: C2.1 +5V to U1.8 within 150 mil"
+    },
+    {
+      "designator": "U2",
+      "x": 2250,
+      "y": 900,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "TL431 2.5V shunt reference"
+    },
+    {
+      "designator": "R1",
+      "x": 2250,
+      "y": 1250,
+      "rotation": 90,
+      "layer": 1,
+      "reason": "TL431 bias resistor from +5V to VREF_2V5"
+    },
+    {
+      "designator": "C3",
+      "x": 2300,
+      "y": 500,
+      "rotation": 90,
+      "layer": 1,
+      "reason": "VREF_2V5 filter capacitor at TL431"
+    },
+    {
+      "designator": "RV1",
+      "x": 2200,
+      "y": 1700,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "threshold trimmer, user-adjustable from top"
+    },
+    {
+      "designator": "R3",
+      "x": 1900,
+      "y": 1450,
+      "rotation": 90,
+      "layer": 1,
+      "reason": "VTH_ADJ to VTH series resistor near U1.3"
+    },
+    {
+      "designator": "R4",
+      "x": 1600,
+      "y": 850,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "hysteresis feedback VTH to LED_CTRL near U1.1/U1.3"
+    },
+    {
+      "designator": "LDR1",
+      "x": 700,
+      "y": 2100,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "GL5528 at top edge for ambient light"
+    },
+    {
+      "designator": "R2",
+      "x": 1000,
+      "y": 1950,
+      "rotation": 90,
+      "layer": 1,
+      "reason": "LDR divider lower resistor"
+    },
+    {
+      "designator": "C4",
+      "x": 1300,
+      "y": 1900,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "LDR_SIG filter near U1.2"
+    },
+    {
+      "designator": "Q1",
+      "x": 3000,
+      "y": 1400,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "S8050 low-side LED driver near LED output"
+    },
+    {
+      "designator": "R5",
+      "x": 1950,
+      "y": 1150,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "Q1 base series resistor from U1.1"
+    },
+    {
+      "designator": "R6",
+      "x": 2700,
+      "y": 1200,
+      "rotation": 90,
+      "layer": 1,
+      "reason": "Q1 base pulldown"
+    },
+    {
+      "designator": "LED1",
+      "x": 3250,
+      "y": 1550,
+      "rotation": 180,
+      "layer": 1,
+      "reason": "status LED at right edge, visible"
+    },
+    {
+      "designator": "R7",
+      "x": 3050,
+      "y": 1900,
+      "rotation": 90,
+      "layer": 1,
+      "reason": "LED current limiting resistor from +5V"
+    }
+  ],
+  "near_pin": [
+    {
+      "part": "C2",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "8",
+      "max_mil": 200,
+      "source": "LM358 VCC pin 8 decoupling"
+    },
+    {
+      "part": "C3",
+      "pad": "2",
+      "owner": "U2",
+      "owner_pad": "3",
+      "max_mil": 250,
+      "source": "TL431 reference filter"
+    },
+    {
+      "part": "R4",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "3",
+      "max_mil": 300,
+      "source": "hysteresis feedback at IN+"
+    },
+    {
+      "part": "R5",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "1",
+      "max_mil": 900,
+      "source": "comparator output to base drive"
+    },
+    {
+      "part": "C1",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "8",
+      "max_mil": 1200,
+      "source": "bulk input to comparator supply"
+    }
+  ]
+}
