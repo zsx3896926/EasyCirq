@@ -4,7 +4,7 @@
 
 - 评审基线：`origin/main` `066a74b`（PR #22 后，0.9.2）。
 - 分支：`feat/offline-toolchain-round11`；worktree `C:/Users/jlc/work/hds-offline-r11`。
-- 最终提交/PR：见文末（提交后回填）。
+- 最终提交：`6bbc761`；PR #24 https://github.com/zsx3896926/hardware-design-skill/pull/24
 - **真实 EDA 调用：0 次**。未启动/连接 EasyEDA，未调用 `easyeda`（含 health/help/read/export），未访问本机服务/WebSocket/连接器，未修改工程或已安装执行器。
 
 ## 2. 已复现并修复的缺陷
@@ -91,7 +91,7 @@
 ## 9. PR
 
 - 分支：`feat/offline-toolchain-round11`
-- PR：待创建后回填 URL/提交 SHA
+- PR：https://github.com/zsx3896926/hardware-design-skill/pull/24（#24）\n- 提交：``$sha``；未合并、未发 Release、未替换已安装 Skill
 
 
 

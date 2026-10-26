@@ -14,6 +14,6 @@
 | G | 硬约束优先、候选评分、可行性措辞、模块复用 | DONE | `placement.py`、`pcb_workflow.py`、`reuse.py`、`test_pcb_workflow.py`、`test_design_engine.py` |
 | H | 图面回归、误报保留、对象/建议、分析叠加图、字体不确定性 | DONE | `sch_visual_audit.py`、`test_sch_visual_audit.py` |
 | I | 冻结基准、来源/哈希/预期、变形、性能口径、holdout | DONE | `benchmarks/offline-round11/`、`tools/offline_benchmark.py` |
-| J | Skill/文档/交接/全量测试/PR | IN PROGRESS → 见 review-report | `SKILL.md`、`references/offline-regression.md`、`docs/handoff-current.md` |
+| J | Skill/文档/交接/全量测试/PR | DONE（PR #24） | `SKILL.md`、`references/offline-regression.md`、`docs/handoff-current.md` |
 | K | 安装/缓存/兼容性演练（临时目录） | NOT RUN（扩展，本轮未实施） | — |
 | L | 输入安全与批量回放（归档穿越/大输入/汇总） | NOT RUN（扩展，本轮未实施） | — |
