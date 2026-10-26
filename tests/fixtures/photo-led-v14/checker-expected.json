@@ -10,7 +10,9 @@
       "status": "review_candidate",
       "severity": "info",
       "category": "readability_hint",
-      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+      "page_id": "cd008f919db36eba",
+      "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
       "point": [
         260.0,
         230.0
@@ -25,7 +27,9 @@
       "status": "review_candidate",
       "severity": "info",
       "category": "readability_hint",
-      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+      "page_id": "cd008f919db36eba",
+      "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
       "point": [
         260.0,
         195.0
@@ -40,7 +44,9 @@
       "status": "review_candidate",
       "severity": "info",
       "category": "readability_hint",
-      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+      "page_id": "cd008f919db36eba",
+      "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
       "point": [
         260.0,
         185.0
@@ -225,8 +231,12 @@
   },
   "self_text_contact_tolerance": 1.0,
   "label_own_wire_edge_tolerance": 1.0,
-  "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
-  "no_junction_crossings": 4,
+  "junction_evidence": {
+    "source": "easyeda sch read check (photo-led v14, 2026-10-26)",
+    "page_id": "cd008f919db36eba",
+    "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184"
+  },
+  "no_junction_crossings": 3,
   "strict_mode": true,
   "strict_missing": [],
   "checks_run": [
@@ -280,7 +290,9 @@
       "status": "review_candidate",
       "severity": "info",
       "category": "readability_hint",
-      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+      "page_id": "cd008f919db36eba",
+      "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
       "point": [
         260.0,
         230.0
@@ -295,7 +307,9 @@
       "status": "review_candidate",
       "severity": "info",
       "category": "readability_hint",
-      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+      "page_id": "cd008f919db36eba",
+      "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
       "point": [
         260.0,
         195.0
@@ -310,7 +324,9 @@
       "status": "review_candidate",
       "severity": "info",
       "category": "readability_hint",
-      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+      "page_id": "cd008f919db36eba",
+      "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
       "point": [
         260.0,
         185.0
