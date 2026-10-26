@@ -11,7 +11,7 @@
 - `design_engine/pcb_workflow.py`：实测 dump 归一化、约束编译/冲突、9 个局部模板、三候选、逃线代理、IPC-2221 电源筛查、stale plan/primitiveId 拒绝、scoped diff、模块相对布局复用、预算化 joint loop、丝印/铺铜/过孔预检。
 - `scripts/pcb_apply_plan.py`：校验 → 逐件 typed `pcb modify` → save/reload/fresh dump → scoped diff；默认 dry-run。
 - `references/pcb-execution.md`、`assets/pcb-placement-templates.json`、SKILL 路由、v0.9.1。
-- 测试：`python -m unittest discover -s tests` → **923 tests OK**（24 个 PCB 定向测试）；`skill_selftest` → **5 PASS**。
+- 测试：`python -m unittest discover -s tests` → **982 tests OK**（25 个 PCB 定向测试）；`skill_selftest` → **5 PASS**。
 - 案例：`design-hardware/cases/photo-led-pcb-2026-10-26/`。
 
 ## 板 A 真实状态（已完成）
