@@ -53,6 +53,47 @@ python scripts/sch_text_audit.py visible-text-bboxes.json --strict --out text-au
 
 缺少某类实测文字时，不能靠伪造宽度补齐。官方图中仍看不清则保留未验收；已看清的人工复核可记录单独结果，不能把自动检查改成 PASS。
 
+### 自动线名与显式标签重复
+
+EasyEDA 会为已命名网络在导线上画网名，netflag/netport 的网名又是符号自身文字；这两类都不在
+`visible_text.bboxes` 里。实际重复的三种来源：
+
+1. 同一节点既放了 netflag/netport，又加了同名的 net_label；
+2. 导线自动网名与附近的显式 net_label 同时显示；
+3. 旧布局遗留、已无导线绑定的游离标签（可能连网表都不再引用）。
+
+处理顺序：先用 `sch read`/netlist 确认该节点的真实网名与绑定；同一节点只保留一种表示
+（跨区信号用 netport/netflag，局部直连不用标签）；重复的显式标签用官方 typed 删除或
+`sch text.move` 移开，不能靠隐藏显示冒充修复；游离标签先确认它是否仍绑定网络，未绑定才
+删除，并在记录中写明锚点、网名和判定依据。`sch check` 的 `duplicate-net-marker` 与
+`sch_layout_check.py` 的 `duplicate_net_text/unanchored_net_text/unowned_visible_text`
+分别覆盖电气与渲染两层。
+
+## 6. 回读→实测文字→几何验收
+
+官方导出 SVG 后先测全部渲染文字，再构建严格几何输入：
+
+```bash
+easyeda sch list --include-bbox --include-pins --include-wires \
+  --include-page-primitives --page <page> > list.json
+easyeda sch sheet-geometry --from-svg page.svg --json > sheet.json
+python scripts/svg_text_bbox.py page.svg --out svg-text.json
+python scripts/layout_from_easyeda.py --list list.json \
+  --visible-text visible-text.json --sheet-geometry sheet.json \
+  --rendered-text svg-text.json --min-text-wire-clearance 5 \
+  --expect-rotation GND=0 --expect-rotation +5V=0 --out layout.json
+python scripts/sch_layout_check.py layout.json --strict
+```
+
+`visible_text.bboxes` 不是完整文字清单；同页 72 条与 SVG 实际 134 条文字的差值包括图框
+行列号、图签字段、符号内脚名/脚号、netflag 网名。没有渲染测量时只能报告覆盖不足，不能
+用 API 子集标 complete。适配器把无法归属的可见文字标 `unowned`，这正是“图上有一个名字，
+但 API 和网表都不认识它”的检测口。
+
+验收顺序仍是：pin-net/网表 → 原生 `sch check`/`gate`/DRC → 渲染文字与几何 → 官方整页
+和局部图 → 保存重开。任何一层 PASS 都不能替代另一层；`info_only` 只表示没有阻塞候选，
+不表示图面已合格。
+
 ## 5. 从项目经验晋升为模板
 
 经验必须有可复用资产：角色/连接条件、相对位置约束、实测输入、失败样例、成功证据和失效条件。不得只追加“下次注意”。

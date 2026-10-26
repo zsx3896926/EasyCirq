@@ -6,7 +6,7 @@
 
 ## 常见陷阱（使用 easyeda-agent CLI 时）
 
-`easyeda-agent`（v1.14.0）的页面/文档语义与前台焦点、引擎缓存强相关；遇到异常先查 [工具陷阱](tool-gotchas.md)，再按本节规则重试。本文件讲通用执行契约，不重复该版本的具体坑。
+`easyeda-agent`（本机实测 v1.15.0）的页面/文档语义与前台焦点、引擎缓存强相关；遇到异常先查 [工具陷阱](tool-gotchas.md)，再按本节规则重试。本文件讲通用执行契约，不重复该版本的具体坑。v1.15 已有 `sch autoconnect`、`sch layout-plan`、`sch zone-arrange/zone-plan/zone-draw`、`sch group-move`、`sch frame`、`sch titleblock`、`sch export-image` 等 typed 能力；优先组合这些命令，不要用旧版本文档推断缺失能力，也不要为已有能力另写任意 JS。命令与参数以当前 `easyeda sch <cmd> --help` 为准。
 
 - **前台与页面**：页面类命令作用于前台文档；非活动页数据可能变浅。能传 `--page` 或 `--doc` 就显式传，不依赖当前焦点。
 - **staleRisk**：回执带 `staleRisk` 时不得作为权威证据；执行 `save` → `easyeda doc reload` → 重新回读。

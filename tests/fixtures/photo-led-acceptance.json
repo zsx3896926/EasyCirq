@@ -1,0 +1,3710 @@
+{
+ "coordinate_units": "schematic raw units (y-up), from easyeda-agent reads",
+ "page_bbox": [
+  0.0,
+  0.0,
+  1170.0,
+  825.0
+ ],
+ "components": [
+  {
+   "id": "417202d804679ca0",
+   "bbox": [
+    559.5,
+    334.5,
+    640.5,
+    385.5
+   ]
+  },
+  {
+   "id": "9f05264307912dc7",
+   "bbox": [
+    769.5,
+    684.5,
+    790.5,
+    715.5
+   ]
+  },
+  {
+   "id": "9b647abbb274d557",
+   "bbox": [
+    859.4999999999999,
+    692.5000000000001,
+    880.4999999999999,
+    707.5000000000001
+   ]
+  },
+  {
+   "id": "d3bfcf566c9649c4",
+   "bbox": [
+    969.5,
+    642.5,
+    990.5,
+    657.5
+   ]
+  },
+  {
+   "id": "832c51a7d77cb7d4",
+   "bbox": [
+    969.5,
+    571.5,
+    980.5,
+    588.5
+   ]
+  },
+  {
+   "id": "8a8f0b18e2eedcb8",
+   "bbox": [
+    391.5,
+    639.5,
+    408.5,
+    650.5
+   ]
+  },
+  {
+   "id": "e8d5019ad192abf0",
+   "bbox": [
+    191.5,
+    389.5,
+    208.5,
+    400.5
+   ]
+  },
+  {
+   "id": "fd11ca9a4596209a",
+   "bbox": [
+    297.5,
+    689.5,
+    314.5,
+    710.5
+   ]
+  },
+  {
+   "id": "4f55d49c04bb3770",
+   "bbox": [
+    295.5,
+    589.5,
+    304.5,
+    610.5
+   ]
+  },
+  {
+   "id": "31ba1be298da1c16",
+   "bbox": [
+    139.5,
+    439.5,
+    160.5,
+    460.5
+   ]
+  },
+  {
+   "id": "f0ca47aba4307891",
+   "bbox": [
+    145.5,
+    489.5,
+    154.5,
+    510.5
+   ]
+  },
+  {
+   "id": "602a6271577e9c63",
+   "bbox": [
+    343.5,
+    439.5,
+    361.5,
+    460.5
+   ]
+  },
+  {
+   "id": "4c3b66d17e7f4875",
+   "bbox": [
+    409.5,
+    350.5,
+    430.5,
+    359.5
+   ]
+  },
+  {
+   "id": "e085629e30ccdf66",
+   "bbox": [
+    749.5,
+    355.5,
+    770.5,
+    364.5
+   ]
+  },
+  {
+   "id": "bfd8f9e1b073aebf",
+   "bbox": [
+    469.5,
+    395.5,
+    490.5,
+    404.5
+   ]
+  },
+  {
+   "id": "11e215502349267c",
+   "bbox": [
+    815.5,
+    289.5,
+    824.5,
+    310.5
+   ]
+  },
+  {
+   "id": "b3668ed6b91c1e9a",
+   "bbox": [
+    869.5,
+    349.5,
+    880.5,
+    370.5
+   ]
+  },
+  {
+   "id": "9e14afd67449795d",
+   "bbox": [
+    1009.5,
+    375.5,
+    1030.5,
+    384.5
+   ]
+  },
+  {
+   "id": "9fa3e07921a92387",
+   "bbox": [
+    943.5,
+    362.5,
+    965.5,
+    388.5
+   ]
+  }
+ ],
+ "texts": [
+  {
+   "id": "0149dca70e8c886d",
+   "bbox": [
+    249.0,
+    528.0,
+    449.636474609375,
+    540.0
+   ],
+   "kind": "free_text",
+   "content": "TL431 2.495V；RV1调阈值、R4正反馈",
+   "measurement": "bbox"
+  },
+  {
+   "id": "26b89259608f1dd1",
+   "bbox": [
+    722.0,
+    778.0,
+    915.4185791015625,
+    790.0
+   ],
+   "kind": "free_text",
+   "content": "5V输入、反接保护、10µF+100nF去耦",
+   "measurement": "bbox"
+  },
+  {
+   "id": "7000fc9074f2508d",
+   "bbox": [
+    42.0,
+    778.0,
+    289.265625,
+    790.0
+   ],
+   "kind": "free_text",
+   "content": "GL5528与4.7k分压，C4滤波；光照越强电压越高",
+   "measurement": "bbox"
+  },
+  {
+   "id": "774affad16c0750a",
+   "bbox": [
+    722.0,
+    528.0,
+    893.1705932617188,
+    540.0
+   ],
+   "kind": "free_text",
+   "content": "S8050驱动LED；R7限流约7.4mA",
+   "measurement": "bbox"
+  },
+  {
+   "id": "a0a95850182dfa3b",
+   "bbox": [
+    722.0,
+    543.0,
+    777.0083618164062,
+    555.0
+   ],
+   "kind": "zone_title",
+   "content": "4 LED驱动",
+   "measurement": "bbox"
+  },
+  {
+   "id": "b3d579de0d59ff16",
+   "bbox": [
+    722.0,
+    793.0,
+    777.6307373046875,
+    805.0
+   ],
+   "kind": "zone_title",
+   "content": "1 供电去耦",
+   "measurement": "bbox"
+  },
+  {
+   "id": "c6ca69dd1929c2e4",
+   "bbox": [
+    250.0,
+    543.0,
+    305.6307067871094,
+    555.0
+   ],
+   "kind": "zone_title",
+   "content": "3 阈值迟滞",
+   "measurement": "bbox"
+  },
+  {
+   "id": "e176a846f166e131",
+   "bbox": [
+    42.0,
+    793.0,
+    97.015625,
+    805.0
+   ],
+   "kind": "zone_title",
+   "content": "2 光敏检测",
+   "measurement": "bbox"
+  },
+  {
+   "id": "ef2ec7b553c26696",
+   "bbox": [
+    599.0,
+    69.5,
+    675.65625,
+    84.5
+   ],
+   "kind": "title_block",
+   "content": "Claude Code",
+   "field": "Drawed",
+   "owner": "d30055d5065a615b",
+   "measurement": "bbox"
+  },
+  {
+   "id": "92426cc054919476",
+   "bbox": [
+    560.0,
+    385.0,
+    571.1875,
+    395.0
+   ],
+   "kind": "attribute",
+   "content": "U1",
+   "field": "Designator",
+   "owner": "417202d804679ca0",
+   "measurement": "bbox"
+  },
+  {
+   "id": "b8b3c96d57ae8176",
+   "bbox": [
+    560.0,
+    325.0,
+    592.754150390625,
+    335.0
+   ],
+   "kind": "attribute",
+   "content": "LM358P",
+   "field": "Name",
+   "owner": "417202d804679ca0",
+   "measurement": "bbox"
+  },
+  {
+   "id": "c332e360692d0efa",
+   "bbox": [
+    770.0,
+    715.0,
+    779.25,
+    725.0
+   ],
+   "kind": "attribute",
+   "content": "J1",
+   "field": "Designator",
+   "owner": "9f05264307912dc7",
+   "measurement": "bbox"
+  },
+  {
+   "id": "bfd7402c5f9688aa",
+   "bbox": [
+    770.0,
+    675.0,
+    844.6463623046875,
+    685.0
+   ],
+   "kind": "attribute",
+   "content": "KF301-2P接线端子",
+   "field": "Name",
+   "owner": "9f05264307912dc7",
+   "measurement": "bbox"
+  },
+  {
+   "id": "3ecb90085ef281b7",
+   "bbox": [
+    860.0,
+    685.0,
+    884.7022705078125,
+    691.0
+   ],
+   "kind": "attribute",
+   "content": "1N5819S",
+   "field": "Name",
+   "owner": "9b647abbb274d557",
+   "measurement": "bbox"
+  },
+  {
+   "id": "af818e7538a1fb79",
+   "bbox": [
+    860.0,
+    710.0,
+    867.5625,
+    716.0
+   ],
+   "kind": "attribute",
+   "content": "D1",
+   "field": "Designator",
+   "owner": "9b647abbb274d557",
+   "measurement": "bbox"
+  },
+  {
+   "id": "eece254e344a87aa",
+   "bbox": [
+    970.0,
+    660.0,
+    981.1875,
+    670.0
+   ],
+   "kind": "attribute",
+   "content": "C1",
+   "field": "Designator",
+   "owner": "d3bfcf566c9649c4",
+   "measurement": "bbox"
+  },
+  {
+   "id": "8aa96c60739365ff",
+   "bbox": [
+    970.0,
+    630.0,
+    990.5989990234375,
+    640.0
+   ],
+   "kind": "attribute",
+   "content": "10uF",
+   "field": "Name",
+   "owner": "d3bfcf566c9649c4",
+   "measurement": "bbox"
+  },
+  {
+   "id": "c6ea3a0edae5cc2d",
+   "bbox": [
+    970.0,
+    590.0,
+    981.3189697265625,
+    600.0
+   ],
+   "kind": "attribute",
+   "content": "C2",
+   "field": "Designator",
+   "owner": "832c51a7d77cb7d4",
+   "measurement": "bbox"
+  },
+  {
+   "id": "590ab99de0d9e06f",
+   "bbox": [
+    995.0,
+    568.0,
+    1020.46533203125,
+    578.0
+   ],
+   "kind": "attribute",
+   "content": "100nF",
+   "field": "Name",
+   "owner": "832c51a7d77cb7d4",
+   "measurement": "bbox"
+  },
+  {
+   "id": "c4c4b7f088244440",
+   "bbox": [
+    415.0,
+    640.0,
+    426.3189697265625,
+    650.0
+   ],
+   "kind": "attribute",
+   "content": "C4",
+   "field": "Designator",
+   "owner": "8a8f0b18e2eedcb8",
+   "measurement": "bbox"
+  },
+  {
+   "id": "9200b084732e3735",
+   "bbox": [
+    415.0,
+    630.0,
+    440.46533203125,
+    640.0
+   ],
+   "kind": "attribute",
+   "content": "100nF",
+   "field": "Name",
+   "owner": "8a8f0b18e2eedcb8",
+   "measurement": "bbox"
+  },
+  {
+   "id": "d7f22814c847069a",
+   "bbox": [
+    215.0,
+    390.0,
+    226.3189697265625,
+    400.0
+   ],
+   "kind": "attribute",
+   "content": "C3",
+   "field": "Designator",
+   "owner": "e8d5019ad192abf0",
+   "measurement": "bbox"
+  },
+  {
+   "id": "33139676965fdeb1",
+   "bbox": [
+    215.0,
+    380.0,
+    240.46533203125,
+    390.0
+   ],
+   "kind": "attribute",
+   "content": "100nF",
+   "field": "Name",
+   "owner": "e8d5019ad192abf0",
+   "measurement": "bbox"
+  },
+  {
+   "id": "c519f2881e511254",
+   "bbox": [
+    320.0,
+    700.0,
+    335.125,
+    706.0
+   ],
+   "kind": "attribute",
+   "content": "LDR1",
+   "field": "Designator",
+   "owner": "fd11ca9a4596209a",
+   "measurement": "bbox"
+  },
+  {
+   "id": "693091bc56674f7e",
+   "bbox": [
+    320.0,
+    690.0,
+    351.2713623046875,
+    700.0
+   ],
+   "kind": "attribute",
+   "content": "GL5528",
+   "field": "Name",
+   "owner": "fd11ca9a4596209a",
+   "measurement": "bbox"
+  },
+  {
+   "id": "da034d3db36bd426",
+   "bbox": [
+    310.0,
+    600.0,
+    321.3189697265625,
+    610.0
+   ],
+   "kind": "attribute",
+   "content": "R2",
+   "field": "Designator",
+   "owner": "4f55d49c04bb3770",
+   "measurement": "bbox"
+  },
+  {
+   "id": "041f51defe6d52e9",
+   "bbox": [
+    310.0,
+    590.0,
+    333.5386962890625,
+    600.0
+   ],
+   "kind": "attribute",
+   "content": "4.7kΩ",
+   "field": "Name",
+   "owner": "4f55d49c04bb3770",
+   "measurement": "bbox"
+  },
+  {
+   "id": "7b26352e1f011376",
+   "bbox": [
+    165.0,
+    450.0,
+    176.3189697265625,
+    460.0
+   ],
+   "kind": "attribute",
+   "content": "U2",
+   "field": "Designator",
+   "owner": "31ba1be298da1c16",
+   "measurement": "bbox"
+  },
+  {
+   "id": "0095c02a91718d18",
+   "bbox": [
+    179.0,
+    455.0,
+    232.4969482421875,
+    465.0
+   ],
+   "kind": "attribute",
+   "content": "TL431-TO-92",
+   "field": "Name",
+   "owner": "31ba1be298da1c16",
+   "measurement": "bbox"
+  },
+  {
+   "id": "cf1056241076c58b",
+   "bbox": [
+    160.0,
+    500.0,
+    171.1875,
+    510.0
+   ],
+   "kind": "attribute",
+   "content": "R1",
+   "field": "Designator",
+   "owner": "f0ca47aba4307891",
+   "measurement": "bbox"
+  },
+  {
+   "id": "d28a026970f6c8a0",
+   "bbox": [
+    160.0,
+    490.0,
+    176.2413330078125,
+    500.0
+   ],
+   "kind": "attribute",
+   "content": "1kΩ",
+   "field": "Name",
+   "owner": "f0ca47aba4307891",
+   "measurement": "bbox"
+  },
+  {
+   "id": "a19c5e920fe82a18",
+   "bbox": [
+    365.0,
+    450.0,
+    381.875,
+    460.0
+   ],
+   "kind": "attribute",
+   "content": "RV1",
+   "field": "Designator",
+   "owner": "602a6271577e9c63",
+   "measurement": "bbox"
+  },
+  {
+   "id": "c22eb47ef4e3241f",
+   "bbox": [
+    365.0,
+    440.0,
+    369.0,
+    450.0
+   ],
+   "kind": "attribute",
+   "content": "-",
+   "field": "Name",
+   "owner": "602a6271577e9c63",
+   "measurement": "bbox"
+  },
+  {
+   "id": "97b0c31ba20f6d65",
+   "bbox": [
+    410.0,
+    360.0,
+    421.3189697265625,
+    370.0
+   ],
+   "kind": "attribute",
+   "content": "R3",
+   "field": "Designator",
+   "owner": "4c3b66d17e7f4875",
+   "measurement": "bbox"
+  },
+  {
+   "id": "8bd5a6b179fa7148",
+   "bbox": [
+    410.0,
+    340.0,
+    431.107666015625,
+    350.0
+   ],
+   "kind": "attribute",
+   "content": "10kΩ",
+   "field": "Name",
+   "owner": "4c3b66d17e7f4875",
+   "measurement": "bbox"
+  },
+  {
+   "id": "1465805a58d844cb",
+   "bbox": [
+    750.0,
+    365.0,
+    761.3189697265625,
+    375.0
+   ],
+   "kind": "attribute",
+   "content": "R5",
+   "field": "Designator",
+   "owner": "e085629e30ccdf66",
+   "measurement": "bbox"
+  },
+  {
+   "id": "2447580073c01300",
+   "bbox": [
+    750.0,
+    345.0,
+    771.107666015625,
+    355.0
+   ],
+   "kind": "attribute",
+   "content": "10kΩ",
+   "field": "Name",
+   "owner": "e085629e30ccdf66",
+   "measurement": "bbox"
+  },
+  {
+   "id": "2fa96c1a31147cef",
+   "bbox": [
+    470.0,
+    405.0,
+    481.3189697265625,
+    415.0
+   ],
+   "kind": "attribute",
+   "content": "R4",
+   "field": "Designator",
+   "owner": "bfd8f9e1b073aebf",
+   "measurement": "bbox"
+  },
+  {
+   "id": "b6da875b9529e9c3",
+   "bbox": [
+    465.0,
+    375.0,
+    490.9739990234375,
+    385.0
+   ],
+   "kind": "attribute",
+   "content": "100kΩ",
+   "field": "Name",
+   "owner": "bfd8f9e1b073aebf",
+   "measurement": "bbox"
+  },
+  {
+   "id": "f6732b9669f70864",
+   "bbox": [
+    830.0,
+    300.0,
+    841.3189697265625,
+    310.0
+   ],
+   "kind": "attribute",
+   "content": "R6",
+   "field": "Designator",
+   "owner": "11e215502349267c",
+   "measurement": "bbox"
+  },
+  {
+   "id": "fec54ea118d97336",
+   "bbox": [
+    830.0,
+    290.0,
+    855.9739990234375,
+    300.0
+   ],
+   "kind": "attribute",
+   "content": "100kΩ",
+   "field": "Name",
+   "owner": "11e215502349267c",
+   "measurement": "bbox"
+  },
+  {
+   "id": "3ce62ceb4ff1b84a",
+   "bbox": [
+    885.0,
+    360.0,
+    896.6875,
+    370.0
+   ],
+   "kind": "attribute",
+   "content": "Q1",
+   "field": "Designator",
+   "owner": "b3668ed6b91c1e9a",
+   "measurement": "bbox"
+  },
+  {
+   "id": "04c1ddd3b2c604be",
+   "bbox": [
+    885.0,
+    350.0,
+    937.98828125,
+    360.0
+   ],
+   "kind": "attribute",
+   "content": "S8050-TO-92",
+   "field": "Name",
+   "owner": "b3668ed6b91c1e9a",
+   "measurement": "bbox"
+  },
+  {
+   "id": "823c8f32553ec112",
+   "bbox": [
+    1010.0,
+    385.0,
+    1021.3189697265625,
+    395.0
+   ],
+   "kind": "attribute",
+   "content": "R7",
+   "field": "Designator",
+   "owner": "9e14afd67449795d",
+   "measurement": "bbox"
+  },
+  {
+   "id": "7f8bc2a1edab995c",
+   "bbox": [
+    1010.0,
+    365.0,
+    1031.5989990234375,
+    375.0
+   ],
+   "kind": "attribute",
+   "content": "330Ω",
+   "field": "Name",
+   "owner": "9e14afd67449795d",
+   "measurement": "bbox"
+  },
+  {
+   "id": "6b1a008e01876ee9",
+   "bbox": [
+    945.0,
+    390.0,
+    966.890625,
+    400.0
+   ],
+   "kind": "attribute",
+   "content": "LED1",
+   "field": "Designator",
+   "owner": "9fa3e07921a92387",
+   "measurement": "bbox"
+  },
+  {
+   "id": "c237871bb76188b9",
+   "bbox": [
+    945.0,
+    350.0,
+    1012.8275146484375,
+    360.0
+   ],
+   "kind": "attribute",
+   "content": "5mm LED 雾发红",
+   "field": "Name",
+   "owner": "9fa3e07921a92387",
+   "measurement": "bbox"
+  },
+  {
+   "id": "27ea5fb0e470931f",
+   "bbox": [
+    730.2734375,
+    630.0,
+    750.3984375,
+    640.0
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "bf7d66bfd7b58425",
+   "measurement": "bbox"
+  },
+  {
+   "id": "983199cdbe2cf2e1",
+   "bbox": [
+    390.2734375,
+    580.0,
+    410.3984375,
+    590.0
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "3604abedbdd6c184",
+   "measurement": "bbox"
+  },
+  {
+   "id": "c73c6b1ffbfe5303",
+   "bbox": [
+    140.2734375,
+    380.0,
+    160.3984375,
+    390.0
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "9793d2393d29aab2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "be87263931a261c4",
+   "bbox": [
+    190.2734375,
+    330.0,
+    210.3984375,
+    340.0
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "b60c4e219377782b",
+   "measurement": "bbox"
+  },
+  {
+   "id": "f2592547f032ea41",
+   "bbox": [
+    345.2734375,
+    380.0,
+    365.3984375,
+    390.0
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "8a87b348b3d19335",
+   "measurement": "bbox"
+  },
+  {
+   "id": "1da23eb94d2ba33a",
+   "bbox": [
+    810.2734375,
+    230.0,
+    830.3984375,
+    240.0
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "6912d7f5fce3b25c",
+   "measurement": "bbox"
+  },
+  {
+   "id": "bdf2e34e1c514cca",
+   "bbox": [
+    870.2734375,
+    290.0,
+    890.3984375,
+    300.0
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "cd5969005d92362a",
+   "measurement": "bbox"
+  },
+  {
+   "id": "bb571b9135883511",
+   "bbox": [
+    1030.0,
+    570.2734375,
+    1040.0,
+    590.3984375
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "69f35c0a8bd67fa8",
+   "measurement": "bbox"
+  },
+  {
+   "id": "fec693d86c501a2b",
+   "bbox": [
+    1040.0,
+    640.2734375,
+    1050.0,
+    660.3984375
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "7c67d9ea5fb25dca",
+   "measurement": "bbox"
+  },
+  {
+   "id": "5f6e1cc8eb3310e6",
+   "bbox": [
+    690.0,
+    335.2734375,
+    700.0,
+    355.3984375
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "a28371bbf0bdc42f",
+   "measurement": "bbox"
+  },
+  {
+   "id": "21554a031057e047",
+   "bbox": [
+    500.0,
+    335.2734375,
+    510.0,
+    355.3984375
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "d872d190345c22cc",
+   "measurement": "bbox"
+  },
+  {
+   "id": "676670b1bcadd53c",
+   "bbox": [
+    270.2734375,
+    610.0,
+    290.3984375,
+    620.0
+   ],
+   "kind": "attribute",
+   "content": "GND",
+   "field": "Name",
+   "owner": "64bcbe61e5e7f80b",
+   "measurement": "bbox"
+  },
+  {
+   "id": "71c4e7baa57e95ff",
+   "bbox": [
+    287.109375,
+    750.0,
+    332.014404296875,
+    760.0
+   ],
+   "kind": "attribute",
+   "content": "VREF_2V5",
+   "field": "Name",
+   "owner": "4c5627c4037756cb",
+   "measurement": "bbox"
+  },
+  {
+   "id": "25bc2eec12ab039e",
+   "bbox": [
+    177.109375,
+    440.0,
+    222.014404296875,
+    450.0
+   ],
+   "kind": "attribute",
+   "content": "VREF_2V5",
+   "field": "Name",
+   "owner": "a367e720221e4d94",
+   "measurement": "bbox"
+  },
+  {
+   "id": "742fab5d531e0274",
+   "bbox": [
+    332.109375,
+    500.0,
+    377.014404296875,
+    510.0
+   ],
+   "kind": "attribute",
+   "content": "VREF_2V5",
+   "field": "Name",
+   "owner": "d1ff5d02e14e011e",
+   "measurement": "bbox"
+  },
+  {
+   "id": "b395bf6f2293f6d9",
+   "bbox": [
+    97.109375,
+    480.0,
+    142.014404296875,
+    490.0
+   ],
+   "kind": "attribute",
+   "content": "VREF_2V5",
+   "field": "Name",
+   "owner": "b60c7b66d49a164d",
+   "measurement": "bbox"
+  },
+  {
+   "id": "dad737bcc88953fc",
+   "bbox": [
+    731.703125,
+    745.0,
+    747.9703369140625,
+    755.0
+   ],
+   "kind": "attribute",
+   "content": "VIN",
+   "field": "Name",
+   "owner": "f63f86cd594792db",
+   "measurement": "bbox"
+  },
+  {
+   "id": "d688ecd180447023",
+   "bbox": [
+    662.09375,
+    405.0,
+    679.0699462890625,
+    415.0
+   ],
+   "kind": "attribute",
+   "content": "+5V",
+   "field": "Name",
+   "owner": "9ae7a797447c2aa6",
+   "measurement": "bbox"
+  },
+  {
+   "id": "d195cd6e63306980",
+   "bbox": [
+    1070.0,
+    372.09375,
+    1080.0,
+    389.0699462890625
+   ],
+   "kind": "attribute",
+   "content": "+5V",
+   "field": "Name",
+   "owner": "cf5a7493b65bb06f",
+   "measurement": "bbox"
+  },
+  {
+   "id": "58e534523f032e89",
+   "bbox": [
+    920.0,
+    572.09375,
+    930.0,
+    589.0699462890625
+   ],
+   "kind": "attribute",
+   "content": "+5V",
+   "field": "Name",
+   "owner": "c345e8075eb96ffb",
+   "measurement": "bbox"
+  },
+  {
+   "id": "659e12598cab42e2",
+   "bbox": [
+    920.0,
+    642.09375,
+    930.0,
+    659.0699462890625
+   ],
+   "kind": "attribute",
+   "content": "+5V",
+   "field": "Name",
+   "owner": "ded1fe83b56608ff",
+   "measurement": "bbox"
+  },
+  {
+   "id": "69417290b18df601",
+   "bbox": [
+    920.0,
+    692.09375,
+    930.0,
+    709.0699462890625
+   ],
+   "kind": "attribute",
+   "content": "+5V",
+   "field": "Name",
+   "owner": "a8d646eaed29284a",
+   "measurement": "bbox"
+  },
+  {
+   "id": "6a1b50c9661cf266",
+   "bbox": [
+    142.09375,
+    540.0,
+    159.0699462890625,
+    550.0
+   ],
+   "kind": "attribute",
+   "content": "+5V",
+   "field": "Name",
+   "owner": "7bcf8e374ce8afba",
+   "measurement": "bbox"
+  },
+  {
+   "id": "a5bc185210999596",
+   "bbox": [
+    95.0,
+    -0.0,
+    100.0,
+    10.0
+   ],
+   "kind": "border",
+   "content": "1",
+   "measurement": "bbox"
+  },
+  {
+   "id": "d8e450f8697ead4b",
+   "bbox": [
+    95.0,
+    815.0,
+    100.0,
+    825.0
+   ],
+   "kind": "border",
+   "content": "1",
+   "measurement": "bbox"
+  },
+  {
+   "id": "5e0d9a2cd00f678a",
+   "bbox": [
+    290.0,
+    -0.0,
+    295.0,
+    10.0
+   ],
+   "kind": "border",
+   "content": "2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "7127ddeb9d40e6c5",
+   "bbox": [
+    290.0,
+    815.0,
+    295.0,
+    825.0
+   ],
+   "kind": "border",
+   "content": "2",
+   "measurement": "bbox"
+  },
+  {
+   "id": "8dd22bc7eab8e52f",
+   "bbox": [
+    485.0,
+    -0.0,
+    490.0,
+    10.0
+   ],
+   "kind": "border",
+   "content": "3",
+   "measurement": "bbox"
+  },
+  {
+   "id": "305b1f20c4fcbd92",
+   "bbox": [
+    485.0,
+    815.0,
+    490.0,
+    825.0
+   ],
+   "kind": "border",
+   "content": "3",
+   "measurement": "bbox"
+  },
+  {
+   "id": "c073b07468bceed4",
+   "bbox": [
+    680.0,
+    -0.0,
+    685.0,
+    10.0
+   ],
+   "kind": "border",
+   "content": "4",
+   "measurement": "bbox"
+  },
+  {
+   "id": "b757a0a64f868429",
+   "bbox": [
+    680.0,
+    815.0,
+    685.0,
+    825.0
+   ],
+   "kind": "border",
+   "content": "4",
+   "measurement": "bbox"
+  },
+  {
+   "id": "7c4ef353211b7690",
+   "bbox": [
+    875.0,
+    -0.0,
+    880.0,
+    10.0
+   ],
+   "kind": "border",
+   "content": "5",
+   "measurement": "bbox"
+  },
+  {
+   "id": "2e8591d96b1e7099",
+   "bbox": [
+    875.0,
+    815.0,
+    880.0,
+    825.0
+   ],
+   "kind": "border",
+   "content": "5",
+   "measurement": "bbox"
+  },
+  {
+   "id": "165208fd2fe1d8b2",
+   "bbox": [
+    1070.0,
+    -0.0,
+    1075.0,
+    10.0
+   ],
+   "kind": "border",
+   "content": "6",
+   "measurement": "bbox"
+  },
+  {
+   "id": "116d06494818de10",
+   "bbox": [
+    1070.0,
+    815.0,
+    1075.0,
+    825.0
+   ],
+   "kind": "border",
+   "content": "6",
+   "measurement": "bbox"
+  },
+  {
+   "id": "043f96ab23292e37",
+   "bbox": [
+    1.5,
+    716.875,
+    8.5,
+    726.875
+   ],
+   "kind": "border",
+   "content": "A",
+   "measurement": "bbox"
+  },
+  {
+   "id": "fcf69e11acbfa0f5",
+   "bbox": [
+    1161.5,
+    716.875,
+    1168.5,
+    726.875
+   ],
+   "kind": "border",
+   "content": "A",
+   "measurement": "bbox"
+  },
+  {
+   "id": "ec4c6aae34f2b3ef",
+   "bbox": [
+    1.5,
+    510.625,
+    7.5,
+    520.625
+   ],
+   "kind": "border",
+   "content": "B",
+   "measurement": "bbox"
+  },
+  {
+   "id": "4b6156c7806aef76",
+   "bbox": [
+    1161.5,
+    510.625,
+    1167.5,
+    520.625
+   ],
+   "kind": "border",
+   "content": "B",
+   "measurement": "bbox"
+  },
+  {
+   "id": "f745fdb9a4c85554",
+   "bbox": [
+    2.5,
+    304.375,
+    7.5,
+    314.375
+   ],
+   "kind": "border",
+   "content": "C",
+   "measurement": "bbox"
+  },
+  {
+   "id": "a1163e9f7681aa94",
+   "bbox": [
+    1162.5,
+    304.375,
+    1167.5,
+    314.375
+   ],
+   "kind": "border",
+   "content": "C",
+   "measurement": "bbox"
+  },
+  {
+   "id": "4cabf62fd979b7d6",
+   "bbox": [
+    1.5,
+    98.125,
+    7.5,
+    108.125
+   ],
+   "kind": "border",
+   "content": "D",
+   "measurement": "bbox"
+  },
+  {
+   "id": "26ce6f639d7078d5",
+   "bbox": [
+    1161.5,
+    98.125,
+    1167.5,
+    108.125
+   ],
+   "kind": "border",
+   "content": "D",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e729-text",
+   "content": "原理图",
+   "bbox": [
+    465.0,
+    164.515625,
+    510.0,
+    179.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e730-text",
+   "content": "5V 光控 LED 板",
+   "bbox": [
+    644.9761352539062,
+    162.46875,
+    784.9761352539062,
+    182.46875
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e734-text",
+   "content": "创建日期",
+   "bbox": [
+    873.5934448242188,
+    174.515625,
+    933.5934448242188,
+    189.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e735-text",
+   "content": "2026-10-26",
+   "bbox": [
+    974.9522094726562,
+    174.515625,
+    1054.9521484375,
+    189.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e741-text",
+   "content": "更新日期",
+   "bbox": [
+    873.5934448242188,
+    154.515625,
+    933.5934448242188,
+    169.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e742-text",
+   "content": "2026-10-26",
+   "bbox": [
+    974.9522094726562,
+    154.515625,
+    1054.9521484375,
+    169.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-1b71ba32c6bc37ee-text",
+   "content": "板子",
+   "bbox": [
+    465.0,
+    134.515625,
+    495.0,
+    149.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-0e9a09eafe161521-text",
+   "content": "Board1",
+   "bbox": [
+    684.9761352539062,
+    132.46875,
+    744.9761352539062,
+    152.46875
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-b1758d8b7bb0a22a-text",
+   "content": "图页",
+   "bbox": [
+    873.5934448242188,
+    134.515625,
+    903.5934448242188,
+    149.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-544b01c847a5c430-text",
+   "content": "P1",
+   "bbox": [
+    974.9522094726562,
+    134.515625,
+    990.9522094726562,
+    149.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e750-text",
+   "content": "绘制",
+   "bbox": [
+    465.0,
+    114.515625,
+    495.0,
+    129.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e751-text",
+   "content": "Claude Code",
+   "bbox": [
+    566.3588256835938,
+    114.515625,
+    654.3588256835938,
+    129.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e752-text",
+   "content": "photo-led-5v-20261026",
+   "bbox": [
+    812.6937255859375,
+    92.46875,
+    1022.6937255859375,
+    112.46875
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e757-text",
+   "content": "审阅",
+   "bbox": [
+    465.0,
+    94.515625,
+    495.0,
+    109.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e773-text",
+   "content": "版本",
+   "bbox": [
+    685.7271728515625,
+    54.515625,
+    715.7271728515625,
+    69.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e774-text",
+   "content": "尺寸",
+   "bbox": [
+    736.4065551757812,
+    54.515625,
+    766.4065551757812,
+    69.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e775-text",
+   "content": "页    1    共    1",
+   "bbox": [
+    897.3731689453125,
+    54.515625,
+    1039.3731689453125,
+    69.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e780-text",
+   "content": "V1.0",
+   "bbox": [
+    684.7271728515625,
+    24.515625,
+    716.7271728515625,
+    39.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e781-text",
+   "content": "A4",
+   "bbox": [
+    743.4065551757812,
+    24.515625,
+    759.4065551757812,
+    39.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "table-d30055d5065a615b-e782-text",
+   "content": "嘉立创EDA",
+   "bbox": [
+    933.8731689453125,
+    24.515625,
+    1002.8731689453125,
+    39.515625
+   ],
+   "kind": "title_block",
+   "measurement": "bbox"
+  },
+  {
+   "id": "2e78edb507242d7f",
+   "bbox": [
+    563.7000122070312,
+    369.08502197265625,
+    587.6913452148438,
+    379.08502197265625
+   ],
+   "kind": "pin_name",
+   "content": "1OUT",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "ccde416b12d1ae1b",
+   "bbox": [
+    554.625,
+    374.08502197265625,
+    559.5,
+    384.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "1",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "14f96b68fdbdf540",
+   "bbox": [
+    563.7000122070312,
+    359.08502197265625,
+    581.3163452148438,
+    369.08502197265625
+   ],
+   "kind": "pin_name",
+   "content": "1IN-",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "29870c05a1756577",
+   "bbox": [
+    553.625,
+    364.08502197265625,
+    559.625,
+    374.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "2",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "0738be5a4d4adac3",
+   "bbox": [
+    563.7000122070312,
+    349.08502197265625,
+    583.3163452148438,
+    359.08502197265625
+   ],
+   "kind": "pin_name",
+   "content": "1IN+",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "ca0cfa56262f1b24",
+   "bbox": [
+    554.625,
+    354.08502197265625,
+    559.625,
+    364.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "3",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "bb8cb96bdcde6a9f",
+   "bbox": [
+    563.7000122070312,
+    339.08502197265625,
+    583.8250122070312,
+    349.08502197265625
+   ],
+   "kind": "pin_name",
+   "content": "GND",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "56b2ca90ffcfcb5b",
+   "bbox": [
+    554.625,
+    344.08502197265625,
+    559.625,
+    354.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "4",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "66b4d9779857443a",
+   "bbox": [
+    616.5656127929688,
+    339.08502197265625,
+    637.1819458007812,
+    349.08502197265625
+   ],
+   "kind": "pin_name",
+   "content": "2IN+",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "bf940b9da7edcf24",
+   "bbox": [
+    640.5,
+    344.08502197265625,
+    645.5,
+    354.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "5",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "7e5db5347aba3920",
+   "bbox": [
+    618.7687377929688,
+    349.08502197265625,
+    637.3850708007812,
+    359.08502197265625
+   ],
+   "kind": "pin_name",
+   "content": "2IN-",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "ef70c82eb8f2605a",
+   "bbox": [
+    639.5,
+    354.08502197265625,
+    645.5,
+    364.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "6",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "0a426e4376aa62f8",
+   "bbox": [
+    611.9562377929688,
+    359.08502197265625,
+    636.9475708007812,
+    369.08502197265625
+   ],
+   "kind": "pin_name",
+   "content": "2OUT",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "529b2d66c198a2c0",
+   "bbox": [
+    640.5,
+    364.08502197265625,
+    645.5,
+    374.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "7",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "fbee98157ab13998",
+   "bbox": [
+    616.8156127929688,
+    369.08502197265625,
+    636.9707641601562,
+    379.08502197265625
+   ],
+   "kind": "pin_name",
+   "content": "VCC",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "0df0ecc25dad1859",
+   "bbox": [
+    640.5,
+    374.08502197265625,
+    645.5,
+    384.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "8",
+   "measurement": "bbox",
+   "owner": "417202d804679ca0"
+  },
+  {
+   "id": "b091eccdeff4570f",
+   "bbox": [
+    773.7000122070312,
+    699.0850219726562,
+    778.5750122070312,
+    709.0850219726562
+   ],
+   "kind": "pin_name",
+   "content": "1",
+   "measurement": "bbox",
+   "owner": "9f05264307912dc7"
+  },
+  {
+   "id": "ca70c32dc58a0286",
+   "bbox": [
+    764.625,
+    704.0850219726562,
+    769.5,
+    714.0850219726562
+   ],
+   "kind": "pin_name",
+   "content": "1",
+   "measurement": "bbox",
+   "owner": "9f05264307912dc7"
+  },
+  {
+   "id": "74ef0298ff7214f7",
+   "bbox": [
+    772.7000122070312,
+    689.0850219726562,
+    778.7000122070312,
+    699.0850219726562
+   ],
+   "kind": "pin_name",
+   "content": "2",
+   "measurement": "bbox",
+   "owner": "9f05264307912dc7"
+  },
+  {
+   "id": "2202fd462a57a63c",
+   "bbox": [
+    763.625,
+    694.0850219726562,
+    769.625,
+    704.0850219726562
+   ],
+   "kind": "pin_name",
+   "content": "2",
+   "measurement": "bbox",
+   "owner": "9f05264307912dc7"
+  },
+  {
+   "id": "06c1354149f5e3fe",
+   "bbox": [
+    135.125,
+    449.08502197265625,
+    140.0,
+    459.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "1",
+   "measurement": "bbox",
+   "owner": "31ba1be298da1c16"
+  },
+  {
+   "id": "7f2c98f6e7ee148f",
+   "bbox": [
+    139.0,
+    458.08502197265625,
+    149.0,
+    463.08502197265625
+   ],
+   "kind": "pin_number",
+   "content": "3",
+   "measurement": "bbox",
+   "owner": "31ba1be298da1c16"
+  },
+  {
+   "id": "d31a4b6bc676cdf4",
+   "bbox": [
+    139.0,
+    432.21002197265625,
+    149.0,
+    438.21002197265625
+   ],
+   "kind": "pin_number",
+   "content": "2",
+   "measurement": "bbox",
+   "owner": "31ba1be298da1c16"
+  },
+  {
+   "id": "59d5078a253483ac",
+   "bbox": [
+    585.0,
+    645.0,
+    629.87060546875,
+    655.0
+   ],
+   "kind": "unowned",
+   "content": "LED_CTRL",
+   "measurement": "bbox"
+  }
+ ],
+ "wires": [
+  {
+   "id": "06141f044b0ccc7b",
+   "points": [
+    [
+     670,
+     375
+    ],
+    [
+     650,
+     375
+    ],
+    [
+     670,
+     395
+    ],
+    [
+     670,
+     375
+    ]
+   ]
+  },
+  {
+   "id": "09e99fdd6dc3e65f",
+   "points": [
+    [
+     400,
+     610
+    ],
+    [
+     400,
+     630
+    ]
+   ]
+  },
+  {
+   "id": "21a014d8e221845e",
+   "points": [
+    [
+     1000,
+     380
+    ],
+    [
+     980,
+     380
+    ]
+   ]
+  },
+  {
+   "id": "2b56a9a6164d4d72",
+   "points": [
+    [
+     1020,
+     650
+    ],
+    [
+     1000,
+     650
+    ]
+   ]
+  },
+  {
+   "id": "2fbfc2aa2a7523a9",
+   "points": [
+    [
+     880,
+     320
+    ],
+    [
+     880,
+     340
+    ]
+   ]
+  },
+  {
+   "id": "35e4bce89b282dd1",
+   "points": [
+    [
+     150,
+     480
+    ],
+    [
+     150,
+     475
+    ],
+    [
+     120,
+     475
+    ],
+    [
+     120,
+     470
+    ],
+    [
+     120,
+     450
+    ],
+    [
+     120,
+     470
+    ],
+    [
+     120,
+     450
+    ],
+    [
+     130,
+     450
+    ],
+    [
+     150,
+     470
+    ],
+    [
+     150,
+     475
+    ]
+   ]
+  },
+  {
+   "id": "3efc7c2018d390ee",
+   "points": [
+    [
+     740,
+     705
+    ],
+    [
+     760,
+     705
+    ],
+    [
+     740,
+     735
+    ],
+    [
+     740,
+     705
+    ],
+    [
+     830,
+     735
+    ],
+    [
+     740,
+     735
+    ],
+    [
+     830,
+     700
+    ],
+    [
+     830,
+     735
+    ],
+    [
+     850,
+     700
+    ],
+    [
+     830,
+     700
+    ]
+   ]
+  },
+  {
+   "id": "40b87a6befac5388",
+   "points": [
+    [
+     200,
+     360
+    ],
+    [
+     200,
+     380
+    ]
+   ]
+  },
+  {
+   "id": "4cec62dd4c575cdc",
+   "points": [
+    [
+     740,
+     695
+    ],
+    [
+     760,
+     695
+    ],
+    [
+     740,
+     660
+    ],
+    [
+     740,
+     695
+    ]
+   ]
+  },
+  {
+   "id": "52f62c347f8ab4d1",
+   "points": [
+    [
+     300,
+     575
+    ],
+    [
+     300,
+     580
+    ],
+    [
+     280,
+     575
+    ],
+    [
+     300,
+     575
+    ],
+    [
+     280,
+     590
+    ],
+    [
+     280,
+     575
+    ]
+   ]
+  },
+  {
+   "id": "6292cd8dcde575dc",
+   "points": [
+    [
+     880,
+     400
+    ],
+    [
+     880,
+     380
+    ],
+    [
+     920,
+     400
+    ],
+    [
+     880,
+     400
+    ],
+    [
+     920,
+     380
+    ],
+    [
+     920,
+     400
+    ],
+    [
+     940,
+     380
+    ],
+    [
+     920,
+     380
+    ]
+   ]
+  },
+  {
+   "id": "6aeaf33bb2f044ff",
+   "points": [
+    [
+     940,
+     580
+    ],
+    [
+     960,
+     580
+    ]
+   ]
+  },
+  {
+   "id": "744d9a485fe5e893",
+   "points": [
+    [
+     300,
+     650
+    ],
+    [
+     310,
+     650
+    ],
+    [
+     310,
+     670
+    ],
+    [
+     400,
+     670
+    ],
+    [
+     400,
+     660
+    ],
+    [
+     495,
+     670
+    ],
+    [
+     400,
+     670
+    ],
+    [
+     495,
+     365
+    ],
+    [
+     495,
+     670
+    ],
+    [
+     550,
+     365
+    ],
+    [
+     495,
+     365
+    ],
+    [
+     310,
+     680
+    ],
+    [
+     310,
+     670
+    ],
+    [
+     300,
+     620
+    ],
+    [
+     300,
+     650
+    ]
+   ]
+  },
+  {
+   "id": "7eb409e02c79394b",
+   "points": [
+    [
+     910,
+     700
+    ],
+    [
+     890,
+     700
+    ]
+   ]
+  },
+  {
+   "id": "978a077feda4d2d9",
+   "points": [
+    [
+     150,
+     530
+    ],
+    [
+     150,
+     520
+    ]
+   ]
+  },
+  {
+   "id": "9cc0ab72f54791bc",
+   "points": [
+    [
+     670,
+     355
+    ],
+    [
+     650,
+     355
+    ],
+    [
+     670,
+     365
+    ],
+    [
+     670,
+     355
+    ],
+    [
+     650,
+     365
+    ],
+    [
+     670,
+     365
+    ]
+   ]
+  },
+  {
+   "id": "9cf78859bc41aa5a",
+   "points": [
+    [
+     940,
+     650
+    ],
+    [
+     960,
+     650
+    ]
+   ]
+  },
+  {
+   "id": "9e540e14716abaec",
+   "points": [
+    [
+     820,
+     260
+    ],
+    [
+     820,
+     280
+    ]
+   ]
+  },
+  {
+   "id": "a97527382ddb5e18",
+   "points": [
+    [
+     1010,
+     580
+    ],
+    [
+     990,
+     580
+    ]
+   ]
+  },
+  {
+   "id": "aa3e53dc98948f6d",
+   "points": [
+    [
+     530,
+     345
+    ],
+    [
+     550,
+     345
+    ]
+   ]
+  },
+  {
+   "id": "adb720754762331b",
+   "points": [
+    [
+     200,
+     430
+    ],
+    [
+     200,
+     410
+    ]
+   ]
+  },
+  {
+   "id": "b2f01b63529088fc",
+   "points": [
+    [
+     355,
+     410
+    ],
+    [
+     355,
+     430
+    ]
+   ]
+  },
+  {
+   "id": "b57df15f37f36a6c",
+   "points": [
+    [
+     860,
+     360
+    ],
+    [
+     820,
+     360
+    ],
+    [
+     820,
+     320
+    ],
+    [
+     780,
+     360
+    ],
+    [
+     820,
+     360
+    ]
+   ]
+  },
+  {
+   "id": "cf68a6c7d5e3de8d",
+   "points": [
+    [
+     450,
+     400
+    ],
+    [
+     460,
+     400
+    ],
+    [
+     450,
+     355
+    ],
+    [
+     450,
+     400
+    ],
+    [
+     440,
+     355
+    ],
+    [
+     450,
+     355
+    ],
+    [
+     550,
+     355
+    ],
+    [
+     450,
+     355
+    ]
+   ]
+  },
+  {
+   "id": "d6d1ff1a5f05cd28",
+   "points": [
+    [
+     355,
+     490
+    ],
+    [
+     355,
+     470
+    ]
+   ]
+  },
+  {
+   "id": "d7051c69155632e0",
+   "points": [
+    [
+     310,
+     740
+    ],
+    [
+     310,
+     720
+    ]
+   ]
+  },
+  {
+   "id": "d8f1adb037c43130",
+   "points": [
+    [
+     150,
+     410
+    ],
+    [
+     150,
+     430
+    ]
+   ]
+  },
+  {
+   "id": "e5c618cd2deaf4df",
+   "points": [
+    [
+     670,
+     345
+    ],
+    [
+     650,
+     345
+    ]
+   ]
+  },
+  {
+   "id": "e7e64200b89d9575",
+   "points": [
+    [
+     1060,
+     380
+    ],
+    [
+     1040,
+     380
+    ]
+   ]
+  },
+  {
+   "id": "e8cb2efe65b381d7",
+   "points": [
+    [
+     540,
+     375
+    ],
+    [
+     550,
+     375
+    ],
+    [
+     540,
+     400
+    ],
+    [
+     540,
+     375
+    ],
+    [
+     500,
+     400
+    ],
+    [
+     540,
+     400
+    ],
+    [
+     540,
+     415
+    ],
+    [
+     540,
+     400
+    ],
+    [
+     690,
+     415
+    ],
+    [
+     540,
+     415
+    ],
+    [
+     690,
+     360
+    ],
+    [
+     690,
+     415
+    ],
+    [
+     740,
+     360
+    ],
+    [
+     690,
+     360
+    ]
+   ]
+  },
+  {
+   "id": "fb5651b72fbde5bc",
+   "points": [
+    [
+     330,
+     450
+    ],
+    [
+     340,
+     450
+    ],
+    [
+     330,
+     355
+    ],
+    [
+     330,
+     450
+    ],
+    [
+     400,
+     355
+    ],
+    [
+     330,
+     355
+    ]
+   ]
+  }
+ ],
+ "attachment_points": [
+  {
+   "id": "417202d804679ca0-e6",
+   "x": 550,
+   "y": 375,
+   "kind": "pin"
+  },
+  {
+   "id": "417202d804679ca0-e10",
+   "x": 550,
+   "y": 365,
+   "kind": "pin"
+  },
+  {
+   "id": "417202d804679ca0-e14",
+   "x": 550,
+   "y": 355,
+   "kind": "pin"
+  },
+  {
+   "id": "417202d804679ca0-e18",
+   "x": 550,
+   "y": 345,
+   "kind": "pin"
+  },
+  {
+   "id": "417202d804679ca0-e22",
+   "x": 650,
+   "y": 345,
+   "kind": "pin"
+  },
+  {
+   "id": "417202d804679ca0-e26",
+   "x": 650,
+   "y": 355,
+   "kind": "pin"
+  },
+  {
+   "id": "417202d804679ca0-e30",
+   "x": 650,
+   "y": 365,
+   "kind": "pin"
+  },
+  {
+   "id": "417202d804679ca0-e34",
+   "x": 650,
+   "y": 375,
+   "kind": "pin"
+  },
+  {
+   "id": "9f05264307912dc7-e5",
+   "x": 760,
+   "y": 705,
+   "kind": "pin"
+  },
+  {
+   "id": "9f05264307912dc7-e9",
+   "x": 760,
+   "y": 695,
+   "kind": "pin"
+  },
+  {
+   "id": "9b647abbb274d557-e0",
+   "x": 849.9999999999999,
+   "y": 700.0000000000001,
+   "kind": "pin"
+  },
+  {
+   "id": "9b647abbb274d557-e4",
+   "x": 889.9999999999999,
+   "y": 700.0000000000001,
+   "kind": "pin"
+  },
+  {
+   "id": "d3bfcf566c9649c4-e4",
+   "x": 960,
+   "y": 650,
+   "kind": "pin"
+  },
+  {
+   "id": "d3bfcf566c9649c4-e8",
+   "x": 1000,
+   "y": 650,
+   "kind": "pin"
+  },
+  {
+   "id": "832c51a7d77cb7d4-e5",
+   "x": 990,
+   "y": 580,
+   "kind": "pin"
+  },
+  {
+   "id": "832c51a7d77cb7d4-e9",
+   "x": 960,
+   "y": 580,
+   "kind": "pin"
+  },
+  {
+   "id": "8a8f0b18e2eedcb8-e5",
+   "x": 400,
+   "y": 660,
+   "kind": "pin"
+  },
+  {
+   "id": "8a8f0b18e2eedcb8-e9",
+   "x": 400,
+   "y": 630,
+   "kind": "pin"
+  },
+  {
+   "id": "e8d5019ad192abf0-e5",
+   "x": 200,
+   "y": 410,
+   "kind": "pin"
+  },
+  {
+   "id": "e8d5019ad192abf0-e9",
+   "x": 200,
+   "y": 380,
+   "kind": "pin"
+  },
+  {
+   "id": "fd11ca9a4596209a-e3",
+   "x": 310,
+   "y": 720,
+   "kind": "pin"
+  },
+  {
+   "id": "fd11ca9a4596209a-e7",
+   "x": 310,
+   "y": 680,
+   "kind": "pin"
+  },
+  {
+   "id": "4f55d49c04bb3770-e4",
+   "x": 300,
+   "y": 620,
+   "kind": "pin"
+  },
+  {
+   "id": "4f55d49c04bb3770-e8",
+   "x": 300,
+   "y": 580,
+   "kind": "pin"
+  },
+  {
+   "id": "31ba1be298da1c16-e4",
+   "x": 130,
+   "y": 450,
+   "kind": "pin"
+  },
+  {
+   "id": "31ba1be298da1c16-e8",
+   "x": 150,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "31ba1be298da1c16-e12",
+   "x": 150,
+   "y": 430,
+   "kind": "pin"
+  },
+  {
+   "id": "f0ca47aba4307891-e4",
+   "x": 150,
+   "y": 520,
+   "kind": "pin"
+  },
+  {
+   "id": "f0ca47aba4307891-e8",
+   "x": 150,
+   "y": 480,
+   "kind": "pin"
+  },
+  {
+   "id": "602a6271577e9c63-e3",
+   "x": 355,
+   "y": 470,
+   "kind": "pin"
+  },
+  {
+   "id": "602a6271577e9c63-e8",
+   "x": 340,
+   "y": 450,
+   "kind": "pin"
+  },
+  {
+   "id": "602a6271577e9c63-e12",
+   "x": 355,
+   "y": 430,
+   "kind": "pin"
+  },
+  {
+   "id": "4c3b66d17e7f4875-e4",
+   "x": 440,
+   "y": 355,
+   "kind": "pin"
+  },
+  {
+   "id": "4c3b66d17e7f4875-e8",
+   "x": 400,
+   "y": 355,
+   "kind": "pin"
+  },
+  {
+   "id": "e085629e30ccdf66-e4",
+   "x": 780,
+   "y": 360,
+   "kind": "pin"
+  },
+  {
+   "id": "e085629e30ccdf66-e8",
+   "x": 740,
+   "y": 360,
+   "kind": "pin"
+  },
+  {
+   "id": "bfd8f9e1b073aebf-e4",
+   "x": 500,
+   "y": 400,
+   "kind": "pin"
+  },
+  {
+   "id": "bfd8f9e1b073aebf-e8",
+   "x": 460,
+   "y": 400,
+   "kind": "pin"
+  },
+  {
+   "id": "11e215502349267c-e4",
+   "x": 820,
+   "y": 320,
+   "kind": "pin"
+  },
+  {
+   "id": "11e215502349267c-e8",
+   "x": 820,
+   "y": 280,
+   "kind": "pin"
+  },
+  {
+   "id": "b3668ed6b91c1e9a-e3",
+   "x": 860,
+   "y": 360,
+   "kind": "pin"
+  },
+  {
+   "id": "b3668ed6b91c1e9a-e7",
+   "x": 880,
+   "y": 380,
+   "kind": "pin"
+  },
+  {
+   "id": "b3668ed6b91c1e9a-e11",
+   "x": 880,
+   "y": 340,
+   "kind": "pin"
+  },
+  {
+   "id": "9e14afd67449795d-e4",
+   "x": 1040,
+   "y": 380,
+   "kind": "pin"
+  },
+  {
+   "id": "9e14afd67449795d-e8",
+   "x": 1000,
+   "y": 380,
+   "kind": "pin"
+  },
+  {
+   "id": "9fa3e07921a92387-e9",
+   "x": 980,
+   "y": 380,
+   "kind": "pin"
+  },
+  {
+   "id": "9fa3e07921a92387-e13",
+   "x": 940,
+   "y": 380,
+   "kind": "pin"
+  },
+  {
+   "id": "bf7d66bfd7b58425-e15",
+   "x": 740,
+   "y": 660,
+   "kind": "netflag"
+  },
+  {
+   "id": "3604abedbdd6c184-e15",
+   "x": 400,
+   "y": 610,
+   "kind": "netflag"
+  },
+  {
+   "id": "9793d2393d29aab2-e15",
+   "x": 150,
+   "y": 410,
+   "kind": "netflag"
+  },
+  {
+   "id": "b60c4e219377782b-e15",
+   "x": 200,
+   "y": 360,
+   "kind": "netflag"
+  },
+  {
+   "id": "8a87b348b3d19335-e15",
+   "x": 355,
+   "y": 410,
+   "kind": "netflag"
+  },
+  {
+   "id": "6912d7f5fce3b25c-e15",
+   "x": 820,
+   "y": 260,
+   "kind": "netflag"
+  },
+  {
+   "id": "cd5969005d92362a-e15",
+   "x": 880,
+   "y": 320,
+   "kind": "netflag"
+  },
+  {
+   "id": "69f35c0a8bd67fa8-e15",
+   "x": 1010.0000000000001,
+   "y": 580,
+   "kind": "netflag"
+  },
+  {
+   "id": "7c67d9ea5fb25dca-e15",
+   "x": 1020.0000000000001,
+   "y": 650,
+   "kind": "netflag"
+  },
+  {
+   "id": "a28371bbf0bdc42f-e15",
+   "x": 670,
+   "y": 345,
+   "kind": "netflag"
+  },
+  {
+   "id": "d872d190345c22cc-e15",
+   "x": 530,
+   "y": 345,
+   "kind": "netflag"
+  },
+  {
+   "id": "64bcbe61e5e7f80b-e15",
+   "x": 279.99999999999994,
+   "y": 590,
+   "kind": "netflag"
+  },
+  {
+   "id": "4c5627c4037756cb-e11",
+   "x": 310,
+   "y": 740,
+   "kind": "netflag"
+  },
+  {
+   "id": "a367e720221e4d94-e11",
+   "x": 200,
+   "y": 430,
+   "kind": "netflag"
+  },
+  {
+   "id": "d1ff5d02e14e011e-e11",
+   "x": 355,
+   "y": 490,
+   "kind": "netflag"
+  },
+  {
+   "id": "b60c7b66d49a164d-e11",
+   "x": 120,
+   "y": 470,
+   "kind": "netflag"
+  },
+  {
+   "id": "f63f86cd594792db-e11",
+   "x": 740,
+   "y": 735,
+   "kind": "netflag"
+  },
+  {
+   "id": "9ae7a797447c2aa6-e11",
+   "x": 670,
+   "y": 395,
+   "kind": "netflag"
+  },
+  {
+   "id": "cf5a7493b65bb06f-e11",
+   "x": 1060,
+   "y": 380,
+   "kind": "netflag"
+  },
+  {
+   "id": "c345e8075eb96ffb-e11",
+   "x": 940.0000000000001,
+   "y": 580,
+   "kind": "netflag"
+  },
+  {
+   "id": "ded1fe83b56608ff-e11",
+   "x": 940.0000000000001,
+   "y": 650,
+   "kind": "netflag"
+  },
+  {
+   "id": "a8d646eaed29284a-e11",
+   "x": 910,
+   "y": 699.9999999999999,
+   "kind": "netflag"
+  },
+  {
+   "id": "7bcf8e374ce8afba-e11",
+   "x": 150,
+   "y": 530,
+   "kind": "netflag"
+  }
+ ],
+ "label_anchors": [],
+ "net_flags": [
+  {
+   "id": "bf7d66bfd7b58425",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    729.5,
+    640.5,
+    750.5,
+    650.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    740,
+    660
+   ],
+   "text_id": "27ea5fb0e470931f"
+  },
+  {
+   "id": "3604abedbdd6c184",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    389.5,
+    590.5,
+    410.5,
+    600.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    400,
+    610
+   ],
+   "text_id": "983199cdbe2cf2e1"
+  },
+  {
+   "id": "9793d2393d29aab2",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    139.5,
+    390.5,
+    160.5,
+    400.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    150,
+    410
+   ],
+   "text_id": "c73c6b1ffbfe5303"
+  },
+  {
+   "id": "b60c4e219377782b",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    189.5,
+    340.5,
+    210.5,
+    350.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    200,
+    360
+   ],
+   "text_id": "be87263931a261c4"
+  },
+  {
+   "id": "8a87b348b3d19335",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    344.5,
+    390.5,
+    365.5,
+    400.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    355,
+    410
+   ],
+   "text_id": "f2592547f032ea41"
+  },
+  {
+   "id": "6912d7f5fce3b25c",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    809.5,
+    240.5,
+    830.5,
+    250.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    820,
+    260
+   ],
+   "text_id": "1da23eb94d2ba33a"
+  },
+  {
+   "id": "cd5969005d92362a",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    869.5,
+    300.5,
+    890.5,
+    310.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    880,
+    320
+   ],
+   "text_id": "bdf2e34e1c514cca"
+  },
+  {
+   "id": "69f35c0a8bd67fa8",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    1019.5000000000001,
+    569.5,
+    1029.5,
+    590.5
+   ],
+   "rotation": 90,
+   "anchor": [
+    1010.0000000000001,
+    580
+   ],
+   "text_id": "bb571b9135883511"
+  },
+  {
+   "id": "7c67d9ea5fb25dca",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    1029.5,
+    639.5,
+    1039.5,
+    660.5
+   ],
+   "rotation": 90,
+   "anchor": [
+    1020.0000000000001,
+    650
+   ],
+   "text_id": "fec693d86c501a2b"
+  },
+  {
+   "id": "a28371bbf0bdc42f",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    679.5,
+    334.5,
+    689.5,
+    355.5
+   ],
+   "rotation": 90,
+   "anchor": [
+    670,
+    345
+   ],
+   "text_id": "5f6e1cc8eb3310e6"
+  },
+  {
+   "id": "d872d190345c22cc",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    510.5,
+    334.5,
+    520.5,
+    355.5
+   ],
+   "rotation": 270,
+   "anchor": [
+    530,
+    345
+   ],
+   "text_id": "21554a031057e047"
+  },
+  {
+   "id": "64bcbe61e5e7f80b",
+   "net": "GND",
+   "kind": "GND",
+   "bbox": [
+    269.49999999999994,
+    599.5,
+    290.49999999999994,
+    609.5
+   ],
+   "rotation": 180,
+   "anchor": [
+    279.99999999999994,
+    590
+   ],
+   "text_id": "676670b1bcadd53c"
+  },
+  {
+   "id": "4c5627c4037756cb",
+   "net": "VREF_2V5",
+   "kind": "VREF_2V5",
+   "bbox": [
+    304.5,
+    744.5,
+    315.5,
+    750.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    310,
+    740
+   ],
+   "text_id": "71c4e7baa57e95ff"
+  },
+  {
+   "id": "a367e720221e4d94",
+   "net": "VREF_2V5",
+   "kind": "VREF_2V5",
+   "bbox": [
+    194.5,
+    434.5,
+    205.5,
+    440.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    200,
+    430
+   ],
+   "text_id": "25bc2eec12ab039e"
+  },
+  {
+   "id": "d1ff5d02e14e011e",
+   "net": "VREF_2V5",
+   "kind": "VREF_2V5",
+   "bbox": [
+    349.5,
+    494.5,
+    360.5,
+    500.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    355,
+    490
+   ],
+   "text_id": "742fab5d531e0274"
+  },
+  {
+   "id": "b60c7b66d49a164d",
+   "net": "VREF_2V5",
+   "kind": "VREF_2V5",
+   "bbox": [
+    114.5,
+    474.5,
+    125.5,
+    480.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    120,
+    470
+   ],
+   "text_id": "b395bf6f2293f6d9"
+  },
+  {
+   "id": "f63f86cd594792db",
+   "net": "VIN",
+   "kind": "VIN",
+   "bbox": [
+    734.5,
+    739.5,
+    745.5,
+    745.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    740,
+    735
+   ],
+   "text_id": "dad737bcc88953fc"
+  },
+  {
+   "id": "9ae7a797447c2aa6",
+   "net": "+5V",
+   "kind": "+5V",
+   "bbox": [
+    664.5,
+    399.5,
+    675.5,
+    405.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    670,
+    395
+   ],
+   "text_id": "d688ecd180447023"
+  },
+  {
+   "id": "cf5a7493b65bb06f",
+   "net": "+5V",
+   "kind": "+5V",
+   "bbox": [
+    1064.5,
+    374.5,
+    1070.5,
+    385.5
+   ],
+   "rotation": 270,
+   "anchor": [
+    1060,
+    380
+   ],
+   "text_id": "d195cd6e63306980"
+  },
+  {
+   "id": "c345e8075eb96ffb",
+   "net": "+5V",
+   "kind": "+5V",
+   "bbox": [
+    929.5000000000001,
+    574.5,
+    935.5000000000001,
+    585.5
+   ],
+   "rotation": 90,
+   "anchor": [
+    940.0000000000001,
+    580
+   ],
+   "text_id": "58e534523f032e89"
+  },
+  {
+   "id": "ded1fe83b56608ff",
+   "net": "+5V",
+   "kind": "+5V",
+   "bbox": [
+    929.5000000000001,
+    644.5,
+    935.5000000000001,
+    655.5
+   ],
+   "rotation": 90,
+   "anchor": [
+    940.0000000000001,
+    650
+   ],
+   "text_id": "659e12598cab42e2"
+  },
+  {
+   "id": "a8d646eaed29284a",
+   "net": "+5V",
+   "kind": "+5V",
+   "bbox": [
+    914.5,
+    694.4999999999999,
+    920.5,
+    705.4999999999999
+   ],
+   "rotation": 270,
+   "anchor": [
+    910,
+    699.9999999999999
+   ],
+   "text_id": "69417290b18df601"
+  },
+  {
+   "id": "7bcf8e374ce8afba",
+   "net": "+5V",
+   "kind": "+5V",
+   "bbox": [
+    144.5,
+    534.5,
+    155.5,
+    540.5
+   ],
+   "rotation": 0,
+   "anchor": [
+    150,
+    530
+   ],
+   "text_id": "6a1b50c9661cf266"
+  }
+ ],
+ "module_frames": [
+  {
+   "id": "46a98c0ef4e5642b",
+   "bbox": [
+    30.0,
+    570.0,
+    690.0,
+    810.0
+   ],
+   "contains": [
+    "8a8f0b18e2eedcb8",
+    "fd11ca9a4596209a",
+    "4f55d49c04bb3770",
+    "7000fc9074f2508d",
+    "e176a846f166e131",
+    "c4c4b7f088244440",
+    "9200b084732e3735",
+    "c519f2881e511254",
+    "693091bc56674f7e",
+    "da034d3db36bd426",
+    "041f51defe6d52e9",
+    "983199cdbe2cf2e1",
+    "676670b1bcadd53c",
+    "71c4e7baa57e95ff",
+    "59d5078a253483ac"
+   ],
+   "title_text_id": "e176a846f166e131",
+   "purpose_text_id": "7000fc9074f2508d",
+   "order": 2
+  },
+  {
+   "id": "758fb8fd78e893e0",
+   "bbox": [
+    710.0,
+    220.0,
+    1140.0,
+    560.0
+   ],
+   "contains": [
+    "e085629e30ccdf66",
+    "11e215502349267c",
+    "b3668ed6b91c1e9a",
+    "9e14afd67449795d",
+    "9fa3e07921a92387",
+    "774affad16c0750a",
+    "a0a95850182dfa3b",
+    "1465805a58d844cb",
+    "2447580073c01300",
+    "f6732b9669f70864",
+    "fec54ea118d97336",
+    "3ce62ceb4ff1b84a",
+    "04c1ddd3b2c604be",
+    "823c8f32553ec112",
+    "7f8bc2a1edab995c",
+    "6b1a008e01876ee9",
+    "c237871bb76188b9",
+    "1da23eb94d2ba33a",
+    "bdf2e34e1c514cca",
+    "d195cd6e63306980"
+   ],
+   "title_text_id": "a0a95850182dfa3b",
+   "purpose_text_id": "774affad16c0750a",
+   "order": 4
+  },
+  {
+   "id": "c52dfcff129798f3",
+   "bbox": [
+    30.0,
+    220.0,
+    690.0,
+    560.0
+   ],
+   "contains": [
+    "417202d804679ca0",
+    "e8d5019ad192abf0",
+    "31ba1be298da1c16",
+    "f0ca47aba4307891",
+    "602a6271577e9c63",
+    "4c3b66d17e7f4875",
+    "bfd8f9e1b073aebf",
+    "0149dca70e8c886d",
+    "c6ca69dd1929c2e4",
+    "92426cc054919476",
+    "b8b3c96d57ae8176",
+    "d7f22814c847069a",
+    "33139676965fdeb1",
+    "7b26352e1f011376",
+    "0095c02a91718d18",
+    "cf1056241076c58b",
+    "d28a026970f6c8a0",
+    "a19c5e920fe82a18",
+    "c22eb47ef4e3241f",
+    "97b0c31ba20f6d65",
+    "8bd5a6b179fa7148",
+    "2fa96c1a31147cef",
+    "b6da875b9529e9c3",
+    "c73c6b1ffbfe5303",
+    "be87263931a261c4",
+    "f2592547f032ea41",
+    "21554a031057e047",
+    "25bc2eec12ab039e",
+    "742fab5d531e0274",
+    "b395bf6f2293f6d9",
+    "d688ecd180447023",
+    "6a1b50c9661cf266",
+    "2e78edb507242d7f",
+    "ccde416b12d1ae1b",
+    "14f96b68fdbdf540",
+    "29870c05a1756577",
+    "0738be5a4d4adac3",
+    "ca0cfa56262f1b24",
+    "bb8cb96bdcde6a9f",
+    "56b2ca90ffcfcb5b",
+    "66b4d9779857443a",
+    "bf940b9da7edcf24",
+    "7e5db5347aba3920",
+    "ef70c82eb8f2605a",
+    "0a426e4376aa62f8",
+    "529b2d66c198a2c0",
+    "fbee98157ab13998",
+    "0df0ecc25dad1859",
+    "06c1354149f5e3fe",
+    "7f2c98f6e7ee148f",
+    "d31a4b6bc676cdf4"
+   ],
+   "title_text_id": "c6ca69dd1929c2e4",
+   "purpose_text_id": "0149dca70e8c886d",
+   "order": 3
+  },
+  {
+   "id": "fc9fe3ab981d55b7",
+   "bbox": [
+    710.0,
+    565.0,
+    1140.0,
+    810.0
+   ],
+   "contains": [
+    "9f05264307912dc7",
+    "9b647abbb274d557",
+    "d3bfcf566c9649c4",
+    "832c51a7d77cb7d4",
+    "26b89259608f1dd1",
+    "b3d579de0d59ff16",
+    "c332e360692d0efa",
+    "bfd7402c5f9688aa",
+    "3ecb90085ef281b7",
+    "af818e7538a1fb79",
+    "eece254e344a87aa",
+    "8aa96c60739365ff",
+    "c6ea3a0edae5cc2d",
+    "590ab99de0d9e06f",
+    "27ea5fb0e470931f",
+    "bb571b9135883511",
+    "fec693d86c501a2b",
+    "dad737bcc88953fc",
+    "58e534523f032e89",
+    "659e12598cab42e2",
+    "69417290b18df601",
+    "b091eccdeff4570f",
+    "ca70c32dc58a0286",
+    "74ef0298ff7214f7",
+    "2202fd462a57a63c"
+   ],
+   "title_text_id": "b3d579de0d59ff16",
+   "purpose_text_id": "26b89259608f1dd1",
+   "order": 1
+  }
+ ],
+ "title_block_owned": [
+  "ef2ec7b553c26696",
+  "table-d30055d5065a615b-e729-text",
+  "table-d30055d5065a615b-e730-text",
+  "table-d30055d5065a615b-e734-text",
+  "table-d30055d5065a615b-e735-text",
+  "table-d30055d5065a615b-e741-text",
+  "table-d30055d5065a615b-e742-text",
+  "table-d30055d5065a615b-1b71ba32c6bc37ee-text",
+  "table-d30055d5065a615b-0e9a09eafe161521-text",
+  "table-d30055d5065a615b-b1758d8b7bb0a22a-text",
+  "table-d30055d5065a615b-544b01c847a5c430-text",
+  "table-d30055d5065a615b-e750-text",
+  "table-d30055d5065a615b-e751-text",
+  "table-d30055d5065a615b-e752-text",
+  "table-d30055d5065a615b-e757-text",
+  "table-d30055d5065a615b-e773-text",
+  "table-d30055d5065a615b-e774-text",
+  "table-d30055d5065a615b-e775-text",
+  "table-d30055d5065a615b-e780-text",
+  "table-d30055d5065a615b-e781-text",
+  "table-d30055d5065a615b-e782-text"
+ ],
+ "policy": {
+  "connection_tolerance": 1.0,
+  "reading_order": true,
+  "self_text_contact_tolerance": 1.0,
+  "wire_endpoint_check": false,
+  "min_text_wire_clearance": 5.0,
+  "netflag_rotation": {
+   "GND": 0.0,
+   "+5V": 0.0
+  },
+  "title_block_repeat_allow": [
+   "5V 光控 LED 板",
+   "A4",
+   "V1.0",
+   "photo-led-5v-20261026",
+   "嘉立创EDA"
+  ]
+ },
+ "coverage": {
+  "components": {
+   "status": "complete",
+   "observed": 19
+  },
+  "texts": {
+   "status": "complete",
+   "observed": 134,
+   "estimated": 0,
+   "rendered": 134
+  },
+  "wires": {
+   "status": "complete",
+   "observed": 31,
+   "unparsed": 0
+  },
+  "attachment_points": {
+   "status": "complete",
+   "observed": 70,
+   "measured_pins": 47,
+   "total_pins": 47
+  },
+  "label_anchors": {
+   "status": "complete",
+   "observed": 0
+  },
+  "module_frames": {
+   "status": "complete",
+   "observed": 4,
+   "rectangles": 4
+  },
+  "rendered_texts": {
+   "status": "complete",
+   "observed": 134,
+   "unique_ids": 134
+  },
+  "title_block": {
+   "status": "complete",
+   "source": "sheet-geometry"
+  }
+ },
+ "title_block": [
+  459.99999999999955,
+  10.0,
+  1160.0,
+  190.0
+ ],
+ "expected_counts": {
+  "components": 19,
+  "texts": 134,
+  "wires": 31
+ }
+}
