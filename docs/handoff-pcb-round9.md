@@ -39,9 +39,16 @@
 - 剩余 WARN：天线 keepout CLI 口径 1、+3V3 未铺铜 1、GND 10 mil 1、decap 5、parallel 4、acute 1、fiducial INFO；SHT40 EP 库焊盘/原厂“下方无铜”未完全一致；AMS1117 陶瓷输出稳定性 NOT VERIFIED；USB 未做 SI 签核。
 - **制造包 BLOCKED**：typed CLI 无 Gerber/drill/CPL；BOM 已导出。
 
+## 局部改板（WP11，已完成一项）
+
+- 独立副本 `mcu-i2c-s3-edit-20261026`（`283b0ccaaa9c404d87056886a29c2562`），从 `boardB-final.epro2` 导入。
+- 增加 C99 100nF +3V3/GND 去耦；只重布 `+3V3`/`GND`；DRC 0；scoped diff：identity +1(C99)、geometry 0、copper 135（均在受影响网络）、**unrelated 0**；save/reload match。
+- 最终 `edit-add-decap-final.epro2` 135,173 B SHA `f65654cb…e025`。
+- 换封装/移动接口两项 **NOT RUN**；跨工程铜复用未支持（`pcb-reuse-plan` 仅离线验证）。
+
 ## 未完成
 
-1. 板 A/B 三项局部改板（换封装/移接口/加器件）未做；跨工程模块铜复用未支持（仅布局契约离线验证）。
+1. 板 A/B 换封装/移动接口两项局部改板；跨工程模块铜复用未支持。
 2. 制造资料 Gerber/drill/CPL（BLOCKED）；板厂 DFM、下单不做。
 3. 实物/热/EMC/固件；WP14 四板矩阵中的 C/D 未做。
 4. WP15 受控基线仅记录了两板事实，未做同条件原流程/新流程完整对照。

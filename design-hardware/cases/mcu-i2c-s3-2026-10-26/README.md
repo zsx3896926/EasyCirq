@@ -74,6 +74,7 @@
 | `evidence/BOM.csv` / `bom-audit.json` | 15 行/23 件 BOM 与身份完整性审计 |
 | `evidence/pcb-final-top.png` / `pcb-final-bottom.png` | 顶/底 actual viewport 图（已人工查看） |
 | `evidence/pcb-final-actual.svg` | `layout render --actual` 离线几何辅助图 |
+| `evidence/edit-add-decap-*.json/.epro2` | 独立副本加 C99 的 scoped diff、DRC、保存重开与归档 |
 
 复现（在 `design-hardware/scripts/` 下）：
 
@@ -82,6 +83,17 @@ python -m design_engine pcb-diff --before ../cases/mcu-i2c-s3-2026-10-26/evidenc
   --after ../cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-after-reload.json --json
 python -m design_engine pcb-fabrication --dump ../cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json --json
 ```
+
+## 5.1 受控局部改板（独立副本，已完成一项）
+
+在导入的独立副本 `mcu-i2c-s3-edit-20261026`（UUID `283b0ccaaa9c404d87056886a29c2562`）上增加 **C99 100nF +3V3/GND 去耦**：
+
+- 原理图 P2 放置 C99 并 autoconnect；PCB import-changes 23→24 器件。
+- C99 放到模组 3V3 附近；只重布受影响的 `+3V3`/`GND`，`pour-rebuild`。
+- **DRC 0**；`pcb check` 0 ERROR / 15 WARN（新增 C99 去耦距离 WARN）。
+- 与改板前 dump 的 scoped diff：identity +1（C99）、geometry 0、copper 135 条均在 `+3V3/GND` 范围内、**unrelated 0**。
+- save→reload→fresh dump diff **match**；最终归档 `edit-add-decap-final.epro2`，135,173 B，SHA-256 `f65654cb7144c184137002c2efe5a8af7ed8ff7f5c79997d554f71251776e025`。
+- 未做“换封装/移动接口”两项；本项只证明加器件与仅重布受影响网络，不证明三项全做。
 
 ## 6. 剩余 WARN / 限制（必须保留）
 

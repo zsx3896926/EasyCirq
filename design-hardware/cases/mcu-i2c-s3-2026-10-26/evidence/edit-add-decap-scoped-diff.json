@@ -1,0 +1,570 @@
+{
+  "schema": "design-engine-pcb-diff/v1",
+  "status": "changed",
+  "identity_changes": [
+    {
+      "kind": "added",
+      "designator": "C99"
+    }
+  ],
+  "geometry_changes": [],
+  "copper_changes": [
+    {
+      "kind": "track_removed",
+      "primitive_id": "040c95a7507bec14"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "048b0a46fc23023b"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "0580ed4a4b47a32e"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "08a162cd1d01dc32"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "0ee8809714c4494b"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "1048571f6c2b9923"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "1366bd6c851db706"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "1a8428f684115668"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "1e8eba775f5f70a5"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "26b5f60ef13a1a98"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "305c27dbfdb8900e"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "365cd44a6512c74d"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "473d395945b91be5"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "4e2ea6045564ec52"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "51d4a32fe21b5a1c"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "52bd4d2e9560eff1"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "5af0c07591a717d1"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "5b18c8a40b613443"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "6021d4f7605d8127"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "62196b452cd06746"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "6247c20166da86c4"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "6a5a9c26ca23900c"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "6d3beeb5f8e1c837"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "6f69c450ddc2c46c"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "6fa943360885344e"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "73b0fe1f08df5059"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "785253245ce09021"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "88fc0fe243a06b54"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "8c116c17414681b5"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "9153b09c643e8c39"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "93fe7caaf20d9eed"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "944a532075c2c5e3"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "9fc3d7518a31101c"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "a11f90524ac85afa"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "a6a58460a1af306f"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "acffc9466d85ec13"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "adf5f6a1c4a01681"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "b32662bf478e47ee"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "b745ee9c2e86f089"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "b98fa3404c4c2f81"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "c19791d45906769a"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "c1dd79f9efe3f23c"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "c7e16611cf48a2e5"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "c9a6d231622d415a"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "d0a4ba19d23b11b0"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "d39e146460816d20"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "d4c779299a527e9c"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "d4e263bbaec4b214"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "d74d838dee84ff76"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "d77ad0ddf618ddd4"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "db9fd6cfe605363b"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "ea5f6ff9047f04ea"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "f2c011494f809d6b"
+    },
+    {
+      "kind": "track_removed",
+      "primitive_id": "ff1e9b134f28691e"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "003aa9e7817870ab"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "024270673f4765e2"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "04e8562620ddfd64"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "069f90d7fbb85c53"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "0711319477e047ca"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "0858e9803e6472a1"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "0b95faa07339f803"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "0dd896992f717043"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "1098930b992a2832"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "132c7b40444d8dc5"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "15d8b2c362667cfc"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "24a984ffd4a74019"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "25bea4d248b3dc62"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "27ca510371c1c11e"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "296d157810110e7a"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "312e548373f989fd"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "31add6ead8474af8"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "35e6a88264105090"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "4058b837b1f6f34a"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "43ae7db89186371a"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "44358232f1dcb59c"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "452cc4b9f893b36f"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "45c0a8337976cf6e"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "463d21254cd8c2e8"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "4bd47cf3d0e07bc3"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "4c3aca114e9ef864"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "4f04265ce63e552e"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "4f06969f1084ff0f"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "55c5615fe7a85e03"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "5862c944e97bdebd"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "5e5c961b705c865d"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "65a25a3d0a9a06f7"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "7208f25c7b7b160b"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "8125159d29840cbb"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "81d02be2e1bccd76"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "8331393a6cc97e0a"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "891cf531e2901f6d"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "8ab966680d676ab1"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "8b7956cd6b9f2f75"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "925a78e0743503b5"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "92c98d933f1778b2"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "952648af5bfeaaab"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "97435ade3dfb2235"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "9ec7e35430ddec2c"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "9f214b2dd1afbc3d"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "a75a37e0b22246a3"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "a7c32bf2ae6a4532"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "b0b063e4a801e81f"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "b4ea2491dd53170b"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "b85c248832f76436"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "b961e009ac473924"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "ba94bb289fbf0a47"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "bd7bcf3262b77afe"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "c0c7a11719eaceb2"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "c0e3ec0896e70ec1"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "c6fedb313dc17dff"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "c7b027bb7e023ae7"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "cc208019f32eea0d"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "d29341ae409b88ba"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "d2afb61bfe35448d"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "d56d535eead04753"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "d9c1c5692f6dca59"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "dde43077a53e0a42"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "e05d896910b4b2e3"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "e369de5f8ce9a14c"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "e4f82aec478fec84"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "e57ab1a6765a1f3e"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "e6851342e8c63440"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "e8ef9da83e692bab"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "ecd54f6e6e66a208"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "f08f8d227a7dca03"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "f55407e8fb5ad2cf"
+    },
+    {
+      "kind": "track_added",
+      "primitive_id": "fda8f1309f17d0fd"
+    },
+    {
+      "kind": "via_removed",
+      "primitive_id": "0b21f4de97622f39"
+    },
+    {
+      "kind": "via_removed",
+      "primitive_id": "20f97902149f995f"
+    },
+    {
+      "kind": "via_removed",
+      "primitive_id": "35fe30cc7a65021f"
+    },
+    {
+      "kind": "via_removed",
+      "primitive_id": "def37632eabdc540"
+    },
+    {
+      "kind": "via_added",
+      "primitive_id": "10ab0434102a9f10"
+    },
+    {
+      "kind": "via_added",
+      "primitive_id": "1429b2343dae5595"
+    },
+    {
+      "kind": "via_added",
+      "primitive_id": "df2a4df2cccc9232"
+    },
+    {
+      "kind": "via_added",
+      "primitive_id": "f69367f410a4ef4f"
+    }
+  ],
+  "unrelated_changes": [],
+  "counts": {
+    "identity": 1,
+    "geometry": 0,
+    "copper": 135,
+    "unrelated": 0
+  },
+  "scope": {
+    "designators": [
+      "C99"
+    ],
+    "nets": [
+      "+3V3",
+      "GND"
+    ]
+  },
+  "note": "primitiveId is not stable across document reload; compare identity and geometry, not IDs alone"
+}

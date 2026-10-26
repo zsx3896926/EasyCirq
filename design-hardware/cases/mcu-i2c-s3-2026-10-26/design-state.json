@@ -17,7 +17,8 @@
     "AMS1117 输出陶瓷电容稳定性未验证（datasheet 保证为钽）",
     "Fiducial 未加；USB SI/阻抗未签核；未做高速承诺",
     "Gerber/drill/CPL 导出：typed CLI 不提供，制造包 BLOCKED",
-    "未做实物/热/EMC/固件；未做局部改板与跨工程铜复用"
+    "局部改板已完成“增加 C99 去耦”一项；换封装/移动接口 NOT RUN；跨工程铜复用未支持",
+    "未做实物/热/EMC/固件"
   ],
   "next_action": "制造包 Gerber/CPL 被 CLI 阻断；补局部改板/复用证据与实物验证计划",
   "budget": {
@@ -120,6 +121,30 @@
       "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/pcb-final-actual.svg",
       "sha256": "c6f67e6eca329e7634142a2a84267c53a311839634211e69b9910b78b7c77ad4",
       "bytes": 76782
+    },
+    {
+      "role": "edit-scoped-diff",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/edit-add-decap-scoped-diff.json",
+      "sha256": "5de326c50d4d51a4e16b2ac9fc09aba5e8c6ac51a1feeb101827495a9dde4fe3",
+      "bytes": 11848
+    },
+    {
+      "role": "edit-save-reload-diff",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/edit-add-decap-save-reload-diff.json",
+      "sha256": "6abb4c65476c1b7e965e2d032935ff9c7d461e8317b6f2c27b36652a2805ae41",
+      "bytes": 384
+    },
+    {
+      "role": "edit-drc",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/edit-add-decap-drc.json",
+      "sha256": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad",
+      "bytes": 147
+    },
+    {
+      "role": "edit-archive",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/edit-add-decap-final.epro2",
+      "sha256": "f65654cb7144c184137002c2efe5a8af7ed8ff7f5c79997d554f71251776e025",
+      "bytes": 135173
     }
   ],
   "updated": null
