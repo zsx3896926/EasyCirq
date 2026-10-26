@@ -4,7 +4,7 @@
 
 - 仓库：`hardware-design-skill`；工作树：`C:/Users/jlc/work/hds-pr20-verify`
 - 分支：`feat/skill-v0.9-eda-verify`，基于 `origin/feat/skill-v0.9-reviewed` `108403c`
-- 当前 HEAD：`a13c6c2`（含 jlc-61 的 `feat/v09-toolchain-review` 快进合并）
+- 当前 HEAD：`8efeed5`（合并 jlc-61 的 `feat/v09-toolchain-review` `d1c5deb`）
 - PR #20 head 仍是 `feat/skill-v0.9-reviewed`；本分支尚未推送
 - 另一个工作树 `C:/Users/jlc/work/hds-merge-20261026` 有他人未提交 WIP
   （`layout_move_plan.py`、`readback_verify.py` 及测试），未触碰、未采用
@@ -29,8 +29,10 @@
 - `tests/test_sch_acceptance.py`、`tests/test_pin_net_intent.py`、
   `tests/test_sch_acceptance_v14.py`、`tests/test_component_identity_check.py`；
   真实 fixture `tests/fixtures/photo-led-acceptance.json`、`photo-led-v14/`。
-- 验证：`python -m unittest discover -s tests` → **945 tests OK**；
+- 验证：`python -m unittest discover -s tests` → **957 tests OK**；
   `skill_selftest.py` → **5 PASS / 0 FAIL**。
+- `d1c5deb` 追加：自身导线边缘级豁免、无结点交叉必须有宿主 junction 证据、
+  实例 uniqueId/component.uuid 与 `--expected-changes` 声明门禁。
 
 ## 真实 EDA（本机 EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
 
@@ -39,11 +41,16 @@
 - P1 `cd008f919db36eba`；12 网 / 47 脚 / 0 floating / 37 组件。
 - 编号按阅读顺序 1 光敏 / 2 供电 / 3 阈值 / 4 LED；标题在框左上；purpose 持久修复。
 - 图签两处 Claude Code 已消除（绘制/审阅留空，避免平台双渲染重复）。
-- 最终：`evidence/final-v14.png/.svg`、`final-v14.epro2`（SHA-256
-  `502D6FD2…`）、`v14-checker-strict.json`；无 text-text overlap、无
-  zone_reading_order、无 title_block_duplicate_text。
-- 残留：4 条 wire_enters_bbox、1 条 R3 文字贴本体、1 条 text_wire_clearance、
-  2 条异网正交交叉（hint）、无 purpose 文字（typed API 限制）。
+- v16 追加：R3 Name 上移 10 raw；VREF 短桩绕开 zone2 purpose（先下移、再绕左/上，
+  避开文字与线名）。`strict_missing: []`、`status: info_only`；仅 3 条有宿主
+  `sch check` 证据的无结点交叉 hint、3 条 5 raw 内贴线 hint。
+- 身份核验（v14→v16）：`pass_sch_only`，19/19 位号/uniqueId/component.uuid/
+  device/symbol/封装/脚名不变；1 条 expected_change_unused info；BOM 导出与
+  SCH↔PCB 仍 NOT RUN。
+- 残留：`sch check` **7 条 reversed-net-flag**（GND/+5V 旗 rot=0 而桩水平），
+  未逐一重连；图签 Drawed 留空。
+- 最终证据：`evidence/final-v16.png/.svg`、`v16-check.json`、`v16-list.json`、
+  `v16-identity-check.json`；v14 原生 `.epro2` SHA-256 `502D6FD2…`（v16 未重导）。
 
 ### 2) ne555-blinker-1hz-20261026（新建，已保存重开）
 

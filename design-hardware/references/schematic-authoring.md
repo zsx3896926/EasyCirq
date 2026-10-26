@@ -105,8 +105,10 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 
 ### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
 
-- `photo-led-5v-20261026` P1：编号 1→4 按阅读顺序、标题左上、图签重复消除；
-  136 条渲染文字无 text-text overlap；仍有无结点交叉/贴线 hint 和 2 处轻微文字接触。
+- `photo-led-5v-20261026` P1：v16 编号 1→4 按阅读顺序、标题左上、图签重复消除；
+  137 条渲染文字无 text-text overlap，R3 Name 与 zone2 purpose 的 blocking 接触已修；
+  strict 只剩 3 条有宿主证据的无结点交叉 hint + 3 条 5 raw 内贴线 hint；
+  `sch check` 仍有 7 条 `reversed-net-flag`（旗 rot=0 而桩水平）未逐一重连。
 - `ne555-blinker-1hz-20261026` P1：10 器件/7 网，gate PASS，pin-net intent match，
   save→reload 保持；残留为 5 个竖排电源/地标记、3 处文字/本体接触、无 purpose 文字。
 - `ams1117-3v3-20261026` P1：6 器件/3 网，gate PASS，pin-net intent match，
