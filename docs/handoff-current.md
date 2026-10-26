@@ -53,7 +53,8 @@
 - 证据：`C:/Users/jlc/work/ne555-blinker-1hz-20261026/evidence/`（final-v2、
   final-after-reload、check9、gate、pin-net-diff）。
 - 残留：多个电源/地标记竖排文字（管脚水平导致），方向不统一；无 purpose 文字；
-  Drawed 留空；未导出 `.epro2`；PCB/仿真/实物 NOT RUN。
+  Drawed 留空；原生归档 `evidence/final.epro2`（44,712 B，SHA-256 `0b7ad4a3…`，
+  restoreVerified=false）；PCB/仿真/实物 NOT RUN。
 
 ### 3) ams1117-3v3-20261026（新建，已保存重开）
 
@@ -63,7 +64,8 @@
 - 证据：`C:/Users/jlc/work/ams1117-3v3-20261026/evidence/`（final-v2、
   final-after-reload、check-final、gate、pin-net-diff）。
 - 残留：输出电容为 22µF 0805 陶瓷，**不是**数据表保证的 22µF 固体钽，稳定性未验证；
-  多个电源/地标记竖排文字；无 purpose 文字；未做负载/纹波/热/PCB；未导出 `.epro2`。
+  多个电源/地标记竖排文字；无 purpose 文字；未做负载/纹波/热/PCB；原生归档
+  `evidence/final.epro2`（35,416 B，SHA-256 `793169d7…`，restoreVerified=false）。
 
 ## 明确未做 / 边界
 
