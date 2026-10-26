@@ -289,5 +289,8 @@
   "deformations": {
     "shuffle_and_translate_semantics": "same",
     "pcb_short_must_be_detected": "mismatch"
-  }
+  },
+  "baseline_commit": "066a74b",
+  "skill_version": "0.9.3",
+  "generated_by": "tools/offline_benchmark.py (offline, simulated)"
 }
