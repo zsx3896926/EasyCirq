@@ -80,6 +80,7 @@
 | `evidence/pcb-final-actual.svg` | `layout render --actual` 离线几何辅助图 |
 | `evidence/poured-list-plus5-empty.json` | +5V 本地铺铜无材料化铜的真实现场 |
 | `evidence/placement-plan-final.json` / `pcb-intent-final.json` | 最终板上的可复算布局/电源声明 |
+| `evidence/photo-led-pcb-final.epro2` | 最终原生归档（230,203 B，SHA-256 `d9ef9201e574c7ba944c7c77c77aa3364802464790e4e7daca1969884a826491`） |
 
 复现（在 `design-hardware/scripts/` 下）：
 
