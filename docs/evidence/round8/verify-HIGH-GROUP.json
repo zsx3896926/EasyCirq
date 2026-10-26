@@ -1,0 +1,110 @@
+{
+  "claim_id": "HIGH-GROUP",
+  "verdict": "REFUTED",
+  "summary": "组级判定 REFUTED：H1/H2/H4 是真实设计缺陷，H3 结论成立但 fc 定义需修正，H5 的核心越限断言不成立。\n- H1 CONFIRMED：page_P10 的 R807=10k、R808=3.3k 构成 TPS563201 反馈（R807:1=+3V3，R807:2=U802_FB，R808:1=U802_FB，R808:2=GND；U802:4=U802_FB），VREF=0.768 V → Vout=0.768×(1+10/3.3)=3.095 V；page_P8 的 U601:2（INT035TFT VDDIO）=+3V3，datasheet VDDIO 最小 3.135 V。标称低 40 mV；VREF 749–787 mV 容差下可低至约 3.02 V。\n- H2 CONFIRMED：page_P2 的 U4=AD8138ARZ，U4:2=VOCM=0V9_REF，U4:3=+5VA，U4:6=GND；page_P9 的 U705:6（MCP4822 VOUTA）=0V9_REF，architecture 定 0.9 V。AD8138 单 +5 V 时 VOCM 输入范围 1.0–3.8 V（Table 4, p.6），0.9 V 越下限。ADC 侧 FB301:+3V3A→ADC_AVDD（+3V3A=3.3 V），AD9288 CM=0.3×VD=0.99 V；设计 0.9 V 低 90 mV。注意 0.99 V 仍比 AD8138 的 1.0 V 低 10 mV，单纯把 DAC 调到 0.99 V 不够。\n- H3 CONFIRMED（需修正定义）：P18 实际 22Ω/330nH/180pF/1µH/180pF/330nH/180pF/51Ω 的节点分析给出 DC 0.5356（-5.42 dB）、25 MHz 绝对 -26.9 dB / 相对 DC -21.5 dB、上侧 -3 dB 交点 18.65 MHz；首个 -3 dB 交点在约 8.9 MHz。架构的 15 MHz/-44 dB 不成立（理想 5 阶 Butterworth fc=15 MHz 在 25 MHz 也只有 22.2 dB）；实际拓扑 3L+3C=6 个电抗元件，不是 5 阶。\n- H4 CONFIRMED（公式笔误）：R116=51Ω 跨 AIN_P/AIN_N，R117/R118=22Ω 串在源侧；DC 分压 51/(44+51)=53.7%（计入 AD9288 10k 为 53.6%）。量程表按 AD8330 输出 1.024 Vpp 计，未乘 0.536，ADC 实得约 54% 满度；括号 51/(44+95)=36.7% 是笔误，应为 51/95。\n- H5 REFUTED：DS117-3.2.5E 的 166 MHz 规格属实（QN88P 内嵌 2×32Mb、每片 8 bit、DDR，合计 64Mb/16 bit）；但设计源是 50 MHz 输入、PLL ×2=100 MHz 作为 PSRAM memory clock（IPUG943 的 user clock=1/2 memory clock=50 MHz），100<166，不越限。架构的“32 bit 接口”实际为 16 bit；400 MB/s 是 100 MHz DDR×16 bit 的峰值，IPUG943 的 burst 128/64/32/16 效率 74/61/44/28% 给出持续约 112–296 MB/s，“≥4×”余量确实乐观，但这是设计已标注的待实测项，不是器件越限。",
+  "evidence": [
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/plans/page_P10.json",
+      "locator": "parts R807/R808/U802; connections R807:1, R807:2, R808:1, R808:2, U802:4, L802:2",
+      "quote_or_value": "R807: key=R10k, value=10kΩ, mpn=0603WAF1002T5E; R808: key=R3k3, value=3.3kΩ, mpn=0603WAF3301T5E; U802: value=TPS563201DDCR; R807:1=+3V3, R807:2=U802_FB, R808:1=U802_FB, R808:2=GND, U802:4=U802_FB, L802:2=+3V3"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/docs/datasheets/INT035TFT.txt",
+      "locator": "§6 Interface Description p.7 pin 2; §8 Electrical Characteristics p.8",
+      "quote_or_value": "2 VDDIO --- Power supply for digital I/O pads; I/O power supply VDDIO 3.135 3.3 3.465 V"
+    },
+    {
+      "source": "https://www.ti.com/lit/ds/symlink/tps563201.pdf",
+      "locator": "SLVSD90B, §6.5 VFB threshold p.6; §7.2.2.2 Equation 2 and Table 7-2 p.14",
+      "quote_or_value": "VFB threshold voltage: 749 / 768 / 787 mV (min/typ/max); VOUT = 0.768 × (1 + R1/R2); 3.3 V row: R1=33.2 kΩ, R2=10.0 kΩ"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/plans/page_P8.json",
+      "locator": "U601 connections",
+      "quote_or_value": "U601=INT035TFT; U601:2 → +3V3 (VDDIO); U601:3 → +1V2 (VDDD); U601:4 → +3V3 (VDDLCD)"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/docs/architecture.md",
+      "locator": "line 190",
+      "quote_or_value": "3.3V buck：4.7 µH、22 µF/10 V、反馈 10 k/3.0 k（Vref 0.768 V）"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/docs/BOM.md",
+      "locator": "lines 10, 36, 44",
+      "quote_or_value": "C116592 TPS563201DDCR ... U802; C22978 0603WAF3301T5E 3.3kΩ ... R808; C25804 0603WAF1002T5E 10kΩ ... R807"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/plans/page_P2.json",
+      "locator": "U4 connections",
+      "quote_or_value": "U4=AD8138ARZ; U4:1=-IN=CH1_VGA_N; U4:2=VOCM=0V9_REF; U4:3=+V=+5VA; U4:4=+OUT=CH1_ADC_P; U4:5=-OUT=CH1_ADC_N; U4:6=V-=GND; U4:8=+IN=CH1_VGA_P"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/plans/page_P9.json",
+      "locator": "U705 connections",
+      "quote_or_value": "U705=MCP4822T-E/SN (DAC2); U705:6=VOUTA=0V9_REF; C710:1=0V9_REF"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/docs/architecture.md",
+      "locator": "lines 101, 186",
+      "quote_or_value": "AD8138，Rf=Rg=1 kΩ，VREF=0.9 V（与 ADC 共模一致）; 0V9_REF | 3.0V 分压 + AD8066 缓冲 | 0.9 V | AD8138 VREF"
+    },
+    {
+      "source": "https://www.analog.com/media/en/technical-documentation/data-sheets/AD8138.pdf",
+      "locator": "Rev. G, Table 4 p.6 (VOCM to -OUT, VS=5 V); Table 7 p.8",
+      "quote_or_value": "At 25°C, VS = 5 V, VOCM = 2.5 V ... Input Voltage Range 1.0 to 3.8 V; Pin 2 VOCM: voltage applied to this pin sets the common-mode output voltage with a ratio of 1:1"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/docs/datasheets/AD9288.txt",
+      "locator": "Rev. C, Table 1 p.3; features p.1",
+      "quote_or_value": "Common-Mode Voltage ... 0.3 × VD; Single 3.0 V supply operation (2.7 V to 3.6 V); Input Voltage Range ±512 mV p-p; Input Resistance 7/10/13 kΩ"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/plans/page_P5.json and page_P17.json",
+      "locator": "FB301 and FB302 connections; architecture.md line 181",
+      "quote_or_value": "FB301:1=+3V3A, FB301:2=ADC_AVDD; FB302:1=+3V3, FB302:2=ADC_DVDD; +3V3A | TPS7A4901 (from 5.1V) | 3.3 V / 0.15 A"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/plans/page_P18.json",
+      "locator": "parts and connections",
+      "quote_or_value": "R117/R118=22Ω; L101/L102=330nH; C110=180pF; L103/L104=1µH; C111=180pF; L105/L106=330nH; C112=180pF; R116=51Ω; R117/R118 series from CH1_ADC_P/N to CH1_LPF_IN_P/N; C110/C111/C112 across P/N; R116 across CH1_ADC_AIN_P/N"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/docs/architecture.md",
+      "locator": "lines 103-104, 320-321",
+      "quote_or_value": "5 阶 Butterworth 差分 LC，fc≈15 MHz，100 Ω 特性阻抗；25 MHz 处约 -44 dB；ADC 端 100 Ω 差分端接"
+    },
+    {
+      "source": "Independent nodal analysis (this verification, Python MNA)",
+      "locator": "half-circuit 4-node and full 8-node solve of P18 topology, 1 kHz–100 MHz",
+      "quote_or_value": "DC gain 0.5356 (-5.42 dB); -3 dB relative to DC at 8.91 MHz and 18.65 MHz; |H(25 MHz)| = -26.9 dB absolute / -21.5 dB relative; |H(30 MHz)| = -40.4 dB absolute / -35.0 dB relative; ideal 5th-order Butterworth fc=15 MHz at 25 MHz = -22.2 dB"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/docs/architecture.md",
+      "locator": "lines 108-119 and 58",
+      "quote_or_value": "Range table: 20 mV/div: 0.16 Vpp, AD8330 gain 6.4×; ... 20 mV/div 的 1 LSB 约 0.625 mV（输入折算），与 8 bit/1.024 Vpp 一致"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/docs/architecture.md",
+      "locator": "lines 141, 248-249, 303",
+      "quote_or_value": "PSRAM 64 Mbit/32 bit 接口在 100 MHz 下理论 400 MB/s，余量 ≥4×; 50 MHz 输入，PLL 2× 100 MHz 给 PSRAM; Gowin 嵌入式 PSRAM 的实测吞吐需在首板验证"
+    },
+    {
+      "source": "https://cdn.gowinsemi.com.cn/DS117E.pdf",
+      "locator": "DS117-3.2.5E, §2.2.2 PSRAM p.10; Table 1-2 p.4",
+      "quote_or_value": "Clock frequency: 166 MHz; 32Mb capacity for each PSRAM; Double Data Rate; Data width: 8 bits; QN88P GW1NR-9 PSRAM 64M"
+    },
+    {
+      "source": "https://cdn.gowinsemi.com.cn/IPUG943E.pdf",
+      "locator": "IPUG943-1.5E, §3.2 p.4; Table 4-2 p.10; port list p.15",
+      "quote_or_value": "The IP supports a maximum operating frequency of up to 166MHz; the clock rate is 1:2; clk_out ... user-logic design clock, with a frequency of 1/2 Memory Clk; bandwidth efficiency 74/61/44/28% for burst 128/64/32/16"
+    },
+    {
+      "source": "C:/Users/jlc/work/dual-scope-20261026/docs/architecture-review.md",
+      "locator": "lines 129-130; lines 82-86 (F6)",
+      "quote_or_value": "ADC 输入 1.024 Vpp 差分、共模 0.9 V；AD8138 VOCM=0.9 V；LPF 100 Ω 差分端接；匹配; F6: AD8138 引脚无外部反馈脚，按固定增益 1 处理；... 需要按 AD8138 数据手册核实"
+    }
+  ],
+  "calculation": "计算明细（只读复核；未修改任何工程文件）。H1：TPS563201 反馈 VFB=0.768 V（datasheet VFBTH 749/768/787 mV），R1=R807=10 kΩ（+3V3→U802_FB），R2=R808=3.3 kΩ（U802_FB→GND）。Vout=0.768×(1+10/3.3)=0.768×4.030303=3.09527 V。INT035TFT VDDIO 推荐 3.135/3.3/3.465 V；P8 U601:2=VDDIO→+3V3，故标称 3.095<3.135 V。VREF 取 749 mV 时约 3.018 V，取 787 mV 时约 3.172 V；1% 电阻下约 3.02–3.17 V，低端仍越 LCD 下限。architecture.md line190 写 10k/3.0k（3.328 V），与 page_P10/BOM 的 3.3k 不一致；以实际设计源 3.3k 为准。\nH2：P2 U4=AD8138ARZ；U4:2=VOCM→0V9_REF；U4:3=+5VA，U4:6=GND（单 5 V）。P9 U705=MCP4822，U705:6=VOUTA→0V9_REF；architecture 定 0.9 V。AD8138 datasheet Table 4（VS=5 V, VOCM=2.5 V）VOCM 输入范围 1.0–3.8 V；0.9 V 低于 1.0 V 下限 0.1 V。ADC：P5 FB301 +3V3A→ADC_AVDD，architecture +3V3A=3.3 V；AD9288 CM=0.3×VD=0.3×3.3=0.99 V；设计 0.9 V 低 0.09 V。0.99 V 仍比 AD8138 下限 1.0 V 低 0.01 V，需改驱动供电/型号，不能只把 DAC 调到 0.99 V。\nH3：按 P18 实际值：R117/R118=22 Ω（源串阻），L101/L102=330 nH，C110=180 pF（差分），L103/L104=1 µH，C111=180 pF（差分），L105/L106=330 nH，C112=180 pF（差分），R116=51 Ω（差分端接）。半电路 MNA（Cdiff→2C=360 pF，Rs=22 Ω，Rl=25.5 Ω）与全 8 节点 MNA（含 AD9288 10 kΩ/2 pF 差分输入）一致：DC |H|=0.5356（-5.42 dB）；|H| 相对 DC 的 -3 dB 交点为 8.91 MHz 与 18.65 MHz（通带先跌落再回升后滚降）；|H(25 MHz)|=-26.9 dB（绝对），相对 DC=-21.5 dB；|H(30 MHz)|=-40.4 dB（绝对），相对 DC=-35.0 dB。架构的 15 MHz/-44 dB 不成立：理想 5 阶 Butterworth fc=15 MHz 在 25 MHz 的衰减=10log10(1+(25/15)^10)=22.2 dB，-44 dB 对 5 阶不可能；实际网络 3L+3C=6 个电抗元件。H3 的 18.7 MHz 是上侧 -3 dB 交点；首个 -3 dB 在 8.9 MHz，故真正的 -3 dB 带宽约 8.9 MHz。H3 的 -21.5 dB 是相对值；绝对值 -26.9 dB。结论（远达不到 15 MHz/-44 dB）成立。\nH4：R116=51 Ω 跨 AIN_P/AIN_N；R117/R118=22 Ω 串在源与滤波输入之间。DC 分压（忽略 ADC 输入）：51/(22+22+51)=51/95=0.53684（53.7%）；计入 AD9288 10 kΩ 差分输入：51||10k=50.74 Ω，50.74/(44+50.74)=0.5356（53.6%）。量程表（architecture lines 108–119）用 AD8330 增益把 0.16 Vpp 放到 1.024 Vpp（20 mV/div，6.4×），未乘 0.536；ADC 实得 0.549 Vpp，约 53.6% 满度。因此 20 mV/div 的 0.625 mV/LSB 实际约 1.17 mV/LSB（0.2985 Vpp 输入对应 1.024 Vpp ADC 满度）。H4 括号 51/(44+95)=36.7% 是笔误；正确为 51/(44+51)=51/95。\nH5：DS117-3.2.5E §2.2.2：QN88P 内嵌 PSRAM 为 two 32 Mb dies，每片 8 bit，DDR，166 MHz；QN88P 合计 64 Mb/16 bit。设计：architecture line 249 50 MHz 输入、PLL ×2=100 MHz 给 PSRAM（memory clock）；IPUG943 port list：clk_out（user logic）=1/2 Memory Clk=50 MHz。100 MHz<166 MHz，不越器件上限；H5 的“100 MHz user clock with 2x PLL”把 100 MHz 误当 user clock（实际是 memory clock，user clock 50 MHz）。architecture line 141 “64 Mbit/32 bit 接口”实际为 16 bit；400 MB/s=100 MHz×DDR×16 bit 的峰值。IPUG943 §3.2/Table 4-2：burst 128/64/32/16 的带宽效率 74/61/44/28%，对应持续 296/244/176/112 MB/s；'≥4×' 余量是峰值口径，持续余量约 1.1–3×，确实乐观；architecture line 303/F9 已把 PSRAM 吞吐列为首板实测项。故 H5 的频率越限断言不成立，余量乐观成立。",
+  "residual_risk": "1) 滤波器模型假设理想 L/C、22 Ω 源阻后为零源阻抗、ADC 输入 10 kΩ/2 pF；AD8138 输出阻抗、PCB 寄生和元件容差会移动响应，但不可能把 25 MHz 的 21.5 dB 相对衰减变成 44 dB；首个 -3 dB 约 8.9 MHz 和 25 MHz 约 -26.9 dB 绝对值是稳健结论。2) 设计源 P2 的 AD8138 U4 周围没有外部 RF/RG：datasheet 明确差分增益由外部电阻设定（Table 8, p.17，gain 1 需 RG=RF=499 Ω；Figure 2/39 典型电路也需 499 Ω 输入电阻）；architecture 的“Rf=Rg=1k、增益 1”未实现。这不改变 H4 的 54% 无源分压，但使量程表的绝对满度假设更不可靠，且若 AD8330 的 150 Ω 差分输出阻抗充当 RG，增益和饱和风险会显著改变。3) 0V9_REF 由 P9 U705（MCP4822 VOUTA）驱动，不是 architecture line 186 所说的“3.0V 分压 + AD8066 缓冲”；上电默认值和 DAC 配置顺序需要核实。AD8138 的 1.0 V 下限与 ADC 的 0.99 V 标称只差 10 mV，修复需要改驱动供电（如 ±5 V）或换器件，不能只改 DAC 码。4) H1 的 architecture 文本写 10k/3.0k，实际 page_P10/BOM 是 3.3k；两者必须统一，且 3.3k 版本在 VREF/电阻容差低端会明显低于 LCD 的 3.135 V。5) H3 的 18.7 MHz 是上侧 -3 dB 交点，不是首个 -3 dB；通带在约 8.9 MHz 已 -3 dB，10 MHz 处约 -3.08 dB 相对，滤波器单独就吃掉了 10 MHz 小信号带宽预算；拓扑是 3L+3C 六个电抗元件，不是 5 阶，“Butterworth”标签也与通带跌落不符。6) H4 的括号公式是笔误；54% 数值正确，但量程表的 0.625 mV/LSB 在 54% 利用率下约 1.17 mV/LSB。7) H5 的 400 MB/s 是峰值；IPUG943 的持续效率 28–74% 意味着 100 MB/s 写入的余量约 1.1–3×，不是 4×；1 Mpts/ch 可选目标和 64 kpts/ch 都应在首板实测 PSRAM 吞吐。8) 用户要求在任务书中加入“通道模板复用与网络映射验证、画图前批量器件库预检、带版本和失效条件的缓存、原生批量导入可行性探测（可选）”；本步骤是只读 claim 验证，未修改任务书；round8/analysis 已有对应产物（channel-map-input/level.json 均 pass、library-precheck.json pass/337 件、cache-demo.txt 的 version_tag_mismatch/invalidate、state/project-import-result.json 与 read-batch-probe.playbook.json），应由编排步骤合并进任务书。9) 本验证未打开 EDA 工程、未运行网表/DRC，设计源以 plans/page_P*.json 与 design.json 为准；若实际 EDA 页面与 plans 不一致，需以 EDA 回读为准。",
+  "what_would_change_verdict": "H1：若实际贴装 R808=3.0k（architecture line 190 的写法）或 LCD VDDIO 改由独立 3.3 V±1% 轨供电，则 3.095 V 的下限问题消失；若 TPS563201 实际是 0.8 V 基准的变体，输出约 3.22 V，也会改变结论。H2：若 AD8138 改为 ±5 V 供电（VOCM 范围包含 0.9 V）或 ADC VD 改为 3.0 V（CM=0.9 V），则越限消失；若 ADI 修订 datasheet 把单 +5 V 的 VOCM 下限降到 ≤0.9 V，也会改变结论。H3：若实际贴装的 L103/L104 不是 1 µH（例如短路/不贴），响应会向 18.7 MHz/-21.5 dB 靠拢；若改用 100 Ω 源/负载（Rs=50 Ω、Rl=50 Ω），-3 dB 约 11.9 MHz、25 MHz 相对衰减约 21.3 dB，仍不支持 15 MHz/-44 dB；只有换掉整个滤波器拓扑/元件值才可能达到 -44 dB。H4：若 R116 实际为 100 Ω 差分端接、或 R117/R118 不是串联源阻、或 ADC 输入端为低阻，则 54% 会变；若固件在每档乘 1.866 校准系数，屏幕满度可恢复，但 ADC 有效位数/噪声仍按 54% 利用率变差。H5：若 PSRAM memory clock 实际为 200 MHz（例如 100 MHz user clock 再 2×），则超过 166 MHz；若换用 >200 MHz 的 PSRAM die，或 IPUG943 在所选 burst 长度下实测效率 ≥74%，则“越限/余量”结论改变；若实测持续吞吐 >100 MB/s 且余量 ≥4×，则“乐观”不成立。组级：若 H5 的 100 MHz 被证明是 user clock（memory clock=200 MHz），则 H5 也 CONFIRMED，组级可改判 CONFIRMED；若 H1/H2 的实际贴装/供电与设计源不同，则相应项可改判 REFUTED。"
+}

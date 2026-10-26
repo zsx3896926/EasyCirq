@@ -1,0 +1,10 @@
+== put ==
+{"status": "stored", "path": "state\\cache-demo\\e004c01139753e4c2ee71bb0754d45dd5b7112840f752f88d77507505276102e.json", "digest": "e004c01139753e4c2ee71bb0754d45dd5b7112840f752f88d77507505276102e"}
+== get same tag ==
+{'status': 'hit', 'reason': None, 'value_type': 'dict'}
+== get stale tag ==
+{"status": "miss", "reason": "version_tag_mismatch", "expected": "save-seq-2", "stored": "save-seq-1"}
+== invalidate document ==
+{"status": "invalidated", "removed": 1}
+== get after invalidate ==
+{"status": "miss", "reason": "not_found"}

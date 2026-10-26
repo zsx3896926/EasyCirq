@@ -1,0 +1,706 @@
+{
+ "schema": "design-inventory/v1",
+ "totals": {
+  "planned_parts": 337,
+  "eda_parts": 213,
+  "missing_parts": 126,
+  "extra_parts": 2,
+  "unplanned_pages": 1,
+  "blank_pages": 6
+ },
+ "pages": [
+  {
+   "page": "P1",
+   "status": "partial",
+   "planned_parts": 16,
+   "eda_parts": 17,
+   "missing_refs": [],
+   "extra_refs": [
+    "K2"
+   ],
+   "pins": 67,
+   "nets": 17,
+   "native_check": {
+    "findings": 5,
+    "floating_pins": 0,
+    "by_type": {
+     "marker-overlap": 3,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P2",
+   "status": "complete",
+   "planned_parts": 14,
+   "eda_parts": 14,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 51,
+   "nets": 15,
+   "native_check": {
+    "findings": 11,
+    "floating_pins": 0,
+    "by_type": {
+     "marker-overlap": 9,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P3",
+   "status": "complete",
+   "planned_parts": 16,
+   "eda_parts": 16,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 59,
+   "nets": 16,
+   "native_check": {
+    "findings": 3,
+    "floating_pins": 0,
+    "by_type": {
+     "marker-overlap": 1,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P4",
+   "status": "complete",
+   "planned_parts": 14,
+   "eda_parts": 14,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 51,
+   "nets": 15,
+   "native_check": {
+    "findings": 12,
+    "floating_pins": 0,
+    "by_type": {
+     "designator-wire-overlap": 1,
+     "marker-overlap": 9,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P5",
+   "status": "complete",
+   "planned_parts": 15,
+   "eda_parts": 15,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 81,
+   "nets": 31,
+   "native_check": {
+    "findings": 8,
+    "floating_pins": 0,
+    "by_type": {
+     "marker-overlap": 5,
+     "missing-partition": 1,
+     "missing-titleblock": 1,
+     "redundant-net-marker": 1
+    }
+   }
+  },
+  {
+   "page": "P6",
+   "status": "partial",
+   "planned_parts": 17,
+   "eda_parts": 16,
+   "missing_refs": [
+    "U401"
+   ],
+   "extra_refs": [],
+   "pins": 32,
+   "nets": 0,
+   "native_check": {
+    "findings": 18,
+    "floating_pins": 16,
+    "by_type": {
+     "floating-pin": 16,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P7",
+   "status": "complete",
+   "planned_parts": 23,
+   "eda_parts": 23,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 181,
+   "nets": 0,
+   "native_check": {
+    "findings": 25,
+    "floating_pins": 23,
+    "by_type": {
+     "floating-pin": 23,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P8",
+   "status": "complete",
+   "planned_parts": 8,
+   "eda_parts": 8,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 56,
+   "nets": 0,
+   "native_check": {
+    "findings": 10,
+    "floating_pins": 8,
+    "by_type": {
+     "floating-pin": 8,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P9",
+   "status": "complete",
+   "planned_parts": 30,
+   "eda_parts": 30,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 95,
+   "nets": 0,
+   "native_check": {
+    "findings": 32,
+    "floating_pins": 30,
+    "by_type": {
+     "floating-pin": 30,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P10",
+   "status": "partial",
+   "planned_parts": 28,
+   "eda_parts": 24,
+   "missing_refs": [
+    "C810",
+    "C811",
+    "C812",
+    "C813"
+   ],
+   "extra_refs": [],
+   "pins": 60,
+   "nets": 0,
+   "native_check": {
+    "findings": 26,
+    "floating_pins": 24,
+    "by_type": {
+     "floating-pin": 24,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P11",
+   "status": "blank",
+   "planned_parts": 18,
+   "eda_parts": 0,
+   "missing_refs": [
+    "C901",
+    "C902",
+    "C903",
+    "C904",
+    "C905",
+    "C906",
+    "C907",
+    "C908",
+    "C909",
+    "C910",
+    "C911",
+    "C922",
+    "R901",
+    "R902",
+    "R903",
+    "U901",
+    "U902",
+    "U903"
+   ],
+   "extra_refs": [],
+   "pins": 0,
+   "nets": 0,
+   "native_check": null
+  },
+  {
+   "page": "P12",
+   "status": "unplanned",
+   "planned_parts": 0,
+   "eda_parts": 0,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 0,
+   "nets": 0,
+   "native_check": null
+  },
+  {
+   "page": "P13",
+   "status": "blank",
+   "planned_parts": 34,
+   "eda_parts": 0,
+   "missing_refs": [
+    "C403",
+    "C404",
+    "C405",
+    "C406",
+    "C407",
+    "C408",
+    "C409",
+    "C410",
+    "C411",
+    "C412",
+    "C413",
+    "C506",
+    "C507",
+    "C508",
+    "C509",
+    "C510",
+    "C511",
+    "C512",
+    "C513",
+    "C514",
+    "C515",
+    "C516",
+    "C517",
+    "C518",
+    "FB501",
+    "FB502",
+    "R402",
+    "R403",
+    "R404",
+    "R405",
+    "R406",
+    "R407",
+    "R408",
+    "R409"
+   ],
+   "extra_refs": [],
+   "pins": 0,
+   "nets": 0,
+   "native_check": null
+  },
+  {
+   "page": "P14",
+   "status": "blank",
+   "planned_parts": 30,
+   "eda_parts": 0,
+   "missing_refs": [
+    "C604",
+    "C605",
+    "C606",
+    "C607",
+    "C610",
+    "C611",
+    "C612",
+    "C613",
+    "C614",
+    "C615",
+    "D601",
+    "R603",
+    "R604",
+    "R605",
+    "R606",
+    "R607",
+    "R608",
+    "R609",
+    "R610",
+    "R611",
+    "R612",
+    "R613",
+    "SW601",
+    "SW602",
+    "SW603",
+    "SW604",
+    "SW605",
+    "SW606",
+    "SW607",
+    "SW608"
+   ],
+   "extra_refs": [],
+   "pins": 0,
+   "nets": 0,
+   "native_check": null
+  },
+  {
+   "page": "P15",
+   "status": "blank",
+   "planned_parts": 12,
+   "eda_parts": 0,
+   "missing_refs": [
+    "C814",
+    "C815",
+    "C816",
+    "C817",
+    "C818",
+    "C819",
+    "C820",
+    "D804",
+    "R820",
+    "U803",
+    "U804",
+    "U805"
+   ],
+   "extra_refs": [],
+   "pins": 0,
+   "nets": 0,
+   "native_check": null
+  },
+  {
+   "page": "P16",
+   "status": "blank",
+   "planned_parts": 21,
+   "eda_parts": 0,
+   "missing_refs": [
+    "C912",
+    "C913",
+    "C914",
+    "C915",
+    "C916",
+    "C917",
+    "C918",
+    "C919",
+    "C920",
+    "C921",
+    "D901",
+    "D902",
+    "L901",
+    "R905",
+    "R906",
+    "R907",
+    "R908",
+    "R920",
+    "U904",
+    "U905",
+    "U906"
+   ],
+   "extra_refs": [],
+   "pins": 0,
+   "nets": 0,
+   "native_check": null
+  },
+  {
+   "page": "P17",
+   "status": "partial",
+   "planned_parts": 6,
+   "eda_parts": 6,
+   "missing_refs": [
+    "R207"
+   ],
+   "extra_refs": [
+    "R1"
+   ],
+   "pins": 12,
+   "nets": 10,
+   "native_check": {
+    "findings": 6,
+    "floating_pins": 1,
+    "by_type": {
+     "floating-pin": 1,
+     "marker-overlap": 3,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P18",
+   "status": "complete",
+   "planned_parts": 12,
+   "eda_parts": 12,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 24,
+   "nets": 10,
+   "native_check": {
+    "findings": 3,
+    "floating_pins": 0,
+    "by_type": {
+     "designator-overlap": 1,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P19",
+   "status": "complete",
+   "planned_parts": 12,
+   "eda_parts": 12,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 24,
+   "nets": 10,
+   "native_check": {
+    "findings": 3,
+    "floating_pins": 0,
+    "by_type": {
+     "designator-overlap": 1,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P20",
+   "status": "complete",
+   "planned_parts": 6,
+   "eda_parts": 6,
+   "missing_refs": [],
+   "extra_refs": [],
+   "pins": 12,
+   "nets": 9,
+   "native_check": {
+    "findings": 19,
+    "floating_pins": 0,
+    "by_type": {
+     "designator-overlap": 5,
+     "marker-overlap": 12,
+     "missing-partition": 1,
+     "missing-titleblock": 1
+    }
+   }
+  },
+  {
+   "page": "P21",
+   "status": "blank",
+   "planned_parts": 5,
+   "eda_parts": 0,
+   "missing_refs": [
+    "C401",
+    "C402",
+    "D401",
+    "J401",
+    "U402"
+   ],
+   "extra_refs": [],
+   "pins": 0,
+   "nets": 0,
+   "native_check": null
+  }
+ ],
+ "discrepancies": [
+  {
+   "page": "P1",
+   "missing_refs": [],
+   "extra_refs": [
+    "K2"
+   ],
+   "message": "P1: 0 planned part(s) absent, 1 unplanned part(s) present"
+  },
+  {
+   "page": "P6",
+   "missing_refs": [
+    "U401"
+   ],
+   "extra_refs": [],
+   "message": "P6: 1 planned part(s) absent, 0 unplanned part(s) present"
+  },
+  {
+   "page": "P10",
+   "missing_refs": [
+    "C810",
+    "C811",
+    "C812",
+    "C813"
+   ],
+   "extra_refs": [],
+   "message": "P10: 4 planned part(s) absent, 0 unplanned part(s) present"
+  },
+  {
+   "page": "P11",
+   "missing_refs": [
+    "C901",
+    "C902",
+    "C903",
+    "C904",
+    "C905",
+    "C906",
+    "C907",
+    "C908",
+    "C909",
+    "C910",
+    "C911",
+    "C922",
+    "R901",
+    "R902",
+    "R903",
+    "U901",
+    "U902",
+    "U903"
+   ],
+   "extra_refs": [],
+   "message": "P11: 18 planned part(s) absent, 0 unplanned part(s) present"
+  },
+  {
+   "page": "P13",
+   "missing_refs": [
+    "C403",
+    "C404",
+    "C405",
+    "C406",
+    "C407",
+    "C408",
+    "C409",
+    "C410",
+    "C411",
+    "C412",
+    "C413",
+    "C506",
+    "C507",
+    "C508",
+    "C509",
+    "C510",
+    "C511",
+    "C512",
+    "C513",
+    "C514",
+    "C515",
+    "C516",
+    "C517",
+    "C518",
+    "FB501",
+    "FB502",
+    "R402",
+    "R403",
+    "R404",
+    "R405",
+    "R406",
+    "R407",
+    "R408",
+    "R409"
+   ],
+   "extra_refs": [],
+   "message": "P13: 34 planned part(s) absent, 0 unplanned part(s) present"
+  },
+  {
+   "page": "P14",
+   "missing_refs": [
+    "C604",
+    "C605",
+    "C606",
+    "C607",
+    "C610",
+    "C611",
+    "C612",
+    "C613",
+    "C614",
+    "C615",
+    "D601",
+    "R603",
+    "R604",
+    "R605",
+    "R606",
+    "R607",
+    "R608",
+    "R609",
+    "R610",
+    "R611",
+    "R612",
+    "R613",
+    "SW601",
+    "SW602",
+    "SW603",
+    "SW604",
+    "SW605",
+    "SW606",
+    "SW607",
+    "SW608"
+   ],
+   "extra_refs": [],
+   "message": "P14: 30 planned part(s) absent, 0 unplanned part(s) present"
+  },
+  {
+   "page": "P15",
+   "missing_refs": [
+    "C814",
+    "C815",
+    "C816",
+    "C817",
+    "C818",
+    "C819",
+    "C820",
+    "D804",
+    "R820",
+    "U803",
+    "U804",
+    "U805"
+   ],
+   "extra_refs": [],
+   "message": "P15: 12 planned part(s) absent, 0 unplanned part(s) present"
+  },
+  {
+   "page": "P16",
+   "missing_refs": [
+    "C912",
+    "C913",
+    "C914",
+    "C915",
+    "C916",
+    "C917",
+    "C918",
+    "C919",
+    "C920",
+    "C921",
+    "D901",
+    "D902",
+    "L901",
+    "R905",
+    "R906",
+    "R907",
+    "R908",
+    "R920",
+    "U904",
+    "U905",
+    "U906"
+   ],
+   "extra_refs": [],
+   "message": "P16: 21 planned part(s) absent, 0 unplanned part(s) present"
+  },
+  {
+   "page": "P17",
+   "missing_refs": [
+    "R207"
+   ],
+   "extra_refs": [
+    "R1"
+   ],
+   "message": "P17: 1 planned part(s) absent, 1 unplanned part(s) present"
+  },
+  {
+   "page": "P21",
+   "missing_refs": [
+    "C401",
+    "C402",
+    "D401",
+    "J401",
+    "U402"
+   ],
+   "extra_refs": [],
+   "message": "P21: 5 planned part(s) absent, 0 unplanned part(s) present"
+  }
+ ],
+ "not_checked": [
+  "电气连接正确性（缺省只比较位号；请用 --check 附加 sch check）",
+  "器件库身份、封装与焊盘映射（另用 library_precheck.py）",
+  "跨页网名一致性与通道模板映射（另用 channel_map_check.py）",
+  "PCB 导入、板框与 DRC"
+ ]
+}

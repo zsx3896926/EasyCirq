@@ -1,0 +1,1545 @@
+{
+ "concurrency": {
+  "span_s": 11548.5,
+  "sum_call_s": 7238.8,
+  "union_busy_s": 5453.2,
+  "idle_s": 6095.3,
+  "max_concurrent": 3,
+  "parallel_inflation_ratio": 1.327,
+  "calls_started_while_busy": 3576
+ },
+ "place_repeats": {
+  "total_place_calls": 585,
+  "distinct_designators": {
+   "P1": 15,
+   "P5": 125,
+   "": 57,
+   "P12": 90,
+   "P17": 6,
+   "P3": 11,
+   "P2": 42,
+   "P4": 14,
+   "P18": 24,
+   "P19": 24,
+   "P20": 6,
+   "P6": 86,
+   "P7": 23,
+   "P8": 8,
+   "P9": 30,
+   "P10": 22,
+   "0be2af49fba701d3": 2
+  },
+  "repeat_events": [
+   {
+    "doc": "P1",
+    "designator": "U1",
+    "first": "2026-10-26T03:24:39.806673+00:00",
+    "repeat": "2026-10-26T04:13:07.285226+00:00",
+    "gap_s": 2907.5,
+    "repeat_ms": 1075
+   },
+   {
+    "doc": "P5",
+    "designator": "U301",
+    "first": "2026-10-26T03:41:34.909539+00:00",
+    "repeat": "2026-10-26T03:45:13.925309+00:00",
+    "gap_s": 219.0,
+    "repeat_ms": 1272
+   },
+   {
+    "doc": "P5",
+    "designator": "U302",
+    "first": "2026-10-26T03:41:36.498984+00:00",
+    "repeat": "2026-10-26T03:45:15.254321+00:00",
+    "gap_s": 218.8,
+    "repeat_ms": 874
+   },
+   {
+    "doc": "P5",
+    "designator": "U303",
+    "first": "2026-10-26T03:41:38.273253+00:00",
+    "repeat": "2026-10-26T03:45:16.185494+00:00",
+    "gap_s": 217.9,
+    "repeat_ms": 924
+   },
+   {
+    "doc": "P5",
+    "designator": "R301",
+    "first": "2026-10-26T03:41:40.066700+00:00",
+    "repeat": "2026-10-26T03:45:17.165257+00:00",
+    "gap_s": 217.1,
+    "repeat_ms": 859
+   },
+   {
+    "doc": "P5",
+    "designator": "R309",
+    "first": "2026-10-26T03:41:49.210884+00:00",
+    "repeat": "2026-10-26T03:45:24.755609+00:00",
+    "gap_s": 215.5,
+    "repeat_ms": 861
+   },
+   {
+    "doc": "P5",
+    "designator": "R317",
+    "first": "2026-10-26T03:41:57.987934+00:00",
+    "repeat": "2026-10-26T03:45:32.431348+00:00",
+    "gap_s": 214.4,
+    "repeat_ms": 1103
+   },
+   {
+    "doc": "P5",
+    "designator": "R318",
+    "first": "2026-10-26T03:41:59.627126+00:00",
+    "repeat": "2026-10-26T03:45:33.609985+00:00",
+    "gap_s": 214.0,
+    "repeat_ms": 859
+   },
+   {
+    "doc": "P5",
+    "designator": "R319",
+    "first": "2026-10-26T03:42:00.598717+00:00",
+    "repeat": "2026-10-26T03:45:34.526726+00:00",
+    "gap_s": 213.9,
+    "repeat_ms": 914
+   },
+   {
+    "doc": "P5",
+    "designator": "C301",
+    "first": "2026-10-26T03:42:01.514971+00:00",
+    "repeat": "2026-10-26T03:45:35.507126+00:00",
+    "gap_s": 214.0,
+    "repeat_ms": 1111
+   },
+   {
+    "doc": "P5",
+    "designator": "C304",
+    "first": "2026-10-26T03:42:05.576945+00:00",
+    "repeat": "2026-10-26T03:45:38.744242+00:00",
+    "gap_s": 213.2,
+    "repeat_ms": 1244
+   },
+   {
+    "doc": "P5",
+    "designator": "C305",
+    "first": "2026-10-26T03:42:06.612884+00:00",
+    "repeat": "2026-10-26T03:45:40.046414+00:00",
+    "gap_s": 213.4,
+    "repeat_ms": 1054
+   },
+   {
+    "doc": "P5",
+    "designator": "C306",
+    "first": "2026-10-26T03:42:07.890784+00:00",
+    "repeat": "2026-10-26T03:45:41.158456+00:00",
+    "gap_s": 213.3,
+    "repeat_ms": 1320
+   },
+   {
+    "doc": "P5",
+    "designator": "C310",
+    "first": "2026-10-26T03:42:15.160508+00:00",
+    "repeat": "2026-10-26T03:45:47.617091+00:00",
+    "gap_s": 212.5,
+    "repeat_ms": 1491
+   },
+   {
+    "doc": "P5",
+    "designator": "U301",
+    "first": "2026-10-26T03:41:34.909539+00:00",
+    "repeat": "2026-10-26T03:49:45.976513+00:00",
+    "gap_s": 491.1,
+    "repeat_ms": 938
+   },
+   {
+    "doc": "P5",
+    "designator": "U302",
+    "first": "2026-10-26T03:41:36.498984+00:00",
+    "repeat": "2026-10-26T03:49:46.968445+00:00",
+    "gap_s": 490.5,
+    "repeat_ms": 1017
+   },
+   {
+    "doc": "P5",
+    "designator": "U303",
+    "first": "2026-10-26T03:41:38.273253+00:00",
+    "repeat": "2026-10-26T03:49:48.049791+00:00",
+    "gap_s": 489.8,
+    "repeat_ms": 1553
+   },
+   {
+    "doc": "P5",
+    "designator": "R317",
+    "first": "2026-10-26T03:41:57.987934+00:00",
+    "repeat": "2026-10-26T03:49:49.685954+00:00",
+    "gap_s": 471.7,
+    "repeat_ms": 1210
+   },
+   {
+    "doc": "P5",
+    "designator": "R318",
+    "first": "2026-10-26T03:41:59.627126+00:00",
+    "repeat": "2026-10-26T03:49:50.952940+00:00",
+    "gap_s": 471.3,
+    "repeat_ms": 1437
+   },
+   {
+    "doc": "P5",
+    "designator": "R319",
+    "first": "2026-10-26T03:42:00.598717+00:00",
+    "repeat": "2026-10-26T03:49:52.444762+00:00",
+    "gap_s": 471.8,
+    "repeat_ms": 829
+   },
+   {
+    "doc": "P5",
+    "designator": "C301",
+    "first": "2026-10-26T03:42:01.514971+00:00",
+    "repeat": "2026-10-26T03:49:53.335965+00:00",
+    "gap_s": 471.8,
+    "repeat_ms": 977
+   },
+   {
+    "doc": "P5",
+    "designator": "C302",
+    "first": "2026-10-26T03:45:36.685173+00:00",
+    "repeat": "2026-10-26T03:49:54.374361+00:00",
+    "gap_s": 257.7,
+    "repeat_ms": 964
+   },
+   {
+    "doc": "P5",
+    "designator": "C303",
+    "first": "2026-10-26T03:45:37.636378+00:00",
+    "repeat": "2026-10-26T03:49:55.403193+00:00",
+    "gap_s": 257.8,
+    "repeat_ms": 1035
+   },
+   {
+    "doc": "P5",
+    "designator": "C304",
+    "first": "2026-10-26T03:42:05.576945+00:00",
+    "repeat": "2026-10-26T03:49:56.494718+00:00",
+    "gap_s": 470.9,
+    "repeat_ms": 813
+   },
+   {
+    "doc": "P5",
+    "designator": "C305",
+    "first": "2026-10-26T03:42:06.612884+00:00",
+    "repeat": "2026-10-26T03:49:57.365236+00:00",
+    "gap_s": 470.8,
+    "repeat_ms": 889
+   },
+   {
+    "doc": "P5",
+    "designator": "C306",
+    "first": "2026-10-26T03:42:07.890784+00:00",
+    "repeat": "2026-10-26T03:49:58.329483+00:00",
+    "gap_s": 470.4,
+    "repeat_ms": 1455
+   },
+   {
+    "doc": "P5",
+    "designator": "C307",
+    "first": "2026-10-26T03:45:42.544586+00:00",
+    "repeat": "2026-10-26T03:49:59.843441+00:00",
+    "gap_s": 257.3,
+    "repeat_ms": 869
+   },
+   {
+    "doc": "P5",
+    "designator": "C308",
+    "first": "2026-10-26T03:45:43.532541+00:00",
+    "repeat": "2026-10-26T03:50:00.770986+00:00",
+    "gap_s": 257.2,
+    "repeat_ms": 911
+   },
+   {
+    "doc": "P5",
+    "designator": "C309",
+    "first": "2026-10-26T03:45:44.525805+00:00",
+    "repeat": "2026-10-26T03:50:01.738164+00:00",
+    "gap_s": 257.2,
+    "repeat_ms": 1025
+   },
+   {
+    "doc": "P5",
+    "designator": "FB301",
+    "first": "2026-10-26T03:45:45.581404+00:00",
+    "repeat": "2026-10-26T03:50:02.823130+00:00",
+    "gap_s": 257.2,
+    "repeat_ms": 1237
+   },
+   {
+    "doc": "P5",
+    "designator": "FB302",
+    "first": "2026-10-26T03:45:46.658042+00:00",
+    "repeat": "2026-10-26T03:50:04.120305+00:00",
+    "gap_s": 257.5,
+    "repeat_ms": 1313
+   },
+   {
+    "doc": "P5",
+    "designator": "C310",
+    "first": "2026-10-26T03:42:15.160508+00:00",
+    "repeat": "2026-10-26T03:50:05.494417+00:00",
+    "gap_s": 470.3,
+    "repeat_ms": 966
+   },
+   {
+    "doc": "P5",
+    "designator": "C311",
+    "first": "2026-10-26T03:45:49.184971+00:00",
+    "repeat": "2026-10-26T03:50:06.515258+00:00",
+    "gap_s": 257.3,
+    "repeat_ms": 783
+   },
+   {
+    "doc": "P5",
+    "designator": "U301",
+    "first": "2026-10-26T03:41:34.909539+00:00",
+    "repeat": "2026-10-26T03:51:58.055477+00:00",
+    "gap_s": 623.1,
+    "repeat_ms": 1305
+   },
+   {
+    "doc": "P5",
+    "designator": "U302",
+    "first": "2026-10-26T03:41:36.498984+00:00",
+    "repeat": "2026-10-26T03:51:59.414791+00:00",
+    "gap_s": 622.9,
+    "repeat_ms": 931
+   },
+   {
+    "doc": "P5",
+    "designator": "U303",
+    "first": "2026-10-26T03:41:38.273253+00:00",
+    "repeat": "2026-10-26T03:52:00.418709+00:00",
+    "gap_s": 622.1,
+    "repeat_ms": 1301
+   },
+   {
+    "doc": "P5",
+    "designator": "R317",
+    "first": "2026-10-26T03:41:57.987934+00:00",
+    "repeat": "2026-10-26T03:52:01.773193+00:00",
+    "gap_s": 603.8,
+    "repeat_ms": 960
+   },
+   {
+    "doc": "P5",
+    "designator": "R318",
+    "first": "2026-10-26T03:41:59.627126+00:00",
+    "repeat": "2026-10-26T03:52:02.785409+00:00",
+    "gap_s": 603.2,
+    "repeat_ms": 962
+   },
+   {
+    "doc": "P5",
+    "designator": "R319",
+    "first": "2026-10-26T03:42:00.598717+00:00",
+    "repeat": "2026-10-26T03:52:03.814343+00:00",
+    "gap_s": 603.2,
+    "repeat_ms": 879
+   },
+   {
+    "doc": "P5",
+    "designator": "C301",
+    "first": "2026-10-26T03:42:01.514971+00:00",
+    "repeat": "2026-10-26T03:52:04.745818+00:00",
+    "gap_s": 603.2,
+    "repeat_ms": 1233
+   }
+  ],
+  "repeat_count": 264
+ },
+ "connect_repeats": {
+  "total_connect_calls": 1159,
+  "repeat_count": 336,
+  "examples": [
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     595,
+     "CH1_ADC_AIN_P",
+     "net_port_bi"
+    ],
+    "first": "2026-10-26T03:50:41.765202+00:00",
+    "repeat": "2026-10-26T03:54:02.863927+00:00",
+    "gap_s": 201.1,
+    "ms": 303
+   },
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     585,
+     "CH1_ADC_AIN_N",
+     "net_port_bi"
+    ],
+    "first": "2026-10-26T03:50:42.055439+00:00",
+    "repeat": "2026-10-26T03:54:03.179117+00:00",
+    "gap_s": 201.1,
+    "ms": 186
+   },
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     495,
+     "CH2_ADC_AIN_N",
+     "net_port_bi"
+    ],
+    "first": "2026-10-26T03:50:42.181681+00:00",
+    "repeat": "2026-10-26T03:54:03.374037+00:00",
+    "gap_s": 201.2,
+    "ms": 145
+   },
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     505,
+     "CH2_ADC_AIN_P",
+     "net_port_bi"
+    ],
+    "first": "2026-10-26T03:50:42.313248+00:00",
+    "repeat": "2026-10-26T03:54:03.528931+00:00",
+    "gap_s": 201.2,
+    "ms": 182
+   },
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     565,
+     "ADC_VREF",
+     "net_label"
+    ],
+    "first": "2026-10-26T03:50:42.489313+00:00",
+    "repeat": "2026-10-26T03:54:03.719221+00:00",
+    "gap_s": 201.2,
+    "ms": 107
+   },
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     535,
+     "ADC_VREF",
+     "net_label"
+    ],
+    "first": "2026-10-26T03:50:42.627617+00:00",
+    "repeat": "2026-10-26T03:54:03.834129+00:00",
+    "gap_s": 201.2,
+    "ms": 115
+   },
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     555,
+     "ADC_VREF",
+     "net_label"
+    ],
+    "first": "2026-10-26T03:50:42.771700+00:00",
+    "repeat": "2026-10-26T03:54:04.060302+00:00",
+    "gap_s": 201.3,
+    "ms": 101
+   },
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     395,
+     "GND",
+     "ground"
+    ],
+    "first": "2026-10-26T03:50:42.908881+00:00",
+    "repeat": "2026-10-26T03:54:04.170523+00:00",
+    "gap_s": 201.3,
+    "ms": 293
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     415,
+     "+3V3",
+     "power"
+    ],
+    "first": "2026-10-26T03:50:43.524137+00:00",
+    "repeat": "2026-10-26T03:54:04.470387+00:00",
+    "gap_s": 200.9,
+    "ms": 267
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     405,
+     "GND",
+     "ground"
+    ],
+    "first": "2026-10-26T03:50:43.848204+00:00",
+    "repeat": "2026-10-26T03:54:04.743073+00:00",
+    "gap_s": 200.9,
+    "ms": 114
+   },
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     465,
+     "ADC_CLK",
+     "net_label"
+    ],
+    "first": "2026-10-26T03:50:44.030273+00:00",
+    "repeat": "2026-10-26T03:54:04.863262+00:00",
+    "gap_s": 200.8,
+    "ms": 102
+   },
+   {
+    "doc": "P5",
+    "key": [
+     770,
+     475,
+     "ADC_CLK",
+     "net_label"
+    ],
+    "first": "2026-10-26T03:50:44.227448+00:00",
+    "repeat": "2026-10-26T03:54:04.972105+00:00",
+    "gap_s": 200.7,
+    "ms": 84
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     375,
+     "ADC_AVDD",
+     "power"
+    ],
+    "first": "2026-10-26T03:50:44.402126+00:00",
+    "repeat": "2026-10-26T03:54:05.062026+00:00",
+    "gap_s": 200.7,
+    "ms": 135
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     365,
+     "ADC_AVDD",
+     "power"
+    ],
+    "first": "2026-10-26T03:50:44.675184+00:00",
+    "repeat": "2026-10-26T03:54:05.203787+00:00",
+    "gap_s": 200.5,
+    "ms": 241
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     355,
+     "ADC_AVDD",
+     "power"
+    ],
+    "first": "2026-10-26T03:50:44.830451+00:00",
+    "repeat": "2026-10-26T03:54:05.455253+00:00",
+    "gap_s": 200.6,
+    "ms": 180
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     345,
+     "ADC_AVDD",
+     "power"
+    ],
+    "first": "2026-10-26T03:50:44.959091+00:00",
+    "repeat": "2026-10-26T03:54:05.644492+00:00",
+    "gap_s": 200.7,
+    "ms": 176
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     335,
+     "ADC_DVDD",
+     "power"
+    ],
+    "first": "2026-10-26T03:50:45.096274+00:00",
+    "repeat": "2026-10-26T03:54:05.829270+00:00",
+    "gap_s": 200.7,
+    "ms": 172
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     325,
+     "ADC_DVDD",
+     "power"
+    ],
+    "first": "2026-10-26T03:50:45.293542+00:00",
+    "repeat": "2026-10-26T03:54:06.010864+00:00",
+    "gap_s": 200.7,
+    "ms": 216
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     315,
+     "ADC_DVDD",
+     "power"
+    ],
+    "first": "2026-10-26T03:50:45.439032+00:00",
+    "repeat": "2026-10-26T03:54:06.291597+00:00",
+    "gap_s": 200.9,
+    "ms": 183
+   },
+   {
+    "doc": "P5",
+    "key": [
+     630,
+     305,
+     "ADC_DVDD",
+     "power"
+    ],
+    "first": "2026-10-26T03:50:45.584805+00:00",
+    "repeat": "2026-10-26T03:54:06.484130+00:00",
+    "gap_s": 200.9,
+    "ms": 244
+   }
+  ]
+ },
+ "autoconnect_clients": {
+  "clients": 116,
+  "with_pins": 52,
+  "total_pins": 793,
+  "total_reads": 1778,
+  "median_reads_per_pin": 2.125,
+  "max_reads_per_pin": 6.0,
+  "total_span_s": 63065.0,
+  "slowest_clients": [
+   {
+    "span_s": 337.1,
+    "sum_s": 620.6,
+    "reads": 44,
+    "pins": 22,
+    "reads_per_pin": 2.0,
+    "maxread_ms": 51165
+   },
+   {
+    "span_s": 194.2,
+    "sum_s": 329.6,
+    "reads": 40,
+    "pins": 19,
+    "reads_per_pin": 2.11,
+    "maxread_ms": 43409
+   },
+   {
+    "span_s": 90.5,
+    "sum_s": 169.2,
+    "reads": 58,
+    "pins": 30,
+    "reads_per_pin": 1.93,
+    "maxread_ms": 3444
+   },
+   {
+    "span_s": 3372.4,
+    "sum_s": 166.8,
+    "reads": 3,
+    "pins": 0,
+    "reads_per_pin": null,
+    "maxread_ms": 150000
+   },
+   {
+    "span_s": 1634.7,
+    "sum_s": 60.0,
+    "reads": 4,
+    "pins": 1,
+    "reads_per_pin": 4.0,
+    "maxread_ms": 41749
+   },
+   {
+    "span_s": 43.3,
+    "sum_s": 55.2,
+    "reads": 2,
+    "pins": 1,
+    "reads_per_pin": 2.0,
+    "maxread_ms": 42745
+   }
+  ]
+ },
+ "place_clients": {
+  "clients": 412,
+  "total_places": 453,
+  "total_reads": 1295,
+  "median_reads_per_place": 2.0,
+  "sum_span_s": 345914.4
+ },
+ "failures": {
+  "count": 259,
+  "by_action_error": [
+   {
+    "action": "document.current",
+    "error": "ACTION_BUSY:a write/document transition is being verified on this window",
+    "count": 73
+   },
+   {
+    "action": "document.current",
+    "error": "NO_CONNECTOR:no connected window for project \"dual-scope-instrument-01\"",
+    "count": 42
+   },
+   {
+    "action": "schematic.component.place",
+    "error": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)",
+    "count": 28
+   },
+   {
+    "action": "schematic.power.connect_pin",
+    "error": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)",
+    "count": 21
+   },
+   {
+    "action": "schematic.component.place",
+    "error": "DISPATCH_FAILED:connector did not respond",
+    "count": 19
+   },
+   {
+    "action": "schematic.page.rename",
+    "error": "EDA_CALL_FAILED:Host did not confirm schematic page rename. No mutation was retried; inspe",
+    "count": 8
+   },
+   {
+    "action": "schematic.component.place",
+    "error": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)",
+    "count": 8
+   },
+   {
+    "action": "document.current",
+    "error": "PRECONDITION_REFUSED:No active document.",
+    "count": 7
+   },
+   {
+    "action": "schematic.save",
+    "error": "PRECONDITION_REFUSED:schematic.save refused: active project/document context is unavailabl",
+    "count": 7
+   },
+   {
+    "action": "schematic.components.list",
+    "error": "DISPATCH_FAILED:connector did not respond",
+    "count": 6
+   },
+   {
+    "action": "schematic.page.create",
+    "error": "DISPATCH_FAILED:connector did not respond",
+    "count": 4
+   },
+   {
+    "action": "schematic.save",
+    "error": "AUTOSAVE_FAILED:context deadline exceeded",
+    "count": 3
+   },
+   {
+    "action": "schematic.components.list",
+    "error": "INVALID_STATE:Cannot verify schematic readiness after netlist export: ActionError: Timed o",
+    "count": 3
+   },
+   {
+    "action": "schematic.library.search",
+    "error": "EDA_CALL_FAILED:No device exactly matches LCSC id \"C1591\". The raw search returned 10 fuzz",
+    "count": 2
+   },
+   {
+    "action": "schematic.component.place",
+    "error": "PRECONDITION_REFUSED:Device \"f7485a55548e1112\" was not found in library \"0819f05c4eef4c71a",
+    "count": 2
+   },
+   {
+    "action": "schematic.check",
+    "error": "DISPATCH_FAILED:connector did not respond",
+    "count": 2
+   },
+   {
+    "action": "document.open",
+    "error": "DISPATCH_FAILED:connector did not respond",
+    "count": 2
+   },
+   {
+    "action": "document.current",
+    "error": "STALE_WINDOW:window \"ab64478a-784f-4664-a7e0-0660a515f5db\" is not connected, but 1 connect",
+    "count": 2
+   },
+   {
+    "action": "schematic.page.rename",
+    "error": "EDA_CALL_FAILED:Host accepted schematic page rename, but fresh page name was not verified.",
+    "count": 1
+   },
+   {
+    "action": "library.common.list",
+    "error": "PRECONDITION_REFUSED:Common Library source discovery supports the public Web editor only.",
+    "count": 1
+   }
+  ],
+  "timeline": [
+   {
+    "ts": "2026-10-26T02:55:07.432469+00:00",
+    "action": "document.current",
+    "ms": 2,
+    "err": "PRECONDITION_REFUSED:No active document."
+   },
+   {
+    "ts": "2026-10-26T02:56:05.079127+00:00",
+    "action": "document.current",
+    "ms": 2,
+    "err": "PRECONDITION_REFUSED:No active document."
+   },
+   {
+    "ts": "2026-10-26T03:24:22.665605+00:00",
+    "action": "schematic.page.rename",
+    "ms": 51,
+    "err": "EDA_CALL_FAILED:Host did not confirm schematic page rename. No mutation was retried; inspe"
+   },
+   {
+    "ts": "2026-10-26T03:24:22.801687+00:00",
+    "action": "schematic.page.rename",
+    "ms": 2437,
+    "err": "EDA_CALL_FAILED:Host accepted schematic page rename, but fresh page name was not verified."
+   },
+   {
+    "ts": "2026-10-26T03:24:25.294905+00:00",
+    "action": "schematic.page.rename",
+    "ms": 6,
+    "err": "EDA_CALL_FAILED:Host did not confirm schematic page rename. No mutation was retried; inspe"
+   },
+   {
+    "ts": "2026-10-26T03:24:25.352578+00:00",
+    "action": "schematic.page.rename",
+    "ms": 12,
+    "err": "EDA_CALL_FAILED:Host did not confirm schematic page rename. No mutation was retried; inspe"
+   },
+   {
+    "ts": "2026-10-26T03:24:25.422452+00:00",
+    "action": "schematic.page.rename",
+    "ms": 10,
+    "err": "EDA_CALL_FAILED:Host did not confirm schematic page rename. No mutation was retried; inspe"
+   },
+   {
+    "ts": "2026-10-26T03:24:25.484294+00:00",
+    "action": "schematic.page.rename",
+    "ms": 6,
+    "err": "EDA_CALL_FAILED:Host did not confirm schematic page rename. No mutation was retried; inspe"
+   },
+   {
+    "ts": "2026-10-26T03:24:25.540768+00:00",
+    "action": "schematic.page.rename",
+    "ms": 7,
+    "err": "EDA_CALL_FAILED:Host did not confirm schematic page rename. No mutation was retried; inspe"
+   },
+   {
+    "ts": "2026-10-26T03:24:25.596622+00:00",
+    "action": "schematic.page.rename",
+    "ms": 5,
+    "err": "EDA_CALL_FAILED:Host did not confirm schematic page rename. No mutation was retried; inspe"
+   },
+   {
+    "ts": "2026-10-26T03:24:31.236183+00:00",
+    "action": "schematic.page.rename",
+    "ms": 11,
+    "err": "EDA_CALL_FAILED:Host did not confirm schematic page rename. No mutation was retried; inspe"
+   },
+   {
+    "ts": "2026-10-26T03:26:11.225676+00:00",
+    "action": "library.common.list",
+    "ms": 6,
+    "err": "PRECONDITION_REFUSED:Common Library source discovery supports the public Web editor only."
+   },
+   {
+    "ts": "2026-10-26T03:31:27.949514+00:00",
+    "action": "schematic.library.search",
+    "ms": 653,
+    "err": "EDA_CALL_FAILED:No device exactly matches LCSC id \"C4211\". The raw search returned 10 fuzz"
+   },
+   {
+    "ts": "2026-10-26T03:31:35.768369+00:00",
+    "action": "schematic.library.search",
+    "ms": 466,
+    "err": "EDA_CALL_FAILED:No device exactly matches LCSC id \"C1591\". The raw search returned 10 fuzz"
+   },
+   {
+    "ts": "2026-10-26T03:31:49.919254+00:00",
+    "action": "schematic.library.search",
+    "ms": 445,
+    "err": "EDA_CALL_FAILED:No device exactly matches LCSC id \"C1591\". The raw search returned 10 fuzz"
+   },
+   {
+    "ts": "2026-10-26T03:41:42.050290+00:00",
+    "action": "schematic.component.place",
+    "ms": 943,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:43.057296+00:00",
+    "action": "schematic.component.place",
+    "ms": 998,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:44.108546+00:00",
+    "action": "schematic.component.place",
+    "ms": 980,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:45.162838+00:00",
+    "action": "schematic.component.place",
+    "ms": 899,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:46.116843+00:00",
+    "action": "schematic.component.place",
+    "ms": 868,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:47.045201+00:00",
+    "action": "schematic.component.place",
+    "ms": 913,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:48.044990+00:00",
+    "action": "schematic.component.place",
+    "ms": 1069,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:50.185599+00:00",
+    "action": "schematic.component.place",
+    "ms": 873,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:51.114459+00:00",
+    "action": "schematic.component.place",
+    "ms": 909,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:52.086623+00:00",
+    "action": "schematic.component.place",
+    "ms": 895,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:53.042587+00:00",
+    "action": "schematic.component.place",
+    "ms": 934,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:54.038384+00:00",
+    "action": "schematic.component.place",
+    "ms": 1543,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:55.653398+00:00",
+    "action": "schematic.component.place",
+    "ms": 1168,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:41:56.888295+00:00",
+    "action": "schematic.component.place",
+    "ms": 1046,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:03.110825+00:00",
+    "action": "schematic.component.place",
+    "ms": 936,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:04.105334+00:00",
+    "action": "schematic.component.place",
+    "ms": 1411,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:09.072852+00:00",
+    "action": "schematic.component.place",
+    "ms": 974,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:10.109453+00:00",
+    "action": "schematic.component.place",
+    "ms": 956,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:11.122264+00:00",
+    "action": "schematic.component.place",
+    "ms": 1047,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:12.225269+00:00",
+    "action": "schematic.component.place",
+    "ms": 1700,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:13.993081+00:00",
+    "action": "schematic.component.place",
+    "ms": 1095,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:16.107772+00:00",
+    "action": "schematic.component.place",
+    "ms": 846,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:17.017693+00:00",
+    "action": "schematic.component.place",
+    "ms": 1457,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:42:18.545565+00:00",
+    "action": "schematic.component.place",
+    "ms": 48,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:42:18.661223+00:00",
+    "action": "schematic.component.place",
+    "ms": 48,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:43:12.693420+00:00",
+    "action": "schematic.component.place",
+    "ms": 44,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:43:35.069271+00:00",
+    "action": "schematic.component.place",
+    "ms": 59,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:45:50.122548+00:00",
+    "action": "schematic.component.place",
+    "ms": 977,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T03:45:51.163310+00:00",
+    "action": "schematic.component.place",
+    "ms": 52,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:45:51.297164+00:00",
+    "action": "schematic.component.place",
+    "ms": 46,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:46:15.375874+00:00",
+    "action": "schematic.component.place",
+    "ms": 46,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:46:25.798714+00:00",
+    "action": "schematic.component.place",
+    "ms": 47,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:47:18.928714+00:00",
+    "action": "schematic.power.connect_pin",
+    "ms": 88,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:47:33.629948+00:00",
+    "action": "schematic.power.connect_pin",
+    "ms": 63,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:52:17.350485+00:00",
+    "action": "schematic.save",
+    "ms": 3,
+    "err": "PRECONDITION_REFUSED:schematic.save refused: active project/document context is unavailabl"
+   },
+   {
+    "ts": "2026-10-26T03:54:58.875068+00:00",
+    "action": "schematic.component.place",
+    "ms": 282,
+    "err": "PRECONDITION_REFUSED:Device \"f7485a55548e1112\" was not found in library \"0819f05c4eef4c71a"
+   },
+   {
+    "ts": "2026-10-26T03:55:05.743419+00:00",
+    "action": "schematic.component.place",
+    "ms": 174,
+    "err": "PRECONDITION_REFUSED:Device \"f7485a55548e1112\" was not found in library \"0819f05c4eef4c71a"
+   },
+   {
+    "ts": "2026-10-26T03:55:45.467579+00:00",
+    "action": "schematic.save",
+    "ms": 3,
+    "err": "PRECONDITION_REFUSED:schematic.save refused: active project/document context is unavailabl"
+   },
+   {
+    "ts": "2026-10-26T03:57:34.804145+00:00",
+    "action": "schematic.page.create",
+    "ms": 18000,
+    "err": "DISPATCH_FAILED:connector did not respond"
+   },
+   {
+    "ts": "2026-10-26T03:59:30.764313+00:00",
+    "action": "schematic.power.connect_pin",
+    "ms": 39,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T03:59:30.812725+00:00",
+    "action": "schematic.power.connect_pin",
+    "ms": 27,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   },
+   {
+    "ts": "2026-10-26T04:00:00.782522+00:00",
+    "action": "schematic.save",
+    "ms": 7,
+    "err": "PRECONDITION_REFUSED:schematic.save refused: active project/document context is unavailabl"
+   },
+   {
+    "ts": "2026-10-26T04:00:30.514123+00:00",
+    "action": "schematic.component.place",
+    "ms": 1553,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T04:00:32.133045+00:00",
+    "action": "schematic.component.place",
+    "ms": 1179,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (readback)"
+   },
+   {
+    "ts": "2026-10-26T04:01:03.844515+00:00",
+    "action": "schematic.power.connect_pin",
+    "ms": 93,
+    "err": "SCHEMATIC_GEOMETRY_INVALID:schematic geometry guard failed (preflight)"
+   }
+  ]
+ },
+ "place_fail_then_retry_120s": {
+  "count": 9,
+  "examples": [
+   {
+    "designator": "TP302",
+    "fail_ts": "2026-10-26T03:42:18.545565+00:00",
+    "retry_ts": "2026-10-26T03:43:12.693420+00:00",
+    "gap_s": 54.1,
+    "retry_ok": false
+   },
+   {
+    "designator": "TP302",
+    "fail_ts": "2026-10-26T03:43:12.693420+00:00",
+    "retry_ts": "2026-10-26T03:43:35.069271+00:00",
+    "gap_s": 22.4,
+    "retry_ok": false
+   },
+   {
+    "designator": "TP302",
+    "fail_ts": "2026-10-26T03:45:51.163310+00:00",
+    "retry_ts": "2026-10-26T03:46:15.375874+00:00",
+    "gap_s": 24.2,
+    "retry_ok": false
+   },
+   {
+    "designator": "TP302",
+    "fail_ts": "2026-10-26T03:46:15.375874+00:00",
+    "retry_ts": "2026-10-26T03:46:25.798714+00:00",
+    "gap_s": 10.4,
+    "retry_ok": false
+   },
+   {
+    "designator": "C302",
+    "fail_ts": "2026-10-26T03:54:58.875068+00:00",
+    "retry_ts": "2026-10-26T03:55:05.743419+00:00",
+    "gap_s": 6.9,
+    "retry_ok": false
+   },
+   {
+    "designator": "C302",
+    "fail_ts": "2026-10-26T03:55:05.743419+00:00",
+    "retry_ts": "2026-10-26T03:55:13.411570+00:00",
+    "gap_s": 7.7,
+    "retry_ok": true
+   },
+   {
+    "designator": "C302",
+    "fail_ts": "2026-10-26T04:00:30.514123+00:00",
+    "retry_ts": "2026-10-26T04:01:48.984479+00:00",
+    "gap_s": 78.5,
+    "retry_ok": true
+   },
+   {
+    "designator": "R318",
+    "fail_ts": "2026-10-26T04:00:32.133045+00:00",
+    "retry_ts": "2026-10-26T04:01:47.819050+00:00",
+    "gap_s": 75.7,
+    "retry_ok": true
+   },
+   {
+    "designator": "R301",
+    "fail_ts": "2026-10-26T04:03:16.154016+00:00",
+    "retry_ts": "2026-10-26T04:04:17.915979+00:00",
+    "gap_s": 61.8,
+    "retry_ok": false
+   }
+  ]
+ },
+ "saves": {
+  "total": 118,
+  "per_page": {
+   "P1": 8,
+   "P5": 27,
+   "P12": 8,
+   "": 10,
+   "P17": 8,
+   "P3": 5,
+   "P2": 4,
+   "P4": 3,
+   "P18": 5,
+   "P19": 4,
+   "P20": 1,
+   "P6": 18,
+   "P7": 3,
+   "P8": 2,
+   "P9": 7,
+   "P10": 4,
+   "0be2af49fba701d3": 1
+  },
+  "duplicates_within_30s": 20,
+  "duplicate_examples": [
+   {
+    "page": "P1",
+    "gap_s": 9.2,
+    "ms": 30
+   },
+   {
+    "page": "P1",
+    "gap_s": 13.1,
+    "ms": 10
+   },
+   {
+    "page": "P5",
+    "gap_s": 23.8,
+    "ms": 27
+   },
+   {
+    "page": "P5",
+    "gap_s": 6.2,
+    "ms": 16
+   },
+   {
+    "page": "P5",
+    "gap_s": 11.7,
+    "ms": 25
+   },
+   {
+    "page": "P5",
+    "gap_s": 13.6,
+    "ms": 39
+   },
+   {
+    "page": "P5",
+    "gap_s": 21.1,
+    "ms": 33
+   },
+   {
+    "page": "P5",
+    "gap_s": 20.3,
+    "ms": 15
+   },
+   {
+    "page": "P5",
+    "gap_s": 14.1,
+    "ms": 23
+   },
+   {
+    "page": "P5",
+    "gap_s": 16.7,
+    "ms": 37
+   }
+  ],
+  "slow_saves": [
+   {
+    "page": "",
+    "ts": "2026-10-26T04:05:22.390782+00:00",
+    "ms": 60000,
+    "ok": false
+   },
+   {
+    "page": "",
+    "ts": "2026-10-26T04:19:39.058745+00:00",
+    "ms": 60000,
+    "ok": false
+   },
+   {
+    "page": "",
+    "ts": "2026-10-26T05:02:02.302378+00:00",
+    "ms": 60000,
+    "ok": false
+   },
+   {
+    "page": "P8",
+    "ts": "2026-10-26T05:05:34.880569+00:00",
+    "ms": 55334,
+    "ok": true
+   },
+   {
+    "page": "P9",
+    "ts": "2026-10-26T05:13:36.994146+00:00",
+    "ms": 46997,
+    "ok": true
+   },
+   {
+    "page": "P6",
+    "ts": "2026-10-26T04:40:01.404483+00:00",
+    "ms": 35223,
+    "ok": true
+   },
+   {
+    "page": "P6",
+    "ts": "2026-10-26T04:46:17.892560+00:00",
+    "ms": 34774,
+    "ok": true
+   },
+   {
+    "page": "P6",
+    "ts": "2026-10-26T04:37:16.170885+00:00",
+    "ms": 17002,
+    "ok": true
+   },
+   {
+    "page": "P12",
+    "ts": "2026-10-26T04:10:01.672699+00:00",
+    "ms": 10123,
+    "ok": true
+   },
+   {
+    "page": "P3",
+    "ts": "2026-10-26T04:17:10.839000+00:00",
+    "ms": 6984,
+    "ok": true
+   }
+  ]
+ },
+ "page_switches": {
+  "opens": 100,
+  "per_page": {
+   "P1": 9,
+   "P5": 13,
+   "P12": 9,
+   "P17": 7,
+   "P3": 9,
+   "P2": 9,
+   "P4": 9,
+   "P18": 6,
+   "P19": 5,
+   "P20": 2,
+   "P6": 6,
+   "P7": 2,
+   "P8": 2,
+   "P9": 3,
+   "P10": 3,
+   "": 3,
+   "0be2af49fba701d3": 1,
+   "b69af50dc7c0b251": 2
+  },
+  "rapid_reopens_le_10s": 37,
+  "pingpong_pairs": [
+   [
+    [
+     "P12",
+     "P5"
+    ],
+    14
+   ],
+   [
+    [
+     "P2",
+     "P4"
+    ],
+    11
+   ],
+   [
+    [
+     "P18",
+     "P19"
+    ],
+    8
+   ],
+   [
+    [
+     "P17",
+     "P5"
+    ],
+    5
+   ],
+   [
+    [
+     "P17",
+     "P3"
+    ],
+    5
+   ],
+   [
+    [
+     "P3",
+     "P4"
+    ],
+    5
+   ],
+   [
+    [
+     "P2",
+     "P3"
+    ],
+    4
+   ],
+   [
+    [
+     "P1",
+     "P17"
+    ],
+    3
+   ]
+  ]
+ },
+ "components_list_tail": {
+  "calls": 3892,
+  "total_s": 3435.1,
+  "top10_s": 996.0,
+  "top50_s": 1892.4,
+  "top100_s": 2200.0,
+  "ge10s_calls": 33,
+  "ge10s_s": 1757.3,
+  "by_command": {
+   "easyeda sch place": {
+    "calls": 1139,
+    "s": 627.1
+   },
+   "easyeda doc switch": {
+    "calls": 2,
+    "s": 0.0
+   },
+   "easyeda sch replace": {
+    "calls": 4,
+    "s": 0.4
+   },
+   "easyeda sch modify": {
+    "calls": 6,
+    "s": 0.4
+   },
+   "easyeda sch list": {
+    "calls": 126,
+    "s": 920.3
+   },
+   "easyeda sch sheet-geometry": {
+    "calls": 1,
+    "s": 0.1
+   },
+   "easyeda sch prim-delete": {
+    "calls": 15,
+    "s": 1.1
+   },
+   "easyeda sch check": {
+    "calls": 57,
+    "s": 21.5
+   },
+   "easyeda sch export-image": {
+    "calls": 2,
+    "s": 26.4
+   },
+   "easyeda sch autoconnect": {
+    "calls": 2540,
+    "s": 1837.9
+   }
+  }
+ },
+ "module_baseline_P1_P2_P18": {
+  "per_page": {
+   "P1": {
+    "calls": 617,
+    "seconds": 277.3,
+    "lists": 180,
+    "list_seconds": 110.5,
+    "places": 15,
+    "connects": 59,
+    "saves": 8,
+    "opens": 9,
+    "first": "2026-10-26T03:16:22.069041+00:00",
+    "last": "2026-10-26T06:06:44.189353+00:00"
+   },
+   "P18": {
+    "calls": 411,
+    "seconds": 54.1,
+    "lists": 173,
+    "list_seconds": 23.9,
+    "places": 24,
+    "connects": 44,
+    "saves": 5,
+    "opens": 6,
+    "first": "2026-10-26T04:30:02.180322+00:00",
+    "last": "2026-10-26T04:32:40.805893+00:00"
+   },
+   "P2": {
+    "calls": 805,
+    "seconds": 151.2,
+    "lists": 360,
+    "list_seconds": 56.6,
+    "places": 42,
+    "connects": 116,
+    "saves": 4,
+    "opens": 9,
+    "first": "2026-10-26T03:24:00.718174+00:00",
+    "last": "2026-10-26T06:02:29.099277+00:00"
+   }
+  },
+  "total_calls": 1833,
+  "total_seconds": 482.6,
+  "total_lists": 713,
+  "total_list_seconds": 191.0,
+  "total_places": 81,
+  "total_connects": 219
+ },
+ "read_amplification": {
+  "mutations": 1950,
+  "page_readbacks": 3892,
+  "reads_per_mutation": 2.0,
+  "readback_seconds": 3435.1
+ }
+}
