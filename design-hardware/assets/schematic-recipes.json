@@ -1,0 +1,311 @@
+{
+  "schemaVersion": "schematic-recipes/v1",
+  "status": "experimental_unverified_in_eda",
+  "coordinateSystem": "schematic raw, y-up",
+  "recipes": [
+    {
+      "id": "divider",
+      "core": "upper",
+      "roles": {
+        "upper": [
+          "supply",
+          "tap"
+        ],
+        "lower": [
+          "tap",
+          "ground"
+        ]
+      },
+      "placements": [
+        {
+          "role": "lower",
+          "pin": "tap",
+          "relativeTo": "upper",
+          "targetPin": "tap",
+          "side": "below"
+        }
+      ],
+      "connections": [
+        [
+          "upper.tap",
+          "lower.tap"
+        ]
+      ],
+      "checks": [
+        "Vertical upper/lower chain; branch tap to destination input. Verify ratio, loading and power separately."
+      ]
+    },
+    {
+      "id": "npn-led-driver",
+      "core": "switch",
+      "roles": {
+        "switch": [
+          "base",
+          "collector",
+          "emitter"
+        ],
+        "base_resistor": [
+          "input",
+          "base"
+        ],
+        "led": [
+          "anode",
+          "cathode"
+        ],
+        "limit_resistor": [
+          "supply",
+          "led"
+        ]
+      },
+      "placements": [
+        {
+          "role": "base_resistor",
+          "pin": "base",
+          "relativeTo": "switch",
+          "targetPin": "base",
+          "side": "left"
+        },
+        {
+          "role": "led",
+          "pin": "cathode",
+          "relativeTo": "switch",
+          "targetPin": "collector",
+          "side": "above"
+        },
+        {
+          "role": "limit_resistor",
+          "pin": "led",
+          "relativeTo": "led",
+          "targetPin": "anode",
+          "side": "above"
+        }
+      ],
+      "connections": [
+        [
+          "base_resistor.base",
+          "switch.base"
+        ],
+        [
+          "led.cathode",
+          "switch.collector"
+        ],
+        [
+          "limit_resistor.led",
+          "led.anode"
+        ]
+      ],
+      "checks": [
+        "NPN low-side only: collector chain rises to supply, emitter returns to ground; verify physical B/C/E and LED polarity."
+      ]
+    },
+    {
+      "id": "opamp-inverting-feedback",
+      "core": "amplifier",
+      "roles": {
+        "amplifier": [
+          "minus",
+          "plus",
+          "out"
+        ],
+        "input_resistor": [
+          "input",
+          "sum"
+        ],
+        "feedback_resistor": [
+          "sum",
+          "out"
+        ]
+      },
+      "placements": [
+        {
+          "role": "input_resistor",
+          "pin": "sum",
+          "relativeTo": "amplifier",
+          "targetPin": "minus",
+          "side": "left"
+        },
+        {
+          "role": "feedback_resistor",
+          "pin": "sum",
+          "relativeTo": "amplifier",
+          "targetPin": "minus",
+          "side": "above"
+        }
+      ],
+      "connections": [
+        [
+          "input_resistor.sum",
+          "amplifier.minus"
+        ],
+        [
+          "feedback_resistor.sum",
+          "amplifier.minus"
+        ],
+        [
+          "feedback_resistor.out",
+          "amplifier.out"
+        ]
+      ],
+      "checks": [
+        "Reserve upper return lane for negative feedback; expose summing junction. Verify plus reference, power unit and unused units separately."
+      ]
+    },
+    {
+      "id": "555-astable",
+      "core": "timer",
+      "roles": {
+        "timer": [
+          "discharge",
+          "threshold",
+          "trigger",
+          "control",
+          "vcc",
+          "ground"
+        ],
+        "ra": [
+          "supply",
+          "discharge"
+        ],
+        "rb": [
+          "discharge",
+          "timing"
+        ],
+        "timing_cap": [
+          "timing",
+          "ground"
+        ],
+        "control_cap": [
+          "control",
+          "ground"
+        ]
+      },
+      "placements": [
+        {
+          "role": "rb",
+          "pin": "discharge",
+          "relativeTo": "timer",
+          "targetPin": "discharge",
+          "side": "left"
+        },
+        {
+          "role": "ra",
+          "pin": "discharge",
+          "relativeTo": "rb",
+          "targetPin": "discharge",
+          "side": "above"
+        },
+        {
+          "role": "timing_cap",
+          "pin": "timing",
+          "relativeTo": "rb",
+          "targetPin": "timing",
+          "side": "below"
+        },
+        {
+          "role": "control_cap",
+          "pin": "control",
+          "relativeTo": "timer",
+          "targetPin": "control",
+          "side": "below"
+        }
+      ],
+      "connections": [
+        [
+          "ra.supply",
+          "timer.vcc"
+        ],
+        [
+          "ra.discharge",
+          "rb.discharge"
+        ],
+        [
+          "rb.discharge",
+          "timer.discharge"
+        ],
+        [
+          "rb.timing",
+          "timing_cap.timing"
+        ],
+        [
+          "timing_cap.timing",
+          "timer.threshold"
+        ],
+        [
+          "timer.threshold",
+          "timer.trigger"
+        ],
+        [
+          "control_cap.control",
+          "timer.control"
+        ],
+        [
+          "timing_cap.ground",
+          "timer.ground"
+        ],
+        [
+          "control_cap.ground",
+          "timer.ground"
+        ]
+      ],
+      "checks": [
+        "Standard astable only: show threshold/trigger timing node explicitly below discharge junction. Verify reset, supply decoupling and output separately."
+      ]
+    },
+    {
+      "id": "regulator-decoupling",
+      "core": "regulator",
+      "roles": {
+        "regulator": [
+          "input",
+          "output",
+          "ground"
+        ],
+        "input_cap": [
+          "supply",
+          "ground"
+        ],
+        "output_cap": [
+          "supply",
+          "ground"
+        ]
+      },
+      "placements": [
+        {
+          "role": "input_cap",
+          "pin": "supply",
+          "relativeTo": "regulator",
+          "targetPin": "input",
+          "side": "left"
+        },
+        {
+          "role": "output_cap",
+          "pin": "supply",
+          "relativeTo": "regulator",
+          "targetPin": "output",
+          "side": "right"
+        }
+      ],
+      "connections": [
+        [
+          "input_cap.supply",
+          "regulator.input"
+        ],
+        [
+          "output_cap.supply",
+          "regulator.output"
+        ],
+        [
+          "input_cap.ground",
+          "regulator.ground"
+        ],
+        [
+          "output_cap.ground",
+          "regulator.ground"
+        ]
+      ],
+      "checks": [
+        "Linear regulator only: input left, output right, local ground returns. Verify capacitor/ESR, enable/adjust and polarity separately; schematic proximity does not prove PCB layout."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,941 @@
+{
+  "count": 67,
+  "documentId": "cd008f919db36eba",
+  "items": [
+    {
+      "bbox": {
+        "maxX": 185.22784423828125,
+        "maxY": 798,
+        "minX": 42,
+        "minY": 785
+      },
+      "content": "1 供电去耦｜VIN→+5V/滤波",
+      "id": "37e935bc1d08f510",
+      "kind": "text"
+    },
+    {
+      "bbox": {
+        "maxX": 463.91619873046875,
+        "maxY": 798,
+        "minX": 352,
+        "minY": 785
+      },
+      "content": "2 光敏检测｜LDR分压",
+      "id": "390c7523722c80d1",
+      "kind": "text"
+    },
+    {
+      "bbox": {
+        "maxX": 941.3307037353516,
+        "maxY": 798,
+        "minX": 812,
+        "minY": 785
+      },
+      "content": "4 LED驱动｜S8050/330Ω",
+      "id": "de6fd639424533d3",
+      "kind": "text"
+    },
+    {
+      "bbox": {
+        "maxX": 729.4773864746094,
+        "maxY": 798,
+        "minX": 560,
+        "minY": 785
+      },
+      "content": "3 阈值迟滞｜10k电位器/100k反馈",
+      "id": "f1f5ae2aea3c057d",
+      "kind": "text"
+    },
+    {
+      "bbox": {
+        "maxX": 675.6450347900391,
+        "maxY": 84.5,
+        "minX": 599,
+        "minY": 69.5
+      },
+      "componentType": "sheet",
+      "designator": null,
+      "id": "ef2ec7b553c26696",
+      "key": "Drawed",
+      "kind": "attribute",
+      "parentId": "d30055d5065a615b"
+    },
+    {
+      "bbox": {
+        "maxX": 0,
+        "maxY": 0,
+        "minX": 0,
+        "minY": 0
+      },
+      "componentType": "sheet",
+      "designator": null,
+      "id": "f83dacb1cf334411",
+      "key": "Reviewed",
+      "kind": "attribute",
+      "parentId": "d30055d5065a615b"
+    },
+    {
+      "bbox": {
+        "maxX": 0,
+        "maxY": 0,
+        "minX": 0,
+        "minY": 0
+      },
+      "componentType": "sheet",
+      "designator": null,
+      "id": "ac61058dae3c1af6",
+      "key": "Part Number",
+      "kind": "attribute",
+      "parentId": "d30055d5065a615b"
+    },
+    {
+      "bbox": {
+        "maxX": 671.185302734375,
+        "maxY": 635,
+        "minX": 660,
+        "minY": 625
+      },
+      "componentType": "part",
+      "designator": "U1",
+      "id": "92426cc054919476",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "417202d804679ca0"
+    },
+    {
+      "bbox": {
+        "maxX": 692.59033203125,
+        "maxY": 575,
+        "minX": 660,
+        "minY": 565
+      },
+      "componentType": "part",
+      "designator": "U1",
+      "id": "b8b3c96d57ae8176",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "417202d804679ca0"
+    },
+    {
+      "bbox": {
+        "maxX": 99.2413330078125,
+        "maxY": 725,
+        "minX": 90,
+        "minY": 715
+      },
+      "componentType": "part",
+      "designator": "J1",
+      "id": "c332e360692d0efa",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "9f05264307912dc7"
+    },
+    {
+      "bbox": {
+        "maxX": 164.3963623046875,
+        "maxY": 685,
+        "minX": 90,
+        "minY": 675
+      },
+      "componentType": "part",
+      "designator": "J1",
+      "id": "bfd7402c5f9688aa",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "9f05264307912dc7"
+    },
+    {
+      "bbox": {
+        "maxX": 204.6441650390625,
+        "maxY": 691.75,
+        "minX": 180,
+        "minY": 685
+      },
+      "componentType": "part",
+      "designator": "D1",
+      "id": "3ecb90085ef281b7",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "9b647abbb274d557"
+    },
+    {
+      "bbox": {
+        "maxX": 187.5548553466797,
+        "maxY": 716.75,
+        "minX": 180,
+        "minY": 710
+      },
+      "componentType": "part",
+      "designator": "D1",
+      "id": "af818e7538a1fb79",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "9b647abbb274d557"
+    },
+    {
+      "bbox": {
+        "maxX": 261.185302734375,
+        "maxY": 680,
+        "minX": 250,
+        "minY": 670
+      },
+      "componentType": "part",
+      "designator": "C1",
+      "id": "eece254e344a87aa",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "d3bfcf566c9649c4"
+    },
+    {
+      "bbox": {
+        "maxX": 269.94384765625,
+        "maxY": 650,
+        "minX": 250,
+        "minY": 640
+      },
+      "componentType": "part",
+      "designator": "C1",
+      "id": "8aa96c60739365ff",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "d3bfcf566c9649c4"
+    },
+    {
+      "bbox": {
+        "maxX": 261.185302734375,
+        "maxY": 600,
+        "minX": 250,
+        "minY": 590
+      },
+      "componentType": "part",
+      "designator": "C2",
+      "id": "c6ea3a0edae5cc2d",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "832c51a7d77cb7d4"
+    },
+    {
+      "bbox": {
+        "maxX": 274.8101806640625,
+        "maxY": 570,
+        "minX": 250,
+        "minY": 560
+      },
+      "componentType": "part",
+      "designator": "C2",
+      "id": "590ab99de0d9e06f",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "832c51a7d77cb7d4"
+    },
+    {
+      "bbox": {
+        "maxX": 436.185302734375,
+        "maxY": 620,
+        "minX": 425,
+        "minY": 610
+      },
+      "componentType": "part",
+      "designator": "C4",
+      "id": "c4c4b7f088244440",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "8a8f0b18e2eedcb8"
+    },
+    {
+      "bbox": {
+        "maxX": 449.8101806640625,
+        "maxY": 610,
+        "minX": 425,
+        "minY": 600
+      },
+      "componentType": "part",
+      "designator": "C4",
+      "id": "9200b084732e3735",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "8a8f0b18e2eedcb8"
+    },
+    {
+      "bbox": {
+        "maxX": 536.185302734375,
+        "maxY": 575,
+        "minX": 525,
+        "minY": 565
+      },
+      "componentType": "part",
+      "designator": "C3",
+      "id": "d7f22814c847069a",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "e8d5019ad192abf0"
+    },
+    {
+      "bbox": {
+        "maxX": 549.8101806640625,
+        "maxY": 565,
+        "minX": 525,
+        "minY": 555
+      },
+      "componentType": "part",
+      "designator": "C3",
+      "id": "33139676965fdeb1",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "e8d5019ad192abf0"
+    },
+    {
+      "bbox": {
+        "maxX": 405.1097106933594,
+        "maxY": 706.75,
+        "minX": 390,
+        "minY": 700
+      },
+      "componentType": "part",
+      "designator": "LDR1",
+      "id": "c519f2881e511254",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "fd11ca9a4596209a"
+    },
+    {
+      "bbox": {
+        "maxX": 421.1376953125,
+        "maxY": 700,
+        "minX": 390,
+        "minY": 690
+      },
+      "componentType": "part",
+      "designator": "LDR1",
+      "id": "693091bc56674f7e",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "fd11ca9a4596209a"
+    },
+    {
+      "bbox": {
+        "maxX": 401.185302734375,
+        "maxY": 610,
+        "minX": 390,
+        "minY": 600
+      },
+      "componentType": "part",
+      "designator": "R2",
+      "id": "da034d3db36bd426",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "4f55d49c04bb3770"
+    },
+    {
+      "bbox": {
+        "maxX": 413.079833984375,
+        "maxY": 600,
+        "minX": 390,
+        "minY": 590
+      },
+      "componentType": "part",
+      "designator": "R2",
+      "id": "041f51defe6d52e9",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "4f55d49c04bb3770"
+    },
+    {
+      "bbox": {
+        "maxX": 546.185302734375,
+        "maxY": 700,
+        "minX": 535,
+        "minY": 690
+      },
+      "componentType": "part",
+      "designator": "U2",
+      "id": "7b26352e1f011376",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "31ba1be298da1c16"
+    },
+    {
+      "bbox": {
+        "maxX": 587.36328125,
+        "maxY": 690,
+        "minX": 535,
+        "minY": 680
+      },
+      "componentType": "part",
+      "designator": "U2",
+      "id": "0095c02a91718d18",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "31ba1be298da1c16"
+    },
+    {
+      "bbox": {
+        "maxX": 541.185302734375,
+        "maxY": 770,
+        "minX": 530,
+        "minY": 760
+      },
+      "componentType": "part",
+      "designator": "R1",
+      "id": "cf1056241076c58b",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "f0ca47aba4307891"
+    },
+    {
+      "bbox": {
+        "maxX": 545.782470703125,
+        "maxY": 760,
+        "minX": 530,
+        "minY": 750
+      },
+      "componentType": "part",
+      "designator": "R1",
+      "id": "d28a026970f6c8a0",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "f0ca47aba4307891"
+    },
+    {
+      "bbox": {
+        "maxX": 671.8634033203125,
+        "maxY": 700,
+        "minX": 655,
+        "minY": 690
+      },
+      "componentType": "part",
+      "designator": "RV1",
+      "id": "a19c5e920fe82a18",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "602a6271577e9c63"
+    },
+    {
+      "bbox": {
+        "maxX": 657.913818359375,
+        "maxY": 690,
+        "minX": 655,
+        "minY": 680
+      },
+      "componentType": "part",
+      "designator": "RV1",
+      "id": "c22eb47ef4e3241f",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "602a6271577e9c63"
+    },
+    {
+      "bbox": {
+        "maxX": 571.185302734375,
+        "maxY": 610,
+        "minX": 560,
+        "minY": 600
+      },
+      "componentType": "part",
+      "designator": "R3",
+      "id": "97b0c31ba20f6d65",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "4c3b66d17e7f4875"
+    },
+    {
+      "bbox": {
+        "maxX": 580.6488037109375,
+        "maxY": 590,
+        "minX": 560,
+        "minY": 580
+      },
+      "componentType": "part",
+      "designator": "R3",
+      "id": "8bd5a6b179fa7148",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "4c3b66d17e7f4875"
+    },
+    {
+      "bbox": {
+        "maxX": 831.185302734375,
+        "maxY": 635,
+        "minX": 820,
+        "minY": 625
+      },
+      "componentType": "part",
+      "designator": "R5",
+      "id": "1465805a58d844cb",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "e085629e30ccdf66"
+    },
+    {
+      "bbox": {
+        "maxX": 840.6488037109375,
+        "maxY": 615,
+        "minX": 820,
+        "minY": 605
+      },
+      "componentType": "part",
+      "designator": "R5",
+      "id": "2447580073c01300",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "e085629e30ccdf66"
+    },
+    {
+      "bbox": {
+        "maxX": 611.185302734375,
+        "maxY": 680,
+        "minX": 600,
+        "minY": 670
+      },
+      "componentType": "part",
+      "designator": "R4",
+      "id": "2fa96c1a31147cef",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "bfd8f9e1b073aebf"
+    },
+    {
+      "bbox": {
+        "maxX": 635.51513671875,
+        "maxY": 635,
+        "minX": 610,
+        "minY": 625
+      },
+      "componentType": "part",
+      "designator": "R4",
+      "id": "b6da875b9529e9c3",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "bfd8f9e1b073aebf"
+    },
+    {
+      "bbox": {
+        "maxX": 901.185302734375,
+        "maxY": 570,
+        "minX": 890,
+        "minY": 560
+      },
+      "componentType": "part",
+      "designator": "R6",
+      "id": "f6732b9669f70864",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "11e215502349267c"
+    },
+    {
+      "bbox": {
+        "maxX": 915.51513671875,
+        "maxY": 560,
+        "minX": 890,
+        "minY": 550
+      },
+      "componentType": "part",
+      "designator": "R6",
+      "id": "fec54ea118d97336",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "11e215502349267c"
+    },
+    {
+      "bbox": {
+        "maxX": 976.67236328125,
+        "maxY": 630,
+        "minX": 965,
+        "minY": 620
+      },
+      "componentType": "part",
+      "designator": "Q1",
+      "id": "3ce62ceb4ff1b84a",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "b3668ed6b91c1e9a"
+    },
+    {
+      "bbox": {
+        "maxX": 952.8546142578125,
+        "maxY": 665,
+        "minX": 900,
+        "minY": 655
+      },
+      "componentType": "part",
+      "designator": "Q1",
+      "id": "04c1ddd3b2c604be",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "b3668ed6b91c1e9a"
+    },
+    {
+      "bbox": {
+        "maxX": 1081.185302734375,
+        "maxY": 655,
+        "minX": 1070,
+        "minY": 645
+      },
+      "componentType": "part",
+      "designator": "R7",
+      "id": "823c8f32553ec112",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "9e14afd67449795d"
+    },
+    {
+      "bbox": {
+        "maxX": 1091.14013671875,
+        "maxY": 635,
+        "minX": 1070,
+        "minY": 625
+      },
+      "componentType": "part",
+      "designator": "R7",
+      "id": "7f8bc2a1edab995c",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "9e14afd67449795d"
+    },
+    {
+      "bbox": {
+        "maxX": 1026.8878173828125,
+        "maxY": 660,
+        "minX": 1005,
+        "minY": 650
+      },
+      "componentType": "part",
+      "designator": "LED1",
+      "id": "6b1a008e01876ee9",
+      "key": "Designator",
+      "kind": "attribute",
+      "parentId": "9fa3e07921a92387"
+    },
+    {
+      "bbox": {
+        "maxX": 1087.5775146484375,
+        "maxY": 610,
+        "minX": 1020,
+        "minY": 600
+      },
+      "componentType": "part",
+      "designator": "LED1",
+      "id": "c237871bb76188b9",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "9fa3e07921a92387"
+    },
+    {
+      "bbox": {
+        "maxX": 237.90618896484375,
+        "maxY": 620,
+        "minX": 222.09381103515625,
+        "minY": 610
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "4ca828025a723562",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "4d1883c369275ed4"
+    },
+    {
+      "bbox": {
+        "maxX": 777.9061889648438,
+        "maxY": 655,
+        "minX": 762.0938110351562,
+        "minY": 645
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "b616dc694e2ae81b",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "0f1223506d109f1e"
+    },
+    {
+      "bbox": {
+        "maxX": 666.8856811523438,
+        "maxY": 740,
+        "minX": 623.1143188476562,
+        "minY": 730
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "0aa2562a68257dd6",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "29f6c42d6fc4aca0"
+    },
+    {
+      "bbox": {
+        "maxX": 396.88568115234375,
+        "maxY": 760,
+        "minX": 353.11431884765625,
+        "minY": 750
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "97b1de692e69169e",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "56d2836339245f30"
+    },
+    {
+      "bbox": {
+        "maxX": 541.8856811523438,
+        "maxY": 740,
+        "minX": 498.11431884765625,
+        "minY": 730
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "7c8238c2a7e798a1",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "3ab1f58f606f0156"
+    },
+    {
+      "bbox": {
+        "maxX": 250,
+        "maxY": 707.9061889648438,
+        "minX": 240,
+        "minY": 692.0938110351562
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "c9ea63dab9aee832",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "d94263edf966671d"
+    },
+    {
+      "bbox": {
+        "maxX": 1140,
+        "maxY": 647.9061889648438,
+        "minX": 1130,
+        "minY": 632.0938110351562
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "14339e706912ecca",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "9cc7585baf157569"
+    },
+    {
+      "bbox": {
+        "maxX": 531.8856811523438,
+        "maxY": 620,
+        "minX": 488.11431884765625,
+        "minY": 610
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "73bbb6e57ebe5a84",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "1daae262da8561d1"
+    },
+    {
+      "bbox": {
+        "maxX": 77.2930908203125,
+        "maxY": 740,
+        "minX": 62.7069091796875,
+        "minY": 730
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "084ead0116fe6e85",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "edfef0a8899d2769"
+    },
+    {
+      "bbox": {
+        "maxX": 527.9061889648438,
+        "maxY": 810,
+        "minX": 512.0938110351562,
+        "minY": 800
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "e2f68be885738690",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "06123ffe51bd1d8e"
+    },
+    {
+      "bbox": {
+        "maxX": 299.72198486328125,
+        "maxY": 620,
+        "minX": 280.27801513671875,
+        "minY": 610
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "7f38e6193a303fb2",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "225fb4e6ccf41738"
+    },
+    {
+      "bbox": {
+        "maxX": 389.72198486328125,
+        "maxY": 540,
+        "minX": 370.27801513671875,
+        "minY": 530
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "79e195404bcc5356",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "fde374f417df95ba"
+    },
+    {
+      "bbox": {
+        "maxX": 529.7219848632812,
+        "maxY": 630,
+        "minX": 510.27801513671875,
+        "minY": 620
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "4c3002c19a9040a6",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "5c88948119c2efb1"
+    },
+    {
+      "bbox": {
+        "maxX": 779.7219848632812,
+        "maxY": 545,
+        "minX": 760.2780151367188,
+        "minY": 535
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "dac6a1757ddfddb2",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "ec9a50601940518e"
+    },
+    {
+      "bbox": {
+        "maxX": 889.7219848632812,
+        "maxY": 500,
+        "minX": 870.2780151367188,
+        "minY": 490
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "5497272491248d50",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "3f5b12e892adba0c"
+    },
+    {
+      "bbox": {
+        "maxX": 969.7219848632812,
+        "maxY": 560,
+        "minX": 950.2780151367188,
+        "minY": 550
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "1e00499b4c403c3b",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "9e8d40e6415658cc"
+    },
+    {
+      "bbox": {
+        "maxX": 695,
+        "maxY": 664.7219848632812,
+        "minX": 685,
+        "minY": 645.2780151367188
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "9fcaa875dc52b951",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "4692aa5ed78e3b56"
+    },
+    {
+      "bbox": {
+        "maxX": 610,
+        "maxY": 594.7219848632811,
+        "minX": 600,
+        "minY": 575.2780151367186
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "e13ada50d6999c46",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "f2a0ed62e29a80c2"
+    },
+    {
+      "bbox": {
+        "maxX": 299.72198486328125,
+        "maxY": 540,
+        "minX": 280.27801513671875,
+        "minY": 530
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "46c2431f719b5b41",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "6058658704f4c8ed"
+    },
+    {
+      "bbox": {
+        "maxX": 419.72198486328125,
+        "maxY": 560,
+        "minX": 400.27801513671875,
+        "minY": 550
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "e121fc3b640acede",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "a3a8cba81e0398a7"
+    },
+    {
+      "bbox": {
+        "maxX": 519.7219848632812,
+        "maxY": 525,
+        "minX": 500.27801513671875,
+        "minY": 515
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "4c3cd5dceeb76157",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "8f911e52382ced6c"
+    },
+    {
+      "bbox": {
+        "maxX": 79.72198486328125,
+        "maxY": 640,
+        "minX": 60.27801513671875,
+        "minY": 630
+      },
+      "componentType": "netflag",
+      "designator": null,
+      "id": "f30e7b9416e4205f",
+      "key": "Name",
+      "kind": "attribute",
+      "parentId": "4c1cd41a52f47305"
+    }
+  ],
+  "unmeasured": [],
+  "provenance": {
+    "kind": "retained EDA measurement",
+    "source_file": "visible-text-bboxes.json",
+    "source_sha256": "3d3cf333dcd68fe0a1cb75d0bc41d1288b8aedef31a0fe690cb4e6aa44b5b899",
+    "captured_at": "2026-10-26T10:00:04.5463778Z",
+    "project": "photo-led-5v-20261026",
+    "warning": "attributes/free text only; wire names and pin names are not proven covered"
+  }
+}
