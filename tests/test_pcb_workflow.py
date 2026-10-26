@@ -200,6 +200,7 @@ class PcbWorkflowTests(unittest.TestCase):
         flipped_pad = next(pad for pad in flipped['pads'] if pad['number'] == '1')
         self.assertAlmostEqual(flipped_pad['x'], 2 * u1['x'] - source_pad['x'], places=6)
         self.assertAlmostEqual(flipped_pad['y'], source_pad['y'], places=6)
+        self.assertEqual(flipped_pad['layer'], 12)  # THT stays MULTI
 
     def test_diff_accepts_primitive_id_churn(self):
         before = copy.deepcopy(self.dump)

@@ -29,7 +29,7 @@ from .pcb_workflow import (audit_fabrication, audit_power,
                            diff_boards, extract_pcb_module,
                            load_templates as load_pcb_templates,
                            normalize_board, plan_candidates, plan_pcb_reuse,
-                           predict_escapes, validate_placement)
+                           predict_escapes, template_placements, validate_placement)
 from .placement import plan_placement
 from .reuse import plan_reuse
 from .router import route, validate_route
@@ -711,6 +711,30 @@ def command_pcb_fabrication(args):
     return 0 if result['status'] == 'pass' else 1
 
 
+def command_pcb_template_plan(args):
+    board = normalize_board(_read_json_file(args.dump))
+    templates = load_pcb_templates(args.templates)
+    template = next((item for item in templates['templates'] if item['id'] == args.template), None)
+    if template is None:
+        raise ValueError(f"template {args.template!r} not found")
+    binding = _read_json_file(args.binding)
+    parts = args.anchor.split(',')
+    if len(parts) != 3:
+        raise ValueError('--anchor: x,y,rotation required')
+    result = template_placements(template, binding, board,
+                                 x=float(parts[0]), y=float(parts[1]),
+                                 rotation=float(parts[2]))
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"模板: {result['template']} {result['status']} "
+              f"placements={len(result.get('placements') or [])}")
+        for reason in result.get('reasons') or []:
+            print(f"  {reason}")
+    return 0 if result['status'] == 'planned' else 1
+
+
 def command_pcb_extract_module(args):
     board = normalize_board(_read_json_file(args.dump))
     members = [value.strip() for value in args.members.split(',') if value.strip()]
@@ -987,6 +1011,17 @@ def build_parser():
     pcb_fab.add_argument('--out')
     pcb_fab.add_argument('--json', action='store_true')
     pcb_fab.set_defaults(func=command_pcb_fabrication)
+
+    pcb_template = sub.add_parser('pcb-template-plan',
+                                  help='bind one local PCB template and emit relative placements')
+    pcb_template.add_argument('--dump', required=True)
+    pcb_template.add_argument('--template', required=True)
+    pcb_template.add_argument('--binding', required=True)
+    pcb_template.add_argument('--anchor', required=True, help='x,y,rotation')
+    pcb_template.add_argument('--templates')
+    pcb_template.add_argument('--out')
+    pcb_template.add_argument('--json', action='store_true')
+    pcb_template.set_defaults(func=command_pcb_template_plan)
 
     pcb_extract = sub.add_parser('pcb-extract-module',
                                  help='extract relative layout + pin-net contract from a measured board')

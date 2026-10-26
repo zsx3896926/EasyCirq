@@ -291,7 +291,8 @@ def transform_component(component, x, y, rotation=None, layer=None):
         px, py = pose((pad.get('x'), pad.get('y')))
         pad['x'], pad['y'] = px, py
         pad['rotation'] = (float(pad.get('rotation') or 0) + delta) % 360
-        if mirror:
+        if mirror and pad.get('layer') in (1, 2):
+            # Through-hole pads stay MULTI (12); only SMD pads change side.
             pad['layer'] = target_layer
     return result
 

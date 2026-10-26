@@ -127,7 +127,12 @@ python design_engine_cli.py pcb-check-plan \
 4. `frame: core` 的相对位置随核心旋转；`frame: board` 保持板坐标流向（例如连接器为插拔旋转，但下游仍沿板内流向）。
 5. 模板缺少实测几何或适用条件不满足时明确拒绝或待复核；模板不是已验证实例。
 
-模板只生成候选坐标，写入必须走 typed `pcb modify`，写后回读；不能用模板数据宣称已经画好。
+```bash
+python design_engine_cli.py pcb-template-plan --dump board.json \
+  --template ic-decap-gnd --binding binding.json --anchor 1500,1200,0 --json
+```
+
+`pcb-template-plan` 只输出相对布局候选；写入必须走 typed `pcb modify`，写后回读；不能用模板数据宣称已经画好。
 
 ## 5. 多候选与选择
 
