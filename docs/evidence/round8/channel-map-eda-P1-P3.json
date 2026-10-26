@@ -1,0 +1,22 @@
+{
+ "schema": "channel-map-check/v1",
+ "status": "pass",
+ "summary": {
+  "reference_parts": 16,
+  "instance_parts": 16,
+  "mapped_refs": 16,
+  "compared_pins": 51,
+  "missing_pins": 0,
+  "extra_pins": 0,
+  "net_mismatches": 0,
+  "unmapped_nets": 0,
+  "reference_source": "eda-list",
+  "instance_source": "eda-list"
+ },
+ "findings": [],
+ "not_checked": [
+  "拓扑本身的电气正确性（只验证两通道在映射后结构一致）",
+  "器件值、封装、位号前缀语义与 PCB",
+  "未连接的 NC 引脚（设计源 nets[] 不含 NC；EDA list 可用 noConnected 单独核对）"
+ ]
+}

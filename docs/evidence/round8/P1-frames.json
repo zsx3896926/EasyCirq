@@ -1,0 +1,36 @@
+{
+ "schemaVersion": 1,
+ "documentId": "86ba6c25b129b9da",
+ "frames": [
+  {
+   "id": "ch1-input",
+   "title": "CH1 输入与保护",
+   "rect": {"minX": 36, "minY": 477.5, "maxX": 276.5, "maxY": 813},
+   "titleX": 46,
+   "titleY": 800,
+   "fontSize": 18,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "ch1-coupling",
+   "title": "CH1 耦合与量程",
+   "rect": {"minX": 288.5, "minY": 253.5, "maxX": 684.5, "maxY": 806},
+   "titleX": 298,
+   "titleY": 793,
+   "fontSize": 18,
+   "color": "#AA00AA",
+   "lineType": 1
+  },
+  {
+   "id": "ch1-buffer",
+   "title": "CH1 高压缓冲",
+   "rect": {"minX": 695.5, "minY": 378.5, "maxX": 1103.5, "maxY": 791},
+   "titleX": 705,
+   "titleY": 778,
+   "fontSize": 18,
+   "color": "#AA00AA",
+   "lineType": 1
+  }
+ ]
+}

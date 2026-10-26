@@ -12,6 +12,8 @@
 - **staleRisk**：回执带 `staleRisk` 时不得作为权威证据；执行 `save` → `easyeda doc reload` → 重新回读。
 - **证据落盘**：完整 JSON 先用 `>` 落盘再摘要，记录命令、退出码、CLI/daemon/EDA 版本与文件 SHA-256；扩展名 `.json` 不代表内容是 JSON，解析失败按不可用处理。
 
+批量执行、检查点/断点续跑、版本化缓存、通道模板复用、多 Agent 单写入者与耗时记录，见 [EDA执行效率](eda-efficiency.md)；对应的离线入口是 `design_inventory.py`、`channel_map_check.py`、`library_precheck.py`、`eda_cache.py`。本文件只保留通用执行契约，不重复批量与缓存规则。
+
 ## 0. 先判断执行能力，不把“装了软件”当成“能改工程”
 
 按下面四层分别判断，任何一层不成立都不能宣称可执行：
