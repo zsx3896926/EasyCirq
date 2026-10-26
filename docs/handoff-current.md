@@ -29,10 +29,12 @@
 - `tests/test_sch_acceptance.py`、`tests/test_pin_net_intent.py`、
   `tests/test_sch_acceptance_v14.py`、`tests/test_component_identity_check.py`；
   真实 fixture `tests/fixtures/photo-led-acceptance.json`、`photo-led-v14/`。
-- 验证：`python -m unittest discover -s tests` → **957 tests OK**；
+- 验证：`python -m unittest discover -s tests` → **960 tests OK**；
   `skill_selftest.py` → **5 PASS / 0 FAIL**。
 - `d1c5deb` 追加：自身导线边缘级豁免、无结点交叉必须有宿主 junction 证据、
   实例 uniqueId/component.uuid 与 `--expected-changes` 声明门禁。
+- `366f6f8` 追加：junction 证据绑定 pageId + snapshotSha256 + 两段导线 ID；
+  页/哈希/导线不匹配按 stale evidence 拒绝，不再降 hint。
 
 ## 真实 EDA（本机 EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
 
@@ -42,8 +44,9 @@
 - 编号按阅读顺序 1 光敏 / 2 供电 / 3 阈值 / 4 LED；标题在框左上；purpose 持久修复。
 - 图签两处 Claude Code 已消除（绘制/审阅留空，避免平台双渲染重复）。
 - v16 追加：R3 Name 上移 10 raw；VREF 短桩绕开 zone2 purpose（先下移、再绕左/上，
-  避开文字与线名）。`strict_missing: []`、`status: info_only`；仅 3 条有宿主
-  `sch check` 证据的无结点交叉 hint、3 条 5 raw 内贴线 hint。
+  避开文字与线名）。`strict_missing: []`、`status: info_only`；3 条无结点交叉 hint
+  已绑定页 `cd008f919db36eba`、快照 SHA-256 `0392d03c…` 和两段导线 ID（`25209c69…#3`
+  等），另有 3 条 5 raw 内贴线 hint。
 - 身份核验（v14→v16）：`pass_sch_only`，19/19 位号/uniqueId/component.uuid/
   device/symbol/封装/脚名不变；1 条 expected_change_unused info；BOM 导出与
   SCH↔PCB 仍 NOT RUN。
