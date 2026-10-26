@@ -63,7 +63,11 @@ https://github.com/zhoushoujianwork/easyeda-agent
 | Codex（0.163 实测路径） | 首选 `~/.agents/skills/design-hardware`；旧版兼容 `~/.codex/skills/design-hardware`，两处只放一处 |
 | WorkBuddy（5.8.3 实测路径） | `~/.workbuddy/skills/design-hardware`，或在技能页导入本地包；保留 `references/`、`scripts/`、`assets/` |
 
-当前 main 为 **0.7.0**（已合并 G0–G6 门禁、round7 排版引擎与 design engine）。安装后可用 `design-hardware/.version` 核对；旧安装版 0.6.0 不包含 round7 排版引擎和 design engine，建议用 0.7.0 覆盖。
+当前开发版本 **0.8.0** 增加安装与更新机制。首次可从正式 [Releases](https://github.com/zsx3896926/hardware-design-skill/releases) 下载 `design-hardware-installer-版本号.zip`，完整解压后双击 `Manage-Skill.cmd`，选择客户端安装。需要 Python 3.10+；不要求 Git。尚未发布正式包时，可从仓库运行 `python distribution/build_release.py --output dist` 构建本地安装器。
+
+以后直接对 Agent 说：**“检查硬件设计 Skill 有没有更新，有的话告诉我变化。”** 更新检查不会自动替换文件；明确要求升级后，在任务空闲时更新，再重新加载客户端。旧手动安装首次需选择“备份后迁移”，客户定制不会被静默覆盖。完整步骤见 [安装与更新说明](design-hardware/references/installation-updates.md)。
+
+新版源码合并和正式稳定包发布是两件事：在线更新只跟随带完整资产的稳定 Release，不自动跟随 main。
 
 安装后重新加载客户端，让 AI 确认能读取 `design-hardware`。自定义了技能目录时，以实际配置为准。
 
