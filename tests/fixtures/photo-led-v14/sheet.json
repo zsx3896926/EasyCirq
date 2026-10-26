@@ -1,0 +1,43 @@
+{
+ "sourceSha256": "87d5c9b1bcd992badfcf05835c378205a5403a71b0d832ed7181148e22eb70f8",
+ "coordinateSystem": "schematic-raw-y-up-vector-centerlines",
+ "sheet": {
+  "bbox": {
+   "minX": 0,
+   "minY": 0,
+   "maxX": 1170,
+   "maxY": 825
+  },
+  "innerBBox": {
+   "minX": 10,
+   "minY": 10,
+   "maxX": 1160,
+   "maxY": 815
+  }
+ },
+ "titleBlock": {
+  "visible": true,
+  "bbox": {
+   "minX": 459.99999999999955,
+   "minY": 10,
+   "maxX": 1160,
+   "maxY": 190
+  },
+  "source": "official-svg-vectors"
+ },
+ "keepouts": [
+  {
+   "name": "titleBlock",
+   "bbox": {
+    "minX": 459.99999999999955,
+    "minY": 10,
+    "maxX": 1160,
+    "maxY": 190
+   },
+   "hard": true
+  }
+ ],
+ "warnings": [
+  "offline export: verify page identity and freshness against the same-batch object readback; add stroke clearance in layout parameters"
+ ]
+}

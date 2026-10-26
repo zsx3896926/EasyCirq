@@ -64,6 +64,9 @@ REQUIRED_FILES = [
     "assets/design-calc.md",
     "scripts/gate_check.py",
     "scripts/bom_check.py",
+    "scripts/layout_from_easyeda.py",
+    "scripts/svg_text_bbox.py",
+    "scripts/pin_net_intent_check.py",
     "cases/temp-alarm-2026-10-24/README.md",
     "cases/temp-alarm-2026-10-24/expected.json",
 ]

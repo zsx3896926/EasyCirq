@@ -9,6 +9,7 @@ Exit 0: no candidates found (may be incomplete); 1: review candidates; 2: invali
 import argparse
 import json
 import math
+from pathlib import Path
 import sys
 
 from power_budget import fields, number, read_json
@@ -72,6 +73,21 @@ def crosses(a, b, c, d):
     return ((x < 0 < y) or (y < 0 < x)) and ((z < 0 < w) or (w < 0 < z))
 
 
+def intersection_point(a, b, c, d):
+    """Proper crossing point, or None.  Collinear overlap has no single point."""
+    rx, ry = b[0] - a[0], b[1] - a[1]
+    sx, sy = d[0] - c[0], d[1] - c[1]
+    denominator = rx * sy - ry * sx
+    if denominator == 0:
+        return None
+    qx, qy = c[0] - a[0], c[1] - a[1]
+    t = (qx * sy - qy * sx) / denominator
+    u = (qx * ry - qy * rx) / denominator
+    if 0 < t < 1 and 0 < u < 1:
+        return (a[0] + t * rx, a[1] + t * ry)
+    return None
+
+
 def collinear_overlap(a, b, c, d):
     """Positive shared interval only; endpoint contact is not overlap."""
     if cross(a, b, c) != 0 or cross(a, b, d) != 0:
@@ -109,10 +125,30 @@ def inside(point_, box):
     return box[0] <= point_[0] <= box[2] and box[1] <= point_[1] <= box[3]
 
 
+def segment_distance(a, b, c, d):
+    """Shortest distance between two closed segments; 0 when they intersect."""
+    if crosses(a, b, c, d) or collinear_overlap(a, b, c, d):
+        return 0.0
+    return min(point_segment_distance(a, c, d), point_segment_distance(b, c, d),
+               point_segment_distance(c, a, b), point_segment_distance(d, a, b))
+
+
+def rect_segment_distance(box, a, b):
+    """Shortest distance from an axis-aligned rectangle to a segment."""
+    if inside(a, box) or inside(b, box):
+        return 0.0
+    return min(segment_distance(edge[0], edge[1], a, b) for edge in border_segments(box))
+
+
+def normalized_net(value):
+    return ''.join(ch for ch in value.upper() if ch.isalnum())
+
+
 def analyze(data, strict=False):
     fields(data, ['coordinate_units', 'components', 'texts', 'wires'],
            ['page_bbox', 'expected_counts', 'policy', 'title_block', 'module_frames',
-            'attachment_points', 'label_anchors', 'coverage', 'title_block_owned'])
+            'attachment_points', 'label_anchors', 'coverage', 'title_block_owned',
+            'net_flags', 'no_junction_crossings', 'junction_evidence'])
     if not isinstance(data['coordinate_units'], str) or not data['coordinate_units'].strip():
         raise ValueError('coordinate_units required; never infer pixels/inches')
     identities, groups = set(), {}
@@ -123,8 +159,9 @@ def analyze(data, strict=False):
         groups[group] = []
         for item in values:
             required = ['id', 'points'] if group == 'wires' else ['id', 'bbox']
-            optional = ['net'] if group == 'wires' else (
-                ['owner', 'kind'] if group == 'texts' else [])
+            optional = ['net', 'primitive_id'] if group == 'wires' else (
+                ['owner', 'kind', 'net', 'anchor_id', 'anchored', 'measurement',
+                 'field', 'content'] if group == 'texts' else [])
             fields(item, required, optional)
             identity = item['id']
             if not isinstance(identity, str) or not identity.strip() or identity in identities:
@@ -138,24 +175,115 @@ def analyze(data, strict=False):
                     raise ValueError('duplicate consecutive wire points')
                 if 'net' in item and (not isinstance(item['net'], str) or not item['net'].strip()):
                     raise ValueError('wire net must be a nonempty string when supplied')
+                if 'primitive_id' in item and (
+                        not isinstance(item['primitive_id'], str) or not item['primitive_id'].strip()):
+                    raise ValueError('wire primitive_id must be a nonempty string when supplied')
                 groups[group].append({**item, 'points': points})
             else:
                 owner = item.get('owner')
                 if group == 'texts' and owner is not None and (
                         not isinstance(owner, str) or not owner.strip()):
                     raise ValueError('text owner must be a nonempty string')
+                if group == 'texts':
+                    for name in ('kind', 'net', 'anchor_id', 'field', 'content'):
+                        value = item.get(name)
+                        if value is not None and (not isinstance(value, str) or not value.strip()):
+                            raise ValueError(f'text {name} must be a nonempty string')
+                    if 'anchored' in item and type(item['anchored']) is not bool:
+                        raise ValueError('text anchored must be a boolean')
+                    measurement = item.get('measurement')
+                    if measurement is not None and measurement not in ('bbox', 'estimated'):
+                        raise ValueError('text measurement must be bbox or estimated')
                 groups[group].append({**item, 'bbox': rect(item['bbox']),
                                       **({'owner': owner} if group == 'texts' else {})})
     if sum(len(x['points']) - 1 for x in groups['wires']) > 5000:
         raise ValueError('snapshot exceeds 5000 wire segments; split by page')
     policy = data.get('policy', {})
     fields(policy, [], ['max_wire_length', 'connection_tolerance',
-                        'self_text_contact_tolerance'])
+                        'self_text_contact_tolerance', 'min_text_wire_clearance',
+                        'label_own_wire_edge_tolerance', 'duplicate_net_distance',
+                        'reading_row_tolerance', 'reading_order',
+                        'require_measured_texts', 'require_rendered_texts',
+                        'netflag_rotation', 'title_block_repeat_allow',
+                        'wire_endpoint_check', 'junction_tolerance'])
     maximum = number(policy['max_wire_length'], 'max_wire_length', True) if 'max_wire_length' in policy else None
     tolerance = number(policy['connection_tolerance'], 'connection_tolerance', True) if 'connection_tolerance' in policy else None
     self_contact = (number(policy['self_text_contact_tolerance'],
                            'self_text_contact_tolerance')
                     if 'self_text_contact_tolerance' in policy else 0.0)
+    text_wire_clearance = (number(policy['min_text_wire_clearance'],
+                                  'min_text_wire_clearance')
+                           if 'min_text_wire_clearance' in policy else None)
+    own_wire_tolerance = (number(policy['label_own_wire_edge_tolerance'],
+                                 'label_own_wire_edge_tolerance')
+                          if 'label_own_wire_edge_tolerance' in policy else 1.0)
+    if own_wire_tolerance < 0:
+        raise ValueError('label_own_wire_edge_tolerance must be nonnegative')
+    junction_tolerance = (number(policy['junction_tolerance'], 'junction_tolerance')
+                          if 'junction_tolerance' in policy else 1.0)
+    if junction_tolerance < 0:
+        raise ValueError('junction_tolerance must be nonnegative')
+    junction_evidence = data.get('junction_evidence')
+    if junction_evidence is not None and (
+            not isinstance(junction_evidence, str) or not junction_evidence.strip()):
+        raise ValueError('junction_evidence must be a nonempty string when supplied')
+    no_junction_points = []
+    if 'no_junction_crossings' in data:
+        if not junction_evidence:
+            raise ValueError(
+                'no_junction_crossings requires junction_evidence from a host check')
+        raw_points = data['no_junction_crossings']
+        if not isinstance(raw_points, list) or len(raw_points) > 2000:
+            raise ValueError('no_junction_crossings must be a list of at most 2000 points')
+        for raw in raw_points:
+            if isinstance(raw, dict):
+                raw = [raw.get('x'), raw.get('y')]
+            no_junction_points.append(point(raw))
+    duplicate_distance = (number(policy['duplicate_net_distance'],
+                                 'duplicate_net_distance', True)
+                          if 'duplicate_net_distance' in policy else 40.0)
+    row_tolerance = (number(policy['reading_row_tolerance'],
+                            'reading_row_tolerance', True)
+                     if 'reading_row_tolerance' in policy else 60.0)
+    reading_order = policy.get('reading_order', False)
+    if type(reading_order) is not bool:
+        raise ValueError('policy.reading_order must be a boolean')
+    require_measured = policy.get('require_measured_texts', False)
+    require_rendered = policy.get('require_rendered_texts', False)
+    if type(require_measured) is not bool or type(require_rendered) is not bool:
+        raise ValueError('text coverage policies must be booleans')
+    endpoint_check = policy.get('wire_endpoint_check', True)
+    if type(endpoint_check) is not bool:
+        raise ValueError('policy.wire_endpoint_check must be a boolean')
+    repeat_allow = policy.get('title_block_repeat_allow', [])
+    if not isinstance(repeat_allow, list) or not all(
+            isinstance(value, str) and value for value in repeat_allow):
+        raise ValueError('policy.title_block_repeat_allow must be a list of strings')
+    orientation_policy = {}
+    if 'netflag_rotation' in policy:
+        raw = policy['netflag_rotation']
+        if not isinstance(raw, dict):
+            raise ValueError('policy.netflag_rotation must be an object')
+        for net, rule in raw.items():
+            if not isinstance(net, str) or not net.strip():
+                raise ValueError('netflag_rotation keys must be nonempty net names')
+            if type(rule) in (int, float):
+                orientation_policy[net] = {'expected': number(rule, 'netflag rotation'),
+                                           'allowed': set(), 'horizontalText': False}
+                continue
+            if not isinstance(rule, dict):
+                raise ValueError('netflag_rotation values must be a number or object')
+            fields(rule, ['expectedRotation'], ['allowed', 'requireHorizontalText'])
+            allowed = rule.get('allowed', [])
+            if not isinstance(allowed, list) or not all(
+                    isinstance(value, str) and value for value in allowed):
+                raise ValueError('netflag_rotation.allowed must be a list of IDs')
+            horizontal = rule.get('requireHorizontalText', False)
+            if type(horizontal) is not bool:
+                raise ValueError('netflag_rotation.requireHorizontalText must be boolean')
+            orientation_policy[net] = {
+                'expected': number(rule['expectedRotation'], 'expectedRotation') % 360,
+                'allowed': set(allowed), 'horizontalText': horizontal}
     page = rect(data['page_bbox']) if 'page_bbox' in data else None
     title = rect(data['title_block']) if 'title_block' in data else None
     frames = []
@@ -163,11 +291,14 @@ def analyze(data, strict=False):
         if not isinstance(data['module_frames'], list) or len(data['module_frames']) > 200:
             raise ValueError('module_frames: list of at most 200 objects required')
         for index, frame in enumerate(data['module_frames']):
-            fields(frame, ['id', 'bbox'], ['contains', 'title_text_id', 'purpose_text_id'])
+            fields(frame, ['id', 'bbox'], ['contains', 'title_text_id', 'purpose_text_id',
+                                           'order'])
             identity = frame['id']
             if not isinstance(identity, str) or not identity.strip() or identity in identities:
                 raise ValueError(f'module_frames[{index}].id: unique nonempty string required')
             identities.add(identity)
+            if 'order' in frame and (type(frame['order']) is not int or frame['order'] < 1):
+                raise ValueError(f'module_frames[{index}].order: positive integer required')
             contains_ids = frame.get('contains')
             if contains_ids is not None:
                 if not isinstance(contains_ids, list) or not all(isinstance(value, str) and value for value in contains_ids):
@@ -202,6 +333,29 @@ def analyze(data, strict=False):
             if not isinstance(item['net'], str) or not item['net'].strip():
                 raise ValueError(f'label_anchors[{index}].net: nonempty string required')
             labels.append({**item, 'id': identity, 'net': item['net'], 'point': point([item['x'], item['y']])})
+    flags = []
+    if 'net_flags' in data:
+        if not isinstance(data['net_flags'], list) or len(data['net_flags']) > 500:
+            raise ValueError('net_flags: list of at most 500 objects required')
+        for index, item in enumerate(data['net_flags']):
+            fields(item, ['id', 'net', 'bbox', 'rotation'], ['kind', 'anchor', 'text_id'])
+            identity = item['id']
+            if not isinstance(identity, str) or not identity.strip() or identity in identities:
+                raise ValueError(f'net_flags[{index}].id: unique nonempty string required')
+            identities.add(identity)
+            if not isinstance(item['net'], str) or not item['net'].strip():
+                raise ValueError(f'net_flags[{index}].net: nonempty string required')
+            kind = item.get('kind', 'unknown')
+            if not isinstance(kind, str) or not kind.strip():
+                raise ValueError(f'net_flags[{index}].kind must be a nonempty string')
+            anchor = point(item['anchor']) if 'anchor' in item else None
+            text_id = item.get('text_id')
+            if text_id is not None and (not isinstance(text_id, str) or not text_id.strip()):
+                raise ValueError(f'net_flags[{index}].text_id must be a nonempty string')
+            flags.append({'id': identity, 'net': item['net'], 'kind': kind,
+                          'bbox': rect(item['bbox']),
+                          'rotation': number(item['rotation'], 'netflag rotation') % 360,
+                          'anchor': anchor, 'text_id': text_id})
     counts = {key: len(items) for key, items in groups.items()}
     expected = data.get('expected_counts')
     matched = None
@@ -239,11 +393,25 @@ def analyze(data, strict=False):
             if overlap(first['bbox'], second['bbox']):
                 extent = overlap_extent(first['bbox'], second['bbox'])
                 edge_owner = None
+                owned_text = False
+                pin_kinds = ('pin_name', 'pin_number', 'symbol_text')
+                if (first.get('owner') and first.get('owner') == second.get('owner')
+                        and first.get('kind') in pin_kinds
+                        and second.get('kind') in pin_kinds):
+                    owned_text = True
                 for text, owner in ((first, second), (second, first)):
+                    if (text.get('owner') == owner['id'] and owner['id'] in symbol_ids
+                            and text.get('kind') in pin_kinds):
+                        owned_text = True
                     if (text.get('owner') in symbol_ids
                             and text.get('owner') == owner['id']
                             and min(extent) <= self_contact):
                         edge_owner = owner['id']
+                if owned_text:
+                    # Pin names/numbers and graphic text of a symbol are expected
+                    # to sit on its body.  Designator/value overlap stays a
+                    # candidate because it can be real overflow.
+                    continue
                 if edge_owner is not None:
                     add('symbol_text_edge_contact', first['id'], second['id'],
                         severity='info', overlap=[round(extent[0], 6), round(extent[1], 6)],
@@ -266,8 +434,39 @@ def analyze(data, strict=False):
             add('long_wire', wire['id'])
         if page and any(not (page[0] <= p[0] <= page[2] and page[1] <= p[1] <= page[3]) for p in wire['points']):
             add('outside_page', wire['id'])
+        marker_text = {'border', 'title_block', 'pin_name',
+                       'pin_number', 'symbol_text'}
         for obj in symbols + texts:
-            if any(enters(a, b, obj['bbox']) for a, b in zip(wire['points'], wire['points'][1:])):
+            if obj.get('owner') in symbol_ids or obj.get('kind') in marker_text:
+                # Pin names/numbers, border/title text and a symbol's own value
+                # text sit at the pin/body where a wire legitimately terminates.
+                continue
+            own_wire = (obj.get('anchor_id') and obj.get('anchor_id') in (
+                wire['id'], wire.get('primitive_id')))
+            hit = any(enters(a, b, obj['bbox'])
+                      for a, b in zip(wire['points'], wire['points'][1:]))
+            if own_wire:
+                if not hit:
+                    continue
+                # Ownership only proves attachment.  A label normally touches
+                # its own wire at the anchor edge; wire geometry that reaches
+                # into the glyph body must still be reported.
+                box = obj['bbox']
+                inner = [box[0] + own_wire_tolerance, box[1] + own_wire_tolerance,
+                         box[2] - own_wire_tolerance, box[3] - own_wire_tolerance]
+                body_hit = (inner[0] < inner[2] and inner[1] < inner[3]
+                            and any(enters(a, b, inner)
+                                    for a, b in zip(wire['points'], wire['points'][1:])))
+                if body_hit:
+                    add('wire_enters_bbox', wire['id'], obj['id'],
+                        own_wire=True,
+                        detail='label text body, not just the anchor edge')
+                else:
+                    add('label_own_wire_edge_contact', wire['id'], obj['id'],
+                        severity='info', category='readability_hint',
+                        tolerance=own_wire_tolerance)
+                continue
+            if hit:
                 add('wire_enters_bbox', wire['id'], obj['id'])
         segments.extend((wire, a, b) for a, b in zip(wire['points'], wire['points'][1:]))
     seen_crossings = set()
@@ -277,7 +476,29 @@ def analyze(data, strict=False):
             if key in seen_crossings or wa['id'] == wb['id']:
                 continue
             if wa.get('net') and wb.get('net') and wa['net'] != wb['net'] and (crosses(a, b, c, d) or collinear_overlap(a, b, c, d)):
-                add('different_named_wires_collinear_overlap' if collinear_overlap(a, b, c, d) else 'different_named_wires_cross', *key)
+                if collinear_overlap(a, b, c, d):
+                    # Same-direction overlap is the short/merge signal and stays
+                    # a blocking candidate.
+                    add('different_named_wires_collinear_overlap', *key)
+                else:
+                    # A crossing is only a readability hint when a host check
+                    # has explicitly verified that exact point has no junction.
+                    # Without that evidence it remains a blocking candidate.
+                    crossing_point = intersection_point(a, b, c, d)
+                    verified = bool(crossing_point and any(
+                        math.hypot(crossing_point[0] - item[0],
+                                   crossing_point[1] - item[1]) <= junction_tolerance
+                        for item in no_junction_points))
+                    if verified:
+                        add('different_named_wires_cross', *key,
+                            severity='info', category='readability_hint',
+                            junction_evidence=junction_evidence,
+                            point=[round(crossing_point[0], 6),
+                                   round(crossing_point[1], 6)])
+                    else:
+                        add('different_named_wires_cross', *key,
+                            junction_evidence=None,
+                            detail='no host no-junction evidence for this crossing')
                 seen_crossings.add(key)
 
     checks_run, checks_skipped = [], []
@@ -327,7 +548,7 @@ def analyze(data, strict=False):
         checks_skipped.append('module_frames: module_frames not supplied')
 
     if tolerance is not None:
-        if attachments:
+        if attachments and endpoint_check:
             checks_run.append('wire_endpoints_and_pin_nets')
             wire_paths = [(wire, a, b) for wire in wires for a, b in zip(wire['points'], wire['points'][1:])]
             for wire in wires:
@@ -348,6 +569,9 @@ def analyze(data, strict=False):
                 }
                 if len(nets) > 1:
                     add('pin_multiple_nets', item['id'], *sorted(nets))
+        elif attachments:
+            checks_skipped.append('wire_endpoints_and_pin_nets: policy.wire_endpoint_check false; '
+                                  'use the executor connectivity check')
         else:
             checks_skipped.append('wire_endpoints_and_pin_nets: attachment_points not supplied')
         if labels:
@@ -377,6 +601,133 @@ def analyze(data, strict=False):
     else:
         checks_skipped.append('connection checks: policy.connection_tolerance not supplied')
 
+    if text_wire_clearance is not None and wires:
+        checks_run.append('text_wire_clearance')
+        clearance_kinds = {'attribute', 'free_text', 'zone_title', 'net_label',
+                           'wire_name', 'netflag', 'unowned', 'title_block'}
+        for text in texts:
+            if text.get('kind') is not None and text.get('kind') not in clearance_kinds:
+                continue
+            if text.get('owner') in symbol_ids:
+                continue
+            nearest = None
+            for wire in wires:
+                if text.get('anchor_id') and text.get('anchor_id') in (
+                        wire['id'], wire.get('primitive_id')):
+                    # Legal label/own-wire proximity; foreign wires are still
+                    # measured below.
+                    continue
+                for a, b in zip(wire['points'], wire['points'][1:]):
+                    distance = rect_segment_distance(text['bbox'], a, b)
+                    if nearest is None or distance < nearest[0]:
+                        nearest = (distance, wire['id'])
+            if nearest is not None and 0 < nearest[0] <= text_wire_clearance:
+                # Near-miss clearance is a readability hint; a wire actually
+                # entering the text bbox is reported separately as blocking.
+                add('text_wire_clearance', text['id'], nearest[1],
+                    severity='info', category='readability_hint',
+                    distance=round(nearest[0], 6), threshold=text_wire_clearance)
+    elif text_wire_clearance is not None:
+        checks_skipped.append('text_wire_clearance: wires not supplied')
+
+    net_kinds = ('net_label', 'wire_name', 'netflag')
+    net_texts = [text for text in texts if text.get('net') and text.get('kind') in net_kinds]
+    checks_run.append('net_text_identity')
+    for text in texts:
+        if text.get('kind') == 'unowned':
+            add('unowned_visible_text', text['id'],
+                content=text.get('content'))
+        if text.get('kind') == 'net_label' and text.get('anchored') is False:
+            add('unanchored_net_text', text['id'], net=text.get('net'),
+                content=text.get('content'))
+    for index, first in enumerate(net_texts):
+        for second in net_texts[index + 1:]:
+            if normalized_net(first['net']) != normalized_net(second['net']):
+                continue
+            same_anchor = (first.get('anchor_id') and
+                           first.get('anchor_id') == second.get('anchor_id'))
+            labelled = ('net_label' in (first.get('kind'), second.get('kind'))
+                        or 'wire_name' in (first.get('kind'), second.get('kind')))
+            distance = math.hypot(center(first['bbox'])[0] - center(second['bbox'])[0],
+                                  center(first['bbox'])[1] - center(second['bbox'])[1])
+            if same_anchor or (labelled and distance <= duplicate_distance):
+                add('duplicate_net_text', first['id'], second['id'],
+                    net=first['net'], distance=round(distance, 6),
+                    same_anchor=bool(same_anchor))
+
+    census = {}
+    for flag in flags:
+        census.setdefault(flag['net'], {}).setdefault(
+            str(int(flag['rotation']) if flag['rotation'].is_integer() else flag['rotation']), []).append(flag['id'])
+    if orientation_policy:
+        checks_run.append('netflag_orientation')
+        for flag in flags:
+            rule = orientation_policy.get(flag['net'], orientation_policy.get('default'))
+            if rule is None or flag['id'] in rule['allowed']:
+                continue
+            if abs(flag['rotation'] - rule['expected']) > 0.01:
+                add('netflag_rotation_outlier', flag['id'], net=flag['net'],
+                    observed=flag['rotation'], expected=rule['expected'])
+            if rule['horizontalText']:
+                candidates = [text for text in texts
+                              if text.get('owner') == flag['id']
+                              or text.get('id') == flag.get('text_id')]
+                for text in candidates:
+                    width = text['bbox'][2] - text['bbox'][0]
+                    height = text['bbox'][3] - text['bbox'][1]
+                    if height > width:
+                        add('netflag_text_vertical', flag['id'], text['id'],
+                            net=flag['net'], width=round(width, 6), height=round(height, 6))
+
+    reading = None
+    if frames and all('order' in frame for frame in frames):
+        checks_run.append('zone_reading_order')
+        ordered = sorted(frames, key=lambda frame: (-center(frame['bbox'])[1],
+                                                    center(frame['bbox'])[0]))
+        def same_row(first, second):
+            a, b = first['bbox'], second['bbox']
+            shared = min(a[3], b[3]) - max(a[1], b[1])
+            shortest = min(a[3] - a[1], b[3] - b[1])
+            return (shared > 0 and shared >= 0.5 * shortest) or (
+                abs(center(a)[1] - center(b)[1]) <= row_tolerance)
+
+        rows, row = [], []
+        for frame in ordered:
+            if not row or same_row(frame, row[0]):
+                row.append(frame)
+            else:
+                rows.append(row)
+                row = [frame]
+        if row:
+            rows.append(row)
+        sequence = []
+        for row in rows:
+            sequence.extend(frame['order'] for frame in sorted(
+                row, key=lambda frame: center(frame['bbox'])[0]))
+        reading = {'observed': sequence, 'expected': sorted(sequence),
+                   'rows': [[frame['id'] for frame in row] for row in rows],
+                   'ok': sequence == sorted(sequence)}
+        if not reading['ok']:
+            add('zone_reading_order', *[frame['id'] for frame in frames],
+                observed=sequence, expected=sorted(sequence))
+    elif reading_order:
+        checks_skipped.append('zone_reading_order: module_frames[].order not supplied')
+
+    title_texts = [text for text in texts
+                   if text.get('kind') == 'title_block' or text['id'] in title_block_owned]
+    by_content = {}
+    for text in title_texts:
+        content = (text.get('content') or '').strip()
+        if not content or content in repeat_allow or content.replace('-', '').isdigit():
+            continue
+        by_content.setdefault(content, []).append(text)
+    if title_texts:
+        checks_run.append('title_block_duplicate')
+    for content, group in by_content.items():
+        if len(group) > 1:
+            add('title_block_duplicate_text', *[text['id'] for text in group],
+                content=content)
+
     coverage = data.get('coverage')
     if coverage is not None:
         if not isinstance(coverage, dict):
@@ -405,6 +756,22 @@ def analyze(data, strict=False):
             entry = coverage.get(name) if isinstance(coverage, dict) else None
             if not isinstance(entry, dict) or entry.get('status') != 'complete':
                 strict_missing.append('coverage.' + name)
+        if require_rendered:
+            entry = coverage.get('rendered_texts') if isinstance(coverage, dict) else None
+            if not isinstance(entry, dict) or entry.get('status') != 'complete':
+                strict_missing.append('coverage.rendered_texts')
+        if require_measured:
+            for text in texts:
+                if text.get('measurement') != 'bbox':
+                    strict_missing.append('measured text bbox: ' + text['id'])
+        if reading_order:
+            if not frames:
+                strict_missing.append('functional module frame(s) for reading order')
+            for frame in frames:
+                if 'order' not in frame:
+                    strict_missing.append('module reading order: ' + frame['id'])
+        if orientation_policy and not flags:
+            strict_missing.append('net_flags for orientation policy')
         text_map = {obj['id']: obj for obj in texts}
         for label in labels:
             ref = label.get('text_id')
@@ -428,17 +795,30 @@ def analyze(data, strict=False):
             strict_missing.append('functional module frame(s)')
         if strict_missing:
             complete_input = False
-    if findings:
+    informational = [finding for finding in findings if finding.get('severity') == 'info']
+    blocking = [finding for finding in findings if finding.get('severity') != 'info']
+    if blocking:
         status = 'review_required' if complete_input else 'incomplete'
+    elif informational:
+        status = 'info_only' if complete_input else 'incomplete'
     else:
         status = 'no_candidates' if complete_input else 'incomplete'
     result = {'status': status,
+              'informational_findings': informational,
+              'blocking_findings': blocking,
               'counts': counts, 'declared_inventory_matches': matched,
               'coverage_status': coverage_status, 'coverage': coverage,
               'optional_counts': {'module_frames': len(frames), 'attachment_points': len(attachments),
-                                  'label_anchors': len(labels),
+                                  'label_anchors': len(labels), 'net_flags': len(flags),
                                   'title_block_owned': len(title_block_owned)},
+              'net_flag_census': census,
+              'reading_order': reading,
+              'text_classes': {kind: sum(1 for text in texts if text.get('kind') == kind)
+                               for kind in sorted({text.get('kind') for text in texts if text.get('kind')})},
               'self_text_contact_tolerance': self_contact,
+              'label_own_wire_edge_tolerance': own_wire_tolerance,
+              'junction_evidence': junction_evidence,
+              'no_junction_crossings': len(no_junction_points),
               'strict_mode': strict, 'strict_missing': strict_missing,
               'checks_run': checks_run, 'checks_skipped': checks_skipped,
               'findings': findings, 'electrical_verified': False, 'visual_verified': False,
@@ -448,10 +828,11 @@ def analyze(data, strict=False):
                                  'title_block_owned only exempts a text from title-block overlap, not from '
                                  'other collision checks.'),
               'not_checked': ['actual EDA connectivity, pins, NC and junctions', 'shape-accurate outlines and intentional overlaps',
-                              'missing/stale snapshot objects', 'module/title margins and reading quality',
+                              'missing/stale snapshot objects', 'module/title margins beyond supplied frames/orders',
                               'decoupling or PCB electrical distance', 'same-net collinear semantics and endpoint junction topology',
                               'frame intent/membership beyond supplied contains', 'attachment completeness beyond supplied points',
-                              'pin-electrical-type conflicts and netlister rules']}
+                              'pin-electrical-type conflicts and netlister rules',
+                              'text glyph rendering; measured bboxes are evidence, not a visual PASS']}
     json.dumps(result, allow_nan=False)
     return result
 
@@ -460,13 +841,23 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('layout')
     parser.add_argument('--strict', action='store_true', help='Refuse incomplete geometry/coverage; still not visual or electrical acceptance')
+    parser.add_argument('--fail-on-info', action='store_true',
+                        help='return 1 for informational findings too (default: only review candidates)')
+    parser.add_argument('--out', type=Path,
+                        help='write the UTF-8 JSON report to this file as well')
     args = parser.parse_args()
     try:
         result = analyze(read_json(args.layout), strict=args.strict)
-        print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+        output = json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False)
+        if args.out:
+            args.out.write_text(output + '\n', encoding='utf-8')
+        print(output)
         if args.strict and result['status'] == 'incomplete':
             return 2
-        return 1 if result['findings'] else 0
+        findings = result['blocking_findings']
+        if args.fail_on_info:
+            findings += result['informational_findings']
+        return 1 if findings else 0
     except (OSError, UnicodeError, ValueError, TypeError, OverflowError) as error:
         print(json.dumps({'status': 'invalid_input', 'error': str(error)}, ensure_ascii=False))
         return 2

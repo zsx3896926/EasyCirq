@@ -53,6 +53,72 @@ python scripts/sch_text_audit.py visible-text-bboxes.json --strict --out text-au
 
 缺少某类实测文字时，不能靠伪造宽度补齐。官方图中仍看不清则保留未验收；已看清的人工复核可记录单独结果，不能把自动检查改成 PASS。
 
+### 自动线名与显式标签重复
+
+EasyEDA 会为已命名网络在导线上画网名，netflag/netport 的网名又是符号自身文字；这两类都不在
+`visible_text.bboxes` 里。实际重复的三种来源：
+
+1. 同一节点既放了 netflag/netport，又加了同名的 net_label；
+2. 导线自动网名与附近的显式 net_label 同时显示；
+3. 旧布局遗留、已无导线绑定的游离标签（可能连网表都不再引用）。
+
+处理顺序：先用 `sch read`/netlist 确认该节点的真实网名与绑定；同一节点只保留一种表示
+（跨区信号用 netport/netflag，局部直连不用标签）；重复的显式标签用官方 typed 删除或
+`sch text.move` 移开，不能靠隐藏显示冒充修复；游离标签先确认它是否仍绑定网络，未绑定才
+删除，并在记录中写明锚点、网名和判定依据。`sch check` 的 `duplicate-net-marker` 与
+`sch_layout_check.py` 的 `duplicate_net_text/unanchored_net_text/unowned_visible_text`
+分别覆盖电气与渲染两层。
+
+## 6. 回读→实测文字→几何验收
+
+官方导出 SVG 后先测全部渲染文字，再构建严格几何输入：
+
+```bash
+easyeda sch list --include-bbox --include-pins --include-wires \
+  --include-page-primitives --page <page> > list.json
+easyeda sch sheet-geometry --from-svg page.svg --json > sheet.json
+python scripts/svg_text_bbox.py page.svg --out svg-text.json
+python scripts/layout_from_easyeda.py --list list.json \
+  --visible-text visible-text.json --sheet-geometry sheet.json \
+  --rendered-text svg-text.json --min-text-wire-clearance 5 \
+  --expect-rotation GND=0 --expect-rotation +5V=0 --out layout.json
+python scripts/sch_layout_check.py layout.json --strict --out layout-check.json
+python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
+  --out pin-net-diff.json
+```
+
+`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `easyeda sch read`，不比较
+网名拼写；极性器件的功能脚名用组件内 `pinMap` 落到实际脚号，缺映射按输入无效处理，
+不猜脚号。
+
+`--out` 由 Python 以 UTF-8 落盘；PowerShell 的 `>` 重定向可能把中文按控制台代码页写出，
+证据文件不要用 shell 重定向生成。
+
+`visible_text.bboxes` 不是完整文字清单；同页 72 条与 SVG 实际 134 条文字的差值包括图框
+行列号、图签字段、符号内脚名/脚号、netflag 网名。没有渲染测量时只能报告覆盖不足，不能
+用 API 子集标 complete。适配器把无法归属的可见文字标 `unowned`，这正是“图上有一个名字，
+但 API 和网表都不认识它”的检测口。
+
+验收顺序仍是：pin-net/网表 → 原生 `sch check`/`gate`/DRC → 渲染文字与几何 → 官方整页
+和局部图 → 保存重开。任何一层 PASS 都不能替代另一层；`info_only` 只表示没有阻塞候选，
+不表示图面已合格。
+
+### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
+
+- `photo-led-5v-20261026` P1：编号 1→4 按阅读顺序、标题左上、图签重复消除；
+  136 条渲染文字无 text-text overlap；仍有无结点交叉/贴线 hint 和 2 处轻微文字接触。
+- `ne555-blinker-1hz-20261026` P1：10 器件/7 网，gate PASS，pin-net intent match，
+  save→reload 保持；残留为 5 个竖排电源/地标记、3 处文字/本体接触、无 purpose 文字。
+- `ams1117-3v3-20261026` P1：6 器件/3 网，gate PASS，pin-net intent match，
+  save→reload 保持；残留为 8 个竖排标记、22µF 陶瓷输出电容的稳定性未验证、
+  无 purpose 文字、未做负载/热测试。
+- 因此三张图都没有标成 `eda-verified`；当前证据等级是“真实写入/保存重开/导图，
+  仍有已列视觉或选型残留”。竖排标记来自水平管脚上的 flag 方向；要全水平需
+  逐脚改成短桩+旋转 0 的 flag，不能靠隐藏文字。
+- 平台限制：free text 的 `move/setState/SDK delete` 不持久，删除需 `sch prim-delete`；
+  新 free text 必须 `alignMode=2` 才左对齐；titleblock 的可见 Drawed 字段会与
+  sheet 属性各渲染一次，填作者会产生两处重复；typed API 当前没有自由文本创建入口。
+
 ## 5. 从项目经验晋升为模板
 
 经验必须有可复用资产：角色/连接条件、相对位置约束、实测输入、失败样例、成功证据和失效条件。不得只追加“下次注意”。

@@ -4,6 +4,11 @@
 
 配方表：[schematic-recipes.json](../assets/schematic-recipes.json)；离线实例化器：[sch_recipe.py](../scripts/sch_recipe.py)。五种配方均标记为 `experimental_unverified_in_eda`：当前测试使用合成测量，尚未完成两个真实符号变体的 EDA 写入、导图与回读验证。可用于规划和候选比较，不能据此宣布真实图面已经通过。
 
+2026-10-26 的真实 555 与 AMS1117 工程已用执行器 typed 流程写入/保存重开（见
+[schematic-authoring.md](schematic-authoring.md) 第 6 节），但**不是**由 `sch_recipe.py`
+实例化落地；因此配方仍保持 candidate/offline-tested，不标 `eda-verified`。要升级某个
+配方，必须用它生成几何并完成该工程的身份、pin-net、导图、保存重开证据。
+
 ## 先做一个模块，再组成页面
 
 1. 从 [排版引擎](schematic-layout-engine.md) 的现场快照、连接 IR、文字几何、页面几何构造 `layout-source.json`；先解决 model-report 的 blockers。
