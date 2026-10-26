@@ -10,10 +10,11 @@
 ## 2. 仓库/分支/版本
 
 - worktree：`C:/Users/jlc/work/hds-pcb-round9`
-- 分支：`feat/pcb-layout-round9`；HEAD `98f109b`（本轮已提交并推送）
-- Skill 版本：`0.9.2`（`design-hardware/.version`）；已安装客户端仍 **0.9.0**
-- PR：**#21**（draft，base 仍是已合并的 `feat/skill-v0.9-reviewed`；标题/描述已更新为
-  round9/10 工具链）；未合并、未发 Release
+- 分支：`feat/pcb-layout-round9`（HEAD `c8ff290`）；已合并到 `main`，merge commit
+  `ceb5199`
+- Skill 版本：`0.9.2`（`design-hardware/.version`）；四个客户端均已安装 0.9.2，
+  `skill_selftest.py` 各 5 PASS
+- PR：**#21** 已合并到 `main`（2026-10-26T16:10:07Z）；未发 Release
 
 ## 3. 已完成
 
@@ -62,15 +63,14 @@
 - 图像字节级回归：A top、B top/bottom 字节不同；设计不变仅由 dump semantic hash 证明
 - 墙钟/daemon：两次新流程分别为 3.857/0.762 与 2.256/1.753 min，不稳定；不宣称固定提升
 - token 成本：NOT RECORDED
-- 已安装 Skill 未升级到 0.9.2；PR #21 未合并
+- 未发 Release；已安装 0.9.2 属于本地 pack/install，不是 Release 资产
 
 ## 6. 下一条具体动作
 
-1. 已提交并推送 `98f109b`；PR #21 标题/描述已更新。base 是否改到 `main` 由维护者决定，
-   不合并。
-2. 如需让用户直接使用：用 `skill_update.py pack/install` 把 0.9.2 安装到四个客户端，
-   每个跑 `skill_selftest.py`；本轮未执行。
-3. 已把 EDA 窗口切回用户原来的 `photo-led-5v-20261026` / `P1`。
+1. 无待合并项：PR #21 已合并，四个客户端已安装 0.9.2。
+2. 客户端需重载技能或新开会话生效；本轮未重启 EDA/客户端。
+3. EDA 窗口已切回用户原来的 `photo-led-5v-20261026` / `P1`。
+4. 如需对外发布，再由维护者决定是否打 Release；本机安装不依赖 Release。
 
 ## 7. 关键证据
 
