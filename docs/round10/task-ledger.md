@@ -13,7 +13,7 @@
 | WP5 | core 修正 | DONE | `validate_placement(partial=)`；preferred 不再硬阻塞；edge 距离按板框；`min_inset` 生效；diff 纳入铺铜语义几何 |
 | WP6 | A/B 回归（不改设计） | DONE | `docs/round10/regression/liveA|liveB/gate-report.json`；dump/BOM hash 不变 |
 | WP7 | 受控任务新旧对比 | DONE | `docs/round10/controlledB/comparison.json`；calls −22.3%、mutations −40%、probes −30% |
-| WP8 | 报告与提交 | IN PROGRESS | `docs/skill-speed-quality-report.md` 已写；提交/推送/PR 待做 |
+| WP8 | 报告与提交 | DONE | `docs/skill-speed-quality-report.md`；提交 `98f109b` 已推送；PR #21 标题/描述已更新（draft，未合并） |
 | WP9 | 独立复核与 fail-open 修复 | DONE | 复核 REQUEST_CHANGES 的空 scope、缺字段默认 0、case 旧 gate、过期 lint 等已修；1112 tests OK |
 
 ## 当前已知边界

@@ -10,9 +10,10 @@
 ## 2. 仓库/分支/版本
 
 - worktree：`C:/Users/jlc/work/hds-pcb-round9`
-- 分支：`feat/pcb-layout-round9`；HEAD `60f2f2c`（本轮改动全部**未提交**）
+- 分支：`feat/pcb-layout-round9`；HEAD `98f109b`（本轮已提交并推送）
 - Skill 版本：`0.9.2`（`design-hardware/.version`）；已安装客户端仍 **0.9.0**
-- PR：**#21**（draft，base 仍是已合并的 `feat/skill-v0.9-reviewed`）；未合并、未发 Release
+- PR：**#21**（draft，base 仍是已合并的 `feat/skill-v0.9-reviewed`；标题/描述已更新为
+  round9/10 工具链）；未合并、未发 Release
 
 ## 3. 已完成
 
@@ -46,7 +47,7 @@
 ## 4. 真机窗口/进程
 
 - EasyEDA Pro 4.1.78，PID 20296，窗口 `5175351c-a00b-4788-a922-2f6e0bd80756`
-- 当前打开的工程：`mcu-i2c-s3-edit-r10b-20261026` / `PCB2`
+- 当前打开的工程：已恢复为用户原来的 `photo-led-5v-20261026` / `P1`
 - 本轮新导入的隔离副本：
   - `mcu-i2c-s3-edit-r10-20261026`（UUID `0b2bf7329ce149408fa35d15a242e488`，第一次运行，已被取代）
   - `mcu-i2c-s3-edit-r10b-20261026`（UUID `06a53de15aa34286ab2eaf0be41d91ba`，clean run）
@@ -65,12 +66,11 @@
 
 ## 6. 下一条具体动作
 
-1. 复核 `git status`，只暂存本轮相关文件（审计输入已归档到 `docs/round10/baseline/audit/`；旧 `docs/round10/controlled` 已删除），提交并推送 `feat/pcb-layout-round9`。
-2. 更新 PR #21 描述：四个工具、core 修正、A/B 回归、受控 clean case、未完成边界；
-   base 是否改到 `main` 由维护者决定，不合并。
-3. 如需让用户直接使用：用 `skill_update.py pack/install` 把 0.9.2 安装到四个客户端，
+1. 已提交并推送 `98f109b`；PR #21 标题/描述已更新。base 是否改到 `main` 由维护者决定，
+   不合并。
+2. 如需让用户直接使用：用 `skill_update.py pack/install` 把 0.9.2 安装到四个客户端，
    每个跑 `skill_selftest.py`；本轮未执行。
-4. 收尾时把 EDA 窗口切回用户原来的 `photo-led-5v-20261026`（本轮结束前）。
+3. 已把 EDA 窗口切回用户原来的 `photo-led-5v-20261026` / `P1`。
 
 ## 7. 关键证据
 
