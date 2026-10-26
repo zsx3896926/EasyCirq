@@ -49,6 +49,7 @@
 | `evidence/escapes.json` | `pcb-escapes` 代理预判（含 4 个 M3 keepout）；不是布线证明 |
 | `evidence/power-check.json` | `pcb-power`：+5V/VIN/GND 声明铺铜但尚未铺 → fail；VREF_2V5 声明 track 但只有部分铜 → unmeasured；C2/C3/C1 去耦/体电容中心距 pass |
 | `evidence/module-U1-C2-R4.json` + `module-binding.json` | `pcb-extract-module` 相对布局契约；`pcb-reuse-plan` 在同一板平移/旋转复用的离线验证；铜复用 `not_supported` |
+| `evidence/fabrication-check.json` | `pcb-fabrication`：60 条丝印对象；dump BBox 未报 U1 压焊盘；**CLI `pcb check` 用实时渲染字框报 U1 silk-over-pad**。差异已记录，最终以实际导图/`silk-align` 后回读为准。 |
 
 复现：
 
@@ -58,6 +59,18 @@ python -m design_engine pcb-constraints --dump ../../design-hardware/cases/photo
 python -m design_engine pcb-check-plan --dump ../../design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-placed.json --plan ../../design-hardware/cases/photo-led-pcb-2026-10-26/evidence/placement-plan.json --constraints ../../design-hardware/cases/photo-led-pcb-2026-10-26/evidence/constraints.json --json
 python -m design_engine pcb-candidates --dump ../../design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-placed.json --intent ../../design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-intent.json --json
 ```
+
+## 4.1 基线/首候选/返工记录（事实，不含宣传性百分比）
+
+| 项 | 事实 |
+|---|---|
+| 导入后原始排布 | 19 件自动排成一行，x 约 234–5553 mil，y 约 −2265…−200 mil；在 90×60mm 板框外，不能直接布线 |
+| 新流程首个候选 | signal-chain：19 件全部落位，离线 `hard_ok=true`，0 重叠/0 越框；layout-lint 80/moderate，5 crossings |
+| 其他候选 | density 硬失败（越框/近引脚失败）；mechanical 与 signal-chain 同分（模块均有显式目标），按策略序选 signal-chain |
+| 布局返工 | 离线检查先发现 C1/D1 与 R1/R5 重叠、R4 近引脚 516 mil；调整坐标后 0 发现，再写入 EDA；写入后 J1 rotation 90→270 修复接口朝向，共 2 次布局迭代 |
+| 布线首轮 | VREF_2V5 官方路由器 12 段/0 过孔；尚未布其余网，不能计算“布通率” |
+| 重复失败机制 | 未出现同一机制连续失败两次；没有用缩小板框/降间距/移固定接口换分数 |
+| 路由器对比（仅 VREF，同板/同规则/同网络） | `route-short --dry-run`：VREF 14 段 / 3066.9 mil（全板计划 49 段/14 过孔）；官方 `autoroute --net VREF_2V5 --layers 1,2`：12 tracks / 2946 mil / 0 过孔。选择官方路由器，未执行 route-short。该比较不证明整板可布性或布通率。 |
 
 ## 5. 必须由后续证据补齐
 

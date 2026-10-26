@@ -15,7 +15,8 @@ sys.path.insert(0, str(SCRIPTS))
 
 from design_engine.cli import main as cli_main
 import pcb_apply_plan
-from design_engine.pcb_workflow import (audit_power, bind_template, compile_constraints,
+from design_engine.pcb_workflow import (audit_fabrication, audit_power, bind_template,
+                                        compile_constraints,
                                         diff_boards, extract_pcb_module, ipc2221_width,
                                         joint_plan, load_templates, normalize_board,
                                         plan_candidates, plan_pcb_reuse, predict_escapes,
@@ -255,6 +256,27 @@ class PcbWorkflowTests(unittest.TestCase):
         self.assertEqual(result['budget']['evaluated'], 2)
         self.assertTrue(result['budget']['exhausted'])
         self.assertEqual(result['trial'], 'callback')
+
+    def test_fabrication_audit_detects_silk_pour_and_via_issues(self):
+        board = copy.deepcopy(self.board)
+        board['silk'] = list(board['silk']) + [{
+            'ID': 'silk-test', 'Text': 'BAD', 'Layer': 3, 'Rotation': 0,
+            'Mirror': False, 'Reverse': False, 'visible': True,
+            'BBox': {'MinX': 1325, 'MinY': 1325, 'MaxX': 1375, 'MaxY': 1375},
+        }]
+        board['pours'] = [{'primitiveId': 'pour-test', 'net': '', 'layer': 1,
+                           'geometryAvailable': True}]
+        board['poured'] = []
+        board['copper'] = {'vias': [{'primitiveId': 'via-test', 'net': '',
+                                     'x': 1350, 'y': 1350}]}
+        report = audit_fabrication(board)
+        codes = {item['code'] for item in report['findings']}
+        self.assertIn('silk_over_pad', codes)
+        self.assertIn('netless_pour', codes)
+        self.assertIn('pour_without_materialized_copper', codes)
+        self.assertIn('netless_via', codes)
+        self.assertIn('via_pad_net_mismatch', codes)
+        self.assertEqual(report['coverage']['rendered_extent_compared'], False)
 
     def test_pcb_module_extract_and_reuse(self):
         module = extract_pcb_module(self.board, ['U1', 'C2', 'R4'], anchor='U1')

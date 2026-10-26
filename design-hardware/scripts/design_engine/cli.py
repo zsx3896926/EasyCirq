@@ -24,7 +24,8 @@ from .labels import plan_label_moves, to_easyeda_moves, verify_plan
 from .manufacturing import audit_package
 from .pack import pack_modules
 from .pcb import audit_pcb, build_pcb_ir
-from .pcb_workflow import (audit_power, compile_constraints as compile_pcb_constraints,
+from .pcb_workflow import (audit_fabrication, audit_power,
+                           compile_constraints as compile_pcb_constraints,
                            diff_boards, extract_pcb_module,
                            load_templates as load_pcb_templates,
                            normalize_board, plan_candidates, plan_pcb_reuse,
@@ -695,6 +696,21 @@ def command_pcb_power(args):
     return 0 if result['status'] == 'pass' else 1
 
 
+def command_pcb_fabrication(args):
+    board = normalize_board(_read_json_file(args.dump))
+    result = audit_fabrication(board)
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"制造预检: {result['status']} counts={result['counts']}")
+        for finding in result['findings']:
+            print(f"  [{finding['severity']}] {finding['code']}: {finding['message']} "
+                  f"{finding['objects']}")
+        print('未检查: ' + '; '.join(result['checks_skipped']))
+    return 0 if result['status'] == 'pass' else 1
+
+
 def command_pcb_extract_module(args):
     board = normalize_board(_read_json_file(args.dump))
     members = [value.strip() for value in args.members.split(',') if value.strip()]
@@ -964,6 +980,13 @@ def build_parser():
     pcb_power.add_argument('--out')
     pcb_power.add_argument('--json', action='store_true')
     pcb_power.set_defaults(func=command_pcb_power)
+
+    pcb_fab = sub.add_parser('pcb-fabrication',
+                             help='offline silk/pour/via facts from a measured dump')
+    pcb_fab.add_argument('--dump', required=True)
+    pcb_fab.add_argument('--out')
+    pcb_fab.add_argument('--json', action='store_true')
+    pcb_fab.set_defaults(func=command_pcb_fabrication)
 
     pcb_extract = sub.add_parser('pcb-extract-module',
                                  help='extract relative layout + pin-net contract from a measured board')

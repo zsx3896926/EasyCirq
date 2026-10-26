@@ -65,6 +65,7 @@ python design_engine_cli.py pcb-check-plan --dump board.json --plan placement.js
 python design_engine_cli.py pcb-candidates --dump board.json --intent pcb-intent.json --out candidates.json
 python design_engine_cli.py pcb-escapes --dump board.json --length 100 --json
 python design_engine_cli.py pcb-power --dump board.json --intent pcb-intent.json --json
+python design_engine_cli.py pcb-fabrication --dump board.json --json
 python design_engine_cli.py pcb-diff --before before.json --after after.json --scope scope.json --json
 python design_engine_cli.py pcb-extract-module --dump board.json --members U1,C2,R4 --anchor U1 --out module.json
 python design_engine_cli.py pcb-reuse-plan --module module.json --target target.json --binding binding.json --anchor 1500,1200,0
@@ -146,6 +147,7 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 - `pcb-candidates`：用 `assets/pcb-placement-templates.json` 的角色/物理脚绑定生成 signal-chain/density/mechanical 三种候选；先淘汰硬失败，再按近引脚失败、逃线阻塞、HPWL、模块面积比较，不输出综合总分。
 - `pcb-escapes`：对实测 pad 做短走廊阻塞预判，明确 `proxy=true`、`routing_verified=false`；不是路由器。
 - `pcb-power`：按声明的电流/铜厚/温升计算 IPC-2221 筛查宽度，检查声明铺铜/走线；没有输入就是 `unmeasured`。
+- `pcb-fabrication`：从 dump 检查可见丝印压同面焊盘/越框/倒置、无网络铺铜、无材料化铜、无网络过孔/过孔焊盘网络不符；只读 dump BBox，和 `pcb check` 的实时字框可能不同，需实际导图复核。
 - `pcb-diff`：比较两次实测 dump 的身份/几何/铜；`scope` 外的变化进入 `unrelated_changes` 并判 `mismatch`。
 - `pcb-extract-module` / `pcb-reuse-plan`：提取相对布局 + pad→net 契约，在目标板按 anchor 旋转/平移应用；身份/层/pad 集合/网络不一致即拒绝；铜复用固定 `not_supported`。
 

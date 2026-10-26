@@ -35,6 +35,34 @@
       "source": "5V terminal must be reachable at the left board edge"
     },
     {
+      "constraint_id": "KO-MH-TL",
+      "type": "keepout",
+      "status": "pass",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil"
+    },
+    {
+      "constraint_id": "KO-MH-TR",
+      "type": "keepout",
+      "status": "pass",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil"
+    },
+    {
+      "constraint_id": "KO-MH-BL",
+      "type": "keepout",
+      "status": "pass",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil"
+    },
+    {
+      "constraint_id": "KO-MH-BR",
+      "type": "keepout",
+      "status": "pass",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil"
+    },
+    {
       "constraint_id": "NP-C2-U1",
       "type": "near_pin",
       "status": "pass",
@@ -138,7 +166,7 @@
   "counts": {
     "findings": 0,
     "hard_findings": 0,
-    "constraint_rows": 10,
+    "constraint_rows": 14,
     "hard_failed": 0,
     "hard_unmeasured": 0
   },

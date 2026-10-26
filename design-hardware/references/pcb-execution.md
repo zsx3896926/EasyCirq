@@ -229,6 +229,12 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 
 ## 10. 丝印与交付
 
+```bash
+python design_engine_cli.py pcb-fabrication --dump board.json --json
+```
+
+`pcb-fabrication` 从实测 dump 检查可见丝印 bbox 压同面焊盘/越框/倒置、无网络铺铜、边界无材料化铜、无网络过孔/过孔在焊盘内网络不符。它只读 dump BBox；`pcb check` 可能用更大的实时渲染字框，两者不一致时以实际导图和写后回读为准，不能单凭一方判“丝印合格”。
+
 - `pcb silk-align` / `silk-plan` / `silk-set` 使用实测文字 bbox；写后读真实 bbox、层、朝向，再复跑 `pcb check`（silk-over-pad / silkscreen-flipped）。
 - 接口方向、极性、1 脚、电源标识必须与实际引脚一致；文字不压焊盘、不越板框、不遮挡装配后标记。
 - 交付图用官方导出或 `stage-snapshot`/`layout render --actual`；3D 只补充装配检查，不能代替顶层/底层铜层与网络验收。

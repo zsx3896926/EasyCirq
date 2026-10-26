@@ -56,8 +56,8 @@
     {
       "role": "placement-check",
       "path": "design-hardware/cases/photo-led-pcb-2026-10-26\\evidence/placement-check.json",
-      "sha256": "fcd785a656ee1dc7b5d602931e42d196a428ba5e3a2660736529c78b148ecf54",
-      "bytes": 3852
+      "sha256": "6b0c5c21764411dd924fe0c9b334d3ec54187406254e8e9f20f1bdfe38dae729",
+      "bytes": 4588
     },
     {
       "role": "candidates",

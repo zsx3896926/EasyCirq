@@ -242,7 +242,10 @@ def normalize_board(dump):
         'layers': {'copper_count': dump.get('copperLayers')},
         'rules': dump.get('rules') or {},
         'components': components,
+        'silk': dump.get('silk') or [],
+        'copper': copper,
         'pours': copper.get('pours') or [],
+        'poured': copper.get('poured') or [],
         'coverage': coverage,
         'not_checked': ['copper-path connectivity through pours', 'impedance/EMC/thermal',
                         'silk legibility', 'manufacturing files'],
@@ -383,10 +386,11 @@ def compile_constraints(intent, board):
             if not component:
                 unknown.append({'id': cid, 'object': designator, 'reason': 'unknown designator'})
                 continue
+            scale = _unit_scale(unit)
             item.update({
                 'designator': designator,
-                'x': _number(raw.get('x'), f'{cid}.x'),
-                'y': _number(raw.get('y'), f'{cid}.y'),
+                'x': _number(raw.get('x'), f'{cid}.x') * scale,
+                'y': _number(raw.get('y'), f'{cid}.y') * scale,
                 'rotation': _number(raw.get('rotation', component.get('rotation', 0)),
                                     f'{cid}.rotation'),
                 'layer': int(raw.get('layer', component.get('layer', 1))),
@@ -801,15 +805,20 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                                          'declared signal chain is not ordered within the gap limit',
                                          constraint_id=cid, values=values, gaps=gaps))
         elif item['type'] == 'keepout':
+            keepout_hits = []
             for designator, component in candidate_components.items():
                 box = _component_box(component)
                 if box and _keepout_hits_box(item, box):
+                    keepout_hits.append(designator)
                     findings.append(_finding('keepout_collision', 'hard', [designator],
                                              'component intersects a declared keepout',
                                              constraint_id=cid, keepout=item.get('id')))
                     rows.append({'constraint_id': cid, 'type': 'keepout', 'status': 'fail',
                                  'severity': severity, 'object': designator,
                                  'source': item['source']})
+            if not keepout_hits:
+                rows.append({'constraint_id': cid, 'type': 'keepout', 'status': 'pass',
+                             'severity': severity, 'source': item['source']})
         elif item['type'] == 'allowed_layer':
             component = candidate_components.get(item['designator'])
             actual = int(component.get('layer')) if component else None
@@ -852,17 +861,22 @@ def validate_placement(board, plan, constraint_set=None, placement=None):
                                          'group spread exceeds the declared limit',
                                          constraint_id=cid, spread_mil=spread))
         elif item['type'] == 'route_channel':
+            channel_hits = []
             for designator, component in candidate_components.items():
                 box = _component_box(component)
                 if not box:
                     continue
                 if _overlap(item['rect'], box):
+                    channel_hits.append(designator)
                     findings.append(_finding('channel_occupied', 'hard', [designator],
                                              'component occupies a declared route channel',
                                              constraint_id=cid, channel=item.get('id')))
                     rows.append({'constraint_id': cid, 'type': 'route_channel',
                                  'status': 'fail', 'severity': severity,
                                  'object': designator, 'source': item['source']})
+            if not channel_hits:
+                rows.append({'constraint_id': cid, 'type': 'route_channel', 'status': 'pass',
+                             'severity': severity, 'source': item['source']})
     failed_hard = [row for row in rows if row['status'] == 'fail' and row['severity'] == 'hard']
     unmeasured_hard = [row for row in rows if row['status'] == 'unmeasured' and
                        row['severity'] == 'hard']
@@ -1630,6 +1644,144 @@ def plan_pcb_reuse(module, target_board, binding, anchor_pose, constraints=None,
             result['status'] = 'rejected'
             result['reasons'] = ['target placement fails hard constraints']
     return result
+
+
+def _silk_box(item):
+    raw = item.get('BBox')
+    if not isinstance(raw, dict):
+        return None
+    try:
+        return [float(raw['MinX']), float(raw['MinY']),
+                float(raw['MaxX']), float(raw['MaxY'])]
+    except (KeyError, TypeError, ValueError):
+        return None
+
+
+def audit_fabrication(board):
+    """Offline silk/pour/via facts from a measured dump.
+
+    It reports only what the dump actually measured: visible text bboxes,
+    materialized pour fills and via rows.  It does not prove legibility,
+    thermal spokes, plane connectivity or manufacturability.
+    """
+    findings = []
+    outline = (board.get('outline') or {}).get('bbox')
+    components = board.get('components') or []
+    silk = board.get('silk') or []
+    for item in silk:
+        if not item.get('visible'):
+            continue
+        text = str(item.get('Text') or '')
+        layer = item.get('Layer')
+        if layer not in (3, 4):
+            continue
+        box = _silk_box(item)
+        ident = str(item.get('ID') or text)
+        if box is None:
+            findings.append(_finding('silk_bbox_missing', 'hard', [ident],
+                                     'visible silk text has no measured bbox',
+                                     text=text, layer=layer))
+            continue
+        if outline and not _contains(outline, box):
+            findings.append(_finding('silk_off_board', 'hard', [ident],
+                                     'silk text extends outside the board outline',
+                                     text=text, layer=layer, bbox=box))
+        if float(item.get('Rotation') or 0) % 180 not in (0, 90):
+            findings.append(_finding('silk_sideways', 'preferred', [ident],
+                                     'silk text is neither upright nor 90 degrees',
+                                     text=text, rotation=item.get('Rotation')))
+        if item.get('Mirror') or item.get('Reverse'):
+            findings.append(_finding('silk_flipped', 'preferred', [ident],
+                                     'silk text is mirrored or reversed',
+                                     text=text, mirror=item.get('Mirror'),
+                                     reverse=item.get('Reverse')))
+        side_layers = (1, 12) if layer == 3 else (2, 12)
+        for component in components:
+            for pad in component.get('pads') or []:
+                if pad.get('layer') not in side_layers:
+                    continue
+                if None in (pad.get('x'), pad.get('y')):
+                    continue
+                half_w = float(pad.get('width') or 0.0) / 2.0
+                half_h = float(pad.get('height') or 0.0) / 2.0
+                pad_box = [pad['x'] - half_w, pad['y'] - half_h,
+                           pad['x'] + half_w, pad['y'] + half_h]
+                if _overlap(box, pad_box):
+                    findings.append(_finding(
+                        'silk_over_pad', 'hard',
+                        [ident, f"{component.get('designator')}.{pad.get('number')}"],
+                        'visible silk text overlaps a same-side pad',
+                        text=text, layer=layer, pad_net=pad.get('net')))
+    # Pour boundaries vs materialized fills.
+    poured = board.get('poured') or []
+    pours = board.get('pours') or []
+    poured_by_parent = {}
+    for item in poured:
+        parent = item.get('pourPrimitiveId') or item.get('primitiveId')
+        if parent:
+            poured_by_parent.setdefault(parent, []).append(item)
+    pours_audited = 0
+    for pour in pours:
+        pours_audited += 1
+        ident = str(pour.get('primitiveId'))
+        if not pour.get('net'):
+            findings.append(_finding('netless_pour', 'hard', [ident],
+                                     'pour boundary has no net (dead copper)'))
+        if not pour.get('geometryAvailable'):
+            findings.append(_finding('pour_geometry_unknown', 'hard', [ident],
+                                     'pour boundary geometry is unavailable'))
+        materialized = poured_by_parent.get(ident) or []
+        if not materialized:
+            findings.append(_finding('pour_without_materialized_copper', 'preferred', [ident],
+                                     'no materialized fill read back for this pour boundary',
+                                     net=pour.get('net'), layer=pour.get('layer')))
+        else:
+            for item in materialized:
+                fills = item.get('fills') or []
+                if not fills:
+                    findings.append(_finding('pour_fill_empty', 'hard', [ident],
+                                             'materialized pour entry has no fills'))
+    # Netless / net-mismatched vias, including embedded vias.
+    vias = (board.get('copper') or {}).get('vias') or []
+    vias_audited = 0
+    for via in vias:
+        vias_audited += 1
+        ident = str(via.get('primitiveId'))
+        if not via.get('net'):
+            findings.append(_finding('netless_via', 'hard', [ident],
+                                     'via has no net', x=via.get('x'), y=via.get('y')))
+        for component in components:
+            for pad in component.get('pads') or []:
+                if None in (pad.get('x'), pad.get('y'), via.get('x'), via.get('y')):
+                    continue
+                half_w = float(pad.get('width') or 0.0) / 2.0
+                half_h = float(pad.get('height') or 0.0) / 2.0
+                if (pad['x'] - half_w <= via['x'] <= pad['x'] + half_w and
+                        pad['y'] - half_h <= via['y'] <= pad['y'] + half_h):
+                    if not via.get('net') or via.get('net') != pad.get('net'):
+                        findings.append(_finding(
+                            'via_pad_net_mismatch', 'hard',
+                            [ident, f"{component.get('designator')}.{pad.get('number')}"],
+                            'via inside a pad does not carry the pad net',
+                            via_net=via.get('net'), pad_net=pad.get('net')))
+    hard = [item for item in findings if item['severity'] == 'hard']
+    return {
+        'schema': 'design-engine-pcb-fabrication/v1',
+        'status': 'review' if hard else ('pass' if not findings else 'advisory'),
+        'findings': findings,
+        'counts': {'silk_items': len(silk), 'pours': pours_audited,
+                   'vias': vias_audited, 'findings': len(findings),
+                   'hard': len(hard)},
+        'coverage': {'silk_bbox_source': 'pcb dump BBox',
+                     'rendered_extent_compared': False,
+                     'note': 'pcb check may use larger live rendered text extents; '
+                             'compare with an actual export before claiming silk readability'},
+        'checks_skipped': ['silk legibility / assembly occlusion',
+                           'native rendered silk extents vs dump BBox',
+                           'thermal spokes and plane connectivity',
+                           'impedance/EMC/thermal', 'Gerber/drill/CPL contents'],
+        'note': 'only measured bboxes/pour fills/via rows; a clean result is not manufacturing approval',
+    }
 
 
 def diff_boards(before, after, scope=None):
