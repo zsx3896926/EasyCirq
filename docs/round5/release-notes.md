@@ -1,5 +1,8 @@
 # 第五轮发布说明（2026-10-23）
 
+> 历史记录：本文的 574 tests 与验证范围是第五轮当时快照，不代表当前 main。当前测试数、
+> 能力与边界见 `README.md`、`docs/readme-technical.md` 与 `docs/handoff-current.md`。
+
 分支：`feat/round5-release-acceptance`。状态真源：`docs/task-ledger-round5.md`。
 
 ## 本轮新增实现

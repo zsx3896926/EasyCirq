@@ -1,0 +1,14 @@
+{
+  "schema": "design-waivers/v1",
+  "waivers": [
+    {
+      "gate": "G2",
+      "check": "style_warnings",
+      "reason": "sch check 的 10 条均为风格/结构提示：1 处 GND 标签视觉重叠、1 处 sheet 的 Name 属性出纸、2 处位号被走线压字、1 个缺功能分区框、5 条 peripheral-not-direct（J1/C1/RV1/U1/Q1；本页用同名网标签连接，sch drc 为 0，16 个网络已逐针核对）。电气类检查为 0；本轮只交付 PCB 布线草稿，正式交付前清理这些图面问题。",
+      "scope": "仅覆盖 G2/style_warnings；不覆盖 sch drc、floating pin、网表或其他电气检查",
+      "approved_by": "项目交接记录 2026-10-24",
+      "date": "2026-10-24",
+      "evidence": ["evidence/sch-check-final2.json", "evidence/sch-drc.json"]
+    }
+  ]
+}

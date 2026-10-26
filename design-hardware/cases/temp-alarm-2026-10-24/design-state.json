@@ -1,0 +1,140 @@
+{
+  "schema": "design-state/v1",
+  "project": {
+    "name": "temp-alarm",
+    "board_revision": "rev0-draft",
+    "stage": "G3",
+    "updated": "2026-10-24"
+  },
+  "requirements": {
+    "delivery_level": {"status": "confirmed", "value": "原理图 + PCB 布线草稿；未到 Gerber/实物"},
+    "size_limit": {"status": "pending"},
+    "enclosure_mounting": {"status": "pending"},
+    "assembly": {"status": "pending"},
+    "quantity_budget": {"status": "pending"},
+    "usb_role": {"status": "confirmed", "value": "power-only；J1 数据脚 A6/A7/B6/B7 标 NC"},
+    "test_points": {"status": "confirmed", "value": "无专用测试点；用焊盘测量（J2 调试排针后来删除）"},
+    "display": {"status": "not_applicable", "reason": "无显示"},
+    "firmware": {"status": "not_applicable", "reason": "纯模拟比较器，无 MCU/固件"},
+    "threshold_interaction": {"status": "confirmed", "value": "RV1 10k 多圈电位器"},
+    "alarm_behavior": {"status": "confirmed", "value": "超阈值红灯 + 5V 有源蜂鸣器；回差约 1.7°C；自动解除"},
+    "environment_accuracy": {"status": "pending"}
+  },
+  "function_freeze": {
+    "status": "not-frozen",
+    "frozen_at": "",
+    "required": [
+      {"designator": "BZ1", "role": "5V 有源蜂鸣器"},
+      {"designator": "C1", "role": "NTC 滤波"},
+      {"designator": "C2", "role": "阈值滤波"},
+      {"designator": "C3", "role": "比较器去耦"},
+      {"designator": "C4", "role": "电源储能"},
+      {"designator": "C5", "role": "蜂鸣器去耦"},
+      {"designator": "D1", "role": "USB 防反灌"},
+      {"designator": "D3", "role": "VBUS TVS"},
+      {"designator": "D4", "role": "红色报警灯"},
+      {"designator": "D5", "role": "绿色电源灯"},
+      {"designator": "D6", "role": "蜂鸣器续流"},
+      {"designator": "J1", "role": "USB-C 16P 供电"},
+      {"designator": "Q1", "role": "低边驱动"},
+      {"designator": "R1", "role": "CC1 5.1k"},
+      {"designator": "R2", "role": "CC2 5.1k"},
+      {"designator": "R10", "role": "NTC 下拉"},
+      {"designator": "R11", "role": "阈值上臂"},
+      {"designator": "R12", "role": "阈值下臂"},
+      {"designator": "R13", "role": "回差反馈"},
+      {"designator": "R14", "role": "LED 限流"},
+      {"designator": "R15", "role": "栅极下拉"},
+      {"designator": "R16", "role": "LED 限流"},
+      {"designator": "R17", "role": "电源灯限流"},
+      {"designator": "RT1", "role": "NTC 测温"},
+      {"designator": "RV1", "role": "阈值电位器"},
+      {"designator": "U1", "role": "MCP6541 比较器"}
+    ],
+    "optional": [
+      {"designator": "J2", "role": "调试排针，可省"},
+      {"designator": "D2", "role": "USB 数据 ESD 阵列，只供电时可省"}
+    ],
+    "removed_after_freeze": [
+      {"designator": "J2", "reason": "简化装配，原理图与 PCB 都已删除", "change_impact": ""},
+      {"designator": "D2", "reason": "USB 只取电，数据脚已标 NC", "change_impact": ""}
+    ]
+  },
+  "schematic": {
+    "netlist_audit": {"status": "pass", "evidence": "交接记录 16 个网络逐针核对；sch connectivity 回读"},
+    "titleblock": {"status": "pass", "name": "室内温度报警板", "version": "rev0", "drawed": "Claude Code"},
+    "png_review": {"status": "pass", "evidence": "evidence/schematic-final.png"},
+    "single_pin_nets": {"status": "pass", "count": 0},
+    "net_naming": {"status": "pending", "reason": "USB 网仍为 D1_N1/D1_N3/D1_N4 自动名；其余功能网名已具语义"}
+  },
+  "layout": {
+    "board_outline": {"status": "pending", "reason": "90.87 × 55.29 mm 是 outline-fit 结果，不是用户目标尺寸"},
+    "mounting_holes": {"status": "pending", "reason": "未画安装孔；首板裸板，但未记录是否需要"},
+    "connector_escape": {"status": "pending", "reason": "J1 旁有 D1/D3/R1/R2，但未记录 ≤5 mm 与 slot 禁布的测量"},
+    "auto_place_used": true,
+    "auto_place_metrics": {},
+    "frozen": false,
+    "frozen_at": ""
+  },
+  "stackup": {
+    "layers": 2,
+    "decision": {"status": "pending", "reason": "2 层 vs 4 层未在布线前记录；当前瓶颈是 CC/VBUS/REF_TOP/VREF 争通道"},
+    "power_ground_strategy": {"status": "pending", "reason": "GND 双层铺铜已做，但未预先声明一层一网/铺铜优先级"},
+    "inner_layers": [],
+    "drc_rules_recorded": false,
+    "rules_verified_at": ""
+  },
+  "routing": {
+    "plan": {"status": "pending"},
+    "key_nets": ["+5V", "GND", "NODE", "VREF", "OUT", "GATE", "BUZ_D"],
+    "key_net_proofs": {},
+    "save_reload": {"status": "pending"},
+    "silk_align": {"status": "pending"},
+    "drc_rounds": [
+      {"round": 1, "total": 93},
+      {"round": 2, "total": 50},
+      {"round": 3, "total": 31},
+      {"round": 4, "total": 28},
+      {"round": 5, "total": 23},
+      {"round": 6, "total": 31},
+      {"round": 7, "total": 28},
+      {"round": 8, "total": 22},
+      {"round": 9, "total": 16},
+      {"round": 10, "total": 18}
+    ],
+    "stop_rule_triggered": false
+  },
+  "manufacturing": {
+    "artifacts": [],
+    "profile": {"status": "pending"},
+    "project_export": {
+      "path": "evidence/temp-alarm-test.epro2",
+      "sha256": "6dcf4d87331e1034e38df748a5041f26de5bf79f21833f3c92abc20b47800d9e",
+      "restore_verified": false
+    },
+    "test_plan": {"path": "docs/test-plan.md", "status": "pass"}
+  },
+  "sourcing": {
+    "stock_checked_at": "",
+    "smt_checked_at": "",
+    "smt_required": true,
+    "smt_not_required_reason": ""
+  },
+  "waivers": [],
+  "assumptions": [
+    {"id": "A1", "text": "USB-C 只取电，数据脚 NC", "impact": "去掉 D2，USB 数据功能不适用"},
+    {"id": "A2", "text": "首板裸板使用，不装外壳", "impact": "安装孔/外壳未定，但不能反推为已验证"},
+    {"id": "A3", "text": "NTC 短路不报警是已知失效边界", "impact": "测试计划需记录，不当作正常行为"}
+  ],
+  "risks": [
+    {"id": "R1", "text": "PCB DRC 18 条未清零", "status": "open"},
+    {"id": "R2", "text": "NTC 短路不报警", "status": "accepted"},
+    {"id": "R3", "text": "库存/SMT 可贴状态未实时核对", "status": "open"}
+  ],
+  "open_items": [
+    {"id": "O0", "text": "尺寸上限、装配方式、数量/预算、环境/精度未确认", "blocking": true},
+    {"id": "O1", "text": "PCB DRC 未清零", "blocking": false},
+    {"id": "O2", "text": "Gerber/CPL/制造包未导出", "blocking": false},
+    {"id": "O3", "text": "实物测试未做", "blocking": false}
+  ]
+}

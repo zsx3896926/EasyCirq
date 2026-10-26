@@ -1,0 +1,384 @@
+{
+  "id": "req_2011",
+  "type": "response",
+  "version": "v1",
+  "windowId": "bd1cb5f2-df3c-4a99-852f-d4b4d89ebd5e",
+  "createdAt": "2026-10-24T07:54:45.2555783Z",
+  "ok": true,
+  "result": {
+    "count": 39,
+    "vias": [
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "D1_N1",
+        "primitiveId": "1dd6b29dc1e3a402",
+        "x": 233.813,
+        "y": -1079.513
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "D1_N1",
+        "primitiveId": "a6ebb9f7c1ca92e1",
+        "x": 590,
+        "y": -1769.8
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "D1_N1",
+        "primitiveId": "2e379c66d983266f",
+        "x": 590,
+        "y": -1829.8
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "D1_N1",
+        "primitiveId": "101e5ae677180d30",
+        "x": 712.487,
+        "y": -1858.787
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "D1_N1",
+        "primitiveId": "8f2e10b8df0f0a79",
+        "x": 743.2,
+        "y": -1979.7
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "D1_N1",
+        "primitiveId": "559fa2a7178cb919",
+        "x": 936.9,
+        "y": -1979.7
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GATE",
+        "primitiveId": "87bc227f0203f8bb",
+        "x": 1988,
+        "y": -1465
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GATE",
+        "primitiveId": "fbb757a41fe7998a",
+        "x": 2127,
+        "y": -1450
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GATE",
+        "primitiveId": "72c96e3f24669641",
+        "x": 2157,
+        "y": -1420
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GATE",
+        "primitiveId": "4c98bef35e05bf2f",
+        "x": 2507.4,
+        "y": -1754.7
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "NODE",
+        "primitiveId": "cb3643f96bfbecb9",
+        "x": 1851.1,
+        "y": -455.79999999999995
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "NODE",
+        "primitiveId": "7792fc119e6c6b02",
+        "x": 1908.4,
+        "y": -255.9
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "NODE",
+        "primitiveId": "bf9d8e53a0d31fad",
+        "x": 2319.813,
+        "y": -282.387
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "NODE",
+        "primitiveId": "71ee7e92d5533761",
+        "x": 2506.487,
+        "y": -247.113
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "OUT",
+        "primitiveId": "ddbd68ae88ddb447",
+        "x": 2468.4,
+        "y": -255.9
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "OUT",
+        "primitiveId": "3ea395c080d7a0fb",
+        "x": 2093,
+        "y": -1390
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "PWR_LED_A",
+        "primitiveId": "f1aa875613731dad",
+        "x": 2818.3,
+        "y": -1920.1
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "PWR_LED_A",
+        "primitiveId": "73ffe709b3779041",
+        "x": 1806.2,
+        "y": -1822.7
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "+5V",
+        "primitiveId": "dc60a97d972e5a5a",
+        "x": 1631.5,
+        "y": -1265.1
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "+5V",
+        "primitiveId": "5a71556846e5c1c6",
+        "x": 1481.213,
+        "y": -1461.7869999999998
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "+5V",
+        "primitiveId": "0b166db3e2c9c62d",
+        "x": 1631.5,
+        "y": -1205.1
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "+5V",
+        "primitiveId": "5557801b70278a22",
+        "x": 1642,
+        "y": -816.5999999999999
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "+5V",
+        "primitiveId": "fd8cda46163c89ad",
+        "x": 1481.213,
+        "y": -1504.213
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "+5V",
+        "primitiveId": "a7b5a843481922dd",
+        "x": 1720.887,
+        "y": -1801.487
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "381eec81e3462d11",
+        "x": 1665.3870000000002,
+        "y": -1256.313
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "857a21b0b4c762b2",
+        "x": 1559.913,
+        "y": -1461.7869999999998
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "ef1dc0b1f0596de6",
+        "x": 2567.4,
+        "y": -1679.9
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "3f94f8a543b9ec0e",
+        "x": 2765.6,
+        "y": -1890.1
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "90995710b72a1d0a",
+        "x": 1885.087,
+        "y": -507.013
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "8ede451a6f4d2649",
+        "x": 173,
+        "y": -410.5
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "VREF",
+        "primitiveId": "f8fcee57ab4d20eb",
+        "x": 2628.613,
+        "y": -840.587
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "VREF",
+        "primitiveId": "bbc1c81ba87356e7",
+        "x": 2904.3,
+        "y": -564
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "VREF",
+        "primitiveId": "bf511f6dfd647fb3",
+        "x": 2607.4,
+        "y": -900
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "+5V",
+        "primitiveId": "21cb196d89668957",
+        "x": 3141,
+        "y": -1432
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "+5V",
+        "primitiveId": "2a309351b3913b33",
+        "x": 3101.7,
+        "y": -2054
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "03713353b534e270",
+        "x": 713.03,
+        "y": -2045.73
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "ea7feea68aff8407",
+        "x": 640.39,
+        "y": -2045.73
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "c125676e29a282c1",
+        "x": 820,
+        "y": -1713
+      },
+      {
+        "diameter": 24,
+        "holeDiameter": 12,
+        "locked": false,
+        "net": "GND",
+        "primitiveId": "7836bba23012aceb",
+        "x": 950,
+        "y": -1713
+      }
+    ]
+  },
+  "context": {
+    "projectUuid": "d71c031469054b24b71c3ace8f045b1d",
+    "projectName": "test",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@d71c031469054b24b71c3ace8f045b1d",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "d71c031469054b24b71c3ace8f045b1d",
+    "projectName": "test",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@d71c031469054b24b71c3ace8f045b1d",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "staleRisk": "PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data as unavailable",
+  "seq": 1483,
+  "seqAbandoned": 0
+}

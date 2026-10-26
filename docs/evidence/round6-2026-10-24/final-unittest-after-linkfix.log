@@ -1,0 +1,124 @@
+C:\Users\jlc\work\hds-round6\design-hardware\scripts\layout_from_snapshot.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp5g7dd_00\\bad.json' mode='r' encoding='utf-8'>
+  return 2
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+C:\Users\jlc\work\hds-round6\design-hardware\scripts\layout_from_snapshot.py:23: ResourceWarning: unclosed file <_io.TextIOWrapper name='C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpje7330op\\snap.json' mode='r' encoding='utf-8'>
+  data = json.load(open(args.snapshot, encoding='utf-8'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+----------------------------------------------------------------------
+{
+  "status": "match",
+  "match": true,
+  "before": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "after": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "differences": [],
+  "blocking_differences": [],
+  "compared_fields": [
+    "component designator/parttype/footprint/BOM/PCB/supplier/manufacturer/unique_id",
+    "physical pin -> net",
+    "net partition",
+    "duplicate designators",
+    "pin on multiple nets",
+    "empty nets (*reported, not blocking by itself)"
+  ],
+  "limitations": [
+    "a component pin that is unconnected in both netlists is absent from both; this tool cannot prove NC state from a Protel netlist alone",
+    "coordinates, wire geometry and formatting are intentionally not compared"
+  ]
+}
+{
+  "status": "mismatch",
+  "match": false,
+  "before": {
+    "components": 2,
+Ran 661 tests in 31.722s
+    "nets": 2,
+    "pins": 4,
+
+OK
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "after": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "differences": [
+    {
+      "kind": "component_field",
+      "designator": "R1",
+      "field": "PARTTYPE",
+      "before": "10k",
+      "after": "22k"
+    }
+  ],
+  "blocking_differences": [
+    {
+      "kind": "component_field",
+      "designator": "R1",
+      "field": "PARTTYPE",
+      "before": "10k",
+      "after": "22k"
+    }
+  ],
+  "compared_fields": [
+    "component designator/parttype/footprint/BOM/PCB/supplier/manufacturer/unique_id",
+    "physical pin -> net",
+    "net partition",
+    "duplicate designators",
+    "pin on multiple nets",
+    "empty nets (*reported, not blocking by itself)"
+  ],
+  "limitations": [
+    "a component pin that is unconnected in both netlists is absent from both; this tool cannot prove NC state from a Protel netlist alone",
+    "coordinates, wire geometry and formatting are intentionally not compared"
+  ]
+}
+{
+  "status": "invalid",
+  "error": "[Errno 2] No such file or directory: 'C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Temp\\\\tmp3ylms1f3\\\\missing.net'"
+}
+PASS ldo fail status
+PASS ldo power
+PASS ldo required theta
+PASS ldo 60C tj
+PASS mosfet good tj
+PASS mosfet good power
+PASS mosfet bad status
+PASS mosfet bad power
+PASS mosfet bad tj
+PASS led heat
+PASS led required rth_sa
+PASS led model status
+PASS led good tj
+PASS via 9
+PASS enclosure surface
+PASS heatsink tj
+PASS heatsink required sa
+PASS ldo rejects vout>vin
+PASS via rejects over-plating
+PASS via rejects fractional count
+PASS ldo project margin tight
+PASS enclosure zero margin tight
+PASS led electrical basis tj
+PASS led electrical basis status
+PASS huge integer rejected
+PASS led rejects fractional series
+PASS led rejects optical=1
+PASS ldo rejects zero dropout
+PASS mosfet duty=0 no switching
+29/29 checks passed
