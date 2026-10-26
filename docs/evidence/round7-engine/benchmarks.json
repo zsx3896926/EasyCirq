@@ -1,0 +1,208 @@
+{
+  "status": "ok",
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "cases": [
+    {
+      "id": "power-entry",
+      "title": "电源入口（保险/TVS/反接/储能）",
+      "domain": "power",
+      "expected_codes": [
+        "bbox_overlap"
+      ],
+      "observed_codes": [
+        "bbox_overlap"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "ldo",
+      "title": "LDO 稳压",
+      "domain": "power",
+      "expected_codes": [
+        "wire_enters_bbox"
+      ],
+      "observed_codes": [
+        "wire_enters_bbox"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "buck",
+      "title": "Buck 降压",
+      "domain": "power",
+      "expected_codes": [
+        "outside_page"
+      ],
+      "observed_codes": [
+        "outside_page"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "mcu-min",
+      "title": "MCU 最小系统",
+      "domain": "digital",
+      "expected_codes": [
+        "overlaps_title_block"
+      ],
+      "observed_codes": [
+        "overlaps_title_block"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "crystal",
+      "title": "晶振与负载电容",
+      "domain": "digital",
+      "expected_codes": [
+        "wire_enters_bbox"
+      ],
+      "observed_codes": [
+        "wire_enters_bbox"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "reset-supervisor",
+      "title": "复位监控与按键",
+      "domain": "digital",
+      "expected_codes": [
+        "module_frames_overlap"
+      ],
+      "observed_codes": [
+        "module_frames_overlap"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "usb-c-power",
+      "title": "USB-C 取电",
+      "domain": "interface",
+      "expected_codes": [
+        "dangling_wire_endpoint"
+      ],
+      "observed_codes": [
+        "dangling_wire_endpoint"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "i2c-sensor",
+      "title": "I2C 传感器",
+      "domain": "sensor",
+      "expected_codes": [
+        "label_anchor_off_connection"
+      ],
+      "observed_codes": [
+        "label_anchor_off_connection"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "divider-sense",
+      "title": "分压采样",
+      "domain": "analog",
+      "expected_codes": [
+        "different_named_wires_cross"
+      ],
+      "observed_codes": [
+        "different_named_wires_cross",
+        "wire_enters_bbox"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "opamp-comparator",
+      "title": "运放/比较器",
+      "domain": "analog",
+      "expected_codes": [
+        "bbox_overlap"
+      ],
+      "observed_codes": [
+        "bbox_overlap"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "mos-load",
+      "title": "MOS 负载开关",
+      "domain": "driver",
+      "expected_codes": [
+        "frame_member_outside"
+      ],
+      "observed_codes": [
+        "frame_member_outside"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    },
+    {
+      "id": "rs485-can",
+      "title": "RS485/CAN 收发器",
+      "domain": "interface",
+      "expected_codes": [
+        "label_anchor_conflict"
+      ],
+      "observed_codes": [
+        "label_anchor_conflict",
+        "label_net_mismatch"
+      ],
+      "missing": [],
+      "status": "passed",
+      "evidence_level": "synthetic_offline_geometry_not_real_eda",
+      "electrical_verified": false,
+      "visual_verified": false
+    }
+  ],
+  "coverage": "synthetic geometry only; real temp-alarm/F1 cases are listed separately",
+  "not_checked": [
+    "real EDA import",
+    "electrical connectivity",
+    "visual review"
+  ]
+}

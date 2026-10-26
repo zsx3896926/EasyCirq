@@ -1,0 +1,37 @@
+{
+  "status": "ok",
+  "out": "docs\\evidence\\round7-engine\\ir.json",
+  "summary": {
+    "schema": "design-engine-ir/v1",
+    "project": "temp-alarm-r7-scratch",
+    "page": "P1",
+    "components": {
+      "part": 26
+    },
+    "nets": 14,
+    "connections": 65,
+    "wires": 65,
+    "labels": 31,
+    "net_labels": 34,
+    "texts": 53,
+    "modules": 0,
+    "groups": 26,
+    "text_bbox_sources": {
+      "windows_gdi_font_metrics": 70,
+      "native_sdk_bbox": 26
+    },
+    "coverage": {
+      "components": "complete",
+      "pins": "complete",
+      "attributes": "complete",
+      "text_bboxes": "complete",
+      "wires": "complete",
+      "net_labels": "complete",
+      "nets": "complete",
+      "title_block": "complete",
+      "module_frames": "absent",
+      "groups": "complete",
+      "reasons": []
+    }
+  }
+}

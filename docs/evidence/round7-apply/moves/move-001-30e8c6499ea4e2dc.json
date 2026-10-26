@@ -1,0 +1,26 @@
+{
+  "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+  "documentUuid": "6a8364999a809cb4",
+  "primitiveId": "30e8c6499ea4e2dc",
+  "x": 830,
+  "y": 545,
+  "expected": {
+    "AlignMode": null,
+    "Bold": false,
+    "Color": null,
+    "FillColor": null,
+    "FontName": null,
+    "FontSize": null,
+    "Italic": false,
+    "Key": "Designator",
+    "KeyVisible": false,
+    "ParentPrimitiveId": "ec3b270565a9aa6c",
+    "Rotation": 0,
+    "UnderLine": false,
+    "Value": "RV1",
+    "ValueVisible": true,
+    "X": 850,
+    "Y": 545,
+    "primitiveId": "30e8c6499ea4e2dc"
+  }
+}

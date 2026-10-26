@@ -1,0 +1,45 @@
+{
+  "ok": true,
+  "result": {
+    "coordinateSystem": "schematic-raw-y-up-vector-centerlines",
+    "sheet": {
+      "bbox": {
+        "minX": 0,
+        "minY": 0,
+        "maxX": 1170,
+        "maxY": 825
+      },
+      "innerBBox": {
+        "minX": 10,
+        "minY": 10,
+        "maxX": 1160,
+        "maxY": 815
+      }
+    },
+    "titleBlock": {
+      "visible": true,
+      "bbox": {
+        "minX": 468,
+        "minY": 0,
+        "maxX": 1170,
+        "maxY": 198
+      },
+      "source": "easyeda sch sheet-geometry text (live import)"
+    },
+    "keepouts": [
+      {
+        "name": "titleBlock",
+        "bbox": {
+          "minX": 468,
+          "minY": 0,
+          "maxX": 1170,
+          "maxY": 198
+        },
+        "hard": true
+      }
+    ],
+    "warnings": [
+      "parsed from human text; page identity verified by doc pin"
+    ]
+  }
+}

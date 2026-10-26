@@ -1,0 +1,168 @@
+{
+  "schema": "design-engine-critical/v1",
+  "status": "blocked",
+  "findings": [
+    {
+      "id": "finding:critical_decoupling_far:C2.1|U1.4",
+      "code": "critical_decoupling_far",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "C2.1",
+        "U1.4"
+      ],
+      "message": "C2.1 is 442.2 mil from U1.4 on VREF (limit 100.0 mil, JLC decoupling rule (native DFM))",
+      "evidence": {
+        "cap_pad": "C2.1",
+        "ic_pad": "U1.4",
+        "net": "VREF",
+        "distance_mil": 442.2086046200368,
+        "limit_mil": 100.0,
+        "source": "JLC decoupling rule (native DFM)",
+        "path": [
+          [
+            2607.4,
+            -861.8
+          ],
+          [
+            2934.3,
+            -564
+          ]
+        ]
+      }
+    },
+    {
+      "id": "finding:critical_decoupling_far:C3.1|U1.5",
+      "code": "critical_decoupling_far",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "C3.1",
+        "U1.5"
+      ],
+      "message": "C3.1 is 790.8 mil from U1.5 on +5V (limit 100.0 mil, JLC decoupling rule (native DFM))",
+      "evidence": {
+        "cap_pad": "C3.1",
+        "ic_pad": "U1.5",
+        "net": "+5V",
+        "distance_mil": 790.7918689516224,
+        "limit_mil": 100.0,
+        "source": "JLC decoupling rule (native DFM)",
+        "path": [
+          [
+            3141,
+            -1402.1
+          ],
+          [
+            2934.3,
+            -638.8
+          ]
+        ]
+      }
+    },
+    {
+      "id": "finding:critical_decoupling_far:C4.1|U1.5",
+      "code": "critical_decoupling_far",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "C4.1",
+        "U1.5"
+      ],
+      "message": "C4.1 is 1698.9 mil from U1.5 on +5V (limit 100.0 mil, JLC decoupling rule (native DFM))",
+      "evidence": {
+        "cap_pad": "C4.1",
+        "ic_pad": "U1.5",
+        "net": "+5V",
+        "distance_mil": 1698.8920301184535,
+        "limit_mil": 100.0,
+        "source": "JLC decoupling rule (native DFM)",
+        "path": [
+          [
+            1460,
+            -1483
+          ],
+          [
+            2934.3,
+            -638.8
+          ]
+        ]
+      }
+    },
+    {
+      "id": "finding:critical_decoupling_far:C5.1|U1.5",
+      "code": "critical_decoupling_far",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "C5.1",
+        "U1.5"
+      ],
+      "message": "C5.1 is 1432.8 mil from U1.5 on +5V (limit 100.0 mil, JLC decoupling rule (native DFM))",
+      "evidence": {
+        "cap_pad": "C5.1",
+        "ic_pad": "U1.5",
+        "net": "+5V",
+        "distance_mil": 1432.7810474737585,
+        "limit_mil": 100.0,
+        "source": "JLC decoupling rule (native DFM)",
+        "path": [
+          [
+            1631.5,
+            -1235.1
+          ],
+          [
+            2934.3,
+            -638.8
+          ]
+        ]
+      }
+    },
+    {
+      "id": "finding:critical_protection_far:J1.9|D3.2",
+      "code": "critical_protection_far",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "J1.9",
+        "D3.2"
+      ],
+      "message": "protection D3 is 212.7 mil from connector J1 on GND",
+      "evidence": {
+        "distance_mil": 212.6625966172707,
+        "limit_mil": 200.0,
+        "source": "layout review",
+        "path": [
+          [
+            1039.6,
+            -2045.7
+          ],
+          [
+            906.3,
+            -1880
+          ]
+        ]
+      }
+    }
+  ],
+  "hard_count": 4,
+  "advisory_count": 1,
+  "checks_run": [
+    "decoupling",
+    "protection_proximity",
+    "crystal_load",
+    "feedback_divider"
+  ],
+  "not_checked": [
+    "buck current-loop area and switch-node geometry (needs topology/current evidence)",
+    "gate/Kelvin sense and high-current return paths",
+    "reference-plane continuity and cross-split return",
+    "thermal and field-solver results"
+  ],
+  "electrical_verified": false,
+  "note": "pad-to-pad distances are geometric evidence; they do not prove SI/EMC/thermal performance",
+  "source": {
+    "kind": "pcb-bundle",
+    "path": "docs\\evidence\\round7-baseline-2026-10-24"
+  }
+}

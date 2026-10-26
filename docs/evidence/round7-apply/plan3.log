@@ -1,0 +1,133 @@
+{
+  "schema": "design-engine-label-plan/v1",
+  "source": {
+    "project_uuid": "64ab79c43f24454e8066801ade20d42f",
+    "page_name": "P1",
+    "ir_schema": "design-engine-ir/v1",
+    "reading": {
+      "kind": "ir",
+      "path": "docs\\evidence\\round7-apply\\after2-ir.json"
+    }
+  },
+  "operations": [
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:cfad267e7ce2ec51",
+      "primitive_id": "cfad267e7ce2ec51",
+      "component_id": "part:J1",
+      "designator": "J1",
+      "key": "Name",
+      "value": "={Manufacturer Part}",
+      "from": {
+        "x": 495,
+        "y": 440
+      },
+      "to": {
+        "x": 500.0,
+        "y": 440.0
+      },
+      "bbox_before": [
+        495.0,
+        440.0,
+        582.0,
+        453.0
+      ],
+      "bbox_after": [
+        500.0,
+        440.0,
+        587.0,
+        453.0
+      ],
+      "reason": "wire_touches_text_bbox",
+      "finding_ids": [
+写入 3 个 attribute-move 参数文件: docs\evidence\round7-apply\moves3
+        "finding:wire_touches_text_bbox:wire:73be8c0a29ccb986|attr:cfad267e7ce2ec51"
+      ]
+    },
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:abe6aefa4f258847",
+      "primitive_id": "abe6aefa4f258847",
+      "component_id": "part:D4",
+      "designator": "D4",
+      "key": "Designator",
+      "value": "D4",
+      "from": {
+        "x": 885,
+        "y": 230
+      },
+      "to": {
+        "x": 880.0,
+        "y": 245.0
+      },
+      "bbox_before": [
+        885.0,
+        230.0,
+        896.185302734375,
+        240.0
+      ],
+      "bbox_after": [
+        880.0,
+        245.0,
+        893.0,
+        258.0
+      ],
+      "reason": "wire_touches_text_bbox",
+      "finding_ids": [
+        "finding:wire_touches_text_bbox:wire:4492e19b0a02455b|attr:abe6aefa4f258847"
+      ]
+    },
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:243afe9dc3307f9c",
+      "primitive_id": "243afe9dc3307f9c",
+      "component_id": "part:D6",
+      "designator": "D6",
+      "key": "Designator",
+      "value": "D6",
+      "from": {
+        "x": 990,
+        "y": 250
+      },
+      "to": {
+        "x": 990.0,
+        "y": 255.0
+      },
+      "bbox_before": [
+        990.0,
+        250.0,
+        1001.185302734375,
+        260.0
+      ],
+      "bbox_after": [
+        990.0,
+        255.0,
+        1003.0,
+        268.0
+      ],
+      "reason": "wire_touches_text_bbox",
+      "finding_ids": [
+        "finding:wire_touches_text_bbox:wire:913747749ee178bc|attr:243afe9dc3307f9c"
+      ]
+    }
+  ],
+  "unplanned": [],
+  "before": {
+    "status": "blocked",
+    "hard_count": 1
+  },
+  "after_simulation": {
+    "status": "blocked",
+    "hard_count": 1,
+    "advisory_count": 7,
+    "findings_by_code": {
+      "label_overlap": 1,
+      "missing_partition": 1,
+      "net_label_overlap": 4,
+      "off_grid": 1,
+      "outside_page": 1
+    }
+  },
+  "eeada_apply": "NOT RUN",
+  "note": "positions are an offline simulation; apply through a connector, then re-read and re-export"
+}

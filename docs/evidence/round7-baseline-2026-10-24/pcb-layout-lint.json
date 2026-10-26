@@ -1,0 +1,105 @@
+{
+  "report": {
+    "ok": true,
+    "incomplete": false,
+    "coverage": {
+      "complete": true,
+      "componentsInventoryKnown": true,
+      "padsInventoryKnown": true,
+      "componentCount": 26,
+      "totalPads": 71,
+      "knownGeometryPads": 71,
+      "unsupportedGeometryPads": 0,
+      "unknownGeometryPads": 0,
+      "legacyGeometryPads": 0
+    },
+    "score": 72,
+    "verdict": "moderate",
+    "componentCount": 26,
+    "minGapMil": 5.98,
+    "overlaps": null,
+    "outsideOutline": null,
+    "tightSpacing": null,
+    "silk": [
+      {
+        "type": "silk-over-pad",
+        "level": "WARN",
+        "layer": 3,
+        "designator": "R12",
+        "primitives": [
+          "20846f3ca6882c23e18"
+        ],
+        "message": "silk text Designator \"C5\" overlaps pad R12.1 — fab clips silk on exposed copper; move it (`pcb silk-align` / `pcb silk-set`) [规范 §11.2 丝印不压焊盘 — pcb-design-rules.md]",
+        "at": {
+          "x": 1663,
+          "y": -1145
+        }
+      },
+      {
+        "type": "silk-over-pad",
+        "level": "WARN",
+        "layer": 3,
+        "designator": "R16",
+        "primitives": [
+          "683ee50fcc02414ae16"
+        ],
+        "message": "silk text Designator \"R14\" overlaps pad R16.2 — fab clips silk on exposed copper; move it (`pcb silk-align` / `pcb silk-set`) [规范 §11.2 丝印不压焊盘 — pcb-design-rules.md]",
+        "at": {
+          "x": 2067.6,
+          "y": -1326.9
+        }
+      }
+    ],
+    "sides": {
+      "top": 26
+    },
+    "signalNets": 11,
+    "ratsnestLenMil": 11510.99,
+    "crossingCount": 7,
+    "crossings": [
+      {
+        "netA": "BUZ_D",
+        "netB": "LED_A",
+        "x": 2533.41,
+        "y": -2117.43
+      },
+      {
+        "netA": "BUZ_D",
+        "netB": "LED_A",
+        "x": 2457.38,
+        "y": -1988.4
+      },
+      {
+        "netA": "BUZ_D",
+        "netB": "PWR_LED_A",
+        "x": 2457.88,
+        "y": -1884.63
+      },
+      {
+        "netA": "GATE",
+        "netB": "LED_A",
+        "x": 2123.55,
+        "y": -1421.86
+      },
+      {
+        "netA": "LED_A",
+        "netB": "OUT",
+        "x": 2112.8,
+        "y": -1403.61
+      },
+      {
+        "netA": "LED_A",
+        "netB": "PWR_LED_A",
+        "x": 2392.75,
+        "y": -1878.71
+      },
+      {
+        "netA": "NODE",
+        "netB": "OUT",
+        "x": 2487.27,
+        "y": -239.61
+      }
+    ],
+    "summary": "score 72/100 (moderate): 26 comps, 0 short, 0 overlap, 0 off-board, 0 tight; 11 signal nets, ratsnest 11511mil, 7 crossings"
+  }
+}

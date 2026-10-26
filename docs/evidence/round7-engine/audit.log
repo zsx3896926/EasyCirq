@@ -1,0 +1,369 @@
+{
+  "schema": "design-engine-audit/v1",
+  "engine_version": "1.0.0",
+  "reading": {
+    "schema": "design-engine-ir/v1",
+    "project": "temp-alarm-r7-scratch",
+    "project_uuid": "7985fed220664da5a84e8c72ec3c9486",
+    "page": "P1",
+    "document_uuid": "6a8364999a809cb4",
+    "files": [
+      {
+        "path": "sch-list-full.json",
+        "sha256": "c556d3a62f710b49e516096e73fd0a9f468a6a829f72c33c9fc3ffc08870a2bb",
+        "bytes": 1126560
+      },
+      {
+        "path": "sch-connectivity.json",
+        "sha256": "f1ca39c4a7315287f2e55b215f6a74525b752d3615851f10ed22b978a0e28a1d",
+        "bytes": 41229
+      },
+      {
+        "path": "sch-designator-geometry.json",
+        "sha256": "347fa8309b54d114523ff567b72dcbaf787f6a0cb19bb5688e81606d19b35255",
+        "bytes": 10695
+      },
+      {
+        "path": "sheet-geometry.json",
+        "sha256": "d980356645e350a83cadcb60921ad037f9397645090e29cf031f1c2328dabc4e",
+        "bytes": 675
+      },
+      {
+        "path": "sch-titleblock.json",
+        "sha256": "2ac4bc8e39a45fe52992fd79c0a63b5678927f6577c42171b3cbb0de2725bafc",
+        "bytes": 4830
+      },
+      {
+        "path": "sch-text-list.json",
+        "sha256": "4fee333fff976754e1a81acf490b50a334a5949ece76fc0bd4486c2cf0b8c2d0",
+        "bytes": 990
+      },
+      {
+        "path": "sch-baseline.svg",
+        "sha256": "0eafbadad2e5c7c0f44d5434e5a3da1e06662b3ca7f05c4273204a776cf0d25a",
+        "bytes": 176631
+      },
+      {
+        "path": "sch-check.json",
+        "sha256": "4057a241903b0af44f7acf6d09733f5414dc0409d4c26b980cb41656a8ad086b",
+        "bytes": 1598
+      },
+      {
+        "path": "sch-layout-lint.json",
+        "sha256": "3d24574bac9bf351bf5e8046632dbe20fccd6149c945502950e3abf65da76012",
+        "bytes": 594
+      },
+      {
+        "path": "sch-drc.json",
+        "sha256": "b4fef88a7425121b2854f57e78cd2c6f6145d339da44cac2451571f61d92c38c",
+        "bytes": 120
+      },
+      {
+        "path": "sch-layout-score.json",
+        "sha256": "2b1c1f7e5c11969305cbba8526a281d0515936000a6ba8dbd0b43da276ffa093",
+        "bytes": 2723
+      }
+    ]
+  },
+  "summary": {
+    "schema": "design-engine-ir/v1",
+    "project": "temp-alarm-r7-scratch",
+    "page": "P1",
+    "components": {
+      "part": 26
+    },
+    "nets": 14,
+    "connections": 65,
+    "wires": 65,
+    "labels": 31,
+    "net_labels": 34,
+    "texts": 53,
+    "modules": 0,
+    "groups": 26,
+    "text_bbox_sources": {
+      "windows_gdi_font_metrics": 70,
+      "native_sdk_bbox": 26
+    },
+    "coverage": {
+      "components": "complete",
+      "pins": "complete",
+      "attributes": "complete",
+      "text_bboxes": "complete",
+      "wires": "complete",
+      "net_labels": "complete",
+      "nets": "complete",
+      "title_block": "complete",
+      "module_frames": "absent",
+      "groups": "complete",
+      "reasons": []
+    }
+  },
+  "status": "blocked",
+  "findings": [
+    {
+      "id": "finding:off_grid:part:D4",
+      "code": "off_grid",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "part:D4"
+      ],
+      "message": "D4 anchor (900, 224) is not on a 5-unit grid",
+      "evidence": {}
+    },
+    {
+      "id": "finding:text_overlap:attr:30e8c6499ea4e2dc|attr:d3dbc48546b24ce3",
+      "code": "text_overlap",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "attr:30e8c6499ea4e2dc",
+        "attr:d3dbc48546b24ce3"
+      ],
+      "message": "RV1.Designator text overlaps RV1.Name",
+      "evidence": {}
+    },
+    {
+      "id": "finding:text_overlap:attr:856b2a6219e7df58|attr:86d6306d597fc0ba",
+      "code": "text_overlap",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "attr:856b2a6219e7df58",
+        "attr:86d6306d597fc0ba"
+      ],
+      "message": "Q1.Name text overlaps Q1.Designator",
+      "evidence": {}
+    },
+    {
+      "id": "finding:text_overlap:attr:cfbe66a831e04fb8|attr:9549f23e0bf7051d",
+      "code": "text_overlap",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "attr:cfbe66a831e04fb8",
+        "attr:9549f23e0bf7051d"
+      ],
+      "message": "D6.Name text overlaps D5.Name",
+      "evidence": {}
+    },
+    {
+      "id": "finding:text_component_overlap:attr:856b2a6219e7df58|part:BZ1",
+      "code": "text_component_overlap",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "attr:856b2a6219e7df58",
+        "part:BZ1"
+      ],
+      "message": "Q1.Name covers the body of BZ1",
+      "evidence": {}
+    },
+    {
+      "id": "finding:text_component_overlap:attr:9549f23e0bf7051d|part:D6",
+      "code": "text_component_overlap",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "attr:9549f23e0bf7051d",
+        "part:D6"
+      ],
+      "message": "D5.Name covers the body of D6",
+      "evidence": {}
+    },
+    {
+      "id": "finding:outside_page:text:3fcc0b756fafb102",
+      "code": "outside_page",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "text:3fcc0b756fafb102"
+      ],
+      "message": "text:Name is outside the page [0.0, 0.0, 1170.0, 825.0]",
+      "evidence": {
+        "bbox": [
+          0.0,
+          -20.0,
+          26.0,
+          -7.0
+        ],
+        "page": [
+          0.0,
+          0.0,
+          1170.0,
+          825.0
+        ]
+      }
+    },
+    {
+      "id": "finding:wire_enters_text:wire:eac7d89f513f570a|attr:cfad267e7ce2ec51",
+      "code": "wire_enters_text",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "wire:eac7d89f513f570a",
+        "attr:cfad267e7ce2ec51"
+      ],
+      "message": "wire:eac7d89f513f570a crosses J1.Name",
+      "evidence": {}
+    },
+    {
+      "id": "finding:wire_enters_text:wire:73be8c0a29ccb986|attr:cfad267e7ce2ec51",
+      "code": "wire_enters_text",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "wire:73be8c0a29ccb986",
+        "attr:cfad267e7ce2ec51"
+      ],
+      "message": "wire:73be8c0a29ccb986 crosses J1.Name",
+      "evidence": {}
+    },
+    {
+      "id": "finding:wire_enters_text:wire:4492e19b0a02455b|attr:9549f23e0bf7051d",
+      "code": "wire_enters_text",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "wire:4492e19b0a02455b",
+        "attr:9549f23e0bf7051d"
+      ],
+      "message": "wire:4492e19b0a02455b crosses D5.Name",
+      "evidence": {}
+    },
+    {
+      "id": "finding:wire_enters_text:wire:29e9661165d8c3da|attr:9549f23e0bf7051d",
+      "code": "wire_enters_text",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "wire:29e9661165d8c3da",
+        "attr:9549f23e0bf7051d"
+      ],
+      "message": "wire:29e9661165d8c3da crosses D5.Name",
+      "evidence": {}
+    },
+    {
+      "id": "finding:label_overlap:label:netflag:b84abb2f4e79df36|label:netflag:0484ef7189f64ea7",
+      "code": "label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "label:netflag:b84abb2f4e79df36",
+        "label:netflag:0484ef7189f64ea7"
+      ],
+      "message": "net label GND overlaps GND",
+      "evidence": {}
+    },
+    {
+      "id": "finding:net_label_overlap:netlabel:11ab6c3069e0df5b|netlabel:f0716cfd895ef448",
+      "code": "net_label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "netlabel:11ab6c3069e0df5b",
+        "netlabel:f0716cfd895ef448"
+      ],
+      "message": "net labels PWR_LED_A and BUZ_D overlap",
+      "evidence": {}
+    },
+    {
+      "id": "finding:net_label_overlap:netlabel:2810d562818e2f1f|netlabel:baabcb8449b80a8c",
+      "code": "net_label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "netlabel:2810d562818e2f1f",
+        "netlabel:baabcb8449b80a8c"
+      ],
+      "message": "net labels OUT and NODE overlap",
+      "evidence": {}
+    },
+    {
+      "id": "finding:net_label_overlap:netlabel:2a4b653e36b26122|netlabel:c97bdfb920d17461",
+      "code": "net_label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "netlabel:2a4b653e36b26122",
+        "netlabel:c97bdfb920d17461"
+      ],
+      "message": "net labels BUZ_D and GATE overlap",
+      "evidence": {}
+    },
+    {
+      "id": "finding:net_label_overlap:netlabel:40fc679523ba8b91|netlabel:a3fecf0bffd13df0",
+      "code": "net_label_overlap",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "netlabel:40fc679523ba8b91",
+        "netlabel:a3fecf0bffd13df0"
+      ],
+      "message": "net labels REF_TOP and REF_BOT overlap",
+      "evidence": {}
+    },
+    {
+      "id": "finding:missing_partition:page",
+      "code": "missing_partition",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "page"
+      ],
+      "message": "26 parts on one page without declared module frames",
+      "evidence": {}
+    }
+  ],
+  "hard_count": 10,
+  "advisory_count": 7,
+  "checks_run": [
+    "component_bodies",
+    "off_grid",
+    "text_overlaps",
+    "text_component_overlap",
+    "outside_page",
+    "title_block",
+    "wire_body_text_crossings",
+    "wire_contacts",
+    "different_net_crossings",
+    "labels"
+  ],
+  "checks_skipped": [
+    "module_frames: no declared module frames"
+  ],
+  "coverage_issues": [],
+  "pin_reconciliation": {
+    "status": "match",
+    "issues": [],
+    "connected_pins": 65,
+    "duplicate_pin_numbers_preserved": {},
+    "coverage": "Pin table + connectivity export + NC flags; not an independent native netlist diff."
+  },
+  "electrical_verified": false,
+  "visual_verified": false,
+  "coverage_note": "Geometry and identity only; wire-level connectivity, ERC and visual review remain separate.",
+  "metrics": {
+    "components": 26,
+    "attributes": 96,
+    "texts": 53,
+    "wires": 65,
+    "labels": 31,
+    "net_labels": 34,
+    "nets": 14,
+    "findings_by_code": {
+      "label_overlap": 1,
+      "missing_partition": 1,
+      "net_label_overlap": 4,
+      "off_grid": 1,
+      "outside_page": 1,
+      "text_component_overlap": 2,
+      "text_overlap": 3,
+      "wire_enters_text": 4
+    }
+  },
+  "source": {
+    "kind": "ir",
+    "path": "docs\\evidence\\round7-engine\\ir.json"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "id": "req_2311",
+  "type": "response",
+  "version": "v1",
+  "windowId": "bd1cb5f2-df3c-4a99-852f-d4b4d89ebd5e",
+  "createdAt": "2026-10-24T13:19:52.1471775Z",
+  "ok": true,
+  "result": {
+    "arcs": 0,
+    "bbox": {
+      "maxX": 3482.5464999999995,
+      "maxY": -91.8504,
+      "minX": -105,
+      "minY": -2278.6074
+    },
+    "centerlineBBox": {
+      "maxX": 3477.5465,
+      "maxY": -96.8504,
+      "minX": -100,
+      "minY": -2273.6074
+    },
+    "height": 2176.757,
+    "legacyArcs": 0,
+    "lineWidth": 10,
+    "locked": true,
+    "nativeArcs": 0,
+    "outline": 1,
+    "outlineFormat": "polyline",
+    "points": [
+      [
+        -100,
+        -2273.6074
+      ],
+      [
+        -100,
+        -96.8504
+      ],
+      [
+        3477.5465,
+        -96.8504
+      ],
+      [
+        3477.5465,
+        -2273.6074
+      ]
+    ],
+    "radius": null,
+    "segments": 0,
+    "sourceArcs": 0,
+    "sourceSegments": 4,
+    "width": 3577.5465
+  },
+  "context": {
+    "projectUuid": "7985fed220664da5a84e8c72ec3c9486",
+    "projectName": "temp-alarm-r7-scratch",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@7985fed220664da5a84e8c72ec3c9486",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "7985fed220664da5a84e8c72ec3c9486",
+    "projectName": "temp-alarm-r7-scratch",
+    "documentUuid": "6cde899fca734109",
+    "documentType": "pcb",
+    "tabId": "6cde899fca734109@7985fed220664da5a84e8c72ec3c9486",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 1680,
+  "seqAbandoned": 0
+}

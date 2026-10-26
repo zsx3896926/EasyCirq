@@ -96,7 +96,7 @@ def inside(point_, box):
 def analyze(data):
     fields(data, ['coordinate_units', 'components', 'texts', 'wires'],
            ['page_bbox', 'expected_counts', 'policy', 'title_block', 'module_frames',
-            'attachment_points', 'label_anchors'])
+            'attachment_points', 'label_anchors', 'coverage'])
     if not isinstance(data['coordinate_units'], str) or not data['coordinate_units'].strip():
         raise ValueError('coordinate_units required; never infer pixels/inches')
     identities, groups = set(), {}
@@ -311,9 +311,26 @@ def analyze(data):
     else:
         checks_skipped.append('connection checks: policy.connection_tolerance not supplied')
 
-    complete_input = matched is True and any(counts.values())
-    result = {'status': 'review_required' if findings else ('no_candidates' if complete_input else 'incomplete'),
+    coverage = data.get('coverage')
+    if coverage is not None:
+        if not isinstance(coverage, dict):
+            raise ValueError('coverage must be an object when supplied')
+        geometry_complete = all(
+            isinstance(coverage.get(key), dict) and coverage[key].get('status') == 'complete'
+            for key in ('components', 'texts', 'wires')
+        )
+        complete_input = matched is True and geometry_complete and any(counts.values())
+        coverage_status = 'complete' if geometry_complete else 'incomplete'
+    else:
+        complete_input = matched is True and any(counts.values())
+        coverage_status = 'not_supplied'
+    if findings:
+        status = 'review_required' if complete_input else 'incomplete'
+    else:
+        status = 'no_candidates' if complete_input else 'incomplete'
+    result = {'status': status,
               'counts': counts, 'declared_inventory_matches': matched,
+              'coverage_status': coverage_status, 'coverage': coverage,
               'optional_counts': {'module_frames': len(frames), 'attachment_points': len(attachments),
                                   'label_anchors': len(labels)},
               'checks_run': checks_run, 'checks_skipped': checks_skipped,

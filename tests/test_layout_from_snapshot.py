@@ -2,6 +2,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import sys
 import tempfile
 import unittest
 
@@ -60,6 +61,31 @@ class LayoutFromSnapshot(unittest.TestCase):
         self.assertEqual(out['components'], [])
         self.assertEqual(out['texts'], [])
         self.assertNotIn('expected_counts', out)
+
+    def test_emits_real_component_and_text_geometry_when_present(self):
+        data = snapshot()
+        data['snapshot']['parts'][0]['bbox'] = {'minX': 0, 'minY': 0, 'maxX': 20, 'maxY': 10}
+        data['snapshot']['texts'] = [
+            {'primitive_id': 't1', 'content': 'R1', 'x': 5, 'y': 12,
+             'font_size': 8, 'bbox': {'minX': 5, 'minY': 12, 'maxX': 15, 'maxY': 21}},
+        ]
+        out = self.convert(data)
+        self.assertEqual(out['components'], [{'id': 'R1', 'bbox': [0.0, 0.0, 20.0, 10.0]}])
+        self.assertEqual(out['texts'], [{'id': 't1', 'bbox': [5.0, 12.0, 15.0, 21.0]}])
+        self.assertEqual(out['coverage']['components']['status'], 'complete')
+        self.assertEqual(out['coverage']['texts']['status'], 'complete')
+        self.assertEqual(out['expected_counts'], {'components': 1, 'texts': 1, 'wires': 2})
+
+    def test_missing_geometry_is_reported_as_incomplete(self):
+        out = self.convert(snapshot())
+        self.assertEqual(out['coverage']['components']['status'], 'absent')
+        self.assertEqual(out['coverage']['texts']['status'], 'absent')
+        self.assertEqual(out['coverage']['components']['missing'], 1)
+        sys.path.insert(0, str(ROOT / 'design-hardware' / 'scripts'))
+        import sch_layout_check
+        result = sch_layout_check.analyze(out)
+        self.assertEqual(result['status'], 'incomplete')
+        self.assertEqual(result['coverage_status'], 'incomplete')
 
     def test_invalid_json_exits_2(self):
         with tempfile.TemporaryDirectory() as temp:

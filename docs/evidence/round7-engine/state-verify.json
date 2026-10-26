@@ -1,0 +1,33 @@
+{
+  "status": "match",
+  "rows": [
+    {
+      "path": "docs\\evidence\\round7-engine\\audit-schematic.json",
+      "status": "match"
+    },
+    {
+      "path": "docs\\evidence\\round7-engine\\label-plan.json",
+      "status": "match"
+    },
+    {
+      "path": "docs\\evidence\\round7-engine\\pcb-audit.json",
+      "status": "match"
+    },
+    {
+      "path": "docs\\evidence\\round7-engine\\placement.json",
+      "status": "match"
+    },
+    {
+      "path": "docs\\evidence\\round7-engine\\critical.json",
+      "status": "match"
+    },
+    {
+      "path": "docs\\evidence\\round7-apply\\after3-audit.json",
+      "status": "match"
+    },
+    {
+      "path": "docs\\evidence\\round7-apply\\compare3.json",
+      "status": "match"
+    }
+  ]
+}

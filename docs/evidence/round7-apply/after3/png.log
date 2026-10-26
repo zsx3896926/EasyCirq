@@ -1,0 +1,47 @@
+{
+  "id": "req_7511",
+  "type": "response",
+  "version": "v1",
+  "windowId": "fdcf9c6f-041a-4e07-8900-715bd123cba0",
+  "createdAt": "2026-10-24T15:01:46.9841698Z",
+  "ok": true,
+  "result": {
+    "artifactId": "art_07301728-9585-4055-b8f2-c60b59998f64",
+    "artifactPath": "C:\\Users\\jlc\\work\\hds-engine\\.easyeda\\artifacts\\20261024-230146-schematic_export-07301728.png",
+    "bytes": 535120,
+    "fileName": "sch-after3.png.png",
+    "format": "png",
+    "scope": "page",
+    "selectedCount": 0
+  },
+  "context": {
+    "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+    "projectName": "engine-verify-round7-imported",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "64ab79c43f24454e8066801ade20d42f",
+    "projectName": "engine-verify-round7-imported",
+    "documentUuid": "6a8364999a809cb4",
+    "documentType": "schematic",
+    "tabId": "6a8364999a809cb4@64ab79c43f24454e8066801ade20d42f",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "artifacts": [
+    {
+      "id": "art_07301728-9585-4055-b8f2-c60b59998f64",
+      "kind": "schematic_export",
+      "path": "C:\\Users\\jlc\\work\\hds-engine\\.easyeda\\artifacts\\20261024-230146-schematic_export-07301728.png",
+      "fileName": "sch-after3.png.png",
+      "mimeType": "image/png",
+      "size": 535120,
+      "sha256": "d9e62ff57edd72f95b5b1aa56f923f985e729ba4917ac046a1e76cf1b4d086f6"
+    }
+  ],
+  "seq": 207,
+  "seqAbandoned": 0
+}

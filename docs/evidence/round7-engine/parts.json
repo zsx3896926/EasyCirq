@@ -1,0 +1,256 @@
+{
+  "parts": [
+    {
+      "designator": "BZ1",
+      "mpn": "GMD9505RB-5V2700",
+      "footprint": "BUZ-TH_BD9.5-P5.00-D0.6-L_GMD9505RB-5V2700",
+      "pin_count": null,
+      "value": "2.7kHz",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C530400",
+      "manufacturer": "INGHAi(赢海)"
+    },
+    {
+      "designator": "C1,C2,C3,C5",
+      "mpn": "CC0603KRX7R9BB104",
+      "footprint": "C0603",
+      "pin_count": null,
+      "value": "100nF",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C14663",
+      "manufacturer": "YAGEO(国巨)"
+    },
+    {
+      "designator": "C4",
+      "mpn": "GRM21BR61H106KE43L",
+      "footprint": "C0805",
+      "pin_count": null,
+      "value": "10uF",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C440198",
+      "manufacturer": "muRata(村田)"
+    },
+    {
+      "designator": "D1",
+      "mpn": "SS34",
+      "footprint": "SMA_L4.3-W2.6-LS5.2-RD",
+      "pin_count": null,
+      "value": "SS34",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C8678",
+      "manufacturer": "MDD(辰达半导体)"
+    },
+    {
+      "designator": "D3",
+      "mpn": "SMAJ5.0A",
+      "footprint": "SMA_L4.4-W2.6-LS5.0-RD",
+      "pin_count": null,
+      "value": "SMAJ5.0A",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C143135",
+      "manufacturer": "FMS(美丽微)"
+    },
+    {
+      "designator": "D4",
+      "mpn": "KT-0805R",
+      "footprint": "LED0805-R-RD",
+      "pin_count": null,
+      "value": "KT-0805R",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C2295",
+      "manufacturer": "KENTO"
+    },
+    {
+      "designator": "D5",
+      "mpn": "KT-0805G",
+      "footprint": "LED0805-R-RD",
+      "pin_count": null,
+      "value": "KT-0805G",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C2297",
+      "manufacturer": "KENTO"
+    },
+    {
+      "designator": "D6",
+      "mpn": "1N4148W",
+      "footprint": "SOD-123_L2.7-W1.6-LS3.7-RD-1",
+      "pin_count": null,
+      "value": "1N4148W",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C2892570",
+      "manufacturer": "YONGYUTAI(永裕泰)"
+    },
+    {
+      "designator": "J1",
+      "mpn": "USB3.1TYPE-C16P",
+      "footprint": "USB-C-SMD_TYPE-C-16PIN",
+      "pin_count": null,
+      "value": "USB3.1TYPE-C16P",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C9900012665",
+      "manufacturer": null
+    },
+    {
+      "designator": "Q1",
+      "mpn": "2N7002",
+      "footprint": "SOT-23-3_L2.9-W1.3-P1.90-LS2.4-BR",
+      "pin_count": null,
+      "value": "2N7002",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C8545",
+      "manufacturer": "CJ(江苏长电/长晶)"
+    },
+    {
+      "designator": "R1,R2",
+      "mpn": "0402WGF5101TCE",
+      "footprint": "R0402",
+      "pin_count": null,
+      "value": "5.1kΩ",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C25905",
+      "manufacturer": "UNI-ROYAL(厚声)"
+    },
+    {
+      "designator": "R10",
+      "mpn": "RC0603FR-0722KL",
+      "footprint": "R0603",
+      "pin_count": null,
+      "value": "22kΩ",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C114065",
+      "manufacturer": "YAGEO(国巨)"
+    },
+    {
+      "designator": "R11",
+      "mpn": "RMC04022.2K1%N",
+      "footprint": "R0402",
+      "pin_count": null,
+      "value": "2.2kΩ",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C325418",
+      "manufacturer": "Tyohm(幸亚电阻)"
+    },
+    {
+      "designator": "R12",
+      "mpn": "0402WGF1002TCE",
+      "footprint": "R0402",
+      "pin_count": null,
+      "value": "10kΩ",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C25744",
+      "manufacturer": "UNI-ROYAL(厚声)"
+    },
+    {
+      "designator": "R13",
+      "mpn": "RC0603FR-07470KL",
+      "footprint": "R0603",
+      "pin_count": null,
+      "value": "470kΩ",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C114622",
+      "manufacturer": "YAGEO(国巨)"
+    },
+    {
+      "designator": "R14,R17",
+      "mpn": "0402WGF1001TCE",
+      "footprint": "R0402",
+      "pin_count": null,
+      "value": "1kΩ",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C11702",
+      "manufacturer": "UNI-ROYAL(厚声)"
+    },
+    {
+      "designator": "R15",
+      "mpn": "0402WGF1003TCE",
+      "footprint": "R0402",
+      "pin_count": null,
+      "value": "100kΩ",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C25741",
+      "manufacturer": "UNI-ROYAL(厚声)"
+    },
+    {
+      "designator": "R16",
+      "mpn": "0805W8F4700T5E",
+      "footprint": "R0805",
+      "pin_count": null,
+      "value": "470Ω",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C17710",
+      "manufacturer": "UNI-ROYAL(厚声)"
+    },
+    {
+      "designator": "RT1",
+      "mpn": "NTCG163JX103DT1S",
+      "footprint": "R0603",
+      "pin_count": null,
+      "value": "NTCG163JX103DT1S",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C524452",
+      "manufacturer": "TDK"
+    },
+    {
+      "designator": "RV1",
+      "mpn": "3296W-1-103",
+      "footprint": "RES-ADJ-TH_3P-L10.0-W10.0-P2.50-L",
+      "pin_count": null,
+      "value": "10kΩ",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C118954",
+      "manufacturer": "BOCHEN(博晨)"
+    },
+    {
+      "designator": "U1",
+      "mpn": "MCP6541T-I/OT",
+      "footprint": "SOT-23-5_L3.0-W1.7-P0.95-LS2.8-BR",
+      "pin_count": null,
+      "value": "MCP6541T-I/OT",
+      "variants": [
+        "base"
+      ],
+      "supplier_part": "C80839",
+      "manufacturer": "MICROCHIP(美国微芯)"
+    }
+  ]
+}

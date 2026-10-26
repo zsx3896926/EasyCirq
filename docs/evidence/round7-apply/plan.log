@@ -1,0 +1,165 @@
+{
+  "schema": "design-engine-label-plan/v1",
+  "source": {
+    "project_uuid": "64ab79c43f24454e8066801ade20d42f",
+    "page_name": "P1",
+    "ir_schema": "design-engine-ir/v1",
+    "reading": {
+      "kind": "ir",
+      "path": "docs\\evidence\\round7-apply\\before-ir.json"
+    }
+  },
+  "operations": [
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:30e8c6499ea4e2dc",
+      "primitive_id": "30e8c6499ea4e2dc",
+      "component_id": "part:RV1",
+      "designator": "RV1",
+      "key": "Designator",
+      "value": "RV1",
+      "from": {
+        "x": 850,
+        "y": 545
+      },
+      "to": {
+        "x": 830,
+        "y": 545
+      },
+      "bbox_before": [
+        850.0,
+        545.0,
+        866.8634033203125,
+        555.0
+      ],
+      "bbox_after": [
+        830.0,
+        545.0,
+        849.0,
+        558.0
+      ],
+      "reason": "text_overlap",
+      "finding_ids": [
+        "finding:text_overlap:attr:30e8c6499ea4e2dc|attr:d3dbc48546b24ce3"
+写入 3 个 attribute-move 参数文件: docs\evidence\round7-apply\moves
+      ]
+    },
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:86d6306d597fc0ba",
+      "primitive_id": "86d6306d597fc0ba",
+      "component_id": "part:Q1",
+      "designator": "Q1",
+      "key": "Designator",
+      "value": "Q1",
+      "from": {
+        "x": 930,
+        "y": 300
+      },
+      "to": {
+        "x": 930,
+        "y": 305
+      },
+      "bbox_before": [
+        930.0,
+        300.0,
+        941.67236328125,
+        310.0
+      ],
+      "bbox_after": [
+        930.0,
+        305.0,
+        943.0,
+        318.0
+      ],
+      "reason": "text_overlap",
+      "finding_ids": [
+        "finding:text_overlap:attr:856b2a6219e7df58|attr:86d6306d597fc0ba"
+      ]
+    },
+    {
+      "op": "move_attribute",
+      "attribute_id": "attr:cfbe66a831e04fb8",
+      "primitive_id": "cfbe66a831e04fb8",
+      "component_id": "part:D6",
+      "designator": "D6",
+      "key": "Name",
+      "value": "={Manufacturer Part}",
+      "from": {
+        "x": 990,
+        "y": 220
+      },
+      "to": {
+        "x": 990,
+        "y": 215
+      },
+      "bbox_before": [
+        990.0,
+        220.0,
+        1077.0,
+        233.0
+      ],
+      "bbox_after": [
+        990.0,
+        215.0,
+        1077.0,
+        228.0
+      ],
+      "reason": "text_overlap",
+      "finding_ids": [
+        "finding:text_overlap:attr:cfbe66a831e04fb8|attr:9549f23e0bf7051d"
+      ]
+    }
+  ],
+  "unplanned": [
+    {
+      "attribute_id": "attr:856b2a6219e7df58",
+      "reason": "no_legal_position_within_40_units",
+      "finding_ids": [
+        "finding:text_overlap:attr:856b2a6219e7df58|attr:86d6306d597fc0ba"
+      ]
+    },
+    {
+      "attribute_id": "attr:9549f23e0bf7051d",
+      "reason": "no_legal_position_within_40_units",
+      "finding_ids": [
+        "finding:text_component_overlap:attr:9549f23e0bf7051d|part:D6"
+      ]
+    },
+    {
+      "attribute_id": "attr:4ce49a64c53f3877",
+      "reason": "no_legal_position_within_40_units",
+      "finding_ids": [
+        "finding:title_block_overlap:attr:4ce49a64c53f3877"
+      ]
+    },
+    {
+      "attribute_id": "attr:cfad267e7ce2ec51",
+      "reason": "no_legal_position_within_40_units",
+      "finding_ids": [
+        "finding:wire_enters_text:wire:eac7d89f513f570a|attr:cfad267e7ce2ec51"
+      ]
+    }
+  ],
+  "before": {
+    "status": "blocked",
+    "hard_count": 11
+  },
+  "after_simulation": {
+    "status": "blocked",
+    "hard_count": 8,
+    "advisory_count": 7,
+    "findings_by_code": {
+      "label_overlap": 1,
+      "missing_partition": 1,
+      "net_label_overlap": 4,
+      "off_grid": 1,
+      "outside_page": 1,
+      "text_component_overlap": 2,
+      "title_block_overlap": 1,
+      "wire_enters_text": 4
+    }
+  },
+  "eeada_apply": "NOT RUN",
+  "note": "positions are an offline simulation; apply through a connector, then re-read and re-export"
+}

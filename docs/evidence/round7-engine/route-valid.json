@@ -1,0 +1,33 @@
+{
+  "status": "routed",
+  "points": [
+    [
+      120.0,
+      500.0
+    ],
+    [
+      120.0,
+      365.0
+    ],
+    [
+      530.0,
+      365.0
+    ],
+    [
+      530.0,
+      470.0
+    ]
+  ],
+  "length": 650.0,
+  "turns": 2,
+  "expanded": 14050,
+  "net": "D1_N1",
+  "electrical_verified": false,
+  "note": "grid candidate; verify junctions and different-net contact in the editor",
+  "validation": {
+    "status": "valid",
+    "valid": true,
+    "issues": [],
+    "electrical_verified": false
+  }
+}

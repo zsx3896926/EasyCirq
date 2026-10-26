@@ -1,0 +1,9 @@
+{
+  "status": "no_solution",
+  "reason": "no orthogonal path",
+  "validation": {
+    "status": "no_solution",
+    "valid": false,
+    "reason": "no orthogonal path"
+  }
+}

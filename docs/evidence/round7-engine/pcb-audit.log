@@ -1,0 +1,540 @@
+{
+  "schema": "design-engine-pcb-audit/v1",
+  "status": "blocked",
+  "findings": [
+    {
+      "id": "finding:pcb_component_body_overhang:pcbpart:J1",
+      "code": "pcb_component_body_overhang",
+      "severity": "minor",
+      "scope": "advisory",
+      "objects": [
+        "pcbpart:J1"
+      ],
+      "message": "J1 body extends past the outline bbox",
+      "evidence": {}
+    },
+    {
+      "id": "finding:pcb_net_disconnected:+5V",
+      "code": "pcb_net_disconnected",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "+5V"
+      ],
+      "message": "net +5V: 2 disconnected pad groups",
+      "evidence": {
+        "status": "disconnected",
+        "pad_groups": 2,
+        "groups": 2,
+        "pads": 11,
+        "vias": 8,
+        "tracks": 31
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err3",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err3"
+      ],
+      "message": "Clearance Error: (+5V): e76 to (OUT): e294 distance is 0mil, should be >= 4mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "+5V",
+        "drc_objects": [
+          "9b5977b570d9203e",
+          "68899f12726230b2"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err0",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err0"
+      ],
+      "message": "Clearance Error: (D1_N1): e19 to (D1_N3): e258 distance is 0mil, should be >= 4mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "D1_N1",
+        "drc_objects": [
+          "711749c1f953f3dc",
+          "13878e5e236a795d"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err1",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err1"
+      ],
+      "message": "Clearance Error: (D1_N1): e22 to (D1_N4): e262 distance is 0mil, should be >= 4mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "D1_N1",
+        "drc_objects": [
+          "86827f9ba6f4728c",
+          "0338d4fcc7906338"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err10",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err10"
+      ],
+      "message": "Clearance Error: (D1_N3): e258 to (D1_N1): e4 distance is 0mil, should be >= 6mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "D1_N3",
+        "drc_objects": [
+          "13878e5e236a795d",
+          "8f2e10b8df0f0a79"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err11",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err11"
+      ],
+      "message": "Clearance Error: (D1_N3): e258 to (D1_N1): e4 distance is 0mil, should be >= 6.9mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "D1_N3",
+        "drc_objects": [
+          "13878e5e236a795d",
+          "8f2e10b8df0f0a79"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err12",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err12"
+      ],
+      "message": "Clearance Error: (D1_N4): e262 to (D1_N1): e5 distance is 0mil, should be >= 6mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "D1_N4",
+        "drc_objects": [
+          "0338d4fcc7906338",
+          "559fa2a7178cb919"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err13",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err13"
+      ],
+      "message": "Clearance Error: (D1_N4): e262 to (D1_N1): e5 distance is 0mil, should be >= 6.9mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "D1_N4",
+        "drc_objects": [
+          "0338d4fcc7906338",
+          "559fa2a7178cb919"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err2",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err2"
+      ],
+      "message": "Clearance Error: (GATE): e34 to (REF_TOP): e280 distance is 0mil, should be >= 4mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "GATE",
+        "drc_objects": [
+          "422a092249cbe4b8",
+          "1e31fef5195bc472"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err14",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err14"
+      ],
+      "message": "Clearance Error: (REF_TOP): e280 to (GATE): e10 distance is 0mil, should be >= 6mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "REF_TOP",
+        "drc_objects": [
+          "1e31fef5195bc472",
+          "87bc227f0203f8bb"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err15",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err15"
+      ],
+      "message": "Clearance Error: (REF_TOP): e280 to (GATE): e10 distance is 0mil, should be >= 6.9mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "REF_TOP",
+        "drc_objects": [
+          "1e31fef5195bc472",
+          "87bc227f0203f8bb"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err4",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err4"
+      ],
+      "message": "Clearance Error: (REF_TOP): e280 to (+5V): e241 distance is 0mil, should be >= 4mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "REF_TOP",
+        "drc_objects": [
+          "1e31fef5195bc472",
+          "17fdf85ef1e9c9cc"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err5",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err5"
+      ],
+      "message": "Clearance Error: (REF_TOP): e281 to (REF_BOT): e65 distance is 0mil, should be >= 4mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "REF_TOP",
+        "drc_objects": [
+          "7e6964c7b8159b42",
+          "71d2133b3c62686c"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err6",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err6"
+      ],
+      "message": "Clearance Error: (REF_TOP): e280 to (GATE): R15_1 distance is 0mil, should be >= 6mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "REF_TOP",
+        "drc_objects": [
+          "1e31fef5195bc472",
+          "4125942779e72863e13"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err7",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err7"
+      ],
+      "message": "Clearance Error: (REF_TOP): e280 to (+5V): R16_1 distance is 0mil, should be >= 6mil",
+      "evidence": {
+        "layer": "Top Layer",
+        "net": "REF_TOP",
+        "drc_objects": [
+          "1e31fef5195bc472",
+          "ce31dcf4827c6c58e11"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err8",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err8"
+      ],
+      "message": "Clearance Error: (VREF): e287 to (+5V): e92 distance is 0mil, should be >= 4mil",
+      "evidence": {
+        "layer": "Bottom Layer",
+        "net": "VREF",
+        "drc_objects": [
+          "d629372363252ad6",
+          "a0526b2dfcb71035"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err9",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err9"
+      ],
+      "message": "Clearance Error: (VREF): e287 to (GATE): e40 distance is 0mil, should be >= 4mil",
+      "evidence": {
+        "layer": "Bottom Layer",
+        "net": "VREF",
+        "drc_objects": [
+          "d629372363252ad6",
+          "1bdd49fa8c4424e6"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err16",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err16"
+      ],
+      "message": "Connection Error: (+5V): R16_1 is disconnected from other objects of the same network",
+      "evidence": {
+        "layer": null,
+        "net": "+5V",
+        "drc_objects": [
+          "ce31dcf4827c6c58e11"
+        ]
+      }
+    },
+    {
+      "id": "finding:pcb_drc_violation:drc:err17",
+      "code": "pcb_drc_violation",
+      "severity": "major",
+      "scope": "hard",
+      "objects": [
+        "drc:err17"
+      ],
+      "message": "Connection Error: (+5V): e244 is disconnected from other objects of the same network",
+      "evidence": {
+        "layer": null,
+        "net": "+5V",
+        "drc_objects": [
+          "b679c8e64a896339"
+        ]
+      }
+    }
+  ],
+  "hard_count": 19,
+  "advisory_count": 1,
+  "checks_run": [
+    "outline_containment",
+    "component_overlap",
+    "pin_pad_reconciliation",
+    "track_via_connectivity",
+    "drc"
+  ],
+  "checks_skipped": [
+    "pour_connectivity: not checked (islands/thermal spokes)"
+  ],
+  "coverage_issues": [],
+  "drc": {
+    "passed": false,
+    "total": 18,
+    "counts": {
+      "Clearance Error": 16,
+      "Connection Error": 2
+    }
+  },
+  "connectivity": {
+    "+5V": {
+      "status": "disconnected",
+      "pad_groups": 2,
+      "groups": 2,
+      "pads": 11,
+      "vias": 8,
+      "tracks": 31
+    },
+    "BUZ_D": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 4,
+      "vias": 0,
+      "tracks": 7
+    },
+    "D1_N1": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 4,
+      "vias": 6,
+      "tracks": 14
+    },
+    "D1_N3": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 2,
+      "vias": 0,
+      "tracks": 4
+    },
+    "D1_N4": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 2,
+      "vias": 0,
+      "tracks": 4
+    },
+    "GATE": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 3,
+      "vias": 4,
+      "tracks": 8
+    },
+    "GND": {
+      "status": "not_checked",
+      "reason": "net has a copper pour"
+    },
+    "LED_A": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 2,
+      "vias": 0,
+      "tracks": 3
+    },
+    "NODE": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 5,
+      "vias": 4,
+      "tracks": 14
+    },
+    "OUT": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 3,
+      "vias": 2,
+      "tracks": 8
+    },
+    "PWR_LED_A": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 2,
+      "vias": 2,
+      "tracks": 4
+    },
+    "REF_BOT": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 2,
+      "vias": 0,
+      "tracks": 2
+    },
+    "REF_TOP": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 2,
+      "vias": 0,
+      "tracks": 5
+    },
+    "VREF": {
+      "status": "connected",
+      "pad_groups": 1,
+      "groups": 1,
+      "pads": 3,
+      "vias": 3,
+      "tracks": 11
+    }
+  },
+  "pin_pad_reconciliation": {
+    "status": "match",
+    "issues": [],
+    "coverage": "pin/pad numbers compared verbatim; combined pin names are reported, not split"
+  },
+  "electrical_verified": false,
+  "visual_verified": false,
+  "metrics": {
+    "components": 26,
+    "pads": 71,
+    "tracks": 123,
+    "vias": 39,
+    "pours": 2,
+    "findings_by_code": {
+      "pcb_component_body_overhang": 1,
+      "pcb_drc_violation": 18,
+      "pcb_net_disconnected": 1
+    }
+  },
+  "reading": {
+    "project_uuid": "7985fed220664da5a84e8c72ec3c9486",
+    "project_name": "temp-alarm-r7-scratch",
+    "document_uuid": "6cde899fca734109",
+    "files": [
+      {
+        "path": "pcb-dump.json",
+        "sha256": "fe730d81bf244ab47afccd991c68870e2bc5b2ea699f104815c0ecc8c793e00c"
+      },
+      {
+        "path": "pcb-drc.json",
+        "sha256": "207a877e0fc1de524f55462b466d91da02649231e1056c1fc070aea927d16b0c"
+      },
+      {
+        "path": "pcb-check.json",
+        "sha256": "762c5929b047efe69335f8a7fe05fa0e1bb8cbe3e890486f8d637ecdf32dc110"
+      }
+    ],
+    "notes": [
+      {
+        "path": "docs\\evidence\\round7-baseline-2026-10-24\\pcb-drc.json",
+        "status": "json_with_removed_noise_lines",
+        "removed": [
+          "pcb drc: native verdict failed; inspect the returned violations"
+        ],
+        "removed_count": 1
+      }
+    ]
+  },
+  "source": {
+    "kind": "pcb-bundle",
+    "path": "docs\\evidence\\round7-baseline-2026-10-24"
+  }
+}

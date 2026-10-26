@@ -1,0 +1,104 @@
+{
+  "schema": "design-engine-manufacturing/v1",
+  "status": "pass",
+  "findings": [],
+  "hard_count": 0,
+  "files": {
+    "BOM.csv": {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\BOM.csv",
+      "bytes": 30,
+      "sha256": "49c018346333616e410fe6d63273e358b412d60cb755f5305fff57d43da5d83f"
+    },
+    "board.drl": {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\board.drl",
+      "bytes": 44,
+      "sha256": "71b4fbea960b3cead7d9198e1f1a47a29ce89cd63bcb26f6098ba99001e0b72e"
+    },
+    "bot.gbr": {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\bot.gbr",
+      "bytes": 90,
+      "sha256": "de50fc5092e0ae3b856fa65273bbc4d34b4eca4bd91fbcb83069dea107988ef1"
+    },
+    "cpl.csv": {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\cpl.csv",
+      "bytes": 32,
+      "sha256": "ddd3b205fa9a0b2c1ed7925299864289d1c25350a042a27cc15e671fd843ad5b"
+    },
+    "mask-bot.gbr": {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\mask-bot.gbr",
+      "bytes": 91,
+      "sha256": "38ae9598fe402228a18592b96b9cabf1b2b9fafe77b1c370836a63a2c6137a83"
+    },
+    "mask-top.gbr": {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\mask-top.gbr",
+      "bytes": 91,
+      "sha256": "3753fb484278a4653f9a36c8dec627dd9666c153b28344deb4abacccef3cfb1d"
+    },
+    "outline.gbr": {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\outline.gbr",
+      "bytes": 87,
+      "sha256": "3281acb9673af083d829d49d5bf248a5f5082504f06ff95c2692016e6efd8b6d"
+    },
+    "silk-top.gbr": {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\silk-top.gbr",
+      "bytes": 87,
+      "sha256": "94865e6dd9ef079e1f44d2a2a249bc0ec5712f1f2698c19fccdb37dc0ce36741"
+    },
+    "top.gbr": {
+      "path": "docs\\evidence\\round7-engine\\synthetic-package\\top.gbr",
+      "bytes": 90,
+      "sha256": "45e15ccb7fb95c5a6ff6179873cd0dc4a1eda96e0e0a01660b23f8c97002cffe"
+    }
+  },
+  "coverage": {
+    "gerber": {
+      "status": "complete",
+      "files": [
+        "bot.gbr",
+        "mask-bot.gbr",
+        "mask-top.gbr",
+        "outline.gbr",
+        "silk-top.gbr",
+        "top.gbr"
+      ],
+      "empty": []
+    },
+    "drill": {
+      "status": "complete",
+      "files": [
+        "board.drl"
+      ],
+      "empty": []
+    },
+    "bom": {
+      "status": "complete",
+      "files": [
+        "BOM.csv"
+      ],
+      "empty": []
+    },
+    "cpl": {
+      "status": "complete",
+      "files": [
+        "cpl.csv"
+      ],
+      "empty": []
+    }
+  },
+  "units": {
+    "gerber": [
+      "MM"
+    ],
+    "drill": [
+      "MM"
+    ]
+  },
+  "manifest": null,
+  "not_run": [
+    "physical fabrication",
+    "SMT assembly",
+    "electrical test",
+    "visual DFM sign-off"
+  ],
+  "note": "presence and consistency only; no manufacturing process was run"
+}

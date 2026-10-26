@@ -1,0 +1,239 @@
+{
+  "schema": "design-engine-routability/v1",
+  "cell_mil": 100.0,
+  "congestion": {
+    "max": 6,
+    "overflow": 76,
+    "cells": 670,
+    "hotspots": [
+      {
+        "gx": 20,
+        "gy": -15,
+        "count": 6
+      },
+      {
+        "gx": 21,
+        "gy": -15,
+        "count": 6
+      },
+      {
+        "gx": 22,
+        "gy": -15,
+        "count": 6
+      },
+      {
+        "gx": 23,
+        "gy": -15,
+        "count": 6
+      },
+      {
+        "gx": 24,
+        "gy": -20,
+        "count": 6
+      },
+      {
+        "gx": 24,
+        "gy": -19,
+        "count": 6
+      },
+      {
+        "gx": 24,
+        "gy": -18,
+        "count": 6
+      },
+      {
+        "gx": 24,
+        "gy": -15,
+        "count": 6
+      },
+      {
+        "gx": 25,
+        "gy": -20,
+        "count": 6
+      },
+      {
+        "gx": 25,
+        "gy": -19,
+        "count": 6
+      }
+    ]
+  },
+  "tight_pad_pairs": [],
+  "min_pad_spacing_mil": 28.0,
+  "network_separation_overlaps": [
+    [
+      "BUZ_D",
+      "+5V"
+    ],
+    [
+      "BUZ_D",
+      "GND"
+    ],
+    [
+      "BUZ_D",
+      "VREF"
+    ],
+    [
+      "BUZ_D",
+      "LED_A"
+    ],
+    [
+      "BUZ_D",
+      "PWR_LED_A"
+    ],
+    [
+      "BUZ_D",
+      "GATE"
+    ],
+    [
+      "+5V",
+      "GND"
+    ],
+    [
+      "+5V",
+      "NODE"
+    ],
+    [
+      "+5V",
+      "VREF"
+    ],
+    [
+      "+5V",
+      "D1_N1"
+    ],
+    [
+      "+5V",
+      "LED_A"
+    ],
+    [
+      "+5V",
+      "PWR_LED_A"
+    ],
+    [
+      "+5V",
+      "D1_N3"
+    ],
+    [
+      "+5V",
+      "D1_N4"
+    ],
+    [
+      "+5V",
+      "GATE"
+    ],
+    [
+      "+5V",
+      "REF_TOP"
+    ],
+    [
+      "+5V",
+      "REF_BOT"
+    ],
+    [
+      "+5V",
+      "OUT"
+    ],
+    [
+      "GND",
+      "NODE"
+    ],
+    [
+      "GND",
+      "VREF"
+    ],
+    [
+      "GND",
+      "D1_N1"
+    ],
+    [
+      "GND",
+      "LED_A"
+    ],
+    [
+      "GND",
+      "PWR_LED_A"
+    ],
+    [
+      "GND",
+      "D1_N3"
+    ],
+    [
+      "GND",
+      "D1_N4"
+    ],
+    [
+      "GND",
+      "GATE"
+    ],
+    [
+      "GND",
+      "REF_TOP"
+    ],
+    [
+      "GND",
+      "REF_BOT"
+    ],
+    [
+      "GND",
+      "OUT"
+    ],
+    [
+      "NODE",
+      "OUT"
+    ],
+    [
+      "VREF",
+      "LED_A"
+    ],
+    [
+      "VREF",
+      "PWR_LED_A"
+    ],
+    [
+      "VREF",
+      "GATE"
+    ],
+    [
+      "VREF",
+      "REF_TOP"
+    ],
+    [
+      "VREF",
+      "REF_BOT"
+    ],
+    [
+      "VREF",
+      "OUT"
+    ],
+    [
+      "D1_N1",
+      "D1_N3"
+    ],
+    [
+      "D1_N1",
+      "D1_N4"
+    ],
+    [
+      "LED_A",
+      "PWR_LED_A"
+    ],
+    [
+      "LED_A",
+      "GATE"
+    ],
+    [
+      "LED_A",
+      "OUT"
+    ],
+    [
+      "REF_TOP",
+      "REF_BOT"
+    ]
+  ],
+  "route_rate": "NOT RUN",
+  "note": "proxy only; actual completion/DRC requires a router and native readback",
+  "source": {
+    "kind": "pcb-bundle",
+    "path": "docs\\evidence\\round7-baseline-2026-10-24"
+  }
+}

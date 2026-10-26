@@ -9,3 +9,6 @@ Thumbs.db
 
 # PlatformIO build artifacts
 firmware/**/.pio/
+
+# easyeda CLI export cache
+.easyeda/
