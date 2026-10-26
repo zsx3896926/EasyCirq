@@ -366,7 +366,7 @@ python design-hardware/scripts/sch_layout_check.py design-hardware/assets/exampl
 - 已进行缺少工程/连接、未知参数、新手首次使用、工程师改板、采购数量/阶梯价、商城与SMT分流、缺货替代、完整产品目标及功能验收等场景试跑。
 - 原理图排版与工程细节经验库已加入结构检查；条目本身不是可执行的硬件自动验证器，场景试跑不等于真实EDA或首板验收。
 - 离线辅助脚本已覆盖状态积分、错误电流基准、目标未满足、零耗电、非有限/重复键输入，以及文字范围、线穿本体、相切、越页、压图签、模块框、悬空端点、一脚多网和标签落点等实际反例。
-- 当前 **749 项 unittest 全部通过**（2026-10-26，`python -m unittest discover -s tests -v`）。测试通过只证明这些自动化检查通过，不证明硬件设计已验证；完整证据见 `docs/evidence/`。
+- 当前 **750 项 unittest 全部通过**（2026-10-26，`python -m unittest discover -s tests -v`）。测试通过只证明这些自动化检查通过，不证明硬件设计已验证；完整证据见 `docs/evidence/`。
 - **已完成**：嘉立创EDA 4.1.78 真实工程副本上的原理图读取、受控写入、逐项回读、保存、关闭重开、PNG/Protel 网表导出；F1 rev3 有 21 器件真实原理图证据。证据见 [执行闭环](../docs/evidence/eda-2026-10-21/README.md) 与 [F1 rev3](../docs/evidence/f1-b-2026-10-22/README.md)。
 - **已完成（PCB 设计层）**：temp-alarm 副本 26 器件、104 tracks/29 vias/4 pours、DRC 18→0、71/71 焊盘网一致、13 网 net-path PASS、保存重开一致；证据见 `docs/round7/final-report.md`（仓库外）与 [round7 报告](../docs/round7-report.md)。DFM 仍有 6 条 WARN，不能当作可制造。
 - **未完成**：全在线GUI会话复验、Gerber/drill/CPL/BOM 导出、制造DFM/坐标、商城实时库存/价格、打样/SMT、烧录、样机功能/热/EMC/安规实测；F1 实际 PCB 仍受导入/板框 GUI 限制，排版整页 apply 仍受 D4 off-grid 限制。

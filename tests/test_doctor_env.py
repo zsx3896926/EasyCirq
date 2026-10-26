@@ -135,6 +135,20 @@ class EasyEdaProbe(unittest.TestCase):
             encoding='utf-8', errors='replace',
             timeout=doctor.EASYEDA_HEALTH_TIMEOUT_S)
 
+    def test_health_found_with_ok_daemon_is_connected(self):
+        payload = json.dumps({
+            'status': 'found',
+            'found': {'raw': {'status': 'ok', 'version': 'v1.14.0'}},
+            'checks': [{'name': 'daemon', 'status': 'ok', 'detail': 'running'}],
+        })
+        proc = mock.Mock(returncode=0, stdout=payload, stderr='')
+        with mock.patch.object(doctor.shutil, 'which', return_value='easyeda'), \
+                mock.patch.object(doctor.subprocess, 'run', return_value=proc):
+            result = doctor._easyeda_probe()
+        self.assertTrue(result['connected'])
+        self.assertEqual(result['status'], 'found')
+        self.assertEqual(result['daemon_status'], 'ok')
+
     def test_health_not_found_is_not_connected(self):
         payload = json.dumps({
             'status': 'not_found',
