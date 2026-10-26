@@ -1,0 +1,629 @@
+{
+  "schema": "design-engine-pcb-escapes/v1",
+  "status": "complete",
+  "length_mil": 100.0,
+  "clearance_mil": 5.98,
+  "pads": [
+    {
+      "pad": "C1.2",
+      "net": "GND",
+      "status": "clear",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "C1.1",
+      "net": "+5V",
+      "status": "blocked",
+      "direction": [
+        -1.0,
+        0.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "D1"
+      ],
+      "corridor": [
+        829.02,
+        518.42,
+        992.1800000000001,
+        581.58
+      ]
+    },
+    {
+      "pad": "C2.2",
+      "net": "GND",
+      "status": "blocked",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "R3"
+      ],
+      "corridor": [
+        1707.72,
+        1464.02,
+        1879.68,
+        1535.98
+      ]
+    },
+    {
+      "pad": "C2.1",
+      "net": "+5V",
+      "status": "clear",
+      "direction": [
+        -1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "C3.2",
+      "net": "VREF_2V5",
+      "status": "clear",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "C3.1",
+      "net": "GND",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "C4.2",
+      "net": "LDR_SIG",
+      "status": "clear",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "C4.1",
+      "net": "GND",
+      "status": "blocked",
+      "direction": [
+        -1.0,
+        0.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "R2"
+      ],
+      "corridor": [
+        967.22,
+        1864.02,
+        1139.18,
+        1935.98
+      ]
+    },
+    {
+      "pad": "D1.2",
+      "net": "VIN",
+      "status": "blocked",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "C1"
+      ],
+      "corridor": [
+        779.8699999999999,
+        508.57,
+        962.73,
+        591.4300000000001
+      ]
+    },
+    {
+      "pad": "D1.1",
+      "net": "+5V",
+      "status": "blocked",
+      "direction": [
+        -1.0,
+        0.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "J1"
+      ],
+      "corridor": [
+        337.27,
+        508.57,
+        520.13,
+        591.4300000000001
+      ]
+    },
+    {
+      "pad": "J1.1",
+      "net": "VIN",
+      "status": "clear",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "J1.2",
+      "net": "GND",
+      "status": "blocked",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "KO-MH-BL"
+      ],
+      "corridor": [
+        204.67000000000002,
+        306.27000000000004,
+        295.33,
+        496.93
+      ]
+    },
+    {
+      "pad": "LDR1.2",
+      "net": "VREF_2V5",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "LDR1.1",
+      "net": "LDR_SIG",
+      "status": "clear",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "LED1.1",
+      "net": "LED_A",
+      "status": "clear",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "LED1.2",
+      "net": "LED_K",
+      "status": "clear",
+      "direction": [
+        -1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "Q1.3",
+      "net": "LED_K",
+      "status": "blocked",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "LED1"
+      ],
+      "corridor": [
+        3012.52,
+        1362.52,
+        3187.48,
+        1437.48
+      ]
+    },
+    {
+      "pad": "Q1.2",
+      "net": "Q1_B",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "Q1.1",
+      "net": "GND",
+      "status": "clear",
+      "direction": [
+        -1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "R1.1",
+      "net": "VREF_2V5",
+      "status": "blocked",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "U2"
+      ],
+      "corridor": [
+        2216.47,
+        909.77,
+        2283.53,
+        1076.83
+      ]
+    },
+    {
+      "pad": "R1.2",
+      "net": "+5V",
+      "status": "blocked",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "RV1"
+      ],
+      "corridor": [
+        2216.47,
+        1423.17,
+        2283.53,
+        1590.23
+      ]
+    },
+    {
+      "pad": "R2.1",
+      "net": "GND",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "R2.2",
+      "net": "LDR_SIG",
+      "status": "clear",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "R3.1",
+      "net": "VTH_ADJ",
+      "status": "blocked",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "R5"
+      ],
+      "corridor": [
+        1866.47,
+        1109.77,
+        1933.53,
+        1276.83
+      ]
+    },
+    {
+      "pad": "R3.2",
+      "net": "VTH",
+      "status": "clear",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "R4.1",
+      "net": "VTH",
+      "status": "clear",
+      "direction": [
+        -1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "R4.2",
+      "net": "LED_CTRL",
+      "status": "clear",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "R5.1",
+      "net": "LED_CTRL",
+      "status": "blocked",
+      "direction": [
+        -1.0,
+        0.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "U1"
+      ],
+      "corridor": [
+        1609.77,
+        1116.47,
+        1776.83,
+        1183.53
+      ]
+    },
+    {
+      "pad": "R5.2",
+      "net": "Q1_B",
+      "status": "blocked",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "R1"
+      ],
+      "corridor": [
+        2123.1699999999996,
+        1116.47,
+        2290.23,
+        1183.53
+      ]
+    },
+    {
+      "pad": "R6.1",
+      "net": "GND",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "R6.2",
+      "net": "Q1_B",
+      "status": "clear",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "R7.1",
+      "net": "LED_A",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "R7.2",
+      "net": "+5V",
+      "status": "clear",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "RV1.2",
+      "net": "VTH_ADJ",
+      "status": "clear",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "RV1.1",
+      "net": "VREF_2V5",
+      "status": "clear",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "RV1.3",
+      "net": "GND",
+      "status": "blocked",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "R1"
+      ],
+      "corridor": [
+        2164.02,
+        1464.02,
+        2235.98,
+        1635.98
+      ]
+    },
+    {
+      "pad": "U1.1",
+      "net": "LED_CTRL",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "U1.2",
+      "net": "LDR_SIG",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "U1.3",
+      "net": "VTH",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "U1.4",
+      "net": "GND",
+      "status": "clear",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "U1.8",
+      "net": "+5V",
+      "status": "blocked",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "C2"
+      ],
+      "corridor": [
+        1308.07,
+        1308.07,
+        1391.93,
+        1491.93
+      ]
+    },
+    {
+      "pad": "U1.7",
+      "net": "U1B_TIE",
+      "status": "blocked",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "C2"
+      ],
+      "corridor": [
+        1408.07,
+        1308.07,
+        1491.93,
+        1491.93
+      ]
+    },
+    {
+      "pad": "U1.6",
+      "net": "U1B_TIE",
+      "status": "blocked",
+      "direction": [
+        0.0,
+        1.0
+      ],
+      "length_mil": 100.0,
+      "blockers": [
+        "C2"
+      ],
+      "corridor": [
+        1508.07,
+        1308.07,
+        1591.93,
+        1491.93
+      ]
+    },
+    {
+      "pad": "U1.5",
+      "net": "GND",
+      "status": "clear",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "U2.3",
+      "net": "VREF_2V5",
+      "status": "clear",
+      "direction": [
+        1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "U2.2",
+      "net": "GND",
+      "status": "clear",
+      "direction": [
+        0.0,
+        -1.0
+      ],
+      "length_mil": 100.0
+    },
+    {
+      "pad": "U2.1",
+      "net": "VREF_2V5",
+      "status": "clear",
+      "direction": [
+        -1.0,
+        0.0
+      ],
+      "length_mil": 100.0
+    }
+  ],
+  "counts": {
+    "clear": 31,
+    "blocked": 16
+  },
+  "proxy": true,
+  "routing_verified": false,
+  "note": "axis-snapped corridor test; a clear result is not proof of a routable pad"
+}

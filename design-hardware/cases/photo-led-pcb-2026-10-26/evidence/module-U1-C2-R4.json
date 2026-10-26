@@ -1,0 +1,88 @@
+{
+  "schema": "design-engine-pcb-module/v1",
+  "anchor": "U1",
+  "members": [
+    {
+      "designator": "U1",
+      "device": "LM358P",
+      "unique_id": "gge1",
+      "layer": 1,
+      "bbox": [
+        1293.1844999999998,
+        1014.075,
+        1694.7800000000002,
+        1385.925
+      ],
+      "relative": {
+        "dx": 0.0,
+        "dy": 0.0,
+        "rotation": 0.0
+      },
+      "pad_nets": {
+        "1": "LED_CTRL",
+        "2": "LDR_SIG",
+        "3": "VTH",
+        "4": "GND",
+        "8": "+5V",
+        "7": "U1B_TIE",
+        "6": "U1B_TIE",
+        "5": "GND"
+      }
+    },
+    {
+      "designator": "C2",
+      "device": "RAD104J250V",
+      "unique_id": "gge5",
+      "layer": 1,
+      "bbox": [
+        1305.6190000000001,
+        1396.575,
+        1788.061,
+        1603.425
+      ],
+      "relative": {
+        "dx": 46.83999999999992,
+        "dy": 300.0,
+        "rotation": 0.0
+      },
+      "pad_nets": {
+        "2": "GND",
+        "1": "+5V"
+      }
+    },
+    {
+      "designator": "R4",
+      "device": "MF1/4W-100KΩ±1% T",
+      "unique_id": "gge14",
+      "layer": 1,
+      "bbox": [
+        1365.751,
+        799.7239999999999,
+        1834.249,
+        900.2760000000001
+      ],
+      "relative": {
+        "dx": 100.0,
+        "dy": -350.0,
+        "rotation": 0.0
+      },
+      "pad_nets": {
+        "1": "VTH",
+        "2": "LED_CTRL"
+      }
+    }
+  ],
+  "nets": [
+    "+5V",
+    "GND",
+    "LDR_SIG",
+    "LED_CTRL",
+    "U1B_TIE",
+    "VTH"
+  ],
+  "copper_reuse": {
+    "status": "not_supported",
+    "reason": "relative component layout only; copying tracks/vias/pours would carry source obstacles and ownership"
+  },
+  "note": "does not store absolute board coordinates; bind to a target board and re-check pin nets"
+}

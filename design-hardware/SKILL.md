@@ -143,6 +143,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 批量写入、超时恢复、版本化缓存、通道模板复用、执行耗时与多Agent分工 | [EDA执行效率](references/eda-efficiency.md)；先用 `design_inventory.py`/`channel_map_check.py`/`library_precheck.py`/`eda_cache.py`，同一工程单写入者，save/reload 后回读才算验收 |
 | 不知道客户端、安装目录或首次接通 | [客户端兼容与首次接通](references/client-compatibility.md)；先跑 `python scripts/doctor_env.py --summary`，按当前客户端逐条判定 |
 | 导入PCB、布局、布线、铜皮、制造输出 | [PCB工程习惯](references/pcb.md) |
+| 真实PCB布局布线、约束/局部模板/候选、逃线迭代、保存重开 | [PCB执行工作流](references/pcb-execution.md)，先读实测dump与sch引脚，再生成约束/候选；执行仍走typed CLI |
 | 设计审查、故障排查、样机上电 | [审查与验证](references/review.md) |
 | 查询官方资料入口 | [来源导航](references/sources.md) |
 | 新建/实质修改SCH或PCB，需要选取适用经验 | [工程经验库与来源](references/design-experience.md)，按当前对象选择，避免全量加载 |
@@ -268,6 +269,8 @@ BOM/装配结构用 `python scripts/bom_check.py parts.json`，先按 [零件示
 Skill 包自检用 `python scripts/skill_selftest.py`：检查必需文件、相对链接、门禁命名、回归案例结果与脚本可运行。它只证明包结构与本轮案例一致，不证明任何硬件或 EDA 工程已验证。
 
 需要真实读写嘉立创EDA工程时运行 `python scripts/eda_exec.py` 的子命令，先读 [EDA执行](references/eda-execution.md)。`doctor` 只诊断，`read` 只回读，`apply --dry-run` 只对账；写入必须在已授权副本上，冲突默认不写，保存后按 `reopen-check` 验证持久化。它只支持本文件列出的原理图原语，不覆盖PCB、下单或任意JS。
+
+真实PCB任务先读 [PCB执行工作流](references/pcb-execution.md)：用 `easyeda pcb dump --include-copper` 与 `sch read` 取实测几何/引脚，运行 `python scripts/design_engine_cli.py pcb-constraints/pcb-check-plan/pcb-candidates/pcb-escapes/pcb-power/pcb-diff`。这些命令只做离线约束、模板、候选和回读比对，不写工程；写入、布线、铺铜、丝印和 DRC 仍用当前 typed `easyeda pcb ...` 命令。硬约束失败不能被候选总分抵消；模板缺少实测引脚/适用条件时拒绝；`near_pin` 的中心距和逃线预判都不是铜路径证明。
 
 ## 7. 让用户看懂进度和结果
 

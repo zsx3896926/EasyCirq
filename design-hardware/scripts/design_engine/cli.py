@@ -24,6 +24,11 @@ from .labels import plan_label_moves, to_easyeda_moves, verify_plan
 from .manufacturing import audit_package
 from .pack import pack_modules
 from .pcb import audit_pcb, build_pcb_ir
+from .pcb_workflow import (audit_power, compile_constraints as compile_pcb_constraints,
+                           diff_boards, extract_pcb_module,
+                           load_templates as load_pcb_templates,
+                           normalize_board, plan_candidates, plan_pcb_reuse,
+                           predict_escapes, validate_placement)
 from .placement import plan_placement
 from .reuse import plan_reuse
 from .router import route, validate_route
@@ -567,6 +572,165 @@ def command_selftest(args):
     return 0
 
 
+def _read_json_file(path):
+    with open(path, encoding='utf-8-sig') as handle:
+        return json.load(handle)
+
+
+def command_pcb_normalize(args):
+    board = normalize_board(_read_json_file(args.dump))
+    _dump(board, args.out)
+    if args.json:
+        _dump(board)
+    else:
+        print(f"PCB: {len(board['components'])} 器件, "
+              f"{sum(len(item['pads']) for item in board['components'])} 焊盘, "
+              f"outline={board['coverage']['outline']}")
+    return 0
+
+
+def command_pcb_constraints(args):
+    board = normalize_board(_read_json_file(args.dump))
+    intent = _read_json_file(args.intent)
+    result = compile_pcb_constraints(intent, board)
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"约束: {result['status']} "
+              f"(hard={result['counts']['hard']}, conflicts={result['counts']['conflicts']}, "
+              f"unknown={result['counts']['unknown']})")
+        for conflict in result['conflicts']:
+            print(f"  [{conflict['kind']}] {conflict['message']}")
+        for item in result['unknown']:
+            print(f"  unknown {item['object']}: {item['reason']}")
+    return 0 if result['status'] == 'compiled' else 1
+
+
+def command_pcb_check_plan(args):
+    board = normalize_board(_read_json_file(args.dump))
+    plan = _read_json_file(args.plan)
+    constraint_set = _read_json_file(args.constraints) if args.constraints else None
+    result = validate_placement(board, plan, constraint_set)
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"布局检查: {result['status']} (hard_findings={result['counts']['hard_findings']}, "
+              f"hard_failed={result['counts']['hard_failed']}, "
+              f"hard_unmeasured={result['counts']['hard_unmeasured']})")
+        for finding in result['findings']:
+            print(f"  [{finding['severity']}] {finding['code']}: {finding['message']} "
+                  f"{finding['objects']}")
+    return 0 if result['status'] == 'pass' else 1
+
+
+def command_pcb_candidates(args):
+    board = normalize_board(_read_json_file(args.dump))
+    intent = _read_json_file(args.intent)
+    templates = load_pcb_templates(args.templates)
+    constraint_set = _read_json_file(args.constraints) if args.constraints else \
+        compile_pcb_constraints(intent, board)
+    result = plan_candidates(board, intent, templates, constraint_set)
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"候选: {result['status']} selected={result['selected']} "
+              f"({result['budget']['evaluated']} strategies)")
+        for item in result['comparison']:
+            print(f"  {item['id']:14s} hard_ok={item['hard_ok']} "
+                  f"near_pin_fail={item['near_pin_failures']} "
+                  f"escape_blocked={item['escape_blocked']} hpwl={item['hpwl_mil']}")
+    return 0 if result['status'] == 'selected' else 1
+
+
+def command_pcb_escapes(args):
+    board = normalize_board(_read_json_file(args.dump))
+    if args.constraints:
+        constraint_set = _read_json_file(args.constraints)
+        board['keepouts'] = [item for item in constraint_set.get('constraints') or []
+                             if item.get('type') == 'keepout']
+    nets = set(args.net or []) or None
+    result = predict_escapes(board, length_mil=args.length, clearance_mil=args.clearance,
+                             nets=nets)
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"逃线预判: {result['status']} counts={result['counts']} "
+              f"(proxy, routing_verified=false)")
+    return 0 if result['status'] == 'complete' else 1
+
+
+def command_pcb_diff(args):
+    before = _read_json_file(args.before)
+    after = _read_json_file(args.after)
+    scope = _read_json_file(args.scope) if args.scope else None
+    result = diff_boards(before, after, scope)
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"前后比较: {result['status']} counts={result['counts']}")
+        for item in result['unrelated_changes']:
+            print(f"  unrelated {item}")
+    return 0 if result['status'] == 'match' else 1
+
+
+def command_pcb_power(args):
+    board = normalize_board(_read_json_file(args.dump))
+    intent = _read_json_file(args.intent)
+    result = audit_power(board, intent)
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"电源检查: {result['status']} nets={len(result['nets'])} "
+              f"decaps={len(result['decaps'])}")
+        for item in result['failed']:
+            print(f"  fail {item}")
+        for item in result['unmeasured']:
+            print(f"  unmeasured {item}")
+    return 0 if result['status'] == 'pass' else 1
+
+
+def command_pcb_extract_module(args):
+    board = normalize_board(_read_json_file(args.dump))
+    members = [value.strip() for value in args.members.split(',') if value.strip()]
+    result = extract_pcb_module(board, members, anchor=args.anchor)
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"模块: anchor={result['anchor']} members={len(result['members'])} "
+              f"copper_reuse={result['copper_reuse']['status']}")
+    return 0
+
+
+def command_pcb_reuse(args):
+    module = _read_json_file(args.module)
+    target = normalize_board(_read_json_file(args.target))
+    binding = _read_json_file(args.binding)
+    parts = args.anchor.split(',')
+    if len(parts) != 3:
+        raise ValueError('--anchor: x,y,rotation required')
+    anchor_pose = {'x': float(parts[0]), 'y': float(parts[1]), 'rotation': float(parts[2])}
+    net_map = _read_json_file(args.net_map) if args.net_map else None
+    constraints = _read_json_file(args.constraints) if args.constraints else None
+    result = plan_pcb_reuse(module, target, binding, anchor_pose,
+                            constraints=constraints, net_map=net_map)
+    _dump(result, args.out)
+    if args.json:
+        _dump(result)
+    else:
+        print(f"模块复用: {result['status']} placements={len(result['placements'])} "
+              f"copper_reuse={result['copper_reuse'].get('status')}")
+        for reason in result['reasons']:
+            print(f"  {reason}")
+    return 0 if result['status'] == 'planned' else 1
+
+
 def build_parser():
     parser = argparse.ArgumentParser(
         prog='design_engine',
@@ -738,6 +902,89 @@ def build_parser():
     templates.add_argument('--list', action='store_true')
     templates.add_argument('--out')
     templates.set_defaults(func=command_templates)
+
+    pcb_normalize = sub.add_parser('pcb-normalize',
+                                   help='normalize a measured pcb dump to the workflow view')
+    pcb_normalize.add_argument('--dump', required=True)
+    pcb_normalize.add_argument('--out')
+    pcb_normalize.add_argument('--json', action='store_true')
+    pcb_normalize.set_defaults(func=command_pcb_normalize)
+
+    pcb_constraints = sub.add_parser('pcb-constraints',
+                                     help='compile fixed/edge/near-pin/chain/keepout/channel constraints')
+    pcb_constraints.add_argument('--dump', required=True)
+    pcb_constraints.add_argument('--intent', required=True)
+    pcb_constraints.add_argument('--out')
+    pcb_constraints.add_argument('--json', action='store_true')
+    pcb_constraints.set_defaults(func=command_pcb_constraints)
+
+    pcb_check = sub.add_parser('pcb-check-plan',
+                               help='validate a placement proposal against measured geometry')
+    pcb_check.add_argument('--dump', required=True)
+    pcb_check.add_argument('--plan', required=True)
+    pcb_check.add_argument('--constraints')
+    pcb_check.add_argument('--out')
+    pcb_check.add_argument('--json', action='store_true')
+    pcb_check.set_defaults(func=command_pcb_check_plan)
+
+    pcb_candidates = sub.add_parser('pcb-candidates',
+                                    help='generate signal-chain/density/mechanical module candidates')
+    pcb_candidates.add_argument('--dump', required=True)
+    pcb_candidates.add_argument('--intent', required=True)
+    pcb_candidates.add_argument('--constraints')
+    pcb_candidates.add_argument('--templates')
+    pcb_candidates.add_argument('--out')
+    pcb_candidates.add_argument('--json', action='store_true')
+    pcb_candidates.set_defaults(func=command_pcb_candidates)
+
+    pcb_escapes = sub.add_parser('pcb-escapes',
+                                 help='predict blocked pad escapes from measured geometry (proxy)')
+    pcb_escapes.add_argument('--dump', required=True)
+    pcb_escapes.add_argument('--length', type=float, default=100.0)
+    pcb_escapes.add_argument('--clearance', type=float)
+    pcb_escapes.add_argument('--constraints')
+    pcb_escapes.add_argument('--net', action='append')
+    pcb_escapes.add_argument('--out')
+    pcb_escapes.add_argument('--json', action='store_true')
+    pcb_escapes.set_defaults(func=command_pcb_escapes)
+
+    pcb_diff = sub.add_parser('pcb-diff',
+                              help='compare two measured dumps and flag unrelated changes')
+    pcb_diff.add_argument('--before', required=True)
+    pcb_diff.add_argument('--after', required=True)
+    pcb_diff.add_argument('--scope')
+    pcb_diff.add_argument('--out')
+    pcb_diff.add_argument('--json', action='store_true')
+    pcb_diff.set_defaults(func=command_pcb_diff)
+
+    pcb_power = sub.add_parser('pcb-power',
+                               help='check declared power widths, pours and decap pin distances')
+    pcb_power.add_argument('--dump', required=True)
+    pcb_power.add_argument('--intent', required=True)
+    pcb_power.add_argument('--out')
+    pcb_power.add_argument('--json', action='store_true')
+    pcb_power.set_defaults(func=command_pcb_power)
+
+    pcb_extract = sub.add_parser('pcb-extract-module',
+                                 help='extract relative layout + pin-net contract from a measured board')
+    pcb_extract.add_argument('--dump', required=True)
+    pcb_extract.add_argument('--members', required=True)
+    pcb_extract.add_argument('--anchor')
+    pcb_extract.add_argument('--out')
+    pcb_extract.add_argument('--json', action='store_true')
+    pcb_extract.set_defaults(func=command_pcb_extract_module)
+
+    pcb_reuse = sub.add_parser('pcb-reuse-plan',
+                               help='apply a PCB module to a target board with identity/pin-net checks')
+    pcb_reuse.add_argument('--module', required=True)
+    pcb_reuse.add_argument('--target', required=True)
+    pcb_reuse.add_argument('--binding', required=True)
+    pcb_reuse.add_argument('--anchor', required=True, help='target x,y,rotation')
+    pcb_reuse.add_argument('--net-map')
+    pcb_reuse.add_argument('--constraints')
+    pcb_reuse.add_argument('--out')
+    pcb_reuse.add_argument('--json', action='store_true')
+    pcb_reuse.set_defaults(func=command_pcb_reuse)
 
     compare = sub.add_parser('compare', help='compare two IRs for identity and layout changes')
     compare.add_argument('--before', required=True)

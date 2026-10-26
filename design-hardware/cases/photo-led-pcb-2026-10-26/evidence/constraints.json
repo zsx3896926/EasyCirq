@@ -1,0 +1,236 @@
+{
+  "schema": "design-engine-pcb-constraints/v1",
+  "status": "compiled",
+  "constraints": [
+    {
+      "id": "FIX-J1",
+      "type": "fixed",
+      "severity": "hard",
+      "source": "mechanical: 5V terminal at left edge; opening verified outward by pcb check",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "designator": "J1",
+      "x": 250.0,
+      "y": 550.0,
+      "rotation": 270.0,
+      "layer": 1
+    },
+    {
+      "id": "EDGE-J1",
+      "type": "edge",
+      "severity": "hard",
+      "source": "5V terminal must be reachable at the left board edge",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "designator": "J1",
+      "edge": "left",
+      "max_inset_mil": 150.0,
+      "facing_rotation": 270.0
+    },
+    {
+      "id": "KO-MH-TL",
+      "type": "keepout",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "shape": "circle",
+      "center": [
+        195.0,
+        2167.2
+      ],
+      "radius": 118.0
+    },
+    {
+      "id": "KO-MH-TR",
+      "type": "keepout",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "shape": "circle",
+      "center": [
+        3348.3,
+        2167.2
+      ],
+      "radius": 118.0
+    },
+    {
+      "id": "KO-MH-BL",
+      "type": "keepout",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "shape": "circle",
+      "center": [
+        195.0,
+        195.0
+      ],
+      "radius": 118.0
+    },
+    {
+      "id": "KO-MH-BR",
+      "type": "keepout",
+      "severity": "hard",
+      "source": "pcb mount-holes M3 washer keep-out 118 mil",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "shape": "circle",
+      "center": [
+        3348.3,
+        195.0
+      ],
+      "radius": 118.0
+    },
+    {
+      "id": "NP-C2-U1",
+      "type": "near_pin",
+      "severity": "hard",
+      "source": "LM358 VCC pin 8 supply bypass; 150 mil measured, power pour carries the return",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "part": "C2",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "8",
+      "role": "decap",
+      "max_mil": 200.0
+    },
+    {
+      "id": "NP-C3-U2",
+      "type": "near_pin",
+      "severity": "preferred",
+      "source": "TL431 reference filter; 203 mil measured",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "part": "C3",
+      "pad": "2",
+      "owner": "U2",
+      "owner_pad": "3",
+      "role": "decap",
+      "max_mil": 250.0
+    },
+    {
+      "id": "NP-R4-U1",
+      "type": "near_pin",
+      "severity": "hard",
+      "source": "hysteresis feedback returns to U1.3; 254 mil measured",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "part": "R4",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "3",
+      "role": "feedback",
+      "max_mil": 300.0
+    },
+    {
+      "id": "NP-R5-U1",
+      "type": "near_pin",
+      "severity": "preferred",
+      "source": "comparator output to base drive; 406 mil measured",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "part": "R5",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "1",
+      "role": "drive",
+      "max_mil": 900.0
+    },
+    {
+      "id": "NP-C1-U1",
+      "type": "near_pin",
+      "severity": "preferred",
+      "source": "bulk input capacitor to comparator supply; 890 mil measured",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "part": "C1",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "8",
+      "role": "bulk",
+      "max_mil": 1200.0
+    },
+    {
+      "id": "ROT-U1",
+      "type": "allowed_rotation",
+      "severity": "preferred",
+      "source": "DIP-8 orientation used by the verified schematic/PCB reference",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "designator": "U1",
+      "angles": [
+        0.0,
+        90.0,
+        180.0,
+        270.0
+      ]
+    },
+    {
+      "id": "ROT-LED1",
+      "type": "allowed_rotation",
+      "severity": "preferred",
+      "source": "LED polarity/visibility orientation",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "designator": "LED1",
+      "angles": [
+        0.0,
+        180.0
+      ]
+    },
+    {
+      "id": "GROUP-U1-C2",
+      "type": "group",
+      "severity": "preferred",
+      "source": "keep the supply bypass inside the comparator local cluster",
+      "unit": "mil",
+      "condition": null,
+      "native_unit": "mil",
+      "members": [
+        "U1",
+        "C2"
+      ],
+      "rigid": false,
+      "max_spread_mil": 600.0
+    }
+  ],
+  "conflicts": [
+    {
+      "kind": "edge_fixed_requires_pose_check",
+      "constraints": [
+        "FIX-J1",
+        "EDGE-J1"
+      ],
+      "objects": [
+        "J1"
+      ],
+      "message": "edge intent and fixed pose both apply; validate_placement checks the pose",
+      "source": "5V terminal must be reachable at the left board edge"
+    }
+  ],
+  "unknown": [],
+  "counts": {
+    "constraints": 14,
+    "hard": 8,
+    "preferred": 6,
+    "conflicts": 1,
+    "unknown": 0
+  },
+  "note": "soft preferences never offset a hard failure; unknown references are not silently dropped"
+}

@@ -56,6 +56,10 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 
 保留来稿中“项目档案对账、BOM成本汇总、制造包清点”的目标，按本Skill的现有记录、商城配单、制造和验收流程落实，不默认执行未合入的脚本或不存在的`parts-select.py`。只核对网名集合不能证明GPIO/物理脚正确；猜Gerber文件名/坐标不能证明板框闭合、圆弧尺寸、钻孔工艺或可制造性。
 
+## PCB 实测几何与约束
+
+有真实 `easyeda pcb dump` 与 `sch read` 时，用 `pcb-constraints` / `pcb-check-plan` / `pcb-candidates` / `pcb-escapes` / `pcb-power` / `pcb-diff` 做离线约束、局部模板、候选与回读比较，详见 [PCB执行工作流](pcb-execution.md)。这些命令只读本地 JSON，不连接 EDA；`near_pin` 是 pad 中心距，`pcb-escapes` 是代理预判，二者都不是铜路径/可布通证明。写入必须走 typed `easyeda pcb ...`，保存重开后用 fresh dump 再比较。
+
 ## 新增可执行计算与仿真
 
 - `calculate.py` 新增 `buck`、`boost`、`adc_settle`、`current_sense`、`wire` 模式；字段、公式前提和不能证明的内容见 [计算手册](calculations/README.md)。它们仍是简化模型，不证明补偿、稳定性、EMC、SOA 或整机精度。
