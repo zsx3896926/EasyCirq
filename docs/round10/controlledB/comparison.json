@@ -94,7 +94,7 @@
     "case": {
       "status": "complete",
       "checks": 17,
-      "artifacts": 16
+      "artifacts": 17
     }
   },
   "runs": [
