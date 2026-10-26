@@ -115,7 +115,9 @@ class ApplyPlanTests(unittest.TestCase):
         self.out_dump = os.path.join(self.tmp, 'after.json')
         self.playbook_path = os.path.join(self.tmp, 'playbook.json')
         self.report_path = os.path.join(self.tmp, 'report.json')
-        self.fake_exe = os.path.join(self.tmp, 'easyeda-fake.cmd')
+        self.fake_exe = os.path.join(
+            self.tmp, 'easyeda-fake.cmd' if os.name == 'nt'
+            else 'easyeda-fake.sh')
 
     # -- helpers ---------------------------------------------------------
 
@@ -742,9 +744,16 @@ class ApplyPlanTests(unittest.TestCase):
         write_json(after_path, self.dump)
         script_path = os.path.join(self.tmp, 'fake_easyeda.py')
         Path(script_path).write_text(FAKE_EXE_SCRIPT, encoding='utf-8')
-        with open(self.fake_exe, 'w', encoding='ascii', newline='\r\n') as handle:
-            handle.write('@echo off\n"%s" "%s" %%*\n' %
-                         (sys.executable, script_path))
+        if os.name == 'nt':
+            with open(self.fake_exe, 'w', encoding='ascii',
+                      newline='\r\n') as handle:
+                handle.write('@echo off\n"%s" "%s" %%*\n' %
+                             (sys.executable, script_path))
+        else:
+            with open(self.fake_exe, 'w', encoding='ascii') as handle:
+                handle.write('#!/bin/sh\nexec "%s" "%s" "$@"\n' %
+                             (sys.executable, script_path))
+            os.chmod(self.fake_exe, 0o755)
         old_after = os.environ.get('FAKE_PCB_AFTER')
         old_log = os.environ.get('FAKE_PCB_LOG')
         os.environ['FAKE_PCB_AFTER'] = after_path
