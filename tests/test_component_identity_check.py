@@ -11,9 +11,12 @@ import component_identity_check as identity
 
 
 def part(primitive='p1', designator='R1', device_uuid='dev-1',
-         footprint='RES-0603', value='10k', pin_net='N1', add_to_pcb=True):
+         footprint='RES-0603', value='10k', pin_net='N1', add_to_pcb=True,
+         unique_id='uid-1', component_uuid='comp-1'):
     return {
         'componentType': 'part', 'primitiveId': primitive,
+        'uniqueId': unique_id,
+        'component': {'libraryUuid': 'comp-lib', 'uuid': component_uuid},
         'device': {'libraryUuid': 'lib-1', 'uuid': device_uuid, 'name': 'Resistor'},
         'symbol': {'libraryUuid': 'sym-lib', 'uuid': 'sym-1', 'name': 'R'},
         'otherProperty': {
@@ -104,6 +107,70 @@ class IdentityTests(unittest.TestCase):
         self.assertEqual(result['status'], 'pass_sch_only')
         self.assertIn('primitive_id_changed',
                       [finding['code'] for finding in result['informational_findings']])
+
+    def test_instance_unique_id_change_blocks(self):
+        result = identity.compare(doc((part(), 'R1')),
+                                  doc((part(unique_id='uid-2'), 'R1')))
+        self.assertIn('instance_unique_id_changed',
+                      [item['code'] for item in result['blocking_findings']])
+
+    def test_instance_component_uuid_change_blocks(self):
+        result = identity.compare(doc((part(), 'R1')),
+                                  doc((part(component_uuid='comp-2'), 'R1')))
+        self.assertIn('instance_component_uuid_changed',
+                      [item['code'] for item in result['blocking_findings']])
+
+    def test_instance_identity_missing_blocks(self):
+        missing = part()
+        missing.pop('uniqueId')
+        result = identity.compare(doc((part(), 'R1')), doc((missing, 'R1')))
+        self.assertIn('instance_identity_unavailable',
+                      [item['code'] for item in result['blocking_findings']])
+
+    def test_declared_bom_change_is_informational(self):
+        expected = [{'designator': 'R1', 'key': 'Value', 'before': '10k',
+                     'after': '22k', 'reason': 'customer-visible value update',
+                     'evidence': 'BOM note / change request'}]
+        changed = part(); changed['otherProperty']['Value'] = '22k'
+        result = identity.compare(doc((part(), 'R1')), doc((changed, 'R1')),
+                                  expected_changes=expected)
+        self.assertEqual(result['status'], 'pass_sch_only')
+        finding = next(item for item in result['informational_findings']
+                       if item['code'] == 'expected_change')
+        self.assertEqual(finding['key'], 'Value')
+        self.assertEqual(finding['reason'], 'customer-visible value update')
+
+    def test_unexpected_change_stays_blocking(self):
+        expected = [{'designator': 'R1', 'key': 'Footprint', 'before': 'A',
+                     'after': 'B', 'reason': 'r', 'evidence': 'e'}]
+        changed = part(); changed['otherProperty']['Value'] = '22k'
+        result = identity.compare(doc((part(), 'R1')), doc((changed, 'R1')),
+                                  expected_changes=expected)
+        self.assertIn('bom_attribute_changed',
+                      [item['code'] for item in result['blocking_findings']])
+        self.assertIn('expected_change_unused',
+                      [item['code'] for item in result['informational_findings']])
+
+    def test_declared_change_must_match_observed_values(self):
+        expected = [{'designator': 'R1', 'key': 'Value', 'before': '10k',
+                     'after': '33k', 'reason': 'r', 'evidence': 'e'}]
+        changed = part(); changed['otherProperty']['Value'] = '22k'
+        result = identity.compare(doc((part(), 'R1')), doc((changed, 'R1')),
+                                  expected_changes=expected)
+        self.assertIn('expected_change_mismatch',
+                      [item['code'] for item in result['blocking_findings']])
+
+    def test_declared_change_needs_reason_and_evidence(self):
+        for missing in ('reason', 'evidence'):
+            entry = {'designator': 'R1', 'key': 'Value', 'before': '10k',
+                     'after': '22k', 'reason': 'r', 'evidence': 'e'}
+            entry.pop(missing)
+            with self.subTest(missing=missing):
+                with self.assertRaises(ValueError):
+                    changed = part(); changed['otherProperty']['Value'] = '22k'
+                    identity.compare(doc((part(), 'R1')),
+                                     doc((changed, 'R1')),
+                                     expected_changes=[entry])
 
     def test_added_and_removed_parts_block(self):
         result = identity.compare(doc((part(), 'R1')),

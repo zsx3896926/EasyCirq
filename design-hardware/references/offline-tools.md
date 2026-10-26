@@ -31,7 +31,7 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 |---|---|
 | `coordinate_units` | 明确坐标单位，与回读一致；不自动换算像素/英寸 |
 | `components` | 每项`id,bbox`，bbox为符号本体受保护矩形，不含向外引脚；复杂符号采用矩形近似会误报，需实际导图复核 |
-| `texts` | 每项`id,bbox`，包括外部位号、值、网名、注释/标题的完整实际边界；可选`owner`指向实际父对象ID（如器件primitiveId）、`kind`（`attribute/free_text/zone_title/pin_name/pin_number/netflag/net_label/wire_name/title_block/border/symbol_text/unowned`）、`net`、`anchor_id`、`anchored`、`measurement`（`bbox`/`estimated`）、`field`、`content`。`kind` 为引脚名/脚号或符号图形文字且 owner 是该符号时，符号本体重叠不再是碰撞候选；未声明 kind 时保持旧行为。`anchor_id` 指向文字所属导线：该导线的穿字/贴线不再报，**其他**导线穿字仍报 |
+| `texts` | 每项`id,bbox`，包括外部位号、值、网名、注释/标题的完整实际边界；可选`owner`指向实际父对象ID（如器件primitiveId）、`kind`（`attribute/free_text/zone_title/pin_name/pin_number/netflag/net_label/wire_name/title_block/border/symbol_text/unowned`）、`net`、`anchor_id`、`anchored`、`measurement`（`bbox`/`estimated`）、`field`、`content`。`kind` 为引脚名/脚号或符号图形文字且 owner 是该符号时，符号本体重叠不再是碰撞候选；未声明 kind 时保持旧行为。`anchor_id` 指向文字所属导线：仅当该线只在文字 bbox 边缘（`policy.label_own_wire_edge_tolerance`，默认1 raw）接触时记 `label_own_wire_edge_contact` info；**穿入文字主体仍报 `wire_enters_bbox`（带 `own_wire:true`）**，其他导线穿字始终报 |
 | `wires` | 每项`id,points`，至少两个不同连续点；可给`net`以提示不同命名导线的内部交叉；不得据此合并/改名。可选 `primitive_id` 表示同一 EasyEDA 导线图元的分段；适配器把 `rawEncoding=flat-segments` 的每 4 个数作为一条独立线段，不能当连续折线读，否则会伪造斜线穿符号 |
 | `page_bbox` | 可选、页面实际可用范围；采用`[min_x,min_y,max_x,max_y]`，与坐标朝向无关，四值有序且边长为正 |
 | `expected_counts` | 可选，来自实际回读的components/texts/wires数量，用于发现提取漏项；数目相同仍不能证明身份、版本和几何完整 |
@@ -45,6 +45,10 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 | `policy.connection_tolerance` | 使用端点/标签检查时必填、正数；单位与坐标一致。未填时这些检查跳过并写入`checks_skipped`，不偷偷用经验默认值 |
 | `policy.wire_endpoint_check` | 可选布尔，默认true。EasyEDA 折线用中间顶点连接时端点检查会产生假悬空；回读适配器设false，连通性以 `easyeda sch check` 为准 |
 | `policy.min_text_wire_clearance` | 可选非负值；文字与**非自身**导线距离不超过该值时报告 `text_wire_clearance`（`severity=info`、`category=readability_hint`，不阻塞）。标签所属导线由 `anchor_id` 豁免；引脚名/脚号、符号文字、netflag/图签/边框文字不参与。真正穿入文字框仍由 `wire_enters_bbox` 作为阻塞候选 |
+| `policy.label_own_wire_edge_tolerance` | 默认1.0 raw；只用于**自身导线**：线段进入文字 bbox 但未进入内缩该值的内部时，记 `label_own_wire_edge_contact` info；进入内部仍报 blocking `wire_enters_bbox`。把“归属”当“合法遮挡”会漏掉导线穿过自己网名的情况 |
+| `policy.junction_tolerance` | 默认1.0 raw；`no_junction_crossings` 声明点与真实交点的匹配半径 |
+| `no_junction_crossings` | 可选点列表；只有同时提供非空 `junction_evidence`（如 `easyeda sch check` 的已验证无结点输出）才接受，否则输入无效。仅与声明点匹配的正交交叉降为 hint；未列出的交叉仍 blocking。共线重叠始终 blocking |
+| `junction_evidence` | 非空字符串，说明无结点清单来自哪一次宿主检查；没有它不得把交叉降为提示 |
 | `policy.duplicate_net_distance` | 默认40；同网文字中心距不超过该值且至少一方是 net_label/wire_name 时报告 `duplicate_net_text`；同一 `anchor_id` 上的同网文字始终报告。`kind=net_label` 且 `anchored=false` 报告 `unanchored_net_text` |
 | `net_flags` | 每项`id,net,bbox,rotation`，可选`kind,anchor,text_id`；按 `policy.netflag_rotation` 检查普通电源/地符号的朝向一致性。`allowed` 显式列出有理由的例外，`requireHorizontalText` 检查网名文字是否竖排 |
 | `module_frames[].order` | 可选正整数；按上到下、左到右排序后必须递增，否则报告 `zone_reading_order`。没有 order 时不能检查阅读顺序 |
@@ -83,7 +87,9 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 - `netflag_rotation` 是项目声明的普通符号朝向约定；因引脚方向必须横放的标记用 `allowed` 逐项豁免并看图确认，不能为了全绿机械旋转有特殊用途的符号。
 - 新增候选：`unowned_visible_text`、`unanchored_net_text`、`duplicate_net_text`、`netflag_rotation_outlier`、`netflag_text_vertical`、`zone_reading_order`、`title_block_duplicate_text`、`text_wire_clearance`。`severity=info` 的贴边接触不算阻塞；`--fail-on-info` 可把它们升级为退出1。
 - 导线适配器必须按 `flat-segments` 拆段，不能把无序段列表当折线；否则会从 (430,230) 直接连到 (240,195)，伪造“导线穿 U1 本体”。`wire_name` 文字通过 `anchor_id` 绑定到所属导线；适配器同时把每个 wire-name 文字写入 `label_anchors`，因此 `label_anchors` 覆盖不再只依赖 netport/netlabel 组件。
-- 无结点正交交叉 `different_named_wires_cross` 现在是 `severity=info`、`category=readability_hint`；同向共线重叠 `different_named_wires_collinear_overlap` 仍是阻塞的短路候选。近距贴线 `text_wire_clearance` 也是 hint；真正穿字 `wire_enters_bbox`、符号本体重叠 `bbox_overlap` 仍是阻塞候选。报告要分开“真实几何候选”和“可读性提示”，不要把 hint 数量归零当成验收通过。
+- 自身导线豁免是**边缘级**而不是归属级：`anchor_id` 只证明“这条线是它的”，导线若穿进文字主体仍报 `wire_enters_bbox(own_wire=true)`；只有内缩统一容差内不进入时才记 `label_own_wire_edge_contact` info。正反例见 `tests/test_sch_acceptance.py`。
+- 无结点正交交叉 `different_named_wires_cross` 只有在 `no_junction_crossings` 列出该交点、且 `junction_evidence` 指明宿主检查来源时才降为 `severity=info`；没有清单/证据或交点未列出仍 blocking。同向共线重叠 `different_named_wires_collinear_overlap` 始终 blocking。近距贴线 `text_wire_clearance` 是 hint；真正穿字 `wire_enters_bbox`、符号本体重叠 `bbox_overlap` 仍是阻塞候选。报告要分开“真实几何候选”和“可读性提示”，不要把 hint 数量归零当成验收通过。
+- `layout_from_easyeda.py --junction-report` 接受宿主 `sch read`/`sch check` 的已验证无结点 JSON（`verified/source/noJunctionCrossings`）；没有该输入时交叉保持 blocking。适配器不会自行推断结点。
 - `pin_net_intent_check.py` 比较设计意图与 `sch read` 的物理引脚连通组：网名可不同
   （`DISCH` vs `$1N117`），但每个意图网络必须恰好等于一个真实网络的引脚集合；
   多脚、少脚、拆网、并网、未声明连接都会列出。极性/功能脚名用 `pinMap` 显式落号。
@@ -108,14 +114,18 @@ after-list.json [--pcb pcb-list.json] --out identity.json` 比较两份
 | 封装 | `otherProperty.Footprint/Supplier Footprint`（或 device/pcb footprint）变化为 blocking |
 | BOM 属性 | Manufacturer Part、Supplier Part、LCSC Part Name、Value、Footprint、JLCPCB Part Class、Description、Add into BOM/PCB；逐键列出 before/after |
 | 引脚 | 脚号→脚名变化为 blocking；网络变化按**引脚集合分区**比较：仅网名从 `$1N…` 改为标签名为 info（`net_names_changed`），分区变化才是 blocking（`net_partition_changed`） |
-| 位号/实例 | 位号新增/删除 blocking；仅 primitiveId 变化为 info（不把重放换 ID 当身份变化） |
-| SCH↔PCB | 提供 `pcb list`/`pcb components list` 时，按位号找 PCB 器件并比较封装；缺件/封装不一致 blocking，PCB 多出的安装孔等记 info。未提供 PCB 输入时明确 `pcb_binding: not_run`，状态 `pass_sch_only` |
+| 位号/实例 | 位号新增/删除 blocking；`uniqueId` 或 `component.uuid` 变化 blocking（实例身份变了，不能只靠位号/库身份）；仅 `primitiveId` 变化为 info；缺 `uniqueId` 报 `instance_identity_unavailable` blocking |
+| BOM 属性 | Manufacturer Part、Supplier Part、LCSC Part Name、Value、Footprint、JLCPCB Part Class、Description、Add into BOM/PCB；逐键列出 before/after。`--expected-changes declared.json` 可把**有 reason+evidence 且 before/after 完全匹配**的变更降为 `expected_change` info；未列出、声明不匹配或缺少证据仍 blocking，未用到的声明报 `expected_change_unused` |
+| SCH↔PCB | 提供 `pcb list`/`pcb components list` 时，按位号找 PCB 器件并比较封装；缺件/封装不一致 blocking，PCB 多出的安装孔等记 info。未提供 PCB 输入时明确 `pcb_binding: not_run`，状态 `pass_sch_only`；这不等于 PCB 绑定已验 |
+| BOM 导出 | 脚本比较的是 SCH 属性，不读取 BOM.csv；实际 BOM 导出需另跑并核对（本环境 CLI 无导出时如实 NOT RUN） |
 
 脚本不判电气正确性、不替代 `sch read`/`pin_net_intent_check.py`，也不判 PCB
 封装可制造性。退出 0 仅表示 `pass`/`pass_sch_only`；1 表示 review；2 表示输入
-不完整/无位号。真实光控板 v14 的 before/after 回读用它得到：器件/封装/引脚名
-未变，12 个网只是 `$1N…`→标签名（info），RV1 的 `Value` 从 `-` 改成 `10kΩ`
-（blocking BOM 变化，需项目确认）；该页无 PCB 输入，所以 SCH↔PCB 为 NOT RUN。
+不完整/无位号。真实光控板 v14 的 before/after 回读用它得到：19/19 位号、
+`uniqueId`、`component.uuid`、device/symbol/封装/引脚名未变；12 个网只是
+`$1N…`→标签名（info）；RV1 的 `Value` 从 `-` 改成 `10kΩ` 已用
+`--expected-changes` 声明为有依据的显示值变更（info）；实际 BOM 导出与
+SCH↔PCB 绑定均为 NOT RUN（原工程无 PCB 输入）。
 
 ## 其他脚本思路如何使用
 

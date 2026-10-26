@@ -1,3 +1,4 @@
+import copy
 import json
 from pathlib import Path
 import sys
@@ -22,7 +23,8 @@ class PhotoLedV14Regression(unittest.TestCase):
             load('list.json'), None, load('sheet.json'), load('rendered-text.json'),
             min_text_wire_clearance=5,
             expect_rotations={'GND': 0, '+5V': 0},
-            require_rendered=True)
+            require_rendered=True,
+            junction_report=load('junction-report.json'))
         cls.result = check.analyze(cls.layout, strict=True)
         cls.codes = [finding['code'] for finding in cls.result['findings']]
 
@@ -82,6 +84,18 @@ class PhotoLedV14Regression(unittest.TestCase):
         self.assertEqual({tuple(finding['objects']) for finding in enters},
                          {('1fa3e4d8816a3e4a#0', 'ad6ce27bf74e95f9'),
                           ('1fa3e4d8816a3e4a#1', 'ad6ce27bf74e95f9')})
+
+    def test_crossing_hint_requires_host_evidence(self):
+        without = copy.deepcopy(self.layout)
+        without.pop('junction_evidence', None)
+        without.pop('no_junction_crossings', None)
+        result = check.analyze(without)
+        crossings = [finding for finding in result['findings']
+                     if finding['code'] == 'different_named_wires_cross']
+        self.assertTrue(crossings)
+        for finding in crossings:
+            self.assertNotEqual(finding.get('severity'), 'info')
+            self.assertNotEqual(finding.get('category'), 'readability_hint')
 
     def test_no_false_reading_order_or_title_duplicate(self):
         for code in ('zone_reading_order', 'title_block_duplicate_text',

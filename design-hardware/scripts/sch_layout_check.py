@@ -73,6 +73,21 @@ def crosses(a, b, c, d):
     return ((x < 0 < y) or (y < 0 < x)) and ((z < 0 < w) or (w < 0 < z))
 
 
+def intersection_point(a, b, c, d):
+    """Proper crossing point, or None.  Collinear overlap has no single point."""
+    rx, ry = b[0] - a[0], b[1] - a[1]
+    sx, sy = d[0] - c[0], d[1] - c[1]
+    denominator = rx * sy - ry * sx
+    if denominator == 0:
+        return None
+    qx, qy = c[0] - a[0], c[1] - a[1]
+    t = (qx * sy - qy * sx) / denominator
+    u = (qx * ry - qy * rx) / denominator
+    if 0 < t < 1 and 0 < u < 1:
+        return (a[0] + t * rx, a[1] + t * ry)
+    return None
+
+
 def collinear_overlap(a, b, c, d):
     """Positive shared interval only; endpoint contact is not overlap."""
     if cross(a, b, c) != 0 or cross(a, b, d) != 0:
@@ -133,7 +148,7 @@ def analyze(data, strict=False):
     fields(data, ['coordinate_units', 'components', 'texts', 'wires'],
            ['page_bbox', 'expected_counts', 'policy', 'title_block', 'module_frames',
             'attachment_points', 'label_anchors', 'coverage', 'title_block_owned',
-            'net_flags'])
+            'net_flags', 'no_junction_crossings', 'junction_evidence'])
     if not isinstance(data['coordinate_units'], str) or not data['coordinate_units'].strip():
         raise ValueError('coordinate_units required; never infer pixels/inches')
     identities, groups = set(), {}
@@ -186,10 +201,11 @@ def analyze(data, strict=False):
     policy = data.get('policy', {})
     fields(policy, [], ['max_wire_length', 'connection_tolerance',
                         'self_text_contact_tolerance', 'min_text_wire_clearance',
-                        'duplicate_net_distance', 'reading_row_tolerance',
-                        'reading_order', 'require_measured_texts',
-                        'require_rendered_texts', 'netflag_rotation',
-                        'title_block_repeat_allow', 'wire_endpoint_check'])
+                        'label_own_wire_edge_tolerance', 'duplicate_net_distance',
+                        'reading_row_tolerance', 'reading_order',
+                        'require_measured_texts', 'require_rendered_texts',
+                        'netflag_rotation', 'title_block_repeat_allow',
+                        'wire_endpoint_check', 'junction_tolerance'])
     maximum = number(policy['max_wire_length'], 'max_wire_length', True) if 'max_wire_length' in policy else None
     tolerance = number(policy['connection_tolerance'], 'connection_tolerance', True) if 'connection_tolerance' in policy else None
     self_contact = (number(policy['self_text_contact_tolerance'],
@@ -198,6 +214,31 @@ def analyze(data, strict=False):
     text_wire_clearance = (number(policy['min_text_wire_clearance'],
                                   'min_text_wire_clearance')
                            if 'min_text_wire_clearance' in policy else None)
+    own_wire_tolerance = (number(policy['label_own_wire_edge_tolerance'],
+                                 'label_own_wire_edge_tolerance')
+                          if 'label_own_wire_edge_tolerance' in policy else 1.0)
+    if own_wire_tolerance < 0:
+        raise ValueError('label_own_wire_edge_tolerance must be nonnegative')
+    junction_tolerance = (number(policy['junction_tolerance'], 'junction_tolerance')
+                          if 'junction_tolerance' in policy else 1.0)
+    if junction_tolerance < 0:
+        raise ValueError('junction_tolerance must be nonnegative')
+    junction_evidence = data.get('junction_evidence')
+    if junction_evidence is not None and (
+            not isinstance(junction_evidence, str) or not junction_evidence.strip()):
+        raise ValueError('junction_evidence must be a nonempty string when supplied')
+    no_junction_points = []
+    if 'no_junction_crossings' in data:
+        if not junction_evidence:
+            raise ValueError(
+                'no_junction_crossings requires junction_evidence from a host check')
+        raw_points = data['no_junction_crossings']
+        if not isinstance(raw_points, list) or len(raw_points) > 2000:
+            raise ValueError('no_junction_crossings must be a list of at most 2000 points')
+        for raw in raw_points:
+            if isinstance(raw, dict):
+                raw = [raw.get('x'), raw.get('y')]
+            no_junction_points.append(point(raw))
     duplicate_distance = (number(policy['duplicate_net_distance'],
                                  'duplicate_net_distance', True)
                           if 'duplicate_net_distance' in policy else 40.0)
@@ -393,19 +434,39 @@ def analyze(data, strict=False):
             add('long_wire', wire['id'])
         if page and any(not (page[0] <= p[0] <= page[2] and page[1] <= p[1] <= page[3]) for p in wire['points']):
             add('outside_page', wire['id'])
-        marker_text = {'netflag', 'border', 'title_block', 'pin_name',
+        marker_text = {'border', 'title_block', 'pin_name',
                        'pin_number', 'symbol_text'}
         for obj in symbols + texts:
             if obj.get('owner') in symbol_ids or obj.get('kind') in marker_text:
-                # Pin names/numbers, marker text and a symbol's own value text
-                # sit at the pin/body where a wire legitimately terminates.
+                # Pin names/numbers, border/title text and a symbol's own value
+                # text sit at the pin/body where a wire legitimately terminates.
                 continue
-            if obj.get('anchor_id') and obj.get('anchor_id') in (
-                    wire['id'], wire.get('primitive_id')):
-                # A net label/wire-name glyph sits above its own wire by design.
-                # Only a *different* wire entering the glyphs is a candidate.
+            own_wire = (obj.get('anchor_id') and obj.get('anchor_id') in (
+                wire['id'], wire.get('primitive_id')))
+            hit = any(enters(a, b, obj['bbox'])
+                      for a, b in zip(wire['points'], wire['points'][1:]))
+            if own_wire:
+                if not hit:
+                    continue
+                # Ownership only proves attachment.  A label normally touches
+                # its own wire at the anchor edge; wire geometry that reaches
+                # into the glyph body must still be reported.
+                box = obj['bbox']
+                inner = [box[0] + own_wire_tolerance, box[1] + own_wire_tolerance,
+                         box[2] - own_wire_tolerance, box[3] - own_wire_tolerance]
+                body_hit = (inner[0] < inner[2] and inner[1] < inner[3]
+                            and any(enters(a, b, inner)
+                                    for a, b in zip(wire['points'], wire['points'][1:])))
+                if body_hit:
+                    add('wire_enters_bbox', wire['id'], obj['id'],
+                        own_wire=True,
+                        detail='label text body, not just the anchor edge')
+                else:
+                    add('label_own_wire_edge_contact', wire['id'], obj['id'],
+                        severity='info', category='readability_hint',
+                        tolerance=own_wire_tolerance)
                 continue
-            if any(enters(a, b, obj['bbox']) for a, b in zip(wire['points'], wire['points'][1:])):
+            if hit:
                 add('wire_enters_bbox', wire['id'], obj['id'])
         segments.extend((wire, a, b) for a, b in zip(wire['points'], wire['points'][1:]))
     seen_crossings = set()
@@ -420,11 +481,24 @@ def analyze(data, strict=False):
                     # a blocking candidate.
                     add('different_named_wires_collinear_overlap', *key)
                 else:
-                    # Orthogonal crossing without a junction is normal drawing
-                    # practice.  Keep it visible as a readability hint rather
-                    # than a blocking defect; the host netlist owns junctions.
-                    add('different_named_wires_cross', *key,
-                        severity='info', category='readability_hint')
+                    # A crossing is only a readability hint when a host check
+                    # has explicitly verified that exact point has no junction.
+                    # Without that evidence it remains a blocking candidate.
+                    crossing_point = intersection_point(a, b, c, d)
+                    verified = bool(crossing_point and any(
+                        math.hypot(crossing_point[0] - item[0],
+                                   crossing_point[1] - item[1]) <= junction_tolerance
+                        for item in no_junction_points))
+                    if verified:
+                        add('different_named_wires_cross', *key,
+                            severity='info', category='readability_hint',
+                            junction_evidence=junction_evidence,
+                            point=[round(crossing_point[0], 6),
+                                   round(crossing_point[1], 6)])
+                    else:
+                        add('different_named_wires_cross', *key,
+                            junction_evidence=None,
+                            detail='no host no-junction evidence for this crossing')
                 seen_crossings.add(key)
 
     checks_run, checks_skipped = [], []
@@ -742,6 +816,9 @@ def analyze(data, strict=False):
               'text_classes': {kind: sum(1 for text in texts if text.get('kind') == kind)
                                for kind in sorted({text.get('kind') for text in texts if text.get('kind')})},
               'self_text_contact_tolerance': self_contact,
+              'label_own_wire_edge_tolerance': own_wire_tolerance,
+              'junction_evidence': junction_evidence,
+              'no_junction_crossings': len(no_junction_points),
               'strict_mode': strict, 'strict_missing': strict_missing,
               'checks_run': checks_run, 'checks_skipped': checks_skipped,
               'findings': findings, 'electrical_verified': False, 'visual_verified': False,

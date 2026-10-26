@@ -1,0 +1,22 @@
+{
+ "verified": true,
+ "source": "easyeda sch read check (photo-led v14, 2026-10-26)",
+ "noJunctionCrossings": [
+  [
+   410,
+   230
+  ],
+  [
+   260,
+   230
+  ],
+  [
+   260,
+   195
+  ],
+  [
+   260,
+   185
+  ]
+ ]
+}

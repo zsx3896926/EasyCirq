@@ -4451,6 +4451,25 @@
   1160.0,
   190.0
  ],
+ "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+ "no_junction_crossings": [
+  [
+   410,
+   230
+  ],
+  [
+   260,
+   230
+  ],
+  [
+   260,
+   195
+  ],
+  [
+   260,
+   185
+  ]
+ ],
  "expected_counts": {
   "components": 19,
   "texts": 136,
