@@ -9,7 +9,7 @@
 - **G0–G6 阶段门禁**（round6）：`references/design-gates.md`、`assets/design-state.example.json`、`scripts/gate_check.py`、temp-alarm 回归案例、BOM/pinmap 检查与 5 份 docs 模板。
 - **原理图排版引擎**（PR #11）：真实几何 → 功能模块 → `layout-plan` → 合页 → 独立质量检查；整页 compose 仍受 D4/KT-0805R off-grid 限制，未证明一键 apply。
 - **确定性 design engine**（PR #12）：离线 IR、几何/身份审计、标签规划、PCB/制造检查；真机仅验证 9 个 Name/Designator 属性移动。
-- **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试。
+- **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。
 - README、readme-technical、handoff 同步测试数字、F1 rev3 21 器件与验证日期。
 
 ### 边界

@@ -8,11 +8,13 @@
 - 分支：`integrate/p0-version-unification`；worktree：`C:/Users/jlc/work/hds-p0`；
   PR：https://github.com/zsx3896926/hardware-design-skill/pull/13。
 - 版本：`0.7.0`（合并后）。
-- 测试：749 tests OK（2026-10-26，`python -m unittest discover -s tests`）。
+- 测试：750 tests OK（2026-10-26，`python -m unittest discover -s tests`）。
 - 安装同步：源 389 / 安装 389，0 missing / 0 extra / 0 hash diff；安装版
-  `skill_selftest.py` 5 PASS；`doctor_env.py --summary` 显示 `lceda-pro` ready、
-  `easyeda-agent` daemon `not_found`。备份：
+  `skill_selftest.py` 5 PASS。备份：
   `C:\Users\jlc\work\_skill-backups\design-hardware-20261026-100433`（357 文件）。
+- EDA 运行状态（2026-10-26 02:09）：easyeda daemon 60832 v1.14.0，窗口
+  `engine-verify-round7-20261024`（hidden），EasyEDA 4.1.78；`doctor_env --summary`
+  显示 `lceda-pro` 与 `easyeda-agent` 两条路线均 ready。本轮未做 EDA 写入。
 
 ## 当前能力与边界
 

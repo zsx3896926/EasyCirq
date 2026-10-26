@@ -224,14 +224,22 @@ def _easyeda_probe(command=None, timeout=EASYEDA_HEALTH_TIMEOUT_S):
         return result
     result['health'] = data
     result['status'] = str(data.get('status') or 'unknown')
-    result['connected'] = result['status'] == 'ok'
     result['host'] = data.get('host')
     result['ports'] = data.get('ports')
+    found = data.get('found') if isinstance(data.get('found'), dict) else {}
+    raw = found.get('raw') if isinstance(found.get('raw'), dict) else {}
+    result['daemon_status'] = raw.get('status')
     checks = data.get('checks') if isinstance(data.get('checks'), list) else []
     result['checks'] = checks
     result['daemon'] = next(
         (item for item in checks if isinstance(item, dict) and item.get('name') == 'daemon'),
         None)
+    if isinstance(result['daemon'], dict) and result['daemon'].get('status'):
+        result['daemon_status'] = result['daemon']['status']
+    # health uses "found" when the daemon is running; the inner raw/check
+    # status carries the real ok/fail result.
+    result['connected'] = result['status'] == 'ok' or (
+        result['status'] == 'found' and result['daemon_status'] == 'ok')
     return result
 
 
