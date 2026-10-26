@@ -31,7 +31,9 @@ PR：https://github.com/zsx3896926/hardware-design-skill/pull/17
 | `after-P1-v3.png` | P1 修正/分区/说明/图签后官方导图 | 真实 EDA 导出 |
 | `pcb-ch1-seed-crop.png` | PCB 板框内 CH1 16 件布局种子 | 离线辅助渲染（`pcb dump` + `pcb layout render`，非官方画布截图） |
 | `ch1-pcb-placements.jsonl` | 16 件 `pcb modify` 检查点（id/目标/ok/耗时） | 真实 EDA 写入 |
-| `architecture-verification-raw.txt` | 独立复核的 4 条结论原文（第 5 组高风险项待补） | 只读审查（原厂资料+设计源） |
+| `architecture-verification-raw.txt` | 独立复核的 5 条结论原文 | 只读审查（原厂资料+设计源） |
+| `verify-HIGH-GROUP.json` | 高风险组 H1–H5 的结构化逐项结论 | 只读审查（原厂资料+设计源） |
+| `cost-analysis/` | 成本分析 Agent 的复算脚本与 JSON（非 Skill 运行时） | 离线分析 |
 
 ## 关键数字
 
