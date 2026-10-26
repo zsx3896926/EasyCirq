@@ -4,7 +4,7 @@
 
 - 仓库：`hardware-design-skill`；工作树：`C:/Users/jlc/work/hds-pr20-verify`
 - 分支：`feat/skill-v0.9-eda-verify`，基于 `origin/feat/skill-v0.9-reviewed` `108403c`
-- 当前 HEAD：`8efeed5`（合并 jlc-61 的 `feat/v09-toolchain-review` `d1c5deb`）
+- 当前 HEAD：`107ec27`（含 `d1c5deb` + `366f6f8` 与 v16 绑定证据文档）
 - PR #20 head 仍是 `feat/skill-v0.9-reviewed`；本分支尚未推送
 - 另一个工作树 `C:/Users/jlc/work/hds-merge-20261026` 有他人未提交 WIP
   （`layout_move_plan.py`、`readback_verify.py` 及测试），未触碰、未采用
