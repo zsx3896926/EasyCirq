@@ -39,22 +39,37 @@
 - 边界：以上全部是离线合成/离线几何测试，**不是真机 EDA 写入或视觉验收**。
   `tests/fixtures/photo-led-visible-text.json` 是历史实测载荷，不含引脚名/自动线名。
 
+### WP2 图面检查三分类（2026-10-26 本会话）
+
+- `sch_layout_check.py` 新增可选 `texts[].owner`、`title_block_owned`、
+  `policy.self_text_contact_tolerance`：
+  - 已声明 owner 的文字浅贴自身符号边缘（默认阈值 0，项目可设 0.5 raw）→
+    `symbol_text_edge_contact`（info），不再混同普通 `bbox_overlap`；深入本体仍报重叠。
+  - 图签自身字段文字只豁免 `overlaps_title_block`，仍参与其他碰撞检查；未知 ID 视为输入无效。
+  - 所有 `bbox_overlap`/`overlaps_title_block` 输出实际重叠宽高，便于人工分诊。
+- `references/offline-tools.md` 已同步契约与边界：分类不等于通过，coverage 仍须完整。
+- 测试：`tests/test_schematic_readability.py` 新增 5 个分类/拒绝用例；全量 **900 tests OK**；
+  skill_selftest **5 PASS**。
+
 ## 真实 EDA 现状（外部工程，非本仓库工作树）
 
 `C:/Users/jlc/work/photo-led-5v-20261026`：5V 光控 LED 板，已实际绘制、保存重开、官方导图；
-`sch gate` PASS，`sch check` 0，19 器件/12 网回读 MATCH。上一会话最后在补
-`docs/layout-snapshot.json` + `sch_layout_check.py --strict`，但快照生成脚本在最后一次
-运行之后又被修改（18:22:10 > 18:21:42），**修复尚未重跑**；strict 结果为
-`incomplete`（texts 覆盖不全、标题/用途 bbox 缺失、大量 frame_membership_gap）。
-下一步先重跑修正后的 `docs/build_layout_snapshot.py`，再判断哪些是真实图面问题、
-哪些是快照构造问题，不得直接把 `incomplete` 改写成 PASS。
+`sch gate` PASS，`sch check` 0，19 器件/12 网回读 MATCH。本会话重跑了修正后的
+`docs/build_layout_snapshot.py`（标题改为从 `frame-apply-v3.log` 取最终ID、`contains`
+剔除netflag、补owner/title_block_owned），strict 结果从 80+ 条误报降到 7 条：
+- 4 条 `symbol_text_edge_contact`（U1/J1 属性文字与本体 0.5 raw 贴边，info）；
+- 1 条真实文字叠印：U2 的 Name 与网名标签文字（重叠约 39×10 raw）；
+- 1 条导线穿 R4 的 Name 文字；
+- 1 条 C2 的 Name 文字跨越 zone1-power 分区框下边。
+strict 仍为 `incomplete`，唯一 `strict_missing` 是 `coverage.texts`：符号内部脚名/自动线名
+无 bbox API，属于真实能力缺口，**不得改成 complete**。图面已实际查看官方 PNG，
+U2 叠字与 C2 跨框肉眼可见。下一步用原生属性移动修复这 3 处，再 save/reload/导图复核。
 
 ## 后续工作包（按序，完成后更新本文件）
 
-- **WP2 读回验证契约**：统一 snapshot/expected/after 对比口径，区分
-  identity / pin-net / geometry / text coverage；为 `eda_exec` 写入增加后置条件验证。
-- **WP3 配方→原生编辑**：把 `sch_recipe` 候选转成执行器 typed move/wire 计划，
-  写入后按 WP2 契约回读；未完成真机验证前保持 `NOT RUN`。
+- **WP3 配方→原生编辑**：把 `sch_recipe`/`layout-source` 候选转成 `eda_exec` 的
+  `part.match+place` 计划（执行器没有 move op），写入后做 pin-net、刚体平移和
+  netlist 不变核验；未完成真机验证前保持 `NOT RUN`。
 - **WP4 工程规则门禁**：只实现实测网表可判定的规则（去耦、上拉、限流、稳压器输入/输出电容、
   NC/悬空、电源网冲突等），每条规则带证据等级和误报边界。
 - **WP5 PCB 质量**：基于 PCB 回读的 courtyard/丝印/板框/安装孔/电源回路/DRC 可判定项，
