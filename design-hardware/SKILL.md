@@ -263,7 +263,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 
 阶段门禁用 `python scripts/gate_check.py --project <name> --evidence-dir <dir> --design-state <file>`，先读 [阶段门禁](references/design-gates.md)。它只读证据目录和状态文件，不连 daemon、不写工程；缺证据判 `BLOCKED`，`PASS` 也不证明实物。有豁免时用 `--waiver-file` 落盘，未使用的豁免会标 `unused`。
 
-BOM/装配结构用 `python scripts/bom_check.py parts.json`，先按 [零件示例](assets/parts.example.json) 准备输入。它检查 role/MPN/封装/装配方式/C 号存在性/备选结构；库存、价格、MOQ 与 SMT 可贴状态仍按立创商城和嘉立创渠道实时核对，脚本不访问网络。
+BOM/装配结构用 `python scripts/bom_check.py parts.json`，先按 [零件示例](assets/parts.example.json) 准备输入。它检查 role/MPN/封装/装配方式/C 号存在性/备选结构；实际 EasyEDA BOM 导出用 `python scripts/bom_cnumber_check.py bom.csv --parts project-standard-parts.json --expect-designator RV1=10kΩ` 核对 C 号、本地映射回填与重复/冲突（见 [嘉立创设计到实物](references/jlc-handoff.md)）。两者都不检查库存、价格、MOQ 与 SMT 可贴状态；这些仍按立创商城和嘉立创渠道实时核对，脚本不访问网络。
 
 Skill 包自检用 `python scripts/skill_selftest.py`：检查必需文件、相对链接、门禁命名、回归案例结果与脚本可运行。它只证明包结构与本轮案例一致，不证明任何硬件或 EDA 工程已验证。
 

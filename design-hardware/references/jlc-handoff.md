@@ -30,6 +30,26 @@
 - 如有：外壳/面板图、接口/孔位置、装配与后续烧录/测试计划。
 用户未要求的服务不自动开单；不能把文件导出、平台上传、匹配完成、报价、下单、支付和生产分别跳步说成“交付完成”。
 
+## BOM C 号审计
+
+`easyeda bom export --type csv` 默认会用执行器的 `standard-parts.json` 按 MPN 回填
+Supplier Part；项目专用料通常不在该表里，结果为 0/N 匹配。把本项目实际使用的
+MPN→C 号整理成 `project-standard-parts.json`，再用 `--parts` 重导出，最后用
+`bom_cnumber_check.py` 做确定性核对：
+
+```bash
+easyeda bom export --type csv --parts evidence/project-standard-parts.json
+python scripts/bom_cnumber_check.py evidence/photo-led-bom.csv \
+  --parts evidence/project-standard-parts.json \
+  --expect-designator RV1=10kΩ --out bom-check.json
+```
+
+脚本检查数量、位号、MPN、`C<数字>`、空 Supplier Part 的本地映射回填、映射冲突、
+重复位号、同 MPN 不同 C 号和指定位号的值；不访问网络。PASS 只代表 BOM/映射内部一致，
+**不代表库存、价格、MOQ、SMT 可贴或封装与符号一致**，这些仍按立创商城/嘉立创实时核对。
+2026-10-26 photo-led 实测：本地映射 15/15 回填；RV1=`10kΩ`/`3296W-1-103`/
+`C56237`（库身份实测，库存/价格未核对）。
+
 ## Agent执行与用户接手
 可用官方当前工具/连接器/页面完成的已授权步骤由Agent处理。若当前无商城/SMT账号通道，先完成真实图纸和购料/制造文件，明确给出剩余一步，不让用户从头重做。
 用户需要作出的重要决定用“自己焊还是工厂焊好”“成本与交期更看重哪个”等解释；技术文件映射和检查由Agent负责，用户不需要懂坐标格式或SMT库类别。

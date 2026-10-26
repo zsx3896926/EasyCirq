@@ -38,7 +38,7 @@ LED 区留白；AMS1117 22µF 0805 陶瓷输出电容稳定性未验证，不能
 - `tests/test_sch_acceptance.py`、`tests/test_pin_net_intent.py`、
   `tests/test_sch_acceptance_v14.py`、`tests/test_component_identity_check.py`；
   真实 fixture `tests/fixtures/photo-led-acceptance.json`、`photo-led-v14/`。
-- 验证：`python -m unittest discover -s tests` → **960 tests OK**；
+- 验证：`python -m unittest discover -s tests` → **966 tests OK**；
   `skill_selftest.py` → **5 PASS / 0 FAIL**。
 - `d1c5deb` 追加：自身导线边缘级豁免、无结点交叉必须有宿主 junction 证据、
   实例 uniqueId/component.uuid 与 `--expected-changes` 声明门禁。
@@ -59,14 +59,17 @@ LED 区留白；AMS1117 22µF 0805 陶瓷输出电容稳定性未验证，不能
 - 身份核验（v14→v16）：`pass_sch_only`，19/19 位号/uniqueId/component.uuid/
   device/symbol/封装/脚名不变；1 条 expected_change_unused info；BOM 导出与
   SCH↔PCB 仍 NOT RUN。
-- 残留：`sch check` **7 条 reversed-net-flag**（GND/+5V 旗 rot=0 而桩水平）。
-  安全修复路径被平台拒绝：`sch modify --rotation`/`component.modify` 不接受
-  netflag；`sch disconnect --pin` 报 `Wire 3fa5b272ecceca98 has 6 observed
-  segments`。未做电气改动，按 BLOCKED 保留；需数据驱动 compose 才能修。
-- BOM 已实际导出并核对：`evidence/photo-led-bom.csv`（原始 artifact 2,656 B，
-  SHA-256 `74131f8c…`；副本 hash `C88181AD…`）；RV1=`10kΩ`、MPN 3296W-1-103、
-  LCSC C56237；其余 14 行 MPN/封装/C 号齐全。standard-parts enrichment 0/15，
-  但原始 Supplier Part 列已有 C 号。图签 Drawed 留空。
+- 7 个反向旗的“原地修”已实测不可行并回退：删除后在原锚点按桩方向重建
+  （rotation 90/270）使原生 `reversedNetFlags` 降到 0，但产生 7 个竖排电源/地
+  文字并引入 2 处 blocking 文字接触（zone3 purpose 等）；随后删新旗、按原位置
+  rot=0 重建，回到 v18。`sch check` 仍有 7 条 reversed，按 BLOCKED 保留；
+  正确修法是改桩线走向/数据驱动 compose，不是原地转旗。
+- BOM 已实际导出并用项目本地映射 enrichment：`evidence/photo-led-bom-enriched.csv`
+  （15/15 回填，SHA-256 `493F5D75…`）；`bom_cnumber_check.py` 对 RV1=`10kΩ`
+  及 15 行检查 pass。默认 standard-parts 表 0/15，本地映射补足；库存/价格/
+  MOQ/SMT 未核对。图签 Drawed 留空。
+- SCH↔PCB：项目内 PCB1 `99b8366b0bdc971f` 已 linked，但 `pcb list` 为 0 器件，
+  无法核验，BLOCKED；未导入/创建 PCB 器件。
 - 最终证据：`evidence/final-v16.png/.svg`、`v16-check.json`、`v16-list.json`、
   `v16-identity-check.json`；v14 原生 `.epro2` SHA-256 `502D6FD2…`（v16 未重导）。
 

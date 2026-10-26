@@ -105,12 +105,16 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 
 ### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
 
-- `photo-led-5v-20261026` P1：v16 编号 1→4 按阅读顺序、标题左上、图签重复消除；
+- `photo-led-5v-20261026` P1：v18 编号 1→4 按阅读顺序、标题左上、图签重复消除；
   137 条渲染文字无 text-text overlap，R3 Name 与 zone2 purpose 的 blocking 接触已修；
-  strict 只剩 3 条有宿主证据的无结点交叉 hint + 3 条 5 raw 内贴线 hint；
-  `sch check` 仍有 7 条 `reversed-net-flag`（旗 rot=0 而桩水平）；netflag 旋转被
-  `sch modify`/`component.modify` 拒绝，`sch disconnect` 又因多段线拒绝，按 BLOCKED
-  保留，需数据驱动 compose。BOM 已实际导出并核对 RV1=10kΩ/C56237。
+  strict 只剩 3 条有宿主证据的无结点交叉 hint + 3 条 5 raw 内贴线 hint。
+- 7 个反向旗：**不要原地旋转修**。按桩方向重建 flag 虽能让原生 `reversedNetFlags`
+  归零，但会产生竖排电源/地文字并引入新的 blocking 文字接触；本项目已回退到
+  rot=0 的 v18，保留 7 条原生 reversed 作为已知限制。正确修法是改桩线走向或
+  数据驱动 compose。
+- BOM：项目本地 MPN→C 号映射可把 enrichment 从 0/15 提升到 15/15；
+  `bom_cnumber_check.py` 对 RV1=10kΩ 及全部 15 行 pass（库存/价格未核对）。
+  SCH↔PCB：PCB1 已 linked 但 0 器件，BLOCKED。
 - `ne555-blinker-1hz-20261026` P1：10 器件/7 网，gate PASS，pin-net intent match，
   save→reload 保持；残留为 5 个竖排电源/地标记、3 处文字/本体接触、无 purpose 文字。
 - `ams1117-3v3-20261026` P1：6 器件/3 网，gate PASS，pin-net intent match，

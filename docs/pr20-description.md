@@ -20,7 +20,8 @@
 3. **图面语义检查**：新增 `unowned_visible_text`、`duplicate_net_text`、`unanchored_net_text`、`netflag_rotation_outlier`、`netflag_text_vertical`、`zone_reading_order`、`title_block_duplicate_text`、`text_wire_clearance`。自身导线豁免改为**边缘级**：`anchor_id` 只证明归属；导线进入文字 bbox 但在 1 raw 内只记 info，进入主体仍 blocking。无结点交叉的宿主证据必须绑定**页 ID、快照 SHA-256 和两段导线 ID**，页/哈希不匹配或导线不在当前快照时按 stale evidence 拒绝并保持 blocking；只有点+导线全匹配才降为 readability hint，共线重叠始终 blocking。符号自有脚名/脚号不再当普通碰撞；info-only 不阻塞（`--fail-on-info` 可升级）；`--out` 以 UTF-8 落盘。
 4. **设计意图对账**：`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `sch read`，网名拼写可不同（`DISCH` vs `$1N117`），多/少脚、拆网、并网、未声明连接逐条列出；支持 `sch read` 的 `number` 字段。
 5. **器件身份核验**：`component_identity_check.py` 比较位号/device/symbol/footprint/脚名与 BOM 属性，并加入实例 `uniqueId`/`component.uuid`（缺失或变化 blocking，仅 primitiveId 变化 info）；`--expected-changes` 只接受带 reason+evidence 且 before/after 精确匹配的 BOM 变更，否则 blocking。无 PCB 输入时明确 `pcb_binding=not_run`，实际 BOM 导出未提供时 `NOT RUN`。
-6. **真实失败回归**：`tests/fixtures/photo-led-acceptance.json` 与 `photo-led-v14/` 保留 134/136 条渲染文字、真实阅读顺序 2,1,3,4、孤立 `LED_CTRL`、图签重复等样例；v14 还保留宿主 `sch read` 的 4 个无结点交叉证据。全部测试 **960 OK**，`skill_selftest.py` **5 PASS**。
+6. **BOM C 号审计**：`bom_cnumber_check.py` 检查 EasyEDA BOM 的数量/位号/MPN/`C<数字>`、空 Supplier Part 的项目本地映射回填、映射冲突、重复位号、同 MPN 不同 C 号和指定位号值；photo-led 本地映射 **15/15** 回填，RV1=`10kΩ`。不检查库存/价格/MOQ/SMT。
+7. **真实失败回归**：`tests/fixtures/photo-led-acceptance.json` 与 `photo-led-v14/` 保留 134/136 条渲染文字、真实阅读顺序 2,1,3,4、孤立 `LED_CTRL`、图签重复等样例；v14 还保留宿主 `sch read` 的 4 个无结点交叉证据。全部测试 **966 OK**，`skill_selftest.py` **5 PASS**。
 
 ## 三个真实工程的验收结果
 
@@ -31,11 +32,12 @@
 - P1 `cd008f919db36eba`；12 网 / 47 脚 / 0 floating / 37 组件。
 - 分区编号按阅读顺序 **1 光敏 → 2 供电 → 3 阈值 → 4 LED**，标题在框左上；zone2 purpose 持久修复。
 - 图签两处 `Claude Code` 已消除（绘制/审阅留空，避免平台“titleblock 字段 + sheet 属性”双渲染重复）。
-- 官方整页：`evidence/final-v16.png/.svg`（v16 在 v14 基础上把 R3 Name 上移、VREF 短桩绕开 zone2 purpose；12 网 / 0 floating）。
-- 最终 checker：`strict_missing: []`、`status: info_only`；3 条无结点交叉 hint 的宿主证据已绑定页 `cd008f919db36eba`、快照 SHA-256 `0392d03c…` 和两段导线 ID（`25209c69…#3` 等），3 条 5 raw 内贴线 hint；无 text-text overlap / zone_reading_order / title_block_duplicate_text / blocking bbox contact。
-- 器件身份（v14→v16 新鲜回读）：`pass_sch_only`，19/19 位号、uniqueId、component.uuid、device/symbol/封装/脚名不变；1 条 `expected_change_unused` info（RV1 的声明变更在 v14 已是现状）；实际 BOM 导出与 SCH↔PCB 仍 `NOT RUN`。
-- 残留：`sch check` 仍有 **7 条 `reversed-net-flag`**（GND/+5V 旗 rot=0 而桩水平）。本轮尝试的安全路径均被平台拒绝：`sch modify --rotation` 与原始 `component.modify` 不接受 netflag；`sch disconnect --pin` 报 `Wire 3fa5b272ecceca98 has 6 observed segments`，不是单桩。未做任何电气改动，按 **BLOCKED** 保留；安全修复需数据驱动 `sch compose --preserve-instances`，超出本轮冻结范围。图签 Drawed 留空。
-- 实际 BOM 已导出：`.easyeda/artifacts/20261026-210530-schematic_bom-d646304a.csv`（2,656 B，SHA-256 `74131f8c…`；副本 `evidence/photo-led-bom.csv`）。核对 RV1=`10kΩ`、MPN `3296W-1-103`、LCSC `C56237`；其余 14 行 MPN/封装/C 号齐全。`bom export` 的 standard-parts enrichment 匹配 0/15，但原始 Supplier Part 列已有 C 号，未影响本次核对。
+- 官方整页：`evidence/final-v18.png/.svg`（v18 恢复到 v16 视觉状态；12 网 / 0 floating）。
+- 最终 checker：`strict_missing: []`、`status: info_only`；3 条无结点交叉 hint 的宿主证据绑定页 `cd008f919db36eba`、快照 SHA-256 `e8b9f5ed…` 和两段导线 ID，3 条 5 raw 内贴线 hint；无 text-text overlap / zone_reading_order / title_block_duplicate_text / blocking bbox contact。
+- 器件身份（v14→v16 新鲜回读）：`pass_sch_only`，19/19 位号、uniqueId、component.uuid、device/symbol/封装/脚名不变；1 条 `expected_change_unused` info。
+- **7 个反向旗：已实测“原地旋转”不可行并回退**。删除后在原锚点按桩方向重建（rotation 90/270）能把原生 `reversedNetFlags` 降到 0，但产生 7 个竖排电源/地文字并引入 2 处 blocking 文字接触（zone3 purpose 等），肉眼明显变差；随后删除新旗、按原位置 rot=0 重建，回到 v18。`sch check` 仍有 7 条 `reversed-net-flag`，按 **BLOCKED** 保留；正确修法是改桩线走向/数据驱动 compose，不是原地转旗。图签 Drawed 留空。
+- BOM 已实际导出并完成本地映射 enrichment：`evidence/photo-led-bom-enriched.csv`（15/15 行回填，SHA-256 `493F5D75…`）；`bom_cnumber_check.py` 对 RV1=`10kΩ` 及其余 14 行检查 **pass**。`bom export` 默认 standard-parts 表 0/15，项目本地 `photo-led-standard-parts.json` 补足；库存/价格/MOQ/SMT 可贴仍 **NOT RUN**。
+- SCH↔PCB：项目内 PCB1 `99b8366b0bdc971f` 已 linked，但 `pcb list` 为 **0 器件**，无法做绑定核验，按 **BLOCKED** 记录；未导入/创建 PCB 器件。
 
 ### 2）ne555-blinker-1hz-20261026（新建）
 
@@ -66,7 +68,7 @@
 ## 验证命令
 
 ```bash
-python -m unittest discover -s tests     # 960 tests OK
+python -m unittest discover -s tests     # 966 tests OK
 python design-hardware/scripts/skill_selftest.py  # 5 PASS
 # 每个工程：
 easyeda sch gate --json
