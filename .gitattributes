@@ -26,3 +26,12 @@ docs/evidence/round7-apply/**/*.log text eol=lf
 docs/evidence/round7-apply/**/*.svg text eol=lf
 docs/evidence/round7-apply/**/*.txt text eol=lf
 docs/evidence/round7-apply/**/*.csv text eol=lf
+
+# Updater files are stable across platforms; Windows launchers use CRLF.
+design-hardware/scripts/skill_update.py text eol=lf
+design-hardware/references/installation-updates.md text eol=lf
+distribution/*.py text eol=lf
+distribution/*.cmd text eol=crlf
+distribution/*.ps1 text eol=crlf
+tests/test_skill_update.py text eol=lf
+.github/workflows/skill-updater.yml text eol=lf
