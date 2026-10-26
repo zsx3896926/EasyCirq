@@ -23,7 +23,8 @@
 - 官方整页：`evidence/final-v16.png/.svg`（v16 在 v14 基础上把 R3 Name 上移、VREF 短桩绕开 zone2 purpose；12 网 / 0 floating）。
 - 最终 checker：`strict_missing: []`、`status: info_only`；3 条无结点交叉 hint 的宿主证据已绑定页 `cd008f919db36eba`、快照 SHA-256 `0392d03c…` 和两段导线 ID（`25209c69…#3` 等），3 条 5 raw 内贴线 hint；无 text-text overlap / zone_reading_order / title_block_duplicate_text / blocking bbox contact。
 - 器件身份（v14→v16 新鲜回读）：`pass_sch_only`，19/19 位号、uniqueId、component.uuid、device/symbol/封装/脚名不变；1 条 `expected_change_unused` info（RV1 的声明变更在 v14 已是现状）；实际 BOM 导出与 SCH↔PCB 仍 `NOT RUN`。
-- 残留：`sch check` 仍有 **7 条 `reversed-net-flag`**（GND/+5V 旗 rot=0 而桩水平），本轮窗口不够未逐一重连；图签 Drawed 留空。
+- 残留：`sch check` 仍有 **7 条 `reversed-net-flag`**（GND/+5V 旗 rot=0 而桩水平）。本轮尝试的安全路径均被平台拒绝：`sch modify --rotation` 与原始 `component.modify` 不接受 netflag；`sch disconnect --pin` 报 `Wire 3fa5b272ecceca98 has 6 observed segments`，不是单桩。未做任何电气改动，按 **BLOCKED** 保留；安全修复需数据驱动 `sch compose --preserve-instances`，超出本轮冻结范围。图签 Drawed 留空。
+- 实际 BOM 已导出：`.easyeda/artifacts/20261026-210530-schematic_bom-d646304a.csv`（2,656 B，SHA-256 `74131f8c…`；副本 `evidence/photo-led-bom.csv`）。核对 RV1=`10kΩ`、MPN `3296W-1-103`、LCSC `C56237`；其余 14 行 MPN/封装/C 号齐全。`bom export` 的 standard-parts enrichment 匹配 0/15，但原始 Supplier Part 列已有 C 号，未影响本次核对。
 
 ### 2）ne555-blinker-1hz-20261026（新建）
 

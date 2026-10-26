@@ -50,8 +50,14 @@
 - 身份核验（v14→v16）：`pass_sch_only`，19/19 位号/uniqueId/component.uuid/
   device/symbol/封装/脚名不变；1 条 expected_change_unused info；BOM 导出与
   SCH↔PCB 仍 NOT RUN。
-- 残留：`sch check` **7 条 reversed-net-flag**（GND/+5V 旗 rot=0 而桩水平），
-  未逐一重连；图签 Drawed 留空。
+- 残留：`sch check` **7 条 reversed-net-flag**（GND/+5V 旗 rot=0 而桩水平）。
+  安全修复路径被平台拒绝：`sch modify --rotation`/`component.modify` 不接受
+  netflag；`sch disconnect --pin` 报 `Wire 3fa5b272ecceca98 has 6 observed
+  segments`。未做电气改动，按 BLOCKED 保留；需数据驱动 compose 才能修。
+- BOM 已实际导出并核对：`evidence/photo-led-bom.csv`（原始 artifact 2,656 B，
+  SHA-256 `74131f8c…`；副本 hash `C88181AD…`）；RV1=`10kΩ`、MPN 3296W-1-103、
+  LCSC C56237；其余 14 行 MPN/封装/C 号齐全。standard-parts enrichment 0/15，
+  但原始 Supplier Part 列已有 C 号。图签 Drawed 留空。
 - 最终证据：`evidence/final-v16.png/.svg`、`v16-check.json`、`v16-list.json`、
   `v16-identity-check.json`；v14 原生 `.epro2` SHA-256 `502D6FD2…`（v16 未重导）。
 
