@@ -10,7 +10,7 @@
 
 - worktree：`C:/Users/jlc/work/hds-offline-r11`
 - 基线：`origin/main` = `066a74b`（PR #22 后）
-- 分支：`feat/offline-toolchain-round11`；HEAD `2eed3fa`（代码 6bbc761 + PR 记录）
+- 分支：`feat/offline-toolchain-round11`；HEAD `0a7ca99`（代码 6bbc761 + 基准/文档提交）
 - PR：#24 https://github.com/zsx3896926/hardware-design-skill/pull/24（未合并）
 - Skill 版本：`0.9.3`（`design-hardware/.version`）
 - 本轮未安装到客户端、未合并、未发 Release
