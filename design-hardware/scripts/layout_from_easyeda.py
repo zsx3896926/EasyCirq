@@ -105,7 +105,7 @@ def estimated_text(content, x, y, font_size, rotation, align):
 
 def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None,
             min_text_wire_clearance=None, expect_rotations=None,
-            require_rendered=False):
+            require_rendered=False, horizontal_nets=None):
     parts = [item for item in list_data.get('components', [])
              if item.get('componentType') == 'part']
     flags_raw = [item for item in list_data.get('components', [])
@@ -114,8 +114,10 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
     sheet = next((item for item in list_data.get('components', [])
                   if item.get('componentType') == 'sheet'), None)
     page = box(sheet.get('bbox')) if sheet else None
+    if page is None and geometry_data:
+        page = box((geometry_data.get('sheet') or {}).get('bbox'))
     if page is None:
-        raise ValueError('sheet component bbox required for page bounds')
+        raise ValueError('sheet bbox or sheet-geometry bbox required for page bounds')
 
     title = None
     if geometry_data:
@@ -161,6 +163,17 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
             }
 
     parts_by_id = {part.get('primitiveId'): part for part in parts}
+    part_text = {}
+    for part in parts:
+        properties = part.get('otherProperty') or {}
+        values = [part.get('designator'), part.get('name'), properties.get('Value'),
+                  properties.get('Manufacturer Part'),
+                  properties.get('LCSC Part Name'),
+                  (part.get('component') or {}).get('name'),
+                  (part.get('device') or {}).get('name')]
+        for value in values:
+            if value is not None and str(value).strip():
+                part_text.setdefault(str(value).strip(), []).append(part)
     pin_text = {}
     for part in parts:
         for pin in part.get('pins') or []:
@@ -242,14 +255,32 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
             if nearest_pin is not None and nearest_pin[0] <= 20:
                 owner = nearest_pin[1]['primitiveId']
                 kind = pin_text.get((owner, str(content).strip()), 'pin_name')
-            elif part:
+            else:
+                value_part = None
+                for candidate in part_text.get(str(content).strip(), []):
+                    candidate_box = box(candidate.get('bbox'))
+                    if candidate_box is None:
+                        continue
+                    expanded = [candidate_box[0] - 80, candidate_box[1] - 80,
+                                candidate_box[2] + 80, candidate_box[3] + 80]
+                    if not inside(point, expanded):
+                        continue
+                    distance = math.hypot(point[0] - center(candidate_box)[0],
+                                          point[1] - center(candidate_box)[1])
+                    if value_part is None or distance < value_part[0]:
+                        value_part = (distance, candidate)
+                if value_part is not None:
+                    owner = value_part[1]['primitiveId']
+                    kind = 'attribute'
+                    field = 'attribute'
+            if kind == 'unowned' and part:
                 owner = part['primitiveId']
                 kind = pin_text.get((owner, str(content).strip()), 'symbol_text')
                 if kind == 'symbol_text' and str(content).strip() == str(
                         part.get('designator') or ''):
                     kind = 'attribute'
                     field = 'Designator'
-            else:
+            elif kind == 'unowned':
                 flag = None
                 for item in flags_raw:
                     flag_box = box(item.get('bbox'))
@@ -399,7 +430,14 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
     if min_text_wire_clearance is not None:
         policy['min_text_wire_clearance'] = min_text_wire_clearance
     if expect_rotations:
-        policy['netflag_rotation'] = expect_rotations
+        policy['netflag_rotation'] = {
+            net: {'expectedRotation': degrees,
+                  'requireHorizontalText': net in (horizontal_nets or set())}
+            for net, degrees in expect_rotations.items()}
+        unknown = sorted(set(horizontal_nets or set()) - set(expect_rotations))
+        if unknown:
+            raise ValueError('horizontal text nets lack a rotation expectation: '
+                             + ', '.join(unknown))
     if require_rendered:
         policy['require_rendered_texts'] = True
     if repeat_allow:
@@ -484,6 +522,8 @@ def main(argv=None):
                         help='browser-measured SVG text rows (bbox y negative)')
     parser.add_argument('--expect-rotation', action='append', default=[],
                         help='NET=DEGREES, repeatable; adds a netflag orientation policy')
+    parser.add_argument('--require-horizontal-text', action='append', default=[],
+                        help='NET, repeatable; its netflag text must be wider than tall')
     parser.add_argument('--min-text-wire-clearance', type=float)
     parser.add_argument('--require-rendered', action='store_true')
     parser.add_argument('--out', required=True, type=Path)
@@ -499,7 +539,7 @@ def main(argv=None):
             read_json(args.sheet_geometry) if args.sheet_geometry else None,
             read_json(args.rendered_text) if args.rendered_text else None,
             args.min_text_wire_clearance, rotation_map(args.expect_rotation),
-            args.require_rendered)
+            args.require_rendered, set(args.require_horizontal_text))
         args.out.write_text(json.dumps(output, ensure_ascii=False, indent=1) + '\n',
                             encoding='utf-8')
         print(json.dumps({'status': 'written', 'out': str(args.out),
