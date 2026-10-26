@@ -7,7 +7,11 @@
   形成单一可发布版本。
 - 分支：`integrate/p0-version-unification`；worktree：`C:/Users/jlc/work/hds-p0`。
 - 版本：`0.7.0`（合并后）。
-- 测试/安装同步：本轮完成后回填；此前基线为 main 670 tests OK、round6 661 tests OK。
+- 测试：749 tests OK（2026-10-26，`python -m unittest discover -s tests`）。
+- 安装同步：源 389 / 安装 389，0 missing / 0 extra / 0 hash diff；安装版
+  `skill_selftest.py` 5 PASS；`doctor_env.py --summary` 显示 `lceda-pro` ready、
+  `easyeda-agent` daemon `not_found`。备份：
+  `C:\Users\jlc\work\_skill-backups\design-hardware-20261026-100433`（357 文件）。
 
 ## 当前能力与边界
 

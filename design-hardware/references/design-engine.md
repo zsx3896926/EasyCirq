@@ -77,7 +77,7 @@ python design_engine_cli.py pcb-audit --bundle <bundle> --sch-ir ir.json --out p
 
 `--moves-dir` 生成 `sch attribute-move --from` 所需的 JSON：`projectUuid`、`documentUuid`、`primitiveId`、`x`、`y`、`expected`（完整原始属性记录）。不接受额外字段；应用后必须重新回读、重新 `audit`、重新导出图；计划里的模拟结果不是 EDA 验收。
 
-本仓库已在独立导入副本上验证过 9 个 Name/Designator 移动、保存和重开（见 [真实应用](../../docs/round7/a08-real-apply.md)）；仍不移动净标签、旗形或器件属性值。
+本仓库已在独立导入副本上验证过 9 个 Name/Designator 移动、保存和重开（见[真实应用（仓库证据）](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/round7/a08-real-apply.md)）；仍不移动净标签、旗形或器件属性值。
 
 ### 4.2 前后比较
 

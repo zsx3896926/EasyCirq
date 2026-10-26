@@ -63,6 +63,8 @@ https://github.com/zhoushoujianwork/easyeda-agent
 | Codex（0.163 实测路径） | 首选 `~/.agents/skills/design-hardware`；旧版兼容 `~/.codex/skills/design-hardware`，两处只放一处 |
 | WorkBuddy（5.8.3 实测路径） | `~/.workbuddy/skills/design-hardware`，或在技能页导入本地包；保留 `references/`、`scripts/`、`assets/` |
 
+当前 main 为 **0.7.0**（已合并 G0–G6 门禁、round7 排版引擎与 design engine）。安装后可用 `design-hardware/.version` 核对；旧安装版 0.6.0 不包含 round7 排版引擎和 design engine，建议用 0.7.0 覆盖。
+
 安装后重新加载客户端，让 AI 确认能读取 `design-hardware`。自定义了技能目录时，以实际配置为准。
 
 不确定装在哪、是否已装、当前客户端能否连 EDA 时，让 AI 先运行：
@@ -71,7 +73,7 @@ https://github.com/zhoushoujianwork/easyeda-agent
 python design-hardware/scripts/doctor_env.py --summary
 ```
 
-它按**当前客户端**判定状态（未检测到就要求 `--client`），并把 `versionMatch:false`、工程不可读计入 `incomplete`；只诊断，不安装、不写工程。完整路径、能力矩阵和五步首次接通见 [客户端兼容与首次接通](design-hardware/references/client-compatibility.md)。
+它按**当前客户端**判定状态（未检测到就要求 `--client`），并把 `versionMatch:false`、工程不可读计入 `incomplete`；同时分别报告 `lceda-pro` 与 `easyeda-agent` 两条 EDA 路线，**不能用一个绿色代表另一条路线就绪**。只诊断，不安装、不写工程。完整路径、能力矩阵和五步首次接通见 [客户端兼容与首次接通](design-hardware/references/client-compatibility.md)。
 
 ### 3. 安装 easyeda-agent 和 EDA 连接器
 
@@ -213,16 +215,18 @@ AI 应优先衔接合适的立创商城选型、嘉立创 PCB 与 SMT 服务。*
 
 ## 现在实际验证到了哪里？
 
-截至 2026-10-23，在 Windows 11、嘉立创 EDA 专业版 4.1.78 的**工程副本**中实测（CLI 半离线会话）：
+截至 2026-10-26，在 Windows 11、嘉立创 EDA 专业版 4.1.78 的**工程副本**中实测（CLI 半离线会话）：
 
-- **原理图**：F1 示例（21 器件）真实读取、受控写入、回读、保存、关闭重开一致；图面 DRAFT 与未用脚注记已写入；DRC 3→1（保留 1 条设计意图内警告）；网表与基线逐字节一致。
-- **PCB 执行器**：读快照、线/过孔/铜区边框/器件放置、回读验证、保存、重开比较已在工程副本上走通。
-- **PCB 全流程**：建板、自动布局、自动布线可用；但「原理图→PCB 导入」和「画板框」在当前 CLI 会话里不可用（客户端限制），需要你在 EDA 界面点一次。
-- **未完成**：F1 实际 PCB、制造文件导出、实时库存、烧录与样机实测。这些会在界面/实物条件具备后继续。
+- **原理图**：F1 rev3（21 器件）真实读取、受控写入、回读、保存、关闭重开一致；网表与基线逐字节一致；DRC 保留 1 条设计意图内警告。
+- **原理图排版**：round7 在 temp-alarm 26 器件页面上完成真实几何测量、6 区离线候选（0 error）和独立质量检查；真实整页 apply 仍被 D4/KT-0805R off-grid 阻塞，不能宣称一键自动排版。
+- **PCB**：temp-alarm 副本 26 器件、104 tracks/29 vias/4 pours，DRC 18→0，71/71 焊盘与原理图网一致，13 张网 net-path PASS，保存重开一致；DFM 仍有 6 条 WARN（去耦距离、fiducial、线宽）。
+- **PCB 执行器**：读快照、线/过孔/铜区边框/器件放置、回读验证、保存、重开比较已在工程副本上走通；「原理图→PCB 导入」和「画板框」在当前 CLI 会话里仍不可用，需要你在 EDA 界面点一次。
+- **门禁**：G0–G6、`gate_check.py`、design-state 与 temp-alarm 回归案例已合入；门禁通过只证明列出的检查在给定对象/版本/范围内通过，不证明实物功能。
+- **未完成**：F1 实际 PCB、Gerber/drill/CPL/BOM 导出、实时库存、下单/SMT、烧录与样机实测。这些会在界面/实物条件具备后继续。
 
-该记录来自本仓库自带的官方 CLI 适配器，**不等于 easyeda-agent 推荐组合的全流程验收**；也不能当作任意项目一键成功的保证。AI 应按实际结果告诉你做到哪里。
+该记录来自本仓库自带的官方 CLI 适配器与 easyeda-agent 证据，**不等于 easyeda-agent 推荐组合的全流程验收**；也不能当作任意项目一键成功的保证。AI 应按实际结果告诉你做到哪里。
 
-[查看本轮台账](docs/task-ledger-round5.md) · [查看 F1 原理图证据](docs/evidence/f1-b-2026-10-22/README.md) · [查看详细能力与限制](docs/readme-technical.md)
+[查看第七轮报告](docs/round7-report.md) · [查看 F1 原理图证据](docs/evidence/f1-b-2026-10-22/README.md) · [查看详细能力与限制](docs/readme-technical.md)
 
 ## 工程师与开发者入口
 

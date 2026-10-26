@@ -179,17 +179,76 @@ def _repo_skill(cwd):
     return {'path': str(candidate), 'present': candidate.is_file()}
 
 
+EASYEDA_HEALTH_TIMEOUT_S = 15
+
+
+def _easyeda_probe(command=None, timeout=EASYEDA_HEALTH_TIMEOUT_S):
+    """Probe the easyeda-agent route without starting its daemon.
+
+    A healthy lceda-pro bridge says nothing about the easyeda-agent daemon, so
+    this is reported separately from _eda_probe's lceda-pro result.
+    """
+    command = command or shutil.which('easyeda')
+    result = {
+        'command': command,
+        'connected': False,
+        'status': 'not_installed',
+        'timeout_s': timeout,
+    }
+    if not command:
+        return result
+    try:
+        proc = subprocess.run(
+            [command, 'health'], capture_output=True, text=True,
+            encoding='utf-8', errors='replace', timeout=timeout)
+    except (OSError, subprocess.SubprocessError) as error:
+        result['status'] = 'unreadable'
+        result['error'] = str(error)
+        return result
+    result['exit_code'] = proc.returncode
+    raw = (proc.stdout or '').strip()
+    if not raw:
+        result['status'] = 'unreadable'
+        result['error'] = 'easyeda health returned no output'
+        return result
+    try:
+        data = json.loads(raw)
+    except json.JSONDecodeError:
+        result['status'] = 'unreadable'
+        result['error'] = 'easyeda health did not return JSON'
+        result['raw'] = raw[:500]
+        return result
+    if not isinstance(data, dict):
+        result['status'] = 'unreadable'
+        result['error'] = 'easyeda health returned non-object JSON'
+        return result
+    result['health'] = data
+    result['status'] = str(data.get('status') or 'unknown')
+    result['connected'] = result['status'] == 'ok'
+    result['host'] = data.get('host')
+    result['ports'] = data.get('ports')
+    checks = data.get('checks') if isinstance(data.get('checks'), list) else []
+    result['checks'] = checks
+    result['daemon'] = next(
+        (item for item in checks if isinstance(item, dict) and item.get('name') == 'daemon'),
+        None)
+    return result
+
+
 def _eda_probe(exe=None, project=None, timeout=120000):
     cli = eda_exec.find_cli(exe)
+    easyeda_command = shutil.which('easyeda')
     result = {
         'cli': cli,
-        'easyeda_command': shutil.which('easyeda'),
+        'easyeda_command': easyeda_command,
+        'easyeda_agent': _easyeda_probe(easyeda_command),
         'connected': False,
         'version_match': None,
         'project_readable': 'not_probed',
         'timeout_ms': timeout,
     }
     if not cli:
+        result['lceda_pro'] = {'connected': False, 'version_match': None}
         return result
     try:
         pro = eda_exec.LcedaPro(cli, timeout_ms=timeout)
@@ -197,8 +256,18 @@ def _eda_probe(exe=None, project=None, timeout=120000):
         result['connected'] = bool(doctor.get('connected'))
         result['version_match'] = doctor.get('versionMatch')
         result['bridge_version'] = doctor.get('bridgeVersion')
+        result['lceda_pro'] = {
+            'connected': result['connected'],
+            'version_match': result['version_match'],
+            'bridge_version': result.get('bridge_version'),
+        }
     except eda_exec.EdaError as error:
         result['error'] = str(error)
+        result['lceda_pro'] = {
+            'connected': False,
+            'version_match': None,
+            'error': str(error),
+        }
         return result
     if project and result['connected']:
         try:
@@ -229,14 +298,38 @@ def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=120000):
             missing.append(f"{active['name']} command not found")
         if not active['installed']:
             missing.append(f"design-hardware is not installed for {active['name']}")
-    if not eda['cli']:
-        missing.append('lceda-pro CLI not found')
-    elif not eda['connected']:
-        missing.append('JLCEDA Pro CLI is present but not connected')
-    elif eda.get('version_match') is not True:
-        missing.append('JLCEDA Pro CLI version does not match the adapter (versionMatch is not true)')
+    easyeda = eda.get('easyeda_agent') or {}
+    lceda_ready = bool(eda['cli'] and eda.get('connected')
+                       and eda.get('version_match') is True)
+    easyeda_ready = bool(easyeda.get('connected'))
+    if not lceda_ready and not easyeda_ready:
+        if not eda['cli']:
+            missing.append('lceda-pro CLI not found')
+        elif not eda['connected']:
+            missing.append('JLCEDA Pro CLI is present but not connected')
+        else:
+            missing.append('JLCEDA Pro CLI version does not match the adapter (versionMatch is not true)')
+        if not easyeda.get('command'):
+            missing.append('easyeda-agent CLI not found')
+        else:
+            missing.append(
+                f"easyeda-agent daemon is not ready (status: {easyeda.get('status') or 'unknown'})")
     if project and eda.get('project_readable') is not True:
         missing.append('the authorized project copy is not readable')
+    eda_routes = {
+        'lceda_pro': {
+            'present': bool(eda['cli']),
+            'connected': bool(eda.get('connected')),
+            'version_match': eda.get('version_match'),
+            'ready': lceda_ready,
+        },
+        'easyeda_agent': {
+            'present': bool(easyeda.get('command')),
+            'daemon_status': easyeda.get('status'),
+            'connected': easyeda_ready,
+            'ready': easyeda_ready,
+        },
+    }
     active_view = None
     if active is not None:
         active_view = {
@@ -260,9 +353,11 @@ def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=120000):
         'repo_skill': _repo_skill(cwd),
         'clients': clients,
         'eda': eda,
+        'eda_routes': eda_routes,
         'missing': missing,
         'notes': [
             'status is evaluated for the active client, not for "any client + any install"',
+            'lceda-pro and easyeda-agent are independent EDA routes; a green one does not prove the other is ready',
             'project_writable is never inferred here; verify it with apply --dry-run/--save on an authorized copy',
             'a project may be readable in half-offline mode; full-online conclusions need the user GUI session',
         ],
@@ -270,7 +365,18 @@ def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=120000):
 
 
 def render_summary(report):
-    lines = [f"status: {report['status']}  cwd: {report['host']['cwd']}"]
+    eda = report['eda']
+    easyeda = eda.get('easyeda_agent') or {}
+    lceda_ready = bool(eda.get('cli') and eda.get('connected')
+                       and eda.get('version_match') is True)
+    easyeda_ready = bool(easyeda.get('connected'))
+    ready_names = []
+    if lceda_ready:
+        ready_names.append('lceda-pro')
+    if easyeda_ready:
+        ready_names.append('easyeda-agent')
+    route_text = ', '.join(ready_names) if ready_names else 'none'
+    lines = [f"status: {report['status']}  EDA routes ready: {route_text}  cwd: {report['host']['cwd']}"]
     active = report.get('active_client')
     if active:
         lines.append(f"active client: {active['name']} ({active['reason']}) "
@@ -285,11 +391,18 @@ def render_summary(report):
         for item in client['skill_dirs']:
             mark = '*' if item['installed'] else ('+' if item['exists'] else '-')
             lines.append(f"      {mark} {item['scope']}: {item['path']}")
-    eda = report['eda']
     lines.append('')
-    lines.append(f"- EDA CLI: {eda['cli'] or 'not found'}")
-    lines.append(f"- EDA connected: {eda['connected']}  version match: {eda['version_match']}")
-    lines.append(f"- easyeda command: {eda['easyeda_command'] or 'not found'}")
+    lines.append(f"- lceda-pro: {eda['cli'] or 'not found'}  "
+                 f"connected: {eda['connected']}  version match: {eda['version_match']}")
+    lines.append(f"- easyeda-agent: {easyeda.get('command') or eda.get('easyeda_command') or 'not found'}  "
+                 f"daemon: {easyeda.get('status') or 'not_probed'}")
+    daemon = easyeda.get('daemon')
+    if isinstance(daemon, dict):
+        detail = daemon.get('detail') or daemon.get('status')
+        if detail:
+            lines.append(f"    daemon check: {detail}")
+    lines.append(f"- EDA ready routes: {route_text}")
+    lines.append("- routes are independent: a healthy lceda-pro does not mean easyeda-agent is ready")
     if eda.get('project'):
         lines.append(f"- project readable: {eda['project_readable']}  schematics: {eda.get('project_schematics')}")
     if report['missing']:

@@ -1,5 +1,22 @@
 # 变更记录
 
+## 0.7.0 — 2026-10-26
+
+第七轮整合：把 round7 排版引擎、确定性 design engine 与 round6 G0–G6 门禁合并为单一版本。
+
+### 新增/合并
+
+- **G0–G6 阶段门禁**（round6）：`references/design-gates.md`、`assets/design-state.example.json`、`scripts/gate_check.py`、temp-alarm 回归案例、BOM/pinmap 检查与 5 份 docs 模板。
+- **原理图排版引擎**（PR #11）：真实几何 → 功能模块 → `layout-plan` → 合页 → 独立质量检查；整页 compose 仍受 D4/KT-0805R off-grid 限制，未证明一键 apply。
+- **确定性 design engine**（PR #12）：离线 IR、几何/身份审计、标签规划、PCB/制造检查；真机仅验证 9 个 Name/Designator 属性移动。
+- **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试。
+- README、readme-technical、handoff 同步测试数字、F1 rev3 21 器件与验证日期。
+
+### 边界
+
+- 整页排版 apply、原生 netlist diff、Gerber/CPL/BOM 导出、下单/SMT、固件烧录、实物/热/EMC、全在线 GUI 仍未完成。
+- 本次整合只做版本/文档/诊断收口，不代表上述未完成项已通过。
+
 ## 0.6.0 — 2026-10-24
 
 第六轮：把「室内温度报警小板」实战复盘中的门禁缺口，落成可离线复核的规则、模板与回归案例。

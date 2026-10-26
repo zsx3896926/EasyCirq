@@ -160,7 +160,7 @@ CC1/CC2 各 5.1k 到 GND 是 USB-C sink 的常见声明方式；具体允许的�
 ## 10. 实际结果、已知限制与下一步
 
 **已实际完成**：
-- 真实 EDA 原理图 `F1-USB-MCU-C`（16 器件、27 电源标记、16 网络端口、44 段导线）。
+- 真实 EDA 原理图 `F1-USB-MCU-C` 早期版本（16 器件、27 电源标记、16 网络端口、44 段导线）；当前基线为 F1 rev3 21 器件，见 `docs/evidence/f1-b-2026-10-22/`。
 - `apply` 93 个动作逐项回读 `verified`；`save:true`；关闭重开 `match`。
 - 导出 PNG 与 Protel 网表，核对第5节网络。
 - 证据：`docs/evidence/f1-2026-10-22/README.md`（仓库内证据，未随 Skill 安装）。
