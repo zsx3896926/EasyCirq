@@ -156,5 +156,6 @@ H4 端接约 53.6% 满度 **CONFIRMED**；H5 PSRAM 100MHz 是 memory clock、
 
 ## 7. PR
 
-待创建：`feat/execution-efficiency-round8` → `main`。不合并、不打标签、不发布
-Release、不升级用户执行器。
+https://github.com/zsx3896926/hardware-design-skill/pull/17
+（`feat/execution-efficiency-round8` → `main`）。本轮**不合并、不打标签、不发布
+Release、不升级用户执行器**。
