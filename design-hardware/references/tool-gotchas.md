@@ -142,6 +142,8 @@
 
 **证据/边界与本案例**：28→28 和 J2 仍在是现场事实；手动 delete/track-delete/rip-up 只出现在会话记录里，evidence 目录没有对应输出，因此不能作为已验收证据。不要用 `noChanges:true` 推断“已同步”。本案例 `pcb-import-after-j2-removal.log` 与 `pcb-import-after-usb-removal.log` 记录两次导入。
 
+**补充：API 放置件可以导入（2026-10-27，4.1.78/1.15.0）**：空 PCB、Board 已绑定时，`pcb import-changes` 对通过 `sch place` 放入的 12 个器件返回 `imported:true`、`componentsBefore:0`、`componentsAfter:12`、`partial:false`、`verified:true`，导入后 28 个 pin/pad 网名与原理图一致。不要因为旧记录说“import 是 no-op”就直接逐件 `add-component`；先试一次 import 并回读，0 件再回退到 `add-component`。这条只改变“导入新增件”的路径，不改变“删件仍需显式删除”的边界。
+
 ### 9. JSON/human 混行：`.json` 文件名不可信（G2–G6）
 
 **现象**：`sch-drc.json`、`sch-check-final2.json`、`layout-lint-all.json` 实际是纯文本；`pcb-drc-1.json` 是 JSON 后追加一行 CLI 摘要；`bom-export.log` 是 JSON、人类可读行和 traceback 混在一起。另有截断文件 `pcb-drc-2.json` 2152 bytes、`pcb-nets-after-route.json` 1172 bytes，完整重跑分别为 238706 bytes 和 3848 bytes。
@@ -171,6 +173,10 @@
 **正确动作**：要确认持久化，显式保存后 `doc reload`，再回读文档 UUID、页 UUID、器件和网络；要写某个原理图页或 PCB，给 mutating 动作加 `--doc <uuid|name>` 钉住目标，并用 `doc ls`/live 回读确认。`doc ready` 只用来判断就绪，不产生保存或切换。多窗口下用 `--project` 路由。
 
 **证据/边界与本案例**：`--doc` 的设计目的就是消除“前台页被换掉，修改落到别页”的竞态；不匹配即拒绝，不能绕过。`doc switch` 成功不等于保存成功，`doc reload` 成功也不等于内容正确。本案例 `pcb-list.json`/`pcb-layers.json` 因前台是原理图被拒，错误信息直接建议 `--doc` 或 `doc switch`；import 后带 staleRisk，但尚未留下 reload 回执。
+
+**`doc reload` 的就绪探测可能假失败（2026-10-27，4.1.78/1.15.0）**：同一原理图连续两次 `doc reload` 都返回 `reopened but its schematic data did not settle: schematic.components.list ... connector did not respond — context deadline exceeded`，但紧接着 `doc ready` 返回 `25 stable components (2 samples)`，`sch read` 读到完整 8 网且与保存前逐脚一致。此时不要反复 reload 或把失败写成“未保存”：保留失败回执，另跑 `doc ready` + fresh `sch read` 证明数据可读与网表一致，并明确“持久化由独立回读确认，reload 命令自身的就绪回执未通过”。本案例证据 `sch-reload-final2.json`、`sch-doc-ready-final.json`、`sch-read-final.json`。
+
+**`bom export` 需要原理图为前台（G6）**：PCB 前台执行 `easyeda bom export --type csv` 返回 `BOM export returned no file`；`doc switch` 到原理图后同一命令成功。`pcb_case.py` 的 bom 步骤会自动切换，手工导出时先切页；导出成功后仍要核对 C 号、位号、数量、封装与 MPN。
 
 ### 12. `sch export-image` 取代已移除的 `sch snapshot`（G2/G5）
 

@@ -1,5 +1,14 @@
 # 变更记录
 
+## 未发布 — 2026-10-27
+
+双路按键 LED 板真机任务反哺。
+
+- 修复 `scripts/pcb_gate.py` 的 check 角色误选：`*pcb*check*.json` 也会匹配 `pcb-placement-check-final.json`，使 PG4 拿到 placement 报告并判 blocked。check 角色现在要求 DFM 的 `summary` 计数器（或 `trackCount`/`padCount`），新增 `tests/test_pcb_gate.py` 回归用例；用本次 case 的原失败文件名复测，gate 8/8 pass。
+- `references/pcb-execution.md` 补充 1.15.0 实测：空 PCB 且 Board 已绑定时，`pcb import-changes` 可导入 API 放置的 12 个器件（0→12，verified）；回读后才能作为布局输入，删件仍需显式删除。
+- `references/tool-gotchas.md` 记录 `doc reload` 就绪探测假失败（`doc ready` + fresh read 可读且网表一致）、`bom export` 需原理图前台，以及 import 新增件/删件边界。
+- `references/schematic-authoring.md` 记录水平管脚生成全水平 flag 的可复用 L 桩做法，以及 `sch frame apply` 标题-only 输入与 strict 布局检查 purpose/order 要求的已知缺口。
+
 ## 0.9.2 — 2026-10-26
 
 round10 PCB 阶段工具链整合。

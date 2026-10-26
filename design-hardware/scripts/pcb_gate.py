@@ -487,8 +487,15 @@ def _shape_ok(role, payload):
     if role == 'drc':
         return any(key in data for key in ('passed', 'total', 'violations'))
     if role == 'check':
-        return isinstance(data.get('findings'), list) or \
-            isinstance(data.get('summary'), dict)
+        # A placement-check report also carries a ``findings`` list.  Require
+        # the DFM check's counters/summary here so a file such as
+        # ``pcb-placement-check-final.json`` (which matches the broad
+        # ``*pcb*check*.json`` glob) cannot shadow the real pcb-check report.
+        summary = data.get('summary')
+        if not isinstance(summary, dict):
+            return False
+        return any(key in summary for key in ('errors', 'warnings', 'total')) or \
+            any(key in data for key in ('trackCount', 'padCount'))
     if role == 'netpath':
         return isinstance(data.get('rows'), list)
     if role == 'sch_pcb':

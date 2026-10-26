@@ -327,6 +327,20 @@ class FullPassTests(BaseGateTests):
         self.assertEqual(report['counts']['pass'], 8)
         self.assertEqual(pcb_gate.EXIT_CODES[report['status']], 0)
 
+    def test_placement_check_name_collision_does_not_shadow_pcb_check(self):
+        # Regression: ``*pcb*check*.json`` also matches a placement-check file.
+        # A newer placement report must not be selected as the DFM check role.
+        self.builder.write('pcb-placement-check-final.json', placement_payload())
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        self.assertEqual(report['status'], 'pass')
+        stage = stage_map(report)['PG4_check']
+        self.assertEqual(stage['status'], 'pass')
+        selected = [ev['path'] for ev in stage['evidence']
+                    if ev.get('role') == 'check']
+        self.assertTrue(selected)
+        self.assertTrue(all(path.endswith('pcb-check-final.json')
+                            for path in selected), selected)
+
     def test_pass_with_baseline_manifest_match(self):
         manifest = baseline_manifest(self.builder.root / 'baseline.json',
                                      self.builder.ev)

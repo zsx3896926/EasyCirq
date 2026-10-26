@@ -123,6 +123,11 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 - 因此三张图都没有标成 `eda-verified`；当前证据等级是“真实写入/保存重开/导图，
   仍有已列视觉或选型残留”。竖排标记来自水平管脚上的 flag 方向；要全水平需
   逐脚改成短桩+旋转 0 的 flag，不能靠隐藏文字。
+
+**水平管脚全水平 flag 的可复用做法（2026-10-27 实测）**：`sch connect --pin R1:1 --direction left` 会在水平管脚上生成 rotation 90/270 的 netflag，文字竖排；`sch modify` 不能改 netflag（仅元件类型可用）。可删掉旧 flag、保留/延长桩线成 L 形到管脚上方或下方，再用 `sch netflag --kind power|gnd --net <name> --x <end> --y <end> --rotation 0` 放在桩线端点；GND 放在下方、+5V 放在上方。移动后必须重跑 `sch check` 与官方导图，确认不是把竖排换成了倒置接地。
+
+**`sch frame apply` 与 strict 布局检查的已知缺口（2026-10-27）**：`sch frame apply` 每个 frame 只有一个 `title`，而 `sch_layout_check.py --strict` 还要求每个模块有 `order`、`title_text_id` 和**另一个** `purpose_text_id`。因此由 frame 生成的标题-only 图会返回 `incomplete`，`strict_missing` 列出 `module reading order` / `module title/purpose bbox`，但 `blocking_findings` 为 0。这不是几何失败；报告时应写“strict 缺 purpose/order 元数据，未通过 strict”，并用非 strict 的 `no_candidates`、官方 SVG 渲染文字覆盖和人工整页/局部图补充，不能把 strict 的 `incomplete` 写成 PASS。
+
 - 平台限制：free text 的 `move/setState/SDK delete` 不持久，删除需 `sch prim-delete`；
   新 free text 必须 `alignMode=2` 才左对齐；titleblock 的可见 Drawed 字段会与
   sheet 属性各渲染一次，填作者会产生两处重复；typed API 当前没有自由文本创建入口。
