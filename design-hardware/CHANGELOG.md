@@ -1,5 +1,12 @@
 # 变更记录
 
+## 0.8.1 — 2026-10-26
+
+- 更新检查同时覆盖 design-hardware 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。
+- 新增 update-agent：委托官方更新器，锁定预检版本、备份二进制和当前客户端 Skill、执行后复查。
+- WorkBuddy 通过官方 CLAUDE_CONFIG_DIR 能力映射其 Skill 目录，不覆盖 Claude 配置。
+- 不自动重启 daemon、不自动导入 Connector；不把依赖更新或跨组件兼容性写成已实测。
+
 ## 0.8.0 — 2026-10-26
 
 - 新增独立 Windows 管理入口和 Python 更新器：安装、检查稳定版、升级、修复、回退、中断恢复。

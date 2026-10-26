@@ -55,7 +55,7 @@ python <实际安装目录>/scripts/skill_update.py rollback --client codex
 - 若锁对应进程仍在运行，恢复命令拒绝抢锁。无法确认旧进程状态时不直接删除锁。
 - 备份不会自动清理；确认不用后由客户自行删除明确的备份目录。
 - 工程、BOM、设计记录和个性化设置存放在客户项目目录，不放进 Skill 安装目录。
-- 更新器不调用 EDA、不上传工程、不安装 easyeda-agent、不修改其他 Skill 或 Git 仓库。
+- 本 Skill 的安装/回退不调用 EDA、不上传工程、不修改其他 Skill；依赖更新仅由明确选择的 update-agent 委托官方机制处理，不执行 Git 命令。
 
 ## 离线安装与运维
 
@@ -90,3 +90,45 @@ python skill_update.py discover
 - https://learn.chatgpt.com/docs/build-skills
 - https://www.workbuddy.ai/docs/workbuddy/From-Beginner-to-Expert-Guide/Function-Description/Skills-Market
 WorkBuddy 官方市场介绍不单独证明本地目录规则，路径另有本项目既有安装证据；GUI 发现仍需各客户端验证。
+
+
+## 同时覆盖 easyeda-agent（0.8.1 起）
+
+菜单“检查更新”及 `skill_update.py check --client codex` 现在分别报告：
+本 Skill，以及 easyeda-agent 的 CLI、客户端 Skill、daemon 和 EDA Connector。
+即使本 Skill 尚无正式 Release、查询失败，也继续检查执行器，不让一侧故障遮住另一侧。
+执行器检查通过官方 `easyeda update --check --exit-code --json`，禁止把退出 10 的差异报告当成已升级，
+也禁止把网络失败、未知版本、缺 Connector 写成“已经最新”。读取不启动 daemon。
+成功的依赖检查有 24 小时缓存，强制检查使用 `--refresh`。
+
+用户只需说“把画板搭档和 EDA 执行器一起检查/更新”，Agent 负责依次执行，无需用户自己敲两套命令。
+菜单 3 更新本 Skill，菜单 8 更新 easyeda-agent；Agent 在新 Skill 加载后继续处理执行器：
+
+```text
+python <实际安装目录>/scripts/skill_update.py update-agent --client codex --idle
+python <实际安装目录>/scripts/skill_update.py update-agent --client codex --agent-version 1.14.0 --idle
+```
+
+`--idle` 表示调用者已确认所有 EDA 任务空闲，而非工具自动知道当前没有任务。
+先用官方只读预检确定稳定目标，再固定该版本调用官方更新器；不从不明分支下载脚本执行，
+不使用 `--force` 覆盖开发版。更新前备份当前 CLI 二进制和当前客户端 easyeda-agent Skill，
+生成 operation.json；进程级共享锁避免不同客户端的本协调器同时替换同一 CLI。
+进程意外中断留下 `.hardware-easyeda-update.lock` 时，先核对其中 PID 和实际进程，不能盲删锁后重试。
+
+Claude/Codex 使用官方客户端选择参数。WorkBuddy 使用上游已支持的 CLAUDE_CONFIG_DIR 能力，
+仅在子进程中映射到 `.workbuddy` 根目录再同步 easyeda-agent，绝不修改真正的 Claude 配置。
+上游不支持重定向的共享 agents 根目录不接受虚假的 `--home` 沙盒写入；实际自定义配置需先诊断。
+WorkBuddy 的该映射目前以官方配置能力和协议回归为依据，GUI 发现和完整真机升级尚未验证。
+
+升级后再次运行官方检查：CLI、Skill、daemon、Connector 有任何未知或不一致都保留待处理状态。
+协调器不自动重启 daemon、不关闭编辑器、不导入 Connector；需要时由 Agent 在确认空闲后按官方流程
+接续。侧载 Connector 通常需要在 EDA 扩展管理中重新导入，不能宣称全链条无感更新。
+原生官方命令自身的下载/校验语义以当前版本为准；本协调器不替代其实现。
+
+两套更新不是跨组件原子事务。本 Skill 的 rollback 只回退自身，不回退 easyeda-agent；
+依赖失败时保留二进制、Skill 整目录备份与操作日志，Agent 先对账再按日志恢复，不能整批盲重试。
+官方 runtime ready 只表示它自身的组件对账，不等于当前硬件设计已经验证，也不证明任意新版
+与本 Skill 全部功能兼容。协调器不升级 AI 宿主、模型服务或嘉立创 EDA 本体。
+
+核对依据：上游 README、internal/app/cmd_update.go、当前本机 v1.14.0 的 update/skill --help；
+https://github.com/zhoushoujianwork/easyeda-agent 。本机只读检查实际返回 DNS 错误，未修改安装。
