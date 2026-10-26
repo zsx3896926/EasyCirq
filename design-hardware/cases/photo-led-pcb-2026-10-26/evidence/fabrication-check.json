@@ -1,12 +1,38 @@
 {
   "schema": "design-engine-pcb-fabrication/v1",
-  "status": "pass",
-  "findings": [],
+  "status": "advisory",
+  "findings": [
+    {
+      "code": "silk_sideways",
+      "severity": "preferred",
+      "objects": [
+        "49392d816f69ba3ce27"
+      ],
+      "message": "silk text is neither upright (0) nor 90 degrees",
+      "evidence": {
+        "text": "J1",
+        "rotation": 270
+      }
+    },
+    {
+      "code": "silk_sideways",
+      "severity": "preferred",
+      "objects": [
+        "586203db286aa86be15"
+      ],
+      "message": "silk text is neither upright (0) nor 90 degrees",
+      "evidence": {
+        "text": "LED1",
+        "rotation": 180
+      }
+    }
+  ],
   "counts": {
     "silk_items": 60,
+    "visible_silk": 19,
     "pours": 0,
     "vias": 0,
-    "findings": 0,
+    "findings": 2,
     "hard": 0
   },
   "coverage": {

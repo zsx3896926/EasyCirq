@@ -17,7 +17,6 @@ import copy
 import json
 import math
 import os
-import re
 
 MIL_PER_MM = 39.37007874015748
 SCHEMA_BOARD = 'design-engine-pcb-board/v1'
@@ -1687,9 +1686,9 @@ def audit_fabrication(board):
             findings.append(_finding('silk_off_board', 'hard', [ident],
                                      'silk text extends outside the board outline',
                                      text=text, layer=layer, bbox=box))
-        if float(item.get('Rotation') or 0) % 180 not in (0, 90):
+        if float(item.get('Rotation') or 0) % 360 not in (0, 90):
             findings.append(_finding('silk_sideways', 'preferred', [ident],
-                                     'silk text is neither upright nor 90 degrees',
+                                     'silk text is neither upright (0) nor 90 degrees',
                                      text=text, rotation=item.get('Rotation')))
         if item.get('Mirror') or item.get('Reverse'):
             findings.append(_finding('silk_flipped', 'preferred', [ident],
@@ -1770,9 +1769,11 @@ def audit_fabrication(board):
         'schema': 'design-engine-pcb-fabrication/v1',
         'status': 'review' if hard else ('pass' if not findings else 'advisory'),
         'findings': findings,
-        'counts': {'silk_items': len(silk), 'pours': pours_audited,
-                   'vias': vias_audited, 'findings': len(findings),
-                   'hard': len(hard)},
+        'counts': {'silk_items': len(silk),
+                   'visible_silk': sum(1 for item in silk if item.get('visible') and
+                                       item.get('Layer') in (3, 4)),
+                   'pours': pours_audited, 'vias': vias_audited,
+                   'findings': len(findings), 'hard': len(hard)},
         'coverage': {'silk_bbox_source': 'pcb dump BBox',
                      'rendered_extent_compared': False,
                      'note': 'pcb check may use larger live rendered text extents; '

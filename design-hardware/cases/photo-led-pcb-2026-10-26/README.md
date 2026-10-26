@@ -49,7 +49,8 @@
 | `evidence/escapes.json` | `pcb-escapes` 代理预判（含 4 个 M3 keepout）；不是布线证明 |
 | `evidence/power-check.json` | `pcb-power`：+5V/VIN/GND 声明铺铜但尚未铺 → fail；VREF_2V5 声明 track 但只有部分铜 → unmeasured；C2/C3/C1 去耦/体电容中心距 pass |
 | `evidence/module-U1-C2-R4.json` + `module-binding.json` | `pcb-extract-module` 相对布局契约；`pcb-reuse-plan` 在同一板平移/旋转复用的离线验证；铜复用 `not_supported` |
-| `evidence/fabrication-check.json` | `pcb-fabrication`：60 条丝印对象；dump BBox 未报 U1 压焊盘；**CLI `pcb check` 用实时渲染字框报 U1 silk-over-pad**。差异已记录，最终以实际导图/`silk-align` 后回读为准。 |
+| `evidence/fabrication-check.json` | `pcb-fabrication`：60 条丝印对象（19 可见），dump BBox 报 2 条侧向；**CLI `pcb check` 用实时渲染字框报 8 条 silkscreen-flipped + U1 silk-over-pad**。差异已记录，最终以实际导图/`silk-align` 后回读为准。 |
+| `evidence/pcb-placed-actual.svg` | `pcb layout render --actual` 离线实际几何（顶/底辅助视图，不是官方 EDA 截图）；用于布线前空间核对 |
 
 复现：
 
