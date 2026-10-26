@@ -5,7 +5,8 @@
 - 目标：以最新 `main`（`0b0bfe4`，含 PR #11 排版引擎与 PR #12 design engine）为基，
   合入 round6 的 G0–G6 门禁、`gate_check.py`、回归案例、`.version` 与 `CHANGELOG`，
   形成单一可发布版本。
-- 分支：`integrate/p0-version-unification`；worktree：`C:/Users/jlc/work/hds-p0`。
+- 分支：`integrate/p0-version-unification`；worktree：`C:/Users/jlc/work/hds-p0`；
+  PR：https://github.com/zsx3896926/hardware-design-skill/pull/13。
 - 版本：`0.7.0`（合并后）。
 - 测试：749 tests OK（2026-10-26，`python -m unittest discover -s tests`）。
 - 安装同步：源 389 / 安装 389，0 missing / 0 extra / 0 hash diff；安装版
