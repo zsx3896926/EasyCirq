@@ -47,8 +47,8 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 | `policy.min_text_wire_clearance` | 可选非负值；文字与**非自身**导线距离不超过该值时报告 `text_wire_clearance`（`severity=info`、`category=readability_hint`，不阻塞）。标签所属导线由 `anchor_id` 豁免；引脚名/脚号、符号文字、netflag/图签/边框文字不参与。真正穿入文字框仍由 `wire_enters_bbox` 作为阻塞候选 |
 | `policy.label_own_wire_edge_tolerance` | 默认1.0 raw；只用于**自身导线**：线段进入文字 bbox 但未进入内缩该值的内部时，记 `label_own_wire_edge_contact` info；进入内部仍报 blocking `wire_enters_bbox`。把“归属”当“合法遮挡”会漏掉导线穿过自己网名的情况 |
 | `policy.junction_tolerance` | 默认1.0 raw；`no_junction_crossings` 声明点与真实交点的匹配半径 |
-| `no_junction_crossings` | 可选点列表；只有同时提供非空 `junction_evidence`（如 `easyeda sch check` 的已验证无结点输出）才接受，否则输入无效。仅与声明点匹配的正交交叉降为 hint；未列出的交叉仍 blocking。共线重叠始终 blocking |
-| `junction_evidence` | 非空字符串，说明无结点清单来自哪一次宿主检查；没有它不得把交叉降为提示 |
+| `no_junction_crossings` | 可选列表，每项必须 `{x,y,wires:[两段导线ID]}`；只有同时提供页/哈希绑定的 `junction_evidence` 才接受，否则输入无效。仅当交点、两条导线 ID 与声明完全匹配时降为 hint；未列出的交叉仍 blocking。共线重叠始终 blocking |
+| `junction_evidence` | 对象 `{source,page_id,snapshot_sha256}`：说明无结点清单来自哪次宿主检查，并绑定页 ID 与快照哈希；任一不匹配按 stale evidence 拒绝，防止改线后旧证明继续生效。没有它不得把交叉降为提示 |
 | `policy.duplicate_net_distance` | 默认40；同网文字中心距不超过该值且至少一方是 net_label/wire_name 时报告 `duplicate_net_text`；同一 `anchor_id` 上的同网文字始终报告。`kind=net_label` 且 `anchored=false` 报告 `unanchored_net_text` |
 | `net_flags` | 每项`id,net,bbox,rotation`，可选`kind,anchor,text_id`；按 `policy.netflag_rotation` 检查普通电源/地符号的朝向一致性。`allowed` 显式列出有理由的例外，`requireHorizontalText` 检查网名文字是否竖排 |
 | `module_frames[].order` | 可选正整数；按上到下、左到右排序后必须递增，否则报告 `zone_reading_order`。没有 order 时不能检查阅读顺序 |
@@ -89,7 +89,7 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 - 导线适配器必须按 `flat-segments` 拆段，不能把无序段列表当折线；否则会从 (430,230) 直接连到 (240,195)，伪造“导线穿 U1 本体”。`wire_name` 文字通过 `anchor_id` 绑定到所属导线；适配器同时把每个 wire-name 文字写入 `label_anchors`，因此 `label_anchors` 覆盖不再只依赖 netport/netlabel 组件。
 - 自身导线豁免是**边缘级**而不是归属级：`anchor_id` 只证明“这条线是它的”，导线若穿进文字主体仍报 `wire_enters_bbox(own_wire=true)`；只有内缩统一容差内不进入时才记 `label_own_wire_edge_contact` info。正反例见 `tests/test_sch_acceptance.py`。
 - 无结点正交交叉 `different_named_wires_cross` 只有在 `no_junction_crossings` 列出该交点、且 `junction_evidence` 指明宿主检查来源时才降为 `severity=info`；没有清单/证据或交点未列出仍 blocking。同向共线重叠 `different_named_wires_collinear_overlap` 始终 blocking。近距贴线 `text_wire_clearance` 是 hint；真正穿字 `wire_enters_bbox`、符号本体重叠 `bbox_overlap` 仍是阻塞候选。报告要分开“真实几何候选”和“可读性提示”，不要把 hint 数量归零当成验收通过。
-- `layout_from_easyeda.py --junction-report` 接受宿主 `sch read`/`sch check` 的已验证无结点 JSON（`verified/source/noJunctionCrossings`）；没有该输入时交叉保持 blocking。适配器不会自行推断结点。
+- `layout_from_easyeda.py --junction-report` 接受宿主 `sch read`/`sch check` 的已验证无结点 JSON（`verified/source/pageId/snapshotSha256/noJunctionCrossings`，每条含 `x,y,wires` 两个导线 ID）；适配器先算快照哈希，页/哈希/导线 ID 任一不匹配即按 stale evidence 拒绝，不会自行推断结点。没有该输入时交叉保持 blocking。`--page-id` 用于绑定 schematic 页 UUID。
 - `pin_net_intent_check.py` 比较设计意图与 `sch read` 的物理引脚连通组：网名可不同
   （`DISCH` vs `$1N117`），但每个意图网络必须恰好等于一个真实网络的引脚集合；
   多脚、少脚、拆网、并网、未声明连接都会列出。极性/功能脚名用 `pinMap` 显式落号。

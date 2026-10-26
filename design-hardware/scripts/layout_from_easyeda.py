@@ -22,6 +22,7 @@ Usage:
 Exit 0: adapter output written; 2: invalid input.
 """
 import argparse
+import hashlib
 import json
 import math
 import re
@@ -131,6 +132,16 @@ def nearest_point_on_polyline(point, points):
     return best
 
 
+def snapshot_hash(output):
+    """Stable hash of the geometry/text payload that junction evidence binds to."""
+    keys = ('coordinate_units', 'page_bbox', 'components', 'texts', 'wires',
+            'module_frames', 'attachment_points', 'label_anchors', 'net_flags')
+    payload = {key: output[key] for key in keys if key in output}
+    encoded = json.dumps(payload, sort_keys=True, separators=(',', ':'),
+                         ensure_ascii=False).encode('utf-8')
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def rendered_bbox_to_raw(raw):
     """Convert an SVG (y-down) text bbox to the checker's raw y-up convention.
 
@@ -163,7 +174,8 @@ def estimated_text(content, x, y, font_size, rotation, align):
 def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None,
             min_text_wire_clearance=None, expect_rotations=None,
             require_rendered=False, horizontal_nets=None,
-            junction_report=None, label_own_wire_edge_tolerance=None):
+            junction_report=None, label_own_wire_edge_tolerance=None,
+            page_id=None):
     parts = [item for item in list_data.get('components', [])
              if item.get('componentType') == 'part']
     flags_raw = [item for item in list_data.get('components', [])
@@ -604,17 +616,43 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
     }
     if title:
         output['title_block'] = title
+    if page_id:
+        output['page_id'] = page_id
+    output['snapshot_sha256'] = snapshot_hash(output)
     if junction_report:
         if not isinstance(junction_report, dict):
             raise ValueError('junction report must be an object')
-        verified = junction_report.get('verified') is True
-        source = str(junction_report.get('source') or '').strip()
-        points = (junction_report.get('noJunctionCrossings')
-                  or junction_report.get('no_junction_crossings') or [])
-        if verified and source and points:
-            if not isinstance(points, list):
-                raise ValueError('junction report crossings must be a list')
-            output['junction_evidence'] = source + ' (verified no-junction crossings)'
+        if junction_report.get('verified') is True:
+            source = str(junction_report.get('source') or '').strip()
+            report_page = str(junction_report.get('pageId')
+                              or junction_report.get('page_id') or '').strip()
+            report_hash = str(junction_report.get('snapshotSha256')
+                              or junction_report.get('snapshot_sha256') or '').strip()
+            points = (junction_report.get('noJunctionCrossings')
+                      or junction_report.get('no_junction_crossings') or [])
+            if not source or not report_page or not report_hash:
+                raise ValueError(
+                    'verified junction report must bind source, pageId and snapshotSha256')
+            if not page_id or report_page != page_id:
+                raise ValueError('stale junction report: pageId does not match --page-id')
+            if report_hash.lower() != output['snapshot_sha256'].lower():
+                raise ValueError(
+                    'stale junction report: snapshotSha256 does not match this snapshot')
+            if not isinstance(points, list) or not points:
+                raise ValueError('verified junction report needs noJunctionCrossings')
+            wire_ids = {wire['id'] for wire in output['wires']}
+            for point in points:
+                if not isinstance(point, dict):
+                    raise ValueError('junction crossings must be objects')
+                wires = point.get('wires')
+                if (not isinstance(wires, list) or len(wires) != 2
+                        or any(wire not in wire_ids for wire in wires)):
+                    raise ValueError(
+                        'junction report references missing/stale wire IDs')
+            output['junction_evidence'] = {
+                'source': source, 'page_id': page_id,
+                'snapshot_sha256': output['snapshot_sha256'],
+            }
             output['no_junction_crossings'] = points
     output['expected_counts'] = {
         'components': len(output['components']),
@@ -653,7 +691,9 @@ def main(argv=None):
     parser.add_argument('--min-text-wire-clearance', type=float)
     parser.add_argument('--label-own-wire-edge-tolerance', type=float)
     parser.add_argument('--junction-report', type=Path,
-                        help='host check JSON: {verified,source,noJunctionCrossings}')
+                        help='host check JSON: {verified,source,pageId,snapshotSha256,noJunctionCrossings}')
+    parser.add_argument('--page-id',
+                        help='schematic page UUID bound into junction evidence')
     parser.add_argument('--require-rendered', action='store_true')
     parser.add_argument('--out', required=True, type=Path)
     args = parser.parse_args(argv)
@@ -670,7 +710,7 @@ def main(argv=None):
             args.min_text_wire_clearance, rotation_map(args.expect_rotation),
             args.require_rendered, set(args.require_horizontal_text),
             read_json(args.junction_report) if args.junction_report else None,
-            args.label_own_wire_edge_tolerance)
+            args.label_own_wire_edge_tolerance, args.page_id)
         args.out.write_text(json.dumps(output, ensure_ascii=False, indent=1) + '\n',
                             encoding='utf-8')
         print(json.dumps({'status': 'written', 'out': str(args.out),

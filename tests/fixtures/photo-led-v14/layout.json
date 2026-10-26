@@ -4451,24 +4451,38 @@
   1160.0,
   190.0
  ],
- "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+ "page_id": "cd008f919db36eba",
+ "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+ "junction_evidence": {
+  "source": "easyeda sch read check (photo-led v14, 2026-10-26)",
+  "page_id": "cd008f919db36eba",
+  "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184"
+ },
  "no_junction_crossings": [
-  [
-   410,
-   230
-  ],
-  [
-   260,
-   230
-  ],
-  [
-   260,
-   195
-  ],
-  [
-   260,
-   185
-  ]
+  {
+   "x": 260,
+   "y": 230,
+   "wires": [
+    "25209c69b85c07d5#3",
+    "4a615d05024ff911#2"
+   ]
+  },
+  {
+   "x": 260,
+   "y": 195,
+   "wires": [
+    "25209c69b85c07d5#3",
+    "4a615d05024ff911#4"
+   ]
+  },
+  {
+   "x": 260,
+   "y": 185,
+   "wires": [
+    "25209c69b85c07d5#3",
+    "e0d8a52427a6575e#0"
+   ]
+  }
  ],
  "expected_counts": {
   "components": 19,

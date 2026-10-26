@@ -24,7 +24,8 @@ class PhotoLedV14Regression(unittest.TestCase):
             min_text_wire_clearance=5,
             expect_rotations={'GND': 0, '+5V': 0},
             require_rendered=True,
-            junction_report=load('junction-report.json'))
+            junction_report=load('junction-report.json'),
+            page_id='cd008f919db36eba')
         cls.result = check.analyze(cls.layout, strict=True)
         cls.codes = [finding['code'] for finding in cls.result['findings']]
 
@@ -84,6 +85,21 @@ class PhotoLedV14Regression(unittest.TestCase):
         self.assertEqual({tuple(finding['objects']) for finding in enters},
                          {('1fa3e4d8816a3e4a#0', 'ad6ce27bf74e95f9'),
                           ('1fa3e4d8816a3e4a#1', 'ad6ce27bf74e95f9')})
+
+    def test_stale_junction_report_refuses(self):
+        report = load('junction-report.json')
+        stale = copy.deepcopy(report)
+        stale['snapshotSha256'] = '0' * 64
+        with self.assertRaises(ValueError):
+            adapter.convert(load('list.json'), None, load('sheet.json'),
+                            load('rendered-text.json'), require_rendered=True,
+                            junction_report=stale, page_id='cd008f919db36eba')
+        stale = copy.deepcopy(report)
+        stale['noJunctionCrossings'][0]['wires'] = ['missing-a', 'missing-b']
+        with self.assertRaises(ValueError):
+            adapter.convert(load('list.json'), None, load('sheet.json'),
+                            load('rendered-text.json'), require_rendered=True,
+                            junction_report=stale, page_id='cd008f919db36eba')
 
     def test_crossing_hint_requires_host_evidence(self):
         without = copy.deepcopy(self.layout)
