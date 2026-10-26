@@ -244,6 +244,61 @@ class AcceptanceChecks(unittest.TestCase):
         self.assertIn('netflag_rotation_outlier', codes)
         self.assertIn('netflag_text_vertical', codes)
 
+    def test_label_own_wire_edge_contact_is_info_not_blocking(self):
+        data = base_snapshot()
+        data['texts'].append({'id': 'label', 'bbox': [610, 310, 650, 320],
+                              'kind': 'wire_name', 'net': 'OUT',
+                              'anchor_id': 'w2', 'anchored': True,
+                              'measurement': 'bbox'})
+        data['wires'].append({'id': 'w2', 'net': 'OUT',
+                              'points': [[610, 311], [650, 311]]})
+        data['expected_counts']['texts'] = 3
+        data['expected_counts']['wires'] = 2
+        result = check.analyze(data)
+        codes = [finding['code'] for finding in result['findings']]
+        self.assertIn('label_own_wire_edge_contact', codes)
+        self.assertNotIn('wire_enters_bbox', codes)
+        edge = next(finding for finding in result['findings']
+                    if finding['code'] == 'label_own_wire_edge_contact')
+        self.assertEqual(edge['severity'], 'info')
+
+    def test_label_own_wire_body_crossing_blocks(self):
+        data = base_snapshot()
+        data['texts'].append({'id': 'label', 'bbox': [590, 310, 630, 320],
+                              'kind': 'wire_name', 'net': 'N1',
+                              'anchor_id': 'w1', 'anchored': True,
+                              'measurement': 'bbox'})
+        data['expected_counts']['texts'] = 3
+        result = check.analyze(data)
+        finding = next(finding for finding in result['findings']
+                       if finding['code'] == 'wire_enters_bbox')
+        self.assertEqual(finding['objects'], ['w1', 'label'])
+        self.assertTrue(finding['own_wire'])
+
+    def test_crossing_hint_requires_verified_no_junction_point(self):
+        data = base_snapshot()
+        data['wires'].append({'id': 'w2', 'net': 'OTHER',
+                              'points': [[590, 320], [610, 320]]})
+        data['expected_counts']['wires'] = 2
+        first = check.analyze(data)
+        crossing = next(finding for finding in first['findings']
+                        if finding['code'] == 'different_named_wires_cross')
+        self.assertNotEqual(crossing.get('severity'), 'info')
+        data['junction_evidence'] = 'easyeda sch check (verified)'
+        data['no_junction_crossings'] = [[600, 320]]
+        second = check.analyze(data)
+        crossing = next(finding for finding in second['findings']
+                        if finding['code'] == 'different_named_wires_cross')
+        self.assertEqual(crossing['severity'], 'info')
+        self.assertEqual(crossing['category'], 'readability_hint')
+        self.assertEqual(crossing['junction_evidence'], 'easyeda sch check (verified)')
+
+    def test_no_junction_points_require_evidence(self):
+        data = base_snapshot()
+        data['no_junction_crossings'] = [[600, 320]]
+        with self.assertRaises(ValueError):
+            check.analyze(data)
+
     def test_duplicate_net_text_and_unanchored(self):
         data = base_snapshot()
         data['texts'].extend([

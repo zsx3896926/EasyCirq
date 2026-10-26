@@ -162,7 +162,8 @@ def estimated_text(content, x, y, font_size, rotation, align):
 
 def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None,
             min_text_wire_clearance=None, expect_rotations=None,
-            require_rendered=False, horizontal_nets=None):
+            require_rendered=False, horizontal_nets=None,
+            junction_report=None, label_own_wire_edge_tolerance=None):
     parts = [item for item in list_data.get('components', [])
              if item.get('componentType') == 'part']
     flags_raw = [item for item in list_data.get('components', [])
@@ -537,6 +538,11 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
               'wire_endpoint_check': False}
     if min_text_wire_clearance is not None:
         policy['min_text_wire_clearance'] = min_text_wire_clearance
+    if label_own_wire_edge_tolerance is not None:
+        if (not math.isfinite(label_own_wire_edge_tolerance)
+                or label_own_wire_edge_tolerance < 0):
+            raise ValueError('label-own-wire-edge-tolerance must be finite and nonnegative')
+        policy['label_own_wire_edge_tolerance'] = label_own_wire_edge_tolerance
     if expect_rotations:
         policy['netflag_rotation'] = {
             net: {'expectedRotation': degrees,
@@ -598,6 +604,18 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
     }
     if title:
         output['title_block'] = title
+    if junction_report:
+        if not isinstance(junction_report, dict):
+            raise ValueError('junction report must be an object')
+        verified = junction_report.get('verified') is True
+        source = str(junction_report.get('source') or '').strip()
+        points = (junction_report.get('noJunctionCrossings')
+                  or junction_report.get('no_junction_crossings') or [])
+        if verified and source and points:
+            if not isinstance(points, list):
+                raise ValueError('junction report crossings must be a list')
+            output['junction_evidence'] = source + ' (verified no-junction crossings)'
+            output['no_junction_crossings'] = points
     output['expected_counts'] = {
         'components': len(output['components']),
         'texts': len(output['texts']),
@@ -633,6 +651,9 @@ def main(argv=None):
     parser.add_argument('--require-horizontal-text', action='append', default=[],
                         help='NET, repeatable; its netflag text must be wider than tall')
     parser.add_argument('--min-text-wire-clearance', type=float)
+    parser.add_argument('--label-own-wire-edge-tolerance', type=float)
+    parser.add_argument('--junction-report', type=Path,
+                        help='host check JSON: {verified,source,noJunctionCrossings}')
     parser.add_argument('--require-rendered', action='store_true')
     parser.add_argument('--out', required=True, type=Path)
     args = parser.parse_args(argv)
@@ -647,7 +668,9 @@ def main(argv=None):
             read_json(args.sheet_geometry) if args.sheet_geometry else None,
             read_json(args.rendered_text) if args.rendered_text else None,
             args.min_text_wire_clearance, rotation_map(args.expect_rotation),
-            args.require_rendered, set(args.require_horizontal_text))
+            args.require_rendered, set(args.require_horizontal_text),
+            read_json(args.junction_report) if args.junction_report else None,
+            args.label_own_wire_edge_tolerance)
         args.out.write_text(json.dumps(output, ensure_ascii=False, indent=1) + '\n',
                             encoding='utf-8')
         print(json.dumps({'status': 'written', 'out': str(args.out),

@@ -9,7 +9,12 @@
       ],
       "status": "review_candidate",
       "severity": "info",
-      "category": "readability_hint"
+      "category": "readability_hint",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "point": [
+        260.0,
+        230.0
+      ]
     },
     {
       "code": "different_named_wires_cross",
@@ -19,7 +24,12 @@
       ],
       "status": "review_candidate",
       "severity": "info",
-      "category": "readability_hint"
+      "category": "readability_hint",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "point": [
+        260.0,
+        195.0
+      ]
     },
     {
       "code": "different_named_wires_cross",
@@ -29,7 +39,12 @@
       ],
       "status": "review_candidate",
       "severity": "info",
-      "category": "readability_hint"
+      "category": "readability_hint",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "point": [
+        260.0,
+        185.0
+      ]
     },
     {
       "code": "text_wire_clearance",
@@ -209,6 +224,9 @@
     "zone_title": 4
   },
   "self_text_contact_tolerance": 1.0,
+  "label_own_wire_edge_tolerance": 1.0,
+  "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+  "no_junction_crossings": 4,
   "strict_mode": true,
   "strict_missing": [],
   "checks_run": [
@@ -261,7 +279,12 @@
       ],
       "status": "review_candidate",
       "severity": "info",
-      "category": "readability_hint"
+      "category": "readability_hint",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "point": [
+        260.0,
+        230.0
+      ]
     },
     {
       "code": "different_named_wires_cross",
@@ -271,7 +294,12 @@
       ],
       "status": "review_candidate",
       "severity": "info",
-      "category": "readability_hint"
+      "category": "readability_hint",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "point": [
+        260.0,
+        195.0
+      ]
     },
     {
       "code": "different_named_wires_cross",
@@ -281,7 +309,12 @@
       ],
       "status": "review_candidate",
       "severity": "info",
-      "category": "readability_hint"
+      "category": "readability_hint",
+      "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26) (verified no-junction crossings)",
+      "point": [
+        260.0,
+        185.0
+      ]
     },
     {
       "code": "text_wire_clearance",
