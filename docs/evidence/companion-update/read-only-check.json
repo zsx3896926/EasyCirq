@@ -1,0 +1,29 @@
+{
+  "status": "needs_attention",
+  "design_hardware": {
+    "status": "unverified",
+    "message": "<urlopen error [Errno 11001] getaddrinfo failed>"
+  },
+  "easyeda_agent": {
+    "status": "unverified",
+    "client": "claude",
+    "skill_target": "C:\\Users\\jlc\\tmp\\hds-companion-readonly\\.claude\\skills\\easyeda-agent",
+    "cli_version": "v1.14.0",
+    "target_version": null,
+    "native_exit_code": 1,
+    "connector_requires_manual_action": true,
+    "connector_automatic_install": false,
+    "native": {
+      "mode": "check",
+      "cliVersion": "v1.14.0",
+      "latestError": "Get \"https://api.github.com/repos/zhoushoujianwork/easyeda-agent/releases/latest\": dial tcp: lookup api.github.com: no such host; github releases/latest fallback: Get \"https://github.com/zhoushoujianwork/easyeda-agent/releases/latest\": dial tcp: lookup github.com: no such host",
+      "behind": 0,
+      "mismatched": 0,
+      "unverified": 0,
+      "restartRequired": false,
+      "ready": false
+    },
+    "hardware_design_compatibility": "not_claimed; official runtime reconciliation only"
+  },
+  "automatic_install": false
+}

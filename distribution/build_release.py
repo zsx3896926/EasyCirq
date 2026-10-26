@@ -24,10 +24,11 @@ def build(output):
     for name in ['Manage-Skill.ps1', 'Manage-Skill.cmd']:
         shutil.copyfile(ROOT / 'distribution' / name, output / name)
     shutil.copyfile(ROOT / 'design-hardware/scripts/skill_update.py', output / 'skill_update.py')
+    shutil.copyfile(ROOT / 'design-hardware/scripts/companion_update.py', output / 'companion_update.py')
     shutil.copyfile(ROOT / 'LICENSE', output / 'LICENSE')
     bundle = output / ('design-hardware-installer-' + result['version'] + '.zip')
     with zipfile.ZipFile(bundle, 'w', zipfile.ZIP_DEFLATED) as z:
-        for name in [Path(result['archive']).name, 'release.json', 'Manage-Skill.ps1', 'Manage-Skill.cmd', 'skill_update.py', 'LICENSE']:
+        for name in [Path(result['archive']).name, 'release.json', 'Manage-Skill.ps1', 'Manage-Skill.cmd', 'skill_update.py', 'companion_update.py', 'LICENSE']:
             z.write(output / name, name)
     return result
 

@@ -12,10 +12,10 @@ description: 配合AI Agent把自然语言idea推进为可验证使用的硬件�
 ## 安装与更新
 
 用户要求安装、检查更新、升级、修复或回退时，读取 [安装与更新](references/installation-updates.md)。
-新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 检查稳定版（24 小时缓存）；
+新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 统一检查本 Skill 与 easyeda-agent 的 CLI/Skill/daemon/Connector（24 小时缓存）；
 先确认实际客户端和安装路径，重复安装不得静默覆盖。网络失败不阻塞原工程任务。
 只在用户要求升级且没有进行中的工程操作时更新；不在画板中途替换技能，不运行无人确认自动安装。
-升级后重新加载或新建会话并核对 `.version`；保留客户项目和本地修改，更新器不代表 EDA 执行器已更新。
+升级后重新加载或新建会话并核对 `.version`；保留客户项目和本地修改，仅本 Skill 更新成功不代表 EDA 执行器已更新。用户要求整套更新时，分别执行本 Skill 的 update 与执行器的 update-agent --idle，逐组件回读；后者委托官方更新器、保留备份，不自动重启 daemon 或导入 Connector，不宣称跨组件原子回退。
 
 ## 0. 保留工程能力，补上产品落地层
 
