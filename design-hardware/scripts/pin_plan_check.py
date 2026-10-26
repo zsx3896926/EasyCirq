@@ -5,6 +5,17 @@ Input: pin-plan/v1 JSON. Output: one JSON object on stdout.
 Exit 0 = no findings, 1 = findings need review, 2 = invalid input.
 A passing report never verifies a physical pin table or a real board.
 Optional candidates (status deferred/rejected) must stay out of resources.
+
+Optional top-level "pinmap" array (same rows as assets/pinmap.example.json):
+each row maps one pin with ref / symbol_pin / datasheet_pin / footprint_pad /
+net / nc / notes. Rows are checked for required fields, per-ref identifier
+uniqueness, net-vs-nc conflicts, and references to the plan. The plan declares
+component refs through mcu.ref or pins[].ref; without either declaration only
+the row-internal checks run and one ref is assumed to be the plan's device.
+symbol_pin is compared with pins[].logical of the same ref; rows with nc=true are
+exempt from that pin-name check because an unused package pin need not be a
+logical resource, but they are still checked for ref, uniqueness and net/nc.
+The script never guesses pinmux, datasheet pin numbers or footprint pads.
 """
 import argparse
 from collections import defaultdict
@@ -47,6 +58,12 @@ RESOURCE_KINDS = {
     "debug",
 }
 PLAN_SCHEMA = "pin-plan/v1"
+PINMAP_FIELDS = {"ref", "symbol_pin", "datasheet_pin", "footprint_pad", "net", "nc", "notes"}
+PINMAP_IDENTITY = ("symbol_pin", "datasheet_pin", "footprint_pad")
+PINMAP_NOT_CHECKED = (
+    "pinmap 的 datasheet 脚号、封装焊盘与实际 datasheet/封装 drawing 的一致性"
+    "（脚本只查表内一致性与计划内引用）"
+)
 
 
 def text(value, label):
@@ -66,6 +83,166 @@ def unique_object(pairs):
             raise ValueError(f"duplicate JSON key: {key}")
         obj[key] = value
     return obj
+
+
+def pinmap_text(value):
+    """Return stripped text for a usable pinmap value, else None."""
+    if not isinstance(value, str) or is_unknown(value):
+        return None
+    return value.strip()
+
+
+def check_pinmap(rows, pin_refs, mcu_ref, logical_pins, add):
+    """Validate top-level pinmap rows; return notes for not_checked.
+
+    pin_refs: logical pin -> ref declared by that pin entry.
+    mcu_ref: optional ref of the plan's main device.
+    logical_pins: declared logical pin names of the plan.
+    """
+    notes = [PINMAP_NOT_CHECKED]
+    known_refs = set(pin_refs.values())
+    if mcu_ref:
+        known_refs.add(mcu_ref)
+
+    full_rows = {}
+    duplicate_rows = set()
+    ref_rows = defaultdict(list)
+    distinct_refs = set()
+    seen_by_ref = defaultdict(lambda: {field: {} for field in PINMAP_IDENTITY})
+    unchecked_refs = set()
+
+    for index, row in enumerate(rows):
+        label = f"pinmap[{index}]"
+        if not isinstance(row, dict):
+            raise ValueError(f"{label}: require object")
+        unknown = sorted(set(row) - PINMAP_FIELDS)
+        if unknown:
+            raise ValueError(f"{label}: unknown field(s): {', '.join(unknown)}")
+        if "nc" in row and not isinstance(row["nc"], bool):
+            raise ValueError(f"{label}.nc: require boolean")
+        if "net" in row and not isinstance(row["net"], str):
+            raise ValueError(f"{label}.net: require string")
+        if "notes" in row and not isinstance(row["notes"], str):
+            raise ValueError(f"{label}.notes: require string")
+
+        missing = [
+            field
+            for field in ("ref",) + PINMAP_IDENTITY
+            if pinmap_text(row.get(field)) is None
+        ]
+        nc = row.get("nc") is True
+        net = pinmap_text(row.get("net")) or ""
+        if missing:
+            add(
+                "pinmap_missing_field",
+                "blocking",
+                f"{label} 缺少或为待查：{'、'.join(missing)}",
+                label,
+            )
+        if nc and net:
+            add(
+                "pinmap_net_nc_conflict",
+                "blocking",
+                f"{label} 同时声明 net={net} 与 nc=true",
+                f"{label}.net",
+            )
+        elif not nc and not net:
+            add(
+                "pinmap_missing_field",
+                "blocking",
+                f"{label} 未声明有效 net（空或待查），也未标记 nc=true",
+                f"{label}.net",
+            )
+        if missing:
+            continue
+
+        ref = row["ref"].strip()
+        symbol = row["symbol_pin"].strip()
+        datasheet = row["datasheet_pin"].strip()
+        pad = row["footprint_pad"].strip()
+        ref_rows[ref].append(index)
+        distinct_refs.add(ref)
+
+        key = (ref, symbol, datasheet, pad)
+        if key in full_rows:
+            add(
+                "pinmap_duplicate_row",
+                "warning",
+                f"{label} 与 pinmap[{full_rows[key]}] 完全重复（{ref}/{symbol}）",
+                label,
+            )
+            duplicate_rows.add(index)
+            continue
+        full_rows[key] = index
+        seen = seen_by_ref[ref]
+        for field, value in (
+            ("symbol_pin", symbol),
+            ("datasheet_pin", datasheet),
+            ("footprint_pad", pad),
+        ):
+            if value in seen[field]:
+                add(
+                    "pinmap_duplicate_pin",
+                    "blocking",
+                    f"{label}.{field}={value} 与 pinmap[{seen[field][value]}] 在 {ref} 内重复",
+                    f"{label}.{field}",
+                )
+            else:
+                seen[field][value] = index
+
+    def check_symbols(ref, declared, indices):
+        if not declared:
+            unchecked_refs.add(ref)
+            return
+        for index in indices:
+            if index in duplicate_rows or rows[index].get("nc") is True:
+                continue
+            symbol = rows[index]["symbol_pin"].strip()
+            if symbol not in declared:
+                add(
+                    "pinmap_unknown_pin",
+                    "blocking",
+                    f"pinmap[{index}] 的 symbol_pin={symbol} 不在 {ref} 已声明的计划引脚中",
+                    f"pinmap[{index}].symbol_pin",
+                )
+
+    if known_refs:
+        for ref in sorted(ref_rows):
+            indices = [index for index in ref_rows[ref] if index not in duplicate_rows]
+            if not indices:
+                continue
+            if ref not in known_refs:
+                rows_text = "、".join(f"pinmap[{index}]" for index in indices)
+                add(
+                    "pinmap_unknown_ref",
+                    "blocking",
+                    f"pinmap 引用了计划未声明的元件位号 {ref}（{rows_text}）",
+                    f"pinmap[{indices[0]}].ref",
+                )
+                continue
+            declared = {logical for logical, owner in pin_refs.items() if owner == ref}
+            if ref == mcu_ref:
+                declared |= {logical for logical in logical_pins if logical not in pin_refs}
+            check_symbols(ref, declared, indices)
+        if unchecked_refs:
+            notes.append(
+                f"ref {'、'.join(sorted(unchecked_refs))} 的 symbol_pin 核对"
+                "（pins 未按该 ref 声明）"
+            )
+    elif len(distinct_refs) == 1 and logical_pins:
+        ref = next(iter(distinct_refs))
+        check_symbols(ref, set(logical_pins), ref_rows[ref])
+        notes.append(
+            "pinmap ref 与计划元件的对应关系（计划未声明 mcu.ref 或 pins[].ref；"
+            "按单器件假设核对 symbol_pin）"
+        )
+    else:
+        notes.append(
+            "pinmap symbol_pin 与计划引脚的对应关系"
+            "（计划未声明 ref 或 pinmap 含多个 ref，无法按元件核对）"
+        )
+
+    return notes
 
 
 def analyze(data):
@@ -102,6 +279,16 @@ def analyze(data):
     for bank, voltage in bank_voltages.items():
         text(bank, "mcu.bank_voltages key")
         text(voltage, f"mcu.bank_voltages[{bank}]")
+    pinmap = None
+    if "pinmap" in data:
+        pinmap = data["pinmap"]
+        if not isinstance(pinmap, list):
+            raise ValueError("pinmap must be an array")
+    mcu_ref = None
+    if pinmap is not None and "ref" in mcu:
+        mcu_ref = pinmap_text(mcu["ref"])
+        if mcu_ref is None:
+            raise ValueError("mcu.ref: require nonblank string")
 
     findings = []
 
@@ -112,6 +299,7 @@ def analyze(data):
 
     missing = defaultdict(list)
     logical_seen = {}
+    pin_refs = {}
     physical_seen = {}
     pin_roles = {}
     flagged = set()
@@ -123,6 +311,11 @@ def analyze(data):
         if not isinstance(pin, dict):
             raise ValueError(f"{label}: require object")
         logical = text(pin.get("logical"), f"{label}.logical")
+        if pinmap is not None and "ref" in pin:
+            pin_ref = pinmap_text(pin["ref"])
+            if pin_ref is None:
+                raise ValueError(f"{label}.ref: require nonblank string")
+            pin_refs[logical] = pin_ref
         if logical in logical_seen:
             add(
                 "DUP_LOGICAL",
@@ -269,6 +462,10 @@ def analyze(data):
                 f"{logical} 电压域 {voltage} 与 {bank} 的 {bank_voltages[bank]} 不一致",
                 f"{label}.voltage_domain",
             )
+
+    pinmap_notes = []
+    if pinmap is not None:
+        pinmap_notes = check_pinmap(pinmap, pin_refs, mcu_ref, logical_seen, add)
 
     for field, labels in missing.items():
         preview = "、".join(labels[:5])
@@ -464,22 +661,27 @@ def analyze(data):
     counts = {severity: 0 for severity in order}
     for finding in findings:
         counts[finding["severity"]] += 1
+    summary = {
+        "pins": len(pins),
+        "resources": len(resources),
+        "candidates": len(candidates),
+        "blocking": counts["blocking"],
+        "warning": counts["warning"],
+        "unknown": counts["unknown"],
+    }
+    not_checked = list(NOT_CHECKED)
+    if pinmap is not None:
+        summary["pinmap"] = len(pinmap)
+        not_checked.extend(pinmap_notes)
     return {
         "schema": RESULT_SCHEMA,
         "status": "needs_review" if findings else "passed",
         "board_verified": False,
         "execution": "OFFLINE_PLANNING",
         "hardware_execution": "NOT RUN",
-        "summary": {
-            "pins": len(pins),
-            "resources": len(resources),
-            "candidates": len(candidates),
-            "blocking": counts["blocking"],
-            "warning": counts["warning"],
-            "unknown": counts["unknown"],
-        },
+        "summary": summary,
         "findings": findings,
-        "not_checked": NOT_CHECKED,
+        "not_checked": not_checked,
     }
 
 

@@ -1,0 +1,786 @@
+test_alternates_are_validated (test_bom_check.BomCheckCli.test_alternates_are_validated) ... ok
+test_dnp_excluded_from_assembly_count (test_bom_check.BomCheckCli.test_dnp_excluded_from_assembly_count) ... ok
+test_duplicate_designator_blocks (test_bom_check.BomCheckCli.test_duplicate_designator_blocks) ... ok
+test_duplicate_json_key_exits_2 (test_bom_check.BomCheckCli.test_duplicate_json_key_exits_2) ... ok
+test_empty_parts_exits_2 (test_bom_check.BomCheckCli.test_empty_parts_exits_2) ... ok
+test_hand_solder_0201_blocks_without_strict (test_bom_check.BomCheckCli.test_hand_solder_0201_blocks_without_strict) ... ok
+test_hand_solder_0402_warns_then_blocks_in_strict (test_bom_check.BomCheckCli.test_hand_solder_0402_warns_then_blocks_in_strict) ... ok
+test_help_exits_0 (test_bom_check.BomCheckCli.test_help_exits_0) ... ok
+test_invalid_assembly_blocks (test_bom_check.BomCheckCli.test_invalid_assembly_blocks) ... ok
+test_invalid_json_exits_2 (test_bom_check.BomCheckCli.test_invalid_json_exits_2) ... ok
+test_invalid_smt_class_blocks (test_bom_check.BomCheckCli.test_invalid_smt_class_blocks) ... ok
+test_lcsc_forms (test_bom_check.BomCheckCli.test_lcsc_forms) ... ok
+test_lcsc_pending_warns_then_blocks_in_strict (test_bom_check.BomCheckCli.test_lcsc_pending_warns_then_blocks_in_strict) ... ok
+test_missing_designators_blocks (test_bom_check.BomCheckCli.test_missing_designators_blocks) ... ok
+test_missing_manufacturer_blocks (test_bom_check.BomCheckCli.test_missing_manufacturer_blocks) ... ok
+test_missing_mpn_blocks (test_bom_check.BomCheckCli.test_missing_mpn_blocks) ... ok
+test_out_of_stock_blocks (test_bom_check.BomCheckCli.test_out_of_stock_blocks) ... ok
+test_placeholder_identity_blocks (test_bom_check.BomCheckCli.test_placeholder_identity_blocks) ... ok
+test_shipped_example_runs_with_warnings_only (test_bom_check.BomCheckCli.test_shipped_example_runs_with_warnings_only) ... ok
+test_smt_without_smt_class_blocks (test_bom_check.BomCheckCli.test_smt_without_smt_class_blocks) ... ok
+test_stdout_is_one_json_object (test_bom_check.BomCheckCli.test_stdout_is_one_json_object) ... ok
+test_stock_claim_requires_check_date (test_bom_check.BomCheckCli.test_stock_claim_requires_check_date) ... ok
+test_unchecked_stock_warns_only (test_bom_check.BomCheckCli.test_unchecked_stock_warns_only) ... ok
+test_valid_file_passes (test_bom_check.BomCheckCli.test_valid_file_passes) ... ok
+test_wrong_schema_exits_2 (test_bom_check.BomCheckCli.test_wrong_schema_exits_2) ... ok
+test_twelve_applications_with_required_sections (test_common_hardware.CommonHardwareApplications.test_twelve_applications_with_required_sections) ... ok
+test_all_group_files_and_topics_exist (test_common_hardware.CommonHardwareGroups.test_all_group_files_and_topics_exist) ... ok
+test_no_unmarked_c_numbers (test_common_hardware.CommonHardwareGroups.test_no_unmarked_c_numbers) ... ok
+test_no_unregistered_source_ids (test_common_hardware.CommonHardwareGroups.test_no_unregistered_source_ids) ... ok
+test_readme_routes_all_groups_and_apps (test_common_hardware.CommonHardwareIndex.test_readme_routes_all_groups_and_apps) ... ok
+test_cli_duplicate_json_and_exit_codes (test_connectivity.Connectivity.test_cli_duplicate_json_and_exit_codes) ... ok
+test_dnp_pullup_does_not_satisfy_requirement (test_connectivity.Connectivity.test_dnp_pullup_does_not_satisfy_requirement) ... ok
+test_duplicate_refs_are_blocking (test_connectivity.Connectivity.test_duplicate_refs_are_blocking) ... ok
+test_empty_input_is_incomplete (test_connectivity.Connectivity.test_empty_input_is_incomplete) ... ok
+test_equal_count_wrong_nonsequential_ids (test_connectivity.Connectivity.test_equal_count_wrong_nonsequential_ids) ... ok
+test_explicit_external_net_suppresses_only_singleton_hint (test_connectivity.Connectivity.test_explicit_external_net_suppresses_only_singleton_hint) ... ok
+test_fictional_example_and_scope (test_connectivity.Connectivity.test_fictional_example_and_scope) ... ok
+test_invalid_nested_inputs_fail_cleanly (test_connectivity.Connectivity.test_invalid_nested_inputs_fail_cleanly) ... ok
+test_missing_inventory_not_replaced_by_count (test_connectivity.Connectivity.test_missing_inventory_not_replaced_by_count) ... ok
+test_nc_conflicts (test_connectivity.Connectivity.test_nc_conflicts) ... ok
+test_net_named_nc_does_not_become_unconnected (test_connectivity.Connectivity.test_net_named_nc_does_not_become_unconnected) ... ok
+test_no_inferred_pullup_from_signal_name (test_connectivity.Connectivity.test_no_inferred_pullup_from_signal_name) ... ok
+test_parallel_pullups_are_not_blocking (test_connectivity.Connectivity.test_parallel_pullups_are_not_blocking) ... ok
+test_same_net_passive_only_advisory (test_connectivity.Connectivity.test_same_net_passive_only_advisory) ... ok
+test_similar_nets_and_singletons_are_advisory (test_connectivity.Connectivity.test_similar_nets_and_singletons_are_advisory) ... ok
+test_supply_ground_class_conflict_not_measured_short (test_connectivity.Connectivity.test_supply_ground_class_conflict_not_measured_short) ... ok
+test_every_anchor_targets_existing_lines_with_keyword (test_decisions_ab.AnchorIntegrity.test_every_anchor_targets_existing_lines_with_keyword) ... ok
+test_example_separates_candidates_from_resources (test_decisions_ab.CandidateAssets.test_example_separates_candidates_from_resources) ... ok
+test_template_has_candidates_placeholder (test_decisions_ab.CandidateAssets.test_template_has_candidates_placeholder) ... ok
+test_frontmatter_record_types_and_headings (test_decisions_ab.CaseContracts.test_frontmatter_record_types_and_headings) ... ok
+test_three_line_user_summary (test_decisions_ab.CaseContracts.test_three_line_user_summary) ... ok
+test_a01_charger_is_rejected_and_manufacturing_is_not_run (test_decisions_ab.DecisionWording.test_a01_charger_is_rejected_and_manufacturing_is_not_run) ... ok
+test_a01_uses_fixed_regulation_min_typ_max (test_decisions_ab.DecisionWording.test_a01_uses_fixed_regulation_min_typ_max) ... ok
+test_owned_files_are_utf8_lf_without_todo (test_decisions_ab.FilesAndEncoding.test_owned_files_are_utf8_lf_without_todo) ... ok
+test_relative_links_point_to_existing_files (test_decisions_ab.FilesAndEncoding.test_relative_links_point_to_existing_files) ... ok
+test_owned_document_budgets (test_decisions_ab.LineBudgets.test_owned_document_budgets) ... ok
+test_candidate_only_plan_passes_exit_0 (test_decisions_ab.PinPlanCandidates.test_candidate_only_plan_passes_exit_0) ... ok
+test_candidate_unknown_pin_exit_1 (test_decisions_ab.PinPlanCandidates.test_candidate_unknown_pin_exit_1) ... ok
+test_candidates_not_array_exit_2 (test_decisions_ab.PinPlanCandidates.test_candidates_not_array_exit_2) ... ok
+test_deferred_candidate_on_allocated_pin_exit_1 (test_decisions_ab.PinPlanCandidates.test_deferred_candidate_on_allocated_pin_exit_1) ... ok
+test_duplicate_candidate_id_exit_1 (test_decisions_ab.PinPlanCandidates.test_duplicate_candidate_id_exit_1) ... ok
+test_invalid_candidate_status_exit_2 (test_decisions_ab.PinPlanCandidates.test_invalid_candidate_status_exit_2) ... ok
+test_rejected_candidate_in_resources_exit_1 (test_decisions_ab.PinPlanCandidates.test_rejected_candidate_in_resources_exit_1) ... ok
+test_conflict_fixture_exit_1 (test_decisions_ab.PinPlanContract.test_conflict_fixture_exit_1) ... ok
+test_duplicate_fixture_exit_1 (test_decisions_ab.PinPlanContract.test_duplicate_fixture_exit_1) ... ok
+test_package_not_bonded_exit_1 (test_decisions_ab.PinPlanContract.test_package_not_bonded_exit_1) ... ok
+test_pass_fixture_exit_0 (test_decisions_ab.PinPlanContract.test_pass_fixture_exit_0) ... ok
+test_unknown_fixture_exit_1 (test_decisions_ab.PinPlanContract.test_unknown_fixture_exit_1) ... ok
+test_unknown_resource_pin_exit_1 (test_decisions_ab.PinPlanContract.test_unknown_resource_pin_exit_1) ... ok
+test_duplicate_json_key_exit_2 (test_decisions_ab.PinPlanInvalidInput.test_duplicate_json_key_exit_2) ... ok
+test_invalid_direction_exit_2 (test_decisions_ab.PinPlanInvalidInput.test_invalid_direction_exit_2) ... ok
+test_malformed_json_exit_2 (test_decisions_ab.PinPlanInvalidInput.test_malformed_json_exit_2) ... ok
+test_missing_file_exit_2 (test_decisions_ab.PinPlanInvalidInput.test_missing_file_exit_2) ... ok
+test_pins_not_array_exit_2 (test_decisions_ab.PinPlanInvalidInput.test_pins_not_array_exit_2) ... ok
+test_stdout_is_utf8_without_pythonioencoding (test_decisions_ab.PinPlanOutputEncoding.test_stdout_is_utf8_without_pythonioencoding) ... ok
+test_adc_resource_on_output_pin (test_decisions_ab.PinPlanResourceCrossChecks.test_adc_resource_on_output_pin) ... ok
+test_adc_resource_with_analog_false (test_decisions_ab.PinPlanResourceCrossChecks.test_adc_resource_with_analog_false) ... ok
+test_invalid_resource_kind_exit_2 (test_decisions_ab.PinPlanResourceCrossChecks.test_invalid_resource_kind_exit_2) ... ok
+test_two_resources_on_same_logical_pin (test_decisions_ab.PinPlanResourceCrossChecks.test_two_resources_on_same_logical_pin) ... ok
+test_uart_resource_on_debug_pin (test_decisions_ab.PinPlanResourceCrossChecks.test_uart_resource_on_debug_pin) ... ok
+test_uart_resource_on_strap_pin (test_decisions_ab.PinPlanResourceCrossChecks.test_uart_resource_on_strap_pin) ... ok
+test_analog_used_pending_is_unknown_not_invalid (test_decisions_ab.PinPlanUnknownFields.test_analog_used_pending_is_unknown_not_invalid) ... ok
+test_empty_pins_is_warning_not_pass (test_decisions_ab.PinPlanUnknownFields.test_empty_pins_is_warning_not_pass) ... ok
+test_missing_analog_used_reports_unknown (test_decisions_ab.PinPlanUnknownFields.test_missing_analog_used_reports_unknown) ... ok
+test_missing_resources_exit_2 (test_decisions_ab.PinPlanUnknownFields.test_missing_resources_exit_2) ... ok
+test_missing_schema_exit_2 (test_decisions_ab.PinPlanUnknownFields.test_missing_schema_exit_2) ... ok
+test_missing_unresolved_exit_2 (test_decisions_ab.PinPlanUnknownFields.test_missing_unresolved_exit_2) ... ok
+test_missing_usage_reports_unknown (test_decisions_ab.PinPlanUnknownFields.test_missing_usage_reports_unknown) ... ok
+test_wrong_schema_exit_2 (test_decisions_ab.PinPlanUnknownFields.test_wrong_schema_exit_2) ... ok
+test_frontmatter_headings_and_six_elements (test_decisions_ab.ReferenceContracts.test_frontmatter_headings_and_six_elements) ... ok
+test_two_ranged_anchors_and_eight_line_budget (test_decisions_ab.SectionNine.test_two_ranged_anchors_and_eight_line_budget) ... ok
+test_example_runs_with_unknowns_not_pass (test_decisions_ab.ShippedAssets.test_example_runs_with_unknowns_not_pass) ... ok
+test_template_is_valid_json_and_not_a_filled_plan (test_decisions_ab.ShippedAssets.test_template_is_valid_json_and_not_a_filled_plan) ... ok
+test_frontmatter_sources_are_registered (test_decisions_ab.SourceIds.test_frontmatter_sources_are_registered) ... ok
+test_interface_example_is_blocked_not_passed (test_decisions_ce.DecisionsAssets.test_interface_example_is_blocked_not_passed) ... ok
+test_state_example_has_axes_and_complete_records (test_decisions_ce.DecisionsAssets.test_state_example_has_axes_and_complete_records) ... ok
+test_templates_parse_and_keep_agent_note (test_decisions_ce.DecisionsAssets.test_templates_parse_and_keep_agent_note) ... ok
+test_multi_driver_without_arbitration_exit_1 (test_decisions_ce.InterfaceContractBlocking.test_multi_driver_without_arbitration_exit_1) ... ok
+test_switchable_rail_without_off_behavior_exit_1 (test_decisions_ce.InterfaceContractBlocking.test_switchable_rail_without_off_behavior_exit_1) ... ok
+test_user_hotplug_without_sequence_exit_1 (test_decisions_ce.InterfaceContractBlocking.test_user_hotplug_without_sequence_exit_1) ... ok
+test_duplicate_json_key_exit_2 (test_decisions_ce.InterfaceContractInvalidInput.test_duplicate_json_key_exit_2) ... ok
+test_interfaces_not_array_exit_2 (test_decisions_ce.InterfaceContractInvalidInput.test_interfaces_not_array_exit_2) ... ok
+test_invalid_direction_exit_2 (test_decisions_ce.InterfaceContractInvalidInput.test_invalid_direction_exit_2) ... ok
+test_invalid_drive_exit_2 (test_decisions_ce.InterfaceContractInvalidInput.test_invalid_drive_exit_2) ... ok
+test_malformed_json_exit_2 (test_decisions_ce.InterfaceContractInvalidInput.test_malformed_json_exit_2) ... ok
+test_missing_file_exit_2 (test_decisions_ce.InterfaceContractInvalidInput.test_missing_file_exit_2) ... ok
+test_wrong_schema_exit_2 (test_decisions_ce.InterfaceContractInvalidInput.test_wrong_schema_exit_2) ... ok
+test_complete_fixture_exit_0 (test_decisions_ce.InterfaceContractPass.test_complete_fixture_exit_0) ... ok
+test_connector_pin_out_of_range_is_blocking (test_decisions_ce.InterfaceContractUnknown.test_connector_pin_out_of_range_is_blocking) ... ok
+test_empty_interfaces_is_warning_not_pass (test_decisions_ce.InterfaceContractUnknown.test_empty_interfaces_is_warning_not_pass) ... ok
+test_missing_groups_report_unknown (test_decisions_ce.InterfaceContractUnknown.test_missing_groups_report_unknown) ... ok
+test_multi_driver_unknown_is_not_pass (test_decisions_ce.InterfaceContractUnknown.test_multi_driver_unknown_is_not_pass) ... ok
+test_open_drain_without_owner_is_unknown (test_decisions_ce.InterfaceContractUnknown.test_open_drain_without_owner_is_unknown) ... ok
+test_same_connector_pin_two_nets_is_blocking (test_decisions_ce.InterfaceContractUnknown.test_same_connector_pin_two_nets_is_blocking) ... ok
+test_signal_without_driver_is_unknown (test_decisions_ce.InterfaceContractUnknown.test_signal_without_driver_is_unknown) ... ok
+test_stale_true_is_unknown_not_pass (test_decisions_ce.InterfaceContractUnknown.test_stale_true_is_unknown_not_pass) ... ok
+test_unknown_connector_reference_is_unknown (test_decisions_ce.InterfaceContractUnknown.test_unknown_connector_reference_is_unknown) ... ok
+test_unknown_thresholds_are_unknown (test_decisions_ce.InterfaceContractUnknown.test_unknown_thresholds_are_unknown) ... ok
+test_case_documents (test_decisions_ce.ReferenceAndCaseDocuments.test_case_documents) ... ok
+test_reference_documents (test_decisions_ce.ReferenceAndCaseDocuments.test_reference_documents) ... ok
+test_d01_action_table_covers_dominant_terms (test_decisions_dk.CaseContentCompleteness.test_d01_action_table_covers_dominant_terms) ... ok
+test_d01_calibration_state_uses_template_enum (test_decisions_dk.CaseContentCompleteness.test_d01_calibration_state_uses_template_enum) ... ok
+test_d01_conditional_has_owner_and_deadline (test_decisions_dk.CaseContentCompleteness.test_d01_conditional_has_owner_and_deadline) ... ok
+test_d01_path_citations_are_located (test_decisions_dk.CaseContentCompleteness.test_d01_path_citations_are_located) ... ok
+test_k01_preregistration_is_reproducible (test_decisions_dk.CaseContentCompleteness.test_k01_preregistration_is_reproducible) ... ok
+test_template_paths_are_named (test_decisions_dk.CaseContentCompleteness.test_template_paths_are_named) ... ok
+test_d01_cites_existing_budget_and_recompute (test_decisions_dk.CaseDocuments.test_d01_cites_existing_budget_and_recompute) ... ok
+test_d01_has_required_independent_items (test_decisions_dk.CaseDocuments.test_d01_has_required_independent_items) ... ok
+test_execution_status_is_visible (test_decisions_dk.CaseDocuments.test_execution_status_is_visible) ... ok
+test_frontmatter (test_decisions_dk.CaseDocuments.test_frontmatter) ... ok
+test_k01_prereg_fields (test_decisions_dk.CaseDocuments.test_k01_prereg_fields) ... ok
+test_line_budget (test_decisions_dk.CaseDocuments.test_line_budget) ... ok
+test_three_line_user_summary (test_decisions_dk.CaseDocuments.test_three_line_user_summary) ... ok
+test_typed_block_matches_record_type (test_decisions_dk.CaseDocuments.test_typed_block_matches_record_type) ... ok
+test_corner_scaling_values (test_decisions_dk.D01BudgetArithmetic.test_corner_scaling_values) ... ok
+test_worst_rss_and_mixed_bounds (test_decisions_dk.D01BudgetArithmetic.test_worst_rss_and_mixed_bounds) ... ok
+test_no_todo_marker (test_decisions_dk.EncodingAndOwnership.test_no_todo_marker) ... ok
+test_owned_files_exist (test_decisions_dk.EncodingAndOwnership.test_owned_files_exist) ... ok
+test_utf8_no_bom_lf_no_replacement_char (test_decisions_dk.EncodingAndOwnership.test_utf8_no_bom_lf_no_replacement_char) ... ok
+test_asset_regression_fixtures (test_decisions_dk.IndependentTruth.test_asset_regression_fixtures) ... ok
+test_error_decreases_with_longer_acquisition (test_decisions_dk.IndependentTruth.test_error_decreases_with_longer_acquisition) ... ok
+test_hand_derived_symmetric_network (test_decisions_dk.IndependentTruth.test_hand_derived_symmetric_network) ... ok
+test_invalid_inputs (test_decisions_dk.IndependentTruth.test_invalid_inputs) ... ok
+test_rk4_cross_check (test_decisions_dk.IndependentTruth.test_rk4_cross_check) ... ok
+test_test_file_does_not_import_calculate (test_decisions_dk.IndependentTruth.test_test_file_does_not_import_calculate) ... ok
+test_zero_source_branch (test_decisions_dk.IndependentTruth.test_zero_source_branch) ... ok
+test_zero_switch_branch (test_decisions_dk.IndependentTruth.test_zero_switch_branch) ... ok
+test_470pf_predictions_are_recomputable (test_decisions_dk.K01ModelPrediction.test_470pf_predictions_are_recomputable) ... ok
+test_all_json_numbers_are_finite (test_decisions_dk.RecomputeAsset.test_all_json_numbers_are_finite) ... ok
+test_baseline_hash_covers_model_and_cases (test_decisions_dk.RecomputeAsset.test_baseline_hash_covers_model_and_cases) ... ok
+test_case_parameters (test_decisions_dk.RecomputeAsset.test_case_parameters) ... ok
+test_decisions (test_decisions_dk.RecomputeAsset.test_decisions) ... ok
+test_difference_arithmetic (test_decisions_dk.RecomputeAsset.test_difference_arithmetic) ... ok
+test_independent_single_pole_matches_asset (test_decisions_dk.RecomputeAsset.test_independent_single_pole_matches_asset) ... ok
+test_independent_two_node_matches_asset (test_decisions_dk.RecomputeAsset.test_independent_two_node_matches_asset) ... ok
+test_p02_claims_are_preserved (test_decisions_dk.RecomputeAsset.test_p02_claims_are_preserved) ... ok
+test_top_level_fields (test_decisions_dk.RecomputeAsset.test_top_level_fields) ... ok
+test_frontmatter_and_headings (test_decisions_dk.ReferenceDocuments.test_frontmatter_and_headings) ... ok
+test_line_budget (test_decisions_dk.ReferenceDocuments.test_line_budget) ... ok
+test_markdown_links_resolve (test_decisions_dk.ReferenceDocuments.test_markdown_links_resolve) ... ok
+test_no_bench_verification_claim (test_decisions_dk.ReferenceDocuments.test_no_bench_verification_claim) ... ok
+test_no_unmarked_c_numbers (test_decisions_dk.ReferenceDocuments.test_no_unmarked_c_numbers) ... ok
+test_package_subitems_are_named (test_decisions_dk.ReferenceDocuments.test_package_subitems_are_named) ... ok
+test_section9_has_at_least_two_path_ranges (test_decisions_dk.ReferenceDocuments.test_section9_has_at_least_two_path_ranges) ... ok
+test_source_ids_are_registered (test_decisions_dk.ReferenceDocuments.test_source_ids_are_registered) ... ok
+test_experiment_template_fields (test_decisions_dk.Templates.test_experiment_template_fields) ... ok
+test_header_and_line_budget (test_decisions_dk.Templates.test_header_and_line_budget) ... ok
+test_templates_declare_used_by (test_decisions_dk.Templates.test_templates_declare_used_by) ... ok
+test_tolerance_template_fields (test_decisions_dk.Templates.test_tolerance_template_fields) ... ok
+test_e01_is_referenced_as_path_not_link (test_decisions_fg.CaseDocuments.test_e01_is_referenced_as_path_not_link) ... ok
+test_frontmatter_and_headings (test_decisions_fg.CaseDocuments.test_frontmatter_and_headings) ... ok
+test_line_budget (test_decisions_fg.CaseDocuments.test_line_budget) ... ok
+test_three_line_user_summary (test_decisions_fg.CaseDocuments.test_three_line_user_summary) ... ok
+test_no_todo_marker (test_decisions_fg.FilesAndEncoding.test_no_todo_marker) ... ok
+test_owned_files_exist (test_decisions_fg.FilesAndEncoding.test_owned_files_exist) ... ok
+test_utf8_no_bom_lf_no_replacement_char (test_decisions_fg.FilesAndEncoding.test_utf8_no_bom_lf_no_replacement_char) ... ok
+test_approval_with_unknown_rating_exit_1 (test_decisions_fg.HarnessCheckCli.test_approval_with_unknown_rating_exit_1) ... ok
+test_example_asset_exit_1_and_no_acceptance_wording (test_decisions_fg.HarnessCheckCli.test_example_asset_exit_1_and_no_acceptance_wording) ... ok
+test_malformed_json_exit_2 (test_decisions_fg.HarnessCheckCli.test_malformed_json_exit_2) ... ok
+test_missing_field_exit_2 (test_decisions_fg.HarnessCheckCli.test_missing_field_exit_2) ... ok
+test_missing_matrix_row_exit_1 (test_decisions_fg.HarnessCheckCli.test_missing_matrix_row_exit_1) ... ok
+test_pass_fixture_exit_0 (test_decisions_fg.HarnessCheckCli.test_pass_fixture_exit_0) ... ok
+test_pass_without_evidence_exit_1 (test_decisions_fg.HarnessCheckCli.test_pass_without_evidence_exit_1) ... ok
+test_same_keying_without_block_exit_1 (test_decisions_fg.HarnessCheckCli.test_same_keying_without_block_exit_1) ... ok
+test_unknown_fixture_exit_1 (test_decisions_fg.HarnessCheckCli.test_unknown_fixture_exit_1) ... ok
+test_wire_unknown_ref_exit_1 (test_decisions_fg.HarnessCheckCli.test_wire_unknown_ref_exit_1) ... ok
+test_frontmatter_and_headings (test_decisions_fg.ReferenceDocuments.test_frontmatter_and_headings) ... ok
+test_line_budget (test_decisions_fg.ReferenceDocuments.test_line_budget) ... ok
+test_section9_budget_and_anchors (test_decisions_fg.ReferenceDocuments.test_section9_budget_and_anchors) ... ok
+test_example_assets_keep_unknowns (test_decisions_fg.TemplatesAndAssets.test_example_assets_keep_unknowns) ... ok
+test_json_assets_parse (test_decisions_fg.TemplatesAndAssets.test_json_assets_parse) ... ok
+test_relative_links_point_to_existing_files (test_decisions_fg.TemplatesAndAssets.test_relative_links_point_to_existing_files) ... ok
+test_sources_are_registered (test_decisions_fg.TemplatesAndAssets.test_sources_are_registered) ... ok
+test_template_header_and_budget (test_decisions_fg.TemplatesAndAssets.test_template_header_and_budget) ... ok
+test_conflict_pair_exit_1 (test_decisions_fg.VariantBomCli.test_conflict_pair_exit_1) ... ok
+test_dnp_required_exit_1 (test_decisions_fg.VariantBomCli.test_dnp_required_exit_1) ... ok
+test_example_asset_exit_0 (test_decisions_fg.VariantBomCli.test_example_asset_exit_0) ... ok
+test_forbidden_commercial_field_exit_2 (test_decisions_fg.VariantBomCli.test_forbidden_commercial_field_exit_2) ... ok
+test_known_package_step_gives_order_qty (test_decisions_fg.VariantBomCli.test_known_package_step_gives_order_qty) ... ok
+test_pass_fixture_exit_0_with_hand_calculated_needed (test_decisions_fg.VariantBomCli.test_pass_fixture_exit_0_with_hand_calculated_needed) ... ok
+test_required_and_forbidden_exit_1 (test_decisions_fg.VariantBomCli.test_required_and_forbidden_exit_1) ... ok
+test_unknown_boards_exit_1 (test_decisions_fg.VariantBomCli.test_unknown_boards_exit_1) ... ok
+test_unknown_ref_exit_2 (test_decisions_fg.VariantBomCli.test_unknown_ref_exit_2) ... ok
+test_crc_and_length_mismatch_are_blocking (test_decisions_hi.CalibrationRecord.test_crc_and_length_mismatch_are_blocking) ... ok
+test_duplicate_channel_is_input_error (test_decisions_hi.CalibrationRecord.test_duplicate_channel_is_input_error) ... ok
+test_expired_requires_valid_until (test_decisions_hi.CalibrationRecord.test_expired_requires_valid_until) ... ok
+test_expired_with_malformed_valid_until_is_blocking (test_decisions_hi.CalibrationRecord.test_expired_with_malformed_valid_until_is_blocking) ... ok
+test_invalid_status_requires_reason_and_slot (test_decisions_hi.CalibrationRecord.test_invalid_status_requires_reason_and_slot) ... ok
+test_missing_record_id_is_input_error (test_decisions_hi.CalibrationRecord.test_missing_record_id_is_input_error) ... ok
+test_missing_required_field_is_input_error (test_decisions_hi.CalibrationRecord.test_missing_required_field_is_input_error) ... ok
+test_record_id_is_not_part_of_payload (test_decisions_hi.CalibrationRecord.test_record_id_is_not_part_of_payload) ... ok
+test_record_id_must_use_cal_prefix (test_decisions_hi.CalibrationRecord.test_record_id_must_use_cal_prefix) ... ok
+test_slot_sequence_conflict (test_decisions_hi.CalibrationRecord.test_slot_sequence_conflict) ... ok
+test_uncalibrated_fixture_is_sealed_and_passes (test_decisions_hi.CalibrationRecord.test_uncalibrated_fixture_is_sealed_and_passes) ... ok
+test_uncalibrated_with_unparseable_valid_until_still_passes (test_decisions_hi.CalibrationRecord.test_uncalibrated_with_unparseable_valid_until_still_passes) ... ok
+test_uncalibrated_with_values_is_blocking (test_decisions_hi.CalibrationRecord.test_uncalibrated_with_values_is_blocking) ... ok
+test_valid_fixture_passes_with_real_valid_until (test_decisions_hi.CalibrationRecord.test_valid_fixture_passes_with_real_valid_until) ... ok
+test_valid_flag_false_is_blocking (test_decisions_hi.CalibrationRecord.test_valid_flag_false_is_blocking) ... ok
+test_valid_with_impossible_calendar_date_is_blocking (test_decisions_hi.CalibrationRecord.test_valid_with_impossible_calendar_date_is_blocking) ... ok
+test_valid_with_malformed_valid_until_is_blocking (test_decisions_hi.CalibrationRecord.test_valid_with_malformed_valid_until_is_blocking) ... ok
+test_valid_without_valid_until_is_blocking (test_decisions_hi.CalibrationRecord.test_valid_without_valid_until_is_blocking) ... ok
+test_frontmatter_and_headings (test_decisions_hi.CaseDocuments.test_frontmatter_and_headings) ... ok
+test_line_budget (test_decisions_hi.CaseDocuments.test_line_budget) ... ok
+test_section9_budget_and_anchors (test_decisions_hi.CaseDocuments.test_section9_budget_and_anchors) ... ok
+test_section9_starts_with_method_backlink (test_decisions_hi.CaseDocuments.test_section9_starts_with_method_backlink) ... ok
+test_three_line_user_summary (test_decisions_hi.CaseDocuments.test_three_line_user_summary) ... ok
+test_bom_delta_is_required (test_decisions_hi.ChangeRecord.test_bom_delta_is_required) ... ok
+test_bom_item_allows_unknown_quantity (test_decisions_hi.ChangeRecord.test_bom_item_allows_unknown_quantity) ... ok
+test_bom_item_rejects_unknown_dnp_value (test_decisions_hi.ChangeRecord.test_bom_item_rejects_unknown_dnp_value) ... ok
+test_bom_item_rejects_zero_quantity (test_decisions_hi.ChangeRecord.test_bom_item_rejects_zero_quantity) ... ok
+test_f1_cannot_be_revision_evidence (test_decisions_hi.ChangeRecord.test_f1_cannot_be_revision_evidence) ... ok
+test_f1_pass_is_blocking_even_with_e1 (test_decisions_hi.ChangeRecord.test_f1_pass_is_blocking_even_with_e1) ... ok
+test_f1_revision_verified_is_blocking (test_decisions_hi.ChangeRecord.test_f1_revision_verified_is_blocking) ... ok
+test_frozen_with_not_run_is_blocking (test_decisions_hi.ChangeRecord.test_frozen_with_not_run_is_blocking) ... ok
+test_layout_only_bom_must_be_unchanged (test_decisions_hi.ChangeRecord.test_layout_only_bom_must_be_unchanged) ... ok
+test_layout_only_level_is_local_only (test_decisions_hi.ChangeRecord.test_layout_only_level_is_local_only) ... ok
+test_layout_only_note_must_state_cpl_and_not_run (test_decisions_hi.ChangeRecord.test_layout_only_note_must_state_cpl_and_not_run) ... ok
+test_layout_only_with_full_note_passes (test_decisions_hi.ChangeRecord.test_layout_only_with_full_note_passes) ... ok
+test_layout_unchanged_without_diff_is_blocking (test_decisions_hi.ChangeRecord.test_layout_unchanged_without_diff_is_blocking) ... ok
+test_minimal_fixture_passes (test_decisions_hi.ChangeRecord.test_minimal_fixture_passes) ... ok
+test_missing_required_field_is_input_error (test_decisions_hi.ChangeRecord.test_missing_required_field_is_input_error) ... ok
+test_non_layout_scenario_without_items_is_blocking (test_decisions_hi.ChangeRecord.test_non_layout_scenario_without_items_is_blocking) ... ok
+test_pass_requires_e1 (test_decisions_hi.ChangeRecord.test_pass_requires_e1) ... ok
+test_pass_with_empty_evidence_is_blocking (test_decisions_hi.ChangeRecord.test_pass_with_empty_evidence_is_blocking) ... ok
+test_pass_with_path_range_evidence_passes (test_decisions_hi.ChangeRecord.test_pass_with_path_range_evidence_passes) ... ok
+test_pass_with_source_id_evidence_passes (test_decisions_hi.ChangeRecord.test_pass_with_source_id_evidence_passes) ... ok
+test_pass_with_unparseable_evidence_is_blocking (test_decisions_hi.ChangeRecord.test_pass_with_unparseable_evidence_is_blocking) ... ok
+test_reverified_artifact_requires_e1 (test_decisions_hi.ChangeRecord.test_reverified_artifact_requires_e1) ... ok
+test_reverified_artifact_scope_must_match (test_decisions_hi.ChangeRecord.test_reverified_artifact_scope_must_match) ... ok
+test_reverified_artifact_with_matching_scope_passes (test_decisions_hi.ChangeRecord.test_reverified_artifact_with_matching_scope_passes) ... ok
+test_reverified_by_change_id_in_artifact_reason_passes (test_decisions_hi.ChangeRecord.test_reverified_by_change_id_in_artifact_reason_passes) ... ok
+test_scenario_level_mapping (test_decisions_hi.ChangeRecord.test_scenario_level_mapping) ... ok
+test_superseded_requires_reference (test_decisions_hi.ChangeRecord.test_superseded_requires_reference) ... ok
+test_unknown_batch_scope_is_unknown_finding (test_decisions_hi.ChangeRecord.test_unknown_batch_scope_is_unknown_finding) ... ok
+test_unknown_bom_delta_is_not_checked (test_decisions_hi.ChangeRecord.test_unknown_bom_delta_is_not_checked) ... ok
+test_bad_kind_and_missing_args_exit_two_with_json (test_decisions_hi.CommandLine.test_bad_kind_and_missing_args_exit_two_with_json) ... ok
+test_bad_record_id_exits_two (test_decisions_hi.CommandLine.test_bad_record_id_exits_two) ... ok
+test_examples_exit_zero_and_emit_single_json (test_decisions_hi.CommandLine.test_examples_exit_zero_and_emit_single_json) ... ok
+test_findings_exit_one (test_decisions_hi.CommandLine.test_findings_exit_one) ... ok
+test_invalid_json_exits_two (test_decisions_hi.CommandLine.test_invalid_json_exits_two) ... ok
+test_invalid_valid_until_exits_one (test_decisions_hi.CommandLine.test_invalid_valid_until_exits_one) ... ok
+test_missing_field_exits_two (test_decisions_hi.CommandLine.test_missing_field_exits_two) ... ok
+test_missing_file_exits_two (test_decisions_hi.CommandLine.test_missing_file_exits_two) ... ok
+test_pass_without_evidence_exits_one (test_decisions_hi.CommandLine.test_pass_without_evidence_exits_one) ... ok
+test_stale_graph_exits_one (test_decisions_hi.CommandLine.test_stale_graph_exits_one) ... ok
+test_all_path_anchors_resolve_and_keep_keywords (test_decisions_hi.ContentChecks.test_all_path_anchors_resolve_and_keep_keywords) ... ok
+test_change_example_has_bom_delta_for_each_scenario (test_decisions_hi.ContentChecks.test_change_example_has_bom_delta_for_each_scenario) ... ok
+test_h01_record_id_is_traceable (test_decisions_hi.ContentChecks.test_h01_record_id_is_traceable) ... ok
+test_h01_valid_until_documented (test_decisions_hi.ContentChecks.test_h01_valid_until_documented) ... ok
+test_i01_case_bom_delta_covers_every_scenario (test_decisions_hi.ContentChecks.test_i01_case_bom_delta_covers_every_scenario) ... ok
+test_i01_iso_reference_uses_variant_table (test_decisions_hi.ContentChecks.test_i01_iso_reference_uses_variant_table) ... ok
+test_i01_reference_bom_delta_covers_every_scenario (test_decisions_hi.ContentChecks.test_i01_reference_bom_delta_covers_every_scenario) ... ok
+test_relative_links_point_to_existing_files (test_decisions_hi.ContentChecks.test_relative_links_point_to_existing_files) ... ok
+test_source_ids_are_registered (test_decisions_hi.ContentChecks.test_source_ids_are_registered) ... ok
+test_baseline_node_must_not_change (test_decisions_hi.ImpactGraph.test_baseline_node_must_not_change) ... ok
+test_duplicate_node_is_input_error (test_decisions_hi.ImpactGraph.test_duplicate_node_is_input_error) ... ok
+test_f1_role_must_be_baseline_only (test_decisions_hi.ImpactGraph.test_f1_role_must_be_baseline_only) ... ok
+test_minimal_fixture_passes (test_decisions_hi.ImpactGraph.test_minimal_fixture_passes) ... ok
+test_reverified_node_requires_e1 (test_decisions_hi.ImpactGraph.test_reverified_node_requires_e1) ... ok
+test_revision_verified_requires_reverified_node (test_decisions_hi.ImpactGraph.test_revision_verified_requires_reverified_node) ... ok
+test_stale_downstream_is_blocking (test_decisions_hi.ImpactGraph.test_stale_downstream_is_blocking) ... ok
+test_unknown_edge_node_is_input_error (test_decisions_hi.ImpactGraph.test_unknown_edge_node_is_input_error) ... ok
+test_frontmatter_and_headings (test_decisions_hi.ReferenceDocuments.test_frontmatter_and_headings) ... ok
+test_line_budget (test_decisions_hi.ReferenceDocuments.test_line_budget) ... ok
+test_section9_budget_and_anchors (test_decisions_hi.ReferenceDocuments.test_section9_budget_and_anchors) ... ok
+test_six_core_sections_are_present (test_decisions_hi.ReferenceDocuments.test_six_core_sections_are_present) ... ok
+test_source_table_documents_range_and_reopen_status (test_decisions_hi.ReferenceDocuments.test_source_table_documents_range_and_reopen_status) ... ok
+test_json_assets_parse (test_decisions_hi.TemplatesAndAssets.test_json_assets_parse) ... ok
+test_owned_files_are_utf8_lf_without_todo (test_decisions_hi.TemplatesAndAssets.test_owned_files_are_utf8_lf_without_todo) ... ok
+test_template_headers_and_budgets (test_decisions_hi.TemplatesAndAssets.test_template_headers_and_budgets) ... ok
+test_bq24074_min_typ_max_semantics (test_decisions_index.DecisionsIndex.test_bq24074_min_typ_max_semantics) ... ok
+test_case_count_and_frontmatter (test_decisions_index.DecisionsIndex.test_case_count_and_frontmatter) ... ok
+test_key_assets_are_instantiated (test_decisions_index.DecisionsIndex.test_key_assets_are_instantiated) ... ok
+test_no_todo_or_other_workstream (test_decisions_index.DecisionsIndex.test_no_todo_or_other_workstream) ... ok
+test_no_unmarked_c_numbers (test_decisions_index.DecisionsIndex.test_no_unmarked_c_numbers) ... ok
+test_readme_index_covers_all_assets (test_decisions_index.DecisionsIndex.test_readme_index_covers_all_assets) ... ok
+test_record_type_owners (test_decisions_index.DecisionsIndex.test_record_type_owners) ... ok
+test_reference_count_and_structure (test_decisions_index.DecisionsIndex.test_reference_count_and_structure) ... ok
+test_relative_links_exist (test_decisions_index.DecisionsIndex.test_relative_links_exist) ... ok
+test_scripts_and_tests_exist (test_decisions_index.DecisionsIndex.test_scripts_and_tests_exist) ... ok
+test_skill_route_and_engineering_notes_pointer (test_decisions_index.DecisionsIndex.test_skill_route_and_engineering_notes_pointer) ... ok
+test_source_ids_registered (test_decisions_index.DecisionsIndex.test_source_ids_registered) ... ok
+test_template_count_and_agent_fill_rule (test_decisions_index.DecisionsIndex.test_template_count_and_agent_fill_rule) ... ok
+test_asset_index_every_active_path_exists (test_decisions_jl.DecisionDocuments.test_asset_index_every_active_path_exists) ... ok
+test_cases_have_three_line_summary (test_decisions_jl.DecisionDocuments.test_cases_have_three_line_summary) ... ok
+test_j01_case_section_nine_links_reference_first (test_decisions_jl.DecisionDocuments.test_j01_case_section_nine_links_reference_first) ... ok
+test_j01_case_uses_min_typ_max_not_voltage_steps (test_decisions_jl.DecisionDocuments.test_j01_case_uses_min_typ_max_not_voltage_steps) ... ok
+test_j01_reference_has_ten_contract_groups (test_decisions_jl.DecisionDocuments.test_j01_reference_has_ten_contract_groups) ... ok
+test_l01_case_frontmatter_and_headings (test_decisions_jl.DecisionDocuments.test_l01_case_frontmatter_and_headings) ... ok
+test_l01_reference_uses_merge_target_and_points_to_case (test_decisions_jl.DecisionDocuments.test_l01_reference_uses_merge_target_and_points_to_case) ... ok
+test_section_nine_has_two_existing_paths (test_decisions_jl.DecisionDocuments.test_section_nine_has_two_existing_paths) ... ok
+test_templates_are_agent_forms (test_decisions_jl.DecisionDocuments.test_templates_are_agent_forms) ... ok
+test_complete_conflict_row_passes (test_decisions_jl.IndexCheckerFixtures.test_complete_conflict_row_passes) ... ok
+test_conflict_fields_incomplete_exits_one (test_decisions_jl.IndexCheckerFixtures.test_conflict_fields_incomplete_exits_one) ... ok
+test_contract_ref_must_be_reference (test_decisions_jl.IndexCheckerFixtures.test_contract_ref_must_be_reference) ... ok
+test_dangling_contract_ref_exits_one (test_decisions_jl.IndexCheckerFixtures.test_dangling_contract_ref_exits_one) ... ok
+test_dangling_depends_on_exits_one (test_decisions_jl.IndexCheckerFixtures.test_dangling_depends_on_exits_one) ... ok
+test_duplicate_id_exits_one (test_decisions_jl.IndexCheckerFixtures.test_duplicate_id_exits_one) ... ok
+test_invalid_evidence_and_kind_exit_one (test_decisions_jl.IndexCheckerFixtures.test_invalid_evidence_and_kind_exit_one) ... ok
+test_invalid_status_exits_one (test_decisions_jl.IndexCheckerFixtures.test_invalid_status_exits_one) ... ok
+test_missing_arguments_exits_two_with_json (test_decisions_jl.IndexCheckerFixtures.test_missing_arguments_exits_two_with_json) ... ok
+test_missing_column_exits_one (test_decisions_jl.IndexCheckerFixtures.test_missing_column_exits_one) ... ok
+test_missing_index_file_exits_two (test_decisions_jl.IndexCheckerFixtures.test_missing_index_file_exits_two) ... ok
+test_missing_path_exits_one (test_decisions_jl.IndexCheckerFixtures.test_missing_path_exits_one) ... ok
+test_missing_source_register_exits_two (test_decisions_jl.IndexCheckerFixtures.test_missing_source_register_exits_two) ... ok
+test_no_index_table_exits_two (test_decisions_jl.IndexCheckerFixtures.test_no_index_table_exits_two) ... ok
+test_placeholder_path_requires_planned_or_blocked (test_decisions_jl.IndexCheckerFixtures.test_placeholder_path_requires_planned_or_blocked) ... ok
+test_placeholder_path_with_planned_passes (test_decisions_jl.IndexCheckerFixtures.test_placeholder_path_with_planned_passes) ... ok
+test_row_column_count_exits_one (test_decisions_jl.IndexCheckerFixtures.test_row_column_count_exits_one) ... ok
+test_unregistered_source_exits_one (test_decisions_jl.IndexCheckerFixtures.test_unregistered_source_exits_one) ... ok
+test_valid_index_passes_with_exit_zero (test_decisions_jl.IndexCheckerFixtures.test_valid_index_passes_with_exit_zero) ... ok
+test_case_separates_confirmed_hard_max_from_nominal (test_decisions_jl.ModuleReuseJson.test_case_separates_confirmed_hard_max_from_nominal) ... ok
+test_charger_is_blocked_until_cell_hard_max_confirmed (test_decisions_jl.ModuleReuseJson.test_charger_is_blocked_until_cell_hard_max_confirmed) ... ok
+test_rail_is_accepted_with_conditions (test_decisions_jl.ModuleReuseJson.test_rail_is_accepted_with_conditions) ... ok
+test_sources_are_registered_and_no_hardware_claim (test_decisions_jl.ModuleReuseJson.test_sources_are_registered_and_no_hardware_claim) ... ok
+test_two_blocks_with_ten_groups_each (test_decisions_jl.ModuleReuseJson.test_two_blocks_with_ten_groups_each) ... ok
+test_calculation_files_have_assumptions_and_limits (test_design_content.CalculationsAndProjects.test_calculation_files_have_assumptions_and_limits) ... ok
+test_three_projects_with_completion_level (test_design_content.CalculationsAndProjects.test_three_projects_with_completion_level) ... ok
+test_category_counts_and_total (test_design_content.DesignCards.test_category_counts_and_total) ... ok
+test_each_card_has_frontmatter_and_twelve_sections (test_design_content.DesignCards.test_each_card_has_frontmatter_and_twelve_sections) ... ok
+test_related_checks_are_known_ids (test_design_content.DesignCards.test_related_checks_are_known_ids) ... ok
+test_twelve_examples_with_required_sections (test_design_content.Examples.test_twelve_examples_with_required_sections) ... ok
+test_at_least_twenty_cases_with_evidence_grades (test_design_content.FailureLibrary.test_at_least_twenty_cases_with_evidence_grades) ... ok
+test_module_integration_contract_and_cases (test_design_content.IntegrationAndSimulation.test_module_integration_contract_and_cases) ... ok
+test_simulation_and_measurement_doc (test_design_content.IntegrationAndSimulation.test_simulation_and_measurement_doc) ... ok
+test_manufacturing_routes (test_design_content.SelectionAndManufacturing.test_manufacturing_routes) ... ok
+test_selection_files_and_replacement_classes (test_design_content.SelectionAndManufacturing.test_selection_files_and_replacement_classes) ... ok
+test_every_cited_source_id_is_registered (test_design_content.SourceAndFabricationHygiene.test_every_cited_source_id_is_registered) ... ok
+test_no_obvious_fabricated_c_numbers (test_design_content.SourceAndFabricationHygiene.test_no_obvious_fabricated_c_numbers) ... ok
+test_source_register_is_present (test_design_content.SourceAndFabricationHygiene.test_source_register_is_present) ... ok
+test_active_client_is_evaluated_not_any_installed_client (test_doctor_env.DoctorEnv.test_active_client_is_evaluated_not_any_installed_client) ... ok
+test_client_rows_include_expected_user_and_project_dirs (test_doctor_env.DoctorEnv.test_client_rows_include_expected_user_and_project_dirs) ... ok
+test_installed_skill_is_detected_in_temp_skill_dir (test_doctor_env.DoctorEnv.test_installed_skill_is_detected_in_temp_skill_dir) ... ok
+test_repo_skill_detection (test_doctor_env.DoctorEnv.test_repo_skill_detection) ... ok
+test_summary_never_claims_writability (test_doctor_env.DoctorEnv.test_summary_never_claims_writability) ... ok
+test_timeout_is_forwarded_to_eda_probe (test_doctor_env.DoctorEnv.test_timeout_is_forwarded_to_eda_probe) ... ok
+test_version_mismatch_and_unreadable_project_are_not_ok (test_doctor_env.DoctorEnv.test_version_mismatch_and_unreadable_project_are_not_ok) ... ok
+test_create_then_verify_then_save (test_eda_exec.CommandFlow.test_create_then_verify_then_save) ... ok
+test_drc_result_is_returned_without_claiming_success (test_eda_exec.CommandFlow.test_drc_result_is_returned_without_claiming_success) ... ok
+test_dry_run_sends_no_write (test_eda_exec.CommandFlow.test_dry_run_sends_no_write) ... ok
+test_save_failure_is_not_reported_as_success (test_eda_exec.CommandFlow.test_save_failure_is_not_reported_as_success) ... ok
+test_verification_failure_does_not_save (test_eda_exec.CommandFlow.test_verification_failure_does_not_save) ... ok
+test_delete_is_verified_by_absence (test_eda_exec.DeletePrimitive.test_delete_is_verified_by_absence) ... ok
+test_delete_part_compares_component_name (test_eda_exec.DeletePrimitive.test_delete_part_compares_component_name) ... ok
+test_delete_requires_identity_expected (test_eda_exec.DeletePrimitive.test_delete_requires_identity_expected) ... ok
+test_delete_target_must_exist_and_match_expected (test_eda_exec.DeletePrimitive.test_delete_target_must_exist_and_match_expected) ... ok
+test_validate_delete_requires_kind_and_primitive_id (test_eda_exec.DeletePrimitive.test_validate_delete_requires_kind_and_primitive_id) ... ok
+test_create_over_existing_designator_with_other_unique_id_is_identity_mismatch (test_eda_exec.DesignatorUniqueness.test_create_over_existing_designator_with_other_unique_id_is_identity_mismatch) ... ok
+test_plan_rejects_two_parts_with_the_same_designator (test_eda_exec.DesignatorUniqueness.test_plan_rejects_two_parts_with_the_same_designator) ... ok
+test_project_level_designator_collision_is_a_conflict (test_eda_exec.DesignatorUniqueness.test_project_level_designator_collision_is_a_conflict) ... ok
+test_rename_onto_existing_designator_is_a_conflict (test_eda_exec.DesignatorUniqueness.test_rename_onto_existing_designator_is_a_conflict) ... ok
+test_net_flag_type_is_verified_on_readback (test_eda_exec.NetMarkerVerification.test_net_flag_type_is_verified_on_readback) ... ok
+test_net_flag_type_mismatch_is_a_conflict (test_eda_exec.NetMarkerVerification.test_net_flag_type_mismatch_is_a_conflict) ... ok
+test_net_port_direction_mismatch_is_a_conflict (test_eda_exec.NetMarkerVerification.test_net_port_direction_mismatch_is_a_conflict) ... ok
+test_log_json_is_not_a_command_payload (test_eda_exec.OutputParsing.test_log_json_is_not_a_command_payload) ... ok
+test_missing_snapshot_file_is_invalid_input (test_eda_exec.OutputParsing.test_missing_snapshot_file_is_invalid_input) ... ok
+test_minimal_plan_is_valid (test_eda_exec.PlanValidation.test_minimal_plan_is_valid) ... ok
+test_rejects_unknown_fields_duplicate_keys_and_bad_types (test_eda_exec.PlanValidation.test_rejects_unknown_fields_duplicate_keys_and_bad_types) ... ok
+test_requires_stable_identity_for_part_updates (test_eda_exec.PlanValidation.test_requires_stable_identity_for_part_updates) ... ok
+test_wire_accepts_flat_and_segment_forms (test_eda_exec.PlanValidation.test_wire_accepts_flat_and_segment_forms) ... ok
+test_create_requires_designator_and_part (test_eda_exec.Reconciliation.test_create_requires_designator_and_part) ... ok
+test_diagonal_wire_is_rejected (test_eda_exec.Reconciliation.test_diagonal_wire_is_rejected) ... ok
+test_identity_change_is_a_conflict_without_write (test_eda_exec.Reconciliation.test_identity_change_is_a_conflict_without_write) ... ok
+test_matching_plan_is_idempotent (test_eda_exec.Reconciliation.test_matching_plan_is_idempotent) ... ok
+test_missing_wire_is_created_with_flat_path (test_eda_exec.Reconciliation.test_missing_wire_is_created_with_flat_path) ... ok
+test_moved_part_becomes_modify_not_recreate (test_eda_exec.Reconciliation.test_moved_part_becomes_modify_not_recreate) ... ok
+test_net_flag_is_idempotent_per_position_not_per_net (test_eda_exec.Reconciliation.test_net_flag_is_idempotent_per_position_not_per_net) ... ok
+test_segment_owned_by_another_net_is_a_conflict (test_eda_exec.Reconciliation.test_segment_owned_by_another_net_is_a_conflict) ... ok
+test_wire_is_reconciled_as_missing_segments (test_eda_exec.Reconciliation.test_wire_is_reconciled_as_missing_segments) ... ok
+test_delete_precondition_derives_port_direction_and_flag_type (test_eda_exec.ReopenComparisonCoverage.test_delete_precondition_derives_port_direction_and_flag_type) ... ok
+test_diagonal_wire_removal_is_a_mismatch (test_eda_exec.ReopenComparisonCoverage.test_diagonal_wire_removal_is_a_mismatch) ... ok
+test_duplicate_designator_collapse_is_a_mismatch (test_eda_exec.ReopenComparisonCoverage.test_duplicate_designator_collapse_is_a_mismatch) ... ok
+test_mirror_flip_is_a_mismatch (test_eda_exec.ReopenComparisonCoverage.test_mirror_flip_is_a_mismatch) ... ok
+test_missing_netport_is_a_mismatch (test_eda_exec.ReopenComparisonCoverage.test_missing_netport_is_a_mismatch) ... ok
+test_page_identity_mismatch_is_not_a_match (test_eda_exec.ReopenComparisonCoverage.test_page_identity_mismatch_is_not_a_match) ... ok
+test_position_tolerance_matches_apply_verifier (test_eda_exec.ReopenComparisonCoverage.test_position_tolerance_matches_apply_verifier) ... ok
+test_symbol_binding_and_properties_are_compared (test_eda_exec.ReopenComparisonCoverage.test_symbol_binding_and_properties_are_compared) ... ok
+test_zero_length_wire_is_editor_normalization (test_eda_exec.ReopenComparisonCoverage.test_zero_length_wire_is_editor_normalization) ... ok
+test_zero_length_wire_net_change_is_not_a_match (test_eda_exec.ReopenComparisonCoverage.test_zero_length_wire_net_change_is_not_a_match) ... ok
+test_zero_length_wire_removal_is_not_a_match (test_eda_exec.ReopenComparisonCoverage.test_zero_length_wire_removal_is_not_a_match) ... ok
+test_find_cli_honors_explicit_file (test_eda_exec.SessionSafety.test_find_cli_honors_explicit_file) ... ok
+test_refuses_to_close_user_session (test_eda_exec.SessionSafety.test_refuses_to_close_user_session) ... ok
+test_refuses_to_close_unknown_origin (test_eda_exec.SessionSafetyExtended.test_refuses_to_close_unknown_origin) ... ok
+test_refuses_unknown_origin (test_eda_exec.SessionSafetyExtended.test_refuses_unknown_origin) ... ok
+test_refuses_user_session_for_write (test_eda_exec.SessionSafetyExtended.test_refuses_user_session_for_write) ... ok
+test_primitive_ids_are_ignored_but_geometry_is_not (test_eda_exec.SnapshotComparison.test_primitive_ids_are_ignored_but_geometry_is_not) ... ok
+test_wire_and_flag_changes_are_reported (test_eda_exec.SnapshotComparison.test_wire_and_flag_changes_are_reported) ... ok
+test_missing_integrity_block_is_incomplete (test_eda_exec.SnapshotIntegrity.test_missing_integrity_block_is_incomplete) ... ok
+test_null_designator_is_a_conflict_not_a_create (test_eda_exec.SnapshotIntegrity.test_null_designator_is_a_conflict_not_a_create) ... ok
+test_read_errors_make_snapshot_incomplete (test_eda_exec.SnapshotIntegrity.test_read_errors_make_snapshot_incomplete) ... ok
+test_current_page_selection_never_falls_back_to_first_page (test_eda_exec.SnapshotScriptRegressions.test_current_page_selection_never_falls_back_to_first_page) ... ok
+test_large_pin_budget_can_mark_snapshot_incomplete (test_eda_exec.SnapshotScriptRegressions.test_large_pin_budget_can_mark_snapshot_incomplete) ... ok
+test_auto_numbered_create_is_designator_not_applied (test_eda_exec.VerificationCoverage.test_auto_numbered_create_is_designator_not_applied) ... ok
+test_create_bom_flag_must_be_read_back (test_eda_exec.VerificationCoverage.test_create_bom_flag_must_be_read_back) ... ok
+test_designator_change_must_be_read_back (test_eda_exec.VerificationCoverage.test_designator_change_must_be_read_back) ... ok
+test_manufacturer_change_must_be_read_back (test_eda_exec.VerificationCoverage.test_manufacturer_change_must_be_read_back) ... ok
+test_membership_change_on_existing_part_is_unsupported_not_silent (test_eda_exec.VerificationCoverage.test_membership_change_on_existing_part_is_unsupported_not_silent) ... ok
+test_import_materialized_is_ok (test_eda_exec_pcb.PcbBuildFlow.test_import_materialized_is_ok) ... ok
+test_import_no_effect_is_review_not_success (test_eda_exec_pcb.PcbBuildFlow.test_import_no_effect_is_review_not_success) ... ok
+test_layout_nothing_returned_is_review (test_eda_exec_pcb.PcbBuildFlow.test_layout_nothing_returned_is_review) ... ok
+test_layout_result_is_reported (test_eda_exec_pcb.PcbBuildFlow.test_layout_result_is_reported) ... ok
+test_outline_ok (test_eda_exec_pcb.PcbBuildFlow.test_outline_ok) ... ok
+test_outline_without_components_is_review (test_eda_exec_pcb.PcbBuildFlow.test_outline_without_components_is_review) ... ok
+test_route_failure_is_review (test_eda_exec_pcb.PcbBuildFlow.test_route_failure_is_review) ... ok
+test_route_reports_failed_nets (test_eda_exec_pcb.PcbBuildFlow.test_route_reports_failed_nets) ... ok
+test_route_save_not_confirmed_is_review (test_eda_exec_pcb.PcbBuildFlow.test_route_save_not_confirmed_is_review) ... ok
+test_ambiguous_pcb_name_is_rejected (test_eda_exec_pcb.PcbCommandFlow.test_ambiguous_pcb_name_is_rejected) ... ok
+test_apply_create_verify_save (test_eda_exec_pcb.PcbCommandFlow.test_apply_create_verify_save) ... ok
+test_apply_dry_run_sends_no_write (test_eda_exec_pcb.PcbCommandFlow.test_apply_dry_run_sends_no_write) ... ok
+test_conflicts_block_without_allow_partial (test_eda_exec_pcb.PcbCommandFlow.test_conflicts_block_without_allow_partial) ... ok
+test_incomplete_snapshot_refuses_write (test_eda_exec_pcb.PcbCommandFlow.test_incomplete_snapshot_refuses_write) ... ok
+test_no_actions_is_no_changes (test_eda_exec_pcb.PcbCommandFlow.test_no_actions_is_no_changes) ... ok
+test_pcb_doctor_reports_capability_without_writing (test_eda_exec_pcb.PcbCommandFlow.test_pcb_doctor_reports_capability_without_writing) ... ok
+test_pcb_drc_nothing_returned_is_review (test_eda_exec_pcb.PcbCommandFlow.test_pcb_drc_nothing_returned_is_review) ... ok
+test_pcb_drc_returns_raw_without_claiming_success (test_eda_exec_pcb.PcbCommandFlow.test_pcb_drc_returns_raw_without_claiming_success) ... ok
+test_pcb_export_captures_raw_verbatim (test_eda_exec_pcb.PcbCommandFlow.test_pcb_export_captures_raw_verbatim) ... ok
+test_pcb_export_copies_a_returned_file_path (test_eda_exec_pcb.PcbCommandFlow.test_pcb_export_copies_a_returned_file_path) ... ok
+test_pcb_export_nothing_returned_is_review (test_eda_exec_pcb.PcbCommandFlow.test_pcb_export_nothing_returned_is_review) ... ok
+test_pcb_identity_change_blocks_verification (test_eda_exec_pcb.PcbCommandFlow.test_pcb_identity_change_blocks_verification) ... ok
+test_pcb_read_returns_snapshot_with_integrity (test_eda_exec_pcb.PcbCommandFlow.test_pcb_read_returns_snapshot_with_integrity) ... ok
+test_pcb_reopen_check_compares_across_close_reopen (test_eda_exec_pcb.PcbCommandFlow.test_pcb_reopen_check_compares_across_close_reopen) ... ok
+test_pcb_save_confirmation (test_eda_exec_pcb.PcbCommandFlow.test_pcb_save_confirmation) ... ok
+test_save_not_confirmed_is_reported (test_eda_exec_pcb.PcbCommandFlow.test_save_not_confirmed_is_reported) ... ok
+test_timeout_reports_partial_unknown (test_eda_exec_pcb.PcbCommandFlow.test_timeout_reports_partial_unknown) ... ok
+test_verification_conflict_does_not_save (test_eda_exec_pcb.PcbCommandFlow.test_verification_conflict_does_not_save) ... ok
+test_line_endpoint_change_is_a_diff (test_eda_exec_pcb.PcbDeepComparison.test_line_endpoint_change_is_a_diff) ... ok
+test_line_net_and_width_changes_are_diffs (test_eda_exec_pcb.PcbDeepComparison.test_line_net_and_width_changes_are_diffs) ... ok
+test_moved_component_is_a_diff (test_eda_exec_pcb.PcbDeepComparison.test_moved_component_is_a_diff) ... ok
+test_net_length_change_is_a_diff (test_eda_exec_pcb.PcbDeepComparison.test_net_length_change_is_a_diff) ... ok
+test_rotated_component_is_a_diff (test_eda_exec_pcb.PcbDeepComparison.test_rotated_component_is_a_diff) ... ok
+test_unreadable_geometry_marks_comparison_incomplete (test_eda_exec_pcb.PcbDeepComparison.test_unreadable_geometry_marks_comparison_incomplete) ... ok
+test_via_and_pour_fields_are_compared (test_eda_exec_pcb.PcbDeepComparison.test_via_and_pour_fields_are_compared) ... ok
+test_missing_section_blocks_integrity (test_eda_exec_pcb.PcbIntegrityCoverage.test_missing_section_blocks_integrity) ... ok
+test_nets_truncation_blocks_integrity (test_eda_exec_pcb.PcbIntegrityCoverage.test_nets_truncation_blocks_integrity) ... ok
+test_row_budget_mismatch_blocks_integrity (test_eda_exec_pcb.PcbIntegrityCoverage.test_row_budget_mismatch_blocks_integrity) ... ok
+test_truncated_component_list_blocks_integrity (test_eda_exec_pcb.PcbIntegrityCoverage.test_truncated_component_list_blocks_integrity) ... ok
+test_duplicate_keys_and_bounds (test_eda_exec_pcb.PcbPlanValidation.test_duplicate_keys_and_bounds) ... ok
+test_layer_rules (test_eda_exec_pcb.PcbPlanValidation.test_layer_rules) ... ok
+test_minimal_plan_is_valid (test_eda_exec_pcb.PcbPlanValidation.test_minimal_plan_is_valid) ... ok
+test_rejects_bad_coordinates_and_non_positive_sizes (test_eda_exec_pcb.PcbPlanValidation.test_rejects_bad_coordinates_and_non_positive_sizes) ... ok
+test_rejects_unknown_item_and_expected_fields (test_eda_exec_pcb.PcbPlanValidation.test_rejects_unknown_item_and_expected_fields) ... ok
+test_rejects_unknown_op_and_missing_fields (test_eda_exec_pcb.PcbPlanValidation.test_rejects_unknown_op_and_missing_fields) ... ok
+test_rejects_unknown_top_level_fields_and_version (test_eda_exec_pcb.PcbPlanValidation.test_rejects_unknown_top_level_fields_and_version) ... ok
+test_components_always_create (test_eda_exec_pcb.PcbReconciliation.test_components_always_create) ... ok
+test_flipped_line_is_already_present (test_eda_exec_pcb.PcbReconciliation.test_flipped_line_is_already_present) ... ok
+test_identical_line_is_already_present (test_eda_exec_pcb.PcbReconciliation.test_identical_line_is_already_present) ... ok
+test_line_dedup_is_uncertain_when_endpoints_unreadable (test_eda_exec_pcb.PcbReconciliation.test_line_dedup_is_uncertain_when_endpoints_unreadable) ... ok
+test_new_line_becomes_create (test_eda_exec_pcb.PcbReconciliation.test_new_line_becomes_create) ... ok
+test_pcb_uuid_pin_mismatch_is_a_conflict (test_eda_exec_pcb.PcbReconciliation.test_pcb_uuid_pin_mismatch_is_a_conflict) ... ok
+test_unknown_net_is_a_conflict_without_write (test_eda_exec_pcb.PcbReconciliation.test_unknown_net_is_a_conflict_without_write) ... ok
+test_via_and_pour_dedup (test_eda_exec_pcb.PcbReconciliation.test_via_and_pour_dedup) ... ok
+test_count_and_primitive_and_net_changes_are_diffs (test_eda_exec_pcb.PcbSnapshotComparison.test_count_and_primitive_and_net_changes_are_diffs) ... ok
+test_identical_snapshots_match (test_eda_exec_pcb.PcbSnapshotComparison.test_identical_snapshots_match) ... ok
+test_pcb_identity_change_is_a_diff (test_eda_exec_pcb.PcbSnapshotComparison.test_pcb_identity_change_is_a_diff) ... ok
+test_complete_snapshot (test_eda_exec_pcb.PcbSnapshotIntegrity.test_complete_snapshot) ... ok
+test_field_notes_do_not_block_writes (test_eda_exec_pcb.PcbSnapshotIntegrity.test_field_notes_do_not_block_writes) ... ok
+test_invalid_envelope (test_eda_exec_pcb.PcbSnapshotIntegrity.test_invalid_envelope) ... ok
+test_missing_count_blocks_writes (test_eda_exec_pcb.PcbSnapshotIntegrity.test_missing_count_blocks_writes) ... ok
+test_read_errors_mark_incomplete (test_eda_exec_pcb.PcbSnapshotIntegrity.test_read_errors_mark_incomplete) ... ok
+test_apply_template_counts_poured_fills (test_eda_exec_pcb.PcbTemplateGuards.test_apply_template_counts_poured_fills) ... ok
+test_pcb_selection_requires_activation_confirmation (test_eda_exec_pcb.PcbTemplateGuards.test_pcb_selection_requires_activation_confirmation) ... ok
+test_snapshot_separates_pour_outline_and_fill_counts (test_eda_exec_pcb.PcbTemplateGuards.test_snapshot_separates_pour_outline_and_fill_counts) ... ok
+test_templates_never_call_ordering_methods (test_eda_exec_pcb.PcbTemplateGuards.test_templates_never_call_ordering_methods) ... ok
+test_create_failure_and_missing_row_are_conflicts (test_eda_exec_pcb.PcbVerification.test_create_failure_and_missing_row_are_conflicts) ... ok
+test_created_object_missing_from_readback_fails (test_eda_exec_pcb.PcbVerification.test_created_object_missing_from_readback_fails) ... ok
+test_expected_mismatch_is_a_conflict (test_eda_exec_pcb.PcbVerification.test_expected_mismatch_is_a_conflict) ... ok
+test_matching_expected_verifies (test_eda_exec_pcb.PcbVerification.test_matching_expected_verifies) ... ok
+test_poured_delta_reports_fill_recomputed (test_eda_exec_pcb.PcbVerification.test_poured_delta_reports_fill_recomputed) ... ok
+test_skipped_items_are_not_verified (test_eda_exec_pcb.PcbVerification.test_skipped_items_are_not_verified) ... ok
+test_unreadable_readback_fields_are_not_a_pass (test_eda_exec_pcb.PcbVerification.test_unreadable_readback_fields_are_not_a_pass) ... ok
+test_identical_texts_match (test_eda_exec_text.SnapshotCompareTexts.test_identical_texts_match) ... ok
+test_text_changes_break_reopen_match (test_eda_exec_text.SnapshotCompareTexts.test_text_changes_break_reopen_match) ... ok
+test_text_apply_verifies_and_saves (test_eda_exec_text.TextCommandFlow.test_text_apply_verifies_and_saves) ... ok
+test_already_at_target_is_skipped (test_eda_exec_text.TextModifyReconciliation.test_already_at_target_is_skipped) ... ok
+test_missing_or_drifted_target_is_a_conflict (test_eda_exec_text.TextModifyReconciliation.test_missing_or_drifted_target_is_a_conflict) ... ok
+test_modify_is_planned_when_position_differs (test_eda_exec_text.TextModifyReconciliation.test_modify_is_planned_when_position_differs) ... ok
+test_modify_requires_expected_content (test_eda_exec_text.TextModifyReconciliation.test_modify_requires_expected_content) ... ok
+test_modify_verified_by_readback (test_eda_exec_text.TextModifyReconciliation.test_modify_verified_by_readback) ... ok
+test_minimal_text_op_is_valid (test_eda_exec_text.TextPlanValidation.test_minimal_text_op_is_valid) ... ok
+test_rejects_bad_at_content_rotation_size (test_eda_exec_text.TextPlanValidation.test_rejects_bad_at_content_rotation_size) ... ok
+test_geometry_mismatch_is_a_conflict (test_eda_exec_text.TextReconciliation.test_geometry_mismatch_is_a_conflict) ... ok
+test_matching_text_is_already_present (test_eda_exec_text.TextReconciliation.test_matching_text_is_already_present) ... ok
+test_missing_text_creates (test_eda_exec_text.TextReconciliation.test_missing_text_creates) ... ok
+test_unreadable_texts_create_with_reason (test_eda_exec_text.TextReconciliation.test_unreadable_texts_create_with_reason) ... ok
+test_apply_template_creates_text_through_typed_api (test_eda_exec_text.TextTemplateGuards.test_apply_template_creates_text_through_typed_api) ... ok
+test_snapshot_reads_texts_or_marks_unavailable (test_eda_exec_text.TextTemplateGuards.test_snapshot_reads_texts_or_marks_unavailable) ... ok
+test_font_size_mismatch_fails (test_eda_exec_text.TextVerification.test_font_size_mismatch_fails) ... ok
+test_missing_text_fails (test_eda_exec_text.TextVerification.test_missing_text_fails) ... ok
+test_verified_by_readback (test_eda_exec_text.TextVerification.test_verified_by_readback) ... ok
+test_all_pass (test_gate_check.FullPassFixture.test_all_pass) ... ok
+test_invalid_schema_raises (test_gate_check.FullPassFixture.test_invalid_schema_raises) ... ok
+test_missing_state_blocks (test_gate_check.FullPassFixture.test_missing_state_blocks) ... ok
+test_strict_advisory_promotes_assumed (test_gate_check.FullPassFixture.test_strict_advisory_promotes_assumed) ... ok
+test_truncated_pcb_drc_blocks_without_crash (test_gate_check.FullPassFixture.test_truncated_pcb_drc_blocks_without_crash) ... ok
+test_unused_waiver_is_marked (test_gate_check.FullPassFixture.test_unused_waiver_is_marked) ... ok
+test_utf16_bom (test_gate_check.FullPassFixture.test_utf16_bom) ... ok
+test_board_summary (test_gate_check.ParserTests.test_board_summary) ... ok
+test_bom_counts (test_gate_check.ParserTests.test_bom_counts) ... ok
+test_layout_lint_rejects_schematic_format (test_gate_check.ParserTests.test_layout_lint_rejects_schematic_format) ... ok
+test_pcb_drc_counts (test_gate_check.ParserTests.test_pcb_drc_counts) ... ok
+test_pcb_layout_lint_text (test_gate_check.ParserTests.test_pcb_layout_lint_text) ... ok
+test_project_export_restore_false (test_gate_check.ParserTests.test_project_export_restore_false) ... ok
+test_sch_check_text_counts_five_peripheral (test_gate_check.ParserTests.test_sch_check_text_counts_five_peripheral) ... ok
+test_sch_drc_text_zero (test_gate_check.ParserTests.test_sch_drc_text_zero) ... ok
+test_vias_stale_risk (test_gate_check.ParserTests.test_vias_stale_risk) ... ok
+test_case_unsupported_capabilities_listed (test_gate_check.RegressionCase.test_case_unsupported_capabilities_listed) ... ok
+test_case_waiver_is_used (test_gate_check.RegressionCase.test_case_waiver_is_used) ... ok
+test_cli_exit_1 (test_gate_check.RegressionCase.test_cli_exit_1) ... ok
+test_expected_statuses (test_gate_check.RegressionCase.test_expected_statuses) ... ok
+test_invalid_json_exits_2 (test_layout_from_snapshot.LayoutFromSnapshot.test_invalid_json_exits_2) ... C:\Users\jlc\work\hds-round6\design-hardware\scripts\layout_from_snapshot.py:26: ResourceWarning: unclosed file <_io.TextIOWrapper name='C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn3opgt_q\\bad.json' mode='r' encoding='utf-8'>
+  return 2
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_maps_wires_attachments_labels_and_page (test_layout_from_snapshot.LayoutFromSnapshot.test_maps_wires_attachments_labels_and_page) ... C:\Users\jlc\work\hds-round6\design-hardware\scripts\layout_from_snapshot.py:23: ResourceWarning: unclosed file <_io.TextIOWrapper name='C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpbfzr7hsx\\snap.json' mode='r' encoding='utf-8'>
+  data = json.load(open(args.snapshot, encoding='utf-8'))
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_adc_second_order_early_time (test_merge_regressions.IndependentRegression.test_adc_second_order_early_time) ... ok
+test_boost_has_no_stepdown_authority (test_merge_regressions.IndependentRegression.test_boost_has_no_stepdown_authority) ... ok
+test_boost_ripple_vertex (test_merge_regressions.IndependentRegression.test_boost_ripple_vertex) ... ok
+test_buck_reconstructs_requested_ripple (test_merge_regressions.IndependentRegression.test_buck_reconstructs_requested_ripple) ... ok
+test_buck_rms_interior_extremum (test_merge_regressions.IndependentRegression.test_buck_rms_interior_extremum) ... ok
+test_led_electrical_inverse_is_consistent (test_merge_regressions.IndependentRegression.test_led_electrical_inverse_is_consistent) ... ok
+test_led_shared_sink_per_package_junction (test_merge_regressions.IndependentRegression.test_led_shared_sink_per_package_junction) ... ok
+test_mosfet_no_edges_no_gate_switching_energy (test_merge_regressions.IndependentRegression.test_mosfet_no_edges_no_gate_switching_energy) ... ok
+test_rc_exact_endpoint_and_event (test_merge_regressions.IndependentRegression.test_rc_exact_endpoint_and_event) ... ok
+test_rc_reference_must_be_positive (test_merge_regressions.IndependentRegression.test_rc_reference_must_be_positive) ... ok
+test_sense_tolerances_can_clip (test_merge_regressions.IndependentRegression.test_sense_tolerances_can_clip) ... ok
+test_component_added_is_a_difference (test_netlist_diff.Comparison.test_component_added_is_a_difference) ... ok
+test_component_field_change_is_a_difference (test_netlist_diff.Comparison.test_component_field_change_is_a_difference) ... ok
+test_identical_netlists_match (test_netlist_diff.Comparison.test_identical_netlists_match) ... ok
+test_net_rename_is_blocking_by_default (test_netlist_diff.Comparison.test_net_rename_is_blocking_by_default) ... ok
+test_pin_moved_to_another_net_is_a_difference (test_netlist_diff.Comparison.test_pin_moved_to_another_net_is_a_difference) ... ok
+test_duplicate_designator_is_invalid (test_netlist_diff.Parsing.test_duplicate_designator_is_invalid) ... ok
+test_duplicate_net_name_is_invalid (test_netlist_diff.Parsing.test_duplicate_net_name_is_invalid) ... ok
+test_empty_and_plain_text_are_invalid (test_netlist_diff.Parsing.test_empty_and_plain_text_are_invalid) ... ok
+test_missing_required_component_fields_are_invalid (test_netlist_diff.Parsing.test_missing_required_component_fields_are_invalid) ... ok
+test_parses_components_and_nets (test_netlist_diff.Parsing.test_parses_components_and_nets) ... ok
+test_pin_on_two_nets_is_invalid (test_netlist_diff.Parsing.test_pin_on_two_nets_is_invalid) ... ok
+test_truncated_blocks_are_invalid (test_netlist_diff.Parsing.test_truncated_blocks_are_invalid) ... ok
+test_unknown_component_in_net_is_invalid (test_netlist_diff.Parsing.test_unknown_component_in_net_is_invalid) ... ok
+test_cli_exit_codes (test_netlist_diff.RealFixture.test_cli_exit_codes) ... ok
+test_f1_netlist_parses (test_netlist_diff.RealFixture.test_f1_netlist_parses) ... ok
+test_bad_bits_and_zero_resistance (test_new_calculations.AdcSettling.test_bad_bits_and_zero_resistance) ... ok
+test_insufficient_settling_is_not_a_pass (test_new_calculations.AdcSettling.test_insufficient_settling_is_not_a_pass) ... ok
+test_settled_and_required_tau (test_new_calculations.AdcSettling.test_settled_and_required_tau) ... ok
+test_boost_infeasible_when_input_above_output (test_new_calculations.BuckBoost.test_boost_infeasible_when_input_above_output) ... ok
+test_boost_nominal (test_new_calculations.BuckBoost.test_boost_nominal) ... ok
+test_buck_boost_reject_bad_ratio_and_efficiency (test_new_calculations.BuckBoost.test_buck_boost_reject_bad_ratio_and_efficiency) ... ok
+test_buck_infeasible_when_input_below_output (test_new_calculations.BuckBoost.test_buck_infeasible_when_input_below_output) ... ok
+test_buck_nominal (test_new_calculations.BuckBoost.test_buck_nominal) ... ok
+test_bad_adc_bits (test_new_calculations.CurrentSense.test_bad_adc_bits) ... ok
+test_error_budget (test_new_calculations.CurrentSense.test_error_budget) ... ok
+test_scaling_failure_is_infeasible (test_new_calculations.CurrentSense.test_scaling_failure_is_infeasible) ... ok
+test_exit_codes_and_json (test_new_calculations.NewCli.test_exit_codes_and_json) ... ok
+test_resistance_and_density (test_new_calculations.WireDrop.test_resistance_and_density) ... ok
+test_temperature_and_zero_width (test_new_calculations.WireDrop.test_temperature_and_zero_width) ... ok
+test_user_limit_can_pass (test_new_calculations.WireDrop.test_user_limit_can_pass) ... ok
+test_all_day_active_has_no_sleep_charge (test_offline_tools.BatteryBudget.test_all_day_active_has_no_sleep_charge) ... ok
+test_independent_daily_charge (test_offline_tools.BatteryBudget.test_independent_daily_charge) ... ok
+test_reject_overlapping_daily_time (test_offline_tools.BatteryBudget.test_reject_overlapping_daily_time) ... ok
+test_require_current_basis_and_sleep (test_offline_tools.BatteryBudget.test_require_current_basis_and_sleep) ... ok
+test_state_input_and_duplicate_names (test_offline_tools.BatteryBudget.test_state_input_and_duplicate_names) ... ok
+test_target_and_explicit_usable_capacity (test_offline_tools.BatteryBudget.test_target_and_explicit_usable_capacity) ... ok
+test_types_nonfinite_and_unknown_fields (test_offline_tools.BatteryBudget.test_types_nonfinite_and_unknown_fields) ... ok
+test_zero_model_never_passes_lifetime (test_offline_tools.BatteryBudget.test_zero_model_never_passes_lifetime) ... ok
+test_bad_shapes_types_and_ids (test_offline_tools.GeometryReview.test_bad_shapes_types_and_ids) ... ok
+test_body_crossing_and_edge_tangency (test_offline_tools.GeometryReview.test_body_crossing_and_edge_tangency) ... ok
+test_clear_snapshot_is_not_electrical_or_visual_pass (test_offline_tools.GeometryReview.test_clear_snapshot_is_not_electrical_or_visual_pass) ... ok
+test_connection_checks_skipped_without_tolerance (test_offline_tools.GeometryReview.test_connection_checks_skipped_without_tolerance) ... ok
+test_dangling_endpoint_and_pin_multiple_nets (test_offline_tools.GeometryReview.test_dangling_endpoint_and_pin_multiple_nets) ... ok
+test_different_net_crossing_is_only_candidate (test_offline_tools.GeometryReview.test_different_net_crossing_is_only_candidate) ... ok
+test_invalid_optional_fields (test_offline_tools.GeometryReview.test_invalid_optional_fields) ... ok
+test_inventory_mismatch (test_offline_tools.GeometryReview.test_inventory_mismatch) ... ok
+test_label_anchor_connection_and_mismatch (test_offline_tools.GeometryReview.test_label_anchor_connection_and_mismatch) ... ok
+test_label_full_extent_even_when_anchor_would_be_outside (test_offline_tools.GeometryReview.test_label_full_extent_even_when_anchor_would_be_outside) ... ok
+test_missing_inventory_and_empty_remain_incomplete (test_offline_tools.GeometryReview.test_missing_inventory_and_empty_remain_incomplete) ... ok
+test_page_bounds_and_explicit_long_wire_policy (test_offline_tools.GeometryReview.test_page_bounds_and_explicit_long_wire_policy) ... ok
+test_small_body_not_hidden_by_grid_margin (test_offline_tools.GeometryReview.test_small_body_not_hidden_by_grid_margin) ... ok
+test_title_block_frames_and_membership (test_offline_tools.GeometryReview.test_title_block_frames_and_membership) ... ok
+test_wire_crosses_text (test_offline_tools.GeometryReview.test_wire_crosses_text) ... ok
+test_cli_codes_and_json (test_offline_tools.OfflineCli.test_cli_codes_and_json) ... ok
+test_distributed_examples_run (test_offline_tools.OfflineCli.test_distributed_examples_run) ... ok
+test_duplicate_keys_and_nonfinite_json_rejected (test_offline_tools.OfflineCli.test_duplicate_keys_and_nonfinite_json_rejected) ... ok
+test_pin_ref_ignored_without_pinmap (test_pinmap.PinmapBackwardCompatibility.test_pin_ref_ignored_without_pinmap) ... ok
+test_plan_without_pinmap_output_unchanged (test_pinmap.PinmapBackwardCompatibility.test_plan_without_pinmap_output_unchanged) ... ok
+test_example_has_nc_and_power_rows (test_pinmap.PinmapExampleAsset.test_example_has_nc_and_power_rows) ... ok
+test_example_is_marked_unverified (test_pinmap.PinmapExampleAsset.test_example_is_marked_unverified) ... ok
+test_example_rows_pass_in_a_matching_plan (test_pinmap.PinmapExampleAsset.test_example_rows_pass_in_a_matching_plan) ... ok
+test_duplicate_datasheet_pin (test_pinmap.PinmapFindings.test_duplicate_datasheet_pin) ... ok
+test_duplicate_footprint_pad (test_pinmap.PinmapFindings.test_duplicate_footprint_pad) ... ok
+test_duplicate_row_is_a_warning (test_pinmap.PinmapFindings.test_duplicate_row_is_a_warning) ... ok
+test_duplicate_symbol_pin (test_pinmap.PinmapFindings.test_duplicate_symbol_pin) ... ok
+test_missing_field (test_pinmap.PinmapFindings.test_missing_field) ... ok
+test_missing_net_and_nc (test_pinmap.PinmapFindings.test_missing_net_and_nc) ... ok
+test_net_nc_conflict (test_pinmap.PinmapFindings.test_net_nc_conflict) ... ok
+test_unknown_pin (test_pinmap.PinmapFindings.test_unknown_pin) ... ok
+test_unknown_ref (test_pinmap.PinmapFindings.test_unknown_ref) ... ok
+test_unknown_ref_reported_once_for_multiple_rows (test_pinmap.PinmapFindings.test_unknown_ref_reported_once_for_multiple_rows) ... ok
+test_mcu_ref_blank (test_pinmap.PinmapInvalidInput.test_mcu_ref_blank) ... ok
+test_nc_not_boolean (test_pinmap.PinmapInvalidInput.test_nc_not_boolean) ... ok
+test_net_not_string (test_pinmap.PinmapInvalidInput.test_net_not_string) ... ok
+test_notes_not_string (test_pinmap.PinmapInvalidInput.test_notes_not_string) ... ok
+test_pin_ref_blank (test_pinmap.PinmapInvalidInput.test_pin_ref_blank) ... ok
+test_pinmap_not_array (test_pinmap.PinmapInvalidInput.test_pinmap_not_array) ... ok
+test_row_not_object (test_pinmap.PinmapInvalidInput.test_row_not_object) ... ok
+test_unknown_row_field (test_pinmap.PinmapInvalidInput.test_unknown_row_field) ... ok
+test_empty_pinmap_exit_0 (test_pinmap.PinmapValid.test_empty_pinmap_exit_0) ... ok
+test_nc_row_needs_no_declared_pin (test_pinmap.PinmapValid.test_nc_row_needs_no_declared_pin) ... ok
+test_single_ref_without_registry_uses_all_pins (test_pinmap.PinmapValid.test_single_ref_without_registry_uses_all_pins) ... ok
+test_valid_pinmap_exit_0 (test_pinmap.PinmapValid.test_valid_pinmap_exit_0) ... ok
+test_p01_connection_table_is_valid_and_not_board_verified (test_project_assets.ProjectAssets.test_p01_connection_table_is_valid_and_not_board_verified) ... ok
+test_p01_layout_draft_is_valid_and_not_electrically_verified (test_project_assets.ProjectAssets.test_p01_layout_draft_is_valid_and_not_electrically_verified) ... ok
+test_p01_project_text_records_the_tool_status (test_project_assets.ProjectAssets.test_p01_project_text_records_the_tool_status) ... ok
+test_battery_estimate_is_not_verified (test_scenarios.DeterministicNegativeChecks.test_battery_estimate_is_not_verified) ... ok
+test_every_check_uses_a_known_tool_and_expected_result (test_scenarios.DeterministicNegativeChecks.test_every_check_uses_a_known_tool_and_expected_result) ... ok
+test_geometry_zero_is_incomplete_without_inventory (test_scenarios.DeterministicNegativeChecks.test_geometry_zero_is_incomplete_without_inventory) ... ok
+test_parallel_pullups_exceed_sink_current (test_scenarios.DeterministicNegativeChecks.test_parallel_pullups_exceed_sink_current) ... ok
+test_two_aa_ldo_is_infeasible (test_scenarios.DeterministicNegativeChecks.test_two_aa_ldo_is_infeasible) ... ok
+test_wrong_physical_pin_is_blocking (test_scenarios.DeterministicNegativeChecks.test_wrong_physical_pin_is_blocking) ... ok
+test_all_required_negative_cases_are_present (test_scenarios.ScenarioCatalog.test_all_required_negative_cases_are_present) ... ok
+test_count_ids_and_fields (test_scenarios.ScenarioCatalog.test_count_ids_and_fields) ... ok
+test_markdown_index_lists_every_id (test_scenarios.ScenarioCatalog.test_markdown_index_lists_every_id) ... ok
+test_route_files_exist (test_scenarios.ScenarioCatalog.test_route_files_exist) ... ok
+test_cli_reports_candidates_on_one_case (test_schematic_benchmarks.BenchmarkCatalog.test_cli_reports_candidates_on_one_case) ... ok
+test_each_case_has_engineering_fields (test_schematic_benchmarks.BenchmarkCatalog.test_each_case_has_engineering_fields) ... ok
+test_eight_categories_and_unique_ids (test_schematic_benchmarks.BenchmarkCatalog.test_eight_categories_and_unique_ids) ... ok
+test_expected_candidates_are_reproducible_and_not_claim_verification (test_schematic_benchmarks.BenchmarkCatalog.test_expected_candidates_are_reproducible_and_not_claim_verification) ... ok
+test_optional_checks_are_exercised (test_schematic_benchmarks.BenchmarkCatalog.test_optional_checks_are_exercised) ... ok
+test_cli_invalid_input_exit_2 (test_simulation.RcSimulation.test_cli_invalid_input_exit_2) ... ok
+test_cli_writes_csv_and_reports_json (test_simulation.RcSimulation.test_cli_writes_csv_and_reports_json) ... ok
+test_default_settles_and_records_every_step (test_simulation.RcSimulation.test_default_settles_and_records_every_step) ... ok
+test_invalid_inputs (test_simulation.RcSimulation.test_invalid_inputs) ... ok
+test_sample_capacitor_holds_before_switch_closes (test_simulation.RcSimulation.test_sample_capacitor_holds_before_switch_closes) ... ok
+test_slow_source_does_not_settle (test_simulation.RcSimulation.test_slow_source_does_not_settle) ... ok
+test_cli_exit_status (test_skill.Calculations.test_cli_exit_status) ... ok
+test_divider_unloaded_corners (test_skill.Calculations.test_divider_unloaded_corners) ... ok
+test_i2c_document_example (test_skill.Calculations.test_i2c_document_example) ... ok
+test_i2c_no_passive_solution (test_skill.Calculations.test_i2c_no_passive_solution) ... ok
+test_invalid_bounds_and_types (test_skill.Calculations.test_invalid_bounds_and_types) ... ok
+test_ldo_dropout_failure_no_regulated_power_claim (test_skill.Calculations.test_ldo_dropout_failure_no_regulated_power_claim) ... ok
+test_ldo_power (test_skill.Calculations.test_ldo_power) ... ok
+test_led_below_forward_voltage (test_skill.Calculations.test_led_below_forward_voltage) ... ok
+test_led_corners (test_skill.Calculations.test_led_corners) ... ok
+test_entry_and_references (test_skill.SkillStructure.test_entry_and_references) ... ok
+test_portable_package (test_skill.SkillStructure.test_portable_package) ... ok
+test_original_29_checks (test_thermal_calc_legacy.ThermalLegacyChecks.test_original_29_checks) ... ok
+
+----------------------------------------------------------------------
+Ran 661 tests in 37.386s
+
+OK
+{
+  "status": "match",
+  "match": true,
+  "before": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "after": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "differences": [],
+  "blocking_differences": [],
+  "compared_fields": [
+    "component designator/parttype/footprint/BOM/PCB/supplier/manufacturer/unique_id",
+    "physical pin -> net",
+    "net partition",
+    "duplicate designators",
+    "pin on multiple nets",
+    "empty nets (*reported, not blocking by itself)"
+  ],
+  "limitations": [
+    "a component pin that is unconnected in both netlists is absent from both; this tool cannot prove NC state from a Protel netlist alone",
+    "coordinates, wire geometry and formatting are intentionally not compared"
+  ]
+}
+{
+  "status": "mismatch",
+  "match": false,
+  "before": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "after": {
+    "components": 2,
+    "nets": 2,
+    "pins": 4,
+    "empty_nets": [],
+    "duplicate_designators": []
+  },
+  "differences": [
+    {
+      "kind": "component_field",
+      "designator": "R1",
+      "field": "PARTTYPE",
+      "before": "10k",
+      "after": "22k"
+    }
+  ],
+  "blocking_differences": [
+    {
+      "kind": "component_field",
+      "designator": "R1",
+      "field": "PARTTYPE",
+      "before": "10k",
+      "after": "22k"
+    }
+  ],
+  "compared_fields": [
+    "component designator/parttype/footprint/BOM/PCB/supplier/manufacturer/unique_id",
+    "physical pin -> net",
+    "net partition",
+    "duplicate designators",
+    "pin on multiple nets",
+    "empty nets (*reported, not blocking by itself)"
+  ],
+  "limitations": [
+    "a component pin that is unconnected in both netlists is absent from both; this tool cannot prove NC state from a Protel netlist alone",
+    "coordinates, wire geometry and formatting are intentionally not compared"
+  ]
+}
+{
+  "status": "invalid",
+  "error": "[Errno 2] No such file or directory: 'C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Temp\\\\tmpk1a95iy1\\\\missing.net'"
+}
+PASS ldo fail status
+PASS ldo power
+PASS ldo required theta
+PASS ldo 60C tj
+PASS mosfet good tj
+PASS mosfet good power
+PASS mosfet bad status
+PASS mosfet bad power
+PASS mosfet bad tj
+PASS led heat
+PASS led required rth_sa
+PASS led model status
+PASS led good tj
+PASS via 9
+PASS enclosure surface
+PASS heatsink tj
+PASS heatsink required sa
+PASS ldo rejects vout>vin
+PASS via rejects over-plating
+PASS via rejects fractional count
+PASS ldo project margin tight
+PASS enclosure zero margin tight
+PASS led electrical basis tj
+PASS led electrical basis status
+PASS huge integer rejected
+PASS led rejects fractional series
+PASS led rejects optical=1
+PASS ldo rejects zero dropout
+PASS mosfet duty=0 no switching
+29/29 checks passed

@@ -1,0 +1,14 @@
+{
+  "schema": "design-gate-expected/v1",
+  "project": "temp-alarm",
+  "gates": {
+    "G0_requirements": "BLOCKED",
+    "G1_function_freeze": "BLOCKED",
+    "G2_schematic": "PASS_WITH_WAIVER",
+    "G3_layout": "BLOCKED",
+    "G4_power_ground": "BLOCKED",
+    "G5_routing": "BLOCKED",
+    "G6_manufacturing": "BLOCKED"
+  },
+  "notes": "与任务书第 6 节一致。全 PASS 说明门禁没有覆盖这次错误；G2 不是 PASS_WITH_WAIVER 说明风格警告/豁免链路没接上。"
+}

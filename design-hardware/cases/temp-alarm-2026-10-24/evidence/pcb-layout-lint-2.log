@@ -1,0 +1,18 @@
+PCB layout-lint: score 48/100 (hard): 28 comps, 0 short, 0 overlap, 0 off-board, 0 tight; 13 signal nets, ratsnest 17073mil, 13 crossings
+  WARN  silk-over-pad silk text Designator "C5" overlaps pad R12.1 — fab clips silk on exposed copper; move it (`pcb silk-align` / `pcb silk-set`) [规范 §11.2 丝印不压焊盘 — pcb-design-rules.md]
+  WARN  silk-over-pad silk text Designator "D2" overlaps pad D2.6 — fab clips silk on exposed copper; move it (`pcb silk-align` / `pcb silk-set`) [规范 §11.2 丝印不压焊盘 — pcb-design-rules.md]
+  WARN  silk-over-pad silk text Designator "J1" overlaps pad D2.2 — fab clips silk on exposed copper; move it (`pcb silk-align` / `pcb silk-set`) [规范 §11.2 丝印不压焊盘 — pcb-design-rules.md]
+  WARN  silk-over-pad silk text Designator "R14" overlaps pad R16.2 — fab clips silk on exposed copper; move it (`pcb silk-align` / `pcb silk-set`) [规范 §11.2 丝印不压焊盘 — pcb-design-rules.md]
+  WARN  crossing   BUZ_D × LED_A @ (2533, -2117)
+  WARN  crossing   BUZ_D × LED_A @ (2457, -1988)
+  WARN  crossing   BUZ_D × PWR_LED_A @ (2458, -1885)
+  WARN  crossing   D1_N1 × USB_DM_NC @ (741, -1977)
+  WARN  crossing   D1_N1 × USB_DP_NC @ (627, -1821)
+  WARN  crossing   D1_N1 × USB_DP_NC @ (739, -1956)
+  WARN  crossing   D1_N3 × D1_N4 @ (864, -1919)
+  WARN  crossing   D1_N3 × USB_DM_NC @ (796, -2003)
+  WARN  crossing   D1_N3 × USB_DP_NC @ (804, -1994)
+  WARN  crossing   GATE × LED_A @ (2124, -1422)
+  WARN  crossing   LED_A × OUT @ (2113, -1404)
+  WARN  crossing   LED_A × PWR_LED_A @ (2393, -1879)
+  WARN  crossing   NODE × OUT @ (2487, -240)

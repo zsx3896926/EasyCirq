@@ -4,6 +4,26 @@
 
 新建或实质修改时按 [原理图细节](schematic-details.md) 选取相关对象，再读 [领域易漏项](domain-design-details.md) 的适用小节；来源与持续积累方法见 [经验库](design-experience.md)。只把重要问题与证据写入工程记录，不让用户逐项填表。
 
+## G2 门禁与画图风格
+
+动笔前先定连接风格：**实际导线直连**，或**同名网标连接**。选网标风格时，在 `design-state.json` 或豁免记录中写 `peripheral-not-direct`，注明范围、理由和复验证据（`sch drc` 与网表逐针核对）；不要画到一半在两种风格间切换。门禁定义、证据角色与豁免规则见 [设计门禁](design-gates.md)；前台、`--page`、JSON/human 混排等工具限制见 [工具陷阱](tool-gotchas.md)。
+
+退出 G2 前必须同时满足：
+
+- `sch drc` 的 fatal 与 error 为 0；warn 单独分析，不能只看退出码。
+- `sch check` 的电气类发现为 0（floating pin、geom-net mismatch、net-marker mismatch、multi-net wire、wire-crossing、wire-over-pin 等）；风格/结构类（marker-overlap、out-of-sheet、missing-partition、peripheral-not-direct 等）修复或带理由豁免。
+- 计划网表与实际网表逐针审计一致；单引脚网审计为 0。`sch nets` 是全工程视角，不能替代“实际导线直连”的证据。
+- 图签的板名、版本、日期、设计者可见且不越界。
+- 导出 PNG 后实际看过整页与局部，不能只跑 DRC/检查就宣称可读。
+
+## 网名、注释与测试点
+
+网名用功能语义：`VBUS`、`CC1`、`CC2`、`NODE`、`VREF`、`GATE`、`BUZ_D`、`LED_A`；不要留下 `D1_N1`/`D1_N3` 这类由库或网络标记生成的默认名——它们会一路带进 PCB 的 DRC 报告、丝印与调试记录。跨页连接用同名端口或网标，名字体现电压域、方向与有效电平。
+
+图面注释写明关键计算与边界：NTC 的 R25/B 值与温度范围、阈值调节范围与回差、蜂鸣器有源/无源、MOS 导通条件、测试点预期电压与测量条件。功能分区按电源输入、测温、阈值、比较器、报警输出划分，分区框不得压器件或图签。
+
+测试点覆盖 `+5V`、`GND`、`NODE`、`VREF`、`GATE` 等关键节点，用 1.0 mm 焊盘或 2.54 mm 排针；位置可探、不压焊盘、不占连接器逃逸通道、不放在需要拆外壳才能触及的位置。可调点（如电位器）标注标定方法与参考测量点。
+
 ## 建库与选型
 先查现有可信库，核对完整MPN、封装后缀、额定、符号单元与隐藏电源脚。手册PDF/尺寸图建库时保留来源页码，分清top/bottom view、引脚编号方向、Pin-1、焊盘号、散热焊盘/外壳连接。
 封装核对本体/焊盘/孔径/间距/极性/高度、courtyard与工艺依据。装配侧的镜像/方向错误不可由C号或库名字消除。
