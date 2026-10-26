@@ -82,8 +82,17 @@ python scripts/layout_from_easyeda.py --list list.json \
   --visible-text visible-text.json --sheet-geometry sheet.json \
   --rendered-text svg-text.json --min-text-wire-clearance 5 \
   --expect-rotation GND=0 --expect-rotation +5V=0 --out layout.json
-python scripts/sch_layout_check.py layout.json --strict
+python scripts/sch_layout_check.py layout.json --strict --out layout-check.json
+python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
+  --out pin-net-diff.json
 ```
+
+`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `easyeda sch read`，不比较
+网名拼写；极性器件的功能脚名用组件内 `pinMap` 落到实际脚号，缺映射按输入无效处理，
+不猜脚号。
+
+`--out` 由 Python 以 UTF-8 落盘；PowerShell 的 `>` 重定向可能把中文按控制台代码页写出，
+证据文件不要用 shell 重定向生成。
 
 `visible_text.bboxes` 不是完整文字清单；同页 72 条与 SVG 实际 134 条文字的差值包括图框
 行列号、图签字段、符号内脚名/脚号、netflag 网名。没有渲染测量时只能报告覆盖不足，不能

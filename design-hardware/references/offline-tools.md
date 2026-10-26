@@ -69,8 +69,12 @@ python scripts/layout_from_easyeda.py --list list.json \
   --visible-text visible-text.json --sheet-geometry sheet.json \
   --rendered-text svg-text.json --min-text-wire-clearance 5 \
   --expect-rotation GND=0 --expect-rotation +5V=0 --out layout.json
-python scripts/sch_layout_check.py layout.json --strict
+python scripts/sch_layout_check.py layout.json --strict --out layout-check.json
+python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
+  --out pin-net-diff.json
 ```
+
+`--out` 以 UTF-8 落盘；不要用 PowerShell `>` 生成证据 JSON（控制台代码页可能写出非 UTF-8）。
 
 - `visible_text.bboxes` 只含自由文字与已显示属性（光控页 72 条），不含符号内脚名/脚号、图框行列号、图签字段和 netflag 网名。`svg_text_bbox.py` 用无头 Chromium 实测官方 SVG 的全部 `<text>`（同页 134 条），输出 SVG 用户坐标；`layout_from_easyeda.py` 翻转为 y-up。
 - 适配器按几何与 API 身份分类：`pin_name/pin_number/symbol_text` 归属符号，`netflag` 归属标记，`title_block` 归属图签，`border` 为图框，无法归属的可见文字标 `unowned`。这就是“有显示但 API 列举不到”的孤立文字检测入口。
@@ -78,6 +82,9 @@ python scripts/sch_layout_check.py layout.json --strict
 - `wire_endpoint_check` 默认关闭：EasyEDA 折线可在中间顶点连接，按首尾端点会误报悬空；连通性使用 `easyeda sch check`/`sch read`，本检查器只负责几何与文字。
 - `netflag_rotation` 是项目声明的普通符号朝向约定；因引脚方向必须横放的标记用 `allowed` 逐项豁免并看图确认，不能为了全绿机械旋转有特殊用途的符号。
 - 新增候选：`unowned_visible_text`、`unanchored_net_text`、`duplicate_net_text`、`netflag_rotation_outlier`、`netflag_text_vertical`、`zone_reading_order`、`title_block_duplicate_text`、`text_wire_clearance`。`severity=info` 的贴边接触不算阻塞；`--fail-on-info` 可把它们升级为退出1。
+- `pin_net_intent_check.py` 比较设计意图与 `sch read` 的物理引脚连通组：网名可不同
+  （`DISCH` vs `$1N117`），但每个意图网络必须恰好等于一个真实网络的引脚集合；
+  多脚、少脚、拆网、并网、未声明连接都会列出。极性/功能脚名用 `pinMap` 显式落号。
 
 工具提示矩形重叠、线穿本体/文字、越页、指定的长线及不同命名导线交叉；边缘相切不按进入矩形处理。带可选字段时还提示压图签、模块框问题、悬空导线端点、同一连接点多网、标签悬空/错网。不判真实短路、连接点/端口作用域、NC、去耦的电气距离、模块内边距或阅读质量，也不自动证明同网线相连。`attachment_points`/`contains` 只是输入声明，不完整时会产生误报或漏报；`checks_skipped` 明确列出未运行的检查。重叠/交叉/悬空都是待核查候选，不是自动改线指令。
 

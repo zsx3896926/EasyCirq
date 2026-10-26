@@ -9,6 +9,7 @@ Exit 0: no candidates found (may be incomplete); 1: review candidates; 2: invali
 import argparse
 import json
 import math
+from pathlib import Path
 import sys
 
 from power_budget import fields, number, read_json
@@ -740,10 +741,15 @@ def main():
     parser.add_argument('--strict', action='store_true', help='Refuse incomplete geometry/coverage; still not visual or electrical acceptance')
     parser.add_argument('--fail-on-info', action='store_true',
                         help='return 1 for informational findings too (default: only review candidates)')
+    parser.add_argument('--out', type=Path,
+                        help='write the UTF-8 JSON report to this file as well')
     args = parser.parse_args()
     try:
         result = analyze(read_json(args.layout), strict=args.strict)
-        print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+        output = json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False)
+        if args.out:
+            args.out.write_text(output + '\n', encoding='utf-8')
+        print(output)
         if args.strict and result['status'] == 'incomplete':
             return 2
         findings = result['blocking_findings']

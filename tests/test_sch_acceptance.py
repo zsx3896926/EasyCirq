@@ -116,6 +116,22 @@ class Adapter(unittest.TestCase):
         self.assertEqual(out['net_flags'][0]['rotation'], 90)
         self.assertEqual(out['net_flags'][0]['anchor'], [530, 345])
 
+    def test_wire_net_name_is_classified(self):
+        listing = easyeda_list()
+        listing['wires'] = [{'primitiveId': 'ws1', 'net': 'LED_CTRL',
+                             'rawLine': [700, 700, 760, 700]}]
+        listing['pagePrimitives']['wires'].append(
+            {'primitiveId': 'w2', 'Line': [700, 700, 760, 700], 'Net': 'LED_CTRL'})
+        rendered_rows = rendered()
+        rendered_rows['rows'].append(
+            {'id': 'wire-name', 'text': 'LED_CTRL', 'bbox': [710, -705, 750, -695]})
+        out = adapter.convert(listing, visible_text(), geometry(), rendered_rows)
+        text = next(text for text in out['texts'] if text['id'] == 'wire-name')
+        self.assertEqual(text['kind'], 'wire_name')
+        self.assertEqual(text['net'], 'LED_CTRL')
+        self.assertEqual(text['anchor_id'], 'ws1')
+        self.assertTrue(text['anchored'])
+
     def test_cli(self):
         with tempfile.TemporaryDirectory() as folder:
             folder = Path(folder)

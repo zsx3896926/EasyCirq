@@ -83,6 +83,15 @@ def flat_points(line):
     return points
 
 
+def point_segment_distance(point, a, b):
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    if dx == 0 and dy == 0:
+        return math.hypot(point[0] - a[0], point[1] - a[1])
+    t = ((point[0] - a[0]) * dx + (point[1] - a[1]) * dy) / (dx * dx + dy * dy)
+    t = max(0.0, min(1.0, t))
+    return math.hypot(point[0] - (a[0] + t * dx), point[1] - (a[1] + t * dy))
+
+
 def estimated_text(content, x, y, font_size, rotation, align):
     anchor = {0: 'start', 1: 'middle', 2: 'end', 3: 'start', 4: 'middle',
               5: 'end', 6: 'start', 7: 'middle', 8: 'end'}.get(align, 'start')
@@ -162,6 +171,13 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
                 if value:
                     pin_text.setdefault((part['primitiveId'], value), kind)
 
+    wire_index = {}
+    for wire in list_data.get('wires') or []:
+        net = wire.get('net')
+        points = flat_points(wire.get('rawLine'))
+        if net and len(points) >= 2:
+            wire_index.setdefault(net, []).append((wire.get('primitiveId'), points))
+
     rendered_rows = []
     if rendered_data:
         rows = rendered_data.get('rows') or rendered_data.get('items') or []
@@ -187,6 +203,7 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
         if not identity or content is None:
             continue
         rendered_ids.add(identity)
+        identity_anchor = None
         point = center(rect)
         if identity.startswith('table-') or (title and inside(point, title)):
             text = texts.get(identity, {'id': identity, 'content': str(content)})
@@ -252,6 +269,18 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
                     owner = flag.get('primitiveId')
                     net = flag.get('net')
                     field = 'Global Net Name'
+                elif str(content).strip() in wire_index:
+                    nearest_wire = None
+                    for wire_id, points in wire_index[str(content).strip()]:
+                        for a, b in zip(points, points[1:]):
+                            distance = point_segment_distance(point, a, b)
+                            if nearest_wire is None or distance < nearest_wire[0]:
+                                nearest_wire = (distance, wire_id)
+                    if nearest_wire is not None and nearest_wire[0] <= 25:
+                        kind = 'wire_name'
+                        net = str(content).strip()
+                        field = 'Wire Net'
+                        identity_anchor = nearest_wire[1]
         texts[identity] = {'id': identity, 'bbox': rect, 'kind': kind,
                            'content': str(content), 'measurement': 'bbox'}
         if owner:
@@ -260,6 +289,9 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
             texts[identity]['net'] = net
         if field:
             texts[identity]['field'] = field
+        if kind == 'wire_name' and identity_anchor:
+            texts[identity]['anchor_id'] = identity_anchor
+            texts[identity]['anchored'] = True
 
     attachments = []
     for part in parts:
