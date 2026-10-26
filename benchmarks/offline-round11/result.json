@@ -31,7 +31,7 @@
     }
   },
   "timing": {
-    "runs": 3,
+    "runs": 1,
     "statistic": "min/median/max of each case; no cross-version speed claim",
     "environment": {
       "python": "3.13.15",
@@ -557,10 +557,10 @@
         }
       ],
       "timing": {
-        "runs": 3,
-        "min_sec": 0.009544,
-        "median_sec": 0.010466,
-        "max_sec": 0.011794
+        "runs": 1,
+        "min_sec": 0.011924,
+        "median_sec": 0.011924,
+        "max_sec": 0.011924
       }
     },
     {
@@ -723,10 +723,10 @@
         }
       ],
       "timing": {
-        "runs": 3,
-        "min_sec": 0.086906,
-        "median_sec": 0.089261,
-        "max_sec": 0.093069
+        "runs": 1,
+        "min_sec": 0.091263,
+        "median_sec": 0.091263,
+        "max_sec": 0.091263
       }
     },
     {
@@ -752,10 +752,10 @@
         }
       ],
       "timing": {
-        "runs": 3,
-        "min_sec": 0.05222,
-        "median_sec": 0.052333,
-        "max_sec": 0.052861
+        "runs": 1,
+        "min_sec": 0.050356,
+        "median_sec": 0.050356,
+        "max_sec": 0.050356
       }
     },
     {
@@ -791,10 +791,10 @@
         }
       ],
       "timing": {
-        "runs": 3,
-        "min_sec": 0.10433,
-        "median_sec": 0.104537,
-        "max_sec": 0.105862
+        "runs": 1,
+        "min_sec": 0.099988,
+        "median_sec": 0.099988,
+        "max_sec": 0.099988
       }
     },
     {
@@ -899,10 +899,10 @@
         }
       ],
       "timing": {
-        "runs": 3,
-        "min_sec": 0.214221,
-        "median_sec": 0.215044,
-        "max_sec": 0.216077
+        "runs": 1,
+        "min_sec": 0.206745,
+        "median_sec": 0.206745,
+        "max_sec": 0.206745
       }
     },
     {
@@ -920,10 +920,10 @@
         }
       ],
       "timing": {
-        "runs": 3,
-        "min_sec": 0.037051,
-        "median_sec": 0.038131,
-        "max_sec": 0.042768
+        "runs": 1,
+        "min_sec": 0.038074,
+        "median_sec": 0.038074,
+        "max_sec": 0.038074
       }
     },
     {
@@ -944,10 +944,10 @@
         }
       ],
       "timing": {
-        "runs": 3,
-        "min_sec": 6.4e-05,
-        "median_sec": 7.6e-05,
-        "max_sec": 0.000131
+        "runs": 1,
+        "min_sec": 0.00012,
+        "median_sec": 0.00012,
+        "max_sec": 0.00012
       }
     },
     {
@@ -1009,10 +1009,10 @@
         }
       ],
       "timing": {
-        "runs": 3,
-        "min_sec": 0.000353,
-        "median_sec": 0.000362,
-        "max_sec": 0.000502
+        "runs": 1,
+        "min_sec": 0.000462,
+        "median_sec": 0.000462,
+        "max_sec": 0.000462
       }
     },
     {
@@ -1036,10 +1036,10 @@
         }
       ],
       "timing": {
-        "runs": 3,
-        "min_sec": 0.008793,
-        "median_sec": 0.008836,
-        "max_sec": 0.008862
+        "runs": 1,
+        "min_sec": 0.008762,
+        "median_sec": 0.008762,
+        "max_sec": 0.008762
       }
     }
   ],
