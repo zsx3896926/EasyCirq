@@ -250,6 +250,13 @@ class UpdaterTests(unittest.TestCase):
         with self.assertRaises(u.UpdateError): u.install(self.target, self.p2, repair=True)
         self.assertEqual(u.status(self.target)['version'], '0.7.0')
 
+    def test_release_notes_match_current_version(self):
+        (self.source / 'CHANGELOG.md').write_text('## 0.8.0 — today\nChinese menu fix\n\n## 0.7.0\nOld feature\n', encoding='utf-8')
+        result = u.pack(self.source, self.root / 'with-notes')
+        notes = u.read_json(result['manifest'])['notes']
+        self.assertIn('Chinese menu fix', notes)
+        self.assertNotIn('Old feature', notes)
+
     def test_invalid_manifest_type(self):
         for value in [[], None, 'wrong']:
             with self.assertRaises(u.UpdateError): u.validate_manifest(value)
@@ -261,6 +268,14 @@ class UpdaterTests(unittest.TestCase):
     def test_interactive_menu_keeps_install_explicit(self):
         with patch('builtins.input', side_effect=['1', '2', 'NO']), patch.object(u, 'install', side_effect=AssertionError('unexpected write')):
             self.assertEqual(u.main(['menu', '--home', str(self.root)]), 0)
+
+    def test_menu_handles_western_windows_output_encoding(self):
+        buffer = io.BytesIO()
+        output = io.TextIOWrapper(buffer, encoding='cp1252')
+        with patch.object(sys, 'stdout', output), patch('builtins.input', side_effect=['1', '2', 'NO']):
+            self.assertEqual(u.main(['menu', '--home', str(self.root)]), 0)
+        output.flush()
+        self.assertIn('硬件设计 Skill', buffer.getvalue().decode('utf-8'))
 
     def test_stale_lock_recovery(self):
         self.target.parent.mkdir(parents=True)

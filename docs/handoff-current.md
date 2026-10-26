@@ -3,12 +3,14 @@
 ## 本轮
 - 用户授权开发可靠的客户安装/更新机制；基线为 main eef9a1b（0.7.0，PR #13）。
 - 工作区：C:/Users/jlc/work/hds-updater；分支 feat/skill-updater；版本 0.8.0。
+- PR：https://github.com/zsx3896926/hardware-design-skill/pull/15；本轮只推送与验证，不合并、不发布。
+- 本机 Git 直连 DNS 受限，通过 GitHub connector 推送；远端提交与本机提交历史不同，逐文件内容/整棵树 SHA 核对一致。
 - 入口：distribution/Manage-Skill.cmd；核心：design-hardware/scripts/skill_update.py。
 - 报告：docs/skill-updater-report.md；完整验收：docs/evidence/skill-updater/acceptance.json。
 - 已实现：安装、稳定版检查与24小时缓存、升级、明确迁移旧版、整目录备份、逐文件校验、
   本地修改阻断、同版本修复、回退、并发锁和中断恢复；不操作 EDA/客户项目。
 - 完整三客户端隔离目录 0.7→0.8→0.7、安装版 selftest、工程哨兵保留通过。
-- 本地全量 785 tests OK、更新器专项 35 tests OK；CI 另验 Windows/Linux + Python 3.10。
+- 本地全量 787 tests OK、更新器专项 37 tests OK；CI 另验 Windows/Linux + Python 3.10。
 - 本机 PowerShell 脚本策略受限，主双击入口直接用 Python；需要 Python 3.10+。
 - 源码 PR 不等于正式稳定发布。本轮不打标签/不创建 Release；正式发布后才开通线上更新。
 - 网络直连 DNS BLOCKED；在线协议使用 fixture，GUI 技能发现 NOT RUN。

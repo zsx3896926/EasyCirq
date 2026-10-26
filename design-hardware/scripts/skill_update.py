@@ -173,8 +173,15 @@ def status(target):
 def pack(source, output, source_commit='unknown'):
     source, output = Path(source), Path(output)
     v = (source / '.version').read_text().strip()
+    changelog = source / 'CHANGELOG.md'
+    notes = 'See CHANGELOG.md; reload the client after updating.'
+    if changelog.is_file():
+        text = changelog.read_text(encoding='utf-8-sig')
+        section = re.search(r'^## ' + re.escape(v) + r'[^\n]*\n(.*?)(?=^## |\Z)', text, re.M | re.S)
+        if section:
+            notes = section.group(1).strip()[:4000]
     m = {'schema': SCHEMA, 'skill': NAME, 'version': v, 'min_python': '3.10',
-         'source_commit': source_commit, 'notes': 'See CHANGELOG.md; reload the client after updating.',
+         'source_commit': source_commit, 'notes': notes,
          'files': inventory(source)}
     verify(source, m)
     output.mkdir(parents=True, exist_ok=True)
@@ -450,6 +457,10 @@ def menu(home=None):
 
 
 def main(argv=None):
+    # Windows redirected output can default to cp1252 even when the console supports Unicode.
+    for stream in (sys.stdout, sys.stderr):
+        if hasattr(stream, 'reconfigure'):
+            stream.reconfigure(encoding='utf-8', errors='backslashreplace')
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument('action', choices=['menu', 'discover', 'status', 'check', 'install', 'update', 'repair', 'rollback', 'recover', 'pack'])
     p.add_argument('--client', choices=list(ROOTS))

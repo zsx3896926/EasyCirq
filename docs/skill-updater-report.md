@@ -13,8 +13,8 @@
 
 ## 已实际验证
 
-- 更新器专项 35 tests OK；包括真实 Windows CMD 启动，带空格路径与中文菜单校验。
-- 全量回归：785 tests OK（Windows / Python 3.13）；更新器专项 35 tests OK。CI 另验 Windows/Linux / Python 3.10。
+- 更新器专项 37 tests OK；包括真实 Windows CMD 启动，带空格路径与中文菜单校验。
+- 全量回归：787 tests OK（Windows / Python 3.13）；更新器专项 37 tests OK。CI 另验 Windows/Linux / Python 3.10。
 - 完整 0.7.0 旧目录分别放入隔离 Claude / Codex 旧目录 / WorkBuddy 根目录：
   备份迁移到 0.8.0、逐文件校验、安装版 selftest、回退到 0.7.0 均通过。
 - 客户工程哨兵文件逐字节保留；未修改用户实际客户端安装或 EDA 工程。
@@ -30,6 +30,7 @@
 - 本机存在无有效运行时的 py 启动器，入口改为验证后依次选择 py / python3 / python。
 - 修复检查缓存命中会无限延长 TTL 的问题；更新动作不信任缓存下载 URL。
 - CMD 路径包含空格的真实启动纳入回归。
+- Windows/Python 3.10 CI 发现英文系统 cp1252 无法输出中文菜单，核心入口显式使用 UTF-8，并补回归。
 
 ## 尚未验证/发布边界
 
