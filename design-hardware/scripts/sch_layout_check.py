@@ -144,7 +144,7 @@ def analyze(data, strict=False):
         groups[group] = []
         for item in values:
             required = ['id', 'points'] if group == 'wires' else ['id', 'bbox']
-            optional = ['net'] if group == 'wires' else (
+            optional = ['net', 'primitive_id'] if group == 'wires' else (
                 ['owner', 'kind', 'net', 'anchor_id', 'anchored', 'measurement',
                  'field', 'content'] if group == 'texts' else [])
             fields(item, required, optional)
@@ -160,6 +160,9 @@ def analyze(data, strict=False):
                     raise ValueError('duplicate consecutive wire points')
                 if 'net' in item and (not isinstance(item['net'], str) or not item['net'].strip()):
                     raise ValueError('wire net must be a nonempty string when supplied')
+                if 'primitive_id' in item and (
+                        not isinstance(item['primitive_id'], str) or not item['primitive_id'].strip()):
+                    raise ValueError('wire primitive_id must be a nonempty string when supplied')
                 groups[group].append({**item, 'points': points})
             else:
                 owner = item.get('owner')
@@ -397,6 +400,11 @@ def analyze(data, strict=False):
                 # Pin names/numbers, marker text and a symbol's own value text
                 # sit at the pin/body where a wire legitimately terminates.
                 continue
+            if obj.get('anchor_id') and obj.get('anchor_id') in (
+                    wire['id'], wire.get('primitive_id')):
+                # A net label/wire-name glyph sits above its own wire by design.
+                # Only a *different* wire entering the glyphs is a candidate.
+                continue
             if any(enters(a, b, obj['bbox']) for a, b in zip(wire['points'], wire['points'][1:])):
                 add('wire_enters_bbox', wire['id'], obj['id'])
         segments.extend((wire, a, b) for a, b in zip(wire['points'], wire['points'][1:]))
@@ -407,7 +415,16 @@ def analyze(data, strict=False):
             if key in seen_crossings or wa['id'] == wb['id']:
                 continue
             if wa.get('net') and wb.get('net') and wa['net'] != wb['net'] and (crosses(a, b, c, d) or collinear_overlap(a, b, c, d)):
-                add('different_named_wires_collinear_overlap' if collinear_overlap(a, b, c, d) else 'different_named_wires_cross', *key)
+                if collinear_overlap(a, b, c, d):
+                    # Same-direction overlap is the short/merge signal and stays
+                    # a blocking candidate.
+                    add('different_named_wires_collinear_overlap', *key)
+                else:
+                    # Orthogonal crossing without a junction is normal drawing
+                    # practice.  Keep it visible as a readability hint rather
+                    # than a blocking defect; the host netlist owns junctions.
+                    add('different_named_wires_cross', *key,
+                        severity='info', category='readability_hint')
                 seen_crossings.add(key)
 
     checks_run, checks_skipped = [], []
@@ -521,12 +538,20 @@ def analyze(data, strict=False):
                 continue
             nearest = None
             for wire in wires:
+                if text.get('anchor_id') and text.get('anchor_id') in (
+                        wire['id'], wire.get('primitive_id')):
+                    # Legal label/own-wire proximity; foreign wires are still
+                    # measured below.
+                    continue
                 for a, b in zip(wire['points'], wire['points'][1:]):
                     distance = rect_segment_distance(text['bbox'], a, b)
                     if nearest is None or distance < nearest[0]:
                         nearest = (distance, wire['id'])
             if nearest is not None and 0 < nearest[0] <= text_wire_clearance:
+                # Near-miss clearance is a readability hint; a wire actually
+                # entering the text bbox is reported separately as blocking.
                 add('text_wire_clearance', text['id'], nearest[1],
+                    severity='info', category='readability_hint',
                     distance=round(nearest[0], 6), threshold=text_wire_clearance)
     elif text_wire_clearance is not None:
         checks_skipped.append('text_wire_clearance: wires not supplied')

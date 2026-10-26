@@ -83,6 +83,28 @@ def flat_points(line):
     return points
 
 
+def flat_segments(line):
+    """Decode EasyEDA ``rawEncoding: flat-segments`` geometry.
+
+    Each four numbers are one segment's endpoints.  The list is NOT an ordered
+    polyline: consecutive segments may backtrack or share no endpoint.  Treating
+    the flat list as a path invents diagonal segments that cross symbols and
+    text, which is exactly the false-positive class this adapter must avoid.
+    """
+    if not isinstance(line, list) or len(line) < 4:
+        return []
+    segments = []
+    if len(line) % 4 == 0:
+        for index in range(0, len(line), 4):
+            a = [line[index], line[index + 1]]
+            b = [line[index + 2], line[index + 3]]
+            if a != b:
+                segments.append([a, b])
+        return segments
+    points = flat_points(line)
+    return [[a, b] for a, b in zip(points, points[1:]) if a != b]
+
+
 def point_segment_distance(point, a, b):
     dx, dy = b[0] - a[0], b[1] - a[1]
     if dx == 0 and dy == 0:
@@ -90,6 +112,41 @@ def point_segment_distance(point, a, b):
     t = ((point[0] - a[0]) * dx + (point[1] - a[1]) * dy) / (dx * dx + dy * dy)
     t = max(0.0, min(1.0, t))
     return math.hypot(point[0] - (a[0] + t * dx), point[1] - (a[1] + t * dy))
+
+
+def nearest_point_on_polyline(point, points):
+    """Closest point on a polyline; used to bind a label text to its own wire."""
+    best = None
+    for a, b in zip(points, points[1:]):
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        if dx == 0 and dy == 0:
+            candidate = [a[0], a[1]]
+        else:
+            t = ((point[0] - a[0]) * dx + (point[1] - a[1]) * dy) / (dx * dx + dy * dy)
+            t = max(0.0, min(1.0, t))
+            candidate = [a[0] + t * dx, a[1] + t * dy]
+        distance = math.hypot(point[0] - candidate[0], point[1] - candidate[1])
+        if best is None or distance < best[0]:
+            best = (distance, candidate)
+    return best
+
+
+def rendered_bbox_to_raw(raw):
+    """Convert an SVG (y-down) text bbox to the checker's raw y-up convention.
+
+    The conversion is applied exactly once, here.  Inputs from
+    ``schematic.visible_text.bboxes`` are already raw y-up and must not pass
+    through this function.
+    """
+    if not isinstance(raw, list) or len(raw) != 4:
+        raise ValueError('rendered text bbox must be [left, top, right, bottom]')
+    values = [float(value) for value in raw]
+    if not all(math.isfinite(value) for value in values):
+        raise ValueError('rendered text bbox must be finite')
+    rect = [values[0], -values[3], values[2], -values[1]]
+    if rect[0] >= rect[2] or rect[1] >= rect[3]:
+        raise ValueError('rendered text bbox must have positive extent')
+    return rect
 
 
 def estimated_text(content, x, y, font_size, rotation, align):
@@ -185,11 +242,20 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
                     pin_text.setdefault((part['primitiveId'], value), kind)
 
     wire_index = {}
+    wire_by_id = {}
     for wire in list_data.get('wires') or []:
         net = wire.get('net')
-        points = flat_points(wire.get('rawLine'))
-        if net and len(points) >= 2:
-            wire_index.setdefault(net, []).append((wire.get('primitiveId'), points))
+        wire_id = wire.get('primitiveId')
+        if not net or not wire_id:
+            continue
+        if all(name in wire for name in ('x0', 'y0', 'x1', 'y1')):
+            segment = [[wire['x0'], wire['y0']], [wire['x1'], wire['y1']]]
+            segments = [] if segment[0] == segment[1] else [segment]
+        else:
+            segments = flat_segments(wire.get('rawLine'))
+        for segment in segments:
+            wire_index.setdefault(net, []).append((wire_id, segment))
+            wire_by_id.setdefault(wire_id, []).append(segment)
 
     rendered_rows = []
     if rendered_data:
@@ -197,15 +263,9 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
         if not isinstance(rows, list):
             raise ValueError('rendered text rows must be a list')
         for row in rows:
-            raw = row.get('bbox')
-            if not isinstance(raw, list) or len(raw) != 4:
-                continue
             try:
-                values = [float(value) for value in raw]
+                rect = rendered_bbox_to_raw(row.get('bbox'))
             except (TypeError, ValueError):
-                continue
-            rect = [values[0], -values[3], values[2], -values[1]]
-            if rect[0] >= rect[2] or rect[1] >= rect[3]:
                 continue
             rendered_rows.append({'id': row.get('id'), 'content': row.get('text'),
                                   'bbox': rect})
@@ -217,6 +277,7 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
             continue
         rendered_ids.add(identity)
         identity_anchor = None
+        anchored = False
         point = center(rect)
         if identity.startswith('table-') or (title and inside(point, title)):
             text = texts.get(identity, {'id': identity, 'content': str(content)})
@@ -300,6 +361,28 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
                     owner = flag.get('primitiveId')
                     net = flag.get('net')
                     field = 'Global Net Name'
+                    # A power/ground label is attached to its own stub wire.
+                    # Bind it so the checker exempts only that wire from
+                    # text/wire clearance, while still checking every other
+                    # wire that may cross the glyphs.
+                    if net and net in wire_index:
+                        reference = None
+                        for pin in flag.get('pins') or []:
+                            if pin.get('x') is not None and pin.get('y') is not None:
+                                reference = [pin['x'], pin['y']]
+                                break
+                        if reference is None:
+                            reference = point
+                        nearest = None
+                        for wire_id, points in wire_index[net]:
+                            found = nearest_point_on_polyline(reference, points)
+                            if found is None:
+                                continue
+                            if nearest is None or found[0] < nearest[0]:
+                                nearest = (found[0], wire_id)
+                        if nearest is not None and nearest[0] <= 60:
+                            identity_anchor = nearest[1]
+                            anchored = True
                 elif str(content).strip() in wire_index:
                     nearest_wire = None
                     for wire_id, points in wire_index[str(content).strip()]:
@@ -312,6 +395,7 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
                         net = str(content).strip()
                         field = 'Wire Net'
                         identity_anchor = nearest_wire[1]
+                        anchored = True
         texts[identity] = {'id': identity, 'bbox': rect, 'kind': kind,
                            'content': str(content), 'measurement': 'bbox'}
         if owner:
@@ -320,9 +404,9 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
             texts[identity]['net'] = net
         if field:
             texts[identity]['field'] = field
-        if kind == 'wire_name' and identity_anchor:
+        if kind in ('wire_name', 'netflag') and identity_anchor:
             texts[identity]['anchor_id'] = identity_anchor
-            texts[identity]['anchored'] = True
+            texts[identity]['anchored'] = anchored
 
     attachments = []
     for part in parts:
@@ -364,18 +448,42 @@ def convert(list_data, visible_data=None, geometry_data=None, rendered_data=None
             labels.append({'id': item.get('primitiveId'), 'net': item['net'],
                            'x': anchor[0], 'y': anchor[1]})
 
+    # EasyEDA net labels are attributes on wires, not components.  Bind each
+    # rendered wire-name text to the nearest point on its own wire so the
+    # checker can distinguish legal label/own-wire contact from a foreign wire
+    # crossing the glyphs.
+    for text in sorted(texts.values(), key=lambda item: item['id']):
+        if text.get('kind') != 'wire_name' or not text.get('net'):
+            continue
+        segments = wire_by_id.get(text.get('anchor_id'))
+        if not segments:
+            continue
+        found = None
+        for segment in segments:
+            candidate = nearest_point_on_polyline(center(text['bbox']), segment)
+            if candidate is not None and (found is None or candidate[0] < found[0]):
+                found = candidate
+        if found is None:
+            continue
+        labels.append({'id': 'la-' + text['id'], 'net': text['net'],
+                       'x': found[1][0], 'y': found[1][1],
+                       'text_id': text['id']})
+
     wires = []
     wire_missing = 0
     for item in primitives.get('wires') or []:
-        points = flat_points(item.get('Line'))
-        if len(points) < 2:
+        primitive_id = item.get('primitiveId')
+        segments = flat_segments(item.get('Line'))
+        if not primitive_id or not segments:
             wire_missing += 1
             continue
-        wire = {'id': item.get('primitiveId'), 'points': points}
         net = item.get('Net') or item.get('net')
-        if net:
-            wire['net'] = net
-        wires.append(wire)
+        for index, segment in enumerate(segments):
+            wire = {'id': f'{primitive_id}#{index}', 'primitive_id': primitive_id,
+                    'points': segment}
+            if net:
+                wire['net'] = net
+            wires.append(wire)
 
     frames = []
     title_texts = [text for text in texts.values() if text.get('kind') == 'zone_title']

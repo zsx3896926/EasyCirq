@@ -1,0 +1,326 @@
+{
+  "status": "review_required",
+  "informational_findings": [
+    {
+      "code": "different_named_wires_cross",
+      "objects": [
+        "25209c69b85c07d5#3",
+        "4a615d05024ff911#2"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint"
+    },
+    {
+      "code": "different_named_wires_cross",
+      "objects": [
+        "25209c69b85c07d5#3",
+        "4a615d05024ff911#4"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint"
+    },
+    {
+      "code": "different_named_wires_cross",
+      "objects": [
+        "25209c69b85c07d5#3",
+        "e0d8a52427a6575e#0"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint"
+    },
+    {
+      "code": "text_wire_clearance",
+      "objects": [
+        "e033e223beb47a2b",
+        "9d6d22315aa61c9f#0"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint",
+      "distance": 5.0,
+      "threshold": 5.0
+    },
+    {
+      "code": "text_wire_clearance",
+      "objects": [
+        "d10ec9db2cfb5ccc",
+        "ae1cb5da94942e1d#0"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint",
+      "distance": 5.0,
+      "threshold": 5.0
+    }
+  ],
+  "blocking_findings": [
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "4c3b66d17e7f4875",
+        "8bd5a6b179fa7148"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        20.5,
+        2.5
+      ]
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "1fa3e4d8816a3e4a#0",
+        "ad6ce27bf74e95f9"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "1fa3e4d8816a3e4a#1",
+        "ad6ce27bf74e95f9"
+      ],
+      "status": "review_candidate"
+    }
+  ],
+  "counts": {
+    "components": 19,
+    "texts": 136,
+    "wires": 98
+  },
+  "declared_inventory_matches": true,
+  "coverage_status": "complete",
+  "coverage": {
+    "components": {
+      "status": "complete",
+      "observed": 19
+    },
+    "texts": {
+      "status": "complete",
+      "observed": 136,
+      "estimated": 0,
+      "rendered": 136
+    },
+    "wires": {
+      "status": "complete",
+      "observed": 98,
+      "unparsed": 0
+    },
+    "attachment_points": {
+      "status": "complete",
+      "observed": 64,
+      "measured_pins": 47,
+      "total_pins": 47
+    },
+    "label_anchors": {
+      "status": "complete",
+      "observed": 11
+    },
+    "module_frames": {
+      "status": "complete",
+      "observed": 4,
+      "rectangles": 4
+    },
+    "rendered_texts": {
+      "status": "complete",
+      "observed": 136,
+      "unique_ids": 136
+    },
+    "title_block": {
+      "status": "complete",
+      "source": "sheet-geometry"
+    }
+  },
+  "optional_counts": {
+    "module_frames": 4,
+    "attachment_points": 64,
+    "label_anchors": 11,
+    "net_flags": 17,
+    "title_block_owned": 19
+  },
+  "net_flag_census": {
+    "VREF_2V5": {
+      "0": [
+        "572061d0b641a8eb",
+        "9ec278d54c6b187d"
+      ]
+    },
+    "+5V": {
+      "0": [
+        "e4b3da002faaf9ab",
+        "674cc4a143c6d79f",
+        "cccdf87e7143c756",
+        "401e6a1d26bdd5d9"
+      ]
+    },
+    "GND": {
+      "0": [
+        "4134efbe9a541b5f",
+        "7664548b77e1aa22",
+        "dde2d137d0b280c9",
+        "307a7b962e4c26bb",
+        "ac5ed85e7b991ffe",
+        "80d39fab91eecb34",
+        "0f221d9c11a0d9d9",
+        "48a667a03c65bb69",
+        "c611656644c2143a",
+        "a67d5d1f1c5774db",
+        "4248038985c33f80"
+      ]
+    }
+  },
+  "reading_order": {
+    "observed": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "expected": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "rows": [
+      [
+        "df6b35d4cbb8fbdd",
+        "038924265735ffcc"
+      ],
+      [
+        "f7266d05fe0dcaff",
+        "94055b82f166ad31"
+      ]
+    ],
+    "ok": true
+  },
+  "text_classes": {
+    "attribute": 38,
+    "border": 20,
+    "free_text": 4,
+    "netflag": 17,
+    "pin_name": 12,
+    "pin_number": 11,
+    "title_block": 19,
+    "wire_name": 11,
+    "zone_title": 4
+  },
+  "self_text_contact_tolerance": 1.0,
+  "strict_mode": true,
+  "strict_missing": [],
+  "checks_run": [
+    "title_block",
+    "module_frames",
+    "label_anchors",
+    "text_wire_clearance",
+    "net_text_identity",
+    "netflag_orientation",
+    "zone_reading_order",
+    "title_block_duplicate"
+  ],
+  "checks_skipped": [
+    "wire_endpoints_and_pin_nets: policy.wire_endpoint_check false; use the executor connectivity check"
+  ],
+  "findings": [
+    {
+      "code": "bbox_overlap",
+      "objects": [
+        "4c3b66d17e7f4875",
+        "8bd5a6b179fa7148"
+      ],
+      "status": "review_candidate",
+      "overlap": [
+        20.5,
+        2.5
+      ]
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "1fa3e4d8816a3e4a#0",
+        "ad6ce27bf74e95f9"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "wire_enters_bbox",
+      "objects": [
+        "1fa3e4d8816a3e4a#1",
+        "ad6ce27bf74e95f9"
+      ],
+      "status": "review_candidate"
+    },
+    {
+      "code": "different_named_wires_cross",
+      "objects": [
+        "25209c69b85c07d5#3",
+        "4a615d05024ff911#2"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint"
+    },
+    {
+      "code": "different_named_wires_cross",
+      "objects": [
+        "25209c69b85c07d5#3",
+        "4a615d05024ff911#4"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint"
+    },
+    {
+      "code": "different_named_wires_cross",
+      "objects": [
+        "25209c69b85c07d5#3",
+        "e0d8a52427a6575e#0"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint"
+    },
+    {
+      "code": "text_wire_clearance",
+      "objects": [
+        "e033e223beb47a2b",
+        "9d6d22315aa61c9f#0"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint",
+      "distance": 5.0,
+      "threshold": 5.0
+    },
+    {
+      "code": "text_wire_clearance",
+      "objects": [
+        "d10ec9db2cfb5ccc",
+        "ae1cb5da94942e1d#0"
+      ],
+      "status": "review_candidate",
+      "severity": "info",
+      "category": "readability_hint",
+      "distance": 5.0,
+      "threshold": 5.0
+    }
+  ],
+  "electrical_verified": false,
+  "visual_verified": false,
+  "geometry_scope": "Only supplied symbol-body/text rectangles, polylines, page/title/frame bounds and declared attachment/label points. A text owner matching a symbol only reclassifies small edge contact as info; it does not prove the text is legible. title_block_owned only exempts a text from title-block overlap, not from other collision checks.",
+  "not_checked": [
+    "actual EDA connectivity, pins, NC and junctions",
+    "shape-accurate outlines and intentional overlaps",
+    "missing/stale snapshot objects",
+    "module/title margins beyond supplied frames/orders",
+    "decoupling or PCB electrical distance",
+    "same-net collinear semantics and endpoint junction topology",
+    "frame intent/membership beyond supplied contains",
+    "attachment completeness beyond supplied points",
+    "pin-electrical-type conflicts and netlister rules",
+    "text glyph rendering; measured bboxes are evidence, not a visual PASS"
+  ]
+}
