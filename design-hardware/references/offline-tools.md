@@ -57,3 +57,28 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 - `calculate.py` 新增 `buck`、`boost`、`adc_settle`、`current_sense`、`wire` 模式；字段、公式前提和不能证明的内容见 [计算手册](calculations/README.md)。它们仍是简化模型，不证明补偿、稳定性、EMC、SOA 或整机精度。
 - `rc_settle_sim.py` 是可执行的二阶 RC 采样网络数值仿真（后向欧拉，不是 SPICE）。输入 `--help` 查看；输出 CSV 和 JSON，含 `simulation_executed:true`、`board_verified:false` 与模型限制。`assets/simulation/rc_sample.cir` 是同一网络的 SPICE 计划文件，当前标注 `NOT RUN`，不能声称已运行。
 - [仿真与测量](simulation-measurement.md) 给出测点、仪器、探头接法、带宽/负载、预期范围、停止条件和安全边界；没有执行的项目保持 `未执行`。
+
+## 原理图严格模式
+
+创建/实质整理图面时使用 `python scripts/sch_layout_check.py layout.json --strict`。
+原有无参数模式保留为辅助提示，不能用其退出0代替严格模式。
+严格模式要求 page_bbox、title_block、module_frames、attachment_points、label_anchors、
+connection_tolerance、匹配的 expected_counts，以及 coverage 中 components/texts/wires/
+module_frames/attachment_points/label_anchors 各项 status=complete。
+无对象的种类也用空数组并如实声明已盘点；非空器件页至少有一个功能模块框。
+所有标签/端口/电源标记的可见文字必须计入 texts，内部脚名也需提取或明确缺测。
+不能为了通过而把未知边界写成0或把 coverage 标成complete。快照必须来自本轮真实回读。
+
+严格模式缺证据/不完整返回2，有候选返回1，无候选返回0；electrical_verified 与
+visual_verified 始终为false。0仅说明输入范围内未找到候选，功能分区用途、页面数合理性、
+文字测量准确性和实际看图仍需单独验收。coverage 保留输入声明，geometry_scope 描述算法范围。
+不同网络的正长度共线重叠新增 different_named_wires_collinear_overlap 候选；端点接触不算重叠，
+同网线树语义和真实短路仍需宿主检查。容差从实际网格推导，禁止为了过检随意放大。
+
+严格模式中，每个 label_anchors 项提供 text_id，指向 texts 的实际标签文字边界；
+每个 module_frames 项提供 title_text_id 和 purpose_text_id，分别指向框内两段不同文字。
+缺少关联或关联对象不存在均为 incomplete，不能用标签锚点代替文字测量。
+这些关联在普通模式为可选项；框/文本的内容语义和用途是否准确仍需实际检视。
+
+严格模式要求每个模块 contains 明确列出成员，每个器件完整且唯一地归属于一个功能模块。
+标签锚点和真实连接点也检查页边界；同点连接不豁免越框。框成员、标题和用途不以中心点替代完整边界。

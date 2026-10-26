@@ -66,6 +66,16 @@ def crosses(a, b, c, d):
     return ((x < 0 < y) or (y < 0 < x)) and ((z < 0 < w) or (w < 0 < z))
 
 
+def collinear_overlap(a, b, c, d):
+    """Positive shared interval only; endpoint contact is not overlap."""
+    if cross(a, b, c) != 0 or cross(a, b, d) != 0:
+        return False
+    axis = 0 if abs(b[0] - a[0]) >= abs(b[1] - a[1]) else 1
+    left, right = sorted((a[axis], b[axis]))
+    low, high = sorted((c[axis], d[axis]))
+    return min(right, high) > max(left, low)
+
+
 def point_near(a, b, tolerance):
     return math.hypot(a[0] - b[0], a[1] - b[1]) <= tolerance
 
@@ -93,7 +103,7 @@ def inside(point_, box):
     return box[0] <= point_[0] <= box[2] and box[1] <= point_[1] <= box[3]
 
 
-def analyze(data):
+def analyze(data, strict=False):
     fields(data, ['coordinate_units', 'components', 'texts', 'wires'],
            ['page_bbox', 'expected_counts', 'policy', 'title_block', 'module_frames',
             'attachment_points', 'label_anchors', 'coverage'])
@@ -136,7 +146,7 @@ def analyze(data):
         if not isinstance(data['module_frames'], list) or len(data['module_frames']) > 200:
             raise ValueError('module_frames: list of at most 200 objects required')
         for index, frame in enumerate(data['module_frames']):
-            fields(frame, ['id', 'bbox'], ['contains'])
+            fields(frame, ['id', 'bbox'], ['contains', 'title_text_id', 'purpose_text_id'])
             identity = frame['id']
             if not isinstance(identity, str) or not identity.strip() or identity in identities:
                 raise ValueError(f'module_frames[{index}].id: unique nonempty string required')
@@ -147,7 +157,7 @@ def analyze(data):
                     raise ValueError(f'module_frames[{index}].contains: list of object IDs required')
                 if len(set(contains_ids)) != len(contains_ids):
                     raise ValueError(f'module_frames[{index}].contains: duplicate IDs')
-            frames.append({'id': identity, 'bbox': rect(frame['bbox']), 'contains': contains_ids})
+            frames.append({**frame, 'id': identity, 'bbox': rect(frame['bbox']), 'contains': contains_ids})
     attachments = []
     if 'attachment_points' in data:
         if not isinstance(data['attachment_points'], list) or len(data['attachment_points']) > 2000:
@@ -167,14 +177,14 @@ def analyze(data):
         if not isinstance(data['label_anchors'], list) or len(data['label_anchors']) > 1000:
             raise ValueError('label_anchors: list of at most 1000 objects required')
         for index, item in enumerate(data['label_anchors']):
-            fields(item, ['id', 'net', 'x', 'y'])
+            fields(item, ['id', 'net', 'x', 'y'], ['text_id'])
             identity = item['id']
             if not isinstance(identity, str) or not identity.strip() or identity in identities:
                 raise ValueError(f'label_anchors[{index}].id: unique nonempty string required')
             identities.add(identity)
             if not isinstance(item['net'], str) or not item['net'].strip():
                 raise ValueError(f'label_anchors[{index}].net: nonempty string required')
-            labels.append({'id': identity, 'net': item['net'], 'point': point([item['x'], item['y']])})
+            labels.append({**item, 'id': identity, 'net': item['net'], 'point': point([item['x'], item['y']])})
     counts = {key: len(items) for key, items in groups.items()}
     expected = data.get('expected_counts')
     matched = None
@@ -195,6 +205,10 @@ def analyze(data):
                 add('bbox_overlap', first['id'], second['id'])
         if page and not contains(page, first['bbox']):
             add('outside_page', first['id'])
+    if page:
+        for obj in labels + attachments:
+            if not inside(obj['point'], page):
+                add('outside_page', obj['id'])
     segments = []
     for wire in wires:
         length = math.fsum(math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(wire['points'], wire['points'][1:]))
@@ -214,8 +228,8 @@ def analyze(data):
             key = tuple(sorted((wa['id'], wb['id'])))
             if key in seen_crossings or wa['id'] == wb['id']:
                 continue
-            if wa.get('net') and wb.get('net') and wa['net'] != wb['net'] and crosses(a, b, c, d):
-                add('different_named_wires_cross', *key)
+            if wa.get('net') and wb.get('net') and wa['net'] != wb['net'] and (crosses(a, b, c, d) or collinear_overlap(a, b, c, d)):
+                add('different_named_wires_collinear_overlap' if collinear_overlap(a, b, c, d) else 'different_named_wires_cross', *key)
                 seen_crossings.add(key)
 
     checks_run, checks_skipped = [], []
@@ -324,6 +338,44 @@ def analyze(data):
     else:
         complete_input = matched is True and any(counts.values())
         coverage_status = 'not_supplied'
+    strict_missing = []
+    if strict:
+        for name in ('page_bbox', 'title_block', 'module_frames', 'attachment_points', 'label_anchors'):
+            if name not in data:
+                strict_missing.append(name)
+        if tolerance is None:
+            strict_missing.append('policy.connection_tolerance')
+        if matched is not True:
+            strict_missing.append('matching expected_counts')
+        if not any(counts.values()):
+            strict_missing.append('nonempty snapshot')
+        for name in ('components', 'texts', 'wires', 'label_anchors', 'attachment_points', 'module_frames'):
+            entry = coverage.get(name) if isinstance(coverage, dict) else None
+            if not isinstance(entry, dict) or entry.get('status') != 'complete':
+                strict_missing.append('coverage.' + name)
+        text_map = {obj['id']: obj for obj in texts}
+        for label in labels:
+            ref = label.get('text_id')
+            if not isinstance(ref, str) or ref not in text_map:
+                strict_missing.append('label text bbox: ' + label['id'])
+        for frame in frames:
+            refs = [frame.get('title_text_id'), frame.get('purpose_text_id')]
+            for ref in refs:
+                if not isinstance(ref, str) or ref not in text_map or not contains(frame['bbox'], text_map[ref]['bbox']):
+                    strict_missing.append('module title/purpose bbox: ' + frame['id'])
+            if refs[0] == refs[1]:
+                strict_missing.append('distinct module title/purpose: ' + frame['id'])
+        for frame in frames:
+            if frame.get('contains') is None:
+                strict_missing.append('module member inventory: ' + frame['id'])
+        for symbol in symbols:
+            owners = [f for f in frames if symbol['id'] in (f.get('contains') or []) and contains(f['bbox'],symbol['bbox'])]
+            if len(owners) != 1:
+                strict_missing.append('unique complete module membership: ' + symbol['id'])
+        if not frames and symbols:
+            strict_missing.append('functional module frame(s)')
+        if strict_missing:
+            complete_input = False
     if findings:
         status = 'review_required' if complete_input else 'incomplete'
     else:
@@ -333,12 +385,13 @@ def analyze(data):
               'coverage_status': coverage_status, 'coverage': coverage,
               'optional_counts': {'module_frames': len(frames), 'attachment_points': len(attachments),
                                   'label_anchors': len(labels)},
+              'strict_mode': strict, 'strict_missing': strict_missing,
               'checks_run': checks_run, 'checks_skipped': checks_skipped,
               'findings': findings, 'electrical_verified': False, 'visual_verified': False,
-              'coverage': 'Only supplied symbol-body/text rectangles, polylines, page/title/frame bounds and declared attachment/label points.',
+              'geometry_scope': 'Only supplied symbol-body/text rectangles, polylines, page/title/frame bounds and declared attachment/label points.',
               'not_checked': ['actual EDA connectivity, pins, NC and junctions', 'shape-accurate outlines and intentional overlaps',
                               'missing/stale snapshot objects', 'module/title margins and reading quality',
-                              'decoupling or PCB electrical distance', 'collinear overlaps and endpoint junction topology',
+                              'decoupling or PCB electrical distance', 'same-net collinear semantics and endpoint junction topology',
                               'frame intent/membership beyond supplied contains', 'attachment completeness beyond supplied points',
                               'pin-electrical-type conflicts and netlister rules']}
     json.dumps(result, allow_nan=False)
@@ -348,10 +401,13 @@ def analyze(data):
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('layout')
+    parser.add_argument('--strict', action='store_true', help='Refuse incomplete geometry/coverage; still not visual or electrical acceptance')
     args = parser.parse_args()
     try:
-        result = analyze(read_json(args.layout))
+        result = analyze(read_json(args.layout), strict=args.strict)
         print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+        if args.strict and result['status'] == 'incomplete':
+            return 2
         return 1 if result['findings'] else 0
     except (OSError, UnicodeError, ValueError, TypeError, OverflowError) as error:
         print(json.dumps({'status': 'invalid_input', 'error': str(error)}, ensure_ascii=False))
