@@ -103,6 +103,8 @@ def verify_rigid_translation(page, before):
 
 def planned_quality(pages, model_report):
     """Translate the selected sheet page into sch_layout_quality input."""
+    if len(pages.get('pages') or []) != 1:
+        raise ValueError('quality requires exactly one selected page')
     page = pages['pages'][0]
     sheet = model_report['page']
     components, wires, flags, ports = [], [], [], []
@@ -137,13 +139,16 @@ def planned_quality(pages, model_report):
         for flag in layout['flags']:
             flags.append({'net': flag['net'], 'kind': flag.get('kind', 'unknown'),
                           'x': flag['pinX'] + dx, 'y': flag['pinY'] + dy})
+        for port in layout.get('ports') or []:
+            ports.append({'net': port['net'], 'x': port['x'] + dx,
+                          'y': port['y'] + dy})
         modules.append({'id': zone['id'], 'title': zone['title'],
                         'core': zone.get('coreComponentId'), 'members': members})
     title = sheet.get('titleBlock')
     return {
         'coordinate_units': 'schematic raw (0.01 inch), y-up',
-        'page': {'bbox': list(sheet['bbox']),
-                 'title_block': list(title) if title else None},
+        'page': dict(bbox=list(sheet['bbox']),
+                     **({'title_block': list(title)} if title else {})),
         'components': components, 'wires': wires, 'flags': flags, 'ports': ports,
         'modules': modules,
         'reading_order': [zone['id'] for zone in page['zones']],
@@ -171,8 +176,18 @@ def main(argv=None):
         'source_sha256': _sha(args.source),
         'model_report_sha256': _sha(args.model_report),
         'easyeda': args.easyeda,
-    }, 'steps': []}
+    }, 'steps': [], 'evidence': {
+        'scope': 'offline planned geometry only',
+        'visual_review': 'NOT RUN',
+        'live_eda_readback': 'NOT RUN',
+        'electrical_verification': 'NOT RUN',
+    }, 'placement_consistency': 'NOT RUN', 'quality_status': 'NOT RUN',
+        'model_status': report.get('status', 'not_provided'),
+        'model_blockers': report.get('blockers', []),
+        'model_warnings': report.get('warnings', [])}
     try:
+        if args.before:
+            manifest['inputs']['before_sha256'] = _sha(args.before)
         zones = out / 'zones-geom.json'
         _run([args.easyeda, 'sch', 'layout-plan', '--zones', '--from', args.source,
               '--out', str(zones), '--report', str(out / 'layout-report.json')],
@@ -223,9 +238,32 @@ def main(argv=None):
             quality_path = out / 'planned-quality-input.json'
             quality_path.write_text(json.dumps(quality, ensure_ascii=False, indent=1),
                                     encoding='utf-8')
-            _run([sys.executable, str(Path(__file__).with_name('sch_layout_quality.py')),
+            result = _run([sys.executable, str(Path(__file__).with_name('sch_layout_quality.py')),
                   str(quality_path), '--json'], manifest, 'quality', allow_failure=True,
                  stdout_path=out / 'planned-quality.json')
+            quality_report = json.loads(result.stdout)
+            if not isinstance(quality_report, dict):
+                raise ValueError('quality report must be an object')
+            manifest['quality_status'] = quality_report.get('status', 'invalid_report')
+            manifest['quality_coverage'] = quality_report.get('coverage', {})
+            manifest['quality_not_checked'] = quality_report.get('not_checked', [])
+            manifest['evidence']['title_block_available'] = bool(report['page'].get('titleBlock'))
+            manifest['evidence']['text_bboxes_complete'] = bool(quality['components']) and all(
+                c['text_bboxes'] for c in quality['components'])
+            # Exit code and report must agree; neither can establish visual acceptance.
+            findings = quality_report.get('findings')
+            if (result.returncode == 0 and quality_report.get('status') == 'clean'
+                    and findings == []):
+                quality_failure = None
+            elif (result.returncode == 1 and quality_report.get('status') == 'review_required'
+                  and isinstance(findings, list) and findings):
+                quality_failure = 'quality-review-required'
+            else:
+                quality_failure = 'quality-failed'
+            if quality_failure:
+                manifest['quality_failure'] = quality_failure
+                if manifest['status'] == 'planned':
+                    manifest['status'] = quality_failure
 
         if args.compose_source and args.before and args.page:
             compose_cmd = [args.easyeda, 'sch', 'compose', '--from', args.compose_source,
@@ -236,13 +274,15 @@ def main(argv=None):
             manifest['compose_note'] = ('not executed: stable component binding and '
                                         'instance-preservation evidence must be checked first')
 
-        manifest['status'] = manifest.get('status', 'planned')
+        if manifest['status'] == 'planned' and (manifest['model_blockers'] or
+                manifest['model_status'] not in ('ready', 'not_provided')):
+            manifest['status'] = 'model-blocked'
         (out / 'run-manifest.json').write_text(
             json.dumps(manifest, ensure_ascii=False, indent=1), encoding='utf-8')
         print(json.dumps({'status': manifest['status'], 'out_dir': str(out.resolve())},
                          ensure_ascii=False, indent=2))
-        return 0
-    except (OSError, RuntimeError, ValueError, KeyError) as error:
+        return 0 if manifest['status'] == 'planned' else 1
+    except (OSError, RuntimeError, ValueError, KeyError, TypeError) as error:
         manifest['status'] = 'failed'
         manifest['error'] = str(error)
         (out / 'run-manifest.json').write_text(

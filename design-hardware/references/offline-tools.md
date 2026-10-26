@@ -31,12 +31,14 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 |---|---|
 | `coordinate_units` | 明确坐标单位，与回读一致；不自动换算像素/英寸 |
 | `components` | 每项`id,bbox`，bbox为符号本体受保护矩形，不含向外引脚；复杂符号采用矩形近似会误报，需实际导图复核 |
-| `texts` | 每项`id,bbox`，包括外部位号、值、网名、注释/标题的完整实际边界；符号内部脚名不在此版本自动建模，保持未覆盖 |
+| `texts` | 每项`id,bbox`，包括外部位号、值、网名、注释/标题的完整实际边界；可选`owner`指向实际父对象ID（如器件primitiveId），仅用于识别“文字贴着自身符号边缘”，不改变文字覆盖声明；符号内部脚名不在此版本自动建模，保持未覆盖 |
 | `wires` | 每项`id,points`，至少两个不同连续点；可给`net`以提示不同命名导线的内部交叉；不得据此合并/改名 |
 | `page_bbox` | 可选、页面实际可用范围；采用`[min_x,min_y,max_x,max_y]`，与坐标朝向无关，四值有序且边长为正 |
 | `expected_counts` | 可选，来自实际回读的components/texts/wires数量，用于发现提取漏项；数目相同仍不能证明身份、版本和几何完整 |
 | `policy.max_wire_length` | 可选、项目自行指定的导线长度提示阈值，单位与坐标一致；不设默认通用格数 |
 | `title_block` | 可选、图签实际矩形；检查器件/文字压图签、导线穿图签、图签越页 |
+| `title_block_owned` | 可选、图签自身字段的文字ID列表；仅豁免这些文字与图签矩形的重叠，仍参与其他文字/导线碰撞检查。ID必须存在于`texts`，否则输入无效 |
+| `policy.self_text_contact_tolerance` | 可选、非负数，单位与坐标一致；仅当文字`owner`等于某器件ID、且重叠深度不超过该值时，把贴边接触记为`symbol_text_edge_contact`（info），不当作普通`bbox_overlap`。默认0，不为真实叠字开脱 |
 | `module_frames` | 可选、每项`id,bbox`与可选`contains`成员ID列表；检查框越页/压图签/互相重叠/框线切器件/成员缺失或成员在框外 |
 | `attachment_points` | 可选、每项`id,x,y,kind`，声明的真实引脚/网络标识/端口/标签连接点；配合`connection_tolerance`检查导线端点悬空与同一连接点多网 |
 | `label_anchors` | 可选、每项`id,net,x,y`；配合`connection_tolerance`检查标签是否落在导线/连接点、标签网名是否与所在导线一致、同点不同网 |
@@ -45,6 +47,8 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 所有对象ID唯一；矩形坐标必须有限且有序。标签只有锚点没有文本边界时，不得用锚点冒充已检查文字；无法量边界就保持覆盖不足并实际看图。不要为取得工具0退出而删去难处理的对象。
 
 工具提示矩形重叠、线穿本体/文字、越页、指定的长线及不同命名导线交叉；边缘相切不按进入矩形处理。带可选字段时还提示压图签、模块框问题、悬空导线端点、同一连接点多网、标签悬空/错网。不判真实短路、连接点/端口作用域、NC、去耦的电气距离、模块内边距或阅读质量，也不自动证明同网线相连。`attachment_points`/`contains` 只是输入声明，不完整时会产生误报或漏报；`checks_skipped` 明确列出未运行的检查。重叠/交叉/悬空都是待核查候选，不是自动改线指令。
+
+`symbol_text_edge_contact` 只把已声明owner的浅贴边从普通重叠中分流为info，必须仍看局部图；文字深入自身符号本体仍报`bbox_overlap`。`title_block_owned` 只说明“这段文字属于图签自身字段”，不表示图签排版正确；未声明的文字压图签仍报`overlaps_title_block`。两者都不能把coverage标成complete，也不能替代实际导图检查。
 
 退出0表示未发现候选，输入可能不完整；1表示存在候选；2表示格式错误。只有有对象且声明数量匹配时可输出`no_candidates`，其余无候选结果为`incomplete`；`electrical_verified`和`visual_verified`始终为false。即便有计数匹配，仍要执行实际网络回读和官方导图的整页/局部验收。
 
@@ -79,6 +83,8 @@ visual_verified 始终为false。0仅说明输入范围内未找到候选，功�
 每个 module_frames 项提供 title_text_id 和 purpose_text_id，分别指向框内两段不同文字。
 缺少关联或关联对象不存在均为 incomplete，不能用标签锚点代替文字测量。
 这些关联在普通模式为可选项；框/文本的内容语义和用途是否准确仍需实际检视。
+`texts[].owner`、`title_block_owned` 与 `self_text_contact_tolerance` 是可选的分类声明，
+不是strict通过条件，也不能弥补texts覆盖不足；未声明时行为与旧版一致。
 
 严格模式要求每个模块 contains 明确列出成员，每个器件完整且唯一地归属于一个功能模块。
 标签锚点和真实连接点也检查页边界；同点连接不豁免越框。框成员、标题和用途不以中心点替代完整边界。

@@ -39,6 +39,12 @@ def overlap(a, b):
     return min(a[2], b[2]) > max(a[0], b[0]) and min(a[3], b[3]) > max(a[1], b[1])
 
 
+def overlap_extent(a, b):
+    """Positive intersection width and height; caller has checked overlap()."""
+    return (min(a[2], b[2]) - max(a[0], b[0]),
+            min(a[3], b[3]) - max(a[1], b[1]))
+
+
 def contains(a, b):
     return a[0] <= b[0] and a[1] <= b[1] and a[2] >= b[2] and a[3] >= b[3]
 
@@ -106,7 +112,7 @@ def inside(point_, box):
 def analyze(data, strict=False):
     fields(data, ['coordinate_units', 'components', 'texts', 'wires'],
            ['page_bbox', 'expected_counts', 'policy', 'title_block', 'module_frames',
-            'attachment_points', 'label_anchors', 'coverage'])
+            'attachment_points', 'label_anchors', 'coverage', 'title_block_owned'])
     if not isinstance(data['coordinate_units'], str) or not data['coordinate_units'].strip():
         raise ValueError('coordinate_units required; never infer pixels/inches')
     identities, groups = set(), {}
@@ -117,7 +123,9 @@ def analyze(data, strict=False):
         groups[group] = []
         for item in values:
             required = ['id', 'points'] if group == 'wires' else ['id', 'bbox']
-            fields(item, required, ['net'] if group == 'wires' else [])
+            optional = ['net'] if group == 'wires' else (
+                ['owner', 'kind'] if group == 'texts' else [])
+            fields(item, required, optional)
             identity = item['id']
             if not isinstance(identity, str) or not identity.strip() or identity in identities:
                 raise ValueError('all object IDs must be nonempty and unique')
@@ -132,13 +140,22 @@ def analyze(data, strict=False):
                     raise ValueError('wire net must be a nonempty string when supplied')
                 groups[group].append({**item, 'points': points})
             else:
-                groups[group].append({**item, 'bbox': rect(item['bbox'])})
+                owner = item.get('owner')
+                if group == 'texts' and owner is not None and (
+                        not isinstance(owner, str) or not owner.strip()):
+                    raise ValueError('text owner must be a nonempty string')
+                groups[group].append({**item, 'bbox': rect(item['bbox']),
+                                      **({'owner': owner} if group == 'texts' else {})})
     if sum(len(x['points']) - 1 for x in groups['wires']) > 5000:
         raise ValueError('snapshot exceeds 5000 wire segments; split by page')
     policy = data.get('policy', {})
-    fields(policy, [], ['max_wire_length', 'connection_tolerance'])
+    fields(policy, [], ['max_wire_length', 'connection_tolerance',
+                        'self_text_contact_tolerance'])
     maximum = number(policy['max_wire_length'], 'max_wire_length', True) if 'max_wire_length' in policy else None
     tolerance = number(policy['connection_tolerance'], 'connection_tolerance', True) if 'connection_tolerance' in policy else None
+    self_contact = (number(policy['self_text_contact_tolerance'],
+                           'self_text_contact_tolerance')
+                    if 'self_text_contact_tolerance' in policy else 0.0)
     page = rect(data['page_bbox']) if 'page_bbox' in data else None
     title = rect(data['title_block']) if 'title_block' in data else None
     frames = []
@@ -195,14 +212,45 @@ def analyze(data, strict=False):
         matched = expected == counts
     findings = []
 
-    def add(code, *objects):
-        findings.append({'code': code, 'objects': list(objects), 'status': 'review_candidate'})
+    def add(code, *objects, severity=None, **details):
+        finding = {'code': code, 'objects': list(objects), 'status': 'review_candidate'}
+        if severity is not None:
+            finding['severity'] = severity
+        finding.update(details)
+        findings.append(finding)
 
     symbols, texts, wires = (groups[k] for k in ('components', 'texts', 'wires'))
+    symbol_ids = {symbol['id'] for symbol in symbols}
+    owned = data.get('title_block_owned')
+    title_block_owned = set()
+    if owned is not None:
+        if (not isinstance(owned, list)
+                or not all(isinstance(value, str) and value for value in owned)):
+            raise ValueError('title_block_owned: list of nonempty text IDs required')
+        if len(set(owned)) != len(owned):
+            raise ValueError('title_block_owned: duplicate IDs')
+        text_ids = {text['id'] for text in texts}
+        unknown = sorted(set(owned) - text_ids)
+        if unknown:
+            raise ValueError('title_block_owned: unknown text IDs ' + ', '.join(unknown[:10]))
+        title_block_owned = set(owned)
     for i, first in enumerate(symbols + texts):
         for second in (symbols + texts)[i + 1:]:
             if overlap(first['bbox'], second['bbox']):
-                add('bbox_overlap', first['id'], second['id'])
+                extent = overlap_extent(first['bbox'], second['bbox'])
+                edge_owner = None
+                for text, owner in ((first, second), (second, first)):
+                    if (text.get('owner') in symbol_ids
+                            and text.get('owner') == owner['id']
+                            and min(extent) <= self_contact):
+                        edge_owner = owner['id']
+                if edge_owner is not None:
+                    add('symbol_text_edge_contact', first['id'], second['id'],
+                        severity='info', overlap=[round(extent[0], 6), round(extent[1], 6)],
+                        owner=edge_owner, tolerance=self_contact)
+                else:
+                    add('bbox_overlap', first['id'], second['id'],
+                        overlap=[round(extent[0], 6), round(extent[1], 6)])
         if page and not contains(page, first['bbox']):
             add('outside_page', first['id'])
     if page:
@@ -240,8 +288,12 @@ def analyze(data, strict=False):
         if page and not contains(page, title):
             add('title_block_outside_page', 'title_block')
         for obj in objects:
+            if obj['id'] in title_block_owned:
+                continue
             if overlap(obj['bbox'], title):
-                add('overlaps_title_block', obj['id'])
+                extent = overlap_extent(obj['bbox'], title)
+                add('overlaps_title_block', obj['id'],
+                    overlap=[round(extent[0], 6), round(extent[1], 6)])
         for wire in wires:
             if any(enters(a, b, title) for a, b in zip(wire['points'], wire['points'][1:])):
                 add('wire_enters_title_block', wire['id'])
@@ -384,11 +436,17 @@ def analyze(data, strict=False):
               'counts': counts, 'declared_inventory_matches': matched,
               'coverage_status': coverage_status, 'coverage': coverage,
               'optional_counts': {'module_frames': len(frames), 'attachment_points': len(attachments),
-                                  'label_anchors': len(labels)},
+                                  'label_anchors': len(labels),
+                                  'title_block_owned': len(title_block_owned)},
+              'self_text_contact_tolerance': self_contact,
               'strict_mode': strict, 'strict_missing': strict_missing,
               'checks_run': checks_run, 'checks_skipped': checks_skipped,
               'findings': findings, 'electrical_verified': False, 'visual_verified': False,
-              'geometry_scope': 'Only supplied symbol-body/text rectangles, polylines, page/title/frame bounds and declared attachment/label points.',
+              'geometry_scope': ('Only supplied symbol-body/text rectangles, polylines, page/title/frame bounds '
+                                 'and declared attachment/label points. A text owner matching a symbol only '
+                                 'reclassifies small edge contact as info; it does not prove the text is legible. '
+                                 'title_block_owned only exempts a text from title-block overlap, not from '
+                                 'other collision checks.'),
               'not_checked': ['actual EDA connectivity, pins, NC and junctions', 'shape-accurate outlines and intentional overlaps',
                               'missing/stale snapshot objects', 'module/title margins and reading quality',
                               'decoupling or PCB electrical distance', 'same-net collinear semantics and endpoint junction topology',
