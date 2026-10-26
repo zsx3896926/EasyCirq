@@ -74,7 +74,7 @@
 
 限制：只读、同页、5 次、连接器健康；写路径未做对照。
 
-### 架构独立复核（4/5）
+### 架构独立复核（5/5）
 
 | ID | 结论 | 要点 |
 |---|---|---|
@@ -83,8 +83,17 @@
 | FPGA-POWER-01 | 新发现（原 claim 修正） | 64/67/78 接 1.8V 低于 2.375V；pin12 PSRAM 接 3.3V 高于 1.89V；两轨接反 |
 | ADC-01 | REFUTED | S1=+3V3、S2=GND，AD9288 为 Normal Operation，不是 standby |
 
-高风险组（3.3V buck、VOCM、LPF、端接、PSRAM 时钟）待第 5 个复核返回；未返回前
-不写成已确认。
+高风险组（逐项；组级 verdict=REFUTED，因为 H5 不成立且部分表述需修正）：
+
+| ID | 结论 | 要点 |
+|---|---|---|
+| H1 3.3V buck | CONFIRMED | 3.095V < INT035TFT VDDIO 最小 3.135V；容差低端约 3.02V |
+| H2 VOCM | CONFIRMED | AD8138 VOCM 0.9V < 1.0V 最小；ADC CM 0.99V 仍低 10mV |
+| H3 抗混叠 | CONFIRMED | 实际 3L+3C；首个 -3dB≈8.9MHz，25MHz 相对 -21.5dB；15MHz/-44dB 不成立 |
+| H4 端接 | CONFIRMED | 51/(44+51)=53.7%，计 ADC 10k 为 53.6%；量程表未乘 0.536 |
+| H5 PSRAM 时钟 | REFUTED | 100MHz 是 memory clock、用户 50MHz，未越 166MHz；400MB/s 为峰值，持续余量乐观 |
+
+原始复核原文见 `architecture-verification-raw.txt` 与 `verify-HIGH-GROUP.json`。
 
 ## 复现命令（摘要）
 

@@ -126,7 +126,11 @@ tests/test_eda_cache.py              8
 | FPGA-POWER-01 | 原 claim REFUTED，但发现真正电源轨接反 | 64/67/78 应 +3V3，pin12 应 +1V8 |
 | ADC-01 S1/S2 standby | REFUTED | S1=+3V3/S2=GND 为 Normal Operation，不改图 |
 
-高风险组（3.3V buck/VOCM/LPF/端接/PSRAM 时钟）仍在复核，未写成已确认。
+高风险组（5/5，逐项）：H1 3.3V buck 3.095V < 屏 VDDIO 3.135V **CONFIRMED**；
+H2 VOCM 0.9V < AD8138 最小 1.0V **CONFIRMED**（ADC CM 0.99V 仍低 10mV）；
+H3 滤波器首个 -3dB 约 8.9MHz、25MHz 相对 -21.5dB **CONFIRMED**；
+H4 端接约 53.6% 满度 **CONFIRMED**；H5 PSRAM 100MHz 是 memory clock、
+用户时钟 50MHz，未越 166MHz **REFUTED**（400MB/s 为峰值，持续余量乐观）。
 这说明“先派独立审查、再落结论”确实能拦住看似合理的错误结论；Skill 的
 `eda-efficiency.md` 已把这条写成多 Agent 纪律。
 
