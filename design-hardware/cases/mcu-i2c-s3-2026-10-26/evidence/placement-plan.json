@@ -1,0 +1,342 @@
+{
+  "schema": "pcb-placement-proposal/v1",
+  "project": "mcu-i2c-s3-20261026",
+  "placements": [
+    {
+      "designator": "U2",
+      "x": 900,
+      "y": 651,
+      "rotation": 180,
+      "layer": 1,
+      "reason": "ESP32-S3-WROOM-1, antenna end at bottom board edge; USB pins toward right"
+    },
+    {
+      "designator": "J1",
+      "x": 2320,
+      "y": 885,
+      "rotation": 180,
+      "layer": 1,
+      "reason": "USB-C at right board edge; orientation verified by pcb check"
+    },
+    {
+      "designator": "U1",
+      "x": 2100,
+      "y": 450,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "AMS1117-3.3 near USB-C input"
+    },
+    {
+      "designator": "C2",
+      "x": 1950,
+      "y": 700,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "10uF LDO input capacitor near VIN"
+    },
+    {
+      "designator": "C3",
+      "x": 1950,
+      "y": 250,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "22uF LDO output capacitor near VOUT"
+    },
+    {
+      "designator": "C1",
+      "x": 2100,
+      "y": 150,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "100nF LDO output bypass"
+    },
+    {
+      "designator": "U90",
+      "x": 250,
+      "y": 1350,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "SHT40 at left/upper edge, away from LDO heat"
+    },
+    {
+      "designator": "C90",
+      "x": 400,
+      "y": 1420,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "SHT40 VDD decoupling"
+    },
+    {
+      "designator": "R90",
+      "x": 350,
+      "y": 1250,
+      "rotation": 90,
+      "layer": 1,
+      "reason": "I2C SDA pullup near sensor"
+    },
+    {
+      "designator": "R91",
+      "x": 450,
+      "y": 1250,
+      "rotation": 90,
+      "layer": 1,
+      "reason": "I2C SCL pullup near sensor"
+    },
+    {
+      "designator": "R92",
+      "x": 1350,
+      "y": 850,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "22R USB D+ series resistor near module pin 14"
+    },
+    {
+      "designator": "R93",
+      "x": 1350,
+      "y": 780,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "22R USB D- series resistor near module pin 13"
+    },
+    {
+      "designator": "D1",
+      "x": 2150,
+      "y": 650,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "USB D- ESD near connector"
+    },
+    {
+      "designator": "D2",
+      "x": 2250,
+      "y": 650,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "USB D+ ESD near connector"
+    },
+    {
+      "designator": "R1",
+      "x": 2000,
+      "y": 1080,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "CC1 5.1k pulldown near USB-C"
+    },
+    {
+      "designator": "R2",
+      "x": 1900,
+      "y": 1080,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "CC2 5.1k pulldown near USB-C"
+    },
+    {
+      "designator": "C4",
+      "x": 1380,
+      "y": 250,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "10uF module bulk capacitor near 3V3 pin"
+    },
+    {
+      "designator": "C6",
+      "x": 1360,
+      "y": 450,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "100nF module 3V3 decoupling"
+    },
+    {
+      "designator": "C5",
+      "x": 1350,
+      "y": 350,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "1uF EN RC capacitor near module EN pin"
+    },
+    {
+      "designator": "R3",
+      "x": 1450,
+      "y": 350,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "10k EN pullup"
+    },
+    {
+      "designator": "R4",
+      "x": 450,
+      "y": 800,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "10k BOOT pullup near module IO0"
+    },
+    {
+      "designator": "SW1",
+      "x": 200,
+      "y": 600,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "BOOT button, left edge accessible"
+    },
+    {
+      "designator": "SW2",
+      "x": 200,
+      "y": 900,
+      "rotation": 0,
+      "layer": 1,
+      "reason": "RESET button, left edge accessible"
+    }
+  ],
+  "keepouts": [
+    {
+      "id": "MH-TL",
+      "center": [
+        145,
+        1626.7
+      ],
+      "radius": 118,
+      "source": "M2.5 washer keep-out"
+    },
+    {
+      "id": "MH-BL",
+      "center": [
+        145,
+        145
+      ],
+      "radius": 118,
+      "source": "M2.5 washer keep-out"
+    }
+  ],
+  "near_pin": [
+    {
+      "part": "C4",
+      "pad": "1",
+      "owner": "U2",
+      "owner_pad": "2",
+      "max_mil": 180,
+      "source": "module 3V3 pin bulk"
+    },
+    {
+      "part": "C6",
+      "pad": "1",
+      "owner": "U2",
+      "owner_pad": "2",
+      "max_mil": 150,
+      "source": "module 3V3 pin HF decap"
+    },
+    {
+      "part": "C5",
+      "pad": "1",
+      "owner": "U2",
+      "owner_pad": "3",
+      "max_mil": 220,
+      "source": "module EN RC"
+    },
+    {
+      "part": "R3",
+      "pad": "1",
+      "owner": "U2",
+      "owner_pad": "3",
+      "max_mil": 300,
+      "source": "module EN pullup"
+    },
+    {
+      "part": "R4",
+      "pad": "1",
+      "owner": "U2",
+      "owner_pad": "27",
+      "max_mil": 250,
+      "source": "module IO0 boot pullup"
+    },
+    {
+      "part": "C90",
+      "pad": "1",
+      "owner": "U90",
+      "owner_pad": "3",
+      "max_mil": 150,
+      "source": "SHT40 VDD decoupling"
+    },
+    {
+      "part": "R90",
+      "pad": "2",
+      "owner": "U90",
+      "owner_pad": "1",
+      "max_mil": 250,
+      "source": "I2C SDA pullup to sensor"
+    },
+    {
+      "part": "R91",
+      "pad": "2",
+      "owner": "U90",
+      "owner_pad": "2",
+      "max_mil": 250,
+      "source": "I2C SCL pullup to sensor"
+    },
+    {
+      "part": "R92",
+      "pad": "2",
+      "owner": "U2",
+      "owner_pad": "14",
+      "max_mil": 300,
+      "source": "22R USB D+ at module"
+    },
+    {
+      "part": "R93",
+      "pad": "2",
+      "owner": "U2",
+      "owner_pad": "13",
+      "max_mil": 300,
+      "source": "22R USB D- at module"
+    },
+    {
+      "part": "C2",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "3",
+      "max_mil": 400,
+      "source": "LDO input capacitor"
+    },
+    {
+      "part": "C3",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "2",
+      "max_mil": 400,
+      "source": "LDO output capacitor"
+    },
+    {
+      "part": "C1",
+      "pad": "1",
+      "owner": "U1",
+      "owner_pad": "2",
+      "max_mil": 350,
+      "source": "LDO output bypass"
+    }
+  ],
+  "base_semantic_sha256": "2e7c688f0371cae889725e74c2965e59bbd0bddb60851bea8c7805083b9d3f07",
+  "primitive_ids": {
+    "D2": "2c71ff646a2a5691",
+    "R2": "9a23e01ee752a59b",
+    "U1": "44059ace00b43ca8",
+    "C90": "86bf8ce976f7345c",
+    "C5": "7010b74b28e833ff",
+    "R90": "a7fea414b93a89ae",
+    "R93": "0db5f8ec2cf9f317",
+    "R4": "4b688d45599ac534",
+    "C2": "d0258e32fb7cc1ce",
+    "U2": "ad2958c9ca585b87",
+    "R92": "4ea159547b6e11c4",
+    "C6": "c297de670109cefa",
+    "SW2": "a8b0e78336c5f8ae",
+    "U90": "754f0a336fa74608",
+    "C3": "22d8f4d1b1c88400",
+    "C1": "f3b97f0c5b221395",
+    "R3": "39342ad0b3db49d7",
+    "D1": "a83f6b9c38241fac",
+    "R91": "9e503ad41b0f6a03",
+    "SW1": "1c4d41a4600abdfb",
+    "R1": "03827ff966a52fec",
+    "C4": "cf1f3f0f451798de",
+    "J1": "e30a775dcf6bebad"
+  }
+}

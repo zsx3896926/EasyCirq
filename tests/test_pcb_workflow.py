@@ -312,6 +312,20 @@ class PcbWorkflowTests(unittest.TestCase):
         self.assertEqual(bad_device['status'], 'rejected')
         self.assertTrue(any('device identity' in reason for reason in bad_device['reasons']))
 
+    def test_apply_adapter_accepts_expected_placement_geometry(self):
+        self.assertTrue(pcb_apply_plan.expected_placement_diff(
+            {'status': 'changed', 'identity_changes': [], 'copper_changes': [],
+             'unrelated_changes': [], 'geometry_changes': [{'designator': 'U1'}]}))
+        self.assertTrue(pcb_apply_plan.expected_placement_diff(
+            {'status': 'match', 'identity_changes': [], 'copper_changes': [],
+             'unrelated_changes': []}))
+        self.assertFalse(pcb_apply_plan.expected_placement_diff(
+            {'status': 'changed', 'identity_changes': [], 'copper_changes': [],
+             'unrelated_changes': [{'designator': 'X'}]}))
+        self.assertFalse(pcb_apply_plan.expected_placement_diff(
+            {'status': 'changed', 'identity_changes': [{'designator': 'U1'}],
+             'copper_changes': [], 'unrelated_changes': []}))
+
     def test_apply_adapter_dry_run_and_refusal(self):
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):

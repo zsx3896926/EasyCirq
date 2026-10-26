@@ -1,0 +1,126 @@
+{
+  "schema": "design-engine-state/v1",
+  "project": {
+    "name": "mcu-i2c-s3-20261026",
+    "uuid": "b4327168b80347f492b53baf9f04bd20",
+    "board": "Board2",
+    "pcb": "PCB2",
+    "pcb_uuid": "40b81985cfb4a5ed"
+  },
+  "stage": "S5_delivery",
+  "best_candidate": "manual-measured-placement",
+  "open_items": [
+    "天线 keepout：实际局部区域已建，但 pcb check 期望板边整条带，WARN 未清零",
+    "+3V3 未铺铜、GND 10 mil 走线；均按实际电流解释，WARN 保留",
+    "5 条 decap 距离超过 100 mil 经验阈值；保留 WARN",
+    "SHT40 库 EP 焊盘与原厂“下方无铜”不完全一致；需换无 EP 封装或装配确认",
+    "AMS1117 输出陶瓷电容稳定性未验证（datasheet 保证为钽）",
+    "Fiducial 未加；USB SI/阻抗未签核；未做高速承诺",
+    "Gerber/drill/CPL 导出：typed CLI 不提供，制造包 BLOCKED",
+    "未做实物/热/EMC/固件；未做局部改板与跨工程铜复用"
+  ],
+  "next_action": "制造包 Gerber/CPL 被 CLI 阻断；补局部改板/复用证据与实物验证计划",
+  "budget": {
+    "kind": "none",
+    "spent": 0,
+    "remaining": null
+  },
+  "recovery": {
+    "checkpoint_epro2": "boardB-final.epro2",
+    "sha256": "312f3cd456fe4b9c5bf72b94e6618d08b9fdf9e1e38e76d3323db35fa6651cc1",
+    "note": "最终归档；DRC 0、save/reload diff match、BOM 已导出；Gerber/CPL 未导出"
+  },
+  "evidence": [
+    {
+      "role": "pcb-dump-final",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/pcb-dump-final.json",
+      "sha256": "42acfe23ba0b7cb499653b218033b91ca67562b7d88d7fa99d4ee994b0a0c1c4",
+      "bytes": 355879
+    },
+    {
+      "role": "pcb-dump-after-reload",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/pcb-dump-after-reload.json",
+      "sha256": "2702c7bdeb6d08629a3c69e488fc40b911228136618c361749eca788dcf24c00",
+      "bytes": 355881
+    },
+    {
+      "role": "save-reload-diff",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/save-reload-diff.json",
+      "sha256": "6abb4c65476c1b7e965e2d032935ff9c7d461e8317b6f2c27b36652a2805ae41",
+      "bytes": 384
+    },
+    {
+      "role": "pcb-drc-final",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/pcb-drc-final.json",
+      "sha256": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad",
+      "bytes": 147
+    },
+    {
+      "role": "pcb-check-final",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/pcb-check-final.json",
+      "sha256": "7c5449402562369e075214d4e50c38075f64284fbf65f854c2b2b29ce564c835",
+      "bytes": 6827
+    },
+    {
+      "role": "netpath-key",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/netpath-key-connections.json",
+      "sha256": "e17a1b3b0ec4bf8dc9184a8334059eb262b79aeb560c032df3b420e57e9043ad",
+      "bytes": 3721
+    },
+    {
+      "role": "sch-pcb-compare",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/sch-pcb-compare.json",
+      "sha256": "16e11979bcc7a66bf81363fb1bfbbd599b7413dcb7f9145dcb763af1e7dcfb4e",
+      "bytes": 120
+    },
+    {
+      "role": "sch-connectivity",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/sch-connectivity.json",
+      "sha256": "4354593154daf24d4577e128a2e63e73b32104cb19f07ebfa7755d25e89c5aa9",
+      "bytes": 47095
+    },
+    {
+      "role": "placement-plan",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/placement-plan.json",
+      "sha256": "fdef702e8295a4e506e982dc027747add402cd6793dbed7511f63ea52d5446b3",
+      "bytes": 7425
+    },
+    {
+      "role": "placement-apply",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/placement-apply-report.json",
+      "sha256": "41be24c740742f509397f694c19957053a1c3b77a3c0efd726b89b1c7e77e57e",
+      "bytes": 12713
+    },
+    {
+      "role": "bom",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/BOM.csv",
+      "sha256": "f2628a128b853b0ffcdbf91e0ad38220ffb49114ac951fbe35a046cf62bede46",
+      "bytes": 1401
+    },
+    {
+      "role": "bom-audit",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/bom-audit.json",
+      "sha256": "701460e14475ff104d8dc4b86c8fc20825ea84ba260fbc0ecd43e86488c8ce45",
+      "bytes": 249
+    },
+    {
+      "role": "image-top",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/pcb-final-top.png",
+      "sha256": "7c880ebcf2b7e136cac1c9a39e15449d919e761b03579dec9003feabfc670fef",
+      "bytes": 192823
+    },
+    {
+      "role": "image-bottom",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/pcb-final-bottom.png",
+      "sha256": "e50e4bc0966543960f7d6b89a16be995686ad6446840d17f7519965ef61a890c",
+      "bytes": 102986
+    },
+    {
+      "role": "actual-svg",
+      "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26\\evidence/pcb-final-actual.svg",
+      "sha256": "c6f67e6eca329e7634142a2a84267c53a311839634211e69b9910b78b7c77ad4",
+      "bytes": 76782
+    }
+  ],
+  "updated": null
+}

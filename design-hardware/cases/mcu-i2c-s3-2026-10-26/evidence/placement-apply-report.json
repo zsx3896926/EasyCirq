@@ -1,0 +1,744 @@
+{
+  "status": "mismatch",
+  "check": {
+    "schema": "design-engine-pcb-placement/v1",
+    "status": "pass",
+    "hard_ok": true,
+    "findings": [],
+    "constraints": [],
+    "counts": {
+      "findings": 0,
+      "hard_findings": 0,
+      "constraint_rows": 0,
+      "hard_failed": 0,
+      "hard_unmeasured": 0
+    },
+    "measurement_note": "bbox/pad geometry from pcb dump; pad distances are centre distances, not copper paths"
+  },
+  "records": [
+    {
+      "designator": "U2",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "J1",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "U1",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "C2",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "C3",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "C1",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "U90",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "C90",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "R90",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "R91",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "R92",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "R93",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "D1",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "D2",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "R1",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "R2",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "C4",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "C6",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "C5",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "R3",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "R4",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "SW1",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    },
+    {
+      "designator": "SW2",
+      "status": "applied",
+      "code": 0,
+      "verified": true,
+      "applied": [
+        "layer",
+        "rotation",
+        "x",
+        "y"
+      ],
+      "error": null
+    }
+  ],
+  "note": "typed pcb modify only; first failure stops the batch; save/reload/diff follows",
+  "save": {
+    "saved": true
+  },
+  "reload": {
+    "ok": false,
+    "stdout": "✓ reloaded pcb 40b81985cfb4a5ed (saved → closed → reopened)",
+    "stderr": ""
+  },
+  "dump": {
+    "ok": false,
+    "stdout": "",
+    "stderr": "✅ 23 component(s), outline=polygon → C:\\Users\\jlc\\work\\pcb-round9-scratch\\boardB-placed.json\n"
+  },
+  "diff": {
+    "schema": "design-engine-pcb-diff/v1",
+    "status": "changed",
+    "identity_changes": [],
+    "geometry_changes": [
+      {
+        "kind": "pose_changed",
+        "designator": "C1",
+        "before": [
+          599.2615,
+          -603.9474,
+          0,
+          1
+        ],
+        "after": [
+          2100,
+          150,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "C2",
+        "before": [
+          80.30699999999999,
+          -684.8784,
+          0,
+          1
+        ],
+        "after": [
+          1950,
+          700,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "C3",
+        "before": [
+          736.6555,
+          -235.4254,
+          0,
+          1
+        ],
+        "after": [
+          1950,
+          250,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "C4",
+        "before": [
+          2765.4053,
+          -462.2664,
+          0,
+          1
+        ],
+        "after": [
+          1380,
+          250,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "C5",
+        "before": [
+          2533.5223,
+          -527.2934,
+          0,
+          1
+        ],
+        "after": [
+          1350,
+          350,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "C6",
+        "before": [
+          2628.0113,
+          -462.2664,
+          0,
+          1
+        ],
+        "after": [
+          1360,
+          450,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "C90",
+        "before": [
+          1936.7409,
+          -803.9584,
+          0,
+          1
+        ],
+        "after": [
+          400,
+          1420,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "D1",
+        "before": [
+          1053.9879,
+          -470.5384,
+          0,
+          1
+        ],
+        "after": [
+          2150,
+          650,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "D2",
+        "before": [
+          1133.5959,
+          -599.3404,
+          0,
+          1
+        ],
+        "after": [
+          2250,
+          650,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "J1",
+        "before": [
+          1420.2534,
+          -470.5384,
+          0,
+          1
+        ],
+        "after": [
+          2320,
+          885,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "R1",
+        "before": [
+          1717.1249,
+          -284.4254,
+          0,
+          1
+        ],
+        "after": [
+          2000,
+          1080,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "R2",
+        "before": [
+          1053.9879,
+          -219.48039999999997,
+          0,
+          1
+        ],
+        "after": [
+          1900,
+          1080,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "R3",
+        "before": [
+          2436.2603,
+          -527.2934,
+          0,
+          1
+        ],
+        "after": [
+          1450,
+          350,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "R4",
+        "before": [
+          3673.2923,
+          -219.48039999999997,
+          0,
+          1
+        ],
+        "after": [
+          450,
+          800,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "R90",
+        "before": [
+          1817.1599,
+          -892.1244,
+          0,
+          1
+        ],
+        "after": [
+          350,
+          1250,
+          90,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "R91",
+        "before": [
+          2056.3259,
+          -534.9394,
+          0,
+          1
+        ],
+        "after": [
+          450,
+          1250,
+          90,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "R92",
+        "before": [
+          2159.0599,
+          -663.7414,
+          0,
+          1
+        ],
+        "after": [
+          1350,
+          850,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "R93",
+        "before": [
+          2159.0599,
+          -728.6864,
+          0,
+          1
+        ],
+        "after": [
+          1350,
+          780,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "SW1",
+        "before": [
+          3843.3848,
+          -683.2854,
+          0,
+          1
+        ],
+        "after": [
+          200,
+          600,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "SW2",
+        "before": [
+          4083.5348,
+          -633.2854,
+          0,
+          1
+        ],
+        "after": [
+          200,
+          900,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "U1",
+        "before": [
+          343.29,
+          -427.63840000000005,
+          0,
+          1
+        ],
+        "after": [
+          2100,
+          450,
+          0,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "U2",
+        "before": [
+          3239.4148,
+          -912.2664,
+          0,
+          1
+        ],
+        "after": [
+          900,
+          651,
+          180,
+          1
+        ]
+      },
+      {
+        "kind": "pose_changed",
+        "designator": "U90",
+        "before": [
+          2159.0599,
+          -892.1244,
+          0,
+          1
+        ],
+        "after": [
+          250,
+          1350,
+          0,
+          1
+        ]
+      }
+    ],
+    "copper_changes": [],
+    "unrelated_changes": [],
+    "counts": {
+      "identity": 0,
+      "geometry": 23,
+      "copper": 0,
+      "unrelated": 0
+    },
+    "scope": {
+      "designators": [
+        "U2",
+        "J1",
+        "U1",
+        "C2",
+        "C3",
+        "C1",
+        "U90",
+        "C90",
+        "R90",
+        "R91",
+        "R92",
+        "R93",
+        "D1",
+        "D2",
+        "R1",
+        "R2",
+        "C4",
+        "C6",
+        "C5",
+        "R3",
+        "R4",
+        "SW1",
+        "SW2"
+      ]
+    },
+    "note": "primitiveId is not stable across document reload; compare identity and geometry, not IDs alone"
+  }
+}

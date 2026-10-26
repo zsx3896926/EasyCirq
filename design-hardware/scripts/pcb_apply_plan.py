@@ -51,6 +51,14 @@ def _dump(value, path=None):
         print(text)
 
 
+def expected_placement_diff(diff):
+    """True when the diff contains only in-scope geometry moves."""
+    return (diff.get('status') in ('match', 'changed') and
+            not diff.get('identity_changes') and
+            not diff.get('copper_changes') and
+            not diff.get('unrelated_changes'))
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -131,7 +139,10 @@ def main(argv=None):
     scope = {'designators': [item['designator'] for item in placements]}
     diff = diff_boards(dump, after, scope)
     report['diff'] = diff
-    report['status'] = 'verified' if diff['status'] == 'match' else 'mismatch'
+    # A placement apply is EXPECTED to change in-scope geometry.  It is verified
+    # only when there is no identity/copper drift and nothing outside the scope
+    # changed; `changed` (not `match`) is therefore the normal success result.
+    report['status'] = 'verified' if expected_placement_diff(diff) else 'mismatch'
     _dump(report, args.report)
     return 0 if report['status'] == 'verified' else 1
 

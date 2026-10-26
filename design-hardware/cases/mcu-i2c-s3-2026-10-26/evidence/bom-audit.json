@@ -1,0 +1,11 @@
+{
+  "audit": {
+    "schema": "design-engine-sourcing/v1",
+    "status": "pass",
+    "findings": [],
+    "hard_count": 0,
+    "rows": 15,
+    "parts": 23,
+    "note": "identity completeness only; stock/price/SMT status are not checked offline"
+  }
+}

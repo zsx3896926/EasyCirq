@@ -27,21 +27,24 @@
 - **制造包 BLOCKED**：typed CLI 无 Gerber/drill/CPL；BOM 已导出；未下单。
 - 未做实物/热/EMC/光照实测。
 
-## 板 B 状态（计划/资料核对，未创建）
+## 板 B 真实状态（已完成）
 
-- 方案：`mcu-i2c-s3-20261026`，ESP32-S3-WROOM-1-N8R8 + SHT40 + AMS1117-3.3 + USB-C 原生 USB，2 层 SMT。
-- 已核对原厂资料：
-  - WROOM-1 datasheet v1.8 Table 3-1：pin13 IO19=USB_D−、pin14 IO20=USB_D+、pin4 IO4、pin5 IO5、pin3 EN、pin27 IO0、pin1/40/41 GND、pin2 3V3；IO35-37 在 Octal PSRAM 模组不可用；模块 18×25.5mm，天线 keepout。
-  - SHT4x datasheet v6.4 Figure 17/18：1 SDA/2 SCL/3 VDD/4 VSS；die pad 不与任何引脚相连；传感器下方除引脚焊盘外禁铜。**easyeda `-EP` 库封装把 EP 接 GND 与资料冲突，不能照抄**；需找无 EP 封装或 EP NC + 全层 no-copper 区。
-  - AMS1117 固定 3.3V：pin1 GND/pin2 VOUT/pin3 VIN/pin4 散热片 VOUT；22µF 手册稳定性保证为固体钽，而 block 用陶瓷 → `LDO stability NOT VERIFIED`。
-- 构建步骤与精确命令见 scratch `board-b-build.md` / `board-b-plan.md`（未提交仓库）；窗口空出后创建工程、block-apply、SHT40/22R、autoconnect、sch gate、import PCB、65×45mm 板框、2×M2.5、天线 keepout、布局/布线/DRC/保存重开。
+- 工程 `mcu-i2c-s3-20261026`（`b4327168b80347f492b53baf9f04bd20`）/ Board2 / PCB2 `40b81985cfb4a5ed`；三页原理图 P1/P2/P3。
+- 23 器件 / 15 网络 / 104 物理脚；SCH-PCB 23/23、104/104 0 mismatch。
+- 板框 65.79×45 mm，2×M2.5；USB-C 右板边 rotation 180，开口/插拔通道 0；WROOM rotation 180，天线端贴下板边；SHT40 左上。
+- 布局 lint 68/moderate，0 overlap/off-board/short；官方路由器首轮 12/14（MCU_TX/RX 单引脚），后续 +3V3/GND 重布；GND 双面铺铜。
+- **原生 DRC passed=true / total=0**；15/15 关键 net-path connected；save/reload diff **match**。
+- 丝印 over-pad/off-board/flipped 0；BOM 15 行/23 件，`sourcing` 身份完整性 pass。
+- 最终归档 132,270 B SHA `312f3cd4…cc1`；图 `pcb-final-top.png`/`pcb-final-bottom.png`。
+- 剩余 WARN：天线 keepout CLI 口径 1、+3V3 未铺铜 1、GND 10 mil 1、decap 5、parallel 4、acute 1、fiducial INFO；SHT40 EP 库焊盘/原厂“下方无铜”未完全一致；AMS1117 陶瓷输出稳定性 NOT VERIFIED；USB 未做 SI 签核。
+- **制造包 BLOCKED**：typed CLI 无 Gerber/drill/CPL；BOM 已导出。
 
 ## 未完成
 
-1. 板 B 全部 EDA 创建与验证。
-2. 板 A 三项局部改板（换封装/移接口/加器件）与跨工程模块复用；现有 `pcb-reuse-plan` 仅离线验证。
-3. 制造资料 Gerber/drill/CPL（BLOCKED）；板厂 DFM、下单不做。
-4. 实物/热/EMC。
+1. 板 A/B 三项局部改板（换封装/移接口/加器件）未做；跨工程模块铜复用未支持（仅布局契约离线验证）。
+2. 制造资料 Gerber/drill/CPL（BLOCKED）；板厂 DFM、下单不做。
+3. 实物/热/EMC/固件；WP14 四板矩阵中的 C/D 未做。
+4. WP15 受控基线仅记录了两板事实，未做同条件原流程/新流程完整对照。
 
 ## 窗口/并发
 
