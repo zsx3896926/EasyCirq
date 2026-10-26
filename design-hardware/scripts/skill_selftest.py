@@ -72,6 +72,7 @@ REQUIRED_FILES = [
     "scripts/pcb_gate.py",
     "scripts/pcb_case.py",
     "references/pcb-command-map.json",
+    "scripts/bom_cnumber_check.py",
     "cases/temp-alarm-2026-10-24/README.md",
     "cases/temp-alarm-2026-10-24/expected.json",
 ]

@@ -148,7 +148,8 @@ def analyze(data, strict=False):
     fields(data, ['coordinate_units', 'components', 'texts', 'wires'],
            ['page_bbox', 'expected_counts', 'policy', 'title_block', 'module_frames',
             'attachment_points', 'label_anchors', 'coverage', 'title_block_owned',
-            'net_flags', 'no_junction_crossings', 'junction_evidence'])
+            'net_flags', 'no_junction_crossings', 'junction_evidence',
+            'page_id', 'snapshot_sha256'])
     if not isinstance(data['coordinate_units'], str) or not data['coordinate_units'].strip():
         raise ValueError('coordinate_units required; never infer pixels/inches')
     identities, groups = set(), {}
@@ -223,22 +224,49 @@ def analyze(data, strict=False):
                           if 'junction_tolerance' in policy else 1.0)
     if junction_tolerance < 0:
         raise ValueError('junction_tolerance must be nonnegative')
+    page_id = data.get('page_id')
+    if page_id is not None and (not isinstance(page_id, str) or not page_id.strip()):
+        raise ValueError('page_id must be a nonempty string when supplied')
+    snapshot_sha = data.get('snapshot_sha256')
+    if snapshot_sha is not None and (
+            not isinstance(snapshot_sha, str) or len(snapshot_sha) != 64
+            or any(char not in '0123456789abcdefABCDEF' for char in snapshot_sha)):
+        raise ValueError('snapshot_sha256 must be a 64-character hex string when supplied')
     junction_evidence = data.get('junction_evidence')
-    if junction_evidence is not None and (
-            not isinstance(junction_evidence, str) or not junction_evidence.strip()):
-        raise ValueError('junction_evidence must be a nonempty string when supplied')
+    if junction_evidence is not None:
+        if not isinstance(junction_evidence, dict):
+            raise ValueError(
+                'junction_evidence must bind source, page_id and snapshot_sha256')
+        for name in ('source', 'page_id', 'snapshot_sha256'):
+            value = junction_evidence.get(name)
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f'junction_evidence.{name} must be a nonempty string')
+        if not page_id or junction_evidence['page_id'] != page_id:
+            raise ValueError('stale junction evidence: page_id does not match the snapshot')
+        if not snapshot_sha or junction_evidence['snapshot_sha256'].lower() != snapshot_sha.lower():
+            raise ValueError(
+                'stale junction evidence: snapshot_sha256 does not match the snapshot')
     no_junction_points = []
     if 'no_junction_crossings' in data:
         if not junction_evidence:
             raise ValueError(
-                'no_junction_crossings requires junction_evidence from a host check')
+                'no_junction_crossings requires page/hash-bound junction_evidence')
         raw_points = data['no_junction_crossings']
         if not isinstance(raw_points, list) or len(raw_points) > 2000:
             raise ValueError('no_junction_crossings must be a list of at most 2000 points')
         for raw in raw_points:
-            if isinstance(raw, dict):
-                raw = [raw.get('x'), raw.get('y')]
-            no_junction_points.append(point(raw))
+            if not isinstance(raw, dict):
+                raise ValueError(
+                    'each no_junction_crossings entry must bind x, y and wire IDs')
+            wires = raw.get('wires')
+            if (not isinstance(wires, list) or len(wires) != 2
+                    or not all(isinstance(value, str) and value for value in wires)):
+                raise ValueError(
+                    'no_junction_crossings[].wires must list exactly two wire IDs')
+            no_junction_points.append({
+                'point': point([raw.get('x'), raw.get('y')]),
+                'wires': frozenset(wires),
+            })
     duplicate_distance = (number(policy['duplicate_net_distance'],
                                  'duplicate_net_distance', True)
                           if 'duplicate_net_distance' in policy else 40.0)
@@ -374,6 +402,11 @@ def analyze(data, strict=False):
         findings.append(finding)
 
     symbols, texts, wires = (groups[k] for k in ('components', 'texts', 'wires'))
+    wire_ids = {wire['id'] for wire in wires}
+    for entry in no_junction_points:
+        if not entry['wires'] <= wire_ids:
+            raise ValueError(
+                'no_junction_crossings references wire IDs absent from this snapshot')
     symbol_ids = {symbol['id'] for symbol in symbols}
     owned = data.get('title_block_owned')
     title_block_owned = set()
@@ -486,13 +519,16 @@ def analyze(data, strict=False):
                     # Without that evidence it remains a blocking candidate.
                     crossing_point = intersection_point(a, b, c, d)
                     verified = bool(crossing_point and any(
-                        math.hypot(crossing_point[0] - item[0],
-                                   crossing_point[1] - item[1]) <= junction_tolerance
-                        for item in no_junction_points))
+                        entry['wires'] == frozenset(key)
+                        and math.hypot(crossing_point[0] - entry['point'][0],
+                                       crossing_point[1] - entry['point'][1]) <= junction_tolerance
+                        for entry in no_junction_points))
                     if verified:
                         add('different_named_wires_cross', *key,
                             severity='info', category='readability_hint',
-                            junction_evidence=junction_evidence,
+                            junction_evidence=junction_evidence['source'],
+                            page_id=junction_evidence['page_id'],
+                            snapshot_sha256=junction_evidence['snapshot_sha256'],
                             point=[round(crossing_point[0], 6),
                                    round(crossing_point[1], 6)])
                     else:

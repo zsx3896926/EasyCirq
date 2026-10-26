@@ -197,7 +197,11 @@ class RenderedTextMeasurement(unittest.TestCase):
             browser = svg_text_bbox.browser_path()
         except ValueError as error:
             self.skipTest(str(error))
-        result = svg_text_bbox.measure(self.SVG, browser, timeout=60)
+        try:
+            result = svg_text_bbox.measure(self.SVG, browser, timeout=60)
+        except ValueError as error:
+            self.skipTest('headless browser unavailable in this environment: '
+                          + str(error)[:160])
         self.assertEqual(result['count'], 1)
         self.assertEqual(result['viewBox'], [0, 0, 100, 100])
         box = result['rows'][0]['bbox']
@@ -284,18 +288,49 @@ class AcceptanceChecks(unittest.TestCase):
         crossing = next(finding for finding in first['findings']
                         if finding['code'] == 'different_named_wires_cross')
         self.assertNotEqual(crossing.get('severity'), 'info')
-        data['junction_evidence'] = 'easyeda sch check (verified)'
-        data['no_junction_crossings'] = [[600, 320]]
+        digest = 'a' * 64
+        data['page_id'] = 'page-1'
+        data['snapshot_sha256'] = digest
+        data['junction_evidence'] = {
+            'source': 'easyeda sch check', 'page_id': 'page-1',
+            'snapshot_sha256': digest}
+        data['no_junction_crossings'] = [
+            {'x': 600, 'y': 320, 'wires': ['w1', 'w2']}]
         second = check.analyze(data)
         crossing = next(finding for finding in second['findings']
                         if finding['code'] == 'different_named_wires_cross')
         self.assertEqual(crossing['severity'], 'info')
         self.assertEqual(crossing['category'], 'readability_hint')
-        self.assertEqual(crossing['junction_evidence'], 'easyeda sch check (verified)')
+        self.assertEqual(crossing['junction_evidence'], 'easyeda sch check')
 
-    def test_no_junction_points_require_evidence(self):
+    def test_no_junction_points_require_bound_evidence(self):
         data = base_snapshot()
-        data['no_junction_crossings'] = [[600, 320]]
+        data['no_junction_crossings'] = [
+            {'x': 600, 'y': 320, 'wires': ['w1', 'w2']}]
+        with self.assertRaises(ValueError):
+            check.analyze(data)
+
+    def test_junction_points_must_reference_snapshot_wires(self):
+        data = base_snapshot()
+        data['page_id'] = 'page-1'
+        data['snapshot_sha256'] = 'a' * 64
+        data['junction_evidence'] = {
+            'source': 'easyeda sch check', 'page_id': 'page-1',
+            'snapshot_sha256': 'a' * 64}
+        data['no_junction_crossings'] = [
+            {'x': 600, 'y': 320, 'wires': ['w1', 'w9']}]
+        with self.assertRaises(ValueError):
+            check.analyze(data)
+
+    def test_stale_junction_evidence_refuses(self):
+        data = base_snapshot()
+        data['page_id'] = 'page-1'
+        data['snapshot_sha256'] = 'a' * 64
+        data['junction_evidence'] = {
+            'source': 'easyeda sch check', 'page_id': 'page-2',
+            'snapshot_sha256': 'a' * 64}
+        data['no_junction_crossings'] = [
+            {'x': 600, 'y': 320, 'wires': ['w1', 'w2']}]
         with self.assertRaises(ValueError):
             check.analyze(data)
 

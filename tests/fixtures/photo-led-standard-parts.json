@@ -1,0 +1,110 @@
+{
+ "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+ "parts": {
+  "10uf50vc110gl": {
+   "value": "10uF",
+   "mpn": "10UF50VC110GL",
+   "lcsc": "C46867109",
+   "footprint": "CAP-TH_BD5.0-P2.00-D0.8-FD-10UF50VC110GL",
+   "manufacturer": "Econd(米朗电子)"
+  },
+  "rad104j250v": {
+   "value": "100nF",
+   "mpn": "RAD104J250V",
+   "lcsc": "C9900014931",
+   "footprint": "CAP-TH_L12.0-W5.0-P10.00-D0.6",
+   "manufacturer": ""
+  },
+  "1n5819s": {
+   "value": "1N5819S",
+   "mpn": "1N5819S",
+   "lcsc": "C54795757",
+   "footprint": "DO-41_BD2.4-L4.7-P8.70-D0.6-RD",
+   "manufacturer": "R+O(宏嘉诚)"
+  },
+  "kf301_2p_": {
+   "value": "KF301-2P接线端子",
+   "mpn": "KF301-2P接线端子",
+   "lcsc": "C9900016950",
+   "footprint": "CONN-TH_XY301V-A-5.0-2P",
+   "manufacturer": ""
+  },
+  "gl5528": {
+   "value": "GL5528",
+   "mpn": "GL5528",
+   "lcsc": "C125627",
+   "footprint": "RES-TH_L5.1-W4.3-P3.40-D0.5",
+   "manufacturer": "森霸"
+  },
+  "5mm_led_": {
+   "value": "5mm LED 雾发红",
+   "mpn": "5mm LED 雾发红",
+   "lcsc": "C9900034380",
+   "footprint": "LED-TH_BD5.0-P2.54-FD",
+   "manufacturer": ""
+  },
+  "s8050_to_92": {
+   "value": "S8050-TO-92",
+   "mpn": "S8050-TO-92",
+   "lcsc": "C50229532",
+   "footprint": "TO-92-3_L4.9-W3.7-P1.27-L",
+   "manufacturer": "DDF(鼎德丰)"
+  },
+  "mf1_4w_1k_1_t": {
+   "value": "1kΩ",
+   "mpn": "MF1/4W-1KΩ±1% T",
+   "lcsc": "C119324",
+   "footprint": "RES-TH_BD2.3-L6.5-P10.50-D0.5",
+   "manufacturer": "CCO(千志电子)"
+  },
+  "mf1_4w_4_7k_1_t": {
+   "value": "4.7kΩ",
+   "mpn": "MF1/4W-4.7KΩ±1% T",
+   "lcsc": "C119339",
+   "footprint": "RES-TH_BD2.3-L6.5-P10.50-D0.5",
+   "manufacturer": "CCO(千志电子)"
+  },
+  "mf1_4w_10k_1_t": {
+   "value": "10kΩ",
+   "mpn": "MF1/4W-10KΩ±1% T",
+   "lcsc": "C119347",
+   "footprint": "RES-TH_BD2.3-L6.5-P10.50-D0.5",
+   "manufacturer": "CCO(千志电子)"
+  },
+  "mf1_4w_100k_1_t": {
+   "value": "100kΩ",
+   "mpn": "MF1/4W-100KΩ±1% T",
+   "lcsc": "C119369",
+   "footprint": "RES-TH_BD2.3-L6.5-P10.50-D0.5",
+   "manufacturer": "CCO(千志电子)"
+  },
+  "mf1_4w_330_1_t": {
+   "value": "330Ω",
+   "mpn": "MF1/4W-330Ω±1% T",
+   "lcsc": "C119313",
+   "footprint": "RES-TH_BD2.3-L6.5-P10.50-D0.5",
+   "manufacturer": "CCO(千志电子)"
+  },
+  "3296w_1_103": {
+   "value": "10kΩ",
+   "mpn": "3296W-1-103",
+   "lcsc": "C56237",
+   "footprint": "RES-ADJ-TH_3296W",
+   "manufacturer": ""
+  },
+  "lm358p": {
+   "value": "LM358P",
+   "mpn": "LM358P",
+   "lcsc": "C5213",
+   "footprint": "DIP-8_L9.4-W6.4-P2.54-LS9.1-BL",
+   "manufacturer": "TI(德州仪器)"
+  },
+  "tl431_to_92": {
+   "value": "TL431-TO-92",
+   "mpn": "TL431-TO-92",
+   "lcsc": "C50229484",
+   "footprint": "TO-92-3_L4.8-W3.7-P1.27-L-1",
+   "manufacturer": "DDF(鼎德丰)"
+  }
+ }
+}
