@@ -108,7 +108,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 
 简单工程优先一页，按信号方向组织主链、把供电/参考放辅助行；局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。已有工程保留器件身份与连接，按受影响模块修正；一次候选失败先读取具体冲突，同一失败机制重复两次就换布局方法或记录能力缺口，不继续盲改坐标。
 
-验收仍使用 [图面验收标准](references/schematic-layout.md)：`sch_layout_check.py --strict` 检查完整几何；`sch_text_audit.py --strict` 检查实测可见文字之间的关系，自动线名、引脚名缺失时必须记录覆盖缺口；不能用执行器的 `layout-lint --strict` 替代这两项。真实工程先用 `svg_text_bbox.py` 实测官方 SVG 的全部渲染文字，再由 `layout_from_easyeda.py` 把 `sch list`/`visible_text`/`sheet-geometry` 拼成严格输入，检查 `unowned_visible_text`、`duplicate_net_text`、`netflag_rotation_outlier`、`zone_reading_order`、`title_block_duplicate_text` 等图面问题，流程见 [绘图执行方法](references/schematic-authoring.md) 第6节。整页及拥挤局部必须检查**实际官方导出图**，发现重名叠印、文字遮挡、标签乱飞即回到对应模块修复。原生 gate、pin-net 对比、器件身份对比（`component_identity_check.py`：device/symbol/封装/BOM、实例 uniqueId/component.uuid、引脚分区、SCH↔PCB；预期 BOM 变更必须有 reason+evidence）、save→reopen 回读与图面验收分别报告，任何一个 PASS 都不能代替另一个。
+验收仍使用 [图面验收标准](references/schematic-layout.md)：`sch_layout_check.py --strict` 检查完整几何；`sch_text_audit.py --strict` 检查实测可见文字之间的关系，自动线名、引脚名缺失时必须记录覆盖缺口；不能用执行器的 `layout-lint --strict` 替代这两项。真实工程先用 `svg_text_bbox.py` 实测官方 SVG 的全部渲染文字，再由 `layout_from_easyeda.py` 把 `sch list`/`visible_text`/`sheet-geometry` 拼成严格输入，检查 `unowned_visible_text`、`duplicate_net_text`、`netflag_rotation_outlier`、`zone_reading_order`、`title_block_duplicate_text` 等图面问题，流程见 [绘图执行方法](references/schematic-authoring.md) 第6节。需要把发现标到图上时用 `sch_visual_audit.py` 生成**分析叠加图**（带 `official_export:false` 与 `ANALYSIS OVERLAY` 水印），不能把它冒充官方重新导出的工程图；建议和已执行修改分开标记。整页及拥挤局部必须检查**实际官方导出图**，发现重名叠印、文字遮挡、标签乱飞即回到对应模块修复。原生 gate、pin-net 对比、器件身份对比（`component_identity_check.py`：device/symbol/封装/BOM、实例 uniqueId/component.uuid、引脚分区、SCH↔PCB；预期 BOM 变更必须有 reason+evidence）、save→reopen 回读与图面验收分别报告，任何一个 PASS 都不能代替另一个。
 
 ## 3. 按需读取，不加载规则百科
 
@@ -182,6 +182,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 设计前核算：阈值/回差、NTC、LED/蜂鸣器、压降、载流 | [设计计算模板](assets/design-calc.md)，需要可执行核算时用 `scripts/calculate.py` |
 | 机械/热/丝印装配/制造包/验证记录 | [机械](assets/docs/mechanical.md)、[温度传感器](assets/docs/thermal-sensor.md)、[丝印装配](assets/docs/silk-assembly.md)、[制造包](assets/docs/manufacturing-package.md)、[验证](assets/docs/verification.md) |
 | BOM/引脚结构化检查、Skill 自检与回归案例 | [零件示例](assets/parts.example.json)、[引脚图示例](assets/pinmap.example.json)、`scripts/bom_check.py`、`scripts/skill_selftest.py`、[temp-alarm 回归案例](cases/temp-alarm-2026-10-24/README.md) |
+| 无 EDA 的完整回归、证据绑定、冻结基准、图面叠加图 | [离线回归与基准](references/offline-regression.md)；仓库根目录 `python tools/offline_suite.py`/`offline_benchmark.py`，Skill 目录 `python scripts/sch_visual_audit.py` |
 
 领域路由只声明工作方法覆盖，不证明某行业、协议、器件或产品已验证。不要因覆盖范围广而绕过证据要求。遇到超出当前资料/工具能力的任务，继续可独立完成部分，具体列出需专家、仿真、板厂或实验确认的项目。
 
@@ -263,6 +264,8 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 需要检查决策记录时，按需运行 `python scripts/pin_plan_check.py`、`interface_contract_check.py`、`harness_check.py`、`variant_bom.py`、`decision_record_check.py`、`decision_asset_check.py`，先读 [设计决策库](references/decisions/README.md)。它们只检查声明的记录完整性与交叉引用，不判断电气正确、连接器额定、校准有效或可下单；未知字段输出 `unknown`，不得用退出码 0 代替工程结论。
 
 阶段门禁用 `python scripts/gate_check.py --project <name> --evidence-dir <dir> --design-state <file>`，先读 [阶段门禁](references/design-gates.md)。它只读证据目录和状态文件，不连 daemon、不写工程；缺证据判 `BLOCKED`，`PASS` 也不证明实物。有豁免时用 `--waiver-file` 落盘，未使用的豁免会标 `unused`。
+
+需要完全离线复跑时，在**仓库根目录**用 `python tools/offline_suite.py`（安装 `offline_guard`，真实 `easyeda`/网络连接立即失败；假 CLI 必须带显式标记），用 `python tools/offline_benchmark.py --runs 3` 生成冻结基准；安装包不含 tests/benchmarks，客户端内只运行 `scripts/` 下的工具。PCB 证据解析、manifest 绑定、`match_with_renames`、pin alias/ignore、no-op/journal 状态和凹板几何边界见 [离线回归与基准](references/offline-regression.md)；离线通过不等于真实 EDA/硬件通过。
 
 BOM/装配结构用 `python scripts/bom_check.py parts.json`，先按 [零件示例](assets/parts.example.json) 准备输入。它检查 role/MPN/封装/装配方式/C 号存在性/备选结构；实际 EasyEDA BOM 导出用 `python scripts/bom_cnumber_check.py bom.csv --parts project-standard-parts.json --expect-designator RV1=10kΩ` 核对 C 号、本地映射回填与重复/冲突（见 [嘉立创设计到实物](references/jlc-handoff.md)）。两者都不检查库存、价格、MOQ 与 SMT 可贴状态；这些仍按立创商城和嘉立创渠道实时核对，脚本不访问网络。
 

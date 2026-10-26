@@ -1,0 +1,564 @@
+{
+  "schema": "design-engine-offline-inventory/v1",
+  "simulated": true,
+  "root": "<repository-root>",
+  "written_at": 1793039222.037573,
+  "scripts": 73,
+  "flag_counts": {
+    "references_easyeda": 27,
+    "writes_files": 24,
+    "may_run_cli_or_network": 11,
+    "no_main_guard": 29
+  },
+  "rows": [
+    {
+      "path": "design-hardware/scripts/bom_check.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/bom_cnumber_check.py",
+      "flags": [
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/calculate.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/channel_map_check.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/companion_update.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "no_main_guard",
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": [
+        "subprocess"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/component_identity_check.py",
+      "flags": [
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/decision_asset_check.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/decision_record_check.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/__init__.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/__main__.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/adapters.py",
+      "flags": [
+        "no_main_guard",
+        "references_easyeda"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/assembly.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/audit.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/benchmarks.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/cli.py",
+      "flags": [
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/compare.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/constraints.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/critical.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/geometry.py",
+      "flags": [
+        "no_main_guard",
+        "references_easyeda"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/gerber.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/ir.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/labels.py",
+      "flags": [
+        "no_main_guard",
+        "references_easyeda"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/manufacturing.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/pack.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/pcb.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/pcb_workflow.py",
+      "flags": [
+        "no_main_guard",
+        "references_easyeda"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/placement.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/reuse.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/routability.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/router.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/silk.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/sourcing.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/state.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/templates.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine/variants.py",
+      "flags": [
+        "no_main_guard"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_engine_cli.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/design_inventory.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/doctor_env.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "references_easyeda"
+      ],
+      "imports_of_interest": [
+        "subprocess"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/eda_cache.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/eda_exec.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": [
+        "subprocess"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/gate_check.py",
+      "flags": [
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/harness_check.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/interface_contract_check.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/layout_from_easyeda.py",
+      "flags": [
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/layout_from_snapshot.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/library_precheck.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/net_discipline_audit.py",
+      "flags": [
+        "may_run_cli_or_network"
+      ],
+      "imports_of_interest": [
+        "urllib"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/netlist_check.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/netlist_diff.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/offline_guard.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "no_main_guard",
+        "references_easyeda"
+      ],
+      "imports_of_interest": [
+        "socket",
+        "subprocess"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/pcb_apply_plan.py",
+      "flags": [
+        "references_easyeda"
+      ],
+      "imports_of_interest": [
+        "pcb_cli"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/pcb_case.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": [
+        "pcb_cli",
+        "subprocess"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/pcb_cli.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "no_main_guard",
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": [
+        "offline_guard",
+        "subprocess"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/pcb_evidence.py",
+      "flags": [
+        "no_main_guard",
+        "references_easyeda"
+      ],
+      "imports_of_interest": [
+        "pcb_cli"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/pcb_gate.py",
+      "flags": [
+        "references_easyeda"
+      ],
+      "imports_of_interest": [
+        "pcb_cli"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/pcb_preflight.py",
+      "flags": [
+        "references_easyeda"
+      ],
+      "imports_of_interest": [
+        "pcb_cli"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/pin_net_intent_check.py",
+      "flags": [
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/pin_plan_check.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/power_budget.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/rc_settle_sim.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/sch_layout_check.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/sch_layout_model.py",
+      "flags": [
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/sch_layout_pipeline.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": [
+        "subprocess"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/sch_layout_quality.py",
+      "flags": [
+        "references_easyeda"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/sch_recipe.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/sch_text_audit.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/sch_visual_audit.py",
+      "flags": [
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/schematic_benchmark.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/skill_selftest.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "references_easyeda"
+      ],
+      "imports_of_interest": [
+        "subprocess",
+        "urllib"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/skill_update.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": [
+        "urllib"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/svg_text_bbox.py",
+      "flags": [
+        "may_run_cli_or_network",
+        "references_easyeda",
+        "writes_files"
+      ],
+      "imports_of_interest": [
+        "subprocess"
+      ]
+    },
+    {
+      "path": "design-hardware/scripts/thermal_calc.py",
+      "flags": [],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/variant_bom.py",
+      "flags": [],
+      "imports_of_interest": []
+    }
+  ],
+  "note": "static inventory only; the import sweep and guard tests are the runtime check"
+}

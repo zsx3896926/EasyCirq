@@ -2,6 +2,8 @@
 
 Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只读本地文件、无网络/EDA/写入；不是绘图前置门禁。先用现有执行器的原生检查，离线工具补充可审查的计算与候选问题，不重复造一个独立EDA验证器。
 
+需要完整离线回归、证据 manifest 绑定、冻结基准或图面叠加图时，先读 [离线回归与基准](offline-regression.md)：仓库根目录 `python tools/offline_suite.py` 在 `HDS_OFFLINE=1` 下拦截真实 `easyeda` 与网络；`python tools/offline_benchmark.py` 生成 correctness/coverage/timing；Skill 目录 `python scripts/sch_visual_audit.py` 输出明确标注的分析叠加图。
+
 ## 续航：先换算到电池输入侧
 
 运行 `python scripts/power_budget.py budget.json`。输入见 [虚构续航算例](../assets/example-power-budget.json)。

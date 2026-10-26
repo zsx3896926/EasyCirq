@@ -326,6 +326,74 @@ class PcbWorkflowTests(unittest.TestCase):
             {'status': 'changed', 'identity_changes': [{'designator': 'U1'}],
              'copper_changes': [], 'unrelated_changes': []}))
 
+    def test_locked_constraint_blocks_a_moved_part(self):
+        intent = {'constraints': [{
+            'type': 'locked', 'severity': 'hard',
+            'source': 'mechanical lock', 'designator': 'D1',
+        }]}
+        constraints = compile_constraints(intent, self.board)
+        self.assertEqual(constraints['status'], 'compiled')
+        plan = copy.deepcopy(self.plan)
+        for item in plan['placements']:
+            if item['designator'] == 'D1':
+                item['x'] += 10
+        report = validate_placement(self.board, plan, constraints)
+        self.assertFalse(report['hard_ok'])
+        self.assertIn('locked_pose_changed',
+                      [finding['code'] for finding in report['findings']])
+
+    def test_locked_mm_without_coordinates_uses_measured_mil_pose(self):
+        intent = {'constraints': [{
+            'type': 'locked', 'severity': 'hard', 'unit': 'mm',
+            'source': 'mm intent with a measured pose', 'designator': 'D1',
+        }]}
+        constraints = compile_constraints(intent, self.board)
+        self.assertEqual(constraints['status'], 'compiled')
+        report = validate_placement(self.board, self.plan, constraints)
+        self.assertTrue(report['hard_ok'], report['findings'])
+
+    def test_global_minimum_component_spacing(self):
+        loose = compile_constraints({'min_component_spacing_mil': 0}, self.board)
+        self.assertTrue(validate_placement(self.board, self.plan,
+                                           loose)['hard_ok'])
+        tight = compile_constraints({'min_component_spacing_mil': 200}, self.board)
+        report = validate_placement(self.board, self.plan, tight)
+        self.assertFalse(report['hard_ok'])
+        self.assertIn('spacing_violation',
+                      [finding['code'] for finding in report['findings']])
+        row = next(item for item in report['constraints']
+                   if item['type'] == 'spacing')
+        self.assertEqual(row['status'], 'fail')
+        self.assertTrue(row['violations'])
+
+    def test_concave_board_notch_is_outside_even_inside_bbox(self):
+        board = normalize_board({
+            'components': [{
+                'designator': 'U1', 'x': 3000, 'y': 2000, 'rotation': 0,
+                'layer': 1, 'primitiveId': 'uid',
+                'bbox': {'minX': 2950, 'minY': 1950,
+                         'maxX': 3050, 'maxY': 2050},
+                'pads': [{'padNumber': '1', 'net': 'GND', 'x': 3000,
+                          'y': 2000, 'width': 10, 'height': 10}],
+            }],
+            'outline': {
+                'points': [[0, 0], [4000, 0], [4000, 1200], [1500, 1200],
+                           [1500, 3000], [0, 3000]],
+                'bbox': {'minX': 0, 'minY': 0, 'maxX': 4000, 'maxY': 3000},
+                'source': 'test', 'format': 'polygon',
+            },
+            'copperLayers': 2,
+            'capture': {'projectUuid': 'p', 'documentUuid': 'd'},
+            'semanticSha256': 'sha',
+        })
+        report = validate_placement(
+            board, {'placements': [{'designator': 'U1', 'x': 3000,
+                                    'y': 2000, 'rotation': 0, 'layer': 1}]},
+            partial=True)
+        self.assertFalse(report['hard_ok'])
+        self.assertIn('outside_outline',
+                      [finding['code'] for finding in report['findings']])
+
     def test_apply_adapter_dry_run_and_refusal(self):
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):
@@ -336,8 +404,11 @@ class PcbWorkflowTests(unittest.TestCase):
                 '--out-dump', 'unused.json'])
         self.assertEqual(code, 0)
         report = json.loads(buffer.getvalue())
-        self.assertEqual(report['status'], 'dry_run')
-        self.assertTrue(all(item['status'] == 'dry_run' for item in report['records']))
+        # The frozen plan is the measured pose (J1's 270/-90 is equivalent),
+        # so the adapter correctly reports no_op instead of writing.
+        self.assertEqual(report['status'], 'no_op')
+        self.assertEqual(report['records'], [])
+        self.assertTrue(report['plan']['noops'])
         bad = copy.deepcopy(self.plan)
         bad['placements'] = [item for item in bad['placements'] if item['designator'] != 'C2']
         with tempfile.NamedTemporaryFile('w', suffix='.json', delete=False,

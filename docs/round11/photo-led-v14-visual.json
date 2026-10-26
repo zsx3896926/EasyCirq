@@ -1,0 +1,764 @@
+{
+  "schema": "design-engine-sch-visual-audit/v1",
+  "status": "review_required",
+  "analysis_overlay": true,
+  "official_export": false,
+  "base": "reconstructed-from-layout",
+  "page_id": "cd008f919db36eba",
+  "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+  "source_layout_sha256": "dcd75fc314605b4c4fefcfc42e20804f47ab882fe78c8f87be7fee58dff6ca95",
+  "counts": {
+    "components": 19,
+    "texts": 136,
+    "wires": 98
+  },
+  "coverage_status": "complete",
+  "strict_missing": [],
+  "findings": [
+    {
+      "index": 0,
+      "code": "bbox_overlap",
+      "severity": "blocking",
+      "category": "geometry",
+      "objects": [
+        "4c3b66d17e7f4875",
+        "8bd5a6b179fa7148"
+      ],
+      "positions": {
+        "4c3b66d17e7f4875": {
+          "kind": "bbox",
+          "bbox": [
+            289.5,
+            355.5,
+            310.5,
+            364.5
+          ],
+          "center": [
+            300.0,
+            360.0
+          ]
+        },
+        "8bd5a6b179fa7148": {
+          "kind": "bbox",
+          "bbox": [
+            290.0,
+            348.0,
+            311.107666015625,
+            358.0
+          ],
+          "center": [
+            300.5538330078125,
+            353.0
+          ]
+        }
+      },
+      "reason": "bbox_overlap",
+      "evidence": {
+        "status": "review_candidate",
+        "overlap": [
+          20.5,
+          2.5
+        ]
+      },
+      "suggestion": {
+        "action": "move the value/attribute text away from the body or increase the local spacing; re-export and re-measure",
+        "executed": false,
+        "status": "suggestion_only"
+      },
+      "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+      "executed": false
+    },
+    {
+      "index": 1,
+      "code": "wire_enters_bbox",
+      "severity": "blocking",
+      "category": "geometry",
+      "objects": [
+        "1fa3e4d8816a3e4a#0",
+        "ad6ce27bf74e95f9"
+      ],
+      "positions": {
+        "1fa3e4d8816a3e4a#0": {
+          "kind": "polyline",
+          "points": [
+            [
+              145.0,
+              750.0
+            ],
+            [
+              145.0,
+              760.0
+            ]
+          ],
+          "bbox": [
+            145.0,
+            750.0,
+            145.0,
+            760.0
+          ]
+        },
+        "ad6ce27bf74e95f9": {
+          "kind": "bbox",
+          "bbox": [
+            42.0,
+            759.5,
+            289.265625,
+            771.5
+          ],
+          "center": [
+            165.6328125,
+            765.5
+          ]
+        }
+      },
+      "reason": "wire_enters_bbox",
+      "evidence": {
+        "status": "review_candidate"
+      },
+      "suggestion": {
+        "action": "reroute the wire outside the text bbox or relocate the free text; keep the attachment point explicitly",
+        "executed": false,
+        "status": "suggestion_only"
+      },
+      "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+      "executed": false
+    },
+    {
+      "index": 2,
+      "code": "wire_enters_bbox",
+      "severity": "blocking",
+      "category": "geometry",
+      "objects": [
+        "1fa3e4d8816a3e4a#1",
+        "ad6ce27bf74e95f9"
+      ],
+      "positions": {
+        "1fa3e4d8816a3e4a#1": {
+          "kind": "polyline",
+          "points": [
+            [
+              145.0,
+              760.0
+            ],
+            [
+              320.0,
+              760.0
+            ]
+          ],
+          "bbox": [
+            145.0,
+            760.0,
+            320.0,
+            760.0
+          ]
+        },
+        "ad6ce27bf74e95f9": {
+          "kind": "bbox",
+          "bbox": [
+            42.0,
+            759.5,
+            289.265625,
+            771.5
+          ],
+          "center": [
+            165.6328125,
+            765.5
+          ]
+        }
+      },
+      "reason": "wire_enters_bbox",
+      "evidence": {
+        "status": "review_candidate"
+      },
+      "suggestion": {
+        "action": "reroute the wire outside the text bbox or relocate the free text; keep the attachment point explicitly",
+        "executed": false,
+        "status": "suggestion_only"
+      },
+      "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+      "executed": false
+    },
+    {
+      "index": 3,
+      "code": "different_named_wires_cross",
+      "severity": "info",
+      "category": "readability_hint",
+      "objects": [
+        "25209c69b85c07d5#3",
+        "4a615d05024ff911#2"
+      ],
+      "positions": {
+        "25209c69b85c07d5#3": {
+          "kind": "polyline",
+          "points": [
+            [
+              260.0,
+              175.0
+            ],
+            [
+              260.0,
+              330.0
+            ]
+          ],
+          "bbox": [
+            260.0,
+            175.0,
+            260.0,
+            330.0
+          ]
+        },
+        "4a615d05024ff911#2": {
+          "kind": "polyline",
+          "points": [
+            [
+              240.0,
+              230.0
+            ],
+            [
+              430.0,
+              230.0
+            ]
+          ],
+          "bbox": [
+            240.0,
+            230.0,
+            430.0,
+            230.0
+          ]
+        }
+      },
+      "reason": "different_named_wires_cross",
+      "evidence": {
+        "status": "review_candidate",
+        "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+        "page_id": "cd008f919db36eba",
+        "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+        "point": [
+          260.0,
+          230.0
+        ]
+      },
+      "suggestion": {
+        "action": "add junction/no-junction evidence at the crossing point or reroute one wire",
+        "executed": false,
+        "status": "suggestion_only"
+      },
+      "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+      "executed": false
+    },
+    {
+      "index": 4,
+      "code": "different_named_wires_cross",
+      "severity": "info",
+      "category": "readability_hint",
+      "objects": [
+        "25209c69b85c07d5#3",
+        "4a615d05024ff911#4"
+      ],
+      "positions": {
+        "25209c69b85c07d5#3": {
+          "kind": "polyline",
+          "points": [
+            [
+              260.0,
+              175.0
+            ],
+            [
+              260.0,
+              330.0
+            ]
+          ],
+          "bbox": [
+            260.0,
+            175.0,
+            260.0,
+            330.0
+          ]
+        },
+        "4a615d05024ff911#4": {
+          "kind": "polyline",
+          "points": [
+            [
+              280.0,
+              195.0
+            ],
+            [
+              240.0,
+              195.0
+            ]
+          ],
+          "bbox": [
+            240.0,
+            195.0,
+            280.0,
+            195.0
+          ]
+        }
+      },
+      "reason": "different_named_wires_cross",
+      "evidence": {
+        "status": "review_candidate",
+        "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+        "page_id": "cd008f919db36eba",
+        "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+        "point": [
+          260.0,
+          195.0
+        ]
+      },
+      "suggestion": {
+        "action": "add junction/no-junction evidence at the crossing point or reroute one wire",
+        "executed": false,
+        "status": "suggestion_only"
+      },
+      "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+      "executed": false
+    },
+    {
+      "index": 5,
+      "code": "different_named_wires_cross",
+      "severity": "info",
+      "category": "readability_hint",
+      "objects": [
+        "25209c69b85c07d5#3",
+        "e0d8a52427a6575e#0"
+      ],
+      "positions": {
+        "25209c69b85c07d5#3": {
+          "kind": "polyline",
+          "points": [
+            [
+              260.0,
+              175.0
+            ],
+            [
+              260.0,
+              330.0
+            ]
+          ],
+          "bbox": [
+            260.0,
+            175.0,
+            260.0,
+            330.0
+          ]
+        },
+        "e0d8a52427a6575e#0": {
+          "kind": "polyline",
+          "points": [
+            [
+              215.0,
+              185.0
+            ],
+            [
+              280.0,
+              185.0
+            ]
+          ],
+          "bbox": [
+            215.0,
+            185.0,
+            280.0,
+            185.0
+          ]
+        }
+      },
+      "reason": "different_named_wires_cross",
+      "evidence": {
+        "status": "review_candidate",
+        "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+        "page_id": "cd008f919db36eba",
+        "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+        "point": [
+          260.0,
+          185.0
+        ]
+      },
+      "suggestion": {
+        "action": "add junction/no-junction evidence at the crossing point or reroute one wire",
+        "executed": false,
+        "status": "suggestion_only"
+      },
+      "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+      "executed": false
+    },
+    {
+      "index": 6,
+      "code": "text_wire_clearance",
+      "severity": "info",
+      "category": "readability_hint",
+      "objects": [
+        "e033e223beb47a2b",
+        "9d6d22315aa61c9f#0"
+      ],
+      "positions": {
+        "e033e223beb47a2b": {
+          "kind": "bbox",
+          "bbox": [
+            400.0,
+            180.0,
+            435.6636962890625,
+            190.0
+          ],
+          "center": [
+            417.83184814453125,
+            185.0
+          ]
+        },
+        "9d6d22315aa61c9f#0": {
+          "kind": "polyline",
+          "points": [
+            [
+              380.0,
+              195.0
+            ],
+            [
+              410.0,
+              195.0
+            ]
+          ],
+          "bbox": [
+            380.0,
+            195.0,
+            410.0,
+            195.0
+          ]
+        }
+      },
+      "reason": "text_wire_clearance",
+      "evidence": {
+        "status": "review_candidate",
+        "distance": 5.0,
+        "threshold": 5.0
+      },
+      "suggestion": {
+        "action": "increase the text-to-wire clearance or reroute the wire",
+        "executed": false,
+        "status": "suggestion_only"
+      },
+      "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+      "executed": false
+    },
+    {
+      "index": 7,
+      "code": "text_wire_clearance",
+      "severity": "info",
+      "category": "readability_hint",
+      "objects": [
+        "d10ec9db2cfb5ccc",
+        "ae1cb5da94942e1d#0"
+      ],
+      "positions": {
+        "d10ec9db2cfb5ccc": {
+          "kind": "bbox",
+          "bbox": [
+            215.0,
+            170.0,
+            252.6378173828125,
+            180.0
+          ],
+          "center": [
+            233.81890869140625,
+            175.0
+          ]
+        },
+        "ae1cb5da94942e1d#0": {
+          "kind": "polyline",
+          "points": [
+            [
+              235.0,
+              165.0
+            ],
+            [
+              280.0,
+              165.0
+            ]
+          ],
+          "bbox": [
+            235.0,
+            165.0,
+            280.0,
+            165.0
+          ]
+        }
+      },
+      "reason": "text_wire_clearance",
+      "evidence": {
+        "status": "review_candidate",
+        "distance": 5.0,
+        "threshold": 5.0
+      },
+      "suggestion": {
+        "action": "increase the text-to-wire clearance or reroute the wire",
+        "executed": false,
+        "status": "suggestion_only"
+      },
+      "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+      "executed": false
+    }
+  ],
+  "blocking_count": 3,
+  "informational_count": 5,
+  "false_positive_controls": {
+    "label_own_wire_edge_contact": [],
+    "crossings_with_junction_evidence": [
+      {
+        "index": 3,
+        "code": "different_named_wires_cross",
+        "severity": "info",
+        "category": "readability_hint",
+        "objects": [
+          "25209c69b85c07d5#3",
+          "4a615d05024ff911#2"
+        ],
+        "positions": {
+          "25209c69b85c07d5#3": {
+            "kind": "polyline",
+            "points": [
+              [
+                260.0,
+                175.0
+              ],
+              [
+                260.0,
+                330.0
+              ]
+            ],
+            "bbox": [
+              260.0,
+              175.0,
+              260.0,
+              330.0
+            ]
+          },
+          "4a615d05024ff911#2": {
+            "kind": "polyline",
+            "points": [
+              [
+                240.0,
+                230.0
+              ],
+              [
+                430.0,
+                230.0
+              ]
+            ],
+            "bbox": [
+              240.0,
+              230.0,
+              430.0,
+              230.0
+            ]
+          }
+        },
+        "reason": "different_named_wires_cross",
+        "evidence": {
+          "status": "review_candidate",
+          "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+          "page_id": "cd008f919db36eba",
+          "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+          "point": [
+            260.0,
+            230.0
+          ]
+        },
+        "suggestion": {
+          "action": "add junction/no-junction evidence at the crossing point or reroute one wire",
+          "executed": false,
+          "status": "suggestion_only"
+        },
+        "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+        "executed": false
+      },
+      {
+        "index": 4,
+        "code": "different_named_wires_cross",
+        "severity": "info",
+        "category": "readability_hint",
+        "objects": [
+          "25209c69b85c07d5#3",
+          "4a615d05024ff911#4"
+        ],
+        "positions": {
+          "25209c69b85c07d5#3": {
+            "kind": "polyline",
+            "points": [
+              [
+                260.0,
+                175.0
+              ],
+              [
+                260.0,
+                330.0
+              ]
+            ],
+            "bbox": [
+              260.0,
+              175.0,
+              260.0,
+              330.0
+            ]
+          },
+          "4a615d05024ff911#4": {
+            "kind": "polyline",
+            "points": [
+              [
+                280.0,
+                195.0
+              ],
+              [
+                240.0,
+                195.0
+              ]
+            ],
+            "bbox": [
+              240.0,
+              195.0,
+              280.0,
+              195.0
+            ]
+          }
+        },
+        "reason": "different_named_wires_cross",
+        "evidence": {
+          "status": "review_candidate",
+          "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+          "page_id": "cd008f919db36eba",
+          "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+          "point": [
+            260.0,
+            195.0
+          ]
+        },
+        "suggestion": {
+          "action": "add junction/no-junction evidence at the crossing point or reroute one wire",
+          "executed": false,
+          "status": "suggestion_only"
+        },
+        "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+        "executed": false
+      },
+      {
+        "index": 5,
+        "code": "different_named_wires_cross",
+        "severity": "info",
+        "category": "readability_hint",
+        "objects": [
+          "25209c69b85c07d5#3",
+          "e0d8a52427a6575e#0"
+        ],
+        "positions": {
+          "25209c69b85c07d5#3": {
+            "kind": "polyline",
+            "points": [
+              [
+                260.0,
+                175.0
+              ],
+              [
+                260.0,
+                330.0
+              ]
+            ],
+            "bbox": [
+              260.0,
+              175.0,
+              260.0,
+              330.0
+            ]
+          },
+          "e0d8a52427a6575e#0": {
+            "kind": "polyline",
+            "points": [
+              [
+                215.0,
+                185.0
+              ],
+              [
+                280.0,
+                185.0
+              ]
+            ],
+            "bbox": [
+              215.0,
+              185.0,
+              280.0,
+              185.0
+            ]
+          }
+        },
+        "reason": "different_named_wires_cross",
+        "evidence": {
+          "status": "review_candidate",
+          "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+          "page_id": "cd008f919db36eba",
+          "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+          "point": [
+            260.0,
+            185.0
+          ]
+        },
+        "suggestion": {
+          "action": "add junction/no-junction evidence at the crossing point or reroute one wire",
+          "executed": false,
+          "status": "suggestion_only"
+        },
+        "measurement_uncertainty": "low: the SVG browser measured the actual glyph extent",
+        "executed": false
+      }
+    ],
+    "crossings_without_junction_evidence": []
+  },
+  "font_measurement": {
+    "source": "rendered_svg_measurement",
+    "uncertainty": "low: the SVG browser measured the actual glyph extent",
+    "coverage": {
+      "status": "complete",
+      "observed": 136,
+      "unique_ids": 136
+    }
+  },
+  "netflag_orientation": {
+    "status": "checked",
+    "policy": {
+      "GND": {
+        "expectedRotation": 0.0,
+        "requireHorizontalText": false
+      },
+      "+5V": {
+        "expectedRotation": 0.0,
+        "requireHorizontalText": false
+      }
+    },
+    "flags": 17
+  },
+  "checks_run": [
+    "title_block",
+    "module_frames",
+    "label_anchors",
+    "text_wire_clearance",
+    "net_text_identity",
+    "netflag_orientation",
+    "zone_reading_order",
+    "title_block_duplicate"
+  ],
+  "checks_skipped": [
+    "wire_endpoints_and_pin_nets: policy.wire_endpoint_check false; use the executor connectivity check"
+  ],
+  "executed_changes": [],
+  "not_checked": [
+    "actual EDA connectivity, pins, NC and junctions",
+    "shape-accurate outlines and intentional overlaps",
+    "missing/stale snapshot objects",
+    "module/title margins beyond supplied frames/orders",
+    "decoupling or PCB electrical distance",
+    "same-net collinear semantics and endpoint junction topology",
+    "frame intent/membership beyond supplied contains",
+    "attachment completeness beyond supplied points",
+    "pin-electrical-type conflicts and netlister rules",
+    "text glyph rendering; measured bboxes are evidence, not a visual PASS",
+    "the annotated SVG is an analysis overlay, not an official export"
+  ],
+  "note": "suggestions are not executed changes; electrical/visual acceptance remains unproven",
+  "annotated_svg": "docs\\round11\\photo-led-v14-overlay.svg"
+}

@@ -141,21 +141,23 @@ save，是上一轮 192 min 的主要浪费之一。只有页面被证明损坏�
 
 `eda_cache.py` 提供最小机制：
 
-- 键：`project + document + action + SHA256(canonical params)`；
-- 值：读取结果 + `storedAt` + 调用方 `versionTag` + CLI/connector 版本；
+- 键：`project + document + action + SHA256(canonical params) + toolVersion`；
+  影响结果的调用方/工具版本必须进键，不能只放在条目里事后比较；
+- 值：读取结果 + `storedAt` + 调用方 `versionTag` + CLI/connector 版本 + `toolVersion`；
 - 失效：工程/文档变化、`versionTag` 变化（保存/重开/任何 mutation 后必须 bump）、
-  CLI/连接器版本变化、TTL、显式 invalidate、条目损坏；
+  CLI/连接器版本变化、`toolVersion` 变化、TTL、显式 invalidate、条目损坏；
 - **fail-closed**：任何不匹配都返回 `miss` 与原因，绝不返回旧值。
 
 ```bash
 python design-hardware/scripts/eda_cache.py put --cache .cache/eda \
   --project <uuid> --document <page> --action schematic.components.list \
   --params '{"page":"P1","includePins":true}' --version-tag save-42 \
-  --cli-version 1.14.0 --value page.json
+  --cli-version 1.14.0 --tool-version layout-v3 --value page.json
 
 python design-hardware/scripts/eda_cache.py get --cache .cache/eda \
   --project <uuid> --document <page> --action schematic.components.list \
-  --params '{"page":"P1","includePins":true}' --version-tag save-42
+  --params '{"page":"P1","includePins":true}' --version-tag save-42 \
+  --tool-version layout-v3
 ```
 
 版本标签建议来自 `doc ready`/`sch save` 后的页快照哈希、保存序号或 `@Update Time`。

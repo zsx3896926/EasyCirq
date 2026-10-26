@@ -45,8 +45,9 @@ def _canonical(value):
     return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(',', ':'))
 
 
-def _key(project, document, action, params):
-    payload = {'project': project, 'document': document, 'action': action, 'params': params}
+def _key(project, document, action, params, tool_version=None):
+    payload = {'project': project, 'document': document, 'action': action,
+               'params': params, 'toolVersion': tool_version}
     digest = hashlib.sha256(_canonical(payload).encode('utf-8')).hexdigest()
     return digest
 
@@ -80,13 +81,16 @@ def _load_entry(path):
     return data
 
 
-def put(cache_dir, project, document, action, params, version_tag, cli_version, value):
-    digest = _key(project, document, action, params)
+def put(cache_dir, project, document, action, params, version_tag, cli_version,
+        value, tool_version=None):
+    digest = _key(project, document, action, params, tool_version)
     entry = {
         'schema': CACHE_SCHEMA,
-        'key': {'project': project, 'document': document, 'action': action, 'params': params},
+        'key': {'project': project, 'document': document, 'action': action,
+                'params': params, 'toolVersion': tool_version},
         'versionTag': version_tag,
         'cliVersion': cli_version,
+        'toolVersion': tool_version,
         'storedAt': time.time(),
         'value': value,
     }
@@ -96,10 +100,12 @@ def put(cache_dir, project, document, action, params, version_tag, cli_version, 
 
 
 def get(cache_dir, project, document, action, params, version_tag, cli_version=None,
-        ttl_seconds=None):
-    digest = _key(project, document, action, params)
+        ttl_seconds=None, tool_version=None):
+    digest = _key(project, document, action, params, tool_version)
     path = _entry_path(cache_dir, digest)
     if not path.exists():
+        # A version-less lookup may still find an older key; do not do that
+        # silently.  A missing key is a miss.
         return {'status': 'miss', 'reason': 'not_found'}
     try:
         entry = _load_entry(path)
@@ -109,6 +115,9 @@ def get(cache_dir, project, document, action, params, version_tag, cli_version=N
     if key.get('project') != project or key.get('document') != document \
             or key.get('action') != action or key.get('params') != params:
         return {'status': 'miss', 'reason': 'key_mismatch'}
+    if key.get('toolVersion') != tool_version:
+        return {'status': 'miss', 'reason': 'tool_version_mismatch',
+                'expected': tool_version, 'stored': key.get('toolVersion')}
     if entry.get('versionTag') != version_tag:
         return {'status': 'miss', 'reason': 'version_tag_mismatch',
                 'expected': version_tag, 'stored': entry.get('versionTag')}
@@ -192,6 +201,9 @@ def main(argv=None):
         target.add_argument('--action', required=True)
         target.add_argument('--params', default='{}')
         target.add_argument('--version-tag', required=True)
+        target.add_argument('--tool-version',
+                            help='caller/tool version that affects the result; '
+                                 'part of the cache key')
 
     put_parser = sub.add_parser('put')
     add_key_args(put_parser)
@@ -217,13 +229,15 @@ def main(argv=None):
             params = _parse_params(args.params)
             value = json.loads(Path(args.value).read_text(encoding='utf-8-sig'))
             result = put(args.cache, args.project, args.document, args.action,
-                         params, args.version_tag, args.cli_version, value)
+                         params, args.version_tag, args.cli_version, value,
+                         tool_version=args.tool_version)
             print(json.dumps(result, ensure_ascii=False))
             return 0
         if args.command == 'get':
             params = _parse_params(args.params)
             result = get(args.cache, args.project, args.document, args.action,
-                         params, args.version_tag, args.cli_version, args.ttl_seconds)
+                         params, args.version_tag, args.cli_version,
+                         args.ttl_seconds, tool_version=args.tool_version)
             print(json.dumps(result, ensure_ascii=False))
             return 0 if result['status'] == 'hit' else 1
         if args.command == 'invalidate':

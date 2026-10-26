@@ -438,6 +438,21 @@ class PlacementAndLintQualityTests(BaseGateTests):
         self.assertIn('lint_score', codes)
         self.assertIn('lint_crossings', codes)
 
+    def test_real_lint_null_detail_arrays_are_a_measurement(self):
+        source = (ROOT / 'docs' / 'round10' / 'regression' / 'liveA'
+                  / 'evidence' / 'pcb-layout-lint.json')
+        if not source.is_file():
+            self.skipTest('real lint capture not present')
+        target = self.builder.ev / 'pcb-layout-lint.json'
+        shutil.copyfile(str(source), str(target))
+        touch(target, FRESH)
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        stage = stage_map(report)['PG2_layout']
+        self.assertEqual(stage['status'], 'pass',
+                         stage['findings'])
+        self.assertEqual(stage['metrics']['overlap'], 0)
+        self.assertEqual(stage['metrics']['off_board'], 0)
+
     def test_malformed_evidence_shape_fails_closed(self):
         # Valid JSON, wrong field type: the shared parser must not crash the
         # whole gate; the stage fails with an explicit stage_error.
@@ -447,7 +462,8 @@ class PlacementAndLintQualityTests(BaseGateTests):
         report = pcb_gate.evaluate(make_args(self.builder.case))
         stage = stage_map(report)['PG2_layout']
         self.assertEqual(stage['status'], 'fail')
-        self.assertIn('stage_error', finding_codes(stage))
+        self.assertIn('lint_diagnostics', finding_codes(stage))
+        self.assertIn('lint_coverage_incomplete', finding_codes(stage))
         self.assertEqual(report['status'], 'fail')
 
 
@@ -521,7 +537,7 @@ class WarnDispositionTests(BaseGateTests):
         report = pcb_gate.evaluate(make_args(self.builder.case))
         stage = stage_map(report)['PG4_check']
         self.assertEqual(stage['status'], 'blocked')
-        self.assertIn('missing_info_disposition', finding_codes(stage))
+        self.assertIn('missing_warn_disposition', finding_codes(stage))
 
     def test_real_check_warns_require_disposition(self):
         source = REAL_MCU / 'evidence' / 'pcb-check-final.json'

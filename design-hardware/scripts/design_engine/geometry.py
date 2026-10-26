@@ -107,6 +107,211 @@ def point_near(first, second, tolerance):
     return math.hypot(first[0] - second[0], first[1] - second[1]) <= tolerance
 
 
+def normalize_angle(angle_deg):
+    """Normalize degrees to ``[0, 360)`` (``-90`` and ``270`` are equal)."""
+    value = finite(angle_deg, 'angle') % 360.0
+    if abs(value - 360.0) <= 1e-9:
+        return 0.0
+    return value
+
+
+def angle_close(first, second, tolerance=1e-6):
+    delta = (normalize_angle(first) - normalize_angle(second) + 180.0) % 360.0
+    return abs(delta - 180.0) <= tolerance
+
+
+def polygon_bbox(points):
+    pts = [point(item, 'polygon point') for item in points]
+    if not pts:
+        raise ValueError('polygon: at least one point required')
+    xs, ys = [item[0] for item in pts], [item[1] for item in pts]
+    return (min(xs), min(ys), max(xs), max(ys))
+
+
+def polygon_area(points):
+    pts = [point(item, 'polygon point') for item in points]
+    if len(pts) < 3:
+        return 0.0
+    return abs(sum(pts[index][0] * pts[(index + 1) % len(pts)][1] -
+                   pts[(index + 1) % len(pts)][0] * pts[index][1]
+                   for index in range(len(pts)))) / 2.0
+
+
+def point_on_segment(pt, start, end, tolerance=1e-9):
+    direction = (end[0] - start[0], end[1] - start[1])
+    length = math.hypot(*direction)
+    if length <= tolerance:
+        return point_near(pt, start, tolerance)
+    cross = (pt[0] - start[0]) * direction[1] - (pt[1] - start[1]) * direction[0]
+    if abs(cross) / length > tolerance:
+        return False
+    dot = (pt[0] - start[0]) * direction[0] + (pt[1] - start[1]) * direction[1]
+    return -tolerance <= dot <= length * length + tolerance
+
+
+def point_in_polygon(pt, points, boundary=True):
+    """Ray-casting point-in-polygon for a simple (possibly concave) polygon."""
+    pt = point(pt, 'point')
+    polygon = [point(item, 'polygon point') for item in points]
+    if len(polygon) < 3:
+        return False
+    border = rect_bbox(polygon)
+    if not (border[0] - 1e-9 <= pt[0] <= border[2] + 1e-9 and
+            border[1] - 1e-9 <= pt[1] <= border[3] + 1e-9):
+        return False
+    inside = False
+    for index in range(len(polygon)):
+        start, end = polygon[index], polygon[(index + 1) % len(polygon)]
+        if point_on_segment(pt, start, end):
+            return boundary
+        if (start[1] > pt[1]) != (end[1] > pt[1]):
+            crossing = (end[0] - start[0]) * (pt[1] - start[1]) / \
+                (end[1] - start[1]) + start[0]
+            if pt[0] < crossing:
+                inside = not inside
+    return inside
+
+
+def rect_bbox(points):
+    """Axis-aligned bbox of a point set; an empty set raises."""
+    pts = [point(item, 'point') for item in points]
+    if not pts:
+        raise ValueError('bbox: at least one point required')
+    xs, ys = [item[0] for item in pts], [item[1] for item in pts]
+    return (min(xs), min(ys), max(xs), max(ys))
+
+
+def segments_cross(a, b, c, d):
+    """True for a proper crossing or collinear overlap (touch included)."""
+    def orientation(p, q, r):
+        value = (q[1] - p[1]) * (r[0] - q[0]) - (q[0] - p[0]) * (r[1] - q[1])
+        if abs(value) <= 1e-9:
+            return 0
+        return 1 if value > 0 else 2
+
+    def on_segment(p, q, r):
+        return (min(p[0], r[0]) - 1e-9 <= q[0] <= max(p[0], r[0]) + 1e-9 and
+                min(p[1], r[1]) - 1e-9 <= q[1] <= max(p[1], r[1]) + 1e-9)
+
+    o1, o2 = orientation(a, b, c), orientation(a, b, d)
+    o3, o4 = orientation(c, d, a), orientation(c, d, b)
+    if o1 != o2 and o3 != o4:
+        return True
+    if o1 == 0 and on_segment(a, c, b):
+        return True
+    if o2 == 0 and on_segment(a, d, b):
+        return True
+    if o3 == 0 and on_segment(c, a, d):
+        return True
+    if o4 == 0 and on_segment(c, b, d):
+        return True
+    return False
+
+
+def segment_intersects_polygon(a, b, polygon, *, proper=True):
+    """True when a segment crosses the polygon edge.
+
+    ``proper=True`` ignores endpoint tangency/collinear touch, which is the
+    right test for "inside a closed polygon" (a body flush with the board edge
+    is on the board).  Keepout/copper intersection callers can use
+    ``proper=False`` when any touch must be reported.
+    """
+    for index in range(len(polygon)):
+        first, second = polygon[index], polygon[(index + 1) % len(polygon)]
+        hit = (segments_intersect(a, b, first, second) if proper
+               else segments_cross(a, b, first, second))
+        if hit:
+            return True
+    return False
+
+
+def rect_inside_polygon(box, polygon, *, exact=True):
+    """True when the whole rectangle is inside a simple polygon.
+
+    ``exact`` checks corners, centre and every rectangle/polygon edge
+    intersection.  This is exact for a polygonal outline; an ``arc-polyline``
+    approximation is only as exact as its sampled vertices.
+    """
+    box = rect(box, 'box')
+    polygon = [point(item, 'polygon point') for item in polygon]
+    if len(polygon) < 3:
+        return False
+    corners = [(box[0], box[1]), (box[2], box[1]),
+               (box[2], box[3]), (box[0], box[3])]
+    if not all(point_in_polygon(corner, polygon) for corner in corners):
+        return False
+    if not point_in_polygon(rect_center(box), polygon):
+        return False
+    if exact:
+        edges = [(corners[index], corners[(index + 1) % 4])
+                 for index in range(4)]
+        for start, end in edges:
+            if segment_intersects_polygon(start, end, polygon):
+                return False
+    return True
+
+
+def distance_point_to_polygon(pt, polygon):
+    """Minimum distance from a point to the polygon boundary."""
+    pt = point(pt, 'point')
+    polygon = [point(item, 'polygon point') for item in polygon]
+    if len(polygon) < 2:
+        raise ValueError('polygon: at least two points required')
+    return min(point_segment_distance(pt, polygon[index],
+                                      polygon[(index + 1) % len(polygon)])
+               for index in range(len(polygon)))
+
+
+def circle_inside_polygon(center, radius, polygon):
+    """True when a circle is fully inside the polygon (polygon edge margin)."""
+    center = point(center, 'center')
+    radius = finite(radius, 'radius')
+    if radius < 0:
+        raise ValueError('radius: nonnegative required')
+    polygon = [point(item, 'polygon point') for item in polygon]
+    return (point_in_polygon(center, polygon) and
+            distance_point_to_polygon(center, polygon) >= radius - 1e-9)
+
+
+def segment_distance(first_start, first_end, second_start, second_end):
+    """Minimum distance between two line segments."""
+    if segments_cross(first_start, first_end, second_start, second_end):
+        return 0.0
+    return min(
+        point_segment_distance(first_start, second_start, second_end),
+        point_segment_distance(first_end, second_start, second_end),
+        point_segment_distance(second_start, first_start, first_end),
+        point_segment_distance(second_end, first_start, first_end),
+    )
+
+
+def polyline_inside_polygon(points, half_width, polygon):
+    """True when a stroked polyline of ``half_width`` is inside the polygon."""
+    pts = [point(item, 'polyline point') for item in points]
+    half_width = finite(half_width, 'half_width')
+    if half_width < 0:
+        raise ValueError('half_width: nonnegative required')
+    polygon = [point(item, 'polygon point') for item in polygon]
+    if len(pts) < 2 or len(polygon) < 3:
+        return False
+    for start, end in zip(pts, pts[1:]):
+        if start == end:
+            if not circle_inside_polygon(start, half_width, polygon):
+                return False
+            continue
+        middle = ((start[0] + end[0]) / 2.0, (start[1] + end[1]) / 2.0)
+        for sample in (start, middle, end):
+            if not point_in_polygon(sample, polygon):
+                return False
+            if distance_point_to_polygon(sample, polygon) < half_width - 1e-9:
+                return False
+        for index in range(len(polygon)):
+            edge = (polygon[index], polygon[(index + 1) % len(polygon)])
+            if segment_distance(start, end, edge[0], edge[1]) < half_width - 1e-9:
+                return False
+    return True
+
+
 def rotate_point(pt, angle_deg, origin=(0.0, 0.0)):
     angle = math.radians(finite(angle_deg, 'angle'))
     cos_a, sin_a = math.cos(angle), math.sin(angle)

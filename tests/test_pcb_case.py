@@ -533,6 +533,34 @@ class SkipLiveTests(CaseTestBase):
                       if item['id'] == 'images')
         self.assertEqual(images['status'], 'fail')
 
+    def test_invalid_check_receipt_is_a_failure(self):
+        self.make_evidence()
+        _write_json(self.case / 'evidence' / 'pcb-check-final.json', {
+            'summary': {'errors': '3', 'warnings': 0}, 'findings': [],
+        })
+        code, output = self.run_case(['--case', str(self.case), '--skip-live',
+                                      '--no-gate', '--json'])
+        self.assertEqual(code, 1, output)
+        manifest = self.manifest()
+        check = next(item for item in manifest['verification']['checks']
+                     if item['id'] == 'check')
+        self.assertEqual(check['status'], 'fail')
+
+    def test_unmeasured_lint_receipt_is_not_a_pass(self):
+        self.make_evidence()
+        _write_json(self.case / 'evidence' / 'pcb-layout-lint-final.json', {
+            'report': {'score': True, 'crossingCount': 1,
+                       'componentCount': 1, 'overlap': 0, 'offBoard': 0,
+                       'coverage': {'complete': True}},
+        })
+        code, output = self.run_case(['--case', str(self.case), '--skip-live',
+                                      '--no-gate', '--json'])
+        self.assertEqual(code, 1, output)
+        manifest = self.manifest()
+        lint = next(item for item in manifest['verification']['checks']
+                    if item['id'] == 'lint')
+        self.assertNotEqual(lint['status'], 'pass')
+
     def test_netpath_failure_is_a_failure(self):
         self.make_evidence(netpath_connected=False)
         code, output = self.run_case(['--case', str(self.case), '--skip-live',

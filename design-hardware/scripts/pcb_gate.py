@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import csv
 import fnmatch
+import hashlib
 import json
 import os
 import struct
@@ -147,6 +148,22 @@ NAMED_ROLE_OPTIONS = (
 )
 
 DELIVERY_ROLES = ('image_top', 'image_bottom', 'actual_svg', 'bom', 'archive')
+
+ROLE_STAGE = {
+    'constraints': 'PG1_placement', 'placement': 'PG1_placement',
+    'plan': 'PG1_placement',
+    'lint': 'PG2_layout',
+    'drc': 'PG3_drc',
+    'check': 'PG4_check', 'warn_disposition': 'PG4_check',
+    'netpath': 'PG5_netpath',
+    'sch': 'PG6_sch_pcb', 'sch_pcb': 'PG6_sch_pcb',
+    'dump_before': 'PG7_save_reload', 'dump_after': 'PG7_save_reload',
+    'plan_base_dump': 'PG1_placement',
+    'save_reload': 'PG7_save_reload',
+    'image_top': 'PG8_delivery', 'image_bottom': 'PG8_delivery',
+    'actual_svg': 'PG8_delivery', 'bom': 'PG8_delivery',
+    'archive': 'PG8_delivery',
+}
 
 BASELINE_ROLE_ALIASES = {
     'image_top': 'image_top',
@@ -319,6 +336,37 @@ def _captured_time(payload):
     return None
 
 
+def _payload_identity(payload):
+    """Extract the project/document identity an evidence payload carries.
+
+    Returns a tuple or ``None``.  Only fields that are actually present are
+    compared; an absent identity is never guessed from a filename.
+    """
+    if not isinstance(payload, dict):
+        return None
+    sources = [payload]
+    for key in ('result', 'capture', 'source'):
+        nested = payload.get(key)
+        if isinstance(nested, dict):
+            sources.append(nested)
+    project = document = None
+    for item in sources:
+        for key in ('projectUuid', 'project_uuid', 'projectId', 'projectID'):
+            value = _text(item.get(key))
+            if value:
+                project = value
+                break
+        for key in ('documentUuid', 'document_uuid', 'documentId',
+                    'documentID', 'pageId'):
+            value = _text(item.get(key))
+            if value:
+                document = value
+                break
+    if not project and not document:
+        return None
+    return (project or '', document or '')
+
+
 def _dump_semantic(dump):
     if not isinstance(dump, dict):
         return None
@@ -382,13 +430,18 @@ def _stage_required(profile, stage_id):
 
 class Evidence:
     def __init__(self, role, path, payload=None, error=None, candidates=1,
-                 selected_because=''):
+                 selected_because='', alternatives=None, conflict=None,
+                 manifest_entry=None, binding=None):
         self.role = role
         self.path = Path(path)
         self.payload = payload
         self.error = error
         self.candidates = candidates
         self.selected_because = selected_because
+        self.alternatives = alternatives or []
+        self.conflict = conflict
+        self.manifest_entry = manifest_entry
+        self.binding = binding or {}
 
     @property
     def usable(self):
@@ -414,11 +467,31 @@ class Evidence:
             item['mtime'] = _iso(_mtime(self.path))
         except OSError as exc:
             item['error'] = 'unreadable: %s' % exc
+        if self.payload is not None:
+            try:
+                item['semantic_sha256'] = pcb_evidence.semantic_sha256(
+                    self.payload)
+            except (TypeError, ValueError):
+                item['semantic_sha256'] = None
         if self.error:
             item['error'] = self.error
-        captured = _captured_time(self.payload) if self.payload is not None else None
+        captured, basis = _evidence_time_with_basis(self)
         if captured:
             item['captured_at'] = _iso(captured)
+            item['freshness_basis'] = basis
+        if self.alternatives:
+            item['alternatives'] = self.alternatives
+        if self.conflict:
+            item['conflict'] = self.conflict
+        if self.manifest_entry:
+            item['manifest'] = {
+                'sha256': self.manifest_entry.get('sha256'),
+                'source_dump_sha256': self.manifest_entry.get('source_dump_sha256'),
+                'produced_at': self.manifest_entry.get('produced_at'),
+                'source_binding': self.manifest_entry.get('source_binding'),
+            }
+        if self.binding:
+            item['binding'] = dict(self.binding)
         return item
 
 
@@ -509,14 +582,17 @@ def _sort_key(role, path):
         stamp = path.stat().st_mtime
     except OSError:
         stamp = 0.0
-    if role in NOISE_SENSITIVE_ROLES:
-        name = path.name.lower()
-        noisy = any(word in name for word in SCRATCH_NAME_NOISE)
-        return (1 if noisy else 0, -stamp)
-    return (0, -stamp)
+    name = path.name.lower()
+    noisy = any(word in name for word in SCRATCH_NAME_NOISE)
+    # An explicitly final artifact is the intended delivery evidence; a
+    # scratch/edit copy or a non-final intermediate must not win only because
+    # its mtime is newer.
+    final = 'final' in name
+    return (1 if noisy else 0, 0 if final else 1, -stamp)
 
 
-def discover_role(role, evidence_dir, override=None):
+def discover_role(role, evidence_dir, override=None, preferred=None,
+                  manifest_entry=None, manifest_path=None):
     if override:
         path = _resolve_path(override, evidence_dir)
         if not path.is_file():
@@ -528,7 +604,20 @@ def discover_role(role, evidence_dir, override=None):
         if role not in BINARY_ROLES and not _shape_ok(role, payload):
             raise InputError('%s evidence has an unexpected structure: %s' % (
                 role, path))
-        return Evidence(role, path, payload, None, 1, 'explicit override')
+        entry = manifest_entry
+        if entry:
+            declared = Path(entry.get('resolved_path') or '')
+            try:
+                same = declared.resolve() == path.resolve()
+            except OSError:
+                same = str(declared) == str(path)
+            if not same:
+                # An explicit override is a different artifact; do not bind it
+                # to the manifest's hashes/timestamp for another file.
+                entry = None
+        return Evidence(role, path, payload, None, 1, 'explicit override',
+                        manifest_entry=entry,
+                        binding={'basis': 'explicit_override'})
 
     paths = []
     for pattern in ROLE_PATTERNS.get(role, ()):
@@ -559,10 +648,90 @@ def discover_role(role, evidence_dir, override=None):
     for path in unique:
         payload, error = _read_role_file(role, path)
         parsed.append((path, payload, error))
-    for path, payload, error in parsed:
-        if error is None and _shape_ok(role, payload):
-            return Evidence(role, path, payload, None, len(unique),
-                            'newest compatible match among %d candidate(s)' % len(unique))
+    compatible = [(path, payload) for path, payload, error in parsed
+                  if error is None and _shape_ok(role, payload)]
+    chosen = None
+    if preferred:
+        preferred_path = Path(preferred)
+        if preferred_path.is_file():
+            payload, error = _read_role_file(role, preferred_path)
+            if error:
+                raise InputError('%s evidence declared by %s is unreadable (%s): %s'
+                                 % (role, manifest_path or 'the case manifest',
+                                    error, preferred_path))
+            if role not in BINARY_ROLES and not _shape_ok(role, payload):
+                raise InputError('%s evidence declared by %s has an unexpected '
+                                 'structure: %s'
+                                 % (role, manifest_path or 'the case manifest',
+                                    preferred_path))
+            return Evidence(
+                role, preferred_path, payload, None, 1,
+                'path declared by %s' % (manifest_path or 'the case manifest'),
+                manifest_entry=manifest_entry,
+                binding={'basis': 'manifest' if manifest_entry else 'discovery'})
+        try:
+            preferred_key = str(preferred_path.resolve())
+        except OSError:
+            preferred_key = str(preferred_path)
+        for path, payload in compatible:
+            try:
+                path_key = str(path.resolve())
+            except OSError:
+                path_key = str(path)
+            if path_key == preferred_key:
+                chosen = (path, payload)
+                break
+        if chosen is None:
+            # The manifest names this artifact but the file is missing or has
+            # an incompatible shape.  Do not silently fall back to a sibling.
+            raise InputError(
+                '%s evidence declared by %s is missing or unreadable: %s'
+                % (role, manifest_path or 'the case manifest', preferred))
+    if chosen is None and compatible:
+        chosen = compatible[0]
+    if chosen is not None:
+        path, payload = chosen
+        alternatives = []
+        for other_path, other_payload in compatible:
+            if other_path == path:
+                continue
+            try:
+                other_sha = sha256_file(str(other_path))
+            except OSError:
+                other_sha = None
+            alternatives.append({'path': str(other_path), 'sha256': other_sha})
+        conflict = None
+        if compatible:
+            try:
+                selected_sha = sha256_file(str(path))
+            except OSError:
+                selected_sha = None
+            differing = [item for item in alternatives
+                         if item.get('sha256') != selected_sha]
+            if differing:
+                identities = {_payload_identity(payload)}
+                for other_path, other_payload in compatible:
+                    if other_path == path:
+                        continue
+                    identities.add(_payload_identity(other_payload))
+                identities.discard(None)
+                if len(identities) > 1:
+                    conflict = {'kind': 'identity_conflict',
+                                'identities': sorted(identities, key=str),
+                                'selected': str(path),
+                                'alternatives': [item['path'] for item in differing]}
+                else:
+                    conflict = {'kind': 'multiple_candidates',
+                                'selected': str(path),
+                                'alternatives': [item['path'] for item in differing]}
+        return Evidence(
+            role, path, payload, None, len(unique),
+            ('path declared by %s' % (manifest_path or 'the case manifest')
+             if preferred else
+             'newest compatible match among %d candidate(s)' % len(unique)),
+            alternatives=alternatives, conflict=conflict,
+            manifest_entry=manifest_entry,
+            binding={'basis': 'manifest' if manifest_entry else 'discovery'})
     parse_failures = [item for item in parsed if item[2] is not None]
     if parsed and len(parse_failures) == len(parsed) and \
             role not in SOFT_PARSE_ROLES:
@@ -617,12 +786,152 @@ def collect_overrides(args):
     return overrides
 
 
-def load_all_evidence(evidence_dir, overrides, images_dir):
+def _manifest_role(role):
+    """Map a pcb_case manifest role to a gate evidence role."""
+    key = _text(role).lower().replace('-', '_').replace(' ', '_')
+    for suffix in ('.json', '.png', '.svg', '.csv', '.epro2'):
+        if key.endswith(suffix):
+            key = key[:-len(suffix)]
+            break
+    if 'dump' in key:
+        if 'plan' in key and 'base' in key:
+            return 'plan_base_dump'
+        if 'after' in key:
+            return 'dump_after'
+        if 'before' in key:
+            return 'dump_before'
+        return 'dump_before'
+    if 'warn' in key or 'disposition' in key:
+        return 'warn_disposition'
+    if 'netpath' in key or 'net_path' in key:
+        return 'netpath'
+    if 'sch' in key and 'pcb' in key and ('compare' in key or 'cross' in key):
+        return 'sch_pcb'
+    if key.startswith('sch') and ('read' in key or 'connectivity' in key):
+        return 'sch'
+    if 'drc' in key:
+        return 'drc'
+    if 'layout' in key and 'lint' in key:
+        return 'lint'
+    if 'check' in key and 'pcb' in key:
+        return 'check'
+    if 'constraint' in key:
+        return 'constraints'
+    if 'placement' in key:
+        return 'placement'
+    if 'plan' in key:
+        return 'plan'
+    if 'intent' in key:
+        return 'intent'
+    if 'save' in key and 'reload' in key:
+        return 'save_reload'
+    if 'bom' in key:
+        return 'bom'
+    if 'archive' in key or 'epro2' in key:
+        return 'archive'
+    if 'bottom' in key:
+        return 'image_bottom'
+    if 'top' in key:
+        return 'image_top'
+    if 'svg' in key or 'actual' in key:
+        return 'actual_svg'
+    return None
+
+
+def load_case_manifest(case_dir):
+    """Load a pcb_case manifest as evidence provenance, if one exists.
+
+    A manifest is optional for backwards compatibility, but when present its
+    artifact hashes and ``source_dump_sha256`` bindings win over filename
+    discovery and file mtimes.
+    """
+    case_dir = Path(case_dir)
+    for name in ('manifest.json', 'case-manifest.json',
+                 'pcb-case-manifest.json'):
+        path = case_dir / name
+        if not path.is_file():
+            continue
+        try:
+            data = load_json(str(path))
+        except (OSError, ValueError, UnicodeDecodeError) as exc:
+            raise InputError('case manifest is unreadable: %s (%s)' % (path, exc))
+        if not isinstance(data, dict):
+            raise InputError('case manifest must be a JSON object: %s' % path)
+        schema = _text(data.get('schema'))
+        if schema and not schema.startswith('design-engine-pcb-case'):
+            raise InputError('unsupported case manifest schema %r: %s'
+                             % (schema, path))
+        artifacts = data.get('artifacts')
+        if not isinstance(artifacts, list):
+            raise InputError('case manifest artifacts must be a list: %s' % path)
+        roles = {}
+        for item in artifacts:
+            if not isinstance(item, dict):
+                continue
+            role = _manifest_role(item.get('role'))
+            if not role or not _text(item.get('path')):
+                continue
+            entry = dict(item)
+            raw_path = _text(item.get('path'))
+            resolved = ((case_dir / raw_path).resolve()
+                        if not os.path.isabs(raw_path)
+                        else Path(raw_path).resolve())
+            try:
+                inside = resolved == case_dir.resolve() or \
+                    resolved.is_relative_to(case_dir.resolve())
+            except AttributeError:  # pragma: no cover - Python < 3.9
+                inside = str(resolved).startswith(str(case_dir.resolve()))
+            if not inside:
+                raise InputError(
+                    'case manifest artifact escapes the case directory: %s'
+                    % raw_path)
+            entry['resolved_path'] = str(resolved)
+            roles.setdefault(role, []).append(entry)
+        return {'path': str(path), 'schema': schema, 'artifacts': artifacts,
+                'roles': roles, 'source': data.get('source') or {}}
+    return None
+
+
+def load_all_evidence(evidence_dir, overrides, images_dir, manifest=None,
+                      case_dir=None):
     roles = {}
+    manifest_roles = (manifest or {}).get('roles') or {}
+    case_dir = Path(case_dir) if case_dir is not None else Path(evidence_dir)
     for role in ROLE_PATTERNS:
         directory = images_dir if role in ('image_top', 'image_bottom',
                                            'actual_svg') else evidence_dir
-        roles[role] = discover_role(role, directory, overrides.get(role))
+        entries = manifest_roles.get(role) or []
+        entry = entries[0] if entries else None
+        if len(entries) > 1:
+            keys = {(item.get('resolved_path'), item.get('sha256'))
+                    for item in entries}
+            if len(keys) != 1:
+                # Do not silently drop the manifest's hashes/timestamps and
+                # fall back to a filename that happens to sort first.
+                roles[role] = Evidence(
+                    role, entries[0].get('resolved_path') or evidence_dir,
+                    None,
+                    error='case manifest declares %d different artifacts for '
+                          'this role' % len(entries),
+                    selected_because='ambiguous manifest role',
+                    binding={'basis': 'manifest',
+                             'error': 'manifest_role_ambiguous'})
+                continue
+            entry = entries[0]
+        preferred = entry.get('resolved_path') if entry else None
+        if preferred and not Path(preferred).is_file():
+            # A stale manifest must not silently fall back to another file.
+            roles[role] = Evidence(
+                role, preferred, None,
+                error='manifest artifact is missing: %s' % preferred,
+                selected_because='declared by %s' % manifest.get('path'),
+                manifest_entry=entry,
+                binding={'basis': 'manifest', 'error': 'missing_artifact'})
+            continue
+        roles[role] = discover_role(
+            role, directory, overrides.get(role), preferred=preferred,
+            manifest_entry=entry,
+            manifest_path=(manifest or {}).get('path') if entry else None)
     return roles
 
 
@@ -630,13 +939,136 @@ def load_all_evidence(evidence_dir, overrides, images_dir):
 # freshness
 
 
-def _evidence_time(evidence):
+def _evidence_time_with_basis(evidence):
+    """Return ``(time, basis)``; a manifest timestamp outranks file mtime.
+
+    A copied file with ``touch`` updates mtime but cannot change the manifest's
+    ``produced_at`` or the artifact hash.  Payload capture time is the next
+    strongest fact.  mtime is only an auxiliary signal and is labelled as
+    such.
+    """
     if evidence is None:
-        return None
+        return None, 'none'
+    entry = evidence.manifest_entry or {}
+    # pcb_case --skip-live fills produced_at from the file mtime and labels it
+    # inferred_mtime.  That is not a recorded production time, so it must not
+    # outrank the payload capture or allow a touched copy to look fresh.
+    if entry.get('source_binding') != 'inferred_mtime':
+        produced = _parse_time(entry.get('produced_at'))
+        if produced:
+            return produced, 'manifest_produced_at'
     captured = _captured_time(evidence.payload) if evidence.payload is not None else None
     if captured:
-        return captured
-    return _mtime(evidence.path)
+        return captured, 'payload_capture'
+    return _mtime(evidence.path), 'file_mtime'
+
+
+def _evidence_time(evidence):
+    return _evidence_time_with_basis(evidence)[0]
+
+
+def _payload_project(payload):
+    identity = _payload_identity(payload)
+    return identity[0] if identity else None
+
+
+def _sha256_normalized(path):
+    """Hash text evidence after CRLF->LF, matching a git checkout.
+
+    ``pcb_case`` records the bytes of the working tree; a later git checkout on
+    another platform can legitimately change only line endings.  Keep the raw
+    hash as the primary identity and accept a declared hash that matches the
+    normalized text, recording which basis was used.
+    """
+    try:
+        data = Path(path).read_bytes()
+    except OSError:
+        return None
+    try:
+        data.decode('utf-8')
+    except UnicodeDecodeError:
+        return hashlib.sha256(data).hexdigest()
+    return hashlib.sha256(data.replace(b'\r\n', b'\n')).hexdigest()
+
+
+def _hash_matches(declared, path):
+    """Return ``(matched, raw, normalized)`` for a declared artifact hash."""
+    declared = _text(declared)
+    try:
+        raw = sha256_file(str(path))
+    except OSError:
+        return False, None, None
+    normalized = _sha256_normalized(path)
+    return (declared in (raw, normalized)), raw, normalized
+
+
+def bind_manifest_evidence(roles, manifest, case_dir):
+    """Attach manifest/hash/identity binding diagnostics to each evidence role.
+
+    This is deliberately separate from parsing: a valid JSON file can still be
+    the wrong object (another project, an old dump, or a copy with a touched
+    mtime).  Any hard binding problem is later attached to the stage that uses
+    the role.
+    """
+    final = _final_dump(roles)
+    final_sha = None
+    if final is not None and final.usable:
+        try:
+            final_sha = sha256_file(str(final.path))
+        except OSError:
+            final_sha = None
+    final_identity = _payload_identity(final.payload) if final is not None else None
+    final_project = final_identity[0] if final_identity else None
+    final_document = final_identity[1] if final_identity else None
+    for role, evidence in roles.items():
+        if evidence is None:
+            continue
+        binding = dict(evidence.binding or {})
+        entry = evidence.manifest_entry
+        if entry:
+            path = Path(entry.get('resolved_path') or evidence.path)
+            declared = _text(entry.get('sha256'))
+            matched, actual, normalized = _hash_matches(declared, path)
+            binding['declared_sha256'] = declared or None
+            binding['actual_sha256'] = actual
+            binding['normalized_sha256'] = normalized
+            if actual is not None:
+                binding['hash_basis'] = ('raw' if declared == actual else
+                                         ('crlf_normalized' if matched
+                                          else 'mismatch'))
+            if declared and actual and not matched:
+                binding['error'] = 'manifest_sha256_mismatch'
+            source_dump = _text(entry.get('source_dump_sha256'))
+            checkable = role not in ('dump_before', 'dump_after',
+                                     'plan_base_dump')
+            if checkable and entry.get('run_after_final_reload') is False:
+                checkable = False
+            if checkable and source_dump and final_sha and \
+                    not _hash_matches(source_dump, final.path)[0]:
+                binding['error'] = 'source_dump_changed'
+                binding['source_dump_sha256'] = source_dump
+                binding['final_dump_sha256'] = final_sha
+            if entry.get('source_binding'):
+                binding['source_binding'] = entry.get('source_binding')
+            if manifest.get('status') == 'failed' and \
+                    entry.get('run_after_final_reload'):
+                binding['error'] = 'manifest_status_failed'
+            binding['manifest_status'] = manifest.get('status')
+        identity = _payload_identity(evidence.payload) if evidence.payload else None
+        project = identity[0] if identity else None
+        document = identity[1] if identity else None
+        if final_project and project and project != final_project:
+            binding['error'] = 'project_identity_mismatch'
+            binding['evidence_project'] = project
+            binding['final_project'] = final_project
+        elif role not in ('sch', 'sch_pcb') and final_document and document and \
+                document != final_document:
+            # A schematic page UUID is legitimately different from the PCB
+            # document UUID; for PCB evidence a page/document mismatch is not.
+            binding['error'] = 'document_identity_mismatch'
+            binding['evidence_document'] = document
+            binding['final_document'] = final_document
+        evidence.binding = binding
 
 
 def _final_dump(roles):
@@ -673,14 +1105,24 @@ def _check_freshness(evidence, final_evidence, stage_id, findings, not_checked,
             'reason': 'no readable final dump is available to bind %s' % label,
         })
         return None
-    evidence_time = _evidence_time(evidence)
+    evidence_time, basis = _evidence_time_with_basis(evidence)
     if evidence_time is None:
         not_checked.append({
             'stage': stage_id,
             'check': 'freshness_%s' % label,
-            'reason': 'no mtime/capture timestamp on %s' % label,
+            'reason': 'no manifest timestamp, capture timestamp or mtime on %s'
+                      % label,
         })
         return None
+    if basis == 'file_mtime':
+        not_checked.append({
+            'stage': stage_id,
+            'check': 'freshness_basis_%s' % label,
+            'reason': 'freshness for %s rests on file mtime only; a copied file '
+                      'with a touched timestamp can look fresh. Bind it with a '
+                      'case manifest (produced_at + sha256 + '
+                      'source_dump_sha256) for a content-bound claim.' % label,
+        })
     if evidence_time < final_time:
         findings.append(_finding(
             'STALE_EVIDENCE',
@@ -863,12 +1305,23 @@ def evaluate_pg2(ctx):
                               'layout-lint evidence missing')
 
     payload = _unwrap(lint_evidence.payload)
-    lint = pcb_evidence.parse_layout_lint(payload)
+    lint = pcb_evidence.parse_layout_lint(lint_evidence.payload)
     if not lint.get('measured'):
         return _missing_stage(ctx, stage_id, required, ['lint'],
                               'layout-lint lacks score/crossings/component/'
                               'overlap coverage fields; it is not a measurement')
     findings = []
+    if lint.get('diagnostics'):
+        findings.append(_finding(
+            'lint_diagnostics',
+            '%d invalid field(s) in the layout-lint receipt; values were not '
+            'coerced to zero' % len(lint['diagnostics']),
+            details=lint['diagnostics'][:10]))
+    if not lint.get('trusted', True):
+        findings.append(_finding(
+            'lint_envelope_failed',
+            'layout-lint outer JSON reports ok=false; an inner report does not '
+            'make the command successful'))
     if not lint.get('coverage_complete'):
         findings.append(_finding('lint_coverage_incomplete',
                                  'layout-lint coverage.complete is not true'))
@@ -934,12 +1387,29 @@ def evaluate_pg3(ctx):
         return _missing_stage(ctx, stage_id, required, ['drc'],
                               'native DRC evidence missing')
 
-    drc = pcb_evidence.parse_drc(_unwrap(drc_evidence.payload))
+    drc = pcb_evidence.parse_drc(drc_evidence.payload)
     if not drc.get('measured'):
         return _missing_stage(ctx, stage_id, required, ['drc'],
                               'native DRC has no total/violations receipt; it is '
                               'not a measurement')
     findings = []
+    if drc.get('contradictions'):
+        findings.append(_finding(
+            'drc_inconsistent',
+            'native DRC receipt contradicts itself: %s'
+            % '; '.join(drc['contradictions']),
+            contradictions=drc['contradictions']))
+    if not drc.get('trusted', True):
+        findings.append(_finding(
+            'drc_envelope_failed',
+            'native DRC outer JSON reports ok=false; an inner result does not '
+            'make the command successful'))
+    if drc.get('diagnostics'):
+        findings.append(_finding(
+            'drc_diagnostics',
+            '%d invalid field(s) in the native DRC receipt'
+            % len(drc['diagnostics']), severity='advisory',
+            details=drc['diagnostics'][:10]))
     if not drc.get('ok'):
         findings.append(_finding(
             'drc_failed',
@@ -964,35 +1434,17 @@ def evaluate_pg3(ctx):
 
 
 def _check_info_dispositions(report, disposition_payload):
-    """Extend the shared ERROR/WARN validator to INFO findings.
+    """Compatibility wrapper: the shared validator now covers INFO too.
 
-    ``pcb_evidence.validate_warn_disposition`` deliberately stops at ERROR/WARN.
-    The round-10 contract also requires an INFO disposition, so the same stable
-    key is checked here without inventing a second disposition schema.
+    Kept for callers that imported the round-10 helper; the gate itself calls
+    ``pcb_evidence.validate_warn_disposition(..., levels=(ERROR, WARN, INFO))``
+    so ERROR/WARN/INFO cannot diverge in their key or level handling.
     """
-    data = _unwrap(disposition_payload)
-    entries = {}
-    for entry in data.get('findings') or []:
-        if not isinstance(entry, dict):
-            continue
-        key = _text(entry.get('key')) or pcb_evidence.finding_key(entry)
-        entries[key] = entry
-    missing, stale, invalid = [], [], []
-    for finding in report.get('infos') or []:
-        key = pcb_evidence.finding_key(finding)
-        entry = entries.get(key)
-        if entry is None:
-            missing.append(key)
-            continue
-        state = _text(entry.get('disposition')).lower()
-        if state not in ('fixed', 'waived', 'accepted', 'not_applicable'):
-            invalid.append({'key': key, 'reason': 'unknown disposition %r' % state})
-            continue
-        if state == 'fixed':
-            stale.append({'key': key, 'reason': 'marked fixed but still present'})
-        if not _text(entry.get('reason')):
-            invalid.append({'key': key, 'reason': 'missing reason'})
-    return {'missing': missing, 'stale': stale, 'invalid': invalid}
+    validation = pcb_evidence.validate_warn_disposition(
+        disposition_payload, report, levels=('ERROR', 'WARN', 'INFO'))
+    return {'missing': [item.get('key') for item in validation.get('missing') or []],
+            'stale': validation.get('stale') or [],
+            'invalid': validation.get('invalid') or []}
 
 
 def evaluate_pg4(ctx):
@@ -1013,7 +1465,7 @@ def evaluate_pg4(ctx):
         return _missing_stage(ctx, stage_id, required, ['check'],
                               'pcb check evidence missing')
 
-    report = pcb_evidence.parse_pcb_check(_unwrap(check_evidence.payload))
+    report = pcb_evidence.parse_pcb_check(check_evidence.payload)
     if not report.get('measured'):
         return _missing_stage(ctx, stage_id, required, ['check'],
                               'pcb check has no summary/findings counters; it is '
@@ -1034,6 +1486,25 @@ def evaluate_pg4(ctx):
         findings.append(_finding(
             'pcb_check_errors',
             'pcb check reports %d ERROR finding(s)' % errors))
+    contradictions = report.get('contradictions') or []
+    if contradictions:
+        failed = True
+        findings.append(_finding(
+            'pcb_check_inconsistent',
+            'pcb check summary/finding counters contradict each other: %s'
+            % '; '.join(contradictions), contradictions=contradictions))
+    if not report.get('trusted', True):
+        failed = True
+        findings.append(_finding(
+            'pcb_check_envelope_failed',
+            'pcb check outer JSON reports ok=false; an inner result does not '
+            'make the command successful'))
+    diagnostics = report.get('diagnostics') or []
+    if diagnostics:
+        findings.append(_finding(
+            'pcb_check_diagnostics',
+            '%d invalid field(s) in the pcb check receipt' % len(diagnostics),
+            severity='advisory', details=diagnostics[:10]))
     if (errors > len(error_rows) or warnings > len(warn_rows) or
             infos > len(info_rows)):
         blocked = True
@@ -1056,15 +1527,20 @@ def evaluate_pg4(ctx):
                 % needed, warnings=warnings, errors=errors, infos=infos))
         else:
             disposition_meta = disposition.meta()
-            check_sha = check_evidence.meta().get('sha256')
+            check_meta = check_evidence.meta()
+            check_sha = [item for item in (check_meta.get('sha256'),
+                                           _sha256_normalized(
+                                               check_evidence.path))
+                         if item]
             validation = pcb_evidence.validate_warn_disposition(
-                disposition.payload, report, check_sha)
+                disposition.payload, report, check_sha,
+                levels=('ERROR', 'WARN', 'INFO'))
             if validation.get('problems') or validation.get('stale') or \
                     validation.get('invalid'):
                 failed = True
                 findings.append(_finding(
                     'invalid_warn_disposition',
-                    'WARN disposition table is invalid/stale: %d problem(s), '
+                    'finding disposition table is invalid/stale: %d problem(s), '
                     '%d stale, %d invalid'
                     % (len(validation.get('problems') or []),
                        len(validation.get('stale') or []),
@@ -1076,24 +1552,12 @@ def evaluate_pg4(ctx):
                     }))
             elif validation.get('missing'):
                 blocked = True
+                missing_keys = [item.get('key') for item in
+                                validation.get('missing') or []]
                 findings.append(_finding(
                     'missing_warn_disposition',
                     '%d pcb-check finding(s) have no disposition entry'
-                    % len(validation.get('missing') or []),
-                    keys=[item.get('key') for item in validation.get('missing') or []]))
-            info_check = _check_info_dispositions(report, disposition.payload)
-            if info_check['stale'] or info_check['invalid']:
-                failed = True
-                findings.append(_finding(
-                    'invalid_info_disposition',
-                    'INFO disposition table is invalid/stale',
-                    details=info_check))
-            elif info_check['missing']:
-                blocked = True
-                findings.append(_finding(
-                    'missing_info_disposition',
-                    '%d INFO finding(s) have no disposition entry'
-                    % len(info_check['missing']), keys=info_check['missing']))
+                    % len(missing_keys), keys=missing_keys))
 
     payload = _unwrap(check_evidence.payload)
     coverage = payload.get('coverage')
@@ -1156,9 +1620,12 @@ def evaluate_pg5(ctx):
     if result.get('status') != 'pass':
         findings.append(_finding(
             'netpath_failed',
-            'key-net continuity: %d missing, %d not connected/ambiguous'
-            % (len(result.get('missing') or []), len(result.get('failed') or [])),
-            missing=result.get('missing'), failed=result.get('failed')))
+            'key-net continuity: %d missing, %d not connected/ambiguous, '
+            '%d unmeasured'
+            % (len(result.get('missing') or []), len(result.get('failed') or []),
+               len(result.get('unmeasured') or [])),
+            missing=result.get('missing'), failed=result.get('failed'),
+            unmeasured=result.get('unmeasured')))
     _check_freshness(netpath, _final_dump(ctx['roles']), stage_id,
                      findings, ctx['not_checked'], 'net-path evidence')
     ctx['not_checked'].append({
@@ -1207,7 +1674,10 @@ def evaluate_pg6(ctx):
     freshness_findings = []
     if ctx.get('sch_explicit') and sch is not None and sch.usable and \
             after is not None and after.usable:
-        result = pcb_evidence.compare_sch_pcb(sch.payload, after.payload)
+        result = pcb_evidence.compare_sch_pcb(
+            sch.payload, after.payload,
+            pin_aliases=ctx.get('pin_aliases'),
+            ignore_designators=ctx.get('ignore_designators'))
         source = 'computed_from_sch_and_final_dump'
         evidence.extend([sch.meta(), after.meta()])
         fresh = True
@@ -1228,11 +1698,37 @@ def evaluate_pg6(ctx):
                                  'SCH-PCB compare')
 
     findings = list(freshness_findings)
-    if result.get('status') != 'match':
+    status = result.get('status')
+    if status == 'not_comparable':
+        findings.append(_finding(
+            'sch_pcb_not_comparable',
+            'SCH-PCB comparison is not comparable: %s'
+            % (result.get('reason') or 'empty or fully excluded side'),
+            reason=result.get('reason')))
+    elif status not in ('match', 'match_with_renames'):
         findings.append(_finding(
             'sch_pcb_mismatch',
-            'SCH-PCB comparison status=%r; expected match'
-            % (result.get('status'),)))
+            'SCH-PCB comparison status=%r; expected match or '
+            'match_with_renames' % (status,)))
+    elif status == 'match_with_renames':
+        findings.append(_finding(
+            'sch_pcb_net_renames',
+            '%d net(s) have the same pin partition but a different name; '
+            'connectivity is unchanged, naming needs review'
+            % len(result.get('name_changes') or []),
+            severity='advisory',
+            renames=(result.get('name_changes') or [])[:10]))
+    diagnostics = [item for item in result.get('diagnostics') or []
+                   if isinstance(item, dict)]
+    if diagnostics:
+        findings.append(_finding(
+            'sch_pcb_diagnostics',
+            '%d SCH-PCB input diagnostic(s)' % len(diagnostics),
+            severity='advisory', details=diagnostics[:10]))
+    if result.get('partition_match') is False:
+        findings.append(_finding(
+            'sch_pcb_partition_mismatch',
+            'pins are grouped into different nets on the schematic and PCB'))
     component_mismatches = [item for item in
                             result.get('component_mismatches') or []
                             if isinstance(item, dict)]
@@ -1296,6 +1792,9 @@ def evaluate_pg6(ctx):
         'pins': pins,
         'mismatches': len(mismatches),
         'component_mismatches': len(component_mismatches),
+        'name_changes': len(result.get('name_changes') or []),
+        'excluded_designators': result.get('excluded_designators') or [],
+        'partition_match': result.get('partition_match'),
     }
     status = STATUS_FAIL if _hard(findings) else STATUS_PASS
     return _stage(stage_id, required, status, findings, evidence, metrics)
@@ -1609,7 +2108,7 @@ def evaluate_pg8(ctx):
     if final_time is not None:
         stale_images = []
         for role in ('image_top', 'image_bottom', 'actual_svg'):
-            observed = _mtime(roles[role].path)
+            observed, _basis = _evidence_time_with_basis(roles[role])
             if observed is not None and observed < final_time:
                 stale_images.append(role)
         if stale_images:
@@ -1672,6 +2171,62 @@ def evaluate_pg8(ctx):
 
 def _hard(findings):
     return [item for item in findings if item.get('severity') == 'hard']
+
+
+_BINDING_MESSAGES = {
+    'manifest_sha256_mismatch': 'the file no longer matches the manifest hash',
+    'source_dump_changed': 'the source dump changed after this evidence was produced',
+    'project_identity_mismatch': 'the evidence names a different project than the final dump',
+    'document_identity_mismatch': 'the evidence names a different PCB document/page than the final dump',
+    'missing_artifact': 'the manifest names an artifact that does not exist',
+    'manifest_role_ambiguous': 'the manifest declares multiple different '
+                               'artifacts for this role',
+    'manifest_status_failed': 'the case manifest itself reports failed while '
+                              'this artifact claims to be post-final-reload',
+}
+
+
+def _apply_binding_findings(stages, roles):
+    """Attach provenance/conflict findings to the stage that consumes a role."""
+    by_id = {stage['id']: stage for stage in stages}
+    for role, evidence in sorted(roles.items()):
+        if evidence is None:
+            continue
+        stage = by_id.get(ROLE_STAGE.get(role))
+        if stage is None:
+            continue
+        binding = evidence.binding or {}
+        error = binding.get('error')
+        if error:
+            stage['findings'].append(_finding(
+                'EVIDENCE_BINDING',
+                '%s evidence %s: %s' % (
+                    role, _BINDING_MESSAGES.get(error, error),
+                    evidence.path),
+                role=role, path=str(evidence.path),
+                binding=binding))
+            stage['status'] = STATUS_FAIL
+        conflict = evidence.conflict
+        if conflict:
+            if conflict.get('kind') == 'identity_conflict':
+                stage['findings'].append(_finding(
+                    'EVIDENCE_IDENTITY_CONFLICT',
+                    'multiple %s candidates describe different projects/pages'
+                    % role, role=role, conflict=conflict))
+                stage['status'] = STATUS_FAIL
+            else:
+                stage['findings'].append(_finding(
+                    'EVIDENCE_AMBIGUOUS',
+                    'multiple %s candidates differ; the selected one is %s; '
+                    'bind it with a manifest or an explicit role override'
+                    % (role, conflict.get('selected')),
+                    severity='advisory', role=role, conflict=conflict))
+        stage['metrics'].setdefault('evidence_binding', {})[role] = {
+            'basis': binding.get('basis'),
+            'error': error,
+            'conflict': conflict.get('kind') if conflict else None,
+            'manifest': bool(evidence.manifest_entry),
+        }
 
 
 def _missing_stage(ctx, stage_id, required, missing_roles, reason):
@@ -1773,6 +2328,36 @@ def _load_baseline(args, evidence_dir):
             'baseline manifest has no delivery roles (image_top/image_bottom/'
             'actual_svg/bom/archive); found %d artifact(s)' % total)
     return {'path': str(path), 'roles': roles, 'artifacts': total}
+
+
+def _load_pin_aliases(args, evidence_dir):
+    value = getattr(args, 'pin_aliases', None)
+    if not value:
+        return None
+    path = _resolve_path(value, evidence_dir)
+    if not path.is_file():
+        raise InputError('pin-aliases file not found: %s' % path)
+    try:
+        data = _unwrap_or_value(load_json(str(path)))
+    except (OSError, ValueError, UnicodeDecodeError) as exc:
+        raise InputError('pin-aliases is unreadable: %s (%s)' % (path, exc))
+    if not isinstance(data, dict):
+        raise InputError('pin-aliases must be an object '
+                         '{designator: {schematic_pin: [pcb_pad, ...]}}')
+    return data
+
+
+def _load_ignore_designators(args):
+    raw = getattr(args, 'ignore_designators', None)
+    if not raw:
+        return []
+    result = []
+    for item in raw:
+        for value in str(item).split(','):
+            value = value.strip()
+            if value:
+                result.append(value)
+    return sorted(set(result))
 
 
 def _load_edit_scope(args, evidence_dir):
@@ -1941,10 +2526,15 @@ def evaluate(args):
         images_dir = evidence_dir
 
     overrides = collect_overrides(args)
-    roles = load_all_evidence(evidence_dir, overrides, images_dir)
+    manifest = load_case_manifest(case_dir)
+    roles = load_all_evidence(evidence_dir, overrides, images_dir,
+                              manifest=manifest, case_dir=case_dir)
+    bind_manifest_evidence(roles, manifest, case_dir)
     key_nets = _load_key_nets(args, evidence_dir, case_dir)
     baseline = _load_baseline(args, evidence_dir)
     edit_scope = _load_edit_scope(args, evidence_dir)
+    pin_aliases = _load_pin_aliases(args, evidence_dir)
+    ignore_designators = _load_ignore_designators(args)
 
     ctx = {
         'profile': profile,
@@ -1955,6 +2545,9 @@ def evaluate(args):
         'key_nets': key_nets,
         'baseline': baseline,
         'edit_scope': edit_scope,
+        'manifest': manifest,
+        'pin_aliases': pin_aliases,
+        'ignore_designators': ignore_designators,
         'sch_explicit': bool(getattr(args, 'sch', None) or
                              overrides.get('sch')),
         'not_checked': [],
@@ -1986,6 +2579,7 @@ def evaluate(args):
                     exception=type(exc).__name__)],
                 [], {'exception': type(exc).__name__})
         stages.append(stage)
+    _apply_binding_findings(stages, roles)
     ctx['not_checked'].append({
         'stage': '*',
         'check': 'functional_thermal_emc_manufacturing',
@@ -2010,6 +2604,7 @@ def evaluate(args):
         'strict_advisory': bool(getattr(args, 'strict_advisory', False)),
         'key_nets': key_nets,
         'baseline_manifest': baseline['path'] if baseline else None,
+        'case_manifest': manifest['path'] if manifest else None,
         'edit_scope': edit_scope,
         'evidence': {role: evidence.meta()
                      for role, evidence in sorted(roles.items())
@@ -2063,6 +2658,12 @@ def main(argv=None):
     parser.add_argument('--netpath', help='net-path aggregate JSON')
     parser.add_argument('--sch-pcb', help='SCH-PCB comparison JSON')
     parser.add_argument('--sch', help='schematic read/connectivity JSON')
+    parser.add_argument('--pin-aliases',
+                        help='JSON {designator: {sch_pin: [pcb_pad, ...]}}')
+    parser.add_argument('--ignore-designators',
+                        action='append', metavar='DESIGNATOR[,DESIGNATOR]',
+                        help='exclude these designators from SCH-PCB compare '
+                             '(reported explicitly; all-excluded is not a pass)')
     parser.add_argument('--images', help='directory with top/bottom PNG and actual SVG')
     parser.add_argument('--edit-scope', help='scope JSON for an intentional local edit')
     parser.add_argument('--file', action='append', metavar='ROLE=PATH',

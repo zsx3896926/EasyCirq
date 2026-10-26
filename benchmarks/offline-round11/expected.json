@@ -1,0 +1,293 @@
+{
+  "schema": "design-engine-offline-benchmark-expected/v1",
+  "derivation": {
+    "gate_photo_regression": "hand check of the round-10 real photo-led evidence copy; profile regression only",
+    "sch_visual_photo": "photo-led v14 README residuals: 1 bbox_overlap + 2 wire_enters_bbox; 3 no-junction crossings + 2 text clearances are readability hints",
+    "candidates_photo_full": "frozen design-hardware/cases/photo-led-pcb-2026-10-26/evidence/candidates.json (before this round)",
+    "ldo_caps": "synthetic boundary case; expected from the ldo-caps template roles and measured body sizes",
+    "placement_constraint_gain": "a keepout constraint must reject a candidate that a board-bbox-only check accepts"
+  },
+  "sources": {
+    "photo_candidates": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/candidates.json",
+      "sha256": "4298b1e4a4ba21e3d03bfc2bcf3ea19e03bf8a5445da326a66f306e8165b110e"
+    },
+    "photo_layout_v14": {
+      "path": "tests/fixtures/photo-led-v14/layout.json",
+      "sha256": "dcd75fc314605b4c4fefcfc42e20804f47ab882fe78c8f87be7fee58dff6ca95"
+    },
+    "photo_dump": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-final.json",
+      "sha256": "86822978045ce69b84ae39f84fae85bab3862acedfbad543eab93ff7c7e4c1f2"
+    },
+    "ldo_board": {
+      "path": "benchmarks/offline-round11/cases/ldo-caps-board.json",
+      "sha256": "55a2e1be7b57c438989e65d95d40eec4f88abd15ed9571eb80b655c48390bc6a"
+    },
+    "ldo_intent": {
+      "path": "benchmarks/offline-round11/cases/ldo-caps-intent.json",
+      "sha256": "eb972b426ff7d821e9b243f6b0692d4104358f4e4a04013fd54dd4f63c1e47d4"
+    },
+    "fixture_photo-led-pcb-board_json": {
+      "path": "tests/fixtures/photo-led-pcb-board.json",
+      "sha256": "29fc1050e639fbaafb17c0199f8ec1772c52fbc6fc88a49c642afe3b3515f0cf"
+    },
+    "fixture_photo-led-pcb-intent_json": {
+      "path": "tests/fixtures/photo-led-pcb-intent.json",
+      "sha256": "2b374583af64723ae26444be44d95b33c35258a2c5a8e2e884b8b4f4534ce6aa"
+    },
+    "fixture_photo-led-placement-plan_json": {
+      "path": "tests/fixtures/photo-led-placement-plan.json",
+      "sha256": "64454d3efa3629716637585b5141bc4cf41c29322f55d5dc6ecfc993856a1bb3"
+    },
+    "fixture_photo-led-pcb-constraints_json": {
+      "path": "tests/fixtures/photo-led-pcb-constraints.json",
+      "sha256": "f3cada278744bc9c55d48403d0a224bc0c3c4ab997518fcdeeef9a6d5df7aa42"
+    },
+    "skill_assets_pcb-placement-templates_json": {
+      "path": "design-hardware/assets/pcb-placement-templates.json",
+      "sha256": "df2505185dc10c265f32eff217bc462ad3c193583c31bcc46305bb493a9efed8"
+    },
+    "bench_cases_holdout-concave-keepout_json": {
+      "path": "benchmarks/offline-round11/cases/holdout-concave-keepout.json",
+      "sha256": "655e3c68fed72ad8efbe4a66ecc03f509a01273e4564054d19fd6655e0039fcc"
+    },
+    "photo_evidence_constraints_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/constraints.json",
+      "sha256": "92c06f7718bc769a5e9633983df0b46c43610579d989a9d2c4c6909c9090ecf6"
+    },
+    "photo_evidence_placement-check-final_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/placement-check-final.json",
+      "sha256": "1d5ca86e2e68291cd69c8f62d096417e3ec686f9bd0d560fec00a81cfec347e5"
+    },
+    "photo_evidence_placement-plan-final_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/placement-plan-final.json",
+      "sha256": "2f0a703d1a5fee69e7f2ff658e660d5f98b5b431dce78e1f801128fb0e7effa9"
+    },
+    "photo_evidence_placement-plan_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/placement-plan.json",
+      "sha256": "64454d3efa3629716637585b5141bc4cf41c29322f55d5dc6ecfc993856a1bb3"
+    },
+    "photo_evidence_pcb-dump-final_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-final.json",
+      "sha256": "86822978045ce69b84ae39f84fae85bab3862acedfbad543eab93ff7c7e4c1f2"
+    },
+    "photo_evidence_pcb-dump-after-reload_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-after-reload.json",
+      "sha256": "595a8f37dff661d62e2fca6c8ec9333df2a4ff79ba4cce683f30b686a0828af6"
+    },
+    "photo_evidence_pcb-drc-final_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-drc-final.json",
+      "sha256": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad"
+    },
+    "photo_evidence_sch-pcb-compare_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/sch-pcb-compare.json",
+      "sha256": "bb45d679d207e216838f31b9eafc81b4596d38d05468f3fa2667bc908f7fcf7e"
+    },
+    "photo_evidence_save-reload-diff_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/save-reload-diff.json",
+      "sha256": "681a0beacf475aeffbc00768bb2973341c5c6aec739f285c335a6b4b23afdbb0"
+    },
+    "photo_evidence_sch-read_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/sch-read.json",
+      "sha256": "c4ce8edc8021c16525e390feaa18be99f28136c3ba9045368659b436705324ac"
+    },
+    "photo_evidence_pcb-final-top_png": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-final-top.png",
+      "sha256": "d942aaecc33d7f75d947ccc4d9f0e4e472780fff00ecb3669536f09e776afe9e"
+    },
+    "photo_evidence_pcb-final-bottom_png": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-final-bottom.png",
+      "sha256": "34e69a46ce398fd21dc7a9861c7dc43d35ecc316081712ef6e42e935a12b41a5"
+    },
+    "photo_evidence_pcb-final-actual_svg": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-final-actual.svg",
+      "sha256": "fbbd06a91dfd327b773ebc9280f4199c2954ebac883c4d3f5624efe3ad8e114f"
+    },
+    "photo_evidence_BOM_csv": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/BOM.csv",
+      "sha256": "c88181adb026e7bdf09ecc72a7488e38c067576a6fcf91db6b266ad5d91973cc"
+    },
+    "photo_evidence_photo-led-pcb-final_epro2": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/photo-led-pcb-final.epro2",
+      "sha256": "d9ef9201e574c7ba944c7c77c77aa3364802464790e4e7daca1969884a826491"
+    },
+    "photo_evidence_bom-audit_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/bom-audit.json",
+      "sha256": "95f0436810067901536a8d6758440bfd28a7fc25dd5634b8cdb1e625413e9e52"
+    },
+    "photo_evidence_candidates_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/candidates.json",
+      "sha256": "4298b1e4a4ba21e3d03bfc2bcf3ea19e03bf8a5445da326a66f306e8165b110e"
+    },
+    "photo_evidence_escapes_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/escapes.json",
+      "sha256": "91a926b30b1b6903dee11406618edfb81f0ba145afcf244c59220395d4e7bb60"
+    },
+    "photo_evidence_fabrication-check-final_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/fabrication-check-final.json",
+      "sha256": "d04da4f211792abe28271583cc035d8af8b8d47d3b80e997484fde86a430d84b"
+    },
+    "photo_evidence_fabrication-check_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/fabrication-check.json",
+      "sha256": "46b2ffd491712b429aaa97e8c39effff14bb336c7b3eb059918d25bfcc172695"
+    },
+    "photo_evidence_module-binding_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/module-binding.json",
+      "sha256": "59596be4af4ae9ff9a1aed5e4799542044d778b27fbd9d1031c2d110ab1136ca"
+    },
+    "photo_evidence_module-U1-C2-R4_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/module-U1-C2-R4.json",
+      "sha256": "99a6e5b27cf268df8916539e1c0bb1875d8b3b1bee8f2803188452d02cdef04d"
+    },
+    "photo_evidence_netpath-key-connections_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/netpath-key-connections.json",
+      "sha256": "f360a2542cf60c0ff9503cd9736bee018b320b43cd96f31abb286254ef04008f"
+    },
+    "photo_evidence_pcb-check-final_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-check-final.json",
+      "sha256": "2587eb236057e30a2ddb99872856621305dbf940c9712a9ed795fd852d72d9f7"
+    },
+    "photo_evidence_pcb-dump-placed_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-placed.json",
+      "sha256": "29fc1050e639fbaafb17c0199f8ec1772c52fbc6fc88a49c642afe3b3515f0cf"
+    },
+    "photo_evidence_pcb-intent-final_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-intent-final.json",
+      "sha256": "91bd3207e05f3af3f225e35161c2c97f66362c6555594f8924e3a9f6815854f8"
+    },
+    "photo_evidence_pcb-intent_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-intent.json",
+      "sha256": "2b374583af64723ae26444be44d95b33c35258a2c5a8e2e884b8b4f4534ce6aa"
+    },
+    "photo_evidence_pcb-placed-actual_svg": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-placed-actual.svg",
+      "sha256": "c9036ab70f1124e2ada7e8e77f08a57ba6a3deab18b8bc4e89fc7193e994f23e"
+    },
+    "photo_evidence_placement-check_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/placement-check.json",
+      "sha256": "fd82f72fdf8101e4c0bd5833abf363f120d70498fbe4b7c3f0b79fafeff2b825"
+    },
+    "photo_evidence_poured-list-plus5-empty_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/poured-list-plus5-empty.json",
+      "sha256": "ab1f24e86f3c4328445142cff9c999c808820e318968d779d5788975cfe22056"
+    },
+    "photo_evidence_power-check-final_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/power-check-final.json",
+      "sha256": "3ae5d35081538f6313106abba13f010165cebe484a4cba2922cd5c6eb9edda46"
+    },
+    "photo_evidence_power-check_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/power-check.json",
+      "sha256": "7ca802467374a085d8292ae38cda3292aab7780e2bfa5d076d8aa3db6f44806b"
+    },
+    "photo_evidence_power-pour_log": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/power-pour.log",
+      "sha256": "e82ee473bd566e2730bea81fcf765e43ab1ae8b983d5d7311b9748dce79b177a"
+    },
+    "photo_evidence_silk-align_log": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/silk-align.log",
+      "sha256": "b03cdb805fa65bd790975cc793ecdd57175247724b33b8edfed96f080ab39ed2"
+    },
+    "photo_evidence_warn-disposition_json": {
+      "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/warn-disposition.json",
+      "sha256": "b66824842c19f8e3f8baeefe3e49d8ab5478368d2c1cb5fc4d14ad1a253ca29c"
+    }
+  },
+  "gate_photo_regression": {
+    "status": "pass_with_gaps",
+    "stages": {
+      "PG1_placement": "pass",
+      "PG2_layout": "not_run",
+      "PG3_drc": "pass",
+      "PG4_check": "not_run",
+      "PG5_netpath": "not_run",
+      "PG6_sch_pcb": "pass",
+      "PG7_save_reload": "pass",
+      "PG8_delivery": "pass"
+    }
+  },
+  "sch_visual_photo": {
+    "status": "review_required",
+    "blocking_count": 3,
+    "informational_count": 5,
+    "blocking_codes": {
+      "bbox_overlap": 1,
+      "wire_enters_bbox": 2
+    },
+    "info_codes": {
+      "different_named_wires_cross": 3,
+      "text_wire_clearance": 2
+    },
+    "blocking_objects": [
+      [
+        "4c3b66d17e7f4875",
+        "8bd5a6b179fa7148"
+      ],
+      [
+        "1fa3e4d8816a3e4a#0",
+        "ad6ce27bf74e95f9"
+      ],
+      [
+        "1fa3e4d8816a3e4a#1",
+        "ad6ce27bf74e95f9"
+      ]
+    ],
+    "font_source": "rendered_svg_measurement"
+  },
+  "candidates_photo_full": {
+    "status": "selected",
+    "selected": "signal-chain",
+    "hard_ok": {
+      "signal-chain": true,
+      "density": false,
+      "mechanical": true
+    },
+    "hpwl_mil": {
+      "signal-chain": 18664.6,
+      "density": 22218.68,
+      "mechanical": 18664.6
+    },
+    "module_area_mil2": 3945153.68,
+    "tolerance": 0.02
+  },
+  "candidates_structures": {
+    "power-input": {
+      "selected": "signal-chain",
+      "hard_ok": {
+        "signal-chain": true,
+        "density": false,
+        "mechanical": true
+      }
+    },
+    "driver": {
+      "selected": "signal-chain",
+      "hard_ok": {
+        "signal-chain": true,
+        "density": false,
+        "mechanical": true
+      }
+    },
+    "ldo-power": {
+      "selected": "signal-chain",
+      "hard_ok": {
+        "signal-chain": true,
+        "density": true,
+        "mechanical": true
+      },
+      "hpwl_mil": 820.0
+    }
+  },
+  "apply_noop": {
+    "status": "no_op",
+    "cli_calls": 0
+  },
+  "placement_constraint_gain": {
+    "legacy_hard_ok": true,
+    "new_hard_ok": false,
+    "new_conflict_kind": "keepout_collision"
+  },
+  "deformations": {
+    "shuffle_and_translate_semantics": "same",
+    "pcb_short_must_be_detected": "mismatch"
+  }
+}

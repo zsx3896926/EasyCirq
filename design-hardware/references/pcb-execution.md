@@ -94,7 +94,9 @@ easyeda sch read --project <name> --out sch-read.json
 | type | 关键字段 | 说明 |
 |---|---|---|
 | `fixed` | designator, x/y/rotation/layer | 绝对固定；写入后回读比对 |
+| `locked` | designator（可省略 pose） | 保持实测 pose；省略 pose 时以实测值作为锁定基准 |
 | `edge` | edge, max_inset_mil, facing_rotation | 靠指定板边；接口朝向独立核验 |
+| `spacing` | min_gap_mil | 同层器件 bbox 最小间隙；也可用 intent 顶层 `min_component_spacing_mil` 生成 |
 | `near_pin` | part/pad, owner/owner_pad, max_mil | 真实物理 pad 的关系；中心距不是铜路径 |
 | `ordered_chain` | parts[], axis, max_gap_mil | 信号链顺序；用 bbox 中心投影 |
 | `keepout` | circle/rect | 机械/电气禁布；与 fixed 冲突直接报 |
@@ -174,7 +176,18 @@ python design_engine_cli.py pcb-candidates \
 
 选择顺序：先淘汰硬约束失败候选；再比较关键局部连接失败数、逃线预判阻塞数、HPWL、模块面积。**不输出综合总分**。没有可行候选时返回 `no_feasible_candidate`，不把“预算耗尽”写成“无解”。
 
-候选差异至少给：硬失败具体 code、近引脚失败项、阻塞逃线、HPWL、模块面积、相对参考改动的器件。执行前必须 fresh dump 对照；旧候选的 primitiveId/几何不能复用。
+候选差异至少给：硬失败具体 code、近引脚失败项、阻塞逃线、HPWL、模块面积、相对参考改动的器件。执行前必须 fresh dump 对照；旧候选的 primitiveId/几何不能复用。`no_feasible_candidate` 的 `feasibility_note` 明确这是固定种子/预算内未找到，不是无解证明；`routing_verified=false` 始终保留。
+
+### 5.1 交付门禁的 provenance 与冲突
+
+`pcb_gate.py` 读取 case 目录时：
+
+- 有 `manifest.json` 时优先使用 manifest 声明的 artifact 路径；`sha256`、`source_dump_sha256`、`produced_at` 是绑定依据，文件缺失不会回退到旁边的同名文件。
+- 证据哈希与 manifest 不一致、源 dump 变化、项目身份不一致 → 该阶段 `EVIDENCE_BINDING` 失败；多个候选项目/页身份不同 → `EVIDENCE_IDENTITY_CONFLICT`；内容不同但可归一的多个候选 → advisory `EVIDENCE_AMBIGUOUS`，选中的文件在报告中列出。
+- 只有文件 mtime 时，新鲜度只作辅助并在 `not_checked` 标 `freshness_basis`；复制旧证据再改时间不能变成内容绑定。
+- `--sch` + `--dump-after` 计算 SCH↔PCB 时可用 `--pin-aliases` 与
+  `--ignore-designators`；全部 designator 被排除是 `not_comparable`，不是完整验证。
+- `compare_sch_pcb` 的 `match_with_renames` 表示引脚分组不变、仅网名变化；门禁按 advisory 处理，`partition_match=false` 才是连接差异。
 
 ## 6. 逃线与布线联合迭代
 
@@ -262,13 +275,13 @@ python scripts/pcb_apply_plan.py --dump before.json --plan playbook.json \
 
 1. `normalize_board` 后校验 plan `base.semantic_sha256`；与 dump 不一致或无法证明新鲜即整批 `refused`。
 2. placement 用 `validate_placement`；硬失败整批拒绝。`preferred` 约束失败只记 `preferred`，不得让 `hard_ok=false`。
-3. track/via/pour 做几何校验：点/坐标在板框内、layer 在实测层数内、net 非空且存在于 dump、width>0；不满足即 `refused`。
-4. 编译 playbook：place 一次 patch 写完整 pose（`assert $.verified=true`）；track 每段一个 `pcb.line.create`；via 一个 `pcb.via.create`；pour 一个 `pcb.pour.create`；save 是真实 `pcb.save`（`assert $.saved=true`，`checkpoint` 不保存）；reload 为 `run doc reload`（`--no-reload` 时省略）；最后 `pcb dump --include-copper`。所有步骤 `retry:0`、`continueOnError:false`、`timeoutSec=--timeout`。
-5. 默认 dry-run：只写 playbook 与 report（`status=dry_run`），零 CLI 调用。
-6. `--apply`：只执行一次 `easyeda apply <playbook> --project <name> --doc <PCB>`（`--yes` 只在显式授权时传），随后校验 journal、out-dump 存在且可解析。
+3. track/via/pour 做几何校验：坐标/多边形在实测 board polygon 内（凹板按 polygon，不只 bbox）、layer 在实测层数内、net 非空且存在于 dump、width/diameter>0，线宽/直径/keepout 计入边界；`arc-polyline` 标近似，无 polygon 的 arc 板拒绝；不满足即 `refused`。实测 pose 缺 x/y/rotation/layer 时拒绝，不默认成原点/顶层；目标缺 rotation/layer 继承实测值并在 `pose_defaults` 列出。
+4. 编译 playbook：place 一次 patch 写完整 pose（`assert $.verified=true`）；track 每段一个 `pcb.line.create`；via 一个 `pcb.via.create`；pour 一个 `pcb.pour.create`；save 是真实 `pcb.save`（`assert $.saved=true`，`checkpoint` 不保存）；reload 为 `run doc reload`（`--no-reload` 时省略）；最后 `pcb dump --include-copper`。所有步骤 `retry:0`、`continueOnError:false`、`timeoutSec=--timeout`。目标 pose 与实测相同（含 0/360 等价角度）记 `noops`，不生成写入步骤；全为 no-op 时 `status=no_op`，不写 playbook、不调用 CLI。
+5. 默认 dry-run：只写 playbook 与 report（`status=dry_run`），零 CLI 调用；相同输入产生确定的 playbook 字节序列。
+6. `--apply`：只执行一次 `easyeda apply <playbook> --project <name> --doc <PCB>`（`--yes` 只在显式授权时传），随后校验 journal、out-dump 存在且可解析。journal 每步状态为 `planned|sent|confirmed|failed|unknown`；`unknown` 表示已发出但无确认。报告 `recovery.safe_to_retry=false`，必须先取 fresh dump；不把已发出当已生效。
 7. 独立 `diff_boards`：纯 place 要求 `status in (match, changed)` 且 `identity_changes/copper_changes/unrelated_changes` 为空；含 track/via/pour 时 `unrelated_changes` 必须为空、`copper_changes` 允许、`identity_changes` 仅 `--allow-identity-change`、`geometry_changes` 必须在 scope.designators 内。
 
-报告 schema `design-engine-pcb-apply-plan/v1`，`status=dry_run|refused|invalid_input|unverified|mismatch|verified`，记录 playbook 路径/SHA/步骤、journal、每步状态、save/reload、out-dump SHA、diff、argv 与版本。退出码：`dry_run|verified`→0；`refused|unverified|mismatch`→1；`invalid_input`（计划/dump/scope 无法解释）→2。
+报告 schema `design-engine-pcb-apply-plan/v1`，`status=dry_run|no_op|refused|invalid_input|unverified|mismatch|verified`，记录 playbook 路径/SHA/步骤、journal states、`recovery`、save/reload、out-dump SHA、diff、argv 与版本；`transaction.atomic_rollback=false`，不宣称事务回滚。退出码：`dry_run|no_op|verified`→0；`refused|unverified|mismatch`→1；`invalid_input`（计划/dump/scope 无法解释）→2。报告原子写入（临时文件 + `os.replace`），半份 JSON 不会被后续当成完整证据。
 
 - 写入前 fresh dump；primitiveId 过期/几何变化则拒绝旧计划。
 - 超时/部分失败先回读，禁止盲目重放；重复执行只能补差异，不能重复创建。
@@ -302,7 +315,7 @@ python scripts/pcb_gate.py --case <case-dir> [--profile full|regression] \
   [--out gate-report.json] [--strict-advisory] [--json]
 ```
 
-- 只读 case 证据目录：按角色 glob 发现文件（`pcb-drc*.json`、`pcb-check*.json`、`pcb-layout-lint*.json`、`netpath*connections*.json`/`net-path*.json`、`sch-pcb-compare*.json`、`save-reload-diff*.json`、`pcb-dump-final.json`/`pcb-dump-after-reload.json`、`pcb-final-top.png` 等），`--file ROLE=PATH` 可覆盖任一角色。角色与命令见 [PCB 命令映射](pcb-command-map.json)。
+- 只读 case 证据目录：按角色 glob 发现文件（`pcb-drc*.json`、`pcb-check*.json`、`pcb-layout-lint*.json`、`netpath*connections*.json`/`net-path*.json`、`sch-pcb-compare*.json`、`save-reload-diff*.json`、`pcb-dump-final.json`/`pcb-dump-after-reload.json`、`pcb-final-top.png` 等），优先 `*-final*`，`--file ROLE=PATH` 可覆盖任一角色。角色与命令见 [PCB 命令映射](pcb-command-map.json)。有 `manifest.json` 时按 manifest 路径/哈希/`source_dump_sha256`/`produced_at` 绑定；文件缺失不回退，哈希或源 dump 变化、项目身份不一致都是 `EVIDENCE_BINDING` 失败。多个候选身份冲突见 `EVIDENCE_IDENTITY_CONFLICT`，内容分歧见 advisory `EVIDENCE_AMBIGUOUS`。证据 meta 同时有原始 `sha256` 与去时间/路径的 `semantic_sha256`。
 - 输出 `design-engine-pcb-gate/v1`：`status=pass|pass_with_gaps|fail|blocked`，`stages[]` 每项 `status=pass|fail|blocked|not_run` + `required/findings/evidence/metrics`，另有 `counts/not_checked/next_command`。
 - 退出码：`pass|pass_with_gaps`→0；`fail|blocked`→1；输入/schema 错误→2。
 
@@ -313,7 +326,7 @@ python scripts/pcb_gate.py --case <case-dir> [--profile full|regression] \
 | `PG3_drc` | 原生 DRC `ok`；DRC 必须晚于最终 dump（否则 `STALE_EVIDENCE`） | 必需 | 必需 |
 | `PG4_check` | `pcb check` `errors==0`；每条 WARN/INFO 由 `--warn-disposition` 处置 | 必需 | 不运行 |
 | `PG5_netpath` | `evaluate_netpath().status=pass`；required 来自 `--key-nets` | 必需 | 不运行 |
-| `PG6_sch_pcb` | SCH-PCB `status=match`，组件/引脚数一致；有 `--sch`+`--dump-after` 时现算 | 必需 | 必需 |
+| `PG6_sch_pcb` | SCH-PCB `status=match`/`match_with_renames`，组件/引脚数一致；`not_comparable` 失败；有 `--sch`+`--dump-after` 时现算，可加 `--pin-aliases`/`--ignore-designators` | 必需 | 必需 |
 | `PG7_save_reload` | before/after dump 可解析；`diff_boards` 纯持久化要求 `match`，`--edit-scope` 允许 `changed` 但 `unrelated_changes=[]` | 必需 | 必需 |
 | `PG8_delivery` | 顶/底 PNG 签名与尺寸、actual SVG、BOM、`.epro2` 存在并记 SHA；`--baseline-manifest` 角色哈希变化即 fail | 必需 | 必需 |
 
@@ -344,8 +357,8 @@ python scripts/pcb_case.py --case <case-dir> --project <name> --doc <PCB> \
 
 - 实时模式按固定顺序采集：`doc switch` 到 PCB → fresh dump（受控改板用 `--before-dump` 导入 edit 前 dump）→ `pcb dump`（save 前）→ `pcb save` → `doc reload` → fresh dump + `diff_boards` → DRC/check/lint → 关键网 `pcb net-path`（逐对 argv 聚合）→ 逐页 `sch read` + dump 比对 SCH-PCB → 顶/底图与 actual SVG → BOM → `.epro2` 归档 → 调用 `pcb_gate.py --profile full` 生成 `gate-report.json`。检查在最终 reload 之后运行并绑定最终 dump。
 - `--skip-live` 只组装并校验 case 目录中已有产物与哈希，绝不调用 `easyeda`；适合复核已采集证据。
-- 输出 `<case>/manifest.json`，schema `design-engine-pcb-case/v1`：`status=complete|incomplete|failed`、`project/versions/source/artifacts/commands/steps/gate/failures/not_run/waivers/verification`。每个产物记录 `sha256/bytes/source_dump_sha256/run_after_final_reload`，检查早于最终 reload 时必须标 `run_after_final_reload=false`，不能宣称最终。只有 gate 报告为新生成且 `status=pass` 时 manifest 才能是 `complete`；`--no-gate` 只能得到 `incomplete`。
-- 退出码：`complete`→0；`incomplete|failed`（缺产物或存在 failure）→1；参数/输入错误→2。
+- 输出 `<case>/manifest.json`，schema `design-engine-pcb-case/v1`：`status=complete|incomplete`、`project/versions/source/artifacts/commands/steps/gate/failures/not_run/waivers/verification`。每个产物记录 `sha256/bytes/source_dump_sha256/run_after_final_reload`，检查早于最终 reload 时必须标 `run_after_final_reload=false`，不能宣称最终。只有 gate 报告为新生成且 `status=pass` 时 manifest 才能是 `complete`；`--no-gate` 只能得到 `incomplete`。
+- 退出码：`complete`→0；`incomplete`（缺产物或存在 failure）→1；参数/输入错误→2。
 - 所有写入限制在 case 目录内；默认 `.epro2` 存在时不覆盖；已存在的有效归档会被复用并在 manifest 标 `reused`。命令失败如实写 `failures`，缺产物写 `not_run`，不把未采集项写成通过。
 
 ## 13. 本轮真实案例与能力边界

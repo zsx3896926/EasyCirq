@@ -17,6 +17,8 @@
 
 几何辅助检查：`python scripts/sch_layout_check.py <snapshot.json> --strict`。输入见 [离线工具契约](offline-tools.md)。严格模式只对提供的数据做完整性和候选检查，不证明实际图面、电气或模块意图合格。页数与分区计划由Agent在既有计划中维护，不能把检查器的0退出码当成整个契约通过。
 
+需要把候选问题标到图上复核时运行 `python scripts/sch_visual_audit.py layout.json --out-svg overlay.svg --out visual.json`。报告复用同一 `sch_layout_check.analyze`，给出对象 ID、位置、原因和 `suggestion.executed=false` 的建议；SVG 是带 `ANALYSIS OVERLAY — NOT AN OFFICIAL EDA EXPORT` 水印的分析叠加图，`official_export=false`，不能冒充官方重新导出的工程图。文字测量来源与不确定性、netflag 方向是否有 policy、以及“有结点证据的交叉/未验证交叉”分组都写入报告。
+
 稍后简单工程验收：先给一页模块安排，再实际画图；同尺度检查整页与关键局部，确认模块归属、标签就近、局部短线和重叠清理；最后做连接/原生检查及保存重开。不得用示波器的成功坐标或人工固定间距充当通用模板。
 
 ## 1. 先保全连接，再安排图面

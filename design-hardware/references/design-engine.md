@@ -113,7 +113,7 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 
 - `constraints`：把结构化条件或有限自然语言句式编译成 `hard/preferred/unknown`；硬冲突返回 `unsolvable`；未知不是 false；软偏好不能抵消硬失败。
 - `critical`：按真实焊盘坐标检查去耦、接口保护、晶振、反馈距离；有硬约束时违规为 `hard`，否则为 `advisory`。报告实际焊盘路径，不用总 ratsnest 代替。
-- `placement`：参考布局 + 3 个确定性力导向 + 关键优先吸附，先过硬合法（板框/重叠/固定件），再比关键回路、拥塞、HPWL、整齐度；保留每个候选的指标。PCB 器件移动执行器未验证，`eda_apply` 恒为 `NOT RUN`。
+- `placement`：参考布局 + 3 个确定性力导向 + 关键优先吸附，先过硬合法（polygon 板框/重叠/固定/锁定/edge/keepout/spacing），再比关键回路、拥塞、HPWL、整齐度；每个候选输出 `hard_conflicts`、`score_components`、`outline_basis`。固定种子与预算内找不到时 `feasibility=not_found_within_budget`，不是无解证明；`routing_verified=false`，HPWL/逃线只是代理。PCB 器件移动执行器未验证，`eda_apply` 恒为 `NOT RUN`。
 - `routability`：拥塞栅格、最近异网焊盘间距、异网包围盒重叠；`route_rate` 恒为 `NOT RUN`，不把代理指标当布通率。
 
 ### 4.6 丝印、装配与制造
@@ -124,7 +124,7 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 - `gerber`：独立读取 Gerber 的 `FileFunction/Polarity/units/apertures/EOF` 与钻孔的 `M48/METRIC/孔数/M30`，检查顶层/底层/阻焊/丝印/外形层和单位一致；不渲染铜、不替代编辑器重开。
 - `sourcing`：BOM 必须有完整 MPN、封装、C 号；候选只按精确 MPN+封装匹配；库存/价格/SMT 状态不查询。
 - `variants`：DNP、销售变体、替代料影响闭包；封装/脚数变化必须复核，不能当 drop-in。
-- `reuse`：重复模块要求完整型号/封装/脚表一致；只移动目标模块，其他器件锁定。
+- `reuse`：重复模块要求完整型号/封装/脚表一致，并检查 footprint id 缺失、body 尺寸、声明 rotation、引脚角色网络分区；操作带旋转/层，只移动目标模块，其他器件锁定；失败明确 `rejected`，不静默任意摆放。
 - `benchmarks`：12 个合成几何电路基准，验证检查器能复现声明候选；不是真机图。
 - `state`：可恢复状态（阶段、最佳候选、未决项、下一条动作、证据哈希）；证据变化会报告。
 
@@ -144,12 +144,12 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 - `pcb-normalize`：把真实 `pcb dump` 归一化成器件/bbox/pad/outline/copper 视图，保留原始对象，coverage 显式。
 - `pcb-constraints`：编译 `fixed/edge/near_pin/ordered_chain/keepout/allowed_layer/allowed_rotation/group/route_channel`，每条有稳定 id、source、单位、hard/preferred；未知引用和硬冲突分别报告。
 - `pcb-check-plan`：把布局提案按实测 bbox/pad 变换后逐项核验，额外检查越框、同层重叠、pad 越框；硬失败或硬项未测量都不通过。
-- `pcb-candidates`：用 `assets/pcb-placement-templates.json` 的角色/物理脚绑定生成 signal-chain/density/mechanical 三种候选；先淘汰硬失败，再按近引脚失败、逃线阻塞、HPWL、模块面积比较，不输出综合总分。
+- `pcb-candidates`：用 `assets/pcb-placement-templates.json` 的角色/物理脚绑定生成 signal-chain/density/mechanical 三种候选；先淘汰硬失败（凹板 polygon、锁定、edge、keepout、spacing），再按近引脚失败、逃线阻塞、HPWL、模块面积比较，不输出综合总分；`selection`/`comparison` 记录每项评分组成，`routing_verified=false`。
 - `pcb-escapes`：对实测 pad 做短走廊阻塞预判，明确 `proxy=true`、`routing_verified=false`；不是路由器。
 - `pcb-power`：按声明的电流/铜厚/温升计算 IPC-2221 筛查宽度，检查声明铺铜/走线；没有输入就是 `unmeasured`。
 - `pcb-fabrication`：从 dump 检查可见丝印压同面焊盘/越框/倒置、无网络铺铜、无材料化铜、无网络过孔/过孔焊盘网络不符；只读 dump BBox，和 `pcb check` 的实时字框可能不同，需实际导图复核。
 - `pcb-diff`：比较两次实测 dump 的身份/几何/铜；`scope` 外的变化进入 `unrelated_changes` 并判 `mismatch`。
-- `pcb-extract-module` / `pcb-reuse-plan`：提取相对布局 + pad→net 契约，在目标板按 anchor 旋转/平移应用；身份/层/pad 集合/网络不一致即拒绝；铜复用固定 `not_supported`。
+- `pcb-extract-module` / `pcb-reuse-plan`：提取相对布局 + pad→net 契约，在目标板按 anchor 旋转/平移应用；身份/层/pad 集合/网络分区/尺寸/rotation 不一致即拒绝；铜复用固定 `not_supported`。
 
 边界：不连接 EDA、不写工程、不证明铺铜连通/阻抗/EMC/热；`near_pin` 是 pad 中心距，不是铜路径；模板是方法级/离线验证，不是已画完实例。实际写入仍由 typed `easyeda pcb ...` 完成，保存重开后用 fresh dump 再跑 `pcb-diff`。
 

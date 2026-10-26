@@ -19,7 +19,8 @@ import copy
 import math
 
 from .critical import audit_critical
-from .geometry import rect_overlap
+from .geometry import (point_in_polygon, point_segment_distance, rect_overlap,
+                       rect_inside_polygon)
 from .routability import analyze_congestion
 
 GRID = 5.0
@@ -56,40 +57,169 @@ def _candidate_ir(pcb_ir, moves):
     return candidate
 
 
-def _hard_ok(candidate, outline_bbox, reference):
-    problems = []
+def _constraint_items(constraints, type_name, *, hard_only=False):
+    if not isinstance(constraints, dict):
+        return []
+    return [item for item in constraints.get('constraints') or []
+            if isinstance(item, dict) and item.get('type') == type_name and
+            (not hard_only or item.get('severity') != 'preferred')]
+
+
+def _keepout_hits_component(keepout, box):
+    if keepout.get('shape') == 'circle':
+        center = keepout.get('center')
+        radius = keepout.get('radius')
+        if not (isinstance(center, (list, tuple)) and len(center) == 2 and
+                type(radius) in (int, float)):
+            return False
+        closest_x = min(max(float(center[0]), box[0]), box[2])
+        closest_y = min(max(float(center[1]), box[1]), box[3])
+        return math.hypot(closest_x - float(center[0]),
+                          closest_y - float(center[1])) < float(radius)
+    rect = keepout.get('rect')
+    if not (isinstance(rect, (list, tuple)) and len(rect) == 4):
+        return False
+    return rect_overlap(tuple(rect), box)
+
+
+def _hard_ok(candidate, outline_bbox, reference, polygon=None, constraints=None):
+    problems, conflicts = [], []
+
+    def fail(message, **details):
+        problems.append(message)
+        conflicts.append(dict({'message': message}, **details))
+
+    all_components = list(candidate.get('components') or [])
+    components = [item for item in all_components if item.get('bbox')]
+    by_id = {item['id']: item for item in components}
     fixed_positions = {component['id']: component.get('placement')
-                       for component in reference.get('components') or [] if _fixed(component)}
-    for component in candidate.get('components') or []:
+                       for component in reference.get('components') or []
+                       if _fixed(component)}
+    locked = {item.get('designator'): item
+              for item in _constraint_items(constraints, 'fixed', hard_only=True) +
+              _constraint_items(constraints, 'locked', hard_only=True)}
+    for component in all_components:
         if not component.get('bbox'):
+            fail('%s: body bbox is unavailable; no default geometry is assumed'
+                 % component.get('designator'),
+                 designator=component.get('designator'), kind='bbox_missing')
             continue
         box = component['bbox']
+        designator = component.get('designator')
+        inside = (rect_inside_polygon(box, polygon) if polygon
+                  else (outline_bbox[0] <= box[0] and box[2] <= outline_bbox[2] and
+                        outline_bbox[1] <= box[1] and box[3] <= outline_bbox[3]))
         if _fixed(component):
             # Connector bodies may legally overhang; pad centres are the
             # assembly/electrical evidence.
             for pad in component.get('pads') or []:
                 if type(pad.get('x')) not in (int, float):
                     continue
-                if not (outline_bbox[0] <= pad['x'] <= outline_bbox[2] and
-                        outline_bbox[1] <= pad['y'] <= outline_bbox[3]):
-                    problems.append(f"{component.get('designator')}: pad outside outline")
+                pad_inside = (point_in_polygon((pad['x'], pad['y']), polygon)
+                              if polygon else
+                              (outline_bbox[0] <= pad['x'] <= outline_bbox[2] and
+                               outline_bbox[1] <= pad['y'] <= outline_bbox[3]))
+                if not pad_inside:
+                    fail('%s: pad outside outline' % designator,
+                         designator=designator, kind='pad_outside_outline')
                     break
-        elif not (outline_bbox[0] <= box[0] and box[2] <= outline_bbox[2] and
-                  outline_bbox[1] <= box[1] and box[3] <= outline_bbox[3]):
-            problems.append(f"{component.get('designator')}: outside outline")
+        elif not inside:
+            fail('%s: outside outline' % designator,
+                 designator=designator, kind='outside_outline', bbox=box)
         if component['id'] in fixed_positions:
             now = component.get('placement') or {}
             before = fixed_positions[component['id']] or {}
             if (now.get('x'), now.get('y')) != (before.get('x'), before.get('y')):
-                problems.append(f"{component.get('designator')}: fixed part moved")
-    components = [item for item in candidate.get('components') or [] if item.get('bbox')]
+                fail('%s: fixed part moved' % designator,
+                     designator=designator, kind='fixed_part_moved')
+        if designator in locked:
+            before = next((item for item in reference.get('components') or []
+                           if item.get('designator') == designator), None)
+            if before is not None:
+                first = before.get('placement') or {}
+                now = component.get('placement') or {}
+                if (first.get('x'), first.get('y'), first.get('rotation'),
+                        first.get('layer')) != (now.get('x'), now.get('y'),
+                                                now.get('rotation'),
+                                                now.get('layer')):
+                    fail('%s: locked part moved' % designator,
+                         designator=designator, kind='locked_part_moved',
+                         constraint=locked[designator].get('id'))
     for index, first in enumerate(components):
         for second in components[index + 1:]:
             if first.get('layer') != second.get('layer'):
                 continue
             if rect_overlap(first['bbox'], second['bbox']):
-                problems.append(f"{first.get('designator')} overlaps {second.get('designator')}")
-    return not problems, problems
+                fail('%s overlaps %s' % (first.get('designator'),
+                                         second.get('designator')),
+                     designators=[first.get('designator'),
+                                  second.get('designator')],
+                     kind='body_overlap')
+            a, b = first['bbox'], second['bbox']
+            gap = max(max(a[0] - b[2], b[0] - a[2]),
+                      max(a[1] - b[3], b[1] - a[3]))
+            for item in _constraint_items(constraints, 'spacing', hard_only=True):
+                minimum = item.get('min_gap_mil')
+                if type(minimum) in (int, float) and 0 <= gap < minimum - 1e-9:
+                    fail('%s / %s spacing %s < %s mil'
+                         % (first.get('designator'), second.get('designator'),
+                            round(gap, 3), minimum),
+                         designators=[first.get('designator'),
+                                      second.get('designator')],
+                         kind='spacing_violation',
+                         constraint=item.get('id'), gap_mil=round(gap, 3))
+    for item in _constraint_items(constraints, 'keepout', hard_only=True):
+        for component in components:
+            if _keepout_hits_component(item, component['bbox']):
+                fail('%s intersects keepout %s'
+                     % (component.get('designator'), item.get('id')),
+                     designator=component.get('designator'),
+                     kind='keepout_collision', constraint=item.get('id'))
+    for item in _constraint_items(constraints, 'edge', hard_only=True):
+        component = by_id.get('pcbpart:%s' % item.get('designator'))
+        if component is None:
+            component = next((entry for entry in components
+                              if entry.get('designator') ==
+                              item.get('designator')), None)
+        if component is None:
+            fail('%s: edge constraint object is missing' % item.get('designator'),
+                 designator=item.get('designator'), kind='edge_unmeasured',
+                 constraint=item.get('id'))
+            continue
+        box = component['bbox']
+        edge = item.get('edge')
+        distance = {
+            'left': box[0] - outline_bbox[0],
+            'right': outline_bbox[2] - box[2],
+            'bottom': box[1] - outline_bbox[1],
+            'top': outline_bbox[3] - box[3],
+        }.get(edge)
+        if distance is None:
+            fail('%s: unknown edge %r' % (item.get('designator'), edge),
+                 designator=item.get('designator'), kind='edge_unmeasured',
+                 constraint=item.get('id'))
+            continue
+        maximum = item.get('max_inset_mil')
+        minimum = item.get('min_inset_mil')
+        if (maximum is not None and distance > maximum) or \
+                (minimum is not None and distance < minimum):
+            fail('%s: edge distance %s violates %s'
+                 % (item.get('designator'), round(distance, 3),
+                    'max_inset' if maximum is not None else 'min_inset'),
+                 designator=item.get('designator'),
+                 kind='edge_constraint_failed', constraint=item.get('id'),
+                 distance_mil=round(distance, 3))
+        if 'facing_rotation' in item:
+            rotation = ((component.get('placement') or {}).get('rotation', 0) or 0) % 360
+            expected = float(item['facing_rotation']) % 360
+            delta = (rotation - expected + 180.0) % 360.0 - 180.0
+            if abs(delta) > 1e-6:
+                fail('%s: facing rotation %s != %s'
+                     % (item.get('designator'), rotation, expected),
+                     designator=item.get('designator'),
+                     kind='facing_rotation_failed',
+                     constraint=item.get('id'))
+    return not problems, problems, conflicts
 
 
 def _hpwl(candidate):
@@ -340,20 +470,42 @@ def generate_candidates(pcb_ir):
 
 def evaluate_candidate(candidate, reference, constraints=None):
     outline = reference['outline']['bbox']
-    hard_ok, problems = _hard_ok(candidate['ir'], outline, reference)
+    outline = reference.get('outline') or {}
+    points = outline.get('points') or []
+    polygon = [tuple(point) for point in points] if len(points) >= 3 else None
+    outline_format = str(outline.get('format') or '').lower()
+    basis = ('bbox-approx' if polygon is None else
+             ('arc-polyline-approx' if 'arc' in outline_format
+              else 'polygon-exact'))
+    hard_ok, problems, conflicts = _hard_ok(
+        candidate['ir'], outline, reference, polygon=polygon,
+        constraints=constraints)
     critical = audit_critical(candidate['ir'], constraints)
+    congestion = _congestion(candidate['ir'])
+    routability = analyze_congestion(candidate['ir'])
     return {
         'id': candidate['id'],
         'source': candidate['source'],
         'hard_ok': hard_ok,
         'hard_problems': problems,
+        'hard_conflicts': conflicts,
+        'outline_basis': basis,
         'critical_findings': len(critical['findings']),
         'critical_decoupling': sum(1 for item in critical['findings']
                                    if item['code'] == 'critical_decoupling_far'),
-        'congestion': _congestion(candidate['ir']),
-        'routability': analyze_congestion(candidate['ir']),
+        'congestion': congestion,
+        'routability': routability,
         'hpwl': _hpwl(candidate['ir']),
         'neatness': _neatness(candidate['ir']),
+        'routing_verified': False,
+        'score_components': {
+            'hard_ok': 1.0 if hard_ok else 0.0,
+            'critical_findings': len(critical['findings']),
+            'congestion_overflow': congestion['overflow'],
+            'congestion_max': congestion['max'],
+            'hpwl_mil': round(_hpwl(candidate['ir']), 3),
+            'neatness': round(_neatness(candidate['ir']), 6),
+        },
     }
 
 
@@ -390,9 +542,25 @@ def plan_placement(pcb_ir, constraints=None):
     return {
         'schema': 'design-engine-placement-plan/v1',
         'status': 'selected' if selected else 'no_feasible_candidate',
+        'feasibility': ('selected' if selected else
+                        'not_found_within_budget'),
+        'feasibility_note': (
+            'candidates are a fixed sample, not an exhaustive proof; '
+            'no_feasible_candidate means the search found none within the '
+            'declared seed/budget, not that no layout exists'),
         'candidates': evaluated,
         'selected': selected['id'] if selected else None,
+        'selection': {
+            'rule': 'hard filter -> critical findings -> congestion overflow '
+                    '-> congestion max -> HPWL -> neatness -> id',
+            'hard_filter': [item['id'] for item in evaluated if item['hard_ok']],
+            'budget': {'seeds': [0, 1, 2], 'candidates': len(evaluated),
+                       'exhausted': False},
+        },
         'plan': plan,
+        'routing_verified': False,
         'eeada_apply': 'NOT RUN',
-        'note': 'hard legality first; HPWL is only a lower tie-breaker; no PCB component-move executor is verified',
+        'note': 'hard legality first; HPWL is only a lower tie-breaker; no PCB '
+                'component-move executor is verified and HPWL is not a routing '
+                'proof',
     }

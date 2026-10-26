@@ -56,7 +56,7 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 ## 4. 通用判定规则
 
 1. **证据优先 JSON，也接受人读摘要。** `sch drc`、`sch check`、`pcb layout-lint` 的 `--json` 输出优先；若只有 human 摘要，解析器标 `format:"text"` 并按摘要行计数。JSON 解析失败但内容像 JSON（`invalid_json`）、文件截断或字段缺失时，对应检查判 `BLOCKED`，不猜测内容、不崩溃。
-2. **每条结论绑定证据身份。** 报告为每个结论记录 `path / sha256 / mtime / format / candidates / selected_because`；同一角色有多个候选时选最新且可解析者并写明理由。证据早于最终板框或组件数不一致时标 `STALE_EVIDENCE`，不得作为 `PASS` 依据；回执带 `staleRisk` 时只作警告，需 save → reload → fresh readback。
+2. **每条结论绑定证据身份。** 报告为每个结论记录 `path / sha256 / semantic_sha256 / mtime / freshness_basis / format / candidates / selected_because`；同一角色有多个候选时优先 `*-final*` 且可解析者并写明理由，项目/页身份冲突不静默择一。证据早于最终板框或组件数不一致时标 `STALE_EVIDENCE`，不得作为 `PASS` 依据；回执带 `staleRisk` 时只作警告，需 save → reload → fresh readback。case 目录有 `manifest.json` 时以其 `sha256/source_dump_sha256/produced_at` 为绑定依据；文件缺失不回退，哈希/源 dump/项目身份不一致即 `EVIDENCE_BINDING` 失败。只有 mtime 时在 `not_checked` 标 `freshness_basis`，复制旧文件改时间不恢复内容绑定。
 3. **advisory 不是豁免。** 默认警告只记录并在报告中列出；`--strict-advisory` 提升为失败。`pcb layout-lint` 的 tight spacing、orphan stub、非致命 DRC 属建议项，不能因为“只是警告”就写进 `not_checked` 之外当已处理。
 4. **豁免必须落盘。** 豁免写在 `--waiver GATE[:CHECK]:REASON` 或 `--waiver-file`（`design-waivers/v1`）；`reason` 少于 4 个字符或只有“忽略/暂时”之类无信息文本时不生效。豁免只覆盖 `waivable` 检查；电气 DRC、网表审计、PCB DRC、关键网证明、保存重载、Gerber/BOM/恢复演练等不可豁免。使用豁免后门禁至少为 `PASS_WITH_WAIVER`；未使用的豁免在报告中标 `unused`。`design-state.waivers` 只是项目记录，不参与当前脚本判定。
 5. **`UNSUPPORTED` 必须显式列出。** 当前 CLI 没有检查路径的项不能默认通过，也不能静默删除；写入 `not_checked` 并给出人工证据要求。缺人工证据时，所在门禁整体 `BLOCKED`。

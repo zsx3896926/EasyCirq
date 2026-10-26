@@ -1,0 +1,43 @@
+{
+  "schema": "design-engine-benchmark-board/v1",
+  "source": "synthetic frozen boundary case for offline-round11; not a real EDA capture",
+  "components": [
+    {
+      "designator": "U1", "x": 1000, "y": 800, "rotation": 0, "layer": 1,
+      "primitiveId": "u1", "uniqueId": "u1", "device": "LDO",
+      "bbox": {"minX": 840, "minY": 760, "maxX": 1160, "maxY": 840},
+      "pads": [
+        {"padNumber": "1", "net": "VIN", "x": 880, "y": 800, "width": 20, "height": 20},
+        {"padNumber": "2", "net": "GND", "x": 960, "y": 800, "width": 20, "height": 20},
+        {"padNumber": "3", "net": "EN", "x": 1040, "y": 800, "width": 20, "height": 20},
+        {"padNumber": "4", "net": "VOUT", "x": 1120, "y": 800, "width": 20, "height": 20}
+      ]
+    },
+    {
+      "designator": "C1", "x": 800, "y": 800, "rotation": 90, "layer": 1,
+      "primitiveId": "c1", "uniqueId": "c1", "device": "CAP",
+      "bbox": {"minX": 780, "minY": 760, "maxX": 820, "maxY": 840},
+      "pads": [
+        {"padNumber": "1", "net": "VIN", "x": 800, "y": 780, "width": 10, "height": 10},
+        {"padNumber": "2", "net": "GND", "x": 800, "y": 820, "width": 10, "height": 10}
+      ]
+    },
+    {
+      "designator": "C2", "x": 1200, "y": 800, "rotation": 90, "layer": 1,
+      "primitiveId": "c2", "uniqueId": "c2", "device": "CAP",
+      "bbox": {"minX": 1180, "minY": 760, "maxX": 1220, "maxY": 840},
+      "pads": [
+        {"padNumber": "1", "net": "VOUT", "x": 1200, "y": 780, "width": 10, "height": 10},
+        {"padNumber": "2", "net": "GND", "x": 1200, "y": 820, "width": 10, "height": 10}
+      ]
+    }
+  ],
+  "outline": {
+    "points": [[0, 0], [3000, 0], [3000, 2000], [0, 2000]],
+    "bbox": {"minX": 0, "minY": 0, "maxX": 3000, "maxY": 2000},
+    "source": "synthetic", "format": "polygon"
+  },
+  "copperLayers": 2,
+  "capture": {"projectUuid": "benchmark-project", "documentUuid": "benchmark-doc"},
+  "semanticSha256": "benchmark-ldo-caps-v1"
+}

@@ -118,6 +118,16 @@ class ApplyPlanTests(unittest.TestCase):
         self.fake_exe = os.path.join(
             self.tmp, 'easyeda-fake.cmd' if os.name == 'nt'
             else 'easyeda-fake.sh')
+        # The frozen plan describes the measured pose (J1 is an equivalent
+        # 270/-90 rotation), so it is a no-op by design.  Move one unconstrained
+        # part for tests that need a real write, and keep a same-pose plan for
+        # the no-op test.
+        self.move_plan = copy.deepcopy(self.plan)
+        for placement in self.move_plan['placements']:
+            if placement['designator'] == 'D1':
+                placement['x'] += 10
+        self.move_plan['scope'] = {'designators': ['D1', 'U1'], 'nets': []}
+        self.plan_path = self.write_plan(self.move_plan, 'moving-plan.json')
 
     # -- helpers ---------------------------------------------------------
 
@@ -175,7 +185,7 @@ class ApplyPlanTests(unittest.TestCase):
         after = copy.deepcopy(self.dump)
         index = {component['designator']: component
                  for component in after['components']}
-        for placement in self.plan['placements']:
+        for placement in self.move_plan['placements']:
             component = index[placement['designator']]
             component['x'] = placement['x']
             component['y'] = placement['y']
@@ -192,6 +202,12 @@ class ApplyPlanTests(unittest.TestCase):
                 'primitive_id': component['primitiveId'],
                 'from': dict(pose), 'to': dict(pose),
                 'reason': 'no-op test move'}
+
+    def moved_place(self, designator='U1', dx=10):
+        op = self.noop_place(designator)
+        op['to']['x'] += dx
+        op['reason'] = 'test move'
+        return op
 
     def track(self, **overrides):
         op = {'op': 'track', 'net': 'GND', 'layer': 1, 'width_mil': 10,
@@ -249,7 +265,7 @@ class ApplyPlanTests(unittest.TestCase):
     # -- dry-run / playbook compilation ---------------------------------
 
     def test_dry_run_makes_no_cli_call_and_writes_playbook(self):
-        code, report, fake = self.dry_run(PLAN_PATH)
+        code, report, fake = self.dry_run(self.plan_path)
         self.assertEqual(code, 0)
         self.assertEqual(report['status'], 'dry_run')
         self.assertEqual(fake.calls, [])
@@ -259,13 +275,49 @@ class ApplyPlanTests(unittest.TestCase):
         self.assertTrue(report['records'])
         self.assertTrue(all(record['status'] == 'dry_run'
                             for record in report['records']))
+        self.assertTrue(all(item['state'] == 'planned' and
+                            item['sent'] is False
+                            for item in report['journal']['states']))
+
+    def test_all_noop_legacy_plan_writes_nothing(self):
+        code, report, fake = self.dry_run(PLAN_PATH, '--constraints',
+                                          str(CONSTRAINTS_PATH))
+        self.assertEqual(code, 0)
+        self.assertEqual(report['status'], 'no_op')
+        self.assertEqual(fake.calls, [])
+        self.assertFalse(os.path.isfile(self.playbook_path))
+        self.assertEqual(len(report['plan']['noops']),
+                         len(self.plan['placements']))
+        self.assertIn('J1', {item['designator']
+                             for item in report['plan']['noops']})
+
+    def test_noop_place_is_skipped_but_copper_is_still_compiled(self):
+        plan = self.write_plan(self.playbook_plan(
+            [self.noop_place('U1'), self.track()], partial=True))
+        code, report, _ = self.dry_run(plan)
+        self.assertEqual(code, 0, report.get('refused'))
+        ids = [step['id'] for step in load(self.playbook_path)['steps']]
+        self.assertNotIn('place-U1', ids)
+        self.assertIn('track-1-1', ids)
+        self.assertEqual([item['designator']
+                          for item in report['plan']['noops']], ['U1'])
+        self.assertEqual(report['plan']['placements'], 1)
+
+    def test_playbook_compilation_is_deterministic(self):
+        code, report, _ = self.dry_run(self.plan_path)
+        self.assertEqual(code, 0)
+        first = Path(self.playbook_path).read_bytes()
+        code, report, _ = self.dry_run(self.plan_path)
+        self.assertEqual(code, 0)
+        second = Path(self.playbook_path).read_bytes()
+        self.assertEqual(first, second)
 
     def test_json_flag_prints_report_to_stdout(self):
         fake = FakeRunner(self)
         self.patch_run(fake)
         buffer = io.StringIO()
         with contextlib.redirect_stdout(buffer):
-            code = pcb_apply_plan.main(self.base_argv(PLAN_PATH, '--json'))
+            code = pcb_apply_plan.main(self.base_argv(self.plan_path, '--json'))
         self.assertEqual(code, 0)
         self.assertEqual(fake.calls, [])
         printed = json.loads(buffer.getvalue())
@@ -273,7 +325,7 @@ class ApplyPlanTests(unittest.TestCase):
         self.assertEqual(printed['playbook']['path'], self.playbook_path)
 
     def test_legacy_plan_compiles_place_steps_in_order(self):
-        code, report, _ = self.dry_run(PLAN_PATH, '--constraints',
+        code, report, _ = self.dry_run(self.plan_path, '--constraints',
                                        str(CONSTRAINTS_PATH))
         self.assertEqual(code, 0)
         playbook = load(self.playbook_path)
@@ -284,16 +336,21 @@ class ApplyPlanTests(unittest.TestCase):
                          {'timeoutSec': 120, 'retry': 0,
                           'continueOnError': False})
         ids = [step['id'] for step in playbook['steps']]
-        self.assertEqual(ids[0], 'place-J1')
+        self.assertEqual(ids[0], 'place-D1')
         self.assertEqual(ids[-3:], ['save', 'reload', 'dump'])
-        self.assertEqual(len(ids), len(self.plan['placements']) + 3)
+        self.assertEqual(len(ids), 4)
+        self.assertEqual(len(report['plan']['noops']),
+                         len(self.plan['placements']) - 1)
+        noop_j1 = next(item for item in report['plan']['noops']
+                       if item['designator'] == 'J1')
+        self.assertEqual(noop_j1['pose']['rotation'], 270.0)
         first = playbook['steps'][0]
         self.assertEqual(first['run'], 'pcb modify')
         self.assertEqual(first['flags']['id'],
-                         self.components['J1']['primitiveId'])
+                         self.components['D1']['primitiveId'])
         patch = json.loads(first['flags']['patch'])
-        self.assertEqual(patch, {'x': 250.0, 'y': 550.0,
-                                 'rotation': 270.0, 'layer': 1})
+        self.assertEqual(patch, {'x': 660.0, 'y': 550.0,
+                                 'rotation': 0.0, 'layer': 1})
         self.assertEqual(first['assert'], {'$.verified': 'true'})
         save, reload_step, dump = playbook['steps'][-3:]
         self.assertEqual(save, {'id': 'save', 'action': 'pcb.save',
@@ -308,7 +365,7 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_engine_playbook_ops_compile_in_plan_order(self):
         plan = self.playbook_plan([
-            self.noop_place('U1'),
+            self.moved_place('U1'),
             self.track(points=[[1000, 1000], [1200, 1000], [1200, 1100]]),
             self.via(),
             self.pour(),
@@ -343,7 +400,7 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_timeout_flag_reaches_playbook_and_apply(self):
         fake = FakeRunner(self)
-        code, report = self.apply_run(PLAN_PATH, fake, '--timeout', '33')
+        code, report = self.apply_run(self.plan_path, fake, '--timeout', '33')
         self.assertEqual(code, 0, report.get('failure'))
         playbook = load(self.playbook_path)
         self.assertEqual(playbook['defaults']['timeoutSec'], 33)
@@ -354,7 +411,7 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_no_reload_omits_reload_step(self):
         fake = FakeRunner(self)
-        code, report = self.apply_run(PLAN_PATH, fake, '--no-reload')
+        code, report = self.apply_run(self.plan_path, fake, '--no-reload')
         self.assertEqual(code, 0, report.get('failure'))
         ids = [step['id'] for step in load(self.playbook_path)['steps']]
         self.assertNotIn('reload', ids)
@@ -364,7 +421,7 @@ class ApplyPlanTests(unittest.TestCase):
     def test_yes_and_journal_flags_are_passed(self):
         journal = os.path.join(self.tmp, 'custom.journal.jsonl')
         fake = FakeRunner(self)
-        code, report = self.apply_run(PLAN_PATH, fake, '--yes',
+        code, report = self.apply_run(self.plan_path, fake, '--yes',
                                       '--journal', journal)
         self.assertEqual(code, 0, report.get('failure'))
         args = fake.calls[0]['args']
@@ -421,7 +478,7 @@ class ApplyPlanTests(unittest.TestCase):
                             for item in report['refused']))
 
     def test_stale_primitive_id_is_refused(self):
-        place = self.noop_place('U1')
+        place = self.moved_place('U1')
         place['primitive_id'] = 'expired-id'
         plan = self.write_plan(self.playbook_plan([place], partial=True))
         code, report, _ = self.dry_run(plan)
@@ -481,6 +538,39 @@ class ApplyPlanTests(unittest.TestCase):
         self.assertTrue(any(item['kind'] == 'outside_outline'
                             for item in report['refused']))
 
+    def test_noop_does_not_require_a_primitive_id(self):
+        board = copy.deepcopy(self.dump)
+        for component in board['components']:
+            if component['designator'] == 'D1':
+                component.pop('primitiveId', None)
+        path = os.path.join(self.tmp, 'board-no-pid.json')
+        write_json(path, board)
+        component = self.components['D1']
+        plan = self.playbook_plan([{
+            'op': 'place', 'designator': 'D1',
+            'to': {'x': component['x'], 'y': component['y'],
+                   'rotation': component['rotation'],
+                   'layer': component['layer']},
+        }], partial=True)
+        plan_path = self.write_plan(plan, 'noop-no-pid.json')
+        code, report, fake = self.dry_run(plan_path, dump=path)
+        self.assertEqual(code, 0)
+        self.assertEqual(report['status'], 'no_op')
+        self.assertEqual(fake.calls, [])
+
+    def test_missing_measured_rotation_is_not_defaulted_to_zero(self):
+        board = copy.deepcopy(self.dump)
+        for component in board['components']:
+            if component['designator'] == 'D1':
+                component.pop('rotation', None)
+        path = os.path.join(self.tmp, 'board-no-rotation.json')
+        write_json(path, board)
+        code, report, fake = self.dry_run(self.plan_path, dump=path)
+        self.assertEqual(code, 2)
+        self.assertEqual(report['status'], 'invalid_input')
+        self.assertIn('rotation', report['failure']['message'])
+        self.assertEqual(fake.calls, [])
+
     def test_invalid_plan_shape_is_input_error(self):
         path = self.write_plan({'schema': 'something-else'})
         code, report, fake = self.dry_run(path)
@@ -492,7 +582,7 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_apply_runs_exactly_one_fake_apply_and_verifies(self):
         fake = FakeRunner(self)
-        code, report = self.apply_run(PLAN_PATH, fake,
+        code, report = self.apply_run(self.plan_path, fake,
                                       '--constraints', str(CONSTRAINTS_PATH))
         self.assertEqual(code, 0, report.get('failure'))
         self.assertEqual(report['status'], 'verified')
@@ -517,7 +607,7 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_apply_verifies_a_real_placement_move(self):
         fake = FakeRunner(self, after=self.planned_dump())
-        code, report = self.apply_run(PLAN_PATH, fake,
+        code, report = self.apply_run(self.plan_path, fake,
                                       '--constraints', str(CONSTRAINTS_PATH))
         self.assertEqual(code, 0, report.get('failure'))
         self.assertEqual(report['status'], 'verified')
@@ -526,14 +616,14 @@ class ApplyPlanTests(unittest.TestCase):
         self.assertFalse(report['diff']['identity_changes'])
         self.assertEqual(report['diff']['unrelated_changes'], [])
         moved = {change['designator'] for change in report['diff']['geometry_changes']}
-        self.assertIn('J1', moved)
+        self.assertIn('D1', moved)
 
     # -- fail-closed apply ----------------------------------------------
 
     def test_first_failed_step_stops_the_batch(self):
         fake = FakeRunner(self, journal_statuses={'save': 'fail'},
                           exit_code=1)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['status'], 'unverified')
         self.assertEqual(len(fake.calls), 1)
@@ -550,7 +640,7 @@ class ApplyPlanTests(unittest.TestCase):
                           journal_extra_error={
                               'save': 'assert $.saved true failed (value=false)'},
                           exit_code=1)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['save']['status'], 'fail')
         errors = [step.get('error') for step in report['journal']['steps']
@@ -561,7 +651,7 @@ class ApplyPlanTests(unittest.TestCase):
     def test_reload_failure_is_never_verified(self):
         fake = FakeRunner(self, journal_statuses={'reload': 'fail'},
                           exit_code=1)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['save']['status'], 'ok')
         self.assertEqual(report['reload']['status'], 'fail')
@@ -569,7 +659,7 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_dump_missing_is_never_verified(self):
         fake = FakeRunner(self, skip_out_dump=True)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['journal']['status'], 'pass')
         self.assertEqual(report['dump']['after']['status'], 'missing')
@@ -577,14 +667,14 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_dump_unreadable_is_never_verified(self):
         fake = FakeRunner(self, out_text='this is not json')
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['dump']['after']['status'], 'unreadable')
 
     def test_stale_out_dump_is_never_verified(self):
         write_json(self.out_dump, self.dump)
         fake = FakeRunner(self, skip_out_dump=True)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['dump']['after']['status'], 'ok')
         self.assertFalse(report['dump']['after']['fresh'])
@@ -592,30 +682,97 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_missing_journal_is_never_verified(self):
         fake = FakeRunner(self, skip_journal=True)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['journal']['status'], 'missing')
         self.assertEqual(report['status'], 'unverified')
 
     def test_journal_with_wrong_playbook_sha_is_never_verified(self):
         fake = FakeRunner(self, journal_sha='deadbeef')
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['journal']['status'], 'fail')
         self.assertTrue(any('playbookSha256' in problem
                             for problem in report['journal']['problems']))
+        self.assertTrue(all(item['state'] == 'unknown'
+                            for item in report['journal']['states']))
+        self.assertEqual(report['recovery']['confirmed_steps'], 0)
+        self.assertTrue(report['recovery']['unknown_or_failed_steps'])
 
     def test_out_of_order_journal_is_never_verified(self):
         fake = FakeRunner(self, journal_reverse=True)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['journal']['status'], 'fail')
         self.assertTrue(any('order' in problem
                             for problem in report['journal']['problems']))
 
+    def test_timeout_exit_is_never_verified(self):
+        fake = FakeRunner(self, exit_code=124, skip_journal=True)
+        code, report = self.apply_run(self.plan_path, fake, '--timeout', '5')
+        self.assert_unverified(code, report)
+        self.assertEqual(report['status'], 'unverified')
+        self.assertEqual(report['apply']['exit'], 124)
+        self.assertEqual(report['journal']['status'], 'missing')
+        self.assertFalse(report['recovery']['safe_to_retry'])
+
+    def test_partial_success_is_reported_as_failed_not_confirmed(self):
+        fake = FakeRunner(self, journal_statuses={'place-D1': 'fail'},
+                          exit_code=1)
+        code, report = self.apply_run(self.plan_path, fake)
+        self.assert_unverified(code, report)
+        record = next(item for item in report['records']
+                      if item.get('designator') == 'D1')
+        self.assertEqual(record['status'], 'failed')
+        self.assertEqual(record['confirmations'], ['failed'])
+        self.assertIn('place-D1',
+                      report['recovery']['unknown_or_failed_steps'])
+        self.assertFalse(report['recovery']['safe_to_retry'])
+        self.assertTrue(report['recovery']['requires_fresh_dump_before_retry'])
+
+    def test_missing_journal_after_send_is_unknown_not_missing(self):
+        fake = FakeRunner(self, skip_journal=True)
+        code, report = self.apply_run(self.plan_path, fake)
+        self.assert_unverified(code, report)
+        states = {item['id']: item['state'] for item in report['journal']['states']}
+        self.assertEqual(states['place-D1'], 'unknown')
+        record = next(item for item in report['records']
+                      if item.get('designator') == 'D1')
+        self.assertEqual(record['status'], 'unknown')
+        self.assertFalse(report['recovery']['safe_to_retry'])
+
+    def test_target_object_disappears_between_dump_and_apply(self):
+        board = copy.deepcopy(self.dump)
+        board['components'] = [component for component in board['components']
+                               if component['designator'] != 'D1']
+        path = os.path.join(self.tmp, 'board-without-D1.json')
+        write_json(path, board)
+        code, report, fake = self.dry_run(self.plan_path, dump=path)
+        self.assertEqual(code, 1)
+        self.assertEqual(report['status'], 'refused')
+        self.assertTrue(any(item['kind'] == 'unknown_designator'
+                            for item in report['refused']))
+        self.assertEqual(fake.calls, [])
+
+    def test_verify_journal_ignores_a_torn_tail(self):
+        playbook = {
+            'steps': [{'id': 'a'}, {'id': 'b'}],
+            'meta': {'name': 'x', 'project': 'p'},
+        }
+        path = os.path.join(self.tmp, 'torn.journal.jsonl')
+        sha = 'abc'
+        with open(path, 'w', encoding='utf-8') as handle:
+            handle.write(json.dumps({'playbookSha256': sha}) + '\n')
+            handle.write(json.dumps({'idx': 1, 'id': 'a', 'status': 'ok'}) + '\n')
+            handle.write(json.dumps({'idx': 2, 'id': 'b', 'status': 'ok'}) + '\n')
+            handle.write('{"idx": 3, "id": "b"')
+        journal = pcb_apply_plan.verify_journal(
+            path, 0, ['a', 'b'], sha)
+        self.assertEqual(journal['status'], 'pass')
+
     def test_nonzero_apply_exit_is_never_verified_even_with_ok_journal(self):
         fake = FakeRunner(self, exit_code=2)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assert_unverified(code, report)
         self.assertEqual(report['journal']['status'], 'pass')
         self.assertEqual(report['status'], 'unverified')
@@ -627,7 +784,7 @@ class ApplyPlanTests(unittest.TestCase):
         after = copy.deepcopy(self.dump)
         after['outline']['points'] = list(after['outline']['points'])[:-1]
         fake = FakeRunner(self, after=after)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assertEqual(code, 1)
         self.assertEqual(report['status'], 'mismatch')
         self.assertEqual(report['diff']['status'], 'mismatch')
@@ -639,7 +796,7 @@ class ApplyPlanTests(unittest.TestCase):
             if component['designator'] == 'U1':
                 component['device'] = 'SOME-OTHER-DEVICE'
         fake = FakeRunner(self, after=after)
-        code, report = self.apply_run(PLAN_PATH, fake)
+        code, report = self.apply_run(self.plan_path, fake)
         self.assertEqual(code, 1)
         self.assertEqual(report['status'], 'mismatch')
         self.assertTrue(report['diff']['identity_changes'])
@@ -647,7 +804,7 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_pure_placement_copper_change_is_a_mismatch(self):
         plan = self.write_plan(self.playbook_plan(
-            [self.noop_place('U1')],
+            [self.moved_place('U1', dx=1)],
             scope={'designators': ['U1'], 'nets': ['GND']}, partial=True))
         after = copy.deepcopy(self.dump)
         after['copper']['lines'] = [{
@@ -676,7 +833,8 @@ class ApplyPlanTests(unittest.TestCase):
 
     def test_copper_plan_identity_change_requires_the_flag(self):
         plan = self.write_plan(self.playbook_plan(
-            [self.noop_place('U1'), self.track()], partial=True))
+            [self.noop_place('U1'), self.track()],
+            scope={'designators': ['U1'], 'nets': ['GND']}, partial=True))
         after = copy.deepcopy(self.dump)
         for component in after['components']:
             if component['designator'] == 'U1':
@@ -768,7 +926,7 @@ class ApplyPlanTests(unittest.TestCase):
                     os.environ[name] = value
         self.addCleanup(restore)
 
-        code, report = self.run_adapter(self.base_argv(PLAN_PATH, apply=True))
+        code, report = self.run_adapter(self.base_argv(self.plan_path, apply=True))
         self.assertEqual(code, 0, report.get('failure'))
         self.assertEqual(report['status'], 'verified')
         self.assertEqual(report['apply']['argv'][0], self.fake_exe)

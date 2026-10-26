@@ -272,6 +272,12 @@
 
 **证据/边界与本案例**：`restoreVerified:false` = 未演练，G6 的 `epro2_restore` 直接失败且不可豁免；zip 完整不等于可恢复。本案例 `project-export.log` 报 `explicit --window and --project-uuid are required`；`project-export-2.log` 导出成功（364810 bytes，`zipIntegrityVerified:true`）但 `restoreVerified:false`。
 
+## apply 的 no-op 与 journal 状态
+
+`pcb_apply_plan.py` 会把目标 pose 等于实测 pose 的 place 记入 `plan.noops`，不生成写入步骤；全部为 no-op 时 `status=no_op`，不写 playbook、不调用 CLI。不要为了“看起来执行过”重跑一个 no_op 计划。
+
+`--apply` 后 journal 每步只有 `planned`、`sent`、`confirmed`、`failed`、`unknown` 五种状态；`confirmed` 的 status 以 ok 开头，`unknown` 表示已发出但无确认。**`unknown` 不是成功**：报告 `recovery.safe_to_retry=false`，必须先取 fresh dump 看实际状态，再只补差异。`report`/playbook 原子写入；不要读取或继续使用半份 JSON。适配器没有事务回滚，不要宣称“失败自动回滚”。
+
 ## 什么时候不要重试
 
 - **DRC 超时但 PCB 仍在后台**：不要重跑，先切前台；重复执行只会重复超时。

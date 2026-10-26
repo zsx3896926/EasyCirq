@@ -1,0 +1,18 @@
+{
+  "schema": "design-engine-benchmark-intent/v1",
+  "source": "synthetic frozen boundary case for offline-round11; template ldo-caps",
+  "board_margin_mil": [100, 100],
+  "modules": [
+    {
+      "id": "ldo-power",
+      "template": "ldo-caps",
+      "order": 0,
+      "target": {"x": 1000, "y": 800, "rotation": 0},
+      "roles": {
+        "ldo": {"designator": "U1", "pads": {"vin": "1", "vout": "4", "gnd": "2"}},
+        "cin": {"designator": "C1", "pads": {"power": "1", "gnd": "2"}},
+        "cout": {"designator": "C2", "pads": {"power": "1", "gnd": "2"}}
+      }
+    }
+  ]
+}

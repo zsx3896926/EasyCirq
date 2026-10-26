@@ -64,6 +64,13 @@ class IdentityTests(unittest.TestCase):
         self.assertIn('device_identity_changed',
                       [finding['code'] for finding in result['blocking_findings']])
 
+    def test_duplicate_pcb_designator_is_invalid(self):
+        before = doc((part(), 'R1'))
+        after = doc((part(), 'R1'))
+        board = pcb(pcb_part('R1'), pcb_part('R1'))
+        with self.assertRaises(ValueError):
+            identity.compare(before, after, board)
+
     def test_footprint_change_blocks(self):
         result = identity.compare(doc((part(), 'R1')),
                                   doc((part(footprint='RES-0805'), 'R1')))

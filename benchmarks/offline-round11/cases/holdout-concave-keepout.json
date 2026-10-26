@@ -1,0 +1,39 @@
+{
+  "schema": "design-engine-benchmark-geometry/v1",
+  "source": "holdout synthetic case authored after the round-11 geometry implementation; it was not used to tune the checker",
+  "board": {
+    "components": [
+      {
+        "designator": "U1", "x": 800, "y": 800, "rotation": 0, "layer": 1,
+        "primitiveId": "u1", "uniqueId": "u1", "device": "TEST",
+        "bbox": {"minX": 750, "minY": 750, "maxX": 850, "maxY": 850},
+        "pads": [{"padNumber": "1", "net": "GND", "x": 800, "y": 800,
+                  "width": 10, "height": 10}]
+      }
+    ],
+    "outline": {
+      "points": [[0, 0], [5000, 0], [5000, 1500], [1800, 1500],
+                 [1800, 3500], [0, 3500]],
+      "bbox": {"minX": 0, "minY": 0, "maxX": 5000, "maxY": 3500},
+      "source": "holdout", "format": "polygon"
+    },
+    "copperLayers": 2,
+    "nets": ["GND"],
+    "keepouts": [
+      {"id": "K-HOLDOUT", "shape": "rect", "rect": [700, 700, 900, 900]}
+    ],
+    "capture": {"projectUuid": "holdout-project", "documentUuid": "holdout-doc"},
+    "semanticSha256": "holdout-concave-keepout-v1"
+  },
+  "ops": [
+    {"op": "track", "net": "GND", "layer": 1, "width_mil": 20,
+     "points": [[2500, 2500], [4500, 2500]]},
+    {"op": "track", "net": "GND", "layer": 1, "width_mil": 20,
+     "points": [[2000, 200], [4500, 200]]}
+  ],
+  "expected": {
+    "refused_op_indexes": [0],
+    "accepted_op_indexes": [1],
+    "reason": "op 0 is in the L-notch outside the board polygon; op 1 is inside the lower arm"
+  }
+}
