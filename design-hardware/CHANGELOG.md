@@ -52,12 +52,16 @@ round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 
 - `feedback/evaluate.py`：电容角色分 `bulk` / `local-decoupling` / `unknown`；
   bulk 仅 conditional 且不触发 `drc_zero_but_quality_issues`；unknown 明确
   `auto_action_allowed=false`，不得驱动自动移动；声明角色优先于元件值。
+- PCB apply 路由补齐：`feedback/scope.py` 以 `--window` + 项目 UUID + 文档 UUID
+  调用 `pcb_apply_plan.py`；后者新增 `--window` 并转发给 `easyeda apply`、
+  写入 playbook `meta.window`。`before_dump.capture.windowId` 参与写前绑定，
+  错窗口与缺窗口都拒绝。
 - 机器可读输出显式 `simulated`：observation、evaluation、candidate comparison、
   preview、apply、readback、verify 都透传模拟标记，避免把模拟结果当真实宿主观测。
 - 案例库覆盖计数：`case_library` 同时报告 cases / projects / scenarios；同一源工程的
   三个案例按“一个项目、三个场景”计数，并保留 case 的 `provenance.source_project/source_case`。
-- 测试：反馈套件 280 tests（loop 53 / cases 44 / evaluate 65 / observe 41 / scope 68 /
-  cli 9）；全量 1589 tests OK；`skill_selftest.py` 5 PASS。
+- 测试：反馈套件 283 tests（loop 53 / cases 44 / evaluate 65 / observe 41 / scope 71 /
+  cli 9）；全量 1593 tests OK；`skill_selftest.py` 5 PASS。
 
 ### 修复
 

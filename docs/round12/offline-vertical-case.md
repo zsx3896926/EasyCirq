@@ -90,6 +90,12 @@ sch_doc='sch-sim-0001', pcb_doc='pcb-sim-0001')`
   例如 `pcb dump --include-copper` 的结果）。若只给规范化 observation，
   `_pcb_dump_from_view` 会从 `pcb.tracks/vias/pours` 重建铜层，但铺铜几何不完整，
   委托的适配器可能误报 pour 变化。
+- **身份路由**：执行层现以 `--window` + 项目 UUID + 文档 UUID 调用
+  `pcb_apply_plan.py`，并把 `--window` 转发给 `easyeda apply`；
+  `before_dump.capture.windowId` 参与写前绑定。对应测试
+  `test_pcb_apply_pins_window_project_and_document_uuid`、
+  `test_before_dump_for_another_window_is_refused`、
+  `test_apply_forwards_window_to_the_cli_and_playbook_meta`。
 
 **原理图分支**：契约 `writable.objects=['7000fc9074f2508d']`，允许
 `move_text/save`；计划把说明文字移到 `(250,778)`。`preview` 返回

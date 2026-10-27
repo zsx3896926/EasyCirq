@@ -1,10 +1,10 @@
 # 当前交接（Round 12 反馈闭环）
 
-> 写入时间：2026-10-27 12:15 (+08)。本文件只保留当前有效状态；历史细节见
+> 写入时间：2026-10-27 12:24 (+08)。本文件只保留当前有效状态；历史细节见
 > `docs/round12/report.md`、`docs/round12/acceptance-matrix.md`、
-> `docs/round12/offline-vertical-case.md`。本轮已完成四项源码收紧（PCB 写前
-> `before_dump` 门禁、acceptance 契约、电容角色、显式 `simulated`），并提交为
-> `e0c8e5a`；本次只更新文档。
+> `docs/round12/offline-vertical-case.md`。本轮已完成五项源码收紧（PCB 写前
+> `before_dump` 门禁、acceptance 契约、电容角色、显式 `simulated`、PCB apply
+> 窗口/文档 UUID 路由），代码/测试/基准提交 `427a07c`；本文件与文档批次随后提交。
 
 ## 1. 目标与任务表
 
@@ -17,29 +17,29 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `feat/feedback-loop-round12`（已推送） |
-| HEAD（代码/测试/基准） | `e0c8e5a` |
+| HEAD（代码/测试/基准） | `427a07c`（上一提交 `e0c8e5a`） |
 | 基线 | `origin/main` `1954e15`；PR #30 目标分支已改为 `main` |
-| PR | #30，state OPEN，mergeable MERGEABLE，CI SUCCESS |
+| PR | #30，state OPEN，mergeable MERGEABLE；CI 于本次推送后确认 |
 | 工作树 | `C:/Users/jlc/work/hds-feedback-r12`（隔离 worktree） |
 | 已安装客户端 | 仍 0.9.2；源码 0.9.3 未 bump、未安装、未发 Release |
 
-当前未提交（本次文档更新，全部为已跟踪修改）：
-
-- `docs/handoff-current.md`（本文）
-- `docs/round12/acceptance-matrix.md`
-- `docs/round12/report.md`
-- `design-hardware/CHANGELOG.md`
-
-提交前先 `git status`，只暂存这四份文档。不要清理其他会话的 `.tmp-*`/`None.tmp`。
+当前文档批次（本文件、`docs/round12/acceptance-matrix.md`、
+`docs/round12/report.md`、`docs/round12/offline-vertical-case.md`、
+`design-hardware/CHANGELOG.md`）与 `427a07c` 一起构成最终分支；文档提交后工作树
+应为干净。不要清理其他会话的 `.tmp-*`/`None.tmp`。
 
 ## 3. 已完成 / 进行中
 
 已完成（离线部分，本轮实跑确认）：
 
-- 代码收紧（`e0c8e5a`）：
+- 代码收紧（`427a07c`，接续 `e0c8e5a`）：
   - `feedback/scope.py`：PCB 写入强制原始 `before_dump`；缺失/非对象/缺铜或器件
     数据/项目·文档·版本绑定不符/与新鲜观察不一致/过期 → 写前拒绝；`apply` 写前
     二次核对绑定；负例基准 `before_dump_gate` 证明 `writes_sent=0`、runner 0 次。
+  - `feedback/scope.py` + `pcb_apply_plan.py`：PCB apply 以 `--window` + 项目 UUID
+    + 文档 UUID 路由；`pcb_apply_plan.py` 新增 `--window`，转发给 `easyeda apply`
+    并写入 playbook `meta.window`；`before_dump.capture.windowId` 参与写前绑定，
+    错窗口/缺窗口均拒绝。
   - `feedback/scope.py` acceptance 契约：缺计数判 unknown，不按 0 通过；
     `count >= 2` 等谓词可求值，未达成不标完成。
   - `feedback/evaluate.py`：电容角色 `bulk`/`local-decoupling`/`unknown`；
@@ -60,11 +60,11 @@
 
 - **真实 EDA 纵向验证未开始**：另一个会话 jlc-b9 正在独立副本
   `usb-audio-verify-r12`（P1 `660075c31db6f396`，窗口
-  `c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7`）做受控 compose/apply；我们已确认
-  约 20 分钟内不写 EasyEDA、不切换窗口/文档。窗口释放并确认归属前不抢窗口。
+  `c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7`）做保存/重开收尾；12:24 我们已回复
+  确认接下来 10 分钟不写 EasyEDA、不切换窗口/文档。窗口释放并确认归属前不抢窗口。
 - **C2 专项 apply 未单独执行**：photo-led C2 分支停在 preview；C2 候选约
   103.16mil，未达到 ≤100mil。
-- 本次四份文档更新尚未提交（见第 2 节）。
+- 文档批次提交后工作树应为干净（见第 2 节）。
 
 ## 4. 最新测试快照（2026-10-27 12:00 左右实测）
 
@@ -74,10 +74,10 @@
 | `tests/test_feedback_cases.py` | 44 tests OK |
 | `tests/test_feedback_evaluate.py` | 65 tests OK |
 | `tests/test_feedback_observe.py` | 41 tests OK |
-| `tests/test_feedback_scope.py` | 68 tests OK |
+| `tests/test_feedback_scope.py` | 71 tests OK |
 | `tests/test_feedback_cli.py` | 9 tests OK（subprocess 调真实 `feedback_loop.py` 入口） |
-| 反馈测试合计 | **280 tests OK** |
-| `python -m unittest discover -s tests` | **1589 tests OK** |
+| 反馈测试合计 | **283 tests OK** |
+| `python -m unittest discover -s tests` | **1593 tests OK** |
 | `python tools/feedback_benchmark.py` | **16/16 PASS** -> `benchmarks/offline-round12/result.json` |
 | `python design-hardware/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN |
 
@@ -111,7 +111,8 @@
   不要在其上写入**。
 - 跨会话同伴 jlc-b9 的窗口 `c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7` 与工程
   `usb-audio-amplifier-test-01-restored` / `usb-audio-verify-r12`：同样不要写、
-  不要切文档；收到其“window released”消息并重新确认归属后才考虑真机操作。
+  不要切文档。12:24 其请求 10 分钟内保持不写，我们已回复确认；收到其窗口释放
+  消息并重新确认归属后才考虑真机操作。
 - 可能存在用户/其他会话的 easyeda daemon（基线探测时端口 `60832`）；不是本轮所有，
   不要重启或清理。
 - **工作区副作用**：早前真机探测在用户团队工作区导入过一个测试副本
@@ -124,8 +125,9 @@
    承诺窗口释放前不写。真实写、保存、重开、DRC 复验全部 `BLOCKED`/`NOT RUN`；
    不要声称“已真机通过”。
 2. **PCB apply 适配器边界**：写入现在强制原始 `before_dump`，只给规范化
-   observation 会在写前被拒绝（`before_dump_gate` 负例）。C2 专项 apply 仍未单独
-   执行，候选约 103.16mil，未达到 ≤100mil，真实 DRC/铜连接未测。
+   observation 会在写前被拒绝（`before_dump_gate` 负例）；路由已固定为
+   `--window` + 项目/文档 UUID。C2 专项 apply 仍未单独执行，候选约 103.16mil，
+   未达到 ≤100mil，真实 DRC/铜连接未测。
 3. **电容角色**：已分三档并禁止 unknown 驱动自动移动；容值解析仍是启发式，
    工程质量阈值仍需规则/人工复核。
 4. **原理图重开未实现**：适配器未实现 schematic reload，文本分支
@@ -134,22 +136,22 @@
    manufacturing/physical` 全部 `not_run`；三个案例共享源工程
    `photo-led-pcb-20261026`，按“一个项目三个场景”计数。
 6. **未安装**：客户端仍 0.9.2；源码 0.9.3 未安装、未发 Release。
-7. **PR 未合并**：PR #30（base `main`）CI SUCCESS、MERGEABLE；待真机纵向验证完成
-   或明确记录其未执行后，再决定合并。
+7. **PR 未合并**：PR #30（base `main`）待本次推送后的 CI 确认；待真机纵向验证
+   完成或明确记录其未执行后，再决定合并。
 
 ## 8. 下一条具体操作
 
-1. **先提交本次四份文档**：`git add docs/handoff-current.md
-   docs/round12/acceptance-matrix.md docs/round12/report.md
-   design-hardware/CHANGELOG.md`，提交并推送 `feat/feedback-loop-round12`，
-   确认 CI；用 `gh pr edit 30` 更新 PR 描述（16/16、280/1589、`e0c8e5a`、
-   真机 NOT RUN）。
+1. **提交文档批次并推送**：`git add` 五份文档（本文件、验收矩阵、报告、纵向案例、
+   CHANGELOG），提交并推送 `feat/feedback-loop-round12`，确认 CI；用
+   `gh pr edit 30` 更新 PR 描述（16/16、283/1593、`427a07c`、窗口/文档 UUID
+   路由、真机 NOT RUN）。
 2. **等 jlc-b9 释放窗口**并收到其消息后，重新确认窗口归属与无其他写入者，再新建
    独立工程副本做真机纵向验证：`probe` → `observe`（`--window` + 明确 sch/pcb
    文档 UUID）→ `preview`（`writes_sent=0`）→ dry-run `apply` → `apply --apply`
-   （plan 必须携带原始 `before_dump`）→ `readback` → `verify` → 保存/重开/原生
-   DRC；验证身份、范围外零变化、连接、保存重开；恢复测试修改后再复验；原工程
-   不动。未确认归属时不抢窗口，继续离线/文档工作。
+   （plan 必须携带原始 `before_dump`，路由带 `--window` + 项目/文档 UUID）→
+   `readback` → `verify` → 保存/重开/原生 DRC；验证身份、范围外零变化、连接、
+   保存重开；恢复测试修改后再复验；原工程不动。未确认归属时不抢窗口，继续
+   离线/文档工作。
 3. 真机结果写入 `docs/round12/report.md` 与验收矩阵，区分模拟/真实；未执行项保持
    `NOT RUN`。满足评审条件且无未解决阻断后合并 PR #30；不发布 Release、不替换
    其他客户端安装版。
