@@ -58,6 +58,13 @@ adapter from any producer to any consumer; see
 6. Documentation path updates for the renamed test directories + a short integration
    note appended to G's and I's own handoffs (their historical statements remain,
    with the resolution recorded).
+7. `tools/offline_suite.py` (maintainer offline runner) was broken on integrated main:
+   its import sweep put implementation packages into `sys.modules` under the same
+   names as `tests/<name>` packages, and the script root was first on `sys.path`, so
+   discovery reported every new test package as `ModuleNotFoundError` (57 errors)
+   while CI stayed green. Fixed by appending the scripts/root paths instead of
+   prepending and by dropping sweep-only modules before discovery; it now runs the
+   full suite (3230 tests, OK) with the offline guard installed.
 
 ## 4. Minimal integration verification
 
@@ -71,7 +78,9 @@ adapter from any producer to any consumer; see
   records exit code, observed status and the fact that EDA/network calls are 0.
 * Result after task K merged (all ten delivered modules, B–K): **11/11 native
   checks OK, 5/5 gap probes confirmed as missing adapters, 0 unexpected
-  acceptances**, exit 0. This is **not** an
+  acceptances**, exit 0.
+* Maintainer offline runner `tools/offline_suite.py` after the fix: **3230 tests,
+  0 failures, 0 errors, 2 skipped**, status pass, offline guard installed. This is **not** an
   end-to-end product chain and must not be reported as one.
 
 ## 5. Explicit NOT RUN / BLOCKED
