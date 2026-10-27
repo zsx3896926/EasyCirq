@@ -26,7 +26,7 @@
 
 ```
 design-hardware/scripts/bringup_planner/
-tests/bringup_planner/
+tests/bringup_planner_tests_tests/
 benchmarks/bringup-planner/
 docs/parallel-bringup-planner/
 ```
@@ -57,7 +57,7 @@ python -m bringup_planner evaluate --plan <out>/plan.json --results <results.jso
 测试与基准（worktree 根目录）：
 
 ```bash
-python -m unittest discover -s tests/bringup_planner -p "test_*.py"
+python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"
 python benchmarks/bringup-planner/run_benchmark.py --out /tmp/bringup-benchmark.json
 python tools/offline_suite.py          # 既有仓库离线套件，不应回归
 ```
@@ -77,3 +77,20 @@ python tools/offline_suite.py          # 既有仓库离线套件，不应回归
 2. 读 `report.md` 看验收命令、实测结果、已修问题与剩余限制。
 3. 读 `acceptance-matrix.md` 看六组能力与场景映射。
 4. 若要把本任务接入 A/C/F：读 `integration-proposal.md`，按版本化 JSON + 哈希绑定；不要在本分支改对方代码。
+
+## Integration note (2026-10-28, main integrator)
+
+This branch was merged to `main` by the integration lead. Two review findings were fixed
+on `main`, not by changing this task's code:
+
+1. `tests/bringup_planner/` was not discovered by the official CI command (no package
+   marker, and the directory name collided with the implementation package). It moved to
+   `tests/bringup_planner_tests/` with an `__init__.py`, so the official discovery runs
+   all 172 tests.
+2. `baseline.json` hashes had been frozen over LF bytes, while a normal Windows checkout
+   produced CRLF, so 9 benchmark tests failed there. `benchmarks/bringup-planner/.gitattributes`
+   now pins LF for that tree, so the frozen hashes reproduce on Windows and Linux.
+
+Still not claimed: real instruments, power-up, flashing, serial/JTAG and EDA operations
+remain NOT RUN. This planner is an independent capability, not yet wired into a main
+workflow.

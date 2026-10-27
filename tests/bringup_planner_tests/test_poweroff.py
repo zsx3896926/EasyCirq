@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / 'design-hardware' / 'scripts'
 if str(SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS))
+    sys.path.append(str(SCRIPTS))
 
 from bringup_planner import poweroff
 from bringup_planner.dag import build_domain_graph, supply_conflicts

@@ -12,7 +12,7 @@ SCRIPTS = REPO / "design-hardware" / "scripts"
 SKILL_ROOT = REPO / "design-hardware"
 BENCH = REPO / "benchmarks" / "skill-knowledge-audit"
 
-sys.path.insert(0, str(SCRIPTS))
+sys.path.append(str(SCRIPTS))
 
 
 def write(path, text):

@@ -58,10 +58,10 @@ stdout 恰好一个 JSON；stderr 为诊断；导出写文件是原子的，且�
 
 契约与限制：
 
-- [contract.md](../../../docs/parallel-procurement-planner/contract.md)
-- [channel-policy.md](../../../docs/parallel-procurement-planner/channel-policy.md)
-- [substitution-policy.md](../../../docs/parallel-procurement-planner/substitution-policy.md)
-- [acceptance-matrix.md](../../../docs/parallel-procurement-planner/acceptance-matrix.md)
+- 仓库内文档（不随 Skill 安装包分发）：``docs/parallel-procurement-planner/contract.md``
+- ``docs/parallel-procurement-planner/channel-policy.md``
+- ``docs/parallel-procurement-planner/substitution-policy.md``
+- ``docs/parallel-procurement-planner/acceptance-matrix.md``
 
 测试：`python -m unittest discover -s tests/procurement_planner -t tests -p "test_*.py"`
 （从仓库根目录运行）。

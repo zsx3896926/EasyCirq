@@ -34,6 +34,13 @@ AT = "2026-10-27T00:00:00+00:00"
 def _copy_input(case_dir, metadata, tmp):
     source = case_dir / metadata["input"]
     target_root = tmp / "input"
+    if not source.exists() and metadata.get("command") == "stale-output":
+        # The stale-output scenario deliberately audits a missing package.  Its
+        # empty input directory cannot be stored in git, so a clean checkout
+        # must recreate it here; the frozen content digest is the digest of the
+        # empty directory, computed below by the caller.
+        target_root.mkdir(parents=True)
+        return target_root
     if source.is_dir():
         shutil.copytree(source, target_root)
         return target_root

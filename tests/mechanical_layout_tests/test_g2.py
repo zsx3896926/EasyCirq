@@ -13,7 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / 'design-hardware' / 'scripts'
 if str(SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS))
+    sys.path.append(str(SCRIPTS))
 
 from mechanical_layout.model import build_model  # noqa: E402
 from mechanical_layout.rules import g2  # noqa: E402

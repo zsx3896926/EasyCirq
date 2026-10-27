@@ -44,7 +44,7 @@ a608e3e feat: add offline mechanical layout planner and frozen benchmark
   `analysis_not_official_export` watermark and mirrored bottom view.
 * Frozen CLI benchmark: 34 scenarios + 4 holdouts, SHA-frozen inputs/expected,
   subprocess runner, results with coverage/timing and `real_eda: NOT RUN`.
-* Tests under `tests/mechanical_layout/`: 144 unittest cases (contract/units/
+* Tests under `tests/mechanical_layout_tests_tests/`: 144 unittest cases (contract/units/
   transforms, G1, G3, SVG, benchmark integrity + selected CLI subprocess runs;
   G2/G4 and planner suites were authored inside the parallel team).
 * Documentation in `docs/parallel-mechanical-layout/`: `contract.md`,
@@ -61,7 +61,7 @@ All commands were run from the worktree root unless noted. Results below are the
 observed outputs, not projected ones.
 
 ```text
-python -m unittest discover -s tests/mechanical_layout -t tests/mechanical_layout
+python -m unittest discover -s tests/mechanical_layout_tests_tests -t tests/mechanical_layout_tests_tests
     Ran 144 tests in 1.451s
     OK
 
@@ -104,7 +104,7 @@ Determinism and clean-tree replay:
 same report.json SHA-256: true; same top.svg SHA-256: true
 
 # git archive HEAD | expand into an empty directory, then rerun there
-python -m unittest discover -s tests/mechanical_layout -t tests/mechanical_layout
+python -m unittest discover -s tests/mechanical_layout_tests_tests -t tests/mechanical_layout_tests_tests
     Ran 144 tests in 1.269s; OK
 python benchmarks/mechanical-layout/run_benchmarks.py
     34/34 passed
@@ -116,7 +116,7 @@ The clean-archive replay also proves the frozen benchmark SHA-256 values are
 stable for committed bytes (a task-local `benchmarks/mechanical-layout/.gitattributes`
 keeps JSON/TXT line endings exact).
 
-The test suite does not descend into `tests/mechanical_layout` from top-level
+The test suite does not descend into `tests/mechanical_layout_tests_tests` from top-level
 CI discovery (no `tests/__init__.py`, by isolation rule). Use the targeted
 command above; the package entry point has no effect on the existing CI. No
 tracked file outside the four allowed trees was modified, and the full repository
@@ -175,7 +175,7 @@ Status flags in every report: `simulated: true`, `real_eda: NOT RUN`,
 
 ```text
 design-hardware/scripts/mechanical_layout/**            (new package)
-tests/mechanical_layout/**                              (new tests)
+tests/mechanical_layout_tests_tests/**                              (new tests)
 benchmarks/mechanical-layout/**                         (cases/expected/holdout/sources/runner/results)
 docs/parallel-mechanical-layout/**                      (this task's docs)
 ```
@@ -194,3 +194,13 @@ compose, design_engine and other task directories were not changed.
 3. If merged, add the targeted test command to the maintainer runbook rather than
    changing CI in this task. Consider a follow-up issue for `max_move`, top-face
    openings and electrical copper keep-out geometry.
+
+## Integration note (2026-10-28, main integrator)
+
+This branch was merged to `main` by the integration lead. The review-time statement
+that top-level `python -m unittest discover -s tests` does not descend into the test
+directory was accurate and has been fixed on `main`: the tests moved to
+`tests/mechanical_layout_tests/` with an `__init__.py` package marker, so the official
+CI discovery now runs all 144 tests. The task's own benchmark, cases and package are
+unchanged. Nothing in this note is a claim that the planner was wired into the main
+schematic/PCB workflow; it remains an independent capability.
