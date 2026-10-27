@@ -14,7 +14,7 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 | task | branch | PR | reviewed HEAD | scope (files / lines) | implementation | tests discovered by CI | evidence run by integrator | review |
 |---|---|---|---|---|---|---|---|---|
 | A own CLI/daemon/connector/protocol/install | `feat/integrated-eda-toolchain` | #36 (draft) | `0aff47c` | 1703 files, +559787/−1548, 104 modified core files | runtime rebrand + connector + protocol + installer + doctor/capabilities; M2–M4 blocked by a manual EDA extension import | CI validate 3.10/3.13 SUCCESS; updater (ubuntu) FAILURE, updater (windows) CANCELLED | not merged; `gh pr view` mergeable=CONFLICTING; author states "不合并、不发布，等用户确认"; no EDA/host run by integrator | **BLOCKED** |
-| B offline electrical-intent review | `feat/parallel-electrical-review` | #38 | `f473f0d` | 70 files, +12006 | working CLI + 6 rule groups + 31 frozen CLI cases | 50 tests discovered (Windows pass) | module tests 50 OK on Windows; benchmark 31/31 on Windows; **CI validate 3.10/3.13 FAILURE** (frozen `input_sha256` computed over CRLF bytes, Linux checkout is LF) | **修复后复审** (fix branch prepared; PR #38 not merged) |
+| B offline electrical-intent review | `feat/parallel-electrical-review` | #38 | `f473f0d` | 70 files, +12006 | working CLI + 6 rule groups + 31 frozen CLI cases | 50 tests discovered (Windows pass) | module tests 50 OK on Windows; benchmark 31/31 on Windows; **CI validate 3.10/3.13 FAILURE** (frozen `input_sha256` computed over CRLF bytes, Linux checkout is LF) | **修复后复审 → merged via #48** (`f473f0d` reviewed, LF fix at `99ba5ed`; PR #38 closed as superseded) |
 | C manufacturing delivery audit | `feat/parallel-delivery-audit` | #40 | `ea565b7` | 258 files, +44612 | working CLI (inspect/manifest/audit), bounded Gerber/drill/BOM/CPL subset, 28 frozen cases | 303 tests (1 skip) | 303 OK; benchmark 28/28 after integration fix; Apache-2.0 real sample attributed | **可合并 → merged** |
 | D Skill rule consistency / minimal reading path | `feat/parallel-skill-knowledge-audit` | #45 | `3c3f611` | 60 files, +131654 | read-only scan/rules/plan/benchmark CLI, 20 scenarios, frozen real baseline | 53 tests (1 skip) | 53 OK; benchmark 20/20; scan 312 files / 0 errors on integrated main after H README fix; 16 documented anchor warnings | **可合并 → merged** |
 | E high-speed reference plane / return path | `feat/parallel-return-path-audit` | #37 | `b4cfa7b` | 134 files, +38112 | working CLI, 45 frozen scenes, 2-layer real replay derived from repo case; 4-layer replay NOT AVAILABLE | 112 tests | 112 OK; benchmark 45/45; derived real replay runs offline; `recovered_return_path` never true | **可合并 → merged** |
@@ -37,8 +37,10 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 | 6 | #45 D | `7990cec` | `3c3f611` |
 | 7 | #42 G | `ecb4c8a` | `317876c` |
 | 8 | #39 I | `9a4622e` | `b407d72` |
+| 9 | #47 integration fixes (discovery/portability) | `6a5c4f7` | `a575748` |
+| 10 | #48 B (LF frozen-hash fix) | `3f21897` | `99ba5ed` (reviewed task B at `f473f0d`) |
 
-`main` after those merges: `9a4622e` (before the integration-fix PR).
+`main` after the eight module merges: `9a4622e`. Integration fixes merged as #47 → `6a5c4f7`. Task B merged as #48 → `3f21897` (current `main` at the end of the window; the push runs on that exact SHA are green: `Validate skill` and `Skill updater packages`).
 
 ## 2. Cross-cutting defects found by integration review
 
@@ -69,14 +71,14 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 
 ## 3. What is independently usable vs integrated
 
-* **Independently usable (merged, CLI + tests + frozen benchmark):** C, D, E, F,
+* **Independently usable (merged, CLI + tests + frozen benchmark):** B, C, D, E, F,
   G, H, I, J. Each is a standalone `python -m <module>` CLI under
   `design-hardware/scripts/`, offline, stdlib-only.
 * **Not wired into any main workflow:** none of them is referenced from
   `SKILL.md`/references and no producer→consumer adapter exists. Their integration
   proposals are plans, not code.
-* **Blocked / not merged:** A (#36), B (#38 until the LF fix lands), K (not
-  delivered).
+* **Blocked / not merged:** A (#36 draft, conflicting), K (not delivered). B is
+  merged via #48; PR #38 is closed as superseded.
 
 ## 4. Verification records
 
@@ -91,6 +93,19 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 * `docs/integration/verify_integration.py` → `evidence/integration-verification.json`:
   8/9 native checks OK (B absent at generation time), 4/4 gap probes confirmed,
   0 unexpected acceptances.
+* Final candidate `main @ 3f21897` (all nine delivered modules):
+  `python -m unittest discover -s tests` → **3139 tests, OK (skipped=2)**, ~238 s;
+  CI on the exact SHA: both workflows SUCCESS.
+* Task B benchmark after the LF fix: 31/31 (`real_eda=NOT RUN`, `eda_calls=0`).
+* `design-hardware/scripts/skill_selftest.py`: 5 PASS / 0 FAIL (repository and
+  installed copy).
+* Packaging: `python distribution/build_release.py` → `design-hardware-1.0.1.zip`,
+  `design-hardware-installer-1.0.1.zip`, `SHA256SUMS`, `release.json` (696 files,
+  version 1.0.1). No publish/tag.
+* Install smoke: installer extracted into a temporary fake client skills directory;
+  installed copy self-test 5 PASS; `doctor_env.py --summary` runs read-only and
+  correctly reports incomplete with no active client. No real client directory or
+  installed skill was modified.
 * **NOT RUN:** any real EDA/daemon/connector interaction, host DRC, save/reopen,
   official plots, manufacturing order, physical measurement, power-up, firmware
   flashing, Python 3.10 runtime (local machine has only 3.13; CI matrix covers 3.10).
