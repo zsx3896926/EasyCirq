@@ -6,8 +6,8 @@
 - 输入 schema：`zhigou.electrical-review.input/v1`
 - 输出 schema：`zhigou.electrical-review.report/v1`
 - 工具版本：`0.1.0`
-- Python 目标：≥3.10（仓库 CI 矩阵含 3.10/3.13；本机仅 3.13.15，3.10 运行未验证，
-  代码按 3.10 语法编写，见 acceptance.md）
+- Python 目标：≥3.10；仓库 CI `validate (3.10)` / `validate (3.13)` 已通过（#48、#52 及本
+  docs-only PR）。本机直接运行版本为 3.13.15，代码按 3.10 语法编写，见 acceptance.md。
 
 ## 1. 命令与退出码
 

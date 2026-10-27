@@ -1,7 +1,10 @@
 # 任务 B 交接：离线电气意图审查（handoff-current）
 
-- 分支：`feat/parallel-electrical-review`（独立 worktree）
+- 任务 B 分支 / PR：`feat/parallel-electrical-review` / **#38（CLOSED，内容由 #48 合入 main）**
+- 后续修复：**#52**（独立审查 P1/P2，已合入 main）
 - 固定基线：`main` @ `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（开工时核实；未反复合入任务 A 分支）
+- 本文件验收复验基于：`main` @ `acbcc18c821e08ddff2401015eb7a16eaee733c8`（含 #48 LF 修复与 #52 P1/P2 修复）
+- 本文件由 **docs-only PR** 更新：只补验收记录与 3.10 CI 状态，不改产品代码
 - 本任务真实 EDA 调用：**0**
 - 共享文件修改：**无**（SKILL.md/references/feedback/design_engine/pcb_gate/runtime/connector/
   protocol/distribution/更新器/CI/顶层依赖/版本号/LICENSE/NOTICE/README/CHANGELOG/
@@ -11,7 +14,8 @@
   - `tests/electrical_review/`（测试与夹具）
   - `benchmarks/electrical-review/`（31 场景冻结基准 + 驱动 + result）
   - `docs/parallel-electrical-review/`（本目录）
-- 交付形式：独立 PR（不合并、不发 Release、不改版本、不安装到用户客户端）。
+- 交付形式：独立 PR；主维护者已通过 #48/#52 合入 main。本文件不合并、不发 Release、不改版本、
+  不安装到用户客户端。
 
 ## 1. 模块与命令
 
@@ -54,18 +58,33 @@ not_applicable/invalid_input、finding 对象/实际值/约束/单位/证据/解
 
 完整语义见 `contract.md`、`design.md`。
 
-## 3. 实际执行结果（2026-10-27，Windows 11，Python 3.13.15）
+## 3. 实际执行结果（2026-10-28 最终复验，Windows 11，Python 3.13.15）
 
 | 命令 | 结果 |
 |---|---|
-| `python -m unittest discover -s tests -k electrical_review` | **46 tests OK** |
-| `python -m unittest discover -s tests/electrical_review -t tests` | **46 tests OK** |
-| `python -m unittest discover -s tests`（全量） | 通过（仓库既有 + 本任务） |
-| `python benchmarks/electrical-review/run_benchmark.py --runs 3` | **31/31 pass**，`simulated=true`，`real_eda="NOT RUN"`，`eda_calls=0` |
+| `python -m unittest discover -s tests -k electrical_review` | **55 tests OK**（3.579 s，exit 0） |
+| `python -m unittest discover -s tests/electrical_review -t tests` | **55 tests OK** |
+| `python -m unittest discover -s tests`（全量既有 + 本任务） | **3144 tests OK（skipped=2）**（314.0 s，exit 0） |
+| `python benchmarks/electrical-review/run_benchmark.py --runs 3 --out <仓库外临时文件>` | **31/31 pass**，exit 0 |
+
+基准摘要（本次实际运行）：
+
+- `status=pass`，`correctness=31/31`，`failed_cases=[]`；
+- `simulated=true`、`real_eda="NOT RUN"`、`eda_calls=0`；
+- 场景状态分布：`pass_with_scope` 9、`fail` 11、`review_required` 6、`incomplete` 1、`invalid_input` 4；
+- 来源类别：`synthetic_fixture`、`synthetic_fixture_verified_fact`、
+  `real_engineering_read_only_replay_derived`、`derived_counterexample_mutation`、
+  `synthetic_invalid_input`；
+- timing（3 runs）：31 场单场 min 合计 4.862 s，单场 max 193.0 ms；
+- 本次复验把基准输出写到仓库外临时文件，**未修改已提交的 `result.json`**，避免 wall-clock
+  波动污染冻结结果；worktree 保持 clean。
+
+**Python 3.10 / 3.13 CI：已由 #48、#52 以及本 docs-only PR 的 `validate` 矩阵实际通过**
+（`validate (3.10)`、`validate (3.13)` 均 pass），不再是未验证项。
 
 基准覆盖 R1–R6 的正例、反例、unknown，另有 incomplete 与非法输入场景；每个场景冻结
 输入 SHA-256、预期 exit/status/summary/规则计数/必需 finding code。timing 只记录本机
-CLI 执行成本（约 0.1 s/场景级），**不宣称画板提速**。
+CLI 执行成本（约 0.16 s/场景级），**不宣称画板提速**。
 
 测试重点：组件/引脚重排、网名一致重命名、位号改名但 instance_id 不变、mil/mm 与 mV
 单位转换、正确飞跨电容短接必失败、重复 ID/位号/脚号、NaN/inf/bool、负耐压、未知单位、
@@ -96,7 +115,13 @@ CLI 执行成本（约 0.1 s/场景级），**不宣称画板提速**。
 
 - 证据引用悬空（不存在的 evidence/fact_id）原会静默丢证据：新增 `_validate_references`，
   现为 `invalid_input`。独立反例审查在开发中发现 `walk` 把顶层 evidence 定义当 id 的
-  blocker；已修复并复验 46 测试 + 31 基准全通过。
+  blocker；已修复并复验 55 测试 + 31 基准全通过。
+- 独立审查 P1：`pins[].pad_nets` 与逻辑引脚网络冲突曾可报 pass → `contract.py`
+  现在按真实网络分区校验，冲突为 `invalid_input`；`r5.py` 逐物理焊盘检查 required
+  net role / tie-to-pin，并支持 pad 级证据。回归测试见 `test_contract.py` /
+  `test_rules.py`（#52）。
+- 独立审查 P2：按键两个 used 端子已在同一网络分区（含别名）时曾仍报有效切换 →
+  `r3.py` 现在报 hard `switch_externally_bypassed`；含别名回归测试（#52）。
 - R3：原厂内部组未覆盖实际使用脚号时曾可能误报硬违反 → 改为 `unknown`
   （脚号映射不一致不能判错）。
 - R5：没有地/电源网络分类证据时曾可能把“未分类”误判为错网 → 改为 `unknown`。
@@ -106,7 +131,8 @@ CLI 执行成本（约 0.1 s/场景级），**不宣称画板提速**。
 
 ## 6. 仍未知 / 未完成
 
-- **Python 3.10 运行时未验证**（本机仅 3.13.15；代码按 3.10 语法，仓库 CI 矩阵覆盖）。
+- **Python 3.10/3.13 运行时：已由仓库 CI `validate` 矩阵实际通过**（#48、#52、本 docs
+  PR 的 `validate (3.10)` / `validate (3.13)` 均 pass）；本机直接运行版本为 3.13.15。
 - Omron B3F/B3FS、NKK JB、Würth 434（HTTP 403）、Panasonic 工业站（000）未取得原厂
   PDF；不作为完成依据。ALPS/C&K 使用厂商 PDF 的 LCSC 镜像（文件内保留原厂页脚证据）。
 - 器件资料覆盖有限：模块不内置 datasheet 库；新增型号必须提供 device_facts，不能期望
@@ -116,7 +142,8 @@ CLI 执行成本（约 0.1 s/场景级），**不宣称画板提速**。
 - 未做真实小板/DRC/保存重开/仿真/Gerber/CPL/DFM/热/EMC/安规/固件/制造/上电验收；
   这些属于任务 A 或后续工作。
 - 独立反例审查成员在运行中失败/中断，未产出独立报告；`adversarial-review.md` 是
-  Lead 自审（文件内明确声明“不冒充独立审查”），其中记录独立成员报告的 blocker 及修复。
+  Lead 自审（文件内明确声明“不冒充独立审查”）。后续仓库 Codex 独立审查又发现 P1/P2，
+  已由 #52 修复并补回归测试；这再次说明自审不能替代独立审查。
 
 ## 7. 给任务 A 的精确接入说明
 
@@ -152,3 +179,13 @@ Fix in this branch (no product-code change):
 Local evidence after the fix: 50 module tests OK, benchmark 31/31 with
 `real_eda="NOT RUN"`, `eda_calls=0`. The module remains an independent offline CLI
 with no cross-module adapter and no EDA/host/physical verification.
+
+## Acceptance update (2026-10-28, docs-only PR)
+
+- 任务 B 内容已经 #48 合入 main；#38 已 CLOSED（superseded）。
+- 独立审查 P1/P2 修复 PR #52 已合入 main（`main` @ `acbcc18`）：
+  55 module tests、full suite 3144 tests（skipped=2）、benchmark 31/31、0 EDA。
+- 仓库 CI `validate (3.10)` / `validate (3.13)` 在 #48、#52 以及本 docs-only PR 均通过；
+  3.10 运行时不再标“未验证”。
+- 本次 docs-only 变更只更新验收记录与 3.10 状态，不改产品代码；详细数字见 §3 与
+  `acceptance.md`。
