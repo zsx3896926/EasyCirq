@@ -291,6 +291,7 @@ unknown。该过程与 `report.md` §8 的修复记录一致；基准 28 的期�
 只做了 parser 级只读回放，这是正确的自我限制。集成完成后 Lead 已实际运行 CLI 与冻结基准：
 
 - `python -m unittest discover -s tests/delivery_audit -p "test_*.py"` → 303 tests OK（1 skip，含 48 个对抗测试）。
+- PR #40 CI 的 `validate (3.10)` 与 `validate (3.13)` 均通过（Linux 实际运行证据）。
 - `python benchmarks/delivery-audit/run_benchmarks.py` → 28/28（27 合成 + 1 真实样例只读重放）；
   真实样例 case 28 的结果为 `incomplete`（exit 3），无 fail 规则，未声称可制造。
 - 真实样例夹具现包含 `ncdrill.DRD`（8 个制造文件）；`SOURCE.md` 记录来源/许可/哈希。

@@ -43,8 +43,7 @@ pcb_gate、design_engine、distribution、CI、顶层依赖、任务 B 的 `elec
 | `python -m compileall` 新增包/测试 | 通过 |
 | `python -m delivery_audit inspect/audit/manifest` 手工 CLI 场景 | 通过（报告 JSON + Markdown） |
 
-Python 3.10 本地执行 **NOT RUN**（本机无 3.10；只做语法检查）。仓库 CI 矩阵为 3.10/3.13，
-本分支 PR CI 结果为准；在 CI 通过前不宣称 3.10 已验证。macOS/Linux 本地未运行。
+Python 3.10 本地执行 **NOT RUN**（本机无 3.10，只做语法检查）；PR [#40](https://github.com/zsx3896926/hardware-design-skill/pull/40) 的 CI `validate (3.10)` 与 `validate (3.13)` 均已通过（2026-10-28，实际运行证据），Linux 覆盖由 CI 提供。macOS 本地/CI 未单独验证。
 
 ## 4. 三个入口与语义
 
@@ -168,8 +167,8 @@ Top/Bottom/T/B/back/front 面别、角度原值 + mod 360 归一、重复/漏件
   空白，比嘉立创 S05（明确禁止分号等）更宽容；这是审计器不冒充分平台解析器的已知差异。
 - 板框闭合容差在解析器内是原始文件单位（1e-6），板框外溢容差是 0.01 mm；极窄间隙边界仍需
   人工复核。
-- Python 3.10 与 macOS/Linux 本地未运行；真实 BOM/CPL 样本缺失；板厂 DFM/阻抗/电气/贴装/
-  实物/备份恢复均 NOT RUN。
+- 本地仅 Windows + Python 3.13；Python 3.10 与 Linux 由 PR CI 的 validate 矩阵实际运行并
+  通过，macOS 未运行；真实 BOM/CPL 样本缺失；板厂 DFM/阻抗/电气/贴装/实物/备份恢复均 NOT RUN。
 
 ## 10. 不得宣称
 

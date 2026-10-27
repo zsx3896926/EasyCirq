@@ -11,9 +11,10 @@ python -m unittest discover -s tests/delivery_audit -p "test_*.py" -v
 python benchmarks/delivery-audit/run_benchmarks.py
 ```
 
-本地实测环境：Windows 11、Python 3.13.15。仓库 CI 矩阵声明 3.10/3.13；本分支的 3.10
-本地执行未做（NOT RUN），只做 `ast.parse(..., feature_version=(3,10))` 语法检查，
-因此 3.10 通过性以 PR CI 结果为准，不能预先写成已验证。
+本地实测环境：Windows 11、Python 3.13.15（3.10 本地 NOT RUN，只做 3.10 语法检查）。
+PR [#40](https://github.com/zsx3896926/hardware-design-skill/pull/40) 的 CI 已在
+`validate (3.10)` 与 `validate (3.13)` 实际运行并全部通过（Linux），可作为 3.10 兼容证据；
+macOS 未验证。
 
 ## 2. 工作包 → 证据
 

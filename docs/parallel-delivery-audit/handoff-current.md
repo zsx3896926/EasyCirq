@@ -69,13 +69,15 @@ python -m unittest discover -s tests -p "test_*.py"                     # 全仓
 - 原生工程只做容器完整性/成员名检查，不做宿主重开/备份恢复。
 - 真实样例（Apache-2.0 `curtacircuitos/pcb-tools` 测试资源）仅只读重放；不绑定源 EDA 工程/
   revision，无真实 BOM/CPL。
-- 本地 Python 3.13.15 实测；Python 3.10 本地 NOT RUN（只做 3.10 语法解析），以 PR CI 的
-  3.10/3.13 矩阵为准。macOS/Linux 本地未运行。
+- 本地 Windows + Python 3.13.15 实测；PR #40 的 CI `validate (3.10)`/`validate (3.13)`
+  已实际运行并全部通过（Linux）。本地 3.10 与 macOS 未运行；不能把本地 3.13 结果外推为
+  本地 3.10 实测。
 
 ## 6. 后续
 
 1. 审查/合并 PR（不合并、不发布由主线决定）。
-2. PR CI 确认 Python 3.10/3.13 与全仓 `unittest discover -s tests`。
+2. PR #40 CI 已确认 Python 3.10/3.13、updater 与全仓 `unittest discover -s tests` 通过
+   （2026-10-28）；合并后仍需主线决定发布/入口。
 3. 合并后再由主线决定是否把该 CLI 写入安装包/文档入口；本分支不修改真实入口。
 4. 若任务 A 要接入，按 `integration-proposal.md` 的退出码 gate；`pass_with_scope` 不能当
    "制造通过"。
