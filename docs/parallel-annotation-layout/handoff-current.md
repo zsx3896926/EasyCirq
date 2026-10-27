@@ -3,9 +3,12 @@
 ## State
 
 - worktree: `hds-al-worktree` (independent), branch `feat/parallel-annotation-layout`
+- PR: https://github.com/zsx3896926/hardware-design-skill/pull/46
 - base main SHA: `9a951edc21481dc3ae91460acc11aa3e08a7be8a`
-- status: implementation + tests + benchmark + docs complete; push/PR pending at
-  the time of writing (update this file with the PR URL/SHA after push).
+- status: implementation + tests + benchmark + docs complete; branch pushed and
+  independent PR open: https://github.com/zsx3896926/hardware-design-skill/pull/46
+  (commit `a937b43`; base main moved on origin after the fixed base SHA, the
+  branch stays based on `9a951ed` and adds only new directories).
 - host execution: **NOT RUN** (no EDA, no save/reopen, no official export, no
   connectivity readback).
 
@@ -85,4 +88,5 @@ to `--out`/`--out-dir`.
   do not delete that folder or the source-hash validation fails (by design).
 - Never edit `tests/fixtures/photo-led-v14/` originals.
 - Keep the package Python 3.10 compatible and dependency-free.
+
 

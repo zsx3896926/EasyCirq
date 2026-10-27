@@ -117,8 +117,10 @@ render/save/reopen/readback are **NOT RUN**.
 ## 7. PR
 
 Branch `feat/parallel-annotation-layout`, independent worktree, base main
-`9a951edc21481dc3ae91460acc11aa3e08a7be8a`.  PR link and final SHA are recorded
-in `handoff-current.md` after push.  Not merged, not released, not installed.
+`9a951edc21481dc3ae91460acc11aa3e08a7be8a`.  PR #46:
+https://github.com/zsx3896926/hardware-design-skill/pull/46 (commit `a937b43`).
+Not merged, not released, not installed.
+
 
 
 
