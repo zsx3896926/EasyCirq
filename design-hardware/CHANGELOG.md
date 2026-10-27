@@ -28,16 +28,36 @@ round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 
 - `feedback/loop.py`：可恢复状态、预算、连续无改善/超时/调用预算停止；
   `call_ok/write_confirmed/save_confirmed/reopen_confirmed/quality_passed` 五事实分开。
 - `feedback/scope.py`：修改契约、写前可写范围、差异/不变量、journal 幂等恢复；
-  PCB 写入可携带原始 `before_dump`，原理图写入走 typed action。
+  PCB 写入强制携带原始 `before_dump`，原理图写入走 typed action。
 - `feedback/evaluate.py`：硬约束/工程质量/可读性三层评价，无总分；DRC 0 但存在
   已证实工程质量问题时 `drc_zero_but_quality_issues=true`；候选比较拒绝
   “更整齐但路径回归”。
 - `feedback/cases.py` + `cases/feedback-r12/` 3 例 + `cases/index.json`：检索、
   适用性检查与复用复核，不继承旧验证结论。
-- `tools/feedback_benchmark.py` + `benchmarks/offline-round12/`（13 用例）：
+- `tools/feedback_benchmark.py` + `benchmarks/offline-round12/`（16 用例）：
   模拟宿主全链路；`real_eda=NOT RUN`。
 - `references/feedback-loop.md`、`SKILL.md` 的“画板/这里改一下/参考以前方案”路由。
 - `tools/offline_suite.py` 静态 import sweep 改为子包按 dotted path 导入。
+
+### round12 收尾收紧
+
+- PCB 写前门禁：`scope.py` 要求 plan 携带本次观察绑定的原始 `before_dump`；缺失、
+  非对象、缺铜/器件数据、项目/文档/版本绑定不符、与新鲜观察不一致或已过期时，
+  `preview`/`apply` 直接拒绝（`precondition_refused` / `stale_baseline`），不再用
+  规范化 observation 重建不完整 dump。`apply` 写入前再次核对绑定。
+  基准 `before_dump_gate` 用负例证明拒绝时 `writes_sent=0`、runner 调用 0 次。
+- `feedback_loop.py verify`：五事实只从 `--apply` receipt 读取；`--after` 仅做
+  `semantic_sha256` 交叉核对；新增 acceptance 求值——声明的目标未达成时
+  `target_met=false`、`completed=false`，缺计数判 `unknown` 而不是按 0 通过。
+- `feedback/evaluate.py`：电容角色分 `bulk` / `local-decoupling` / `unknown`；
+  bulk 仅 conditional 且不触发 `drc_zero_but_quality_issues`；unknown 明确
+  `auto_action_allowed=false`，不得驱动自动移动；声明角色优先于元件值。
+- 机器可读输出显式 `simulated`：observation、evaluation、candidate comparison、
+  preview、apply、readback、verify 都透传模拟标记，避免把模拟结果当真实宿主观测。
+- 案例库覆盖计数：`case_library` 同时报告 cases / projects / scenarios；同一源工程的
+  三个案例按“一个项目、三个场景”计数，并保留 case 的 `provenance.source_project/source_case`。
+- 测试：反馈套件 280 tests（loop 53 / cases 44 / evaluate 65 / observe 41 / scope 68 /
+  cli 9）；全量 1589 tests OK；`skill_selftest.py` 5 PASS。
 
 ### 修复
 
