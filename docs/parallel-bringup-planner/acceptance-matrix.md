@@ -71,13 +71,14 @@
 ```bash
 # worktree 根目录
 python benchmarks/bringup-planner/run_benchmark.py --out /tmp/bp-bench.json
-python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"
+python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 python tools/offline_suite.py        # 仓库既有离线套件（不得因本任务回归）
 ```
 
 判定：
 
-- 本机实测：34 个标准场景 + 5 个 holdout + 2 个组合案例全部通过（41/41），必需类别覆盖 30/30；专属测试 172 个通过；仓库 `tools/offline_suite.py` 1783 tests / 0 failures，`skill_selftest.py` 5 PASS。
+- 本机实测（2026-10-28，逐条证据见 §7）：34 个标准场景 + 5 个 holdout + 2 个组合案例全部通过（41/41），必需类别覆盖 30/30；专属测试 172 个通过；`skill_selftest.py` 5 PASS。
+- 仓库 `tools/offline_suite.py`：在 PR #39 合并 HEAD `b407d72` 上 1783 tests / 0 failures / 0 errors（PASS）；在当前 main（含后续其他并行任务）上 2147 tests / 47 errors，**全部来自其他任务的测试包**（`change_impact`/`circuit_blocks`/`delivery_audit` 等），`bringup_planner_tests` 的 172 tests 不在错误中（详见 §7.5 与 `issue-candidates.md` A.6）。
 
 - 每个场景真实启动 `python -m bringup_planner validate|plan|explain|evaluate` 子进程；记录实际退出码、计划哈希、DAG order/cycles、步骤 ID/状态、gap/unknown/equipment_gap codes、评估 verdict。
 - `expected.json` 为手工推导后冻结的预期（输入 SHA 一并冻结）；实际不一致即失败，不允许按场景 ID 改判。
@@ -89,3 +90,87 @@ python tools/offline_suite.py        # 仓库既有离线套件（不得因本�
 - 不证明任何实物板已上电、功能正常、通过安规/EMC/温升/可靠性/量产一致性。
 - 不证明仪器读数真实或测点实际可达（只校验声明与记录一致性）。
 - 不证明计划中的步骤在具体实验室环境下可安全执行；执行前仍需人工确认 `user_policy` 与现场条件。
+
+## 7. M0–M4 实测证据清单（2026-10-28）
+
+> **采集基线：** worktree HEAD `3f21897d9d1b93b4ac7e2ef523fe923685f59b08`（分支 `docs/bringup-planner-m0-m4-evidence`，基于合并后的 main）；实现源 HEAD `b407d72f11237001d7c7e1260beb8de770f46f1e`（PR #39 合并源）。
+> **PR #39 状态：** 已于 **2026-10-27T16:53:24Z** 由仓库账号 `zsx3896926` 合并（merge commit `9a4622eb46a8ff3d336729726ab6ed056b5f650a`，changedFiles=175，+44762/−0）——**本任务未执行合并**。采集时 `origin/main` 已因其他并行任务前进到 `acbcc18c821e08ddff2401015eb7a16eaee733c8`。
+> **证据文件：** 机器可读 [evidence-m0-m4.json](evidence-m0-m4.json)；复现脚本 `benchmarks/bringup-planner/tools/collect_m0_m4_evidence.py`。所有命令均为离线执行：无仪器、上电、烧录、串口/JTAG、EDA、网络。
+
+### 7.1 M0 基线与隔离
+
+| # | 命令 | 退出码 | 关键输出摘要 | 对应 HEAD | 结论 |
+|---|---|---|---|---|---|
+| M0-1 | `git rev-parse HEAD` / `--abbrev-ref HEAD` | 0 | 采集 worktree `3f21897…`；实现源 HEAD `b407d72…`；分支 `docs/bringup-planner-m0-m4-evidence`（原实现分支 `feat/parallel-bringup-planner`） | `3f21897` | PASS |
+| M0-2 | `git rev-parse 9a951ed`；`git rev-parse origin/main` | 0 | 开工基线 `9a951ed…`；采集时 `origin/main=acbcc18…`（PR #39 合并后其他并行任务继续推进） | `3f21897` | PASS |
+| M0-3 | `git status --short` | 0 | 空（采集前工作区干净） | `3f21897` | PASS |
+| M0-4 | `git worktree list` | 0 | 独立 worktree（`hds-bp-evidence` / 原 `hds-bp-worktree`），未混用他人分支 | `3f21897` | PASS |
+| M0-5 | `git diff --name-only 9a951ed...b407d72` | 0 | **175 files**；允许路径外 **0**；四目录：`design-hardware/scripts/bringup_planner/`、`tests/bringup_planner/`（合并前路径）、`benchmarks/bringup-planner/`、`docs/parallel-bringup-planner/` | `b407d72`（PR #39） | PASS |
+| M0-6 | `git cat-file -e HEAD:docs/parallel-bringup-planner/acceptance-matrix.md`；`…:design-hardware/scripts/bringup_planner/plan.py` | 0 | 合并后 main 同时包含文档与实现脚本（18 个 bringup_planner 脚本） | `3f21897` | PASS |
+| M0-7 | `gh pr view 39 --json …` | 0 | `state=MERGED`；`mergedAt=2026-10-27T16:53:24Z`；`mergedBy=zsx3896926`；`mergeCommit=9a4622e…`；`changedFiles=175`；`+44762/−0`；非 draft | PR 元数据 | PASS（外部合并） |
+
+### 7.2 M1 核心 CLI（validate / plan / explain）
+
+| # | 命令 | 退出码 | 关键输出摘要 | 对应 HEAD | 结论 |
+|---|---|---|---|---|---|
+| M1-1 | `python -m bringup_planner validate --input tests/bringup_planner_tests/fixtures/minimal-input.json --json` | 0 | `status=valid`，`revision=rev-A`，诊断 1 条（warning `E_BACKFEED_RISK`，非错误） | `3f21897` | PASS |
+| M1-2 | `python -m bringup_planner plan --input …minimal-input.json --out <tmp> --json` | 0 | `scope=supported`；20 steps / 14 ready / 6 blocked；`plan_sha256=0e3dbc16…`；9 棵故障树 | `3f21897` | PASS |
+| M1-3 | `python -m bringup_planner plan --input benchmarks/bringup-planner/cases/mcu-sensor-board/input.json --out <tmp> --json` | 0 | 23 steps / 13 ready / 10 blocked；`plan_sha256=e22a20bc…`；8 棵故障树 | `3f21897` | PASS |
+| M1-4 | `python -m bringup_planner plan --input benchmarks/bringup-planner/cases/load-control-board/input.json --out <tmp> --json` | 0 | 15 steps / 9 ready / 6 blocked；`plan_sha256=2f417fda…`；4 棵故障树 | `3f21897` | PASS |
+| M1-5 | `python -m bringup_planner explain --input …minimal-input.json --step I2-SEQ-VIN_5V --json` | 0 | `status=ok`，`scope=supported`，步骤存在且可解释 | `3f21897` | PASS |
+
+### 7.3 M2 六组能力行为与评估器
+
+| # | 命令（均为离线 CLI） | 退出码 | 关键输出摘要 | 对应 HEAD | 结论 |
+|---|---|---|---|---|---|
+| M2-1 | M1-2 plan 输出中的 `I1-OFF-RES-VIN_5V` | 0 | 判据 `criterion_status=needs_interpretation`、`range=null`；前提为 `I1-OFF-001` + `I1-OFF-DISCHARGE`（断电/放电/断开外部供电），未输出通用欧姆阈值 | `3f21897` | PASS |
+| M2-2 | `plan --input …scenarios/missing-startup-current/input.json` | 0 | `I2-SEQ-VDD_3V3` 等 blocked；`missing_information` 含 `startup_current`；计划文本**无** 100mA/500mA/0.1A/0.5A 默认值 | `3f21897` | PASS |
+| M2-3 | `plan --input …scenarios/btl-wrong-grounding/input.json` | 0 | `I4-BRIDGE-U5_BTL` blocked；计划含 `differential` 约束；设备缺口 `DIFFERENTIAL_PROBE_NOT_DECLARED`、`PROBE_LOADING_NOT_DECLARED` | `3f21897` | PASS |
+| M2-4 | `plan --input …scenarios/unsupported-mains-ac/input.json` | 0 | `scope=needs_specialist`；`steps_total=0`、`ready_steps=[]`（不生成通用上电步骤） | `3f21897` | PASS |
+| M2-5 | `validate --input …invalid-input-self-dependency/input.json --json` | 1 | `status=invalid`；错误 `E_DAG_SELF_DEPENDENCY`（自依赖被拒绝） | `3f21897` | PASS（预期拒绝） |
+| M2-6 | `validate --input …invalid-input-json/input.json --json` | 2 | 畸形 JSON 被拒绝，无计划输出 | `3f21897` | PASS（预期拒绝） |
+| M2-7 | `plan --input …invalid-input-json/input.json --out <tmp> --json` | 2 | 不写 `plan.json`；`input-invalid.json` 未写（仅 schema-invalid 文档写该标记，见 §7.7 备注） | `3f21897` | PASS（有备注） |
+| M2-8 | `evaluate --plan …eval-pass-real-evidence/plan.json --results …/results.json --evidence-root …/evidence` | 0 | `verdict=PASS`、`hardware_pass=true`（评估器契约 fixture，证据文件明示 NO INSTRUMENT WAS CONNECTED，**非硬件 PASS**） | `3f21897` | PASS（契约） |
+| M2-9 | `evaluate …eval-stop-propagation…` | 1 | `verdict=FAIL`、`hardware_pass=false`；STOP 传播阻断依赖 | `3f21897` | PASS（预期） |
+| M2-10 | `evaluate …eval-stale-revision…` | 2 | `verdict=INVALID`；旧 revision/哈希绑定失效 | `3f21897` | PASS（预期） |
+| M2-11 | `evaluate …eval-unit-conflict…` | 2 | `verdict=INVALID`；量纲冲突拒绝 | `3f21897` | PASS（预期） |
+| M2-12 | `evaluate …eval-missing-evidence…` | 3 | `verdict=INCOMPLETE`、`hardware_pass=false`；缺证据不得 PASS | `3f21897` | PASS（预期） |
+| M2-13 | `evaluate …eval-partial-tests…` | 3 | `verdict=INCOMPLETE`；按组/域报告，完成率不掩盖阻断 | `3f21897` | PASS（预期） |
+| M2-14 | `evaluate …eval-synthetic-only…` | 3 | `verdict=SYNTHETIC_ONLY`、`hardware_pass=false`；全 synthetic 不升级为硬件 PASS | `3f21897` | PASS（预期） |
+
+### 7.4 M3 专属测试与冻结基准
+
+| # | 命令 | 退出码 | 关键输出摘要 | 对应 HEAD | 结论 |
+|---|---|---|---|---|---|
+| M3-1 | `python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py" -q` | 0 | **Ran 172 tests，OK**（20.5 s） | `3f21897` | PASS |
+| M3-2 | `python benchmarks/bringup-planner/run_benchmark.py --json --out <tmp>` | 0 | `ok=true`；34/34 场景、5/5 holdout、2/2 案例、**41/41** 总通过；类别 **30/30**；`baseline.json` 90 files checked、0 mismatch；约 18.6 s | `3f21897` | PASS |
+| M3-3 | 基准内 holdout（对象排序/单位换算/notes 同义/无关模块/revision 变化） | 0 | 5/5 `pass`；变形由 runner 通用执行，不按 ID 特判 | `3f21897` | PASS |
+| M3-4 | 基准内组合板案例（mcu-sensor-board / load-control-board） | 0 | 2/2 `pass`；评估 verdict 覆盖 PASS/FAIL/INCOMPLETE/INVALID/SYNTHETIC_ONLY | `3f21897` | PASS |
+
+### 7.5 M4 仓库回归、文档与路径审计
+
+| # | 命令 | 退出码 | 关键输出摘要 | 对应 HEAD | 结论 |
+|---|---|---|---|---|---|
+| M4-1 | `python tools/offline_suite.py`（PR #39 合并源） | 0 | `status=pass`；1783 tests；0 failures / 0 errors / 0 blocked events | `b407d72` | PASS |
+| M4-2 | `python tools/offline_suite.py`（当前 main，含后续并行任务） | 1 | `status=fail`；2147 tests；0 failures；**47 errors**。错误全部来自其他任务测试包：`change_impact` 9、`circuit_blocks` 7、`delivery_audit` 7、`electrical_review` 5、`procurement_planner` 5、`return_path_audit` 8、`skill_knowledge_audit` 6；**`bringup_planner_tests` 0 error** | `3f21897` | **FAIL（外部原因，非本任务）** |
+| M4-3 | `python design-hardware/scripts/skill_selftest.py` | 0 | `5 PASS, 0 FAIL, 0 NOT RUN -> exit 0`（python-compile 242 scripts） | `3f21897` | PASS |
+| M4-4 | 检查 `docs/parallel-bringup-planner/` 产物 | 0 | 10 个 Markdown 文档 + `evidence-m0-m4.json` 均在；PR 范围审计 175 files / 允许路径外 0 | `3f21897` | PASS |
+
+### 7.6 仪器 / 上电 / 烧录 / EDA（NOT RUN）
+
+| 项目 | 命令 | 退出码 | 关键输出摘要 | 对应 HEAD | 结论 |
+|---|---|---|---|---|---|
+| 电源、万用表、示波器、电子负载连接与测量 | 无（任务边界禁止） | — | 未连接、未读数、无证据 | — | **NOT RUN** |
+| 首次上电、限流、放电、电压/纹波实测 | 无（任务边界禁止） | — | 未上电、未测量 | — | **NOT RUN** |
+| 固件烧录、串口/JTAG、USB 枚举 | 无（任务边界禁止） | — | 未烧录、未访问串口/JTAG | — | **NOT RUN** |
+| EDA 调用（含只读）、工程上传、购买设备 | 无（任务边界禁止） | — | 未调用 EDA、未上传/购买 | — | **NOT RUN** |
+| 实物功能、EMC、温升、可靠性、量产一致性 | 无（任务边界禁止） | — | 无实物/环境证据 | — | **NOT RUN** |
+| 执行任何生成步骤或自动测试 | 无（任务边界禁止） | — | 计划步骤全部 `manual_only`，工具不执行 | — | **NOT RUN** |
+
+### 7.7 结论与备注
+
+- 本任务范围内软件证据：**33 项 PASS**、**1 项 FAIL（M4-2，外部任务测试包导致，非本任务回归）**、**6 类硬件/仪器动作 NOT RUN**。逐项见 7.1–7.6；机器可读证据见 `evidence-m0-m4.json`。
+- `eval-pass-real-evidence` 的 PASS 是**评估器契约 fixture**（证据文件明确写有 "NO INSTRUMENT WAS CONNECTED"），只证明评估器在"真实测量声明+证据"下的一致性判定，**不是**真实上电/功能 PASS。
+- **已知契约措辞差异（M2-7）：** 畸形 JSON 时 `plan` 退出 2 且不写计划，但未写 `input-invalid.json`；`input-invalid.json` 目前只在"可解析但 schema 非法"的文档路径写出。已在 `issue-candidates.md` B.4 记录，未在本任务中改实现。
+- **跨任务回归（M4-2）：** 当前 main 的 47 个 offline_suite errors 来自其他并行任务新增的测试包发现方式；`bringup_planner_tests` 172 tests 全通过。已写入 `issue-candidates.md` A.6，交由对应任务/集成者修复。
+- 采集时 `origin/main` 持续前进（`acbcc18…`）；本清单的 HEAD 列固定为实际运行所用的 worktree HEAD `3f21897`，PR 范围审计固定为 `9a951ed...b407d72`。

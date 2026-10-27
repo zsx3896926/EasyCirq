@@ -9,15 +9,12 @@
    `design-hardware/SKILL.md` 与 README 目前没有 `bringup_planner` 的入口。建议主分支在"审查与验证 / 上电计划"相关路由中加一行：
    `python scripts/bringup_planner/../`（实际命令：在 `design-hardware/scripts` 下 `python -m bringup_planner plan --input <input.json> --out <dir>`），并链接 `docs/parallel-bringup-planner/contract.md`。
    本任务明确禁止修改 SKILL.md/README，故仅提供命令与文档。
-2. **仓库离线套件纳管**
-   `tests/bringup_planner_tests_tests/` 没有 `__init__.py`，因此 `tools/offline_suite.py` 的 `unittest discover('tests')` 不会递归到它（若加 `__init__.py`，discovery 会把测试包命名为 `bringup_planner` 并与产品包冲突，导致 8 个 ImportError）。建议主分支二选一：
-   - 在 `tools/offline_suite.py` 中增加独立发现步骤（`discover('tests/bringup_planner_tests_tests')`）；
-   - 或把测试目录改为 `tests/bringup_planner_tests_tests_tests/` 之类的非冲突名称（需同步允许路径与文档）。
-   当前专属测试入口：`python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"`（172 tests OK）。
+2. **仓库离线套件纳管（已由集成合并处理，保留说明）**
+   集成合并（`integrate/parallel-round1`）已把测试目录从 `tests/bringup_planner/` 迁到 `tests/bringup_planner_tests/` 并加 `__init__.py`，官方 `tools/offline_suite.py` 现在能发现全部 172 tests（本任务实现未改）。当前专属入口：`python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"`（172 tests OK）。**遗留：**当前 main 的 `offline_suite` 因其他并行任务的测试包产生 47 个 discovery errors，见 A.6。
 3. **CI 矩阵**
    本任务未改 CI（禁止）。建议在现有 Python 3.10/3.13 矩阵中增加：
    ```
-   python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"
+   python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
    python benchmarks/bringup-planner/run_benchmark.py --json --out /tmp/bringup-benchmark.json
    ```
    本机仅 Python 3.13 实测；代码只用标准库且未使用 >3.10 语法，仍需 CI 在 3.10 上确认。
@@ -25,6 +22,8 @@
    按 `docs/parallel-bringup-planner/integration-proposal.md` 由对应任务实施：A 导出工程意图/BOM/测点 → 输入 JSON；F 提供计算结果作为 `basis:"calculation"` 依据；C 把 plan/results-template/evaluation 纳入交付包并交叉引用哈希。本任务未改对方代码、不依赖其未合入提交。
 5. **benchmark 与安装包边界**
    仓库约定安装包不含 `tests/`/`benchmarks/`，因此 `bringup_planner` 作为 `design-hardware/scripts/` 内模块会进入 Skill 包；场景与基准只在仓库开发环境。若发布流程需要排除大型 device-facts（132 KB）或冻结场景，由 distribution 负责（本任务禁止改 distribution）。
+6. **当前 main 的离线套件跨任务回归（2026-10-28 证据采集）**
+   `python tools/offline_suite.py` 在 PR #39 合并源 `b407d72` 上 PASS（1783 tests / 0 failures / 0 errors）；但在当前 main（`3f21897`，已合并其他并行任务）上为 FAIL：2147 tests / 0 failures / **47 errors**。错误全部来自其他任务新增的测试包发现：`change_impact` 9、`circuit_blocks` 7、`delivery_audit` 7、`electrical_review` 5、`procurement_planner` 5、`return_path_audit` 8、`skill_knowledge_audit` 6；本任务的 `tests/bringup_planner_tests` 172 tests 不在错误中。需对应任务或集成者修复其测试包发现方式（本任务未改其目录，仅记录）。
 
 ## B. 本模块内可做、但非本期验收阻塞的 schema 改进（后续 issue）
 
@@ -32,6 +31,7 @@
    现状：I3/I4 从 `interfaces[].notes`/`measurement.basis` 文本读取并在缺信息时 blocked/unknown，**没有**用自由文本猜判据；后续可升级为 v2 schema 字段并保持向后兼容。
 2. `scope.required_operations` 与 device_facts 的关联仍偏弱：目前按域/接口推导操作需求；若未来支持更多外设（电机、继电器、隔离接口），需要显式 operation 映射。
 3. 计划 Markdown 对超长内容的分页/摘要（当前适合小板；大型板可增加按域分节与目录）。
+4. **契约措辞差异（畸形 JSON）：** `plan --input <malformed>.json` 退出 2 且不写计划，但未写 `input-invalid.json`；该标记目前只在"可解析但 schema 非法"的文档路径写出（`InputInvalid` 分支）。建议后续统一为"所有非法输入都写 input-invalid.json"或把 contract 措辞限定为 schema-invalid 文档（本任务只记录，未改实现）。
 
 ## C. 资料缺口（不阻塞本期验收，后续可补）
 
@@ -45,4 +45,4 @@
 ## D. 明确不是本任务的问题
 
 - 其他并行任务（A/B/C/D/E/F/G/H）的目录/分支未改动、未依赖。
-- 没有观察到需要离线套件/主分支修复的功能性缺陷；本任务只修改允许路径内的文件。
+- 除 A.6（其他任务测试包发现的 47 个 offline_suite errors）和 B.4（畸形 JSON 标记措辞差异）外，本任务未观察到需要主分支修复的功能性缺陷；本任务只修改允许路径内的文件。

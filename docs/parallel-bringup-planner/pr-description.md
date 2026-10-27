@@ -4,7 +4,7 @@
 
 ```
 design-hardware/scripts/bringup_planner/
-tests/bringup_planner_tests_tests/
+tests/bringup_planner_tests/
 benchmarks/bringup-planner/
 docs/parallel-bringup-planner/
 ```
@@ -31,7 +31,7 @@ docs/parallel-bringup-planner/
 
 | 命令 | 结果 |
 |---|---|
-| `python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"` | **172 tests OK** |
+| `python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"` | **172 tests OK** |
 | `python benchmarks/bringup-planner/run_benchmark.py --json ...` | **41/41 pass**（34 场景 + 5 holdout + 2 案例），必需类别 30/30 |
 | `python tools/offline_suite.py` | status pass，1783 tests，0 failures/errors |
 | `python design-hardware/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN |
