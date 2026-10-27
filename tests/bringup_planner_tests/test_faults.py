@@ -14,7 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / 'design-hardware' / 'scripts'
 if str(SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS))
+    sys.path.append(str(SCRIPTS))
 
 from bringup_planner.faults import MAX_NODES_PER_TREE, MAX_TREES, build
 from bringup_planner.model import PlanContext, load_input

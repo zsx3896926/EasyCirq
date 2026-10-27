@@ -22,7 +22,7 @@ SCRIPTS = Path(__file__).resolve().parents[2] / 'design-hardware' / 'scripts'
 IMPLEMENTATION = SCRIPTS / 'change_impact'
 
 if str(SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS))
+    sys.path.append(str(SCRIPTS))
 
 ALIAS = 'change_impact_impl'
 

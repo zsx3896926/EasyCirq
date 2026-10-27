@@ -8,7 +8,7 @@ no full 3D CAD and no physical assembly. `real_eda = NOT RUN`,
 ## Commands actually used
 
 ```text
-python -m unittest discover -s tests/mechanical_layout -t tests/mechanical_layout
+python -m unittest discover -s tests/mechanical_layout_tests_tests -t tests/mechanical_layout_tests_tests
     -> 144 tests, OK
 python benchmarks/mechanical-layout/run_benchmarks.py
     -> 34/34 frozen CLI scenarios passed; results.json

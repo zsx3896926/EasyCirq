@@ -10,14 +10,14 @@
    `python scripts/bringup_planner/../`（实际命令：在 `design-hardware/scripts` 下 `python -m bringup_planner plan --input <input.json> --out <dir>`），并链接 `docs/parallel-bringup-planner/contract.md`。
    本任务明确禁止修改 SKILL.md/README，故仅提供命令与文档。
 2. **仓库离线套件纳管**
-   `tests/bringup_planner/` 没有 `__init__.py`，因此 `tools/offline_suite.py` 的 `unittest discover('tests')` 不会递归到它（若加 `__init__.py`，discovery 会把测试包命名为 `bringup_planner` 并与产品包冲突，导致 8 个 ImportError）。建议主分支二选一：
-   - 在 `tools/offline_suite.py` 中增加独立发现步骤（`discover('tests/bringup_planner')`）；
-   - 或把测试目录改为 `tests/bringup_planner_tests/` 之类的非冲突名称（需同步允许路径与文档）。
-   当前专属测试入口：`python -m unittest discover -s tests/bringup_planner -p "test_*.py"`（172 tests OK）。
+   `tests/bringup_planner_tests_tests/` 没有 `__init__.py`，因此 `tools/offline_suite.py` 的 `unittest discover('tests')` 不会递归到它（若加 `__init__.py`，discovery 会把测试包命名为 `bringup_planner` 并与产品包冲突，导致 8 个 ImportError）。建议主分支二选一：
+   - 在 `tools/offline_suite.py` 中增加独立发现步骤（`discover('tests/bringup_planner_tests_tests')`）；
+   - 或把测试目录改为 `tests/bringup_planner_tests_tests_tests/` 之类的非冲突名称（需同步允许路径与文档）。
+   当前专属测试入口：`python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"`（172 tests OK）。
 3. **CI 矩阵**
    本任务未改 CI（禁止）。建议在现有 Python 3.10/3.13 矩阵中增加：
    ```
-   python -m unittest discover -s tests/bringup_planner -p "test_*.py"
+   python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"
    python benchmarks/bringup-planner/run_benchmark.py --json --out /tmp/bringup-benchmark.json
    ```
    本机仅 Python 3.13 实测；代码只用标准库且未使用 >3.10 语法，仍需 CI 在 3.10 上确认。

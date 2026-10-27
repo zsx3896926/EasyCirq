@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / 'design-hardware' / 'scripts'
 FIXTURES = Path(__file__).resolve().parent / 'fixtures'
 FIXTURE = FIXTURES / 'minimal-input.json'
-sys.path.insert(0, str(SCRIPTS))
+sys.path.append(str(SCRIPTS))
 
 from bringup_planner import EXIT_INVALID_INPUT  # noqa: E402
 from bringup_planner import dag  # noqa: E402

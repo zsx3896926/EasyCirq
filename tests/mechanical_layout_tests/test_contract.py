@@ -8,7 +8,7 @@ import unittest
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(HERE, '..', '..'))
-sys.path.insert(0, os.path.join(REPO, 'design-hardware', 'scripts'))
+sys.path.append(os.path.join(REPO, 'design-hardware', 'scripts'))
 
 from mechanical_layout.audit import audit_model  # noqa: E402
 from mechanical_layout.model import (InputError, build_model,  # noqa: E402

@@ -21,7 +21,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 SCRIPTS = ROOT / "design-hardware" / "scripts"
 if str(SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS))
+    sys.path.append(str(SCRIPTS))
 
 
 def _ensure_subject_package():
@@ -41,8 +41,22 @@ def _ensure_subject_package():
     if current is not None and current_file.parent == scripts_pkg:
         subject = current
     else:
+        # Load the implementation package explicitly from its own directory.
+        # Importing by name after the pop would pick whichever ``delivery_audit``
+        # is first on ``sys.path``; with several parallel tools' test packages in
+        # the same discovery run the tests directory can precede README scripts
+        # and the test package would be re-imported as the subject.
+        import importlib.util  # noqa: PLC0415
+
         sys.modules.pop("delivery_audit", None)
-        import delivery_audit as subject  # noqa: PLC0415
+        spec = importlib.util.spec_from_file_location(
+            "delivery_audit", scripts_pkg / "__init__.py",
+            submodule_search_locations=[str(scripts_pkg)])
+        if spec is None or spec.loader is None:  # pragma: no cover
+            raise ImportError("cannot load delivery_audit implementation")
+        subject = importlib.util.module_from_spec(spec)
+        sys.modules["delivery_audit"] = subject
+        spec.loader.exec_module(subject)
     paths = list(getattr(subject, "__path__", []))
     if str(tests_dir) not in paths:
         subject.__path__ = paths + [str(tests_dir)]
