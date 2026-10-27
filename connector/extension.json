@@ -1,9 +1,9 @@
 {
 	"name": "zhigou-connector",
-	"uuid": "a6e6b788551945b399e150d80efa6e31",
+	"uuid": "cfc96215f0b44005981aa0b641daa89a",
 	"displayName": "Zhigou EDA Connector",
 	"description": "Zhigou (智构) EDA connector: bridges the local Zhigou runtime daemon to the official eda.* API over a local WebSocket. Derived from easyeda-agent (MIT) — see NOTICE.",
-	"version": "0.1.1",
+	"version": "0.1.2",
 	"publisher": "zsx3896926",
 	"engines": {
 		"eda": ">=3.2.0"

@@ -9,5 +9,5 @@ var (
 	// runtime ships with. Release builds override both via -ldflags so the CLI
 	// and the packaged .eext cannot silently drift apart.
 	ConnectorName    = "zhigou-connector"
-	ConnectorVersion = "0.1.1"
+	ConnectorVersion = "0.1.2"
 )
