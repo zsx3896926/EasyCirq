@@ -4,7 +4,6 @@ These tests use the frozen first baseline from the 2026-10-27 dual-button LED
 board. The direct +2 mm move must be rejected; the later baseline with reserved
 headroom must be clear. No EDA binary is called.
 """
-import copy
 import importlib.util
 import json
 import subprocess
@@ -38,11 +37,9 @@ class MoveClearanceTests(unittest.TestCase):
         self.assertEqual(report['edge']['status'], 'pass')
 
     def test_corrected_baseline_has_reserved_headroom(self):
-        shifted = copy.deepcopy(self.dump)
-        d4 = next(c for c in shifted['components'] if c['designator'] == 'D4')
-        for key in ('minY', 'maxY'):
-            d4['bbox'][key] -= 30.0
-        report = clearance.check(shifted, 'D4', 0, 78.74,
+        accepted = json.loads(
+            (CASE / 'board-accepted-baseline.json').read_text(encoding='utf-8'))
+        report = clearance.check(accepted, 'D4', 0, 78.74,
                                  clearance=10.0, edge_clearance=20.0)
         self.assertEqual(report['status'], 'clear', report['conflicts'])
         self.assertEqual(report['edge']['status'], 'pass')

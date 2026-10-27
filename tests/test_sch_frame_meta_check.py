@@ -62,6 +62,16 @@ class FrameMetaTests(unittest.TestCase):
         self.assertEqual(report['status'], 'invalid_input')
         self.assertTrue(any('must differ' in p for p in report['problems']))
 
+    def test_unhashable_or_missing_order_is_invalid(self):
+        for order in (['x'], None, {}):
+            with self.subTest(order=order):
+                report = meta.check(self.plan([
+                    frame('a', order, '输入', '端子与保护', 't1', 'p1'),
+                ]))
+                self.assertEqual(report['status'], 'invalid_input')
+                self.assertTrue(any('order must be a positive integer' in p
+                                    for p in report['problems']))
+
     def test_bad_schema_is_invalid(self):
         report = meta.check({'schema': 'wrong', 'frames': []})
         self.assertEqual(report['status'], 'invalid_input')

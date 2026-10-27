@@ -38,7 +38,9 @@
 - 内容相同的多个 check 副本：只记 alternatives，不判歧义；
 - 多个**合法** check 内容不同、且没有 manifest/`--check` 绑定：PG4 `EVIDENCE_AMBIGUOUS`
   **hard fail**，不静默选“最新”；
-- 有 manifest 或显式 `--check` 绑定时：候选差异仍记录，但不阻断已显式绑定的路径。
+- 有 hash-bound manifest 或显式 `--check` 绑定时：按绑定选择，不把自动歧义判失败。
+  manifest 路径会记录 alternatives/advisory；显式 `--check` 是人工选择，当前不扫描旁路
+  候选（如需审计旁路文件，用 manifest 或人工查看 evidence 目录）。
 
 ### 2.3 局部移动前空间检查
 
@@ -59,9 +61,9 @@
 
 ## 3. 测试与重放
 
-- 目标测试：`test_pcb_gate` 47 + `test_pcb_gate_provenance` 17 + `test_move_clearance` 6
-  + `test_dual_channel_template` 1 + `test_sch_frame_meta_check` 6 = 77 tests OK。
-- 全量：`python -m unittest discover -s tests` → **1255 tests OK**。
+- 目标测试：`test_pcb_gate` 48 + `test_pcb_gate_provenance` 24 + `test_move_clearance` 6
+  + `test_dual_channel_template` 1 + `test_sch_frame_meta_check` 7 = 85 tests OK。
+- 全量：`python -m unittest discover -s tests` → **1263 tests OK**。
 - `skill_selftest.py` → **5 PASS / 0 FAIL**。
 - 冻结 case 重放（manifest 绑定）→ gate pass 8/8；PG4 check 绑定
   `source_dump_sha256=04aee270...`，PG7 project/doc 为
@@ -71,7 +73,27 @@
   gate pass。报告：`gate-replay-manifest.json`、`gate-replay-ambiguous.json`、
   `gate-replay-ambiguous-override.json`。
 
-## 4. 本工程通过 ≠ 工具整体成熟
+## 4. 独立复核后补强（PR #25 合入后）
+
+- **被拒绝的 check-like 候选不能静默消失**：新增 `rejected_candidates`；无 hash-bound
+  manifest/`--check` 时，新出现但 shape 非法/解析失败的 check 候选会产生
+  `EVIDENCE_CANDIDATE_REJECTED` hard，旧干净报告不能因此通过。
+- **path-only manifest 不再降级歧义**：只有 manifest 带 `sha256` 且 `binding.error` 为空，
+  或显式 `--check`，才把 check 歧义降为 advisory；只有路径的 manifest 仍 hard。
+- **placement 不能靠补计数器冒充 DFM**：`_check_shape_ok` 拒绝 placement schema/`hard_ok`/
+  `constraints`，并要求至少一个真实 DFM 规则计数器（`clearance`、`powerNotPoured` 等）；
+  `pcb-placement-check-*` 也不会被 `_manifest_role` 误读为 check。
+- **歧义按语义比较**：同内容不同 JSON 格式/CRLF 不再误判 hard；raw sha 仅保留在
+  alternatives 审计。
+- **regression profile 不翻转 not_run**：PG4 未评估时不再被 check 歧义改成 fail。
+- **frame meta 非整数/不可哈希 order**：现在走 `invalid_input`，不抛 traceback。
+- **check 文件名仍需含 `pcb` 与 `check`**：无 `pcb` 前缀的合法 DFM 报告不会被自动发现，
+  需用 manifest 显式绑定；这是 glob 的已知边界，不在本轮扩大（避免误收无关 check 文件）。
+- 补测：empty/contradictory 候选改为 final 命名 + 更新 mtime，旧实现会选中它们；
+  新增 path-only manifest、placement+计数器、同内容不同格式、regression profile、
+  manifest placement role 等测试。
+
+## 5. 本工程通过 ≠ 工具整体成熟
 
 - 本工程：双路按键板在**预留空间后的基线**上完成 LED2 +2mm 改板；gate 8/8、case complete。
 - 工具：check 角色强校验/歧义、move clearance、template、checklist、frame guard 已离线验证。

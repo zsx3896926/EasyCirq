@@ -164,7 +164,7 @@ def check_payload(warnings=0):
             'designator': 'C1', 'net': '+3V3',
             'message': 'decoupling cap is too far from the pin',
         }]
-    return {
+    payload = {
         'passed': warnings == 0,
         'summary': {'errors': 0, 'warnings': warnings, 'infos': 0,
                     'total': warnings},
@@ -173,6 +173,12 @@ def check_payload(warnings=0):
         'padCount': 4,
         'findings': findings,
     }
+    # Keep the synthetic report DFM-shaped; the gate requires at least one
+    # rule counter that pcb check --json emits.
+    payload['summary']['danglingEnds'] = 0
+    payload['summary']['clearance'] = 0
+    payload['summary']['powerNotPoured'] = warnings
+    return payload
 
 
 def netpath_payload():
@@ -534,7 +540,8 @@ class WarnDispositionTests(BaseGateTests):
     def test_info_findings_require_disposition_too(self):
         info_check = {
             'passed': False,
-            'summary': {'errors': 0, 'warnings': 0, 'infos': 1, 'total': 1},
+            'summary': {'errors': 0, 'warnings': 0, 'infos': 1, 'total': 1,
+                        'fiducialMissing': 1, 'danglingEnds': 0},
             'trackCount': 2, 'viaCount': 0, 'padCount': 4,
             'findings': [{'type': 'fiducial-missing', 'level': 'INFO',
                           'message': 'add three fiducials before SMT'}],
