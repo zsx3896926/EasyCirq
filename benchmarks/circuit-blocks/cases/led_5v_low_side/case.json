@@ -1,0 +1,126 @@
+{
+  "id": "led_5v_low_side",
+  "description": "5 V status LED, E24 1 %, external low-side switch. R=560 ohm because nominal headroom (5.0-2.0-0.2)=2.8 V over 5 mA = 560 ohm.",
+  "command": "generate",
+  "module_type": "led_indicator",
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "led_vf": {
+      "min": 1.8,
+      "max": 2.2
+    },
+    "target_current": "5mA",
+    "max_current": "8mA",
+    "min_current": "3mA",
+    "led_max_current": "25mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1,
+    "control": "low_side_switch",
+    "resistor_position": "supply_side",
+    "switch_facts": {
+      "sink_current_max": "10mA",
+      "voltage_drop": {
+        "min": 0,
+        "max": 0.4
+      },
+      "declared_by": "user"
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 560,
+        "series": "E24",
+        "tolerance_pct": 1,
+        "binding": "unbound"
+      },
+      {
+        "role": "indicator",
+        "kind": "led"
+      }
+    ],
+    "ports": [
+      "VCC",
+      "GND",
+      "SW"
+    ],
+    "nets": [
+      "VCC",
+      "GND",
+      "SW_NODE",
+      "LED_A"
+    ],
+    "endpoints": [
+      [
+        "R1",
+        "1",
+        "VCC"
+      ],
+      [
+        "R1",
+        "2",
+        "LED_A"
+      ],
+      [
+        "D1",
+        "A",
+        "LED_A"
+      ],
+      [
+        "D1",
+        "K",
+        "SW_NODE"
+      ]
+    ],
+    "calculations": {
+      ".worst_case_current.result.max_a": 0.006222943722943724,
+      ".worst_case_current.result.min_a": 0.003801272984441301,
+      ".resistor_power.result.worst_case_power_w": 0.02146915584415585,
+      ".resistor_power.result.required_power_rating_w": 0.0429383116883117
+    }
+  },
+  "variants": [
+    {
+      "name": "unit_respelling",
+      "patch": {
+        "supply_voltage": {
+          "min": "4750mV",
+          "max": "5.25V"
+        },
+        "target_current": {
+          "value": 5,
+          "unit": "mA"
+        },
+        "led_vf": {
+          "min": "1800mV",
+          "max": 2.2
+        }
+      },
+      "expect": {
+        "same_hash_as_base": true
+      }
+    },
+    {
+      "name": "tighten_max_current_to_6mA",
+      "patch": {
+        "max_current": "6mA"
+      },
+      "expect": {
+        "status": "ready_abstract",
+        "components": [
+          {
+            "ref": "R1",
+            "value": 620
+          }
+        ]
+      }
+    }
+  ],
+  "input_sha256": "b2efa9064611d3bb091df661604db766be98d585763d7f910a0928ec0551ca58"
+}

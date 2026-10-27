@@ -1,0 +1,69 @@
+{
+  "id": "led_high_side_switch",
+  "description": "High-side switched rail: VSW is a power input port and the resistor returns to the always-present rail only through the switch.",
+  "command": "generate",
+  "module_type": "led_indicator",
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "led_vf": {
+      "min": 1.8,
+      "max": 2.2
+    },
+    "target_current": "5mA",
+    "max_current": "8mA",
+    "min_current": "3mA",
+    "led_max_current": "25mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1,
+    "control": "high_side_switch",
+    "resistor_position": "supply_side",
+    "switch_facts": {
+      "source_current_max": "20mA",
+      "voltage_drop": {
+        "min": 0,
+        "max": 0.4
+      }
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 560
+      }
+    ],
+    "ports": [
+      "VCC",
+      "GND",
+      "VSW"
+    ],
+    "endpoints": [
+      [
+        "R1",
+        "1",
+        "VSW"
+      ],
+      [
+        "R1",
+        "2",
+        "LED_A"
+      ],
+      [
+        "D1",
+        "A",
+        "LED_A"
+      ],
+      [
+        "D1",
+        "K",
+        "GND"
+      ]
+    ]
+  },
+  "input_sha256": "9ce9b660ab5d430ec28957865695dfca4892ac938eee15d1af9347726563145a"
+}

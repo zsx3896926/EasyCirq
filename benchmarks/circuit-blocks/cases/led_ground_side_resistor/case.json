@@ -1,0 +1,71 @@
+{
+  "id": "led_ground_side_resistor",
+  "description": "Same electrical path but the ballast resistor sits on the cathode side; current maths must be unchanged (R=560) while the nets change.",
+  "command": "generate",
+  "module_type": "led_indicator",
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "led_vf": {
+      "min": 1.8,
+      "max": 2.2
+    },
+    "target_current": "5mA",
+    "max_current": "8mA",
+    "min_current": "3mA",
+    "led_max_current": "25mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1,
+    "control": "low_side_switch",
+    "resistor_position": "ground_side",
+    "switch_facts": {
+      "sink_current_max": "10mA",
+      "voltage_drop": {
+        "min": 0,
+        "max": 0.4
+      },
+      "declared_by": "user"
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 560
+      }
+    ],
+    "nets": [
+      "VCC",
+      "GND",
+      "SW_NODE",
+      "LED_K"
+    ],
+    "endpoints": [
+      [
+        "D1",
+        "A",
+        "VCC"
+      ],
+      [
+        "D1",
+        "K",
+        "LED_K"
+      ],
+      [
+        "R1",
+        "1",
+        "LED_K"
+      ],
+      [
+        "R1",
+        "2",
+        "SW_NODE"
+      ]
+    ]
+  },
+  "input_sha256": "2c5d1ff6db8ef8b898a308852b4dae96a24459b71baee715d273f906e96da00b"
+}

@@ -438,20 +438,29 @@ def _build_net(design_name, endpoints, design_port_ids, design_ports, ports_by_i
                            'detail': 'open-drain net %s has no declared pull-up rail in the design'
                                      % _net_label(members)})
     # current contract
+    # A port that delivers current is a capability; a port that needs current is
+    # a demand.  Passive/ground/analog ports declare no current contract.
     demand = [member['current'] for member in members
-              if member['direction'] == 'input' and member.get('current')]
+              if _current_kind(member['direction'], member['role']) == 'demand'
+              and member.get('current')]
     capability = [member['current'] for member in members
-                  if member['direction'] == 'output' and member.get('current')]
-    if design_port_ids:
-        port_current = design_port_map[design_port_ids[0]].get('current')
-    else:
-        port_current = None
+                  if _current_kind(member['direction'], member['role']) == 'capability'
+                  and member.get('current')]
+    port_current = design_port_map[design_port_ids[0]].get('current') if design_port_ids else None
+    port_direction = design_port_map[design_port_ids[0]].get('direction') if design_port_ids else None
+    port_role = design_port_map[design_port_ids[0]].get('role') if design_port_ids else None
+    if port_current is not None and port_direction and port_role:
+        if _current_kind(port_direction, port_role) == 'demand':
+            demand.append(port_current)
+        elif _current_kind(port_direction, port_role) == 'capability':
+            capability.append(port_current)
     demand_interval = _current_interval(demand)
     capability_interval = _current_interval(capability)
-    if port_current is not None:
-        boundary = _as_interval(port_current)
-        capability_interval = boundary if capability_interval is None else \
-            _min_interval(capability_interval, boundary)
+    current_contract = {'status': 'not_applicable', 'demand': None, 'capability': None}
+    if demand_interval is not None:
+        current_contract['demand'] = demand_interval.as_json('current')
+    if capability_interval is not None:
+        current_contract['capability'] = capability_interval.as_json('current')
     if demand_interval is not None and capability_interval is not None:
         if demand_interval.hi > capability_interval.hi:
             conflicts.append({'code': 'current_contract_conflict',
@@ -460,10 +469,13 @@ def _build_net(design_name, endpoints, design_port_ids, design_ports, ports_by_i
                                            _fmt(demand_interval.hi), _fmt(capability_interval.hi)),
                               'endpoints': endpoints})
             return None
-    elif demand and not capability:
+        current_contract['status'] = 'proven'
+    elif demand_interval is not None:
+        current_contract['status'] = 'partial'
         incomplete.append({'code': 'current_capability_unknown',
-                           'detail': 'net %s has a declared current demand but no declared capability'
-                                     % _net_label(members)})
+                           'detail': 'net %s has a declared current demand (%s A) but no declared '
+                                     'capability' % (_net_label(members),
+                                                     _fmt(demand_interval.hi))})
     net_id = 'design:' + design_port_ids[0] if design_port_ids else \
         'design:internal_%s' % _internal_slug(members)
     net_name = design_port_ids[0] if design_port_ids else _internal_slug(members)
@@ -473,7 +485,7 @@ def _build_net(design_name, endpoints, design_port_ids, design_ports, ports_by_i
         'role': role,
         'scope': 'external' if design_port_ids else 'internal',
         'voltage': voltage.as_json('voltage') if voltage is not None else None,
-        'current': capability_interval.as_json('current') if capability_interval is not None else None,
+        'current': current_contract,
         'isolation': isolation,
         'members': [{'instance': member['instance'], 'port': member['port'],
                      'block_net': member['block_net']} for member in members],
@@ -481,13 +493,21 @@ def _build_net(design_name, endpoints, design_port_ids, design_ports, ports_by_i
     return net
 
 
-_INTERNAL_INDEX = {}
-
-
 def _internal_slug(members):
     keys = sorted('%s.%s' % (member['instance'], member['port']) for member in members)
     slug = '__'.join(key.replace('.', '_') for key in keys)
     return slug
+
+
+def _current_kind(direction, role):
+    """Classify a port's declared current as capability, demand or neither."""
+    if direction == 'output' and role in ('power', 'digital'):
+        return 'capability'
+    if direction == 'input' and role in ('power', 'switch', 'open_drain'):
+        return 'demand' if role == 'power' else 'capability'
+    if direction == 'output' and role in ('switch', 'open_drain'):
+        return 'demand'
+    return None
 
 
 def _net_label(members):

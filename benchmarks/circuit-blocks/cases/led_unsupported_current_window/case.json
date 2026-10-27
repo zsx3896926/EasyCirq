@@ -1,0 +1,41 @@
+{
+  "id": "led_unsupported_current_window",
+  "description": "max_current=1 mA and min_current=3 mA cannot both hold: the resistance window inverts (lower bound > upper bound) -> unsupported.",
+  "command": "generate",
+  "module_type": "led_indicator",
+  "allow_nonready": false,
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "led_vf": {
+      "min": 1.8,
+      "max": 2.2
+    },
+    "target_current": "5mA",
+    "max_current": "1mA",
+    "min_current": "3mA",
+    "led_max_current": "25mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1,
+    "control": "low_side_switch",
+    "resistor_position": "supply_side",
+    "switch_facts": {
+      "sink_current_max": "10mA",
+      "voltage_drop": {
+        "min": 0,
+        "max": 0.4
+      },
+      "declared_by": "user"
+    }
+  },
+  "expect": {
+    "exit_code": 4,
+    "status": "unsupported",
+    "status_reasons_contains": [
+      "no resistance"
+    ]
+  },
+  "input_sha256": "92a99c6dc5c06c78bc9b90504526a0e9f8860e34d05401215f71f9673b20256a"
+}

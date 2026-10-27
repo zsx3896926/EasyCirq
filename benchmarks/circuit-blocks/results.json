@@ -1,0 +1,1581 @@
+{
+  "schema": "circuit-blocks/benchmark/1",
+  "real_eda": "NOT RUN",
+  "visual_eda": "NOT RUN",
+  "manufacturing": "NOT RUN",
+  "note": "Offline CLI benchmark. Generation time is not board-design time; no speed-up factor is claimed.",
+  "suites": {
+    "cases": 20,
+    "holdout": 6
+  },
+  "cases": [
+    {
+      "id": "btn_3v3_with_rc",
+      "suite": "cases",
+      "description": "3.3 V pull-up button with a 1 ms RC target: 10k * 100n = 1 ms.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce got 3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: button_input button_input -> ready_abstract\n  R1   pull_resistor              10000 ohm\n  SW1  button_contact             switch\n  C1   rc_filter                  1e-07 F\n  ports: VCC, GND, SW_A, SW_B, OUT\n  hash: sha256:42e3b69d1d73fd9246f34b8291691c797e10866dae50f02a4cf670e0dff5885d)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component:C1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component:SW1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "nets",
+          "ok": true,
+          "detail": "expected ['BTN_NODE', 'GND', 'VCC'] got ['BTN_NODE', 'GND', 'VCC']"
+        },
+        {
+          "name": "ports",
+          "ok": true,
+          "detail": "expected ['GND', 'OUT', 'SW_A', 'SW_B', 'VCC'] got ['GND', 'OUT', 'SW_A', 'SW_B', 'VCC']"
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net VCC got VCC"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net BTN_NODE got BTN_NODE"
+        },
+        {
+          "name": "endpoint:SW1.A",
+          "ok": true,
+          "detail": "expected net BTN_NODE got BTN_NODE"
+        },
+        {
+          "name": "endpoint:SW1.B",
+          "ok": true,
+          "detail": "expected net GND got GND"
+        },
+        {
+          "name": "endpoint:C1.1",
+          "ok": true,
+          "detail": "expected net BTN_NODE got BTN_NODE"
+        },
+        {
+          "name": "endpoint:C1.2",
+          "ok": true,
+          "detail": "expected net GND got GND"
+        },
+        {
+          "name": "calculation:.rc_time_constant.result.nominal_s",
+          "ok": true,
+          "detail": "expected 0.001 got 0.001"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8shqz0mf\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8shqz0mf\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8shqz0mf\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8shqz0mf\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        }
+      ],
+      "timings_ms": [
+        106.02,
+        105.94
+      ],
+      "input_sha256": "3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "btn_5v_no_rc",
+      "suite": "cases",
+      "description": "5 V pull-up without RC: with no RC objective the module takes the largest declared allowed value (47k) that still meets the contact-current and threshold bounds.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected c2a5e07df43ac561b6d6a128b92f595455f9a74158da96bde1b1da3bc44c63a1 got c2a5e07df43ac561b6d6a128b92f595455f9a74158da96bde1b1da3bc44c63a1"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: button_input button_input -> ready_abstract\n  R1   pull_resistor              47000 ohm\n  SW1  button_contact             switch\n  ports: VCC, GND, SW_A, SW_B, OUT\n  hash: sha256:6255d4d54589cedbdb9c9668ff8a9254d3df3e68d855e17cdb6b78e956d975ae)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component_counts",
+          "ok": true,
+          "detail": "expected 2 got 2"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn3prmo6w\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn3prmo6w\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn3prmo6w\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn3prmo6w\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        101.77,
+        108.39
+      ],
+      "input_sha256": "c2a5e07df43ac561b6d6a128b92f595455f9a74158da96bde1b1da3bc44c63a1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "btn_contact_current_too_small",
+      "suite": "cases",
+      "description": "A 0.01 mA closed-contact limit needs R >= 350k, which is outside the declared 4.7k..47k window -> unsupported.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 24bb31c8585cd8dda4e420654f0b0a4e3a43e8aa0bdcd4848fb75577ac547253 got 24bb31c8585cd8dda4e420654f0b0a4e3a43e8aa0bdcd4848fb75577ac547253"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: button_input button_input -> unsupported\n  reason: no standard resistor from the declared series lies in the feasible window [350000, 816832] ohm\n  ports: \n  hash: sha256:4185d9bc5565eb679d4fb1442f84702dae05c6b116cad04133e82821956b4d4d)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "reason_contains:feasible window",
+          "ok": true,
+          "detail": "no standard resistor from the declared series lies in the feasible window [350000, 816832] ohm"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        103.04,
+        103.99
+      ],
+      "input_sha256": "24bb31c8585cd8dda4e420654f0b0a4e3a43e8aa0bdcd4848fb75577ac547253",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "btn_missing_thresholds",
+      "suite": "cases",
+      "description": "Without V_IH/V_IL facts the module cannot prove the logic levels.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected c6f4add0c49798f2136656a7f1cff2a4f0dd3b7d25b02c63d834a98be2ae4b3d got c6f4add0c49798f2136656a7f1cff2a4f0dd3b7d25b02c63d834a98be2ae4b3d"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 3 got 3 (stderr: button_input button_input -> needs_device_facts\n  reason: logic-input thresholds are required: without guaranteed V_IH/V_IL the open and closed levels cannot be proven and a GPIO input must never be assumed safe\n  ports: \n  hash: sha256:bdafb5420728b2f6eebfb04a7dea1a741db6988dd6e6cbc4ac809f49b194e1d)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'needs_device_facts' got 'needs_device_facts'"
+        },
+        {
+          "name": "unknown_contains:missing_v_ih",
+          "ok": true,
+          "detail": "missing_v_ih required device fact is missing: v_ih missing_v_il required device fact is missing: v_il"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        102.37,
+        108.0
+      ],
+      "input_sha256": "c6f4add0c49798f2136656a7f1cff2a4f0dd3b7d25b02c63d834a98be2ae4b3d",
+      "exit_code": 3,
+      "passed": true
+    },
+    {
+      "id": "btn_pull_down",
+      "suite": "cases",
+      "description": "Pull-down variant: the contact pulls the node up to VCC and the exposed contact terminals are VCC (SW_A) and BTN_NODE (SW_B).",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 747d58ce0b1d01da12ce8781859590e2c9911ddd4c01aa7d37231e62a5e24b57 got 747d58ce0b1d01da12ce8781859590e2c9911ddd4c01aa7d37231e62a5e24b57"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: button_input button_input -> ready_abstract\n  R1   pull_resistor              47000 ohm\n  SW1  button_contact             switch\n  ports: VCC, GND, SW_A, SW_B, OUT\n  hash: sha256:9725a8b23e9b69c6bc9dc99eecf369d59c292b89359c6785dca1f3241581c44d)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "nets",
+          "ok": true,
+          "detail": "expected ['BTN_NODE', 'GND', 'VCC'] got ['BTN_NODE', 'GND', 'VCC']"
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net BTN_NODE got BTN_NODE"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net GND got GND"
+        },
+        {
+          "name": "endpoint:SW1.A",
+          "ok": true,
+          "detail": "expected net VCC got VCC"
+        },
+        {
+          "name": "endpoint:SW1.B",
+          "ok": true,
+          "detail": "expected net BTN_NODE got BTN_NODE"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwwsbb1fo\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwwsbb1fo\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwwsbb1fo\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwwsbb1fo\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        135.41,
+        110.18
+      ],
+      "input_sha256": "747d58ce0b1d01da12ce8781859590e2c9911ddd4c01aa7d37231e62a5e24b57",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "btn_unit_respelling",
+      "suite": "cases",
+      "description": "The same 3.3 V design written in mV and object units must produce the same normalised inputs and the same content hash.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce got 3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: button_input button_input -> ready_abstract\n  R1   pull_resistor              10000 ohm\n  SW1  button_contact             switch\n  C1   rc_filter                  1e-07 F\n  ports: VCC, GND, SW_A, SW_B, OUT\n  hash: sha256:42e3b69d1d73fd9246f34b8291691c797e10866dae50f02a4cf670e0dff5885d)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpo4ioq25b\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpo4ioq25b\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpo4ioq25b\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpo4ioq25b\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "variant:millivolts_and_objects:same_hash",
+          "ok": true,
+          "detail": "expected sha256:42e3b69d1d73fd9246f34b8291691c797e10866dae50f02a4cf670e0dff5885d got sha256:42e3b69d1d73fd9246f34b8291691c797e10866dae50f02a4cf670e0dff5885d"
+        }
+      ],
+      "timings_ms": [
+        128.16,
+        121.85,
+        137.54
+      ],
+      "input_sha256": "3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "compose_dual_button_dual_led",
+      "suite": "cases",
+      "description": "Documented quick-start design: two 5 V buttons and two LEDs, all ports bound to explicit design ports.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 8f5dddcc7b2a5cf367d1c236b0a9714973dbcf20465e33195979c965155468a9 got 8f5dddcc7b2a5cf367d1c236b0a9714973dbcf20465e33195979c965155468a9"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: design status: ready_abstract)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "conflicts_count",
+          "ok": true,
+          "detail": "expected 0 got 0"
+        },
+        {
+          "name": "incomplete_count",
+          "ok": true,
+          "detail": "expected 0 got 0"
+        },
+        {
+          "name": "unbound_count",
+          "ok": true,
+          "detail": "expected 0 got 0"
+        },
+        {
+          "name": "design_components",
+          "ok": true,
+          "detail": "expected ['BTN1_C1', 'BTN1_R1', 'BTN1_SW1', 'BTN2_C1', 'BTN2_R1', 'BTN2_SW1', 'LED1_D1', 'LED1_R1', 'LED2_D1', 'LED2_R1'] got ['BTN1_C1', 'BTN1_R1', 'BTN1_SW1', 'BTN2_C1', 'BTN2_R1', 'BTN2_SW1', 'LED1_D1', 'LED1_R1', 'LED2_D1', 'LED2_R1']"
+        }
+      ],
+      "timings_ms": [
+        150.45
+      ],
+      "input_sha256": "8f5dddcc7b2a5cf367d1c236b0a9714973dbcf20465e33195979c965155468a9",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "compose_ground_power_merge",
+      "suite": "cases",
+      "description": "Explicitly merging VCC and GND is a proven conflict, never a silent net.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d got 275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: design status: unsupported)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "reason_contains:ground",
+          "ok": true,
+          "detail": "net btn1.GND, btn1.VCC, btn2.GND, btn2.VCC, led1.GND, led1.VCC, led2.GND, led2.VCC merges a ground port with power"
+        },
+        {
+          "name": "conflicts_count",
+          "ok": true,
+          "detail": "expected 1 got 1"
+        }
+      ],
+      "timings_ms": [
+        142.44
+      ],
+      "input_sha256": "275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "compose_output_contention",
+      "suite": "cases",
+      "description": "Tying two push-pull digital outputs together is a proven conflict.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 1067b78bf116fffc9b564ef6b6c428659e67c9888dac3bcac65adb50fb671fd5 got 1067b78bf116fffc9b564ef6b6c428659e67c9888dac3bcac65adb50fb671fd5"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: design status: unsupported)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "conflicts_count",
+          "ok": true,
+          "detail": "expected 1 got 1"
+        }
+      ],
+      "timings_ms": [
+        135.69
+      ],
+      "input_sha256": "1067b78bf116fffc9b564ef6b6c428659e67c9888dac3bcac65adb50fb671fd5",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "compose_unbound_port",
+      "suite": "cases",
+      "description": "Removing the LED1_DRIVE design port leaves led1.SW unbound -> incomplete.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected d7efe2d7458489898bc6c3418d26fe92d887498e350f04572ea5db96253bb28c got d7efe2d7458489898bc6c3418d26fe92d887498e350f04572ea5db96253bb28c"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 5 got 5 (stderr: design status: incomplete)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'incomplete' got 'incomplete'"
+        },
+        {
+          "name": "unbound_count",
+          "ok": true,
+          "detail": "expected 1 got 1"
+        }
+      ],
+      "timings_ms": [
+        142.16
+      ],
+      "input_sha256": "d7efe2d7458489898bc6c3418d26fe92d887498e350f04572ea5db96253bb28c",
+      "exit_code": 5,
+      "passed": true
+    },
+    {
+      "id": "compose_unknown_endpoint",
+      "suite": "cases",
+      "description": "A design port member naming a block port that does not exist is an input error, not an incomplete design.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected e94723a05bfcfb971423b066fc49a56770fce623d66c9f0ff85a86e1865da6e3 got e94723a05bfcfb971423b066fc49a56770fce623d66c9f0ff85a86e1865da6e3"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 2 got 2 (stderr: error: design_ports references unknown instance 'ghost')"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'input_invalid' got 'input_invalid'"
+        }
+      ],
+      "timings_ms": [
+        143.34
+      ],
+      "input_sha256": "e94723a05bfcfb971423b066fc49a56770fce623d66c9f0ff85a86e1865da6e3",
+      "exit_code": 2,
+      "passed": true
+    },
+    {
+      "id": "compose_voltage_conflict",
+      "suite": "cases",
+      "description": "Declaring VIN as a 3.3 V rail while the members are 5 V is a proven voltage-domain conflict.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 73c971dd301c678e53efa4da1f79a5743e08571a8b7e357acad9e9ad43a2f687 got 73c971dd301c678e53efa4da1f79a5743e08571a8b7e357acad9e9ad43a2f687"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: design status: unsupported)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "conflicts_count",
+          "ok": true,
+          "detail": "expected 1 got 1"
+        }
+      ],
+      "timings_ms": [
+        143.48
+      ],
+      "input_sha256": "73c971dd301c678e53efa4da1f79a5743e08571a8b7e357acad9e9ad43a2f687",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "led_5v_low_side",
+      "suite": "cases",
+      "description": "5 V status LED, E24 1 %, external low-side switch. R=560 ohm because nominal headroom (5.0-2.0-0.2)=2.8 V over 5 mA = 560 ohm.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected b2efa9064611d3bb091df661604db766be98d585763d7f910a0928ec0551ca58 got b2efa9064611d3bb091df661604db766be98d585763d7f910a0928ec0551ca58"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: led_indicator led_indicator -> ready_abstract\n  R1   led_current_limit          560 ohm\n  D1   indicator                  led\n  ports: VCC, GND, SW\n  hash: sha256:2bda342106da7b1820788ce8fc32839c79cec9a114c2698b09187012378cd350)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component:indicator",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "nets",
+          "ok": true,
+          "detail": "expected ['GND', 'LED_A', 'SW_NODE', 'VCC'] got ['GND', 'LED_A', 'SW_NODE', 'VCC']"
+        },
+        {
+          "name": "ports",
+          "ok": true,
+          "detail": "expected ['GND', 'SW', 'VCC'] got ['GND', 'SW', 'VCC']"
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net VCC got VCC"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net LED_A got LED_A"
+        },
+        {
+          "name": "endpoint:D1.A",
+          "ok": true,
+          "detail": "expected net LED_A got LED_A"
+        },
+        {
+          "name": "endpoint:D1.K",
+          "ok": true,
+          "detail": "expected net SW_NODE got SW_NODE"
+        },
+        {
+          "name": "calculation:.worst_case_current.result.max_a",
+          "ok": true,
+          "detail": "expected 0.006222943722943724 got 0.00622294372294"
+        },
+        {
+          "name": "calculation:.worst_case_current.result.min_a",
+          "ok": true,
+          "detail": "expected 0.003801272984441301 got 0.00380127298444"
+        },
+        {
+          "name": "calculation:.resistor_power.result.worst_case_power_w",
+          "ok": true,
+          "detail": "expected 0.02146915584415585 got 0.0214691558442"
+        },
+        {
+          "name": "calculation:.resistor_power.result.required_power_rating_w",
+          "ok": true,
+          "detail": "expected 0.0429383116883117 got 0.0429383116883"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpir6fgi3u\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpir6fgi3u\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpir6fgi3u\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpir6fgi3u\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+        },
+        {
+          "name": "variant:unit_respelling:same_hash",
+          "ok": true,
+          "detail": "expected sha256:2bda342106da7b1820788ce8fc32839c79cec9a114c2698b09187012378cd350 got sha256:2bda342106da7b1820788ce8fc32839c79cec9a114c2698b09187012378cd350"
+        },
+        {
+          "name": "variant:tighten_max_current_to_6mA:status",
+          "ok": true,
+          "detail": "expected ready_abstract got ready_abstract"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        }
+      ],
+      "timings_ms": [
+        118.33,
+        114.16,
+        123.78,
+        119.47
+      ],
+      "input_sha256": "b2efa9064611d3bb091df661604db766be98d585763d7f910a0928ec0551ca58",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "led_always_on",
+      "suite": "cases",
+      "description": "Always-on 5 V indicator at 3 mA: nominal (5-2)/3mA = 1k, E24.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 0b5b92522d9fbda7f22b7fefe16c5f153099f04bbb0c395fce7302ac743eb12f got 0b5b92522d9fbda7f22b7fefe16c5f153099f04bbb0c395fce7302ac743eb12f"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: led_indicator led_indicator -> ready_abstract\n  R1   led_current_limit          1000 ohm\n  D1   indicator                  led\n  ports: VCC, GND\n  hash: sha256:1edf9df6ae6c1e1505b7cdae1e71a83e5e62b71df15bc9ce40387c4f21585ad0)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "nets",
+          "ok": true,
+          "detail": "expected ['GND', 'LED_A', 'VCC'] got ['GND', 'LED_A', 'VCC']"
+        },
+        {
+          "name": "ports",
+          "ok": true,
+          "detail": "expected ['GND', 'VCC'] got ['GND', 'VCC']"
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net VCC got VCC"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net LED_A got LED_A"
+        },
+        {
+          "name": "endpoint:D1.A",
+          "ok": true,
+          "detail": "expected net LED_A got LED_A"
+        },
+        {
+          "name": "endpoint:D1.K",
+          "ok": true,
+          "detail": "expected net GND got GND"
+        },
+        {
+          "name": "calculation:.worst_case_current.result.max_a",
+          "ok": true,
+          "detail": "expected 0.003484848484848485 got 0.00348484848485"
+        },
+        {
+          "name": "calculation:.worst_case_current.result.min_a",
+          "ok": true,
+          "detail": "expected 0.0025247524752475244 got 0.00252475247525"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkapaj907\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkapaj907\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkapaj907\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkapaj907\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        }
+      ],
+      "timings_ms": [
+        121.29,
+        111.22
+      ],
+      "input_sha256": "0b5b92522d9fbda7f22b7fefe16c5f153099f04bbb0c395fce7302ac743eb12f",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "led_boundary_exact_limit",
+      "suite": "cases",
+      "description": "100 ohm, 0 % tolerance, 5 V rail, Vf 1.8..2.2: I_max=(5-1.8)/100=32 mA. Requesting max_current=32 mA is the exact boundary and must pass.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected c3725e529f933b89eca602d5f8fd4283c1367ee57f20ecd5c7bd93a1cf24d8a0 got c3725e529f933b89eca602d5f8fd4283c1367ee57f20ecd5c7bd93a1cf24d8a0"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: led_indicator led_indicator -> ready_abstract\n  R1   led_current_limit          100 ohm\n  D1   indicator                  led\n  ports: VCC, GND\n  hash: sha256:8a17b95db89ce46927960cce4cee4fe959f0827e4b728729dbfbc1c1558c6f87)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation:.worst_case_current.result.max_a",
+          "ok": true,
+          "detail": "expected 0.032 got 0.032"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpscvwqcx5\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpscvwqcx5\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpscvwqcx5\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpscvwqcx5\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "variant:one_step_past_limit:status",
+          "ok": true,
+          "detail": "expected unsupported got unsupported"
+        }
+      ],
+      "timings_ms": [
+        110.05,
+        115.37,
+        115.28
+      ],
+      "input_sha256": "c3725e529f933b89eca602d5f8fd4283c1367ee57f20ecd5c7bd93a1cf24d8a0",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "led_ground_side_resistor",
+      "suite": "cases",
+      "description": "Same electrical path but the ballast resistor sits on the cathode side; current maths must be unchanged (R=560) while the nets change.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 2c5d1ff6db8ef8b898a308852b4dae96a24459b71baee715d273f906e96da00b got 2c5d1ff6db8ef8b898a308852b4dae96a24459b71baee715d273f906e96da00b"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: led_indicator led_indicator -> ready_abstract\n  R1   led_current_limit          560 ohm\n  D1   indicator                  led\n  ports: VCC, GND, SW\n  hash: sha256:737cd9e322b2827394a7918a652a5bfd842788edfe183c37981d8db3d7732ac3)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "nets",
+          "ok": true,
+          "detail": "expected ['GND', 'LED_K', 'SW_NODE', 'VCC'] got ['GND', 'LED_K', 'SW_NODE', 'VCC']"
+        },
+        {
+          "name": "endpoint:D1.A",
+          "ok": true,
+          "detail": "expected net VCC got VCC"
+        },
+        {
+          "name": "endpoint:D1.K",
+          "ok": true,
+          "detail": "expected net LED_K got LED_K"
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net LED_K got LED_K"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net SW_NODE got SW_NODE"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8nudiv1b\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8nudiv1b\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8nudiv1b\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8nudiv1b\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        116.71,
+        115.65
+      ],
+      "input_sha256": "2c5d1ff6db8ef8b898a308852b4dae96a24459b71baee715d273f906e96da00b",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "led_high_side_switch",
+      "suite": "cases",
+      "description": "High-side switched rail: VSW is a power input port and the resistor returns to the always-present rail only through the switch.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 9ce9b660ab5d430ec28957865695dfca4892ac938eee15d1af9347726563145a got 9ce9b660ab5d430ec28957865695dfca4892ac938eee15d1af9347726563145a"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: led_indicator led_indicator -> ready_abstract\n  R1   led_current_limit          560 ohm\n  D1   indicator                  led\n  ports: VCC, GND, VSW\n  hash: sha256:a52502d9b657d89237c806ec4904983a5b314bbd9a5fb73a74986cc8d9574b12)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "ports",
+          "ok": true,
+          "detail": "expected ['GND', 'VCC', 'VSW'] got ['GND', 'VCC', 'VSW']"
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net VSW got VSW"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net LED_A got LED_A"
+        },
+        {
+          "name": "endpoint:D1.A",
+          "ok": true,
+          "detail": "expected net LED_A got LED_A"
+        },
+        {
+          "name": "endpoint:D1.K",
+          "ok": true,
+          "detail": "expected net GND got GND"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpx0wt6fuh\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpx0wt6fuh\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpx0wt6fuh\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpx0wt6fuh\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        109.03,
+        102.86
+      ],
+      "input_sha256": "9ce9b660ab5d430ec28957865695dfca4892ac938eee15d1af9347726563145a",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "led_needs_facts",
+      "suite": "cases",
+      "description": "LED absolute maximum current missing: design limit alone cannot prove the LED rating -> needs_device_facts.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected a3506aeeab3443c00f50bbb3588a8e65ce3fe3620f04a4469d1c24182988477b got a3506aeeab3443c00f50bbb3588a8e65ce3fe3620f04a4469d1c24182988477b"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 3 got 3 (stderr: led_indicator led_indicator -> needs_device_facts\n  reason: LED absolute maximum continuous current is not declared; the design limit alone cannot prove the LED stays within its rating\n  R1   led_current_limit          560 ohm\n  D1   indicator                  led\n  ports: VCC, GND, SW\n  hash: sha25)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'needs_device_facts' got 'needs_device_facts'"
+        },
+        {
+          "name": "unknown_contains:absolute maximum",
+          "ok": true,
+          "detail": "led_absolute_max_current LED absolute maximum continuous forward current is not declared"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpygnri2sp\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpygnri2sp\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpygnri2sp\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpygnri2sp\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        97.07,
+        101.01
+      ],
+      "input_sha256": "a3506aeeab3443c00f50bbb3588a8e65ce3fe3620f04a4469d1c24182988477b",
+      "exit_code": 3,
+      "passed": true
+    },
+    {
+      "id": "led_point_vf",
+      "suite": "cases",
+      "description": "A single nominal Vf is not a range; the module must refuse to call it ready and report needs_device_facts.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 04805539faf5c366edb067b7f0c76a08990a50124c0a6c7e01d2bb028a3b1850 got 04805539faf5c366edb067b7f0c76a08990a50124c0a6c7e01d2bb028a3b1850"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 3 got 3 (stderr: led_indicator led_indicator -> needs_device_facts\n  reason: led_vf is a point value; an LED forward voltage must be declared as a range over temperature and batch before a worst-case current is meaningful\n  ports: \n  hash: sha256:c5567fddf1d689b223f0858b365fb66507858590048be3333aaa6948ad17740f)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'needs_device_facts' got 'needs_device_facts'"
+        },
+        {
+          "name": "reason_contains:range",
+          "ok": true,
+          "detail": "led_vf is a point value; an LED forward voltage must be declared as a range over temperature and batch before a worst-case current is meaningful"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        103.12,
+        99.83
+      ],
+      "input_sha256": "04805539faf5c366edb067b7f0c76a08990a50124c0a6c7e01d2bb028a3b1850",
+      "exit_code": 3,
+      "passed": true
+    },
+    {
+      "id": "led_unsupported_current_window",
+      "suite": "cases",
+      "description": "max_current=1 mA and min_current=3 mA cannot both hold: the resistance window inverts (lower bound > upper bound) -> unsupported.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 92a99c6dc5c06c78bc9b90504526a0e9f8860e34d05401215f71f9673b20256a got 92a99c6dc5c06c78bc9b90504526a0e9f8860e34d05401215f71f9673b20256a"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: led_indicator led_indicator -> unsupported\n  reason: no resistance can keep the LED current between 0.003 A and 0.001 A: the upper current bound needs R >= 3484.85 ohm while the lower bound needs R <= 709.571 ohm\n  ports: \n  hash: sha256:ef9b021dc9e7cf4ea6566e67bfdcf304bffb94774f125121a24929d2b0fc63)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "reason_contains:no resistance",
+          "ok": true,
+          "detail": "no resistance can keep the LED current between 0.003 A and 0.001 A: the upper current bound needs R >= 3484.85 ohm while the lower bound needs R <= 709.571 ohm"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        98.12,
+        106.44
+      ],
+      "input_sha256": "92a99c6dc5c06c78bc9b90504526a0e9f8860e34d05401215f71f9673b20256a",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "btn_5v_pulldown_no_rc",
+      "suite": "holdout",
+      "description": "Holdout: 5 V pull-down button with no RC; the largest declared allowed resistance (47k) is selected because the pull-down only needs to hold the node below V_IL (1 uA * 47k = 47 mV << 1.5 V) and the closed current (5 V/47k = 0.11 mA) is far below the 50 mA contact limit.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 7547c0c41ab85503507ce5392a76955cf63efa7e678884fb80b5f311d760fcff got 7547c0c41ab85503507ce5392a76955cf63efa7e678884fb80b5f311d760fcff"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: button_input button_input -> ready_abstract\n  R1   pull_resistor              47000 ohm\n  SW1  button_contact             switch\n  ports: VCC, GND, SW_A, SW_B, OUT\n  hash: sha256:adb39e9f5492f41cd3eaab670ce372cdf02b5bb04b27bc60741ce35f1ab9d472)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net BTN_NODE got BTN_NODE"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net GND got GND"
+        },
+        {
+          "name": "endpoint:SW1.A",
+          "ok": true,
+          "detail": "expected net VCC got VCC"
+        },
+        {
+          "name": "endpoint:SW1.B",
+          "ok": true,
+          "detail": "expected net BTN_NODE got BTN_NODE"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprg6xgc55\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprg6xgc55\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprg6xgc55\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprg6xgc55\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        98.88,
+        103.21
+      ],
+      "input_sha256": "7547c0c41ab85503507ce5392a76955cf63efa7e678884fb80b5f311d760fcff",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "compose_bad_pull_down",
+      "suite": "holdout",
+      "description": "Holdout: forcing VIN and the isolated LED ground together is a proven conflict and must be refused.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d got 275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: design status: unsupported)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "conflicts_count",
+          "ok": true,
+          "detail": "expected 1 got 1"
+        }
+      ],
+      "timings_ms": [
+        117.58
+      ],
+      "input_sha256": "275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "compose_current_conflict",
+      "suite": "holdout",
+      "description": "Holdout: a design port that declares only 0.1 mA while the LED switch node carries up to 6.2 mA is a proven current-contract conflict.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 98cc3f0c6d85360ac80a0f5010cfd9479b263f55a35f0ed9e353d0e6544f30c9 got 98cc3f0c6d85360ac80a0f5010cfd9479b263f55a35f0ed9e353d0e6544f30c9"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: design status: unsupported)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "conflicts_count",
+          "ok": true,
+          "detail": "expected 1 got 1"
+        }
+      ],
+      "timings_ms": [
+        119.54
+      ],
+      "input_sha256": "98cc3f0c6d85360ac80a0f5010cfd9479b263f55a35f0ed9e353d0e6544f30c9",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "compose_isolated_grounds",
+      "suite": "holdout",
+      "description": "Holdout: buttons on the primary ground and LEDs on an isolated ground; the two ground domains stay separate nets and the design is still ready.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected deeaa409628bdd33058f47e317042541f48da4f023f36db20aec5f8183d59398 got deeaa409628bdd33058f47e317042541f48da4f023f36db20aec5f8183d59398"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: design status: ready_abstract)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "conflicts_count",
+          "ok": true,
+          "detail": "expected 0 got 0"
+        },
+        {
+          "name": "unbound_count",
+          "ok": true,
+          "detail": "expected 0 got 0"
+        }
+      ],
+      "timings_ms": [
+        149.0
+      ],
+      "input_sha256": "deeaa409628bdd33058f47e317042541f48da4f023f36db20aec5f8183d59398",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "led_12v_ground_side",
+      "suite": "holdout",
+      "description": "Holdout: 12 V low-side switch with the ballast on the cathode side. Same current maths as the supply-side holdout; E12 820 ohm.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected a19830b63cc8b1bca037a41e1da6f7bb21bbeb3efabdc71f1dda5881c635a367 got a19830b63cc8b1bca037a41e1da6f7bb21bbeb3efabdc71f1dda5881c635a367"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: led_indicator led_indicator -> ready_abstract\n  R1   led_current_limit          820 ohm\n  D1   indicator                  led\n  ports: VCC, GND, SW\n  hash: sha256:de1fb9b5dc74a49ad3f0adc58c155cf143d63f38b2d2f0376eadf9b102faa6e2)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "endpoint:D1.A",
+          "ok": true,
+          "detail": "expected net VCC got VCC"
+        },
+        {
+          "name": "endpoint:D1.K",
+          "ok": true,
+          "detail": "expected net LED_K got LED_K"
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net LED_K got LED_K"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net SW_NODE got SW_NODE"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp10x3ngvp\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp10x3ngvp\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp10x3ngvp\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp10x3ngvp\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
+        }
+      ],
+      "timings_ms": [
+        101.98,
+        99.44
+      ],
+      "input_sha256": "a19830b63cc8b1bca037a41e1da6f7bb21bbeb3efabdc71f1dda5881c635a367",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "led_12v_high_side",
+      "suite": "holdout",
+      "description": "Holdout: 12 V white LED on a high-side switch. Nominal headroom (12-3.2-0.1)=8.7 V; 8.7 V/10 mA = 870 ohm -> nearest feasible E12 is 820 (I_max=(12.6-3.0)/(820*0.95)=12.32 mA <= 15 mA; I_min=(11.4-3.4-0.2)/(820*1.05)=9.06 mA >= 6 mA).",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 0caf34276801f5a4a1a585e0644aee0bc44c86ef93c183e216cc2d391a8ec5e7 got 0caf34276801f5a4a1a585e0644aee0bc44c86ef93c183e216cc2d391a8ec5e7"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: led_indicator led_indicator -> ready_abstract\n  R1   led_current_limit          820 ohm\n  D1   indicator                  led\n  ports: VCC, GND, VSW\n  hash: sha256:1d9e3bdd65a7dab5fa9fef7c8755523183f34f072f46dc7cca61167f21e1b913)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation:.worst_case_current.result.max_a",
+          "ok": true,
+          "detail": "expected 0.012323491655969191 got 0.012323491656"
+        },
+        {
+          "name": "calculation:.worst_case_current.result.min_a",
+          "ok": true,
+          "detail": "expected 0.009059233449477351 got 0.00905923344948"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7ow_69xn\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7ow_69xn\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7ow_69xn\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7ow_69xn\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
+        }
+      ],
+      "timings_ms": [
+        119.23,
+        105.72
+      ],
+      "input_sha256": "0caf34276801f5a4a1a585e0644aee0bc44c86ef93c183e216cc2d391a8ec5e7",
+      "exit_code": 0,
+      "passed": true
+    }
+  ],
+  "failures": [],
+  "summary": {
+    "total": 26,
+    "passed": 26,
+    "failed": 0,
+    "coverage_by_module": {
+      "cases": 20,
+      "holdout": 6
+    },
+    "timing_ms": {
+      "invocations": 47,
+      "total_ms": 5443.59,
+      "median_ms": 111.22,
+      "p95_ms": 143.48,
+      "max_ms": 150.45,
+      "note": "CLI wall time only; not board-design speed"
+    },
+    "real_eda": "NOT RUN"
+  }
+}
