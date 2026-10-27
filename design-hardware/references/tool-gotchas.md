@@ -11,6 +11,7 @@
 - 证据时间：2026-10-24 的 Windows 实机会话；2026-10-27 的 v1.15.0 条目单独标注来源与证据文件。
 - 命令和参数只写到本文件已核对的 v1.14.0/v1.15.0 命令面；未列出的动作、参数和返回字段不作承诺，执行前用当前 `--help` 复核。
 - 2026-10-27 的 1.15.0 条目来自外部双路按键 LED 任务工作区（`dual-button-led-night-20261027/evidence/`、`case/`），这些真机证据文件未随本仓库提交；条目内只保留结论与文件名，复核时以该外部工作区为准，不能把本仓库离线测试当作真机回放。
+- 2026-10-27 的 `§22–§26` 来自外部 SkyPilot X1 九页飞控板任务（工程 `skypilot-x1`，证据在其 `build/` 与 `log-repair.jsonl`），同样未随仓库提交；这些条目的对象是 v1.15.0 / 4.1.78 的真机会话，离线回归只覆盖脚本逻辑，不覆盖连接器行为。
 - 不同客户端版本、不同工程和不同窗口状态都可能改变结果；一次成功不等于通用保证。
 - 文档中的门禁不是审批。Agent 在已授权范围内按证据记录 `PASS`/`BLOCKED`/`PASS_WITH_WAIVER`/`UNSUPPORTED`，不新增等待点；`PASS_WITH_WAIVER` 只表示有条件满足并写明理由、条件和剩余风险，不能当成 `PASS`，`UNSUPPORTED` 也不能当成 `PASS`。
 
@@ -44,6 +45,11 @@
 | G1/G3 | `pcb import-changes` 返回 `noChanges:true`，PCB 仍有已删件 | 同步只导入/更新，不删除原理图已移除器件 | 用 `pcb delete --ids ...`、`track-delete` 或 `rip-up` 显式删除并回读 | 28→28，J2 仍在；`pcb-drc-5.json` 报 netlist mismatch。本案例 `pcb-import-after-j2-removal.log`/`pcb-import-after-usb-removal.log` |
 | G3 | `outline-fit` 被当成布局完成 | 它只改板框，不移动器件；板框跟随器件 bbox，不预留安装孔边距、连接器插拔空间或外壳壁厚 | 先 `place-constrained` 或人工布局，再 `outline-fit`，完成后重读器件位置；目标尺寸必须来自需求，不能由 fit 反推 | parts=28、partExtent 3377.55×1976.76、newOutline 3577.55×2176.76、utilBefore 0。本案例最终框 90.87×55.29 mm，`holes: 0` |
 | G3 | `layout-lint --gate` 想当布线门禁 | 参数已废弃，只显示历史阈值，不授权也不阻断 | 读 score、crossings、overlap、off-board，按 Skill 阈值和 G3/G4 证据判定 | 默认 score≥60、crossings≤8；实测 48/100、13 crossings。本案例 `pcb-layout-lint-2.log` |
+| G2 | `sch no-connect --pin U23:NC` 报 `has no pin(s): NC. Available: 1, 2, 3, 4, 5` | `--pin` 只解析物理脚号（`pinNumber` 字段），不解析引脚名 | 传脚号；错误里的 `Available:` 就是可接受值，可为 `A8` 这类字母数字 | 2026-10-27 SkyPilot X1：`NC`、`DOUT` 均被拒，改 `1`/`2` 后 34 个 NC 标记全部落地。见 §22 |
+| G2–G6 | 连续写入后 `schematic.components.list failed: connector did not respond — context deadline exceeded`；随后 `doc ls` 报“连接器队列被上一条动作堵着(动作未发出)” | 连接器队列被上一条动作堵住，累计写入后耗尽；`doc reload` 不清 | 前台窗口 → `project doc` 取活动 uuid → `web reload --project <uuid> --doc <active-uuid>` → 回读继续；按页 `save`+复核，让一次卡死只损失一页 | 2026-10-27 SkyPilot X1 一轮多次复发；`doc reload` 返回 `partial/failedStage:"ready"`，`web reload` 12–18 s 恢复。见 §23 |
+| G2 | autoconnect 每轮都报 `connected 1`，`connectivity` 里该脚始终未连 | 符号引脚不在 5-raw 网格上（两脚相距 59 raw），导线起点吸附到网格，autoconnect 的“成功”只表示它选中了方向 | 用 `sch wire --points` 给精确浮点坐标再回读；用 `sch_layout_model` 的 `pin_off_grid`/`anchor_off_grid` 预检 | 2026-10-27 SkyPilot X1 晶振 Y1：连报 1 成功、回读未连；`629` 被吸附成 `630`。见 §25 |
+| G2 | `sch clear --doc P3 --json` 之后 `place` 报 `placed 0 / skipped 11` | `sch clear` 没有 `--json`；未知 flag 被忽略，清除根本没发生 | 不带 `--json` 重跑，确认 `remaining: 0` 与 `deleted.components`，再 `place` | 2026-10-27 SkyPilot X1 P3 重建；误以为清空成功，实际是空页上重复 place。见 §24 |
+| G2 | `sch gate` 整体 `fail`，但同页 layout-lint、bridge-check、原生 DRC 都 `pass` | `check` 的 blocker 可以是图面整洁度（0.254 mm 紧间距、相邻网标标记重叠、缺分区框、图签未填），不是电气失败 | 逐条分 电气 / 图面 / 结构；电气必须改，图面与结构合并成一次整理并记录残余；不让整洁度阻断主线 | 2026-10-27 SkyPilot X1 P3：check 报 11 组虚拟网、1 处组间重叠，其余三项全 pass。见 §26 |
 | G3/G5 | 布局分数好看，但丝印压焊盘、标签互压没被算进去 | `layout-lint` v1 是器件 bbox 级近似，只判 overlap/off-board/tight/crossings；它复用 `pcb check` 的 `silk-over-pad`/`silk-off-board` 放在 `silk` 段，WARN 不计分；标签-标签/标签-器件重叠不在其判定范围 | 丝印用 `silk-align`/`silk-set` 修并回读；原理图标签重叠另跑 `sch clusters`；最终以实际 PNG/渲染图为准 | 分数高不等于可读可装配。本案例 `pcb-layout-lint-2.log` 4 条 silk-over-pad；`pcb-check.json` 另报 2 条 silk-over-pad 与 2 条 silkscreen-flipped |
 | G4 | `power-pour` 同层多网的 priority 对不上 | 创建回执 `priorityVerified:false`，重载后值会变；`pour-list` 也可能不返回实际成铜状态 | 用 `pour-list` 按层按网回读 priority；用 `poured-list`/dump 铜确认实际成铜；同层多网必须复核 | 回执可见 priority 1/1/2；重载后 GND L1 priority=3。本案例 `pcb-power-pour-apply.log`/`pcb-pour-list.json` 同此；`pour-list` 的 pour 项没有 `poured` 字段，不能默认已填充 |
 | G4/G5 | `route-short --route-power` 后 DRC 暴增 | 强制把电源/地布成 track，默认本应跳过 | 铺铜板保持默认跳过；必须用时先 `--dry-run`，检查宽度、vias、skipped nets | GND 是 20 mil，不是细线；DRC 93 = 71 Clearance + 22 Connection。本案例 `pcb-route-power-dryrun.log` 计划 +5V 20 mil L 形穿焊盘区；`pcb-tracks-gnd.json` 44 段 GND 线 |
@@ -278,6 +284,69 @@
 **正确动作**：先保存文档再导出；把 `zipIntegrityVerified`（zip 完整）与 `restoreVerified`（恢复演练）分开记录。恢复演练在副本上打开 `.epro2`，核对工程 UUID、页 UUID、器件清单、网表与关键网络，再写 `restore_verified:true`。缺参时按 `--help` 补齐，不猜参数。
 
 **证据/边界与本案例**：`restoreVerified:false` = 未演练，G6 的 `epro2_restore` 直接失败且不可豁免；zip 完整不等于可恢复。本案例 `project-export.log` 报 `explicit --window and --project-uuid are required`；`project-export-2.log` 导出成功（364810 bytes，`zipIntegrityVerified:true`）但 `restoreVerified:false`。
+
+### 22. `sch no-connect --pin`：只认物理脚号（G2）
+
+**现象**：对一个名字是 `NC` 的脚执行 `sch no-connect --pin U23:NC`，返回 `"U23" has no pin(s): NC. Available: 1, 2, 3, 4, 5.`；`DOUT`、`SOA`、`GND` 这类名字同样被拒。
+
+**原因**：`--pin` 的解析目标是器件的物理脚号（`pinNumber`），不是符号上的引脚名（`pinName`）。名字恰好等于脚号时才“看起来能用”，容易误判成支持名字。
+
+**正确动作**：传脚号。错误信息里的 `Available:` 列表就是该器件当前可接受的脚号集合，直接用；脚号可以是 `A8`/`B8` 这类字母数字（USB-C 的壳脚就是），不是必须是纯数字。一次 `no-connect` 只标一个脚，批量要按器件分组逐条发，并在每页保存前回读 `nc_left`。
+
+**证据/边界与本案例**：2026-10-27 SkyPilot X1（v1.15.0 / 4.1.78）9 页共 34 个 NC 标记：`U23` 的 `NC` 改为 `1`、`LED1` 的 `DOUT` 改为 `2`、`U2` 的 `NC` 改为 `3`、ESC 的 `SOA/SOB/SOC` 改为 `21/22/23` 后全部落地。名称属于可读性信息，不是动作参数；不要为了“名字更好懂”去改库引脚名。
+
+### 23. 连接器队列耗尽：`connector did not respond` 的恢复阶梯（G2–G6）
+
+**现象**：一个页面连续写入若干轮后，读动作先失败：`schematic.components.list failed: connector did not respond — context deadline exceeded`，接着 `doc ready` 失败，`doc ls` 打印“连接器队列被上一条动作堵着(动作未发出)”并在约 90 s 后回退到工程清单。此时 `sch connect`/`place` 一律 `DISPATCH_FAILED`。
+
+**原因**：不是脚本或工程坏了，是连接器的动作队列被上一条没被消费的动作堵住。实测在 9 页、182 器件、674 连接、812 个物理脚的工程上，每累计约 100+ 次写动作就会复发一次；这一频率是本轮观测，不是常数。`easyeda doc reload` 不清队列：它会返回 `partial`、`failedStage:"ready"`，读起来像“重载失败”，其实是同一条队列没恢复。
+
+**正确动作**：按阶梯恢复，顺序不要换：
+
+1. 把 EDA 窗口切到前台（`WScript.Shell.AppActivate`；后台窗口更容易卡在 ready）。
+2. `easyeda project doc` 取当前活动文档 UUID。BYPASS 类读命令（`project doc`、`document.current`）在队列堵住时仍然可用，不要因为 `doc ls` 失败就以为什么都读不到。
+3. `easyeda web reload --project <工程uuid> --doc <活动页uuid>`：保存 → 刷新整个 Web 页面 → 验证重连，约 12–18 s。UUID 必须精确，缺一个就拒绝执行。
+4. 恢复后重新回读现场再继续，不复用卡死前的批次。
+
+**操作层要求**：把写入切成“每页 save + 逐脚复核”的检查点，并让补连脚本每轮从 live 状态重算缺失集合，而不是重放计划。这样一次卡死只损失一页，恢复后接着补差，也不会整批重试造成重复器件/导线。同一窗口只留一个写入者。
+
+**证据/边界与本案例**：2026-10-27 SkyPilot X1 一轮内多次复发，每次 `web reload` 后 `doc ready` 与 `sch read` 立即恢复；`doc reload` 的 `partial` 回执不能当作“重载完成”。队列耗尽与页面大小、器件数量没有稳定对应关系，不要用“页太大”解释它。
+
+### 24. `sch clear` 没有 `--json`：未知 flag 会静默变成 no-op（G2）
+
+**现象**：`sch clear --doc P3 --json` 返回得“像成功了”，随后 `sch place` 报 `placed 0 / skipped 11`，看起来像放置失败。
+
+**原因**：`sch clear` 不支持 `--json`。未知 flag 被忽略，清除动作没有执行，上一版器件仍在页上；`place` 发现同 `uniqueId` 已存在就跳过，于是 `skipped` 等于全量。
+
+**正确动作**：破坏性动作先按当前 `--help` 核对参数面；不带 `--json` 重跑 `sch clear`，读它的文本回执确认 `remaining: 0` 与 `deleted.components` 计数，再 `place`。凡是“清空/删除/重建”这类步骤，都要在执行后用一个独立读命令证明后置条件成立，不能靠命令自身的返回。
+
+**证据/边界与本案例**：2026-10-27 SkyPilot X1 P3 重建，`--json` 被静默忽略导致 `placed 0 / skipped 11`。同类风险适用于任何“参数拼错但 CLI 不报错”的子命令：返回 0 退出不等于动作发生。
+
+### 25. 离格引脚：autoconnect 的“成功”不是证据（G2）
+
+**现象**：`sch autoconnect` 对某个脚每轮都返回 `connected 1`，没有任何 issue，但 `sch connectivity --page` 里该脚始终没有网络；换成 `sch disconnect` 又报 `No stub wire found on the target pin`。
+
+**原因**：符号的引脚坐标不在 5-raw 网格上。本案例晶振 `Y1` 两脚在 `-30 / +29`（相距 59 raw，奇数），任何姿态都不可能两脚同时落网格；autoconnect 选方向时认为已连上，实际落笔时起点吸附到最近网格点（`629` → `630`），导线与脚错开 1 raw，几何上不接触。
+
+**正确动作**：先用 `sch_layout_model` 的 `pin_off_grid` / `anchor_off_grid` blocker 或 `sch list --include-pins` 自查“引脚坐标是否都能被 5 整除”。不能整除时不要反复跑 autoconnect：用 `easyeda sch wire --doc <页> --points '[[x1,y1],[x2,y2]]'` 给精确浮点坐标画线，再用 `connectivity` 逐脚回读。
+
+**证据/边界与本案例**：2026-10-27 SkyPilot X1 P2 的 `Y1:2` 连续多轮“成功”而未连；`sch wire --points '[[629,760],[660,760]]'` 返回 `"line": [[690,760,629,760]]`（起点保持在 629）后，回读 `unconnected: []`。规则：逐脚结论只能来自回读；autoconnect/connect 的返回值、`ok:true`、`connected N` 都不是连接证据。
+
+### 26. `sch gate` 的 fail 解码：把图面整洁度与电气分开（G2）
+
+**现象**：`sch gate` 整体 `fail`，blocker 只写“clusters: 1 处组间图元重叠”，同一页的 `layout-lint`（0 overlap、1 tight）、`bridge-check`（0 bridge、0 orphan）、原生 DRC 都是 `pass`。看上去像“整页不合格”，实际上没有任何电气问题。
+
+**原因**：`gate` 汇总的是 `check` 的发现，而 `check` 把电气类、图面类、结构类混在一个列表里；blocker 的措辞（“组间图元重叠”）描述的是标记/位号的视觉重叠，不是铜或网的冲突。本案例的具体内容是：`C30`↔`J2` 间距 0.254 mm 被判 tight、相邻两个 J2 壳脚 GND 标记重叠 11×10、`J2` 位号压到别的对象、缺分区框、图签 `Name/Drawed/Description` 为空。
+
+**正确动作**：拿到 `gate` 失败先做一次分类，再决定停不停：
+
+- **电气**（浮空脚、网名与导线不符、压脚、越页导线、同一连接点多网）：必须当场修，修完重跑 DRC + 逐脚回读。
+- **图面**（标记/位号重叠、紧间距、标签乱飞）：合并成一次整理，不在每页单独打磨；0.254 mm 的 tight 在多页密集符号里基本不可避免，记录数值即可。
+- **结构**（缺分区框、图签未填）：一次性补齐，属于交付外观，不是连接正确性。
+
+先让每一页把“电气 + 保存”闭环，把图面/结构残余项列成一张清单集中处理；不要让整洁度告警占住主线。反过来，也不能用“三项 pass”宣布整页合格——`gate` 的 `fail` 照样要如实写成失败并说明它败在哪一类。
+
+**证据/边界与本案例**：2026-10-27 SkyPilot X1 P3：`check` 报 11 个虚拟网分组、1 处组间重叠；`layout-lint` pass（0 overlap、1 tight）、`bridge-check` pass（42 个导线树、0 bridge/orphan）、原生 DRC pass（3 warn）。这些数字要分别落盘、分别报告，不能互相替代。
 
 ## apply 的 no-op 与 journal 状态
 
