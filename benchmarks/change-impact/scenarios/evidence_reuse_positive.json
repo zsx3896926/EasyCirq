@@ -1,0 +1,167 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "bench-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "layout_region"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "layout_region"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "cmp:U1",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "MCU-A",
+    "placement": {
+     "x": 1,
+     "y": 1
+    }
+   },
+   "baseline_attributes": {
+    "placement": {
+     "x": 0,
+     "y": 1
+    }
+   }
+  },
+  {
+   "id": "region:main",
+   "kind": "layout_region",
+   "attributes": {
+    "bbox": [
+     0,
+     0,
+     40,
+     25
+    ]
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "cmp:U1",
+   "to": "region:main",
+   "semantic": "mechanical_constraint",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "cmp:U1",
+   "attribute": "placement.x",
+   "before": 0,
+   "after": 1,
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:placement",
+   "title": "placement",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "region:main",
+     "impact": "mechanical_fit"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [
+  {
+   "id": "ev:1",
+   "check": "chk:placement",
+   "result": "pass",
+   "tool_version": "0.9.0",
+   "revision": "r2",
+   "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+   "coverage": {
+    "objects": [
+     "region:main"
+    ],
+    "attributes": [
+     "bbox"
+    ],
+    "impacts": [
+     "mechanical_fit"
+    ]
+   },
+   "conditions": [],
+   "simulated": false,
+   "captured_at": "2026-01-01T00:00:00Z",
+   "valid_until": null,
+   "dependency_fingerprint": null,
+   "scope_complete": true
+  }
+ ],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

@@ -1,0 +1,194 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "bench-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "net",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "net",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "cmp:R1",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "RES-1K",
+    "value": {
+     "resistance": 2200,
+     "unit": "ohm"
+    },
+    "footprint": {
+     "uuid": "fp:0603"
+    }
+   },
+   "baseline_attributes": {
+    "value": {
+     "resistance": 1000,
+     "unit": "ohm"
+    }
+   }
+  },
+  {
+   "id": "net:LED_A",
+   "kind": "net",
+   "attributes": {
+    "members": [
+     "cmp:R1.1",
+     "cmp:D1.1"
+    ]
+   }
+  },
+  {
+   "id": "cmp:D1",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "LED-RED"
+   }
+  },
+  {
+   "id": "test:led_current",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "min_ma": 2,
+     "max_ma": 15
+    }
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "cmp:R1",
+   "to": "net:LED_A",
+   "semantic": "signal_path",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:2",
+   "from": "net:LED_A",
+   "to": "cmp:D1",
+   "semantic": "signal_path",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:3",
+   "from": "cmp:R1",
+   "to": "test:led_current",
+   "semantic": "test_reference",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "cmp:R1",
+   "attribute": "value.resistance",
+   "before": 1000,
+   "after": 2200,
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:led_current",
+   "title": "led current",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "test:led_current",
+     "impact": "test_criterion_change"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:led_net",
+   "title": "led net",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "net:LED_A",
+     "impact": "signal_integrity"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": -5
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

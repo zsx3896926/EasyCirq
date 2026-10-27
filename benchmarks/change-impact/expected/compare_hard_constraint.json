@@ -1,0 +1,17 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "compare_hard_constraint",
+ "kind": "compare",
+ "derivation": "the MCU is affected through the rail in both candidates, so both violate must_not_affect; the tool must refuse to recommend either instead of picking the cheaper one.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_include_candidates": [
+  "eco-a",
+  "eco-b"
+ ],
+ "must_recommend_in": [],
+ "must_not_violate": false,
+ "expect_no_feasible": true,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

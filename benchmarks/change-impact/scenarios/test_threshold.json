@@ -1,0 +1,176 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "bench-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "requirement",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "requirement",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "test:boot",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "v_min": 3.0,
+     "v_max": 3.6
+    }
+   },
+   "baseline_attributes": {
+    "criterion": {
+     "v_min": 4.75,
+     "v_max": 5.25
+    }
+   }
+  },
+  {
+   "id": "req:REQ3",
+   "kind": "requirement",
+   "attributes": {
+    "text": "boot at 3.3V"
+   }
+  },
+  {
+   "id": "cmp:MCU",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "MCU-A"
+   }
+  },
+  {
+   "id": "test:legacy",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "name": "legacy threshold"
+    }
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "test:boot",
+   "to": "req:REQ3",
+   "semantic": "requirement_ref",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "test:boot",
+   "attribute": "criterion",
+   "before": {
+    "v_min": 4.75,
+    "v_max": 5.25
+   },
+   "after": {
+    "v_min": 3.0,
+    "v_max": 3.6
+   },
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:boot_threshold",
+   "title": "boot threshold",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "test:boot",
+     "impact": "test_criterion_change"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:mcu_unrelated",
+   "title": "mcu unrelated",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "cmp:MCU",
+     "impact": "electrical_state"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

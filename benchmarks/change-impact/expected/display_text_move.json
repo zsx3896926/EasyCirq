@@ -1,0 +1,37 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "display_text_move",
+ "derivation": "display_only only follows document_reference (R7). The displayed text position affects the plot artifact only; it must not invalidate the firmware contract, and no firmware or manufacturing impact is produced.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "cmp:U1",
+   "impact": "documentation_only",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "art:sch",
+   "impact": "documentation_only",
+   "confidence_at_least": "certain"
+  }
+ ],
+ "must_not_impact": [
+  {
+   "object": "fw:mcu",
+   "reason": "display text move is not a firmware change"
+  }
+ ],
+ "required_checks": [],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [
+  "missing_edge_data"
+ ],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

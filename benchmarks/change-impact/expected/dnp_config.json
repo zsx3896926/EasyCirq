@@ -1,0 +1,37 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "dnp_config",
+ "derivation": "a DNP delivery configuration change (R10) affects the BOM line, the assembly/CPL output and the fitted-state test.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "bom:R1",
+   "impact": "bom_variant",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "art:cpl",
+   "impact": "manufacturing_output",
+   "confidence_at_least": "possible"
+  },
+  {
+   "object": "test:powerup",
+   "impact": "test_criterion_change",
+   "confidence_at_least": "possible"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [
+  "chk:bom_variant"
+ ],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

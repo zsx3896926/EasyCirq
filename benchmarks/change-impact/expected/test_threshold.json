@@ -1,0 +1,37 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "test_threshold",
+ "derivation": "a test criterion change (R12) only follows test_reference / verification_coverage / requirement_ref; it must not spread to unrelated electrical evidence.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "test:boot",
+   "impact": "test_criterion_change",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "req:REQ3",
+   "impact": "requirement_trace",
+   "confidence_at_least": "possible"
+  }
+ ],
+ "must_not_impact": [
+  {
+   "object": "cmp:MCU",
+   "reason": "changing a test threshold is not an electrical change"
+  }
+ ],
+ "required_checks": [
+  "chk:boot_threshold"
+ ],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

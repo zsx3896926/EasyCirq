@@ -1,0 +1,37 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "mcu_footprint",
+ "derivation": "a footprint change (R3) affects the layout region, the mechanical constraint chain and the manufacturing output.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "region:main",
+   "impact": "footprint_compatibility",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "anchor:case",
+   "impact": "mechanical_fit",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "art:gerber",
+   "impact": "manufacturing_output",
+   "confidence_at_least": "possible"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [
+  "chk:fp_fit"
+ ],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

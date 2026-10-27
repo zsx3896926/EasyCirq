@@ -1,0 +1,199 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "bench-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "firmware_contract",
+   "net",
+   "power_domain",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "firmware_contract",
+   "net",
+   "power_domain",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "pwr:5V",
+   "kind": "power_domain",
+   "attributes": {
+    "voltage": {
+     "nominal": 3.3,
+     "unit": "V"
+    }
+   },
+   "baseline_attributes": {
+    "voltage": {
+     "nominal": 5.0,
+     "unit": "V"
+    }
+   }
+  },
+  {
+   "id": "net:+5V",
+   "kind": "net",
+   "attributes": {
+    "name": "+5V"
+   }
+  },
+  {
+   "id": "cmp:MCU",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "MCU-A",
+    "io_voltage": 3.3
+   }
+  },
+  {
+   "id": "fw:io",
+   "kind": "firmware_contract",
+   "attributes": {
+    "io_voltage": 5.0
+   }
+  },
+  {
+   "id": "test:rail",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "v_min": 3.0,
+     "v_max": 3.6
+    }
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "pwr:5V",
+   "to": "net:+5V",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:2",
+   "from": "net:+5V",
+   "to": "cmp:MCU",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:3",
+   "from": "cmp:MCU",
+   "to": "fw:io",
+   "semantic": "firmware_consumer",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "pwr:5V",
+   "attribute": "voltage.nominal",
+   "before": 5.0,
+   "after": 3.3,
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:rail_range",
+   "title": "rail range",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "cmp:MCU",
+     "impact": "power_integrity"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:io_level",
+   "title": "io level",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "test:rail",
+     "impact": "power_integrity"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}
