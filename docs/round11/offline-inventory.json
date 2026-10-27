@@ -2,11 +2,11 @@
   "schema": "design-engine-offline-inventory/v1",
   "simulated": true,
   "root": "<repository-root>",
-  "written_at": 1793063691.0583193,
-  "scripts": 73,
+  "written_at": 1793067667.9832263,
+  "scripts": 75,
   "flag_counts": {
     "references_easyeda": 27,
-    "writes_files": 24,
+    "writes_files": 31,
     "may_run_cli_or_network": 11,
     "no_main_guard": 29
   },
@@ -31,6 +31,13 @@
     },
     {
       "path": "design-hardware/scripts/channel_map_check.py",
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/check_move_clearance.py",
       "flags": [
         "writes_files"
       ],
@@ -89,7 +96,8 @@
     {
       "path": "design-hardware/scripts/design_engine/assembly.py",
       "flags": [
-        "no_main_guard"
+        "no_main_guard",
+        "writes_files"
       ],
       "imports_of_interest": []
     },
@@ -154,7 +162,8 @@
     {
       "path": "design-hardware/scripts/design_engine/ir.py",
       "flags": [
-        "no_main_guard"
+        "no_main_guard",
+        "writes_files"
       ],
       "imports_of_interest": []
     },
@@ -240,7 +249,8 @@
     {
       "path": "design-hardware/scripts/design_engine/state.py",
       "flags": [
-        "no_main_guard"
+        "no_main_guard",
+        "writes_files"
       ],
       "imports_of_interest": []
     },
@@ -362,7 +372,8 @@
       "flags": [
         "may_run_cli_or_network",
         "no_main_guard",
-        "references_easyeda"
+        "references_easyeda",
+        "writes_files"
       ],
       "imports_of_interest": [
         "socket",
@@ -451,7 +462,16 @@
     },
     {
       "path": "design-hardware/scripts/rc_settle_sim.py",
-      "flags": [],
+      "flags": [
+        "writes_files"
+      ],
+      "imports_of_interest": []
+    },
+    {
+      "path": "design-hardware/scripts/sch_frame_meta_check.py",
+      "flags": [
+        "writes_files"
+      ],
       "imports_of_interest": []
     },
     {

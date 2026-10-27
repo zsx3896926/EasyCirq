@@ -24,6 +24,7 @@ import platform
 import statistics
 import shutil
 import sys
+import tempfile
 import time
 from pathlib import Path
 from types import SimpleNamespace
@@ -115,20 +116,36 @@ def check_sources(expected):
 
 
 def check_gate(expected):
-    # The gate's discovery may read any evidence role; record all files in the
-    # frozen case so a timing/input-size claim is not silently partial.
-    case_files = [path for path in sorted(PHOTO_EVIDENCE.iterdir())
-                  if path.is_file()]
-    report = pcb_gate.evaluate(gate_args(PHOTO_CASE))
-    stages = {stage['id']: stage['status'] for stage in report['stages']}
-    expected_stages = expected['gate_photo_regression']['stages']
-    passed = (report['status'] == expected['gate_photo_regression']['status'] and
-              stages == expected_stages)
-    inputs = [{'path': str(path.relative_to(ROOT)),
-               'bytes': path.stat().st_size}
-              for path in case_files if path.is_file()]
+    # Run the gate on a fresh case containing ONLY the frozen inputs.  This
+    # prevents an extra "passing" file in the source evidence directory from
+    # being selected while the 46 listed files stay unchanged.
+    frozen_prefix = str(PHOTO_EVIDENCE.relative_to(ROOT)).replace('\\', '/') + '/'
+    frozen = [(name, item) for name, item in
+              (expected.get('sources') or {}).items()
+              if item['path'].replace('\\', '/').startswith(frozen_prefix)]
+    temp = tempfile.mkdtemp(prefix='hds-bench-gate-')
+    case_dir = Path(temp) / 'case'
+    evidence_dir = case_dir / 'evidence'
+    evidence_dir.mkdir(parents=True)
+    for _name, item in frozen:
+        source = ROOT / item['path']
+        target = evidence_dir / Path(item['path']).name
+        shutil.copyfile(str(source), str(target))
+    try:
+        report = pcb_gate.evaluate(gate_args(case_dir))
+        stages = {stage['id']: stage['status'] for stage in report['stages']}
+        expected_stages = expected['gate_photo_regression']['stages']
+        passed = (report['status'] ==
+                  expected['gate_photo_regression']['status'] and
+                  stages == expected_stages)
+        inputs = [{'path': str((ROOT / item['path']).relative_to(ROOT)),
+                   'bytes': (ROOT / item['path']).stat().st_size}
+                  for _name, item in frozen]
+    finally:
+        shutil.rmtree(temp, ignore_errors=True)
     return result('gate_photo_regression', passed,
-                  {'status': report['status'], 'stages': stages},
+                  {'status': report['status'], 'stages': stages,
+                   'frozen_inputs': len(frozen)},
                   inputs)
 
 
@@ -200,7 +217,9 @@ def check_candidates(expected):
                   [{'path': str(PHOTO_DUMP.relative_to(ROOT)),
                     'bytes': PHOTO_DUMP.stat().st_size},
                    {'path': str(PHOTO_INTENT.relative_to(ROOT)),
-                    'bytes': PHOTO_INTENT.stat().st_size}])
+                    'bytes': PHOTO_INTENT.stat().st_size},
+                   {'path': 'design-hardware/assets/pcb-placement-templates.json',
+                    'bytes': (ROOT / 'design-hardware/assets/pcb-placement-templates.json').stat().st_size}])
 
 
 def check_structures(expected):
@@ -244,7 +263,12 @@ def check_structures(expected):
                'bytes': PHOTO_INTENT.stat().st_size},
               {'path': str((BENCH / 'cases' / 'ldo-caps-board.json')
                            .relative_to(ROOT)),
-               'bytes': (BENCH / 'cases' / 'ldo-caps-board.json').stat().st_size}]
+               'bytes': (BENCH / 'cases' / 'ldo-caps-board.json').stat().st_size},
+              {'path': str((BENCH / 'cases' / 'ldo-caps-intent.json')
+                           .relative_to(ROOT)),
+               'bytes': (BENCH / 'cases' / 'ldo-caps-intent.json').stat().st_size},
+              {'path': 'design-hardware/assets/pcb-placement-templates.json',
+               'bytes': (ROOT / 'design-hardware/assets/pcb-placement-templates.json').stat().st_size}]
     return result('candidates_structures', passed_all,
                   {'structures': rows}, inputs)
 
@@ -279,7 +303,11 @@ def check_apply_noop(expected):
     return result('apply_noop', passed,
                   {'status': report['status'], 'cli_calls': len(calls)},
                   [{'path': str(PHOTO_PLAN.relative_to(ROOT)),
-                    'bytes': PHOTO_PLAN.stat().st_size}])
+                    'bytes': PHOTO_PLAN.stat().st_size},
+                   {'path': str(PHOTO_DUMP.relative_to(ROOT)),
+                    'bytes': PHOTO_DUMP.stat().st_size},
+                   {'path': str(PHOTO_CONSTRAINTS.relative_to(ROOT)),
+                    'bytes': PHOTO_CONSTRAINTS.stat().st_size}])
 
 
 def check_placement_constraint_gain(expected):

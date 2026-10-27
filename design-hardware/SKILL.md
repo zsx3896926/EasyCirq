@@ -46,6 +46,7 @@ description: 配合AI Agent把自然语言idea推进为可验证使用的硬件�
 | “我没用过EDA / 不会安装” | Agent先诊断、再带做最短接通步骤 | 能代做就代做，必须手动时一次一个动作 |
 | “帮我画…” | 可编辑原理图、关键选型/计算、检查结果 | 未要求PCB时先交付原理图 |
 | “从需求做到板子” | 原理图、PCB、检查与制造输出 | 关键缺口先解决，沿成熟电路完成 |
+| “画板 / 开始画” | 分阶段反馈：观察→计划→局部写入→回读→复验 | 每阶段给证据；工具成功不等于工程通过，未回读不写验证通过 |
 | “这里改成…” | 目标修改、影响说明、回读与受影响项复核 | 保留无关模块和已有正确布局布线 |
 | “帮我布局/布线” | 真实PCB更新、剩余未布网络/冲突 | 不擅自重构原理图 |
 | “检查一下” | 有位置、有证据、可操作的问题清单 | 默认只读；用户要求修复时执行 |
@@ -63,6 +64,7 @@ description: 配合AI Agent把自然语言idea推进为可验证使用的硬件�
 |---|---|
 | “先出方案 / 先别画” | 只交付必要需求摘要、框图/电源树、关键选型，不写画布 |
 | “照参考设计” | 核对参考板条件，保留关键拓扑，列出相对参考的改动 |
+| “参考以前方案 / 按上次那个” | 案例适用性核对、差异与需重跑检查；先按电源/接口/拓扑/封装/层数/工艺/验证层级过滤，再决定能否复用，不继承旧结论 |
 | “加一路CAN / RS485 / ADC” | 补全适用的收发/采集、供电、配置、保护、接口和PCB约束，并检查资源影响 |
 | “走线粗一点” | 根据电流、温升、铜厚、压降和板厂约束给出具体调整，不凭口诀 |
 | “地分开” | 读取隔离/回流/手册意图；原因仍不明时再集中询问，不直接割地 |
@@ -88,6 +90,10 @@ description: 配合AI Agent把自然语言idea推进为可验证使用的硬件�
 
 方案、原理图、布局、交付设为四个可见检查点。默认在任务已授权范围内自查、汇报并继续；用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待。不要把工程检查点一律变成权限停顿点。真正改变已确认接口/尺寸/成本目标、涉及关键未知量时，先处理该决定，同时推进无依赖部分。
 
+### 多 Agent：按需并行，工程唯一写入者
+
+简单任务默认单 Agent；多模块、四层/高速或需比较布局候选时，按独立工作量与执行能力启用子 Agent，默认最多 3 个，不为凑人数拆任务。共享工程/EDA 窗口只允许一个指定写入者；其余 Agent 基于带工程/页身份和哈希的冻结快照查资料、计算、规划或审查，不直接操作共享窗口。主 Agent 在写入前核对建议是否仍适用当前版本；过期建议重新分析。只有工程副本、执行会话和输出目录都隔离时才允许候选并行写入。工具不支持子 Agent 时按相同角色串行完成，不阻塞交付。分工、交接与验收按 [Agent协作契约](references/agent-collaboration.md) 的“多 Agent 协作”执行。
+
 ## 2. 在需要画图时检查执行能力
 
 纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。
@@ -109,6 +115,14 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 简单工程优先一页，按信号方向组织主链、把供电/参考放辅助行；局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。已有工程保留器件身份与连接，按受影响模块修正；一次候选失败先读取具体冲突，同一失败机制重复两次就换布局方法或记录能力缺口，不继续盲改坐标。
 
 验收仍使用 [图面验收标准](references/schematic-layout.md)：`sch_layout_check.py --strict` 检查完整几何；`sch_text_audit.py --strict` 检查实测可见文字之间的关系，自动线名、引脚名缺失时必须记录覆盖缺口；不能用执行器的 `layout-lint --strict` 替代这两项。真实工程先用 `svg_text_bbox.py` 实测官方 SVG 的全部渲染文字，再由 `layout_from_easyeda.py` 把 `sch list`/`visible_text`/`sheet-geometry` 拼成严格输入，检查 `unowned_visible_text`、`duplicate_net_text`、`netflag_rotation_outlier`、`zone_reading_order`、`title_block_duplicate_text` 等图面问题，流程见 [绘图执行方法](references/schematic-authoring.md) 第6节。需要把发现标到图上时用 `sch_visual_audit.py` 生成**分析叠加图**（带 `official_export:false` 与 `ANALYSIS OVERLAY` 水印），不能把它冒充官方重新导出的工程图；建议和已执行修改分开标记。整页及拥挤局部必须检查**实际官方导出图**，发现重名叠印、文字遮挡、标签乱飞即回到对应模块修复。原生 gate、pin-net 对比、器件身份对比（`component_identity_check.py`：device/symbol/封装/BOM、实例 uniqueId/component.uuid、引脚分区、SCH↔PCB；预期 BOM 变更必须有 reason+evidence）、save→reopen 回读与图面验收分别报告，任何一个 PASS 都不能代替另一个。
+
+### 电源主干、加宽与走廊
+
+电源主干过细、加宽受限或规划宽走廊时，读取 [电源路径与走廊预检](references/power-routing-preflight.md)，使用 `scripts/power_routing.py audit/widen/corridor`。先确定实际电流、铜厚、源/负载和层，不能用扬声器输出电流直接替代直流输入电流；输出是绑定快照的模型分析或候选，未覆盖铺铜/平面/层跨度等保持 incomplete，不替代原生DRC、持久化和实测。部分加宽未达目标不能算完成，按实际限制改道、并联或重新论证；不把项目固定线宽、距离、温升值写成通用常量。
+
+### 提速：先离线准备，再合批写入
+
+多个独立 PCB 放置模块来自同一实测快照时，按 [批量执行与提速](references/execution-efficiency.md) 使用 `pcb_apply_plan.py --module-plan ... --module-plan ...`：一次读取/标准化、联合检查模块与固定对象，再生成一次 apply 和保存重载链。简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。只读分析复用冻结快照，写入后旧快照失效，不按每颗器件重复探测。原理图沿用 compose/现有模板路径，不用 PCB 放置批处理冒充原理图或布线完成。
 
 ## 3. 按需读取，不加载规则百科
 
@@ -144,6 +158,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 不知道客户端、安装目录或首次接通 | [客户端兼容与首次接通](references/client-compatibility.md)；先跑 `python scripts/doctor_env.py --summary`，按当前客户端逐条判定 |
 | 导入PCB、布局、布线、铜皮、制造输出 | [PCB工程习惯](references/pcb.md) |
 | 真实PCB布局布线、约束/局部模板/候选、逃线迭代、保存重开 | [PCB执行工作流](references/pcb-execution.md)，命令与证据角色见 [PCB命令映射](references/pcb-command-map.json)：放件前 `scripts/pcb_preflight.py`，批量写入 `scripts/pcb_apply_plan.py`，交付前 `scripts/pcb_gate.py`，整案证据 `scripts/pcb_case.py`；先读实测dump与sch引脚。交付逐项核对 [PCB 交付检查清单](assets/pcb-delivery-checklist.md)。 |
+| 观察→局部修改→回读→复验、越界/并发/部分失败恢复、案例检索与复用 | [反馈闭环](references/feedback-loop.md)，运行 `python scripts/feedback_loop.py probe/observe/plan/preview/apply/readback/verify/recover/case-search`；只读命令不写入，未回读不写通过 |
 | 设计审查、故障排查、样机上电 | [审查与验证](references/review.md) |
 | 查询官方资料入口 | [来源导航](references/sources.md) |
 | 新建/实质修改SCH或PCB，需要选取适用经验 | [工程经验库与来源](references/design-experience.md)，按当前对象选择，避免全量加载 |
@@ -274,6 +289,8 @@ Skill 包自检用 `python scripts/skill_selftest.py`：检查必需文件、相
 需要真实读写嘉立创EDA工程时运行 `python scripts/eda_exec.py` 的子命令，先读 [EDA执行](references/eda-execution.md)。`doctor` 只诊断，`read` 只回读，`apply --dry-run` 只对账；写入必须在已授权副本上，冲突默认不写，保存后按 `reopen-check` 验证持久化。它只支持本文件列出的原理图原语，不覆盖PCB、下单或任意JS。
 
 真实PCB任务先读 [PCB执行工作流](references/pcb-execution.md) 与 [PCB命令映射](references/pcb-command-map.json)：用 `easyeda pcb dump --include-copper` 与 `sch read` 取实测几何/引脚，运行 `python scripts/design_engine_cli.py pcb-constraints/pcb-check-plan/pcb-candidates/pcb-escapes/pcb-power/pcb-diff`。按阶段串工具：落位前 `python scripts/pcb_preflight.py`（`ready/review/blocked`，`review` 不是通过）；写入走 `python scripts/pcb_apply_plan.py` 的 playbook 批量路径（place/track/via/pour，默认 dry-run，一次 apply 后回读）；交付前 `python scripts/pcb_gate.py --profile full`（缺证据 `blocked`，不能当通过）；整案证据用 `python scripts/pcb_case.py` 生成 manifest。离线命令只读本地 JSON；写入、布线、铺铜、丝印和 DRC 仍用当前 typed `easyeda pcb ...` 命令并回读。硬约束失败不能被候选总分抵消；模板缺少实测引脚/适用条件时拒绝；`near_pin` 的中心距和逃线预判都不是铜路径证明。
+
+需要把一次画板/改板/检查做成可恢复闭环时，先读 [反馈闭环](references/feedback-loop.md)：`observe` 采集带窗口/工程/文档 UUID 的观察，`plan` 生成 `hds-modification/v1` 契约（可写对象/区域/网络、锁定、不变量、验收、恢复点），`preview` 只读不写，`apply` 默认 dry-run、写入前重核基线，`readback`+`verify` 分开记录调用/写入/保存/重开/质量，`recover` 用 journal 和幂等键续做，`case-search` 先核对适用性再复用。调用成功、写入成功、保存成功、重新打开后仍存在、质量通过是五件事，缺一项就是 `NOT RUN`/`unknown`，不能合并成“完成”。
 
 ## 7. 让用户看懂进度和结果
 

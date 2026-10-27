@@ -1,0 +1,15 @@
+{
+  "contract_id": "r12-live-vertical-20261027a",
+  "goal": "Move D4 by +1.26 mil on Y on an independent imported copy, then restore it and prove the saved/reopened board returns to the original semantic hash.",
+  "scope": {
+    "objects": ["D4"],
+    "nets": [],
+    "regions": []
+  },
+  "allowed_actions": ["move_component", "save", "reload"],
+  "acceptance": [
+    {"id": "inside-one", "metric": "diff.inside_scope", "predicate": "count == 1"},
+    {"id": "outside-zero", "metric": "diff.outside_scope", "predicate": "count == 0"}
+  ],
+  "preview_only": false
+}

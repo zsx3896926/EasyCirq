@@ -31,7 +31,7 @@
     }
   },
   "timing": {
-    "runs": 1,
+    "runs": 3,
     "statistic": "min/median/max of each case; no cross-version speed claim",
     "environment": {
       "python": "3.13.15",
@@ -453,15 +453,15 @@
           {
             "name": "skill_assets_pcb-placement-templates_json",
             "path": "design-hardware/assets/pcb-placement-templates.json",
-            "expected": "df2505185dc10c265f32eff217bc462ad3c193583c31bcc46305bb493a9efed8",
-            "actual": "df2505185dc10c265f32eff217bc462ad3c193583c31bcc46305bb493a9efed8",
-            "normalized": "804ba646d263ea3ab5daca7ccd20ab02057ab9103092cddb5bb7a2b508a07020",
+            "expected": "f09ca1ce15e192c0e3f3366185e4a2958d0163f0bad598fc665d6230482d663a",
+            "actual": "f09ca1ce15e192c0e3f3366185e4a2958d0163f0bad598fc665d6230482d663a",
+            "normalized": "b2781034ef43b05180cccd778fa7ba5e50b59e7c3eed3288b7ea5e65d182a9b7",
             "hash_basis": "raw",
             "status": "match"
           }
         ]
       },
-      "input_bytes": 2119862,
+      "input_bytes": 2123582,
       "inputs": [
         {
           "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/candidates.json",
@@ -501,7 +501,7 @@
         },
         {
           "path": "design-hardware/assets/pcb-placement-templates.json",
-          "bytes": 21176
+          "bytes": 24896
         },
         {
           "path": "benchmarks/offline-round11/cases/holdout-concave-keepout.json",
@@ -649,10 +649,10 @@
         }
       ],
       "timing": {
-        "runs": 1,
-        "min_sec": 0.054954,
-        "median_sec": 0.054954,
-        "max_sec": 0.054954
+        "runs": 3,
+        "min_sec": 0.042014,
+        "median_sec": 0.04343,
+        "max_sec": 0.046737
       }
     },
     {
@@ -669,25 +669,86 @@
           "PG6_sch_pcb": "pass",
           "PG7_save_reload": "pass",
           "PG8_delivery": "pass"
-        }
+        },
+        "frozen_inputs": 37
       },
-      "input_bytes": 1533997,
+      "input_bytes": 1878853,
       "inputs": [
         {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\bom-audit.json",
-          "bytes": 260
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\candidates.json",
+          "bytes": 73566
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-dump-final.json",
+          "bytes": 271290
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\constraints.json",
+          "bytes": 5818
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\placement-check-final.json",
+          "bytes": 4762
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\placement-plan-final.json",
+          "bytes": 5397
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\placement-plan.json",
+          "bytes": 6115
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-dump-final.json",
+          "bytes": 271290
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-dump-after-reload.json",
+          "bytes": 271288
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-drc-final.json",
+          "bytes": 147
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\sch-pcb-compare.json",
+          "bytes": 119
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\save-reload-diff.json",
+          "bytes": 400
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\sch-read.json",
+          "bytes": 28541
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-final-top.png",
+          "bytes": 164801
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-final-bottom.png",
+          "bytes": 144024
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-final-actual.svg",
+          "bytes": 65936
         },
         {
           "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\BOM.csv",
           "bytes": 1471
         },
         {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\candidates.json",
-          "bytes": 73566
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\photo-led-pcb-final.epro2",
+          "bytes": 230203
         },
         {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\constraints.json",
-          "bytes": 5818
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\bom-audit.json",
+          "bytes": 260
+        },
+        {
+          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\candidates.json",
+          "bytes": 73566
         },
         {
           "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\escapes.json",
@@ -718,32 +779,8 @@
           "bytes": 3788
         },
         {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-drc-final.json",
-          "bytes": 147
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-dump-after-reload.json",
-          "bytes": 271288
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-dump-final.json",
-          "bytes": 271290
-        },
-        {
           "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-dump-placed.json",
           "bytes": 122968
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-final-actual.svg",
-          "bytes": 65936
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-final-bottom.png",
-          "bytes": 144024
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-final-top.png",
-          "bytes": 164801
         },
         {
           "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\pcb-intent-final.json",
@@ -758,24 +795,8 @@
           "bytes": 64786
         },
         {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\photo-led-pcb-final.epro2",
-          "bytes": 230203
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\placement-check-final.json",
-          "bytes": 4762
-        },
-        {
           "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\placement-check.json",
           "bytes": 4762
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\placement-plan-final.json",
-          "bytes": 5397
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\placement-plan.json",
-          "bytes": 6115
         },
         {
           "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\poured-list-plus5-empty.json",
@@ -794,18 +815,6 @@
           "bytes": 3053
         },
         {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\save-reload-diff.json",
-          "bytes": 400
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\sch-pcb-compare.json",
-          "bytes": 119
-        },
-        {
-          "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\sch-read.json",
-          "bytes": 28541
-        },
-        {
           "path": "design-hardware\\cases\\photo-led-pcb-2026-10-26\\evidence\\silk-align.log",
           "bytes": 13434
         },
@@ -815,10 +824,10 @@
         }
       ],
       "timing": {
-        "runs": 1,
-        "min_sec": 0.22898,
-        "median_sec": 0.22898,
-        "max_sec": 0.22898
+        "runs": 3,
+        "min_sec": 0.212273,
+        "median_sec": 0.224859,
+        "max_sec": 0.286793
       }
     },
     {
@@ -844,10 +853,10 @@
         }
       ],
       "timing": {
-        "runs": 1,
-        "min_sec": 0.087613,
-        "median_sec": 0.087613,
-        "max_sec": 0.087613
+        "runs": 3,
+        "min_sec": 0.06124,
+        "median_sec": 0.066167,
+        "max_sec": 0.068663
       }
     },
     {
@@ -871,7 +880,7 @@
         },
         "expected_selected": "signal-chain"
       },
-      "input_bytes": 131755,
+      "input_bytes": 156651,
       "inputs": [
         {
           "path": "tests\\fixtures\\photo-led-pcb-board.json",
@@ -880,13 +889,17 @@
         {
           "path": "tests\\fixtures\\photo-led-pcb-intent.json",
           "bytes": 8787
+        },
+        {
+          "path": "design-hardware/assets/pcb-placement-templates.json",
+          "bytes": 24896
         }
       ],
       "timing": {
-        "runs": 1,
-        "min_sec": 0.202324,
-        "median_sec": 0.202324,
-        "max_sec": 0.202324
+        "runs": 3,
+        "min_sec": 0.12788,
+        "median_sec": 0.1284,
+        "max_sec": 0.1406
       }
     },
     {
@@ -917,7 +930,13 @@
                 "signal-chain": true,
                 "density": false,
                 "mechanical": true
-              }
+              },
+              "hpwl_mil": {
+                "signal-chain": 18664.6,
+                "density": 18590.634,
+                "mechanical": 18664.6
+              },
+              "tolerance": 0.02
             }
           },
           "driver": {
@@ -943,7 +962,13 @@
                 "signal-chain": true,
                 "density": false,
                 "mechanical": true
-              }
+              },
+              "hpwl_mil": {
+                "signal-chain": 18664.6,
+                "density": 18171.753,
+                "mechanical": 18664.6
+              },
+              "tolerance": 0.02
             }
           },
           "ldo-power": {
@@ -975,7 +1000,7 @@
           }
         }
       },
-      "input_bytes": 133700,
+      "input_bytes": 159181,
       "inputs": [
         {
           "path": "tests\\fixtures\\photo-led-pcb-board.json",
@@ -988,13 +1013,21 @@
         {
           "path": "benchmarks\\offline-round11\\cases\\ldo-caps-board.json",
           "bytes": 1945
+        },
+        {
+          "path": "benchmarks\\offline-round11\\cases\\ldo-caps-intent.json",
+          "bytes": 585
+        },
+        {
+          "path": "design-hardware/assets/pcb-placement-templates.json",
+          "bytes": 24896
         }
       ],
       "timing": {
-        "runs": 1,
-        "min_sec": 0.400524,
-        "median_sec": 0.400524,
-        "max_sec": 0.400524
+        "runs": 3,
+        "min_sec": 0.278235,
+        "median_sec": 0.283172,
+        "max_sec": 0.319568
       }
     },
     {
@@ -1004,18 +1037,26 @@
         "status": "no_op",
         "cli_calls": 0
       },
-      "input_bytes": 6115,
+      "input_bytes": 134779,
       "inputs": [
         {
           "path": "tests\\fixtures\\photo-led-placement-plan.json",
           "bytes": 6115
+        },
+        {
+          "path": "tests\\fixtures\\photo-led-pcb-board.json",
+          "bytes": 122968
+        },
+        {
+          "path": "tests\\fixtures\\photo-led-pcb-constraints.json",
+          "bytes": 5696
         }
       ],
       "timing": {
-        "runs": 1,
-        "min_sec": 0.070541,
-        "median_sec": 0.070541,
-        "max_sec": 0.070541
+        "runs": 3,
+        "min_sec": 0.04612,
+        "median_sec": 0.046402,
+        "max_sec": 0.053955
       }
     },
     {
@@ -1036,10 +1077,10 @@
         }
       ],
       "timing": {
-        "runs": 1,
-        "min_sec": 0.00025,
-        "median_sec": 0.00025,
-        "max_sec": 0.00025
+        "runs": 3,
+        "min_sec": 8.2e-05,
+        "median_sec": 9.5e-05,
+        "max_sec": 0.000162
       }
     },
     {
@@ -1101,10 +1142,10 @@
         }
       ],
       "timing": {
-        "runs": 1,
-        "min_sec": 0.000877,
-        "median_sec": 0.000877,
-        "max_sec": 0.000877
+        "runs": 3,
+        "min_sec": 0.000572,
+        "median_sec": 0.000634,
+        "max_sec": 0.000702
       }
     },
     {
@@ -1128,10 +1169,10 @@
         }
       ],
       "timing": {
-        "runs": 1,
-        "min_sec": 0.013377,
-        "median_sec": 0.013377,
-        "max_sec": 0.013377
+        "runs": 3,
+        "min_sec": 0.010562,
+        "median_sec": 0.01062,
+        "max_sec": 0.011236
       }
     }
   ],

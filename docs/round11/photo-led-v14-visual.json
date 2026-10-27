@@ -501,7 +501,7 @@
   "informational_count": 5,
   "false_positive_controls": {
     "label_own_wire_edge_contact": [],
-    "crossings_with_junction_evidence": [
+    "verified_no_junction_crossings": [
       {
         "index": 3,
         "code": "different_named_wires_cross",
@@ -707,7 +707,7 @@
         "executed": false
       }
     ],
-    "crossings_without_junction_evidence": []
+    "unverified_crossings": []
   },
   "font_measurement": {
     "source": "rendered_svg_measurement",

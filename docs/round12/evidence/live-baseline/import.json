@@ -1,0 +1,18 @@
+{
+  "id": "req_15958",
+  "ok": true,
+  "result": {
+    "bytes": 230203,
+    "contentVerified": false,
+    "created": true,
+    "friendlyName": "r12-feedback-photo-20261027",
+    "importOption": "ImportDocument",
+    "sourcePath": "C:/Users/jlc/work/pcb-round9-scratch/photo-led-pcb-final.epro2",
+    "sourceSha256": "d9ef9201e574c7ba944c7c77c77aa3364802464790e4e7daca1969884a826491",
+    "teamUuid": "0d20f286253d4bae9d18fcc726fdf389",
+    "uuid": "0433fb040b2a46bb9991ac0a747cf2d4",
+    "verified": true
+  },
+  "type": "response",
+  "version": "v1"
+}

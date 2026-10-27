@@ -44,10 +44,10 @@ class VisualAuditTests(unittest.TestCase):
         # blocking error.
         self.assertEqual(
             len(self.report['false_positive_controls']
-                ['crossings_with_junction_evidence']), 3)
+                ['verified_no_junction_crossings']), 3)
         self.assertEqual(
             len(self.report['false_positive_controls']
-                ['crossings_without_junction_evidence']), 0)
+                ['unverified_crossings']), 0)
 
     def test_findings_have_ids_positions_and_unexecuted_suggestions(self):
         self.assertTrue(self.report['findings'])
@@ -74,13 +74,15 @@ class VisualAuditTests(unittest.TestCase):
     def test_overlay_is_labelled_and_not_official(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = Path(tmp) / 'overlay.svg'
-            report = sch_visual_audit.audit(self.layout, out_svg=path)
+            report = sch_visual_audit.audit(
+                self.layout, out_svg=path, source_layout_sha256='deadbeef')
             text = path.read_text(encoding='utf-8')
         import html
         decoded = html.unescape(text)
         self.assertIn('id="hds-analysis-overlay"', decoded)
         self.assertIn('ANALYSIS OVERLAY', decoded)
         self.assertIn('"official_export": false', decoded)
+        self.assertIn('"source_layout_sha256": "%s"' % report['source_layout_sha256'], decoded)
         self.assertTrue(report['analysis_overlay'])
         self.assertFalse(report['official_export'])
         self.assertEqual(report['base'], 'reconstructed-from-layout')

@@ -1,0 +1,80 @@
+{
+  "schema": "hds-command-evidence/v1",
+  "label": "pcb-check",
+  "argv": [
+    "C:/Users/jlc/.local/bin/easyeda.exe",
+    "pcb",
+    "check",
+    "--json",
+    "--window",
+    "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+    "--doc",
+    "49c8e7a5dc2e8f59"
+  ],
+  "exit": 0,
+  "ok": true,
+  "error": null,
+  "payload": {
+    "passed": false,
+    "summary": {
+      "danglingEnds": 0,
+      "acuteAngles": 0,
+      "nonOrthogonal": 0,
+      "trackOverPad": 0,
+      "clearance": 0,
+      "silkscreenFlipped": 0,
+      "overlappingVias": 0,
+      "singleLayerVias": 0,
+      "widthMismatches": 0,
+      "duplicateSegments": 0,
+      "parallelCoupling": 0,
+      "antennaKeepout": 0,
+      "netlessPours": 0,
+      "viaCrossesPlane": 0,
+      "floatingIslands": 0,
+      "powerNotPoured": 1,
+      "netlessViaInPad": 0,
+      "widthUnderSpec": 0,
+      "silkOverPad": 0,
+      "silkOffBoard": 0,
+      "decapTooFar": 0,
+      "viaInPad": 0,
+      "copperNearEdge": 0,
+      "fiducialMissing": 0,
+      "zoneViolation": 0,
+      "internalOnEdge": 0,
+      "connectorPlugClearance": 0,
+      "connectorMatingBlocked": 0,
+      "connectorOpeningInward": 0,
+      "errors": 0,
+      "warnings": 1,
+      "total": 1
+    },
+    "trackCount": 32,
+    "viaCount": 2,
+    "padCount": 28,
+    "findings": [
+      {
+        "type": "power-not-poured",
+        "level": "WARN",
+        "net": "+5V",
+        "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+      }
+    ],
+    "incomplete": false,
+    "coverage": {
+      "complete": true,
+      "componentsInventoryKnown": true,
+      "padsInventoryKnown": true,
+      "componentCount": 12,
+      "totalPads": 28,
+      "knownGeometryPads": 28,
+      "unsupportedGeometryPads": 0,
+      "unknownGeometryPads": 0,
+      "legacyGeometryPads": 0
+    }
+  },
+  "body": null,
+  "stdout_sha256": "d9e0acd4fd0c5b209a75519369473324fd477ada5ff3f3411e72661ce1dae1b7",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

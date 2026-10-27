@@ -1,0 +1,315 @@
+{
+  "schema": "hds-quality-eval/v1",
+  "generated_at": "2026-10-27T04:48:23.756990Z",
+  "tool_version": "1.0.0",
+  "target": {
+    "project_uuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "project_name": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "documents": [
+      {
+        "uuid": "10f78b14a3282fb6",
+        "type": "schematic",
+        "name": "P1"
+      },
+      {
+        "uuid": "49c8e7a5dc2e8f59",
+        "type": "pcb",
+        "name": "PCB1"
+      }
+    ]
+  },
+  "layers": {
+    "hard": {
+      "status": "fail",
+      "findings": [
+        {
+          "id": "eval-hard:1",
+          "code": "drc-clearance-error",
+          "layer": "hard",
+          "severity": "blocking",
+          "deterministic": true,
+          "blocking": true,
+          "message": "(GND): e0e0 to ($1N17): D4_1 distance is 8.8mil, should be >= 10mil",
+          "objects": [
+            "GND"
+          ],
+          "evidence": {
+            "source": "pcb.drc",
+            "finding": {
+              "rule": "Clearance Error",
+              "objType": "Copper Region(Filled) to TH Pad",
+              "ruleName": "copperThickness1oz",
+              "net": "GND",
+              "x": 1675.09,
+              "y": 846.42,
+              "layer": "Top Layer",
+              "objs": [
+                "2ef187fda2981dfe",
+                "75da81f5df5a9426e18"
+              ],
+              "message": "(GND): e0e0 to ($1N17): D4_1 distance is 8.8mil, should be >= 10mil",
+              "globalIndex": "err4",
+              "severity": "blocking",
+              "code": "drc-clearance-error"
+            }
+          },
+          "basis": "hard input violation reported by the observation or a declared rule",
+          "recheck": null,
+          "source": "pcb.drc"
+        },
+        {
+          "id": "eval-hard:2",
+          "code": "drc-clearance-error",
+          "layer": "hard",
+          "severity": "blocking",
+          "deterministic": true,
+          "blocking": true,
+          "message": "(GND): e0e0 to ($1N18): D4_2 distance is 8.8mil, should be >= 10mil",
+          "objects": [
+            "GND"
+          ],
+          "evidence": {
+            "source": "pcb.drc",
+            "finding": {
+              "rule": "Clearance Error",
+              "objType": "Copper Region(Filled) to TH Pad",
+              "ruleName": "copperThickness1oz",
+              "net": "GND",
+              "x": 1545.09,
+              "y": 846.42,
+              "layer": "Top Layer",
+              "objs": [
+                "2ef187fda2981dfe",
+                "75da81f5df5a9426e19"
+              ],
+              "message": "(GND): e0e0 to ($1N18): D4_2 distance is 8.8mil, should be >= 10mil",
+              "globalIndex": "err5",
+              "severity": "blocking",
+              "code": "drc-clearance-error"
+            }
+          },
+          "basis": "hard input violation reported by the observation or a declared rule",
+          "recheck": null,
+          "source": "pcb.drc"
+        },
+        {
+          "id": "eval-hard:3",
+          "code": "drc-clearance-error",
+          "layer": "hard",
+          "severity": "blocking",
+          "deterministic": true,
+          "blocking": true,
+          "message": "(GND): e1e1 to ($1N17): D4_1 distance is 8.8mil, should be >= 10mil",
+          "objects": [
+            "GND"
+          ],
+          "evidence": {
+            "source": "pcb.drc",
+            "finding": {
+              "rule": "Clearance Error",
+              "objType": "Copper Region(Filled) to TH Pad",
+              "ruleName": "copperThickness1oz",
+              "net": "GND",
+              "x": 1675.09,
+              "y": 846.42,
+              "layer": "Bottom Layer",
+              "objs": [
+                "6ab0a9d789872c29",
+                "75da81f5df5a9426e18"
+              ],
+              "message": "(GND): e1e1 to ($1N17): D4_1 distance is 8.8mil, should be >= 10mil",
+              "globalIndex": "err6",
+              "severity": "blocking",
+              "code": "drc-clearance-error"
+            }
+          },
+          "basis": "hard input violation reported by the observation or a declared rule",
+          "recheck": null,
+          "source": "pcb.drc"
+        },
+        {
+          "id": "eval-hard:4",
+          "code": "drc-clearance-error",
+          "layer": "hard",
+          "severity": "blocking",
+          "deterministic": true,
+          "blocking": true,
+          "message": "(GND): e1e1 to ($1N18): D4_2 distance is 8.8mil, should be >= 10mil",
+          "objects": [
+            "GND"
+          ],
+          "evidence": {
+            "source": "pcb.drc",
+            "finding": {
+              "rule": "Clearance Error",
+              "objType": "Copper Region(Filled) to TH Pad",
+              "ruleName": "copperThickness1oz",
+              "net": "GND",
+              "x": 1545.09,
+              "y": 846.42,
+              "layer": "Bottom Layer",
+              "objs": [
+                "6ab0a9d789872c29",
+                "75da81f5df5a9426e19"
+              ],
+              "message": "(GND): e1e1 to ($1N18): D4_2 distance is 8.8mil, should be >= 10mil",
+              "globalIndex": "err7",
+              "severity": "blocking",
+              "code": "drc-clearance-error"
+            }
+          },
+          "basis": "hard input violation reported by the observation or a declared rule",
+          "recheck": null,
+          "source": "pcb.drc"
+        }
+      ],
+      "checks_run": [
+        "schematic.drc",
+        "pad_net.sch_pcb",
+        "pcb.outline"
+      ],
+      "checks_not_run": [],
+      "unknown": [
+        {
+          "field": "pcb.drc",
+          "reason": "command_failed: exit=1",
+          "source": "evaluation"
+        }
+      ]
+    },
+    "engineering": {
+      "status": "warn",
+      "findings": [
+        {
+          "id": "eval-confirmed:1",
+          "code": "power-not-poured",
+          "layer": "engineering",
+          "severity": "major",
+          "deterministic": true,
+          "blocking": false,
+          "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]",
+          "objects": [
+            "+5V"
+          ],
+          "evidence": {
+            "source": "pcb.check",
+            "finding": {
+              "type": "power-not-poured",
+              "level": "WARN",
+              "net": "+5V",
+              "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+            }
+          },
+          "basis": "measured DFM/electrical finding; the source supplies the limit",
+          "recheck": null,
+          "source": "pcb.check"
+        }
+      ],
+      "confirmed": [
+        {
+          "id": "eval-confirmed:1",
+          "code": "power-not-poured",
+          "layer": "engineering",
+          "severity": "major",
+          "deterministic": true,
+          "blocking": false,
+          "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]",
+          "objects": [
+            "+5V"
+          ],
+          "evidence": {
+            "source": "pcb.check",
+            "finding": {
+              "type": "power-not-poured",
+              "level": "WARN",
+              "net": "+5V",
+              "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+            }
+          },
+          "basis": "measured DFM/electrical finding; the source supplies the limit",
+          "recheck": null,
+          "source": "pcb.check"
+        }
+      ],
+      "conditional": [],
+      "checks_run": [
+        "pcb.check"
+      ],
+      "checks_not_run": [],
+      "unknown": []
+    },
+    "readability": {
+      "status": "unknown",
+      "findings": [],
+      "checks_run": [],
+      "checks_not_run": [
+        "readability"
+      ],
+      "unknown": [],
+      "advisory_only": true
+    }
+  },
+  "confirmed_issues": [
+    {
+      "schema": "hds-issue/v1",
+      "generated_at": "2026-10-27T04:48:23.756947Z",
+      "id": "auto-power-not-poured-1",
+      "target": {
+        "project_uuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+        "project_name": "f37160f4acb64e13a80f1eb9c0a67fa3",
+        "documents": [
+          {
+            "uuid": "10f78b14a3282fb6",
+            "type": "schematic",
+            "name": "P1"
+          },
+          {
+            "uuid": "49c8e7a5dc2e8f59",
+            "type": "pcb",
+            "name": "PCB1"
+          }
+        ]
+      },
+      "description": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]",
+      "basis": {
+        "deterministic": true,
+        "reason": "measured DFM/electrical finding; the source supplies the limit",
+        "source": "pcb.check"
+      },
+      "severity": "major",
+      "evidence": [
+        {
+          "source": "pcb.check",
+          "finding": {
+            "type": "power-not-poured",
+            "level": "WARN",
+            "net": "+5V",
+            "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+          }
+        }
+      ],
+      "action": {},
+      "improvement": {},
+      "status": "open",
+      "layer": "engineering",
+      "code": "power-not-poured",
+      "recheck": null,
+      "source": "pcb.check"
+    }
+  ],
+  "conditional_risks": [],
+  "suggestions": [],
+  "unknown": [
+    {
+      "field": "pcb.drc",
+      "reason": "command_failed: exit=1",
+      "source": "evaluation"
+    }
+  ],
+  "drc_zero_but_quality_issues": false,
+  "verdict": "fail",
+  "total_score": null,
+  "note": "no total score: a hard failure is never offset by other layers; readability findings are suggestions only",
+  "simulated": false,
+  "reason": "hard layer failed (4 finding(s): drc-clearance-error)"
+}

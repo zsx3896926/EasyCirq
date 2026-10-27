@@ -1,0 +1,1301 @@
+{
+  "schema": "design-engine-pcb-gate/v1",
+  "status": "pass",
+  "profile": "full",
+  "case": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case",
+  "evidence_dir": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence",
+  "images_dir": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence",
+  "generated_at": "2026-10-27T02:34:26.709089Z",
+  "stages": [
+    {
+      "id": "PG1_placement",
+      "title": "Placement constraints / measured placement check",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "constraints",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-constraints-final.json",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "9a593c4f51973cd13c1016d177a6499e8b131219993c304770a9a9e2a7323992",
+          "bytes": 5400,
+          "mtime": "2026-10-26T17:07:51.498188Z",
+          "semantic_sha256": "8210d2215f721ff93f8112f856b8dee738dee2d444b223f7c64d743a475e9682",
+          "captured_at": "2026-10-26T17:07:51.498188Z",
+          "freshness_basis": "file_mtime",
+          "binding": {
+            "basis": "discovery"
+          }
+        },
+        {
+          "role": "placement",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\placement-check-final.json",
+          "candidates": 2,
+          "selected_because": "newest compatible match among 2 candidate(s)",
+          "sha256": "3ddd2d4d4b1c1e758d4b530181efa0af0e0aac7442b93b83745f40d79d4216c4",
+          "bytes": 5464,
+          "mtime": "2026-10-26T17:18:41.628957Z",
+          "semantic_sha256": "a5e6b427eb2acb4c8395031ce3587888e44e6f1ad3ba87af6fd1bee40c656abc",
+          "captured_at": "2026-10-26T17:18:41.628957Z",
+          "freshness_basis": "file_mtime",
+          "alternatives": [
+            {
+              "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-placement-check-final.json",
+              "sha256": "3ddd2d4d4b1c1e758d4b530181efa0af0e0aac7442b93b83745f40d79d4216c4"
+            }
+          ],
+          "binding": {
+            "basis": "discovery"
+          }
+        }
+      ],
+      "metrics": {
+        "plan_base_match": null,
+        "constraint_status": "compiled",
+        "constraint_count": 16,
+        "constraint_conflicts": 0,
+        "constraint_unknown": 0,
+        "placement_status": "pass",
+        "placement_hard_ok": true,
+        "constraint_rows": 16,
+        "hard_failed": 0,
+        "hard_unmeasured": 0,
+        "evidence_binding": {
+          "constraints": {
+            "basis": "discovery",
+            "error": null,
+            "conflict": null,
+            "manifest": false
+          },
+          "placement": {
+            "basis": "discovery",
+            "error": null,
+            "conflict": null,
+            "manifest": false
+          }
+        }
+      }
+    },
+    {
+      "id": "PG2_layout",
+      "title": "Layout lint quality",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "lint",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-layout-lint-final.json",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+          "bytes": 782,
+          "mtime": "2026-10-26T17:14:27.312014Z",
+          "semantic_sha256": "fa6a4d357786800133181720d584afdbba0f36261b3fa220259fb3f05164556f",
+          "captured_at": "2026-10-26T17:14:27.312014Z",
+          "freshness_basis": "file_mtime",
+          "manifest": {
+            "sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:14:27.312014Z",
+            "source_binding": "inferred_mtime"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+            "actual_sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+            "normalized_sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+            "hash_basis": "raw",
+            "source_binding": "inferred_mtime",
+            "manifest_status": null
+          }
+        }
+      ],
+      "metrics": {
+        "score": 100.0,
+        "crossings": 0.0,
+        "components": 12.0,
+        "overlap": 0,
+        "off_board": 0,
+        "short": 0,
+        "tight": 0,
+        "silk_over_pad": 0,
+        "coverage_complete": true,
+        "incomplete": false,
+        "evidence_binding": {
+          "lint": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          }
+        }
+      }
+    },
+    {
+      "id": "PG3_drc",
+      "title": "Native PCB DRC",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "drc",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-drc-final.json",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+          "bytes": 137,
+          "mtime": "2026-10-26T17:14:16.326022Z",
+          "semantic_sha256": "b446d082d7a8d258f2b9d1b97021d2f102d35cc975cc0631ebce00b284723f84",
+          "captured_at": "2026-10-26T17:14:16.326022Z",
+          "freshness_basis": "file_mtime",
+          "manifest": {
+            "sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:14:16.326022Z",
+            "source_binding": "inferred_mtime"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+            "actual_sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+            "normalized_sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+            "hash_basis": "raw",
+            "source_binding": "inferred_mtime",
+            "manifest_status": null
+          }
+        }
+      ],
+      "metrics": {
+        "passed": true,
+        "total": 0,
+        "connection_violations": 0,
+        "counts": {},
+        "evidence_binding": {
+          "drc": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          }
+        }
+      }
+    },
+    {
+      "id": "PG4_check",
+      "title": "PCB check errors + WARN dispositions",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "check",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-check-final.json",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+          "bytes": 1538,
+          "mtime": "2026-10-26T17:14:23.590425Z",
+          "semantic_sha256": "f1983bf377a46e48dda0e31bfefc3ec28564dd1e27dd2291faa39829ab0bf59b",
+          "captured_at": "2026-10-26T17:14:23.590425Z",
+          "freshness_basis": "file_mtime",
+          "manifest": {
+            "sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:14:23.590425Z",
+            "source_binding": "inferred_mtime"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+            "actual_sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+            "normalized_sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+            "hash_basis": "raw",
+            "source_binding": "inferred_mtime",
+            "manifest_status": null
+          }
+        },
+        {
+          "role": "warn_disposition",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-warn-disposition.json",
+          "candidates": 1,
+          "selected_because": "newest compatible match among 1 candidate(s)",
+          "sha256": "590dcf7df55de0915bcb60c46443e6ae1da4ecab1cd7d32053d4849731dc8c50",
+          "bytes": 1087,
+          "mtime": "2026-10-27T01:23:23.948318Z",
+          "semantic_sha256": "1f66cfa383b1903519157db51c09166b41f00564121f903efd4ded259d25cc78",
+          "captured_at": "2026-10-27T01:23:23.948318Z",
+          "freshness_basis": "file_mtime",
+          "binding": {
+            "basis": "discovery"
+          }
+        }
+      ],
+      "metrics": {
+        "errors": 0,
+        "warnings": 1,
+        "infos": 0,
+        "total": 1,
+        "disposition_present": true,
+        "disposition_required": true,
+        "evidence_binding": {
+          "check": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          },
+          "warn_disposition": {
+            "basis": "discovery",
+            "error": null,
+            "conflict": null,
+            "manifest": false
+          }
+        }
+      }
+    },
+    {
+      "id": "PG5_netpath",
+      "title": "Key-net continuity (net-path)",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "netpath",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\netpath-key-connections.json",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+          "bytes": 20837,
+          "mtime": "2026-10-26T17:14:48.057052Z",
+          "semantic_sha256": "88ce92ba37b3b16b363eecd259325a2414c909740ad24fcefa4777fb83a71668",
+          "captured_at": "2026-10-26T17:14:48.057052Z",
+          "freshness_basis": "manifest_produced_at",
+          "manifest": {
+            "sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:14:48.057052Z",
+            "source_binding": "recorded"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+            "actual_sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+            "normalized_sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+            "hash_basis": "raw",
+            "source_binding": "recorded",
+            "manifest_status": null
+          }
+        }
+      ],
+      "metrics": {
+        "required": 13,
+        "connected": 13,
+        "missing": 0,
+        "failed": 0,
+        "evidence_binding": {
+          "netpath": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          }
+        }
+      }
+    },
+    {
+      "id": "PG6_sch_pcb",
+      "title": "SCH-PCB component/pin reconciliation",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "sch_pcb",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\sch-pcb-compare.json",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+          "bytes": 4138,
+          "mtime": "2026-10-26T17:15:07.514894Z",
+          "semantic_sha256": "8c755474a16dfb88a2a232f37d2a0360e4e99451d95c9f956ccd20149641a5e9",
+          "captured_at": "2026-10-26T17:15:07.514894Z",
+          "freshness_basis": "file_mtime",
+          "manifest": {
+            "sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:15:07.514894Z",
+            "source_binding": "inferred_mtime"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+            "actual_sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+            "normalized_sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+            "hash_basis": "raw",
+            "source_binding": "inferred_mtime",
+            "manifest_status": null
+          }
+        }
+      ],
+      "metrics": {
+        "source": "sch_pcb_evidence",
+        "fresh": true,
+        "status": "match",
+        "schematic_components": 12,
+        "pcb_components": 12,
+        "pins": 28,
+        "mismatches": 0,
+        "component_mismatches": 0,
+        "name_changes": 0,
+        "excluded_designators": [],
+        "partition_match": null,
+        "evidence_binding": {
+          "sch": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          },
+          "sch_pcb": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          }
+        }
+      }
+    },
+    {
+      "id": "PG7_save_reload",
+      "title": "Save -> reload -> fresh dump persistence",
+      "status": "pass",
+      "required": true,
+      "findings": [
+        {
+          "code": "EVIDENCE_AMBIGUOUS",
+          "severity": "advisory",
+          "message": "multiple dump_before candidates differ; the selected one is C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before.json; bind it with a manifest or an explicit role override",
+          "role": "dump_before",
+          "conflict": {
+            "kind": "multiple_candidates",
+            "selected": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before.json",
+            "alternatives": [
+              "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before-reload.json"
+            ]
+          }
+        }
+      ],
+      "evidence": [
+        {
+          "role": "dump_before",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before.json",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+          "bytes": 156251,
+          "mtime": "2026-10-26T17:13:53.765203Z",
+          "semantic_sha256": "3bdd80421c4dc01de3c15c142a704929016a7a6fb2bd269040f2f0e02db22f50",
+          "captured_at": "2026-10-26T17:13:53.765203Z",
+          "freshness_basis": "manifest_produced_at",
+          "alternatives": [
+            {
+              "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before-reload.json",
+              "sha256": "19a0fe0628cb3d79309263159f4373d0ed0c93246494b75142bed41061a48148"
+            }
+          ],
+          "conflict": {
+            "kind": "multiple_candidates",
+            "selected": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before.json",
+            "alternatives": [
+              "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before-reload.json"
+            ]
+          },
+          "manifest": {
+            "sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+            "source_dump_sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+            "produced_at": "2026-10-26T17:13:53.765203Z",
+            "source_binding": "recorded"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+            "actual_sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+            "normalized_sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+            "hash_basis": "raw",
+            "source_binding": "recorded",
+            "manifest_status": null
+          }
+        },
+        {
+          "role": "dump_after",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-after-reload.json",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+          "bytes": 156250,
+          "mtime": "2026-10-26T17:14:13.588661Z",
+          "semantic_sha256": "f82bd0a96486e6d7d1e8149ed0da31901acd1b825ccaf634a2cb43b54198defc",
+          "captured_at": "2026-10-26T17:14:13.588661Z",
+          "freshness_basis": "manifest_produced_at",
+          "manifest": {
+            "sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:14:13.588661Z",
+            "source_binding": "recorded"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "actual_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "normalized_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "hash_basis": "raw",
+            "source_binding": "recorded",
+            "manifest_status": null
+          }
+        },
+        {
+          "role": "save_reload",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\save-reload-diff.json",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+          "bytes": 443,
+          "mtime": "2026-10-26T17:14:13.601136Z",
+          "semantic_sha256": "4bab83de66138f6ac55c296a8ceacf68321c3f18d0240e71033dbc5c852ec62b",
+          "captured_at": "2026-10-26T17:14:13.601136Z",
+          "freshness_basis": "manifest_produced_at",
+          "manifest": {
+            "sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:14:13.601136Z",
+            "source_binding": "recorded"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+            "actual_sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+            "normalized_sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+            "hash_basis": "raw",
+            "source_binding": "recorded",
+            "manifest_status": null
+          }
+        }
+      ],
+      "metrics": {
+        "mode": "pure_persistence",
+        "scope": null,
+        "diff_status": "match",
+        "diff_counts": {
+          "identity": 0,
+          "geometry": 0,
+          "copper": 0,
+          "unrelated": 0,
+          "copper_geometry": 0
+        },
+        "semantic_sha256_before": "240dee0ab624138879a1a77998e2755f686186b1eec33ef067f740675af85fb9",
+        "semantic_sha256_after": "240dee0ab624138879a1a77998e2755f686186b1eec33ef067f740675af85fb9",
+        "document_uuid": "49c8e7a5dc2e8f59",
+        "project_uuid": "1e2020e3832949b1971e90dc59b6e280",
+        "evidence_binding": {
+          "dump_after": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          },
+          "dump_before": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": "multiple_candidates",
+            "manifest": true
+          },
+          "save_reload": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          }
+        }
+      }
+    },
+    {
+      "id": "PG8_delivery",
+      "title": "Delivery artifacts (images/BOM/archive)",
+      "status": "pass",
+      "required": true,
+      "findings": [],
+      "evidence": [
+        {
+          "role": "image_top",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-final-top.png",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+          "bytes": 170452,
+          "mtime": "2026-10-26T17:15:15.084214Z",
+          "captured_at": "2026-10-26T17:15:15.084214Z",
+          "freshness_basis": "file_mtime",
+          "manifest": {
+            "sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:15:15.084214Z",
+            "source_binding": "inferred_mtime"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+            "actual_sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+            "normalized_sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+            "hash_basis": "raw",
+            "source_binding": "inferred_mtime",
+            "manifest_status": null
+          }
+        },
+        {
+          "role": "image_bottom",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-final-bottom.png",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+          "bytes": 109614,
+          "mtime": "2026-10-26T17:15:22.987559Z",
+          "captured_at": "2026-10-26T17:15:22.987559Z",
+          "freshness_basis": "file_mtime",
+          "manifest": {
+            "sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:15:22.987559Z",
+            "source_binding": "inferred_mtime"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+            "actual_sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+            "normalized_sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+            "hash_basis": "raw",
+            "source_binding": "inferred_mtime",
+            "manifest_status": null
+          }
+        },
+        {
+          "role": "actual_svg",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-final-actual.svg",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+          "bytes": 35294,
+          "mtime": "2026-10-26T17:15:23.994361Z",
+          "captured_at": "2026-10-26T17:15:23.994361Z",
+          "freshness_basis": "manifest_produced_at",
+          "manifest": {
+            "sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:15:23.994361Z",
+            "source_binding": "recorded"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+            "actual_sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+            "normalized_sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+            "hash_basis": "raw",
+            "source_binding": "recorded",
+            "manifest_status": null
+          }
+        },
+        {
+          "role": "bom",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\BOM.csv",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+          "bytes": 1486,
+          "mtime": "2026-10-26T17:15:38.801672Z",
+          "captured_at": "2026-10-26T17:15:38.801672Z",
+          "freshness_basis": "file_mtime",
+          "manifest": {
+            "sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:15:38.801672Z",
+            "source_binding": "inferred_mtime"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+            "actual_sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+            "normalized_sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+            "hash_basis": "raw",
+            "source_binding": "inferred_mtime",
+            "manifest_status": null
+          }
+        },
+        {
+          "role": "archive",
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\case.epro2",
+          "candidates": 1,
+          "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+          "sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+          "bytes": 63668,
+          "mtime": "2026-10-26T17:15:40.654795Z",
+          "captured_at": "2026-10-26T17:15:40.654795Z",
+          "freshness_basis": "file_mtime",
+          "manifest": {
+            "sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+            "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+            "produced_at": "2026-10-26T17:15:40.654795Z",
+            "source_binding": "inferred_mtime"
+          },
+          "binding": {
+            "basis": "manifest",
+            "declared_sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+            "actual_sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+            "normalized_sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+            "hash_basis": "raw",
+            "source_binding": "inferred_mtime",
+            "manifest_status": null
+          }
+        }
+      ],
+      "metrics": {
+        "images": {
+          "image_top": {
+            "width": 1608,
+            "height": 714
+          },
+          "image_bottom": {
+            "width": 1608,
+            "height": 714
+          }
+        },
+        "svg": {
+          "bytes": 34180
+        },
+        "bom": {
+          "bytes": 1486,
+          "rows": 10
+        },
+        "archive": {
+          "bytes": 63668,
+          "zip": true
+        },
+        "archive_sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+        "baseline": {
+          "provided": false
+        },
+        "evidence_binding": {
+          "actual_svg": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          },
+          "archive": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          },
+          "bom": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          },
+          "image_bottom": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          },
+          "image_top": {
+            "basis": "manifest",
+            "error": null,
+            "conflict": null,
+            "manifest": true
+          }
+        }
+      }
+    }
+  ],
+  "counts": {
+    "stages": 8,
+    "pass": 8,
+    "fail": 0,
+    "blocked": 0,
+    "not_run": 0,
+    "required_fail": 0,
+    "required_blocked": 0,
+    "optional_not_run": 0,
+    "findings": 1,
+    "advisory_findings": 1
+  },
+  "not_checked": [
+    {
+      "stage": "PG1_placement",
+      "check": "plan_base_semantic_sha256",
+      "reason": "no placement plan was supplied; base hash is not checked"
+    },
+    {
+      "stage": "PG2_layout",
+      "check": "freshness_basis_layout-lint",
+      "reason": "freshness for layout-lint rests on file mtime only; a copied file with a touched timestamp can look fresh. Bind it with a case manifest (produced_at + sha256 + source_dump_sha256) for a content-bound claim."
+    },
+    {
+      "stage": "PG3_drc",
+      "check": "freshness_basis_native DRC",
+      "reason": "freshness for native DRC rests on file mtime only; a copied file with a touched timestamp can look fresh. Bind it with a case manifest (produced_at + sha256 + source_dump_sha256) for a content-bound claim."
+    },
+    {
+      "stage": "PG4_check",
+      "check": "freshness_basis_pcb check",
+      "reason": "freshness for pcb check rests on file mtime only; a copied file with a touched timestamp can look fresh. Bind it with a case manifest (produced_at + sha256 + source_dump_sha256) for a content-bound claim."
+    },
+    {
+      "stage": "PG5_netpath",
+      "check": "copper_pours",
+      "reason": "net-path proves listed tracks/vias only; copper pours need DRC + poured-list evidence"
+    },
+    {
+      "stage": "PG6_sch_pcb",
+      "check": "freshness_basis_SCH-PCB compare",
+      "reason": "freshness for SCH-PCB compare rests on file mtime only; a copied file with a touched timestamp can look fresh. Bind it with a case manifest (produced_at + sha256 + source_dump_sha256) for a content-bound claim."
+    },
+    {
+      "stage": "PG7_save_reload",
+      "check": "reload_timestamps",
+      "reason": "save/reload evidence carries no capture timestamp; reload order is inferred from the two dumps only"
+    },
+    {
+      "stage": "PG8_delivery",
+      "check": "baseline_manifest",
+      "reason": "no --baseline-manifest was supplied; image/BOM/archive hashes are recorded but not compared"
+    },
+    {
+      "stage": "PG8_delivery",
+      "check": "archive_restore",
+      "reason": ".epro2 restore/open verification is not performed by this gate"
+    },
+    {
+      "stage": "*",
+      "check": "functional_thermal_emc_manufacturing",
+      "reason": "DRC/lint/pcb-check/net-path do not prove firmware function, thermal, EMC, assembly or manufacturability"
+    }
+  ],
+  "next_command": "python scripts/pcb_gate.py --case C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case --profile full",
+  "strict_advisory": false,
+  "key_nets": [
+    {
+      "net": "$1N13",
+      "from": "J1.1",
+      "to": "D1.2"
+    },
+    {
+      "net": "+5V",
+      "from": "D1.1",
+      "to": "C1.2"
+    },
+    {
+      "net": "+5V",
+      "from": "D1.1",
+      "to": "C2.2"
+    },
+    {
+      "net": "+5V",
+      "from": "D1.1",
+      "to": "R1.1"
+    },
+    {
+      "net": "+5V",
+      "from": "D1.1",
+      "to": "R2.1"
+    },
+    {
+      "net": "+5V",
+      "from": "D1.1",
+      "to": "R3.1"
+    },
+    {
+      "net": "$1N14",
+      "from": "R1.2",
+      "to": "D2.2"
+    },
+    {
+      "net": "$1N15",
+      "from": "R2.2",
+      "to": "D3.1"
+    },
+    {
+      "net": "$1N16",
+      "from": "D3.2",
+      "to": "SW1.1"
+    },
+    {
+      "net": "$1N16",
+      "from": "D3.2",
+      "to": "SW1.4"
+    },
+    {
+      "net": "$1N17",
+      "from": "R3.2",
+      "to": "D4.1"
+    },
+    {
+      "net": "$1N18",
+      "from": "D4.2",
+      "to": "SW2.1"
+    },
+    {
+      "net": "$1N18",
+      "from": "D4.2",
+      "to": "SW2.4"
+    }
+  ],
+  "baseline_manifest": null,
+  "case_manifest": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+  "edit_scope": null,
+  "evidence": {
+    "actual_svg": {
+      "role": "actual_svg",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-final-actual.svg",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+      "bytes": 35294,
+      "mtime": "2026-10-26T17:15:23.994361Z",
+      "captured_at": "2026-10-26T17:15:23.994361Z",
+      "freshness_basis": "manifest_produced_at",
+      "manifest": {
+        "sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:15:23.994361Z",
+        "source_binding": "recorded"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+        "actual_sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+        "normalized_sha256": "a532920073e792332117c2893b53a3ee85714218979f01b4a9a2c719f668070e",
+        "hash_basis": "raw",
+        "source_binding": "recorded",
+        "manifest_status": null
+      }
+    },
+    "archive": {
+      "role": "archive",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\case.epro2",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+      "bytes": 63668,
+      "mtime": "2026-10-26T17:15:40.654795Z",
+      "captured_at": "2026-10-26T17:15:40.654795Z",
+      "freshness_basis": "file_mtime",
+      "manifest": {
+        "sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:15:40.654795Z",
+        "source_binding": "inferred_mtime"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+        "actual_sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+        "normalized_sha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+        "hash_basis": "raw",
+        "source_binding": "inferred_mtime",
+        "manifest_status": null
+      }
+    },
+    "bom": {
+      "role": "bom",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\BOM.csv",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+      "bytes": 1486,
+      "mtime": "2026-10-26T17:15:38.801672Z",
+      "captured_at": "2026-10-26T17:15:38.801672Z",
+      "freshness_basis": "file_mtime",
+      "manifest": {
+        "sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:15:38.801672Z",
+        "source_binding": "inferred_mtime"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+        "actual_sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+        "normalized_sha256": "1f92e5c03e920b620b58eab63422992ec848420cb7a75617abb29103c7a5eefe",
+        "hash_basis": "raw",
+        "source_binding": "inferred_mtime",
+        "manifest_status": null
+      }
+    },
+    "check": {
+      "role": "check",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-check-final.json",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+      "bytes": 1538,
+      "mtime": "2026-10-26T17:14:23.590425Z",
+      "semantic_sha256": "f1983bf377a46e48dda0e31bfefc3ec28564dd1e27dd2291faa39829ab0bf59b",
+      "captured_at": "2026-10-26T17:14:23.590425Z",
+      "freshness_basis": "file_mtime",
+      "manifest": {
+        "sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:14:23.590425Z",
+        "source_binding": "inferred_mtime"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+        "actual_sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+        "normalized_sha256": "eb5e1b1ae3d25cd7fd89175388284fc0c2b87571f08d8a34ea436d60b2bf8a79",
+        "hash_basis": "raw",
+        "source_binding": "inferred_mtime",
+        "manifest_status": null
+      }
+    },
+    "constraints": {
+      "role": "constraints",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-constraints-final.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "9a593c4f51973cd13c1016d177a6499e8b131219993c304770a9a9e2a7323992",
+      "bytes": 5400,
+      "mtime": "2026-10-26T17:07:51.498188Z",
+      "semantic_sha256": "8210d2215f721ff93f8112f856b8dee738dee2d444b223f7c64d743a475e9682",
+      "captured_at": "2026-10-26T17:07:51.498188Z",
+      "freshness_basis": "file_mtime",
+      "binding": {
+        "basis": "discovery"
+      }
+    },
+    "drc": {
+      "role": "drc",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-drc-final.json",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+      "bytes": 137,
+      "mtime": "2026-10-26T17:14:16.326022Z",
+      "semantic_sha256": "b446d082d7a8d258f2b9d1b97021d2f102d35cc975cc0631ebce00b284723f84",
+      "captured_at": "2026-10-26T17:14:16.326022Z",
+      "freshness_basis": "file_mtime",
+      "manifest": {
+        "sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:14:16.326022Z",
+        "source_binding": "inferred_mtime"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+        "actual_sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+        "normalized_sha256": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+        "hash_basis": "raw",
+        "source_binding": "inferred_mtime",
+        "manifest_status": null
+      }
+    },
+    "dump_after": {
+      "role": "dump_after",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-after-reload.json",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+      "bytes": 156250,
+      "mtime": "2026-10-26T17:14:13.588661Z",
+      "semantic_sha256": "f82bd0a96486e6d7d1e8149ed0da31901acd1b825ccaf634a2cb43b54198defc",
+      "captured_at": "2026-10-26T17:14:13.588661Z",
+      "freshness_basis": "manifest_produced_at",
+      "manifest": {
+        "sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:14:13.588661Z",
+        "source_binding": "recorded"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "actual_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "normalized_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "hash_basis": "raw",
+        "source_binding": "recorded",
+        "manifest_status": null
+      }
+    },
+    "dump_before": {
+      "role": "dump_before",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before.json",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+      "bytes": 156251,
+      "mtime": "2026-10-26T17:13:53.765203Z",
+      "semantic_sha256": "3bdd80421c4dc01de3c15c142a704929016a7a6fb2bd269040f2f0e02db22f50",
+      "captured_at": "2026-10-26T17:13:53.765203Z",
+      "freshness_basis": "manifest_produced_at",
+      "alternatives": [
+        {
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before-reload.json",
+          "sha256": "19a0fe0628cb3d79309263159f4373d0ed0c93246494b75142bed41061a48148"
+        }
+      ],
+      "conflict": {
+        "kind": "multiple_candidates",
+        "selected": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before.json",
+        "alternatives": [
+          "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-dump-before-reload.json"
+        ]
+      },
+      "manifest": {
+        "sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+        "source_dump_sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+        "produced_at": "2026-10-26T17:13:53.765203Z",
+        "source_binding": "recorded"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+        "actual_sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+        "normalized_sha256": "842bcec7e7d5dd60d21eca556c19d37f1bc5cfe4467b9008a34d6021465b6e52",
+        "hash_basis": "raw",
+        "source_binding": "recorded",
+        "manifest_status": null
+      }
+    },
+    "image_bottom": {
+      "role": "image_bottom",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-final-bottom.png",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+      "bytes": 109614,
+      "mtime": "2026-10-26T17:15:22.987559Z",
+      "captured_at": "2026-10-26T17:15:22.987559Z",
+      "freshness_basis": "file_mtime",
+      "manifest": {
+        "sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:15:22.987559Z",
+        "source_binding": "inferred_mtime"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+        "actual_sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+        "normalized_sha256": "95f1c639628fbe88629593a3518a6630113dbaf61ce25bfd72ce30e07f4b8675",
+        "hash_basis": "raw",
+        "source_binding": "inferred_mtime",
+        "manifest_status": null
+      }
+    },
+    "image_top": {
+      "role": "image_top",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-final-top.png",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+      "bytes": 170452,
+      "mtime": "2026-10-26T17:15:15.084214Z",
+      "captured_at": "2026-10-26T17:15:15.084214Z",
+      "freshness_basis": "file_mtime",
+      "manifest": {
+        "sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:15:15.084214Z",
+        "source_binding": "inferred_mtime"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+        "actual_sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+        "normalized_sha256": "b7c2a21f822f2d176e6a807c93f21e56d541cfcc6c9061b36921aa492e9d11f6",
+        "hash_basis": "raw",
+        "source_binding": "inferred_mtime",
+        "manifest_status": null
+      }
+    },
+    "lint": {
+      "role": "lint",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-layout-lint-final.json",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+      "bytes": 782,
+      "mtime": "2026-10-26T17:14:27.312014Z",
+      "semantic_sha256": "fa6a4d357786800133181720d584afdbba0f36261b3fa220259fb3f05164556f",
+      "captured_at": "2026-10-26T17:14:27.312014Z",
+      "freshness_basis": "file_mtime",
+      "manifest": {
+        "sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:14:27.312014Z",
+        "source_binding": "inferred_mtime"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+        "actual_sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+        "normalized_sha256": "4c59061b1c50637def34d046725e8f30f1473311a7307e44126e1868b75b46e4",
+        "hash_basis": "raw",
+        "source_binding": "inferred_mtime",
+        "manifest_status": null
+      }
+    },
+    "netpath": {
+      "role": "netpath",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\netpath-key-connections.json",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+      "bytes": 20837,
+      "mtime": "2026-10-26T17:14:48.057052Z",
+      "semantic_sha256": "88ce92ba37b3b16b363eecd259325a2414c909740ad24fcefa4777fb83a71668",
+      "captured_at": "2026-10-26T17:14:48.057052Z",
+      "freshness_basis": "manifest_produced_at",
+      "manifest": {
+        "sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:14:48.057052Z",
+        "source_binding": "recorded"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+        "actual_sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+        "normalized_sha256": "33c852c616994762328ed6085711591c0fcf27cda05067dacb0f298b631ee524",
+        "hash_basis": "raw",
+        "source_binding": "recorded",
+        "manifest_status": null
+      }
+    },
+    "placement": {
+      "role": "placement",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\placement-check-final.json",
+      "candidates": 2,
+      "selected_because": "newest compatible match among 2 candidate(s)",
+      "sha256": "3ddd2d4d4b1c1e758d4b530181efa0af0e0aac7442b93b83745f40d79d4216c4",
+      "bytes": 5464,
+      "mtime": "2026-10-26T17:18:41.628957Z",
+      "semantic_sha256": "a5e6b427eb2acb4c8395031ce3587888e44e6f1ad3ba87af6fd1bee40c656abc",
+      "captured_at": "2026-10-26T17:18:41.628957Z",
+      "freshness_basis": "file_mtime",
+      "alternatives": [
+        {
+          "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-placement-check-final.json",
+          "sha256": "3ddd2d4d4b1c1e758d4b530181efa0af0e0aac7442b93b83745f40d79d4216c4"
+        }
+      ],
+      "binding": {
+        "basis": "discovery"
+      }
+    },
+    "save_reload": {
+      "role": "save_reload",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\save-reload-diff.json",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+      "bytes": 443,
+      "mtime": "2026-10-26T17:14:13.601136Z",
+      "semantic_sha256": "4bab83de66138f6ac55c296a8ceacf68321c3f18d0240e71033dbc5c852ec62b",
+      "captured_at": "2026-10-26T17:14:13.601136Z",
+      "freshness_basis": "manifest_produced_at",
+      "manifest": {
+        "sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:14:13.601136Z",
+        "source_binding": "recorded"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+        "actual_sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+        "normalized_sha256": "3769404210b47addfc09ccbd056b5fc99973afafd51a8dc458ab3b40ba0f51b3",
+        "hash_basis": "raw",
+        "source_binding": "recorded",
+        "manifest_status": null
+      }
+    },
+    "sch": {
+      "role": "sch",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\sch-read.json",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "cfdafb925b2d7e110de2aceeda71b3c050cca795d7cc379e1de62372583e0068",
+      "bytes": 7671,
+      "mtime": "2026-10-26T17:15:07.512839Z",
+      "semantic_sha256": "2773d375e7f8693faffb02700bb3b737bd3c1359ed01ae5f9a1ecfe226ea2b11",
+      "captured_at": "2026-10-26T17:15:07.512839Z",
+      "freshness_basis": "file_mtime",
+      "manifest": {
+        "sha256": "cfdafb925b2d7e110de2aceeda71b3c050cca795d7cc379e1de62372583e0068",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:15:07.512839Z",
+        "source_binding": "inferred_mtime"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "cfdafb925b2d7e110de2aceeda71b3c050cca795d7cc379e1de62372583e0068",
+        "actual_sha256": "cfdafb925b2d7e110de2aceeda71b3c050cca795d7cc379e1de62372583e0068",
+        "normalized_sha256": "cfdafb925b2d7e110de2aceeda71b3c050cca795d7cc379e1de62372583e0068",
+        "hash_basis": "raw",
+        "source_binding": "inferred_mtime",
+        "manifest_status": null
+      }
+    },
+    "sch_pcb": {
+      "role": "sch_pcb",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\sch-pcb-compare.json",
+      "candidates": 1,
+      "selected_because": "path declared by C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\manifest.json",
+      "sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+      "bytes": 4138,
+      "mtime": "2026-10-26T17:15:07.514894Z",
+      "semantic_sha256": "8c755474a16dfb88a2a232f37d2a0360e4e99451d95c9f956ccd20149641a5e9",
+      "captured_at": "2026-10-26T17:15:07.514894Z",
+      "freshness_basis": "file_mtime",
+      "manifest": {
+        "sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+        "source_dump_sha256": "04aee2700e2eb6b6fe08954f093b88638dda3c9f48a421752d01d222e1a03ae1",
+        "produced_at": "2026-10-26T17:15:07.514894Z",
+        "source_binding": "inferred_mtime"
+      },
+      "binding": {
+        "basis": "manifest",
+        "declared_sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+        "actual_sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+        "normalized_sha256": "f71dfab177a687caa0655b28460944011f555567ba1445664c14a9fce4a85100",
+        "hash_basis": "raw",
+        "source_binding": "inferred_mtime",
+        "manifest_status": null
+      }
+    },
+    "warn_disposition": {
+      "role": "warn_disposition",
+      "path": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\pcb-warn-disposition.json",
+      "candidates": 1,
+      "selected_because": "newest compatible match among 1 candidate(s)",
+      "sha256": "590dcf7df55de0915bcb60c46443e6ae1da4ecab1cd7d32053d4849731dc8c50",
+      "bytes": 1087,
+      "mtime": "2026-10-27T01:23:23.948318Z",
+      "semantic_sha256": "1f66cfa383b1903519157db51c09166b41f00564121f903efd4ded259d25cc78",
+      "captured_at": "2026-10-27T01:23:23.948318Z",
+      "freshness_basis": "file_mtime",
+      "binding": {
+        "basis": "discovery"
+      }
+    }
+  },
+  "warnings": []
+}

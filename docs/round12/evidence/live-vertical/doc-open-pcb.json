@@ -1,0 +1,17 @@
+{
+  "active": {
+    "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "projectName": "feedback-loop-r12-verify-20261027a",
+    "documentUuid": "49c8e7a5dc2e8f59",
+    "documentType": "pcb",
+    "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+  },
+  "opened": {
+    "uuid": "49c8e7a5dc2e8f59",
+    "type": "pcb",
+    "name": "PCB1",
+    "parent": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "active": false
+  },
+  "ready": true
+}

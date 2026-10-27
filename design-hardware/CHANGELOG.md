@@ -1,5 +1,70 @@
 # 变更记录
 
+## 未发布（`feat/feedback-loop-round12` 收尾）— 2026-10-27
+
+round12 反馈闭环的最终收紧与真实运行记录。**本节改动未 bump 版本、未发布 Release、
+未替换任何客户端安装版**；合并 `origin/main` 后源码 `.version` 仍为 `0.9.4`。
+
+### 收紧
+
+- PCB 写前门禁：`plan.before_dump` 必须是完整原始 dump——铜的
+  `lines/vias/pours/poured/regions/fills/arcs`、`copper.availability`、
+  `copper.arcsAvailable`、`capturedAt`、`componentsAvailability`、整数
+  `routedLines` 与顶层 `availability` 缺一即拒绝；真实 dump 可以没有顶层
+  `project`，工程/文档/窗口身份以 `capture.projectUuid/documentUuid/windowId`
+  绑定。错工程/文档/窗口、与新鲜观察哈希或内容不符、过期、规范化重建的 dump
+  都在写前拒绝，负例证明 `writes_sent=0`。
+- `apply` 写前二次绑定；写入后 dump 必须带 `capture` 与 `semanticSha256`：
+  缺哈希判 `verification_failed/after_hash_missing`，缺 capture 或身份不符判
+  `target_mismatch` 且 `write_confirmed=false`。
+- 差异：孔变化按 primitive id / 位号+焊盘归属，D1→D2 两边都记录，after-only
+  或无身份孔不掩盖范围外变化；规范化铺铜比较 `priority/pour_name/locked/
+  line_width/geometry_sha256`；raw 与 normalized 的 copper availability 都兼容，
+  任一类别非 `available` 即 unknown；`diff.status=unknown` 时 acceptance 计数
+  不按 0 求值。
+- `feedback/observe.py` 的 pours 新增 `geometry_available/geometry_sha256/
+  raw_sha256`；`verify` 的 call/write/save/reopen 只来自 `--apply` receipt，
+  `quality_passed` 只来自显式 `--evaluation`；acceptance 未达成不标完成；
+  机器可读输出显式 `simulated`。
+
+### 真实运行记录
+
+- 独立导入副本 `feedback-loop-r12-verify-20261027a`
+  （`f37160f4acb64e13a80f1eb9c0a67fa3`，窗口
+  `c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7`）完成 round 2：
+  - 移动 D4 +1.26 mil：`status=verified`、`writes_sent=1`、四执行事实 true、
+    `quality_passed=null`；范围外 0；原生 DRC 4 条 clearance error ->
+    evaluate fail、verify fail；
+  - 恢复 D4：`status=verified`、四事实 true；PCB 哈希回到 `240dee0a...`、
+    整体观察哈希回到 `87d9fcde...`；原生 DRC 0；evaluate
+    `pass_with_warnings` 且 `drc_zero_but_quality_issues=true`；verify
+    `unknown`（锁定状态 unknown），未当 pass。
+  - 该轮写入使用收紧**之前**的代码；最终代码只对同一批真实 plan/dump 做只读
+    复核（`validate_plan` ok、dump 完整性通过、after capture 绑定一致、
+    差异复现 2 inside/0 outside/12 unknown）。
+  - 当前 Connector 不可用（`easyeda doc ready --json` ->
+    `no EasyEDA connector is available`），最终代码真机写入为 BLOCKED。
+- 测试：反馈套件 **308 tests**（loop 53 / cases 44 / evaluate 65 / observe 41 /
+  scope 96 / cli 9）；全量 **1653 tests OK**；基准 **16/16 PASS**；
+  `skill_selftest.py` 5 PASS / 0 FAIL / 0 NOT RUN。
+
+## 0.9.4 — 2026-10-27
+
+round12 原理图排版工具链补强：把 compose 输入、页预算预检和稳定 ID 绑定从手工步骤变成可离线验证的脚本，并记录本轮真机遇到的破坏性重排与恢复边界。**本轮脚本均为离线实现与单元测试，未调用 EDA**；真机证据来自 2026-10-27 usb-audio-amplifier-test-01 排版任务。
+
+### 新增
+
+- `scripts/sch_compose_input.py`（`design-engine-sch-compose-input/v1`）：把 connectivity IR、zones 几何和 model-report 合并为 `compose --from` 输入；校验器件覆盖、placement 位号、引脚网络一致性，注入隐藏的 `connectivity.modules`，支持 `--sheet`、`--project-id`（导入备份工程）、`--connection-mode`、标题长度警告；blocked 时不写文件。
+- `scripts/sch_sheet_fit.py`（`design-engine-sch-sheet-fit/v1`）：在写入前用 MaxRects 预检 A4 页预算，扣除图签 keep-out 与边距/间距；支持固定锚点、坐标吸附和直接产出 packed page；no-fit 时报告最后失败模块、所需尺寸与剩余空矩形。用于复核 `layout-sheet-plan --flow z` 的 shelf 打包误报。
+- `scripts/sch_bind_component_ids.py`（`design-engine-sch-bind-ids/v1`）：计划/复核 `EasyEDA Agent Component ID = cmp-<位号>` 绑定，输出逐件 `sch modify` PowerShell 命令；检测缺位号/重复/冲突，`rebind` 必须显式 `--force`；`--verify` 要求 N/N 全部通过。
+- 测试：`tests/test_sch_compose_input.py`、`tests/test_sch_sheet_fit.py`、`tests/test_sch_bind_component_ids.py`。
+- `references/schematic-layout-engine.md`：新增 composition 适配、页预算预检、绑定脚本流程；补充标题 ≤18 字符与每区 4–6 件的规划规则、pagePrimitives `pins` 与 apply gate 的冲突处理、`zone relayout --apply` 破坏性写入与 `.epro2` 导入恢复 SOP、netflag 旋转反转、未标记直连树阻断、strict gate 基线策略。
+
+### 修复
+
+- `sch_sheet_fit.py`：按 compose 的半单位边框描边和 5-raw 锚点网格计算可用区/区间距/keep-out；固定锚点与打包 reserve 上取整到网格，`--out-page` 输出整数 5 网格坐标与 `flow: fixed`，并拒绝非 5 整数倍的功能区尺寸。修复“离线报告 fits、compose 仍因边距/网格拒绝”的假阳性。
+- 排版文档中的工具版本口径统一到 easyeda-agent 1.15.0；写入后验收增加页预算报告、composition 适配器报告与绑定 N/N 证据项。
+
 ## 0.9.3 — 2026-10-27
 
 round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 LED 板真机反馈。**round11 离线部分未调用 EDA**；PR #23 的真实回读来自其独立任务，本轮只做离线兼容验证。
@@ -15,6 +80,54 @@ round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 
 - `assets/schematic-frame-plan.example.json` + `scripts/sch_frame_meta_check.py`：在写 frame 前强制 `order`/`title`/`purpose` 元数据；缺 `purpose_text_id` 默认 blocked，避免新工程再次到 strict 阶段才发现布局不完整。
 - `assets/pcb-placement-templates.json` 新增 `dual-channel-switch-led` 模板：两路按键—LED—限流电阻并列相对布局，在 2026-10-27 实测基线上 `planned` 复现六个位姿；状态 `offline-tested`，不是 EDA 已验证实例。
 - `cases/dual-button-led-night-20261027/negative-direct-move/`：保留首次 LED2 直接上移 2 mm 的失败输入（D4/R3 重叠 5.181 mil），作为必须拒绝的负例。
+
+### 反馈闭环（round12）
+
+- `scripts/feedback/` 契约层（observation/intent/issue/modification/loop/diff/
+  evaluation/case，统一 `failure_class`）与 `scripts/feedback_loop.py` 单一 JSON 入口：
+  `probe/observe/intent/evaluate/plan/preview/apply/readback/verify/recover/
+  case-search/case-register/loop-*`；只读命令不写入，`apply` 默认 dry-run，
+  写入前重核基线，越界/locked/stale 在写入前拒绝。
+- `feedback/observe.py`：能力探测、观察契约、缓存与响应 `context` 身份核对；
+  读不到写 `unknown`，不生成空列表；`--project` 名称路由不再作为写入依据。
+- `feedback/loop.py`：可恢复状态、预算、连续无改善/超时/调用预算停止；
+  `call_ok/write_confirmed/save_confirmed/reopen_confirmed/quality_passed` 五事实分开。
+- `feedback/scope.py`：修改契约、写前可写范围、差异/不变量、journal 幂等恢复；
+  PCB 写入强制携带原始 `before_dump`，原理图写入走 typed action。
+- `feedback/evaluate.py`：硬约束/工程质量/可读性三层评价，无总分；DRC 0 但存在
+  已证实工程质量问题时 `drc_zero_but_quality_issues=true`；候选比较拒绝
+  “更整齐但路径回归”。
+- `feedback/cases.py` + `cases/feedback-r12/` 3 例 + `cases/index.json`：检索、
+  适用性检查与复用复核，不继承旧验证结论。
+- `tools/feedback_benchmark.py` + `benchmarks/offline-round12/`（16 用例）：
+  模拟宿主全链路；`real_eda=NOT RUN`。
+- `references/feedback-loop.md`、`SKILL.md` 的“画板/这里改一下/参考以前方案”路由。
+- `tools/offline_suite.py` 静态 import sweep 改为子包按 dotted path 导入。
+
+### round12 收尾收紧
+
+- PCB 写前门禁：`scope.py` 要求 plan 携带本次观察绑定的原始 `before_dump`；缺失、
+  非对象、缺铜/器件数据、项目/文档/版本绑定不符、与新鲜观察不一致或已过期时，
+  `preview`/`apply` 直接拒绝（`precondition_refused` / `stale_baseline`），不再用
+  规范化 observation 重建不完整 dump。`apply` 写入前再次核对绑定。
+  基准 `before_dump_gate` 用负例证明拒绝时 `writes_sent=0`、runner 调用 0 次。
+- `feedback_loop.py verify`：调用/写入/保存/重开四项只从 `--apply` receipt
+  读取，`quality_passed` 只从显式 `--evaluation` 取得；`--after` 仅做
+  `semantic_sha256` 交叉核对；新增 acceptance 求值——声明的目标未达成时
+  `target_met=false`、`completed=false`，缺计数判 `unknown` 而不是按 0 通过。
+- `feedback/evaluate.py`：电容角色分 `bulk` / `local-decoupling` / `unknown`；
+  bulk 仅 conditional 且不触发 `drc_zero_but_quality_issues`；unknown 明确
+  `auto_action_allowed=false`，不得驱动自动移动；声明角色优先于元件值。
+- PCB apply 路由补齐：`feedback/scope.py` 以 `--window` + 项目 UUID + 文档 UUID
+  调用 `pcb_apply_plan.py`；后者新增 `--window` 并转发给 `easyeda apply`、
+  写入 playbook `meta.window`。`before_dump.capture.windowId` 参与写前绑定，
+  错窗口与缺窗口都拒绝。
+- 机器可读输出显式 `simulated`：observation、evaluation、candidate comparison、
+  preview、apply、readback、verify 都透传模拟标记，避免把模拟结果当真实宿主观测。
+- 案例库覆盖计数：`case_library` 同时报告 cases / projects / scenarios；同一源工程的
+  三个案例按“一个项目、三个场景”计数，并保留 case 的 `provenance.source_project/source_case`。
+- 测试：反馈套件 283 tests（loop 53 / cases 44 / evaluate 65 / observe 41 / scope 71 /
+  cli 9）；全量 1593 tests OK；`skill_selftest.py` 5 PASS。
 
 ### 修复
 

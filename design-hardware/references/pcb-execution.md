@@ -99,7 +99,7 @@ easyeda doc reload <PCB_UUID> --project <name>
 easyeda pcb dump --project <name> --doc <PCB_UUID> --include-copper --out board.json
 ```
 
-导入后仍必须回读：`import-changes` 不删除原理图已移除的器件（见 [工具陷阱](tool-gotchas.md) 第 8 节）；返回 0 件时不要反复重跑，改用 `pcb add-component --unique-id ... --nets ...` 逐件补。导入成功只证明器件/网表进入 PCB，不证明封装几何、布局或布线。
+导入后仍必须回读：`import-changes` 不删除原理图已移除的器件（见 [工具陷阱](tool-gotchas.md) 第 8 节）；返回 0 件时不要反复重跑，改用 `pcb add-component --unique-id ... --nets ...` 逐件补。导入成功只证明器件/网表进入 PCB，不证明封装几何、布局或布线。该 1.15.0 实测证据在外部 `dual-button-led-night-20261027` 任务工作区，未随本仓库提交。
 
 ## 3. 约束模型与冲突诊断
 

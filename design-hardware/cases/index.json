@@ -1,0 +1,133 @@
+{
+ "schema": "hds-case-index/v1",
+ "cases": [
+  {
+   "id": "pcb-decap-c2-local-photo-led",
+   "version": 1,
+   "path": "feedback-r12/pcb-decap-c2-local-photo-led.json",
+   "source_tier": "project-local",
+   "tags": [
+    "pcb",
+    "power",
+    "decoupling",
+    "local-edit"
+   ],
+   "summary": {
+    "goal": "在电源区内把去耦电容 C2 移到 U1.8(+5V) 的 100mil 内，只重布 C2 的 +5V/GND 局部短线",
+    "power_w": {
+     "min": 0,
+     "max": 5
+    },
+    "interfaces": [
+     "KF301-2P",
+     "2-pin-terminal"
+    ],
+    "topologies": [
+     "linear-5v",
+     "comparator-hysteresis"
+    ],
+    "footprints": [
+     "RAD104"
+    ],
+    "layers": [
+     2
+    ],
+    "process": "JLC 2-layer 1.6mm",
+    "device": {
+     "designator": "C2",
+     "value": "100nF",
+     "ic": "LM358P"
+    },
+    "verification_levels": {
+     "structural": "pass",
+     "host_readback": "not_run",
+     "erc_drc": "not_run",
+     "simulation": "not_run",
+     "manufacturing": "not_run",
+     "physical": "not_run"
+    },
+    "text": "在电源区内把去耦电容 C2 移到 U1.8(+5V) 的 100mil 内，只重布 C2 的 +5V/GND 局部短线 原生 DRC passed=true total=0，但 pcb check 报告 decap-too-far：C2 距最近的 +5V 引脚 U1.8 150mil（>100mil）；同时 C1(10µF bulk) 890mil 被记录为可接受，因为它是 bulk 而非去耦。该案例证明 DRC 0 不等于工程质量通过。 观察 dump + check → 只把 C2 与它的 +5V/GND 局部铜作为可写对象 → 预检目标位置/与 U1 本体间距 → 一次受控 apply（move + 局部 track）→ 回读 diff 检查范围外变化=0、J1 锁定/板框/孔位/其他网络不变 → 重新跑 check 确认 C2 距离改善。 KF301-2P 2-pin-terminal linear-5v comparator-hysteresis RAD104 pcb power decoupling local-edit JLC 2-layer 1.6mm"
+   }
+  },
+  {
+   "id": "pcb-locked-connector-preserve-photo-led",
+   "version": 1,
+   "path": "feedback-r12/pcb-locked-connector-preserve-photo-led.json",
+   "source_tier": "project-local",
+   "tags": [
+    "pcb",
+    "mechanical",
+    "locked-interface",
+    "local-edit"
+   ],
+   "summary": {
+    "goal": "保留锁定连接器 J1、板框与安装孔，只移动指定相邻器件/局部铜",
+    "power_w": {
+     "min": 0,
+     "max": 5
+    },
+    "interfaces": [
+     "KF301-2P",
+     "2-pin-terminal"
+    ],
+    "topologies": [
+     "edge-connector"
+    ],
+    "footprints": [
+     "KF301-2P"
+    ],
+    "layers": [
+     2
+    ],
+    "process": "JLC 2-layer 1.6mm",
+    "device": {
+     "designator": "J1"
+    },
+    "verification_levels": {
+     "structural": "pass",
+     "host_readback": "not_run",
+     "erc_drc": "not_run",
+     "simulation": "not_run",
+     "manufacturing": "not_run",
+     "physical": "not_run"
+    },
+    "text": "保留锁定连接器 J1、板框与安装孔，只移动指定相邻器件/局部铜 J1(KF301-2P) 被 pcb lock 固定在左板边 rotation 270，开口朝外；任何局部布局优化都必须证明它、板框和 4×M3 孔位没有被移动。 把 J1/outline/holes 设为不可写并作为不变量；只允许指定相邻对象/网络；写前校验白名单，写后 diff 检查 locked/outline/holes/pad-net/unrelated=0。 KF301-2P 2-pin-terminal edge-connector KF301-2P pcb mechanical locked-interface local-edit JLC 2-layer 1.6mm"
+   }
+  },
+  {
+   "id": "sch-text-overlap-photo-led",
+   "version": 1,
+   "path": "feedback-r12/sch-text-overlap-photo-led.json",
+   "source_tier": "project-local",
+   "tags": [
+    "schematic",
+    "readability",
+    "text-overlap"
+   ],
+   "summary": {
+    "goal": "消除原理图功能区标题与说明文字重叠，同时保持全部网络端点与器件身份不变",
+    "power_w": {
+     "min": null,
+     "max": null
+    },
+    "interfaces": [],
+    "topologies": [
+     "sheet-with-zone-labels"
+    ],
+    "footprints": [],
+    "layers": null,
+    "process": null,
+    "device": null,
+    "verification_levels": {
+     "structural": "pass",
+     "host_readback": "not_run",
+     "erc_drc": "not_run",
+     "simulation": "not_run",
+     "manufacturing": "not_run",
+     "physical": "not_run"
+    },
+    "text": "消除原理图功能区标题与说明文字重叠，同时保持全部网络端点与器件身份不变 功能区标题 “2 光敏检测” (primitiveId ed1db1e2379b6cfd, 42,792) 与说明文字 “GL5528与4.7k分压，C4滤波；光照越强电压越高” (primitiveId 7000fc9074f2508d, 42,778) 重叠 55.01×12.00 raw；其余网络检查正常。 先用官方 visible_text.bboxes 与页面图元确认重叠双方的身份/位置；只移动说明文字到经几何检查的空位；移动前后分别读取 sch read，比较 designator.pin→net 端点集合；再用官方 text.move 的逐文本回读确认。 sheet-with-zone-labels schematic readability text-overlap"
+   }
+  }
+ ]
+}

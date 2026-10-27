@@ -4,7 +4,7 @@
 
 - 评审基线：`origin/main` `066a74b`（PR #22 后，0.9.2）。
 - 分支：`feat/offline-toolchain-round11`；worktree `C:/Users/jlc/work/hds-offline-r11`。
-- 代码提交：`6bbc761`；PR #24 https://github.com/zsx3896926/hardware-design-skill/pull/24（含 PR #23 的 check-role 修复）
+- 代码提交：`6bbc761`；最终候选：`8c7f318`（合并 576bc0e）（含 PR #23 check-role 修复与 PR #25 强校验/负例资产）；PR #24 https://github.com/zsx3896926/hardware-design-skill/pull/24
 - **真实 EDA 调用：0 次**。未启动/连接 EasyEDA，未调用 `easyeda`（含 health/help/read/export），未访问本机服务/WebSocket/连接器，未修改工程或已安装执行器。
 
 ## 2. 已复现并修复的缺陷
@@ -44,6 +44,7 @@
 
 - **photo-led v14 图面**：`sch_visual_photo` 保留 1 个 `bbox_overlap` + 2 个 `wire_enters_bbox` 阻塞残差；3 个有宿主无结点证据的交叉、2 个近距文字仍是 info，没有被阈值放宽统一降级。离线叠加图与报告：`docs/round11/photo-led-v14-overlay.svg`、`docs/round11/photo-led-v14-visual.json`（均为 `analysis_overlay`，非官方导出）。
 - **真实 photo PCB 门禁**：`gate_photo_regression` 在真实证据目录（只读，46 个输入文件已冻结 SHA-256）上 `pass_with_gaps`；PG1/PG3/PG6/PG7/PG8 pass，PG2/4/5 not_run。
+- **PR #25 资产**：check 强校验（summary/findings/source counters 一致）、多候选歧义硬失败；`check_move_clearance.py`、`sch_frame_meta_check.py`、`dual-channel-switch-led` 模板、负例 `negative-direct-move/`、交付清单已并入并跑通。
 - **真实 controlledB manifest**：`docs/round10/controlledB` 在 `--profile regression` 下 `pass_with_gaps`（PG1/PG2/PG3/PG6/PG7/PG8 pass）；manifest 的 CRLF 归一哈希、源 dump 绑定、真实 lint 的 `null` 明细数组均被正确接受。`--profile full` 仅因缺 `--key-nets` 在 PG5 blocked，不是证据绑定失败。
 - **候选修改前后**：photo 全量 intent 仍选 `signal-chain`；`signal-chain/mechanical` hard_ok、`density` hard false；HPWL 18664.6/22218.68/18664.6、面积 3945153.68 与冻结 `candidates.json` 在 0.02 容差内一致（无硬约束退化）。
 - **三种结构**：`power-input`（接口—保护—核心）、`driver`（晶体管—负载—回流）、`ldo-power`（LDO—输入输出电容）均 selected；LDO 合成板 HPWL 820 mil。
@@ -54,21 +55,21 @@
 ## 5. 测试与基准实际结果
 
 - 基线段：`python -m unittest discover -s tests` → **1121 tests OK**（改动前）。
-- 最终全量：**1237 tests OK**。
-- `python tools/offline_suite.py`：**1237 tests OK**；导入扫描 72 modules，0 blocked / 0 error / 0 system_exit。
+- 最终全量：**1257 tests OK**。
+- `python tools/offline_suite.py`：**1257 tests OK**；导入扫描 72 modules，0 blocked / 0 error / 0 system_exit。
 - `python design-hardware/scripts/skill_selftest.py`：**5 PASS / 0 FAIL / 0 NOT RUN**。
 - 基准：**9/9 pass**（`benchmarks/offline-round11/result.json`，`--runs 3`）：
 
 | 用例 | min (s) | median (s) | 输入字节 |
 |---|---:|---:|---:|
-| source_hashes | 0.010 | 0.011 | 2,119,862 |
-| gate_photo_regression | 0.087 | 0.089 | 1,533,997 |
-| sch_visual_photo | 0.052 | 0.052 | 72,240 |
-| candidates_photo_full | 0.104 | 0.105 | 131,755 |
-| candidates_structures | 0.214 | 0.215 | 133,700 |
-| apply_noop | 0.037 | 0.038 | 6,115 |
+| source_hashes | 0.023 | 0.023 | 2,123,582 |
+| gate_photo_regression | 0.128 | 0.135 | 1,878,853 |
+| sch_visual_photo | 0.055 | 0.059 | 72,240 |
+| candidates_photo_full | 0.110 | 0.113 | 156,651 |
+| candidates_structures | 0.235 | 0.236 | 159,181 |
+| apply_noop | 0.041 | 0.042 | 134,779 |
 | placement_constraint_gain | 0.0001 | 0.0001 | 567 |
-| holdout_geometry | 0.0003 | 0.0004 | 1,497 |
+| holdout_geometry | 0.0004 | 0.0004 | 1,497 |
 | deformations | 0.009 | 0.009 | 299,831 |
 
 性能只记录本机本次输入规模/运行次数/统计口径，没有同范围旧版基线，因此不宣称提速百分比。

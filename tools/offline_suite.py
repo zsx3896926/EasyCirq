@@ -22,6 +22,7 @@ import argparse
 import ast
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -56,9 +57,10 @@ def inventory():
             flags.append('may_run_cli_or_network')
         if 'pcb_cli' in imports or 'easyeda' in text.lower():
             flags.append('references_easyeda')
-        if any(marker in text for marker in (
-                "open(..., 'w'", 'write_text(', 'write_bytes(', 'os.replace(',
-                'makedirs(')):
+        if re.search(r"open\s*\([^)]*['\"][wax]", text) or \
+                re.search(r"os\.fdopen\s*\(", text) or \
+                any(marker in text for marker in (
+                    'write_text(', 'write_bytes(', 'os.replace(', 'makedirs(')):
             flags.append('writes_files')
         if 'if __name__' not in text:
             flags.append('no_main_guard')
@@ -97,8 +99,11 @@ def import_sweep():
         if path.name == '__init__.py':
             continue
         name = 'hds_sweep_' + '_'.join(path.relative_to(SCRIPTS).with_suffix('').parts)
-        module_name = '.'.join(('design_engine', path.stem)) \
-            if path.parent.name == 'design_engine' else path.stem
+        relative = path.relative_to(SCRIPTS).with_suffix('')
+        # Any subpackage (design_engine, feedback, ...) is imported by its
+        # dotted path; a top-level script keeps its stem.
+        module_name = '.'.join(relative.parts) if len(relative.parts) > 1 \
+            else path.stem
         try:
             __import__(module_name)
             results.append({'module': module_name, 'status': 'ok'})

@@ -107,7 +107,7 @@ python design-hardware/scripts/sch_visual_audit.py layout.json \
   --out review/photo-led-v14-visual.json
 ```
 
-报告复用 `sch_layout_check.analyze` 的 findings，并补充：对象 ID/位置、原因、最小建议（`executed=false`）、字体测量来源/不确定性、netflag 方向是否真的有 policy、以及“有结点证据的交叉”和“未验证交叉”的分组。SVG 是**分析叠加图**，带 `ANALYSIS OVERLAY — NOT AN OFFICIAL EDA EXPORT` 水印和 `official_export:false` metadata；不是官方重新导出的工程图。
+报告复用 `sch_layout_check.analyze` 的 findings，并补充：对象 ID/位置、原因、最小建议（`executed=false`）、字体测量来源/不确定性、netflag 方向是否真的有 policy、以及“宿主已验证无结点（verified_no_junction_crossings）”和“未验证交叉（unverified_crossings）”的分组。SVG 是**分析叠加图**，带 `ANALYSIS OVERLAY — NOT AN OFFICIAL EDA EXPORT` 水印和 `official_export:false` metadata；不是官方重新导出的工程图。
 
 真实 photo-led v14 样例保留 1 个 `bbox_overlap` + 2 个 `wire_enters_bbox` 阻塞残差；3 个有宿主无结点证据的交叉和 2 个近距文字是 info，不升级为阻塞。
 

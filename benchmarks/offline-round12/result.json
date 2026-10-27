@@ -1,0 +1,491 @@
+{
+ "schema": "hds-feedback-benchmark/v1",
+ "generated_at": "2026-10-27T05:15:48.723236Z",
+ "host": "simulated (tests/feedback_sim.py)",
+ "real_eda": "NOT RUN",
+ "cases": [
+  {
+   "passed": true,
+   "details": {
+    "components": 19,
+    "tracks": 67,
+    "texts": 8,
+    "degradations": [],
+    "unknown_fields": [
+     "schematic.components[].rotation",
+     "schematic.components[].mirror",
+     "schematic.components[].device",
+     "schematic.components[].symbol",
+     "schematic.components[].pins[].primitive_id",
+     "pcb.components[].locked",
+     "pcb.unrouted"
+    ],
+    "semantic_sha256": "caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
+    "observation_simulated": true,
+    "simulated": true
+   },
+   "case": "observe_contract",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "verdict": "pass_with_warnings",
+    "drc_zero_but_quality_issues": true,
+    "hard": "pass",
+    "engineering": "warn",
+    "confirmed_codes": [
+     "decap-too-far",
+     "power-not-poured",
+     "width-under-spec"
+    ],
+    "conditional_codes": [
+     "decap-too-far",
+     "drc-warning-attrmatchcode"
+    ],
+    "roles": [
+     "bulk"
+    ],
+    "note": "native DRC passed while engineering findings remain",
+    "simulated": true
+   },
+   "case": "drc_zero_but_poor",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "preview_writes_sent": 0,
+    "apply_status": "verified",
+    "checks": {
+     "call_ok": true,
+     "write_confirmed": true,
+     "save_confirmed": true,
+     "reopen_confirmed": null,
+     "quality_passed": null
+    },
+    "inside_changes": 1,
+    "outside_changes": 0,
+    "invariants": [
+     "pass",
+     "pass",
+     "pass",
+     "pass",
+     "unknown",
+     "unknown"
+    ],
+    "moved_text": {
+     "x": 250.0,
+     "y": 778.0
+    },
+    "failure": null,
+    "simulated": true
+   },
+   "case": "text_move_vertical",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "preview_writes_sent": 0,
+    "preview_simulated": true,
+    "apply_simulated": true,
+    "status": "verified",
+    "checks": {
+     "call_ok": true,
+     "write_confirmed": true,
+     "save_confirmed": true,
+     "reopen_confirmed": true,
+     "quality_passed": null
+    },
+    "inside_changes": 1,
+    "outside_changes": 0,
+    "invariants": [
+     "pass",
+     "pass",
+     "pass",
+     "pass",
+     "unknown",
+     "unknown"
+    ],
+    "adapter_diff": {
+     "schema": "design-engine-pcb-diff/v1",
+     "status": "changed",
+     "identity_changes": [],
+     "geometry_changes": [
+      {
+       "kind": "pose_changed",
+       "designator": "R4",
+       "before": [
+        1600,
+        850,
+        0.0,
+        1
+       ],
+       "after": [
+        1600.0,
+        860.0,
+        0.0,
+        1
+       ]
+      }
+     ],
+     "copper_changes": [],
+     "unrelated_changes": [],
+     "copper_geometry_changes": [],
+     "counts": {
+      "identity": 0,
+      "geometry": 1,
+      "copper": 0,
+      "unrelated": 0,
+      "copper_geometry": 0
+     },
+     "scope": {
+      "designators": [
+       "R4"
+      ],
+      "nets": []
+     },
+     "note": "primitiveId is not stable across document reload; compare identity and geometry, not IDs alone"
+    },
+    "simulated": true
+   },
+   "case": "pcb_local_apply",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "status": "refused",
+    "failure": {
+     "failure_class": "precondition_refused",
+     "reason": "plan_invalid",
+     "message": "the plan was refused before any write; see refusals",
+     "detail": {
+      "refusals": [
+       {
+        "failure_class": "precondition_refused",
+        "reason": "missing_before_dump",
+        "message": "a PCB write requires plan.before_dump carrying the raw pcb dump captured before planning; a normalized observation is not a substitute"
+       }
+      ]
+     }
+    },
+    "reasons": [
+     "missing_before_dump"
+    ],
+    "writes_sent": 0,
+    "runner_calls": 0,
+    "simulated": true
+   },
+   "case": "before_dump_gate",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "pass": "pass",
+    "fail": "fail",
+    "unknown": "unknown",
+    "simulated": true
+   },
+   "case": "acceptance",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "bulk": "bulk",
+    "local": "local-decoupling",
+    "unknown": "unknown",
+    "unknown_auto_action_allowed": false,
+    "simulated": true
+   },
+   "case": "cap_roles",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "validation_ok": false,
+    "refusals": [
+     {
+      "failure_class": "out_of_scope",
+      "reason": "out_of_scope",
+      "message": "operation 1 (move_text) is outside scope.writable",
+      "detail": {
+       "op_index": 1,
+       "operation": "move_text",
+       "object": "0149dca70e8c886d",
+       "net": null
+      }
+     }
+    ],
+    "runner_calls_during_validation": 0,
+    "simulated": true
+   },
+   "case": "out_of_scope_refused",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "validation_ok": false,
+    "refusals": [
+     {
+      "failure_class": "precondition_refused",
+      "reason": "missing_before_dump",
+      "message": "a PCB write requires plan.before_dump carrying the raw pcb dump captured before planning; a normalized observation is not a substitute"
+     },
+     {
+      "failure_class": "precondition_refused",
+      "reason": "locked_object",
+      "message": "operation 0 targets a locked object",
+      "detail": {
+       "op_index": 0,
+       "object": "J1"
+      }
+     }
+    ],
+    "simulated": true
+   },
+   "case": "locked_refused",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "status": "refused",
+    "failure": {
+     "failure_class": "stale_baseline",
+     "reason": "plan_invalid",
+     "message": "the plan was refused before any write; see refusals",
+     "detail": {
+      "refusals": [
+       {
+        "failure_class": "stale_baseline",
+        "reason": "stale_baseline",
+        "message": "plan baseline 13d2652b303f87c3e37d42cf3ddf4b968db162369420655cea222e0727381833 does not match contract baseline caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
+        "detail": {
+         "expected": "caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
+         "actual": "13d2652b303f87c3e37d42cf3ddf4b968db162369420655cea222e0727381833"
+        }
+       },
+       {
+        "failure_class": "stale_baseline",
+        "reason": "stale_baseline",
+        "message": "fresh observation baseline 13d2652b303f87c3e37d42cf3ddf4b968db162369420655cea222e0727381833 does not match contract baseline caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
+        "detail": {
+         "expected": "caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
+         "actual": "13d2652b303f87c3e37d42cf3ddf4b968db162369420655cea222e0727381833"
+        }
+       },
+       {
+        "failure_class": "stale_baseline",
+        "reason": "stale_baseline",
+        "message": "document sch-sim-0001 changed since the contract baseline",
+        "detail": {
+         "document_uuid": "sch-sim-0001",
+         "expected": "3eaeffd90ccb9f23e4eb088cd9d9aa42112c6152ab8fa8a815cdb6120a944aea",
+         "actual": "d4a9b36c050b2c4de3c9413eb4afe1e5f1f1555a38de2d786ffe90d848471fe2"
+        }
+       }
+      ]
+     }
+    },
+    "writes_sent": 0,
+    "simulated": true
+   },
+   "case": "stale_baseline",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "recovery": {
+     "schema": "hds-recovery/v1",
+     "ok": false,
+     "status": "unknown",
+     "contract_id": "bench-partial-recovery",
+     "generated_at": "2026-10-27T05:15:48.691471Z",
+     "journal": {
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-bench-partial.jsonl",
+      "entries": 3,
+      "kind": "pcb-apply",
+      "problems": []
+     },
+     "operations": [
+      {
+       "index": 0,
+       "operation_key": "move_text:09b39f906f7b2dc2",
+       "op": "move_text",
+       "designator": null,
+       "net": null,
+       "journal_status": "confirmed",
+       "observation": "absent",
+       "state": "unknown",
+       "reason": "journal says confirmed but the readback does not show it",
+       "duplicate_risk": false,
+       "safe_to_retry": true,
+       "journal_entries": [
+        {
+         "id": "move_text-0",
+         "status": "ok"
+        }
+       ]
+      }
+     ],
+     "applied": [],
+     "pending": [],
+     "unknown": [
+      "move_text:09b39f906f7b2dc2"
+     ],
+     "duplicate_risk": [],
+     "safe_to_retry": false,
+     "notes": [
+      "pcb_apply_plan journal: only statuses starting with ok are confirmed",
+      "1 operation(s) have unknown execution state; do not retry non-idempotent creates"
+     ]
+    },
+    "simulated": true
+   },
+   "case": "partial_recovery",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "failure_class": "target_mismatch",
+    "message": "project-info: response project 'elsewhere'/'wrong-project' does not match expected None/'sim-photo-led'"
+   },
+   "case": "wrong_target",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "hard": "unknown",
+    "verdict": "unknown",
+    "unknown": [
+     {
+      "field": "pcb.drc",
+      "reason": "DRC input is null",
+      "source": "evaluation"
+     },
+     {
+      "field": "pcb.drc",
+      "reason": "pcb drc report carries no measurement",
+      "source": "evaluation"
+     }
+    ],
+    "simulated": true
+   },
+   "case": "unknown_drc",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "selected": "reference",
+    "rejected": {
+     "tidier-but-worse": [
+      {
+       "code": "metric_regression",
+       "message": "candidate is worse than the reference beyond tolerance",
+       "evidence": {
+        "problems": [
+         {
+          "metric": "hpwl",
+          "reference": 1000.0,
+          "value": 1450.0,
+          "tolerance": 0.1,
+          "direction": "minimize"
+         }
+        ]
+       }
+      }
+     ]
+    },
+    "reason_codes": null,
+    "simulated": true
+   },
+   "case": "prettier_but_worse",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "matches": [
+     "pcb-decap-c2-local-photo-led",
+     "pcb-locked-connector-preserve-photo-led"
+    ],
+    "rejected": [
+     "sch-text-overlap-photo-led"
+    ],
+    "reuse_rechecks": [
+     "layers",
+     "version"
+    ],
+    "can_inherit": false,
+    "library": {
+     "cases": 3,
+     "source_projects": 1,
+     "scenarios": 3,
+     "per_project": [
+      {
+       "source_project": "photo-led-pcb-20261026",
+       "cases": [
+        {
+         "id": "pcb-decap-c2-local-photo-led",
+         "scenario": "round12-offline"
+        },
+        {
+         "id": "pcb-locked-connector-preserve-photo-led",
+         "scenario": "round12-offline"
+        },
+        {
+         "id": "sch-text-overlap-photo-led",
+         "scenario": "round12-offline"
+        }
+       ]
+      }
+     ],
+     "note": "cases sharing a provenance.source_project are scenarios of that project, not independent projects"
+    },
+    "simulated": true
+   },
+   "case": "case_library",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "stop": {
+     "stop": "no_improvement",
+     "detail": {
+      "streak": 2,
+      "max_no_improvement": 2,
+      "rounds": [
+       1,
+       2
+      ]
+     }
+    },
+    "rounds": 2,
+    "unknowns": 0,
+    "simulated": true
+   },
+   "case": "loop_budget",
+   "simulated": true
+  }
+ ],
+ "summary": {
+  "passed": 16,
+  "total": 16
+ },
+ "limits": [
+  "simulated host only; real easyeda calls are 0",
+  "mock save/reopen is not host persistence evidence",
+  "ERC/DRC values are canned and are not real DRC"
+ ]
+}

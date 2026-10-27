@@ -1,0 +1,761 @@
+{
+  "schema": "hds-diff/v1",
+  "ok": true,
+  "generated_at": "2026-10-27T04:39:02.661241Z",
+  "target": {
+    "project_uuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "documents": [
+      {
+        "uuid": "10f78b14a3282fb6",
+        "type": "schematic",
+        "name": "P1"
+      },
+      {
+        "uuid": "49c8e7a5dc2e8f59",
+        "type": "pcb",
+        "name": "PCB1"
+      }
+    ]
+  },
+  "scope": {
+    "objects": [
+      "D4"
+    ],
+    "nets": [],
+    "regions": []
+  },
+  "diff": {
+    "schema": "hds-diff/v1",
+    "status": "mismatch",
+    "before": {
+      "semantic_sha256": "87d9fcde457bd67ed43aa263664634bdf666daa74dd73cb8e1686a5de5140433",
+      "generated_at": "2026-10-27T04:36:54.430731Z"
+    },
+    "after": {
+      "semantic_sha256": "96856550a3099966d3e1faf69f5807ca593762f785d5bb1bf4fe581717343cb2",
+      "generated_at": "2026-10-27T04:38:45.317385Z"
+    },
+    "tolerance": {
+      "position": 0.01,
+      "angle": 1e-06
+    },
+    "scope": {
+      "writable": {
+        "objects": [
+          "D4"
+        ],
+        "nets": [],
+        "regions": []
+      },
+      "tolerance": {
+        "position": 0.01,
+        "angle": 1e-06
+      }
+    },
+    "changes": [
+      {
+        "category": "pcb.component",
+        "kind": "pose_changed",
+        "designator": "D4",
+        "object": "D4",
+        "bbox": [
+          1477.5533,
+          681.4049989374844,
+          1722.4466858575422,
+          937.3350010625155
+        ],
+        "before": {
+          "x": 1595.0898000000002,
+          "y": 808.74,
+          "rotation": 180.0
+        },
+        "after": {
+          "x": 1595.0898000000002,
+          "y": 810.0,
+          "rotation": 180.0
+        },
+        "in_scope": true,
+        "scope_basis": "object:D4"
+      },
+      {
+        "category": "pcb.holes",
+        "kind": "hole_changed",
+        "before": 16,
+        "after": 16,
+        "added": 0,
+        "removed": 0,
+        "in_scope": false,
+        "scope_basis": null
+      }
+    ],
+    "inside_scope": [
+      {
+        "category": "pcb.component",
+        "kind": "pose_changed",
+        "designator": "D4",
+        "object": "D4",
+        "bbox": [
+          1477.5533,
+          681.4049989374844,
+          1722.4466858575422,
+          937.3350010625155
+        ],
+        "before": {
+          "x": 1595.0898000000002,
+          "y": 808.74,
+          "rotation": 180.0
+        },
+        "after": {
+          "x": 1595.0898000000002,
+          "y": 810.0,
+          "rotation": 180.0
+        },
+        "in_scope": true,
+        "scope_basis": "object:D4"
+      }
+    ],
+    "outside_scope": [
+      {
+        "category": "pcb.holes",
+        "kind": "hole_changed",
+        "before": 16,
+        "after": 16,
+        "added": 0,
+        "removed": 0,
+        "in_scope": false,
+        "scope_basis": null
+      }
+    ],
+    "unknown": [
+      {
+        "field": "pcb.components[C1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[C2].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[D1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[D2].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[D3].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[D4].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[J1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R2].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R3].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[SW1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[SW2].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.lines",
+        "reason": "lines are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.vias",
+        "reason": "vias are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.pours",
+        "reason": "pours are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.regions",
+        "reason": "regions are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.fills",
+        "reason": "fills are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.poured",
+        "reason": "poured are not measured on both sides"
+      },
+      {
+        "field": "pcb.routed",
+        "reason": "routed/unrouted state is not measurable"
+      }
+    ],
+    "counts": {
+      "total": 2,
+      "inside_scope": 1,
+      "outside_scope": 1,
+      "unknown": 19
+    },
+    "note": "primitiveId churn is not a change; rotations 0/360 and -90/270 are equivalent; unreadable categories are unknown, never empty",
+    "simulated": false,
+    "pcb": {
+      "components": {
+        "status": "available",
+        "added": [],
+        "removed": [],
+        "identity_changed": [],
+        "pose_changed": [
+          {
+            "category": "pcb.component",
+            "kind": "pose_changed",
+            "designator": "D4",
+            "object": "D4",
+            "bbox": [
+              1477.5533,
+              681.4049989374844,
+              1722.4466858575422,
+              937.3350010625155
+            ],
+            "before": {
+              "x": 1595.0898000000002,
+              "y": 808.74,
+              "rotation": 180.0
+            },
+            "after": {
+              "x": 1595.0898000000002,
+              "y": 810.0,
+              "rotation": 180.0
+            },
+            "in_scope": true,
+            "scope_basis": "object:D4"
+          }
+        ],
+        "layer_changed": [],
+        "locked_changed": [],
+        "pad_net_changed": [],
+        "all": [
+          {
+            "category": "pcb.component",
+            "kind": "pose_changed",
+            "designator": "D4",
+            "object": "D4",
+            "bbox": [
+              1477.5533,
+              681.4049989374844,
+              1722.4466858575422,
+              937.3350010625155
+            ],
+            "before": {
+              "x": 1595.0898000000002,
+              "y": 808.74,
+              "rotation": 180.0
+            },
+            "after": {
+              "x": 1595.0898000000002,
+              "y": 810.0,
+              "rotation": 180.0
+            },
+            "in_scope": true,
+            "scope_basis": "object:D4"
+          }
+        ]
+      },
+      "outline": {
+        "status": "available",
+        "changed": false,
+        "change": null
+      },
+      "tracks": {
+        "status": "unknown",
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "all": [],
+        "id_churn": 0
+      },
+      "vias": {
+        "status": "unknown",
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "all": [],
+        "id_churn": 0
+      },
+      "pours": {
+        "status": "unknown",
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "all": [],
+        "id_churn": 0
+      },
+      "region": {
+        "status": "unknown",
+        "changed": false,
+        "change": null
+      },
+      "fill": {
+        "status": "unknown",
+        "changed": false,
+        "change": null
+      },
+      "poured": {
+        "status": "unknown",
+        "changed": false,
+        "change": null
+      },
+      "holes": {
+        "status": "available",
+        "changed": true,
+        "change": {
+          "category": "pcb.holes",
+          "kind": "hole_changed",
+          "before": 16,
+          "after": 16,
+          "added": 0,
+          "removed": 0,
+          "in_scope": false,
+          "scope_basis": null
+        }
+      },
+      "keepouts": {
+        "status": "available",
+        "changed": false,
+        "change": null
+      },
+      "rules": {
+        "status": "available",
+        "changed": false,
+        "change": null
+      },
+      "copper_layers": {
+        "status": "available",
+        "changed": false,
+        "change": null
+      },
+      "routed": {
+        "status": "unknown",
+        "changes": [],
+        "all": [],
+        "before": {
+          "status": "unknown",
+          "routed": [],
+          "unrouted": null,
+          "per_net": {},
+          "required": [
+            "$1N13",
+            "$1N14",
+            "$1N15",
+            "$1N16",
+            "$1N17",
+            "$1N18",
+            "+5V",
+            "GND"
+          ],
+          "reason": "routed state is not measurable"
+        },
+        "after": {
+          "status": "unknown",
+          "routed": [],
+          "unrouted": null,
+          "per_net": {},
+          "required": [
+            "$1N13",
+            "$1N14",
+            "$1N15",
+            "$1N16",
+            "$1N17",
+            "$1N18",
+            "+5V",
+            "GND"
+          ],
+          "reason": "routed state is not measurable"
+        }
+      },
+      "drc": {
+        "status": "unknown",
+        "before": {
+          "errors": 0,
+          "warnings": null,
+          "passed": true
+        },
+        "after": null
+      }
+    },
+    "components": {
+      "status": "available",
+      "added": [],
+      "removed": [],
+      "identity_changed": [],
+      "pose_changed": [
+        {
+          "category": "pcb.component",
+          "kind": "pose_changed",
+          "designator": "D4",
+          "object": "D4",
+          "bbox": [
+            1477.5533,
+            681.4049989374844,
+            1722.4466858575422,
+            937.3350010625155
+          ],
+          "before": {
+            "x": 1595.0898000000002,
+            "y": 808.74,
+            "rotation": 180.0
+          },
+          "after": {
+            "x": 1595.0898000000002,
+            "y": 810.0,
+            "rotation": 180.0
+          },
+          "in_scope": true,
+          "scope_basis": "object:D4"
+        }
+      ],
+      "layer_changed": [],
+      "locked_changed": [],
+      "pad_net_changed": [],
+      "all": [
+        {
+          "category": "pcb.component",
+          "kind": "pose_changed",
+          "designator": "D4",
+          "object": "D4",
+          "bbox": [
+            1477.5533,
+            681.4049989374844,
+            1722.4466858575422,
+            937.3350010625155
+          ],
+          "before": {
+            "x": 1595.0898000000002,
+            "y": 808.74,
+            "rotation": 180.0
+          },
+          "after": {
+            "x": 1595.0898000000002,
+            "y": 810.0,
+            "rotation": 180.0
+          },
+          "in_scope": true,
+          "scope_basis": "object:D4"
+        }
+      ]
+    },
+    "outline": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "tracks": {
+      "status": "unknown",
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "all": [],
+      "id_churn": 0
+    },
+    "vias": {
+      "status": "unknown",
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "all": [],
+      "id_churn": 0
+    },
+    "pours": {
+      "status": "unknown",
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "all": [],
+      "id_churn": 0
+    },
+    "poured": {
+      "status": "unknown",
+      "changed": false,
+      "change": null
+    },
+    "holes": {
+      "status": "available",
+      "changed": true,
+      "change": {
+        "category": "pcb.holes",
+        "kind": "hole_changed",
+        "before": 16,
+        "after": 16,
+        "added": 0,
+        "removed": 0,
+        "in_scope": false,
+        "scope_basis": null
+      }
+    },
+    "keepouts": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "rules": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "copper_layers": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "routed": {
+      "status": "unknown",
+      "changes": [],
+      "all": [],
+      "before": {
+        "status": "unknown",
+        "routed": [],
+        "unrouted": null,
+        "per_net": {},
+        "required": [
+          "$1N13",
+          "$1N14",
+          "$1N15",
+          "$1N16",
+          "$1N17",
+          "$1N18",
+          "+5V",
+          "GND"
+        ],
+        "reason": "routed state is not measurable"
+      },
+      "after": {
+        "status": "unknown",
+        "routed": [],
+        "unrouted": null,
+        "per_net": {},
+        "required": [
+          "$1N13",
+          "$1N14",
+          "$1N15",
+          "$1N16",
+          "$1N17",
+          "$1N18",
+          "+5V",
+          "GND"
+        ],
+        "reason": "routed state is not measurable"
+      }
+    },
+    "drc": {
+      "status": "unknown",
+      "before": {
+        "errors": 0,
+        "warnings": null,
+        "passed": true
+      },
+      "after": null
+    },
+    "copperLayers": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "schematic": {
+      "components": {
+        "status": "available",
+        "added": [],
+        "removed": [],
+        "identity_changed": [],
+        "pose_changed": [],
+        "attribute_changed": [],
+        "all": []
+      },
+      "nets": {
+        "status": "available",
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "all": []
+      },
+      "texts": {
+        "status": "available",
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "all": []
+      }
+    }
+  },
+  "invariants": {
+    "schema": "hds-invariants/v1",
+    "ok": false,
+    "status": "fail",
+    "contract_id": "r12-live-vertical-20261027a",
+    "generated_at": "2026-10-27T04:39:02.661231Z",
+    "results": [
+      {
+        "id": "inv-1",
+        "kind": "sch_connectivity",
+        "status": "pass",
+        "reasons": [
+          "schematic net endpoint sets unchanged"
+        ]
+      },
+      {
+        "id": "inv-2",
+        "kind": "sch_identity",
+        "status": "pass",
+        "reasons": [
+          "schematic component identity unchanged"
+        ]
+      },
+      {
+        "id": "inv-3",
+        "kind": "pcb_pad_net",
+        "status": "pass",
+        "reasons": [
+          "PCB pad net assignments unchanged"
+        ]
+      },
+      {
+        "id": "inv-4",
+        "kind": "pcb_outline",
+        "status": "pass",
+        "reasons": [
+          "PCB outline unchanged"
+        ]
+      },
+      {
+        "id": "inv-5",
+        "kind": "pcb_locked",
+        "status": "unknown",
+        "reasons": [
+          "PCB lock state is not readable"
+        ]
+      },
+      {
+        "id": "inv-6",
+        "kind": "pcb_unrelated",
+        "status": "fail",
+        "reasons": [
+          "1 change(s) outside scope.writable"
+        ],
+        "detail": {
+          "changes": [
+            {
+              "category": "pcb.holes",
+              "kind": "hole_changed",
+              "before": 16,
+              "after": 16,
+              "added": 0,
+              "removed": 0,
+              "in_scope": false,
+              "scope_basis": null
+            }
+          ]
+        }
+      }
+    ],
+    "counts": {
+      "pass": 4,
+      "fail": 1,
+      "unknown": 1
+    },
+    "unknown": [
+      "inv-5"
+    ],
+    "note": "unknown is not pass; a single fail dominates the result"
+  },
+  "simulated": false,
+  "unknown": [
+    {
+      "field": "pcb.components[C1].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[C2].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[D1].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[D2].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[D3].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[D4].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[J1].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[R1].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[R2].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[R3].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[SW1].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.components[SW2].locked",
+      "reason": "lock state is not measured on both sides"
+    },
+    {
+      "field": "pcb.copper.lines",
+      "reason": "lines are not measured on both sides"
+    },
+    {
+      "field": "pcb.copper.vias",
+      "reason": "vias are not measured on both sides"
+    },
+    {
+      "field": "pcb.copper.pours",
+      "reason": "pours are not measured on both sides"
+    },
+    {
+      "field": "pcb.copper.regions",
+      "reason": "regions are not measured on both sides"
+    },
+    {
+      "field": "pcb.copper.fills",
+      "reason": "fills are not measured on both sides"
+    },
+    {
+      "field": "pcb.copper.poured",
+      "reason": "poured are not measured on both sides"
+    },
+    {
+      "field": "pcb.routed",
+      "reason": "routed/unrouted state is not measurable"
+    }
+  ]
+}
