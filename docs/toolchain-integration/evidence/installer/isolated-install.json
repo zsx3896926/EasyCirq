@@ -1,0 +1,229 @@
+{
+  "schema": "zhigou-isolated-install/v1",
+  "installDir": "C:\\Users\\jlc\\work\\_upstream\\zhigou-isolated",
+  "version": "0.2.1",
+  "components": [
+    "runtime",
+    "connector",
+    "skill"
+  ],
+  "fileCount": 561,
+  "runtime": "zhigou 0.2.1-dev",
+  "connector": {
+    "file": "zhigou-connector_v0.1.0.eext",
+    "bytes": 231299,
+    "manifest": {
+      "name": "zhigou-connector",
+      "uuid": "a6e6b788551945b399e150d80efa6e31",
+      "displayName": "Zhigou EDA Connector",
+      "description": "Zhigou (智构) EDA connector: bridges the local Zhigou runtime daemon to the official eda.* API over a local WebSocket. Derived from easyeda-agent (MIT) — see NOTICE.",
+      "version": "0.1.0",
+      "publisher": "zsx3896926",
+      "engines": {
+        "eda": ">=3.2.0"
+      },
+      "license": "MIT",
+      "repository": {
+        "type": "github",
+        "url": "https://github.com/zsx3896926/hardware-design-skill"
+      },
+      "homepage": "https://github.com/zsx3896926/hardware-design-skill",
+      "categories": "Other",
+      "keywords": [
+        "agent",
+        "automation",
+        "websocket",
+        "schematic",
+        "AI"
+      ],
+      "images": {
+        "logo": "./images/logo.jpg"
+      },
+      "activationEvents": {
+        "onStartupFinished": true
+      },
+      "entry": "./dist/index",
+      "dependentExtensions": {},
+      "headerMenus": {
+        "home": [
+          {
+            "id": "EDA Agent",
+            "title": "EDA Agent",
+            "menuItems": [
+              {
+                "id": "Reconnect",
+                "title": "Reconnect",
+                "registerFn": "reconnect"
+              },
+              {
+                "id": "StopConnection",
+                "title": "Stop",
+                "registerFn": "stopConnection"
+              },
+              {
+                "id": "ToggleAutoConnect",
+                "title": "Toggle Auto-Connect",
+                "registerFn": "toggleAutoConnect"
+              },
+              {
+                "id": "About",
+                "title": "About Zhigou...",
+                "registerFn": "about"
+              }
+            ]
+          }
+        ],
+        "blank": [
+          {
+            "id": "EDA Agent",
+            "title": "EDA Agent",
+            "menuItems": [
+              {
+                "id": "Reconnect",
+                "title": "Reconnect",
+                "registerFn": "reconnect"
+              },
+              {
+                "id": "StopConnection",
+                "title": "Stop",
+                "registerFn": "stopConnection"
+              },
+              {
+                "id": "ToggleAutoConnect",
+                "title": "Toggle Auto-Connect",
+                "registerFn": "toggleAutoConnect"
+              },
+              {
+                "id": "About",
+                "title": "About Zhigou...",
+                "registerFn": "about"
+              }
+            ]
+          }
+        ],
+        "sch": [
+          {
+            "id": "EDA Agent",
+            "title": "EDA Agent",
+            "menuItems": [
+              {
+                "id": "Reconnect",
+                "title": "Reconnect",
+                "registerFn": "reconnect"
+              },
+              {
+                "id": "StopConnection",
+                "title": "Stop",
+                "registerFn": "stopConnection"
+              },
+              {
+                "id": "ToggleAutoConnect",
+                "title": "Toggle Auto-Connect",
+                "registerFn": "toggleAutoConnect"
+              },
+              {
+                "id": "About",
+                "title": "About Zhigou...",
+                "registerFn": "about"
+              }
+            ]
+          }
+        ],
+        "symbol": [
+          {
+            "id": "EDA Agent",
+            "title": "EDA Agent",
+            "menuItems": [
+              {
+                "id": "Reconnect",
+                "title": "Reconnect",
+                "registerFn": "reconnect"
+              },
+              {
+                "id": "StopConnection",
+                "title": "Stop",
+                "registerFn": "stopConnection"
+              },
+              {
+                "id": "ToggleAutoConnect",
+                "title": "Toggle Auto-Connect",
+                "registerFn": "toggleAutoConnect"
+              },
+              {
+                "id": "About",
+                "title": "About Zhigou...",
+                "registerFn": "about"
+              }
+            ]
+          }
+        ],
+        "pcb": [
+          {
+            "id": "EDA Agent",
+            "title": "EDA Agent",
+            "menuItems": [
+              {
+                "id": "Reconnect",
+                "title": "Reconnect",
+                "registerFn": "reconnect"
+              },
+              {
+                "id": "StopConnection",
+                "title": "Stop",
+                "registerFn": "stopConnection"
+              },
+              {
+                "id": "ToggleAutoConnect",
+                "title": "Toggle Auto-Connect",
+                "registerFn": "toggleAutoConnect"
+              },
+              {
+                "id": "About",
+                "title": "About Zhigou...",
+                "registerFn": "about"
+              }
+            ]
+          }
+        ],
+        "footprint": [
+          {
+            "id": "EDA Agent",
+            "title": "EDA Agent",
+            "menuItems": [
+              {
+                "id": "Reconnect",
+                "title": "Reconnect",
+                "registerFn": "reconnect"
+              },
+              {
+                "id": "StopConnection",
+                "title": "Stop",
+                "registerFn": "stopConnection"
+              },
+              {
+                "id": "ToggleAutoConnect",
+                "title": "Toggle Auto-Connect",
+                "registerFn": "toggleAutoConnect"
+              },
+              {
+                "id": "About",
+                "title": "About Zhigou...",
+                "registerFn": "about"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "skill": {
+    "version": "1.0.2",
+    "note": "the bundle ships the migrated single-entry skill, not the legacy 1.0.1 tree"
+  },
+  "verified": {
+    "installExit": 0,
+    "isolatedZhigoVersion": "zhigou 0.2.1-dev",
+    "isolatedConnectorPath": true,
+    "bundledSkillVersion": "1.0.2"
+  }
+}

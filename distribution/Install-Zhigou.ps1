@@ -1,4 +1,4 @@
-param(
+﻿param(
     [ValidateSet('menu', 'install', 'upgrade', 'rollback', 'uninstall', 'status', 'verify', 'inspect-bundle', 'recover')]
     [string]$Action = 'menu',
     [string]$Bundle,

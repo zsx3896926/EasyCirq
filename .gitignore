@@ -23,3 +23,5 @@ connector/build/dist/
 connector/tsconfig.tsbuildinfo
 node_modules/
 .zhigou/
+# release build outputs (local artifacts only)
+dist-v*/

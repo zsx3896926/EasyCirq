@@ -347,3 +347,19 @@ py -3 -m unittest tests.test_install_lifecycle -v
 3. **Skill 与客户端目录的关系**：默认只装到安装目录内的 `skill/`；写进 `~/.claude` / `~/.codex` / `~/.agents` 需要显式 `-SkillClient`。这与既有 `Manage-Skill.ps1` 的职责有重叠——**长期应二选一**（见待决问题）。
 4. **发布通道未定**：安装器只信任本地安装包与可选的 `toolchain-release.json`，不做网络下载（有意为之，避免供应链问题）。若要"在线更新"，需要先定发布源与签名策略。
 5. **Go 工具链缺失时无法从源码重建运行时**：本机通过 `--skip-runtime-build` 复用二进制；CI/发布机应安装 Go 以生成完整 provenance。
+
+## 隔离安装验证（2026-10-28）
+
+`dist-v2/zhigou-toolchain-0.2.1.zip`（由 `distribution/build_release.py --skip-runtime-build`
+从当前工作树构建）在独立目录 `zhigou-isolated` 安装并验证：
+
+- 安装退出码 0；`installation.json` 记录 561 个文件、组件 `runtime + connector + skill`；
+- 隔离运行时 `zhigou 0.2.1-dev` 可执行，`zhigou connector path` 读到随包 `.eext`
+  （`zhigou-connector 0.1.0`，uuid `a6e6b788…`，231,299 B）；
+- 包内 skill 版本 **1.0.2**（迁移后的单一 `zhigou` 入口版本），不是旧的 1.0.1；
+- 证据：`evidence/installer/isolated-install.json`。
+
+**Windows PowerShell 5.1 编码修复**：`Install-Zhigou.ps1` 含中文提示，PS 5.1 默认按
+ANSI 读取无 BOM 的 UTF-8 脚本会解析失败（`Unexpected token`）。已为脚本加 UTF-8 BOM，
+`powershell -File distribution\Install-Zhigou.ps1 status` 现可正常输出 JSON。
+`Install-Zhigou.cmd` 的 pwsh→powershell 回退路径随之可用。
