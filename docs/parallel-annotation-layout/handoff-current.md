@@ -7,8 +7,9 @@
 - base main SHA: `9a951edc21481dc3ae91460acc11aa3e08a7be8a`
 - status: implementation + tests + benchmark + docs complete; branch pushed and
   independent PR open: https://github.com/zsx3896926/hardware-design-skill/pull/46
-  (commit `a937b43`; base main moved on origin after the fixed base SHA, the
-  branch stays based on `9a951ed` and adds only new directories).
+  (feature commit `a937b43`; follow-up commits include the test-bootstrap fix
+  `d2e539f`; base main moved on origin after the fixed base SHA, the branch stays
+  based on `9a951ed` and adds only new directories).
 - host execution: **NOT RUN** (no EDA, no save/reopen, no official export, no
   connectivity readback).
 
@@ -109,13 +110,16 @@ pass in both `discover -s tests/annotation_layout` and `discover -s tests`
 modes; full local suite 1869 OK; annotation_layout tests also pass inside the
 merge-ref tree after the fix.
 
-**Remaining work is outside this task's paths:** each other task's test
-bootstrap must stop making `design-hardware/scripts` first on `sys.path` during
-collection (load implementation via a private alias, or `append`/restore for
-subprocess needs).  Until those owners fix it, the PR merge-ref validate will
-stay red on `change_impact`/`return_path_audit`/etc. even though this branch adds
-no failing package.  Branch-level `validate` (3.10/3.13) and `updater`
-(ubuntu/windows) pass for this branch.
+**Resolution observed:** after this bootstrap fix was pushed (`d2e539f`), the PR
+merge-ref `validate` jobs passed (Python 3.10 and 3.13, runs `40551679212` push
+and `40551688536` pull_request) as did the updater workflow
+(ubuntu/windows, run `40551687932`).  So the merge-ref is green at this point.
+The underlying cross-task hazard remains: any other test bootstrap that puts
+`design-hardware/scripts` at the front of `sys.path` during collection can
+reintroduce the same import-time failure for packages discovered later.
+Recommended follow-up (outside this task's allowed paths): load implementations
+via a private alias, use `append`/restore instead of `insert(0, …)`, and pass
+`PYTHONPATH` in subprocess environments for CLI tests.
 ## Known limitations / do not overclaim
 
 - only offline pose planning; host capabilities were not probed; free-text and
@@ -150,6 +154,7 @@ no failing package.  Branch-level `validate` (3.10/3.13) and `updater`
   do not delete that folder or the source-hash validation fails (by design).
 - Never edit `tests/fixtures/photo-led-v14/` originals.
 - Keep the package Python 3.10 compatible and dependency-free.
+
 
 
 

@@ -139,9 +139,11 @@ top-level package; several task test bootstraps (including this branch's former
 `sys.path` at import time, so later test packages resolve to the implementation
 package and their `test_*` submodules cannot be found.  This branch's test
 bootstrap was fixed to stop mutating `sys.path` (private explicit loading
-instead); after that the local merge-ref tree drops from 42 to 33 import errors
-and all `change_impact` errors disappear, but the remaining packages still
-poison discovery until their own test bootstraps are fixed by their owners.
+instead).  In a local merge-ref worktree that removed this branch as a trigger
+and took the error count from 42 to 33 (all `change_impact` errors gone); after
+the fix was pushed, the actual PR merge-ref validate jobs (3.10/3.13) and the
+updater workflow passed.  The cross-task `sys.path` pattern remains a hazard for
+other tasks/main and is recorded for their owners.
 Full evidence and reproduction probes are in
 `handoff-current.md` (section "Merge-ref CI failure investigation").
 ## 8. PR
@@ -150,6 +152,7 @@ Branch `feat/parallel-annotation-layout`, independent worktree, base main
 `9a951edc21481dc3ae91460acc11aa3e08a7be8a`.  PR #46:
 https://github.com/zsx3896926/hardware-design-skill/pull/46 (commit `a937b43`).
 Not merged, not released, not installed.
+
 
 
 
