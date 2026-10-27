@@ -15,15 +15,18 @@ merged or released by this task.
 | branch | `feat/parallel-mechanical-layout` |
 | main baseline | `9a951edc21481dc3ae91460acc11aa3e08a7be8a` |
 | verified delivery HEAD | `0ff873c7361d653c9f7ad0d35c39f6df60543018` |
+| PR head at handoff finalization | `cb6e563f9e0bfa6b8c14c3f20b2a9611c0546f43` |
 
 The verified HEAD is the commit on which the full test suite, frozen benchmark
-and clean-archive replay below were executed. This handoff file is refreshed by
-later documentation-only commits; the PR page's head SHA is always the current
-one. No merge, release, client installation or EDA write was performed.
+and clean-archive replay below were executed. The handoff-finalization commit
+(`cb6e563`) is documentation-only; refreshing this file adds one more docs-only
+commit, and the PR page's head SHA is always the current one. No merge, release,
+client installation or EDA write was performed.
 
 ### Commit sequence on the branch
 
 ```text
+cb6e563 docs: finalize task G handoff with PR, HEAD, verification and limits
 0ff873c docs: record task G pull request
 a608e3e feat: add offline mechanical layout planner and frozen benchmark
 9a951ed test: make Chinese fixture portable across Windows locales   (main baseline)
