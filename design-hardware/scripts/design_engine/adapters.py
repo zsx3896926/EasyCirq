@@ -612,8 +612,10 @@ def build_ir(directory, require_geometry=True):
                 item['content'].strip().isdigit() or
                 (len(item['content'].strip()) == 1 and item['content'].strip().isalpha())):
             role = 'frame'
+        text_identity = item.get('id') or "{:.3f},{:.3f}:{}".format(
+            item['x'], item['y'], item['content'][:24])
         ir['texts'].append({
-            'id': f"text:{item.get('id') or f'{item['x']:.3f},{item['y']:.3f}:{item['content'][:24]}'}",
+            'id': "text:{}".format(text_identity),
             'svg_id': item.get('id'),
             'content': item['content'],
             'x': item['x'],

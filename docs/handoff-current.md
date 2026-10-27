@@ -1,25 +1,17 @@
-# v1.0 ecosystem integration handoff
+# v1.0.1 publication recovery
 
-Date: 2026-10-27 (Asia/Shanghai).
-
-- User expanded v1.0 scope to absorb the eight reviewed EasyEDA ecosystem sources.
-- Worktree C:/Users/jlc/work/hds-release-v1, local and remote branch release/v1.0.0;
-  PR #33. Previous remote head 81c7f57; consult GitHub for current head/status.
-- Source version 1.0.0, Apache-2.0. Copied upstream schemas retain MIT license.
-- Unified entry: design-hardware/scripts/ecosystem.py registry / run.
-- Report: docs/releases/ecosystem-integration.md; machine acceptance:
-  docs/releases/ecosystem-acceptance.json. Each subsystem has its own reference.
-- Validated: 123 focused tests; full guarded suite 1782 OK (skipped=1), 100 imports
-  clean, zero blocked attempts; selftest 5 PASS; benchmarks 9/9 and 16/16;
-  unified offline CLI smoke 12/12. Independent cross-review failures fixed.
-- Local guarded suite uses short temp root C:/Users/jlc/work/hds-test-temp because
-  the managed sandbox's default Windows temp paths are too deep for updater tests.
-- Package rebuild and installed-archive smoke must use this final candidate;
-  previous package success does not cover the new ecosystem code.
-- New live EDA calls, external plugin installation, actual viewer rendering,
-  hardware/manufacturing: NOT RUN. No shared GUI/window ownership requested.
-- Existing feedback final-code live write BLOCKED; compose strict/full-playbook
-  success remains unverified. Refer to docs/round12/report.md and round12-real-machine.md.
-- No long-running EDA/daemon process owned. No tag, merge or Release authorized
-  by this integration step. Next: push exact tested tree to #33, wait for CI,
-  then separately complete formal publication and online asset checks.
+- v1.0.0 release exists, tag ce9b289; no installer assets were uploaded.
+- Release run 40463286671 failed in Python 3.10 full tests: adapters.py used a
+  Python 3.12-only nested f-string. Existing PR validation used default newer
+  Python; updater tests on 3.10 did not import the design engine.
+- Fixed fallback text ID formatting without changing its result; added full
+  Python 3.10/3.13 CI. Worktree C:/Users/jlc/work/hds-release-hotfix,
+  branch fix/release-python310. Source version 1.0.1.
+- Recovery workflow builds/tests exact main on four OS/Python combinations,
+  builds clean packages, verifies installed archive smoke, creates draft v1.0.1
+  with complete assets, then publishes latest and marks v1.0.0 superseded.
+  It refuses overwriting existing releases/assets and does not move v1.0.0 tag.
+- Targeted design engine: 73 OK. Local full suite / clean package and exact-head
+  Python 3.10 CI must be verified before final publication completion.
+- No EDA calls or installed user clients changed. Existing live/renderer limits
+  remain as documented. Notes: docs/releases/v1.0.1.md.

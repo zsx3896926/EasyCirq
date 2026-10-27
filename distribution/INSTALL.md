@@ -1,4 +1,4 @@
-# Hardware Design Skill 1.0.0
+# Hardware Design Skill 1.0.1
 
 Requires Python 3.10+ and an AI client with local file/command access.
 Extract the entire installer ZIP before running it. On Windows, double-click
@@ -7,7 +7,7 @@ EasyEDA, easyeda-agent or its Connector.
 
 Command-line installation (from this extracted folder):
 
-    python skill_update.py install --client claude --package design-hardware-1.0.0.zip --manifest release.json
+    python skill_update.py install --client claude --package design-hardware-1.0.1.zip --manifest release.json
     python skill_update.py status --client claude
     python skill_update.py rollback --client claude
 
@@ -23,7 +23,7 @@ Hashes detect corruption; they are not publisher signatures.
 Feedback-loop writes and full automatic strict compose acceptance remain
 experimental. Offline checks do not certify manufacturing or hardware function.
 Read the complete scope and limitations at:
-https://github.com/zsx3896926/hardware-design-skill/blob/v1.0.0/docs/releases/v1.0.0.md
+https://github.com/zsx3896926/hardware-design-skill/blob/v1.0.1/docs/releases/v1.0.1.md
 
 This is an independently maintained project, not an official JLC product.
 Apache License 2.0: see LICENSE. External tools have their own licenses.
