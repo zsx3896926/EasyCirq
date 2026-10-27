@@ -23,7 +23,7 @@ So the current truthful state is:
 | each module runs on its own native input | **implemented and verified** |
 | F → B (generated circuit → electrical review) | **GAP: no adapter** |
 | J → re-check selection (change impact → B/C/E/F/I checks) | **GAP: J plans generic verification items, no module adapters** |
-| G/K → A (layout plan → PCB plan adapter) | **GAP: A is unmerged draft; K has no PR; no schema mapping** |
+| G/K → A (layout/pose plan → PCB plan adapter) | **GAP: A is unmerged draft; no schema mapping** |
 | C audits an existing delivery package | **implemented (native)** |
 | H / I generate procurement / bring-up plans | **implemented (native)** |
 | one shared snapshot identity across modules | **GAP: each module has its own snapshot/revision fields** |
@@ -113,8 +113,10 @@ Every report needs explicit markers (`real_eda: NOT RUN|...`, `simulated: true`,
 3. **G → A**: G emits a mechanical candidate plan (`executable:false`); A's PCB
    plan/adapter is not merged (PR #36 draft, conflicting) and has no mechanical
    schema. Need a plan-adapter owned by A with re-audit after apply.
-4. **K → A**: K (annotation layout) has no PR and no branch commits; nothing to
-   integrate.
+4. **K → A**: K (annotation layout) now exists and emits `only_planned` annotation
+   poses plus an independent recheck. A must re-read the host before applying; there
+   is no K→A adapter and A is still an unmerged draft, so nothing applies a K plan
+   automatically.
 5. **C/H/I inputs**: each takes a hand-authored native document; no common
    exporter exists. A delivery manifest (C) does not feed H/I automatically.
 6. **Identity drift**: B/E/J use different snapshot/revision field names for the
