@@ -1,0 +1,284 @@
+{
+  "id": "req_1494",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0b0924f5-48ff-4fba-9039-33062fd51812",
+  "createdAt": "2026-10-27T17:31:31.5676754Z",
+  "ok": true,
+  "result": {
+    "passed": false,
+    "violations": [
+      {
+        "count": 4,
+        "list": [
+          {
+            "count": 4,
+            "list": [
+              {
+                "errorObjType": "Board Outline to SMD Pad",
+                "errorType": "Clearance Error in the same footprint",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1.1800000000000002,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err0",
+                    "isInSameComponent": true,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 1.082699999999999,
+                    "name": "copperThickness1oz",
+                    "obj1": "50806a65edafeecee19",
+                    "obj1Suffix": ": e0e19",
+                    "obj1Type": "Board Outline",
+                    "obj2": "50806a65edafeecee15",
+                    "obj2Suffix": ": SW1_3",
+                    "obj2Type": "SMD Pad",
+                    "position": {
+                      "x": 2.3621999999999987,
+                      "y": -30.856540000000003
+                    }
+                  },
+                  "param": {
+                    "minDistance": "10.8mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": "\u003e= 11.8mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} in the same footprint distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err0",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": ": e0e19",
+                  "typeName": "Board Outline"
+                },
+                "obj2": {
+                  "suffix": ": SW1_3",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "50806a65edafeecee19",
+                  "50806a65edafeecee15"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error in the same footprint|_|Board Outline to SMD Pad",
+                "pos": {
+                  "x": 2.3621999999999987,
+                  "y": -30.856540000000003
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Board Outline to SMD Pad",
+                "errorType": "Clearance Error in the same footprint",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1.1800000000000002,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err1",
+                    "isInSameComponent": true,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0.6892500000000013,
+                    "name": "copperThickness1oz",
+                    "obj1": "50806a65edafeecee19",
+                    "obj1Suffix": ": e0e19",
+                    "obj1Type": "Board Outline",
+                    "obj2": "50806a65edafeecee17",
+                    "obj2Suffix": ": SW1_1",
+                    "obj2Type": "SMD Pad",
+                    "position": {
+                      "x": 4.212999999999999,
+                      "y": -24.360365
+                    }
+                  },
+                  "param": {
+                    "minDistance": "6.9mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": "\u003e= 11.8mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} in the same footprint distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err1",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": ": e0e19",
+                  "typeName": "Board Outline"
+                },
+                "obj2": {
+                  "suffix": ": SW1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "50806a65edafeecee19",
+                  "50806a65edafeecee17"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error in the same footprint|_|Board Outline to SMD Pad",
+                "pos": {
+                  "x": 4.212999999999999,
+                  "y": -24.360365
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Board Outline to SMD Pad",
+                "errorType": "Clearance Error in the same footprint",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1.1800000000000002,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err2",
+                    "isInSameComponent": true,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0.6892500000000013,
+                    "name": "copperThickness1oz",
+                    "obj1": "50806a65edafeecee19",
+                    "obj1Suffix": ": e0e19",
+                    "obj1Type": "Board Outline",
+                    "obj2": "50806a65edafeecee16",
+                    "obj2Suffix": ": SW1_2",
+                    "obj2Type": "SMD Pad",
+                    "position": {
+                      "x": 19.882749999999998,
+                      "y": -24.360365
+                    }
+                  },
+                  "param": {
+                    "minDistance": "6.9mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": "\u003e= 11.8mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} in the same footprint distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err2",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": ": e0e19",
+                  "typeName": "Board Outline"
+                },
+                "obj2": {
+                  "suffix": ": SW1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "50806a65edafeecee19",
+                  "50806a65edafeecee16"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error in the same footprint|_|Board Outline to SMD Pad",
+                "pos": {
+                  "x": 19.882749999999998,
+                  "y": -24.360365
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Board Outline to SMD Pad",
+                "errorType": "Clearance Error in the same footprint",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1.1800000000000002,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err3",
+                    "isInSameComponent": true,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 1.082699999999999,
+                    "name": "copperThickness1oz",
+                    "obj1": "50806a65edafeecee19",
+                    "obj1Suffix": ": e0e19",
+                    "obj1Type": "Board Outline",
+                    "obj2": "50806a65edafeecee14",
+                    "obj2Suffix": ": SW1_4",
+                    "obj2Type": "SMD Pad",
+                    "position": {
+                      "x": 25.196999999999996,
+                      "y": -30.856540000000003
+                    }
+                  },
+                  "param": {
+                    "minDistance": "10.8mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": "\u003e= 11.8mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} in the same footprint distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err3",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": ": e0e19",
+                  "typeName": "Board Outline"
+                },
+                "obj2": {
+                  "suffix": ": SW1_4",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "50806a65edafeecee19",
+                  "50806a65edafeecee14"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error in the same footprint|_|Board Outline to SMD Pad",
+                "pos": {
+                  "x": 25.196999999999996,
+                  "y": -30.856540000000003
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              }
+            ],
+            "name": "Board Outline to SMD Pad",
+            "title": [
+              "Board Outline",
+              "to",
+              "SMD Pad",
+              "(4)"
+            ],
+            "visible": true
+          }
+        ],
+        "name": "Clearance Error in the same footprint",
+        "title": [
+          "Clearance Error in the same footprint",
+          "(4)"
+        ],
+        "visible": true
+      }
+    ]
+  },
+  "context": {
+    "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "projectName": "outline-foreign-repro-20261028-013032",
+    "documentUuid": "42142376b58c0e80",
+    "documentType": "pcb",
+    "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "pageVisibility": "visible"
+  },
+  "mutationContext": {
+    "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "projectName": "outline-foreign-repro-20261028-013032",
+    "documentUuid": "42142376b58c0e80",
+    "documentType": "pcb",
+    "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "pageVisibility": "visible"
+  },
+  "mutationContextAvailable": true,
+  "seq": 56,
+  "seqAbandoned": 0
+}

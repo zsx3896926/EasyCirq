@@ -1,0 +1,38 @@
+{
+  "schema": "zhigou-footprint-outline-diagnose/v1",
+  "pcbDrcPassed": false,
+  "violationCount": 1,
+  "leafErrorCount": 4,
+  "footprintOutlineDefects": [
+    {
+      "designator": "SW1",
+      "violations": 4,
+      "affectedPads": [
+        "SW1_1",
+        "SW1_2",
+        "SW1_3",
+        "SW1_4"
+      ],
+      "outlineObjectIds": [
+        "50806a65edafeecee19"
+      ],
+      "sameFootprint": true,
+      "rule": "copperThickness1oz",
+      "minDistanceMm": 0.0275,
+      "requiredMm": 0.03,
+      "diagnosis": "该器件的封装内含 Board Outline 图形；原生 DRC 会把它和同一封装的焊盘比间距，产生永久违规。该对象不是层 11 的普通图元，按 id 删除后引擎会在保存/重载时重建，因此删除不是可靠修复。",
+      "recommendedFix": [
+        "换器件：sch replace --designator SW1 --lib <lib> --uuid <无内嵌 outline 的同类器件>，再同步 PCB",
+        "或换封装：sch rebind-footprint（同电气、不同 footprint）后重新同步",
+        "或改库：在封装编辑里删除该 Board Outline 图形（根因修复）",
+        "修复后必须 pcb save → doc reload → pcb drc 复验"
+      ]
+    }
+  ],
+  "otherLeafErrors": 0,
+  "verdict": "DEFECT_FOUND",
+  "evidence": {
+    "drc": "pcb drc output captured by the caller",
+    "note": "delete-by-id was tested on this host: it reported success but the primitive was present again after save+reload, so the tool recommends a component/footprint-level fix instead of pretending to remove it"
+  }
+}

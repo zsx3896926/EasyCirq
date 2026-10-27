@@ -71,3 +71,22 @@
 ## 使用和积累边界
 
 本页为条件化检查方法，只有指定原厂链接支持其相应机制；仍按任务读取实际型号/板厂订单。制造边距、丝印/阻焊、孔径与SMT单双面能力查询当前渠道，不能沿用来稿的固定值。项目经验按 [经验库](design-experience.md) 的证据、授权和脱敏流程沉淀；没有真实PCB回读/样机测试时不写“布局已验证”或“可量产”。
+
+### PCB 易错机制：封装内嵌 Board Outline（原生 DRC 永久失败）
+
+**症状**：`pcb drc` 报 `Board Outline to SMD Pad — Clearance Error in the same footprint`，
+最小间距小于规则值，影响同一器件的多个焊盘；改线宽、重铺铜、重建板框都无效。
+
+**判定**：违规 `isInSameComponent=true`，且对象类型为 `Board Outline`。这说明**该器件的封装
+自带板框图形**，不是布线问题。不要为了消告警去改网络/删器件/放宽规则。
+
+**处置（2026-10-28 真机实测）**：
+1. 运行 `python tools/zhigou_footprint_outline_diagnose.py` 点名器件、焊盘与对象 id；
+2. 该子图元**枚举不到也删不掉**（删除返回成功但 save+reload 后引擎重建），所以**不要**
+   尝试"删除图元"来修复；
+3. 正确修复是器件/封装级：`zhigou sch replace --id <primitiveId> --lcsc <无内嵌 outline 的同类器件>`
+   （或 `sch rebind-footprint` 换封装、或改库删除图形）；
+4. 必须 `pcb save → doc reload → pcb drc` 复验（实测 4 条违规 → 0）。
+
+**经验边界**：这是库数据缺陷，不是每种封装都有；只有 DRC 出现"同封装 Board Outline 违规"
+时才按这条处理，不外推成所有器件都要换。

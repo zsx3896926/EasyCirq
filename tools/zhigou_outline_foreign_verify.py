@@ -24,7 +24,7 @@ REPO = Path(__file__).resolve().parent.parent
 EVID = REPO / "docs/toolchain-integration/evidence/outline-foreign"
 DEVICE_UUID = "662a66bc6df54266be30144b6a9f5de2"  # C2980113 YTS1C0172BWJ00
 FOOTPRINT = "SW-SMD_2P-YTS1C0172B"
-PROJECT = "outline-foreign-repro-" + time.strftime("%Y%m%d")
+PROJECT = "outline-foreign-repro-" + time.strftime("%Y%m%d-%H%M%S")
 
 
 def zhigou(*args: str, timeout: int = 300):
@@ -85,12 +85,17 @@ def main() -> int:
     docs = zhigou("doc", "ls")
     print(docs.stdout.strip()[:300])
     page = ""
+    pcb_uuid = ""
     for line in docs.stdout.splitlines():
-        parts = line.split()
+        parts = line.replace("★", " ").split()
         if len(parts) >= 3 and parts[0] == "schematic":
             page = parts[2]
+        elif len(parts) >= 3 and parts[0] == "pcb":
+            pcb_uuid = parts[2]
     if not page:
         return blocker("no schematic page found in the new project")
+    if not pcb_uuid:
+        return blocker("no PCB document found in the new project")
     opened = zhigou("doc", "open", page)
     save("02-doc-open.txt", {"cmd": "doc open " + page, "exit": opened.returncode,
                             "stdout": opened.stdout, "stderr": opened.stderr})
@@ -98,19 +103,30 @@ def main() -> int:
         return blocker("could not open the schematic page: " + opened.stderr[:200])
 
     # 2. place the offending device, then sync the PCB
-    placed = zhigou("sch", "place", "--uuid", DEVICE_UUID, "--x", "400", "--y", "300",
-                    "--designator", "SW1")
+    #    --lib is the library UUID that owns the device, resolved from the live
+    #    library (never hardcoded: a library uuid from another project may be stale).
+    found = zhigou("lib", "search", "C2980113", "--limit", "1")
+    library_uuid = ""
+    try:
+        lib = json.loads(found.stdout)
+        comps = (lib.get("result") or {}).get("components") or []
+        if comps:
+            library_uuid = str(comps[0].get("libraryUuid") or "")
+            device_uuid = str(comps[0].get("uuid") or DEVICE_UUID)
+        else:
+            device_uuid = DEVICE_UUID
+    except Exception:
+        device_uuid = DEVICE_UUID
+    if not library_uuid:
+        return blocker("could not resolve the device library uuid for C2980113")
+    placed = zhigou("sch", "place", "--lib", library_uuid, "--uuid", device_uuid,
+                    "--x", "400", "--y", "300", "--designator", "SW1")
     save("03-place.json", {"exit": placed.returncode, "stdout": placed.stdout,
                           "stderr": placed.stderr})
     if placed.returncode != 0:
         return blocker("sch place failed: " + (placed.stderr or placed.stdout)[:300])
 
     pcbs = zhigou("pcb", "docs")
-    pcb_uuid = ""
-    for line in pcbs.stdout.splitlines():
-        parts = line.split()
-        if len(parts) >= 2 and len(parts[-1]) == 16:
-            pcb_uuid = parts[-1]
     if not pcb_uuid:
         return blocker("no PCB document available to sync into")
     zhigou("doc", "open", pcb_uuid)

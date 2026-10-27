@@ -1,0 +1,37 @@
+{
+  "id": "req_12",
+  "type": "response",
+  "version": "v1",
+  "windowId": "d2d502e2-fb5c-4e02-b8f3-07f46d992a1e",
+  "createdAt": "2026-10-27T17:34:04.5019156Z",
+  "ok": true,
+  "result": {
+    "value": {
+      "Arc": "false",
+      "Fill": "ERR:TypeError: Cannot read properties of undefined (reading 'len",
+      "Line": "true",
+      "Object": "ERR:TypeError: Cannot read properties of undefined (reading 'len",
+      "Polyline": "true",
+      "Region": "true"
+    }
+  },
+  "context": {
+    "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "projectName": "outline-foreign-repro-20261028-013032",
+    "documentUuid": "42142376b58c0e80",
+    "documentType": "pcb",
+    "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "pageVisibility": "visible"
+  },
+  "mutationContext": {
+    "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "projectName": "outline-foreign-repro-20261028-013032",
+    "documentUuid": "42142376b58c0e80",
+    "documentType": "pcb",
+    "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "pageVisibility": "visible"
+  },
+  "mutationContextAvailable": true,
+  "seq": 67,
+  "seqAbandoned": 0
+}

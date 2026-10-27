@@ -1,0 +1,32 @@
+{
+  "id": "req_1452",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0b0924f5-48ff-4fba-9039-33062fd51812",
+  "createdAt": "2026-10-27T17:30:38.1137434Z",
+  "ok": true,
+  "result": {
+    "created": true,
+    "friendlyName": "outline-foreign-repro-20261028-013032",
+    "opened": true,
+    "projectName": null,
+    "uuid": "e1aeaefbd5f846d1968e9c23dcf2fef2"
+  },
+  "context": {
+    "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "projectName": "outline-foreign-repro-20261028-013032",
+    "pageVisibility": "visible"
+  },
+  "mutationContext": {
+    "projectUuid": "89b93ac1ffff44b9b705cc3965c31c77",
+    "projectName": "outline-foreign-repro-20261028-013011",
+    "documentUuid": "25f8c74b9ad75916",
+    "documentType": "schematic",
+    "tabId": "25f8c74b9ad75916@89b93ac1ffff44b9b705cc3965c31c77",
+    "pageVisibility": "visible"
+  },
+  "mutationContextAvailable": false,
+  "mutationContextError": "handler-boundary projectUuid changed",
+  "seq": 24,
+  "seqAbandoned": 0
+}
