@@ -79,4 +79,7 @@ python design-hardware/scripts/skill_selftest.py
 
 - 分支：`feat/parallel-skill-knowledge-audit`，固定开工 `9a951ed`。
 - 只提交四个允许目录；创建独立 PR，不合并、不发布。
-- commit / PR 链接：见 PR 描述与 `git log -1`（本文件随提交更新时记录）。
+- 主提交：`91d7aa92bddc2da16de02d20808eb25c526c6bab`
+  （`feat(skill-audit): add read-only knowledge audit and minimal reading planner`）。
+- PR：https://github.com/zsx3896926/hardware-design-skill/pull/45
+- 本交接更新提交见 `git log -1`；PR 保留为 open，等待 A/维护者评审。
