@@ -15,3 +15,23 @@ EasyEDA ecosystem integration:
 Pinned revisions, source paths and implementation limits are recorded in
   design-hardware/assets/ecosystem/registry.json and references/ecosystem-*.md.
 These integrations do not change the licenses of third-party work.
+
+Integrated EDA toolchain (智构自有执行层, from v0.2.0-integrated):
+- runtime/ and connector/ are a maintained fork of easyeda-agent, pinned to
+  tag v1.15.0 / commit d93d3dd94edd1890557c5b3a5f61756a8d5fef83
+  (https://github.com/zhoushoujianwork/easyeda-agent, MIT,
+   Copyright (c) 2026 zhoushoujianwork and contributors).
+  Upstream LICENSE/NOTICE are retained verbatim in runtime/LICENSE,
+  runtime/NOTICE and connector/LICENSE. Our modifications to those trees are
+  documented in runtime/PROVENANCE.md and reproduced by
+  distribution/rebrand_runtime.py + distribution/rebrand_connector.py;
+  distribution/verify_vendor.py re-derives the trees from the pinned upstream
+  archive and fails if anything else changed.
+- connector/src/beautify/* embeds Easy_EDA_PCB_Beautify (Apache-2.0); its license
+  text is retained at connector/src/beautify/LICENSE and its attribution ships
+  inside the packaged connector (connector/NOTICE).
+- Zhigou-specific additions (zhigou doctor / capabilities / connector commands,
+  protocol schemas, distribution integration, docs/toolchain-integration/) are
+  Apache-2.0, like the rest of the project-owned content.
+- Source anchors: third_party/easyeda-agent/UPSTREAM.json (per-file SHA-256 of the
+  pinned upstream source).

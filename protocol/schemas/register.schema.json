@@ -1,0 +1,38 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/zsx3896926/hardware-design-skill/protocol/schemas/register.schema.json",
+  "title": "register (connector -> daemon)",
+  "type": "object",
+  "required": [
+    "type",
+    "windowId",
+    "connectorVersion",
+    "easyedaVersion",
+    "capabilities"
+  ],
+  "properties": {
+    "type": {
+      "const": "register"
+    },
+    "windowId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "connectorVersion": {
+      "type": "string"
+    },
+    "easyedaVersion": {
+      "type": "string"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "userAgent": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}
