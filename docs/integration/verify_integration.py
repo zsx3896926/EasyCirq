@@ -178,6 +178,11 @@ def main():
             ["inspect", "--input", str(ROOT / "benchmarks/delivery-audit/real-sample")]))
 
         rows.append(check_native(
+            "K plans annotation poses on the frozen real page", "annotation_layout",
+            ["plan", str(ROOT / "tests/annotation_layout/fixtures/photo-led-v14/input.json"),
+             "--out-dir", str(tmp / "annotation-plan")]))
+
+        rows.append(check_native(
             "D scans the Skill tree read-only", "skill_knowledge_audit",
             ["scan", "--root", str(ROOT / "design-hardware"),
              "--out", str(tmp / "skill-scan.json")]))
@@ -209,10 +214,11 @@ def main():
                       "plan adapter; G candidates are executable:false by contract.",
         })
         rows.append({
-            "kind": "gap", "id": "K annotation layout is absent",
-            "producer": "annotation_layout", "consumer": "A", "ok": True,
-            "classified": "gap_not_present",
-            "detail": "K has no PR and no branch commits; only untracked work in its own worktree.",
+            "kind": "gap", "id": "K plan is not applied by A",
+            "producer": "annotation_layout", "consumer": "A (integrated EDA toolchain)",
+            "ok": True, "classified": "gap_producer_or_consumer_not_merged",
+            "detail": "K emits only_planned annotation poses and requires A to re-read the host "
+                      "before applying; A is draft PR #36 (CONFLICTING) and no K->A adapter exists.",
         })
 
         fixture = json.loads(FIXTURE.read_text(encoding="utf-8"))

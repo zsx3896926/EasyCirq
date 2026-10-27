@@ -8,12 +8,17 @@ per-task details and review verdicts are in [task-ledger.md](task-ledger.md).
 
 * Baseline before integration: `9a951ed` (all parallel branches were based on it).
 * After eight reviewed module merges: `9a4622e`.
-* Integration fixes: PR #47 → `6a5c4f7`; task B (electrical review) with the LF
-  frozen-hash fix: PR #48 → **`3f21897`** (current `main` at the end of this window).
-* Only this evidence-refresh commit follows it. No tag, release, asset upload,
+* Integration fixes: PR #47 → `6a5c4f7`; task B with the LF frozen-hash fix:
+  PR #48 → `3f21897`; task-B follow-up PR #52 → `acbcc18`; docs reconciliation
+  PRs #51/#53/#54 → `b3ce6fd`/`49a9f80`/`6f588f4`; task K PR #46 → `dd69452`.
+* Only this final evidence-refresh commit follows. No tag, release, asset upload,
   installer replacement or client change was made.
-* CI on the exact current `main` SHA `3f21897`: `Validate skill` and
-  `Skill updater packages` both SUCCESS (run on push, 3.10 + 3.13 matrix).
+* CI: every merged PR was green at its reviewed HEAD, and the push runs on the
+  exact `main` SHAs (`3f21897`, `6f588f4`, `dd69452`) are green for both
+  `Validate skill` (3.10 + 3.13) and `Skill updater packages`.
+* Final state: the exact HEAD after this evidence-refresh PR is `git log -1` on
+  `main`; both workflows were green on every merged main SHA in this window
+  (`3f21897`, `6f588f4`, `dd69452`) and are re-checked after this PR merges.
 
 ## 2. Capability matrix
 
@@ -29,7 +34,7 @@ per-task details and review verdicts are in [task-ledger.md](task-ledger.md).
 | delivery package audit (C) | merged, independent | `python -m delivery_audit` | bounded format subset; unknown for unsupported features |
 | Skill rule/reading audit (D) | merged, independent | `python -m skill_knowledge_audit` | read-only; candidate size limits |
 | own EDA toolchain (A) | **BLOCKED / not merged** | draft PR #36 | conflicting, author says do not merge, real-host M2–M4 needs a manual connector import |
-| annotation batch layout (K) | **not delivered** | none | no commits, no PR |
+| annotation batch layout (K) | merged, independent (#46) | `python -m annotation_layout` | 86 tests; poses `only_planned`; render/save/reopen/readback NOT RUN |
 
 **No capability above is wired into the main design/bring-up workflow.** There is no
 adapter from any producer to any consumer; see
@@ -64,8 +69,9 @@ adapter from any producer to any consumer; see
   a different module's CLI (`gap` checks, expected rejection).
 * Evidence: `evidence/integration-verification.json` (machine readable) — every run
   records exit code, observed status and the fact that EDA/network calls are 0.
-* Result on `main @ 3f21897` (all nine delivered modules): **10/10 native checks OK,
-  5/5 gap probes confirmed as missing adapters, 0 unexpected acceptances**, exit 0. This is **not** an
+* Result after task K merged (all ten delivered modules, B–K): **11/11 native
+  checks OK, 5/5 gap probes confirmed as missing adapters, 0 unexpected
+  acceptances**, exit 0. This is **not** an
   end-to-end product chain and must not be reported as one.
 
 ## 5. Explicit NOT RUN / BLOCKED
@@ -87,12 +93,12 @@ adapter from any producer to any consumer; see
 1. A (own toolchain) is a draft, conflicting PR that rewrites core entry/install,
    protocol and runtime; it is **not** to be merged without an owner rebase, full
    review, green updater CI and real-host M2–M4 evidence.
-2. K is absent.
-3. No cross-module adapter exists, so the delivered toolchain is a set of
+2. No cross-module adapter exists (including K→A), so the delivered toolchain is a set of
    independent offline CLIs, not an automated pipeline. Do not describe it as one.
-4. No real-machine evidence exists for any of the new modules in this window.
-5. Windows-only local verification (3.13); macOS untested; 3.10 only via CI.
-6. PR #38 is closed as superseded by #48; PR #36 (A) and any K work remain open.
+3. No real-machine evidence exists for any of the new modules in this window.
+4. Windows-only local verification (3.13); macOS untested; 3.10 only via CI.
+5. PR #38 is closed as superseded by #48. A (#36) remains a draft, conflicting PR
+   and is the only unmerged deliverable.
 
 ## 7. Next steps (after this window)
 

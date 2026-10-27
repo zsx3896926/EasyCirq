@@ -23,7 +23,7 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 | H BOM procurement / alternates | `feat/parallel-procurement-planner` | #41 | `4df463f` | 47 files, +11506 | working CLI (validate/demand/plan/alternates/explain), Decimal money, channel split, 6 frozen cases | 78 tests | 78 OK; benchmark 6/6; unknown stock/price never treated as 0 | **可合并 → merged** |
 | I first-board power-up/test/fault plan | `feat/parallel-bringup-planner` | #39 | `b407d72` | 175 files, +44762 | working CLI (validate/plan/explain/evaluate), I1–I6, 41 frozen checks | **0 discovered at review time** (same discovery defect) | 172 OK when explicitly invoked; benchmark 41/41 after LF fix; PASS requires hash-bound real evidence, synthetic → SYNTHETIC_ONLY | **可合并（含发现性与 LF 修复）→ merged** |
 | J ECO change impact / incremental verification | `feat/parallel-change-impact` | #43 | `2eec288` | 136 files, +26110 | working CLI (validate/analyze/plan/compare/explain), 50 frozen cases | 231 tests | 231 OK; benchmark 50/50; unknown/incomplete preserved, no `design_pass` | **可合并 → merged** |
-| K schematic annotation batch avoidance / local layout | `feat/parallel-annotation-layout` (worktree only) | none | no commits (`9a951ed`) | untracked `design-hardware/scripts/annotation_layout/`, `tests/annotation_layout/`, `benchmarks/annotation-layout/`, `docs/parallel-annotation-layout/` | unknown / in progress | not applicable | none (integrator must not touch another session's uncommitted worktree) | **NOT DELIVERED** |
+| K schematic annotation batch avoidance / local layout | `feat/parallel-annotation-layout` | #46 | `3cc7e1e` (code reviewed at `d2e539f`; `3cc7e1e` is docs-only) | 97 files, +46369, additive only | working CLI (validate/plan/verify/benchmark/convert/version); 86 tests; 5 benchmark cases (1 real frozen + 4 synthetic) with explicit quality gate | 86 tests discovered by the official entry | 86 OK targeted; merged with current main locally → full suite 3230 tests OK; benchmark honest per-case table (counterexample not claimed as speedup); render/save/reopen/readback NOT RUN | **可合并（含跨任务 sys.path 风险记录）→ merged** |
 
 ### Merged to main (in order)
 
@@ -39,8 +39,13 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 | 8 | #39 I | `9a4622e` | `b407d72` |
 | 9 | #47 integration fixes (discovery/portability) | `6a5c4f7` | `a575748` |
 | 10 | #48 B (LF frozen-hash fix) | `3f21897` | `99ba5ed` (reviewed task B at `f473f0d`) |
+| 11 | #52 B follow-up (pad-nets / switch bypass) | `acbcc18` | `0c3136d` |
+| 12 | #51 G docs reconciliation | `b3ce6fd` | `52fdb11` |
+| 13 | #53 D merged-main verification docs | `49a9f80` | `b1d4b07` |
+| 14 | #54 doc test-path correction | `6f588f4` | `df116be` |
+| 15 | #46 K (annotation layout planner) | `dd69452` | `3cc7e1e` (code at `d2e539f`) |
 
-`main` after the eight module merges: `9a4622e`. Integration fixes merged as #47 → `6a5c4f7`. Task B merged as #48 → `3f21897` (current `main` at the end of the window; the push runs on that exact SHA are green: `Validate skill` and `Skill updater packages`).
+`main` after the eight module merges: `9a4622e`. Integration fixes #47 → `6a5c4f7`; task B #48 → `3f21897`; later in the same window the repository owner merged #49 (J handoff docs) → `1f3abee`, task-B follow-up #52 → `acbcc18`, and docs PRs #51 → `b3ce6fd`, #53 → `49a9f80`, #54 → `6f588f4`; task K #46 → `dd69452`. The final `main` HEAD and CI status after the last evidence-refresh PR are recorded in the final handoff.
 
 ## 2. Cross-cutting defects found by integration review
 
@@ -72,13 +77,13 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 ## 3. What is independently usable vs integrated
 
 * **Independently usable (merged, CLI + tests + frozen benchmark):** B, C, D, E, F,
-  G, H, I, J. Each is a standalone `python -m <module>` CLI under
+  G, H, I, J, K. Each is a standalone `python -m <module>` CLI under
   `design-hardware/scripts/`, offline, stdlib-only.
 * **Not wired into any main workflow:** none of them is referenced from
   `SKILL.md`/references and no producer→consumer adapter exists. Their integration
   proposals are plans, not code.
-* **Blocked / not merged:** A (#36 draft, conflicting), K (not delivered). B is
-  merged via #48; PR #38 is closed as superseded.
+* **Blocked / not merged:** A (#36 draft, conflicting). All of B–K are merged;
+  PR #38 is closed as superseded.
 
 ## 4. Verification records
 
@@ -93,9 +98,9 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 * `docs/integration/verify_integration.py` → `evidence/integration-verification.json`:
   8/9 native checks OK (B absent at generation time), 4/4 gap probes confirmed,
   0 unexpected acceptances.
-* Final candidate `main @ 3f21897` (all nine delivered modules):
-  `python -m unittest discover -s tests` → **3139 tests, OK (skipped=2)**, ~238 s;
-  CI on the exact SHA: both workflows SUCCESS.
+* Final candidate before task K, `main @ 3f21897` (nine modules): 3139 tests OK.
+  With task K merged locally on current main: **3230 tests, OK (skipped=2)**, ~308 s;
+  CI on `3f21897`, `6f588f4` and `dd69452` push runs: both workflows SUCCESS.
 * Task B benchmark after the LF fix: 31/31 (`real_eda=NOT RUN`, `eda_calls=0`).
 * `design-hardware/scripts/skill_selftest.py`: 5 PASS / 0 FAIL (repository and
   installed copy).
