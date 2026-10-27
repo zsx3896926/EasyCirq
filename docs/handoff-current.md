@@ -131,9 +131,9 @@
 
 ## 8. 下一条具体操作
 
-1. 提交/推送本次四份文档更新前先 `git status`，只暂存这四份；代码/基准已在
-   `ac64052` 推送，PR #30 已存在，不要重复建 PR、不合并、不打标签、不创建 Release；
-   不要清理其他会话的 `.tmp-*`/`None.tmp`，不要动用户 EasyEDA。
+1. 代码/基准/案例/文档已提交并推送（代码提交 `ac64052`，PR #30）；
+   不要重复建 PR、不合并、不打标签、不创建 Release；不要清理其他会话的
+   `.tmp-*`/`None.tmp`，不要动用户 EasyEDA。
 2. **在用户明确授权下**做真机闭环：`probe` → `observe`（`--window` + 明确 sch/pcb
    文档 UUID）→ `preview`（`writes_sent=0`）→ dry-run `apply` → 真实
    `apply --apply` → `readback` → `verify` → 保存/重开/DRC 复验；每一步保存真实响应
