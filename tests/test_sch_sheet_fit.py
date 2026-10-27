@@ -58,6 +58,42 @@ class SheetFitTests(unittest.TestCase):
         y_gap = max(second['y'] - (first['y'] + first['h']), first['y'] - (second['y'] + second['h']))
         self.assertGreaterEqual(max(x_gap, y_gap), 10)
 
+    def test_compose_stroke_clearances_are_reserved(self):
+        result, _ = self.run_build(zones(zone('a', 300, 200), zone('b', 250, 150)))
+        self.assertEqual(result['status'], 'fits')
+        self.assertEqual(result['effective'], {'margin': 10.5, 'zone_gap': 11.0,
+                                               'keepout_pad': 15.0})
+        for item in result['placement']:
+            self.assertGreaterEqual(item['x'], 25)
+            self.assertGreaterEqual(item['y'], 25)
+            self.assertLessEqual(item['x'] + item['w'], 975)
+            self.assertLessEqual(item['y'] + item['h'], 775)
+            self.assertEqual(item['x'] % 5, 0)
+            self.assertEqual(item['y'] % 5, 0)
+        first, second = result['placement']
+        x_gap = max(second['x'] - (first['x'] + first['w']),
+                    first['x'] - (second['x'] + second['w']))
+        y_gap = max(second['y'] - (first['y'] + first['h']),
+                    first['y'] - (second['y'] + second['h']))
+        self.assertGreaterEqual(max(x_gap, y_gap), 11)
+
+    def test_out_page_positions_are_on_the_compose_integer_grid(self):
+        result, written = self.run_build(zones(zone('a', 300, 200), zone('b', 250, 150)),
+                                         with_page=True)
+        self.assertEqual(result['status'], 'fits')
+        page = json.loads(written)
+        self.assertEqual(page['sheet']['padding'], 10)
+        self.assertEqual(page['sheet']['gap'], 10)
+        for zone_item in page['zones']:
+            for key in ('x', 'y'):
+                self.assertIsInstance(zone_item['sheetPosition'][key], int)
+                self.assertEqual(zone_item['sheetPosition'][key] % 5, 0)
+
+    def test_out_page_rejects_frames_off_the_compose_grid(self):
+        for width in (100.5, 101):
+            with self.subTest(width=width), self.assertRaises(ValueError):
+                self.run_build(zones(zone('a', width, 100)), with_page=True)
+
     def test_keepout_is_hard(self):
         result, _ = self.run_build(zones(zone('tall', 200, 600), zone('wide', 300, 120)))
         self.assertEqual(result['status'], 'fits')
@@ -99,6 +135,7 @@ class SheetFitTests(unittest.TestCase):
         self.assertEqual(page['schemaVersion'], 1)
         self.assertEqual(len(page['zones']), 2)
         self.assertEqual(page['spacing'], 10)
+        self.assertEqual(page['sheet']['flow'], 'fixed')
         self.assertEqual(page['sheet']['border'],
                          {'minX': 10, 'minY': 10, 'maxX': 990, 'maxY': 790})
         for item in result['placement']:

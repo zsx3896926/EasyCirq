@@ -12,10 +12,12 @@ script answers two questions before any EDA write:
      `easyeda sch compose --layout-page` accepts.
 
 Packing is MaxRects (best-short-side-fit) over several deterministic sort
-orders; each item reserves `gap` on its right/top edges, so accepted pages
-have at least the requested gap between frames and from the keep-out. Fixed
-anchors (`--fixed ID:x,y`) let a tall core stay where the reading order needs
-it while the rest packs around it.
+orders. Compose measures frame clearance including the half-unit stroke: the
+usable area is `padding + 0.5` inside the border (rounded inward to the 5-raw
+anchor grid), adjacent frames need `gap + 1`, and a keep-out needs `gap + 0.5`. Those
+margins are applied here so a reported `fits` page is accepted by
+`sch compose --layout-page`. Fixed anchors (`--fixed ID:x,y`, bottom-left) let a
+tall core stay where the reading order needs it while the rest packs around it.
 
 Usage:
   python sch_sheet_fit.py --zones zones-geom.json --model-report report.json
@@ -32,6 +34,18 @@ import json
 import math
 import sys
 from pathlib import Path
+
+# easyeda composes the sheet preview on the 5-raw anchor grid
+# (schAnchorGrid = 5, plCeil/plFloor inclusive epsilons).
+ANCHOR_GRID = 5.0
+
+
+def _grid_ceil(value):
+    return math.ceil((value - 1e-8) / ANCHOR_GRID) * ANCHOR_GRID
+
+
+def _grid_floor(value):
+    return math.floor((value + 1e-8) / ANCHOR_GRID) * ANCHOR_GRID
 
 
 def _load(path):
@@ -130,16 +144,19 @@ def _pack(order, free, fixed, gap):
     for item in ordered:
         if item['id'] in fixed:
             x, y = fixed[item['id']]
+            reserve_w = _grid_ceil(item['w'] + gap)
+            reserve_h = _grid_ceil(item['h'] + gap)
             actual = {'x0': x, 'y0': y, 'x1': x + item['w'], 'y1': y + item['h']}
-            reserve = {'x0': x, 'y0': y, 'x1': x + item['w'] + gap, 'y1': y + item['h'] + gap}
+            reserve = {'x0': x, 'y0': y, 'x1': x + reserve_w, 'y1': y + reserve_h}
             if not any(_contains(rect, reserve) for rect in free):
-                return None, {'zone': item['id'], 'w': item['w'] + gap, 'h': item['h'] + gap,
+                return None, {'zone': item['id'], 'w': reserve_w, 'h': reserve_h,
                               'placed': len(placed), 'reason': 'fixed anchor collides',
                               'free': free}
             placed.append({**item, **actual})
             free = _prune(_subtract(free, reserve))
             continue
-        reserve_w, reserve_h = item['w'] + gap, item['h'] + gap
+        reserve_w = _grid_ceil(item['w'] + gap)
+        reserve_h = _grid_ceil(item['h'] + gap)
         best = None
         for rect in free:
             if rect['x1'] - rect['x0'] < reserve_w or rect['y1'] - rect['y0'] < reserve_h:
@@ -170,16 +187,21 @@ def _round_placement(placed, snap):
         return placed
     out = []
     for item in placed:
-        x0 = round(item['x0'] / snap) * snap
-        y0 = round(item['y0'] / snap) * snap
-        x1 = round(item['x1'] / snap) * snap
-        y1 = round(item['y1'] / snap) * snap
-        out.append({**item, 'x0': round(x0, 6), 'y0': round(y0, 6),
-                    'x1': round(x1, 6), 'y1': round(y1, 6)})
+        # Round outward (up/right) so a fractional keep-out edge can never be
+        # rounded into the keep-out; keep the measured frame extent exact.
+        x0 = math.ceil(item['x0'] / snap - 1e-9) * snap
+        y0 = math.ceil(item['y0'] / snap - 1e-9) * snap
+        x1 = x0 + (item['x1'] - item['x0'])
+        y1 = y0 + (item['y1'] - item['y0'])
+        def emit(value):
+            value = round(value, 6)
+            return int(value) if float(value).is_integer() else value
+        out.append({**item, 'x0': emit(x0), 'y0': emit(y0),
+                    'x1': emit(x1), 'y1': emit(y1)})
     return out
 
 
-def _validate(placed, usable, keepouts, gap):
+def _validate(placed, usable, keepouts, min_gap):
     problems, checked = [], 0
     for item in placed:
         actual = {'x0': item['x0'], 'y0': item['y0'], 'x1': item['x1'], 'y1': item['y1']}
@@ -198,14 +220,14 @@ def _validate(placed, usable, keepouts, gap):
                 continue
             x_gap = max(b['x0'] - a['x1'], a['x0'] - b['x1'])
             y_gap = max(b['y0'] - a['y1'], a['y0'] - b['y1'])
-            if max(x_gap, y_gap) < gap - 1e-6:
+            if max(x_gap, y_gap) < min_gap - 1e-6:
                 problems.append({'code': 'gap_too_small', 'zones': [item['id'], other['id']],
-                                 'gap': round(max(x_gap, y_gap), 3), 'required': gap})
+                                 'gap': round(max(x_gap, y_gap), 3), 'required': min_gap})
     return problems, checked
 
 
 def build(zones_path, report_path, margin=10.0, gap=10.0, keepout_clearance=10.0,
-          fixed=None, out_page=None, snap=0.001):
+          fixed=None, out_page=None, snap=5.0):
     zones = _load(zones_path)
     report = _load(report_path)
     if not isinstance(zones, dict) or not isinstance(zones.get('zones'), list) or not zones['zones']:
@@ -222,16 +244,27 @@ def build(zones_path, report_path, margin=10.0, gap=10.0, keepout_clearance=10.0
     snap = _finite(snap, 'snap')
     if margin < 0 or gap < 0 or keepout_clearance < 0 or snap < 0:
         raise ValueError('margin/gap/clearance/snap must be nonnegative')
+    if out_page and (snap < ANCHOR_GRID or snap % ANCHOR_GRID):
+        raise ValueError('--out-page requires --snap to be a multiple of the 5-raw compose grid')
 
-    usable = {'x0': ix0 + margin, 'y0': iy0 + margin, 'x1': ix1 - margin, 'y1': iy1 - margin}
+    # Compose validates padding and gaps including the half-unit frame stroke:
+    # usable = border + padding + 0.5 (rounded inward to the 5-raw anchor grid),
+    # zone-to-zone >= gap + 1, keepout >= gap + 0.5.
+    inset = max(margin, gap) + 0.5
+    usable = {'x0': _grid_ceil(ix0 + inset), 'y0': _grid_ceil(iy0 + inset),
+              'x1': _grid_floor(ix1 - inset), 'y1': _grid_floor(iy1 - inset)}
     if usable['x1'] <= usable['x0'] or usable['y1'] <= usable['y0']:
         raise ValueError('margin leaves no usable sheet area')
+    zone_gap = gap + 1.0
+    # Keep every free-rect edge on the 5-raw anchor grid, otherwise outward
+    # rounding after packing can shrink a gap below compose's requirement.
+    keepout_pad = _grid_ceil(max(keepout_clearance, gap + 0.5))
     keepouts = []
     for item in page.get('keepouts') or []:
         raw = item.get('bbox', item) if isinstance(item, dict) else item
         [kx0, ky0, kx1, ky1] = _box(raw, 'keepout.bbox')
-        keepouts.append({'x0': kx0 - keepout_clearance, 'y0': ky0 - keepout_clearance,
-                         'x1': kx1 + keepout_clearance, 'y1': ky1 + keepout_clearance})
+        keepouts.append({'x0': kx0 - keepout_pad, 'y0': ky0 - keepout_pad,
+                         'x1': kx1 + keepout_pad, 'y1': ky1 + keepout_pad})
 
     free = [dict(usable)]
     for keepout in keepouts:
@@ -261,6 +294,8 @@ def build(zones_path, report_path, margin=10.0, gap=10.0, keepout_clearance=10.0
         raise ValueError(f'--fixed names unknown zones: {unknown}')
     for zone_id, (x, y) in fixed.items():
         item = next(i for i in items if i['id'] == zone_id)
+        if snap and (x % snap or y % snap):
+            raise ValueError(f'fixed zone {zone_id} must sit on the {snap:g}-raw snap grid')
         if x < usable['x0'] or y < usable['y0'] or x + item['w'] > usable['x1'] or y + item['h'] > usable['y1']:
             raise ValueError(f'fixed zone {zone_id} is outside the usable sheet')
 
@@ -272,6 +307,7 @@ def build(zones_path, report_path, margin=10.0, gap=10.0, keepout_clearance=10.0
         'sheet': {'bbox': sheet, 'innerBBox': [ix0, iy0, ix1, iy1]},
         'usable': usable,
         'margin': margin, 'gap': gap, 'keepout_clearance': keepout_clearance,
+        'effective': {'margin': inset, 'zone_gap': zone_gap, 'keepout_pad': keepout_pad},
         'frames': [{'id': item['id'], 'w': item['w'], 'h': item['h']} for item in items],
         'area': {'frames': round(total_area, 3), 'usable': round(usable_area, 3)},
         'blockers': [], 'warnings': [], 'checkedPairs': 0,
@@ -283,10 +319,16 @@ def build(zones_path, report_path, margin=10.0, gap=10.0, keepout_clearance=10.0
     if total_area > usable_area:
         report_out['blockers'].append({'code': 'area_exceeds_sheet',
                                        'frames': round(total_area, 3), 'usable': round(usable_area, 3)})
+    if out_page:
+        for item in items:
+            if item['w'] % ANCHOR_GRID or item['h'] % ANCHOR_GRID:
+                raise ValueError(
+                    f"zone {item['id']} has frame extent {item['w']}x{item['h']} off the "
+                    '5-raw compose anchor grid; round the frame outward before packing')
 
     worst = None
     for label, order in _sort_orders(items):
-        placed, failure = _pack(order, free, fixed, gap)
+        placed, failure = _pack(order, free, fixed, zone_gap)
         if placed is None:
             if failure and (worst is None or failure['placed'] > worst['placed']
                             or (failure['placed'] == worst['placed']
@@ -294,7 +336,7 @@ def build(zones_path, report_path, margin=10.0, gap=10.0, keepout_clearance=10.0
                 worst = {**failure, 'order': label}
             continue
         placed = _round_placement(placed, snap)
-        problems, checked = _validate(placed, usable, keepouts, gap)
+        problems, checked = _validate(placed, usable, keepouts, zone_gap)
         report_out['checkedPairs'] = checked
         if problems:
             report_out['blockers'].extend(problems)
@@ -321,7 +363,7 @@ def build(zones_path, report_path, margin=10.0, gap=10.0, keepout_clearance=10.0
                     'border': {'minX': ix0, 'minY': iy0, 'maxX': ix1, 'maxY': iy1},
                     'keepouts': [item.get('bbox', item) if isinstance(item, dict) else item
                                  for item in page.get('keepouts') or []],
-                    'padding': margin, 'gap': gap, 'flow': 'z',
+                    'padding': gap, 'gap': gap, 'flow': 'fixed',
                 },
                 'spacing': gap,
             }
@@ -349,8 +391,8 @@ def main(argv=None):
     parser.add_argument('--gap', type=float, default=10.0, help='minimum frame gap (raw)')
     parser.add_argument('--keepout-clearance', type=float, default=10.0,
                         help='extra clearance around title-block keep-outs (raw)')
-    parser.add_argument('--snap', type=float, default=0.001,
-                        help='round emitted coordinates to this step (0 keeps raw floats)')
+    parser.add_argument('--snap', type=float, default=5.0,
+                        help='coordinate step; compose anchors on a 5-raw grid (--out-page needs a multiple of 5)')
     parser.add_argument('--fixed', action='append', default=[],
                         metavar='ID:X,Y', help='pin a zone frame at a bottom-left coordinate')
     parser.add_argument('--json', action='store_true')

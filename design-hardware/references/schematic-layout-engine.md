@@ -158,11 +158,11 @@ easyeda sch layout-sheet-plan --from render-input.json --out pages.json --flow z
 
 预检规则：
 
-- 可用区 = `innerBBox` 内缩 `--margin`，再扣除图签 keep-out 外扩 `--keepout-clearance`；frame 两两间距 ≥ `--gap`。
+- 可用区 = `innerBBox` 内缩 `max(--margin, --gap) + 0.5`（compose 的边框半单位描边），再向内取整到 5-raw 锚点网格；frame 两两间距 ≥ `--gap + 1`；图签 keep-out 外扩 `max(--keepout-clearance, --gap + 0.5)` 并向上取整到网格。
 - `sch_sheet_fit.py` 用 MaxRects 多排序尝试，能利用图签旁 L 形空间；`layout-sheet-plan --flow z` 只是按行顶齐的 shelf 打包，密集页报 `needs-pagination` 不代表真的放不下。
-- `fits` 时 `--out-page` 直接产出 compose 可用的 packed page（`sheetPosition` 取 frame 左上角）。`fixed` 只用于阅读顺序必须固定的核心模块。
+- `fits` 时 `--out-page` 直接产出 compose 可用的 packed page（`sheetPosition` 取 frame 左上角，整数 5-raw 坐标，`sheet.flow = fixed`）；frame 宽高必须是 5 的整数倍，否则 compose 会拒绝。`--snap` 默认 5，`--out-page` 不接受非 5 倍数。`fixed` 只用于阅读顺序必须固定的核心模块。
 - `no-fit` 时报告会给出最后一个失败模块、所需尺寸和剩余空矩形；先按这些数字缩框/拆区，不要盲目重试或加页。
-- 预检通过后仍要跑官方 `layout-sheet-plan` 并逐框复核全局坐标；两者结论不一致时以几何复核为准，记录差异。
+- 预检通过后仍要跑官方 `layout-sheet-plan` 并逐框复核全局坐标；两者结论不一致时以几何复核为准，记录差异。离线 `fits` 不是 compose 接受或真机通过的替代证据。
 
 - 小电路优先一页；不要固定三页。先调模块顺序/间距/核心选择，再考虑分页。
 - `flow:z` 是确定性的从左到右、按行顶齐；它不会回填短框下的空洞。

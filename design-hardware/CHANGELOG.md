@@ -14,6 +14,7 @@ round12 原理图排版工具链补强：把 compose 输入、页预算预检和
 
 ### 修复
 
+- `sch_sheet_fit.py`：按 compose 的半单位边框描边和 5-raw 锚点网格计算可用区/区间距/keep-out；固定锚点与打包 reserve 上取整到网格，`--out-page` 输出整数 5 网格坐标与 `flow: fixed`，并拒绝非 5 整数倍的功能区尺寸。修复“离线报告 fits、compose 仍因边距/网格拒绝”的假阳性。
 - 排版文档中的工具版本口径统一到 easyeda-agent 1.15.0；写入后验收增加页预算报告、composition 适配器报告与绑定 N/N 证据项。
 
 ## 0.9.3 — 2026-10-27
