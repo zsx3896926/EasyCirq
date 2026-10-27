@@ -3,7 +3,8 @@
 > 分支：`feat/parallel-procurement-planner`；独立 worktree：
 > `hds-pp-worktree`；开工 main SHA：
 > `9a951edc21481dc3ae91460acc11aa3e08a7be8a`。
-> 交付提交 SHA：`<待提交后填写>`；PR：`<待推送后填写>`。
+> 交付提交 SHA：`29e5b8f08aa8480e403587d1929319eedd38a445`；PR：
+> `feat/parallel-procurement-planner`（链接待推送后补充）。
 > 无订单、无库存预留、无商城实时查询、无 EDA 调用、无器件实物验证。
 
 ## 1. 结论
