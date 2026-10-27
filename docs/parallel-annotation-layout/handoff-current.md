@@ -54,6 +54,11 @@ to `--out`/`--out-dir`.
 - docs: contract, geometry-policy, solver-policy, benchmark-report,
   acceptance-matrix, integration-proposal, report, issue-candidates.
 
+- CI note (at PR time): branch-level `validate` (Python 3.10/3.13) and
+  `updater` (ubuntu/windows) passed for this branch.  The PR merge-ref check can
+  be red because concurrent task merges on `main` broke unrelated test packages
+  (`circuit_blocks`, `return_path_audit` discovery) after our base SHA; the
+  failures are outside this task's paths and are not introduced by this branch.
 ## Known limitations / do not overclaim
 
 - only offline pose planning; host capabilities were not probed; free-text and
@@ -88,5 +93,6 @@ to `--out`/`--out-dir`.
   do not delete that folder or the source-hash validation fails (by design).
 - Never edit `tests/fixtures/photo-led-v14/` originals.
 - Keep the package Python 3.10 compatible and dependency-free.
+
 
 
