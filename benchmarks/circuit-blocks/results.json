@@ -83,27 +83,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxosptkfe\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpan2ns2u9\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxosptkfe\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpan2ns2u9\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxosptkfe\\value.json\n  - non_standard_value: components[0] value 5400.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpan2ns2u9\\value.json\n  - non_standard_value: components[0] value 5400.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxosptkfe\\value_rehash.json\n  - non_standard_value: components[0] value 5400.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpan2ns2u9\\value_rehash.json\n  - non_standard_value: components[0] value 5400.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        191.74,
-        194.37
+        208.46,
+        209.92
       ],
       "input_sha256": "4f6d8ef542ae8a83650c25d7d3c9742611a3f847366366bc98737e1d6ac8f4e4",
       "exit_code": 0,
@@ -142,8 +142,8 @@
         }
       ],
       "timings_ms": [
-        142.44,
-        147.86
+        152.77,
+        184.75
       ],
       "input_sha256": "cde2766d2f761f5bed53b70a7d8be09d3a5e31e59f1c07a89fff22800f8d1d32",
       "exit_code": 3,
@@ -193,27 +193,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpk8wjel9z\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn2qufotk\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpk8wjel9z\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn2qufotk\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpk8wjel9z\\value.json\n  - non_standard_value: components[0] value 5400.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn2qufotk\\value.json\n  - non_standard_value: components[0] value 5400.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpk8wjel9z\\value_rehash.json\n  - non_standard_value: components[0] value 5400.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn2qufotk\\value_rehash.json\n  - non_standard_value: components[0] value 5400.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        196.04,
-        201.53
+        217.79,
+        188.15
       ],
       "input_sha256": "ed5750296e4d2630250f7728d7ea20bfd01bcd488c2f32906ec6d839aa42eab4",
       "exit_code": 0,
@@ -247,8 +247,8 @@
         }
       ],
       "timings_ms": [
-        144.67,
-        139.32
+        124.41,
+        115.18
       ],
       "input_sha256": "e83ffa5fc02b983ad12cd17e49440d99cca8d4e71d8fa068083294450baaf2c5",
       "exit_code": 4,
@@ -343,27 +343,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpncecttzh\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplzlwzj32\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpncecttzh\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplzlwzj32\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpncecttzh\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplzlwzj32\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpncecttzh\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplzlwzj32\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        142.95,
-        143.6
+        117.27,
+        115.98
       ],
       "input_sha256": "3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce",
       "exit_code": 0,
@@ -408,27 +408,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplm_dja02\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpk06gvxzf\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplm_dja02\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpk06gvxzf\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplm_dja02\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpk06gvxzf\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplm_dja02\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpk06gvxzf\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        157.33,
-        158.22
+        121.27,
+        134.92
       ],
       "input_sha256": "c2a5e07df43ac561b6d6a128b92f595455f9a74158da96bde1b1da3bc44c63a1",
       "exit_code": 0,
@@ -467,8 +467,8 @@
         }
       ],
       "timings_ms": [
-        165.77,
-        176.97
+        182.49,
+        147.26
       ],
       "input_sha256": "24bb31c8585cd8dda4e420654f0b0a4e3a43e8aa0bdcd4848fb75577ac547253",
       "exit_code": 4,
@@ -507,8 +507,8 @@
         }
       ],
       "timings_ms": [
-        184.91,
-        189.55
+        135.23,
+        134.38
       ],
       "input_sha256": "c6f4add0c49798f2136656a7f1cff2a4f0dd3b7d25b02c63d834a98be2ae4b3d",
       "exit_code": 3,
@@ -573,27 +573,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4i01vmkc\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpyp_ndse5\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4i01vmkc\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpyp_ndse5\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4i01vmkc\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpyp_ndse5\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4i01vmkc\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpyp_ndse5\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        159.74,
-        172.35
+        165.12,
+        170.18
       ],
       "input_sha256": "747d58ce0b1d01da12ce8781859590e2c9911ddd4c01aa7d37231e62a5e24b57",
       "exit_code": 0,
@@ -628,22 +628,22 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcm247s53\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptxpbx2c8\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcm247s53\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptxpbx2c8\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcm247s53\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptxpbx2c8\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcm247s53\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptxpbx2c8\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "variant:millivolts_and_objects:same_hash",
@@ -652,9 +652,9 @@
         }
       ],
       "timings_ms": [
-        155.77,
-        159.91,
-        155.59
+        204.03,
+        211.73,
+        224.31
       ],
       "input_sha256": "3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce",
       "exit_code": 0,
@@ -693,7 +693,7 @@
         }
       ],
       "timings_ms": [
-        179.43
+        195.34
       ],
       "input_sha256": "37f82e1846cae53b02ce8593bec4747dab9687b2d9887dba2753b75a02515e77",
       "exit_code": 4,
@@ -742,7 +742,7 @@
         }
       ],
       "timings_ms": [
-        184.8
+        209.65
       ],
       "input_sha256": "8f5dddcc7b2a5cf367d1c236b0a9714973dbcf20465e33195979c965155468a9",
       "exit_code": 0,
@@ -781,7 +781,7 @@
         }
       ],
       "timings_ms": [
-        198.05
+        240.19
       ],
       "input_sha256": "275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d",
       "exit_code": 4,
@@ -830,7 +830,7 @@
         }
       ],
       "timings_ms": [
-        164.53
+        209.08
       ],
       "input_sha256": "dec776a936041066ebc72ec997918921e01be17db2b5f1cde96873831baa64a3",
       "exit_code": 0,
@@ -864,7 +864,7 @@
         }
       ],
       "timings_ms": [
-        175.44
+        206.43
       ],
       "input_sha256": "898c2683a047370a338bf1271d1199e3f3ec7cf91e88ee0447a9db8145762157",
       "exit_code": 5,
@@ -898,7 +898,7 @@
         }
       ],
       "timings_ms": [
-        196.47
+        194.87
       ],
       "input_sha256": "1067b78bf116fffc9b564ef6b6c428659e67c9888dac3bcac65adb50fb671fd5",
       "exit_code": 4,
@@ -932,7 +932,7 @@
         }
       ],
       "timings_ms": [
-        195.02
+        200.85
       ],
       "input_sha256": "d7efe2d7458489898bc6c3418d26fe92d887498e350f04572ea5db96253bb28c",
       "exit_code": 5,
@@ -961,7 +961,7 @@
         }
       ],
       "timings_ms": [
-        185.44
+        200.88
       ],
       "input_sha256": "e94723a05bfcfb971423b066fc49a56770fce623d66c9f0ff85a86e1865da6e3",
       "exit_code": 2,
@@ -995,7 +995,7 @@
         }
       ],
       "timings_ms": [
-        191.09
+        206.87
       ],
       "input_sha256": "73c971dd301c678e53efa4da1f79a5743e08571a8b7e357acad9e9ad43a2f687",
       "exit_code": 4,
@@ -1034,8 +1034,8 @@
         }
       ],
       "timings_ms": [
-        163.37,
-        170.37
+        172.14,
+        177.88
       ],
       "input_sha256": "a201e53d0f01343882df4057cc879edc0b33ac4e446bace020aaa65a7c5f6b89",
       "exit_code": 4,
@@ -1075,22 +1075,22 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpujz6787v\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp_rrsrox3\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpujz6787v\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp_rrsrox3\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpujz6787v\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp_rrsrox3\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpujz6787v\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp_rrsrox3\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "variant:one_step_below:status",
@@ -1099,9 +1099,9 @@
         }
       ],
       "timings_ms": [
-        197.92,
-        181.51,
-        167.63
+        176.28,
+        189.16,
+        179.62
       ],
       "input_sha256": "2fb024cea3e2fc47d4d4b0afd936b70aad270024c3fbb173900e4698ac22d49a",
       "exit_code": 0,
@@ -1140,8 +1140,8 @@
         }
       ],
       "timings_ms": [
-        162.92,
-        161.76
+        183.94,
+        183.9
       ],
       "input_sha256": "725b56b6f21a3384cc91854c58110c61621962c4954f9e8099591c04508a214c",
       "exit_code": 3,
@@ -1181,27 +1181,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpq5fpq2s9\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp19_600ua\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpq5fpq2s9\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp19_600ua\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpq5fpq2s9\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp19_600ua\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpq5fpq2s9\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp19_600ua\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        162.51,
-        185.43
+        197.78,
+        179.18
       ],
       "input_sha256": "45c823b442be53c7568387dc2c606bf07a7858b152c408a8828fb2e0e05ba1a5",
       "exit_code": 4,
@@ -1256,27 +1256,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp6nr8qd_e\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkko875u1\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp6nr8qd_e\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkko875u1\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp6nr8qd_e\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkko875u1\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp6nr8qd_e\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkko875u1\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        146.64,
-        140.99
+        207.3,
+        201.44
       ],
       "input_sha256": "658c6b51b3a16d98ad4ee1e973ac6c92eb6bc7aa3fdabc4b51214b415fe87e8f",
       "exit_code": 0,
@@ -1366,27 +1366,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpa0jbvxe0\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplj_f4jii\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpa0jbvxe0\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplj_f4jii\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpa0jbvxe0\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplj_f4jii\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpa0jbvxe0\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmplj_f4jii\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        132.17,
-        330.51
+        185.43,
+        171.86
       ],
       "input_sha256": "0242e48b52faa30417d9adcf69ca9133b888e674c40c904342f330c0162d03be",
       "exit_code": 0,
@@ -1481,22 +1481,22 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp93nglgt3\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpjs4tfrmd\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp93nglgt3\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpjs4tfrmd\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp93nglgt3\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpjs4tfrmd\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp93nglgt3\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpjs4tfrmd\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
         },
         {
           "name": "variant:unit_respelling:same_hash",
@@ -1515,10 +1515,10 @@
         }
       ],
       "timings_ms": [
-        150.14,
-        157.33,
-        163.76,
-        168.99
+        190.44,
+        207.24,
+        195.76,
+        221.26
       ],
       "input_sha256": "b2efa9064611d3bb091df661604db766be98d585763d7f910a0928ec0551ca58",
       "exit_code": 0,
@@ -1598,27 +1598,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp89ti37z2\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9ylote6p\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp89ti37z2\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9ylote6p\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp89ti37z2\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9ylote6p\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp89ti37z2\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9ylote6p\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        149.29,
-        157.86
+        182.16,
+        196.72
       ],
       "input_sha256": "0b5b92522d9fbda7f22b7fefe16c5f153099f04bbb0c395fce7302ac743eb12f",
       "exit_code": 0,
@@ -1663,22 +1663,22 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8o5guy9f\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9qd2n3p0\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8o5guy9f\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9qd2n3p0\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8o5guy9f\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9qd2n3p0\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8o5guy9f\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9qd2n3p0\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "variant:one_step_past_limit:status",
@@ -1687,9 +1687,9 @@
         }
       ],
       "timings_ms": [
-        154.59,
-        170.41,
-        155.46
+        178.21,
+        179.0,
+        194.96
       ],
       "input_sha256": "c3725e529f933b89eca602d5f8fd4283c1367ee57f20ecd5c7bd93a1cf24d8a0",
       "exit_code": 0,
@@ -1754,27 +1754,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmps1h31i2g\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpef54txpp\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmps1h31i2g\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpef54txpp\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmps1h31i2g\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpef54txpp\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmps1h31i2g\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpef54txpp\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        155.25,
-        147.71
+        213.53,
+        195.5
       ],
       "input_sha256": "2c5d1ff6db8ef8b898a308852b4dae96a24459b71baee715d273f906e96da00b",
       "exit_code": 0,
@@ -1839,27 +1839,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn_6gcrz9\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4fyyn_ig\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn_6gcrz9\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4fyyn_ig\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn_6gcrz9\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4fyyn_ig\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn_6gcrz9\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4fyyn_ig\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        241.43,
-        159.03
+        164.69,
+        174.62
       ],
       "input_sha256": "9ce9b660ab5d430ec28957865695dfca4892ac938eee15d1af9347726563145a",
       "exit_code": 0,
@@ -1899,27 +1899,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpqvyefokx\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsnkmas7h\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpqvyefokx\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsnkmas7h\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpqvyefokx\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsnkmas7h\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpqvyefokx\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsnkmas7h\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        160.18,
-        174.22
+        268.23,
+        240.51
       ],
       "input_sha256": "a3506aeeab3443c00f50bbb3588a8e65ce3fe3620f04a4469d1c24182988477b",
       "exit_code": 3,
@@ -1958,8 +1958,8 @@
         }
       ],
       "timings_ms": [
-        164.03,
-        159.02
+        188.34,
+        192.91
       ],
       "input_sha256": "04805539faf5c366edb067b7f0c76a08990a50124c0a6c7e01d2bb028a3b1850",
       "exit_code": 3,
@@ -1998,8 +1998,8 @@
         }
       ],
       "timings_ms": [
-        178.21,
-        161.22
+        216.11,
+        206.3
       ],
       "input_sha256": "92a99c6dc5c06c78bc9b90504526a0e9f8860e34d05401215f71f9673b20256a",
       "exit_code": 4,
@@ -2059,27 +2059,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp61gbdac_\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptu8h3p2o\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp61gbdac_\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptu8h3p2o\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp61gbdac_\\value.json\n  - non_standard_value: components[1] value 84.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptu8h3p2o\\value.json\n  - non_standard_value: components[1] value 84.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp61gbdac_\\value_rehash.json\n  - non_standard_value: components[1] value 84.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptu8h3p2o\\value_rehash.json\n  - non_standard_value: components[1] value 84.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        197.97,
-        187.73
+        293.21,
+        205.08
       ],
       "input_sha256": "11ac1f4ad892a075dde3a77f1d99d3b0314c2c7d32093d6b8c0f964c887460f8",
       "exit_code": 0,
@@ -2124,27 +2124,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp0venyojh\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp__jbg6ft\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp0venyojh\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp__jbg6ft\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp0venyojh\\value.json\n  - non_standard_value: components[1] value 70.5 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp__jbg6ft\\value.json\n  - non_standard_value: components[1] value 70.5 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp0venyojh\\value_rehash.json\n  - non_standard_value: components[1] value 70.5 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp__jbg6ft\\value_rehash.json\n  - non_standard_value: components[1] value 70.5 is not in E24)"
         }
       ],
       "timings_ms": [
-        154.23,
-        155.76
+        207.51,
+        189.33
       ],
       "input_sha256": "8c95eba56282d33e8f7119df9d6f14734c8f80beed42b091b71af2dd7d5b0b7a",
       "exit_code": 0,
@@ -2179,22 +2179,22 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpimbf0rrg\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpnizq3fad\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpimbf0rrg\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpnizq3fad\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpimbf0rrg\\value.json\n  - non_standard_value: components[1] value 84.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpnizq3fad\\value.json\n  - non_standard_value: components[1] value 84.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpimbf0rrg\\value_rehash.json\n  - non_standard_value: components[1] value 84.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpnizq3fad\\value_rehash.json\n  - non_standard_value: components[1] value 84.0 is not in E24)"
         },
         {
           "name": "variant:above_id:status",
@@ -2203,9 +2203,9 @@
         }
       ],
       "timings_ms": [
-        163.38,
-        157.91,
-        163.91
+        180.29,
+        205.62,
+        201.93
       ],
       "input_sha256": "4083f303003ce9dae30cfbadaae9d31019bcc56095f30c720eb2cd37fd284047",
       "exit_code": 0,
@@ -2244,8 +2244,8 @@
         }
       ],
       "timings_ms": [
-        157.17,
-        156.08
+        232.91,
+        176.1
       ],
       "input_sha256": "50d256d5cddd8a2000a7cf80649fa6a30f1a505106a331409fa58047372847c2",
       "exit_code": 3,
@@ -2284,8 +2284,8 @@
         }
       ],
       "timings_ms": [
-        150.84,
-        149.89
+        178.58,
+        175.75
       ],
       "input_sha256": "39d769bbdc90d992aaeaa64e2a5d42655d959db849bbadef5a54199cb75e3d56",
       "exit_code": 4,
@@ -2410,27 +2410,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp5fo6nwzn\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpnqrqr7k_\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp5fo6nwzn\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpnqrqr7k_\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp5fo6nwzn\\value.json\n  - non_standard_value: components[1] value 84.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpnqrqr7k_\\value.json\n  - non_standard_value: components[1] value 84.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp5fo6nwzn\\value_rehash.json\n  - non_standard_value: components[1] value 84.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpnqrqr7k_\\value_rehash.json\n  - non_standard_value: components[1] value 84.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        203.11,
-        168.67
+        197.36,
+        195.02
       ],
       "input_sha256": "1c1c71303392fae687c910e64e0aad79598c06f827aab7406e56b50cb885ba79",
       "exit_code": 0,
@@ -2500,27 +2500,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptm8jwvkq\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp1zisck6x\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptm8jwvkq\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp1zisck6x\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptm8jwvkq\\value.json\n  - non_standard_value: components[0] value 1950.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp1zisck6x\\value.json\n  - non_standard_value: components[0] value 1950.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptm8jwvkq\\value_rehash.json\n  - non_standard_value: components[0] value 1950.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp1zisck6x\\value_rehash.json\n  - non_standard_value: components[0] value 1950.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        169.65,
-        160.3
+        177.65,
+        184.65
       ],
       "input_sha256": "e88c2262336429fd5a23d1ed2b941a7bf56ac0773f7ae7fcbb47fc618a33da7c",
       "exit_code": 0,
@@ -2565,27 +2565,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpgnkx_bqd\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9vh4samo\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpgnkx_bqd\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9vh4samo\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpgnkx_bqd\\value.json\n  - non_standard_value: components[0] value 4950.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9vh4samo\\value.json\n  - non_standard_value: components[0] value 4950.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpgnkx_bqd\\value_rehash.json\n  - non_standard_value: components[0] value 4950.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp9vh4samo\\value_rehash.json\n  - non_standard_value: components[0] value 4950.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        166.97,
-        180.33
+        188.6,
+        199.43
       ],
       "input_sha256": "3bb43df6eb934f9d02d512c817e2a13bce2f8322cf377866f06eeed4a922b3c1",
       "exit_code": 0,
@@ -2624,8 +2624,8 @@
         }
       ],
       "timings_ms": [
-        134.33,
-        135.95
+        190.9,
+        228.23
       ],
       "input_sha256": "15e8a70597b4c14ec9048c56e55c179fbe0deab16af59b49e3e7a5c7712f8da7",
       "exit_code": 3,
@@ -2664,8 +2664,8 @@
         }
       ],
       "timings_ms": [
-        122.16,
-        123.48
+        206.89,
+        197.82
       ],
       "input_sha256": "1058885eb14ac2c996b80bfab33158e939927985019b9fa729c93629605b3532",
       "exit_code": 4,
@@ -2715,27 +2715,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpzsedpkdp\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsxx3qjrl\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpzsedpkdp\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsxx3qjrl\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpzsedpkdp\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsxx3qjrl\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpzsedpkdp\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsxx3qjrl\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        222.39,
-        132.09
+        198.57,
+        201.37
       ],
       "input_sha256": "8510465708148a58e9126a2b1ea39b4088573ad24702e95c6361ac23d685eb0f",
       "exit_code": 0,
@@ -2795,27 +2795,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpiopjawrd\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7rfbprlu\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpiopjawrd\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7rfbprlu\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpiopjawrd\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7rfbprlu\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpiopjawrd\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7rfbprlu\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        132.05,
-        125.46
+        187.48,
+        188.61
       ],
       "input_sha256": "7547c0c41ab85503507ce5392a76955cf63efa7e678884fb80b5f311d760fcff",
       "exit_code": 0,
@@ -2849,7 +2849,7 @@
         }
       ],
       "timings_ms": [
-        165.05
+        228.3
       ],
       "input_sha256": "275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d",
       "exit_code": 4,
@@ -2883,7 +2883,7 @@
         }
       ],
       "timings_ms": [
-        170.64
+        227.7
       ],
       "input_sha256": "98cc3f0c6d85360ac80a0f5010cfd9479b263f55a35f0ed9e353d0e6544f30c9",
       "exit_code": 4,
@@ -2922,7 +2922,7 @@
         }
       ],
       "timings_ms": [
-        165.79
+        227.15
       ],
       "input_sha256": "deeaa409628bdd33058f47e317042541f48da4f023f36db20aec5f8183d59398",
       "exit_code": 0,
@@ -2961,7 +2961,7 @@
         }
       ],
       "timings_ms": [
-        171.5
+        230.58
       ],
       "input_sha256": "deeaa409628bdd33058f47e317042541f48da4f023f36db20aec5f8183d59398",
       "exit_code": 0,
@@ -3001,27 +3001,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpst5crmk5\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4hov7z98\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpst5crmk5\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4hov7z98\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpst5crmk5\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4hov7z98\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpst5crmk5\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4hov7z98\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        164.66,
-        142.53
+        203.93,
+        200.42
       ],
       "input_sha256": "a280540ed7945657c6a52bc9937795fd9f87092ce9ba4d1f8a03a85ee061e7ee",
       "exit_code": 4,
@@ -3081,27 +3081,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmph_99cium\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwn9rvbyj\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmph_99cium\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwn9rvbyj\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmph_99cium\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwn9rvbyj\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmph_99cium\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwn9rvbyj\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
         }
       ],
       "timings_ms": [
-        137.59,
-        136.69
+        188.08,
+        192.09
       ],
       "input_sha256": "a19830b63cc8b1bca037a41e1da6f7bb21bbeb3efabdc71f1dda5881c635a367",
       "exit_code": 0,
@@ -3151,27 +3151,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4vptaonz\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpawt37xvw\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4vptaonz\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpawt37xvw\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4vptaonz\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpawt37xvw\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp4vptaonz\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpawt37xvw\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
         }
       ],
       "timings_ms": [
-        133.62,
-        138.84
+        181.64,
+        180.65
       ],
       "input_sha256": "0caf34276801f5a4a1a585e0644aee0bc44c86ef93c183e216cc2d391a8ec5e7",
       "exit_code": 0,
@@ -3231,27 +3231,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxjiju20s\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpfn_k7btx\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxjiju20s\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpfn_k7btx\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxjiju20s\\value.json\n  - non_standard_value: components[1] value 84.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpfn_k7btx\\value.json\n  - non_standard_value: components[1] value 84.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; t)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxjiju20s\\value_rehash.json\n  - non_standard_value: components[1] value 84.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpfn_k7btx\\value_rehash.json\n  - non_standard_value: components[1] value 84.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        152.28,
-        135.69
+        181.34,
+        183.72
       ],
       "input_sha256": "3e812503600793fd8d495aa87a599677de550208e01ec697484726b0bab3b741",
       "exit_code": 0,
@@ -3301,27 +3301,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpgf6b_z46\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcfrcjzsb\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpgf6b_z46\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcfrcjzsb\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpgf6b_z46\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcfrcjzsb\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpgf6b_z46\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcfrcjzsb\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        146.75,
-        140.26
+        221.47,
+        223.33
       ],
       "input_sha256": "4d21c1e2e3e00b5faadbb7b3a1d83364494e8ef7eec6c67b5acd99eeb2d29f4d",
       "exit_code": 0,
@@ -3365,10 +3365,10 @@
     },
     "timing_ms": {
       "invocations": 101,
-      "total_ms": 16656.46,
-      "median_ms": 161.22,
-      "p95_ms": 198.05,
-      "max_ms": 330.51,
+      "total_ms": 19401.45,
+      "median_ms": 194.87,
+      "p95_ms": 230.58,
+      "max_ms": 293.21,
       "note": "CLI wall time only; not board-design speed"
     },
     "real_eda": "NOT RUN"
