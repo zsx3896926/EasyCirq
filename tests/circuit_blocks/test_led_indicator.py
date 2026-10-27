@@ -211,6 +211,22 @@ class LedIndicatorInputHandling(unittest.TestCase):
         self.assertNotEqual(plain['display_name'], renamed['display_name'])
         self.assertEqual(strip_presentation(plain), strip_presentation(renamed))
 
+    def test_json_key_order_does_not_change_the_content_hash(self):
+        _, baseline = generate('led_indicator', inputs())
+        reordered = dict(reversed(list(inputs().items())))
+        _, shuffled = generate('led_indicator', reordered)
+        self.assertEqual(baseline['content_hash'], shuffled['content_hash'])
+
+    def test_explicit_candidate_order_does_not_change_the_selection(self):
+        payload = inputs(series='explicit', allowed_values=[100, 1000, 470])
+        payload['allowed_values'] = [470, 100, 1000]
+        _, reversed_order = generate('led_indicator', payload)
+        payload['allowed_values'] = [1000, 470, 100]
+        _, another_order = generate('led_indicator', payload)
+        self.assertEqual(reversed_order['content_hash'], another_order['content_hash'])
+        self.assertEqual(reversed_order['components'][0]['value'],
+                         another_order['components'][0]['value'])
+
     def test_instance_namespace_isolates_nets(self):
         _, result = generate('led_indicator', inputs(), instance='status_led')
         for net in result['connectivity']['nets']:

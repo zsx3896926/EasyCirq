@@ -93,6 +93,9 @@ constraints, evidence, unknowns, assumptions, binding, tool, notes, content_hash
   `{"nominal","tolerance_pct"}`. Point ranges are legal input but a module may
   reject them with `needs_device_facts` when a real spread is required.
 - Percent: number (meaning %), `"5%"`, or `{"value":5,"unit":"%"}`.
+- Quantity lists (for example ``allowed_values``) are sets of allowed values:
+  they are normalised into ascending canonical order, so the caller's ordering
+  never changes the result or the content hash.
 - Unknown fields are rejected with the field path. Optional part facts that are
   absent must not be silently defaulted; report `needs_device_facts`.
 - Every module declares `INPUT_SCHEMA`; the CLI `describe` prints it.

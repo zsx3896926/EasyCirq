@@ -203,8 +203,14 @@ def _parse_field(spec, value, path):
         if 'min_items' in spec and len(value) < spec['min_items']:
             raise InputInvalid('at least %d items required' % spec['min_items'], field=path)
         item_spec = spec['items']
-        return [_parse_field(item_spec, item, '%s[%d]' % (path, index))
-                for index, item in enumerate(value)]
+        parsed = [_parse_field(item_spec, item, '%s[%d]' % (path, index))
+                  for index, item in enumerate(value)]
+        # A list of quantities is a *set* of allowed values in this package
+        # (candidate lists); canonical ascending order keeps the input echo and
+        # the content hash independent of the caller's ordering.
+        if parsed and all(isinstance(item, Fraction) for item in parsed):
+            parsed = sorted(parsed)
+        return parsed
     raise InputInvalid('schema error: unhandled field kind %r' % (kind,), field=path)
 
 
