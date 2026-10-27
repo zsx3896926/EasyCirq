@@ -61,7 +61,7 @@
 
 - 目标测试：`test_pcb_gate` 47 + `test_pcb_gate_provenance` 17 + `test_move_clearance` 6
   + `test_dual_channel_template` 1 + `test_sch_frame_meta_check` 6 = 77 tests OK。
-- 全量：`python -m unittest discover -s tests` → **1255 tests OK**。
+- 全量：`python -m unittest discover -s tests` → **1256 tests OK**。
 - `skill_selftest.py` → **5 PASS / 0 FAIL**。
 - 冻结 case 重放（manifest 绑定）→ gate pass 8/8；PG4 check 绑定
   `source_dump_sha256=04aee270...`，PG7 project/doc 为
@@ -77,3 +77,4 @@
 - 工具：check 角色强校验/歧义、move clearance、template、checklist、frame guard 已离线验证。
 - 未证明：任意既有布局的冲突自主解决、真实 EDA 写入/DRC/布线/铺铜、Gerber/CPL、
   热/EMC/实物功能；未因为这个案例通过就宣称 Skill 整体能力成熟。
+
