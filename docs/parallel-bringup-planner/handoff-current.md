@@ -1,32 +1,33 @@
 # 并行任务 I 交接（bringup-planner）
 
-> 最后更新：2026-10-28（PR #39 复核后状态：**待审查**；最终数据以 `report.md` 为准）
+> 最后更新：2026-10-28（PR #39 已合并；M0–M4 证据清单已补，见 `acceptance-matrix.md` §7）
 
-## 交付状态：待审查
+## 交付状态：已合并 + 证据清单待审查
 
 | 项 | 值 |
 |---|---|
-| **状态** | **待审查（PENDING REVIEW）** — 2026-10-28 复核通过，等待主分支/审查人处理 |
-| PR | https://github.com/zsx3896926/hardware-design-skill/pull/39 （OPEN / MERGEABLE / 非 draft；**未合并、未发布、未安装客户端**） |
-| 复核时 HEAD | `3bb3496e9bb1c4a8e101e3c513bd11de9224f6c0`（本状态提交后以 PR 页面最新 HEAD 为准） |
-| 复核结论 | PR diff 175 files（复核时 `3bb3496`：+44735/−0，精确以 PR 页面为准），全部位于下方允许路径；无越界文件；报告数字与实测一致（已修正 3 处表述/数字，见 `report.md` §13） |
+| **状态** | **已合并（PR #39）** — merge commit `9a4622eb46a8ff3d336729726ab6ed056b5f650a`，`mergedAt=2026-10-27T16:53:24Z`，由仓库账号 `zsx3896926` 合并；**本任务未执行合并、未发布、未安装客户端**。本次证据清单更新 PR 待审查 |
+| 合并源 HEAD | `b407d72f11237001d7c7e1260beb8de770f46f1e`（PR #39 `headRefOid`；changedFiles=175） |
+| 证据采集 HEAD | `3f21897d9d1b93b4ac7e2ef523fe923685f59b08`（基于合并后 main 的 worktree）；采集时 `origin/main` 已前进到 `acbcc18c…`（其他并行任务） |
+| 证据清单 | `acceptance-matrix.md` §7（逐命令/退出码/摘要/HEAD/PASS-NOT RUN）+ `evidence-m0-m4.json` + 复现脚本 `benchmarks/bringup-planner/tools/collect_m0_m4_evidence.py` |
+| 证据结论 | 本任务软件检查 **33 PASS**；唯一 FAIL 是当前 main 上其他任务测试包导致的 47 个 `offline_suite` discovery errors（`bringup_planner_tests` 0 error，非本任务）；**硬件/仪器动作全部 NOT RUN** |
 
 ## 身份与基线
 
 | 项 | 值 |
 |---|---|
 | 任务 | 智构并行任务 I：首板上电、功能测试与故障定位计划生成器 |
-| worktree | `C:/Users/jlc/Documents/deepseek-harness/default-workspace/hds-bp-worktree` |
-| 分支 | `feat/parallel-bringup-planner` |
+| worktree | 实现：`C:/Users/jlc/Documents/deepseek-harness/default-workspace/hds-bp-worktree`；证据更新：`hds-bp-evidence` |
+| 分支 | 实现：`feat/parallel-bringup-planner`（已合并）；证据更新：`docs/bringup-planner-m0-m4-evidence` |
 | 基线 main | `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（`test: make Chinese fixture portable across Windows locales`） |
-| 基线 remote | `origin/main` 同一 SHA（开工时核对） |
-| 提交/PR | 首个实现提交 `c61d62c`；独立 PR https://github.com/zsx3896926/hardware-design-skill/pull/39 （OPEN/MERGEABLE，状态：待审查）；**不合并、不发布、不安装客户端** |
+| 基线 remote | `origin/main` 同 SHA（开工时核对）；合并后已由其他并行任务推进 |
+| 提交/PR | 实现提交 `c61d62c`/`3bb3496`/`d35ff34`/`b407d72`；PR #39 已合并（commit `9a4622e`）；证据清单更新 PR 见仓库 PR 列表（待审查）；**不合并、不发布、不安装客户端** |
 
 ## 允许路径（本任务只改这些）
 
 ```
 design-hardware/scripts/bringup_planner/
-tests/bringup_planner_tests/
+tests/bringup_planner_tests/      # 集成合并后由 tests/bringup_planner/ 迁入（集成者处理）
 benchmarks/bringup-planner/
 docs/parallel-bringup-planner/
 ```
@@ -59,15 +60,15 @@ python -m bringup_planner evaluate --plan <out>/plan.json --results <results.jso
 ```bash
 python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 python benchmarks/bringup-planner/run_benchmark.py --out /tmp/bringup-benchmark.json
-python tools/offline_suite.py          # 既有仓库离线套件，不应回归
+python tools/offline_suite.py          # 仓库离线套件；当前 main 含其他任务测试包，见 §7.5
 ```
 
 ## 当前状态
 
-- **交付状态：待审查**（2026-10-28 复核，PR #39 OPEN/MERGEABLE，未合并）。
-- 代码/契约/测试/资料/文档已落地；`report.md` 记录实测结果（172 tests、41/41 基准、30/30 类别、1783 既有离线测试、skill_selftest 5 PASS）与已修问题。
-- 复核记录（PR diff 175 files +44735/−0、允许路径核对、报告一致性修正）见 `report.md` §13。
-- 所有真实仪器、上电、烧录、串口/JTAG、EDA 操作为 **NOT RUN**；评估器 `PASS` 只是离线记录一致性结论。
+- **实现已合并（PR #39，merge commit `9a4622e`）；M0–M4 证据清单已补，更新 PR 待审查。**
+- 证据（2026-10-28）：专属测试 172 PASS；冻结基准 41/41 PASS、类别 30/30；`skill_selftest` 5 PASS；PR #39 范围 175 files、允许路径外 0；硬件/仪器动作全部 **NOT RUN**。逐项见 `acceptance-matrix.md` §7。
+- 仓库 `offline_suite`：在 PR #39 合并 HEAD `b407d72` 上 1783 tests PASS；当前 main 上 47 errors 全部来自其他任务测试包（`bringup_planner_tests` 0 error，见 §7.5 与 `issue-candidates.md` A.6）。
+- 评估器 `PASS` 只是离线记录一致性结论；`eval-pass-real-evidence` 是 NO INSTRUMENT CONNECTED 的契约 fixture，不是硬件 PASS。
 - 已知边界：首期只支持低压直流（≤30 V 工作 / ≤60 V 绝对）；市电/高压/电池充放电/射频认证标 unsupported/needs_specialist。
 - 集成建议见 `integration-proposal.md`；未改 A/C/F 代码、不依赖其他会话未合入提交。
 
@@ -94,3 +95,12 @@ on `main`, not by changing this task's code:
 Still not claimed: real instruments, power-up, flashing, serial/JTAG and EDA operations
 remain NOT RUN. This planner is an independent capability, not yet wired into a main
 workflow.
+
+## Evidence update (2026-10-28, task I)
+
+`acceptance-matrix.md` §7 now lists every M0–M4 evidence command, exit code, key output,
+HEAD SHA and PASS / NOT RUN status; machine-readable backing is
+`docs/parallel-bringup-planner/evidence-m0-m4.json`, reproducible with
+`benchmarks/bringup-planner/tools/collect_m0_m4_evidence.py`. The only non-PASS row is
+the repo-level `tools/offline_suite.py` on the current main (47 discovery errors from
+other parallel tasks' test packages; the 172 `bringup_planner_tests` are not among them).

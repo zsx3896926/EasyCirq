@@ -1,6 +1,6 @@
 # 并行任务 I 报告：首板上电、功能测试与故障定位计划生成器
 
-> 分支 `feat/parallel-bringup-planner`（独立 worktree `hds-bp-worktree`，基线 `main@9a951ed`）。
+> 分支 `feat/parallel-bringup-planner`（独立 worktree `hds-bp-worktree`，基线 `main@9a951ed`）。PR #39 已合并（merge commit `9a4622e`）；M0–M4 逐条实测证据见 [`acceptance-matrix.md`](acceptance-matrix.md) §7。
 > 本报告中的"通过"均指**离线文档/CLI 一致性验收**；真实仪器、上电、烧录、串口/JTAG、EDA 操作全部 **NOT RUN**。
 
 ## 1. 交付概览
@@ -10,7 +10,7 @@
 | 可运行 CLI（validate/plan/explain/evaluate） | `design-hardware/scripts/bringup_planner/` |
 | 六组能力 I1–I6 | `poweroff.py`、`powerup.py`、`measurements.py`、`interface_tests.py`、`faults.py`、`evaluate.py` |
 | 契约/范围/资料/测量纪律/验收/集成/交接文档 | `docs/parallel-bringup-planner/` |
-| 专属测试 172 个 | `tests/bringup_planner_tests/` |
+| 专属测试 172 个 | `tests/bringup_planner_tests/`（集成合并后由 `tests/bringup_planner/` 迁入） |
 | 34 个 CLI 冻结场景 + 5 holdout/变形 + 2 组合板案例 + runner | `benchmarks/bringup-planner/` |
 | 一手资料 11 源 / 143 facts（78 条带页码） | `benchmarks/bringup-planner/sources/device-facts.json`、`source-register.md` |
 
@@ -32,6 +32,8 @@ python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 # Ran 172 tests ... OK
 ```
 
+（集成合并把测试目录从 `tests/bringup_planner/` 迁到 `tests/bringup_planner_tests/` 并加 `__init__.py`，使仓库 `offline_suite` 也能发现；本任务实现逻辑未变。）
+
 覆盖：输入校验/单位/哈希不变性/CLI 边界（`test_contract`）、I1/I2（`test_poweroff`/`test_powerup`）、I3/I4（`test_measurements`/`test_interface_tests`）、I5/I6（`test_faults`/`test_evaluate`）、基准（`test_benchmark`，真实子进程跑 freeze 基准）。
 
 ### 3.2 冻结 CLI 基准（真实子进程）
@@ -50,7 +52,7 @@ python benchmarks/bringup-planner/run_benchmark.py --json --out /tmp/bringup-ben
 | 总用例 | **41 / 41 pass** |
 | 必需类别覆盖 | **30 / 30**（任务书第 8 节全部类别 + 组合/变形） |
 | 输入/证据/计划/结果冻结 | `baseline.json` 90 个文件 SHA-256 |
-| 运行耗时 | 约 16.9 s（本机，2026-10-28 最终复跑；46 次 CLI 子进程调用） |
+| 运行耗时 | 约 18.6 s（本机，2026-10-28 证据复跑；实际环境会不同） |
 | 失败 | 0 |
 
 每个场景真实启动 `python -m bringup_planner validate|plan|explain|evaluate` 子进程，比较退出码、scope、DAG order/cycles、冻结 step_id 全集与逐步骤状态、gap/unknown/equipment_gap codes、评估 verdict；holdout 变形（对象排序、mV↔V、notes 同义改写、无关模块、revision 变化）由 runner 通用执行，不按场景 ID 特判。
@@ -58,14 +60,22 @@ python benchmarks/bringup-planner/run_benchmark.py --json --out /tmp/bringup-ben
 ### 3.3 仓库既有回归
 
 ```bash
+# PR #39 合并源 HEAD（b407d72）
 python tools/offline_suite.py
 # status: pass, tests_run: 1783, failures: 0, errors: 0
+
+# 当前 main（3f21897，含后续其他并行任务）
+python tools/offline_suite.py
+# status: fail, tests_run: 2147, failures: 0, errors: 47
+# 47 errors 全部在其他任务测试包（change_impact/circuit_blocks/delivery_audit/
+# electrical_review/procurement_planner/return_path_audit/skill_knowledge_audit）；
+# bringup_planner_tests 的 172 tests 不在错误中。
 
 python design-hardware/scripts/skill_selftest.py
 # 5 PASS, 0 FAIL, 0 NOT RUN -> exit 0
 ```
 
-（主线集成后 `tests/bringup_planner_tests/` 已加入 `__init__.py` 并改为不与产品包冲突的名称，官方 `python -m unittest discover -s tests` 现在会运行全部 172 项测试；原“不会被 discovery 发现”的问题已修复，详见 `handoff-current.md` 的集成说明。）
+（逐条命令/退出码/摘要见 [`acceptance-matrix.md`](acceptance-matrix.md) §7；跨任务 47 errors 记录于 `issue-candidates.md` A.6，非本任务回归。）
 
 ### 3.4 CLI 样例（组合板）
 
@@ -132,7 +142,7 @@ python design-hardware/scripts/skill_selftest.py
 
 ## 8. 已修问题（集成/审查中发现）
 
-1. （历史记录，已由主线集成修复）曾因测试包与产品包同名而移除 `__init__.py`；主线集成把目录改为 `tests/bringup_planner_tests/` 并保留 `__init__.py`，官方 discovery 与专属入口均可运行 172 项测试。
+1. `tests/bringup_planner/__init__.py` 使仓库 `offline_suite` discovery 把测试包误当产品包，8 个 ImportError → 移除该 `__init__.py`；集成合并后又把目录迁为 `tests/bringup_planner_tests/` 并加 `__init__.py`，使官方 discovery 可运行全部 172 tests。
 2. 计划哈希原包含原始输入 SHA，导致对象重排/单位换算改变哈希 → 改为只绑定归一化语义哈希（仍绑定 revision）。
 3. `notes` 自由文本参与语义哈希 → 递归剔除 `notes`，同义改写不影响判据。
 4. 非法输入时先写 `input-invalid.json` 再清理生成物，会把 invalid 标记也删掉 → 调整为先清理后写。
@@ -177,21 +187,19 @@ python design-hardware/scripts/skill_selftest.py
 benchmarks/bringup-planner/
 design-hardware/scripts/bringup_planner/
 docs/parallel-bringup-planner/
-tests/bringup_planner_tests/
+tests/bringup_planner_tests/      # 集成合并后路径（原 tests/bringup_planner/）
 ```
 
 未修改 `SKILL.md`、现有 `references/`、README/CHANGELOG/版本/主 handoff、runtime/connector/protocol、distribution、CI、顶层依赖、feedback、compose、design_engine 或其他任务目录。
 
 ## 12. 提交与 PR
 
-- 分支：`feat/parallel-bringup-planner`
-- 基线：`main@9a951ed`（2026-10-28 复核时 `origin/main` 仍为同一 SHA）
-- 首个实现提交：`c61d62c`（**174 files，44685 insertions**；实现/测试/基准/资料/文档）
-- 文档补充提交：`3bb3496`（4 files，+52/−2；PR 描述与验收数字）
-- PR 文件数：**175 files**（复核时 HEAD `3bb3496` 的 diff 为 +44735/−0；后续文档/状态提交会略增，精确数字以 PR 页面为准）
-- 独立 PR：https://github.com/zsx3896926/hardware-design-skill/pull/39 （OPEN / MERGEABLE；只推送，不合并、不发布、不安装客户端）
+- 分支：`feat/parallel-bringup-planner`（实现，已合并）；`docs/bringup-planner-m0-m4-evidence`（本次证据清单更新）
+- 基线：`main@9a951ed`；合并后 main 已由其他并行任务推进（证据采集时 worktree HEAD `3f21897`，`origin/main` `acbcc18`）
+- 实现提交：`c61d62c`（174 files / +44685）、`3bb3496`、`d35ff34`、`b407d72`（PR #39 head）
+- **PR #39 已合并**：merge commit `9a4622eb46a8ff3d336729726ab6ed056b5f650a`，`mergedAt=2026-10-27T16:53:24Z`，`mergedBy=zsx3896926`；changedFiles=175、+44762/−0（合并时口径）。**本任务未执行合并、未发布、未安装客户端**
+- 本次证据清单更新 PR：包含 `acceptance-matrix.md` §7、`evidence-m0-m4.json`、`collect_m0_m4_evidence.py`、handoff/report 状态同步；待审查
 - PR 描述副本：`docs/parallel-bringup-planner/pr-description.md`
-- 交付状态：**待审查**（见 `handoff-current.md`）；最终 HEAD 以 PR 页面为准。
 
 ## 13. 复核记录（2026-10-28）
 
@@ -205,4 +213,7 @@ tests/bringup_planner_tests/
 | PR 状态 | OPEN、MERGEABLE、非 draft；未合并、未发布 |
 | 报告数字 | 172 tests、41/41 基准、30/30 类别、baseline 90 files、11 sources/143 facts/78 paged 均与实测一致 |
 | 已修正笔误 | 首个提交文件数 `172→174`；基准耗时 `17.5→16.9 s`；unverified 表述精确为"fact 级 1 条 + 来源/页码级若干" |
-| 交付状态 | 已更新 `handoff-current.md` 为 **待审查** |
+| 交付状态（2026-10-28） | 已更新 `handoff-current.md` 为 **待审查**（当时 PR 尚未合并） |
+| PR 最终状态（2026-10-28 证据采集） | PR #39 **已由仓库账号 `zsx3896926` 合并**（merge commit `9a4622e`，`mergedAt=2026-10-27T16:53:24Z`）；本任务未执行合并、未发布 |
+| M0–M4 证据清单（2026-10-28） | 逐命令/退出码/摘要/HEAD/PASS-NOT RUN 已写入 [`acceptance-matrix.md`](acceptance-matrix.md) §7；机器证据 [evidence-m0-m4.json](evidence-m0-m4.json)，复现脚本 `benchmarks/bringup-planner/tools/collect_m0_m4_evidence.py` |
+| 证据采集结论 | 33 PASS；唯一 FAIL 为当前 main 上其他任务测试包导致的 47 个 `offline_suite` discovery errors（`bringup_planner_tests` 0 error）；硬件/仪器动作全部 NOT RUN |
