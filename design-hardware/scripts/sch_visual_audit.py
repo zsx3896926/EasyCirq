@@ -327,7 +327,7 @@ def _inject_official(svg_text, rows, page, metadata):
     return svg_text.replace('</svg>', '\n'.join(parts) + '\n</svg>', 1)
 
 
-def audit(layout, svg_path=None, out_svg=None):
+def audit(layout, svg_path=None, out_svg=None, source_layout_sha256=None):
     result = sch_layout_check.analyze(layout, strict=True)
     objects = _object_map(layout)
     font = _font_status(layout)
@@ -338,7 +338,7 @@ def audit(layout, svg_path=None, out_svg=None):
         'analysis_overlay': True,
         'official_export': False,
         'base': 'official-svg' if svg_path else 'reconstructed-from-layout',
-        'source_layout_sha256': None,
+        'source_layout_sha256': source_layout_sha256,
         'page_id': layout.get('page_id'),
         'snapshot_sha256': layout.get('snapshot_sha256'),
         'watermark': 'ANALYSIS OVERLAY — NOT AN OFFICIAL EDA EXPORT',
@@ -356,7 +356,7 @@ def audit(layout, svg_path=None, out_svg=None):
         'base': metadata['base'],
         'page_id': layout.get('page_id'),
         'snapshot_sha256': layout.get('snapshot_sha256'),
-        'source_layout_sha256': None,
+        'source_layout_sha256': source_layout_sha256,
         'counts': result.get('counts'),
         'coverage_status': result.get('coverage_status'),
         'strict_missing': result.get('strict_missing'),
@@ -369,11 +369,11 @@ def audit(layout, svg_path=None, out_svg=None):
             'label_own_wire_edge_contact': [
                 row for row in rows
                 if row['code'] == 'label_own_wire_edge_contact'],
-            'crossings_with_junction_evidence': [
+            'verified_no_junction_crossings': [
                 row for row in rows
                 if row['code'] == 'different_named_wires_cross'
                 and row.get('evidence', {}).get('junction_evidence')],
-            'crossings_without_junction_evidence': [
+            'unverified_crossings': [
                 row for row in rows
                 if row['code'] == 'different_named_wires_cross'
                 and not row.get('evidence', {}).get('junction_evidence')],
@@ -409,8 +409,8 @@ def main(argv=None):
         layout = json.loads(args.layout.read_text(encoding='utf-8-sig'))
         if not isinstance(layout, dict):
             raise ValueError('layout must be a JSON object')
-        report = audit(layout, svg_path=args.svg, out_svg=args.out_svg)
-        report['source_layout_sha256'] = _sha256(args.layout)
+        report = audit(layout, svg_path=args.svg, out_svg=args.out_svg,
+                       source_layout_sha256=_sha256(args.layout))
         if args.svg:
             report['source_svg_sha256'] = _sha256(args.svg)
         encoded = json.dumps(report, ensure_ascii=False, indent=2,

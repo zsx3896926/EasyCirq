@@ -11,7 +11,7 @@
 - worktree：`C:/Users/jlc/work/hds-offline-r11`
 - 基线：`origin/main` = `066a74b`（PR #22 后）
 - 分支：`feat/offline-toolchain-round11`；PR head 评审时 `376f686`（代码 6bbc761；后续文档提交可能前进）
-- PR：#24 https://github.com/zsx3896926/hardware-design-skill/pull/24（未合并，已合入 PR #23 的 check-role 修复）
+- PR：#24 https://github.com/zsx3896926/hardware-design-skill/pull/24（未合并；已合入 PR #23 的 check-role 修复与 PR #25 的强校验/负例资产）
 - Skill 版本：`0.9.3`（`design-hardware/.version`）
 - 本轮未安装到客户端、未合并、未发 Release
 
@@ -44,8 +44,8 @@
 
 ## 4. 验证结果（本轮实际运行）
 
-- 全量 unittest：**1237 tests OK**（2026-10-27，离线）。
-- `python tools/offline_suite.py`：**1237 tests OK**；导入扫描 72 modules，0 blocked/0 error/0 system_exit；模拟拦截事件 0（正常测试未触发真实路径）。
+- 全量 unittest：**1257 tests OK**（2026-10-27，离线）。
+- `python tools/offline_suite.py`：**1257 tests OK**；导入扫描 72 modules，0 blocked/0 error/0 system_exit；模拟拦截事件 0（正常测试未触发真实路径）。
 - `python tools/offline_benchmark.py --runs 3`：**9/9 pass**；`benchmarks/offline-round11/result.json` 记录 per-case min/median 耗时。
 - 真实 controlledB manifest 离线复核：`pcb_gate --case docs/round10/controlledB --profile regression` → `pass_with_gaps`（PG1/PG2/PG3/PG6/PG7/PG8 pass）；full 仅缺 `--key-nets` 导致 PG5 blocked。
 - `python design-hardware/scripts/skill_selftest.py`：**5 PASS / 0 FAIL / 0 NOT RUN**。

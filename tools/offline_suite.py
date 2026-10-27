@@ -22,6 +22,7 @@ import argparse
 import ast
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -56,9 +57,10 @@ def inventory():
             flags.append('may_run_cli_or_network')
         if 'pcb_cli' in imports or 'easyeda' in text.lower():
             flags.append('references_easyeda')
-        if any(marker in text for marker in (
-                "open(..., 'w'", 'write_text(', 'write_bytes(', 'os.replace(',
-                'makedirs(')):
+        if re.search(r"open\s*\([^)]*['\"][wax]", text) or \
+                re.search(r"os\.fdopen\s*\(", text) or \
+                any(marker in text for marker in (
+                    'write_text(', 'write_bytes(', 'os.replace(', 'makedirs(')):
             flags.append('writes_files')
         if 'if __name__' not in text:
             flags.append('no_main_guard')

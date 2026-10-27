@@ -3,16 +3,16 @@
   "simulated": true,
   "status": "pass",
   "reason": null,
-  "tests_run": 1237,
+  "tests_run": 1257,
   "failures": 0,
   "errors": 0,
   "skipped": 0,
-  "duration_sec": 110.268,
+  "duration_sec": 97.714,
   "temp_dir": "<fresh-temporary-directory>",
-  "audit_events": 1202,
+  "audit_events": 1206,
   "blocked_events": 0,
   "import_sweep": {
-    "modules": 72,
+    "modules": 74,
     "blocked": 0,
     "errors": 0,
     "system_exit": 0,
@@ -31,6 +31,10 @@
       },
       {
         "module": "channel_map_check",
+        "status": "ok"
+      },
+      {
+        "module": "check_move_clearance",
         "status": "ok"
       },
       {
@@ -254,6 +258,10 @@
         "status": "ok"
       },
       {
+        "module": "sch_frame_meta_check",
+        "status": "ok"
+      },
+      {
         "module": "sch_layout_check",
         "status": "ok"
       },
@@ -308,10 +316,10 @@
     ]
   },
   "inventory": {
-    "scripts": 73,
+    "scripts": 75,
     "flag_counts": {
       "references_easyeda": 27,
-      "writes_files": 24,
+      "writes_files": 31,
       "may_run_cli_or_network": 11,
       "no_main_guard": 29
     }

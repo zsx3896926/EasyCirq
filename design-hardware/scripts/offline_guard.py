@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import socket
 import subprocess
 import sys
@@ -75,9 +76,13 @@ def _is_easyeda_name(name):
     return name in EASYEDA_NAMES or name.startswith('easyeda')
 
 
+_EDA_WORD = re.compile(
+    r'(?i)(?:^|[\\/\s"\'])(easyeda[\w.-]*|lceda-pro[\w.-]*)'
+    r'(?:$|[\s"\'&|;])')
+
+
 def _mentions_easyeda(text):
-    lower = str(text).lower()
-    return 'easyeda' in lower or 'lceda-pro' in lower
+    return bool(_EDA_WORD.search(str(text)))
 
 
 def _fake_in_text(text):

@@ -132,7 +132,7 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 python scripts/sch_frame_meta_check.py --plan frames.json --json
 ```
 
-缺 `purpose_text_id` 默认 `blocked`（退出 2），不能先写 frame 再在 strict 阶段才发现；若当前执行器确实无法单独创建 purpose 文本，只能显式 `--allow-title-only` 得到 `review` 并保持 `strict_layout_complete=false`，报告写“电气检查通过、布局检查不完整”，不能写“原理图全面验收通过”。示例见 `assets/schematic-frame-plan.example.json`。
+缺 `purpose_text_id` 默认 `blocked`（退出 2），不能先写 frame 再在 strict 阶段才发现；若当前执行器确实无法单独创建 purpose 文本，只能显式 `--allow-title-only` 得到 `review` 并保持 `strict_layout_complete=false`，报告写“电气检查通过、布局检查不完整”，不能写“原理图全面验收通过”。示例见 `assets/schematic-frame-plan.example.json`。上述 2026-10-27 实测证据在外部双路按键 LED 任务工作区，未随本仓库提交。
 
 - 平台限制：free text 的 `move/setState/SDK delete` 不持久，删除需 `sch prim-delete`；
   新 free text 必须 `alignMode=2` 才左对齐；titleblock 的可见 Drawed 字段会与
