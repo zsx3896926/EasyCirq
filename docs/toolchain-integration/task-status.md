@@ -175,3 +175,8 @@
 1. Lead：把本分支（`feat/integrated-eda-toolchain`）提交并推送，创建 PR（不合并/不发布）。
 2. 用户：执行 §4 的一次性 GUI 导入。
 3. Lead（导入后自动执行）：`zhigou doctor` → 独立工程 M2 链 → M3 → M4 → 更新验收矩阵证据。
+
+## 8. Skill 门禁复核（2026-10-28）
+
+按 `design-hardware` 1.0.2 的 G0–G6 对验收板做了一次独立门禁复核：**G0–G3、G5 PASS，G4 PASS_WITH_WAIVER（+5V/VIN 未铺铜），G6 BLOCKED**（Gerber/钻孔/CPL、工艺档案、库存核对、测试计划缺）。复核中修掉图签越界与缺失功能分区框两处图面问题（`sch check` 3 → 0 findings）。
+详见 `gate-review.md`，状态文件与报告在 `evidence/gates/`。

@@ -1,0 +1,186 @@
+{
+  "measurementPathKind": "exact-centerline",
+  "connected": true,
+  "net": "+5V",
+  "from": "F1.2",
+  "to": "R2.1",
+  "waypointOrder": [
+    "F1.2",
+    "R2.1"
+  ],
+  "layers": [
+    1
+  ],
+  "layerSequence": [
+    1
+  ],
+  "widthsMil": [
+    10
+  ],
+  "minWidthMil": 10,
+  "maxWidthMil": 10,
+  "viaCount": 0,
+  "primitiveCount": 3,
+  "lengthMil": 437.187,
+  "turnCount": 2,
+  "path": [
+    {
+      "kind": "pad",
+      "primitiveId": "abfedd235896a80be4",
+      "ref": "F1.2",
+      "layer": 1,
+      "at": {
+        "x": -463.1,
+        "y": 0
+      }
+    },
+    {
+      "kind": "track",
+      "primitiveId": "87c60d3f60aec82b",
+      "layer": 1,
+      "widthMil": 10,
+      "start": {
+        "x": -463.11,
+        "y": 0
+      },
+      "end": {
+        "x": -387.56,
+        "y": 0
+      }
+    },
+    {
+      "kind": "track",
+      "primitiveId": "12b668cb28719b14",
+      "layer": 1,
+      "widthMil": 10,
+      "start": {
+        "x": -387.56,
+        "y": 0
+      },
+      "end": {
+        "x": -167.56,
+        "y": -220
+      }
+    },
+    {
+      "kind": "track",
+      "primitiveId": "3766e6e28308775b",
+      "layer": 1,
+      "widthMil": 10,
+      "start": {
+        "x": -167.56,
+        "y": -220
+      },
+      "end": {
+        "x": -117.04,
+        "y": -220
+      }
+    },
+    {
+      "kind": "pad",
+      "primitiveId": "e9397ec9dd147b49e13",
+      "ref": "R2.1",
+      "layer": 1,
+      "at": {
+        "x": -117,
+        "y": -220
+      }
+    }
+  ],
+  "legs": [
+    {
+      "from": "F1.2",
+      "to": "R2.1",
+      "connected": true,
+      "layers": [
+        1
+      ],
+      "widthsMil": [
+        10
+      ],
+      "minWidthMil": 10,
+      "maxWidthMil": 10,
+      "viaCount": 0,
+      "primitiveCount": 3,
+      "lengthMil": 437.187,
+      "turnCount": 2,
+      "path": [
+        {
+          "kind": "pad",
+          "primitiveId": "abfedd235896a80be4",
+          "ref": "F1.2",
+          "layer": 1,
+          "at": {
+            "x": -463.1,
+            "y": 0
+          }
+        },
+        {
+          "kind": "track",
+          "primitiveId": "87c60d3f60aec82b",
+          "layer": 1,
+          "widthMil": 10,
+          "start": {
+            "x": -463.11,
+            "y": 0
+          },
+          "end": {
+            "x": -387.56,
+            "y": 0
+          }
+        },
+        {
+          "kind": "track",
+          "primitiveId": "12b668cb28719b14",
+          "layer": 1,
+          "widthMil": 10,
+          "start": {
+            "x": -387.56,
+            "y": 0
+          },
+          "end": {
+            "x": -167.56,
+            "y": -220
+          }
+        },
+        {
+          "kind": "track",
+          "primitiveId": "3766e6e28308775b",
+          "layer": 1,
+          "widthMil": 10,
+          "start": {
+            "x": -167.56,
+            "y": -220
+          },
+          "end": {
+            "x": -117.04,
+            "y": -220
+          }
+        },
+        {
+          "kind": "pad",
+          "primitiveId": "e9397ec9dd147b49e13",
+          "ref": "R2.1",
+          "layer": 1,
+          "at": {
+            "x": -117,
+            "y": -220
+          }
+        }
+      ]
+    }
+  ],
+  "scope": "placed pad copper + listed tracks/arcs/vias; copper pours, fills, and PLANE connectivity excluded",
+  "excludedCopper": [
+    "pours",
+    "filled regions",
+    "PLANE layers"
+  ],
+  "limitations": [
+    "does not infer connectivity through copper pours, filled regions, or PLANE layers",
+    "arc primitives are measured on their reconstructed centerlines; ambiguous or unsupported interior contacts make path measurement unknown",
+    "rotated RECT/rounded RECT and OVAL contacts use shape geometry; ELLIPSE, NGON, and pad-to-pad contacts use conservative inscribed geometry that may miss edge landings but cannot invent them",
+    "vias are modeled as through vias because pcb.via.list exposes no blind/buried layer pair",
+    "direct via-on-pad overlap is not treated as connected; a listed track/arc stub must bridge the pad and via"
+  ]
+}

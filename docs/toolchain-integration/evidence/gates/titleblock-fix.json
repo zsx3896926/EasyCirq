@@ -1,0 +1,201 @@
+{
+  "id": "req_122",
+  "type": "response",
+  "version": "v1",
+  "windowId": "d2d502e2-fb5c-4e02-b8f3-07f46d992a1e",
+  "createdAt": "2026-10-27T17:44:28.1410665Z",
+  "ok": true,
+  "result": {
+    "alreadySet": [],
+    "applied": [
+      "Description",
+      "Drawed",
+      "Name"
+    ],
+    "ok": true,
+    "titleBlockBefore": {
+      "@Assembly Variant": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "Basic"
+      },
+      "@Board Name": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "Board1"
+      },
+      "@Create Date": {
+        "showTitle": false,
+        "showValue": false,
+        "value": "2026-10-27"
+      },
+      "@Create Time": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "22:30:07"
+      },
+      "@Page Count": {
+        "showTitle": null,
+        "showValue": null,
+        "value": 1
+      },
+      "@Page Name": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "P1"
+      },
+      "@Page No": {
+        "showTitle": null,
+        "showValue": null,
+        "value": 1
+      },
+      "@Project Name": {
+        "showTitle": false,
+        "showValue": false,
+        "value": "zhigou-integrated-dual-button-led-20261027"
+      },
+      "@Schematic Name": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "Schematic1"
+      },
+      "@Update Date": {
+        "showTitle": false,
+        "showValue": false,
+        "value": "2026-10-27"
+      },
+      "@Update Time": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "23:14:36"
+      },
+      "Blade Width": {
+        "showTitle": null,
+        "showValue": null,
+        "value": 10
+      },
+      "Border": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "1"
+      },
+      "Color": {
+        "showTitle": null,
+        "showValue": null,
+        "value": ""
+      },
+      "Company": {
+        "showTitle": false,
+        "showValue": false,
+        "value": "嘉立创EDA"
+      },
+      "Description": {
+        "showTitle": true,
+        "showValue": true,
+        "value": "2-channel button-to-LED indicator, 5V in, PTC + 100nF"
+      },
+      "Device": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "Drawing-Symbol_A4"
+      },
+      "Drawed": {
+        "showTitle": true,
+        "showValue": true,
+        "value": "Zhigou AI"
+      },
+      "Height": {
+        "showTitle": null,
+        "showValue": null,
+        "value": 825
+      },
+      "ID": {},
+      "Name": {
+        "showTitle": true,
+        "showValue": true,
+        "value": "Dual button LED (5V)"
+      },
+      "Page Size": {
+        "showTitle": false,
+        "showValue": false,
+        "value": "A4"
+      },
+      "Part Number": {
+        "showTitle": false,
+        "showValue": true,
+        "value": ""
+      },
+      "Region Start": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "1"
+      },
+      "Reviewed": {
+        "showTitle": false,
+        "showValue": true,
+        "value": ""
+      },
+      "Size": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "A4"
+      },
+      "Symbol": {
+        "showTitle": false,
+        "showValue": false,
+        "value": "Drawing-Symbol_A4"
+      },
+      "Title Block": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "1"
+      },
+      "Title Block Position": {
+        "showTitle": null,
+        "showValue": null,
+        "value": "3"
+      },
+      "Version": {
+        "showTitle": false,
+        "showValue": false,
+        "value": "V1.0"
+      },
+      "Width": {
+        "showTitle": null,
+        "showValue": null,
+        "value": 1170
+      },
+      "X Region Count": {
+        "showTitle": null,
+        "showValue": null,
+        "value": 6
+      },
+      "Y Region Count": {
+        "showTitle": null,
+        "showValue": null,
+        "value": 4
+      }
+    },
+    "verified": true,
+    "visibilityApplied": true
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "visible"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "visible"
+  },
+  "mutationContextAvailable": true,
+  "seq": 151,
+  "seqAbandoned": 0
+}

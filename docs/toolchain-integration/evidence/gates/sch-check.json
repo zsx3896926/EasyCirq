@@ -1,0 +1,2 @@
+sch check: 0 finding(s) — 0 floating pin(s)/0 comp, 0 geom-net mismatch(es), 0 net-marker mismatch(es), 0 multi-net wire(s), 0 wire-crossing(s), 0 wire-over-pin(s), 0 zero-length wire(s), 0 dangling wire(s), 0 duplicate-net-marker(s), 0 titleblock-overlap(s), 0 out-of-sheet, 0 marker-overlap(s), 0 missing-deliverable(partition/titleblock), 0 folded-net-label(s), 0 redundant-net-marker(s), 0 reversed-net-flag(s), 0 polarity-convention outlier(s)
+✓ no findings
