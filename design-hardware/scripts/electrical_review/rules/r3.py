@@ -132,6 +132,25 @@ def run(data, result):
                     recommendation="核对原厂内部连接图与原理图脚号。",
                     severity="hard")
             continue
+        # Effective switching is proven; an external bypass still defeats it.
+        # Compare real connectivity partitions (aliases included), not spellings.
+        if all(net is not None for net in nets) and \
+                canonical_net(data, nets[0]) == canonical_net(data, nets[1]):
+            result.violated(
+                "switch_externally_bypassed", subjects,
+                actual={"display": "both used terminals are on the same net "
+                                   "partition: %s" % sorted(
+                                       {str(net) for net in nets if net})},
+                constraint={"display": "used terminals must be on different net "
+                                       "partitions for the switch to change "
+                                       "connectivity"},
+                unit=None, evidence=evidence,
+                explanation="两个实际使用端子已在同一真实网络分区；按下不会改变连通性，"
+                            "按键功能被外部短接/旁路。",
+                recommendation="核对原理图/PCB 是否把两个端子接到同一网络（含别名）；"
+                               "本工具不生成自动改线。",
+                severity="hard")
+            continue
         # Effective switching is proven; now check the pressed rail-short risk.
         forbidden = requirement.get("forbidden_pressed_nets", [])
         actual_partitions = {canonical_net(data, net) for net in nets
