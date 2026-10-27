@@ -121,7 +121,7 @@
   预算变小、无关文件外部修改，均未破坏 required 覆盖；小预算场景正确标 `incomplete`。
 - 负例：missing must_include、forbidden selected/action、重复场景 ID、非法枚举、
   超预算不 complete、空规则集、重复规则 ID、证据不符、非法 JSON、越界 root 均明确失败。
-- 基准完整计划耗时约 1.8 s（不含变形复制），变形检查另计；结果见
+- 基准完整计划耗时约 4.0 s（不含变形复制），变形检查另计；结果见
   `benchmarks/skill-knowledge-audit/results/main.json`。
 
 **已知覆盖缺口（budget incomplete）**：`main.json` 的 `budget_incomplete_total=4`
@@ -172,13 +172,13 @@ python -m skill_knowledge_audit benchmark --root .. \
 → **53 tests OK**（1 个 Windows 符号链接用例跳过）。
 既有回归：`python design-hardware/scripts/skill_selftest.py` → **5 PASS / 0 FAIL**。
 
-### 冻结产物哈希（2026-10-28 00:31，之后不再改写）
+### 冻结产物哈希（2026-10-28 00:41，之后不再改写）
 
 | 文件 | 大小 | SHA-256 | 生成时间 |
 |---|---:|---|---|
-| `scan.json` | 3,448,013 B | `726bd2916d345092595ff97dddb9b48dc606a168e48f3d47628525ea80a625ba` | 2026-10-28 00:30:58 |
-| `rules.json` | 180,613 B | `63fbf14cd92dafa82859b989b75a4d5d3a7415b00b5edbee0f600daf5cfff05e` | 2026-10-28 00:31:00 |
-| `main.json` | 28,692 B | `636318ac7c54a61a2796a3452a66917d6d48763c9e691f202ad710a0f55571f0` | 2026-10-28 00:31:16 |
+| `scan.json` | 3,448,013 B | `3d48246547373231f6adbc1b0d2fb6cccac62cfe69beacb6397ccf43ead20fd1` | 2026-10-28 00:40:43 |
+| `rules.json` | 180,613 B | `b2ec2b8483b107c9ada258644aff47cf6b921e9525d1820f3ca7d759b5f854db` | 2026-10-28 00:40:48 |
+| `main.json` | 28,693 B | `6f338c054d5923e6b6609413cd52378d1b0f2efd31c5fbc1120fec701547d046` | 2026-10-28 00:41:20 |
 
 本表用于复核冻结结果；重跑命令见上，重跑会产生新的扫描时间与哈希，属正常。
 

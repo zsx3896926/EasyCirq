@@ -6530,10 +6530,10 @@
   ],
   "schema": "skill-knowledge-audit/v1",
   "source": {
-    "duration_ms": 1976.224,
-    "git_sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "duration_ms": 3552.237,
+    "git_sha": "c9836eb29869040aeac245d0d3959021134b7f3e",
     "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
-    "scanned_at": "2026-10-27T16:30:58+00:00"
+    "scanned_at": "2026-10-27T16:40:44+00:00"
   },
   "tool": {
     "name": "skill_knowledge_audit",

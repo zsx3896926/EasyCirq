@@ -28,9 +28,9 @@
   `budget_incomplete_total=4`、`plan_ok_false_total=4`（预算缺口已披露）。
 - 独立评阅：`independent-review.md`，结论 PASSED WITH CAVEATS；F1/F5/F6/F7/F8/F10 已修复，
   F2 作为已知预算缺口保留（不事后调参）。F11（冻结哈希）见下方。
-- 冻结产物（2026-10-28 00:31 后不再改写）：
-  `scan.json` 3,448,013 B `726bd291…a625ba`；`rules.json` 180,613 B `63fbf14c…fff05e`；
-  `main.json` 28,692 B `636318ac…5571f0`。
+- 冻结产物（2026-10-28 00:41 后不再改写）：
+  `scan.json` 3,448,013 B `3d482465…d20fd1`；`rules.json` 180,613 B `b2ec2b84…f854db`；
+  `main.json` 28,693 B `6f338c05…47d046`。
 - 测试：53 tests OK（1 个 Windows 符号链接用例跳过）；既有
   `skill_selftest.py` 5 PASS / 0 FAIL；未运行全套既有测试（只读回归按需运行）。
 - 真实 EDA 调用 **0**；模型会话 **0**；外链联网验证 **0**；Python 3.10 运行时 **NOT RUN**。

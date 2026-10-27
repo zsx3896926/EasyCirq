@@ -353,7 +353,7 @@ def _walk_files(root, exclude_abs):
         kept_dirs = []
         for name in sorted(dirnames):
             candidate = current_path / name
-            rel_dir_name = posix_rel(candidate, root)
+            rel_dir_name = candidate.relative_to(root).as_posix()
             if name in SKIP_DIRS:
                 continue
             if candidate.is_symlink():
@@ -381,10 +381,7 @@ def _walk_files(root, exclude_abs):
             dirs.add(rel_dir)
         for name in sorted(filenames):
             path = current_path / name
-            rel = path.resolve().relative_to(root).as_posix()
-            if any(path.resolve() == excluded
-                   or excluded in path.resolve().parents for excluded in exclude_abs):
-                continue
+            rel = path.relative_to(root).as_posix()
             try:
                 real = path.resolve()
             except OSError:
@@ -397,6 +394,10 @@ def _walk_files(root, exclude_abs):
                     "detail": "symlink resolves outside the declared root",
                 })
                 continue
+            if any(real == excluded or excluded in real.parents
+                   for excluded in exclude_abs):
+                continue
+            rel = real.relative_to(root).as_posix()
             if real in seen_real:
                 continue
             seen_real[real] = rel

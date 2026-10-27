@@ -408,10 +408,10 @@
     }
   ],
   "source": {
-    "duration_ms": 1670.356,
-    "git_sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "duration_ms": 1665.108,
+    "git_sha": "c9836eb29869040aeac245d0d3959021134b7f3e",
     "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
-    "scanned_at": "2026-10-27T16:31:24+00:00"
+    "scanned_at": "2026-10-27T16:41:28+00:00"
   },
   "stage": "layout",
   "task_type": "pcb_route",

@@ -1,7 +1,7 @@
 # Skill 知识结构扫描索引
 
 - 根目录：`C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-ska-worktree\design-hardware`
-- 基线：`9a951edc21481dc3ae91460acc11aa3e08a7be8a`
+- 基线：`c9836eb29869040aeac245d0d3959021134b7f3e`
 - 工具/目录版本：`0.1.0` / `2026-10-27.1`
 - 文件 309，链接 2480，必读链接 67，错误 0，警告 16
 
