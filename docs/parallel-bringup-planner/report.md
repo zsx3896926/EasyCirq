@@ -50,7 +50,7 @@ python benchmarks/bringup-planner/run_benchmark.py --json --out /tmp/bringup-ben
 | 总用例 | **41 / 41 pass** |
 | 必需类别覆盖 | **30 / 30**（任务书第 8 节全部类别 + 组合/变形） |
 | 输入/证据/计划/结果冻结 | `baseline.json` 90 个文件 SHA-256 |
-| 运行耗时 | 约 17.5 s（本机，单次） |
+| 运行耗时 | 约 16.9 s（本机，2026-10-28 最终复跑；46 次 CLI 子进程调用） |
 | 失败 | 0 |
 
 每个场景真实启动 `python -m bringup_planner validate|plan|explain|evaluate` 子进程，比较退出码、scope、DAG order/cycles、冻结 step_id 全集与逐步骤状态、gap/unknown/equipment_gap codes、评估 verdict；holdout 变形（对象排序、mV↔V、notes 同义改写、无关模块、revision 变化）由 runner 通用执行，不按场景 ID 特判。
@@ -121,7 +121,7 @@ python design-hardware/scripts/skill_selftest.py
 | Fluke 87/83/85 用户手册 PN 834192 Rev.8 | 仪器方法 | p20 断电+放电、显示值为"所有可能路径总电阻"（低阻≠短路的官方依据）；p23 二极管档 0.6 mA、最多五结 |
 | Rigol DS1000Z User Guide/Datasheet | 仪器方法 | p4 探头地线必须接地、p31/p32 探头补偿、p6 1 MΩ∥15 pF、CAT I 300 Vrms、p7 上升时间/DC 增益 |
 
-仍标 `unverified`：TPS62130 100% 占空比段落、LM393/TLV700 部分绝对最大表页码、CSD 雪崩能量/热阻、Fluke 87V 专属指标（87V 手册 403）、Rigol 修订字母/探头负载电容。未编造数值，未把手册打包进仓库。
+仍标 `unverified` **fact 级 1 条**（F-029，TPS62130 100% 占空比段落）；另有来源/页码级未核实项：LM393/TLV700 部分绝对最大表页码、CSD 雪崩能量/热阻、Fluke 87V 专属指标（87V 手册返回 403）、Rigol 修订字母/探头负载电容。未编造数值，未把手册打包进仓库。
 
 ## 7. 场景与 holdout
 
@@ -185,8 +185,24 @@ tests/bringup_planner/
 ## 12. 提交与 PR
 
 - 分支：`feat/parallel-bringup-planner`
-- 基线：`main@9a951ed`（见第 2 节）
-- 首个实现提交：`c61d62c`（172 files，44685 insertions；之后仅文档/PR 描述补充）
-- 独立 PR：https://github.com/zsx3896926/hardware-design-skill/pull/39 （只推送，不合并、不发布、不安装客户端）
+- 基线：`main@9a951ed`（2026-10-28 复核时 `origin/main` 仍为同一 SHA）
+- 首个实现提交：`c61d62c`（**174 files，44685 insertions**；实现/测试/基准/资料/文档）
+- 文档补充提交：`3bb3496`（4 files，+52/−2；PR 描述与验收数字）
+- PR 总计：**175 files，+44735/−0**
+- 独立 PR：https://github.com/zsx3896926/hardware-design-skill/pull/39 （OPEN / MERGEABLE；只推送，不合并、不发布、不安装客户端）
 - PR 描述副本：`docs/parallel-bringup-planner/pr-description.md`
-- 最终 HEAD 以 PR 页面为准（本报告所在提交之后的文档提交不改变实现）。
+- 交付状态：**待审查**（见 `handoff-current.md`）；最终 HEAD 以 PR 页面为准。
+
+## 13. 复核记录（2026-10-28）
+
+对 PR #39 最终 diff 与报告一致性做了复核：
+
+| 复核项 | 结果 |
+|---|---|
+| 分支/远端同步 | 本地 HEAD 与 `origin/feat/parallel-bringup-planner` 一致（复核时 `3bb3496`）；`origin/main` 仍为 `9a951ed` |
+| 变更路径 | 175 files，全部位于 4 个允许路径；无 SKILL.md/references/README/CHANGELOG/主 handoff/distribution/CI/其他任务目录 |
+| 越界文件 | 0 |
+| PR 状态 | OPEN、MERGEABLE、非 draft；未合并、未发布 |
+| 报告数字 | 172 tests、41/41 基准、30/30 类别、baseline 90 files、11 sources/143 facts/78 paged 均与实测一致 |
+| 已修正笔误 | 首个提交文件数 `172→174`；基准耗时 `17.5→16.9 s`；unverified 表述精确为"fact 级 1 条 + 来源/页码级若干" |
+| 交付状态 | 已更新 `handoff-current.md` 为 **待审查** |

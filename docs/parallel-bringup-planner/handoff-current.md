@@ -1,6 +1,15 @@
 # 并行任务 I 交接（bringup-planner）
 
-> 最后更新：2026-10-27（worktree 内自测；最终数据以 `report.md` 为准）
+> 最后更新：2026-10-28（PR #39 复核后状态：**待审查**；最终数据以 `report.md` 为准）
+
+## 交付状态：待审查
+
+| 项 | 值 |
+|---|---|
+| **状态** | **待审查（PENDING REVIEW）** — 2026-10-28 复核通过，等待主分支/审查人处理 |
+| PR | https://github.com/zsx3896926/hardware-design-skill/pull/39 （OPEN / MERGEABLE / 非 draft；**未合并、未发布、未安装客户端**） |
+| 复核时 HEAD | `3bb3496e9bb1c4a8e101e3c513bd11de9224f6c0`（本状态提交后以 PR 页面最新 HEAD 为准） |
+| 复核结论 | PR diff 175 files / +44735 / −0，全部位于下方允许路径；无越界文件；报告数字与实测一致（已修正 3 处表述/数字，见 `report.md` §13） |
 
 ## 身份与基线
 
@@ -11,7 +20,7 @@
 | 分支 | `feat/parallel-bringup-planner` |
 | 基线 main | `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（`test: make Chinese fixture portable across Windows locales`） |
 | 基线 remote | `origin/main` 同一 SHA（开工时核对） |
-| 提交/PR | 首个实现提交 `c61d62c`；独立 PR https://github.com/zsx3896926/hardware-design-skill/pull/39 ；**不合并、不发布、不安装客户端** |
+| 提交/PR | 首个实现提交 `c61d62c`；独立 PR https://github.com/zsx3896926/hardware-design-skill/pull/39 （OPEN/MERGEABLE，状态：待审查）；**不合并、不发布、不安装客户端** |
 
 ## 允许路径（本任务只改这些）
 
@@ -55,7 +64,9 @@ python tools/offline_suite.py          # 既有仓库离线套件，不应回归
 
 ## 当前状态
 
-- 代码/契约/测试/资料/文档已落地；最终 `report.md` 记录软件实测结果（测试数、基准通过数、holdout、修复记录）。
+- **交付状态：待审查**（2026-10-28 复核，PR #39 OPEN/MERGEABLE，未合并）。
+- 代码/契约/测试/资料/文档已落地；`report.md` 记录实测结果（172 tests、41/41 基准、30/30 类别、1783 既有离线测试、skill_selftest 5 PASS）与已修问题。
+- 复核记录（PR diff 175 files +44735/−0、允许路径核对、报告一致性修正）见 `report.md` §13。
 - 所有真实仪器、上电、烧录、串口/JTAG、EDA 操作为 **NOT RUN**；评估器 `PASS` 只是离线记录一致性结论。
 - 已知边界：首期只支持低压直流（≤30 V 工作 / ≤60 V 绝对）；市电/高压/电池充放电/射频认证标 unsupported/needs_specialist。
 - 集成建议见 `integration-proposal.md`；未改 A/C/F 代码、不依赖其他会话未合入提交。
