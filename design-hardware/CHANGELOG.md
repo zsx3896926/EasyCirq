@@ -16,6 +16,29 @@ round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 
 - `assets/pcb-placement-templates.json` 新增 `dual-channel-switch-led` 模板：两路按键—LED—限流电阻并列相对布局，在 2026-10-27 实测基线上 `planned` 复现六个位姿；状态 `offline-tested`，不是 EDA 已验证实例。
 - `cases/dual-button-led-night-20261027/negative-direct-move/`：保留首次 LED2 直接上移 2 mm 的失败输入（D4/R3 重叠 5.181 mil），作为必须拒绝的负例。
 
+### 反馈闭环（round12）
+
+- `scripts/feedback/` 契约层（observation/intent/issue/modification/loop/diff/
+  evaluation/case，统一 `failure_class`）与 `scripts/feedback_loop.py` 单一 JSON 入口：
+  `probe/observe/intent/evaluate/plan/preview/apply/readback/verify/recover/
+  case-search/case-register/loop-*`；只读命令不写入，`apply` 默认 dry-run，
+  写入前重核基线，越界/locked/stale 在写入前拒绝。
+- `feedback/observe.py`：能力探测、观察契约、缓存与响应 `context` 身份核对；
+  读不到写 `unknown`，不生成空列表；`--project` 名称路由不再作为写入依据。
+- `feedback/loop.py`：可恢复状态、预算、连续无改善/超时/调用预算停止；
+  `call_ok/write_confirmed/save_confirmed/reopen_confirmed/quality_passed` 五事实分开。
+- `feedback/scope.py`：修改契约、写前可写范围、差异/不变量、journal 幂等恢复；
+  PCB 写入可携带原始 `before_dump`，原理图写入走 typed action。
+- `feedback/evaluate.py`：硬约束/工程质量/可读性三层评价，无总分；DRC 0 但存在
+  已证实工程质量问题时 `drc_zero_but_quality_issues=true`；候选比较拒绝
+  “更整齐但路径回归”。
+- `feedback/cases.py` + `cases/feedback-r12/` 3 例 + `cases/index.json`：检索、
+  适用性检查与复用复核，不继承旧验证结论。
+- `tools/feedback_benchmark.py` + `benchmarks/offline-round12/`（13 用例）：
+  模拟宿主全链路；`real_eda=NOT RUN`。
+- `references/feedback-loop.md`、`SKILL.md` 的“画板/这里改一下/参考以前方案”路由。
+- `tools/offline_suite.py` 静态 import sweep 改为子包按 dotted path 导入。
+
 ### 修复
 
 - `pcb_gate.py`：优先 `*-final*`；manifest 的 `sha256/source_dump_sha256/produced_at` 绑定；项目身份冲突、候选分歧、manifest 缺件不回退；`freshness_basis`；`semantic_sha256`；接受 `match_with_renames`，新增 `--pin-aliases`/`--ignore-designators`。
