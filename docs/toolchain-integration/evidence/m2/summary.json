@@ -1,0 +1,56 @@
+{
+  "schema": "zhigou-m2-evidence/v1",
+  "generatedAt": "2026-10-27",
+  "project": {
+    "name": "zhigou-integrated-dual-button-led-20261027",
+    "uuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "document": "P1 (schematic) ee9b284771dad29b"
+  },
+  "environment": {
+    "host": "EasyEDA Pro 4.1.78",
+    "connector": "zhigou-connector 0.1.0 (own build, uuid a6e6b788551945b399e150d80efa6e31)",
+    "runtime": "zhigou 0.2.1-dev (built from this repository)",
+    "protocol": "zhigou-agent / wire v1"
+  },
+  "action": "move placed component D1 by +40 raw units in X, then save, close/reopen the page, and read back fresh state",
+  "six_state": {
+    "command_completed": "PASS",
+    "readback_verified": "PASS",
+    "save_confirmed": "PASS",
+    "reopen_confirmed": "PASS",
+    "electrical_passed": "UNKNOWN",
+    "quality_passed": "UNKNOWN"
+  },
+  "notes": {
+    "electrical_passed": "no nets were drawn yet in this M2 step; both parts still have floating pins, so an electrical verdict is not applicable. Connectivity before/after move is identical (see netsUnchanged).",
+    "quality_passed": "layout readability/quality is not asserted in this step; it is covered by sch layout-lint / gate in M3-M4.",
+    "netsUnchanged": true
+  },
+  "evidence": {
+    "baseline": "baseline-list.json / baseline-read.json",
+    "command": "modify-D1.json",
+    "save": "save-after-move.json",
+    "reopen": "reload.json / reload.txt",
+    "readback": "readback-list.json / readback-read.json",
+    "health": "health-post.json"
+  },
+  "detail": {
+    "baselineD1": {
+      "x": 600,
+      "y": 300,
+      "primitiveId": "223757a2b7119940"
+    },
+    "readbackD1": {
+      "x": 640,
+      "y": 300,
+      "primitiveId": "223757a2b7119940"
+    },
+    "readbackR1": {
+      "x": 400,
+      "y": 300,
+      "primitiveId": "dada9640418d0725"
+    },
+    "componentCount": 3,
+    "reloadOutput": ""
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "status": "found",
+  "host": "127.0.0.1",
+  "ports": "23111-23120",
+  "found": {
+    "port": 23111,
+    "service": "zhigou-agent",
+    "raw": {
+      "pid": 19464,
+      "service": "zhigou-agent",
+      "version": "0.2.1-dev",
+      "status": "ok",
+      "port": 23111,
+      "windows": [
+        {
+          "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+          "connectorVersion": "0.1.0",
+          "easyedaVersion": "4.1.78",
+          "capabilities": [
+            "schematic.v1",
+            "pcb.v1"
+          ],
+          "host": {
+            "kind": "electron",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) JLCEDAPro/4.1.78.34f5b8d9 Chrome/146.0.7680.188 Electron/41.2.1-jlc-sa-win-x64.6 Safari/537.36"
+          },
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "e09af7471397f380",
+            "documentType": "schematic",
+            "tabId": "e09af7471397f380@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "hidden"
+          },
+          "connectedAt": "2026-10-27T14:25:28.4254152Z",
+          "lastSeen": "2026-10-27T14:27:39.8361619Z"
+        }
+      ]
+    }
+  },
+  "versionGate": {
+    "cli": "0.2.1-dev",
+    "daemon": "0.2.1-dev",
+    "connectors": [
+      "0.1.0"
+    ],
+    "verdict": "skipped",
+    "findings": [
+      {
+        "component": "daemon",
+        "version": "0.2.1-dev",
+        "severity": "skipped",
+        "reason": "dev 构建(CLI v0.2.1-dev / daemon v0.2.1-dev),git-describe 戳不代表真实代码水位,不做硬判定"
+      },
+      {
+        "component": "connector",
+        "version": "0.1.0",
+        "severity": "skipped",
+        "reason": "CLI v0.2.1-dev 或连接器 v0.1.0 非 clean release tag,不做硬判定"
+      }
+    ]
+  },
+  "hostCompatibility": {
+    "baseline": "4.0.0",
+    "recommended": "4.1.60",
+    "verdict": "ok",
+    "findings": [
+      {
+        "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+        "version": "4.1.78",
+        "severity": "ok",
+        "reason": "EasyEDA Pro 4.1.78 满足 V4 主线基线"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "daemon",
+      "status": "ok",
+      "detail": "v0.2.1-dev 运行在端口 23111"
+    },
+    {
+      "name": "connector",
+      "status": "ok",
+      "detail": "1 个窗口已连接（连接器 v0.1.0）"
+    },
+    {
+      "name": "versions",
+      "status": "ok",
+      "detail": "版本一致性:未判定(dev 构建或无连接器上报版本)"
+    },
+    {
+      "name": "zhigou",
+      "status": "ok",
+      "detail": "EasyEDA 宿主:V4 主线（推荐基线 4.1.60）"
+    },
+    {
+      "name": "project",
+      "status": "ok",
+      "detail": "SkyPilot-X1（当前 schematic），标签页在后台（操作照常；仅 PCB 画布截图需切到前台）"
+    }
+  ],
+  "checked": [
+    {
+      "port": 23111,
+      "status": "ok"
+    }
+  ]
+}

@@ -3,7 +3,7 @@
 > 本文件是"智构自有 EDA 工具链整合开发"的**当前真源**：基线、实施清单、阶段状态、
 > 关键路径与依赖、阻塞。每阶段结束更新；历史细节留在 `docs/toolchain-integration/evidence/`。
 >
-> 最后更新：2026-10-27 22:10（M1 归档完成：运行时/连接器/安装器/Skill 迁移全部落盘并验证；M2 起被"EDA 内导入自有扩展"这一人工动作阻塞）
+> 最后更新：2026-10-27 22:45（**M1 完成、M2 真机通过**：自有连接器已在 EasyEDA Pro 4.1.78 内握手，读写—保存—重开—回读链实测通过；M3/M4 继续）
 
 ## 0. 基线（现场核对结果，非任务书推测）
 
@@ -30,7 +30,7 @@
 | --- | --- | --- | --- |
 | **M0** 环境/源码/许可/冲突/能力调查 | **完成**（除真机 API 探测） | `environment-baseline.md`、`upstream-analysis.md`、`rule-conflicts.md`、`architecture.md`、`capability-matrix.md`、`third_party/`、`runtime/PROVENANCE.md`、`protocol/` | `evidence/env/`（47 文件）、`evidence/upstream/`（9 文件）、`evidence/skill-audit/`（4 文件）、`evidence/m1/vendor-verify.txt` |
 | **M1** 自有 CLI/daemon/Connector 构建 + 隔离安装 | **完成**（构建、隔离启动、诊断、安装/升级/回退、Skill 单入口迁移均实测）；**连接器真实握手 BLOCKED**（需 EDA 内人工导入） | `runtime/`（构建成功，`zhigou.exe` 0.2.0-dev）、`connector/`（`.eext` 231 KB）、`protocol/schemas/`、`distribution/`（统一安装器）、`design-hardware/`（已迁移到 `zhigou`） | `evidence/m1/*`、`evidence/installer/*`、`evidence/skill-migration/*`、`evidence/runtime-go-test.log`、`evidence/test-failure-diff.txt` |
-| **M2** 独立工程 读取→移动一件→保存→重开→回读 | **BLOCKED**（连接器未加载，无宿主通道） | 就绪命令：`zhigou doctor/capabilities/project/sch/doc/save` | 待真机 |
+| **M2** 独立工程 读取→移动一件→保存→重开→回读 | **PASS（真机）** | 独立新工程 `zhigou-integrated-dual-button-led-20261027`（P1），R1/D1 放置 → D1 +40 raw 移动 → save(saved:true) → close/reopen → 新鲜回读 D1 x=640、R1 不变、primitiveId/device 身份不变、pin-net 不变 | `evidence/m2/summary.json` 及同目录原始 JSON/日志 |
 | **M3** SCH/PCB 读写、批量、检查导出、compose/反馈接入 | **BLOCKED**（同上）；代码路径已就位 | 181 typed actions（111 写动作）在自有运行时内 | 待真机 |
 | **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **安装/升级/回退已完成并实测**（39 例）；**小板与局部改板 BLOCKED**（同上） | `distribution/` 统一安装器、`tools/zhigou_acceptance.py` | `evidence/installer/`、`evidence/acceptance/` |
 | **M5** 独立审查/反例/最终候选重跑/提交 PR | **进行中** | 本文件 + PR | 见 §5 |
@@ -69,10 +69,10 @@
 [并行] design-hardware Skill 迁移到 zhigou 单入口（不依赖真机）
 ```
 
-## 4. 当前唯一硬阻塞
+## 4. 当前唯一硬阻塞（已解除，保留记录）
 
-**在 EasyEDA Pro 内导入自有连接器是 EDA 的 GUI 人工动作，无法由 CLI 代做**（已核实：
-CLI 无 extension 类命令、EDA 无本地扩展目录、扩展只在启动时从 IndexedDB 加载）。
+**已于 2026-10-27 22:25 由用户完成导入**：`zhigou doctor` 显示 `connector connected (1 window, zhigou-connector 0.1.0)`、`verdict: ok`，
+`zhigou health` 报告 EasyEDA Pro 4.1.78 与 `capabilities: schematic.v1, pcb.v1`。以下步骤保留作重装/排障参考。
 
 最小所需动作（一次，约 1 分钟）：
 
