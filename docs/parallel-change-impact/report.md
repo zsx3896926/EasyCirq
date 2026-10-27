@@ -95,8 +95,8 @@ python -m change_impact compare   benchmarks/change-impact/compare/compare_two_c
 - 基线：`main @ 9a951edc21481dc3ae91460acc11aa3e08a7be8a`；
 - 分支：`feat/parallel-change-impact`（独立 worktree，未切换他人分支、未
   stash/reset/强推、未混提交）；
-- 提交与 PR：仅提交本任务四个允许路径，推送并创建独立 PR，不合并、不发版、
-  不替换安装；
+- 提交：`e90df7c`；PR：https://github.com/zsx3896926/hardware-design-skill/pull/43
+  （仅创建，不合并、不发版、不替换安装）；
 - 全仓库回归：`python -m unittest discover -s tests`（结果见 PR 前的最终运行）；
 - 未执行：EDA 读/写、宿主 DRC、保存重开、官方导图、烧录、上电、下单、实物测试。
 

@@ -3,6 +3,7 @@
 ## 状态
 
 - 分支：`feat/parallel-change-impact`（独立 worktree，基线 `main @ 9a951edc21481dc3ae91460acc11aa3e08a7be8a`）
+- 提交：`e90df7c`；独立 PR：#43 https://github.com/zsx3896926/hardware-design-skill/pull/43
 - 交付：可运行的离线 ECO 变更影响分析工具 + 231 项测试 + 50 个冻结 CLI 基准 +
   8 份文档；已推送并创建独立 PR（不合并、不发版、不替换安装）
 - 状态语义：`planned_with_scope` / `incomplete` / `no_change` / `input_invalid`；
