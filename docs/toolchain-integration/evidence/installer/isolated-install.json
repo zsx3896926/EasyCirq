@@ -225,5 +225,23 @@
     "isolatedZhigoVersion": "zhigou 0.2.1-dev",
     "isolatedConnectorPath": true,
     "bundledSkillVersion": "1.0.2"
+  },
+  "clientCutover": {
+    "at": "2026-10-28T00:20+08:00",
+    "installDir": "C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Zhigou",
+    "installedVersion": "0.2.1",
+    "clients": {
+      ".claude/skills/design-hardware": "1.0.2",
+      ".codex/skills/design-hardware": "1.0.2",
+      ".agents/skills/design-hardware": "1.0.2"
+    },
+    "legacySkillDisabled": [
+      ".claude/skills/easyeda-agent",
+      ".codex/skills/easyeda-agent",
+      ".agents/skills/easyeda-agent"
+    ],
+    "backupRoot": "C:\\\\Users\\\\jlc\\\\work\\\\_skill-backups\\\\zhigou-cutover-20261028",
+    "installedDoctorVerdict": "ok",
+    "note": "adopt-backed up the old 1.0.1 skill before replacing it; the upstream easyeda-agent skill dirs were moved (not deleted) and the client skill catalog now lists only design-hardware"
   }
 }

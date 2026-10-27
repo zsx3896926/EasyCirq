@@ -602,7 +602,8 @@ def resolve_skill_target(client, home: Path, skill_root=None) -> Path:
     return home / CLIENT_ROOTS[client][0] / 'design-hardware'
 
 
-def install_skill_copy(source: Path, target: Path, version: str, backup_root: Path) -> dict:
+def install_skill_copy(source: Path, target: Path, version: str, backup_root: Path,
+                       adopt: bool = False) -> dict:
     """Install the Skill into a client skill root with its own manifest+backup."""
     target = Path(os.path.abspath(target))
     if target.exists() and (target / 'easyeda-agent').exists():
@@ -624,9 +625,9 @@ def install_skill_copy(source: Path, target: Path, version: str, backup_root: Pa
             if changed:
                 raise InstallError('Client Skill has local changes (%s); update it with Manage-Skill.ps1 '
                                    'or remove it first' % ', '.join(changed[:5]))
-        else:
+        elif not adopt:
             raise InstallError('Unmanaged Skill already installed at %s; refusing to overwrite '
-                               '(use Manage-Skill.ps1 --adopt)' % target)
+                               '(pass --adopt to back it up and take it over)' % target)
         backup = backup_root / ('skill-' + str(time.time_ns()))
         backup.parent.mkdir(parents=True, exist_ok=True)
         shutil.copytree(target, backup)
@@ -750,8 +751,24 @@ def install(install_dir=None, archive=None, bundle_manifest=None, expected=None,
                     raise InstallError('Refusing to downgrade %s -> %s; use the rollback action'
                                        % (old_meta['version'], bundle['version']))
                 if new_v == old_v and files == old_meta['files'] and old_report['status'] == 'healthy':
+                    # The toolchain tree is current, but a client skill install may still be
+                    # pending (first adoption, another client, or an earlier failure).
+                    # Short-circuiting here used to skip that step silently.
+                    pending_skill = None
+                    if (client and client != 'none') or skill_root:
+                        try:
+                            target = resolve_skill_target(client, home, skill_root)
+                            pending_skill = install_skill_copy(
+                                install_dir / 'skill/design-hardware', target,
+                                bundle['components']['skill']['version'],
+                                state / 'backups', adopt=adopt)
+                            old_meta['clientSkill'] = pending_skill
+                            write_json(install_dir / META, old_meta)
+                        except (InstallError, OSError) as exc:
+                            pending_skill = {'status': 'failed', 'message': str(exc)}
                     return {'status': 'already_current', 'version': old_meta['version'],
-                            'installDir': str(install_dir), 'selfCheck': None}
+                            'installDir': str(install_dir), 'selfCheck': None,
+                            'clientSkill': pending_skill}
                 if old_report['status'] != 'healthy' and not force:
                     raise InstallError(
                         'Local modifications detected; nothing was changed. Re-run with --force to back '
