@@ -86,16 +86,35 @@ sch_doc='sch-sim-0001', pcb_doc='pcb-sim-0001')`
   且未做真实 DRC/铜连接复核；
 - `preview` 返回 `ok=true`、`writes_sent=0`，步骤
   `place-C2 → save → reload → dump`，每步 `in_scope`；
-- **PCB 写入契约**：执行 apply 时，plan 必须携带原始实测 dump（`before_dump`，
-  例如 `pcb dump --include-copper` 的结果）。若只给规范化 observation，
-  `_pcb_dump_from_view` 会从 `pcb.tracks/vias/pours` 重建铜层，但铺铜几何不完整，
-  委托的适配器可能误报 pour 变化。
+- **PCB 写入契约**：执行 apply 时，plan 必须携带**完整**的原始实测 dump
+  （`before_dump`，例如 `pcb dump --include-copper` 的结果）。铜的
+  `lines/vias/pours/poured/regions/fills/arcs`、`copper.availability`、
+  `copper.arcsAvailable`、`capturedAt`、`componentsAvailability`、整数
+  `routedLines` 与顶层 `availability` 缺一即写前拒绝；若只给规范化 observation，
+  `_pcb_dump_from_view` 重建的铜层不完整，会被 `incomplete_before_dump` 拒绝。
+  真实 dump 可以没有顶层 `project`，身份以 `capture.projectUuid/
+  documentUuid/windowId` 为准；错目标、未绑定或过期分别返回
+  `before_dump_target_mismatch`/`unbound_before_dump`/`before_dump_stale`。
+  对应测试：`test_missing_raw_before_dump_is_refused_before_any_write`、
+  `test_missing_copper_capture_is_refused`、`test_missing_poured_capture_is_refused`、
+  `test_missing_arcs_capture_is_refused`、`test_missing_copper_availability_is_refused`、
+  `test_missing_raw_provenance_is_refused`、
+  `test_normalized_observation_reconstruction_is_refused`、
+  `test_real_dump_without_a_top_level_project_is_accepted`、
+  `test_before_dump_for_another_project_is_refused`、
+  `test_before_dump_for_another_document_is_refused`、
+  `test_stale_before_dump_hash_is_refused`。
 - **身份路由**：执行层现以 `--window` + 项目 UUID + 文档 UUID 调用
   `pcb_apply_plan.py`，并把 `--window` 转发给 `easyeda apply`；
-  `before_dump.capture.windowId` 参与写前绑定。对应测试
+  `before_dump.capture.windowId` 参与写前绑定。写入后的 dump 也必须带
+  `capture` 与 `semanticSha256`，缺哈希/身份不符分别判
+  `verification_failed`/`target_mismatch`。对应测试
   `test_pcb_apply_pins_window_project_and_document_uuid`、
   `test_before_dump_for_another_window_is_refused`、
-  `test_apply_forwards_window_to_the_cli_and_playbook_meta`。
+  `test_before_dump_without_a_window_is_unbound_when_targeted`、
+  `test_runtime_window_mismatch_is_refused_before_any_write`、
+  `test_pcb_apply_missing_after_hash_is_unknown_not_verified`、
+  `test_pcb_apply_unbound_after_dump_is_a_target_mismatch`。
 
 **原理图分支**：契约 `writable.objects=['7000fc9074f2508d']`，允许
 `move_text/save`；计划把说明文字移到 `(250,778)`。`preview` 返回

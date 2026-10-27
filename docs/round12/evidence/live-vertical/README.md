@@ -64,6 +64,28 @@
 - `apply` 的 `after_observation` 是“新鲜整体观察 + 回读 PCB dump”组合出的内部对象，
   不冒充一次完整重开观察；完整重开观察另存为 `observation-round2-after-*.json`。
 
+### 2.4 最终代码对真实证据的只读复核
+
+round 2 的写入使用的是收紧**之前**的代码。提交 `e734e85` 后，用最终门禁对同一批
+真实输入做只读复核（不调用 EDA、不写入）：
+
+| 检查 | 结果 |
+|---|---|
+| 真实 before dump（`before-round2.json`）完整性 | 通过（铜/铺铜/弧线/availability/provenance 齐全） |
+| `validate_plan(contract-round2.json, plan-round2-move.json)` | `ok=True`、`refusals=[]`（仅锁定状态 unknown） |
+| 真实 after dump（`round2-after/04-pcb-dump.json` 的 `payload`）完整性 | 通过；`semanticSha256=25d934fe...` |
+| after dump `capture` 绑定 | project/document/window 与 observation 完全一致 |
+| 最终 `diff_observations` 复算 | 2 inside / 0 outside / 12 unknown，D4 pose + hole 可复现 |
+| 规范化 pours | 2 个，含 `priority/pour_name/locked/line_width/geometry_sha256` |
+
+### 2.5 最终代码真机写入：BLOCKED
+
+- 复核后尝试 `easyeda doc ready --json`，返回
+  `no EasyEDA connector is available`（exit 1）。
+- 因此最终代码没有在真实宿主重跑 apply/保存/重开/DRC；第 2 节的写入证据属于
+  收紧前代码，不能冒充最终代码的真机通过。
+- 没有为此开窗、抢窗口或写入其它工程；这是外部宿主阻断。
+
 ## 3. 历史轮次（不用于最终验收）
 
 - `observation-before.json`、`apply-move.json`、`diff-move.json`、`apply-restore.json`

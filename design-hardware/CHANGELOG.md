@@ -1,5 +1,53 @@
 # 变更记录
 
+## 未发布（`feat/feedback-loop-round12` 收尾）— 2026-10-27
+
+round12 反馈闭环的最终收紧与真实运行记录。**本节改动未 bump 版本、未发布 Release、
+未替换任何客户端安装版**；合并 `origin/main` 后源码 `.version` 仍为 `0.9.4`。
+
+### 收紧
+
+- PCB 写前门禁：`plan.before_dump` 必须是完整原始 dump——铜的
+  `lines/vias/pours/poured/regions/fills/arcs`、`copper.availability`、
+  `copper.arcsAvailable`、`capturedAt`、`componentsAvailability`、整数
+  `routedLines` 与顶层 `availability` 缺一即拒绝；真实 dump 可以没有顶层
+  `project`，工程/文档/窗口身份以 `capture.projectUuid/documentUuid/windowId`
+  绑定。错工程/文档/窗口、与新鲜观察哈希或内容不符、过期、规范化重建的 dump
+  都在写前拒绝，负例证明 `writes_sent=0`。
+- `apply` 写前二次绑定；写入后 dump 必须带 `capture` 与 `semanticSha256`：
+  缺哈希判 `verification_failed/after_hash_missing`，缺 capture 或身份不符判
+  `target_mismatch` 且 `write_confirmed=false`。
+- 差异：孔变化按 primitive id / 位号+焊盘归属，D1→D2 两边都记录，after-only
+  或无身份孔不掩盖范围外变化；规范化铺铜比较 `priority/pour_name/locked/
+  line_width/geometry_sha256`；raw 与 normalized 的 copper availability 都兼容，
+  任一类别非 `available` 即 unknown；`diff.status=unknown` 时 acceptance 计数
+  不按 0 求值。
+- `feedback/observe.py` 的 pours 新增 `geometry_available/geometry_sha256/
+  raw_sha256`；`verify` 的 call/write/save/reopen 只来自 `--apply` receipt，
+  `quality_passed` 只来自显式 `--evaluation`；acceptance 未达成不标完成；
+  机器可读输出显式 `simulated`。
+
+### 真实运行记录
+
+- 独立导入副本 `feedback-loop-r12-verify-20261027a`
+  （`f37160f4acb64e13a80f1eb9c0a67fa3`，窗口
+  `c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7`）完成 round 2：
+  - 移动 D4 +1.26 mil：`status=verified`、`writes_sent=1`、四执行事实 true、
+    `quality_passed=null`；范围外 0；原生 DRC 4 条 clearance error ->
+    evaluate fail、verify fail；
+  - 恢复 D4：`status=verified`、四事实 true；PCB 哈希回到 `240dee0a...`、
+    整体观察哈希回到 `87d9fcde...`；原生 DRC 0；evaluate
+    `pass_with_warnings` 且 `drc_zero_but_quality_issues=true`；verify
+    `unknown`（锁定状态 unknown），未当 pass。
+  - 该轮写入使用收紧**之前**的代码；最终代码只对同一批真实 plan/dump 做只读
+    复核（`validate_plan` ok、dump 完整性通过、after capture 绑定一致、
+    差异复现 2 inside/0 outside/12 unknown）。
+  - 当前 Connector 不可用（`easyeda doc ready --json` ->
+    `no EasyEDA connector is available`），最终代码真机写入为 BLOCKED。
+- 测试：反馈套件 **308 tests**（loop 53 / cases 44 / evaluate 65 / observe 41 /
+  scope 96 / cli 9）；全量 **1653 tests OK**；基准 **16/16 PASS**；
+  `skill_selftest.py` 5 PASS / 0 FAIL / 0 NOT RUN。
+
 ## 0.9.4 — 2026-10-27
 
 round12 原理图排版工具链补强：把 compose 输入、页预算预检和稳定 ID 绑定从手工步骤变成可离线验证的脚本，并记录本轮真机遇到的破坏性重排与恢复边界。**本轮脚本均为离线实现与单元测试，未调用 EDA**；真机证据来自 2026-10-27 usb-audio-amplifier-test-01 排版任务。

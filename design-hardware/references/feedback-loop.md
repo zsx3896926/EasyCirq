@@ -104,9 +104,19 @@ observe → plan → prepare → apply → readback → verify → repair ↺
 - 写入前重核基线；用户或其他 Agent 已修改时返回 `stale_baseline` 并刷新计划，
   不覆盖新状态；
 - PCB 写入的计划必须携带原始实测 dump（`plan.before_dump`，即 `pcb dump
-  --include-copper --out` 的文件内容）。只用规范化 observation 重建的铺铜
-  不完整，适配器可能把既有铺铜误报为范围外变化；规范化 observation 用于
-  比较与评价，原始 dump 用于委托写入；
+  --include-copper --out` 的文件内容），且必须是**完整** dump：
+  - 铜的 `lines/vias/pours/poured/regions/fills/arcs`、`copper.availability`、
+    `copper.arcsAvailable`、`capturedAt`、`componentsAvailability`、整数
+    `routedLines` 与顶层 `availability` 缺一即写前拒绝（`incomplete_before_dump`）；
+  - 真实 dump 可以没有顶层 `project`；工程/文档/窗口身份以
+    `capture.projectUuid/documentUuid/windowId` 为准，必须与本次 observation、
+    契约目标和写入文档一致，否则 `before_dump_target_mismatch`/`unbound_before_dump`；
+  - dump 的 `semanticSha256` 与组件内容必须匹配新鲜 observation，否则
+    `before_dump_stale`；只用规范化 observation 重建的 dump 直接拒绝；
+  - 规范化 observation 用于比较与评价，原始 dump 用于委托写入；
+- 写入后的 dump 必须带 `capture` 与 `semanticSha256`：缺哈希判
+  `verification_failed/after_hash_missing`，缺 capture 或 project/document/window
+  不符判 `target_mismatch` 且 `write_confirmed=false`，命令返回 0 不等于写入成功；
 - 超时/部分成功先解析 journal 并回读，再续做或恢复；同一操作键已生效时跳过，
   不重复创建走线/过孔/文本；不能假设宿主原子回滚。
 

@@ -1,6 +1,6 @@
 {
  "schema": "hds-feedback-benchmark/v1",
- "generated_at": "2026-10-27T05:09:48.061801Z",
+ "generated_at": "2026-10-27T05:15:48.723236Z",
  "host": "simulated (tests/feedback_sim.py)",
  "real_eda": "NOT RUN",
  "cases": [
@@ -307,7 +307,7 @@
      "ok": false,
      "status": "unknown",
      "contract_id": "bench-partial-recovery",
-     "generated_at": "2026-10-27T05:09:48.032482Z",
+     "generated_at": "2026-10-27T05:15:48.691471Z",
      "journal": {
       "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-bench-partial.jsonl",
       "entries": 3,
