@@ -1,0 +1,4 @@
+offline bench fixture evidence
+step: I1-OFF-DISCHARGE
+kind: inspection_note
+NO INSTRUMENT WAS CONNECTED; this text exists only to exercise the evaluator evidence/hash contract.

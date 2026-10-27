@@ -1,0 +1,91 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "load-control-board",
+  "categories": [
+    "case_combination_board",
+    "low_side_load"
+  ],
+  "derivation": "Combination board 2 (low-voltage load control / low-side drive): 5 V USB power-only input, series diode + TVS, LM393/MCP6541 comparator with NTC divider, low-side N-MOSFET Q1 driving LED and buzzer, button. Derived from the read-only photo-led and temp-alarm case records. Synthetic intent, no physical hardware, NOT RUN. One rail only; load interface + DNP buzzer + removable load ×jumper are declared. Scope supported; order [VIN_5V].",
+  "input": {
+    "file": "input.json",
+    "sha256": "06b8f62529733079fc97f4060eda4e7a47ef26fdb6ee51a91e0dff42c521a866"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "energize_allowed": true,
+      "dag_order": [
+        "VIN_5V"
+      ],
+      "dag_cycles": [],
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I4-BUS-J1_USB",
+        "I4-LOAD-SW1",
+        "I4-ANALOG-U2_COMP"
+      ],
+      "steps": {
+        "I1-VIS-001": "ready",
+        "I1-JMP-001": "ready",
+        "I1-OFF-001": "ready",
+        "I1-OFF-DISCHARGE": "ready",
+        "I1-OFF-RES-VIN_5V": "ready",
+        "I2-FW-001": "ready",
+        "I2-LOAD-ASM-J2": "ready",
+        "I2-SEQ-VIN_5V": "ready",
+        "I2-CONNECT-ASM-J2": "blocked",
+        "I3-V-VIN_5V": "ready",
+        "I3-RIPPLE-VIN_5V": "blocked",
+        "I3-COMM-J1_USB": "blocked",
+        "I4-BUS-J1_USB": "blocked",
+        "I4-LOAD-SW1": "blocked",
+        "I4-ANALOG-U2_COMP": "blocked"
+      },
+      "steps_by_status": {
+        "ready": 9,
+        "blocked": 6
+      },
+      "gap_codes": [
+        "I1_DISCHARGE_PROFILE_UNDECLARED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "unknown_codes": [
+        "I1_SHORT_CHECK_CRITERION_UNDEFINED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "equipment_gap_codes": [
+        "PROBE_LOADING_NOT_DECLARED"
+      ],
+      "supply_conflict_codes": [
+        "EXTERNAL_SUPPLY_PATH"
+      ]
+    },
+    "evaluate": {
+      "exit_code": 3,
+      "verdict": "INCOMPLETE",
+      "hardware_pass": false,
+      "counts_min": {
+        "not_run": 1
+      }
+    },
+    "not_run_statement": true
+  },
+  "not_run_statement": "Synthetic design intent only. No physical board exists, no instrument was connected, no power was applied, no firmware was flashed. Every plan step and result record is NOT RUN. A plan/evaluation pass here is an offline document check and is not a hardware, safety, EMC, thermal or qualification result.",
+  "frozen_from": "hand derivation, never copied from CLI output"
+}

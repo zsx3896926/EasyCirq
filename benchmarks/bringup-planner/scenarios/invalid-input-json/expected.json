@@ -1,0 +1,26 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "invalid-input-json",
+  "categories": [
+    "invalid_input"
+  ],
+  "derivation": "The input file is not valid JSON (a trailing comma is added). util.read_json raises PlannerError(code=E_JSON) and validate only catches InputInvalid, so the CLI exits 2 with the E_JSON error on stderr and no machine JSON on stdout; plan must also exit 2 and write no plan. Malformed input can never be treated as \"no findings\".",
+  "input": {
+    "file": "input.json",
+    "sha256": "b44562f3c40657d682e40eb5a71d4f9a33c7b7df5150ca34c654c5af9b0cae0c"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 2,
+      "status": "error",
+      "required_error_codes": [
+        "E_JSON"
+      ]
+    },
+    "plan": {
+      "exit_code": 2,
+      "status": "error"
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

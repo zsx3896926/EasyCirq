@@ -1,0 +1,30 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "eval-stale-revision",
+  "categories": [
+    "evaluation_stale_revision",
+    "stale_revision_result"
+  ],
+  "derivation": "Frozen plan revision rev-2026-10-27-A, but the result record is bound to an OLD revision (rev-2026-10-20-OLD) and old plan/input/semantic hashes. Contract: results are bound to plan_sha256 + input_sha256 + semantic hash + revision + tool_version, and a revision change invalidates old results (STALE_REVISION) instead of being reused -> verdict=INVALID, exit 2, hardware_pass=false. Reusing the old PASS record would be a safety fault.",
+  "input": {
+    "file": "input.json",
+    "sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "evaluate": {
+      "plan_file": "plan.json",
+      "exit_code": 2,
+      "verdict": "INVALID",
+      "hardware_pass": false,
+      "required_finding_codes": [
+        "STALE_REVISION"
+      ]
+    },
+    "not_run_statement": true
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

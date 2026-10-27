@@ -1,0 +1,35 @@
+{
+  "schema": "bringup-bench-holdout/v1",
+  "id": "holdout-object-order",
+  "categories": [
+    "holdout",
+    "deformation_object_order"
+  ],
+  "derivation": "Pure object-order deformation of the normal board: every array of objects is reversed/moved (power_domains, assemblies sub-lists, interfaces, testpoints, equipment lists, evidence_sources, scope.operations, allowed_operations, required_states, DAG depends_on, pins). model.py normalises every collection by stable id and dag.py uses a sorted tie-break, so the semantic hash and the plan hash MUST be identical to the base plan. Any difference means the generator depends on JSON order.",
+  "base": "../normal-mcu-sensor-board",
+  "input": {
+    "file": "input.json",
+    "sha256": "1f93092449542ac52143aa6a7c22c564ef1e24bbb27809fb09063170631ecc84"
+  },
+  "transform": {
+    "file": "transform.json"
+  },
+  "assertions": {
+    "semantic_sha_equal_base": true,
+    "plan_sha256_equal_base": true,
+    "plan_fields_equal_base": [
+      "scope_status",
+      "scope_reason_codes",
+      "energize_allowed",
+      "dag_order",
+      "dag_cycles",
+      "step_ids",
+      "steps",
+      "gap_codes",
+      "unknown_codes",
+      "equipment_gap_codes",
+      "steps_by_status"
+    ]
+  },
+  "frozen_from": "hand derivation of the invariance contract (model normalisation / semantic hash / evaluate binding), never copied from CLI output"
+}

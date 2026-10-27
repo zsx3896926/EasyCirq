@@ -1,0 +1,33 @@
+{
+  "schema": "bringup-bench-holdout/v1",
+  "id": "holdout-unit-conversion",
+  "categories": [
+    "holdout",
+    "deformation_unit_conversion"
+  ],
+  "derivation": "Every declared voltage is re-expressed in mV and every current in mA (e.g. nominal_v 5 V -> {\"value\":5000,\"unit\":\"mV\"}). units.py converts to canonical SI before normalisation, so the normalised model - and therefore the semantic hash and the plan hash - must be byte-identical to the base plan. This guards against floats leaking into the plan or unit-dependent comparisons.",
+  "base": "../normal-mcu-sensor-board",
+  "input": {
+    "file": "input.json",
+    "sha256": "1f93092449542ac52143aa6a7c22c564ef1e24bbb27809fb09063170631ecc84"
+  },
+  "transform": {
+    "file": "transform.json"
+  },
+  "assertions": {
+    "semantic_sha_equal_base": true,
+    "plan_sha256_equal_base": true,
+    "plan_fields_equal_base": [
+      "scope_status",
+      "energize_allowed",
+      "dag_order",
+      "dag_cycles",
+      "step_ids",
+      "steps",
+      "gap_codes",
+      "unknown_codes",
+      "steps_by_status"
+    ]
+  },
+  "frozen_from": "hand derivation of the invariance contract (model normalisation / semantic hash / evaluate binding), never copied from CLI output"
+}

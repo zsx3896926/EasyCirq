@@ -1,0 +1,49 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "unsupported-mains-ac",
+  "categories": [
+    "scope_unsupported"
+  ],
+  "derivation": "supply_class=mains_ac is in UNSUPPORTED_SUPPLY_CLASSES and in the specialist list -> scope.status=needs_specialist, energize_allowed=false; plan.py skips I1..I5 and emits one SCOPE_BLOCKED blocking gap. No ready energise step may exist, even though the declared rails are low voltage: the supply class is the gate.",
+  "input": {
+    "file": "input.json",
+    "sha256": "ce9c4dd18186fdaf9b78510e4e590c4cdd8b809af3da290c187f3630b1df7531"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "needs_specialist",
+      "energize_allowed": false,
+      "dag_order": [
+        "VIN_5V",
+        "VDD_3V3"
+      ],
+      "dag_cycles": [],
+      "required_gap_codes": [
+        "SCOPE_BLOCKED"
+      ],
+      "steps_total": 0,
+      "step_ids": [],
+      "steps": {},
+      "steps_by_status": {},
+      "gap_codes": [
+        "SCOPE_BLOCKED"
+      ],
+      "unknown_codes": [],
+      "equipment_gap_codes": [],
+      "supply_conflict_codes": [
+        "EXTERNAL_SUPPLY_PATH"
+      ]
+    },
+    "explain": {
+      "exit_code": 0,
+      "scope_status": "needs_specialist",
+      "step_ids": []
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

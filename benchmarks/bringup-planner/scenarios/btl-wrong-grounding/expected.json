@@ -1,0 +1,127 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "btl-wrong-grounding",
+  "categories": [
+    "btl_wrong_grounding"
+  ],
+  "derivation": "A bridge-tied-load output (output_type=bridge_tied_load) is declared, but the only scope is earth-referenced with a 10x single-ended probe (no differential probe/isolated channel). A single-ended earth-grounded measurement on either BTL leg is forbidden (short circuit through the scope ground). The related measurement steps must be BLOCKED with \"missing differential measurement capability\" and must state the ground-clip restriction; no \"just look at it with one probe\" fallback.",
+  "input": {
+    "file": "input.json",
+    "sha256": "3c7b5f22fcf5d21a3be79daef007b5adae7ef8ffa0397f60aef9c98558bf1d01"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "energize_allowed": true,
+      "dag_order": [
+        "VIN_5V",
+        "VDD_3V3"
+      ],
+      "dag_cycles": [],
+      "steps_by_status_min": {
+        "blocked": 1
+      },
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC",
+        "I4-BRIDGE-U5_BTL"
+      ],
+      "steps": {
+        "I1-VIS-001": "ready",
+        "I1-JMP-001": "ready",
+        "I1-OFF-001": "ready",
+        "I1-OFF-DISCHARGE": "ready",
+        "I1-OFF-RES-VDD_3V3": "ready",
+        "I1-OFF-RES-VIN_5V": "ready",
+        "I2-FW-001": "ready",
+        "I2-EXT-USB_DEBUG": "ready",
+        "I2-LOAD-ASM-J2": "ready",
+        "I2-SEQ-VIN_5V": "ready",
+        "I2-SEQ-VDD_3V3": "ready",
+        "I2-CONNECT-ASM-J2": "blocked",
+        "I3-V-VDD_3V3": "ready",
+        "I3-RIPPLE-VDD_3V3": "blocked",
+        "I3-V-VIN_5V": "ready",
+        "I3-RIPPLE-VIN_5V": "blocked",
+        "I3-COMM-J1_USB": "blocked",
+        "I3-COMM-U1_I2C": "blocked",
+        "I4-BUS-J1_USB": "blocked",
+        "I4-BUS-U1_I2C": "blocked",
+        "I4-ANALOG-U3_ADC": "blocked",
+        "I4-BRIDGE-U5_BTL": "blocked"
+      },
+      "steps_by_status": {
+        "ready": 13,
+        "blocked": 9
+      },
+      "gap_codes": [
+        "I1_DISCHARGE_PROFILE_UNDECLARED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "unknown_codes": [
+        "I1_SHORT_CHECK_CRITERION_UNDEFINED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "equipment_gap_codes": [
+        "DIFFERENTIAL_PROBE_NOT_DECLARED",
+        "PROBE_LOADING_NOT_DECLARED"
+      ],
+      "supply_conflict_codes": [
+        "EXTERNAL_SUPPLY_PATH"
+      ]
+    },
+    "explain": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC",
+        "I4-BRIDGE-U5_BTL"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "invalid-input-unit-mismatch",
+  "categories": [
+    "invalid_input",
+    "unit_conflict"
+  ],
+  "derivation": "nominal_v is given as {\"value\":5000,\"unit\":\"A\"}: units.convert raises UnitError because A is a current unit and the field is a voltage -> E_UNIT. validate exits 1 (status=invalid); plan exits 2 and writes input-invalid.json. A silently coerced or guessed unit would change a safety-relevant threshold, so it is a hard error (units.py docstring).",
+  "input": {
+    "file": "input.json",
+    "sha256": "da62010f4e2bbdb82d2258a657c3a6226e5383309afd90c151b8f785b4d21cd2"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 1,
+      "status": "invalid",
+      "required_error_codes": [
+        "E_UNIT"
+      ]
+    },
+    "plan": {
+      "exit_code": 2,
+      "status": "invalid",
+      "artifacts": [
+        "input-invalid.json"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

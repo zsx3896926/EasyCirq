@@ -1,0 +1,119 @@
+{
+  "schema": "bringup-result/v1",
+  "generator": "bringup_planner-eval-fixture",
+  "generated_at": "2026-10-20T09:00:00Z",
+  "plan_binding": {
+    "plan_sha256": "bcde87ab1fa72a56dab2a99058022e98b31db0772fc23d69951b3334a470a9b3",
+    "input_sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4",
+    "input_semantic_sha256": "5686a2a59819879f112c179b70b94305dc6e9598c8759b9a2ffad71b775692f9",
+    "revision": "rev-2026-10-27-A",
+    "tool_version": "1.0.0"
+  },
+  "executed_by": "bench fixture operator (offline; no instrument was connected)",
+  "source_kind": "real_measurement",
+  "results": [
+    {
+      "step_id": "I1-VIS-001",
+      "title": "Visual inspection",
+      "group": "I1",
+      "status": "pass",
+      "source": "real_measurement",
+      "instrument": null,
+      "measured": null,
+      "evidence": [
+        {
+          "kind": "visual_check",
+          "path": "I1-VIS-001-visual_check.txt",
+          "sha256": "86b8897953ab04296bb7aa903b438d02778c9410565c6d76525b7bef1008e31f",
+          "description": "offline fixture evidence"
+        }
+      ],
+      "executed_by": "bench fixture operator (offline; no instrument was connected)",
+      "executed_at": "2026-10-20T09:05:00+08:00",
+      "stop_triggered": false,
+      "notes": "",
+      "exceptions": [],
+      "expected": {
+        "quantity": null,
+        "unit": null,
+        "min": null,
+        "max": null,
+        "criterion_status": null
+      }
+    },
+    {
+      "step_id": "I1-OFF-DISCHARGE",
+      "title": "Disconnect external supplies and discharge bulk caps",
+      "group": "I1",
+      "status": "pass",
+      "source": "real_measurement",
+      "instrument": null,
+      "measured": null,
+      "evidence": [
+        {
+          "kind": "inspection_note",
+          "path": "I1-OFF-DISCHARGE-inspection_note.txt",
+          "sha256": "0e11886dc6cb0f864fe5d1670d57c12bc3df5f78bf74624d26867a93b17dddbf",
+          "description": "offline fixture evidence"
+        }
+      ],
+      "executed_by": "bench fixture operator (offline; no instrument was connected)",
+      "executed_at": "2026-10-20T09:05:00+08:00",
+      "stop_triggered": false,
+      "notes": "",
+      "exceptions": [],
+      "expected": {
+        "quantity": null,
+        "unit": null,
+        "min": null,
+        "max": null,
+        "criterion_status": null
+      }
+    },
+    {
+      "step_id": "I2-SEQ-VIN_5V",
+      "title": "First energise +5V with current limit",
+      "group": "I2",
+      "status": "not_run",
+      "source": "unset",
+      "instrument": null,
+      "measured": null,
+      "evidence": [],
+      "executed_by": "",
+      "executed_at": null,
+      "stop_triggered": false,
+      "notes": "",
+      "exceptions": [],
+      "expected": {
+        "quantity": "voltage",
+        "unit": "V",
+        "min": 4.75,
+        "max": 5.25,
+        "criterion_status": "defined"
+      }
+    },
+    {
+      "step_id": "I3-V-VDD_3V3",
+      "title": "Measure +3V3 rail at TP2",
+      "group": "I3",
+      "status": "not_run",
+      "source": "unset",
+      "instrument": null,
+      "measured": null,
+      "evidence": [],
+      "executed_by": "",
+      "executed_at": null,
+      "stop_triggered": false,
+      "notes": "",
+      "exceptions": [],
+      "expected": {
+        "quantity": "voltage",
+        "unit": "V",
+        "min": 3.14,
+        "max": 3.46,
+        "criterion_status": "defined"
+      }
+    }
+  ],
+  "notes": "Frozen benchmark fixture: NOT RUN on hardware. No instrument was connected and no board was powered. A PASS here is an evaluator-contract result, not a hardware result."
+}
