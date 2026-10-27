@@ -87,6 +87,20 @@ easyeda sch read --project <name> --out sch-read.json
 
 硬约束与优化偏好分开写 `severity: hard|preferred`。每条约束有稳定 `id`、`source`、单位；距离字段必须给 `unit`。硬失败不能用其他项的总分抵消。
 
+### 2.4 从绑定原理图导入到空 PCB
+
+EasyEDA 4.1.78 + easyeda-agent 1.15.0 实测：Board 已绑定原理图/Pcb、PCB 仍为空时，`pcb import-changes` 能把**通过 API 放置**的原理图器件导入 PCB。2026-10-27 的双路按键板返回 `imported:true`、`componentsBefore:0`、`componentsAfter:12`、`partial:false`、`verified:true`，导入后 `sch` 与 `pcb` 的 28 个引脚/pad 网名一致。
+
+```bash
+easyeda doc open <PCB_UUID> --project <name>
+easyeda pcb import-changes --project <name> --doc <PCB_UUID>
+easyeda pcb save --project <name> --doc <PCB_UUID>
+easyeda doc reload <PCB_UUID> --project <name>
+easyeda pcb dump --project <name> --doc <PCB_UUID> --include-copper --out board.json
+```
+
+导入后仍必须回读：`import-changes` 不删除原理图已移除的器件（见 [工具陷阱](tool-gotchas.md) 第 8 节）；返回 0 件时不要反复重跑，改用 `pcb add-component --unique-id ... --nets ...` 逐件补。导入成功只证明器件/网表进入 PCB，不证明封装几何、布局或布线。
+
 ## 3. 约束模型与冲突诊断
 
 支持类型：

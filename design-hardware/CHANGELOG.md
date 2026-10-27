@@ -2,7 +2,7 @@
 
 ## 0.9.3 — 2026-10-27
 
-round11 离线能力强化与真实样例回放。**本轮未调用 EDA**；所有验证均为离线/模拟。
+round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 LED 板真机反馈。**round11 离线部分未调用 EDA**；PR #23 的真实回读来自其独立任务，本轮只做离线兼容验证。
 
 ### 新增
 
@@ -13,15 +13,22 @@ round11 离线能力强化与真实样例回放。**本轮未调用 EDA**；所�
 
 ### 修复
 
-- `pcb_evidence.py`：空侧/空对象不再 `match`；`absent/empty/invalid/unmeasured` 分开；summary 与 findings 矛盾、外层 `ok=false`、bool/字符串/负数/NaN 均 fail-closed；DRC/check/lint 计数一致性；SCH↔PCB 重复位号/脚号、alias 缺目标/None 网络异常、网络分区与重命名分开、identity 检查、全排除 `not_comparable`；net-path 空要求 `not_applicable`；INFO 纳入统一 disposition。
 - `pcb_gate.py`：优先 `*-final*`；manifest 的 `sha256/source_dump_sha256/produced_at` 绑定；项目身份冲突、候选分歧、manifest 缺件不回退；`freshness_basis`；`semantic_sha256`；接受 `match_with_renames`，新增 `--pin-aliases`/`--ignore-designators`。
-- `pcb_apply_plan.py`：实测 pose 缺字段不默认原点/顶层；0/360 等价角度；no-op 不写 playbook；journal `confirmed/failed/unknown/not_sent` 与 `recovery.safe_to_retry=false`；宽度/直径/keepout 几何；原子写入。
+- `pcb_gate.py` check 角色误选（PR #23）：`*pcb*check*.json` 也会匹配 `pcb-placement-check-final.json`；check 角色现在要求 DFM 的 `summary` 计数器（或 `trackCount`/`padCount`），新增回归用例，原失败文件名复测 gate 8/8 pass。
+- `pcb_evidence.py`：空侧/空对象不再 `match`；`absent/empty/invalid/unmeasured` 分开；summary 与 findings 矛盾、外层 `ok=false`、bool/字符串/负数/NaN 均 fail-closed；DRC/check/lint 计数一致性；SCH↔PCB 重复位号/脚号、alias 缺目标/None 网络异常、网络分区与重命名分开、identity 检查、全排除 `not_comparable`；net-path 空要求 `not_applicable`；INFO 纳入统一 disposition。
+- `pcb_apply_plan.py`：实测 pose 缺字段不默认原点/顶层；0/360 等价角度；no-op 不写 playbook；journal `planned/sent/confirmed/failed/unknown` 与 `recovery.safe_to_retry=false`；宽度/直径/keepout 几何；原子写入。
 - `design_engine/placement.py`、`pcb_workflow.py`、`reuse.py`：凹板 polygon、锁定、spacing、keepout、edge 硬过滤；评分组成与 `routing_verified=false`；复用检查 footprint 缺失/尺寸/rotation/网络分区；diff 角度归一。
 - `eda_cache.py`：`toolVersion` 进入缓存键。
 
+### 真机反馈（PR #23，并入本版本）
+
+- `references/pcb-execution.md`：1.15.0 空 PCB 且 Board 已绑定时，`pcb import-changes` 可导入 API 放置的 12 个器件（0→12，verified）；回读后才能作为布局输入，删件仍需显式删除。
+- `references/tool-gotchas.md`：`doc reload` 就绪探测可能假失败（`doc ready` + fresh read 可读且网表一致）、`bom export` 需原理图前台，以及 import 新增件/删件边界。
+- `references/schematic-authoring.md`：水平管脚生成全水平 flag 的可复用 L 桩做法，以及 `sch frame apply` 标题-only 输入与 strict 布局检查 purpose/order 要求的已知缺口。
+
 ### 边界
 
-- 全部离线结果不证明真实 EDA 写入/保存重开、原生 DRC/check、布线、铺铜、Gerber/CPL、热/EMC/固件或实物。真实 EDA 调用次数为 0；真机验证 `NOT RUN`。
+- 全部离线结果不证明真实 EDA 写入/保存重开、原生 DRC/check、布线、铺铜、Gerber/CPL、热/EMC/固件或实物。round11 离线部分真实 EDA 调用次数为 0；真机验证 `NOT RUN`。PR #23 的真机证据仅覆盖其列出的导入/回读/保存重开范围。
 
 ## 0.9.2 — 2026-10-26
 
