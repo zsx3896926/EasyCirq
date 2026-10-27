@@ -2,7 +2,7 @@
 
 - 目标：round12 排版工具链（PR #32）基于最新 main 集成、复核、测试；随后只在恢复工程的独立副本中做真机 compose/apply 验收。原工程 P2 保持不动。
 - worktree：`C:/Users/jlc/work/hds-compose-r12`；分支 `feat/compose-tooling-r12`；已并入 `origin/main`（含 PR #31 power preflight）。
-- HEAD：`9227695`（handoff 提交；代码修复 `e467c53`）。
+- HEAD：最后代码提交 `e467c53`；其后仅为 handoff 文档提交（以 `origin/feat/compose-tooling-r12` tip 为准）。
 - 本轮文件：`sch_compose_input.py`、`sch_sheet_fit.py`、`sch_bind_component_ids.py`；对应测试；`references/schematic-layout-engine.md`、`CHANGELOG.md`（0.9.4）、`.version`；`docs/round12-real-machine.md`。
 - 离线验证：`python -m unittest discover -s tests` → **1344 tests OK**（日志 `%TEMP%\r12-unittest.log`）；`skill_selftest` → **5 PASS / 0 FAIL / 0 NOT RUN**（`%TEMP%\r12-selftest-2.log`）。
 - 真机对象：独立副本 `usb-audio-verify-r12`，UUID `66ad17591d5b4f6ebbcb42295f76b2b1`，P1 `660075c31db6f396`；窗口 `c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7`。原工程 P2 未触碰。
