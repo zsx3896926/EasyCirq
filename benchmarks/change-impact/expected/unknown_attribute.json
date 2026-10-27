@@ -1,0 +1,27 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "unknown_attribute",
+ "derivation": "an unmapped attribute is unknown_attribute, never a display change; its impact is unknown and is not propagated as a known electrical effect.",
+ "expected_status": "incomplete",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "cmp:U1",
+   "impact": "unknown",
+   "confidence_at_least": "unknown"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [
+  "unknown_attribute_change"
+ ],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

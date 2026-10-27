@@ -1,0 +1,32 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "requirement_change",
+ "derivation": "a requirement change (R14) follows requirement_ref and is reported as a requirement trace impact on the rail.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "req:REQ1",
+   "impact": "requirement_trace",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "pwr:3V3",
+   "impact": "requirement_trace",
+   "confidence_at_least": "certain"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [
+  "chk:req"
+ ],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

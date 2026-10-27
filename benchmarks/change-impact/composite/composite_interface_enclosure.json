@@ -1,0 +1,531 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "interface-enclosure-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "interface-enclosure-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "dependencies",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "requirement",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "interface-enclosure-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "dependencies",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "requirement",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "if:USB",
+   "kind": "interface",
+   "attributes": {
+    "pose": {
+     "x": 0,
+     "y": -5,
+     "z": 1.2
+    }
+   },
+   "baseline_attributes": {
+    "pose": {
+     "z": 0.8
+    }
+   }
+  },
+  {
+   "id": "anchor:case",
+   "kind": "mechanical_anchor",
+   "attributes": {
+    "pose": {
+     "x": 0,
+     "y": -5
+    },
+    "hole_diameter": 2.2
+   }
+  },
+  {
+   "id": "region:main",
+   "kind": "layout_region",
+   "attributes": {
+    "board": {
+     "outline": [
+      [
+       0,
+       0
+      ],
+      [
+       42,
+       0
+      ],
+      [
+       42,
+       25
+      ],
+      [
+       0,
+       25
+      ]
+     ]
+    },
+    "layer": "L2"
+   },
+   "baseline_attributes": {
+    "board": {
+     "outline": [
+      [
+       0,
+       0
+      ],
+      [
+       40,
+       0
+      ],
+      [
+       40,
+       25
+      ],
+      [
+       0,
+       25
+      ]
+     ]
+    },
+    "layer": "L1"
+   }
+  },
+  {
+   "id": "net:USB_DP",
+   "kind": "net",
+   "attributes": {
+    "name": "USB_DP",
+    "diff_pair": "USB"
+   }
+  },
+  {
+   "id": "net:USB_DN",
+   "kind": "net",
+   "attributes": {
+    "name": "USB_DN",
+    "diff_pair": "USB"
+   }
+  },
+  {
+   "id": "cmp:U1",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "USB-HUB"
+   }
+  },
+  {
+   "id": "bom:U1",
+   "kind": "bom_line",
+   "attributes": {
+    "designator": "U1",
+    "mpn": "USB-HUB"
+   }
+  },
+  {
+   "id": "art:cpl",
+   "kind": "artifact",
+   "attributes": {
+    "kind": "cpl",
+    "revision": "r2"
+   }
+  },
+  {
+   "id": "art:gerber",
+   "kind": "artifact",
+   "attributes": {
+    "kind": "gerber",
+    "revision": "r2"
+   }
+  },
+  {
+   "id": "test:si",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "impedance_ohm": 90
+    }
+   },
+   "baseline_attributes": {
+    "criterion": {
+     "impedance_ohm": 85
+    }
+   }
+  },
+  {
+   "id": "test:fit",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "flush_mm": 0.2
+    }
+   }
+  },
+  {
+   "id": "req:REQ5",
+   "kind": "requirement",
+   "attributes": {
+    "text": "USB-C flush with enclosure"
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "if:USB",
+   "to": "anchor:case",
+   "semantic": "enclosure_constraint",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:2",
+   "from": "if:USB",
+   "to": "art:cpl",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:3",
+   "from": "if:USB",
+   "to": "test:fit",
+   "semantic": "test_reference",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:4",
+   "from": "region:main",
+   "to": "net:USB_DP",
+   "semantic": "signal_path",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:5",
+   "from": "region:main",
+   "to": "net:USB_DN",
+   "semantic": "signal_path",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:6",
+   "from": "region:main",
+   "to": "art:gerber",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:6b",
+   "from": "region:main",
+   "to": "anchor:case",
+   "semantic": "mechanical_constraint",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:7",
+   "from": "cmp:U1",
+   "to": "net:USB_DP",
+   "semantic": "signal_path",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:8",
+   "from": "cmp:U1",
+   "to": "bom:U1",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:9",
+   "from": "bom:U1",
+   "to": "art:cpl",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:10",
+   "from": "net:USB_DP",
+   "to": "test:si",
+   "semantic": "test_reference",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:11",
+   "from": "req:REQ5",
+   "to": "if:USB",
+   "semantic": "requirement_ref",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "if:USB",
+   "attribute": "pose.z",
+   "before": 0.8,
+   "after": 1.2,
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  },
+  {
+   "id": "chg:2",
+   "change_type": "modify",
+   "object": "region:main",
+   "attribute": "board.outline",
+   "before": [
+    [
+     0,
+     0
+    ],
+    [
+     40,
+     0
+    ],
+    [
+     40,
+     25
+    ],
+    [
+     0,
+     25
+    ]
+   ],
+   "after": [
+    [
+     0,
+     0
+    ],
+    [
+     42,
+     0
+    ],
+    [
+     42,
+     25
+    ],
+    [
+     0,
+     25
+    ]
+   ],
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  },
+  {
+   "id": "chg:3",
+   "change_type": "modify",
+   "object": "region:main",
+   "attribute": "layer",
+   "before": "L1",
+   "after": "L2",
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   },
+   "kind": "layer_stack"
+  },
+  {
+   "id": "chg:4",
+   "change_type": "modify",
+   "object": "test:si",
+   "attribute": "criterion",
+   "before": {
+    "impedance_ohm": 85
+   },
+   "after": {
+    "impedance_ohm": 90
+   },
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:shell",
+   "title": "shell",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "mechanical-layout",
+   "covers": [
+    {
+     "object": "anchor:case",
+     "impact": "enclosure_interface"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:fit",
+   "title": "fit",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "mechanical-layout",
+   "covers": [
+    {
+     "object": "test:fit",
+     "impact": "test_criterion_change"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:impedance",
+   "title": "impedance",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "return-path-audit",
+   "covers": [
+    {
+     "object": "net:USB_DP",
+     "impact": "signal_integrity"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:gerber",
+   "title": "gerber",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "delivery-audit",
+   "covers": [
+    {
+     "object": "art:gerber",
+     "impact": "manufacturing_output"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:cpl",
+   "title": "cpl",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "delivery-audit",
+   "covers": [
+    {
+     "object": "art:cpl",
+     "impact": "manufacturing_output"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:manual_fit",
+   "title": "manual fit",
+   "kind": "manual",
+   "cost": 2.0,
+   "mandatory": false,
+   "approval": true,
+   "module": "mechanical-layout",
+   "covers": [
+    {
+     "object": "anchor:case",
+     "impact": "enclosure_interface"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

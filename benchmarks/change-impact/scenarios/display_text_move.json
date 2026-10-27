@@ -1,0 +1,159 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "bench-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "component_instance",
+   "dependencies",
+   "firmware_contract"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "component_instance",
+   "dependencies",
+   "firmware_contract"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "cmp:U1",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "MCU-A",
+    "designator": "U1",
+    "placement": {
+     "x": 10,
+     "y": 10
+    },
+    "display": {
+     "x": 12,
+     "y": 4
+    }
+   },
+   "baseline_attributes": {
+    "display": {
+     "x": 10,
+     "y": 4
+    }
+   }
+  },
+  {
+   "id": "art:sch",
+   "kind": "artifact",
+   "attributes": {
+    "kind": "schematic_plot",
+    "revision": "r2"
+   }
+  },
+  {
+   "id": "fw:mcu",
+   "kind": "firmware_contract",
+   "attributes": {
+    "io_voltage": 3.3
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "cmp:U1",
+   "to": "art:sch",
+   "semantic": "document_reference",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:2",
+   "from": "cmp:U1",
+   "to": "fw:mcu",
+   "semantic": "firmware_consumer",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "cmp:U1",
+   "attribute": "display.x",
+   "before": 10,
+   "after": 12,
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:plot",
+   "title": "plot",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "art:sch",
+     "impact": "documentation_only"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

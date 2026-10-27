@@ -1,0 +1,19 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "no_change",
+ "derivation": "identical snapshots with declared complete coverage and no declared difference is the only case where no_change is claimed; it still is not a design-pass.",
+ "expected_status": "no_change",
+ "expected_exit": 0,
+ "must_impact": [],
+ "must_not_impact": [],
+ "required_checks": [],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

@@ -1,0 +1,49 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "composite_low_voltage_sensor",
+ "derivation": "combined case: the 3.3V rail change (R1) reaches the MCU and sensor through power_supply; the MCU replacement (R2) reaches firmware, BOM and CPL; the firmware contract and the rail test criterion change their own consumers. Host DRC is blocked (not run offline) and the simulated LDO evidence cannot become a real host pass.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "cmp:U2",
+   "impact": "power_integrity",
+   "confidence_at_least": "possible"
+  },
+  {
+   "object": "fw:app",
+   "impact": "firmware_compatibility",
+   "confidence_at_least": "possible"
+  },
+  {
+   "object": "bom:U2",
+   "impact": "bom_variant",
+   "confidence_at_least": "possible"
+  },
+  {
+   "object": "art:cpl",
+   "impact": "manufacturing_output",
+   "confidence_at_least": "possible"
+  },
+  {
+   "object": "test:rail",
+   "impact": "test_criterion_change",
+   "confidence_at_least": "certain"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [
+  "chk:ldo"
+ ],
+ "blocked_checks": [],
+ "evidence_status": {
+  "ev:2": "invalidated"
+ },
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

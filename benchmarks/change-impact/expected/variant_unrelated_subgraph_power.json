@@ -1,0 +1,39 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "variant_unrelated_subgraph_power",
+ "derivation": "variant of power_5v_to_3v3: variant_unrelated_subgraph must not drop or invent impacts (same must_impact/must_not_impact as the base); re-ordering, synonyms, unit conversion, an unrelated subgraph or cost inflation must not change the analysis, and removing coverage edges must not turn unknown into proven-safe.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "net:+5V",
+   "impact": "power_integrity",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "cmp:MCU",
+   "impact": "power_integrity",
+   "confidence_at_least": "certain"
+  }
+ ],
+ "must_not_impact": [
+  {
+   "object": "fw:io",
+   "reason": "R1 does not follow firmware_consumer edges"
+  }
+ ],
+ "required_checks": [
+  "chk:rail_range"
+ ],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [
+  "missing_edge_data"
+ ],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

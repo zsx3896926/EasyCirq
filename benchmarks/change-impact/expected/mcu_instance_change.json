@@ -1,0 +1,37 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "mcu_instance_change",
+ "derivation": "replacing the MCU instance (R2) affects the firmware contract, the layout region and the manufacturing outputs; the same footprint must not be read as electrical equivalence, so no \"safe\" claim is expected.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "fw:pinmap",
+   "impact": "firmware_compatibility",
+   "confidence_at_least": "possible"
+  },
+  {
+   "object": "region:main",
+   "impact": "footprint_compatibility",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "art:cpl",
+   "impact": "manufacturing_output",
+   "confidence_at_least": "possible"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [
+  "chk:fw_pinmap"
+ ],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}
