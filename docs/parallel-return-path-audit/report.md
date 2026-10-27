@@ -8,7 +8,7 @@
 
 - 交付一个可独立运行的审查器：`python -m return_path_audit validate|audit|explain`。
 - 五组检查 E1–E5 全部实现，含严格输入校验、证据绑定/陈旧拒绝、覆盖与未知传播。
-- 45 个冻结 CLI 场景 45/45 通过；本包 110 个测试、全仓 1893 个测试全绿。
+- 45 个冻结 CLI 场景 45/45 通过；本包 116 个测试、全仓 1899 个测试全绿。
 - 结论语义保守：`pass_with_scope` 只表示“声明范围内未发现参考路径几何/拓扑缺陷”，
   **不**代表阻抗、SI/EMI、DRC、制造或硬件功能通过；候选回流只到 `potential_candidate`。
 
@@ -17,7 +17,7 @@
 | 路径 | 内容 |
 |---|---|
 | `design-hardware/scripts/return_path_audit/` | CLI、严格校验模型、几何内核、E1–E5 检查、报告/原子写、SVG 叠加、来源注册 |
-| `tests/return_path_audit/` | 110 个测试：几何、校验、五组行为、CLI 契约、变形、对抗、4 个 holdout、真实快照回放 |
+| `tests/return_path_audit/` | 116 个测试：几何、校验、五组行为、CLI 契约、变形、对抗、4 个 holdout、真实快照回放、`.epru` 适配器 |
 | `benchmarks/return-path-audit/` | 45 个冻结场景（含 8 个非法输入）+ 生成器 + runner + result.json + **真实快照回放**（2 层，见 §5.1） |
 | `docs/parallel-return-path-audit/` | 契约、几何支持、来源登记、验收矩阵、本报告、集成建议、交接、issue 候选 |
 
@@ -60,9 +60,9 @@ distribution、CI、顶层依赖、feedback、compose、design_engine、ecosyste
 
 | 项目 | 结果 |
 |---|---|
-| 基准场景 | **45/45 通过**，总耗时 **7.07 s**（单进程逐场景） |
-| 本包测试 | **110 tests OK**（`-s tests/return_path_audit`，26.3 s） |
-| 全仓测试 | **1893 tests OK**（`-s tests`，145.4 s） |
+| 基准场景 | **45/45 通过**，总耗时 **5.99 s**（单进程逐场景） |
+| 本包测试 | **116 tests OK**（`-s tests/return_path_audit`，22.8 s） |
+| 全仓测试 | **1899 tests OK**（`-s tests`，157.4 s） |
 | 运行环境 | Python 3.13.15 / Windows 11（`result.json` 记录完整环境） |
 | 标志 | `simulated=true`、`real_eda=NOT RUN`、`network=NOT USED` |
 | 冻结 | 每场景记录输入字节 SHA256、语义 SHA256、期望/观察状态、规则集、覆盖、逐场景耗时 |
@@ -100,6 +100,27 @@ missing via、8 类非法输入，以及“固定稀疏采样会漏掉窄缝”�
 （E3）未产生结论；圆弧为声明容差的离散近似。拿到真实四层板 dump 后，用同一投影器加
 `--stackup-json` 指定 4 层物理顺序即可重放（见 real-replay/README.md）。
 
+### 5.2 真实四层板 `.epru` 回放（EasyEDA Pro 原生备份，只读）
+
+本机另有一个**真实四层工程**的 EasyEDA Pro 自动备份；用新增的
+`benchmarks/return-path-audit/replay_epru.py` 只读解析（不调用 EDA、不写回工程）：
+
+| 项 | 值 |
+|---|---|
+| 数据 | 本机真实四层工程备份（L2=GND、L3=3V3，内层为实际铺铜；157 过孔） |
+| 层识别 | `[L1, L2, L3, L4]`，平面网络来自真实铺铜而非猜测 |
+| 投影 | 外层 645 段真实走线；按相邻内层做参考（L1→L2 GND、L4→L3 3V3） |
+| 填充单位 | `POURED` 填充为 1/10 尺度序列化，按 bbox 比例自动识别并 ×10；无法识别则降级 `pour_boundary` |
+| 换层 | 62 处由“真实过孔中心 + 两层走线端点”推断，规则写入 `source.producer` |
+| 结果 | **`fail`（exit 1）**；覆盖 **88,585 mil（≈2,250 mm）**，unknown 长度 0 |
+| findings | 365 条（148 error / 217 warning）：`RP-E2-202` 12、`RP-E2-204` 83、`RP-E2-205` 53、`RP-E2-206` 155、`RP-E3-304` 62；unknowns 79 |
+| 工程含义 | 62 处顶层↔底层换层时参考由 **GND(L2) 变为 3V3(L3)**（真实网络变化）；外层走线跨真实平面避让孔的几何风险可逐条定位 |
+| 回归 | `tests/return_path_audit/test_epru_adapter.py`（合成结构，CI 可跑；真实工程数据不入仓库） |
+
+**本项目数据只在本机只读解析，不提交到仓库**（用户工程 IP）。结论边界同 §7：这是参考
+路径几何/拓扑审查；不替代 DRC、SI/EMI、阻抗或制造验收；换层与单位识别是显式声明的推断。
+
+
 ## 6. 证据与未知语义（本任务的核心价值）
 
 - 几何只能证明几何：同网相接、微缝、via 与铜的连接、真实电连接均保持 unknown，
@@ -115,7 +136,7 @@ missing via、8 类非法输入，以及“固定稀疏采样会漏掉窄缝”�
 |---|---|
 | 真实 EDA / Connector / 宿主窗口 | `NOT RUN`（任务禁止） |
 | 真实 **2 层** 工程快照回放 | **DONE**（§5.1，真实 `easyeda pcb dump`，非合成） |
-| 真实 **4 层** 工程快照回放 | **NOT AVAILABLE**：本轮核实本机与仓库均无真实四层板快照（全部为 2 层）；不伪造、不用示意图转写冒充 |
+| 真实 **4 层** 工程快照回放 | **DONE（操作型，§5.2）**：本机真实四层 `.epru` 备份只读回放；数据不入仓库。仓库内无真实四层快照 |
 | SI/EMI/阻抗/眼图/串扰仿真 | `NOT RUN`（非目标） |
 | DRC/DFM/Gerber/制造/功能验收 | `NOT RUN`（非目标；不宣称） |
 | 独立第三方盲测 | 无；holdout 由独立测试作者基于几何/契约编写，不宣称外部盲测 |

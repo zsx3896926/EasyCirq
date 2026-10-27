@@ -1,6 +1,6 @@
 {
   "schema": "hds-return-path-audit-benchmark/v1",
-  "generated_at": "2026-10-27T16:33:03Z",
+  "generated_at": "2026-10-27T17:33:12Z",
   "host": "local offline process (no EDA, no network)",
   "simulated": true,
   "real_eda": "NOT RUN",
@@ -20,7 +20,7 @@
   "passed_count": 45,
   "failed_count": 0,
   "failed_scenes": [],
-  "duration_s": 5.901,
+  "duration_s": 5.995,
   "timing_statistic": "wall clock per scene (single process, includes interpreter start)",
   "scenes": [
     {
@@ -115,7 +115,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 116.517,
+      "duration_ms": 109.997,
       "stderr": "",
       "reasoning": "The L2 GND polygon covers the whole board, the trace projection plus width/2 plus corridor=0.2 stays >0.3 away from every copper boundary, so no coverage or corridor finding exists and every millimetre of the 60 mm trace is checked."
     },
@@ -223,7 +223,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 123.609,
+      "duration_ms": 119.212,
       "stderr": "",
       "reasoning": "Two GND polygons with a 0.12 mm gap at x=50: the trace crosses the gap, so the projection leaves copper for 0.12 mm. Same net on both sides => connectivity is unproven (unknown), geometry gap itself is a warning, not a proven different-net split."
     },
@@ -331,7 +331,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 123.834,
+      "duration_ms": 122.369,
       "stderr": "",
       "reasoning": "GND copper ends at x=49.9 and P3V3 copper starts at x=50.1: the trace projection crosses a gap whose two sides are different reference nets. That is a proven plane split crossing (return current must detour), regardless of whether a GND via is nearby."
     },
@@ -439,7 +439,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 123.304,
+      "duration_ms": 115.605,
       "stderr": "",
       "reasoning": "A 10x10 mm hole in the middle of the GND polygon removes copper exactly where the trace runs; the projection crosses a void owned by the same polygon."
     },
@@ -537,7 +537,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 128.94,
+      "duration_ms": 130.882,
       "stderr": "",
       "reasoning": "The same hole is moved to y=5..15, far outside the trace's width+corridor envelope (trace at y=40, half_envelope=0.3): coverage stays safe for the whole 60 mm."
     },
@@ -639,7 +639,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 150.712,
+      "duration_ms": 118.816,
       "stderr": "",
       "reasoning": "Plane height is 25.05 mm and the trace centreline is at y=25: the distance to the copper edge is 0.05 mm while width/2+corridor=0.3 mm, so the whole trace has an insufficient edge corridor (copper still present, so not a void)."
     },
@@ -747,7 +747,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 165.034,
+      "duration_ms": 128.187,
       "stderr": "",
       "reasoning": "The GND copper is split into two polygons that touch at x=50. Interior seams are not copper boundaries, so coverage/corridor is fine; but geometry alone cannot prove the polygons are electrically joined, so connectivity stays unknown."
     },
@@ -844,7 +844,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 153.291,
+      "duration_ms": 128.758,
       "stderr": "",
       "reasoning": "Pure unit change: 0.2 mm width -> 7.874 mil, corridor 0.2 mm -> 7.874 mil, tolerance 0.01 mm -> 0.394 mil, board 100x80 mm -> 3937x3150 mil. Geometry is geometrically identical, so the verdict and coverage semantics must not change."
     },
@@ -944,7 +944,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 121.963,
+      "duration_ms": 113.588,
       "stderr": "",
       "reasoning": "L1 signal, L2 signal, L3 GND, L4 P5V: the trace is declared on L2 and references the adjacent L3 GND plane. Nothing may assume the usual L1-signal/L2-GND/L3-PWR/L4-signal arrangement; roles come from the stackup declaration."
     },
@@ -1049,7 +1049,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 120.623,
+      "duration_ms": 114.208,
       "stderr": "",
       "reasoning": "L1->L4 signal via; reference changes L2 GND -> L3 GND (same net, different plane). The declared return via is buried L2..L3, same net, in the L3 copper island with fill evidence, and sits exactly on the transition point. This is a potential candidate only: the tool must not claim a recovered return path."
     },
@@ -1157,7 +1157,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 119.745,
+      "duration_ms": 114.575,
       "stderr": "",
       "reasoning": "The reference changes to L3, but the candidate is a blind L1..L2 via: its physical span stops at L2 and cannot connect the L3 return plane. Proven span failure."
     },
@@ -1265,7 +1265,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 116.431,
+      "duration_ms": 111.475,
       "stderr": "",
       "reasoning": "The candidate return via is on P3V3 although the reference after the transition is GND/L3; net identity is proven from the declared via net."
     },
@@ -1373,7 +1373,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 111.02,
+      "duration_ms": 116.004,
       "stderr": "",
       "reasoning": "The candidate is GND and spans L2..L3, but declares no connected copper, no island and no pad/thermal/fill evidence. Proximity and net name are not connection proof, so the return path stays unknown."
     },
@@ -1481,7 +1481,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 113.768,
+      "duration_ms": 106.4,
       "stderr": "",
       "reasoning": "The candidate would otherwise qualify, but its source_snapshot differs from the audited project snapshot, so the evidence is rejected instead of reused."
     },
@@ -1588,7 +1588,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 131.684,
+      "duration_ms": 108.241,
       "stderr": "",
       "reasoning": "The reference before the transition is L2/GND and after it L3/P3V3. This is a net change; adding a GND return via is not a valid automatic fix, and no capacitor bridge evidence exists, so the return path stays unproven."
     },
@@ -1693,7 +1693,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 128.928,
+      "duration_ms": 110.847,
       "stderr": "",
       "reasoning": "Same GND->P3V3 change, but a decoupling capacitor declares both endpoint nets, placement/connection evidence, frequency basis and snapshot binding. It is still only a conditional candidate (not proven high-frequency return), so the net-change warning remains."
     },
@@ -1804,7 +1804,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 128.869,
+      "duration_ms": 120.631,
       "stderr": "",
       "reasoning": "DP_P at y=40 crosses a hole spanning y=38..42 in the GND plane; DP_N at y=44 stays on solid copper. The pair's return environments differ, which the reference asymmetry check reports independently of any length/skew report."
     },
@@ -1903,7 +1903,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 132.45,
+      "duration_ms": 129.192,
       "stderr": "",
       "reasoning": "DP_P has L1->L4 with a reference change L2 GND -> L3 GND; DP_N stays on L1 referenced to L2. The legs therefore have different reference-plane sets and different transitions."
     },
@@ -2000,7 +2000,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 128.324,
+      "duration_ms": 135.599,
       "stderr": "",
       "reasoning": "DP_P references L2/GND, DP_N references L3/P3V3. Both are declared, so the pair uses different return environments (and the L3 reference is not adjacent to L1)."
     },
@@ -2114,7 +2114,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 134.536,
+      "duration_ms": 133.594,
       "stderr": "",
       "reasoning": "availability=pour_boundary with is_actual_fill=false: the design boundary is not proof of filled copper, so no millimetre may be counted as checked and continuity stays unknown."
     },
@@ -2222,7 +2222,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 124.138,
+      "duration_ms": 559.735,
       "stderr": "",
       "reasoning": "One 20 mm straight segment plus a 5 mm arc: the straight part is checked, the arc is declared unsupported and its length stays unknown. The net is incomplete, not pass."
     },
@@ -2327,7 +2327,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 124.923,
+      "duration_ms": 119.345,
       "stderr": "",
       "reasoning": "An empty path has nothing to audit; the tool must not return pass for it."
     },
@@ -2436,7 +2436,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 129.933,
+      "duration_ms": 122.434,
       "stderr": "",
       "reasoning": "The segment is declared in unsupported[] (e.g. arc not modelled): its 40 mm cannot be counted as checked even though the straight geometry exists in the input."
     },
@@ -2539,7 +2539,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 141.071,
+      "duration_ms": 116.931,
       "stderr": "",
       "reasoning": "GND copper exists only for x<=40 while the trace runs 20..80: for x>40 there is no reference copper on either side of the projection (copper ends under the signal)."
     },
@@ -2649,7 +2649,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 156.78,
+      "duration_ms": 116.01,
       "stderr": "",
       "reasoning": "One GND polygon is U-shaped: the copper top edge dips to y=30 between x=45..55. At the trace height y=40 that notch is copper-free but bounded by the same polygon on both sides, i.e. a void inside the copper rather than a different-net split."
     },
@@ -2755,7 +2755,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 145.708,
+      "duration_ms": 116.035,
       "stderr": "",
       "reasoning": "Gap width 0.02 mm is twice the geometry tolerance; the risk must be reported, not hidden behind the tolerance."
     },
@@ -2865,7 +2865,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 134.919,
+      "duration_ms": 114.643,
       "stderr": "",
       "reasoning": "Gap width 0.005 mm is below geometry_tolerance=0.01. The auditor must not widen the tolerance to erase the risk: the gap is still reported as an unproven same-net join."
     },
@@ -2971,7 +2971,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 159.929,
+      "duration_ms": 124.234,
       "stderr": "",
       "reasoning": "Gap 0.05 mm at x=50.03..50.08. A fixed sparse sampler at 1 mm (or 0.3 mm) spacing aimed at integer coordinates would step across the slit; exact interval partition must catch it."
     },
@@ -3074,7 +3074,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 187.005,
+      "duration_ms": 140.83,
       "stderr": "",
       "reasoning": "Plane height 25.05 mm = 986.22 mil, trace y=25 mm = 984.25 mil: edge distance 1.97 mil vs required width/2+corridor = 3.937+7.874 mil. Unit change must not change the verdict."
     },
@@ -3184,7 +3184,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 111.435,
+      "duration_ms": 130.186,
       "stderr": "",
       "reasoning": "The assignment's source_snapshot is not the audited snapshot, so reference intent cannot be trusted; the segment coverage stays unknown."
     },
@@ -3297,7 +3297,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 117.265,
+      "duration_ms": 114.706,
       "stderr": "",
       "reasoning": "basis=candidate with L2 and L3 candidates and dielectric thickness present: the nearest candidate (L2, 0.2 mm) can be reported as a hint, but it is not a declared reference, so coverage stays unknown."
     },
@@ -3404,7 +3404,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 120.104,
+      "duration_ms": 106.033,
       "stderr": "",
       "reasoning": "transitions[].via=missing-via is absent from vias[]: the layer change cannot be verified and the evidence is rejected (no assumption that the via exists)."
     },
@@ -3502,7 +3502,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 119.277,
+      "duration_ms": 114.484,
       "stderr": "",
       "reasoning": "The signal claims L1->L4 but its via is blind L1..L2, so the declared layer change cannot be implemented by that via."
     },
@@ -3601,7 +3601,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 115.029,
+      "duration_ms": 125.428,
       "stderr": "",
       "reasoning": "A segment cannot be a routed signal over a plane if it lives on the plane layer itself; the length is not applicable and the net cannot pass this audit."
     },
@@ -3706,7 +3706,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 108.178,
+      "duration_ms": 131.201,
       "stderr": "",
       "reasoning": "A referenced external report (e.g. differential length match) is bound to a different snapshot. It is not reused and its verdict is not imported; the audit itself still completes coverage, but the report binding stays unknown."
     },
@@ -3815,7 +3815,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 123.313,
+      "duration_ms": 122.036,
       "stderr": "",
       "reasoning": "The candidate is GND, spans L2..L3 and is fill-connected, but sits 5 mm from the transition while max_return_via_distance=2.0 mm."
     },
@@ -3923,7 +3923,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 120.248,
+      "duration_ms": 124.405,
       "stderr": "",
       "reasoning": "Overlapping GND polygons still form one copper union; interior overlapping edges are not boundaries. Geometry cannot prove the fill-level join, so connectivity stays unknown."
     },
@@ -4003,7 +4003,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 117.701,
+      "duration_ms": 107.593,
       "stderr": "input_invalid: 1 issue(s); no audit performed",
       "reasoning": "The outer ring omits the repeated first vertex; the auditor rejects it instead of silently closing the polygon."
     },
@@ -4083,7 +4083,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 120.785,
+      "duration_ms": 111.383,
       "stderr": "input_invalid: 1 issue(s); no audit performed",
       "reasoning": "A second signal reuses the id of the first; ambiguous ids are rejected."
     },
@@ -4163,7 +4163,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 122.184,
+      "duration_ms": 110.867,
       "stderr": "input_invalid: 1 issue(s); no audit performed",
       "reasoning": "width=-0.2 is physically meaningless and must not be normalised to a positive value."
     },
@@ -4243,7 +4243,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 119.618,
+      "duration_ms": 118.027,
       "stderr": "input_invalid: 1 issue(s); no audit performed",
       "reasoning": "width=true is a boolean, not a number; Python truthiness must not be accepted."
     },
@@ -4323,7 +4323,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 119.517,
+      "duration_ms": 113.136,
       "stderr": "input_invalid: 1 issue(s); no audit performed",
       "reasoning": "A coordinate serialised as Infinity is rejected (NaN/inf are never valid geometry)."
     },
@@ -4403,7 +4403,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 118.705,
+      "duration_ms": 124.541,
       "stderr": "input_invalid: 1 issue(s); no audit performed",
       "reasoning": "A via without span.from/to cannot prove any layer reach; the input is rejected."
     },
@@ -4483,7 +4483,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 124.417,
+      "duration_ms": 113.503,
       "stderr": "input_invalid: 1 issue(s); no audit performed",
       "reasoning": "Orders 1,2,4,5 leave a gap: the physical stack is ambiguous, so the input is rejected instead of guessing."
     },
@@ -4563,7 +4563,7 @@
         }
       ],
       "passed": true,
-      "duration_ms": 120.526,
+      "duration_ms": 117.519,
       "stderr": "input_invalid: 1 issue(s); no audit performed",
       "reasoning": "via_type=through with span L2..L3 contradicts the stackup definition of a through via."
     }

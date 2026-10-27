@@ -83,6 +83,7 @@
 | 结果 | `fail`（exit 1）；142 段 / 307.0 mm checked；55 findings（41 error/14 warning）、7 unknown |
 | 回归 | `tests/return_path_audit/test_real_replay.py`（4 tests；真实 dump 缺失时 skip） |
 | 边界 | 仅 2 层；只建模顶层走线；过孔连接证据缺失；**不是四层板验证** |
+| `.epru` 四层（操作型） | `replay_epru.py` 只读解析 EasyEDA Pro 原生备份：4 层/平面网络来自真实铺铜；实测 fail（365 findings，62 处换层参考 GND→3V3）；数据不入仓库；回归 `test_epru_adapter.py` |
 
 ## 8. 未覆盖/未运行
 
