@@ -1,0 +1,8 @@
+{
+  "kind": "user-supplied-contribution",
+  "archive": "pcb-preflight-skill-patch.zip",
+  "bytes": 268135,
+  "sha256": "6be0e2793e02f3c33908ad49f6796c86df7bb02553875b68947a41e7ddc7b794",
+  "private_fixture_policy": "Original complete board snapshots and capture metadata remain outside the public repository. Public regression uses synthetic minimal inputs.",
+  "original_tests": 11
+}
