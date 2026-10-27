@@ -1,0 +1,89 @@
+{
+  "units": "mil",
+  "placements": [
+    {
+      "designator": "C1",
+      "x": 950,
+      "y": 760,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "designator": "C2",
+      "x": 950,
+      "y": 620,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "designator": "D1",
+      "x": 700,
+      "y": 689,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "designator": "D2",
+      "x": 899.95,
+      "y": 1050,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "designator": "D3",
+      "x": 1195.0898,
+      "y": 760,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "designator": "D4",
+      "x": 1595.0898000000002,
+      "y": 838.74,
+      "rotation": 180,
+      "layer": 1
+    },
+    {
+      "designator": "J1",
+      "x": 288.1885,
+      "y": 687.0315,
+      "rotation": 90,
+      "layer": 1
+    },
+    {
+      "designator": "R1",
+      "x": 620,
+      "y": 1050,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "designator": "R2",
+      "x": 1200,
+      "y": 1000,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "designator": "R3",
+      "x": 1600,
+      "y": 1000,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "designator": "SW1",
+      "x": 1200,
+      "y": 350,
+      "rotation": 0,
+      "layer": 1
+    },
+    {
+      "designator": "SW2",
+      "x": 1600,
+      "y": 350,
+      "rotation": 0,
+      "layer": 1
+    }
+  ]
+}

@@ -791,6 +791,148 @@
       ],
       "source": "generic crystal layout method; exact load capacitance and drive level require the selected parts",
       "status": "method-only"
+    },
+    {
+      "id": "dual-channel-switch-led",
+      "title": "双路按键 LED：开关—LED—限流电阻（两通道并列）",
+      "category": "indicator",
+      "core_role": "sw1",
+      "frame": "board",
+      "roles": {
+        "sw1": {
+          "pins": {
+            "contact": "contact",
+            "return": "return"
+          }
+        },
+        "led1": {
+          "pins": {
+            "anode": "anode",
+            "cathode": "cathode"
+          }
+        },
+        "r1": {
+          "pins": {
+            "out": "out",
+            "power": "power"
+          }
+        },
+        "sw2": {
+          "pins": {
+            "contact": "contact",
+            "return": "return"
+          }
+        },
+        "led2": {
+          "pins": {
+            "anode": "anode",
+            "cathode": "cathode"
+          }
+        },
+        "r2": {
+          "pins": {
+            "out": "out",
+            "power": "power"
+          }
+        }
+      },
+      "net_roles": {
+        "sw1.contact": "CH1_K",
+        "led1.cathode": "CH1_K",
+        "led1.anode": "CH1_A",
+        "r1.out": "CH1_A",
+        "r1.power": "POWER",
+        "sw1.return": "GND",
+        "sw2.contact": "CH2_K",
+        "led2.cathode": "CH2_K",
+        "led2.anode": "CH2_A",
+        "r2.out": "CH2_A",
+        "r2.power": "POWER",
+        "sw2.return": "GND"
+      },
+      "relative": [
+        {
+          "role": "led1",
+          "dx": -4.91,
+          "dy": 380.0,
+          "rotation": 180,
+          "unit": "mil"
+        },
+        {
+          "role": "r1",
+          "dx": 0.0,
+          "dy": 650.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "sw2",
+          "dx": 400.0,
+          "dy": 0.0,
+          "rotation": 0,
+          "unit": "mil"
+        },
+        {
+          "role": "led2",
+          "dx": 395.09,
+          "dy": 380.0,
+          "rotation": 180,
+          "unit": "mil"
+        },
+        {
+          "role": "r2",
+          "dx": 400.0,
+          "dy": 650.0,
+          "rotation": 0,
+          "unit": "mil"
+        }
+      ],
+      "conditions": [
+        {
+          "role": "sw1",
+          "field": "bbox_long_mil",
+          "min": 240,
+          "max": 400
+        },
+        {
+          "role": "led1",
+          "field": "bbox_long_mil",
+          "min": 200,
+          "max": 300
+        },
+        {
+          "role": "r1",
+          "field": "bbox_long_mil",
+          "min": 100,
+          "max": 180
+        },
+        {
+          "role": "sw2",
+          "field": "bbox_long_mil",
+          "min": 240,
+          "max": 400
+        },
+        {
+          "role": "led2",
+          "field": "bbox_long_mil",
+          "min": 200,
+          "max": 300
+        },
+        {
+          "role": "r2",
+          "field": "bbox_long_mil",
+          "min": 100,
+          "max": 180
+        }
+      ],
+      "checks": [
+        "two channels use the same relative geometry; only the 400 mil column offset differs",
+        "LED anode/cathode and switch same-side pins are bound to real pads and matching nets",
+        "reserve at least 2 mm of body headroom above each LED for a local move; run check_move_clearance.py before moving",
+        "re-measure package bboxes and pad numbers; these offsets are a measured reference, not a verified instance"
+      ],
+      "source": "2026-10-27 dual-button LED board measured baseline: SW center y=350, LED y=730, resistor y=1000, columns x=1200/1600 mil; pcb-template-plan reproduced all six measured poses (status=planned)",
+      "status": "offline-tested"
     }
   ]
 }

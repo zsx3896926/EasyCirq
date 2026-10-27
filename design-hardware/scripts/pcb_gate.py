@@ -367,6 +367,61 @@ def _payload_identity(payload):
     return (project or '', document or '')
 
 
+def _alternatives_and_conflict(selected_path, selected_payload, compatible):
+    """Describe other compatible candidates and whether they differ.
+
+    The selected candidate is excluded by resolved path.  Identical copies only
+    produce ``alternatives``; differing content produces a conflict kind.  The
+    caller decides whether the binding basis makes that conflict advisory or
+    blocking.
+    """
+    alternatives = []
+    for other_path, other_payload in compatible:
+        try:
+            same = other_path.resolve() == selected_path.resolve()
+        except OSError:
+            same = str(other_path) == str(selected_path)
+        if same:
+            continue
+        try:
+            other_sha = sha256_file(str(other_path))
+        except OSError:
+            other_sha = None
+        alternatives.append({'path': str(other_path), 'sha256': other_sha})
+    if not alternatives:
+        return [], None
+    try:
+        selected_sha = sha256_file(str(selected_path))
+    except OSError:
+        selected_sha = None
+    differing = [item for item in alternatives
+                 if item.get('sha256') != selected_sha]
+    if not differing:
+        return alternatives, None
+    identities = {_payload_identity(selected_payload)}
+    for other_path, other_payload in compatible:
+        try:
+            same = other_path.resolve() == selected_path.resolve()
+        except OSError:
+            same = str(other_path) == str(selected_path)
+        if same:
+            continue
+        identities.add(_payload_identity(other_payload))
+    identities.discard(None)
+    if len(identities) > 1:
+        return alternatives, {
+            'kind': 'identity_conflict',
+            'identities': sorted(identities, key=str),
+            'selected': str(selected_path),
+            'alternatives': [item['path'] for item in differing],
+        }
+    return alternatives, {
+        'kind': 'multiple_candidates',
+        'selected': str(selected_path),
+        'alternatives': [item['path'] for item in differing],
+    }
+
+
 def _dump_semantic(dump):
     if not isinstance(dump, dict):
         return None
@@ -518,6 +573,64 @@ def _read_role_file(role, path):
         return None, 'JSON parse failed: %s' % exc
 
 
+def _check_shape_ok(data):
+    """Strict DFM check-report shape.
+
+    A placement-check report also carries a ``findings`` list, so merely
+    checking for one is not enough: a differently named/newer file could shadow
+    the real DFM report.  Require the DFM counters, source counters
+    (track/pad), itemized finding types/levels and internal count agreement.
+    """
+    findings = data.get('findings')
+    summary = data.get('summary')
+    if not isinstance(findings, list) or not isinstance(summary, dict):
+        return False
+    for key in ('errors', 'warnings', 'total'):
+        value = summary.get(key)
+        if type(value) is not int or value < 0:
+            return False
+    if 'infos' in summary:
+        value = summary.get('infos')
+        if type(value) is not int or value < 0:
+            return False
+    counts = {'ERROR': 0, 'WARN': 0, 'INFO': 0}
+    for finding in findings:
+        if not isinstance(finding, dict):
+            return False
+        kind = finding.get('type')
+        if not isinstance(kind, str) or not kind.strip():
+            return False
+        level = finding.get('level')
+        if not isinstance(level, str):
+            return False
+        level = level.upper()
+        if level not in counts:
+            return False
+        counts[level] += 1
+    if summary.get('total') != len(findings):
+        return False
+    if summary.get('errors') != counts['ERROR']:
+        return False
+    if summary.get('warnings') != counts['WARN']:
+        return False
+    if 'infos' in summary and summary.get('infos') != counts['INFO']:
+        return False
+    for key in ('trackCount', 'padCount'):
+        value = data.get(key)
+        if type(value) is not int or value < 0:
+            return False
+    if 'viaCount' in data:
+        value = data.get('viaCount')
+        if type(value) is not int or value < 0:
+            return False
+    if 'passed' in data and type(data.get('passed')) is not bool:
+        return False
+    coverage = data.get('coverage')
+    if coverage is not None and not isinstance(coverage, dict):
+        return False
+    return True
+
+
 def _shape_ok(role, payload):
     """Conservative shape check used to skip an unrelated newest candidate."""
     if role in BINARY_ROLES:
@@ -560,15 +673,7 @@ def _shape_ok(role, payload):
     if role == 'drc':
         return any(key in data for key in ('passed', 'total', 'violations'))
     if role == 'check':
-        # A placement-check report also carries a ``findings`` list.  Require
-        # the DFM check's counters/summary here so a file such as
-        # ``pcb-placement-check-final.json`` (which matches the broad
-        # ``*pcb*check*.json`` glob) cannot shadow the real pcb-check report.
-        summary = data.get('summary')
-        if not isinstance(summary, dict):
-            return False
-        return any(key in summary for key in ('errors', 'warnings', 'total')) or \
-            any(key in data for key in ('trackCount', 'padCount'))
+        return _check_shape_ok(data)
     if role == 'netpath':
         return isinstance(data.get('rows'), list)
     if role == 'sch_pcb':
@@ -671,9 +776,12 @@ def discover_role(role, evidence_dir, override=None, preferred=None,
                                  'structure: %s'
                                  % (role, manifest_path or 'the case manifest',
                                     preferred_path))
+            alternatives, conflict = _alternatives_and_conflict(
+                preferred_path, payload, compatible)
             return Evidence(
                 role, preferred_path, payload, None, 1,
                 'path declared by %s' % (manifest_path or 'the case manifest'),
+                alternatives=alternatives, conflict=conflict,
                 manifest_entry=manifest_entry,
                 binding={'basis': 'manifest' if manifest_entry else 'discovery'})
         try:
@@ -698,39 +806,8 @@ def discover_role(role, evidence_dir, override=None, preferred=None,
         chosen = compatible[0]
     if chosen is not None:
         path, payload = chosen
-        alternatives = []
-        for other_path, other_payload in compatible:
-            if other_path == path:
-                continue
-            try:
-                other_sha = sha256_file(str(other_path))
-            except OSError:
-                other_sha = None
-            alternatives.append({'path': str(other_path), 'sha256': other_sha})
-        conflict = None
-        if compatible:
-            try:
-                selected_sha = sha256_file(str(path))
-            except OSError:
-                selected_sha = None
-            differing = [item for item in alternatives
-                         if item.get('sha256') != selected_sha]
-            if differing:
-                identities = {_payload_identity(payload)}
-                for other_path, other_payload in compatible:
-                    if other_path == path:
-                        continue
-                    identities.add(_payload_identity(other_payload))
-                identities.discard(None)
-                if len(identities) > 1:
-                    conflict = {'kind': 'identity_conflict',
-                                'identities': sorted(identities, key=str),
-                                'selected': str(path),
-                                'alternatives': [item['path'] for item in differing]}
-                else:
-                    conflict = {'kind': 'multiple_candidates',
-                                'selected': str(path),
-                                'alternatives': [item['path'] for item in differing]}
+        alternatives, conflict = _alternatives_and_conflict(
+            path, payload, compatible)
         return Evidence(
             role, path, payload, None, len(unique),
             ('path declared by %s' % (manifest_path or 'the case manifest')
@@ -2222,12 +2299,19 @@ def _apply_binding_findings(stages, roles):
                     % role, role=role, conflict=conflict))
                 stage['status'] = STATUS_FAIL
             else:
+                severity = 'advisory'
+                if role == 'check' and binding.get('basis') == 'discovery':
+                    # A wrong DFM report can hide real findings.  Without a
+                    # manifest/--check binding, differing valid candidates
+                    # must block instead of silently choosing the newest.
+                    severity = 'hard'
+                    stage['status'] = STATUS_FAIL
                 stage['findings'].append(_finding(
                     'EVIDENCE_AMBIGUOUS',
                     'multiple %s candidates differ; the selected one is %s; '
                     'bind it with a manifest or an explicit role override'
                     % (role, conflict.get('selected')),
-                    severity='advisory', role=role, conflict=conflict))
+                    severity=severity, role=role, conflict=conflict))
         stage['metrics'].setdefault('evidence_binding', {})[role] = {
             'basis': binding.get('basis'),
             'error': error,
