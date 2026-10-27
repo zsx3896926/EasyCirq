@@ -114,6 +114,10 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 
 验收仍使用 [图面验收标准](references/schematic-layout.md)：`sch_layout_check.py --strict` 检查完整几何；`sch_text_audit.py --strict` 检查实测可见文字之间的关系，自动线名、引脚名缺失时必须记录覆盖缺口；不能用执行器的 `layout-lint --strict` 替代这两项。真实工程先用 `svg_text_bbox.py` 实测官方 SVG 的全部渲染文字，再由 `layout_from_easyeda.py` 把 `sch list`/`visible_text`/`sheet-geometry` 拼成严格输入，检查 `unowned_visible_text`、`duplicate_net_text`、`netflag_rotation_outlier`、`zone_reading_order`、`title_block_duplicate_text` 等图面问题，流程见 [绘图执行方法](references/schematic-authoring.md) 第6节。需要把发现标到图上时用 `sch_visual_audit.py` 生成**分析叠加图**（带 `official_export:false` 与 `ANALYSIS OVERLAY` 水印），不能把它冒充官方重新导出的工程图；建议和已执行修改分开标记。整页及拥挤局部必须检查**实际官方导出图**，发现重名叠印、文字遮挡、标签乱飞即回到对应模块修复。原生 gate、pin-net 对比、器件身份对比（`component_identity_check.py`：device/symbol/封装/BOM、实例 uniqueId/component.uuid、引脚分区、SCH↔PCB；预期 BOM 变更必须有 reason+evidence）、save→reopen 回读与图面验收分别报告，任何一个 PASS 都不能代替另一个。
 
+### 提速：先离线准备，再合批写入
+
+多个独立 PCB 放置模块来自同一实测快照时，按 [批量执行与提速](references/execution-efficiency.md) 使用 `pcb_apply_plan.py --module-plan ... --module-plan ...`：一次读取/标准化、联合检查模块与固定对象，再生成一次 apply 和保存重载链。简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。只读分析复用冻结快照，写入后旧快照失效，不按每颗器件重复探测。原理图沿用 compose/现有模板路径，不用 PCB 放置批处理冒充原理图或布线完成。
+
 ## 3. 按需读取，不加载规则百科
 
 内部设计始终遵循 [工程工作流](references/workflow.md) 和 [证据与工程记录](references/evidence.md)，内容由Agent消化，不要求用户读完。按任务加载：

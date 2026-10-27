@@ -26,6 +26,7 @@ Contract:
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import math
 import os
@@ -178,6 +179,66 @@ def _plan_base_sha(plan):
 def _board_semantic_sha(board):
     return (board.get('source') or {}).get('semantic_sha256') or \
         board.get('semanticSha256')
+
+
+def merge_module_plans(paths, board, project, doc):
+    """Join placement modules from one capture; validate the union downstream.
+
+    Copper operations are intentionally unsupported here. Each module binds to
+    the measured semantic hash. Never broaden an explicitly declared scope.
+    """
+    base = _board_semantic_sha(board)
+    if not base:
+        raise PlanInputError('module batch: measured semantic hash required')
+    merged = {'placements': [], 'primitive_ids': {},
+              'base_semantic_sha256': base, 'partial': True,
+              'scope': {'designators': [], 'nets': []}}
+    sources, owners = [], set()
+    allowed = {'schema', 'project', 'doc', 'document', 'placements',
+               'base', 'base_semantic_sha256', 'base_sha256',
+               'baseSemanticSha256', 'primitive_ids', 'scope',
+               'partial', 'name', 'description'}
+    for path in paths:
+        with open(path, 'rb') as handle:
+            raw = handle.read()
+        module = json.loads(raw.decode('utf-8-sig'))
+        if not isinstance(module, dict) or set(module) - allowed:
+            raise PlanInputError('module batch: unsupported fields in %s' % path)
+        if module.get('partial') is not True:
+            raise PlanInputError('module batch: each module must explicitly set partial:true')
+        for field in ('base_semantic_sha256', 'base_sha256', 'baseSemanticSha256'):
+            if field in module and module[field] != base:
+                raise PlanInputError('module batch: conflicting base hash')
+        if _plan_base_sha(module) != base:
+            raise PlanInputError('module batch: stale or missing base in %s' % path)
+        if module.get('project', project) != project or module.get('doc', doc) != doc or module.get('document', doc) != doc:
+            raise PlanInputError('module batch: project/document mismatch in %s' % path)
+        rows = module.get('placements')
+        if not isinstance(rows, list) or not rows:
+            raise PlanInputError('module batch: nonempty placements required')
+        refs = []
+        for row in rows:
+            ref = row.get('designator') if isinstance(row, dict) else None
+            if not isinstance(ref, str) or not ref.strip() or ref in owners:
+                raise PlanInputError('module batch: duplicate/invalid designator %r' % ref)
+            refs.append(ref)
+            owners.add(ref)
+        if 'scope' in module:
+            if not isinstance(module['scope'], dict) or set(module['scope']) - {'designators', 'nets'}:
+                raise PlanInputError('module batch: unsupported scope fields')
+            scope = _normalize_scope(module['scope'], [])
+            if set(scope['designators']) != set(refs) or scope['nets'] or 'bbox' in scope:
+                raise PlanInputError('module batch: scope must equal module designators')
+        ids = module.get('primitive_ids', {})
+        if not isinstance(ids, dict) or set(ids) - set(refs):
+            raise PlanInputError('module batch: primitive_ids outside module')
+        merged['placements'].extend(rows)
+        merged['primitive_ids'].update(ids)
+        merged['scope']['designators'].extend(refs)
+        sources.append({'path': os.path.abspath(path),
+                        'sha256': hashlib.sha256(raw).hexdigest(),
+                        'base_semantic_sha256': base, 'designators': refs})
+    return merged, sources
 
 
 def _component_map(board):
@@ -1173,6 +1234,8 @@ def _base_report(args, plan_kind, plan_doc, ops, placements, scope, partial,
         'plan': {
             'path': os.path.abspath(args.plan),
             'kind': plan_kind,
+            'module_sources': getattr(args, 'module_sources', []),
+            'assembled_plan': getattr(args, 'assembled_plan', None),
             'ops': {kind: sum(1 for op in ops if op['op'] == kind)
                     for kind in OP_KINDS},
             'placements': len(placements),
@@ -1270,8 +1333,10 @@ def main(argv=None):
         formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--dump', required=True,
                         help='fresh measured pcb dump (before)')
-    parser.add_argument('--plan', required=True,
-                        help='placement plan or engine playbook JSON')
+    plans = parser.add_mutually_exclusive_group(required=True)
+    plans.add_argument('--plan', help='placement plan or engine playbook JSON')
+    plans.add_argument('--module-plan', action='append',
+                       help='repeat for independent placement modules from one dump')
     parser.add_argument('--constraints', help='compiled constraints JSON (optional)')
     parser.add_argument('--project', required=True)
     parser.add_argument('--doc', required=True)
@@ -1309,7 +1374,13 @@ def main(argv=None):
         timeout_sec = _playbook_timeout(args.timeout)
         dump = _load(args.dump)
         board = normalize_board(dump)
-        plan = _load(args.plan)
+        if args.module_plan:
+            plan, sources = merge_module_plans(args.module_plan, board, args.project, args.doc)
+            args.plan = args.module_plan[0]
+            args.module_sources = sources
+            args.assembled_plan = plan
+        else:
+            plan = _load(args.plan)
         constraint_set = _load(args.constraints) if args.constraints else None
     except (OSError, ValueError, TypeError, KeyError, IndexError) as exc:
         report = {
@@ -1440,6 +1511,8 @@ def main(argv=None):
     # 5. Compile the playbook (before any write).
     playbook, step_summary, op_records = compile_playbook(ops, scope, args,
                                                           timeout_sec)
+    if getattr(args, 'module_sources', None):
+        playbook['meta']['module_sources'] = args.module_sources
     try:
         pcb_cli.write_json(playbook_path, playbook)
     except OSError as exc:
