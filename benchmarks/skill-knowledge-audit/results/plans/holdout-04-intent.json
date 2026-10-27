@@ -1,0 +1,20 @@
+{
+  "schema": "ska-intent/v1",
+  "task_type": "bom_only",
+  "stage": "delivery",
+  "autonomous_authorized": true,
+  "eda_available": false,
+  "deliverables": [
+    "bom"
+  ],
+  "constraints": [
+    "不碰工程与 EDA",
+    "不联网；未查到的库存、价格、MOQ 一律写待查",
+    "用户自己手焊，不按嘉立创 SMT 工厂贴片准备",
+    "不使用未经核实的商城现货结论"
+  ],
+  "user_decision_pending": [],
+  "already_read": [],
+  "budget_chars": 1200,
+  "notes": "用户原话：“不用再画图，就把这块板子的料给我配齐，做成能直接发给采购的清单：型号、C 号、每板用量、还差什么。别碰我的工程，也先别下单。商城有没有货、多少钱，你查到就写来源和时间，没查到就写待查，别瞎编。我这边上下文很小，别一次灌一堆文档。”"
+}

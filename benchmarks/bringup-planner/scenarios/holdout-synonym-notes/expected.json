@@ -1,0 +1,31 @@
+{
+  "schema": "bringup-bench-holdout/v1",
+  "id": "holdout-synonym-notes",
+  "categories": [
+    "holdout",
+    "deformation_synonym_notes"
+  ],
+  "derivation": "The free-text notes (top-level notes.task_description and the other note strings) are rewritten with synonyms; notes are excluded from the model semantic hash (_hashable drops model[\"notes\"]). Task wording must not change the plan, so the semantic hash and the plan hash must equal the base plan and the step set must be unchanged.",
+  "base": "../normal-mcu-sensor-board",
+  "input": {
+    "file": "input.json",
+    "sha256": "1f93092449542ac52143aa6a7c22c564ef1e24bbb27809fb09063170631ecc84"
+  },
+  "transform": {
+    "file": "transform.json"
+  },
+  "assertions": {
+    "semantic_sha_equal_base": true,
+    "plan_sha256_equal_base": true,
+    "plan_fields_equal_base": [
+      "scope_status",
+      "energize_allowed",
+      "dag_order",
+      "step_ids",
+      "steps",
+      "gap_codes",
+      "unknown_codes"
+    ]
+  },
+  "frozen_from": "hand derivation of the invariance contract (model normalisation / semantic hash / evaluate binding), never copied from CLI output"
+}

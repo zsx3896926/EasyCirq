@@ -1,0 +1,670 @@
+{
+  "schema": "mechanical-layout-benchmark-results/v1",
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "full_3d_cad": "NOT RUN",
+  "physical_assembly": "NOT RUN",
+  "runner": "benchmarks/mechanical-layout/run_benchmarks.py",
+  "selected": {
+    "holdout_only": false,
+    "cases": 34
+  },
+  "correctness": {
+    "passed": 34,
+    "failed": 0,
+    "total": 34
+  },
+  "status_coverage": {
+    "pass": 10,
+    "fail": 12,
+    "review": 4,
+    "candidates_found": 1,
+    "no_candidate_found": 1,
+    "search_incomplete": 1,
+    "invalid": 5
+  },
+  "failures": [],
+  "timings_seconds": {
+    "pass_panel": 0.214,
+    "opening_misaligned": 0.1919,
+    "opening_angle": 0.1723,
+    "mating_datum_offset": 0.1664,
+    "plug_blocked": 0.3001,
+    "cable_unknown": 0.1643,
+    "hole_near_edge": 0.1602,
+    "screw_head_blocked": 0.1664,
+    "tool_blocked": 0.173,
+    "bottom_post_collision": 0.1697,
+    "z_separate": 0.2014,
+    "missing_height": 0.1664,
+    "concave_notch": 0.1711,
+    "overhang_allowed": 0.2098,
+    "overhang_exceeds": 0.1926,
+    "preferred_keepout": 0.1879,
+    "button_travel": 0.1905,
+    "led_pipe": 0.1925,
+    "no_enclosure": 0.1863,
+    "mil_units": 0.159,
+    "translated_rotated": 0.1746,
+    "fixed_plan": 0.2764,
+    "plan_no_feasible": 0.2041,
+    "plan_budget": 0.2485,
+    "invalid_mirror": 0.1535,
+    "invalid_nan": 0.153,
+    "duplicate_ids": 0.1899,
+    "contradictory": 0.2226,
+    "snapshot_stale": 0.1564,
+    "composite_panel": 0.1911,
+    "composite_handheld": 0.2469,
+    "local_frame_equiv": 0.208,
+    "unrelated_change": 0.242,
+    "order_deformation": 0.1775
+  },
+  "cases": [
+    {
+      "case": "pass_panel",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.214,
+      "problems": []
+    },
+    {
+      "case": "opening_misaligned",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G2.OPENING_ALIGN"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G2.OPENING_ALIGN",
+        "G2.WALL_CROSSING"
+      ],
+      "seconds": 0.1919,
+      "problems": []
+    },
+    {
+      "case": "opening_angle",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G2.OPENING_ANGLE"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G2.OPENING_ALIGN",
+        "G2.OPENING_ANGLE",
+        "G2.OPENING_FIT"
+      ],
+      "seconds": 0.1723,
+      "problems": []
+    },
+    {
+      "case": "mating_datum_offset",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G2.OPENING_ALIGN"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G2.OPENING_ALIGN",
+        "G2.WALL_CROSSING"
+      ],
+      "seconds": 0.1664,
+      "problems": []
+    },
+    {
+      "case": "plug_blocked",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G2.PLUG_BLOCKED"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G2.PLUG_BLOCKED"
+      ],
+      "seconds": 0.3001,
+      "problems": []
+    },
+    {
+      "case": "cable_unknown",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "status": "review",
+      "expected_status": "review",
+      "required_rules": [
+        "G2.CABLE_UNKNOWN"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G2.CABLE_UNKNOWN"
+      ],
+      "seconds": 0.1643,
+      "problems": []
+    },
+    {
+      "case": "hole_near_edge",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G1.HOLE_EDGE"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G1.HOLE_EDGE",
+        "G2.PLUG_BLOCKED",
+        "G3.SCREW_HEAD",
+        "G3.TOOL_SPACE"
+      ],
+      "seconds": 0.1602,
+      "problems": []
+    },
+    {
+      "case": "screw_head_blocked",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G3.SCREW_HEAD"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G3.SCREW_HEAD"
+      ],
+      "seconds": 0.1664,
+      "problems": []
+    },
+    {
+      "case": "tool_blocked",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G3.TOOL_SPACE"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G3.SCREW_HEAD",
+        "G3.TOOL_SPACE"
+      ],
+      "seconds": 0.173,
+      "problems": []
+    },
+    {
+      "case": "bottom_post_collision",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G4.POST_COLLISION"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G4.POST_COLLISION"
+      ],
+      "seconds": 0.1697,
+      "problems": []
+    },
+    {
+      "case": "z_separate",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.2014,
+      "problems": []
+    },
+    {
+      "case": "missing_height",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "status": "review",
+      "expected_status": "review",
+      "required_rules": [
+        "G4.HEIGHT_UNKNOWN"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G3.SCREW_HEAD",
+        "G3.TOOL_SPACE",
+        "G4.ENCLOSURE_HEIGHT",
+        "G4.HEIGHT_UNKNOWN"
+      ],
+      "seconds": 0.1664,
+      "problems": []
+    },
+    {
+      "case": "concave_notch",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G1.OBJECT_INSIDE_BOARD"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G1.OBJECT_INSIDE_BOARD"
+      ],
+      "seconds": 0.1711,
+      "problems": []
+    },
+    {
+      "case": "overhang_allowed",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [
+        "G1.EDGE_OVERHANG"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G1.EDGE_OVERHANG"
+      ],
+      "seconds": 0.2098,
+      "problems": []
+    },
+    {
+      "case": "overhang_exceeds",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G1.EDGE_OVERHANG"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G1.EDGE_OVERHANG"
+      ],
+      "seconds": 0.1926,
+      "problems": []
+    },
+    {
+      "case": "preferred_keepout",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "status": "review",
+      "expected_status": "review",
+      "required_rules": [
+        "G3.KEEPOUT"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G3.KEEPOUT"
+      ],
+      "seconds": 0.1879,
+      "problems": []
+    },
+    {
+      "case": "button_travel",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G2.BUTTON_TRAVEL"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G2.BUTTON_TRAVEL"
+      ],
+      "seconds": 0.1905,
+      "problems": []
+    },
+    {
+      "case": "led_pipe",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G2.LED_PIPE"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G2.LED_PIPE"
+      ],
+      "seconds": 0.1925,
+      "problems": []
+    },
+    {
+      "case": "no_enclosure",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "status": "review",
+      "expected_status": "review",
+      "required_rules": [
+        "G4.ENCLOSURE_HEIGHT"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G4.ENCLOSURE_HEIGHT"
+      ],
+      "seconds": 0.1863,
+      "problems": []
+    },
+    {
+      "case": "mil_units",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.159,
+      "problems": []
+    },
+    {
+      "case": "translated_rotated",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.1746,
+      "problems": []
+    },
+    {
+      "case": "fixed_plan",
+      "command": "plan",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "candidates_found",
+      "expected_status": "candidates_found",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G5.FIXED_UNCHANGED"
+      ],
+      "seconds": 0.2764,
+      "problems": []
+    },
+    {
+      "case": "plan_no_feasible",
+      "command": "plan",
+      "holdout": false,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "no_candidate_found",
+      "expected_status": "no_candidate_found",
+      "required_rules": [
+        "G5.NO_CANDIDATE"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G4.COLLISION",
+        "G5.NO_CANDIDATE"
+      ],
+      "seconds": 0.2041,
+      "problems": []
+    },
+    {
+      "case": "plan_budget",
+      "command": "plan",
+      "holdout": false,
+      "exit_code": 4,
+      "expected_exit_code": 4,
+      "status": "search_incomplete",
+      "expected_status": "search_incomplete",
+      "required_rules": [
+        "G5.SEARCH_INCOMPLETE"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G4.COLLISION",
+        "G5.SEARCH_INCOMPLETE"
+      ],
+      "seconds": 0.2485,
+      "problems": []
+    },
+    {
+      "case": "invalid_mirror",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "status": "invalid",
+      "expected_status": "invalid",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.1535,
+      "problems": []
+    },
+    {
+      "case": "invalid_nan",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "status": "invalid",
+      "expected_status": "invalid",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.153,
+      "problems": []
+    },
+    {
+      "case": "duplicate_ids",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "status": "invalid",
+      "expected_status": "invalid",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.1899,
+      "problems": []
+    },
+    {
+      "case": "contradictory",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "status": "invalid",
+      "expected_status": "invalid",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.2226,
+      "problems": []
+    },
+    {
+      "case": "snapshot_stale",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 2,
+      "expected_exit_code": 2,
+      "status": "invalid",
+      "expected_status": "invalid",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.1564,
+      "problems": []
+    },
+    {
+      "case": "composite_panel",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.1911,
+      "problems": []
+    },
+    {
+      "case": "composite_handheld",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.2469,
+      "problems": []
+    },
+    {
+      "case": "local_frame_equiv",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.208,
+      "problems": []
+    },
+    {
+      "case": "unrelated_change",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.242,
+      "problems": []
+    },
+    {
+      "case": "order_deformation",
+      "command": "audit",
+      "holdout": false,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.1775,
+      "problems": []
+    }
+  ],
+  "limits": [
+    "timings are wall clock and not part of any report hash",
+    "this benchmark runs the offline CLI only; it does not prove physical assembly, EDA import or manufacturing"
+  ]
+}

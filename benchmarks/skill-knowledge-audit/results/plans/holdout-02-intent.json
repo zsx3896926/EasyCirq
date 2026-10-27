@@ -1,0 +1,22 @@
+{
+  "schema": "ska-intent/v1",
+  "task_type": "pcb_route",
+  "stage": "route",
+  "autonomous_authorized": true,
+  "eda_available": true,
+  "deliverables": [
+    "pcb"
+  ],
+  "constraints": [
+    "原理图与器件身份已冻结，不得改动原理图",
+    "生成新板框与增加 CAN 之前保持现有布局",
+    "先别下单买料"
+  ],
+  "user_decision_pending": [
+    "scope_change",
+    "mechanical_change"
+  ],
+  "already_read": [],
+  "budget_chars": 90000,
+  "notes": "User utterance: “Just finish the layout and routing on the board we froze last month — the schematic stays exactly as it is, and you don't need to check in after each stage. Take it all the way to DRC.” Mid-task, while still autonomous, the user adds: “Client just called: add one CAN channel, shrink the board to 40 × 30 mm, and take BOM cost down 10%. Don't order parts yet.”"
+}

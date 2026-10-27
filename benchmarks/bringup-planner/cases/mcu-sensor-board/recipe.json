@@ -1,0 +1,14 @@
+{
+  "schema": "bringup-bench-result-recipe/v1",
+  "binding": "plan",
+  "source_kind": "real_measurement",
+  "executed_by": "NOT RUN - no hardware exists for this synthetic case",
+  "defaults": {
+    "status": "not_run",
+    "source": "unset",
+    "measurement": "none",
+    "evidence": "none",
+    "stop_triggered": false
+  },
+  "overrides": []
+}

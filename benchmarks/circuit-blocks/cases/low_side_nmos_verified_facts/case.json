@@ -1,0 +1,116 @@
+{
+  "id": "low_side_nmos_verified_facts",
+  "description": "AO3400A from the verified fact file. Gate drive min 3.135 V selects the 2.5 V/48 mOhm RDS(on) row (no upward interpolation). P_max = 0.8^2*0.048 = 30.72 mW; inductive freewheel energy = 0.5*1mH*0.8^2 = 0.32 mJ; reverse voltage requirement = load max 12.6 V.",
+  "command": "generate",
+  "module_type": "low_side_nmos",
+  "input": {
+    "device_fact_id": "mosfet_ao3400a",
+    "load_supply_voltage": {
+      "min": 11.4,
+      "max": 12.6
+    },
+    "load_current_nominal": "0.5A",
+    "load_current_max": "0.8A",
+    "load_inrush_current": "2.5A",
+    "gate_drive_voltage": {
+      "min": 3.135,
+      "max": 3.465
+    },
+    "switching_frequency": "20kHz",
+    "inductive_load": true,
+    "load_inductance": "1mH",
+    "ambient_temperature": {
+      "min": 0,
+      "max": 40
+    },
+    "gate_series": "E24",
+    "gate_resistor_target": {
+      "min": 10,
+      "max": 100
+    },
+    "gate_pulldown_value": "10k",
+    "max_gate_drive_current": "100mA"
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "Q1",
+        "role": "low_side_switch"
+      },
+      {
+        "ref": "R1",
+        "value": 56
+      },
+      {
+        "ref": "R2",
+        "value": 10000
+      },
+      {
+        "ref": "D1",
+        "role": "freewheel_diode"
+      }
+    ],
+    "ports": [
+      "VLOAD",
+      "SW",
+      "GATE",
+      "GND"
+    ],
+    "endpoints": [
+      [
+        "Q1",
+        "D",
+        "SW"
+      ],
+      [
+        "Q1",
+        "S",
+        "GND"
+      ],
+      [
+        "Q1",
+        "G",
+        "GATE_IN"
+      ],
+      [
+        "R1",
+        "1",
+        "GATE"
+      ],
+      [
+        "R1",
+        "2",
+        "GATE_IN"
+      ],
+      [
+        "R2",
+        "1",
+        "GATE_IN"
+      ],
+      [
+        "R2",
+        "2",
+        "GND"
+      ],
+      [
+        "D1",
+        "A",
+        "SW"
+      ],
+      [
+        "D1",
+        "K",
+        "VLOAD"
+      ]
+    ],
+    "calculations": {
+      ".rds_on_at_drive.result.rds_on_ohm": 0.048,
+      ".conduction_loss.result.power_max_w": 0.030720000000000008,
+      ".freewheel_requirements.result.pulse_energy_min_j": 0.0003200000000000001,
+      ".freewheel_requirements.result.reverse_voltage_min_v": 12.6
+    }
+  },
+  "input_sha256": "1c1c71303392fae687c910e64e0aad79598c06f827aab7406e56b50cb885ba79"
+}

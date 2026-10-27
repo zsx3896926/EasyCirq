@@ -1,0 +1,20 @@
+{
+  "schema": "ska-intent/v1",
+  "task_type": "bom_only",
+  "stage": "unknown",
+  "autonomous_authorized": false,
+  "eda_available": true,
+  "deliverables": [
+    "bom",
+    "sourcing-report"
+  ],
+  "constraints": [
+    "只核对现有 BOM/零件表与配单，不改图、不导出新工程",
+    "已有原始 BOM CSV 与 project-standard-parts.json",
+    "立创商城现货优先，预算有限；库存/价格/交期逐项给来源时间"
+  ],
+  "user_decision_pending": [],
+  "already_read": [],
+  "budget_chars": 120000,
+  "notes": "用户没说这是设计阶段选型配单还是打样前采购，阶段未定；生产/贴片文档只能作条件项。"
+}

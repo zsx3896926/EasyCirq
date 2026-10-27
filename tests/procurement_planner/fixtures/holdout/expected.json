@@ -1,0 +1,102 @@
+{
+  "schema": "procurement-benchmark-expected/v1",
+  "evaluation_note": "holdout expectations were hand-calculated from the fixture policies; they are not copied from planner output",
+  "cases": [
+    {
+      "id": "h1",
+      "input": "h1-attrition.json",
+      "input_sha256": "beb05b3fd0d6e7ebdb5a83fb1a6785a4689e7832127c96d4c78ae3fcd96cf01b",
+      "command": [
+        "plan"
+      ],
+      "expected": {
+        "exit_code": 0,
+        "status": "planned_with_unknowns",
+        "preferred_strategy": "known_cost",
+        "as_of": "2026-10-27T04:00:00Z",
+        "assembled_qty": 21,
+        "ratio_spare": 2,
+        "spare_total": 4,
+        "purchase_need": 23,
+        "consigned_applied": 2,
+        "ordered_qty": 25,
+        "overbuy_qty": 2,
+        "line_total": "5.00",
+        "known_fees": {
+          "CNY": "5.00"
+        },
+        "budget_converted": "10.00",
+        "budget_status": "within_budget",
+        "synthetic_snapshots": [
+          "SNAP-H1"
+        ]
+      }
+    },
+    {
+      "id": "h2",
+      "input": "h2-shared-pool.json",
+      "input_sha256": "b06f317dce1da59c63045ef52f131de9d784e69daabaf2e49519ad0d88f2430d",
+      "command": [
+        "plan"
+      ],
+      "expected": {
+        "exit_code": 0,
+        "status": "planned_with_unknowns",
+        "budget_converted": "0.30",
+        "lines": {
+          "L1": {
+            "ordered_qty": 20,
+            "shortage_qty": 0,
+            "status": "covered_with_unknowns"
+          },
+          "L2": {
+            "ordered_qty": 10,
+            "shortage_qty": 10,
+            "status": "partial_unknown"
+          }
+        },
+        "unknown_stock_lines": [
+          "L1",
+          "L2"
+        ]
+      }
+    },
+    {
+      "id": "h3",
+      "input": "h3-multicurrency-fx.json",
+      "input_sha256": "e523fb3133b576c560a0978ab706ee79e3730a1bb8d5fa8a75ea1dff63cdb04e",
+      "command": [
+        "plan"
+      ],
+      "expected": {
+        "exit_code": 0,
+        "status": "planned_with_unknowns",
+        "offer_id": "OF-H3-USD",
+        "qty": 5,
+        "line_total": "6.00",
+        "currency": "USD",
+        "budget_converted": "43.20",
+        "budget_status": "within_budget"
+      }
+    },
+    {
+      "id": "h4",
+      "input": "h4-substitution.json",
+      "input_sha256": "3f65ae452655b0574244874f1bc62124e759ddebf52dc8f1c73db7c7b5e89d0e",
+      "command": [
+        "plan"
+      ],
+      "expected": {
+        "exit_code": 0,
+        "status": "planned_with_unknowns",
+        "preferred_strategy": "conservative_substitution",
+        "known_cost_status": "unsatisfied",
+        "ordered_qty": 2,
+        "line_status": "covered_with_unknowns",
+        "offer_id": "OF-H4-ALT",
+        "qty": 2,
+        "line_total": "0.04"
+      }
+    }
+  ]
+}

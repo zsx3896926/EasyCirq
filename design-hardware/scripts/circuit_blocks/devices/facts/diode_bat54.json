@@ -1,0 +1,56 @@
+{
+  "schema": "circuit-blocks/device-facts/1",
+  "fact_id": "diode_bat54",
+  "category": "diode_schottky",
+  "mpn": "BAT54",
+  "manufacturer": "onsemi (Semiconductor Components Industries)",
+  "verified": true,
+  "verified_on": "2026-10-27",
+  "conditions": "TA = 25 C unless a fact states its own condition. Facts apply to the single-diode BAT54 (common-cathode/common-anode variants BAT54A/C/S share the same die ratings); orderable BAT54 is SOT-23 3-lead, top mark L4P.",
+  "sources": [
+    {
+      "document": "BAT54 / BAT54A / BAT54C / BAT54S Schottky Diodes datasheet",
+      "doc_id": "BAT54/D",
+      "revision": "Rev. 3, September 2017 (Publication Order Number BAT54/D, copyright 1993)",
+      "url": "https://www.onsemi.com/download/data-sheet/pdf/bat54-d.pdf",
+      "accessed": "2026-10-27",
+      "sections": [
+        "Ordering Information (printed p. 1)",
+        "Absolute Maximum Ratings (printed p. 1)",
+        "Thermal Characteristics (printed p. 2)",
+        "Electrical Characteristics (printed p. 2)",
+        "Connection Diagram / Marking (printed p. 1)"
+      ]
+    }
+  ],
+  "facts": {
+    "vr_max_v": {"value": 30, "unit": "V", "applies_to": "BAT54, SOT-23 3-lead (ratings shared with BAT54A/C/S)", "condition": "maximum repetitive reverse voltage VRRM; breakdown voltage minimum 30 V at IR = 10 uA", "source": "BAT54/D, Absolute Maximum Ratings and Electrical Characteristics (printed pp. 1-2)"},
+    "vr_breakdown_min_v": {"value": 30, "unit": "V", "applies_to": "BAT54, SOT-23 3-lead", "condition": "minimum breakdown voltage at IR = 10 uA", "source": "BAT54/D, Electrical Characteristics (printed p. 2)"},
+    "if_avg_max_a": {"value": 0.2, "unit": "A", "applies_to": "BAT54, SOT-23 3-lead", "condition": "absolute maximum average rectified forward current IF(AV) at TA = 25 C", "source": "BAT54/D, Absolute Maximum Ratings (printed p. 1)"},
+    "ifsm_max_a": {"value": 0.6, "unit": "A", "applies_to": "BAT54, SOT-23 3-lead", "condition": "non-repetitive peak forward surge current, pulse width = 1.0 second", "source": "BAT54/D, Absolute Maximum Ratings (printed p. 1)"},
+    "vf_max_v": {"value": 0.8, "unit": "V", "applies_to": "BAT54, SOT-23 3-lead", "condition": "maximum forward voltage at IF = 100 mA, TA = 25 C", "source": "BAT54/D, Electrical Characteristics (printed p. 2)"},
+    "vf_curve": [
+      {"if_a": 0.0001, "vf_max_v": 0.24, "condition": "TA = 25 C, maximum forward voltage at IF = 0.1 mA", "source": "BAT54/D, Electrical Characteristics (printed p. 2)"},
+      {"if_a": 0.001, "vf_max_v": 0.32, "condition": "TA = 25 C, maximum forward voltage at IF = 1 mA", "source": "BAT54/D, Electrical Characteristics (printed p. 2)"},
+      {"if_a": 0.010, "vf_max_v": 0.40, "condition": "TA = 25 C, maximum forward voltage at IF = 10 mA", "source": "BAT54/D, Electrical Characteristics (printed p. 2)"},
+      {"if_a": 0.030, "vf_max_v": 0.50, "condition": "TA = 25 C, maximum forward voltage at IF = 30 mA", "source": "BAT54/D, Electrical Characteristics (printed p. 2)"},
+      {"if_a": 0.100, "vf_max_v": 0.80, "condition": "TA = 25 C, maximum forward voltage at IF = 100 mA", "source": "BAT54/D, Electrical Characteristics (printed p. 2)"}
+    ],
+    "ir_max_a": {"value": 0.000002, "unit": "A", "applies_to": "BAT54, SOT-23 3-lead", "condition": "maximum reverse leakage current at VR = 25 V, TA = 25 C (2 uA)", "source": "BAT54/D, Electrical Characteristics (printed p. 2)"},
+    "trr_max_s": {"value": 0.000000005, "unit": "s", "applies_to": "BAT54, SOT-23 3-lead", "condition": "maximum reverse recovery time 5 ns at IF = IR = 10 mA, IRR = 1 mA, RL = 100 ohm (only a maximum is stated)", "source": "BAT54/D, Electrical Characteristics (printed p. 2)"},
+    "majority_carrier": {"value": "true - Schottky barrier diode, majority-carrier conduction; no minority-carrier storage time is specified", "unit": "1", "applies_to": "BAT54, SOT-23 3-lead", "condition": "device technology and trr specification (trr max 5 ns)", "source": "BAT54/D, title/description and Electrical Characteristics trr (printed pp. 1-2)"},
+    "ct_max_f": {"value": 0.00000000001, "unit": "F", "applies_to": "BAT54, SOT-23 3-lead", "condition": "maximum total capacitance 10 pF at VR = 1 V, f = 1.0 MHz (only a maximum is stated; no typical value)", "source": "BAT54/D, Electrical Characteristics CT (printed p. 2)"},
+    "pd_max_w": {"value": 0.29, "unit": "W", "applies_to": "BAT54, SOT-23 3-lead", "condition": "maximum power dissipation at TA = 25 C", "source": "BAT54/D, Thermal Characteristics (printed p. 2)"},
+    "theta_ja_c_per_w": {"value": 430, "unit": "C/W", "applies_to": "BAT54, SOT-23 3-lead", "condition": "thermal resistance junction-to-ambient at TA = 25 C; the datasheet states no board/copper condition for this value", "source": "BAT54/D, Thermal Characteristics (printed p. 2)"},
+    "tj_max_c": {"value": 150, "unit": "C", "applies_to": "BAT54, SOT-23 3-lead", "condition": "absolute maximum operating junction temperature; storage temperature range -55 C to +150 C", "source": "BAT54/D, Absolute Maximum Ratings (printed p. 1)"},
+    "package": {"value": "SOT-23 3-lead (BAT54 single diode, top mark L4P); BAT54A = L42, BAT54C = L43, BAT54S = L44; BAT54 packed 3k per tape and reel", "unit": "1", "applies_to": "BAT54 and its A/C/S connection variants", "condition": "ordering information, SOT-23 3-lead package", "source": "BAT54/D, Ordering Information (printed p. 1)"}
+  },
+  "unknown_facts": [
+    "ct_typ_f: only a maximum capacitance (10 pF) is given, with no typical value; no capacitance-vs-reverse-voltage number is tabulated.",
+    "trr_typ_s: only a maximum reverse recovery time (5 ns) is specified; no typical value.",
+    "No reverse-recovery charge Qrr and no forward-recovery behaviour are specified.",
+    "No board/copper condition is stated for the 430 C/W junction-to-ambient thermal resistance, and no transient thermal impedance curve is provided - a real PCB thermal estimate cannot be derived from this datasheet.",
+    "No maximum reverse leakage current is given over temperature in table form (only the 25 C maximum and typical curves), so hot reverse leakage is unverified."
+  ],
+  "notes": "Verified against the onsemi datasheet served at the URL above on 2026-10-27; the PDF prints Publication Order Number BAT54/D, September-2017, Rev. 3. onsemi does not print a 'superseded' marker on this file, and the version actually served is what is recorded here (if onsemi later publishes a newer revision, re-verify before reuse). This part is relevant to the F3 open-drain and F5 inductive-load clamp notes as an external Schottky; its 0.8 V maximum Vf at 100 mA is the value a clamp/OR-ing calculation must use, not the 0.32 V low-current value."
+}

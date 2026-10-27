@@ -1,0 +1,64 @@
+{
+  "args": [],
+  "command": "audit",
+  "content_digest": "fa6f13a4cbe4576a43e8c70caaa73a0050f17278dcb65a48c6344e2a520b60d8",
+  "declarations": "declarations.json",
+  "expect": {
+    "exit": 1,
+    "rules": {
+      "assembly.dnp_in_cpl": "fail"
+    },
+    "status": "fail"
+  },
+  "files": [
+    {
+      "path": "bom.csv",
+      "sha256": "57aa049139f6b65856fbe0dc3ce67c11cea6329ad20a30078069b85b525f1dc6",
+      "size": 285
+    },
+    {
+      "path": "cpl.csv",
+      "sha256": "f1bb23773f0ae36474c7c8387a3be649fb6729b8d3de6779c3829936cabcf648",
+      "size": 135
+    },
+    {
+      "path": "gerber/copper_bottom.gbr",
+      "sha256": "c97bab022f42613826d74d19a87689c6e3c0d21f95f13d24610212444078f5c3",
+      "size": 363
+    },
+    {
+      "path": "gerber/copper_top.gbr",
+      "sha256": "feb9ff83048c274f72081458e6d6954aee8752b4edde79ff6e053942fcf42b1b",
+      "size": 363
+    },
+    {
+      "path": "gerber/drill.drl",
+      "sha256": "4dd07ef0f7e604dc32c1d813ed0735199f23d801913362a9dff0911b12030e4e",
+      "size": 182
+    },
+    {
+      "path": "gerber/profile.gbr",
+      "sha256": "21426978fb49d4520d010f7f9c4171f101393296e8c100a765805e2de86ca071",
+      "size": 159
+    },
+    {
+      "path": "gerber/soldermask_bottom.gbr",
+      "sha256": "6b198549bc99dbb6ab4f446de4c8a5f7817fe0d0b70d44e0cce7200f69099060",
+      "size": 255
+    },
+    {
+      "path": "gerber/soldermask_top.gbr",
+      "sha256": "79ecfff53d97a1a36a5381142f3e32777884d55040929ec7ec70d6f569164199",
+      "size": 255
+    }
+  ],
+  "id": "14-dnp-in-cpl",
+  "input": "input",
+  "input_kind": "files",
+  "notes": null,
+  "profile": "smt-assembly",
+  "reference": null,
+  "simulated": true,
+  "title": "DNP part illegally present in CPL",
+  "touch": null
+}

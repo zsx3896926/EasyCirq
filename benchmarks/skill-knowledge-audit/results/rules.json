@@ -1,0 +1,6547 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "C-0001",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 20,
+          "line_start": 20,
+          "path": "assets/decisions/harness-package.template.md"
+        },
+        {
+          "line_end": 226,
+          "line_start": 226,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "approval_vs_autonomy",
+      "rule_a": "M-29413c900f",
+      "rule_b": "M-314afa5e96"
+    },
+    {
+      "candidate_id": "C-0002",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 9,
+          "line_start": 9,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 226,
+          "line_start": 226,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "approval_vs_autonomy",
+      "rule_a": "M-da200a8af4",
+      "rule_b": "M-314afa5e96"
+    },
+    {
+      "candidate_id": "C-0003",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/routing-plan.md"
+        },
+        {
+          "line_end": 226,
+          "line_start": 226,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "gate"
+        ]
+      },
+      "relation": "approval_vs_autonomy",
+      "rule_a": "M-421e3c865f",
+      "rule_b": "M-314afa5e96"
+    },
+    {
+      "candidate_id": "C-0004",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 6,
+          "line_start": 6,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f986420599",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0005",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 6,
+          "line_start": 6,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f986420599",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0006",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 6,
+          "line_start": 6,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f986420599",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0007",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 6,
+          "line_start": 6,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f986420599",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0008",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 6,
+          "line_start": 6,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 28,
+          "line_start": 28,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "installation"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f986420599",
+      "rule_b": "M-8aeb9ff9dc"
+    },
+    {
+      "candidate_id": "C-0009",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 6,
+          "line_start": 6,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f986420599",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0010",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 6,
+          "line_start": 6,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f986420599",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0011",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 126,
+          "line_start": 126,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-a8dc9718dc"
+    },
+    {
+      "candidate_id": "C-0012",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 265,
+          "line_start": 265,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-d3dc6b426c"
+    },
+    {
+      "candidate_id": "C-0013",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 23,
+          "line_start": 23,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-abf25985d1"
+    },
+    {
+      "candidate_id": "C-0014",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0015",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 130,
+          "line_start": 130,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-d9a3a874a1"
+    },
+    {
+      "candidate_id": "C-0016",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0017",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 232,
+          "line_start": 232,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-bc8c74f431"
+    },
+    {
+      "candidate_id": "C-0018",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 284,
+          "line_start": 284,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-5e64502de0"
+    },
+    {
+      "candidate_id": "C-0019",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 298,
+          "line_start": 298,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-217cb4ba31"
+    },
+    {
+      "candidate_id": "C-0020",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 317,
+          "line_start": 317,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-5e2b56f400"
+    },
+    {
+      "candidate_id": "C-0021",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 11,
+          "line_start": 11,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-ea4a7c4eec"
+    },
+    {
+      "candidate_id": "C-0022",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 13,
+          "line_start": 13,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-60ab6504c1"
+    },
+    {
+      "candidate_id": "C-0023",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0024",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0025",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/sourcing-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-fbdf7ced79"
+    },
+    {
+      "candidate_id": "C-0026",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 15,
+          "line_start": 15,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-ed43a223a7"
+    },
+    {
+      "candidate_id": "C-0027",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 28,
+          "line_start": 28,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-8aeb9ff9dc"
+    },
+    {
+      "candidate_id": "C-0028",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 106,
+          "line_start": 106,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-1f7b0f1b41"
+    },
+    {
+      "candidate_id": "C-0029",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0030",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 4,
+          "line_start": 4,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-b86434900a"
+    },
+    {
+      "candidate_id": "C-0031",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0032",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 111,
+          "line_start": 111,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 23,
+          "line_start": 23,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "offline"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-64d4df807d",
+      "rule_b": "M-abf25985d1"
+    },
+    {
+      "candidate_id": "C-0033",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 111,
+          "line_start": 111,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-64d4df807d",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0034",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 111,
+          "line_start": 111,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-64d4df807d",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0035",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 111,
+          "line_start": 111,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 232,
+          "line_start": 232,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "offline"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-64d4df807d",
+      "rule_b": "M-bc8c74f431"
+    },
+    {
+      "candidate_id": "C-0036",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 111,
+          "line_start": 111,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 298,
+          "line_start": 298,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "offline"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-64d4df807d",
+      "rule_b": "M-217cb4ba31"
+    },
+    {
+      "candidate_id": "C-0037",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 111,
+          "line_start": 111,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-64d4df807d",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0038",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 111,
+          "line_start": 111,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-64d4df807d",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0039",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 111,
+          "line_start": 111,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-64d4df807d",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0040",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 111,
+          "line_start": 111,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-64d4df807d",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0041",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0042",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0043",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 284,
+          "line_start": 284,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "manufacturing"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-5e64502de0"
+    },
+    {
+      "candidate_id": "C-0044",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 317,
+          "line_start": 317,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "manufacturing"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-5e2b56f400"
+    },
+    {
+      "candidate_id": "C-0045",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 13,
+          "line_start": 13,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "manufacturing",
+          "sourcing"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-60ab6504c1"
+    },
+    {
+      "candidate_id": "C-0046",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0047",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0048",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/sourcing-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "sourcing"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-fbdf7ced79"
+    },
+    {
+      "candidate_id": "C-0049",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0050",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 276,
+          "line_start": 276,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-7c7bf31b8e",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0051",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 265,
+          "line_start": 265,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-d3dc6b426c"
+    },
+    {
+      "candidate_id": "C-0052",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 23,
+          "line_start": 23,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis",
+          "offline"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-abf25985d1"
+    },
+    {
+      "candidate_id": "C-0053",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0054",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 130,
+          "line_start": 130,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis",
+          "review",
+          "schematic"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-d9a3a874a1"
+    },
+    {
+      "candidate_id": "C-0055",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0056",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 232,
+          "line_start": 232,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis",
+          "offline"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-bc8c74f431"
+    },
+    {
+      "candidate_id": "C-0057",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 284,
+          "line_start": 284,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-5e64502de0"
+    },
+    {
+      "candidate_id": "C-0058",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 298,
+          "line_start": 298,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "offline",
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-217cb4ba31"
+    },
+    {
+      "candidate_id": "C-0059",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 317,
+          "line_start": 317,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-5e2b56f400"
+    },
+    {
+      "candidate_id": "C-0060",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 11,
+          "line_start": 11,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis",
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-ea4a7c4eec"
+    },
+    {
+      "candidate_id": "C-0061",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0062",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0063",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 15,
+          "line_start": 15,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis",
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-ed43a223a7"
+    },
+    {
+      "candidate_id": "C-0064",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 106,
+          "line_start": 106,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "review",
+          "schematic"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-1f7b0f1b41"
+    },
+    {
+      "candidate_id": "C-0065",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0066",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 282,
+          "line_start": 282,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-a4f74fb943",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0067",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 265,
+          "line_start": 265,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-d3dc6b426c"
+    },
+    {
+      "candidate_id": "C-0068",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0069",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 130,
+          "line_start": 130,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "pcb",
+          "review",
+          "schematic"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-d9a3a874a1"
+    },
+    {
+      "candidate_id": "C-0070",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0071",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 284,
+          "line_start": 284,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "manufacturing",
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-5e64502de0"
+    },
+    {
+      "candidate_id": "C-0072",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 298,
+          "line_start": 298,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-217cb4ba31"
+    },
+    {
+      "candidate_id": "C-0073",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 317,
+          "line_start": 317,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "manufacturing",
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-5e2b56f400"
+    },
+    {
+      "candidate_id": "C-0074",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 11,
+          "line_start": 11,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-ea4a7c4eec"
+    },
+    {
+      "candidate_id": "C-0075",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 13,
+          "line_start": 13,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "manufacturing"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-60ab6504c1"
+    },
+    {
+      "candidate_id": "C-0076",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0077",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0078",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 15,
+          "line_start": 15,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "pcb",
+          "review"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-ed43a223a7"
+    },
+    {
+      "candidate_id": "C-0079",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 106,
+          "line_start": 106,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "pcb",
+          "review",
+          "schematic"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-1f7b0f1b41"
+    },
+    {
+      "candidate_id": "C-0080",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0081",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f65bfd9152",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0082",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 126,
+          "line_start": 126,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-a8dc9718dc"
+    },
+    {
+      "candidate_id": "C-0083",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 265,
+          "line_start": 265,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-d3dc6b426c"
+    },
+    {
+      "candidate_id": "C-0084",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 23,
+          "line_start": 23,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-abf25985d1"
+    },
+    {
+      "candidate_id": "C-0085",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0086",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 130,
+          "line_start": 130,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-d9a3a874a1"
+    },
+    {
+      "candidate_id": "C-0087",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0088",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 232,
+          "line_start": 232,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-bc8c74f431"
+    },
+    {
+      "candidate_id": "C-0089",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 284,
+          "line_start": 284,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-5e64502de0"
+    },
+    {
+      "candidate_id": "C-0090",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 298,
+          "line_start": 298,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-217cb4ba31"
+    },
+    {
+      "candidate_id": "C-0091",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 317,
+          "line_start": 317,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-5e2b56f400"
+    },
+    {
+      "candidate_id": "C-0092",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 11,
+          "line_start": 11,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-ea4a7c4eec"
+    },
+    {
+      "candidate_id": "C-0093",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 13,
+          "line_start": 13,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-60ab6504c1"
+    },
+    {
+      "candidate_id": "C-0094",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0095",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0096",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/sourcing-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-fbdf7ced79"
+    },
+    {
+      "candidate_id": "C-0097",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 15,
+          "line_start": 15,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-ed43a223a7"
+    },
+    {
+      "candidate_id": "C-0098",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 28,
+          "line_start": 28,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-8aeb9ff9dc"
+    },
+    {
+      "candidate_id": "C-0099",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 106,
+          "line_start": 106,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-1f7b0f1b41"
+    },
+    {
+      "candidate_id": "C-0100",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0101",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 4,
+          "line_start": 4,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-b86434900a"
+    },
+    {
+      "candidate_id": "C-0102",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/beginner-summary.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d7c2dd4fec",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0103",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f61f92470b",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0104",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 130,
+          "line_start": 130,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "pcb"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f61f92470b",
+      "rule_b": "M-d9a3a874a1"
+    },
+    {
+      "candidate_id": "C-0105",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f61f92470b",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0106",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f61f92470b",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0107",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f61f92470b",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0108",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 15,
+          "line_start": 15,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "pcb"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f61f92470b",
+      "rule_b": "M-ed43a223a7"
+    },
+    {
+      "candidate_id": "C-0109",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 106,
+          "line_start": 106,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "pcb"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f61f92470b",
+      "rule_b": "M-1f7b0f1b41"
+    },
+    {
+      "candidate_id": "C-0110",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f61f92470b",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0111",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "assets/design-brief.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-f61f92470b",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0112",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 265,
+          "line_start": 265,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "gate"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-d3dc6b426c"
+    },
+    {
+      "candidate_id": "C-0113",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 23,
+          "line_start": 23,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-abf25985d1"
+    },
+    {
+      "candidate_id": "C-0114",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0115",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 130,
+          "line_start": 130,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis",
+          "pcb"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-d9a3a874a1"
+    },
+    {
+      "candidate_id": "C-0116",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0117",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 232,
+          "line_start": 232,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis",
+          "gate"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-bc8c74f431"
+    },
+    {
+      "candidate_id": "C-0118",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 284,
+          "line_start": 284,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "manufacturing"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-5e64502de0"
+    },
+    {
+      "candidate_id": "C-0119",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 317,
+          "line_start": 317,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "manufacturing"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-5e2b56f400"
+    },
+    {
+      "candidate_id": "C-0120",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 11,
+          "line_start": 11,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-ea4a7c4eec"
+    },
+    {
+      "candidate_id": "C-0121",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 13,
+          "line_start": 13,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "manufacturing"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-60ab6504c1"
+    },
+    {
+      "candidate_id": "C-0122",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0123",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0124",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 15,
+          "line_start": 15,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis",
+          "pcb"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-ed43a223a7"
+    },
+    {
+      "candidate_id": "C-0125",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 28,
+          "line_start": 28,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "installation"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-8aeb9ff9dc"
+    },
+    {
+      "candidate_id": "C-0126",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 106,
+          "line_start": 106,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "pcb"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-1f7b0f1b41"
+    },
+    {
+      "candidate_id": "C-0127",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0128",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 14,
+          "line_start": 14,
+          "path": "assets/docs/manufacturing-package.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-d867b0a878",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0129",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 23,
+          "line_start": 23,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-abf25985d1"
+    },
+    {
+      "candidate_id": "C-0130",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0131",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 130,
+          "line_start": 130,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-d9a3a874a1"
+    },
+    {
+      "candidate_id": "C-0132",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 134,
+          "line_start": 134,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-de11b6c47e"
+    },
+    {
+      "candidate_id": "C-0133",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 232,
+          "line_start": 232,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-bc8c74f431"
+    },
+    {
+      "candidate_id": "C-0134",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 11,
+          "line_start": 11,
+          "path": "assets/beginner-summary.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-ea4a7c4eec"
+    },
+    {
+      "candidate_id": "C-0135",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/engineering-notes.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-ea8926a126"
+    },
+    {
+      "candidate_id": "C-0136",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0137",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 15,
+          "line_start": 15,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "analysis"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-ed43a223a7"
+    },
+    {
+      "candidate_id": "C-0138",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 19,
+          "line_start": 19,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-9056c6a963"
+    },
+    {
+      "candidate_id": "C-0139",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "references/agent-collaboration.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "full_load_vs_on_demand",
+      "rule_a": "M-36fd4593d8",
+      "rule_b": "M-b994f70719"
+    },
+    {
+      "candidate_id": "C-0140",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 120,
+          "line_start": 120,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 40,
+          "line_start": 40,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "direct_wire_vs_label",
+      "rule_a": "M-66168f5325",
+      "rule_b": "M-cf9f7b59ef"
+    },
+    {
+      "candidate_id": "C-0141",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 120,
+          "line_start": 120,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 45,
+          "line_start": 45,
+          "path": "assets/docs/silk-assembly.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "direct_wire_vs_label",
+      "rule_a": "M-66168f5325",
+      "rule_b": "M-80e3a2f4ff"
+    },
+    {
+      "candidate_id": "C-0142",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 120,
+          "line_start": 120,
+          "path": "SKILL.md"
+        },
+        {
+          "line_end": 15,
+          "line_start": 15,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "direct_wire_vs_label",
+      "rule_a": "M-66168f5325",
+      "rule_b": "M-3a5fc97f8b"
+    },
+    {
+      "candidate_id": "C-0143",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 50,
+          "line_start": 50,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-1622965798"
+    },
+    {
+      "candidate_id": "C-0144",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-f1a411d180"
+    },
+    {
+      "candidate_id": "C-0145",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 157,
+          "line_start": 157,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-cdf1c76bd8"
+    },
+    {
+      "candidate_id": "C-0146",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 209,
+          "line_start": 209,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "gate",
+          "pcb"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-fa11bbf818"
+    },
+    {
+      "candidate_id": "C-0147",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 23,
+          "line_start": 23,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-abf25985d1"
+    },
+    {
+      "candidate_id": "C-0148",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 100,
+          "line_start": 100,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution",
+          "pcb"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-e718acb527"
+    },
+    {
+      "candidate_id": "C-0149",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 118,
+          "line_start": 118,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution",
+          "pcb"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-0aa06a89c8"
+    },
+    {
+      "candidate_id": "C-0150",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 232,
+          "line_start": 232,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "gate"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-bc8c74f431"
+    },
+    {
+      "candidate_id": "C-0151",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 260,
+          "line_start": 260,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-73fd43ce90"
+    },
+    {
+      "candidate_id": "C-0152",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 288,
+          "line_start": 288,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "pcb"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-ffb6e5a5c8"
+    },
+    {
+      "candidate_id": "C-0153",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 298,
+          "line_start": 298,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-217cb4ba31"
+    },
+    {
+      "candidate_id": "C-0154",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 321,
+          "line_start": 321,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "pcb"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-f65bfd9152"
+    },
+    {
+      "candidate_id": "C-0155",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 26,
+          "line_start": 26,
+          "path": "assets/decisions/asset-index.r4p6.example.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "gate"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-88884e1663"
+    },
+    {
+      "candidate_id": "C-0156",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 48,
+          "line_start": 48,
+          "path": "assets/decisions/asset-index.template.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-10616e7aa0"
+    },
+    {
+      "candidate_id": "C-0157",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "assets/decisions/harness-package.template.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-a14b4ec585"
+    },
+    {
+      "candidate_id": "C-0158",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 11,
+          "line_start": 11,
+          "path": "assets/decisions/variant-matrix.template.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-bcb9d54203"
+    },
+    {
+      "candidate_id": "C-0159",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 69,
+          "line_start": 69,
+          "path": "assets/docs/thermal-sensor.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution",
+          "gate"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-11b4bebd34"
+    },
+    {
+      "candidate_id": "C-0160",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0161",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 110,
+          "line_start": 110,
+          "path": "cases/mcu-i2c-s3-2026-10-26/README.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-3ecb8b3d76"
+    },
+    {
+      "candidate_id": "C-0162",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 8,
+          "line_start": 8,
+          "path": "cases/temp-alarm-2026-10-24/README.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution",
+          "gate",
+          "pcb"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-126b6560cb"
+    },
+    {
+      "candidate_id": "C-0163",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 70,
+          "line_start": 70,
+          "path": "cases/temp-alarm-2026-10-24/README.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-186a8211c9"
+    },
+    {
+      "candidate_id": "C-0164",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 38,
+          "line_start": 38,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution",
+          "pcb"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-fb949bc054"
+    },
+    {
+      "candidate_id": "C-0165",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 128,
+          "line_start": 128,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution",
+          "pcb"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-e7f14a4bf6"
+    },
+    {
+      "candidate_id": "C-0166",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 135,
+          "line_start": 135,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-dc08b5b3b9"
+    },
+    {
+      "candidate_id": "C-0167",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 27,
+          "line_start": 27,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-52d59a8d00"
+    },
+    {
+      "candidate_id": "C-0168",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 12,
+          "line_start": 12,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-b1cec13769"
+    },
+    {
+      "candidate_id": "C-0169",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 30,
+          "line_start": 30,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-2fc277ce2d"
+    },
+    {
+      "candidate_id": "C-0170",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 43,
+          "line_start": 43,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-12fc2ac8cf"
+    },
+    {
+      "candidate_id": "C-0171",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 47,
+          "line_start": 47,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 33,
+          "line_start": 33,
+          "path": "references/calculations/analog-adc.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-aa2f9c0136",
+      "rule_b": "M-c31e8ac410"
+    },
+    {
+      "candidate_id": "C-0172",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 50,
+          "line_start": 50,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-1622965798"
+    },
+    {
+      "candidate_id": "C-0173",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-f1a411d180"
+    },
+    {
+      "candidate_id": "C-0174",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 157,
+          "line_start": 157,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-cdf1c76bd8"
+    },
+    {
+      "candidate_id": "C-0175",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 23,
+          "line_start": 23,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-abf25985d1"
+    },
+    {
+      "candidate_id": "C-0176",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 100,
+          "line_start": 100,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-e718acb527"
+    },
+    {
+      "candidate_id": "C-0177",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 118,
+          "line_start": 118,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-0aa06a89c8"
+    },
+    {
+      "candidate_id": "C-0178",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 260,
+          "line_start": 260,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-73fd43ce90"
+    },
+    {
+      "candidate_id": "C-0179",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 298,
+          "line_start": 298,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-217cb4ba31"
+    },
+    {
+      "candidate_id": "C-0180",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 48,
+          "line_start": 48,
+          "path": "assets/decisions/asset-index.template.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-10616e7aa0"
+    },
+    {
+      "candidate_id": "C-0181",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 42,
+          "line_start": 42,
+          "path": "assets/decisions/harness-package.template.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-a14b4ec585"
+    },
+    {
+      "candidate_id": "C-0182",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 11,
+          "line_start": 11,
+          "path": "assets/decisions/variant-matrix.template.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-bcb9d54203"
+    },
+    {
+      "candidate_id": "C-0183",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 69,
+          "line_start": 69,
+          "path": "assets/docs/thermal-sensor.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-11b4bebd34"
+    },
+    {
+      "candidate_id": "C-0184",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 3,
+          "line_start": 3,
+          "path": "assets/manufacturing-profile.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-0f337a24ba"
+    },
+    {
+      "candidate_id": "C-0185",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 110,
+          "line_start": 110,
+          "path": "cases/mcu-i2c-s3-2026-10-26/README.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-3ecb8b3d76"
+    },
+    {
+      "candidate_id": "C-0186",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 8,
+          "line_start": 8,
+          "path": "cases/temp-alarm-2026-10-24/README.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-126b6560cb"
+    },
+    {
+      "candidate_id": "C-0187",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 70,
+          "line_start": 70,
+          "path": "cases/temp-alarm-2026-10-24/README.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-186a8211c9"
+    },
+    {
+      "candidate_id": "C-0188",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 38,
+          "line_start": 38,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-fb949bc054"
+    },
+    {
+      "candidate_id": "C-0189",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 128,
+          "line_start": 128,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-e7f14a4bf6"
+    },
+    {
+      "candidate_id": "C-0190",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 135,
+          "line_start": 135,
+          "path": "references/agent-collaboration.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-dc08b5b3b9"
+    },
+    {
+      "candidate_id": "C-0191",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 27,
+          "line_start": 27,
+          "path": "references/analog-rf-highspeed.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-52d59a8d00"
+    },
+    {
+      "candidate_id": "C-0192",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 12,
+          "line_start": 12,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-b1cec13769"
+    },
+    {
+      "candidate_id": "C-0193",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 30,
+          "line_start": 30,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-2fc277ce2d"
+    },
+    {
+      "candidate_id": "C-0194",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 43,
+          "line_start": 43,
+          "path": "references/beginner-journey.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "execution"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-12fc2ac8cf"
+    },
+    {
+      "candidate_id": "C-0195",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 54,
+          "line_start": 54,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 33,
+          "line_start": 33,
+          "path": "references/calculations/analog-adc.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-226ab26e91",
+      "rule_b": "M-c31e8ac410"
+    },
+    {
+      "candidate_id": "C-0196",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 50,
+          "line_start": 50,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-1622965798"
+    },
+    {
+      "candidate_id": "C-0197",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 157,
+          "line_start": 157,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-cdf1c76bd8"
+    },
+    {
+      "candidate_id": "C-0198",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 209,
+          "line_start": 209,
+          "path": "CHANGELOG.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-fa11bbf818"
+    },
+    {
+      "candidate_id": "C-0199",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 100,
+          "line_start": 100,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-e718acb527"
+    },
+    {
+      "candidate_id": "C-0200",
+      "classification": "candidate",
+      "evidence": [
+        {
+          "line_end": 96,
+          "line_start": 96,
+          "path": "CHANGELOG.md"
+        },
+        {
+          "line_end": 118,
+          "line_start": 118,
+          "path": "SKILL.md"
+        }
+      ],
+      "note": "deterministic keyword families only; not a confirmed conflict",
+      "overlap": {
+        "condition": "unknown",
+        "scope": [
+          "unknown"
+        ]
+      },
+      "relation": "strict_vs_lenient",
+      "rule_a": "M-f1a411d180",
+      "rule_b": "M-0aa06a89c8"
+    }
+  ],
+  "catalog": {
+    "relations": 10,
+    "rules": 12,
+    "sha256": "1ed68b8ced1c644659a6d89eb2fb72b23383460f63513b79f04c1c8e978bc48a"
+  },
+  "catalog_version": "2026-10-27.1",
+  "confirmed_conflicts": [],
+  "counts": {
+    "candidate_tensions": 200,
+    "confirmed_conflicts": 0,
+    "machine_candidates": 400,
+    "reviewed_relations": 10,
+    "rules": 12
+  },
+  "fixtures": {
+    "accuracy": 1.0,
+    "correct": 16,
+    "mismatches": [],
+    "results": [
+      {
+        "actual": "true_conflict",
+        "category": "true_conflict",
+        "expected": "true_conflict",
+        "ok": true,
+        "pair_id": "FX-01",
+        "synthetic": true
+      },
+      {
+        "actual": "default_with_exception",
+        "category": "default_with_exception",
+        "expected": "default_with_exception",
+        "ok": true,
+        "pair_id": "FX-02",
+        "synthetic": false
+      },
+      {
+        "actual": "different_stage",
+        "category": "different_stage",
+        "expected": "different_stage",
+        "ok": true,
+        "pair_id": "FX-03",
+        "synthetic": false
+      },
+      {
+        "actual": "different_scope",
+        "category": "different_scope",
+        "expected": "different_scope",
+        "ok": true,
+        "pair_id": "FX-04",
+        "synthetic": false
+      },
+      {
+        "actual": "stale_reference",
+        "category": "stale_reference",
+        "expected": "stale_reference",
+        "ok": true,
+        "pair_id": "FX-05",
+        "synthetic": true
+      },
+      {
+        "actual": "ambiguity",
+        "category": "ambiguity",
+        "expected": "ambiguity",
+        "ok": true,
+        "pair_id": "FX-06",
+        "synthetic": false
+      },
+      {
+        "actual": "user_authorized",
+        "category": "user_authorized",
+        "expected": "user_authorized",
+        "ok": true,
+        "pair_id": "FX-07",
+        "synthetic": false
+      },
+      {
+        "actual": "technical_limit",
+        "category": "technical_limit",
+        "expected": "technical_limit",
+        "ok": true,
+        "pair_id": "FX-08",
+        "synthetic": false
+      },
+      {
+        "actual": "negation",
+        "category": "negation",
+        "expected": "negation",
+        "ok": true,
+        "pair_id": "FX-09",
+        "synthetic": false
+      },
+      {
+        "actual": "code_example",
+        "category": "code_example",
+        "expected": "code_example",
+        "ok": true,
+        "pair_id": "FX-10",
+        "synthetic": false
+      },
+      {
+        "actual": "coexist",
+        "category": "coexist",
+        "expected": "coexist",
+        "ok": true,
+        "pair_id": "FX-11",
+        "synthetic": false
+      },
+      {
+        "actual": "coexist",
+        "category": "mixed_language_cross_paragraph",
+        "expected": "coexist",
+        "ok": true,
+        "pair_id": "FX-12",
+        "synthetic": false
+      },
+      {
+        "actual": "different_scope",
+        "category": "different_scope",
+        "expected": "different_scope",
+        "ok": true,
+        "pair_id": "FX-13",
+        "synthetic": false
+      },
+      {
+        "actual": "coexist",
+        "category": "coexist",
+        "expected": "coexist",
+        "ok": true,
+        "pair_id": "FX-14",
+        "synthetic": false
+      },
+      {
+        "actual": "default_with_exception",
+        "category": "default_with_exception",
+        "expected": "default_with_exception",
+        "ok": true,
+        "pair_id": "FX-15",
+        "synthetic": false
+      },
+      {
+        "actual": "coexist",
+        "category": "coexist",
+        "expected": "coexist",
+        "ok": true,
+        "pair_id": "FX-16",
+        "synthetic": false
+      }
+    ],
+    "total": 16
+  },
+  "kind": "rules",
+  "machine_rules_sample": [
+    {
+      "action": "- 全量 CI 明确覆盖 Python 3.10 与 3.13；原先安装器测试不能替代最低版本的完整功能测试。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-f986420599",
+      "source": {
+        "line_end": 6,
+        "line_start": 6,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "unknown",
+      "task_scope": [
+        "installation"
+      ],
+      "text": "- 全量 CI 明确覆盖 Python 3.10 与 3.13；原先安装器测试不能替代最低版本的完整功能测试。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- v1.0.0 起本项目自有内容采用 Apache License 2.0；保留第三方来源与各自许可。历史版本许可不追溯改变。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-18446a3f4a",
+      "source": {
+        "line_end": 16,
+        "line_start": 16,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "installation"
+      ],
+      "text": "- v1.0.0 起本项目自有内容采用 Apache License 2.0；保留第三方来源与各自许可。历史版本许可不追溯改变。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- 固定 8 个上游项目来源、保留第三方许可；所有新增能力默认离线，真实 EDA 写入仍独立验收。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-f909fceef9",
+      "source": {
+        "line_end": 21,
+        "line_start": 21,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "analysis",
+        "execution",
+        "offline"
+      ],
+      "text": "- 固定 8 个上游项目来源、保留第三方许可；所有新增能力默认离线，真实 EDA 写入仍独立验收。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- feedback_loop 为实验能力：最终收紧代码的真实写入仍未验证；已有真机记录不能替代。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-6d8e97062b",
+      "source": {
+        "line_end": 33,
+        "line_start": 33,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "unknown",
+      "task_scope": [
+        "execution"
+      ],
+      "text": "- feedback_loop 为实验能力：最终收紧代码的真实写入仍未验证；已有真机记录不能替代。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- PCB 写前门禁：`plan.before_dump` 必须是完整原始 dump——铜的",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-aa2f9c0136",
+      "source": {
+        "line_end": 47,
+        "line_start": 47,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "execution",
+        "gate",
+        "pcb"
+      ],
+      "text": "- PCB 写前门禁：`plan.before_dump` 必须是完整原始 dump——铜的",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "`routedLines` 与顶层 `availability` 缺一即拒绝；真实 dump 可以没有顶层",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-1622965798",
+      "source": {
+        "line_end": 50,
+        "line_start": 50,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "execution"
+      ],
+      "text": "`routedLines` 与顶层 `availability` 缺一即拒绝；真实 dump 可以没有顶层",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- `apply` 写前二次绑定；写入后 dump 必须带 `capture` 与 `semanticSha256`：",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-226ab26e91",
+      "source": {
+        "line_end": 54,
+        "line_start": 54,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "execution"
+      ],
+      "text": "- `apply` 写前二次绑定；写入后 dump 必须带 `capture` 与 `semanticSha256`：",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- 差异：孔变化按 primitive id / 位号+焊盘归属，D1→D2 两边都记录，after-only",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-ee0e5ae2cc",
+      "source": {
+        "line_end": 57,
+        "line_start": 57,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "unknown",
+      "task_scope": [
+        "unknown"
+      ],
+      "text": "- 差异：孔变化按 primitive id / 位号+焊盘归属，D1→D2 两边都记录，after-only",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "机器可读输出显式 `simulated`。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-92472636f5",
+      "source": {
+        "line_end": 65,
+        "line_start": 65,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "unknown"
+      ],
+      "text": "机器可读输出显式 `simulated`。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- 当前 Connector 不可用（`easyeda doc ready --json` ->",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-7c26ec4eb6",
+      "source": {
+        "line_end": 82,
+        "line_start": 82,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "unknown"
+      ],
+      "text": "- 当前 Connector 不可用（`easyeda doc ready --json` ->",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "round12 原理图排版工具链补强：把 compose 输入、页预算预检和稳定 ID 绑定从手工步骤变成可离线验证的脚本，并记录本轮真机遇到的破坏性重排与恢复边界。**本轮脚本均为离线实现与单元测试，未调用 EDA**；真机证据来自 2026-10-27 usb-audio-amplifier-test-01 排版任务。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-4b983ab1f1",
+      "source": {
+        "line_end": 90,
+        "line_start": 90,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "analysis",
+        "offline",
+        "schematic"
+      ],
+      "text": "round12 原理图排版工具链补强：把 compose 输入、页预算预检和稳定 ID 绑定从手工步骤变成可离线验证的脚本，并记录本轮真机遇到的破坏性重排与恢复边界。**本轮脚本均为离线实现与单元测试，未调用 EDA**；真机证据来自 2026-10-27 usb-audio-amplifier-test-01 排版任务。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- `scripts/sch_bind_component_ids.py`（`design-engine-sch-bind-ids/v1`）：计划/复核 `EasyEDA Agent Component ID = cmp-<位号>` 绑定，输出逐件 `sch modify` PowerShell 命令；检测缺位号/重复/冲突，`rebind` 必须显式 `--force`；`--verify` 要",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-f1a411d180",
+      "source": {
+        "line_end": 96,
+        "line_start": 96,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "unknown"
+      ],
+      "text": "- `scripts/sch_bind_component_ids.py`（`design-engine-sch-bind-ids/v1`）：计划/复核 `EasyEDA Agent Component ID = cmp-<位号>` 绑定，输出逐件 `sch modify` PowerShell 命令；检测缺位号/重复/冲突，`rebind` 必须显式 `--force`；`--verify` 要求 N/N 全部通过。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- `sch_sheet_fit.py`：按 compose 的半单位边框描边和 5-raw 锚点网格计算可用区/区间距/keep-out；固定锚点与打包 reserve 上取整到网格，`--out-page` 输出整数 5 网格坐标与 `flow: fixed`，并拒绝非 5 整数倍的功能区尺寸。修复“离线报告 fits、compose 仍因边距/网格拒绝”的假阳性。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-56700e1472",
+      "source": {
+        "line_end": 102,
+        "line_start": 102,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "analysis",
+        "offline"
+      ],
+      "text": "- `sch_sheet_fit.py`：按 compose 的半单位边框描边和 5-raw 锚点网格计算可用区/区间距/keep-out；固定锚点与打包 reserve 上取整到网格，`--out-page` 输出整数 5 网格坐标与 `flow: fixed`，并拒绝非 5 整数倍的功能区尺寸。修复“离线报告 fits、compose 仍因边距/网格拒绝”的假阳性。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- `scripts/offline_guard.py` + `tools/offline_suite.py`：`HDS_OFFLINE=1` 下拦截真实 `easyeda`/进程内网络；假 CLI 必须带显式标记；从任意干净临时目录运行全量测试并输出 `simulated:true` 汇总。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-64d4df807d",
+      "source": {
+        "line_end": 111,
+        "line_start": 111,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "offline"
+      ],
+      "text": "- `scripts/offline_guard.py` + `tools/offline_suite.py`：`HDS_OFFLINE=1` 下拦截真实 `easyeda`/进程内网络；假 CLI 必须带显式标记；从任意干净临时目录运行全量测试并输出 `simulated:true` 汇总。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- `scripts/sch_visual_audit.py`（`design-engine-sch-visual-audit/v1`）：复用 `sch_layout_check`，输出对象/位置/原因/未执行建议、字体不确定性与 netflag 方向状态；生成带 `ANALYSIS OVERLAY` 水印和 `official_export:false` 的分析叠加 SVG。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-03d704218b",
+      "source": {
+        "line_end": 112,
+        "line_start": 112,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "should",
+      "task_scope": [
+        "analysis",
+        "execution"
+      ],
+      "text": "- `scripts/sch_visual_audit.py`（`design-engine-sch-visual-audit/v1`）：复用 `sch_layout_check`，输出对象/位置/原因/未执行建议、字体不确定性与 netflag 方向状态；生成带 `ANALYSIS OVERLAY` 水印和 `official_export:false` 的分析叠加 SVG。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- `assets/pcb-delivery-checklist.md`：从身份、原理图、PCB、局部改板到 BOM/归档/限制口径的可复用交付清单。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-43a452529d",
+      "source": {
+        "line_end": 116,
+        "line_start": 116,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "manufacturing",
+        "pcb",
+        "schematic"
+      ],
+      "text": "- `assets/pcb-delivery-checklist.md`：从身份、原理图、PCB、局部改板到 BOM/归档/限制口径的可复用交付清单。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- `assets/schematic-frame-plan.example.json` + `scripts/sch_frame_meta_check.py`：在写 frame 前强制 `order`/`title`/`purpose` 元数据；缺 `purpose_text_id` 默认 blocked，避免新工程再次到 strict 阶段才发现布局不完整。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-aa270cf4ab",
+      "source": {
+        "line_end": 117,
+        "line_start": 117,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "unknown",
+      "task_scope": [
+        "pcb",
+        "schematic"
+      ],
+      "text": "- `assets/schematic-frame-plan.example.json` + `scripts/sch_frame_meta_check.py`：在写 frame 前强制 `order`/`title`/`purpose` 元数据；缺 `purpose_text_id` 默认 blocked，避免新工程再次到 strict 阶段才发现布局不完整。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- `cases/dual-button-led-night-20261027/negative-direct-move/`：保留首次 LED2 直接上移 2 mm 的失败输入（D4/R3 重叠 5.181 mil），作为必须拒绝的负例。",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-b3bfde2fff",
+      "source": {
+        "line_end": 119,
+        "line_start": 119,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "unknown"
+      ],
+      "text": "- `cases/dual-button-led-night-20261027/negative-direct-move/`：保留首次 LED2 直接上移 2 mm 的失败输入（D4/R3 重叠 5.181 mil），作为必须拒绝的负例。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "case-search/case-register/loop-*`；只读命令不写入，`apply` 默认 dry-run，",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-a8dc9718dc",
+      "source": {
+        "line_end": 126,
+        "line_start": 126,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "unknown",
+      "task_scope": [
+        "execution"
+      ],
+      "text": "case-search/case-register/loop-*`；只读命令不写入，`apply` 默认 dry-run，",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "- `feedback/observe.py`：能力探测、观察契约、缓存与响应 `context` 身份核对；",
+      "condition": "unknown",
+      "evidence_required": [],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "low",
+        "method": "pattern",
+        "notes": "deterministic imperative-line pattern; not reviewed"
+      },
+      "priority_declared": "unknown",
+      "provenance": "machine_extracted",
+      "rule_id": "M-31b7cfb062",
+      "source": {
+        "line_end": 128,
+        "line_start": 128,
+        "path": "CHANGELOG.md"
+      },
+      "strength": "should",
+      "task_scope": [
+        "unknown"
+      ],
+      "text": "- `feedback/observe.py`：能力探测、观察契约、缓存与响应 `context` 身份核对；",
+      "version_applicability": "v1.0.1"
+    }
+  ],
+  "not_proof": "本结果只证明静态文档结构与引用关系，不证明 Skill 被客户端加载、模型遵守规则、阅读行为改变或硬件设计正确。 规则分类是启发式/人工审查，不是运行时行为证明；未运行模型会话，未测量实际审批次数或阅读 token。",
+  "ok": true,
+  "reviewed_relations": [
+    {
+      "classification": "different_stage",
+      "evidence": [
+        {
+          "line": 96,
+          "path": "design-hardware/SKILL.md",
+          "quote": "方案、原理图、布局、交付设为四个可见检查点。默认在任务已授权范围内自查、汇报并继续；用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待。不要把工程检查点一律变成权限停顿点。真正改变已确认接口/尺寸/成本目标、涉及关键未知量时，先处理该决定，同时推进无依赖部分。"
+        },
+        {
+          "line": 153,
+          "path": "design-hardware/references/design-gates.md",
+          "quote": "**豁免规则：** score、crossings、overlap/off-board/short 和板框不可豁免；安装孔、连接器逃逸、自动摆放对比、冻结时间可豁免并写明剩余风险。布局冻结后若为了布线移动器件，必须先重开 G3 并作废受影响布线。"
+        }
+      ],
+      "exception": "design-gates 153 是阶段顺序/证据要求，不是用户审批等待；用户显式要求时才在检查点等待",
+      "overlap": {
+        "condition": "默认自主评审节奏与布局冻结后的变更门禁同时被读到",
+        "scope": "布局/评审阶段"
+      },
+      "pair_id": "REL-01",
+      "resolution": "无需改规则；在布局冻结变更说明中注明这是 G3 重开而非审批门，避免被读成强制等待",
+      "rule_ids": [
+        "R-SKILL-001"
+      ],
+      "scenario": "布局已冻结，为布线移动器件，同时用户未要求暂停"
+    },
+    {
+      "classification": "different_scope",
+      "evidence": [
+        {
+          "line": 15,
+          "path": "design-hardware/SKILL.md",
+          "quote": "新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 统一检查本 Skill 与 easyeda-agent 的 CLI/Skill/daemon/Connector（24 小时缓存）；"
+        },
+        {
+          "line": 104,
+          "path": "design-hardware/SKILL.md",
+          "quote": "纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。"
+        }
+      ],
+      "exception": "R-START-009 措辞为 may（可用），R-START-010 明确纯分析无需提前探测",
+      "overlap": {
+        "condition": "新任务启动时是否先做更新/EDA 探测",
+        "scope": "安装更新检查（可选） vs 纯分析任务（无需探测）"
+      },
+      "pair_id": "REL-02",
+      "resolution": "保持 may；计划中纯分析不产生 install/network 动作，实际读写工程前再检查",
+      "rule_ids": [
+        "R-START-009",
+        "R-START-010"
+      ],
+      "scenario": "用户要求纯资料分析，Agent 考虑是否先跑 skill_update check / doctor"
+    },
+    {
+      "classification": "coexist",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "design-hardware/references/schematic-layout.md",
+          "quote": "- 局部连接优先直接画线；只有跨区、跨页或长距离才用标签。为减少一条线而增加一串标签，通常让拓扑更难读。"
+        },
+        {
+          "line": 120,
+          "path": "design-hardware/SKILL.md",
+          "quote": "简单工程优先一页，按信号方向组织主链、把供电/参考放辅助行；局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。已有工程保留器件身份与连接，按受影响模块修正；一次候选失败先读取具体冲突，同一失败机制重复两次就换布局方法或记录能力缺口，不继续盲改坐标。"
+        }
+      ],
+      "exception": "两处文本方向一致：局部直连、跨区用标签/端口",
+      "overlap": {
+        "condition": "绘制/整理原理图时局部与跨区连接介质",
+        "scope": "原理图图面"
+      },
+      "pair_id": "REL-03",
+      "resolution": "保留一处为正文，另一处改链接，减少重复阅读（proposal P-06）",
+      "rule_ids": [
+        "R-LAY-011"
+      ],
+      "scenario": "局部反馈网络与跨区信号同时存在"
+    },
+    {
+      "classification": "default_with_exception",
+      "evidence": [
+        {
+          "line": 74,
+          "path": "design-hardware/references/schematic-layout.md",
+          "quote": "- 局部连接优先直接画线；只有跨区、跨页或长距离才用标签。为减少一条线而增加一串标签，通常让拓扑更难读。"
+        },
+        {
+          "line": 54,
+          "path": "design-hardware/references/schematic-layout.md",
+          "quote": "物理脚号顺序不等于原理图阅读顺序。优先使用可信库中已核对的功能分组符号/单元；不能为了好看直接改库脚号、交换引脚或临时重画芯片。既有符号难以直连时用短引线与明确标签化解，不牺牲pin-pad映射。"
+        }
+      ],
+      "exception": "R-LAY-012 的“既有符号难以直连”是 R-LAY-011 的覆盖例外",
+      "overlap": {
+        "condition": "已有符号难以直连的局部连接",
+        "scope": "原理图图面"
+      },
+      "pair_id": "REL-04",
+      "resolution": "无需改规则；可把例外合并到同一条（proposal P-06）",
+      "rule_ids": [
+        "R-LAY-011",
+        "R-LAY-012"
+      ],
+      "scenario": "库符号引脚位置不适合直连，但 pin-pad 映射必须保留"
+    },
+    {
+      "classification": "coexist",
+      "evidence": [
+        {
+          "line": 63,
+          "path": "design-hardware/references/design-gates.md",
+          "quote": "6. **缺证据就是 `BLOCKED`，不是 `PASS`。** 未运行、未导出、未回读的检查保持 `待确认`；报告写 `NOT RUN`，不写“应该没问题”。"
+        },
+        {
+          "line": 112,
+          "path": "design-hardware/SKILL.md",
+          "quote": "- 缺少执行通道时仍可完成方案、计算或离线规划；明确列出未写入项，不把文本、JSON、图片或探针结果说成用户工程已完成。"
+        }
+      ],
+      "exception": "R-GATE-005 限制“不得声称通过”，另一条允许继续可做部分并如实标注",
+      "overlap": {
+        "condition": "缺执行通道但需继续可做部分",
+        "scope": "检查/证据"
+      },
+      "pair_id": "REL-05",
+      "resolution": "无需改规则；在 BLOCKED 说明中补一句“只影响依赖链路”即可（P-07）",
+      "rule_ids": [
+        "R-GATE-005"
+      ],
+      "scenario": "Connector 不可用，但仍需离线分析并报告未写入项"
+    },
+    {
+      "classification": "ambiguity",
+      "evidence": [
+        {
+          "line": 42,
+          "path": "design-hardware/SKILL.md",
+          "quote": "- 问“做个板子”默认推进适合目标的原理图及PCB候选；问“做个设备/实现这个idea”同时建立功能、硬件、程序、结构、制造和验收的适用任务，先给最小可验证方案并继续；“先方案/先别画”只做方案。学习示例板、现成模块拼装、自制PCB分别解释和交付，不擅自把用户要的PCB替换成接线教程。"
+        },
+        {
+          "line": 84,
+          "path": "design-hardware/SKILL.md",
+          "quote": "自定义PCB不是所有idea的必经之路：现成模块能更快验证效果时，解释后作为适用路线；用户明确要定制板时保留定制交付，不悄悄换成购买开发板。服务选择围绕功能、成本和交付，不为增加业务环节强推服务。"
+        }
+      ],
+      "exception": "SKILL.md 未给出判别标准",
+      "overlap": {
+        "condition": "“做个板子”是否等于“用户明确要定制板”未定义",
+        "scope": "完整产品/PCB 路线"
+      },
+      "pair_id": "REL-06",
+      "resolution": "增加定义：仅当用户拒绝模块路线或明说定制/画板时按定制板推进（P-03）",
+      "rule_ids": [],
+      "scenario": "新用户说“做个板子”，同时现成模块能更快验证"
+    },
+    {
+      "classification": "different_scope",
+      "evidence": [
+        {
+          "line": 134,
+          "path": "design-hardware/SKILL.md",
+          "quote": "内部设计始终遵循 [工程工作流](references/workflow.md) 和 [证据与工程记录](references/evidence.md)，内容由Agent消化，不要求用户读完。按任务加载："
+        },
+        {
+          "line": 132,
+          "path": "design-hardware/SKILL.md",
+          "quote": "## 3. 按需读取，不加载规则百科"
+        }
+      ],
+      "exception": "“始终”只覆盖 workflow.md 与 evidence.md，其余按任务表加载",
+      "overlap": {
+        "condition": "“始终遵循”与“按需读取”同时出现",
+        "scope": "workflow/evidence（始终） vs 其余参考资料（按需）"
+      },
+      "pair_id": "REL-07",
+      "resolution": "无需改规则；可在 L134 明说“仅这两份始终读”以降低误读",
+      "rule_ids": [
+        "R-READ-006"
+      ],
+      "scenario": "新任务开工，Agent 判断是否加载全部 references"
+    },
+    {
+      "classification": "ambiguity",
+      "evidence": [
+        {
+          "line": 7,
+          "path": "design-hardware/references/design-gates.md",
+          "quote": "门禁是**阶段退出证据门，不是审批门**。Agent 在用户已授权的设计/修改范围内自查、记录并继续；门禁不新增等待点，也不要求用户逐项签批。只有用户明确说“先评审 / 这步给我看 / 确认后再布线”时，才在方案、原理图、布局、交付四个可见检查点等待。"
+        },
+        {
+          "line": 30,
+          "path": "design-hardware/references/interaction.md",
+          "quote": "只有用户要求分阶段确认，或真正需要新决定时才等待。用户只说“先方案”时严格不画图；用户要求“直接做完”时不要在四个点各问一次许可。"
+        }
+      ],
+      "exception": "两处文本对“新决定”是否属于检查点等待未说明",
+      "overlap": {
+        "condition": "检查点等待与新决定处理是否同一触发",
+        "scope": "评审节奏"
+      },
+      "pair_id": "REL-08",
+      "resolution": "明确“新决定=改变已确认接口/尺寸/成本/范围”，不属于检查点等待（P-04）",
+      "rule_ids": [
+        "R-GATE-004"
+      ],
+      "scenario": "布局前发现尺寸必须变化，同时用户要求先评审"
+    },
+    {
+      "classification": "different_scope",
+      "evidence": [
+        {
+          "line": 8,
+          "path": "design-hardware/SKILL.md",
+          "quote": "让用户描述想实现的效果，由正在运行的Agent持续推进到任务范围内的真实成果；完整产品任务以实物是否实现原始用途验收，画完图、买齐料或贴片完成都不是默认终点。此Skill是Agent的协作与工程方法包；Agent负责读信息、问关键问题、推荐选择、调用工具、处理失败和交付，EDA执行Skill/CLI/连接器负责实际编辑。安装此Skill本身不会获得本机访问、EDA连接、软件安装或制造下单能力。"
+        },
+        {
+          "line": 30,
+          "path": "design-hardware/SKILL.md",
+          "quote": "- 用户只要求画图、review、换料、PCB或先方案时，仍按该范围交付，不强行追加App、外壳、采购或完整产品开发。"
+        }
+      ],
+      "exception": "任务范围词不相交，完整产品验收只在完整产品范围成立",
+      "overlap": {
+        "condition": "完整产品验收终点与局部任务范围",
+        "scope": "完整产品 vs 局部任务"
+      },
+      "pair_id": "REL-09",
+      "resolution": "无需改规则；计划层按 task_type 区分，不把整机验收强加给局部任务",
+      "rule_ids": [],
+      "scenario": "用户只要求画图/评审，却同时提到最终设备目标"
+    },
+    {
+      "classification": "coexist",
+      "evidence": [
+        {
+          "line": 130,
+          "path": "design-hardware/SKILL.md",
+          "quote": "多个独立 PCB 放置模块来自同一实测快照时，按 [批量执行与提速](references/execution-efficiency.md) 使用 `pcb_apply_plan.py --module-plan ... --module-plan ...`：一次读取/标准化、联合检查模块与固定对象，再生成一次 apply 和保存重载链。简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。只读分析复用冻结快照，写入后旧快照失效，不按每颗器件重复探测。原理图沿用 compose/现有模板路径，不用 PCB 放置批处理冒充原理图或布线完成。"
+        },
+        {
+          "line": 306,
+          "path": "design-hardware/references/pcb-execution.md",
+          "quote": "- save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。"
+        }
+      ],
+      "exception": "R-EXEC-007 同段自带“不能为提速跳过身份/连接/DRC/最终保存重开”",
+      "overlap": {
+        "condition": "合批提速与失败未验证",
+        "scope": "PCB 执行"
+      },
+      "pair_id": "REL-10",
+      "resolution": "无需改规则；保持例外与 unverified 条款并列可检索",
+      "rule_ids": [
+        "R-EXEC-007"
+      ],
+      "scenario": "多模块合批写入后 save/reload 失败"
+    }
+  ],
+  "rules": [
+    {
+      "action": "在已授权范围内自查、汇报并继续；仅在用户明确要求时于对应边界等待；关键未知量先处理决定并推进无依赖部分",
+      "condition": "用户已要求设计/修改且未明确要求分阶段确认（默认）；或用户明确说“先评审/这步给我看/确认后再布线”",
+      "evidence_required": [
+        "用户明确要求暂停/评审的原话"
+      ],
+      "exception": "用户明确要求分阶段确认时在对应边界等待",
+      "extraction": {
+        "confidence": "high",
+        "method": "curated",
+        "notes": "任务 D 人工逐行审查；解决“自主完成 vs 必须等待”的主要依据"
+      },
+      "priority_declared": "用户明确指令优先于默认评审节奏",
+      "provenance": "maintainer_declared",
+      "review_note": "默认不停顿、等待需用户显式触发；这是“审批等待”抱怨的正当出口而非新增负担。",
+      "rule_id": "R-SKILL-001",
+      "source": {
+        "line_end": 96,
+        "line_start": 96,
+        "path": "design-hardware/SKILL.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "requirements",
+        "concept",
+        "schematic",
+        "pcb",
+        "delivery"
+      ],
+      "text": "方案、原理图、布局、交付设为四个可见检查点。默认在任务已授权范围内自查、汇报并继续；用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待。不要把工程检查点一律变成权限停顿点。真正改变已确认接口/尺寸/成本目标、涉及关键未知量时，先处理该决定，同时推进无依赖部分。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "把常规选型/读取/计算/绘图/检查视为任务范围内工作，不新增自建审批",
+      "condition": "用户已要求设计/修改",
+      "evidence_required": [
+        "宿主权限/工具授权状态"
+      ],
+      "exception": "宿主实际权限要求",
+      "extraction": {
+        "confidence": "high",
+        "method": "curated",
+        "notes": "与 R-SKILL-001 互补，限定审批来源"
+      },
+      "priority_declared": "宿主权限优先；用户任务范围优先",
+      "provenance": "maintainer_declared",
+      "review_note": "把“审批”限定为宿主权限与用户要求，压缩自造等待空间。",
+      "rule_id": "R-SKILL-002",
+      "source": {
+        "line_end": 62,
+        "line_start": 62,
+        "path": "design-hardware/SKILL.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "requirements",
+        "concept",
+        "schematic",
+        "pcb",
+        "check"
+      ],
+      "text": "用户已要求设计/修改时，常规选型、读取、计算、绘图和检查属于任务范围；沿用宿主的实际权限要求，不自建额外审批。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "自查、记录并继续，不新增等待点；仅证据缺失/门禁失败时停住依赖链路",
+      "condition": "G0–G6 阶段退出证据判定",
+      "evidence_required": [
+        "门禁证据文件/失败项"
+      ],
+      "exception": "证据缺失或门禁失败时暂停依赖链路",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "与 design-gates.md:7 近乎重复"
+      },
+      "priority_declared": "用户明确要求优先；不可豁免项优先",
+      "provenance": "maintainer_declared",
+      "review_note": "证据门≠审批门；“不新增等待点”是机器可检索的关键句。",
+      "rule_id": "R-GATE-003",
+      "source": {
+        "line_end": 226,
+        "line_start": 226,
+        "path": "design-hardware/SKILL.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "design_gate",
+        "schematic",
+        "pcb",
+        "check",
+        "delivery"
+      ],
+      "text": "门禁是**阶段退出证据门，不是审批门**：在用户已授权的设计/修改范围内自查、记录并继续，不新增等待点；只有证据缺失或门禁失败时停住依赖链路。G0–G6 是 S1–S5 的退出条件，不是第二套流程；定义、命令、证据与豁免见 [阶段门禁](references/design-gates.md)。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "默认自查记录继续；仅用户明确要求时在四个检查点等待",
+      "condition": "阶段门禁执行；用户未明确要求分阶段确认",
+      "evidence_required": [
+        "用户明确要求等待的原话",
+        "门禁证据"
+      ],
+      "exception": "用户明确要求分阶段确认时等待",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "与 SKILL.md:96/226、interaction.md:30、design-gates.md:395 重复陈述"
+      },
+      "priority_declared": "用户明确要求优先",
+      "provenance": "maintainer_declared",
+      "review_note": "同类规则在 5 处重复，是“规则越多读得越久”的典型来源，建议合并（P-02）。",
+      "rule_id": "R-GATE-004",
+      "source": {
+        "line_end": 7,
+        "line_start": 7,
+        "path": "design-hardware/references/design-gates.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "design_gate",
+        "schematic",
+        "pcb",
+        "delivery"
+      ],
+      "text": "门禁是**阶段退出证据门，不是审批门**。Agent 在用户已授权的设计/修改范围内自查、记录并继续；门禁不新增等待点，也不要求用户逐项签批。只有用户明确说“先评审 / 这步给我看 / 确认后再布线”时，才在方案、原理图、布局、交付四个可见检查点等待。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "判 BLOCKED/待确认，报告写 NOT RUN，不写“应该没问题”",
+      "condition": "检查未运行/未导出/未回读",
+      "evidence_required": [
+        "实际运行/导出/回读的证据文件"
+      ],
+      "exception": "unknown（豁免清单仅适用于可豁免项，缺证据本身不因谨慎而通过）",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "防伪通过规则；与离线继续工作不冲突（见 CT-05/CT-10）"
+      },
+      "priority_declared": "不可豁免清单优先",
+      "provenance": "maintainer_declared",
+      "review_note": "这条正是“信息不足但假通过”的解药；不应被读成“证据不足就整任务停止”。",
+      "rule_id": "R-GATE-005",
+      "source": {
+        "line_end": 63,
+        "line_start": 63,
+        "path": "design-hardware/references/design-gates.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "design_gate",
+        "schematic",
+        "pcb",
+        "check",
+        "delivery"
+      ],
+      "text": "6. **缺证据就是 `BLOCKED`，不是 `PASS`。** 未运行、未导出、未回读的检查保持 `待确认`；报告写 `NOT RUN`，不写“应该没问题”。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "始终遵循 workflow.md 与 evidence.md；其余参考资料按任务表行按需加载",
+      "condition": "内部设计任务（原理图/PCB/交付）",
+      "evidence_required": [
+        "任务类型与阶段（用于选择加载行）"
+      ],
+      "exception": "按任务表未命中的资料不加载；不要求用户阅读",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "“始终”只约束 2 个文件，其余 on-demand"
+      },
+      "priority_declared": "unknown",
+      "provenance": "maintainer_declared",
+      "review_note": "“始终遵循”与“不加载规则百科”并存，范围不同（见 CT-07），不应读成全量预载。",
+      "rule_id": "R-READ-006",
+      "source": {
+        "line_end": 134,
+        "line_start": 134,
+        "path": "design-hardware/SKILL.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "concept",
+        "schematic",
+        "pcb",
+        "check",
+        "delivery"
+      ],
+      "text": "内部设计始终遵循 [工程工作流](references/workflow.md) 和 [证据与工程记录](references/evidence.md)，内容由Agent消化，不要求用户读完。按任务加载：",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "依赖存在时重新采集并分批；保留身份/连接/DRC/最终保存重开",
+      "condition": "批量写入/合批提速",
+      "evidence_required": [
+        "fresh snapshot 哈希",
+        "apply/report",
+        "DRC 与回读证据"
+      ],
+      "exception": "批次间无依赖且快照不变时可合批（同段前文）",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "自带例外，是“提速 vs 不减验收”的覆盖条款"
+      },
+      "priority_declared": "证据完整性优先于提速",
+      "provenance": "maintainer_declared",
+      "review_note": "例外写在同段，使提速规则可执行；不要把“合批”读成“降低验收”。",
+      "rule_id": "R-EXEC-007",
+      "source": {
+        "line_end": 130,
+        "line_start": 130,
+        "path": "design-hardware/SKILL.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "pcb",
+        "schematic",
+        "execution"
+      ],
+      "text": "批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "直接使用现有 --plan，不额外拆模块",
+      "condition": "小任务且已有现成完整计划",
+      "evidence_required": [
+        "现有 plan 与快照基线"
+      ],
+      "exception": "同快照多独立放置模块，或有依赖/需观察中间结果（同文件 6–8 行）",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "与 R-EXEC-007 同向"
+      },
+      "priority_declared": "unknown",
+      "provenance": "maintainer_declared",
+      "review_note": "示例命令 FX-10（多 --module-plan）只是调用示例，不构成“必须拆模块”。",
+      "rule_id": "R-EXEC-008",
+      "source": {
+        "line_end": 5,
+        "line_start": 5,
+        "path": "design-hardware/references/execution-efficiency.md"
+      },
+      "strength": "must",
+      "task_scope": [
+        "pcb",
+        "execution"
+      ],
+      "text": "- 小任务、现成完整计划：直接使用现有 `--plan`，不要额外拆模块。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "可运行 skill_update.py check 统一检查（24 小时缓存），先确认实际客户端与安装路径",
+      "condition": "新硬件任务开始前；或用户要求检查更新",
+      "evidence_required": [
+        "check 输出、客户端/安装路径、缓存时间"
+      ],
+      "exception": "网络失败不阻塞原工程任务（16 行）；不在画板中途替换技能（17 行）；只在用户要求升级且无进行中操作时更新",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "措辞为“可用”，是 may 而不是义务"
+      },
+      "priority_declared": "用户升级要求优先；空闲时机优先",
+      "provenance": "maintainer_declared",
+      "review_note": "“开始前检查”是可选启动成本，非强制预载；与 R-START-010 不冲突（CT-02）。",
+      "rule_id": "R-START-009",
+      "source": {
+        "line_end": 15,
+        "line_start": 15,
+        "path": "design-hardware/SKILL.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "installation",
+        "update",
+        "startup"
+      ],
+      "text": "新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 统一检查本 Skill 与 easyeda-agent 的 CLI/Skill/daemon/Connector（24 小时缓存）；",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "把 §2 执行能力检查推迟到实际读写工程或用户要求接通时",
+      "condition": "纯方案/资料分析任务",
+      "evidence_required": [
+        "任务类型判定（纯分析 vs 需写工程）"
+      ],
+      "exception": "需要实际读写工程或用户要求接通环境时执行 §2",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "“无需”是解除前置义务，非禁止"
+      },
+      "priority_declared": "unknown",
+      "provenance": "maintainer_declared",
+      "review_note": "与 R-START-009 同属可选，二者组合不产生审批或强制加载义务。",
+      "rule_id": "R-START-010",
+      "source": {
+        "line_end": 104,
+        "line_start": 104,
+        "path": "design-hardware/SKILL.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "concept",
+        "analysis",
+        "schematic",
+        "pcb"
+      ],
+      "text": "纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "局部连接优先直接画线；跨区/跨页/长距离才用标签",
+      "condition": "绘制或整理原理图",
+      "evidence_required": [
+        "pin-net/网表回读",
+        "官方导图"
+      ],
+      "exception": "既有符号难以直连时用短引线+明确标签（同文件 54 行）",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "与 R-LAY-012 构成 default+exception；与 SKILL.md:120 重复"
+      },
+      "priority_declared": "项目既有图面风格优先",
+      "provenance": "maintainer_declared",
+      "review_note": "“直连 vs 标签”是默认+例外，不是二选一的冲突。",
+      "rule_id": "R-LAY-011",
+      "source": {
+        "line_end": 74,
+        "line_start": 74,
+        "path": "design-hardware/references/schematic-layout.md"
+      },
+      "strength": "should",
+      "task_scope": [
+        "schematic"
+      ],
+      "text": "局部连接优先直接画线；只有跨区、跨页或长距离才用标签。",
+      "version_applicability": "v1.0.1"
+    },
+    {
+      "action": "允许短引线+明确标签，但不得改库脚号/交换引脚",
+      "condition": "既有符号难以直连",
+      "evidence_required": [
+        "符号/引脚身份回读",
+        "pin-pad 映射"
+      ],
+      "exception": "unknown",
+      "extraction": {
+        "confidence": "high",
+        "method": "manual",
+        "notes": "前半句允许(may)，后半句硬约束(must)"
+      },
+      "priority_declared": "pin-pad 映射正确性优先",
+      "provenance": "maintainer_declared",
+      "review_note": "显式例外条款，覆盖 R-LAY-011 的“优先直连”。",
+      "rule_id": "R-LAY-012",
+      "source": {
+        "line_end": 54,
+        "line_start": 54,
+        "path": "design-hardware/references/schematic-layout.md"
+      },
+      "strength": "may",
+      "task_scope": [
+        "schematic"
+      ],
+      "text": "既有符号难以直连时用短引线与明确标签化解，不牺牲pin-pad映射。",
+      "version_applicability": "v1.0.1"
+    }
+  ],
+  "schema": "skill-knowledge-audit/v1",
+  "source": {
+    "duration_ms": 3552.237,
+    "git_sha": "c9836eb29869040aeac245d0d3959021134b7f3e",
+    "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
+    "scanned_at": "2026-10-27T16:40:44+00:00"
+  },
+  "tool": {
+    "name": "skill_knowledge_audit",
+    "version": "0.1.0"
+  },
+  "verification": {
+    "catalog_evidence_mismatches": [],
+    "fixture_quote_mismatches": [],
+    "note": "reviewed catalog and non-synthetic fixture quotes were verified against the declared file/line window; machine candidates are not reviewed"
+  }
+}

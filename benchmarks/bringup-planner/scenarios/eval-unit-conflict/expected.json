@@ -1,0 +1,30 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "eval-unit-conflict",
+  "categories": [
+    "evaluation_unit_conflict",
+    "unit_conflict"
+  ],
+  "derivation": "Frozen all-ready plan, but the I2 voltage step is recorded with unit \"A\" (ampere) while the plan step expects a voltage. Contract: a status=pass with a unit-incompatible measurement is an inconsistency, never a pass -> verdict=INVALID (exit 2) with UNIT_MISMATCH. mV/V conversion is allowed; a current unit on a voltage step is not silently converted or ignored.",
+  "input": {
+    "file": "input.json",
+    "sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "evaluate": {
+      "plan_file": "plan.json",
+      "exit_code": 2,
+      "verdict": "INVALID",
+      "hardware_pass": false,
+      "required_finding_codes": [
+        "UNIT_MISMATCH"
+      ]
+    },
+    "not_run_statement": true
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

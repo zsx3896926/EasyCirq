@@ -1,0 +1,49 @@
+{
+  "args": [],
+  "command": "audit",
+  "content_digest": "8ff40a7e0348c4f2a892e49ecc9b12c4e71a7fd1169bccab609d105171059f78",
+  "declarations": "declarations.json",
+  "expect": {
+    "exit": 1,
+    "rules": {
+      "stackup.missing_copper_layer": "fail"
+    },
+    "status": "fail"
+  },
+  "files": [
+    {
+      "path": "gerber/copper_bottom.gbr",
+      "sha256": "a92bb3595e06ec176467ce9840932ff0f35e8c27aa667aeee0369a52724820db",
+      "size": 363
+    },
+    {
+      "path": "gerber/copper_inner1.gbr",
+      "sha256": "0b53bb6a3bd99bf86661a72d1c606e50939221a2846f201d14a9dbfcbf6c9861",
+      "size": 363
+    },
+    {
+      "path": "gerber/copper_top.gbr",
+      "sha256": "feb9ff83048c274f72081458e6d6954aee8752b4edde79ff6e053942fcf42b1b",
+      "size": 363
+    },
+    {
+      "path": "gerber/drill.drl",
+      "sha256": "4dd07ef0f7e604dc32c1d813ed0735199f23d801913362a9dff0911b12030e4e",
+      "size": 182
+    },
+    {
+      "path": "gerber/profile.gbr",
+      "sha256": "21426978fb49d4520d010f7f9c4171f101393296e8c100a765805e2de86ca071",
+      "size": 159
+    }
+  ],
+  "id": "03-4l-missing-inner",
+  "input": "input",
+  "input_kind": "files",
+  "notes": null,
+  "profile": "pcb-fabrication",
+  "reference": null,
+  "simulated": true,
+  "title": "4-layer package missing inner L3",
+  "touch": null
+}

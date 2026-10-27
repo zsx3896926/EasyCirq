@@ -1,0 +1,19 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "compare_two_candidates",
+ "kind": "compare",
+ "derivation": "both candidates keep the firmware consumer out of the power propagation; the second also updates the rail test criterion, so it declares more affected objects but must not be ranked as safer just because that.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_include_candidates": [
+  "eco-rail-only",
+  "eco-rail-and-test"
+ ],
+ "must_recommend_in": [
+  "eco-rail-only",
+  "eco-rail-and-test"
+ ],
+ "must_not_violate": true,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

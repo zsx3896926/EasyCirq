@@ -1,0 +1,20 @@
+{
+  "name": "16-reference-net-change-with-cap",
+  "purpose": "Reference net change with a fully evidenced capacitor bridge",
+  "tags": [
+    "e3",
+    "reference"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E3-304",
+      "RP-E3-310"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "Same GND->P3V3 change, but a decoupling capacitor declares both endpoint nets, placement/connection evidence, frequency basis and snapshot binding. It is still only a conditional candidate (not proven high-frequency return), so the net-change warning remains."
+}

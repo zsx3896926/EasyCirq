@@ -1,0 +1,168 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "bench-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "bom_line",
+   "dependencies",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "bom_line",
+   "dependencies",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "bom:R1",
+   "kind": "bom_line",
+   "attributes": {
+    "designator": "R1",
+    "mpn": "RES-1K",
+    "dnp": true
+   },
+   "baseline_attributes": {
+    "dnp": false
+   }
+  },
+  {
+   "id": "art:cpl",
+   "kind": "artifact",
+   "attributes": {
+    "kind": "cpl",
+    "revision": "r2"
+   }
+  },
+  {
+   "id": "test:powerup",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "rail_up_ms": 50
+    }
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "bom:R1",
+   "to": "art:cpl",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:2",
+   "from": "bom:R1",
+   "to": "test:powerup",
+   "semantic": "test_reference",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "bom:R1",
+   "attribute": "dnp",
+   "before": false,
+   "after": true,
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:bom_variant",
+   "title": "bom variant",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "bom:R1",
+     "impact": "bom_variant"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:cpl_dnp",
+   "title": "cpl dnp",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "art:cpl",
+     "impact": "manufacturing_output"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

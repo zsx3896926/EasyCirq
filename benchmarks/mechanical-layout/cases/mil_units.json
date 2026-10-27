@@ -1,0 +1,161 @@
+{
+  "schema": "mechanical-layout/v1",
+  "document": {
+    "id": "mil_units",
+    "title": "frozen benchmark mil_units",
+    "revision": "frozen-1",
+    "units": "mil",
+    "source": "synthetic benchmark fixture, not a user project",
+    "snapshot": {
+      "id": "mil_units",
+      "source": "synthetic benchmark fixture"
+    }
+  },
+  "provenance": [
+    {
+      "id": "P1",
+      "kind": "synthetic",
+      "ref": "benchmark fixture"
+    }
+  ],
+  "board": {
+    "id": "PCB1",
+    "frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": 0.0
+    },
+    "outline": {
+      "outer": [
+        [
+          0,
+          0
+        ],
+        [
+          3937.0078740157483,
+          0
+        ],
+        [
+          3937.0078740157483,
+          2362.2047244094488
+        ],
+        [
+          0,
+          2362.2047244094488
+        ]
+      ],
+      "holes": []
+    },
+    "thickness": {
+      "nominal": 62.99212598425197,
+      "min": 59.05511811023622,
+      "max": 66.92913385826772
+    }
+  },
+  "components": [
+    {
+      "id": "U1",
+      "side": "top",
+      "pose": {
+        "x": 1968.5039370078741,
+        "y": 1181.1023622047244,
+        "rotation_deg": 0
+      },
+      "shape": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          196.8503937007874,
+          196.8503937007874
+        ]
+      },
+      "height": {
+        "nominal": 47.24409448818898,
+        "min": 43.30708661417323,
+        "max": 51.181102362204726
+      }
+    }
+  ],
+  "holes": [
+    {
+      "id": "H1",
+      "center": [
+        787.4015748031496,
+        1181.1023622047244
+      ],
+      "diameter": {
+        "nominal": 125.98425196850394,
+        "min": 122.04724409448819,
+        "max": 129.92125984251967
+      },
+      "kind": "mounting",
+      "plated": false,
+      "screw": {
+        "diameter": 216.53543307086613,
+        "height": 118.11023622047244,
+        "side": "top"
+      },
+      "tool": {
+        "kind": "hex_key",
+        "diameter": 157.48031496062993,
+        "height": 393.7007874015748,
+        "side": "top",
+        "start": {
+          "from": "head_top",
+          "offset": 0
+        }
+      }
+    }
+  ],
+  "interfaces": [],
+  "constraints": {
+    "board_edge_margin": 39.37007874015748,
+    "fixed": [
+      "U1"
+    ]
+  },
+  "enclosure": {
+    "id": "ENC1",
+    "frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": 0.0
+    },
+    "cavity": {
+      "outer": [
+        [
+          -393.7007874015748,
+          -393.7007874015748
+        ],
+        [
+          4330.708661417323,
+          -393.7007874015748
+        ],
+        [
+          4330.708661417323,
+          2755.9055118110236
+        ],
+        [
+          -393.7007874015748,
+          2755.9055118110236
+        ]
+      ]
+    },
+    "z": {
+      "bottom": -314.96062992125985,
+      "top": 787.4015748031496
+    },
+    "posts": [],
+    "ribs": [],
+    "openings": []
+  }
+}

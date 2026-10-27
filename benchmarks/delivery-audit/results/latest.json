@@ -1,0 +1,917 @@
+{
+  "cases": [
+    {
+      "command": "audit",
+      "content_digest": "6e16982ba605c73aa0e95b4edfcbd04b77020588a567f14b24e15bcf2d46bcab",
+      "exit": 0,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "01-legal-2l-fabrication",
+      "ok": true,
+      "simulated": true,
+      "status": "pass_with_scope",
+      "title": "Legal 2-layer fabrication package"
+    },
+    {
+      "command": "audit",
+      "content_digest": "3bfdfa76726f04e14acf98305c6011500ac9cc563bc24be81da2c3ea5763e4b0",
+      "exit": 0,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "02-legal-4l-fabrication",
+      "ok": true,
+      "simulated": true,
+      "status": "pass_with_scope",
+      "title": "Legal 4-layer fabrication package"
+    },
+    {
+      "command": "audit",
+      "content_digest": "8ff40a7e0348c4f2a892e49ecc9b12c4e71a7fd1169bccab609d105171059f78",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "stackup.missing_copper_layer",
+          "severity": "blocking",
+          "status": "fail"
+        }
+      ],
+      "id": "03-4l-missing-inner",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "4-layer package missing inner L3"
+    },
+    {
+      "command": "audit",
+      "content_digest": "b9e1f688d7bd4c5f90e081250fb4ec885f07b420a9e516a8489c180f43878676",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_missing",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "layer.duplicate_role",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "provenance.declarations_missing",
+          "severity": "major",
+          "status": "unknown"
+        }
+      ],
+      "id": "04-duplicate-inner-candidates",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "Two conflicting inner-layer candidates"
+    },
+    {
+      "command": "audit",
+      "content_digest": "2c71338ee876ed6b7d0ad5d41c3fd23af3c4174d30c54b90079c5535439800a8",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "layer.content_mismatch",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "outline.extent_inexact",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "package.empty_file",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "05-empty-gerber",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "Empty copper Gerber"
+    },
+    {
+      "command": "audit",
+      "content_digest": "a75e25fd6a21ef19da9e624a3d33c416926d53cedc4e69ebf836101b5fba0035",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "gerber.end_missing",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "06-truncated-gerber",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "Truncated Gerber (no end marker)"
+    },
+    {
+      "command": "audit",
+      "content_digest": "5457e391b5609d5c855d27efaddfdc51579d70c5cf7f542bd6be0475a21676dc",
+      "exit": 3,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "gerber.unsupported.arc",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "outline.extent_inexact",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "07-unsupported-arc",
+      "ok": true,
+      "simulated": true,
+      "status": "incomplete",
+      "title": "Unsupported arc geometry stays incomplete"
+    },
+    {
+      "command": "audit",
+      "content_digest": "56bb2ca3e484e576467febd151f5c9ad373517ee997ed2c0e7b02e3152a1803e",
+      "exit": 3,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "gerber.unsupported.macro",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "08-unsupported-macro",
+      "ok": true,
+      "simulated": true,
+      "status": "incomplete",
+      "title": "Unsupported aperture macro stays incomplete"
+    },
+    {
+      "command": "audit",
+      "content_digest": "91eb95b79f690156597e6cce6eb87b3bcb250cd23b585b81e06b527247335a24",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "drill.units_missing",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "outline.drill_extent_unknown",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "09-drill-units-missing",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "Drill file without units"
+    },
+    {
+      "command": "audit",
+      "content_digest": "7c1d0984e3ae910bb60ddbf7f2fe2e197982806f907f29a6668caf99044a95d7",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "drill.tool_undefined",
+          "severity": "major",
+          "status": "fail"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "10-drill-undefined-tool",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "Drill references an undefined tool"
+    },
+    {
+      "command": "audit",
+      "content_digest": "d72b6e5d118af0b84488f4d5c3b8504569e63fc0cb0427e86e8b55b3108fe812",
+      "exit": 3,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "drill.unsupported.slot",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "11-drill-slot-unsupported",
+      "ok": true,
+      "simulated": true,
+      "status": "incomplete",
+      "title": "Drill slot stays incomplete"
+    },
+    {
+      "command": "audit",
+      "content_digest": "254c292efcad4ac89c1e5850a1a1ca1a58e1a44fa7f41fd161b7fb8015c70848",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "assembly.bom_unusable",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "bom.quantity_mismatch",
+          "severity": "major",
+          "status": "fail"
+        },
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "12-bom-quantity-mismatch",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "BOM quantity/designator conflict"
+    },
+    {
+      "command": "audit",
+      "content_digest": "e70a519707e1883a037474b948f108e2ee0f3f042c0c2d651b62703a6ac624cd",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "assembly.cpl_unusable",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "cpl.designator_duplicate",
+          "severity": "major",
+          "status": "fail"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "13-cpl-duplicate-designator",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "CPL duplicate designator"
+    },
+    {
+      "command": "audit",
+      "content_digest": "fa6f13a4cbe4576a43e8c70caaa73a0050f17278dcb65a48c6344e2a520b60d8",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "assembly.dnp_in_cpl",
+          "severity": "major",
+          "status": "fail"
+        },
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "14-dnp-in-cpl",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "DNP part illegally present in CPL"
+    },
+    {
+      "command": "audit",
+      "content_digest": "2921e5cb1d49b9c9ebedb920dcdd7d2fbc269d807561e527b014f3a913b11217",
+      "exit": 0,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "15-tht-without-cpl-allowed",
+      "ok": true,
+      "simulated": true,
+      "status": "pass_with_scope",
+      "title": "THT part without CPL is not an error"
+    },
+    {
+      "command": "audit",
+      "content_digest": "55055061bb9c15ca1fd9797c8a4bfa52efb9fb7cc5d8ad6e6e72695562cc42bd",
+      "exit": 3,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_missing",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "16-no-coordinate-convention",
+      "ok": true,
+      "simulated": true,
+      "status": "incomplete",
+      "title": "Missing coordinate convention"
+    },
+    {
+      "command": "audit",
+      "content_digest": "4bada170a0db3eaf403d9531342427458784ba257b5cecca758b7458a7e848c4",
+      "exit": 0,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "17-coordinate-reference-positive",
+      "ok": true,
+      "simulated": true,
+      "status": "pass_with_scope",
+      "title": "Independent coordinate reference matches"
+    },
+    {
+      "command": "audit",
+      "content_digest": "4bada170a0db3eaf403d9531342427458784ba257b5cecca758b7458a7e848c4",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "coordinates.offset_mismatch",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "18-coordinate-reference-bottom-negative",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "Bottom-side coordinate mismatch is detected"
+    },
+    {
+      "command": "audit",
+      "content_digest": "6e16982ba605c73aa0e95b4edfcbd04b77020588a567f14b24e15bcf2d46bcab",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "manifest.content_digest_mismatch",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "provenance.source_unverified",
+          "severity": "major",
+          "status": "unknown"
+        }
+      ],
+      "id": "19-manifest-digest-conflict",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "Declared manifest digest conflicts"
+    },
+    {
+      "command": "audit",
+      "content_digest": "6e16982ba605c73aa0e95b4edfcbd04b77020588a567f14b24e15bcf2d46bcab",
+      "exit": 1,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.file_hash_mismatch",
+          "severity": "blocking",
+          "status": "fail"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "20-touch-old-file",
+      "ok": true,
+      "simulated": true,
+      "status": "fail",
+      "title": "Touching an old file does not improve provenance"
+    },
+    {
+      "command": "audit",
+      "content_digest": "6e16982ba605c73aa0e95b4edfcbd04b77020588a567f14b24e15bcf2d46bcab",
+      "exit": 0,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "21-legal-zip-package",
+      "ok": true,
+      "simulated": true,
+      "status": "pass_with_scope",
+      "title": "Legal package delivered as ZIP"
+    },
+    {
+      "command": "audit",
+      "content_digest": "3aecb801555b59fc93aa4363af3bfc7d559e289097bebd512dee7554988dae51",
+      "exit": 0,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_declared",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.content_binding_verified",
+          "severity": "info",
+          "status": "pass"
+        },
+        {
+          "rule_id": "provenance.source_revision_attested",
+          "severity": "info",
+          "status": "pass"
+        }
+      ],
+      "id": "22-archive-profile",
+      "ok": true,
+      "simulated": true,
+      "status": "pass_with_scope",
+      "title": "Archive profile with native container"
+    },
+    {
+      "command": "inspect",
+      "content_digest": "bd21bbc08c590bd757563d30ed30283ed0860fd30a96ccbc7c0717c2da44f884",
+      "exit": 2,
+      "failures": [],
+      "findings": [],
+      "id": "23-zip-traversal",
+      "ok": true,
+      "simulated": true,
+      "status": "input_invalid",
+      "title": "ZIP path traversal rejected"
+    },
+    {
+      "command": "inspect",
+      "content_digest": "2dacdcab18d8967599a1d5cec90f80aeb0323b4eb116697a04f82d2ab9e84ca0",
+      "exit": 2,
+      "failures": [],
+      "findings": [],
+      "id": "24-zip-bomb",
+      "ok": true,
+      "simulated": true,
+      "status": "input_invalid",
+      "title": "ZIP compression bomb rejected"
+    },
+    {
+      "command": "inspect",
+      "content_digest": "1954502dff76fa1251226832adb43e6fc2f2e5f5b3942f0628e4828b027be6b7",
+      "exit": 2,
+      "failures": [],
+      "findings": [],
+      "id": "25-zip-case-duplicate",
+      "ok": true,
+      "simulated": true,
+      "status": "input_invalid",
+      "title": "ZIP case-insensitive duplicate rejected"
+    },
+    {
+      "command": "output-inside",
+      "content_digest": "6e16982ba605c73aa0e95b4edfcbd04b77020588a567f14b24e15bcf2d46bcab",
+      "exit": 2,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "input.invalid",
+          "severity": "blocking",
+          "status": "fail"
+        }
+      ],
+      "id": "26-output-inside-input",
+      "ok": true,
+      "simulated": true,
+      "status": "input_invalid",
+      "title": "Report inside input is refused"
+    },
+    {
+      "command": "stale-output",
+      "content_digest": "6cf432b409baaf7bc2571c0dc391b6a306cc7b5f6e692d36674011ba3192a3f6",
+      "exit": 2,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "input.invalid",
+          "severity": "blocking",
+          "status": "fail"
+        }
+      ],
+      "id": "27-stale-output-replacement",
+      "ok": true,
+      "simulated": true,
+      "status": "input_invalid",
+      "title": "Invalid run replaces stale PASS output"
+    },
+    {
+      "command": "audit",
+      "content_digest": "3628f88afc702996705a0f02bf184fe86400b14a8fc77a577b3c4dd47712d6ac",
+      "exit": 3,
+      "failures": [],
+      "findings": [
+        {
+          "rule_id": "coordinates.convention_missing",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "drill.coordinate_unknown_format",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.image_parameter",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.image_parameter",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.image_parameter",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.image_parameter",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.image_parameter",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.image_parameter",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.image_parameter",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.macro",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.macro",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.macro",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.macro",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.macro",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.macro",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "gerber.unsupported.macro",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "layer.role_inferred",
+          "severity": "minor",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "layer.role_inferred",
+          "severity": "minor",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "layer.role_inferred",
+          "severity": "minor",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "outline.unverified_geometry",
+          "severity": "major",
+          "status": "unknown"
+        },
+        {
+          "rule_id": "provenance.declarations_missing",
+          "severity": "major",
+          "status": "unknown"
+        }
+      ],
+      "id": "28-real-sample-replay",
+      "ok": true,
+      "simulated": false,
+      "status": "incomplete",
+      "title": "Read-only replay of a real permissively licensed export"
+    }
+  ],
+  "failed": 0,
+  "fixtures": 28,
+  "generated_at": "2026-10-27T00:00:00+00:00",
+  "passed": 28,
+  "python": "3.13.15",
+  "real_sample": 1,
+  "schema": "delivery-audit-benchmark/v1",
+  "simulated": 27,
+  "tool": {
+    "name": "delivery-audit",
+    "version": "0.1.0"
+  }
+}

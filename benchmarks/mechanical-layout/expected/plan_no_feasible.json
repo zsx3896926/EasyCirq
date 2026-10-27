@@ -1,0 +1,15 @@
+{
+  "schema": "mechanical-layout-benchmark-expected/v1",
+  "case": "plan_no_feasible",
+  "command": "plan",
+  "args": [],
+  "exit_code": 3,
+  "status": "no_candidate_found",
+  "required_rules": [
+    "G5.NO_CANDIDATE"
+  ],
+  "forbidden_rules": [],
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "notes": "hand-derived from geometry/contract; not copied from actual output"
+}

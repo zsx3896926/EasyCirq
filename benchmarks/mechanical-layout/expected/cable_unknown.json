@@ -1,0 +1,15 @@
+{
+  "schema": "mechanical-layout-benchmark-expected/v1",
+  "case": "cable_unknown",
+  "command": "audit",
+  "args": [],
+  "exit_code": 1,
+  "status": "review",
+  "required_rules": [
+    "G2.CABLE_UNKNOWN"
+  ],
+  "forbidden_rules": [],
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "notes": "hand-derived from geometry/contract; not copied from actual output"
+}

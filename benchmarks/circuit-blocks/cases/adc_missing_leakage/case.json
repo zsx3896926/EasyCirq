@@ -1,0 +1,42 @@
+{
+  "id": "adc_missing_leakage",
+  "description": "ADC input leakage is a required fact for the worst-case tap; without it the module refuses to claim accuracy.",
+  "command": "generate",
+  "module_type": "adc_divider",
+  "input": {
+    "topology": "divider_to_ground",
+    "input_voltage": {
+      "min": 1,
+      "max": 5
+    },
+    "adc_input_range": {
+      "min": 0,
+      "max": 3.3
+    },
+    "adc_vref": 3.3,
+    "adc_resolution_bits": 12,
+    "adc_reference_tolerance_pct": 0.1,
+    "adc_max_source_impedance": "10k",
+    "adc_margin": 0,
+    "adc_sampling": {
+      "sample_time": "2us",
+      "sample_hold_capacitance": "10pF"
+    },
+    "series": "E24",
+    "value_range": {
+      "min": "1k",
+      "max": "100k"
+    },
+    "resistor_tolerance_pct": 1,
+    "objective": "ratio_error"
+  },
+  "allow_nonready": false,
+  "expect": {
+    "exit_code": 3,
+    "status": "needs_device_facts",
+    "unknowns_contains": [
+      "adc_leakage"
+    ]
+  },
+  "input_sha256": "cde2766d2f761f5bed53b70a7d8be09d3a5e31e59f1c07a89fff22800f8d1d32"
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "eval-synthetic-only",
+  "categories": [
+    "evaluation_synthetic",
+    "synthetic_result"
+  ],
+  "derivation": "Same frozen all-ready plan, but every step is recorded pass with source=synthetic and source_kind=synthetic. Contract: synthetic records can never produce a real-hardware PASS; when all required ready steps are synthetic passes the verdict is SYNTHETIC_ONLY (hardware_pass=false, exit 3), never PASS and not a plain INCOMPLETE. In-range synthetic values must not upgrade the verdict.",
+  "input": {
+    "file": "input.json",
+    "sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "evaluate": {
+      "plan_file": "plan.json",
+      "exit_code": 3,
+      "verdict": "SYNTHETIC_ONLY",
+      "hardware_pass": false
+    },
+    "not_run_statement": true
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

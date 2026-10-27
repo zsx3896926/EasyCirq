@@ -1,0 +1,190 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "bench-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "component_instance",
+   "dependencies",
+   "layout_region",
+   "net"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "component_instance",
+   "dependencies",
+   "layout_region",
+   "net"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "cmp:U2",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "LDO-3V3-B",
+    "footprint": {
+     "uuid": "fp:sot23-5"
+    },
+    "manufacturer": "ACME"
+   },
+   "baseline_attributes": {
+    "mpn": "LDO-3V3-A"
+   }
+  },
+  {
+   "id": "net:+3V3",
+   "kind": "net",
+   "attributes": {
+    "name": "+3V3"
+   }
+  },
+  {
+   "id": "region:main",
+   "kind": "layout_region",
+   "attributes": {
+    "bbox": [
+     0,
+     0,
+     40,
+     25
+    ]
+   }
+  },
+  {
+   "id": "art:cpl",
+   "kind": "artifact",
+   "attributes": {
+    "kind": "cpl",
+    "revision": "r2"
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "cmp:U2",
+   "to": "region:main",
+   "semantic": "footprint_binding",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:2",
+   "from": "cmp:U2",
+   "to": "art:cpl",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:3",
+   "from": "cmp:U2",
+   "to": "net:+3V3",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "cmp:U2",
+   "attribute": "mpn",
+   "before": "LDO-3V3-A",
+   "after": "LDO-3V3-B",
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:ldo_fit",
+   "title": "ldo fit",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "region:main",
+     "impact": "footprint_compatibility"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:cpl",
+   "title": "cpl",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "art:cpl",
+     "impact": "manufacturing_output"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

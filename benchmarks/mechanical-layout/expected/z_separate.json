@@ -1,0 +1,15 @@
+{
+  "schema": "mechanical-layout-benchmark-expected/v1",
+  "case": "z_separate",
+  "command": "audit",
+  "args": [],
+  "exit_code": 0,
+  "status": "pass",
+  "required_rules": [],
+  "forbidden_rules": [
+    "G4.COLLISION"
+  ],
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "notes": "hand-derived from geometry/contract; not copied from actual output"
+}

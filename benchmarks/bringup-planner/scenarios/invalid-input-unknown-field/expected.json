@@ -1,0 +1,30 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "invalid-input-unknown-field",
+  "categories": [
+    "invalid_input"
+  ],
+  "derivation": "An unknown top-level key and an unknown power-domain field are added. model._N.obj rejects unknown fields with E_UNKNOWN_FIELD (strict schema), so validate exits 1 with status=invalid and two error diagnostics; plan exits 2 (EXIT_INVALID_INPUT) and writes input-invalid.json instead of a plan. Unknown fields are never silently ignored: a typo in a safety field must fail loudly.",
+  "input": {
+    "file": "input.json",
+    "sha256": "bdcc6d4298f4ea2f746f0211302055817d75f1999fe9dcf27d364d7f68480b4a"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 1,
+      "status": "invalid",
+      "required_error_codes": [
+        "E_UNKNOWN_FIELD"
+      ],
+      "min_errors": 2
+    },
+    "plan": {
+      "exit_code": 2,
+      "status": "invalid",
+      "artifacts": [
+        "input-invalid.json"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

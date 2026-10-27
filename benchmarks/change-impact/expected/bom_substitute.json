@@ -1,0 +1,32 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "bom_substitute",
+ "derivation": "a component identity substitution (R2) reaches the BOM line through artifact_source and is reported as a BOM variant impact; the CPL is affected too.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "bom:R2",
+   "impact": "bom_variant",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "art:cpl",
+   "impact": "manufacturing_output",
+   "confidence_at_least": "possible"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [
+  "chk:bom_line"
+ ],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

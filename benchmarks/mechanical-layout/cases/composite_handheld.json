@@ -1,0 +1,293 @@
+{
+  "schema": "mechanical-layout/v1",
+  "document": {
+    "id": "composite_handheld",
+    "title": "frozen benchmark composite_handheld",
+    "revision": "frozen-1",
+    "units": "mm",
+    "source": "synthetic benchmark fixture, not a user project",
+    "snapshot": {
+      "id": "composite_handheld",
+      "source": "synthetic benchmark fixture"
+    }
+  },
+  "provenance": [
+    {
+      "id": "P1",
+      "kind": "synthetic",
+      "ref": "benchmark fixture"
+    }
+  ],
+  "board": {
+    "id": "PCB1",
+    "frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": 0.0
+    },
+    "outline": {
+      "outer": [
+        [
+          0,
+          0
+        ],
+        [
+          70,
+          0
+        ],
+        [
+          70,
+          40
+        ],
+        [
+          0,
+          40
+        ]
+      ],
+      "holes": []
+    },
+    "thickness": {
+      "nominal": 1.6,
+      "min": 1.5,
+      "max": 1.7
+    }
+  },
+  "components": [
+    {
+      "id": "J2",
+      "side": "top",
+      "locked": true,
+      "pose": {
+        "x": 65.5,
+        "y": 20.0,
+        "rotation_deg": 0
+      },
+      "shape": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          8.0,
+          6.0
+        ]
+      },
+      "height": {
+        "nominal": 3.0,
+        "min": 2.9,
+        "max": 3.1
+      }
+    },
+    {
+      "id": "U2",
+      "side": "top",
+      "pose": {
+        "x": 40.0,
+        "y": 20.0,
+        "rotation_deg": 0
+      },
+      "shape": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          6.0,
+          6.0
+        ]
+      },
+      "height": {
+        "nominal": 5.0,
+        "min": 4.8,
+        "max": 5.2
+      }
+    },
+    {
+      "id": "U3",
+      "side": "bottom",
+      "pose": {
+        "x": 25.0,
+        "y": 20.0,
+        "rotation_deg": 0,
+        "mirror": {
+          "axis": "x",
+          "view": "bottom"
+        }
+      },
+      "shape": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          8.0,
+          5.0
+        ]
+      },
+      "height": {
+        "nominal": 4.0,
+        "min": 3.8,
+        "max": 4.2
+      }
+    }
+  ],
+  "holes": [
+    {
+      "id": "H1",
+      "center": [
+        10.0,
+        10.0
+      ],
+      "diameter": {
+        "nominal": 3.2,
+        "min": 3.1,
+        "max": 3.3
+      },
+      "kind": "mounting",
+      "plated": false,
+      "screw": {
+        "diameter": 5.5,
+        "height": 3.0,
+        "side": "top"
+      },
+      "tool": {
+        "kind": "hex_key",
+        "diameter": 4.0,
+        "height": 8.0,
+        "side": "top",
+        "start": {
+          "from": "head_top",
+          "offset": 0
+        }
+      }
+    }
+  ],
+  "interfaces": [
+    {
+      "id": "IF1",
+      "kind": "connector",
+      "component": "J2",
+      "requires_opening": true,
+      "opening": "OP1",
+      "frame": {
+        "origin": [
+          4.5,
+          0.0,
+          1.5
+        ],
+        "rotation_deg": 0.0
+      },
+      "alignment": {
+        "max_offset": 0.2,
+        "max_angle_deg": 2.0
+      },
+      "plug": {
+        "width": 5.0,
+        "height": 2.0,
+        "length": 8.0,
+        "clearance": 0.3
+      },
+      "cable": {
+        "space": {
+          "kind": "rect",
+          "center": [
+            85.0,
+            20.0
+          ],
+          "size": [
+            10.0,
+            10.0
+          ]
+        },
+        "z": {
+          "min": -3.0,
+          "max": 6.0
+        },
+        "frame": "world",
+        "modeled": true
+      }
+    }
+  ],
+  "constraints": {
+    "board_edge_margin": 1.0,
+    "fixed": [
+      "J2"
+    ]
+  },
+  "enclosure": {
+    "id": "ENC1",
+    "frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": 0.0
+    },
+    "cavity": {
+      "outer": [
+        [
+          -5,
+          -5
+        ],
+        [
+          75,
+          -5
+        ],
+        [
+          75,
+          45
+        ],
+        [
+          -5,
+          45
+        ]
+      ]
+    },
+    "z": {
+      "bottom": -6,
+      "top": 14
+    },
+    "posts": [
+      {
+        "id": "P1",
+        "center": [
+          10.0,
+          10.0
+        ],
+        "diameter": 6.0,
+        "z": {
+          "min": -6.0,
+          "max": -1.6
+        },
+        "mounting_hole": "H1",
+        "position_tolerance": 0.2
+      }
+    ],
+    "ribs": [],
+    "openings": [
+      {
+        "id": "OP1",
+        "kind": "connector",
+        "frame": {
+          "origin": [
+            75.0,
+            20.0,
+            1.5
+          ],
+          "rotation_deg": 0.0
+        },
+        "width": 8.0,
+        "height": 4.0,
+        "position_tolerance": 0.2,
+        "angle_tolerance_deg": 2.0
+      }
+    ]
+  }
+}

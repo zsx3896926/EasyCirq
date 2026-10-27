@@ -1,0 +1,20 @@
+{
+  "name": "14-stale-via-evidence",
+  "purpose": "Return-via evidence bound to an older snapshot",
+  "tags": [
+    "e3",
+    "evidence",
+    "unknown"
+  ],
+  "expected": {
+    "overall_status": "incomplete",
+    "must_include_rules": [],
+    "must_not_include_rules": [
+      "RP-E3-310"
+    ],
+    "require_unknowns": true,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "The candidate would otherwise qualify, but its source_snapshot differs from the audited project snapshot, so the evidence is rejected instead of reused."
+}

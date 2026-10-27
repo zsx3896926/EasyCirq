@@ -1,0 +1,109 @@
+{
+  "schema": "mechanical-layout-benchmark-results/v1",
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "full_3d_cad": "NOT RUN",
+  "physical_assembly": "NOT RUN",
+  "runner": "benchmarks/mechanical-layout/run_benchmarks.py",
+  "selected": {
+    "holdout_only": true,
+    "cases": 4
+  },
+  "correctness": {
+    "passed": 4,
+    "failed": 0,
+    "total": 4
+  },
+  "status_coverage": {
+    "pass": 1,
+    "fail": 1,
+    "candidates_found": 1,
+    "review": 1
+  },
+  "failures": [],
+  "timings_seconds": {
+    "holdout_connector_pass": 0.1932,
+    "holdout_opening_offset": 0.1894,
+    "holdout_plan": 0.279,
+    "holdout_height_unknown": 0.1749
+  },
+  "cases": [
+    {
+      "case": "holdout_connector_pass",
+      "command": "audit",
+      "holdout": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "pass",
+      "expected_status": "pass",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [],
+      "seconds": 0.1932,
+      "problems": []
+    },
+    {
+      "case": "holdout_opening_offset",
+      "command": "audit",
+      "holdout": true,
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "status": "fail",
+      "expected_status": "fail",
+      "required_rules": [
+        "G2.OPENING_ALIGN"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G2.OPENING_ALIGN"
+      ],
+      "seconds": 0.1894,
+      "problems": []
+    },
+    {
+      "case": "holdout_plan",
+      "command": "plan",
+      "holdout": true,
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "status": "candidates_found",
+      "expected_status": "candidates_found",
+      "required_rules": [],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G5.FIXED_UNCHANGED"
+      ],
+      "seconds": 0.279,
+      "problems": []
+    },
+    {
+      "case": "holdout_height_unknown",
+      "command": "audit",
+      "holdout": true,
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "status": "review",
+      "expected_status": "review",
+      "required_rules": [
+        "G4.HEIGHT_UNKNOWN"
+      ],
+      "missing_rules": [],
+      "forbidden_rules": [],
+      "findings": [
+        "G3.SCREW_HEAD",
+        "G3.TOOL_SPACE",
+        "G4.ENCLOSURE_HEIGHT",
+        "G4.HEIGHT_UNKNOWN"
+      ],
+      "seconds": 0.1749,
+      "problems": []
+    }
+  ],
+  "limits": [
+    "timings are wall clock and not part of any report hash",
+    "this benchmark runs the offline CLI only; it does not prove physical assembly, EDA import or manufacturing"
+  ]
+}

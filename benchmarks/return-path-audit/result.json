@@ -1,0 +1,4571 @@
+{
+  "schema": "hds-return-path-audit-benchmark/v1",
+  "generated_at": "2026-10-27T16:33:03Z",
+  "host": "local offline process (no EDA, no network)",
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "network": "NOT USED",
+  "tool": {
+    "name": "return_path_audit",
+    "version": "0.1.0"
+  },
+  "environment": {
+    "python": "3.13.15",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "cwd": "design-hardware/scripts (subprocess per scene)",
+    "command": "python -m return_path_audit audit -i <scene>/input.json -o <tmp>/report.json"
+  },
+  "runs": 1,
+  "scene_count": 45,
+  "passed_count": 45,
+  "failed_count": 0,
+  "failed_scenes": [],
+  "duration_s": 5.901,
+  "timing_statistic": "wall clock per scene (single process, includes interpreter start)",
+  "scenes": [
+    {
+      "scene": "01-solid-plane-pass",
+      "purpose": "Solid reference plane under a straight trace",
+      "tags": [
+        "e2",
+        "pass"
+      ],
+      "input_sha256": "527b527532aeb93b494352d03a92865cab1f45513e7bb5fae5905366165e177a",
+      "semantic_sha256": "5cf426eb393552b8a703218e8dc10f32ba08ff0ab3f4e05df0b1a41681b66272",
+      "exit_code": 0,
+      "observed_status": "pass_with_scope",
+      "expected": {
+        "overall_status": "pass_with_scope",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 0,
+            "observed_exit": 0
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "pass_with_scope",
+            "observed": "pass_with_scope"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 116.517,
+      "stderr": "",
+      "reasoning": "The L2 GND polygon covers the whole board, the trace projection plus width/2 plus corridor=0.2 stays >0.3 away from every copper boundary, so no coverage or corridor finding exists and every millimetre of the 60 mm trace is checked."
+    },
+    {
+      "scene": "02-narrow-slit-same-net",
+      "purpose": "0.12 mm slit between same-net polygons",
+      "tags": [
+        "e2",
+        "slit"
+      ],
+      "input_sha256": "09eed6a83498a5c0e4798653ebb990a0128d54f72f411f47abde8a044062550b",
+      "semantic_sha256": "c9f1f26850a003253f4d16161788dcb7a301196d5d9844de30f557d03c158482",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E2-203"
+        ],
+        "must_not_include_rules": [
+          "RP-E2-201"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-203"
+      ],
+      "unknowns": [
+        "RP-E2-203"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 123.609,
+      "stderr": "",
+      "reasoning": "Two GND polygons with a 0.12 mm gap at x=50: the trace crosses the gap, so the projection leaves copper for 0.12 mm. Same net on both sides => connectivity is unproven (unknown), geometry gap itself is a warning, not a proven different-net split."
+    },
+    {
+      "scene": "03-plane-split-different-nets",
+      "purpose": "Trace crosses a GND/P3V3 plane split",
+      "tags": [
+        "e2",
+        "split",
+        "fail"
+      ],
+      "input_sha256": "6f57b911f3211e5214233fec9bf0b651493d1e486a2537a251bca0d98553429e",
+      "semantic_sha256": "404bde909d3667df29850708d240996f2d139dcddc57d4676be3a8d1abdd65b9",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E2-201"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-201"
+      ],
+      "unknowns": [
+        "RP-E2-205"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-201",
+              "RP-E2-205"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-205"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 123.834,
+      "stderr": "",
+      "reasoning": "GND copper ends at x=49.9 and P3V3 copper starts at x=50.1: the trace projection crosses a gap whose two sides are different reference nets. That is a proven plane split crossing (return current must detour), regardless of whether a GND via is nearby."
+    },
+    {
+      "scene": "04-void-hole-under-trace",
+      "purpose": "Antipad/hole in the reference copper directly under the trace",
+      "tags": [
+        "e2",
+        "hole",
+        "fail"
+      ],
+      "input_sha256": "caa3001fea684573d9169ec38beb270e5b8e570c6a0535d26eec20ee0d85f5b3",
+      "semantic_sha256": "0ebb6272a3e96142a23d5b8f36c15d7a8f43ae12449a25e750be55978ce8a72e",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E2-202"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-202"
+      ],
+      "unknowns": [
+        "RP-E2-203"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-202",
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 123.304,
+      "stderr": "",
+      "reasoning": "A 10x10 mm hole in the middle of the GND polygon removes copper exactly where the trace runs; the projection crosses a void owned by the same polygon."
+    },
+    {
+      "scene": "05-hole-away-from-trace",
+      "purpose": "Hole in the plane but away from the trace",
+      "tags": [
+        "e2",
+        "pass"
+      ],
+      "input_sha256": "becf4ee81cf3a0af8a8482bc3704b3d7fd8ced112381d9517a8ad93e84cedf64",
+      "semantic_sha256": "5a710802129bf8b530901bab793d73603d2306e7d1ad6406cd0d17269bb69955",
+      "exit_code": 0,
+      "observed_status": "pass_with_scope",
+      "expected": {
+        "overall_status": "pass_with_scope",
+        "must_include_rules": [],
+        "must_not_include_rules": [
+          "RP-E2-202"
+        ],
+        "require_unknowns": false,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 0,
+            "observed_exit": 0
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "pass_with_scope",
+            "observed": "pass_with_scope"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 128.94,
+      "stderr": "",
+      "reasoning": "The same hole is moved to y=5..15, far outside the trace's width+corridor envelope (trace at y=40, half_envelope=0.3): coverage stays safe for the whole 60 mm."
+    },
+    {
+      "scene": "06-edge-corridor-insufficient",
+      "purpose": "Trace too close to the reference-plane edge",
+      "tags": [
+        "e2",
+        "corridor"
+      ],
+      "input_sha256": "fc635faa718bf0da337182be38e6150121d0d636dc1bbf832ab91ab1283d4afa",
+      "semantic_sha256": "f43ba5fe604f17939fc922cbc0b79d3d721b65ced057d3aa8cf7242399ae3558",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E2-206"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-206"
+      ],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-206"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 150.712,
+      "stderr": "",
+      "reasoning": "Plane height is 25.05 mm and the trace centreline is at y=25: the distance to the copper edge is 0.05 mm while width/2+corridor=0.3 mm, so the whole trace has an insufficient edge corridor (copper still present, so not a void)."
+    },
+    {
+      "scene": "07-same-net-touching",
+      "purpose": "Two same-net polygons share an edge",
+      "tags": [
+        "e2",
+        "connectivity"
+      ],
+      "input_sha256": "bbb4baa0831057215ddfabebac1ca3f819c84beca35f65dfa757ba6b74ea153e",
+      "semantic_sha256": "7d9fdf7b8f8de061f629085559414406cd7280d27591e04ed3a83f2b3fd5b95c",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [
+          "RP-E2-207"
+        ],
+        "must_not_include_rules": [
+          "RP-E2-206"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-207"
+      ],
+      "unknowns": [
+        "RP-E2-207"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-207"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-207"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 165.034,
+      "stderr": "",
+      "reasoning": "The GND copper is split into two polygons that touch at x=50. Interior seams are not copper boundaries, so coverage/corridor is fine; but geometry alone cannot prove the polygons are electrically joined, so connectivity stays unknown."
+    },
+    {
+      "scene": "08-units-mil-solid",
+      "purpose": "Same solid-plane geometry expressed in mil",
+      "tags": [
+        "units",
+        "e2",
+        "pass"
+      ],
+      "input_sha256": "7ad57ab13738baf7f9b3f2f7862a2570b2b7eea94c205b29567b5673f7ad0d9d",
+      "semantic_sha256": "f52340d431859c1868dad249acd9fd42e2d6e2c4619d615c892e351625e17c0b",
+      "exit_code": 0,
+      "observed_status": "pass_with_scope",
+      "expected": {
+        "overall_status": "pass_with_scope",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": 2362.6,
+        "checked_length_max": 2362.6
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 2362.6,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mil"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 0,
+            "observed_exit": 0
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "pass_with_scope",
+            "observed": "pass_with_scope"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 2362.6,
+            "observed": 2362.6
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 2362.6,
+            "observed": 2362.6
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 153.291,
+      "stderr": "",
+      "reasoning": "Pure unit change: 0.2 mm width -> 7.874 mil, corridor 0.2 mm -> 7.874 mil, tolerance 0.01 mm -> 0.394 mil, board 100x80 mm -> 3937x3150 mil. Geometry is geometrically identical, so the verdict and coverage semantics must not change."
+    },
+    {
+      "scene": "09-nonstandard-layer-order",
+      "purpose": "Non-standard four-layer stack recognised from explicit order/roles",
+      "tags": [
+        "e1",
+        "stackup",
+        "pass"
+      ],
+      "input_sha256": "4cbfe59cd40cf26e600294f5fe377781a9892456aef4228c7e31dd3fd21b91de",
+      "semantic_sha256": "c220420f7773905f995f77208485014a09e0aadfd2060116f84ad3e56d7dba59",
+      "exit_code": 0,
+      "observed_status": "pass_with_scope",
+      "expected": {
+        "overall_status": "pass_with_scope",
+        "must_include_rules": [],
+        "must_not_include_rules": [
+          "RP-E1-102",
+          "RP-E1-103"
+        ],
+        "require_unknowns": false,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 0,
+            "observed_exit": 0
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "pass_with_scope",
+            "observed": "pass_with_scope"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 121.963,
+      "stderr": "",
+      "reasoning": "L1 signal, L2 signal, L3 GND, L4 P5V: the trace is declared on L2 and references the adjacent L3 GND plane. Nothing may assume the usual L1-signal/L2-GND/L3-PWR/L4-signal arrangement; roles come from the stackup declaration."
+    },
+    {
+      "scene": "10-return-via-candidate",
+      "purpose": "Layer transition with a correctly declared return-via candidate",
+      "tags": [
+        "e3",
+        "via"
+      ],
+      "input_sha256": "b22b4112d54252ad84c27a98320789910b24e03a321cd8d7f7576d19b540a18a",
+      "semantic_sha256": "16e89ae388c407b718717fc6044cd66a702fc65fdabecbdc432e8b982d3e583a",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E3-310"
+        ],
+        "must_not_include_rules": [
+          "RP-E3-306",
+          "RP-E3-309"
+        ],
+        "require_unknowns": false,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [
+        "RP-E3-310"
+      ],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-310"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 120.623,
+      "stderr": "",
+      "reasoning": "L1->L4 signal via; reference changes L2 GND -> L3 GND (same net, different plane). The declared return via is buried L2..L3, same net, in the L3 copper island with fill evidence, and sits exactly on the transition point. This is a potential candidate only: the tool must not claim a recovered return path."
+    },
+    {
+      "scene": "11-return-via-span-short",
+      "purpose": "Return via does not reach the second reference plane",
+      "tags": [
+        "e3",
+        "via",
+        "fail"
+      ],
+      "input_sha256": "f7f60754f1dc5a0bde6eb2120fd21af482b4afd6c7bfed5840fff7e66dbaa6ca",
+      "semantic_sha256": "4fce66545e181cfbb3ce7d980cad08034d97a25de037f2823cca64b8534ac064",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E3-306"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [
+        "RP-E3-306"
+      ],
+      "unknowns": [
+        "RP-E3-314"
+      ],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-306",
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 119.745,
+      "stderr": "",
+      "reasoning": "The reference changes to L3, but the candidate is a blind L1..L2 via: its physical span stops at L2 and cannot connect the L3 return plane. Proven span failure."
+    },
+    {
+      "scene": "12-return-via-wrong-net",
+      "purpose": "Return via carries a different net than the reference",
+      "tags": [
+        "e3",
+        "via",
+        "fail"
+      ],
+      "input_sha256": "12b39026b6509bad6a6777cb04859fe27fc2e8e3de65b8719fe5d9b751256fe4",
+      "semantic_sha256": "129ebe31b18cd8feb10adb444716130acf250ff47d311a44260bd031c40f8de8",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E3-307"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [
+        "RP-E3-307"
+      ],
+      "unknowns": [
+        "RP-E3-314"
+      ],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-307",
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 116.431,
+      "stderr": "",
+      "reasoning": "The candidate return via is on P3V3 although the reference after the transition is GND/L3; net identity is proven from the declared via net."
+    },
+    {
+      "scene": "13-return-via-unconnected",
+      "purpose": "Right net and span, but no pad/fill connection evidence",
+      "tags": [
+        "e3",
+        "via",
+        "unknown"
+      ],
+      "input_sha256": "6e278f000040a887e2a9b43fd0e292ed944272c019a7ed20ae5e46b0df1fbd62",
+      "semantic_sha256": "438c49b08153e559c1bdbc21fd0218df94e2d9732fe0e4a8c7de288daf96e0e1",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [],
+        "must_not_include_rules": [
+          "RP-E3-310"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [],
+      "unknowns": [
+        "RP-E3-309",
+        "RP-E3-314"
+      ],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-309",
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E3-309",
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 111.02,
+      "stderr": "",
+      "reasoning": "The candidate is GND and spans L2..L3, but declares no connected copper, no island and no pad/thermal/fill evidence. Proximity and net name are not connection proof, so the return path stays unknown."
+    },
+    {
+      "scene": "14-stale-via-evidence",
+      "purpose": "Return-via evidence bound to an older snapshot",
+      "tags": [
+        "e3",
+        "evidence",
+        "unknown"
+      ],
+      "input_sha256": "8706c897c5c54f201a20ec702699b7de5ce0d30f010ffb6a604e8594ba121547",
+      "semantic_sha256": "87b4726b6247f29a4394b5afd417a56836afa4ded4e881ba05c593753cbd7a5e",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [],
+        "must_not_include_rules": [
+          "RP-E3-310"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [],
+      "unknowns": [
+        "RP-E3-308",
+        "RP-E3-314"
+      ],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-308",
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E3-308",
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 113.768,
+      "stderr": "",
+      "reasoning": "The candidate would otherwise qualify, but its source_snapshot differs from the audited project snapshot, so the evidence is rejected instead of reused."
+    },
+    {
+      "scene": "15-reference-net-change",
+      "purpose": "Reference net changes GND->P3V3 at the transition without a bridge",
+      "tags": [
+        "e3",
+        "split",
+        "reference"
+      ],
+      "input_sha256": "3332205bee96659672018f45ca0e668ec0aea28d8551ba70c746d3791f20e114",
+      "semantic_sha256": "87dac8e7a68f898bb77e06d286cc9b62308c149d886b94652bff7642f0cdceaa",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E3-304"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [
+        "RP-E3-304"
+      ],
+      "unknowns": [
+        "RP-E3-304"
+      ],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-304"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E3-304"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 131.684,
+      "stderr": "",
+      "reasoning": "The reference before the transition is L2/GND and after it L3/P3V3. This is a net change; adding a GND return via is not a valid automatic fix, and no capacitor bridge evidence exists, so the return path stays unproven."
+    },
+    {
+      "scene": "16-reference-net-change-with-cap",
+      "purpose": "Reference net change with a fully evidenced capacitor bridge",
+      "tags": [
+        "e3",
+        "reference"
+      ],
+      "input_sha256": "7e5f1e3db5c2b4a1f94e3e3147386b13e06c28c48470969eec1cd775e6ae93cf",
+      "semantic_sha256": "cbeed9d4e3f978acac3b8e3bd76a39e0ca96c6b7c048e53fc73a4ed850bb4a38",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E3-304",
+          "RP-E3-310"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [
+        "RP-E3-304",
+        "RP-E3-310"
+      ],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-304",
+              "RP-E3-310"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 128.928,
+      "stderr": "",
+      "reasoning": "Same GND->P3V3 change, but a decoupling capacitor declares both endpoint nets, placement/connection evidence, frequency basis and snapshot binding. It is still only a conditional candidate (not proven high-frequency return), so the net-change warning remains."
+    },
+    {
+      "scene": "17-diffpair-one-leg-crosses-void",
+      "purpose": "One differential leg crosses a plane void, the other does not",
+      "tags": [
+        "e4",
+        "diffpair",
+        "fail"
+      ],
+      "input_sha256": "f485bfa8938690e4449f59f33c832de125cbfdc80d0c7b71f73b92d999ec68ea",
+      "semantic_sha256": "8fe8c51ad710a474311fbb108c6929a4bade12a85d1c787f46f78e30f5fb61c9",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E2-202",
+          "RP-E4-402"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 120,
+        "checked_length_max": 120
+      },
+      "findings": [
+        "RP-E2-202",
+        "RP-E4-402"
+      ],
+      "unknowns": [
+        "RP-E2-203"
+      ],
+      "coverage_totals": {
+        "checked_length": 120.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 2,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-202",
+              "RP-E2-203",
+              "RP-E4-402"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 120,
+            "observed": 120.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 120,
+            "observed": 120.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 128.869,
+      "stderr": "",
+      "reasoning": "DP_P at y=40 crosses a hole spanning y=38..42 in the GND plane; DP_N at y=44 stays on solid copper. The pair's return environments differ, which the reference asymmetry check reports independently of any length/skew report."
+    },
+    {
+      "scene": "18-diffpair-asymmetric-transition",
+      "purpose": "Only one differential leg changes layer",
+      "tags": [
+        "e4",
+        "diffpair",
+        "fail"
+      ],
+      "input_sha256": "5d6ed238ff7e52968608c43034efe178e35d4644f424e570bb857f6a7f38e856",
+      "semantic_sha256": "ddb16516d4c32aa331e336b966d133fa67014a1d898e8486b48897add64a32d4",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E4-403"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": null,
+        "checked_length_min": 75,
+        "checked_length_max": 75
+      },
+      "findings": [
+        "RP-E3-310",
+        "RP-E4-403",
+        "RP-E4-404"
+      ],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 75.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 2,
+        "segment_count": 3,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-310",
+              "RP-E4-403",
+              "RP-E4-404"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 75,
+            "observed": 75.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 75,
+            "observed": 75.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 132.45,
+      "stderr": "",
+      "reasoning": "DP_P has L1->L4 with a reference change L2 GND -> L3 GND; DP_N stays on L1 referenced to L2. The legs therefore have different reference-plane sets and different transitions."
+    },
+    {
+      "scene": "19-diffpair-different-references",
+      "purpose": "Differential legs reference different planes",
+      "tags": [
+        "e4",
+        "diffpair",
+        "fail"
+      ],
+      "input_sha256": "f0dab24189411257b08aa317989cff501c831830cc02723294536395d7e5c6ef",
+      "semantic_sha256": "93a7b52e5ae1a8e28e02d963c5ddccf8d07eef82eb4ae3145276ec55948a8803",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E4-403"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": null,
+        "checked_length_min": 120,
+        "checked_length_max": 120
+      },
+      "findings": [
+        "RP-E1-108",
+        "RP-E4-403"
+      ],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 120.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 2,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E1-108",
+              "RP-E4-403"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 120,
+            "observed": 120.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 120,
+            "observed": 120.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 128.324,
+      "stderr": "",
+      "reasoning": "DP_P references L2/GND, DP_N references L3/P3V3. Both are declared, so the pair uses different return environments (and the L3 reference is not adjacent to L1)."
+    },
+    {
+      "scene": "20-copper-pour-boundary-only",
+      "purpose": "Only a pour boundary is supplied, not actual filled copper",
+      "tags": [
+        "e2",
+        "unknown",
+        "coverage"
+      ],
+      "input_sha256": "ce945449fb7dacc1b8968ad2d7dd9da1533543b34bf6a5c23b5e5e8a2c387032",
+      "semantic_sha256": "9c9191028ad86a7c9dc957ea3dd9782308e95e9a75473e0205b2ac5e808e1f58",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [
+          "RP-E1-106"
+        ],
+        "must_not_include_rules": [
+          "RP-E2-202"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 0,
+        "checked_length_max": 0
+      },
+      "findings": [
+        "RP-E1-106",
+        "RP-E5-503"
+      ],
+      "unknowns": [
+        "RP-E2-208",
+        "RP-E5-503"
+      ],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 60.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E1-106",
+              "RP-E2-208",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-208",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 134.536,
+      "stderr": "",
+      "reasoning": "availability=pour_boundary with is_actual_fill=false: the design boundary is not proof of filled copper, so no millimetre may be counted as checked and continuity stays unknown."
+    },
+    {
+      "scene": "21-arc-unsupported",
+      "purpose": "Path contains an arc segment this version cannot model",
+      "tags": [
+        "e5",
+        "unsupported",
+        "coverage"
+      ],
+      "input_sha256": "061f160db325f430ee3197975bb0c8d387ca3e024c71bfaedb74ac448441a71b",
+      "semantic_sha256": "f940b3ca32b09b7b3fed0471d7eadbd9f75b4b39f92172fb81b6f0b7f264a421",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [
+          "RP-E5-503"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 20,
+        "checked_length_max": 20
+      },
+      "findings": [],
+      "unknowns": [
+        "RP-E5-502",
+        "RP-E5-503"
+      ],
+      "coverage_totals": {
+        "checked_length": 20.0,
+        "unknown_length": 5.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E5-502",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E5-502",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 20,
+            "observed": 20.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 20,
+            "observed": 20.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 124.138,
+      "stderr": "",
+      "reasoning": "One 20 mm straight segment plus a 5 mm arc: the straight part is checked, the arc is declared unsupported and its length stays unknown. The net is incomplete, not pass."
+    },
+    {
+      "scene": "22-empty-signal",
+      "purpose": "Declared signal has no segments",
+      "tags": [
+        "e5",
+        "empty"
+      ],
+      "input_sha256": "f0fc25ee400ecec303515d76ad718c06352bb8140d0f0dc13c488059131c0d6c",
+      "semantic_sha256": "96debe781d6b4712cd7117b8731b52d0307d1f64e86bed4864ad3d250bce627e",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [
+          "RP-E5-501",
+          "RP-E5-504"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": 0,
+        "checked_length_max": 0
+      },
+      "findings": [
+        "RP-E5-501",
+        "RP-E5-504"
+      ],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 0,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E5-501",
+              "RP-E5-504"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 124.923,
+      "stderr": "",
+      "reasoning": "An empty path has nothing to audit; the tool must not return pass for it."
+    },
+    {
+      "scene": "23-unsupported-declared-object",
+      "purpose": "Segment explicitly listed as unsupported geometry",
+      "tags": [
+        "e5",
+        "unsupported"
+      ],
+      "input_sha256": "8ab1883b36f3b11be2f6fdcf14803a36ca62c5730d01fdd2bb7fb419ff2e3048",
+      "semantic_sha256": "7beb04c11104cd0dd338c7fc715dfc4742ede6d17a757c74b9f4420a8495e347",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [
+          "RP-E5-502"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 0,
+        "checked_length_max": 0
+      },
+      "findings": [
+        "RP-E5-503"
+      ],
+      "unknowns": [
+        "RP-E5-502",
+        "RP-E5-503"
+      ],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 40.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E5-502",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E5-502",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 129.933,
+      "stderr": "",
+      "reasoning": "The segment is declared in unsupported[] (e.g. arc not modelled): its 40 mm cannot be counted as checked even though the straight geometry exists in the input."
+    },
+    {
+      "scene": "24-reference-copper-ends-under-signal",
+      "purpose": "Reference copper stops halfway across the trace",
+      "tags": [
+        "e2",
+        "edge",
+        "fail"
+      ],
+      "input_sha256": "7208a297e7972e45ee955694d46f8a637d9b3d2084849208c45f148af38dbf59",
+      "semantic_sha256": "e841dc413c6d0843f202d5346dffa1026c71f2f455e853fccad649623ac210a8",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E2-204"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-204"
+      ],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-204"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 141.071,
+      "stderr": "",
+      "reasoning": "GND copper exists only for x<=40 while the trace runs 20..80: for x>40 there is no reference copper on either side of the projection (copper ends under the signal)."
+    },
+    {
+      "scene": "25-concave-copper-notch",
+      "purpose": "Concave copper polygon with a notch crossing the trace",
+      "tags": [
+        "e2",
+        "concave",
+        "fail"
+      ],
+      "input_sha256": "e1169a83475419be1dbb9b0eb0b13d9207b83fa0b7b73f0c98b21e857a6c5c3c",
+      "semantic_sha256": "7a1d88fa50a7013daa11d53b11d01e91500b35620c9d708771ced47b118d51c9",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E2-202"
+        ],
+        "must_not_include_rules": [
+          "RP-E2-201"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-202"
+      ],
+      "unknowns": [
+        "RP-E2-203"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-202",
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 156.78,
+      "stderr": "",
+      "reasoning": "One GND polygon is U-shaped: the copper top edge dips to y=30 between x=45..55. At the trace height y=40 that notch is copper-free but bounded by the same polygon on both sides, i.e. a void inside the copper rather than a different-net split."
+    },
+    {
+      "scene": "26-tolerance-boundary-slit-at-tolerance",
+      "purpose": "Same-net gap exactly at the declared geometry tolerance (0.02 mm vs tol 0.01)",
+      "tags": [
+        "e2",
+        "tolerance"
+      ],
+      "input_sha256": "e858059a8a57fc137cc280fe534aab3bde6d338847a63a5748e051fee26f48aa",
+      "semantic_sha256": "a56e13ebda456f29ff0e41f2f2811daf47ea50b44e3ae32a72c0dd2b9b17cb00",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E2-203"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-203"
+      ],
+      "unknowns": [
+        "RP-E2-203"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 145.708,
+      "stderr": "",
+      "reasoning": "Gap width 0.02 mm is twice the geometry tolerance; the risk must be reported, not hidden behind the tolerance."
+    },
+    {
+      "scene": "27-tolerance-boundary-slit-below-tolerance",
+      "purpose": "Same-net gap smaller than the declared geometry tolerance",
+      "tags": [
+        "e2",
+        "tolerance"
+      ],
+      "input_sha256": "8248b1446e89c58847ca1a62877c924a6da2a3dbac0ff5eb46f159d83124ca10",
+      "semantic_sha256": "812bc2ceda60bd72f5e92b3d4589e133887f2ef8cfa940d810b03108c0f7fcd9",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E2-203"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-203",
+        "RP-E2-207"
+      ],
+      "unknowns": [
+        "RP-E2-203",
+        "RP-E2-207"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-203",
+              "RP-E2-207"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-203",
+              "RP-E2-207"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 134.919,
+      "stderr": "",
+      "reasoning": "Gap width 0.005 mm is below geometry_tolerance=0.01. The auditor must not widen the tolerance to erase the risk: the gap is still reported as an unproven same-net join."
+    },
+    {
+      "scene": "28-sparse-sampling-narrow-slit",
+      "purpose": "0.05 mm slit deliberately off a 1 mm sample grid",
+      "tags": [
+        "e2",
+        "sampling"
+      ],
+      "input_sha256": "4c1d49872615ada3e3891870074aaa8a0799b405d30ecea3355132b9df968462",
+      "semantic_sha256": "7cdbd8968c7fc967fcbb5805849fa646e58905cbd0e9adceacbd6b31852e06c1",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E2-203"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-203"
+      ],
+      "unknowns": [
+        "RP-E2-203"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-203"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 159.929,
+      "stderr": "",
+      "reasoning": "Gap 0.05 mm at x=50.03..50.08. A fixed sparse sampler at 1 mm (or 0.3 mm) spacing aimed at integer coordinates would step across the slit; exact interval partition must catch it."
+    },
+    {
+      "scene": "29-mil-edge-corridor",
+      "purpose": "Edge-corridor failure expressed in mil",
+      "tags": [
+        "units",
+        "e2",
+        "corridor"
+      ],
+      "input_sha256": "1d5b70bd09d3dbbd97320cd0690ac3d98df7cc03f7950a2f49b2eacf585730b0",
+      "semantic_sha256": "da6e31c1e97d12c5842dc86dd362e225637a93b80fcb3bb41d14e90ae29587cf",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E2-206"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": 2362.6,
+        "checked_length_max": 2362.6
+      },
+      "findings": [
+        "RP-E2-206"
+      ],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 2362.6,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mil"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-206"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 2362.6,
+            "observed": 2362.6
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 2362.6,
+            "observed": 2362.6
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 187.005,
+      "stderr": "",
+      "reasoning": "Plane height 25.05 mm = 986.22 mil, trace y=25 mm = 984.25 mil: edge distance 1.97 mil vs required width/2+corridor = 3.937+7.874 mil. Unit change must not change the verdict."
+    },
+    {
+      "scene": "30-stale-assignment-evidence",
+      "purpose": "Reference assignment evidence bound to old snapshot",
+      "tags": [
+        "e1",
+        "evidence",
+        "unknown"
+      ],
+      "input_sha256": "eb01322096d8f1445b0324bf974a0f79a5010ee3b415aff8ad00f506379a4a42",
+      "semantic_sha256": "4fadacdf78e3881da817b2e1b8a96983faa2dc60cb038867c5a07965f381e46f",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [],
+        "must_not_include_rules": [
+          "RP-E2-202"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 0,
+        "checked_length_max": 0
+      },
+      "findings": [
+        "RP-E5-503"
+      ],
+      "unknowns": [
+        "RP-E1-109",
+        "RP-E5-503"
+      ],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 60.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E1-109",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E1-109",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 111.435,
+      "stderr": "",
+      "reasoning": "The assignment's source_snapshot is not the audited snapshot, so reference intent cannot be trusted; the segment coverage stays unknown."
+    },
+    {
+      "scene": "31-candidate-reference-intent",
+      "purpose": "Only candidate reference planes are declared",
+      "tags": [
+        "e1",
+        "reference",
+        "unknown"
+      ],
+      "input_sha256": "7b477da75c0c28da6d8616d26e216db29aa600ec4261ca5638d3e5750566ba20",
+      "semantic_sha256": "1e83cef4327c32e2cc91f99cc3bc2d2a26f5554897fce568b9fcb0fa94772f33",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [
+          "RP-E1-107"
+        ],
+        "must_not_include_rules": [
+          "RP-E1-112"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 0,
+        "checked_length_max": 0
+      },
+      "findings": [
+        "RP-E1-107",
+        "RP-E5-503"
+      ],
+      "unknowns": [
+        "RP-E1-107",
+        "RP-E5-503"
+      ],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 60.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E1-107",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E1-107",
+              "RP-E5-503"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 117.265,
+      "stderr": "",
+      "reasoning": "basis=candidate with L2 and L3 candidates and dielectric thickness present: the nearest candidate (L2, 0.2 mm) can be reported as a hint, but it is not a declared reference, so coverage stays unknown."
+    },
+    {
+      "scene": "32-missing-via-in-transition",
+      "purpose": "Transition points at a via that is not in the via set",
+      "tags": [
+        "e3",
+        "evidence",
+        "unknown"
+      ],
+      "input_sha256": "0e47a59bd07207d71b517517a11e3f5be346972ee5488fb67fc02e59286dacb7",
+      "semantic_sha256": "a02b62907b1da3dc93299d7909c322c2033d377248f64b182f18a26a2e871f48",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E3-301"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [
+        "RP-E3-301"
+      ],
+      "unknowns": [
+        "RP-E3-301"
+      ],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-301"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E3-301"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 120.104,
+      "stderr": "",
+      "reasoning": "transitions[].via=missing-via is absent from vias[]: the layer change cannot be verified and the evidence is rejected (no assumption that the via exists)."
+    },
+    {
+      "scene": "33-signal-via-span-short",
+      "purpose": "Signal via cannot physically reach the target layer",
+      "tags": [
+        "e3",
+        "fail"
+      ],
+      "input_sha256": "34fad37cccc8fefd8d6953ba634eba48c0784b5cc6cfb2f67d9820db4c5f21e8",
+      "semantic_sha256": "40f2ce5294b3a170b535e4d576b4514db4ed23f011df4056467990398647ef5a",
+      "exit_code": 1,
+      "observed_status": "fail",
+      "expected": {
+        "overall_status": "fail",
+        "must_include_rules": [
+          "RP-E3-303"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": null,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [
+        "RP-E3-303",
+        "RP-E3-305"
+      ],
+      "unknowns": [
+        "RP-E3-305"
+      ],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 1,
+            "observed_exit": 1
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "fail",
+            "observed": "fail"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-303",
+              "RP-E3-305"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 119.277,
+      "stderr": "",
+      "reasoning": "The signal claims L1->L4 but its via is blind L1..L2, so the declared layer change cannot be implemented by that via."
+    },
+    {
+      "scene": "34-signal-on-plane-layer",
+      "purpose": "Segment declared on a plane layer",
+      "tags": [
+        "e5",
+        "layer"
+      ],
+      "input_sha256": "3146bf5357a65abefa2f31dde5f23211e1e3e909d6dfece0a9c064517c756a4f",
+      "semantic_sha256": "641c16c01ef2a20669e9274feae0904f67b4bc1800f0e65a83b2fe8d3e0625ec",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E5-505"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": null,
+        "checked_length_max": 0
+      },
+      "findings": [
+        "RP-E5-505"
+      ],
+      "unknowns": [
+        "RP-E1-105"
+      ],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 60.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E1-105",
+              "RP-E5-505"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E1-105"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 0,
+            "observed": 0.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 115.029,
+      "stderr": "",
+      "reasoning": "A segment cannot be a routed signal over a plane if it lives on the plane layer itself; the length is not applicable and the net cannot pass this audit."
+    },
+    {
+      "scene": "35-stale-external-report",
+      "purpose": "External length-match report bound to another snapshot",
+      "tags": [
+        "e5",
+        "evidence",
+        "unknown"
+      ],
+      "input_sha256": "a5fce24812caad4ab265f1116a0b27f5bbba0fd04c502e6a2695c032457e7a12",
+      "semantic_sha256": "5cf426eb393552b8a703218e8dc10f32ba08ff0ab3f4e05df0b1a41681b66272",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [
+          "RP-E4-407"
+        ],
+        "must_not_include_rules": [],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [],
+      "unknowns": [
+        "RP-E4-407"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E4-407"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E4-407"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 108.178,
+      "stderr": "",
+      "reasoning": "A referenced external report (e.g. differential length match) is bound to a different snapshot. It is not reused and its verdict is not imported; the audit itself still completes coverage, but the report binding stays unknown."
+    },
+    {
+      "scene": "36-return-via-too-far",
+      "purpose": "Correct return via but beyond the declared distance threshold",
+      "tags": [
+        "e3",
+        "via"
+      ],
+      "input_sha256": "89a40c1241dbf561b978a86cbcb73104e5bf508f716e10db32f12bf62fee251e",
+      "semantic_sha256": "4a6a1c1c5d3189c8ea09b9e3497da64b5fc985f3b7d0d0e8ac03c4d054895721",
+      "exit_code": 2,
+      "observed_status": "review_required",
+      "expected": {
+        "overall_status": "review_required",
+        "must_include_rules": [
+          "RP-E3-311"
+        ],
+        "must_not_include_rules": [
+          "RP-E3-310"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 50,
+        "checked_length_max": 50
+      },
+      "findings": [
+        "RP-E3-311"
+      ],
+      "unknowns": [
+        "RP-E3-314"
+      ],
+      "coverage_totals": {
+        "checked_length": 50.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 2,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 2,
+            "observed_exit": 2
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "review_required",
+            "observed": "review_required"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E3-311",
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E3-314"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 50,
+            "observed": 50.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 123.313,
+      "stderr": "",
+      "reasoning": "The candidate is GND, spans L2..L3 and is fill-connected, but sits 5 mm from the transition while max_return_via_distance=2.0 mm."
+    },
+    {
+      "scene": "37-overlapping-copper",
+      "purpose": "Two same-net copper polygons overlap",
+      "tags": [
+        "e2",
+        "connectivity"
+      ],
+      "input_sha256": "848f6eeca692befff27b73856b982110f1197fc27fdc5f5fb0e768d9b66c13f6",
+      "semantic_sha256": "9049ebc6a2e76a644a13b2b41395f9ba932ffd0a62a26ec207801078993246ae",
+      "exit_code": 3,
+      "observed_status": "incomplete",
+      "expected": {
+        "overall_status": "incomplete",
+        "must_include_rules": [
+          "RP-E2-207"
+        ],
+        "must_not_include_rules": [
+          "RP-E2-206"
+        ],
+        "require_unknowns": true,
+        "checked_length_min": 60,
+        "checked_length_max": 60
+      },
+      "findings": [
+        "RP-E2-207"
+      ],
+      "unknowns": [
+        "RP-E2-207"
+      ],
+      "coverage_totals": {
+        "checked_length": 60.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 1,
+        "segment_count": 1,
+        "unit": "mm"
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 3,
+            "observed_exit": 3
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "incomplete",
+            "observed": "incomplete"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": [
+              "RP-E2-207"
+            ]
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": true,
+            "observed": [
+              "RP-E2-207"
+            ]
+          }
+        },
+        {
+          "check": "checked_length_min",
+          "ok": true,
+          "detail": {
+            "expected_min": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "checked_length_max",
+          "ok": true,
+          "detail": {
+            "expected_max": 60,
+            "observed": 60.0
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 120.248,
+      "stderr": "",
+      "reasoning": "Overlapping GND polygons still form one copper union; interior overlapping edges are not boundaries. Geometry cannot prove the fill-level join, so connectivity stays unknown."
+    },
+    {
+      "scene": "38-invalid-unclosed-ring",
+      "purpose": "Reference polygon ring is not closed",
+      "tags": [
+        "input",
+        "invalid"
+      ],
+      "input_sha256": "c516f79292c85dc6b8e9aa8df60294e899f879531cabcac358c96a2bf02f2ad8",
+      "semantic_sha256": null,
+      "exit_code": 4,
+      "observed_status": "input_invalid",
+      "expected": {
+        "overall_status": "input_invalid",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": null,
+        "checked_length_max": null
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 0,
+        "segment_count": 0,
+        "unit": null
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 4,
+            "observed_exit": 4
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "input_invalid",
+            "observed": "input_invalid"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 117.701,
+      "stderr": "input_invalid: 1 issue(s); no audit performed",
+      "reasoning": "The outer ring omits the repeated first vertex; the auditor rejects it instead of silently closing the polygon."
+    },
+    {
+      "scene": "39-invalid-duplicate-id",
+      "purpose": "Two objects share an id",
+      "tags": [
+        "input",
+        "invalid"
+      ],
+      "input_sha256": "548f827983c1ff1cfe12b413757b3104c9f002b6f51114ac868aef5f4eec417f",
+      "semantic_sha256": null,
+      "exit_code": 4,
+      "observed_status": "input_invalid",
+      "expected": {
+        "overall_status": "input_invalid",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": null,
+        "checked_length_max": null
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 0,
+        "segment_count": 0,
+        "unit": null
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 4,
+            "observed_exit": 4
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "input_invalid",
+            "observed": "input_invalid"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 120.785,
+      "stderr": "input_invalid: 1 issue(s); no audit performed",
+      "reasoning": "A second signal reuses the id of the first; ambiguous ids are rejected."
+    },
+    {
+      "scene": "40-invalid-negative-width",
+      "purpose": "Negative trace width",
+      "tags": [
+        "input",
+        "invalid"
+      ],
+      "input_sha256": "06a0f62607d4c70c724bc9877fdad36be6d1932f069544fddda767069e4f2f87",
+      "semantic_sha256": null,
+      "exit_code": 4,
+      "observed_status": "input_invalid",
+      "expected": {
+        "overall_status": "input_invalid",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": null,
+        "checked_length_max": null
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 0,
+        "segment_count": 0,
+        "unit": null
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 4,
+            "observed_exit": 4
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "input_invalid",
+            "observed": "input_invalid"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 122.184,
+      "stderr": "input_invalid: 1 issue(s); no audit performed",
+      "reasoning": "width=-0.2 is physically meaningless and must not be normalised to a positive value."
+    },
+    {
+      "scene": "41-invalid-bool-width",
+      "purpose": "Boolean where a width is required",
+      "tags": [
+        "input",
+        "invalid"
+      ],
+      "input_sha256": "d9510ce9390f6c3d7fa22205357161587b40a0413c8bc4414b869717316aa160",
+      "semantic_sha256": null,
+      "exit_code": 4,
+      "observed_status": "input_invalid",
+      "expected": {
+        "overall_status": "input_invalid",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": null,
+        "checked_length_max": null
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 0,
+        "segment_count": 0,
+        "unit": null
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 4,
+            "observed_exit": 4
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "input_invalid",
+            "observed": "input_invalid"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 119.618,
+      "stderr": "input_invalid: 1 issue(s); no audit performed",
+      "reasoning": "width=true is a boolean, not a number; Python truthiness must not be accepted."
+    },
+    {
+      "scene": "42-invalid-infinite-coordinate",
+      "purpose": "Non-finite coordinate",
+      "tags": [
+        "input",
+        "invalid"
+      ],
+      "input_sha256": "e3752caf29e8131ab9a6417117b79b812eb2a94fb5377f5588f081b06bfe3962",
+      "semantic_sha256": null,
+      "exit_code": 4,
+      "observed_status": "input_invalid",
+      "expected": {
+        "overall_status": "input_invalid",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": null,
+        "checked_length_max": null
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 0,
+        "segment_count": 0,
+        "unit": null
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 4,
+            "observed_exit": 4
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "input_invalid",
+            "observed": "input_invalid"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 119.517,
+      "stderr": "input_invalid: 1 issue(s); no audit performed",
+      "reasoning": "A coordinate serialised as Infinity is rejected (NaN/inf are never valid geometry)."
+    },
+    {
+      "scene": "43-invalid-missing-via-span",
+      "purpose": "Via without a physical span",
+      "tags": [
+        "input",
+        "invalid"
+      ],
+      "input_sha256": "df266111fe69a329311d91405e7087994b5e1aa85c54672c493ef14971ba96f9",
+      "semantic_sha256": null,
+      "exit_code": 4,
+      "observed_status": "input_invalid",
+      "expected": {
+        "overall_status": "input_invalid",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": null,
+        "checked_length_max": null
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 0,
+        "segment_count": 0,
+        "unit": null
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 4,
+            "observed_exit": 4
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "input_invalid",
+            "observed": "input_invalid"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 118.705,
+      "stderr": "input_invalid: 1 issue(s); no audit performed",
+      "reasoning": "A via without span.from/to cannot prove any layer reach; the input is rejected."
+    },
+    {
+      "scene": "44-invalid-layer-order",
+      "purpose": "Non-contiguous physical layer order",
+      "tags": [
+        "input",
+        "invalid"
+      ],
+      "input_sha256": "9abfd9041a8a07ddf73254a09df9c0787f5c4e3598a46f41195c06050f9baf77",
+      "semantic_sha256": null,
+      "exit_code": 4,
+      "observed_status": "input_invalid",
+      "expected": {
+        "overall_status": "input_invalid",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": null,
+        "checked_length_max": null
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 0,
+        "segment_count": 0,
+        "unit": null
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 4,
+            "observed_exit": 4
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "input_invalid",
+            "observed": "input_invalid"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 124.417,
+      "stderr": "input_invalid: 1 issue(s); no audit performed",
+      "reasoning": "Orders 1,2,4,5 leave a gap: the physical stack is ambiguous, so the input is rejected instead of guessing."
+    },
+    {
+      "scene": "45-invalid-via-type-span",
+      "purpose": "Through via declared on an inner span",
+      "tags": [
+        "input",
+        "invalid"
+      ],
+      "input_sha256": "297d95ac609e281ca24ba8630c65bed91eb0aeb6ab0ac736ed91a8a6bc54660a",
+      "semantic_sha256": null,
+      "exit_code": 4,
+      "observed_status": "input_invalid",
+      "expected": {
+        "overall_status": "input_invalid",
+        "must_include_rules": [],
+        "must_not_include_rules": [],
+        "require_unknowns": false,
+        "checked_length_min": null,
+        "checked_length_max": null
+      },
+      "findings": [],
+      "unknowns": [],
+      "coverage_totals": {
+        "checked_length": 0.0,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "signal_count": 0,
+        "segment_count": 0,
+        "unit": null
+      },
+      "checks": [
+        {
+          "check": "exit_code_matches_status",
+          "ok": true,
+          "detail": {
+            "expected_exit": 4,
+            "observed_exit": 4
+          }
+        },
+        {
+          "check": "overall_status",
+          "ok": true,
+          "detail": {
+            "expected": "input_invalid",
+            "observed": "input_invalid"
+          }
+        },
+        {
+          "check": "must_include_rules",
+          "ok": true,
+          "detail": {
+            "missing": [],
+            "observed": []
+          }
+        },
+        {
+          "check": "must_not_include_rules",
+          "ok": true,
+          "detail": {
+            "forbidden_present": []
+          }
+        },
+        {
+          "check": "require_unknowns",
+          "ok": true,
+          "detail": {
+            "expected": false,
+            "observed": []
+          }
+        },
+        {
+          "check": "stdout_json_clean",
+          "ok": true,
+          "detail": "ok"
+        }
+      ],
+      "passed": true,
+      "duration_ms": 120.526,
+      "stderr": "input_invalid: 1 issue(s); no audit performed",
+      "reasoning": "via_type=through with span L2..L3 contradicts the stackup definition of a through via."
+    }
+  ]
+}

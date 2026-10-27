@@ -1,0 +1,27 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "net_rename",
+ "derivation": "identity_rename with a proven-identical member partition is not a connectivity change, but it is also not a proof of no impact (R6 keeps electrical state possible and documentation needs review).",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "net:+5V",
+   "impact": "electrical_state",
+   "confidence_at_least": "possible"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [
+  "missing_edge_data"
+ ],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

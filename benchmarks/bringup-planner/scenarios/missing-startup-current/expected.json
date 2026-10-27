@@ -1,0 +1,124 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "missing-startup-current",
+  "categories": [
+    "missing_startup_current"
+  ],
+  "derivation": "VDD_3V3 declares startup_current.basis=unknown (value ignored). The current limit can only be justified from declared startup current + runtime current + protection, so the first-energise step of VDD_3V3 must be BLOCKED with the missing information; no default 100 mA/500 mA may be invented and VIN_5V must stay independent (its current data is declared).",
+  "input": {
+    "file": "input.json",
+    "sha256": "2d4df7c2e8e16d872825bdb8644c51e14eef21a5ba16fec21d034058acd2585f"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "energize_allowed": true,
+      "dag_order": [
+        "VIN_5V",
+        "VDD_3V3"
+      ],
+      "dag_cycles": [],
+      "steps_by_status_min": {
+        "blocked": 1,
+        "ready": 1
+      },
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ],
+      "steps": {
+        "I1-VIS-001": "ready",
+        "I1-JMP-001": "ready",
+        "I1-OFF-001": "ready",
+        "I1-OFF-DISCHARGE": "ready",
+        "I1-OFF-RES-VDD_3V3": "ready",
+        "I1-OFF-RES-VIN_5V": "ready",
+        "I2-FW-001": "ready",
+        "I2-EXT-USB_DEBUG": "ready",
+        "I2-LOAD-ASM-J2": "ready",
+        "I2-SEQ-VIN_5V": "ready",
+        "I2-SEQ-VDD_3V3": "blocked",
+        "I2-CONNECT-ASM-J2": "blocked",
+        "I3-V-VDD_3V3": "ready",
+        "I3-RIPPLE-VDD_3V3": "blocked",
+        "I3-V-VIN_5V": "ready",
+        "I3-RIPPLE-VIN_5V": "blocked",
+        "I3-COMM-J1_USB": "blocked",
+        "I3-COMM-U1_I2C": "blocked",
+        "I4-BUS-J1_USB": "blocked",
+        "I4-BUS-U1_I2C": "blocked",
+        "I4-ANALOG-U3_ADC": "blocked"
+      },
+      "steps_by_status": {
+        "ready": 12,
+        "blocked": 9
+      },
+      "gap_codes": [
+        "I1_DISCHARGE_PROFILE_UNDECLARED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "unknown_codes": [
+        "I1_SHORT_CHECK_CRITERION_UNDEFINED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "equipment_gap_codes": [
+        "PROBE_LOADING_NOT_DECLARED"
+      ],
+      "supply_conflict_codes": [
+        "EXTERNAL_SUPPLY_PATH"
+      ]
+    },
+    "explain": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

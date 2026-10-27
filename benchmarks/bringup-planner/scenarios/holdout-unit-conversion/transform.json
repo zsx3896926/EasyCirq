@@ -1,0 +1,6 @@
+{
+  "schema": "bringup-bench-transform/v1",
+  "kind": "unit_conversion",
+  "voltage_unit": "mV",
+  "current_unit": "mA"
+}

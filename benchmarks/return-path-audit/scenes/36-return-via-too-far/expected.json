@@ -1,0 +1,21 @@
+{
+  "name": "36-return-via-too-far",
+  "purpose": "Correct return via but beyond the declared distance threshold",
+  "tags": [
+    "e3",
+    "via"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E3-311"
+    ],
+    "must_not_include_rules": [
+      "RP-E3-310"
+    ],
+    "require_unknowns": true,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "The candidate is GND, spans L2..L3 and is fill-connected, but sits 5 mm from the transition while max_return_via_distance=2.0 mm."
+}

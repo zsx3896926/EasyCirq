@@ -1,0 +1,19 @@
+{
+  "name": "33-signal-via-span-short",
+  "purpose": "Signal via cannot physically reach the target layer",
+  "tags": [
+    "e3",
+    "fail"
+  ],
+  "expected": {
+    "overall_status": "fail",
+    "must_include_rules": [
+      "RP-E3-303"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": null,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "The signal claims L1->L4 but its via is blind L1..L2, so the declared layer change cannot be implemented by that via."
+}

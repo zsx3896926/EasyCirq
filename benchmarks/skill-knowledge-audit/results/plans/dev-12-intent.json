@@ -1,0 +1,21 @@
+{
+  "schema": "ska-intent/v1",
+  "task_type": "full_product",
+  "stage": "requirements",
+  "autonomous_authorized": true,
+  "eda_available": true,
+  "deliverables": [
+    "schematic",
+    "pcb",
+    "manufacturing-package"
+  ],
+  "constraints": [
+    "从零做一块完整板：原理图、PCB、检查与打样资料，全部在已授权范围内自主推进",
+    "关键阶段汇报进度与证据，但不要每阶段重复求确认",
+    "只到制造资料；不包含固件/整机验收，也不自动开单采购"
+  ],
+  "user_decision_pending": [],
+  "already_read": [],
+  "budget_chars": 220000,
+  "notes": "用户说“直接做到能打样，别每步问我”，属于 L77 的已授权范围自主推进，不是逐阶段审批。"
+}

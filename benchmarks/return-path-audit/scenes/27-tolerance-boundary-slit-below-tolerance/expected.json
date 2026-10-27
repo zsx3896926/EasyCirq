@@ -1,0 +1,19 @@
+{
+  "name": "27-tolerance-boundary-slit-below-tolerance",
+  "purpose": "Same-net gap smaller than the declared geometry tolerance",
+  "tags": [
+    "e2",
+    "tolerance"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E2-203"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "Gap width 0.005 mm is below geometry_tolerance=0.01. The auditor must not widen the tolerance to erase the risk: the gap is still reported as an unproven same-net join."
+}

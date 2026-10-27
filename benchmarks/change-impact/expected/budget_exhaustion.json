@@ -1,0 +1,21 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "budget_exhaustion",
+ "derivation": "a tiny traversal budget truncates propagation; the report must say incomplete/truncated and keep the unvisited frontier instead of implying no impact.",
+ "expected_status": "incomplete",
+ "expected_exit": 0,
+ "must_impact": [],
+ "must_not_impact": [],
+ "required_checks": [],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [
+  "budget_exhausted"
+ ],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": true,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

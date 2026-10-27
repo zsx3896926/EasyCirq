@@ -1,0 +1,22 @@
+{
+  "name": "31-candidate-reference-intent",
+  "purpose": "Only candidate reference planes are declared",
+  "tags": [
+    "e1",
+    "reference",
+    "unknown"
+  ],
+  "expected": {
+    "overall_status": "incomplete",
+    "must_include_rules": [
+      "RP-E1-107"
+    ],
+    "must_not_include_rules": [
+      "RP-E1-112"
+    ],
+    "require_unknowns": true,
+    "checked_length_min": 0,
+    "checked_length_max": 0
+  },
+  "reasoning": "basis=candidate with L2 and L3 candidates and dielectric thickness present: the nearest candidate (L2, 0.2 mm) can be reported as a hint, but it is not a declared reference, so coverage stays unknown."
+}

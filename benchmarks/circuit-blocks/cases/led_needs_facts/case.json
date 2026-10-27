@@ -1,0 +1,40 @@
+{
+  "id": "led_needs_facts",
+  "description": "LED absolute maximum current missing: design limit alone cannot prove the LED rating -> needs_device_facts.",
+  "command": "generate",
+  "module_type": "led_indicator",
+  "allow_nonready": false,
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "led_vf": {
+      "min": 1.8,
+      "max": 2.2
+    },
+    "target_current": "5mA",
+    "max_current": "8mA",
+    "min_current": "3mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1,
+    "control": "low_side_switch",
+    "resistor_position": "supply_side",
+    "switch_facts": {
+      "sink_current_max": "10mA",
+      "voltage_drop": {
+        "min": 0,
+        "max": 0.4
+      },
+      "declared_by": "user"
+    }
+  },
+  "expect": {
+    "exit_code": 3,
+    "status": "needs_device_facts",
+    "unknowns_contains": [
+      "absolute maximum"
+    ]
+  },
+  "input_sha256": "a3506aeeab3443c00f50bbb3588a8e65ce3fe3620f04a4469d1c24182988477b"
+}

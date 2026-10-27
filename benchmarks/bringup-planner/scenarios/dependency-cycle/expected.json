@@ -1,0 +1,125 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "dependency-cycle",
+  "categories": [
+    "dependency_cycle"
+  ],
+  "derivation": "RAIL_A depends_on RAIL_B and RAIL_B depends_on RAIL_A. model.py accepts it (ids exist, no self dependency), dag.find_cycles reports one cycle and acyclic=false; plan.py adds a blocking STEP_DAG_CYCLE gap. A loop has no valid energise order, so no sequence step may be emitted as ready and the plan must not pretend any order is safe. scope.py does not test the DAG, so scope stays supported while the blocking gap carries the stop.",
+  "input": {
+    "file": "input.json",
+    "sha256": "64e44fe32dc0b101dd2a1eb6d1389b984d0c15bfa77f11a193cfcdb093f9b8dc"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "energize_allowed": true,
+      "dag_order": [],
+      "dag_cycles": [
+        [
+          "RAIL_A",
+          "RAIL_B"
+        ]
+      ],
+      "dag_acyclic": false,
+      "required_gap_codes": [
+        "I2_DOMAIN_DAG_CYCLE"
+      ],
+      "no_ready_step_prefixes": [
+        "I2-SEQ-"
+      ],
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-RAIL_A",
+        "I1-OFF-RES-RAIL_B",
+        "I2-FW-001",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-RAIL_A",
+        "I2-SEQ-RAIL_B",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-RAIL_A",
+        "I3-RIPPLE-RAIL_A",
+        "I3-V-RAIL_B",
+        "I3-RIPPLE-RAIL_B",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ],
+      "steps": {
+        "I1-VIS-001": "ready",
+        "I1-JMP-001": "ready",
+        "I1-OFF-001": "ready",
+        "I1-OFF-DISCHARGE": "ready",
+        "I1-OFF-RES-RAIL_A": "ready",
+        "I1-OFF-RES-RAIL_B": "ready",
+        "I2-FW-001": "ready",
+        "I2-LOAD-ASM-J2": "ready",
+        "I2-SEQ-RAIL_A": "blocked",
+        "I2-SEQ-RAIL_B": "blocked",
+        "I2-CONNECT-ASM-J2": "blocked",
+        "I3-V-RAIL_A": "ready",
+        "I3-RIPPLE-RAIL_A": "blocked",
+        "I3-V-RAIL_B": "ready",
+        "I3-RIPPLE-RAIL_B": "blocked",
+        "I3-COMM-J1_USB": "blocked",
+        "I3-COMM-U1_I2C": "blocked",
+        "I4-BUS-J1_USB": "blocked",
+        "I4-BUS-U1_I2C": "blocked",
+        "I4-ANALOG-U3_ADC": "blocked"
+      },
+      "steps_by_status": {
+        "ready": 10,
+        "blocked": 10
+      },
+      "gap_codes": [
+        "I1_DISCHARGE_PROFILE_UNDECLARED",
+        "I2_DOMAIN_DAG_CYCLE",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "unknown_codes": [
+        "I1_SHORT_CHECK_CRITERION_UNDEFINED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "equipment_gap_codes": [
+        "PROBE_LOADING_NOT_DECLARED"
+      ],
+      "supply_conflict_codes": []
+    },
+    "explain": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-RAIL_A",
+        "I1-OFF-RES-RAIL_B",
+        "I2-FW-001",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-RAIL_A",
+        "I2-SEQ-RAIL_B",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-RAIL_A",
+        "I3-RIPPLE-RAIL_A",
+        "I3-V-RAIL_B",
+        "I3-RIPPLE-RAIL_B",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

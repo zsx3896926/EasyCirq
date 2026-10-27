@@ -1,0 +1,38 @@
+{
+  "id": "open_drain_i2c_fast",
+  "description": "I2C Fast-mode (UM10204: tr max 300 ns) with Cb 100 pF; the 30-70 % coefficient is ln(7/3)=0.847298, so Rp <= 300ns/(ln(7/3)*100pF)/1.01 = 3506 ohm -> largest E24 is 3300 ohm.",
+  "command": "generate",
+  "module_type": "open_drain_pullup",
+  "input": {
+    "supply_voltage": {
+      "min": 3.135,
+      "max": 3.465
+    },
+    "bus_spec": "fast",
+    "bus_capacitance": "100pF",
+    "bus_v_il": 0.9,
+    "bus_v_ih": 2.31,
+    "device": {
+      "vol_max": 0.4,
+      "iol": "3mA",
+      "declared_by": "datasheet"
+    },
+    "static_current_budget": "4mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 3300
+      }
+    ],
+    "calculations": {
+      ".worst_case_rise_time.result.rise_time_max_s": 2.82404376867055e-07
+    }
+  },
+  "input_sha256": "3bb43df6eb934f9d02d512c817e2a13bce2f8322cf377866f06eeed4a922b3c1"
+}

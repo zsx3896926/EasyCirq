@@ -1,0 +1,114 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "bench-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": false,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": false,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "cmp:U1",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "MCU-A"
+   }
+  },
+  {
+   "id": "test:T",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "v": 1
+    }
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "cmp:U1",
+   "to": "test:T",
+   "semantic": "verification_coverage",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:any",
+   "title": "any",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "test:T",
+     "impact": "test_criterion_change"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

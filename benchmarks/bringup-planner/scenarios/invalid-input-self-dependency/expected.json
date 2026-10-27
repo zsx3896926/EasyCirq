@@ -1,0 +1,30 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "invalid-input-self-dependency",
+  "categories": [
+    "invalid_input",
+    "dependency_cycle"
+  ],
+  "derivation": "VIN_5V depends on itself. model.py rejects a self dependency at validation time with E_DAG_SELF_DEPENDENCY (a two-node cycle is legal input and is handled by dag.py; a self loop is not). validate exits 1 (status=invalid); plan exits 2 and writes input-invalid.json.",
+  "input": {
+    "file": "input.json",
+    "sha256": "ee44a3358aced4d6f0baaa9a43041e1f040d32f15364e696fcf5136c77432f5e"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 1,
+      "status": "invalid",
+      "required_error_codes": [
+        "E_DAG_SELF_DEPENDENCY"
+      ]
+    },
+    "plan": {
+      "exit_code": 2,
+      "status": "invalid",
+      "artifacts": [
+        "input-invalid.json"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

@@ -1,0 +1,47 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "high-voltage-envelope",
+  "categories": [
+    "scope_unsupported"
+  ],
+  "derivation": "The highest rail operating_max_v=52 V exceeds the supported 30 V operating envelope -> VOLTAGE_ENVELOPE_OUT_OF_SCOPE, scope.status=unsupported, energize_allowed=false, no I1..I5 steps and one SCOPE_BLOCKED gap. absolute_max_v=58 V is still below the 60 V absolute ceiling, so the reason is the operating envelope, not the specialist absolute boundary.",
+  "input": {
+    "file": "input.json",
+    "sha256": "fb13aa0fb25bd0b457da2f2daf74723dcd3f8b7726ead96f2edad781c9175068"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "unsupported",
+      "energize_allowed": false,
+      "dag_order": [
+        "VIN_48V",
+        "VDD_3V3"
+      ],
+      "dag_cycles": [],
+      "required_gap_codes": [
+        "SCOPE_BLOCKED"
+      ],
+      "steps_total": 0,
+      "step_ids": [],
+      "steps": {},
+      "steps_by_status": {},
+      "gap_codes": [
+        "SCOPE_BLOCKED"
+      ],
+      "unknown_codes": [],
+      "equipment_gap_codes": [],
+      "supply_conflict_codes": []
+    },
+    "explain": {
+      "exit_code": 0,
+      "scope_status": "unsupported",
+      "step_ids": []
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "04-void-hole-under-trace",
+  "purpose": "Antipad/hole in the reference copper directly under the trace",
+  "tags": [
+    "e2",
+    "hole",
+    "fail"
+  ],
+  "expected": {
+    "overall_status": "fail",
+    "must_include_rules": [
+      "RP-E2-202"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "A 10x10 mm hole in the middle of the GND polygon removes copper exactly where the trace runs; the projection crosses a void owned by the same polygon."
+}

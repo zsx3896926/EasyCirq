@@ -1,0 +1,620 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "low-voltage-sensor-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "low-voltage-sensor-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "dependencies",
+   "firmware_contract",
+   "interface",
+   "net",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "low-voltage-sensor-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "dependencies",
+   "firmware_contract",
+   "interface",
+   "net",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "pwr:5V0",
+   "kind": "power_domain",
+   "attributes": {
+    "voltage": {
+     "nominal": 5.0
+    }
+   }
+  },
+  {
+   "id": "pwr:3V3",
+   "kind": "power_domain",
+   "attributes": {
+    "voltage": {
+     "nominal": 3.3
+    }
+   },
+   "baseline_attributes": {
+    "voltage": {
+     "nominal": 5.0
+    }
+   }
+  },
+  {
+   "id": "net:+5V",
+   "kind": "net",
+   "attributes": {
+    "name": "+5V"
+   }
+  },
+  {
+   "id": "net:+3V3",
+   "kind": "net",
+   "attributes": {
+    "name": "+3V3"
+   }
+  },
+  {
+   "id": "cmp:U1",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "LDO-3V3-A",
+    "footprint": {
+     "uuid": "fp:sot23-5"
+    }
+   }
+  },
+  {
+   "id": "cmp:U2",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "MCU-B",
+    "instance_uuid": "u2-b",
+    "footprint": {
+     "uuid": "fp:qfn32"
+    },
+    "designator": "U2"
+   },
+   "baseline_attributes": {
+    "mpn": "MCU-A",
+    "instance_uuid": "u2-a"
+   }
+  },
+  {
+   "id": "cmp:U3",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "SENSOR-TEMP",
+    "interface": "I2C"
+   }
+  },
+  {
+   "id": "if:I2C",
+   "kind": "interface",
+   "attributes": {
+    "pose": {
+     "x": 2,
+     "y": 3
+    }
+   }
+  },
+  {
+   "id": "fw:app",
+   "kind": "firmware_contract",
+   "attributes": {
+    "i2c_address": "0x48",
+    "io_contract": {
+     "voltage": 3.3
+    }
+   },
+   "baseline_attributes": {
+    "io_contract": {
+     "voltage": 5.0
+    }
+   }
+  },
+  {
+   "id": "test:rail",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "v_min": 3.0,
+     "v_max": 3.6
+    }
+   },
+   "baseline_attributes": {
+    "criterion": {
+     "v_min": 4.75,
+     "v_max": 5.25
+    }
+   }
+  },
+  {
+   "id": "test:i2c",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "clock_khz": 100
+    }
+   }
+  },
+  {
+   "id": "bom:U2",
+   "kind": "bom_line",
+   "attributes": {
+    "designator": "U2",
+    "mpn": "MCU-B"
+   },
+   "baseline_attributes": {
+    "mpn": "MCU-A"
+   }
+  },
+  {
+   "id": "art:cpl",
+   "kind": "artifact",
+   "attributes": {
+    "kind": "cpl",
+    "revision": "r2"
+   }
+  },
+  {
+   "id": "art:gerber",
+   "kind": "artifact",
+   "attributes": {
+    "kind": "gerber",
+    "revision": "r2"
+   }
+  },
+  {
+   "id": "req:REQ1",
+   "kind": "requirement",
+   "attributes": {
+    "text": "3.3V sensor board"
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "pwr:5V0",
+   "to": "net:+5V",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:2",
+   "from": "net:+5V",
+   "to": "cmp:U1",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:3",
+   "from": "pwr:3V3",
+   "to": "net:+3V3",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:3b",
+   "from": "cmp:U1",
+   "to": "net:+3V3",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:4",
+   "from": "net:+3V3",
+   "to": "cmp:U2",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:5",
+   "from": "net:+3V3",
+   "to": "cmp:U3",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:6",
+   "from": "net:+3V3",
+   "to": "fw:app",
+   "semantic": "firmware_consumer",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:7",
+   "from": "cmp:U2",
+   "to": "fw:app",
+   "semantic": "firmware_consumer",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:8",
+   "from": "cmp:U3",
+   "to": "if:I2C",
+   "semantic": "signal_path",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:9",
+   "from": "if:I2C",
+   "to": "test:i2c",
+   "semantic": "test_reference",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:10",
+   "from": "cmp:U1",
+   "to": "test:rail",
+   "semantic": "test_reference",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:11",
+   "from": "net:+3V3",
+   "to": "test:rail",
+   "semantic": "test_reference",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:12",
+   "from": "cmp:U2",
+   "to": "bom:U2",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:13",
+   "from": "bom:U2",
+   "to": "art:cpl",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:14",
+   "from": "cmp:U2",
+   "to": "art:gerber",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:15",
+   "from": "req:REQ1",
+   "to": "pwr:3V3",
+   "semantic": "requirement_ref",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:16",
+   "from": "cmp:U2",
+   "to": "net:+3V3",
+   "semantic": "pin_mapping",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "pwr:3V3",
+   "attribute": "voltage.nominal",
+   "before": 5.0,
+   "after": 3.3,
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  },
+  {
+   "id": "chg:2",
+   "change_type": "modify",
+   "object": "cmp:U2",
+   "attribute": "mpn",
+   "before": "MCU-A",
+   "after": "MCU-B",
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  },
+  {
+   "id": "chg:3",
+   "change_type": "modify",
+   "object": "fw:app",
+   "attribute": "io_contract.voltage",
+   "before": 5.0,
+   "after": 3.3,
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  },
+  {
+   "id": "chg:4",
+   "change_type": "modify",
+   "object": "test:rail",
+   "attribute": "criterion",
+   "before": {
+    "v_min": 4.75,
+    "v_max": 5.25
+   },
+   "after": {
+    "v_min": 3.0,
+    "v_max": 3.6
+   },
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [
+  {
+   "id": "con:rail",
+   "kind": "voltage_range",
+   "object": "pwr:3V3",
+   "attribute": "voltage",
+   "value": {
+    "min": 3.0,
+    "max": 3.6
+   },
+   "hard": true,
+   "source": "req:REQ1"
+  }
+ ],
+ "verification_catalog": [
+  {
+   "id": "chk:ldo",
+   "title": "ldo",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "electrical-review",
+   "covers": [
+    {
+     "object": "cmp:U1",
+     "impact": "power_integrity"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:mcu",
+   "title": "mcu",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "electrical-review",
+   "covers": [
+    {
+     "object": "cmp:U2",
+     "impact": "power_integrity"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:fw",
+   "title": "fw",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "first-board-test",
+   "covers": [
+    {
+     "object": "fw:app",
+     "impact": "firmware_compatibility"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:rail_test",
+   "title": "rail test",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "first-board-test",
+   "covers": [
+    {
+     "object": "test:rail",
+     "impact": "test_criterion_change"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:cpl",
+   "title": "cpl",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "delivery-audit",
+   "covers": [
+    {
+     "object": "art:cpl",
+     "impact": "manufacturing_output"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:gerber",
+   "title": "gerber",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "delivery-audit",
+   "covers": [
+    {
+     "object": "art:gerber",
+     "impact": "manufacturing_output"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:host_drc",
+   "title": "host drc",
+   "kind": "host",
+   "cost": 2.0,
+   "mandatory": false,
+   "approval": false,
+   "module": "driver",
+   "covers": [
+    {
+     "object": null,
+     "impact": "layout_congestion"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [
+  {
+   "id": "ev:1",
+   "check": "chk:ldo",
+   "result": "pass",
+   "tool_version": "0.9.0",
+   "revision": "r1",
+   "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+   "coverage": {
+    "objects": [
+     "cmp:U1"
+    ],
+    "attributes": [
+     "mpn"
+    ],
+    "impacts": [
+     "power_integrity"
+    ]
+   },
+   "conditions": [],
+   "simulated": true,
+   "captured_at": "2026-01-01T00:00:00Z",
+   "valid_until": null,
+   "dependency_fingerprint": null,
+   "scope_complete": true
+  },
+  {
+   "id": "ev:2",
+   "check": "chk:cpl",
+   "result": "pass",
+   "tool_version": "0.9.0",
+   "revision": "r1",
+   "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+   "coverage": {
+    "objects": [
+     "art:cpl"
+    ],
+    "attributes": [
+     "revision"
+    ],
+    "impacts": [
+     "manufacturing_output"
+    ]
+   },
+   "conditions": [],
+   "simulated": false,
+   "captured_at": "2026-01-01T00:00:00Z",
+   "valid_until": null,
+   "dependency_fingerprint": null,
+   "scope_complete": true
+  }
+ ],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

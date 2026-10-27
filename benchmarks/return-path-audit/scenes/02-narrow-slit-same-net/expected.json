@@ -1,0 +1,21 @@
+{
+  "name": "02-narrow-slit-same-net",
+  "purpose": "0.12 mm slit between same-net polygons",
+  "tags": [
+    "e2",
+    "slit"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E2-203"
+    ],
+    "must_not_include_rules": [
+      "RP-E2-201"
+    ],
+    "require_unknowns": true,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "Two GND polygons with a 0.12 mm gap at x=50: the trace crosses the gap, so the projection leaves copper for 0.12 mm. Same net on both sides => connectivity is unproven (unknown), geometry gap itself is a warning, not a proven different-net split."
+}

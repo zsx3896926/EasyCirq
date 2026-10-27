@@ -1,0 +1,21 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "partial_snapshot",
+ "derivation": "a partial snapshot may not claim completeness: the report stays incomplete and carries an explicit snapshot_incomplete unknown instead of a \"no impact\" conclusion.",
+ "expected_status": "incomplete",
+ "expected_exit": 0,
+ "must_impact": [],
+ "must_not_impact": [],
+ "required_checks": [],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [
+  "snapshot_incomplete"
+ ],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

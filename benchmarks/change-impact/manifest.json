@@ -1,0 +1,417 @@
+{
+ "schema": "hds-change-impact-benchmark-manifest/v1",
+ "generated_by": "benchmark-scenario-generator",
+ "counts": {
+  "scenarios": 25,
+  "invalid": 11,
+  "composite": 2,
+  "holdout": 4,
+  "variants": 6,
+  "compare": 2
+ },
+ "files": [
+  {
+   "id": "compare_hard_constraint",
+   "group": "compare",
+   "input": "compare/compare_hard_constraint.json",
+   "input_sha256": "408c6bc88900ceaef794c9b46c8c339eea1125877240a40b6779037d6a54245f",
+   "expected": "expected/compare_hard_constraint.json",
+   "expected_sha256": "022b29cfa915bd3398fcd793501c1a1c95df2231b04f8a13b87b4c9d41119a0e"
+  },
+  {
+   "id": "compare_two_candidates",
+   "group": "compare",
+   "input": "compare/compare_two_candidates.json",
+   "input_sha256": "9d45ae2c363c94c44d8efb437661766b1eebdad2654bc1ce47f0bcb2874a5997",
+   "expected": "expected/compare_two_candidates.json",
+   "expected_sha256": "41b64eab9dd02b3b60d0a2317bcd7c73e2ba3eecca8d6a4aff91b03cae34c18c"
+  },
+  {
+   "id": "composite_interface_enclosure",
+   "group": "composite",
+   "input": "composite/composite_interface_enclosure.json",
+   "input_sha256": "ffb03756ee6b41b167e756ee1eb6bdb4b60825caa8192d77719cb6a455060c72",
+   "expected": "expected/composite_interface_enclosure.json",
+   "expected_sha256": "f6f2b9f27a8decc561132055a53849c3f5f87c8bd34ac9d37b5a6e53489bf305"
+  },
+  {
+   "id": "composite_low_voltage_sensor",
+   "group": "composite",
+   "input": "composite/composite_low_voltage_sensor.json",
+   "input_sha256": "7be4208e015d61b8c2069fe5ccba973cc124f73248a2b1a917f5459746886bba",
+   "expected": "expected/composite_low_voltage_sensor.json",
+   "expected_sha256": "5d76cfdee19f2632fd01ed0062e0c62491d34e1dd630280fb1a08cd1a9abb27f"
+  },
+  {
+   "id": "holdout_connector_outline",
+   "group": "holdout",
+   "input": "holdout/holdout_connector_outline.json",
+   "input_sha256": "c600a2aa0c2b93533dca95b2fb1dcf536015fd39685645952c0f319fb8b6c4f7",
+   "expected": "expected/holdout_connector_outline.json",
+   "expected_sha256": "b410a7218e6c759b22c1c72bc41b377d65fb216dd1efff59dddb027e9d70dfe2"
+  },
+  {
+   "id": "holdout_power_tree",
+   "group": "holdout",
+   "input": "holdout/holdout_power_tree.json",
+   "input_sha256": "d59e7f299300e9542fe6b26de2e0fb77fff0a21dffc71e195b87f0d364b8a044",
+   "expected": "expected/holdout_power_tree.json",
+   "expected_sha256": "c36cad9637879a7fc380cc85ab8c6529b15a6d028e6e5a9b974830294173a84c"
+  },
+  {
+   "id": "holdout_sensor_swap",
+   "group": "holdout",
+   "input": "holdout/holdout_sensor_swap.json",
+   "input_sha256": "640928a8cca504ba45ddda1acf16252b73d210d34abe45d458137fd56538b9f4",
+   "expected": "expected/holdout_sensor_swap.json",
+   "expected_sha256": "29839dd840e1462d1572e462cdecd0ec413181df6503bf718c2dfc805061a0af"
+  },
+  {
+   "id": "holdout_test_only",
+   "group": "holdout",
+   "input": "holdout/holdout_test_only.json",
+   "input_sha256": "e5302f37e32ec21781e3711e714e03147ca690f751ed8de38dd86b2071527959",
+   "expected": "expected/holdout_test_only.json",
+   "expected_sha256": "7788d0cd067c979bca866d94a43b5f306f2f59ae0e2eceba07ea412cd02f2041"
+  },
+  {
+   "id": "board_outline",
+   "group": "scenarios",
+   "input": "scenarios/board_outline.json",
+   "input_sha256": "177dd238c911920fe0b05f633abf6552fd48599e1386becc157aa4818b16430a",
+   "expected": "expected/board_outline.json",
+   "expected_sha256": "cd0a86873f369216e03bd74c5dd380227191cd9aa679032341899375e62dfa51"
+  },
+  {
+   "id": "bom_substitute",
+   "group": "scenarios",
+   "input": "scenarios/bom_substitute.json",
+   "input_sha256": "c8a7fd0e9ab68ba03363c7ef2564de3144228cf3d88c5141f655ab6328a30479",
+   "expected": "expected/bom_substitute.json",
+   "expected_sha256": "f4cf8f944c94c11ff36df0e39a55ea32752a5161ea73cfc5e38e8a6c2de8de05"
+  },
+  {
+   "id": "budget_exhaustion",
+   "group": "scenarios",
+   "input": "scenarios/budget_exhaustion.json",
+   "input_sha256": "98566855f9fb01d8a80e145a5c2a2b2a08c27157f839e3f313cb1673cc6ff3fa",
+   "expected": "expected/budget_exhaustion.json",
+   "expected_sha256": "367d1f962dc31d442c24fc8681303c142c7b9a9b439e795b7d7723dacd08505e"
+  },
+  {
+   "id": "cyclic_dependency",
+   "group": "scenarios",
+   "input": "scenarios/cyclic_dependency.json",
+   "input_sha256": "ad8a207c9e353544bede33193da78799c249599e5ef39d3e3d2b7adea861e49d",
+   "expected": "expected/cyclic_dependency.json",
+   "expected_sha256": "a0b208e948162332526b8159ec61672fc4a0862e692b89736f71f9fdbebd1abc"
+  },
+  {
+   "id": "differential_layer",
+   "group": "scenarios",
+   "input": "scenarios/differential_layer.json",
+   "input_sha256": "28ee789b150c61b7ca3aef7ee30be4d47977287d80211060d17db5f71cc2ac5d",
+   "expected": "expected/differential_layer.json",
+   "expected_sha256": "86d63857083c218076ef70a6d03eb61e79f4af2d16319150fd6c9e77865c329f"
+  },
+  {
+   "id": "display_text_move",
+   "group": "scenarios",
+   "input": "scenarios/display_text_move.json",
+   "input_sha256": "04d2d27b503ef87edb4ddb6c22787a5a71b13200f786c0fdd6c98a00cf98c0de",
+   "expected": "expected/display_text_move.json",
+   "expected_sha256": "abad11aec88b47cb41d0ef6cc72aac6aff72f1f9efa9a4e669201dcf3c7450f0"
+  },
+  {
+   "id": "dnp_config",
+   "group": "scenarios",
+   "input": "scenarios/dnp_config.json",
+   "input_sha256": "f5ee0f5f31f022539df472117e32a03fc7ef4f06a7cdcae98ba59eca3321fbbb",
+   "expected": "expected/dnp_config.json",
+   "expected_sha256": "1b306e4b9ed9f52d1798e3715ce946a905d1494667dd3964b1048c258c249161"
+  },
+  {
+   "id": "evidence_reuse_negative",
+   "group": "scenarios",
+   "input": "scenarios/evidence_reuse_negative.json",
+   "input_sha256": "4c0050c5c565c559a02846536d9bd048d05174b41bbb74b0cbe925ee0f40a041",
+   "expected": "expected/evidence_reuse_negative.json",
+   "expected_sha256": "cac34eeb779061c28a2d5a574801c41b9ce41af469049ebc22728c523a2ad004"
+  },
+  {
+   "id": "evidence_reuse_positive",
+   "group": "scenarios",
+   "input": "scenarios/evidence_reuse_positive.json",
+   "input_sha256": "87c56ad00d7ba9bd520a2844378dae0f75ef5894ce87f91ff63cf97c27ad68d5",
+   "expected": "expected/evidence_reuse_positive.json",
+   "expected_sha256": "52cff28ea247cff7e3fe8ab92530a08925c1df2a5060bcafa840cb257c6de3b7"
+  },
+  {
+   "id": "firmware_contract",
+   "group": "scenarios",
+   "input": "scenarios/firmware_contract.json",
+   "input_sha256": "9a580aa52d7990db5b1a7b1a0bd1f220d278fa75375fb53cc80703a1d17e4bc9",
+   "expected": "expected/firmware_contract.json",
+   "expected_sha256": "98962b62c640dcc2bb295a4f7e5b269cb81960c5b92813d54f3d817904e7e21d"
+  },
+  {
+   "id": "invalid_before_after",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_before_after.json",
+   "input_sha256": "582770b248ee50ac44cd132c10e8e4fe4172282f7f9d92325a0e7279431141de",
+   "expected": "expected/invalid_before_after.json",
+   "expected_sha256": "3d830b5a9a2a0015d248a1d983ad7cded21cb56b1b8c101a77bf6a602d9b2bd9"
+  },
+  {
+   "id": "invalid_bool_cost",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_bool_cost.json",
+   "input_sha256": "f78c89bac808bc2149bbf53de8ea5005f0ef45a7ccb1fb9d57ee3c7a59882e8b",
+   "expected": "expected/invalid_bool_cost.json",
+   "expected_sha256": "c28c778abaf76839b15f58f23a01e464bf38de4ec7262719c2fe7577966ce954"
+  },
+  {
+   "id": "invalid_compare_single_candidate",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_compare_single_candidate.json",
+   "input_sha256": "529ba92ee9ce258370ea924a5bf1254ba53cf9b8747e5f6459c8b3bf0f0253b5",
+   "expected": "expected/invalid_compare_single_candidate.json",
+   "expected_sha256": "64bd001a79833f9b43a6ff220a6604e708921597cf44e0e255724c1ef93d120a"
+  },
+  {
+   "id": "invalid_duplicate_id",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_duplicate_id.json",
+   "input_sha256": "43edba09a48c991236e5faf3494b0f2512c82aae85f582e4b8ede6ac6af5f01b",
+   "expected": "expected/invalid_duplicate_id.json",
+   "expected_sha256": "1979a48e7f44ad191329bfc0da7c3ee2e58fc5d88c7a9c3a84b23240fea6b6ce"
+  },
+  {
+   "id": "invalid_empty_comparison",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_empty_comparison.json",
+   "input_sha256": "058c08ddaec7d3ee1667240525b4859f1146abe63f0533de02ac67449872a6c8",
+   "expected": "expected/invalid_empty_comparison.json",
+   "expected_sha256": "40b305265da814892e08a3c864d2c28a31d5816ff61cf3d6677fd18c5106454b"
+  },
+  {
+   "id": "invalid_negative_budget",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_negative_budget.json",
+   "input_sha256": "5d6b62a36713cbec314a5171284fd27c8bdb9cb20821604f445a2da22747c7ed",
+   "expected": "expected/invalid_negative_budget.json",
+   "expected_sha256": "5de9af0fd40f60abcab8d820044fc76eb0276f7e51301f1e0cade4a2aed3538d"
+  },
+  {
+   "id": "invalid_partial_claimed_complete",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_partial_claimed_complete.json",
+   "input_sha256": "f5be5e7fcc97ec0cef6671bb57a01e98427361bb7476c0fea98a61f36576237e",
+   "expected": "expected/invalid_partial_claimed_complete.json",
+   "expected_sha256": "728fbecd17e6bdcae6407ababd7f38b63fbff89607e20a8d24c956faaca02f07"
+  },
+  {
+   "id": "invalid_project_mismatch",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_project_mismatch.json",
+   "input_sha256": "4c8d859a3a62e15cd9759fbb3d90227972cd03dfafe4de940954d0cf7e26ce78",
+   "expected": "expected/invalid_project_mismatch.json",
+   "expected_sha256": "d0d1fcd53ed1f9a2d4ff85fa6def214e2a8d26e5973f3920d93d7ac51f776fa1"
+  },
+  {
+   "id": "invalid_same_revision",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_same_revision.json",
+   "input_sha256": "60a9f1b89bf58f57c5a0cc88c9c0fe7f3e95228176d3ae46dc0dbbe9d5c017f4",
+   "expected": "expected/invalid_same_revision.json",
+   "expected_sha256": "ab65e98d21f9e8ffbfc4fd994de9d11a6cf6114681df9fa866e83026cdfec61f"
+  },
+  {
+   "id": "invalid_undeclared_change_object",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_undeclared_change_object.json",
+   "input_sha256": "93fdee86c2f56e505236a078e975e4db9b48a5d3dca25fffaa81f41e4500b808",
+   "expected": "expected/invalid_undeclared_change_object.json",
+   "expected_sha256": "02df51aad75694de316d469850bba5db8db37046b61d85af8bff368ed84aa047"
+  },
+  {
+   "id": "invalid_unknown_direction",
+   "group": "invalid",
+   "input": "scenarios/invalid/invalid_unknown_direction.json",
+   "input_sha256": "6f165d9a68f71a3d9ddadb31cf57a25aee2776e99c458e9c677325cfe33bf319",
+   "expected": "expected/invalid_unknown_direction.json",
+   "expected_sha256": "f7ffcb7e4439205e85edf7122cd99941111c40f86a659e6e8b0567dff03a2ad5"
+  },
+  {
+   "id": "ldo_replacement",
+   "group": "scenarios",
+   "input": "scenarios/ldo_replacement.json",
+   "input_sha256": "3c15b618968f91620c100c4ed3a97929c5f822972fdd7d1df3d93c98bae9ba84",
+   "expected": "expected/ldo_replacement.json",
+   "expected_sha256": "b856e469ab04f8f887e045c131e42cb244433a7e17a57fecfe11dc9c4c5695cf"
+  },
+  {
+   "id": "led_resistor_value",
+   "group": "scenarios",
+   "input": "scenarios/led_resistor_value.json",
+   "input_sha256": "0245adbdd83f9fb39c4c95d54a3dca18cd0e36c5fbdc0f1ecebb22b95462ae1e",
+   "expected": "expected/led_resistor_value.json",
+   "expected_sha256": "34df340f3852253c9357ac195703957684dfab3bf0baf258c66fab2728feb530"
+  },
+  {
+   "id": "mcu_footprint",
+   "group": "scenarios",
+   "input": "scenarios/mcu_footprint.json",
+   "input_sha256": "6444c2821b707d5fec35f1f68342d4449c502a2c3f135de2fe65c08183a8ebe9",
+   "expected": "expected/mcu_footprint.json",
+   "expected_sha256": "46661b1054b7c9483a7439f952ea581ae93ce3e78f52ee4eaf917261495111d2"
+  },
+  {
+   "id": "mcu_instance_change",
+   "group": "scenarios",
+   "input": "scenarios/mcu_instance_change.json",
+   "input_sha256": "9269a431798ab52140e1f7a1e65300c032fbadc9c00ae850f0535b1ded5a735b",
+   "expected": "expected/mcu_instance_change.json",
+   "expected_sha256": "79def55551170d24e12da89ae5ec61db5b65daba22ad36dc9886118c3b673d14"
+  },
+  {
+   "id": "mcu_pin_remap",
+   "group": "scenarios",
+   "input": "scenarios/mcu_pin_remap.json",
+   "input_sha256": "9311aaa3cf04e9dc5016d4ec373ececc4d6de9221107b53578d673c5daa009c9",
+   "expected": "expected/mcu_pin_remap.json",
+   "expected_sha256": "244613295588cd71d88e24cd318086fe10d81015a789a97ea27c2e46ba724fca"
+  },
+  {
+   "id": "missing_coverage",
+   "group": "scenarios",
+   "input": "scenarios/missing_coverage.json",
+   "input_sha256": "bc5cdb5ff43089223edfa32272736e3019bb6e241ffe7c1f2ddb4bfb7b27a8d3",
+   "expected": "expected/missing_coverage.json",
+   "expected_sha256": "c4fc3ac5b62caf25074959293287ffe2e41b845388f9ee37c3f81d1b3e0a8d1a"
+  },
+  {
+   "id": "net_rename",
+   "group": "scenarios",
+   "input": "scenarios/net_rename.json",
+   "input_sha256": "25d8f3d3df46375981672ca1ae4459c5f8b03047567f2e8acf8c1bd436dff275",
+   "expected": "expected/net_rename.json",
+   "expected_sha256": "6d31a029a4e47e4423d97bea21c9e362fc56741ca12b25e41e346b9c96167a1a"
+  },
+  {
+   "id": "no_change",
+   "group": "scenarios",
+   "input": "scenarios/no_change.json",
+   "input_sha256": "6459999e0d16db8a65df76c319cb6316f65bb7a7a9def973e2b4b6c5b6d411d2",
+   "expected": "expected/no_change.json",
+   "expected_sha256": "a857f50f711b2df0d44229c9e9bd2156832bacaa5f0dddae5cd1382449bf0354"
+  },
+  {
+   "id": "partial_snapshot",
+   "group": "scenarios",
+   "input": "scenarios/partial_snapshot.json",
+   "input_sha256": "5cea9d49eefeb22d1739489d26edafe4296a3b4cbc253a42e30188e6879857bb",
+   "expected": "expected/partial_snapshot.json",
+   "expected_sha256": "121f7f19bf4408e5d4f14c6209f0af4d92585fd5ec4bb48b7fd400c2819f004e"
+  },
+  {
+   "id": "power_5v_to_3v3",
+   "group": "scenarios",
+   "input": "scenarios/power_5v_to_3v3.json",
+   "input_sha256": "0f0fe4d27b3dcbc22ea4ed149d71634c10a3b43ceb2663b3d2cb12af1b09dc41",
+   "expected": "expected/power_5v_to_3v3.json",
+   "expected_sha256": "478bc5c8c5d341ffe65bf0c221f6e588f8b4ab6aa72ba0e60c0ef4303adc97f4"
+  },
+  {
+   "id": "requirement_change",
+   "group": "scenarios",
+   "input": "scenarios/requirement_change.json",
+   "input_sha256": "d536e13dd76f6ea602301bd0ed2684b788a414b961e9874fa2d063605618f1a9",
+   "expected": "expected/requirement_change.json",
+   "expected_sha256": "b91f6e258387cca089a23c64cf512d3d4a94c4db8285376e315c565a5d09a885"
+  },
+  {
+   "id": "test_threshold",
+   "group": "scenarios",
+   "input": "scenarios/test_threshold.json",
+   "input_sha256": "99d808ac166973573c6b9146160fdf30d20edb83182f3c4dede7b7b67ad91e02",
+   "expected": "expected/test_threshold.json",
+   "expected_sha256": "a0f556f7fe4ebca1346202e7fd1312b0f9952be45bcec1f290bb883d9fb4754e"
+  },
+  {
+   "id": "unauthorized_observed",
+   "group": "scenarios",
+   "input": "scenarios/unauthorized_observed.json",
+   "input_sha256": "e03760d41219b2367b3f20a8f61c105732464fd0df3d3574b33f4629a6afe696",
+   "expected": "expected/unauthorized_observed.json",
+   "expected_sha256": "d5247386a5e717c2738672a895a17e911892f772c696d9e8d172638d55dfc82d"
+  },
+  {
+   "id": "unknown_attribute",
+   "group": "scenarios",
+   "input": "scenarios/unknown_attribute.json",
+   "input_sha256": "e24af4399de053c01cc6c758a42d9ed06867fe197696b571a88bb10973089311",
+   "expected": "expected/unknown_attribute.json",
+   "expected_sha256": "e37e1cdec3d27a48bba537fa46a69bd203d93743b2813443cd3799c2bb639019"
+  },
+  {
+   "id": "usb_position",
+   "group": "scenarios",
+   "input": "scenarios/usb_position.json",
+   "input_sha256": "e2a9eb617c130d5f0d608719ec5a23e3125c33b91f26bce6936eae85d19237ee",
+   "expected": "expected/usb_position.json",
+   "expected_sha256": "fbb0be8643d34276e891efe883a9aa0e495e4240830ddcabcc975c035255e11c"
+  },
+  {
+   "id": "variant_cost_inflation_power",
+   "group": "variants",
+   "input": "variants/variant_cost_inflation_power.json",
+   "input_sha256": "78bfee9960824594259dfd53983b80b4dd0f54df84b116ff1b57fe94c09aba10",
+   "expected": "expected/variant_cost_inflation_power.json",
+   "expected_sha256": "093d5dcd5ede023cb025ade2be37d980ad66345a407710e3d6ca97280359df77"
+  },
+  {
+   "id": "variant_display_name_led_resistor",
+   "group": "variants",
+   "input": "variants/variant_display_name_led_resistor.json",
+   "input_sha256": "da27fe50f720393b6cecdbe5eab1a6f382dd3eb17323c03d3c4c21ea378e638c",
+   "expected": "expected/variant_display_name_led_resistor.json",
+   "expected_sha256": "74300a249950a547880e08b992bb7e3c582f47530b27a8138500c6ca9fe47cb0"
+  },
+  {
+   "id": "variant_remove_coverage_power",
+   "group": "variants",
+   "input": "variants/variant_remove_coverage_power.json",
+   "input_sha256": "74c13a069ad779d1f45b30f3c6db48838080b374b819c5ff979a48176694bfe9",
+   "expected": "expected/variant_remove_coverage_power.json",
+   "expected_sha256": "f89153d18dd71203405ff07ea765c7fec9f532997898ebc0680de25d624a416e"
+  },
+  {
+   "id": "variant_reorder_led_resistor",
+   "group": "variants",
+   "input": "variants/variant_reorder_led_resistor.json",
+   "input_sha256": "91767b956976e706b2ce88c27b13d49cc0a7dde563abbbf4638392842d4e8a2a",
+   "expected": "expected/variant_reorder_led_resistor.json",
+   "expected_sha256": "434202e31e8c8775e3325a71667d87f57029684c3dabebd033a70b8f894523b0"
+  },
+  {
+   "id": "variant_unit_conversion_led_resistor",
+   "group": "variants",
+   "input": "variants/variant_unit_conversion_led_resistor.json",
+   "input_sha256": "ecb93a30313910bffa3eb27f4ec8c27c13aeffeb74a001ece7f8ed6223e5a851",
+   "expected": "expected/variant_unit_conversion_led_resistor.json",
+   "expected_sha256": "463fdabbaa605881329bb66f4db01828e75198ea480cdc707bde840c1d82662e"
+  },
+  {
+   "id": "variant_unrelated_subgraph_power",
+   "group": "variants",
+   "input": "variants/variant_unrelated_subgraph_power.json",
+   "input_sha256": "85c9d7658d3e4c60c2bec9cfd9d7bdd211924b6bc36c6f2fbd611efce76ca3bb",
+   "expected": "expected/variant_unrelated_subgraph_power.json",
+   "expected_sha256": "db76cdd0b1b50a9970c1e696621a9ae8624f17986b3364d92f1ecf4499dfa37e"
+  }
+ ],
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN",
+ "note": "inputs are synthetic; SHA-256 is frozen so any edit to a scenario or assertion is detected"
+}

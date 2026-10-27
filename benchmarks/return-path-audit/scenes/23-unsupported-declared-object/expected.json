@@ -1,0 +1,19 @@
+{
+  "name": "23-unsupported-declared-object",
+  "purpose": "Segment explicitly listed as unsupported geometry",
+  "tags": [
+    "e5",
+    "unsupported"
+  ],
+  "expected": {
+    "overall_status": "incomplete",
+    "must_include_rules": [
+      "RP-E5-502"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 0,
+    "checked_length_max": 0
+  },
+  "reasoning": "The segment is declared in unsupported[] (e.g. arc not modelled): its 40 mm cannot be counted as checked even though the straight geometry exists in the input."
+}

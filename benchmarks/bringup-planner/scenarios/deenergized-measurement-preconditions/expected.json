@@ -1,0 +1,122 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "deenergized-measurement-preconditions",
+  "categories": [
+    "deenergized_measurement_preconditions"
+  ],
+  "derivation": "A short-check criterion is declared (5 ohm, project requirement, after disconnect + discharge). I1 must still sequence the preconditions explicitly: external supply disconnected, board de-energised, bulk capacitance discharged, then resistance/diode mode measurement with a settling requirement. The numeric criterion may be used only because it has a declared basis and the measurement must never be placed on a powered board.",
+  "input": {
+    "file": "input.json",
+    "sha256": "fe4591fe5b174c26b509112aa22b80697bda7a0c4feaee251cacaadd323f04b8"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "energize_allowed": true,
+      "dag_order": [
+        "VIN_5V",
+        "VDD_3V3"
+      ],
+      "dag_cycles": [],
+      "gap_codes_absent": [
+        "NO_SHORT_CRITERION"
+      ],
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ],
+      "steps": {
+        "I1-VIS-001": "ready",
+        "I1-JMP-001": "ready",
+        "I1-OFF-001": "ready",
+        "I1-OFF-DISCHARGE": "ready",
+        "I1-OFF-RES-VDD_3V3": "ready",
+        "I1-OFF-RES-VIN_5V": "ready",
+        "I2-FW-001": "ready",
+        "I2-EXT-USB_DEBUG": "ready",
+        "I2-LOAD-ASM-J2": "ready",
+        "I2-SEQ-VIN_5V": "ready",
+        "I2-SEQ-VDD_3V3": "ready",
+        "I2-CONNECT-ASM-J2": "blocked",
+        "I3-V-VDD_3V3": "ready",
+        "I3-RIPPLE-VDD_3V3": "blocked",
+        "I3-V-VIN_5V": "ready",
+        "I3-RIPPLE-VIN_5V": "blocked",
+        "I3-COMM-J1_USB": "blocked",
+        "I3-COMM-U1_I2C": "blocked",
+        "I4-BUS-J1_USB": "blocked",
+        "I4-BUS-U1_I2C": "blocked",
+        "I4-ANALOG-U3_ADC": "blocked"
+      },
+      "steps_by_status": {
+        "ready": 13,
+        "blocked": 8
+      },
+      "gap_codes": [
+        "I1_DISCHARGE_PROFILE_UNDECLARED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "unknown_codes": [
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "equipment_gap_codes": [
+        "PROBE_LOADING_NOT_DECLARED"
+      ],
+      "supply_conflict_codes": [
+        "EXTERNAL_SUPPLY_PATH"
+      ]
+    },
+    "explain": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

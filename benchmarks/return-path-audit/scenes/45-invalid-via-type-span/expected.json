@@ -1,0 +1,17 @@
+{
+  "name": "45-invalid-via-type-span",
+  "purpose": "Through via declared on an inner span",
+  "tags": [
+    "input",
+    "invalid"
+  ],
+  "expected": {
+    "overall_status": "input_invalid",
+    "must_include_rules": [],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": null,
+    "checked_length_max": null
+  },
+  "reasoning": "via_type=through with span L2..L3 contradicts the stackup definition of a through via."
+}

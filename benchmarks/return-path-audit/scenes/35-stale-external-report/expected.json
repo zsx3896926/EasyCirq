@@ -1,0 +1,20 @@
+{
+  "name": "35-stale-external-report",
+  "purpose": "External length-match report bound to another snapshot",
+  "tags": [
+    "e5",
+    "evidence",
+    "unknown"
+  ],
+  "expected": {
+    "overall_status": "incomplete",
+    "must_include_rules": [
+      "RP-E4-407"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "A referenced external report (e.g. differential length match) is bound to a different snapshot. It is not reused and its verdict is not imported; the audit itself still completes coverage, but the report binding stays unknown."
+}

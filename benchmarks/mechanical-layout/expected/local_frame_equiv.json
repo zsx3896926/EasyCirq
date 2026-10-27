@@ -1,0 +1,13 @@
+{
+  "schema": "mechanical-layout-benchmark-expected/v1",
+  "case": "local_frame_equiv",
+  "command": "audit",
+  "args": [],
+  "exit_code": 0,
+  "status": "pass",
+  "required_rules": [],
+  "forbidden_rules": [],
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "notes": "local coordinate frame equivalence"
+}

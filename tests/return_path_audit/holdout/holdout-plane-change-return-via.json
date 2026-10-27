@@ -1,0 +1,302 @@
+{
+  "schema": "return-path-audit-input/v1",
+  "project": {
+    "id": "test-project",
+    "document": "pcb",
+    "snapshot": "snap-test-1"
+  },
+  "source": {
+    "kind": "synthetic",
+    "producer": "return-path-audit-tests",
+    "captured_at": "2026-10-27T14:00:00Z",
+    "raw_input_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "units": "mm",
+  "stackup": {
+    "complete": true,
+    "layers": [
+      {
+        "order": 1,
+        "copper_layer_id": "L1",
+        "role": "signal",
+        "thickness": {
+          "value": 0.035,
+          "unit": "mm"
+        },
+        "dielectric_below": {
+          "value": 0.2,
+          "unit": "mm"
+        }
+      },
+      {
+        "order": 2,
+        "copper_layer_id": "L2",
+        "role": "plane",
+        "net": "GND",
+        "thickness": {
+          "value": 0.035,
+          "unit": "mm"
+        },
+        "dielectric_below": {
+          "value": 0.4,
+          "unit": "mm"
+        }
+      },
+      {
+        "order": 3,
+        "copper_layer_id": "L3",
+        "role": "plane",
+        "net": "GND",
+        "thickness": {
+          "value": 0.035,
+          "unit": "mm"
+        },
+        "dielectric_below": {
+          "value": 0.2,
+          "unit": "mm"
+        }
+      },
+      {
+        "order": 4,
+        "copper_layer_id": "L4",
+        "role": "signal",
+        "thickness": {
+          "value": 0.035,
+          "unit": "mm"
+        }
+      }
+    ]
+  },
+  "board": {
+    "outline": [
+      [
+        0,
+        0
+      ],
+      [
+        100.0,
+        0
+      ],
+      [
+        100.0,
+        80.0
+      ],
+      [
+        0,
+        80.0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "holes": [],
+    "complete": true,
+    "geometry_tolerance": 0.01
+  },
+  "reference_copper": [
+    {
+      "id": "rc-gnd-l2",
+      "layer": "L2",
+      "net": "GND",
+      "availability": "actual_fill",
+      "is_actual_fill": true,
+      "connectivity_island": "gnd-plane",
+      "source_snapshot": "snap-test-1",
+      "polygons": [
+        {
+          "id": "poly-l2",
+          "outer": [
+            [
+              0,
+              0
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              100,
+              80
+            ],
+            [
+              0,
+              80
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "holes": []
+        }
+      ]
+    },
+    {
+      "id": "rc-gnd-l3",
+      "layer": "L3",
+      "net": "GND",
+      "availability": "actual_fill",
+      "is_actual_fill": true,
+      "connectivity_island": "gnd-plane",
+      "source_snapshot": "snap-test-1",
+      "polygons": [
+        {
+          "id": "poly-l3",
+          "outer": [
+            [
+              0,
+              0
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              100,
+              80
+            ],
+            [
+              0,
+              80
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "holes": []
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "id": "sig-tr",
+      "net": "USB_DP",
+      "segments": [
+        {
+          "id": "seg-a1",
+          "kind": "straight",
+          "layer": "L1",
+          "start": [
+            20,
+            40
+          ],
+          "end": [
+            50,
+            40
+          ],
+          "width": 0.2
+        },
+        {
+          "id": "seg-a4",
+          "kind": "straight",
+          "layer": "L4",
+          "start": [
+            50,
+            40
+          ],
+          "end": [
+            80,
+            40
+          ],
+          "width": 0.2
+        }
+      ]
+    }
+  ],
+  "vias": [
+    {
+      "id": "via-sig",
+      "net": "USB_DP",
+      "center": [
+        50,
+        40
+      ],
+      "diameter": 0.45,
+      "span": {
+        "from": "L1",
+        "to": "L4"
+      },
+      "via_type": "through",
+      "connection_evidence": "none",
+      "source_snapshot": "snap-test-1"
+    },
+    {
+      "id": "via-ret",
+      "net": "GND",
+      "center": [
+        50,
+        41
+      ],
+      "diameter": 0.45,
+      "span": {
+        "from": "L2",
+        "to": "L3"
+      },
+      "via_type": "buried",
+      "connectivity_island": "gnd-plane",
+      "connected_copper_ids": [
+        "rc-gnd-l2",
+        "rc-gnd-l3"
+      ],
+      "connection_evidence": "fill",
+      "source_snapshot": "snap-test-1"
+    }
+  ],
+  "reference_assignment": [
+    {
+      "id": "ra-l1",
+      "target": {
+        "signal": "sig-tr",
+        "segment": "seg-a1"
+      },
+      "reference_layer": "L2",
+      "reference_net": "GND",
+      "basis": "declared",
+      "source_snapshot": "snap-test-1"
+    },
+    {
+      "id": "ra-l4",
+      "target": {
+        "signal": "sig-tr",
+        "segment": "seg-a4"
+      },
+      "reference_layer": "L3",
+      "reference_net": "GND",
+      "basis": "declared",
+      "source_snapshot": "snap-test-1"
+    }
+  ],
+  "transitions": [
+    {
+      "id": "tr-1",
+      "signal": "sig-tr",
+      "via": "via-sig",
+      "layer_from": "L1",
+      "layer_to": "L4",
+      "segment_before": "seg-a1",
+      "segment_after": "seg-a4",
+      "reference_before": {
+        "layer": "L2",
+        "net": "GND"
+      },
+      "reference_after": {
+        "layer": "L3",
+        "net": "GND"
+      },
+      "candidate_return_vias": [
+        "via-ret"
+      ],
+      "source_snapshot": "snap-test-1"
+    }
+  ],
+  "constraints": {
+    "interface": "test",
+    "corridor": 0.2,
+    "max_return_via_distance": 2.0
+  },
+  "unsupported": [],
+  "external_reports": []
+}

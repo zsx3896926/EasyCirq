@@ -1,0 +1,19 @@
+{
+  "name": "06-edge-corridor-insufficient",
+  "purpose": "Trace too close to the reference-plane edge",
+  "tags": [
+    "e2",
+    "corridor"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E2-206"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "Plane height is 25.05 mm and the trace centreline is at y=25: the distance to the copper edge is 0.05 mm while width/2+corridor=0.3 mm, so the whole trace has an insufficient edge corridor (copper still present, so not a void)."
+}

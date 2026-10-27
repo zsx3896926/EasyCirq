@@ -1,0 +1,130 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "external-usb-backfeed",
+  "categories": [
+    "external_usb_backfeed"
+  ],
+  "derivation": "An external supply path (debug USB) is declared on the +5V net with can_backfeed=true and reverse_blocking=none, and the USB interface also declares backfeed_risk. dag.supply_conflicts must report blocking conflicts for both, and the plan must require disconnecting the external path before de-energised measurements and before the first energise; it must never claim the rail is dead while the debug cable can feed it.",
+  "input": {
+    "file": "input.json",
+    "sha256": "7a3646185272364d19463e6600993a5ce765e1a74c8003930ce5cfd59a309e70"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "energize_allowed": true,
+      "dag_order": [
+        "VIN_5V",
+        "VDD_3V3"
+      ],
+      "dag_cycles": [],
+      "supply_conflict_codes": [
+        "EXTERNAL_SUPPLY_PATH",
+        "INTERFACE_BACKFEED"
+      ],
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-EXT-J2_DBG_USB",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I3-COMM-J2_DBG_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-J2_DBG_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ],
+      "steps": {
+        "I1-VIS-001": "ready",
+        "I1-JMP-001": "ready",
+        "I1-OFF-001": "ready",
+        "I1-OFF-DISCHARGE": "ready",
+        "I1-OFF-RES-VDD_3V3": "ready",
+        "I1-OFF-RES-VIN_5V": "ready",
+        "I2-FW-001": "ready",
+        "I2-EXT-USB_DEBUG": "ready",
+        "I2-EXT-J2_DBG_USB": "ready",
+        "I2-LOAD-ASM-J2": "ready",
+        "I2-SEQ-VIN_5V": "ready",
+        "I2-SEQ-VDD_3V3": "ready",
+        "I2-CONNECT-ASM-J2": "blocked",
+        "I3-V-VDD_3V3": "ready",
+        "I3-RIPPLE-VDD_3V3": "blocked",
+        "I3-V-VIN_5V": "ready",
+        "I3-RIPPLE-VIN_5V": "blocked",
+        "I3-COMM-J1_USB": "blocked",
+        "I3-COMM-J2_DBG_USB": "blocked",
+        "I3-COMM-U1_I2C": "blocked",
+        "I4-BUS-J1_USB": "blocked",
+        "I4-BUS-J2_DBG_USB": "blocked",
+        "I4-BUS-U1_I2C": "blocked",
+        "I4-ANALOG-U3_ADC": "blocked"
+      },
+      "steps_by_status": {
+        "ready": 14,
+        "blocked": 10
+      },
+      "gap_codes": [
+        "I1_DISCHARGE_PROFILE_UNDECLARED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "unknown_codes": [
+        "I1_SHORT_CHECK_CRITERION_UNDEFINED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "equipment_gap_codes": [
+        "PROBE_LOADING_NOT_DECLARED"
+      ]
+    },
+    "explain": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-EXT-J2_DBG_USB",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I3-COMM-J2_DBG_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-J2_DBG_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

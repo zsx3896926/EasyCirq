@@ -1,0 +1,21 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "unauthorized_observed",
+ "derivation": "an observed difference that was not declared is listed as unauthorised and makes the analysis incomplete; it is never folded into the allowed scope.",
+ "expected_status": "incomplete",
+ "expected_exit": 0,
+ "must_impact": [],
+ "must_not_impact": [],
+ "required_checks": [],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [
+  "observed_not_declared"
+ ],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

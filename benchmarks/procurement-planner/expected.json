@@ -1,0 +1,220 @@
+{
+  "schema": "procurement-benchmark-expected/v1",
+  "frozen_at": "2026-10-27",
+  "note": "输入 SHA、评估时刻与预期值已冻结。预期状态/数量/成本由手算或原厂资料判级得出，不从运行输出回填。",
+  "cases": [
+    {
+      "id": "basic-plan",
+      "kind": "plan",
+      "input": "tests/procurement_planner/fixtures/basic.json",
+      "input_sha256": "9b0f7484f44f752b45a1dccabddf6e7c49e0892c66ee0cec48742aaadf3de632",
+      "as_of": "2026-10-27T04:00:00Z",
+      "command": [
+        "plan"
+      ],
+      "simulated": true,
+      "expected": {
+        "exit_code": 0,
+        "status": "planned_with_unknowns",
+        "preferred_strategy": "known_cost",
+        "counts": {
+          "lines_total": 5,
+          "covered_with_unknowns": 4,
+          "not_required": 1,
+          "orders": 4,
+          "shortage_qty": 0
+        },
+        "goods": {
+          "CNY": 30.58
+        },
+        "fees": {
+          "CNY": 11.0
+        },
+        "budget_converted": "41.58",
+        "budget_status": "within_budget",
+        "unknown_lists": {
+          "synthetic_snapshots": [
+            "SNAP-MALL",
+            "SNAP-SMT"
+          ],
+          "lead_time_unconfirmed_lines": [
+            "L1",
+            "L2",
+            "L3",
+            "L4"
+          ]
+        }
+      }
+    },
+    {
+      "id": "real-alternates",
+      "kind": "alternates",
+      "input": "tests/procurement_planner/fixtures/alternates-real.json",
+      "input_sha256": "16100bb42750c41e250a1697c162e39cc17e11750154f9dc8a29532c58b85542",
+      "as_of": "2026-10-27T04:00:00Z",
+      "command": [
+        "alternates"
+      ],
+      "simulated": false,
+      "expected": {
+        "exit_code": 0,
+        "status": "valid",
+        "grading_statuses": {
+          "ALT-PASS-001": "incompatible",
+          "ALT-ACT-001": "requires_design_review"
+        }
+      }
+    },
+    {
+      "id": "holdout-h1-attrition",
+      "kind": "plan",
+      "input": "tests/procurement_planner/fixtures/holdout/h1-attrition.json",
+      "input_sha256": "beb05b3fd0d6e7ebdb5a83fb1a6785a4689e7832127c96d4c78ae3fcd96cf01b",
+      "as_of": "2026-10-27T04:00:00Z",
+      "command": [
+        "plan"
+      ],
+      "simulated": true,
+      "expected": {
+        "exit_code": 0,
+        "status": "planned_with_unknowns",
+        "preferred_strategy": "known_cost",
+        "counts": {
+          "lines_total": 1,
+          "orders": 1,
+          "shortage_qty": 0,
+          "overbuy_qty": 2
+        },
+        "goods": {
+          "CNY": 5.0
+        },
+        "fees": {
+          "CNY": 5.0
+        },
+        "budget_converted": "10.00",
+        "budget_status": "within_budget",
+        "lines": {
+          "L1": {
+            "purchase_need": 23,
+            "ordered_qty": 25,
+            "overbuy_qty": 2
+          }
+        },
+        "unknown_lists": {
+          "synthetic_snapshots": [
+            "SNAP-H1"
+          ]
+        }
+      }
+    },
+    {
+      "id": "holdout-h2-shared-pool",
+      "kind": "plan",
+      "input": "tests/procurement_planner/fixtures/holdout/h2-shared-pool.json",
+      "input_sha256": "b06f317dce1da59c63045ef52f131de9d784e69daabaf2e49519ad0d88f2430d",
+      "as_of": "2026-10-27T04:00:00Z",
+      "command": [
+        "plan"
+      ],
+      "simulated": true,
+      "expected": {
+        "exit_code": 0,
+        "status": "planned_with_unknowns",
+        "counts": {
+          "lines_total": 2,
+          "orders": 2,
+          "shortage_qty": 10,
+          "partial_unknown": 1
+        },
+        "budget_converted": "0.30",
+        "budget_status": "within_budget",
+        "lines": {
+          "L1": {
+            "ordered_qty": 20,
+            "shortage_qty": 0,
+            "status": "covered_with_unknowns"
+          },
+          "L2": {
+            "ordered_qty": 10,
+            "shortage_qty": 10,
+            "status": "partial_unknown"
+          }
+        },
+        "unknown_lists": {
+          "unknown_stock_lines": [
+            "L1",
+            "L2"
+          ]
+        }
+      }
+    },
+    {
+      "id": "holdout-h3-fx",
+      "kind": "plan",
+      "input": "tests/procurement_planner/fixtures/holdout/h3-multicurrency-fx.json",
+      "input_sha256": "e523fb3133b576c560a0978ab706ee79e3730a1bb8d5fa8a75ea1dff63cdb04e",
+      "as_of": "2026-10-27T04:00:00Z",
+      "command": [
+        "plan"
+      ],
+      "simulated": true,
+      "expected": {
+        "exit_code": 0,
+        "status": "planned_with_unknowns",
+        "counts": {
+          "lines_total": 1,
+          "orders": 1,
+          "shortage_qty": 0
+        },
+        "goods": {
+          "USD": 6.0
+        },
+        "fees": {
+          "USD": 0.0
+        },
+        "budget_converted": "43.20",
+        "budget_status": "within_budget",
+        "lines": {
+          "L1": {
+            "ordered_qty": 5
+          }
+        }
+      }
+    },
+    {
+      "id": "holdout-h4-substitution",
+      "kind": "plan",
+      "input": "tests/procurement_planner/fixtures/holdout/h4-substitution.json",
+      "input_sha256": "3f65ae452655b0574244874f1bc62124e759ddebf52dc8f1c73db7c7b5e89d0e",
+      "as_of": "2026-10-27T04:00:00Z",
+      "command": [
+        "plan"
+      ],
+      "simulated": true,
+      "expected": {
+        "exit_code": 0,
+        "status": "planned_with_unknowns",
+        "preferred_strategy": "conservative_substitution",
+        "counts": {
+          "lines_total": 1,
+          "orders": 1,
+          "shortage_qty": 0
+        },
+        "goods": {
+          "CNY": 0.04
+        },
+        "fees": {
+          "CNY": 0.0
+        },
+        "budget_converted": "0.04",
+        "budget_status": "within_budget",
+        "lines": {
+          "L1": {
+            "ordered_qty": 2,
+            "status": "covered_with_unknowns"
+          }
+        }
+      }
+    }
+  ]
+}
