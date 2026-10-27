@@ -7,19 +7,19 @@ per-task details and review verdicts are in [task-ledger.md](task-ledger.md).
 ## 1. State of `main`
 
 * Baseline before integration: `9a951ed` (all parallel branches were based on it).
-* After eight reviewed merges: `9a4622e`.
-* This integration-fix commit and the electrical-review fix PR are the only other
-  main-side changes in this window. No tag, release, asset upload, installer
-  replacement or client change was made.
-* CI: every merge was made from a PR whose exact HEAD was green on the repository
-  CI (`validate` 3.10 + 3.13, `updater` ubuntu/windows). The post-merge main run is
-  reported at the end of the window.
+* After eight reviewed module merges: `9a4622e`.
+* Integration fixes: PR #47 → `6a5c4f7`; task B (electrical review) with the LF
+  frozen-hash fix: PR #48 → **`3f21897`** (current `main` at the end of this window).
+* Only this evidence-refresh commit follows it. No tag, release, asset upload,
+  installer replacement or client change was made.
+* CI on the exact current `main` SHA `3f21897`: `Validate skill` and
+  `Skill updater packages` both SUCCESS (run on push, 3.10 + 3.13 matrix).
 
 ## 2. Capability matrix
 
 | capability | status | entry point | notes |
 |---|---|---|---|
-| electrical-intent review (B) | implemented, **not merged in this PR set** (fix branch open) | `python -m electrical_review` | blocked only by frozen-hash LF/CRLF portability |
+| electrical-intent review (B) | merged, independent (#48) | `python -m electrical_review` | 31 frozen cases; no cross-module adapter |
 | return-path / reference-plane audit (E) | merged, independent | `python -m return_path_audit` | 2-layer real replay; 4-layer NOT AVAILABLE |
 | mechanical layout planning (G) | merged, independent | `python -m mechanical_layout` | 2.5D only; candidates `executable:false` |
 | circuit-block generation (F) | merged, independent | `python -m circuit_blocks` | abstract only; no part/footprint binding |
@@ -64,8 +64,8 @@ adapter from any producer to any consumer; see
   a different module's CLI (`gap` checks, expected rejection).
 * Evidence: `evidence/integration-verification.json` (machine readable) — every run
   records exit code, observed status and the fact that EDA/network calls are 0.
-* Result at generation time: 8/9 native checks OK (B not merged yet), 4/4 gap probes
-  confirmed as missing adapters, 0 unexpected acceptances. This is **not** an
+* Result on `main @ 3f21897` (all nine delivered modules): **10/10 native checks OK,
+  5/5 gap probes confirmed as missing adapters, 0 unexpected acceptances**, exit 0. This is **not** an
   end-to-end product chain and must not be reported as one.
 
 ## 5. Explicit NOT RUN / BLOCKED
@@ -84,16 +84,15 @@ adapter from any producer to any consumer; see
 
 ## 6. Release blockers (do not tag/publish from this state)
 
-1. B (electrical review) is not merged: its PR CI fails because frozen hashes were
-   CRLF-based. The fix branch in this window must be reviewed and merged first.
-2. A (own toolchain) is a draft, conflicting PR that rewrites core entry/install,
+1. A (own toolchain) is a draft, conflicting PR that rewrites core entry/install,
    protocol and runtime; it is **not** to be merged without an owner rebase, full
    review, green updater CI and real-host M2–M4 evidence.
-3. K is absent.
-4. No cross-module adapter exists, so the delivered toolchain is a set of
+2. K is absent.
+3. No cross-module adapter exists, so the delivered toolchain is a set of
    independent offline CLIs, not an automated pipeline. Do not describe it as one.
-5. No real-machine evidence exists for any of the new modules in this window.
-6. Windows-only local verification (3.13); macOS untested; 3.10 only via CI.
+4. No real-machine evidence exists for any of the new modules in this window.
+5. Windows-only local verification (3.13); macOS untested; 3.10 only via CI.
+6. PR #38 is closed as superseded by #48; PR #36 (A) and any K work remain open.
 
 ## 7. Next steps (after this window)
 
