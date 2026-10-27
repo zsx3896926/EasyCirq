@@ -4,8 +4,9 @@ Date: 2026-10-28. Branch: `feat/parallel-mechanical-layout`.
 Worktree: `.agents/worktrees/feat/parallel-mechanical-layout` in the local
 `hardware-design-skill` checkout.
 Base commit / main baseline: `9a951edc21481dc3ae91460acc11aa3e08a7be8a`
-(the task's "main baseline SHA"). This branch is **not** merged and must not be
-merged or released by this task.
+(the task's "main baseline SHA"). Independent pull request:
+<https://github.com/zsx3896926/hardware-design-skill/pull/42>.
+This branch is **not** merged and must not be merged or released by this task.
 
 ## What was delivered
 
