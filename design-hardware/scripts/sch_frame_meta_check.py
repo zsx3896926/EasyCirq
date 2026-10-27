@@ -67,9 +67,10 @@ def check(plan, allow_title_only=False):
             problems.append('%s.purpose must differ from title' % name)
         if type(order) is not int or order < 1:
             problems.append('%s.order must be a positive integer' % name)
-        elif order in seen_orders:
-            problems.append('duplicate frame order: %s' % order)
-        seen_orders.add(order)
+        else:
+            if order in seen_orders:
+                problems.append('duplicate frame order: %s' % order)
+            seen_orders.add(order)
         if not title_id:
             problems.append('%s.title_text_id is required' % name)
         if not purpose_id:

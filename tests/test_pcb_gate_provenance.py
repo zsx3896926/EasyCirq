@@ -242,41 +242,41 @@ class ProvenanceTests(unittest.TestCase):
         self.assertTrue(all(path.endswith('pcb-check-final.json')
                             for path in selected), selected)
 
-    def test_empty_summary_is_not_a_dfm_check_candidate(self):
-        self.builder.write('pcb-check-empty-summary.json', {
+    def test_empty_summary_candidate_blocks_instead_of_falling_back(self):
+        # A newer, final-named but invalid check must not disappear and let the
+        # older clean report pass silently.
+        self.builder.write('pcb-check-final-empty.json', {
             'passed': True, 'summary': {}, 'findings': [],
             'trackCount': 2, 'padCount': 4,
         }, mtime=FRESH + 10)
         report = pcb_gate.evaluate(make_args(self.builder.case))
-        self.assertEqual(report['status'], 'pass')
         stage = self._pg4(report)
-        self.assertEqual(stage['status'], 'pass')
-        self.assertTrue(all(e['path'].endswith('pcb-check-final.json')
-                            for e in stage['evidence']
-                            if e.get('role') == 'check'))
+        self.assertEqual(stage['status'], 'fail')
+        self.assertIn('EVIDENCE_CANDIDATE_REJECTED',
+                      [finding.get('code') for finding in stage['findings']])
+        self.assertEqual(
+            stage['metrics']['evidence_binding']['check']['rejected_candidates'], 1)
 
-    def test_contradictory_check_counters_are_not_a_dfm_check_candidate(self):
+    def test_contradictory_check_candidate_blocks_instead_of_falling_back(self):
         bad = self._check_payload()
         bad['summary'] = {'errors': 0, 'warnings': 0, 'infos': 0,
-                          'total': 1}
+                          'total': 1, 'danglingEnds': 0}
         bad['findings'] = [{
             'type': 'power-not-poured', 'level': 'WARN',
             'net': '+5V', 'message': 'contradictory but itemized WARN',
         }]
-        self.builder.write('pcb-check-contradictory.json', bad,
+        self.builder.write('pcb-check-final-contradictory.json', bad,
                            mtime=FRESH + 10)
         report = pcb_gate.evaluate(make_args(self.builder.case))
-        self.assertEqual(report['status'], 'pass')
         stage = self._pg4(report)
-        self.assertEqual(stage['status'], 'pass')
-        self.assertTrue(all(e['path'].endswith('pcb-check-final.json')
-                            for e in stage['evidence']
-                            if e.get('role') == 'check'))
+        self.assertEqual(stage['status'], 'fail')
+        self.assertIn('EVIDENCE_CANDIDATE_REJECTED',
+                      [finding.get('code') for finding in stage['findings']])
 
     def test_multiple_valid_check_candidates_without_binding_are_ambiguous(self):
         alternate = self._check_payload()
         alternate['summary'] = {'errors': 0, 'warnings': 1, 'infos': 0,
-                                'total': 1}
+                                'total': 1, 'powerNotPoured': 1}
         alternate['findings'] = [{
             'type': 'power-not-poured', 'level': 'WARN',
             'net': '+5V', 'message': 'alternative DFM report',
@@ -301,10 +301,94 @@ class ProvenanceTests(unittest.TestCase):
         self.assertNotIn('EVIDENCE_AMBIGUOUS',
                          [finding.get('code') for finding in stage['findings']])
 
+    def test_placement_with_counters_cannot_spoof_check(self):
+        payload = placement_payload()
+        payload.update({
+            'summary': {'errors': 0, 'warnings': 0, 'infos': 0,
+                        'total': 0, 'danglingEnds': 0},
+            'trackCount': 2, 'viaCount': 0, 'padCount': 4,
+            'findings': [],
+        })
+        self.builder.write('pcb-placement-check-final.json', payload,
+                           mtime=FRESH + 10)
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        stage = self._pg4(report)
+        self.assertEqual(stage['status'], 'pass')
+        self.assertTrue(all(e['path'].endswith('pcb-check-final.json')
+                            for e in stage['evidence']
+                            if e.get('role') == 'check'))
+
+    def test_path_only_manifest_cannot_downgrade_check_ambiguity(self):
+        alternate = self._check_payload()
+        alternate['summary'] = {'errors': 0, 'warnings': 1, 'infos': 0,
+                                'total': 1, 'powerNotPoured': 1}
+        alternate['findings'] = [{
+            'type': 'power-not-poured', 'level': 'WARN',
+            'net': '+5V', 'message': 'alternative DFM report',
+        }]
+        alternate['passed'] = False
+        self.builder.write('pcb-check-alternate.json', alternate,
+                           mtime=FRESH + 10)
+        # Deliberately no sha256/produced_at: path-only is not a verified bind.
+        write_json(self.builder.case / 'manifest.json', {
+            'schema': 'design-engine-pcb-case/v1',
+            'artifacts': [{
+                'role': 'pcb-check',
+                'path': 'evidence/pcb-check-final.json',
+            }],
+        })
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        stage = self._pg4(report)
+        self.assertEqual(stage['status'], 'fail')
+        self.assertIn('EVIDENCE_AMBIGUOUS',
+                      [finding.get('code') for finding in stage['findings']])
+        self.assertFalse(
+            stage['metrics']['evidence_binding']['check']['binding_verified'])
+
+    def test_same_check_content_different_format_is_not_ambiguous(self):
+        payload = self._check_payload()
+        path = self.builder.ev / 'pcb-check-copy-formatted.json'
+        path.write_text(json.dumps(payload, sort_keys=True,
+                                   separators=(',', ':')), encoding='utf-8')
+        touch(path, FRESH + 10)
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        stage = self._pg4(report)
+        self.assertEqual(stage['status'], 'pass')
+        self.assertNotIn('EVIDENCE_AMBIGUOUS',
+                         [finding.get('code') for finding in stage['findings']])
+
+    def test_regression_profile_does_not_turn_not_run_into_ambiguity_fail(self):
+        alternate = self._check_payload()
+        alternate['summary'] = {'errors': 0, 'warnings': 1, 'infos': 0,
+                                'total': 1, 'powerNotPoured': 1}
+        alternate['findings'] = [{
+            'type': 'power-not-poured', 'level': 'WARN',
+            'net': '+5V', 'message': 'alternative DFM report',
+        }]
+        alternate['passed'] = False
+        self.builder.write('pcb-check-alternate.json', alternate,
+                           mtime=FRESH + 10)
+        report = pcb_gate.evaluate(make_args(self.builder.case,
+                                             profile='regression'))
+        self.assertNotEqual(report['status'], 'fail')
+        self.assertEqual(stage_map(report)['PG4_check']['status'], 'not_run')
+
+    def test_manifest_placement_check_role_is_not_misread_as_dfm(self):
+        placement = self.builder.ev / 'pcb-placement-check-final.json'
+        write_json(placement, placement_payload())
+        touch(placement, FRESH)
+        write_manifest(self.builder.case, [{
+            'role': 'pcb-placement-check', 'path': str(placement),
+        }])
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        self.assertEqual(report['status'], 'pass')
+        self.assertEqual(stage_map(report)['PG1_placement']['status'], 'pass')
+        self.assertEqual(stage_map(report)['PG4_check']['status'], 'pass')
+
     def test_manifest_bound_check_with_differing_alternative_reports_advisory(self):
         alternate = self._check_payload()
         alternate['summary'] = {'errors': 0, 'warnings': 1, 'infos': 0,
-                                'total': 1}
+                                'total': 1, 'powerNotPoured': 1}
         alternate['findings'] = [{
             'type': 'power-not-poured', 'level': 'WARN',
             'net': '+5V', 'message': 'alternative DFM report',

@@ -387,15 +387,29 @@ def _alternatives_and_conflict(selected_path, selected_payload, compatible):
             other_sha = sha256_file(str(other_path))
         except OSError:
             other_sha = None
-        alternatives.append({'path': str(other_path), 'sha256': other_sha})
+        try:
+            other_semantic = pcb_evidence.semantic_sha256(other_payload)
+        except (TypeError, ValueError):
+            other_semantic = None
+        alternatives.append({'path': str(other_path), 'sha256': other_sha,
+                             'semantic_sha256': other_semantic})
     if not alternatives:
         return [], None
     try:
         selected_sha = sha256_file(str(selected_path))
     except OSError:
         selected_sha = None
-    differing = [item for item in alternatives
-                 if item.get('sha256') != selected_sha]
+    try:
+        selected_semantic = pcb_evidence.semantic_sha256(selected_payload)
+    except (TypeError, ValueError):
+        selected_semantic = None
+
+    def differs(item):
+        if selected_semantic and item.get('semantic_sha256'):
+            return item['semantic_sha256'] != selected_semantic
+        return item.get('sha256') != selected_sha
+
+    differing = [item for item in alternatives if differs(item)]
     if not differing:
         return alternatives, None
     identities = {_payload_identity(selected_payload)}
@@ -486,7 +500,7 @@ def _stage_required(profile, stage_id):
 class Evidence:
     def __init__(self, role, path, payload=None, error=None, candidates=1,
                  selected_because='', alternatives=None, conflict=None,
-                 manifest_entry=None, binding=None):
+                 manifest_entry=None, binding=None, rejected=None):
         self.role = role
         self.path = Path(path)
         self.payload = payload
@@ -497,6 +511,7 @@ class Evidence:
         self.conflict = conflict
         self.manifest_entry = manifest_entry
         self.binding = binding or {}
+        self.rejected = rejected or []
 
     @property
     def usable(self):
@@ -538,6 +553,8 @@ class Evidence:
             item['alternatives'] = self.alternatives
         if self.conflict:
             item['conflict'] = self.conflict
+        if self.rejected:
+            item['rejected_candidates'] = self.rejected
         if self.manifest_entry:
             item['manifest'] = {
                 'sha256': self.manifest_entry.get('sha256'),
@@ -573,6 +590,19 @@ def _read_role_file(role, path):
         return None, 'JSON parse failed: %s' % exc
 
 
+DFM_COUNTER_KEYS = frozenset({
+    'danglingEnds', 'acuteAngles', 'nonOrthogonal', 'trackOverPad',
+    'clearance', 'silkscreenFlipped', 'overlappingVias', 'singleLayerVias',
+    'widthMismatches', 'duplicateSegments', 'parallelCoupling',
+    'antennaKeepout', 'netlessPours', 'viaCrossesPlane', 'floatingIslands',
+    'powerNotPoured', 'netlessViaInPad', 'widthUnderSpec', 'silkOverPad',
+    'silkOffBoard', 'decapTooFar', 'viaInPad', 'copperNearEdge',
+    'fiducialMissing', 'zoneViolation', 'internalOnEdge',
+    'connectorPlugClearance', 'connectorMatingBlocked',
+    'connectorOpeningInward',
+})
+
+
 def _check_shape_ok(data):
     """Strict DFM check-report shape.
 
@@ -581,9 +611,16 @@ def _check_shape_ok(data):
     the real DFM report.  Require the DFM counters, source counters
     (track/pad), itemized finding types/levels and internal count agreement.
     """
+    if (data.get('schema') == PLACEMENT_SCHEMA or 'hard_ok' in data or
+            isinstance(data.get('constraints'), list)):
+        return False
     findings = data.get('findings')
     summary = data.get('summary')
     if not isinstance(findings, list) or not isinstance(summary, dict):
+        return False
+    # A placement/other report can copy the generic counters; require at least
+    # one DFM-specific rule counter that pcb check --json emits.
+    if not any(key in summary for key in DFM_COUNTER_KEYS):
         return False
     for key in ('errors', 'warnings', 'total'):
         value = summary.get(key)
@@ -600,10 +637,12 @@ def _check_shape_ok(data):
         kind = finding.get('type')
         if not isinstance(kind, str) or not kind.strip():
             return False
-        level = finding.get('level')
+        level = finding.get('level') or finding.get('severity')
         if not isinstance(level, str):
             return False
         level = level.upper()
+        if level == 'WARNING':
+            level = 'WARN'
         if level not in counts:
             return False
         counts[level] += 1
@@ -689,6 +728,28 @@ def _shape_ok(role, payload):
     return True
 
 
+def _check_like_candidate(path, payload, error):
+    """True when a rejected file still looks like an attempted DFM report.
+
+    Such a file must not disappear silently: if it is newer/different and the
+    selected check is not explicitly bound, PG4 reports it.
+    """
+    if 'check' not in path.name.lower():
+        return False
+    if error is not None:
+        return True
+    if not isinstance(payload, dict):
+        return False
+    data = _unwrap(payload)
+    if not isinstance(data, dict):
+        return False
+    if (data.get('schema') == PLACEMENT_SCHEMA or 'hard_ok' in data or
+            isinstance(data.get('constraints'), list)):
+        return False
+    return any(key in data for key in
+               ('summary', 'findings', 'trackCount', 'padCount'))
+
+
 def _sort_key(role, path):
     try:
         stamp = path.stat().st_mtime
@@ -762,6 +823,20 @@ def discover_role(role, evidence_dir, override=None, preferred=None,
         parsed.append((path, payload, error))
     compatible = [(path, payload) for path, payload, error in parsed
                   if error is None and _shape_ok(role, payload)]
+    rejected = []
+    if role == 'check':
+        compatible_paths = {str(path) for path, _ in compatible}
+        for path, payload, error in parsed:
+            if str(path) in compatible_paths:
+                continue
+            if not _check_like_candidate(path, payload, error):
+                continue
+            try:
+                digest = sha256_file(str(path))
+            except OSError:
+                digest = None
+            rejected.append({'path': str(path), 'sha256': digest,
+                             'reason': error or 'shape_rejected'})
     chosen = None
     if preferred:
         preferred_path = Path(preferred)
@@ -782,7 +857,7 @@ def discover_role(role, evidence_dir, override=None, preferred=None,
                 role, preferred_path, payload, None, 1,
                 'path declared by %s' % (manifest_path or 'the case manifest'),
                 alternatives=alternatives, conflict=conflict,
-                manifest_entry=manifest_entry,
+                manifest_entry=manifest_entry, rejected=rejected,
                 binding={'basis': 'manifest' if manifest_entry else 'discovery'})
         try:
             preferred_key = str(preferred_path.resolve())
@@ -814,7 +889,7 @@ def discover_role(role, evidence_dir, override=None, preferred=None,
              if preferred else
              'newest compatible match among %d candidate(s)' % len(unique)),
             alternatives=alternatives, conflict=conflict,
-            manifest_entry=manifest_entry,
+            manifest_entry=manifest_entry, rejected=rejected,
             binding={'basis': 'manifest' if manifest_entry else 'discovery'})
     parse_failures = [item for item in parsed if item[2] is not None]
     if parsed and len(parse_failures) == len(parsed) and \
@@ -897,12 +972,14 @@ def _manifest_role(role):
         return 'drc'
     if 'layout' in key and 'lint' in key:
         return 'lint'
+    if 'placement' in key:
+        # Must precede the generic check branch: pcb-placement-check-*.json
+        # is a placement report, not a DFM check.
+        return 'placement'
     if 'check' in key and 'pcb' in key:
         return 'check'
     if 'constraint' in key:
         return 'constraints'
-    if 'placement' in key:
-        return 'placement'
     if 'plan' in key:
         return 'plan'
     if 'intent' in key:
@@ -2270,6 +2347,16 @@ _BINDING_MESSAGES = {
 }
 
 
+def _check_binding_verified(evidence):
+    """A check binding is verified only by an override or a hashed manifest."""
+    binding = evidence.binding or {}
+    if binding.get('basis') == 'explicit_override':
+        return True
+    entry = evidence.manifest_entry or {}
+    return (binding.get('basis') == 'manifest' and
+            bool(entry.get('sha256')) and not binding.get('error'))
+
+
 def _apply_binding_findings(stages, roles):
     """Attach provenance/conflict findings to the stage that consumes a role."""
     by_id = {stage['id']: stage for stage in stages}
@@ -2278,6 +2365,8 @@ def _apply_binding_findings(stages, roles):
             continue
         stage = by_id.get(ROLE_STAGE.get(role))
         if stage is None:
+            continue
+        if stage.get('status') == STATUS_NOT_RUN:
             continue
         binding = evidence.binding or {}
         error = binding.get('error')
@@ -2300,23 +2389,36 @@ def _apply_binding_findings(stages, roles):
                 stage['status'] = STATUS_FAIL
             else:
                 severity = 'advisory'
-                if role == 'check' and binding.get('basis') == 'discovery':
+                if role == 'check' and not _check_binding_verified(evidence):
                     # A wrong DFM report can hide real findings.  Without a
-                    # manifest/--check binding, differing valid candidates
-                    # must block instead of silently choosing the newest.
+                    # hash-bound manifest or --check, differing valid
+                    # candidates must block instead of silently choosing.
                     severity = 'hard'
                     stage['status'] = STATUS_FAIL
                 stage['findings'].append(_finding(
                     'EVIDENCE_AMBIGUOUS',
                     'multiple %s candidates differ; the selected one is %s; '
-                    'bind it with a manifest or an explicit role override'
+                    'bind it with a hashed manifest or an explicit role override'
                     % (role, conflict.get('selected')),
                     severity=severity, role=role, conflict=conflict))
+        rejected = evidence.rejected
+        if rejected:
+            verified = role == 'check' and _check_binding_verified(evidence)
+            severity = 'advisory' if verified else 'hard'
+            if not verified:
+                stage['status'] = STATUS_FAIL
+            stage['findings'].append(_finding(
+                'EVIDENCE_CANDIDATE_REJECTED',
+                '%s candidate(s) looked like a DFM check but were rejected; '
+                'an older clean report must not silently pass' % len(rejected),
+                severity=severity, role=role, rejected=rejected))
         stage['metrics'].setdefault('evidence_binding', {})[role] = {
             'basis': binding.get('basis'),
             'error': error,
             'conflict': conflict.get('kind') if conflict else None,
             'manifest': bool(evidence.manifest_entry),
+            'binding_verified': _check_binding_verified(evidence),
+            'rejected_candidates': len(rejected),
         }
 
 
