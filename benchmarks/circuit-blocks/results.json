@@ -5,10 +5,251 @@
   "manufacturing": "NOT RUN",
   "note": "Offline CLI benchmark. Generation time is not board-design time; no speed-up factor is claimed.",
   "suites": {
-    "cases": 20,
-    "holdout": 6
+    "cases": 34,
+    "holdout": 9
   },
   "cases": [
+    {
+      "id": "adc_1v_to_5v",
+      "suite": "cases",
+      "description": "1..5 V into a 0..3.3 V ADC. Selected 3.6k/6.8k: ratio 6800/10400 = 0.653846 <= 0.66 required. Worst-case tap = 5*0.658358895706 + 1uA*(3.6k||6.8k)*1.01 = 3.29417 V <= 3.3 V.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 4f6d8ef542ae8a83650c25d7d3c9742611a3f847366366bc98737e1d6ac8f4e4 got 4f6d8ef542ae8a83650c25d7d3c9742611a3f847366366bc98737e1d6ac8f4e4"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: adc_divider adc_divider -> ready_abstract\n  R1   divider_top                3600 ohm\n  R2   divider_bottom             6800 ohm\n  ports: VIN, VOUT, GND\n  hash: sha256:b56f7b9734e87d3c30f90be1268362e5867add10f195447ebafd136aa0df46b2)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component:R2",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "ports",
+          "ok": true,
+          "detail": "expected ['GND', 'VIN', 'VOUT'] got ['GND', 'VIN', 'VOUT']"
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net VIN got VIN"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net VOUT got VOUT"
+        },
+        {
+          "name": "endpoint:R2.1",
+          "ok": true,
+          "detail": "expected net VOUT got VOUT"
+        },
+        {
+          "name": "endpoint:R2.2",
+          "ok": true,
+          "detail": "expected net GND got GND"
+        },
+        {
+          "name": "calculation:.selected_divider.result.ratio_nominal",
+          "ok": true,
+          "detail": "expected 0.6538461538461539 got 0.653846153846"
+        },
+        {
+          "name": "calculation:.worst_case_output.result.max_v",
+          "ok": true,
+          "detail": "expected 3.2941718631429917 got 3.29417186314"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpke6kmfyx\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpke6kmfyx\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpke6kmfyx\\value.json\n  - non_standard_value: components[0] value 5400.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpke6kmfyx\\value_rehash.json\n  - non_standard_value: components[0] value 5400.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        295.68,
+        303.99
+      ],
+      "input_sha256": "4f6d8ef542ae8a83650c25d7d3c9742611a3f847366366bc98737e1d6ac8f4e4",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "adc_missing_leakage",
+      "suite": "cases",
+      "description": "ADC input leakage is a required fact for the worst-case tap; without it the module refuses to claim accuracy.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected cde2766d2f761f5bed53b70a7d8be09d3a5e31e59f1c07a89fff22800f8d1d32 got cde2766d2f761f5bed53b70a7d8be09d3a5e31e59f1c07a89fff22800f8d1d32"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 3 got 3 (stderr: adc_divider adc_divider -> needs_device_facts\n  reason: the ADC input leakage current is required: an ADC input is never assumed to have zero leakage, and the worst-case tap cannot be bounded without it\n  ports: \n  hash: sha256:e0f8a4b290069da969e88a16d816b184c307421401d1267b72ce92671ed08548)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'needs_device_facts' got 'needs_device_facts'"
+        },
+        {
+          "name": "unknown_contains:adc_leakage",
+          "ok": true,
+          "detail": "missing_adc_leakage_current required device fact is missing: adc_leakage_current"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        252.12,
+        279.8
+      ],
+      "input_sha256": "cde2766d2f761f5bed53b70a7d8be09d3a5e31e59f1c07a89fff22800f8d1d32",
+      "exit_code": 3,
+      "passed": true
+    },
+    {
+      "id": "adc_no_sampling_facts",
+      "suite": "cases",
+      "description": "Without ADC sample time/capacitance the divider is still generated but sampling settling must be reported unverified, never assumed.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected ed5750296e4d2630250f7728d7ea20bfd01bcd488c2f32906ec6d839aa42eab4 got ed5750296e4d2630250f7728d7ea20bfd01bcd488c2f32906ec6d839aa42eab4"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: adc_divider adc_divider -> ready_abstract\n  R1   divider_top                3600 ohm\n  R2   divider_bottom             6800 ohm\n  ports: VIN, VOUT, GND\n  hash: sha256:67217e8b54e27bfb7495de61c0a7c6db2c9ba2d292d1328ba1d075a6561c2dcc)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "unknown_contains:settling_unverified",
+          "ok": true,
+          "detail": "accuracy_not_proven ADC accuracy is outside this block: INL/DNL, offset, gain, noise, reference drift and the converter transfer function are not modelled. protection_unverified Negative input, overvoltage, reverse feed and series protection resistors are emitted as separate constraints and are not covered by this math. settling_unverified ADC sample time, sample-hold capacitance and settling erro"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component:R2",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpf4nnksx1\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpf4nnksx1\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpf4nnksx1\\value.json\n  - non_standard_value: components[0] value 5400.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpf4nnksx1\\value_rehash.json\n  - non_standard_value: components[0] value 5400.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        373.23,
+        468.17
+      ],
+      "input_sha256": "ed5750296e4d2630250f7728d7ea20bfd01bcd488c2f32906ec6d839aa42eab4",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "adc_unsupported_source_impedance",
+      "suite": "cases",
+      "description": "A 10 ohm maximum source impedance cannot be met by a divider that also fits the ratio window -> unsupported.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected e83ffa5fc02b983ad12cd17e49440d99cca8d4e71d8fa068083294450baaf2c5 got e83ffa5fc02b983ad12cd17e49440d99cca8d4e71d8fa068083294450baaf2c5"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: adc_divider adc_divider -> unsupported\n  reason: no standard R_top/R_bottom pair satisfies the hard constraints (window 0..3.3 V, source impedance 10, resistor rating not declared, settling checked)\n  ports: \n  hash: sha256:8df19d740c70bc12327045d453d3415d606b517d1bcacaa946ec18960a3303d4)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        241.78,
+        275.99
+      ],
+      "input_sha256": "e83ffa5fc02b983ad12cd17e49440d99cca8d4e71d8fa068083294450baaf2c5",
+      "exit_code": 4,
+      "passed": true
+    },
     {
       "id": "btn_3v3_with_rc",
       "suite": "cases",
@@ -97,27 +338,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8shqz0mf\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprii_9rr4\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8shqz0mf\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprii_9rr4\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8shqz0mf\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprii_9rr4\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8shqz0mf\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprii_9rr4\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        106.02,
-        105.94
+        254.26,
+        235.93
       ],
       "input_sha256": "3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce",
       "exit_code": 0,
@@ -161,27 +402,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn3prmo6w\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp60m8sw28\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn3prmo6w\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp60m8sw28\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn3prmo6w\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp60m8sw28\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpn3prmo6w\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp60m8sw28\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        101.77,
-        108.39
+        184.46,
+        183.83
       ],
       "input_sha256": "c2a5e07df43ac561b6d6a128b92f595455f9a74158da96bde1b1da3bc44c63a1",
       "exit_code": 0,
@@ -219,8 +460,8 @@
         }
       ],
       "timings_ms": [
-        103.04,
-        103.99
+        234.2,
+        230.38
       ],
       "input_sha256": "24bb31c8585cd8dda4e420654f0b0a4e3a43e8aa0bdcd4848fb75577ac547253",
       "exit_code": 4,
@@ -258,8 +499,8 @@
         }
       ],
       "timings_ms": [
-        102.37,
-        108.0
+        226.62,
+        222.92
       ],
       "input_sha256": "c6f4add0c49798f2136656a7f1cff2a4f0dd3b7d25b02c63d834a98be2ae4b3d",
       "exit_code": 3,
@@ -323,27 +564,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwwsbb1fo\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsw8hl00x\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwwsbb1fo\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsw8hl00x\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwwsbb1fo\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsw8hl00x\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpwwsbb1fo\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsw8hl00x\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        135.41,
-        110.18
+        258.58,
+        237.43
       ],
       "input_sha256": "747d58ce0b1d01da12ce8781859590e2c9911ddd4c01aa7d37231e62a5e24b57",
       "exit_code": 0,
@@ -377,22 +618,22 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpo4ioq25b\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsxd71ad5\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpo4ioq25b\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsxd71ad5\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpo4ioq25b\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsxd71ad5\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpo4ioq25b\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpsxd71ad5\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "variant:millivolts_and_objects:same_hash",
@@ -401,9 +642,9 @@
         }
       ],
       "timings_ms": [
-        128.16,
-        121.85,
-        137.54
+        259.42,
+        247.21,
+        257.44
       ],
       "input_sha256": "3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce",
       "exit_code": 0,
@@ -451,7 +692,7 @@
         }
       ],
       "timings_ms": [
-        150.45
+        291.0
       ],
       "input_sha256": "8f5dddcc7b2a5cf367d1c236b0a9714973dbcf20465e33195979c965155468a9",
       "exit_code": 0,
@@ -489,7 +730,7 @@
         }
       ],
       "timings_ms": [
-        142.44
+        241.74
       ],
       "input_sha256": "275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d",
       "exit_code": 4,
@@ -522,7 +763,7 @@
         }
       ],
       "timings_ms": [
-        135.69
+        254.97
       ],
       "input_sha256": "1067b78bf116fffc9b564ef6b6c428659e67c9888dac3bcac65adb50fb671fd5",
       "exit_code": 4,
@@ -555,7 +796,7 @@
         }
       ],
       "timings_ms": [
-        142.16
+        263.85
       ],
       "input_sha256": "d7efe2d7458489898bc6c3418d26fe92d887498e350f04572ea5db96253bb28c",
       "exit_code": 5,
@@ -583,7 +824,7 @@
         }
       ],
       "timings_ms": [
-        143.34
+        270.71
       ],
       "input_sha256": "e94723a05bfcfb971423b066fc49a56770fce623d66c9f0ff85a86e1865da6e3",
       "exit_code": 2,
@@ -616,10 +857,395 @@
         }
       ],
       "timings_ms": [
-        143.48
+        242.13
       ],
       "input_sha256": "73c971dd301c678e53efa4da1f79a5743e08571a8b7e357acad9e9ad43a2f687",
       "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "ldo_fixed_variant_mismatch",
+      "suite": "cases",
+      "description": "Requesting 5 V from a 3.3 V fixed device is a proven mismatch, not a feedback-resistor guess.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected a201e53d0f01343882df4057cc879edc0b33ac4e446bace020aaa65a7c5f6b89 got a201e53d0f01343882df4057cc879edc0b33ac4e446bace020aaa65a7c5f6b89"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: ldo_supply ldo_supply -> unsupported\n  reason: fixed-variant mismatch: requested 5 V, device nominal 3.3 V\n  ports: \n  hash: sha256:4d3deeb08e777bd9cfe2ef913fbfdc5b6689d222fb90dc8768dc9ee67d03ee44)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "reason_contains:fixed-variant mismatch",
+          "ok": true,
+          "detail": "fixed-variant mismatch: requested 5 V, device nominal 3.3 V"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        202.44,
+        187.72
+      ],
+      "input_sha256": "a201e53d0f01343882df4057cc879edc0b33ac4e446bace020aaa65a7c5f6b89",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "ldo_headroom_boundary",
+      "suite": "cases",
+      "description": "VIN_min exactly at VOUT_max + dropout (3.3*1.015 + 0.215 = 3.5645 V) is legal; 3.5644 V is rejected.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 2fb024cea3e2fc47d4d4b0afd936b70aad270024c3fbb173900e4698ac22d49a got 2fb024cea3e2fc47d4d4b0afd936b70aad270024c3fbb173900e4698ac22d49a"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: ldo_supply ldo_supply -> ready_abstract\n  U1   ldo_regulator              ic\n  C1   input_decoupling           1e-06 F\n  C2   output_capacitor           1e-06 F\n  ports: VIN, VOUT, GND, EN\n  hash: sha256:5799570f793e78206a321e25e781eef49b04517336cea5ae0c5c510fcaa52ad6)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "calculation:.headroom.result.margin_v",
+          "ok": true,
+          "detail": "expected 0 got 0"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxaunuw71\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxaunuw71\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxaunuw71\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpxaunuw71\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "variant:one_step_below:status",
+          "ok": true,
+          "detail": "expected unsupported got unsupported"
+        }
+      ],
+      "timings_ms": [
+        199.19,
+        209.9,
+        228.74
+      ],
+      "input_sha256": "2fb024cea3e2fc47d4d4b0afd936b70aad270024c3fbb173900e4698ac22d49a",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "ldo_needs_device_facts",
+      "suite": "cases",
+      "description": "No fact file and no caller-declared facts: a generic LDO must never be invented.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 725b56b6f21a3384cc91854c58110c61621962c4954f9e8099591c04508a214c got 725b56b6f21a3384cc91854c58110c61621962c4954f9e8099591c04508a214c"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 3 got 3 (stderr: ldo_supply ldo_supply -> needs_device_facts\n  reason: no device facts were supplied: give a verified fact-file id or caller-declared facts; a generic LDO is never invented\n  ports: \n  hash: sha256:677d6e96f5af15efe39be4c6e3f9d22ca7b61a4c43e1855df7973781c277c20f)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'needs_device_facts' got 'needs_device_facts'"
+        },
+        {
+          "name": "reason_contains:no device facts",
+          "ok": true,
+          "detail": "no device facts were supplied: give a verified fact-file id or caller-declared facts; a generic LDO is never invented"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        229.86,
+        243.71
+      ],
+      "input_sha256": "725b56b6f21a3384cc91854c58110c61621962c4954f9e8099591c04508a214c",
+      "exit_code": 3,
+      "passed": true
+    },
+    {
+      "id": "ldo_thermal_unsupported",
+      "suite": "cases",
+      "description": "500 mA at 5.5 V in / 3.3 V out dissipates 1.1 W; with thetaJA 231.1 C/W at 85 C ambient Tj is far above 125 C -> unsupported.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 45c823b442be53c7568387dc2c606bf07a7858b152c408a8828fb2e0e05ba1a5 got 45c823b442be53c7568387dc2c606bf07a7858b152c408a8828fb2e0e05ba1a5"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: ldo_supply ldo_supply -> unsupported\n  reason: over-temperature: Tj_est 344.962 degC > tj_max_c 125 degC (Ta_max 85 degC, board condition: JEDEC standard PCB (2s2p, no vias to internal plane and bottom layer), still air, per 5.4 note 2; this is the worst documented DBV value, use it for conservative)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "reason_contains:over-temperature",
+          "ok": true,
+          "detail": "over-temperature: Tj_est 344.962 degC > tj_max_c 125 degC (Ta_max 85 degC, board condition: JEDEC standard PCB (2s2p, no vias to internal plane and bottom layer), still air, per 5.4 note 2; this is the worst documented DBV value, use it for conservative estimates)"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi7g6tqkz\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi7g6tqkz\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi7g6tqkz\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi7g6tqkz\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        }
+      ],
+      "timings_ms": [
+        213.8,
+        226.87
+      ],
+      "input_sha256": "45c823b442be53c7568387dc2c606bf07a7858b152c408a8828fb2e0e05ba1a5",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "ldo_user_declared_facts",
+      "suite": "cases",
+      "description": "Caller-declared 1.8 V LDO facts: Tj = 40 + ((5.5-1.764)*0.1 + 5.5*1e-4)*200 = 114.83 C <= 125 C. Facts stay verified=false and the enable/reverse-current facts remain unknown instead of being assumed.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 658c6b51b3a16d98ad4ee1e973ac6c92eb6bc7aa3fdabc4b51214b415fe87e8f got 658c6b51b3a16d98ad4ee1e973ac6c92eb6bc7aa3fdabc4b51214b415fe87e8f"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: ldo_supply ldo_supply -> ready_abstract\n  U1   ldo_regulator              ic\n  C1   input_decoupling           1e-06 F\n  C2   output_capacitor           1e-06 F\n  ports: VIN, VOUT, GND\n  hash: sha256:3183d452f908b458c3bcbc90c8ab55a43e52a6edfb4c3d4f2e2a7ac8c3d3d22e)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:C1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component:C2",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation:.thermal_estimate.result.tj_est_c",
+          "ok": true,
+          "detail": "expected 114.83 got 114.83"
+        },
+        {
+          "name": "binding:device_fact_verification",
+          "ok": true,
+          "detail": "expected 'partial' got 'partial'"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp55m5jxxu\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp55m5jxxu\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp55m5jxxu\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp55m5jxxu\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        }
+      ],
+      "timings_ms": [
+        215.73,
+        211.1
+      ],
+      "input_sha256": "658c6b51b3a16d98ad4ee1e973ac6c92eb6bc7aa3fdabc4b51214b415fe87e8f",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "ldo_verified_fact_file",
+      "suite": "cases",
+      "description": "TLV75533P from the bundled verified fact file: 4.5..5.5 V in, 3.3 V out, 10..50 mA, -40..85 C. Headroom = 4.5-3.3495 = 1.1505 V vs 0.215 V dropout; Tj = 85 + P*231.1 with P=(5.5-3.2505)*0.05 + 5.5*25uA.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 0242e48b52faa30417d9adcf69ca9133b888e674c40c904342f330c0162d03be got 0242e48b52faa30417d9adcf69ca9133b888e674c40c904342f330c0162d03be"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: ldo_supply ldo_supply -> ready_abstract\n  U1   ldo_regulator              ic\n  C1   input_decoupling           1e-06 F\n  C2   output_capacitor           1e-06 F\n  ports: VIN, VOUT, GND, EN\n  hash: sha256:c5e27ee482ff2ed0b24f05fc62c74f813d2e3177644069c34ab3a67c1a9e26a6)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:U1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component:C1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component:C2",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "ports",
+          "ok": true,
+          "detail": "expected ['EN', 'GND', 'VIN', 'VOUT'] got ['EN', 'GND', 'VIN', 'VOUT']"
+        },
+        {
+          "name": "calculation:.headroom.result.margin_v",
+          "ok": true,
+          "detail": "expected 0.9355000000000006 got 0.9355"
+        },
+        {
+          "name": "calculation:.thermal_estimate.result.tj_est_c",
+          "ok": true,
+          "detail": "expected 111.02474875 got 111.02474875"
+        },
+        {
+          "name": "component_counts",
+          "ok": true,
+          "detail": "expected 3 got 3"
+        },
+        {
+          "name": "binding:device_fact_verification",
+          "ok": true,
+          "detail": "expected 'partial' got 'partial'"
+        },
+        {
+          "name": "binding:part_binding",
+          "ok": true,
+          "detail": "expected 'NOT RUN' got 'NOT RUN'"
+        },
+        {
+          "name": "binding:library_binding",
+          "ok": true,
+          "detail": "expected 'NOT RUN' got 'NOT RUN'"
+        },
+        {
+          "name": "binding:host_validation",
+          "ok": true,
+          "detail": "expected 'NOT RUN' got 'NOT RUN'"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptq57sygy\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptq57sygy\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptq57sygy\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptq57sygy\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        }
+      ],
+      "timings_ms": [
+        223.5,
+        232.51
+      ],
+      "input_sha256": "0242e48b52faa30417d9adcf69ca9133b888e674c40c904342f330c0162d03be",
+      "exit_code": 0,
       "passed": true
     },
     {
@@ -710,22 +1336,22 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpir6fgi3u\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8iyk68rf\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpir6fgi3u\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8iyk68rf\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpir6fgi3u\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8iyk68rf\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpir6fgi3u\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8iyk68rf\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
         },
         {
           "name": "variant:unit_respelling:same_hash",
@@ -744,10 +1370,10 @@
         }
       ],
       "timings_ms": [
-        118.33,
-        114.16,
-        123.78,
-        119.47
+        229.81,
+        231.45,
+        238.87,
+        230.65
       ],
       "input_sha256": "b2efa9064611d3bb091df661604db766be98d585763d7f910a0928ec0551ca58",
       "exit_code": 0,
@@ -826,27 +1452,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkapaj907\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprxg8m1a0\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkapaj907\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprxg8m1a0\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkapaj907\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprxg8m1a0\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpkapaj907\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprxg8m1a0\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         }
       ],
       "timings_ms": [
-        121.29,
-        111.22
+        213.51,
+        209.95
       ],
       "input_sha256": "0b5b92522d9fbda7f22b7fefe16c5f153099f04bbb0c395fce7302ac743eb12f",
       "exit_code": 0,
@@ -890,22 +1516,22 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpscvwqcx5\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpexxd9d66\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpscvwqcx5\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpexxd9d66\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpscvwqcx5\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpexxd9d66\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpscvwqcx5\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpexxd9d66\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "variant:one_step_past_limit:status",
@@ -914,9 +1540,9 @@
         }
       ],
       "timings_ms": [
-        110.05,
-        115.37,
-        115.28
+        199.36,
+        202.79,
+        184.03
       ],
       "input_sha256": "c3725e529f933b89eca602d5f8fd4283c1367ee57f20ecd5c7bd93a1cf24d8a0",
       "exit_code": 0,
@@ -980,27 +1606,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8nudiv1b\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpjsjm078k\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8nudiv1b\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpjsjm078k\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8nudiv1b\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpjsjm078k\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp8nudiv1b\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpjsjm078k\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        116.71,
-        115.65
+        193.61,
+        209.79
       ],
       "input_sha256": "2c5d1ff6db8ef8b898a308852b4dae96a24459b71baee715d273f906e96da00b",
       "exit_code": 0,
@@ -1064,27 +1690,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpx0wt6fuh\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpc57xsyo1\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpx0wt6fuh\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpc57xsyo1\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpx0wt6fuh\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpc57xsyo1\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpx0wt6fuh\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpc57xsyo1\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        109.03,
-        102.86
+        202.6,
+        199.98
       ],
       "input_sha256": "9ce9b660ab5d430ec28957865695dfca4892ac938eee15d1af9347726563145a",
       "exit_code": 0,
@@ -1123,27 +1749,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpygnri2sp\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp694m5dwm\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpygnri2sp\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp694m5dwm\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpygnri2sp\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp694m5dwm\\value.json\n  - non_standard_value: components[0] value 840.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body; )"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpygnri2sp\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp694m5dwm\\value_rehash.json\n  - non_standard_value: components[0] value 840.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        97.07,
-        101.01
+        198.71,
+        202.64
       ],
       "input_sha256": "a3506aeeab3443c00f50bbb3588a8e65ce3fe3620f04a4469d1c24182988477b",
       "exit_code": 3,
@@ -1181,8 +1807,8 @@
         }
       ],
       "timings_ms": [
-        103.12,
-        99.83
+        171.28,
+        186.86
       ],
       "input_sha256": "04805539faf5c366edb067b7f0c76a08990a50124c0a6c7e01d2bb028a3b1850",
       "exit_code": 3,
@@ -1220,11 +1846,311 @@
         }
       ],
       "timings_ms": [
-        98.12,
-        106.44
+        180.05,
+        184.77
       ],
       "input_sha256": "92a99c6dc5c06c78bc9b90504526a0e9f8860e34d05401215f71f9673b20256a",
       "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "open_drain_custom_1300",
+      "suite": "cases",
+      "description": "Custom 3.3 V open-drain bus: 10-90 % rise time 300 ns, Cb 100 pF, VOL 0.4 V at 3 mA, 4 mA static budget. R_max = 300ns/(ln9*100pF)/1.01 = 1351.8 ohm; R_min = (3.465/3mA)/0.99 = 1166.7 ohm; largest E24 inside is 1300 ohm (objective max_resistance).",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected e88c2262336429fd5a23d1ed2b941a7bf56ac0773f7ae7fcbb47fc618a33da7c got e88c2262336429fd5a23d1ed2b941a7bf56ac0773f7ae7fcbb47fc618a33da7c"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: open_drain_pullup open_drain_pullup -> ready_abstract\n  R1   pull_up                    1300 ohm\n  ports: VCC, GND, BUS\n  hash: sha256:4d1ce861a74b7361bf8ef18e65a83c089b6b83c5f2a57e60878b2314480c36e3)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "ports",
+          "ok": true,
+          "detail": "expected ['BUS', 'GND', 'VCC'] got ['BUS', 'GND', 'VCC']"
+        },
+        {
+          "name": "endpoint:R1.1",
+          "ok": true,
+          "detail": "expected net VCC got VCC"
+        },
+        {
+          "name": "endpoint:R1.2",
+          "ok": true,
+          "detail": "expected net BUS got BUS"
+        },
+        {
+          "name": "calculation:.legal_interval.result.r_max_ohm",
+          "ok": true,
+          "detail": "expected 1351.8404355844118 got 1351.84043558"
+        },
+        {
+          "name": "calculation:.legal_interval.result.r_min_ohm",
+          "ok": true,
+          "detail": "expected 1166.6666666666667 got 1166.66666667"
+        },
+        {
+          "name": "calculation:.worst_case_rise_time.result.rise_time_max_s",
+          "ok": true,
+          "detail": "expected 2.8849558700424565e-07 got 2.88495587004e-07"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpykx1m0al\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpykx1m0al\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpykx1m0al\\value.json\n  - non_standard_value: components[0] value 1950.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpykx1m0al\\value_rehash.json\n  - non_standard_value: components[0] value 1950.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        181.72,
+        176.04
+      ],
+      "input_sha256": "e88c2262336429fd5a23d1ed2b941a7bf56ac0773f7ae7fcbb47fc618a33da7c",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "open_drain_i2c_fast",
+      "suite": "cases",
+      "description": "I2C Fast-mode (UM10204: tr max 300 ns) with Cb 100 pF; the 30-70 % coefficient is ln(7/3)=0.847298, so Rp <= 300ns/(ln(7/3)*100pF)/1.01 = 3506 ohm -> largest E24 is 3300 ohm.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 3bb43df6eb934f9d02d512c817e2a13bce2f8322cf377866f06eeed4a922b3c1 got 3bb43df6eb934f9d02d512c817e2a13bce2f8322cf377866f06eeed4a922b3c1"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: open_drain_pullup open_drain_pullup -> ready_abstract\n  R1   pull_up                    3300 ohm\n  ports: VCC, GND, BUS\n  hash: sha256:ec8bfeca8b55e900be534c79cb6aca9e44cf7c6099a81b7c4e685be87d319f36)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation:.worst_case_rise_time.result.rise_time_max_s",
+          "ok": true,
+          "detail": "expected 2.82404376867055e-07 got 2.82404376867e-07"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptmh9lzk4\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptmh9lzk4\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptmh9lzk4\\value.json\n  - non_standard_value: components[0] value 4950.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body;)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmptmh9lzk4\\value_rehash.json\n  - non_standard_value: components[0] value 4950.0 is not in E24)"
+        }
+      ],
+      "timings_ms": [
+        175.13,
+        188.8
+      ],
+      "input_sha256": "3bb43df6eb934f9d02d512c817e2a13bce2f8322cf377866f06eeed4a922b3c1",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "open_drain_needs_device_facts",
+      "suite": "cases",
+      "description": "Without VOL/IOL facts no sink bound exists and no bus frequency may be claimed.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 15e8a70597b4c14ec9048c56e55c179fbe0deab16af59b49e3e7a5c7712f8da7 got 15e8a70597b4c14ec9048c56e55c179fbe0deab16af59b49e3e7a5c7712f8da7"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 3 got 3 (stderr: open_drain_pullup open_drain_pullup -> needs_device_facts\n  reason: device V_OL/I_OL facts are required: the sink capability must never be assumed and no bus frequency is guaranteed without it\n  ports: \n  hash: sha256:11caff61c96925491cfc4d79aef24e0bfbac94b213f6b36fe04bdf903bfccd69)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'needs_device_facts' got 'needs_device_facts'"
+        },
+        {
+          "name": "reason_contains:sink",
+          "ok": true,
+          "detail": "device V_OL/I_OL facts are required: the sink capability must never be assumed and no bus frequency is guaranteed without it"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        151.92,
+        168.25
+      ],
+      "input_sha256": "15e8a70597b4c14ec9048c56e55c179fbe0deab16af59b49e3e7a5c7712f8da7",
+      "exit_code": 3,
+      "passed": true
+    },
+    {
+      "id": "open_drain_unsupported_interval",
+      "suite": "cases",
+      "description": "Cb 1 nF with a 300 ns rise-time limit needs R <= 135 ohm but the sink and budget bounds need R >= 1167 ohm: empty interval -> unsupported.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 1058885eb14ac2c996b80bfab33158e939927985019b9fa729c93629605b3532 got 1058885eb14ac2c996b80bfab33158e939927985019b9fa729c93629605b3532"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: open_drain_pullup open_drain_pullup -> unsupported\n  reason: the pull-up interval is empty: the rise-time bound needs R <= 135.184 ohm while the sink-current/budget bounds need R >= 1166.67 ohm\n  ports: \n  hash: sha256:4e94daa6fb3c909108e07df651d10154e34c4a685673cabf7efc505e68f611e2)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "reason_contains:interval is empty",
+          "ok": true,
+          "detail": "the pull-up interval is empty: the rise-time bound needs R <= 135.184 ohm while the sink-current/budget bounds need R >= 1166.67 ohm"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        }
+      ],
+      "timings_ms": [
+        191.19,
+        168.32
+      ],
+      "input_sha256": "1058885eb14ac2c996b80bfab33158e939927985019b9fa729c93629605b3532",
+      "exit_code": 4,
+      "passed": true
+    },
+    {
+      "id": "adc_2v_to_8v",
+      "suite": "holdout",
+      "description": "Holdout: 2..8 V into 0..3.3 V, 10k..200k value range. Selected 22k/15k: worst tap = 8*(15150/(21780+15150)) + 1uA*(22k||15k)*1.01 = 3.29089 V.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 8510465708148a58e9126a2b1ea39b4088573ad24702e95c6361ac23d685eb0f got 8510465708148a58e9126a2b1ea39b4088573ad24702e95c6361ac23d685eb0f"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: adc_divider adc_divider -> ready_abstract\n  R1   divider_top                22000 ohm\n  R2   divider_bottom             15000 ohm\n  ports: VIN, VOUT, GND\n  hash: sha256:5c904c7ebad58fc73a8cf7fa7ee800f1d223f7952357884f4e748bb6391538d3)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "component:R2",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation:.worst_case_output.result.max_v",
+          "ok": true,
+          "detail": "expected 3.290892754736865 got 3.29089275474"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi0v6ob1v\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi0v6ob1v\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi0v6ob1v\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi0v6ob1v\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        }
+      ],
+      "timings_ms": [
+        177.58,
+        183.75
+      ],
+      "input_sha256": "8510465708148a58e9126a2b1ea39b4088573ad24702e95c6361ac23d685eb0f",
+      "exit_code": 0,
       "passed": true
     },
     {
@@ -1280,27 +2206,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprg6xgc55\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcuuxfbp4\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprg6xgc55\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcuuxfbp4\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprg6xgc55\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcuuxfbp4\\value.json\n  - non_standard_value: components[0] value 70500.0 is not in E24\n  - content_hash_mismatch: content_hash does not match the result body)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmprg6xgc55\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpcuuxfbp4\\value_rehash.json\n  - non_standard_value: components[0] value 70500.0 is not in E24)"
         }
       ],
       "timings_ms": [
-        98.88,
-        103.21
+        180.95,
+        186.5
       ],
       "input_sha256": "7547c0c41ab85503507ce5392a76955cf63efa7e678884fb80b5f311d760fcff",
       "exit_code": 0,
@@ -1333,7 +2259,7 @@
         }
       ],
       "timings_ms": [
-        117.58
+        224.44
       ],
       "input_sha256": "275ad1dafb2bb8064a5edc0a264d15df32b30fe4ee7c5560153ca0c247429d1d",
       "exit_code": 4,
@@ -1366,7 +2292,7 @@
         }
       ],
       "timings_ms": [
-        119.54
+        237.85
       ],
       "input_sha256": "98cc3f0c6d85360ac80a0f5010cfd9479b263f55a35f0ed9e353d0e6544f30c9",
       "exit_code": 4,
@@ -1404,10 +2330,69 @@
         }
       ],
       "timings_ms": [
-        149.0
+        214.37
       ],
       "input_sha256": "deeaa409628bdd33058f47e317042541f48da4f023f36db20aec5f8183d59398",
       "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "ldo_user_declared_holdout",
+      "suite": "holdout",
+      "description": "Holdout: caller-declared 2.5 V LDO, 4..5.5 V in, 20..200 mA, 60 C ambient, thetaJA 180: P=(5.5-2.45)*0.2+5.5*2e-4=0.6111 W, Tj=60+110.0=170 C > 125 C, so the design must be refused.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected a280540ed7945657c6a52bc9937795fd9f87092ce9ba4d1f8a03a85ee061e7ee got a280540ed7945657c6a52bc9937795fd9f87092ce9ba4d1f8a03a85ee061e7ee"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 4 got 4 (stderr: ldo_supply ldo_supply -> unsupported\n  reason: over-temperature: Tj_est 169.899 degC > tj_max_c 125 degC (Ta_max 60 degC, board condition: JEDEC 2s2p board)\n  U1   ldo_regulator              ic\n  C1   input_decoupling           1e-06 F\n  C2   output_capacitor           1e-06 F\n  ports: VIN, VOUT, GN)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'unsupported' got 'unsupported'"
+        },
+        {
+          "name": "reason_contains:over-temperature",
+          "ok": true,
+          "detail": "over-temperature: Tj_est 169.899 degC > tj_max_c 125 degC (Ta_max 60 degC, board condition: JEDEC 2s2p board)"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpyym6t2xt\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpyym6t2xt\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpyym6t2xt\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpyym6t2xt\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        }
+      ],
+      "timings_ms": [
+        191.43,
+        209.03
+      ],
+      "input_sha256": "a280540ed7945657c6a52bc9937795fd9f87092ce9ba4d1f8a03a85ee061e7ee",
+      "exit_code": 4,
       "passed": true
     },
     {
@@ -1463,27 +2448,27 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp10x3ngvp\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi0hxesgf\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp10x3ngvp\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi0hxesgf\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp10x3ngvp\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi0hxesgf\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp10x3ngvp\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpi0hxesgf\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
         }
       ],
       "timings_ms": [
-        101.98,
-        99.44
+        223.3,
+        213.03
       ],
       "input_sha256": "a19830b63cc8b1bca037a41e1da6f7bb21bbeb3efabdc71f1dda5881c635a367",
       "exit_code": 0,
@@ -1532,48 +2517,117 @@
         {
           "name": "tamper_net_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7ow_69xn\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpfdorcf9w\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
         },
         {
           "name": "tamper_net_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7ow_69xn\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpfdorcf9w\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
         },
         {
           "name": "tamper_value_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7ow_69xn\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpfdorcf9w\\value.json\n  - non_standard_value: components[0] value 1230.0 is not in E12\n  - content_hash_mismatch: content_hash does not match the result body;)"
         },
         {
           "name": "tamper_value_rehash_detected",
           "ok": true,
-          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp7ow_69xn\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpfdorcf9w\\value_rehash.json\n  - non_standard_value: components[0] value 1230.0 is not in E12)"
         }
       ],
       "timings_ms": [
-        119.23,
-        105.72
+        247.61,
+        220.91
       ],
       "input_sha256": "0caf34276801f5a4a1a585e0644aee0bc44c86ef93c183e216cc2d391a8ec5e7",
+      "exit_code": 0,
+      "passed": true
+    },
+    {
+      "id": "open_drain_5v",
+      "suite": "holdout",
+      "description": "Holdout: 5 V bus, Cb 120 pF, custom 10-90 % rise time 500 ns, VOL 0.4 V at 3 mA, 4 mA budget. R_max = 500ns/(ln9*120pF)/1.01 = 1877.6 ohm; R_min = (5.25/3mA)/0.99 = 1767.7 ohm -> only E24 1800 ohm fits.",
+      "checks": [
+        {
+          "name": "frozen_input_sha256",
+          "ok": true,
+          "detail": "expected 4d21c1e2e3e00b5faadbb7b3a1d83364494e8ef7eec6c67b5acd99eeb2d29f4d got 4d21c1e2e3e00b5faadbb7b3a1d83364494e8ef7eec6c67b5acd99eeb2d29f4d"
+        },
+        {
+          "name": "exit_code",
+          "ok": true,
+          "detail": "expected 0 got 0 (stderr: open_drain_pullup open_drain_pullup -> ready_abstract\n  R1   pull_up                    1800 ohm\n  ports: VCC, GND, BUS\n  hash: sha256:67da04e84ee9755c6453dcedda791c683ed47bb50bd3ccad8ded4f23cf32d723)"
+        },
+        {
+          "name": "status",
+          "ok": true,
+          "detail": "expected 'ready_abstract' got 'ready_abstract'"
+        },
+        {
+          "name": "component:R1",
+          "ok": true,
+          "detail": ""
+        },
+        {
+          "name": "calculation:.legal_interval.result.r_min_ohm",
+          "ok": true,
+          "detail": "expected 1767.6767676767677 got 1767.67676768"
+        },
+        {
+          "name": "calculation:.legal_interval.result.r_max_ohm",
+          "ok": true,
+          "detail": "expected 1877.5561605339053 got 1877.55616053"
+        },
+        {
+          "name": "validate_recompute",
+          "ok": true,
+          "detail": "exit 0 status valid recompute match"
+        },
+        {
+          "name": "tamper_net_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpha3eym_c\\net.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_net_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpha3eym_c\\net_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        },
+        {
+          "name": "tamper_value_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpha3eym_c\\value.json\n  - content_hash_mismatch: content_hash does not match the result body; the file was edited after generation or generated inconsistently)"
+        },
+        {
+          "name": "tamper_value_rehash_detected",
+          "ok": true,
+          "detail": "exit 6 (invalid: C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpha3eym_c\\value_rehash.json\n  - recompute_mismatch: regenerated content hash differs from the file)"
+        }
+      ],
+      "timings_ms": [
+        206.27,
+        217.4
+      ],
+      "input_sha256": "4d21c1e2e3e00b5faadbb7b3a1d83364494e8ef7eec6c67b5acd99eeb2d29f4d",
       "exit_code": 0,
       "passed": true
     }
   ],
   "failures": [],
   "summary": {
-    "total": 26,
-    "passed": 26,
+    "total": 43,
+    "passed": 43,
     "failed": 0,
     "coverage_by_module": {
-      "cases": 20,
-      "holdout": 6
+      "cases": 34,
+      "holdout": 9
     },
     "timing_ms": {
-      "invocations": 47,
-      "total_ms": 5443.59,
-      "median_ms": 111.22,
-      "p95_ms": 143.48,
-      "max_ms": 150.45,
+      "invocations": 82,
+      "total_ms": 18319.41,
+      "median_ms": 217.4,
+      "p95_ms": 291.0,
+      "max_ms": 468.17,
       "note": "CLI wall time only; not board-design speed"
     },
     "real_eda": "NOT RUN"

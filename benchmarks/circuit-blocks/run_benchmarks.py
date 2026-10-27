@@ -202,6 +202,12 @@ def _check_expect(case, output, record):
         actual = len((output.get('connectivity') or {}).get('nets') or [])
         record['checks'].append({'name': 'net_count', 'ok': expect['net_count'] == actual,
                                  'detail': 'expected %s got %s' % (expect['net_count'], actual)})
+    if 'binding' in expect:
+        actual = output.get('binding') or {}
+        for level, wanted in expect['binding'].items():
+            record['checks'].append({'name': 'binding:%s' % level,
+                                     'ok': actual.get(level) == wanted,
+                                     'detail': 'expected %r got %r' % (wanted, actual.get(level))})
     if case_command_is_compose(case):
         _expect_equal(record, 'conflicts_count', len(output.get('conflicts') or []),
                       expect.get('conflicts_count'))

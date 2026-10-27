@@ -1,0 +1,117 @@
+{
+  "id": "ldo_user_declared_holdout",
+  "description": "Holdout: caller-declared 2.5 V LDO, 4..5.5 V in, 20..200 mA, 60 C ambient, thetaJA 180: P=(5.5-2.45)*0.2+5.5*2e-4=0.6111 W, Tj=60+110.0=170 C > 125 C, so the design must be refused.",
+  "command": "generate",
+  "module_type": "ldo_supply",
+  "input": {
+    "input_voltage": {
+      "min": 4.0,
+      "max": 5.5
+    },
+    "output_voltage": "2.5V",
+    "load_current": {
+      "min": "20mA",
+      "max": "200mA"
+    },
+    "ambient_temperature": {
+      "min": -40,
+      "max": 60
+    },
+    "device_facts": {
+      "vin_min_v": {
+        "value": {
+          "value": 3.0,
+          "unit": "V"
+        },
+        "condition": "declared operating range"
+      },
+      "vin_max_v": {
+        "value": {
+          "value": 5.5,
+          "unit": "V"
+        },
+        "condition": "declared operating range"
+      },
+      "vout_nom_v": {
+        "value": {
+          "value": 2.5,
+          "unit": "V"
+        },
+        "condition": "fixed variant"
+      },
+      "vout_tol_pct": {
+        "value": {
+          "value": 2,
+          "unit": "%"
+        },
+        "condition": "declared accuracy"
+      },
+      "iout_max_a": {
+        "value": {
+          "value": 0.2,
+          "unit": "A"
+        },
+        "condition": "declared"
+      },
+      "iq_a": {
+        "value": {
+          "value": 0.0001,
+          "unit": "A"
+        },
+        "condition": "declared"
+      },
+      "dropout_v": {
+        "value": {
+          "value": 0.4,
+          "unit": "V"
+        },
+        "condition": "at 200 mA",
+        "load_a": {
+          "value": 0.2,
+          "unit": "A"
+        }
+      },
+      "cin_min_f": {
+        "value": {
+          "value": 1e-06,
+          "unit": "F"
+        },
+        "condition": "ceramic >= 1 uF"
+      },
+      "cout_min_f": {
+        "value": {
+          "value": 1e-06,
+          "unit": "F"
+        },
+        "condition": "ceramic >= 1 uF"
+      },
+      "min_load_a": {
+        "value": {
+          "value": 0,
+          "unit": "A"
+        },
+        "condition": "no minimum load"
+      },
+      "tj_max_c": {
+        "value": {
+          "value": 125,
+          "unit": "degC"
+        },
+        "condition": "recommended max"
+      },
+      "theta_ja_c_per_w": {
+        "value": 180,
+        "condition": "JEDEC 2s2p board"
+      }
+    }
+  },
+  "allow_nonready": false,
+  "expect": {
+    "exit_code": 4,
+    "status": "unsupported",
+    "status_reasons_contains": [
+      "over-temperature"
+    ]
+  },
+  "input_sha256": "a280540ed7945657c6a52bc9937795fd9f87092ce9ba4d1f8a03a85ee061e7ee"
+}

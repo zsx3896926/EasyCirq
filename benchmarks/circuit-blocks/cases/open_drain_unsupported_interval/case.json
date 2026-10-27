@@ -1,0 +1,35 @@
+{
+  "id": "open_drain_unsupported_interval",
+  "description": "Cb 1 nF with a 300 ns rise-time limit needs R <= 135 ohm but the sink and budget bounds need R >= 1167 ohm: empty interval -> unsupported.",
+  "command": "generate",
+  "module_type": "open_drain_pullup",
+  "input": {
+    "supply_voltage": {
+      "min": 3.135,
+      "max": 3.465
+    },
+    "bus_spec": "custom",
+    "bus_capacitance": "1nF",
+    "max_rise_time": "300ns",
+    "rise_time_definition": "10_90",
+    "bus_v_il": 0.9,
+    "bus_v_ih": 2.31,
+    "device": {
+      "vol_max": 0.4,
+      "iol": "3mA",
+      "declared_by": "datasheet"
+    },
+    "static_current_budget": "4mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1
+  },
+  "allow_nonready": false,
+  "expect": {
+    "exit_code": 4,
+    "status": "unsupported",
+    "status_reasons_contains": [
+      "interval is empty"
+    ]
+  },
+  "input_sha256": "1058885eb14ac2c996b80bfab33158e939927985019b9fa729c93629605b3532"
+}

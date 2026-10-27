@@ -1,0 +1,30 @@
+{
+  "id": "open_drain_needs_device_facts",
+  "description": "Without VOL/IOL facts no sink bound exists and no bus frequency may be claimed.",
+  "command": "generate",
+  "module_type": "open_drain_pullup",
+  "input": {
+    "supply_voltage": {
+      "min": 3.135,
+      "max": 3.465
+    },
+    "bus_spec": "custom",
+    "bus_capacitance": "100pF",
+    "max_rise_time": "300ns",
+    "rise_time_definition": "10_90",
+    "bus_v_il": 0.9,
+    "bus_v_ih": 2.31,
+    "static_current_budget": "4mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1
+  },
+  "allow_nonready": false,
+  "expect": {
+    "exit_code": 3,
+    "status": "needs_device_facts",
+    "status_reasons_contains": [
+      "sink"
+    ]
+  },
+  "input_sha256": "15e8a70597b4c14ec9048c56e55c179fbe0deab16af59b49e3e7a5c7712f8da7"
+}
