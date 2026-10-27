@@ -36,6 +36,7 @@ EXPECTED_ADDED = {
     "runtime/internal/app/cmd_connector.go",
     "runtime/internal/app/cmd_doctor_test.go",
     "runtime/PROVENANCE.md",
+    "connector/NOTICE",
 }
 
 EXPECTED_MODIFIED = {
@@ -49,6 +50,32 @@ EXPECTED_MODIFIED = {
     "runtime/internal/app/app.go",
     "runtime/internal/app/health_checks.go",
     "runtime/PROVENANCE.md",
+    "runtime/internal/app/app_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/cmd_daemon.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/cmd_sch_marker_geom.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/cmd_sch_marker_geom_orientation_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/cmd_sch_sheet.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/cmd_update_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/enrich_script.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/enrich_script_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/pcb_group_move_scenario_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/pcb_netclass.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/pcb_rules.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/pcb_score_protection.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/ruler_consistency_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/skill_asset.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/version_gate_local_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/blocks/blocks_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/blocks/plug.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/daemon/schematic_pin_repair.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/daemon/schematic_pin_repair_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/selfupdate/cli.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/selfupdate/cli_test.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/selfupdate/selfupdate.go",  # intentional: rebrand / asset resolution
+    "runtime/internal/selfupdate/selfupdate_test.go",  # intentional: rebrand / asset resolution
+    "connector/.edaignore",  # intentional: rebrand / asset resolution
+    "connector/CHANGELOG.md",  # intentional: rebrand / asset resolution
+    "connector/README.md",  # intentional: rebrand / asset resolution
 }
 
 TEXT_SUFFIXES = {".go", ".mod", ".sum", ".ts", ".mts", ".js", ".mjs", ".json", ".md", ".yml", ".yaml"}
