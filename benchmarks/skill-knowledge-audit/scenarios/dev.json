@@ -1,0 +1,772 @@
+{
+  "schema": "ska-scenarios/v1",
+  "split": "dev",
+  "frozen": {
+    "git_sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "catalog_version": "2026-10-27.1"
+  },
+  "scenarios": [
+    {
+      "id": "dev-01",
+      "title": "Simple new sensor acquisition schematic with unspecified domain",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "schematic_new",
+        "stage": "schematic",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": ["schematic"],
+        "constraints": [
+          "单页原理图，USB-C 5V 供电",
+          "接一个传感器，具体类型/接口未定",
+          "本轮只要原理图，不要 PCB、BOM 或采购"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 120000,
+        "notes": "用户只说“帮我画个采集板，接一个传感器”，没有说明温度/称重/模拟/I2C/SPI 等，无法选择领域参考文件。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/schematic-layout.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/pcb-routing-details.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/jlc-production.md",
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/schematic-layout-engine.md"
+        ],
+        "may_include": [
+          "design-hardware/references/schematic.md",
+          "design-hardware/references/module-cards.md",
+          "design-hardware/references/domains.md",
+          "design-hardware/references/design-cards/README.md"
+        ],
+        "required_unknown": ["domain_unspecified"],
+        "forbidden_plan_actions": ["order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "SKILL.md L134 说内部设计始终遵循 workflow.md 和 evidence.md，故两文件与入口 SKILL.md 为 always 保护集；L118 规定新画原理图先读 schematic-authoring.md，按需读取表 L157 把“新建原理图”映射到 schematic-layout.md，L199 把阶段门禁映射到 design-gates.md。传感器类型与接口未定意味着 domains.md 无法确定该加载模拟/数字/电源哪一组，按 contract §6.2 第 6 条必须报 domain_unspecified 并保持 incomplete。用户只要原理图、未要 PCB/采购，所以 pcb-execution/pcb-routing-details/jlc-production/lcsc-sourcing 与重排引擎都属范围外（L30：用户只要求画图时不强行追加采购），採购动作 order_parts 不应出现在计划里。"
+    },
+    {
+      "id": "dev-02",
+      "title": "Dense MCU schematic with USB-C, LDO, I2C sensor and buzzer",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "schematic_new",
+        "stage": "schematic",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": ["schematic"],
+        "constraints": [
+          "ESP32-S3 模块 + USB-C 供电 + 3.3V LDO + I2C 温湿度传感器 + 蜂鸣器",
+          "单页或两页，保留 SWD/调试排针与测试点",
+          "不对已有工程做无关改动，本轮不进入 PCB"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 160000,
+        "notes": "器件与接口已明确，属于数字/接口密集新建原理图；需要 MCU 外围、时钟/复位/启动脚与接口检查方法。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/schematic-layout.md",
+          "design-hardware/references/digital.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/jlc-production.md",
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/schematic-layout-engine.md"
+        ],
+        "may_include": [
+          "design-hardware/references/module-cards.md",
+          "design-hardware/references/schematic.md",
+          "design-hardware/references/part-selection.md",
+          "design-hardware/references/design-cards/README.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": ["order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "按需读取表 L154 把 MCU/SoC/FPGA、时钟、复位、数字接口映射到 digital.md，且器件与总线已明确，该文件是必要规则覆盖而不是可选资料。L118 规定新画/加模块先读 schematic-authoring.md，L157 把新建原理图排版映射到 schematic-layout.md，L199 的 G0–G6 门禁适用于 S1–S5 退出证据。原理图任务不进入 PCB、不采购（L30、L59），故 PCB 布线/执行、生产规则、立创商城与重排引擎都不应被选入；part-selection 与模块卡只在核实选型/模块组合时按需加载，放 may_include。"
+    },
+    {
+      "id": "dev-03",
+      "title": "Local text reflow of an existing schematic (readability-only edit)",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "schematic_edit",
+        "stage": "schematic",
+        "autonomous_authorized": false,
+        "eda_available": true,
+        "deliverables": ["schematic"],
+        "constraints": [
+          "只调整文字/标签位置、字号层级与模块标题避让，不改拓扑、器件、网络、位号或 NC",
+          "修复 R3 位号压值、zone 标题遮挡和两处自动线名叠印",
+          "已有工程页 P1，先给整理前后对比再看局部官方导出图"
+        ],
+        "user_decision_pending": [],
+        "already_read": [
+          {
+            "path": "design-hardware/references/schematic-layout.md",
+            "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+            "rules_version": "2026-10-27.1",
+            "scope": "schematic-readability"
+          }
+        ],
+        "budget_chars": 120000,
+        "notes": "会话上一轮已读过 schematic-layout.md，但缓存 sha256 与当前文件不一致（文件已更新），必须重新读取并报 already_read_stale。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/schematic-layout-engine.md",
+          "design-hardware/references/schematic-layout.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/pcb-routing-details.md",
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/jlc-production.md",
+          "design-hardware/references/schematic-benchmarks.md"
+        ],
+        "may_include": [
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/offline-tools.md",
+          "design-hardware/references/feedback-loop.md",
+          "design-hardware/references/design-engine.md"
+        ],
+        "required_unknown": ["already_read_stale"],
+        "forbidden_plan_actions": ["order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "按需读取表 L158 把“已有原理图重排、自动布局、提高整页可读性”映射到 schematic-layout-engine.md，而该文件 L7 写“执行前强制读取 schematic-layout.md”，所以两者都必须选；L199 的门禁适用于 S3 退出。用户只要局部可读性、明确不改连接，故 PCB 执行/布线细节、采购与生产文档超出范围（L30），schematic-benchmarks.md（L159）是校准 8 类排版基准用的，不是一次局部返工的必要资料。already_read 中 schematic-layout.md 的 sha256 与当前文件哈希不符，按 contract §6.3 文件变化必须失效，正确计划必须重读该文件并报 already_read_stale。"
+    },
+    {
+      "id": "dev-04",
+      "title": "Constrained PCB component move on an existing board",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "pcb_layout",
+        "stage": "layout",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": ["pcb"],
+        "constraints": [
+          "只移动 U3、C7、R11 及其就近外围，保留板框、J1/连接器位置与锁定器件",
+          "不改原理图、不改封装与网表",
+          "移动后必须复核关联铜/过孔/参考与丝印，不能假定拖动保全一切"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 120000,
+        "notes": "已有两层板，用户只要求受约束局部移动；该板已完成布线，需按 PL31/RT32 复核受影响对象。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/pcb.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/eda-execution.md",
+          "design-hardware/references/pcb-placement-details.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/jlc-production.md",
+          "design-hardware/references/schematic-layout-engine.md",
+          "design-hardware/references/part-selection.md"
+        ],
+        "may_include": [
+          "design-hardware/references/pcb-routing-details.md",
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/references/design-engine.md",
+          "design-hardware/references/offline-tools.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": ["order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "按需读取表 L165 把真实 PCB 布局布线映射到 pcb-execution.md，L164 的 PCB 工程习惯是执行前必读，L172 的布局细节覆盖机械约束/关键回路/放件（PL31 明确“移动已布器件后检查关联铜、过孔、参考、热焊盘”）；pcb-execution.md L5 又写“先读 pcb.md 与 eda-execution.md”，因此这两个文件随显式 required_read 闭包进入。用户只要受约束局部移动、明确不改原理图，故原理图绘图执行/重排引擎、采购与生产规则不适用（L30），封装选型也不在范围内。part-selection 与布线细节只在核对具体影响时按需加载，放 may_include；没有未知信息，不强行报 unknown。"
+    },
+    {
+      "id": "dev-05",
+      "title": "New 2-layer board layout from an approved schematic",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "pcb_layout",
+        "stage": "layout",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": ["pcb"],
+        "constraints": [
+          "原理图已冻结，新建 50×40mm 两层板",
+          "本轮只做布局：板框、安装孔、连接器逃逸、功能分区与关键回路，暂不布线",
+          "板厂按嘉立创普通工艺，先不导出制造资料"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 150000,
+        "notes": "两层板新建布局，用户在 L96 的四检查点中选择“布局后先看”，故布线资料属后续阶段入口。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/pcb.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/eda-execution.md",
+          "design-hardware/references/pcb-placement-details.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/schematic-layout-engine.md",
+          "design-hardware/references/part-selection.md",
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/jlc-production.md"
+        ],
+        "may_include": [
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/assets/routing-plan.md",
+          "design-hardware/references/jlc-pcb-rules.md",
+          "design-hardware/references/design-engine.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": ["order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "布局任务的核心是 pcb-execution.md（L165）与 PCB 工程习惯（L164），而布局细节 PL01–PL32（L172）覆盖板框、安装孔、连接器逃逸与关键回路；L199 的 G3/G4 门禁是布线前退出条件，必须选 design-gates.md。用户明确“只做布局、暂不布线”，故 pcb-routing-strategy 与布线计划模板属下一阶段入口（contract §6.2 第 4 条），放 may_include 而不预加载；原理图已冻结，原理图绘图/重排与采购、生产档案都不在本轮范围（L30、L55）。"
+    },
+    {
+      "id": "dev-06",
+      "title": "Four-layer differential board stackup and routing plan (planning only)",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "four_layer_diff",
+        "stage": "concept",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": ["routing-plan", "stackup-decision"],
+        "constraints": [
+          "现有两层板要改四层，做 USB 3.x 差分对、阻抗与回流控制",
+          "先出层叠、阻抗目标、差分参考与换层规则、布线顺序与关键网证明方案",
+          "本轮只出方案与约束清单，不写入工程，不改现有 PCB"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 160000,
+        "notes": "方案阶段：用户要求先确定层叠/阻抗/回流与布线规则，确认后再改工程；差分/等长需要生态离线工具先出候选。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/references/pcb-routing-details.md",
+          "design-hardware/references/analog-rf-highspeed.md",
+          "design-hardware/references/easyeda-ecosystem.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/part-selection.md",
+          "design-hardware/references/schematic-layout-engine.md",
+          "design-hardware/references/jlc-handoff.md",
+          "design-hardware/references/manufacturing-details.md"
+        ],
+        "may_include": [
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/eda-execution.md",
+          "design-hardware/references/jlc-pcb-rules.md",
+          "design-hardware/assets/routing-plan.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": ["write_eda", "order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "按需读取表 L200 把层数选择、电源/地策略、布线计划映射到 pcb-routing-strategy.md，L173 把高速/回流细节映射到 pcb-routing-details.md，L155 把高速链路映射到 analog-rf-highspeed.md；SKILL.md L22 明确“涉及差分/等长……先读 easyeda-ecosystem.md”，故四者都是必要覆盖，L199 的 G3/G4/G5 退出证据也必须读 design-gates.md。用户明确“先出方案、不写入工程”，因此 write_eda 不应出现在计划动作里；采购/BOM、生产交付与原理图重排不在本轮范围（L30、L55）。板厂层叠确认（jlc-pcb-rules）与执行细节（pcb-execution/eda-execution）属于进入写入前的条件资料，放 may_include。"
+    },
+    {
+      "id": "dev-07",
+      "title": "BOM-only sourcing and structure check with unspecified delivery stage",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "bom_only",
+        "stage": "unknown",
+        "autonomous_authorized": false,
+        "eda_available": true,
+        "deliverables": ["bom", "sourcing-report"],
+        "constraints": [
+          "只核对现有 BOM/零件表与配单，不改图、不导出新工程",
+          "已有原始 BOM CSV 与 project-standard-parts.json",
+          "立创商城现货优先，预算有限；库存/价格/交期逐项给来源时间"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 120000,
+        "notes": "用户没说这是设计阶段选型配单还是打样前采购，阶段未定；生产/贴片文档只能作条件项。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/part-selection.md",
+          "design-hardware/references/lcsc-sourcing.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/pcb-routing-details.md",
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/thermal/topic.md",
+          "design-hardware/references/schematic-layout-engine.md"
+        ],
+        "may_include": [
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/jlc-handoff.md",
+          "design-hardware/references/jlc-production.md",
+          "design-hardware/references/jlc-smt-rules.md"
+        ],
+        "required_unknown": ["stage_unspecified"],
+        "forbidden_plan_actions": ["write_eda", "order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "按需读取表 L145 把选型/换料/BOM 映射到 part-selection.md，L146 把立创商城查货/估价/配单/缺料映射到 lcsc-sourcing.md，L90 又说明每个采购相关任务都要读 lcsc-sourcing.md；evidence.md 是价格/库存/交期引用纪律的 always 文档（L134、L268）。任务类型是仅 BOM，按 contract §6.2 第 5 条应把布线、热设计与 PCB 执行文档排除，而不是全量加载。intent.stage 为 unknown（设计期配单还是打样前采购未定），故计划必须报 stage_unspecified，并把 jlc-handoff/jlc-production/jlc-smt-rules 等制造规则保留为条件项（may_include），不预加载。"
+    },
+    {
+      "id": "dev-08",
+      "title": "Electrical review only of an existing schematic and PCB",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "review_only",
+        "stage": "check",
+        "autonomous_authorized": false,
+        "eda_available": true,
+        "deliverables": ["review-report"],
+        "constraints": [
+          "只读审查现有原理图与 PCB，不修改工程",
+          "重点：供电/极性/短路/额定、功能链路/时序/引脚、保护与可制造性风险",
+          "结论区分已证实缺陷、条件性风险、需实测与工程优化"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 120000,
+        "notes": "用户说“过一下/review，先别改”，按 L57 默认只读；审查基于已导出的回读/证据文件，不需要连接 EDA。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/review.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/eda-execution.md",
+          "design-hardware/references/feedback-loop.md",
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/jlc-production.md"
+        ],
+        "may_include": [
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/schematic-details.md",
+          "design-hardware/references/pcb-lessons.md",
+          "design-hardware/references/pcb-routing-details.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": ["write_eda", "order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "按需读取表 L167 把设计审查/故障排查映射到 review.md，review.md L8–L10 给出按严重性审查与“已证实/条件风险/实测/优化”分类方法；evidence.md 是审查证据分层的 always 文档（L134），workflow.md 提供读取与接续基线。用户明确“先别改”，L57 与 contract §6.2 规定仅评审 writes_allowed=false、计划中不得有写工程步骤，因此写 EDA 执行/反馈闭环文档应排除；EDA 文档只作条件/排除、不要求连接。design-gates.md 对 review_only 是条件文档（阶段未推进、不建 design-state，见 design-gates L13），放 may_include；具体逐脚/机制卡按审查对象可选。"
+    },
+    {
+      "id": "dev-09",
+      "title": "Delivery and manufacturing audit only (G0-G6 and JLC package)",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "delivery_audit",
+        "stage": "delivery",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": ["manufacturing-package", "audit-report"],
+        "constraints": [
+          "按 G0–G6 与嘉立创 PCB/SMT 实际渠道工艺核对交付资料",
+          "已有 Gerber/钻孔/CPL/BOM/坐标/工艺档案/工程导出包，逐项核对版本、单位、方向、DNP",
+          "不改工程，只输出缺口清单与交付级别判断"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 180000,
+        "notes": "仅交付审计：需要 G6 证据角色、嘉立创交付清单与制造细节，不需要重新画图或布线。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/jlc-handoff.md",
+          "design-hardware/references/jlc-production.md",
+          "design-hardware/references/manufacturing-details.md",
+          "design-hardware/assets/pcb-delivery-checklist.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/schematic-layout-engine.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/references/thermal/topic.md"
+        ],
+        "may_include": [
+          "design-hardware/references/manufacturing-routes.md",
+          "design-hardware/references/jlc-pcb-rules.md",
+          "design-hardware/references/jlc-smt-rules.md",
+          "design-hardware/references/lcsc-sourcing.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": ["write_eda", "order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "delivery_audit 的核心是 design-gates.md 的 G6 制造交付证据表（L214–L238）与 SKILL.md L165 要求的逐项交付清单；jlc-handoff.md（L150）给出制造交接与业务边界，jlc-production.md（L147）给出生产档案与工艺核对，manufacturing-details.md（L174）覆盖封装/阻孔/钢网/首板，assets/pcb-delivery-checklist.md 是 L165 指定的交付核对表。用户只做审计、不改工程，因此写工程/布线/画图文档（pcb-execution、pcb-routing-strategy、schematic-authoring、schematic-layout-engine）与热专题超出范围，write_eda 也不应出现；库存/SMT 核对可能用到 lcsc-sourcing 与 JLC 规则，但已有资料时属条件项，放 may_include。"
+    },
+    {
+      "id": "dev-10",
+      "title": "Offline development when connector/EDA is unavailable",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "offline_dev",
+        "stage": "read",
+        "autonomous_authorized": true,
+        "eda_available": false,
+        "deliverables": ["offline-analysis", "connectivity-table"],
+        "constraints": [
+          "Connector/daemon 当前不可用，不能连接或探测 EDA",
+          "在离线条件下完成连接表、证据解析与设计草案，明确列出未写入项",
+          "不安装或启动新工具，不联网"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 140000,
+        "notes": "连接通道缺失，但可以继续离线规划、连接表检查与文档准备；写入/回读必须标 BLOCKED。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/offline-tools.md",
+          "design-hardware/references/offline-regression.md",
+          "design-hardware/references/connectivity.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/eda-execution.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/feedback-loop.md",
+          "design-hardware/references/jlc-handoff.md",
+          "design-hardware/references/easyeda-ecosystem.md"
+        ],
+        "may_include": [
+          "design-hardware/references/client-compatibility.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/installation-updates.md",
+          "design-hardware/references/schematic-authoring.md"
+        ],
+        "required_unknown": ["eda_unavailable"],
+        "forbidden_plan_actions": ["write_eda", "read_eda", "install"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "按需读取表 L180 把续航核算与离线几何检查映射到 offline-tools.md，L205 把无 EDA 完整回归/证据绑定映射到 offline-regression.md，L151 把离线连接表映射到 connectivity.md；证据与状态纪律由 evidence.md（L134）保证。EDA 不可用时 contract §6.2 第 6 条要求报 eda_unavailable 并把结果标 incomplete，且离线/仅评审计划不得包含写工程步骤（L314–L315），所以 eda-execution/pcb-execution/feedback-loop 等 EDA 写读文档应排除，write_eda/read_eda 与未授权的 install 都不应出现。client-compatibility 与 installation-updates 只用于解释/缩短后续接通步骤，design-gates 仅在评估既有证据时条件加载，故放 may_include。"
+    },
+    {
+      "id": "dev-11",
+      "title": "User explicitly forbids any EDA connection (offline PCB placement plan)",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "pcb_layout",
+        "stage": "layout",
+        "autonomous_authorized": true,
+        "eda_available": false,
+        "deliverables": ["placement-plan", "offline-check-report"],
+        "constraints": [
+          "用户明确本轮不得连接、读取、安装或打开 EDA，只做离线方案",
+          "输入只有已导出的 pcb dump 与 sch read JSON，允许离线几何/约束/候选分析",
+          "不得写入工程、不得上传或下单"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 140000,
+        "notes": "与 dev-10 不同：这里不是通道故障，而是用户显式禁止 EDA；正确计划应以离线布局方法与离线工具为主，EDA 文档只作条件/排除。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/pcb.md",
+          "design-hardware/references/pcb-placement-details.md",
+          "design-hardware/references/offline-tools.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/eda-execution.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/easyeda-ecosystem.md",
+          "design-hardware/references/feedback-loop.md",
+          "design-hardware/references/jlc-production.md"
+        ],
+        "may_include": [
+          "design-hardware/references/offline-regression.md",
+          "design-hardware/references/design-engine.md",
+          "design-hardware/references/connectivity.md",
+          "design-hardware/references/pcb-routing-strategy.md"
+        ],
+        "required_unknown": ["eda_unavailable"],
+        "forbidden_plan_actions": ["write_eda", "read_eda", "install", "order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "用户显式禁止 EDA 时，SKILL.md L108–L112 要求“缺少执行通道时仍可完成方案、计算或离线规划”，并明确列出未写入项；布局方法来自 pcb.md（L164）与 pcb-placement-details.md（L172），离线约束/候选来自 offline-tools.md（L180），设计门禁仍用于判断布局证据（L199、design-gates L13）。按 contract §6.2，纯离线/仅评审 writes_allowed=false、不得有写工程步骤，EDA 文档只作条件/排除，所以 eda-execution、pcb-execution、easyeda-ecosystem、feedback-loop 都应排除，write_eda/read_eda/install 不得出现。因为无法回读，计划必须报 eda_unavailable 并保持 incomplete；离线回归、确定性引擎与连接表按输入可选，放 may_include。"
+    },
+    {
+      "id": "dev-12",
+      "title": "Autonomous authorization for a complete board (schematic through manufacturing package)",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "full_product",
+        "stage": "requirements",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": ["schematic", "pcb", "manufacturing-package"],
+        "constraints": [
+          "从零做一块完整板：原理图、PCB、检查与打样资料，全部在已授权范围内自主推进",
+          "关键阶段汇报进度与证据，但不要每阶段重复求确认",
+          "只到制造资料；不包含固件/整机验收，也不自动开单采购"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 220000,
+        "notes": "用户说“直接做到能打样，别每步问我”，属于 L77 的已授权范围自主推进，不是逐阶段审批。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/agent-collaboration.md",
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/eda-execution.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/product-example.md",
+          "design-hardware/references/engineering-deepdives/README.md",
+          "design-hardware/references/engineering-deepdives/exercises/README.md",
+          "design-hardware/references/schematic-benchmarks.md",
+          "design-hardware/references/simulation-measurement.md"
+        ],
+        "may_include": [
+          "design-hardware/references/pcb.md",
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/references/schematic-layout.md",
+          "design-hardware/references/idea-to-product.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": ["wait_user_approval", "order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "完整板任务跨 S1–S5 多阶段，L100 要求按独立工作量与执行能力组织子任务并按 agent-collaboration.md 的“多 Agent 协作”执行，L199/L226–L234 的 G0–G6 是阶段退出证据门；L118 新画原理图先读 schematic-authoring.md，真实 PCB 布局布线读 pcb-execution.md 且其 L5 显式要求先读 eda-execution.md（pcb.md 同理进入闭包，放 may_include 以免与 8 项上限冲突）。用户已授权“直接做到打样”，L77 与 contract §6.2 明确不得自动生成等待批准步骤，故 wait_user_approval 必须不出现、approval_gates 为空；本轮只到制造资料、不授权采购，order_parts 也应排除。产品样本/深潜/审图练习是学习资料（L181、L188），排版基准只用于校准检查（L159），仿真测量未要求，故都排除。"
+    },
+    {
+      "id": "dev-13",
+      "title": "Review-before-continuing boundary: confirm layout before routing",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "pcb_route",
+        "stage": "layout",
+        "autonomous_authorized": false,
+        "eda_available": true,
+        "deliverables": ["pcb", "routing-report"],
+        "constraints": [
+          "原理图已评审通过；用户要求先确认布局，确认后再开始布线",
+          "两层板，完成布局复核、布线、DRC 与保存重开证据",
+          "不改原理图、不换器件、不做制造交付"
+        ],
+        "user_decision_pending": ["before_route"],
+        "already_read": [],
+        "budget_chars": 180000,
+        "notes": "用户明确说“先评审，我确认后再布线”，按 L96 只在对应边界等待；计划应包含 before_route 审批门，但不得因此把整个任务变成逐阶段停顿。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/pcb.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/eda-execution.md",
+          "design-hardware/references/pcb-routing-strategy.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/part-selection.md",
+          "design-hardware/references/jlc-production.md",
+          "design-hardware/references/schematic-layout-engine.md",
+          "design-hardware/references/feedback-loop.md"
+        ],
+        "may_include": [
+          "design-hardware/assets/routing-plan.md",
+          "design-hardware/references/pcb-placement-details.md",
+          "design-hardware/references/pcb-routing-details.md",
+          "design-hardware/references/design-engine.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": [],
+        "required_approval_gates": ["before_route"],
+        "max_selected_bytes": null
+      },
+      "rationale": "任务类型是布线，按需读取表 L165（PCB 执行）与 L200（布线策略/布线计划）都必须选，L199 的 G3/G4 是布线前并列前置条件、G5 是布线退出条件；pcb-execution L5 的显式 required_read 又把 pcb.md 与 eda-execution.md 带入。用户要求“确认后再布线”是 L96 四个可见检查点之一，对应 contract §6.2 的 before_route 审批门，因此 required_approval_gates 为 [\"before_route\"]，同时 intent.user_decision_pending 已显式包含该 token；除此之外不得再插入默认谨慎的等待，wait_user_approval 不列为禁止动作。本轮不采购、不交付制造、不改原理图，故 lcsc-sourcing/part-selection/jlc-production/schematic-layout-engine/feedback-loop 超出范围；布线计划模板与布线/布局细节按实际阶段条件加载，放 may_include。"
+    },
+    {
+      "id": "dev-14",
+      "title": "Insufficient reading budget: must not trim required documents",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "schematic_new",
+        "stage": "schematic",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": ["schematic", "reading-plan"],
+        "constraints": [
+          "只需要一份最小阅读计划，预算 2500 字符",
+          "最小示例电路：5V→LED+限流电阻+按键，单页原理图",
+          "不裁剪 required 文档、不因预算省略保护规则"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 2500,
+        "notes": "预算远小于必读文档字符数；按 contract §6.4 required 不裁剪，conditional/optional 才按顺序装入。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/schematic-layout.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/pcb-routing-details.md",
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/jlc-production.md",
+          "design-hardware/references/thermal/topic.md"
+        ],
+        "may_include": [
+          "design-hardware/references/schematic.md",
+          "design-hardware/references/design-cards/README.md",
+          "design-hardware/references/domains.md",
+          "design-hardware/references/module-cards.md"
+        ],
+        "required_unknown": ["budget_insufficient"],
+        "forbidden_plan_actions": ["order_parts"],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "即使预算只有 2500 字符，L134 的 always 保护文档（workflow.md、evidence.md）与 L118/L157/L199 的新建原理图必读文档也不能被裁掉；contract §6.4 明确 required 超预算时不裁剪、标 status:\"incomplete\" 并列出 uncovered。正确计划因此必须报 budget_insufficient，且 required 集合仍包含上列 6 个文件。用户只要原理图与阅读计划，PCB、采购与热设计都不在范围（L30），故排除；schematic.md、设计卡入口等只在具体模块需要时加载，放 may_include。"
+    },
+    {
+      "id": "dev-15",
+      "title": "Mid-task scope expansion from RS485 schematic edit to 4-layer differential routing",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "pcb_route",
+        "stage": "route",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": ["pcb", "routing-report", "stackup-decision"],
+        "constraints": [
+          "原任务：在现有板加一路 RS485 并做原理图局部修改（已进行，范围仅原理图）",
+          "用户中途追加：整板改四层、差分对做等长、完成布局与布线",
+          "新增范围对接口/成本/层叠的影响未确认，原任务授权不自动覆盖新范围"
+        ],
+        "user_decision_pending": ["scope_change"],
+        "already_read": [
+          {
+            "path": "design-hardware/references/schematic-authoring.md",
+            "sha256": "7283016368fb7beb7c3e704e640fd6bc08e56dff594b3cf6c7781998ca610309",
+            "rules_version": "2026-09-01.0",
+            "scope": "schematic-phase"
+          }
+        ],
+        "budget_chars": 200000,
+        "notes": "任务扩展改变了 scope hash，旧会话缓存（含旧 rules_version 的已读记录）必须失效；新范围需单独决策确认。"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/eda-execution.md",
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/references/easyeda-ecosystem.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/part-selection.md",
+          "design-hardware/references/jlc-handoff.md",
+          "design-hardware/references/schematic-layout-engine.md",
+          "design-hardware/references/manufacturing-details.md"
+        ],
+        "may_include": [
+          "design-hardware/references/pcb.md",
+          "design-hardware/references/pcb-routing-details.md",
+          "design-hardware/assets/routing-plan.md",
+          "design-hardware/references/pcb-placement-details.md"
+        ],
+        "required_unknown": ["cache_invalidated"],
+        "forbidden_plan_actions": ["order_parts"],
+        "required_approval_gates": ["scope_change"],
+        "max_selected_bytes": null
+      },
+      "rationale": "任务从原理图局部修改扩展为四层差分布线：按需读取表 L200（布线策略）、L165（PCB 执行）、L199（G3–G5 门禁）与 L22（差分/等长先读 easyeda-ecosystem.md）都成为必要覆盖，pcb-execution L5 的 required_read 又带入 pcb.md 与 eda-execution.md（pcb.md 放 may_include 以免超出 8 项上限）。contract §6.3 规定任务扩展导致 scope hash 变化、目录/rules 版本变化都必须使缓存失效，intent.already_read 中记录的是旧 rules_version，因此计划必须报 cache_invalidated。新增范围属于 contract §6.2 的“新增范围决策”，Lead 约定 token 为 scope_change，故 intent.user_decision_pending 与 required_approval_gates 都包含 scope_change；本轮不采购、不交付制造、不重排原理图，相应文档排除。"
+    }
+  ]
+}

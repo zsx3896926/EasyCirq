@@ -1,0 +1,20 @@
+{
+  "schema": "ska-intent/v1",
+  "task_type": "offline_dev",
+  "stage": "read",
+  "autonomous_authorized": true,
+  "eda_available": false,
+  "deliverables": [
+    "offline-analysis",
+    "connectivity-table"
+  ],
+  "constraints": [
+    "Connector/daemon 当前不可用，不能连接或探测 EDA",
+    "在离线条件下完成连接表、证据解析与设计草案，明确列出未写入项",
+    "不安装或启动新工具，不联网"
+  ],
+  "user_decision_pending": [],
+  "already_read": [],
+  "budget_chars": 140000,
+  "notes": "连接通道缺失，但可以继续离线规划、连接表检查与文档准备；写入/回读必须标 BLOCKED。"
+}

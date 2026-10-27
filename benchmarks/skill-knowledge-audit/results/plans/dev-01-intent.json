@@ -1,0 +1,19 @@
+{
+  "schema": "ska-intent/v1",
+  "task_type": "schematic_new",
+  "stage": "schematic",
+  "autonomous_authorized": true,
+  "eda_available": true,
+  "deliverables": [
+    "schematic"
+  ],
+  "constraints": [
+    "单页原理图，USB-C 5V 供电",
+    "接一个传感器，具体类型/接口未定",
+    "本轮只要原理图，不要 PCB、BOM 或采购"
+  ],
+  "user_decision_pending": [],
+  "already_read": [],
+  "budget_chars": 120000,
+  "notes": "用户只说“帮我画个采集板，接一个传感器”，没有说明温度/称重/模拟/I2C/SPI 等，无法选择领域参考文件。"
+}

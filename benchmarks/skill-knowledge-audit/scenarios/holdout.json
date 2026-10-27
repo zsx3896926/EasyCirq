@@ -1,0 +1,305 @@
+{
+  "schema": "ska-scenarios/v1",
+  "split": "holdout",
+  "frozen": {
+    "git_sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "catalog_version": "2026-10-27.1"
+  },
+  "scenarios": [
+    {
+      "id": "holdout-01",
+      "title": "禁止 EDA 与联网的原理图文档评审",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "review_only",
+        "stage": "check",
+        "autonomous_authorized": true,
+        "eda_available": false,
+        "deliverables": [
+          "review_findings"
+        ],
+        "constraints": [
+          "用户明确禁止连接或调用 EDA，含只读回读",
+          "不联网",
+          "不修改工程与图纸",
+          "范围不含打板、采购与贴片"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 60000,
+        "notes": "用户原话：“我下周要拿去评审，你帮我把这张原理图挑一遍毛病，重点看图面看得清不清、有没有电气问题。别连 EDA，连只读的也别连；也别联网，更不要动我的图。打板、买料、贴片的事都先别管。”"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/review.md",
+          "design-hardware/references/schematic-layout.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/jlc-smt-rules.md",
+          "design-hardware/references/lcsc-sourcing.md"
+        ],
+        "may_include": [
+          "design-hardware/references/schematic-details.md",
+          "design-hardware/references/schematic.md",
+          "design-hardware/references/agent-collaboration.md",
+          "design-hardware/references/offline-tools.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": [
+          "read_eda",
+          "write_eda",
+          "network",
+          "install",
+          "order_parts"
+        ],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "SKILL.md 写明“内部设计始终遵循 [工程工作流] 和 [证据与工程记录]”，而每次任务都从 SKILL.md 进入，因此三份门面/纪律文档（SKILL.md、workflow.md、evidence.md）作为 always 保护覆盖保留。SKILL.md 的“检查一下”一行要求“有位置、有证据、可操作的问题清单”且注明“默认只读”，所以 review_only 还要覆盖 review.md（审查方法：先读实际工程，再按严重性检查）与 evidence.md 的“未找到问题必须附已覆盖范围、关键资料缺失等于待确认”。用户点名要审图面可读性，对应 SKILL.md 的“验收仍使用 [图面验收标准] references/schematic-layout.md”。契约 §6.2 规定“纯离线/仅评审：writes_allowed=false，计划中不得有写工程步骤；EDA 文档只作条件/排除，不要求连接”，因此不要求 eda_unavailable，只用 forbidden_plan_actions 禁掉 read_eda、write_eda、network、install 与越出范围的 order_parts；用户明确把打板与采购排除在范围外，故 must_exclude 列入 pcb-execution.md、jlc-smt-rules.md、lcsc-sourcing.md。"
+    },
+    {
+      "id": "holdout-02",
+      "title": "自主推进中途的范围扩张：加一路 CAN、缩板框、压成本",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "pcb_route",
+        "stage": "route",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": [
+          "pcb"
+        ],
+        "constraints": [
+          "原理图与器件身份已冻结，不得改动原理图",
+          "生成新板框与增加 CAN 之前保持现有布局",
+          "先别下单买料"
+        ],
+        "user_decision_pending": [
+          "scope_change",
+          "mechanical_change"
+        ],
+        "already_read": [],
+        "budget_chars": 90000,
+        "notes": "User utterance: “Just finish the layout and routing on the board we froze last month — the schematic stays exactly as it is, and you don't need to check in after each stage. Take it all the way to DRC.” Mid-task, while still autonomous, the user adds: “Client just called: add one CAN channel, shrink the board to 40 × 30 mm, and take BOM cost down 10%. Don't order parts yet.”"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/pcb-execution.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/firmware-bringup.md",
+          "design-hardware/references/product-acceptance.md"
+        ],
+        "may_include": [
+          "design-hardware/references/pcb.md",
+          "design-hardware/references/eda-execution.md",
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/references/part-selection.md"
+        ],
+        "required_unknown": [],
+        "forbidden_plan_actions": [
+          "order_parts",
+          "wait_user_approval"
+        ],
+        "required_approval_gates": [
+          "scope_change",
+          "mechanical_change"
+        ],
+        "max_selected_bytes": null
+      },
+      "rationale": "SKILL.md 写明“真实PCB任务先读 [PCB执行工作流] references/pcb-execution.md”，且 G3/G4 是布线的并列前置条件、G5 未过不谈制造（design-gates.md 的门禁总览与 G5 一节），所以 pcb_route 场景把 pcb-execution.md 与 design-gates.md 列为 required，同时保留 workflow.md 与 evidence.md 的 always 覆盖。用户在自主授权下中途新增 CAN、缩板框并压成本，正对应契约 §6.2 的“接口/尺寸/成本目标变化、新增范围”，因此 expected.required_approval_gates 只取 intent.user_decision_pending 明写的两条口径（按仓库内已冻结的门禁 token 命名：scope_change、mechanical_change），不额外要求 cost_change 或 interface_change，避免把“默认谨慎”自动升成门禁。契约 §6.2 同时规定“授权自主：不得自动生成‘等待用户批准’步骤”，用户也说“you don't need to check in after each stage”，所以 wait_user_approval 列入 forbidden_plan_actions。用户冻结原理图，故 must_exclude 排除 schematic-authoring.md，另排除本轮未涉及的固件与产品验收文档。"
+    },
+    {
+      "id": "holdout-03",
+      "title": "Skill 更新后已读缓存过期：只改一处限流电阻",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "schematic_edit",
+        "stage": "schematic",
+        "autonomous_authorized": true,
+        "eda_available": true,
+        "deliverables": [
+          "schematic"
+        ],
+        "constraints": [
+          "不联网，不查商城",
+          "只改 LED 限流电阻一处并核算新阻值下的 LED 电流",
+          "不改无关模块"
+        ],
+        "user_decision_pending": [],
+        "already_read": [
+          {
+            "path": "design-hardware/SKILL.md",
+            "sha256": "5ff6bc70fd9ef1ec19ecf98cee8909acb250a3a793ac5aaa60cb9a1e93e7049e",
+            "rules_version": "2026-10-20.1",
+            "scope": "skill-entry"
+          },
+          {
+            "path": "design-hardware/references/workflow.md",
+            "sha256": "d9ac16e21872cebb741205693f467be5b80f661672e015b0561acd08b17b2d9d",
+            "rules_version": "2026-10-20.1",
+            "scope": "design-workflow"
+          }
+        ],
+        "budget_chars": 40000,
+        "notes": "用户原话：“上次更新完 Skill 我不是已经把 SKILL.md、工作流和证据那几份都读过了吗？别重复读了，就按上次的结论来。这次只改一处：把 LED 的限流电阻从 1k 换成 2.2k，帮我核一下新阻值下 LED 电流还够不够、会不会超手册上限。不用联网，也不用查商城。”"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/part-selection.md",
+          "design-hardware/references/schematic.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/idea-to-product.md",
+          "design-hardware/references/product-acceptance.md",
+          "design-hardware/references/jlc-smt-rules.md"
+        ],
+        "may_include": [
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/schematic-layout.md",
+          "design-hardware/references/offline-tools.md",
+          "design-hardware/assets/design-calc.md"
+        ],
+        "required_unknown": [
+          "already_read_stale"
+        ],
+        "forbidden_plan_actions": [
+          "network",
+          "order_parts"
+        ],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "用户声称上次已读过 SKILL.md 与工作流，但 already_read 绑定的是旧 sha256 与旧 rules_version（2026-10-20.1），而本场景冻结目录版本是 2026-10-27.1；契约 §6.3 要求“文件变化、目录版本变化、任务扩展（scope hash 变化）都必须失效，不使用 mtime”，因此 already_read 指向的 SKILL.md 与 workflow.md 必须重读，并把 already_read_stale 写进 unknown。其余 required 来自 SKILL.md 的显式文本：“内部设计始终遵循 [工程工作流] 和 [证据与工程记录]”（workflow.md、evidence.md）、“用户要求选型、换料或BOM → 选型与装配变体”（part-selection.md）、“绘制/整理/换料/建库 → 原理图工程习惯”（schematic.md），并按阶段门禁口径补 design-gates.md（改图后仍属 G2 退出证据范围）。用户只要求改一处阻值并核算 LED 电流，不涉及完整产品、SMT 或用途验收，所以 must_exclude 取 idea-to-product.md、product-acceptance.md、jlc-smt-rules.md。"
+    },
+    {
+      "id": "holdout-04",
+      "title": "仅 BOM 配单：现货证据缺失与小预算",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "bom_only",
+        "stage": "delivery",
+        "autonomous_authorized": true,
+        "eda_available": false,
+        "deliverables": [
+          "bom"
+        ],
+        "constraints": [
+          "不碰工程与 EDA",
+          "不联网；未查到的库存、价格、MOQ 一律写待查",
+          "用户自己手焊，不按嘉立创 SMT 工厂贴片准备",
+          "不使用未经核实的商城现货结论"
+        ],
+        "user_decision_pending": [],
+        "already_read": [],
+        "budget_chars": 1200,
+        "notes": "用户原话：“不用再画图，就把这块板子的料给我配齐，做成能直接发给采购的清单：型号、C 号、每板用量、还差什么。别碰我的工程，也先别下单。商城有没有货、多少钱，你查到就写来源和时间，没查到就写待查，别瞎编。我这边上下文很小，别一次灌一堆文档。”"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/lcsc-sourcing.md",
+          "design-hardware/references/part-selection.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/pcb-execution.md",
+          "design-hardware/references/pcb-routing-details.md",
+          "design-hardware/references/jlc-smt-rules.md"
+        ],
+        "may_include": [
+          "design-hardware/references/jlc-handoff.md",
+          "design-hardware/references/selection/README.md",
+          "design-hardware/assets/parts.example.json",
+          "design-hardware/references/design-gates.md"
+        ],
+        "required_unknown": [
+          "budget_insufficient"
+        ],
+        "forbidden_plan_actions": [
+          "read_eda",
+          "write_eda",
+          "network",
+          "order_parts"
+        ],
+        "required_approval_gates": [],
+        "max_selected_bytes": null
+      },
+      "rationale": "SKILL.md 写明“每个采购相关任务读 [立创商城选型与配单]”，并在按需表里给出“用户要求选型、换料或BOM → 选型与装配变体”，故 lcsc-sourcing.md 与 part-selection.md 为 required；同时保留 always 的 SKILL.md/workflow.md/evidence.md，因为 SKILL.md §5 要求“价格、库存、起订/包装、交期和费用引用来源与查询时间……缺报价不填0”，本场景库存与价格证据缺失时这条纪律是核心。用户明确说自己焊、别碰工程、也别下单，因此契约 §6.2 允许的“仅 BOM 排除布线与热设计”落到 must_exclude：schematic-authoring.md、pcb-execution.md、pcb-routing-details.md、jlc-smt-rules.md 都不应进入计划。budget_chars=1200，而本次实测 required 五份文件 chars 合计约 35319（SKILL.md 24988、workflow.md 1986、evidence.md 917、lcsc-sourcing.md 4078、part-selection.md 3350），按契约 §6.4“required 超预算时不裁剪 required，标 status:incomplete 并列出 uncovered”，expected.required_unknown 取 budget_insufficient。"
+    },
+    {
+      "id": "holdout-05",
+      "title": "交付审计：制造文件导出不可用，缺证据即停",
+      "intent": {
+        "schema": "ska-intent/v1",
+        "task_type": "delivery_audit",
+        "stage": "delivery",
+        "autonomous_authorized": true,
+        "eda_available": false,
+        "deliverables": [
+          "delivery_audit_report"
+        ],
+        "constraints": [
+          "工程侧只读，不写 EDA",
+          "未取得 Gerber、钻孔、CPL 的人工导出证据",
+          "不替用户下单或提交工厂审核",
+          "缺证据时如实标 BLOCKED / NOT RUN"
+        ],
+        "user_decision_pending": [
+          "missing_evidence"
+        ],
+        "already_read": [],
+        "budget_chars": 200000,
+        "notes": "用户原话：“这块板我想这周发嘉立创贴片，你按 G0–G6 门禁帮我把交付包全审一遍；中间的检查点你自己过，不用问我。但 Gerber、钻孔、坐标这些我这边 EDA 连不上、也导不出来，要是缺证据就别替我判通过——停下来告诉我缺什么、要我怎么补。”"
+      },
+      "expected": {
+        "must_include": [
+          "design-hardware/SKILL.md",
+          "design-hardware/references/workflow.md",
+          "design-hardware/references/evidence.md",
+          "design-hardware/references/design-gates.md",
+          "design-hardware/references/jlc-handoff.md",
+          "design-hardware/references/jlc-smt-rules.md"
+        ],
+        "must_exclude": [
+          "design-hardware/references/schematic-authoring.md",
+          "design-hardware/references/pcb-routing-strategy.md",
+          "design-hardware/references/installation-updates.md"
+        ],
+        "may_include": [
+          "design-hardware/references/jlc-production.md",
+          "design-hardware/references/jlc-pcb-rules.md",
+          "design-hardware/references/offline-regression.md",
+          "design-hardware/assets/pcb-delivery-checklist.md"
+        ],
+        "required_unknown": [
+          "eda_unavailable"
+        ],
+        "forbidden_plan_actions": [
+          "write_eda",
+          "order_parts"
+        ],
+        "required_approval_gates": [
+          "missing_evidence"
+        ],
+        "max_selected_bytes": null
+      },
+      "rationale": "用户点名按 G0–G6 审交付，design-gates.md 规定 G6 的 Gerber、钻孔、CPL 在 easyeda-agent v1.14.0 没有 CLI/typed action、只能由用户在 EDA GUI 导出并落证据，“缺人工证据时 G6 仍 BLOCKED”，且“缺证据就是 BLOCKED，不是 PASS”，故 design-gates.md 与 evidence.md 为 required，SKILL.md/workflow.md 作为 always 覆盖保留。jlc-handoff.md 要求打板/贴片任务同时执行生产规则接入，并按路线裁剪交付清单；jlc-smt-rules.md 覆盖工艺边/Mark/BOM 坐标/DFM 与“厂方审核未执行”的记录方式，故两者列为 required，jlc-production.md 留在 may_include 而不强求（避免把链路读法当成唯一解）。用户说 EDA 连不上也导不出来，对应 required_unknown 的 eda_unavailable；同一句话明确要求缺证据就停下告知，这是用户明确要求的暂停条件，故 required_approval_gates 取 missing_evidence（同一 token 写进 intent.user_decision_pending）。只把 write_eda 与 order_parts 列为禁止动作，不禁止只读分析。"
+    }
+  ]
+}

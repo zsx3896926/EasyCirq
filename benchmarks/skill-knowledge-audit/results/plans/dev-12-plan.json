@@ -1,0 +1,347 @@
+{
+  "active_topics": [
+    "protect.workflow-evidence",
+    "design.gates",
+    "full.product"
+  ],
+  "budget": {
+    "files": 10,
+    "limit_chars": 220000,
+    "required_chars": 112105,
+    "selected_bytes": 200173,
+    "selected_chars": 112105,
+    "status": "within",
+    "token_estimate": {
+      "high": 93421,
+      "low": 56053,
+      "method": "character-class band: ~0.5-0.83 token/char overall (CJK roughly 0.6-1.0 token/char, ASCII roughly 0.25-0.5); not a tokenizer and not an exact Chinese token count"
+    },
+    "uncovered": []
+  },
+  "cache": {
+    "catalog_version": "2026-10-27.1",
+    "hit": [],
+    "invalidated": [],
+    "scope_hash": "61e97e6c7e966db6db5a9d108f1934575e861862944c9f857256b35022e5eec7"
+  },
+  "catalog_version": "2026-10-27.1",
+  "conditional": [],
+  "dependencies": [
+    {
+      "line": 3,
+      "source": "references/eda-execution.md",
+      "target": "references/jlc-production.md"
+    },
+    {
+      "line": 5,
+      "source": "references/pcb-execution.md",
+      "target": "references/pcb.md"
+    }
+  ],
+  "excluded": [
+    {
+      "path": "references/engineering-deepdives/README.md",
+      "reasons": [
+        {
+          "reason": "深潜资料非开工必读",
+          "topic": "full.product"
+        }
+      ]
+    },
+    {
+      "path": "references/engineering-deepdives/exercises/README.md",
+      "reasons": [
+        {
+          "reason": "审图练习非开工必读",
+          "topic": "full.product"
+        }
+      ]
+    },
+    {
+      "path": "references/product-example.md",
+      "reasons": [
+        {
+          "reason": "演练示例不是完整产品必读",
+          "topic": "full.product"
+        }
+      ]
+    },
+    {
+      "path": "references/schematic-benchmarks.md",
+      "reasons": [
+        {
+          "reason": "排版基准集非开工必读",
+          "topic": "full.product"
+        }
+      ]
+    },
+    {
+      "path": "references/simulation-measurement.md",
+      "reasons": [
+        {
+          "reason": "仿真与测量按需，不预加载",
+          "topic": "full.product"
+        }
+      ]
+    }
+  ],
+  "execution_contract": {
+    "actions": [
+      "read_eda",
+      "read_skill",
+      "write_eda"
+    ],
+    "approval_gates": [],
+    "autonomous_authorized": true,
+    "decisions_required": [],
+    "eda_required": true,
+    "writes_allowed": true
+  },
+  "intent": {
+    "already_read": [],
+    "autonomous_authorized": true,
+    "budget_chars": 220000,
+    "constraints": [
+      "从零做一块完整板：原理图、PCB、检查与打样资料，全部在已授权范围内自主推进",
+      "关键阶段汇报进度与证据，但不要每阶段重复求确认",
+      "只到制造资料；不包含固件/整机验收，也不自动开单采购"
+    ],
+    "deliverables": [
+      "schematic",
+      "pcb",
+      "manufacturing-package"
+    ],
+    "eda_available": true,
+    "notes": "用户说“直接做到能打样，别每步问我”，属于 L77 的已授权范围自主推进，不是逐阶段审批。",
+    "schema": "ska-intent/v1",
+    "stage": "requirements",
+    "task_type": "full_product",
+    "user_decision_pending": []
+  },
+  "kind": "plan",
+  "next_stage_entry": [],
+  "not_proof": "本结果只证明静态文档结构与引用关系，不证明 Skill 被客户端加载、模型遵守规则、阅读行为改变或硬件设计正确。 计划只说明建议阅读哪些文件，不证明 AI 已加载或遵守；未运行模型，也未调用 EDA。",
+  "ok": true,
+  "optional": [],
+  "protected_constraints": [
+    {
+      "id": "evidence_truthfulness",
+      "reason": "事实状态与证据分级必须适用"
+    },
+    {
+      "id": "target_binding",
+      "reason": "结论必须绑定对象、版本和范围"
+    }
+  ],
+  "required": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "reasons": [
+        "skill entry point; every task starts here"
+      ],
+      "role": "required",
+      "sha256": "2fe4feb283f0904f25f44ce2425c6c3766a0f8b6db45fcbd9d4e2542ff9e486d",
+      "topics": [
+        "always"
+      ]
+    },
+    {
+      "bytes": 14176,
+      "chars": 6257,
+      "path": "references/agent-collaboration.md",
+      "reasons": [
+        "SKILL.md L100 多阶段设计需按协作契约组织"
+      ],
+      "role": "required",
+      "sha256": "2c33f972019ecb89a58ffefeaed8ad6c5daa3665cf8f5bd0ce9b663c340178c8",
+      "topics": [
+        "full.product"
+      ]
+    },
+    {
+      "bytes": 47186,
+      "chars": 30667,
+      "path": "references/design-gates.md",
+      "reasons": [
+        "涉及 SCH/PCB/交付阶段时必须按 G0–G6 退出证据判断",
+        "完整产品按 G0–G6 分阶段退出"
+      ],
+      "role": "required",
+      "sha256": "60956d1ebd8fb2b941bc9141d74b55519d58b84ec3644a0a457abdf91b853c01",
+      "topics": [
+        "design.gates",
+        "full.product"
+      ]
+    },
+    {
+      "bytes": 21854,
+      "chars": 12386,
+      "path": "references/eda-execution.md",
+      "reasons": [
+        "需要真实读写 EDA 工程"
+      ],
+      "role": "required",
+      "sha256": "fcf17aa5767ea3e20499608a57c15e0bfd371ad0dbcdb1ee08d173d7da81147d",
+      "topics": [
+        "full.product"
+      ]
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "reasons": [
+        "SKILL.md L134: 证据与工程记录；事实状态不可伪造"
+      ],
+      "role": "required",
+      "sha256": "a62dd20adb5548889910c7eb516e9a7e28da91aac91871978686d3019fa0c8ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    },
+    {
+      "bytes": 6696,
+      "chars": 2556,
+      "path": "references/jlc-production.md",
+      "reasons": [
+        "explicit required edge in references/eda-execution.md:3"
+      ],
+      "role": "required",
+      "sha256": "8ea271dc6abf75f1b951ee1b428f1c673c85aa3c6d45b858279f873b52572ba6",
+      "topics": [
+        "dependency"
+      ]
+    },
+    {
+      "bytes": 33459,
+      "chars": 22888,
+      "path": "references/pcb-execution.md",
+      "reasons": [
+        "完整产品含 PCB 阶段"
+      ],
+      "role": "required",
+      "sha256": "ebfc7e630fdb728fb75124c38edc406524aea8d1b2b6744bd578f62c82c07862",
+      "topics": [
+        "full.product"
+      ]
+    },
+    {
+      "bytes": 6487,
+      "chars": 2817,
+      "path": "references/pcb.md",
+      "reasons": [
+        "explicit required edge in references/pcb-execution.md:5"
+      ],
+      "role": "required",
+      "sha256": "deaf094fddc7f4f5f55bc0b860d0928710c59ee432ffffd3ac4b00bc57484e87",
+      "topics": [
+        "dependency"
+      ]
+    },
+    {
+      "bytes": 12479,
+      "chars": 6643,
+      "path": "references/schematic-authoring.md",
+      "reasons": [
+        "完整产品含原理图阶段"
+      ],
+      "role": "required",
+      "sha256": "7283016368fb7beb7c3e704e640fd6bc08e56dff594b3cf6c7781998ca610309",
+      "topics": [
+        "full.product"
+      ]
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "reasons": [
+        "SKILL.md L134: 内部设计始终遵循工程工作流"
+      ],
+      "role": "required",
+      "sha256": "184dd2773ca82908dcc37f9ad89e66d49d1006dad2d7e31bfda8d26ae94140ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    }
+  ],
+  "schema": "skill-knowledge-audit/v1",
+  "scope_hash": "61e97e6c7e966db6db5a9d108f1934575e861862944c9f857256b35022e5eec7",
+  "selected": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "role": "required"
+    },
+    {
+      "bytes": 14176,
+      "chars": 6257,
+      "path": "references/agent-collaboration.md",
+      "role": "required"
+    },
+    {
+      "bytes": 47186,
+      "chars": 30667,
+      "path": "references/design-gates.md",
+      "role": "required"
+    },
+    {
+      "bytes": 21854,
+      "chars": 12386,
+      "path": "references/eda-execution.md",
+      "role": "required"
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "role": "required"
+    },
+    {
+      "bytes": 6696,
+      "chars": 2556,
+      "path": "references/jlc-production.md",
+      "role": "required"
+    },
+    {
+      "bytes": 33459,
+      "chars": 22888,
+      "path": "references/pcb-execution.md",
+      "role": "required"
+    },
+    {
+      "bytes": 6487,
+      "chars": 2817,
+      "path": "references/pcb.md",
+      "role": "required"
+    },
+    {
+      "bytes": 12479,
+      "chars": 6643,
+      "path": "references/schematic-authoring.md",
+      "role": "required"
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "role": "required"
+    }
+  ],
+  "source": {
+    "duration_ms": 1625.845,
+    "git_sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
+    "scanned_at": "2026-10-27T16:31:22+00:00"
+  },
+  "stage": "requirements",
+  "task_type": "full_product",
+  "tool": {
+    "name": "skill_knowledge_audit",
+    "version": "0.1.0"
+  },
+  "unknown": []
+}

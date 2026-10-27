@@ -1,0 +1,237 @@
+{
+  "active_topics": [
+    "protect.workflow-evidence",
+    "review.only",
+    "review.visual"
+  ],
+  "budget": {
+    "files": 5,
+    "limit_chars": 60000,
+    "required_chars": 38018,
+    "selected_bytes": 81996,
+    "selected_chars": 38018,
+    "status": "within",
+    "token_estimate": {
+      "high": 31682,
+      "low": 19009,
+      "method": "character-class band: ~0.5-0.83 token/char overall (CJK roughly 0.6-1.0 token/char, ASCII roughly 0.25-0.5); not a tokenizer and not an exact Chinese token count"
+    },
+    "uncovered": []
+  },
+  "cache": {
+    "catalog_version": "2026-10-27.1",
+    "hit": [],
+    "invalidated": [],
+    "scope_hash": "7ee2eb7230bf481ab4cc6d13f7051463352fc143d0cf77fac33e39a176b1bb04"
+  },
+  "catalog_version": "2026-10-27.1",
+  "conditional": [],
+  "dependencies": [],
+  "excluded": [
+    {
+      "path": "references/eda-execution.md",
+      "reasons": [
+        {
+          "reason": "评审任务默认只读，不要求连接 EDA",
+          "topic": "review.only"
+        }
+      ]
+    },
+    {
+      "path": "references/feedback-loop.md",
+      "reasons": [
+        {
+          "reason": "评审不执行写入闭环",
+          "topic": "review.only"
+        }
+      ]
+    },
+    {
+      "path": "references/jlc-production.md",
+      "reasons": [
+        {
+          "reason": "评审不进入生产订单",
+          "topic": "review.only"
+        }
+      ]
+    },
+    {
+      "path": "references/lcsc-sourcing.md",
+      "reasons": [
+        {
+          "reason": "评审不涉及商城配单",
+          "topic": "review.only"
+        }
+      ]
+    },
+    {
+      "path": "references/pcb-execution.md",
+      "reasons": [
+        {
+          "reason": "评审任务不写工程",
+          "topic": "review.only"
+        }
+      ]
+    }
+  ],
+  "execution_contract": {
+    "actions": [
+      "offline_analysis",
+      "read_skill"
+    ],
+    "approval_gates": [],
+    "autonomous_authorized": true,
+    "decisions_required": [],
+    "eda_required": false,
+    "writes_allowed": false
+  },
+  "intent": {
+    "already_read": [],
+    "autonomous_authorized": true,
+    "budget_chars": 60000,
+    "constraints": [
+      "用户明确禁止连接或调用 EDA，含只读回读",
+      "不联网",
+      "不修改工程与图纸",
+      "范围不含打板、采购与贴片"
+    ],
+    "deliverables": [
+      "review_findings"
+    ],
+    "eda_available": false,
+    "notes": "用户原话：“我下周要拿去评审，你帮我把这张原理图挑一遍毛病，重点看图面看得清不清、有没有电气问题。别连 EDA，连只读的也别连；也别联网，更不要动我的图。打板、买料、贴片的事都先别管。”",
+    "schema": "ska-intent/v1",
+    "stage": "check",
+    "task_type": "review_only",
+    "user_decision_pending": []
+  },
+  "kind": "plan",
+  "next_stage_entry": [],
+  "not_proof": "本结果只证明静态文档结构与引用关系，不证明 Skill 被客户端加载、模型遵守规则、阅读行为改变或硬件设计正确。 计划只说明建议阅读哪些文件，不证明 AI 已加载或遵守；未运行模型，也未调用 EDA。",
+  "ok": true,
+  "optional": [],
+  "protected_constraints": [
+    {
+      "id": "evidence_truthfulness",
+      "reason": "事实状态与证据分级必须适用"
+    },
+    {
+      "id": "target_binding",
+      "reason": "结论必须绑定对象、版本和范围"
+    }
+  ],
+  "required": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "reasons": [
+        "skill entry point; every task starts here"
+      ],
+      "role": "required",
+      "sha256": "2fe4feb283f0904f25f44ce2425c6c3766a0f8b6db45fcbd9d4e2542ff9e486d",
+      "topics": [
+        "always"
+      ]
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "reasons": [
+        "SKILL.md L134: 证据与工程记录；事实状态不可伪造"
+      ],
+      "role": "required",
+      "sha256": "a62dd20adb5548889910c7eb516e9a7e28da91aac91871978686d3019fa0c8ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    },
+    {
+      "bytes": 3471,
+      "chars": 1367,
+      "path": "references/review.md",
+      "reasons": [
+        "SKILL.md L167 设计审查/故障排查/样机上电"
+      ],
+      "role": "required",
+      "sha256": "54a3c29949d8941d92b89e2ab0add7605c09f9aa9ef028408acd4254321541b5",
+      "topics": [
+        "review.only"
+      ]
+    },
+    {
+      "bytes": 20689,
+      "chars": 8760,
+      "path": "references/schematic-layout.md",
+      "reasons": [
+        "评审图面可读性时使用图面验收标准"
+      ],
+      "role": "required",
+      "sha256": "03875d059855789dcbcc9c65deb59830cbb95b6c9aa00c131d247685b81f683c",
+      "topics": [
+        "review.visual"
+      ]
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "reasons": [
+        "SKILL.md L134: 内部设计始终遵循工程工作流"
+      ],
+      "role": "required",
+      "sha256": "184dd2773ca82908dcc37f9ad89e66d49d1006dad2d7e31bfda8d26ae94140ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    }
+  ],
+  "schema": "skill-knowledge-audit/v1",
+  "scope_hash": "7ee2eb7230bf481ab4cc6d13f7051463352fc143d0cf77fac33e39a176b1bb04",
+  "selected": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "role": "required"
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "role": "required"
+    },
+    {
+      "bytes": 3471,
+      "chars": 1367,
+      "path": "references/review.md",
+      "role": "required"
+    },
+    {
+      "bytes": 20689,
+      "chars": 8760,
+      "path": "references/schematic-layout.md",
+      "role": "required"
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "role": "required"
+    }
+  ],
+  "source": {
+    "duration_ms": 1671.67,
+    "git_sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
+    "scanned_at": "2026-10-27T16:31:27+00:00"
+  },
+  "stage": "check",
+  "task_type": "review_only",
+  "tool": {
+    "name": "skill_knowledge_audit",
+    "version": "0.1.0"
+  },
+  "unknown": []
+}

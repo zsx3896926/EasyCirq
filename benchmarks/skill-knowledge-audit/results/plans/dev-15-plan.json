@@ -1,0 +1,506 @@
+{
+  "active_topics": [
+    "protect.workflow-evidence",
+    "design.gates",
+    "pcb.core",
+    "pcb.execution",
+    "route.strategy",
+    "domain.digital",
+    "domain.analog",
+    "tool.easyeda-ecosystem"
+  ],
+  "budget": {
+    "files": 16,
+    "limit_chars": 200000,
+    "required_chars": 133913,
+    "selected_bytes": 241107,
+    "selected_chars": 133913,
+    "status": "within",
+    "token_estimate": {
+      "high": 111595,
+      "low": 66957,
+      "method": "character-class band: ~0.5-0.83 token/char overall (CJK roughly 0.6-1.0 token/char, ASCII roughly 0.25-0.5); not a tokenizer and not an exact Chinese token count"
+    },
+    "uncovered": []
+  },
+  "cache": {
+    "catalog_version": "2026-10-27.1",
+    "hit": [],
+    "invalidated": [
+      {
+        "current_rules_version": "2026-10-27.1",
+        "current_sha256": "7283016368fb7beb7c3e704e640fd6bc08e56dff594b3cf6c7781998ca610309",
+        "path": "references/schematic-authoring.md",
+        "reasons": [
+          "rules_version_mismatch"
+        ],
+        "recorded_rules_version": "2026-09-01.0",
+        "recorded_sha256": "7283016368fb7beb7c3e704e640fd6bc08e56dff594b3cf6c7781998ca610309"
+      }
+    ],
+    "scope_hash": "bcc90dcf1036406712eabcd4aead35dacc9c89523cfd5f3ee090e44cb7e99456"
+  },
+  "catalog_version": "2026-10-27.1",
+  "conditional": [],
+  "dependencies": [
+    {
+      "line": 3,
+      "source": "references/pcb-placement-details.md",
+      "target": "references/design-experience.md"
+    },
+    {
+      "line": 5,
+      "source": "references/pcb-routing-strategy.md",
+      "target": "references/pcb-routing-details.md"
+    },
+    {
+      "line": 5,
+      "source": "references/pcb-routing-strategy.md",
+      "target": "references/jlc-pcb-rules.md"
+    },
+    {
+      "line": 5,
+      "source": "references/pcb-routing-strategy.md",
+      "target": "assets/routing-plan.md"
+    }
+  ],
+  "excluded": [
+    {
+      "path": "references/jlc-production.md",
+      "reasons": [
+        {
+          "reason": "未要求制造时按需",
+          "topic": "pcb.core"
+        }
+      ]
+    },
+    {
+      "path": "references/lcsc-sourcing.md",
+      "reasons": [
+        {
+          "reason": "未要求配单",
+          "topic": "pcb.core"
+        }
+      ]
+    },
+    {
+      "path": "references/part-selection.md",
+      "reasons": [
+        {
+          "reason": "未要求换料选型",
+          "topic": "pcb.core"
+        }
+      ]
+    },
+    {
+      "path": "references/schematic-authoring.md",
+      "reasons": [
+        {
+          "reason": "本任务不重画原理图",
+          "topic": "pcb.core"
+        }
+      ]
+    },
+    {
+      "path": "references/schematic-layout-engine.md",
+      "reasons": [
+        {
+          "reason": "不涉及原理图重排",
+          "topic": "pcb.core"
+        }
+      ]
+    }
+  ],
+  "execution_contract": {
+    "actions": [
+      "read_eda",
+      "read_skill",
+      "write_eda"
+    ],
+    "approval_gates": [
+      "scope_change"
+    ],
+    "autonomous_authorized": true,
+    "decisions_required": [
+      {
+        "detail": "新增范围/接口/尺寸/成本目标，需要用户决策",
+        "gate": "scope_change"
+      }
+    ],
+    "eda_required": true,
+    "writes_allowed": true
+  },
+  "intent": {
+    "already_read": [
+      {
+        "path": "design-hardware/references/schematic-authoring.md",
+        "rules_version": "2026-09-01.0",
+        "scope": "schematic-phase",
+        "sha256": "7283016368fb7beb7c3e704e640fd6bc08e56dff594b3cf6c7781998ca610309"
+      }
+    ],
+    "autonomous_authorized": true,
+    "budget_chars": 200000,
+    "constraints": [
+      "原任务：在现有板加一路 RS485 并做原理图局部修改（已进行，范围仅原理图）",
+      "用户中途追加：整板改四层、差分对做等长、完成布局与布线",
+      "新增范围对接口/成本/层叠的影响未确认，原任务授权不自动覆盖新范围"
+    ],
+    "deliverables": [
+      "pcb",
+      "routing-report",
+      "stackup-decision"
+    ],
+    "eda_available": true,
+    "notes": "任务扩展改变了 scope hash，旧会话缓存（含旧 rules_version 的已读记录）必须失效；新范围需单独决策确认。",
+    "schema": "ska-intent/v1",
+    "stage": "route",
+    "task_type": "pcb_route",
+    "user_decision_pending": [
+      "scope_change"
+    ]
+  },
+  "kind": "plan",
+  "next_stage_entry": [],
+  "not_proof": "本结果只证明静态文档结构与引用关系，不证明 Skill 被客户端加载、模型遵守规则、阅读行为改变或硬件设计正确。 计划只说明建议阅读哪些文件，不证明 AI 已加载或遵守；未运行模型，也未调用 EDA。",
+  "ok": true,
+  "optional": [],
+  "protected_constraints": [
+    {
+      "id": "evidence_truthfulness",
+      "reason": "事实状态与证据分级必须适用"
+    },
+    {
+      "id": "target_binding",
+      "reason": "结论必须绑定对象、版本和范围"
+    }
+  ],
+  "required": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "reasons": [
+        "skill entry point; every task starts here"
+      ],
+      "role": "required",
+      "sha256": "2fe4feb283f0904f25f44ce2425c6c3766a0f8b6db45fcbd9d4e2542ff9e486d",
+      "topics": [
+        "always"
+      ]
+    },
+    {
+      "bytes": 6373,
+      "chars": 4017,
+      "path": "assets/routing-plan.md",
+      "reasons": [
+        "explicit required edge in references/pcb-routing-strategy.md:5"
+      ],
+      "role": "required",
+      "sha256": "a080a63f69159f94f9449b79116112fc60a269975b34088abded902e555a4b7e",
+      "topics": [
+        "dependency"
+      ]
+    },
+    {
+      "bytes": 3218,
+      "chars": 1258,
+      "path": "references/analog-rf-highspeed.md",
+      "reasons": [
+        "SKILL.md L155 模拟采集/音视频/射频/高速链路"
+      ],
+      "role": "required",
+      "sha256": "f97e0a095818453ac6c59aea8021589b30837cd0736f42e99f1b5d2b7b5229c9",
+      "topics": [
+        "domain.analog"
+      ]
+    },
+    {
+      "bytes": 10166,
+      "chars": 5502,
+      "path": "references/design-experience.md",
+      "reasons": [
+        "explicit required edge in references/pcb-placement-details.md:3"
+      ],
+      "role": "required",
+      "sha256": "d9a912d0de71571237d55a918ea96e75d5e55743530fed0485fd4906b564fd8a",
+      "topics": [
+        "dependency"
+      ]
+    },
+    {
+      "bytes": 47186,
+      "chars": 30667,
+      "path": "references/design-gates.md",
+      "reasons": [
+        "涉及 SCH/PCB/交付阶段时必须按 G0–G6 退出证据判断"
+      ],
+      "role": "required",
+      "sha256": "60956d1ebd8fb2b941bc9141d74b55519d58b84ec3644a0a457abdf91b853c01",
+      "topics": [
+        "design.gates"
+      ]
+    },
+    {
+      "bytes": 2620,
+      "chars": 1105,
+      "path": "references/digital.md",
+      "reasons": [
+        "SKILL.md L154 数字与接口专题"
+      ],
+      "role": "required",
+      "sha256": "b6dcd59e42211fceb7fdabe9d6a5057ba8e4d575bd97f0be5baed4a36acd01a2",
+      "topics": [
+        "domain.digital"
+      ]
+    },
+    {
+      "bytes": 4335,
+      "chars": 2607,
+      "path": "references/easyeda-ecosystem.md",
+      "reasons": [
+        "SKILL.md L22 涉及差分/等长/批量取证先读生态工具"
+      ],
+      "role": "required",
+      "sha256": "41484f627219a7e80230db95b39c9eb628f828361ef859631ffba223cd250c3b",
+      "topics": [
+        "tool.easyeda-ecosystem"
+      ]
+    },
+    {
+      "bytes": 21854,
+      "chars": 12386,
+      "path": "references/eda-execution.md",
+      "reasons": [
+        "实际读写 EDA 工程需要先读执行与回读契约"
+      ],
+      "role": "required",
+      "sha256": "fcf17aa5767ea3e20499608a57c15e0bfd371ad0dbcdb1ee08d173d7da81147d",
+      "topics": [
+        "pcb.execution"
+      ]
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "reasons": [
+        "SKILL.md L134: 证据与工程记录；事实状态不可伪造"
+      ],
+      "role": "required",
+      "sha256": "a62dd20adb5548889910c7eb516e9a7e28da91aac91871978686d3019fa0c8ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    },
+    {
+      "bytes": 5645,
+      "chars": 2561,
+      "path": "references/jlc-pcb-rules.md",
+      "reasons": [
+        "explicit required edge in references/pcb-routing-strategy.md:5"
+      ],
+      "role": "required",
+      "sha256": "aded240dab8bef7769bc5613b9e3c11866850601097d322325276005b4617600",
+      "topics": [
+        "dependency"
+      ]
+    },
+    {
+      "bytes": 33459,
+      "chars": 22888,
+      "path": "references/pcb-execution.md",
+      "reasons": [
+        "SKILL.md L165/L296 真实 PCB 布局布线任务入口"
+      ],
+      "role": "required",
+      "sha256": "ebfc7e630fdb728fb75124c38edc406524aea8d1b2b6744bd578f62c82c07862",
+      "topics": [
+        "pcb.execution"
+      ]
+    },
+    {
+      "bytes": 6812,
+      "chars": 2778,
+      "path": "references/pcb-placement-details.md",
+      "reasons": [
+        "SKILL.md L172 PCB 机械约束/关键回路/敏感区与放件"
+      ],
+      "role": "required",
+      "sha256": "6eebb14455f121a609c6a508445575bb42224769783c54ea128a6dde6198e8d9",
+      "topics": [
+        "pcb.core"
+      ]
+    },
+    {
+      "bytes": 7074,
+      "chars": 2850,
+      "path": "references/pcb-routing-details.md",
+      "reasons": [
+        "explicit required edge in references/pcb-routing-strategy.md:5"
+      ],
+      "role": "required",
+      "sha256": "c515997a7377f434e7b69485ff03ffd639466083c0b2d264eb69bfbbe079cabe",
+      "topics": [
+        "dependency"
+      ]
+    },
+    {
+      "bytes": 28042,
+      "chars": 14586,
+      "path": "references/pcb-routing-strategy.md",
+      "reasons": [
+        "SKILL.md L200 层数/电源地/布线计划/连接器逃逸"
+      ],
+      "role": "required",
+      "sha256": "00061e3e5f29a051d362623f223380a322c336729b90d7c079caab2dbb902c81",
+      "topics": [
+        "route.strategy"
+      ]
+    },
+    {
+      "bytes": 6487,
+      "chars": 2817,
+      "path": "references/pcb.md",
+      "reasons": [
+        "SKILL.md L164 导入/布局/布线/铜皮/制造输出读 PCB 工程习惯"
+      ],
+      "role": "required",
+      "sha256": "deaf094fddc7f4f5f55bc0b860d0928710c59ee432ffffd3ac4b00bc57484e87",
+      "topics": [
+        "pcb.core"
+      ]
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "reasons": [
+        "SKILL.md L134: 内部设计始终遵循工程工作流"
+      ],
+      "role": "required",
+      "sha256": "184dd2773ca82908dcc37f9ad89e66d49d1006dad2d7e31bfda8d26ae94140ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    }
+  ],
+  "schema": "skill-knowledge-audit/v1",
+  "scope_hash": "bcc90dcf1036406712eabcd4aead35dacc9c89523cfd5f3ee090e44cb7e99456",
+  "selected": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "role": "required"
+    },
+    {
+      "bytes": 6373,
+      "chars": 4017,
+      "path": "assets/routing-plan.md",
+      "role": "required"
+    },
+    {
+      "bytes": 3218,
+      "chars": 1258,
+      "path": "references/analog-rf-highspeed.md",
+      "role": "required"
+    },
+    {
+      "bytes": 10166,
+      "chars": 5502,
+      "path": "references/design-experience.md",
+      "role": "required"
+    },
+    {
+      "bytes": 47186,
+      "chars": 30667,
+      "path": "references/design-gates.md",
+      "role": "required"
+    },
+    {
+      "bytes": 2620,
+      "chars": 1105,
+      "path": "references/digital.md",
+      "role": "required"
+    },
+    {
+      "bytes": 4335,
+      "chars": 2607,
+      "path": "references/easyeda-ecosystem.md",
+      "role": "required"
+    },
+    {
+      "bytes": 21854,
+      "chars": 12386,
+      "path": "references/eda-execution.md",
+      "role": "required"
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "role": "required"
+    },
+    {
+      "bytes": 5645,
+      "chars": 2561,
+      "path": "references/jlc-pcb-rules.md",
+      "role": "required"
+    },
+    {
+      "bytes": 33459,
+      "chars": 22888,
+      "path": "references/pcb-execution.md",
+      "role": "required"
+    },
+    {
+      "bytes": 6812,
+      "chars": 2778,
+      "path": "references/pcb-placement-details.md",
+      "role": "required"
+    },
+    {
+      "bytes": 7074,
+      "chars": 2850,
+      "path": "references/pcb-routing-details.md",
+      "role": "required"
+    },
+    {
+      "bytes": 28042,
+      "chars": 14586,
+      "path": "references/pcb-routing-strategy.md",
+      "role": "required"
+    },
+    {
+      "bytes": 6487,
+      "chars": 2817,
+      "path": "references/pcb.md",
+      "role": "required"
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "role": "required"
+    }
+  ],
+  "source": {
+    "duration_ms": 1713.534,
+    "git_sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
+    "scanned_at": "2026-10-27T16:31:25+00:00"
+  },
+  "stage": "route",
+  "task_type": "pcb_route",
+  "tool": {
+    "name": "skill_knowledge_audit",
+    "version": "0.1.0"
+  },
+  "unknown": [
+    {
+      "code": "cache_invalidated",
+      "reason": "rules version changed for references/schematic-authoring.md"
+    }
+  ]
+}

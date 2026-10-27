@@ -1,0 +1,276 @@
+{
+  "active_topics": [
+    "protect.workflow-evidence",
+    "bom.only"
+  ],
+  "budget": {
+    "files": 5,
+    "limit_chars": 1200,
+    "required_chars": 35319,
+    "selected_bytes": 74321,
+    "selected_chars": 35319,
+    "status": "incomplete",
+    "token_estimate": {
+      "high": 29433,
+      "low": 17660,
+      "method": "character-class band: ~0.5-0.83 token/char overall (CJK roughly 0.6-1.0 token/char, ASCII roughly 0.25-0.5); not a tokenizer and not an exact Chinese token count"
+    },
+    "uncovered": [
+      {
+        "chars": 24988,
+        "path": "SKILL.md",
+        "reason": "required document exceeds remaining budget; not trimmed"
+      },
+      {
+        "chars": 917,
+        "path": "references/evidence.md",
+        "reason": "required document exceeds remaining budget; not trimmed"
+      },
+      {
+        "chars": 4078,
+        "path": "references/lcsc-sourcing.md",
+        "reason": "required document exceeds remaining budget; not trimmed"
+      },
+      {
+        "chars": 3350,
+        "path": "references/part-selection.md",
+        "reason": "required document exceeds remaining budget; not trimmed"
+      },
+      {
+        "chars": 1986,
+        "path": "references/workflow.md",
+        "reason": "required document exceeds remaining budget; not trimmed"
+      }
+    ]
+  },
+  "cache": {
+    "catalog_version": "2026-10-27.1",
+    "hit": [],
+    "invalidated": [],
+    "scope_hash": "7e4c8736f189653903c212489629ca372a1bd1a08b2ff591853d0273281a17b8"
+  },
+  "catalog_version": "2026-10-27.1",
+  "conditional": [],
+  "dependencies": [],
+  "excluded": [
+    {
+      "path": "references/pcb-execution.md",
+      "reasons": [
+        {
+          "reason": "纯 BOM 不进入 PCB 执行",
+          "topic": "bom.only"
+        }
+      ]
+    },
+    {
+      "path": "references/pcb-routing-details.md",
+      "reasons": [
+        {
+          "reason": "纯 BOM 不要求布线与热设计细节",
+          "topic": "bom.only"
+        }
+      ]
+    },
+    {
+      "path": "references/pcb-routing-strategy.md",
+      "reasons": [
+        {
+          "reason": "纯 BOM 不要求布线策略",
+          "topic": "bom.only"
+        }
+      ]
+    },
+    {
+      "path": "references/schematic-authoring.md",
+      "reasons": [
+        {
+          "reason": "纯 BOM 不重画原理图",
+          "topic": "bom.only"
+        }
+      ]
+    },
+    {
+      "path": "references/schematic-layout-engine.md",
+      "reasons": [
+        {
+          "reason": "纯 BOM 不涉及排版",
+          "topic": "bom.only"
+        }
+      ]
+    },
+    {
+      "path": "references/thermal/topic.md",
+      "reasons": [
+        {
+          "reason": "纯 BOM 不要求完整热设计文档",
+          "topic": "bom.only"
+        }
+      ]
+    }
+  ],
+  "execution_contract": {
+    "actions": [
+      "offline_analysis",
+      "read_skill"
+    ],
+    "approval_gates": [],
+    "autonomous_authorized": true,
+    "decisions_required": [],
+    "eda_required": false,
+    "writes_allowed": false
+  },
+  "intent": {
+    "already_read": [],
+    "autonomous_authorized": true,
+    "budget_chars": 1200,
+    "constraints": [
+      "不碰工程与 EDA",
+      "不联网；未查到的库存、价格、MOQ 一律写待查",
+      "用户自己手焊，不按嘉立创 SMT 工厂贴片准备",
+      "不使用未经核实的商城现货结论"
+    ],
+    "deliverables": [
+      "bom"
+    ],
+    "eda_available": false,
+    "notes": "用户原话：“不用再画图，就把这块板子的料给我配齐，做成能直接发给采购的清单：型号、C 号、每板用量、还差什么。别碰我的工程，也先别下单。商城有没有货、多少钱，你查到就写来源和时间，没查到就写待查，别瞎编。我这边上下文很小，别一次灌一堆文档。”",
+    "schema": "ska-intent/v1",
+    "stage": "delivery",
+    "task_type": "bom_only",
+    "user_decision_pending": []
+  },
+  "kind": "plan",
+  "next_stage_entry": [],
+  "not_proof": "本结果只证明静态文档结构与引用关系，不证明 Skill 被客户端加载、模型遵守规则、阅读行为改变或硬件设计正确。 计划只说明建议阅读哪些文件，不证明 AI 已加载或遵守；未运行模型，也未调用 EDA。",
+  "ok": false,
+  "optional": [],
+  "protected_constraints": [
+    {
+      "id": "evidence_truthfulness",
+      "reason": "事实状态与证据分级必须适用"
+    },
+    {
+      "id": "target_binding",
+      "reason": "结论必须绑定对象、版本和范围"
+    }
+  ],
+  "required": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "reasons": [
+        "skill entry point; every task starts here"
+      ],
+      "role": "required",
+      "sha256": "2fe4feb283f0904f25f44ce2425c6c3766a0f8b6db45fcbd9d4e2542ff9e486d",
+      "topics": [
+        "always"
+      ]
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "reasons": [
+        "SKILL.md L134: 证据与工程记录；事实状态不可伪造"
+      ],
+      "role": "required",
+      "sha256": "a62dd20adb5548889910c7eb516e9a7e28da91aac91871978686d3019fa0c8ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    },
+    {
+      "bytes": 9789,
+      "chars": 4078,
+      "path": "references/lcsc-sourcing.md",
+      "reasons": [
+        "SKILL.md L90/L146 商城选型与配单任务入口"
+      ],
+      "role": "required",
+      "sha256": "25f4b306a9e53a197936cb93520d9961cc1aa3dd8c57e13cc818271dfc3714c4",
+      "topics": [
+        "bom.only"
+      ]
+    },
+    {
+      "bytes": 6696,
+      "chars": 3350,
+      "path": "references/part-selection.md",
+      "reasons": [
+        "SKILL.md L145 选型/换料/BOM 任务入口"
+      ],
+      "role": "required",
+      "sha256": "443596e8298fded75f1c59e08f7c65cd60410506e3943ac7283ffb027eaba13f",
+      "topics": [
+        "bom.only"
+      ]
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "reasons": [
+        "SKILL.md L134: 内部设计始终遵循工程工作流"
+      ],
+      "role": "required",
+      "sha256": "184dd2773ca82908dcc37f9ad89e66d49d1006dad2d7e31bfda8d26ae94140ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    }
+  ],
+  "schema": "skill-knowledge-audit/v1",
+  "scope_hash": "7e4c8736f189653903c212489629ca372a1bd1a08b2ff591853d0273281a17b8",
+  "selected": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "role": "required"
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "role": "required"
+    },
+    {
+      "bytes": 9789,
+      "chars": 4078,
+      "path": "references/lcsc-sourcing.md",
+      "role": "required"
+    },
+    {
+      "bytes": 6696,
+      "chars": 3350,
+      "path": "references/part-selection.md",
+      "role": "required"
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "role": "required"
+    }
+  ],
+  "source": {
+    "duration_ms": 1457.37,
+    "git_sha": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
+    "scanned_at": "2026-10-27T16:31:31+00:00"
+  },
+  "stage": "delivery",
+  "task_type": "bom_only",
+  "tool": {
+    "name": "skill_knowledge_audit",
+    "version": "0.1.0"
+  },
+  "unknown": [
+    {
+      "code": "budget_insufficient",
+      "reason": "required documents need 35319 chars but budget is 1200"
+    }
+  ]
+}
