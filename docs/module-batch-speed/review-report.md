@@ -28,10 +28,12 @@ benchmark-result.json 为本机实际运行三轮的离线编译统计。双按�
 
 ## 本轮实际检查
 
-- 新入口定向：最终16 tests OK（含新增 scope 负例）。
+- 新入口定向：最终18 tests OK（含新增 scope 负例）。
 - 原执行器回归：49 tests OK。
-- 全仓：1272 tests OK / skipped=1；此运行包含当时15个新测试，随后仅增加1个 scope 负例并通过最终16项定向，不将其冒记为全仓1273项。
+- 全仓：1272 tests OK / skipped=1；此运行包含当时15个新测试，随后增加 scope 与 nested base 负例并通过最终18项定向，不将其冒记为更新后的全仓测试数。
 - skill_selftest.py：5 PASS / 0 FAIL。
 - git diff --check：通过。
 - benchmark_module_batch.py --runs 3 与 pcb_apply_plan.py --help 均从真实入口运行。
 - FakeRunner 的一次 apply、journal/save/reload/dump/diff 成功及失败路径是模拟验证，未证明真机通过。
+
+第二次独立复核发现 nested base 别名冲突仍可被优先字段掩盖，已逐字段核验并拒绝未知字段，补充2个负例。

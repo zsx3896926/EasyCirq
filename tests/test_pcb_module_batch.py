@@ -150,6 +150,16 @@ class ModuleBatchTests(unittest.TestCase):
         self.change(0, lambda m: m.update(scope={'designators': refs, 'locked': refs}))
         self.assertEqual(self.run_batch()[0], 2)
 
+    def test_nested_base_alias_conflict(self):
+        base = self.h.plan['base_semantic_sha256']
+        self.change(0, lambda m: m.update(base={'semantic_sha256': base, 'sha256': 'stale'}))
+        self.assertEqual(self.run_batch()[0], 2)
+
+    def test_nested_base_unknown_requirement(self):
+        base = self.h.plan['base_semantic_sha256']
+        self.change(0, lambda m: m.update(base={'semantic_sha256': base, 'revision': 'other'}))
+        self.assertEqual(self.run_batch()[0], 2)
+
     def test_missing_base_refuses(self):
         self.change(0, lambda m: m.pop('base_semantic_sha256'))
         self.assertEqual(self.run_batch()[0], 2)

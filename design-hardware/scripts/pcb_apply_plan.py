@@ -209,6 +209,14 @@ def merge_module_plans(paths, board, project, doc):
         for field in ('base_semantic_sha256', 'base_sha256', 'baseSemanticSha256'):
             if field in module and module[field] != base:
                 raise PlanInputError('module batch: conflicting base hash')
+        nested = module.get('base')
+        if isinstance(nested, dict):
+            keys = {'semantic_sha256', 'semanticSha256', 'sha256',
+                    'base_semantic_sha256', 'baseSha256'}
+            if not nested or set(nested) - keys or any(v != base for v in nested.values()):
+                raise PlanInputError('module batch: conflicting or unsupported base object')
+        elif nested is not None and nested != base:
+            raise PlanInputError('module batch: conflicting base declaration')
         if _plan_base_sha(module) != base:
             raise PlanInputError('module batch: stale or missing base in %s' % path)
         if module.get('project', project) != project or module.get('doc', doc) != doc or module.get('document', doc) != doc:
