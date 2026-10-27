@@ -1,0 +1,393 @@
+{
+  "schema": "procurement-input/v1",
+  "project": {
+    "name": "unit-test",
+    "bom_revision": "rev-T",
+    "board_quantity": 2,
+    "allow_zero_boards": false
+  },
+  "evaluation": {
+    "as_of": "2026-10-27T12:00:00+08:00",
+    "freshness": {
+      "max_age_hours": "24"
+    }
+  },
+  "policies": {
+    "attrition": {
+      "ratio": "0",
+      "fixed": 0,
+      "minimum": 0
+    },
+    "overbuy": {
+      "max_extra_qty": 50,
+      "max_extra_ratio": "0.20",
+      "allow_price_break_extra": true
+    },
+    "order_policy": "moq_mpq",
+    "substitution": {
+      "enabled": true,
+      "allowed_grades": [
+        "exact_identity",
+        "evidence_supported_candidate"
+      ]
+    },
+    "channel_preference": [
+      "lcsc_mall"
+    ]
+  },
+  "bom": {
+    "revision": "rev-T",
+    "source": "synthetic test fixture",
+    "rows": [
+      {
+        "line_id": "L1",
+        "designators": [
+          "R1"
+        ],
+        "qty_per_board": 1,
+        "mpn": "ORIG-R",
+        "manufacturer": "YAGEO",
+        "supply_ids": {
+          "lcsc": "C9005"
+        },
+        "footprint": "R0603",
+        "package": "R0603",
+        "assembly": "smt",
+        "dnp": false,
+        "consigned_qty": 0,
+        "consigned_qualified": true,
+        "params": {},
+        "unknown_fields": [],
+        "identity_source": {
+          "kind": "synthetic_fixture",
+          "source": "test fixture"
+        }
+      }
+    ]
+  },
+  "demand": {
+    "channels": [
+      "lcsc_mall"
+    ],
+    "assembly_strategy": "smt",
+    "hand_solder_allowed": false,
+    "self_supply_allowed": false,
+    "budget": {
+      "amount": "100.00",
+      "currency": "CNY"
+    },
+    "channel_preference": [
+      "lcsc_mall"
+    ]
+  },
+  "supply_snapshots": [
+    {
+      "snapshot_id": "SNAP-H4",
+      "source": "synthetic_fixture",
+      "declared_truth": "synthetic_not_live",
+      "captured_at": "2026-10-27T08:00:00+08:00",
+      "valid_until": "2026-10-28T08:00:00+08:00",
+      "channel": "lcsc_mall",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "notes": "test fixture"
+    }
+  ],
+  "offers": [
+    {
+      "offer_id": "OF-H4-ORIG",
+      "supplier": "TEST-SUPPLIER",
+      "channel": "lcsc_mall",
+      "product_id": "C9005",
+      "mpn": "ORIG-R",
+      "manufacturer": "YAGEO",
+      "footprint": "R0603",
+      "package": "R0603",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "price_mode": "total_tier",
+      "price_tiers": [
+        {
+          "min_qty": 1,
+          "unit_price": "0.0100"
+        }
+      ],
+      "price_unit": {
+        "kind": "per_each"
+      },
+      "moq": 1,
+      "mpq": 1,
+      "stock": {
+        "qty": 0,
+        "status": "out_of_stock",
+        "reserved": 0,
+        "independent": true,
+        "pool_id": "POOL-H4-ORIG"
+      },
+      "lead_time": {
+        "kind": "in_stock",
+        "days_min": 0,
+        "days_max": 0
+      },
+      "snapshot_id": "SNAP-H4"
+    },
+    {
+      "offer_id": "OF-H4-ALT",
+      "supplier": "TEST-SUPPLIER",
+      "channel": "lcsc_mall",
+      "product_id": "C9006",
+      "mpn": "ALT-R",
+      "manufacturer": "TEST-ALT",
+      "footprint": "R0603",
+      "package": "R0603",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "price_mode": "total_tier",
+      "price_tiers": [
+        {
+          "min_qty": 1,
+          "unit_price": "0.0200"
+        }
+      ],
+      "price_unit": {
+        "kind": "per_each"
+      },
+      "moq": 1,
+      "mpq": 1,
+      "stock": {
+        "qty": 100,
+        "status": "in_stock",
+        "reserved": 0,
+        "independent": true,
+        "pool_id": "POOL-OF-H4-ALT"
+      },
+      "lead_time": {
+        "kind": "in_stock",
+        "days_min": 0,
+        "days_max": 0
+      },
+      "snapshot_id": "SNAP-H4"
+    }
+  ],
+  "fees": [
+    {
+      "fee_id": "FEE-H4-SHIP",
+      "kind": "shipping",
+      "channel": "lcsc_mall",
+      "basis": "per_order",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "source": "test fixture",
+      "captured_at": "2026-10-27T08:00:00+08:00",
+      "amount": "0.00"
+    }
+  ],
+  "alternates": [
+    {
+      "alt_id": "ALT-H4",
+      "line_id": "L1",
+      "original": {
+        "mpn": "ORIG-R",
+        "manufacturer": "TEST-ORIG",
+        "footprint": "R0603",
+        "facts": {
+          "family": "passive",
+          "component_kind": "resistor",
+          "resistance_ohm": "10000",
+          "tolerance_percent": "1",
+          "voltage_rating_v": "75",
+          "power_rating_w": "0.1",
+          "package": "0603",
+          "temperature_min_c": "-55",
+          "temperature_max_c": "155"
+        },
+        "sources": {
+          "component_kind": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-component_kind.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "resistance_ohm": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-resistance_ohm.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "tolerance_percent": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-tolerance_percent.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "voltage_rating_v": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-voltage_rating_v.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "footprint": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-footprint.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_min_c": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-temperature_min_c.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_max_c": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-temperature_max_c.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "power_rating_w": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-power_rating_w.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          }
+        }
+      },
+      "candidate": {
+        "mpn": "ALT-R",
+        "manufacturer": "TEST-ALT",
+        "footprint": "R0603",
+        "facts": {
+          "family": "passive",
+          "component_kind": "resistor",
+          "resistance_ohm": "10000",
+          "tolerance_percent": "1",
+          "voltage_rating_v": "75",
+          "power_rating_w": "0.1",
+          "package": "0603",
+          "temperature_min_c": "-55",
+          "temperature_max_c": "155"
+        },
+        "sources": {
+          "component_kind": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-component_kind.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "resistance_ohm": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-resistance_ohm.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "tolerance_percent": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-tolerance_percent.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "voltage_rating_v": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-voltage_rating_v.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "footprint": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-footprint.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_min_c": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-temperature_min_c.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_max_c": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-temperature_max_c.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "power_rating_w": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-power_rating_w.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          }
+        }
+      },
+      "application": {
+        "requirements": {
+          "voltage_rating_v": "50",
+          "tolerance_percent": "1",
+          "temperature_min_c": "-40",
+          "temperature_max_c": "85"
+        }
+      },
+      "evidence": {
+        "footprint": {
+          "source": {
+            "document": "Synthetic resistor datasheet",
+            "revision": "synthetic-rev-1",
+            "page": "1",
+            "table": "test table",
+            "url": "https://example.invalid/synthetic-footprint.pdf",
+            "condition": "synthetic fixture",
+            "accessed_at": "2026-10-27"
+          },
+          "note": "synthetic same 0603 land pattern"
+        }
+      },
+      "approval_scope": "procurement_only"
+    }
+  ]
+}

@@ -1,0 +1,367 @@
+{
+  "schema": "procurement-input/v1",
+  "project": {
+    "name": "planner-basic-demo",
+    "bom_revision": "rev-A",
+    "board_quantity": 10,
+    "allow_zero_boards": false
+  },
+  "evaluation": {
+    "as_of": "2026-10-27T12:00:00+08:00",
+    "freshness": {
+      "max_age_hours": "24"
+    }
+  },
+  "policies": {
+    "attrition": {
+      "ratio": "0.1",
+      "fixed": 0,
+      "minimum": 0,
+      "order": ["ratio", "fixed", "minimum"]
+    },
+    "overbuy": {
+      "max_extra_qty": 50,
+      "max_extra_ratio": "0.20",
+      "allow_price_break_extra": true
+    },
+    "order_policy": "moq_mpq",
+    "substitution": {
+      "enabled": true,
+      "allowed_grades": ["exact_identity", "evidence_supported_candidate"]
+    },
+    "channel_preference": ["lcsc_mall", "jlc_smt"]
+  },
+  "bom": {
+    "revision": "rev-A",
+    "source": "synthetic planner fixture (not a real project BOM)",
+    "rows": [
+      {
+        "line_id": "L1",
+        "designators": ["R1", "R2"],
+        "qty_per_board": 2,
+        "mpn": "RES-10K-0603",
+        "manufacturer": "YAGEO",
+        "supply_ids": {"lcsc": "C1001"},
+        "footprint": "R0603",
+        "package": "0603",
+        "assembly": "smt",
+        "dnp": false,
+        "consigned_qty": 0,
+        "params": {"resistance_ohm": "10000", "tolerance_percent": "1"},
+        "unknown_fields": ["temperature_coefficient"],
+        "identity_source": {
+          "kind": "synthetic_fixture",
+          "source": "synthetic planner fixture"
+        }
+      },
+      {
+        "line_id": "L2",
+        "designators": ["C1", "C2", "C3"],
+        "qty_per_board": 3,
+        "mpn": "CAP-100N-0603",
+        "manufacturer": "MURATA",
+        "supply_ids": {"lcsc": "C1002"},
+        "footprint": "C0603",
+        "package": "0603",
+        "assembly": "smt",
+        "dnp": false,
+        "consigned_qty": 0,
+        "params": {"capacitance_f": "0.0000001", "voltage_rating_v": "50"},
+        "unknown_fields": ["dc_bias_derating"],
+        "identity_source": {
+          "kind": "synthetic_fixture",
+          "source": "synthetic planner fixture"
+        }
+      },
+      {
+        "line_id": "L3",
+        "designators": ["U1"],
+        "qty_per_board": 1,
+        "mpn": "COMP-1",
+        "manufacturer": "MICROCHIP",
+        "supply_ids": {"lcsc": "C1003"},
+        "footprint": "SOT-23-5",
+        "package": "SOT-23-5",
+        "assembly": "smt",
+        "dnp": false,
+        "consigned_qty": 0,
+        "params": {"function": "comparator", "output_type": "push_pull"},
+        "unknown_fields": [],
+        "identity_source": {
+          "kind": "synthetic_fixture",
+          "source": "synthetic planner fixture"
+        }
+      },
+      {
+        "line_id": "L4",
+        "designators": ["J1"],
+        "qty_per_board": 1,
+        "mpn": "CONN-2P-THT",
+        "manufacturer": "JST",
+        "supply_ids": {"lcsc": "C1004"},
+        "footprint": "CONN-TH-2P",
+        "package": "THT 2.54mm",
+        "assembly": "tht",
+        "dnp": false,
+        "consigned_qty": 0,
+        "params": {},
+        "unknown_fields": [],
+        "identity_source": {
+          "kind": "synthetic_fixture",
+          "source": "synthetic planner fixture"
+        }
+      },
+      {
+        "line_id": "L5",
+        "designators": ["R9"],
+        "qty_per_board": 1,
+        "mpn": "RES-0R-0603",
+        "manufacturer": "YAGEO",
+        "supply_ids": {"lcsc": "C1005"},
+        "footprint": "R0603",
+        "package": "0603",
+        "assembly": "dnp",
+        "dnp": true,
+        "consigned_qty": 0,
+        "params": {},
+        "unknown_fields": [],
+        "identity_source": {
+          "kind": "synthetic_fixture",
+          "source": "synthetic planner fixture"
+        }
+      }
+    ]
+  },
+  "demand": {
+    "channels": ["lcsc_mall", "jlc_smt"],
+    "assembly_strategy": "smt",
+    "hand_solder_allowed": false,
+    "self_supply_allowed": true,
+    "due_date": "2026-11-15T00:00:00+08:00",
+    "budget": {"amount": "500.00", "currency": "CNY"},
+    "split_policy": {
+      "allow_multi_offer": true,
+      "max_orders_per_line": 3,
+      "max_orders_total": null
+    },
+    "channel_preference": ["lcsc_mall", "jlc_smt"]
+  },
+  "supply_snapshots": [
+    {
+      "snapshot_id": "SNAP-MALL",
+      "source": "synthetic_fixture",
+      "declared_truth": "synthetic_not_live",
+      "captured_at": "2026-10-27T08:00:00+08:00",
+      "valid_until": "2026-10-28T08:00:00+08:00",
+      "channel": "lcsc_mall",
+      "sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+      "notes": "synthetic fixture, not a live quote"
+    },
+    {
+      "snapshot_id": "SNAP-SMT",
+      "source": "synthetic_fixture",
+      "declared_truth": "synthetic_not_live",
+      "captured_at": "2026-10-27T08:00:00+08:00",
+      "valid_until": "2026-10-28T08:00:00+08:00",
+      "channel": "jlc_smt",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "notes": "synthetic SMT fixture, not a live quote"
+    }
+  ],
+  "offers": [
+    {
+      "offer_id": "OF-R-MALL",
+      "supplier": "LCSC",
+      "channel": "lcsc_mall",
+      "product_id": "C1001",
+      "mpn": "RES-10K-0603",
+      "manufacturer": "YAGEO",
+      "footprint": "R0603",
+      "package": "0603",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "price_mode": "total_tier",
+      "price_tiers": [
+        {"min_qty": 1, "unit_price": "0.0100"},
+        {"min_qty": 100, "unit_price": "0.0080"}
+      ],
+      "price_unit": {"kind": "per_each"},
+      "moq": 1,
+      "mpq": 1,
+      "stock": {
+        "qty": 5000,
+        "status": "in_stock",
+        "reserved": 0,
+        "independent": true,
+        "pool_id": "POOL-MALL-C1001"
+      },
+      "lead_time": {"kind": "in_stock", "days_min": 0, "days_max": 0},
+      "snapshot_id": "SNAP-MALL"
+    },
+    {
+      "offer_id": "OF-C-MALL",
+      "supplier": "LCSC",
+      "channel": "lcsc_mall",
+      "product_id": "C1002",
+      "mpn": "CAP-100N-0603",
+      "manufacturer": "MURATA",
+      "footprint": "C0603",
+      "package": "0603",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "price_mode": "total_tier",
+      "price_tiers": [
+        {"min_qty": 1, "unit_price": "0.0200"},
+        {"min_qty": 200, "unit_price": "0.0150"}
+      ],
+      "price_unit": {"kind": "per_each"},
+      "moq": 1,
+      "mpq": 1,
+      "stock": {
+        "qty": 3000,
+        "status": "in_stock",
+        "reserved": 0,
+        "independent": true,
+        "pool_id": "POOL-MALL-C1002"
+      },
+      "lead_time": {"kind": "in_stock", "days_min": 0, "days_max": 0},
+      "snapshot_id": "SNAP-MALL"
+    },
+    {
+      "offer_id": "OF-COMP-MALL",
+      "supplier": "LCSC",
+      "channel": "lcsc_mall",
+      "product_id": "C1003",
+      "mpn": "COMP-1",
+      "manufacturer": "MICROCHIP",
+      "footprint": "SOT-23-5",
+      "package": "SOT-23-5",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "price_mode": "total_tier",
+      "price_tiers": [{"min_qty": 1, "unit_price": "2.5000"}],
+      "price_unit": {"kind": "per_each"},
+      "moq": 1,
+      "mpq": 1,
+      "stock": {
+        "qty": 100,
+        "status": "in_stock",
+        "reserved": 0,
+        "independent": true,
+        "pool_id": "POOL-MALL-C1003"
+      },
+      "lead_time": {"kind": "in_stock", "days_min": 0, "days_max": 0},
+      "snapshot_id": "SNAP-MALL"
+    },
+    {
+      "offer_id": "OF-J-MALL",
+      "supplier": "LCSC",
+      "channel": "lcsc_mall",
+      "product_id": "C1004",
+      "mpn": "CONN-2P-THT",
+      "manufacturer": "JST",
+      "footprint": "CONN-TH-2P",
+      "package": "THT 2.54mm",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "price_mode": "total_tier",
+      "price_tiers": [{"min_qty": 1, "unit_price": "0.5000"}],
+      "price_unit": {"kind": "per_each"},
+      "moq": 1,
+      "mpq": 1,
+      "stock": {
+        "qty": 1000,
+        "status": "in_stock",
+        "reserved": 0,
+        "independent": true,
+        "pool_id": "POOL-MALL-C1004"
+      },
+      "lead_time": {"kind": "in_stock", "days_min": 0, "days_max": 0},
+      "snapshot_id": "SNAP-MALL"
+    },
+    {
+      "offer_id": "OF-COMP-SMT",
+      "supplier": "JLC-SMT",
+      "channel": "jlc_smt",
+      "product_id": "SMT-COMP-1",
+      "mpn": "COMP-1",
+      "manufacturer": "MICROCHIP",
+      "footprint": "SOT-23-5",
+      "package": "SOT-23-5",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "price_mode": "total_tier",
+      "price_tiers": [{"min_qty": 1, "unit_price": "2.2000"}],
+      "price_unit": {"kind": "per_each"},
+      "moq": 1,
+      "mpq": 1,
+      "stock": {
+        "qty": 50,
+        "status": "in_stock",
+        "reserved": 0,
+        "independent": false,
+        "pool_id": "POOL-SMT"
+      },
+      "lead_time": {"kind": "in_stock", "days_min": 0, "days_max": 0},
+      "smt": {
+        "attachability": "extended",
+        "evidence": {
+          "source": "synthetic SMT fixture; not a live order page",
+          "captured_at": "2026-10-27T08:00:00+08:00",
+          "note": "synthetic attachability evidence"
+        },
+        "min_placement_qty": 5,
+        "feed_type": "tape"
+      },
+      "snapshot_id": "SNAP-SMT"
+    }
+  ],
+  "fees": [
+    {
+      "fee_id": "FEE-SHIP-MALL",
+      "kind": "shipping",
+      "channel": "lcsc_mall",
+      "basis": "per_order",
+      "amount": "8.00",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "waiver": {"min_subtotal": "99.00", "currency": "CNY"},
+      "source": "synthetic fixture",
+      "captured_at": "2026-10-27T08:00:00+08:00"
+    },
+    {
+      "fee_id": "FEE-SHIP-SMT",
+      "kind": "shipping",
+      "channel": "jlc_smt",
+      "basis": "per_order",
+      "amount": "0.00",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "source": "synthetic fixture (declared free)",
+      "captured_at": "2026-10-27T08:00:00+08:00"
+    },
+    {
+      "fee_id": "FEE-SMT-EXT",
+      "kind": "smt_extended_part_fee",
+      "channel": "jlc_smt",
+      "basis": "per_part",
+      "amount": "3.00",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "source": "synthetic fixture",
+      "captured_at": "2026-10-27T08:00:00+08:00"
+    },
+    {
+      "fee_id": "FEE-SMT-BOARD",
+      "kind": "smt_board_fee",
+      "channel": "jlc_smt",
+      "basis": "per_board",
+      "amount": "0.00",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "source": "synthetic fixture (declared zero)",
+      "captured_at": "2026-10-27T08:00:00+08:00"
+    }
+  ],
+  "alternates": []
+}
