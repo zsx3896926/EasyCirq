@@ -8,10 +8,10 @@ from pathlib import Path
 
 from .helpers import SKILL_ROOT, load_json, write
 
-from skill_knowledge_audit.common import AuditError
-from skill_knowledge_audit.plan import (build_plan, load_catalog, normalise_intent,
+from ska_impl.common import AuditError
+from ska_impl.plan import (build_plan, load_catalog, normalise_intent,
                                        write_cache)
-from skill_knowledge_audit.scan import scan_root
+from ska_impl.scan import scan_root
 
 CATALOG = load_catalog(Path(__file__).resolve().parents[2] / "design-hardware"
                        / "scripts" / "skill_knowledge_audit" / "catalog"

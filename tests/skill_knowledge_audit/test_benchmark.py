@@ -8,9 +8,9 @@ from pathlib import Path
 
 from .helpers import BENCH, SKILL_ROOT, load_json, write
 
-from skill_knowledge_audit.bench import (load_scenarios, evaluate_plan,
+from ska_impl.bench import (load_scenarios, evaluate_plan,
                                         run_benchmark, run_transforms)
-from skill_knowledge_audit.plan import build_plan, load_catalog
+from ska_impl.plan import build_plan, load_catalog
 
 PACKAGE = BENCH.parents[1] / "design-hardware" / "scripts" / "skill_knowledge_audit"
 CATALOG = load_catalog(PACKAGE / "catalog" / "topics.json")

@@ -4,7 +4,7 @@ import unittest
 
 from .helpers import SKILL_ROOT, tree_hashes
 
-from skill_knowledge_audit.scan import scan_root
+from ska_impl.scan import scan_root
 
 
 class RealBaseline(unittest.TestCase):

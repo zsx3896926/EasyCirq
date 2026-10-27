@@ -8,8 +8,8 @@ from pathlib import Path
 
 from .helpers import BENCH, REPO, SKILL_ROOT, load_json, write
 
-from skill_knowledge_audit.common import AuditError
-from skill_knowledge_audit.rules import (
+from ska_impl.common import AuditError
+from ska_impl.rules import (
     CLASSIFICATIONS, _classification, _verify_fixture_quotes, load_fixtures,
     load_rules_catalog, run_rules, verify_catalog_evidence,
 )

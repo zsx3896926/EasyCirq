@@ -8,8 +8,8 @@ from pathlib import Path
 
 from .helpers import (make_corpus, strip_volatile, tree_hashes, write)
 
-from skill_knowledge_audit.common import AuditError
-from skill_knowledge_audit.scan import load_ignore_file, scan_root
+from ska_impl.common import AuditError
+from ska_impl.scan import load_ignore_file, scan_root
 
 
 class ScanStructure(unittest.TestCase):
