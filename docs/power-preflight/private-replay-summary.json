@@ -1,0 +1,44 @@
+[
+  {
+    "input": "board23_10mil_trunk.json",
+    "exit": 2,
+    "verdict": "incomplete",
+    "input_sha256": "acde80fb5afde41fc1d6ee44eb7d7352b6aa191225648c0f2b9d6bc140d78070",
+    "coverage_complete": false,
+    "segments": 1,
+    "scenario_current_a": 4.0
+  },
+  {
+    "input": "board23_final.json",
+    "exit": 2,
+    "verdict": "incomplete",
+    "input_sha256": "9a3b089059c0c2284e7c6492a53d1479f712c6eb6cc2e6b1d31d9e2e45023cb4",
+    "coverage_complete": false,
+    "segments": 1,
+    "scenario_current_a": 4.0
+  },
+  {
+    "input": "board23_final corridor",
+    "exit": 2,
+    "status": "incomplete",
+    "coverage_complete": false,
+    "width_candidates": [
+      {
+        "width": 60.0,
+        "feasible_in_partial_model": true
+      },
+      {
+        "width": 50.0,
+        "feasible_in_partial_model": true
+      },
+      {
+        "width": 40.0,
+        "feasible_in_partial_model": true
+      },
+      {
+        "width": 30.0,
+        "feasible_in_partial_model": true
+      }
+    ]
+  }
+]

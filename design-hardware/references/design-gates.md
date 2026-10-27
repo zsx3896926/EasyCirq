@@ -180,6 +180,12 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 
 **真实反例：** `power-pour` 创建 4 个铺铜（GND L1、GND L2、+5V L1、VREF L1）；创建回执 priority 1/1/2 且 `priorityVerified:false`，重载后 `pour-list` 读到 GND L1 priority=3，回执与回读不一致。铺铜后首次 DRC 30（3 Clearance + 27 Connection），但之前没有 DRC 基线，27 条断连与铺铜的因果只是时间顺序推断，不能写成已证明。随后 `route-short --route-power`：73 routes（GND 45、+5V 21、VREF 7；2 条 VREF 失败）、drawn 71、vias 14，GND 走线 20 mil（不是细线）；再跑 DRC 93（71 Clearance + 22 Connection，其中 net=GND 的 Clearance 68 条）。在铺铜板上用 `--route-power` 把电源/地布成 track，是 G4 未过就布线的典型后果。
 
+### 电源主干的条件复核
+
+涉及载流主干设计或线宽整改时，补充 [电源路径与走廊预检](power-routing-preflight.md) 的源/负载、电流依据、逐段瓶颈、压降和热模型适用条件。未达目标的加宽计划、未知跨度或未覆盖铺铜不能当通过；需要改道或给出有依据的替代方案。项目温升目标与几何阈值显式记录，不统一规定10K或150mil。
+
+这是G4/G5的工程复核项，当前并未增加gate_check.py/pcb_gate.py自动检查ID；其现有PASS不意味着此项已核验。模型覆盖不全时通过适当原生连接证据与工程分析补足，不伪造脚本PASS。
+
 ## 10. G5_routing 布线完成
 
 **目的：** 证明布线、铺铜和丝印整理后的板子可回读、可复现，关键连接有逐网证明；防止把“DRC 数字在变”当成布线完成。

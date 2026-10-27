@@ -1,12 +1,12 @@
-# Current handoff — 2026-10-27 — module batch speed
+# Current handoff — 2026-10-27 — power preflight integration
 
-- 目标：把独立 PCB 放置模块合批，减少重复读取和检查点；用户已授权实现、验证、推送。
-- worktree：C:/Users/jlc/work/hds-module-batch-speed；分支 feat/module-batch-speed；基线 e872752（PR #24/#27/#28 已合入）。
-- 本轮文件：pcb_apply_plan.py、test_pcb_module_batch.py、benchmark_module_batch.py、Skill 入口及 execution-efficiency.md；报告 docs/module-batch-speed/。
-- 已实现：同快照模块合并、整体检查、一次 apply、保留原 journal/save/reload/dump/diff，模块输入来源与组装计划追踪。
-- 已知边界：只支持放置，不自动生成新电路/原理图/重布；已有完整 --plan 本就可批量。本轮是分散模块的便捷合批路径。
-- 离线基准：真实冻结双按键 LED 输入，有序修改指令一致，读取/标准化12→1，计划检查点各12→1；不代表现场或整板提速。
-- 真机：BLOCKED，sandbox 拒绝回环 socket；未启动 daemon、未修改工程或已安装客户端。
-- 验证结果见 docs/module-batch-speed/review-report.md；提交与 PR 以当前 git/远端回读为准。
-- 历史 round11 报告见 docs/round11/review-report.md；本轮未重述历史全部证据。
-- 下一动作：在可连接且窗口归属明确的客户端执行同范围真实 A/B，记录完整质量与总墙钟；旧编译负载不可直接当作电气改板计划执行。
+- 用户目标：修复并集成上传r23离线补丁，优化Skill、测试并推GitHub；不操作EDA工程。
+- worktree C:/Users/jlc/work/hds-power-preflight；分支feat/power-preflight-hardening；基线7325169（#29已合并）。
+- 新入口design-hardware/scripts/power_routing.py audit/widen/corridor；实现scripts/power_preflight/，使用说明references/power-routing-preflight.md。
+- 已修复：分层拓扑/跨度、矩形内穿铜、椭圆保守处理、规则来源、partial gain假成功、NaN、入口覆盖不一致、同时加宽track-track及取整漏报、旋转尺寸二次变换、无守卫shell输出。
+- 文档接现有G4/G5工程复核，不宣称已新增自动gate检查ID。
+- 报告docs/power-preflight/review-report.md；原始ZIP/完整用户板保留本机Downloads及work/pcb-patch-review，公开仅最小合成样例与精简摘要。
+- 全仓1308 tests无失败（skip1），最终定向34 OK，selftest5 PASS；后续提交/SHA/PR以实际git与远端为准。
+- 未执行：真实EDA、DRC、保存重开、制造、热/音频实测；无工程或客户端修改。
+- 待完成：GitHub PR和CI；之后在有归属的隔离EDA工程做受保护改板验证，任何incomplete不得当作工程通过。
+- 本分支无进行中EDA操作；未决工具调用与运行测试以会话/进程实际状态为准。
