@@ -77,6 +77,8 @@ python tools/offline_suite.py        # 仓库既有离线套件（不得因本�
 
 判定：
 
+- 本机实测：34 个标准场景 + 5 个 holdout + 2 个组合案例全部通过（41/41），必需类别覆盖 30/30；专属测试 172 个通过；仓库 `tools/offline_suite.py` 1783 tests / 0 failures，`skill_selftest.py` 5 PASS。
+
 - 每个场景真实启动 `python -m bringup_planner validate|plan|explain|evaluate` 子进程；记录实际退出码、计划哈希、DAG order/cycles、步骤 ID/状态、gap/unknown/equipment_gap codes、评估 verdict。
 - `expected.json` 为手工推导后冻结的预期（输入 SHA 一并冻结）；实际不一致即失败，不允许按场景 ID 改判。
 - 仪器/上电/烧录/串口/JTAG/EDA：全部 **NOT RUN**；基准中不得出现真实测量记录。

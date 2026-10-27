@@ -11,7 +11,7 @@
 | 分支 | `feat/parallel-bringup-planner` |
 | 基线 main | `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（`test: make Chinese fixture portable across Windows locales`） |
 | 基线 remote | `origin/main` 同一 SHA（开工时核对） |
-| 提交/PR | 本分支独立提交、推送独立 PR；**不合并、不发布、不安装客户端** |
+| 提交/PR | 首个实现提交 `c61d62c`；独立 PR https://github.com/zsx3896926/hardware-design-skill/pull/39 ；**不合并、不发布、不安装客户端** |
 
 ## 允许路径（本任务只改这些）
 

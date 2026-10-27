@@ -186,4 +186,7 @@ tests/bringup_planner/
 
 - 分支：`feat/parallel-bringup-planner`
 - 基线：`main@9a951ed`（见第 2 节）
-- 提交/PR 链接：见 PR 描述（本任务只推送独立 PR，不合并、不发布、不安装客户端）。
+- 首个实现提交：`c61d62c`（172 files，44685 insertions；之后仅文档/PR 描述补充）
+- 独立 PR：https://github.com/zsx3896926/hardware-design-skill/pull/39 （只推送，不合并、不发布、不安装客户端）
+- PR 描述副本：`docs/parallel-bringup-planner/pr-description.md`
+- 最终 HEAD 以 PR 页面为准（本报告所在提交之后的文档提交不改变实现）。
