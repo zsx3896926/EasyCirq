@@ -3,6 +3,7 @@
 > 本文件只属于任务 C，不修改 `docs/handoff-current.md` 或其它共享交接。
 > 基线：`9a951edc21481dc3ae91460acc11aa3e08a7be8a`（main）。
 > 分支：`feat/parallel-delivery-audit`；worktree：`hds-da-worktree`（不在原 Windows 路径假设内）。
+PR：[#40](https://github.com/zsx3896926/hardware-design-skill/pull/40)（基线提交 `173745a`；不合并/不发布）。
 
 ## 1. 状态
 

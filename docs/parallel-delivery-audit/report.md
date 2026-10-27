@@ -11,8 +11,8 @@
 | 开工 main SHA | `9a951edc21481dc3ae91460acc11aa3e08a7be8a` |
 | 分支 | `feat/parallel-delivery-audit` |
 | worktree | `hds-da-worktree`（与任务 A/B 隔离） |
-| 提交 | 见 PR；本分支只包含允许路径 |
-| PR | 独立 PR（不合并、不发布、不安装到用户客户端） |
+| 提交 | `173745a026a6113416aaa35b730d76c0bd1dfbc2`（本报告后续文档更新提交见 PR） |
+| PR | [#40](https://github.com/zsx3896926/hardware-design-skill/pull/40)（不合并、不发布、不安装到用户客户端） |
 | 真实 EDA 调用 | **0 次**（未调用 EDA/Connector/daemon/旧执行器） |
 | 网络 | 仅查询/下载官方格式资料与 Apache-2.0 样本（见来源登记）；不抓商城、不连生产系统 |
 
