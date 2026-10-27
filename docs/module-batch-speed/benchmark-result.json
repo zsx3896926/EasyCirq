@@ -1,0 +1,45 @@
+{
+  "schema": "module-batch-benchmark/v1",
+  "mode": "offline-compilation",
+  "real_eda_calls": 0,
+  "live_validation": "NOT RUN",
+  "fixture_sha256": "7dc9a010968b03549de2ef632bf75bdc47180d7c20d818479ab2551f03dced65",
+  "runs": 3,
+  "components": 12,
+  "scope": "placement preparation only; no routing, gate or physical validation",
+  "per_object": {
+    "dump_file_loads": 12,
+    "board_normalizations": 12,
+    "save_steps": 12,
+    "reload_steps": 12,
+    "dump_steps": 12,
+    "compiled_mutations": 12,
+    "preparation_seconds": [
+      0.20088270000997,
+      0.20320440000796225,
+      0.19633340000291355
+    ],
+    "median_preparation_seconds": 0.20088270000997
+  },
+  "batch": {
+    "dump_file_loads": 1,
+    "board_normalizations": 1,
+    "save_steps": 1,
+    "reload_steps": 1,
+    "dump_steps": 1,
+    "compiled_mutations": 12,
+    "preparation_seconds": [
+      0.0219574999937322,
+      0.023422099999152124,
+      0.021313200006261468
+    ],
+    "median_preparation_seconds": 0.0219574999937322
+  },
+  "same_ordered_mutations": true,
+  "fixture": "design-hardware/cases/dual-button-led-night-20261027/negative-direct-move/board-accepted-baseline.json",
+  "environment": {
+    "python": "3.13",
+    "platform": "Windows",
+    "source_base": "e872752"
+  }
+}
