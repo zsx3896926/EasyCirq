@@ -1,0 +1,41 @@
+{
+  "schema": "hds-routing-evidence/v1",
+  "unit": "mil",
+  "capture": {
+    "project_id": "fixture",
+    "document_id": "pcb1",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "paths": [
+    {
+      "id": "p",
+      "net": "A",
+      "from": "U1.p",
+      "to": "J1.p",
+      "layer": 1,
+      "width": 10,
+      "geometry": "polyline",
+      "topology": "ordered",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          1000,
+          0
+        ]
+      ],
+      "length_coverage": "complete"
+    }
+  ],
+  "pairs": [],
+  "tune": {
+    "path_id": "p",
+    "target_length": 1040,
+    "tolerance": 0.001,
+    "max_amplitude": 100,
+    "clearance": 6,
+    "side": "right"
+  }
+}

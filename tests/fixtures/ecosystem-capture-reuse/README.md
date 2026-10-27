@@ -1,0 +1,1 @@
+Synthetic contract fixtures, not a real EDA export or hardware test. Shapes follow pinned upstream batch collector and CBB catalog interfaces. Source/target module snapshots are the local explicit hds-module-selection/v1 contract, not upstream CBB raw files.

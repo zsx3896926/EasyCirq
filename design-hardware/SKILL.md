@@ -17,6 +17,11 @@ description: 配合AI Agent把自然语言idea推进为可验证使用的硬件�
 只在用户要求升级且没有进行中的工程操作时更新；不在画板中途替换技能，不运行无人确认自动安装。
 升级后重新加载或新建会话并核对 `.version`；保留客户项目和本地修改，仅本 Skill 更新成功不代表 EDA 执行器已更新。用户要求整套更新时，分别执行本 Skill 的 update 与执行器的 update-agent --idle，逐组件回读；后者委托官方更新器、保留备份，不自动重启 daemon 或导入 Connector，不宣称跨组件原子回退。
 
+## EasyEDA 生态工具接入
+
+涉及差分/等长、批量工程取证、模块复用、原生文件格式、离线预览或 API 查询时，先读 [生态工具集成](references/easyeda-ecosystem.md)，使用 `scripts/ecosystem.py` 的 `registry` 与 `run` 入口。
+优先复用已有执行器和唯一写入者；生态入口只做离线导入、审核、预览或文档查询，不另开桥接器。外部插件输出须绑定工程/文档/快照并显式记录缺测；不把补充采集日志伪造成可写 `before_dump`。差分等长的几何通过不等于阻抗、回流或原生 DRC 通过。格式有效不等于宿主可导入；只读查看器不是官方导图。
+
 ## 0. 保留工程能力，补上产品落地层
 
 保留本Skill已有的原理图/PCB、选型核算、工程审查、商城配单、制造交付与新手带做能力。完整idea任务再加载 [想法到实物](references/idea-to-product.md)；涉及程序、烧录、手机/网页端或样机启动时加载 [程序与样机联调](references/firmware-bringup.md)；按 [功能验收](references/product-acceptance.md) 判断目标是否实现。

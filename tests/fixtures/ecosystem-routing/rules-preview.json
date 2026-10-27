@@ -1,0 +1,18 @@
+{
+  "unit": "mil",
+  "nets": [
+    "USB_DP",
+    "USB_DM"
+  ],
+  "rules": [
+    {
+      "net": "USB_DP",
+      "role": "differential",
+      "width": 8,
+      "gap": 6,
+      "clearance": 6,
+      "mate": "USB_DM",
+      "target_ohms": 90
+    }
+  ]
+}

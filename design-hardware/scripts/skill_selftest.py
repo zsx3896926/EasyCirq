@@ -54,6 +54,14 @@ STATUS_NAME_FILES = ["references/design-gates.md", "scripts/gate_check.py"]
 CASE_REL = "cases/temp-alarm-2026-10-24"
 
 REQUIRED_FILES = [
+    "references/easyeda-ecosystem.md",
+    "assets/ecosystem/registry.json",
+    "scripts/ecosystem.py",
+    "scripts/ecosystem_docs.py",
+    "scripts/ecosystem_routing.py",
+    "scripts/ecosystem_capture.py",
+    "scripts/ecosystem_reuse.py",
+    "scripts/ecosystem_files.py",
     "SKILL.md",
     "references/design-gates.md",
     "references/pcb-routing-strategy.md",

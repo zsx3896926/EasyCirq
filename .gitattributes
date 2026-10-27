@@ -38,3 +38,6 @@ tests/test_skill_update.py text eol=lf
 
 design-hardware/scripts/companion_update.py text eol=lf
 tests/test_companion_update.py text eol=lf
+
+# Preserve upstream schema/license bytes for recorded provenance hashes.
+design-hardware/vendor/easyeda-format/** -text

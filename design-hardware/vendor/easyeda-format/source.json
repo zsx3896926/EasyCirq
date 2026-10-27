@@ -1,0 +1,15 @@
+{
+  "repository": "https://github.com/easyeda/easyeda-format-skill",
+  "commit": "4fcab1747d47b2ae01d7f93a485859970c5cf933",
+  "license": "MIT",
+  "scope": "six unchanged upstream schemas, not entire validator",
+  "files": {
+    "LICENSE": "109e7580487164b52b930b90058c9a02d253694045953eeb1e00c04affa74925",
+    "schemas/t-doc-head.json": "2323da140ad2e035921c7b1cf30126f59a4a48d30c0392865320b0f50473e3d1",
+    "schemas/t-pcb-line.json": "2c3de84b9847b31f2a5556ca86e5942ed811447eb6e284ea81ae659e172d6037",
+    "schemas/t-pcb-via.json": "16c8850026157c0e8e0c6abb933ee94dadc4bbe1f13a9e24589161b66eaea8dd",
+    "schemas/t-sch-line.json": "e25a25969e27bd4e452de67f68ca51be6c210c84d70cc3f889b1574e416ac8c3",
+    "schemas/t-sch-text.json": "13c8cc74a44366415bb2c2260cd5345f483addbec8469a1e59550385af79b353",
+    "schemas/t-wire.json": "59004caff57bc4b37dfe99d056badb07028323c8660e3ed01803a0f8329cc299"
+  }
+}

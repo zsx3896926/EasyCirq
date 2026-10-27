@@ -1,0 +1,65 @@
+{
+  "schema": "hds-module-selection/v1",
+  "module_uuid": "mod1",
+  "library_uuid": "lib1",
+  "project_uuid": "p1",
+  "document_uuid": "s1",
+  "coordinate_unit": "sch_raw",
+  "origin": [
+    0,
+    0
+  ],
+  "components": [
+    {
+      "designator": "C1",
+      "primitiveId": "id-C1",
+      "uniqueId": "c1",
+      "componentUuid": "device1",
+      "footprintUuid": "fp1",
+      "symbolUuid": "sym1",
+      "x": 20,
+      "y": 10,
+      "rotation": 0,
+      "locked": false,
+      "pins": [
+        {
+          "number": "1",
+          "net": "VDD"
+        },
+        {
+          "number": "2",
+          "net": "GND"
+        }
+      ]
+    }
+  ],
+  "coverage": {
+    "wires": "complete",
+    "labels": "complete",
+    "flags": "complete"
+  },
+  "wires": [
+    {
+      "primitiveId": "wire1",
+      "net": "VDD",
+      "pin_refs": [
+        {
+          "designator": "C1",
+          "pin": "1"
+        }
+      ]
+    }
+  ],
+  "labels": [
+    {
+      "primitiveId": "label1",
+      "net": "VDD"
+    }
+  ],
+  "flags": [
+    {
+      "primitiveId": "gnd1",
+      "net": "GND"
+    }
+  ]
+}

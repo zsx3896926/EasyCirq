@@ -1,0 +1,18 @@
+{
+  "catalog_sha256": "2e637bf90cb7fa19495906fcb8d028f651f7e2ca7ed94d5055a0f0626cd9e61c",
+  "source_sha256": "d6b52d644544849a2479d6ae6c951aa8e010139a32754366e7be0c22a16aa7f7",
+  "target_sha256": "8e63628a4da98d446789176ec8ea275a315465d4a4bdecfd9b38aa761ee30d8c",
+  "library_uuid": "lib1",
+  "module_uuid": "mod1",
+  "component_map": {
+    "C1": "C11"
+  },
+  "network_map": {
+    "VDD": "+3V3",
+    "GND": "GND"
+  },
+  "origin": [
+    100,
+    100
+  ]
+}

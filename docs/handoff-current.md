@@ -1,35 +1,25 @@
-# Current handoff: PR #26 integration
+# v1.0 ecosystem integration handoff
 
 Date: 2026-10-27 (Asia/Shanghai).
 
-## Scope and repository
-
-- Task: integrate the outstanding PR #26 gate fixes before v1.0 stabilization.
-- Worktree: C:/Users/jlc/work/hds-pr26-final, branch integrate/pr26-final.
-- Candidate merges original PR head 4549780 with main 095b9e1.
-- PR target is now main; remote head branch fix/check-evidence-review-r11.
-- Validation and evidence: [pr26-integration.md](pr26-integration.md).
-- Final GitHub merge state is authoritative; merge only the exact CI-tested head.
-
-## Completed
-
-- Rejected/ambiguous DFM evidence, placement spoofing and malformed frame order
-  fixes integrated; independent focused review found no blocker.
-- Full suite: 1659 tests OK (skipped=1); selftest 5 PASS; offline benchmark 9/9;
-  simulated feedback benchmark 16/16; real CLI subprocess refusal checked.
-- PR #30 merged as 095b9e1; PR #32 merged as 4fd4007; PR #31 already in main.
-- The factual merge status previously recorded only in f940b92 is carried here.
-
-## Boundaries and next action
-
-- No EDA operations, client replacement, version bump, tag or Release this round.
-- Skill source remains 0.9.4. Begin v1.0 release preparation after PR #26 merge.
-- Feedback final-code live write remains BLOCKED by unavailable Connector;
-  round-2 writes used pre-tightening code. Do not claim final-code live PASS.
-- Compose apply stopped at strict gate; subsequent save/reload/identity checks
-  were independent recovery, not full playbook or strict PASS.
-- No owned EDA window or daemon/process to retain. Do not take other sessions'
-  windows. Detailed limits: [round12/report.md](round12/report.md),
-  [round12-real-machine.md](round12-real-machine.md).
-- Pending action: push candidate, wait for exact-head CI and merge PR #26.
-  After merge, verify the GitHub PR/main state before doing any further work.
+- User expanded v1.0 scope to absorb the eight reviewed EasyEDA ecosystem sources.
+- Worktree C:/Users/jlc/work/hds-release-v1, local and remote branch release/v1.0.0;
+  PR #33. Previous remote head 81c7f57; consult GitHub for current head/status.
+- Source version 1.0.0, Apache-2.0. Copied upstream schemas retain MIT license.
+- Unified entry: design-hardware/scripts/ecosystem.py registry / run.
+- Report: docs/releases/ecosystem-integration.md; machine acceptance:
+  docs/releases/ecosystem-acceptance.json. Each subsystem has its own reference.
+- Validated: 123 focused tests; full guarded suite 1782 OK (skipped=1), 100 imports
+  clean, zero blocked attempts; selftest 5 PASS; benchmarks 9/9 and 16/16;
+  unified offline CLI smoke 12/12. Independent cross-review failures fixed.
+- Local guarded suite uses short temp root C:/Users/jlc/work/hds-test-temp because
+  the managed sandbox's default Windows temp paths are too deep for updater tests.
+- Package rebuild and installed-archive smoke must use this final candidate;
+  previous package success does not cover the new ecosystem code.
+- New live EDA calls, external plugin installation, actual viewer rendering,
+  hardware/manufacturing: NOT RUN. No shared GUI/window ownership requested.
+- Existing feedback final-code live write BLOCKED; compose strict/full-playbook
+  success remains unverified. Refer to docs/round12/report.md and round12-real-machine.md.
+- No long-running EDA/daemon process owned. No tag, merge or Release authorized
+  by this integration step. Next: push exact tested tree to #33, wait for CI,
+  then separately complete formal publication and online asset checks.

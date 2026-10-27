@@ -1,0 +1,17 @@
+Hardware Design Skill (智构)
+Copyright (c) 2026 zsx3896926
+
+Project-owned content is licensed under Apache License 2.0 starting with v1.0.0.
+Earlier releases retain their original licenses. Third-party material retains
+its attribution and applicable license. This project is independently maintained.
+
+EasyEDA ecosystem integration:
+- Selected easyeda/easyeda-format-skill schemas are redistributed under their
+  original MIT license, retained in design-hardware/vendor/easyeda-format/LICENSE.
+- Independent adapters and algorithm implementations reference EasyEDA projects
+  eext-quick-equal-length, eext-design-rule-generator, eext-batch-data-export,
+  eext-ai-reuse-block-placement and easyeda-viewer (Apache-2.0 upstream).
+- API/CLI documentation is indexed from user-provided local sources, not bundled.
+Pinned revisions, source paths and implementation limits are recorded in
+  design-hardware/assets/ecosystem/registry.json and references/ecosystem-*.md.
+These integrations do not change the licenses of third-party work.
