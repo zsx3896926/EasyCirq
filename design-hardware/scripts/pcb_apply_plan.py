@@ -1010,6 +1010,8 @@ def compile_playbook(ops, scope, args, timeout_sec):
                            os.path.abspath(args.plan),
             'project': args.project,
             'doc': args.doc,
+            **({'window': args.window} if getattr(args, 'window', None)
+               else {}),
         },
         'defaults': {'timeoutSec': timeout_sec, 'retry': 0,
                      'continueOnError': False},
@@ -1348,6 +1350,8 @@ def main(argv=None):
     parser.add_argument('--constraints', help='compiled constraints JSON (optional)')
     parser.add_argument('--project', required=True)
     parser.add_argument('--doc', required=True)
+    parser.add_argument('--window',
+                        help='EasyEDA window ID; pins apply and reload routing')
     parser.add_argument('--out-dump', required=True,
                         help='fresh dump after save/reload')
     parser.add_argument('--report', help='write the apply/verify report here')
@@ -1566,6 +1570,8 @@ def main(argv=None):
             dump_before_stat['sha256'] = None
     apply_args = ['apply', playbook_path, '--project', args.project,
                   '--doc', args.doc]
+    if args.window:
+        apply_args.extend(['--window', args.window])
     if args.journal:
         apply_args.extend(['--journal', journal_path])
     if args.yes:

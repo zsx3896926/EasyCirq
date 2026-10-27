@@ -588,6 +588,20 @@ class BeforeDumpGateTests(unittest.TestCase):
         self.refuse(plan, 'unbound_before_dump',
                     S.FAILURE_PRECONDITION_REFUSED)
 
+    def test_before_dump_for_another_window_is_refused(self):
+        self.contract['target']['window_id'] = 'win-1'
+        plan = place_plan(observation=self.observation)
+        plan['before_dump']['capture']['windowId'] = 'win-2'
+        self.refuse(plan, 'before_dump_target_mismatch',
+                    S.FAILURE_TARGET_MISMATCH)
+
+    def test_before_dump_without_a_window_is_unbound_when_targeted(self):
+        self.contract['target']['window_id'] = 'win-1'
+        plan = place_plan(observation=self.observation)
+        plan['before_dump']['capture'].pop('windowId', None)
+        self.refuse(plan, 'unbound_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED)
+
 
 # ---------------------------------------------------------------------------
 # preview
@@ -1041,6 +1055,27 @@ class ApplyTests(unittest.TestCase):
             self.assertEqual(recovery['status'], 'complete')
             self.assertEqual(recovery['pending'], [])
             self.assertTrue(recovery['safe_to_retry'])
+
+    def test_pcb_apply_pins_window_project_and_document_uuid(self):
+        observation = make_observation()
+        observation['pcb']['capture']['windowId'] = 'win-1'
+        contract = make_contract(observation)
+        contract['target']['window_id'] = 'win-1'
+        after_board = copy.deepcopy(observation['pcb'])
+        after_board['components'][0]['x'] = 120
+        after_board['semanticSha256'] = 'after-base'
+        runner = PcbFakeRunner(after_board)
+        with tempfile.TemporaryDirectory() as directory:
+            result = D.apply_scoped(
+                contract, place_plan(observation=observation),
+                runner=runner, write=True,
+                journal_path=os.path.join(directory, 'apply.jsonl'))
+            self.assertEqual(result['status'], 'verified', result.get(
+                'failure'))
+            argv = runner.calls[0]['args']
+            self.assertEqual(argv[argv.index('--window') + 1], 'win-1')
+            self.assertEqual(argv[argv.index('--project') + 1], 'proj')
+            self.assertEqual(argv[argv.index('--doc') + 1], 'pcb-doc')
 
     def test_apply_requires_fresh_observation(self):
         observation = make_observation()

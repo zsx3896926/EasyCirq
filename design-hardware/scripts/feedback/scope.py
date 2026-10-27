@@ -1779,6 +1779,34 @@ def _before_dump_refusals(contract, plan, observation):
             'before_dump.capture does not identify both its project and '
             'document; the dump cannot be bound to the target'))
 
+    target_window = _text(target.get('window_id'))
+    observed_window = _text(_first(
+        observation.get('host') or {}, 'window_id', 'windowId'))
+    dump_window = _text(_first(capture, 'windowId', 'window_id'))
+    if target_window and observed_window and target_window != observed_window:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'the observation was captured from window %s, the contract targets '
+            'window %s' % (observed_window, target_window),
+            expected=target_window, actual=observed_window))
+    if target_window and dump_window and dump_window != target_window:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'before_dump was captured from window %s, the contract targets '
+            'window %s' % (dump_window, target_window),
+            expected=target_window, actual=dump_window))
+    if observed_window and dump_window and dump_window != observed_window:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'before_dump was captured from window %s, the fresh observation '
+            'is window %s' % (dump_window, observed_window),
+            expected=observed_window, actual=dump_window))
+    if target_window and not dump_window:
+        refusals.append(_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'unbound_before_dump',
+            'before_dump.capture does not identify its window; the dump '
+            'cannot be bound to the target window'))
+
     dump_hash = _text(_first(dump, 'semanticSha256', 'semantic_sha256'))
     observed_hash = _text(_first(pcb, 'semanticSha256', 'semantic_sha256'))
     if not dump_hash or not observed_hash:
@@ -4254,7 +4282,6 @@ def _apply_schematic(contract, plan, validation, fresh, document, *,
 
 def _apply_pcb(contract, plan, validation, fresh, document, *,
                runner, easyeda, window, journal_path, timeout):
-    del window
     pcb_apply_plan, pcb_cli = _pcb_modules()
     included = [action for action in validation['actions']
                 if action.get('already_applied') is not True]
@@ -4301,10 +4328,11 @@ def _apply_pcb(contract, plan, validation, fresh, document, *,
             plan_copy = copy.deepcopy(plan_copy)
             plan_copy['base'] = dict(plan_copy['base'])
             plan_copy['base']['semantic_sha256'] = board_hash
-    project = _text(((fresh or {}).get('project') or {}).get('name')) or \
-        _text((contract.get('target') or {}).get('project_uuid'))
-    document_name = _text((document or {}).get('name')) or \
-        _text((document or {}).get('uuid'))
+    target = contract.get('target') or {}
+    project = _text(target.get('project_uuid')) or \
+        _text(((fresh or {}).get('project') or {}).get('name'))
+    document_ref = _document_ref(document)
+    window_ref = _text(window) or _text(target.get('window_id'))
     journal_is_user = journal_path is not None
     temp_dir = tempfile.mkdtemp(prefix='hds-scope-apply-')
     if journal_path is None:
@@ -4341,13 +4369,15 @@ def _apply_pcb(contract, plan, validation, fresh, document, *,
         argv = ['--dump', dump_path,
                 '--plan', plan_path,
                 '--project', project or 'project',
-                '--doc', document_name or 'PCB1',
+                '--doc', document_ref or 'PCB1',
                 '--out-dump', out_dump,
                 '--report', report_path,
                 '--playbook-out', playbook_path,
                 '--journal', journal_path,
                 '--timeout', str(timeout),
                 '--apply']
+        if window_ref:
+            argv.extend(['--window', window_ref])
         plan_options = plan_copy if isinstance(plan_copy, dict) else {}
         if plan_options.get('partial', True) is not False:
             argv.append('--partial')
