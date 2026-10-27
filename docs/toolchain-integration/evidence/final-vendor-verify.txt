@@ -1,0 +1,64 @@
+{
+  "upstreamTag": "v1.15.0",
+  "upstreamCommit": "d93d3dd94edd1890557c5b3a5f61756a8d5fef83",
+  "generated": {
+    "runtime": 996,
+    "connector": 120
+  },
+  "checkedIn": {
+    "runtime": 1008,
+    "connector": 121
+  },
+  "missing": [],
+  "unexpected": [],
+  "allowedAdded": [
+    "runtime/internal/app/cmd_capabilities.go",
+    "runtime/internal/app/cmd_capabilities_delivery_test.go",
+    "runtime/internal/app/cmd_connector.go",
+    "runtime/internal/app/cmd_doctor.go",
+    "runtime/internal/app/cmd_doctor_test.go",
+    "runtime/internal/app/sch_compose_source_guard_pins_test.go",
+    "runtime/internal/app/testdata/pcb-group-move/board.json",
+    "runtime/internal/app/testdata/pcb-group-move/layout.json",
+    "runtime/internal/app/testdata/pcb-group-move/README.md",
+    "runtime/internal/app/testdata/README.md",
+    "runtime/internal/protocol/wire.go",
+    "runtime/PROVENANCE.md",
+    "connector/NOTICE"
+  ],
+  "allowedModified": [
+    "runtime/internal/app/app.go",
+    "runtime/internal/app/app_test.go",
+    "runtime/internal/app/cmd_daemon.go",
+    "runtime/internal/app/cmd_sch_marker_geom.go",
+    "runtime/internal/app/cmd_sch_marker_geom_orientation_test.go",
+    "runtime/internal/app/cmd_sch_sheet.go",
+    "runtime/internal/app/cmd_update_test.go",
+    "runtime/internal/app/enrich_script.go",
+    "runtime/internal/app/enrich_script_test.go",
+    "runtime/internal/app/health_checks.go",
+    "runtime/internal/app/pcb_group_move_scenario_test.go",
+    "runtime/internal/app/pcb_netclass.go",
+    "runtime/internal/app/pcb_rules.go",
+    "runtime/internal/app/pcb_score_protection.go",
+    "runtime/internal/app/ruler_consistency_test.go",
+    "runtime/internal/app/sch_compose_source_guard.go",
+    "runtime/internal/app/skill_asset.go",
+    "runtime/internal/app/version_gate_local_test.go",
+    "runtime/internal/blocks/blocks_test.go",
+    "runtime/internal/blocks/plug.go",
+    "runtime/internal/daemon/schematic_pin_repair.go",
+    "runtime/internal/daemon/schematic_pin_repair_test.go",
+    "runtime/internal/selfupdate/cli.go",
+    "runtime/internal/selfupdate/cli_test.go",
+    "runtime/internal/selfupdate/selfupdate.go",
+    "runtime/internal/selfupdate/selfupdate_test.go",
+    "runtime/internal/version/version.go",
+    "connector/.edaignore",
+    "connector/CHANGELOG.md",
+    "connector/package-lock.json",
+    "connector/README.md"
+  ],
+  "unexpectedModified": []
+}
+VENDOR-VERIFY: PASS

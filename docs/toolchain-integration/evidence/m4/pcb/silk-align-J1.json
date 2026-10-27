@@ -1,0 +1,78 @@
+{
+  "id": "req_580",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:37:16.2058658Z",
+  "ok": true,
+  "result": {
+    "aligned": 1,
+    "appliedIds": [
+      "60d61c60973e7a4ae15"
+    ],
+    "details": [
+      {
+        "clean": true,
+        "designator": "J1",
+        "ok": true,
+        "primitiveId": "60d61c60973e7a4ae15",
+        "x": -930.7779999999999,
+        "y": 136.71200000000005
+      }
+    ],
+    "geometryScope": "rendered component envelopes, measured pads and text; outline bounding-box containment",
+    "normalization": [
+      {
+        "designator": "J1",
+        "ok": true,
+        "primitiveId": "60d61c60973e7a4ae15",
+        "requested": {
+          "layer": 3,
+          "mirror": false,
+          "reverse": false,
+          "rotation": 0
+        }
+      }
+    ],
+    "partial": false,
+    "skipped": 0,
+    "skippedDetails": [],
+    "unresolved": 0,
+    "unresolvedDetails": [],
+    "verification": [
+      {
+        "bbox": {
+          "maxX": -894.678,
+          "maxY": 181.71200000000005,
+          "minX": -930.778,
+          "minY": 136.71200000000005
+        },
+        "clean": true,
+        "conflicts": [],
+        "designator": "J1",
+        "primitiveId": "60d61c60973e7a4ae15"
+      }
+    ],
+    "verified": true,
+    "warned": 0
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 495,
+  "seqAbandoned": 0
+}

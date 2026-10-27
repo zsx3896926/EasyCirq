@@ -134,12 +134,12 @@ python tools/zhigou_acceptance.py --stage m4 --m4-device R1 --project-dir <设�
 | 板框 | **PASS**：outline-fit margin 100 mil → 1883×802 mil | `evidence/m4/pcb/outline-after.json` |
 | 布线（官方路由器） | **PASS**：6/6 网、36 track、0 via、987 ms | `evidence/m4/pcb/pcb-autoroute.json` |
 | GND 铺铜（双层） | **PASS**：TOP+BOTTOM GND pour，verified | `evidence/m4/pcb/pour-*.json` |
-| PCB DRC（新鲜回读） | **PASS：0 违规** | `evidence/m4/pcb/pcb-drc-poured.json` |
+| PCB DRC（新鲜回读） | **PASS：0 违规**（改板与 DFM 修复后复跑仍 0） | `evidence/m4/pcb/pcb-drc-poured.json`、`pcb-drc-dfm.json` |
 | DFM 检查 | 0 error / **5 warning**（J1 丝印旋转、+5V/VIN 未铺、2 条电源线偏细） | `evidence/m4/pcb/pcb-check.json` |
 | 局部改板 D1 +2mm | **PASS**：仅 D1 pose 变化，范围外变化 0；断线→重布线→重铺铜→DRC 0 违规 | `evidence/m4/pcb/local-edit-summary.json`、`edit-drc-3.json` |
 | 原生归档导出（.epro2） | **PASS**：46,838 B，zip 3 entries，CRC OK | `evidence/m4/pcb/project-export.json` |
-| PCB 截图 | **BLOCKED**：EDA 标签页在后台，工具拒绝截过期画布（PRECONDITION_REFUSED），需前台重跑 | `evidence/m4/pcb/pcb-snapshot.json` |
-| 恢复演练（导入 .epro2 到新工程） | **NOT RUN** | — |
+| PCB 截图 | **BLOCKED**：两次尝试（含窗口激活）后 EDA 标签页仍 hidden，工具拒绝截过期画布（PRECONDITION_REFUSED）；需用户手动把 PCB 标签页切前台 | `evidence/m4/pcb/pcb-snapshot.json`、`pcb-snapshot2.json` |
+| 恢复演练（导入 .epro2 到新工程） | **PASS**：新工程读回 7 网一致 / 9 footprint pose 一致 / 板框一致 / DRC 0 违规 | `evidence/m4/restore/restore-summary.json` |
 | PCB 3D 导出 | **NOT RUN** | — |
 | Gerber/钻孔/CPL | **gui_only**（无 typed action），未尝试未宣称 | `evidence/m1/capabilities.json` |
 | 功能分区框 | **未画**（`sch check` WARN missing-partition） | `evidence/m4/sch-check.json` |

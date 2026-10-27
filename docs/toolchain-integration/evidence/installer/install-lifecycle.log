@@ -1422,3 +1422,48 @@
 {"at": "2026-10-27T22:41:45", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou-lifecycle r43tm2yz\\install"}
 {"at": "2026-10-27T22:41:45", "event": "selfcheck_degraded_classified"}
 {"at": "2026-10-27T22:41:58", "event": "real_bundle_install", "version": "0.2.1", "self_check": "ok", "verdict": "ok", "files": 561}
+{"at": "2026-10-27T23:38:55", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle r6nxm4yq\\install"}
+{"at": "2026-10-27T23:38:55", "event": "clean_install_verified", "files": 11}
+{"at": "2026-10-27T23:38:55", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle dlymof9l\\install"}
+{"at": "2026-10-27T23:38:55", "event": "install", "version": "0.1.0", "status": "already_current", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle dlymof9l\\install"}
+{"at": "2026-10-27T23:38:55", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 689zl1rg\\install"}
+{"at": "2026-10-27T23:38:55", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 689zl1rg\\install"}
+{"at": "2026-10-27T23:38:55", "event": "corrupt_bundle_rejected", "kind": "duplicate"}
+{"at": "2026-10-27T23:38:55", "event": "corrupt_bundle_rejected", "kind": "no-manifest"}
+{"at": "2026-10-27T23:38:55", "event": "corrupt_bundle_rejected", "kind": "traversal"}
+{"at": "2026-10-27T23:38:55", "event": "corrupt_bundle_rejected", "kind": "payload"}
+{"at": "2026-10-27T23:38:55", "event": "corrupt_bundle_rejected", "kind": "truncate"}
+{"at": "2026-10-27T23:38:55", "event": "corrupt_bundle_rejected", "kind": "inventory"}
+{"at": "2026-10-27T23:38:55", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle orydljzd\\install"}
+{"at": "2026-10-27T23:38:56", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle orydljzd\\install"}
+{"at": "2026-10-27T23:38:56", "event": "legacy_dirs_untouched", "dirs": ["claude", "codex", "agents"]}
+{"at": "2026-10-27T23:38:56", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle uf4dy165\\install"}
+{"at": "2026-10-27T23:38:56", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle ziqqn99r\\install"}
+{"at": "2026-10-27T23:38:56", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle edthc6vs\\install"}
+{"at": "2026-10-27T23:38:56", "event": "selfcheck_degraded_classified"}
+{"at": "2026-10-27T23:39:09", "event": "real_bundle_install", "version": "0.2.1", "self_check": "ok", "verdict": "ok", "files": 561}
+{"at": "2026-10-27T23:39:10", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 7d17mmyg\\install"}
+{"at": "2026-10-27T23:39:10", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle u9ms5tfu\\install"}
+{"at": "2026-10-27T23:39:10", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 3exvuiwn\\install"}
+{"at": "2026-10-27T23:39:10", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 3exvuiwn\\install"}
+{"at": "2026-10-27T23:39:10", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle ewift5g5\\安装 目录\\智构 工具链"}
+{"at": "2026-10-27T23:39:10", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle ewift5g5\\安装 目录\\智构 工具链"}
+{"at": "2026-10-27T23:39:10", "event": "unicode_space_paths", "install": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle ewift5g5\\安装 目录\\智构 工具链"}
+{"at": "2026-10-27T23:39:10", "event": "long_deep_path", "length": 114}
+{"at": "2026-10-27T23:39:10", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle okpcgbco\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 6e5ga2qt\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 7ey4lpmf\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 7ey4lpmf\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.2.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle yug_ver9\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle amh715fg\\install"}
+{"at": "2026-10-27T23:39:11", "event": "failed_upgrade_preserved_previous", "version": "0.1.0"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle c6zir8ha\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle c6zir8ha\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.3.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle c6zir8ha\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle tmxs1ul3\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle tmxs1ul3\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle w2_xr1sg\\install"}
+{"at": "2026-10-27T23:39:11", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle s5z7t_oc\\install"}
+{"at": "2026-10-27T23:39:12", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle s5z7t_oc\\install"}
+{"at": "2026-10-27T23:39:12", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 6n6gpgi2\\install"}
+{"at": "2026-10-27T23:39:12", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-offline-64lr_cuk\\zhigou-lifecycle 6n6gpgi2\\install"}

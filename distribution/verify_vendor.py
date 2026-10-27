@@ -37,6 +37,12 @@ EXPECTED_ADDED = {
     "runtime/internal/app/cmd_doctor_test.go",
     "runtime/PROVENANCE.md",
     "connector/NOTICE",
+    "runtime/internal/app/cmd_capabilities_delivery_test.go",  # our own new file
+    "runtime/internal/app/sch_compose_source_guard_pins_test.go",  # our own new file
+    "runtime/internal/app/testdata/pcb-group-move/board.json",  # our own new file
+    "runtime/internal/app/testdata/pcb-group-move/layout.json",  # our own new file
+    "runtime/internal/app/testdata/pcb-group-move/README.md",  # our own new file
+    "runtime/internal/app/testdata/README.md",  # our own new file
 }
 
 EXPECTED_MODIFIED = {
@@ -76,6 +82,7 @@ EXPECTED_MODIFIED = {
     "connector/.edaignore",  # intentional: rebrand / asset resolution
     "connector/CHANGELOG.md",  # intentional: rebrand / asset resolution
     "connector/README.md",  # intentional: rebrand / asset resolution
+    "runtime/internal/app/sch_compose_source_guard.go",  # intentional: pagePrimitives additive-class compatibility
 }
 
 TEXT_SUFFIXES = {".go", ".mod", ".sum", ".ts", ".mts", ".js", ".mjs", ".json", ".md", ".yml", ".yaml"}

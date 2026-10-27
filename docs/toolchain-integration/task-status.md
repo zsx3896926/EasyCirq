@@ -3,7 +3,7 @@
 > 本文件是"智构自有 EDA 工具链整合开发"的**当前真源**：基线、实施清单、阶段状态、
 > 关键路径与依赖、阻塞。每阶段结束更新；历史细节留在 `docs/toolchain-integration/evidence/`。
 >
-> 最后更新：2026-10-27 22:45（**M1 完成、M2 真机通过**：自有连接器已在 EasyEDA Pro 4.1.78 内握手，读写—保存—重开—回读链实测通过；M3/M4 继续）
+> 最后更新：2026-10-27 23:45（**M0–M4 核心链真机完成**：连接/读写/保存重开/DRC/导出/归档恢复/局部改板全部实测；剩余 PCB 截图受后台标签页阻塞：自有连接器已在 EasyEDA Pro 4.1.78 内握手，读写—保存—重开—回读链实测通过；M3/M4 继续）
 
 ## 0. 基线（现场核对结果，非任务书推测）
 
@@ -33,7 +33,7 @@
 | **M2** 独立工程 读取→移动一件→保存→重开→回读 | **PASS（真机）** | 独立新工程 `zhigou-integrated-dual-button-led-20261027`（P1），R1/D1 放置 → D1 +40 raw 移动 → save(saved:true) → close/reopen → 新鲜回读 D1 x=640、R1 不变、primitiveId/device 身份不变、pin-net 不变 | `evidence/m2/summary.json` 及同目录原始 JSON/日志 |
 | **M3** SCH/PCB 读写、批量、检查导出 | **PASS（原理图/PCB 同步/检查/导出真机）** | 9 器件双通道 LED 小板原理图：7 网全部逐脚一致、0 浮空脚、原生 DRC 0 违规、BOM/SVG/PNG 导出；PCB 同步 9 footprint 并经保存+重开+新鲜回读；PCB DRC 因未布局布线而失败（如实记录） | `evidence/m4/summary.json` 及同目录原始响应 |
 | **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **核心链 PASS**：安装/升级/回退 PASS；原理图+PCB 同步、布局 100/100、官方布线 6/6、双层 GND 铺铜、新鲜 PCB DRC **0 违规**、**局部改板 2mm PASS（范围外变化 0）**；**原生归档恢复演练、制造文件导出、DFM 剩余 5 警告 = NOT RUN/未清** | `distribution/`、`tools/zhigou_board_*.py`、`tools/zhigou_pcb_layout.py`、`tools/zhigou_pcb_edit_2mm.py` | `evidence/installer/`、`evidence/m4/`、`evidence/m4/pcb/` |
-| **M5** 独立审查/反例/最终候选重跑/提交 PR | **进行中** | 本文件 + PR | 见 §5 |
+| **M5** 独立审查/反例/最终候选重跑/提交 PR | **大部分完成**：最终候选重跑（vendoring PASS、离线 1838 tests OK、Go 关键测试 OK）；反例证据（无活动文档拒绝写入、后台标签页拒绝截图、未知 pagePrimitives 类拒绝、错工程/无连接器拒绝）；PR #36 已建 | `evidence/final-vendor-verify.txt`、`evidence/final-offline-suite.log` | PCB 截图与恢复后的 3D/Gerber 导出仍缺 |
 
 ## 2. 已完成的关键实现
 
@@ -134,6 +134,22 @@
 | 上游基线 | easyeda-agent `v1.15.0` / `d93d3dd`（MIT） |
 | 协议 | `zhigou-agent` / wire `v1` |
 | 来源复现 | `distribution/verify_vendor.py` → **PASS**（`evidence/m1/vendor-verify.txt`；白名单外文件零差异） |
+
+## 7. 恢复演练与最终回归（2026-10-27 23:45）
+
+**原生归档恢复演练（PASS）**：`.epro2`（46,838 B，CRC OK）→ `project import` 到独立新工程
+`zhigou-dual-button-led-restore-20261027`（uuid `4f9db8f9…`，verified）→ 打开后回读：
+原理图 **7 网与源完全一致、0 浮空**；PCB **9 footprint、poses 与归档时完全一致、板框一致、PCB DRC 0 违规**。
+证据：`evidence/m4/restore/restore-summary.json`。
+
+**DFM 收口**：J1 位号旋转已修（`silkFlipped=0`）；剩余 2 条 `dangling-end`（局部改板重布线残留）
+与 +5V/VIN 未铺铜、2 条电源线偏细 —— 0 ERROR，记为 WARN 待清。
+
+**最终候选回归**：`distribution/verify_vendor.py` → **PASS**；`tools/offline_suite.py` →
+**1838 tests OK**；`go build ./...` + 新增单测（compose pins/deliverables/doctor/connector）全 PASS。
+
+**仍阻塞/未做**：PCB 截图（EasyEDA 标签页在后台，工具正确拒绝过期画布，需用户把标签页切前台）；
+Gerber/钻孔/CPL（gui_only）；PCB 3D 导出；2 条 dangling 线清理。
 
 ## 5. 证据索引
 
