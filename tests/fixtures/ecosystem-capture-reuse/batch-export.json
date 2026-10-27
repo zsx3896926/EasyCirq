@@ -1,0 +1,53 @@
+{
+  "checkTime": "2026-10-27T06:00:00Z",
+  "projectInfo": {
+    "name": "Synthetic contract fixture",
+    "uuid": "project-fixture"
+  },
+  "checkResults": [
+    {
+      "checkType": "PCB器件详细信息",
+      "status": "collected",
+      "details": {
+        "componentCount": 1,
+        "components": [
+          {
+            "primitiveId": "r1",
+            "designator": "R1",
+            "uniqueId": "u1",
+            "x": 0,
+            "y": 0,
+            "layer": 1
+          }
+        ]
+      }
+    },
+    {
+      "checkType": "PCB坐标与图层信息",
+      "status": "collected",
+      "details": {
+        "coordinateUnit": "mil",
+        "layers": [
+          {
+            "id": 1
+          }
+        ]
+      }
+    },
+    {
+      "checkType": "PCB DRC详细信息",
+      "status": "collected",
+      "details": {
+        "issueCount": 0,
+        "issues": [],
+        "raw": []
+      }
+    }
+  ],
+  "summary": {
+    "totalItems": 3,
+    "collected": 3,
+    "failed": 0,
+    "mode": "data_export"
+  }
+}

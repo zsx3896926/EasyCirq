@@ -1,0 +1,29 @@
+{
+  "formatVersion": "0.2",
+  "generator": "ai-reuse-block-placement",
+  "exportedAt": "2026-10-27T06:00:00Z",
+  "source": {
+    "app": "easyeda-pro",
+    "appVersion": "fixture"
+  },
+  "libraries": [
+    {
+      "libraryUuid": "lib1",
+      "libraryKind": "team",
+      "moduleName": "fixture",
+      "failed": false,
+      "error": null,
+      "modules": [
+        {
+          "uuid": "mod1",
+          "name": "LDO decoupling",
+          "description": "3V3 local capacitor",
+          "classification": [
+            "power"
+          ],
+          "storage": "cloud"
+        }
+      ]
+    }
+  ]
+}

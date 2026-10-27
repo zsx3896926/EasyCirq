@@ -1,0 +1,31 @@
+{
+  "schema": "hds-ecosystem-acceptance/v1",
+  "version": "1.0.0",
+  "date": "2026-10-27",
+  "scope": "offline integration of eight pinned EasyEDA ecosystem sources",
+  "status": "offline_pass",
+  "full_suite": {
+    "tests_run": 1782,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "blocked_events": 0
+  },
+  "targeted_tests": 123,
+  "selftest_pass": 5,
+  "smoke": {
+    "passed": 12,
+    "total": 12,
+    "simulated": true
+  },
+  "benchmarks": {
+    "offline_round11": "9/9",
+    "feedback_round12": "16/16",
+    "simulated": true
+  },
+  "live_eda": "NOT RUN",
+  "viewer_rendering": "NOT RUN",
+  "manufacturing": "NOT RUN",
+  "client_skill_loading": "NOT RUN",
+  "real_archive_structure_replay": "recorded by file adapter review; not host import or restoration"
+}

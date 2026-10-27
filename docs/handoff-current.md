@@ -1,19 +1,25 @@
-# v1.0.0 release preparation
+# v1.0 ecosystem integration handoff
 
-Date: 2026-10-27, Asia/Shanghai.
+Date: 2026-10-27 (Asia/Shanghai).
 
-- Worktree C:/Users/jlc/work/hds-release-v1; local branch release/v1.0.0.
-- Base content exactly matches main 7c0bee1; local base 9e5e333 has identical tree.
-- User requested Apache-2.0 for the formal release. Root and packaged LICENSE / NOTICE
-  preserve project copyright; prior releases and third-party licenses remain unchanged.
-- Version is 1.0.0; README/changelog/release notes updated. Feedback final-code writes
-  and automatic strict compose completion are explicitly unverified.
-- Added SHA256SUMS, package-level isolated install smoke, clean-build enforcement,
-  CI smoke and publish asset completeness. Fixed PowerShell Python probe fallback.
-- Full suite 1659 OK (skipped=1); selftest 5 PASS. Initial packaged install checks
-  passed for Claude/Codex/WorkBuddy filesystem targets and Windows PowerShell wrapper.
-- Upgrade/rollback evidence: C:/Users/jlc/work/v1-release-lifecycle.json once complete.
-- Build artifacts: C:/Users/jlc/work/v1-release-artifacts (candidate only).
-- No installed client touched; no EDA calls, tag, Release or public announcement.
-- Next: finish clean-commit package verification, push release PR, check CI. Publishing
-  is a separate final action; latest-download verification cannot run before assets exist.
+- User expanded v1.0 scope to absorb the eight reviewed EasyEDA ecosystem sources.
+- Worktree C:/Users/jlc/work/hds-release-v1, local and remote branch release/v1.0.0;
+  PR #33. Previous remote head 81c7f57; consult GitHub for current head/status.
+- Source version 1.0.0, Apache-2.0. Copied upstream schemas retain MIT license.
+- Unified entry: design-hardware/scripts/ecosystem.py registry / run.
+- Report: docs/releases/ecosystem-integration.md; machine acceptance:
+  docs/releases/ecosystem-acceptance.json. Each subsystem has its own reference.
+- Validated: 123 focused tests; full guarded suite 1782 OK (skipped=1), 100 imports
+  clean, zero blocked attempts; selftest 5 PASS; benchmarks 9/9 and 16/16;
+  unified offline CLI smoke 12/12. Independent cross-review failures fixed.
+- Local guarded suite uses short temp root C:/Users/jlc/work/hds-test-temp because
+  the managed sandbox's default Windows temp paths are too deep for updater tests.
+- Package rebuild and installed-archive smoke must use this final candidate;
+  previous package success does not cover the new ecosystem code.
+- New live EDA calls, external plugin installation, actual viewer rendering,
+  hardware/manufacturing: NOT RUN. No shared GUI/window ownership requested.
+- Existing feedback final-code live write BLOCKED; compose strict/full-playbook
+  success remains unverified. Refer to docs/round12/report.md and round12-real-machine.md.
+- No long-running EDA/daemon process owned. No tag, merge or Release authorized
+  by this integration step. Next: push exact tested tree to #33, wait for CI,
+  then separately complete formal publication and online asset checks.

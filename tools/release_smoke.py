@@ -84,6 +84,11 @@ def smoke(dist, previous_dist=None):
             if run('install', client, home, bundle)['status'] != 'already_current':
                 raise ValueError('Reinstall was not idempotent')
             target = Path(state['target'])
+            ecosystem_smoke = Path(__file__).resolve().parent / 'ecosystem_smoke.py'
+            if client == 'claude' and ecosystem_smoke.is_file():
+                checked = subprocess.run([sys.executable, str(ecosystem_smoke), '--skill-root', str(target)], capture_output=True, text=True, encoding='utf-8', timeout=120)
+                if checked.returncode != 0:
+                    raise RuntimeError('Installed ecosystem smoke failed: ' + checked.stdout + checked.stderr)
             probe = target / 'SKILL.md'
             probe.write_bytes(probe.read_bytes() + b'\nLOCAL SMOKE EDIT\n')
             altered = probe.read_bytes()
@@ -112,7 +117,7 @@ def smoke(dist, previous_dist=None):
     return {'schema': 'hds-release-smoke/v1', 'status': 'pass', 'version': version,
             'source_commit': manifest['source_commit'], 'assets_checked': len(names),
             'archive_sha256': manifest['archive_sha256'], 'clients': rows,
-            'windows_powershell_wrapper': wrapper, 'real_eda': 'NOT RUN',
+            'windows_powershell_wrapper': wrapper, 'ecosystem_installed_smoke': 'pass' if (Path(__file__).resolve().parent / 'ecosystem_smoke.py').is_file() else 'NOT RUN', 'real_eda': 'NOT RUN',
             'client_skill_loading': 'NOT RUN', 'network_update': 'NOT RUN'}
 
 

@@ -1,0 +1,63 @@
+{
+  "schema": "hds-routing-evidence/v1",
+  "unit": "mil",
+  "capture": {
+    "project_id": "fixture",
+    "document_id": "pcb1",
+    "snapshot_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "paths": [
+    {
+      "id": "p",
+      "net": "USB_DP",
+      "from": "U1.p",
+      "to": "J1.p",
+      "layer": 1,
+      "width": 10,
+      "geometry": "polyline",
+      "topology": "ordered",
+      "points": [
+        [
+          0,
+          0
+        ],
+        [
+          1000,
+          0
+        ]
+      ],
+      "length_coverage": "complete"
+    },
+    {
+      "id": "n",
+      "net": "USB_DM",
+      "from": "U1.n",
+      "to": "J1.n",
+      "layer": 1,
+      "width": 10,
+      "geometry": "polyline",
+      "topology": "ordered",
+      "points": [
+        [
+          0,
+          30
+        ],
+        [
+          1000,
+          30
+        ]
+      ],
+      "length_coverage": "complete"
+    }
+  ],
+  "pairs": [
+    {
+      "id": "usb",
+      "positive": "p",
+      "negative": "n",
+      "max_skew": 0.1,
+      "min_gap": 6,
+      "max_gap": 25
+    }
+  ]
+}

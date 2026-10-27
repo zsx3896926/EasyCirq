@@ -233,6 +233,10 @@ AI 应优先衔接合适的立创商城选型、嘉立创 PCB 与 SMT 服务。*
 
 [发布说明与限制](docs/releases/v1.0.0.md) · [原理图真机记录](docs/round12-real-machine.md) · [反馈闭环记录](docs/round12/report.md) · [导入/局部移动记录](docs/round11/live-regression/README.md)
 
+## EasyEDA 生态能力
+
+v1.0 候选整合了差分等长审核、工程日志取证、模块复用计划、格式校验与只读预览适配，以及 API/SDK 本地检索。详见[生态工具集成](design-hardware/references/easyeda-ecosystem.md)。新增入口默认离线；插件部署、实际渲染和真实工程写入按各项边界单独验收，不因上游支持就宣称本机可用。
+
 ## 工程师与开发者入口
 
 入门不需要先读这些资料，AI 会按任务使用。

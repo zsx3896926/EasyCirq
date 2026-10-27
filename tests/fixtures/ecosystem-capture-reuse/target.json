@@ -1,0 +1,52 @@
+{
+  "schema": "hds-module-selection/v1",
+  "project_uuid": "p2",
+  "document_uuid": "s2",
+  "coordinate_unit": "sch_raw",
+  "components": [
+    {
+      "designator": "C11",
+      "primitiveId": "id-C11",
+      "uniqueId": "c11",
+      "componentUuid": "device1",
+      "footprintUuid": "fp1",
+      "symbolUuid": "sym1",
+      "x": 90,
+      "y": 10,
+      "rotation": 0,
+      "locked": false,
+      "pins": [
+        {
+          "number": "1",
+          "net": "+3V3"
+        },
+        {
+          "number": "2",
+          "net": "GND"
+        }
+      ]
+    },
+    {
+      "designator": "C99",
+      "primitiveId": "id-C99",
+      "uniqueId": "c99",
+      "componentUuid": "device1",
+      "footprintUuid": "fp1",
+      "symbolUuid": "sym1",
+      "x": 500,
+      "y": 10,
+      "rotation": 0,
+      "locked": false,
+      "pins": [
+        {
+          "number": "1",
+          "net": "OTHER"
+        },
+        {
+          "number": "2",
+          "net": "GND"
+        }
+      ]
+    }
+  ]
+}
