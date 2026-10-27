@@ -46,7 +46,7 @@
 | G3 | `outline-fit` 被当成布局完成 | 它只改板框，不移动器件；板框跟随器件 bbox，不预留安装孔边距、连接器插拔空间或外壳壁厚 | 先 `place-constrained` 或人工布局，再 `outline-fit`，完成后重读器件位置；目标尺寸必须来自需求，不能由 fit 反推 | parts=28、partExtent 3377.55×1976.76、newOutline 3577.55×2176.76、utilBefore 0。本案例最终框 90.87×55.29 mm，`holes: 0` |
 | G3 | `layout-lint --gate` 想当布线门禁 | 参数已废弃，只显示历史阈值，不授权也不阻断 | 读 score、crossings、overlap、off-board，按 Skill 阈值和 G3/G4 证据判定 | 默认 score≥60、crossings≤8；实测 48/100、13 crossings。本案例 `pcb-layout-lint-2.log` |
 | G2 | `sch no-connect --pin U23:NC` 报 `has no pin(s): NC. Available: 1, 2, 3, 4, 5` | `--pin` 只解析物理脚号（`pinNumber` 字段），不解析引脚名 | 传脚号；错误里的 `Available:` 就是可接受值，可为 `A8` 这类字母数字 | 2026-10-27 SkyPilot X1：`NC`、`DOUT` 均被拒，改 `1`/`2` 后 34 个 NC 标记全部落地。见 §22 |
-| G2–G6 | 连续写入后 `schematic.components.list failed: connector did not respond — context deadline exceeded`；随后 `doc ls` 报“连接器队列被上一条动作堵着(动作未发出)” | 连接器队列被上一条动作堵住，累计写入后耗尽；`doc reload` 不清 | 前台窗口 → `project doc` 取活动 uuid → `web reload --project <uuid> --doc <active-uuid>` → 回读继续；按页 `save`+复核，让一次卡死只损失一页 | 2026-10-27 SkyPilot X1 一轮多次复发；`doc reload` 返回 `partial/failedStage:"ready"`，`web reload` 12–18 s 恢复。见 §23 |
+| G2–G6 | 连续写入后 `schematic.components.list failed: connector did not respond — context deadline exceeded`；随后 `doc ls` 报“连接器队列被上一条动作堵着(动作未发出)” | 动作在页面侧连接器运行时排队；一次超时后再发只会继续排在同一处。厂商文档没有清队列的命令，`doc reload` 不重启旧运行时 | 先分类：`no EasyEDA connector is available` 是连接器没挂上（等待/重载都没用），`did not respond` 才是队列侧 → `project doc` 取活动 uuid → `web reload` → 回读。**不要写重试循环** | 2026-10-27 SkyPilot X1：旧脚本 5 次退避重试把一次卡死放大到上百次注定失败的调用；实测恢复后重新干活间隔 47–61 s。见 §23 |
 | G2 | autoconnect 每轮都报 `connected 1`，`connectivity` 里该脚始终未连 | 符号引脚不在 5-raw 网格上（两脚相距 59 raw），导线起点吸附到网格，autoconnect 的“成功”只表示它选中了方向 | 用 `sch wire --points` 给精确浮点坐标再回读；用 `sch_layout_model` 的 `pin_off_grid`/`anchor_off_grid` 预检 | 2026-10-27 SkyPilot X1 晶振 Y1：连报 1 成功、回读未连；`629` 被吸附成 `630`。见 §25 |
 | G2 | `sch clear --doc P3 --json` 之后 `place` 报 `placed 0 / skipped 11` | `sch clear` 没有 `--json`；未知 flag 被忽略，清除根本没发生 | 不带 `--json` 重跑，确认 `remaining: 0` 与 `deleted.components`，再 `place` | 2026-10-27 SkyPilot X1 P3 重建；误以为清空成功，实际是空页上重复 place。见 §24 |
 | G2 | `sch gate` 整体 `fail`，但同页 layout-lint、bridge-check、原生 DRC 都 `pass` | `check` 的 blocker 可以是图面整洁度（0.254 mm 紧间距、相邻网标标记重叠、缺分区框、图签未填），不是电气失败 | 逐条分 电气 / 图面 / 结构；电气必须改，图面与结构合并成一次整理并记录残余；不让整洁度阻断主线 | 2026-10-27 SkyPilot X1 P3：check 报 11 组虚拟网、1 处组间重叠，其余三项全 pass。见 §26 |
@@ -295,22 +295,32 @@
 
 **证据/边界与本案例**：2026-10-27 SkyPilot X1（v1.15.0 / 4.1.78）9 页共 34 个 NC 标记：`U23` 的 `NC` 改为 `1`、`LED1` 的 `DOUT` 改为 `2`、`U2` 的 `NC` 改为 `3`、ESC 的 `SOA/SOB/SOC` 改为 `21/22/23` 后全部落地。名称属于可读性信息，不是动作参数；不要为了“名字更好懂”去改库引脚名。
 
-### 23. 连接器队列耗尽：`connector did not respond` 的恢复阶梯（G2–G6）
+### 23. 连接器超时：先分类，再决定要不要刷新页面（G2–G6）
 
-**现象**：一个页面连续写入若干轮后，读动作先失败：`schematic.components.list failed: connector did not respond — context deadline exceeded`，接着 `doc ready` 失败，`doc ls` 打印“连接器队列被上一条动作堵着(动作未发出)”并在约 90 s 后回退到工程清单。此时 `sch connect`/`place` 一律 `DISPATCH_FAILED`。
+**现象**：一个页面连续写入若干轮后，读动作先失败：`schematic.components.list failed: connector did not respond — context deadline exceeded`，接着出现 `DISPATCH_FAILED`，`doc ls` 打印“连接器队列被上一条动作堵着(动作未发出)”并在约 90 s 后回退到工程清单。此时 `sch connect`/`place` 一律失败。
 
-**原因**：不是脚本或工程坏了，是连接器的动作队列被上一条没被消费的动作堵住。实测在 9 页、182 器件、674 连接、812 个物理脚的工程上，每累计约 100+ 次写动作就会复发一次；这一频率是本轮观测，不是常数。`easyeda doc reload` 不清队列：它会返回 `partial`、`failedStage:"ready"`，读起来像“重载失败”，其实是同一条队列没恢复。
+**两个必须先分开的失败**：
 
-**正确动作**：按阶梯恢复，顺序不要换：
+| 输出 | 含义 | 处理 |
+|---|---|---|
+| `no EasyEDA connector is available` | 连接器根本没挂上（EDA 窗口/扩展没连） | 等待和刷新都无用，先恢复连接；直接失败退出 |
+| `connector did not respond` / `context deadline exceeded` / `DISPATCH_FAILED` | 动作已发出但没在预算内结束 | 才走下面的恢复阶梯 |
 
-1. 把 EDA 窗口切到前台（`WScript.Shell.AppActivate`；后台窗口更容易卡在 ready）。
-2. `easyeda project doc` 取当前活动文档 UUID。BYPASS 类读命令（`project doc`、`document.current`）在队列堵住时仍然可用，不要因为 `doc ls` 失败就以为什么都读不到。
-3. `easyeda web reload --project <工程uuid> --doc <活动页uuid>`：保存 → 刷新整个 Web 页面 → 验证重连，约 12–18 s。UUID 必须精确，缺一个就拒绝执行。
-4. 恢复后重新回读现场再继续，不复用卡死前的批次。
+**子串陷阱**：`"connector is available"` 是 `"no EasyEDA connector is available"` 的子串。用子串判定 wedge 会把“没连上”误判成“队列堵”，然后去刷新页面——刷多少次都不会好。判定要**先**匹配 down，再匹配 wedge。
 
-**操作层要求**：把写入切成“每页 save + 逐脚复核”的检查点，并让补连脚本每轮从 live 状态重算缺失集合，而不是重放计划。这样一次卡死只损失一页，恢复后接着补差，也不会整批重试造成重复器件/导线。同一窗口只留一个写入者。
+**原因（证据边界）**：厂商文档能确认的只有三点——连接器运行时注入在页面里（`document-source.md:39`）、`doc reload` 不重启旧运行时（`environment-setup.md:250`）、`web reload` 会重启（`actions.md:99`）。**“队列被一条永不结束的动作独占”没有被证实**：本轮保存下来的日志里没有一次 typed `CONNECTOR_QUEUE_BLOCKED`，而且在其中一次超时爆发期间，同一个 window 仍在连续处理 place（seq 65→1299）。排队、争用、daemon 等待预算先到期都能解释同样的现象（`schematic-wiring.md:121-128` 记录 connect_pin 内部最坏 21.25 s 已超过默认 20 s 预算）。不要把机制写成定论，也不要据此把“只能刷新页面”当成唯一修复。
 
-**证据/边界与本案例**：2026-10-27 SkyPilot X1 一轮内多次复发，每次 `web reload` 后 `doc ready` 与 `sch read` 立即恢复；`doc reload` 的 `partial` 回执不能当作“重载完成”。队列耗尽与页面大小、器件数量没有稳定对应关系，不要用“页太大”解释它。
+**正确动作**：
+
+1. **不写重试循环。** 一次超时后再发同一条命令只会继续排在原处。旧脚本的 5 次退避（5/10/15/20/25 s）+ 读动作 5 次（4/8/12/16/20 s）把一次卡死放大成上百次注定失败的调用；每页再套 3 轮、每页出错继续下一页，最坏接近 20 分钟等待。
+2. 把 EDA 窗口切到前台。
+3. `easyeda project doc` 取活动文档 UUID（本轮实测在超时期间仍可读；厂商文档只把 `document.current` 列为旁路，别把它当官方保证）。
+4. 判为 wedge 时才 `easyeda web reload --project <工程uuid> --doc <活动页uuid>`，每次卡死只做一次；失败就停，不循环刷新。
+5. 恢复后**重新回读**现场再继续，不复用卡死前的批次。
+
+**操作层要求**：写入切成“每页 save + 逐脚复核”的检查点；补连脚本每轮从 live 状态重算缺失集合，而不是重放计划；`saved:true` 要 gate 住，没保存就不算完成（verify 读的是内存态，不能证明已落盘）。同一窗口只留一个写入者，避免并发把“排队”变成“超时”。
+
+**证据/边界与本案例**：2026-10-27 SkyPilot X1 一轮内 4 次爆发，间隔的写入量差异很大（≈11 脚 / 409 脚 / 234 脚），所以“写够 N 次就复发”不是常数，别当预算用。有一次（同一 window、seq 连续）自行恢复，不需要刷新；从失败到恢复后继续干活实测 47–61 s，比文档的 12–18 s 更长（含校验与重注册）。CLI 的 `DEGRADED` 提示不是可靠计数：连续 9 次失败时每条都写 `1 consecutive failures`，失败率在 5/10/15% 之间循环。厂商明确说 `web reload` 用于用户要求的整页刷新、不宜作为读失败的自动兜底；要用在批处理里，就限定“只在 wedge 分类成立、每次卡死一次、先保存”，并把它写进日志。
 
 ### 24. `sch clear` 没有 `--json`：未知 flag 会静默变成 no-op（G2）
 
