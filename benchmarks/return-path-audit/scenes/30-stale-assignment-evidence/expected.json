@@ -1,0 +1,20 @@
+{
+  "name": "30-stale-assignment-evidence",
+  "purpose": "Reference assignment evidence bound to old snapshot",
+  "tags": [
+    "e1",
+    "evidence",
+    "unknown"
+  ],
+  "expected": {
+    "overall_status": "incomplete",
+    "must_include_rules": [],
+    "must_not_include_rules": [
+      "RP-E2-202"
+    ],
+    "require_unknowns": true,
+    "checked_length_min": 0,
+    "checked_length_max": 0
+  },
+  "reasoning": "The assignment's source_snapshot is not the audited snapshot, so reference intent cannot be trusted; the segment coverage stays unknown."
+}

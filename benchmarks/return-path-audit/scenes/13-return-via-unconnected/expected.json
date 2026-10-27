@@ -1,0 +1,20 @@
+{
+  "name": "13-return-via-unconnected",
+  "purpose": "Right net and span, but no pad/fill connection evidence",
+  "tags": [
+    "e3",
+    "via",
+    "unknown"
+  ],
+  "expected": {
+    "overall_status": "incomplete",
+    "must_include_rules": [],
+    "must_not_include_rules": [
+      "RP-E3-310"
+    ],
+    "require_unknowns": true,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "The candidate is GND and spans L2..L3, but declares no connected copper, no island and no pad/thermal/fill evidence. Proximity and net name are not connection proof, so the return path stays unknown."
+}

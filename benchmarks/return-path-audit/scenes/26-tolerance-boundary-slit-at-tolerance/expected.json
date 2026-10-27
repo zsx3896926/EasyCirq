@@ -1,0 +1,19 @@
+{
+  "name": "26-tolerance-boundary-slit-at-tolerance",
+  "purpose": "Same-net gap exactly at the declared geometry tolerance (0.02 mm vs tol 0.01)",
+  "tags": [
+    "e2",
+    "tolerance"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E2-203"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "Gap width 0.02 mm is twice the geometry tolerance; the risk must be reported, not hidden behind the tolerance."
+}

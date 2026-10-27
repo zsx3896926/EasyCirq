@@ -1,0 +1,232 @@
+{
+  "schema": "return-path-audit-input/v1",
+  "project": {
+    "id": "test-project",
+    "document": "pcb",
+    "snapshot": "snap-test-1"
+  },
+  "source": {
+    "kind": "synthetic",
+    "producer": "return-path-audit-tests",
+    "captured_at": "2026-10-27T14:00:00Z",
+    "raw_input_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "units": "mil",
+  "stackup": {
+    "complete": true,
+    "layers": [
+      {
+        "order": 1,
+        "copper_layer_id": "L1",
+        "role": "signal",
+        "thickness": {
+          "value": 1.4,
+          "unit": "mil"
+        },
+        "dielectric_below": {
+          "value": 8.0,
+          "unit": "mil"
+        }
+      },
+      {
+        "order": 2,
+        "copper_layer_id": "L2",
+        "role": "plane",
+        "net": "GND",
+        "thickness": {
+          "value": 1.4,
+          "unit": "mil"
+        },
+        "dielectric_below": {
+          "value": 16.0,
+          "unit": "mil"
+        }
+      },
+      {
+        "order": 3,
+        "copper_layer_id": "L3",
+        "role": "plane",
+        "net": "P3V3",
+        "thickness": {
+          "value": 1.4,
+          "unit": "mil"
+        },
+        "dielectric_below": {
+          "value": 8.0,
+          "unit": "mil"
+        }
+      },
+      {
+        "order": 4,
+        "copper_layer_id": "L4",
+        "role": "signal",
+        "thickness": {
+          "value": 1.4,
+          "unit": "mil"
+        }
+      }
+    ]
+  },
+  "board": {
+    "outline": [
+      [
+        0,
+        0
+      ],
+      [
+        3937.0,
+        0
+      ],
+      [
+        3937.0,
+        3150.0
+      ],
+      [
+        0,
+        3150.0
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "holes": [],
+    "complete": true,
+    "geometry_tolerance": 0.4
+  },
+  "reference_copper": [
+    {
+      "id": "rc-gnd-l2",
+      "layer": "L2",
+      "net": "GND",
+      "availability": "actual_fill",
+      "is_actual_fill": true,
+      "connectivity_island": "gnd-l2",
+      "source_snapshot": "snap-test-1",
+      "polygons": [
+        {
+          "id": "poly-gnd",
+          "outer": [
+            [
+              0,
+              0
+            ],
+            [
+              2000,
+              0
+            ],
+            [
+              2000,
+              3150.0
+            ],
+            [
+              0,
+              3150.0
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "holes": [
+            [
+              [
+                1000,
+                20
+              ],
+              [
+                1005.9055,
+                20
+              ],
+              [
+                1005.9055,
+                60
+              ],
+              [
+                1000,
+                60
+              ],
+              [
+                1000,
+                20
+              ]
+            ]
+          ]
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "id": "sig-slit",
+      "net": "USB_DP",
+      "segments": [
+        {
+          "id": "sig-slit.1",
+          "kind": "straight",
+          "layer": "L1",
+          "start": [
+            300,
+            40
+          ],
+          "end": [
+            1495,
+            40
+          ],
+          "width": 7.874
+        }
+      ]
+    },
+    {
+      "id": "sig-edge",
+      "net": "UART_TX",
+      "segments": [
+        {
+          "id": "sig-edge.1",
+          "kind": "straight",
+          "layer": "L1",
+          "start": [
+            300,
+            10
+          ],
+          "end": [
+            900,
+            10
+          ],
+          "width": 7.874
+        }
+      ]
+    }
+  ],
+  "vias": [],
+  "reference_assignment": [
+    {
+      "id": "ra-slit",
+      "target": {
+        "signal": "sig-slit"
+      },
+      "reference_layer": "L2",
+      "reference_net": "GND",
+      "basis": "declared",
+      "source_snapshot": "snap-test-1"
+    },
+    {
+      "id": "ra-edge",
+      "target": {
+        "signal": "sig-edge"
+      },
+      "reference_layer": "L2",
+      "reference_net": "GND",
+      "basis": "declared",
+      "source_snapshot": "snap-test-1"
+    }
+  ],
+  "transitions": [],
+  "constraints": {
+    "interface": "test",
+    "corridor": 8.0,
+    "max_return_via_distance": 79.0
+  },
+  "unsupported": [],
+  "external_reports": []
+}

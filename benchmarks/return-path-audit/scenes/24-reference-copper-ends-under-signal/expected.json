@@ -1,0 +1,20 @@
+{
+  "name": "24-reference-copper-ends-under-signal",
+  "purpose": "Reference copper stops halfway across the trace",
+  "tags": [
+    "e2",
+    "edge",
+    "fail"
+  ],
+  "expected": {
+    "overall_status": "fail",
+    "must_include_rules": [
+      "RP-E2-204"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "GND copper exists only for x<=40 while the trace runs 20..80: for x>40 there is no reference copper on either side of the projection (copper ends under the signal)."
+}

@@ -1,0 +1,20 @@
+{
+  "name": "32-missing-via-in-transition",
+  "purpose": "Transition points at a via that is not in the via set",
+  "tags": [
+    "e3",
+    "evidence",
+    "unknown"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E3-301"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "transitions[].via=missing-via is absent from vias[]: the layer change cannot be verified and the evidence is rejected (no assumption that the via exists)."
+}

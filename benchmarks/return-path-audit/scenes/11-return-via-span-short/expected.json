@@ -1,0 +1,20 @@
+{
+  "name": "11-return-via-span-short",
+  "purpose": "Return via does not reach the second reference plane",
+  "tags": [
+    "e3",
+    "via",
+    "fail"
+  ],
+  "expected": {
+    "overall_status": "fail",
+    "must_include_rules": [
+      "RP-E3-306"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "The reference changes to L3, but the candidate is a blind L1..L2 via: its physical span stops at L2 and cannot connect the L3 return plane. Proven span failure."
+}
