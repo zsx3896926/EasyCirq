@@ -1,0 +1,31 @@
+{
+  "schema": "mechanical-layout-source-facts/v1",
+  "source_id": "SCR-ISO4762-M3",
+  "part": "ISO 4762 / DIN 912 M3 socket head cap screw (standard, not one OEM part number)",
+  "class": "mechanical_mounting",
+  "manufacturer": "ISO 4762 / DIN 912 standard values, compiled by Engineering Hardware & Fasteners",
+  "document": "M3 Socket Head Cap Screws Dimensions (ISO 4762 / DIN 912 table)",
+  "url": "https://engineeringhardware.com/guide/size/m3-socket-head-cap-screws/",
+  "revision": "page undated in extracted content; table references ISO 4762 / DIN 912, ISO 273 and ISO 724",
+  "read_scope": "M3 dimensional row, hole-size table and tightening-torque table as rendered on the page",
+  "units": "mm",
+  "dimensions": {
+    "head_diameter_mm": {"nominal": 5.5, "basis": "M3 row: head diameter dk"},
+    "head_height_mm": {"nominal": 3.0, "basis": "M3 row: head height k"},
+    "hex_key_mm": {"nominal": 2.5, "basis": "M3 row: hex key s"},
+    "socket_depth_min_mm": {"nominal": 1.3, "basis": "M3 row: socket depth t min"},
+    "clearance_hole_mm": {"nominal": 3.4, "basis": "through-hole/clearance ISO 273 medium"},
+    "thread_pitch_mm": {"nominal": 0.5, "basis": "M3 coarse pitch"}
+  },
+  "unresolved": [
+    "head diameter/height tolerance class not read (nominal standard values only)",
+    "washer OD/thickness not read (separate ISO 7089 table needed)",
+    "driver tool height/clearance envelope not specified by the standard table",
+    "no single OEM drawing/part number; this is a standard dimension table"
+  ],
+  "usage_note": "Synthetic layout fact only: use 5.5 mm head diameter x 3.0 mm head height as a declared screw-head keep-out and 3.4 mm as a declared clearance hole. Tool length and washer stack must be declared separately (synthetic assumptions) and must not be treated as standard facts.",
+  "limitations": [
+    "this is a standards compilation page, not an OEM-controlled drawing; it is recorded separately so the weaker provenance is visible",
+    "M3 screws from different manufacturers still vary within the standard tolerance class"
+  ]
+}

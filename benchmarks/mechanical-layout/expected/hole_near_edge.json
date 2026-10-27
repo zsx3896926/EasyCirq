@@ -1,0 +1,15 @@
+{
+  "schema": "mechanical-layout-benchmark-expected/v1",
+  "case": "hole_near_edge",
+  "command": "audit",
+  "args": [],
+  "exit_code": 3,
+  "status": "fail",
+  "required_rules": [
+    "G1.HOLE_EDGE"
+  ],
+  "forbidden_rules": [],
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "notes": "hand-derived from geometry/contract; not copied from actual output"
+}

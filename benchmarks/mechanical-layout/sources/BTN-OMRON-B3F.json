@@ -1,0 +1,33 @@
+{
+  "schema": "mechanical-layout-source-facts/v1",
+  "source_id": "BTN-OMRON-B3F",
+  "part": "B3F-1000",
+  "class": "tactile_button",
+  "manufacturer": "OMRON",
+  "document": "B3F Tactile Switch datasheet",
+  "url": "https://omronfs.omron.com/en_US/ecb/products/pdf/en-b3f.pdf",
+  "revision": "no revision string in extracted text; 9 pages",
+  "read_scope": "pages 1, 3, 4 text layer (model list, operating characteristics, 6x6 mm dimension drawings); pages 2,5-9 not used",
+  "units": "mm",
+  "tolerances_from_drawing": "unless otherwise specified +/-0.4 mm applies to all dimensions",
+  "dimensions": {
+    "body_width_mm": {"nominal": 6.0, "min": 5.8, "max": 6.2, "basis": "page 4: 6+/-0.2"},
+    "body_depth_mm": {"nominal": 6.0, "min": 5.8, "max": 6.2, "basis": "page 4: 6+/-0.2"},
+    "body_height_mm": {"nominal": 4.3, "min": 4.1, "max": 4.5, "basis": "page 1 height 4.3 mm; page 4: 4.3+/-0.2 for B3F-1000 flat plunger"},
+    "travel_mm": {"nominal": 0.25, "min": 0.15, "max": 0.45, "basis": "page 3 Pretravel (PT): 0.25 +0.2/-0.1 mm"},
+    "pin_diameter_mm": {"nominal": 1.0, "min": 0.95, "max": 1.05, "basis": "page 4: Four, 1+/-0.05 dia."},
+    "pin_pitch_x_mm": {"nominal": 6.5, "min": 6.4, "max": 6.6, "basis": "page 4: 6.5+/-0.1"},
+    "pin_pitch_y_mm": {"nominal": 4.5, "min": 4.4, "max": 4.6, "basis": "page 4: 4.5+/-0.1"},
+    "operating_force_n": {"nominal": 0.98, "min": 0.69, "max": 1.27, "basis": "page 3: 0.98+/-0.29 N {100+/-30 gf}"}
+  },
+  "unresolved": [
+    "plunger/cap diameter: a 3.5 dia. value appears near the 6x6 flat-plunger drawings but the extracted text cannot bind it to a specific feature with certainty, so it is not used as a key-top diameter",
+    "recommended panel opening and key-top (B32) clearance",
+    "cap height above the switch body / panel thickness allowance"
+  ],
+  "usage_note": "Synthetic layout fact only: body 6.0 x 6.0 x 4.3 mm and declared travel 0.15-0.45 mm may shape a synthetic panel-button case. Key-top geometry and panel opening must stay synthetic/unknown unless separately verified.",
+  "limitations": [
+    "PDF text extraction, no mechanical re-measurement; tolerance note is the vendor's general note",
+    "B3F-1000 is one model in a large family; other B3F variants have different heights"
+  ]
+}

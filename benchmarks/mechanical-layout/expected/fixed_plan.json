@@ -1,0 +1,13 @@
+{
+  "schema": "mechanical-layout-benchmark-expected/v1",
+  "case": "fixed_plan",
+  "command": "plan",
+  "args": [],
+  "exit_code": 0,
+  "status": "candidates_found",
+  "required_rules": [],
+  "forbidden_rules": [],
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "notes": "hand-derived from geometry/contract; not copied from actual output"
+}

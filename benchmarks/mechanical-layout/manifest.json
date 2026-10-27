@@ -1,0 +1,394 @@
+{
+  "schema": "mechanical-layout-benchmark-manifest/v1",
+  "generated_by": "static authoring helper (run once); runner never regenerates cases",
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "cases": [
+    {
+      "case": "pass_panel",
+      "input": "benchmarks/mechanical-layout/cases/pass_panel.json",
+      "input_sha256": "8e22284a52c8b19b0a8e5ae96c67eaade7946e169a96bfce465994026a21dcfd",
+      "expected": "benchmarks/mechanical-layout/expected/pass_panel.json",
+      "expected_sha256": "c88d99ab15765ddf5dfeba7ebbdcd299224721c552b9e37d8a9d931cd3d03f34",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "opening_misaligned",
+      "input": "benchmarks/mechanical-layout/cases/opening_misaligned.json",
+      "input_sha256": "b4ed66da60efdd00efe69597437df7bef59cc693b509e6d77d4515623f6c0d40",
+      "expected": "benchmarks/mechanical-layout/expected/opening_misaligned.json",
+      "expected_sha256": "187f83c1b3ea10787c7bf4cff323edf7b846eb25ef6f683f6fae31f1f5af4511",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "opening_angle",
+      "input": "benchmarks/mechanical-layout/cases/opening_angle.json",
+      "input_sha256": "419c0f7ffaa0207ba84bfd33b10bcf25dc88664018e4a73b2407109e6b82c598",
+      "expected": "benchmarks/mechanical-layout/expected/opening_angle.json",
+      "expected_sha256": "729c425d4e84742369ef3288ccb3a731044ae0f0bb31861bc7459e87e9f744cc",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "mating_datum_offset",
+      "input": "benchmarks/mechanical-layout/cases/mating_datum_offset.json",
+      "input_sha256": "bcee720bb90bfe3f145f27905ceb6119272990464875889af4668f4490d4e50c",
+      "expected": "benchmarks/mechanical-layout/expected/mating_datum_offset.json",
+      "expected_sha256": "3ebd0f4286d029fdb77e61e0f4693cc8166b733e8c0fe413f8eb296b393005b4",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "plug_blocked",
+      "input": "benchmarks/mechanical-layout/cases/plug_blocked.json",
+      "input_sha256": "4bb8981c14745b632afbc99adc43d8ebe3c8a69930f677334e85ec420cd92f62",
+      "expected": "benchmarks/mechanical-layout/expected/plug_blocked.json",
+      "expected_sha256": "989b02ef1786b250ff70b3aa7d6fa754b6c11d5a021518239632ccf7022fec25",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "cable_unknown",
+      "input": "benchmarks/mechanical-layout/cases/cable_unknown.json",
+      "input_sha256": "13acab13557574a98beba855fa80f2e455cc9a0f91271ea1d89b50c6b2d456aa",
+      "expected": "benchmarks/mechanical-layout/expected/cable_unknown.json",
+      "expected_sha256": "21f2fb7729039036d2636eb57a1a8daffa8c60c56237d949e34f4b8127d453bc",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "hole_near_edge",
+      "input": "benchmarks/mechanical-layout/cases/hole_near_edge.json",
+      "input_sha256": "eabe4ddd257cc47923127c3a9bcb59b8defb804c24b0e978097769288caa48b1",
+      "expected": "benchmarks/mechanical-layout/expected/hole_near_edge.json",
+      "expected_sha256": "5138af562f2a1cf71e5704e1d07b31764013aa66a6963a54b6ca2c910d65d484",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "screw_head_blocked",
+      "input": "benchmarks/mechanical-layout/cases/screw_head_blocked.json",
+      "input_sha256": "c5cfe13ea6e5d71d44cc7d869ec387f980216533235751cb4c2003f95d7d9a61",
+      "expected": "benchmarks/mechanical-layout/expected/screw_head_blocked.json",
+      "expected_sha256": "d7bcd4a8c4257f78594c02b70118784a5a5dd90b9b0427a698a1be71e7387584",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "tool_blocked",
+      "input": "benchmarks/mechanical-layout/cases/tool_blocked.json",
+      "input_sha256": "3f99e4362c7236e1994608f9bddc709cc450e7358a6486a5012a3189c371dd88",
+      "expected": "benchmarks/mechanical-layout/expected/tool_blocked.json",
+      "expected_sha256": "b7d6ed3d6e4de6f86383ff442f32884a403843dc4d61bcf54e184b443c209fcb",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "bottom_post_collision",
+      "input": "benchmarks/mechanical-layout/cases/bottom_post_collision.json",
+      "input_sha256": "9257d32806f803dde30e8c379fcf60cfb15673bafd9d7ce48c5f2615bf5998e0",
+      "expected": "benchmarks/mechanical-layout/expected/bottom_post_collision.json",
+      "expected_sha256": "8af7a96b0cfcca056fba24eabca32d760abfd39916843ae7cbdd19849e02559d",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "z_separate",
+      "input": "benchmarks/mechanical-layout/cases/z_separate.json",
+      "input_sha256": "47002a0da2497b74601caedf0e7aa944cf1d7e19ae989082e95b144053a65545",
+      "expected": "benchmarks/mechanical-layout/expected/z_separate.json",
+      "expected_sha256": "eb86afe02f19acc22a776fed9afdc41182aa3d0a20135eaba03617994685d9ed",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "missing_height",
+      "input": "benchmarks/mechanical-layout/cases/missing_height.json",
+      "input_sha256": "d8e9535ab06c617309d9e0eddc3107e9e92fd547ee9caeb4e25291fd0dc0df38",
+      "expected": "benchmarks/mechanical-layout/expected/missing_height.json",
+      "expected_sha256": "627cdc1371189dc51d8376503382b6998bc6b41b9d5c871671e5fcf57cbf9769",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "concave_notch",
+      "input": "benchmarks/mechanical-layout/cases/concave_notch.json",
+      "input_sha256": "b8240d47abc7abf0e52515502e1606671e27cf4cb7dd8cf68433a3ddaeba703f",
+      "expected": "benchmarks/mechanical-layout/expected/concave_notch.json",
+      "expected_sha256": "87aeaa2bbe7ad53577ce8bd0526a9f99d2ac2ce9937424c27b49e3237da462c8",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "overhang_allowed",
+      "input": "benchmarks/mechanical-layout/cases/overhang_allowed.json",
+      "input_sha256": "746b34066de882689051a495436aec751c0756ac4ec04fc421758641bb035a1b",
+      "expected": "benchmarks/mechanical-layout/expected/overhang_allowed.json",
+      "expected_sha256": "49d0cff2b0460fbeec2f7d18b6efa85bd07fabf32df7add9bf62d25d95edf50a",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "overhang_exceeds",
+      "input": "benchmarks/mechanical-layout/cases/overhang_exceeds.json",
+      "input_sha256": "be41003d85964784bfc21d8a7ceae85dc51c1652791cd45425a1508019af9775",
+      "expected": "benchmarks/mechanical-layout/expected/overhang_exceeds.json",
+      "expected_sha256": "27ea47b5aa2a55be846330116393ac9942471aff0b2f5e9b335a300a069a0e19",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "preferred_keepout",
+      "input": "benchmarks/mechanical-layout/cases/preferred_keepout.json",
+      "input_sha256": "70f33399afe4fad143f48372b9af5ee72515ffa42c0bb6823b1dc1009e4bb199",
+      "expected": "benchmarks/mechanical-layout/expected/preferred_keepout.json",
+      "expected_sha256": "efaf7ba69f4cf356e5f24029eb052892db95ae6e35445a6055ad81012a09a572",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "button_travel",
+      "input": "benchmarks/mechanical-layout/cases/button_travel.json",
+      "input_sha256": "804bbeface9d2a0fb236db06b0c3641236229482246ea66b25219bcdf1649ce5",
+      "expected": "benchmarks/mechanical-layout/expected/button_travel.json",
+      "expected_sha256": "af2ccbcf8cb2739501d7c374ae7fc6e79b840c9b0c70d3849f413c439ceee5e0",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "led_pipe",
+      "input": "benchmarks/mechanical-layout/cases/led_pipe.json",
+      "input_sha256": "354fb2fcbf31072ea352aabadbb1c53aace36d9b5521853781ff1047359ea72d",
+      "expected": "benchmarks/mechanical-layout/expected/led_pipe.json",
+      "expected_sha256": "77ea29368a7ba74b04b6a31a634e9ab6515b508a8973d1b88ba62455ff5b0528",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "no_enclosure",
+      "input": "benchmarks/mechanical-layout/cases/no_enclosure.json",
+      "input_sha256": "b3cbd87ca3e908b41208b726b45c12149af8d9dbc2c08f104f5e18eb850be89e",
+      "expected": "benchmarks/mechanical-layout/expected/no_enclosure.json",
+      "expected_sha256": "6960384094a6e877b0949e01286ab182ad9de8e2ab626317bb960169c6cc7c32",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "mil_units",
+      "input": "benchmarks/mechanical-layout/cases/mil_units.json",
+      "input_sha256": "8bf1e4452b421e721edca5640b49cda5641528615f3b742b44ab547762ad7876",
+      "expected": "benchmarks/mechanical-layout/expected/mil_units.json",
+      "expected_sha256": "bc381c65c5db6425433e37dd488edf44b166f3c5c2a90212abe904b9ecf0d812",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "translated_rotated",
+      "input": "benchmarks/mechanical-layout/cases/translated_rotated.json",
+      "input_sha256": "77b4746202a11116f90703876ef9a6ce016a490acb6fd5ee5bcc755f9806c35a",
+      "expected": "benchmarks/mechanical-layout/expected/translated_rotated.json",
+      "expected_sha256": "6b6c8d375ea7dcea32c7a979a00a51e30b71c2e6fe4990079b58a63d70e44442",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "fixed_plan",
+      "input": "benchmarks/mechanical-layout/cases/fixed_plan.json",
+      "input_sha256": "7f009dfd374123ad5d26fe85ef5b038e1fc0c25cbaf42f6b400f6c3aad336776",
+      "expected": "benchmarks/mechanical-layout/expected/fixed_plan.json",
+      "expected_sha256": "97ce19b46ef8f70c267b8408b434aa3f3fa7ced323499c21e936287e26ab6261",
+      "command": "plan",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "plan_no_feasible",
+      "input": "benchmarks/mechanical-layout/cases/plan_no_feasible.json",
+      "input_sha256": "91f03a114fda4fde4d4beae5efc0d91876e165c5ab084bbda4069b396a4a0e5d",
+      "expected": "benchmarks/mechanical-layout/expected/plan_no_feasible.json",
+      "expected_sha256": "05cf3a58d760c53b723dc6de9d874b90c3a7db542e3e6cc9a9483a3828a37eff",
+      "command": "plan",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "plan_budget",
+      "input": "benchmarks/mechanical-layout/cases/plan_budget.json",
+      "input_sha256": "2fc9d3b19fd49b15f1a3806284befbb9ede9afab8b76eb6d4acd188650b823a6",
+      "expected": "benchmarks/mechanical-layout/expected/plan_budget.json",
+      "expected_sha256": "93ff0bb884458490befad7b95fab2fd0dd08b550409411e48d88106310b51ea0",
+      "command": "plan",
+      "args": [
+        "--max-combinations",
+        "2"
+      ],
+      "holdout": false
+    },
+    {
+      "case": "invalid_mirror",
+      "input": "benchmarks/mechanical-layout/cases/invalid_mirror.json",
+      "input_sha256": "f9e13ed0d912e746e03f16e92785086b2e6e6f7f83126076843cc613d49e4e9b",
+      "expected": "benchmarks/mechanical-layout/expected/invalid_mirror.json",
+      "expected_sha256": "623a0cb2008cd46bb0bf142c25cc767c7cfcf6b1dcd368550b48628b5bae1eb7",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "invalid_nan",
+      "input": "benchmarks/mechanical-layout/cases/invalid_nan.json",
+      "input_sha256": "99609da41671e717598914aa24ee99fa3a2080d7da8686cd81856d9151817708",
+      "expected": "benchmarks/mechanical-layout/expected/invalid_nan.json",
+      "expected_sha256": "8f0e603274715637b50ca9ee8ee42e7d0f63c0957644c8bff4d464b6ec3ee955",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "duplicate_ids",
+      "input": "benchmarks/mechanical-layout/cases/duplicate_ids.json",
+      "input_sha256": "3ee5d4cca704ac97e60e439f92149c42d974879ee18abe20b75317a46ddf3877",
+      "expected": "benchmarks/mechanical-layout/expected/duplicate_ids.json",
+      "expected_sha256": "d4e2507471f0cf72701286e5576aeea5896fafef41cbef615863a82aa1d1e43b",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "contradictory",
+      "input": "benchmarks/mechanical-layout/cases/contradictory.json",
+      "input_sha256": "be3f3383995ad34f180942d4aca0eab2a50524f9d7247bcaa4b82a59eebe6930",
+      "expected": "benchmarks/mechanical-layout/expected/contradictory.json",
+      "expected_sha256": "4fb149e30fb27c995400c3e2ce7d5ce79d30534fe818c05b57466374b66b7cc6",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "snapshot_stale",
+      "input": "benchmarks/mechanical-layout/cases/snapshot_stale.json",
+      "input_sha256": "6d736a76d24471cc51ce0040604228980fa09c9aa947d2e94f61f2508630f405",
+      "expected": "benchmarks/mechanical-layout/expected/snapshot_stale.json",
+      "expected_sha256": "ee567eb638ce1c196b82e9fbc00da601e51f2e1f9314c1d0fcf7455705ea20d5",
+      "command": "audit",
+      "args": [
+        "--snapshot",
+        "benchmarks/mechanical-layout/cases/snapshot_source.txt"
+      ],
+      "holdout": false
+    },
+    {
+      "case": "composite_panel",
+      "input": "benchmarks/mechanical-layout/cases/composite_panel.json",
+      "input_sha256": "96dd7f424cb59dbe3804892a2163778b0ccf1fff427294618c87b96541710ed5",
+      "expected": "benchmarks/mechanical-layout/expected/composite_panel.json",
+      "expected_sha256": "15b1548d8595f8d2ec2687d2f088adc296100af38671f774ec6807fa8d09083a",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "composite_handheld",
+      "input": "benchmarks/mechanical-layout/cases/composite_handheld.json",
+      "input_sha256": "f0fb598f06e87c4035f6142a8aec9f1e5691f9487e6397d4a4aa5893e78fc2ad",
+      "expected": "benchmarks/mechanical-layout/expected/composite_handheld.json",
+      "expected_sha256": "777fad15ac847c312ed7d3a11edec94c3b7b66b28f2b0743b413a80d4894e98b",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "holdout_connector_pass",
+      "input": "benchmarks/mechanical-layout/holdout/holdout_connector_pass.json",
+      "input_sha256": "f776002ee642c51148918bd5d3df439580558ab8b32361a178351a034b8bb084",
+      "expected": "benchmarks/mechanical-layout/expected/holdout_connector_pass.json",
+      "expected_sha256": "ee3b5ca84851931e0c07c701c4fac2ca6ede503b488e6ae27cfd1e655abba2e1",
+      "command": "audit",
+      "args": [],
+      "holdout": true
+    },
+    {
+      "case": "holdout_opening_offset",
+      "input": "benchmarks/mechanical-layout/holdout/holdout_opening_offset.json",
+      "input_sha256": "2839c461f67bb071ba69eacac17ff8ffefc53c62757090a87121e5502664e8af",
+      "expected": "benchmarks/mechanical-layout/expected/holdout_opening_offset.json",
+      "expected_sha256": "0b462881f3b0d4eb0ca08298bce7dd62aff11750e66e04550f461238ea150303",
+      "command": "audit",
+      "args": [],
+      "holdout": true
+    },
+    {
+      "case": "holdout_plan",
+      "input": "benchmarks/mechanical-layout/holdout/holdout_plan.json",
+      "input_sha256": "db8dca9aca6f849f8be0a2407385137f583069985393fb003d0876bbccc09588",
+      "expected": "benchmarks/mechanical-layout/expected/holdout_plan.json",
+      "expected_sha256": "a53a868c62f6b2b7e2e60b267792053337a215108df48f3d17510a9e0c273e13",
+      "command": "plan",
+      "args": [],
+      "holdout": true
+    },
+    {
+      "case": "holdout_height_unknown",
+      "input": "benchmarks/mechanical-layout/holdout/holdout_height_unknown.json",
+      "input_sha256": "7e02c2ef386053710f89df0f43327cf759adc70fa9fa1bef12baa68a37a7a91d",
+      "expected": "benchmarks/mechanical-layout/expected/holdout_height_unknown.json",
+      "expected_sha256": "71d5d52138fa7f7bdf0faaaaf303bb5918bc0b0c51fe895bc5dcc2d60bf0c2e6",
+      "command": "audit",
+      "args": [],
+      "holdout": true
+    },
+    {
+      "case": "local_frame_equiv",
+      "input": "benchmarks/mechanical-layout/cases/local_frame_equiv.json",
+      "input_sha256": "79e85cd05316867b20b0c36f74e01ed61ac8205952dd6dbf7d02b57dcd8e75ac",
+      "expected": "benchmarks/mechanical-layout/expected/local_frame_equiv.json",
+      "expected_sha256": "61af5c309750ca6862ad57704ddd34dca8aa3b39827526869a9f3f238e78c375",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "unrelated_change",
+      "input": "benchmarks/mechanical-layout/cases/unrelated_change.json",
+      "input_sha256": "3a96ec95ea5893428880f44d024b55ad340c2ee31cf6d6b29c112ac38e8b2bb8",
+      "expected": "benchmarks/mechanical-layout/expected/unrelated_change.json",
+      "expected_sha256": "74476aac93890ac9421e5e64cea0d552dee56902bebe105e541010fe4f2214e8",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    },
+    {
+      "case": "order_deformation",
+      "input": "benchmarks/mechanical-layout/cases/order_deformation.json",
+      "input_sha256": "774c8048866e10882c5e06e89e9c14359db126da4cb76b6b0bef476b02a01f07",
+      "expected": "benchmarks/mechanical-layout/expected/order_deformation.json",
+      "expected_sha256": "1674e8a82b7e9cebf5ecf92638cd8a78076010b97d9ce2e9a62ddaba241e3515",
+      "command": "audit",
+      "args": [],
+      "holdout": false
+    }
+  ]
+}
