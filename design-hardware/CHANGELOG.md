@@ -1,5 +1,22 @@
 # 变更记录
 
+## 0.9.4 — 2026-10-27
+
+round12 原理图排版工具链补强：把 compose 输入、页预算预检和稳定 ID 绑定从手工步骤变成可离线验证的脚本，并记录本轮真机遇到的破坏性重排与恢复边界。**本轮脚本均为离线实现与单元测试，未调用 EDA**；真机证据来自 2026-10-27 usb-audio-amplifier-test-01 排版任务。
+
+### 新增
+
+- `scripts/sch_compose_input.py`（`design-engine-sch-compose-input/v1`）：把 connectivity IR、zones 几何和 model-report 合并为 `compose --from` 输入；校验器件覆盖、placement 位号、引脚网络一致性，注入隐藏的 `connectivity.modules`，支持 `--sheet`、`--project-id`（导入备份工程）、`--connection-mode`、标题长度警告；blocked 时不写文件。
+- `scripts/sch_sheet_fit.py`（`design-engine-sch-sheet-fit/v1`）：在写入前用 MaxRects 预检 A4 页预算，扣除图签 keep-out 与边距/间距；支持固定锚点、坐标吸附和直接产出 packed page；no-fit 时报告最后失败模块、所需尺寸与剩余空矩形。用于复核 `layout-sheet-plan --flow z` 的 shelf 打包误报。
+- `scripts/sch_bind_component_ids.py`（`design-engine-sch-bind-ids/v1`）：计划/复核 `EasyEDA Agent Component ID = cmp-<位号>` 绑定，输出逐件 `sch modify` PowerShell 命令；检测缺位号/重复/冲突，`rebind` 必须显式 `--force`；`--verify` 要求 N/N 全部通过。
+- 测试：`tests/test_sch_compose_input.py`、`tests/test_sch_sheet_fit.py`、`tests/test_sch_bind_component_ids.py`。
+- `references/schematic-layout-engine.md`：新增 composition 适配、页预算预检、绑定脚本流程；补充标题 ≤18 字符与每区 4–6 件的规划规则、pagePrimitives `pins` 与 apply gate 的冲突处理、`zone relayout --apply` 破坏性写入与 `.epro2` 导入恢复 SOP、netflag 旋转反转、未标记直连树阻断、strict gate 基线策略。
+
+### 修复
+
+- `sch_sheet_fit.py`：按 compose 的半单位边框描边和 5-raw 锚点网格计算可用区/区间距/keep-out；固定锚点与打包 reserve 上取整到网格，`--out-page` 输出整数 5 网格坐标与 `flow: fixed`，并拒绝非 5 整数倍的功能区尺寸。修复“离线报告 fits、compose 仍因边距/网格拒绝”的假阳性。
+- 排版文档中的工具版本口径统一到 easyeda-agent 1.15.0；写入后验收增加页预算报告、composition 适配器报告与绑定 N/N 证据项。
+
 ## 0.9.3 — 2026-10-27
 
 round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 LED 板真机反馈。**round11 离线部分未调用 EDA**；PR #23 的真实回读来自其独立任务，本轮只做离线兼容验证。
