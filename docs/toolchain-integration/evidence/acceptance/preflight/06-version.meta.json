@@ -1,0 +1,19 @@
+{
+  "id": "version",
+  "title": "zhigou version",
+  "stage": "preflight",
+  "command": [
+    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "version"
+  ],
+  "status": "NOT RUN",
+  "exitCode": 0,
+  "durationMs": 89,
+  "generatedAt": "2026-10-27T13:43:18Z",
+  "sha256": {
+    "stdout": "13be8619c3ca5cb867dc631f827b4a755e744ad5943a808d8ad1b570dac99398",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "json": null
+  },
+  "timedOut": false
+}

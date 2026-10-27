@@ -1,0 +1,4022 @@
+[
+ [
+  "design-hardware/CHANGELOG.md",
+  18,
+  "EasyEDA",
+  "### EasyEDA 生态整合"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  36,
+  "easyeda-agent",
+  "- 不捆绑 easyeda-agent/Connector；外部工具独立安装、独立版本管理。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  82,
+  "easyeda",
+  "- 当前 Connector 不可用（`easyeda doc ready --json` ->"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  83,
+  "EasyEDA",
+  "`no EasyEDA connector is available`），最终代码真机写入为 BLOCKED。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  96,
+  "EasyEDA",
+  "- `scripts/sch_bind_component_ids.py`（`design-engine-sch-bind-ids/v1`）：计划/复核 `EasyEDA Agent Component ID = cmp-<位号>` 绑定，输出逐件 `sch modify` PowerShell 命令；检测缺位号/重复/冲突，`rebind` 必须显式 `--force`；`--verify` 要"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  103,
+  "easyeda-agent",
+  "- 排版文档中的工具版本口径统一到 easyeda-agent 1.15.0；写入后验收增加页预算报告、composition 适配器报告与绑定 N/N 证据项。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  111,
+  "`easyeda`",
+  "- `scripts/offline_guard.py` + `tools/offline_suite.py`：`HDS_OFFLINE=1` 下拦截真实 `easyeda`/进程内网络；假 CLI 必须带显式标记；从任意干净临时目录运行全量测试并输出 `simulated:true` 汇总。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  159,
+  "easyeda",
+  "调用 `pcb_apply_plan.py`；后者新增 `--window` 并转发给 `easyeda apply`、"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  197,
+  "easyeda",
+  "- `references/pcb-command-map.json`：easyeda PCB 命令 argv、必需/可选参数、输出角色与校验点映射。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  198,
+  "`easyeda`",
+  "- 测试：`tests/test_pcb_preflight.py`、`test_pcb_apply_plan.py`、`test_pcb_gate.py`、`test_pcb_case.py`，使用 fake `easyeda`，不调用真实 EDA。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  202,
+  "easyeda",
+  "- `scripts/pcb_apply_plan.py` 升级为 playbook 批量路径：接受 placements/playbook 三种形状，编译 `easyeda apply` playbook v1，一次 apply 后校验 journal、fresh dump 与 scoped diff；preferred 约束失败不再计为 hard。默认 dry-run。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  208,
+  "`easyeda`",
+  "- 单元测试使用 fake `easyeda`，不调用真实 CLI；round10 的真机验收（A/B 回归与受控 C99 改板）记录在 `docs/skill-speed-quality-report.md`，本轮确实在隔离副本上用真实 `easyeda apply`/DRC/归档跑过。Gerber/CPL 导出仍 `BLOCKED`，不引入外部布线器、不合并 PR、不下单。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  208,
+  "easyeda",
+  "- 单元测试使用 fake `easyeda`，不调用真实 CLI；round10 的真机验收（A/B 回归与受控 C99 改板）记录在 `docs/skill-speed-quality-report.md`，本轮确实在隔离副本上用真实 `easyeda apply`/DRC/归档跑过。Gerber/CPL 导出仍 `BLOCKED`，不引入外部布线器、不合并 PR、不下单。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  213,
+  "easyeda-agent",
+  "- 更新检查同时覆盖 design-hardware 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  236,
+  "easyeda-agent",
+  "- **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  236,
+  "easyeda",
+  "- **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。"
+ ],
+ [
+  "design-hardware/CHANGELOG.md",
+  250,
+  "easyeda-agent",
+  "- **G0–G6 阶段门禁**：[references/design-gates.md](references/design-gates.md)。每个门禁写目的、必需输入、当前 easyeda-agent v1.14.0 真实命令、退出条件、证据文件、豁免规则与实战反例。"
+ ],
+ [
+  "design-hardware/NOTICE",
+  8,
+  "EasyEDA",
+  "EasyEDA ecosystem integration:"
+ ],
+ [
+  "design-hardware/NOTICE",
+  11,
+  "EasyEDA",
+  "- Independent adapters and algorithm implementations reference EasyEDA projects"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  3,
+  "easyeda-agent",
+  "description: 配合AI Agent把自然语言idea推进为可验证使用的硬件产品，优先在嘉立创生态衔接方案、原理图/PCB、立创商城购料、制造装配、程序烧录与实际功能验证。也支持仅做原理图与PCB，支持没用过EDA的新手，也支持工程师的选型、改板、布局布线、检查和交付。用户说“做个温度报警器”“帮我设计电路板”“我不会用EDA，带我做”“根据这个模块画板”“修改/检查现有原理图或PCB”"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  15,
+  "easyeda-agent",
+  "新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 统一检查本 Skill 与 easyeda-agent 的 CLI/Skill/daemon/Connector（24 小时缓存）；"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  20,
+  "EasyEDA",
+  "## EasyEDA 生态工具接入"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  108,
+  "easyeda-agent",
+  "使用easyeda-agent时读取其Skill、运行 `easyeda health`，依当前 `--help` 发现命令。使用嘉立创EDA专业版官方CLI时，先运行 `python scripts/eda_exec.py doctor`，需要工程时加 `--project <已授权副本>`；按 [EDA执行](references/eda-execution.md) 区分“工具存在/连通/工程"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  108,
+  "easyeda",
+  "使用easyeda-agent时读取其Skill、运行 `easyeda health`，依当前 `--help` 发现命令。使用嘉立创EDA专业版官方CLI时，先运行 `python scripts/eda_exec.py doctor`，需要工程时加 `--project <已授权副本>`；按 [EDA执行](references/eda-execution.md) 区分“工具存在/连通/工程"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  114,
+  "easyeda-agent",
+  "- 不覆盖easyeda-agent或其他执行Skill；此Skill提供工程意图与验收，执行细节服从当前工具协议和实际能力。官方CLI适配器只发送固定受控动作，不执行用户JS、不下单、不访问网络。"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  234,
+  "easyeda-agent",
+  "- **工具边界**：Gerber/钻孔/CPL 在 easyeda-agent v1.14.0 没有 CLI/typed action，只能由用户在 EDA GUI 导出并落证据；缺人工证据时 G6 仍 `BLOCKED`。门禁通过只说明列出的检查在给定对象/版本/范围内通过，不证明实物功能。"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  288,
+  "`easyeda`",
+  "需要完全离线复跑时，在**仓库根目录**用 `python tools/offline_suite.py`（安装 `offline_guard`，真实 `easyeda`/网络连接立即失败；假 CLI 必须带显式标记），用 `python tools/offline_benchmark.py --runs 3` 生成冻结基准；安装包不含 tests/benchmarks，客户端内只运行 `scri"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  290,
+  "EasyEDA",
+  "BOM/装配结构用 `python scripts/bom_check.py parts.json`，先按 [零件示例](assets/parts.example.json) 准备输入。它检查 role/MPN/封装/装配方式/C 号存在性/备选结构；实际 EasyEDA BOM 导出用 `python scripts/bom_cnumber_check.py bom.csv --parts pr"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  296,
+  "easyeda",
+  "真实PCB任务先读 [PCB执行工作流](references/pcb-execution.md) 与 [PCB命令映射](references/pcb-command-map.json)：用 `easyeda pcb dump --include-copper` 与 `sch read` 取实测几何/引脚，运行 `python scripts/design_engine_cli.py pcb-c"
+ ],
+ [
+  "design-hardware/SKILL.md",
+  296,
+  "easyeda",
+  "真实PCB任务先读 [PCB执行工作流](references/pcb-execution.md) 与 [PCB命令映射](references/pcb-command-map.json)：用 `easyeda pcb dump --include-copper` 与 `sch read` 取实测几何/引脚，运行 `python scripts/design_engine_cli.py pcb-c"
+ ],
+ [
+  "design-hardware/assets/pcb-delivery-checklist.md",
+  9,
+  "easyeda-agent",
+  "- [ ] Skill、easyeda-agent、Connector、EDA 版本分别记录；不把“Skill 安装成功”当成 EDA 已连通。"
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  31,
+  "easyeda",
+  "- `easyeda pcb net-classes` 回读时间与结果："
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  63,
+  "easyeda",
+  "- 保存 → `easyeda doc reload` → 重新回读的时间与结果："
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  85,
+  "easyeda",
+  "- `easyeda pcb route-short --dry-run` 的命令/时间/结果，skipped nets 与实际 routes/vias 差异："
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  87,
+  "easyeda",
+  "- 是否使用 `easyeda pcb autoroute`（DSN→SES→import→DRC 的回读结果）："
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  106,
+  "easyeda",
+  "| DRC（布线前/最终） |  | `easyeda pcb drc --json` |  |  |  |"
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  107,
+  "easyeda",
+  "| 布局检查 |  | `easyeda pcb layout-lint --json` |  |  |  |"
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  108,
+  "easyeda",
+  "| 铺铜与过孔回读 |  | `easyeda pcb pour-list` / `easyeda pcb via-list` |  |  |  |"
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  108,
+  "easyeda",
+  "| 铺铜与过孔回读 |  | `easyeda pcb pour-list` / `easyeda pcb via-list` |  |  |  |"
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  109,
+  "easyeda",
+  "| 板级铜/网络 |  | `easyeda pcb dump` |  |  |  |"
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  110,
+  "easyeda",
+  "| 关键网证明 |  | `easyeda pcb net-path --json` |  |  |  |"
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  111,
+  "easyeda",
+  "| 保存重载与丝印 |  | `easyeda doc reload` / `easyeda pcb silk-align` |  |  |  |"
+ ],
+ [
+  "design-hardware/assets/routing-plan.md",
+  111,
+  "easyeda",
+  "| 保存重载与丝印 |  | `easyeda doc reload` / `easyeda pcb silk-align` |  |  |  |"
+ ],
+ [
+  "design-hardware/references/agent-collaboration.md",
+  8,
+  "easyeda-agent",
+  "| EDA执行能力 | 按真实协议读取/修改/保存工程，返回实际对象、检查和失败；例如easyeda-agent及其本机连接器 |"
+ ],
+ [
+  "design-hardware/references/agent-collaboration.md",
+  86,
+  "easyeda",
+  "| `versions` | easyeda CLI/daemon、Connector、EDA 客户端版本；人工证据写工具与版本 |"
+ ],
+ [
+  "design-hardware/references/client-compatibility.md",
+  20,
+  "`easyeda`",
+  "它检查：当前工作目录、已安装客户端、各客户端技能目录、`design-hardware` 是否已安装、`lceda-pro`/`easyeda` 是否存在、EDA 是否连通、授权副本是否可读。"
+ ],
+ [
+  "design-hardware/references/client-compatibility.md",
+  78,
+  "easyeda-agent",
+  "> 以上安装命令只复制 Skill。它不会安装嘉立创EDA、`lceda-pro`、easyeda-agent 或 EDA Agent Connector，也不会让云端会话获得本机访问。"
+ ],
+ [
+  "design-hardware/references/client-compatibility.md",
+  94,
+  "easyeda-agent",
+  "EDA Agent Connector / `easyeda-agent` 的扩展装在**嘉立创EDA专业版内部**，不是在 Claude Code、Codex 或 WorkBuddy 的“连接器”菜单里。安装后需要在 EDA 中打开目标工程并允许外部交互，再运行："
+ ],
+ [
+  "design-hardware/references/client-compatibility.md",
+  97,
+  "easyeda",
+  "easyeda health"
+ ],
+ [
+  "design-hardware/references/client-compatibility.md",
+  100,
+  "easyeda-agent",
+  "`design-hardware` 自带的 `lceda-pro` 适配器是另一条路线，不依赖 easyeda-agent。两条路线都不访问网络、不下单；实际能力以当前 `--help`/`doc api` 为准。"
+ ],
+ [
+  "design-hardware/references/design-engine.md",
+  3,
+  "easyeda-agent",
+  "`scripts/design_engine/` 是离线、stdlib-only 的确定性层，用于把真实 EDA 回读变成可复核的 IR、覆盖报告、问题和可应用计划。它**不连接 EDA、不写工程、不下单**；执行仍由 `eda_exec.py` 或 easyeda-agent 的受控命令完成。"
+ ],
+ [
+  "design-hardware/references/design-engine.md",
+  78,
+  "easyeda-agent",
+  "`plan-labels` 只移动 **Designator/Name** 属性（easyeda-agent 的 `sch attribute-move` 只支持这两类）。每个候选位置都在当前 IR 副本上检查：页内、图签、其他器件本体、其他文字、网络标签、导线；按确定性的环搜索取第一个合法位置，并重新审计后再处理下一个问题。净标签和网络旗形属于导线/符号，移动锚点会脱离所属对象，因此只报告 `u"
+ ],
+ [
+  "design-hardware/references/design-engine.md",
+  154,
+  "easyeda",
+  "边界：不连接 EDA、不写工程、不证明铺铜连通/阻抗/EMC/热；`near_pin` 是 pad 中心距，不是铜路径；模板是方法级/离线验证，不是已画完实例。实际写入仍由 typed `easyeda pcb ...` 完成，保存重开后用 fresh dump 再跑 `pcb-diff`。"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  49,
+  "easyeda",
+  "| G1 功能冻结 | S2→S3 | 未冻结、必需件为空，或冻结后增删无 change-impact 文件 | `gate_check.py`；`easyeda pcb import-changes` | `design-state.function_freeze`、`change-impact.md` | 只读评审，不修改工程 |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  50,
+  "easyeda",
+  "| G2 原理图完成 | S3→S4 | `sch drc` fatal/error>0、电气类 check>0，或网表/图签/看图证据缺失 | `easyeda sch gate --json`；`sch drc/check/netlist/export-image` | `sch_drc`、`sch_check`、`netlist_diff`、`schematic_png` | 仅 PCB 任"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  51,
+  "easyeda",
+  "| G3 布局完成 | S4 布线前 | score<60、crossings>8、overlap/off-board>0，或板框/安装孔/冻结缺失 | `easyeda pcb layout-lint --json`；`outline-get`；`mount-holes --dry-run`；`pcb dump` | `pcb_layout_lint`、`pcb_board`、`pcb_moun"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  99,
+  "easyeda",
+  "| `reimport`（G1 证据，非独立 id） | 回读 | `easyeda pcb import-changes --schematic <uuid>`；`easyeda pcb list --include-pads`；`easyeda pcb net-path` | `pcb-list-*.json`、`netlist-diff.json` | 原理图删除件在 PCB 中确实消失，网"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  99,
+  "easyeda",
+  "| `reimport`（G1 证据，非独立 id） | 回读 | `easyeda pcb import-changes --schematic <uuid>`；`easyeda pcb list --include-pads`；`easyeda pcb net-path` | `pcb-list-*.json`、`netlist-diff.json` | 原理图删除件在 PCB 中确实消失，网"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  99,
+  "easyeda",
+  "| `reimport`（G1 证据，非独立 id） | 回读 | `easyeda pcb import-changes --schematic <uuid>`；`easyeda pcb list --include-pads`；`easyeda pcb net-path` | `pcb-list-*.json`、`netlist-diff.json` | 原理图删除件在 PCB 中确实消失，网"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  115,
+  "easyeda",
+  "| `sch_drc_electrical` | 计数 | `easyeda sch drc --json > evidence/sch-drc.json` | `sch_drc`（JSON 或 human 摘要） | fatal=0 且 error=0；warn/info 记录 | 缺证据、截断或 `invalid_json` → `BLOCKED` |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  116,
+  "easyeda",
+  "| `sch_check_electrical` | 电气类计数 | `easyeda sch check --json --page <page> > evidence/sch-check.json` | `sch_check` | floating pin、net-marker/wire-name mismatch、multi-net wire、wire crossing、wire-over-"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  118,
+  "easyeda",
+  "| `netlist_audit` | 网表 diff | `easyeda sch netlist --type protel` 导出计划与实际网表；`python scripts/netlist_diff.py before.net after.net --output netlist-diff.json` | `netlist_diff` | `status=match`；电气修订只允许逐条"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  119,
+  "easyeda",
+  "| `single_pin_nets` | 单引脚网 | `easyeda sch nets --all --json --strict > evidence/sch-nets.json` | `sch_nets` | 0 个单引脚网 | 缺失或不可判定 → `BLOCKED`（可豁免）；单脚网可能是漏连，也可能是测试点，需逐条解释 |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  120,
+  "easyeda",
+  "| `titleblock` | 图签 | `easyeda sch titleblock-get --page <uuid>` | 状态记录或 `sch_check` 分类 | 板名、版本、图签完整；无 missing-titleblock/titleblock-overlap | 缺失 → `BLOCKED`（可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  121,
+  "easyeda",
+  "| `png_review` | 看图 | `easyeda sch export-image --format png --scope page --page <page> -o <file>` | `schematic_png` + `schematic.png_review` | 实际看过整页与关键局部，记录遮挡/歧义/绕线问题 | 只有 DRC 没有导图 → `BLOCKED`（可豁免） "
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  124,
+  "easyeda",
+  "`easyeda sch gate --json [--strict] [--all-pages]` 是组合入口，固定顺序 layout-lint → check → bridge-check → drc，三态 verdict 为 `pass`/`fail`/`blocked`；阻塞规则是 layout-lint overlap/pin-coincidence、check fatal+error、"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  140,
+  "easyeda",
+  "| `layout_lint_score` | 阈值 | `easyeda pcb layout-lint --json > evidence/pcb-layout-lint.json` | `pcb_layout_lint` | score ≥ 60（可用 `--min-layout-score` 调整） | 缺证据或解析失败 → `BLOCKED`；原理图 layout-lint 不算 |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  143,
+  "easyeda",
+  "| `board_outline` | 尺寸 | `easyeda pcb outline-get > evidence/pcb-outline.json`；`easyeda pcb dump --out evidence/pcb-board.json` | `pcb_board` | 实际宽高不超过 `layout.board_outline` 或 `requirements.size_limi"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  143,
+  "easyeda",
+  "| `board_outline` | 尺寸 | `easyeda pcb outline-get > evidence/pcb-outline.json`；`easyeda pcb dump --out evidence/pcb-board.json` | `pcb_board` | 实际宽高不超过 `layout.board_outline` 或 `requirements.size_limi"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  144,
+  "easyeda",
+  "| `mounting_holes` | 记录/回执 | `easyeda pcb mount-holes --dry-run > evidence/pcb-mount-holes.json` | `pcb_mount_holes` | 数量/孔径/内缩已记录，或 `not_applicable` 带理由 | 无记录 → `BLOCKED`（可豁免）；该命令铣 BoardCutout，不是导入安装"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  145,
+  "easyeda",
+  "| `connector_escape` | 距离/禁布 | `easyeda pcb dump --out board.json`；`easyeda pcb list --include-pads` | `layout.connector_escape` | 接口无源件（CC/VBUS/TVS/ESD）距连接器 ≤5 mm，且避开 slot 禁布 | 板上有连接器但未记录 → `BLOCKED`"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  145,
+  "easyeda",
+  "| `connector_escape` | 距离/禁布 | `easyeda pcb dump --out board.json`；`easyeda pcb list --include-pads` | `layout.connector_escape` | 接口无源件（CC/VBUS/TVS/ESD）距连接器 ≤5 mm，且避开 slot 禁布 | 板上有连接器但未记录 → `BLOCKED`"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  146,
+  "easyeda",
+  "| `auto_place_comparison` | 前后对比 | `easyeda pcb auto-place` 前后各跑一次 `layout-lint` | `layout.auto_place_metrics` | 记录 before/after；变差则回退 | 用了自动摆放但无指标 → `BLOCKED`（可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  149,
+  "easyeda",
+  "`easyeda pcb layout-lint --gate` 已废弃：它只显示历史阈值，不授权、不阻断布线。Skill 自己定阈值（默认 score≥60、crossings≤8）；CLI 的 `--min-score`/`--max-crossings` 只有在兼容 `--gate` 时用于显示，不能当作放行依据。"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  165,
+  "easyeda",
+  "| `stackup_declared` | 层数一致性 | `easyeda pcb stackup show`；`easyeda pcb dump --out board.json` | `pcb_board`、`stackup.layers` | 声明 2/4/6/8 层且与 PCB 实际 `copperLayers` 一致 | 不一致或缺失 → `BLOCKED`（不可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  165,
+  "easyeda",
+  "| `stackup_declared` | 层数一致性 | `easyeda pcb stackup show`；`easyeda pcb dump --out board.json` | `pcb_board`、`stackup.layers` | 声明 2/4/6/8 层且与 PCB 实际 `copperLayers` 一致 | 不一致或缺失 → `BLOCKED`（不可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  167,
+  "easyeda",
+  "| `power_ground_strategy` | 策略声明 | `easyeda pcb power-pour --dry-run`；`easyeda pcb power-planes --dry-run` | `stackup.power_ground_strategy` | 布线前声明一层一网或铺铜优先级、GND 层、非 GND 电源归属 | 缺失 → `BLOCKED`（不可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  167,
+  "easyeda",
+  "| `power_ground_strategy` | 策略声明 | `easyeda pcb power-pour --dry-run`；`easyeda pcb power-planes --dry-run` | `stackup.power_ground_strategy` | 布线前声明一层一网或铺铜优先级、GND 层、非 GND 电源归属 | 缺失 → `BLOCKED`（不可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  168,
+  "easyeda",
+  "| `inner_layers` | 内层 | `easyeda pcb stackup show` | `stackup.inner_layers` | 4 层以上声明 PLANE/SIGNAL/GND/POWER | 缺失 → `BLOCKED`（不可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  169,
+  "easyeda",
+  "| `drc_rules_recorded` | 规则 | `easyeda pcb drc-rules > evidence/pcb-drc-rules.json` | `stackup.drc_rules_recorded` | clearance/线宽/过孔/net class 在布线前记录 | 缺失 → `BLOCKED`（可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  170,
+  "easyeda",
+  "| `gnd_pours` | 铺铜回读 | `easyeda pcb power-pour` 后 `easyeda pcb pour-list --net GND` | `pcb_pours` | 2 层板 GND 在 L1、L2 均有铺铜；多网同层需回读 priority | 回执与回读不一致、`priorityVerified:false` → 不得当已确认；缺铺铜 → `BLOCKED` "
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  170,
+  "easyeda",
+  "| `gnd_pours` | 铺铜回读 | `easyeda pcb power-pour` 后 `easyeda pcb pour-list --net GND` | `pcb_pours` | 2 层板 GND 在 L1、L2 均有铺铜；多网同层需回读 priority | 回执与回读不一致、`priorityVerified:false` → 不得当已确认；缺铺铜 → `BLOCKED` "
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  171,
+  "easyeda",
+  "| `gnd_thin_traces` | 线宽审计 | `easyeda pcb dump --include-copper --out board.json` | `pcb_board` | 无低于 `max(10 mil, 2×trackWidthMinMil)` 的 GND 线 | 缺 dump → `BLOCKED`（不可豁免）；铺铜板上不应靠细 GND 线连通 |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  172,
+  "easyeda",
+  "| `via_audit` | 过孔 | `easyeda pcb via-list > evidence/pcb-vias.json` | `pcb_vias` | 回读新鲜、drill/diameter 可核对、无 `staleRisk` | 缺证据或字段不完整 → `BLOCKED`/`warn`；4 层板必须有 |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  173,
+  "easyeda",
+  "| `pcb_check_power` | DFM | `easyeda pcb check --json --spec S0.json > evidence/pcb-check.json` | `pcb_check` | `power-not-poured` 为 0 | 未运行只给 advisory `warn`；有该项 → `BLOCKED`（可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  197,
+  "easyeda",
+  "| `pcb_drc_passed` | 通过判定 | `easyeda pcb drc --json --timeout 120 > evidence/pcb-drc.json` | `pcb_drc` | `passed:true`；PCB 必须是前台/活动文档 | 后台/遮挡窗口永远算不完；超时切前台跑一次，不循环重试；缺证据 → `BLOCKED` |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  200,
+  "easyeda",
+  "| `key_net_proofs` | 逐网证明 | `easyeda pcb net-path --from D.PAD --to D.PAD --net <net> --json > evidence/net-path-<net>.json` | `net_path` | 每个关键网 `found:true` | `found:false` 表示未走线证明，不等于全板断连；缺证明 → `BL"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  202,
+  "easyeda",
+  "| `save_reload` | 持久化 | `easyeda pcb save`；`easyeda doc reload`；再 `pcb dump`/`pcb drc` 回读 | `reopen_check` 或 `routing.save_reload` | 重载后对象与 DRC 结论 match | `save` 返回成功不算；缺回读 → `BLOCKED`（不可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  202,
+  "easyeda",
+  "| `save_reload` | 持久化 | `easyeda pcb save`；`easyeda doc reload`；再 `pcb dump`/`pcb drc` 回读 | `reopen_check` 或 `routing.save_reload` | 重载后对象与 DRC 结论 match | `save` 返回成功不算；缺回读 → `BLOCKED`（不可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  203,
+  "easyeda",
+  "| `silk_over_pad` | 丝印 | `easyeda pcb silk-align`；`pcb dump`/`layout-lint` | `silk_align` | 0 处丝印压焊盘，或已整理并回读 | 缺失 → `BLOCKED`（可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  222,
+  "easyeda",
+  "| `gerber_files` | 文件存在 | easyeda v1.14.0 无 CLI/typed action；由用户在 EDA GUI 导出 | `gerber` | 文件存在、登记在 `manufacturing.artifacts`、版本与最终板一致 | CLI 无路径 → 属 `UNSUPPORTED` 能力；缺人工证据 → `BLOCKED`（不可豁免） |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  225,
+  "easyeda",
+  "| `bom_c_numbers` | 逐行 | `easyeda bom export --type csv --enrich=false > BOM.csv` | `bom` | 每行数量>0 的器件都有 C 号 | 缺 C 号 → `BLOCKED`（不可豁免）；缺 MPN/厂家只给 advisory `warn` |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  227,
+  "easyeda",
+  "| `epro2_integrity` | 完整性 | `easyeda project export --out <file> --project-uuid <uuid>` | `project_export`、`.epro2` | zip 完整可打开；`zipIntegrityVerified:true` | 损坏/缺失 → `BLOCKED`；完整性不等于可恢复 |"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  232,
+  "easyeda",
+  "**G6 的支持边界（必须写清）：** Gerber、钻孔、CPL 在 easyeda v1.14.0 没有 CLI 或 typed action（官方 `eda.pcb_ManufactureData.getGerberFile` 仍为 beta 且未包装）。这三项属 `UNSUPPORTED` 能力：gate_check 不会判 `PASS`，必须由用户在 EDA GUI 导出并落证据；缺人工"
+ ],
+ [
+  "design-hardware/references/design-gates.md",
+  408,
+  "easyeda-agent",
+  "| 2026-10-24 | 0.6.0 | 首次建立 G0–G6 门禁、四结论词与五状态词映射、`design-state/v1` 状态文件、`gate_check.py` 离线复核与温度报警板回归案例；命令面按 easyeda-agent v1.14.0 核对 |"
+ ],
+ [
+  "design-hardware/references/easyeda-ecosystem.md",
+  1,
+  "EasyEDA",
+  "# EasyEDA 生态集成（v1.0）"
+ ],
+ [
+  "design-hardware/references/easyeda-ecosystem.md",
+  34,
+  "easyeda-agent",
+  "分别管理 `lceda-pro/easyeda-pro` 官方客户端 CLI 与 `easyeda-agent`。不要混用会话 ID、"
+ ],
+ [
+  "design-hardware/references/ecosystem-capture-reuse.md",
+  1,
+  "EasyEDA",
+  "# EasyEDA batch capture and module reuse"
+ ],
+ [
+  "design-hardware/references/ecosystem-files.md",
+  1,
+  "EasyEDA",
+  "# EasyEDA file inspection and local preview"
+ ],
+ [
+  "design-hardware/references/ecosystem-routing.md",
+  1,
+  "EasyEDA",
+  "# EasyEDA routing and design-rule absorption"
+ ],
+ [
+  "design-hardware/references/eda-efficiency.md",
+  95,
+  "EasyEDA",
+  "**实测工具事实（EasyEDA 4.1.78 / easyeda-agent 1.14.0）**：PCB 导入失败的一个真实"
+ ],
+ [
+  "design-hardware/references/eda-efficiency.md",
+  95,
+  "easyeda-agent",
+  "**实测工具事实（EasyEDA 4.1.78 / easyeda-agent 1.14.0）**：PCB 导入失败的一个真实"
+ ],
+ [
+  "design-hardware/references/eda-efficiency.md",
+  180,
+  "easyeda",
+  "`easyeda debug exec` 调用 `eda.sch_PrimitiveText.create(x,y,content,rotation,null,null,fontSize)`"
+ ],
+ [
+  "design-hardware/references/eda-efficiency.md",
+  227,
+  "easyeda",
+  "- `easyeda audit cost --day ... --since ... --until ... --json` 给出墙钟、daemon 时间、"
+ ],
+ [
+  "design-hardware/references/eda-efficiency.md",
+  236,
+  "EasyEDA",
+  "### 本轮实测（2026-10-26，EasyEDA 4.1.78 / easyeda-agent 1.14.0）"
+ ],
+ [
+  "design-hardware/references/eda-efficiency.md",
+  236,
+  "easyeda-agent",
+  "### 本轮实测（2026-10-26，EasyEDA 4.1.78 / easyeda-agent 1.14.0）"
+ ],
+ [
+  "design-hardware/references/eda-execution.md",
+  7,
+  "easyeda-agent",
+  "## 常见陷阱（使用 easyeda-agent CLI 时）"
+ ],
+ [
+  "design-hardware/references/eda-execution.md",
+  9,
+  "easyeda-agent",
+  "`easyeda-agent`（本机实测 v1.15.0）的页面/文档语义与前台焦点、引擎缓存强相关；遇到异常先查 [工具陷阱](tool-gotchas.md)，再按本节规则重试。本文件讲通用执行契约，不重复该版本的具体坑。v1.15 已有 `sch autoconnect`、`sch layout-plan`、`sch zone-arrange/zone-plan/zone-draw`、`sc"
+ ],
+ [
+  "design-hardware/references/eda-execution.md",
+  9,
+  "easyeda",
+  "`easyeda-agent`（本机实测 v1.15.0）的页面/文档语义与前台焦点、引擎缓存强相关；遇到异常先查 [工具陷阱](tool-gotchas.md)，再按本节规则重试。本文件讲通用执行契约，不重复该版本的具体坑。v1.15 已有 `sch autoconnect`、`sch layout-plan`、`sch zone-arrange/zone-plan/zone-draw`、`sc"
+ ],
+ [
+  "design-hardware/references/eda-execution.md",
+  12,
+  "easyeda",
+  "- **staleRisk**：回执带 `staleRisk` 时不得作为权威证据；执行 `save` → `easyeda doc reload` → 重新回读。"
+ ],
+ [
+  "design-hardware/references/eda-execution.md",
+  50,
+  "easyeda-agent",
+  "`easyeda-agent` 或其他执行Skill若已存在，仍按其 `health`/`--help`/实际协议使用；本桥不覆盖它们，也不假设它们一定安装。没有 `easyeda` 命令时，不要编造 `easyeda health` 的输出。"
+ ],
+ [
+  "design-hardware/references/eda-execution.md",
+  50,
+  "`easyeda`",
+  "`easyeda-agent` 或其他执行Skill若已存在，仍按其 `health`/`--help`/实际协议使用；本桥不覆盖它们，也不假设它们一定安装。没有 `easyeda` 命令时，不要编造 `easyeda health` 的输出。"
+ ],
+ [
+  "design-hardware/references/eda-execution.md",
+  50,
+  "easyeda",
+  "`easyeda-agent` 或其他执行Skill若已存在，仍按其 `health`/`--help`/实际协议使用；本桥不覆盖它们，也不假设它们一定安装。没有 `easyeda` 命令时，不要编造 `easyeda health` 的输出。"
+ ],
+ [
+  "design-hardware/references/execution-efficiency.md",
+  38,
+  "easyeda",
+  "确认当前快照、权限及窗口归属后，在相同命令增加 `--apply --yes`。适配器一次调用现有 `easyeda apply`，仍保留 journal、save、reload、fresh dump 与作用域 diff。全 no-op 时不生成新队列、不调用 EDA；报告才是本次状态，不执行目录里遗留的旧 playbook。部分成功或超时先回读并重新生成差异，禁止全批盲重试。"
+ ],
+ [
+  "design-hardware/references/feedback-loop.md",
+  169,
+  "`easyeda`",
+  "- 单元/集成测试用注入的 fake runner，不解析 PATH 上的 `easyeda`；离线套件"
+ ],
+ [
+  "design-hardware/references/installation-updates.md",
+  95,
+  "easyeda-agent",
+  "## 同时覆盖 easyeda-agent（0.8.1 起）"
+ ],
+ [
+  "design-hardware/references/installation-updates.md",
+  98,
+  "easyeda-agent",
+  "本 Skill，以及 easyeda-agent 的 CLI、客户端 Skill、daemon 和 EDA Connector。"
+ ],
+ [
+  "design-hardware/references/installation-updates.md",
+  100,
+  "easyeda",
+  "执行器检查通过官方 `easyeda update --check --exit-code --json`，禁止把退出 10 的差异报告当成已升级，"
+ ],
+ [
+  "design-hardware/references/installation-updates.md",
+  105,
+  "easyeda-agent",
+  "菜单 3 更新本 Skill，菜单 8 更新 easyeda-agent；Agent 在新 Skill 加载后继续处理执行器："
+ ],
+ [
+  "design-hardware/references/installation-updates.md",
+  114,
+  "easyeda-agent",
+  "不使用 `--force` 覆盖开发版。更新前备份当前 CLI 二进制和当前客户端 easyeda-agent Skill，"
+ ],
+ [
+  "design-hardware/references/installation-updates.md",
+  119,
+  "easyeda-agent",
+  "仅在子进程中映射到 `.workbuddy` 根目录再同步 easyeda-agent，绝不修改真正的 Claude 配置。"
+ ],
+ [
+  "design-hardware/references/installation-updates.md",
+  128,
+  "easyeda-agent",
+  "两套更新不是跨组件原子事务。本 Skill 的 rollback 只回退自身，不回退 easyeda-agent；"
+ ],
+ [
+  "design-hardware/references/installation-updates.md",
+  134,
+  "easyeda-agent",
+  "https://github.com/zhoushoujianwork/easyeda-agent 。本机只读检查实际返回 DNS 错误，未修改安装。"
+ ],
+ [
+  "design-hardware/references/interaction.md",
+  33,
+  "easyeda",
+  "先读取已安装执行Skill和当前help，运行easyeda health（若工具可用）。不要求用户重复启动已经运行的daemon，也不把历史环境配置路径写死。"
+ ],
+ [
+  "design-hardware/references/jlc-handoff.md",
+  35,
+  "easyeda",
+  "`easyeda bom export --type csv` 默认会用执行器的 `standard-parts.json` 按 MPN 回填"
+ ],
+ [
+  "design-hardware/references/jlc-handoff.md",
+  41,
+  "easyeda",
+  "easyeda bom export --type csv --parts evidence/project-standard-parts.json"
+ ],
+ [
+  "design-hardware/references/lcsc-sourcing.md",
+  52,
+  "easyeda",
+  "- 画完或改完原理图先导出原始 CSV：`easyeda bom export --type csv --enrich=false`。原始文件保留 EDA 库自带的 `Supplier Part` 字段，是后续与商城、SMT 对账的基线；不要先手工改一版“看起来齐全”的表。"
+ ],
+ [
+  "design-hardware/references/lcsc-sourcing.md",
+  53,
+  "easyeda",
+  "- `easyeda bom export --type csv` 默认会尝试按 MPN 富化 C 号；富化是 best-effort，失败时导出文件保持未富化并打印警告，导出本身仍成功。**富化失败不阻断设计与画板**：保留原始 CSV，在报告里写“C 号未富化/待核”；采购或下单前仍必须补齐可下单的 C 号或非立创渠道。"
+ ],
+ [
+  "design-hardware/references/lcsc-sourcing.md",
+  54,
+  "easyeda",
+  "- `easyeda bom enrich <bom.tsv>` 只处理 TSV 输入，`--out` 写结果；它不是设计前置条件，失败就停在原始 BOM，不反复重跑。`bom-enrich` 在 `value=null` 时有已知异常，见 [工具动作陷阱](tool-gotchas.md) §7。"
+ ],
+ [
+  "design-hardware/references/network-discipline.md",
+  30,
+  "easyeda-agent",
+  "仓库 `tools/skill-feedback/apply-feedback.py` 为维护者提供双 Skill 离线迁移；只在独占副本/停用的目标上运行。它不由 Skill 启动流程自动执行，也不替代正式发行。easyeda-agent 更新可能覆盖本地补丁；上游采纳前需在更新后复查。不要降低或修改版本标识来伪装兼容，也不要把改过的安装内容称为发布者原包。"
+ ],
+ [
+  "design-hardware/references/offline-regression.md",
+  3,
+  "`easyeda`",
+  "本页说明本轮离线工具链的可执行入口、边界和判据。所有命令只读本地 JSON/SVG/CSV，**不启动或连接 EDA、不调用真实 `easyeda`、不写工程**。通过只代表离线检查通过，不证明真实 EDA、布线、制造或硬件功能。"
+ ],
+ [
+  "design-hardware/references/offline-regression.md",
+  17,
+  "`easyeda`",
+  "- 设置 `HDS_OFFLINE=1`，安装 `offline_guard`：真实 `easyeda`/`easyeda.exe` 或进程内网络连接立即 `OfflineViolation`；"
+ ],
+ [
+  "design-hardware/references/offline-regression.md",
+  24,
+  "`easyeda`",
+  "负例在 `tests/test_offline_guard.py`：裸 `easyeda`、`subprocess.run(['easyeda',...])`、`socket.connect` 均被拦截；带标记的假 CLI 通过。"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  5,
+  "`easyeda`",
+  "需要完整离线回归、证据 manifest 绑定、冻结基准或图面叠加图时，先读 [离线回归与基准](offline-regression.md)：仓库根目录 `python tools/offline_suite.py` 在 `HDS_OFFLINE=1` 下拦截真实 `easyeda` 与网络；`python tools/offline_benchmark.py` 生成 correctness/c"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  37,
+  "EasyEDA",
+  "| `wires` | 每项`id,points`，至少两个不同连续点；可给`net`以提示不同命名导线的内部交叉；不得据此合并/改名。可选 `primitive_id` 表示同一 EasyEDA 导线图元的分段；适配器把 `rawEncoding=flat-segments` 的每 4 个数作为一条独立线段，不能当连续折线读，否则会伪造斜线穿符号 |"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  48,
+  "EasyEDA",
+  "| `policy.wire_endpoint_check` | 可选布尔，默认true。EasyEDA 折线用中间顶点连接时端点检查会产生假悬空；回读适配器设false，连通性以 `easyeda sch check` 为准 |"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  48,
+  "easyeda",
+  "| `policy.wire_endpoint_check` | 可选布尔，默认true。EasyEDA 折线用中间顶点连接时端点检查会产生假悬空；回读适配器设false，连通性以 `easyeda sch check` 为准 |"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  65,
+  "easyeda-agent",
+  "### 从 easyeda-agent v1.15 回读构建输入"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  70,
+  "easyeda",
+  "easyeda sch list --include-bbox --include-pins --include-wires \\"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  72,
+  "easyeda",
+  "easyeda sch sheet-geometry --from-svg page.svg --json > sheet.json"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  88,
+  "EasyEDA",
+  "- `wire_endpoint_check` 默认关闭：EasyEDA 折线可在中间顶点连接，按首尾端点会误报悬空；连通性使用 `easyeda sch check`/`sch read`，本检查器只负责几何与文字。"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  88,
+  "easyeda",
+  "- `wire_endpoint_check` 默认关闭：EasyEDA 折线可在中间顶点连接，按首尾端点会误报悬空；连通性使用 `easyeda sch check`/`sch read`，本检查器只负责几何与文字。"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  110,
+  "easyeda",
+  "`easyeda sch list --include-device-identity --include-page-primitives"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  138,
+  "easyeda",
+  "有真实 `easyeda pcb dump` 与 `sch read` 时，用 `pcb-constraints` / `pcb-check-plan` / `pcb-candidates` / `pcb-escapes` / `pcb-power` / `pcb-diff` 做离线约束、局部模板、候选与回读比较，详见 [PCB执行工作流](pcb-execution.md)。这些命令只读本地 J"
+ ],
+ [
+  "design-hardware/references/offline-tools.md",
+  138,
+  "easyeda",
+  "有真实 `easyeda pcb dump` 与 `sch read` 时，用 `pcb-constraints` / `pcb-check-plan` / `pcb-candidates` / `pcb-escapes` / `pcb-power` / `pcb-diff` 做离线约束、局部模板、候选与回读比较，详见 [PCB执行工作流](pcb-execution.md)。这些命令只读本地 J"
+ ],
+ [
+  "design-hardware/references/part-selection.md",
+  50,
+  "easyeda",
+  "- 原始 BOM 先导出并保留：`easyeda bom export --type csv --enrich=false`；富化失败不阻断设计，处理流程见 [立创商城](lcsc-sourcing.md)。"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  4,
+  "easyeda-agent",
+  "\"source\": \"docs/round10/interface-contract.md (section 5); docs/round10/recon/{cli,evidence,stack}.md; design-hardware/references/pcb-execution.md; design-hardware/cases/photo-led-pcb-2026-10-26/READM"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  11,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"pcb\", \"dump\", \"--project\", \"<project>\", \"--doc\", \"<doc>\", \"--include-copper\", \"--out\", \"<dump.json>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  29,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"pcb\", \"save\", \"--project\", \"<project>\", \"--doc\", \"<doc>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  42,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"doc\", \"reload\", \"<doc>\", \"--project\", \"<project>\", \"--json\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  55,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"pcb\", \"drc\", \"--project\", \"<project>\", \"--doc\", \"<doc>\", \"--json\", \"--timeout\", \"<seconds>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  68,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"pcb\", \"check\", \"--project\", \"<project>\", \"--doc\", \"<doc>\", \"--json\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  81,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"pcb\", \"layout-lint\", \"--project\", \"<project>\", \"--doc\", \"<doc>\", \"--json\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  94,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"pcb\", \"net-path\", \"--project\", \"<project>\", \"--doc\", \"<doc>\", \"--from\", \"<D.PAD>\", \"--to\", \"<D.PAD>\", \"--net\", \"<NET>\", \"--json\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  107,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"sch\", \"read\", \"--project\", \"<project>\", \"--out\", \"<sch-read.json>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  120,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"pcb\", \"stage-snapshot\", \"--stage\", \"<top|bottom>\", \"--project\", \"<project>\", \"--doc\", \"<doc>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  130,
+  "easyeda",
+  "\"notes\": \"Switch the canvas first with easyeda pcb view-side --side <top|bottom>. When stage-snapshot is unavailable, fall back to easyeda pcb snapshot --fit-mode board. Copy the reported artifact int"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  130,
+  "easyeda",
+  "\"notes\": \"Switch the canvas first with easyeda pcb view-side --side <top|bottom>. When stage-snapshot is unavailable, fall back to easyeda pcb snapshot --fit-mode board. Copy the reported artifact int"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  130,
+  ".easyeda",
+  "\"notes\": \"Switch the canvas first with easyeda pcb view-side --side <top|bottom>. When stage-snapshot is unavailable, fall back to easyeda pcb snapshot --fit-mode board. Copy the reported artifact int"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  133,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"pcb\", \"layout\", \"render\", \"--actual\", \"--board\", \"<dump.json>\", \"--side\", \"both\", \"--out\", \"<svg>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  146,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"bom\", \"export\", \"--type\", \"csv\", \"--enrich=false\", \"--project\", \"<project>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  159,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"project\", \"export\", \"--project-uuid\", \"<project-uuid>\", \"--window\", \"<window-id>\", \"--out\", \"<archive.epro2>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  172,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"apply\", \"<playbook.json>\", \"--project\", \"<project>\", \"--doc\", \"<doc>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  213,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"doc\", \"switch\", \"<doc-name-or-uuid>\", \"--project\", \"<project>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  219,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"doc\", \"ls\", \"--project\", \"<project>\", \"--json\"],"
+ ],
+ [
+  "design-hardware/references/pcb-command-map.json",
+  225,
+  "\"easyeda\"",
+  "\"argv\": [\"easyeda\", \"pcb\", \"snapshot\", \"--fit-mode\", \"board\", \"--project\", \"<project>\", \"--doc\", \"<doc>\"],"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  3,
+  "easyeda",
+  "本页只覆盖本轮已打通的范围：**低压、低速、小规模、双层 PCB**。它把 `easyeda pcb dump` / `sch read` 的实测数据接到可执行的约束、局部模板、候选与回读检查上；不承诺高速 DDR、复杂 FPGA、RF、离线市电、安规隔离或大功率变换器的自动设计。"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  5,
+  "easyeda",
+  "先读 [PCB 工程习惯](pcb.md) 与 [EDA 执行](eda-execution.md)。执行器仍是 `easyeda pcb ...` / `apply` 的 typed 动作；本页的离线引擎不连接 EDA、不写工程。命令、参数与返回字段以当前 `easyeda pcb <cmd> --help` 为准；逐命令的 argv、必需/可选参数、输出角色与校验点见 [PCB 命令映射](p"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  5,
+  "easyeda",
+  "先读 [PCB 工程习惯](pcb.md) 与 [EDA 执行](eda-execution.md)。执行器仍是 `easyeda pcb ...` / `apply` 的 typed 动作；本页的离线引擎不连接 EDA、不写工程。命令、参数与返回字段以当前 `easyeda pcb <cmd> --help` 为准；逐命令的 argv、必需/可选参数、输出角色与校验点见 [PCB 命令映射](p"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  12,
+  "easyeda",
+  "| 批量写入 | `scripts/pcb_apply_plan.py` | 编译 playbook v1，一次 `easyeda apply` 后回读 | dry-run 外任何 save/reload/journal/dump 失败都不算 verified |"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  20,
+  "easyeda",
+  "| 命令存在 | `easyeda pcb <cmd> --help` 可读 | 当前 CLI 实际输出 | 不猜接口 |"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  32,
+  "easyeda",
+  "easyeda pcb dump --project <name> --doc <PCB> --include-copper --out board.json"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  33,
+  "easyeda",
+  "easyeda pcb list --project <name> --doc <PCB> --include-bbox"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  34,
+  "easyeda",
+  "easyeda pcb drc-rules --project <name> --doc <PCB>"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  35,
+  "easyeda",
+  "easyeda pcb layers --project <name> --doc <PCB>"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  45,
+  "easyeda",
+  "easyeda sch read --project <name> --out sch-read.json"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  92,
+  "EasyEDA",
+  "EasyEDA 4.1.78 + easyeda-agent 1.15.0 实测：Board 已绑定原理图/Pcb、PCB 仍为空时，`pcb import-changes` 能把**通过 API 放置**的原理图器件导入 PCB。2026-10-27 的双路按键板返回 `imported:true`、`componentsBefore:0`、`componentsAfter:12`、`parti"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  92,
+  "easyeda-agent",
+  "EasyEDA 4.1.78 + easyeda-agent 1.15.0 实测：Board 已绑定原理图/Pcb、PCB 仍为空时，`pcb import-changes` 能把**通过 API 放置**的原理图器件导入 PCB。2026-10-27 的双路按键板返回 `imported:true`、`componentsBefore:0`、`componentsAfter:12`、`parti"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  95,
+  "easyeda",
+  "easyeda doc open <PCB_UUID> --project <name>"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  96,
+  "easyeda",
+  "easyeda pcb import-changes --project <name> --doc <PCB_UUID>"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  97,
+  "easyeda",
+  "easyeda pcb save --project <name> --doc <PCB_UUID>"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  98,
+  "easyeda",
+  "easyeda doc reload <PCB_UUID> --project <name>"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  99,
+  "easyeda",
+  "easyeda pcb dump --project <name> --doc <PCB_UUID> --include-copper --out board.json"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  132,
+  "easyeda",
+  "`near_pin` 的距离固定标注 `measurement=pad-centre-euclidean`、`copper_path_verified=false`。要证明真实铜路径，布完后用 `easyeda pcb net-path`；它不包含铺铜，铺铜网络另用 DRC/实际铜层核对。"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  217,
+  "easyeda",
+  "1. 先用本工具或 `easyeda pcb escape-plan` 找具体被堵 pad、网络、障碍物。"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  229,
+  "easyeda",
+  "| 关键局部短线/可预测的短跳 | `easyeda pcb autoroute --net <关键网> --layers 1,2` | 逐网 created/failed、`net-path`、DRC |"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  230,
+  "easyeda",
+  "| 稀疏普通短线 | `easyeda pcb route-short` | `--dry-run` 先看 skipped/failed；完成后 DRC |"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  231,
+  "easyeda",
+  "| 剩余普通网 | `easyeda pcb autoroute` | 同层/规则/器件不变；记录版本与参数 |"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  252,
+  "easyeda",
+  "easyeda pcb modify --project <name> --doc <PCB> --id <pid> --patch '{\"x\":...}'"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  253,
+  "easyeda",
+  "easyeda pcb save --project <name> --doc <PCB>"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  254,
+  "easyeda",
+  "easyeda doc reload <PCB> --project <name>"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  255,
+  "easyeda",
+  "easyeda pcb dump --project <name> --doc <PCB> --include-copper --out after.json"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  259,
+  "easyeda",
+  "批量写入走受控适配器 `pcb_apply_plan.py`：它先把计划与 fresh dump 对账，再编译 `easyeda apply` playbook v1，一次 apply 后回读 journal、fresh dump 和 scoped diff；不再逐件调用 `pcb modify`。"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  296,
+  "easyeda",
+  "6. `--apply`：只执行一次 `easyeda apply <playbook> --project <name> --doc <PCB>`（`--yes` 只在显式授权时传），随后校验 journal、out-dump 存在且可解析。journal 每步状态为 `planned|sent|confirmed|failed|unknown`；`unknown` 表示已发出但无确认。报告 `"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  382,
+  "easyeda P",
+  "[--schematic F] [--key-nets F] [--warn-disposition F] [--easyeda PATH] \\"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  389,
+  "`easyeda`",
+  "- `--skip-live` 只组装并校验 case 目录中已有产物与哈希，绝不调用 `easyeda`；适合复核已采集证据。"
+ ],
+ [
+  "design-hardware/references/pcb-execution.md",
+  399,
+  "`easyeda`",
+  "- 四个阶段工具由 `tests/test_pcb_preflight.py`、`test_pcb_apply_plan.py`、`test_pcb_gate.py`、`test_pcb_case.py` 用 fake `easyeda` 覆盖；测试不调用真实 EDA，也不代表任何真实工程已写入或已交付。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  21,
+  "easyeda",
+  "| 可布性 | 只有两层走线，靠通道规划与铺铜腾空间；交叉多时容易反复 | 内层可做平面，外层走线压力小；但过孔与平面开窗更复杂 | 看 `easyeda pcb layout-lint --json` 的 score/crossings 与关键逃线；2 层多轮重排仍不收敛再评估升级 |"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  47,
+  "easyeda",
+  "- 必须使用 `easyeda pcb power-planes` 建立电源/地平面，而不是把“命名为 GND 的层”当已正确铺铜。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  53,
+  "easyeda",
+  "- 用 `easyeda pcb stackup show` 回读实际层数；用 `easyeda pcb stackup set` 修改（实际参数以 `stackup set --help` 为准）时必须确认当前工程与目标层数一致。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  53,
+  "easyeda",
+  "- 用 `easyeda pcb stackup show` 回读实际层数；用 `easyeda pcb stackup set` 修改（实际参数以 `stackup set --help` 为准）时必须确认当前工程与目标层数一致。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  67,
+  "easyeda",
+  "2 层用 `easyeda pcb power-pour`："
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  73,
+  "easyeda",
+  "4 层用 `easyeda pcb power-planes`："
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  76,
+  "easyeda",
+  "- 用 `easyeda pcb power-planes` 建立电源/地平面（层号、gnd/power 层与是否改叠层的参数以 `power-planes --help` 为准）；平面建立后回读 `stackup show` 与 `pour-list`，确认层号、网络与连通，不把命令回执当完成。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  81,
+  "easyeda",
+  "- 铺铜后用 `easyeda pcb via-stitch` 增加缝合孔，再用 `easyeda pcb via-list` 审计；确认缝合孔真的落到目标平面或铺铜上（RT30），不是等距排满全板就算完成。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  81,
+  "easyeda",
+  "- 铺铜后用 `easyeda pcb via-stitch` 增加缝合孔，再用 `easyeda pcb via-list` 审计；确认缝合孔真的落到目标平面或铺铜上（RT30），不是等距排满全板就算完成。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  82,
+  "easyeda",
+  "- 用 `easyeda pcb pour-list` 与 `easyeda pcb dump` 检查孤岛、狭颈与意外分割（RT27、RT28）。轮廓、网名和颜色都不证明已铺铜。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  82,
+  "easyeda",
+  "- 用 `easyeda pcb pour-list` 与 `easyeda pcb dump` 检查孤岛、狭颈与意外分割（RT27、RT28）。轮廓、网名和颜色都不证明已铺铜。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  89,
+  "easyeda",
+  "- 真实案例：在已有 4 个铺铜的板上执行 `easyeda pcb route-short --route-power`，产生 73 条 route（GND 45、+5V 21、VREF 7；2 条 VREF 失败），实际 drawn 71、vias 14；随后 DRC 93（71 Clearance + 22 Connection），其中 net=GND 的 Clearance 68 条。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  96,
+  "easyeda",
+  "- 先用 `easyeda pcb net-classes` 回读当前网络类，确认 +5V、VREF 等电源网属于哪个类，再决定宽度；没有类就先建类，不逐段随手改宽。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  105,
+  "easyeda",
+  "- 用 `easyeda pcb via-list` 与 `easyeda pcb dump` 回读全部过孔，核对孔径、外径、层跨度与所在网络，并与 `pcb drc-rules`、net class 和板厂能力对照。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  105,
+  "easyeda",
+  "- 用 `easyeda pcb via-list` 与 `easyeda pcb dump` 回读全部过孔，核对孔径、外径、层跨度与所在网络，并与 `pcb drc-rules`、net class 和板厂能力对照。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  106,
+  "easyeda",
+  "- 过孔证据带 `staleRisk` 时不能作为权威结果；必须保存工程、`easyeda doc reload` 后重新回读。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  116,
+  "easyeda",
+  "- 先运行 `easyeda pcb route-short --dry-run`，检查计划布多少条、跳过哪些网络、准备打多少过孔；再决定是否执行。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  128,
+  "easyeda",
+  "- `easyeda pcb autoroute` 走外部 Freerouting 流程：导出 DSN、外部布线、回导 SES、导入、再 DRC。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  136,
+  "easyeda",
+  "1. `easyeda pcb drc --json` 并读取完整结果，不用截断文件。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  137,
+  "easyeda",
+  "2. `easyeda pcb check --json` 查 `dangling-end`、`acute-angle`、`width-under-spec`、`power-not-poured` 等。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  138,
+  "easyeda",
+  "3. 关键网逐条 `easyeda pcb net-path`。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  139,
+  "easyeda",
+  "4. `easyeda pcb dump` 回读真实铜与过孔。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  140,
+  "easyeda",
+  "5. 保存工程、`easyeda doc reload`、重新回读。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  167,
+  "easyeda",
+  "- 可用 `easyeda pcb layout-plan`、`easyeda pcb place-constrained` 辅助规划禁布与通道；它们只生成计划/约束，不代表实际铜已连。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  167,
+  "easyeda",
+  "- 可用 `easyeda pcb layout-plan`、`easyeda pcb place-constrained` 辅助规划禁布与通道；它们只生成计划/约束，不代表实际铜已连。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  177,
+  "easyeda",
+  "- 可用 `easyeda pcb escape-plan` 生成逃逸规划（实际参数以 `escape-plan --help` 为准），再与真实布局回读对照。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  207,
+  "easyeda",
+  "- 逐网运行：`easyeda pcb net-path --from D.PAD --to D.PAD --net NAME --json`，必要时加 `--through`、`--layer`。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  220,
+  "easyeda",
+  "- 布线、铺铜、移件、改层或改规则后，保存工程并执行 `easyeda doc reload`，再重新回读。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  263,
+  "easyeda",
+  "- 在已铺铜的板上执行 `easyeda pcb route-short --route-power`：计划 73 条 route（GND 45、+5V 21、VREF 7；2 条 VREF 失败），实际 drawn 71、vias 14。"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  297,
+  "easyeda",
+  "| 完整 DRC | `easyeda pcb drc --json` 完整文件 | G5 | `passed:true`，0 Connection |"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  299,
+  "easyeda",
+  "| 保存重载 | 保存 → `easyeda doc reload` → 新鲜回读 | G5 | 内容一致，无 stale |"
+ ],
+ [
+  "design-hardware/references/pcb-routing-strategy.md",
+  300,
+  "easyeda",
+  "| 丝印 | `easyeda pcb silk-align` 回读 | G5 | 无压焊盘、极性/位号可读 |"
+ ],
+ [
+  "design-hardware/references/schematic-authoring.md",
+  58,
+  "EasyEDA",
+  "EasyEDA 会为已命名网络在导线上画网名，netflag/netport 的网名又是符号自身文字；这两类都不在"
+ ],
+ [
+  "design-hardware/references/schematic-authoring.md",
+  77,
+  "easyeda",
+  "easyeda sch list --include-bbox --include-pins --include-wires \\"
+ ],
+ [
+  "design-hardware/references/schematic-authoring.md",
+  79,
+  "easyeda",
+  "easyeda sch sheet-geometry --from-svg page.svg --json > sheet.json"
+ ],
+ [
+  "design-hardware/references/schematic-authoring.md",
+  90,
+  "easyeda",
+  "`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `easyeda sch read`，不比较"
+ ],
+ [
+  "design-hardware/references/schematic-authoring.md",
+  106,
+  "EasyEDA",
+  "### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）"
+ ],
+ [
+  "design-hardware/references/schematic-authoring.md",
+  106,
+  "easyeda-agent",
+  "### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  3,
+  "EasyEDA",
+  "本文件用于“把已有电气设计画清楚”的任务：不改拓扑、不换器件、不删网络，只重排器件、导线和标签。它描述一条已经在本机 EasyEDA 4.1.78 + easyeda-agent 1.15.0 上跑通过的流水线，以及每个环节的硬门禁、证据和已知限制。"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  3,
+  "easyeda-agent",
+  "本文件用于“把已有电气设计画清楚”的任务：不改拓扑、不换器件、不删网络，只重排器件、导线和标签。它描述一条已经在本机 EasyEDA 4.1.78 + easyeda-agent 1.15.0 上跑通过的流水线，以及每个环节的硬门禁、证据和已知限制。"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  44,
+  "easyeda",
+  "easyeda doc ls --project <project>"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  45,
+  "easyeda",
+  "easyeda sch sheet-geometry --project <project> --doc <page-uuid> --json"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  46,
+  "easyeda",
+  "easyeda sch sheet-geometry --from-svg <page.svg> --json      # 精确内框/图签"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  47,
+  "easyeda",
+  "easyeda sch list --project <project> --page <page-uuid> \\"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  50,
+  "easyeda",
+  "easyeda sch connectivity --project <project> --page <page-uuid> > connectivity-before.json"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  51,
+  "easyeda",
+  "easyeda sch designator-geometry --project <project> --doc <page-uuid> --out designators-before.json"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  52,
+  "easyeda",
+  "easyeda sch check --project <project> --page <page-uuid> --json > check-before.json"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  53,
+  "easyeda",
+  "easyeda sch export-image --project <project> --page <page-uuid> --format svg --out before.svg"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  54,
+  "easyeda",
+  "easyeda sch export-image --project <project> --page <page-uuid> --format png --out before.png"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  59,
+  "easyeda",
+  "**并发规则**：同一个工程副本同一时间只允许一个写入者。开工前查 `easyeda audit tail`，确认没有其他会话正在写；发现漂移立即停写，不要用 `--resume` 跳过守卫。"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  121,
+  "easyeda",
+  "easyeda sch layout-plan --zones --from out/model/layout-source.json \\"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  156,
+  "easyeda",
+  "easyeda sch layout-sheet-plan --from render-input.json --out pages.json --flow z"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  176,
+  "easyeda",
+  "easyeda sch layout-render --from page.json --out layout.svg"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  223,
+  "easyeda",
+  "easyeda sch compose --from composition.json --layout-page page.json \\"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  226,
+  "easyeda",
+  "easyeda sch apply apply.json --dry-run"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  227,
+  "easyeda",
+  "easyeda sch apply apply.json --yes"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  235,
+  "EasyEDA",
+  "\"EasyEDA Agent Component ID\": \"cmp-<位号>\""
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  281,
+  "easyeda",
+  "- 运行前必须已导出 `.epro2` 完整备份，并确认没有其他写入者（`easyeda audit tail`）。"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  295,
+  "easyeda",
+  "easyeda sch save --project <project> --doc <page>"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  296,
+  "easyeda",
+  "easyeda sch connectivity --project <project> --page <page> > connectivity-after.json"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  297,
+  "easyeda",
+  "easyeda sch gate --project <project>"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  298,
+  "easyeda",
+  "easyeda sch export-image --project <project> --page <page> --format svg --out after.svg"
+ ],
+ [
+  "design-hardware/references/schematic-layout-engine.md",
+  299,
+  "easyeda",
+  "easyeda sch export-image --project <project> --page <page> --format png --out after.png"
+ ],
+ [
+  "design-hardware/references/schematic-layout.md",
+  92,
+  "easyeda-agent",
+  "按“连接基线 → 模块局部几何 → 页面组合 → 小批写入 → 实际回读 → 导图看图 → 修正”的顺序推进，遵循当前执行器协议。在easyeda-agent提供compose/apply时，把排版决定写回其源数据/规划，再执行并回读；不要在画布上临时整理后让下一次apply覆盖。"
+ ],
+ [
+  "design-hardware/references/source-register.md",
+  55,
+  ".easyeda",
+  "| MFG-S08 | 导出坐标文件（嘉立创EDA专业版用户指南） | 嘉立创EDA | 无显式日期（“本页面更新于:” 为空），页脚 © 2026。 | 正文 “导出坐标文件” 与 “CSV 分隔符” 两节，含导出对话框全部字段与字段说明表。 | MF10、MF18、MF20；S05 推荐列序中未含 SMD，说明该列可选而非必需。 | “SMD/是否全贴片” 是 EDA 字段，不等于平台可贴判定"
+ ],
+ [
+  "design-hardware/references/source-register.md",
+  62,
+  ".easyeda",
+  "| MFG-S15 | 嘉立创SMT选型工具（嘉立创EDA专业版用户指南） | 嘉立创EDA | 无显式日期；页脚 © 2026。 | 正文 “嘉立创SMT选型工具” 全节。 | MF22、MF23；lcsc-sourcing.md 第 2 节“EDA device/库绑定”核对流程。 | 页面未说明基础库/扩展库/私有库分类，未说明可贴状态列，也没有“选型不保证库存”的明文（该结论由 S04/S"
+ ],
+ [
+  "design-hardware/references/sources.md",
+  9,
+  "easyeda-agent",
+  "| EasyEDA执行器与安装/命令文档 | https://github.com/zhoushoujianwork/easyeda-agent |"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  3,
+  "easyeda-agent",
+  "本文件记录 easyeda-agent 操作嘉立创EDA专业版时，已经被现场证据确认的动作级陷阱：命令返回成功但对象没有按预期改变，或者同一条命令只因前台/活动页状态不同就失败。这里只写“现象、原因、正确动作、证据/边界与本案例”；工程方法、能力矩阵和保存/重开流程仍看 [eda-execution.md](eda-execution.md)，门禁定义、证据角色与豁免规则看 [design-gat"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  9,
+  "easyeda-agent",
+  "- 适用工具：easyeda-agent `v1.14.0`；2026-10-27 的双路按键 LED 板条目使用 `v1.15.0`，条目内单独标注。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  53,
+  "EasyEDA",
+  "| G5 | `pcb snapshot` 返回 `PRECONDITION_REFUSED` | tab hidden，画布未重绘，截图会过期 | 切前台重试；不能用截图时改用 `pcb dump --include-copper` 取几何，或 actual 读回渲染并标注“非官方前台截图” | 错误原文含 `The EasyEDA tab is hidden...`；本案例 `pcb-snap"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  55,
+  "easyeda",
+  "| G4/G5 | 修改后回执带 `staleRisk`，`via.list`/`components.list` 是旧数据 | PCB mutation 后宿主枚举可能没刷新；staleRisk 只是提示，不是拒绝 | `pcb save` → `easyeda doc reload` → 重新读取；刷新失败按不可用处理 | staleRisk 回执只作诊断，不能当最终约束证据；G4 过孔审计遇"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  72,
+  "easyeda",
+  "**正确动作**：先用 `--page NAME|UUID` 指向目标页，或用 `doc switch` 切换后再确认活动页；随后执行 `easyeda sch check --json --page NAME|UUID`。若仍返回 shallow data，先修活动页状态，不把空 pins 解释成“没有引脚”。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  82,
+  "easyeda",
+  "**正确动作**：把 PCB tab 切到前台，使用 `easyeda pcb drc --json --timeout SEC` 跑一次，并把完整输出落盘。超时后先检查 PCB 是否真的在前台，再做一次干净重跑；不要在不改变窗口状态的情况下循环重试。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  88,
+  "easyeda",
+  "**现象**：`easyeda pcb snapshot` 返回 `PRECONDITION_REFUSED`，消息为 `The EasyEDA tab is hidden...`，并明确说没有捕获到图像。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  88,
+  "EasyEDA",
+  "**现象**：`easyeda pcb snapshot` 返回 `PRECONDITION_REFUSED`，消息为 `The EasyEDA tab is hidden...`，并明确说没有捕获到图像。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  92,
+  "easyeda",
+  "**正确动作**：把 PCB 窗口切到前台再抓图。无法切前台时，改用 `easyeda pcb dump --include-copper` 读取几何，再用 DRC、`pour-list` 和回读判断；原理图图面改用 `sch export-image`。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  102,
+  "easyeda",
+  "**正确动作**：同层多网铺铜后必须用 `easyeda pcb pour-list` 按层、按网回读 priority 和 basic 属性；需要确认实际成铜时用 `pcb poured-list` 或 `pcb dump` 的铜几何（`pour-list` 的 pour 项可能没有 `poured` 字段，不能默认已填充）。需要调整时用已核对参数重跑或重建，再回读，不要修改或复述回执字段当作最"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  112,
+  "easyeda",
+  "**正确动作**：铺铜板保持默认行为，不加 `--route-power`；先跑 `easyeda pcb route-short --dry-run`，检查 routes、skipped nets、vias 和宽度，再决定是否落图。若必须临时用 `--route-power`，把它当候选而非完成，落图后逐项看 DRC 与 GND 项，必要时撤销这些 track 后重布。2 层/4 层的完整取舍见"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  128,
+  "easyeda",
+  "**现象**：`easyeda bom export` 已经写出 CSV artifact，随后 enrichment 抛 traceback，进程退出 1，并打印 `warning: BOM exported but enrichment failed (file left un-enriched)`。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  132,
+  "easyeda",
+  "**正确动作**：用 `easyeda bom export --type csv --enrich=false` 保留原始导出；原始 Supplier Part 已带 C 号时，先核对每行 C 号、位号、数量和封装。把 enrichment 失败当作非阻断 warning，不要因此宣称整个 BOM 导出失败；需要补全时修源数据或单独修脚本，再重跑。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  142,
+  "easyeda",
+  "**正确动作**：先用 `easyeda pcb list --include-pads` 找到 J2 的实际对象和 ID，再用 `pcb delete --ids ...` 显式删除；需要时配合 `track-delete` 或 `rip-up` 清掉关联铜，最后重读 `pcb list`、重跑 DRC 并保存证据。删除动作要有回读，不要只依赖会话记录。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  180,
+  "easyeda",
+  "**`bom export` 需要原理图为前台（G6）**：PCB 前台执行 `easyeda bom export --type csv` 返回 `BOM export returned no file`；`doc switch` 到原理图后同一命令成功。`pcb_case.py` 的 bom 步骤会自动切换，手工导出时先切页；导出成功后仍要核对 C 号、位号、数量、封装与 MPN。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  184,
+  "easyeda",
+  "**现象**：旧流程还在调用 `easyeda sch snapshot`，升级后命令不存在；或者把原理图导出也当成必须切前台。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  188,
+  "easyeda",
+  "**正确动作**：用 `easyeda sch export-image --format svg|png|pdf`，按需要加 `--ids`、`--scope selection|page|project`、`--page`、`-o out`；导出后实际打开图检查整页与局部。不要把旧命令名写进脚本或证据。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  198,
+  "easyeda",
+  "**正确动作**：用 `easyeda pcb layout-lint --json` 读取完整结果，按默认门槛 score≥60、crossings≤8 以及 0 overlap/off-board 判断；不满足时先改布局，或按证据记 `BLOCKED`/`PASS_WITH_WAIVER`，写明理由、条件和剩余风险。不要用 `--gate` 的旧阈值放行。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  248,
+  "easyeda",
+  "**正确动作**：`pcb save` → `easyeda doc reload --json` → 重新读取（vias/list/DRC/pour）。reload 回执要核对文档 UUID 与 `activeRestored`；刷新失败时按数据不可用处理，不沿用旧回执。把带 staleRisk 的即时文件另存为诊断，不要和最终证据混在一起。"
+ ],
+ [
+  "design-hardware/references/tool-gotchas.md",
+  310,
+  "easyeda-agent",
+  "- **记录命令上下文**：命令行、工作目录、easyeda-agent 版本、EDA Pro 版本、工程/页 UUID、开始与结束时间、退出码、窗口可见性。"
+ ],
+ [
+  "design-hardware/scripts/bom_cnumber_check.py",
+  2,
+  "EasyEDA",
+  "\"\"\"Audit an EasyEDA BOM export for orderable LCSC C-numbers."
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  2,
+  "easyeda-agent",
+  "\"\"\"Coordinate the official easyeda-agent updater, without touching EDA projects.\"\"\""
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  13,
+  "easyeda-agent",
+  "REPO = 'zhoushoujianwork/easyeda-agent'"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  20,
+  "easyeda",
+  "raise ValueError('easyeda executable not found')"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  31,
+  "EASYEDA_",
+  "env = dict(os.environ, EASYEDA_NO_AUTOSTART='1')"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  35,
+  "easyeda-agent",
+  "return 'claude', home / '.workbuddy/skills/easyeda-agent', env"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  39,
+  "easyeda-agent",
+  "return 'claude', config / 'skills/easyeda-agent', env"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  40,
+  "easyeda-agent",
+  "paths = [home / '.agents/skills/easyeda-agent',"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  41,
+  "easyeda-agent",
+  "Path(env.get('CODEX_HOME', str(home / '.codex'))).expanduser().absolute() / 'skills/easyeda-agent']"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  44,
+  "easyeda-agent",
+  "raise ValueError('Duplicate easyeda-agent installs; resolve the active Codex skill root first')"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  61,
+  "easyeda",
+  "raise ValueError('easyeda operation timed out; reconcile actual runtime before retrying') from None"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  63,
+  "easyeda",
+  "raise ValueError('easyeda did not return supported JSON; use its current update --help') from None"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  133,
+  "easyeda-agent",
+  "shutil.copytree(target, backup / 'easyeda-agent')"
+ ],
+ [
+  "design-hardware/scripts/companion_update.py",
+  159,
+  "easyeda",
+  "return {'status': 'blocked', 'updated': False, 'message': 'easyeda CLI is not installed'}"
+ ],
+ [
+  "design-hardware/scripts/component_identity_check.py",
+  4,
+  "easyeda-agent",
+  "Inputs are retained easyeda-agent reads, never live calls:"
+ ],
+ [
+  "design-hardware/scripts/component_identity_check.py",
+  6,
+  "easyeda",
+  "* ``easyeda sch list --include-device-identity --include-page-primitives"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  8,
+  "easyeda-agent",
+  "- whether the JLCEDA Pro CLI and easyeda-agent are present/connected;"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  182,
+  "EASYEDA_",
+  "EASYEDA_HEALTH_TIMEOUT_S = 15"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  185,
+  "easyeda_",
+  "def _easyeda_probe(command=None, timeout=EASYEDA_HEALTH_TIMEOUT_S):"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  185,
+  "EASYEDA_",
+  "def _easyeda_probe(command=None, timeout=EASYEDA_HEALTH_TIMEOUT_S):"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  186,
+  "easyeda-agent",
+  "\"\"\"Probe the easyeda-agent route without starting its daemon."
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  188,
+  "easyeda-agent",
+  "A healthy lceda-pro bridge says nothing about the easyeda-agent daemon, so"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  212,
+  "easyeda",
+  "result['error'] = 'easyeda health returned no output'"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  218,
+  "easyeda",
+  "result['error'] = 'easyeda health did not return JSON'"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  223,
+  "easyeda",
+  "result['error'] = 'easyeda health returned non-object JSON'"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  248,
+  "easyeda_",
+  "easyeda_command = shutil.which('easyeda')"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  251,
+  "easyeda_",
+  "'easyeda_command': easyeda_command,"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  251,
+  "easyeda_",
+  "'easyeda_command': easyeda_command,"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  252,
+  "easyeda_",
+  "'easyeda_agent': _easyeda_probe(easyeda_command),"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  252,
+  "easyeda_",
+  "'easyeda_agent': _easyeda_probe(easyeda_command),"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  252,
+  "easyeda_",
+  "'easyeda_agent': _easyeda_probe(easyeda_command),"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  309,
+  "easyeda",
+  "easyeda = eda.get('easyeda_agent') or {}"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  309,
+  "easyeda_",
+  "easyeda = eda.get('easyeda_agent') or {}"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  312,
+  "easyeda_",
+  "easyeda_ready = bool(easyeda.get('connected'))"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  313,
+  "easyeda_",
+  "if not lceda_ready and not easyeda_ready:"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  321,
+  "easyeda-agent",
+  "missing.append('easyeda-agent CLI not found')"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  324,
+  "easyeda-agent",
+  "f\"easyeda-agent daemon is not ready (status: {easyeda.get('status') or 'unknown'})\")"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  334,
+  "easyeda_",
+  "'easyeda_agent': {"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  337,
+  "easyeda_",
+  "'connected': easyeda_ready,"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  338,
+  "easyeda_",
+  "'ready': easyeda_ready,"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  368,
+  "easyeda-agent",
+  "'lceda-pro and easyeda-agent are independent EDA routes; a green one does not prove the other is ready',"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  377,
+  "easyeda",
+  "easyeda = eda.get('easyeda_agent') or {}"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  377,
+  "easyeda_",
+  "easyeda = eda.get('easyeda_agent') or {}"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  380,
+  "easyeda_",
+  "easyeda_ready = bool(easyeda.get('connected'))"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  384,
+  "easyeda_",
+  "if easyeda_ready:"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  385,
+  "easyeda-agent",
+  "ready_names.append('easyeda-agent')"
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  405,
+  "easyeda-agent",
+  "lines.append(f\"- easyeda-agent: {easyeda.get('command') or eda.get('easyeda_command') or 'not found'}  \""
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  405,
+  "easyeda_",
+  "lines.append(f\"- easyeda-agent: {easyeda.get('command') or eda.get('easyeda_command') or 'not found'}  \""
+ ],
+ [
+  "design-hardware/scripts/doctor_env.py",
+  413,
+  "easyeda-agent",
+  "lines.append(\"- routes are independent: a healthy lceda-pro does not mean easyeda-agent is ready\")"
+ ],
+ [
+  "design-hardware/scripts/ecosystem.py",
+  2,
+  "EasyEDA",
+  "\"\"\"One offline entry point for reviewed EasyEDA ecosystem integrations.\"\"\""
+ ],
+ [
+  "design-hardware/scripts/ecosystem_capture.py",
+  2,
+  "EasyEDA",
+  "\"\"\"Read EasyEDA batch-export logs without promoting them to writable dumps."
+ ],
+ [
+  "design-hardware/scripts/ecosystem_files.py",
+  2,
+  "EasyEDA",
+  "\"\"\"Read-only EasyEDA containers, pinned schema checks and viewer integration.\"\"\""
+ ],
+ [
+  "design-hardware/scripts/ecosystem_files.py",
+  239,
+  "EasyEDA",
+  "<iframe id=\"viewer\" title=\"Local EasyEDA viewer\" style=\"width:100%;height:75vh\"></iframe>"
+ ],
+ [
+  "design-hardware/scripts/ecosystem_reuse.py",
+  2,
+  "EasyEDA",
+  "\"\"\"Search exported EasyEDA CBB catalog and prepare read-only bound reuse plans."
+ ],
+ [
+  "design-hardware/scripts/ecosystem_routing.py",
+  4,
+  "EasyEDA",
+  "Independent Python implementation informed by EasyEDA Apache-2.0 projects."
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1296,
+  "easyeda",
+  "next_command=\"easyeda sch drc --json --project <name> > evidence/sch-drc.json\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1312,
+  "easyeda",
+  "next_command=\"easyeda sch check --json --page <page> --project <name> > evidence/sch-check.json\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1349,
+  "easyeda",
+  "next_command=\"easyeda sch connectivity --all-pages > before/after.json；easyeda sch connectivity-diff before.json after.json；写入 schematic.netlist_audit\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1349,
+  "easyeda",
+  "next_command=\"easyeda sch connectivity --all-pages > before/after.json；easyeda sch connectivity-diff before.json after.json；写入 schematic.netlist_audit\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1371,
+  "easyeda",
+  "next_command=\"easyeda sch nets --all --json --strict --project <name> > evidence/sch-nets.json\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1383,
+  "easyeda",
+  "next_command=\"easyeda sch titleblock-get --page <uuid>；把结果写入 schematic.titleblock\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1401,
+  "easyeda",
+  "next_command=\"easyeda sch export-image --format png --scope page --page <page> -o <file>；看图后写入 schematic.png_review\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1449,
+  "easyeda",
+  "next_command=\"easyeda pcb layout-lint --json --project <name> > evidence/pcb-layout-lint.json\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1505,
+  "easyeda",
+  "next_command=\"easyeda pcb mount-holes --dry-run --project <name> > evidence/pcb-mount-holes.json；或写 layout.mounting_holes\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1621,
+  "easyeda",
+  "next_command=\"easyeda pcb drc-rules --project <name> > evidence/pcb-drc-rules.json；写入 stackup.drc_rules_recorded\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1630,
+  "easyeda",
+  "next_command=\"easyeda pcb power-pour --dry-run --project <name>，执行后 easyeda pcb pour-list --net GND --project <name> > evidence/pcb-pours.json\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1630,
+  "easyeda",
+  "next_command=\"easyeda pcb power-pour --dry-run --project <name>，执行后 easyeda pcb pour-list --net GND --project <name> > evidence/pcb-pours.json\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1662,
+  "easyeda",
+  "next_command=\"easyeda pcb via-list --project <name> > evidence/pcb-vias.json（fresh readback）\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1713,
+  "easyeda",
+  "next_command=\"easyeda pcb drc --json --timeout 120 --project <name> > evidence/pcb-drc.json\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1786,
+  "easyeda",
+  "next_command=\"对每个关键网运行 easyeda pcb net-path --from <pad> --to <pad> --net <net> --json --project <name>\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1810,
+  "easyeda",
+  "next_command=\"easyeda pcb save --project <name>；easyeda doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1810,
+  "easyeda",
+  "next_command=\"easyeda pcb save --project <name>；easyeda doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1827,
+  "easyeda",
+  "next_command=\"easyeda pcb silk-align --project <name>；回读并写入 routing.silk_align\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1901,
+  "easyeda",
+  "next_command=\"easyeda bom export --type csv --enrich=false --project <name> > BOM.csv\")"
+ ],
+ [
+  "design-hardware/scripts/gate_check.py",
+  1950,
+  "easyeda",
+  "next_command=\"easyeda project export --out <file> --project-uuid <uuid>；在副本上重开验证并写入 restore_verified\")"
+ ],
+ [
+  "design-hardware/scripts/layout_from_easyeda.py",
+  2,
+  "easyeda-agent",
+  "\"\"\"Adapt easyeda-agent reads into sch_layout_check.py input."
+ ],
+ [
+  "design-hardware/scripts/layout_from_easyeda.py",
+  6,
+  "easyeda",
+  "* ``easyeda sch list --include-bbox --include-pins --include-wires"
+ ],
+ [
+  "design-hardware/scripts/layout_from_easyeda.py",
+  9,
+  "easyeda",
+  "* ``easyeda sch sheet-geometry --from-svg`` -> measured title-block keep-out;"
+ ],
+ [
+  "design-hardware/scripts/layout_from_easyeda.py",
+  88,
+  "EasyEDA",
+  "\"\"\"Decode EasyEDA ``rawEncoding: flat-segments`` geometry."
+ ],
+ [
+  "design-hardware/scripts/layout_from_easyeda.py",
+  464,
+  "EasyEDA",
+  "# EasyEDA net labels are attributes on wires, not components.  Bind each"
+ ],
+ [
+  "design-hardware/scripts/layout_from_easyeda.py",
+  549,
+  "EasyEDA",
+  "# EasyEDA polylines use vertex junctions; sch check owns connectivity."
+ ],
+ [
+  "design-hardware/scripts/layout_from_easyeda.py",
+  602,
+  "easyeda-agent",
+  "'coordinate_units': 'schematic raw units (y-up), from easyeda-agent reads',"
+ ],
+ [
+  "design-hardware/scripts/offline_guard.py",
+  4,
+  "`easyeda`",
+  "Set ``HDS_OFFLINE=1`` to make the tools refuse to execute a real ``easyeda``"
+ ],
+ [
+  "design-hardware/scripts/offline_guard.py",
+  27,
+  "EASYEDA_",
+  "EASYEDA_NAMES = {'easyeda', 'easyeda.exe', 'easyeda.cmd', 'easyeda.bat',"
+ ],
+ [
+  "design-hardware/scripts/offline_guard.py",
+  28,
+  "easyeda-agent",
+  "'easyeda-agent', 'easyeda-agent.exe', 'lceda-pro',"
+ ],
+ [
+  "design-hardware/scripts/offline_guard.py",
+  28,
+  "easyeda-agent",
+  "'easyeda-agent', 'easyeda-agent.exe', 'lceda-pro',"
+ ],
+ [
+  "design-hardware/scripts/offline_guard.py",
+  74,
+  "easyeda_",
+  "def _is_easyeda_name(name):"
+ ],
+ [
+  "design-hardware/scripts/offline_guard.py",
+  76,
+  "EASYEDA_",
+  "return name in EASYEDA_NAMES or name.startswith('easyeda')"
+ ],
+ [
+  "design-hardware/scripts/offline_guard.py",
+  126,
+  "easyeda",
+  "# Scan every token, not only argv[0]: ``cmd /c easyeda ...`` and"
+ ],
+ [
+  "design-hardware/scripts/offline_guard.py",
+  127,
+  "easyeda",
+  "# ``powershell -Command \"easyeda ...\"`` are common Windows wrappers."
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  2,
+  "easyeda",
+  "\"\"\"Apply a verified PCB plan through the typed easyeda CLI."
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  16,
+  "easyeda",
+  "* the adapter compiles an ``easyeda apply`` playbook v1 (retry 0,"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  19,
+  "easyeda",
+  "made.  ``--apply`` performs exactly ONE ``easyeda apply``, then verifies the"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  23,
+  "`easyeda`",
+  "adapter resolve a real ``easyeda`` through PATH (pass a fake or patch"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  52,
+  "EasyEDA",
+  "# EasyEDA copper ids: TOP=1, BOTTOM=2, inner layers start at 15 (Inner1)."
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  956,
+  "easyeda",
+  "\"\"\"Compile the ordered easyeda apply playbook v1 steps.\"\"\""
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1354,
+  "EasyEDA",
+  "help='EasyEDA window ID; pins apply and reload routing')"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1359,
+  "easyeda",
+  "help='write the compiled easyeda apply playbook here '"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1361,
+  "easyeda",
+  "parser.add_argument('--easyeda', help='easyeda executable (test seam; '"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1362,
+  "EASYEDA_",
+  "'otherwise EASYEDA_CLI or PATH)')"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1365,
+  "easyeda",
+  "parser.add_argument('--journal', help='journal path passed to easyeda apply '"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1376,
+  "easyeda",
+  "help='pass --yes to easyeda apply for confirmation gates')"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1579,
+  ".easyeda",
+  "record = pcb_cli.run(apply_args, easyeda=args.easyeda,"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1584,
+  ".easyeda",
+  "apply_info['easyeda'] = pcb_cli.easyeda_executable(args.easyeda)"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1584,
+  ".easyeda",
+  "apply_info['easyeda'] = pcb_cli.easyeda_executable(args.easyeda)"
+ ],
+ [
+  "design-hardware/scripts/pcb_apply_plan.py",
+  1640,
+  "easyeda",
+  "problems.append('easyeda apply exited %s' % record.get('exit'))"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  6,
+  "`easyeda`",
+  "Live mode (default) drives only typed ``easyeda`` CLI commands plus the optional"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  348,
+  ".easyeda",
+  "self.easyeda = pcb_cli.easyeda_executable(args.easyeda)"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  348,
+  ".easyeda",
+  "self.easyeda = pcb_cli.easyeda_executable(args.easyeda)"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  348,
+  ".easyeda",
+  "self.easyeda = pcb_cli.easyeda_executable(args.easyeda)"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  410,
+  ".easyeda",
+  "record = pcb_cli.run(argv, easyeda=self.args.easyeda,"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  550,
+  "easyeda_",
+  "'easyeda_agent': None,"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  558,
+  "easyeda_",
+  "for key in ('easyeda_agent', 'connector'):"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  565,
+  "easyeda_",
+  "self.versions['easyeda_agent'] = value"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  571,
+  "easyeda_",
+  "if not self.versions['easyeda_agent']:"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  572,
+  "easyeda_",
+  "self.not_run('versions', 'easyeda_version_unknown')"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  2032,
+  "EasyEDA",
+  "parser.add_argument('--project', help='EasyEDA project name (required live)')"
+ ],
+ [
+  "design-hardware/scripts/pcb_case.py",
+  2038,
+  "easyeda",
+  "parser.add_argument('--easyeda', help='easyeda CLI path (test seam)')"
+ ],
+ [
+  "design-hardware/scripts/pcb_cli.py",
+  5,
+  "`easyeda`",
+  "``easyeda`` CLI (or a fake passed by a test), captures stdout/stderr, parses a"
+ ],
+ [
+  "design-hardware/scripts/pcb_cli.py",
+  24,
+  "easyeda_",
+  "def easyeda_executable(explicit=None):"
+ ],
+ [
+  "design-hardware/scripts/pcb_cli.py",
+  25,
+  "EASYEDA_",
+  "\"\"\"Return the CLI path/name.  ``EASYEDA_CLI`` is an explicit test seam.\"\"\""
+ ],
+ [
+  "design-hardware/scripts/pcb_cli.py",
+  26,
+  "EASYEDA_",
+  "return explicit or os.environ.get('EASYEDA_CLI') or 'easyeda'"
+ ],
+ [
+  "design-hardware/scripts/pcb_cli.py",
+  88,
+  "easyeda_",
+  "argv = [easyeda_executable(easyeda)] + [str(item) for item in args]"
+ ],
+ [
+  "design-hardware/scripts/pcb_evidence.py",
+  960,
+  "easyeda",
+  "\"\"\"Normalize ``easyeda pcb check --json`` (envelope or result)."
+ ],
+ [
+  "design-hardware/scripts/pcb_evidence.py",
+  1090,
+  "easyeda",
+  "\"\"\"Normalize native ``easyeda pcb drc`` output."
+ ],
+ [
+  "design-hardware/scripts/pcb_evidence.py",
+  1216,
+  "easyeda",
+  "\"\"\"Normalize ``easyeda pcb layout-lint --json``."
+ ],
+ [
+  "design-hardware/scripts/pcb_evidence.py",
+  1243,
+  "EasyEDA",
+  "# Real EasyEDA layout-lint uses null for an empty detail"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2644,
+  "easyeda",
+  "return ('easyeda pcb layout-lint --json --project %s --doc %s > %s'"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2647,
+  "easyeda",
+  "return ('easyeda pcb drc --json --timeout 120 --project %s --doc %s > %s'"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2650,
+  "easyeda",
+  "return ('easyeda pcb check --json --project %s --doc %s > %s ; then write '"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2654,
+  "easyeda",
+  "return ('easyeda pcb net-path --from D.PAD --to D.PAD --net NET --json '"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2658,
+  "easyeda",
+  "return ('easyeda sch read --project %s --out %s ; then rerun with --sch '"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2662,
+  "easyeda",
+  "return ('easyeda pcb save --project %s --doc %s ; easyeda doc reload %s '"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2662,
+  "easyeda",
+  "return ('easyeda pcb save --project %s --doc %s ; easyeda doc reload %s '"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2663,
+  "easyeda",
+  "'--project %s --json ; easyeda pcb dump --project %s --doc %s '"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2668,
+  "easyeda",
+  "return ('easyeda pcb stage-snapshot --stage top --project %s --doc %s --out %s '"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2669,
+  "easyeda",
+  "'; easyeda pcb stage-snapshot --stage bottom --project %s --doc %s '"
+ ],
+ [
+  "design-hardware/scripts/pcb_gate.py",
+  2670,
+  "easyeda",
+  "'--out %s ; easyeda pcb layout render --actual --board %s --side both '"
+ ],
+ [
+  "design-hardware/scripts/pcb_preflight.py",
+  293,
+  "easyeda",
+  "'offline preflight: no easyeda command is executed',"
+ ],
+ [
+  "design-hardware/scripts/pin_net_intent_check.py",
+  2,
+  "easyeda-agent",
+  "\"\"\"Compare a declared pin-net intent with an easyeda-agent sch read result."
+ ],
+ [
+  "design-hardware/scripts/sch_bind_component_ids.py",
+  5,
+  "EasyEDA",
+  "connectivity IR through `otherProperty[\"EasyEDA Agent Component ID\"]`; the"
+ ],
+ [
+  "design-hardware/scripts/sch_bind_component_ids.py",
+  37,
+  "EasyEDA",
+  "ATTRIBUTE = 'EasyEDA Agent Component ID'"
+ ],
+ [
+  "design-hardware/scripts/sch_bind_component_ids.py",
+  236,
+  ".easyeda",
+  "project=args.project, doc=args.doc, easyeda=args.easyeda,"
+ ],
+ [
+  "design-hardware/scripts/sch_compose_input.py",
+  5,
+  "easyeda",
+  "geometry, model report) while `easyeda sch compose` wants one composition"
+ ],
+ [
+  "design-hardware/scripts/sch_compose_input.py",
+  11,
+  "easyeda",
+  "easyeda sch connectivity --page <uuid>          -> connectivity.json"
+ ],
+ [
+  "design-hardware/scripts/sch_compose_input.py",
+  12,
+  "easyeda",
+  "easyeda sch layout-plan --zones ...             -> zones-geom.json"
+ ],
+ [
+  "design-hardware/scripts/sch_compose_input.py",
+  14,
+  "easyeda",
+  "easyeda sch sheet-geometry --from-svg ...       -> optional sheet override"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_model.py",
+  2,
+  "EasyEDA",
+  "\"\"\"Build a validated layout-plan input from real EasyEDA measurements."
+ ],
+ [
+  "design-hardware/scripts/sch_layout_model.py",
+  4,
+  "EasyEDA",
+  "This is the bridge between an EasyEDA page and the agent's offline layout"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_model.py",
+  8,
+  "easyeda",
+  "easyeda sch list --include-device-identity --include-bbox --include-pins \\"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_model.py",
+  10,
+  "easyeda",
+  "easyeda sch connectivity --page <uuid>"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_model.py",
+  11,
+  "easyeda",
+  "easyeda sch designator-geometry --out designators.json"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_model.py",
+  12,
+  "easyeda",
+  "easyeda sch sheet-geometry --from-svg <page.svg> --json"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_pipeline.py",
+  6,
+  "easyeda",
+  "1. easyeda sch layout-plan --zones     local placement/wire candidate"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_pipeline.py",
+  7,
+  "easyeda",
+  "2. easyeda sch layout-sheet-plan       pack zones onto the measured sheet"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_pipeline.py",
+  8,
+  "easyeda",
+  "3. easyeda sch layout-render           vector preview, no EDA mutation"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_pipeline.py",
+  14,
+  "EasyEDA",
+  "\"EasyEDA Agent Component ID\" property on every part, and that evidence must be"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_pipeline.py",
+  178,
+  ".easyeda",
+  "'easyeda': args.easyeda,"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_pipeline.py",
+  192,
+  ".easyeda",
+  "_run([args.easyeda, 'sch', 'layout-plan', '--zones', '--from', args.source,"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_pipeline.py",
+  217,
+  ".easyeda",
+  "_run([args.easyeda, 'sch', 'layout-sheet-plan', '--from', str(render_path),"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_pipeline.py",
+  235,
+  ".easyeda",
+  "_run([args.easyeda, 'sch', 'layout-render', '--from', str(page_path),"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_pipeline.py",
+  269,
+  ".easyeda",
+  "compose_cmd = [args.easyeda, 'sch', 'compose', '--from', args.compose_source,"
+ ],
+ [
+  "design-hardware/scripts/sch_layout_quality.py",
+  4,
+  "EasyEDA",
+  "The EasyEDA agent's layout-lint proves overlap/pin-coincidence and layout-score"
+ ],
+ [
+  "design-hardware/scripts/sch_sheet_fit.py",
+  12,
+  "easyeda",
+  "`easyeda sch compose --layout-page` accepts."
+ ],
+ [
+  "design-hardware/scripts/sch_sheet_fit.py",
+  38,
+  "easyeda",
+  "# easyeda composes the sheet preview on the 5-raw anchor grid"
+ ],
+ [
+  "design-hardware/scripts/skill_update.py",
+  459,
+  "easyeda_",
+  "'design_hardware': own, 'easyeda_agent': dep, 'automatic_install': False}"
+ ],
+ [
+  "design-hardware/scripts/skill_update.py",
+  508,
+  "easyeda",
+  "p.add_argument('--easyeda', type=Path, help='Explicit easyeda executable for companion updates')"
+ ],
+ [
+  "design-hardware/scripts/skill_update.py",
+  509,
+  "easyeda-agent",
+  "p.add_argument('--agent-version', help='Pin a stable easyeda-agent version')"
+ ],
+ [
+  "design-hardware/scripts/skill_update.py",
+  535,
+  ".easyeda",
+  "result = check_all(target, a.client, a.home, a.refresh, a.easyeda)"
+ ],
+ [
+  "design-hardware/scripts/skill_update.py",
+  540,
+  ".easyeda",
+  "result = companion_module().update(a.client, a.home, state_dir(target), a.easyeda, a.agent_version, a.idle)"
+ ],
+ [
+  "design-hardware/scripts/svg_text_bbox.py",
+  2,
+  "EasyEDA",
+  "\"\"\"Measure every rendered <text> in an official EasyEDA SVG export."
+ ],
+ [
+  "design-hardware/scripts/svg_text_bbox.py",
+  13,
+  "EasyEDA",
+  "10 appears as -10).  ``layout_from_easyeda.py`` flips it to EasyEDA raw y-up."
+ ],
+ [
+  "design-hardware/scripts/svg_text_bbox.py",
+  64,
+  "EasyEDA",
+  "// exported user coordinates (EasyEDA raw units)."
+ ],
+ [
+  "design-hardware/scripts/design_engine/adapters.py",
+  108,
+  "easyeda",
+  "\"\"\"Unwrap the easyeda CLI envelope; raise on an explicit failure envelope.\"\"\""
+ ],
+ [
+  "design-hardware/scripts/design_engine/adapters.py",
+  325,
+  "easyeda",
+  "raise ValueError('sch-list-full.json: expected the easyeda list result object')"
+ ],
+ [
+  "design-hardware/scripts/design_engine/adapters.py",
+  651,
+  "easyeda_",
+  "'source': 'easyeda_sch_clusters',"
+ ],
+ [
+  "design-hardware/scripts/design_engine/cli.py",
+  23,
+  "easyeda_",
+  "from .labels import plan_label_moves, to_easyeda_moves, verify_plan"
+ ],
+ [
+  "design-hardware/scripts/design_engine/cli.py",
+  138,
+  "easyeda_",
+  "documents = to_easyeda_moves(plan, ir)"
+ ],
+ [
+  "design-hardware/scripts/design_engine/cli.py",
+  801,
+  "easyeda",
+  "item.add_argument('--moves-dir', help='write easyeda sch attribute-move JSON documents')"
+ ],
+ [
+  "design-hardware/scripts/design_engine/geometry.py",
+  553,
+  "EasyEDA",
+  "\"\"\"Extract visible text anchors from an EasyEDA SVG export."
+ ],
+ [
+  "design-hardware/scripts/design_engine/labels.py",
+  296,
+  "easyeda_",
+  "def to_easyeda_moves(plan, ir):"
+ ],
+ [
+  "design-hardware/scripts/design_engine/pcb_workflow.py",
+  1,
+  "easyeda",
+  "\"\"\"PCB engineering workflow over a measured ``easyeda pcb dump``."
+ ],
+ [
+  "design-hardware/scripts/design_engine/pcb_workflow.py",
+  7,
+  "easyeda",
+  "writes a project; the typed executor remains ``easyeda pcb ...`` / ``apply``."
+ ],
+ [
+  "design-hardware/scripts/feedback/cli.py",
+  117,
+  ".easyeda",
+  "easyeda=args.easyeda, window=args.window, project=args.project,"
+ ],
+ [
+  "design-hardware/scripts/feedback/cli.py",
+  124,
+  ".easyeda",
+  "easyeda=args.easyeda, window=args.window, project=args.project,"
+ ],
+ [
+  "design-hardware/scripts/feedback/cli.py",
+  203,
+  ".easyeda",
+  "contract, plan, easyeda=args.easyeda, window=args.window,"
+ ],
+ [
+  "design-hardware/scripts/feedback/cli.py",
+  405,
+  "easyeda",
+  "parser.add_argument('--easyeda', help='easyeda executable (test seam)')"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  21,
+  "`easyeda`",
+  "aliases next to them.  Nothing here calls a real ``easyeda`` binary by itself:"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  23,
+  "`easyeda`",
+  "``easyeda`` is passed through unchanged."
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  562,
+  "easyeda",
+  "'easyeda project info + doc ls',"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  588,
+  "easyeda",
+  "read_item('sch_object_read', 'easyeda sch read', ('sch-read',),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  591,
+  "easyeda",
+  "read_item('sch_net_read', 'easyeda sch read (nets)', ('sch-read',),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  595,
+  "easyeda",
+  "read_item('pcb_object_read', 'easyeda pcb list --include-pads',"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  599,
+  "easyeda",
+  "read_item('pcb_geometry_read', 'easyeda pcb dump (components + outline)',"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  603,
+  "easyeda",
+  "read_item('pcb_copper_read', 'easyeda pcb dump --include-copper',"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  606,
+  "easyeda",
+  "read_item('sch_erc', 'easyeda sch drc --json', ('sch-drc',),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  608,
+  "easyeda",
+  "read_item('pcb_drc', 'easyeda pcb drc --json', ('pcb-drc',),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  610,
+  "easyeda",
+  "read_item('pcb_check', 'easyeda pcb check --json', ('pcb-check',),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  614,
+  "easyeda",
+  "('move_component', 'easyeda pcb modify', ['pcb', 'modify', '--help']),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  615,
+  "easyeda",
+  "('move_text', 'easyeda sch attribute-move',"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  617,
+  "easyeda",
+  "('route_track', 'easyeda pcb track', ['pcb', 'track', '--help']),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  618,
+  "easyeda",
+  "('place_via', 'easyeda pcb via', ['pcb', 'via', '--help']),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  619,
+  "easyeda",
+  "('lock', 'easyeda pcb lock', ['pcb', 'lock', '--help']),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  620,
+  "easyeda",
+  "('save', 'easyeda pcb save + sch save', ['pcb', 'save', '--help']),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  621,
+  "easyeda",
+  "('reopen', 'easyeda doc reload', ['doc', 'reload', '--help']),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  622,
+  "easyeda",
+  "('screenshot', 'easyeda pcb snapshot', ['pcb', 'snapshot', '--help']),"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  623,
+  "easyeda",
+  "('export_archive', 'easyeda project export',"
+ ],
+ [
+  "design-hardware/scripts/feedback/observe.py",
+  625,
+  "easyeda",
+  "('undo', 'easyeda undo', ['undo', '--help']),"
+ ],
+ [
+  "design-hardware/scripts/feedback/scope.py",
+  17,
+  "easyeda",
+  "``easyeda apply``, journal) - this module does not reimplement that"
+ ],
+ [
+  "design-hardware/scripts/feedback/scope.py",
+  48,
+  "`easyeda`",
+  "Tests use a fake runner only.  No function resolves ``easyeda`` from PATH:"
+ ],
+ [
+  "design-hardware/scripts/feedback/scope.py",
+  50,
+  "`easyeda`",
+  "``easyeda`` path is supplied."
+ ],
+ [
+  "design-hardware/scripts/feedback/scope.py",
+  4979,
+  "easyeda",
+  "if runner is None and easyeda is None:"
+ ],
+ [
+  "design-hardware/scripts/feedback/scope.py",
+  4983,
+  "easyeda",
+  "'no runner or explicit easyeda path was supplied; refusing to '"
+ ],
+ [
+  "design-hardware/scripts/feedback/scope.py",
+  4984,
+  "easyeda",
+  "'resolve easyeda from PATH')"
+ ],
+ [
+  "design-hardware/scripts/power_preflight/pcbgeom.py",
+  9,
+  "EasyEDA",
+  "# EasyEDA Pro copper layer ids seen on the reference board."
+ ],
+ [
+  "design-hardware/scripts/power_preflight/route_corridor.py",
+  446,
+  "easyeda",
+  "ap.add_argument(\"--emit-cli\", action=\"store_true\", help=\"print easyeda commands\")"
+ ],
+ [
+  "design-hardware/cases/feedback-r12/pcb-decap-c2-local-photo-led.json",
+  72,
+  "easyeda_",
+  "\"easyeda_host\": \"4.1.78 (observed, not written)\","
+ ],
+ [
+  "design-hardware/cases/feedback-r12/pcb-decap-c2-local-photo-led.json",
+  73,
+  "easyeda_",
+  "\"easyeda_cli\": \"1.15.0 (observed) / fake 1.15.0-sim (offline)\","
+ ],
+ [
+  "design-hardware/cases/feedback-r12/pcb-locked-connector-preserve-photo-led.json",
+  66,
+  "easyeda_",
+  "\"easyeda_host\": \"4.1.78 (observed, not written)\","
+ ],
+ [
+  "design-hardware/cases/feedback-r12/pcb-locked-connector-preserve-photo-led.json",
+  67,
+  "easyeda_",
+  "\"easyeda_cli\": \"1.15.0 (observed) / fake 1.15.0-sim (offline)\","
+ ],
+ [
+  "design-hardware/cases/feedback-r12/sch-text-overlap-photo-led.json",
+  58,
+  "easyeda_",
+  "\"easyeda_host\": \"4.1.78 (observed, not written)\","
+ ],
+ [
+  "design-hardware/cases/feedback-r12/sch-text-overlap-photo-led.json",
+  59,
+  "easyeda_",
+  "\"easyeda_cli\": \"1.15.0 (observed) / fake 1.15.0-sim (offline)\","
+ ],
+ [
+  "design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md",
+  14,
+  "EasyEDA",
+  "| EDA / 执行器 | EasyEDA Pro 4.1.78；easyeda-agent 1.15.0；Connector 1.15.0 |"
+ ],
+ [
+  "design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md",
+  14,
+  "easyeda-agent",
+  "| EDA / 执行器 | EasyEDA Pro 4.1.78；easyeda-agent 1.15.0；Connector 1.15.0 |"
+ ],
+ [
+  "design-hardware/cases/photo-led-pcb-2026-10-26/README.md",
+  17,
+  "EasyEDA",
+  "| EDA / 执行器 | EasyEDA Pro 4.1.78；easyeda-agent 1.15.0；Connector 1.15.0 |"
+ ],
+ [
+  "design-hardware/cases/photo-led-pcb-2026-10-26/README.md",
+  17,
+  "easyeda-agent",
+  "| EDA / 执行器 | EasyEDA Pro 4.1.78；easyeda-agent 1.15.0；Connector 1.15.0 |"
+ ],
+ [
+  "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+  553,
+  "easyeda",
+  "\"next_command\": \"easyeda pcb mount-holes --dry-run --project <name> > evidence/pcb-mount-holes.json；或写 layout.mounting_holes\""
+ ],
+ [
+  "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+  622,
+  "easyeda",
+  "\"next_command\": \"easyeda pcb drc-rules --project <name> > evidence/pcb-drc-rules.json；写入 stackup.drc_rules_recorded\""
+ ],
+ [
+  "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+  682,
+  "easyeda",
+  "\"stale_risk\": \"PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read "
+ ],
+ [
+  "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+  1034,
+  "easyeda",
+  "\"next_command\": \"对每个关键网运行 easyeda pcb net-path --from <pad> --to <pad> --net <net> --json --project <name>\""
+ ],
+ [
+  "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+  1050,
+  "easyeda",
+  "\"next_command\": \"easyeda pcb save --project <name>；easyeda doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback\""
+ ],
+ [
+  "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+  1050,
+  "easyeda",
+  "\"next_command\": \"easyeda pcb save --project <name>；easyeda doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback\""
+ ],
+ [
+  "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+  1190,
+  "easyeda",
+  "\"next_command\": \"easyeda project export --out <file> --project-uuid <uuid>；在副本上重开验证并写入 restore_verified\""
+ ],
+ [
+  "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+  1286,
+  "easyeda",
+  "\"stale_risk\": \"PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read "
+ ],
+ [
+  "design-hardware/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json",
+  381,
+  "easyeda",
+  "\"staleRisk\": \"PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read b"
+ ],
+ [
+  "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/sch-read.json",
+  105,
+  "EasyEDA",
+  "\"message\": \"疑似孤儿 stub(一端连引脚、另一端游离,网名  为 EasyEDA 自动生成 — flag/port 疑似已删除,wire 残留;用 sch disconnect 清除)\","
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  7,
+  "easyeda-agent",
+  "`design-hardware` 负责清单、证据与工程判断；实际导出由 easyeda-agent / EDA 完成。easyeda-agent v1.14.0 中与本门禁直接相关的命令只有："
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  7,
+  "easyeda-agent",
+  "`design-hardware` 负责清单、证据与工程判断；实际导出由 easyeda-agent / EDA 完成。easyeda-agent v1.14.0 中与本门禁直接相关的命令只有："
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  10,
+  "easyeda",
+  "easyeda bom export --type csv --enrich=false --project <name> > manufacturing/BOM.csv"
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  11,
+  "easyeda",
+  "easyeda project export --out manufacturing/<project>-<rev>.epro2 --project-uuid <uuid>"
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  14,
+  "easyeda",
+  "v1.14.0 的 `--help` 中没有 Gerber、钻孔、坐标/CPL、装配图的 CLI 子命令，这三类制造文件在能力上属 `UNSUPPORTED`：必须由用户在嘉立创EDA专业版的制造资料导出入口人工导出，并在 manifest 中记录 `GUI 手工导出`、EDA 版本、导出人、时间与 sha256；缺人工证据时 G6 为 `BLOCKED`。不得写成不存在的 `easyeda pc"
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  23,
+  "easyeda-agent",
+  "CLI 版本:        easyeda-agent v1.14.0"
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  35,
+  "easyeda",
+  "| `bom` | 可订购 BOM（位号、数量、MPN、厂家、C 号、封装、DNP 标记） | `easyeda bom export --type csv --enrich=false` | 文件名、行数/件数、sha256 |"
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  39,
+  "easyeda",
+  "| `project_export` | 可重开的 `.epro2` 工程备份 | `easyeda project export` | 路径、sha256、zip 完整性、恢复演练结果 |"
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  130,
+  "easyeda",
+  "easyeda project export --out manufacturing\\<project>-<rev>.epro2 --project-uuid <uuid>"
+ ],
+ [
+  "design-hardware/assets/docs/manufacturing-package.md",
+  161,
+  "easyeda",
+  "注意两个名字：`design-state.json` 用 `restore_verified`；`easyeda project export` 的 JSON 回执用 `restoreVerified`。二者不能混写。"
+ ],
+ [
+  "design-hardware/assets/docs/mechanical.md",
+  45,
+  "easyeda",
+  "- 板框：`easyeda pcb outline-get` 读取真实外形与渲染 bbox；`outline-fit` 只按器件包围盒加边距生成矩形，不能替代目标板框。"
+ ],
+ [
+  "design-hardware/assets/docs/mechanical.md",
+  46,
+  "easyeda",
+  "- 安装孔计划：`easyeda pcb mount-holes --dry-run`，默认 Ø3.2 mm（126 mil）、中心内缩 5 mm（197 mil），只生成板框角上的 MULTI-layer 铣槽；**不导入螺钉/安装孔库器件**，需要 PTH 或库封装时另建并单独记录。"
+ ],
+ [
+  "design-hardware/assets/docs/mechanical.md",
+  48,
+  "easyeda",
+  "- 器件高度/占位：`easyeda pcb list --include-bbox`；bbox 是渲染范围，不含线缆、插头和外壳。"
+ ],
+ [
+  "design-hardware/assets/docs/mechanical.md",
+  49,
+  "easyeda",
+  "- 层数/板厚：`easyeda pcb layers`、`easyeda pcb stackup show`。"
+ ],
+ [
+  "design-hardware/assets/docs/mechanical.md",
+  49,
+  "easyeda",
+  "- 层数/板厚：`easyeda pcb layers`、`easyeda pcb stackup show`。"
+ ],
+ [
+  "design-hardware/assets/docs/mechanical.md",
+  50,
+  "easyeda",
+  "- 视觉确认：`easyeda pcb snapshot`（需要前台 PCB 窗口；截图只作辅助，尺寸以回读或结构图为准）。"
+ ],
+ [
+  "design-hardware/assets/docs/silk-assembly.md",
+  61,
+  "easyeda",
+  "- `easyeda pcb silk-align`：只重排位号，带碰撞规避与写入后测量；不添加或校验极性/功能文字。"
+ ],
+ [
+  "design-hardware/assets/docs/silk-assembly.md",
+  62,
+  "easyeda",
+  "- `easyeda pcb silk-add`：添加自由丝印字符串，可用于板名、版本、警告语。"
+ ],
+ [
+  "design-hardware/assets/docs/silk-assembly.md",
+  63,
+  "easyeda",
+  "- `easyeda pcb silk-label-pads`：给焊盘标脚号/网名；`silk-netnames`：在指定区域自动生成网名标签；`silk-zone-outline`：绘制功能分区框。"
+ ],
+ [
+  "design-hardware/assets/docs/silk-assembly.md",
+  64,
+  "easyeda",
+  "- `easyeda pcb view-side` + `pcb snapshot`：分别取 Top/Bottom 视图；`snapshot` 需要前台 PCB 窗口，截图只是辅助证据。"
+ ],
+ [
+  "design-hardware/assets/docs/thermal-sensor.md",
+  43,
+  "easyeda",
+  "- 距离用实际放置后的焊盘/封装几何测量（`easyeda pcb list --include-pads --include-bbox` 或 `easyeda pcb dump`），不填估算值。"
+ ],
+ [
+  "design-hardware/assets/docs/thermal-sensor.md",
+  43,
+  "easyeda",
+  "- 距离用实际放置后的焊盘/封装几何测量（`easyeda pcb list --include-pads --include-bbox` 或 `easyeda pcb dump`），不填估算值。"
+ ],
+ [
+  "design-hardware/assets/docs/verification.md",
+  24,
+  "easyeda",
+  "| V1 | 电气检查 | 最终版原理图跑 `easyeda sch drc --json`、`sch nets --json`、`sch connectivity`；PCB 跑 `easyeda pcb drc --json` | `sch drc` 0 fatal/error；0 单引脚网；PCB `passed:true`；网表与计划一致 |  | `NOT RUN` | DRC/网表 JS"
+ ],
+ [
+  "design-hardware/assets/docs/verification.md",
+  24,
+  "easyeda",
+  "| V1 | 电气检查 | 最终版原理图跑 `easyeda sch drc --json`、`sch nets --json`、`sch connectivity`；PCB 跑 `easyeda pcb drc --json` | `sch drc` 0 fatal/error；0 单引脚网；PCB `passed:true`；网表与计划一致 |  | `NOT RUN` | DRC/网表 JS"
+ ],
+ [
+  "design-hardware/assets/ecosystem-viewer/adapter.js",
+  21,
+  ".easyeda",
+  "const a=frame.contentWindow.easyedaViewer;"
+ ],
+ [
+  "tests/feedback_sim.py",
+  1,
+  "EasyEDA",
+  "\"\"\"Simulated EasyEDA host for the feedback-loop tests and benchmark."
+ ],
+ [
+  "tests/feedback_sim.py",
+  6,
+  "`easyeda`",
+  "resolve the real ``easyeda`` executable."
+ ],
+ [
+  "tests/test_companion_update.py",
+  22,
+  "easyeda-agent",
+  "self.target=self.home/'.claude/skills/easyeda-agent'"
+ ],
+ [
+  "tests/test_companion_update.py",
+  36,
+  "EASYEDA_",
+  "self.assertEqual(args[2]['EASYEDA_NO_AUTOSTART'],'1')"
+ ],
+ [
+  "tests/test_companion_update.py",
+  61,
+  "easyeda-agent",
+  "self.assertEqual(target,self.home/'.workbuddy/skills/easyeda-agent')"
+ ],
+ [
+  "tests/test_companion_update.py",
+  67,
+  "easyeda-agent",
+  "p=self.home/folder/'skills/easyeda-agent';p.mkdir(parents=True);(p/'SKILL.md').write_text('old')"
+ ],
+ [
+  "tests/test_companion_update.py",
+  86,
+  "easyeda-agent",
+  "self.assertEqual((backup/'easyeda-agent/SKILL.md').read_text(),'old companion skill')"
+ ],
+ [
+  "tests/test_companion_update.py",
+  125,
+  "easyeda_",
+  "self.assertEqual(r['easyeda_agent']['status'],'current');self.assertEqual(stub.check.call_count,1)"
+ ],
+ [
+  "tests/test_design_engine.py",
+  28,
+  "easyeda_",
+  "from design_engine.labels import plan_label_moves, to_easyeda_moves, verify_plan"
+ ],
+ [
+  "tests/test_design_engine.py",
+  275,
+  "easyeda_",
+  "moves = to_easyeda_moves(self.plan, self.ir)"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  23,
+  "easyeda_",
+  "return {'cli': 'lceda-pro', 'easyeda_command': None, 'connected': connected,"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  96,
+  "easyeda_",
+  "'easyeda_command': None},"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  129,
+  "easyeda_",
+  "result = doctor._easyeda_probe()"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  136,
+  ".EASYEDA",
+  "timeout=doctor.EASYEDA_HEALTH_TIMEOUT_S)"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  147,
+  "easyeda_",
+  "result = doctor._easyeda_probe()"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  160,
+  "easyeda_",
+  "result = doctor._easyeda_probe()"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  169,
+  "easyeda_",
+  "result = doctor._easyeda_probe()"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  174,
+  "easyeda_",
+  "def test_missing_easyeda_command_is_not_installed(self):"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  176,
+  "easyeda_",
+  "result = doctor._easyeda_probe()"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  187,
+  "easyeda_",
+  "'easyeda_command': 'easyeda',"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  188,
+  "easyeda_",
+  "'easyeda_agent': {"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  196,
+  "easyeda-agent",
+  "self.assertIn('- easyeda-agent:', text)"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  201,
+  "easyeda_",
+  "def test_easyeda_route_can_be_ready_without_lceda(self):"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  207,
+  "easyeda_",
+  "'project_readable': 'not_probed', 'easyeda_command': 'easyeda',"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  208,
+  "easyeda_",
+  "'easyeda_agent': {'command': 'easyeda', 'connected': True, 'status': 'ok'},"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  215,
+  "easyeda_",
+  "self.assertTrue(report['eda_routes']['easyeda_agent']['ready'])"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  224,
+  "easyeda_",
+  "'project_readable': 'not_probed', 'easyeda_command': 'easyeda',"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  225,
+  "easyeda_",
+  "'easyeda_agent': {'command': 'easyeda', 'connected': False,"
+ ],
+ [
+  "tests/test_doctor_env.py",
+  235,
+  "easyeda-agent",
+  "self.assertTrue(any('easyeda-agent daemon is not ready' in item"
+ ],
+ [
+  "tests/test_ecosystem_files.py",
+  127,
+  ".easyeda",
+  "target.easyedaViewer={version:'1.2.0',exportAnnotations:()=>({projectId:'p',revision:'r',annotations:[]})};"
+ ],
+ [
+  "tests/test_feedback_cases.py",
+  55,
+  "easyeda-agent",
+  "'tool_versions': {'easyeda': '4.1.78', 'easyeda-agent': '1.15.0'},"
+ ],
+ [
+  "tests/test_feedback_cases.py",
+  114,
+  "easyeda-agent",
+  "'tool_versions': {'easyeda': '4.1.78', 'easyeda-agent': '1.15.0'},"
+ ],
+ [
+  "tests/test_feedback_cli.py",
+  4,
+  "easyeda",
+  "easyeda binary, daemon or network is used.  These tests exercise the same"
+ ],
+ [
+  "tests/test_feedback_cli.py",
+  90,
+  "EASYEDA_",
+  "env = {'FAKE_EASYEDA_STATE': str(state_path)}"
+ ],
+ [
+  "tests/test_feedback_observe.py",
+  4,
+  "`easyeda`",
+  "No test resolves ``easyeda`` through PATH, opens a socket or writes outside a"
+ ],
+ [
+  "tests/test_feedback_observe.py",
+  235,
+  "easyeda-agent",
+  "return record(args, stdout='easyeda-agent v1.15.0-fake')"
+ ],
+ [
+  "tests/test_feedback_scope.py",
+  3,
+  "`easyeda`",
+  "Every write path uses a fake runner.  No test resolves a real ``easyeda``"
+ ],
+ [
+  "tests/test_feedback_scope.py",
+  262,
+  "easyeda",
+  "\"\"\"Emulate one ``easyeda apply`` for the pcb_apply_plan delegation path.\"\"\""
+ ],
+ [
+  "tests/test_feedback_scope.py",
+  1574,
+  "easyeda_",
+  "def test_apply_refuses_to_resolve_easyeda_from_path(self):"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  37,
+  "easyeda-agent",
+  "before=(self.root/'easyeda-agent/scripts/parts-select.py').read_bytes()"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  39,
+  "easyeda-agent",
+  "self.assertIn(b'\\r\\n', (self.root/'easyeda-agent/scripts/parts-select.py').read_bytes())"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  41,
+  "easyeda-agent",
+  "self.assertEqual((self.root/'easyeda-agent/scripts/parts-select.py').read_bytes(),before)"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  43,
+  "easyeda-agent",
+  "f=self.root/'easyeda-agent/scripts/net-discipline-audit.py';f.write_text('user file')"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  46,
+  "easyeda-agent",
+  "f=self.root/'easyeda-agent/scripts/net-discipline-audit.py';f.write_text('user file')"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  51,
+  "easyeda-agent",
+  "f=self.root/'easyeda-agent/scripts/net-discipline-audit.py';f.write_text('edited')"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  62,
+  "easyeda-agent",
+  "f=self.root/'easyeda-agent/scripts/parts-select.py';f.write_text(f.read_text()+'\\nJLC_DIRECT_GUARD\\n')"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  78,
+  "easyeda-agent",
+  "self.assertFalse((self.root/'easyeda-agent/scripts/net-discipline-audit.py').exists())"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  85,
+  "easyeda-agent",
+  "f=self.root/'easyeda-agent/SKILL.md'"
+ ],
+ [
+  "tests/test_network_feedback.py",
+  99,
+  "EASYEDA_",
+  "with patch.object(socket,'socket',side_effect=AssertionError('network attempted')),patch.dict('os.environ',{'EASYEDA_ALLOW_DIRECT_JLC_API':'1'}):"
+ ],
+ [
+  "tests/test_offline_guard.py",
+  3,
+  "`easyeda`",
+  "A test that accidentally resolves a real ``easyeda`` binary or opens a network"
+ ],
+ [
+  "tests/test_offline_guard.py",
+  61,
+  "easyeda",
+  "['powershell', '-Command', 'easyeda version'])"
+ ],
+ [
+  "tests/test_offline_guard.py",
+  78,
+  "easyeda_",
+  "def test_unmarked_file_named_easyeda_is_refused(self):"
+ ],
+ [
+  "tests/test_offline_guard.py",
+  89,
+  "easyeda",
+  "offline_guard.check_command_string('cd /tmp && easyeda version')"
+ ],
+ [
+  "tests/test_pcb_apply_plan.py",
+  4,
+  "`easyeda`",
+  "fake executable.  No test may resolve a real ``easyeda`` from PATH."
+ ],
+ [
+  "tests/test_pcb_apply_plan.py",
+  44,
+  "easyeda",
+  "\"\"\"Stand-in for ``pcb_cli.run`` that emulates one ``easyeda apply``.\"\"\""
+ ],
+ [
+  "tests/test_pcb_apply_plan.py",
+  65,
+  ".easyeda",
+  "argv = [pcb_cli.easyeda_executable(easyeda)] + args"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  3,
+  "`easyeda`",
+  "Every live test drives a fake ``easyeda`` executable (a .cmd on Windows, a .sh"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  72,
+  "EASYEDA_",
+  "log_path = os.environ['FAKE_EASYEDA_LOG']"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  76,
+  "EASYEDA_",
+  "with open(os.environ['FAKE_EASYEDA_SCENARIO'], encoding='utf-8') as handle:"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  116,
+  "EASYEDA_",
+  "base = os.environ['FAKE_EASYEDA_ARTIFACTS']"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  301,
+  "EASYEDA_",
+  "'FAKE_EASYEDA_SCENARIO': str(self.scenario_path),"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  302,
+  "EASYEDA_",
+  "'FAKE_EASYEDA_LOG': str(self.log_path),"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  303,
+  "EASYEDA_",
+  "'FAKE_EASYEDA_ARTIFACTS': str(self.artifacts_dir),"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  304,
+  "EASYEDA_",
+  "'EASYEDA_CLI': self.fake_exe,"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  321,
+  "easyeda-agent",
+  "'version': [{'exit': 0, 'stdout': 'easyeda-agent v1.15.0\\n'}],"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  376,
+  "easyeda",
+  "'exit': 0, 'stdout': 'usage: easyeda pcb stage-snapshot\\n'}],"
+ ],
+ [
+  "tests/test_pcb_case.py",
+  699,
+  "easyeda_",
+  "self.assertEqual(manifest['versions']['easyeda_agent'], '1.15.0')"
+ ],
+ [
+  "tests/test_sch_acceptance.py",
+  16,
+  "easyeda_",
+  "def easyeda_list():"
+ ],
+ [
+  "tests/test_sch_acceptance.py",
+  92,
+  "easyeda_",
+  "return adapter.convert(easyeda_list(), visible_text(), geometry(), rendered(),"
+ ],
+ [
+  "tests/test_sch_acceptance.py",
+  120,
+  "easyeda_",
+  "listing = easyeda_list()"
+ ],
+ [
+  "tests/test_sch_acceptance.py",
+  139,
+  "easyeda_",
+  "for name, value in (('list', easyeda_list()), ('visible', visible_text()),"
+ ],
+ [
+  "tests/test_sch_acceptance.py",
+  295,
+  "easyeda",
+  "'source': 'easyeda sch check', 'page_id': 'page-1',"
+ ],
+ [
+  "tests/test_sch_acceptance.py",
+  304,
+  "easyeda",
+  "self.assertEqual(crossing['junction_evidence'], 'easyeda sch check')"
+ ],
+ [
+  "tests/test_sch_acceptance.py",
+  318,
+  "easyeda",
+  "'source': 'easyeda sch check', 'page_id': 'page-1',"
+ ],
+ [
+  "tests/test_sch_acceptance.py",
+  330,
+  "easyeda",
+  "'source': 'easyeda sch check', 'page_id': 'page-2',"
+ ],
+ [
+  "tests/test_sch_acceptance.py",
+  420,
+  "easyeda_",
+  "out = adapter.convert(easyeda_list(), visible_text(), geometry(), rendered(),"
+ ],
+ [
+  "tests/fixtures/photo-led-acceptance.json",
+  2,
+  "easyeda-agent",
+  "\"coordinate_units\": \"schematic raw units (y-up), from easyeda-agent reads\","
+ ],
+ [
+  "tests/fixtures/README.md",
+  3,
+  "EasyEDA",
+  "These files are read-only evidence from actual EasyEDA pages.  They keep failure"
+ ],
+ [
+  "tests/fixtures/README.md",
+  9,
+  "EasyEDA",
+  "EasyEDA Pro 4.1.78, easyeda-agent 1.15.0."
+ ],
+ [
+  "tests/fixtures/README.md",
+  9,
+  "easyeda-agent",
+  "EasyEDA Pro 4.1.78, easyeda-agent 1.15.0."
+ ],
+ [
+  "tests/fixtures/README.md",
+  10,
+  "easyeda",
+  "- Inputs: `easyeda sch list --include-bbox --include-pins --include-wires"
+ ],
+ [
+  "tests/fixtures/README.md",
+  12,
+  "easyeda",
+  "`easyeda sch sheet-geometry --from-svg` on the official PNG/SVG export, and"
+ ],
+ [
+  "tests/fixtures/feedback/fake_easyeda.py",
+  2,
+  "`easyeda`",
+  "\"\"\"A deterministic fake ``easyeda`` CLI for the feedback-loop offline suite."
+ ],
+ [
+  "tests/fixtures/feedback/fake_easyeda.py",
+  10,
+  "EASYEDA_",
+  "FAKE_EASYEDA_STATE=state.json python fake_easyeda.py pcb dump --out board.json"
+ ],
+ [
+  "tests/fixtures/feedback/fake_easyeda.py",
+  11,
+  "EASYEDA_",
+  "FAKE_EASYEDA_STATE=state.json python fake_easyeda.py apply playbook.json --journal j.jsonl"
+ ],
+ [
+  "tests/fixtures/feedback/fake_easyeda.py",
+  266,
+  "EASYEDA_",
+  "state['_path'] = state.get('_path') or os.environ.get('FAKE_EASYEDA_STATE')"
+ ],
+ [
+  "tests/fixtures/feedback/fake_easyeda.py",
+  271,
+  "easyeda-agent",
+  "return 0, 'easyeda-agent v1.15.0-sim'"
+ ],
+ [
+  "tests/fixtures/feedback/fake_easyeda.py",
+  273,
+  "easyeda",
+  "return 0, 'easyeda fake: project/doc/sch/pcb/apply/call'"
+ ],
+ [
+  "tests/fixtures/feedback/fake_easyeda.py",
+  500,
+  "EASYEDA_",
+  "state_path = os.environ.get('FAKE_EASYEDA_STATE')"
+ ],
+ [
+  "tests/fixtures/feedback/fake_easyeda.py",
+  502,
+  "EASYEDA_",
+  "sys.stderr.write('FAKE_EASYEDA_STATE is required\\n')"
+ ],
+ [
+  "tests/fixtures/feedback/schematic-before.json",
+  1110,
+  "EasyEDA",
+  "\"message\": \"疑似孤儿 stub(一端连引脚、另一端游离,网名  为 EasyEDA 自动生成 — flag/port 疑似已删除,wire 残留;用 sch disconnect 清除)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/checker-expected.json",
+  13,
+  "easyeda",
+  "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/checker-expected.json",
+  30,
+  "easyeda",
+  "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/checker-expected.json",
+  47,
+  "easyeda",
+  "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/checker-expected.json",
+  235,
+  "easyeda",
+  "\"source\": \"easyeda sch read check (photo-led v14, 2026-10-26)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/checker-expected.json",
+  293,
+  "easyeda",
+  "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/checker-expected.json",
+  310,
+  "easyeda",
+  "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/checker-expected.json",
+  327,
+  "easyeda",
+  "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/junction-report.json",
+  3,
+  "easyeda",
+  "\"source\": \"easyeda sch read check (photo-led v14, 2026-10-26)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/layout.json",
+  2,
+  "easyeda-agent",
+  "\"coordinate_units\": \"schematic raw units (y-up), from easyeda-agent reads\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/layout.json",
+  4457,
+  "easyeda",
+  "\"source\": \"easyeda sch read check (photo-led v14, 2026-10-26)\","
+ ],
+ [
+  "tests/fixtures/photo-led-v14/README.md",
+  4,
+  "EasyEDA",
+  "EasyEDA Pro 4.1.78 SVG export + `sch list` read on 2026-10-26.  The source"
+ ],
+ [
+  "tests/fixtures/photo-led-v14/README.md",
+  17,
+  "easyeda",
+  "- `sheet.json`: `easyeda sch sheet-geometry --from-svg` result (offline)."
+ ],
+ [
+  "tools/feedback_benchmark.py",
+  5,
+  "`easyeda`",
+  "real ``easyeda`` binary, daemon or network is used.  Results marked"
+ ],
+ [
+  "tools/feedback_benchmark.py",
+  567,
+  "easyeda",
+  "'simulated host only; real easyeda calls are 0',"
+ ],
+ [
+  "tools/offline_suite.py",
+  11,
+  "`easyeda`",
+  "* installs ``offline_guard`` so a real ``easyeda`` binary or an in-process"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  11,
+  "easyeda-agent",
+  "easyeda-agent/SKILL.md"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  12,
+  "easyeda-agent",
+  "easyeda-agent/references/environment-setup.md"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  13,
+  "easyeda-agent",
+  "easyeda-agent/scripts/parts-select.py"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  14,
+  "easyeda-agent",
+  "easyeda-agent/scripts/net-discipline-audit.py   (new file)"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  110,
+  "easyeda-agent",
+  "(\"easyeda-agent/SKILL.md\", \"insert_before\", EA_SKILL_ANCHOR_BULLET,"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  112,
+  "easyeda-agent",
+  "(\"easyeda-agent/SKILL.md\", \"insert_after\", EA_SKILL_ANCHOR_ROW,"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  114,
+  "easyeda-agent",
+  "(\"easyeda-agent/references/environment-setup.md\", \"insert_before\", EA_ENV_ANCHOR,"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  116,
+  "easyeda-agent",
+  "(\"easyeda-agent/scripts/parts-select.py\", \"replace\", PS_NOTE_OLD,"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  118,
+  "easyeda-agent",
+  "(\"easyeda-agent/scripts/parts-select.py\", \"replace\", PS_FN_OLD,"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  120,
+  "easyeda-agent",
+  "(\"easyeda-agent/scripts/parts-select.py\", \"replace\", PS_MAIN_OLD,"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  125,
+  "easyeda-agent",
+  "NEW_FILES = [(\"easyeda-agent/scripts/net-discipline-audit.py\", \"net-discipline-audit.py\")]"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  185,
+  "easyeda-agent",
+  "sources = [('easyeda-agent/scripts/net-discipline-audit.py', Path(__file__).with_name('net-discipline-audit.py')),"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  198,
+  "easyeda-agent",
+  "allowed = {x[0] for x in EDITS} | {'easyeda-agent/scripts/net-discipline-audit.py', 'design-hardware/references/network-discipline.md'}"
+ ],
+ [
+  "tools/skill-feedback/apply-feedback.py",
+  234,
+  "easyeda-agent",
+  "if not (root/'easyeda-agent').is_dir() or not (root/'design-hardware').is_dir(): raise ValueError('both skill directories are required')"
+ ],
+ [
+  "tools/skill-feedback/APPLY-INSTRUCTIONS.md",
+  4,
+  "easyeda-agent",
+  "the easyeda-agent edits are an anchored migration, not an upstream release."
+ ],
+ [
+  "tools/skill-feedback/APPLY-INSTRUCTIONS.md",
+  13,
+  "easyeda-agent",
+  "The root must contain easyeda-agent/ and design-hardware/. Check returns 1 for"
+ ],
+ [
+  "tools/skill-feedback/APPLY-INSTRUCTIONS.md",
+  17,
+  "EASYEDA_",
+  "EASYEDA_ALLOW_DIRECT_JLC_API=1 is inherited."
+ ],
+ [
+  "benchmarks/offline-round11/README.md",
+  44,
+  "`easyeda`",
+  "真实 `easyeda` CLI/daemon/连接器、原生 DRC/check/lint、Gerber/CPL/钻孔、板厂 DFM、实际布线完成、铺铜连通、热/EMC/安规、固件、实物功能、官方导图人工视觉签核、无字体环境的字形渲染。离线基准通过不等于硬件或生产可用。"
+ ],
+ [
+  "benchmarks/offline-round12/result.json",
+  487,
+  "easyeda",
+  "\"simulated host only; real easyeda calls are 0\","
+ ]
+]

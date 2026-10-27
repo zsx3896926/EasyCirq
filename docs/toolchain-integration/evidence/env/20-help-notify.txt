@@ -1,0 +1,26 @@
+===== easyeda notify --help (exit=0) =====
+Surface a non-blocking toast INSIDE the EasyEDA window. The design flow calls this
+as each stage passes so the user can watch progress live — "完成 X,下一步 Y".
+type ∈ info | success | warn | error | question.
+
+Usage:
+  easyeda notify [flags]
+
+Examples:
+  easyeda notify --message "完成 布局,下一步 布线" --type success
+  easyeda notify --message "DRC 未通过,需修复" --type error --duration 5
+
+Flags:
+      --duration float   seconds to show (default 3)
+  -h, --help             help for notify
+      --message string   toast text (required)
+      --type string      info | success | warn | error | question (default "info")
+      --window string    EasyEDA window ID (else use --project)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions

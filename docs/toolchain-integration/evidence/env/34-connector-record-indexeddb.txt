@@ -1,0 +1,62 @@
+# Connector extension: installed record (decoded, read-only)
+
+Source of truth: LevelDB / IndexedDB backing store of the EasyEDA Pro **online** editor page.
+File: C:\Users\jlc\AppData\Local\LCEDA-Pro\cache.x64.3\IndexedDB\https_pro.lceda.cn_0.indexeddb.leveldb\000004.log
+Method: byte-scan for `easyeda-agent-connector` / `isAllowExternalInteractions`; no writes, file opened read-only.
+
+## IndexedDB database / store key
+User_0d20f286253d4bae9d18fcc726fdf389_v6
+  (0d20f286253d4bae9d18fcc726fdf389 == teamUuid of the signed-in account, see project info)
+Extension record uuid: 4dae27407c1d43be98e8e210d45fe587
+Per-document cache uuid also seen: db973d4c6587475e90efbc2f2a470a54
+
+## Installed extension manifest (fields observed verbatim in the record)
+name              = easyeda-agent-connector
+uuid              = 4dae27407c1d43be98e8e210d45fe587
+displayName       = EDA Agent Connector
+description       = Bridges the local agent daemon to the official eda.* API over a local WebSocket,
+                    dispatching typed schematic and PCB actions.
+version           = 1.15.0   (current record; 3 occurrences of 1.15.0, 5 residual older 1.14.0 records)
+publisher         = zhoushoujian
+engines.eda       = ~3.2.0
+license           = MIT
+homepage/repo     = https://github.com/zhoushoujianwork/easyeda-agent
+categories        = Other
+keywords          = agent, automation, websocket, schematic, AI
+images.logo       = ../images/logo.jpg
+activationEvents  = { onStartupFinished: true }
+entry             = ../dist/index          <- entry file (bundled, extension-relative)
+dependentExtensions = {}
+headerMenus       = home / blank / sch / symbol / pcb / footprint, each:
+                    menu "EDA Agent" -> Reconnect(reconnect) / Stop(stopConnection)
+                                       / Toggle Auto-Connect(toggleAutoConnect) / About...(about)
+
+## Installed-file index stored with the record (logical layout, NOT a filesystem path)
+fileIndex = extension.json
+            dist/            dist/index.js            dist/gateway.mjs
+            iframe/          iframe/index.html
+            images/          images/logo.png
+            LICENSE          README.md
+
+## Install-state flags stored alongside the files (this is where the permission lives)
+isEnable                      = true
+isAllowExternalInteractions   = true     <-- "允许外部交互 / Allow external interaction"
+isAutoUpdate                  = false
+isOnlineSync                  = false
+isShowAtHeaderMenu            = true
+isInExtensionStore            = false    <-- sideloaded .eext, not from the store
+fileSize / installationTime   = present (binary-encoded, not decoded)
+
+Record history note: earlier records in the same log show
+isAllowExternalInteractions = false, then true; the newest record (highest offset) is true.
+
+## Physical files on disk
+NONE. Searched and found nothing:
+  - C:\Users\jlc\Documents\LCEDA-Pro           -> no extension*/ dirs, no extension.json
+  - C:\Users\jlc\AppData\Local\LCEDA-Pro       -> no extension*/ dirs, no extension.json
+  - C:\Users\jlc\AppData\Local\lceda-pro       -> no extension*/ dirs
+  - C:\Users\jlc\AppData\Local\Programs\lceda-pro -> no extension*/ dirs
+  - C:\Users\jlc\.easyeda                      -> only artifacts/ (command output artifacts)
+  - *.eext under Downloads / Desktop / Documents / .easyeda -> none
+So under config.json `"type": "ONLINE"` the extension body + its permission flags live ONLY in the
+editor's IndexedDB store (per signed-in account), not in an on-disk extension folder.

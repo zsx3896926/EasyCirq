@@ -1,0 +1,49 @@
+Capture components (anchor/rotation/locked/bbox/pads), board outline, silkscreen,
+live DRC rules and copper layer count in ONE file.
+
+With --out, a separate <out>.capture.json records the persisted file SHA256,
+byte count, capture identity/timing and missing observations. stdout mode
+continues to emit only the snapshot JSON.
+
+--include-copper also captures tracks/arcs, vias, pour boundaries, materialized
+poured copper, regions and static fills. Each category records available/unknown,
+so a failed read cannot be mistaken for an empty board.
+
+The snapshot is what `pcb layout-score --from <file>` replays offline, so a
+reference board can become a regression fixture that needs no live editor.
+
+Board outline requires the PCB to be the FOREGROUND document (the platform
+returns null otherwise) — the snapshot records that degradation under
+`partial[]` rather than silently pretending the board has no edges.
+
+Usage:
+  zhigou pcb dump [flags]
+
+Examples:
+  # 抓当前板为 fixture
+  zhigou pcb dump --project ceshi --out /tmp/ceshi-board.json
+
+  # 只要器件+板框（省两次往返）
+  zhigou pcb dump --no-silk --no-rules --no-layers
+
+  # 离线重放打分
+  zhigou pcb layout-score --from /tmp/ceshi-board.json
+
+Flags:
+  -h, --help             help for dump
+      --include-copper   capture exact routed/area copper and rule-region lists with per-category availability
+      --label string     record this name as the snapshot's project label
+      --no-layers        skip copper layer count
+      --no-rules         skip live DRC rules (thresholds fall back to the JLCPCB baseline)
+      --no-silk          skip silkscreen (drops the silk-consistency dimensions)
+      --out string       write snapshot plus <out>.capture.json with persisted file SHA256 and capture provenance (default: stdout only)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

@@ -1,0 +1,30 @@
+===== easyeda lib --help (exit=0) =====
+EasyEDA device library operations
+
+Usage:
+  easyeda lib [flags]
+  easyeda lib [command]
+
+Available Commands:
+  by-lcsc     Resolve LCSC C-numbers directly to device-library identity (libraryUuid + uuid)
+  common      Read the editor's Common Library shortcut catalogue (常用库)
+  device      Create and inspect Device records that bind symbols and footprints
+  footprint   Create and inspect footprint library assets
+  libraries   List EasyEDA libraries and writable personal/project library UUIDs
+  model3d     Import and inspect 3D model library assets
+  search      Search the EasyEDA device library by MPN, value+package, or name
+  symbol      Create and inspect symbol library assets
+
+Flags:
+  -h, --help            help for lib
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda lib [command] --help" for more information about a command.

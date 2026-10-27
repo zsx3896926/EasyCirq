@@ -1,0 +1,7 @@
+CMD: easyeda daemon status
+STATUS: exit=1
+--- STDOUT ---
+
+--- STDERR ---
+unknown command "status" for "easyeda daemon"
+

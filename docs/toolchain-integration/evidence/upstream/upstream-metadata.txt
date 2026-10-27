@@ -1,0 +1,52 @@
+upstream: https://github.com/zhoushoujianwork/easyeda-agent
+tag: v1.14.0
+commit: 7cde1ae1769d3e8c50fd9ada43f9bcc166d69d70
+commit-date: 2026-10-17T15:19:39+08:00
+local-clone: C:\Users\jlc\work\_round6-scratch\easyeda-agent-src
+tree-files (excl .git): 1518
+tree-bytes (excl .git): 33749778
+
+sha256 key files:
+cf37ee89c3f3171846dbe50846822666e354cfe798eafb08efbe09c28d7eb61b  go.mod
+3ffe92d333ce11d224d7b3138511d8195a3e302f5f6205bc7448aa9c8d09008e  go.sum
+6663f1963e9763cf0cfc45776a2bb2ee31c6a2ab37e31451d3b14ceec576e00d  LICENSE
+804a9a20f948054ba9be124b3d475a2eca01d34d986311f79694e9fc049507f8  NOTICE
+c5537b1b04516640981871296ec19036501cc96ba796003bb30398bf68c9bf41  cmd/easyeda/main.go
+d9a532fc9580c913f6ac3d06037ce88e6514b4184dc70b2f95102b5cc627fc86  internal/protocol/envelope.go
+944e08076cae29a2de4eaac9d89e0b32e3ca06b918d98b6eb14ceba276719d16  internal/protocol/connector.go
+9457a984a686b455973c9a8e37782c67cea8309166f5233bccdafe281eb2d0c2  internal/daemon/daemon.go
+42585d9c443cd265dfaa02b12ddb440e6393b5ba44558964873bcef6f3df06a8  internal/daemon/connect.go
+128c29457e902f2d1886310517996bbecb0139d545c616d72fccc7895c29e2e6  internal/daemon/hub.go
+ec2766b8b7ee77df62e2d4d873eba640fa042ac0bbeae4829191674efcc59ac7  internal/daemon/dispatch.go
+e3673c6ce6b695eaf9818e1b84b975f20c3c1d0a50303c185ecc92901f6726f4  internal/app/dispatch.go
+6964836462dc0a3f29daf6f831874a2de81411d53f9cdc3cd79365c330cfaaef  internal/app/app.go
+fd5c466f761c9b58e5b57eaf1c3f022351a94f1d4b7889f5c6fe43b6eeea34e0  internal/app/cmd_daemon.go
+624b64f4450abfc948fc7b3d3f49ca03f64c3631d502ba4e6be124c2fd8dbd87  internal/app/daemon_autostart.go
+3480f870e9a892deb5a610d148e3842c71ee9850852af3a22932c311ad18c84f  internal/app/daemon_lifecycle.go
+da41b6881a51070f7c1c2645d3df2cbb1c11fb710f6bc83a9f7f9833ec7ec4ed  internal/app/cmd_debug.go
+3d8906f9cf06f419740301f9ed2f4a899b451aa9999576d62a7094671b643ddc  internal/selfupdate/selfupdate.go
+d13d7c8ac395f839b17a8984adee0ce8a615a403e6ad4458cf4201561ed26f5c  internal/selfupdate/cli.go
+a08a7631de8bea946844a85bca7184c01b0946fe04bd2d1f13b5eb27c45d8c91  extension/extension.json
+0af318539f14d0a072be99a14330617845472321d0343c0ff4aff6a6e9316dbc  extension/package.json
+c29724d7804cc5e3d85c733e5684f2f2d5f3f53f62e385efcfd0b2abb17e5318  extension/src/transport.ts
+997687bf9782c3c51e4eb0ac960bb4d68a48c6770d2f2235de94aac2a27981f8  extension/src/protocol.ts
+3cbfdf3cd8c6d994d9ad74b64018d2042036ab081c65f1c9bd8132913ecc7def  extension/src/actions.ts
+a7900ad380145a0968439be3645bc7b256f62629fa7bee991a8abe9e9614171d  extension/src/index.ts
+3f2f21d98405e48ef5ea884eff57fdb23a8ea478236bdff5fa7df295ee6b76a9  extension/build/packaged.ts
+253bb690421233f40b22e24c79cb55c325e862e52c9561d622f4bcb2ec091973  extension/config/esbuild.common.ts
+3a49833f55452197347c21fc7d696b2cb310061cf303f41ab4b048b5058040c7  extension/.edaignore
+678dd06ee30cc6e9c7040dcfc95f090fdb1b6680345e6bc9116ef019b4782a27  install.ps1
+02a90f08b824785a406189f2bf81d2cf25d844435163c6093834faebf2d29fbc  Makefile
+
+rebrand touchpoints (non-test .go):
+'.easyeda-agent' 14 files / 22 lines
+'easyeda-agent' 137 files / 234 lines
+'easyeda' (any) 230 files / 1383 lines
+'EASYEDA_' 14 files / 30 lines
+module import path 123 files / 161 lines
+
+go prod: 374 files / 6,009,999 bytes / 141,600 lines
+go test: 453 files / 3,929,450 bytes
+extension total: 115 files / 5,112,058 bytes
+skill .agents/skills/easyeda-agent: 189 files / 2,781,740 bytes
+

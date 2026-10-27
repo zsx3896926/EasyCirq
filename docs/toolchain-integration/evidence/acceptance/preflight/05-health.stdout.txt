@@ -1,0 +1,54 @@
+{
+  "status": "found",
+  "host": "127.0.0.1",
+  "ports": "23111-23120",
+  "found": {
+    "port": 23111,
+    "service": "zhigou-agent",
+    "raw": {
+      "pid": 49128,
+      "service": "zhigou-agent",
+      "version": "0.2.0-dev",
+      "status": "ok",
+      "port": 23111,
+      "windows": []
+    }
+  },
+  "versionGate": {
+    "cli": "0.2.0-dev",
+    "daemon": "0.2.0-dev",
+    "verdict": "skipped",
+    "findings": [
+      {
+        "component": "daemon",
+        "version": "0.2.0-dev",
+        "severity": "skipped",
+        "reason": "dev 构建(CLI v0.2.0-dev / daemon v0.2.0-dev),git-describe 戳不代表真实代码水位,不做硬判定"
+      }
+    ]
+  },
+  "hostCompatibility": {
+    "baseline": "4.0.0",
+    "recommended": "4.1.60",
+    "verdict": "skipped"
+  },
+  "checks": [
+    {
+      "name": "daemon",
+      "status": "ok",
+      "detail": "v0.2.0-dev 运行在端口 23111"
+    },
+    {
+      "name": "connector",
+      "status": "fail",
+      "detail": "没有 EasyEDA 窗口连上 daemon",
+      "fix": "运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA"
+    }
+  ],
+  "checked": [
+    {
+      "port": 23111,
+      "status": "ok"
+    }
+  ]
+}

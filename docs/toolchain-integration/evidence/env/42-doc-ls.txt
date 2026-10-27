@@ -1,0 +1,17 @@
+CMD: easyeda doc ls
+STATUS: exit=0
+--- STDOUT ---
+    TYPE       NAME                      UUID
+    pcb        PCB1                      46568562813744d8
+    schematic  P1                        d088dc5fba4d38e2
+    schematic  P2                        e09af7471397f380
+★   schematic  P3                        9d5b9d544e2a1c5b
+    schematic  P4                        a3fa3a84cb1d32f4
+    schematic  P5                        c66bac8645e54965
+    schematic  P6                        267fab80bfb4688b
+    schematic  P7                        374a3594f9a0d3f7
+    schematic  P8                        c695bd9dba61d52c
+    schematic  P9                        d97ff5811deff1ad
+
+--- STDERR ---
+

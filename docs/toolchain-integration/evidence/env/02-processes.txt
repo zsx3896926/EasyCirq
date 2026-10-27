@@ -1,0 +1,63 @@
+=== Get-Process (lceda|easyeda) @ 2026-10-27T21:20:45.9113798+08:00 ===
+
+   Id ProcessName StartTime           MainWindowTitle                           Path
+   -- ----------- ---------           ---------------                           ----
+32064 easyeda     2026/10/26 16:52:23                                           C:\Users\jlc\.local\bin\easyeda.exe
+32676 lceda-pro   2026/10/27 15:59:24                                           C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe
+35044 lceda-pro   2026/10/27 15:59:22                                           C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe
+38172 lceda-pro   2026/10/27 15:59:21 SkyPilot-X1 | 嘉立创EDA(专业版) - V4.1.78 C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe
+45344 lceda-pro   2026/10/27 15:59:22                                           C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe
+47004 lceda-pro   2026/10/27 15:59:22                                           C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe
+
+
+=== Get-CimInstance Win32_Process ===
+
+ProcessId       : 32064
+ParentProcessId : 34804
+Name            : easyeda.exe
+CreationDate    : 2026/10/26 16:52:23
+CommandLine     : C:\Users\jlc\.local\bin\easyeda.exe daemon start --host 127.0.0.1 --ports 60832-60841 --autosave-debounce 3s --auto-update-skill=true
+
+ProcessId       : 38172
+ParentProcessId : 10828
+Name            : lceda-pro.exe
+CreationDate    : 2026/10/27 15:59:21
+CommandLine     : "C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe" 
+
+ProcessId       : 45344
+ParentProcessId : 38172
+Name            : lceda-pro.exe
+CreationDate    : 2026/10/27 15:59:22
+CommandLine     : C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe --dump-mode=partial --type=crashpad-handler --user-data-dir=C:\Users\jlc\AppData\Local\LCEDA-Pro\cache.x64.3 /prefetch:4 --no-rate-limit --monitor-self-annotation=ptype=cra
+                  shpad-handler --database=C:\Users\jlc\AppData\Local\LCEDA-Pro\cache.x64.3\Crashpad "--annotation=_productName=JLCEDA Pro" --annotation=_version=4.1.78.34f5b8d9 --annotation=plat=Win64 --annotation=prod=Electron --annotation=ver=41.2
+                  .1-jlc-sa-win-x64.6 --initial-client-data=0x550,0x554,0x558,0x4cc,0x55c,0x7ff691073adc,0x7ff691073ae8,0x7ff691073af8
+
+ProcessId       : 47004
+ParentProcessId : 38172
+Name            : lceda-pro.exe
+CreationDate    : 2026/10/27 15:59:22
+CommandLine     : "C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe" --type=gpu-process --no-sandbox --user-data-dir="C:\Users\jlc\AppData\Local\LCEDA-Pro\cache.x64.3" --gpu-preferences=SAAAAAAAAADgAAAEAAAAAAAAAAAAAGAAAQAAAAAAAAAAAAAAAAAAA
+                  AIAAAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAAAAAACAAAAAAAAAAIAAAAAAAAAA== --field-trial-handle=1740,i,18401911696513059443,1013995087023978732,262144 --enable-features=EnableTransparentHwndEnlargement,PdfUseShowSaveFilePicker --disable-fe
+                  atures=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymization-salt-handle=17
+                  56,i,8220662990923863697,12754088314994228566,4 --trace-process-track-uuid=3190708988185955192 --mojo-platform-channel-handle=1752 /prefetch:2
+
+ProcessId       : 35044
+ParentProcessId : 38172
+Name            : lceda-pro.exe
+CreationDate    : 2026/10/27 15:59:22
+CommandLine     : "C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe" --type=utility --utility-sub-type=network.mojom.NetworkService --lang=zh-CN --service-sandbox-type=none --no-sandbox --user-data-dir="C:\Users\jlc\AppData\Local\LCEDA-Pro
+                  \cache.x64.3" --cors-schemes=app --fetch-schemes=app,ftp --streaming-schemes=app,ftp --field-trial-handle=1740,i,18401911696513059443,1013995087023978732,262144 --enable-features=EnableTransparentHwndEnlargement,PdfUseShowSaveFilePi
+                  cker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudonymizati
+                  on-salt-handle=1756,i,8220662990923863697,12754088314994228566,4 --trace-process-track-uuid=3190708989122997041 --mojo-platform-channel-handle=1988 /prefetch:11
+
+ProcessId       : 32676
+ParentProcessId : 38172
+Name            : lceda-pro.exe
+CreationDate    : 2026/10/27 15:59:24
+CommandLine     : "C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe" --type=renderer --user-data-dir="C:\Users\jlc\AppData\Local\LCEDA-Pro\cache.x64.3" --cors-schemes=app --fetch-schemes=app,ftp --streaming-schemes=app,ftp --app-path="C:\U
+                  sers\jlc\AppData\Local\Programs\lceda-pro\resources\app" --enable-sandbox --no-sandbox --video-capture-use-gpu-memory-buffer --lang=zh-CN --device-scale-factor=1 --num-raster-threads=4 --enable-main-frame-before-activation --rendere
+                  r-client-id=6 --time-ticks-at-unix-epoch=-1792978103951289 --launch-time-ticks=109860248863 --field-trial-handle=1740,i,18401911696513059443,1013995087023978732,262144 --enable-features=EnableTransparentHwndEnlargement,PdfUseShowSav
+                  eFilePicker --disable-features=DropInputEventsWhilePaintHolding,LocalNetworkAccessChecks,NetworkServiceSandbox,ScreenAIOCREnabled,SpareRendererForSitePerProcess,TraceSiteInstanceGetProcessCreation --variations-seed-version --pseudon
+                  ymization-salt-handle=1756,i,8220662990923863697,12754088314994228566,4 --trace-process-track-uuid=3190708991934122588 --mojo-platform-channel-handle=3600 /prefetch:1
+
+

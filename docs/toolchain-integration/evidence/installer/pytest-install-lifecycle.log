@@ -1,0 +1,57 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.15, pytest-9.1.1, pluggy-1.7.0 -- C:\Users\jlc\AppData\Local\Programs\Python\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\jlc\work\zhigou-toolchain
+plugins: anyio-4.15.1
+collecting ... collected 39 items
+
+tests/test_install_lifecycle.py::CleanInstallTests::test_clean_install_layout_and_manifest PASSED [  2%]
+tests/test_install_lifecycle.py::CleanInstallTests::test_install_creates_nothing_outside_install_and_state PASSED [  5%]
+tests/test_install_lifecycle.py::CleanInstallTests::test_install_is_idempotent PASSED [  7%]
+tests/test_install_lifecycle.py::CleanInstallTests::test_install_preserves_existing_user_config_on_upgrade PASSED [ 10%]
+tests/test_install_lifecycle.py::UpgradeRollbackTests::test_downgrade_is_refused_pointing_at_rollback PASSED [ 12%]
+tests/test_install_lifecycle.py::UpgradeRollbackTests::test_failed_upgrade_leaves_previous_version_intact PASSED [ 15%]
+tests/test_install_lifecycle.py::UpgradeRollbackTests::test_rollback_by_explicit_version PASSED [ 17%]
+tests/test_install_lifecycle.py::UpgradeRollbackTests::test_rollback_restores_previous_version PASSED [ 20%]
+tests/test_install_lifecycle.py::UpgradeRollbackTests::test_rollback_without_backup_is_a_clear_error PASSED [ 23%]
+tests/test_install_lifecycle.py::UpgradeRollbackTests::test_upgrade_records_history_and_backs_up PASSED [ 25%]
+tests/test_install_lifecycle.py::UpgradeRollbackTests::test_upgrade_reports_compat_changes PASSED [ 28%]
+tests/test_install_lifecycle.py::UninstallTests::test_uninstall_refuses_modified_install_without_force PASSED [ 30%]
+tests/test_install_lifecycle.py::UninstallTests::test_uninstall_removes_only_owned_files PASSED [ 33%]
+tests/test_install_lifecycle.py::UninstallTests::test_uninstall_then_reinstall_is_clean PASSED [ 35%]
+tests/test_install_lifecycle.py::UnicodePathTests::test_chinese_and_space_paths_for_every_action PASSED [ 38%]
+tests/test_install_lifecycle.py::UnicodePathTests::test_long_deep_path PASSED [ 41%]
+tests/test_install_lifecycle.py::CorruptBundleTests::test_detached_release_mismatch_is_rejected PASSED [ 43%]
+tests/test_install_lifecycle.py::CorruptBundleTests::test_duplicate_entry PASSED [ 46%]
+tests/test_install_lifecycle.py::CorruptBundleTests::test_inspect_bundle_reports_corruption PASSED [ 48%]
+tests/test_install_lifecycle.py::CorruptBundleTests::test_missing_manifest PASSED [ 51%]
+tests/test_install_lifecycle.py::CorruptBundleTests::test_path_traversal PASSED [ 53%]
+tests/test_install_lifecycle.py::CorruptBundleTests::test_tampered_payload PASSED [ 56%]
+tests/test_install_lifecycle.py::CorruptBundleTests::test_truncated_archive PASSED [ 58%]
+tests/test_install_lifecycle.py::CorruptBundleTests::test_wrong_inventory_hash PASSED [ 61%]
+tests/test_install_lifecycle.py::SafetyTests::test_existing_retired_agent_dirs_are_never_modified PASSED [ 64%]
+tests/test_install_lifecycle.py::SafetyTests::test_install_dir_guard_rejects_symlink PASSED [ 66%]
+tests/test_install_lifecycle.py::SafetyTests::test_install_dir_inside_retired_agent_dir_is_refused PASSED [ 69%]
+tests/test_install_lifecycle.py::SafetyTests::test_path_is_not_modified PASSED [ 71%]
+tests/test_install_lifecycle.py::SafetyTests::test_shadowing_is_reported_not_fixed PASSED [ 74%]
+tests/test_install_lifecycle.py::TransactionTests::test_dry_run_writes_nothing PASSED [ 76%]
+tests/test_install_lifecycle.py::TransactionTests::test_environment_overrides_drive_defaults PASSED [ 79%]
+tests/test_install_lifecycle.py::TransactionTests::test_interrupted_transaction_is_recovered PASSED [ 82%]
+tests/test_install_lifecycle.py::TransactionTests::test_local_modification_blocks_upgrade_until_forced PASSED [ 84%]
+tests/test_install_lifecycle.py::TransactionTests::test_stale_lock_is_reclaimed_and_live_lock_is_respected PASSED [ 87%]
+tests/test_install_lifecycle.py::ClientSkillTests::test_skill_can_be_copied_into_isolated_client_root PASSED [ 89%]
+tests/test_install_lifecycle.py::ClientSkillTests::test_unmanaged_skill_is_not_overwritten PASSED [ 92%]
+tests/test_install_lifecycle.py::SelfCheckTests::test_degraded_doctor_is_not_an_install_failure PASSED [ 94%]
+tests/test_install_lifecycle.py::SelfCheckTests::test_missing_runtime_binary_is_reported_not_fatal PASSED [ 97%]
+tests/test_install_lifecycle.py::SelfCheckTests::test_real_bundle_builds_and_installs_with_real_doctor PASSED [100%]
+
+============================== warnings summary ===============================
+tests/test_install_lifecycle.py::UpgradeRollbackTests::test_failed_upgrade_leaves_previous_version_intact
+tests/test_install_lifecycle.py::CorruptBundleTests::test_duplicate_entry
+tests/test_install_lifecycle.py::CorruptBundleTests::test_inspect_bundle_reports_corruption
+tests/test_install_lifecycle.py::CorruptBundleTests::test_tampered_payload
+  C:\Users\jlc\AppData\Local\Programs\Python\Python313\Lib\zipfile\__init__.py:1661: UserWarning: Duplicate name: 'payload/bin/zhigou.exe'
+    return self._open_to_write(zinfo, force_zip64=force_zip64)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+======================= 39 passed, 4 warnings in 18.07s =======================

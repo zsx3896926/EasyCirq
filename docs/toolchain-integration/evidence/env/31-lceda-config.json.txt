@@ -1,0 +1,33 @@
+{
+    "type": "ONLINE",
+    "devTools": "",
+    "logLevel": "warn",
+    "logEnable": true,
+    "crashUploadToServer": false,
+    "gpu": "",
+    "canvas2d": true,
+    "sqlTimeout": 2000,
+    "connectTimeout": 5000,
+    "proxy": {
+        "enable": false,
+        "protocol": "http",
+        "host": "0.0.0.0",
+        "port": 0,
+        "username": "",
+        "password": ""
+    },
+    "onlineService": "https://pro.lceda.cn",
+    "updateService": "https://image.lceda.cn/files/lceda-pro",
+    "systemLibName": "lceda-std",
+    "firstRun": false,
+    "APP_PROJECT_DIR": [
+        "C:\\Users\\jlc\\Documents\\LCEDA-Pro\\projects",
+        "C:\\Users\\jlc\\Documents\\LCEDA-Pro\\example-projects"
+    ],
+    "CHECK_UPDATE": true,
+    "LIB_DIR": [
+        "C:\\Users\\jlc\\Documents\\LCEDA-Pro\\libraries"
+    ],
+    "ONLINE_BACKUP_DIR": "C:\\Users\\jlc\\Documents\\LCEDA-Pro\\online-projects-backup",
+    "TMP_BACKUP_DIR": "C:\\Users\\jlc\\Documents\\LCEDA-Pro\\projects-recovery"
+}

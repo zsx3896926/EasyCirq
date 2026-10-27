@@ -1,0 +1,21 @@
+Re-pour (recompute) all pours after layout/routing changes
+
+Usage:
+  zhigou pcb pour-rebuild [flags]
+
+Examples:
+  zhigou pcb pour-rebuild
+
+Flags:
+  -h, --help         help for pour-rebuild
+      --net string   filter by net name
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

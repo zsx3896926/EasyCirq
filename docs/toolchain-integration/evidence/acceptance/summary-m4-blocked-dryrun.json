@@ -1,0 +1,607 @@
+{
+  "schema": "zhigou-acceptance/v1",
+  "generatedAt": "2026-10-27T13:43:08Z",
+  "stage": "m4",
+  "dryRun": true,
+  "cli": {
+    "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "version": "zhigou 0.2.0-dev"
+  },
+  "environment": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.13.15",
+    "cwd": "C:\\Users\\jlc\\work\\zhigou-toolchain"
+  },
+  "projectDir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\acceptance",
+  "evidenceDir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\acceptance",
+  "window": null,
+  "preflight": {
+    "ready": false,
+    "verdict": "degraded",
+    "connectorStatus": "disconnected",
+    "verifyVerdict": "degraded",
+    "blockers": [
+      "connector.status=disconnected (no EasyEDA window connected)",
+      "connector verify verdict=degraded (no loaded connector windows)",
+      "zhigou health reports no connected window"
+    ],
+    "nextSteps": [
+      "在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载"
+    ],
+    "capabilities": {
+      "unknown": 19,
+      "unsupported": 5
+    },
+    "unsupported": [
+      "gerber.export",
+      "drill.export",
+      "cpl.export",
+      "archive.backup",
+      "length.tuning"
+    ]
+  },
+  "binding": {},
+  "counts": {
+    "PASS": 6,
+    "FAIL": 0,
+    "NOT RUN": 30,
+    "BLOCKED": 0,
+    "UNKNOWN": 0
+  },
+  "sixStateCounts": {},
+  "timing": {
+    "totalMs": 719,
+    "cliCalls": 6,
+    "cliMs": 541,
+    "overheadMs": 178
+  },
+  "steps": [
+    {
+      "id": "doctor",
+      "stage": "preflight",
+      "title": "zhigou doctor (disk vs running state)",
+      "status": "PASS",
+      "command": [
+        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "doctor"
+      ],
+      "exitCode": 0,
+      "durationMs": 112,
+      "evidence": {
+        "stdout": "preflight/01-doctor.stdout.txt",
+        "stderr": "preflight/01-doctor.stderr.txt",
+        "json": "preflight/01-doctor.json",
+        "meta": "preflight/01-doctor.meta.json"
+      },
+      "artifacts": [],
+      "notes": []
+    },
+    {
+      "id": "capabilities",
+      "stage": "preflight",
+      "title": "zhigou capabilities (per-item negotiation)",
+      "status": "PASS",
+      "command": [
+        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "capabilities"
+      ],
+      "exitCode": 0,
+      "durationMs": 87,
+      "evidence": {
+        "stdout": "preflight/02-capabilities.stdout.txt",
+        "stderr": "preflight/02-capabilities.stderr.txt",
+        "json": "preflight/02-capabilities.json",
+        "meta": "preflight/02-capabilities.meta.json"
+      },
+      "artifacts": [],
+      "notes": []
+    },
+    {
+      "id": "connector-verify",
+      "stage": "preflight",
+      "title": "zhigou connector verify (.eext vs loaded window)",
+      "status": "PASS",
+      "command": [
+        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "connector",
+        "verify"
+      ],
+      "exitCode": 0,
+      "durationMs": 88,
+      "evidence": {
+        "stdout": "preflight/03-connector-verify.stdout.txt",
+        "stderr": "preflight/03-connector-verify.stderr.txt",
+        "json": "preflight/03-connector-verify.json",
+        "meta": "preflight/03-connector-verify.meta.json"
+      },
+      "artifacts": [],
+      "notes": []
+    },
+    {
+      "id": "connector-path",
+      "stage": "preflight",
+      "title": "zhigou connector path (ships-with .eext)",
+      "status": "PASS",
+      "command": [
+        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "connector",
+        "path"
+      ],
+      "exitCode": 0,
+      "durationMs": 86,
+      "evidence": {
+        "stdout": "preflight/04-connector-path.stdout.txt",
+        "stderr": "preflight/04-connector-path.stderr.txt",
+        "json": "preflight/04-connector-path.json",
+        "meta": "preflight/04-connector-path.meta.json"
+      },
+      "artifacts": [
+        {
+          "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\connector\\build\\dist\\zhigou-connector_v0.1.0.eext",
+          "size": 231299,
+          "sha256": "9b907bf6a409e7bdf6cee169c96d8666191e55057017b2605837236f86c5a9cb"
+        }
+      ],
+      "notes": []
+    },
+    {
+      "id": "health",
+      "stage": "preflight",
+      "title": "zhigou health (live window context)",
+      "status": "PASS",
+      "command": [
+        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "health"
+      ],
+      "exitCode": 0,
+      "durationMs": 81,
+      "evidence": {
+        "stdout": "preflight/05-health.stdout.txt",
+        "stderr": "preflight/05-health.stderr.txt",
+        "json": "preflight/05-health.json",
+        "meta": "preflight/05-health.meta.json"
+      },
+      "artifacts": [],
+      "notes": []
+    },
+    {
+      "id": "version",
+      "stage": "preflight",
+      "title": "zhigou version",
+      "status": "PASS",
+      "command": [
+        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "version"
+      ],
+      "exitCode": 0,
+      "durationMs": 87,
+      "evidence": {
+        "stdout": "preflight/06-version.stdout.txt",
+        "stderr": "preflight/06-version.stderr.txt",
+        "meta": "preflight/06-version.meta.json"
+      },
+      "artifacts": [],
+      "notes": []
+    },
+    {
+      "id": "m4-pcb-baseline",
+      "stage": "m4",
+      "title": "PCB baseline dump (pcb dump --include-copper)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-locate",
+      "stage": "m4",
+      "title": "locate PCB part (pcb list --include-bbox)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-move",
+      "stage": "m4",
+      "title": "2 mm local move of R1 (pcb modify --center)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-save",
+      "stage": "m4",
+      "title": "save PCB (pcb save)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-reload",
+      "stage": "m4",
+      "title": "reload PCB document (doc reload --json)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-after",
+      "stage": "m4",
+      "title": "fresh PCB dump (pcb dump --include-copper)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-scope-diff",
+      "stage": "m4",
+      "title": "scope diff: only the target moved, copper unchanged",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-drc",
+      "stage": "m4",
+      "title": "PCB DRC after local edit (pcb drc --json)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-check",
+      "stage": "m4",
+      "title": "PCB DFM check after local edit (pcb check --json)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-archive",
+      "stage": "m4",
+      "title": "backup: native archive (project export)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-restore-probe",
+      "stage": "m4",
+      "title": "restore probe: import archive as NEW project (@beta importer)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-install-upgrade",
+      "stage": "m4",
+      "title": "install/upgrade/rollback (delegated to distribution/)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-wrong-doc",
+      "stage": "m4",
+      "title": "negative control: pinned wrong --doc must refuse",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-stale-read",
+      "stage": "m4",
+      "title": "negative control: stale read after write",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-timeout",
+      "stage": "m4",
+      "title": "negative control: bounded readiness (doc ready --timeout 5s)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-baseline",
+      "stage": "m4",
+      "title": "PCB baseline dump (pcb dump --include-copper)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-locate",
+      "stage": "m4",
+      "title": "locate PCB part (pcb list --include-bbox)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-move",
+      "stage": "m4",
+      "title": "2 mm local move of R1 (pcb modify --center)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-save",
+      "stage": "m4",
+      "title": "save PCB (pcb save)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-reload",
+      "stage": "m4",
+      "title": "reload PCB document (doc reload --json)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-after",
+      "stage": "m4",
+      "title": "fresh PCB dump (pcb dump --include-copper)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-scope-diff",
+      "stage": "m4",
+      "title": "scope diff: only the target moved, copper unchanged",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-drc",
+      "stage": "m4",
+      "title": "PCB DRC after local edit (pcb drc --json)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-pcb-check",
+      "stage": "m4",
+      "title": "PCB DFM check after local edit (pcb check --json)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-archive",
+      "stage": "m4",
+      "title": "backup: native archive (project export)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-restore-probe",
+      "stage": "m4",
+      "title": "restore probe: import archive as NEW project (@beta importer)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-install-upgrade",
+      "stage": "m4",
+      "title": "install/upgrade/rollback (delegated to distribution/)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-wrong-doc",
+      "stage": "m4",
+      "title": "negative control: pinned wrong --doc must refuse",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-stale-read",
+      "stage": "m4",
+      "title": "negative control: stale read after write",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    },
+    {
+      "id": "m4-timeout",
+      "stage": "m4",
+      "title": "negative control: bounded readiness (doc ready --timeout 5s)",
+      "status": "NOT RUN",
+      "command": null,
+      "exitCode": null,
+      "durationMs": null,
+      "evidence": {},
+      "artifacts": [],
+      "notes": [
+        "host unreachable: connector not loaded — step NOT RUN (never reported as pass)"
+      ]
+    }
+  ]
+}

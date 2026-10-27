@@ -1,0 +1,19 @@
+{
+  "id": "doctor",
+  "title": "zhigou doctor (disk vs running state)",
+  "stage": "preflight",
+  "command": [
+    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "doctor"
+  ],
+  "status": "NOT RUN",
+  "exitCode": 0,
+  "durationMs": 88,
+  "generatedAt": "2026-10-27T13:43:17Z",
+  "sha256": {
+    "stdout": "f68a1709e313d17209c85bc4465811cbcf8d6c179f89763a2bae5a010b5bedd2",
+    "stderr": "d084f33375d1192083e3b2fd58b1364d6e4b85888867dab60ba5c2653c623cdd",
+    "json": "23255eea5a0686c51501f3ebdf9d663b17365241c359b57391911d830e0161ca"
+  },
+  "timedOut": false
+}

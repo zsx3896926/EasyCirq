@@ -1,0 +1,7 @@
+CMD: easyeda doctor
+EXIT: 1
+--- STDOUT ---
+
+--- STDERR ---
+unknown command "doctor" for "easyeda"
+

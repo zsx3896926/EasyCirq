@@ -1,0 +1,1003 @@
+CMD: easyeda health
+STATUS: exit=0
+--- STDOUT ---
+{
+  "status": "found",
+  "host": "127.0.0.1",
+  "ports": "60832-60841",
+  "found": {
+    "port": 60832,
+    "service": "easyeda-agent",
+    "raw": {
+      "pid": 32064,
+      "service": "easyeda-agent",
+      "version": "v1.15.0",
+      "status": "ok",
+      "port": 60832,
+      "windows": [
+        {
+          "windowId": "8f406ca7-ac3b-4222-a1f8-bb86a40ac24d",
+          "connectorVersion": "1.15.0",
+          "easyedaVersion": "4.1.78",
+          "capabilities": [
+            "schematic.v1",
+            "pcb.v1"
+          ],
+          "host": {
+            "kind": "electron",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) JLCEDAPro/4.1.78.34f5b8d9 Chrome/146.0.7680.188 Electron/41.2.1-jlc-sa-win-x64.6 Safari/537.36"
+          },
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "9d5b9d544e2a1c5b",
+            "documentType": "schematic",
+            "tabId": "9d5b9d544e2a1c5b@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "hidden"
+          },
+          "connectedAt": "2026-10-27T12:46:09.9717576Z",
+          "lastSeen": "2026-10-27T13:16:52.4577823Z",
+          "connectorVersionOk": true
+        }
+      ],
+      "writeHealth": {
+        "8f406ca7-ac3b-4222-a1f8-bb86a40ac24d": {
+          "samples": 20,
+          "failures": 0,
+          "failureRate": 0,
+          "consecutiveFailures": 0,
+          "degraded": false,
+          "verified": 0
+        }
+      },
+      "autosave": [
+        {
+          "windowId": "263d9359-3664-43df-bfab-3d12402b09ee",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "267fab80bfb4688b",
+            "documentType": "schematic",
+            "tabId": "267fab80bfb4688b@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:20:40.3661937Z"
+        },
+        {
+          "windowId": "263d9359-3664-43df-bfab-3d12402b09ee",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "374a3594f9a0d3f7",
+            "documentType": "schematic",
+            "tabId": "374a3594f9a0d3f7@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:20:59.441538Z"
+        },
+        {
+          "windowId": "263d9359-3664-43df-bfab-3d12402b09ee",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "9d5b9d544e2a1c5b",
+            "documentType": "schematic",
+            "tabId": "9d5b9d544e2a1c5b@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:46:04.1301377Z"
+        },
+        {
+          "windowId": "263d9359-3664-43df-bfab-3d12402b09ee",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "a3fa3a84cb1d32f4",
+            "documentType": "schematic",
+            "tabId": "a3fa3a84cb1d32f4@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:23:42.6919471Z"
+        },
+        {
+          "windowId": "263d9359-3664-43df-bfab-3d12402b09ee",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "c66bac8645e54965",
+            "documentType": "schematic",
+            "tabId": "c66bac8645e54965@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:20:21.0108101Z"
+        },
+        {
+          "windowId": "263d9359-3664-43df-bfab-3d12402b09ee",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "c695bd9dba61d52c",
+            "documentType": "schematic",
+            "tabId": "c695bd9dba61d52c@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:21:19.0542927Z"
+        },
+        {
+          "windowId": "263d9359-3664-43df-bfab-3d12402b09ee",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "d088dc5fba4d38e2",
+            "documentType": "schematic",
+            "tabId": "d088dc5fba4d38e2@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:23:20.3638464Z"
+        },
+        {
+          "windowId": "263d9359-3664-43df-bfab-3d12402b09ee",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "d97ff5811deff1ad",
+            "documentType": "schematic",
+            "tabId": "d97ff5811deff1ad@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:21:38.103617Z"
+        },
+        {
+          "windowId": "3bf4298a-0119-4323-a5b5-b7533438466b",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "9d5b9d544e2a1c5b",
+            "documentType": "schematic",
+            "tabId": "9d5b9d544e2a1c5b@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T11:18:24.6431385Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+            "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+            "documentUuid": "40b81985cfb4a5ed",
+            "documentType": "pcb",
+            "tabId": "40b81985cfb4a5ed@06a53de15aa34286ab2eaf0be41d91ba",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:51:08.1297469Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "06a53de15aa34286ab2eaf0be41d91ba",
+            "projectName": "mcu-i2c-s3-edit-r10b-20261026",
+            "documentUuid": "55802435b3566a73",
+            "documentType": "schematic",
+            "tabId": "55802435b3566a73@06a53de15aa34286ab2eaf0be41d91ba",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:31:47.5384876Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "0b2bf7329ce149408fa35d15a242e488",
+            "projectName": "mcu-i2c-s3-edit-r10-20261026",
+            "documentUuid": "40b81985cfb4a5ed",
+            "documentType": "pcb",
+            "tabId": "40b81985cfb4a5ed@0b2bf7329ce149408fa35d15a242e488",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: pcb.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-26T15:20:34.2022951Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "0b2bf7329ce149408fa35d15a242e488",
+            "projectName": "mcu-i2c-s3-edit-r10-20261026",
+            "documentUuid": "55802435b3566a73",
+            "documentType": "schematic",
+            "tabId": "55802435b3566a73@0b2bf7329ce149408fa35d15a242e488",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:13:18.8435392Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "1e2020e3832949b1971e90dc59b6e280",
+            "projectName": "dual-button-led-night-20261027",
+            "documentUuid": "10f78b14a3282fb6",
+            "documentType": "schematic",
+            "tabId": "10f78b14a3282fb6@1e2020e3832949b1971e90dc59b6e280",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T17:24:37.6653515Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "1e2020e3832949b1971e90dc59b6e280",
+            "projectName": "dual-button-led-night-20261027",
+            "documentUuid": "49c8e7a5dc2e8f59",
+            "documentType": "pcb",
+            "tabId": "49c8e7a5dc2e8f59@1e2020e3832949b1971e90dc59b6e280",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: pcb.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-26T17:15:32.0809783Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "283b0ccaaa9c404d87056886a29c2562",
+            "projectName": "mcu-i2c-s3-edit-20261026",
+            "documentUuid": "40b81985cfb4a5ed",
+            "documentType": "pcb",
+            "tabId": "40b81985cfb4a5ed@283b0ccaaa9c404d87056886a29c2562",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:48:25.9498444Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "283b0ccaaa9c404d87056886a29c2562",
+            "projectName": "mcu-i2c-s3-edit-20261026",
+            "documentUuid": "55802435b3566a73",
+            "documentType": "schematic",
+            "tabId": "55802435b3566a73@283b0ccaaa9c404d87056886a29c2562",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:45:24.6074142Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "7686883008644dea9fd9317d949a5f92",
+            "projectName": "ams1117-3v3-20261026",
+            "documentUuid": "86faeee12e6b50e6",
+            "documentType": "schematic",
+            "tabId": "86faeee12e6b50e6@7686883008644dea9fd9317d949a5f92",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T12:33:30.2844716Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "856ec8994a544ad999a5adf69be04dd9",
+            "projectName": "ne555-blinker-1hz-20261026",
+            "documentUuid": "2beb0746a6a6c75a",
+            "documentType": "schematic",
+            "tabId": "2beb0746a6a6c75a@856ec8994a544ad999a5adf69be04dd9",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T12:34:11.1710789Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "031412f8ae5a3f5c",
+            "documentType": "schematic",
+            "tabId": "031412f8ae5a3f5c@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "hidden"
+          },
+          "state": "unavailable",
+          "saved": false,
+          "error": "connector could not certify mutation/save document identity: handler-boundary documentUuid changed; autosave was not armed",
+          "updatedAt": "2026-10-26T13:03:07.7545848Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "40b81985cfb4a5ed",
+            "documentType": "pcb",
+            "tabId": "40b81985cfb4a5ed@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:11:57.2362552Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "55802435b3566a73",
+            "documentType": "schematic",
+            "tabId": "55802435b3566a73@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:17:20.636315Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "761d4937a703ddb9",
+            "documentType": "schematic",
+            "tabId": "761d4937a703ddb9@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:18:18.0455679Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "b4327168b80347f492b53baf9f04bd20",
+            "projectName": "mcu-i2c-s3-20261026",
+            "documentUuid": "90fe28e330b043ce",
+            "documentType": "schematic",
+            "tabId": "90fe28e330b043ce@b4327168b80347f492b53baf9f04bd20",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T13:19:08.3037299Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "e4a2b5aced774684bdd455c9f7a9059d",
+            "projectName": "photo-led-5v-20261026",
+            "documentUuid": "99b8366b0bdc971f",
+            "documentType": "pcb",
+            "tabId": "99b8366b0bdc971f@e4a2b5aced774684bdd455c9f7a9059d",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T01:33:40.5639077Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "e4a2b5aced774684bdd455c9f7a9059d",
+            "projectName": "photo-led-5v-20261026",
+            "documentUuid": "cd008f919db36eba",
+            "documentType": "schematic",
+            "tabId": "cd008f919db36eba@e4a2b5aced774684bdd455c9f7a9059d",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T01:36:16.9837725Z"
+        },
+        {
+          "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "e56848aaf64d49d7a465352291670aef",
+            "projectName": "photo-led-pcb-20261026",
+            "documentUuid": "99b8366b0bdc971f",
+            "documentType": "pcb",
+            "tabId": "99b8366b0bdc971f@e56848aaf64d49d7a465352291670aef",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-26T15:10:09.6262013Z"
+        },
+        {
+          "windowId": "8f406ca7-ac3b-4222-a1f8-bb86a40ac24d",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "9d5b9d544e2a1c5b",
+            "documentType": "schematic",
+            "tabId": "9d5b9d544e2a1c5b@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T13:03:09.7786582Z"
+        },
+        {
+          "windowId": "b6bffa20-b1a1-4475-a7d9-67d9e548f64c",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "c695bd9dba61d52c",
+            "documentType": "schematic",
+            "tabId": "c695bd9dba61d52c@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: schematic.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-27T12:03:45.1729725Z"
+        },
+        {
+          "windowId": "b6bffa20-b1a1-4475-a7d9-67d9e548f64c",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "d97ff5811deff1ad",
+            "documentType": "schematic",
+            "tabId": "d97ff5811deff1ad@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:19:14.8317858Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "1ce3c95f9714476b999a920c2e65b3c9",
+            "projectName": "dual-button-led-r11-20261027",
+            "documentUuid": "10f78b14a3282fb6",
+            "documentType": "schematic",
+            "tabId": "10f78b14a3282fb6@1ce3c95f9714476b999a920c2e65b3c9",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T02:32:27.3934172Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "1ce3c95f9714476b999a920c2e65b3c9",
+            "projectName": "dual-button-led-r11-20261027",
+            "documentUuid": "49c8e7a5dc2e8f59",
+            "documentType": "pcb",
+            "tabId": "49c8e7a5dc2e8f59@1ce3c95f9714476b999a920c2e65b3c9",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T02:32:23.3458692Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "66ad17591d5b4f6ebbcb42295f76b2b1",
+            "projectName": "usb-audio-verify-r12",
+            "documentUuid": "660075c31db6f396",
+            "documentType": "schematic",
+            "tabId": "660075c31db6f396@66ad17591d5b4f6ebbcb42295f76b2b1",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T04:25:00.9009772Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "6be6531c545c4a9a8a26f66c227effe7",
+            "projectName": "usb-audio-amplifier-test-01-restored",
+            "documentUuid": "0d8e6b3ddcde7f82",
+            "documentType": "pcb",
+            "tabId": "0d8e6b3ddcde7f82@6be6531c545c4a9a8a26f66c227effe7",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T03:50:49.0854068Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "6be6531c545c4a9a8a26f66c227effe7",
+            "projectName": "usb-audio-amplifier-test-01-restored",
+            "documentUuid": "0f23261528b83f0e",
+            "documentType": "pcb",
+            "tabId": "0f23261528b83f0e@6be6531c545c4a9a8a26f66c227effe7",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T03:50:43.8254252Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "6be6531c545c4a9a8a26f66c227effe7",
+            "projectName": "usb-audio-amplifier-test-01-restored",
+            "documentUuid": "660075c31db6f396",
+            "documentType": "schematic",
+            "tabId": "660075c31db6f396@6be6531c545c4a9a8a26f66c227effe7",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T03:50:31.4076136Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "6be6531c545c4a9a8a26f66c227effe7",
+            "projectName": "usb-audio-amplifier-test-01-restored",
+            "documentUuid": "e6bcc040bfdc7f1c",
+            "documentType": "schematic",
+            "tabId": "e6bcc040bfdc7f1c@6be6531c545c4a9a8a26f66c227effe7",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T03:50:36.8487149Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "6be6531c545c4a9a8a26f66c227effe7",
+            "projectName": "usb-audio-amplifier-test-01-restored",
+            "documentUuid": "f2f0f9bc43054a0f",
+            "documentType": "schematic",
+            "tabId": "f2f0f9bc43054a0f@6be6531c545c4a9a8a26f66c227effe7",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T03:50:33.7211764Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "ce489815a02148fbbb87579d60378e03",
+            "projectName": "usb-audio-amplifier-test-01",
+            "documentUuid": "660075c31db6f396",
+            "documentType": "schematic",
+            "tabId": "660075c31db6f396@ce489815a02148fbbb87579d60378e03",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T02:47:15.9506147Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "ce489815a02148fbbb87579d60378e03",
+            "projectName": "usb-audio-amplifier-test-01",
+            "documentUuid": "f2f0f9bc43054a0f",
+            "documentType": "schematic",
+            "tabId": "f2f0f9bc43054a0f@ce489815a02148fbbb87579d60378e03",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T03:21:50.260944Z"
+        },
+        {
+          "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+          "action": "pcb.save",
+          "context": {
+            "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+            "projectName": "feedback-loop-r12-verify-20261027a",
+            "documentUuid": "49c8e7a5dc2e8f59",
+            "documentType": "pcb",
+            "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3",
+            "pageVisibility": "hidden"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T04:48:51.4689922Z"
+        },
+        {
+          "windowId": "e25dab07-997d-43ee-8aa2-dc66ed5bb52d",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "267fab80bfb4688b",
+            "documentType": "schematic",
+            "tabId": "267fab80bfb4688b@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: schematic.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-27T11:35:10.141843Z"
+        },
+        {
+          "windowId": "e25dab07-997d-43ee-8aa2-dc66ed5bb52d",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "374a3594f9a0d3f7",
+            "documentType": "schematic",
+            "tabId": "374a3594f9a0d3f7@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T11:55:40.3050841Z"
+        },
+        {
+          "windowId": "e25dab07-997d-43ee-8aa2-dc66ed5bb52d",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "9d5b9d544e2a1c5b",
+            "documentType": "schematic",
+            "tabId": "9d5b9d544e2a1c5b@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T11:23:43.7951567Z"
+        },
+        {
+          "windowId": "e25dab07-997d-43ee-8aa2-dc66ed5bb52d",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "c66bac8645e54965",
+            "documentType": "schematic",
+            "tabId": "c66bac8645e54965@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T11:34:02.7289189Z"
+        },
+        {
+          "windowId": "e25dab07-997d-43ee-8aa2-dc66ed5bb52d",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "c695bd9dba61d52c",
+            "documentType": "schematic",
+            "tabId": "c695bd9dba61d52c@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: schematic.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-27T11:32:29.3867861Z"
+        },
+        {
+          "windowId": "e25dab07-997d-43ee-8aa2-dc66ed5bb52d",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "d97ff5811deff1ad",
+            "documentType": "schematic",
+            "tabId": "d97ff5811deff1ad@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T12:01:32.1196577Z"
+        },
+        {
+          "windowId": "e25dab07-997d-43ee-8aa2-dc66ed5bb52d",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "e09af7471397f380",
+            "documentType": "schematic",
+            "tabId": "e09af7471397f380@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T11:28:27.086671Z"
+        },
+        {
+          "windowId": "e7bceee7-e660-444b-b667-2f74670b218f",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "267fab80bfb4688b",
+            "documentType": "schematic",
+            "tabId": "267fab80bfb4688b@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: schematic.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-27T09:11:03.562702Z"
+        },
+        {
+          "windowId": "e7bceee7-e660-444b-b667-2f74670b218f",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "374a3594f9a0d3f7",
+            "documentType": "schematic",
+            "tabId": "374a3594f9a0d3f7@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: schematic.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-27T09:11:33.7601594Z"
+        },
+        {
+          "windowId": "e7bceee7-e660-444b-b667-2f74670b218f",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "9d5b9d544e2a1c5b",
+            "documentType": "schematic",
+            "tabId": "9d5b9d544e2a1c5b@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: schematic.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-27T09:34:03.2656678Z"
+        },
+        {
+          "windowId": "e7bceee7-e660-444b-b667-2f74670b218f",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "a3fa3a84cb1d32f4",
+            "documentType": "schematic",
+            "tabId": "a3fa3a84cb1d32f4@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "AUTOSAVE_FAILED: context deadline exceeded",
+          "updatedAt": "2026-10-27T09:45:53.3443246Z"
+        },
+        {
+          "windowId": "e7bceee7-e660-444b-b667-2f74670b218f",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "c66bac8645e54965",
+            "documentType": "schematic",
+            "tabId": "c66bac8645e54965@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: schematic.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-27T09:57:31.1254507Z"
+        },
+        {
+          "windowId": "e7bceee7-e660-444b-b667-2f74670b218f",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "c695bd9dba61d52c",
+            "documentType": "schematic",
+            "tabId": "c695bd9dba61d52c@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: schematic.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-27T09:12:00.8622497Z"
+        },
+        {
+          "windowId": "e7bceee7-e660-444b-b667-2f74670b218f",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "d088dc5fba4d38e2",
+            "documentType": "schematic",
+            "tabId": "d088dc5fba4d38e2@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "PRECONDITION_REFUSED: schematic.save refused: active project/document context is unavailable or differs from expectedContext.",
+          "updatedAt": "2026-10-27T09:13:42.4396441Z"
+        },
+        {
+          "windowId": "e7bceee7-e660-444b-b667-2f74670b218f",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "d97ff5811deff1ad",
+            "documentType": "schematic",
+            "tabId": "d97ff5811deff1ad@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "saved",
+          "saved": true,
+          "updatedAt": "2026-10-27T09:12:32.32051Z"
+        },
+        {
+          "windowId": "e7bceee7-e660-444b-b667-2f74670b218f",
+          "action": "schematic.save",
+          "context": {
+            "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+            "projectName": "SkyPilot-X1",
+            "documentUuid": "e09af7471397f380",
+            "documentType": "schematic",
+            "tabId": "e09af7471397f380@2f08700cd4f94e6e88de521f72db8c3e",
+            "pageVisibility": "visible"
+          },
+          "state": "failed",
+          "saved": false,
+          "error": "AUTOSAVE_FAILED: context deadline exceeded",
+          "updatedAt": "2026-10-27T09:29:22.0998191Z"
+        }
+      ]
+    }
+  },
+  "versionGate": {
+    "cli": "v1.15.0",
+    "daemon": "v1.15.0",
+    "connectors": [
+      "1.15.0"
+    ],
+    "verdict": "ok",
+    "findings": [
+      {
+        "component": "daemon",
+        "version": "v1.15.0",
+        "severity": "ok",
+        "reason": "与 CLI 同版 v1.15.0"
+      },
+      {
+        "component": "connector",
+        "version": "1.15.0",
+        "severity": "ok",
+        "reason": "与 CLI 同版 v1.15.0"
+      }
+    ]
+  },
+  "hostCompatibility": {
+    "baseline": "4.0.0",
+    "recommended": "4.1.60",
+    "verdict": "ok",
+    "findings": [
+      {
+        "windowId": "8f406ca7-ac3b-4222-a1f8-bb86a40ac24d",
+        "version": "4.1.78",
+        "severity": "ok",
+        "reason": "EasyEDA Pro 4.1.78 满足 V4 主线基线"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "daemon",
+      "status": "ok",
+      "detail": "v1.15.0 运行在端口 60832"
+    },
+    {
+      "name": "connector",
+      "status": "ok",
+      "detail": "1 个窗口已连接（连接器 v1.15.0）"
+    },
+    {
+      "name": "versions",
+      "status": "ok",
+      "detail": "版本一致性:CLI / daemon 同版,connector major.minor 兼容 v1.15.0"
+    },
+    {
+      "name": "easyeda",
+      "status": "ok",
+      "detail": "EasyEDA 宿主:V4 主线（推荐基线 4.1.60）"
+    },
+    {
+      "name": "project",
+      "status": "ok",
+      "detail": "SkyPilot-X1（当前 schematic），标签页在后台（操作照常；仅 PCB 画布截图需切到前台）"
+    }
+  ],
+  "checked": [
+    {
+      "port": 60832,
+      "status": "ok"
+    }
+  ]
+}
+
+--- STDERR ---
+✓ daemon    v1.15.0 运行在端口 60832
+✓ connector 1 个窗口已连接（连接器 v1.15.0）
+✓ versions  版本一致性:CLI / daemon 同版,connector major.minor 兼容 v1.15.0
+✓ easyeda   EasyEDA 宿主:V4 主线（推荐基线 4.1.60）
+✓ project   SkyPilot-X1（当前 schematic），标签页在后台（操作照常；仅 PCB 画布截图需切到前台）
+就绪：可以开始操作 EasyEDA。
+

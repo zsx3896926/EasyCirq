@@ -1,0 +1,25 @@
+===== easyeda view --help (exit=0) =====
+Editor canvas view shortcuts (zoom / fit) for schematic & PCB
+
+Usage:
+  easyeda view [flags]
+  easyeda view [command]
+
+Available Commands:
+  fit         Zoom to fit all primitives (适应全部, the `K` shortcut)
+  region      Zoom to a rectangular region (canvas units: sch 0.01inch, PCB mil)
+  zoom        Pan/zoom to a center coordinate and/or scale ratio (percent)
+
+Flags:
+  -h, --help            help for view
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda view [command] --help" for more information about a command.

@@ -1,0 +1,50 @@
+Heuristic short-trace router, run in the daemon (the "heuristic tier" — NOT the
+@alpha autoRouting() API, NOT an external Freerouting; that is 'pcb autoroute').
+Per net it builds a minimum spanning tree over the pads and routes each hop that
+is short enough (<= --max-len, Manhattan) as an L-shaped track on the pads'
+shared layer. Skips: power+ground nets (VCC/3V3/GND/… — POURED, not routed as thin
+tracks; --route-power to force), already-routed nets, cross-layer hops (need a via),
+and over-long hops (left for the maze tier).
+Obstacle-aware (v2): each hop picks the L orientation (horizontal- vs vertical-
+first) that crosses the fewest already-placed other-net tracks + other-net pads,
+which removes most of the naive tangle; --no-avoid restores the v1 horizontal-
+first behavior. Still NOT a maze router (no push-shove / vias / rip-up) — run
+AFTER 'pcb auto-place' (hops are then short and clear) and verify with 'pcb drc'.
+
+Track width is by net class: power/ground nets (VCC/VDD/3V3/GND…) get --width-power
+(default 20 mil), signals get --width-signal (default 10 mil). A single --width
+overrides both. Corners default to 90° L; --corner 45 chamfers them, --corner round
+emits a chord-approximated fillet (native arcs do not commit on this build).
+
+  zhigou pcb route-short --project ceshi --dry-run            # print the plan, draw nothing
+  zhigou pcb route-short --project ceshi                      # draw with class widths + 90° corners
+  zhigou pcb route-short --project ceshi --corner 45          # chamfered corners
+  zhigou pcb route-short --project ceshi --width-power 25     # fatter power tracks
+
+Usage:
+  zhigou pcb route-short [flags]
+
+Flags:
+      --corner string         corner style: 90 (L), 45 (chamfer), round (chord fillet) (default "90")
+      --dry-run               print the routing plan without drawing anything
+      --force string          deprecated compatibility option; workflow stages no longer gate routing
+      --force-unsafe string   deprecated compatibility option; workflow stages no longer gate routing
+  -h, --help                  help for route-short
+      --max-len float         longest hop to route (Manhattan mil, default 1000)
+      --no-avoid              disable obstacle-aware L-orientation (v1 naive horizontal-first)
+      --no-multilayer         disable multilayer routing (defer too-long / cross-layer hops to the maze tier instead of detouring them via the alternate copper layer with vias)
+      --round-radius float    max fillet radius for --corner round (mil, default 20)
+      --route-power           also route power/ground nets as tracks (default skip — pour them instead; VCC/3V3/GND/… routed as thin tracks through pad fields is the #1 DRC source)
+      --width float           force ALL tracks to this width (mil); overrides --width-signal/--width-power
+      --width-power float     force ONE width across all power roles (mil); overrides the branch/trunk/high-current ladder (default = §1.2 metric ladder: 0.25/0.4/0.5mm = 9.84/15.75/19.69mil)
+      --width-signal float    signal-net track width (mil); overrides the ladder's signal role (default = live rule track width)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

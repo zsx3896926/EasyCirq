@@ -1,0 +1,7 @@
+CMD: easyeda skill status
+CLI:    v1.15.0
+Latest: v1.15.0
+Skill dirs:
+    claude  1.15.0         C:\Users\jlc\.claude\skills\easyeda-agent
+    codex   1.15.0         C:\Users\jlc\.codex\skills\easyeda-agent
+    agents  1.15.0         C:\Users\jlc\.agents\skills\easyeda-agent

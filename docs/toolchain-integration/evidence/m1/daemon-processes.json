@@ -1,0 +1,14 @@
+[
+  {
+    "ProcessId": 32064,
+    "Name": "easyeda.exe",
+    "ExecutablePath": "C:\\Users\\jlc\\.local\\bin\\easyeda.exe",
+    "CommandLine": "C:\\Users\\jlc\\.local\\bin\\easyeda.exe daemon start --host 127.0.0.1 --ports 60832-60841 --autosave-debounce 3s --auto-update-skill=true"
+  },
+  {
+    "ProcessId": 49128,
+    "Name": "zhigou.exe",
+    "ExecutablePath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "CommandLine": "\"C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe\" daemon restart"
+  }
+]

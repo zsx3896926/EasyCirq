@@ -1,0 +1,900 @@
+===== easyeda version --help (exit=0) =====
+Print version information
+
+Usage:
+  easyeda version [flags]
+
+Flags:
+  -h, --help   help for version
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+===== easyeda daemon --help (exit=0) =====
+Manage the easyeda-agent background daemon
+
+Usage:
+  easyeda daemon [flags]
+  easyeda daemon [command]
+
+Available Commands:
+  health      Check daemon health across the port range
+  restart     Stop the local daemon, then start this CLI version in the foreground
+  start       Start the daemon (blocks until SIGINT/SIGTERM)
+  stop        Stop the identified local daemon on --ports' first port
+
+Flags:
+  -h, --help   help for daemon
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda daemon [command] --help" for more information about a command.
+
+===== easyeda health --help (exit=0) =====
+Check daemon health across the port range (alias of `daemon health`)
+
+Usage:
+  easyeda health [flags]
+
+Flags:
+  -h, --help   help for health
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+===== easyeda project --help (exit=0) =====
+Read EasyEDA project and document context
+
+Usage:
+  easyeda project [flags]
+  easyeda project [command]
+
+Available Commands:
+  create        Create an EasyEDA project container through the official API
+  doc           Read active editor document and schematic page context
+  drawings      Package verified local drawing inputs without accessing EasyEDA
+  export        Export the active project as a native epro2 archive (no overwrite)
+  export-source Export the current project's original .epro2 file through the official read-only API
+  find          Find projects by exact friendly name without opening them
+  import        Import a native project archive as a NEW project (@beta importer; never overwrites)
+  info          Read current EasyEDA project information
+  open          Open a project by --project-uuid, or a legacy document by --uuid
+
+Flags:
+  -h, --help            help for project
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda project [command] --help" for more information about a command.
+
+===== easyeda doc --help (exit=0) =====
+Discover every openable document in a window and open or switch between them.
+
+  easyeda doc ls --project <name>                      list all schematic pages + PCBs, ★=active
+  easyeda doc open <name|uuid> --project <name>        open a document (schematic page or PCB)
+  easyeda doc switch <name|uuid> --project <name>      switch to a document (same as open)
+  easyeda doc reload [name|uuid] --project <name>      save, close, and reopen a document
+  easyeda doc ready [uuid] --project <name>            verify current readability without navigation
+
+Context is read live (not the connect-time snapshot), so the active marker
+and `daemon health` reflect the real foreground document. If the project has
+no active editor tab, `doc ls` still uses project inventories and `doc open`
+can recover by UUID, then confirms the new active document with a fresh read.
+
+Usage:
+  easyeda doc [flags]
+  easyeda doc [command]
+
+Available Commands:
+  ls          List all openable documents in the window (★ = active)
+  open        Open a document (schematic page or PCB) by name or uuid
+  ready       Read current document identity and stable component inventory without opening or saving
+  reload      Save + close + reopen a document (default: the active one) — refreshes per-doc engine state
+  source      Inspect and probe the Beta native document source (no new design content)
+  switch      Switch the foreground document by page name, PCB name, or uuid
+
+Flags:
+  -h, --help            help for doc
+      --window string   EasyEDA window ID (usually prefer --project)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda doc [command] --help" for more information about a command.
+
+===== easyeda sch --help (exit=0) =====
+Schematic operations
+
+Usage:
+  easyeda sch [flags]
+  easyeda sch [command]
+
+Available Commands:
+  align               Align parts' rendered bboxes (left|right|top|bottom|centerx|centery) to a reference part
+  apply               Replay a declarative step file (playbook) against EasyEDA
+  attribute-inspect   Inspect one active-page attribute's visibility through three official read paths
+  attribute-move      Move one bound Name/Designator attribute using x/y only
+  autoconnect         Pin-aware planner: auto-pick direction/offset and connect a pin (or batch) to a flag/netport
+  autolayout          Module-aware planner: place parts by module zone with deterministic, lint-clean coordinates
+  autoplace-free      Pack parts into the sheet's blank space (zone-less; keeps other parts fixed)
+  block-apply         Instantiate a circuit block: place its parts, wire internal_nets, bind ports
+  bridge-check        Detect共线合并短路 (bridges) and孤儿桩 (orphans) at wire-tree granularity
+  check               Reconstructed per-item design check the SDK DRC can't itemize
+  clear               Clear the active schematic page (delete all page primitives: components, flags, wires, buses, graphics)
+  clusters            列出 L1 虚拟组(器件 + 它自己的 marker/桩线)并判组间重叠 / 出图纸
+  compose             Compose authored Lib circuits onto one sheet and compile a guarded SCH Apply
+  connect             Stub a wire out of a pin and place a netflag/netport at its far end
+  connectivity        Export layout-independent schematic connectivity IR
+  connectivity-diff   Compare two connectivity snapshots offline
+  design-diff         Compare local schematic identity, connectivity, geometry and complete compose plans
+  designator-geometry Export measured current-page Designator text bboxes (read-only)
+  designators         Allocate official reference numbers and repair placed component bindings
+  destagger           批量消 marker-overlap:换方向/桩长并带桩线一起挪(默认 dry-run;--apply 执行)
+  disconnect          Remove a pin's stub wire and its netflag/netport together (inverse of connect)
+  distribute          Equalize edge-to-edge gaps between parts along one axis (x|y)
+  drc                 Run the official schematic DRC SDK gate (may be boolean/aggregate only)
+  export-image        Render the page — or only the given primitives — to SVG/PNG/PDF
+  extract-layout      Reverse-derive a block's schematic_layout template from a placed instance (issue #140)
+  frame               Apply or verify computed module frames and titles from JSON
+  gate                S5 校验门:按固定顺序跑 layout-lint → check → bridge-check → drc,出一张报告
+  group               Persistent virtual groups (create/list/add/remove/ungroup) — the platform has NO grouping API
+  group-arrange       第二层排布:把虚拟组当刚体,按**跨组信号网**关系铺进图纸可用区(ADR-0003)
+  group-move          Translate components+wires together as one rigid assembly (dx,dy) — by --ids or persistent --group/--groups
+  image               Non-electrical reference images on the schematic (photo/dimension/pinout diagrams, #272)
+  layout-edit         Plan a core-relative move or protected pin-marker repair from retained data
+  layout-lint         Check component placement for bbox overlaps and tight spacing
+  layout-plan         Plan a measured component set offline without Lib or project metadata
+  layout-render       Compile layout JSON to SVG offline (no AI, EDA or diff panels)
+  layout-score        Score schematic layout readability (folded/reversed labels, proximity, chains) with executable fixes
+  layout-sheet-plan   Pack existing zone geometry into sheet previews offline (no Apply)
+  lib-layout          Calculate Lib placement and wiring offline from canonical nets and measured pins
+  list                List components on the active (or all) schematic page(s)
+  materialize         将 1.4 原理图数据转换为器件放置 Apply 队列
+  modify              Modify component position, designator, BOM flags, or custom properties
+  netflag             Create a power/ground/net flag or port
+  netlist             Export schematic netlist as an artifact
+  nets                跨页网名审计:同一条轨被写成多个名字 / 单引脚网(逐页命令看不见的那半)
+  no-connect          Mark (or clear) a pin's no-connect flag (非连接标识)
+  open                Open or activate a schematic page by UUID
+  page-delete         Delete a schematic page (no undo)
+  page-new            Create a new schematic page under a schematic document
+  page-rename         Rename a schematic page
+  pages               List schematic documents and pages in the current project
+  place               Place a component from the device library at coordinates
+  plan                Generate a guarded sch apply playbook for explicit marker additions, including NC-to-connected pins (offline)
+  power-layout        Plan a four-part fixed AMS1117 power circuit offline from measured geometry
+  prim-delete         Delete schematic primitives of ANY type by explicit id
+  read                One-call semantic snapshot of the circuit (components + nets + check)
+  rebind-footprint    Swap a footprint transactionally (candidate create/readback before original delete)
+  rebind-symbol       Swap a symbol transactionally (candidate create/readback before original delete)
+  reconcile           把「接对了没有」变成机械判据:从块库重推应有连接,与活体网表逐条对账
+  rename              Rename a schematic document (the whole sheet, not a single page)
+  replace             Replace a placed component with a different library device (换型号 / 器件标准化)
+  resolve-lcsc        Deterministically resolve placed parts to their device's REAL LCSC C-number (dry-run; --apply writes back)
+  save                Save the active schematic document
+  sheet               Sheet 层操作(三层体系最外层)— tidy 全部功能区依据纸张排布
+  sheet-geometry      Report sheet bounds + title-block keep-out geometry (provenance-tagged)
+  status              原理图进度(S1–S6):逐条从活体推导,不落盘,判不了的明说
+  text-list           List ALL text primitives on the active schematic page (id/content/x/y/…)
+  titleblock          Adjust the focused page's 明细表 (title block): visibility and/or fields
+  titleblock-get      Read a page's 明细表 (title block): show flag + field keys/values
+  wire                Create a schematic wire polyline — ESCAPE HATCH; 常规布线走 `sch autoconnect` / `sch block-apply`
+  zone                功能区层操作(三层体系:Sheet→Zone→Group)— move 整区刚移 / tidy 组间叠加布局
+  zone-arrange        Two-phase deterministic zone layout plan: intra-zone compaction (R1-R5) + edge-affinity multi-shelf packing (A4-only, no mutation)
+  zone-draw           Draw the claimed functional zones as dashed frames + labels on the sheet (--clear removes them)
+  zone-plan           Plan data-driven A4 functional partitions from the live sheet + module bboxes (no mutation)
+  zone-review         只读复核源 JSON 的 zone 归属，提示 AI 决定是否拆分
+  zones               原理图分区认领(S0 modules[].zone → 图纸格位):set / status / clear
+
+Flags:
+  -h, --help            help for sch
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda sch [command] --help" for more information about a command.
+
+===== easyeda pcb --help (exit=0) =====
+PCB operations
+
+Usage:
+  easyeda pcb [flags]
+  easyeda pcb [command]
+
+Available Commands:
+  3d                   Inspect and adjust component 3D models on the active PCB
+  add-component        Place + connect ONE footprint on the PCB (the working alternative to import-changes)
+  align                Align components by edge/center (left|right|top|bottom|centerX|centerY)
+  antenna-keepout      Auto-generate the all-layer no-copper keep-out over each RF/antenna part's antenna end
+  arrange              Coarse auto-layout SEED: cluster by shared nets, or pack a grid
+  auto-place           Module-aware auto placement: pull each satellite (cap/R/LED) to the chip pin it connects to
+  autoroute            Auto-route the active PCB with the official EasyEDA router (or an external engine via --router)
+  beautify             Round sharp track corners into arcs (走线美化) on the active PCB
+  board-info           Read the current Board (schematic↔PCB linkage) + PCB info
+  check                DFM audit: acute angles / dangling copper / bad vias / neck-down / 3W coupling (read-only)
+  clear                One-shot PCB reset: components + routing + copper + regions + silk (keeps locked primitives & the board outline)
+  clear-routing        Native clearRouting (@alpha — may be unavailable; prefer rip-up)
+  config               Read and configure real PCB design rules (配置设置)
+  delete               Delete PCB component primitives by id
+  diff-pair            Differential pair constraints (create/list/rename/delete)
+  distribute           Evenly space component centers along an axis (x|y)
+  doc-delete           Delete one exact, unbound PCB document and verify it is gone (no undo)
+  docs                 List PCB documents in the current project (uuid + name)
+  drc                  Run PCB DRC and return normalized violations
+  drc-rules            Read the active PCB's DRC rule configuration without running a check
+  drc-rules-set        Set full PCB rules from JSON, or raise only the pour clearance
+  dump                 Dump the board's read-only geometry to a self-contained JSON snapshot
+  enclosure            Generate a printable two-part enclosure (STL) from a board readback (offline)
+  eq-group             Equal-length net group constraints (create/list/add/delete)
+  escape-plan          Jointly reserve measured pad escape paths offline (no editor writes)
+  export-3d            Export real PCB OBJ/STEP with version-bound readbacks and file integrity checks
+  export-dsn           Export the active PCB as a Specctra DSN (autorouter input)
+  fill                 Net-bound filled region (填充区域 / 异形大块铜): create / list / delete
+  floorplan            Plan ordered functional bands from the S0 signal flow (read-only)
+  grid-snap            Snap component anchors to a grid (PCB data units, mil-scale)
+  group                Persistent VIRTUAL component groups on the active PCB (mode=virtual — not EasyEDA UI groups)
+  image                Manage embedded reference pictures on PCB document layer 13
+  import-autoroute     Import a routed result (Specctra .ses / autoroute .json) into the active PCB
+  import-changes       Sync the schematic netlist/components into the active PCB
+  layer-set            Switch the active/edit PCB layer (id|name|top|bottom|inner1)
+  layer-visibility     Show/hide/focus PCB layers (preset or explicit show/hide)
+  layers               List layers of the active PCB (+ current layer, copper count)
+  layout               Offline PCB placement/routing coordination
+  layout-lint          Score PCB placement quality + predict routability (ratsnest crossings)
+  layout-plan          Generate measured module placement candidates offline (no editor writes)
+  layout-score         Score placement quality across 9 dimensions, with per-component attribution
+  list                 List placed components/footprints on the active PCB
+  lock                 Lock/unlock PCB components (batch, readback-verified)
+  modify               Lay out a PCB component: move/rotate/flip layer/lock/designator
+  module-check         Verify a routed module against fresh before/after copper snapshots and apply journal
+  module-owned         Recover exact old module object ownership offline (no editor writes)
+  mount-holes          Mill M3 corner clearance cutouts (no library component is imported)
+  move                 Translate components by a relative (dx, dy) offset
+  neckdown-plan        Plan narrowing track ends wider than the pad they enter (offline; emits an apply playbook)
+  net-class            Inspect and create persisted EasyEDA PCB net classes
+  net-classes          Print the net-class → spec track-width ladder (signal/power-branch/power-trunk/high-current/gnd)
+  net-path             Prove a pad-to-pad path through listed tracks/arcs/vias (read-only; pours excluded)
+  nets                 List nets on the active PCB (name, length, color)
+  new-board            Create a NEW board (板) with a fresh empty PCB page, bound to an UNBOUND schematic
+  origin               Read or set the PCB canvas/display origin (does not move geometry)
+  outline-clear        Remove the current board outline (BOARD_OUTLINE layer)
+  outline-fit          Resize the board outline to hug the placed parts + a margin (fix low utilization)
+  outline-get          Read the board outline, including true center-line dimensions and rendered bbox
+  outline-round        Set a rounded-rectangle board outline (圆角板框)
+  outline-set          Set the board outline from a closed polygon of points (mil, y-up)
+  place-constrained    Tiered placement: edge-must parts (connectors/module/IPEX) → board edge + locked, then legalize the rest
+  pour                 Create a copper pour (铺铜) from a closed polygon, bound to a net (usually GND)
+  pour-clean           Remove netless copper pours (net:"" dead copper — see `pcb check` netless-pour)
+  pour-delete          Delete copper pour regions by primitiveId
+  pour-fit             Auto-size a GND/power pour to the board outline, inset from the edge
+  pour-list            List copper pours (铺铜), optionally by net
+  pour-rebuild         Re-pour (recompute) all pours after layout/routing changes
+  poured-list          List materialized copper after pour rebuild (exact polygon sources)
+  power-planes         4-layer power distribution: GND 内电层 + power inner plane + via-stitch (fixes 2-layer pour conflict)
+  power-pour           2-layer power distribution: pour GND + each rail's local copper (电源走铺铜块, not thin tracks)
+  refine               Score-driven placement refinement with per-step rollback (dry-run by default)
+  region               Keep-out / rule regions (禁止区域): create / list / delete
+  report               Read-only design report: per-net length, net-class totals, diff-pair skew, equal-length spread
+  rip-up               Rip up routing (delete tracks+vias); --net to scope, omit = all. Outline/locked are safe
+  route                Offline single-layer path solving and independent checking
+  route-critical       P7.0 critical nets first: power copper → diff pairs routed+measured → locked (issue #127)
+  route-short          Self-route the short, clear hops: per-net MST, L-shaped tracks on the pads' layer
+  save                 Save the active PCB document to disk
+  silk-add             Add a free silkscreen string (board marking / credit / note) with config
+  silk-align           Place component designators (位号) and verify measured collisions
+  silk-import-svg      Import an SVG logo/artwork as a FILLED silkscreen graphic
+  silk-label-pads      Label component pads with pin numbers / net names
+  silk-netnames        Auto-generate network-name silkscreen labels in a zone
+  silk-plan            Plan designator positions offline with real text extents and up to two orientations (emits an apply playbook)
+  silk-set             Batch-adjust existing silk: position / rotation / size / text, or align to a reference
+  silk-zone-outline    Auto-draw grouped orthogonal functional-zone outlines on silkscreen
+  slot                 Board cutout / slot (挖槽) — a MULTI-layer fill that mills a hole
+  snapshot             Capture the active PCB canvas as a PNG artifact
+  stackup              Board stackup: copper layer count + inner-layer types (signal/plane)
+  stage                Deprecated PCB checklist records: status / confirm-layout / confirm-outline / reset
+  stage-snapshot       Capture a recording/demo STAGE: board-fitted viewport PNG + data bundle, verified PNG, capture identity and hashed data
+  sync-attrs           Backfill PCB components' empty attribute values from the schematic (器件标准化字段)
+  sync-designators     Repair placeholder PCB designators (U? / C?) from the schematic, matched by uniqueId
+  teardrop-delete-plan 规划线条形泪滴的删除（离线，输出 typed apply 剧本）
+  teardrop-modify-plan 规划线条形泪滴的尺寸修改（离线，输出 typed apply 剧本）
+  teardrop-plan        Plan line-shaped teardrops at track→pad entries (offline; emits an apply playbook)
+  track                Create a copper track (导线) on a layer between two points (mil, y-up)
+  track-delete         Delete specific copper tracks by primitiveId (rip-up is net-scoped; this is surgical)
+  track-list           List copper tracks (导线), optionally by net/layer
+  track-lock           Lock/unlock routed copper (tracks/vias/fills) so the native router + pour-rebuild leave it alone
+  via                  Place a via (过孔) at (x,y) with hole + outer diameter (mil, y-up)
+  via-bond             Assign netless footprint-embedded vias (EPAD thermal vias) the net of the pad they sit in
+  via-delete           Delete specific vias by primitiveId (rip-up is net-scoped; this is surgical)
+  via-fence            Place a perimeter-only via fence around a rectangle
+  via-hop              Route a layer hop: stub→via→hop-track→via→stub (optional bond fills)
+  via-list             List vias (过孔), optionally by net
+  via-stitch           Place a grid of net vias in a rectangle (thermal vias / GND stitching)
+  view-filter          Read PCB canvas filter state (component-attribute write is unsupported)
+  view-side            Switch the PCB view to the top or bottom side (for snapshots)
+  zones                Functional zone claims (S0 modules[].zone → PCB, issue #126): set / status / clear
+
+Flags:
+  -h, --help            help for pcb
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda pcb [command] --help" for more information about a command.
+
+===== easyeda bom --help (exit=0) =====
+BOM export and enrichment
+
+Usage:
+  easyeda bom [flags]
+  easyeda bom [command]
+
+Available Commands:
+  enrich      Enrich a BOM TSV with LCSC C-numbers via bom-enrich.py
+  export      Export schematic BOM as csv or xlsx artifact
+
+Flags:
+  -h, --help            help for bom
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda bom [command] --help" for more information about a command.
+
+===== easyeda lib --help (exit=0) =====
+EasyEDA device library operations
+
+Usage:
+  easyeda lib [flags]
+  easyeda lib [command]
+
+Available Commands:
+  by-lcsc     Resolve LCSC C-numbers directly to device-library identity (libraryUuid + uuid)
+  common      Read the editor's Common Library shortcut catalogue (常用库)
+  device      Create and inspect Device records that bind symbols and footprints
+  footprint   Create and inspect footprint library assets
+  libraries   List EasyEDA libraries and writable personal/project library UUIDs
+  model3d     Import and inspect 3D model library assets
+  search      Search the EasyEDA device library by MPN, value+package, or name
+  symbol      Create and inspect symbol library assets
+
+Flags:
+  -h, --help            help for lib
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda lib [command] --help" for more information about a command.
+
+===== easyeda board --help (exit=0) =====
+Manage Boards (板子/组合).
+
+A Board groups exactly one schematic + one PCB — this is how the two are
+kept together (and what `pcb import_changes` follows). Boards are identified
+by NAME, not UUID.
+
+Usage:
+  easyeda board [flags]
+  easyeda board [command]
+
+Available Commands:
+  copy        Copy a Board (its schematic + PCB) into a new Board
+  create      Bind a schematic and/or PCB into a new Board (组合)
+  current     Read the current Board (its bound schematic + PCB)
+  delete      Delete a Board and the schematic + PCB documents it binds (no undo)
+  list        List all Boards in the current project (name + schematic + pcb)
+  new         Create a Board with a new schematic (one page) and a new PCB — works in an empty project
+  rebind      Rebind a Board to the intended schematic + PCB (repair a stale binding)
+  rename      Rename a Board by its current name
+
+Flags:
+  -h, --help            help for board
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda board [command] --help" for more information about a command.
+
+===== easyeda spec --help (exit=0) =====
+S0 spec 是设计意图的唯一入口：功能模块分区、信号流向(flow)、对外接口的
+边与朝向(edge/facing/internal)、叠层、射频禁布。`pcb zones set --spec` 与
+`pcb layout-score --spec` 都读它。
+
+Usage:
+  easyeda spec [flags]
+  easyeda spec [command]
+
+Available Commands:
+  backfill    把 block-apply 落地后的真实位号回填进 spec 的 modules[].parts(离线)
+  show        Print the normalized S0 spec (both legacy spellings folded into one shape)
+  validate    Check an S0 spec for unknown enum values, contradictions and gaps
+
+Flags:
+  -h, --help   help for spec
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda spec [command] --help" for more information about a command.
+
+===== easyeda skill --help (exit=0) =====
+Inspect and update the easyeda-agent skill installed for your AI clients.
+
+  easyeda skill status                 show installed skill dirs + versions vs latest release
+  easyeda skill sync                   update present skill dirs to the latest release
+  easyeda skill sync --version 0.9.0   pin a specific version
+
+The daemon syncs installed Skill dirs to its own version on startup; development builds skip writes.
+CODEX_HOME / CLAUDE_CONFIG_DIR override the default client config roots.
+To update the CLI binary as well, use `easyeda update` (skill sync included).
+The connector .eext is NOT covered here (no sideload auto-update) — the daemon
+logs a re-import notice when it detects a stale connector.
+
+Usage:
+  easyeda skill [flags]
+  easyeda skill [command]
+
+Available Commands:
+  status      Show installed skill dirs, their versions, and the latest release
+  sync        Update installed skill dirs to the latest release (or a pinned --version)
+
+Flags:
+  -h, --help   help for skill
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda skill [command] --help" for more information about a command.
+
+===== easyeda update --help (exit=0) =====
+Bring this installation up to the latest GitHub release.
+
+Covers the two pieces that CAN be updated programmatically:
+  • the easyeda CLI binary itself (downloaded for this platform, sha256-verified
+    when the release publishes checksums.txt, then atomically swapped in place)
+  • the easyeda-agent skill dirs (~/.claude/skills, ~/.codex/skills,
+    and the shared ~/.agents/skills root used by Codex Desktop)
+
+The EasyEDA connector .eext is only REPORTED: a sideloaded extension has no
+in-place auto-update, so a stale connector has to be re-imported by hand
+(marketplace installs update themselves, but lag the CLI).
+
+A dev build (git-describe stamp) is never overwritten without --force.
+If the binary lives in a root-owned dir, re-run with sudo.
+
+Usage:
+  easyeda update [flags]
+
+Aliases:
+  update, upgrade, self-update
+
+Examples:
+  easyeda update                    # CLI + skills → latest
+  easyeda update --check            # report only, change nothing
+  easyeda update --check --exit-code  # exit 10 when explicit install reconciliation finds a difference
+  easyeda update --version 0.25.0   # pin a release
+  easyeda update --skill-only       # leave the binary alone
+  easyeda update --json
+  easyeda update --local-dir ./dist --binary /absolute/path/to/easyeda  # install trusted local dev assets
+  easyeda update --local-dir ./dist --check --exit-code                 # offline, exact local runtime reconciliation
+
+Flags:
+      --binary string      with --local-dir install: absolute destination of the PATH CLI (required)
+      --check              verify target versions and connector compatibility without changing anything
+      --cli-only           update only the CLI binary
+      --client strings     limit skill sync to clients: claude,codex,agents (default: all present)
+      --create-missing     install the skill into a client dir that doesn't exist yet
+      --exit-code          with --check: exit 10 unless ready (local-dir requires exact dev versions and file contents)
+      --force              overwrite a dev build / re-install even when already at the target
+  -h, --help               help for update
+      --json               emit JSON
+      --local-dir string   install/check trusted X.Y.Z-dev.N assets from this local directory; never query GitHub
+      --preserve           skill sync: keep local edits (never overwrite existing files)
+      --restart-daemon     restart an installed daemon still running a different version on the updated binary (background; a make dev daemon is never touched) (default true)
+      --skill-only         update only the skill dirs
+      --version string     pin a release version (default: latest)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+===== easyeda actions --help (exit=0) =====
+Print the typed action catalog as JSON
+
+Usage:
+  easyeda actions [flags]
+
+Flags:
+  -h, --help   help for actions
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+===== easyeda apply --help (exit=0) =====
+Execute a playbook (see docs/design-apply-playbook.md) step by step:
+typed actions, CLI subcommands, capture/assert gates, journal + resume.
+Precedence: CLI flag > playbook file > built-in default.
+
+Usage:
+  easyeda apply <playbook.json> [flags]
+
+Examples:
+  easyeda apply sch.playbook.json
+  easyeda apply pcb.playbook.json --project demo2 --var LIB=<uuid>
+  easyeda apply pcb.playbook.json --resume
+  easyeda apply pcb.playbook.json --dry-run
+
+Flags:
+      --doc string         target document to switch to first (overrides meta.doc)
+      --dry-run            validate + print the plan, execute nothing
+      --from string        start at step (id or 1-based index)
+  -h, --help               help for apply
+      --journal string     journal path (default <playbook>.journal.jsonl)
+      --quiet              only print failures and the final summary
+      --resume             skip steps already ok in the journal (restores captured vars)
+      --step-delay float   pause N seconds between steps (demo / recording pacing)
+      --to string          stop after step (id or 1-based index)
+      --var stringArray    override/add a playbook var: KEY=VALUE (repeatable)
+      --window string      EasyEDA window ID (overrides meta.window)
+      --yes                auto-approve confirmation-gated steps
+
+Global Flags:
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+===== easyeda call --help (exit=0) =====
+Generic escape hatch: call any typed action directly
+
+Usage:
+  easyeda call <action> [flags]
+
+Examples:
+  easyeda call system.health
+  easyeda call schematic.components.list --window win-1
+  easyeda call schematic.component.place --payload '{"libraryUuid":"...","uuid":"...","x":100,"y":200}'
+
+Flags:
+  -h, --help             help for call
+      --payload string   action payload as a JSON object
+      --window string    EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+===== easyeda audit --help (exit=0) =====
+Inspect the action audit log
+
+Usage:
+  easyeda audit [flags]
+  easyeda audit [command]
+
+Available Commands:
+  cost        一场设计跑了多久、多少次调用、多少是白花的(可 --record 落台账)
+  export      Export a recorded session from the audit log as a replayable playbook
+  tail        Show the most recent dispatches from the JSONL audit log
+
+Flags:
+  -h, --help   help for audit
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda audit [command] --help" for more information about a command.
+
+===== easyeda api --help (exit=0) =====
+Search and browse the embedded eda.* API index (93 namespaces, 742 methods,
+generated from @jlceda/pro-api-types). No daemon or connected window required.
+
+This is the self-discovery loop for new typed actions / debug.exec_js calls:
+find the eda.* method, read its signature, then wrap it.
+
+Usage:
+  easyeda api [flags]
+  easyeda api [command]
+
+Available Commands:
+  ls          List eda.* namespaces (optionally filtered by substring)
+  search      Rank eda.* methods matching all query terms (name/namespace/summary)
+  show        List all methods of one eda.* namespace
+
+Flags:
+  -h, --help   help for api
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda api [command] --help" for more information about a command.
+
+===== easyeda blocks --help (exit=0) =====
+Query the standard circuit-block library — proven peripheral subcircuits
+(CH340 USB-serial, ESP32 auto-download, XL1509 buck, SP3485 RS-485, CC1101 RF,
+microSD…) whose internal topology is fixed and can be copied verbatim; only the
+boundary nets (ports) get rebound to the host design.
+
+The library is EMBEDDED in the binary, so these commands need no daemon, no open
+EasyEDA window, and no skill files — a bare 'easyeda' install can look blocks up.
+
+Usage:
+  easyeda blocks [flags]
+  easyeda blocks [command]
+
+Available Commands:
+  ls          List blocks (optionally filter by --category / --ready / --draft)
+  search      Find blocks by id/desc/category/port/part (case-insensitive)
+  show        Print a block's full JSON (parts, internal_nets, ports, notes)
+
+Flags:
+  -h, --help   help for blocks
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda blocks [command] --help" for more information about a command.
+
+===== easyeda editor --help (exit=0) =====
+Editor UI around the canvas (side panels); never changes the project
+
+Usage:
+  easyeda editor [flags]
+  easyeda editor [command]
+
+Available Commands:
+  panels      Open or close the editor's left/right side panels
+
+Flags:
+  -h, --help            help for editor
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda editor [command] --help" for more information about a command.
+
+===== easyeda view --help (exit=0) =====
+Editor canvas view shortcuts (zoom / fit) for schematic & PCB
+
+Usage:
+  easyeda view [flags]
+  easyeda view [command]
+
+Available Commands:
+  fit         Zoom to fit all primitives (适应全部, the `K` shortcut)
+  region      Zoom to a rectangular region (canvas units: sch 0.01inch, PCB mil)
+  zoom        Pan/zoom to a center coordinate and/or scale ratio (percent)
+
+Flags:
+  -h, --help            help for view
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda view [command] --help" for more information about a command.
+
+===== easyeda web --help (exit=0) =====
+Control the connected EasyEDA Web editor page
+
+Usage:
+  easyeda web [flags]
+  easyeda web [command]
+
+Available Commands:
+  reload      Save the active document, refresh the whole Web page, and verify reconnect
+
+Flags:
+  -h, --help            help for web
+      --window string   current window ID; --project UUID remains required after reconnect
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda web [command] --help" for more information about a command.
+
+===== easyeda notify --help (exit=0) =====
+Surface a non-blocking toast INSIDE the EasyEDA window. The design flow calls this
+as each stage passes so the user can watch progress live — "完成 X,下一步 Y".
+type ∈ info | success | warn | error | question.
+
+Usage:
+  easyeda notify [flags]
+
+Examples:
+  easyeda notify --message "完成 布局,下一步 布线" --type success
+  easyeda notify --message "DRC 未通过,需修复" --type error --duration 5
+
+Flags:
+      --duration float   seconds to show (default 3)
+  -h, --help             help for notify
+      --message string   toast text (required)
+      --type string      info | success | warn | error | question (default "info")
+      --window string    EasyEDA window ID (else use --project)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+===== easyeda debug --help (exit=0) =====
+Debug escape hatches (confirmation-gated)
+
+Usage:
+  easyeda debug [flags]
+  easyeda debug [command]
+
+Available Commands:
+  exec        Run raw eda.* JavaScript in the connector (escape hatch)
+
+Flags:
+  -h, --help            help for debug
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda debug [command] --help" for more information about a command.
+
+===== easyeda workflow --help (exit=0) =====
+Compatibility interface for the former per-project PCB workflow.
+
+Historical stages:
+  imported → placement_ready → placement_confirmed → outline_confirmed
+           → pre_route_passed → routing_authorized
+
+No stage is an execution permission. Route, placement, outline and raw typed
+actions run from live project data regardless of these records. Mutations no
+longer cascade through confirmations, and legacy --force options are no-ops.
+Use connectivity, geometric checks, DRC and save/reload/readback as evidence.
+
+State lives at ~/.easyeda-agent/workflow/<project>.json (EASYEDA_WORKFLOW_DIR
+to override). Existing scripts may inspect or append it; `status` and
+`advance` describe only the deprecated checklist and do not control
+other commands.
+
+Usage:
+  easyeda workflow [flags]
+  easyeda workflow [command]
+
+Available Commands:
+  advance     Advance the deprecated checklist and print its historical next step
+  confirm     Record a historical layout/outline checklist entry (no execution permission)
+  init        Initialize (or restart) the deprecated project checklist
+  pages       逐页记账的工程归属表(--reap 用活体页表核销,--prune 删掉已证明外来的残留)
+  reset       Clear deprecated checklist entries (or --all)
+  status      Show deprecated checklist state; --reconcile compares it with the live document
+
+Flags:
+  -h, --help            help for workflow
+      --window string   EasyEDA window ID (else use --project)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda workflow [command] --help" for more information about a command.
+

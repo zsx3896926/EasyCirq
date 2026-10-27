@@ -1,0 +1,66 @@
+{
+  "schema": "zhigou-toolchain-release/v1",
+  "name": "zhigou-toolchain",
+  "version": "0.2.0",
+  "builtAt": "2026-10-27T13:46:46Z",
+  "archive": "zhigou-toolchain-0.2.0.zip",
+  "archive_sha256": "d29ab16b2d88227d096221d5711cbb63ed83e53765fc30450ceaf999a9e2e48e",
+  "compat": {
+    "cli": "0.2.0",
+    "runtime": "0.2.0",
+    "daemon": "0.2.0",
+    "connector": "0.1.0",
+    "protocol": "zhigou-agent/v1",
+    "eda": ">=3.2.0",
+    "validatedEda": "4.1.78",
+    "minPython": "3.10"
+  },
+  "source_commit": "f68fcac2bd44e5628bb2679d51cc07cc9f143887",
+  "source_dirty": true,
+  "components": {
+    "runtime": {
+      "name": "zhigou",
+      "version": "0.2.0",
+      "path": "payload/bin/zhigou.exe",
+      "installPath": "bin/zhigou.exe",
+      "identityPath": "payload/bin/zhigou-version.json",
+      "sha256": "7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4",
+      "size": 24074752,
+      "goVersion": "go1.27.3",
+      "builtBy": "reused:C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe"
+    },
+    "connector": {
+      "name": "zhigou-connector",
+      "version": "0.1.0",
+      "uuid": "a6e6b788551945b399e150d80efa6e31",
+      "displayName": "Zhigou EDA Connector",
+      "enginesEda": ">=3.2.0",
+      "path": "payload/connector/zhigou-connector_v0.1.0.eext",
+      "installPath": "connector/zhigou-connector_v0.1.0.eext",
+      "file": "zhigou-connector_v0.1.0.eext",
+      "sha256": "1c6c659b4cf282f57a0752267a7408aedfdd2810fe49c9352ebd17902a2d343b",
+      "size": 231299
+    },
+    "skill": {
+      "name": "design-hardware",
+      "version": "1.0.1",
+      "path": "payload/skill/design-hardware",
+      "installPath": "skill/design-hardware",
+      "fileCount": 674
+    }
+  },
+  "provenance": {
+    "sourceCommit": "f68fcac2bd44e5628bb2679d51cc07cc9f143887",
+    "sourceDirty": true,
+    "goVersion": "go1.27.3",
+    "goToolchain": null,
+    "nodeVersion": "v24.20.0",
+    "npmVersion": "11.19.0",
+    "runtimeVcsRevision": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "runtimeVcsTime": "2026-10-27T07:03:30Z",
+    "runtimeVcsModified": true,
+    "builder": "distribution/build_release.py",
+    "host": "Windows/11",
+    "pythonVersion": "3.13.15"
+  }
+}

@@ -1,0 +1,60 @@
+Reconstructed DFM (design-for-manufacture) audit — the manufacturability and
+reliability hazards the native 'pcb drc' does NOT flag. Computed purely from the
+placed copper (pcb.line.list + pcb.via.list + pcb.components.list --include-pads),
+so it needs no extra setup and never mutates the board.
+
+Rules:
+  • dangling-end      — a track end anchored to no pad/via/track  → WARN
+  • acute-angle       — two same-net segments bend <90° outside exact same-net pad copper (acid trap) → WARN
+  • overlapping-via   — two vias stacked on the same spot          → WARN
+  • single-layer-via  — a signal via that changes no layer         → WARN
+  • width-mismatch    — a 2-pin part with asymmetric neck-down     → INFO
+  • duplicate-segment — collinear overlapping (redundant) copper   → WARN
+  • parallel-coupling — different-net traces closer than N×W (3W rule) → WARN
+  • netless-pour      — copper pour bound to no net (dead copper)      → WARN
+  • via-crosses-plane — a via whose net ≠ an inner PLANE(内电层)'s net → WARN
+                        (anti-pad risk, zhigou/pro-api-sdk#32: a via created
+                        AFTER the plane exists gets no anti-pad; fix = remove it
+                        and route on outer layers, or 'doc reload' + 'pour-rebuild')
+  • floating-track-island — a connected GROUP of tracks anchoring to no pad → WARN
+                        (dangling-end's blind spot: members anchor each other;
+                        islands under a same-net pour are exempt)
+  • power-not-poured  — a power/GND net (≥2 pads) with no same-net pour/plane → WARN
+                        (power should be poured, not carried by thin tracks;
+                        fix: 'pcb pour-fit --net N' 2-layer / 'pcb power-planes' 4-layer)
+  • width-under-spec  — a routed power track thinner than its net-class spec  → WARN
+                        (branch 0.25mm / trunk 0.4mm / high-current 0.5mm — see
+                        'pcb net-classes'; fine-pitch narrowing + stitch stubs exempt)
+
+Complements 'pcb drc' (rule clearance) and 'pcb layout-lint' (placement/routability).
+Exit code: 0 by default (informational). --strict exits non-zero on any WARN/ERROR
+so it can gate the flow. Arcs are out of scope for v1 (line/via/pad only).
+
+Usage:
+  zhigou pcb check [flags]
+
+Examples:
+  zhigou pcb check
+  zhigou pcb check --json
+  zhigou pcb check --strict
+  zhigou pcb check --coupling-w 2.5
+
+Flags:
+      --coupling-w float   3W-rule factor: flag different-net parallel traces closer than this × trace width (default 3)
+  -h, --help               help for check
+      --json               emit the report as JSON
+      --spec string        S0 spec JSON — lets the connector rules (internal-on-edge) read the declared facing
+                           instead of guessing. A spec-declared internal connector reports WARN; a heuristic
+                           guess only reports INFO, because being wrong about someone's intent should not
+                           block them as loudly as a fact they wrote down themselves
+      --strict             exit non-zero when there are issues (gate mode)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

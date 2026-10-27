@@ -1,0 +1,20 @@
+{
+  "id": "connector-verify",
+  "title": "zhigou connector verify (.eext vs loaded window)",
+  "stage": "preflight",
+  "command": [
+    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "connector",
+    "verify"
+  ],
+  "status": "NOT RUN",
+  "exitCode": 0,
+  "durationMs": 60,
+  "generatedAt": "2026-10-27T13:43:17Z",
+  "sha256": {
+    "stdout": "13aae81342d816843babec08f9b9bafe3c28125e7b88692ac093686ef4612d69",
+    "stderr": "ed82422b07b2b365ee3ea799eb50a1f0b9c1c871a5267b0dd843ad41ac520a36",
+    "json": "929fdce86da1b2ea12f893a4296b4bc2f062fb511b66c5cf98cc7a1698da0ae4"
+  },
+  "timedOut": false
+}

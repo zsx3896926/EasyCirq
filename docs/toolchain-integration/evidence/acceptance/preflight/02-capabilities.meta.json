@@ -1,0 +1,19 @@
+{
+  "id": "capabilities",
+  "title": "zhigou capabilities (per-item negotiation)",
+  "stage": "preflight",
+  "command": [
+    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "capabilities"
+  ],
+  "status": "NOT RUN",
+  "exitCode": 0,
+  "durationMs": 60,
+  "generatedAt": "2026-10-27T13:43:17Z",
+  "sha256": {
+    "stdout": "a8c4687e50fd420f4d864f3507f2d7a02cda675d7d3007278a706bd4fbfcaf85",
+    "stderr": "1fe6e4a58880583df1d6c342c3b14179d94ee33dffa9f9ad02a04b26d16b65ee",
+    "json": "a077c35b0cb84ad9f29cfefbe01eddb24e70d30249ae6a329418ddfb6c14d582"
+  },
+  "timedOut": false
+}

@@ -1,0 +1,79 @@
+easyeda health  JSON field tree (stdout)
+
+status <str> = found
+host <str> = 127.0.0.1
+ports <str> = 60832-60841
+found <dict>
+found.port <int> = 60832
+found.service <str> = easyeda-agent
+found.raw <dict>
+found.raw.pid <int> = 32064
+found.raw.service <str> = easyeda-agent
+found.raw.version <str> = v1.15.0
+found.raw.status <str> = ok
+found.raw.port <int> = 60832
+found.raw.windows <list>
+found.raw.windows[0].windowId <str> = 8f406ca7-ac3b-4222-a1f8-bb86a40ac24d
+found.raw.windows[0].connectorVersion <str> = 1.15.0
+found.raw.windows[0].easyedaVersion <str> = 4.1.78
+found.raw.windows[0].capabilities <list>
+found.raw.windows[0].host <dict>
+found.raw.windows[0].host.kind <str> = electron
+found.raw.windows[0].host.userAgent <str> = Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+found.raw.windows[0].context <dict>
+found.raw.windows[0].context.projectUuid <str> = 2f08700cd4f94e6e88de521f72db8c3e
+found.raw.windows[0].context.projectName <str> = SkyPilot-X1
+found.raw.windows[0].context.documentUuid <str> = 9d5b9d544e2a1c5b
+found.raw.windows[0].context.documentType <str> = schematic
+found.raw.windows[0].context.tabId <str> = 9d5b9d544e2a1c5b@2f08700cd4f94e6e88de521f72db8c3e
+found.raw.windows[0].context.pageVisibility <str> = hidden
+found.raw.windows[0].connectedAt <str> = 2026-10-27T12:46:09.9717576Z
+found.raw.windows[0].lastSeen <str> = 2026-10-27T13:16:52.4577823Z
+found.raw.windows[0].connectorVersionOk <bool> = True
+found.raw.writeHealth <dict>
+found.raw.writeHealth.8f406ca7-ac3b-4222-a1f8-bb86a40ac24d <dict>
+found.raw.writeHealth.8f406ca7-ac3b-4222-a1f8-bb86a40ac24d.samples <int> = 20
+found.raw.writeHealth.8f406ca7-ac3b-4222-a1f8-bb86a40ac24d.failures <int> = 0
+found.raw.writeHealth.8f406ca7-ac3b-4222-a1f8-bb86a40ac24d.failureRate <int> = 0
+found.raw.writeHealth.8f406ca7-ac3b-4222-a1f8-bb86a40ac24d.consecutiveFailures <int> = 0
+found.raw.writeHealth.8f406ca7-ac3b-4222-a1f8-bb86a40ac24d.degraded <bool> = False
+found.raw.writeHealth.8f406ca7-ac3b-4222-a1f8-bb86a40ac24d.verified <int> = 0
+found.raw.autosave <list>
+found.raw.autosave[0].windowId <str> = 263d9359-3664-43df-bfab-3d12402b09ee
+found.raw.autosave[0].action <str> = schematic.save
+found.raw.autosave[0].context <dict>
+found.raw.autosave[0].context.projectUuid <str> = 2f08700cd4f94e6e88de521f72db8c3e
+found.raw.autosave[0].context.projectName <str> = SkyPilot-X1
+found.raw.autosave[0].context.documentUuid <str> = 267fab80bfb4688b
+found.raw.autosave[0].context.documentType <str> = schematic
+found.raw.autosave[0].context.tabId <str> = 267fab80bfb4688b@2f08700cd4f94e6e88de521f72db8c3e
+found.raw.autosave[0].context.pageVisibility <str> = visible
+found.raw.autosave[0].state <str> = saved
+found.raw.autosave[0].saved <bool> = True
+found.raw.autosave[0].updatedAt <str> = 2026-10-27T12:20:40.3661937Z
+versionGate <dict>
+versionGate.cli <str> = v1.15.0
+versionGate.daemon <str> = v1.15.0
+versionGate.connectors <list>
+versionGate.verdict <str> = ok
+versionGate.findings <list>
+versionGate.findings[0].component <str> = daemon
+versionGate.findings[0].version <str> = v1.15.0
+versionGate.findings[0].severity <str> = ok
+versionGate.findings[0].reason <str> = 与 CLI 同版 v1.15.0
+hostCompatibility <dict>
+hostCompatibility.baseline <str> = 4.0.0
+hostCompatibility.recommended <str> = 4.1.60
+hostCompatibility.verdict <str> = ok
+hostCompatibility.findings <list>
+hostCompatibility.findings[0].windowId <str> = 8f406ca7-ac3b-4222-a1f8-bb86a40ac24d
+hostCompatibility.findings[0].version <str> = 4.1.78
+hostCompatibility.findings[0].severity <str> = ok
+hostCompatibility.findings[0].reason <str> = EasyEDA Pro 4.1.78 满足 V4 主线基线
+checks <list>
+checks[0].name <str> = daemon
+checks[0].status <str> = ok
+checks[0].detail <str> = v1.15.0 运行在端口 60832
+checked <list>
+checked[0].port <int> = 60832
+checked[0].status <str> = ok

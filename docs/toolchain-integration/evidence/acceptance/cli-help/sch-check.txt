@@ -1,0 +1,46 @@
+Reconstructed per-item design check — the detail the EDA schematic DRC API can't expose.
+
+eda.sch_Drc.check (what 'sch drc' uses) may return only a boolean/aggregate result;
+the itemized findings the UI DRC panel shows are not in any public API. 'sch check'
+recomputes them from primitives and the official manufacture netlist JSON.
+
+Covered rules include net-marker/wire-name mismatches, duplicate/multiple net names
+on a wire, floating pins (netlist-confirmed and geometric), wire crossings, and
+wire-over-pin hazards.
+
+The floating-pin output is the exact input 'sch no-connect' takes, so the loop is:
+sch check → wire the real ones / sch no-connect the intentional ones → sch check.
+
+Exit code: 0 by default (floating IO pins are normal until NC-marked); --strict
+exits non-zero when there are any findings, to use it as a gate.
+
+--json wraps the report in the same {id,type,version,ok,result} envelope the
+other sch commands emit; the findings are under result.findings (v0.10.0+;
+prior versions emitted a bare {passed,summary,findings}).
+
+Usage:
+  zhigou sch check [flags]
+
+Examples:
+  zhigou sch check
+  zhigou sch check --json
+  zhigou sch check --strict      # non-zero exit if any findings
+
+Flags:
+      --all-pages doc switch   check components across all schematic pages (WARNING: non-active pages return shallow data — pins/bbox may be empty; use doc switch to that page for accurate data)
+  -h, --help                   help for check
+      --json                   emit the report in the {id,type,version,ok,result} envelope (findings under result.findings)
+      --overlap-eps float      min positive-area extent (mm, smaller axis) for the marker-overlap/titleblock-overlap rules — below it, edge grazing and parallel-port float noise are ignored (issue #148) (default 1)
+      --page string            switch to this page (name|uuid), wait for it to settle, then check — makes the page an explicit parameter instead of relying on the active tab (issue #67)
+      --stay                   with --page, stay on the target page after checking instead of switching back
+      --strict                 exit non-zero when there are findings (gate mode)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

@@ -153,9 +153,9 @@ func TestLatestReleaseVersionFallsBackToWebRedirect(t *testing.T) {
 		switch r.URL.Path {
 		case "/api":
 			http.Error(w, "rate limited", http.StatusForbidden)
-		case "/zhoushoujianwork/zhigou-agent/releases/latest":
-			http.Redirect(w, r, "/zhoushoujianwork/zhigou-agent/releases/tag/v1.4.7", http.StatusFound)
-		case "/zhoushoujianwork/zhigou-agent/releases/tag/v1.4.7":
+		case "/" + RepoSlug + "/releases/latest":
+			http.Redirect(w, r, "/" + RepoSlug + "/releases/tag/v1.4.7", http.StatusFound)
+		case "/" + RepoSlug + "/releases/tag/v1.4.7":
 			_, _ = w.Write([]byte("release"))
 		default:
 			http.NotFound(w, r)
@@ -164,7 +164,7 @@ func TestLatestReleaseVersionFallsBackToWebRedirect(t *testing.T) {
 	defer srv.Close()
 	oldAPI, oldWeb := latestAPIURL, latestWebURL
 	latestAPIURL = func() string { return srv.URL + "/api" }
-	latestWebURL = func() string { return srv.URL + "/zhoushoujianwork/zhigou-agent/releases/latest" }
+	latestWebURL = func() string { return srv.URL + "/" + RepoSlug + "/releases/latest" }
 	t.Cleanup(func() { latestAPIURL, latestWebURL = oldAPI, oldWeb })
 
 	got, err := LatestReleaseVersion(context.Background())

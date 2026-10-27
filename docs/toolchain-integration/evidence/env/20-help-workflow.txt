@@ -1,0 +1,42 @@
+===== easyeda workflow --help (exit=0) =====
+Compatibility interface for the former per-project PCB workflow.
+
+Historical stages:
+  imported → placement_ready → placement_confirmed → outline_confirmed
+           → pre_route_passed → routing_authorized
+
+No stage is an execution permission. Route, placement, outline and raw typed
+actions run from live project data regardless of these records. Mutations no
+longer cascade through confirmations, and legacy --force options are no-ops.
+Use connectivity, geometric checks, DRC and save/reload/readback as evidence.
+
+State lives at ~/.easyeda-agent/workflow/<project>.json (EASYEDA_WORKFLOW_DIR
+to override). Existing scripts may inspect or append it; `status` and
+`advance` describe only the deprecated checklist and do not control
+other commands.
+
+Usage:
+  easyeda workflow [flags]
+  easyeda workflow [command]
+
+Available Commands:
+  advance     Advance the deprecated checklist and print its historical next step
+  confirm     Record a historical layout/outline checklist entry (no execution permission)
+  init        Initialize (or restart) the deprecated project checklist
+  pages       逐页记账的工程归属表(--reap 用活体页表核销,--prune 删掉已证明外来的残留)
+  reset       Clear deprecated checklist entries (or --all)
+  status      Show deprecated checklist state; --reconcile compares it with the live document
+
+Flags:
+  -h, --help            help for workflow
+      --window string   EasyEDA window ID (else use --project)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda workflow [command] --help" for more information about a command.

@@ -1,0 +1,33 @@
+Read the whole circuit in ONE call instead of stitching components.list +
+netlist + check together. Returns components (each pin tagged with its
+JSON-authoritative net), nets (net → connected designator.pin keys, degree,
+power/ground flag), floating pins, and the geometric design check.
+
+Pin→net comes from the official manufacture netlist (same source as 'sch check'),
+so it's authoritative, not geometry-guessed. Use --no-check to skip the design
+check for a faster read.
+
+Usage:
+  zhigou sch read [flags]
+
+Examples:
+  zhigou sch read
+  zhigou sch read --all-pages
+  zhigou sch read --no-check
+
+Flags:
+      --all-pages doc switch   read components across all schematic pages (WARNING: non-active pages return shallow data — pins/bbox may be empty; use doc switch to that page for accurate data)
+  -h, --help                   help for read
+      --no-check               skip the geometric design check for a faster read
+      --page string            switch to this page (name|uuid), wait for it to settle, then read — makes the page an explicit parameter instead of relying on the active tab (issue #67)
+      --stay                   with --page, stay on the target page after reading instead of switching back
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

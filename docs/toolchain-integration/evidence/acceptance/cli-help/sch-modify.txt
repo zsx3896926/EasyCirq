@@ -1,0 +1,60 @@
+Modify component position, designator, BOM flags, or custom properties.
+
+Common tweaks go straight on the command line — --x / --y / --rotation /
+--designator (same flags as `sch place`). --patch takes a JSON object for
+everything else (customAttributes, BOM flags, ...). Both may be combined; on a
+key collision the explicit flag wins and the override is reported on stderr.
+
+Patch keys are validated up front against the EasyEDA SDK modify signature
+(x/y/rotation/mirror/addIntoBom/addIntoPcb/designator/name/uniqueId/
+manufacturer/manufacturerId/supplier/supplierId/otherProperty, plus the
+customAttributes alias for otherProperty — use one, not both); unknown
+top-level keys are rejected before any canvas mutation (the SDK silently
+drops them). Property patches MERGE with the component's existing custom
+properties and are verified by fresh readback, with tiered semantics (#151):
+
+  - all requested properties applied      → success
+  - PARTIAL application                   → wire-level ok (the applied subset
+    stays on canvas and autosaves) but THIS COMMAND EXITS NON-ZERO with
+    result.{partial,applied,alreadySet,notApplied,addedKeys,propertiesBefore};
+    replaying propertiesBefore restores overwritten values only — keys newly
+    added by this call (addedKeys) cannot be removed via modify
+  - pure-property patch, nothing applied  → error (canvas unchanged)
+  - readback channel itself fails         → wire-level ok with verified:false
+    (preserves autosave), but THIS COMMAND EXITS NON-ZERO
+
+MERGE also holds for top-level-only patches (#175): the platform's modify
+rewrites otherProperty WHOLESALE, so a patch like {"supplierId":...} used to
+silently wipe all custom properties. The connector now reads the existing
+custom properties and re-writes them in the same modify call; preserved keys
+come back in result.propertiesPreserved (+propertiesBefore), and any key the
+platform still dropped is reported in result.notApplied (non-zero exit).
+
+Usage:
+  zhigou sch modify [flags]
+
+Examples:
+  zhigou sch modify --id <primitiveId> --x 150 --y 200
+  zhigou sch modify --id <id> --rotation 90 --designator R12
+  zhigou sch modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
+  zhigou sch modify --id <id> --patch '{"customAttributes":{"Value":"10k"}}'
+
+Flags:
+      --designator string   new designator, e.g. R12 (shortcut for --patch '{"designator":…}')
+  -h, --help                help for modify
+      --id string           primitive ID to modify (required)
+      --patch string        JSON object with fields to update (for keys without a shortcut flag: customAttributes, BOM flags, …)
+      --patch-file string   UTF-8 JSON patch file (BOM supported; mutually exclusive with --patch)
+      --rotation float      new rotation in degrees (shortcut for --patch '{"rotation":…}')
+      --x float             new X coordinate (shortcut for --patch '{"x":…}')
+      --y float             new Y coordinate (shortcut for --patch '{"y":…}')
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

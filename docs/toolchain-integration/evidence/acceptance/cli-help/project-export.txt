@@ -1,0 +1,19 @@
+Export the active project as a native epro2 archive (no overwrite)
+
+Usage:
+  zhigou project export [flags]
+
+Flags:
+  -h, --help                  help for export
+      --out string            new .epro2 output path (required); save documents before exporting
+      --project-uuid string   expected active project UUID (required)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

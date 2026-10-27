@@ -1,0 +1,19 @@
+{
+  "id": "health",
+  "title": "zhigou health (live window context)",
+  "stage": "preflight",
+  "command": [
+    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "health"
+  ],
+  "status": "NOT RUN",
+  "exitCode": 0,
+  "durationMs": 53,
+  "generatedAt": "2026-10-27T13:43:17Z",
+  "sha256": {
+    "stdout": "d7ff65f3effc5a0be14db360d967343597c8e1991c380b642b9fd3b8ffb2eb72",
+    "stderr": "d371dd609a80009b5ec6bbdeb9f7e5326ecab75f9a2f30904c53d9b5e3e46481",
+    "json": "f5bd2dc374351e5892fab234561d935a750699022310feecea748e9fb8c5d5b8"
+  },
+  "timedOut": false
+}
