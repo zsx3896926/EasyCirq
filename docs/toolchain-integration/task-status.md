@@ -3,7 +3,7 @@
 > 本文件是"智构自有 EDA 工具链整合开发"的**当前真源**：基线、实施清单、阶段状态、
 > 关键路径与依赖、阻塞。每阶段结束更新；历史细节留在 `docs/toolchain-integration/evidence/`。
 >
-> 最后更新：2026-10-27（M1 完成，M2 起被"EDA 内导入自有扩展"这一人工动作阻塞）
+> 最后更新：2026-10-27 22:10（M1 归档完成：运行时/连接器/安装器/Skill 迁移全部落盘并验证；M2 起被"EDA 内导入自有扩展"这一人工动作阻塞）
 
 ## 0. 基线（现场核对结果，非任务书推测）
 
@@ -29,10 +29,10 @@
 | 阶段 | 状态 | 产物 | 证据 |
 | --- | --- | --- | --- |
 | **M0** 环境/源码/许可/冲突/能力调查 | **完成**（除真机 API 探测） | `environment-baseline.md`、`upstream-analysis.md`、`rule-conflicts.md`、`architecture.md`、`capability-matrix.md`、`third_party/`、`runtime/PROVENANCE.md`、`protocol/` | `evidence/env/`（47 文件）、`evidence/upstream/`（9 文件）、`evidence/skill-audit/`（4 文件）、`evidence/m1/vendor-verify.txt` |
-| **M1** 自有 CLI/daemon/Connector 构建 + 隔离安装 + 真实握手 | **代码与运行时完成；连接器握手 BLOCKED（需 EDA 内人工导入）** | `runtime/`（996 文件构建成功，`zhigou.exe`）、`connector/`（`.eext` 231 KB）、`protocol/schemas/` | `evidence/m1/doctor.json`、`capabilities.json`、`connector-path.json`、`listening-ports.json`、`daemon-processes.json`、`vendor-verify.txt`、`runtime-go-test.log` |
+| **M1** 自有 CLI/daemon/Connector 构建 + 隔离安装 | **完成**（构建、隔离启动、诊断、安装/升级/回退、Skill 单入口迁移均实测）；**连接器真实握手 BLOCKED**（需 EDA 内人工导入） | `runtime/`（构建成功，`zhigou.exe` 0.2.0-dev）、`connector/`（`.eext` 231 KB）、`protocol/schemas/`、`distribution/`（统一安装器）、`design-hardware/`（已迁移到 `zhigou`） | `evidence/m1/*`、`evidence/installer/*`、`evidence/skill-migration/*`、`evidence/runtime-go-test.log`、`evidence/test-failure-diff.txt` |
 | **M2** 独立工程 读取→移动一件→保存→重开→回读 | **BLOCKED**（连接器未加载，无宿主通道） | 就绪命令：`zhigou doctor/capabilities/project/sch/doc/save` | 待真机 |
 | **M3** SCH/PCB 读写、批量、检查导出、compose/反馈接入 | **BLOCKED**（同上）；代码路径已就位 | 181 typed actions（111 写动作）在自有运行时内 | 待真机 |
-| **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **进行中**（安装/升级/回退由 `distribution/` 并行开发）；真机部分 BLOCKED | `distribution/` 扩展中 | `evidence/installer/` |
+| **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **安装/升级/回退已完成并实测**（39 例）；**小板与局部改板 BLOCKED**（同上） | `distribution/` 统一安装器、`tools/zhigou_acceptance.py` | `evidence/installer/`、`evidence/acceptance/` |
 | **M5** 独立审查/反例/最终候选重跑/提交 PR | **进行中** | 本文件 + PR | 见 §5 |
 
 ## 2. 已完成的关键实现
@@ -111,6 +111,29 @@ CLI 无 extension 类命令、EDA 无本地扩展目录、扩展只在启动时�
 > 注：`internal/app`、`internal/daemon`、`internal/selfupdate` 三个包的 `go test` 整体
 > 退出码因此为 1；`go build ./...`、新增的 doctor/capabilities/connector 单测、以及
 > `internal/blocks` 等其余包全部通过。
+
+
+## 4.2 M1 收尾：本轮新增并验证的两块
+
+| 能力 | 实测结果 | 证据 |
+| --- | --- | --- |
+| 统一安装/升级/回退/卸载 | **39 个生命周期用例全通过**（干净安装、幂等重装、升级、回退、卸载、中文+空格路径、7 类损坏包、PATH 不被改、旧 easyeda-agent 目录哈希与 mtime 不变、lock/journal 恢复、`--require-clean` 脏树拒绝、真实产物构建+安装+`zhigou doctor`） | `evidence/installer/pytest-install-lifecycle.log`、`unittest-install-lifecycle.log`、`e2e-real-artifacts.log` |
+| Skill 单入口迁移 | 旧工具链引用清零（保留 1 处历史说明 allowlist）；`zhigou doctor`/`capabilities` 成为唯一前置；新增 guard 测试防止旧 CLI/状态目录/env 回流 | `docs/toolchain-integration/skill-migration.md`、`evidence/skill-migration/inventory-post-migration.txt` |
+| 全仓库离线回归 | `python tools/offline_suite.py` → **1832 tests OK**（29/29 自检）；`skill_selftest.py` → **5 PASS / 0 FAIL**；新增 guard/CLI/安装器测试 **62 passed** | `evidence/skill-migration/offline-suite.exit.txt`、`skill-selftest.log` |
+
+安装目录（默认，已用隔离目录实测）：`%LOCALAPPDATA%\Zhigou\` 下 `bin\zhigou.exe`、
+`connector\zhigou-connector_v0.1.0.eext`（+IMPORT-STEPS.md）、`skill\design-hardware\`、
+`licenses\`、`installation.json`（所有权清单+逐文件 sha256）。
+
+## 4.3 版本与构建标识（最终候选）
+
+| 项 | 值 |
+| --- | --- |
+| CLI/daemon | `zhigou 0.2.0-dev`（构建自本仓库，二进制内嵌 `vcs.revision`） |
+| 连接器 | `zhigou-connector 0.1.0`，`.eext` sha256 `9b907bf6…`（231,299 B） |
+| 上游基线 | easyeda-agent `v1.15.0` / `d93d3dd`（MIT） |
+| 协议 | `zhigou-agent` / wire `v1` |
+| 来源复现 | `distribution/verify_vendor.py` → **PASS**（`evidence/m1/vendor-verify.txt`；白名单外文件零差异） |
 
 ## 5. 证据索引
 
