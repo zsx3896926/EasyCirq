@@ -2,7 +2,7 @@
 
 - 目标：round12 排版工具链（PR #32）基于最新 main 集成、复核、测试；随后只在恢复工程的独立副本中做真机 compose/apply 验收。原工程 P2 保持不动。
 - worktree：`C:/Users/jlc/work/hds-compose-r12`；分支 `feat/compose-tooling-r12`；已并入 `origin/main`（含 PR #31 power preflight）。
-- HEAD：`e467c53`（`fix: align sheet-fit with compose stroke and anchor grid`；本 handoff 随后单独提交）。
+- HEAD：`9227695`（handoff 提交；代码修复 `e467c53`）。
 - 本轮文件：`sch_compose_input.py`、`sch_sheet_fit.py`、`sch_bind_component_ids.py`；对应测试；`references/schematic-layout-engine.md`、`CHANGELOG.md`（0.9.4）、`.version`；`docs/round12-real-machine.md`。
 - 离线验证：`python -m unittest discover -s tests` → **1344 tests OK**（日志 `%TEMP%\r12-unittest.log`）；`skill_selftest` → **5 PASS / 0 FAIL / 0 NOT RUN**（`%TEMP%\r12-selftest-2.log`）。
 - 真机对象：独立副本 `usb-audio-verify-r12`，UUID `66ad17591d5b4f6ebbcb42295f76b2b1`，P1 `660075c31db6f396`；窗口 `c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7`。原工程 P2 未触碰。
@@ -16,4 +16,4 @@
   - 官方 SVG/PNG 已导出并目视审查；C5 区域干净，8 区框不重叠不越界。证据：`C:/Users/jlc/work/usb-audio-verify-r12/pages/after2/`、`work/evidence-index.json`；基线 `C:/Users/jlc/work/usb-audio-reflow-20261027/out/`。
 - 未执行：P2/P3 重排、原工程 P2 修复（保持原样）、PCB、制造导出、strict gate 通过。离线 `ready/fits/verified` 不代表真机通过；apply playbook 本身未完成。
 - 写入权：jlc-6f/jlc-7f 已确认本轮不写；P1 已完成保存/重开/回读，EDA 窗口可在本 handoff 后移交 jlc-6f（其 PCB 验证在独立导入副本，不碰原工程/P2）。
-- 下一动作：提交本 handoff → push `feat/compose-tooling-r12` → 更新 PR #32 body/comment 的真实结果与剩余 `NOT RUN` 边界 → 回复 jlc-6f `window released`。
+- 下一动作：PR #32 body 与 comment 已更新（2026-10-27 12:35 本地），等待评审/合并；窗口已释放给 jlc-6f。若继续真机，仅在新范围（P2/P3、PCB、制造导出）另开任务并重新确认写权；strict gate 通过仍受基线警告阻塞。
