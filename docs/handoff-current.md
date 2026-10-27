@@ -16,7 +16,7 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `feat/feedback-loop-round12` |
-| HEAD | `11700d5`（最终提交；代码/基准 `ac64052`；基线 `226bf5a`） |
+| HEAD | 见 `git log`；代码/基准 `ac64052`，基线 `226bf5a`，PR #30 |
 | 提交状态 | 代码/基准/案例/测试已提交并推送：`feat/feedback-loop-round12`，PR #30（base 为 `feat/offline-toolchain-round11`）；**本次四份文档更新未提交** |
 | 工作树 | `C:/Users/jlc/work/hds-feedback-r12`（隔离 worktree） |
 
