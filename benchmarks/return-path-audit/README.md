@@ -55,3 +55,13 @@ python benchmarks/return-path-audit/generate_scenes.py   # 重新生成（字节
 - 输入是**合成几何**（`source.kind=synthetic`），不是真实板数据；不得当作真实工程重放。
 - 不调用 EDA、不做 SI/阻抗/EMC 求解、不修改设计。
 - 基准通过只证明“本工具在这些冻结几何/规则场景上的行为一致”，不证明任何硬件设计通过。
+
+## 真实快照回放
+
+`real-replay/` 保存**真实** EDA 回读快照（`easyeda pcb dump`）的只读回放：
+2 层板 `mcu-i2c-s3-20261026`，真实 BOTTOM GND 填充铺铜 + 顶层 12 网 142 段真实走线，
+结果为 `fail`（7 处跨真实铺铜孔洞等）。投影器为 `replay_real_dump.py`，
+回归为 `tests/return_path_audit/test_real_replay.py`。
+
+**本机与仓库均无真实四层板快照**（现有真实工程全部是 2 层），因此这里**不是**四层板验证；
+拿到真实四层 dump 后用 `--stackup-json` 显式声明 4 层物理顺序即可重放。

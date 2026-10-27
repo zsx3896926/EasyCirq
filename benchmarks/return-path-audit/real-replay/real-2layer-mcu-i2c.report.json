@@ -1,0 +1,6223 @@
+{
+  "schema": "return-path-audit-report/v1",
+  "tool": "return_path_audit",
+  "tool_version": "0.1.0",
+  "generated_at": "2026-10-27T16:24:52Z",
+  "input": {
+    "file_name": "real-2layer-mcu-i2c.input.json",
+    "input_sha256": "ed62c7fafa6171c83706c3d58ac292dc902f1b6b6e780c622aa907b42ac4ab35",
+    "semantic_sha256": "0d016a9f2675b6471a5973f8a3e126b7b5f50c5c4a851cd8a5479dc560333db0",
+    "schema": "return-path-audit-input/v1",
+    "units": "mil",
+    "project": {
+      "id": "mcu-i2c-s3-20261026",
+      "document": "40b81985cfb4a5ed",
+      "snapshot": "mcu-i2c-s3-20261026:40b81985cfb4a5ed:2026-10-26T13:40:13.1380529Z"
+    },
+    "source": {
+      "kind": "offline_export",
+      "producer": "easyeda pcb dump (REAL snapshot, 2 copper layer(s)); reference pour arcs discretised <=0.05 mil chord error; only L1 tracks modelled",
+      "captured_at": "2026-10-26T13:40:13.1380529Z",
+      "raw_input_sha256": "db7521f2883346f0d70126047927f2cf6a61343374c2e0cb71869649aa3a57fe"
+    },
+    "binding": {
+      "project_snapshot": "mcu-i2c-s3-20261026:40b81985cfb4a5ed:2026-10-26T13:40:13.1380529Z",
+      "raw_input_sha256": "db7521f2883346f0d70126047927f2cf6a61343374c2e0cb71869649aa3a57fe",
+      "evidence_bound": true,
+      "stale_evidence_rejected": false
+    }
+  },
+  "overall_status": "fail",
+  "scope": {
+    "statement": "Offline geometric/topological review of high-speed signal reference planes and return-path candidates for the declared snapshot only. This is NOT a DRC, NOT an impedance/EMI/eye-diagram or full SI simulation, NOT proof of electrical connection, and NOT manufacturing or functional approval.",
+    "checks": [
+      "E1 stackup/reference intent",
+      "E2 reference-plane continuity",
+      "E3 layer transitions and return candidates",
+      "E4 differential-pair reference symmetry",
+      "E5 coverage and unknown propagation"
+    ],
+    "not_claimed": [
+      "impedance matching or controlled-impedance verification",
+      "SI/EMI/EMC, crosstalk, eye diagram, timing or certification",
+      "electrical continuity of copper or of any return structure",
+      "DRC/DFM clearance, Gerber correctness or board-house acceptance",
+      "differential skew or length tuning (out of scope here)",
+      "any PCB modification: this tool never edits the design"
+    ],
+    "interface": "real EasyEDA dump replay (reference pour continuity)",
+    "corridor": {
+      "value": 8.0,
+      "unit": "mil",
+      "source_ref": null,
+      "conditions": null,
+      "project_configured": true
+    },
+    "max_return_via_distance": {
+      "value": 80.0,
+      "unit": "mil",
+      "source_ref": null,
+      "conditions": null,
+      "project_configured": true
+    },
+    "declared_constraints": null
+  },
+  "coverage": {
+    "nets": [
+      {
+        "signal_id": "net-+3V3",
+        "net": "+3V3",
+        "differential_pair": null,
+        "total_length": 2520.2308448903023,
+        "checked_length": 2520.2308448903023,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "+3V3.0",
+            "layer": "L1",
+            "length": 10.610000000000014,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 10.610000000000014,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.1",
+            "layer": "L1",
+            "length": 88.69919178932808,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 88.69919178932808,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.2",
+            "layer": "L1",
+            "length": 38.56989999999996,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 38.56989999999996,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.3",
+            "layer": "L1",
+            "length": 77.5598,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 77.5598,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.4",
+            "layer": "L1",
+            "length": 22.439999999999998,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 22.439999999999998,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.5",
+            "layer": "L1",
+            "length": 6.095260453828163,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 6.095260453828163,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.6",
+            "layer": "L1",
+            "length": 18.50989999999979,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 18.50989999999979,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.7",
+            "layer": "L1",
+            "length": 40.67990000000009,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 40.67990000000009,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.8",
+            "layer": "L1",
+            "length": 78.43214274785562,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 78.43214274785562,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.9",
+            "layer": "L1",
+            "length": 45.33979999999997,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 45.33979999999997,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.10",
+            "layer": "L1",
+            "length": 72.83979999999997,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 72.83979999999997,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.11",
+            "layer": "L1",
+            "length": 141.4210733945971,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 141.4210733945971,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.12",
+            "layer": "L1",
+            "length": 37.48989999999992,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 37.48989999999992,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.13",
+            "layer": "L1",
+            "length": 4.977961029377382,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 4.977961029377382,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.14",
+            "layer": "L1",
+            "length": 50.76980000000003,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 50.76980000000003,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.15",
+            "layer": "L1",
+            "length": 115.99344283247208,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 115.99344283247208,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.16",
+            "layer": "L1",
+            "length": 97.54980000000023,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 97.54980000000023,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.17",
+            "layer": "L1",
+            "length": 41.00990000000007,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 41.00990000000007,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.18",
+            "layer": "L1",
+            "length": 182.81949999999983,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 182.81949999999983,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.19",
+            "layer": "L1",
+            "length": 13.939999999999998,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 13.939999999999998,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.20",
+            "layer": "L1",
+            "length": 59.08570121459151,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 59.08570121459151,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.21",
+            "layer": "L1",
+            "length": 48.36990000000014,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 48.36990000000014,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.22",
+            "layer": "L1",
+            "length": 47.27701796877641,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 47.27701796877641,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.23",
+            "layer": "L1",
+            "length": 10.849999999999966,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 10.849999999999966,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.24",
+            "layer": "L1",
+            "length": 102.4596311725746,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 102.4596311725746,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.25",
+            "layer": "L1",
+            "length": 168.55949999999996,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 168.55949999999996,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.26",
+            "layer": "L1",
+            "length": 5.429900000000032,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 5.429900000000032,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.27",
+            "layer": "L1",
+            "length": 30.221673117317426,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 30.221673117317426,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.28",
+            "layer": "L1",
+            "length": 487.55880000000025,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 487.55880000000025,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.29",
+            "layer": "L1",
+            "length": 82.36358574060512,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 82.36358574060512,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.30",
+            "layer": "L1",
+            "length": 49.26990000000001,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 49.26990000000001,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.31",
+            "layer": "L1",
+            "length": 69.98921706984586,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 69.98921706984586,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.32",
+            "layer": "L1",
+            "length": 48.509900000000016,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 48.509900000000016,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.33",
+            "layer": "L1",
+            "length": 39.54990000000021,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 39.54990000000021,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.34",
+            "layer": "L1",
+            "length": 69.98914635913188,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 69.98914635913188,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "+3V3.35",
+            "layer": "L1",
+            "length": 15.0,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 15.0,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-BOOT",
+        "net": "BOOT",
+        "differential_pair": null,
+        "total_length": 627.2227868766106,
+        "checked_length": 627.2227868766106,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "BOOT.0",
+            "layer": "L1",
+            "length": 68.93979999999999,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 68.93979999999999,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "BOOT.1",
+            "layer": "L1",
+            "length": 115.78138150877281,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 115.78138150877281,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "BOOT.2",
+            "layer": "L1",
+            "length": 40.679899999999975,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 40.679899999999975,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "BOOT.3",
+            "layer": "L1",
+            "length": 35.359899999999996,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 35.359899999999996,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "BOOT.4",
+            "layer": "L1",
+            "length": 282.8420053678378,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 282.8420053678378,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "BOOT.5",
+            "layer": "L1",
+            "length": 83.6198,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 83.6198,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-CC1",
+        "net": "CC1",
+        "differential_pair": null,
+        "total_length": 217.96117569400656,
+        "checked_length": 217.96117569400656,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "CC1.0",
+            "layer": "L1",
+            "length": 27.939999999999827,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 27.939999999999827,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC1.1",
+            "layer": "L1",
+            "length": 7.099352083112751,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 7.099352083112751,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC1.2",
+            "layer": "L1",
+            "length": 39.68989999999985,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 39.68989999999985,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC1.3",
+            "layer": "L1",
+            "length": 33.347085090154344,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 33.347085090154344,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC1.4",
+            "layer": "L1",
+            "length": 43.84979999999996,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 43.84979999999996,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC1.5",
+            "layer": "L1",
+            "length": 2.8425692603699884,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 2.8425692603699884,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC1.6",
+            "layer": "L1",
+            "length": 15.190000000000055,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 15.190000000000055,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC1.7",
+            "layer": "L1",
+            "length": 2.842569260369667,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 2.842569260369667,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC1.8",
+            "layer": "L1",
+            "length": 45.15990000000011,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 45.15990000000011,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-CC2",
+        "net": "CC2",
+        "differential_pair": null,
+        "total_length": 528.7881359008949,
+        "checked_length": 528.7881359008949,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "CC2.0",
+            "layer": "L1",
+            "length": 56.86990000000014,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 56.86990000000014,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC2.1",
+            "layer": "L1",
+            "length": 92.23479640596602,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 92.23479640596602,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC2.2",
+            "layer": "L1",
+            "length": 138.26959999999985,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 138.26959999999985,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC2.3",
+            "layer": "L1",
+            "length": 232.8638394949289,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 232.8638394949289,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "CC2.4",
+            "layer": "L1",
+            "length": 8.549999999999955,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 8.549999999999955,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-EN",
+        "net": "EN",
+        "differential_pair": null,
+        "total_length": 1716.6108976046426,
+        "checked_length": 1716.6108976046426,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "EN.0",
+            "layer": "L1",
+            "length": 40.47472144450173,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 40.47472144450173,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.1",
+            "layer": "L1",
+            "length": 51.60979999999995,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 51.60979999999995,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.2",
+            "layer": "L1",
+            "length": 27.25182463634315,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 27.25182463634315,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.3",
+            "layer": "L1",
+            "length": 9.350000000000023,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 9.350000000000023,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.4",
+            "layer": "L1",
+            "length": 58.61901073900857,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 58.61901073900857,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.5",
+            "layer": "L1",
+            "length": 47.51990000000001,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 47.51990000000001,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.6",
+            "layer": "L1",
+            "length": 37.15989999999988,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 37.15989999999988,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.7",
+            "layer": "L1",
+            "length": 4.978031739553269,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 4.978031739553269,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.8",
+            "layer": "L1",
+            "length": 123.21969999999999,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 123.21969999999999,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.9",
+            "layer": "L1",
+            "length": 610.6558605977839,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 610.6558605977839,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.10",
+            "layer": "L1",
+            "length": 169.34950000000003,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 169.34950000000003,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.11",
+            "layer": "L1",
+            "length": 9.234743851888888,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 9.234743851888888,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.12",
+            "layer": "L1",
+            "length": 10.850000000000023,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 10.850000000000023,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.13",
+            "layer": "L1",
+            "length": 4.1153614665058225,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 4.1153614665058225,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.14",
+            "layer": "L1",
+            "length": 364.24909999999994,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 364.24909999999994,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.15",
+            "layer": "L1",
+            "length": 112.61354312905713,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 112.61354312905713,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "EN.16",
+            "layer": "L1",
+            "length": 35.359899999999996,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 35.359899999999996,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-I2C_SCL",
+        "net": "I2C_SCL",
+        "differential_pair": null,
+        "total_length": 1202.557870218697,
+        "checked_length": 1202.557870218697,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "I2C_SCL.0",
+            "layer": "L1",
+            "length": 349.8291,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 349.8291,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SCL.1",
+            "layer": "L1",
+            "length": 318.4376193114124,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 318.4376193114124,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SCL.2",
+            "layer": "L1",
+            "length": 40.6699000000001,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 40.6699000000001,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SCL.3",
+            "layer": "L1",
+            "length": 79.71907708961517,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 79.71907708961517,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SCL.4",
+            "layer": "L1",
+            "length": 246.68930000000006,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 246.68930000000006,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SCL.5",
+            "layer": "L1",
+            "length": 148.9729738176693,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 148.9729738176693,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SCL.6",
+            "layer": "L1",
+            "length": 18.239900000000034,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 18.239900000000034,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-I2C_SDA",
+        "net": "I2C_SDA",
+        "differential_pair": null,
+        "total_length": 1320.02432060484,
+        "checked_length": 1320.02432060484,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "I2C_SDA.0",
+            "layer": "L1",
+            "length": 40.6699000000001,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 40.6699000000001,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.1",
+            "layer": "L1",
+            "length": 431.13608596489564,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 431.13608596489564,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.2",
+            "layer": "L1",
+            "length": 323.4891,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 323.4891,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.3",
+            "layer": "L1",
+            "length": 67.00529716388111,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 67.00529716388111,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.4",
+            "layer": "L1",
+            "length": 50.199800000000096,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 50.199800000000096,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.5",
+            "layer": "L1",
+            "length": 8.414570696119739,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 8.414570696119739,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.6",
+            "layer": "L1",
+            "length": 42.059900000000084,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 42.059900000000084,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.7",
+            "layer": "L1",
+            "length": 9.8004999872456,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 9.8004999872456,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.8",
+            "layer": "L1",
+            "length": 170.61950000000002,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 170.61950000000002,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.9",
+            "layer": "L1",
+            "length": 8.01859089865535,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 8.01859089865535,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.10",
+            "layer": "L1",
+            "length": 53.10989999999998,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 53.10989999999998,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.11",
+            "layer": "L1",
+            "length": 105.81117589404232,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 105.81117589404232,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "I2C_SDA.12",
+            "layer": "L1",
+            "length": 9.690000000000282,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 9.690000000000282,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-USB_DM_CONN",
+        "net": "USB_DM_CONN",
+        "differential_pair": null,
+        "total_length": 1828.3799820106326,
+        "checked_length": 1828.3799820106326,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "USB_DM_CONN.0",
+            "layer": "L1",
+            "length": 39.699900000000184,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 39.699900000000184,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.1",
+            "layer": "L1",
+            "length": 36.17990000000009,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 36.17990000000009,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.2",
+            "layer": "L1",
+            "length": 4.978031739553349,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 4.978031739553349,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.3",
+            "layer": "L1",
+            "length": 35.84990000000016,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 35.84990000000016,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.4",
+            "layer": "L1",
+            "length": 14.079900000000066,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 14.079900000000066,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.5",
+            "layer": "L1",
+            "length": 163.9352825969138,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 163.9352825969138,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.6",
+            "layer": "L1",
+            "length": 687.3483000000001,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 687.3483000000001,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.7",
+            "layer": "L1",
+            "length": 120.86959999999999,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 120.86959999999999,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.8",
+            "layer": "L1",
+            "length": 30.136820303575632,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 30.136820303575632,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.9",
+            "layer": "L1",
+            "length": 118.09969999999976,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 118.09969999999976,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.10",
+            "layer": "L1",
+            "length": 276.47804433715885,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 276.47804433715885,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.11",
+            "layer": "L1",
+            "length": 149.76959999999997,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 149.76959999999997,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.12",
+            "layer": "L1",
+            "length": 29.82569331985426,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 29.82569331985426,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.13",
+            "layer": "L1",
+            "length": 50.729899999999816,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 50.729899999999816,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_CONN.14",
+            "layer": "L1",
+            "length": 70.39940971357643,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 70.39940971357643,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-USB_DM_MCU",
+        "net": "USB_DM_MCU",
+        "differential_pair": null,
+        "total_length": 198.91590013453407,
+        "checked_length": 198.91590013453407,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "USB_DM_MCU.0",
+            "layer": "L1",
+            "length": 3.449999999999818,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 3.449999999999818,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_MCU.1",
+            "layer": "L1",
+            "length": 43.953616097199486,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 43.953616097199486,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_MCU.2",
+            "layer": "L1",
+            "length": 9.519999999999982,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 9.519999999999982,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_MCU.3",
+            "layer": "L1",
+            "length": 58.364452297781405,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 58.364452297781405,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_MCU.4",
+            "layer": "L1",
+            "length": 41.48989999999992,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 41.48989999999992,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_MCU.5",
+            "layer": "L1",
+            "length": 4.978031739553349,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 4.978031739553349,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DM_MCU.6",
+            "layer": "L1",
+            "length": 37.15990000000011,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 37.15990000000011,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-USB_DP_CONN",
+        "net": "USB_DP_CONN",
+        "differential_pair": null,
+        "total_length": 914.2440430426581,
+        "checked_length": 914.2440430426581,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "USB_DP_CONN.0",
+            "layer": "L1",
+            "length": 2.4500000000000455,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 2.4500000000000455,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.1",
+            "layer": "L1",
+            "length": 36.16989999999987,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 36.16989999999987,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.2",
+            "layer": "L1",
+            "length": 4.978031739553269,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 4.978031739553269,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.3",
+            "layer": "L1",
+            "length": 34.14989999999989,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 34.14989999999989,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.4",
+            "layer": "L1",
+            "length": 2.3900209204105276,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 2.3900209204105276,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.5",
+            "layer": "L1",
+            "length": 37.99989999999991,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 37.99989999999991,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.6",
+            "layer": "L1",
+            "length": 21.409899999999993,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 21.409899999999993,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.7",
+            "layer": "L1",
+            "length": 4.978031739553269,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 4.978031739553269,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.8",
+            "layer": "L1",
+            "length": 4.769999999999982,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 4.769999999999982,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.9",
+            "layer": "L1",
+            "length": 11.24299782086633,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 11.24299782086633,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.10",
+            "layer": "L1",
+            "length": 8.499900000000025,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 8.499900000000025,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.11",
+            "layer": "L1",
+            "length": 50.07716082227513,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 50.07716082227513,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_CONN.12",
+            "layer": "L1",
+            "length": 695.1282999999999,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 695.1282999999999,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-USB_DP_MCU",
+        "net": "USB_DP_MCU",
+        "differential_pair": null,
+        "total_length": 175.4012815087727,
+        "checked_length": 175.4012815087727,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "USB_DP_MCU.0",
+            "layer": "L1",
+            "length": 40.67990000000009,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 40.67990000000009,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_MCU.1",
+            "layer": "L1",
+            "length": 115.78138150877257,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 115.78138150877257,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "USB_DP_MCU.2",
+            "layer": "L1",
+            "length": 18.940000000000055,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 18.940000000000055,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      },
+      {
+        "signal_id": "net-VBUS_5V",
+        "net": "VBUS_5V",
+        "differential_pair": null,
+        "total_length": 835.0556432045325,
+        "checked_length": 835.0556432045325,
+        "unknown_length": 0.0,
+        "not_applicable_length": 0.0,
+        "coverage_status": "complete",
+        "reasons": [],
+        "segments": [
+          {
+            "segment_id": "VBUS_5V.0",
+            "layer": "L1",
+            "length": 36.42989999999986,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 36.42989999999986,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.1",
+            "layer": "L1",
+            "length": 4.610336213336116,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 4.610336213336116,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.2",
+            "layer": "L1",
+            "length": 7.962022356160599,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 7.962022356160599,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.3",
+            "layer": "L1",
+            "length": 140.3297,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 140.3297,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.4",
+            "layer": "L1",
+            "length": 39.68989999999985,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 39.68989999999985,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.5",
+            "layer": "L1",
+            "length": 90.69330362297976,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 90.69330362297976,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.6",
+            "layer": "L1",
+            "length": 135.78960000000006,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 135.78960000000006,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.7",
+            "layer": "L1",
+            "length": 55.8198000000001,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 55.8198000000001,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.8",
+            "layer": "L1",
+            "length": 3.790092347160065,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 3.790092347160065,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.9",
+            "layer": "L1",
+            "length": 264.2493999999997,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 264.2493999999997,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          },
+          {
+            "segment_id": "VBUS_5V.10",
+            "layer": "L1",
+            "length": 55.69158866489636,
+            "width": 10.0,
+            "kind": "straight",
+            "reference_layer": "L2",
+            "reference_net": "GND",
+            "coverage_status": "checked",
+            "coverage_reason": null,
+            "checked_length": 55.69158866489636,
+            "unknown_length": 0.0,
+            "not_applicable_length": 0.0
+          }
+        ]
+      }
+    ],
+    "totals": {
+      "checked_length": 12085.392881691125,
+      "unknown_length": 0.0,
+      "not_applicable_length": 0.0,
+      "signal_count": 12,
+      "segment_count": 142,
+      "unit": "mil"
+    }
+  },
+  "findings": [
+    {
+      "rule_id": "RP-E2-202",
+      "group": "E2",
+      "title": "Void/hole in reference copper under the signal",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-BOOT"
+      ],
+      "segment_ids": [
+        "BOOT.1"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.07682827454860737,
+        "t1": 0.8609999056019833,
+        "length": 90.79247478334756,
+        "start": [
+          439.24881547163955,
+          875.2277154716396
+        ],
+        "end": [
+          503.44879007165326,
+          939.4276900716533
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 54.0229221616471,
+        "corridor_length": 36.76955262170045,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 90.79247478334756,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 6.5,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "void_in_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'BOOT.1' crosses a void/hole inside the reference copper (54.0229 mil wide)",
+      "recommendation": "Move the void/antipad or the signal so the projection stays over continuous reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-202",
+      "group": "E2",
+      "title": "Void/hole in reference copper under the signal",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-EN"
+      ],
+      "segment_ids": [
+        "EN.14"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.2464514254897176,
+        "t1": 0.4227043650303059,
+        "length": 64.19997460001369,
+        "start": [
+          503.44879007165326,
+          979.6275
+        ],
+        "end": [
+          439.24881547163955,
+          979.6275
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 38.19997460001369,
+        "corridor_length": 26.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 64.19997460001369,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 6.5,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "void_in_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'EN.14' crosses a void/hole inside the reference copper (38.2 mil wide)",
+      "recommendation": "Move the void/antipad or the signal so the projection stays over continuous reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-202",
+      "group": "E2",
+      "title": "Void/hole in reference copper under the signal",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-EN"
+      ],
+      "segment_ids": [
+        "EN.8"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.1542761093268184,
+        "t1": 0.6752964867503455,
+        "length": 64.19997460001377,
+        "start": [
+          1203.8069,
+          423.3288559084177
+        ],
+        "end": [
+          1203.8069,
+          487.5288305084315
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 38.19997460001377,
+        "corridor_length": 26.000000000000004,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 64.19997460001377,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 6.5,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "void_in_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'EN.8' crosses a void/hole inside the reference copper (38.2 mil wide)",
+      "recommendation": "Move the void/antipad or the signal so the projection stays over continuous reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-202",
+      "group": "E2",
+      "title": "Void/hole in reference copper under the signal",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-I2C_SCL"
+      ],
+      "segment_ids": [
+        "I2C_SCL.0"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.15278857611231678,
+        "length": 53.44989007165328,
+        "start": [
+          449.9989,
+          1267.0368
+        ],
+        "end": [
+          503.44879007165326,
+          1267.0368
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 38.19997460001366,
+        "corridor_length": 15.249915471639614,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 53.44989007165328,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 1.1249577358198053,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "void_in_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'I2C_SCL.0' crosses a void/hole inside the reference copper (38.2 mil wide)",
+      "recommendation": "Move the void/antipad or the signal so the projection stays over continuous reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-202",
+      "group": "E2",
+      "title": "Void/hole in reference copper under the signal",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-I2C_SCL"
+      ],
+      "segment_ids": [
+        "I2C_SCL.4"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.29149910404848023,
+        "t1": 0.5517453919904934,
+        "length": 64.19997460001369,
+        "start": [
+          503.44879007165326,
+          1210.6669
+        ],
+        "end": [
+          439.24881547163955,
+          1210.6669
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 38.19997460001368,
+        "corridor_length": 26.000000000000014,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 64.19997460001369,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 6.5,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "void_in_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'I2C_SCL.4' crosses a void/hole inside the reference copper (38.2 mil wide)",
+      "recommendation": "Move the void/antipad or the signal so the projection stays over continuous reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-202",
+      "group": "E2",
+      "title": "Void/hole in reference copper under the signal",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.3"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.5701946855305451,
+        "length": 80.01524916209576,
+        "start": [
+          2216.9344,
+          680.8783
+        ],
+        "end": [
+          2216.9344,
+          600.8630508379042
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 54.02297237674867,
+        "corridor_length": 25.992276785347066,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 80.01524916209576,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.17466557554067158,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "void_in_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'VBUS_5V.3' crosses a void/hole inside the reference copper (54.023 mil wide)",
+      "recommendation": "Move the void/antipad or the signal so the projection stays over continuous reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-202",
+      "group": "E2",
+      "title": "Void/hole in reference copper under the signal",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.6"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.20958747945350803,
+        "t1": 0.6823777373230341,
+        "length": 64.19999999999983,
+        "start": [
+          2324.2642,
+          680.8783
+        ],
+        "end": [
+          2260.0642000000003,
+          680.8783
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 38.19999999999983,
+        "corridor_length": 25.999999999999993,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 64.19999999999983,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 6.5,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "void_in_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'VBUS_5V.6' crosses a void/hole inside the reference copper (38.2 mil wide)",
+      "recommendation": "Move the void/antipad or the signal so the projection stays over continuous reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.18"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.24831175986614365,
+        "length": 45.39623178284841,
+        "start": [
+          1061.6673,
+          350.79909999999995
+        ],
+        "end": [
+          1107.0635317828485,
+          350.79909999999995
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 27.011455471998154,
+        "corridor_length": 18.38477631085026,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 45.39623178284841,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.4897600424587621,
+        "context_before": [],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment '+3V3.18' runs off the edge of the reference copper (27.0115 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.2"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 38.56989999999996,
+        "start": [
+          276.6693,
+          1295.6767
+        ],
+        "end": [
+          276.6693,
+          1334.2466
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 33.34659999999985,
+        "corridor_length": 5.223300000000108,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 38.56989999999996,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 2.611650000000054,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment '+3V3.2' runs off the edge of the reference copper (33.3466 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.30"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.2057164173351453,
+        "t1": 1.0,
+        "length": 39.13427268953913,
+        "start": [
+          1333.320972689539,
+          455.4288
+        ],
+        "end": [
+          1294.1867,
+          455.4288
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 26.1099796113308,
+        "corridor_length": 13.02429307820833,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 39.13427268953913,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 2.6375329892502227e-06,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment '+3V3.30' runs off the edge of the reference copper (26.11 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.31"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.3879767880646194,
+        "length": 27.15419163791623,
+        "start": [
+          421.9289,
+          1321.9966
+        ],
+        "end": [
+          402.7280063540396,
+          1341.1975324436391
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 13.199700349331856,
+        "corridor_length": 13.954491288584371,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 27.15419163791623,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.5996158102505564,
+        "context_before": [],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment '+3V3.31' runs off the edge of the reference copper (13.1997 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.34"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.6143607938154774,
+        "t1": 1.0,
+        "length": 26.99055884346799,
+        "start": [
+          402.8436928137692,
+          1302.9113928137692
+        ],
+        "end": [
+          421.9289,
+          1321.9966
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 13.1997689421858,
+        "corridor_length": 13.790789901282196,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 26.99055884346799,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.7190483902300677,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment '+3V3.34' runs off the edge of the reference copper (13.1998 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC1"
+      ],
+      "segment_ids": [
+        "CC1.0"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 27.939999999999827,
+        "start": [
+          1950.005,
+          1074.9773
+        ],
+        "end": [
+          1977.945,
+          1074.9773
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 26.08627335848074,
+        "corridor_length": 1.853726641519088,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 27.939999999999827,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.13236629483330611,
+        "context_before": [],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'CC1.0' runs off the edge of the reference copper (26.0863 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC1"
+      ],
+      "segment_ids": [
+        "CC1.4"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.4699357129605921,
+        "t1": 1.0,
+        "length": 23.243212973820608,
+        "start": [
+          2325.0274129738204,
+          721.4282000000001
+        ],
+        "end": [
+          2301.7842,
+          721.4282000000001
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 9.480000000000018,
+        "corridor_length": 13.76321297382059,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 23.243212973820608,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.6202584096645296,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'CC1.4' runs off the edge of the reference copper (9.48 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC2"
+      ],
+      "segment_ids": [
+        "CC2.2"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.6395722649343464,
+        "t1": 1.0,
+        "length": 49.836198756433845,
+        "start": [
+          2097.450998756434,
+          906.7877
+        ],
+        "end": [
+          2047.6148,
+          906.7877
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 31.451419247220805,
+        "corridor_length": 18.384779509213043,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 49.836198756433845,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 6.49999999999999,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'CC2.2' runs off the edge of the reference copper (31.4514 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC2"
+      ],
+      "segment_ids": [
+        "CC2.3"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.787745142099215,
+        "length": 183.4373583327015,
+        "start": [
+          2047.6148,
+          906.7877
+        ],
+        "end": [
+          1917.9050000000002,
+          1036.4975
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 165.05258202185126,
+        "corridor_length": 18.38477631085024,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 183.4373583327015,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.35201139156379213,
+        "context_before": [],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'CC2.3' runs off the edge of the reference copper (165.0526 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-I2C_SCL"
+      ],
+      "segment_ids": [
+        "I2C_SCL.5"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.7331806211897135,
+        "t1": 1.0,
+        "length": 39.7488763335516,
+        "start": [
+          251.43609999999984,
+          1287.9
+        ],
+        "end": [
+          223.32940000000002,
+          1316.0067
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 21.364100022701365,
+        "corridor_length": 18.384776310850235,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 39.7488763335516,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 2.5031525982312814,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'I2C_SCL.5' runs off the edge of the reference copper (21.3641 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-I2C_SDA"
+      ],
+      "segment_ids": [
+        "I2C_SDA.11"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.509975968928014,
+        "t1": 1.0,
+        "length": 51.850018944065575,
+        "start": [
+          259.9928999999998,
+          1412.1
+        ],
+        "end": [
+          223.32940000000002,
+          1375.4365000000003
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 33.465242633215304,
+        "corridor_length": 18.384776310850267,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 51.850018944065575,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 2.161602542732453,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'I2C_SDA.11' runs off the edge of the reference copper (33.4652 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.12"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.9438050231868825,
+        "t1": 1.0,
+        "length": 39.06271870064175,
+        "start": [
+          2024.4320812993583,
+          806.088
+        ],
+        "end": [
+          2063.4948,
+          806.088
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 26.062233238131633,
+        "corridor_length": 13.000485462510126,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 39.06271870064175,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 2.240340240531028,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'USB_DP_CONN.12' runs off the edge of the reference copper (26.0622 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.3"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 34.149899999999896,
+        "start": [
+          2326.3241,
+          745.0081
+        ],
+        "end": [
+          2292.1742,
+          745.0081
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 25.979646403999848,
+        "corridor_length": 8.170253596000045,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 34.149899999999896,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.016597557658294924,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'USB_DP_CONN.3' runs off the edge of the reference copper (25.9796 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.5"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.9181574872903698,
+        "length": 34.889892701285234,
+        "start": [
+          2290.4742,
+          746.6981
+        ],
+        "end": [
+          2290.4742,
+          781.5879927012852
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 21.86605029733737,
+        "corridor_length": 13.02384240394787,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 34.889892701285234,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 2.32562214126664,
+        "context_before": [],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'USB_DP_CONN.5' runs off the edge of the reference copper (21.8661 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.0"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.09919482367082492,
+        "t1": 1.0,
+        "length": 32.81624249315409,
+        "start": [
+          2223.1544,
+          781.084342493154
+        ],
+        "end": [
+          2223.1544,
+          748.2681
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 14.431469380664984,
+        "corridor_length": 18.384773112489107,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 32.81624249315409,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 5.102295818412967,
+        "context_before": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "context_after": [],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'VBUS_5V.0' runs off the edge of the reference copper (14.4315 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.7"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 55.8198000000001,
+        "start": [
+          2214.2544,
+          739.3781
+        ],
+        "end": [
+          2214.2544,
+          683.5582999999999
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 29.905576249153825,
+        "corridor_length": 25.914223750846272,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 55.8198000000001,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.25285459279475386,
+        "context_before": [],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'VBUS_5V.7' runs off the edge of the reference copper (29.9056 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-204",
+      "group": "E2",
+      "title": "Reference copper ends under the signal (copper/plane edge)",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.9"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [
+        "ref-0-0"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.48986290467481236,
+        "length": 129.44597864257622,
+        "start": [
+          2214.2544,
+          739.3781
+        ],
+        "end": [
+          2084.8084213574234,
+          739.3781
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 75.82443377444233,
+        "corridor_length": 53.621544868133896,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 129.44597864257622,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 5.958081162504314,
+        "context_before": [],
+        "context_after": [
+          {
+            "polygon_id": "ref-0-0",
+            "copper_id": "rc-reference",
+            "net": "GND",
+            "island": "reference-pour"
+          }
+        ],
+        "cause": "copper_edge"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "signal segment 'VBUS_5V.9' runs off the edge of the reference copper (75.8244 mil uncovered)",
+      "recommendation": "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.35"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 15.0,
+        "start": [
+          421.9289,
+          1321.9966
+        ],
+        "end": [
+          436.9289,
+          1321.9966
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 15.0,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 15.0,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 11.227195865900095,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment '+3V3.35' over 15 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.5"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 6.095260453828163,
+        "start": [
+          471.3488,
+          822.8179
+        ],
+        "end": [
+          467.0388,
+          818.5078999999998
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 6.095260453828163,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 6.095260453828163,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": null,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment '+3V3.5' over 6.0953 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.6"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 18.50989999999979,
+        "start": [
+          467.0388,
+          818.5078999999998
+        ],
+        "end": [
+          467.0388,
+          799.998
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 18.50989999999979,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 18.50989999999979,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 4.747706707625203,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment '+3V3.6' over 18.5099 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC1"
+      ],
+      "segment_ids": [
+        "CC1.5"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 2.842569260369989,
+        "start": [
+          2301.7842,
+          721.4182
+        ],
+        "end": [
+          2299.7742,
+          719.4082000000001
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 2.842569260369989,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 2.842569260369989,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 9.524305878273026,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'CC1.5' over 2.8426 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC1"
+      ],
+      "segment_ids": [
+        "CC1.6"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 15.190000000000055,
+        "start": [
+          2299.7742,
+          719.4082000000001
+        ],
+        "end": [
+          2284.5842,
+          719.4082000000001
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 15.190000000000055,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 15.190000000000055,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 11.671993863019907,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'CC1.6' over 15.19 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC1"
+      ],
+      "segment_ids": [
+        "CC1.7"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 2.842569260369667,
+        "start": [
+          2284.5842,
+          719.4082000000001
+        ],
+        "end": [
+          2282.5742,
+          721.4182
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 2.842569260369667,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 2.842569260369667,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 9.541276273153471,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'CC1.7' over 2.8426 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC1"
+      ],
+      "segment_ids": [
+        "CC1.8"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 45.15990000000011,
+        "start": [
+          2282.5742,
+          721.4282000000001
+        ],
+        "end": [
+          2237.4143,
+          721.4282000000001
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 35.57223333691352,
+        "corridor_length": 9.587666663086576,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 45.15990000000011,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 0.07978579701239141,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'CC1.8' over 35.5722 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-I2C_SCL"
+      ],
+      "segment_ids": [
+        "I2C_SCL.6"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 18.239900000000034,
+        "start": [
+          223.32940000000002,
+          1316.0067
+        ],
+        "end": [
+          223.32940000000002,
+          1334.2466
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 18.239900000000034,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 18.239900000000034,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": null,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'I2C_SCL.6' over 18.2399 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-I2C_SDA"
+      ],
+      "segment_ids": [
+        "I2C_SDA.12"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 9.690000000000282,
+        "start": [
+          223.32940000000002,
+          1375.4365000000003
+        ],
+        "end": [
+          223.32940000000002,
+          1365.7465
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 9.690000000000282,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 9.690000000000282,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": null,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'I2C_SDA.12' over 9.69 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.0"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 2.4500000000000455,
+        "start": [
+          2292.1742,
+          742.5581
+        ],
+        "end": [
+          2292.1742,
+          745.0081
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 2.4500000000000455,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 2.4500000000000455,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": null,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'USB_DP_CONN.0' over 2.45 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.4"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 2.3900209204105276,
+        "start": [
+          2292.1642,
+          745.0081
+        ],
+        "end": [
+          2290.4742,
+          746.6981
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 2.3900209204105276,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 2.3900209204105276,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": null,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'USB_DP_CONN.4' over 2.39 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.6"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 21.409899999999993,
+        "start": [
+          2236.2243,
+          649.9983
+        ],
+        "end": [
+          2236.2243,
+          628.5884
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 21.409899999999993,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 21.409899999999993,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 10.166911530921853,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'USB_DP_CONN.6' over 21.4099 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.7"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 4.978031739553269,
+        "start": [
+          2236.2243,
+          628.5884
+        ],
+        "end": [
+          2239.7443,
+          625.0684
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 4.978031739553269,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 4.978031739553269,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 15.727095565343589,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'USB_DP_CONN.7' over 4.978 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.8"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 4.769999999999982,
+        "start": [
+          2239.7443,
+          625.0684
+        ],
+        "end": [
+          2244.5143,
+          625.0684
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 4.769999999999982,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 4.769999999999982,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 18.082468189548674,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'USB_DP_CONN.8' over 4.77 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.9"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 11.24299782086633,
+        "start": [
+          2244.5143,
+          625.0684
+        ],
+        "end": [
+          2252.4643,
+          617.1184
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 11.24299782086633,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 11.24299782086633,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": null,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'USB_DP_CONN.9' over 11.243 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.1"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 4.610336213336116,
+        "start": [
+          2223.1544,
+          748.2681
+        ],
+        "end": [
+          2219.8944,
+          745.0081
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 4.610336213336116,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 4.610336213336116,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 11.602295818412957,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'VBUS_5V.1' over 4.6103 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-205",
+      "group": "E2",
+      "title": "No reference copper under the signal projection",
+      "severity": "error",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.2"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 7.962022356160599,
+        "start": [
+          2219.8844,
+          745.0081
+        ],
+        "end": [
+          2214.2544,
+          739.3781
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "void_length": 7.962022356160599,
+        "corridor_length": 0.0,
+        "wrong_net_length": 0.0,
+        "total_risk_length": 7.962022356160599,
+        "half_width": 13.0,
+        "declared_corridor": 8.0,
+        "min_edge_margin": 18.80301009482387,
+        "context_before": [],
+        "context_after": [],
+        "cause": "no_copper"
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "geometry_tolerance": 0.1,
+        "unit": "mil"
+      },
+      "explanation": "no reference copper under signal segment 'VBUS_5V.2' over 7.962 mil",
+      "recommendation": "Correct the declared reference or add the missing reference copper.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.1"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.8760088520690457,
+        "t1": 1.0,
+        "length": 10.997914610506669,
+        "start": [
+          284.4459999999999,
+          1287.9
+        ],
+        "end": [
+          276.6693,
+          1295.6767
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 6.919509885180105,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 10.997914610506669
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment '+3V3.1' is 6.9195 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-+3V3"
+      ],
+      "segment_ids": [
+        "+3V3.3"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.1386038196122269,
+        "length": 10.750084528360395,
+        "start": [
+          449.9989,
+          1232.9569
+        ],
+        "end": [
+          439.2488154716396,
+          1232.9569
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 7.624957735819805,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 10.750084528360395
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment '+3V3.3' is 7.625 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-BOOT"
+      ],
+      "segment_ids": [
+        "BOOT.0"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.22084629031062677,
+        "t1": 0.43724476558553255,
+        "length": 14.918467605756947,
+        "start": [
+          432.95889999999997,
+          815.2230990847565
+        ],
+        "end": [
+          432.95889999999997,
+          830.1415666905135
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 12.310106566988022,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 14.918467605756947
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'BOOT.0' is 12.3101 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC1"
+      ],
+      "segment_ids": [
+        "CC1.1"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 7.099352083112751,
+        "start": [
+          1977.945,
+          1074.9773
+        ],
+        "end": [
+          1982.9649999999997,
+          1079.9973
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 2.8574340707695143,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 7.099352083112751
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'CC1.1' is 2.8574 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-CC2"
+      ],
+      "segment_ids": [
+        "CC2.1"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.048864036258608586,
+        "t1": 0.6403464389700981,
+        "length": 54.555258991805836,
+        "start": [
+          2247.9173924416173,
+          844.7548026719792
+        ],
+        "end": [
+          2209.340969285014,
+          883.331166680342
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 2.9248177546917917,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 54.555258991805836
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'CC2.1' is 2.9248 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-I2C_SDA"
+      ],
+      "segment_ids": [
+        "I2C_SDA.2"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.9365425769549067,
+        "t1": 1.0,
+        "length": 20.527784669176484,
+        "start": [
+          467.1766846691765,
+          1346.7266
+        ],
+        "end": [
+          446.6489,
+          1346.7266
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 0.8329068032145258,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 20.527784669176484
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'I2C_SDA.2' is 0.8329 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-I2C_SDA"
+      ],
+      "segment_ids": [
+        "I2C_SDA.3"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.29731043219657205,
+        "length": 19.92137385925324,
+        "start": [
+          446.6489,
+          1346.7266
+        ],
+        "end": [
+          432.5623614535697,
+          1360.8131385464303
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 0.7062051746970952,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 19.92137385925324
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'I2C_SDA.3' is 0.7062 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DM_CONN"
+      ],
+      "segment_ids": [
+        "USB_DM_CONN.11"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.8570013593672929,
+        "t1": 1.0,
+        "length": 21.416849208104278,
+        "start": [
+          2471.1337,
+          831.6709507918957
+        ],
+        "end": [
+          2471.1337,
+          853.0878
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 8.495158879374166,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 21.416849208104278
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'USB_DM_CONN.11' is 8.4952 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DM_CONN"
+      ],
+      "segment_ids": [
+        "USB_DM_CONN.12"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 29.82569331985426,
+        "start": [
+          2471.1337,
+          853.0878
+        ],
+        "end": [
+          2450.0438,
+          874.1778
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 5.74581035250303,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 29.82569331985426
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'USB_DM_CONN.12' is 5.7458 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DM_CONN"
+      ],
+      "segment_ids": [
+        "USB_DM_CONN.13"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 0.8356380288183981,
+        "length": 42.3918336381543,
+        "start": [
+          2450.0438,
+          874.1778
+        ],
+        "end": [
+          2407.6519663618456,
+          874.1778
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 3.8466333196580536,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 42.3918336381543
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'USB_DM_CONN.13' is 3.8466 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.1"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.8786385501247812,
+        "t1": 1.0,
+        "length": 4.389631505841661,
+        "start": [
+          2329.8441,
+          752.9177315058416
+        ],
+        "end": [
+          2329.8441,
+          748.5281
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 12.27599292751061,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 4.389631505841661
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'USB_DP_CONN.1' is 12.276 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-USB_DP_CONN"
+      ],
+      "segment_ids": [
+        "USB_DP_CONN.2"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 4.978031739553269,
+        "start": [
+          2329.8441,
+          748.5281
+        ],
+        "end": [
+          2326.3241,
+          745.0081
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 8.223451567535394,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 4.978031739553269
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'USB_DP_CONN.2' is 8.2235 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.6"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.8735817980060444,
+        "t1": 1.0,
+        "length": 17.16627708147844,
+        "start": [
+          2234.1006770814784,
+          680.8783
+        ],
+        "end": [
+          2216.9344,
+          680.8783
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 6.930802928113853,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 17.16627708147844
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'VBUS_5V.6' is 6.9308 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-206",
+      "group": "E2",
+      "title": "Reference edge corridor insufficient under the signal",
+      "severity": "warning",
+      "determinism": "proven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.8"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "polygon_ids": [],
+      "via_ids": [],
+      "layer": "L2",
+      "interval": {
+        "t0": 0.0,
+        "t1": 1.0,
+        "length": 3.790092347160065,
+        "start": [
+          2214.2544,
+          683.5582999999999
+        ],
+        "end": [
+          2216.9344,
+          680.8783
+        ]
+      },
+      "unit": "mil",
+      "measured": {
+        "min_edge_clearance": 0.8616053548119845,
+        "required_half_width": 13.0,
+        "trace_half_width": 5.0,
+        "declared_corridor": 8.0,
+        "corridor_length": 3.790092347160065
+      },
+      "threshold": {
+        "half_width": 13.0,
+        "corridor": {
+          "value": 8.0,
+          "unit": "mil",
+          "source_ref": null,
+          "conditions": null,
+          "project_configured": true
+        },
+        "unit": "mil"
+      },
+      "explanation": "reference edge margin under segment 'VBUS_5V.8' is 0.8616 mil; required 13 mil (width/2 + declared corridor)",
+      "recommendation": "Widen the reference copper or move the trace away from the plane edge according to the interface requirement.",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    }
+  ],
+  "unknowns": [
+    {
+      "rule_id": "RP-E2-203",
+      "group": "E2",
+      "kind": "connectivity_unproven",
+      "signal_ids": [
+        "net-BOOT"
+      ],
+      "segment_ids": [
+        "BOOT.1"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "determinism": "unknown",
+      "reason": "geometric gap/void under segment 'BOOT.1'; geometry cannot prove the reference copper is electrically continuous around it",
+      "needed_evidence": "filled-copper connectivity evidence (same connectivity island) or a demonstrated electrical join",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-203",
+      "group": "E2",
+      "kind": "connectivity_unproven",
+      "signal_ids": [
+        "net-EN"
+      ],
+      "segment_ids": [
+        "EN.8"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "determinism": "unknown",
+      "reason": "geometric gap/void under segment 'EN.8'; geometry cannot prove the reference copper is electrically continuous around it",
+      "needed_evidence": "filled-copper connectivity evidence (same connectivity island) or a demonstrated electrical join",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-203",
+      "group": "E2",
+      "kind": "connectivity_unproven",
+      "signal_ids": [
+        "net-EN"
+      ],
+      "segment_ids": [
+        "EN.14"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "determinism": "unknown",
+      "reason": "geometric gap/void under segment 'EN.14'; geometry cannot prove the reference copper is electrically continuous around it",
+      "needed_evidence": "filled-copper connectivity evidence (same connectivity island) or a demonstrated electrical join",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-203",
+      "group": "E2",
+      "kind": "connectivity_unproven",
+      "signal_ids": [
+        "net-I2C_SCL"
+      ],
+      "segment_ids": [
+        "I2C_SCL.0"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "determinism": "unknown",
+      "reason": "geometric gap/void under segment 'I2C_SCL.0'; geometry cannot prove the reference copper is electrically continuous around it",
+      "needed_evidence": "filled-copper connectivity evidence (same connectivity island) or a demonstrated electrical join",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-203",
+      "group": "E2",
+      "kind": "connectivity_unproven",
+      "signal_ids": [
+        "net-I2C_SCL"
+      ],
+      "segment_ids": [
+        "I2C_SCL.4"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "determinism": "unknown",
+      "reason": "geometric gap/void under segment 'I2C_SCL.4'; geometry cannot prove the reference copper is electrically continuous around it",
+      "needed_evidence": "filled-copper connectivity evidence (same connectivity island) or a demonstrated electrical join",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-203",
+      "group": "E2",
+      "kind": "connectivity_unproven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.3"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "determinism": "unknown",
+      "reason": "geometric gap/void under segment 'VBUS_5V.3'; geometry cannot prove the reference copper is electrically continuous around it",
+      "needed_evidence": "filled-copper connectivity evidence (same connectivity island) or a demonstrated electrical join",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    },
+    {
+      "rule_id": "RP-E2-203",
+      "group": "E2",
+      "kind": "connectivity_unproven",
+      "signal_ids": [
+        "net-VBUS_5V"
+      ],
+      "segment_ids": [
+        "VBUS_5V.6"
+      ],
+      "copper_ids": [
+        "rc-reference"
+      ],
+      "via_ids": [],
+      "layer": "L2",
+      "determinism": "unknown",
+      "reason": "geometric gap/void under segment 'VBUS_5V.6'; geometry cannot prove the reference copper is electrically continuous around it",
+      "needed_evidence": "filled-copper connectivity evidence (same connectivity island) or a demonstrated electrical join",
+      "source_family": "R2",
+      "source_ids": [
+        "SRC-01",
+        "SRC-03",
+        "SRC-04"
+      ]
+    }
+  ],
+  "suggestions": [
+    "Move the void/antipad or the signal so the projection stays over continuous reference copper.",
+    "Extend the reference copper or move the signal inward; keep a declared corridor from plane edges.",
+    "Correct the declared reference or add the missing reference copper.",
+    "Widen the reference copper or move the trace away from the plane edge according to the interface requirement."
+  ],
+  "evidence_sources": [
+    {
+      "publisher": "Texas Instruments",
+      "title": "SLLA414 — High-Speed Interface Layout Guidelines (high-speed differential, via, return path, ESD sections as recorded in project reference G06)",
+      "url": "https://www.ti.com/lit/an/slla414/slla414.pdf",
+      "revision": "SLLA414 (revision not re-verified in this run)",
+      "verification": "V2/V3: URL resolves (HTTP 200, application/pdf); PDF body and page numbers not machine-readable here; already cited by the project reference register (design-experience.md G06).",
+      "conditions": "Applies to the interfaces/data rates the document itself covers; qualitative layout guidance only, not a universal numeric standard.",
+      "evidence_kind": "qualitative",
+      "families": [
+        "R2",
+        "R3",
+        "R4"
+      ],
+      "id": "SRC-01"
+    },
+    {
+      "publisher": "AMD (Xilinx)",
+      "title": "UG583 — UltraScale Architecture PCB Design User Guide",
+      "url": "https://docs.amd.com/v/u/en-US/ug583-ultrascale-pcb-design",
+      "revision": "UG583 (page reachable; revision text not extractable here)",
+      "verification": "V2: URL resolves (HTTP 200) but the page is a JS document viewer; body not extractable in this environment.",
+      "conditions": "UltraScale devices/interfaces only; not automatically applicable to other devices or interfaces.",
+      "evidence_kind": "qualitative",
+      "families": [
+        "R1",
+        "R2",
+        "R3"
+      ],
+      "id": "SRC-03"
+    },
+    {
+      "publisher": "IPC / Global Electronics Association",
+      "title": "IPC-2221 — Generic Standard on Printed Board Design (standard family; exact revision letter not re-verified)",
+      "url": "https://www.ipc.org/ipc-standards",
+      "revision": "paywalled; revision not verified in this run",
+      "verification": "V0: paid standard, body not accessed. Cited only as the industry design-standard entry point; no threshold is taken from it.",
+      "conditions": "Background reference only; never used for any numeric threshold.",
+      "evidence_kind": "background",
+      "families": [
+        "R1",
+        "R2"
+      ],
+      "id": "SRC-04"
+    }
+  ],
+  "run": {
+    "simulated": true,
+    "real_eda": "NOT RUN",
+    "network": "NOT USED",
+    "environment": {
+      "tool": "return_path_audit",
+      "tool_version": "0.1.0"
+    }
+  },
+  "limits": [
+    "Only straight segments, circular vias and simple polygonal copper (with holes) are supported in v1.",
+    "Arcs, curved copper, thermal-relief spoke geometry and native pour results are not modelled; declared unsupported objects stay unknown.",
+    "Copper geometry is the projected same-XY footprint; layer-to-layer registration error is covered only by board.geometry_tolerance.",
+    "No electrical simulation or measurement was performed."
+  ]
+}

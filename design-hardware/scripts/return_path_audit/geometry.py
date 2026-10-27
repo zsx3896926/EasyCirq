@@ -225,12 +225,15 @@ def _segment_intersection_params(p0, p1, a, b, tolerance):
     return []
 
 
-def coverage_breakpoints(p0, p1, half_width, regions, tolerance, extra_regions=None):
+def coverage_breakpoints(p0, p1, half_width, regions, tolerance, extra_regions=None,
+                         limit=None):
     """All parameters where coverage classification could change.
 
     ``regions`` is a sequence of ``(outer_ring, [hole_rings])``.  ``extra_regions``
     (context copper of other nets) only contributes edge crossings, because their
-    membership changes the void/other-net classification.
+    membership changes the void/other-net classification.  ``limit`` is the
+    segment bbox expanded by the required half-width: edges outside it cannot
+    influence classification, so they are skipped (semantics unchanged).
 
     * centreline/edge crossings (inside/outside changes)
     * ``dist(centreline, edge line) == half_width`` (strip boundary)
@@ -244,16 +247,18 @@ def coverage_breakpoints(p0, p1, half_width, regions, tolerance, extra_regions=N
             for index in range(len(ring_pts) - 1):
                 a = ring_pts[index]
                 b = ring_pts[index + 1]
+                if limit is not None and not bbox_overlap(_edge_bbox(a, b), limit, 0.0):
+                    continue
                 breaks.update(_segment_intersection_params(p0, p1, a, b, tolerance))
                 ux, uy = b[0] - a[0], b[1] - a[1]
                 edge_len = math.hypot(ux, uy)
                 if edge_len > tolerance:
                     c0 = (p0[0] - a[0]) * uy - (p0[1] - a[1]) * ux
                     c1 = dx * uy - dy * ux
-                    limit = half_width * edge_len
+                    limit_len = half_width * edge_len
                     if abs(c1) > tolerance:
-                        breaks.add((-c0 + limit) / c1)
-                        breaks.add((-c0 - limit) / c1)
+                        breaks.add((-c0 + limit_len) / c1)
+                        breaks.add((-c0 - limit_len) / c1)
                 vx, vy = p0[0] - a[0], p0[1] - a[1]
                 aa = dx * dx + dy * dy
                 bb = 2.0 * (vx * dx + vy * dy)
@@ -262,6 +267,9 @@ def coverage_breakpoints(p0, p1, half_width, regions, tolerance, extra_regions=N
     for region in extra_regions or []:
         for ring_pts in [region["outer"]] + list(region["holes"]):
             for index in range(len(ring_pts) - 1):
+                if limit is not None and not bbox_overlap(
+                        _edge_bbox(ring_pts[index], ring_pts[index + 1]), limit, 0.0):
+                    continue
                 breaks.update(_segment_intersection_params(
                     p0, p1, ring_pts[index], ring_pts[index + 1], tolerance))
     clamped = [0.0, 1.0]
@@ -271,19 +279,39 @@ def coverage_breakpoints(p0, p1, half_width, regions, tolerance, extra_regions=N
     return sorted(set(clamped))
 
 
-def inside_union(pt, regions):
+def _edge_bbox(a, b):
+    return (min(a[0], b[0]), min(a[1], b[1]), max(a[0], b[0]), max(a[1], b[1]))
+
+
+def _region_bbox(region):
+    cached = region.get("bbox")
+    if cached is None:
+        cached = ring_bbox(region["outer"])
+        region["bbox"] = cached
+    return cached
+
+
+def inside_union(pt, regions, limit=None):
     for region in regions:
+        if limit is not None and not bbox_overlap(_region_bbox(region), limit, 0.0):
+            continue
+        if not bbox_contains(_region_bbox(region), pt, 0.0):
+            continue
         if region_contains(pt, region["outer"], region["holes"]):
             return True
     return False
 
 
-def nearest_boundary(pt, regions, tolerance=1e-12):
+def nearest_boundary(pt, regions, tolerance=1e-12, limit=None):
     """Distance from ``pt`` to the nearest *union* copper boundary edge.
 
     Edges that are interior seams (copper on both sides, e.g. two same-net
     polygons sharing an edge, or a hole covered by an overlapping polygon) are
     not copper boundaries and must not reduce the usable corridor.
+
+    ``limit`` restricts the scan to edges whose bbox overlaps it; callers pass
+    the segment bbox expanded by the required half-width, which is exact because
+    farther edges cannot be closer than the required corridor.
 
     Returns ``(distance, detail)`` where detail names the responsible region
     and ring kind so findings can point at a concrete copper object.
@@ -291,16 +319,20 @@ def nearest_boundary(pt, regions, tolerance=1e-12):
     best = (math.inf, None)
     epsilon = max(1e-9, min(tolerance * 0.001, 1e-4))
     for region in regions:
+        if limit is not None and not bbox_overlap(_region_bbox(region), limit, 0.0):
+            continue
         outer = region["outer"]
         rings = [(outer, "outer")] + [(hole, "hole") for hole in region["holes"]]
         for ring_pts, kind in rings:
             for index in range(len(ring_pts) - 1):
                 a = ring_pts[index]
                 b = ring_pts[index + 1]
+                if limit is not None and not bbox_overlap(_edge_bbox(a, b), limit, 0.0):
+                    continue
                 distance = point_segment_distance(pt, a, b)
                 if distance >= best[0] - tolerance:
                     continue
-                if _is_interior_seam(a, b, regions, epsilon):
+                if _is_interior_seam(a, b, regions, epsilon, limit):
                     continue
                 best = (distance, {
                     "region_id": region.get("id"),
@@ -311,7 +343,7 @@ def nearest_boundary(pt, regions, tolerance=1e-12):
     return best
 
 
-def _is_interior_seam(a, b, regions, epsilon):
+def _is_interior_seam(a, b, regions, epsilon, limit=None):
     """True when both sides of edge a-b are union copper (an interior seam)."""
     dx, dy = b[0] - a[0], b[1] - a[1]
     length = math.hypot(dx, dy)
@@ -319,8 +351,8 @@ def _is_interior_seam(a, b, regions, epsilon):
         return False
     nx, ny = -dy / length, dx / length
     mx, my = (a[0] + b[0]) / 2.0, (a[1] + b[1]) / 2.0
-    side_one = inside_union((mx + nx * epsilon, my + ny * epsilon), regions)
-    side_two = inside_union((mx - nx * epsilon, my - ny * epsilon), regions)
+    side_one = inside_union((mx + nx * epsilon, my + ny * epsilon), regions, limit)
+    side_two = inside_union((mx - nx * epsilon, my - ny * epsilon), regions, limit)
     return side_one and side_two
 
 
@@ -328,6 +360,8 @@ def interval_context(pt, regions, tolerance):
     """Which copper regions contain ``pt`` (used to explain a gap)."""
     found = []
     for region in regions:
+        if not bbox_contains(_region_bbox(region), pt, tolerance):
+            continue
         if region_contains(pt, region["outer"], region["holes"]):
             found.append(region.get("id"))
     return found
@@ -353,8 +387,11 @@ def coverage_intervals(p0, p1, half_width, regions, tolerance, context_regions=N
     """
     length = math.hypot(p1[0] - p0[0], p1[1] - p0[1])
     context_regions = context_regions if context_regions is not None else regions
+    margin = half_width + tolerance
+    limit = (min(p0[0], p1[0]) - margin, min(p0[1], p1[1]) - margin,
+             max(p0[0], p1[0]) + margin, max(p0[1], p1[1]) + margin)
     breaks = coverage_breakpoints(p0, p1, half_width, regions, tolerance,
-                                  extra_regions=context_regions)
+                                  extra_regions=context_regions, limit=limit)
     coverage_ids = {region["id"] for region in regions}
     intervals = []
     for index in range(len(breaks) - 1):
@@ -366,7 +403,7 @@ def coverage_intervals(p0, p1, half_width, regions, tolerance, context_regions=N
         mid_t = (t0 + t1) / 2.0
         mid = (p0[0] + mid_t * (p1[0] - p0[0]), p0[1] + mid_t * (p1[1] - p0[1]))
         inside = interval_context(mid, regions, tolerance)
-        distance, detail = nearest_boundary(mid, regions, tolerance)
+        distance, detail = nearest_boundary(mid, regions, tolerance, limit=limit)
         if inside:
             if distance >= half_width + tolerance:
                 state = "safe"

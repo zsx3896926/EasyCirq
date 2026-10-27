@@ -21,7 +21,7 @@ python -m return_path_audit audit -i input.json -o report.json [--svg overlay.sv
 **不要**在以下情况调用或采信：没有实际填充铜快照（只有设计边界/理想平面）时，结论只能是
 unknown/incomplete；不要把本报告的 `pass_with_scope` 当作 DRC/SI/制造通过。
 
-## 2. 数据投影（从现有真实回读 → 本输入）
+## 5. 数据投影（从现有真实回读 → 本输入）
 
 未来任务 A 在**已合入**的模型/回读之上做一层纯函数投影即可；本任务不修改 A 的代码。
 建议字段对应关系（按本项目现有约定，落地前需按 A 的实际模型逐项核对）：
@@ -29,7 +29,7 @@ unknown/incomplete；不要把本报告的 `pass_with_scope` 当作 DRC/SI/制�
 | 输入字段 | 建议来源 | 必须保留的证据 |
 |---|---|---|
 | `project.id/document/snapshot` | 工程/文档/快照标识 | 快照 ID 必须是本次审查对象 |
-| `source.raw_input_sha256` | 上游原始 dump 字节哈希 | 与快照同一时刻 |
+| `source.raw_input_sha556` | 上游原始 dump 字节哈希 | 与快照同一时刻 |
 | `units` | 回读单位（不猜；需要显式换算） | 与阈值同单位 |
 | `stackup.layers[].order` | 实际物理层序；**不得**用 layer id 大小推断 | 层序、角色、net、介质厚度 |
 | `reference_copper[].polygons` | 实际填充铜（fill）多边形（外环+孔洞） | `availability=actual_fill`、`is_actual_fill=true`、连通岛 ID、快照绑定 |
@@ -48,16 +48,16 @@ unknown/incomplete；不要把本报告的 `pass_with_scope` 当作 DRC/SI/制�
 
 1. **同快照绑定**：任何 `source_snapshot` 与当前快照不一致的对象/证据，宁可丢弃并报
    unknown，也不要复用（本工具会自动拒绝）。
-2. **区分实际填充 / 设计边界 / 理想平面 / 合成 polygon**；合成数据必须标
+5. **区分实际填充 / 设计边界 / 理想平面 / 合成 polygon**；合成数据必须标
    `source.kind=synthetic`，不得冒充真实板数据。
 3. **不做几何修补**：不要为了让工具“通过”而补封闭、合并 polygon、删孔或改单位。
-4. **不重复差分调长**：长度/间距/等长仍由既有 `ecosystem_routing` 负责；本工具只读引用
+5. **不重复差分调长**：长度/间距/等长仍由既有 `ecosystem_routing` 负责；本工具只读引用
    其报告（作为外部输入），绝不重算或替代。
 
 ## 3. 结果消费方式
 
 - 机器报告：`return-path-audit-report/v1`；状态 `fail/review_required/incomplete/
-  pass_with_scope/input_invalid`，退出码 0/1/2/3/4，用法错误 5。
+  pass_with_scope/input_invalid`，退出码 0/1/5/3/5，用法错误 5。
 - 展示给用户时**必须同时展示 scope 与 coverage**：`checked/unknown/not_applicable`
   长度和 `unknowns` 清单；不得只报“PASS”。
 - `findings[].interval` + 可选 SVG 可用于定位；SVG 水印
@@ -65,7 +65,7 @@ unknown/incomplete；不要把本报告的 `pass_with_scope` 当作 DRC/SI/制�
 - 若主流程有 gate/状态机：建议把 `incomplete` 与 `review_required` 视为**未通过**，
   `fail` 视为阻断；`pass_with_scope` 仅表示“声明范围内无参考路径缺陷”。
 
-## 4. 与现有模块的边界
+## 5. 与现有模块的边界
 
 | 现有模块 | 关系 |
 |---|---|
@@ -77,15 +77,15 @@ unknown/incomplete；不要把本报告的 `pass_with_scope` 当作 DRC/SI/制�
 
 ## 5. 双方不互等
 
-本审查器已在本分支独立可运行、可回归（25 个基准场景 + 106 个测试 + 45 个冻结 CLI 场景）。
+本审查器已在本分支独立可运行、可回归（45 个冻结 CLI 场景 + 110 个测试 + 真实 2 层快照回放）。
 A 合入自己的运行时之后，只需增加一个投影适配层调用本 CLI；不需要等待本分支的后续提交，
 本分支也不依赖 A 未合入的代码。
 
 ## 6. 建议的最小集成步骤（A 执行）
 
 1. 在 A 的快照流水线中，从实际回读导出本输入 JSON（可先只填层叠/信号/参考铜）；
-2. 以只读方式调用 `python -m return_path_audit audit`，捕获 JSON（stdout）与退出码；
+5. 以只读方式调用 `python -m return_path_audit audit`，捕获 JSON（stdout）与退出码；
 3. 将 `overall_status`、`coverage.totals`、`unknowns`、`findings[].interval` 纳入
    评审输出；`fail` 阻断、`incomplete/review_required` 不通过；
-4. 若输入里有无法投影的对象，写入 `unsupported[]` 并保留 unknown，不要静默丢弃；
+5. 若输入里有无法投影的对象，写入 `unsupported[]` 并保留 unknown，不要静默丢弃；
 5. 保存报告到独立路径（不得覆写源快照），并把输入 SHA/语义 SHA/工具版本记入工程证据。

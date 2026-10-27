@@ -8,7 +8,7 @@
 
 - 交付一个可独立运行的审查器：`python -m return_path_audit validate|audit|explain`。
 - 五组检查 E1–E5 全部实现，含严格输入校验、证据绑定/陈旧拒绝、覆盖与未知传播。
-- 45 个冻结 CLI 场景 45/45 通过；本包 106 个测试、全仓 1889 个测试全绿。
+- 45 个冻结 CLI 场景 45/45 通过；本包 110 个测试、全仓 1893 个测试全绿。
 - 结论语义保守：`pass_with_scope` 只表示“声明范围内未发现参考路径几何/拓扑缺陷”，
   **不**代表阻抗、SI/EMI、DRC、制造或硬件功能通过；候选回流只到 `potential_candidate`。
 
@@ -17,8 +17,8 @@
 | 路径 | 内容 |
 |---|---|
 | `design-hardware/scripts/return_path_audit/` | CLI、严格校验模型、几何内核、E1–E5 检查、报告/原子写、SVG 叠加、来源注册 |
-| `tests/return_path_audit/` | 106 个测试：几何、校验、五组行为、CLI 契约、变形、对抗、4 个 holdout |
-| `benchmarks/return-path-audit/` | 45 个冻结场景（含 8 个非法输入）+ 生成器 + runner + result.json |
+| `tests/return_path_audit/` | 110 个测试：几何、校验、五组行为、CLI 契约、变形、对抗、4 个 holdout、真实快照回放 |
+| `benchmarks/return-path-audit/` | 45 个冻结场景（含 8 个非法输入）+ 生成器 + runner + result.json + **真实快照回放**（2 层，见 §5.1） |
 | `docs/parallel-return-path-audit/` | 契约、几何支持、来源登记、验收矩阵、本报告、集成建议、交接、issue 候选 |
 
 未修改任何公共文件（SKILL.md、references、README/CHANGELOG/版本、runtime/connector/protocol、
@@ -51,14 +51,18 @@ distribution、CI、顶层依赖、feedback、compose、design_engine、ecosyste
 7. **同一 copper 对象内的多 polygon 未做相接/重叠检查**；已覆盖（含 `same_object` 标记）。
 8. **E5-502 重复计数**：一个 unsupported 条目同时声明 signal+segment 时产生两条 unknown；
    已改为每对象一条，并让 `kind != straight` 也产生 `RP-E5-502`。
+9. **真实大铺铜性能**：真实快照的参考铜有数百条边，原实现逐段做 O(E²) 全量扫描
+   （真实 2 层板 134 s）。加入“线段半宽范围 bbox 预裁剪”（语义等价：范围外的边不可能
+   进入走廊）后降到 **1.8 s**，规则/状态/覆盖不变（仅移除远处边产生的伪断点，风险区间
+   端点有亚 mil 级数值差异）。
 
 ## 5. 基准与测试结果（本机实测）
 
 | 项目 | 结果 |
 |---|---|
-| 基准场景 | **45/45 通过**，总耗时 **5.15 s**（单进程逐场景） |
-| 本包测试 | **106 tests OK**（`-s tests/return_path_audit`，12.2 s） |
-| 全仓测试 | **1889 tests OK**（`-s tests`，128.1 s） |
+| 基准场景 | **45/45 通过**，总耗时 **7.07 s**（单进程逐场景） |
+| 本包测试 | **110 tests OK**（`-s tests/return_path_audit`，26.3 s） |
+| 全仓测试 | **1893 tests OK**（`-s tests`，145.4 s） |
 | 运行环境 | Python 3.13.15 / Windows 11（`result.json` 记录完整环境） |
 | 标志 | `simulated=true`、`real_eda=NOT RUN`、`network=NOT USED` |
 | 冻结 | 每场景记录输入字节 SHA256、语义 SHA256、期望/观察状态、规则集、覆盖、逐场景耗时 |
@@ -67,6 +71,34 @@ distribution、CI、顶层依赖、feedback、compose、design_engine、ecosyste
 mm/mil、非标准四层、正确回流候选、跨度不足、错网、未连接、陈旧证据、参考网变化（含电容）、
 差分单边跨缝、不同参考、非对称换层、pour boundary、弧线/unsupported、空路径、
 missing via、8 类非法输入，以及“固定稀疏采样会漏掉窄缝”的专门反例。
+
+### 5.1 真实快照回放（REAL data replay，2 层）
+
+任务原本要求“能拿到合法真实工程快照则只读重放”。本轮核实：
+**仓库内所有真实 EDA 回读快照，以及本机 EasyEDA Pro 的 6 个真实工程备份，全部是 2 层板**
+（`copperLayers: 2`，仅 TOP/BOTTOM 铜层；`dual-scope-*` 工程尚未布线）。
+**本机没有任何真实四层板数据**，因此不能用真实四层板回放，也不会用合成/示意图数据冒充。
+
+已完成的真实数据回放（明确标注 2 层）：
+
+| 项 | 值 |
+|---|---|
+| 原始快照 | `design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`（真实 `easyeda pcb dump`） |
+| 工程/快照 | `mcu-i2c-s3-20261026` / `mcu-i2c-s3-20261026:40b81985cfb4a5ed:2026-10-26T13:40:13Z` |
+| 原始字节 SHA256 | `db7521f2883346f0d70126047927f2cf6a61343374c2e0cb71869649aa3a57fe` |
+| 投影 | 真实 BOTTOM GND 实际填充铺铜（1 外环 + 8 孔，圆弧 ≤0.05 mil 离散）→ 参考铜；顶层 12 网 142 段真实走线；16 个真实过孔 |
+| 结果 | **`fail`（exit 1）**；覆盖 142 段 / 307.0 mm；55 findings（41 error / 14 warning），7 unknown |
+| 规则分布 | `RP-E2-202` 7、`RP-E2-204` 17、`RP-E2-205` 17、`RP-E2-206` 14 |
+| 独立核对 | 抽查区间中点确认落在真实 GND 铺铜孔洞/边界内（如 BOOT (471.3,907.3) ∈ 孔洞#0），非解析假象 |
+| 工程含义 | 2 层板底层走线/焊盘在底层 GND 铺铜刻出避让通道，顶层信号跨过时参考不连续——普通 DRC/等长检查看不到 |
+
+产物：`benchmarks/return-path-audit/real-replay/`（input / report / overlay.svg / README），
+投影器 `benchmarks/return-path-audit/replay_real_dump.py`，回归
+`tests/return_path_audit/test_real_replay.py`。
+
+**这不是四层板验证**：仅顶层走线建模，底层 22 段走线未审计；过孔连接证据缺失，换层回流
+（E3）未产生结论；圆弧为声明容差的离散近似。拿到真实四层板 dump 后，用同一投影器加
+`--stackup-json` 指定 4 层物理顺序即可重放（见 real-replay/README.md）。
 
 ## 6. 证据与未知语义（本任务的核心价值）
 
@@ -82,7 +114,8 @@ missing via、8 类非法输入，以及“固定稀疏采样会漏掉窄缝”�
 | 项目 | 状态 |
 |---|---|
 | 真实 EDA / Connector / 宿主窗口 | `NOT RUN`（任务禁止） |
-| 真实工程快照重放 | `NOT RUN`（未取得合法真实四层板快照；不使用原厂示意图转写的合成 JSON 冒充真实板） |
+| 真实 **2 层** 工程快照回放 | **DONE**（§5.1，真实 `easyeda pcb dump`，非合成） |
+| 真实 **4 层** 工程快照回放 | **NOT AVAILABLE**：本轮核实本机与仓库均无真实四层板快照（全部为 2 层）；不伪造、不用示意图转写冒充 |
 | SI/EMI/阻抗/眼图/串扰仿真 | `NOT RUN`（非目标） |
 | DRC/DFM/Gerber/制造/功能验收 | `NOT RUN`（非目标；不宣称） |
 | 独立第三方盲测 | 无；holdout 由独立测试作者基于几何/契约编写，不宣称外部盲测 |

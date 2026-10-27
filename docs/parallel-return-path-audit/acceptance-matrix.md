@@ -73,7 +73,18 @@
 声明：**没有独立第三方盲测**。holdout 由本会话的独立测试作者基于几何与契约编写，
 不是外部评审；预期由几何推理给出，不是从工具输出倒填。
 
-## 7. 未覆盖/未运行
+## 7. 真实快照回放（REAL data replay）
+
+| 证据 | 内容 |
+|---|---|
+| 原始数据 | `design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`（真实 `easyeda pcb dump`，**2 层板**） |
+| 投影器 | `benchmarks/return-path-audit/replay_real_dump.py`（只读；圆弧 ≤0.05 mil 离散并声明） |
+| 产物 | `benchmarks/return-path-audit/real-replay/`：input / report / overlay.svg / README |
+| 结果 | `fail`（exit 1）；142 段 / 307.0 mm checked；55 findings（41 error/14 warning）、7 unknown |
+| 回归 | `tests/return_path_audit/test_real_replay.py`（4 tests；真实 dump 缺失时 skip） |
+| 边界 | 仅 2 层；只建模顶层走线；过孔连接证据缺失；**不是四层板验证** |
+
+## 8. 未覆盖/未运行
 
 | 项目 | 状态 |
 |---|---|

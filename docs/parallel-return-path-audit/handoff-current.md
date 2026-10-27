@@ -15,8 +15,8 @@
 | 路径 | 内容 |
 |---|---|
 | `design-hardware/scripts/return_path_audit/` | 审查器包（CLI/校验/几何/五组检查/报告/SVG/来源） |
-| `tests/return_path_audit/` | 106 个测试（核心 4 模块 + 变形/对抗/holdout 3 模块 + support） |
-| `benchmarks/return-path-audit/` | 45 个冻结 CLI 场景、生成器、runner、result.json |
+| `tests/return_path_audit/` | 110 个测试（核心/变形/对抗/holdout + 真实快照回放回归） |
+| `benchmarks/return-path-audit/` | 45 个冻结 CLI 场景、生成器、runner、result.json；`real-replay/` 真实 2 层快照回放 + `replay_real_dump.py` |
 | `docs/parallel-return-path-audit/` | contract / geometry-support / source-register / acceptance-matrix / report / integration-proposal / handoff / issue-candidates |
 
 ## 运行方式
@@ -32,6 +32,12 @@ python -m return_path_audit explain  --report report.json
 python -m unittest discover -s tests -v                    # 全仓（含本包）
 python -m unittest discover -s tests/return_path_audit -v  # 仅本包
 python benchmarks/return-path-audit/run_benchmark.py       # 45 场景
+
+# 3) 真实快照回放（2 层真实板；四层数据到手后用 --stackup-json）
+python benchmarks/return-path-audit/replay_real_dump.py \
+  --dump design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json \
+  --signal-layer 1 --reference-layer 2 --units mil --corridor 8 \
+  --out benchmarks/return-path-audit/real-replay/real-2layer-mcu-i2c.input.json
 ```
 
 退出码：0 `pass_with_scope`、1 `fail`、2 `review_required`、3 `incomplete`、
@@ -41,20 +47,24 @@ python benchmarks/return-path-audit/run_benchmark.py       # 45 场景
 
 | 项目 | 结果 |
 |---|---|
-| 全仓测试 | 见 `report.md`（最终一次运行记录）；本包 106 tests OK，两种发现模式 |
+| 全仓测试 | 见 `report.md`（最终一次运行记录）；本包 110 tests OK，两种发现模式 |
 | 基准 | 45/45 场景通过；无 EDA、无网络 |
-| 真实 EDA / 真实工程快照重放 | `NOT RUN`（本任务禁止 EDA；未取得合法真实四层板快照，不伪造） |
+| 真实快照回放 | **2 层真实板 DONE**（`real-replay/`：fail，55 findings，307.0 mm checked）；**真实四层板 NOT AVAILABLE**（本机/仓库均无真实四层快照） |
+| 真实 EDA / 真实四层快照重放 | `NOT RUN`（本任务禁止 EDA；未取得合法真实四层板快照，不伪造） |
 | SI/EMI/阻抗/DRC/制造/功能 | `NOT RUN`（非目标） |
 | 一手资料页码核验 | 部分 `V2/V3`，未核验页/节（环境不能解析 PDF，见 source-register） |
 
 ## 已知限制（必须向下游说明）
 
 1. 只支持直线段、圆形过孔、简单多边形（含孔洞）；弧线/原生铺铜/热焊盘 → unknown。
+   真实快照回放中，圆弧参考铜按 ≤0.05 mil 弦高离散，属于声明近似。
 2. 几何不能证明电连接：同网相接/微缝、via 与铜的连接证据不足时只会是
    `potential_candidate`/unknown；**永不**输出 `recovered_return_path=true`。
 3. 所有数值阈值都是项目/接口配置（`project_configured`），本轮没有一手数值依据。
 4. `pass_with_scope` 只代表“声明范围内未发现参考路径几何/拓扑缺陷”。
 5. SVG 是本地分析叠加图（`synthetic_analysis / not_official_export`），非官方导图。
+6. 真实回放目前只有 **2 层板**；四层板需要外部提供真实 dump（本机不存在），
+   且四层板的参考层/信号层映射必须由 `--stackup-json` 显式声明。
 
 ## 给后续任务（A/B/C/D）的边界
 
