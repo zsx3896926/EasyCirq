@@ -1,0 +1,3 @@
+    TYPE       NAME                      UUID
+    pcb        PCB1                      99b8366b0bdc971f
+    schematic  P1                        cd008f919db36eba

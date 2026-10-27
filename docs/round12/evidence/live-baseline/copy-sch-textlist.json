@@ -1,0 +1,132 @@
+{
+  "id": "req_16048",
+  "type": "response",
+  "version": "v1",
+  "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+  "createdAt": "2026-10-27T01:40:33.5783542Z",
+  "ok": true,
+  "result": {
+    "count": 8,
+    "scope": "activePage",
+    "texts": [
+      {
+        "bold": false,
+        "color": "#AA00AA",
+        "content": "5V输入、反接保护、10µF+100nF去耦",
+        "fontName": null,
+        "fontSize": 13,
+        "italic": false,
+        "primitiveId": "26b89259608f1dd1",
+        "rotation": 0,
+        "x": 722,
+        "y": 778
+      },
+      {
+        "bold": false,
+        "color": "#AA00AA",
+        "content": "GL5528与4.7k分压，C4滤波；光照越强电压越高",
+        "fontName": null,
+        "fontSize": 13,
+        "italic": false,
+        "primitiveId": "7000fc9074f2508d",
+        "rotation": 0,
+        "x": 42,
+        "y": 778
+      },
+      {
+        "bold": false,
+        "color": "#AA00AA",
+        "content": "TL431 2.495V；RV1调阈值、R4正反馈",
+        "fontName": null,
+        "fontSize": 13,
+        "italic": false,
+        "primitiveId": "0149dca70e8c886d",
+        "rotation": 0,
+        "x": 250,
+        "y": 528
+      },
+      {
+        "bold": false,
+        "color": "#AA00AA",
+        "content": "S8050驱动LED；R7限流约7.4mA",
+        "fontName": null,
+        "fontSize": 13,
+        "italic": false,
+        "primitiveId": "774affad16c0750a",
+        "rotation": 0,
+        "x": 722,
+        "y": 528
+      },
+      {
+        "bold": false,
+        "color": "#AA00AA",
+        "content": "1 供电去耦",
+        "fontName": null,
+        "fontSize": 13,
+        "italic": false,
+        "primitiveId": "2c8ee0d84ef56500",
+        "rotation": 0,
+        "x": 482,
+        "y": 792
+      },
+      {
+        "bold": false,
+        "color": "#AA00AA",
+        "content": "2 光敏检测",
+        "fontName": null,
+        "fontSize": 13,
+        "italic": false,
+        "primitiveId": "ed1db1e2379b6cfd",
+        "rotation": 0,
+        "x": 42,
+        "y": 792
+      },
+      {
+        "bold": false,
+        "color": "#AA00AA",
+        "content": "3 阈值迟滞",
+        "fontName": null,
+        "fontSize": 13,
+        "italic": false,
+        "primitiveId": "68ca4704edfed066",
+        "rotation": 0,
+        "x": 42,
+        "y": 556
+      },
+      {
+        "bold": false,
+        "color": "#AA00AA",
+        "content": "4 LED驱动",
+        "fontName": null,
+        "fontSize": 13,
+        "italic": false,
+        "primitiveId": "cc78e803de9e9c18",
+        "rotation": 0,
+        "x": 482,
+        "y": 552
+      }
+    ]
+  },
+  "context": {
+    "projectUuid": "0433fb040b2a46bb9991ac0a747cf2d4",
+    "projectName": "r12-feedback-photo-20261027",
+    "documentUuid": "cd008f919db36eba",
+    "documentType": "schematic",
+    "tabId": "cd008f919db36eba@0433fb040b2a46bb9991ac0a747cf2d4",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "0433fb040b2a46bb9991ac0a747cf2d4",
+    "projectName": "r12-feedback-photo-20261027",
+    "documentUuid": "cd008f919db36eba",
+    "documentType": "schematic",
+    "tabId": "cd008f919db36eba@0433fb040b2a46bb9991ac0a747cf2d4",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 12570,
+  "seqAbandoned": 1,
+  "abandonedIds": [
+    "req_7249"
+  ]
+}

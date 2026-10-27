@@ -99,8 +99,11 @@ def import_sweep():
         if path.name == '__init__.py':
             continue
         name = 'hds_sweep_' + '_'.join(path.relative_to(SCRIPTS).with_suffix('').parts)
-        module_name = '.'.join(('design_engine', path.stem)) \
-            if path.parent.name == 'design_engine' else path.stem
+        relative = path.relative_to(SCRIPTS).with_suffix('')
+        # Any subpackage (design_engine, feedback, ...) is imported by its
+        # dotted path; a top-level script keeps its stem.
+        module_name = '.'.join(relative.parts) if len(relative.parts) > 1 \
+            else path.stem
         try:
             __import__(module_name)
             results.append({'module': module_name, 'status': 'ok'})

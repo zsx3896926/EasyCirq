@@ -1,0 +1,150 @@
+{
+ "schema": "hds-case/v1",
+ "created_at": "2026-10-27T02:59:39.264504Z",
+ "tool_version": "1.0.0",
+ "id": "pcb-locked-connector-preserve-photo-led",
+ "version": 1,
+ "goal": "保留锁定连接器 J1、板框与安装孔，只移动指定相邻器件/局部铜",
+ "applies_when": {
+  "power_w": {
+   "min": 0,
+   "max": 5
+  },
+  "interfaces": [
+   "KF301-2P",
+   "2-pin-terminal"
+  ],
+  "topologies": [
+   "edge-connector"
+  ],
+  "footprints": [
+   "KF301-2P"
+  ],
+  "layers": [
+   2
+  ],
+  "process": "JLC 2-layer 1.6mm",
+  "tags": [
+   "pcb",
+   "mechanical",
+   "locked-interface",
+   "local-edit"
+  ],
+  "device": {
+   "designator": "J1"
+  }
+ },
+ "does_not_apply_when": [
+  "J1 不是锁定件，或用户要求改连接器位置/朝向",
+  "板框、安装孔或禁布区需要修改",
+  "目标修改需要跨到连接器所在网络或区域"
+ ],
+ "inputs": [
+  {
+   "kind": "file",
+   "role": "before-board",
+   "path": "tests/fixtures/feedback/board-before.json"
+  },
+  {
+   "kind": "file",
+   "role": "before-check",
+   "path": "docs/round12/evidence/live-baseline/copy-pcb-check-before.json"
+  }
+ ],
+ "provenance": {
+  "source_project": "photo-led-pcb-20261026",
+  "source_case": "round12-offline",
+  "artifacts": [
+   "tests/fixtures/feedback/board-before.json",
+   "tests/fixtures/feedback/schematic-before.json",
+   "benchmarks/offline-round12/result.json"
+  ],
+  "verified_at": "2026-10-27",
+  "stale": false
+ },
+ "tool_versions": {
+  "easyeda_host": "4.1.78 (observed, not written)",
+  "easyeda_cli": "1.15.0 (observed) / fake 1.15.0-sim (offline)",
+  "connector": "1.15.0 (observed)",
+  "skill": "0.9.3"
+ },
+ "original_problem": "J1(KF301-2P) 被 pcb lock 固定在左板边 rotation 270，开口朝外；任何局部布局优化都必须证明它、板框和 4×M3 孔位没有被移动。",
+ "method": "把 J1/outline/holes 设为不可写并作为不变量；只允许指定相邻对象/网络；写前校验白名单，写后 diff 检查 locked/outline/holes/pad-net/unrelated=0。",
+ "before_after": {
+  "before": "J1 locked=true, x=250,y=550,rotation=-90；outline 3543.3×2362.2 mil",
+  "after": "J1/outline/holes 完全不变；仅白名单对象/网络变化；unrelated=0",
+  "changes": []
+ },
+ "check_method": [
+  "scope diff: locked/outline/holes invariants",
+  "pad-net map invariant",
+  "unrelated changes = 0"
+ ],
+ "evidence": [
+  {
+   "kind": "file",
+   "role": "benchmark",
+   "path": "benchmarks/offline-round12/result.json"
+  },
+  {
+   "kind": "file",
+   "role": "matrix",
+   "path": "docs/round12/acceptance-matrix.md"
+  },
+  {
+   "kind": "file",
+   "role": "fixture",
+   "path": "tests/fixtures/feedback/board-before.json"
+  }
+ ],
+ "verification_levels": {
+  "structural": {
+   "status": "pass",
+   "evidence": [
+    {
+     "kind": "file",
+     "role": "benchmark",
+     "path": "benchmarks/offline-round12/result.json"
+    },
+    {
+     "kind": "file",
+     "role": "fixture",
+     "path": "tests/fixtures/feedback/board-before.json"
+    }
+   ]
+  },
+  "host_readback": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "erc_drc": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "simulation": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "manufacturing": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "physical": {
+   "status": "not_run",
+   "evidence": []
+  }
+ },
+ "limits": [
+  "本轮未执行真实移动；host_readback NOT RUN",
+  "连接器插拔空间/开口方向只按 dump 字段核对，未做实机插拔"
+ ],
+ "failed_attempts": [
+  "把 J1 当成可移动件参与对齐会破坏锁定接口，已拒绝"
+ ],
+ "invalidation_conditions": [
+  "J1 锁定状态或位号变化",
+  "板框/孔位变化",
+  "连接器型号或朝向变化"
+ ],
+ "source_tier": "project-local"
+}

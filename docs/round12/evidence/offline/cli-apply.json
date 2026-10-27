@@ -1,0 +1,1033 @@
+{
+  "schema": "hds-apply/v1",
+  "ok": true,
+  "status": "verified",
+  "tool_version": "1.0.0",
+  "generated_at": "2026-10-27T03:03:28.794337Z",
+  "contract_id": "cli-text",
+  "write_requested": true,
+  "writes_sent": 1,
+  "call_ok": true,
+  "write_confirmed": true,
+  "save_confirmed": true,
+  "reopen_confirmed": null,
+  "quality_passed": null,
+  "baseline": {
+    "expected": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
+    "observed": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c"
+  },
+  "validation": {
+    "schema": "hds-plan-validation/v1",
+    "ok": true,
+    "failure_class": null,
+    "contract_id": "cli-text",
+    "plan_kind": "schematic",
+    "document": {
+      "uuid": "sch-sim-0001",
+      "type": "schematic",
+      "name": "P1"
+    },
+    "flags": {
+      "save": true,
+      "reload": false
+    },
+    "actions": [
+      {
+        "index": 0,
+        "raw_index": 0,
+        "op": "move_text",
+        "action": "move_text",
+        "operation_key": "move_text:09b39f906f7b2dc2",
+        "object": "7000fc9074f2508d",
+        "designator": null,
+        "net": null,
+        "scope": {
+          "decision": "in_scope",
+          "basis": "object:7000fc9074f2508d"
+        },
+        "already_applied": false,
+        "document_uuid": "sch-sim-0001"
+      }
+    ],
+    "steps": [
+      {
+        "id": "move_text-0",
+        "action": "schematic.text.move",
+        "payload": {
+          "moves": [
+            {
+              "primitiveId": "7000fc9074f2508d",
+              "x": 250.0,
+              "y": 778.0
+            }
+          ]
+        },
+        "assert": {
+          "$.verified": "true"
+        }
+      },
+      {
+        "id": "save",
+        "action": "schematic.save",
+        "payload": {},
+        "assert": {
+          "$.saved": "true"
+        }
+      }
+    ],
+    "step_scope": [
+      {
+        "step_id": "move_text-0",
+        "decision": "in_scope",
+        "basis": "object:7000fc9074f2508d",
+        "op_index": 0
+      },
+      {
+        "step_id": "save",
+        "decision": "in_scope",
+        "basis": "action_allowed",
+        "op_index": null
+      }
+    ],
+    "skipped": [],
+    "baseline": {
+      "expected": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
+      "plan": [
+        "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c"
+      ],
+      "observed": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c"
+    },
+    "target": {
+      "project_uuid": "proj-sim-0001",
+      "documents": [
+        {
+          "uuid": "sch-sim-0001",
+          "type": "schematic",
+          "name": "P1"
+        },
+        {
+          "uuid": "pcb-sim-0001",
+          "type": "pcb",
+          "name": "PCB1"
+        }
+      ]
+    },
+    "scope": {
+      "writable": {
+        "objects": [
+          "7000fc9074f2508d"
+        ],
+        "nets": [],
+        "regions": []
+      },
+      "tolerance": {
+        "position": 0.01,
+        "angle": 1e-06
+      }
+    },
+    "refusals": [],
+    "unknown": [
+      {
+        "field": "locked[0]",
+        "reason": "lock state is not measurable"
+      },
+      {
+        "field": "reopen_confirmed",
+        "reason": "no reopen/readback was performed"
+      },
+      {
+        "field": "quality_passed",
+        "reason": "no quality evaluation was run"
+      }
+    ],
+    "notes": [],
+    "writes_sent": 0,
+    "noops": [],
+    "compiled_operations": []
+  },
+  "steps": [
+    {
+      "id": "move_text-0",
+      "action": "schematic.text.move",
+      "payload": {
+        "moves": [
+          {
+            "primitiveId": "7000fc9074f2508d",
+            "x": 250.0,
+            "y": 778.0
+          }
+        ]
+      },
+      "assert": {
+        "$.verified": "true"
+      },
+      "scope": {
+        "decision": "in_scope",
+        "basis": "object:7000fc9074f2508d"
+      }
+    },
+    {
+      "id": "save",
+      "action": "schematic.save",
+      "payload": {},
+      "assert": {
+        "$.saved": "true"
+      },
+      "scope": {
+        "decision": "in_scope",
+        "basis": "action_allowed"
+      }
+    }
+  ],
+  "step_scope": [
+    {
+      "step_id": "move_text-0",
+      "decision": "in_scope",
+      "basis": "object:7000fc9074f2508d",
+      "op_index": 0
+    },
+    {
+      "step_id": "save",
+      "decision": "in_scope",
+      "basis": "action_allowed",
+      "op_index": null
+    }
+  ],
+  "scope_decisions": [
+    {
+      "step_id": "move_text-0",
+      "decision": "in_scope",
+      "basis": "object:7000fc9074f2508d",
+      "op_index": 0
+    },
+    {
+      "step_id": "save",
+      "decision": "in_scope",
+      "basis": "action_allowed",
+      "op_index": null
+    }
+  ],
+  "skipped": [],
+  "journal": {
+    "path": ".tmp/cli-apply.jsonl",
+    "entries": [
+      {
+        "journalVersion": 1,
+        "contractId": "cli-text",
+        "id": "move_text-0",
+        "opKey": "move_text:09b39f906f7b2dc2",
+        "status": "ok",
+        "action": "schematic.text.move",
+        "exit": 0
+      }
+    ],
+    "status": "written"
+  },
+  "readback": {
+    "calls": [
+      {
+        "action": "schematic.text.list",
+        "exit": 0,
+        "ok": true,
+        "context": "ok",
+        "reason": "response context matches the contract target"
+      }
+    ],
+    "texts": [
+      {
+        "primitive_id": "0149dca70e8c886d",
+        "content": "TL431 2.495V；RV1调阈值、R4正反馈",
+        "x": 250.0,
+        "y": 528.0,
+        "rotation": 0.0,
+        "font_size": 13.0,
+        "locked": null
+      },
+      {
+        "primitive_id": "26b89259608f1dd1",
+        "content": "5V输入、反接保护、10µF+100nF去耦",
+        "x": 722.0,
+        "y": 778.0,
+        "rotation": 0.0,
+        "font_size": 13.0,
+        "locked": null
+      },
+      {
+        "primitive_id": "2c8ee0d84ef56500",
+        "content": "1 供电去耦",
+        "x": 482.0,
+        "y": 792.0,
+        "rotation": 0.0,
+        "font_size": 13.0,
+        "locked": null
+      },
+      {
+        "primitive_id": "68ca4704edfed066",
+        "content": "3 阈值迟滞",
+        "x": 42.0,
+        "y": 556.0,
+        "rotation": 0.0,
+        "font_size": 13.0,
+        "locked": null
+      },
+      {
+        "primitive_id": "7000fc9074f2508d",
+        "content": "GL5528与4.7k分压，C4滤波；光照越强电压越高",
+        "x": 250.0,
+        "y": 778.0,
+        "rotation": 0.0,
+        "font_size": 13.0,
+        "locked": null
+      },
+      {
+        "primitive_id": "774affad16c0750a",
+        "content": "S8050驱动LED；R7限流约7.4mA",
+        "x": 722.0,
+        "y": 528.0,
+        "rotation": 0.0,
+        "font_size": 13.0,
+        "locked": null
+      },
+      {
+        "primitive_id": "cc78e803de9e9c18",
+        "content": "4 LED驱动",
+        "x": 482.0,
+        "y": 552.0,
+        "rotation": 0.0,
+        "font_size": 13.0,
+        "locked": null
+      },
+      {
+        "primitive_id": "ed1db1e2379b6cfd",
+        "content": "2 光敏检测",
+        "x": 42.0,
+        "y": 792.0,
+        "rotation": 0.0,
+        "font_size": 13.0,
+        "locked": null
+      }
+    ],
+    "components": null,
+    "issues": []
+  },
+  "diff": {
+    "schema": "hds-diff/v1",
+    "status": "changed",
+    "before": {
+      "semantic_sha256": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
+      "generated_at": "2026-10-27T03:03:28.188100Z"
+    },
+    "after": {
+      "semantic_sha256": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
+      "generated_at": "2026-10-27T03:03:28.188100Z"
+    },
+    "tolerance": {
+      "position": 0.01,
+      "angle": 1e-06
+    },
+    "scope": {
+      "writable": {
+        "objects": [
+          "7000fc9074f2508d"
+        ],
+        "nets": [],
+        "regions": []
+      },
+      "tolerance": {
+        "position": 0.01,
+        "angle": 1e-06
+      }
+    },
+    "changes": [
+      {
+        "category": "schematic.text",
+        "kind": "text_changed",
+        "object": "7000fc9074f2508d",
+        "primitive_id": "7000fc9074f2508d",
+        "difference": {
+          "position": [
+            {
+              "x": 42.0,
+              "y": 778.0
+            },
+            {
+              "x": 250.0,
+              "y": 778.0
+            }
+          ]
+        },
+        "content": "GL5528与4.7k分压，C4滤波；光照越强电压越高",
+        "in_scope": true,
+        "scope_basis": "object:7000fc9074f2508d"
+      }
+    ],
+    "inside_scope": [
+      {
+        "category": "schematic.text",
+        "kind": "text_changed",
+        "object": "7000fc9074f2508d",
+        "primitive_id": "7000fc9074f2508d",
+        "difference": {
+          "position": [
+            {
+              "x": 42.0,
+              "y": 778.0
+            },
+            {
+              "x": 250.0,
+              "y": 778.0
+            }
+          ]
+        },
+        "content": "GL5528与4.7k分压，C4滤波；光照越强电压越高",
+        "in_scope": true,
+        "scope_basis": "object:7000fc9074f2508d"
+      }
+    ],
+    "outside_scope": [],
+    "unknown": [
+      {
+        "field": "pcb.components[C1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[C2].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[C3].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[C4].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[D1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[LDR1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[LED1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[Q1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R2].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R3].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R4].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R5].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R6].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[R7].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[RV1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[U1].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.components[U2].locked",
+        "reason": "lock state is not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.lines",
+        "reason": "lines are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.vias",
+        "reason": "vias are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.pours",
+        "reason": "pours are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.regions",
+        "reason": "regions are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.fills",
+        "reason": "fills are not measured on both sides"
+      },
+      {
+        "field": "pcb.copper.poured",
+        "reason": "poured are not measured on both sides"
+      },
+      {
+        "field": "pcb.routed",
+        "reason": "routed/unrouted state is not measurable"
+      }
+    ],
+    "counts": {
+      "total": 1,
+      "inside_scope": 1,
+      "outside_scope": 0,
+      "unknown": 25
+    },
+    "note": "primitiveId churn is not a change; rotations 0/360 and -90/270 are equivalent; unreadable categories are unknown, never empty",
+    "pcb": {
+      "components": {
+        "status": "available",
+        "added": [],
+        "removed": [],
+        "identity_changed": [],
+        "pose_changed": [],
+        "layer_changed": [],
+        "locked_changed": [],
+        "pad_net_changed": [],
+        "all": []
+      },
+      "outline": {
+        "status": "available",
+        "changed": false,
+        "change": null
+      },
+      "tracks": {
+        "status": "unknown",
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "all": [],
+        "id_churn": 0
+      },
+      "vias": {
+        "status": "unknown",
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "all": [],
+        "id_churn": 0
+      },
+      "pours": {
+        "status": "unknown",
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "all": [],
+        "id_churn": 0
+      },
+      "region": {
+        "status": "unknown",
+        "changed": false,
+        "change": null
+      },
+      "fill": {
+        "status": "unknown",
+        "changed": false,
+        "change": null
+      },
+      "poured": {
+        "status": "unknown",
+        "changed": false,
+        "change": null
+      },
+      "holes": {
+        "status": "available",
+        "changed": false,
+        "change": null
+      },
+      "keepouts": {
+        "status": "available",
+        "changed": false,
+        "change": null
+      },
+      "rules": {
+        "status": "available",
+        "changed": false,
+        "change": null
+      },
+      "copper_layers": {
+        "status": "available",
+        "changed": false,
+        "change": null
+      },
+      "routed": {
+        "status": "unknown",
+        "changes": [],
+        "all": [],
+        "before": {
+          "status": "unknown",
+          "routed": [],
+          "unrouted": null,
+          "per_net": {},
+          "required": [
+            "+5V",
+            "GND",
+            "LDR_SIG",
+            "LED_A",
+            "LED_CTRL",
+            "LED_K",
+            "Q1_B",
+            "U1B_TIE",
+            "VIN",
+            "VREF_2V5",
+            "VTH",
+            "VTH_ADJ"
+          ],
+          "reason": "routed state is not measurable"
+        },
+        "after": {
+          "status": "unknown",
+          "routed": [],
+          "unrouted": null,
+          "per_net": {},
+          "required": [
+            "+5V",
+            "GND",
+            "LDR_SIG",
+            "LED_A",
+            "LED_CTRL",
+            "LED_K",
+            "Q1_B",
+            "U1B_TIE",
+            "VIN",
+            "VREF_2V5",
+            "VTH",
+            "VTH_ADJ"
+          ],
+          "reason": "routed state is not measurable"
+        }
+      },
+      "drc": {
+        "status": "available",
+        "before": {
+          "errors": 0,
+          "warnings": null,
+          "passed": true
+        },
+        "after": {
+          "errors": 0,
+          "warnings": null,
+          "passed": true
+        }
+      }
+    },
+    "components": {
+      "status": "available",
+      "added": [],
+      "removed": [],
+      "identity_changed": [],
+      "pose_changed": [],
+      "layer_changed": [],
+      "locked_changed": [],
+      "pad_net_changed": [],
+      "all": []
+    },
+    "outline": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "tracks": {
+      "status": "unknown",
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "all": [],
+      "id_churn": 0
+    },
+    "vias": {
+      "status": "unknown",
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "all": [],
+      "id_churn": 0
+    },
+    "pours": {
+      "status": "unknown",
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "all": [],
+      "id_churn": 0
+    },
+    "poured": {
+      "status": "unknown",
+      "changed": false,
+      "change": null
+    },
+    "holes": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "keepouts": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "rules": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "copper_layers": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "routed": {
+      "status": "unknown",
+      "changes": [],
+      "all": [],
+      "before": {
+        "status": "unknown",
+        "routed": [],
+        "unrouted": null,
+        "per_net": {},
+        "required": [
+          "+5V",
+          "GND",
+          "LDR_SIG",
+          "LED_A",
+          "LED_CTRL",
+          "LED_K",
+          "Q1_B",
+          "U1B_TIE",
+          "VIN",
+          "VREF_2V5",
+          "VTH",
+          "VTH_ADJ"
+        ],
+        "reason": "routed state is not measurable"
+      },
+      "after": {
+        "status": "unknown",
+        "routed": [],
+        "unrouted": null,
+        "per_net": {},
+        "required": [
+          "+5V",
+          "GND",
+          "LDR_SIG",
+          "LED_A",
+          "LED_CTRL",
+          "LED_K",
+          "Q1_B",
+          "U1B_TIE",
+          "VIN",
+          "VREF_2V5",
+          "VTH",
+          "VTH_ADJ"
+        ],
+        "reason": "routed state is not measurable"
+      }
+    },
+    "drc": {
+      "status": "available",
+      "before": {
+        "errors": 0,
+        "warnings": null,
+        "passed": true
+      },
+      "after": {
+        "errors": 0,
+        "warnings": null,
+        "passed": true
+      }
+    },
+    "copperLayers": {
+      "status": "available",
+      "changed": false,
+      "change": null
+    },
+    "schematic": {
+      "components": {
+        "status": "available",
+        "added": [],
+        "removed": [],
+        "identity_changed": [],
+        "pose_changed": [],
+        "attribute_changed": [],
+        "all": []
+      },
+      "nets": {
+        "status": "available",
+        "added": [],
+        "removed": [],
+        "changed": [],
+        "all": []
+      },
+      "texts": {
+        "status": "available",
+        "added": [],
+        "removed": [],
+        "changed": [
+          {
+            "category": "schematic.text",
+            "kind": "text_changed",
+            "object": "7000fc9074f2508d",
+            "primitive_id": "7000fc9074f2508d",
+            "difference": {
+              "position": [
+                {
+                  "x": 42.0,
+                  "y": 778.0
+                },
+                {
+                  "x": 250.0,
+                  "y": 778.0
+                }
+              ]
+            },
+            "content": "GL5528与4.7k分压，C4滤波；光照越强电压越高",
+            "in_scope": true,
+            "scope_basis": "object:7000fc9074f2508d"
+          }
+        ],
+        "all": [
+          {
+            "category": "schematic.text",
+            "kind": "text_changed",
+            "object": "7000fc9074f2508d",
+            "primitive_id": "7000fc9074f2508d",
+            "difference": {
+              "position": [
+                {
+                  "x": 42.0,
+                  "y": 778.0
+                },
+                {
+                  "x": 250.0,
+                  "y": 778.0
+                }
+              ]
+            },
+            "content": "GL5528与4.7k分压，C4滤波；光照越强电压越高",
+            "in_scope": true,
+            "scope_basis": "object:7000fc9074f2508d"
+          }
+        ]
+      }
+    }
+  },
+  "invariants": {
+    "schema": "hds-invariants/v1",
+    "ok": false,
+    "status": "unknown",
+    "contract_id": "cli-text",
+    "generated_at": "2026-10-27T03:03:28.794326Z",
+    "results": [
+      {
+        "id": "inv-1",
+        "kind": "sch_connectivity",
+        "status": "pass",
+        "reasons": [
+          "schematic net endpoint sets unchanged"
+        ]
+      },
+      {
+        "id": "inv-2",
+        "kind": "sch_identity",
+        "status": "pass",
+        "reasons": [
+          "schematic component identity unchanged"
+        ]
+      },
+      {
+        "id": "inv-3",
+        "kind": "pcb_pad_net",
+        "status": "pass",
+        "reasons": [
+          "PCB pad net assignments unchanged"
+        ]
+      },
+      {
+        "id": "inv-4",
+        "kind": "pcb_outline",
+        "status": "pass",
+        "reasons": [
+          "PCB outline unchanged"
+        ]
+      },
+      {
+        "id": "inv-5",
+        "kind": "pcb_locked",
+        "status": "unknown",
+        "reasons": [
+          "PCB lock state is not readable"
+        ]
+      },
+      {
+        "id": "inv-6",
+        "kind": "pcb_unrelated",
+        "status": "unknown",
+        "reasons": [
+          "PCB categories are unreadable; unrelated changes cannot be excluded"
+        ],
+        "detail": {
+          "unknown": [
+            {
+              "field": "pcb.components[C1].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[C2].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[C3].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[C4].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[D1].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[LDR1].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[LED1].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[Q1].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[R1].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[R2].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[R3].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[R4].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[R5].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[R6].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[R7].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[RV1].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[U1].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.components[U2].locked",
+              "reason": "lock state is not measured on both sides"
+            },
+            {
+              "field": "pcb.copper.lines",
+              "reason": "lines are not measured on both sides"
+            },
+            {
+              "field": "pcb.copper.vias",
+              "reason": "vias are not measured on both sides"
+            },
+            {
+              "field": "pcb.copper.pours",
+              "reason": "pours are not measured on both sides"
+            },
+            {
+              "field": "pcb.copper.regions",
+              "reason": "regions are not measured on both sides"
+            },
+            {
+              "field": "pcb.copper.fills",
+              "reason": "fills are not measured on both sides"
+            },
+            {
+              "field": "pcb.copper.poured",
+              "reason": "poured are not measured on both sides"
+            },
+            {
+              "field": "pcb.routed",
+              "reason": "routed/unrouted state is not measurable"
+            }
+          ]
+        }
+      }
+    ],
+    "counts": {
+      "pass": 4,
+      "fail": 0,
+      "unknown": 2
+    },
+    "unknown": [
+      "inv-5",
+      "inv-6"
+    ],
+    "note": "unknown is not pass; a single fail dominates the result"
+  },
+  "failure": null,
+  "unknown": [
+    {
+      "field": "locked[0]",
+      "reason": "lock state is not measurable"
+    },
+    {
+      "field": "reopen_confirmed",
+      "reason": "no reopen/readback was performed"
+    },
+    {
+      "field": "quality_passed",
+      "reason": "no quality evaluation was run"
+    }
+  ],
+  "notes": [],
+  "calls": [
+    {
+      "step_id": "move_text-0",
+      "op": "move_text",
+      "action": "schematic.text.move",
+      "exit": 0,
+      "ok": true,
+      "verified": true,
+      "context": "ok",
+      "reason": "verified"
+    }
+  ]
+}

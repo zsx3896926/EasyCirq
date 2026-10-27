@@ -1,0 +1,55 @@
+{
+  "id": "req_16058",
+  "ok": true,
+  "result": {
+    "passed": true,
+    "nativePassed": true,
+    "strict": false,
+    "fatal": 0,
+    "summary": {
+      "fatal": 0,
+      "error": 0,
+      "warn": 1,
+      "info": 0,
+      "unknown": 0,
+      "total": 1
+    },
+    "violations": [
+      {
+        "level": "warn",
+        "type": "warn",
+        "rule": "ATTRMATCHCODE",
+        "raw": {
+          "primitives": [
+            {
+              "name": "C2($1I6)",
+              "primitiveId": "832c51a7d77cb7d4",
+              "sheet": "cd008f919db36eba"
+            },
+            {
+              "name": "C4($1I9)",
+              "primitiveId": "8a8f0b18e2eedcb8",
+              "sheet": "cd008f919db36eba"
+            },
+            {
+              "name": "C3($1I12)",
+              "primitiveId": "e8d5019ad192abf0",
+              "sheet": "cd008f919db36eba"
+            },
+            {
+              "name": "RV1($1I13)",
+              "primitiveId": "602a6271577e9c63",
+              "sheet": "cd008f919db36eba"
+            }
+          ],
+          "rule": "ATTRMATCHCODE",
+          "type": "warn"
+        }
+      }
+    ],
+    "countsAvailable": true,
+    "detailsAvailable": true
+  },
+  "type": "response",
+  "version": "v1"
+}

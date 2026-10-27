@@ -1,0 +1,157 @@
+{
+ "schema": "hds-case/v1",
+ "created_at": "2026-10-27T02:59:39.264453Z",
+ "tool_version": "1.0.0",
+ "id": "sch-text-overlap-photo-led",
+ "version": 1,
+ "goal": "消除原理图功能区标题与说明文字重叠，同时保持全部网络端点与器件身份不变",
+ "applies_when": {
+  "power_w": {
+   "min": null,
+   "max": null
+  },
+  "interfaces": [],
+  "topologies": [
+   "sheet-with-zone-labels"
+  ],
+  "footprints": [],
+  "layers": [],
+  "process": "",
+  "tags": [
+   "schematic",
+   "readability",
+   "text-overlap"
+  ],
+  "device": {}
+ },
+ "does_not_apply_when": [
+  "要移动的对象是网络标签、端口或引脚名（会改变连通语义）",
+  "目标位置与任何可见文字或器件本体重叠",
+  "文本 primitiveId 或坐标已变化（必须重新观察）",
+  "页面图幅或分区结构不同（不是同一排版条件）"
+ ],
+ "inputs": [
+  {
+   "kind": "file",
+   "role": "before-schematic",
+   "path": "tests/fixtures/feedback/schematic-before.json",
+   "note": "frozen official read"
+  },
+  {
+   "kind": "file",
+   "role": "before-drc",
+   "path": "docs/round12/evidence/live-baseline/copy-sch-drc.json"
+  }
+ ],
+ "provenance": {
+  "source_project": "photo-led-pcb-20261026",
+  "source_case": "round12-offline",
+  "artifacts": [
+   "tests/fixtures/feedback/board-before.json",
+   "tests/fixtures/feedback/schematic-before.json",
+   "benchmarks/offline-round12/result.json"
+  ],
+  "verified_at": "2026-10-27",
+  "stale": false
+ },
+ "tool_versions": {
+  "easyeda_host": "4.1.78 (observed, not written)",
+  "easyeda_cli": "1.15.0 (observed) / fake 1.15.0-sim (offline)",
+  "connector": "1.15.0 (observed)",
+  "skill": "0.9.3"
+ },
+ "original_problem": "功能区标题 “2 光敏检测” (primitiveId ed1db1e2379b6cfd, 42,792) 与说明文字 “GL5528与4.7k分压，C4滤波；光照越强电压越高” (primitiveId 7000fc9074f2508d, 42,778) 重叠 55.01×12.00 raw；其余网络检查正常。",
+ "method": "先用官方 visible_text.bboxes 与页面图元确认重叠双方的身份/位置；只移动说明文字到经几何检查的空位；移动前后分别读取 sch read，比较 designator.pin→net 端点集合；再用官方 text.move 的逐文本回读确认。",
+ "before_after": {
+  "before": "标题与说明文字重叠 55.01×12.00 raw；网络端点集合作为基线",
+  "after": "文字重叠 0；端点集合不变；器件身份不变；只允许该文本 primitiveId 的位置变化",
+  "changes": [
+   {
+    "object": "7000fc9074f2508d",
+    "field": "x/y",
+    "before": [
+     42,
+     778
+    ],
+    "after": "verified-free target"
+   }
+  ]
+ },
+ "check_method": [
+  "official schematic.visible_text.bboxes (before/after)",
+  "sch read designator.pin→net endpoint set compare",
+  "sch design-diff identity/connectivity",
+  "scope diff: only the named text may change"
+ ],
+ "evidence": [
+  {
+   "kind": "file",
+   "role": "benchmark",
+   "path": "benchmarks/offline-round12/result.json",
+   "note": "offline acceptance result"
+  },
+  {
+   "kind": "file",
+   "role": "matrix",
+   "path": "docs/round12/acceptance-matrix.md"
+  },
+  {
+   "kind": "file",
+   "role": "fixture",
+   "path": "tests/fixtures/feedback/schematic-before.json"
+  }
+ ],
+ "verification_levels": {
+  "structural": {
+   "status": "pass",
+   "evidence": [
+    {
+     "kind": "file",
+     "role": "benchmark",
+     "path": "benchmarks/offline-round12/result.json"
+    },
+    {
+     "kind": "file",
+     "role": "fixture",
+     "path": "tests/fixtures/feedback/board-before.json"
+    }
+   ]
+  },
+  "host_readback": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "erc_drc": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "simulation": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "manufacturing": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "physical": {
+   "status": "not_run",
+   "evidence": []
+  }
+ },
+ "limits": [
+  "本轮未在真实宿主执行 text.move；host_readback/save/reopen 全部 NOT RUN",
+  "4.1.78 下自由文本修改能否在重开后保留未实测；旧记录提示 text_modify 可能只在内存生效",
+  "离线重叠宽度来自 layout-score 的估算文本带，不是官方导出图的像素测量"
+ ],
+ "failed_attempts": [
+  "直接把多个器件移到同一建议坐标 (330,245) 会互相重叠，已拒绝",
+  "只比较网络数量或文件哈希不能证明连接保持，已改用端点集合"
+ ],
+ "invalidation_conditions": [
+  "文本 primitiveId、坐标或字号变化",
+  "页面图幅/分区变化导致目标位置不再空闲",
+  "目标文本被改成网络标签或端口",
+  "Skill/CLI/宿主版本变化后未重跑结构检查"
+ ],
+ "source_tier": "project-local"
+}
