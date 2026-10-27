@@ -1,0 +1,5 @@
+Comment,Designator,Footprint,Quantity,MPN,Manufacturer,LCSC,DNP,Assembly
+10k,R1,0402,1,RC0402FR-0710KL,Yageo,C12345,,smt
+100nF,"C1,C2",0402,3,CL05B104KO5NNNC,Samsung,C54321,,smt
+LED,D1,0603,1,LTST-C190KGKT,Lite-On,C1234,,smt
+2.54 header,J1,PinHeader,1,PZ254V-11-04P,XKB,C2691448,,tht

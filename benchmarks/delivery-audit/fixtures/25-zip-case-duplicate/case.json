@@ -1,0 +1,28 @@
+{
+  "args": [],
+  "command": "inspect",
+  "content_digest": "1954502dff76fa1251226832adb43e6fc2f2e5f5b3942f0628e4828b027be6b7",
+  "declarations": null,
+  "expect": {
+    "error_code": "zip_duplicate_member",
+    "exit": 2,
+    "status": "input_invalid"
+  },
+  "files": [
+    {
+      "path": "duplicate.zip",
+      "sha256": "3fcaf7a3e98140229777a0c017565f759602418427d041623dc72f3ccb9abb11",
+      "size": 230
+    }
+  ],
+  "id": "25-zip-case-duplicate",
+  "input": "input/duplicate.zip",
+  "input_kind": "single",
+  "input_sha256": "1954502dff76fa1251226832adb43e6fc2f2e5f5b3942f0628e4828b027be6b7",
+  "notes": null,
+  "profile": null,
+  "reference": null,
+  "simulated": true,
+  "title": "ZIP case-insensitive duplicate rejected",
+  "touch": null
+}

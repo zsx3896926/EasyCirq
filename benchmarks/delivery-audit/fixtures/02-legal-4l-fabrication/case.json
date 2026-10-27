@@ -1,0 +1,53 @@
+{
+  "args": [],
+  "command": "audit",
+  "content_digest": "3bfdfa76726f04e14acf98305c6011500ac9cc563bc24be81da2c3ea5763e4b0",
+  "declarations": "declarations.json",
+  "expect": {
+    "exit": 0,
+    "no_fail": true,
+    "no_unknown": true,
+    "status": "pass_with_scope"
+  },
+  "files": [
+    {
+      "path": "gerber/copper_bottom.gbr",
+      "sha256": "a92bb3595e06ec176467ce9840932ff0f35e8c27aa667aeee0369a52724820db",
+      "size": 363
+    },
+    {
+      "path": "gerber/copper_inner1.gbr",
+      "sha256": "0b53bb6a3bd99bf86661a72d1c606e50939221a2846f201d14a9dbfcbf6c9861",
+      "size": 363
+    },
+    {
+      "path": "gerber/copper_inner2.gbr",
+      "sha256": "0e8acf8dc139a330214511525a038dba133fb236194c50752a0906713197f898",
+      "size": 363
+    },
+    {
+      "path": "gerber/copper_top.gbr",
+      "sha256": "feb9ff83048c274f72081458e6d6954aee8752b4edde79ff6e053942fcf42b1b",
+      "size": 363
+    },
+    {
+      "path": "gerber/drill.drl",
+      "sha256": "4dd07ef0f7e604dc32c1d813ed0735199f23d801913362a9dff0911b12030e4e",
+      "size": 182
+    },
+    {
+      "path": "gerber/profile.gbr",
+      "sha256": "21426978fb49d4520d010f7f9c4171f101393296e8c100a765805e2de86ca071",
+      "size": 159
+    }
+  ],
+  "id": "02-legal-4l-fabrication",
+  "input": "input",
+  "input_kind": "files",
+  "notes": null,
+  "profile": "pcb-fabrication",
+  "reference": null,
+  "simulated": true,
+  "title": "Legal 4-layer fabrication package",
+  "touch": null
+}

@@ -1,0 +1,31 @@
+{
+  "args": [
+    "--max-ratio",
+    "10"
+  ],
+  "command": "inspect",
+  "content_digest": "2dacdcab18d8967599a1d5cec90f80aeb0323b4eb116697a04f82d2ab9e84ca0",
+  "declarations": null,
+  "expect": {
+    "error_code": "input_limits_exceeded",
+    "exit": 2,
+    "status": "input_invalid"
+  },
+  "files": [
+    {
+      "path": "bomb.zip",
+      "sha256": "8960fc6643eca768aed01c97589ffd9ad2cbec0355882bcf3dc1415320773a10",
+      "size": 5226
+    }
+  ],
+  "id": "24-zip-bomb",
+  "input": "input/bomb.zip",
+  "input_kind": "single",
+  "input_sha256": "2dacdcab18d8967599a1d5cec90f80aeb0323b4eb116697a04f82d2ab9e84ca0",
+  "notes": null,
+  "profile": null,
+  "reference": null,
+  "simulated": true,
+  "title": "ZIP compression bomb rejected",
+  "touch": null
+}

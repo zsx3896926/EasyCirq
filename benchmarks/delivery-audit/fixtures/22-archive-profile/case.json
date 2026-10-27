@@ -1,0 +1,33 @@
+{
+  "args": [],
+  "command": "audit",
+  "content_digest": "3aecb801555b59fc93aa4363af3bfc7d559e289097bebd512dee7554988dae51",
+  "declarations": "declarations.json",
+  "expect": {
+    "exit": 0,
+    "no_fail": true,
+    "no_unknown": true,
+    "status": "pass_with_scope"
+  },
+  "files": [
+    {
+      "path": "project.epro2",
+      "sha256": "1b91c7c1a73b7093683ab2720851461b8fb529ca22b5dc7751198a522b2b7606",
+      "size": 259
+    },
+    {
+      "path": "readme.txt",
+      "sha256": "759ad2ffeb54eec4165fc63d0a8d9cd4c592d314b87840a6a6c9b1156c41d601",
+      "size": 16
+    }
+  ],
+  "id": "22-archive-profile",
+  "input": "input",
+  "input_kind": "files",
+  "notes": null,
+  "profile": "archive",
+  "reference": null,
+  "simulated": true,
+  "title": "Archive profile with native container",
+  "touch": null
+}
