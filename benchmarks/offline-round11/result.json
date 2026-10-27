@@ -650,9 +650,9 @@
       ],
       "timing": {
         "runs": 3,
-        "min_sec": 0.022554,
-        "median_sec": 0.023407,
-        "max_sec": 0.023474
+        "min_sec": 0.042014,
+        "median_sec": 0.04343,
+        "max_sec": 0.046737
       }
     },
     {
@@ -825,9 +825,9 @@
       ],
       "timing": {
         "runs": 3,
-        "min_sec": 0.127607,
-        "median_sec": 0.134942,
-        "max_sec": 0.146057
+        "min_sec": 0.212273,
+        "median_sec": 0.224859,
+        "max_sec": 0.286793
       }
     },
     {
@@ -854,9 +854,9 @@
       ],
       "timing": {
         "runs": 3,
-        "min_sec": 0.055138,
-        "median_sec": 0.058614,
-        "max_sec": 0.060208
+        "min_sec": 0.06124,
+        "median_sec": 0.066167,
+        "max_sec": 0.068663
       }
     },
     {
@@ -897,9 +897,9 @@
       ],
       "timing": {
         "runs": 3,
-        "min_sec": 0.109931,
-        "median_sec": 0.113189,
-        "max_sec": 0.129166
+        "min_sec": 0.12788,
+        "median_sec": 0.1284,
+        "max_sec": 0.1406
       }
     },
     {
@@ -1025,9 +1025,9 @@
       ],
       "timing": {
         "runs": 3,
-        "min_sec": 0.235162,
-        "median_sec": 0.235582,
-        "max_sec": 0.241341
+        "min_sec": 0.278235,
+        "median_sec": 0.283172,
+        "max_sec": 0.319568
       }
     },
     {
@@ -1054,9 +1054,9 @@
       ],
       "timing": {
         "runs": 3,
-        "min_sec": 0.040658,
-        "median_sec": 0.041815,
-        "max_sec": 0.045348
+        "min_sec": 0.04612,
+        "median_sec": 0.046402,
+        "max_sec": 0.053955
       }
     },
     {
@@ -1078,9 +1078,9 @@
       ],
       "timing": {
         "runs": 3,
-        "min_sec": 7e-05,
-        "median_sec": 8.1e-05,
-        "max_sec": 0.000118
+        "min_sec": 8.2e-05,
+        "median_sec": 9.5e-05,
+        "max_sec": 0.000162
       }
     },
     {
@@ -1143,9 +1143,9 @@
       ],
       "timing": {
         "runs": 3,
-        "min_sec": 0.000407,
-        "median_sec": 0.000439,
-        "max_sec": 0.000581
+        "min_sec": 0.000572,
+        "median_sec": 0.000634,
+        "max_sec": 0.000702
       }
     },
     {
@@ -1170,9 +1170,9 @@
       ],
       "timing": {
         "runs": 3,
-        "min_sec": 0.009062,
-        "median_sec": 0.009428,
-        "max_sec": 0.009438
+        "min_sec": 0.010562,
+        "median_sec": 0.01062,
+        "max_sec": 0.011236
       }
     }
   ],
