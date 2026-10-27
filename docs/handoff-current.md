@@ -1,12 +1,23 @@
-# Current handoff — 2026-10-27 — module batch speed
+# Current handoff — 2026-10-27 — round12 原理图排版工具链
 
-- 目标：把独立 PCB 放置模块合批，减少重复读取和检查点；用户已授权实现、验证、推送。
-- worktree：C:/Users/jlc/work/hds-module-batch-speed；分支 feat/module-batch-speed；基线 e872752（PR #24/#27/#28 已合入）。
-- 本轮文件：pcb_apply_plan.py、test_pcb_module_batch.py、benchmark_module_batch.py、Skill 入口及 execution-efficiency.md；报告 docs/module-batch-speed/。
-- 已实现：同快照模块合并、整体检查、一次 apply、保留原 journal/save/reload/dump/diff，模块输入来源与组装计划追踪。
-- 已知边界：只支持放置，不自动生成新电路/原理图/重布；已有完整 --plan 本就可批量。本轮是分散模块的便捷合批路径。
-- 离线基准：真实冻结双按键 LED 输入，有序修改指令一致，读取/标准化12→1，计划检查点各12→1；不代表现场或整板提速。
-- 真机：BLOCKED，sandbox 拒绝回环 socket；未启动 daemon、未修改工程或已安装客户端。
-- 验证结果见 docs/module-batch-speed/review-report.md；提交与 PR 以当前 git/远端回读为准。
-- 历史 round11 报告见 docs/round11/review-report.md；本轮未重述历史全部证据。
-- 下一动作：在可连接且窗口归属明确的客户端执行同范围真实 A/B，记录完整质量与总墙钟；旧编译负载不可直接当作电气改板计划执行。
+- 目标：把 round12 复盘中批准的 1/2/4/5/6/10/11 条落成 skill 脚本、文档与测试；用户已授权实现、验证、提交、推送（不合并/不打标签）。
+- worktree：`C:/Users/jlc/work/hds-compose-r12`；分支 `feat/compose-tooling-r12`；基线 `7325169`（origin/main）。
+- 本轮文件：
+  - 新增 `design-hardware/scripts/sch_compose_input.py`、`sch_sheet_fit.py`、`sch_bind_component_ids.py`
+  - 新增 `tests/test_sch_compose_input.py`、`test_sch_sheet_fit.py`、`test_sch_bind_component_ids.py`
+  - 修改 `design-hardware/references/schematic-layout-engine.md`、`CHANGELOG.md`、`.version`（0.9.4）、`scripts/skill_selftest.py`
+- 已实现：
+  - composition 适配器：connectivity + zones + model-report → `compose --from`；校验覆盖/位号/引脚网络，注入 `connectivity.modules`，支持 `--sheet`、`--project-id`、`--connection-mode`。
+  - 页预算预检：A4 内框/图签 keep-out/边距/间距下的 MaxRects 多排序打包，可 `--out-page`；no-fit 报告最后失败模块与剩余空矩形。
+  - 绑定计划/复核：`EasyEDA Agent Component ID = cmp-<位号>`，输出逐件 `sch modify` PowerShell 命令；冲突需 `--force`，`--verify` 输出 N/N。
+  - 文档：标题 ≤18 字符、每区 4–6 件、`pins` 类与 gate 冲突、`zone relayout --apply` 破坏性与 `.epro2` 导入恢复 SOP、netflag 旋转反转、未标记直树阻断、strict gate 基线策略。
+- 验证：
+  - `python -m unittest discover -s tests`：**1307 tests OK**（72.3 s）。
+  - `python design-hardware/scripts/skill_selftest.py --root design-hardware`：**5 PASS / 0 FAIL / 0 NOT RUN**。
+  - 真实证据回归（只读）：P1 compose-input `ready`（8 区/24 件/93 线/33 标记）；P1 sheet-fit `fits`（fill 0.4664，可用于 packed page）；P2 sheet-fit `no-fit`，诊断显示第 4 件 `usb 445×350` 无 445×350 空矩形；P1 绑定计划 24 待绑，对已绑定快照 `verified 24/24`。
+  - 数据来源：`C:/Users/jlc/work/usb-audio-reflow-20261027/`（P1 run9、P2 run、P1r/before.json）。本轮未调用 EDA。
+- 边界：
+  - 脚本均为离线；`sch_sheet_fit.py` 只证明 frame 几何可打包，不证明符号/文字/路由质量，也不替代官方 `layout-sheet-plan` 与看图。
+  - `sch_compose_input.py` 的 `--sheet` 需已有的 `sheet-geometry --from-svg` 输出；缺省只用 model-report 的 page 信息并告警。
+  - MaxRects 不旋转 frame；旋转/重排图页仍需改模块几何。
+- 下一动作：提交并推送当前分支后，开 PR（用户未要求合并）；若继续 EDA 侧，从恢复工程 `usb-audio-amplifier-test-01-restored` 的新鲜快照重新走测量→预检→compose，不复用损坏现场。

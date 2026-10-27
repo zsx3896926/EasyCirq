@@ -1,6 +1,6 @@
 # 原理图排版引擎：测量 → 模块布局 → 合页 → 写入 → 复核
 
-本文件用于“把已有电气设计画清楚”的任务：不改拓扑、不换器件、不删网络，只重排器件、导线和标签。它描述一条已经在本机 EasyEDA 4.1.78 + easyeda-agent 1.14.0 上跑通过的流水线，以及每个环节的硬门禁、证据和已知限制。
+本文件用于“把已有电气设计画清楚”的任务：不改拓扑、不换器件、不删网络，只重排器件、导线和标签。它描述一条已经在本机 EasyEDA 4.1.78 + easyeda-agent 1.15.0 上跑通过的流水线，以及每个环节的硬门禁、证据和已知限制。
 
 目标不是生成一张“分数高”的图，而是让同一个人能顺着主信号链读完、能定位每个连接、能继续修改。分数、截图和 DRC 都只是其中一项证据。
 
@@ -24,8 +24,11 @@
   → 功能模块计划（角色/核心/成员/网络策略）
   → sch_layout_model.py 构建并校验测量输入
   → sch layout-plan --zones            区内布局与连线
+  → sch_sheet_fit.py                   页预算预检（先于合页）
   → sch layout-sheet-plan              合页与图签避让
   → sch layout-render + 质量检查       候选复核
+  → sch_compose_input.py               测量证据 → compose 输入
+  → sch_bind_component_ids.py          稳定 ID 绑定计划/复核
   → sch compose --layout-page          受保护 Apply 队列
   → sch apply --dry-run / --yes        写入
   → save → reopen → 网表 diff → gate → 导图 → 局部返工
@@ -78,6 +81,8 @@ easyeda sch export-image --project <project> --page <page-uuid> --format png --o
 
 - `members` 用位号，覆盖页内每一个器件，恰好一次。核心必须在成员内。
 - 外围绕核心的引脚组织；不要把“所有电阻”单独成区。
+- 分区标题 ≤ 18 个字符。标题带属于模块框的一部分，长标题会撑宽 frame，直接吃掉页预算并触发分页；标题说明放图面注释或交付文档，不要塞进 zone title。
+- 先按每区 4–6 个器件切分。8 脚以上、同一电源轨并联、只有电源/地两两相连的区，求解器常无解；在模块计划阶段就拆开，而不是等 `layout-plan` 报预算耗尽。
 - 同一区内的短信号默认 `direct`；跨区信号 `module_port`；电源/地 `local_power`/`local_ground`。
 - 不要把跨区网络写成 `direct` 再靠标签补连接。
 - 一个新的功能模板至少要在两个几何不同的真实符号/配置上验证；不能适配时明确回退，不硬塞坐标。
@@ -142,12 +147,26 @@ easyeda sch layout-plan --zones --from out/model/layout-source.json \
 ```
 
 ```bash
+# 页预算预检：只读 frame + 纸张几何，不写 EDA（exit 0 fits / 1 no-fit / 2 invalid）
+python design-hardware/scripts/sch_sheet_fit.py \
+  --zones zones-geom.json --model-report model-report.json \
+  --out-page page-packed.json --fixed mcu:20,240
+
+# 官方合页（shelf 打包）
 easyeda sch layout-sheet-plan --from render-input.json --out pages.json --flow z
 ```
 
+预检规则：
+
+- 可用区 = `innerBBox` 内缩 `--margin`，再扣除图签 keep-out 外扩 `--keepout-clearance`；frame 两两间距 ≥ `--gap`。
+- `sch_sheet_fit.py` 用 MaxRects 多排序尝试，能利用图签旁 L 形空间；`layout-sheet-plan --flow z` 只是按行顶齐的 shelf 打包，密集页报 `needs-pagination` 不代表真的放不下。
+- `fits` 时 `--out-page` 直接产出 compose 可用的 packed page（`sheetPosition` 取 frame 左上角）。`fixed` 只用于阅读顺序必须固定的核心模块。
+- `no-fit` 时报告会给出最后一个失败模块、所需尺寸和剩余空矩形；先按这些数字缩框/拆区，不要盲目重试或加页。
+- 预检通过后仍要跑官方 `layout-sheet-plan` 并逐框复核全局坐标；两者结论不一致时以几何复核为准，记录差异。
+
 - 小电路优先一页；不要固定三页。先调模块顺序/间距/核心选择，再考虑分页。
 - `flow:z` 是确定性的从左到右、按行顶齐；它不会回填短框下的空洞。
-- `flow:compact` 可能给出更少的页数，但本机 1.14.0 实测出现过**框重叠/越界**的候选；必须逐框用全局坐标复核，不能只看 `pages=1`。
+- `flow:compact` 可能给出更少的页数，但本机 1.15.0 实测出现过**框重叠/越界**的候选；必须逐框用全局坐标复核，不能只看 `pages=1`。
 - 图签是硬 keep-out；模块框、导线、标记、文字都不能侵入。
 - 一页放不下时，优先调整模块内部几何、阅读顺序、间距，再分页；不要放大纸张掩盖布局失败。
 
@@ -183,6 +202,23 @@ python design-hardware/scripts/sch_layout_quality.py planned-quality-input.json
 3. 按选定页面平移器件，重画导线和标记。
 4. 每步断言，失败即停；不自动回滚已成功的写。
 
+### 9.0 测量证据 → composition
+
+`compose` 只接受一份 composition，而流水线产出的是 connectivity / zones / model-report 三份文件；用适配器合并并校验，不要手拼：
+
+```bash
+python design-hardware/scripts/sch_compose_input.py \
+  --connectivity connectivity-before.json --zones zones-geom.json \
+  --model-report model-report.json --sheet sheet.json \
+  --out composition.json
+```
+
+- 适配器检查：每个器件恰好属于一个区、每个 placement 位号能在 IR 中找到、每个已连引脚的网络与 IR 一致；`blocked` 时不写 composition（exit 1）。
+- 它会注入 `connectivity.modules`。缺少这个隐藏字段时 `compose` 报 `layout-page must cover every composition module exactly once`，手工拼 JSON 很容易漏。
+- `--sheet` 用 `sheet-geometry --from-svg` 的精确内框/图签；缺省时退回 model-report 的 page 信息并给出 `sheet_border_missing` 警告。
+- 导入备份工程后页面 UUID 保留、工程 UUID 改变：用 `--project-id <new-uuid>` 重写，否则 `compose` 报 `before snapshot does not match target project/document`。这是恢复工程的必做步骤。
+- `--connection-mode net-labels` 只在明确选择标签连接时使用；默认 `direct`。
+
 ```bash
 easyeda sch compose --from composition.json --layout-page page.json \
   --out compose-plan.json --before page-before.json \
@@ -199,31 +235,34 @@ easyeda sch apply apply.json --yes
 "EasyEDA Agent Component ID": "cmp-<位号>"
 ```
 
-手工放置的既有工程通常没有。用官方绑定流程或逐件 `sch modify` 补齐：
+手工放置的既有工程通常没有。先用脚本生成/复核逐件命令，再执行；脚本只读快照，不写 EDA：
 
 ```bash
-easyeda sch designators plan connectivity.json --before page-before.json --out bind.json
-easyeda sch apply bind.json --dry-run
-easyeda sch apply bind.json --yes
+# 计划：缺哪个、冲突哪个、每件的 sch modify 命令
+python design-hardware/scripts/sch_bind_component_ids.py \
+  --snapshot page-before.json --connectivity connectivity-before.json \
+  --project <project> --doc <page-uuid> --commands-out bind.ps1
+
+# 写入并 save/reload 后复核（必须全部 verified）
+python design-hardware/scripts/sch_bind_component_ids.py \
+  --snapshot page-after.json --connectivity connectivity-before.json \
+  --verify page-after.json
 ```
 
-若官方队列因场景哈希漂移拒绝，逐件写入并每次回读；不要把 `--resume/--from/--to` 当绕过守卫的手段：
-
-```bash
-easyeda sch modify --project <project> --doc <page> --id <primitiveId> \
-  --patch '{"customAttributes":{"EasyEDA Agent Component ID":"cmp-R12"}}'
-```
-
-绑定只增加自定义属性，不改位号、型号、封装、网络或 PCB 绑定。写后必须回读 26/26。
+- `bind` 只补缺失的 `cmp-<位号>`；`rebind` 只在 `--force` 下允许，因为改的是 compose 用来保持实例身份的键。
+- 已存在不同 ID、缺位号/primitiveId、位号重复、connectivity 与页面器件集合不一致都会 blocked；blocked 时不写命令脚本。
+- 官方 `sch designators plan` 队列仍可用；若场景哈希漂移拒绝，逐件 `sch modify` 并每次回读。绑定只增加自定义属性，不改位号、型号、封装、网络或 PCB 绑定。写后必须逐件回读。
 
 ### 9.2 写入前快照归一化
 
-v1.14.0 的 `compose` 守卫按“恰好 10 类 pagePrimitive”校验，而 `sch list --include-page-primitives` 还会返回 `pins` 类。直接传入会报 `incomplete class inventory`。处理方式：
+`compose` 守卫按“恰好 10 类 pagePrimitive”校验，而 `sch list --include-page-primitives` 还会返回 `pins` 类（1.15.0 实测仍是 11 类）。直接传入会报 `incomplete class inventory`。处理方式：
 
 - 保留原始快照不动；
 - 复制一份，删除 `pagePrimitives.pins`（组件记录里仍有完整 pins）；
 - 另存说明 `removedClass/removedCount/reason`；
 - 用副本做 compose 的 `--before`，并在报告中记录这是快照归一化，不是删证据。
+
+归一化后的快照会和 apply gate 的 playbook 期望冲突：gate 读源场景时又看到 `pins`，报 `source-drift: pins field present expected=false`。修正 playbook 的 `expectSchematic.pagePrimitives`（`sourceScene` 和顶层两处）加入实时 `pins`，而不是再改回快照；否则 compose 与 gate 会互相打架。记录两边的 class 清单。
 
 ### 9.3 锚点不在 5-grid 的符号
 
@@ -233,6 +272,22 @@ v1.14.0 的 `compose` 守卫按“恰好 10 类 pagePrimitive”校验，而 `sc
 - 标记 `anchor_requires_review`，不允许声称 apply 已验证；
 - 写入前用 compose 的引脚断言核对实际平移；若 1 raw 级不一致，把该模块回退为**刚体移动**（`sch group-move`），不要手改队列坐标。
 - 更彻底的修复是换用引脚在网格上的等价符号；这属于器件/库变更，需单独评估，不能为排版擅自换料。
+
+### 9.4 区内重排写入（危险）与恢复
+
+`sch zone-arrange` / `sch zone relayout --apply` 会先扫掉区内导线再重建。实测在 10-raw 间距的密集 USB 区失败于 `pin-exit-direction`，J2/R8/R9 的连接已被破坏，工具明确提示 `Mutation may have landed. No automatic rollback.`。
+
+- 不要把 `zone relayout --apply` 当“小步安全操作”；它和整页 compose 一样是破坏性写入。
+- 运行前必须已导出 `.epro2` 完整备份，并确认没有其他写入者（`easyeda audit tail`）。
+- 失败后立即停写，不要继续 autoconnect 或重放快照。恢复流程：
+  1. 保存/关闭当前窗口，确保没有未决写入；
+  2. 用 `project import`（或 GUI 导入）把开工前的 `.epro2` 作为**新工程**导入，不覆盖原工程；
+  3. `doc ls` 确认页面 UUID 与备份一致；
+  4. 用 `sch connectivity` 做恢复工程与冻结 IR 的 diff，必须为 `{}` 才继续；
+  5. 在新工程重新绑定 ID（`sch_bind_component_ids.py`），compose 的 `--project-id` 改为新工程 UUID；
+  6. 从**新鲜的**恢复后快照重新走测量 → 规划 → compose，不要重放损坏现场的导线/标记快照；
+  7. save → reopen → 网表 diff → gate → 导图。
+- 快照重放不是恢复手段：垂直 netflag 的**存储 rotation 与视觉 rotation 相反**（传 `--rotation 270` 存成 90），按快照重建标记会留下孤儿短桩和 25 处以上连接漂移。
 
 ## 10. 写入后复核
 
@@ -249,7 +304,7 @@ easyeda sch export-image --project <project> --page <page> --format png --out af
 - 完整网表一致：器件身份/增删、引脚增删、`pin→net` 映射、网络分组全部一致，不能只看 `pin_net_changed=0`。
 - 器件实例保留：位号、库身份、`uniqueId`、PCB 绑定、BOM 属性不变。
 - `save` 后关闭/重开再读一致；页面 UUID、工程 UUID 未漂移。
-- `gate` 的 `blocked` 不等于通过；未执行的阶段单列。
+- `gate` 的 `blocked` 不等于通过；未执行的阶段单列。strict gate 的既有告警按开工快照建立基线，新增项才计本轮失败。
 - 前后图必须来自同一最终状态；截图不能早于最后一次写入。
 
 软验收：
@@ -281,6 +336,12 @@ easyeda sch export-image --project <project> --page <page> --format png --out af
 - **`sch clusters` 有逐对/分组两种计数**：同一页可报 24 条逐对 `tight` 或 5 条按簇聚合；都没有 ERROR 时不要当成两套矛盾结论，先统一命令与聚合口径。
 - **`layout-render` 是简化预览**：只验证几何转译，不验证官方符号、字体、电气或现场。
 - **`layout-sheet-plan` 的 `flow:compact`**：可能输出框重叠；逐框全局坐标复核。
+- **`--flow z` 是 shelf 打包**：不会使用图签旁的空洞，密集页的 `needs-pagination` 要用 `sch_sheet_fit.py` 的 MaxRects 预检复核；预检 `fits` 也不能跳过官方合页与逐框复核。
+- **`zone relayout --apply` 是破坏性写入**：失败会留下已改连接且不自动回滚；只在有 `.epro2` 备份和独占写锁时使用，失败后按 9.4 恢复。
+- **netflag rotation 视觉/存储相反**：`sch netflag --rotation` 传视觉角度，垂直放置时存储值取反（传 270 存 90）。按快照重建标记前先核对 `pins[].rotation`，否则恢复会连错。
+- **未标记的直连树会阻断 apply**：同一网络若由多个未命名的直接线树组成，compose 会拒绝；先在模块计划里改成 `module_port` 或补命名，不要用标签掩盖。
+- **求解器预算与结构限制**：单区 4–6 件较稳；并联同轨电容对、只有电源/地相连的两件、单器件区常无解或触发 `inner-spacing`；`maxCandidates` 失败只是“本预算内无解”，先拆区/改核心/改网络策略，再谈加页。
+- **gate 基线策略**：strict gate 会把改前就存在的图签属性越界、位号文字重叠一并报出。必须在开工快照里建立同名同对象的基线：旧问题保留并逐条记录，新问题必须修复；不能用“非 strict PASS”代替。不得为了消 strict 告警去改图签/属性。
 - **文本测量只覆盖位号**：`designator-geometry` 不测型号/参数/自由文字；这些文字的遮挡仍是缺测项，不能声称已验证。
 - **PCB 不受益于原理图排版**：原理图的模块邻近不代表 PCB 布局/回流；PCB 另行验收。
 
@@ -290,9 +351,11 @@ easyeda sch export-image --project <project> --page <page> --format png --out af
 
 1. 改前/改后的 `sch list`、`connectivity`、`designator-geometry`、`sheet-geometry` 原始 JSON 与哈希。
 2. 模块计划、`layout-source.json`、`zones-geom.json`、`pages.json`、`layout.svg`。
-3. 质量检查的前后 JSON 与对比；`layout-lint`、`layout-score`、`gate` 结果。
-4. compose 队列、dry-run 输出、apply journal、save/reopen 回读。
-5. 前后 SVG/PNG，且注明“离线预览”或“官方导出”。
-6. 未完成/未验证项，逐条标 `NOT RUN`/`BLOCKED`。
+3. 页预算预检 `sch_sheet_fit.py` 报告（fits/no-fit、失败模块与剩余空间）与最终 packed page。
+4. composition 适配器报告（blocked/warnings、输入哈希、`connectivity.modules` 注入）与绑定复核（verified N/N）。
+5. 质量检查的前后 JSON 与对比；`layout-lint`、`layout-score`、`gate` 结果（含 strict 基线差异）。
+6. compose 队列、dry-run 输出、apply journal、save/reopen 回读。
+7. 前后 SVG/PNG，且注明“离线预览”或“官方导出”。
+8. 未完成/未验证项，逐条标 `NOT RUN`/`BLOCKED`。
 
 没有真实工程时，只能交付离线候选和复现命令，不能写“已改善”。
