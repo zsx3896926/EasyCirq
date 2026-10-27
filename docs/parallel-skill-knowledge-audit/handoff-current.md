@@ -101,5 +101,6 @@ python design-hardware/scripts/skill_selftest.py
 - 主提交：`91d7aa92bddc2da16de02d20808eb25c526c6bab`
   （`feat(skill-audit): add read-only knowledge audit and minimal reading planner`）。
 - PR #45：https://github.com/zsx3896926/hardware-design-skill/pull/45
-- 后续文档 PR：见 `git log -1` 与 PR 描述（本文件随提交更新）。
+- 后续文档 PR：https://github.com/zsx3896926/hardware-design-skill/pull/53
+  （仅同步 312 文件复核实测到本报告/交接，不改代码与冻结结果）。
 
