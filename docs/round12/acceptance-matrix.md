@@ -7,7 +7,7 @@
 > 反馈单元测试 `python -m unittest discover -s tests -p 'test_feedback*.py'` -> **283 OK**；
 > 全量离线套件 `python -m unittest discover -s tests` -> **1593 tests OK**；
 > `skill_selftest.py` -> **5 PASS / 0 FAIL / 0 NOT RUN**。
-> 源码 0.9.3，分支 `feat/feedback-loop-round12`，代码/测试/基准提交 `427a07c`，
+> 源码 0.9.3，分支 `feat/feedback-loop-round12`，代码/测试/基准提交 `8b7706b`，
 > 目标分支已改为 `main`（基线 `1954e15`）；已安装客户端仍 0.9.2，
 > 观测到的 easyeda CLI / connector 为 1.15.0、EasyEDA Pro 为 4.1.78。
 > 真机：本轮尚未执行独立副本纵向验证；另一个会话正占用 EasyEDA 窗口做其自己的

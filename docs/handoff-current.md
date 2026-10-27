@@ -4,7 +4,7 @@
 > `docs/round12/report.md`、`docs/round12/acceptance-matrix.md`、
 > `docs/round12/offline-vertical-case.md`。本轮已完成五项源码收紧（PCB 写前
 > `before_dump` 门禁、acceptance 契约、电容角色、显式 `simulated`、PCB apply
-> 窗口/文档 UUID 路由），代码/测试/基准提交 `427a07c`；本文件与文档批次随后提交。
+> 窗口/文档 UUID 路由），代码/测试/基准提交 `8b7706b`；本文件与文档批次随后提交。
 
 ## 1. 目标与任务表
 
@@ -17,7 +17,7 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `feat/feedback-loop-round12`（已推送） |
-| HEAD（代码/测试/基准） | `427a07c`（上一提交 `e0c8e5a`） |
+| HEAD（代码/测试/基准） | `8b7706b`（窗口路由 `427a07c`，文档 `0c5eb71`） |
 | 基线 | `origin/main` `1954e15`；PR #30 目标分支已改为 `main` |
 | PR | #30，state OPEN，mergeable MERGEABLE；CI 于本次推送后确认 |
 | 工作树 | `C:/Users/jlc/work/hds-feedback-r12`（隔离 worktree） |
@@ -32,7 +32,7 @@
 
 已完成（离线部分，本轮实跑确认）：
 
-- 代码收紧（`427a07c`，接续 `e0c8e5a`）：
+- 代码收紧（`427a07c`/`8b7706b`，接续 `e0c8e5a`）：
   - `feedback/scope.py`：PCB 写入强制原始 `before_dump`；缺失/非对象/缺铜或器件
     数据/项目·文档·版本绑定不符/与新鲜观察不一致/过期 → 写前拒绝；`apply` 写前
     二次核对绑定；负例基准 `before_dump_gate` 证明 `writes_sent=0`、runner 0 次。
@@ -45,8 +45,9 @@
   - `feedback/evaluate.py`：电容角色 `bulk`/`local-decoupling`/`unknown`；
     bulk 仅 conditional、不驱动自动移动、不触发 `drc_zero_but_quality_issues`；
     unknown `auto_action_allowed=false`。
-  - `observe/evaluate/scope/cli`：机器可读输出显式 `simulated`；`verify` 五事实
-    只从 `--apply` receipt 读取，`--after` 仅哈希交叉核对。
+  - `observe/evaluate/scope/cli`：机器可读输出显式 `simulated`；`verify` 的
+    call/write/save/reopen 只从 `--apply` receipt 读取，`quality_passed` 只从显式
+    `--evaluation` 取得；`--after` 仅哈希交叉核对。
   - `feedback/cases.py`：覆盖计数 3 cases / 1 project / 3 scenarios，保留
     `provenance.source_project/source_case`。
 - 12 行验收矩阵：`docs/round12/acceptance-matrix.md`（已更新到 16/16）；
@@ -143,8 +144,8 @@
 
 1. **提交文档批次并推送**：`git add` 五份文档（本文件、验收矩阵、报告、纵向案例、
    CHANGELOG），提交并推送 `feat/feedback-loop-round12`，确认 CI；用
-   `gh pr edit 30` 更新 PR 描述（16/16、283/1593、`427a07c`、窗口/文档 UUID
-   路由、真机 NOT RUN）。
+   `gh pr edit 30` 更新 PR 描述（16/16、283/1593、`8b7706b`、窗口/文档 UUID
+   路由、verify 事实来源、真机 NOT RUN）。
 2. **等 jlc-b9 释放窗口**并收到其消息后，重新确认窗口归属与无其他写入者，再新建
    独立工程副本做真机纵向验证：`probe` → `observe`（`--window` + 明确 sch/pcb
    文档 UUID）→ `preview`（`writes_sent=0`）→ dry-run `apply` → `apply --apply`

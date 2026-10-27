@@ -35,8 +35,8 @@
 |---|---|
 | 源码 Skill 版本 | `0.9.3`（`design-hardware/.version`；本轮未 bump，避免触发分发/Release） |
 | 分支 | `feat/feedback-loop-round12` |
-| 代码/测试/基准提交 | `427a07c` |
-| 基线 HEAD | `427a07c` 已 rebase 到 `origin/main` `1954e15`；PR #30 目标分支 `main` |
+| 代码/测试/基准提交 | `8b7706b`（窗口路由 `427a07c`） |
+| 基线 HEAD | `8b7706b` 已 rebase 到 `origin/main` `1954e15`；PR #30 目标分支 `main` |
 | 已安装客户端 | 仍 `0.9.2`（本轮未替换） |
 | easyeda CLI / daemon / Connector | `1.15.0` / `1.15.0`（端口 `60832`）/ `1.15.0`（只读探测） |
 | EasyEDA Pro | `4.1.78`（观察到，未写入） |
@@ -156,7 +156,7 @@ PCB 写入的 plan **必须**携带原始实测 dump（`before_dump`，如
    截图/对象级几何/真实 DRC 没有新采集。三个案例共享同一源工程
    `photo-led-pcb-20261026`，不是独立覆盖。
 6. **未安装**：源码 0.9.3 未替换客户端 0.9.2；本轮改动已提交并推送
-   （`427a07c` / PR #30，目标分支 `main`），新 `SKILL.md` 入口未在真实客户端触发。
+   （`8b7706b` / PR #30，目标分支 `main`），新 `SKILL.md` 入口未在真实客户端触发。
    未发 Release、未替换其他客户端安装版。
 7. **文本重叠证据不同快照**：`tests/fixtures/photo-led-acceptance.json` 的标题
    primitiveId/bbox（`e176a846f166e131`，793..805）与案例/score 使用的
