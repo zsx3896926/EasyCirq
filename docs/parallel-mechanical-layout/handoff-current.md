@@ -8,21 +8,22 @@ Post-merge reconciliation date: 2026-10-28. Original branch:
 
 Task G itself did **not** merge, release or install anything. Pull request #42 was
 merged afterwards by the repository owner; that merge is observed/monitored here,
-not an action of this task. This document is corrected by a docs-only follow-up PR
-because the earlier revision listed an intermediate docs commit (`cb6e563`) as the
-PR head and omitted the actual merged head (`317876c`).
+not an action of this task. This document is corrected by the docs-only follow-up
+PR **#51** because the earlier revision listed an intermediate docs commit
+(`cb6e563`) as the PR head and omitted the actual merged head (`317876c`).
 
 ## Delivery identifiers
 
 | item | value |
 |---|---|
-| pull request | **#42** — https://github.com/zsx3896926/hardware-design-skill/pull/42 — **MERGED** by `@zsx3896926` at `2026-10-27T16:52:58Z` |
+| merged pull request | **#42** — https://github.com/zsx3896926/hardware-design-skill/pull/42 — **MERGED** by `@zsx3896926` at `2026-10-27T16:52:58Z` |
 | merge commit on main | `ecb4c8a8c5774bdbd54b7c16789029b8fe959a82` |
 | original branch | `feat/parallel-mechanical-layout` |
 | main baseline | `9a951edc21481dc3ae91460acc11aa3e08a7be8a` |
 | verified delivery HEAD | `0ff873c7361d653c9f7ad0d35c39f6df60543018` |
-| merged PR head | `317876c0797ad04aaeee7483efb6d5f9c0526f87` |
-| this docs correction | branch `docs/mechanical-layout-handoff-head`, follow-up PR (head SHA on that PR page; not merged by task G) |
+| merged PR #42 head | `317876c0797ad04aaeee7483efb6d5f9c0526f87` |
+| docs correction PR | **#51** — https://github.com/zsx3896926/hardware-design-skill/pull/51 — **OPEN**, not merged by task G |
+| PR #51 head when this note was authored | `60ec52eee87593979954f92cfd18f7a7b201443b` (this note adds one docs-only commit on #51; the live head is shown on the PR page) |
 
 ## Head reconciliation (verified HEAD vs merged PR head)
 
@@ -36,8 +37,12 @@ git diff --name-status 0ff873c..317876c
 git diff --name-only 0ff873c..317876c -- \
     design-hardware/scripts/mechanical_layout tests/mechanical_layout \
     benchmarks/mechanical-layout
-    (empty)
+    (empty; tests/mechanical_layout is the historical path at 0ff873c)
 ```
+
+The `tests/mechanical_layout` path in that command is the path as it existed at
+`0ff873c`. It is no longer present after the integration move; the current path is
+`tests/mechanical_layout_tests/`.
 
 Therefore the 144-test and 34/34 + 4/4 benchmark results obtained at `0ff873c`
 remain valid for the merged head `317876c`: no package, test or benchmark bytes
@@ -207,16 +212,17 @@ Status flags in every report: `simulated: true`, `real_eda: NOT RUN`,
   nothing about routing quality or electrical correctness.
 * **Distribution.** PR #42 was merged to `main` by the repository owner after this
   task's review; task G did not perform that merge and did not release, install or
-  deploy the package. This docs-only correction is a separate follow-up PR and is
-  not merged by task G.
+  deploy the package. The docs-only correction is PR **#51**
+  (https://github.com/zsx3896926/hardware-design-skill/pull/51), which remains open
+  and is not merged by task G.
 
 ## Files touched (all inside the allowed isolation paths)
 
 ```text
 design-hardware/scripts/mechanical_layout/**            (new package)
-tests/mechanical_layout_tests/**                          (new tests; moved from
-                                                           tests/mechanical_layout/ by
-                                                           integration commit a575748)
+tests/mechanical_layout_tests/**                          (current path; moved from the
+                                                           historical tests/mechanical_layout/
+                                                           at integration commit a575748)
 benchmarks/mechanical-layout/**                         (cases/expected/holdout/sources/runner/results)
 docs/parallel-mechanical-layout/**                      (this task's docs)
 ```
@@ -246,9 +252,9 @@ moved to `tests/mechanical_layout_tests/` with an `__init__.py` package marker, 
 official CI discovery now runs all 144 tests. The mechanical-layout package,
 benchmark cases and runner are unchanged by that move.
 
-This follow-up docs-only PR (branch `docs/mechanical-layout-handoff-head`) corrects
-three documentation defects from the merge: stale `tests/mechanical_layout_tests_tests`
-path strings, an outdated "PR head at handoff finalization" value, and the missing
+This docs-only correction is PR **#51** (branch `docs/mechanical-layout-handoff-head`).
+It fixes three documentation defects from the merge: a duplicated `tests` path suffix
+in path strings, an outdated "PR head at handoff finalization" value, and the missing
 `verified HEAD` vs `merged PR head` reconciliation. Nothing here is a claim that the
 planner was wired into the main schematic/PCB workflow; it remains an independent
-capability and no board was changed.
+capability and no board was changed. PR #51 is open and was not merged by task G.
