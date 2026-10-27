@@ -28,7 +28,7 @@ func establishedGroupMembership(refs []string) error {
 }
 
 func TestPCBEstablishedGroupScenario(t *testing.T) {
-	fixture := filepath.Join("..", "..", "..", "design-hardware", "references", "examples", "pcb-group-move")
+	fixture := filepath.Join("testdata", "pcb-group-move")
 	boardPath, inputPath := filepath.Join(fixture, "board.json"), filepath.Join(fixture, "layout.json")
 	boardRaw, err := os.ReadFile(boardPath)
 	if err != nil {
@@ -236,7 +236,7 @@ func TestPCBEstablishedGroupScenario(t *testing.T) {
 }
 
 func TestPCBEstablishedGroupScenarioRejectsIncompleteMembership(t *testing.T) {
-	fixture := filepath.Join("..", "..", "..", "design-hardware", "references", "examples", "pcb-group-move")
+	fixture := filepath.Join("testdata", "pcb-group-move")
 	boardRaw, err := os.ReadFile(filepath.Join(fixture, "board.json"))
 	if err != nil {
 		t.Fatal(err)
