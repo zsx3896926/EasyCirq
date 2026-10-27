@@ -1,0 +1,168 @@
+{
+  "schema": "zhigou.electrical-review.input/v1",
+  "design": {
+    "project_id": "mcu-i2c-s3-20261026-tab-split-mutation",
+    "document_id": "P2",
+    "title": "AMS1117 SOT-223 tab replay from frozen case evidence",
+    "units": {
+      "length": "mil",
+      "voltage": "V",
+      "capacitance": "uF"
+    },
+    "source_type": "synthetic_fixture",
+    "source": {
+      "producer": "task-B derivation from frozen easyeda evidence",
+      "captured_at": "2026-10-26T13:40:12Z",
+      "snapshot_sha256": "42acfe23ba0b7cb499653b218033b91ca67562b7d88d7fa99d4ee994b0a0c1c4",
+      "description": "U1 AMS1117-3.3 pads/nets derived read-only from design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json and sch-connectivity.json; no EDA call; benchmark mutation moves the TAB pad to GND, not a real board state"
+    }
+  },
+  "evidence": [
+    {
+      "id": "E-PCB",
+      "kind": "derived",
+      "source": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json",
+      "sha256": "42acfe23ba0b7cb499653b218033b91ca67562b7d88d7fa99d4ee994b0a0c1c4",
+      "note": "real PCB readback, replayed offline"
+    },
+    {
+      "id": "E-SCH",
+      "kind": "derived",
+      "source": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/sch-connectivity.json",
+      "note": "real schematic connectivity, replayed offline"
+    },
+    {
+      "id": "E-PROJ",
+      "kind": "project_policy",
+      "source": "benchmark derivation policy for pad names"
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "iU1",
+      "ref": "U1",
+      "kind": "ic",
+      "mpn": "AMS1117-3.3",
+      "manufacturer": "AMS",
+      "footprint": {
+        "name": "SOT-223",
+        "evidence": [
+          "E-PCB"
+        ]
+      },
+      "mapping_complete": true,
+      "pins": [
+        {
+          "number": "1",
+          "name": "GND",
+          "net": "GND",
+          "pads": [
+            "1",
+            "TAB"
+          ]
+        },
+        {
+          "number": "2",
+          "name": "VOUT",
+          "net": "+3V3",
+          "pads": [
+            "2"
+          ]
+        },
+        {
+          "number": "3",
+          "name": "VIN",
+          "net": "VBUS_5V",
+          "pads": [
+            "3"
+          ]
+        }
+      ],
+      "evidence": [
+        "E-PCB",
+        "E-SCH"
+      ]
+    }
+  ],
+  "connectivity": {
+    "pin_nets": {},
+    "coverage": {
+      "complete": true,
+      "notes": [
+        "single component replay; other board parts not included"
+      ]
+    }
+  },
+  "device_facts": [
+    {
+      "fact_id": "F-AMS1117-PADS",
+      "mpn": "AMS1117-3.3",
+      "manufacturer": "Advanced Monolithic Systems",
+      "package": "SOT-223",
+      "revision": "AMS1117 datasheet (undated revision on vendor page)",
+      "source": {
+        "kind": "datasheet",
+        "url": "http://www.advanced-monolithic.com/pdf/ds1117.pdf",
+        "revision": "AMS1117 datasheet as retrieved 2026-10-27",
+        "retrieved_at": "2026-10-27",
+        "pages": "1",
+        "table": "PIN CONNECTIONS / SOT-223 Top View (TAB IS OUTPUT)",
+        "sha256": "189a2651878a87d590b768eaa9b44217a3fdf460352ce6ecaff127221282a3f0"
+      },
+      "applies_to": {
+        "mpn": [
+          "AMS1117-3.3"
+        ],
+        "packages": [
+          "SOT-223"
+        ],
+        "revisions": []
+      },
+      "facts": [
+        {
+          "type": "pad_map",
+          "value": {
+            "package": "SOT-223",
+            "pins": [
+              {
+                "pin": "1",
+                "name": "GND/ADJ",
+                "pads": [
+                  "1"
+                ],
+                "required_net_role": "ground"
+              },
+              {
+                "pin": "2",
+                "name": "VOUT",
+                "pads": [
+                  "2",
+                  "TAB"
+                ],
+                "note": "TAB IS OUTPUT: the tab is electrically VOUT"
+              },
+              {
+                "pin": "3",
+                "name": "VIN",
+                "pads": [
+                  "3"
+                ]
+              }
+            ],
+            "notes": [
+              "TAB IS OUTPUT (SOT-223 pin 2)"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "intent": {
+    "source": "derived",
+    "net_roles": {
+      "GND": "ground",
+      "+3V3": "power",
+      "VBUS_5V": "power"
+    }
+  }
+}

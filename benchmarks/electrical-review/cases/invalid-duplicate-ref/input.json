@@ -1,0 +1,174 @@
+{
+  "schema": "zhigou.electrical-review.input/v1",
+  "design": {
+    "project_id": "r1-ok",
+    "document_id": "P1",
+    "units": {
+      "length": "mil",
+      "voltage": "V",
+      "capacitance": "uF"
+    },
+    "source_type": "synthetic_fixture",
+    "title": "electrical-review benchmark fixture"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "synthetic_fixture",
+      "source": "task-B synthetic fixture"
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "iU1",
+      "ref": "U1",
+      "kind": "ic",
+      "pins": [
+        {
+          "number": "1",
+          "net": "CP"
+        },
+        {
+          "number": "3",
+          "net": "CN"
+        },
+        {
+          "number": "16",
+          "net": "3V3"
+        },
+        {
+          "number": "15",
+          "net": "GND"
+        }
+      ],
+      "mpn": "MAX3232IDR"
+    },
+    {
+      "instance_id": "iC1",
+      "ref": "U1",
+      "kind": "capacitor",
+      "pins": [
+        {
+          "number": "1",
+          "net": "CP"
+        },
+        {
+          "number": "2",
+          "net": "CN"
+        }
+      ],
+      "mpn": "GRM188R71C104KA01",
+      "value": "100nF"
+    }
+  ],
+  "connectivity": {
+    "pin_nets": {}
+  },
+  "device_facts": [
+    {
+      "fact_id": "F-MAX3232",
+      "mpn": "MAX3232IDR",
+      "manufacturer": "Texas Instruments",
+      "package": "SOIC-16 (D)",
+      "revision": "SLLS410O",
+      "source": {
+        "kind": "datasheet",
+        "url": "https://www.ti.com/lit/ds/symlink/max3232.pdf",
+        "revision": "SLLS410O (JANUARY 2000 - REVISED JUNE 2021)",
+        "retrieved_at": "2026-10-27",
+        "pages": "3, 4",
+        "table": "Table 5-1 Pin Functions; section 6.3 Recommended Operating Conditions",
+        "sha256": "f8497fd138dd31accec7a08d77d79218dd982325eb2d985fd04b3f6573818849"
+      },
+      "applies_to": {
+        "mpn": [
+          "MAX3232IDR"
+        ],
+        "packages": [
+          "SOIC-16"
+        ],
+        "revisions": []
+      },
+      "facts": [
+        {
+          "type": "flying_capacitor",
+          "value": {
+            "pins": {
+              "positive": "1",
+              "negative": "3"
+            },
+            "note": "C1+ / C1- are the charge-pump flying capacitor leads"
+          }
+        },
+        {
+          "type": "pin_functions",
+          "value": {
+            "pins": {
+              "1": {
+                "name": "C1+",
+                "type": "passive"
+              },
+              "2": {
+                "name": "V+",
+                "type": "power"
+              },
+              "3": {
+                "name": "C1-",
+                "type": "passive"
+              },
+              "11": {
+                "name": "DIN1",
+                "type": "input",
+                "max_v": 5.5
+              },
+              "12": {
+                "name": "ROUT1",
+                "type": "output"
+              },
+              "15": {
+                "name": "GND",
+                "type": "ground"
+              },
+              "16": {
+                "name": "VCC",
+                "type": "power"
+              }
+            },
+            "supply": {
+              "min_v": 3.0,
+              "max_v": 5.5,
+              "unit": "V",
+              "conditions": "VCC = 3.3 V or 5 V recommended range"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "intent": {
+    "source": "user_declaration",
+    "capacitor_roles": [
+      {
+        "component": "C1",
+        "role": "flying",
+        "role_source": "datasheet",
+        "expected_terminals": [
+          {
+            "pin": "1",
+            "net": "CP"
+          },
+          {
+            "pin": "2",
+            "net": "CN"
+          }
+        ],
+        "evidence": [
+          "E1"
+        ],
+        "fact_ids": [
+          "F-MAX3232"
+        ]
+      }
+    ]
+  }
+}

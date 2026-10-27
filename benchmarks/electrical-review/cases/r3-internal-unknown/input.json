@@ -1,0 +1,69 @@
+{
+  "schema": "zhigou.electrical-review.input/v1",
+  "design": {
+    "project_id": "r3-unknown",
+    "document_id": "P1",
+    "units": {
+      "length": "mil",
+      "voltage": "V",
+      "capacitance": "uF"
+    },
+    "source_type": "synthetic_fixture",
+    "title": "electrical-review benchmark fixture"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "synthetic_fixture",
+      "source": "task-B synthetic fixture"
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "iSW1",
+      "ref": "SW1",
+      "kind": "switch",
+      "pins": [
+        {
+          "number": "1",
+          "net": "EN"
+        },
+        {
+          "number": "2",
+          "net": "EN"
+        },
+        {
+          "number": "3",
+          "net": "GND"
+        },
+        {
+          "number": "4",
+          "net": "GND"
+        }
+      ]
+    }
+  ],
+  "connectivity": {
+    "pin_nets": {}
+  },
+  "device_facts": [],
+  "intent": {
+    "switch_requirements": [
+      {
+        "component": "SW1",
+        "function": "user button",
+        "used_pins": [
+          "1",
+          "3"
+        ],
+        "evidence": [
+          "E1"
+        ]
+      }
+    ],
+    "net_roles": {
+      "EN": "signal",
+      "GND": "ground"
+    }
+  }
+}
