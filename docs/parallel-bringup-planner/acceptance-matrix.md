@@ -71,7 +71,7 @@
 ```bash
 # worktree 根目录
 python benchmarks/bringup-planner/run_benchmark.py --out /tmp/bp-bench.json
-python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"
+python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 python tools/offline_suite.py        # 仓库既有离线套件（不得因本任务回归）
 ```
 

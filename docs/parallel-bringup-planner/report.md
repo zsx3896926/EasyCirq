@@ -10,7 +10,7 @@
 | 可运行 CLI（validate/plan/explain/evaluate） | `design-hardware/scripts/bringup_planner/` |
 | 六组能力 I1–I6 | `poweroff.py`、`powerup.py`、`measurements.py`、`interface_tests.py`、`faults.py`、`evaluate.py` |
 | 契约/范围/资料/测量纪律/验收/集成/交接文档 | `docs/parallel-bringup-planner/` |
-| 专属测试 172 个 | `tests/bringup_planner_tests_tests/` |
+| 专属测试 172 个 | `tests/bringup_planner_tests/` |
 | 34 个 CLI 冻结场景 + 5 holdout/变形 + 2 组合板案例 + runner | `benchmarks/bringup-planner/` |
 | 一手资料 11 源 / 143 facts（78 条带页码） | `benchmarks/bringup-planner/sources/device-facts.json`、`source-register.md` |
 
@@ -28,7 +28,7 @@
 ### 3.1 专属测试
 
 ```bash
-python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"
+python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 # Ran 172 tests ... OK
 ```
 
@@ -65,7 +65,7 @@ python design-hardware/scripts/skill_selftest.py
 # 5 PASS, 0 FAIL, 0 NOT RUN -> exit 0
 ```
 
-（`tools/offline_suite.py` 不会发现 `tests/bringup_planner_tests_tests/`：该目录没有 `__init__.py`，避免 discovery 把测试包误当产品包 `bringup_planner`；专属测试用上面的 `unittest discover` 入口运行，见 `issue-candidates.md`。）
+（主线集成后 `tests/bringup_planner_tests/` 已加入 `__init__.py` 并改为不与产品包冲突的名称，官方 `python -m unittest discover -s tests` 现在会运行全部 172 项测试；原“不会被 discovery 发现”的问题已修复，详见 `handoff-current.md` 的集成说明。）
 
 ### 3.4 CLI 样例（组合板）
 
@@ -132,7 +132,7 @@ python design-hardware/scripts/skill_selftest.py
 
 ## 8. 已修问题（集成/审查中发现）
 
-1. `tests/bringup_planner_tests_tests/__init__.py` 使仓库 `offline_suite` discovery 把测试包误当产品包，8 个 ImportError → 移除该 `__init__.py`，专属测试用独立入口。
+1. （历史记录，已由主线集成修复）曾因测试包与产品包同名而移除 `__init__.py`；主线集成把目录改为 `tests/bringup_planner_tests/` 并保留 `__init__.py`，官方 discovery 与专属入口均可运行 172 项测试。
 2. 计划哈希原包含原始输入 SHA，导致对象重排/单位换算改变哈希 → 改为只绑定归一化语义哈希（仍绑定 revision）。
 3. `notes` 自由文本参与语义哈希 → 递归剔除 `notes`，同义改写不影响判据。
 4. 非法输入时先写 `input-invalid.json` 再清理生成物，会把 invalid 标记也删掉 → 调整为先清理后写。
@@ -163,7 +163,7 @@ python -m bringup_planner evaluate --plan <out>/plan.json --results <results.jso
     --evidence-root <evidence-dir> --out <out2> --json
 
 cd <repo-root>
-python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"
+python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 python benchmarks/bringup-planner/run_benchmark.py --json --out /tmp/bench.json
 python tools/offline_suite.py
 python design-hardware/scripts/skill_selftest.py
@@ -177,7 +177,7 @@ python design-hardware/scripts/skill_selftest.py
 benchmarks/bringup-planner/
 design-hardware/scripts/bringup_planner/
 docs/parallel-bringup-planner/
-tests/bringup_planner_tests_tests/
+tests/bringup_planner_tests/
 ```
 
 未修改 `SKILL.md`、现有 `references/`、README/CHANGELOG/版本/主 handoff、runtime/connector/protocol、distribution、CI、顶层依赖、feedback、compose、design_engine 或其他任务目录。
