@@ -5,9 +5,13 @@
 > 差异与恢复逻辑可运行，**不是真实 EasyEDA 写入/保存/重开/DRC 证据**。真实宿主本轮
 > 只做了只读探测，写/保存/重开/DRC 为 `NOT RUN`，用户已要求停止真机操作。
 >
-> **基准产物**：`benchmarks/offline-round12/result.json`（13/13 PASS，simulated host，
-> `real_eda=NOT RUN`，生成于 `2026-10-27T03:03:47Z`）。三个案例 JSON 的证据路径均已
+> **基准产物**：`benchmarks/offline-round12/result.json`（16/16 PASS，simulated host，
+> `real_eda=NOT RUN`，2026-10-27 收尾轮实跑）。三个案例 JSON 的证据路径均已
 > 指向该现存文件，证据链闭合。
+>
+> **真机状态（2026-10-27 12:15 +08）**：独立工程副本的真实纵向验证尚未执行；
+> 当时 EasyEDA 窗口由另一会话用于其受控写入，本会话已确认不写该窗口/工程。
+> 真实写、保存、重开、DRC 全部 `NOT RUN`。
 >
 > 夹具是 photo-led 工程的只读采集冻结副本；为可重复性，文件内窗口/工程 ID 已归一化为
 > `win-sim` / `proj-sim-0001` / `pcb-sim-0001` / `sch-sim-0001`，不是当前在线工程 UUID。
@@ -20,7 +24,7 @@
 | `tests/fixtures/feedback/schematic-before.json` | 原理图只读 read：37 条 component 记录（其中 19 个有位号）、12 个网络、8 条自由文本、sch DRC 1 条 ATTRMATCHCODE warn |
 | `tests/fixtures/feedback/fake_easyeda.py` | 模拟 easyeda CLI；`simulated: true`；支持 timeout/garbage/wrong_context/partial/save_fail/reload_lost 等故障注入 |
 | `tests/feedback_sim.py` | 用夹具构造模拟宿主状态与 `FakeRunner`；不解析 PATH 上的真实 `easyeda` |
-| `benchmarks/offline-round12/result.json` | 13 个离线基准结果；`real_eda=NOT RUN`；本轮验收引用的基准产物 |
+| `benchmarks/offline-round12/result.json` | 16 个离线基准结果；`real_eda=NOT RUN`；本轮验收引用的基准产物 |
 | `docs/round12/evidence/live-baseline/copy-pcb-check-before.json` | 真实只读 `pcb check`：native DRC 0，但 C1 890mil、C2 150mil decap-too-far，另有 power-not-poured/width-under-spec |
 | `docs/round12/evidence/live-baseline/copy-sch-score.json` | 真实只读排版评分：frame-fit 88，attribution “text 7000fc9074f2508d overlaps text ed1db1e2379b6cfd by 55.01×12.00 raw（文本带为估算）” |
 | `docs/round12/evidence/live-baseline/copy-drc-before.json` | PCB DRC `passed=true,total=0`（只读基线，不是本轮复验） |
@@ -63,9 +67,11 @@ sch_doc='sch-sim-0001', pcb_doc='pcb-sim-0001')`
   primitiveId 是 `e176a846f166e131`、bbox 为 793..805，说明文字 bbox 778..790，
   按该 bbox 并不重叠；而案例/score 用的是 `ed1db1e2379b6cfd`、y=792。两者不是同一
   快照，55.01×12.00 只能按 layout-score 估算值引用，不能当作官方 bbox 测量；
-- **角色/阈值限制**：评价层把 C1 也列为 decap-too-far，但案例说明 C1 是 10µF bulk、
-  890mil 可接受；C2 是 RAD104 100nF、150mil 是去耦候选。这是“评价层缺 bulk/去耦
-  角色区分”的启发式限制，需人工或规则复核，不能直接按同一阈值整改。
+- **角色区分（已修）**：C1 是 10µF bulk、890mil，评价层现判为 `bulk`，只给
+  conditional，不触发 `drc_zero_but_quality_issues`，也不驱动自动移动；C2 是
+  RAD104 100nF、150mil，判为 `local-decoupling` 候选。无法从元件值或声明判定的
+  电容判 `unknown`，`auto_action_allowed=false`。容值解析仍是启发式，阈值仍需人工/
+  规则复核。
 
 ### 2.4 范围化计划（只动 C2 / 只动文本）
 
@@ -135,7 +141,8 @@ PCB 局部移动的执行路径由基准用例 `pcb_local_apply` 在模拟宿主
 - 案例只把 `structural` 标 `pass`，`host_readback/erc_drc/simulation/manufacturing/
   physical` 全部 `not_run`；复用检查在版本/封装/层数/工艺变化时强制复核，不继承旧结论；
 - **证据链已闭合**：三个案例 JSON 都引用 `benchmarks/offline-round12/result.json`，
-  该文件与 `tools/feedback_benchmark.py` 现已存在并实跑 13/13 PASS；
+  该文件与 `tools/feedback_benchmark.py` 现已存在并实跑 16/16 PASS；覆盖计数
+  机器可读为 3 cases / 1 project / 3 scenarios；
 - **共享来源**：三个案例的 `provenance.source_project` 都是
   `photo-led-pcb-20261026`，只能算同一项目的三个场景，不是三个独立项目覆盖。
 
