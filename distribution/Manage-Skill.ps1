@@ -20,7 +20,8 @@ foreach ($candidate in @('py','python3','python')) {
         $probe = @('-c','import sys; sys.exit(0 if sys.version_info >= (3,10) else 1)')
         $candidatePrefix = @()
         if ($candidate -eq 'py') { $candidatePrefix = @('-3') }
-        & $command.Source @candidatePrefix @probe 2>$null
+        try { & $command.Source @candidatePrefix @probe 2>$null }
+        catch { continue }
         if ($LASTEXITCODE -eq 0) { $python = $command.Source; $prefix = $candidatePrefix; break }
     }
 }

@@ -1,13 +1,6 @@
-Hardware Design Skill and the hw-eda-engineer skill packages supplied by the
-project owner are the project owner's own work. Those packages do not require
-third-party acknowledgements. This distribution is licensed under LICENSE.
+Hardware Design Skill (智构)
+Copyright (c) 2026 zsx3896926
 
-The independently maintained easyeda-agent project provides the external EDA
-execution tooling used by the recommended workflow:
-https://github.com/zhoushoujianwork/easyeda-agent
-Its implementation is not included in this repository and remains governed by
-its own license.
-
-External reference designs, manufacturer documentation, source material and
-trademarks remain governed by their respective owners and licenses. Source and
-license records in this repository are retained for those external materials.
+Project-owned content is licensed under Apache License 2.0 starting with v1.0.0.
+Earlier releases retain their original licenses. Third-party material retains
+its attribution and applicable license. This project is independently maintained.

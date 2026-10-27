@@ -21,7 +21,9 @@ jobs:
       - name: Verify updater lifecycle
         run: python -m unittest discover -s tests -p "test_*update.py" -v
       - name: Build customer installer
-        run: python distribution/build_release.py --output dist
+        run: python distribution/build_release.py --output dist --require-clean
+      - name: Smoke-test actual packaged installer in isolated homes
+        run: python tools/release_smoke.py --dist dist
       - uses: actions/upload-artifact@v4
         with:
           name: hardware-skill-installer-${{ matrix.os }}
@@ -42,9 +44,10 @@ jobs:
           TAG: ${{ github.event.release.tag_name }}
         run: test "$TAG" = "v$(cat design-hardware/.version)"
       - run: python -m unittest discover -s tests
-      - run: python distribution/build_release.py --output dist
+      - run: python distribution/build_release.py --output dist --require-clean
+      - run: python tools/release_smoke.py --dist dist
       - name: Attach immutable release assets
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.event.release.tag_name }}
-        run: gh release upload "$TAG" dist/design-hardware-*.zip dist/release.json dist/Manage-Skill.ps1 dist/Manage-Skill.cmd dist/skill_update.py dist/companion_update.py
+        run: gh release upload "$TAG" dist/design-hardware-*.zip dist/release.json dist/Manage-Skill.ps1 dist/Manage-Skill.cmd dist/skill_update.py dist/companion_update.py dist/LICENSE dist/NOTICE dist/INSTALL.md dist/SHA256SUMS
