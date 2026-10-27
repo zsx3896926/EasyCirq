@@ -1,0 +1,6350 @@
+{
+  "checker_context": {
+    "attachment_points": [
+      {
+        "id": "417202d804679ca0-e6",
+        "kind": "pin",
+        "x": 280,
+        "y": 195
+      },
+      {
+        "id": "417202d804679ca0-e10",
+        "kind": "pin",
+        "x": 280,
+        "y": 185
+      },
+      {
+        "id": "417202d804679ca0-e14",
+        "kind": "pin",
+        "x": 280,
+        "y": 175
+      },
+      {
+        "id": "417202d804679ca0-e18",
+        "kind": "pin",
+        "x": 280,
+        "y": 165
+      },
+      {
+        "id": "417202d804679ca0-e22",
+        "kind": "pin",
+        "x": 380,
+        "y": 165
+      },
+      {
+        "id": "417202d804679ca0-e26",
+        "kind": "pin",
+        "x": 380,
+        "y": 175
+      },
+      {
+        "id": "417202d804679ca0-e30",
+        "kind": "pin",
+        "x": 380,
+        "y": 185
+      },
+      {
+        "id": "417202d804679ca0-e34",
+        "kind": "pin",
+        "x": 380,
+        "y": 195
+      },
+      {
+        "id": "9f05264307912dc7-e5",
+        "kind": "pin",
+        "x": 540,
+        "y": 715
+      },
+      {
+        "id": "9f05264307912dc7-e9",
+        "kind": "pin",
+        "x": 540,
+        "y": 705
+      },
+      {
+        "id": "9b647abbb274d557-e0",
+        "kind": "pin",
+        "x": 639.9999999999999,
+        "y": 710.0000000000001
+      },
+      {
+        "id": "9b647abbb274d557-e4",
+        "kind": "pin",
+        "x": 679.9999999999999,
+        "y": 710.0000000000001
+      },
+      {
+        "id": "d3bfcf566c9649c4-e4",
+        "kind": "pin",
+        "x": 770,
+        "y": 710
+      },
+      {
+        "id": "d3bfcf566c9649c4-e8",
+        "kind": "pin",
+        "x": 810,
+        "y": 710
+      },
+      {
+        "id": "832c51a7d77cb7d4-e5",
+        "kind": "pin",
+        "x": 940,
+        "y": 710
+      },
+      {
+        "id": "832c51a7d77cb7d4-e9",
+        "kind": "pin",
+        "x": 910,
+        "y": 710
+      },
+      {
+        "id": "8a8f0b18e2eedcb8-e5",
+        "kind": "pin",
+        "x": 280,
+        "y": 710
+      },
+      {
+        "id": "8a8f0b18e2eedcb8-e9",
+        "kind": "pin",
+        "x": 280,
+        "y": 680
+      },
+      {
+        "id": "e8d5019ad192abf0-e5",
+        "kind": "pin",
+        "x": 240,
+        "y": 440
+      },
+      {
+        "id": "e8d5019ad192abf0-e9",
+        "kind": "pin",
+        "x": 240,
+        "y": 410
+      },
+      {
+        "id": "fd11ca9a4596209a-e3",
+        "kind": "pin",
+        "x": 145,
+        "y": 750
+      },
+      {
+        "id": "fd11ca9a4596209a-e7",
+        "kind": "pin",
+        "x": 145,
+        "y": 710
+      },
+      {
+        "id": "4f55d49c04bb3770-e4",
+        "kind": "pin",
+        "x": 140,
+        "y": 670
+      },
+      {
+        "id": "4f55d49c04bb3770-e8",
+        "kind": "pin",
+        "x": 140,
+        "y": 630
+      },
+      {
+        "id": "31ba1be298da1c16-e4",
+        "kind": "pin",
+        "x": 100,
+        "y": 430
+      },
+      {
+        "id": "31ba1be298da1c16-e8",
+        "kind": "pin",
+        "x": 120,
+        "y": 450
+      },
+      {
+        "id": "31ba1be298da1c16-e12",
+        "kind": "pin",
+        "x": 120,
+        "y": 410
+      },
+      {
+        "id": "f0ca47aba4307891-e4",
+        "kind": "pin",
+        "x": 120,
+        "y": 520
+      },
+      {
+        "id": "f0ca47aba4307891-e8",
+        "kind": "pin",
+        "x": 120,
+        "y": 480
+      },
+      {
+        "id": "602a6271577e9c63-e3",
+        "kind": "pin",
+        "x": 165,
+        "y": 380
+      },
+      {
+        "id": "602a6271577e9c63-e8",
+        "kind": "pin",
+        "x": 150,
+        "y": 360
+      },
+      {
+        "id": "602a6271577e9c63-e12",
+        "kind": "pin",
+        "x": 165,
+        "y": 340
+      },
+      {
+        "id": "4c3b66d17e7f4875-e4",
+        "kind": "pin",
+        "x": 320,
+        "y": 360
+      },
+      {
+        "id": "4c3b66d17e7f4875-e8",
+        "kind": "pin",
+        "x": 280,
+        "y": 360
+      },
+      {
+        "id": "e085629e30ccdf66-e4",
+        "kind": "pin",
+        "x": 560,
+        "y": 480
+      },
+      {
+        "id": "e085629e30ccdf66-e8",
+        "kind": "pin",
+        "x": 520,
+        "y": 480
+      },
+      {
+        "id": "bfd8f9e1b073aebf-e4",
+        "kind": "pin",
+        "x": 400,
+        "y": 420
+      },
+      {
+        "id": "bfd8f9e1b073aebf-e8",
+        "kind": "pin",
+        "x": 360,
+        "y": 420
+      },
+      {
+        "id": "11e215502349267c-e4",
+        "kind": "pin",
+        "x": 640,
+        "y": 440
+      },
+      {
+        "id": "11e215502349267c-e8",
+        "kind": "pin",
+        "x": 640,
+        "y": 400
+      },
+      {
+        "id": "b3668ed6b91c1e9a-e3",
+        "kind": "pin",
+        "x": 750,
+        "y": 470
+      },
+      {
+        "id": "b3668ed6b91c1e9a-e7",
+        "kind": "pin",
+        "x": 770,
+        "y": 490
+      },
+      {
+        "id": "b3668ed6b91c1e9a-e11",
+        "kind": "pin",
+        "x": 770,
+        "y": 450
+      },
+      {
+        "id": "9e14afd67449795d-e4",
+        "kind": "pin",
+        "x": 1020,
+        "y": 490
+      },
+      {
+        "id": "9e14afd67449795d-e8",
+        "kind": "pin",
+        "x": 980,
+        "y": 490
+      },
+      {
+        "id": "9fa3e07921a92387-e9",
+        "kind": "pin",
+        "x": 919.9999999999999,
+        "y": 490
+      },
+      {
+        "id": "9fa3e07921a92387-e13",
+        "kind": "pin",
+        "x": 879.9999999999999,
+        "y": 490
+      },
+      {
+        "id": "572061d0b641a8eb-e11",
+        "kind": "netflag",
+        "x": 320,
+        "y": 760
+      },
+      {
+        "id": "e4b3da002faaf9ab-e11",
+        "kind": "netflag",
+        "x": 700,
+        "y": 750
+      },
+      {
+        "id": "9ec278d54c6b187d-e11",
+        "kind": "netflag",
+        "x": 180,
+        "y": 460
+      },
+      {
+        "id": "674cc4a143c6d79f-e11",
+        "kind": "netflag",
+        "x": 230,
+        "y": 530
+      },
+      {
+        "id": "cccdf87e7143c756-e11",
+        "kind": "netflag",
+        "x": 410,
+        "y": 250
+      },
+      {
+        "id": "401e6a1d26bdd5d9-e11",
+        "kind": "netflag",
+        "x": 1040,
+        "y": 490
+      },
+      {
+        "id": "4134efbe9a541b5f-e15",
+        "kind": "netflag",
+        "x": 140,
+        "y": 620
+      },
+      {
+        "id": "7664548b77e1aa22-e15",
+        "kind": "netflag",
+        "x": 280,
+        "y": 670
+      },
+      {
+        "id": "dde2d137d0b280c9-e15",
+        "kind": "netflag",
+        "x": 510,
+        "y": 650
+      },
+      {
+        "id": "307a7b962e4c26bb-e15",
+        "kind": "netflag",
+        "x": 880,
+        "y": 690
+      },
+      {
+        "id": "ac5ed85e7b991ffe-e15",
+        "kind": "netflag",
+        "x": 80,
+        "y": 390
+      },
+      {
+        "id": "80d39fab91eecb34-e15",
+        "kind": "netflag",
+        "x": 230,
+        "y": 370
+      },
+      {
+        "id": "0f221d9c11a0d9d9-e15",
+        "kind": "netflag",
+        "x": 165,
+        "y": 330
+      },
+      {
+        "id": "48a667a03c65bb69-e15",
+        "kind": "netflag",
+        "x": 410,
+        "y": 140
+      },
+      {
+        "id": "c611656644c2143a-e15",
+        "kind": "netflag",
+        "x": 640,
+        "y": 380
+      },
+      {
+        "id": "a67d5d1f1c5774db-e15",
+        "kind": "netflag",
+        "x": 790,
+        "y": 430
+      },
+      {
+        "id": "4248038985c33f80-e15",
+        "kind": "netflag",
+        "x": 235,
+        "y": 165
+      }
+    ],
+    "coverage": {
+      "attachment_points": {
+        "measured_pins": 47,
+        "observed": 64,
+        "status": "complete",
+        "total_pins": 47
+      },
+      "components": {
+        "observed": 19,
+        "status": "complete"
+      },
+      "label_anchors": {
+        "observed": 11,
+        "status": "complete"
+      },
+      "module_frames": {
+        "observed": 4,
+        "rectangles": 4,
+        "status": "complete"
+      },
+      "rendered_texts": {
+        "observed": 136,
+        "status": "complete",
+        "unique_ids": 136
+      },
+      "texts": {
+        "estimated": 0,
+        "observed": 136,
+        "rendered": 136,
+        "status": "complete"
+      },
+      "title_block": {
+        "source": "sheet-geometry",
+        "status": "complete"
+      },
+      "wires": {
+        "observed": 98,
+        "status": "complete",
+        "unparsed": 0
+      }
+    },
+    "expected_counts": {
+      "components": 19,
+      "texts": 136,
+      "wires": 98
+    },
+    "junction_evidence": {
+      "page_id": "cd008f919db36eba",
+      "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+      "source": "easyeda sch read check (photo-led v14, 2026-10-26)"
+    },
+    "label_anchors": [
+      {
+        "id": "la-04684777dbbb820e",
+        "net": "LED_CTRL",
+        "text_id": "04684777dbbb820e",
+        "x": 332.435302734375,
+        "y": 230.0
+      },
+      {
+        "id": "la-1a6314fe22161a2b",
+        "net": "LED_CTRL",
+        "text_id": "1a6314fe22161a2b",
+        "x": 502.435302734375,
+        "y": 480.0
+      },
+      {
+        "id": "la-449f0bf4ddff2ea0",
+        "net": "LDR_SIG",
+        "text_id": "449f0bf4ddff2ea0",
+        "x": 218.81890869140625,
+        "y": 690.0
+      },
+      {
+        "id": "la-80b54ece278bc323",
+        "net": "VTH",
+        "text_id": "80b54ece278bc323",
+        "x": 273.59051513671875,
+        "y": 330.0
+      },
+      {
+        "id": "la-86f2745c1af3214f",
+        "net": "VIN",
+        "text_id": "86f2745c1af3214f",
+        "x": 597.1336059570312,
+        "y": 735.0
+      },
+      {
+        "id": "la-97595089da841e50",
+        "net": "LED_K",
+        "text_id": "97595089da841e50",
+        "x": 834.4439086914062,
+        "y": 510.0
+      },
+      {
+        "id": "la-a784c1114ff7c4e8",
+        "net": "Q1_B",
+        "text_id": "a784c1114ff7c4e8",
+        "x": 691.2693481445312,
+        "y": 460.0
+      },
+      {
+        "id": "la-b5a4847f303751ae",
+        "net": "LED_A",
+        "text_id": "b5a4847f303751ae",
+        "x": 964.4439086914062,
+        "y": 490.0
+      },
+      {
+        "id": "la-d10ec9db2cfb5ccc",
+        "net": "LDR_SIG",
+        "text_id": "d10ec9db2cfb5ccc",
+        "x": 233.81890869140625,
+        "y": 185.0
+      },
+      {
+        "id": "la-ddda21ac546f32bb",
+        "net": "VTH_ADJ",
+        "text_id": "ddda21ac546f32bb",
+        "x": 219.2607421875,
+        "y": 290.0
+      },
+      {
+        "id": "la-e033e223beb47a2b",
+        "net": "U1B_TIE",
+        "text_id": "e033e223beb47a2b",
+        "x": 400.0,
+        "y": 185.0
+      }
+    ],
+    "module_frames": [
+      {
+        "bbox": [
+          470.0,
+          575.0,
+          1140.0,
+          805.0
+        ],
+        "contains": [
+          "9f05264307912dc7",
+          "9b647abbb274d557",
+          "d3bfcf566c9649c4",
+          "832c51a7d77cb7d4",
+          "26b89259608f1dd1",
+          "bafae30e719c7bf1",
+          "7e7ceb88e7174e96",
+          "486b04cfd0c8b181",
+          "74081c43fcad2d49",
+          "a6139002ec296b5b",
+          "c332e360692d0efa",
+          "bfd7402c5f9688aa",
+          "3ecb90085ef281b7",
+          "af818e7538a1fb79",
+          "eece254e344a87aa",
+          "8aa96c60739365ff",
+          "c6ea3a0edae5cc2d",
+          "590ab99de0d9e06f",
+          "a8f032712f90f745",
+          "4878bab0df653ce8",
+          "5dc7aa2c8a43f356",
+          "86f2745c1af3214f"
+        ],
+        "id": "038924265735ffcc",
+        "order": 2,
+        "purpose_text_id": "26b89259608f1dd1",
+        "title_text_id": "bafae30e719c7bf1"
+      },
+      {
+        "bbox": [
+          30.0,
+          30.0,
+          455.0,
+          565.0
+        ],
+        "contains": [
+          "417202d804679ca0",
+          "e8d5019ad192abf0",
+          "31ba1be298da1c16",
+          "f0ca47aba4307891",
+          "602a6271577e9c63",
+          "4c3b66d17e7f4875",
+          "bfd8f9e1b073aebf",
+          "0149dca70e8c886d",
+          "a8a8c59c18261aac",
+          "7a9b54d8ff8881d7",
+          "bf3a4efbf65ed967",
+          "df949ff9fabb0f65",
+          "124bb5e4c192fc8e",
+          "02a102eeaee9557a",
+          "7ec00213e402fa89",
+          "d8eef52d203bc201",
+          "d45c6b518e0083bc",
+          "0ff82bc660589068",
+          "c0efbb827f369e9f",
+          "7036dcd780957ce3",
+          "e7103bf05dfa6dba",
+          "7ff405cc16e7f305",
+          "d266f4d347d26705",
+          "cb825561cf6ce90e",
+          "1417648d899c9e23",
+          "92426cc054919476",
+          "b8b3c96d57ae8176",
+          "74d804286f779d42",
+          "33e8832e1af5ea7f",
+          "4eccb2c1de4c87c5",
+          "7b26352e1f011376",
+          "0095c02a91718d18",
+          "cf1056241076c58b",
+          "d28a026970f6c8a0",
+          "d7f22814c847069a",
+          "33139676965fdeb1",
+          "a19c5e920fe82a18",
+          "c22eb47ef4e3241f",
+          "97b0c31ba20f6d65",
+          "8bd5a6b179fa7148",
+          "2fa96c1a31147cef",
+          "b6da875b9529e9c3",
+          "5e791cbfd794a530",
+          "ca31f53db861bcf3",
+          "bcb655746ce05f36",
+          "631a0d9928f6bf01",
+          "bc08135a8f44ae85",
+          "4803c62c6a2a88ad",
+          "747dd07d9a7793c7",
+          "e033e223beb47a2b",
+          "ddda21ac546f32bb",
+          "04684777dbbb820e",
+          "80b54ece278bc323",
+          "6a3114f94aa339a0",
+          "d10ec9db2cfb5ccc"
+        ],
+        "id": "94055b82f166ad31",
+        "order": 3,
+        "purpose_text_id": "0149dca70e8c886d",
+        "title_text_id": "a8a8c59c18261aac"
+      },
+      {
+        "bbox": [
+          30.0,
+          575.0,
+          455.0,
+          805.0
+        ],
+        "contains": [
+          "8a8f0b18e2eedcb8",
+          "fd11ca9a4596209a",
+          "4f55d49c04bb3770",
+          "a92e2f11725ee5b2",
+          "ad6ce27bf74e95f9",
+          "c519f2881e511254",
+          "693091bc56674f7e",
+          "da034d3db36bd426",
+          "041f51defe6d52e9",
+          "c4c4b7f088244440",
+          "9200b084732e3735",
+          "6c42b6b57739b95b",
+          "ab764071055f5b12",
+          "cc79f07c129a4790",
+          "449f0bf4ddff2ea0"
+        ],
+        "id": "df6b35d4cbb8fbdd",
+        "order": 1,
+        "purpose_text_id": "ad6ce27bf74e95f9",
+        "title_text_id": "a92e2f11725ee5b2"
+      },
+      {
+        "bbox": [
+          470.0,
+          200.0,
+          1140.0,
+          565.0
+        ],
+        "contains": [
+          "e085629e30ccdf66",
+          "11e215502349267c",
+          "b3668ed6b91c1e9a",
+          "9e14afd67449795d",
+          "9fa3e07921a92387",
+          "40919cc3bde437c8",
+          "774affad16c0750a",
+          "1465805a58d844cb",
+          "2447580073c01300",
+          "f6732b9669f70864",
+          "fec54ea118d97336",
+          "3ce62ceb4ff1b84a",
+          "04c1ddd3b2c604be",
+          "823c8f32553ec112",
+          "7f8bc2a1edab995c",
+          "6b1a008e01876ee9",
+          "c237871bb76188b9",
+          "c3dc00f9abe6bc00",
+          "0b135be1692bf761",
+          "1a6314fe22161a2b",
+          "a784c1114ff7c4e8",
+          "b5a4847f303751ae",
+          "97595089da841e50",
+          "3a5f7624511d65c6"
+        ],
+        "id": "f7266d05fe0dcaff",
+        "order": 4,
+        "purpose_text_id": "774affad16c0750a",
+        "title_text_id": "40919cc3bde437c8"
+      }
+    ],
+    "net_flags": [
+      {
+        "anchor": [
+          320,
+          760
+        ],
+        "bbox": [
+          314.5,
+          764.5,
+          325.5,
+          770.5
+        ],
+        "id": "572061d0b641a8eb",
+        "kind": "VREF_2V5",
+        "net": "VREF_2V5",
+        "rotation": 0,
+        "text_id": "6c42b6b57739b95b"
+      },
+      {
+        "anchor": [
+          700,
+          750
+        ],
+        "bbox": [
+          694.5,
+          754.5,
+          705.5,
+          760.5
+        ],
+        "id": "e4b3da002faaf9ab",
+        "kind": "+5V",
+        "net": "+5V",
+        "rotation": 0,
+        "text_id": "4878bab0df653ce8"
+      },
+      {
+        "anchor": [
+          180,
+          460
+        ],
+        "bbox": [
+          174.5,
+          464.5,
+          185.5,
+          470.5
+        ],
+        "id": "9ec278d54c6b187d",
+        "kind": "VREF_2V5",
+        "net": "VREF_2V5",
+        "rotation": 0,
+        "text_id": "5e791cbfd794a530"
+      },
+      {
+        "anchor": [
+          230,
+          530
+        ],
+        "bbox": [
+          224.5,
+          534.5,
+          235.5,
+          540.5
+        ],
+        "id": "674cc4a143c6d79f",
+        "kind": "+5V",
+        "net": "+5V",
+        "rotation": 0,
+        "text_id": "bc08135a8f44ae85"
+      },
+      {
+        "anchor": [
+          410,
+          250
+        ],
+        "bbox": [
+          404.5,
+          254.5,
+          415.5,
+          260.5
+        ],
+        "id": "cccdf87e7143c756",
+        "kind": "+5V",
+        "net": "+5V",
+        "rotation": 0,
+        "text_id": "747dd07d9a7793c7"
+      },
+      {
+        "anchor": [
+          1040,
+          490
+        ],
+        "bbox": [
+          1034.5,
+          494.5,
+          1045.5,
+          500.5
+        ],
+        "id": "401e6a1d26bdd5d9",
+        "kind": "+5V",
+        "net": "+5V",
+        "rotation": 0,
+        "text_id": "3a5f7624511d65c6"
+      },
+      {
+        "anchor": [
+          140,
+          620
+        ],
+        "bbox": [
+          129.5,
+          600.5,
+          150.5,
+          610.5
+        ],
+        "id": "4134efbe9a541b5f",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "ab764071055f5b12"
+      },
+      {
+        "anchor": [
+          280,
+          670
+        ],
+        "bbox": [
+          269.5,
+          650.5,
+          290.5,
+          660.5
+        ],
+        "id": "7664548b77e1aa22",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "cc79f07c129a4790"
+      },
+      {
+        "anchor": [
+          510,
+          650
+        ],
+        "bbox": [
+          499.5,
+          630.5,
+          520.5,
+          640.5
+        ],
+        "id": "dde2d137d0b280c9",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "a8f032712f90f745"
+      },
+      {
+        "anchor": [
+          880,
+          690
+        ],
+        "bbox": [
+          869.5,
+          670.5,
+          890.5,
+          680.5
+        ],
+        "id": "307a7b962e4c26bb",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "5dc7aa2c8a43f356"
+      },
+      {
+        "anchor": [
+          80,
+          390
+        ],
+        "bbox": [
+          69.5,
+          370.5,
+          90.5,
+          380.5
+        ],
+        "id": "ac5ed85e7b991ffe",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "ca31f53db861bcf3"
+      },
+      {
+        "anchor": [
+          230,
+          370
+        ],
+        "bbox": [
+          219.5,
+          350.5,
+          240.5,
+          360.5
+        ],
+        "id": "80d39fab91eecb34",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "bcb655746ce05f36"
+      },
+      {
+        "anchor": [
+          165,
+          330
+        ],
+        "bbox": [
+          154.5,
+          310.5,
+          175.5,
+          320.5
+        ],
+        "id": "0f221d9c11a0d9d9",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "631a0d9928f6bf01"
+      },
+      {
+        "anchor": [
+          410,
+          140
+        ],
+        "bbox": [
+          399.5,
+          120.5,
+          420.5,
+          130.5
+        ],
+        "id": "48a667a03c65bb69",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "4803c62c6a2a88ad"
+      },
+      {
+        "anchor": [
+          640,
+          380
+        ],
+        "bbox": [
+          629.5,
+          360.5,
+          650.5,
+          370.5
+        ],
+        "id": "c611656644c2143a",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "c3dc00f9abe6bc00"
+      },
+      {
+        "anchor": [
+          790,
+          430
+        ],
+        "bbox": [
+          779.5,
+          410.5,
+          800.5,
+          420.5
+        ],
+        "id": "a67d5d1f1c5774db",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "0b135be1692bf761"
+      },
+      {
+        "anchor": [
+          235,
+          165
+        ],
+        "bbox": [
+          224.5,
+          145.5,
+          245.5,
+          155.5
+        ],
+        "id": "4248038985c33f80",
+        "kind": "GND",
+        "net": "GND",
+        "rotation": 0,
+        "text_id": "6a3114f94aa339a0"
+      }
+    ],
+    "no_junction_crossings": [
+      {
+        "wires": [
+          "25209c69b85c07d5#3",
+          "4a615d05024ff911#2"
+        ],
+        "x": 260,
+        "y": 230
+      },
+      {
+        "wires": [
+          "25209c69b85c07d5#3",
+          "4a615d05024ff911#4"
+        ],
+        "x": 260,
+        "y": 195
+      },
+      {
+        "wires": [
+          "25209c69b85c07d5#3",
+          "e0d8a52427a6575e#0"
+        ],
+        "x": 260,
+        "y": 185
+      }
+    ],
+    "page_id": "cd008f919db36eba",
+    "policy": {
+      "connection_tolerance": 1.0,
+      "min_text_wire_clearance": 5.0,
+      "netflag_rotation": {
+        "+5V": {
+          "expectedRotation": 0.0,
+          "requireHorizontalText": false
+        },
+        "GND": {
+          "expectedRotation": 0.0,
+          "requireHorizontalText": false
+        }
+      },
+      "reading_order": true,
+      "require_rendered_texts": true,
+      "self_text_contact_tolerance": 1.0,
+      "title_block_repeat_allow": [
+        "5V 光控 LED 板",
+        "A4",
+        "V1.0",
+        "photo-led-5v-20261026",
+        "嘉立创EDA"
+      ],
+      "wire_endpoint_check": false
+    },
+    "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+    "title_block_owned": [
+      "table-d30055d5065a615b-e729-text",
+      "table-d30055d5065a615b-e730-text",
+      "table-d30055d5065a615b-e734-text",
+      "table-d30055d5065a615b-e735-text",
+      "table-d30055d5065a615b-e741-text",
+      "table-d30055d5065a615b-e742-text",
+      "table-d30055d5065a615b-1b71ba32c6bc37ee-text",
+      "table-d30055d5065a615b-0e9a09eafe161521-text",
+      "table-d30055d5065a615b-b1758d8b7bb0a22a-text",
+      "table-d30055d5065a615b-544b01c847a5c430-text",
+      "table-d30055d5065a615b-e750-text",
+      "table-d30055d5065a615b-e752-text",
+      "table-d30055d5065a615b-e757-text",
+      "table-d30055d5065a615b-e773-text",
+      "table-d30055d5065a615b-e774-text",
+      "table-d30055d5065a615b-e775-text",
+      "table-d30055d5065a615b-e780-text",
+      "table-d30055d5065a615b-e781-text",
+      "table-d30055d5065a615b-e782-text"
+    ]
+  },
+  "components": [
+    {
+      "bbox": [
+        289.5,
+        154.5,
+        370.5,
+        205.5
+      ],
+      "designator": "U1",
+      "id": "417202d804679ca0",
+      "zone_id": "94055b82f166ad31"
+    },
+    {
+      "bbox": [
+        549.5,
+        694.5,
+        570.5,
+        725.5
+      ],
+      "designator": "J1",
+      "id": "9f05264307912dc7",
+      "zone_id": "038924265735ffcc"
+    },
+    {
+      "bbox": [
+        649.4999999999999,
+        702.5000000000001,
+        670.4999999999999,
+        717.5000000000001
+      ],
+      "designator": "D1",
+      "id": "9b647abbb274d557",
+      "zone_id": "038924265735ffcc"
+    },
+    {
+      "bbox": [
+        779.5,
+        702.5,
+        800.5,
+        717.5
+      ],
+      "designator": "C1",
+      "id": "d3bfcf566c9649c4",
+      "zone_id": "038924265735ffcc"
+    },
+    {
+      "bbox": [
+        919.5,
+        701.5,
+        930.5,
+        718.5
+      ],
+      "designator": "C2",
+      "id": "832c51a7d77cb7d4",
+      "zone_id": "038924265735ffcc"
+    },
+    {
+      "bbox": [
+        271.5,
+        689.5,
+        288.5,
+        700.5
+      ],
+      "designator": "C4",
+      "id": "8a8f0b18e2eedcb8",
+      "zone_id": "df6b35d4cbb8fbdd"
+    },
+    {
+      "bbox": [
+        231.5,
+        419.5,
+        248.5,
+        430.5
+      ],
+      "designator": "C3",
+      "id": "e8d5019ad192abf0",
+      "zone_id": "94055b82f166ad31"
+    },
+    {
+      "bbox": [
+        132.5,
+        719.5,
+        149.5,
+        740.5
+      ],
+      "designator": "LDR1",
+      "id": "fd11ca9a4596209a",
+      "zone_id": "df6b35d4cbb8fbdd"
+    },
+    {
+      "bbox": [
+        135.5,
+        639.5,
+        144.5,
+        660.5
+      ],
+      "designator": "R2",
+      "id": "4f55d49c04bb3770",
+      "zone_id": "df6b35d4cbb8fbdd"
+    },
+    {
+      "bbox": [
+        109.5,
+        419.5,
+        130.5,
+        440.5
+      ],
+      "designator": "U2",
+      "id": "31ba1be298da1c16",
+      "zone_id": "94055b82f166ad31"
+    },
+    {
+      "bbox": [
+        115.5,
+        489.5,
+        124.5,
+        510.5
+      ],
+      "designator": "R1",
+      "id": "f0ca47aba4307891",
+      "zone_id": "94055b82f166ad31"
+    },
+    {
+      "bbox": [
+        153.5,
+        349.5,
+        171.5,
+        370.5
+      ],
+      "designator": "RV1",
+      "id": "602a6271577e9c63",
+      "zone_id": "94055b82f166ad31"
+    },
+    {
+      "bbox": [
+        289.5,
+        355.5,
+        310.5,
+        364.5
+      ],
+      "designator": "R3",
+      "id": "4c3b66d17e7f4875",
+      "zone_id": "94055b82f166ad31"
+    },
+    {
+      "bbox": [
+        529.5,
+        475.5,
+        550.5,
+        484.5
+      ],
+      "designator": "R5",
+      "id": "e085629e30ccdf66",
+      "zone_id": "f7266d05fe0dcaff"
+    },
+    {
+      "bbox": [
+        369.5,
+        415.5,
+        390.5,
+        424.5
+      ],
+      "designator": "R4",
+      "id": "bfd8f9e1b073aebf",
+      "zone_id": "94055b82f166ad31"
+    },
+    {
+      "bbox": [
+        635.5,
+        409.5,
+        644.5,
+        430.5
+      ],
+      "designator": "R6",
+      "id": "11e215502349267c",
+      "zone_id": "f7266d05fe0dcaff"
+    },
+    {
+      "bbox": [
+        759.5,
+        459.5,
+        770.5,
+        480.5
+      ],
+      "designator": "Q1",
+      "id": "b3668ed6b91c1e9a",
+      "zone_id": "f7266d05fe0dcaff"
+    },
+    {
+      "bbox": [
+        989.5,
+        485.5,
+        1010.5,
+        494.5
+      ],
+      "designator": "R7",
+      "id": "9e14afd67449795d",
+      "zone_id": "f7266d05fe0dcaff"
+    },
+    {
+      "bbox": [
+        883.4999999999999,
+        472.5,
+        905.4999999999999,
+        498.5
+      ],
+      "designator": "LED1",
+      "id": "9fa3e07921a92387",
+      "zone_id": "f7266d05fe0dcaff"
+    }
+  ],
+  "constraints": {
+    "forbid_component_move": true,
+    "forbid_content_change": true,
+    "forbid_font_change": true,
+    "forbid_net_change": true,
+    "freeze_ids": [],
+    "grid": 5,
+    "label_own_wire_edge_tolerance": 1,
+    "max_candidates_per_annotation": 32,
+    "max_displacement": 80,
+    "max_local_search_steps": 2000,
+    "max_search_states": 20000,
+    "max_total_candidates": 2000,
+    "min_text_symbol_gap": 2,
+    "min_text_text_gap": 2,
+    "min_text_wire_clearance": 5,
+    "min_text_wire_gap": 0,
+    "owner_max_distance": 250,
+    "scope": "all",
+    "scope_cluster_ids": [],
+    "self_text_contact_tolerance": 1
+  },
+  "coordinate_system": {
+    "name": "easyeda-schematic-raw-y-up",
+    "svg_y_axis": "down",
+    "transform": "source SVG text bbox is flipped once by negating y (svg_y = -raw_y); analysis overlays use screen_y = page_height - raw_y",
+    "y_axis": "up"
+  },
+  "fixed_texts": [
+    {
+      "bbox": [
+        481.0,
+        543.0,
+        565.6875,
+        563.0
+      ],
+      "content": "4 LED驱动",
+      "id": "40919cc3bde437c8",
+      "kind": "zone_title",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        42.0,
+        543.0,
+        126.65625,
+        563.0
+      ],
+      "content": "3 阈值迟滞",
+      "id": "a8a8c59c18261aac",
+      "kind": "zone_title",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        42.0,
+        783.0,
+        126.65625,
+        803.0
+      ],
+      "content": "1 光敏检测",
+      "id": "a92e2f11725ee5b2",
+      "kind": "zone_title",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        482.0,
+        783.0,
+        567.133056640625,
+        803.0
+      ],
+      "content": "2 供电去耦",
+      "id": "bafae30e719c7bf1",
+      "kind": "zone_title",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        95.0,
+        -0.0,
+        100.0,
+        10.0
+      ],
+      "content": "1",
+      "id": "ed4662b7c0518ab0",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        95.0,
+        815.0,
+        100.0,
+        825.0
+      ],
+      "content": "1",
+      "id": "deb1e19e6aa57d55",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        290.0,
+        -0.0,
+        295.0,
+        10.0
+      ],
+      "content": "2",
+      "id": "cd6b6864286bb851",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        290.0,
+        815.0,
+        295.0,
+        825.0
+      ],
+      "content": "2",
+      "id": "2e54a08f699946ce",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        485.0,
+        -0.0,
+        490.0,
+        10.0
+      ],
+      "content": "3",
+      "id": "c22bcef488684069",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        485.0,
+        815.0,
+        490.0,
+        825.0
+      ],
+      "content": "3",
+      "id": "502cf26a472301fd",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        680.0,
+        -0.0,
+        685.0,
+        10.0
+      ],
+      "content": "4",
+      "id": "ac42789f878d66a8",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        680.0,
+        815.0,
+        685.0,
+        825.0
+      ],
+      "content": "4",
+      "id": "ca190bcb0f48e8f6",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        875.0,
+        -0.0,
+        880.0,
+        10.0
+      ],
+      "content": "5",
+      "id": "e1c365d9d6a106c4",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        875.0,
+        815.0,
+        880.0,
+        825.0
+      ],
+      "content": "5",
+      "id": "d706cf1f246686b0",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        1070.0,
+        -0.0,
+        1075.0,
+        10.0
+      ],
+      "content": "6",
+      "id": "7dbc6c24b9255f37",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        1070.0,
+        815.0,
+        1075.0,
+        825.0
+      ],
+      "content": "6",
+      "id": "6c3e4611135c655c",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        1.5,
+        716.875,
+        8.5,
+        726.875
+      ],
+      "content": "A",
+      "id": "11b9cf746fe280ee",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        1161.5,
+        716.875,
+        1168.5,
+        726.875
+      ],
+      "content": "A",
+      "id": "529f886daf0669ef",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        1.5,
+        510.625,
+        7.5,
+        520.625
+      ],
+      "content": "B",
+      "id": "0123abdbdee64642",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        1161.5,
+        510.625,
+        1167.5,
+        520.625
+      ],
+      "content": "B",
+      "id": "b8d01e5418b77c8e",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        2.5,
+        304.375,
+        7.5,
+        314.375
+      ],
+      "content": "C",
+      "id": "3e52f19c24793379",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        1162.5,
+        304.375,
+        1167.5,
+        314.375
+      ],
+      "content": "C",
+      "id": "d0e66b856bb78635",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        1.5,
+        98.125,
+        7.5,
+        108.125
+      ],
+      "content": "D",
+      "id": "e965b5132d833108",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        1161.5,
+        98.125,
+        1167.5,
+        108.125
+      ],
+      "content": "D",
+      "id": "6a54932096e69469",
+      "kind": "border",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        465.0,
+        164.515625,
+        510.0,
+        179.515625
+      ],
+      "content": "原理图",
+      "id": "table-d30055d5065a615b-e729-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        644.9761352539062,
+        162.46875,
+        784.9761352539062,
+        182.46875
+      ],
+      "content": "5V 光控 LED 板",
+      "id": "table-d30055d5065a615b-e730-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        873.5934448242188,
+        174.515625,
+        933.5934448242188,
+        189.515625
+      ],
+      "content": "创建日期",
+      "id": "table-d30055d5065a615b-e734-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        974.9522094726562,
+        174.515625,
+        1054.9521484375,
+        189.515625
+      ],
+      "content": "2026-10-26",
+      "id": "table-d30055d5065a615b-e735-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        873.5934448242188,
+        154.515625,
+        933.5934448242188,
+        169.515625
+      ],
+      "content": "更新日期",
+      "id": "table-d30055d5065a615b-e741-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        974.9522094726562,
+        154.515625,
+        1054.9521484375,
+        169.515625
+      ],
+      "content": "2026-10-26",
+      "id": "table-d30055d5065a615b-e742-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        465.0,
+        134.515625,
+        495.0,
+        149.515625
+      ],
+      "content": "板子",
+      "id": "table-d30055d5065a615b-1b71ba32c6bc37ee-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        684.9761352539062,
+        132.46875,
+        744.9761352539062,
+        152.46875
+      ],
+      "content": "Board1",
+      "id": "table-d30055d5065a615b-0e9a09eafe161521-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        873.5934448242188,
+        134.515625,
+        903.5934448242188,
+        149.515625
+      ],
+      "content": "图页",
+      "id": "table-d30055d5065a615b-b1758d8b7bb0a22a-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        974.9522094726562,
+        134.515625,
+        990.9522094726562,
+        149.515625
+      ],
+      "content": "P1",
+      "id": "table-d30055d5065a615b-544b01c847a5c430-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        465.0,
+        114.515625,
+        495.0,
+        129.515625
+      ],
+      "content": "绘制",
+      "id": "table-d30055d5065a615b-e750-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        812.6937255859375,
+        92.46875,
+        1022.6937255859375,
+        112.46875
+      ],
+      "content": "photo-led-5v-20261026",
+      "id": "table-d30055d5065a615b-e752-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        465.0,
+        94.515625,
+        495.0,
+        109.515625
+      ],
+      "content": "审阅",
+      "id": "table-d30055d5065a615b-e757-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        685.7271728515625,
+        54.515625,
+        715.7271728515625,
+        69.515625
+      ],
+      "content": "版本",
+      "id": "table-d30055d5065a615b-e773-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        736.4065551757812,
+        54.515625,
+        766.4065551757812,
+        69.515625
+      ],
+      "content": "尺寸",
+      "id": "table-d30055d5065a615b-e774-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        897.3731689453125,
+        54.515625,
+        1039.3731689453125,
+        69.515625
+      ],
+      "content": "页    1    共    1",
+      "id": "table-d30055d5065a615b-e775-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        684.7271728515625,
+        24.515625,
+        716.7271728515625,
+        39.515625
+      ],
+      "content": "V1.0",
+      "id": "table-d30055d5065a615b-e780-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        743.4065551757812,
+        24.515625,
+        759.4065551757812,
+        39.515625
+      ],
+      "content": "A4",
+      "id": "table-d30055d5065a615b-e781-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        933.8731689453125,
+        24.515625,
+        1002.8731689453125,
+        39.515625
+      ],
+      "content": "嘉立创EDA",
+      "id": "table-d30055d5065a615b-e782-text",
+      "kind": "title_block",
+      "measurement": "bbox"
+    },
+    {
+      "bbox": [
+        293.70001220703125,
+        189.08502197265625,
+        317.69134521484375,
+        199.08502197265625
+      ],
+      "content": "1OUT",
+      "id": "7a9b54d8ff8881d7",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        284.625,
+        194.08502197265625,
+        289.5,
+        204.08502197265625
+      ],
+      "content": "1",
+      "id": "bf3a4efbf65ed967",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        293.70001220703125,
+        179.08502197265625,
+        311.31634521484375,
+        189.08502197265625
+      ],
+      "content": "1IN-",
+      "id": "df949ff9fabb0f65",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        283.625,
+        184.08502197265625,
+        289.625,
+        194.08502197265625
+      ],
+      "content": "2",
+      "id": "124bb5e4c192fc8e",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        293.70001220703125,
+        169.08502197265625,
+        313.31634521484375,
+        179.08502197265625
+      ],
+      "content": "1IN+",
+      "id": "02a102eeaee9557a",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        284.625,
+        174.08502197265625,
+        289.625,
+        184.08502197265625
+      ],
+      "content": "3",
+      "id": "7ec00213e402fa89",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        293.70001220703125,
+        159.08502197265625,
+        313.82501220703125,
+        169.08502197265625
+      ],
+      "content": "GND",
+      "id": "d8eef52d203bc201",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        284.625,
+        164.08502197265625,
+        289.625,
+        174.08502197265625
+      ],
+      "content": "4",
+      "id": "d45c6b518e0083bc",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        346.56561279296875,
+        159.08502197265625,
+        367.18194580078125,
+        169.08502197265625
+      ],
+      "content": "2IN+",
+      "id": "0ff82bc660589068",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        370.5,
+        164.08502197265625,
+        375.5,
+        174.08502197265625
+      ],
+      "content": "5",
+      "id": "c0efbb827f369e9f",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        348.76873779296875,
+        169.08502197265625,
+        367.38507080078125,
+        179.08502197265625
+      ],
+      "content": "2IN-",
+      "id": "7036dcd780957ce3",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        369.5,
+        174.08502197265625,
+        375.5,
+        184.08502197265625
+      ],
+      "content": "6",
+      "id": "e7103bf05dfa6dba",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        341.95623779296875,
+        179.08502197265625,
+        366.94757080078125,
+        189.08502197265625
+      ],
+      "content": "2OUT",
+      "id": "7ff405cc16e7f305",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        370.5,
+        184.08502197265625,
+        375.5,
+        194.08502197265625
+      ],
+      "content": "7",
+      "id": "d266f4d347d26705",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        346.81561279296875,
+        189.08502197265625,
+        366.97076416015625,
+        199.08502197265625
+      ],
+      "content": "VCC",
+      "id": "cb825561cf6ce90e",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        370.5,
+        194.08502197265625,
+        375.5,
+        204.08502197265625
+      ],
+      "content": "8",
+      "id": "1417648d899c9e23",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "417202d804679ca0",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        553.7000122070312,
+        709.0850219726562,
+        558.5750122070312,
+        719.0850219726562
+      ],
+      "content": "1",
+      "id": "7e7ceb88e7174e96",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "9f05264307912dc7",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        544.625,
+        714.0850219726562,
+        549.5,
+        724.0850219726562
+      ],
+      "content": "1",
+      "id": "486b04cfd0c8b181",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "9f05264307912dc7",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        552.7000122070312,
+        699.0850219726562,
+        558.7000122070312,
+        709.0850219726562
+      ],
+      "content": "2",
+      "id": "74081c43fcad2d49",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "9f05264307912dc7",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        543.625,
+        704.0850219726562,
+        549.625,
+        714.0850219726562
+      ],
+      "content": "2",
+      "id": "a6139002ec296b5b",
+      "kind": "pin_name",
+      "measurement": "bbox",
+      "owner_id": "9f05264307912dc7",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        105.125,
+        429.08502197265625,
+        110.0,
+        439.08502197265625
+      ],
+      "content": "1",
+      "id": "74d804286f779d42",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "31ba1be298da1c16",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        109.0,
+        438.08502197265625,
+        119.0,
+        443.08502197265625
+      ],
+      "content": "3",
+      "id": "33e8832e1af5ea7f",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "31ba1be298da1c16",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        109.0,
+        412.21002197265625,
+        119.0,
+        418.21002197265625
+      ],
+      "content": "2",
+      "id": "4eccb2c1de4c87c5",
+      "kind": "pin_number",
+      "measurement": "bbox",
+      "owner_id": "31ba1be298da1c16",
+      "owner_kind": "component"
+    },
+    {
+      "bbox": [
+        297.109375,
+        770.0,
+        342.014404296875,
+        780.0
+      ],
+      "content": "VREF_2V5",
+      "field": "Global Net Name",
+      "id": "6c42b6b57739b95b",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "VREF_2V5",
+      "owner_id": "572061d0b641a8eb",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        130.2734375,
+        590.0,
+        150.3984375,
+        600.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "ab764071055f5b12",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "4134efbe9a541b5f",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        270.2734375,
+        640.0,
+        290.3984375,
+        650.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "cc79f07c129a4790",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "7664548b77e1aa22",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        500.2734375,
+        620.0,
+        520.3984375,
+        630.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "a8f032712f90f745",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "dde2d137d0b280c9",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        692.09375,
+        760.0,
+        709.0699462890625,
+        770.0
+      ],
+      "content": "+5V",
+      "field": "Global Net Name",
+      "id": "4878bab0df653ce8",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "+5V",
+      "owner_id": "e4b3da002faaf9ab",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        870.2734375,
+        660.0,
+        890.3984375,
+        670.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "5dc7aa2c8a43f356",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "307a7b962e4c26bb",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        157.109375,
+        470.0,
+        202.014404296875,
+        480.0
+      ],
+      "content": "VREF_2V5",
+      "field": "Global Net Name",
+      "id": "5e791cbfd794a530",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "VREF_2V5",
+      "owner_id": "9ec278d54c6b187d",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        70.2734375,
+        360.0,
+        90.3984375,
+        370.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "ca31f53db861bcf3",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "ac5ed85e7b991ffe",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        220.2734375,
+        340.0,
+        240.3984375,
+        350.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "bcb655746ce05f36",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "80d39fab91eecb34",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        155.2734375,
+        300.0,
+        175.3984375,
+        310.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "631a0d9928f6bf01",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "0f221d9c11a0d9d9",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        222.09375,
+        540.0,
+        239.0699462890625,
+        550.0
+      ],
+      "content": "+5V",
+      "field": "Global Net Name",
+      "id": "bc08135a8f44ae85",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "+5V",
+      "owner_id": "674cc4a143c6d79f",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        400.2734375,
+        110.0,
+        420.3984375,
+        120.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "4803c62c6a2a88ad",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "48a667a03c65bb69",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        402.09375,
+        260.0,
+        419.0699462890625,
+        270.0
+      ],
+      "content": "+5V",
+      "field": "Global Net Name",
+      "id": "747dd07d9a7793c7",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "+5V",
+      "owner_id": "cccdf87e7143c756",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        630.2734375,
+        350.0,
+        650.3984375,
+        360.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "c3dc00f9abe6bc00",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "c611656644c2143a",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        780.2734375,
+        400.0,
+        800.3984375,
+        410.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "0b135be1692bf761",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "a67d5d1f1c5774db",
+      "owner_kind": "netflag"
+    },
+    {
+      "anchor_id": "5d9b8101909dc53e",
+      "anchored": true,
+      "bbox": [
+        589.0,
+        735.0,
+        605.2672119140625,
+        745.0
+      ],
+      "content": "VIN",
+      "field": "Wire Net",
+      "id": "86f2745c1af3214f",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "VIN"
+    },
+    {
+      "anchor_id": "541e80492978d06d",
+      "anchored": true,
+      "bbox": [
+        400.0,
+        180.0,
+        435.6636962890625,
+        190.0
+      ],
+      "content": "U1B_TIE",
+      "field": "Wire Net",
+      "id": "e033e223beb47a2b",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "U1B_TIE"
+    },
+    {
+      "anchor_id": "3765e646d972bfec",
+      "anchored": true,
+      "bbox": [
+        480.0,
+        480.0,
+        524.87060546875,
+        490.0
+      ],
+      "content": "LED_CTRL",
+      "field": "Wire Net",
+      "id": "1a6314fe22161a2b",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "LED_CTRL"
+    },
+    {
+      "anchor_id": "35f66f811cdd1702",
+      "anchored": true,
+      "bbox": [
+        680.0,
+        460.0,
+        702.5386962890625,
+        470.0
+      ],
+      "content": "Q1_B",
+      "field": "Wire Net",
+      "id": "a784c1114ff7c4e8",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "Q1_B"
+    },
+    {
+      "anchor_id": "795cc7c6fd0fa077",
+      "anchored": true,
+      "bbox": [
+        950.0,
+        490.0,
+        978.8878173828125,
+        500.0
+      ],
+      "content": "LED_A",
+      "field": "Wire Net",
+      "id": "b5a4847f303751ae",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "LED_A"
+    },
+    {
+      "anchor_id": "3b82d929f53baddf",
+      "anchored": true,
+      "bbox": [
+        200.0,
+        690.0,
+        237.6378173828125,
+        700.0
+      ],
+      "content": "LDR_SIG",
+      "field": "Wire Net",
+      "id": "449f0bf4ddff2ea0",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "LDR_SIG"
+    },
+    {
+      "anchor_id": "75164ddd9b5079eb",
+      "anchored": true,
+      "bbox": [
+        199.0,
+        290.0,
+        239.521484375,
+        300.0
+      ],
+      "content": "VTH_ADJ",
+      "field": "Wire Net",
+      "id": "ddda21ac546f32bb",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "VTH_ADJ"
+    },
+    {
+      "anchor_id": "2ff464f22142b318",
+      "anchored": true,
+      "bbox": [
+        820.0,
+        510.0,
+        848.8878173828125,
+        520.0
+      ],
+      "content": "LED_K",
+      "field": "Wire Net",
+      "id": "97595089da841e50",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "LED_K"
+    },
+    {
+      "anchor_id": "4a615d05024ff911",
+      "anchored": true,
+      "bbox": [
+        310.0,
+        230.0,
+        354.87060546875,
+        240.0
+      ],
+      "content": "LED_CTRL",
+      "field": "Wire Net",
+      "id": "04684777dbbb820e",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "LED_CTRL"
+    },
+    {
+      "anchor_id": "25209c69b85c07d5",
+      "anchored": true,
+      "bbox": [
+        264.0,
+        330.0,
+        283.1810302734375,
+        340.0
+      ],
+      "content": "VTH",
+      "field": "Wire Net",
+      "id": "80b54ece278bc323",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "VTH"
+    },
+    {
+      "bbox": [
+        1032.09375,
+        500.0,
+        1049.0699462890625,
+        510.0
+      ],
+      "content": "+5V",
+      "field": "Global Net Name",
+      "id": "3a5f7624511d65c6",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "+5V",
+      "owner_id": "401e6a1d26bdd5d9",
+      "owner_kind": "netflag"
+    },
+    {
+      "bbox": [
+        225.2734375,
+        135.0,
+        245.3984375,
+        145.0
+      ],
+      "content": "GND",
+      "field": "Global Net Name",
+      "id": "6a3114f94aa339a0",
+      "kind": "netflag",
+      "measurement": "bbox",
+      "net": "GND",
+      "owner_id": "4248038985c33f80",
+      "owner_kind": "netflag"
+    },
+    {
+      "anchor_id": "e0d8a52427a6575e",
+      "anchored": true,
+      "bbox": [
+        215.0,
+        170.0,
+        252.6378173828125,
+        180.0
+      ],
+      "content": "LDR_SIG",
+      "field": "Wire Net",
+      "id": "d10ec9db2cfb5ccc",
+      "kind": "wire_name",
+      "measurement": "bbox",
+      "net": "LDR_SIG"
+    }
+  ],
+  "host": {
+    "capabilities": {
+      "attribute_rotate": "unsupported",
+      "attribute_translate": "supported",
+      "free_text_translate": "unverified",
+      "net_label_detach": "unsupported"
+    },
+    "capability_source": "historical_docs_requires_onsite_probe",
+    "execution": "not_executed"
+  },
+  "movable_annotations": [
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "unverified"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "TL431 2.495V；RV1调阈值、R4正反馈",
+      "current": {
+        "align": "left",
+        "anchor": [
+          250.0,
+          528.0
+        ],
+        "anchor_source": "declared",
+        "bbox": [
+          249.0,
+          528.0,
+          449.636474609375,
+          540.0
+        ],
+        "font_size": 13.0,
+        "font_source": "declared",
+        "rotation_deg": 0.0,
+        "rotation_source": "declared"
+      },
+      "field": null,
+      "id": "0149dca70e8c886d",
+      "kind": "free_text",
+      "net": null,
+      "owner": {
+        "id": "94055b82f166ad31",
+        "kind": "zone",
+        "requirement": "inside_zone"
+      },
+      "role": "free_text"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "unverified"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "038924265735ffcc"
+      },
+      "content": "5V输入、反接保护、10µF+100nF去耦",
+      "current": {
+        "align": "left",
+        "anchor": [
+          722.0,
+          778.0
+        ],
+        "anchor_source": "declared",
+        "bbox": [
+          722.0,
+          778.0,
+          915.4185791015625,
+          790.0
+        ],
+        "font_size": 13.0,
+        "font_source": "declared",
+        "rotation_deg": 0.0,
+        "rotation_source": "declared"
+      },
+      "field": null,
+      "id": "26b89259608f1dd1",
+      "kind": "free_text",
+      "net": null,
+      "owner": {
+        "id": "038924265735ffcc",
+        "kind": "zone",
+        "requirement": "inside_zone"
+      },
+      "role": "free_text"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "unverified"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "S8050驱动LED；R7限流约7.4mA",
+      "current": {
+        "align": "left",
+        "anchor": [
+          722.0,
+          528.0
+        ],
+        "anchor_source": "declared",
+        "bbox": [
+          722.0,
+          528.0,
+          893.1705932617188,
+          540.0
+        ],
+        "font_size": 13.0,
+        "font_source": "declared",
+        "rotation_deg": 0.0,
+        "rotation_source": "declared"
+      },
+      "field": null,
+      "id": "774affad16c0750a",
+      "kind": "free_text",
+      "net": null,
+      "owner": {
+        "id": "f7266d05fe0dcaff",
+        "kind": "zone",
+        "requirement": "inside_zone"
+      },
+      "role": "free_text"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "unverified"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "df6b35d4cbb8fbdd"
+      },
+      "content": "GL5528与4.7k分压，C4滤波；光照越强电压越高",
+      "current": {
+        "align": "center",
+        "anchor": [
+          42.0,
+          766.0
+        ],
+        "anchor_source": "declared",
+        "bbox": [
+          42.0,
+          759.5,
+          289.265625,
+          771.5
+        ],
+        "font_size": 13.0,
+        "font_source": "declared",
+        "rotation_deg": 0.0,
+        "rotation_source": "declared"
+      },
+      "field": null,
+      "id": "ad6ce27bf74e95f9",
+      "kind": "free_text",
+      "net": null,
+      "owner": {
+        "id": "df6b35d4cbb8fbdd",
+        "kind": "zone",
+        "requirement": "inside_zone"
+      },
+      "role": "free_text"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "U1",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          290.0,
+          218.0,
+          301.1875,
+          228.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "92426cc054919476",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "417202d804679ca0",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "LM358P",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          290.0,
+          138.0,
+          322.754150390625,
+          148.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "b8b3c96d57ae8176",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "417202d804679ca0",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "038924265735ffcc"
+      },
+      "content": "J1",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          580.0,
+          715.0,
+          589.25,
+          725.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "c332e360692d0efa",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "9f05264307912dc7",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "038924265735ffcc"
+      },
+      "content": "KF301-2P接线端子",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          550.0,
+          675.0,
+          624.6463623046875,
+          685.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "bfd7402c5f9688aa",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "9f05264307912dc7",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "038924265735ffcc"
+      },
+      "content": "1N5819S",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          650.0,
+          695.0,
+          674.7022705078125,
+          701.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "3ecb90085ef281b7",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "9b647abbb274d557",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "038924265735ffcc"
+      },
+      "content": "D1",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          650.0,
+          734.0,
+          657.5625,
+          740.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "af818e7538a1fb79",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "9b647abbb274d557",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "038924265735ffcc"
+      },
+      "content": "C1",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          780.0,
+          735.0,
+          791.1875,
+          745.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "eece254e344a87aa",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "d3bfcf566c9649c4",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "038924265735ffcc"
+      },
+      "content": "10uF",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          780.0,
+          672.0,
+          800.5989990234375,
+          682.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "8aa96c60739365ff",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "d3bfcf566c9649c4",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "038924265735ffcc"
+      },
+      "content": "C2",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          930.0,
+          735.0,
+          941.3189697265625,
+          745.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "c6ea3a0edae5cc2d",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "832c51a7d77cb7d4",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "038924265735ffcc"
+      },
+      "content": "100nF",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          920.0,
+          672.0,
+          945.46533203125,
+          682.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "590ab99de0d9e06f",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "832c51a7d77cb7d4",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "df6b35d4cbb8fbdd"
+      },
+      "content": "LDR1",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          155.0,
+          730.0,
+          170.125,
+          736.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "c519f2881e511254",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "fd11ca9a4596209a",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "df6b35d4cbb8fbdd"
+      },
+      "content": "GL5528",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          155.0,
+          720.0,
+          186.2713623046875,
+          730.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "693091bc56674f7e",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "fd11ca9a4596209a",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "df6b35d4cbb8fbdd"
+      },
+      "content": "R2",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          150.0,
+          650.0,
+          161.3189697265625,
+          660.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "da034d3db36bd426",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "4f55d49c04bb3770",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "df6b35d4cbb8fbdd"
+      },
+      "content": "4.7kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          150.0,
+          640.0,
+          173.5386962890625,
+          650.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "041f51defe6d52e9",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "4f55d49c04bb3770",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "df6b35d4cbb8fbdd"
+      },
+      "content": "C4",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          295.0,
+          690.0,
+          306.3189697265625,
+          700.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "c4c4b7f088244440",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "8a8f0b18e2eedcb8",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "df6b35d4cbb8fbdd"
+      },
+      "content": "100nF",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          295.0,
+          680.0,
+          320.46533203125,
+          690.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "9200b084732e3735",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "8a8f0b18e2eedcb8",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "U2",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          135.0,
+          430.0,
+          146.3189697265625,
+          440.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "7b26352e1f011376",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "31ba1be298da1c16",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "TL431-TO-92",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          149.0,
+          435.0,
+          202.4969482421875,
+          445.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "0095c02a91718d18",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "31ba1be298da1c16",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "R1",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          130.0,
+          500.0,
+          141.1875,
+          510.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "cf1056241076c58b",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "f0ca47aba4307891",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "1kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          130.0,
+          480.0,
+          146.2413330078125,
+          490.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "d28a026970f6c8a0",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "f0ca47aba4307891",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "C3",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          255.0,
+          420.0,
+          266.3189697265625,
+          430.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "d7f22814c847069a",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "e8d5019ad192abf0",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "100nF",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          255.0,
+          410.0,
+          280.46533203125,
+          420.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "33139676965fdeb1",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "e8d5019ad192abf0",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "RV1",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          175.0,
+          360.0,
+          191.875,
+          370.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "a19c5e920fe82a18",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "602a6271577e9c63",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "10kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          175.0,
+          350.0,
+          196.107666015625,
+          360.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "c22eb47ef4e3241f",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "602a6271577e9c63",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "R3",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          290.0,
+          384.0,
+          301.3189697265625,
+          394.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "97b0c31ba20f6d65",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "4c3b66d17e7f4875",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "10kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          290.0,
+          348.0,
+          311.107666015625,
+          358.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "8bd5a6b179fa7148",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "4c3b66d17e7f4875",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "R4",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          370.0,
+          448.0,
+          381.3189697265625,
+          458.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "2fa96c1a31147cef",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "bfd8f9e1b073aebf",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "94055b82f166ad31"
+      },
+      "content": "100kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          365.0,
+          398.0,
+          390.9739990234375,
+          408.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "b6da875b9529e9c3",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "bfd8f9e1b073aebf",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "R5",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          530.0,
+          508.0,
+          541.3189697265625,
+          518.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "1465805a58d844cb",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "e085629e30ccdf66",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "10kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          530.0,
+          456.0,
+          551.107666015625,
+          466.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "2447580073c01300",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "e085629e30ccdf66",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "R6",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          650.0,
+          420.0,
+          661.3189697265625,
+          430.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "f6732b9669f70864",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "11e215502349267c",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "100kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          650.0,
+          405.0,
+          675.9739990234375,
+          415.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "fec54ea118d97336",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "11e215502349267c",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "Q1",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          775.0,
+          470.0,
+          786.6875,
+          480.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "3ce62ceb4ff1b84a",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "b3668ed6b91c1e9a",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "S8050-TO-92",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          775.0,
+          460.0,
+          827.98828125,
+          470.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "04c1ddd3b2c604be",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "b3668ed6b91c1e9a",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "R7",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          990.0,
+          520.0,
+          1001.3189697265625,
+          530.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "823c8f32553ec112",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "9e14afd67449795d",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "330Ω",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          990.0,
+          468.0,
+          1011.5989990234375,
+          478.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "7f8bc2a1edab995c",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "9e14afd67449795d",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "LED1",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          885.0,
+          515.0,
+          906.890625,
+          525.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "6b1a008e01876ee9",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "9fa3e07921a92387",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "designator"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5,
+        "keep_in_zone": true,
+        "max_displacement": 80,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "f7266d05fe0dcaff"
+      },
+      "content": "5mm LED 雾发红",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          885.0,
+          460.0,
+          952.8275146484375,
+          470.0
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "c237871bb76188b9",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "9fa3e07921a92387",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    }
+  ],
+  "page": {
+    "bbox": [
+      0.0,
+      0.0,
+      1170.0,
+      825.0
+    ],
+    "keepouts": [
+      {
+        "bbox": [
+          459.99999999999955,
+          10.0,
+          1160.0,
+          190.0
+        ],
+        "hard": true,
+        "id": "titleBlock",
+        "reason": "title block"
+      }
+    ],
+    "title_block": {
+      "bbox": [
+        459.99999999999955,
+        10.0,
+        1160.0,
+        190.0
+      ],
+      "hard": true,
+      "id": "titleBlock"
+    },
+    "usable_bbox": [
+      10.0,
+      10.0,
+      1160.0,
+      815.0
+    ],
+    "zones": [
+      {
+        "bbox": [
+          470.0,
+          575.0,
+          1140.0,
+          805.0
+        ],
+        "hard": false,
+        "id": "038924265735ffcc",
+        "name": "2 供电去耦",
+        "source": "module_frame"
+      },
+      {
+        "bbox": [
+          30.0,
+          30.0,
+          455.0,
+          565.0
+        ],
+        "hard": false,
+        "id": "94055b82f166ad31",
+        "name": "3 阈值迟滞",
+        "source": "module_frame"
+      },
+      {
+        "bbox": [
+          30.0,
+          575.0,
+          455.0,
+          805.0
+        ],
+        "hard": false,
+        "id": "df6b35d4cbb8fbdd",
+        "name": "1 光敏检测",
+        "source": "module_frame"
+      },
+      {
+        "bbox": [
+          470.0,
+          200.0,
+          1140.0,
+          565.0
+        ],
+        "hard": false,
+        "id": "f7266d05fe0dcaff",
+        "name": "4 LED驱动",
+        "source": "module_frame"
+      }
+    ]
+  },
+  "project": {
+    "name": "photo-led-5v-20261026",
+    "page_id": "cd008f919db36eba",
+    "page_name": "P1",
+    "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184"
+  },
+  "schema": "annotation-layout/v1",
+  "source": {
+    "adapter": "annotation_layout.convert/v1",
+    "created": "2026-10-27",
+    "files": [
+      {
+        "path": "layout.json",
+        "sha256": "3d8442d137ec225cba9ac9fa0d53a6151b47f8d5a8fc4d4d1e993a415e0ede57"
+      },
+      {
+        "path": "list.json",
+        "sha256": "8ba448be502093924ab6e88c80d460f3970609e1f7e7e3ca9ca0bdd651341e6c"
+      },
+      {
+        "path": "rendered-text.json",
+        "sha256": "7afc69837a12daf0d1eb3f404e174ab5ab7fca99730033457d80de3354d0ebed"
+      },
+      {
+        "path": "sheet.json",
+        "sha256": "f5d9d756aa8fc47b13dc190e6423a2be5181b7d309cc6e8e570932b09019e104"
+      }
+    ],
+    "kind": "frozen_fixture",
+    "notes": "photo-led v14 frozen fixture: official EasyEDA 4.1.78 SVG text bbox read, sch list component/page primitives, official-SVG sheet geometry; trimmed, not live",
+    "source_commit": "9a951edc21481dc3ae91460acc11aa3e08a7be8a"
+  },
+  "uncertainty": {
+    "bbox_measured": true,
+    "font_metrics_known": false,
+    "notes": [
+      "text bboxes are measured from the official EasyEDA 4.1.78 SVG",
+      "symbol bodies are bbox approximations; pin-name/number/outline glyphs are not re-measured",
+      "attribute rotation/alignment/font are not supplied by the retained list read",
+      "free-text move persistence was historically unreliable and is NOT probed here"
+    ],
+    "symbol_outline_approximate": true
+  },
+  "units": {
+    "description": "schematic raw units; 10 raw = 0.1 inch = 2.54 mm",
+    "name": "schematic_raw",
+    "raw_per_mm": 3.937007874016
+  },
+  "wires": [
+    {
+      "id": "08d7da5e7dfbed20#0",
+      "points": [
+        [
+          120.0,
+          410.0
+        ],
+        [
+          120.0,
+          390.0
+        ]
+      ],
+      "primitive_id": "08d7da5e7dfbed20"
+    },
+    {
+      "id": "08d7da5e7dfbed20#1",
+      "points": [
+        [
+          120.0,
+          390.0
+        ],
+        [
+          80.0,
+          390.0
+        ]
+      ],
+      "primitive_id": "08d7da5e7dfbed20"
+    },
+    {
+      "id": "1fa3e4d8816a3e4a#0",
+      "points": [
+        [
+          145.0,
+          750.0
+        ],
+        [
+          145.0,
+          760.0
+        ]
+      ],
+      "primitive_id": "1fa3e4d8816a3e4a"
+    },
+    {
+      "id": "1fa3e4d8816a3e4a#1",
+      "points": [
+        [
+          145.0,
+          760.0
+        ],
+        [
+          320.0,
+          760.0
+        ]
+      ],
+      "primitive_id": "1fa3e4d8816a3e4a"
+    },
+    {
+      "id": "21b07325d3f7893e#0",
+      "points": [
+        [
+          1020.0,
+          490.0
+        ],
+        [
+          1040.0,
+          490.0
+        ]
+      ],
+      "primitive_id": "21b07325d3f7893e"
+    },
+    {
+      "id": "25209c69b85c07d5#0",
+      "net": "VTH",
+      "points": [
+        [
+          340.0,
+          360.0
+        ],
+        [
+          320.0,
+          360.0
+        ]
+      ],
+      "primitive_id": "25209c69b85c07d5"
+    },
+    {
+      "id": "25209c69b85c07d5#1",
+      "net": "VTH",
+      "points": [
+        [
+          340.0,
+          330.0
+        ],
+        [
+          340.0,
+          360.0
+        ]
+      ],
+      "primitive_id": "25209c69b85c07d5"
+    },
+    {
+      "id": "25209c69b85c07d5#2",
+      "net": "VTH",
+      "points": [
+        [
+          260.0,
+          330.0
+        ],
+        [
+          340.0,
+          330.0
+        ]
+      ],
+      "primitive_id": "25209c69b85c07d5"
+    },
+    {
+      "id": "25209c69b85c07d5#3",
+      "net": "VTH",
+      "points": [
+        [
+          260.0,
+          175.0
+        ],
+        [
+          260.0,
+          330.0
+        ]
+      ],
+      "primitive_id": "25209c69b85c07d5"
+    },
+    {
+      "id": "25209c69b85c07d5#4",
+      "net": "VTH",
+      "points": [
+        [
+          280.0,
+          175.0
+        ],
+        [
+          260.0,
+          175.0
+        ]
+      ],
+      "primitive_id": "25209c69b85c07d5"
+    },
+    {
+      "id": "25209c69b85c07d5#5",
+      "net": "VTH",
+      "points": [
+        [
+          340.0,
+          420.0
+        ],
+        [
+          340.0,
+          360.0
+        ]
+      ],
+      "primitive_id": "25209c69b85c07d5"
+    },
+    {
+      "id": "25209c69b85c07d5#6",
+      "net": "VTH",
+      "points": [
+        [
+          340.0,
+          420.0
+        ],
+        [
+          360.0,
+          420.0
+        ]
+      ],
+      "primitive_id": "25209c69b85c07d5"
+    },
+    {
+      "id": "288418e840aa3c8d#0",
+      "points": [
+        [
+          140.0,
+          630.0
+        ],
+        [
+          140.0,
+          620.0
+        ]
+      ],
+      "primitive_id": "288418e840aa3c8d"
+    },
+    {
+      "id": "2ff464f22142b318#0",
+      "net": "LED_K",
+      "points": [
+        [
+          770.0,
+          490.0
+        ],
+        [
+          770.0,
+          510.0
+        ]
+      ],
+      "primitive_id": "2ff464f22142b318"
+    },
+    {
+      "id": "2ff464f22142b318#1",
+      "net": "LED_K",
+      "points": [
+        [
+          770.0,
+          510.0
+        ],
+        [
+          860.0,
+          510.0
+        ]
+      ],
+      "primitive_id": "2ff464f22142b318"
+    },
+    {
+      "id": "2ff464f22142b318#2",
+      "net": "LED_K",
+      "points": [
+        [
+          860.0,
+          510.0
+        ],
+        [
+          860.0,
+          490.0
+        ]
+      ],
+      "primitive_id": "2ff464f22142b318"
+    },
+    {
+      "id": "2ff464f22142b318#3",
+      "net": "LED_K",
+      "points": [
+        [
+          860.0,
+          490.0
+        ],
+        [
+          880.0,
+          490.0
+        ]
+      ],
+      "primitive_id": "2ff464f22142b318"
+    },
+    {
+      "id": "35f66f811cdd1702#0",
+      "net": "Q1_B",
+      "points": [
+        [
+          560.0,
+          480.0
+        ],
+        [
+          600.0,
+          480.0
+        ]
+      ],
+      "primitive_id": "35f66f811cdd1702"
+    },
+    {
+      "id": "35f66f811cdd1702#1",
+      "net": "Q1_B",
+      "points": [
+        [
+          600.0,
+          480.0
+        ],
+        [
+          600.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "35f66f811cdd1702"
+    },
+    {
+      "id": "35f66f811cdd1702#2",
+      "net": "Q1_B",
+      "points": [
+        [
+          600.0,
+          460.0
+        ],
+        [
+          640.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "35f66f811cdd1702"
+    },
+    {
+      "id": "35f66f811cdd1702#3",
+      "net": "Q1_B",
+      "points": [
+        [
+          640.0,
+          460.0
+        ],
+        [
+          640.0,
+          440.0
+        ]
+      ],
+      "primitive_id": "35f66f811cdd1702"
+    },
+    {
+      "id": "35f66f811cdd1702#4",
+      "net": "Q1_B",
+      "points": [
+        [
+          640.0,
+          460.0
+        ],
+        [
+          720.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "35f66f811cdd1702"
+    },
+    {
+      "id": "35f66f811cdd1702#5",
+      "net": "Q1_B",
+      "points": [
+        [
+          720.0,
+          460.0
+        ],
+        [
+          720.0,
+          470.0
+        ]
+      ],
+      "primitive_id": "35f66f811cdd1702"
+    },
+    {
+      "id": "35f66f811cdd1702#6",
+      "net": "Q1_B",
+      "points": [
+        [
+          720.0,
+          470.0
+        ],
+        [
+          750.0,
+          470.0
+        ]
+      ],
+      "primitive_id": "35f66f811cdd1702"
+    },
+    {
+      "id": "3765e646d972bfec#0",
+      "net": "LED_CTRL",
+      "points": [
+        [
+          520.0,
+          480.0
+        ],
+        [
+          480.0,
+          480.0
+        ]
+      ],
+      "primitive_id": "3765e646d972bfec"
+    },
+    {
+      "id": "3b82d929f53baddf#0",
+      "net": "LDR_SIG",
+      "points": [
+        [
+          145.0,
+          710.0
+        ],
+        [
+          145.0,
+          690.0
+        ]
+      ],
+      "primitive_id": "3b82d929f53baddf"
+    },
+    {
+      "id": "3b82d929f53baddf#1",
+      "net": "LDR_SIG",
+      "points": [
+        [
+          145.0,
+          690.0
+        ],
+        [
+          140.0,
+          690.0
+        ]
+      ],
+      "primitive_id": "3b82d929f53baddf"
+    },
+    {
+      "id": "3b82d929f53baddf#2",
+      "net": "LDR_SIG",
+      "points": [
+        [
+          140.0,
+          690.0
+        ],
+        [
+          140.0,
+          670.0
+        ]
+      ],
+      "primitive_id": "3b82d929f53baddf"
+    },
+    {
+      "id": "3b82d929f53baddf#3",
+      "net": "LDR_SIG",
+      "points": [
+        [
+          145.0,
+          690.0
+        ],
+        [
+          260.0,
+          690.0
+        ]
+      ],
+      "primitive_id": "3b82d929f53baddf"
+    },
+    {
+      "id": "3b82d929f53baddf#4",
+      "net": "LDR_SIG",
+      "points": [
+        [
+          260.0,
+          690.0
+        ],
+        [
+          260.0,
+          730.0
+        ]
+      ],
+      "primitive_id": "3b82d929f53baddf"
+    },
+    {
+      "id": "3b82d929f53baddf#5",
+      "net": "LDR_SIG",
+      "points": [
+        [
+          260.0,
+          730.0
+        ],
+        [
+          280.0,
+          730.0
+        ]
+      ],
+      "primitive_id": "3b82d929f53baddf"
+    },
+    {
+      "id": "3b82d929f53baddf#6",
+      "net": "LDR_SIG",
+      "points": [
+        [
+          280.0,
+          730.0
+        ],
+        [
+          280.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "3b82d929f53baddf"
+    },
+    {
+      "id": "3fa5b272ecceca98#0",
+      "points": [
+        [
+          810.0,
+          710.0
+        ],
+        [
+          830.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "3fa5b272ecceca98"
+    },
+    {
+      "id": "3fa5b272ecceca98#1",
+      "points": [
+        [
+          830.0,
+          710.0
+        ],
+        [
+          830.0,
+          690.0
+        ]
+      ],
+      "primitive_id": "3fa5b272ecceca98"
+    },
+    {
+      "id": "3fa5b272ecceca98#2",
+      "points": [
+        [
+          830.0,
+          690.0
+        ],
+        [
+          880.0,
+          690.0
+        ]
+      ],
+      "primitive_id": "3fa5b272ecceca98"
+    },
+    {
+      "id": "3fa5b272ecceca98#3",
+      "points": [
+        [
+          950.0,
+          690.0
+        ],
+        [
+          880.0,
+          690.0
+        ]
+      ],
+      "primitive_id": "3fa5b272ecceca98"
+    },
+    {
+      "id": "3fa5b272ecceca98#4",
+      "points": [
+        [
+          950.0,
+          690.0
+        ],
+        [
+          950.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "3fa5b272ecceca98"
+    },
+    {
+      "id": "3fa5b272ecceca98#5",
+      "points": [
+        [
+          950.0,
+          710.0
+        ],
+        [
+          940.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "3fa5b272ecceca98"
+    },
+    {
+      "id": "4a615d05024ff911#0",
+      "net": "LED_CTRL",
+      "points": [
+        [
+          430.0,
+          420.0
+        ],
+        [
+          400.0,
+          420.0
+        ]
+      ],
+      "primitive_id": "4a615d05024ff911"
+    },
+    {
+      "id": "4a615d05024ff911#1",
+      "net": "LED_CTRL",
+      "points": [
+        [
+          430.0,
+          230.0
+        ],
+        [
+          430.0,
+          420.0
+        ]
+      ],
+      "primitive_id": "4a615d05024ff911"
+    },
+    {
+      "id": "4a615d05024ff911#2",
+      "net": "LED_CTRL",
+      "points": [
+        [
+          240.0,
+          230.0
+        ],
+        [
+          430.0,
+          230.0
+        ]
+      ],
+      "primitive_id": "4a615d05024ff911"
+    },
+    {
+      "id": "4a615d05024ff911#3",
+      "net": "LED_CTRL",
+      "points": [
+        [
+          240.0,
+          195.0
+        ],
+        [
+          240.0,
+          230.0
+        ]
+      ],
+      "primitive_id": "4a615d05024ff911"
+    },
+    {
+      "id": "4a615d05024ff911#4",
+      "net": "LED_CTRL",
+      "points": [
+        [
+          280.0,
+          195.0
+        ],
+        [
+          240.0,
+          195.0
+        ]
+      ],
+      "primitive_id": "4a615d05024ff911"
+    },
+    {
+      "id": "541e80492978d06d#0",
+      "net": "U1B_TIE",
+      "points": [
+        [
+          380.0,
+          175.0
+        ],
+        [
+          400.0,
+          175.0
+        ]
+      ],
+      "primitive_id": "541e80492978d06d"
+    },
+    {
+      "id": "541e80492978d06d#1",
+      "net": "U1B_TIE",
+      "points": [
+        [
+          400.0,
+          175.0
+        ],
+        [
+          400.0,
+          185.0
+        ]
+      ],
+      "primitive_id": "541e80492978d06d"
+    },
+    {
+      "id": "541e80492978d06d#2",
+      "net": "U1B_TIE",
+      "points": [
+        [
+          400.0,
+          185.0
+        ],
+        [
+          380.0,
+          185.0
+        ]
+      ],
+      "primitive_id": "541e80492978d06d"
+    },
+    {
+      "id": "5d9b8101909dc53e#0",
+      "net": "VIN",
+      "points": [
+        [
+          540.0,
+          715.0
+        ],
+        [
+          520.0,
+          715.0
+        ]
+      ],
+      "primitive_id": "5d9b8101909dc53e"
+    },
+    {
+      "id": "5d9b8101909dc53e#1",
+      "net": "VIN",
+      "points": [
+        [
+          520.0,
+          715.0
+        ],
+        [
+          520.0,
+          735.0
+        ]
+      ],
+      "primitive_id": "5d9b8101909dc53e"
+    },
+    {
+      "id": "5d9b8101909dc53e#2",
+      "net": "VIN",
+      "points": [
+        [
+          520.0,
+          735.0
+        ],
+        [
+          620.0,
+          735.0
+        ]
+      ],
+      "primitive_id": "5d9b8101909dc53e"
+    },
+    {
+      "id": "5d9b8101909dc53e#3",
+      "net": "VIN",
+      "points": [
+        [
+          620.0,
+          735.0
+        ],
+        [
+          620.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "5d9b8101909dc53e"
+    },
+    {
+      "id": "5d9b8101909dc53e#4",
+      "net": "VIN",
+      "points": [
+        [
+          620.0,
+          710.0
+        ],
+        [
+          640.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "5d9b8101909dc53e"
+    },
+    {
+      "id": "61791df9e60a44a8#0",
+      "points": [
+        [
+          120.0,
+          520.0
+        ],
+        [
+          120.0,
+          530.0
+        ]
+      ],
+      "primitive_id": "61791df9e60a44a8"
+    },
+    {
+      "id": "61791df9e60a44a8#1",
+      "points": [
+        [
+          120.0,
+          530.0
+        ],
+        [
+          230.0,
+          530.0
+        ]
+      ],
+      "primitive_id": "61791df9e60a44a8"
+    },
+    {
+      "id": "6d5f933346739a00#0",
+      "points": [
+        [
+          240.0,
+          410.0
+        ],
+        [
+          240.0,
+          370.0
+        ]
+      ],
+      "primitive_id": "6d5f933346739a00"
+    },
+    {
+      "id": "6d5f933346739a00#1",
+      "points": [
+        [
+          240.0,
+          370.0
+        ],
+        [
+          230.0,
+          370.0
+        ]
+      ],
+      "primitive_id": "6d5f933346739a00"
+    },
+    {
+      "id": "72db53065cbb0bf6#0",
+      "points": [
+        [
+          540.0,
+          705.0
+        ],
+        [
+          510.0,
+          705.0
+        ]
+      ],
+      "primitive_id": "72db53065cbb0bf6"
+    },
+    {
+      "id": "72db53065cbb0bf6#1",
+      "points": [
+        [
+          510.0,
+          705.0
+        ],
+        [
+          510.0,
+          650.0
+        ]
+      ],
+      "primitive_id": "72db53065cbb0bf6"
+    },
+    {
+      "id": "75164ddd9b5079eb#0",
+      "net": "VTH_ADJ",
+      "points": [
+        [
+          150.0,
+          360.0
+        ],
+        [
+          130.0,
+          360.0
+        ]
+      ],
+      "primitive_id": "75164ddd9b5079eb"
+    },
+    {
+      "id": "75164ddd9b5079eb#1",
+      "net": "VTH_ADJ",
+      "points": [
+        [
+          130.0,
+          360.0
+        ],
+        [
+          130.0,
+          290.0
+        ]
+      ],
+      "primitive_id": "75164ddd9b5079eb"
+    },
+    {
+      "id": "75164ddd9b5079eb#2",
+      "net": "VTH_ADJ",
+      "points": [
+        [
+          130.0,
+          290.0
+        ],
+        [
+          250.0,
+          290.0
+        ]
+      ],
+      "primitive_id": "75164ddd9b5079eb"
+    },
+    {
+      "id": "75164ddd9b5079eb#3",
+      "net": "VTH_ADJ",
+      "points": [
+        [
+          250.0,
+          290.0
+        ],
+        [
+          250.0,
+          360.0
+        ]
+      ],
+      "primitive_id": "75164ddd9b5079eb"
+    },
+    {
+      "id": "75164ddd9b5079eb#4",
+      "net": "VTH_ADJ",
+      "points": [
+        [
+          250.0,
+          360.0
+        ],
+        [
+          280.0,
+          360.0
+        ]
+      ],
+      "primitive_id": "75164ddd9b5079eb"
+    },
+    {
+      "id": "795cc7c6fd0fa077#0",
+      "net": "LED_A",
+      "points": [
+        [
+          920.0,
+          490.0
+        ],
+        [
+          980.0,
+          490.0
+        ]
+      ],
+      "primitive_id": "795cc7c6fd0fa077"
+    },
+    {
+      "id": "7f2698cf041bd22b#0",
+      "points": [
+        [
+          100.0,
+          430.0
+        ],
+        [
+          80.0,
+          430.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#1",
+      "points": [
+        [
+          80.0,
+          430.0
+        ],
+        [
+          80.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#2",
+      "points": [
+        [
+          80.0,
+          460.0
+        ],
+        [
+          120.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#3",
+      "points": [
+        [
+          120.0,
+          450.0
+        ],
+        [
+          120.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#4",
+      "points": [
+        [
+          140.0,
+          460.0
+        ],
+        [
+          120.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#5",
+      "points": [
+        [
+          140.0,
+          470.0
+        ],
+        [
+          140.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#6",
+      "points": [
+        [
+          120.0,
+          470.0
+        ],
+        [
+          140.0,
+          470.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#7",
+      "points": [
+        [
+          120.0,
+          480.0
+        ],
+        [
+          120.0,
+          470.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#8",
+      "points": [
+        [
+          140.0,
+          460.0
+        ],
+        [
+          180.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#9",
+      "points": [
+        [
+          210.0,
+          460.0
+        ],
+        [
+          180.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#10",
+      "points": [
+        [
+          210.0,
+          410.0
+        ],
+        [
+          210.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#11",
+      "points": [
+        [
+          165.0,
+          410.0
+        ],
+        [
+          210.0,
+          410.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#12",
+      "points": [
+        [
+          165.0,
+          380.0
+        ],
+        [
+          165.0,
+          410.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#13",
+      "points": [
+        [
+          210.0,
+          460.0
+        ],
+        [
+          240.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "7f2698cf041bd22b#14",
+      "points": [
+        [
+          240.0,
+          440.0
+        ],
+        [
+          240.0,
+          460.0
+        ]
+      ],
+      "primitive_id": "7f2698cf041bd22b"
+    },
+    {
+      "id": "864941e5a3ab5d06#0",
+      "points": [
+        [
+          640.0,
+          400.0
+        ],
+        [
+          640.0,
+          380.0
+        ]
+      ],
+      "primitive_id": "864941e5a3ab5d06"
+    },
+    {
+      "id": "90ba4c145538222c#0",
+      "points": [
+        [
+          770.0,
+          450.0
+        ],
+        [
+          770.0,
+          430.0
+        ]
+      ],
+      "primitive_id": "90ba4c145538222c"
+    },
+    {
+      "id": "90ba4c145538222c#1",
+      "points": [
+        [
+          770.0,
+          430.0
+        ],
+        [
+          790.0,
+          430.0
+        ]
+      ],
+      "primitive_id": "90ba4c145538222c"
+    },
+    {
+      "id": "9d6d22315aa61c9f#0",
+      "points": [
+        [
+          380.0,
+          195.0
+        ],
+        [
+          410.0,
+          195.0
+        ]
+      ],
+      "primitive_id": "9d6d22315aa61c9f"
+    },
+    {
+      "id": "9d6d22315aa61c9f#1",
+      "points": [
+        [
+          410.0,
+          195.0
+        ],
+        [
+          410.0,
+          250.0
+        ]
+      ],
+      "primitive_id": "9d6d22315aa61c9f"
+    },
+    {
+      "id": "a36eddfd5cce7356#0",
+      "points": [
+        [
+          165.0,
+          340.0
+        ],
+        [
+          165.0,
+          330.0
+        ]
+      ],
+      "primitive_id": "a36eddfd5cce7356"
+    },
+    {
+      "id": "ae1cb5da94942e1d#0",
+      "points": [
+        [
+          235.0,
+          165.0
+        ],
+        [
+          280.0,
+          165.0
+        ]
+      ],
+      "primitive_id": "ae1cb5da94942e1d"
+    },
+    {
+      "id": "b2ca42f9db7b708a#0",
+      "points": [
+        [
+          680.0,
+          710.0
+        ],
+        [
+          700.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "b2ca42f9db7b708a"
+    },
+    {
+      "id": "b2ca42f9db7b708a#1",
+      "points": [
+        [
+          700.0,
+          710.0
+        ],
+        [
+          700.0,
+          750.0
+        ]
+      ],
+      "primitive_id": "b2ca42f9db7b708a"
+    },
+    {
+      "id": "b2ca42f9db7b708a#2",
+      "points": [
+        [
+          750.0,
+          750.0
+        ],
+        [
+          700.0,
+          750.0
+        ]
+      ],
+      "primitive_id": "b2ca42f9db7b708a"
+    },
+    {
+      "id": "b2ca42f9db7b708a#3",
+      "points": [
+        [
+          750.0,
+          710.0
+        ],
+        [
+          750.0,
+          750.0
+        ]
+      ],
+      "primitive_id": "b2ca42f9db7b708a"
+    },
+    {
+      "id": "b2ca42f9db7b708a#4",
+      "points": [
+        [
+          770.0,
+          710.0
+        ],
+        [
+          750.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "b2ca42f9db7b708a"
+    },
+    {
+      "id": "b2ca42f9db7b708a#5",
+      "points": [
+        [
+          750.0,
+          750.0
+        ],
+        [
+          890.0,
+          750.0
+        ]
+      ],
+      "primitive_id": "b2ca42f9db7b708a"
+    },
+    {
+      "id": "b2ca42f9db7b708a#6",
+      "points": [
+        [
+          890.0,
+          750.0
+        ],
+        [
+          890.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "b2ca42f9db7b708a"
+    },
+    {
+      "id": "b2ca42f9db7b708a#7",
+      "points": [
+        [
+          890.0,
+          710.0
+        ],
+        [
+          910.0,
+          710.0
+        ]
+      ],
+      "primitive_id": "b2ca42f9db7b708a"
+    },
+    {
+      "id": "c9a0c2749024c052#0",
+      "points": [
+        [
+          280.0,
+          680.0
+        ],
+        [
+          280.0,
+          670.0
+        ]
+      ],
+      "primitive_id": "c9a0c2749024c052"
+    },
+    {
+      "id": "d835d2e81f9000b8#0",
+      "points": [
+        [
+          380.0,
+          165.0
+        ],
+        [
+          410.0,
+          165.0
+        ]
+      ],
+      "primitive_id": "d835d2e81f9000b8"
+    },
+    {
+      "id": "d835d2e81f9000b8#1",
+      "points": [
+        [
+          410.0,
+          165.0
+        ],
+        [
+          410.0,
+          140.0
+        ]
+      ],
+      "primitive_id": "d835d2e81f9000b8"
+    },
+    {
+      "id": "e0d8a52427a6575e#0",
+      "net": "LDR_SIG",
+      "points": [
+        [
+          215.0,
+          185.0
+        ],
+        [
+          280.0,
+          185.0
+        ]
+      ],
+      "primitive_id": "e0d8a52427a6575e"
+    },
+    {
+      "id": "e0d8a52427a6575e#1",
+      "net": "LDR_SIG",
+      "points": [
+        [
+          215.0,
+          170.0
+        ],
+        [
+          215.0,
+          185.0
+        ]
+      ],
+      "primitive_id": "e0d8a52427a6575e"
+    }
+  ]
+}

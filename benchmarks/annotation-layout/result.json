@@ -1,0 +1,761 @@
+{
+  "artifacts": {
+    "report_md": "..\\..\\benchmarks\\annotation-layout\\benchmark-report.md",
+    "result_json": "..\\..\\benchmarks\\annotation-layout\\result.json"
+  },
+  "cases": [
+    {
+      "baseline": {
+        "budget_exhausted": false,
+        "candidates_generated": 81,
+        "clusters": 0,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 581,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 1,
+        "hard_before": 2,
+        "independent_hard_after": 1,
+        "introduced_hard": 1,
+        "iterations": 4,
+        "local_steps": 0,
+        "moved": 1,
+        "noop": false,
+        "soft_after": 0,
+        "states": 0,
+        "status": "partial",
+        "timing": {
+          "max_s": 0.004316,
+          "median_s": 0.004033,
+          "min_s": 0.003902,
+          "samples": [
+            0.004111,
+            0.004316,
+            0.003966,
+            0.00397,
+            0.004282,
+            0.004033,
+            0.003902
+          ]
+        },
+        "total_displacement": 15.0,
+        "unknown": 0
+      },
+      "before_hard": 2,
+      "candidate_domain": {
+        "generated": 81,
+        "generation_seconds": 0.001551,
+        "possible": 82,
+        "truncated": 1
+      },
+      "case": "counterexample.json",
+      "comparison": {
+        "baseline_median_s": 0.004033,
+        "collision_checks": {
+          "baseline": 581,
+          "improved": 119
+        },
+        "improved_median_s": 0.000908,
+        "quality_equal_or_better": false,
+        "speedup_claimed": false,
+        "speedup_ratio": null
+      },
+      "counts": {
+        "components": 4,
+        "fixed_texts": 0,
+        "movable_annotations": 4,
+        "wires": 0
+      },
+      "improved": {
+        "budget_exhausted": false,
+        "candidates_generated": 81,
+        "clusters": 1,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 119,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 0,
+        "hard_before": 2,
+        "independent_hard_after": 0,
+        "introduced_hard": 0,
+        "iterations": 2,
+        "local_steps": 0,
+        "moved": 2,
+        "noop": false,
+        "soft_after": 3,
+        "states": 51,
+        "status": "planned_clear",
+        "timing": {
+          "max_s": 0.000968,
+          "median_s": 0.000908,
+          "min_s": 0.00088,
+          "samples": [
+            0.000968,
+            0.000908,
+            0.000908,
+            0.0009,
+            0.000898,
+            0.00088,
+            0.000946
+          ]
+        },
+        "total_displacement": 10.0,
+        "unknown": 0
+      },
+      "input_sha256": "09c62d4615bc69ccbf2c8be0b07aa1620816475df3eb0a4d0b92df5cbe3b441c",
+      "path": "..\\..\\benchmarks\\annotation-layout\\cases\\counterexample.json",
+      "project": {
+        "name": "synthetic-counterexample",
+        "page_id": "page-counterexample",
+        "page_name": "P1",
+        "snapshot_sha256": "d254415d1feb143dfc093804e9259dc9b33167f5d9a781cf3dde61962ef3961e"
+      },
+      "real_or_synthetic": "synthetic",
+      "source_kind": "synthetic",
+      "source_notes": "per-annotation greedy introduces a new conflict; batch search clears all"
+    },
+    {
+      "baseline": {
+        "budget_exhausted": false,
+        "candidates_generated": 192,
+        "clusters": 0,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 2985,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 0,
+        "hard_before": 3,
+        "independent_hard_after": 0,
+        "introduced_hard": 0,
+        "iterations": 6,
+        "local_steps": 0,
+        "moved": 3,
+        "noop": false,
+        "soft_after": 0,
+        "states": 0,
+        "status": "planned_clear",
+        "timing": {
+          "max_s": 0.016427,
+          "median_s": 0.014415,
+          "min_s": 0.013531,
+          "samples": [
+            0.013736,
+            0.013531,
+            0.014441,
+            0.016427,
+            0.0158,
+            0.014415,
+            0.014153
+          ]
+        },
+        "total_displacement": 30.0,
+        "unknown": 0
+      },
+      "before_hard": 3,
+      "candidate_domain": {
+        "generated": 192,
+        "generation_seconds": 0.009608,
+        "possible": 654,
+        "truncated": 462
+      },
+      "case": "dense.json",
+      "comparison": {
+        "baseline_median_s": 0.014415,
+        "collision_checks": {
+          "baseline": 2985,
+          "improved": 570
+        },
+        "improved_median_s": 0.002712,
+        "quality_equal_or_better": true,
+        "speedup_claimed": true,
+        "speedup_ratio": 5.315
+      },
+      "counts": {
+        "components": 6,
+        "fixed_texts": 1,
+        "movable_annotations": 6,
+        "wires": 0
+      },
+      "improved": {
+        "budget_exhausted": false,
+        "candidates_generated": 192,
+        "clusters": 1,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 570,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 0,
+        "hard_before": 3,
+        "independent_hard_after": 0,
+        "introduced_hard": 0,
+        "iterations": 3,
+        "local_steps": 0,
+        "moved": 3,
+        "noop": false,
+        "soft_after": 0,
+        "states": 194,
+        "status": "planned_clear",
+        "timing": {
+          "max_s": 0.003034,
+          "median_s": 0.002712,
+          "min_s": 0.002556,
+          "samples": [
+            0.002712,
+            0.002847,
+            0.002623,
+            0.003034,
+            0.002843,
+            0.002556,
+            0.002667
+          ]
+        },
+        "total_displacement": 30.0,
+        "unknown": 0
+      },
+      "input_sha256": "833db490adae9e89d72f01947687004269603a1788500863ac568683e73963cd",
+      "path": "..\\..\\benchmarks\\annotation-layout\\cases\\dense.json",
+      "project": {
+        "name": "synthetic-dense",
+        "page_id": "page-dense",
+        "page_name": "P1",
+        "snapshot_sha256": "d6a98598212ed729f5b9a4d1b7ff4dcc1341bbfc740993325b9107298521422f"
+      },
+      "real_or_synthetic": "synthetic",
+      "source_kind": "synthetic",
+      "source_notes": "six value texts in a horizontal chain with overlaps; batch case"
+    },
+    {
+      "baseline": {
+        "budget_exhausted": false,
+        "candidates_generated": 1344,
+        "clusters": 0,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 1199215,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 0,
+        "hard_before": 3,
+        "independent_hard_after": 0,
+        "introduced_hard": 0,
+        "iterations": 42,
+        "local_steps": 0,
+        "moved": 11,
+        "noop": false,
+        "soft_after": 1,
+        "states": 0,
+        "status": "planned_clear",
+        "timing": {
+          "max_s": 2.004447,
+          "median_s": 1.923145,
+          "min_s": 1.738616,
+          "samples": [
+            1.873896,
+            1.967688,
+            1.923145,
+            1.738616,
+            1.773934,
+            2.001281,
+            2.004447
+          ]
+        },
+        "total_displacement": 60.0,
+        "unknown": 0
+      },
+      "before_hard": 3,
+      "candidate_domain": {
+        "generated": 1344,
+        "generation_seconds": 0.125129,
+        "possible": 4578,
+        "truncated": 3002
+      },
+      "case": "real-photo-led.json",
+      "comparison": {
+        "baseline_median_s": 1.923145,
+        "collision_checks": {
+          "baseline": 1199215,
+          "improved": 4147
+        },
+        "improved_median_s": 0.023574,
+        "quality_equal_or_better": true,
+        "speedup_claimed": true,
+        "speedup_ratio": 81.579
+      },
+      "counts": {
+        "components": 19,
+        "fixed_texts": 94,
+        "movable_annotations": 42,
+        "wires": 98
+      },
+      "improved": {
+        "budget_exhausted": false,
+        "candidates_generated": 1344,
+        "clusters": 1,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 4147,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 0,
+        "hard_before": 3,
+        "independent_hard_after": 0,
+        "introduced_hard": 0,
+        "iterations": 1,
+        "local_steps": 0,
+        "moved": 2,
+        "noop": false,
+        "soft_after": 11,
+        "states": 642,
+        "status": "planned_clear",
+        "timing": {
+          "max_s": 0.027204,
+          "median_s": 0.023574,
+          "min_s": 0.020959,
+          "samples": [
+            0.022499,
+            0.022876,
+            0.027204,
+            0.020959,
+            0.025781,
+            0.027001,
+            0.023574
+          ]
+        },
+        "total_displacement": 10.0,
+        "unknown": 0
+      },
+      "input_sha256": "235ff99de79224f0e794a0de9ad398362da57c87f03b22dd8ced3311766bb903",
+      "path": "..\\..\\benchmarks\\annotation-layout\\cases\\real-photo-led.json",
+      "project": {
+        "name": "photo-led-5v-20261026",
+        "page_id": "cd008f919db36eba",
+        "page_name": "P1",
+        "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184"
+      },
+      "real_or_synthetic": "real_frozen",
+      "source_kind": "frozen_fixture",
+      "source_notes": "photo-led v14 frozen fixture: official EasyEDA 4.1.78 SVG text bbox read, sch list component/page primitives, official-SVG sheet geometry; trimmed, not live"
+    },
+    {
+      "baseline": {
+        "budget_exhausted": false,
+        "candidates_generated": 64,
+        "clusters": 0,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 67,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 0,
+        "hard_before": 1,
+        "independent_hard_after": 0,
+        "introduced_hard": 0,
+        "iterations": 2,
+        "local_steps": 0,
+        "moved": 1,
+        "noop": false,
+        "soft_after": 0,
+        "states": 0,
+        "status": "planned_clear",
+        "timing": {
+          "max_s": 0.002041,
+          "median_s": 0.001627,
+          "min_s": 0.001517,
+          "samples": [
+            0.00178,
+            0.002041,
+            0.001534,
+            0.001706,
+            0.001517,
+            0.001615,
+            0.001627
+          ]
+        },
+        "total_displacement": 10.0,
+        "unknown": 0
+      },
+      "before_hard": 1,
+      "candidate_domain": {
+        "generated": 64,
+        "generation_seconds": 0.003715,
+        "possible": 218,
+        "truncated": 154
+      },
+      "case": "text-text.json",
+      "comparison": {
+        "baseline_median_s": 0.001627,
+        "collision_checks": {
+          "baseline": 67,
+          "improved": 38
+        },
+        "improved_median_s": 0.000736,
+        "quality_equal_or_better": true,
+        "speedup_claimed": true,
+        "speedup_ratio": 2.211
+      },
+      "counts": {
+        "components": 2,
+        "fixed_texts": 0,
+        "movable_annotations": 2,
+        "wires": 0
+      },
+      "improved": {
+        "budget_exhausted": false,
+        "candidates_generated": 64,
+        "clusters": 1,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 38,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 0,
+        "hard_before": 1,
+        "independent_hard_after": 0,
+        "introduced_hard": 0,
+        "iterations": 1,
+        "local_steps": 0,
+        "moved": 1,
+        "noop": false,
+        "soft_after": 0,
+        "states": 66,
+        "status": "planned_clear",
+        "timing": {
+          "max_s": 0.001155,
+          "median_s": 0.000736,
+          "min_s": 0.000715,
+          "samples": [
+            0.000799,
+            0.000736,
+            0.000729,
+            0.001155,
+            0.000715,
+            0.000734,
+            0.001136
+          ]
+        },
+        "total_displacement": 10.0,
+        "unknown": 0
+      },
+      "input_sha256": "58d8789648940145d2eaebac78891d76e720c8db7b0ddec96edda3d1536795ae",
+      "path": "..\\..\\benchmarks\\annotation-layout\\cases\\text-text.json",
+      "project": {
+        "name": "synthetic-text-text",
+        "page_id": "page-text-text",
+        "page_name": "P1",
+        "snapshot_sha256": "32fbc90194a9e7f98daa62e85060d695269229adb9653528e66490f2ea5f2ae5"
+      },
+      "real_or_synthetic": "synthetic",
+      "source_kind": "synthetic",
+      "source_notes": "two value texts overlap; deterministic synthetic conflict"
+    },
+    {
+      "baseline": {
+        "budget_exhausted": false,
+        "candidates_generated": 32,
+        "clusters": 0,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 0,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 0,
+        "hard_before": 1,
+        "independent_hard_after": 0,
+        "introduced_hard": 0,
+        "iterations": 1,
+        "local_steps": 0,
+        "moved": 1,
+        "noop": false,
+        "soft_after": 0,
+        "states": 0,
+        "status": "planned_clear",
+        "timing": {
+          "max_s": 0.001306,
+          "median_s": 0.000529,
+          "min_s": 0.000507,
+          "samples": [
+            0.000599,
+            0.000515,
+            0.000568,
+            0.001306,
+            0.000529,
+            0.000513,
+            0.000507
+          ]
+        },
+        "total_displacement": 15.0,
+        "unknown": 0
+      },
+      "before_hard": 1,
+      "candidate_domain": {
+        "generated": 32,
+        "generation_seconds": 0.001806,
+        "possible": 109,
+        "truncated": 73
+      },
+      "case": "text-wire.json",
+      "comparison": {
+        "baseline_median_s": 0.000529,
+        "collision_checks": {
+          "baseline": 0,
+          "improved": 1
+        },
+        "improved_median_s": 0.000383,
+        "quality_equal_or_better": true,
+        "speedup_claimed": true,
+        "speedup_ratio": 1.379
+      },
+      "counts": {
+        "components": 0,
+        "fixed_texts": 0,
+        "movable_annotations": 1,
+        "wires": 1
+      },
+      "improved": {
+        "budget_exhausted": false,
+        "candidates_generated": 32,
+        "clusters": 1,
+        "counters": {
+          "candidate_evaluations": 0,
+          "collision_checks": 1,
+          "iterations": 0,
+          "local_steps": 0,
+          "pair_cache_hits": 0,
+          "states": 0
+        },
+        "hard_after": 0,
+        "hard_before": 1,
+        "independent_hard_after": 0,
+        "introduced_hard": 0,
+        "iterations": 0,
+        "local_steps": 0,
+        "moved": 1,
+        "noop": false,
+        "soft_after": 0,
+        "states": 34,
+        "status": "planned_clear",
+        "timing": {
+          "max_s": 0.000742,
+          "median_s": 0.000383,
+          "min_s": 0.000368,
+          "samples": [
+            0.000383,
+            0.000368,
+            0.000742,
+            0.000597,
+            0.000384,
+            0.000381,
+            0.000381
+          ]
+        },
+        "total_displacement": 15.0,
+        "unknown": 0
+      },
+      "input_sha256": "4b68c7ab29c253b5dd4b6110d4a74bd88be0d2f9d0f6d22718687869f80f5f51",
+      "path": "..\\..\\benchmarks\\annotation-layout\\cases\\text-wire.json",
+      "project": {
+        "name": "synthetic-text-wire",
+        "page_id": "page-text-wire",
+        "page_name": "P1",
+        "snapshot_sha256": "80011ef4552ec73f701ec4a1762f6b02285d31d91105dcb6b6de67cceed6b6fd"
+      },
+      "real_or_synthetic": "synthetic",
+      "source_kind": "synthetic",
+      "source_notes": "free-text bbox is crossed by a wire"
+    }
+  ],
+  "cli_round_trip": [
+    {
+      "case": "counterexample.json",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m annotation_layout plan ..\\..\\benchmarks\\annotation-layout\\cases\\counterexample.json --out-dir C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpubjuu5a_\\out",
+      "exit_statuses": [
+        "planned_clear",
+        "planned_clear",
+        "planned_clear"
+      ],
+      "note": "python CLI round trip only; EDA host round trip/save/reopen NOT RUN",
+      "timing": {
+        "max_s": 0.201237,
+        "median_s": 0.194671,
+        "min_s": 0.185603,
+        "samples": [
+          0.201237,
+          0.194671,
+          0.185603
+        ]
+      }
+    },
+    {
+      "case": "dense.json",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m annotation_layout plan ..\\..\\benchmarks\\annotation-layout\\cases\\dense.json --out-dir C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpdon1sa7i\\out",
+      "exit_statuses": [
+        "planned_clear",
+        "planned_clear",
+        "planned_clear"
+      ],
+      "note": "python CLI round trip only; EDA host round trip/save/reopen NOT RUN",
+      "timing": {
+        "max_s": 0.201592,
+        "median_s": 0.196368,
+        "min_s": 0.192277,
+        "samples": [
+          0.201592,
+          0.192277,
+          0.196368
+        ]
+      }
+    },
+    {
+      "case": "real-photo-led.json",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m annotation_layout plan ..\\..\\benchmarks\\annotation-layout\\cases\\real-photo-led.json --out-dir C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpabq56s6e\\out",
+      "exit_statuses": [
+        "planned_clear",
+        "planned_clear",
+        "planned_clear"
+      ],
+      "note": "python CLI round trip only; EDA host round trip/save/reopen NOT RUN",
+      "timing": {
+        "max_s": 0.536938,
+        "median_s": 0.521289,
+        "min_s": 0.489091,
+        "samples": [
+          0.536938,
+          0.521289,
+          0.489091
+        ]
+      }
+    },
+    {
+      "case": "text-text.json",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m annotation_layout plan ..\\..\\benchmarks\\annotation-layout\\cases\\text-text.json --out-dir C:\\Users\\jlc\\AppData\\Local\\Temp\\tmpag42865w\\out",
+      "exit_statuses": [
+        "planned_clear",
+        "planned_clear",
+        "planned_clear"
+      ],
+      "note": "python CLI round trip only; EDA host round trip/save/reopen NOT RUN",
+      "timing": {
+        "max_s": 0.181616,
+        "median_s": 0.177941,
+        "min_s": 0.172196,
+        "samples": [
+          0.172196,
+          0.177941,
+          0.181616
+        ]
+      }
+    },
+    {
+      "case": "text-wire.json",
+      "command": "C:\\Users\\jlc\\AppData\\Local\\Programs\\Python\\Python313\\python.exe -m annotation_layout plan ..\\..\\benchmarks\\annotation-layout\\cases\\text-wire.json --out-dir C:\\Users\\jlc\\AppData\\Local\\Temp\\tmp26m5bwlq\\out",
+      "exit_statuses": [
+        "planned_clear",
+        "planned_clear",
+        "planned_clear"
+      ],
+      "note": "python CLI round trip only; EDA host round trip/save/reopen NOT RUN",
+      "timing": {
+        "max_s": 0.176157,
+        "median_s": 0.175363,
+        "min_s": 0.174052,
+        "samples": [
+          0.176157,
+          0.174052,
+          0.175363
+        ]
+      }
+    }
+  ],
+  "environment": {
+    "cpu_count": 28,
+    "machine": "AMD64",
+    "notes": "single process; no network/EDA; timing uses time.perf_counter",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+    "python": "3.13.15",
+    "repeat": 7,
+    "seed": 20261027
+  },
+  "environment_note": "timings are not compared across machines; medians/ranges only",
+  "limitations": [
+    "offline solver work only; EDA render/save/reopen/readback and whole-board time NOT RUN",
+    "timings are machine-dependent; medians/ranges are reported, not a guarantee",
+    "synthetic cases are explicitly labelled and are not evidence about a real board",
+    "quality gate requires equal-or-better hard conflicts and not more moved annotations"
+  ],
+  "not_run": [
+    "NOT RUN: EDA render / official export",
+    "NOT RUN: host write / save / reopen / connectivity readback",
+    "NOT RUN: whole-board / host round-trip wall time"
+  ],
+  "repeat": 7,
+  "schema": "annotation-layout-benchmark/v1",
+  "seed": 20261027,
+  "suite": {
+    "cases": 5,
+    "path": "..\\..\\benchmarks\\annotation-layout\\cases",
+    "real_frozen": 1,
+    "synthetic": 4
+  },
+  "summary": {
+    "all": {
+      "baseline_median_s": 0.004033,
+      "cases": 5,
+      "improved_median_s": 0.000908,
+      "quality_equal_cases": 4,
+      "speedup_claimed_cases": 4
+    },
+    "quality_gate": "improved hard_after=0, moved<=baseline moved, no introduced hard, independent recheck clean",
+    "real_frozen": {
+      "baseline_median_s": 1.923145,
+      "cases": 1,
+      "improved_median_s": 0.023574,
+      "quality_equal_cases": 1,
+      "speedup_claimed_cases": 1
+    },
+    "speedup_claimed_cases": 4,
+    "synthetic": {
+      "baseline_median_s": 0.00283,
+      "cases": 4,
+      "improved_median_s": 0.000822,
+      "quality_equal_cases": 3,
+      "speedup_claimed_cases": 3
+    }
+  },
+  "tool": {
+    "name": "annotation_layout",
+    "version": "0.1.0"
+  },
+  "total_wall_seconds": 17.676948
+}

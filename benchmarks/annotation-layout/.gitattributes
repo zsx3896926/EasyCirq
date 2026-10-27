@@ -1,0 +1,3 @@
+# Benchmark cases and evidence are hash-bound; keep LF on every platform.
+* text eol=lf
+
