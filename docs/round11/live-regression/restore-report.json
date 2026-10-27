@@ -1,0 +1,287 @@
+{
+  "schema": "design-engine-pcb-apply-plan/v1",
+  "status": "verified",
+  "version": {
+    "adapter": "pcb_apply_plan.py",
+    "adapter_version": "2.0",
+    "skill": "0.9.3",
+    "playbook_format": 1,
+    "python": "3.13.15"
+  },
+  "plan": {
+    "path": "C:\\Users\\jlc\\work\\dual-button-r11-live\\restore-plan.json",
+    "kind": "playbook",
+    "ops": {
+      "place": 1,
+      "track": 0,
+      "via": 0,
+      "pour": 0
+    },
+    "placements": 1,
+    "partial": true,
+    "scope": {
+      "designators": [
+        "D4"
+      ],
+      "nets": []
+    },
+    "base_semantic_sha256": "25d934fe536bebd649c73d0265d501cbf7400ac98753ca3a882b59077fb45802",
+    "noops": [],
+    "geometry_basis": "polygon-exact",
+    "pose_defaults": []
+  },
+  "check": {
+    "schema": "design-engine-pcb-placement/v1",
+    "status": "pass",
+    "hard_ok": true,
+    "findings": [],
+    "constraints": [],
+    "counts": {
+      "findings": 0,
+      "hard_findings": 0,
+      "constraint_rows": 0,
+      "hard_failed": 0,
+      "hard_unmeasured": 0
+    },
+    "outline_basis": "polygon-exact",
+    "measurement_note": "bbox/pad geometry from pcb dump; pad distances are centre distances, not copper paths"
+  },
+  "playbook": {
+    "path": "C:\\Users\\jlc\\work\\dual-button-r11-live\\after-restore.apply-playbook.json",
+    "status": "written",
+    "sha256": "7156572481e916ea52ee30f30d6547824935250668a4b97e7b0d9e5cc4e0eb65",
+    "schema": "design-engine-pcb-playbook/v1",
+    "version": 1,
+    "steps": [
+      {
+        "id": "place-D4",
+        "kind": "run",
+        "target": "pcb modify",
+        "assert": {
+          "$.verified": "true"
+        },
+        "checkpoint": false
+      },
+      {
+        "id": "save",
+        "kind": "action",
+        "target": "pcb.save",
+        "assert": {
+          "$.saved": "true"
+        },
+        "checkpoint": true
+      },
+      {
+        "id": "reload",
+        "kind": "run",
+        "target": "doc reload",
+        "assert": {},
+        "checkpoint": false
+      },
+      {
+        "id": "dump",
+        "kind": "run",
+        "target": "pcb dump",
+        "assert": {},
+        "checkpoint": false
+      }
+    ],
+    "counts": {
+      "total": 4,
+      "ops": 1,
+      "place": 1,
+      "track": 0,
+      "via": 0,
+      "pour": 0
+    }
+  },
+  "journal": {
+    "path": "C:\\Users\\jlc\\work\\dual-button-r11-live\\after-restore.apply-playbook.json.journal.jsonl",
+    "offset": 0,
+    "status": "pass",
+    "header": {
+      "playbookSha256": "7156572481e916ea52ee30f30d6547824935250668a4b97e7b0d9e5cc4e0eb65",
+      "name": "pcb-apply-plan",
+      "project": "dual-button-led-r11-20261027",
+      "startedAt": "2026-10-27T10:32:15+08:00"
+    },
+    "steps": [
+      {
+        "idx": 1,
+        "id": "place-D4",
+        "status": "ok",
+        "ms": 184
+      },
+      {
+        "idx": 2,
+        "id": "save",
+        "status": "ok",
+        "ms": 46
+      },
+      {
+        "idx": 3,
+        "id": "reload",
+        "status": "ok",
+        "ms": 6053
+      },
+      {
+        "idx": 4,
+        "id": "dump",
+        "status": "ok",
+        "ms": 319
+      }
+    ],
+    "missing": [],
+    "failed": [],
+    "problems": [],
+    "states": [
+      {
+        "id": "place-D4",
+        "state": "confirmed",
+        "sent": true,
+        "journal_status": "ok",
+        "error": null
+      },
+      {
+        "id": "save",
+        "state": "confirmed",
+        "sent": true,
+        "journal_status": "ok",
+        "error": null
+      },
+      {
+        "id": "reload",
+        "state": "confirmed",
+        "sent": true,
+        "journal_status": "ok",
+        "error": null
+      },
+      {
+        "id": "dump",
+        "state": "confirmed",
+        "sent": true,
+        "journal_status": "ok",
+        "error": null
+      }
+    ]
+  },
+  "apply": {
+    "argv": [
+      "easyeda",
+      "apply",
+      "C:\\Users\\jlc\\work\\dual-button-r11-live\\after-restore.apply-playbook.json",
+      "--project",
+      "dual-button-led-r11-20261027",
+      "--doc",
+      "49c8e7a5dc2e8f59",
+      "--yes"
+    ],
+    "exit": 0,
+    "ok": true,
+    "started_at": "2026-10-27T02:32:14.487089Z",
+    "ended_at": "2026-10-27T02:32:23.405433Z",
+    "stdout_sha256": "387c0bc4d555ad9a991e3782f1245aa078fd32d843152f9a3796963cf03d80a7",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "exit_zero": true,
+    "easyeda": "easyeda"
+  },
+  "save": {
+    "step": "save",
+    "status": "ok"
+  },
+  "reload": {
+    "step": "reload",
+    "status": "ok"
+  },
+  "dump": {
+    "before": {
+      "path": "C:\\Users\\jlc\\work\\dual-button-r11-live\\after-move.json",
+      "status": "ok",
+      "sha256": "4a15daf6e21749181784fcc317e21f81c36ba28dbb5c198ccc06d7d12ce750f6",
+      "bytes": 155793
+    },
+    "after": {
+      "path": "C:\\Users\\jlc\\work\\dual-button-r11-live\\after-restore.json",
+      "status": "ok",
+      "bytes": 155799,
+      "sha256": "b511b8ba46829820e5c0fc2e66467780cc9c350fa4558e787259166b1354983c",
+      "fresh": true
+    }
+  },
+  "diff": {
+    "schema": "design-engine-pcb-diff/v1",
+    "status": "changed",
+    "identity_changes": [],
+    "geometry_changes": [
+      {
+        "kind": "pose_changed",
+        "designator": "D4",
+        "before": [
+          1595.0898000000002,
+          810,
+          180.0,
+          1
+        ],
+        "after": [
+          1595.0898000000002,
+          808.74,
+          180.0,
+          1
+        ]
+      }
+    ],
+    "copper_changes": [],
+    "unrelated_changes": [],
+    "copper_geometry_changes": [],
+    "counts": {
+      "identity": 0,
+      "geometry": 1,
+      "copper": 0,
+      "unrelated": 0,
+      "copper_geometry": 0
+    },
+    "scope": {
+      "designators": [
+        "D4"
+      ],
+      "nets": []
+    },
+    "note": "primitiveId is not stable across document reload; compare identity and geometry, not IDs alone"
+  },
+  "diff_accepted": true,
+  "records": [
+    {
+      "op": "place",
+      "index": 0,
+      "designator": "D4",
+      "net": null,
+      "steps": [
+        "place-D4"
+      ],
+      "status": "applied",
+      "step_statuses": [
+        "ok"
+      ],
+      "confirmations": [
+        "confirmed"
+      ]
+    }
+  ],
+  "failure": null,
+  "transaction": {
+    "atomic_rollback": false,
+    "note": "the adapter compiles and verifies writes; it does not implement a transactional rollback of already-sent steps"
+  },
+  "notes": [
+    "playbook v1; defaults retry=0, continueOnError=false, timeoutSec=120",
+    "verified by apply(journal) + fresh dump + independent scoped diff; save/reload/dump evidence is in this report"
+  ],
+  "recovery": {
+    "apply_sent": true,
+    "confirmed_steps": 4,
+    "unknown_or_failed_steps": [],
+    "safe_to_retry": false,
+    "requires_fresh_dump_before_retry": true,
+    "reason": "apply was sent; only journal-confirmed steps are known to have landed. Do not retry from the same plan until a fresh dump shows the actual board state."
+  }
+}
