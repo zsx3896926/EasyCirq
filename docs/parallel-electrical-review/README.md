@@ -3,6 +3,23 @@
 本目录是任务 B 的完整交付说明。模块当前**不接入主执行流程**，不修改共享入口；
 集成建议见 `integration-proposal.md`。任务 A 可独立完成自己的工作，无需等待本模块。
 
+## 验收状态（2026-10-28 最终复验）
+
+| 验收项 | 结果 |
+|---|---|
+| `python -m unittest discover -s tests -k electrical_review` | **50 tests OK**（3.099 s，exit 0） |
+| 全量 `python -m unittest discover -s tests` | **1833 tests OK**（125.7 s，exit 0） |
+| `python benchmarks/electrical-review/run_benchmark.py --runs 3` | **31/31 pass**，exit 0 |
+| 基准状态 / EDA | `status=pass`；`simulated=true`、`real_eda="NOT RUN"`、`eda_calls=0` |
+| 场景分布 | pass_with_scope 9、fail 11、review_required 6、incomplete 1、invalid_input 4 |
+| 基准 timing（3 runs） | 31 场 min 合计 4.022 s；单场 max 179.5 ms（不宣称画板提速） |
+| 环境 | Windows 11 / Python 3.13.15；代码按 3.10 语法，**3.10 运行时未在本机验证** |
+| PR | **#38 OPEN，未合并**：https://github.com/zsx3896926/hardware-design-skill/pull/38 |
+| 独立反例审查 | 独立成员运行失败；`adversarial-review.md` 为 Lead 自审并明确声明“不冒充独立审查” |
+
+`pass_with_scope` 只证明所列规则和给定输入覆盖，不是整板、DRC、保存重开、制造或上电验收。
+完整记录见 `acceptance.md` 与 `handoff-current.md`。
+
 ## 文档索引
 
 | 文件 | 内容 |

@@ -2,6 +2,8 @@
 
 - 分支：`feat/parallel-electrical-review`（独立 worktree）
 - 固定基线：`main` @ `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（开工时核实；未反复合入任务 A 分支）
+- PR：**#38** https://github.com/zsx3896926/hardware-design-skill/pull/38（OPEN，未合并）
+- 本次验收复验基于提交 `f473f0def2dde8b7f338ca6205cd67858a4f6ee9`；文档更新后 PR head 以 PR 页面为准
 - 本任务真实 EDA 调用：**0**
 - 共享文件修改：**无**（SKILL.md/references/feedback/design_engine/pcb_gate/runtime/connector/
   protocol/distribution/更新器/CI/顶层依赖/版本号/LICENSE/NOTICE/README/CHANGELOG/
@@ -54,18 +56,30 @@ not_applicable/invalid_input、finding 对象/实际值/约束/单位/证据/解
 
 完整语义见 `contract.md`、`design.md`。
 
-## 3. 实际执行结果（2026-10-27，Windows 11，Python 3.13.15）
+## 3. 实际执行结果（2026-10-28 最终复验，Windows 11，Python 3.13.15）
 
 | 命令 | 结果 |
 |---|---|
-| `python -m unittest discover -s tests -k electrical_review` | **46 tests OK** |
-| `python -m unittest discover -s tests/electrical_review -t tests` | **46 tests OK** |
-| `python -m unittest discover -s tests`（全量） | 通过（仓库既有 + 本任务） |
-| `python benchmarks/electrical-review/run_benchmark.py --runs 3` | **31/31 pass**，`simulated=true`，`real_eda="NOT RUN"`，`eda_calls=0` |
+| `python -m unittest discover -s tests -k electrical_review` | **50 tests OK**（3.099 s，exit 0） |
+| `python -m unittest discover -s tests/electrical_review -t tests` | **50 tests OK** |
+| `python -m unittest discover -s tests`（全量既有 + 本任务） | **1833 tests OK**（125.7 s，exit 0） |
+| `python benchmarks/electrical-review/run_benchmark.py --runs 3 --out <仓库外临时文件>` | **31/31 pass**，exit 0 |
+
+基准摘要（本次实际运行）：
+
+- `status=pass`，`correctness=31/31`，`failed_cases=[]`；
+- `simulated=true`、`real_eda="NOT RUN"`、`eda_calls=0`；
+- 场景状态分布：`pass_with_scope` 9、`fail` 11、`review_required` 6、`incomplete` 1、`invalid_input` 4；
+- 来源类别：`synthetic_fixture`、`synthetic_fixture_verified_fact`、
+  `real_engineering_read_only_replay_derived`、`derived_counterexample_mutation`、
+  `synthetic_invalid_input`；
+- timing（3 runs）：31 场单场 min 合计 4.022 s，单场 max 179.5 ms；
+- 本次复验把基准输出写到仓库外临时文件，**未修改已提交的 `result.json`**，避免 wall-clock
+  波动污染冻结结果；PR 工作区保持 clean。
 
 基准覆盖 R1–R6 的正例、反例、unknown，另有 incomplete 与非法输入场景；每个场景冻结
 输入 SHA-256、预期 exit/status/summary/规则计数/必需 finding code。timing 只记录本机
-CLI 执行成本（约 0.1 s/场景级），**不宣称画板提速**。
+CLI 执行成本（约 0.13 s/场景级），**不宣称画板提速**。
 
 测试重点：组件/引脚重排、网名一致重命名、位号改名但 instance_id 不变、mil/mm 与 mV
 单位转换、正确飞跨电容短接必失败、重复 ID/位号/脚号、NaN/inf/bool、负耐压、未知单位、
@@ -96,7 +110,7 @@ CLI 执行成本（约 0.1 s/场景级），**不宣称画板提速**。
 
 - 证据引用悬空（不存在的 evidence/fact_id）原会静默丢证据：新增 `_validate_references`，
   现为 `invalid_input`。独立反例审查在开发中发现 `walk` 把顶层 evidence 定义当 id 的
-  blocker；已修复并复验 46 测试 + 31 基准全通过。
+  blocker；已修复并复验 50 测试 + 31 基准全通过。
 - R3：原厂内部组未覆盖实际使用脚号时曾可能误报硬违反 → 改为 `unknown`
   （脚号映射不一致不能判错）。
 - R5：没有地/电源网络分类证据时曾可能把“未分类”误判为错网 → 改为 `unknown`。
