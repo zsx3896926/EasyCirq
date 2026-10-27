@@ -1081,6 +1081,8 @@ def _normalize_pours(pours):
     for raw in pours:
         if not isinstance(raw, dict):
             continue
+        source = raw.get('source') if raw.get('source') is not None else \
+            raw.get('points')
         result.append({
             'primitive_id': _text(_first(raw, 'primitiveId', 'primitive_id'))
             or None,
@@ -1091,7 +1093,13 @@ def _normalize_pours(pours):
             'locked': raw.get('locked') if isinstance(raw.get('locked'),
                                                       bool) else None,
             'fill_method': raw.get('fillMethod'),
+            'line_width': raw.get('lineWidth', raw.get('line_width')),
             'geometry_available': raw.get('geometryAvailable'),
+            # Keep a geometry fingerprint instead of the full polygon: the
+            # raw dump's ``source`` can be huge, but dropping it entirely made
+            # every normalized pour geometry comparison a no-op.
+            'geometry_sha256': (_canonical_sha(source)
+                                if source is not None else None),
             'raw_sha256': _canonical_sha(raw),
         })
     return result

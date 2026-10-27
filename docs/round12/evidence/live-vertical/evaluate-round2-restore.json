@@ -1,0 +1,163 @@
+{
+  "schema": "hds-quality-eval/v1",
+  "generated_at": "2026-10-27T04:49:38.973355Z",
+  "tool_version": "1.0.0",
+  "target": {
+    "project_uuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "project_name": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "documents": [
+      {
+        "uuid": "10f78b14a3282fb6",
+        "type": "schematic",
+        "name": "P1"
+      },
+      {
+        "uuid": "49c8e7a5dc2e8f59",
+        "type": "pcb",
+        "name": "PCB1"
+      }
+    ]
+  },
+  "layers": {
+    "hard": {
+      "status": "pass",
+      "findings": [],
+      "checks_run": [
+        "schematic.drc",
+        "pcb.drc",
+        "pad_net.sch_pcb",
+        "pcb.outline"
+      ],
+      "checks_not_run": [],
+      "unknown": []
+    },
+    "engineering": {
+      "status": "warn",
+      "findings": [
+        {
+          "id": "eval-confirmed:1",
+          "code": "power-not-poured",
+          "layer": "engineering",
+          "severity": "major",
+          "deterministic": true,
+          "blocking": false,
+          "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]",
+          "objects": [
+            "+5V"
+          ],
+          "evidence": {
+            "source": "pcb.check",
+            "finding": {
+              "type": "power-not-poured",
+              "level": "WARN",
+              "net": "+5V",
+              "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+            }
+          },
+          "basis": "measured DFM/electrical finding; the source supplies the limit",
+          "recheck": null,
+          "source": "pcb.check"
+        }
+      ],
+      "confirmed": [
+        {
+          "id": "eval-confirmed:1",
+          "code": "power-not-poured",
+          "layer": "engineering",
+          "severity": "major",
+          "deterministic": true,
+          "blocking": false,
+          "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]",
+          "objects": [
+            "+5V"
+          ],
+          "evidence": {
+            "source": "pcb.check",
+            "finding": {
+              "type": "power-not-poured",
+              "level": "WARN",
+              "net": "+5V",
+              "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+            }
+          },
+          "basis": "measured DFM/electrical finding; the source supplies the limit",
+          "recheck": null,
+          "source": "pcb.check"
+        }
+      ],
+      "conditional": [],
+      "checks_run": [
+        "pcb.check"
+      ],
+      "checks_not_run": [],
+      "unknown": []
+    },
+    "readability": {
+      "status": "unknown",
+      "findings": [],
+      "checks_run": [],
+      "checks_not_run": [
+        "readability"
+      ],
+      "unknown": [],
+      "advisory_only": true
+    }
+  },
+  "confirmed_issues": [
+    {
+      "schema": "hds-issue/v1",
+      "generated_at": "2026-10-27T04:49:38.973319Z",
+      "id": "auto-power-not-poured-1",
+      "target": {
+        "project_uuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+        "project_name": "f37160f4acb64e13a80f1eb9c0a67fa3",
+        "documents": [
+          {
+            "uuid": "10f78b14a3282fb6",
+            "type": "schematic",
+            "name": "P1"
+          },
+          {
+            "uuid": "49c8e7a5dc2e8f59",
+            "type": "pcb",
+            "name": "PCB1"
+          }
+        ]
+      },
+      "description": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]",
+      "basis": {
+        "deterministic": true,
+        "reason": "measured DFM/electrical finding; the source supplies the limit",
+        "source": "pcb.check"
+      },
+      "severity": "major",
+      "evidence": [
+        {
+          "source": "pcb.check",
+          "finding": {
+            "type": "power-not-poured",
+            "level": "WARN",
+            "net": "+5V",
+            "message": "power net +5V (6 pads) has no copper pour/plane — power should be poured, not carried by thin tracks: `pcb pour-fit --net +5V` (2-layer) or `pcb power-planes` (4-layer) [规范 §5.2 铺铜策略 — pcb-design-rules.md]"
+          }
+        }
+      ],
+      "action": {},
+      "improvement": {},
+      "status": "open",
+      "layer": "engineering",
+      "code": "power-not-poured",
+      "recheck": null,
+      "source": "pcb.check"
+    }
+  ],
+  "conditional_risks": [],
+  "suggestions": [],
+  "unknown": [],
+  "drc_zero_but_quality_issues": true,
+  "verdict": "pass_with_warnings",
+  "total_score": null,
+  "note": "no total score: a hard failure is never offset by other layers; readability findings are suggestions only",
+  "simulated": false,
+  "reason": "hard layer passed; engineering reports 1 confirmed issue(s) and 0 conditional risk(s)"
+}

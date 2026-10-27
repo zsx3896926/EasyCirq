@@ -1,6 +1,6 @@
 {
  "schema": "hds-feedback-benchmark/v1",
- "generated_at": "2026-10-27T04:22:47.815247Z",
+ "generated_at": "2026-10-27T05:09:48.061801Z",
  "host": "simulated (tests/feedback_sim.py)",
  "real_eda": "NOT RUN",
  "cases": [
@@ -20,7 +20,7 @@
      "pcb.components[].locked",
      "pcb.unrouted"
     ],
-    "semantic_sha256": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
+    "semantic_sha256": "caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
     "observation_simulated": true,
     "simulated": true
    },
@@ -265,19 +265,19 @@
        {
         "failure_class": "stale_baseline",
         "reason": "stale_baseline",
-        "message": "plan baseline 14dd2439b1dd2b685989266982ae4f017d0e6904d501fff395c4c235fdc5f9de does not match contract baseline 96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
+        "message": "plan baseline 13d2652b303f87c3e37d42cf3ddf4b968db162369420655cea222e0727381833 does not match contract baseline caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
         "detail": {
-         "expected": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
-         "actual": "14dd2439b1dd2b685989266982ae4f017d0e6904d501fff395c4c235fdc5f9de"
+         "expected": "caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
+         "actual": "13d2652b303f87c3e37d42cf3ddf4b968db162369420655cea222e0727381833"
         }
        },
        {
         "failure_class": "stale_baseline",
         "reason": "stale_baseline",
-        "message": "fresh observation baseline 14dd2439b1dd2b685989266982ae4f017d0e6904d501fff395c4c235fdc5f9de does not match contract baseline 96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
+        "message": "fresh observation baseline 13d2652b303f87c3e37d42cf3ddf4b968db162369420655cea222e0727381833 does not match contract baseline caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
         "detail": {
-         "expected": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
-         "actual": "14dd2439b1dd2b685989266982ae4f017d0e6904d501fff395c4c235fdc5f9de"
+         "expected": "caa6eb0cc410c4f9e40622f67a1daa436352e5d666a93481a407585ed4a96ba8",
+         "actual": "13d2652b303f87c3e37d42cf3ddf4b968db162369420655cea222e0727381833"
         }
        },
        {
@@ -307,7 +307,7 @@
      "ok": false,
      "status": "unknown",
      "contract_id": "bench-partial-recovery",
-     "generated_at": "2026-10-27T04:22:47.783382Z",
+     "generated_at": "2026-10-27T05:09:48.032482Z",
      "journal": {
       "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-bench-partial.jsonl",
       "entries": 3,

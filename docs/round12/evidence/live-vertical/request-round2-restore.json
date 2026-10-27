@@ -1,0 +1,15 @@
+{
+  "contract_id": "r12-live-vertical-round2-restore-20261027a",
+  "goal": "Restore D4 to its original pose (y=808.74) on the independent imported copy and prove the saved/reopened board returns to the original semantic hash.",
+  "scope": {
+    "objects": ["D4"],
+    "nets": [],
+    "regions": []
+  },
+  "allowed_actions": ["move_component", "save", "reload"],
+  "acceptance": [
+    {"id": "inside-at-least-one", "metric": "diff.inside_scope", "predicate": "count >= 1"},
+    {"id": "outside-zero", "metric": "diff.outside_scope", "predicate": "count == 0"}
+  ],
+  "preview_only": false
+}

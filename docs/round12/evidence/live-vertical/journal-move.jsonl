@@ -1,0 +1,6 @@
+{"journalVersion": 1, "contractId": "r12-live-vertical-20261027a", "kind": "scoped-pcb", "startedAt": "2026-10-27T04:37:53.975852Z", "operationMap": [{"index": 0, "original_index": 0, "key": "place:ab01227f08896feb", "step_ids": ["place-D4"]}], "playbookSha256": null}
+{"playbookSha256":"0d6c293cac4fe7c461da19066d91c5729c21aed441d7c1ac92a16c326ea69dbd","name":"pcb-apply-plan","project":"f37160f4acb64e13a80f1eb9c0a67fa3","startedAt":"2026-10-27T12:37:54+08:00"}
+{"idx":1,"id":"place-D4","status":"ok","ms":306}
+{"idx":2,"id":"save","status":"ok","ms":65}
+{"idx":3,"id":"reload","status":"ok","ms":5305}
+{"idx":4,"id":"dump","status":"ok","ms":290}

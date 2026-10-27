@@ -1,0 +1,19 @@
+{
+  "schema": "hds-command-evidence/v1",
+  "label": "project-info-out",
+  "argv": [
+    "C:\\Users\\jlc\\.local\\bin\\easyeda.exe",
+    "project",
+    "info",
+    "--json",
+    "--window",
+    "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7"
+  ],
+  "exit": 1,
+  "ok": false,
+  "error": null,
+  "payload": null,
+  "body": null,
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "9d7f1fb4ab413f12e4eb6bab6afb4027f6a0ecdb4b4621e06b0095bfb4b62bf6"
+}

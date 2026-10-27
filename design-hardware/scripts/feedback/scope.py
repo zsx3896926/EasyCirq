@@ -471,6 +471,7 @@ def _normalize_documents(value, observation=None):
 
 
 def _normalize_target(target, observation=None):
+    window_id = None
     if target is None:
         observation = observation or {}
         project = observation.get('project') or {}
@@ -484,6 +485,7 @@ def _normalize_target(target, observation=None):
                                          observation)
     elif isinstance(target, dict):
         project = target.get('project')
+        window_id = _text(_first(target, 'window_id', 'windowId'))
         project_uuid = _text(_first(target, 'project_uuid', 'projectUuid',
                                     'uuid'))
         if not project_uuid and isinstance(project, str):
@@ -507,7 +509,16 @@ def _normalize_target(target, observation=None):
         raise schemas.ContractError('contract.target.project_uuid is required')
     if not documents:
         raise schemas.ContractError('contract.target.documents must not be empty')
-    return {'project_uuid': project_uuid, 'documents': documents}
+    if not window_id and isinstance(observation, dict):
+        # A contract built from an observation inherits the window that
+        # observation was captured from; otherwise the plan->apply flow would
+        # silently forget which host window the baseline belongs to.
+        window_id = _text(_first(observation.get('host') or {},
+                                 'window_id', 'windowId'))
+    normalized = {'project_uuid': project_uuid, 'documents': documents}
+    if window_id:
+        normalized['window_id'] = window_id
+    return normalized
 
 
 def _document_kind(document):
@@ -823,13 +834,41 @@ def _pcb_copper(pcb, key):
     if not isinstance(pcb, dict):
         return None
     copper = pcb.get('copper') if isinstance(pcb.get('copper'), dict) else None
-    if copper is None:
-        return None
-    values = copper.get(key)
+    if copper is not None:
+        values = copper.get(key)
+        if not isinstance(values, list):
+            return None
+        # The raw dump names the line collection ``routing`` in its
+        # availability map; reading ``lines`` here silently treated an
+        # explicit "routing unavailable" as an empty measured collection.
+        raw_availability_key = {
+            'lines': 'routing', 'vias': 'vias', 'pours': 'pours',
+            'regions': 'regions', 'fills': 'fills', 'poured': 'poured',
+        }.get(key, key)
+        availability = _availability(
+            (copper.get('availability') or {}).get(raw_availability_key))
+        if availability != 'available':
+            return None
+        return values
+    # ``observe`` emits a normalized board where copper collections live at
+    # the top level (tracks/vias/pours/...) with availability under
+    # availability.categories.  Read that shape too; otherwise every real
+    # readback reports all copper as unknown.
+    source, availability_key = {
+        'lines': ('tracks', 'routing'),
+        'vias': ('vias', 'vias'),
+        'pours': ('pours', 'pours'),
+        'regions': ('regions', 'regions'),
+        'fills': ('fills', 'fills'),
+        'poured': ('poured', 'poured'),
+    }.get(key, (key, key))
+    values = pcb.get(source)
     if not isinstance(values, list):
         return None
-    availability = _availability((copper.get('availability') or {}).get(key))
-    if availability == 'unavailable':
+    availability = _availability(
+        ((pcb.get('availability') or {}).get('categories') or {}).get(
+            availability_key))
+    if availability != 'available':
         return None
     return values
 
@@ -1628,7 +1667,12 @@ def _pcb_dump_from_view(observation):
     return dump
 
 
-_DUMP_COPPER_KEYS = ('lines', 'vias', 'pours', 'regions', 'fills')
+_DUMP_COPPER_KEYS = ('lines', 'vias', 'pours', 'regions', 'fills', 'poured',
+                     'arcs')
+_DUMP_COPPER_AVAILABILITY = ('routing', 'vias', 'pours', 'poured',
+                             'regions', 'fills')
+_DUMP_TOP_AVAILABILITY = ('components', 'copper', 'outline', 'routedLines',
+                          'rules')
 _AVAILABLE_TOKENS = ('available', 'complete', 'ok', True)
 
 
@@ -1644,6 +1688,20 @@ def _raw_before_dump(plan):
     return value
 
 
+def _dump_availability_problem(value, required, label):
+    if not isinstance(value, dict):
+        return ('%s is missing; a normalized observation rebuilt from '
+                'pcb.tracks/vias/pours is not a raw dump' % label)
+    missing = [key for key in required if key not in value]
+    if missing:
+        return '%s does not cover: %s' % (label, ', '.join(missing))
+    incomplete = sorted(key for key, item in value.items()
+                        if item not in _AVAILABLE_TOKENS)
+    if incomplete:
+        return '%s is incomplete for: %s' % (label, ', '.join(incomplete))
+    return None
+
+
 def _dump_copper_problem(dump):
     copper = dump.get('copper')
     if not isinstance(copper, dict):
@@ -1651,20 +1709,31 @@ def _dump_copper_problem(dump):
     for key in _DUMP_COPPER_KEYS:
         if not isinstance(copper.get(key), list):
             return 'before_dump.copper.%s is missing' % key
-    availability = copper.get('availability')
-    if isinstance(availability, dict):
-        missing = sorted(key for key, value in availability.items()
-                         if value not in _AVAILABLE_TOKENS)
-        if missing:
-            return 'copper capture is incomplete for: %s' % ', '.join(missing)
-    elif availability is not None and availability not in _AVAILABLE_TOKENS:
-        return 'copper capture is declared %r' % (availability,)
-    top = dump.get('availability')
-    if isinstance(top, dict):
-        for key in ('components', 'copper', 'outline'):
-            value = top.get(key)
-            if value is not None and value not in _AVAILABLE_TOKENS:
-                return 'capture is incomplete: %s=%r' % (key, value)
+    problem = _dump_availability_problem(
+        copper.get('availability'), _DUMP_COPPER_AVAILABILITY,
+        'before_dump.copper.availability')
+    if problem:
+        return problem
+    if copper.get('arcsAvailable') not in _AVAILABLE_TOKENS:
+        return ('before_dump.copper.arcsAvailable is not available; the '
+                'copper capture is incomplete')
+    if not isinstance(dump.get('capturedAt'), str) or \
+            not dump.get('capturedAt').strip():
+        return ('before_dump.capturedAt is missing; the dump carries no '
+                'capture timestamp')
+    if dump.get('componentsAvailability') not in _AVAILABLE_TOKENS:
+        return ('before_dump.componentsAvailability is not available; the '
+                'component capture is incomplete')
+    routed_lines = dump.get('routedLines')
+    if isinstance(routed_lines, bool) or not isinstance(routed_lines, int) or \
+            routed_lines < 0:
+        return ('before_dump.routedLines is missing; the raw dump must carry '
+                'the routed-line count')
+    problem = _dump_availability_problem(
+        dump.get('availability'), _DUMP_TOP_AVAILABILITY,
+        'before_dump.availability')
+    if problem:
+        return problem
     return None
 
 
@@ -1705,9 +1774,24 @@ def _dump_component_problem(dump, pcb):
     return None
 
 
-def _before_dump_refusals(contract, plan, observation):
+def _document_uuid(document):
+    if isinstance(document, str):
+        return _text(document)
+    if isinstance(document, dict):
+        return _text(_first(document, 'uuid', 'document_uuid', 'documentUuid',
+                            'id'))
+    return None
+
+
+def _before_dump_refusals(contract, plan, observation, document=None,
+                          window=None):
     """Refuse a PCB plan whose raw before_dump is missing, incomplete or not
-    bound to the fresh observation."""
+    bound to the fresh observation and the document/window the write will use.
+
+    ``document`` is the value ``_pick_document`` resolved for the write;
+    ``window`` is the runtime ``--window`` override.  Both are checked against
+    the observation and the raw dump before any CLI call is made.
+    """
     kind, _ops, _flags, _error = _normalize_plan_ops(plan)
     if kind != 'pcb':
         return []
@@ -1739,13 +1823,39 @@ def _before_dump_refusals(contract, plan, observation):
     target = contract.get('target') or {}
     expected_project = _text(target.get('project_uuid')) or \
         _text(project.get('uuid'))
-    expected_document = _text((plan.get('document') or {}).get('uuid')) or \
-        _text(_first(pcb, 'document_uuid', 'documentUuid'))
-    dump_project = _text(_first(capture, 'projectUuid', 'project_uuid'))
-    dump_document = _text(_first(capture, 'documentUuid', 'document_uuid'))
     observed_project = _text(_first(project, 'uuid', 'projectUuid'))
     observed_document = _text(_first(pcb, 'document_uuid', 'documentUuid'))
+    # Bind the dump to the document the write will actually address, not to
+    # whichever alias happens to be in the plan.  ``_pick_document`` resolves
+    # plan['document']/plan['doc'] the same way the apply path does.
+    write_document = _document_uuid(document) or \
+        _document_uuid(_plan_document(plan))
+    expected_document = write_document or observed_document
+    dump_project = _text(_first(capture, 'projectUuid', 'project_uuid'))
+    dump_project_name = _text(_first(capture, 'projectName', 'project_name'))
+    dump_document = _text(_first(capture, 'documentUuid', 'document_uuid'))
+    # Real ``pcb dump`` output does not always carry a top-level ``project``;
+    # when it does, accept either the bare uuid or an object.  The capture is
+    # the authoritative provenance either way.
+    raw_project_value = dump.get('project')
+    raw_project_name = ''
+    if isinstance(raw_project_value, dict):
+        raw_project = _text(_first(raw_project_value, 'uuid', 'project_uuid',
+                                   'projectUuid'))
+        raw_project_name = _text(raw_project_value.get('name'))
+    else:
+        raw_project = _text(raw_project_value)
 
+    if not observed_project:
+        refusals.append(_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'unbound_before_dump',
+            'the fresh observation does not identify its project; the dump '
+            'cannot be bound to a live project'))
+    if not observed_document:
+        refusals.append(_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'unbound_before_dump',
+            'the fresh observation does not identify its PCB document; the '
+            'dump cannot be bound to a live document'))
     if expected_project and dump_project and dump_project != expected_project:
         refusals.append(_refusal(
             schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
@@ -1759,20 +1869,33 @@ def _before_dump_refusals(contract, plan, observation):
             'before_dump belongs to project %s but the fresh observation is '
             'project %s' % (dump_project, observed_project),
             expected=observed_project, actual=dump_project))
+    if raw_project and dump_project and raw_project != dump_project:
+        refusals.append(_refusal(
+            schemas.FAILURE_INVALID_INPUT, 'invalid_before_dump',
+            'before_dump.project %s disagrees with capture.projectUuid %s'
+            % (raw_project, dump_project),
+            expected=dump_project, actual=raw_project))
+    if not raw_project and raw_project_name and dump_project_name and \
+            raw_project_name != dump_project_name:
+        refusals.append(_refusal(
+            schemas.FAILURE_INVALID_INPUT, 'invalid_before_dump',
+            'before_dump.project %s disagrees with capture.projectName %s'
+            % (raw_project_name, dump_project_name),
+            expected=dump_project_name, actual=raw_project_name))
+    if write_document and observed_document and \
+            write_document != observed_document:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'the plan resolves to write document %s but the fresh observation '
+            'is document %s' % (write_document, observed_document),
+            expected=observed_document, actual=write_document))
     if expected_document and dump_document and \
             dump_document != expected_document:
         refusals.append(_refusal(
             schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
-            'before_dump was captured from document %s, the plan targets %s'
+            'before_dump was captured from document %s, the write targets %s'
             % (dump_document, expected_document),
             expected=expected_document, actual=dump_document))
-    if observed_document and dump_document and \
-            dump_document != observed_document:
-        refusals.append(_refusal(
-            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
-            'before_dump document %s does not match the fresh observation '
-            'document %s' % (dump_document, observed_document),
-            expected=observed_document, actual=dump_document))
     if not dump_project or not dump_document:
         refusals.append(_refusal(
             schemas.FAILURE_PRECONDITION_REFUSED, 'unbound_before_dump',
@@ -1783,29 +1906,36 @@ def _before_dump_refusals(contract, plan, observation):
     observed_window = _text(_first(
         observation.get('host') or {}, 'window_id', 'windowId'))
     dump_window = _text(_first(capture, 'windowId', 'window_id'))
+    runtime_window = _text(window)
+    expected_window = target_window or observed_window
+    if not observed_window:
+        refusals.append(_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'unbound_before_dump',
+            'the fresh observation does not identify its window; a PCB write '
+            'cannot be bound to a live host window'))
     if target_window and observed_window and target_window != observed_window:
         refusals.append(_refusal(
             schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
             'the observation was captured from window %s, the contract targets '
             'window %s' % (observed_window, target_window),
             expected=target_window, actual=observed_window))
-    if target_window and dump_window and dump_window != target_window:
-        refusals.append(_refusal(
-            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
-            'before_dump was captured from window %s, the contract targets '
-            'window %s' % (dump_window, target_window),
-            expected=target_window, actual=dump_window))
-    if observed_window and dump_window and dump_window != observed_window:
-        refusals.append(_refusal(
-            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
-            'before_dump was captured from window %s, the fresh observation '
-            'is window %s' % (dump_window, observed_window),
-            expected=observed_window, actual=dump_window))
-    if target_window and not dump_window:
+    if expected_window and not dump_window:
         refusals.append(_refusal(
             schemas.FAILURE_PRECONDITION_REFUSED, 'unbound_before_dump',
             'before_dump.capture does not identify its window; the dump '
             'cannot be bound to the target window'))
+    elif expected_window and dump_window != expected_window:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'before_dump was captured from window %s, the write targets '
+            'window %s' % (dump_window, expected_window),
+            expected=expected_window, actual=dump_window))
+    if runtime_window and runtime_window != expected_window:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'the runtime --window %s does not match the observed/target window '
+            '%s' % (runtime_window, expected_window),
+            expected=expected_window, actual=runtime_window))
 
     dump_hash = _text(_first(dump, 'semanticSha256', 'semantic_sha256'))
     observed_hash = _text(_first(pcb, 'semanticSha256', 'semantic_sha256'))
@@ -2268,16 +2398,25 @@ def _validate_plan_internal(contract, plan, *, before=None):
     identity = _identity_refusal(plan, ops, kind)
     if identity:
         refusals.append(identity)
-    observation = before or _plan_observation(plan) or \
+    fresh_observation = before if before is not None else \
+        _plan_observation(plan)
+    observation = fresh_observation or \
         (contract.get('baseline') or {}).get('facts')
     observation = _as_observation(observation) if observation else None
+    fresh_observation = _as_observation(fresh_observation) \
+        if fresh_observation else None
     if observation is not None:
         target_refusal = _observation_target_refusal(contract, observation)
         if target_refusal:
             refusals.append(target_refusal)
     refusals.extend(_baseline_refusals(contract, plan, before=before))
-    if kind == 'pcb':
-        refusals.extend(_before_dump_refusals(contract, plan, observation))
+    if kind == 'pcb' and fresh_observation is not None:
+        # Bind the raw dump to a plan-carried fresh observation only.  The
+        # contract baseline is not fresh, and using it here would turn a
+        # missing live baseline into an unrelated precondition error.
+        refusals.extend(_before_dump_refusals(contract, plan,
+                                              fresh_observation,
+                                              document=document))
     actions = []
     for op in ops:
         decision = _scope_decision(scope, op)
@@ -2537,6 +2676,17 @@ def _classify_change(change, objects, nets, regions, tolerance):
     if primitive_id and primitive_id in objects:
         change['in_scope'] = True
         change['scope_basis'] = 'object:%s' % primitive_id
+        return change
+    # A through-hole change belongs to the component that owns the hole.  A
+    # moved THT part moves its holes too; counting those as unrelated would
+    # make every THT placement fail the outside-scope gate.  Only attribute
+    # when every changed hole names an in-scope owner, and never when a
+    # changed hole has no owner at all.
+    owners = {_text(item) for item in change.get('designators') or []}
+    owners.discard(None)
+    if owners and not change.get('unattributed') and owners <= objects:
+        change['in_scope'] = True
+        change['scope_basis'] = 'hole-owner:%s' % ','.join(sorted(owners))
         return change
     net = _text(change.get('net'))
     if net and net in nets:
@@ -2836,6 +2986,13 @@ def _diff_pcb(pcb_before, pcb_after, tolerance, changes, unknown):
                 'pcb.%s' % key, category, values_before, values_after,
                 tolerance)
             if change:
+                if key == 'holes':
+                    owners, unattributed = _changed_hole_designators(
+                        values_before, values_after, tolerance)
+                    if owners:
+                        change['designators'] = owners
+                    if unattributed:
+                        change['unattributed'] = True
                 section['changed'] = True
                 section['change'] = change
                 changes.append(change)
@@ -2917,10 +3074,21 @@ def _diff_pcb(pcb_before, pcb_after, tolerance, changes, unknown):
     return result
 
 
+def _track_points(item):
+    points = _points([(item.get('startX'), item.get('startY')),
+                      (item.get('endX'), item.get('endY'))])
+    if points is not None:
+        return points
+    start = item.get('start') if isinstance(item.get('start'), dict) else {}
+    end = item.get('end') if isinstance(item.get('end'), dict) else {}
+    return _points([(start.get('x'), start.get('y')),
+                    (end.get('x'), end.get('y'))])
+
+
 def _copper_bbox(kind, item):
     if kind == 'track':
-        return _bbox_of_points([(item.get('startX'), item.get('startY')),
-                                (item.get('endX'), item.get('endY'))])
+        points = _track_points(item)
+        return _bbox_of_points(points) if points is not None else None
     if kind == 'via':
         point = _point((item.get('x'), item.get('y')))
         if point is None:
@@ -2936,10 +3104,8 @@ def _tracks_match(first, second, tolerance):
         return False
     if _int_or_none(first.get('layer')) != _int_or_none(second.get('layer')):
         return False
-    first_points = _points([(first.get('startX'), first.get('startY')),
-                            (first.get('endX'), first.get('endY'))])
-    second_points = _points([(second.get('startX'), second.get('startY')),
-                             (second.get('endX'), second.get('endY'))])
+    first_points = _track_points(first)
+    second_points = _track_points(second)
     if first_points is None or second_points is None:
         return False
     forward = all(_same_number(a[0], b[0], tolerance['position']) and
@@ -2963,8 +3129,8 @@ def _pours_match(first, second, tolerance):
     return (_text(first.get('net')) == _text(second.get('net')) and
             _int_or_none(first.get('layer')) ==
             _int_or_none(second.get('layer')) and
-            _text(_first(first, 'fillMethod', 'fill')) ==
-            _text(_first(second, 'fillMethod', 'fill')))
+            _text(_first(first, 'fillMethod', 'fill', 'fill_method')) ==
+            _text(_first(second, 'fillMethod', 'fill', 'fill_method')))
 
 
 def _match_copper(kind, item, after_items, matched, tolerance):
@@ -2977,28 +3143,45 @@ def _match_copper(kind, item, after_items, matched, tolerance):
             continue
         difference = []
         if kind == 'track':
-            if not _same_number(item.get('lineWidth'),
-                                candidate.get('lineWidth'),
+            if not _same_number(_first(item, 'lineWidth', 'width'),
+                                _first(candidate, 'lineWidth', 'width'),
                                 tolerance['position']):
                 difference.append('width')
         elif kind == 'via':
-            for field in ('diameter', 'holeDiameter'):
+            for field in ('diameter', 'holeDiameter', 'hole_diameter'):
                 if not _same_number(item.get(field), candidate.get(field),
                                     tolerance['position']):
                     difference.append(field)
         else:
-            first_source = item.get('source') if item.get('source') is not \
-                None else item.get('points')
-            second_source = candidate.get('source') if candidate.get(
-                'source') is not None else candidate.get('points')
-            if first_source is None or second_source is None:
-                if first_source is not second_source:
-                    difference.append('geometry_unknown')
-            elif _json_value(_canonical(first_source,
-                                        tolerance['position'])) != \
-                    _json_value(_canonical(second_source,
-                                           tolerance['position'])):
-                difference.append('geometry')
+            for label, keys in (
+                    ('priority', ('priority',)),
+                    ('pour_name', ('pour_name', 'pourName', 'name')),
+                    ('locked', ('locked',))):
+                if _json_value(_first(item, *keys)) != \
+                        _json_value(_first(candidate, *keys)):
+                    difference.append(label)
+            if not _same_number(_first(item, 'line_width', 'lineWidth'),
+                                _first(candidate, 'line_width', 'lineWidth'),
+                                tolerance['position']):
+                difference.append('line_width')
+            first_hash = _text(item.get('geometry_sha256'))
+            second_hash = _text(candidate.get('geometry_sha256'))
+            if first_hash or second_hash:
+                if first_hash != second_hash:
+                    difference.append('geometry')
+            else:
+                first_source = item.get('source') if item.get('source') is \
+                    not None else item.get('points')
+                second_source = candidate.get('source') if candidate.get(
+                    'source') is not None else candidate.get('points')
+                if first_source is None or second_source is None:
+                    if first_source is not second_source:
+                        difference.append('geometry_unknown')
+                elif _json_value(_canonical(first_source,
+                                            tolerance['position'])) != \
+                        _json_value(_canonical(second_source,
+                                               tolerance['position'])):
+                    difference.append('geometry')
         return index, difference
     return None
 
@@ -3019,6 +3202,99 @@ def _compare_geometry_collection(category, label, before, after, tolerance):
                                  len(before_signatures)),
                        removed=max(0, len(before_signatures) -
                                    len(after_signatures)))
+
+
+def _hole_identity(hole):
+    primitive_id = _text(hole.get('primitive_id'))
+    if primitive_id:
+        return 'primitive:%s' % primitive_id
+    designator = _text(hole.get('designator'))
+    pad = _text(hole.get('pad'))
+    if designator and pad:
+        return 'pad:%s:%s' % (designator, pad)
+    return None
+
+
+def _changed_hole_designators(before, after, tolerance):
+    """Return owners of changed holes plus an unattributed flag.
+
+    Holes are paired by primitive id first, then by (designator, pad).  Holes
+    with no stable identity are paired by exact signature; leftovers count as
+    changes.  A change is attributable only when the hole names a designator —
+    otherwise the caller must keep it outside scope.
+    """
+    position = tolerance['position']
+    before_items = [item for item in before if isinstance(item, dict)]
+    after_items = [item for item in after if isinstance(item, dict)]
+
+    def signature(item):
+        return _json_value(_canonical(item, position))
+
+    buckets = {}
+    for item in after_items:
+        key = _hole_identity(item)
+        if key is not None:
+            buckets.setdefault(key, []).append(item)
+
+    owners = set()
+    unattributed = False
+    unmatched_before = []
+    for item in before_items:
+        key = _hole_identity(item)
+        designator = _text(item.get('designator'))
+        if key is not None and buckets.get(key):
+            candidate = buckets[key].pop(0)
+            if signature(item) != signature(candidate):
+                after_owner = _text(candidate.get('designator'))
+                if not designator or not after_owner:
+                    unattributed = True
+                else:
+                    # A hole whose owner changed from D1 to D2 touches both
+                    # components; recording only the before owner would let
+                    # an out-of-scope D2 change pass as a D1 change.
+                    owners.add(designator)
+                    owners.add(after_owner)
+        elif key is not None:
+            # Removed hole: its identity still names the owner.
+            if designator:
+                owners.add(designator)
+            else:
+                unattributed = True
+        else:
+            unmatched_before.append(item)
+
+    # After-side holes without any identity never entered a bucket, but they
+    # are still changes (typically a newly added unowned hole) and must be
+    # counted as unattributed rather than silently ignored.
+    unmatched_after = [item for item in after_items
+                       if _hole_identity(item) is None]
+    unmatched_after.extend(item for values in buckets.values()
+                           for item in values)
+    if unmatched_before or unmatched_after:
+        after_signatures = {}
+        for item in unmatched_after:
+            after_signatures.setdefault(signature(item), []).append(item)
+        for item in unmatched_before:
+            pool = after_signatures.get(signature(item))
+            if pool:
+                pool.pop(0)
+                continue
+            designator = _text(item.get('designator'))
+            if designator:
+                owners.add(designator)
+            else:
+                unattributed = True
+        for values in after_signatures.values():
+            for item in values:
+                designator = _text(item.get('designator'))
+                if designator:
+                    owners.add(designator)
+                else:
+                    unattributed = True
+
+    owners.discard(None)
+    owners.discard('')
+    return sorted(owners), unattributed
 
 
 def _drc_counts(drc):
@@ -3657,6 +3933,11 @@ _ACCEPTANCE_PREDICATE = re.compile(
 def _acceptance_actual(metric, diff, evaluation, invariants):
     name = str(metric or '').strip().lower()
     diff = diff if isinstance(diff, dict) else {}
+    if name.startswith('diff.') and diff.get('status') == 'unknown':
+        # A diff that could not measure a category still carries zero counters
+        # and empty lists.  Those zeros are "not measured", never evidence
+        # that no out-of-scope change happened.
+        return None
     counts = diff.get('counts') if isinstance(diff.get('counts'), dict) else {}
     def measured(key, list_key):
         if key in counts:
@@ -4305,7 +4586,8 @@ def _apply_pcb(contract, plan, validation, fresh, document, *,
             schemas.FAILURE_PRECONDITION_REFUSED, 'missing_before_dump',
             'a PCB write requires the raw plan.before_dump; refusing before '
             'any CLI call')
-    binding = _before_dump_refusals(contract, plan, fresh)
+    binding = _before_dump_refusals(contract, plan, fresh,
+                                    document=document, window=window)
     if binding:
         first = binding[0]
         return _apply_refused(
@@ -4332,7 +4614,12 @@ def _apply_pcb(contract, plan, validation, fresh, document, *,
     project = _text(target.get('project_uuid')) or \
         _text(((fresh or {}).get('project') or {}).get('name'))
     document_ref = _document_ref(document)
-    window_ref = _text(window) or _text(target.get('window_id'))
+    capture = before_dump.get('capture') if isinstance(
+        before_dump.get('capture'), dict) else {}
+    window_ref = (_text(window) or _text(target.get('window_id')) or
+                  _text(_first(capture, 'windowId', 'window_id')) or
+                  _text(_first((fresh or {}).get('host') or {},
+                               'window_id', 'windowId')))
     journal_is_user = journal_path is not None
     temp_dir = tempfile.mkdtemp(prefix='hds-scope-apply-')
     if journal_path is None:
@@ -4408,35 +4695,74 @@ def _apply_pcb(contract, plan, validation, fresh, document, *,
             after_dump = None
         after = None
         target_failure = None
+        after_hash_missing = False
+        normalization_failed = False
         if isinstance(after_dump, dict):
             after = copy.deepcopy(fresh)
-            after['pcb'] = after_dump
+            # ``out-dump`` is a raw ``pcb dump``; normalize it to the same
+            # shape as ``observe`` output before diffing.  Comparing a raw
+            # dump with a normalized observation reports every copper item as
+            # removed+added and hides real changes.
+            try:
+                try:  # package import (feedback.scope)
+                    from . import observe as observe_module
+                except ImportError:  # pragma: no cover - flat import
+                    import observe as observe_module
+                after['pcb'] = observe_module.normalize_pcb_dump(after_dump)
+            except Exception:
+                normalization_failed = True
+                after['pcb'] = after_dump
+            after_hash = _text(after_dump.get('semanticSha256')) or \
+                _text(after_dump.get('semantic_sha256'))
             revision = dict(after.get('revision') or {})
-            revision['semantic_sha256'] = (
-                _text(after_dump.get('semanticSha256')) or
-                _text(revision.get('semantic_sha256')))
+            # Never fall back to the before hash: a missing after hash is
+            # "not measured", not evidence that the board did not change.
+            revision['semantic_sha256'] = after_hash
+            revision['per_document'] = {}
             after['revision'] = revision
-            capture = after_dump.get('capture') or {}
+            capture = after_dump.get('capture') if isinstance(
+                after_dump.get('capture'), dict) else {}
             expected_project = _text((contract.get('target') or {}).get(
-                'project_uuid'))
-            expected_document = _text((document or {}).get('uuid'))
-            if capture.get('projectUuid') and expected_project and \
-                    _text(capture['projectUuid']) != expected_project:
-                target_failure = 'out-dump project %s != target %s' % (
-                    capture['projectUuid'], expected_project)
-            elif capture.get('documentUuid') and expected_document and \
-                    _text(capture['documentUuid']) != expected_document:
-                target_failure = 'out-dump document %s != target %s' % (
-                    capture['documentUuid'], expected_document)
+                'project_uuid')) or _text(_first(
+                    (fresh or {}).get('project') or {}, 'uuid',
+                    'project_uuid', 'projectUuid'))
+            expected_document = _document_uuid(document) or _text(_first(
+                _obs_pcb(fresh) or {}, 'document_uuid', 'documentUuid'))
+            expected_window = (
+                _text((contract.get('target') or {}).get('window_id')) or
+                _text(_first((fresh or {}).get('host') or {}, 'window_id',
+                             'windowId')))
+            bindings = (
+                ('projectUuid', expected_project, 'project'),
+                ('documentUuid', expected_document, 'document'),
+                ('windowId', expected_window, 'window'),
+            )
+            for field, expected, label in bindings:
+                actual = _text(capture.get(field))
+                if not actual:
+                    target_failure = (
+                        'out-dump capture does not identify its %s; the '
+                        'readback cannot be bound to the write target' % label)
+                    break
+                if expected and actual != expected:
+                    target_failure = 'out-dump %s %s != target %s' % (
+                        label, actual, expected)
+                    break
+            if not after_hash:
+                after_hash_missing = True
         diff = (diff_observations(fresh, after, scope=contract.get('scope'),
                                   tolerance=(contract.get('scope') or {}).get(
                                       'tolerance'))
-                if after is not None else None)
+                if after is not None and not normalization_failed else None)
         invariants = (check_invariants(contract, diff, after=after)
                       if diff is not None else None)
         entries = _read_journal_file(journal_path) or []
         payload = _apply_base(contract, plan, write_requested=True,
                               status='unknown', validation=validation)
+        if normalization_failed:
+            payload['notes'].append(
+                'the after dump could not be normalized; diff and invariants '
+                'were not computed')
         payload['writes_sent'] = (1 if isinstance(report, dict) and
                                   report.get('apply') else 0)
         payload['exit_code'] = exit_code
@@ -4524,6 +4850,32 @@ def _apply_pcb(contract, plan, validation, fresh, document, *,
                 'failure_class': schemas.FAILURE_UNKNOWN_EXECUTION_STATE,
                 'reason': 'missing_report',
                 'message': 'pcb_apply_plan did not produce a report',
+            }
+        if normalization_failed and payload.get('status') in ('verified',
+                                                              'no_op'):
+            # The executor may report its own save/reload success, but without
+            # a normalized after-dump this layer cannot verify scope or
+            # invariants.  Keep the execution facts, drop the misleading
+            # "verified" status, and mark write confirmation unmeasured.
+            payload['status'] = 'unknown'
+            payload['ok'] = False
+            payload['write_confirmed'] = None
+            payload['failure'] = {
+                'failure_class': schemas.FAILURE_VERIFICATION_FAILED,
+                'reason': 'after_dump_unreadable',
+                'message': ('the after dump could not be normalized; scope '
+                            'changes and invariants were not verified'),
+            }
+        if after_hash_missing and payload.get('status') in ('verified',
+                                                            'no_op'):
+            payload['status'] = 'unknown'
+            payload['ok'] = False
+            payload['write_confirmed'] = None
+            payload['failure'] = {
+                'failure_class': schemas.FAILURE_VERIFICATION_FAILED,
+                'reason': 'after_hash_missing',
+                'message': ('the after dump carries no semanticSha256; the '
+                            'readback content was not measured'),
             }
         if invariants and invariants.get('status') == 'fail':
             payload['status'] = 'mismatch'

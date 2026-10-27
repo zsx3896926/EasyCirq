@@ -1,0 +1,137 @@
+{
+  "schema": "hds-apply/v1",
+  "ok": true,
+  "generated_at": "2026-10-27T04:48:11.406140Z",
+  "target": {
+    "project_uuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "documents": [
+      {
+        "uuid": "10f78b14a3282fb6",
+        "type": "schematic",
+        "name": "P1"
+      },
+      {
+        "uuid": "49c8e7a5dc2e8f59",
+        "type": "pcb",
+        "name": "PCB1"
+      }
+    ]
+  },
+  "verdict": "unknown",
+  "completed": false,
+  "simulated": false,
+  "checks": {
+    "call_ok": true,
+    "write_confirmed": true,
+    "save_confirmed": true,
+    "reopen_confirmed": true,
+    "quality_passed": null
+  },
+  "acceptance": {
+    "schema": "hds-acceptance/v1",
+    "status": "pass",
+    "target_met": true,
+    "results": [
+      {
+        "id": "inside-at-least-one",
+        "metric": "diff.inside_scope",
+        "predicate": "count >= 1",
+        "actual": 2,
+        "status": "pass",
+        "detail": "2 >= 1"
+      },
+      {
+        "id": "outside-zero",
+        "metric": "diff.outside_scope",
+        "predicate": "count == 0",
+        "actual": 0,
+        "status": "pass",
+        "detail": "0 == 0"
+      }
+    ],
+    "failed": [],
+    "unknown": [],
+    "note": "only a fully measured pass meets the declared target"
+  },
+  "target_met": true,
+  "failed_invariants": [],
+  "unknown_invariants": [
+    {
+      "id": "inv-5",
+      "kind": "pcb_locked",
+      "status": "unknown",
+      "reasons": [
+        "PCB lock state is not readable"
+      ]
+    },
+    {
+      "id": "inv-6",
+      "kind": "pcb_unrelated",
+      "status": "unknown",
+      "reasons": [
+        "PCB categories are unreadable; unrelated changes cannot be excluded"
+      ],
+      "detail": {
+        "unknown": [
+          {
+            "field": "pcb.components[C1].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[C2].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[D1].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[D2].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[D3].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[D4].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[J1].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[R1].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[R2].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[R3].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[SW1].locked",
+            "reason": "lock state is not measured on both sides"
+          },
+          {
+            "field": "pcb.components[SW2].locked",
+            "reason": "lock state is not measured on both sides"
+          }
+        ]
+      }
+    }
+  ],
+  "contradictions": [],
+  "evaluation_verdict": null,
+  "unknown": [
+    {
+      "field": "checks.quality_passed",
+      "reason": "the apply receipt does not carry this fact"
+    }
+  ],
+  "note": "call/write/save/reopen come from the apply receipt; quality_passed comes only from an explicit --evaluation; no fact is inferred from a passing diff, and an unrun fact keeps the verdict unknown rather than complete"
+}

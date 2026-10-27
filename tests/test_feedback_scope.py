@@ -32,7 +32,8 @@ def make_board(hash_value=BASE, **overrides):
     board = {
         'document_uuid': 'pcb-doc',
         'capture': {'projectUuid': 'proj', 'projectName': 'P',
-                    'documentUuid': 'pcb-doc', 'documentType': 'pcb'},
+                    'documentUuid': 'pcb-doc', 'documentType': 'pcb',
+                    'windowId': 'win-1'},
         'semanticSha256': hash_value,
         'components': [
             {
@@ -66,7 +67,10 @@ def make_board(hash_value=BASE, **overrides):
                        'lineWidth': 10, 'startX': 0, 'startY': 0,
                        'endX': 10, 'endY': 0}],
             'vias': [], 'pours': [], 'fills': [], 'regions': [],
-            'poured': [],
+            'poured': [], 'arcs': [], 'arcsAvailable': True,
+            'availability': {'routing': 'available', 'vias': 'available',
+                             'pours': 'available', 'poured': 'available',
+                             'regions': 'available', 'fills': 'available'},
         },
         'copperLayers': 2,
         'rules': {'clearanceMil': 6, 'trackWidthMil': 10},
@@ -155,11 +159,53 @@ def make_contract(observation=None, scope=None, actions=None, invariants=None,
         preview_only=preview_only)
 
 
-def raw_before_dump(observation=None):
-    """The raw dump a PCB plan must carry; tests use the same board shape."""
+def make_raw_dump(observation=None):
+    """A complete ``pcb dump --include-copper`` shaped payload.
+
+    The observation board is only a convenient source of geometry here; the
+    dump carries the raw provenance fields (capture, availability, timestamp,
+    routed-line count and arcs) that a normalized observation cannot supply.
+    """
     observation = observation if observation is not None else make_observation()
     board = (observation or {}).get('pcb')
-    return copy.deepcopy(board) if isinstance(board, dict) else None
+    if not isinstance(board, dict):
+        return None
+    dump = copy.deepcopy(board)
+    project = (observation.get('project') or {})
+    host = (observation.get('host') or {})
+    capture = dump.setdefault('capture', {})
+    capture.update({
+        'projectUuid': project.get('uuid'),
+        'projectName': project.get('name'),
+        'documentUuid': board.get('document_uuid'),
+        'documentType': 'pcb',
+        'windowId': host.get('window_id'),
+    })
+    dump['project'] = project.get('uuid')
+    dump['capturedAt'] = observation.get('generated_at') or \
+        '2026-10-27T00:00:00Z'
+    dump['componentsAvailability'] = 'available'
+    routed = dump.get('routedLines')
+    if isinstance(routed, list):
+        dump['routedLines'] = len(routed)
+    elif isinstance(routed, bool) or not isinstance(routed, int):
+        dump['routedLines'] = 0
+    copper = dump.setdefault('copper', {})
+    copper.setdefault('arcs', [])
+    copper['arcsAvailable'] = True
+    copper['availability'] = {
+        'routing': 'available', 'vias': 'available', 'pours': 'available',
+        'poured': 'available', 'regions': 'available', 'fills': 'available'}
+    dump['availability'] = {
+        'components': 'available', 'copper': 'available',
+        'outline': 'available', 'routedLines': 'available',
+        'rules': 'available', 'layers': 'available', 'silk': 'available'}
+    return dump
+
+
+def raw_before_dump(observation=None):
+    """The raw dump a PCB plan must carry."""
+    return make_raw_dump(observation)
 
 
 def place_plan(designator='D1', x=120.0, y=100.0, *, base=BASE,
@@ -525,9 +571,10 @@ class BeforeDumpGateTests(unittest.TestCase):
         self.observation = make_observation()
         self.contract = make_contract(self.observation)
 
-    def refuse(self, plan, expected_reason, expected_class):
+    def refuse(self, plan, expected_reason, expected_class, contract=None):
+        contract = contract or self.contract
         runner = RecordingRunner()
-        result = D.apply_scoped(self.contract, plan, runner=runner,
+        result = D.apply_scoped(contract, plan, runner=runner,
                                 write=True)
         self.assertFalse(result['ok'])
         self.assertEqual(result['status'], 'refused')
@@ -537,10 +584,80 @@ class BeforeDumpGateTests(unittest.TestCase):
         reasons = [item['reason'] for item in
                    (result['failure'].get('detail') or {}).get('refusals', [])]
         self.assertIn(expected_reason, reasons)
-        validation = D.validate_plan(self.contract, plan)
+        validation = D.validate_plan(contract, plan)
         self.assertIn(expected_reason,
                       [item['reason'] for item in validation['refusals']])
         return result
+
+    def two_pcb_contract(self):
+        observation = copy.deepcopy(self.observation)
+        observation['documents'] = [
+            {'uuid': 'pcb-doc', 'type': 'pcb', 'name': 'PCB1'},
+            {'uuid': 'pcb-doc2', 'type': 'pcb', 'name': 'PCB2'},
+            {'uuid': 'sch-doc', 'type': 'schematic', 'name': 'SCH1'}]
+        return D.build_contract(
+            contract_id='contract-1', goal='scoped change',
+            target={'project_uuid': 'proj',
+                    'documents': copy.deepcopy(observation['documents'])},
+            observation=observation,
+            scope={'writable': {'objects': ['D1'],
+                                'nets': ['LED_A', 'GND'], 'regions': []}},
+            allowed_actions=['move_component', 'save', 'reload'],
+            preview_only=False)
+
+    def test_write_document_alias_must_resolve_to_the_live_document(self):
+        contract = self.two_pcb_contract()
+        for alias in ('document', 'doc'):
+            with self.subTest(alias=alias):
+                plan = place_plan(observation=self.observation)
+                plan[alias] = 'pcb-doc2'
+                self.refuse(plan, 'before_dump_target_mismatch',
+                            S.FAILURE_TARGET_MISMATCH, contract=contract)
+
+    def test_write_document_string_alias_is_accepted(self):
+        contract = self.two_pcb_contract()
+        plan = place_plan(observation=self.observation)
+        plan['doc'] = 'pcb-doc'
+        validation = D.validate_plan(contract, plan)
+        self.assertTrue(validation['ok'], validation['refusals'])
+        after_board = copy.deepcopy(self.observation['pcb'])
+        after_board['components'][0]['x'] = 120
+        after_board['semanticSha256'] = 'after-base'
+        runner = PcbFakeRunner(after_board)
+        with tempfile.TemporaryDirectory() as directory:
+            result = D.apply_scoped(
+                contract, plan, runner=runner, write=True,
+                journal_path=os.path.join(directory, 'apply.jsonl'))
+        self.assertEqual(result['status'], 'verified', result.get('failure'))
+        argv = runner.calls[0]['args']
+        self.assertEqual(argv[argv.index('--doc') + 1], 'pcb-doc')
+
+    def test_runtime_window_mismatch_is_refused_before_any_write(self):
+        plan = place_plan(observation=self.observation)
+        runner = RecordingRunner()
+        result = D.apply_scoped(self.contract, plan, runner=runner,
+                                write=True, window='win-2')
+        self.assertFalse(result['ok'])
+        self.assertEqual(result['status'], 'refused')
+        self.assertEqual(result['writes_sent'], 0)
+        self.assertEqual(runner.calls, [])
+        self.assertEqual(result['failure']['failure_class'],
+                         S.FAILURE_TARGET_MISMATCH)
+        reasons = [item['reason'] for item in
+                   (result['failure'].get('detail') or {}).get('refusals', [])]
+        self.assertIn('before_dump_target_mismatch', reasons)
+
+    def test_observation_without_a_window_is_unbound(self):
+        observation = make_observation()
+        contract = make_contract(observation)
+        contract['target'].pop('window_id', None)
+        plan_observation = copy.deepcopy(observation)
+        plan_observation['host'] = {}
+        plan_observation['pcb']['capture'].pop('windowId', None)
+        plan = place_plan(observation=plan_observation,
+                          before_dump=make_raw_dump(plan_observation))
+        self.refuse(plan, 'unbound_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED, contract=contract)
 
     def test_missing_raw_before_dump_is_refused_before_any_write(self):
         plan = place_plan(observation=self.observation)
@@ -554,11 +671,57 @@ class BeforeDumpGateTests(unittest.TestCase):
         self.refuse(plan, 'incomplete_before_dump',
                     S.FAILURE_PRECONDITION_REFUSED)
 
+    def test_missing_poured_capture_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        del plan['before_dump']['copper']['poured']
+        self.refuse(plan, 'incomplete_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED)
+
+    def test_missing_arcs_capture_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        del plan['before_dump']['copper']['arcs']
+        self.refuse(plan, 'incomplete_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED)
+
+    def test_missing_copper_availability_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        del plan['before_dump']['copper']['availability']
+        self.refuse(plan, 'incomplete_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED)
+
+    def test_missing_raw_provenance_is_refused(self):
+        for key in ('capturedAt', 'routedLines', 'componentsAvailability'):
+            with self.subTest(key=key):
+                plan = place_plan(observation=self.observation)
+                plan['before_dump'].pop(key, None)
+                self.refuse(plan, 'incomplete_before_dump',
+                            S.FAILURE_PRECONDITION_REFUSED)
+
+    def test_normalized_observation_reconstruction_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        plan['before_dump'] = D._pcb_dump_from_view(self.observation)
+        self.refuse(plan, 'incomplete_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED)
+
     def test_unavailable_copper_is_refused(self):
         plan = place_plan(observation=self.observation)
         plan['before_dump']['availability']['copper'] = 'unavailable'
         self.refuse(plan, 'incomplete_before_dump',
                     S.FAILURE_PRECONDITION_REFUSED)
+
+    def test_real_dump_without_a_top_level_project_is_accepted(self):
+        plan = place_plan(observation=self.observation)
+        plan['before_dump'].pop('project', None)
+        validation = D.validate_plan(self.contract, plan)
+        self.assertTrue(validation['ok'], validation['refusals'])
+
+    def test_dump_project_object_is_bound_by_uuid(self):
+        plan = place_plan(observation=self.observation)
+        plan['before_dump']['project'] = {'uuid': 'proj', 'name': 'P'}
+        validation = D.validate_plan(self.contract, plan)
+        self.assertTrue(validation['ok'], validation['refusals'])
+        plan['before_dump']['project'] = {'uuid': 'other-project'}
+        self.refuse(plan, 'invalid_before_dump', S.FAILURE_INVALID_INPUT)
 
     def test_before_dump_for_another_project_is_refused(self):
         plan = place_plan(observation=self.observation)
@@ -721,6 +884,189 @@ class DiffTests(unittest.TestCase):
         self.assertTrue(result['pcb']['holes']['changed'])
         self.assertTrue(result['pcb']['keepouts']['changed'])
 
+    def scoped_hole_diff(self, before_holes, after_holes, scope_objects):
+        before_board = copy.deepcopy(self.before['pcb'])
+        before_board['holes'] = copy.deepcopy(before_holes)
+        after_board = copy.deepcopy(before_board)
+        after_board['holes'] = copy.deepcopy(after_holes)
+        return D.diff_observations(
+            make_observation(board=before_board),
+            make_observation(board=after_board),
+            scope={'objects': scope_objects})
+
+    def hole_change(self, result):
+        return [item for item in result['changes']
+                if item['category'] == 'pcb.holes'][0]
+
+    def test_moved_tht_holes_are_inside_their_component_scope(self):
+        before = [
+            {'designator': 'D1', 'pad': '1', 'primitive_id': 'hole-D1-1',
+             'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 95, 'y': 100},
+            {'designator': 'D2', 'pad': '1', 'primitive_id': 'hole-D2-1',
+             'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 295, 'y': 300},
+        ]
+        after = copy.deepcopy(before)
+        after[0]['y'] = 101
+        result = self.scoped_hole_diff(before, after, ['D1'])
+        change = self.hole_change(result)
+        self.assertTrue(change['in_scope'])
+        self.assertEqual(change['scope_basis'], 'hole-owner:D1')
+        self.assertEqual(change['designators'], ['D1'])
+        self.assertEqual(result['outside_scope'], [])
+        contract = make_contract(
+            scope={'writable': {'objects': ['D1'], 'nets': [],
+                                'regions': []}},
+            invariants=[{'id': S.INVARIANT_PCB_UNRELATED,
+                         'kind': S.INVARIANT_PCB_UNRELATED, 'params': {}}])
+        invariants = D.check_invariants(contract, result)
+        self.assertEqual(invariants['results'][0]['status'], 'pass')
+
+    def test_mixed_or_unowned_hole_changes_stay_outside_scope(self):
+        before = [
+            {'designator': 'D1', 'pad': '1', 'primitive_id': 'hole-D1-1',
+             'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 95, 'y': 100},
+            {'designator': 'D2', 'pad': '1', 'primitive_id': 'hole-D2-1',
+             'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 295, 'y': 300},
+            {'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 400, 'y': 300},
+        ]
+        mixed = copy.deepcopy(before)
+        mixed[0]['y'] = 101
+        mixed[1]['y'] = 301
+        result = self.scoped_hole_diff(before, mixed, ['D1'])
+        change = self.hole_change(result)
+        self.assertFalse(change['in_scope'])
+        self.assertEqual(change['designators'], ['D1', 'D2'])
+        self.assertEqual(result['status'], 'mismatch')
+
+        unowned = copy.deepcopy(before)
+        unowned[2]['y'] = 301
+        result = self.scoped_hole_diff(before, unowned, ['D1'])
+        change = self.hole_change(result)
+        self.assertFalse(change['in_scope'])
+        self.assertTrue(change['unattributed'])
+        self.assertEqual(result['status'], 'mismatch')
+
+    def test_added_unowned_hole_is_unattributed(self):
+        before = [
+            {'designator': 'D1', 'pad': '1', 'primitive_id': 'hole-D1-1',
+             'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 95, 'y': 100},
+            {'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 400, 'y': 300},
+        ]
+        after = copy.deepcopy(before)
+        after.append({'shape': 'ROUND', 'width': 3, 'height': 3,
+                      'x': 450, 'y': 300})
+        result = self.scoped_hole_diff(before, after, ['D1'])
+        change = self.hole_change(result)
+        self.assertFalse(change['in_scope'])
+        self.assertTrue(change['unattributed'])
+
+    def test_unchanged_identity_less_hole_does_not_mask_a_scoped_change(self):
+        before = [
+            {'designator': 'D1', 'pad': '1', 'primitive_id': 'hole-D1-1',
+             'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 95, 'y': 100},
+            {'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 400, 'y': 300},
+        ]
+        after = copy.deepcopy(before)
+        after[0]['y'] = 101
+        result = self.scoped_hole_diff(before, after, ['D1'])
+        change = self.hole_change(result)
+        self.assertTrue(change['in_scope'])
+        self.assertFalse(change.get('unattributed'))
+        self.assertEqual(change['designators'], ['D1'])
+
+    def test_hole_owner_change_touches_both_designators(self):
+        before = [
+            {'designator': 'D1', 'pad': '1', 'primitive_id': 'hole-1',
+             'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 95, 'y': 100},
+        ]
+        after = [
+            {'designator': 'D2', 'pad': '1', 'primitive_id': 'hole-1',
+             'shape': 'ROUND', 'width': 3, 'height': 3, 'x': 295, 'y': 300},
+        ]
+        result = self.scoped_hole_diff(before, after, ['D1'])
+        change = self.hole_change(result)
+        self.assertFalse(change['in_scope'])
+        self.assertEqual(change['designators'], ['D1', 'D2'])
+
+    def normalized_board(self):
+        """The board shape ``observe`` emits for real hosts."""
+        board = copy.deepcopy(self.before['pcb'])
+        copper = board.pop('copper')
+        board['tracks'] = [
+            {'primitive_id': item.get('primitiveId'),
+             'kind': 'line', 'net': item.get('net'),
+             'layer': item.get('layer'), 'width': item.get('lineWidth'),
+             'locked': False,
+             'start': {'x': item.get('startX'), 'y': item.get('startY')},
+             'end': {'x': item.get('endX'), 'y': item.get('endY')}}
+            for item in copper['lines']]
+        board['vias'] = [
+            {'primitive_id': item.get('primitiveId'), 'net': item.get('net'),
+             'x': item.get('x'), 'y': item.get('y'),
+             'diameter': item.get('diameter'),
+             'hole_diameter': item.get('holeDiameter')}
+            for item in copper['vias']]
+        board['pours'] = [
+            {'primitive_id': item.get('primitiveId'), 'net': item.get('net'),
+             'layer': item.get('layer'),
+             'fill_method': item.get('fillMethod')}
+            for item in copper['pours']]
+        board['poured'] = copy.deepcopy(copper['poured'])
+        board['fills'] = copy.deepcopy(copper['fills'])
+        board['regions'] = copy.deepcopy(copper['regions'])
+        board['availability'] = {
+            'components': 'available', 'copper': 'available',
+            'categories': {'routing': 'available', 'vias': 'available',
+                           'pours': 'available', 'poured': 'available',
+                           'regions': 'available', 'fills': 'available'}}
+        return board
+
+    def test_normalized_observation_copper_is_compared_not_unknown(self):
+        before_board = self.normalized_board()
+        after_board = copy.deepcopy(before_board)
+        after_board['tracks'][0]['width'] = 12
+        result = D.diff_observations(make_observation(board=before_board),
+                                     make_observation(board=after_board))
+        self.assertEqual(result['status'], 'changed')
+        self.assertTrue(result['pcb']['tracks']['changed'])
+        fields = {item['field'] for item in result['unknown']}
+        self.assertNotIn('pcb.copper.lines', fields)
+        self.assertNotIn('pcb.copper.vias', fields)
+
+        result = D.diff_observations(make_observation(board=before_board),
+                                     make_observation(board=before_board))
+        self.assertEqual(result['status'], 'match')
+        self.assertNotIn('pcb.copper.lines',
+                         {item['field'] for item in result['unknown']})
+
+    def normalized_pour_board(self):
+        board = self.normalized_board()
+        board['pours'] = [{
+            'primitive_id': 'pour-1', 'net': 'GND', 'layer': 1,
+            'pour_name': 'GND pour', 'priority': 1, 'locked': False,
+            'fill_method': 'solid', 'line_width': 8,
+            'geometry_sha256': 'geo-a'}]
+        return board
+
+    def test_normalized_pour_attributes_and_geometry_are_compared(self):
+        before_board = self.normalized_pour_board()
+        result = D.diff_observations(make_observation(board=before_board),
+                                     make_observation(board=before_board))
+        self.assertEqual(result['status'], 'match')
+        for field, value in (('priority', 2), ('pour_name', 'renamed'),
+                             ('locked', True), ('line_width', 10),
+                             ('geometry_sha256', 'geo-b')):
+            after_board = copy.deepcopy(before_board)
+            after_board['pours'][0][field] = value
+            result = D.diff_observations(
+                make_observation(board=before_board),
+                make_observation(board=after_board))
+            self.assertEqual(result['status'], 'changed', field)
+            changes = result['pcb']['pours']['changed']
+            self.assertTrue(changes, field)
+            expected = 'geometry' if field == 'geometry_sha256' else field
+            self.assertIn(expected, changes[0]['difference'], field)
+
     def test_tracks_use_semantic_tuple_and_ignore_id_churn(self):
         board = copy.deepcopy(self.before['pcb'])
         board['copper']['lines'][0]['primitiveId'] = 'tid-2'
@@ -745,6 +1091,23 @@ class DiffTests(unittest.TestCase):
         result = self.diff(board=board)
         self.assertTrue(result['pcb']['rules']['changed'])
         self.assertTrue(result['pcb']['copper_layers']['changed'])
+
+    def test_raw_copper_availability_routing_key_marks_lines_unknown(self):
+        dump = make_raw_dump()
+        dump['copper']['availability']['routing'] = 'unavailable'
+        self.assertIsNone(D._pcb_copper(dump, 'lines'))
+        dump = make_raw_dump()
+        dump['copper']['availability'].pop('routing')
+        self.assertIsNone(D._pcb_copper(dump, 'lines'))
+        self.assertEqual(len(D._pcb_copper(make_raw_dump(), 'lines')), 1)
+
+    def test_normalized_partial_copper_availability_is_unknown(self):
+        board = self.normalized_board()
+        board['availability']['categories']['routing'] = 'partial'
+        result = D.diff_observations(make_observation(board=board),
+                                     make_observation(board=board))
+        self.assertIn('pcb.copper.lines',
+                      {item['field'] for item in result['unknown']})
 
     def test_routed_state_per_net(self):
         board = copy.deepcopy(self.before['pcb'])
@@ -845,6 +1208,16 @@ class AcceptanceTests(unittest.TestCase):
         self.assertEqual(result['status'], 'unknown')
         self.assertIsNone(result['target_met'])
         self.assertEqual(result['unknown'], ['a1'])
+
+    def test_unknown_diff_counts_are_not_measured_as_zero(self):
+        diff = dict(self.diff(outside=0), status='unknown')
+        result = D.evaluate_acceptance(
+            self.contract({'id': 'a1', 'metric': 'diff.outside_scope',
+                           'predicate': '== 0'}), diff)
+        self.assertEqual(result['status'], 'unknown')
+        self.assertIsNone(result['target_met'])
+        self.assertEqual(result['unknown'], ['a1'])
+        self.assertEqual(result['failed'], [])
 
     def test_no_declared_acceptance_is_not_a_pass(self):
         result = D.evaluate_acceptance({}, self.diff())
@@ -1056,11 +1429,120 @@ class ApplyTests(unittest.TestCase):
             self.assertEqual(recovery['pending'], [])
             self.assertTrue(recovery['safe_to_retry'])
 
+    def test_pcb_apply_normalizes_the_raw_after_dump_before_diffing(self):
+        from feedback import observe as observe_module
+        observation = make_observation()
+        observation['pcb'] = observe_module.normalize_pcb_dump(make_board())
+        observation['pcb']['semanticSha256'] = BASE
+        observation['pcb']['semantic_sha256'] = BASE
+        contract = make_contract(observation)
+        after_raw = make_board()
+        after_raw['components'][0]['x'] = 120
+        after_raw['semanticSha256'] = 'after-base'
+        runner = PcbFakeRunner(after_raw)
+        with tempfile.TemporaryDirectory() as directory:
+            result = D.apply_scoped(
+                contract,
+                place_plan(observation=observation,
+                           before_dump=make_raw_dump()),
+                runner=runner, write=True,
+                journal_path=os.path.join(directory, 'apply.jsonl'))
+        self.assertEqual(result['status'], 'verified', result.get('failure'))
+        self.assertEqual(result['diff']['counts']['outside_scope'], 0)
+        self.assertEqual(result['diff']['pcb']['tracks']['status'], 'available')
+        self.assertEqual(result['diff']['pcb']['tracks']['added'], [])
+        self.assertEqual(result['diff']['pcb']['tracks']['removed'], [])
+        self.assertEqual(len(result['diff']['changes']), 1)
+        self.assertEqual(result['diff']['changes'][0]['category'],
+                         'pcb.component')
+        self.assertFalse(result['notes'])
+
+    def test_pcb_apply_marks_an_unreadable_after_dump_unknown(self):
+        from feedback import observe as observe_module
+        observation = make_observation()
+        contract = make_contract(observation)
+        after_board = copy.deepcopy(observation['pcb'])
+        after_board['components'][0]['x'] = 120
+        after_board['semanticSha256'] = 'after-base'
+        runner = PcbFakeRunner(after_board)
+        original = observe_module.normalize_pcb_dump
+
+        def unavailable(payload):
+            raise ValueError('after dump is not a board')
+
+        observe_module.normalize_pcb_dump = unavailable
+        try:
+            with tempfile.TemporaryDirectory() as directory:
+                result = D.apply_scoped(
+                    contract, place_plan(observation=observation),
+                    runner=runner, write=True,
+                    journal_path=os.path.join(directory, 'apply.jsonl'))
+        finally:
+            observe_module.normalize_pcb_dump = original
+        self.assertEqual(result['status'], 'unknown')
+        self.assertFalse(result['ok'])
+        self.assertIsNone(result['diff'])
+        self.assertIsNone(result['invariants'])
+        self.assertIsNone(result['write_confirmed'])
+        self.assertEqual(result['writes_sent'], 1)
+        self.assertEqual(result['failure']['failure_class'],
+                         S.FAILURE_VERIFICATION_FAILED)
+        self.assertEqual(result['failure']['reason'], 'after_dump_unreadable')
+        self.assertTrue(result['notes'])
+
+    def test_pcb_apply_missing_after_hash_is_unknown_not_verified(self):
+        observation = make_observation()
+        contract = make_contract(observation)
+        after_board = copy.deepcopy(observation['pcb'])
+        after_board['components'][0]['x'] = 120
+        after_board.pop('semanticSha256', None)
+        runner = PcbFakeRunner(after_board)
+        with tempfile.TemporaryDirectory() as directory:
+            result = D.apply_scoped(
+                contract, place_plan(observation=observation),
+                runner=runner, write=True,
+                journal_path=os.path.join(directory, 'apply.jsonl'))
+        self.assertEqual(result['status'], 'unknown')
+        self.assertFalse(result['ok'])
+        self.assertIsNone(result['write_confirmed'])
+        self.assertEqual(result['failure']['failure_class'],
+                         S.FAILURE_VERIFICATION_FAILED)
+        self.assertEqual(result['failure']['reason'], 'after_hash_missing')
+
+    def test_pcb_apply_unbound_after_dump_is_a_target_mismatch(self):
+        cases = (('capture', None), ('projectUuid', 'other-project'),
+                 ('documentUuid', 'other-doc'), ('windowId', 'win-2'),
+                 ('documentUuid', None), ('windowId', None))
+        for field, value in cases:
+            with self.subTest(field=field, value=value):
+                observation = make_observation()
+                contract = make_contract(observation)
+                after_board = copy.deepcopy(observation['pcb'])
+                after_board['components'][0]['x'] = 120
+                after_board['semanticSha256'] = 'after-base'
+                if field == 'capture':
+                    after_board.pop('capture', None)
+                elif value is None:
+                    after_board['capture'].pop(field, None)
+                else:
+                    after_board['capture'][field] = value
+                runner = PcbFakeRunner(after_board)
+                with tempfile.TemporaryDirectory() as directory:
+                    result = D.apply_scoped(
+                        contract, place_plan(observation=observation),
+                        runner=runner, write=True,
+                        journal_path=os.path.join(directory, 'apply.jsonl'))
+                self.assertEqual(result['status'], 'target_mismatch', field)
+                self.assertFalse(result['ok'])
+                self.assertIs(result['write_confirmed'], False)
+                self.assertEqual(result['failure']['failure_class'],
+                                 S.FAILURE_TARGET_MISMATCH)
+
     def test_pcb_apply_pins_window_project_and_document_uuid(self):
         observation = make_observation()
         observation['pcb']['capture']['windowId'] = 'win-1'
         contract = make_contract(observation)
-        contract['target']['window_id'] = 'win-1'
+        self.assertEqual(contract['target']['window_id'], 'win-1')
         after_board = copy.deepcopy(observation['pcb'])
         after_board['components'][0]['x'] = 120
         after_board['semanticSha256'] = 'after-base'
