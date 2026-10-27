@@ -23,7 +23,8 @@ PR **#51** because the earlier revision listed an intermediate docs commit
 | verified delivery HEAD | `0ff873c7361d653c9f7ad0d35c39f6df60543018` |
 | merged PR #42 head | `317876c0797ad04aaeee7483efb6d5f9c0526f87` |
 | docs correction PR | **#51** — https://github.com/zsx3896926/hardware-design-skill/pull/51 — **OPEN**, not merged by task G |
-| PR #51 head when this note was authored | `60ec52eee87593979954f92cfd18f7a7b201443b` (this note adds one docs-only commit on #51; the live head is shown on the PR page) |
+| PR #51 head when this note was authored | `60ec52eee87593979954f92cfd18f7a7b201443b` |
+| PR #51 head after the PR link/head update | `fd6847a5dfe8412a7e4d6bbb31815b067c7e9bd7` (docs-only; any later docs commit advances the live head shown on PR #51) |
 
 ## Head reconciliation (verified HEAD vs merged PR head)
 
