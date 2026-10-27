@@ -1,0 +1,103 @@
+{
+  "board": {
+    "exterior_allow_objects": false
+  },
+  "bom": {
+    "required_fields": [
+      "designator",
+      "quantity"
+    ]
+  },
+  "content_manifest": {
+    "sha256": "6e16982ba605c73aa0e95b4edfcbd04b77020588a567f14b24e15bcf2d46bcab",
+    "source": "user_declared"
+  },
+  "coordinates": {
+    "bottom_side": {
+      "mirror": "none",
+      "rotation_offset_deg": 0,
+      "source": "user_declared"
+    },
+    "origin": "board_lower_left",
+    "rotation": "ccw_positive",
+    "source": "user_declared",
+    "unit": "mm",
+    "x_axis": "right",
+    "y_axis": "up"
+  },
+  "csv": {
+    "bom_delimiter": ",",
+    "cpl_delimiter": ","
+  },
+  "encodings": {
+    "bom": "utf-8-sig",
+    "cpl": "utf-8-sig"
+  },
+  "export_session": {
+    "captured_at": "2026-10-27T00:00:00+00:00",
+    "id": "fixture",
+    "tool": "synthetic",
+    "tool_version": "1"
+  },
+  "files": [
+    {
+      "path": "gerber/copper_top.gbr",
+      "role": "copper_top",
+      "sha256": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "source": "observed"
+    },
+    {
+      "path": "gerber/copper_bottom.gbr",
+      "role": "copper_bottom",
+      "sha256": "c97bab022f42613826d74d19a87689c6e3c0d21f95f13d24610212444078f5c3",
+      "source": "observed"
+    },
+    {
+      "path": "gerber/profile.gbr",
+      "role": "board_profile",
+      "sha256": "21426978fb49d4520d010f7f9c4171f101393296e8c100a765805e2de86ca071",
+      "source": "observed"
+    },
+    {
+      "path": "gerber/drill.drl",
+      "role": "drill",
+      "sha256": "4dd07ef0f7e604dc32c1d813ed0735199f23d801913362a9dff0911b12030e4e",
+      "source": "observed"
+    },
+    {
+      "path": "gerber/soldermask_top.gbr",
+      "role": "soldermask_top",
+      "sha256": "79ecfff53d97a1a36a5381142f3e32777884d55040929ec7ec70d6f569164199",
+      "source": "observed"
+    },
+    {
+      "path": "gerber/soldermask_bottom.gbr",
+      "role": "soldermask_bottom",
+      "sha256": "6b198549bc99dbb6ab4f446de4c8a5f7817fe0d0b70d44e0cce7200f69099060",
+      "source": "observed"
+    }
+  ],
+  "policies": {
+    "dnp_in_cpl": "forbidden",
+    "mechanical_requires_cpl": false,
+    "strict_file_set": true,
+    "tht_requires_cpl": false
+  },
+  "project_id": "fixture-project",
+  "provenance": {
+    "source": "user_declared",
+    "statement": "synthetic fixture declaration"
+  },
+  "revision": "A",
+  "schema": "delivery-declarations/v1",
+  "source_snapshot": {
+    "hash_algorithm": "sha256",
+    "reference": "synthetic fixture",
+    "source": "user_declared",
+    "value": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "stackup": {
+    "layers": 2,
+    "source": "user_declared"
+  }
+}

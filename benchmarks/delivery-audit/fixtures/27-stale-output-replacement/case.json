@@ -1,0 +1,22 @@
+{
+  "args": [],
+  "command": "stale-output",
+  "content_digest": "6cf432b409baaf7bc2571c0dc391b6a306cc7b5f6e692d36674011ba3192a3f6",
+  "declarations": null,
+  "expect": {
+    "error_code": "input_not_found",
+    "exit": 2,
+    "stale_replaced": true,
+    "status": "input_invalid"
+  },
+  "files": [],
+  "id": "27-stale-output-replacement",
+  "input": "input",
+  "input_kind": "files",
+  "notes": null,
+  "profile": "pcb-fabrication",
+  "reference": null,
+  "simulated": true,
+  "title": "Invalid run replaces stale PASS output",
+  "touch": null
+}

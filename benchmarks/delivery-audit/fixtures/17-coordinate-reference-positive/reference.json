@@ -1,0 +1,48 @@
+{
+  "board_extent": {
+    "max_x": 30,
+    "max_y": 20,
+    "min_x": 0,
+    "min_y": 0
+  },
+  "placements": [
+    {
+      "designator": "R1",
+      "rotation": 0,
+      "side": "top",
+      "x": 10.0,
+      "y": 10.0
+    },
+    {
+      "designator": "C1",
+      "rotation": 90,
+      "side": "top",
+      "x": 15.0,
+      "y": 10.0
+    },
+    {
+      "designator": "C2",
+      "rotation": 270,
+      "side": "top",
+      "x": 20.0,
+      "y": 10.0
+    },
+    {
+      "designator": "D1",
+      "rotation": 180,
+      "side": "top",
+      "x": 25.0,
+      "y": 10.0
+    },
+    {
+      "designator": "R2",
+      "rotation": 0,
+      "side": "bottom",
+      "x": 5.0,
+      "y": 15.0
+    }
+  ],
+  "schema": "delivery-coordinate-reference/v1",
+  "source": "benchmark-independent-reference",
+  "unit": "mm"
+}

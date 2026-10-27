@@ -1,0 +1,71 @@
+{
+  "args": [],
+  "command": "audit",
+  "content_digest": "3628f88afc702996705a0f02bf184fe86400b14a8fc77a577b3c4dd47712d6ac",
+  "declarations": null,
+  "expect": {
+    "exit": 3,
+    "no_real_eda": true,
+    "rules": {
+      "coordinates.convention_missing": "unknown",
+      "drill.coordinate_unknown_format": "unknown",
+      "gerber.unsupported.image_parameter": "unknown",
+      "gerber.unsupported.macro": "unknown",
+      "layer.role_inferred": "unknown",
+      "outline.unverified_geometry": "unknown",
+      "provenance.declarations_missing": "unknown"
+    },
+    "status": "incomplete"
+  },
+  "files": [
+    {
+      "path": "real/board_outline.GKO",
+      "sha256": "01b4f8e99740decd019ee72b9a621d63f131f00fa5b5b6cb91b6d556af2d0d3b",
+      "size": 9430
+    },
+    {
+      "path": "real/bottom_copper.GBL",
+      "sha256": "e04bc50815a8e3830b396dbd7d9a968b1cdee7ccd19f61b5bf1a40c1121de4b7",
+      "size": 34186
+    },
+    {
+      "path": "real/bottom_mask.GBS",
+      "sha256": "39f918af62b7494ee088e07af5fa7c3ba409a0d6602dbc6a4e1f444ba0c7c858",
+      "size": 1079
+    },
+    {
+      "path": "real/bottom_silk.GBO",
+      "sha256": "85d45eb5ef4976dbe7382a867ff561db42a7d6bdead944e0237df7aff676012c",
+      "size": 112787
+    },
+    {
+      "path": "real/ncdrill.DRD",
+      "sha256": "f791b4e380083a9d449113c18390813e08dc90c0a678265409ae73b1fb200368",
+      "size": 532
+    },
+    {
+      "path": "real/top_copper.GTL",
+      "sha256": "4924d18d6a11bced130af863dea1959e258ada4b43133dbe36ba304218fbe9ea",
+      "size": 61967
+    },
+    {
+      "path": "real/top_mask.GTS",
+      "sha256": "02b1ca99957791aaf3cee5865e885ce2f66968ffaf97b6b4df0cba60f287c4f8",
+      "size": 2804
+    },
+    {
+      "path": "real/top_silk.GTO",
+      "sha256": "5ab126aef40eac6906f1a0f177de52a749941e73105577545fe73e05e902e2c7",
+      "size": 39608
+    }
+  ],
+  "id": "28-real-sample-replay",
+  "input": "input",
+  "input_kind": "files",
+  "notes": "No declarations are supplied; the source EDA revision is not bound. This is a replay/regression case, not evidence of manufacturability. Expectations frozen from the replay run on 2026-10-27; they are not manufacturing claims.",
+  "profile": "pcb-fabrication",
+  "reference": null,
+  "simulated": false,
+  "title": "Read-only replay of a real permissively licensed export",
+  "touch": null
+}

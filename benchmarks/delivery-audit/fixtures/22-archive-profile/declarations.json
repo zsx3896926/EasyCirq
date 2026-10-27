@@ -1,0 +1,79 @@
+{
+  "board": {
+    "exterior_allow_objects": false
+  },
+  "bom": {
+    "required_fields": [
+      "designator",
+      "quantity"
+    ]
+  },
+  "content_manifest": {
+    "sha256": "3aecb801555b59fc93aa4363af3bfc7d559e289097bebd512dee7554988dae51",
+    "source": "user_declared"
+  },
+  "coordinates": {
+    "bottom_side": {
+      "mirror": "none",
+      "rotation_offset_deg": 0,
+      "source": "user_declared"
+    },
+    "origin": "board_lower_left",
+    "rotation": "ccw_positive",
+    "source": "user_declared",
+    "unit": "mm",
+    "x_axis": "right",
+    "y_axis": "up"
+  },
+  "csv": {
+    "bom_delimiter": ",",
+    "cpl_delimiter": ","
+  },
+  "encodings": {
+    "bom": "utf-8-sig",
+    "cpl": "utf-8-sig"
+  },
+  "export_session": {
+    "captured_at": "2026-10-27T00:00:00+00:00",
+    "id": "fixture",
+    "tool": "synthetic",
+    "tool_version": "1"
+  },
+  "files": [
+    {
+      "path": "project.epro2",
+      "role": "native_project",
+      "sha256": "1b91c7c1a73b7093683ab2720851461b8fb529ca22b5dc7751198a522b2b7606",
+      "source": "observed"
+    },
+    {
+      "path": "readme.txt",
+      "role": "other",
+      "sha256": "759ad2ffeb54eec4165fc63d0a8d9cd4c592d314b87840a6a6c9b1156c41d601",
+      "source": "observed"
+    }
+  ],
+  "policies": {
+    "dnp_in_cpl": "forbidden",
+    "mechanical_requires_cpl": false,
+    "strict_file_set": true,
+    "tht_requires_cpl": false
+  },
+  "project_id": "fixture-project",
+  "provenance": {
+    "source": "user_declared",
+    "statement": "synthetic fixture declaration"
+  },
+  "revision": "A",
+  "schema": "delivery-declarations/v1",
+  "source_snapshot": {
+    "hash_algorithm": "sha256",
+    "reference": "synthetic fixture",
+    "source": "user_declared",
+    "value": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "stackup": {
+    "layers": 2,
+    "source": "user_declared"
+  }
+}

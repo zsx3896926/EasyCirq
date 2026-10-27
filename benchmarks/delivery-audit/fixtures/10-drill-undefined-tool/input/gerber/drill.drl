@@ -1,0 +1,13 @@
+M48
+;DRILL file {synthetic}
+;FORMAT={-:-/ absolute / metric / decimal}
+FMAT,2
+METRIC,TZ
+T1C0.400
+T2C0.800
+%
+G90
+G05
+T9
+X5.000Y5.000
+M30
