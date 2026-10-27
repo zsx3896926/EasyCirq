@@ -325,9 +325,10 @@ def cmd_verify(args):
                    [{'field': 'checks.%s' % field,
                      'reason': 'the apply receipt does not carry this fact'}
                     for field, value in checks.items() if value is None],
-        'note': 'five facts come from the apply receipt; no fact is inferred '
-                'from a passing diff, and an unrun fact keeps the verdict '
-                'unknown rather than complete',
+        'note': 'call/write/save/reopen come from the apply receipt; '
+                'quality_passed comes only from an explicit --evaluation; no '
+                'fact is inferred from a passing diff, and an unrun fact keeps '
+                'the verdict unknown rather than complete',
     }
     _state_step(args.state, schemas.STAGE_VERIFY,
                 evidence=[args.out] if args.out else None,

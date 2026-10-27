@@ -93,9 +93,10 @@ python scripts/feedback_loop.py verify --contract contract.json --diff diff.json
 
 只读命令不写入；`preview` 必须 `writes_sent=0`；`apply` 写入前重核基线；`readback`
 缺失时 `write_confirmed=null`，不得当通过。真实写入使用 `--window` + 明确文档 UUID，
-不要依赖 `--project` 名称路由。`verify` 的五事实（call/write/save/reopen/quality）
-只从 `--apply` receipt 读取；`--after` 仅做哈希交叉核对；acceptance 未达成时
-`target_met=false`、`completed=false`。
+不要依赖 `--project` 名称路由。`verify` 的 call/write/save/reopen 四项只从
+`--apply` receipt 读取，`quality_passed` 只从显式 `--evaluation` 取得；
+`--after` 仅做哈希交叉核对；acceptance 未达成时 `target_met=false`、
+`completed=false`。
 
 PCB 写入的 plan **必须**携带原始实测 dump（`before_dump`，如
 `pcb dump --include-copper` 的结果）。缺少原始 dump、dump 不完整、未绑定到本次

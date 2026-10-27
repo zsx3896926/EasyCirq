@@ -46,7 +46,8 @@ round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 
   `preview`/`apply` 直接拒绝（`precondition_refused` / `stale_baseline`），不再用
   规范化 observation 重建不完整 dump。`apply` 写入前再次核对绑定。
   基准 `before_dump_gate` 用负例证明拒绝时 `writes_sent=0`、runner 调用 0 次。
-- `feedback_loop.py verify`：五事实只从 `--apply` receipt 读取；`--after` 仅做
+- `feedback_loop.py verify`：调用/写入/保存/重开四项只从 `--apply` receipt
+  读取，`quality_passed` 只从显式 `--evaluation` 取得；`--after` 仅做
   `semantic_sha256` 交叉核对；新增 acceptance 求值——声明的目标未达成时
   `target_met=false`、`completed=false`，缺计数判 `unknown` 而不是按 0 通过。
 - `feedback/evaluate.py`：电容角色分 `bulk` / `local-decoupling` / `unknown`；
