@@ -1,0 +1,90 @@
+{
+  "components": [
+    {
+      "designator": "J1",
+      "pads": [
+        {
+          "padNumber": "1",
+          "net": "PWR",
+          "layer": 1,
+          "x": 100,
+          "y": 200,
+          "width": 40,
+          "height": 40,
+          "shape": [
+            "RECT"
+          ],
+          "rotation": 0
+        }
+      ]
+    },
+    {
+      "designator": "U1",
+      "pads": [
+        {
+          "padNumber": "1",
+          "net": "PWR",
+          "layer": 1,
+          "x": 700,
+          "y": 200,
+          "width": 40,
+          "height": 40,
+          "shape": [
+            "RECT"
+          ],
+          "rotation": 0
+        }
+      ]
+    }
+  ],
+  "outline": {
+    "points": [
+      [
+        0,
+        0
+      ],
+      [
+        800,
+        0
+      ],
+      [
+        800,
+        400
+      ],
+      [
+        0,
+        400
+      ]
+    ]
+  },
+  "copperLayers": 2,
+  "rules": {
+    "clearanceMil": 6,
+    "clearanceTrackTrackMil": 4,
+    "trackWidthMinMil": 5,
+    "viaDiameterMil": 24,
+    "viaDrillMil": 12,
+    "copperToEdgeMil": 10
+  },
+  "copper": {
+    "lines": [
+      {
+        "primitiveId": "source-track",
+        "net": "PWR",
+        "layer": 1,
+        "lineWidth": 10,
+        "startX": 100,
+        "startY": 200,
+        "endX": 700,
+        "endY": 200
+      }
+    ],
+    "vias": [],
+    "fills": [],
+    "arcs": [],
+    "pours": [],
+    "poured": [],
+    "regions": [],
+    "planes": []
+  }
+}
