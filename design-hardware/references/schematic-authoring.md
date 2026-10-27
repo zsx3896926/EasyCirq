@@ -123,6 +123,17 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 - 因此三张图都没有标成 `eda-verified`；当前证据等级是“真实写入/保存重开/导图，
   仍有已列视觉或选型残留”。竖排标记来自水平管脚上的 flag 方向；要全水平需
   逐脚改成短桩+旋转 0 的 flag，不能靠隐藏文字。
+
+**水平管脚全水平 flag 的可复用做法（2026-10-27 实测）**：`sch connect --pin R1:1 --direction left` 会在水平管脚上生成 rotation 90/270 的 netflag，文字竖排；`sch modify` 不能改 netflag（仅元件类型可用）。可删掉旧 flag、保留/延长桩线成 L 形到管脚上方或下方，再用 `sch netflag --kind power|gnd --net <name> --x <end> --y <end> --rotation 0` 放在桩线端点；GND 放在下方、+5V 放在上方。移动后必须重跑 `sch check` 与官方导图，确认不是把竖排换成了倒置接地。
+
+**先写 frame 元数据，再写 frame（2026-10-27 反哺）**：`sch frame apply` 每个 frame 只创建一个 `title` 文本，而 `sch_layout_check.py --strict` 要求 `order`、`title_text_id` 和**不同的** `purpose_text_id`。生成流程必须先在 frame plan 中填 `order`、`title`、`purpose`，运行：
+
+```bash
+python scripts/sch_frame_meta_check.py --plan frames.json --json
+```
+
+缺 `purpose_text_id` 默认 `blocked`（退出 2），不能先写 frame 再在 strict 阶段才发现；若当前执行器确实无法单独创建 purpose 文本，只能显式 `--allow-title-only` 得到 `review` 并保持 `strict_layout_complete=false`，报告写“电气检查通过、布局检查不完整”，不能写“原理图全面验收通过”。示例见 `assets/schematic-frame-plan.example.json`。
+
 - 平台限制：free text 的 `move/setState/SDK delete` 不持久，删除需 `sch prim-delete`；
   新 free text 必须 `alignMode=2` 才左对齐；titleblock 的可见 Drawed 字段会与
   sheet 属性各渲染一次，填作者会产生两处重复；typed API 当前没有自由文本创建入口。

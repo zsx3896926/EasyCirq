@@ -168,6 +168,9 @@ def check_payload(warnings=0):
         'passed': warnings == 0,
         'summary': {'errors': 0, 'warnings': warnings, 'infos': 0,
                     'total': warnings},
+        'trackCount': 2,
+        'viaCount': 0,
+        'padCount': 4,
         'findings': findings,
     }
 
@@ -518,6 +521,7 @@ class WarnDispositionTests(BaseGateTests):
         info_check = {
             'passed': False,
             'summary': {'errors': 0, 'warnings': 0, 'infos': 1, 'total': 1},
+            'trackCount': 2, 'viaCount': 0, 'padCount': 4,
             'findings': [{'type': 'fiducial-missing', 'level': 'INFO',
                           'message': 'add three fiducials before SMT'}],
         }

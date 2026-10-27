@@ -73,6 +73,8 @@ REQUIRED_FILES = [
     "scripts/pcb_case.py",
     "scripts/offline_guard.py",
     "scripts/sch_visual_audit.py",
+    "scripts/check_move_clearance.py",
+    "scripts/sch_frame_meta_check.py",
     "references/offline-regression.md",
     "references/pcb-command-map.json",
     "scripts/bom_cnumber_check.py",

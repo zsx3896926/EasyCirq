@@ -20,8 +20,8 @@ sys.path.insert(0, str(TESTS))
 
 import pcb_gate  # noqa: E402
 from test_pcb_gate import (CaseBuilder, FRESH, PAST, iso, make_args,
-                           make_dump, sha256, stage_map, touch,  # noqa: E402
-                           write_json)
+                           make_dump, placement_payload, sha256, stage_map,
+                           touch, write_json)  # noqa: E402
 
 
 def write_manifest(case, entries):
@@ -215,6 +215,121 @@ class ProvenanceTests(unittest.TestCase):
         self.assertEqual(stage['status'], 'fail')
         self.assertIn('EVIDENCE_BINDING',
                       [finding.get('code') for finding in stage['findings']])
+
+    def _check_payload(self):
+        return json.loads(self.builder.check.read_text(encoding='utf-8'))
+
+    def _write_check_variant(self, name, **changes):
+        payload = self._check_payload()
+        payload.update(changes)
+        path = self.builder.write(name, payload, mtime=FRESH + 10)
+        return path
+
+    def _pg4(self, report):
+        return stage_map(report)['PG4_check']
+
+    def test_placement_check_filename_cannot_shadow_dfm_check(self):
+        # Regression: *pcb*check*.json also matches placement-check files.
+        self.builder.write('pcb-placement-check-final.json',
+                           placement_payload(), mtime=FRESH + 10)
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        self.assertEqual(report['status'], 'pass')
+        stage = self._pg4(report)
+        self.assertEqual(stage['status'], 'pass')
+        selected = [e['path'] for e in stage['evidence']
+                    if e.get('role') == 'check']
+        self.assertTrue(selected)
+        self.assertTrue(all(path.endswith('pcb-check-final.json')
+                            for path in selected), selected)
+
+    def test_empty_summary_is_not_a_dfm_check_candidate(self):
+        self.builder.write('pcb-check-empty-summary.json', {
+            'passed': True, 'summary': {}, 'findings': [],
+            'trackCount': 2, 'padCount': 4,
+        }, mtime=FRESH + 10)
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        self.assertEqual(report['status'], 'pass')
+        stage = self._pg4(report)
+        self.assertEqual(stage['status'], 'pass')
+        self.assertTrue(all(e['path'].endswith('pcb-check-final.json')
+                            for e in stage['evidence']
+                            if e.get('role') == 'check'))
+
+    def test_contradictory_check_counters_are_not_a_dfm_check_candidate(self):
+        bad = self._check_payload()
+        bad['summary'] = {'errors': 0, 'warnings': 0, 'infos': 0,
+                          'total': 1}
+        bad['findings'] = [{
+            'type': 'power-not-poured', 'level': 'WARN',
+            'net': '+5V', 'message': 'contradictory but itemized WARN',
+        }]
+        self.builder.write('pcb-check-contradictory.json', bad,
+                           mtime=FRESH + 10)
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        self.assertEqual(report['status'], 'pass')
+        stage = self._pg4(report)
+        self.assertEqual(stage['status'], 'pass')
+        self.assertTrue(all(e['path'].endswith('pcb-check-final.json')
+                            for e in stage['evidence']
+                            if e.get('role') == 'check'))
+
+    def test_multiple_valid_check_candidates_without_binding_are_ambiguous(self):
+        alternate = self._check_payload()
+        alternate['summary'] = {'errors': 0, 'warnings': 1, 'infos': 0,
+                                'total': 1}
+        alternate['findings'] = [{
+            'type': 'power-not-poured', 'level': 'WARN',
+            'net': '+5V', 'message': 'alternative DFM report',
+        }]
+        alternate['passed'] = False
+        self.builder.write('pcb-check-alternate.json', alternate,
+                           mtime=FRESH + 10)
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        stage = self._pg4(report)
+        self.assertEqual(stage['status'], 'fail')
+        self.assertIn('EVIDENCE_AMBIGUOUS',
+                      [finding.get('code') for finding in stage['findings']])
+        self.assertEqual(stage['metrics']['evidence_binding']['check']['conflict'],
+                         'multiple_candidates')
+
+    def test_identical_check_copies_are_not_ambiguous(self):
+        self.builder.write('pcb-check-copy.json', self._check_payload(),
+                           mtime=FRESH + 10)
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        stage = self._pg4(report)
+        self.assertEqual(stage['status'], 'pass')
+        self.assertNotIn('EVIDENCE_AMBIGUOUS',
+                         [finding.get('code') for finding in stage['findings']])
+
+    def test_manifest_bound_check_with_differing_alternative_reports_advisory(self):
+        alternate = self._check_payload()
+        alternate['summary'] = {'errors': 0, 'warnings': 1, 'infos': 0,
+                                'total': 1}
+        alternate['findings'] = [{
+            'type': 'power-not-poured', 'level': 'WARN',
+            'net': '+5V', 'message': 'alternative DFM report',
+        }]
+        alternate['passed'] = False
+        alt_path = self.builder.write('pcb-check-alternate.json', alternate,
+                                      mtime=FRESH + 10)
+        write_manifest(self.builder.case, [{
+            'role': 'pcb-check', 'path': str(self.builder.check),
+            'source_dump_sha256': sha256(self.builder.dump_after),
+            'produced_at': iso(FRESH), 'run_after_final_reload': True,
+        }])
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        stage = self._pg4(report)
+        self.assertEqual(stage['status'], 'pass')
+        ambiguous = [finding for finding in stage['findings']
+                     if finding.get('code') == 'EVIDENCE_AMBIGUOUS']
+        self.assertEqual(len(ambiguous), 1)
+        self.assertEqual(ambiguous[0].get('severity'), 'advisory')
+        self.assertEqual(stage['metrics']['evidence_binding']['check']['conflict'],
+                         'multiple_candidates')
+        check_evidence = next(e for e in stage['evidence']
+                              if e.get('role') == 'check')
+        self.assertIn(str(alt_path),
+                      [item['path'] for item in check_evidence.get('alternatives', [])])
 
 
 if __name__ == '__main__':
