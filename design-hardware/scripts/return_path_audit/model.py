@@ -15,6 +15,7 @@ from __future__ import annotations
 import hashlib
 import json
 import math
+import re
 from datetime import datetime
 
 from . import geometry
@@ -78,6 +79,24 @@ def _bool(value):
 
 def sha256_bytes(payload):
     return hashlib.sha256(payload).hexdigest()
+
+
+_FRACTION_RE = re.compile(r"^(?P<head>.*?)(?:\.(?P<frac>\d+))?(?P<tz>Z|[+-]\d{2}:\d{2})?$")
+
+
+def parse_timestamp(text):
+    """Parse an ISO-8601 timestamp across Python versions.
+
+    Real EDA snapshots can carry more than six fractional digits; Python 3.10's
+    ``datetime.fromisoformat`` rejects those, so the fraction is normalised to
+    microseconds before parsing (the sub-microsecond part is provenance noise).
+    """
+    normalized = text.strip()
+    match = _FRACTION_RE.match(normalized)
+    if match and match.group("frac") and len(match.group("frac")) > 6:
+        fraction = match.group("frac")
+        normalized = normalized.replace("." + fraction, "." + fraction[:6], 1)
+    return datetime.fromisoformat(normalized.replace("Z", "+00:00"))
 
 
 def canonical_json(value, allow_nan=False):
@@ -443,8 +462,8 @@ def validate(document, raw_bytes=None):
             issues.add("INVALID_SOURCE", "$.source.captured_at", "ISO-8601 timestamp required")
         else:
             try:
-                datetime.fromisoformat(captured.replace("Z", "+00:00"))
-            except ValueError:
+                parse_timestamp(captured)
+            except (ValueError, TypeError):
                 issues.add("INVALID_SOURCE_TIME", "$.source.captured_at",
                            "ISO-8601 timestamp required")
 

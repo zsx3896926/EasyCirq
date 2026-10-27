@@ -141,6 +141,22 @@ class ValidationRejectsTests(unittest.TestCase):
         self.assertTrue(any("width" in path for path in paths), paths)
 
 
+    def test_seven_digit_fraction_timestamp_is_accepted(self):
+        # Real EDA snapshots carry 7 fractional digits; Python 3.10's
+        # fromisoformat rejects that, so the parser must normalise it.
+        doc = document()
+        doc["source"]["captured_at"] = "2026-10-26T13:40:13.1380529Z"
+        loaded = model_module.validate(doc)
+        self.assertEqual(loaded.source["captured_at"],
+                         "2026-10-26T13:40:13.1380529Z")
+
+    def test_parse_timestamp_normalises_long_fraction(self):
+        parsed = model_module.parse_timestamp("2026-10-26T13:40:13.1380529Z")
+        self.assertEqual(parsed.microsecond, 138052)
+        self.assertIsNotNone(parsed.tzinfo)
+        naive = model_module.parse_timestamp("2026-10-26T13:40:13")
+        self.assertEqual(naive.second, 13)
+
 class ValidateCliTests(unittest.TestCase):
     def test_valid_document_exits_zero(self):
         with tempfile.TemporaryDirectory() as tmp:
