@@ -58,10 +58,10 @@ DNP 不等于从原理图删除：保留焊盘和电气源，避免网表与 PCB
 
 ## 5. 工具与证据边界
 
-- `easyeda pcb silk-align`：只重排位号，带碰撞规避与写入后测量；不添加或校验极性/功能文字。
-- `easyeda pcb silk-add`：添加自由丝印字符串，可用于板名、版本、警告语。
-- `easyeda pcb silk-label-pads`：给焊盘标脚号/网名；`silk-netnames`：在指定区域自动生成网名标签；`silk-zone-outline`：绘制功能分区框。
-- `easyeda pcb view-side` + `pcb snapshot`：分别取 Top/Bottom 视图；`snapshot` 需要前台 PCB 窗口，截图只是辅助证据。
+- `zhigou pcb silk-align`：只重排位号，带碰撞规避与写入后测量；不添加或校验极性/功能文字。
+- `zhigou pcb silk-add`：添加自由丝印字符串，可用于板名、版本、警告语。
+- `zhigou pcb silk-label-pads`：给焊盘标脚号/网名；`silk-netnames`：在指定区域自动生成网名标签；`silk-zone-outline`：绘制功能分区框。
+- `zhigou pcb view-side` + `pcb snapshot`：分别取 Top/Bottom 视图；`snapshot` 需要前台 PCB 窗口，截图只是辅助证据。
 - v1.14.0 没有丝印内容（极性、1 脚、可读性）的自动检查；`pcb check` 覆盖铜/孔/铺铜 DFM，不替代丝印检查。必须人工看导出视图并核对装配图。
 - 证据落盘：`silk-align` 回执、导出图/截图、装配图文件、BOM/CPL 对应行；在 `design-state.json` 的 `routing.silk_align` 与 `manufacturing.artifacts` 记录路径。
 

@@ -74,11 +74,11 @@ EasyEDA 会为已命名网络在导线上画网名，netflag/netport 的网名�
 官方导出 SVG 后先测全部渲染文字，再构建严格几何输入：
 
 ```bash
-easyeda sch list --include-bbox --include-pins --include-wires \
+zhigou sch list --include-bbox --include-pins --include-wires \
   --include-page-primitives --page <page> > list.json
-easyeda sch sheet-geometry --from-svg page.svg --json > sheet.json
+zhigou sch sheet-geometry --from-svg page.svg --json > sheet.json
 python scripts/svg_text_bbox.py page.svg --out svg-text.json
-python scripts/layout_from_easyeda.py --list list.json \
+python scripts/layout_from_zhigou.py --list list.json \
   --visible-text visible-text.json --sheet-geometry sheet.json \
   --rendered-text svg-text.json --min-text-wire-clearance 5 \
   --expect-rotation GND=0 --expect-rotation +5V=0 --out layout.json
@@ -87,7 +87,7 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
   --out pin-net-diff.json
 ```
 
-`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `easyeda sch read`，不比较
+`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `zhigou sch read`，不比较
 网名拼写；极性器件的功能脚名用组件内 `pinMap` 落到实际脚号，缺映射按输入无效处理，
 不猜脚号。
 
@@ -103,7 +103,7 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 和局部图 → 保存重开。任何一层 PASS 都不能替代另一层；`info_only` 只表示没有阻塞候选，
 不表示图面已合格。
 
-### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / easyeda-agent 1.15.0）
+### 2026-10-26 真实结果（EasyEDA Pro 4.1.78 / 前代执行器 1.15.0）
 
 - `photo-led-5v-20261026` P1：v18 编号 1→4 按阅读顺序、标题左上、图签重复消除；
   137 条渲染文字无 text-text overlap，R3 Name 与 zone2 purpose 的 blocking 接触已修；

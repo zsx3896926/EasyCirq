@@ -1,0 +1,25 @@
+zhigou capabilities — 0 supported / 19 unknown / 5 unsupported
+  - schematic.read       unknown     动作目录里有 15 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - schematic.write      unknown     动作目录里有 26 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - schematic.check      unknown     动作目录里有 2 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - schematic.export     unknown     动作目录里有 3 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - pcb.read             unknown     动作目录里有 27 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - pcb.write            unknown     动作目录里有 58 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - pcb.route            unknown     动作目录里有 5 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - pcb.pour             unknown     动作目录里有 5 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - pcb.drc              unknown     动作目录里有 3 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - bom.export           unknown     动作目录里有 1 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - image.export         unknown     动作目录里有 2 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - project.read         unknown     动作目录里有 4 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - project.export       unknown     动作目录里有 2 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - library.read         unknown     动作目录里有 8 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - library.write        unknown     动作目录里有 14 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - board.binding        unknown     动作目录里有 10 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - document.control     unknown     动作目录里有 9 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - save.reload          unknown     动作目录里有 3 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - gerber.export        unsupported 运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用
+  - drill.export         unsupported 运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用
+  - cpl.export           unsupported 运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用
+  - archive.backup       unsupported 运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用
+  - diffpair.routing     unknown     动作目录里有 3 个 typed action，但当前没有连接器连接，无法与宿主协商
+  - length.tuning        unsupported 运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用

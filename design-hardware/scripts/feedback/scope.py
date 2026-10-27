@@ -14,7 +14,7 @@ schemas deliberately leave open:
 * ``preview`` compiles the same steps a write would send, annotates each step
   with its scope decision and always reports ``writes_sent: 0``;
 * a PCB write is delegated to :mod:`pcb_apply_plan` (playbook compiler, one
-  ``easyeda apply``, journal) - this module does not reimplement that
+  ``zhigou apply``, journal) - this module does not reimplement that
   compiler.  A schematic write compiles typed ``schematic.text.move`` /
   ``schematic.component.modify`` calls, verifies the response context and
   reads the result back;
@@ -45,9 +45,9 @@ Contract gaps reported instead of worked around (schemas.py is frozen):
 * ``SCHEMA_DIFF`` does not prescribe a change shape.  This module returns a
   stable ``changes[]`` list plus per-category summaries.
 
-Tests use a fake runner only.  No function resolves ``easyeda`` from PATH:
+Tests use a fake runner only.  No function resolves ``zhigou`` from PATH:
 ``apply_scoped`` refuses a write when neither ``runner`` nor an explicit
-``easyeda`` path is supplied.
+``zhigou`` path is supplied.
 """
 from __future__ import annotations
 
@@ -4117,12 +4117,12 @@ def _preview_apply(contract, plan, *, write_requested):
     return payload
 
 
-def _run_cli(runner, args, *, easyeda, timeout):
+def _run_cli(runner, args, *, zhigou, timeout):
     try:
         if runner is not None:
-            return runner(args, easyeda=easyeda, timeout=timeout)
+            return runner(args, zhigou=zhigou, timeout=timeout)
         _pcb_apply_plan, pcb_cli = _pcb_modules()
-        return pcb_cli.run(args, easyeda=easyeda, timeout=timeout)
+        return pcb_cli.run(args, zhigou=zhigou, timeout=timeout)
     except Exception as exc:  # fake runners must not hide a crash as success
         return {'argv': args, 'exit': None, 'ok': False, 'error': str(exc),
                 'stdout': '', 'stderr': '', 'payload': None,
@@ -4250,7 +4250,7 @@ def _schematic_payload(op):
         op.get('patch') or {})}
 
 
-def _schematic_readback(runner, easyeda, timeout, window, contract, document,
+def _schematic_readback(runner, zhigou, timeout, window, contract, document,
                         project, ops):
     text_ops = [op for op in ops if op['op'] == 'move_text']
     component_ops = [op for op in ops if op['op'] != 'move_text']
@@ -4261,7 +4261,7 @@ def _schematic_readback(runner, easyeda, timeout, window, contract, document,
     if text_ops:
         args = ['call', 'schematic.text.list', '--payload', '{}']
         args = _with_target(args, project, _document_ref(document), window)
-        record = _run_cli(runner, args, easyeda=easyeda, timeout=timeout)
+        record = _run_cli(runner, args, zhigou=zhigou, timeout=timeout)
         context, reason = _context_status(
             contract, document, record.get('payload'))
         calls.append({'action': 'schematic.text.list',
@@ -4280,7 +4280,7 @@ def _schematic_readback(runner, easyeda, timeout, window, contract, document,
         args = ['call', 'schematic.components.list', '--payload',
                 json.dumps({'includePins': True})]
         args = _with_target(args, project, _document_ref(document), window)
-        record = _run_cli(runner, args, easyeda=easyeda, timeout=timeout)
+        record = _run_cli(runner, args, zhigou=zhigou, timeout=timeout)
         context, reason = _context_status(
             contract, document, record.get('payload'))
         calls.append({'action': 'schematic.components.list',
@@ -4415,7 +4415,7 @@ def _schematic_after(fresh, ops, readback):
 
 
 def _apply_schematic(contract, plan, validation, fresh, document, *,
-                     runner, easyeda, window, journal_path, timeout):
+                     runner, zhigou, window, journal_path, timeout):
     included = [action for action in validation['actions']
                 if action.get('already_applied') is not True]
     if not included:
@@ -4449,7 +4449,7 @@ def _apply_schematic(contract, plan, validation, fresh, document, *,
                 '--payload', json.dumps(action, ensure_ascii=False,
                                         separators=(',', ':'))]
         args = _with_target(args, project, document_name, window)
-        record = _run_cli(runner, args, easyeda=easyeda, timeout=timeout)
+        record = _run_cli(runner, args, zhigou=zhigou, timeout=timeout)
         payload = record.get('payload')
         context, context_reason = _context_status(contract, document, payload)
         ok, verify_reason = _verified_payload(
@@ -4475,7 +4475,7 @@ def _apply_schematic(contract, plan, validation, fresh, document, *,
     if journal_path:
         _append_journal(journal_path, entries)
     readback = _schematic_readback(
-        runner, easyeda, timeout, window, contract, document, project, ops)
+        runner, zhigou, timeout, window, contract, document, project, ops)
     write_confirmed = _readback_verified(ops, readback)
     if context_unknown and write_confirmed is True:
         # A verified readback without a response context cannot prove which
@@ -4488,7 +4488,7 @@ def _apply_schematic(contract, plan, validation, fresh, document, *,
     if flags.get('save'):
         args = ['call', 'schematic.save', '--payload', '{}']
         args = _with_target(args, project, document_name, window)
-        save_record = _run_cli(runner, args, easyeda=easyeda, timeout=timeout)
+        save_record = _run_cli(runner, args, zhigou=zhigou, timeout=timeout)
         saved, _reason = _verified_payload(save_record.get('payload'),
                                            'schematic.save')
         save_confirmed = True if saved and _record_ok(save_record) else (
@@ -4562,7 +4562,7 @@ def _apply_schematic(contract, plan, validation, fresh, document, *,
 
 
 def _apply_pcb(contract, plan, validation, fresh, document, *,
-               runner, easyeda, window, journal_path, timeout):
+               runner, zhigou, window, journal_path, timeout):
     pcb_apply_plan, pcb_cli = _pcb_modules()
     included = [action for action in validation['actions']
                 if action.get('already_applied') is not True]
@@ -4670,8 +4670,8 @@ def _apply_pcb(contract, plan, validation, fresh, document, *,
             argv.append('--partial')
         if plan_options.get('yes') is True:
             argv.append('--yes')
-        if easyeda:
-            argv.extend(['--easyeda', easyeda])
+        if zhigou:
+            argv.extend(['--zhigou', zhigou])
         if runner is not None:
             original = pcb_cli.run
             pcb_cli.run = runner
@@ -4934,7 +4934,7 @@ def _write_json(path, value):
         handle.write('\n')
 
 
-def apply_scoped(contract, plan, *, runner=None, easyeda=None, window=None,
+def apply_scoped(contract, plan, *, runner=None, zhigou=None, window=None,
                  write=False, journal_path=None, timeout=120):
     """Preview or apply a scoped plan, keeping five facts separate.
 
@@ -4976,20 +4976,20 @@ def apply_scoped(contract, plan, *, runner=None, easyeda=None, window=None,
             'the live baseline does not match the contract: %s' %
             '; '.join(baseline.get('reasons') or []),
             baseline=baseline)
-    if runner is None and easyeda is None:
+    if runner is None and zhigou is None:
         return _apply_refused(
             contract, plan, validation, schemas.FAILURE_HOST_UNAVAILABLE,
             'host_unavailable',
-            'no runner or explicit easyeda path was supplied; refusing to '
-            'resolve easyeda from PATH')
+            'no runner or explicit zhigou path was supplied; refusing to '
+            'resolve zhigou from PATH')
     document = validation.get('document')
     kind = validation.get('plan_kind')
     if kind == 'pcb':
         return _apply_pcb(contract, plan, validation, fresh, document,
-                          runner=runner, easyeda=easyeda, window=window,
+                          runner=runner, zhigou=zhigou, window=window,
                           journal_path=journal_path, timeout=timeout)
     return _apply_schematic(contract, plan, validation, fresh, document,
-                            runner=runner, easyeda=easyeda, window=window,
+                            runner=runner, zhigou=zhigou, window=window,
                             journal_path=journal_path, timeout=timeout)
 
 

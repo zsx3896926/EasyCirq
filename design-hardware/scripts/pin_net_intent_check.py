@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compare a declared pin-net intent with an easyeda-agent sch read result.
+"""Compare a declared pin-net intent with an zhigou-agent sch read result.
 
 The intent is design authority; the read result is the live page.  Comparison is
 by connectivity groups, not by net spelling: a page may name a net `$1N117`

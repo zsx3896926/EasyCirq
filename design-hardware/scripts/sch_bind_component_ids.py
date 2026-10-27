@@ -66,15 +66,15 @@ def _quote(value):
     return "'" + str(value).replace("'", "''") + "'"
 
 
-def _command(easyeda, project, doc, part, expected):
+def _command(zhigou, project, doc, part, expected):
     patch = json.dumps({'customAttributes': {ATTRIBUTE: expected}}, separators=(',', ':'))
-    return (f"{easyeda} sch modify --project {_quote(project)} --doc {_quote(doc)} "
+    return (f"{zhigou} sch modify --project {_quote(project)} --doc {_quote(doc)} "
             f"--id {_quote(part['primitiveId'])} --patch {_quote(patch)}"
             f"; if ($LASTEXITCODE -ne 0) {{ throw 'bind failed: {part['designator']}' }}")
 
 
 def build(snapshot_path, connectivity_path=None, project=None, doc=None,
-          easyeda='easyeda', verify_path=None, force=False, commands_out=None):
+          zhigou='zhigou', verify_path=None, force=False, commands_out=None):
     snapshot = _load(snapshot_path)
     parts = _components(snapshot, 'snapshot')
     blockers, warnings = [], []
@@ -141,7 +141,7 @@ def build(snapshot_path, connectivity_path=None, project=None, doc=None,
                  'expected': expected, 'current': current or None, 'action': action}
         if action in ('bind', 'rebind'):
             if project and doc:
-                entry['command'] = _command(easyeda, project, doc, part, expected)
+                entry['command'] = _command(zhigou, project, doc, part, expected)
             else:
                 warnings.append({'code': 'command_omitted', 'designator': ref,
                                  'reason': '--project and --doc are required to emit commands'})
@@ -224,7 +224,7 @@ def main(argv=None):
                         help='verify a post-write snapshot instead of planning')
     parser.add_argument('--project', help='project UUID/name for emitted commands')
     parser.add_argument('--doc', help='page UUID for emitted commands')
-    parser.add_argument('--easyeda', default='easyeda', help='CLI executable in emitted commands')
+    parser.add_argument('--zhigou', default='zhigou', help='CLI executable in emitted commands')
     parser.add_argument('--force', action='store_true',
                         help='allow rebinding a part whose ID differs (identity change)')
     parser.add_argument('--commands-out', help='write a PowerShell bind script')
@@ -233,7 +233,7 @@ def main(argv=None):
 
     try:
         result = build(args.snapshot, connectivity_path=args.connectivity,
-                       project=args.project, doc=args.doc, easyeda=args.easyeda,
+                       project=args.project, doc=args.doc, zhigou=args.zhigou,
                        verify_path=args.verify, force=args.force,
                        commands_out=args.commands_out)
     except (OSError, ValueError, KeyError, TypeError) as error:

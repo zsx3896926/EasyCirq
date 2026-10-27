@@ -8,7 +8,7 @@ Usage (from the repository root or any directory):
 
 The runner:
   * sets ``HDS_OFFLINE=1`` and a fresh temporary directory for all tests;
-  * installs ``offline_guard`` so a real ``easyeda`` binary or an in-process
+  * installs ``offline_guard`` so a real ``zhigou`` binary or an in-process
     network connection raises instead of silently succeeding;
   * warns about scripts that may call the CLI or network, and records the
     inventory with an explicit ``simulated`` marker;
@@ -55,8 +55,12 @@ def inventory():
                     imports.add(node.module.split('.')[0])
         if imports & {'subprocess', 'socket', 'urllib', 'requests', 'http'}:
             flags.append('may_run_cli_or_network')
-        if 'pcb_cli' in imports or 'easyeda' in text.lower():
-            flags.append('references_easyeda')
+        if ('pcb_cli' in imports or 'zhigou_cli' in imports
+                or re.search(r'["\']zhigou["\']', text)
+                or re.search(r'\bzhigou\s+(doctor|capabilities|sch|pcb|doc|'
+                             r'project|bom|lib|actions|call|daemon|health)\b',
+                             text)):
+            flags.append('references_zhigou_cli')
         if re.search(r"open\s*\([^)]*['\"][wax]", text) or \
                 re.search(r"os\.fdopen\s*\(", text) or \
                 any(marker in text for marker in (
@@ -69,7 +73,7 @@ def inventory():
             'flags': sorted(set(flags)),
             'imports_of_interest': sorted(
                 imports & {'subprocess', 'socket', 'urllib', 'requests',
-                           'http', 'pcb_cli', 'offline_guard'}),
+                           'http', 'pcb_cli', 'zhigou_cli', 'offline_guard'}),
         })
     counts = {}
     for row in rows:

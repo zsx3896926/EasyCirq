@@ -1,15 +1,15 @@
 # PCB 执行工作流：实测几何、约束、局部模板与回读
 
-本页只覆盖本轮已打通的范围：**低压、低速、小规模、双层 PCB**。它把 `easyeda pcb dump` / `sch read` 的实测数据接到可执行的约束、局部模板、候选与回读检查上；不承诺高速 DDR、复杂 FPGA、RF、离线市电、安规隔离或大功率变换器的自动设计。
+本页只覆盖本轮已打通的范围：**低压、低速、小规模、双层 PCB**。它把 `zhigou pcb dump` / `sch read` 的实测数据接到可执行的约束、局部模板、候选与回读检查上；不承诺高速 DDR、复杂 FPGA、RF、离线市电、安规隔离或大功率变换器的自动设计。
 
-先读 [PCB 工程习惯](pcb.md) 与 [EDA 执行](eda-execution.md)。执行器仍是 `easyeda pcb ...` / `apply` 的 typed 动作；本页的离线引擎不连接 EDA、不写工程。命令、参数与返回字段以当前 `easyeda pcb <cmd> --help` 为准；逐命令的 argv、必需/可选参数、输出角色与校验点见 [PCB 命令映射](pcb-command-map.json)。
+先读 [PCB 工程习惯](pcb.md) 与 [EDA 执行](eda-execution.md)。执行器仍是 `zhigou pcb ...` / `apply` 的 typed 动作；本页的离线引擎不连接 EDA、不写工程。命令、参数与返回字段以当前 `zhigou pcb <cmd> --help` 为准；逐命令的 argv、必需/可选参数、输出角色与校验点见 [PCB 命令映射](pcb-command-map.json)。
 
 本轮工具链按阶段串起，任何一步都不能用后一步的“通过”补前一步的缺口：
 
 | 阶段 | 工具 | 作用 | 失败边界 |
 |---|---|---|---|
 | 落位前 | `scripts/pcb_preflight.py` | 用实测 dump/约束/plan 判 `ready/review/blocked` | `review/blocked/incomplete` 不是通过 |
-| 批量写入 | `scripts/pcb_apply_plan.py` | 编译 playbook v1，一次 `easyeda apply` 后回读 | dry-run 外任何 save/reload/journal/dump 失败都不算 verified |
+| 批量写入 | `scripts/pcb_apply_plan.py` | 编译 playbook v1，一次 `zhigou apply` 后回读 | dry-run 外任何 save/reload/journal/dump 失败都不算 verified |
 | 交付前 | `scripts/pcb_gate.py` | 只读 case 证据，PG1–PG8 阶段门禁 | 缺证据 `blocked`/`not_run`，不能写 pass |
 | 证据归档 | `scripts/pcb_case.py` | 实时采集或组装 case manifest 与哈希 | `status=incomplete`，产物不能宣称最终 |
 
@@ -17,7 +17,7 @@
 
 | 层 | 意义 | 成立依据 | 不成立时 |
 |---|---|---|---|
-| 命令存在 | `easyeda pcb <cmd> --help` 可读 | 当前 CLI 实际输出 | 不猜接口 |
+| 命令存在 | `zhigou pcb <cmd> --help` 可读 | 当前 CLI 实际输出 | 不猜接口 |
 | 离线可运行 | `design_engine pcb-*` 在真实 dump 上产出报告 | 输入 SHA/coverage、退出码 | 不把结构检查当 EDA 验收 |
 | 真机可写入 | typed `pcb modify` / `pcb track` / `pcb via` / `pcb pour` 等返回 `verified` | 写入后 fresh dump | 只写“计划” |
 | 保存重开已验证 | save → `doc reload` → fresh dump + `pcb-diff` | 身份/几何/铜一致 | 不宣称持久化完成 |
@@ -29,10 +29,10 @@
 ### 2.1 实测板
 
 ```bash
-easyeda pcb dump --project <name> --doc <PCB> --include-copper --out board.json
-easyeda pcb list --project <name> --doc <PCB> --include-bbox
-easyeda pcb drc-rules --project <name> --doc <PCB>
-easyeda pcb layers --project <name> --doc <PCB>
+zhigou pcb dump --project <name> --doc <PCB> --include-copper --out board.json
+zhigou pcb list --project <name> --doc <PCB> --include-bbox
+zhigou pcb drc-rules --project <name> --doc <PCB>
+zhigou pcb layers --project <name> --doc <PCB>
 ```
 
 `board.json` 是本轮所有布局/布线/丝印/检查的共同几何来源。单位是 mil，y-up；`x/y` 是 footprint anchor，不是 bbox 中心。旋转、顶层/底层、pad 旋转、槽/安装孔都以实测字段为准。
@@ -42,7 +42,7 @@ easyeda pcb layers --project <name> --doc <PCB>
 在原理图为活动文档时：
 
 ```bash
-easyeda sch read --project <name> --out sch-read.json
+zhigou sch read --project <name> --out sch-read.json
 ```
 
 `components[].pins[].number/name/net` 是模板绑定的真实依据。不能仅凭器件名、位号前缀或网络名推断“这是去耦电容”“这是保护器件”。
@@ -89,14 +89,14 @@ easyeda sch read --project <name> --out sch-read.json
 
 ### 2.4 从绑定原理图导入到空 PCB
 
-EasyEDA 4.1.78 + easyeda-agent 1.15.0 实测：Board 已绑定原理图/Pcb、PCB 仍为空时，`pcb import-changes` 能把**通过 API 放置**的原理图器件导入 PCB。2026-10-27 的双路按键板返回 `imported:true`、`componentsBefore:0`、`componentsAfter:12`、`partial:false`、`verified:true`，导入后 `sch` 与 `pcb` 的 28 个引脚/pad 网名一致。
+EasyEDA 4.1.78 + 前代执行器 1.15.0 实测：Board 已绑定原理图/Pcb、PCB 仍为空时，`pcb import-changes` 能把**通过 API 放置**的原理图器件导入 PCB。2026-10-27 的双路按键板返回 `imported:true`、`componentsBefore:0`、`componentsAfter:12`、`partial:false`、`verified:true`，导入后 `sch` 与 `pcb` 的 28 个引脚/pad 网名一致。
 
 ```bash
-easyeda doc open <PCB_UUID> --project <name>
-easyeda pcb import-changes --project <name> --doc <PCB_UUID>
-easyeda pcb save --project <name> --doc <PCB_UUID>
-easyeda doc reload <PCB_UUID> --project <name>
-easyeda pcb dump --project <name> --doc <PCB_UUID> --include-copper --out board.json
+zhigou doc open <PCB_UUID> --project <name>
+zhigou pcb import-changes --project <name> --doc <PCB_UUID>
+zhigou pcb save --project <name> --doc <PCB_UUID>
+zhigou doc reload <PCB_UUID> --project <name>
+zhigou pcb dump --project <name> --doc <PCB_UUID> --include-copper --out board.json
 ```
 
 导入后仍必须回读：`import-changes` 不删除原理图已移除的器件（见 [工具陷阱](tool-gotchas.md) 第 8 节）；返回 0 件时不要反复重跑，改用 `pcb add-component --unique-id ... --nets ...` 逐件补。导入成功只证明器件/网表进入 PCB，不证明封装几何、布局或布线。该 1.15.0 实测证据在外部 `dual-button-led-night-20261027` 任务工作区，未随本仓库提交。
@@ -129,7 +129,7 @@ python design_engine_cli.py pcb-check-plan \
 
 `pcb-constraints` 遇到未知 designator/pad、同件两个 fixed、near-pin 两端网络不一致、keepout 压 fixed、route-channel 被 fixed 占用，都会给出具体 constraint id、对象和原因；`status=conflicted|incomplete` 不是通过。`pcb-check-plan` 逐项输出 `pass/fail/unmeasured`，并额外检查越框、同层 bbox 重叠、pad 越框。硬失败或硬项未测量都使 `hard_ok=false`。
 
-`near_pin` 的距离固定标注 `measurement=pad-centre-euclidean`、`copper_path_verified=false`。要证明真实铜路径，布完后用 `easyeda pcb net-path`；它不包含铺铜，铺铜网络另用 DRC/实际铜层核对。
+`near_pin` 的距离固定标注 `measurement=pad-centre-euclidean`、`copper_path_verified=false`。要证明真实铜路径，布完后用 `zhigou pcb net-path`；它不包含铺铜，铺铜网络另用 DRC/实际铜层核对。
 
 ### 3.1 落位前预检 `pcb_preflight.py`
 
@@ -214,7 +214,7 @@ python design_engine_cli.py pcb-escapes --dump board.json --length 100 --json
 
 实际闭环：
 
-1. 先用本工具或 `easyeda pcb escape-plan` 找具体被堵 pad、网络、障碍物。
+1. 先用本工具或 `zhigou pcb escape-plan` 找具体被堵 pad、网络、障碍物。
 2. 调整相关器件（只动有关系的模块/局部），重新 `pcb-check-plan`/`pcb-candidates`。
 3. 重新 dump，重复预判。
 4. 至少用两次实际局部路由尝试验证预判：关键网用官方路由器或 `route-short`，读取真实 created/failed 与 DRC。
@@ -226,9 +226,9 @@ python design_engine_cli.py pcb-escapes --dump board.json --length 100 --json
 
 | 场景 | 首选 | 验证 |
 |---|---|---|
-| 关键局部短线/可预测的短跳 | `easyeda pcb autoroute --net <关键网> --layers 1,2` | 逐网 created/failed、`net-path`、DRC |
-| 稀疏普通短线 | `easyeda pcb route-short` | `--dry-run` 先看 skipped/failed；完成后 DRC |
-| 剩余普通网 | `easyeda pcb autoroute` | 同层/规则/器件不变；记录版本与参数 |
+| 关键局部短线/可预测的短跳 | `zhigou pcb autoroute --net <关键网> --layers 1,2` | 逐网 created/failed、`net-path`、DRC |
+| 稀疏普通短线 | `zhigou pcb route-short` | `--dry-run` 先看 skipped/failed；完成后 DRC |
+| 剩余普通网 | `zhigou pcb autoroute` | 同层/规则/器件不变；记录版本与参数 |
 | 有明确收益的外部路由器 | 仅在现有路径缺失/可测收益时引入 | 同一布局/规则/网络，记录 DSN/SES、未连接、过孔、线长、DRC |
 
 板 A 的实测经验：官方路由器 `--net VREF_2V5 --layers 1,2` 生成 12 段、0 过孔、底层走线；这是候选，不是“参考网络已合格”的证明。`route-short` 对 THT pad 可能给出 layer 12（MULTI）走线，必须读回 layer/线宽再决定是否采用；不要因为“命令返回成功”就接受。
@@ -249,14 +249,14 @@ python design_engine_cli.py pcb-escapes --dump board.json --length 100 --json
 写入固定项目/文档身份：
 
 ```bash
-easyeda pcb modify --project <name> --doc <PCB> --id <pid> --patch '{"x":...}'
-easyeda pcb save --project <name> --doc <PCB>
-easyeda doc reload <PCB> --project <name>
-easyeda pcb dump --project <name> --doc <PCB> --include-copper --out after.json
+zhigou pcb modify --project <name> --doc <PCB> --id <pid> --patch '{"x":...}'
+zhigou pcb save --project <name> --doc <PCB>
+zhigou doc reload <PCB> --project <name>
+zhigou pcb dump --project <name> --doc <PCB> --include-copper --out after.json
 python design_engine_cli.py pcb-diff --before before.json --after after.json --scope scope.json --json
 ```
 
-批量写入走受控适配器 `pcb_apply_plan.py`：它先把计划与 fresh dump 对账，再编译 `easyeda apply` playbook v1，一次 apply 后回读 journal、fresh dump 和 scoped diff；不再逐件调用 `pcb modify`。
+批量写入走受控适配器 `pcb_apply_plan.py`：它先把计划与 fresh dump 对账，再编译 `zhigou apply` playbook v1，一次 apply 后回读 journal、fresh dump 和 scoped diff；不再逐件调用 `pcb modify`。
 
 ```bash
 python scripts/pcb_apply_plan.py --dump before.json --plan playbook.json \
@@ -264,7 +264,7 @@ python scripts/pcb_apply_plan.py --dump before.json --plan playbook.json \
   --out-dump after.json --report apply-report.json [--apply] \
   [--playbook-out playbook.json] [--journal journal.jsonl] [--timeout 120] \
   [--no-reload] [--partial] [--allow-identity-change] [--yes] \
-  [--easyeda <path>] [--json]
+  [--zhigou <path>] [--json]
 ```
 
 ### 9.1 playbook 批量路径
@@ -293,7 +293,7 @@ python scripts/pcb_apply_plan.py --dump before.json --plan playbook.json \
 3. track/via/pour 做几何校验：坐标/多边形在实测 board polygon 内（凹板按 polygon，不只 bbox）、layer 在实测层数内、net 非空且存在于 dump、width/diameter>0，线宽/直径/keepout 计入边界；`arc-polyline` 标近似，无 polygon 的 arc 板拒绝；不满足即 `refused`。实测 pose 缺 x/y/rotation/layer 时拒绝，不默认成原点/顶层；目标缺 rotation/layer 继承实测值并在 `pose_defaults` 列出。
 4. 编译 playbook：place 一次 patch 写完整 pose（`assert $.verified=true`）；track 每段一个 `pcb.line.create`；via 一个 `pcb.via.create`；pour 一个 `pcb.pour.create`；save 是真实 `pcb.save`（`assert $.saved=true`，`checkpoint` 不保存）；reload 为 `run doc reload`（`--no-reload` 时省略）；最后 `pcb dump --include-copper`。所有步骤 `retry:0`、`continueOnError:false`、`timeoutSec=--timeout`。目标 pose 与实测相同（含 0/360 等价角度）记 `noops`，不生成写入步骤；全为 no-op 时 `status=no_op`，不写 playbook、不调用 CLI。
 5. 默认 dry-run：只写 playbook 与 report（`status=dry_run`），零 CLI 调用；相同输入产生确定的 playbook 字节序列。
-6. `--apply`：只执行一次 `easyeda apply <playbook> --project <name> --doc <PCB>`（`--yes` 只在显式授权时传），随后校验 journal、out-dump 存在且可解析。journal 每步状态为 `planned|sent|confirmed|failed|unknown`；`unknown` 表示已发出但无确认。报告 `recovery.safe_to_retry=false`，必须先取 fresh dump；不把已发出当已生效。
+6. `--apply`：只执行一次 `zhigou apply <playbook> --project <name> --doc <PCB>`（`--yes` 只在显式授权时传），随后校验 journal、out-dump 存在且可解析。journal 每步状态为 `planned|sent|confirmed|failed|unknown`；`unknown` 表示已发出但无确认。报告 `recovery.safe_to_retry=false`，必须先取 fresh dump；不把已发出当已生效。
 7. 独立 `diff_boards`：纯 place 要求 `status in (match, changed)` 且 `identity_changes/copper_changes/unrelated_changes` 为空；含 track/via/pour 时 `unrelated_changes` 必须为空、`copper_changes` 允许、`identity_changes` 仅 `--allow-identity-change`、`geometry_changes` 必须在 scope.designators 内。
 
 报告 schema `design-engine-pcb-apply-plan/v1`，`status=dry_run|no_op|refused|invalid_input|unverified|mismatch|verified`，记录 playbook 路径/SHA/步骤、journal states、`recovery`、save/reload、out-dump SHA、diff、argv 与版本；`transaction.atomic_rollback=false`，不宣称事务回滚。退出码：`dry_run|no_op|verified`→0；`refused|unverified|mismatch`→1；`invalid_input`（计划/dump/scope 无法解释）→2。报告原子写入（临时文件 + `os.replace`），半份 JSON 不会被后续当成完整证据。
@@ -379,14 +379,14 @@ python design_engine_cli.py pcb-fabrication --dump board.json --json
 
 ```bash
 python scripts/pcb_case.py --case <case-dir> --project <name> --doc <PCB> \
-  [--schematic F] [--key-nets F] [--warn-disposition F] [--easyeda PATH] \
+  [--schematic F] [--key-nets F] [--warn-disposition F] [--zhigou PATH] \
   [--steps dump,drc,check,lint,netpath,sch-pcb,save-reload,images,bom,archive,gate] \
   [--skip-live] [--no-gate] [--gate-script F] [--before-dump F] \
   [--out manifest.json] [--archive <case>.epro2] [--timeout SEC] [--json]
 ```
 
 - 实时模式按固定顺序采集：`doc switch` 到 PCB → fresh dump（受控改板用 `--before-dump` 导入 edit 前 dump）→ `pcb dump`（save 前）→ `pcb save` → `doc reload` → fresh dump + `diff_boards` → DRC/check/lint → 关键网 `pcb net-path`（逐对 argv 聚合）→ 逐页 `sch read` + dump 比对 SCH-PCB → 顶/底图与 actual SVG → BOM → `.epro2` 归档 → 调用 `pcb_gate.py --profile full` 生成 `gate-report.json`。检查在最终 reload 之后运行并绑定最终 dump。
-- `--skip-live` 只组装并校验 case 目录中已有产物与哈希，绝不调用 `easyeda`；适合复核已采集证据。
+- `--skip-live` 只组装并校验 case 目录中已有产物与哈希，绝不调用 `zhigou`；适合复核已采集证据。
 - 输出 `<case>/manifest.json`，schema `design-engine-pcb-case/v1`：`status=complete|incomplete|failed`、`project/versions/source/artifacts/commands/steps/gate/failures/not_run/waivers/verification`。每个产物记录 `sha256/bytes/source_dump_sha256/run_after_final_reload`，检查早于最终 reload 时必须标 `run_after_final_reload=false`，不能宣称最终。只有 gate 报告为新生成且 `status=pass` 时 manifest 才能是 `complete`；`--no-gate` 只能得到 `incomplete`。
 - 退出码：`complete`→0；`incomplete|failed`（缺产物或存在 failure）→1；参数/输入错误→2。
 - 所有写入限制在 case 目录内；默认 `.epro2` 存在时不覆盖；已存在的有效归档会被复用并在 manifest 标 `reused`。命令失败如实写 `failures`，缺产物写 `not_run`，不把未采集项写成通过。
@@ -396,6 +396,6 @@ python scripts/pcb_case.py --case <case-dir> --project <name> --doc <PCB> \
 - 5V 光控 LED 板：THT/混装，90×60mm，4 个 M3 孔；约束/模板/候选在真实 dump 上运行，官方路由器布 VREF，后续信号/铺铜/丝印/DRC/保存重开按本页执行。
 - MCU + I²C 传感器小板：SMT，独立工程，USB-C/下载接口、LDO、传感器与上拉；模板/候选复用同一引擎。
 - 已在离线测试覆盖：实测几何归一化、约束冲突、模板绑定/拒绝、三候选、逃线代理、前后 diff、电源宽度/IPC-2221、CLI。
-- 四个阶段工具由 `tests/test_pcb_preflight.py`、`test_pcb_apply_plan.py`、`test_pcb_gate.py`、`test_pcb_case.py` 用 fake `easyeda` 覆盖；测试不调用真实 EDA，也不代表任何真实工程已写入或已交付。
+- 四个阶段工具由 `tests/test_pcb_preflight.py`、`test_pcb_apply_plan.py`、`test_pcb_gate.py`、`test_pcb_case.py` 用 fake `zhigou` 覆盖；测试不调用真实 EDA，也不代表任何真实工程已写入或已交付。
 - 未由本页证明：高速/阻抗/回流、EMC/热、铺铜连通性、安规、RF、复杂封装、制造 DFI、实物功能。
 - 未执行/工具不支持的项必须写 `NOT RUN` / `BLOCKED`；DRC 清零不等于电路、EMC 或热设计通过。

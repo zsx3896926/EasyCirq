@@ -1,0 +1,56 @@
+design-hardware skill self-test 1.0.1
+SELF-TEST ONLY — not a hardware verification
+root: C:\Users\jlc\work\zhigou-toolchain\design-hardware
+
+[PASS] required-files: 42 required paths present
+  - references/easyeda-ecosystem.md
+  - assets/ecosystem/registry.json
+  - scripts/ecosystem.py
+  - scripts/ecosystem_docs.py
+  - scripts/ecosystem_routing.py
+  - scripts/ecosystem_capture.py
+  - scripts/ecosystem_reuse.py
+  - scripts/ecosystem_files.py
+  - SKILL.md
+  - references/design-gates.md
+  - references/pcb-routing-strategy.md
+  - references/tool-gotchas.md
+  - assets/design-state.example.json
+  - assets/design-brief.md
+  - assets/routing-plan.md
+  - assets/design-calc.md
+  - scripts/gate_check.py
+  - scripts/bom_check.py
+  - scripts/layout_from_zhigou.py
+  - scripts/svg_text_bbox.py
+  - scripts/pin_net_intent_check.py
+  - scripts/pcb_preflight.py
+  - scripts/pcb_apply_plan.py
+  - scripts/pcb_gate.py
+  - scripts/pcb_case.py
+  - scripts/offline_guard.py
+  - scripts/sch_visual_audit.py
+  - scripts/sch_compose_input.py
+  - scripts/sch_sheet_fit.py
+  - scripts/sch_bind_component_ids.py
+  - scripts/check_move_clearance.py
+  - scripts/sch_frame_meta_check.py
+  - references/offline-regression.md
+  - references/pcb-command-map.json
+  - scripts/bom_cnumber_check.py
+  - cases/temp-alarm-2026-10-24/README.md
+  - cases/temp-alarm-2026-10-24/expected.json
+  - assets/docs/manufacturing-package.md
+  - assets/docs/mechanical.md
+  - assets/docs/silk-assembly.md
+  - assets/docs/thermal-sensor.md
+  - assets/docs/verification.md
+[PASS] markdown-links: 2066 relative link(s) in 309 Markdown file(s) resolve
+[PASS] gate-naming: 7 gate keys and 4 status words consistent
+[PASS] case-regression: 7 gate status(es) match expected.json
+  - C:\Users\jlc\AppData\Local\Programs\Python\Python313\python.exe C:\Users\jlc\work\zhigou-toolchain\design-hardware\scripts\gate_check.py --project temp-alarm --project-dir C:\Users\jlc\work\zhigou-toolchain\design-hardware\cases\temp-alarm-2026-10-24 --evidence-dir C:\Users\jlc\work\zhigou-toolchain\design-hardware\cases\temp-alarm-2026-10-24\evidence --json --design-state C:\Users\jlc\work\zhigou-toolchain\design-hardware\cases\temp-alarm-2026-10-24\design-state.json --waiver-file C:\Users\jlc\work\zhigou-toolchain\design-hardware\cases\temp-alarm-2026-10-24\waivers.json
+  - exit=1
+  - report schema=design-gate-report/v1
+[PASS] python-compile: 105 script(s) compile with py_compile
+
+5 PASS, 0 FAIL, 0 NOT RUN -> exit 0

@@ -28,6 +28,7 @@ import unittest
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
+
 INSTALLER_PATH = ROOT / 'distribution/zhigou_install.py'
 EVIDENCE = ROOT / 'docs/toolchain-integration/evidence/installer'
 LOG = EVIDENCE / 'install-lifecycle.log'
@@ -173,7 +174,11 @@ class InstallerTestCase(unittest.TestCase):
         self._env = {zi.ENV_INSTALL_DIR: str(self.install),
                      zi.ENV_STATE_DIR: str(self.state),
                      zi.ENV_HOME: str(self.home),
-                     zi.ENV_SKIP_SELF_CHECK: '1'}
+                     zi.ENV_SKIP_SELF_CHECK: '1',
+                     # The self-check legitimately runs read-only
+                     # zhigou version/doctor on the freshly installed binary;
+                     # every mutating zhigou call stays blocked by offline_guard.
+                     'HDS_OFFLINE_ALLOW_ZHIGOU_READONLY': '1'}
         self._saved = {}
         for k, v in self._env.items():
             self._saved[k] = os.environ.get(k)

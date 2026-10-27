@@ -1,0 +1,582 @@
+{
+ "simulated": true,
+ "summary": {
+  "total": 69,
+  "exempt": 69,
+  "actionable": 0,
+  "by_category": {
+   "bare": 28,
+   "cli": 23,
+   "service": 18
+  },
+  "by_file": {
+   "design-hardware/CHANGELOG.md": 19,
+   "design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md": 1,
+   "design-hardware/cases/photo-led-pcb-2026-10-26/README.md": 1,
+   "design-hardware/cases/temp-alarm-2026-10-24/actual.json": 16,
+   "design-hardware/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json": 2,
+   "design-hardware/scripts/layout_from_zhigou.py": 1,
+   "design-hardware/scripts/offline_guard.py": 3,
+   "tests/fixtures/photo-led-acceptance.json": 1,
+   "tests/fixtures/photo-led-v14/checker-expected.json": 14,
+   "tests/fixtures/photo-led-v14/junction-report.json": 2,
+   "tests/fixtures/photo-led-v14/layout.json": 3,
+   "tests/fixtures/zhigou/doctor-connected.json": 3,
+   "tests/fixtures/zhigou/doctor-degraded.json": 3
+  }
+ },
+ "rows": [
+  {
+   "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md",
+   "line": 14,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "| EDA / 执行器 | EasyEDA Pro 4.1.78；easyeda-agent 1.15.0；Connector 1.15.0 |",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/photo-led-pcb-2026-10-26/README.md",
+   "line": 17,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "| EDA / 执行器 | EasyEDA Pro 4.1.78；easyeda-agent 1.15.0；Connector 1.15.0 |",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 553,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda pcb mount-holes --dry-run --project <name> > evidence/pcb-mount-holes.json；或写 layout.mounting_holes\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 553,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda pcb mount-holes --dry-run --project <name> > evidence/pcb-mount-holes.json；或写 layout.mounting_holes\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 622,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda pcb drc-rules --project <name> > evidence/pcb-drc-rules.json；写入 stackup.drc_rules_recorded\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 622,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda pcb drc-rules --project <name> > evidence/pcb-drc-rules.json；写入 stackup.drc_rules_recorded\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 682,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"stale_risk\": \"PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data a",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 682,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"stale_risk\": \"PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data a",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1034,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"next_command\": \"对每个关键网运行 easyeda pcb net-path --from <pad> --to <pad> --net <net> --json --project <name>\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1034,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"next_command\": \"对每个关键网运行 easyeda pcb net-path --from <pad> --to <pad> --net <net> --json --project <name>\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1050,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda pcb save --project <name>；easyeda doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1050,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda pcb save --project <name>；easyeda doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1050,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda pcb save --project <name>；easyeda doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1050,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda pcb save --project <name>；easyeda doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1190,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda project export --out <file> --project-uuid <uuid>；在副本上重开验证并写入 restore_verified\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1190,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"next_command\": \"easyeda project export --out <file> --project-uuid <uuid>；在副本上重开验证并写入 restore_verified\"",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1286,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"stale_risk\": \"PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data a",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "line": 1286,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"stale_risk\": \"PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data a",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json",
+   "line": 381,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"staleRisk\": \"PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data as",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json",
+   "line": 381,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"staleRisk\": \"PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data as",
+   "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 36,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "- 不捆绑 easyeda-agent/Connector；外部工具独立安装、独立版本管理。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 82,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "- 当前 Connector 不可用（`easyeda doc ready --json` ->",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 82,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "- 当前 Connector 不可用（`easyeda doc ready --json` ->",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 103,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "- 排版文档中的工具版本口径统一到 easyeda-agent 1.15.0；写入后验收增加页预算报告、composition 适配器报告与绑定 N/N 证据项。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 111,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "- `scripts/offline_guard.py` + `tools/offline_suite.py`：`HDS_OFFLINE=1` 下拦截真实 `easyeda`/进程内网络；假 CLI 必须带显式标记；从任意干净临时目录运行全量测试并输出 `simulated:true` 汇总。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 159,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "调用 `pcb_apply_plan.py`；后者新增 `--window` 并转发给 `easyeda apply`、",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 159,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "调用 `pcb_apply_plan.py`；后者新增 `--window` 并转发给 `easyeda apply`、",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 197,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "- `references/pcb-command-map.json`：easyeda PCB 命令 argv、必需/可选参数、输出角色与校验点映射。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 198,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "- 测试：`tests/test_pcb_preflight.py`、`test_pcb_apply_plan.py`、`test_pcb_gate.py`、`test_pcb_case.py`，使用 fake `easyeda`，不调用真实 EDA。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 202,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "- `scripts/pcb_apply_plan.py` 升级为 playbook 批量路径：接受 placements/playbook 三种形状，编译 `easyeda apply` playbook v1，一次 apply 后校验 journal、fresh dump 与 scoped diff；preferred 约束失败不再计为 hard。默认 dry-run。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 202,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "- `scripts/pcb_apply_plan.py` 升级为 playbook 批量路径：接受 placements/playbook 三种形状，编译 `easyeda apply` playbook v1，一次 apply 后校验 journal、fresh dump 与 scoped diff；preferred 约束失败不再计为 hard。默认 dry-run。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 208,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "- 单元测试使用 fake `easyeda`，不调用真实 CLI；round10 的真机验收（A/B 回归与受控 C99 改板）记录在 `docs/skill-speed-quality-report.md`，本轮确实在隔离副本上用真实 `easyeda apply`/DRC/归档跑过。Gerber/CPL 导出仍 `BLOCKED`，不引入外部布线器、不合并 PR、不下单。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 208,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "- 单元测试使用 fake `easyeda`，不调用真实 CLI；round10 的真机验收（A/B 回归与受控 C99 改板）记录在 `docs/skill-speed-quality-report.md`，本轮确实在隔离副本上用真实 `easyeda apply`/DRC/归档跑过。Gerber/CPL 导出仍 `BLOCKED`，不引入外部布线器、不合并 PR、不下单。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 208,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "- 单元测试使用 fake `easyeda`，不调用真实 CLI；round10 的真机验收（A/B 回归与受控 C99 改板）记录在 `docs/skill-speed-quality-report.md`，本轮确实在隔离副本上用真实 `easyeda apply`/DRC/归档跑过。Gerber/CPL 导出仍 `BLOCKED`，不引入外部布线器、不合并 PR、不下单。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 213,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "- 更新检查同时覆盖 design-hardware 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 236,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "- **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 236,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "- **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 236,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "- **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/CHANGELOG.md",
+   "line": 250,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "- **G0–G6 阶段门禁**：[references/design-gates.md](references/design-gates.md)。每个门禁写目的、必需输入、当前 easyeda-agent v1.14.0 真实命令、退出条件、证据文件、豁免规则与实战反例。",
+   "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
+  },
+  {
+   "path": "design-hardware/scripts/layout_from_zhigou.py",
+   "line": 602,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "'coordinate_units': 'schematic raw units (y-up), from easyeda-agent reads',",
+   "allowlist_reason": "frozen schema string: \"coordinate_units\" text is bound into recorded fixture SHA-256 values; changing it invalidates stored evidence"
+  },
+  {
+   "path": "design-hardware/scripts/offline_guard.py",
+   "line": 38,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "'easyeda', 'easyeda.exe', 'easyeda.cmd', 'easyeda.bat', 'easyeda-agent',",
+   "allowlist_reason": "defensive: the offline guard must still refuse to execute a legacy easyeda binary"
+  },
+  {
+   "path": "design-hardware/scripts/offline_guard.py",
+   "line": 38,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "'easyeda', 'easyeda.exe', 'easyeda.cmd', 'easyeda.bat', 'easyeda-agent',",
+   "allowlist_reason": "defensive: the offline guard must still refuse to execute a legacy easyeda binary"
+  },
+  {
+   "path": "design-hardware/scripts/offline_guard.py",
+   "line": 39,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "'easyeda-agent.exe',",
+   "allowlist_reason": "defensive: the offline guard must still refuse to execute a legacy easyeda binary"
+  },
+  {
+   "path": "tests/fixtures/photo-led-acceptance.json",
+   "line": 2,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "\"coordinate_units\": \"schematic raw units (y-up), from easyeda-agent reads\",",
+   "allowlist_reason": "frozen measurement provenance referenced by pcb_gate/case tests"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 13,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 13,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 30,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 30,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 47,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 47,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 235,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"source\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 235,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"source\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 293,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 293,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 310,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 310,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 327,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/checker-expected.json",
+   "line": 327,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"junction_evidence\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/junction-report.json",
+   "line": 3,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"source\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/junction-report.json",
+   "line": 3,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"source\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/layout.json",
+   "line": 2,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "\"coordinate_units\": \"schematic raw units (y-up), from easyeda-agent reads\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/layout.json",
+   "line": 4457,
+   "category": "cli",
+   "match": "easyeda",
+   "text": "\"source\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/photo-led-v14/layout.json",
+   "line": 4457,
+   "category": "bare",
+   "match": "easyeda",
+   "text": "\"source\": \"easyeda sch read check (photo-led v14, 2026-10-26)\",",
+   "allowlist_reason": "frozen real-measurement fixtures with recorded SHA-256 bindings; rewriting the provenance text invalidates the evidence"
+  },
+  {
+   "path": "tests/fixtures/zhigou/doctor-connected.json",
+   "line": 86,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "\"service\": \"easyeda-agent\",",
+   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+  },
+  {
+   "path": "tests/fixtures/zhigou/doctor-connected.json",
+   "line": 89,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "\"note\": \"legacy upstream easyeda-agent daemon; detected only, never used by this runtime\"",
+   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+  },
+  {
+   "path": "tests/fixtures/zhigou/doctor-connected.json",
+   "line": 110,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "\"detail\": \"检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\"",
+   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+  },
+  {
+   "path": "tests/fixtures/zhigou/doctor-degraded.json",
+   "line": 72,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "\"service\": \"easyeda-agent\",",
+   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+  },
+  {
+   "path": "tests/fixtures/zhigou/doctor-degraded.json",
+   "line": 75,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "\"note\": \"legacy upstream easyeda-agent daemon; detected only, never used by this runtime\"",
+   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+  },
+  {
+   "path": "tests/fixtures/zhigou/doctor-degraded.json",
+   "line": 97,
+   "category": "service",
+   "match": "easyeda-agent",
+   "text": "\"detail\": \"检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\"",
+   "allowlist_reason": "faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)"
+  }
+ ]
+}

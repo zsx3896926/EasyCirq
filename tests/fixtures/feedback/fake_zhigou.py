@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""A deterministic fake ``easyeda`` CLI for the feedback-loop offline suite.
+"""A deterministic fake ``zhigou`` CLI for the feedback-loop offline suite.
 
 HDS_FAKE_CLI: this file is a simulated host.  It never talks to EasyEDA, the
 daemon or the network.  Every mutation is applied to a JSON state file and is
 reported as ``simulated: true`` so a mock save can never be mistaken for a real
 host save.
 
-Usage (normally through pcb_cli.run / --easyeda):
-  FAKE_EASYEDA_STATE=state.json python fake_easyeda.py pcb dump --out board.json
-  FAKE_EASYEDA_STATE=state.json python fake_easyeda.py apply playbook.json --journal j.jsonl
+Usage (normally through pcb_cli.run / --zhigou):
+  FAKE_ZHIGOU_STATE=state.json python fake_zhigou.py pcb dump --out board.json
+  FAKE_ZHIGOU_STATE=state.json python fake_zhigou.py apply playbook.json --journal j.jsonl
 
 Fault injection lives in ``state['fault']``:
   mode: timeout | garbage | wrong_context | refuse | partial | drift |
@@ -263,14 +263,14 @@ def run_step(state, step):
 
 def dispatch(argv, state):
     """Return (exit_code, text).  Pure enough for tests to call in-process."""
-    state['_path'] = state.get('_path') or os.environ.get('FAKE_EASYEDA_STATE')
+    state['_path'] = state.get('_path') or os.environ.get('FAKE_ZHIGOU_STATE')
     fault = state.get('fault') or {}
     if fault.get('mode') == 'timeout':
         return 124, ''
     if argv and argv[0] in ('--version', 'version'):
-        return 0, 'easyeda-agent v1.15.0-sim'
+        return 0, 'zhigou-agent v1.15.0-sim'
     if not argv or argv[0] in ('--help', 'help'):
-        return 0, 'easyeda fake: project/doc/sch/pcb/apply/call'
+        return 0, 'zhigou fake: project/doc/sch/pcb/apply/call'
     if fault.get('mode') == 'garbage':
         return 0, 'this is not json'
 
@@ -497,9 +497,9 @@ def dispatch(argv, state):
 
 def main(argv=None):
     argv = list(sys.argv[1:] if argv is None else argv)
-    state_path = os.environ.get('FAKE_EASYEDA_STATE')
+    state_path = os.environ.get('FAKE_ZHIGOU_STATE')
     if not state_path:
-        sys.stderr.write('FAKE_EASYEDA_STATE is required\n')
+        sys.stderr.write('FAKE_ZHIGOU_STATE is required\n')
         return 2
     state = load_state(state_path)
     state['_path'] = state_path

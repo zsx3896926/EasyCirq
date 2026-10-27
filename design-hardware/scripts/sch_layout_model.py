@@ -5,11 +5,11 @@ This is the bridge between an EasyEDA page and the agent's offline layout
 planner. It does not place anything and does not call EDA. It reads the
 measured objects already captured by:
 
-  easyeda sch list --include-device-identity --include-bbox --include-pins \
+  zhigou sch list --include-device-identity --include-bbox --include-pins \
       --include-wires --include-page-primitives
-  easyeda sch connectivity --page <uuid>
-  easyeda sch designator-geometry --out designators.json
-  easyeda sch sheet-geometry --from-svg <page.svg> --json
+  zhigou sch connectivity --page <uuid>
+  zhigou sch designator-geometry --out designators.json
+  zhigou sch sheet-geometry --from-svg <page.svg> --json
 
 and a functional module plan (roles, core, members, net policies). It refuses
 to emit a planner input when a component is unassigned, a pin/net disagrees with

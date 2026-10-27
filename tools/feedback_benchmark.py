@@ -2,7 +2,7 @@
 """Offline acceptance benchmark for the round-12 feedback layer.
 
 Every case runs against the simulated host in ``tests/feedback_sim.py``; no
-real ``easyeda`` binary, daemon or network is used.  Results marked
+real ``zhigou`` binary, daemon or network is used.  Results marked
 ``simulated`` are not host evidence.  The benchmark exits nonzero on any
 failed case and writes a JSON report.
 
@@ -564,7 +564,7 @@ def main():
         'cases': results,
         'summary': {'passed': passed, 'total': len(results)},
         'limits': [
-            'simulated host only; real easyeda calls are 0',
+            'simulated host only; real zhigou calls are 0',
             'mock save/reopen is not host persistence evidence',
             'ERC/DRC values are canned and are not real DRC',
         ],

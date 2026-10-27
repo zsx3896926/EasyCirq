@@ -1,15 +1,15 @@
 # EDA 工具动作陷阱
 
-本文件记录 easyeda-agent 操作嘉立创EDA专业版时，已经被现场证据确认的动作级陷阱：命令返回成功但对象没有按预期改变，或者同一条命令只因前台/活动页状态不同就失败。这里只写“现象、原因、正确动作、证据/边界与本案例”；工程方法、能力矩阵和保存/重开流程仍看 [eda-execution.md](eda-execution.md)，门禁定义、证据角色与豁免规则看 [design-gates.md](design-gates.md)，2 层/4 层与电源地取舍看 [pcb-routing-strategy.md](pcb-routing-strategy.md)。
+本文件记录 zhigou 执行层操作嘉立创EDA专业版时，已经被现场证据确认的动作级陷阱：命令返回成功但对象没有按预期改变，或者同一条命令只因前台/活动页状态不同就失败。这里只写“现象、原因、正确动作、证据/边界与本案例”；工程方法、能力矩阵和保存/重开流程仍看 [eda-execution.md](eda-execution.md)，门禁定义、证据角色与豁免规则看 [design-gates.md](design-gates.md)，2 层/4 层与电源地取舍看 [pcb-routing-strategy.md](pcb-routing-strategy.md)。
 
 本案例指 2026-10-24 室内温度报警小板复盘；案例列引用该项目的原始证据文件名。未加前缀的文件在 `temp-alarm-20261024/evidence/` 根目录；`pcb-check.json`、`pcb-list.json`、`pcb-layers.json`、`pcb-stackup.json`、`sch-nets.json`、`sch-export-png.log` 与作为混排示例的 `pcb-drc.json` 位于其 `round7/baseline/` 子目录。技能内回归案例是 [cases/temp-alarm-2026-10-24](../cases/temp-alarm-2026-10-24/README.md)，只收录门禁读取所需的证据子集。
 
 ## 适用范围与版本基线
 
-- 适用工具：easyeda-agent `v1.14.0`；2026-10-27 的双路按键 LED 板条目使用 `v1.15.0`，条目内单独标注。
+- 适用工具：前代执行器 `v1.14.0`、`v1.15.0` 的实测坑位；命令名沿用至 `zhigou`，当前是否可用与参数以 `zhigou capabilities` 和 `zhigou <cmd> --help` 复核。
 - 适用客户端：嘉立创EDA专业版 `4.1.78.34f5b8d9`（两个会话相同）。
 - 证据时间：2026-10-24 的 Windows 实机会话；2026-10-27 的 v1.15.0 条目单独标注来源与证据文件。
-- 命令和参数只写到本文件已核对的 v1.14.0/v1.15.0 命令面；未列出的动作、参数和返回字段不作承诺，执行前用当前 `--help` 复核。
+- 命令和参数只写到本文件已核对的前代执行器 v1.14.0/v1.15.0 命令面；未列出的动作、参数和返回字段不作承诺，执行前用当前 `--help` 复核。
 - 2026-10-27 的 1.15.0 条目来自外部双路按键 LED 任务工作区（`dual-button-led-night-20261027/evidence/`、`case/`），这些真机证据文件未随本仓库提交；条目内只保留结论与文件名，复核时以该外部工作区为准，不能把本仓库离线测试当作真机回放。
 - 不同客户端版本、不同工程和不同窗口状态都可能改变结果；一次成功不等于通用保证。
 - 文档中的门禁不是审批。Agent 在已授权范围内按证据记录 `PASS`/`BLOCKED`/`PASS_WITH_WAIVER`/`UNSUPPORTED`，不新增等待点；`PASS_WITH_WAIVER` 只表示有条件满足并写明理由、条件和剩余风险，不能当成 `PASS`，`UNSUPPORTED` 也不能当成 `PASS`。
@@ -52,13 +52,13 @@
 | G5 | `pcb drc` 超时或一直算不完 | PCB 不在前台/活动窗口 | 切到 PCB 前台，用 `--timeout SEC` 跑一次；不要循环重试 | 后台/遮挡窗口的现场表现；超时也是非零退出，`--json` 保留 `nativeResult` |
 | G5 | `pcb snapshot` 返回 `PRECONDITION_REFUSED` | tab hidden，画布未重绘，截图会过期 | 切前台重试；不能用截图时改用 `pcb dump --include-copper` 取几何，或 actual 读回渲染并标注“非官方前台截图” | 错误原文含 `The EasyEDA tab is hidden...`；本案例 `pcb-snapshot-top.json` 被拒，改用 `pcb-render-final.svg` |
 | G5 | `doc switch` 被当成保存/重载 | switch 只切前台；只有 reload 才 save→close→reopen；ready 只读 | 需要持久化就显式保存后重开并回读；mutating 动作用 `--doc` 钉住页面；多窗口用 `--project` 路由 | `--doc` 在 live `document.current` 不匹配时拒绝。本案例 `pcb-list.json` 因前台是原理图被拒，错误信息直接建议 `--doc`/`doc switch` |
-| G4/G5 | 修改后回执带 `staleRisk`，`via.list`/`components.list` 是旧数据 | PCB mutation 后宿主枚举可能没刷新；staleRisk 只是提示，不是拒绝 | `pcb save` → `easyeda doc reload` → 重新读取；刷新失败按不可用处理 | staleRisk 回执只作诊断，不能当最终约束证据；G4 过孔审计遇到 staleRisk 直接失败。本案例 `pcb-vias-4.json`（route.delete 后）与 `pcb-import-after-usb-removal.log` 都带 staleRisk |
-| G2/G5 | `sch snapshot` 找不到 | v1.14.0 已移除，由 `sch export-image` 取代 | 用 `sch export-image --format svg\|png\|pdf`；它无前台要求 | 只替代原理图快照，不等于 PCB 截图。本案例 `sch-export-png.log` 在 hidden 下成功 |
+| G4/G5 | 修改后回执带 `staleRisk`，`via.list`/`components.list` 是旧数据 | PCB mutation 后宿主枚举可能没刷新；staleRisk 只是提示，不是拒绝 | `pcb save` → `zhigou doc reload` → 重新读取；刷新失败按不可用处理 | staleRisk 回执只作诊断，不能当最终约束证据；G4 过孔审计遇到 staleRisk 直接失败。本案例 `pcb-vias-4.json`（route.delete 后）与 `pcb-import-after-usb-removal.log` 都带 staleRisk |
+| G2/G5 | `sch snapshot` 找不到 | 前代执行器 v1.14.0 已移除，由 `sch export-image` 取代 | 用 `sch export-image --format svg\|png\|pdf`；它无前台要求 | 只替代原理图快照，不等于 PCB 截图。本案例 `sch-export-png.log` 在 hidden 下成功 |
 | G4/G5 | `net-path` 失败被当成整板断连 | 只证明 listed routed copper；铺铜、内电层、填充区不计入 | 先补 track 或改用铺铜/连接性证据，再用 DRC 与回读判断 | 失败=未被走线证明，不等于全板断连。本案例 GND 靠双层铺铜加 44 段 GND 线；G5 最终 DRC 仍有 2 条 Connection（+5V） |
 | G4/G5/G6 | `pcb check --strict` 非零，或 `pcb check` 0 退出就以为 DFM 通过 | `pcb check` 是重建 DFM 审计，默认信息模式 0 退出；`--strict` 把 WARN/ERROR 都变成非零；它与 `pcb drc` 规则集不同 | 分层看：`pcb drc` 管 clearance/连接；`pcb check` 管 dangling/锐角/过孔/铺铜/3W/丝印等；报告分别列 ERROR/WARN/INFO 与修/豁免 | 0 退出只代表信息模式没报错，不是 DFM 全证明。本案例 `pcb-check.json` 40 issue（ERROR=13、WARN=17，其余 INFO）加 power-not-poured；同板 `pcb-drc-11.json` 18 条（16 Clearance、2 Connection） |
 | G6 | `bom export` 抛 `TypeError` | `bom-enrich.py` 遇到 `value=null` 且 BOM Value 为空 | 用 `--enrich=false` 保留原始；把 enrichment 失败当非阻断 warning | `sequence item 5: expected str instance, NoneType found`。本案例 `bom-export.log` 原样包含该 traceback 与 “file left un-enriched” |
 | G6 | `project export` 缺参数报错；`restoreVerified:false` 被当成恢复演练 | 命令要求显式 `--out` 与 `--project-uuid`，且不覆盖；恢复验证要在副本上重开，导出本身不做 | 先保存文档再导出；把 zip 完整性（`zipIntegrityVerified`）与恢复演练分开记录；恢复演练后写 `restore_verified` | `restoreVerified:false` = 未演练，G6 的 `epro2_restore` 直接失败。本案例 `project-export.log` 缺参报错，`project-export-2.log` 导出成功但 `restoreVerified:false` |
-| G6 | 找不到 Gerber/钻孔/CPL 命令 | v1.14.0 无 CLI/typed action；Gerber API 仍 @beta 且未包装 | 由用户在 EDA GUI 导出并落证据；子项标 `UNSUPPORTED`，缺证据时 G6 `BLOCKED` | 不得编造命令，也不得把 GUI 导出写成 CLI 已验证。本案例 G6 因缺 Gerber/CPL/恢复演练 BLOCKED |
+| G6 | 找不到 Gerber/钻孔/CPL 命令 | 前代执行器 v1.14.0 无 CLI/typed action（当前以 `zhigou capabilities` 为准）；Gerber API 仍 @beta 且未包装 | 由用户在 EDA GUI 导出并落证据；子项标 `UNSUPPORTED`，缺证据时 G6 `BLOCKED` | 不得编造命令，也不得把 GUI 导出写成 CLI 已验证。本案例 G6 因缺 Gerber/CPL/恢复演练 BLOCKED |
 | G2–G6 | `.json` 文件里是纯文本、JSON 加人类行或 traceback | CLI 可能先输出 JSON 再追加摘要；有些命令只输出 human 文本；stdout/stderr 合流也会污染 | 落盘时分离流：`> out.json 2> out.err`；记录 `format`；不要盲目解析；截断或损坏按 `BLOCKED` 处理 | `sch-drc.json` 等纯文本；`pcb-drc-1.json` 末尾有 CLI 行；`round7/baseline/pcb-drc.json` 第 1323 行混入人类摘要导致整份解析失败；`bom-export.log` 含 traceback |
 
 ## 逐条说明
@@ -69,7 +69,7 @@
 
 **原因**：检查对象绑定的是活动文档实例，不是“窗口看起来在前台”。窗口可见但活动页是另一页，同样会失败。
 
-**正确动作**：先用 `--page NAME|UUID` 指向目标页，或用 `doc switch` 切换后再确认活动页；随后执行 `easyeda sch check --json --page NAME|UUID`。若仍返回 shallow data，先修活动页状态，不把空 pins 解释成“没有引脚”。
+**正确动作**：先用 `--page NAME|UUID` 指向目标页，或用 `doc switch` 切换后再确认活动页；随后执行 `zhigou sch check --json --page NAME|UUID`。若仍返回 shallow data，先修活动页状态，不把空 pins 解释成“没有引脚”。
 
 **证据/边界与本案例**：现场错误原文如上报；切换到原理图目标页后检查成功。这个前台要求只属于 `sch check` 的活动文档语义，不要扩大成“原理图检查都必须把窗口摆到最前”。本案例单页 P1，未触发；同族要求在 PCB 侧由 `pcb-list.json` 的 `PRECONDITION_REFUSED` 直接体现。
 
@@ -79,17 +79,17 @@
 
 **原因**：DRC 依赖当前 PCB 画布的活动/可见状态；后台或遮挡窗口不会正常完成计算。这里的“超时”通常不是规则太多。
 
-**正确动作**：把 PCB tab 切到前台，使用 `easyeda pcb drc --json --timeout SEC` 跑一次，并把完整输出落盘。超时后先检查 PCB 是否真的在前台，再做一次干净重跑；不要在不改变窗口状态的情况下循环重试。
+**正确动作**：把 PCB tab 切到前台，使用 `zhigou pcb drc --json --timeout SEC` 跑一次，并把完整输出落盘。超时后先检查 PCB 是否真的在前台，再做一次干净重跑；不要在不改变窗口状态的情况下循环重试。
 
 **证据/边界与本案例**：`--json` 输出包含 `passed`、`total`、`counts`、`violations`、`nativeResult`，每条 violation 有 `rule/objType/ruleName/net/x/y/layer/objs/message`，x/y 是真实 mil。前台要求只约束 DRC 的可靠执行，不要外推到所有只读命令。本案例 PCB DRC 返回 18 条；`pcb-list.json`/`pcb-layers.json` 因前台是原理图被拒。
 
 ### 3. `pcb snapshot`：hidden tab 直接拒绝（G5）
 
-**现象**：`easyeda pcb snapshot` 返回 `PRECONDITION_REFUSED`，消息为 `The EasyEDA tab is hidden...`，并明确说没有捕获到图像。
+**现象**：`zhigou pcb snapshot` 返回 `PRECONDITION_REFUSED`，消息为 `The EasyEDA tab is hidden...`，并明确说没有捕获到图像。
 
 **原因**：hidden tab 的画布没有重绘，截图会是过期画面；工具宁可直接拒绝，也不返回假图。
 
-**正确动作**：把 PCB 窗口切到前台再抓图。无法切前台时，改用 `easyeda pcb dump --include-copper` 读取几何，再用 DRC、`pour-list` 和回读判断；原理图图面改用 `sch export-image`。
+**正确动作**：把 PCB 窗口切到前台再抓图。无法切前台时，改用 `zhigou pcb dump --include-copper` 读取几何，再用 DRC、`pour-list` 和回读判断；原理图图面改用 `sch export-image`。
 
 **证据/边界与本案例**：snapshot 只是视口 PNG，不渲染 filled copper/cutouts，不能拿它证明铺铜、开槽、连接或制造状态。反过来，`sch export-image` 明确无前台要求；不要把 PCB 的前台限制写成“所有导出都要前台”。本案例 `pcb-snapshot-top.json` 被拒，证据改用 `pcb-render-final.svg`（actual 读回渲染，非官方前台截图）。
 
@@ -99,7 +99,7 @@
 
 **原因**：同层存在多个网络铺铜时，SDK 创建回执的 priority 只是当次写入值，工具自己也没有把它标记为已验证；实际优先级由重载后的文档模型决定。
 
-**正确动作**：同层多网铺铜后必须用 `easyeda pcb pour-list` 按层、按网回读 priority 和 basic 属性；需要确认实际成铜时用 `pcb poured-list` 或 `pcb dump` 的铜几何（`pour-list` 的 pour 项可能没有 `poured` 字段，不能默认已填充）。需要调整时用已核对参数重跑或重建，再回读，不要修改或复述回执字段当作最终结果。随后用 `pcb drc` 和 `pcb check` 复核连接与铺铜。
+**正确动作**：同层多网铺铜后必须用 `zhigou pcb pour-list` 按层、按网回读 priority 和 basic 属性；需要确认实际成铜时用 `pcb poured-list` 或 `pcb dump` 的铜几何（`pour-list` 的 pour 项可能没有 `poured` 字段，不能默认已填充）。需要调整时用已核对参数重跑或重建，再回读，不要修改或复述回执字段当作最终结果。随后用 `pcb drc` 和 `pcb check` 复核连接与铺铜。
 
 **证据/边界与本案例**：铺铜后首次 DRC 为 30（3 Clearance + 27 Connection）。此前没有 DRC 基线，因此“27 条 Connection 是铺铜造成的”只是时间顺序推断，不是已证明的因果；写作时不要把它写成铺铜必然导致断连。同层多网 priority 的最终值只以 `pour-list` 回读为准。本案例 `pcb-power-pour-apply.log` 创建 4 个 pour，`pcb-pour-list.json` 回读 GND L1=3、+5V=1、VREF=2。
 
@@ -109,7 +109,7 @@
 
 **原因**：`route-short` 默认跳过 power/ground，因为电源地应由铺铜承担；`--route-power` 强制把它们布成普通 track，help 自述这是 #1 DRC source。GND 的 track 宽度是 20 mil，不是“细线”；问题在于铺铜板上多出与铺铜竞争的走线，而不是线宽本身。
 
-**正确动作**：铺铜板保持默认行为，不加 `--route-power`；先跑 `easyeda pcb route-short --dry-run`，检查 routes、skipped nets、vias 和宽度，再决定是否落图。若必须临时用 `--route-power`，把它当候选而非完成，落图后逐项看 DRC 与 GND 项，必要时撤销这些 track 后重布。2 层/4 层的完整取舍见 [pcb-routing-strategy.md](pcb-routing-strategy.md)。
+**正确动作**：铺铜板保持默认行为，不加 `--route-power`；先跑 `zhigou pcb route-short --dry-run`，检查 routes、skipped nets、vias 和宽度，再决定是否落图。若必须临时用 `--route-power`，把它当候选而非完成，落图后逐项看 DRC 与 GND 项，必要时撤销这些 track 后重布。2 层/4 层的完整取舍见 [pcb-routing-strategy.md](pcb-routing-strategy.md)。
 
 **证据/边界与本案例**：73/71/14 是入参和实际绘制的现场结果，不代表以后每次相同；93 条 DRC 是该轮状态，不是通用阈值。不要把 GND 20 mil 误写成细线，也不要用 route 数量证明连通。本案例 `pcb-route-power-dryrun.log` 计划 +5V 20 mil L 形穿焊盘区；`pcb-tracks-gnd.json` 有 44 段 GND 线；最终 DRC 16 条 Clearance 含 +5V/OUT、+5V/VREF、+5V/REF_TOP。
 
@@ -125,11 +125,11 @@
 
 ### 7. `bom-enrich.py`：value=null 触发 TypeError（G6）
 
-**现象**：`easyeda bom export` 已经写出 CSV artifact，随后 enrichment 抛 traceback，进程退出 1，并打印 `warning: BOM exported but enrichment failed (file left un-enriched)`。
+**现象**：`zhigou bom export` 已经写出 CSV artifact，随后 enrichment 抛 traceback，进程退出 1，并打印 `warning: BOM exported but enrichment failed (file left un-enriched)`。
 
 **原因**：`standard-parts.json` 中有 `value=null` 的 part，而 BOM 的 Value 为空；`bom-enrich.py` 执行 `'\t'.join(r)` 时，第 5 个字段是 `None`，抛出 `TypeError: sequence item 5: expected str instance, NoneType found`。
 
-**正确动作**：用 `easyeda bom export --type csv --enrich=false` 保留原始导出；原始 Supplier Part 已带 C 号时，先核对每行 C 号、位号、数量和封装。把 enrichment 失败当作非阻断 warning，不要因此宣称整个 BOM 导出失败；需要补全时修源数据或单独修脚本，再重跑。
+**正确动作**：用 `zhigou bom export --type csv --enrich=false` 保留原始导出；原始 Supplier Part 已带 C 号时，先核对每行 C 号、位号、数量和封装。把 enrichment 失败当作非阻断 warning，不要因此宣称整个 BOM 导出失败；需要补全时修源数据或单独修脚本，再重跑。
 
 **证据/边界与本案例**：`bom-export.log` 同时包含 JSON、人类可读行和 traceback，不能当纯 JSON 解析。C 号存在不等于库存、价格或 SMT 状态已实时核对。本案例 `bom-export-raw.log` 用 `--enrich=false` 导出成功（同一 SHA-256）。
 
@@ -139,7 +139,7 @@
 
 **原因**：`import-changes` 负责把原理图网表/器件同步进 PCB，但不会删除 PCB 上已经存在、原理图已经移除的器件。`noChanges:true` 和数量不变不能证明两边网表一致。
 
-**正确动作**：先用 `easyeda pcb list --include-pads` 找到 J2 的实际对象和 ID，再用 `pcb delete --ids ...` 显式删除；需要时配合 `track-delete` 或 `rip-up` 清掉关联铜，最后重读 `pcb list`、重跑 DRC 并保存证据。删除动作要有回读，不要只依赖会话记录。
+**正确动作**：先用 `zhigou pcb list --include-pads` 找到 J2 的实际对象和 ID，再用 `pcb delete --ids ...` 显式删除；需要时配合 `track-delete` 或 `rip-up` 清掉关联铜，最后重读 `pcb list`、重跑 DRC 并保存证据。删除动作要有回读，不要只依赖会话记录。
 
 **证据/边界与本案例**：28→28 和 J2 仍在是现场事实；手动 delete/track-delete/rip-up 只出现在会话记录里，evidence 目录没有对应输出，因此不能作为已验收证据。不要用 `noChanges:true` 推断“已同步”。本案例 `pcb-import-after-j2-removal.log` 与 `pcb-import-after-usb-removal.log` 记录两次导入。
 
@@ -177,15 +177,15 @@
 
 **`doc reload` 的就绪探测可能假失败（2026-10-27，4.1.78/1.15.0）**：同一原理图连续两次 `doc reload` 都返回 `reopened but its schematic data did not settle: schematic.components.list ... connector did not respond — context deadline exceeded`，但紧接着 `doc ready` 返回 `25 stable components (2 samples)`，`sch read` 读到完整 8 网且与保存前逐脚一致。此时不要反复 reload 或把失败写成“未保存”：保留失败回执，另跑 `doc ready` + fresh `sch read` 证明数据可读与网表一致，并明确“持久化由独立回读确认，reload 命令自身的就绪回执未通过”。本案例证据 `sch-reload-final2.json`、`sch-doc-ready-final.json`、`sch-read-final.json`。
 
-**`bom export` 需要原理图为前台（G6）**：PCB 前台执行 `easyeda bom export --type csv` 返回 `BOM export returned no file`；`doc switch` 到原理图后同一命令成功。`pcb_case.py` 的 bom 步骤会自动切换，手工导出时先切页；导出成功后仍要核对 C 号、位号、数量、封装与 MPN。
+**`bom export` 需要原理图为前台（G6）**：PCB 前台执行 `zhigou bom export --type csv` 返回 `BOM export returned no file`；`doc switch` 到原理图后同一命令成功。`pcb_case.py` 的 bom 步骤会自动切换，手工导出时先切页；导出成功后仍要核对 C 号、位号、数量、封装与 MPN。
 
 ### 12. `sch export-image` 取代已移除的 `sch snapshot`（G2/G5）
 
-**现象**：旧流程还在调用 `easyeda sch snapshot`，升级后命令不存在；或者把原理图导出也当成必须切前台。
+**现象**：旧流程还在调用 `zhigou sch snapshot`，升级后命令不存在；或者把原理图导出也当成必须切前台。
 
-**原因**：v1.14.0 已移除 `sch snapshot`，由 `sch export-image` 取代；原理图导出在后台可以执行，和 PCB 的 `pcb snapshot` 不是同一套前台约束。
+**原因**：前代执行器 v1.14.0 已移除 `sch snapshot`，由 `sch export-image` 取代；原理图导出在后台可以执行，和 PCB 的 `pcb snapshot` 不是同一套前台约束。
 
-**正确动作**：用 `easyeda sch export-image --format svg|png|pdf`，按需要加 `--ids`、`--scope selection|page|project`、`--page`、`-o out`；导出后实际打开图检查整页与局部。不要把旧命令名写进脚本或证据。
+**正确动作**：用 `zhigou sch export-image --format svg|png|pdf`，按需要加 `--ids`、`--scope selection|page|project`、`--page`、`-o out`；导出后实际打开图检查整页与局部。不要把旧命令名写进脚本或证据。
 
 **证据/边界与本案例**：`sch export-image` 明确无前台要求；`pcb snapshot` 仍有前台要求。两者不要混写，也不要把 PCB 截图当作原理图导出。本案例 `sch-export-png.log` 在 `pageVisibility:hidden` 下成功导出 531083 bytes。
 
@@ -195,7 +195,7 @@
 
 **原因**：`--gate` 已废弃，只显示历史阈值，不授权、不阻断布线。真正的判定要看 score、verdict、crossings、overlap、off-board 等输出，以及 Skill 侧的 G3/G4 证据。
 
-**正确动作**：用 `easyeda pcb layout-lint --json` 读取完整结果，按默认门槛 score≥60、crossings≤8 以及 0 overlap/off-board 判断；不满足时先改布局，或按证据记 `BLOCKED`/`PASS_WITH_WAIVER`，写明理由、条件和剩余风险。不要用 `--gate` 的旧阈值放行。
+**正确动作**：用 `zhigou pcb layout-lint --json` 读取完整结果，按默认门槛 score≥60、crossings≤8 以及 0 overlap/off-board 判断；不满足时先改布局，或按证据记 `BLOCKED`/`PASS_WITH_WAIVER`，写明理由、条件和剩余风险。不要用 `--gate` 的旧阈值放行。
 
 **证据/边界与本案例**：本轮实测 `score 48/100 (hard)`、28 comps、0 short/0 overlap/0 off-board/0 tight、13 signal nets、ratsnest 17073 mil、13 crossings；按默认门槛并不通过。CLI 不替 Agent 做门禁结论，门禁也不是审批。本案例证据 `pcb-layout-lint-2.log`。
 
@@ -209,11 +209,11 @@
 
 **证据/边界与本案例**：`net-path` 的输出边界来自命令定义；它的成功和失败都只覆盖 listed routed copper。要在报告中写明“走线已证明”还是“铺铜未覆盖”，两者不能互相替代。本案例 GND 靠双层铺铜加 44 段 GND 线；G5 最终 DRC 仍有 2 条 Connection（+5V）。
 
-### 15. Gerber/钻孔/CPL：v1.14.0 没有 CLI（G6）
+### 15. Gerber/钻孔/CPL： historically 没有 CLI（G6），当前以 capabilities 为准
 
 **现象**：在 CLI 里找不到 Gerber、钻孔文件或 CPL/pick-place 命令；有人尝试用历史命令或临时脚本补一个“导出成功”。
 
-**原因**：v1.14.0 没有这些 CLI/typed action。Gerber 的官方 API `eda.pcb_ManufactureData.getGerberFile` 仍标 @beta、未包装；钻孔文件没有 CLI；坐标文件 CPL 也没有 CLI/typed action。
+**原因**：前代执行器 v1.14.0 没有这些 CLI/typed action；当前先查 `zhigou capabilities`。Gerber 的官方 API `eda.pcb_ManufactureData.getGerberFile` 仍标 @beta、未包装；钻孔文件没有 CLI；坐标文件 CPL 也没有 CLI/typed action。
 
 **正确动作**：由用户在 EDA GUI 中导出 Gerber、钻孔和 CPL，保存到证据目录，记录导出时间、工程版本和文件哈希；`gate_check` 把这些子项标 `UNSUPPORTED` 并放进 `not_checked`，缺证据时 G6 为 `BLOCKED`。Agent 可以继续做不依赖这些文件的检查，不新增等待点，但不得宣称 G6 已通过。
 
@@ -245,7 +245,7 @@
 
 **原因**：写操作之后宿主枚举/引擎状态可能还没刷新；CLI 用 `staleRisk` 提示“该读取可能来自旧状态”，但不会拒绝读取。即时结果可用于定位明显差异，不能作为最终约束证据。
 
-**正确动作**：`pcb save` → `easyeda doc reload --json` → 重新读取（vias/list/DRC/pour）。reload 回执要核对文档 UUID 与 `activeRestored`；刷新失败时按数据不可用处理，不沿用旧回执。把带 staleRisk 的即时文件另存为诊断，不要和最终证据混在一起。
+**正确动作**：`pcb save` → `zhigou doc reload --json` → 重新读取（vias/list/DRC/pour）。reload 回执要核对文档 UUID 与 `activeRestored`；刷新失败时按数据不可用处理，不沿用旧回执。把带 staleRisk 的即时文件另存为诊断，不要和最终证据混在一起。
 
 **证据/边界与本案例**：`gate_check.py` 对带 `staleRisk` 的 via 证据直接判 G4 失败；不要手工删除 staleRisk 字段来“通过”。本案例 `pcb-vias-4.json` 在 `route.delete` 后带 staleRisk；`pcb-import-after-usb-removal.log` 在 import 后也带 staleRisk，而 evidence 中没有对应的 reload 回读，因此 G5 的 save_reload 仍缺证据。
 
@@ -307,7 +307,7 @@
 ## 证据落盘
 
 - **完整输出先落文件**：stdout 和 stderr 都写文件（建议 `> out.json 2> out.err` 分离流）；不要用 `Select-Object -First N` 截断 JSON 数组。
-- **记录命令上下文**：命令行、工作目录、easyeda-agent 版本、EDA Pro 版本、工程/页 UUID、开始与结束时间、退出码、窗口可见性。
+- **记录命令上下文**：命令行、工作目录、zhigou 运行时/daemon/connector 版本、EDA Pro 版本、工程/页 UUID、开始与结束时间、退出码、窗口可见性。
 - **记录格式**：每个证据文件标明 `json`、`text` 或 `mixed`；解析失败保留 raw，不要覆盖。
 - **DRC 证据**：保留完整 `--json`，包括 `passed`、`total`、`counts`、`nativeResult` 和全部 violations；不要只留一句“0 fatal”。
 - **写入证据**：保留 before/after 对象和计数、实际 ID、逐项回读结果；`verified:true`、`noChanges:true` 都不能单独作为结论。

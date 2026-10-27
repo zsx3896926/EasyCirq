@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """Fail-closed guard for offline test runs.
 
-Set ``HDS_OFFLINE=1`` to make the tools refuse to execute a real ``easyeda``
-binary.  A fake CLI is allowed only when its path clearly identifies it as a
-fake (a path component containing ``fake`` or a file carrying the
-``HDS_FAKE_CLI``/``FAKE_EASYEDA`` marker).  The guard also blocks in-process
-network connections and writes a JSONL audit trail so a simulated run can be
-distinguished from real evidence.
+Set ``HDS_OFFLINE=1`` to make the tools refuse to execute a real ``zhigou``
+binary (or the legacy EDA executables it replaced).  A fake CLI is allowed only
+when its path clearly identifies it as a fake (a path component containing
+``fake`` or a file carrying the ``HDS_FAKE_CLI``/``FAKE_ZHIGOU`` marker).  The
+guard also blocks in-process network connections and writes a JSONL audit trail
+so a simulated run can be distinguished from real evidence.
 
 This module is a test/runtime safety seam; it is not an EDA adapter.
 """
@@ -23,10 +23,28 @@ from pathlib import Path
 
 ALLOW_ENV = 'HDS_OFFLINE'
 AUDIT_ENV = 'HDS_OFFLINE_AUDIT'
-FAKE_MARKERS = (b'HDS_FAKE_CLI', b'FAKE_EASYEDA', b'fake_easyeda')
-EASYEDA_NAMES = {'easyeda', 'easyeda.exe', 'easyeda.cmd', 'easyeda.bat',
-                 'easyeda-agent', 'easyeda-agent.exe', 'lceda-pro',
-                 'lceda-pro.exe'}
+# Both spellings are accepted: old fixtures are kept read-only for history, but
+# a test's fake CLI must still carry an explicit, visible marker.
+FAKE_MARKERS = (b'HDS_FAKE_CLI', b'FAKE_ZHIGOU', b'FAKE_EASYEDA', b'fake_zhigou')
+EDA_NAMES = {
+    # Current, self-owned runtime.
+    'zhigou', 'zhigou.exe', 'zhigou.cmd', 'zhigou.bat',
+    'zhigou-agent', 'zhigou-agent.exe', 'zhigou-lceda',
+    # The EDA client CLI is still a real local EDA process; an offline test
+    # must never launch it either.
+    'lceda-pro', 'lceda-pro.exe',
+    # Defensive: the skill no longer uses the legacy upstream executables, but
+    # a stale local script must not be allowed to reach them offline either.
+    'easyeda', 'easyeda.exe', 'easyeda.cmd', 'easyeda.bat', 'easyeda-agent',
+    'easyeda-agent.exe',
+}
+
+# The installer self-check legitimately runs read-only ``zhigou version`` /
+# ``zhigou doctor`` on a freshly installed binary; this opt-in keeps the
+# default fail-closed behaviour for every other zhigou invocation.
+READONLY_ZHIGOU_ENV = 'HDS_OFFLINE_ALLOW_ZHIGOU_READONLY'
+READONLY_ZHIGOU_ACTIONS = {'version', 'doctor', 'capabilities', 'help',
+                           '--version', '--help', '-v', '-h'}
 
 
 class OfflineViolation(RuntimeError):
@@ -71,26 +89,71 @@ def is_fake_executable(path):
     return any(marker in head for marker in FAKE_MARKERS)
 
 
-def _is_easyeda_name(name):
+def _is_eda_name(name):
     name = os.path.basename(str(name)).lower()
-    return name in EASYEDA_NAMES or name.startswith('easyeda')
+    return name in EDA_NAMES or name.startswith(('zhigou', 'zhigou'))
 
 
-_EDA_WORD = re.compile(
-    r'(?i)(?:^|[\\/\s"\'])(easyeda[\w.-]*|lceda-pro[\w.-]*)'
-    r'(?:$|[\s"\'&|;])')
+_TOKEN_SPLIT = re.compile(r'[\s"\'`&|;(),]+')
 
 
-def _mentions_easyeda(text):
-    return bool(_EDA_WORD.search(str(text)))
+def _eda_tokens(text):
+    """Yield tokens whose *basename* names an EDA executable.
+
+    The repository directory itself contains ``zhigou`` (``zhigou-toolchain``),
+    so a substring match would refuse every Python subprocess in this checkout.
+    Only the basename of a token may identify an executable.
+    """
+    seen = []
+    for raw in _TOKEN_SPLIT.split(str(text)):
+        token = raw.strip().rstrip('.')
+        if not token:
+            continue
+        if os.path.basename(token).lower() in EDA_NAMES:
+            seen.append(token)
+    return seen
+
+
+def _mentions_eda(text):
+    return bool(_eda_tokens(text))
 
 
 def _fake_in_text(text):
-    # Accept a command only when its EDA-looking token is an explicitly
+    # Accept a command only when every EDA-looking token is an explicitly
     # marked fake; a bare name or a real path is refused.
-    for token in str(text).replace('"', ' ').replace("'", ' ').split():
-        if _mentions_easyeda(token) and is_fake_executable(token):
-            return True
+    tokens = _eda_tokens(text)
+    return bool(tokens) and all(is_fake_executable(token) for token in tokens)
+
+
+def _readonly_zhigou_allowed(tokens):
+    """Opt-in exception for an installer self-check on a real zhigou binary.
+
+    Only ``version`` / ``doctor`` / ``capabilities`` / ``help`` are allowed and
+    only when the test explicitly sets ``HDS_OFFLINE_ALLOW_ZHIGOU_READONLY=1``;
+    every mutating subcommand stays blocked.  Paths with spaces are common on
+    Windows, so the executable is matched per argv item, not per split token.
+    """
+    if os.environ.get(READONLY_ZHIGOU_ENV, '').strip().lower() not in (
+            '1', 'true', 'yes'):
+        return False
+    items = [str(item).strip('"\'') for item in tokens]
+    exe_index = None
+    for index, item in enumerate(items):
+        if os.path.basename(item).lower() in EDA_NAMES:
+            exe_index = index
+            break
+    if exe_index is None:
+        return False
+    if not os.path.basename(items[exe_index]).lower().startswith('zhigou'):
+        return False
+    if any(os.path.basename(item).lower() in EDA_NAMES
+           and not os.path.basename(item).lower().startswith('zhigou')
+           for item in items):
+        return False
+    for item in items[exe_index + 1:]:
+        if not item or item.startswith('-'):
+            continue
+        return item.lower() in READONLY_ZHIGOU_ACTIONS
     return False
 
 
@@ -103,14 +166,17 @@ def check_command_string(command, *, context='subprocess'):
     """
     if not enabled():
         return True
-    import shlex
     text = str(command)
-    if _mentions_easyeda(text) and not _fake_in_text(text):
+    tokens = _eda_tokens(text)
+    if tokens and not _fake_in_text(text):
+        if _readonly_zhigou_allowed(text.split()):
+            _audit('allowed_readonly', context=context, command=text)
+            return True
         _audit('blocked', context=context, command=text)
         raise OfflineViolation(
             '%s: refused a command mentioning a real EDA CLI in offline mode: %s '
             '(set HDS_OFFLINE=0 only for an authorized real run)'
-            % (context, text))
+            % (context, tokens[0]))
     _audit('allowed', context=context, command=text)
     return True
 
@@ -123,10 +189,14 @@ def check_executable(argv, *, context='subprocess'):
         return check_command_string(argv, context=context)
     if not argv:
         raise OfflineViolation('%s: empty executable' % context)
-    # Scan every token, not only argv[0]: ``cmd /c easyeda ...`` and
-    # ``powershell -Command "easyeda ..."`` are common Windows wrappers.
-    eda_tokens = [str(item) for item in argv if _mentions_easyeda(item)]
+    # Scan every token, not only argv[0]: ``cmd /c zhigou ...`` and
+    # ``powershell -Command "zhigou ..."`` are common Windows wrappers.
+    eda_tokens = [str(item) for item in argv if _mentions_eda(item)]
     if eda_tokens and not all(is_fake_executable(item) for item in eda_tokens):
+        if _readonly_zhigou_allowed(list(argv)):
+            _audit('allowed_readonly', context=context,
+                   argv=[str(item) for item in argv])
+            return True
         _audit('blocked', context=context, argv=[str(item) for item in argv])
         raise OfflineViolation(
             '%s: refused to execute a real EDA CLI in offline mode: %s '

@@ -40,6 +40,12 @@ SKIP_REL_PREFIXES = (
     # The scanner spells the legacy tokens in its pattern definitions.
     'tools/toolchain_refs.py',
     'tests/test_no_legacy_toolchain_refs.py',
+    # Defensive/compatibility files that must keep a legacy token on purpose:
+    # the offline guard refuses old binaries, the release packager accepts the
+    # old wrapper flag, and the layout adapter binds a frozen schema string.
+    'design-hardware/scripts/offline_guard.py',
+    'design-hardware/scripts/skill_update.py',
+    'design-hardware/scripts/layout_from_zhigou.py',
 )
 BINARY_SUFFIXES = {
     '.png', '.jpg', '.jpeg', '.gif', '.pdf', '.zip', '.epro2', '.eext',

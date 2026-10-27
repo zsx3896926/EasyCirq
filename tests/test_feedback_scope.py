@@ -1,6 +1,6 @@
 """Tests for the scoped modification contract (work package D).
 
-Every write path uses a fake runner.  No test resolves a real ``easyeda``
+Every write path uses a fake runner.  No test resolves a real ``zhigou``
 from PATH and no test touches the network.
 """
 from __future__ import annotations
@@ -253,13 +253,13 @@ class RecordingRunner:
     def __init__(self):
         self.calls = []
 
-    def __call__(self, args, *, easyeda=None, timeout=120, cwd=None, env=None):
+    def __call__(self, args, *, zhigou=None, timeout=120, cwd=None, env=None):
         self.calls.append(list(args))
         raise AssertionError('runner must not be called')
 
 
 class PcbFakeRunner:
-    """Emulate one ``easyeda apply`` for the pcb_apply_plan delegation path."""
+    """Emulate one ``zhigou apply`` for the pcb_apply_plan delegation path."""
 
     def __init__(self, after_board, *, statuses=None, write_dump=True):
         self.after_board = after_board
@@ -267,9 +267,9 @@ class PcbFakeRunner:
         self.write_dump = write_dump
         self.calls = []
 
-    def __call__(self, args, *, easyeda=None, timeout=120, cwd=None, env=None):
+    def __call__(self, args, *, zhigou=None, timeout=120, cwd=None, env=None):
         args = [str(item) for item in args]
-        self.calls.append({'args': args, 'easyeda': easyeda,
+        self.calls.append({'args': args, 'zhigou': zhigou,
                            'timeout': timeout})
         playbook_path = args[1]
         with open(playbook_path, encoding='utf-8') as handle:
@@ -315,9 +315,9 @@ class SchFakeRunner:
         self.omit_texts = omit_texts
         self.calls = []
 
-    def __call__(self, args, *, easyeda=None, timeout=120, cwd=None, env=None):
+    def __call__(self, args, *, zhigou=None, timeout=120, cwd=None, env=None):
         args = [str(item) for item in args]
-        self.calls.append({'args': args, 'easyeda': easyeda,
+        self.calls.append({'args': args, 'zhigou': zhigou,
                            'timeout': timeout})
         action = args[1]
         if action == 'schematic.text.move':

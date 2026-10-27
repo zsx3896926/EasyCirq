@@ -92,7 +92,7 @@ pcb outline-round → outline-get → save → reload → 再读
 - 板框必须回读到 `width/height/radius/locked`，保存重开后不变；
 - 只看 `imported:true` 不算导入成功。`componentsAfter:0` + `partial:true` 是失败。
 
-**实测工具事实（EasyEDA 4.1.78 / easyeda-agent 1.14.0）**：PCB 导入失败的一个真实
+**实测工具事实（EasyEDA 4.1.78 / 前代执行器 1.14.0）**：PCB 导入失败的一个真实
 原因是 PCB 不是活动文档。先 `doc open <pcb-uuid>`/激活 PCB1，再 import；同一工程
 导入 212 件得到 `partial:false, verified:true`。不要因为一次 `imported:true` 就重复
  import；先看 `componentsAfter` 与 `partial`。
@@ -177,7 +177,7 @@ python design-hardware/scripts/eda_cache.py get --cache .cache/eda \
 - `sch frame apply --from frames.json`：显式矩形 + 单行标题，回读 `verified`、`unchanged`。
   **标题只接受单行**；多行会被拒。
 - 用途说明：typed action 目录没有 `schematic.text.create`（只有 list/move）。可用
-  `easyeda debug exec` 调用 `eda.sch_PrimitiveText.create(x,y,content,rotation,null,null,fontSize)`
+  `zhigou debug exec` 调用 `eda.sch_PrimitiveText.create(x,y,content,rotation,null,null,fontSize)`
   作为受控 escape hatch，创建后用 `sch text-list` 回读；这是工具缺口，不是首选路径。
 - `sch zone-draw`/`sch zone-arrange` 读虚拟组/zone 认领；手工页先用
   `sch group create --members ... --name ...` 建组。
@@ -224,7 +224,7 @@ python design-hardware/scripts/eda_cache.py get --cache .cache/eda \
 
 ## 7. 性能记录：把墙钟、工具时间和思考分开
 
-- `easyeda audit cost --day ... --since ... --until ... --json` 给出墙钟、daemon 时间、
+- `zhigou audit cost --day ... --since ... --until ... --json` 给出墙钟、daemon 时间、
   `components.list`、probe、失败与 top actions。
 - 注意：`audit cost` 的 `think = wall − Σduration` 会忽略并发；多窗口/后台时用调用
   区间并集（union）而不是 Σduration。报告要写清用的是哪一个口径。
@@ -233,7 +233,7 @@ python design-hardware/scripts/eda_cache.py get --cache .cache/eda \
 - token 不在审计日志里；要报就由调用方自报，不能估算冒充实测。
 - 对比必须同对象、同完成标准、同连接器状态；不同页/不同密度/后台并发不可直接外推。
 
-### 本轮实测（2026-10-26，EasyEDA 4.1.78 / easyeda-agent 1.14.0）
+### 本轮实测（2026-10-26，EasyEDA 4.1.78 / 前代执行器 1.14.0）
 
 | 指标 | 上一轮双通道会话 | 本轮隔离副本会话 |
 |---|---:|---:|

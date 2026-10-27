@@ -114,14 +114,14 @@ def _state_step(state_path, stage, *, evidence=None, observed=None,
 
 def cmd_probe(args):
     result = observe.probe_capabilities(
-        easyeda=args.easyeda, window=args.window, project=args.project,
+        zhigou=args.zhigou, window=args.window, project=args.project,
         sch_doc=args.sch_doc, pcb_doc=args.pcb_doc, timeout=args.timeout)
     return _emit(result, args.out)
 
 
 def cmd_observe(args):
     result = observe.collect_observation(
-        easyeda=args.easyeda, window=args.window, project=args.project,
+        zhigou=args.zhigou, window=args.window, project=args.project,
         sch_doc=args.sch_doc, pcb_doc=args.pcb_doc,
         project_name=args.project_name, evidence_dir=args.evidence_dir,
         timeout=args.timeout)
@@ -200,7 +200,7 @@ def cmd_apply(args):
     contract = _load(args.contract)
     plan = _load(args.plan)
     result = scope.apply_scoped(
-        contract, plan, easyeda=args.easyeda, window=args.window,
+        contract, plan, zhigou=args.zhigou, window=args.window,
         write=args.apply, journal_path=args.journal, timeout=args.timeout)
     _state_step(args.state, schemas.STAGE_APPLY,
                 evidence=[args.out] if args.out else None,
@@ -402,7 +402,7 @@ def cmd_case_validate(args):
 
 
 def _add_common(parser, *, state=False, out=True):
-    parser.add_argument('--easyeda', help='easyeda executable (test seam)')
+    parser.add_argument('--zhigou', help='zhigou executable (test seam)')
     parser.add_argument('--timeout', type=float, default=120.0)
     if state:
         parser.add_argument('--state', help='feedback loop state JSON')
