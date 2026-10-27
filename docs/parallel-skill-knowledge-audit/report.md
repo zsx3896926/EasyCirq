@@ -155,6 +155,32 @@
 不改变计划，wait 仅由 `before_*` 门决定）是当前契约语义，不作为缺陷；F9（部分
 holdout 与 dev 的 selected 集合重合）已在 `holdout-rationale.md`/本报告披露。
 
+### 6.1 合并后主线复核（312 文件，2026-10-28）
+
+PR #45 已由维护者于 2026-10-27T16:52:30Z 合并（merge commit `7990cec`）。
+合并后主线（复核时 `1f3abee`）在其他并行集成中新增了 3 个 `.md`
+（`scripts/bringup_planner/API.md`、`scripts/circuit_blocks/devices/SCHEMA.md`、
+`scripts/procurement_planner/README.md`），扫描基线从 309 变为
+**312 个文件 / 2,481 条链接**；这 3 个文件是脚本说明文档，不在任务阅读目录映射中。
+
+在合并后主线上实际重跑：
+
+| 命令 | 结果 |
+|---|---|
+| `python -m skill_knowledge_audit scan --root design-hardware` | exit 0；files 312、links 2,481、errors 0、warnings 16 |
+| `python design-hardware/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN；242 scripts compile |
+| `python -m skill_knowledge_audit benchmark --require-18 --require-holdout --transforms` | exit 0；20/20 通过，recall 1.0、missing_critical 0、forbidden 0、missing unknown 0、stable 20/20、transforms 7/7 |
+| `python -m unittest discover -s tests/skill_knowledge_audit -t .` | 53 tests OK（skipped=1） |
+
+20 个场景的 `plan_digest` 与 309 文件冻结结果**逐一相同**，说明新增文档没有改变
+任何场景的 required/conditional/optional 选择；必要约束召回仍为 1.0。
+全量 `.md` 对照基线为 7,075,808 B（较 309 基线 +26,457 B），计划选中字节中位数
+占 **2.085%**（原 2.1%），仍远低于“读取全部 `.md`”的对照策略；该数字只说明静态
+阅读量，不代表画板速度。
+
+结论：合并后主线 312 文件不改写已冻结的 9a951ed 报告，也不影响 20/20 场景与
+必要约束召回；下方冻结产物哈希表仍对应 9a951ed，主线复核数据只作为集成后验证。
+
 ## 7. 复现命令
 
 ```bash

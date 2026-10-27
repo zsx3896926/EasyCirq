@@ -1,6 +1,6 @@
 # 并行任务 D 交接（skill-knowledge-audit）
 
-状态：**已完成 M0–M4 的离线工具、真实基线审计、20 场景基准、测试与建议包；未合并、未发布、未安装客户端。**
+状态：**已完成 M0–M4 的离线工具、真实基线审计、20 场景基准、测试与建议包；PR #45 已由维护者合并。合并后主线（312 文件）复核见 §2.1。**
 最后更新：2026-10-28（Asia/Shanghai）
 
 ## 1. 交付物
@@ -36,6 +36,20 @@
 - 真实 EDA 调用 **0**；模型会话 **0**；外链联网验证 **0**；
   Python 3.10/3.13 已由 CI 实际运行并通过（PR #45 validate）。
 
+### 2.1 合并后主线复核（2026-10-28，`1f3abee`，312 文件）
+
+- 其他并行集成在 `design-hardware/scripts/` 新增 3 个 `.md`，扫描为
+  **312 文件 / 2,481 链接 / errors 0 / warnings 16**；这些是脚本说明文档，
+  不在任务阅读目录映射中。
+- `skill_selftest.py`：**5 PASS / 0 FAIL / 0 NOT RUN**，242 scripts compile。
+- benchmark：**20/20 通过**（15 dev + 5 holdout），recall **1.0**、
+  missing_critical **0**、forbidden **0**、missing unknown **0**、stable **20/20**、
+  transforms **7/7**；20 个场景 `plan_digest` 与 309 文件冻结结果逐一相同。
+- 全量 `.md` 对照 7,075,808 B（+26,457 B），选中字节中位数 **2.085%**（原 2.1%）；
+  只说明静态阅读量，不代表画板速度。
+- 专属测试：**53 tests OK**（skipped=1）。
+- 冻结产物哈希仍对应 9a951ed；312 文件复核数据只作为集成后验证，不替换冻结结果。
+
 ## 3. 复跑
 
 ```bash
@@ -63,7 +77,8 @@ python design-hardware/scripts/skill_selftest.py
 - holdout 由独立队友设计但非盲测；holdout-02 的 90k 预算低于 required 130k，
   计划标 `incomplete`，而该场景 expected 未含 `budget_insufficient`，基准仍判通过；
   已作为覆盖缺口记录，需维护者下次冻结时处理。
-- 本机 Python 3.13.15；3.10 由 CI 覆盖，未在本机实测。
+- 本机 Python 3.13.15；Python 3.10/3.13 已由 CI 实际运行并通过（PR #45），
+  本机未直接运行 3.10。
 - 输出必须位于扫描根外；根内路径退出 2（F10 修复）。
 - 扫描的 16 条锚点警告不影响正文阅读，但在 GitHub 精确 slug 下不是同一锚点。
 
@@ -78,9 +93,13 @@ python design-hardware/scripts/skill_selftest.py
 
 ## 6. Git / PR
 
-- 分支：`feat/parallel-skill-knowledge-audit`，固定开工 `9a951ed`。
-- 只提交四个允许目录；创建独立 PR，不合并、不发布。
+- 主分支：`feat/parallel-skill-knowledge-audit`，固定开工 `9a951ed`；
+  PR #45 已由维护者于 2026-10-27T16:52:30Z 合并（merge commit `7990cec`），
+  只包含四个允许目录的 60 个新增文件。
+- 本交接的 312 文件复核由后续文档分支 `docs/skill-audit-312-baseline` 提交，
+  单独 PR 指向最新 main；不修改代码、不合并、不发布。
 - 主提交：`91d7aa92bddc2da16de02d20808eb25c526c6bab`
   （`feat(skill-audit): add read-only knowledge audit and minimal reading planner`）。
-- PR：https://github.com/zsx3896926/hardware-design-skill/pull/45
-- 本交接更新提交见 `git log -1`；PR 保留为 open，等待 A/维护者评审。
+- PR #45：https://github.com/zsx3896926/hardware-design-skill/pull/45
+- 后续文档 PR：见 `git log -1` 与 PR 描述（本文件随提交更新）。
+
