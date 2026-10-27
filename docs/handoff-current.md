@@ -1,8 +1,9 @@
 # 当前交接（Round 12 反馈闭环）
 
-> 写入时间：2026-10-27 13:05 (+08)。本文件只保留当前有效状态；历史细节见
+> 写入时间：2026-10-27 13:30 (+08)。本文件只保留当前有效状态；历史细节见
 > `docs/round12/report.md`、`docs/round12/acceptance-matrix.md`、
-> `docs/round12/evidence/live-vertical/README.md`。
+> `docs/round12/evidence/live-vertical/README.md`。PR #30 已于 05:24Z 合并
+> （merge commit `095b9e1`），工作树干净。
 
 ## 1. 目标与任务表
 
@@ -15,16 +16,15 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `feat/feedback-loop-round12`（已推送） |
-| HEAD | `96c3ae9`（merge `origin/main` `4fd4007`）；代码/测试/证据提交 `e734e85` |
-| 基线 | `origin/main` `4fd4007`（PR #32 compose 工具链已合并）；PR #30 目标分支 `main` |
-| PR | #30，state OPEN，目标 `main`；待文档提交推送后确认 CI 并合并 |
+| HEAD | `3d8d837` + 本交接提交（合并后推送）；代码/测试/证据 `e734e85`；PR merge commit `095b9e1` |
+| 基线 | `origin/main` `4fd4007`（PR #32 compose 工具链已合并）；PR #30 已并入 `main` |
+| PR | #30，已 **MERGED**（2026-10-27T05:24:15Z），merge commit `095b9e1`，目标 `main` |
 | 工作树 | `C:/Users/jlc/work/hds-feedback-r12`（隔离 worktree） |
 | 源码版本 | `design-hardware/.version` = `0.9.4`（由 main 带入；本分支反馈改动未额外 bump） |
 | 已安装客户端 | 本轮未核对、未安装、未替换、未发 Release |
 
-提交文档前的未提交项只有 `benchmarks/offline-round12/result.json`（合并后重跑
-基准仅时间戳变化）和本批文档；提交后工作树应为干净。不要清理其他会话的
-`.tmp-*`/`None.tmp`。
+本交接的合并后更新将作为独立文档提交推送；提交后工作树应为干净。不要清理其他
+会话的 `.tmp-*`/`None.tmp`。
 
 ## 3. 已完成 / 进行中
 
@@ -61,15 +61,17 @@
   12 unknown、pours 规范化字段齐全。
 - 最终离线实跑（合并后）：反馈 308 tests OK、全量 1653 tests OK、
   基准 16/16 PASS、`skill_selftest.py` 5 PASS / 0 FAIL / 0 NOT RUN。
-- 文档已按最终事实更新：`docs/round12/report.md`、
-  `docs/round12/acceptance-matrix.md`、本交接、`design-hardware/CHANGELOG.md`、
+- 文档已按最终事实更新并提交（`17c8499`、`3d8d837`）；
+  `docs/round12/report.md`、`docs/round12/acceptance-matrix.md`、
+  `docs/round12/task-ledger.md`、本交接、`design-hardware/CHANGELOG.md`、
   `design-hardware/references/feedback-loop.md`、`docs/round12/offline-vertical-case.md`、
   `docs/round12/evidence/live-vertical/README.md`。
+- CI 在最终 head `3d8d837` 上全部通过（validate ×2、updater ×2，publish skipping）；
+  PR #30 已合并到 `main`（`095b9e1`）。
 
 进行中 / 未完成：
 
-- 文档批次提交、推送、CI 确认、PR #30 描述更新与合并。
-- 最终代码真机写入未执行（见第 7 节）。
+- 最终代码真机写入未执行（见第 7 节）；得到可用 Connector 后按验收矩阵第 12 行重跑。
 
 ## 4. 最新测试快照（2026-10-27 合并后实跑）
 
@@ -134,17 +136,11 @@
    3 scenarios 计数。
 6. **未安装/未发版**：源码 0.9.4（main 带入），本分支反馈改动未安装到任何客户端、
    未发布 Release。
-7. **PR #30 未合并**：等待文档提交/CI 后合并。
 
 ## 8. 下一条具体操作
 
-1. 提交本批文档与最终基准产物（只暂存本轮相关文件），push
-   `feat/feedback-loop-round12`。
-2. 确认 PR #30 的 CI 通过；更新 PR 描述（最终 SHA、308/1653、16/16、
-   round 2 真机结果、最终代码只读复核、最终代码真机 BLOCKED）。
-3. 无未解决阻断后合并 PR #30（任务书授权）；不发布 Release、不替换其他客户端
-   安装版。
-4. 若 Connector 恢复且窗口归属确认，再按验收矩阵第 12 行用最终代码重跑
+1. PR #30 已合并（`095b9e1`）；不发布 Release、不替换其他客户端安装版。
+2. 若 Connector 恢复且窗口归属确认，再按验收矩阵第 12 行用最终代码重跑
    apply/readback/verify/保存/重开/原生 DRC；未确认归属时不抢窗口。
-5. 恢复会话时先读本交接、`docs/round12/task-ledger.md` 与相关规则，再核实
+3. 恢复会话时先读本交接、`docs/round12/task-ledger.md` 与相关规则，再核实
    `git status`/HEAD、测试计数与基准产物，最后执行写入或提交。
