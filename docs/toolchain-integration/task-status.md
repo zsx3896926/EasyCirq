@@ -32,7 +32,7 @@
 | **M1** 自有 CLI/daemon/Connector 构建 + 隔离安装 | **完成**（构建、隔离启动、诊断、安装/升级/回退、Skill 单入口迁移均实测）；**连接器真实握手 BLOCKED**（需 EDA 内人工导入） | `runtime/`（构建成功，`zhigou.exe` 0.2.0-dev）、`connector/`（`.eext` 231 KB）、`protocol/schemas/`、`distribution/`（统一安装器）、`design-hardware/`（已迁移到 `zhigou`） | `evidence/m1/*`、`evidence/installer/*`、`evidence/skill-migration/*`、`evidence/runtime-go-test.log`、`evidence/test-failure-diff.txt` |
 | **M2** 独立工程 读取→移动一件→保存→重开→回读 | **PASS（真机）** | 独立新工程 `zhigou-integrated-dual-button-led-20261027`（P1），R1/D1 放置 → D1 +40 raw 移动 → save(saved:true) → close/reopen → 新鲜回读 D1 x=640、R1 不变、primitiveId/device 身份不变、pin-net 不变 | `evidence/m2/summary.json` 及同目录原始 JSON/日志 |
 | **M3** SCH/PCB 读写、批量、检查导出 | **PASS（原理图/PCB 同步/检查/导出真机）** | 9 器件双通道 LED 小板原理图：7 网全部逐脚一致、0 浮空脚、原生 DRC 0 违规、BOM/SVG/PNG 导出；PCB 同步 9 footprint 并经保存+重开+新鲜回读；PCB DRC 因未布局布线而失败（如实记录） | `evidence/m4/summary.json` 及同目录原始响应 |
-| **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **部分完成**：安装/升级/回退 PASS；小板原理图+PCB 同步 PASS；** PCB 布局/布线/铺铜/丝印/DRC 通过、局部改板、原生归档恢复演练 = NOT RUN** | `distribution/`、`tools/zhigou_board_*.py`、`tools/zhigou_acceptance.py` | `evidence/installer/`、`evidence/m4/`、`evidence/acceptance/` |
+| **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **核心链 PASS**：安装/升级/回退 PASS；原理图+PCB 同步、布局 100/100、官方布线 6/6、双层 GND 铺铜、新鲜 PCB DRC **0 违规**、**局部改板 2mm PASS（范围外变化 0）**；**原生归档恢复演练、制造文件导出、DFM 剩余 5 警告 = NOT RUN/未清** | `distribution/`、`tools/zhigou_board_*.py`、`tools/zhigou_pcb_layout.py`、`tools/zhigou_pcb_edit_2mm.py` | `evidence/installer/`、`evidence/m4/`、`evidence/m4/pcb/` |
 | **M5** 独立审查/反例/最终候选重跑/提交 PR | **进行中** | 本文件 + PR | 见 §5 |
 
 ## 2. 已完成的关键实现

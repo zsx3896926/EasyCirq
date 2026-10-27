@@ -149,27 +149,88 @@
       "SW2"
     ],
     "drc": {
-      "passed": false,
-      "violationCount": 1,
-      "classes": {
-        "unknown": 1
-      }
+      "passed": true,
+      "violationCount": 0,
+      "evidence": "pcb/pcb-drc-poured.json"
     },
-    "layoutAndRouting": "NOT RUN — placement refinement, zone frames, routing and copper pour are not done in this step"
+    "layoutAndRouting": "DONE (placement, official route, double-layer GND pour, fresh DRC pass)",
+    "placed": true,
+    "layoutLint": {
+      "score": 100,
+      "short": 0,
+      "overlap": 0,
+      "tight": 0,
+      "ratsnestMil": 628,
+      "evidence": "pcb/pcb-layout-lint2.json"
+    },
+    "outline": {
+      "bbox": [
+        -1293.448,
+        -400.867,
+        590.038,
+        400.867
+      ],
+      "sizeMil": [
+        1883.486,
+        801.734
+      ],
+      "marginMil": 100,
+      "evidence": "pcb/outline-after.json"
+    },
+    "routing": {
+      "engine": "official EasyEDA router",
+      "netsRouted": "6/6",
+      "tracks": 36,
+      "vias": 0,
+      "elapsedMs": 987,
+      "evidence": "pcb/pcb-autoroute.json"
+    },
+    "pour": {
+      "nets": [
+        "GND"
+      ],
+      "layers": [
+        1,
+        2
+      ],
+      "verified": true,
+      "evidence": [
+        "pcb/pour-top.json",
+        "pcb/pour-bottom.json"
+      ]
+    },
+    "dfmCheck": {
+      "issues": 5,
+      "errors": 0,
+      "warnings": 5,
+      "classes": [
+        "silk-flipped designator J1",
+        "power-not-poured +5V/VIN",
+        "width-under-spec +5V (2 tracks)"
+      ],
+      "evidence": "pcb/pcb-check.json"
+    },
+    "localEdit": {
+      "request": "move D1 up 2 mm",
+      "moved": true,
+      "outOfScopeChanges": 0,
+      "drcAfter": "PASS",
+      "evidence": "pcb/local-edit-summary.json"
+    }
   },
   "six_state": {
     "command_completed": "PASS (schematics placed, wired, title block set, PCB import executed)",
     "readback_verified": "PASS (schematic nets + fresh PCB dump after reload)",
     "save_confirmed": "PASS (schematic saved:true; PCB save returned ok)",
     "reopen_confirmed": "PASS (doc reload on P1 and PCB1, then fresh readback)",
-    "electrical_passed": "PARTIAL (schematic DRC 0 violations; PCB DRC FAILS because layout/routing not done)",
-    "quality_passed": "FAIL/PENDING (missing functional zone frames; PCB unrouted; no Gerber/CPL — no fake pass)"
+    "electrical_passed": "PASS (schematic DRC 0 + PCB DRC 0 on fresh readback after route+pour)",
+    "quality_passed": "PARTIAL (DFM 0 errors / 5 warnings: J1 silk rotated, +5V/VIN not poured, 2 thin power tracks; silk text and power pour refinement still open)"
   },
   "limits": [
-    "PCB layout, routing, copper pour, silkscreen and native DRC pass are NOT done; PCB DRC currently reports violations from the unrouted board.",
-    "Gerber/drill/CPL remain gui_only (no typed action) — not attempted, not claimed.",
-    "Native archive + restore drill is NOT RUN.",
-    "MPN of the generic-library LED/switch/header is unknown (system library); recorded as generic, not as orderable parts."
+    "Manufacturing files (Gerber/drill/CPL) remain gui_only — not attempted, not claimed.",
+    "Native archive + restore drill still NOT RUN.",
+    "DFM warnings remain: J1 designator rotated, +5V/VIN carried by tracks not pours, 2 power tracks under width spec.",
+    "MPN of generic-library LED/switch/header is unknown (system library), recorded as generic."
   ],
   "evidence": [
     "board-list.json",

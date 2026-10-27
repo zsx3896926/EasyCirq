@@ -1,0 +1,810 @@
+{
+  "id": "req_495",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:28:42.313223Z",
+  "ok": true,
+  "result": {
+    "passed": false,
+    "violations": [
+      {
+        "count": 13,
+        "list": [
+          {
+            "count": 11,
+            "list": [
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err0",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "67257c81c0094024",
+                    "obj2Suffix": "(LED1_K): e36",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": 3.223995,
+                      "y": 27.186929999999997
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err0",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_K): e36",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "67257c81c0094024"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": 3.223995,
+                  "y": 27.186929999999997
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err1",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "1639100444a2d7a9",
+                    "obj2Suffix": "(LED1_K): e37",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": 1.752,
+                      "y": 29.090429999999998
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err1",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_K): e37",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "1639100444a2d7a9"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": 1.752,
+                  "y": 29.090429999999998
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err2",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "9a5242d1ab690cf5",
+                    "obj2Suffix": "(LED1_K): e38",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": 1.576,
+                      "y": 29.697924999999998
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err2",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_K): e38",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "9a5242d1ab690cf5"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": 1.576,
+                  "y": 29.697924999999998
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err3",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "1f5e5356b25f3b52",
+                    "obj2Suffix": "(LED1_K): e39",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": 0.034499999999999975,
+                      "y": 29.87392
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err3",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_K): e39",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "1f5e5356b25f3b52"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": 0.034499999999999975,
+                  "y": 29.87392
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err4",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "6e1f46fd5b1f0ab4",
+                    "obj2Suffix": "(LED1_A): e40",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": 5.9649849999999995,
+                      "y": 29.87392
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err4",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_A): e40",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "6e1f46fd5b1f0ab4"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": 5.9649849999999995,
+                  "y": 29.87392
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err5",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "3b81dd60d288b229",
+                    "obj2Suffix": "(LED1_A): e41",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": 4.42299,
+                      "y": 30.04992
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err5",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_A): e41",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "3b81dd60d288b229"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": 4.42299,
+                  "y": 30.04992
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err6",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "1ad1f454917b7d73",
+                    "obj2Suffix": "(LED1_A): e42",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": 4.24699,
+                      "y": 30.43542
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err6",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_A): e42",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "1ad1f454917b7d73"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": 4.24699,
+                  "y": 30.43542
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err7",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "698c69cd43a63eaf",
+                    "obj2Suffix": "(LED1_A): e43",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": 2.7304950000000003,
+                      "y": 32.161415000000005
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err7",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_A): e43",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "698c69cd43a63eaf"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": 2.7304950000000003,
+                  "y": 32.161415000000005
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err8",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "29a2dc154314820e",
+                    "obj2Suffix": "(LED1_A): e44",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": -1.188995,
+                      "y": 33.677910000000004
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err8",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_A): e44",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "29a2dc154314820e"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": -1.188995,
+                  "y": 33.677910000000004
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err9",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "d1e58da23fa15bf0",
+                    "obj2Suffix": "(LED1_A): e45",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": -5.943985,
+                      "y": 31.325920000000004
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err9",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_A): e45",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "d1e58da23fa15bf0"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": -5.943985,
+                  "y": 31.325920000000004
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to Track",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err10",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "0875c71b9a08bb94",
+                    "obj2Suffix": "(LED1_A): e46",
+                    "obj2Type": "Track",
+                    "position": {
+                      "x": -8.29598,
+                      "y": 25.486935000000003
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err10",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_A): e46",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "0875c71b9a08bb94"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to Track",
+                "pos": {
+                  "x": -8.29598,
+                  "y": 25.486935000000003
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              }
+            ],
+            "name": "Copper Region(Filled) to Track",
+            "title": [
+              "Copper Region(Filled)",
+              "to",
+              "Track",
+              "(11)"
+            ],
+            "visible": true
+          },
+          {
+            "count": 2,
+            "list": [
+              {
+                "errorObjType": "Copper Region(Filled) to SMD Pad",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err11",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "bad74267bbb65498e19",
+                    "obj2Suffix": "(LED1_A): D1_2",
+                    "obj2Type": "SMD Pad",
+                    "position": {
+                      "x": 9.299299999999999,
+                      "y": 32.33505
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err11",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_A): D1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "bad74267bbb65498e19"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to SMD Pad",
+                "pos": {
+                  "x": 9.299299999999999,
+                  "y": 32.33505
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to SMD Pad",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err12",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "bad74267bbb65498e20",
+                    "obj2Suffix": "(LED1_K): D1_1",
+                    "obj2Type": "SMD Pad",
+                    "position": {
+                      "x": 0.6372999999999998,
+                      "y": 32.33505
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err12",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_K): D1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "bad74267bbb65498e20"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to SMD Pad",
+                "pos": {
+                  "x": 0.6372999999999998,
+                  "y": 32.33505
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              }
+            ],
+            "name": "Copper Region(Filled) to SMD Pad",
+            "title": [
+              "Copper Region(Filled)",
+              "to",
+              "SMD Pad",
+              "(2)"
+            ],
+            "visible": true
+          }
+        ],
+        "name": "Clearance Error",
+        "title": [
+          "Clearance Error",
+          "(13)"
+        ],
+        "visible": true
+      }
+    ]
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 429,
+  "seqAbandoned": 0
+}

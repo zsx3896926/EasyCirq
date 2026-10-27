@@ -1,0 +1,49 @@
+{
+  "id": "req_345",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:22:50.9649581Z",
+  "ok": true,
+  "result": {
+    "applied": [
+      "rotation",
+      "x",
+      "y"
+    ],
+    "component": {
+      "addIntoBom": true,
+      "designator": "C1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "100nF/0603/50V",
+      "name": "={Manufacturer Part}",
+      "primitiveId": "6d3ce7ee3af5a731",
+      "rotation": 0,
+      "supplierId": "C9900013340",
+      "uniqueId": "gge3",
+      "x": -360,
+      "y": 0
+    },
+    "verified": true
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 317,
+  "seqAbandoned": 0
+}

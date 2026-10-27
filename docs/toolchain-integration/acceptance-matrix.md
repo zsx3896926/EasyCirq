@@ -130,8 +130,14 @@ python tools/zhigou_acceptance.py --stage m4 --m4-device R1 --project-dir <设�
 | 图签必填项 | PASS（已写入 Name/Drawed/Description） | `evidence/m4/titleblock-set.json` |
 | BOM / SVG / PNG 官方导出 | PASS（文件非空：CSV 1 KB、SVG 90.6 KB、PNG 458 KB） | `evidence/m4/bom-export.json`、`sch-image-*.json` |
 | SCH→PCB 同步 | PASS（imported+verified，9 footprint），但 handler 边界身份不可认证 + staleRisk → 已 save→reload→新鲜 dump 后回读 | `evidence/m4/pcb-import-changes.json`、`pcb-dump.json` |
-| PCB 布局/布线/铺铜/丝印 | **NOT RUN** | — |
-| PCB DRC | **FAIL**（1 条，未布线板）—— 不冒充通过 | `evidence/m4/pcb-drc.json` |
+| PCB 布局 | **PASS**：layout-lint 100/100（0 short/0 overlap/0 tight） | `evidence/m4/pcb/pcb-layout-lint2.json` |
+| 板框 | **PASS**：outline-fit margin 100 mil → 1883×802 mil | `evidence/m4/pcb/outline-after.json` |
+| 布线（官方路由器） | **PASS**：6/6 网、36 track、0 via、987 ms | `evidence/m4/pcb/pcb-autoroute.json` |
+| GND 铺铜（双层） | **PASS**：TOP+BOTTOM GND pour，verified | `evidence/m4/pcb/pour-*.json` |
+| PCB DRC（新鲜回读） | **PASS：0 违规** | `evidence/m4/pcb/pcb-drc-poured.json` |
+| DFM 检查 | 0 error / **5 warning**（J1 丝印旋转、+5V/VIN 未铺、2 条电源线偏细） | `evidence/m4/pcb/pcb-check.json` |
+| 局部改板 D1 +2mm | **PASS**：仅 D1 pose 变化，范围外变化 0；断线→重布线→重铺铜→DRC 0 违规 | `evidence/m4/pcb/local-edit-summary.json`、`edit-drc-3.json` |
+| PCB 图像/3D/原生归档/恢复演练 | **NOT RUN** | — |
 | Gerber/钻孔/CPL | **gui_only**（无 typed action），未尝试未宣称 | `evidence/m1/capabilities.json` |
 | 功能分区框 | **未画**（`sch check` WARN missing-partition） | `evidence/m4/sch-check.json` |
 | 局部改板 2mm / 原生归档恢复演练 | **NOT RUN** | — |

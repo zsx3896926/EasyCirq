@@ -1,0 +1,49 @@
+{
+  "id": "req_349",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:22:51.0588829Z",
+  "ok": true,
+  "result": {
+    "applied": [
+      "rotation",
+      "x",
+      "y"
+    ],
+    "component": {
+      "addIntoBom": true,
+      "designator": "R1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "0402 ±5% 220Ω",
+      "name": "={Value}",
+      "primitiveId": "b0070ea40410ec6f",
+      "rotation": 0,
+      "supplierId": "C2889365",
+      "uniqueId": "gge4",
+      "x": -100,
+      "y": 220
+    },
+    "verified": true
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 319,
+  "seqAbandoned": 0
+}
