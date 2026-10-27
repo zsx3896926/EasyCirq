@@ -1,0 +1,407 @@
+{
+  "checker_context": {},
+  "components": [
+    {
+      "bbox": [
+        180,
+        600,
+        204,
+        620
+      ],
+      "designator": "R1",
+      "id": "C1",
+      "zone_id": "zA"
+    },
+    {
+      "bbox": [
+        380,
+        570,
+        404,
+        590
+      ],
+      "designator": "R2",
+      "id": "C2",
+      "zone_id": "zA"
+    },
+    {
+      "bbox": [
+        400,
+        555,
+        424,
+        575
+      ],
+      "designator": "R3",
+      "id": "C3",
+      "zone_id": "zA"
+    },
+    {
+      "bbox": [
+        420,
+        555,
+        444,
+        575
+      ],
+      "designator": "R4",
+      "id": "C4",
+      "zone_id": "zA"
+    }
+  ],
+  "constraints": {
+    "forbid_component_move": true,
+    "forbid_content_change": true,
+    "forbid_font_change": true,
+    "forbid_net_change": true,
+    "freeze_ids": [],
+    "grid": 5,
+    "label_own_wire_edge_tolerance": 1,
+    "max_candidates_per_annotation": 32,
+    "max_displacement": 80,
+    "max_local_search_steps": 2000,
+    "max_search_states": 20000,
+    "max_total_candidates": 800,
+    "min_text_symbol_gap": 2,
+    "min_text_text_gap": 2,
+    "min_text_wire_clearance": 5,
+    "min_text_wire_gap": 0,
+    "owner_max_distance": 250,
+    "scope": "all",
+    "scope_cluster_ids": [],
+    "self_text_contact_tolerance": 1
+  },
+  "coordinate_system": {
+    "name": "synthetic-raw-y-up",
+    "svg_y_axis": "down",
+    "transform": "screen_y = page_height - raw_y (analysis overlay only)",
+    "y_axis": "up"
+  },
+  "fixed_texts": [],
+  "host": {
+    "capabilities": {
+      "attribute_rotate": "unsupported",
+      "attribute_translate": "supported",
+      "free_text_translate": "unverified",
+      "net_label_detach": "unsupported"
+    },
+    "capability_source": "synthetic_declared",
+    "execution": "not_executed"
+  },
+  "movable_annotations": [
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "up",
+          "right"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 60,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zA"
+      },
+      "content": "1k",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          180,
+          630,
+          210,
+          640
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A1",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C1",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "right"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 60,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zA"
+      },
+      "content": "2k",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          380,
+          600,
+          416,
+          610
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A2",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C2",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "up",
+          "left"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 20,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zA"
+      },
+      "content": "3k",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          400,
+          585,
+          436,
+          595
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A3",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C3",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 20,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zA"
+      },
+      "content": "4k",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          420,
+          585,
+          456,
+          595
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A4",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C4",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    }
+  ],
+  "page": {
+    "bbox": [
+      0.0,
+      0.0,
+      1170.0,
+      825.0
+    ],
+    "keepouts": [
+      {
+        "bbox": [
+          900.0,
+          10.0,
+          1160.0,
+          190.0
+        ],
+        "hard": true,
+        "id": "titleBlock",
+        "reason": "synthetic title block"
+      }
+    ],
+    "title_block": {
+      "bbox": [
+        900.0,
+        10.0,
+        1160.0,
+        190.0
+      ],
+      "hard": true,
+      "id": "titleBlock"
+    },
+    "usable_bbox": [
+      10.0,
+      10.0,
+      1160.0,
+      815.0
+    ],
+    "zones": [
+      {
+        "bbox": [
+          40.0,
+          400.0,
+          560.0,
+          790.0
+        ],
+        "hard": false,
+        "id": "zA",
+        "name": "1 upper left",
+        "source": "synthetic_declared"
+      },
+      {
+        "bbox": [
+          600.0,
+          400.0,
+          1130.0,
+          790.0
+        ],
+        "hard": false,
+        "id": "zB",
+        "name": "2 upper right",
+        "source": "synthetic_declared"
+      },
+      {
+        "bbox": [
+          40.0,
+          40.0,
+          560.0,
+          380.0
+        ],
+        "hard": false,
+        "id": "zC",
+        "name": "3 lower left",
+        "source": "synthetic_declared"
+      },
+      {
+        "bbox": [
+          600.0,
+          200.0,
+          1130.0,
+          380.0
+        ],
+        "hard": false,
+        "id": "zD",
+        "name": "4 lower right",
+        "source": "synthetic_declared"
+      }
+    ]
+  },
+  "project": {
+    "name": "synthetic-counterexample",
+    "page_id": "page-counterexample",
+    "page_name": "P1",
+    "snapshot_sha256": "d254415d1feb143dfc093804e9259dc9b33167f5d9a781cf3dde61962ef3961e"
+  },
+  "schema": "annotation-layout/v1",
+  "source": {
+    "adapter": "tests/annotation_layout/build_fixtures.py",
+    "created": "2026-10-27",
+    "files": [],
+    "kind": "synthetic",
+    "notes": "per-annotation greedy introduces a new conflict; batch search clears all",
+    "source_commit": "9a951edc21481dc3ae91460acc11aa3e08a7be8a"
+  },
+  "uncertainty": {
+    "bbox_measured": true,
+    "font_metrics_known": false,
+    "notes": [
+      "synthetic geometry; no real EDA snapshot"
+    ],
+    "symbol_outline_approximate": true
+  },
+  "units": {
+    "description": "synthetic raw units; 10 raw = 2.54 mm",
+    "name": "schematic_raw",
+    "raw_per_mm": 3.937007874015748
+  },
+  "wires": []
+}

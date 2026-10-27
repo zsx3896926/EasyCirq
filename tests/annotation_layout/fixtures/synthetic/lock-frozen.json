@@ -1,0 +1,290 @@
+{
+  "checker_context": {},
+  "components": [
+    {
+      "bbox": [
+        100,
+        660,
+        140,
+        690
+      ],
+      "designator": "R1",
+      "id": "C1",
+      "zone_id": "zA"
+    },
+    {
+      "bbox": [
+        160,
+        660,
+        200,
+        690
+      ],
+      "designator": "R2",
+      "id": "C2",
+      "zone_id": "zA"
+    }
+  ],
+  "constraints": {
+    "forbid_component_move": true,
+    "forbid_content_change": true,
+    "forbid_font_change": true,
+    "forbid_net_change": true,
+    "freeze_ids": [
+      "A2"
+    ],
+    "grid": 5,
+    "label_own_wire_edge_tolerance": 1,
+    "max_candidates_per_annotation": 32,
+    "max_displacement": 80,
+    "max_local_search_steps": 2000,
+    "max_search_states": 20000,
+    "max_total_candidates": 800,
+    "min_text_symbol_gap": 2,
+    "min_text_text_gap": 2,
+    "min_text_wire_clearance": 5,
+    "min_text_wire_gap": 0,
+    "owner_max_distance": 250,
+    "scope": "all",
+    "scope_cluster_ids": [],
+    "self_text_contact_tolerance": 1
+  },
+  "coordinate_system": {
+    "name": "synthetic-raw-y-up",
+    "svg_y_axis": "down",
+    "transform": "screen_y = page_height - raw_y (analysis overlay only)",
+    "y_axis": "up"
+  },
+  "fixed_texts": [],
+  "host": {
+    "capabilities": {
+      "attribute_rotate": "unsupported",
+      "attribute_translate": "supported",
+      "free_text_translate": "unverified",
+      "net_label_detach": "unsupported"
+    },
+    "capability_source": "synthetic_declared",
+    "execution": "not_executed"
+  },
+  "movable_annotations": [
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 80.0,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zA"
+      },
+      "content": "10kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          100,
+          692,
+          125,
+          702
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A1",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C1",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 80.0,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zA"
+      },
+      "content": "10kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          118,
+          692,
+          143,
+          702
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A2",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C2",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    }
+  ],
+  "page": {
+    "bbox": [
+      0.0,
+      0.0,
+      1170.0,
+      825.0
+    ],
+    "keepouts": [
+      {
+        "bbox": [
+          900.0,
+          10.0,
+          1160.0,
+          190.0
+        ],
+        "hard": true,
+        "id": "titleBlock",
+        "reason": "synthetic title block"
+      }
+    ],
+    "title_block": {
+      "bbox": [
+        900.0,
+        10.0,
+        1160.0,
+        190.0
+      ],
+      "hard": true,
+      "id": "titleBlock"
+    },
+    "usable_bbox": [
+      10.0,
+      10.0,
+      1160.0,
+      815.0
+    ],
+    "zones": [
+      {
+        "bbox": [
+          40.0,
+          400.0,
+          560.0,
+          790.0
+        ],
+        "hard": false,
+        "id": "zA",
+        "name": "1 upper left",
+        "source": "synthetic_declared"
+      },
+      {
+        "bbox": [
+          600.0,
+          400.0,
+          1130.0,
+          790.0
+        ],
+        "hard": false,
+        "id": "zB",
+        "name": "2 upper right",
+        "source": "synthetic_declared"
+      },
+      {
+        "bbox": [
+          40.0,
+          40.0,
+          560.0,
+          380.0
+        ],
+        "hard": false,
+        "id": "zC",
+        "name": "3 lower left",
+        "source": "synthetic_declared"
+      },
+      {
+        "bbox": [
+          600.0,
+          200.0,
+          1130.0,
+          380.0
+        ],
+        "hard": false,
+        "id": "zD",
+        "name": "4 lower right",
+        "source": "synthetic_declared"
+      }
+    ]
+  },
+  "project": {
+    "name": "synthetic-lock-frozen",
+    "page_id": "page-lock-frozen",
+    "page_name": "P1",
+    "snapshot_sha256": "32fbc90194a9e7f98daa62e85060d695269229adb9653528e66490f2ea5f2ae5"
+  },
+  "schema": "annotation-layout/v1",
+  "source": {
+    "adapter": "tests/annotation_layout/build_fixtures.py",
+    "created": "2026-10-27",
+    "files": [],
+    "kind": "synthetic",
+    "notes": "same overlap as text-text but A2 is frozen by policy",
+    "source_commit": "9a951edc21481dc3ae91460acc11aa3e08a7be8a"
+  },
+  "uncertainty": {
+    "bbox_measured": true,
+    "font_metrics_known": false,
+    "notes": [
+      "synthetic geometry; no real EDA snapshot"
+    ],
+    "symbol_outline_approximate": true
+  },
+  "units": {
+    "description": "synthetic raw units; 10 raw = 2.54 mm",
+    "name": "schematic_raw",
+    "raw_per_mm": 3.937007874015748
+  },
+  "wires": []
+}

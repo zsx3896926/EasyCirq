@@ -1,0 +1,3 @@
+# Fixture JSON/SVG bytes are provenance-hashed; keep LF on every platform.
+* text eol=lf
+
