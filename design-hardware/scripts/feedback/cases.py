@@ -160,6 +160,11 @@ def _text(value):
     return isinstance(value, str) and bool(value.strip())
 
 
+def _string_value(value):
+    """Return the stripped string, or ``''`` when the value is not one."""
+    return value.strip() if isinstance(value, str) and value.strip() else ''
+
+
 def _measurement_note(evidence):
     """True when a physical pass carries a real measurement, not a file name.
 
@@ -500,6 +505,8 @@ def _case_summary(case):
                           for key in ('name', 'version'))
     elif isinstance(device, str):
         text_parts.append(device)
+    provenance = case.get('provenance')
+    provenance = provenance if isinstance(provenance, dict) else {}
     return {
         'goal': case.get('goal') or '',
         'power_w': _first(applies, case, 'power_w', 'power'),
@@ -513,6 +520,13 @@ def _case_summary(case):
         'process': process,
         'device': device,
         'verification_levels': levels,
+        # Provenance without evidence: the summary must be able to say which
+        # project a case came from so several scenarios of one project are not
+        # mistaken for independent evidence.
+        'provenance': {
+            'source_project': _string_value(provenance.get('source_project')),
+            'source_case': _string_value(provenance.get('source_case')),
+        },
         'text': ' '.join(part for part in text_parts
                          if isinstance(part, str) and part.strip()),
     }
@@ -1110,6 +1124,54 @@ def _score(view, filters):
     return score, reason
 
 
+def _case_provenance(index, entry):
+    embedded = entry.get('case')
+    loaded = embedded if isinstance(embedded, dict) else None
+    if loaded is None and _text(entry.get('path')):
+        loaded, _error = _load_case_file(index, entry)
+    if isinstance(loaded, dict) and isinstance(loaded.get('provenance'),
+                                                dict):
+        return loaded['provenance']
+    summary = entry.get('summary')
+    if isinstance(summary, dict) and isinstance(summary.get('provenance'),
+                                                dict):
+        return summary['provenance']
+    return {}
+
+
+def _library_coverage(index, entries):
+    """Count matched cases, distinct source projects and scenarios.
+
+    Several cases derived from one measured project are scenarios of that
+    project, not independent evidence.  Reporting the three numbers keeps that
+    distinction machine-readable.
+    """
+    projects, scenarios, per_project = set(), set(), {}
+    for entry in entries:
+        provenance = _case_provenance(index, entry)
+        project = _string_value(provenance.get('source_project')) or 'unknown'
+        # One case id is one scenario even when several cases cite the same
+        # source case label; two versions of the same id are one scenario.
+        scenarios.add((project, str(entry.get('id'))))
+        projects.add(project)
+        per_project.setdefault(project, []).append({
+            'id': entry.get('id'),
+            'scenario': _string_value(provenance.get('source_case')) or
+                        str(entry.get('id')),
+        })
+    return {
+        'cases': len(entries),
+        'source_projects': len(projects),
+        'scenarios': len(scenarios),
+        'per_project': [
+            {'source_project': project, 'cases': items}
+            for project, items in sorted(per_project.items())
+        ],
+        'note': 'cases sharing a provenance.source_project are scenarios of '
+                'that project, not independent projects',
+    }
+
+
 def search(index, query):
     """Return matching cases and explicit rejections for one query.
 
@@ -1126,6 +1188,7 @@ def search(index, query):
 
     filters = _normalize_filters(query)
     matches = []
+    matched_entries = []
     rejected = []
     for entry in index['cases']:
         view = _entry_view(index, entry, filters)
@@ -1139,6 +1202,7 @@ def search(index, query):
             match['score'] = score
             match['reasons'] = reasons + [score_reason]
             matches.append(match)
+            matched_entries.append(entry)
         else:
             rejection = dict(identity)
             rejection['reasons'] = reasons
@@ -1157,6 +1221,7 @@ def search(index, query):
         'matches': matches,
         'rejected': rejected,
         'unknowns': [],
+        'library': _library_coverage(index, matched_entries),
     }
 
 

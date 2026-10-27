@@ -225,6 +225,7 @@ def cmd_readback(args):
         'scope': scope_data,
         'diff': diff,
         'invariants': invariants,
+        'simulated': bool(diff.get('simulated')),
         'unknown': diff.get('unknown') or [],
     }
     _state_step(args.state, schemas.STAGE_READBACK,
@@ -233,42 +234,100 @@ def cmd_readback(args):
     return _emit(result, args.out)
 
 
+def _bool_fact(value):
+    return value if isinstance(value, bool) else None
+
+
 def cmd_verify(args):
     contract = _load(args.contract)
-    diff = _load(args.diff)
+    diff_payload = _load(args.diff)
     evaluation = _load(args.evaluation) if args.evaluation else None
-    invariants = diff.get('invariants') or {}
+    applied = _load(args.apply) if args.apply else None
+    applied = applied if isinstance(applied, dict) else {}
+    after = _load(args.after) if args.after else None
+
+    if isinstance(diff_payload.get('diff'), dict):
+        diff = diff_payload['diff']
+        invariants = diff_payload.get('invariants') or {}
+    else:
+        diff = diff_payload
+        invariants = diff_payload.get('invariants') or {}
+    invariants = invariants if isinstance(invariants, dict) else {}
     failed = [item for item in invariants.get('results') or []
               if item.get('status') == schemas.STATUS_FAIL]
     unknown = [item for item in invariants.get('results') or []
                if item.get('status') == schemas.STATUS_UNKNOWN]
+
+    evaluation_verdict = (evaluation or {}).get('verdict')
+    if evaluation_verdict in (schemas.STATUS_PASS, 'pass_with_warnings'):
+        quality = True
+    elif evaluation_verdict == schemas.STATUS_FAIL:
+        quality = False
+    else:
+        quality = None
     checks = {
-        'call_ok': True,
-        'write_confirmed': bool(invariants.get('results')) and not failed,
-        'save_confirmed': None,
-        'reopen_confirmed': None,
-        'quality_passed': (evaluation or {}).get('verdict') in
-                          (schemas.STATUS_PASS, 'pass_with_warnings'),
+        'call_ok': _bool_fact(applied.get('call_ok')),
+        'write_confirmed': _bool_fact(applied.get('write_confirmed')),
+        'save_confirmed': _bool_fact(applied.get('save_confirmed')),
+        'reopen_confirmed': _bool_fact(applied.get('reopen_confirmed')),
+        'quality_passed': quality,
     }
-    if failed:
+    acceptance = scope.evaluate_acceptance(contract, diff, evaluation,
+                                           invariants)
+
+    contradictions = []
+    if checks['write_confirmed'] is True and failed:
+        contradictions.append('apply reports a confirmed write but an '
+                              'invariant failed')
+    for field in ('call_ok', 'write_confirmed', 'save_confirmed',
+                  'reopen_confirmed', 'quality_passed'):
+        if checks[field] is False:
+            contradictions.append('%s is false' % field)
+    if after is not None:
+        after_hash = (after.get('revision') or {}).get('semantic_sha256')
+        diff_after = (diff.get('after') or {}).get('semantic_sha256')
+        if after_hash and diff_after and after_hash != diff_after:
+            contradictions.append(
+                'the supplied after observation hash %s does not match the '
+                'readback diff hash %s' % (after_hash, diff_after))
+
+    if contradictions or failed or acceptance['status'] == 'fail':
         verdict = schemas.STATUS_FAIL
-    elif unknown:
+    elif (any(value is None for value in checks.values()) or unknown or
+          acceptance['status'] == 'unknown' or
+          evaluation_verdict not in (schemas.STATUS_PASS,
+                                     'pass_with_warnings',
+                                     schemas.STATUS_FAIL)):
         verdict = schemas.STATUS_UNKNOWN
-    elif checks['quality_passed'] is False:
-        verdict = schemas.STATUS_FAIL
     else:
         verdict = schemas.STATUS_PASS
+
+    simulated = bool(
+        applied.get('simulated') or diff.get('simulated') or
+        (evaluation or {}).get('simulated') or
+        (after or {}).get('simulated'))
     result = {
         'schema': schemas.SCHEMA_APPLY,
         'ok': verdict != schemas.STATUS_FAIL,
         'generated_at': schemas.now_utc(),
         'target': contract.get('target'),
         'verdict': verdict,
+        'completed': verdict == schemas.STATUS_PASS,
+        'simulated': simulated,
         'checks': checks,
+        'acceptance': acceptance,
+        'target_met': acceptance['target_met'],
         'failed_invariants': failed,
         'unknown_invariants': unknown,
-        'evaluation_verdict': (evaluation or {}).get('verdict'),
-        'unknown': (evaluation or {}).get('unknown') or [],
+        'contradictions': contradictions,
+        'evaluation_verdict': evaluation_verdict,
+        'unknown': ((evaluation or {}).get('unknown') or []) +
+                   [{'field': 'checks.%s' % field,
+                     'reason': 'the apply receipt does not carry this fact'}
+                    for field, value in checks.items() if value is None],
+        'note': 'five facts come from the apply receipt; no fact is inferred '
+                'from a passing diff, and an unrun fact keeps the verdict '
+                'unknown rather than complete',
     }
     _state_step(args.state, schemas.STAGE_VERIFY,
                 evidence=[args.out] if args.out else None,
@@ -423,6 +482,10 @@ def build_parser():
     verify.add_argument('--contract', required=True)
     verify.add_argument('--diff', required=True)
     verify.add_argument('--evaluation')
+    verify.add_argument('--apply',
+                        help='apply receipt carrying the five separate facts')
+    verify.add_argument('--after',
+                        help='after observation; only its hash is cross-checked')
     _add_common(verify, state=True)
     verify.set_defaults(func=cmd_verify)
 

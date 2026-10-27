@@ -711,6 +711,9 @@ def _issue_from_record(record, target, index):
     issue['code'] = record['code']
     issue['recheck'] = record.get('recheck')
     issue['source'] = record.get('source')
+    for key in ('role', 'role_basis', 'auto_action_allowed'):
+        if key in record:
+            issue[key] = record[key]
     return issue
 
 
@@ -1749,12 +1752,86 @@ def _summary_counters(value):
     return counters
 
 
+_DECAP_CODES = frozenset({
+    'decap-too-far', 'decap-too-far-bulk', 'critical-decoupling-far',
+})
+_CAP_ROLES = ('bulk', 'local-decoupling', 'unknown')
+_CAP_UNIT_SCALE = {'p': 1e-12, 'n': 1e-9, 'u': 1e-6, 'µ': 1e-6, 'μ': 1e-6,
+                   '': 1.0}
+_BULK_MIN_FARAD = 1e-6
+
+
+def _capacitance_far(text):
+    """Parse a capacitance value such as ``100nF`` or ``10UF50VC110GL``."""
+    if not isinstance(text, str):
+        return None
+    match = re.search(
+        r'(?<![A-Za-z0-9])(\d+(?:\.\d+)?)\s*([pnuµμ]?)F(?![A-Za-z])',
+        text, re.IGNORECASE)
+    if not match:
+        return None
+    try:
+        number = float(match.group(1))
+    except ValueError:
+        return None
+    return number * _CAP_UNIT_SCALE.get(match.group(2).lower(), 1.0)
+
+
+def _observation_components(observation):
+    pcb = observation.get('pcb') if isinstance(observation, dict) else None
+    result = {}
+    for item in (pcb or {}).get('components') or []:
+        if not isinstance(item, dict):
+            continue
+        ref = _text(item.get('designator') or item.get('ref'))
+        if ref:
+            result[ref] = item
+    return result
+
+
+def _capacitor_role(raw, components):
+    """Return ``(role, basis, auto_action_allowed)`` for a decoupling finding.
+
+    A bulk capacitor (>= 1 uF) has a different placement intent than a local
+    decoupling capacitor; without a parsed value the role is ``unknown`` and
+    the finding must not drive an automatic move.
+    """
+    if _code_of(raw) not in _DECAP_CODES:
+        return None, None, True
+    if isinstance(raw, dict) and _text(raw.get('role')) in _CAP_ROLES:
+        role = _text(raw.get('role'))
+        return role, 'declared by the source finding', role != 'unknown'
+    designator = None
+    for value in _objects(raw):
+        ref = _text(str(value))
+        if ref and ref in components:
+            designator = ref
+            break
+    component = components.get(designator) if designator else None
+    if component:
+        for key in ('value', 'name', 'device'):
+            text = _text(component.get(key))
+            farad = _capacitance_far(text)
+            if farad is None:
+                continue
+            role = 'bulk' if farad >= _BULK_MIN_FARAD else 'local-decoupling'
+            return (role,
+                    'capacitance %s parsed from component %s.%s'
+                    % (text, designator, key),
+                    True)
+    return ('unknown',
+            'no capacitance value could be parsed for %s' % (designator or
+                                                             'the object'),
+            False)
+
+
 def _engineering_evidence(observation, specs):
     """Return engineering records, hard extras, readability extras, coverage."""
     collected = {'findings': [], 'coverage': [], 'pcb_check': []}
     for label, source, kind in _iter_engineering_sources(observation):
         _walk_engineering(label, source, kind, collected)
 
+    components = _observation_components(observation)
     confirmed, conditional, hard_extra, readability_extra = [], [], [], []
     for label, raw, kind in collected['findings']:
         classification = _classify_with_rules(raw, specs)
@@ -1783,6 +1860,26 @@ def _engineering_evidence(observation, specs):
             readability_extra.append(record)
             continue
         record = _finding_record(classification, raw, label, 0)
+        role, role_basis, auto_action = _capacitor_role(raw, components)
+        if role is not None:
+            record['role'] = role
+            record['role_basis'] = role_basis
+            record['auto_action_allowed'] = bool(auto_action)
+            if role == 'bulk':
+                # The distance limit describes local decoupling; a bulk
+                # capacitor is not exempt from placement quality, but this
+                # measured finding cannot be confirmed as a defect.
+                record['deterministic'] = False
+                record['status'] = 'conditional_risk'
+                record['basis'] = (
+                    record['basis'] + '; component is a bulk capacitor, so the '
+                    'local-decoupling distance limit is not a confirmed defect')
+                conditional.append(record)
+                continue
+            if role == 'unknown':
+                record['basis'] = (
+                    record['basis'] + '; capacitor role is unknown, so this '
+                    'finding must not drive an automatic move')
         if classification['status'] == 'confirmed_issue':
             confirmed.append(record)
         else:
@@ -2408,6 +2505,7 @@ def evaluate(*, observation, intent=None, issues=None, rules=None):
         'readability findings are suggestions only')
     evaluation['drc_zero_but_quality_issues'] = drc_zero_but_poor(
         observation, evaluation)
+    evaluation['simulated'] = bool(observation.get('simulated'))
 
     if hard_status == schemas.STATUS_FAIL:
         verdict = schemas.STATUS_FAIL
@@ -2976,6 +3074,8 @@ def compare_candidates(*, target, candidates):
     comparison['tolerance'] = target.get('tolerance', target.get(
         'metric_tolerance', 0.0))
     comparison['not_selected'] = not_selected
+    comparison['simulated'] = any(bool(entry['raw'].get('simulated'))
+                                  for entry in entries)
     comparison['unknown'] = []
     if not objectives:
         comparison['unknown'].append({

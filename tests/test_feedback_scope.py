@@ -155,13 +155,23 @@ def make_contract(observation=None, scope=None, actions=None, invariants=None,
         preview_only=preview_only)
 
 
+def raw_before_dump(observation=None):
+    """The raw dump a PCB plan must carry; tests use the same board shape."""
+    observation = observation if observation is not None else make_observation()
+    board = (observation or {}).get('pcb')
+    return copy.deepcopy(board) if isinstance(board, dict) else None
+
+
 def place_plan(designator='D1', x=120.0, y=100.0, *, base=BASE,
-               observation=None, **extra):
+               observation=None, before_dump=None, **extra):
     plan = {
         'schema': D.PLAYBOOK_SCHEMA,
         'base': {'semantic_sha256': base},
         'ops': [{'op': 'place', 'designator': designator,
                  'to': {'x': x, 'y': y, 'rotation': 0.0}}],
+        'before_dump': copy.deepcopy(
+            before_dump if before_dump is not None
+            else raw_before_dump(observation)),
     }
     if observation is not None:
         plan['observation'] = observation
@@ -169,12 +179,16 @@ def place_plan(designator='D1', x=120.0, y=100.0, *, base=BASE,
     return plan
 
 
-def track_plan(points, *, net='GND', base=BASE, observation=None):
+def track_plan(points, *, net='GND', base=BASE, observation=None,
+               before_dump=None):
     plan = {
         'schema': D.PLAYBOOK_SCHEMA,
         'base': {'semantic_sha256': base},
         'ops': [{'op': 'track', 'net': net, 'layer': 1, 'width_mil': 10,
                  'points': [list(point) for point in points]}],
+        'before_dump': copy.deepcopy(
+            before_dump if before_dump is not None
+            else raw_before_dump(observation)),
     }
     if observation is not None:
         plan['observation'] = observation
@@ -478,6 +492,7 @@ class ValidationTests(unittest.TestCase):
                  'points': [[0, 0], [10, 0]]},
             ],
             'observation': self.observation,
+            'before_dump': raw_before_dump(self.observation),
         }
         result = D.validate_plan(self.contract, plan)
         self.assertFalse(result['ok'])
@@ -501,6 +516,77 @@ class ValidationTests(unittest.TestCase):
         self.assertTrue(result['ok'], result['refusals'])
         self.assertTrue(any(item['field'].startswith('locked')
                             for item in result['unknown']))
+
+
+class BeforeDumpGateTests(unittest.TestCase):
+    """A PCB write needs a complete raw dump bound to the live board."""
+
+    def setUp(self):
+        self.observation = make_observation()
+        self.contract = make_contract(self.observation)
+
+    def refuse(self, plan, expected_reason, expected_class):
+        runner = RecordingRunner()
+        result = D.apply_scoped(self.contract, plan, runner=runner,
+                                write=True)
+        self.assertFalse(result['ok'])
+        self.assertEqual(result['status'], 'refused')
+        self.assertEqual(result['writes_sent'], 0)
+        self.assertEqual(runner.calls, [])
+        self.assertEqual(result['failure']['failure_class'], expected_class)
+        reasons = [item['reason'] for item in
+                   (result['failure'].get('detail') or {}).get('refusals', [])]
+        self.assertIn(expected_reason, reasons)
+        validation = D.validate_plan(self.contract, plan)
+        self.assertIn(expected_reason,
+                      [item['reason'] for item in validation['refusals']])
+        return result
+
+    def test_missing_raw_before_dump_is_refused_before_any_write(self):
+        plan = place_plan(observation=self.observation)
+        plan.pop('before_dump')
+        self.refuse(plan, 'missing_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED)
+
+    def test_missing_copper_capture_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        del plan['before_dump']['copper']['vias']
+        self.refuse(plan, 'incomplete_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED)
+
+    def test_unavailable_copper_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        plan['before_dump']['availability']['copper'] = 'unavailable'
+        self.refuse(plan, 'incomplete_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED)
+
+    def test_before_dump_for_another_project_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        plan['before_dump']['capture']['projectUuid'] = 'other-project'
+        self.refuse(plan, 'before_dump_target_mismatch',
+                    S.FAILURE_TARGET_MISMATCH)
+
+    def test_before_dump_for_another_document_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        plan['before_dump']['capture']['documentUuid'] = 'other-doc'
+        self.refuse(plan, 'before_dump_target_mismatch',
+                    S.FAILURE_TARGET_MISMATCH)
+
+    def test_stale_before_dump_hash_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        plan['before_dump']['semanticSha256'] = 'older-board'
+        self.refuse(plan, 'before_dump_stale', S.FAILURE_STALE_BASELINE)
+
+    def test_before_dump_content_mismatch_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        plan['before_dump']['components'][0]['x'] = 777.0
+        self.refuse(plan, 'before_dump_stale', S.FAILURE_STALE_BASELINE)
+
+    def test_unbound_before_dump_without_capture_is_refused(self):
+        plan = place_plan(observation=self.observation)
+        plan['before_dump'].pop('capture')
+        self.refuse(plan, 'unbound_before_dump',
+                    S.FAILURE_PRECONDITION_REFUSED)
 
 
 # ---------------------------------------------------------------------------
@@ -703,6 +789,99 @@ class DiffTests(unittest.TestCase):
         self.assertTrue(result['schematic']['nets']['changed'])
         self.assertTrue(result['schematic']['texts']['changed'])
         self.assertEqual(result['status'], 'changed')
+
+
+# ---------------------------------------------------------------------------
+# acceptance
+# ---------------------------------------------------------------------------
+
+class AcceptanceTests(unittest.TestCase):
+    """Declared targets are met only when fully measured and passing."""
+
+    def contract(self, *acceptance):
+        return {'acceptance': list(acceptance)}
+
+    def diff(self, outside=0, inside=2):
+        return {'counts': {'total': outside + inside,
+                           'inside_scope': inside,
+                           'outside_scope': outside},
+                'changes': [{}] * (outside + inside)}
+
+    def test_zero_outside_scope_meets_the_declared_target(self):
+        result = D.evaluate_acceptance(
+            self.contract({'id': 'a1', 'metric': 'diff.outside_scope',
+                           'predicate': '== 0'}), self.diff(outside=0))
+        self.assertEqual(result['schema'], 'hds-acceptance/v1')
+        self.assertEqual(result['status'], 'pass')
+        self.assertIs(result['target_met'], True)
+        self.assertEqual(result['failed'], [])
+
+    def test_outside_scope_change_fails_the_target(self):
+        result = D.evaluate_acceptance(
+            self.contract({'id': 'a1', 'metric': 'diff.outside_scope',
+                           'predicate': '== 0'}), self.diff(outside=2))
+        self.assertEqual(result['status'], 'fail')
+        self.assertIs(result['target_met'], False)
+        self.assertEqual(result['failed'], ['a1'])
+
+    def test_unmeasured_metric_is_unknown_not_met(self):
+        result = D.evaluate_acceptance(
+            self.contract({'id': 'a1', 'metric': 'diff.outside_scope',
+                           'predicate': '== 0'}), {})
+        self.assertEqual(result['status'], 'unknown')
+        self.assertIsNone(result['target_met'])
+        self.assertEqual(result['unknown'], ['a1'])
+
+    def test_no_declared_acceptance_is_not_a_pass(self):
+        result = D.evaluate_acceptance({}, self.diff())
+        self.assertEqual(result['status'], 'unknown')
+        self.assertIsNone(result['target_met'])
+
+    def test_count_prefix_and_numeric_thresholds(self):
+        passing = D.evaluate_acceptance(
+            self.contract({'id': 'a1', 'metric': 'diff.changes',
+                           'predicate': 'count >= 2'}), self.diff(inside=2))
+        self.assertEqual(passing['status'], 'pass')
+        failing = D.evaluate_acceptance(
+            self.contract({'id': 'a1', 'metric': 'diff.changes',
+                           'predicate': '< 2'}), self.diff(inside=2))
+        self.assertEqual(failing['status'], 'fail')
+
+    def test_status_metrics_compare_by_equality_only(self):
+        contract = self.contract(
+            {'id': 'inv', 'metric': 'invariants.status', 'predicate': '== pass'},
+            {'id': 'qual', 'metric': 'evaluation.verdict',
+             'predicate': '== pass'})
+        result = D.evaluate_acceptance(
+            contract, self.diff(),
+            evaluation={'verdict': 'pass'},
+            invariants={'status': 'pass'})
+        self.assertEqual(result['status'], 'pass')
+        bad = D.evaluate_acceptance(
+            contract, self.diff(),
+            evaluation={'verdict': 'fail'},
+            invariants={'status': 'pass'})
+        self.assertEqual(bad['status'], 'fail')
+        self.assertEqual(bad['failed'], ['qual'])
+        ordered = D.evaluate_acceptance(
+            self.contract({'id': 'inv', 'metric': 'invariants.status',
+                           'predicate': '>= pass'}),
+            self.diff(), invariants={'status': 'pass'})
+        self.assertEqual(ordered['status'], 'unknown')
+
+    def test_invariants_fall_back_to_the_diff_payload(self):
+        result = D.evaluate_acceptance(
+            self.contract({'id': 'inv', 'metric': 'invariants.status',
+                           'predicate': '== pass'}),
+            dict(self.diff(), invariants={'status': 'pass'}))
+        self.assertEqual(result['status'], 'pass')
+
+    def test_unreadable_predicate_is_unknown(self):
+        result = D.evaluate_acceptance(
+            self.contract({'id': 'a1', 'metric': 'diff.outside_scope',
+                           'predicate': 'zero please'}), self.diff())
+        self.assertEqual(result['status'], 'unknown')
+        self.assertIsNone(result['target_met'])
 
 
 # ---------------------------------------------------------------------------
@@ -940,6 +1119,7 @@ class ApplyTests(unittest.TestCase):
                  'points': [[110, 50], [120, 50]]},
             ],
             'observation': observation,
+            'before_dump': raw_before_dump(observation),
         }
         runner = PcbFakeRunner(after_board)
         with tempfile.TemporaryDirectory() as directory:

@@ -113,5 +113,105 @@ class CliTests(unittest.TestCase):
             self.assertEqual(evaluated['verdict'], 'pass_with_warnings')
 
 
+class VerifyCliTests(unittest.TestCase):
+    """``verify`` reports the five facts separately and never completes early."""
+
+    def setUp(self):
+        self._temp = tempfile.TemporaryDirectory()
+        self.temp = Path(self._temp.name)
+        self.contract = self.write('contract.json', {
+            'target': {'project_uuid': 'project-1'},
+            'acceptance': [{'id': 'scope', 'metric': 'diff.outside_scope',
+                            'predicate': '== 0'}],
+        })
+        self.diff = self.write('diff.json', {
+            'diff': {'counts': {'total': 1, 'inside_scope': 1,
+                                'outside_scope': 0},
+                     'after': {'semantic_sha256': 'abc123'},
+                     'simulated': False},
+            'invariants': {'status': 'pass',
+                           'results': [{'id': 'connectivity',
+                                        'status': 'pass'}]},
+        })
+        self.evaluation = self.write('eval.json', {'verdict': 'pass'})
+
+    def tearDown(self):
+        self._temp.cleanup()
+
+    def write(self, name, payload):
+        path = self.temp / name
+        path.write_text(json.dumps(payload), encoding='utf-8')
+        return path
+
+    def verify(self, *extra):
+        out = self.temp / 'verify.json'
+        result = run_cli(['verify', '--contract', str(self.contract),
+                          '--diff', str(self.diff),
+                          '--evaluation', str(self.evaluation),
+                          '--out', str(out)] + list(extra))
+        self.assertEqual(result.returncode, 0, result.stderr)
+        return json.loads(out.read_text(encoding='utf-8'))
+
+    def receipt(self, **facts):
+        payload = {'call_ok': True, 'write_confirmed': True,
+                   'save_confirmed': True, 'reopen_confirmed': True,
+                   'simulated': False}
+        payload.update(facts)
+        return self.write('apply.json', payload)
+
+    def test_all_five_facts_and_target_met_is_complete(self):
+        result = self.verify('--apply', str(self.receipt()))
+        self.assertEqual(result['verdict'], 'pass')
+        self.assertIs(result['completed'], True)
+        self.assertIs(result['target_met'], True)
+        self.assertEqual(result['checks'], {
+            'call_ok': True, 'write_confirmed': True,
+            'save_confirmed': True, 'reopen_confirmed': True,
+            'quality_passed': True})
+        self.assertEqual(result['contradictions'], [])
+
+    def test_missing_apply_receipt_keeps_every_fact_unknown(self):
+        result = self.verify()
+        self.assertEqual(result['verdict'], 'unknown')
+        self.assertIs(result['completed'], False)
+        for field in ('call_ok', 'write_confirmed', 'save_confirmed',
+                      'reopen_confirmed'):
+            self.assertIsNone(result['checks'][field])
+        unknown_fields = {item['field'] for item in result['unknown']}
+        self.assertIn('checks.write_confirmed', unknown_fields)
+
+    def test_unverified_schematic_reopen_stays_unknown(self):
+        result = self.verify('--apply',
+                             str(self.receipt(reopen_confirmed=None)))
+        self.assertIsNone(result['checks']['reopen_confirmed'])
+        self.assertEqual(result['verdict'], 'unknown')
+        self.assertIs(result['completed'], False)
+
+    def test_failed_acceptance_target_is_a_fail_not_a_complete(self):
+        self.diff = self.write('diff.json', {
+            'diff': {'counts': {'total': 2, 'inside_scope': 1,
+                                'outside_scope': 1}},
+            'invariants': {'status': 'pass', 'results': []},
+        })
+        result = self.verify('--apply', str(self.receipt()))
+        self.assertEqual(result['acceptance']['status'], 'fail')
+        self.assertIs(result['target_met'], False)
+        self.assertEqual(result['verdict'], 'fail')
+        self.assertIs(result['completed'], False)
+
+    def test_after_hash_mismatch_is_a_contradiction(self):
+        after = self.write('after.json', {
+            'revision': {'semantic_sha256': 'deadbeef'}})
+        result = self.verify('--apply', str(self.receipt()),
+                             '--after', str(after))
+        self.assertEqual(result['verdict'], 'fail')
+        self.assertTrue(any('does not match' in item
+                            for item in result['contradictions']))
+
+    def test_simulated_apply_is_visible_in_verify(self):
+        result = self.verify('--apply', str(self.receipt(simulated=True)))
+        self.assertIs(result['simulated'], True)
+
+
 if __name__ == '__main__':
     unittest.main()

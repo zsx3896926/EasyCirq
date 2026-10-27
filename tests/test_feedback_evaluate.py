@@ -180,6 +180,90 @@ class DRCZeroButPoorTests(unittest.TestCase):
         self.assertFalse(ev.drc_zero_but_poor(obs, result))
 
 
+class CapacitorRoleTests(unittest.TestCase):
+    """A decoupling finding's role decides what may drive an automatic move."""
+
+    def evaluated(self, value=None, *, finding=None):
+        check = pcb_check_decap()
+        if finding is not None:
+            check['findings'] = [finding]
+        extra = {}
+        if value is not None:
+            extra['components'] = [{'designator': 'C1', 'value': value}]
+        return ev.evaluate(observation=base_observation(
+            pcb_check=check, pcb_extra=extra))
+
+    def test_bulk_capacitor_is_conditional_not_a_confirmed_defect(self):
+        result = self.evaluated('10UF50VC110GL')
+        self.assertEqual(result['confirmed_issues'], [])
+        self.assertEqual(len(result['conditional_risks']), 1)
+        risk = result['conditional_risks'][0]
+        self.assertEqual(risk['role'], 'bulk')
+        self.assertTrue(risk['auto_action_allowed'])
+        self.assertNotIn('deterministic', risk['basis'])
+        self.assertIn('bulk capacitor', risk['basis']['heuristic'])
+        # A bulk cap is not "DRC zero but quality issues"; the distance limit
+        # describes local decoupling.
+        self.assertFalse(result['drc_zero_but_quality_issues'])
+
+    def test_local_decoupling_is_confirmed_and_carries_role(self):
+        result = self.evaluated('100nF')
+        self.assertEqual(len(result['confirmed_issues']), 1)
+        issue = result['confirmed_issues'][0]
+        self.assertEqual(issue['role'], 'local-decoupling')
+        self.assertTrue(issue['auto_action_allowed'])
+        self.assertTrue(issue['basis']['deterministic'])
+        self.assertIn('100nF', issue['role_basis'])
+        self.assertTrue(result['drc_zero_but_quality_issues'])
+
+    def test_unknown_role_must_not_drive_an_automatic_move(self):
+        result = self.evaluated('CAP-0603')
+        self.assertEqual(len(result['confirmed_issues']), 1)
+        issue = result['confirmed_issues'][0]
+        self.assertEqual(issue['role'], 'unknown')
+        self.assertFalse(issue['auto_action_allowed'])
+        self.assertIn('must not drive an automatic move',
+                      issue['basis']['reason'])
+        self.assertIn('no capacitance value', issue['role_basis'])
+
+    def test_declared_role_is_honoured_over_component_value(self):
+        result = self.evaluated('10uF', finding={
+            'type': 'decap-too-far', 'level': 'WARN', 'designator': 'C1',
+            'role': 'local-decoupling', 'message': 'C1 is far from U1.8',
+        })
+        self.assertEqual(len(result['confirmed_issues']), 1)
+        issue = result['confirmed_issues'][0]
+        self.assertEqual(issue['role'], 'local-decoupling')
+        self.assertTrue(issue['auto_action_allowed'])
+
+    def test_non_decap_finding_has_no_role(self):
+        result = ev.evaluate(observation=base_observation(
+            pcb_check=pcb_check_parallel()))
+        self.assertEqual(result['conditional_risks'][0].get('role'), None)
+
+
+class SimulatedFlagTests(unittest.TestCase):
+    """A simulated input must be visible in the machine-readable output."""
+
+    def test_simulated_observation_marks_evaluation(self):
+        observation = base_observation()
+        observation['simulated'] = True
+        result = ev.evaluate(observation=observation)
+        self.assertIs(result['simulated'], True)
+
+    def test_real_observation_is_explicitly_false(self):
+        result = ev.evaluate(observation=base_observation())
+        self.assertIs(result['simulated'], False)
+
+    def test_comparison_reports_any_simulated_candidate(self):
+        comparison = ev.compare_candidates(target={}, candidates=[
+            {'id': 'a', 'hard': 'pass', 'metrics': {'crossings': 1},
+             'simulated': True},
+            {'id': 'b', 'hard': 'pass', 'metrics': {'crossings': 2}},
+        ])
+        self.assertIs(comparison['simulated'], True)
+
+
 class HardLayerTests(unittest.TestCase):
     def test_drc_error_is_hard_fail(self):
         obs = base_observation()

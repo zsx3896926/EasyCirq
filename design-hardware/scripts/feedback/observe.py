@@ -1502,11 +1502,14 @@ def collect_observation(*, runner=None, easyeda=None, window, project,
     expected_project_uuid = _text(project) if _looks_like_uuid(project) \
         else None
     expected_project_name = None if _looks_like_uuid(project) else _text(project)
+    simulation = {'simulated': False}
 
     def execute(index, label, args, *, document=None, document_name=None,
                 project_uuid=None, project_name=None):
         record = _invoke(run, args, easyeda=easyeda, timeout=timeout)
-        body, _envelope = _body(record)
+        body, envelope = _body(record)
+        if isinstance(envelope, dict) and envelope.get('simulated') is True:
+            simulation['simulated'] = True
         identity = {'context_echoed': False, 'verified': None}
         if _record_state(record) in ('ok', 'failed') and body is not None:
             identity = _verify_identity(
@@ -1558,8 +1561,8 @@ def collect_observation(*, runner=None, easyeda=None, window, project,
         if evidence_dir:
             evidence.append(_evidence_write(evidence_dir, index, label,
                                             record, body))
-        return {'record': record, 'body': body, 'state': state,
-                'reason': reason, 'identity': identity}
+        return {'record': record, 'body': body, 'envelope': envelope,
+                'state': state, 'reason': reason, 'identity': identity}
 
     info_start = execute(1, 'project-info', ['project', 'info', '--json'] +
                          base, project_uuid=expected_project_uuid,
@@ -1936,6 +1939,7 @@ def collect_observation(*, runner=None, easyeda=None, window, project,
         'captured_at': pcb_cli.utc_now(),
     }
     observation['revision'] = revision
+    observation['simulated'] = bool(simulation['simulated'])
     if per_document:
         revision['semantic_sha256'] = observation_semantic_hash(observation)
     else:

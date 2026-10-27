@@ -55,6 +55,7 @@ import copy
 import json
 import math
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -956,6 +957,17 @@ def _plan_observation(plan):
     return None
 
 
+def _plan_simulated(plan):
+    """True when the plan or its observation came from a simulated host."""
+    if not isinstance(plan, dict):
+        return False
+    if plan.get('simulated') is True:
+        return True
+    observation = _plan_observation(plan)
+    return bool(isinstance(observation, dict) and
+                observation.get('simulated'))
+
+
 def _plan_shape(plan):
     if isinstance(plan, list):
         return 'legacy'
@@ -1616,6 +1628,185 @@ def _pcb_dump_from_view(observation):
     return dump
 
 
+_DUMP_COPPER_KEYS = ('lines', 'vias', 'pours', 'regions', 'fills')
+_AVAILABLE_TOKENS = ('available', 'complete', 'ok', True)
+
+
+def _raw_before_dump(plan):
+    """Return the caller-supplied raw PCB dump, never a reconstruction."""
+    if not isinstance(plan, dict):
+        return None
+    value = plan.get('before_dump')
+    if not isinstance(value, dict):
+        return None
+    if not isinstance(value.get('components'), list):
+        return None
+    return value
+
+
+def _dump_copper_problem(dump):
+    copper = dump.get('copper')
+    if not isinstance(copper, dict):
+        return 'before_dump has no copper section'
+    for key in _DUMP_COPPER_KEYS:
+        if not isinstance(copper.get(key), list):
+            return 'before_dump.copper.%s is missing' % key
+    availability = copper.get('availability')
+    if isinstance(availability, dict):
+        missing = sorted(key for key, value in availability.items()
+                         if value not in _AVAILABLE_TOKENS)
+        if missing:
+            return 'copper capture is incomplete for: %s' % ', '.join(missing)
+    elif availability is not None and availability not in _AVAILABLE_TOKENS:
+        return 'copper capture is declared %r' % (availability,)
+    top = dump.get('availability')
+    if isinstance(top, dict):
+        for key in ('components', 'copper', 'outline'):
+            value = top.get(key)
+            if value is not None and value not in _AVAILABLE_TOKENS:
+                return 'capture is incomplete: %s=%r' % (key, value)
+    return None
+
+
+def _dump_component_problem(dump, pcb):
+    raw = {}
+    for item in dump.get('components') or []:
+        if not isinstance(item, dict):
+            continue
+        designator = _text(item.get('designator'))
+        if designator:
+            raw[designator] = item
+    components, _availability = _pcb_component_map(pcb)
+    observed = {str(key): value
+                for key, value in (components or {}).items()}
+    if not observed:
+        return 'the fresh observation has no measurable components'
+    if set(raw) != set(observed):
+        missing = sorted(set(observed) - set(raw))
+        extra = sorted(set(raw) - set(observed))
+        return ('before_dump components do not match the observation '
+                '(missing=%s extra=%s)' % (missing[:8], extra[:8]))
+    for designator in sorted(observed):
+        left = raw[designator]
+        right = observed[designator]
+        left_id = _text(_first(left, 'primitiveId', 'primitive_id'))
+        right_id = _text(right.get('primitive_id'))
+        if left_id and right_id and left_id != right_id:
+            return ('component %s primitive_id changed between the raw dump '
+                    'and the fresh observation' % designator)
+        for key in ('x', 'y', 'rotation'):
+            left_value = _number(left.get(key))
+            right_value = _number(right.get(key))
+            if left_value is None or right_value is None:
+                continue
+            if abs(left_value - right_value) > 1e-6:
+                return ('component %s %s changed between the raw dump and the '
+                        'fresh observation' % (designator, key))
+    return None
+
+
+def _before_dump_refusals(contract, plan, observation):
+    """Refuse a PCB plan whose raw before_dump is missing, incomplete or not
+    bound to the fresh observation."""
+    kind, _ops, _flags, _error = _normalize_plan_ops(plan)
+    if kind != 'pcb':
+        return []
+    dump = plan.get('before_dump') if isinstance(plan, dict) else None
+    if not isinstance(dump, dict):
+        return [_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'missing_before_dump',
+            'a PCB write requires plan.before_dump carrying the raw pcb dump '
+            'captured before planning; a normalized observation is not a '
+            'substitute')]
+    if not isinstance(dump.get('components'), list):
+        return [_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'invalid_before_dump',
+            'plan.before_dump.components must be the raw list captured by '
+            'pcb dump')]
+    refusals = []
+    problem = _dump_copper_problem(dump)
+    if problem:
+        refusals.append(_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'incomplete_before_dump',
+            'the raw before_dump is not a complete measurement: %s' % problem))
+
+    capture = dump.get('capture') if isinstance(dump.get('capture'),
+                                                dict) else {}
+    observation = observation if isinstance(observation, dict) else {}
+    pcb = _obs_pcb(observation)
+    project = observation.get('project') if isinstance(
+        observation.get('project'), dict) else {}
+    target = contract.get('target') or {}
+    expected_project = _text(target.get('project_uuid')) or \
+        _text(project.get('uuid'))
+    expected_document = _text((plan.get('document') or {}).get('uuid')) or \
+        _text(_first(pcb, 'document_uuid', 'documentUuid'))
+    dump_project = _text(_first(capture, 'projectUuid', 'project_uuid'))
+    dump_document = _text(_first(capture, 'documentUuid', 'document_uuid'))
+    observed_project = _text(_first(project, 'uuid', 'projectUuid'))
+    observed_document = _text(_first(pcb, 'document_uuid', 'documentUuid'))
+
+    if expected_project and dump_project and dump_project != expected_project:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'before_dump was captured from project %s, the contract targets %s'
+            % (dump_project, expected_project),
+            expected=expected_project, actual=dump_project))
+    if observed_project and dump_project and \
+            dump_project != observed_project:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'before_dump belongs to project %s but the fresh observation is '
+            'project %s' % (dump_project, observed_project),
+            expected=observed_project, actual=dump_project))
+    if expected_document and dump_document and \
+            dump_document != expected_document:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'before_dump was captured from document %s, the plan targets %s'
+            % (dump_document, expected_document),
+            expected=expected_document, actual=dump_document))
+    if observed_document and dump_document and \
+            dump_document != observed_document:
+        refusals.append(_refusal(
+            schemas.FAILURE_TARGET_MISMATCH, 'before_dump_target_mismatch',
+            'before_dump document %s does not match the fresh observation '
+            'document %s' % (dump_document, observed_document),
+            expected=observed_document, actual=dump_document))
+    if not dump_project or not dump_document:
+        refusals.append(_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'unbound_before_dump',
+            'before_dump.capture does not identify both its project and '
+            'document; the dump cannot be bound to the target'))
+
+    dump_hash = _text(_first(dump, 'semanticSha256', 'semantic_sha256'))
+    observed_hash = _text(_first(pcb, 'semanticSha256', 'semantic_sha256'))
+    if not dump_hash or not observed_hash:
+        refusals.append(_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'unbound_before_dump',
+            'before_dump or the fresh observation carries no PCB '
+            'semanticSha256; content binding cannot be verified'))
+    elif dump_hash != observed_hash:
+        refusals.append(_refusal(
+            schemas.FAILURE_STALE_BASELINE, 'before_dump_stale',
+            'before_dump hash %s does not match the fresh observation hash %s'
+            % (dump_hash, observed_hash),
+            expected=observed_hash, actual=dump_hash))
+
+    if not isinstance(pcb, dict):
+        refusals.append(_refusal(
+            schemas.FAILURE_PRECONDITION_REFUSED, 'missing_observation',
+            'the fresh observation carries no PCB section; before_dump cannot '
+            'be bound to the live board'))
+    else:
+        component_problem = _dump_component_problem(dump, pcb)
+        if component_problem:
+            refusals.append(_refusal(
+                schemas.FAILURE_STALE_BASELINE, 'before_dump_stale',
+                component_problem))
+    return refusals
+
+
 def _plan_ops_for_compile(plan, kind, ops):
     """Build the plan object pcb_apply_plan expects for the chosen ops.
 
@@ -1690,23 +1881,29 @@ def _fill_place_primitive_ids(plan_copy, board):
 def _compile_pcb(plan, kind, ops, observation, *, timeout=120,
                  doc=None, project=None):
     pcb_apply_plan, _pcb_cli = _pcb_modules()
-    board = _pcb_dump_from_view(observation)
+    board = _raw_before_dump(plan)
     if board is None:
         return {'steps': [], 'step_scope': [], 'records': [],
-                'refusals': [{'failure_class': schemas.FAILURE_INVALID_INPUT,
-                              'reason': 'invalid_observation',
-                              'message': 'a measured PCB board is required to '
-                                         'compile PCB operations'}],
+                'refusals': [{'failure_class':
+                              schemas.FAILURE_PRECONDITION_REFUSED,
+                              'reason': 'missing_before_dump',
+                              'message': 'a raw plan.before_dump is required '
+                                         'to compile PCB operations; a '
+                                         'normalized observation is not a '
+                                         'substitute'}],
                 'normalized_ops': [], 'noops': []}
     plan_for_compile = _plan_ops_for_compile(plan, kind, ops)
     plan_for_compile = _fill_place_primitive_ids(plan_for_compile, board)
     try:
+        board_view = pcb_apply_plan.normalize_board(board)
         if isinstance(plan_for_compile, list) or 'placements' in plan_for_compile:
             normalized, placements, refused, noops = \
-                pcb_apply_plan._legacy_placement_ops(plan_for_compile, board)
+                pcb_apply_plan._legacy_placement_ops(plan_for_compile,
+                                                     board_view)
         else:
             normalized, placements, refused, _primitive_ids, noops = \
-                pcb_apply_plan._normalize_playbook_ops(plan_for_compile, board)
+                pcb_apply_plan._normalize_playbook_ops(plan_for_compile,
+                                                       board_view)
     except pcb_apply_plan.PlanInputError as exc:
         return {'steps': [], 'step_scope': [], 'records': [],
                 'refusals': [{'failure_class': schemas.FAILURE_INVALID_INPUT,
@@ -2051,6 +2248,8 @@ def _validate_plan_internal(contract, plan, *, before=None):
         if target_refusal:
             refusals.append(target_refusal)
     refusals.extend(_baseline_refusals(contract, plan, before=before))
+    if kind == 'pcb':
+        refusals.extend(_before_dump_refusals(contract, plan, observation))
     actions = []
     for op in ops:
         decision = _scope_decision(scope, op)
@@ -2184,6 +2383,7 @@ def preview(contract, plan, *, before=None):
         'plan_kind': validation.get('plan_kind'),
         'document': validation.get('document'),
         'write_authorized': not bool(contract.get('preview_only')),
+        'simulated': _plan_simulated(plan),
         'writes_sent': 0,
         'steps': _annotate_steps(validation.get('steps') or [], step_scope),
         'step_scope': step_scope,
@@ -3077,6 +3277,9 @@ def diff_observations(before, after, *, scope=None, tolerance=None):
                          'reason': 'both sides must be observation objects'}],
             'counts': {'total': 0, 'inside_scope': 0, 'outside_scope': 0},
             'note': 'unreadable observation; no empty-list comparison was made',
+            'simulated': bool(
+                (before.get('simulated') if isinstance(before, dict) else False)
+                or (after.get('simulated') if isinstance(after, dict) else False)),
         }
     try:
         normalized_scope = normalize_scope(scope) if scope is not None else \
@@ -3091,6 +3294,8 @@ def diff_observations(before, after, *, scope=None, tolerance=None):
             'unknown': [{'field': 'scope', 'reason': str(exc)}],
             'counts': {'total': 0, 'inside_scope': 0, 'outside_scope': 0},
             'note': 'unreadable scope; no change was classified',
+            'simulated': bool(before.get('simulated') or
+                              after.get('simulated')),
         }
     objects, nets_set, regions = _scope_selectors(normalized_scope)
     changes = []
@@ -3149,6 +3354,7 @@ def diff_observations(before, after, *, scope=None, tolerance=None):
         'note': 'primitiveId churn is not a change; rotations 0/360 and '
                 '-90/270 are equivalent; unreadable categories are unknown, '
                 'never empty',
+        'simulated': bool(before.get('simulated') or after.get('simulated')),
     }
     if pcb_section is not None:
         payload['pcb'] = pcb_section
@@ -3416,6 +3622,129 @@ def check_invariants(contract, diff, after=None):
     }
 
 
+_ACCEPTANCE_PREDICATE = re.compile(
+    r'^(?:count\s*)?(==|!=|>=|<=|>|<)\s*(.+)$', re.IGNORECASE)
+
+
+def _acceptance_actual(metric, diff, evaluation, invariants):
+    name = str(metric or '').strip().lower()
+    diff = diff if isinstance(diff, dict) else {}
+    counts = diff.get('counts') if isinstance(diff.get('counts'), dict) else {}
+    def measured(key, list_key):
+        if key in counts:
+            return counts[key]
+        # An absent counter with no list either means "not measured", never 0:
+        # an empty diff payload must not satisfy ``outside_scope == 0``.
+        if isinstance(diff.get(list_key), list):
+            return len(diff[list_key])
+        return None
+
+    if name in ('diff.outside_scope', 'outside_scope',
+                'diff.outside_scope.count'):
+        return measured('outside_scope', 'outside_scope')
+    if name in ('diff.inside_scope', 'inside_scope'):
+        return measured('inside_scope', 'inside_scope')
+    if name in ('diff.changes', 'diff.count', 'diff.counts.total'):
+        return measured('total', 'changes')
+    if name in ('invariants.status', 'invariants.verdict'):
+        return invariants.get('status') if isinstance(invariants, dict) \
+            else None
+    if name in ('evaluation.verdict', 'quality.verdict'):
+        return (evaluation or {}).get('verdict')
+    return None
+
+
+def _acceptance_status(actual, predicate):
+    text = _text(predicate)
+    if text is None:
+        return 'unknown', 'predicate is empty'
+    match = _ACCEPTANCE_PREDICATE.match(text.strip())
+    if not match:
+        return 'unknown', 'predicate %r is not understood' % text
+    operator, raw_expected = match.group(1), match.group(2).strip()
+    if actual is None:
+        return 'unknown', 'metric %r was not measured' % (raw_expected,)
+
+    def coerce(value):
+        if isinstance(value, bool):
+            return value
+        number = _number(value)
+        if number is not None:
+            return number
+        if isinstance(value, str):
+            # A predicate literal such as ``0`` is numeric, not a status
+            # token; comparing it as text would make ``str(0.0) == '0'`` fail.
+            try:
+                return float(value.strip())
+            except ValueError:
+                return value.strip().lower()
+        return value
+
+    left, right = coerce(actual), coerce(raw_expected)
+    try:
+        if isinstance(left, str) or isinstance(right, str):
+            if operator not in ('==', '!='):
+                return 'unknown', 'status values only support == and !='
+            equal = str(left) == str(right)
+            passed = equal if operator == '==' else not equal
+        else:
+            passed = {
+                '==': left == right, '!=': left != right,
+                '>=': left >= right, '<=': left <= right,
+                '>': left > right, '<': left < right,
+            }[operator]
+    except TypeError:
+        return 'unknown', 'metric and predicate are not comparable'
+    return ('pass' if passed else 'fail',
+            '%s %s %s' % (actual, operator, raw_expected))
+
+
+def evaluate_acceptance(contract, diff, evaluation=None, invariants=None):
+    """Evaluate every declared acceptance predicate.
+
+    ``target_met`` is true only when every predicate passes; an unmeasured
+    metric is ``unknown`` and never counts as meeting the goal.
+    """
+    if not isinstance(invariants, dict):
+        invariants = (diff or {}).get('invariants') \
+            if isinstance(diff, dict) else None
+        if not isinstance(invariants, dict):
+            invariants = {}
+    results = []
+    for item in contract.get('acceptance') or []:
+        if not isinstance(item, dict):
+            continue
+        actual = _acceptance_actual(item.get('metric'), diff, evaluation,
+                                    invariants)
+        status, detail = _acceptance_status(actual, item.get('predicate'))
+        results.append({
+            'id': item.get('id'),
+            'metric': item.get('metric'),
+            'predicate': item.get('predicate'),
+            'actual': actual,
+            'status': status,
+            'detail': detail,
+        })
+    failed = [item for item in results if item['status'] == 'fail']
+    unknown = [item for item in results if item['status'] == 'unknown']
+    if failed:
+        status = 'fail'
+    elif unknown or not results:
+        status = 'unknown'
+    else:
+        status = 'pass'
+    return {
+        'schema': 'hds-acceptance/v1',
+        'status': status,
+        'target_met': True if status == 'pass' else (
+            False if status == 'fail' else None),
+        'results': results,
+        'failed': [item['id'] for item in failed],
+        'unknown': [item['id'] for item in unknown],
+        'note': 'only a fully measured pass meets the declared target',
+    }
+
+
 # ---------------------------------------------------------------------------
 # apply
 # ---------------------------------------------------------------------------
@@ -3429,6 +3758,7 @@ def _apply_base(contract, plan, *, write_requested, status, validation=None):
         'generated_at': schemas.now_utc(),
         'contract_id': contract.get('id'),
         'write_requested': bool(write_requested),
+        'simulated': _plan_simulated(plan),
         'writes_sent': 0,
         'call_ok': None,
         'write_confirmed': None,
@@ -3941,30 +4271,36 @@ def _apply_pcb(contract, plan, validation, fresh, document, *,
     included_indices = {action['index'] for action in included}
     plan_ops = [op for op in all_ops if op['index'] in included_indices]
     plan_copy = _plan_ops_for_compile(plan, 'pcb', plan_ops)
-    raw_dump = plan.get('before_dump') if isinstance(plan, dict) else None
-    if isinstance(raw_dump, dict) and isinstance(raw_dump.get('components'),
-                                                 list):
-        before_dump = copy.deepcopy(raw_dump)
-    else:
-        before_dump = _pcb_dump_from_view(fresh)
-    if before_dump is not None:
-        plan_copy = _fill_place_primitive_ids(plan_copy, before_dump)
-        # The contract baseline is the observation revision (SCH+PCB).  The
-        # PCB adapter compares against the dump's own semantic hash, so pass
-        # that hash to it instead of the composite revision.
-        if isinstance(plan_copy, dict) and isinstance(plan_copy.get('base'),
-                                                      dict):
-            board_hash = before_dump.get('semanticSha256') or \
-                before_dump.get('semantic_sha256')
-            if board_hash:
-                plan_copy = copy.deepcopy(plan_copy)
-                plan_copy['base'] = dict(plan_copy['base'])
-                plan_copy['base']['semantic_sha256'] = board_hash
+    before_dump = _raw_before_dump(plan)
     if before_dump is None:
         return _apply_refused(
-            contract, plan, validation, schemas.FAILURE_INVALID_INPUT,
-            'invalid_observation',
-            'a measured PCB board is required before a PCB write')
+            contract, plan, validation,
+            schemas.FAILURE_PRECONDITION_REFUSED, 'missing_before_dump',
+            'a PCB write requires the raw plan.before_dump; refusing before '
+            'any CLI call')
+    binding = _before_dump_refusals(contract, plan, fresh)
+    if binding:
+        first = binding[0]
+        return _apply_refused(
+            contract, plan, validation,
+            first.get('failure_class') or
+            schemas.FAILURE_PRECONDITION_REFUSED,
+            first.get('reason') or 'before_dump_invalid',
+            first.get('message') or
+            'before_dump is not bound to the live board',
+            refusals=binding)
+    plan_copy = _fill_place_primitive_ids(plan_copy, before_dump)
+    # The contract baseline is the observation revision (SCH+PCB).  The PCB
+    # adapter compares against the dump's own semantic hash, so pass that hash
+    # to it instead of the composite revision.
+    if isinstance(plan_copy, dict) and isinstance(plan_copy.get('base'),
+                                                  dict):
+        board_hash = before_dump.get('semanticSha256') or \
+            before_dump.get('semantic_sha256')
+        if board_hash:
+            plan_copy = copy.deepcopy(plan_copy)
+            plan_copy['base'] = dict(plan_copy['base'])
+            plan_copy['base']['semantic_sha256'] = board_hash
     project = _text(((fresh or {}).get('project') or {}).get('name')) or \
         _text((contract.get('target') or {}).get('project_uuid'))
     document_name = _text((document or {}).get('name')) or \

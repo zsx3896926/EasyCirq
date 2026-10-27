@@ -1,6 +1,6 @@
 {
  "schema": "hds-feedback-benchmark/v1",
- "generated_at": "2026-10-27T03:15:47.389847Z",
+ "generated_at": "2026-10-27T04:11:15.749196Z",
  "host": "simulated (tests/feedback_sim.py)",
  "real_eda": "NOT RUN",
  "cases": [
@@ -21,6 +21,7 @@
      "pcb.unrouted"
     ],
     "semantic_sha256": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
+    "observation_simulated": true,
     "simulated": true
    },
    "case": "observe_contract",
@@ -37,6 +38,13 @@
      "decap-too-far",
      "power-not-poured",
      "width-under-spec"
+    ],
+    "conditional_codes": [
+     "decap-too-far",
+     "drc-warning-attrmatchcode"
+    ],
+    "roles": [
+     "bulk"
     ],
     "note": "native DRC passed while engineering findings remain",
     "simulated": true
@@ -80,6 +88,8 @@
    "passed": true,
    "details": {
     "preview_writes_sent": 0,
+    "preview_simulated": true,
+    "apply_simulated": true,
     "status": "verified",
     "checks": {
      "call_ok": true,
@@ -146,6 +156,57 @@
   {
    "passed": true,
    "details": {
+    "status": "refused",
+    "failure": {
+     "failure_class": "precondition_refused",
+     "reason": "plan_invalid",
+     "message": "the plan was refused before any write; see refusals",
+     "detail": {
+      "refusals": [
+       {
+        "failure_class": "precondition_refused",
+        "reason": "missing_before_dump",
+        "message": "a PCB write requires plan.before_dump carrying the raw pcb dump captured before planning; a normalized observation is not a substitute"
+       }
+      ]
+     }
+    },
+    "reasons": [
+     "missing_before_dump"
+    ],
+    "writes_sent": 0,
+    "runner_calls": 0,
+    "simulated": true
+   },
+   "case": "before_dump_gate",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "pass": "pass",
+    "fail": "fail",
+    "unknown": "unknown",
+    "simulated": true
+   },
+   "case": "acceptance",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
+    "bulk": "bulk",
+    "local": "local-decoupling",
+    "unknown": "unknown",
+    "unknown_auto_action_allowed": false,
+    "simulated": true
+   },
+   "case": "cap_roles",
+   "simulated": true
+  },
+  {
+   "passed": true,
+   "details": {
     "validation_ok": false,
     "refusals": [
      {
@@ -171,6 +232,11 @@
    "details": {
     "validation_ok": false,
     "refusals": [
+     {
+      "failure_class": "precondition_refused",
+      "reason": "missing_before_dump",
+      "message": "a PCB write requires plan.before_dump carrying the raw pcb dump captured before planning; a normalized observation is not a substitute"
+     },
      {
       "failure_class": "precondition_refused",
       "reason": "locked_object",
@@ -241,7 +307,7 @@
      "ok": false,
      "status": "unknown",
      "contract_id": "bench-partial-recovery",
-     "generated_at": "2026-10-27T03:15:47.366048Z",
+     "generated_at": "2026-10-27T04:11:15.717828Z",
      "journal": {
       "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\hds-bench-partial.jsonl",
       "entries": 3,
@@ -361,6 +427,31 @@
      "version"
     ],
     "can_inherit": false,
+    "library": {
+     "cases": 3,
+     "source_projects": 1,
+     "scenarios": 3,
+     "per_project": [
+      {
+       "source_project": "photo-led-pcb-20261026",
+       "cases": [
+        {
+         "id": "pcb-decap-c2-local-photo-led",
+         "scenario": "round12-offline"
+        },
+        {
+         "id": "pcb-locked-connector-preserve-photo-led",
+         "scenario": "round12-offline"
+        },
+        {
+         "id": "sch-text-overlap-photo-led",
+         "scenario": "round12-offline"
+        }
+       ]
+      }
+     ],
+     "note": "cases sharing a provenance.source_project are scenarios of that project, not independent projects"
+    },
     "simulated": true
    },
    "case": "case_library",
@@ -389,8 +480,8 @@
   }
  ],
  "summary": {
-  "passed": 13,
-  "total": 13
+  "passed": 16,
+  "total": 16
  },
  "limits": [
   "simulated host only; real easyeda calls are 0",

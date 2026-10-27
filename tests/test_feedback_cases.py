@@ -475,6 +475,42 @@ class SearchFilterTests(unittest.TestCase):
         second = case_lib.search(self.index, query)
         self.assertEqual(first['matches'], second['matches'])
 
+    def test_library_coverage_counts_cases_projects_and_scenarios(self):
+        result = case_lib.search(self.index, {})
+        library = result['library']
+        self.assertEqual(library['cases'], 3)
+        self.assertEqual(library['source_projects'], 3)
+        self.assertEqual(library['scenarios'], 3)
+        self.assertEqual(len(library['per_project']), 3)
+        self.assertIn('not independent', library['note'])
+
+    def test_same_project_cases_are_three_scenarios_not_three_projects(self):
+        cases = []
+        for scenario in ('placement', 'routing', 'readback'):
+            case = copy.deepcopy(self.photo)
+            case['id'] = 'photo-led-%s' % scenario
+            case['provenance']['source_case'] = scenario
+            cases.append(case)
+        index = case_lib.create_index(cases=cases)
+        library = case_lib.search(index, {})['library']
+        self.assertEqual(library['cases'], 3)
+        self.assertEqual(library['source_projects'], 1)
+        self.assertEqual(library['scenarios'], 3)
+        self.assertEqual(len(library['per_project']), 1)
+        group = library['per_project'][0]
+        self.assertEqual(group['source_project'], 'photo-led-pcb-20261026')
+        self.assertEqual(sorted(item['scenario'] for item in group['cases']),
+                         ['placement', 'readback', 'routing'])
+
+    def test_embedded_case_provenance_is_read_from_the_index(self):
+        entry = {'id': 'embedded-1', 'version': 1, 'source_tier': 'reusable',
+                 'tags': [], 'case': copy.deepcopy(self.mcu)}
+        index = {'schema': schemas.SCHEMA_CASE_INDEX, 'cases': [entry]}
+        library = case_lib.search(index, {})['library']
+        self.assertEqual(library['source_projects'], 1)
+        self.assertEqual(library['per_project'][0]['source_project'],
+                         'mcu-i2c-s3-20261026')
+
 
 class ReuseCheckTests(unittest.TestCase):
     def setUp(self):

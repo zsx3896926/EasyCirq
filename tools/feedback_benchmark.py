@@ -83,6 +83,7 @@ def case_observe():
           len(observation['pcb']['tracks']) == 67 and
           len(observation['schematic']['texts']) == 8 and
           not observation['degradations'] and
+          observation['simulated'] is True and
           observation['revision']['semantic_sha256'])
     return {'passed': bool(ok), 'details': {
         'components': len(observation['pcb']['components']),
@@ -91,6 +92,7 @@ def case_observe():
         'degradations': observation['degradations'],
         'unknown_fields': [item.get('field') for item in observation['unknown']],
         'semantic_sha256': observation['revision']['semantic_sha256'],
+        'observation_simulated': observation['simulated'],
         'simulated': True}}
 
 
@@ -101,11 +103,13 @@ def case_drc_zero_but_poor():
     evaluation = evaluate.evaluate(observation=observation,
                                    intent=design_intent)
     codes = {item.get('code') for item in evaluation['confirmed_issues']}
+    risks = evaluation.get('conditional_risks') or []
+    roles = {item.get('role') for item in risks if item.get('role')}
     ok = (evaluation['verdict'] == 'pass_with_warnings' and
           evaluation['drc_zero_but_quality_issues'] is True and
           evaluation['layers']['hard']['status'] == 'pass' and
           evaluation['layers']['engineering']['status'] == 'warn' and
-          'decap-too-far' in codes)
+          'decap-too-far' in codes and evaluation['simulated'] is True)
     return {'passed': bool(ok), 'details': {
         'verdict': evaluation['verdict'],
         'drc_zero_but_quality_issues':
@@ -113,8 +117,10 @@ def case_drc_zero_but_poor():
         'hard': evaluation['layers']['hard']['status'],
         'engineering': evaluation['layers']['engineering']['status'],
         'confirmed_codes': sorted(codes),
+        'conditional_codes': sorted({item.get('code') for item in risks}),
+        'roles': sorted(role for role in roles if role),
         'note': 'native DRC passed while engineering findings remain',
-        'simulated': True}}
+        'simulated': evaluation['simulated']}}
 
 
 def case_text_vertical():
@@ -309,6 +315,7 @@ def case_case_library():
     query = schemas.new_case_query(layers=2, interfaces=['KF301-2P'],
                                    verification_level_min='structural')
     found = cases.search(index, query)
+    coverage = cases.search(index, {})['library']
     case = json.loads((ROOT / 'design-hardware' / 'cases' / 'feedback-r12' /
                        'pcb-decap-c2-local-photo-led.json').read_text(
                            encoding='utf-8'))
@@ -320,12 +327,15 @@ def case_case_library():
           any(item.get('id') == 'sch-text-overlap-photo-led'
               for item in found.get('rejected') or []) and
           'layers' in (reuse.get('required_rechecks') or []) and
-          reuse.get('can_inherit_verification') is False)
+          reuse.get('can_inherit_verification') is False and
+          coverage['cases'] == 3 and coverage['source_projects'] == 1 and
+          coverage['scenarios'] == 3)
     return {'passed': bool(ok), 'details': {
         'matches': [item.get('id') for item in found.get('matches') or []],
         'rejected': [item.get('id') for item in found.get('rejected') or []],
         'reuse_rechecks': reuse.get('required_rechecks'),
         'can_inherit': reuse.get('can_inherit_verification'),
+        'library': coverage,
         'simulated': True}}
 
 
@@ -382,13 +392,17 @@ def case_pcb_local_apply():
     statuses = [item.get('status') for item in
                 (applied.get('invariants') or {}).get('results') or []]
     ok = (preview.get('writes_sent') == 0 and
+          preview.get('simulated') is True and
           applied.get('status') == 'verified' and
+          applied.get('simulated') is True and
           applied.get('write_confirmed') is True and
           applied.get('save_confirmed') is True and
           applied.get('reopen_confirmed') is True and
           len(inside) == 1 and not outside and 'fail' not in statuses)
     return {'passed': bool(ok), 'details': {
         'preview_writes_sent': preview.get('writes_sent'),
+        'preview_simulated': preview.get('simulated'),
+        'apply_simulated': applied.get('simulated'),
         'status': applied.get('status'),
         'checks': {key: applied.get(key) for key in
                    ('call_ok', 'write_confirmed', 'save_confirmed',
@@ -400,11 +414,119 @@ def case_pcb_local_apply():
 
 
 
+def case_before_dump_gate():
+    """A PCB write without the raw dump must be refused before any call."""
+    state = sim.make_state()
+    runner, observation = _observe(state)
+    r4 = next(item for item in observation['pcb']['components']
+              if item.get('designator') == 'R4')
+    contract = _contract(observation, objects=['R4'],
+                         actions=['move_component', 'save', 'reload'],
+                         preview_only=False, goal='missing raw dump')
+    plan = {
+        'base': {'semantic_sha256': contract['baseline']['semantic_sha256']},
+        'observation': observation,
+        'ops': [{'op': 'place', 'designator': 'R4',
+                 'primitive_id': r4['primitive_id'],
+                 'to': {'x': r4['x'], 'y': r4['y'] + 10,
+                        'rotation': r4.get('rotation') or 0,
+                        'layer': r4.get('layer') or 1}}],
+    }
+    calls_before = len(runner.calls)
+    preview = scope.preview(contract, plan, before=observation)
+    applied = scope.apply_scoped(contract, plan, runner=runner, write=True,
+                                 journal_path=None)
+    calls_after = len(runner.calls)
+    failure = applied.get('failure') or {}
+    reasons = {item.get('reason') for item in
+               ((applied.get('validation') or {}).get('refusals') or [])}
+    ok = (preview.get('writes_sent') == 0 and
+          applied.get('status') == 'refused' and
+          failure.get('failure_class') ==
+          schemas.FAILURE_PRECONDITION_REFUSED and
+          'missing_before_dump' in reasons and
+          applied.get('writes_sent') == 0 and calls_after == calls_before)
+    return {'passed': bool(ok), 'details': {
+        'status': applied.get('status'), 'failure': failure,
+        'reasons': sorted(reasons), 'writes_sent': applied.get('writes_sent'),
+        'runner_calls': calls_after - calls_before, 'simulated': True}}
+
+
+def case_acceptance():
+    """Declared acceptance targets: pass, fail and unmeasured are distinct."""
+    state = sim.make_state()
+    runner, observation = _observe(state)
+    contract = {'acceptance': [
+        {'id': 'outside', 'metric': 'diff.outside_scope', 'predicate': '== 0'},
+        {'id': 'changes', 'metric': 'diff.changes', 'predicate': '>= 1'},
+    ]}
+    diff = {'counts': {'total': 1, 'inside_scope': 1, 'outside_scope': 0},
+            'changes': [{'in_scope': True}]}
+    passing = scope.evaluate_acceptance(contract, diff)
+    failing = scope.evaluate_acceptance(contract, {
+        'counts': {'total': 2, 'inside_scope': 1, 'outside_scope': 1},
+        'changes': [{}, {}]})
+    unmeasured = scope.evaluate_acceptance(contract, {})
+    ok = (passing['status'] == 'pass' and passing['target_met'] is True and
+          failing['status'] == 'fail' and failing['target_met'] is False and
+          failing['failed'] == ['outside'] and
+          unmeasured['status'] == 'unknown' and
+          unmeasured['target_met'] is None)
+    return {'passed': bool(ok), 'details': {
+        'pass': passing['status'], 'fail': failing['status'],
+        'unknown': unmeasured['status'], 'simulated': True}}
+
+
+def _role_observation(value):
+    return {
+        'project': {'uuid': 'project-1', 'name': 'synthetic-role'},
+        'documents': [],
+        'schematic': {'drc': {'passed': True, 'total': 0, 'counts': {}}},
+        'pcb': {
+            'drc': {'passed': True, 'total': 0, 'counts': {}},
+            'check': {
+                'passed': False,
+                'summary': {'decapTooFar': 1, 'total': 1},
+                'findings': [{'type': 'decap-too-far', 'designator': 'C1',
+                              'net': '+5V',
+                              'message': 'C1 is 890 mil from U1.8'}],
+            },
+            'components': [{'designator': 'C1', 'value': value}],
+        },
+    }
+
+
+def case_cap_roles():
+    """Bulk, local-decoupling and unknown roles stay machine-readable."""
+    bulk = evaluate.evaluate(observation=_role_observation('10uF'))
+    local = evaluate.evaluate(observation=_role_observation('100nF'))
+    unknown = evaluate.evaluate(observation=_role_observation('CAP-0603'))
+    bulk_risk = (bulk.get('conditional_risks') or [{}])[0]
+    local_issue = (local.get('confirmed_issues') or [{}])[0]
+    unknown_issue = (unknown.get('confirmed_issues') or [{}])[0]
+    ok = (not bulk.get('confirmed_issues') and
+          bulk_risk.get('role') == 'bulk' and
+          local_issue.get('role') == 'local-decoupling' and
+          local_issue.get('auto_action_allowed') is True and
+          unknown_issue.get('role') == 'unknown' and
+          unknown_issue.get('auto_action_allowed') is False)
+    return {'passed': bool(ok), 'details': {
+        'bulk': bulk_risk.get('role'),
+        'local': local_issue.get('role'),
+        'unknown': unknown_issue.get('role'),
+        'unknown_auto_action_allowed':
+            unknown_issue.get('auto_action_allowed'),
+        'simulated': True}}
+
+
 CASES = [
     ('observe_contract', case_observe),
     ('drc_zero_but_poor', case_drc_zero_but_poor),
     ('text_move_vertical', case_text_vertical),
     ('pcb_local_apply', case_pcb_local_apply),
+    ('before_dump_gate', case_before_dump_gate),
+    ('acceptance', case_acceptance),
+    ('cap_roles', case_cap_roles),
     ('out_of_scope_refused', case_out_of_scope),
     ('locked_refused', case_locked_refused),
     ('stale_baseline', case_stale_baseline),
