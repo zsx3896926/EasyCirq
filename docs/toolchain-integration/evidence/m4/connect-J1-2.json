@@ -1,0 +1,5 @@
+{
+  "raw": "autoconnect: 1 connection(s), mode=connect — 1 new, 0 already-connected, 0 conflict\n  ✓ J1:2 → GND [gnd]: left offset=48 end=(330.00,295.00) score=84.80\n      wire=04f60ef033cef05a flag=9c942b676b8552a8\n      rejected down  offset=18 score=1000000091.80 — 引出方向不沿引脚朝外方向（hard reject）\n      rejected right offset=48 score=1000000604.80 — 引出方向不沿引脚朝外方向（hard reject）\n      rejected up    offset=18 score=3000000001.80 — stub crosses a non-target pin (hard reject)\n",
+  "stderr": "",
+  "exit": 0
+}

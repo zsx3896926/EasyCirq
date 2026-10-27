@@ -1,0 +1,10 @@
+{
+  "cmd": [
+    "zhigou",
+    "sch",
+    "clear"
+  ],
+  "exit": 0,
+  "stdout": "{\n  \"id\": \"req_101\",\n  \"type\": \"response\",\n  \"version\": \"v1\",\n  \"windowId\": \"0656d289-66be-4139-96c9-862d4832a6ef\",\n  \"createdAt\": \"2026-10-27T14:58:53.0857274Z\",\n  \"ok\": true,\n  \"result\": {\n    \"deleted\": {\n      \"components\": 2\n    },\n    \"deletedIds\": {\n      \"components\": [\n        \"dada9640418d0725\",\n        \"223757a2b7119940\"\n      ]\n    },\n    \"dryRun\": false,\n    \"enumerated\": 2,\n    \"passes\": 1,\n    \"preserveSheet\": true,\n    \"remaining\": 0,\n    \"total\": 2\n  },\n  \"context\": {\n    \"projectUuid\": \"43ebf71ffd34473f9b08aaa118aa2d5e\",\n    \"projectName\": \"zhigou-integrated-dual-button-led-20261027\",\n    \"documentUuid\": \"ee9b284771dad29b\",\n    \"documentType\": \"schematic\",\n    \"tabId\": \"ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e\",\n    \"pageVisibility\": \"hidden\"\n  },\n  \"mutationContext\": {\n    \"projectUuid\": \"43ebf71ffd34473f9b08aaa118aa2d5e\",\n    \"projectName\": \"zhigou-integrated-dual-button-led-20261027\",\n    \"documentUuid\": \"ee9b284771dad29b\",\n    \"documentType\": \"schematic\",\n    \"tabId\": \"ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e\",\n    \"pageVisibility\": \"hidden\"\n  },\n  \"mutationContextAvailable\": true,\n  \"seq\": 82,\n  \"seqAbandoned\": 0\n}\n",
+  "stderr": ""
+}

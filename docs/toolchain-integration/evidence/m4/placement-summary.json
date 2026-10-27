@@ -1,0 +1,47 @@
+{
+  "J1": {
+    "ok": true,
+    "role": "1x2P 2.54 header (5V input)",
+    "error": null
+  },
+  "F1": {
+    "ok": true,
+    "role": "PTC resettable fuse 1.5A 1206",
+    "error": null
+  },
+  "C1": {
+    "ok": true,
+    "role": "100nF 0603 decoupling",
+    "error": null
+  },
+  "R1": {
+    "ok": true,
+    "role": "220R LED1 current limit",
+    "error": null
+  },
+  "R2": {
+    "ok": true,
+    "role": "220R LED2 current limit",
+    "error": null
+  },
+  "D1": {
+    "ok": true,
+    "role": "red LED 0805 channel 1",
+    "error": null
+  },
+  "D2": {
+    "ok": true,
+    "role": "red LED 0805 channel 2",
+    "error": null
+  },
+  "SW1": {
+    "ok": true,
+    "role": "tactile push button 2P channel 1",
+    "error": null
+  },
+  "SW2": {
+    "ok": true,
+    "role": "tactile push button 2P channel 2",
+    "error": null
+  }
+}

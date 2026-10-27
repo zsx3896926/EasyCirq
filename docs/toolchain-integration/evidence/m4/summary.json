@@ -1,0 +1,226 @@
+{
+  "schema": "zhigou-m4-acceptance-board/v1",
+  "project": "zhigou-integrated-dual-button-led-20261027",
+  "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+  "board": {
+    "name": "Board1",
+    "schematic": "Schematic1 (9201ea63038ecfef)",
+    "pcb": "PCB1 (56a25fb38c54cb1b)"
+  },
+  "schematic": {
+    "parts": 9,
+    "partList": {
+      "J1": "1x2P 2.54 header (5V input)",
+      "F1": "PTC resettable fuse 1.5A 1206",
+      "C1": "100nF 0603 decoupling",
+      "R1": "220R 0402 LED1 limit",
+      "R2": "220R 0402 LED2 limit",
+      "D1": "0805 LED (yellow-green) ch1",
+      "D2": "0805 LED (yellow-green) ch2",
+      "SW1": "2-pin tactile switch ch1",
+      "SW2": "2-pin tactile switch ch2"
+    },
+    "nets": {
+      "VIN": {
+        "expected": [
+          "F1.1",
+          "J1.1"
+        ],
+        "measured": [
+          "F1.1",
+          "J1.1"
+        ],
+        "match": true
+      },
+      "+5V": {
+        "expected": [
+          "C1.1",
+          "F1.2",
+          "R1.1",
+          "R2.1"
+        ],
+        "measured": [
+          "C1.1",
+          "F1.2",
+          "R1.1",
+          "R2.1"
+        ],
+        "match": true
+      },
+      "GND": {
+        "expected": [
+          "C1.2",
+          "J1.2",
+          "SW1.2",
+          "SW2.2"
+        ],
+        "measured": [
+          "C1.2",
+          "J1.2",
+          "SW1.2",
+          "SW2.2"
+        ],
+        "match": true
+      },
+      "LED1_A": {
+        "expected": [
+          "D1.2",
+          "R1.2"
+        ],
+        "measured": [
+          "D1.2",
+          "R1.2"
+        ],
+        "match": true
+      },
+      "LED1_K": {
+        "expected": [
+          "D1.1",
+          "SW1.1"
+        ],
+        "measured": [
+          "D1.1",
+          "SW1.1"
+        ],
+        "match": true
+      },
+      "LED2_A": {
+        "expected": [
+          "D2.2",
+          "R2.2"
+        ],
+        "measured": [
+          "D2.2",
+          "R2.2"
+        ],
+        "match": true
+      },
+      "LED2_K": {
+        "expected": [
+          "D2.1",
+          "SW2.1"
+        ],
+        "measured": [
+          "D2.1",
+          "SW2.1"
+        ],
+        "match": true
+      }
+    },
+    "floatingPins": 0,
+    "saveConfirmed": true,
+    "nativeDrc": {
+      "violations": 0,
+      "passed": true,
+      "evidence": "sch-drc.json"
+    },
+    "checkWarnings": [
+      "missing-partition (functional zone frames not drawn)",
+      "missing-titleblock (fixed: title block set)"
+    ],
+    "titleBlock": {
+      "Name": "Dual button LED (5V)",
+      "Drawed": "Zhigou AI",
+      "Description": "2-channel button-to-LED indicator, 5V in, PTC + 100nF"
+    },
+    "artifacts": {
+      "bomCsv": ".zhigou/artifacts/20261027-231442-schematic_bom-6763ffa4.csv",
+      "svg": ".zhigou/artifacts/20261027-231208-schematic_export-664e661f.svg",
+      "png": ".zhigou/artifacts/20261027-231445-schematic_export-bfee39bb.png (458081 B)"
+    }
+  },
+  "pcb": {
+    "sync": {
+      "imported": true,
+      "verified": true,
+      "components": 9,
+      "note": "handler-boundary identity not certifiable (documentUuid changed) and staleRisk raised; therefore save + doc reload + fresh dump were performed before reading back"
+    },
+    "freshFootprints": 9,
+    "footprints": [
+      "C1",
+      "D1",
+      "D2",
+      "F1",
+      "J1",
+      "R1",
+      "R2",
+      "SW1",
+      "SW2"
+    ],
+    "drc": {
+      "passed": false,
+      "violationCount": 1,
+      "classes": {
+        "unknown": 1
+      }
+    },
+    "layoutAndRouting": "NOT RUN — placement refinement, zone frames, routing and copper pour are not done in this step"
+  },
+  "six_state": {
+    "command_completed": "PASS (schematics placed, wired, title block set, PCB import executed)",
+    "readback_verified": "PASS (schematic nets + fresh PCB dump after reload)",
+    "save_confirmed": "PASS (schematic saved:true; PCB save returned ok)",
+    "reopen_confirmed": "PASS (doc reload on P1 and PCB1, then fresh readback)",
+    "electrical_passed": "PARTIAL (schematic DRC 0 violations; PCB DRC FAILS because layout/routing not done)",
+    "quality_passed": "FAIL/PENDING (missing functional zone frames; PCB unrouted; no Gerber/CPL — no fake pass)"
+  },
+  "limits": [
+    "PCB layout, routing, copper pour, silkscreen and native DRC pass are NOT done; PCB DRC currently reports violations from the unrouted board.",
+    "Gerber/drill/CPL remain gui_only (no typed action) — not attempted, not claimed.",
+    "Native archive + restore drill is NOT RUN.",
+    "MPN of the generic-library LED/switch/header is unknown (system library); recorded as generic, not as orderable parts."
+  ],
+  "evidence": [
+    "board-list.json",
+    "bom-export.json",
+    "clear-page.json",
+    "connect-C1-1.json",
+    "connect-C1-2.json",
+    "connect-F1-1.json",
+    "connect-F1-2.json",
+    "connect-J1-2.json",
+    "connect-R1-1.json",
+    "connect-R2-1.json",
+    "connect-SW1-2.json",
+    "connect-SW2-2.json",
+    "inspect-list.json",
+    "measured-pins.json",
+    "pcb-drc.json",
+    "pcb-dump.json",
+    "pcb-import-changes.json",
+    "pcb-reload.json",
+    "pcb-save.json",
+    "place-C1.json",
+    "place-D1.json",
+    "place-D2.json",
+    "place-F1.json",
+    "place-J1.json",
+    "place-R1.json",
+    "place-R2.json",
+    "place-SW1.json",
+    "place-SW2.json",
+    "placement-summary.json",
+    "rotate-D1.json",
+    "rotate-D2.json",
+    "rotate-before.json",
+    "sch-check.json",
+    "sch-drc.json",
+    "sch-image-png.json",
+    "sch-image-svg.json",
+    "schematic-verify.json",
+    "titleblock-before.json",
+    "titleblock-set.json",
+    "verify-list.json",
+    "verify-read.json",
+    "verify-reload.json",
+    "verify-save.json",
+    "wire-before.json",
+    "wire-ch1_cathode_to_switch.json",
+    "wire-ch1_r_to_anode.json",
+    "wire-ch2_cathode_to_switch.json",
+    "wire-ch2_r_to_anode.json",
+    "wire-mid.json",
+    "wiring-summary.json"
+  ]
+}

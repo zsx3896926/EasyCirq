@@ -117,3 +117,21 @@ python tools/zhigou_acceptance.py --stage m4 --m4-device R1 --project-dir <设�
 ```
 
 每次运行都会覆盖 `summary.json` 并追加 `commands.jsonl`；矩阵中的 `BLOCKED` 只在对应 `summary-*.json` 出现 `PASS` 且六态齐备后才可改为 `PASS`。
+
+## 6. 小板真机进展（Lead 补记 2026-10-27 23:20）
+
+独立工程 `zhigou-integrated-dual-button-led-20261027`（Board1 = Schematic1 + PCB1）：
+
+| 项 | 结果 | 证据 |
+| --- | --- | --- |
+| 原理图 9 器件、2 通道（按键→限流电阻→LED→GND，5V 经 PTC + 100nF 去耦） | PASS | `evidence/m4/summary.json` |
+| 7 个网络逐脚一致 / 0 浮空引脚 / 保存确认 | PASS | `evidence/m4/schematic-verify.json` |
+| 原生原理图 DRC | PASS（0 违规） | `evidence/m4/sch-drc.json` |
+| 图签必填项 | PASS（已写入 Name/Drawed/Description） | `evidence/m4/titleblock-set.json` |
+| BOM / SVG / PNG 官方导出 | PASS（文件非空：CSV 1 KB、SVG 90.6 KB、PNG 458 KB） | `evidence/m4/bom-export.json`、`sch-image-*.json` |
+| SCH→PCB 同步 | PASS（imported+verified，9 footprint），但 handler 边界身份不可认证 + staleRisk → 已 save→reload→新鲜 dump 后回读 | `evidence/m4/pcb-import-changes.json`、`pcb-dump.json` |
+| PCB 布局/布线/铺铜/丝印 | **NOT RUN** | — |
+| PCB DRC | **FAIL**（1 条，未布线板）—— 不冒充通过 | `evidence/m4/pcb-drc.json` |
+| Gerber/钻孔/CPL | **gui_only**（无 typed action），未尝试未宣称 | `evidence/m1/capabilities.json` |
+| 功能分区框 | **未画**（`sch check` WARN missing-partition） | `evidence/m4/sch-check.json` |
+| 局部改板 2mm / 原生归档恢复演练 | **NOT RUN** | — |

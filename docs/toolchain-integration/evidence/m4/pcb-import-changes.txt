@@ -1,0 +1,2 @@
+⚠ connector could not certify mutation/save document identity: handler-boundary documentUuid changed; autosave was not armed
+⚠ staleRisk: PCB was mutated by pcb.import_changes since the last reload — pcb.components.list (and DRC) may read stale engine state; authoritative workflows should save, run `zhigou doc reload`, then read back; if refresh fails, treat the data as unavailable

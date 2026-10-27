@@ -31,8 +31,8 @@
 | **M0** 环境/源码/许可/冲突/能力调查 | **完成**（除真机 API 探测） | `environment-baseline.md`、`upstream-analysis.md`、`rule-conflicts.md`、`architecture.md`、`capability-matrix.md`、`third_party/`、`runtime/PROVENANCE.md`、`protocol/` | `evidence/env/`（47 文件）、`evidence/upstream/`（9 文件）、`evidence/skill-audit/`（4 文件）、`evidence/m1/vendor-verify.txt` |
 | **M1** 自有 CLI/daemon/Connector 构建 + 隔离安装 | **完成**（构建、隔离启动、诊断、安装/升级/回退、Skill 单入口迁移均实测）；**连接器真实握手 BLOCKED**（需 EDA 内人工导入） | `runtime/`（构建成功，`zhigou.exe` 0.2.0-dev）、`connector/`（`.eext` 231 KB）、`protocol/schemas/`、`distribution/`（统一安装器）、`design-hardware/`（已迁移到 `zhigou`） | `evidence/m1/*`、`evidence/installer/*`、`evidence/skill-migration/*`、`evidence/runtime-go-test.log`、`evidence/test-failure-diff.txt` |
 | **M2** 独立工程 读取→移动一件→保存→重开→回读 | **PASS（真机）** | 独立新工程 `zhigou-integrated-dual-button-led-20261027`（P1），R1/D1 放置 → D1 +40 raw 移动 → save(saved:true) → close/reopen → 新鲜回读 D1 x=640、R1 不变、primitiveId/device 身份不变、pin-net 不变 | `evidence/m2/summary.json` 及同目录原始 JSON/日志 |
-| **M3** SCH/PCB 读写、批量、检查导出、compose/反馈接入 | **BLOCKED**（同上）；代码路径已就位 | 181 typed actions（111 写动作）在自有运行时内 | 待真机 |
-| **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **安装/升级/回退已完成并实测**（39 例）；**小板与局部改板 BLOCKED**（同上） | `distribution/` 统一安装器、`tools/zhigou_acceptance.py` | `evidence/installer/`、`evidence/acceptance/` |
+| **M3** SCH/PCB 读写、批量、检查导出 | **PASS（原理图/PCB 同步/检查/导出真机）** | 9 器件双通道 LED 小板原理图：7 网全部逐脚一致、0 浮空脚、原生 DRC 0 违规、BOM/SVG/PNG 导出；PCB 同步 9 footprint 并经保存+重开+新鲜回读；PCB DRC 因未布局布线而失败（如实记录） | `evidence/m4/summary.json` 及同目录原始响应 |
+| **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **部分完成**：安装/升级/回退 PASS；小板原理图+PCB 同步 PASS；** PCB 布局/布线/铺铜/丝印/DRC 通过、局部改板、原生归档恢复演练 = NOT RUN** | `distribution/`、`tools/zhigou_board_*.py`、`tools/zhigou_acceptance.py` | `evidence/installer/`、`evidence/m4/`、`evidence/acceptance/` |
 | **M5** 独立审查/反例/最终候选重跑/提交 PR | **进行中** | 本文件 + PR | 见 §5 |
 
 ## 2. 已完成的关键实现

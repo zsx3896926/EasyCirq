@@ -1,0 +1,5 @@
+{
+  "raw": "autoconnect: 1 connection(s), mode=connect — 1 new, 0 already-connected, 0 conflict\n  ✓ C1:1 → +5V [power]: right offset=18 end=(600.00,460.00) score=-18.20\n      wire=dbab2c243f6ded00 flag=485763294a2e5069\n      rejected up    offset=18 score=999999991.80 — 引出方向不沿引脚朝外方向（hard reject）\n      rejected down  offset=18 score=1000000001.80 — 引出方向不沿引脚朝外方向（hard reject）\n      rejected left  offset=18 score=1000010501.80 — 引出方向不沿引脚朝外方向（hard reject）\n",
+  "stderr": "",
+  "exit": 0
+}

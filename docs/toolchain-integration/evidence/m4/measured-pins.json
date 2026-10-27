@@ -1,0 +1,128 @@
+{
+  "J1": {
+    "x": 400,
+    "y": 300,
+    "pins": {
+      "None": {
+        "name": null,
+        "x": 380,
+        "y": 295,
+        "net": ""
+      }
+    },
+    "primitiveId": "f4384763f4cf91e7",
+    "device": "7da6ca4adab84e63a4d8bf11f2bc97bd"
+  },
+  "F1": {
+    "x": 560,
+    "y": 300,
+    "pins": {
+      "None": {
+        "name": null,
+        "x": 530,
+        "y": 300,
+        "net": ""
+      }
+    },
+    "primitiveId": "9a20feed0639a83b",
+    "device": "e5a3025a5547466d97f96cd3ea06ebf7"
+  },
+  "C1": {
+    "x": 560,
+    "y": 460,
+    "pins": {
+      "None": {
+        "name": null,
+        "x": 580,
+        "y": 460,
+        "net": ""
+      }
+    },
+    "primitiveId": "24cce2dcd725e98a",
+    "device": "811c5a69fad14dfa85c1af699a12c275"
+  },
+  "R1": {
+    "x": 700,
+    "y": 380,
+    "pins": {
+      "None": {
+        "name": null,
+        "x": 680,
+        "y": 380,
+        "net": ""
+      }
+    },
+    "primitiveId": "8d50a3603383393b",
+    "device": "f91d6ccebd9d4cc2aac0bcbcc0440856"
+  },
+  "R2": {
+    "x": 700,
+    "y": 560,
+    "pins": {
+      "None": {
+        "name": null,
+        "x": 680,
+        "y": 560,
+        "net": ""
+      }
+    },
+    "primitiveId": "2f635929d0b5dcda",
+    "device": "f91d6ccebd9d4cc2aac0bcbcc0440856"
+  },
+  "D1": {
+    "x": 860,
+    "y": 380,
+    "pins": {
+      "None": {
+        "name": null,
+        "x": 840,
+        "y": 380,
+        "net": ""
+      }
+    },
+    "primitiveId": "b22c339e6d789f2e",
+    "device": "e06dd92121cc497db14e35fe109f6aee"
+  },
+  "D2": {
+    "x": 860,
+    "y": 560,
+    "pins": {
+      "None": {
+        "name": null,
+        "x": 840,
+        "y": 560,
+        "net": ""
+      }
+    },
+    "primitiveId": "0ef8e55049f8f548",
+    "device": "e06dd92121cc497db14e35fe109f6aee"
+  },
+  "SW1": {
+    "x": 1020,
+    "y": 380,
+    "pins": {
+      "None": {
+        "name": null,
+        "x": 1000,
+        "y": 380,
+        "net": ""
+      }
+    },
+    "primitiveId": "98a3b3012d22b45b",
+    "device": "62d91eaa04a14b08a8d160d888e78e41"
+  },
+  "SW2": {
+    "x": 1020,
+    "y": 560,
+    "pins": {
+      "None": {
+        "name": null,
+        "x": 1000,
+        "y": 560,
+        "net": ""
+      }
+    },
+    "primitiveId": "acec6a1e885fd721",
+    "device": "62d91eaa04a14b08a8d160d888e78e41"
+  }
+}

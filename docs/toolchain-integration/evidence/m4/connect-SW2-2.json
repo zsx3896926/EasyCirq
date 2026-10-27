@@ -1,0 +1,5 @@
+{
+  "raw": "autoconnect: 1 connection(s), mode=connect — 1 new, 0 already-connected, 0 conflict\n  ✓ SW2:2 → GND [gnd]: right offset=18 end=(1060.00,560.00) score=-18.20\n      wire=31d4fca454e1f7a1 flag=fb68708f0ae4b85c\n      rejected down  offset=18 score=999999991.80 — 引出方向不沿引脚朝外方向（hard reject）\n      rejected up    offset=18 score=1000000001.80 — 引出方向不沿引脚朝外方向（hard reject）\n      rejected left  offset=18 score=1000010501.80 — 引出方向不沿引脚朝外方向（hard reject）\n",
+  "stderr": "",
+  "exit": 0
+}
