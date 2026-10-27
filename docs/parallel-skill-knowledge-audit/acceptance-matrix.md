@@ -96,7 +96,7 @@
 | 防路径遍历/越界链接/超大输入/NaN/bool 预算/重复规则 ID/空规则/占位 | 单测覆盖；`unsafe_target`/`AuditError` | PASS |
 | 不执行源文档代码块 | 无 eval/exec/import 源文档；仅正则/文本解析 | PASS |
 | 只读工具不调用 shell 执行源文件 | `subprocess` 只出现在测试，不在包内 | PASS |
-| 最低 Python 实测或注明限制 | 3.13.15 实测；3.10 语法审查 + CI，NOT RUN | PASS WITH CAVEAT |
+| 最低 Python 实测或注明限制 | 本机 3.13.15；CI 已实际运行 3.10/3.13 并通过（PR #45） | PASS |
 | 专属测试/真实 CLI/场景基准/现有只读回归 | 53 tests OK；真实 CLI 均已跑；`skill_selftest.py` 5 PASS | PASS |
 | 不改公共测试框架 | 仅新增 `tests/skill_knowledge_audit/` | PASS |
 
@@ -114,8 +114,8 @@
 
 ## 9. 不得宣称（验收口径）
 
-- **NOT RUN**：模型是否真正加载/遵守、审批次数与 token 的实际变化、真实 EDA/Connector、
-  DRC/制造/样机、端到端画板速度、Python 3.10 运行时、外链有效性。
+- **NOT RUN（本机）**：模型是否真正加载/遵守、审批次数与 token 的实际变化、真实 EDA/Connector、
+  DRC/制造/样机、端到端画板速度、外链有效性。Python 3.10/3.13 运行时已由 CI 实际执行并通过。
 - **不声称**：本任务已改变客户端实际加载行为、已提速、工程质量已通过。
 - **已知覆盖缺口**：holdout-02（90k < 130k）与 holdout-03（40k < 64k）计划标
   `incomplete`，但 expected 未含 `budget_insufficient`，基准仍通过。`main.json`

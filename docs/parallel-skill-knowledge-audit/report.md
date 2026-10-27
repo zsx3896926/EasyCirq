@@ -3,7 +3,7 @@
 - 任务：并行任务 D — Skill 规则一致性、引用审计与最小阅读路径
 - 基线：`9a951edc21481dc3ae91460acc11aa3e08a7be8a`，产品 `v1.0.1`
 - 工具：`skill_knowledge_audit 0.1.0`；结构 `skill-knowledge-audit/v1`；目录 `2026-10-27.1`
-- 环境：Windows + Python 3.13.15；**Python 3.10 运行时 NOT RUN**（语法/标准库按 3.10 编写，CI 覆盖）
+- 环境：Windows + Python 3.13.15 本机；**CI 已在 Python 3.10 与 3.13 实际运行并通过**（PR #45）
 - 证据文件：`benchmarks/skill-knowledge-audit/results/{scan,rules,main}.json` 与 `plans/`
 - 本报告不修改任何源 Skill；所有建议见 `recommendations.md`，不直接套用。
 
@@ -188,6 +188,6 @@ python -m skill_knowledge_audit benchmark --root .. \
 - 未调用 EDA/Connector/daemon，未运行真实画板：不证明图纸质量、DRC、制造或端到端速度；
 - 外链 70 条只记录、未联网验证，`external_verified=false`；
 - 未运行 tokenizer：只报告字符/字节与保守区间，不把字符数当精确 token；
-- 未在本机运行 Python 3.10，仅按 3.10 语法编写并由 CI 覆盖；
+- 本机未运行 Python 3.10；Python 3.10/3.13 的运行时证据来自 CI（PR #45 validate 通过），不是本机证据；
 - holdout 由独立评阅者设计，但不是盲测；
 - 未修改客户端、安装包、CI 或主 `SKILL.md`；本任务不宣称已改变实际加载行为。

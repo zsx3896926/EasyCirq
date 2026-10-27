@@ -418,8 +418,8 @@ digest 相同）、`duration_ms`。总基准比较“全部可达参考资料”
    直接报错（退出 2），因此任意后续扫描都不会读到本任务输出。
 7. **规则证据**：`rules` 每次运行都校验 `catalog/rules.json` 的已审引文与
    非构造夹具引文；引用或行号不符直接退出 2，不沿用旧结果。
-8. **Python**：仅标准库，3.10+ 语法；本机 3.13.15 实测，3.10 由 CI 覆盖，
-   未在本机取得 3.10 运行时证据。
+8. **Python**：仅标准库，3.10+ 语法；本机 3.13.15 实测；CI 已实际运行
+   3.10/3.13 并通过（PR #45），本机未直接运行 3.10。
 9. **EDA 任务集**：`schematic_new`、`schematic_edit`、`pcb_layout`、`pcb_route`、
    `full_product` 都要求“先读后写”；EDA 可用时 actions 同时含 `read_eda` 与
    `write_eda`，EDA 不可用时 `writes_allowed=false` 并产出 `eda_unavailable`。
