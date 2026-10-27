@@ -1,0 +1,44 @@
+{
+  "id": "req_662",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:45:50.6798662Z",
+  "ok": true,
+  "result": {
+    "arcs": {
+      "ok": true,
+      "requested": 0
+    },
+    "lines": {
+      "ok": true,
+      "requested": 13
+    },
+    "nets": [
+      "LED1_A"
+    ],
+    "vias": {
+      "ok": true,
+      "requested": 0
+    }
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 569,
+  "seqAbandoned": 0
+}

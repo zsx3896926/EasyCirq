@@ -148,8 +148,11 @@
 **最终候选回归**：`distribution/verify_vendor.py` → **PASS**；`tools/offline_suite.py` →
 **1838 tests OK**；`go build ./...` + 新增单测（compose pins/deliverables/doctor/connector）全 PASS。
 
-**仍阻塞/未做**：PCB 截图（EasyEDA 标签页在后台，工具正确拒绝过期画布，需用户把标签页切前台）；
-Gerber/钻孔/CPL（gui_only）；PCB 3D 导出；2 条 dangling 线清理。
+**仍阻塞/未做**：PCB 截图（EasyEDA 的 PCB 标签页仍在后台，工具两次正确拒绝过期画布，需用户手动切前台）；
+Gerber/钻孔/CPL（gui_only，未宣称）；DFM 剩 4 条 WARN（+5V/VIN 未铺铜、2 条电源线偏细）。
+
+**已完成补项**：PCB 3D 导出 PASS（board.obj.zip 208,971 B，sha256 `2695098b…`）；dangling 线已清
+（rip-up→定向重布 2/2→铺铜重建→save/reload→DRC 0、dangling=0，WARN 6→4）。
 
 ## 5. 证据索引
 

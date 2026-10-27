@@ -1,0 +1,4 @@
+official auto-route (existing copper kept): map[cornerStyle:45 ignoreNets:[GND] layers:[1 2] nets:[LED1_A LED1_K] optimization:completion] — may take minutes
+router: success=true nets 2/2 routed, failed=[], 732ms
+created: map[arcs:0 tracks:12 vias:0]; removed: []
+next: pcb save → doc reload → pcb drc / pcb check (routing results read before a reload may be stale)

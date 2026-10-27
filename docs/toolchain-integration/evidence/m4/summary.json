@@ -221,6 +221,37 @@
       "status": "BLOCKED",
       "reason": "EasyEDA tab is hidden; the connector refused to capture a stale canvas (PRECONDITION_REFUSED) instead of faking an image",
       "fix": "bring the EasyEDA Pro window to the front and re-run pcb.snapshot"
+    },
+    "export3d": {
+      "status": "PASS",
+      "file": ".zhigou/artifacts/pcb-3d/board.obj.zip",
+      "bytes": 208971,
+      "sha256": "2695098b199b99241e2bc78481cdf79fc8befe8c97fdc916387044b82c22d710",
+      "modelCoverage": "binding-only",
+      "notes": "official get3DFile; before/after board readbacks identical (86834 B each); STEP/3D model coverage needs independent inspection",
+      "evidence": "pcb/pcb-export-3d.json"
+    },
+    "dfm": {
+      "errors": 0,
+      "warnings": 4,
+      "classes": [
+        "power-not-poured +5V",
+        "power-not-poured VIN",
+        "width-under-spec +5V",
+        "width-under-spec VIN"
+      ],
+      "danglingAfterCleanup": 0,
+      "evidence": "pcb/pcb-check-final.json"
+    },
+    "danglingCleanup": {
+      "action": "rip-up LED1_A/LED1_K -> autoroute those nets -> pour rebuild -> save/reload/drc",
+      "tracksCreated": 12,
+      "drcPassed": true,
+      "evidence": [
+        "pcb/ripup-led1a.json",
+        "pcb/reroute-led1.json",
+        "pcb/pcb-drc-final.json"
+      ]
     }
   },
   "six_state": {
@@ -232,10 +263,10 @@
     "quality_passed": "PARTIAL (DFM 0 errors / 5 warnings: J1 silk rotated, +5V/VIN not poured, 2 thin power tracks; silk text and power pour refinement still open)"
   },
   "limits": [
-    "PCB snapshot image BLOCKED: EasyEDA tab is in the background; the tool refuses rather than capture a stale canvas. Bring the window forward and re-run.",
-    "Native archive exported and validated, but the restore-into-a-new-project drill is NOT RUN.",
+    "PCB snapshot image BLOCKED: the EasyEDA PCB tab is hidden; the connector refuses to capture a stale canvas. Bring the PCB tab to the front and re-run pcb.snapshot.",
     "Gerber/drill/CPL remain gui_only - not attempted, not claimed.",
-    "DFM warnings remain: J1 designator rotated, +5V/VIN carried by tracks, 2 power tracks under width spec.",
+    "DFM: 4 warnings remain (5V/VIN carried by tracks not pours; 2 power nets under the width spec). 0 errors, 0 dangling.",
+    "3D export is binding-only coverage; model coverage needs independent inspection.",
     "MPN of generic-library LED/switch/header is unknown (system library), recorded as generic."
   ],
   "evidence": [
