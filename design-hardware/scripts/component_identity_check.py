@@ -164,6 +164,12 @@ def pcb_rows(doc):
         designator = text(item.get('designator') or item.get('name'))
         if not designator:
             continue
+        if designator in rows:
+            # Two PCB objects with the same designator make every SCH↔PCB
+            # binding ambiguous; do not let the last one win.
+            raise ValueError(
+                f'duplicate PCB designator {designator}; SCH↔PCB binding is '
+                f'ambiguous')
         rows[designator] = item
     return rows
 

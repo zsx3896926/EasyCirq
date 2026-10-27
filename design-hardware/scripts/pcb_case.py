@@ -799,6 +799,15 @@ def live_check(runner):
     report = parse_pcb_check(payload if isinstance(payload, dict)
                              else _load_json_loose(out))
     runner.add_artifact('pcb-check', 'check', out, command=command)
+    if not report.get('measured') or not report.get('trusted', True) or \
+            report.get('diagnostics') or report.get('contradictions'):
+        runner.fail('check', 'check_receipt_invalid',
+                    'pcb check receipt is unmeasured/inconsistent/untrusted',
+                    counts=report.get('counts'),
+                    diagnostics=report.get('diagnostics'),
+                    contradictions=report.get('contradictions'),
+                    exit=record.get('exit'))
+        return False
     if report.get('counts', {}).get('errors', 0) > 0:
         runner.fail('check', 'check_errors',
                     'pcb check reported ERROR findings',
@@ -837,6 +846,13 @@ def live_lint(runner):
     report = parse_layout_lint(payload if isinstance(payload, dict)
                                else _load_json_loose(out))
     runner.add_artifact('pcb-layout-lint', 'lint', out, command=command)
+    if not report.get('measured') or not report.get('trusted', True) or \
+            report.get('diagnostics'):
+        runner.not_run('lint', 'lint_receipt_invalid',
+                       note='layout-lint receipt is unmeasured/invalid; not a pass',
+                       diagnostics=report.get('diagnostics'),
+                       exit=record.get('exit'))
+        return False
     if not report.get('coverage_complete') or report.get('incomplete'):
         runner.not_run('lint', 'lint_coverage_incomplete',
                        note='layout-lint coverage is incomplete; not a pass',
@@ -1000,19 +1016,25 @@ def live_sch_pcb(runner):
     comparison = compare_sch_pcb(sch, dump)
     compare_path = os.path.join(runner.evidence_dir, 'sch-pcb-compare.json')
     _write_json(compare_path, comparison)
+    compare_ok = comparison.get('status') in ('match', 'match_with_renames')
     compare_command = {'name': 'compare_sch_pcb',
-                       'ok': comparison.get('status') == 'match',
+                       'ok': compare_ok,
+                       'status': comparison.get('status'),
                        'note': 'derived from sch read + measured pcb dump'}
     runner.add_artifact(
         'sch-pcb-compare', 'sch-pcb', compare_path,
         command=compare_command,
         note='designator+pad-number comparison; combination pads need aliases')
-    if comparison.get('status') != 'match':
+    if comparison.get('status') not in ('match', 'match_with_renames'):
         runner.fail('sch-pcb', 'sch_pcb_mismatch',
                     'schematic pin nets do not match PCB pad nets',
                     component_mismatches=comparison.get('component_mismatches'),
                     mismatch_count=len(comparison.get('mismatches') or []))
         return False
+    if comparison.get('status') == 'match_with_renames':
+        runner.notes.append(
+            'SCH-PCB partition matches; %d net name change(s) were reported '
+            'separately' % len(comparison.get('name_changes') or []))
     return True
 
 
@@ -1692,10 +1714,23 @@ def _verify(runner):
         report = parse_pcb_check(check_report)
         errors = report.get('counts', {}).get('errors', 0)
         warnings = report.get('counts', {}).get('warnings', 0)
-        checks.append(_check('check', 'fail' if errors else 'pass',
-                             'pcb check reported no ERROR findings'
-                             if not errors else 'pcb check reported ERROR findings',
-                             counts=report.get('counts')))
+        invalid = (not report.get('measured') or
+                   not report.get('trusted', True) or
+                   bool(report.get('diagnostics')) or
+                   bool(report.get('contradictions')))
+        if invalid:
+            checks.append(_check(
+                'check', 'fail',
+                'pcb check receipt is unmeasured/inconsistent/untrusted',
+                counts=report.get('counts'),
+                diagnostics=report.get('diagnostics'),
+                contradictions=report.get('contradictions')))
+        else:
+            checks.append(_check('check', 'fail' if errors else 'pass',
+                                 'pcb check reported no ERROR findings'
+                                 if not errors else
+                                 'pcb check reported ERROR findings',
+                                 counts=report.get('counts')))
         if warnings:
             if runner.warn_disposition is None:
                 checks.append(_check(
@@ -1725,13 +1760,19 @@ def _verify(runner):
         checks.append(_check('lint', 'incomplete', 'no layout-lint artifact'))
     else:
         report = parse_layout_lint(lint)
-        complete = bool(report.get('coverage_complete')) and not report.get('incomplete')
+        complete = (bool(report.get('measured')) and
+                    bool(report.get('trusted', True)) and
+                    not report.get('diagnostics') and
+                    bool(report.get('coverage_complete')) and
+                    not report.get('incomplete'))
         checks.append(_check('lint', 'pass' if complete else 'incomplete',
                              'layout-lint coverage is complete' if complete else
-                             'layout-lint coverage is incomplete; not a pass',
+                             'layout-lint is unmeasured/invalid or coverage is '
+                             'incomplete; not a pass',
                              score=report.get('score'),
                              crossings=report.get('crossings'),
-                             incomplete=report.get('incomplete')))
+                             incomplete=report.get('incomplete'),
+                             diagnostics=report.get('diagnostics')))
 
     # 9. Key net paths.
     _, netpath = _parse_artifact(runner, 'netpath-key-connections')
@@ -1764,12 +1805,16 @@ def _verify(runner):
         checks.append(_check('sch_pcb', 'incomplete', 'no SCH-PCB comparison artifact'))
     else:
         status = _text(sch.get('status')) if isinstance(sch, dict) else ''
+        accepted = status in ('match', 'match_with_renames')
         checks.append(_check(
-            'sch_pcb', 'pass' if status == 'match' else
+            'sch_pcb', 'pass' if accepted else
             ('fail' if status == 'mismatch' else 'incomplete'),
-            'schematic pins and PCB pads match' if status == 'match'
+            ('schematic pins and PCB pads match' if status == 'match'
+             else 'partition matches; net names changed') if accepted
             else 'schematic/PCB comparison status=%s' % (status or 'unknown'),
             mismatch_count=len(sch.get('mismatches') or [])
+            if isinstance(sch, dict) else None,
+            name_changes=len(sch.get('name_changes') or [])
             if isinstance(sch, dict) else None))
 
     # 11. Delivery images.

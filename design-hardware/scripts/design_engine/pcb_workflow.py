@@ -18,6 +18,8 @@ import json
 import math
 import os
 
+from .geometry import point_in_polygon, rect_inside_polygon
+
 MIL_PER_MM = 39.37007874015748
 SCHEMA_BOARD = 'design-engine-pcb-board/v1'
 SCHEMA_CONSTRAINTS = 'design-engine-pcb-constraints/v1'
@@ -30,8 +32,8 @@ SCHEMA_DIFF = 'design-engine-pcb-diff/v1'
 SCHEMA_POWER = 'design-engine-pcb-power/v1'
 
 CONSTRAINT_TYPES = {
-    'fixed', 'edge', 'near_pin', 'ordered_chain', 'keepout',
-    'allowed_layer', 'allowed_rotation', 'group', 'route_channel',
+    'fixed', 'locked', 'edge', 'near_pin', 'ordered_chain', 'keepout',
+    'allowed_layer', 'allowed_rotation', 'group', 'route_channel', 'spacing',
 }
 SEVERITIES = {'hard', 'preferred'}
 
@@ -209,7 +211,9 @@ def normalize_board(dump):
             'device': raw.get('device'),
             'layer': raw.get('layer'),
             'x': raw.get('x'), 'y': raw.get('y'),
-            'rotation': raw.get('rotation', 0),
+            # Do not invent 0 degrees for an unmeasured orientation; callers
+            # that need a rotation must fail closed or declare the assumption.
+            'rotation': raw.get('rotation'),
             'bbox': box,
             'pads': pads,
             'native': raw,
@@ -364,6 +368,13 @@ def compile_constraints(intent, board):
         raise ValueError('intent: object required')
     components = _component_map(board)
     raw_constraints = list(intent.get('constraints') or [])
+    if intent.get('min_component_spacing_mil') is not None:
+        raw_constraints.append({
+            'type': 'spacing', 'severity': 'hard',
+            'source': 'intent.min_component_spacing_mil',
+            'unit': 'mil',
+            'min_gap_mil': intent.get('min_component_spacing_mil'),
+        })
     for keepout in intent.get('keepouts') or []:
         item = dict(keepout)
         item.setdefault('type', 'keepout')
@@ -393,21 +404,33 @@ def compile_constraints(intent, board):
         item = {'id': cid, 'type': type_name, 'severity': severity,
                 'source': source, 'unit': 'mil', 'condition': raw.get('condition'),
                 'native_unit': unit}
-        if type_name == 'fixed':
+        if type_name in ('fixed', 'locked'):
             designator = str(raw.get('designator') or '')
             component = components.get(designator)
             if not component:
                 unknown.append({'id': cid, 'object': designator, 'reason': 'unknown designator'})
                 continue
             scale = _unit_scale(unit)
+            # A locked part keeps its measured pose unless a pose is declared.
             item.update({
                 'designator': designator,
-                'x': _number(raw.get('x'), f'{cid}.x') * scale,
-                'y': _number(raw.get('y'), f'{cid}.y') * scale,
+                'x': (_number(raw['x'], f'{cid}.x') * scale
+                      if 'x' in raw else
+                      _number(component.get('x'), f'{cid}.x')),
+                'y': (_number(raw['y'], f'{cid}.y') * scale
+                      if 'y' in raw else
+                      _number(component.get('y'), f'{cid}.y')),
                 'rotation': _number(raw.get('rotation', component.get('rotation', 0)),
                                     f'{cid}.rotation'),
                 'layer': int(raw.get('layer', component.get('layer', 1))),
             })
+            if type_name == 'locked':
+                item['locked'] = True
+        elif type_name == 'spacing':
+            item.update(_distance_fields(
+                raw, ('min_gap_mil',), unit))
+            if 'min_gap_mil' not in item:
+                raise ValueError(f'{cid}.min_gap_mil: nonnegative distance required')
         elif type_name == 'edge':
             designator = str(raw.get('designator') or '')
             if designator not in components:
@@ -523,7 +546,7 @@ def compile_constraints(intent, board):
     # Internal contradictions.
     fixed_by_designator = {}
     for item in constraints:
-        if item['type'] == 'fixed':
+        if item['type'] in ('fixed', 'locked'):
             previous = fixed_by_designator.get(item['designator'])
             if previous:
                 if (previous['x'], previous['y'], previous['rotation'], previous['layer']) != \
@@ -691,27 +714,42 @@ def validate_placement(board, plan, constraint_set=None, placement=None,
                                          'component has no proposed placement; reference pose retained'))
                 candidate_components[designator] = reference_components[designator]
     outline_box = (board.get('outline') or {}).get('bbox')
+    outline_points = (board.get('outline') or {}).get('points') or []
     if not outline_box:
         findings.append(_finding('outline_missing', 'hard', [], 'board outline is not measured'))
     else:
+        # A concave board must be checked against its polygon, not only its
+        # bounding box: a part in the notch is outside the board but inside
+        # the bbox.
+        polygon = [tuple(point) for point in outline_points] \
+            if len(outline_points) >= 3 else None
         for designator, component in candidate_components.items():
             box = _component_box(component)
             if not box:
                 findings.append(_finding('bbox_missing', 'hard', [designator],
                                          'component bbox is unavailable'))
                 continue
-            if not _contains(outline_box, box, tolerance=5.0):
+            if polygon is not None:
+                inside = rect_inside_polygon(box, polygon)
+            else:
+                inside = _contains(outline_box, box, tolerance=5.0)
+            if not inside:
                 findings.append(_finding('outside_outline', 'hard', [designator],
                                          'component body is outside the board outline',
-                                         bbox=box, outline=outline_box))
+                                         bbox=box, outline=outline_box,
+                                         outline_polygon_checked=polygon is not None))
             for pad in component.get('pads') or []:
                 if pad.get('x') is None or pad.get('y') is None:
                     findings.append(_finding('pad_geometry_missing', 'hard',
                                              [f"{designator}.{pad.get('number')}"],
                                              'pad centre is unavailable'))
                     continue
-                if not (outline_box[0] <= pad['x'] <= outline_box[2] and
-                        outline_box[1] <= pad['y'] <= outline_box[3]):
+                if polygon is not None:
+                    pad_inside = point_in_polygon((pad['x'], pad['y']), polygon)
+                else:
+                    pad_inside = (outline_box[0] <= pad['x'] <= outline_box[2] and
+                                  outline_box[1] <= pad['y'] <= outline_box[3])
+                if not pad_inside:
                     findings.append(_finding('pad_outside_outline', 'hard',
                                              [f"{designator}.{pad.get('number')}"],
                                              'pad centre is outside the board outline'))
@@ -737,7 +775,7 @@ def validate_placement(board, plan, constraint_set=None, placement=None,
         cid = item['id']
         severity = item['severity']
         finding_severity = 'hard' if severity == 'hard' else 'preferred'
-        if item['type'] == 'fixed':
+        if item['type'] in ('fixed', 'locked'):
             component = candidate_components.get(item['designator'])
             if not component:
                 rows.append({'constraint_id': cid, 'status': 'unmeasured', 'severity': severity})
@@ -745,17 +783,26 @@ def validate_placement(board, plan, constraint_set=None, placement=None,
             actual = (float(component.get('x')), float(component.get('y')),
                       float(component.get('rotation') or 0) % 360, int(component.get('layer')))
             expected = (item['x'], item['y'], item['rotation'] % 360, item['layer'])
+            def angle_equal(first, second):
+                delta = (first - second + 180.0) % 360.0 - 180.0
+                return abs(delta) <= 1e-6
             ok = (abs(actual[0] - expected[0]) <= 1e-6 and
                   abs(actual[1] - expected[1]) <= 1e-6 and
-                  abs((actual[2] - expected[2]) % 360) <= 1e-6 and
+                  angle_equal(actual[2], expected[2]) and
                   actual[3] == expected[3])
-            rows.append({'constraint_id': cid, 'type': 'fixed', 'status': 'pass' if ok else 'fail',
+            rows.append({'constraint_id': cid, 'type': item['type'],
+                         'status': 'pass' if ok else 'fail',
                          'severity': severity, 'actual': actual, 'expected': expected,
                          'source': item['source']})
             if not ok:
-                findings.append(_finding('fixed_pose_changed', finding_severity, [item['designator']],
-                                         'fixed part is not at the declared pose',
-                                         constraint_id=cid, actual=actual, expected=expected))
+                findings.append(_finding(
+                    'fixed_pose_changed' if item['type'] == 'fixed'
+                    else 'locked_pose_changed',
+                    finding_severity, [item['designator']],
+                    'fixed part is not at the declared pose'
+                    if item['type'] == 'fixed' else
+                    'locked part moved from its measured pose',
+                    constraint_id=cid, actual=actual, expected=expected))
         elif item['type'] == 'edge':
             component = candidate_components.get(item['designator'])
             box = _component_box(component) if component else None
@@ -898,6 +945,49 @@ def validate_placement(board, plan, constraint_set=None, placement=None,
                 findings.append(_finding('group_spread_failed', finding_severity, item['members'],
                                          'group spread exceeds the declared limit',
                                          constraint_id=cid, spread_mil=spread))
+        elif item['type'] == 'spacing':
+            minimum = item.get('min_gap_mil')
+            checked, violations = 0, []
+            parts = sorted(candidate_components.items())
+            for index, (first_designator, first) in enumerate(parts):
+                first_box = _component_box(first)
+                if not first_box:
+                    continue
+                for second_designator, second in parts[index + 1:]:
+                    if first.get('layer') != second.get('layer'):
+                        continue
+                    second_box = _component_box(second)
+                    if not second_box:
+                        continue
+                    checked += 1
+                    dx = max(first_box[0] - second_box[2],
+                             second_box[0] - first_box[2])
+                    dy = max(first_box[1] - second_box[3],
+                             second_box[1] - first_box[3])
+                    gap = max(dx, dy)
+                    if gap < 0:
+                        # bbox_overlap is already reported separately.
+                        continue
+                    if gap + 1e-9 < minimum:
+                        violations.append({
+                            'objects': [first_designator, second_designator],
+                            'gap_mil': round(gap, 3),
+                        })
+            rows.append({
+                'constraint_id': cid, 'type': 'spacing',
+                'status': 'fail' if violations else ('pass' if checked else 'unmeasured'),
+                'severity': severity, 'min_gap_mil': minimum,
+                'checked_pairs': checked, 'violations': violations[:20],
+                'source': item['source'],
+            })
+            if violations:
+                findings.append(_finding(
+                    'spacing_violation', finding_severity,
+                    [designator for pair in violations
+                     for designator in pair['objects']],
+                    'same-side component spacing is below the declared minimum',
+                    constraint_id=cid, min_gap_mil=minimum,
+                    violations=violations[:10]))
         elif item['type'] == 'route_channel':
             channel_hits = []
             for designator, component in candidate_components.items():
@@ -933,6 +1023,9 @@ def validate_placement(board, plan, constraint_set=None, placement=None,
             'hard_failed': len(failed_hard),
             'hard_unmeasured': len(unmeasured_hard),
         },
+        'outline_basis': ('polygon-exact' if outline_box and
+                          len(outline_points) >= 3 else
+                          ('bbox-approx' if outline_box else 'missing')),
         'measurement_note': 'bbox/pad geometry from pcb dump; pad distances are centre distances, not copper paths',
     }
 
@@ -1385,12 +1478,34 @@ def plan_candidates(board, intent, templates, constraint_set=None):
     return {
         'schema': SCHEMA_CANDIDATES,
         'status': 'selected' if selected else 'no_feasible_candidate',
+        'feasibility': ('selected' if selected else
+                        'not_found_within_budget'),
+        'feasibility_note': (
+            'the three strategies are a fixed sample, not an exhaustive '
+            'search; no_feasible_candidate means none passed the hard filter '
+            'within this budget, not that no layout exists'),
         'selected': selected['id'] if selected else None,
+        'selection': {
+            'rule': 'hard filter first; then near-pin failures, escape blockers, '
+                    'HPWL, module area, strategy rank, id (lexicographic '
+                    'tie-break); no weighted total',
+            'hard_filter_passed': [item['id'] for item in candidates
+                                   if item['hard_ok']],
+            'chosen': None if selected is None else {
+                'id': selected['id'],
+                'near_pin_failures': len(selected['near_pin_failures']),
+                'escape_blocked': len(selected['escape_blocked']),
+                'hpwl_mil': selected['hpwl_mil'],
+                'module_area_mil2': selected['module_area_mil2'],
+            },
+        },
         'candidates': candidates,
         'comparison': comparison,
         'budget': {'strategies': 3, 'evaluated': len(candidates), 'exhausted': False},
         'selection_rule': 'hard legality -> near-pin failures -> blocked escapes -> HPWL -> module area; no weighted total',
-        'note': 'a candidate is a plan only; it must be applied with typed pcb modify and re-read',
+        'routing_verified': False,
+        'note': 'a candidate is a plan only; HPWL/escape counts are proxies and '
+                'the candidate must be applied with typed pcb modify and re-read',
     }
 
 
@@ -1869,8 +1984,22 @@ def diff_boards(before, after, scope=None):
                                 'layer': second.get('layer'), 'pads': second_pads}}
             (identity if in_scope(designator=designator,
                                   box=_component_box(second)) else unrelated).append(change)
-        pose_before = (first.get('x'), first.get('y'), first.get('rotation'), first.get('layer'))
-        pose_after = (second.get('x'), second.get('y'), second.get('rotation'), second.get('layer'))
+        def pose(component):
+            rotation = component.get('rotation')
+            if rotation is not None:
+                try:
+                    rotation = float(rotation) % 360.0
+                    if abs(rotation - 360.0) <= 1e-9:
+                        rotation = 0.0
+                except (TypeError, ValueError):
+                    pass
+            return (component.get('x'), component.get('y'), rotation,
+                    component.get('layer'))
+
+        # -90 and 270 describe the same orientation; do not report a pose
+        # change (or an unrelated change) for an equivalent angle.
+        pose_before = pose(first)
+        pose_after = pose(second)
         if pose_before != pose_after:
             change = {'kind': 'pose_changed', 'designator': designator,
                       'before': pose_before, 'after': pose_after}

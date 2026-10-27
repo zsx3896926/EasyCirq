@@ -35,6 +35,10 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import pcb_cli
 from design_engine.pcb_workflow import (diff_boards, normalize_board,
                                         validate_placement)
+from design_engine.geometry import (circle_inside_polygon, point_in_polygon,
+                                    point_segment_distance,
+                                    polyline_inside_polygon,
+                                    segments_cross, segments_intersect)
 
 SCHEMA = 'design-engine-pcb-apply-plan/v1'
 PLAYBOOK_SCHEMA = 'design-engine-pcb-playbook/v1'
@@ -182,19 +186,37 @@ def _component_map(board):
             if component.get('designator')}
 
 
-def _measured_pose(component):
+def _measured_pose(component, label='component'):
+    """Read a measured pose without inventing an origin, angle or side.
+
+    A missing field is a measurement gap, not zero.  ``pcb modify`` must not
+    silently move a part to (0,0)/top just because the dump omitted a field.
+    """
+    if not isinstance(component, dict):
+        raise PlanInputError('%s: component object required' % label)
+    if 'x' not in component or 'y' not in component:
+        raise PlanInputError('%s: measured x/y required' % label)
+    if 'rotation' not in component or 'layer' not in component:
+        raise PlanInputError('%s: measured rotation/layer required; unknown '
+                             'values are not defaulted to 0/top' % label)
     return {
-        'x': float(component.get('x') or 0.0),
-        'y': float(component.get('y') or 0.0),
-        'rotation': float(component.get('rotation') or 0.0),
-        'layer': int(component.get('layer') or 1),
+        'x': _number(component.get('x'), '%s.x' % label),
+        'y': _number(component.get('y'), '%s.y' % label),
+        'rotation': _number(component.get('rotation'), '%s.rotation' % label),
+        'layer': _int_layer(component.get('layer'), '%s.layer' % label),
     }
+
+
+def _angle_delta(first, second):
+    """Smallest signed difference between two degree values (0 vs 360 = 0)."""
+    return ((float(first) - float(second) + 180.0) % 360.0) - 180.0
 
 
 def _same_pose(first, second):
     return (abs(first['x'] - second['x']) <= _POSE_TOLERANCE and
             abs(first['y'] - second['y']) <= _POSE_TOLERANCE and
-            abs((first['rotation'] - second['rotation']) % 360.0) <= _POSE_TOLERANCE and
+            abs(_angle_delta(first['rotation'], second['rotation'])) <=
+            _POSE_TOLERANCE and
             int(first['layer']) == int(second['layer']))
 
 
@@ -209,16 +231,24 @@ def _normalize_place_pose(op, component, label):
     to = op.get('to')
     if not isinstance(to, dict):
         raise PlanInputError('%s.to: object with x/y required' % label)
-    measured = _measured_pose(component)
-    rotation = _number(to.get('rotation', measured['rotation']),
-                       '%s.to.rotation' % label)
-    layer = _int_layer(to.get('layer', measured['layer']), '%s.to.layer' % label)
+    measured = _measured_pose(component, label + ' (measured)')
+    inherited = []
+    if 'rotation' in to:
+        rotation = _number(to.get('rotation'), '%s.to.rotation' % label)
+    else:
+        rotation = measured['rotation']
+        inherited.append('rotation')
+    if 'layer' in to:
+        layer = _int_layer(to.get('layer'), '%s.to.layer' % label)
+    else:
+        layer = measured['layer']
+        inherited.append('layer')
     return {
         'x': _number(to.get('x'), '%s.to.x' % label),
         'y': _number(to.get('y'), '%s.to.y' % label),
         'rotation': rotation,
         'layer': layer,
-    }
+    }, inherited
 
 
 def _check_from_pose(op, component, label):
@@ -227,7 +257,7 @@ def _check_from_pose(op, component, label):
     raw = op['from']
     if not isinstance(raw, dict):
         raise PlanInputError('%s.from: object required' % label)
-    measured = _measured_pose(component)
+    measured = _measured_pose(component, label + ' (measured)')
     declared = {
         'x': _number(raw.get('x'), '%s.from.x' % label),
         'y': _number(raw.get('y'), '%s.from.y' % label),
@@ -247,12 +277,12 @@ def _check_from_pose(op, component, label):
 
 
 def _normalize_playbook_ops(plan, board):
-    """Return (ops, placements, refused, primitive_ids) for an engine plan."""
+    """Return (ops, placements, refused, primitive_ids, noops) for a plan."""
     raw_ops = plan.get('ops')
     if not isinstance(raw_ops, list) or not raw_ops:
         raise PlanInputError('plan.ops: nonempty list required')
     components = _component_map(board)
-    ops, placements, refused = [], [], []
+    ops, placements, refused, noops = [], [], [], []
     seen_designators = set()
     for index, raw in enumerate(raw_ops):
         label = 'ops[%d]' % index
@@ -275,10 +305,22 @@ def _normalize_playbook_ops(plan, board):
                     'message': 'place op references a component absent from the '
                                'measured board'})
                 continue
-            pose = _normalize_place_pose(raw, component, label)
+            measured = _measured_pose(component, designator + ' (measured)')
+            pose, inherited = _normalize_place_pose(raw, component, label)
             from_problem = _check_from_pose(raw, component, label)
             if from_problem:
                 refused.append(from_problem)
+            placement = {'designator': designator, 'x': pose['x'], 'y': pose['y'],
+                         'rotation': pose['rotation'], 'layer': pose['layer']}
+            placements.append(placement)
+            if _same_pose(pose, measured):
+                noops.append({
+                    'op': 'place', 'designator': designator,
+                    'pose': pose, 'inherited': inherited,
+                    'reason': 'target pose equals the measured pose; no write '
+                              'is needed',
+                })
+                continue
             primitive_id = str(raw.get('primitive_id') or '') or \
                 str(component.get('primitive_id') or '')
             if not primitive_id:
@@ -298,13 +340,12 @@ def _normalize_playbook_ops(plan, board):
                     'kind': 'invalid_layer', 'designator': designator,
                     'layer': pose['layer'],
                     'message': 'place layer must be 1 (top) or 2 (bottom)'})
-            placement = {'designator': designator, 'x': pose['x'], 'y': pose['y'],
-                         'rotation': pose['rotation'], 'layer': pose['layer']}
-            placements.append(placement)
             ops.append({
                 'op': 'place', 'index': index, 'designator': designator,
-                'primitive_id': primitive_id, 'from': _measured_pose(component),
+                'primitive_id': primitive_id,
+                'from': measured,
                 'to': pose, 'reason': raw.get('reason'),
+                'inherited': inherited,
             })
         elif kind == 'track':
             net = _op_net(raw, label, refused, index)
@@ -338,7 +379,7 @@ def _normalize_playbook_ops(plan, board):
                         'points': points, 'fill': fill})
     primitive_ids = {op['designator']: op['primitive_id'] for op in ops
                      if op['op'] == 'place' and op.get('primitive_id')}
-    return ops, placements, refused, primitive_ids
+    return ops, placements, refused, primitive_ids, noops
 
 
 def _op_net(raw, label, refused, index):
@@ -384,7 +425,7 @@ def _legacy_placement_ops(plan, board):
     """Convert a legacy placements plan into place ops without writing."""
     raw = _legacy_placements(plan)
     components = _component_map(board)
-    placements, ops, refused = [], [], []
+    placements, ops, refused, noops = [], [], [], []
     seen = set()
     for index, item in enumerate(raw):
         label = 'placements[%d]' % index
@@ -405,32 +446,51 @@ def _legacy_placement_ops(plan, board):
                 'message': 'placement references a component absent from the '
                            'measured board'})
             continue
-        # Legacy defaults match the previous adapter's patch: rotation 0,
-        # layer 1.  Keep validation and the compiled write identical.
+        measured = _measured_pose(component, designator + ' (measured)')
+        inherited = []
+        if 'rotation' in item:
+            rotation = _number(item.get('rotation'), '%s.rotation' % label)
+        else:
+            rotation = measured['rotation']
+            inherited.append('rotation')
+        if 'layer' in item:
+            layer = _int_layer(item.get('layer'), '%s.layer' % label)
+        else:
+            layer = measured['layer']
+            inherited.append('layer')
         pose = {
             'x': _number(item.get('x'), '%s.x' % label),
             'y': _number(item.get('y'), '%s.y' % label),
-            'rotation': _number(item.get('rotation', 0), '%s.rotation' % label),
-            'layer': _int_layer(item.get('layer', 1), '%s.layer' % label),
+            'rotation': rotation,
+            'layer': layer,
         }
         if pose['layer'] not in PLACE_LAYERS:
             refused.append({'kind': 'invalid_layer', 'designator': designator,
                             'layer': pose['layer'],
                             'message': '%s.layer: 1 (top) or 2 (bottom) required'
                                        % label})
+        placements.append({'designator': designator, 'x': pose['x'],
+                           'y': pose['y'], 'rotation': pose['rotation'],
+                           'layer': pose['layer']})
+        if _same_pose(pose, measured):
+            noops.append({
+                'op': 'place', 'designator': designator, 'pose': pose,
+                'inherited': inherited,
+                'reason': 'target pose equals the measured pose; no write is '
+                          'needed',
+            })
+            continue
         primitive_id = str(component.get('primitive_id') or '')
         if not primitive_id:
             refused.append({
                 'kind': 'primitive_id_missing', 'designator': designator,
                 'message': 'component has no measured primitiveId'})
-        placements.append({'designator': designator, 'x': pose['x'],
-                           'y': pose['y'], 'rotation': pose['rotation'],
-                           'layer': pose['layer']})
         ops.append({'op': 'place', 'index': index, 'designator': designator,
                     'primitive_id': primitive_id,
-                    'from': _measured_pose(component), 'to': pose,
-                    'reason': item.get('reason')})
-    return ops, placements, refused
+                    'from': measured, 'to': pose,
+                    'reason': item.get('reason'),
+                    'inherited': inherited})
+    return ops, placements, refused, noops
 
 
 # ---------------------------------------------------------------------------
@@ -539,13 +599,127 @@ def _board_nets(board, raw_dump):
     return names
 
 
-def validate_copper_geometry(ops, board, raw_dump):
-    """Return refusal reasons for track/via/pour ops (empty when legal)."""
+def _keepout_hit(keepout, shape, geometry_basis):
+    """Return True when a copper shape intersects a declared keepout/hole."""
+    if not isinstance(keepout, dict):
+        return False
+    shape_type = str(keepout.get('shape') or '').lower()
+    if not shape_type:
+        shape_type = ('circle' if keepout.get('center') or
+                      keepout.get('centre') else 'rect')
+    if shape_type == 'circle':
+        center = keepout.get('center') or keepout.get('centre')
+        radius = keepout.get('radius')
+        if not (_is_number(radius) and isinstance(center, (list, tuple)) and
+                len(center) == 2):
+            # A declared but malformed keepout is not "no keepout"; fail
+            # closed instead of silently allowing the copper.
+            return True
+        cx, cy = float(center[0]), float(center[1])
+        r = float(radius)
+        if shape['kind'] == 'track':
+            for start, end in zip(shape['points'], shape['points'][1:]):
+                if point_segment_distance((cx, cy), start, end) <= \
+                        r + shape['half_width']:
+                    return True
+            return False
+        if shape['kind'] == 'via':
+            return math.hypot(shape['x'] - cx, shape['y'] - cy) <= \
+                r + shape['radius']
+        points = shape['points']
+        if point_in_polygon((cx, cy), points):
+            return True
+        if any(math.hypot(point[0] - cx, point[1] - cy) <= r
+               for point in points):
+            return True
+        for index in range(len(points)):
+            start, end = points[index], points[(index + 1) % len(points)]
+            if point_segment_distance((cx, cy), start, end) <= r:
+                return True
+        return False
+    box = keepout.get('rect') or keepout.get('bbox')
+    if isinstance(box, dict):
+        box = [box.get('minX'), box.get('minY'),
+               box.get('maxX'), box.get('maxY')]
+    if not (isinstance(box, (list, tuple)) and len(box) == 4 and
+            all(_is_number(value) for value in box)):
+        return True
+    box = [float(value) for value in box]
+    if shape['kind'] == 'track':
+        margin = float(shape.get('half_width') or 0.0)
+        expanded = [box[0] - margin, box[1] - margin,
+                    box[2] + margin, box[3] + margin]
+        return any(_segment_intersects_box(a, b, expanded)
+                   for a, b in zip(shape['points'], shape['points'][1:]))
+    if shape['kind'] == 'via':
+        margin = float(shape.get('radius') or 0.0)
+        return (box[0] - margin <= shape['x'] <= box[2] + margin and
+                box[1] - margin <= shape['y'] <= box[3] + margin)
+    points = shape['points']
+    # Pour vs rect: a keepout fully inside the pour, a pour edge crossing the
+    # keepout, or any pour vertex inside the keepout are all intersections.
+    corners = [(box[0], box[1]), (box[2], box[1]),
+               (box[2], box[3]), (box[0], box[3])]
+    if any(point_in_polygon(corner, points) for corner in corners):
+        return True
+    if any(box[0] <= point[0] <= box[2] and box[1] <= point[1] <= box[3]
+           for point in points):
+        return True
+    for index in range(len(points)):
+        start, end = points[index], points[(index + 1) % len(points)]
+        for corner_index in range(4):
+            if segments_cross(start, end, corners[corner_index],
+                              corners[(corner_index + 1) % 4]):
+                return True
+    return False
+
+
+def _segment_intersects_box(start, end, box):
+    # Liang-Barsky style clipping with inclusive boundaries.
+    lo, hi = 0.0, 1.0
+    for axis in (0, 1):
+        delta = end[axis] - start[axis]
+        if abs(delta) <= 1e-12:
+            if not (box[axis] <= start[axis] <= box[axis + 2]):
+                return False
+            continue
+        t0 = (box[axis] - start[axis]) / delta
+        t1 = (box[axis + 2] - start[axis]) / delta
+        t0, t1 = sorted((t0, t1))
+        lo, hi = max(lo, t0), min(hi, t1)
+        if lo > hi:
+            return False
+    return True
+
+
+def validate_copper_geometry(ops, board, raw_dump, constraints=None,
+                             plan_keepouts=None):
+    """Return refusal reasons for track/via/pour ops (empty when legal).
+
+    Copper is checked against the measured outline polygon, not only its
+    bounding box.  Track width and via diameter are included in the margin, so
+    a centreline that is barely inside the board but whose copper overhangs is
+    refused.  A board with no polygon outline cannot prove this and is refused
+    for copper writes; an ``arc-polyline`` outline is accepted as an explicitly
+    labelled approximation of the arcs.
+    """
     problems = []
-    bbox = (board.get('outline') or {}).get('bbox')
+    outline = board.get('outline') or {}
+    bbox = outline.get('bbox')
     if bbox is not None:
         bbox = [float(value) for value in bbox]
     polygon = _outline_points(board)
+    outline_format = str(outline.get('format') or '').lower()
+    outline_basis = 'bbox-approx'
+    if polygon and len(polygon) >= 3:
+        outline_basis = ('arc-polyline-approx' if 'arc' in outline_format
+                         else 'polygon-exact')
+    elif 'arc' in outline_format or outline.get('points'):
+        problems.append({
+            'kind': 'outline_unsupported',
+            'format': outline.get('format'),
+            'message': 'the measured outline is not a usable polygon; copper '
+                       'containment cannot be proven exactly'})
     nets = _board_nets(board, raw_dump)
     layers = _copper_layer_ids(board.get('layers', {}).get('copper_count'))
     if layers is None:
@@ -553,10 +727,28 @@ def validate_copper_geometry(ops, board, raw_dump):
             'kind': 'copper_layers_unmeasured',
             'message': 'dump does not measure the copper layer count; layer ids '
                        'cannot be validated'})
+    keepouts = []
+    for key in ('keepouts', 'holes', 'cutouts'):
+        for source in (board, raw_dump if isinstance(raw_dump, dict) else {}):
+            values = source.get(key)
+            if isinstance(values, list):
+                keepouts.extend(values)
+    for item in (constraints or {}).get('constraints') or []:
+        if isinstance(item, dict) and item.get('type') == 'keepout' and \
+                item.get('severity') != 'preferred':
+            keepouts.append(item)
+    for item in plan_keepouts or []:
+        if isinstance(item, dict):
+            keepouts.append(item)
     for op in ops:
         if op['op'] not in COPPER_OPS:
             continue
         context = {'index': op.get('index'), 'op': op['op'], 'net': op.get('net')}
+        if not polygon or len(polygon) < 3:
+            problems.append(dict(context, kind='outline_polygon_missing',
+                                 message='copper containment needs at least three '
+                                         'measured outline points; a bbox alone is '
+                                         'not an exact board shape'))
         if not nets:
             problems.append(dict(context, kind='nets_unmeasured',
                                  message='dump does not measure any net name; the '
@@ -578,14 +770,70 @@ def validate_copper_geometry(ops, board, raw_dump):
                 _point_in_outline(point, bbox, polygon,
                                   'track[%d].points[%d]' % (op['index'], index),
                                   problems, context)
+            if polygon and len(polygon) >= 3 and op.get('width_mil'):
+                if not polyline_inside_polygon(op['points'],
+                                               float(op['width_mil']) / 2.0,
+                                               polygon):
+                    problems.append(dict(
+                        context, kind='outside_outline_width',
+                        width_mil=op['width_mil'],
+                        message='track copper width crosses or touches the board '
+                                'edge even though its centreline is inside'))
+                if any(_keepout_hit(item, {'kind': 'track',
+                                           'points': op['points'],
+                                           'half_width':
+                                               float(op['width_mil']) / 2.0},
+                                    outline_basis) for item in keepouts):
+                    problems.append(dict(
+                        context, kind='copper_intersects_keepout',
+                        message='track copper intersects a declared keepout/hole'))
         elif op['op'] == 'via':
             _point_in_outline((op['x'], op['y']), bbox, polygon,
                               'via[%d]' % op['index'], problems, context)
+            if polygon and len(polygon) >= 3 and op.get('diameter_mil'):
+                if not circle_inside_polygon(
+                        (op['x'], op['y']),
+                        float(op['diameter_mil']) / 2.0, polygon):
+                    problems.append(dict(
+                        context, kind='outside_outline_diameter',
+                        diameter_mil=op['diameter_mil'],
+                        message='via diameter crosses or touches the board edge'))
+                if any(_keepout_hit(item, {'kind': 'via', 'x': op['x'],
+                                           'y': op['y'],
+                                           'radius':
+                                               float(op['diameter_mil']) / 2.0},
+                                    outline_basis) for item in keepouts):
+                    problems.append(dict(
+                        context, kind='copper_intersects_keepout',
+                        message='via copper intersects a declared keepout/hole'))
         else:  # pour
             for index, point in enumerate(op['points']):
                 _point_in_outline(point, bbox, polygon,
                                   'pour[%d].points[%d]' % (op['index'], index),
                                   problems, context)
+            if polygon and len(polygon) >= 3:
+                for index, point in enumerate(op['points']):
+                    next_point = op['points'][(index + 1) % len(op['points'])]
+                    midpoint = ((point[0] + next_point[0]) / 2.0,
+                                (point[1] + next_point[1]) / 2.0)
+                    crossing = any(
+                        segments_intersect(point, next_point,
+                                           polygon[edge_index],
+                                           polygon[(edge_index + 1) %
+                                                   len(polygon)])
+                        for edge_index in range(len(polygon)))
+                    if crossing or not point_in_polygon(midpoint, polygon):
+                        problems.append(dict(
+                            context, kind='pour_edge_outside',
+                            edge=[index, (index + 1) % len(op['points'])],
+                            message='a pour edge crosses outside the board '
+                                    'outline'))
+                if any(_keepout_hit(item, {'kind': 'pour',
+                                           'points': op['points']},
+                                    outline_basis) for item in keepouts):
+                    problems.append(dict(
+                        context, kind='copper_intersects_keepout',
+                        message='pour intersects a declared keepout/hole'))
     return problems
 
 
@@ -842,6 +1090,43 @@ def _journal_step_status(journal, step_id):
     return 'missing', None
 
 
+def journal_states(playbook, journal, apply_sent):
+    """Map every compiled step to planned/sent/confirmed/failed/unknown.
+
+    ``sent`` means the apply process was started; it does NOT mean the write
+    landed.  Only a journal entry whose status starts with ``ok`` is
+    ``confirmed``.  A missing entry after a send is ``unknown``.
+    """
+    states = []
+    by_id = {step.get('id'): step for step in journal.get('steps') or []}
+    problems = '; '.join(journal.get('problems') or [])
+    identity_invalid = any(marker in problems for marker in
+                           ('playbookSha256', 'header', 'order'))
+    for step in playbook.get('steps') or []:
+        step_id = step.get('id')
+        entry = by_id.get(step_id)
+        if entry is None or identity_invalid:
+            state = 'unknown' if apply_sent else 'planned'
+        else:
+            status = _text(entry.get('status')).lower()
+            if status.startswith('ok'):
+                state = 'confirmed'
+            else:
+                state = 'failed'
+        states.append({
+            'id': step_id,
+            'state': state,
+            'sent': bool(apply_sent),
+            'journal_status': entry.get('status') if entry else None,
+            'error': entry.get('error') if entry else None,
+        })
+    return states
+
+
+def _text(value):
+    return '' if value is None else str(value).strip()
+
+
 # ---------------------------------------------------------------------------
 # diff acceptance
 # ---------------------------------------------------------------------------
@@ -909,6 +1194,11 @@ def _base_report(args, plan_kind, plan_doc, ops, placements, scope, partial,
         'diff_accepted': None,
         'records': [],
         'failure': None,
+        'transaction': {
+            'atomic_rollback': False,
+            'note': 'the adapter compiles and verifies writes; it does not '
+                    'implement a transactional rollback of already-sent steps',
+        },
         'notes': [],
     }
 
@@ -1044,11 +1334,11 @@ def main(argv=None):
     try:
         if plan_kind in ('placements', 'placements_list'):
             plan_doc = plan if isinstance(plan, dict) else {'placements': plan}
-            ops, placements, refused = _legacy_placement_ops(plan, board)
+            ops, placements, refused, noops = _legacy_placement_ops(plan, board)
             plan_kind = 'placements'
         elif plan_kind == 'playbook':
             plan_doc = plan
-            ops, placements, refused, _ = _normalize_playbook_ops(plan, board)
+            ops, placements, refused, _, noops = _normalize_playbook_ops(plan, board)
         else:
             raise PlanInputError('plan: placements list, {"placements":[...]} or '
                                  '{"ops":[...]} required')
@@ -1113,10 +1403,25 @@ def main(argv=None):
                                          if finding.get('severity') == 'hard']})
 
     # 4. Copper geometry (track/via/pour) fail closed.
-    refused.extend(validate_copper_geometry(ops, board, dump))
+    plan_keepouts = plan.get('keepouts') if isinstance(plan, dict) else None
+    refused.extend(validate_copper_geometry(
+        ops, board, dump, constraints=constraint_set,
+        plan_keepouts=plan_keepouts if isinstance(plan_keepouts, list) else None))
 
     report = _base_report(args, plan_kind, plan, ops, placements, scope, partial,
                           playbook_path, journal_path, check)
+    report['plan']['noops'] = noops
+    outline = board.get('outline') or {}
+    outline_format = str(outline.get('format') or '').lower()
+    report['plan']['geometry_basis'] = (
+        'arc-polyline-approx' if 'arc' in outline_format and
+        len(outline.get('points') or []) >= 3 else
+        ('polygon-exact' if len(outline.get('points') or []) >= 3
+         else 'bbox-approx'))
+    report['plan']['pose_defaults'] = [
+        {'designator': op.get('designator'), 'inherited': op.get('inherited')}
+        for op in ops if op.get('inherited')
+    ]
     if refused:
         report['status'] = 'refused'
         report['refused'] = refused
@@ -1124,6 +1429,13 @@ def main(argv=None):
                              'message': refused[0].get('message')}
         _emit(report, args)
         return 1
+    if not ops:
+        report['status'] = 'no_op'
+        report['notes'].append(
+            '%d operation(s) already match the measured board; no playbook '
+            'write and no CLI call were made' % len(noops))
+        _emit(report, args)
+        return 0
 
     # 5. Compile the playbook (before any write).
     playbook, step_summary, op_records = compile_playbook(ops, scope, args,
@@ -1155,6 +1467,8 @@ def main(argv=None):
     # 6. Dry-run: playbook + report only, no CLI call.
     if not args.apply:
         report['status'] = 'dry_run'
+        report['journal']['states'] = journal_states(
+            playbook, {'steps': []}, apply_sent=False)
         report['records'] = [dict(record, status='dry_run')
                              for record in op_records]
         report['notes'].append('dry-run: no CLI call; run with --apply to write')
@@ -1186,21 +1500,42 @@ def main(argv=None):
     journal = verify_journal(journal_path, journal_before['size'],
                              [step['id'] for step in playbook['steps']],
                              report['playbook']['sha256'])
+    journal['states'] = journal_states(playbook, journal,
+                                       apply_sent=record.get('exit') is not None)
     report['journal'] = journal
+    state_by_id = {item['id']: item['state'] for item in journal['states']}
     records = []
     for op_record in op_records:
         statuses = [_journal_step_status(journal, step_id)[0]
                     for step_id in op_record['steps']]
-        if statuses and all(str(status).startswith('ok') for status in statuses):
+        states = [state_by_id.get(step_id, 'unknown')
+                  for step_id in op_record['steps']]
+        if states and all(state == 'confirmed' for state in states):
             status = 'applied'
-        elif statuses and any(status == 'missing' for status in statuses):
-            status = 'missing'
-        else:
+        elif any(state == 'failed' for state in states):
             status = 'failed'
+        elif any(state == 'unknown' for state in states):
+            status = 'unknown'
+        else:
+            status = 'not_sent'
         records.append(dict(op_record, status=status,
-                            step_statuses=statuses))
+                            step_statuses=statuses, confirmations=states))
     report['records'] = records
     save_status, _ = _journal_step_status(journal, 'save')
+    states = journal['states']
+    unknown_steps = [item['id'] for item in states
+                     if item['state'] in ('unknown', 'failed')]
+    report['recovery'] = {
+        'apply_sent': True,
+        'confirmed_steps': sum(1 for item in states
+                               if item['state'] == 'confirmed'),
+        'unknown_or_failed_steps': unknown_steps,
+        'safe_to_retry': False,
+        'requires_fresh_dump_before_retry': True,
+        'reason': ('apply was sent; only journal-confirmed steps are known to '
+                   'have landed. Do not retry from the same plan until a fresh '
+                   'dump shows the actual board state.'),
+    }
     report['save'] = {'step': 'save', 'status': save_status}
     if args.no_reload:
         report['reload'] = {'step': 'reload', 'status': 'skipped',

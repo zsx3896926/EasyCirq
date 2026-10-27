@@ -112,7 +112,7 @@
         "format": "json",
         "path": "<case>/evidence/sch-read.json"
       },
-      "verify": ["components[].pins[].number/name/net present", "compare_sch_pcb reports status=match", "component and pin counts captured"],
+      "verify": ["components[].pins[].number/name/net present", "compare_sch_pcb reports status=match or match_with_renames", "component and pin counts captured"],
       "status": "documented; comparison derived by pcb_evidence.compare_sch_pcb",
       "notes": "The schematic must be the active document: doc switch <schematic> before sch read, switch back to the PCB afterwards. Fallback is sch list --include-pins --project <project> --json. Comparison is exact designator+pad-number; combination pads need an explicit alias map instead of being guessed."
     },
@@ -250,7 +250,7 @@
     "pcb-check": {"stage": "check", "description": "raw pcb check JSON; 0 ERROR plus WARN dispositions"},
     "pcb-layout-lint": {"stage": "lint", "description": "raw layout-lint JSON; coverage.complete required"},
     "netpath-key-connections": {"stage": "netpath", "description": "aggregated per-pair net-path rows with per-row argv"},
-    "sch-pcb-compare": {"stage": "sch-pcb", "description": "compare_sch_pcb result; status=match"},
+    "sch-pcb-compare": {"stage": "sch-pcb", "description": "compare_sch_pcb result; status=match or match_with_renames"},
     "image-top": {"stage": "images", "description": "top PNG copied into the case"},
     "image-bottom": {"stage": "images", "description": "bottom PNG copied into the case"},
     "actual-svg": {"stage": "images", "description": "layout render --actual SVG bound by metadata.sourceSha256"},

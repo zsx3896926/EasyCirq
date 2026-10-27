@@ -791,6 +791,10 @@ class ReuseTests(unittest.TestCase):
         self.assertEqual(result['status'], 'planned')
         self.assertEqual(len(result['operations']), 3)
         self.assertEqual(result['eeada_apply'], 'NOT RUN')
+        self.assertFalse(result['routing_verified'])
+        for operation in result['operations']:
+            self.assertIn('rotation', operation['to'])
+            self.assertIn('layer', operation['to'])
 
     def test_footprint_mismatch_rejects_reuse(self):
         template = load_templates()['divider-sense']
@@ -803,6 +807,90 @@ class ReuseTests(unittest.TestCase):
                             {'R1': 'part:X-R1', 'R2': 'part:X-R2', 'C1': 'part:X-C3'})
         self.assertEqual(result['status'], 'rejected')
         self.assertTrue(any(issue['code'] == 'footprint_mismatch' for issue in result['issues']))
+
+    def test_missing_footprint_identity_is_not_a_match(self):
+        template = load_templates()['divider-sense']
+        reference = self.module_ir('R')
+        target = self.module_ir('X', x_offset=200.0)
+        reference['components'][0]['footprint'] = {}
+        result = plan_reuse(template, reference,
+                            {'R1': 'part:R-R1', 'R2': 'part:R-R2', 'C1': 'part:R-C3'},
+                            target,
+                            {'R1': 'part:X-R1', 'R2': 'part:X-R2', 'C1': 'part:X-C3'})
+        self.assertEqual(result['status'], 'rejected')
+        self.assertTrue(any(issue['code'] == 'footprint_unmeasured'
+                            for issue in result['issues']))
+
+    def test_unmeasured_target_net_rejects_reuse(self):
+        template = load_templates()['divider-sense']
+        reference = self.module_ir('R')
+        target = self.module_ir('X', x_offset=200.0)
+        for component in target['components']:
+            for pin in component['pins']:
+                pin['net'] = None
+        result = plan_reuse(template, reference,
+                            {'R1': 'part:R-R1', 'R2': 'part:R-R2', 'C1': 'part:R-C3'},
+                            target,
+                            {'R1': 'part:X-R1', 'R2': 'part:X-R2', 'C1': 'part:X-C3'})
+        self.assertEqual(result['status'], 'rejected')
+        self.assertTrue(any(issue['code'] == 'net_unmeasured'
+                            for issue in result['issues']))
+
+    def test_core_rotation_rotates_relative_offsets(self):
+        template = load_templates()['divider-sense']
+        reference = self.module_ir('R')
+        target = self.module_ir('X', x_offset=200.0)
+        target['components'][0]['placement']['rotation'] = 90
+        result = plan_reuse(template, reference,
+                            {'R1': 'part:R-R1', 'R2': 'part:R-R2', 'C1': 'part:R-C3'},
+                            target,
+                            {'R1': 'part:X-R1', 'R2': 'part:X-R2', 'C1': 'part:X-C3'})
+        self.assertEqual(result['status'], 'planned')
+        operation = next(item for item in result['operations']
+                         if item['designator'] == 'XR2')
+        self.assertAlmostEqual(operation['to']['x'], 250.0, places=6)
+        self.assertAlmostEqual(operation['to']['y'], 70.0, places=6)
+        self.assertAlmostEqual(operation['to']['rotation'], 90.0, places=6)
+
+    def test_body_size_mismatch_rejects_reuse(self):
+        template = load_templates()['divider-sense']
+        reference = self.module_ir('R')
+        target = self.module_ir('X', x_offset=200.0)
+        target['components'][0]['body_bbox'] = [0, 0, 100, 100]
+        result = plan_reuse(template, reference,
+                            {'R1': 'part:R-R1', 'R2': 'part:R-R2', 'C1': 'part:R-C3'},
+                            target,
+                            {'R1': 'part:X-R1', 'R2': 'part:X-R2', 'C1': 'part:X-C3'})
+        self.assertEqual(result['status'], 'rejected')
+        self.assertTrue(any(issue['code'] == 'footprint_size_mismatch'
+                            for issue in result['issues']))
+
+    def test_net_partition_mismatch_rejects_reuse(self):
+        template = load_templates()['divider-sense']
+        reference = self.module_ir('R')
+        target = self.module_ir('X', x_offset=200.0)
+        target['components'][1]['pins'][0]['net'] = 'C'
+        result = plan_reuse(template, reference,
+                            {'R1': 'part:R-R1', 'R2': 'part:R-R2', 'C1': 'part:R-C3'},
+                            target,
+                            {'R1': 'part:X-R1', 'R2': 'part:X-R2', 'C1': 'part:X-C3'})
+        self.assertEqual(result['status'], 'rejected')
+        self.assertTrue(any(issue['code'] == 'net_partition_mismatch'
+                            for issue in result['issues']))
+
+    def test_declared_rotation_is_checked(self):
+        template = copy.deepcopy(load_templates()['divider-sense'])
+        template['blocks'][0]['allowed_rotations'] = [0]
+        reference = self.module_ir('R')
+        target = self.module_ir('X', x_offset=200.0)
+        target['components'][0]['placement']['rotation'] = 90
+        result = plan_reuse(template, reference,
+                            {'R1': 'part:R-R1', 'R2': 'part:R-R2', 'C1': 'part:R-C3'},
+                            target,
+                            {'R1': 'part:X-R1', 'R2': 'part:X-R2', 'C1': 'part:X-C3'})
+        self.assertEqual(result['status'], 'rejected')
+        self.assertTrue(any(issue['code'] == 'rotation_not_allowed'
+                            for issue in result['issues']))
 
 
 class TemplateTests(unittest.TestCase):

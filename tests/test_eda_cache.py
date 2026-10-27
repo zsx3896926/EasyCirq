@@ -101,6 +101,27 @@ class EdaCacheCli(unittest.TestCase):
         proc, report = self.get(params=json.dumps({"page": "P2"}))
         self.assertEqual(report["reason"], "not_found")
 
+    def test_tool_version_is_part_of_the_key(self):
+        proc, report = self.run_tool(
+            "put", "--cache", str(self.cache), "--project", "proj",
+            "--document", "doc", "--action", "pcb.dump",
+            "--params", self.params, "--version-tag", "save-1",
+            "--cli-version", "1.14.0", "--tool-version", "tool-a",
+            "--value", str(self.value))
+        self.assertEqual(proc.returncode, 0, proc.stdout)
+        proc, report = self.get_tool_version("tool-a")
+        self.assertEqual(report["status"], "hit")
+        proc, report = self.get_tool_version("tool-b")
+        self.assertEqual(proc.returncode, 1)
+        self.assertEqual(report["reason"], "not_found")
+
+    def get_tool_version(self, version):
+        return self.run_tool(
+            "get", "--cache", str(self.cache), "--project", "proj",
+            "--document", "doc", "--action", "pcb.dump",
+            "--params", self.params, "--version-tag", "save-1",
+            "--cli-version", "1.14.0", "--tool-version", version)
+
     def test_stats(self):
         self.put()
         proc, report = self.run_tool("stats", "--cache", str(self.cache))

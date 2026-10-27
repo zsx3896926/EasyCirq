@@ -13,7 +13,10 @@ import hashlib
 import json
 import os
 import subprocess
+import tempfile
 from datetime import datetime, timezone
+
+import offline_guard
 
 DEFAULT_TIMEOUT_SEC = 120.0
 
@@ -49,13 +52,22 @@ def load_json(path):
 
 
 def write_json(path, value):
+    """Atomically replace a JSON file so a reader never sees half a report."""
     parent = os.path.dirname(os.path.abspath(path))
     if parent:
         os.makedirs(parent, exist_ok=True)
     text = json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False)
-    with open(path, 'w', encoding='utf-8', newline='\n') as handle:
-        handle.write(text)
-        handle.write('\n')
+    fd, temp = tempfile.mkstemp(prefix='.hds-json-', dir=parent or '.')
+    try:
+        with os.fdopen(fd, 'w', encoding='utf-8', newline='\n') as handle:
+            handle.write(text)
+            handle.write('\n')
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temp, path)
+    finally:
+        if os.path.exists(temp):
+            os.unlink(temp)
 
 
 def write_text(path, text):
@@ -74,6 +86,7 @@ def run(args, *, easyeda=None, timeout=DEFAULT_TIMEOUT_SEC, cwd=None,
     caller deciding pass/fail needs the failure itself, not an exception.
     """
     argv = [easyeda_executable(easyeda)] + [str(item) for item in args]
+    offline_guard.check_executable(argv, context='pcb_cli.run')
     started = utc_now()
     stdout = stderr = ''
     code = None

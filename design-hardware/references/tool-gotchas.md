@@ -6,10 +6,11 @@
 
 ## 适用范围与版本基线
 
-- 适用工具：easyeda-agent `v1.14.0`。
-- 适用客户端：嘉立创EDA专业版 `4.1.78.34f5b8d9`。
-- 证据时间：2026-10-24 的 Windows 实机会话，以及 `docs/evidence/` 下的现场记录。
-- 命令和参数只写到本文件已核对的 v1.14.0 命令面；未列出的动作、参数和返回字段不作承诺，执行前用当前 `--help` 复核。
+- 适用工具：easyeda-agent `v1.14.0`；2026-10-27 的双路按键 LED 板条目使用 `v1.15.0`，条目内单独标注。
+- 适用客户端：嘉立创EDA专业版 `4.1.78.34f5b8d9`（两个会话相同）。
+- 证据时间：2026-10-24 的 Windows 实机会话；2026-10-27 的 v1.15.0 条目单独标注来源与证据文件。
+- 命令和参数只写到本文件已核对的 v1.14.0/v1.15.0 命令面；未列出的动作、参数和返回字段不作承诺，执行前用当前 `--help` 复核。
+- 2026-10-27 的 1.15.0 条目来自外部双路按键 LED 任务工作区（`dual-button-led-night-20261027/evidence/`、`case/`），这些真机证据文件未随本仓库提交；条目内只保留结论与文件名，复核时以该外部工作区为准，不能把本仓库离线测试当作真机回放。
 - 不同客户端版本、不同工程和不同窗口状态都可能改变结果；一次成功不等于通用保证。
 - 文档中的门禁不是审批。Agent 在已授权范围内按证据记录 `PASS`/`BLOCKED`/`PASS_WITH_WAIVER`/`UNSUPPORTED`，不新增等待点；`PASS_WITH_WAIVER` 只表示有条件满足并写明理由、条件和剩余风险，不能当成 `PASS`，`UNSUPPORTED` 也不能当成 `PASS`。
 
@@ -142,6 +143,8 @@
 
 **证据/边界与本案例**：28→28 和 J2 仍在是现场事实；手动 delete/track-delete/rip-up 只出现在会话记录里，evidence 目录没有对应输出，因此不能作为已验收证据。不要用 `noChanges:true` 推断“已同步”。本案例 `pcb-import-after-j2-removal.log` 与 `pcb-import-after-usb-removal.log` 记录两次导入。
 
+**补充：API 放置件可以导入（2026-10-27，4.1.78/1.15.0）**：空 PCB、Board 已绑定时，`pcb import-changes` 对通过 `sch place` 放入的 12 个器件返回 `imported:true`、`componentsBefore:0`、`componentsAfter:12`、`partial:false`、`verified:true`，导入后 28 个 pin/pad 网名与原理图一致。不要因为旧记录说“import 是 no-op”就直接逐件 `add-component`；先试一次 import 并回读，0 件再回退到 `add-component`。这条只改变“导入新增件”的路径，不改变“删件仍需显式删除”的边界。
+
 ### 9. JSON/human 混行：`.json` 文件名不可信（G2–G6）
 
 **现象**：`sch-drc.json`、`sch-check-final2.json`、`layout-lint-all.json` 实际是纯文本；`pcb-drc-1.json` 是 JSON 后追加一行 CLI 摘要；`bom-export.log` 是 JSON、人类可读行和 traceback 混在一起。另有截断文件 `pcb-drc-2.json` 2152 bytes、`pcb-nets-after-route.json` 1172 bytes，完整重跑分别为 238706 bytes 和 3848 bytes。
@@ -171,6 +174,10 @@
 **正确动作**：要确认持久化，显式保存后 `doc reload`，再回读文档 UUID、页 UUID、器件和网络；要写某个原理图页或 PCB，给 mutating 动作加 `--doc <uuid|name>` 钉住目标，并用 `doc ls`/live 回读确认。`doc ready` 只用来判断就绪，不产生保存或切换。多窗口下用 `--project` 路由。
 
 **证据/边界与本案例**：`--doc` 的设计目的就是消除“前台页被换掉，修改落到别页”的竞态；不匹配即拒绝，不能绕过。`doc switch` 成功不等于保存成功，`doc reload` 成功也不等于内容正确。本案例 `pcb-list.json`/`pcb-layers.json` 因前台是原理图被拒，错误信息直接建议 `--doc` 或 `doc switch`；import 后带 staleRisk，但尚未留下 reload 回执。
+
+**`doc reload` 的就绪探测可能假失败（2026-10-27，4.1.78/1.15.0）**：同一原理图连续两次 `doc reload` 都返回 `reopened but its schematic data did not settle: schematic.components.list ... connector did not respond — context deadline exceeded`，但紧接着 `doc ready` 返回 `25 stable components (2 samples)`，`sch read` 读到完整 8 网且与保存前逐脚一致。此时不要反复 reload 或把失败写成“未保存”：保留失败回执，另跑 `doc ready` + fresh `sch read` 证明数据可读与网表一致，并明确“持久化由独立回读确认，reload 命令自身的就绪回执未通过”。本案例证据 `sch-reload-final2.json`、`sch-doc-ready-final.json`、`sch-read-final.json`。
+
+**`bom export` 需要原理图为前台（G6）**：PCB 前台执行 `easyeda bom export --type csv` 返回 `BOM export returned no file`；`doc switch` 到原理图后同一命令成功。`pcb_case.py` 的 bom 步骤会自动切换，手工导出时先切页；导出成功后仍要核对 C 号、位号、数量、封装与 MPN。
 
 ### 12. `sch export-image` 取代已移除的 `sch snapshot`（G2/G5）
 
@@ -271,6 +278,12 @@
 **正确动作**：先保存文档再导出；把 `zipIntegrityVerified`（zip 完整）与 `restoreVerified`（恢复演练）分开记录。恢复演练在副本上打开 `.epro2`，核对工程 UUID、页 UUID、器件清单、网表与关键网络，再写 `restore_verified:true`。缺参时按 `--help` 补齐，不猜参数。
 
 **证据/边界与本案例**：`restoreVerified:false` = 未演练，G6 的 `epro2_restore` 直接失败且不可豁免；zip 完整不等于可恢复。本案例 `project-export.log` 报 `explicit --window and --project-uuid are required`；`project-export-2.log` 导出成功（364810 bytes，`zipIntegrityVerified:true`）但 `restoreVerified:false`。
+
+## apply 的 no-op 与 journal 状态
+
+`pcb_apply_plan.py` 会把目标 pose 等于实测 pose 的 place 记入 `plan.noops`，不生成写入步骤；全部为 no-op 时 `status=no_op`，不写 playbook、不调用 CLI。不要为了“看起来执行过”重跑一个 no_op 计划。
+
+`--apply` 后 journal 每步只有 `planned`、`sent`、`confirmed`、`failed`、`unknown` 五种状态；`confirmed` 的 status 以 ok 开头，`unknown` 表示已发出但无确认。**`unknown` 不是成功**：报告 `recovery.safe_to_retry=false`，必须先取 fresh dump 看实际状态，再只补差异。`report`/playbook 原子写入；不要读取或继续使用半份 JSON。适配器没有事务回滚，不要宣称“失败自动回滚”。
 
 ## 什么时候不要重试
 

@@ -87,6 +87,20 @@ easyeda sch read --project <name> --out sch-read.json
 
 硬约束与优化偏好分开写 `severity: hard|preferred`。每条约束有稳定 `id`、`source`、单位；距离字段必须给 `unit`。硬失败不能用其他项的总分抵消。
 
+### 2.4 从绑定原理图导入到空 PCB
+
+EasyEDA 4.1.78 + easyeda-agent 1.15.0 实测：Board 已绑定原理图/Pcb、PCB 仍为空时，`pcb import-changes` 能把**通过 API 放置**的原理图器件导入 PCB。2026-10-27 的双路按键板返回 `imported:true`、`componentsBefore:0`、`componentsAfter:12`、`partial:false`、`verified:true`，导入后 `sch` 与 `pcb` 的 28 个引脚/pad 网名一致。
+
+```bash
+easyeda doc open <PCB_UUID> --project <name>
+easyeda pcb import-changes --project <name> --doc <PCB_UUID>
+easyeda pcb save --project <name> --doc <PCB_UUID>
+easyeda doc reload <PCB_UUID> --project <name>
+easyeda pcb dump --project <name> --doc <PCB_UUID> --include-copper --out board.json
+```
+
+导入后仍必须回读：`import-changes` 不删除原理图已移除的器件（见 [工具陷阱](tool-gotchas.md) 第 8 节）；返回 0 件时不要反复重跑，改用 `pcb add-component --unique-id ... --nets ...` 逐件补。导入成功只证明器件/网表进入 PCB，不证明封装几何、布局或布线。该 1.15.0 实测证据在外部 `dual-button-led-night-20261027` 任务工作区，未随本仓库提交。
+
 ## 3. 约束模型与冲突诊断
 
 支持类型：
@@ -94,7 +108,9 @@ easyeda sch read --project <name> --out sch-read.json
 | type | 关键字段 | 说明 |
 |---|---|---|
 | `fixed` | designator, x/y/rotation/layer | 绝对固定；写入后回读比对 |
+| `locked` | designator（可省略 pose） | 保持实测 pose；省略 pose 时以实测值作为锁定基准 |
 | `edge` | edge, max_inset_mil, facing_rotation | 靠指定板边；接口朝向独立核验 |
+| `spacing` | min_gap_mil | 同层器件 bbox 最小间隙；也可用 intent 顶层 `min_component_spacing_mil` 生成 |
 | `near_pin` | part/pad, owner/owner_pad, max_mil | 真实物理 pad 的关系；中心距不是铜路径 |
 | `ordered_chain` | parts[], axis, max_gap_mil | 信号链顺序；用 bbox 中心投影 |
 | `keepout` | circle/rect | 机械/电气禁布；与 fixed 冲突直接报 |
@@ -143,6 +159,7 @@ python scripts/pcb_preflight.py --dump board.json [--schematic sch-read.json] \
 - `i2c-sensor`：I²C 传感器、上拉与去耦。
 - `mcu-debug`：MCU 下载接口、复位/启动。
 - `crystal-guard`：晶振与负载电容。
+- `dual-channel-switch-led`：两路按键—LED—限流电阻的并列相对布局；`offline-tested`，在 2026-10-27 双路按键板的实测基线上复现了六个位姿，仍是参考不是已验证实例。
 
 绑定规则：
 
@@ -174,7 +191,18 @@ python design_engine_cli.py pcb-candidates \
 
 选择顺序：先淘汰硬约束失败候选；再比较关键局部连接失败数、逃线预判阻塞数、HPWL、模块面积。**不输出综合总分**。没有可行候选时返回 `no_feasible_candidate`，不把“预算耗尽”写成“无解”。
 
-候选差异至少给：硬失败具体 code、近引脚失败项、阻塞逃线、HPWL、模块面积、相对参考改动的器件。执行前必须 fresh dump 对照；旧候选的 primitiveId/几何不能复用。
+候选差异至少给：硬失败具体 code、近引脚失败项、阻塞逃线、HPWL、模块面积、相对参考改动的器件。执行前必须 fresh dump 对照；旧候选的 primitiveId/几何不能复用。`no_feasible_candidate` 的 `feasibility_note` 明确这是固定种子/预算内未找到，不是无解证明；`routing_verified=false` 始终保留。
+
+### 5.1 交付门禁的 provenance 与冲突
+
+`pcb_gate.py` 读取 case 目录时：
+
+- 有 `manifest.json` 时优先使用 manifest 声明的 artifact 路径；`sha256`、`source_dump_sha256`、`produced_at` 是绑定依据，文件缺失不会回退到旁边的同名文件。
+- 证据哈希与 manifest 不一致、源 dump 变化、项目身份不一致 → 该阶段 `EVIDENCE_BINDING` 失败；多个候选项目/页身份不同 → `EVIDENCE_IDENTITY_CONFLICT`；内容不同但可归一的多个候选 → `EVIDENCE_AMBIGUOUS`，选中的文件在报告中列出。普通角色的歧义为 advisory；**check 角色在无 manifest/`--check` 绑定时为 hard fail**，因为选错 DFM 报告会掩盖真实 finding。
+- 只有文件 mtime 时，新鲜度只作辅助并在 `not_checked` 标 `freshness_basis`；复制旧证据再改时间不能变成内容绑定。
+- `--sch` + `--dump-after` 计算 SCH↔PCB 时可用 `--pin-aliases` 与
+  `--ignore-designators`；全部 designator 被排除是 `not_comparable`，不是完整验证。
+- `compare_sch_pcb` 的 `match_with_renames` 表示引脚分组不变、仅网名变化；门禁按 advisory 处理，`partition_match=false` 才是连接差异。
 
 ## 6. 逃线与布线联合迭代
 
@@ -262,13 +290,13 @@ python scripts/pcb_apply_plan.py --dump before.json --plan playbook.json \
 
 1. `normalize_board` 后校验 plan `base.semantic_sha256`；与 dump 不一致或无法证明新鲜即整批 `refused`。
 2. placement 用 `validate_placement`；硬失败整批拒绝。`preferred` 约束失败只记 `preferred`，不得让 `hard_ok=false`。
-3. track/via/pour 做几何校验：点/坐标在板框内、layer 在实测层数内、net 非空且存在于 dump、width>0；不满足即 `refused`。
-4. 编译 playbook：place 一次 patch 写完整 pose（`assert $.verified=true`）；track 每段一个 `pcb.line.create`；via 一个 `pcb.via.create`；pour 一个 `pcb.pour.create`；save 是真实 `pcb.save`（`assert $.saved=true`，`checkpoint` 不保存）；reload 为 `run doc reload`（`--no-reload` 时省略）；最后 `pcb dump --include-copper`。所有步骤 `retry:0`、`continueOnError:false`、`timeoutSec=--timeout`。
-5. 默认 dry-run：只写 playbook 与 report（`status=dry_run`），零 CLI 调用。
-6. `--apply`：只执行一次 `easyeda apply <playbook> --project <name> --doc <PCB>`（`--yes` 只在显式授权时传），随后校验 journal、out-dump 存在且可解析。
+3. track/via/pour 做几何校验：坐标/多边形在实测 board polygon 内（凹板按 polygon，不只 bbox）、layer 在实测层数内、net 非空且存在于 dump、width/diameter>0，线宽/直径/keepout 计入边界；`arc-polyline` 标近似，无 polygon 的 arc 板拒绝；不满足即 `refused`。实测 pose 缺 x/y/rotation/layer 时拒绝，不默认成原点/顶层；目标缺 rotation/layer 继承实测值并在 `pose_defaults` 列出。
+4. 编译 playbook：place 一次 patch 写完整 pose（`assert $.verified=true`）；track 每段一个 `pcb.line.create`；via 一个 `pcb.via.create`；pour 一个 `pcb.pour.create`；save 是真实 `pcb.save`（`assert $.saved=true`，`checkpoint` 不保存）；reload 为 `run doc reload`（`--no-reload` 时省略）；最后 `pcb dump --include-copper`。所有步骤 `retry:0`、`continueOnError:false`、`timeoutSec=--timeout`。目标 pose 与实测相同（含 0/360 等价角度）记 `noops`，不生成写入步骤；全为 no-op 时 `status=no_op`，不写 playbook、不调用 CLI。
+5. 默认 dry-run：只写 playbook 与 report（`status=dry_run`），零 CLI 调用；相同输入产生确定的 playbook 字节序列。
+6. `--apply`：只执行一次 `easyeda apply <playbook> --project <name> --doc <PCB>`（`--yes` 只在显式授权时传），随后校验 journal、out-dump 存在且可解析。journal 每步状态为 `planned|sent|confirmed|failed|unknown`；`unknown` 表示已发出但无确认。报告 `recovery.safe_to_retry=false`，必须先取 fresh dump；不把已发出当已生效。
 7. 独立 `diff_boards`：纯 place 要求 `status in (match, changed)` 且 `identity_changes/copper_changes/unrelated_changes` 为空；含 track/via/pour 时 `unrelated_changes` 必须为空、`copper_changes` 允许、`identity_changes` 仅 `--allow-identity-change`、`geometry_changes` 必须在 scope.designators 内。
 
-报告 schema `design-engine-pcb-apply-plan/v1`，`status=dry_run|refused|invalid_input|unverified|mismatch|verified`，记录 playbook 路径/SHA/步骤、journal、每步状态、save/reload、out-dump SHA、diff、argv 与版本。退出码：`dry_run|verified`→0；`refused|unverified|mismatch`→1；`invalid_input`（计划/dump/scope 无法解释）→2。
+报告 schema `design-engine-pcb-apply-plan/v1`，`status=dry_run|no_op|refused|invalid_input|unverified|mismatch|verified`，记录 playbook 路径/SHA/步骤、journal states、`recovery`、save/reload、out-dump SHA、diff、argv 与版本；`transaction.atomic_rollback=false`，不宣称事务回滚。退出码：`dry_run|no_op|verified`→0；`refused|unverified|mismatch`→1；`invalid_input`（计划/dump/scope 无法解释）→2。报告原子写入（临时文件 + `os.replace`），半份 JSON 不会被后续当成完整证据。
 
 - 写入前 fresh dump；primitiveId 过期/几何变化则拒绝旧计划。
 - 超时/部分失败先回读，禁止盲目重放；重复执行只能补差异，不能重复创建。
@@ -290,6 +318,19 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 
 `copper_reuse.status` 固定 `not_supported`：不复制造线/过孔/铺铜，因为源板的障碍、网络归属和铺铜回流条件不同。复用后必须重新布局检查、重新布线/铺铜/DRC；不能把源板铜坐标复制到目标板。
 
+### 9.3 局部移动前空间检查
+
+任何局部移动（尤其是“LED 上移 2 mm”“电容靠近芯片”这类看起来很小的改动）先做离线空间预检：
+
+```bash
+python scripts/check_move_clearance.py --dump before.json \
+  --designator D4 --dx 0 --dy 78.74 --clearance 10 --edge-clearance 20 --json
+```
+
+它只比较**器件本体 bbox**与同面板框/其他器件，输出 `clear|conflict|blocked|invalid_input`；不证明铜间距、走线、丝印、keepout 或 DRC。`conflict` 时不得写入；`clear` 也不是写授权，写完必须 fresh dump + DRC。
+
+真实负例：`cases/dual-button-led-night-20261027/negative-direct-move/` 保留了首次 LED2 直接上移 2 mm 的输入。第一基线 D4 顶部到 R3 底部只有 73.559 mil，+78.74 mil 会重叠 5.181 mil；`pcb-check-plan` 和本工具都必须拒绝它。接受版先下移 D3/D4 30 mil 预留空间，再做同样的 +2 mm 改板。不要把这个返工从报告里删掉，也不要把它写成“任意既有布局都能自主解决冲突”。
+
 ## 10. 交付前门禁 `pcb_gate.py`
 
 ```bash
@@ -302,7 +343,7 @@ python scripts/pcb_gate.py --case <case-dir> [--profile full|regression] \
   [--out gate-report.json] [--strict-advisory] [--json]
 ```
 
-- 只读 case 证据目录：按角色 glob 发现文件（`pcb-drc*.json`、`pcb-check*.json`、`pcb-layout-lint*.json`、`netpath*connections*.json`/`net-path*.json`、`sch-pcb-compare*.json`、`save-reload-diff*.json`、`pcb-dump-final.json`/`pcb-dump-after-reload.json`、`pcb-final-top.png` 等），`--file ROLE=PATH` 可覆盖任一角色。角色与命令见 [PCB 命令映射](pcb-command-map.json)。
+- 只读 case 证据目录：按角色 glob 发现文件（`pcb-drc*.json`、`pcb-check*.json`、`pcb-layout-lint*.json`、`netpath*connections*.json`/`net-path*.json`、`sch-pcb-compare*.json`、`save-reload-diff*.json`、`pcb-dump-final.json`/`pcb-dump-after-reload.json`、`pcb-final-top.png` 等），优先 `*-final*`，`--file ROLE=PATH` 可覆盖任一角色。角色与命令见 [PCB 命令映射](pcb-command-map.json)。有 `manifest.json` 时按 manifest 路径/哈希/`source_dump_sha256`/`produced_at` 绑定；文件缺失不回退，哈希或源 dump 变化、项目身份不一致都是 `EVIDENCE_BINDING` 失败。多个候选身份冲突见 `EVIDENCE_IDENTITY_CONFLICT`，内容分歧见 `EVIDENCE_AMBIGUOUS`（check 角色未绑定时 hard，其他角色 advisory）。check 角色还要求 DFM `summary` 计数器与逐条 findings 一致、`trackCount`/`padCount` 来源计数，placement-check 不能冒充。证据 meta 同时有原始 `sha256` 与去时间/路径的 `semantic_sha256`。
 - 输出 `design-engine-pcb-gate/v1`：`status=pass|pass_with_gaps|fail|blocked`，`stages[]` 每项 `status=pass|fail|blocked|not_run` + `required/findings/evidence/metrics`，另有 `counts/not_checked/next_command`。
 - 退出码：`pass|pass_with_gaps`→0；`fail|blocked`→1；输入/schema 错误→2。
 
@@ -313,13 +354,15 @@ python scripts/pcb_gate.py --case <case-dir> [--profile full|regression] \
 | `PG3_drc` | 原生 DRC `ok`；DRC 必须晚于最终 dump（否则 `STALE_EVIDENCE`） | 必需 | 必需 |
 | `PG4_check` | `pcb check` `errors==0`；每条 WARN/INFO 由 `--warn-disposition` 处置 | 必需 | 不运行 |
 | `PG5_netpath` | `evaluate_netpath().status=pass`；required 来自 `--key-nets` | 必需 | 不运行 |
-| `PG6_sch_pcb` | SCH-PCB `status=match`，组件/引脚数一致；有 `--sch`+`--dump-after` 时现算 | 必需 | 必需 |
+| `PG6_sch_pcb` | SCH-PCB `status=match`/`match_with_renames`，组件/引脚数一致；`not_comparable` 失败；有 `--sch`+`--dump-after` 时现算，可加 `--pin-aliases`/`--ignore-designators` | 必需 | 必需 |
 | `PG7_save_reload` | before/after dump 可解析；`diff_boards` 纯持久化要求 `match`，`--edit-scope` 允许 `changed` 但 `unrelated_changes=[]` | 必需 | 必需 |
 | `PG8_delivery` | 顶/底 PNG 签名与尺寸、actual SVG、BOM、`.epro2` 存在并记 SHA；`--baseline-manifest` 角色哈希变化即 fail | 必需 | 必需 |
 
 整体判定：任一 `fail`→`fail`；否则必需阶段 `blocked`/`not_run`→`blocked`；否则 optional `not_run`→`pass_with_gaps`；否则 `pass`。`--strict-advisory` 把 advisory finding 升级为 fail。缺证据只能 `blocked`/`not_run`，不能写 pass；报告必须列 `not_checked`。
 
 ## 11. 丝印与交付
+
+交付前逐项核对 [PCB 交付检查清单](../assets/pcb-delivery-checklist.md)：身份/范围、原理图、PCB、局部改板、BOM、原生归档、图片与限制口径。清单是提醒，不替代 DRC、原厂资料、实物测试或制造审核。
 
 ```bash
 python design_engine_cli.py pcb-fabrication --dump board.json --json

@@ -168,6 +168,9 @@ def check_payload(warnings=0):
         'passed': warnings == 0,
         'summary': {'errors': 0, 'warnings': warnings, 'infos': 0,
                     'total': warnings},
+        'trackCount': 2,
+        'viaCount': 0,
+        'padCount': 4,
         'findings': findings,
     }
 
@@ -327,6 +330,20 @@ class FullPassTests(BaseGateTests):
         self.assertEqual(report['counts']['pass'], 8)
         self.assertEqual(pcb_gate.EXIT_CODES[report['status']], 0)
 
+    def test_placement_check_name_collision_does_not_shadow_pcb_check(self):
+        # Regression: ``*pcb*check*.json`` also matches a placement-check file.
+        # A newer placement report must not be selected as the DFM check role.
+        self.builder.write('pcb-placement-check-final.json', placement_payload())
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        self.assertEqual(report['status'], 'pass')
+        stage = stage_map(report)['PG4_check']
+        self.assertEqual(stage['status'], 'pass')
+        selected = [ev['path'] for ev in stage['evidence']
+                    if ev.get('role') == 'check']
+        self.assertTrue(selected)
+        self.assertTrue(all(path.endswith('pcb-check-final.json')
+                            for path in selected), selected)
+
     def test_pass_with_baseline_manifest_match(self):
         manifest = baseline_manifest(self.builder.root / 'baseline.json',
                                      self.builder.ev)
@@ -438,6 +455,21 @@ class PlacementAndLintQualityTests(BaseGateTests):
         self.assertIn('lint_score', codes)
         self.assertIn('lint_crossings', codes)
 
+    def test_real_lint_null_detail_arrays_are_a_measurement(self):
+        source = (ROOT / 'docs' / 'round10' / 'regression' / 'liveA'
+                  / 'evidence' / 'pcb-layout-lint.json')
+        if not source.is_file():
+            self.skipTest('real lint capture not present')
+        target = self.builder.ev / 'pcb-layout-lint.json'
+        shutil.copyfile(str(source), str(target))
+        touch(target, FRESH)
+        report = pcb_gate.evaluate(make_args(self.builder.case))
+        stage = stage_map(report)['PG2_layout']
+        self.assertEqual(stage['status'], 'pass',
+                         stage['findings'])
+        self.assertEqual(stage['metrics']['overlap'], 0)
+        self.assertEqual(stage['metrics']['off_board'], 0)
+
     def test_malformed_evidence_shape_fails_closed(self):
         # Valid JSON, wrong field type: the shared parser must not crash the
         # whole gate; the stage fails with an explicit stage_error.
@@ -447,7 +479,8 @@ class PlacementAndLintQualityTests(BaseGateTests):
         report = pcb_gate.evaluate(make_args(self.builder.case))
         stage = stage_map(report)['PG2_layout']
         self.assertEqual(stage['status'], 'fail')
-        self.assertIn('stage_error', finding_codes(stage))
+        self.assertIn('lint_diagnostics', finding_codes(stage))
+        self.assertIn('lint_coverage_incomplete', finding_codes(stage))
         self.assertEqual(report['status'], 'fail')
 
 
@@ -502,6 +535,7 @@ class WarnDispositionTests(BaseGateTests):
         info_check = {
             'passed': False,
             'summary': {'errors': 0, 'warnings': 0, 'infos': 1, 'total': 1},
+            'trackCount': 2, 'viaCount': 0, 'padCount': 4,
             'findings': [{'type': 'fiducial-missing', 'level': 'INFO',
                           'message': 'add three fiducials before SMT'}],
         }
@@ -521,7 +555,7 @@ class WarnDispositionTests(BaseGateTests):
         report = pcb_gate.evaluate(make_args(self.builder.case))
         stage = stage_map(report)['PG4_check']
         self.assertEqual(stage['status'], 'blocked')
-        self.assertIn('missing_info_disposition', finding_codes(stage))
+        self.assertIn('missing_warn_disposition', finding_codes(stage))
 
     def test_real_check_warns_require_disposition(self):
         source = REAL_MCU / 'evidence' / 'pcb-check-final.json'
