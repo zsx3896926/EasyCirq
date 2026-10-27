@@ -159,6 +159,7 @@ python scripts/pcb_preflight.py --dump board.json [--schematic sch-read.json] \
 - `i2c-sensor`：I²C 传感器、上拉与去耦。
 - `mcu-debug`：MCU 下载接口、复位/启动。
 - `crystal-guard`：晶振与负载电容。
+- `dual-channel-switch-led`：两路按键—LED—限流电阻的并列相对布局；`offline-tested`，在 2026-10-27 双路按键板的实测基线上复现了六个位姿，仍是参考不是已验证实例。
 
 绑定规则：
 
@@ -197,7 +198,7 @@ python design_engine_cli.py pcb-candidates \
 `pcb_gate.py` 读取 case 目录时：
 
 - 有 `manifest.json` 时优先使用 manifest 声明的 artifact 路径；`sha256`、`source_dump_sha256`、`produced_at` 是绑定依据，文件缺失不会回退到旁边的同名文件。
-- 证据哈希与 manifest 不一致、源 dump 变化、项目身份不一致 → 该阶段 `EVIDENCE_BINDING` 失败；多个候选项目/页身份不同 → `EVIDENCE_IDENTITY_CONFLICT`；内容不同但可归一的多个候选 → advisory `EVIDENCE_AMBIGUOUS`，选中的文件在报告中列出。
+- 证据哈希与 manifest 不一致、源 dump 变化、项目身份不一致 → 该阶段 `EVIDENCE_BINDING` 失败；多个候选项目/页身份不同 → `EVIDENCE_IDENTITY_CONFLICT`；内容不同但可归一的多个候选 → `EVIDENCE_AMBIGUOUS`，选中的文件在报告中列出。普通角色的歧义为 advisory；**check 角色在无 manifest/`--check` 绑定时为 hard fail**，因为选错 DFM 报告会掩盖真实 finding。
 - 只有文件 mtime 时，新鲜度只作辅助并在 `not_checked` 标 `freshness_basis`；复制旧证据再改时间不能变成内容绑定。
 - `--sch` + `--dump-after` 计算 SCH↔PCB 时可用 `--pin-aliases` 与
   `--ignore-designators`；全部 designator 被排除是 `not_comparable`，不是完整验证。
@@ -317,6 +318,19 @@ python design_engine_cli.py pcb-reuse-plan --module module.json --target target.
 
 `copper_reuse.status` 固定 `not_supported`：不复制造线/过孔/铺铜，因为源板的障碍、网络归属和铺铜回流条件不同。复用后必须重新布局检查、重新布线/铺铜/DRC；不能把源板铜坐标复制到目标板。
 
+### 9.3 局部移动前空间检查
+
+任何局部移动（尤其是“LED 上移 2 mm”“电容靠近芯片”这类看起来很小的改动）先做离线空间预检：
+
+```bash
+python scripts/check_move_clearance.py --dump before.json \
+  --designator D4 --dx 0 --dy 78.74 --clearance 10 --edge-clearance 20 --json
+```
+
+它只比较**器件本体 bbox**与同面板框/其他器件，输出 `clear|conflict|blocked|invalid_input`；不证明铜间距、走线、丝印、keepout 或 DRC。`conflict` 时不得写入；`clear` 也不是写授权，写完必须 fresh dump + DRC。
+
+真实负例：`cases/dual-button-led-night-20261027/negative-direct-move/` 保留了首次 LED2 直接上移 2 mm 的输入。第一基线 D4 顶部到 R3 底部只有 73.559 mil，+78.74 mil 会重叠 5.181 mil；`pcb-check-plan` 和本工具都必须拒绝它。接受版先下移 D3/D4 30 mil 预留空间，再做同样的 +2 mm 改板。不要把这个返工从报告里删掉，也不要把它写成“任意既有布局都能自主解决冲突”。
+
 ## 10. 交付前门禁 `pcb_gate.py`
 
 ```bash
@@ -329,7 +343,7 @@ python scripts/pcb_gate.py --case <case-dir> [--profile full|regression] \
   [--out gate-report.json] [--strict-advisory] [--json]
 ```
 
-- 只读 case 证据目录：按角色 glob 发现文件（`pcb-drc*.json`、`pcb-check*.json`、`pcb-layout-lint*.json`、`netpath*connections*.json`/`net-path*.json`、`sch-pcb-compare*.json`、`save-reload-diff*.json`、`pcb-dump-final.json`/`pcb-dump-after-reload.json`、`pcb-final-top.png` 等），优先 `*-final*`，`--file ROLE=PATH` 可覆盖任一角色。角色与命令见 [PCB 命令映射](pcb-command-map.json)。有 `manifest.json` 时按 manifest 路径/哈希/`source_dump_sha256`/`produced_at` 绑定；文件缺失不回退，哈希或源 dump 变化、项目身份不一致都是 `EVIDENCE_BINDING` 失败。多个候选身份冲突见 `EVIDENCE_IDENTITY_CONFLICT`，内容分歧见 advisory `EVIDENCE_AMBIGUOUS`。证据 meta 同时有原始 `sha256` 与去时间/路径的 `semantic_sha256`。
+- 只读 case 证据目录：按角色 glob 发现文件（`pcb-drc*.json`、`pcb-check*.json`、`pcb-layout-lint*.json`、`netpath*connections*.json`/`net-path*.json`、`sch-pcb-compare*.json`、`save-reload-diff*.json`、`pcb-dump-final.json`/`pcb-dump-after-reload.json`、`pcb-final-top.png` 等），优先 `*-final*`，`--file ROLE=PATH` 可覆盖任一角色。角色与命令见 [PCB 命令映射](pcb-command-map.json)。有 `manifest.json` 时按 manifest 路径/哈希/`source_dump_sha256`/`produced_at` 绑定；文件缺失不回退，哈希或源 dump 变化、项目身份不一致都是 `EVIDENCE_BINDING` 失败。多个候选身份冲突见 `EVIDENCE_IDENTITY_CONFLICT`，内容分歧见 `EVIDENCE_AMBIGUOUS`（check 角色未绑定时 hard，其他角色 advisory）。check 角色还要求 DFM `summary` 计数器与逐条 findings 一致、`trackCount`/`padCount` 来源计数，placement-check 不能冒充。证据 meta 同时有原始 `sha256` 与去时间/路径的 `semantic_sha256`。
 - 输出 `design-engine-pcb-gate/v1`：`status=pass|pass_with_gaps|fail|blocked`，`stages[]` 每项 `status=pass|fail|blocked|not_run` + `required/findings/evidence/metrics`，另有 `counts/not_checked/next_command`。
 - 退出码：`pass|pass_with_gaps`→0；`fail|blocked`→1；输入/schema 错误→2。
 
@@ -347,6 +361,8 @@ python scripts/pcb_gate.py --case <case-dir> [--profile full|regression] \
 整体判定：任一 `fail`→`fail`；否则必需阶段 `blocked`/`not_run`→`blocked`；否则 optional `not_run`→`pass_with_gaps`；否则 `pass`。`--strict-advisory` 把 advisory finding 升级为 fail。缺证据只能 `blocked`/`not_run`，不能写 pass；报告必须列 `not_checked`。
 
 ## 11. 丝印与交付
+
+交付前逐项核对 [PCB 交付检查清单](../assets/pcb-delivery-checklist.md)：身份/范围、原理图、PCB、局部改板、BOM、原生归档、图片与限制口径。清单是提醒，不替代 DRC、原厂资料、实物测试或制造审核。
 
 ```bash
 python design_engine_cli.py pcb-fabrication --dump board.json --json

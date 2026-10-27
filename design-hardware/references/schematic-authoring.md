@@ -128,6 +128,14 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 
 **`sch frame apply` 与 strict 布局检查的已知缺口（2026-10-27）**：`sch frame apply` 每个 frame 只有一个 `title`，而 `sch_layout_check.py --strict` 还要求每个模块有 `order`、`title_text_id` 和**另一个** `purpose_text_id`。因此由 frame 生成的标题-only 图会返回 `incomplete`，`strict_missing` 列出 `module reading order` / `module title/purpose bbox`，但 `blocking_findings` 为 0。这不是几何失败；报告时应写“strict 缺 purpose/order 元数据，未通过 strict”，并用非 strict 的 `no_candidates`、官方 SVG 渲染文字覆盖和人工整页/局部图补充，不能把 strict 的 `incomplete` 写成 PASS。
 
+**先写 frame 元数据，再写 frame（2026-10-27 反哺）**：`sch frame apply` 每个 frame 只创建一个 `title` 文本，而 `sch_layout_check.py --strict` 要求 `order`、`title_text_id` 和**不同的** `purpose_text_id`。生成流程必须先在 frame plan 中填 `order`、`title`、`purpose`，运行：
+
+```bash
+python scripts/sch_frame_meta_check.py --plan frames.json --json
+```
+
+缺 `purpose_text_id` 默认 `blocked`（退出 2），不能先写 frame 再在 strict 阶段才发现；若当前执行器确实无法单独创建 purpose 文本，只能显式 `--allow-title-only` 得到 `review` 并保持 `strict_layout_complete=false`，报告写“电气检查通过、布局检查不完整”，不能写“原理图全面验收通过”。示例见 `assets/schematic-frame-plan.example.json`。
+
 - 平台限制：free text 的 `move/setState/SDK delete` 不持久，删除需 `sch prim-delete`；
   新 free text 必须 `alignMode=2` 才左对齐；titleblock 的可见 Drawed 字段会与
   sheet 属性各渲染一次，填作者会产生两处重复；typed API 当前没有自由文本创建入口。

@@ -1,0 +1,1 @@
+{"sw1":{"designator":"SW1","pads":{"contact":"1","return":"2"}},"led1":{"designator":"D3","pads":{"anode":"1","cathode":"2"}},"r1":{"designator":"R2","pads":{"out":"2","power":"1"}},"sw2":{"designator":"SW2","pads":{"contact":"1","return":"2"}},"led2":{"designator":"D4","pads":{"anode":"1","cathode":"2"}},"r2":{"designator":"R3","pads":{"out":"2","power":"1"}}}

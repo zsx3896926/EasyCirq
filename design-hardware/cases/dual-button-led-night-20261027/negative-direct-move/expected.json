@@ -1,0 +1,29 @@
+{
+  "case": "dual-button-led-night-20261027 / negative-direct-move",
+  "acceptance": "the direct +2.00 mm move from the first baseline MUST be rejected",
+  "source": {
+    "board": "board-baseline.json",
+    "board_semantic_sha256": "3581fc742a29c87a3eb2a1430c0531ef77426c46f9a72de2bab0b1e3f32ae7da",
+    "placement": "placement-direct-move.json",
+    "designator": "D4",
+    "delta_mil": {"dx": 0.0, "dy": 78.74},
+    "delta_mm": 2.0
+  },
+  "placement_check": {
+    "status": "review",
+    "hard_ok": false,
+    "finding": "bbox_overlap",
+    "severity": "hard",
+    "objects": ["D4", "R3"],
+    "raw_overlap_height_mil": 5.181,
+    "gap_before_move_mil": 73.559
+  },
+  "move_clearance_check": {
+    "status": "conflict",
+    "clearance_mil": 10.0,
+    "conflict_designator": "R3",
+    "overlap_height_mil": 15.181,
+    "edge_status": "pass"
+  },
+  "note": "This is the first baseline (D3/D4 at y=760 mil), kept as a negative regression. The accepted baseline moved D3/D4 down 30 mil before the 2 mm LED2 edit. A clear preflight is still not a write authorization; DRC and fresh dump are required after any move."
+}

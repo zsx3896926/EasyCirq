@@ -10,11 +10,16 @@ round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 
 - `scripts/sch_visual_audit.py`（`design-engine-sch-visual-audit/v1`）：复用 `sch_layout_check`，输出对象/位置/原因/未执行建议、字体不确定性与 netflag 方向状态；生成带 `ANALYSIS OVERLAY` 水印和 `official_export:false` 的分析叠加 SVG。
 - `tools/offline_benchmark.py` + `benchmarks/offline-round11/`：冻结 photo-led 门禁/图面、修改前后候选、三种结构、no-op、硬约束增益、变形测试与 holdout 凹板样例；输出 correctness/coverage/timing 与未覆盖项。
 - `references/offline-regression.md`：离线套件、证据绑定、几何边界、基准与真实 EDA 的边界。
+- `scripts/check_move_clearance.py`（`design-engine-pcb-move-clearance/v1`）：局部移动前本体/板边空间预检；不写 EDA、不证明铜/丝印/DRC。
+- `assets/pcb-delivery-checklist.md`：从身份、原理图、PCB、局部改板到 BOM/归档/限制口径的可复用交付清单。
+- `assets/schematic-frame-plan.example.json` + `scripts/sch_frame_meta_check.py`：在写 frame 前强制 `order`/`title`/`purpose` 元数据；缺 `purpose_text_id` 默认 blocked，避免新工程再次到 strict 阶段才发现布局不完整。
+- `assets/pcb-placement-templates.json` 新增 `dual-channel-switch-led` 模板：两路按键—LED—限流电阻并列相对布局，在 2026-10-27 实测基线上 `planned` 复现六个位姿；状态 `offline-tested`，不是 EDA 已验证实例。
+- `cases/dual-button-led-night-20261027/negative-direct-move/`：保留首次 LED2 直接上移 2 mm 的失败输入（D4/R3 重叠 5.181 mil），作为必须拒绝的负例。
 
 ### 修复
 
 - `pcb_gate.py`：优先 `*-final*`；manifest 的 `sha256/source_dump_sha256/produced_at` 绑定；项目身份冲突、候选分歧、manifest 缺件不回退；`freshness_basis`；`semantic_sha256`；接受 `match_with_renames`，新增 `--pin-aliases`/`--ignore-designators`。
-- `pcb_gate.py` check 角色误选（PR #23）：`*pcb*check*.json` 也会匹配 `pcb-placement-check-final.json`；check 角色现在要求 DFM 的 `summary` 计数器（或 `trackCount`/`padCount`），新增回归用例，原失败文件名复测 gate 8/8 pass。
+- `pcb_gate.py` check 角色误选（PR #23）：`*pcb*check*.json` 也会匹配 `pcb-placement-check-final.json`。PR #23 先要求 DFM `summary` 计数器；PR #25 进一步强校验 `summary` 计数器类型/非负、findings 的 type/level、计数与逐条 findings 一致、`trackCount`/`padCount` 来源计数，placement-check 不能冒充 DFM。多个有效 check 候选内容不同且未由 manifest/`--check` 绑定时，PG4 `EVIDENCE_AMBIGUOUS` 硬失败；相同副本只报 alternatives。测试覆盖错误文件、空 summary、矛盾计数、多候选、相同副本与 manifest 绑定差异。
 - `pcb_evidence.py`：空侧/空对象不再 `match`；`absent/empty/invalid/unmeasured` 分开；summary 与 findings 矛盾、外层 `ok=false`、bool/字符串/负数/NaN 均 fail-closed；DRC/check/lint 计数一致性；SCH↔PCB 重复位号/脚号、alias 缺目标/None 网络异常、网络分区与重命名分开、identity 检查、全排除 `not_comparable`；net-path 空要求 `not_applicable`；INFO 纳入统一 disposition。
 - `pcb_apply_plan.py`：实测 pose 缺字段不默认原点/顶层；0/360 等价角度；no-op 不写 playbook；journal `planned/sent/confirmed/failed/unknown` 与 `recovery.safe_to_retry=false`；宽度/直径/keepout 几何；原子写入。
 - `design_engine/placement.py`、`pcb_workflow.py`、`reuse.py`：凹板 polygon、锁定、spacing、keepout、edge 硬过滤；评分组成与 `routing_verified=false`；复用检查 footprint 缺失/尺寸/rotation/网络分区；diff 角度归一。

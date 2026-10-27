@@ -135,7 +135,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | MCU/SoC/FPGA、时钟、复位、数字接口 | [数字与接口](references/digital.md) |
 | 模拟采集、音视频、射频或高速链路 | [模拟与高速](references/analog-rf-highspeed.md) |
 | 绘制/整理/换料/建库 | [原理图工程习惯](references/schematic.md) |
-| 新建原理图、增功能块、图面混乱或排版整理 | [原理图排版与看图验收](references/schematic-layout.md)，绘图前规划、写入后实际导图复核 |
+| 新建原理图、增功能块、图面混乱或排版整理 | [原理图排版与看图验收](references/schematic-layout.md)，绘图前规划、写入后实际导图复核；写 module frame 前先跑 `scripts/sch_frame_meta_check.py` 补齐 `order`/`purpose`，缺 purpose 文本默认 blocked |
 | 已有原理图重排、自动布局、提高整页可读性 | [原理图排版引擎](references/schematic-layout-engine.md)：真实几何 → 功能模块 → `layout-plan` → 合页 → 受保护写入 → 网表/导图复核；先读该文件的并发与工具限制 |
 | 用8类典型任务校准排版检查、准备前后对比 | [原理图排版基准集](references/schematic-benchmarks.md)，运行 `python scripts/schematic_benchmark.py`；基准是离线示意，不是真机验收 |
 | 已有真实回读，需要确定性几何/身份审计、纯排版前后对比或标签规划 | [确定性设计引擎](references/design-engine.md)，运行 `python scripts/design_engine_cli.py audit/plan-labels/compare/pcb-audit`；离线结论不等于 EDA 应用 |
@@ -143,7 +143,7 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 批量写入、超时恢复、版本化缓存、通道模板复用、执行耗时与多Agent分工 | [EDA执行效率](references/eda-efficiency.md)；先用 `design_inventory.py`/`channel_map_check.py`/`library_precheck.py`/`eda_cache.py`，同一工程单写入者，save/reload 后回读才算验收 |
 | 不知道客户端、安装目录或首次接通 | [客户端兼容与首次接通](references/client-compatibility.md)；先跑 `python scripts/doctor_env.py --summary`，按当前客户端逐条判定 |
 | 导入PCB、布局、布线、铜皮、制造输出 | [PCB工程习惯](references/pcb.md) |
-| 真实PCB布局布线、约束/局部模板/候选、逃线迭代、保存重开 | [PCB执行工作流](references/pcb-execution.md)，命令与证据角色见 [PCB命令映射](references/pcb-command-map.json)：放件前 `scripts/pcb_preflight.py`，批量写入 `scripts/pcb_apply_plan.py`，交付前 `scripts/pcb_gate.py`，整案证据 `scripts/pcb_case.py`；先读实测dump与sch引脚 |
+| 真实PCB布局布线、约束/局部模板/候选、逃线迭代、保存重开 | [PCB执行工作流](references/pcb-execution.md)，命令与证据角色见 [PCB命令映射](references/pcb-command-map.json)：放件前 `scripts/pcb_preflight.py`，批量写入 `scripts/pcb_apply_plan.py`，交付前 `scripts/pcb_gate.py`，整案证据 `scripts/pcb_case.py`；先读实测dump与sch引脚。交付逐项核对 [PCB 交付检查清单](assets/pcb-delivery-checklist.md)。 |
 | 设计审查、故障排查、样机上电 | [审查与验证](references/review.md) |
 | 查询官方资料入口 | [来源导航](references/sources.md) |
 | 新建/实质修改SCH或PCB，需要选取适用经验 | [工程经验库与来源](references/design-experience.md)，按当前对象选择，避免全量加载 |

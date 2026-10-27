@@ -1,0 +1,38 @@
+{
+  "schema": "design-engine-sch-frame-plan/v1",
+  "note": "Copy this plan before writing frames. order must be the intended reading order; purpose must be a separate sentence from title. title_text_id/purpose_text_id must come from measured text primitives after creation. If the executor cannot create a separate purpose text, sch_frame_meta_check.py blocks the plan; do not silently claim strict layout completion.",
+  "frames": [
+    {
+      "id": "zone-input",
+      "order": 1,
+      "title": "5V 输入 / 反接保护",
+      "purpose": "端子、串联肖特基与输入旁路",
+      "title_text_id": "REPLACE_WITH_MEASURED_TITLE_TEXT_ID",
+      "purpose_text_id": "REPLACE_WITH_MEASURED_PURPOSE_TEXT_ID"
+    },
+    {
+      "id": "zone-power",
+      "order": 2,
+      "title": "电源指示",
+      "purpose": "绿色 LED 与限流电阻",
+      "title_text_id": "REPLACE_WITH_MEASURED_TITLE_TEXT_ID",
+      "purpose_text_id": "REPLACE_WITH_MEASURED_PURPOSE_TEXT_ID"
+    },
+    {
+      "id": "zone-channel-1",
+      "order": 3,
+      "title": "通道 1",
+      "purpose": "SW1 → LED1 独立回路",
+      "title_text_id": "REPLACE_WITH_MEASURED_TITLE_TEXT_ID",
+      "purpose_text_id": "REPLACE_WITH_MEASURED_PURPOSE_TEXT_ID"
+    },
+    {
+      "id": "zone-channel-2",
+      "order": 4,
+      "title": "通道 2",
+      "purpose": "SW2 → LED2 独立回路",
+      "title_text_id": "REPLACE_WITH_MEASURED_TITLE_TEXT_ID",
+      "purpose_text_id": "REPLACE_WITH_MEASURED_PURPOSE_TEXT_ID"
+    }
+  ]
+}
