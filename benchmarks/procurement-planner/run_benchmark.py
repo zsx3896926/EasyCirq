@@ -221,8 +221,10 @@ def main(argv=None):
     }
     if args.write_result:
         tmp = RESULT_PATH.with_suffix(".json.tmp")
-        tmp.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n",
-                       encoding="utf-8", newline="\n")
+        # Write bytes so line endings stay LF on every Python/platform.
+        tmp.write_bytes(
+            (json.dumps(result, ensure_ascii=False, indent=2) + "\n").encode(
+                "utf-8"))
         os.replace(tmp, RESULT_PATH)
     print(json.dumps(result, ensure_ascii=False, indent=2))
     if args.check and failures:

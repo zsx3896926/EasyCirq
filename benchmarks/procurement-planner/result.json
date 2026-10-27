@@ -1,7 +1,7 @@
 {
   "schema": "procurement-benchmark/v1",
   "tool_version": "0.1.0",
-  "generated_at": "2026-10-27T16:22:22.231290+00:00",
+  "generated_at": "2026-10-27T16:25:38.843599+00:00",
   "evaluation": {
     "note": "评估时刻来自各冻结输入的 evaluation.as_of；重放不使用系统当前时间判断时效",
     "cases": [
@@ -51,7 +51,7 @@
       ],
       "status": "planned_with_unknowns",
       "exit_code": 0,
-      "duration_ms": 163.112,
+      "duration_ms": 160.375,
       "simulated": true,
       "real_eda": "NOT RUN",
       "live_supply_query": "NOT RUN",
@@ -69,7 +69,7 @@
       ],
       "status": "valid",
       "exit_code": 0,
-      "duration_ms": 258.187,
+      "duration_ms": 160.147,
       "simulated": false,
       "real_eda": "NOT RUN",
       "live_supply_query": "NOT RUN",
@@ -87,7 +87,7 @@
       ],
       "status": "planned_with_unknowns",
       "exit_code": 0,
-      "duration_ms": 169.658,
+      "duration_ms": 160.602,
       "simulated": true,
       "real_eda": "NOT RUN",
       "live_supply_query": "NOT RUN",
@@ -105,7 +105,7 @@
       ],
       "status": "planned_with_unknowns",
       "exit_code": 0,
-      "duration_ms": 161.345,
+      "duration_ms": 168.74,
       "simulated": true,
       "real_eda": "NOT RUN",
       "live_supply_query": "NOT RUN",
@@ -123,7 +123,7 @@
       ],
       "status": "planned_with_unknowns",
       "exit_code": 0,
-      "duration_ms": 156.199,
+      "duration_ms": 168.613,
       "simulated": true,
       "real_eda": "NOT RUN",
       "live_supply_query": "NOT RUN",
@@ -141,7 +141,7 @@
       ],
       "status": "planned_with_unknowns",
       "exit_code": 0,
-      "duration_ms": 153.814,
+      "duration_ms": 163.645,
       "simulated": true,
       "real_eda": "NOT RUN",
       "live_supply_query": "NOT RUN",
@@ -154,7 +154,7 @@
     "cases": 6,
     "passed": 6,
     "failed": 0,
-    "total_duration_ms": 1062.315
+    "total_duration_ms": 982.122
   },
   "limits": [
     "所有价格/库存/费用均为合成夹具，不是实时报价或真实库存",
