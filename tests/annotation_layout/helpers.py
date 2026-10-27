@@ -25,8 +25,19 @@ INVALID = FIXTURES / "invalid"
 REAL = FIXTURES / "photo-led-v14" / "input.json"
 BENCH_CASES = ROOT / "benchmarks" / "annotation-layout" / "cases"
 
-if str(SCRIPTS) not in sys.path:
-    sys.path.insert(0, str(SCRIPTS))
+# Bind the shipped package under the name ``annotation_layout`` without touching
+# ``sys.path``: this file is imported both as ``annotation_layout.helpers``
+# (package-mode discovery) and as ``helpers`` (directory-mode discovery).
+try:
+    from . import _bootstrap  # type: ignore[import-not-found]
+except ImportError:  # directory-mode discovery
+    import importlib.util as _importlib_util
+
+    _spec = _importlib_util.spec_from_file_location(
+        "_annotation_layout_test_bootstrap", HERE / "_bootstrap.py")
+    _bootstrap = _importlib_util.module_from_spec(_spec)
+    _spec.loader.exec_module(_bootstrap)
+_bootstrap.ensure_impl()
 
 ENV = dict(os.environ)
 ENV["PYTHONPATH"] = str(SCRIPTS) + os.pathsep + ENV.get("PYTHONPATH", "")

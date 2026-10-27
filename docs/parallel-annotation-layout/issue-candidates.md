@@ -119,3 +119,37 @@ it unless `host.net_label_detach=supported` and reports
 **Action for A:** probe this on a page copy (move text, read net/checker/export,
 save+reopen) and provide the capability.  Until then, net-label conflicts remain
 reported, never "fixed" by breaking the anchor.
+
+## 7. Cross-task test discovery poisoning by `sys.path.insert(0, scripts)`
+
+**Components:** `tests/change_impact/__init__.py`,
+`tests/bringup_planner/test_*.py`, `tests/delivery_audit/support.py`,
+`tests/mechanical_layout/test_*.py`, other task test bootstraps (and formerly
+`tests/annotation_layout/__init__.py` here).
+
+**Effect:** `python -m unittest discover -s tests` imports `tests/<name>` as a
+top-level package.  Any test module that does
+`sys.path.insert(0, "design-hardware/scripts")` while discovery is still running
+changes resolution for every later package: a later `tests/<name>` whose name
+also exists under `design-hardware/scripts` is imported from the implementation
+instead, and discovery then cannot find `<name>.test_*` → import-time
+`ModuleNotFoundError`.  On the PR #46 merge ref this produced 42 errors across
+`change_impact` (9), `return_path_audit` (8), `circuit_blocks` (7),
+`delivery_audit` (7), `skill_knowledge_audit` (6), `procurement_planner` (5).
+Branch-only runs pass because fewer packages are present.
+
+**Evidence / reproduction:** see
+`docs/parallel-annotation-layout/handoff-current.md`, section "Merge-ref CI
+failure investigation".  Key controls: removing this branch's insertion drops
+42 → 33 errors and clears `change_impact`; changing only
+`tests/change_impact/__init__.py` from `insert(0, …)` to `append(…)` in a
+temporary merge worktree drops 33 → 5 (only `delivery_audit` from another
+insertion).
+
+**Suggested fix owner:** each test package (other tasks).  Load the
+implementation with `importlib.util.spec_from_file_location` under a private
+alias (as `change_impact` already does) and do not put the scripts directory
+first on `sys.path`; when subprocess CLI tests need it, pass `PYTHONPATH` in the
+child environment (as `tests/annotation_layout/helpers.py` does) instead of
+mutating the parent.  This branch fixed only its own test bootstrap within its
+allowed path; the merge-ref check stays red until the other owners do the same.

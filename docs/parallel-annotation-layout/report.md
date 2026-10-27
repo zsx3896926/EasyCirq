@@ -129,17 +129,29 @@ render/save/reopen/readback are **NOT RUN**.
   off; the Lead performed the adversarial checks and recorded them here and in
   the acceptance matrix.
 
-CI at PR time: the branch-level validate workflow (Python 3.10/3.13) and the
-updater workflow (Ubuntu/Windows) passed.  The PR merge-ref validation can be red
-because other parallel task merges into `main` broke unrelated test packages
-(`circuit_blocks`, `return_path_audit` discovery) after the fixed base SHA; those
-failures are outside this branch's allowed paths and were not modified here.
+CI at PR time: branch-level validate (Python 3.10/3.13) and updater
+(Ubuntu/Windows) pass.  The PR merge-ref validate is red with import-time
+`ModuleNotFoundError` in `change_impact`, `return_path_audit`, `circuit_blocks`,
+`delivery_audit`, `procurement_planner` and `skill_knowledge_audit` tests.  Root
+cause investigated: `unittest discover -s tests` imports `tests/<name>` as a
+top-level package; several task test bootstraps (including this branch's former
+`tests/annotation_layout/__init__.py`) put `design-hardware/scripts` first on
+`sys.path` at import time, so later test packages resolve to the implementation
+package and their `test_*` submodules cannot be found.  This branch's test
+bootstrap was fixed to stop mutating `sys.path` (private explicit loading
+instead); after that the local merge-ref tree drops from 42 to 33 import errors
+and all `change_impact` errors disappear, but the remaining packages still
+poison discovery until their own test bootstraps are fixed by their owners.
+Full evidence and reproduction probes are in
+`handoff-current.md` (section "Merge-ref CI failure investigation").
 ## 8. PR
 
 Branch `feat/parallel-annotation-layout`, independent worktree, base main
 `9a951edc21481dc3ae91460acc11aa3e08a7be8a`.  PR #46:
 https://github.com/zsx3896926/hardware-design-skill/pull/46 (commit `a937b43`).
 Not merged, not released, not installed.
+
+
 
 
 

@@ -54,11 +54,68 @@ to `--out`/`--out-dir`.
 - docs: contract, geometry-policy, solver-policy, benchmark-report,
   acceptance-matrix, integration-proposal, report, issue-candidates.
 
-- CI note (at PR time): branch-level `validate` (Python 3.10/3.13) and
-  `updater` (ubuntu/windows) passed for this branch.  The PR merge-ref check can
-  be red because concurrent task merges on `main` broke unrelated test packages
-  (`circuit_blocks`, `return_path_audit` discovery) after our base SHA; the
-  failures are outside this task's paths and are not introduced by this branch.
+## Merge-ref CI failure investigation (change_impact / return_path_audit)
+
+**Observed:** the PR merge ref (`8ac3e733`, merge of head `d153a3b` into the then
+base `9a4622e`) fails `validate` (3.10/3.13) with import-time
+`ModuleNotFoundError`, not assertion failures: 42 `_FailedTest` errors in 6
+test packages — `change_impact` 9, `return_path_audit` 8, `circuit_blocks` 7,
+`delivery_audit` 7, `skill_knowledge_audit` 6, `procurement_planner` 5 (1912
+tests collected).  The same class of failure also appears on `main` runs that
+merge those tasks; branch-only push runs were green.
+
+**Root cause:** `python -m unittest discover -s tests` imports each
+`tests/<name>` directory as a *top-level* package `<name>`.  Several task test
+bootstraps call `sys.path.insert(0, "design-hardware/scripts")` at import time
+(e.g. `tests/change_impact/__init__.py:25`, `tests/bringup_planner/test_*.py`,
+`tests/delivery_audit/support.py:24`, `tests/mechanical_layout/test_*.py`, and
+previously this branch's `tests/annotation_layout/__init__.py`).  Once that
+directory is first on `sys.path`, every later package whose name also exists
+under `design-hardware/scripts` resolves to the **implementation**
+(`design-hardware/scripts/<name>/__init__.py`) instead of `tests/<name>/`.
+Discovery then tries to import `<name>.test_*` from the implementation path,
+which contains no test modules → `ModuleNotFoundError`.  The failing package set
+therefore depends on filesystem discovery order; `return_path_audit` (last) is a
+victim, and `change_impact` becomes a victim when an earlier package already
+poisoned `sys.path` (as this branch's old bootstrap did).
+
+**Evidence (reproduced locally on the PR merge ref in a temporary worktree):**
+
+1. Old tree, full discovery: 42 import errors as above.
+2. Direct probe: with `tests/` first on `sys.path`, importing
+   `annotation_layout` (old bootstrap) left
+   `sys.path[0] = design-hardware/scripts`; a following `import change_impact`
+   and `import return_path_audit` both resolved to
+   `design-hardware/scripts/<name>/__init__.py`.
+3. Control probe: importing `change_impact` first (from `tests/`) runs its
+   `sys.path.insert(0, SCRIPTS)`; a following `import circuit_blocks` resolves
+   to the implementation → same failure.
+4. After removing this branch's `sys.path` mutation (fixed files copied into the
+   merge worktree only): errors drop 42 → 33; all 9 `change_impact` errors
+   disappear (it now resolves to `tests/change_impact`), while later packages
+   still fail because that package itself inserts the path.
+5. Experiment: changing only `tests/change_impact/__init__.py` from
+   `insert(0, …)` to `append(…)` in the temporary merge worktree drops errors
+   33 → 5 (only `delivery_audit`, attributed to another earlier insertion).
+   This isolates the mechanism to global `sys.path` precedence, not to the
+   failing packages' own tests.
+
+**Mitigation made here (allowed path only):**
+`tests/annotation_layout/` no longer mutates `sys.path` at import time.  It loads
+the shipped `annotation_layout` implementation from its file path under a private
+alias mechanism (`_bootstrap.py`), extends only that package's `__path__`, and
+sets `PYTHONPATH` in CLI subprocess environments instead.  Verified: 86 tests
+pass in both `discover -s tests/annotation_layout` and `discover -s tests`
+modes; full local suite 1869 OK; annotation_layout tests also pass inside the
+merge-ref tree after the fix.
+
+**Remaining work is outside this task's paths:** each other task's test
+bootstrap must stop making `design-hardware/scripts` first on `sys.path` during
+collection (load implementation via a private alias, or `append`/restore for
+subprocess needs).  Until those owners fix it, the PR merge-ref validate will
+stay red on `change_impact`/`return_path_audit`/etc. even though this branch adds
+no failing package.  Branch-level `validate` (3.10/3.13) and `updater`
+(ubuntu/windows) pass for this branch.
 ## Known limitations / do not overclaim
 
 - only offline pose planning; host capabilities were not probed; free-text and
@@ -93,6 +150,7 @@ to `--out`/`--out-dir`.
   do not delete that folder or the source-hash validation fails (by design).
 - Never edit `tests/fixtures/photo-led-v14/` originals.
 - Keep the package Python 3.10 compatible and dependency-free.
+
 
 
 
