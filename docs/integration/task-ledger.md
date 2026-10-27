@@ -107,6 +107,10 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 * Packaging: `python distribution/build_release.py` → `design-hardware-1.0.1.zip`,
   `design-hardware-installer-1.0.1.zip`, `SHA256SUMS`, `release.json` (696 files,
   version 1.0.1). No publish/tag.
+* Maintainer offline runner `tools/offline_suite.py` (after integration fix): 3230
+  tests, 0 failures, 0 errors, 2 skipped, `status: pass`, offline guard installed;
+  before the fix it reported 57 discovery errors on integrated `main` while CI was
+  green.
 * Install smoke: installer extracted into a temporary fake client skills directory;
   installed copy self-test 5 PASS; `doctor_env.py --summary` runs read-only and
   correctly reports incomplete with no active client. No real client directory or
