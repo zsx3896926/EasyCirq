@@ -1,36 +1,102 @@
 # Handoff — task G (parallel mechanical layout planner)
 
-Date: 2026-10-28. Branch: `feat/parallel-mechanical-layout`.
-Worktree: `.agents/worktrees/feat/parallel-mechanical-layout` in the local
-`hardware-design-skill` checkout.
-Base commit / main baseline: `9a951edc21481dc3ae91460acc11aa3e08a7be8a`
-(the task's "main baseline SHA"). This branch is **not** merged and must not be
-merged or released by this task.
+Post-merge reconciliation date: 2026-10-28. Original branch:
+`feat/parallel-mechanical-layout` (merged). Original worktree:
+`.agents/worktrees/feat/parallel-mechanical-layout` in the local
+`hardware-design-skill` checkout. Main baseline:
+`9a951edc21481dc3ae91460acc11aa3e08a7be8a`.
+
+Task G itself did **not** merge, release or install anything. Pull request #42 was
+merged afterwards by the repository owner; that merge is observed/monitored here,
+not an action of this task. This document is corrected by the docs-only follow-up
+PR **#51** because the earlier revision listed an intermediate docs commit
+(`cb6e563`) as the PR head and omitted the actual merged head (`317876c`).
 
 ## Delivery identifiers
 
 | item | value |
 |---|---|
-| pull request | **#42** — https://github.com/zsx3896926/hardware-design-skill/pull/42 (OPEN, not draft, not merged) |
-| branch | `feat/parallel-mechanical-layout` |
+| merged pull request | **#42** — https://github.com/zsx3896926/hardware-design-skill/pull/42 — **MERGED** by `@zsx3896926` at `2026-10-27T16:52:58Z` |
+| merge commit on main | `ecb4c8a8c5774bdbd54b7c16789029b8fe959a82` |
+| original branch | `feat/parallel-mechanical-layout` |
 | main baseline | `9a951edc21481dc3ae91460acc11aa3e08a7be8a` |
 | verified delivery HEAD | `0ff873c7361d653c9f7ad0d35c39f6df60543018` |
-| PR head at handoff finalization | `cb6e563f9e0bfa6b8c14c3f20b2a9611c0546f43` |
+| merged PR #42 head | `317876c0797ad04aaeee7483efb6d5f9c0526f87` |
+| docs correction PR | **#51** — https://github.com/zsx3896926/hardware-design-skill/pull/51 — **OPEN**, not merged by task G |
+| PR #51 head when this note was authored | `60ec52eee87593979954f92cfd18f7a7b201443b` |
+| PR #51 head after the PR link/head update | `fd6847a5dfe8412a7e4d6bbb31815b067c7e9bd7` |
+| PR #51 head at this sync (verified with `gh`) | `6d10d3564fd443a56bf858c0be6a7b71f6e68c87` (this sync commit is one docs-only commit ahead; live head on PR #51) |
 
-The verified HEAD is the commit on which the full test suite, frozen benchmark
-and clean-archive replay below were executed. The handoff-finalization commit
-(`cb6e563`) is documentation-only; refreshing this file adds one more docs-only
-commit, and the PR page's head SHA is always the current one. No merge, release,
-client installation or EDA write was performed.
+## Head reconciliation (verified HEAD vs merged PR head)
 
-### Commit sequence on the branch
+The two hashes are different because three documentation-only commits landed after
+the commit on which the suite and benchmark were executed:
 
 ```text
+git diff --name-status 0ff873c..317876c
+    M   docs/parallel-mechanical-layout/handoff-current.md
+
+git diff --name-only 0ff873c..317876c -- \
+    design-hardware/scripts/mechanical_layout tests/mechanical_layout \
+    benchmarks/mechanical-layout
+    (empty; tests/mechanical_layout is the historical path at 0ff873c)
+```
+
+The `tests/mechanical_layout` path in that command is the path as it existed at
+`0ff873c`. It is no longer present after the integration move; the current path is
+`tests/mechanical_layout_tests/`.
+
+Therefore the 144-test and 34/34 + 4/4 benchmark results obtained at `0ff873c`
+remain valid for the merged head `317876c`: no package, test or benchmark bytes
+changed. The earlier revision's statement "PR head at handoff finalization =
+`cb6e563`" was stale; the actual merged PR head is `317876c`.
+
+## Commit sequence (verified against actual `git log`)
+
+Original branch `feat/parallel-mechanical-layout` (newest first):
+
+```text
+317876c docs: record PR head in task G handoff
 cb6e563 docs: finalize task G handoff with PR, HEAD, verification and limits
 0ff873c docs: record task G pull request
 a608e3e feat: add offline mechanical layout planner and frozen benchmark
 9a951ed test: make Chinese fixture portable across Windows locales   (main baseline)
 ```
+
+On `main` the branch was merged as:
+
+```text
+ecb4c8a Merge pull request #42 from zsx3896926/feat/parallel-mechanical-layout
+```
+
+A later integration commit on `main`, `a575748 test: make parallel module tests
+discoverable; fix frozen-hash and benchmark portability`, moved the tests to
+`tests/mechanical_layout_tests/` and added `tests/mechanical_layout_tests/__init__.py`.
+That changes the test path and top-level discovery behaviour, but not the
+mechanical-layout package or benchmark cases.
+
+### PR #51 documentation commit sequence (verified with `git log -- <path>`)
+
+PR #51 branch `docs/mechanical-layout-handoff-head` (oldest → newest):
+
+| file | commits on the PR #51 branch |
+|---|---|
+| `handoff-current.md` | `60ec52e` → `fd6847a` → `6d10d35` → this sync commit |
+| `acceptance-matrix.md` | `60ec52e` |
+| `issue-candidates.md` | `60ec52e` |
+
+The earlier integration commit `a575748` also appears before `60ec52e` when these
+paths are logged (it is the merged test-discovery/path change, not part of PR #51).
+Verification command:
+
+```text
+git log --oneline -- docs/parallel-mechanical-layout/handoff-current.md
+git log --oneline -- docs/parallel-mechanical-layout/acceptance-matrix.md
+git log --oneline -- docs/parallel-mechanical-layout/issue-candidates.md
+```
+
+Only `handoff-current.md` changes after `60ec52e`; no other task doc has an
+unrecorded later change.
 
 ## What was delivered
 
@@ -44,7 +110,7 @@ a608e3e feat: add offline mechanical layout planner and frozen benchmark
   `analysis_not_official_export` watermark and mirrored bottom view.
 * Frozen CLI benchmark: 34 scenarios + 4 holdouts, SHA-frozen inputs/expected,
   subprocess runner, results with coverage/timing and `real_eda: NOT RUN`.
-* Tests under `tests/mechanical_layout_tests_tests/`: 144 unittest cases (contract/units/
+* Tests under `tests/mechanical_layout_tests/`: 144 unittest cases (contract/units/
   transforms, G1, G3, SVG, benchmark integrity + selected CLI subprocess runs;
   G2/G4 and planner suites were authored inside the parallel team).
 * Documentation in `docs/parallel-mechanical-layout/`: `contract.md`,
@@ -61,8 +127,8 @@ All commands were run from the worktree root unless noted. Results below are the
 observed outputs, not projected ones.
 
 ```text
-python -m unittest discover -s tests/mechanical_layout_tests_tests -t tests/mechanical_layout_tests_tests
-    Ran 144 tests in 1.451s
+python -m unittest discover -s tests/mechanical_layout_tests -t tests/mechanical_layout_tests
+    Ran 144 tests in 1.200s
     OK
 
 python benchmarks/mechanical-layout/run_benchmarks.py
@@ -104,7 +170,7 @@ Determinism and clean-tree replay:
 same report.json SHA-256: true; same top.svg SHA-256: true
 
 # git archive HEAD | expand into an empty directory, then rerun there
-python -m unittest discover -s tests/mechanical_layout_tests_tests -t tests/mechanical_layout_tests_tests
+python -m unittest discover -s tests/mechanical_layout_tests -t tests/mechanical_layout_tests
     Ran 144 tests in 1.269s; OK
 python benchmarks/mechanical-layout/run_benchmarks.py
     34/34 passed
@@ -116,11 +182,12 @@ The clean-archive replay also proves the frozen benchmark SHA-256 values are
 stable for committed bytes (a task-local `benchmarks/mechanical-layout/.gitattributes`
 keeps JSON/TXT line endings exact).
 
-The test suite does not descend into `tests/mechanical_layout_tests_tests` from top-level
-CI discovery (no `tests/__init__.py`, by isolation rule). Use the targeted
-command above; the package entry point has no effect on the existing CI. No
-tracked file outside the four allowed trees was modified, and the full repository
-CI was intentionally not altered.
+After the integration commit `a575748`, the tests live in
+`tests/mechanical_layout_tests/` with an `__init__.py`, so the official top-level
+`python -m unittest discover -s tests` now discovers and runs all 144 tests.
+Task G itself did not change CI; the move was an integration action. The targeted
+command above remains the narrow way to rerun only this task's tests. No tracked
+file outside the four allowed trees was modified by task G.
 
 ## Key evidence
 
@@ -168,14 +235,19 @@ Status flags in every report: `simulated: true`, `real_eda: NOT RUN`,
   report identity.
 * **Mechanical vs electrical quality.** A mechanically anchored candidate says
   nothing about routing quality or electrical correctness.
-* **Distribution.** This branch is not merged, released, installed or deployed;
-  review and any follow-up integration must be separate, approved work.
+* **Distribution.** PR #42 was merged to `main` by the repository owner after this
+  task's review; task G did not perform that merge and did not release, install or
+  deploy the package. The docs-only correction is PR **#51**
+  (https://github.com/zsx3896926/hardware-design-skill/pull/51), which remains open
+  and is not merged by task G.
 
 ## Files touched (all inside the allowed isolation paths)
 
 ```text
 design-hardware/scripts/mechanical_layout/**            (new package)
-tests/mechanical_layout_tests_tests/**                              (new tests)
+tests/mechanical_layout_tests/**                          (current path; moved from the
+                                                           historical tests/mechanical_layout/
+                                                           at integration commit a575748)
 benchmarks/mechanical-layout/**                         (cases/expected/holdout/sources/runner/results)
 docs/parallel-mechanical-layout/**                      (this task's docs)
 ```
@@ -191,16 +263,23 @@ compose, design_engine and other task directories were not changed.
    frames, mating datums and tool declarations.
 2. A future adapter should follow `integration-proposal.md`; do not call task A's
    executor from this package.
-3. If merged, add the targeted test command to the maintainer runbook rather than
-   changing CI in this task. Consider a follow-up issue for `max_move`, top-face
-   openings and electrical copper keep-out geometry.
+3. Keep the targeted test command in the maintainer runbook; the integration commit
+   already made top-level discovery run the tests. Consider follow-up issues for
+   `max_move`, top-face openings and electrical copper keep-out geometry.
 
 ## Integration note (2026-10-28, main integrator)
 
-This branch was merged to `main` by the integration lead. The review-time statement
-that top-level `python -m unittest discover -s tests` does not descend into the test
-directory was accurate and has been fixed on `main`: the tests moved to
-`tests/mechanical_layout_tests/` with an `__init__.py` package marker, so the official
-CI discovery now runs all 144 tests. The task's own benchmark, cases and package are
-unchanged. Nothing in this note is a claim that the planner was wired into the main
-schematic/PCB workflow; it remains an independent capability.
+This branch was merged to `main` by the integration lead as
+`ecb4c8a8c5774bdbd54b7c16789029b8fe959a82`. The review-time statement that
+top-level `python -m unittest discover -s tests` did not descend into the test
+directory was accurate at review time and has been fixed on `main`: the tests
+moved to `tests/mechanical_layout_tests/` with an `__init__.py` package marker, so
+official CI discovery now runs all 144 tests. The mechanical-layout package,
+benchmark cases and runner are unchanged by that move.
+
+This docs-only correction is PR **#51** (branch `docs/mechanical-layout-handoff-head`).
+It fixes three documentation defects from the merge: a duplicated `tests` path suffix
+in path strings, an outdated "PR head at handoff finalization" value, and the missing
+`verified HEAD` vs `merged PR head` reconciliation. Nothing here is a claim that the
+planner was wired into the main schematic/PCB workflow; it remains an independent
+capability and no board was changed. PR #51 is open and was not merged by task G.

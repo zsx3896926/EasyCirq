@@ -29,10 +29,11 @@ the findings are not lost and no second main engine is created.
    but does not enforce it because the budget-filtering contract is undefined.
    Define whether filtered options count against the search budget, then enforce
    it in a follow-up. Owner: G5 follow-up.
-7. **Benchmark integration command.** The new tests live under
-   `tests/mechanical_layout_tests_tests/` (no package marker, by isolation rule), so
-   top-level CI discovery does not run them. If this branch is accepted, add the
-   targeted command to the maintainer runbook/CI in a separate approved change;
-   do not silently change CI here.
+7. **Benchmark integration command (resolved on `main`).** The tests were originally
+   under `tests/mechanical_layout/` without a package marker, so top-level CI
+   discovery did not run them. Integration commit `a575748` moved them to
+   `tests/mechanical_layout_tests/` with `__init__.py`; the targeted command in the
+   handoff remains available. No further action is needed from task G beyond that
+   record.
 
 No existing geometry/placement/intent function was modified by task G.

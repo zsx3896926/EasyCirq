@@ -3,12 +3,12 @@
 The fixtures are built in memory (no repository file is read as a document) so
 these tests stay independent of benchmarks/docs.  They are runnable directly:
 
-    python tests/mechanical_layout_tests_tests/test_planner.py
+    python tests/mechanical_layout_tests/test_planner.py
 
 and through unittest discovery:
 
-    python -m unittest discover -s tests/mechanical_layout_tests_tests \
-        -t tests/mechanical_layout_tests_tests -p "test_planner.py"
+    python -m unittest discover -s tests/mechanical_layout_tests \
+        -t tests/mechanical_layout_tests -p "test_planner.py"
 """
 import copy
 import hashlib

@@ -129,6 +129,38 @@ class RuleFixtureTests(unittest.TestCase):
         self.assertIn("fact_missing_used_pin",
                       [item.get("code") for item in report["findings"]])
 
+    def test_r3_externally_bypassed_switch_is_hard(self):
+        # Codex P2 regression: both used terminals on the same net means the
+        # switch cannot change connectivity, even if the internal groups differ.
+        data = fixtures.case_r3_ok()
+        for pin_row in data["components"][0]["pins"]:
+            pin_row["net"] = "EN"
+        report = support.review(data)
+        self.assertEqual(report["status"], "fail")
+        codes = [item.get("code") for item in report["findings"]]
+        self.assertIn("switch_externally_bypassed", codes)
+
+    def test_r3_externally_bypassed_via_alias_is_hard(self):
+        data = fixtures.case_r3_ok()
+        data["components"][0]["pins"][2]["net"] = "EN_ALIAS"
+        data["connectivity"]["net_aliases"] = [["EN", "EN_ALIAS"]]
+        report = support.review(data)
+        self.assertEqual(report["status"], "fail")
+        codes = [item.get("code") for item in report["findings"]]
+        self.assertIn("switch_externally_bypassed", codes)
+
+    def test_r5_pad_level_net_can_prove_required_ground(self):
+        data = fixtures.case_r5_ep_ok()
+        pin = data["components"][0]["pins"][-1]
+        self.assertEqual(pin["name"], "EP")
+        pin.pop("net", None)
+        pin["pad_nets"] = {"17": "GND"}
+        report = support.review(data)
+        self.assertEqual(report["status"], "pass_with_scope",
+                         support.finding_codes(report))
+        self.assertNotIn("pad_net_unknown",
+                         [item.get("code") for item in report["findings"]])
+
     def test_r5_unclassified_ground_is_unknown_not_wrong(self):
         data = fixtures.case_r5_ep_ok()
         data["intent"].pop("net_roles")

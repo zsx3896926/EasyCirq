@@ -1063,6 +1063,7 @@ def _validate(data):
     if data.get("connectivity") is None:
         _bad("connectivity", "missing", "connectivity object is required")
     _merge_pin_nets(data, components)
+    _validate_pad_nets(data)
     _intent(data, components)
     _device_facts(data)
     _operating_conditions(data)
@@ -1070,6 +1071,36 @@ def _validate(data):
                                          for item in components}
     _validate_references(data)
     return data
+
+
+def _validate_pad_nets(data):
+    """Physical pad nets must be consistent with the logical pin net.
+
+    ``pad_nets`` is pad-level evidence, not decoration: if a logical pin is on
+    +3V3 but one of its pads is declared on GND, the input is contradictory and
+    must not produce a PASS.  Aliases are resolved first, so a renamed alias of
+    the same partition is accepted.
+    """
+    groups = data["_meta"]["net_alias_groups"]
+    for component_index, component_row in enumerate(data["components"]):
+        for pin_index, pin_row in enumerate(component_row["pins"]):
+            declared = {pad: net for pad, net in pin_row["pad_nets"].items()
+                        if net is not None}
+            if not declared:
+                continue
+            path = "components[%d].pins[%d].pad_nets" % (
+                component_index, pin_index)
+            partitions = {groups.get(net, net) for net in declared.values()}
+            if pin_row["net"] is not None:
+                logical = groups.get(pin_row["net"], pin_row["net"])
+                if partitions != {logical}:
+                    _bad(path, "pad_net_conflict",
+                         "physical pad nets %r do not match logical pin net %r"
+                         % (sorted(declared.values()), pin_row["net"]))
+            elif len(partitions) > 1:
+                _bad(path, "pad_net_conflict",
+                     "physical pads of one logical pin map to different nets: "
+                     + repr(sorted(declared.values())))
 
 
 def _validate_references(data):
