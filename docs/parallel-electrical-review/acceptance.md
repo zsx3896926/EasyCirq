@@ -6,11 +6,12 @@
 |---|---|
 | 仓库 | https://github.com/zsx3896926/hardware-design-skill |
 | 固定基线 main SHA | `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（开工时核实） |
-| 分支 / worktree | `feat/parallel-electrical-review` / 独立 worktree |
+| 最终验收 main SHA | `acbcc18c821e08ddff2401015eb7a16eaee733c8`（含 #48/#52） |
+| 分支 / worktree | 任务 B 分支已由 #48/#52 合入 main；本文件更新于 docs-only worktree |
 | 操作系统 | Windows 11 10.0.26200 SP0（AMD64） |
-| Python（实际运行） | **3.13.15** |
+| Python（本机实际运行） | **3.13.15** |
 | 最低 Python 声明 | 3.10（仓库 CI 矩阵包含 3.10/3.13） |
-| 3.10 验证状态 | **未验证**：本机无 3.10 解释器；代码按 3.10 语法编写（无 3.11+ 特性），CI 会覆盖 |
+| 3.10 验证状态 | **已验证**：仓库 CI `validate (3.10)` 在 #48、#52 及本 docs-only PR 均通过 |
 | 依赖 | 仅 Python 标准库；未新增任何依赖，未改顶层依赖文件 |
 | EDA 调用 | **0**（未调用 easyeda CLI/daemon/connector，未切换窗口/刷新页面/安装扩展） |
 | 网络 | 仅用于原厂/官方资料核验；审查模块自身不联网 |
@@ -43,10 +44,11 @@ python benchmarks/electrical-review/run_benchmark.py --runs 3
 
 | 项 | 结果 |
 |---|---|
-| `python -m unittest discover -s tests -k electrical_review` | **50 tests OK**（2.5 s 级） |
-| `python -m unittest discover -s tests/electrical_review -t tests` | **50 tests OK** |
-| `python -m unittest discover -s tests`（全量） | 通过（仓库既有测试 + 本任务 50 项；退出码 0） |
-| 测试语料 | 25 个规则夹具 + 变形/契约/CLI/基准检查；覆盖 R1–R6 正例、反例、unknown、非法输入、单位/排序/重命名/短接变形、旧 PASS 覆盖 |
+| `python -m unittest discover -s tests -k electrical_review` | **55 tests OK**（3.579 s） |
+| `python -m unittest discover -s tests/electrical_review -t tests` | **55 tests OK** |
+| `python -m unittest discover -s tests`（全量） | **3144 tests OK（skipped=2）**，314.0 s，exit 0 |
+| 独立审查修复 | 仓库 Codex 独立审查 P1/P2 已由 #52 修复并补回归测试（pad_nets 冲突、按键外部旁路） |
+| 测试语料 | 规则夹具 + 变形/契约/CLI/基准检查；覆盖 R1–R6 正例、反例、unknown、非法输入、单位/排序/重命名/短接变形、旧 PASS 覆盖 |
 
 覆盖的具体负例：
 
@@ -72,7 +74,7 @@ python benchmarks/electrical-review/run_benchmark.py --runs 3
 | `real_eda` | **"NOT RUN"** |
 | `eda_calls` | **0** |
 | 输入 SHA-256 | 每个场景冻结；源文件被改动则基准失败（不是“通过”） |
-| timing | 31 个场景（3 runs）单场 min 合计约 3.7 s 级；单场 max 约 0.2 s 级；Python 3.13.15 / Windows 11 / AMD64 |
+| timing | 31 个场景（3 runs）单场 min 合计 4.862 s；单场 max 193.0 ms；Python 3.13.15 / Windows 11 / AMD64 |
 | 未覆盖 | 真实 EDA/DRC/保存重开/仿真/Gerber/CPL/钻孔/DFM/布线/铺铜/热/EMC/安规/固件/制造/上电 |
 
 **timing 只说明本书审查工具的 CLI 执行成本，不宣称画板提速；整板验收由任务 A 的真实小板实测。**
@@ -95,12 +97,13 @@ python benchmarks/electrical-review/run_benchmark.py --runs 3
 - 未修改允许范围外文件；未改 SKILL.md、references、feedback、design_engine、pcb_gate、
   runtime、connector、protocol、distribution、更新器、CI、顶层依赖、版本号、LICENSE/NOTICE、
   README、CHANGELOG、docs/handoff-current.md。
-- 未合并 PR、未发布版本、未安装到用户客户端。
+- 未自行合并 PR、未发布版本、未安装到用户客户端；#48/#52 的合入由主维护者完成。
 
 ## 7. 已知未完成/未验证
 
-- 3.10 运行时未验证（本机无解释器；CI 矩阵会覆盖）。
 - 原厂事实只覆盖上述型号/封装/修订；未内置资料库，换型号必须重新提供 facts。
 - R2 不建模波形/瞬态/负压/开关节点；R6 只测 Euclidean 距离，不证明回流/ESL/EMI。
 - Omron/NKK/Würth/Panasonic 候选未取得原厂 PDF（网络限制），不冒充已核验。
 - 真实小板验收、原生 DRC、保存重开、制造与上电不在本任务范围。
+- 独立反例审查成员运行失败；仓库 Codex 独立审查发现的 P1/P2 已修复（#52），说明自审
+  不能替代独立审查。

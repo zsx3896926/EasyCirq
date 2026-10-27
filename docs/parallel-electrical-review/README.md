@@ -3,6 +3,24 @@
 本目录是任务 B 的完整交付说明。模块当前**不接入主执行流程**，不修改共享入口；
 集成建议见 `integration-proposal.md`。任务 A 可独立完成自己的工作，无需等待本模块。
 
+## 验收状态（2026-10-28 最终复验）
+
+| 验收项 | 结果 |
+|---|---|
+| `main` 验收基线 | `acbcc18c821e08ddff2401015eb7a16eaee733c8`（含 #48 LF 修复、#52 P1/P2 修复） |
+| 任务 B PR 状态 | **#38 CLOSED**（内容由 #48 合入 main）；P1/P2 修复 **#52 已合入 main** |
+| `python -m unittest discover -s tests -k electrical_review` | **55 tests OK**（3.579 s，exit 0） |
+| 全量 `python -m unittest discover -s tests` | **3144 tests OK（skipped=2）**（314.0 s，exit 0） |
+| `python benchmarks/electrical-review/run_benchmark.py --runs 3` | **31/31 pass**，exit 0 |
+| 基准状态 / EDA | `status=pass`；`simulated=true`、`real_eda="NOT RUN"`、`eda_calls=0` |
+| 场景分布 | pass_with_scope 9、fail 11、review_required 6、incomplete 1、invalid_input 4 |
+| 基准 timing（3 runs） | 31 场 min 合计 4.862 s；单场 max 193.0 ms（不宣称画板提速） |
+| Python 3.10 / 3.13 | **CI `validate (3.10)` / `validate (3.13)` 已通过**（#48、#52、本 docs PR） |
+| 独立审查遗留 | Codex P1（pad_nets 冲突）/ P2（按键外部旁路）已由 #52 修复并补回归测试 |
+
+`pass_with_scope` 只证明所列规则和给定输入覆盖，不是整板、DRC、保存重开、制造或上电验收。
+完整记录见 `acceptance.md` 与 `handoff-current.md`。
+
 ## 文档索引
 
 | 文件 | 内容 |
