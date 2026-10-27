@@ -26,7 +26,7 @@
 
 ```
 design-hardware/scripts/bringup_planner/
-tests/bringup_planner_tests_tests/
+tests/bringup_planner_tests/
 benchmarks/bringup-planner/
 docs/parallel-bringup-planner/
 ```
@@ -57,7 +57,7 @@ python -m bringup_planner evaluate --plan <out>/plan.json --results <results.jso
 测试与基准（worktree 根目录）：
 
 ```bash
-python -m unittest discover -s tests/bringup_planner_tests_tests -p "test_*.py"
+python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 python benchmarks/bringup-planner/run_benchmark.py --out /tmp/bringup-benchmark.json
 python tools/offline_suite.py          # 既有仓库离线套件，不应回归
 ```
