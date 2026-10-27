@@ -10,6 +10,11 @@ from .common import (find_pin, ground_partitions, pin_ref, power_partitions,
                      subject, voltage_constraint)
 
 
+def _pad_nets(pin_row, pads):
+    """Resolve each physical pad's net, falling back to the logical pin net."""
+    return [pin_row["pad_nets"].get(pad, pin_row["net"]) for pad in pads]
+
+
 def _role_ok(data, component_row, net, role):
     if net is None:
         return None
@@ -166,21 +171,40 @@ def run(data, result):
                     continue
                 role = spec.get("required_net_role")
                 if role is not None:
-                    if pin_row["net"] is None:
+                    pad_nets = _pad_nets(pin_row, spec["pads"])
+                    if any(net is None for net in pad_nets):
                         result.insufficient(
                             "pad_net_unknown", spec_subjects,
-                            actual={"display": "net unknown"},
+                            actual={"display": "net unknown for pads " +
+                                    repr([pad for pad, net in
+                                          zip(spec["pads"], pad_nets)
+                                          if net is None])},
                             constraint={"display": "required net role " + role},
                             evidence=evidence,
-                            explanation="焊盘存在但网络未知，不能证明所需连接。",
-                            recommendation="补齐该脚/焊盘网络。",
+                            explanation="焊盘存在但至少一个物理焊盘的网络未知，"
+                                        "不能证明所需连接。",
+                            recommendation="补齐该脚/焊盘网络（pad_nets 或 pin.net）。",
                             unverified=["焊盘网络"])
                         continue
-                    ok = _role_ok(data, component_row, pin_row["net"], role)
+                    partitions = {canonical_net(data, net) for net in pad_nets}
+                    if len(partitions) > 1:
+                        result.violated(
+                            "pad_net_conflict", spec_subjects,
+                            actual={"display": "physical pad nets " +
+                                    repr(pad_nets)},
+                            constraint={"display": "one net partition per logical pin"},
+                            unit=None, evidence=evidence,
+                            explanation="同一逻辑引脚的物理焊盘落在不同网络分区，"
+                                        "属于冲突映射，不能当作已验证连接。",
+                            recommendation="核对封装/符号焊盘映射；必要时拆分逻辑引脚。",
+                            severity="hard")
+                        continue
+                    net = pad_nets[0]
+                    ok = _role_ok(data, component_row, net, role)
                     if ok is None:
                         result.insufficient(
                             "net_role_not_classified", spec_subjects,
-                            actual={"display": "net " + pin_row["net"]},
+                            actual={"display": "net " + net},
                             constraint={"display": "required net role " + role},
                             evidence=evidence,
                             explanation="无法把该网络分类为所需角色；不能用网名猜测。",
@@ -189,15 +213,15 @@ def run(data, result):
                     elif ok:
                         result.satisfied_check(
                             spec_subjects,
-                            constraint={"display": "pad %s -> %s (%s)"
-                                        % (spec["pads"], pin_row["net"], role)},
+                            constraint={"display": "pads %s -> %s (%s)"
+                                        % (spec["pads"], net, role)},
                             evidence=evidence,
                             explanation="所需焊盘存在，并连接到带证据的 %s 网络。" % role,
                             certainty="proven")
                     else:
                         result.violated(
                             "required_pad_wrong_net", spec_subjects,
-                            actual={"display": "pad net " + str(pin_row["net"])},
+                            actual={"display": "pad net " + str(net)},
                             constraint={"display": "required net role " + role},
                             unit=None, evidence=evidence,
                             explanation="所需焊盘存在，但连接的网络不是所需 %s 角色。" % role,
@@ -216,7 +240,9 @@ def run(data, result):
                             recommendation="补齐该逻辑引脚映射。",
                             unverified=["合并焊盘关系"])
                         continue
-                    if pin_row["net"] is None or other["net"] is None:
+                    pad_nets = _pad_nets(pin_row, spec["pads"])
+                    if any(net is None for net in pad_nets) or \
+                            other["net"] is None:
                         result.insufficient(
                             "tie_net_unknown", spec_subjects,
                             actual={"display": "net unknown"},
@@ -226,12 +252,13 @@ def run(data, result):
                             recommendation="补齐两端网络。",
                             unverified=["合并焊盘关系"])
                         continue
-                    if canonical_net(data, pin_row["net"]) != \
-                            canonical_net(data, other["net"]):
+                    if any(canonical_net(data, net) !=
+                           canonical_net(data, other["net"])
+                           for net in pad_nets):
                         result.violated(
                             "merged_pad_split_net", spec_subjects,
-                            actual={"display": "pad net %s vs pin %s net %s"
-                                    % (pin_row["net"], tie, other["net"])},
+                            actual={"display": "pad nets %s vs pin %s net %s"
+                                    % (pad_nets, tie, other["net"])},
                             constraint={"display": "same net partition"},
                             unit=None, evidence=evidence,
                             explanation="合并/裸焊盘与目标逻辑引脚不在同一网络分区。",

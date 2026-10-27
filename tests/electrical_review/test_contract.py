@@ -78,6 +78,22 @@ class ContractValidationTests(unittest.TestCase):
             support.validate(data)
         self.assertEqual(caught.exception.code, "duplicate_pad")
 
+    def test_pad_nets_must_match_logical_pin_net(self):
+        # Codex P1 regression: TAB is a physical pad of the VOUT logical pin;
+        # declaring TAB=GND while the logical pin is +3V3 is contradictory.
+        data = fixtures.case_r5_ams_tab_ok()
+        data["components"][0]["pins"][1]["pad_nets"] = {"TAB": "GND"}
+        with self.assertRaises(contract.InputError) as caught:
+            support.validate(data)
+        self.assertEqual(caught.exception.code, "pad_net_conflict")
+
+    def test_pad_nets_alias_of_same_partition_is_accepted(self):
+        data = fixtures.case_r5_ams_tab_ok()
+        data["components"][0]["pins"][1]["pad_nets"] = {"TAB": "+3V3_ALIAS"}
+        data["connectivity"]["net_aliases"] = [["+3V3", "+3V3_ALIAS"]]
+        normalized = support.validate(data)
+        self.assertEqual(normalized["components"][0]["pins"][1]["net"], "+3V3")
+
     def test_net_alias_merges_partitions(self):
         data = fixtures.case_r1_ok()
         data["connectivity"] = {"pin_nets": {},
