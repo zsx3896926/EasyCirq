@@ -195,24 +195,53 @@ def compose_design(payload):
     nets_by_instance = {result['instance_id']: {net['id']: net for net in result['connectivity']['nets']}
                         for result in module_results}
 
+    # A block that could not reach ready_abstract may have produced no port table
+    # at all (its failure happened before wiring).  Its declared endpoints are
+    # skipped rather than reported as input typos: the design status already says
+    # the instance is unsupported/incomplete.  Typos against a ready block are
+    # still hard input errors.
+    non_ready = {result['instance_id']: result['status'] for result in module_results
+                 if result['status'] != 'ready_abstract'}
+
     # endpoint -> design port owners (pairwise connections may legitimately reuse
     # an endpoint: that is how a net with more than two members is written).
     declared = {}
+    available_connections = []
     for connection in payload.get('connections') or []:
+        sides = []
         for side in ('a', 'b'):
             instance, port = _split_endpoint(connection[side])
-            _require_endpoint(ports_by_instance, instance, port, 'connections')
+            state = _endpoint_state(ports_by_instance, instance, port, non_ready)
+            if state == 'missing_nonready':
+                sides = []
+                break
+            if state == 'unknown':
+                _require_endpoint(ports_by_instance, instance, port, 'connections')
+            sides.append(connection[side])
+        if sides:
+            available_connections.append(tuple(sides))
     design_ports = payload.get('design_ports') or []
+    available_members = {}
     for design_port in design_ports:
+        members = []
         for endpoint in design_port['members']:
             instance, port = _split_endpoint(endpoint)
-            _require_endpoint(ports_by_instance, instance, port, 'design_ports')
+            state = _endpoint_state(ports_by_instance, instance, port, non_ready)
+            if state == 'missing_nonready':
+                continue
+            if state == 'unknown':
+                _require_endpoint(ports_by_instance, instance, port, 'design_ports')
+            members.append(endpoint)
             declared.setdefault(endpoint, []).append(design_port['id'])
+        available_members[design_port['id']] = members
     for endpoint, owners in declared.items():
         if len(owners) > 1:
             raise InputInvalid('endpoint %r is declared by more than one design port (%s); '
                                'a boundary port cannot belong to two nets'
                                % (endpoint, ', '.join(owners)))
+
+    live_design_ports = [port for port in design_ports
+                         if available_members.get(port['id'])]
 
     # union-find over endpoints and design ports
     parent = {}
@@ -229,16 +258,16 @@ def compose_design(payload):
         if root_a != root_b:
             parent[root_b] = root_a
 
-    for connection in payload.get('connections') or []:
-        union(('endpoint', connection['a']), ('endpoint', connection['b']))
-    for design_port in design_ports:
+    for first, second in available_connections:
+        union(('endpoint', first), ('endpoint', second))
+    for design_port in live_design_ports:
         anchor = ('port', design_port['id'])
-        for endpoint in design_port['members']:
+        for endpoint in available_members[design_port['id']]:
             union(anchor, ('endpoint', endpoint))
     for result in module_results:
         for port in result['ports']:
             find(('endpoint', '%s.%s' % (result['instance_id'], port['id'])))
-    for design_port in design_ports:
+    for design_port in live_design_ports:
         find(('port', design_port['id']))
 
     groups = {}
@@ -295,7 +324,12 @@ def compose_design(payload):
     else:
         not_ready = [instance['instance_id'] for instance in instances
                      if instance['status'] != 'ready_abstract']
-        if not_ready:
+        impossible = [instance['instance_id'] for instance in instances
+                      if instance['status'] == 'unsupported']
+        if impossible:
+            status = 'unsupported'
+            reasons.append('instance(s) have no feasible solution: %s' % ', '.join(impossible))
+        elif not_ready:
             status = 'incomplete'
             reasons.append('instance(s) not ready_abstract: %s' % ', '.join(not_ready))
         else:
@@ -320,8 +354,8 @@ def compose_design(payload):
                    'current': _port_range_json(port.get('current'), 'current'),
                    'isolation': port.get('isolation', 'primary'),
                    'description': port.get('description'),
-                   'members': list(port['members'])}
-                  for port in design_ports],
+                   'members': available_members.get(port['id'], list(port['members']))}
+                  for port in live_design_ports],
         'unbound_ports': unbound,
         'conflicts': conflicts,
         'incomplete': incomplete,
@@ -341,6 +375,13 @@ def _require_endpoint(ports_by_instance, instance, port, where):
         raise InputInvalid('%s references unknown port %r on instance %r (ports: %s)'
                            % (where, port, instance,
                               ', '.join(sorted(ports_by_instance[instance]))))
+
+
+def _endpoint_state(ports_by_instance, instance, port, non_ready):
+    """'ok' | 'missing_nonready' (block not ready) | 'unknown' (a real error)."""
+    if instance not in ports_by_instance or port not in ports_by_instance[instance]:
+        return 'missing_nonready' if instance in non_ready else 'unknown'
+    return 'ok'
 
 
 def _endpoint_exists(ports_by_instance, endpoint):
@@ -446,14 +487,11 @@ def _build_net(design_name, endpoints, design_port_ids, design_ports, ports_by_i
     capability = [member['current'] for member in members
                   if _current_kind(member['direction'], member['role']) == 'capability'
                   and member.get('current')]
+    # A design port's current field is a boundary rating (what the boundary can
+    # supply or carry), independent of whether the port faces in or out.
     port_current = design_port_map[design_port_ids[0]].get('current') if design_port_ids else None
-    port_direction = design_port_map[design_port_ids[0]].get('direction') if design_port_ids else None
-    port_role = design_port_map[design_port_ids[0]].get('role') if design_port_ids else None
-    if port_current is not None and port_direction and port_role:
-        if _current_kind(port_direction, port_role) == 'demand':
-            demand.append(port_current)
-        elif _current_kind(port_direction, port_role) == 'capability':
-            capability.append(port_current)
+    if port_current is not None:
+        capability.append(port_current)
     demand_interval = _current_interval(demand)
     capability_interval = _current_interval(capability)
     current_contract = {'status': 'not_applicable', 'demand': None, 'capability': None}

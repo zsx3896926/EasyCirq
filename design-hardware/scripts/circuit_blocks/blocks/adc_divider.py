@@ -284,6 +284,20 @@ class AdcDivider(Block):
         win_lo = adc.lo + margin
         win_hi = adc.hi - margin
         if win_lo >= win_hi:
+            draft.calculation(
+                'adc_window',
+                'ADC legal window after the declared design margin (infeasible)',
+                'window = [adc_lo + margin, adc_hi - margin]; it must keep a positive width',
+                inputs={'adc_input_range': adc.as_json('voltage'),
+                        'adc_margin': quantity_json(margin, 'voltage')},
+                result={'window_min_v': to_json_number(win_lo),
+                        'window_max_v': to_json_number(win_hi),
+                        'feasible': False},
+                unit='V',
+                limit=None,
+                margin=None,
+                assumptions=[],
+                not_modelled=[])
             raise NoFeasibleSolution(
                 'the declared ADC margin %s V leaves no legal window inside %s..%s V'
                 % (format_number(margin), format_number(adc.lo), format_number(adc.hi)),
@@ -320,12 +334,20 @@ class AdcDivider(Block):
         ref_span = (vref * reftol
                     if (topology == 'divider_to_vref' and vref is not None and reftol is not None)
                     else Fraction(0))
-        k_lower, k_upper = self._ratio_window(topology, vin, base_nom,
-                                              win_lo - ref_span, win_hi + ref_span)
+        k_lower, k_upper = None, None
+        try:
+            k_lower, k_upper = self._ratio_window(topology, vin, base_nom,
+                                                  win_lo - ref_span, win_hi + ref_span)
+        except NoFeasibleSolution as error:
+            self._write_ratio_failure(draft, topology, vin, base_nom, win_lo, win_hi, error)
+            raise
         self._write_ratio_window(draft, topology, vin, base_nom, win_lo, win_hi,
                                  k_lower, k_upper)
         x_lower, x_upper = self._nominal_ratio_bounds(k_lower, k_upper, tolerance)
         if x_lower >= 1 or (x_upper is not None and x_upper <= 0):
+            self._write_ratio_failure(
+                draft, topology, vin, base_nom, win_lo, win_hi,
+                NoFeasibleSolution('the tolerance-adjusted ratio search window is empty'))
             raise NoFeasibleSolution(
                 'the ADC window %s..%s V cannot be reached from the input range %s..%s V with '
                 'positive resistor values (required ratio interval is empty)'
@@ -335,6 +357,9 @@ class AdcDivider(Block):
                         'required_ratio_max': (to_json_number(x_upper)
                                                if x_upper is not None else None)})
         if x_upper is not None and x_lower > x_upper:
+            self._write_ratio_failure(
+                draft, topology, vin, base_nom, win_lo, win_hi,
+                NoFeasibleSolution('ratio window conflict after tolerance inversion'))
             raise NoFeasibleSolution(
                 'the required divider-ratio window is empty: ratio >= %s but tolerance-adjusted '
                 'ratio <= %s' % (format_number(x_lower), format_number(x_upper)),
@@ -643,9 +668,57 @@ class AdcDivider(Block):
                           'per-pair filter applies them'])
 
     # ------------------------------------------------------------------
+    @staticmethod
+    def _write_ratio_failure(draft, topology, vin, base_nom, win_lo, win_hi, error):
+        draft.calculation(
+            'divider_ratio_window',
+            'Divider ratio interval required by the ADC legal window (infeasible)',
+            'VOUT = VREF + (VIN - VREF)*k; the ratio interval required by the ADC window was '
+            'derived and found empty or outside (0, 1)',
+            inputs={'topology': topology,
+                    'input_voltage': vin.as_json('voltage'),
+                    'reference_voltage': quantity_json(base_nom, 'voltage'),
+                    'adc_window': {'min': to_json_number(win_lo),
+                                   'max': to_json_number(win_hi), 'unit': 'V'}},
+            result={'feasible': False, 'reason': str(error)},
+            unit='1',
+            limit=None,
+            margin=None,
+            method='closed-form interval inversion with sign-aware division',
+            assumptions=['the ADC window is a hard output constraint for every declared input '
+                         'extreme'],
+            not_modelled=['resistor tolerance and leakage are applied only after a ratio window '
+                          'exists'])
+
+    # ------------------------------------------------------------------
     def _write_no_solution(self, draft, inputs, topology, win_lo, win_hi,
                            max_source, power_rating, leakage, rejected,
                            resolution_bits):
+        draft.calculation(
+            'standard_pair_search',
+            'Standard pair search over the admissible set',
+            'enumerate R_top and R_bottom ascending; reject any pair whose worst-case tap exits '
+            'the ADC window, whose Thevenin impedance exceeds the declared limit, whose '
+            'dissipation exceeds the declared rating, or whose settling time exceeds the sample '
+            'time; score the survivors by the declared objective',
+            inputs={'topology': topology,
+                    'adc_window': {'min': to_json_number(win_lo),
+                                   'max': to_json_number(win_hi), 'unit': 'V'},
+                    'max_source_impedance': (quantity_json(max_source, 'resistance')
+                                             if max_source is not None else None),
+                    'declared_power_rating': (quantity_json(power_rating, 'power')
+                                              if power_rating is not None else None),
+                    'adc_leakage_current': quantity_json(leakage, 'current')},
+            result={'selected': False,
+                    'rejected_by_output_window': rejected.get('output', 0),
+                    'rejected_by_source_impedance': rejected.get('source', 0),
+                    'rejected_by_power_rating': rejected.get('power', 0),
+                    'rejected_by_settling': rejected.get('settling', 0)},
+            unit='1',
+            limit=None,
+            margin=None,
+            assumptions=['the search is exhaustive over the declared standard series/window'],
+            not_modelled=['resistor temperature coefficients and PCB parasitics'])
         if rejected.get('settling'):
             self._write_buffer_gap(
                 draft, inputs, resolution_bits,
@@ -1208,6 +1281,16 @@ class AdcDivider(Block):
             candidates = series_values(capacitor_series, window.lo, window.hi,
                                        decades=_CAPACITOR_DECADES)
             if not candidates:
+                draft.calculation(
+                    'rc_selection',
+                    'Optional RC capacitor selection (infeasible)',
+                    'enumerate standard capacitor values in the declared window and require the '
+                    'resulting -3 dB corner to fall inside the target bandwidth range',
+                    inputs={'capacitance_window': window.as_json('capacitance'),
+                            'capacitor_series': capacitor_series},
+                    result={'selected': False, 'reason': 'no standard capacitor in window'},
+                    unit='F', limit=None, margin=None,
+                    assumptions=[], not_modelled=[])
                 raise NoFeasibleSolution(
                     'no standard %s capacitor exists in the declared capacitance window'
                     % capacitor_series)
@@ -1217,6 +1300,18 @@ class AdcDivider(Block):
                 if target.contains(frequency):
                     matches.append((abs(frequency - target.nominal), candidate, frequency))
             if not matches:
+                draft.calculation(
+                    'rc_selection',
+                    'Optional RC capacitor selection (infeasible)',
+                    'enumerate standard capacitor values and require the resulting -3 dB corner '
+                    '1/(2*pi*R_th*C) to fall inside the target bandwidth range',
+                    inputs={'thevenin_nominal_ohm': quantity_json(rth_nom, 'resistance'),
+                            'target_bandwidth': target.as_json('frequency'),
+                            'capacitor_series': capacitor_series},
+                    result={'selected': False,
+                            'reason': 'no candidate corner inside the target bandwidth'},
+                    unit='Hz', limit=None, margin=None,
+                    assumptions=[], not_modelled=[])
                 raise NoFeasibleSolution(
                     'no standard %s capacitor puts the -3 dB bandwidth inside the declared '
                     'target range %s..%s Hz at the selected Thevenin impedance'

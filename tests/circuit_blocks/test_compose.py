@@ -161,6 +161,65 @@ class ComposeRejects(unittest.TestCase):
         self.assertEqual(len(block_nets), 2)
 
 
+class ComposeAcrossModuleTypes(unittest.TestCase):
+    """LDO -> 3.3 V button, 5 V LED, explicit EN tie and explicit rail ports."""
+
+    def load(self):
+        return json.loads((ROOT / 'benchmarks' / 'circuit-blocks' / 'examples'
+                           / 'ldo_button_led.design.json').read_text(encoding='utf-8'))
+
+    def test_cross_module_design_is_ready(self):
+        _, design = compose(self.load())
+        self.assertEqual(design['status'], 'ready_abstract', design['status_reasons'])
+        refs = {component['ref'] for component in design['components']}
+        # LDO U1/C1/C2 + button R1/C1/SW1 + LED R1/D1
+        self.assertEqual(refs, {'LDO_U1', 'LDO_C1', 'LDO_C2', 'BTN_R1', 'BTN_C1',
+                                'BTN_SW1', 'LED_R1', 'LED_D1'})
+        internal = [net for net in design['nets'] if net['id'].startswith('design:internal_')]
+        self.assertEqual(len(internal), 1)
+        # The LDO output rail is the intersection of the LDO VOUT range and the
+        # 3.3 V block input range: 3.3*0.985 .. 3.3*1.015 = 3.2505..3.3495 V.
+        self.assertEqual(internal[0]['voltage'], {'min': 3.2505, 'max': 3.3495, 'unit': 'V'})
+        self.assertEqual(internal[0]['role'], 'power')
+
+    def test_explicit_enable_tie_merges_into_the_input_rail(self):
+        _, design = compose(self.load())
+        vin = next(net for net in design['nets'] if net['id'] == 'design:VIN_5V')
+        ports = {(member['instance'], member['port']) for member in vin['members']}
+        self.assertIn(('ldo', 'VIN'), ports)
+        self.assertIn(('ldo', 'EN'), ports)
+        self.assertIn(('led', 'VCC'), ports)
+
+    def test_current_shortfall_at_a_design_port_is_a_proven_conflict(self):
+        payload = self.load()
+        for port in payload['design_ports']:
+            if port['id'] == 'VIN_5V':
+                port['current'] = {'min': 0, 'max': 0.01}
+        _, design = compose(payload)
+        self.assertEqual(design['status'], 'unsupported')
+        self.assertIn('current_contract_conflict',
+                      {conflict['code'] for conflict in design['conflicts']})
+
+    def test_unsupported_block_makes_the_whole_design_unsupported(self):
+        payload = self.load()
+        led = next(block for block in payload['blocks'] if block['instance'] == 'led')
+        # 3.3 V rail with 0.4 V switch drop cannot keep 3..8 mA through this LED.
+        led['inputs']['supply_voltage'] = {'min': 3.0, 'max': 3.6}
+        _, design = compose(payload)
+        self.assertEqual(design['status'], 'unsupported')
+        self.assertTrue(any('no feasible solution' in reason
+                            for reason in design['status_reasons']))
+
+    def test_needs_device_facts_block_makes_the_design_incomplete(self):
+        payload = self.load()
+        led = next(block for block in payload['blocks'] if block['instance'] == 'led')
+        led['inputs'].pop('led_max_current')
+        _, design = compose(payload)
+        self.assertEqual(design['status'], 'incomplete')
+        self.assertTrue(any('not ready_abstract' in reason
+                            for reason in design['status_reasons']))
+
+
 class ComposeValidation(unittest.TestCase):
     def test_composed_design_validates(self):
         import tempfile

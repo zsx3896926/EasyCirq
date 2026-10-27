@@ -95,6 +95,7 @@ def _run_case(case_file):
     case = json.loads(case_file.read_text(encoding='utf-8'))
     case_id = case.get('id') or case_file.parent.name
     record = {'id': case_id, 'suite': case_file.parent.parent.name,
+              'module_type': case.get('module_type') or case.get('command', 'generate'),
               'description': case.get('description', ''), 'checks': [], 'timings_ms': []}
     try:
         _check_frozen_input(case, record)
@@ -453,7 +454,9 @@ def _coverage(cases):
     coverage = {}
     for case in cases:
         key = case.get('module_type') or case.get('suite')
-        coverage[key] = coverage.get(key, 0) + 1
+        suite = case.get('suite')
+        bucket = coverage.setdefault(key, {'cases': 0, 'holdout': 0})
+        bucket[suite] = bucket.get(suite, 0) + 1
     return dict(sorted(coverage.items()))
 
 

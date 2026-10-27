@@ -250,12 +250,26 @@ class LowSideNmos(Block):
 
         # -- absolute maximum checks ---------------------------------
         if gate.hi > vgss_max:
+            self._write_check(draft, 'vgs_check', 'Gate-source absolute maximum check',
+                              'V_GS_worst = gate_drive_max <= VGSS_max',
+                              {'gate_drive_max': quantity_json(gate.hi, 'voltage'),
+                               'vgss_max': quantity_json(vgss_max, 'voltage')},
+                              {'margin_v': to_json_number(vgss_max - gate.hi)},
+                              'V', vgss_max, 'voltage', 'VGSS')
             raise NoFeasibleSolution(
                 'gate drive worst case %s V exceeds the MOSFET absolute maximum VGS %s V'
                 % (format_number(gate.hi), format_number(vgss_max)),
                 bounds={'gate_drive_max': to_json_number(gate.hi),
                         'vgss_max': to_json_number(vgss_max)})
         if vgs_th_max >= gate.lo:
+            self._write_check(draft, 'vgs_th_check',
+                              'Necessary enhancement check (threshold is not an on-state proof)',
+                              'gate_drive_min > VGS(th)_max is necessary; RDS(ON) provides the '
+                              'on-state proof',
+                              {'gate_drive_min': quantity_json(gate.lo, 'voltage'),
+                               'vgs_th_max': quantity_json(vgs_th_max, 'voltage')},
+                              {'margin_v': to_json_number(gate.lo - vgs_th_max)},
+                              'V', vgs_th_max, 'voltage', 'VGS(th)_max')
             raise NoFeasibleSolution(
                 'the minimum gate drive %s V does not exceed the worst-case threshold %s V: the '
                 'MOSFET is not guaranteed to enhance at the declared drive'
@@ -263,12 +277,26 @@ class LowSideNmos(Block):
                 bounds={'gate_drive_min': to_json_number(gate.lo),
                         'vgs_th_max': to_json_number(vgs_th_max)})
         if supply.hi > vds_max:
+            self._write_check(draft, 'vds_check',
+                              'Drain-source voltage rating against the load supply',
+                              'V_DS_worst = V_load_max <= VDS_max',
+                              {'load_supply_max': quantity_json(supply.hi, 'voltage'),
+                               'vds_max': quantity_json(vds_max, 'voltage')},
+                              {'margin_v': to_json_number(vds_max - supply.hi)},
+                              'V', vds_max, 'voltage', 'VDS_max')
             raise NoFeasibleSolution(
                 'load supply maximum %s V exceeds the MOSFET VDS maximum %s V'
                 % (format_number(supply.hi), format_number(vds_max)),
                 bounds={'load_supply_max': to_json_number(supply.hi),
                         'vds_max': to_json_number(vds_max)})
         if current_max > id_max:
+            self._write_check(draft, 'id_check',
+                              'Continuous drain current rating against the maximum load current',
+                              'I_load_max <= ID_max',
+                              {'load_current_max': quantity_json(current_max, 'current'),
+                               'id_max': quantity_json(id_max, 'current')},
+                              {'margin_a': to_json_number(id_max - current_max)},
+                              'A', id_max, 'current', 'ID_max')
             raise NoFeasibleSolution(
                 'maximum load current %s A exceeds the MOSFET continuous drain rating %s A'
                 % (format_number(current_max), format_number(id_max)),
@@ -291,6 +319,20 @@ class LowSideNmos(Block):
         if not switching and thermal_facts and ambient is not None:
             junction_estimate = ambient.hi + conduction * theta_ja
             if junction_estimate > tj_max:
+                draft.calculation(
+                    'thermal_estimate',
+                    'Static junction-temperature estimate (fails the static check)',
+                    'T_J = T_A_max + P_cond * theta_JA; violate when T_J > T_J(max)',
+                    inputs={'ambient_max': quantity_json(ambient.hi, 'temperature'),
+                            'theta_ja_c_per_w': to_json_number(theta_ja),
+                            'conduction_power_w': to_json_number(conduction)},
+                    result={'estimated_tj_degc': to_json_number(junction_estimate),
+                            'tj_margin_degc': to_json_number(tj_max - junction_estimate)},
+                    unit='degC',
+                    limit={'tj_max': quantity_json(tj_max, 'temperature')},
+                    margin={'margin_degc': to_json_number(tj_max - junction_estimate)},
+                    assumptions=['theta_JA is the datasheet reference-board value'],
+                    not_modelled=['real PCB thermal resistance and airflow'])
                 raise NoFeasibleSolution(
                     'estimated junction temperature %s degC (TA_max=%s degC + P_cond*theta_JA) '
                     'exceeds TJ(max)=%s degC under the datasheet reference-board condition; this '
@@ -301,6 +343,18 @@ class LowSideNmos(Block):
                     bounds={'estimated_tj_degc': to_json_number(junction_estimate),
                             'tj_max_degc': to_json_number(tj_max)})
         if pd_max is not None and not switching and thermal_facts and conduction > pd_max:
+            draft.calculation(
+                'conduction_loss',
+                'Conduction loss against the declared package dissipation rating (violated)',
+                'P_cond = I_load_max^2 * RDS(ON)(VGS); violate when P_cond > P_D',
+                inputs={'load_current_max': quantity_json(current_max, 'current'),
+                        'rds_on_ohm': to_json_number(rds_on)},
+                result={'power_max_w': to_json_number(conduction)},
+                unit='W',
+                limit={'pd_max_w': quantity_json(pd_max, 'power')},
+                margin={'pd_margin_w': to_json_number(pd_max - conduction)},
+                assumptions=['the declared package rating applies at the operating ambient'],
+                not_modelled=['thermal resistance to the real board'])
             raise NoFeasibleSolution(
                 'conduction loss %s W exceeds the declared package dissipation rating %s W in DC '
                 'operation' % (format_number(conduction), format_number(pd_max)),
@@ -312,6 +366,19 @@ class LowSideNmos(Block):
         if inrush is not None and pulse_rating is not None:
             pulse_margin = pulse_rating - inrush
             if pulse_margin < 0:
+                draft.calculation(
+                    'inrush_check',
+                    'Inrush current against the pulsed drain rating (violated)',
+                    'I_inrush <= ID_pulsed',
+                    inputs={'load_inrush_current': quantity_json(inrush, 'current'),
+                            'id_pulsed_max': quantity_json(pulse_rating, 'current')},
+                    result={'verified': False},
+                    unit='A',
+                    limit={'id_pulsed_max': quantity_json(pulse_rating, 'current')},
+                    margin={'margin_a': to_json_number(pulse_margin)},
+                    assumptions=['the declared inrush event fits the pulse-width condition of '
+                                 'the datasheet pulse rating'],
+                    not_modelled=['SOA and repetitive pulse thermal impedance'])
                 raise NoFeasibleSolution(
                     'inrush current %s A exceeds the MOSFET pulsed drain rating %s A'
                     % (format_number(inrush), format_number(pulse_rating)),
@@ -319,7 +386,7 @@ class LowSideNmos(Block):
                             'id_pulsed_max_a': to_json_number(pulse_rating)})
 
         # -- gate network --------------------------------------------
-        gate_resistor_value = self._select_gate_resistor(inputs, gate)
+        gate_resistor_value = self._select_gate_resistor(draft, inputs, gate)
         gate_peak_current = None
         if gate_resistor_value is not None:
             gate_peak_current = gate.hi / gate_resistor_value
@@ -527,7 +594,21 @@ class LowSideNmos(Block):
 
     # ------------------------------------------------------------------
     @staticmethod
-    def _select_gate_resistor(inputs, gate):
+    def _write_check(draft, calc_id, title, formula, inputs, result, unit,
+                     limit_value, family, label):
+        draft.calculation(
+            calc_id, title, formula,
+            inputs=inputs,
+            result=result,
+            unit=unit,
+            limit={label: quantity_json(limit_value, family)},
+            margin=result,
+            assumptions=['the declared extreme is the worst case'],
+            not_modelled=['temperature dependence and transient behaviour'])
+
+    # ------------------------------------------------------------------
+    @staticmethod
+    def _select_gate_resistor(draft, inputs, gate):
         target = inputs.get('gate_resistor_target')
         if target is None:
             return None
@@ -535,6 +616,15 @@ class LowSideNmos(Block):
         candidates = series_values(series, target.lo, target.hi,
                                    decades=_RESISTOR_DECADES)
         if not candidates:
+            draft.calculation(
+                'gate_resistor_selection',
+                'Gate series resistor selection (infeasible)',
+                'enumerate standard series values inside the declared target window',
+                inputs={'gate_resistor_target': target.as_json('resistance'),
+                        'gate_series': series},
+                result={'selected': False, 'reason': 'no standard value in target range'},
+                unit='ohm', limit=None, margin=None,
+                assumptions=[], not_modelled=[])
             raise NoFeasibleSolution(
                 'no standard %s resistor exists in the declared gate-resistor target range '
                 '%s..%s ohm' % (series, format_number(target.lo), format_number(target.hi)))
@@ -543,6 +633,18 @@ class LowSideNmos(Block):
             lower = gate.hi / max_drive
             candidates = [value for value in candidates if value >= lower]
             if not candidates:
+                draft.calculation(
+                    'gate_resistor_selection',
+                    'Gate series resistor selection (infeasible)',
+                    'R_gate >= V_gate_max/I_drive_max must hold inside the declared target '
+                    'window',
+                    inputs={'gate_drive_max': quantity_json(gate.hi, 'voltage'),
+                            'max_gate_drive_current': quantity_json(max_drive, 'current'),
+                            'gate_resistor_target': target.as_json('resistance')},
+                    result={'selected': False,
+                            'required_min_ohm': to_json_number(lower)},
+                    unit='ohm', limit=None, margin=None,
+                    assumptions=[], not_modelled=[])
                 raise NoFeasibleSolution(
                     'the declared gate-driver current %s A would be exceeded by every standard '
                     'resistor in the target range: R_gate >= %s ohm is required'

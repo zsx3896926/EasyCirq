@@ -176,21 +176,30 @@ def evidence_for(draft, facts, keys, *, evidence_prefix=None):
         entry = draft.evidence(
             '%s_%d' % (prefix, index + 1),
             'manufacturer_datasheet' if facts.get('verified') else 'user_declared',
-            '%s = %s %s (%s)' % (key, record.get('value'),
-                                 record.get('unit', ''), record.get('condition', '')),
+            _fact_statement(key, record),
             source={
                 'document': source.get('document'),
                 'doc_id': source.get('doc_id'),
                 'revision': source.get('revision'),
                 'url': source.get('url'),
-                'section': record.get('source'),
+                'section': record.get('source') if isinstance(record, dict) else None,
                 'accessed': source.get('accessed'),
             },
-            applies_to=record.get('applies_to'),
+            applies_to=record.get('applies_to') if isinstance(record, dict) else None,
             verified=bool(facts.get('verified')),
         )
         written.append(entry['id'])
     return written
+
+
+def _fact_statement(key, record):
+    """One human statement per fact, including tabulated multi-row facts."""
+    if isinstance(record, list):
+        return '%s = tabulated (%d rows, see the datasheet condition table)' % (key, len(record))
+    if isinstance(record, dict) and 'value' in record:
+        return '%s = %s %s (%s)' % (key, record.get('value'), record.get('unit', ''),
+                                    record.get('condition', ''))
+    return '%s = %s' % (key, record)
 
 
 def user_declared_facts(payload, category, *, mpn=None, source_note=None):

@@ -72,9 +72,12 @@ constraints, evidence, unknowns, assumptions, binding, tool, notes, content_hash
 - `unknowns[]`: `id, statement, impact, how_to_resolve`.
 - `assumptions[]`: `statement, impact`.
 - `binding`: fixed map. `math_and_connection_contract` may be `pass`,
-  `device_fact_verification` is `partial` when facts are user-declared, and
-  `part_binding`, `library_binding`, `host_validation`, `physical_validation`,
-  `real_eda` are `NOT RUN`.
+  `device_fact_verification` stays `partial` while the facts are only document
+  facts or caller declarations (the `evidence[].verified` flag distinguishes a
+  verified manufacturer document from a caller declaration), and `part_binding`,
+  `library_binding`, `host_validation`, `physical_validation`, `real_eda` are
+  `NOT RUN`. A later binding layer may only set them after checking the exact
+  orderable part, pad map, footprint identity and host readback.
 - `content_hash`: `sha256:` over the canonical JSON of everything except
   `instance_id`, `display_name`, `notes`, `tool`, `symbols`, `content_hash`.
   Renaming an instance must not change it; changing a net/ref/value/status
@@ -211,15 +214,71 @@ or caller-declared facts (`devices.user_declared_facts`) which are tagged
 `verified: false`. Never invent an MPN. Facts that are not in a primary
 manufacturer document go to `unknowns`, not `evidence`.
 
-## 10. Compose (Lead-owned)
+## 10. Compose
 
-`compose` consumes `{"design_name", "blocks":[{instance, module_type, display_name,
-inputs}], "connections":[...], "design_ports":[...]}`. Modules must expose
-explicit ports with declared electrical roles/ranges so compose can (a) refuse
-proven conflicts, (b) report `incomplete` when compatibility is unprovable, and
-(c) never merge nets just because two labels match.
+`compose` consumes:
 
-## 11. Running
+```json
+{"design_name": "...",
+ "blocks": [{"instance": "led1", "module_type": "led_indicator",
+             "display_name": "optional", "inputs": {...}}],
+ "connections": [{"a": "ldo.VOUT", "b": "led.VCC"}],
+ "design_ports": [{"id": "VIN", "direction": "input", "role": "power",
+                   "voltage": {"min": 4.5, "max": 5.5},
+                   "current": {"min": 0, "max": 0.1},
+                   "isolation": "primary",
+                   "members": ["ldo.VIN", "led.VCC"]}],
+ "optional_unbound": ["some_instance.PORT"],
+ "notes": "..."}
+```
+
+Rules:
+
+- only explicit `connections`, `design_ports[].members` and `optional_unbound`
+  decide merging; equal net *names* never merge;
+- every block port must be bound or listed in `optional_unbound`, otherwise the
+  design is `incomplete`;
+- voltage ranges of all merged ports must intersect, else the design is
+  `unsupported` with `voltage_domain_conflict`;
+- a ground port can never be merged with a power/digital/analog port; two
+  push-pull outputs on one net are a proven conflict;
+- a design-port `current` is a **boundary rating** (what the boundary can
+  supply/carry, independent of direction). A declared current demand that
+  exceeds the boundary/source capability is `current_contract_conflict`; a
+  demand with no declared capability is `current_capability_unknown` →
+  `incomplete`;
+- a block that is `unsupported` makes the design `unsupported`; a block that is
+  `needs_device_facts` makes it `incomplete`. The design is `ready_abstract`
+  only when every block is ready and every declared merge is proven compatible;
+- display names and `isolation` marks are presentation/boundary metadata:
+  renaming an instance does not change the design topology hash; isolated ground
+  ports stay separate nets unless explicitly merged.
+
+Modules must expose explicit ports with declared electrical roles/ranges so that
+these checks are possible. The compose output embeds every block result and adds
+`instances[]`, `components[]` (namespaced refs, still `unbound`), `nets[]`
+(members + intersected voltage + current contract), `ports[]`, `connections[]`,
+`unbound_ports[]`, `conflicts[]`, `incomplete[]` and `partition`.
+
+## 11. Benchmark and frozen cases
+
+`benchmarks/circuit-blocks/` holds the frozen CLI benchmark:
+
+- `cases/<id>/case.json`: `command` (`generate`/`compose`), `module_type`,
+  `input`, `input_sha256`, `expect` (exit code, status, components, ports, nets,
+  endpoints, calculation values, conflicts/incomplete/unbound counts), optional
+  `variants` (patch + expectation, used for unit respelling, renaming and
+  hardening) and optional `tamper`;
+- `holdout/<id>/case.json`: same format, inputs not referenced by any
+  implementation or unit test;
+- `run_benchmarks.py` calls the real CLI, checks every frozen field, validates
+  and recomputes each generated file, tampers a net and a component value (with
+  and without a recomputed hash) and records timings with `real_eda=NOT RUN`.
+
+Changing a case input without updating its SHA is a benchmark failure, by
+design.
+
+## 12. Running
 
 ```powershell
 $env:PYTHONPATH = "design-hardware/scripts"
@@ -231,7 +290,7 @@ python -m unittest discover -s tests -p "test_*.py"
 
 Python 3.10 and 3.13 must both work; standard library only.
 
-## 12. Ownership
+## 13. Ownership
 
 Only the Lead edits: `core` modules (`numeric`, `units`, `ranges`, `eseries`,
 `schema`, `result`, `canonical`, `validate`, `cli`, `compose`, `svg`, `devices/`),
