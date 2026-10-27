@@ -56,7 +56,7 @@ class FeedbackTests(unittest.TestCase):
         for rel,b in self.original.items():
             if rel != str(f.relative_to(self.root)):self.assertEqual((self.root/rel).read_bytes(),b)
     def test_ambiguous_anchor(self):
-        f=self.root/'design-hardware/SKILL.md';f.write_text(f.read_text()+f.read_text())
+        f=self.root/'design-hardware/SKILL.md';f.write_text(f.read_text(encoding='utf-8')+f.read_text(encoding='utf-8'),encoding='utf-8')
         self.assertEqual(self.run_cli('--apply').returncode,2)
     def test_partial_marker_refused(self):
         f=self.root/'easyeda-agent/scripts/parts-select.py';f.write_text(f.read_text()+'\nJLC_DIRECT_GUARD\n')

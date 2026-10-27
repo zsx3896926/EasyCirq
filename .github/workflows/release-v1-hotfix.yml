@@ -5,6 +5,7 @@ on:
     paths:
       - 'design-hardware/.version'
       - '.github/workflows/release-v1-hotfix.yml'
+      - 'tests/test_network_feedback.py'
 permissions:
   contents: read
 jobs:
