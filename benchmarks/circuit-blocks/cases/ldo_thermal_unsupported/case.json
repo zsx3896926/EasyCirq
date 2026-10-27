@@ -1,0 +1,31 @@
+{
+  "id": "ldo_thermal_unsupported",
+  "description": "500 mA at 5.5 V in / 3.3 V out dissipates 1.1 W; with thetaJA 231.1 C/W at 85 C ambient Tj is far above 125 C -> unsupported.",
+  "command": "generate",
+  "module_type": "ldo_supply",
+  "input": {
+    "input_voltage": {
+      "min": 4.5,
+      "max": 5.5
+    },
+    "output_voltage": "3.3V",
+    "load_current": {
+      "min": "100mA",
+      "max": "500mA"
+    },
+    "ambient_temperature": {
+      "min": -40,
+      "max": 85
+    },
+    "device_fact_id": "ldo_tlv75533p"
+  },
+  "allow_nonready": false,
+  "expect": {
+    "exit_code": 4,
+    "status": "unsupported",
+    "status_reasons_contains": [
+      "over-temperature"
+    ]
+  },
+  "input_sha256": "45c823b442be53c7568387dc2c606bf07a7858b152c408a8828fb2e0e05ba1a5"
+}

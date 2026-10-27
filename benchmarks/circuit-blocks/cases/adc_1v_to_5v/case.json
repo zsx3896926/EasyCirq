@@ -1,0 +1,82 @@
+{
+  "id": "adc_1v_to_5v",
+  "description": "1..5 V into a 0..3.3 V ADC. Selected 3.6k/6.8k: ratio 6800/10400 = 0.653846 <= 0.66 required. Worst-case tap = 5*0.658358895706 + 1uA*(3.6k||6.8k)*1.01 = 3.29417 V <= 3.3 V.",
+  "command": "generate",
+  "module_type": "adc_divider",
+  "input": {
+    "topology": "divider_to_ground",
+    "input_voltage": {
+      "min": 1,
+      "max": 5
+    },
+    "adc_input_range": {
+      "min": 0,
+      "max": 3.3
+    },
+    "adc_leakage_current": "1uA",
+    "adc_vref": 3.3,
+    "adc_resolution_bits": 12,
+    "adc_reference_tolerance_pct": 0.1,
+    "adc_max_source_impedance": "10k",
+    "adc_margin": 0,
+    "adc_sampling": {
+      "sample_time": "2us",
+      "sample_hold_capacitance": "10pF"
+    },
+    "series": "E24",
+    "value_range": {
+      "min": "1k",
+      "max": "100k"
+    },
+    "resistor_tolerance_pct": 1,
+    "objective": "ratio_error"
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 3600,
+        "role": "divider_top"
+      },
+      {
+        "ref": "R2",
+        "value": 6800,
+        "role": "divider_bottom"
+      }
+    ],
+    "ports": [
+      "VIN",
+      "VOUT",
+      "GND"
+    ],
+    "endpoints": [
+      [
+        "R1",
+        "1",
+        "VIN"
+      ],
+      [
+        "R1",
+        "2",
+        "VOUT"
+      ],
+      [
+        "R2",
+        "1",
+        "VOUT"
+      ],
+      [
+        "R2",
+        "2",
+        "GND"
+      ]
+    ],
+    "calculations": {
+      ".selected_divider.result.ratio_nominal": 0.6538461538461539,
+      ".worst_case_output.result.max_v": 3.2941718631429917
+    }
+  },
+  "input_sha256": "4f6d8ef542ae8a83650c25d7d3c9742611a3f847366366bc98737e1d6ac8f4e4"
+}

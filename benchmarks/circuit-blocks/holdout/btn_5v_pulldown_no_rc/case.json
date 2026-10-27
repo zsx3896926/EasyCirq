@@ -1,0 +1,65 @@
+{
+  "id": "btn_5v_pulldown_no_rc",
+  "description": "Holdout: 5 V pull-down button with no RC; the largest declared allowed resistance (47k) is selected because the pull-down only needs to hold the node below V_IL (1 uA * 47k = 47 mV << 1.5 V) and the closed current (5 V/47k = 0.11 mA) is far below the 50 mA contact limit.",
+  "command": "generate",
+  "module_type": "button_input",
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "v_ih": 3.5,
+    "v_il": 1.5,
+    "logic_source": "datasheet",
+    "input_leakage": "1uA",
+    "variant": "pull_down",
+    "active_level": "high",
+    "series": "E24",
+    "value_range": {
+      "min": "4.7k",
+      "max": "47k"
+    },
+    "resistor_tolerance_pct": 1,
+    "contact": {
+      "current_limit_max": "50mA",
+      "contact_resistance": {
+        "min": 0,
+        "max": 0.1
+      },
+      "pin_configuration": "two_terminal_abstract"
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 47000
+      }
+    ],
+    "endpoints": [
+      [
+        "R1",
+        "1",
+        "BTN_NODE"
+      ],
+      [
+        "R1",
+        "2",
+        "GND"
+      ],
+      [
+        "SW1",
+        "A",
+        "VCC"
+      ],
+      [
+        "SW1",
+        "B",
+        "BTN_NODE"
+      ]
+    ]
+  },
+  "input_sha256": "7547c0c41ab85503507ce5392a76955cf63efa7e678884fb80b5f311d760fcff"
+}

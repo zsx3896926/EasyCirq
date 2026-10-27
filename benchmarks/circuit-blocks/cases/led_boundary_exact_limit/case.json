@@ -1,0 +1,47 @@
+{
+  "id": "led_boundary_exact_limit",
+  "description": "100 ohm, 0 % tolerance, 5 V rail, Vf 1.8..2.2: I_max=(5-1.8)/100=32 mA. Requesting max_current=32 mA is the exact boundary and must pass.",
+  "command": "generate",
+  "module_type": "led_indicator",
+  "input": {
+    "supply_voltage": 5,
+    "led_vf": {
+      "min": 1.8,
+      "max": 2.2
+    },
+    "target_current": "5mA",
+    "max_current": "32mA",
+    "led_max_current": "50mA",
+    "series": "explicit",
+    "allowed_values": [
+      100
+    ],
+    "resistor_tolerance_pct": 0,
+    "control": "always_on"
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 100
+      }
+    ],
+    "calculations": {
+      ".worst_case_current.result.max_a": 0.032
+    }
+  },
+  "variants": [
+    {
+      "name": "one_step_past_limit",
+      "patch": {
+        "max_current": "31.999mA"
+      },
+      "expect": {
+        "status": "unsupported"
+      }
+    }
+  ],
+  "input_sha256": "c3725e529f933b89eca602d5f8fd4283c1367ee57f20ecd5c7bd93a1cf24d8a0"
+}

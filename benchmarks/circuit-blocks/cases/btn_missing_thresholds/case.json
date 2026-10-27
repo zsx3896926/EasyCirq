@@ -1,0 +1,48 @@
+{
+  "id": "btn_missing_thresholds",
+  "description": "Without V_IH/V_IL facts the module cannot prove the logic levels.",
+  "command": "generate",
+  "module_type": "button_input",
+  "allow_nonready": false,
+  "input": {
+    "supply_voltage": {
+      "min": 3.135,
+      "max": 3.465
+    },
+    "logic_source": "datasheet",
+    "input_leakage": "1uA",
+    "variant": "pull_up",
+    "active_level": "low",
+    "series": "E24",
+    "value_range": {
+      "min": "4.7k",
+      "max": "47k"
+    },
+    "resistor_tolerance_pct": 1,
+    "contact": {
+      "current_limit_max": "50mA",
+      "contact_resistance": {
+        "min": 0,
+        "max": 0.1
+      },
+      "bounce_ms": 5,
+      "pin_configuration": "two_terminal_abstract"
+    },
+    "rc_filter": {
+      "target_time_constant": {
+        "nominal": "1ms",
+        "tolerance_pct": 20
+      },
+      "capacitor_series": "E12",
+      "capacitor_tolerance_pct": 10
+    }
+  },
+  "expect": {
+    "exit_code": 3,
+    "status": "needs_device_facts",
+    "unknowns_contains": [
+      "missing_v_ih"
+    ]
+  },
+  "input_sha256": "c6f4add0c49798f2136656a7f1cff2a4f0dd3b7d25b02c63d834a98be2ae4b3d"
+}

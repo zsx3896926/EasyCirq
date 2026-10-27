@@ -1,0 +1,52 @@
+{
+  "id": "adc_2v_to_8v",
+  "description": "Holdout: 2..8 V into 0..3.3 V, 10k..200k value range. Selected 22k/15k: worst tap = 8*(15150/(21780+15150)) + 1uA*(22k||15k)*1.01 = 3.29089 V.",
+  "command": "generate",
+  "module_type": "adc_divider",
+  "input": {
+    "topology": "divider_to_ground",
+    "input_voltage": {
+      "min": 2,
+      "max": 8
+    },
+    "adc_input_range": {
+      "min": 0,
+      "max": 3.3
+    },
+    "adc_leakage_current": "1uA",
+    "adc_vref": 3.3,
+    "adc_resolution_bits": 12,
+    "adc_reference_tolerance_pct": 0.1,
+    "adc_max_source_impedance": "10k",
+    "adc_margin": 0,
+    "adc_sampling": {
+      "sample_time": "2us",
+      "sample_hold_capacitance": "10pF"
+    },
+    "series": "E24",
+    "value_range": {
+      "min": "10k",
+      "max": "200k"
+    },
+    "resistor_tolerance_pct": 1,
+    "objective": "ratio_error"
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 22000
+      },
+      {
+        "ref": "R2",
+        "value": 15000
+      }
+    ],
+    "calculations": {
+      ".worst_case_output.result.max_v": 3.290892754736865
+    }
+  },
+  "input_sha256": "8510465708148a58e9126a2b1ea39b4088573ad24702e95c6361ac23d685eb0f"
+}

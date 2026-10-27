@@ -1,0 +1,68 @@
+{
+  "note": "Index of verified device/bus fact files. Not a device-fact file itself; the underscore prefix keeps it out of circuit_blocks.devices.available_facts(). The authoritative format is devices/SCHEMA.md; the human-readable provenance is docs/parallel-circuit-blocks/source-register.md.",
+  "schema": "circuit-blocks/fact-index/1",
+  "verified_on": "2026-10-27",
+  "facts_dir": "design-hardware/scripts/circuit_blocks/devices/facts",
+  "entries": [
+    {
+      "fact_id": "ldo_tlv75533p",
+      "category": "ldo",
+      "mpn": "TLV75533PDBVR",
+      "manufacturer": "Texas Instruments",
+      "package": "SOT-23-5 (DBV, 5 pins)",
+      "file": "ldo_tlv75533p.json",
+      "source_doc_id": "SBVS320D",
+      "source_revision": "SBVS320D (November 2017, revised September 2024)",
+      "consumed_by": ["F6 ldo_supply"],
+      "fact_count": 33
+    },
+    {
+      "fact_id": "mosfet_ao3400a",
+      "category": "mosfet_n",
+      "mpn": "AO3400A",
+      "manufacturer": "Alpha & Omega Semiconductor (AOS)",
+      "package": "SOT-23 (3-lead)",
+      "file": "mosfet_ao3400a.json",
+      "source_doc_id": "AO3400A",
+      "source_revision": "Rev 3.1, July 2023",
+      "consumed_by": ["F5 low_side_nmos"],
+      "fact_count": 30
+    },
+    {
+      "fact_id": "led_apt1608surck",
+      "category": "led",
+      "mpn": "APT1608SURCK",
+      "manufacturer": "Kingbright",
+      "package": "1.6 x 0.8 mm SMD chip LED (1608 / 0603 class)",
+      "file": "led_apt1608surck.json",
+      "source_doc_id": "DSAD0926",
+      "source_revision": "V.22A (2023-04-08)",
+      "consumed_by": ["F1 led_indicator"],
+      "fact_count": 19
+    },
+    {
+      "fact_id": "diode_bat54",
+      "category": "diode_schottky",
+      "mpn": "BAT54",
+      "manufacturer": "onsemi",
+      "package": "SOT-23 (3-lead)",
+      "file": "diode_bat54.json",
+      "source_doc_id": "BAT54/D",
+      "source_revision": "Rev. 3, September 2017",
+      "consumed_by": ["F3 open_drain_pullup", "F5 low_side_nmos (clamp reference)"],
+      "fact_count": 14
+    },
+    {
+      "fact_id": "bus_i2c_um10204",
+      "category": "bus_spec",
+      "mpn": "N/A (protocol specification)",
+      "manufacturer": "NXP Semiconductors",
+      "package": "N/A",
+      "file": "bus_i2c_um10204.json",
+      "source_doc_id": "UM10204",
+      "source_revision": "Rev. 7.0, 1 October 2021",
+      "consumed_by": ["F3 open_drain_pullup"],
+      "fact_count": 33
+    }
+  ]
+}

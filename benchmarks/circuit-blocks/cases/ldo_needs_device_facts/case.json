@@ -1,0 +1,30 @@
+{
+  "id": "ldo_needs_device_facts",
+  "description": "No fact file and no caller-declared facts: a generic LDO must never be invented.",
+  "command": "generate",
+  "module_type": "ldo_supply",
+  "input": {
+    "input_voltage": {
+      "min": 4.5,
+      "max": 5.5
+    },
+    "output_voltage": "3.3V",
+    "load_current": {
+      "min": "10mA",
+      "max": "50mA"
+    },
+    "ambient_temperature": {
+      "min": -40,
+      "max": 85
+    }
+  },
+  "allow_nonready": false,
+  "expect": {
+    "exit_code": 3,
+    "status": "needs_device_facts",
+    "status_reasons_contains": [
+      "no device facts"
+    ]
+  },
+  "input_sha256": "725b56b6f21a3384cc91854c58110c61621962c4954f9e8099591c04508a214c"
+}
