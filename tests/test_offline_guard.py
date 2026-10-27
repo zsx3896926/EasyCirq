@@ -52,6 +52,20 @@ class GuardTests(unittest.TestCase):
         with self.assertRaises(offline_guard.OfflineViolation):
             subprocess.Popen(['easyeda', 'version'])
 
+    def test_windows_wrappers_and_executable_kwarg_are_checked(self):
+        import subprocess
+        with self.assertRaises(offline_guard.OfflineViolation):
+            offline_guard.check_executable(['cmd', '/c', 'easyeda', 'version'])
+        with self.assertRaises(offline_guard.OfflineViolation):
+            offline_guard.check_executable(
+                ['powershell', '-Command', 'easyeda version'])
+        with self.assertRaises(offline_guard.OfflineViolation):
+            offline_guard.check_command_string(
+                '"C:/Program Files/LCEda/lceda-pro.exe" version')
+        with self.assertRaises(offline_guard.OfflineViolation):
+            subprocess.run(['cmd', '/c', 'echo', 'x'],
+                           executable='easyeda.exe', capture_output=True)
+
     def test_marked_fake_executable_is_allowed(self):
         fake_dir = Path(self.tmp.name) / 'fake'
         fake_dir.mkdir()

@@ -50,6 +50,8 @@
             "path": "benchmarks/offline-round11/cases/holdout-concave-keepout.json",
             "expected": "655e3c68fed72ad8efbe4a66ecc03f509a01273e4564054d19fd6655e0039fcc",
             "actual": "655e3c68fed72ad8efbe4a66ecc03f509a01273e4564054d19fd6655e0039fcc",
+            "normalized": "655e3c68fed72ad8efbe4a66ecc03f509a01273e4564054d19fd6655e0039fcc",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -57,6 +59,8 @@
             "path": "tests/fixtures/photo-led-pcb-board.json",
             "expected": "29fc1050e639fbaafb17c0199f8ec1772c52fbc6fc88a49c642afe3b3515f0cf",
             "actual": "29fc1050e639fbaafb17c0199f8ec1772c52fbc6fc88a49c642afe3b3515f0cf",
+            "normalized": "728ee3d85e1861fe924a184a5be092f2e6f8826cc372516d9f69a0d2049528f9",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -64,6 +68,8 @@
             "path": "tests/fixtures/photo-led-pcb-constraints.json",
             "expected": "f3cada278744bc9c55d48403d0a224bc0c3c4ab997518fcdeeef9a6d5df7aa42",
             "actual": "f3cada278744bc9c55d48403d0a224bc0c3c4ab997518fcdeeef9a6d5df7aa42",
+            "normalized": "5d27709105cd03e25c6904a86bdc1577e5826f5d249011e91a444d2f338d8949",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -71,6 +77,8 @@
             "path": "tests/fixtures/photo-led-pcb-intent.json",
             "expected": "2b374583af64723ae26444be44d95b33c35258a2c5a8e2e884b8b4f4534ce6aa",
             "actual": "2b374583af64723ae26444be44d95b33c35258a2c5a8e2e884b8b4f4534ce6aa",
+            "normalized": "ab53be9d4c0f5969a849ea69d060154bfc00688637c2a86fc002a8bb449cb050",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -78,6 +86,8 @@
             "path": "tests/fixtures/photo-led-placement-plan.json",
             "expected": "64454d3efa3629716637585b5141bc4cf41c29322f55d5dc6ecfc993856a1bb3",
             "actual": "64454d3efa3629716637585b5141bc4cf41c29322f55d5dc6ecfc993856a1bb3",
+            "normalized": "6ab1092e40f6a9b2d310c5b7901880221f989fc193ce18c059c976b71e3c7250",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -85,6 +95,8 @@
             "path": "benchmarks/offline-round11/cases/ldo-caps-board.json",
             "expected": "55a2e1be7b57c438989e65d95d40eec4f88abd15ed9571eb80b655c48390bc6a",
             "actual": "55a2e1be7b57c438989e65d95d40eec4f88abd15ed9571eb80b655c48390bc6a",
+            "normalized": "55a2e1be7b57c438989e65d95d40eec4f88abd15ed9571eb80b655c48390bc6a",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -92,6 +104,8 @@
             "path": "benchmarks/offline-round11/cases/ldo-caps-intent.json",
             "expected": "eb972b426ff7d821e9b243f6b0692d4104358f4e4a04013fd54dd4f63c1e47d4",
             "actual": "eb972b426ff7d821e9b243f6b0692d4104358f4e4a04013fd54dd4f63c1e47d4",
+            "normalized": "eb972b426ff7d821e9b243f6b0692d4104358f4e4a04013fd54dd4f63c1e47d4",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -99,6 +113,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/candidates.json",
             "expected": "4298b1e4a4ba21e3d03bfc2bcf3ea19e03bf8a5445da326a66f306e8165b110e",
             "actual": "4298b1e4a4ba21e3d03bfc2bcf3ea19e03bf8a5445da326a66f306e8165b110e",
+            "normalized": "5cf4f347aa95e898f7a70bcd08cc883f7f8ca1882968abd6b0138b61754ef165",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -106,6 +122,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-final.json",
             "expected": "86822978045ce69b84ae39f84fae85bab3862acedfbad543eab93ff7c7e4c1f2",
             "actual": "86822978045ce69b84ae39f84fae85bab3862acedfbad543eab93ff7c7e4c1f2",
+            "normalized": "3a07ade567e725d918410b21b3846fd6bfa414486a63db58a6c0dbfdb69199e2",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -113,6 +131,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/BOM.csv",
             "expected": "c88181adb026e7bdf09ecc72a7488e38c067576a6fcf91db6b266ad5d91973cc",
             "actual": "c88181adb026e7bdf09ecc72a7488e38c067576a6fcf91db6b266ad5d91973cc",
+            "normalized": "672a31a9f51304eeb1ee63fbb3292426d0933b08a1b3c8eb4105793ebe81dab8",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -120,6 +140,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/bom-audit.json",
             "expected": "95f0436810067901536a8d6758440bfd28a7fc25dd5634b8cdb1e625413e9e52",
             "actual": "95f0436810067901536a8d6758440bfd28a7fc25dd5634b8cdb1e625413e9e52",
+            "normalized": "0f4812954ac8108a93aca47c71150e0696168365013f4602672479bcb7937a34",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -127,6 +149,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/candidates.json",
             "expected": "4298b1e4a4ba21e3d03bfc2bcf3ea19e03bf8a5445da326a66f306e8165b110e",
             "actual": "4298b1e4a4ba21e3d03bfc2bcf3ea19e03bf8a5445da326a66f306e8165b110e",
+            "normalized": "5cf4f347aa95e898f7a70bcd08cc883f7f8ca1882968abd6b0138b61754ef165",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -134,6 +158,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/constraints.json",
             "expected": "92c06f7718bc769a5e9633983df0b46c43610579d989a9d2c4c6909c9090ecf6",
             "actual": "92c06f7718bc769a5e9633983df0b46c43610579d989a9d2c4c6909c9090ecf6",
+            "normalized": "cb8d3bb7ebe7baa029521f67e9cb08e0737f7fc060913603bfb41b6d7e70827d",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -141,6 +167,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/escapes.json",
             "expected": "91a926b30b1b6903dee11406618edfb81f0ba145afcf244c59220395d4e7bb60",
             "actual": "91a926b30b1b6903dee11406618edfb81f0ba145afcf244c59220395d4e7bb60",
+            "normalized": "83cfd191599bbc8a36f6e71c96f5d8c0284ca4362fb0b01eea7a3e5030c13b61",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -148,6 +176,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/fabrication-check-final.json",
             "expected": "d04da4f211792abe28271583cc035d8af8b8d47d3b80e997484fde86a430d84b",
             "actual": "d04da4f211792abe28271583cc035d8af8b8d47d3b80e997484fde86a430d84b",
+            "normalized": "bc6d225f43a07a1727ba50ae8d93602c10bf3b785520f673a4e939feddf884a8",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -155,6 +185,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/fabrication-check.json",
             "expected": "46b2ffd491712b429aaa97e8c39effff14bb336c7b3eb059918d25bfcc172695",
             "actual": "46b2ffd491712b429aaa97e8c39effff14bb336c7b3eb059918d25bfcc172695",
+            "normalized": "569d8103057d7f6c409423401550077958c0d4638d3824befbd13995c8183897",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -162,6 +194,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/module-U1-C2-R4.json",
             "expected": "99a6e5b27cf268df8916539e1c0bb1875d8b3b1bee8f2803188452d02cdef04d",
             "actual": "99a6e5b27cf268df8916539e1c0bb1875d8b3b1bee8f2803188452d02cdef04d",
+            "normalized": "636369ef458d7ad964f34924f6039a3db70c22110715aac985a74f98f69892f0",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -169,6 +203,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/module-binding.json",
             "expected": "59596be4af4ae9ff9a1aed5e4799542044d778b27fbd9d1031c2d110ab1136ca",
             "actual": "59596be4af4ae9ff9a1aed5e4799542044d778b27fbd9d1031c2d110ab1136ca",
+            "normalized": "7504844fcdc5d244878e7e557c31593cf4481c3e577a775dd82f49058223940b",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -176,6 +212,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/netpath-key-connections.json",
             "expected": "f360a2542cf60c0ff9503cd9736bee018b320b43cd96f31abb286254ef04008f",
             "actual": "f360a2542cf60c0ff9503cd9736bee018b320b43cd96f31abb286254ef04008f",
+            "normalized": "d4552be72377e18e427dfd4f3d040d5411dae2c11b0d756383ae28fb83ba2c75",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -183,6 +221,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-check-final.json",
             "expected": "2587eb236057e30a2ddb99872856621305dbf940c9712a9ed795fd852d72d9f7",
             "actual": "2587eb236057e30a2ddb99872856621305dbf940c9712a9ed795fd852d72d9f7",
+            "normalized": "3200844601187450172d853b1ef7b9b6fdb12cfb39df31559be1933fc6c306b4",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -190,6 +230,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-drc-final.json",
             "expected": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad",
             "actual": "bcecab466975deec1fec102618a846f3efc015aad81f67c0a99374eb016ad6ad",
+            "normalized": "e566260c63d16cfad6dde887de14999954bd69b87876333689812b7afbda6103",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -197,6 +239,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-after-reload.json",
             "expected": "595a8f37dff661d62e2fca6c8ec9333df2a4ff79ba4cce683f30b686a0828af6",
             "actual": "595a8f37dff661d62e2fca6c8ec9333df2a4ff79ba4cce683f30b686a0828af6",
+            "normalized": "510c52ce9140e3abe2e80b4e0d88a0a3ec5d222907a9599260c2acf1db3da9b1",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -204,6 +248,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-final.json",
             "expected": "86822978045ce69b84ae39f84fae85bab3862acedfbad543eab93ff7c7e4c1f2",
             "actual": "86822978045ce69b84ae39f84fae85bab3862acedfbad543eab93ff7c7e4c1f2",
+            "normalized": "3a07ade567e725d918410b21b3846fd6bfa414486a63db58a6c0dbfdb69199e2",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -211,6 +257,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-dump-placed.json",
             "expected": "29fc1050e639fbaafb17c0199f8ec1772c52fbc6fc88a49c642afe3b3515f0cf",
             "actual": "29fc1050e639fbaafb17c0199f8ec1772c52fbc6fc88a49c642afe3b3515f0cf",
+            "normalized": "728ee3d85e1861fe924a184a5be092f2e6f8826cc372516d9f69a0d2049528f9",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -218,6 +266,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-final-actual.svg",
             "expected": "fbbd06a91dfd327b773ebc9280f4199c2954ebac883c4d3f5624efe3ad8e114f",
             "actual": "fbbd06a91dfd327b773ebc9280f4199c2954ebac883c4d3f5624efe3ad8e114f",
+            "normalized": "fbbd06a91dfd327b773ebc9280f4199c2954ebac883c4d3f5624efe3ad8e114f",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -225,6 +275,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-final-bottom.png",
             "expected": "34e69a46ce398fd21dc7a9861c7dc43d35ecc316081712ef6e42e935a12b41a5",
             "actual": "34e69a46ce398fd21dc7a9861c7dc43d35ecc316081712ef6e42e935a12b41a5",
+            "normalized": "34e69a46ce398fd21dc7a9861c7dc43d35ecc316081712ef6e42e935a12b41a5",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -232,6 +284,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-final-top.png",
             "expected": "d942aaecc33d7f75d947ccc4d9f0e4e472780fff00ecb3669536f09e776afe9e",
             "actual": "d942aaecc33d7f75d947ccc4d9f0e4e472780fff00ecb3669536f09e776afe9e",
+            "normalized": "d942aaecc33d7f75d947ccc4d9f0e4e472780fff00ecb3669536f09e776afe9e",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -239,6 +293,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-intent-final.json",
             "expected": "91bd3207e05f3af3f225e35161c2c97f66362c6555594f8924e3a9f6815854f8",
             "actual": "91bd3207e05f3af3f225e35161c2c97f66362c6555594f8924e3a9f6815854f8",
+            "normalized": "467b63f3e6b9d4f75f45aa3bac03b8ea42b911fb39362e8b868d46c3c3d505d3",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -246,6 +302,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-intent.json",
             "expected": "2b374583af64723ae26444be44d95b33c35258a2c5a8e2e884b8b4f4534ce6aa",
             "actual": "2b374583af64723ae26444be44d95b33c35258a2c5a8e2e884b8b4f4534ce6aa",
+            "normalized": "ab53be9d4c0f5969a849ea69d060154bfc00688637c2a86fc002a8bb449cb050",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -253,6 +311,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/pcb-placed-actual.svg",
             "expected": "c9036ab70f1124e2ada7e8e77f08a57ba6a3deab18b8bc4e89fc7193e994f23e",
             "actual": "c9036ab70f1124e2ada7e8e77f08a57ba6a3deab18b8bc4e89fc7193e994f23e",
+            "normalized": "c9036ab70f1124e2ada7e8e77f08a57ba6a3deab18b8bc4e89fc7193e994f23e",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -260,6 +320,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/photo-led-pcb-final.epro2",
             "expected": "d9ef9201e574c7ba944c7c77c77aa3364802464790e4e7daca1969884a826491",
             "actual": "d9ef9201e574c7ba944c7c77c77aa3364802464790e4e7daca1969884a826491",
+            "normalized": "d9ef9201e574c7ba944c7c77c77aa3364802464790e4e7daca1969884a826491",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -267,6 +329,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/placement-check-final.json",
             "expected": "1d5ca86e2e68291cd69c8f62d096417e3ec686f9bd0d560fec00a81cfec347e5",
             "actual": "1d5ca86e2e68291cd69c8f62d096417e3ec686f9bd0d560fec00a81cfec347e5",
+            "normalized": "c8b22799a055682b45b9c2caa227cfc3a3a912bd2a11161e312cd5a160f1750a",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -274,6 +338,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/placement-check.json",
             "expected": "fd82f72fdf8101e4c0bd5833abf363f120d70498fbe4b7c3f0b79fafeff2b825",
             "actual": "fd82f72fdf8101e4c0bd5833abf363f120d70498fbe4b7c3f0b79fafeff2b825",
+            "normalized": "6b0c5c21764411dd924fe0c9b334d3ec54187406254e8e9f20f1bdfe38dae729",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -281,6 +347,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/placement-plan-final.json",
             "expected": "2f0a703d1a5fee69e7f2ff658e660d5f98b5b431dce78e1f801128fb0e7effa9",
             "actual": "2f0a703d1a5fee69e7f2ff658e660d5f98b5b431dce78e1f801128fb0e7effa9",
+            "normalized": "5fb900d648f062aae9512ff412171b0bcfb884e4c91dc914a5029c0910b0f9a2",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -288,6 +356,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/placement-plan.json",
             "expected": "64454d3efa3629716637585b5141bc4cf41c29322f55d5dc6ecfc993856a1bb3",
             "actual": "64454d3efa3629716637585b5141bc4cf41c29322f55d5dc6ecfc993856a1bb3",
+            "normalized": "6ab1092e40f6a9b2d310c5b7901880221f989fc193ce18c059c976b71e3c7250",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -295,6 +365,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/poured-list-plus5-empty.json",
             "expected": "ab1f24e86f3c4328445142cff9c999c808820e318968d779d5788975cfe22056",
             "actual": "ab1f24e86f3c4328445142cff9c999c808820e318968d779d5788975cfe22056",
+            "normalized": "99a95d62b3d4b5a01ab76385d93983a7323e6aa7352d2edfd0d71fa18557f2be",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -302,6 +374,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/power-check-final.json",
             "expected": "3ae5d35081538f6313106abba13f010165cebe484a4cba2922cd5c6eb9edda46",
             "actual": "3ae5d35081538f6313106abba13f010165cebe484a4cba2922cd5c6eb9edda46",
+            "normalized": "2c9732abc1758c99196fab034e098d3bb32ec94911ce62ffb775b5093b27a81e",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -309,6 +383,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/power-check.json",
             "expected": "7ca802467374a085d8292ae38cda3292aab7780e2bfa5d076d8aa3db6f44806b",
             "actual": "7ca802467374a085d8292ae38cda3292aab7780e2bfa5d076d8aa3db6f44806b",
+            "normalized": "fa3b620a91868636a3773843f4c594c4cdeb4719733451c310e73be7715f7a64",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -316,6 +392,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/power-pour.log",
             "expected": "e82ee473bd566e2730bea81fcf765e43ab1ae8b983d5d7311b9748dce79b177a",
             "actual": "e82ee473bd566e2730bea81fcf765e43ab1ae8b983d5d7311b9748dce79b177a",
+            "normalized": "22793328f8c7af33224a54467ccb29a8436aefeb85931ae881aff2fc2ca6b27b",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -323,6 +401,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/save-reload-diff.json",
             "expected": "681a0beacf475aeffbc00768bb2973341c5c6aec739f285c335a6b4b23afdbb0",
             "actual": "681a0beacf475aeffbc00768bb2973341c5c6aec739f285c335a6b4b23afdbb0",
+            "normalized": "6abb4c65476c1b7e965e2d032935ff9c7d461e8317b6f2c27b36652a2805ae41",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -330,6 +410,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/sch-pcb-compare.json",
             "expected": "bb45d679d207e216838f31b9eafc81b4596d38d05468f3fa2667bc908f7fcf7e",
             "actual": "bb45d679d207e216838f31b9eafc81b4596d38d05468f3fa2667bc908f7fcf7e",
+            "normalized": "d111127d27bb1676a96da5cc3e29b242d8f39b17b90b4468d4a3758c6b0dda7d",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -337,6 +419,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/sch-read.json",
             "expected": "c4ce8edc8021c16525e390feaa18be99f28136c3ba9045368659b436705324ac",
             "actual": "c4ce8edc8021c16525e390feaa18be99f28136c3ba9045368659b436705324ac",
+            "normalized": "52e766bc631e9f1253938bbf75f632a8dc1661ec13cd7ea71986ad7657e0f9e8",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -344,6 +428,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/silk-align.log",
             "expected": "b03cdb805fa65bd790975cc793ecdd57175247724b33b8edfed96f080ab39ed2",
             "actual": "b03cdb805fa65bd790975cc793ecdd57175247724b33b8edfed96f080ab39ed2",
+            "normalized": "b541b6ea35cea1c58ed5031b479045de8185bb7030c029ac0025ccda99228bfc",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -351,6 +437,8 @@
             "path": "design-hardware/cases/photo-led-pcb-2026-10-26/evidence/warn-disposition.json",
             "expected": "b66824842c19f8e3f8baeefe3e49d8ab5478368d2c1cb5fc4d14ad1a253ca29c",
             "actual": "b66824842c19f8e3f8baeefe3e49d8ab5478368d2c1cb5fc4d14ad1a253ca29c",
+            "normalized": "8ded16e452564e513d8e0df70dcc40d27906f58ded3d443f778be120a10e8915",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -358,6 +446,8 @@
             "path": "tests/fixtures/photo-led-v14/layout.json",
             "expected": "dcd75fc314605b4c4fefcfc42e20804f47ab882fe78c8f87be7fee58dff6ca95",
             "actual": "dcd75fc314605b4c4fefcfc42e20804f47ab882fe78c8f87be7fee58dff6ca95",
+            "normalized": "3d8442d137ec225cba9ac9fa0d53a6151b47f8d5a8fc4d4d1e993a415e0ede57",
+            "hash_basis": "raw",
             "status": "match"
           },
           {
@@ -365,6 +455,8 @@
             "path": "design-hardware/assets/pcb-placement-templates.json",
             "expected": "df2505185dc10c265f32eff217bc462ad3c193583c31bcc46305bb493a9efed8",
             "actual": "df2505185dc10c265f32eff217bc462ad3c193583c31bcc46305bb493a9efed8",
+            "normalized": "804ba646d263ea3ab5daca7ccd20ab02057ab9103092cddb5bb7a2b508a07020",
+            "hash_basis": "raw",
             "status": "match"
           }
         ]
@@ -558,9 +650,9 @@
       ],
       "timing": {
         "runs": 1,
-        "min_sec": 0.011924,
-        "median_sec": 0.011924,
-        "max_sec": 0.011924
+        "min_sec": 0.054954,
+        "median_sec": 0.054954,
+        "max_sec": 0.054954
       }
     },
     {
@@ -724,9 +816,9 @@
       ],
       "timing": {
         "runs": 1,
-        "min_sec": 0.091263,
-        "median_sec": 0.091263,
-        "max_sec": 0.091263
+        "min_sec": 0.22898,
+        "median_sec": 0.22898,
+        "max_sec": 0.22898
       }
     },
     {
@@ -753,9 +845,9 @@
       ],
       "timing": {
         "runs": 1,
-        "min_sec": 0.050356,
-        "median_sec": 0.050356,
-        "max_sec": 0.050356
+        "min_sec": 0.087613,
+        "median_sec": 0.087613,
+        "max_sec": 0.087613
       }
     },
     {
@@ -792,9 +884,9 @@
       ],
       "timing": {
         "runs": 1,
-        "min_sec": 0.099988,
-        "median_sec": 0.099988,
-        "max_sec": 0.099988
+        "min_sec": 0.202324,
+        "median_sec": 0.202324,
+        "max_sec": 0.202324
       }
     },
     {
@@ -840,10 +932,10 @@
               },
               "hpwl_mil": {
                 "signal-chain": 18664.6,
-                "density": 23382.913,
+                "density": 18171.753,
                 "mechanical": 18664.6
               },
-              "module_area_mil2": 291655.465
+              "module_area_mil2": 1944671.61
             },
             "expected": {
               "selected": "signal-chain",
@@ -900,9 +992,9 @@
       ],
       "timing": {
         "runs": 1,
-        "min_sec": 0.206745,
-        "median_sec": 0.206745,
-        "max_sec": 0.206745
+        "min_sec": 0.400524,
+        "median_sec": 0.400524,
+        "max_sec": 0.400524
       }
     },
     {
@@ -921,9 +1013,9 @@
       ],
       "timing": {
         "runs": 1,
-        "min_sec": 0.038074,
-        "median_sec": 0.038074,
-        "max_sec": 0.038074
+        "min_sec": 0.070541,
+        "median_sec": 0.070541,
+        "max_sec": 0.070541
       }
     },
     {
@@ -945,9 +1037,9 @@
       ],
       "timing": {
         "runs": 1,
-        "min_sec": 0.00012,
-        "median_sec": 0.00012,
-        "max_sec": 0.00012
+        "min_sec": 0.00025,
+        "median_sec": 0.00025,
+        "max_sec": 0.00025
       }
     },
     {
@@ -1010,9 +1102,9 @@
       ],
       "timing": {
         "runs": 1,
-        "min_sec": 0.000462,
-        "median_sec": 0.000462,
-        "max_sec": 0.000462
+        "min_sec": 0.000877,
+        "median_sec": 0.000877,
+        "max_sec": 0.000877
       }
     },
     {
@@ -1037,9 +1129,9 @@
       ],
       "timing": {
         "runs": 1,
-        "min_sec": 0.008762,
-        "median_sec": 0.008762,
-        "max_sec": 0.008762
+        "min_sec": 0.013377,
+        "median_sec": 0.013377,
+        "max_sec": 0.013377
       }
     }
   ],

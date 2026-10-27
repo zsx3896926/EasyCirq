@@ -127,6 +127,11 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     temp = tempfile.mkdtemp(prefix='hds-offline-')
+    previous_tempfile_dir = tempfile.tempdir
+    # tempfile caches the system temp directory on first use; point it at the
+    # fresh directory so TemporaryDirectory()/mkdtemp() inside tests are
+    # actually isolated and cleaned.
+    tempfile.tempdir = temp
     audit_path = os.path.join(temp, 'offline-audit.jsonl')
     os.environ['HDS_OFFLINE'] = '1'
     os.environ['HDS_OFFLINE_AUDIT'] = audit_path
@@ -217,6 +222,7 @@ def main(argv=None):
     finally:
         guard.restore()
         os.chdir(previous)
+        tempfile.tempdir = previous_tempfile_dir
         shutil.rmtree(temp, ignore_errors=True)
 
 

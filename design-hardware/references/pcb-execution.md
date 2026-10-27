@@ -371,8 +371,8 @@ python scripts/pcb_case.py --case <case-dir> --project <name> --doc <PCB> \
 
 - 实时模式按固定顺序采集：`doc switch` 到 PCB → fresh dump（受控改板用 `--before-dump` 导入 edit 前 dump）→ `pcb dump`（save 前）→ `pcb save` → `doc reload` → fresh dump + `diff_boards` → DRC/check/lint → 关键网 `pcb net-path`（逐对 argv 聚合）→ 逐页 `sch read` + dump 比对 SCH-PCB → 顶/底图与 actual SVG → BOM → `.epro2` 归档 → 调用 `pcb_gate.py --profile full` 生成 `gate-report.json`。检查在最终 reload 之后运行并绑定最终 dump。
 - `--skip-live` 只组装并校验 case 目录中已有产物与哈希，绝不调用 `easyeda`；适合复核已采集证据。
-- 输出 `<case>/manifest.json`，schema `design-engine-pcb-case/v1`：`status=complete|incomplete`、`project/versions/source/artifacts/commands/steps/gate/failures/not_run/waivers/verification`。每个产物记录 `sha256/bytes/source_dump_sha256/run_after_final_reload`，检查早于最终 reload 时必须标 `run_after_final_reload=false`，不能宣称最终。只有 gate 报告为新生成且 `status=pass` 时 manifest 才能是 `complete`；`--no-gate` 只能得到 `incomplete`。
-- 退出码：`complete`→0；`incomplete`（缺产物或存在 failure）→1；参数/输入错误→2。
+- 输出 `<case>/manifest.json`，schema `design-engine-pcb-case/v1`：`status=complete|incomplete|failed`、`project/versions/source/artifacts/commands/steps/gate/failures/not_run/waivers/verification`。每个产物记录 `sha256/bytes/source_dump_sha256/run_after_final_reload`，检查早于最终 reload 时必须标 `run_after_final_reload=false`，不能宣称最终。只有 gate 报告为新生成且 `status=pass` 时 manifest 才能是 `complete`；`--no-gate` 只能得到 `incomplete`。
+- 退出码：`complete`→0；`incomplete|failed`（缺产物或存在 failure）→1；参数/输入错误→2。
 - 所有写入限制在 case 目录内；默认 `.epro2` 存在时不覆盖；已存在的有效归档会被复用并在 manifest 标 `reused`。命令失败如实写 `failures`，缺产物写 `not_run`，不把未采集项写成通过。
 
 ## 13. 本轮真实案例与能力边界

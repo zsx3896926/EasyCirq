@@ -22,6 +22,7 @@ import json
 import os
 import platform
 import statistics
+import shutil
 import sys
 import time
 from pathlib import Path
@@ -32,7 +33,7 @@ SCRIPTS = ROOT / 'design-hardware' / 'scripts'
 BENCH = ROOT / 'benchmarks' / 'offline-round11'
 sys.path.insert(0, str(SCRIPTS))
 
-os.environ.setdefault('HDS_OFFLINE', '1')
+os.environ['HDS_OFFLINE'] = '1'
 
 import offline_guard  # noqa: E402
 import pcb_apply_plan  # noqa: E402
@@ -83,15 +84,29 @@ def result(name, passed, details, inputs):
             'inputs': inputs}
 
 
+def _sha256_normalized(path):
+    data = Path(path).read_bytes()
+    try:
+        data.decode('utf-8')
+    except UnicodeDecodeError:
+        return hashlib.sha256(data).hexdigest()
+    return hashlib.sha256(data.replace(b'\r\n', b'\n')).hexdigest()
+
+
 def check_sources(expected):
     rows, passed = [], True
     for name, item in sorted((expected.get('sources') or {}).items()):
         path = ROOT / item['path']
         actual = sha256(path) if path.is_file() else None
-        ok = actual == item.get('sha256')
+        normalized = _sha256_normalized(path) if path.is_file() else None
+        ok = actual == item.get('sha256') or \
+            normalized == item.get('sha256')
+        basis = ('raw' if actual == item.get('sha256') else
+                 ('crlf_normalized' if ok else 'mismatch'))
         passed = passed and ok
         rows.append({'name': name, 'path': item['path'],
                      'expected': item.get('sha256'), 'actual': actual,
+                     'normalized': normalized, 'hash_basis': basis,
                      'status': 'match' if ok else 'changed_or_missing'})
     inputs = [{'path': item['path'], 'bytes': path.stat().st_size}
               for item in (expected.get('sources') or {}).values()
@@ -194,15 +209,19 @@ def check_structures(expected):
     full_intent = load(PHOTO_INTENT)
     templates = load_templates()
     rows, passed_all = {}, True
-    for index, module_id in enumerate(('power-input', 'driver')):
+    by_id = {item['id']: item for item in full_intent['modules']}
+    for module_id in ('power-input', 'driver'):
         intent = copy.deepcopy(full_intent)
-        intent['modules'] = [copy.deepcopy(full_intent['modules'][index])]
+        intent['modules'] = [copy.deepcopy(by_id[module_id])]
         constraints = compile_constraints(intent, board)
         report = plan_candidates(board, intent, templates, constraints)
         snapshot = candidate_snapshot(report)
         want = expected['candidates_structures'][module_id]
         ok = (snapshot['selected'] == want['selected'] and
               snapshot['hard_ok'] == want['hard_ok'])
+        if want.get('hpwl_mil'):
+            ok = ok and compare_hpwl(snapshot['hpwl_mil'], want['hpwl_mil'],
+                                     want.get('tolerance', 0.02))
         passed_all = passed_all and ok
         rows[module_id] = {'passed': ok, 'actual': snapshot, 'expected': want}
     ldo_board = load(BENCH / 'cases' / 'ldo-caps-board.json')
@@ -405,6 +424,9 @@ def main(argv=None):
         print('error: --runs must be >= 1', file=sys.stderr)
         return 2
     expected = load(args.expected)
+    audit_path = os.path.join(tempfile.mkdtemp(prefix='hds-bench-audit-'),
+                              'audit.jsonl')
+    os.environ['HDS_OFFLINE_AUDIT'] = audit_path
     guard = offline_guard.Guard().install(block_network=True)
     rows = []
     try:
@@ -424,11 +446,26 @@ def main(argv=None):
             rows.append(last)
     finally:
         guard.restore()
+    audit_events = []
+    try:
+        for line in Path(audit_path).read_text(encoding='utf-8').splitlines():
+            if line.strip():
+                audit_events.append(json.loads(line))
+    except (OSError, ValueError):
+        pass
+    real_eda_attempts = [
+        item for item in audit_events
+        if 'easyeda' in json.dumps(item, ensure_ascii=False).lower() or
+        'lceda-pro' in json.dumps(item, ensure_ascii=False).lower()
+    ]
+    shutil.rmtree(os.path.dirname(audit_path), ignore_errors=True)
     passed = sum(1 for row in rows if row['passed'])
+    if real_eda_attempts:
+        passed = 0
     report = {
         'schema': 'design-engine-offline-benchmark/v1',
         'simulated': True,
-        'eda_calls': 0,
+        'eda_calls': len(real_eda_attempts),
         'status': 'pass' if passed == len(rows) else 'fail',
         'correctness': {'passed': passed, 'total': len(rows)},
         'coverage': {

@@ -75,6 +75,20 @@ def _is_easyeda_name(name):
     return name in EASYEDA_NAMES or name.startswith('easyeda')
 
 
+def _mentions_easyeda(text):
+    lower = str(text).lower()
+    return 'easyeda' in lower or 'lceda-pro' in lower
+
+
+def _fake_in_text(text):
+    # Accept a command only when its EDA-looking token is an explicitly
+    # marked fake; a bare name or a real path is refused.
+    for token in str(text).replace('"', ' ').replace("'", ' ').split():
+        if _mentions_easyeda(token) and is_fake_executable(token):
+            return True
+    return False
+
+
 def check_command_string(command, *, context='subprocess'):
     """Check a shell command string, including ``shell=True``/os.system.
 
@@ -86,18 +100,12 @@ def check_command_string(command, *, context='subprocess'):
         return True
     import shlex
     text = str(command)
-    try:
-        tokens = shlex.split(text, posix=(os.name != 'nt'))
-    except ValueError:
-        tokens = text.split()
-    for index, token in enumerate(tokens):
-        if _is_easyeda_name(token):
-            if not is_fake_executable(token):
-                _audit('blocked', context=context, command=text)
-                raise OfflineViolation(
-                    '%s: refused to execute a real EDA CLI in offline mode: %s '
-                    '(set HDS_OFFLINE=0 only for an authorized real run)'
-                    % (context, token))
+    if _mentions_easyeda(text) and not _fake_in_text(text):
+        _audit('blocked', context=context, command=text)
+        raise OfflineViolation(
+            '%s: refused a command mentioning a real EDA CLI in offline mode: %s '
+            '(set HDS_OFFLINE=0 only for an authorized real run)'
+            % (context, text))
     _audit('allowed', context=context, command=text)
     return True
 
@@ -110,14 +118,15 @@ def check_executable(argv, *, context='subprocess'):
         return check_command_string(argv, context=context)
     if not argv:
         raise OfflineViolation('%s: empty executable' % context)
-    executable = str(argv[0])
-    if _is_easyeda_name(executable):
-        if not is_fake_executable(executable):
-            _audit('blocked', context=context, argv=[str(item) for item in argv])
-            raise OfflineViolation(
-                '%s: refused to execute a real EDA CLI in offline mode: %s '
-                '(set HDS_OFFLINE=0 only for an authorized real run)'
-                % (context, executable))
+    # Scan every token, not only argv[0]: ``cmd /c easyeda ...`` and
+    # ``powershell -Command "easyeda ..."`` are common Windows wrappers.
+    eda_tokens = [str(item) for item in argv if _mentions_easyeda(item)]
+    if eda_tokens and not all(is_fake_executable(item) for item in eda_tokens):
+        _audit('blocked', context=context, argv=[str(item) for item in argv])
+        raise OfflineViolation(
+            '%s: refused to execute a real EDA CLI in offline mode: %s '
+            '(set HDS_OFFLINE=0 only for an authorized real run)'
+            % (context, eda_tokens[0]))
     _audit('allowed', context=context, argv=[str(item) for item in argv])
     return True
 
@@ -150,6 +159,9 @@ class Guard:
                 check_command_string(argv, context='subprocess.run')
             elif isinstance(argv, (list, tuple)) and argv:
                 check_executable(argv, context='subprocess.run')
+            executable = kwargs.get('executable')
+            if executable:
+                check_executable([executable], context='subprocess.run executable=')
             return original_run(*args, **kwargs)
 
         self._patch(subprocess, 'run', guarded_run)
@@ -162,6 +174,9 @@ class Guard:
                     check_command_string(args, context='subprocess.Popen')
                 elif isinstance(args, (list, tuple)) and args:
                     check_executable(args, context='subprocess.Popen')
+                executable = popen_kwargs.get('executable')
+                if executable:
+                    check_executable([executable], context='subprocess.Popen executable=')
                 super().__init__(args, *popen_args, **popen_kwargs)
 
         self._patch(subprocess, 'Popen', GuardedPopen)

@@ -4,7 +4,7 @@
 
 - 评审基线：`origin/main` `066a74b`（PR #22 后，0.9.2）。
 - 分支：`feat/offline-toolchain-round11`；worktree `C:/Users/jlc/work/hds-offline-r11`。
-- 代码提交：`6bbc761`；PR #24 https://github.com/zsx3896926/hardware-design-skill/pull/24
+- 代码提交：`6bbc761`；PR #24 https://github.com/zsx3896926/hardware-design-skill/pull/24（含 PR #23 的 check-role 修复）
 - **真实 EDA 调用：0 次**。未启动/连接 EasyEDA，未调用 `easyeda`（含 health/help/read/export），未访问本机服务/WebSocket/连接器，未修改工程或已安装执行器。
 
 ## 2. 已复现并修复的缺陷
@@ -54,8 +54,8 @@
 ## 5. 测试与基准实际结果
 
 - 基线段：`python -m unittest discover -s tests` → **1121 tests OK**（改动前）。
-- 最终全量：**1236 tests OK**。
-- `python tools/offline_suite.py`：**1236 tests OK**；导入扫描 72 modules，0 blocked / 0 error / 0 system_exit。
+- 最终全量：**1237 tests OK**。
+- `python tools/offline_suite.py`：**1237 tests OK**；导入扫描 72 modules，0 blocked / 0 error / 0 system_exit。
 - `python design-hardware/scripts/skill_selftest.py`：**5 PASS / 0 FAIL / 0 NOT RUN**。
 - 基准：**9/9 pass**（`benchmarks/offline-round11/result.json`，`--runs 3`）：
 
@@ -91,7 +91,8 @@
 ## 9. PR
 
 - 分支：`feat/offline-toolchain-round11`
-- PR：https://github.com/zsx3896926/hardware-design-skill/pull/24（#24）\n- 提交：``$sha``；未合并、未发 Release、未替换已安装 Skill
+- PR：https://github.com/zsx3896926/hardware-design-skill/pull/24（#24）
+- 代码提交：`6bbc761`；PR head 随文档提交前进；未合并、未发 Release、未替换已安装 Skill
 
 
 

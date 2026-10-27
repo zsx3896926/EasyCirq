@@ -8,7 +8,7 @@
 
 ```bash
 python tools/offline_suite.py
-python tools/offline_suite.py --out docs/round11/offline-suite.json
+python tools/offline_suite.py --out docs/round11/offline-suite-final.json
 python tools/offline_suite.py --inventory docs/round11/offline-inventory.json
 ```
 

@@ -28,7 +28,7 @@ round11 离线能力强化与真实样例回放；并入 PR #23 的双路按键 
 
 ### 边界
 
-- 全部离线结果不证明真实 EDA 写入/保存重开、原生 DRC/check、布线、铺铜、Gerber/CPL、热/EMC/固件或实物。round11 离线部分真实 EDA 调用次数为 0；真机验证 `NOT RUN`。PR #23 的真机证据仅覆盖其列出的导入/回读/保存重开范围。
+- 全部离线结果不证明真实 EDA 写入/保存重开、原生 DRC/check、布线、铺铜、Gerber/CPL、热/EMC/固件或实物。round11 离线部分的真实 EDA 调用次数为 0，round11 真机验证 `NOT RUN`。PR #23 的真机证据覆盖其 `docs/final-report.md` 列出的 SCH/PCB 检查、DRC/DFM、net-path、gate、保存重开与局部移动；不覆盖打样、焊接、上电、热/EMC 或实物功能。
 
 ## 0.9.2 — 2026-10-26
 
