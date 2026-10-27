@@ -137,7 +137,10 @@ python tools/zhigou_acceptance.py --stage m4 --m4-device R1 --project-dir <设�
 | PCB DRC（新鲜回读） | **PASS：0 违规** | `evidence/m4/pcb/pcb-drc-poured.json` |
 | DFM 检查 | 0 error / **5 warning**（J1 丝印旋转、+5V/VIN 未铺、2 条电源线偏细） | `evidence/m4/pcb/pcb-check.json` |
 | 局部改板 D1 +2mm | **PASS**：仅 D1 pose 变化，范围外变化 0；断线→重布线→重铺铜→DRC 0 违规 | `evidence/m4/pcb/local-edit-summary.json`、`edit-drc-3.json` |
-| PCB 图像/3D/原生归档/恢复演练 | **NOT RUN** | — |
+| 原生归档导出（.epro2） | **PASS**：46,838 B，zip 3 entries，CRC OK | `evidence/m4/pcb/project-export.json` |
+| PCB 截图 | **BLOCKED**：EDA 标签页在后台，工具拒绝截过期画布（PRECONDITION_REFUSED），需前台重跑 | `evidence/m4/pcb/pcb-snapshot.json` |
+| 恢复演练（导入 .epro2 到新工程） | **NOT RUN** | — |
+| PCB 3D 导出 | **NOT RUN** | — |
 | Gerber/钻孔/CPL | **gui_only**（无 typed action），未尝试未宣称 | `evidence/m1/capabilities.json` |
 | 功能分区框 | **未画**（`sch check` WARN missing-partition） | `evidence/m4/sch-check.json` |
 | 局部改板 2mm / 原生归档恢复演练 | **NOT RUN** | — |
