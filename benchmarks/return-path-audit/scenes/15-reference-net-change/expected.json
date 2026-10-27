@@ -1,0 +1,20 @@
+{
+  "name": "15-reference-net-change",
+  "purpose": "Reference net changes GND->P3V3 at the transition without a bridge",
+  "tags": [
+    "e3",
+    "split",
+    "reference"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E3-304"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "The reference before the transition is L2/GND and after it L3/P3V3. This is a net change; adding a GND return via is not a valid automatic fix, and no capacitor bridge evidence exists, so the return path stays unproven."
+}

@@ -1,0 +1,17 @@
+{
+  "name": "38-invalid-unclosed-ring",
+  "purpose": "Reference polygon ring is not closed",
+  "tags": [
+    "input",
+    "invalid"
+  ],
+  "expected": {
+    "overall_status": "input_invalid",
+    "must_include_rules": [],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": null,
+    "checked_length_max": null
+  },
+  "reasoning": "The outer ring omits the repeated first vertex; the auditor rejects it instead of silently closing the polygon."
+}

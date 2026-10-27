@@ -1,0 +1,20 @@
+{
+  "name": "12-return-via-wrong-net",
+  "purpose": "Return via carries a different net than the reference",
+  "tags": [
+    "e3",
+    "via",
+    "fail"
+  ],
+  "expected": {
+    "overall_status": "fail",
+    "must_include_rules": [
+      "RP-E3-307"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "The candidate return via is on P3V3 although the reference after the transition is GND/L3; net identity is proven from the declared via net."
+}

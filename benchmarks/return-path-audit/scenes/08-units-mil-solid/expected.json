@@ -1,0 +1,18 @@
+{
+  "name": "08-units-mil-solid",
+  "purpose": "Same solid-plane geometry expressed in mil",
+  "tags": [
+    "units",
+    "e2",
+    "pass"
+  ],
+  "expected": {
+    "overall_status": "pass_with_scope",
+    "must_include_rules": [],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": 2362.6,
+    "checked_length_max": 2362.6
+  },
+  "reasoning": "Pure unit change: 0.2 mm width -> 7.874 mil, corridor 0.2 mm -> 7.874 mil, tolerance 0.01 mm -> 0.394 mil, board 100x80 mm -> 3937x3150 mil. Geometry is geometrically identical, so the verdict and coverage semantics must not change."
+}

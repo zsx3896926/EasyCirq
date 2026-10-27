@@ -1,0 +1,19 @@
+{
+  "name": "28-sparse-sampling-narrow-slit",
+  "purpose": "0.05 mm slit deliberately off a 1 mm sample grid",
+  "tags": [
+    "e2",
+    "sampling"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E2-203"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "Gap 0.05 mm at x=50.03..50.08. A fixed sparse sampler at 1 mm (or 0.3 mm) spacing aimed at integer coordinates would step across the slit; exact interval partition must catch it."
+}

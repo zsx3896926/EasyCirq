@@ -1,0 +1,22 @@
+{
+  "name": "25-concave-copper-notch",
+  "purpose": "Concave copper polygon with a notch crossing the trace",
+  "tags": [
+    "e2",
+    "concave",
+    "fail"
+  ],
+  "expected": {
+    "overall_status": "fail",
+    "must_include_rules": [
+      "RP-E2-202"
+    ],
+    "must_not_include_rules": [
+      "RP-E2-201"
+    ],
+    "require_unknowns": true,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "One GND polygon is U-shaped: the copper top edge dips to y=30 between x=45..55. At the trace height y=40 that notch is copper-free but bounded by the same polygon on both sides, i.e. a void inside the copper rather than a different-net split."
+}

@@ -1,0 +1,19 @@
+{
+  "name": "05-hole-away-from-trace",
+  "purpose": "Hole in the plane but away from the trace",
+  "tags": [
+    "e2",
+    "pass"
+  ],
+  "expected": {
+    "overall_status": "pass_with_scope",
+    "must_include_rules": [],
+    "must_not_include_rules": [
+      "RP-E2-202"
+    ],
+    "require_unknowns": false,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "The same hole is moved to y=5..15, far outside the trace's width+corridor envelope (trace at y=40, half_envelope=0.3): coverage stays safe for the whole 60 mm."
+}

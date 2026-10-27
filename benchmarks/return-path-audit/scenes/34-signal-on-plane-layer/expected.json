@@ -1,0 +1,19 @@
+{
+  "name": "34-signal-on-plane-layer",
+  "purpose": "Segment declared on a plane layer",
+  "tags": [
+    "e5",
+    "layer"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E5-505"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": null,
+    "checked_length_max": 0
+  },
+  "reasoning": "A segment cannot be a routed signal over a plane if it lives on the plane layer itself; the length is not applicable and the net cannot pass this audit."
+}

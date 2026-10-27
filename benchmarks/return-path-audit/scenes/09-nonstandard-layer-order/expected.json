@@ -1,0 +1,21 @@
+{
+  "name": "09-nonstandard-layer-order",
+  "purpose": "Non-standard four-layer stack recognised from explicit order/roles",
+  "tags": [
+    "e1",
+    "stackup",
+    "pass"
+  ],
+  "expected": {
+    "overall_status": "pass_with_scope",
+    "must_include_rules": [],
+    "must_not_include_rules": [
+      "RP-E1-102",
+      "RP-E1-103"
+    ],
+    "require_unknowns": false,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "L1 signal, L2 signal, L3 GND, L4 P5V: the trace is declared on L2 and references the adjacent L3 GND plane. Nothing may assume the usual L1-signal/L2-GND/L3-PWR/L4-signal arrangement; roles come from the stackup declaration."
+}

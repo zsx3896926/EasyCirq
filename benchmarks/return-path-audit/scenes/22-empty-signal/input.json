@@ -1,0 +1,153 @@
+{
+  "schema": "return-path-audit-input/v1",
+  "project": {
+    "id": "benchmark",
+    "document": "pcb",
+    "snapshot": "bench-snap-1"
+  },
+  "source": {
+    "kind": "synthetic",
+    "producer": "return-path-audit benchmark",
+    "captured_at": "2026-10-27T14:00:00Z",
+    "raw_input_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "units": "mm",
+  "stackup": {
+    "complete": true,
+    "layers": [
+      {
+        "order": 1,
+        "copper_layer_id": "L1",
+        "role": "signal",
+        "thickness": {
+          "value": 0.035,
+          "unit": "mm"
+        },
+        "dielectric_below": {
+          "value": 0.2,
+          "unit": "mm"
+        }
+      },
+      {
+        "order": 2,
+        "copper_layer_id": "L2",
+        "role": "plane",
+        "net": "GND",
+        "thickness": {
+          "value": 0.035,
+          "unit": "mm"
+        },
+        "dielectric_below": {
+          "value": 0.4,
+          "unit": "mm"
+        }
+      },
+      {
+        "order": 3,
+        "copper_layer_id": "L3",
+        "role": "plane",
+        "net": "P3V3",
+        "thickness": {
+          "value": 0.035,
+          "unit": "mm"
+        },
+        "dielectric_below": {
+          "value": 0.2,
+          "unit": "mm"
+        }
+      },
+      {
+        "order": 4,
+        "copper_layer_id": "L4",
+        "role": "signal",
+        "thickness": {
+          "value": 0.035,
+          "unit": "mm"
+        }
+      }
+    ]
+  },
+  "board": {
+    "outline": [
+      [
+        0,
+        0
+      ],
+      [
+        100,
+        0
+      ],
+      [
+        100,
+        80
+      ],
+      [
+        0,
+        80
+      ],
+      [
+        0,
+        0
+      ]
+    ],
+    "holes": [],
+    "complete": true,
+    "geometry_tolerance": 0.01
+  },
+  "reference_copper": [
+    {
+      "id": "rc-gnd-l2",
+      "layer": "L2",
+      "net": "GND",
+      "availability": "actual_fill",
+      "is_actual_fill": true,
+      "connectivity_island": "island",
+      "source_snapshot": "bench-snap-1",
+      "polygons": [
+        {
+          "id": "rc-gnd-l2-p",
+          "outer": [
+            [
+              0,
+              0
+            ],
+            [
+              100,
+              0
+            ],
+            [
+              100,
+              80
+            ],
+            [
+              0,
+              80
+            ],
+            [
+              0,
+              0
+            ]
+          ],
+          "holes": []
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "id": "sig-1",
+      "net": "USB_DP",
+      "segments": []
+    }
+  ],
+  "vias": [],
+  "reference_assignment": [],
+  "transitions": [],
+  "constraints": {
+    "interface": "benchmark",
+    "corridor": 0.2,
+    "max_return_via_distance": 2.0
+  },
+  "unsupported": [],
+  "external_reports": []
+}

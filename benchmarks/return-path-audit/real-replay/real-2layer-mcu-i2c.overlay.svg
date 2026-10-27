@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="709" viewBox="0 0 1000 709">
+<rect width="100%%" height="100%%" fill="#0f1419"/>
+<defs><pattern id="hatch" width="6" height="6" patternTransform="rotate(45)" patternUnits="userSpaceOnUse"><line x1="0" y1="0" x2="0" y2="6" stroke="#e5484d" stroke-width="2"/></pattern></defs>
+<g font-family="Consolas, monospace">
+<path d="M 68.417 669.330 L 67.425 669.312 L 66.435 669.261 L 65.447 669.174 L 64.462 669.053 L 63.482 668.898 L 62.509 668.709 L 61.542 668.486 L 60.584 668.229 L 59.636 667.939 L 58.698 667.616 L 57.772 667.261 L 56.859 666.873 L 55.960 666.454 L 55.076 666.003 L 54.208 665.523 L 53.358 665.012 L 52.526 664.471 L 51.714 663.903 L 50.922 663.306 L 50.151 662.681 L 49.402 662.031 L 48.677 661.354 L 47.976 660.653 L 47.299 659.927 L 46.648 659.179 L 46.024 658.408 L 45.427 657.616 L 44.858 656.803 L 44.318 655.971 L 43.807 655.121 L 43.326 654.254 L 42.876 653.370 L 42.457 652.471 L 42.069 651.558 L 41.714 650.632 L 41.391 649.694 L 41.101 648.746 L 40.844 647.787 L 40.621 646.821 L 40.432 645.847 L 40.277 644.868 L 40.156 643.883 L 40.069 642.895 L 40.017 641.904 L 40.000 640.913 L 40.000 68.417 L 40.017 67.425 L 40.069 66.435 L 40.156 65.447 L 40.277 64.462 L 40.432 63.482 L 40.621 62.509 L 40.844 61.542 L 41.101 60.584 L 41.391 59.636 L 41.714 58.698 L 42.069 57.772 L 42.457 56.859 L 42.876 55.960 L 43.326 55.076 L 43.807 54.208 L 44.318 53.358 L 44.858 52.526 L 45.427 51.714 L 46.024 50.922 L 46.648 50.151 L 47.299 49.402 L 47.976 48.677 L 48.677 47.976 L 49.402 47.299 L 50.151 46.648 L 50.922 46.024 L 51.714 45.427 L 52.526 44.858 L 53.358 44.318 L 54.208 43.807 L 55.076 43.326 L 55.960 42.876 L 56.859 42.457 L 57.772 42.069 L 58.698 41.714 L 59.636 41.391 L 60.584 41.101 L 61.542 40.844 L 62.509 40.621 L 63.482 40.432 L 64.462 40.277 L 65.447 40.156 L 66.435 40.069 L 67.425 40.017 L 68.417 40.000 L 931.583 40.000 L 932.575 40.017 L 933.565 40.069 L 934.553 40.156 L 935.538 40.277 L 936.518 40.432 L 937.491 40.621 L 938.458 40.844 L 939.416 41.101 L 940.364 41.391 L 941.302 41.714 L 942.228 42.069 L 943.141 42.457 L 944.040 42.876 L 944.924 43.326 L 945.792 43.807 L 946.642 44.318 L 947.474 44.858 L 948.286 45.427 L 949.078 46.024 L 949.849 46.648 L 950.598 47.299 L 951.323 47.976 L 952.024 48.677 L 952.701 49.402 L 953.352 50.151 L 953.976 50.922 L 954.573 51.714 L 955.142 52.526 L 955.682 53.358 L 956.193 54.208 L 956.674 55.076 L 957.124 55.960 L 957.543 56.859 L 957.931 57.772 L 958.286 58.698 L 958.609 59.636 L 958.899 60.584 L 959.156 61.542 L 959.379 62.509 L 959.568 63.482 L 959.723 64.462 L 959.844 65.447 L 959.931 66.435 L 959.983 67.425 L 960.000 68.417 L 960.000 640.913 L 959.983 641.904 L 959.931 642.895 L 959.844 643.883 L 959.723 644.868 L 959.568 645.847 L 959.379 646.821 L 959.156 647.787 L 958.899 648.746 L 958.609 649.694 L 958.286 650.632 L 957.931 651.558 L 957.543 652.471 L 957.124 653.370 L 956.674 654.254 L 956.193 655.121 L 955.682 655.971 L 955.142 656.803 L 954.573 657.616 L 953.976 658.408 L 953.352 659.179 L 952.701 659.927 L 952.024 660.653 L 951.323 661.354 L 950.598 662.031 L 949.849 662.681 L 949.078 663.306 L 948.286 663.903 L 947.474 664.471 L 946.642 665.012 L 945.792 665.523 L 944.924 666.003 L 944.040 666.454 L 943.141 666.873 L 942.228 667.261 L 941.302 667.616 L 940.364 667.939 L 939.416 668.229 L 938.458 668.486 L 937.491 668.709 L 936.518 668.898 L 935.538 669.053 L 934.553 669.174 L 933.565 669.261 L 932.575 669.312 L 931.583 669.330 L 68.417 669.330 Z" fill="#1b2430" stroke="#5c7a9c" stroke-width="2"/>
+<path d="M 954.992 640.913 L 954.926 642.662 L 954.730 644.402 L 954.405 646.122 L 953.952 647.813 L 953.373 649.465 L 952.673 651.069 L 951.855 652.617 L 950.924 654.099 L 949.885 655.508 L 948.743 656.835 L 947.505 658.072 L 946.178 659.214 L 944.769 660.254 L 943.287 661.185 L 941.740 662.003 L 940.135 662.703 L 938.483 663.281 L 936.792 663.734 L 935.072 664.060 L 933.332 664.256 L 931.583 664.321 L 493.997 664.321 L 493.997 576.975 L 493.947 576.598 L 493.802 576.246 L 493.570 575.945 L 493.269 575.713 L 492.917 575.568 L 492.541 575.518 L 226.842 575.518 L 226.465 575.568 L 226.114 575.713 L 225.812 575.945 L 225.580 576.246 L 225.435 576.598 L 225.385 576.975 L 225.385 664.321 L 68.417 664.321 L 66.668 664.256 L 64.928 664.060 L 63.208 663.734 L 61.517 663.281 L 59.865 662.703 L 58.260 662.003 L 56.713 661.185 L 55.231 660.254 L 53.822 659.214 L 52.495 658.072 L 51.257 656.835 L 50.115 655.508 L 49.076 654.099 L 48.145 652.617 L 47.327 651.069 L 46.627 649.465 L 46.048 647.813 L 45.595 646.122 L 45.270 644.402 L 45.074 642.662 L 45.008 640.913 L 45.008 68.417 L 45.074 66.668 L 45.270 64.928 L 45.595 63.208 L 46.048 61.517 L 46.627 59.865 L 47.327 58.260 L 48.145 56.713 L 49.076 55.231 L 50.115 53.822 L 51.257 52.495 L 52.495 51.257 L 53.822 50.115 L 55.231 49.076 L 56.713 48.145 L 58.260 47.327 L 59.865 46.627 L 61.517 46.048 L 63.208 45.595 L 64.928 45.270 L 66.668 45.074 L 68.417 45.008 L 931.583 45.008 L 933.332 45.074 L 935.072 45.270 L 936.792 45.595 L 938.483 46.048 L 940.135 46.627 L 941.740 47.327 L 943.287 48.145 L 944.769 49.076 L 946.178 50.115 L 947.505 51.257 L 948.743 52.495 L 949.885 53.822 L 950.924 55.231 L 951.855 56.713 L 952.673 58.260 L 953.373 59.865 L 953.952 61.517 L 954.405 63.208 L 954.730 64.928 L 954.926 66.668 L 954.992 68.417 L 954.992 640.913 Z" fill="#1f4d33" fill-opacity="0.85" stroke="#3ddc84" stroke-width="1.2" stroke-opacity="0.7"/>
+<path d="M 200.871 383.613 L 201.689 384.340 L 202.588 384.966 L 203.554 385.481 L 204.574 385.879 L 205.634 386.154 L 206.719 386.302 L 207.814 386.321 L 208.903 386.211 L 209.972 385.974 L 211.005 385.612 L 211.989 385.131 L 212.909 384.537 L 213.753 383.839 L 246.640 383.839 L 407.848 545.048 L 407.951 546.138 L 408.182 547.208 L 408.538 548.244 L 409.012 549.230 L 409.600 550.154 L 410.293 551.002 L 411.081 551.763 L 411.952 552.425 L 412.896 552.980 L 413.899 553.420 L 414.947 553.739 L 416.024 553.932 L 417.117 553.996 L 418.210 553.932 L 419.288 553.739 L 420.336 553.420 L 421.338 552.980 L 422.282 552.425 L 423.154 551.763 L 423.942 551.002 L 424.634 550.154 L 425.222 549.230 L 425.697 548.244 L 426.052 547.208 L 426.283 546.138 L 426.386 545.048 L 457.093 514.340 L 493.388 514.340 L 494.261 515.060 L 495.216 515.668 L 496.239 516.156 L 497.312 516.515 L 498.422 516.740 L 499.551 516.829 L 500.682 516.779 L 501.799 516.592 L 502.884 516.271 L 503.923 515.819 L 504.898 515.244 L 505.796 514.555 L 506.604 513.761 L 507.309 512.875 L 507.900 511.910 L 508.370 510.879 L 508.710 509.799 L 508.917 508.686 L 508.986 507.556 L 508.917 506.426 L 508.710 505.312 L 508.370 504.232 L 507.900 503.202 L 507.309 502.237 L 506.604 501.350 L 505.796 500.557 L 504.898 499.867 L 503.923 499.293 L 502.884 498.841 L 501.799 498.519 L 500.682 498.332 L 499.551 498.283 L 498.422 498.371 L 497.312 498.597 L 496.239 498.956 L 495.216 499.443 L 494.261 500.051 L 493.388 500.771 L 454.283 500.771 L 453.398 500.829 L 452.527 501.002 L 451.687 501.288 L 450.891 501.680 L 450.153 502.173 L 449.486 502.758 L 417.117 535.127 L 254.248 372.257 L 253.581 371.672 L 252.843 371.179 L 252.047 370.787 L 251.206 370.501 L 250.336 370.328 L 249.450 370.270 L 214.213 370.270 L 214.213 211.967 L 214.155 211.081 L 213.982 210.211 L 213.697 209.370 L 213.305 208.574 L 212.811 207.836 L 212.226 207.169 L 204.471 199.414 L 204.363 198.287 L 204.117 197.182 L 203.739 196.115 L 203.234 195.101 L 202.609 194.157 L 201.873 193.296 L 201.038 192.532 L 200.116 191.874 L 199.121 191.334 L 198.068 190.919 L 196.971 190.636 L 195.849 190.488 L 194.716 190.478 L 193.591 190.607 L 192.490 190.871 L 191.430 191.268 L 190.426 191.790 L 189.492 192.432 L 188.644 193.182 L 187.894 194.030 L 187.253 194.963 L 186.730 195.968 L 186.333 197.028 L 186.069 198.129 L 185.941 199.254 L 185.950 200.386 L 186.098 201.509 L 186.382 202.605 L 186.796 203.659 L 187.337 204.654 L 187.994 205.576 L 188.759 206.411 L 189.620 207.146 L 190.564 207.771 L 191.577 208.277 L 192.644 208.655 L 193.750 208.900 L 194.877 209.009 L 200.644 214.777 L 200.644 370.731 L 199.946 371.575 L 199.353 372.495 L 198.872 373.478 L 198.510 374.512 L 198.272 375.581 L 198.162 376.670 L 198.182 377.765 L 198.330 378.850 L 198.605 379.909 L 199.003 380.930 L 199.518 381.896 L 200.144 382.794 L 200.871 383.613 Z" fill="#0f1419" stroke="#e5484d" stroke-width="1"/>
+<path d="M 841.315 419.628 L 842.066 418.780 L 842.707 417.846 L 843.230 416.842 L 843.626 415.782 L 843.891 414.681 L 844.019 413.556 L 844.009 412.423 L 843.862 411.301 L 843.578 410.205 L 843.163 409.151 L 842.623 408.156 L 841.966 407.234 L 841.201 406.399 L 840.340 405.664 L 839.396 405.038 L 838.383 404.533 L 837.316 404.155 L 836.210 403.909 L 835.083 403.801 L 739.450 308.168 L 739.450 293.808 L 740.170 292.934 L 740.779 291.979 L 741.266 290.957 L 741.625 289.883 L 741.850 288.774 L 741.939 287.645 L 741.889 286.514 L 741.702 285.397 L 741.381 284.311 L 740.929 283.273 L 740.354 282.297 L 739.665 281.399 L 738.871 280.592 L 737.985 279.887 L 737.020 279.295 L 735.989 278.826 L 734.909 278.485 L 733.796 278.279 L 732.666 278.210 L 731.536 278.279 L 730.422 278.485 L 729.342 278.826 L 728.312 279.295 L 727.347 279.887 L 726.461 280.592 L 725.667 281.399 L 724.977 282.297 L 724.403 283.273 L 723.951 284.311 L 723.629 285.397 L 723.442 286.514 L 723.393 287.645 L 723.481 288.774 L 723.707 289.883 L 724.066 290.957 L 724.553 291.979 L 725.161 292.934 L 725.881 293.808 L 725.881 310.978 L 725.939 311.864 L 726.112 312.734 L 726.398 313.575 L 726.790 314.370 L 727.283 315.108 L 727.868 315.776 L 825.488 413.395 L 825.597 414.523 L 825.842 415.628 L 826.221 416.695 L 826.726 417.708 L 827.351 418.652 L 828.087 419.513 L 828.922 420.278 L 829.844 420.936 L 830.839 421.476 L 831.892 421.891 L 832.988 422.174 L 834.111 422.322 L 835.243 422.331 L 836.368 422.203 L 837.469 421.939 L 838.530 421.542 L 839.534 421.019 L 840.467 420.378 L 841.315 419.628 Z" fill="#0f1419" stroke="#e5484d" stroke-width="1"/>
+<path d="M 766.421 376.439 L 765.670 377.287 L 765.029 378.220 L 764.506 379.225 L 764.110 380.285 L 763.845 381.386 L 763.717 382.511 L 763.727 383.643 L 763.874 384.766 L 764.158 385.862 L 764.573 386.916 L 765.113 387.911 L 765.770 388.833 L 766.535 389.668 L 767.396 390.403 L 768.340 391.028 L 769.353 391.534 L 770.420 391.912 L 771.526 392.157 L 772.653 392.266 L 830.834 450.448 L 830.937 451.538 L 831.168 452.608 L 831.523 453.644 L 831.998 454.630 L 832.586 455.554 L 833.279 456.402 L 834.066 457.163 L 834.938 457.825 L 835.882 458.380 L 836.885 458.820 L 837.932 459.139 L 839.010 459.332 L 840.103 459.396 L 841.196 459.332 L 842.274 459.139 L 843.322 458.820 L 844.324 458.380 L 845.268 457.825 L 846.140 457.163 L 846.928 456.402 L 847.620 455.554 L 848.208 454.630 L 848.683 453.644 L 849.038 452.608 L 849.269 451.538 L 849.372 450.448 L 859.002 440.817 L 859.588 440.150 L 860.081 439.412 L 860.473 438.616 L 860.758 437.776 L 860.932 436.905 L 860.990 436.020 L 860.990 411.891 L 861.710 411.018 L 862.319 410.063 L 862.807 409.041 L 863.166 407.968 L 863.392 406.858 L 863.482 405.729 L 863.433 404.598 L 863.246 403.481 L 862.925 402.396 L 862.474 401.357 L 861.900 400.381 L 861.211 399.483 L 860.418 398.675 L 859.532 397.969 L 858.567 397.377 L 857.537 396.907 L 856.457 396.566 L 855.344 396.359 L 854.214 396.289 L 853.084 396.358 L 851.970 396.564 L 850.890 396.903 L 849.859 397.372 L 848.894 397.963 L 848.007 398.668 L 847.213 399.475 L 846.523 400.373 L 845.948 401.348 L 845.496 402.386 L 845.173 403.471 L 844.986 404.588 L 844.935 405.719 L 845.023 406.848 L 845.248 407.958 L 845.607 409.032 L 846.093 410.054 L 846.701 411.009 L 847.420 411.884 L 847.420 433.209 L 840.103 440.527 L 782.248 382.671 L 782.139 381.544 L 781.894 380.439 L 781.515 379.372 L 781.010 378.358 L 780.385 377.414 L 779.649 376.554 L 778.814 375.789 L 777.893 375.131 L 776.897 374.591 L 775.844 374.176 L 774.748 373.893 L 773.625 373.745 L 772.493 373.735 L 771.368 373.864 L 770.267 374.128 L 769.206 374.525 L 768.202 375.048 L 767.269 375.689 L 766.421 376.439 Z" fill="#0f1419" stroke="#e5484d" stroke-width="1"/>
+<path d="M 101.492 596.264 L 100.924 595.937 L 100.319 595.686 L 99.686 595.517 L 92.482 594.085 L 91.833 594.000 L 91.179 594.000 L 90.530 594.085 L 83.326 595.517 L 82.693 595.686 L 82.087 595.937 L 81.520 596.264 L 75.410 600.346 L 74.890 600.745 L 74.427 601.208 L 74.028 601.728 L 69.946 607.838 L 69.619 608.406 L 69.368 609.011 L 69.199 609.644 L 67.767 616.848 L 67.682 617.497 L 67.682 618.151 L 67.767 618.800 L 69.199 626.004 L 69.368 626.637 L 69.619 627.242 L 69.946 627.810 L 74.028 633.919 L 74.427 634.439 L 74.890 634.903 L 75.410 635.302 L 81.520 639.383 L 82.087 639.711 L 82.693 639.962 L 83.326 640.131 L 90.530 641.563 L 91.179 641.648 L 91.833 641.648 L 92.482 641.563 L 99.686 640.131 L 100.319 639.962 L 100.924 639.711 L 101.492 639.383 L 107.601 635.302 L 108.121 634.903 L 108.585 634.439 L 108.984 633.919 L 113.065 627.810 L 113.393 627.242 L 113.643 626.637 L 113.813 626.004 L 115.244 618.800 L 115.330 618.151 L 115.330 617.497 L 115.244 616.848 L 113.813 609.644 L 113.643 609.011 L 113.393 608.406 L 113.065 607.838 L 108.984 601.728 L 108.585 601.208 L 108.121 600.745 L 107.601 600.346 L 101.492 596.264 Z" fill="#0f1419" stroke="#e5484d" stroke-width="1"/>
+<path d="M 101.492 69.946 L 100.924 69.619 L 100.319 69.368 L 99.686 69.199 L 92.482 67.767 L 91.833 67.682 L 91.179 67.682 L 90.530 67.767 L 83.326 69.199 L 82.693 69.368 L 82.087 69.619 L 81.520 69.946 L 75.410 74.028 L 74.890 74.427 L 74.427 74.890 L 74.028 75.410 L 69.946 81.520 L 69.619 82.087 L 69.368 82.693 L 69.199 83.326 L 67.767 90.530 L 67.682 91.179 L 67.682 91.833 L 67.767 92.482 L 69.199 99.686 L 69.368 100.319 L 69.619 100.924 L 69.946 101.492 L 74.028 107.601 L 74.427 108.121 L 74.890 108.585 L 75.410 108.984 L 81.520 113.065 L 82.087 113.393 L 82.693 113.643 L 83.326 113.813 L 90.530 115.244 L 91.179 115.330 L 91.833 115.330 L 92.482 115.244 L 99.686 113.813 L 100.319 113.643 L 100.924 113.393 L 101.492 113.065 L 107.601 108.984 L 108.121 108.585 L 108.585 108.121 L 108.984 107.601 L 113.065 101.492 L 113.393 100.924 L 113.643 100.319 L 113.813 99.686 L 115.244 92.482 L 115.330 91.833 L 115.330 91.179 L 115.244 90.530 L 113.813 83.326 L 113.643 82.693 L 113.393 82.087 L 113.065 81.520 L 108.984 75.410 L 108.585 74.890 L 108.121 74.427 L 107.601 74.028 L 101.492 69.946 Z" fill="#0f1419" stroke="#e5484d" stroke-width="1"/>
+<path d="M 112.819 172.352 L 112.442 172.402 L 112.090 172.547 L 111.789 172.779 L 111.557 173.080 L 111.412 173.432 L 111.362 173.808 L 111.362 205.778 L 111.412 206.155 L 111.557 206.506 L 111.789 206.807 L 112.090 207.039 L 112.442 207.184 L 112.819 207.234 L 144.788 207.234 L 145.165 207.184 L 145.516 207.039 L 145.817 206.807 L 146.049 206.506 L 146.194 206.155 L 146.244 205.778 L 146.244 173.808 L 146.194 173.432 L 146.049 173.080 L 145.817 172.779 L 145.516 172.547 L 145.165 172.402 L 144.788 172.352 L 112.819 172.352 Z" fill="#0f1419" stroke="#e5484d" stroke-width="1"/>
+<path d="M 894.256 370.413 L 914.762 370.413 L 914.692 369.223 L 914.485 368.048 L 914.143 366.906 L 913.671 365.811 L 913.075 364.779 L 912.363 363.822 L 911.545 362.955 L 910.631 362.189 L 909.635 361.534 L 908.570 360.999 L 907.449 360.591 L 906.289 360.316 L 905.105 360.177 L 903.913 360.177 L 902.728 360.316 L 901.568 360.591 L 900.448 360.999 L 899.382 361.534 L 898.386 362.189 L 897.473 362.955 L 896.655 363.822 L 895.943 364.779 L 895.346 365.811 L 894.874 366.906 L 894.532 368.048 L 894.325 369.223 L 894.256 370.413 Z" fill="#0f1419" stroke="#e5484d" stroke-width="1"/>
+<path d="M 813.424 370.413 L 833.929 370.413 L 833.860 369.223 L 833.653 368.048 L 833.311 366.906 L 832.839 365.811 L 832.243 364.779 L 831.531 363.822 L 830.713 362.955 L 829.799 362.189 L 828.803 361.534 L 827.738 360.999 L 826.617 360.591 L 825.457 360.316 L 824.273 360.177 L 823.080 360.177 L 821.896 360.316 L 820.736 360.591 L 819.616 360.999 L 818.550 361.534 L 817.554 362.189 L 816.641 362.955 L 815.822 363.822 L 815.110 364.779 L 814.514 365.811 L 814.042 366.906 L 813.700 368.048 L 813.493 369.223 L 813.424 370.413 Z" fill="#0f1419" stroke="#e5484d" stroke-width="1"/>
+<line x1="164.32" y1="231.37" x2="160.56" y2="231.37" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="165.4" y="228.4" font-size="11" fill="#9fd4ff">+3V3.0</text>
+<line x1="160.56" y1="231.37" x2="138.28" y2="209.09" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="152.4" y="217.2" font-size="11" fill="#9fd4ff">+3V3.1</text>
+<line x1="138.28" y1="209.09" x2="138.28" y2="195.39" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="141.3" y="199.2" font-size="11" fill="#9fd4ff">+3V3.2</text>
+<line x1="199.85" y1="231.37" x2="172.29" y2="231.37" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="189.1" y="228.4" font-size="11" fill="#9fd4ff">+3V3.3</text>
+<line x1="172.29" y1="231.37" x2="164.32" y2="231.37" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="171.3" y="228.4" font-size="11" fill="#9fd4ff">+3V3.4</text>
+<line x1="207.43" y1="377.05" x2="205.90" y2="378.59" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="209.7" y="374.8" font-size="11" fill="#9fd4ff">+3V3.5</text>
+<line x1="205.90" y1="378.59" x2="205.90" y2="385.16" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="208.9" y="378.9" font-size="11" fill="#9fd4ff">+3V3.6</text>
+<line x1="482.06" y1="544.72" x2="496.51" y2="544.72" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="492.3" y="541.7" font-size="11" fill="#9fd4ff">+3V3.7</text>
+<line x1="496.51" y1="544.72" x2="516.21" y2="564.42" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="509.4" y="551.6" font-size="11" fill="#9fd4ff">+3V3.8</text>
+<line x1="516.21" y1="564.42" x2="516.21" y2="580.53" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="519.2" y="569.5" font-size="11" fill="#9fd4ff">+3V3.9</text>
+<line x1="780.07" y1="616.05" x2="754.20" y2="616.05" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="770.1" y="613.0" font-size="11" fill="#9fd4ff">+3V3.10</text>
+<line x1="754.20" y1="616.05" x2="718.68" y2="580.53" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="739.4" y="595.3" font-size="11" fill="#9fd4ff">+3V3.11</text>
+<line x1="744.41" y1="494.92" x2="744.41" y2="481.60" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="747.4" y="485.3" font-size="11" fill="#9fd4ff">+3V3.12</text>
+<line x1="744.41" y1="481.60" x2="745.66" y2="480.35" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="748.0" y="478.0" font-size="11" fill="#9fd4ff">+3V3.13</text>
+<line x1="745.66" y1="480.35" x2="763.70" y2="480.35" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="757.7" y="477.4" font-size="11" fill="#9fd4ff">+3V3.14</text>
+<line x1="763.70" y1="480.35" x2="792.83" y2="509.48" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="781.3" y="491.9" font-size="11" fill="#9fd4ff">+3V3.15</text>
+<line x1="792.83" y1="509.48" x2="827.48" y2="509.48" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="813.2" y="506.5" font-size="11" fill="#9fd4ff">+3V3.16</text>
+<line x1="744.41" y1="509.48" x2="744.41" y2="494.92" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="747.4" y="499.2" font-size="11" fill="#9fd4ff">+3V3.17</text>
+<line x1="417.12" y1="544.72" x2="482.06" y2="544.72" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="452.6" y="541.7" font-size="11" fill="#9fd4ff">+3V3.18</text>
+<line x1="561.11" y1="545.01" x2="561.11" y2="540.05" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="564.1" y="539.5" font-size="11" fill="#9fd4ff">+3V3.19</text>
+<line x1="561.11" y1="540.05" x2="546.27" y2="525.21" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="556.7" y="529.6" font-size="11" fill="#9fd4ff">+3V3.20</text>
+<line x1="546.27" y1="525.21" x2="529.09" y2="525.21" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="540.7" y="522.2" font-size="11" fill="#9fd4ff">+3V3.21</text>
+<line x1="529.09" y1="525.21" x2="517.21" y2="513.34" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="526.1" y="516.3" font-size="11" fill="#9fd4ff">+3V3.22</text>
+<line x1="517.21" y1="513.34" x2="517.21" y2="509.48" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="520.2" y="508.4" font-size="11" fill="#9fd4ff">+3V3.23</text>
+<line x1="744.41" y1="494.92" x2="718.68" y2="520.65" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="734.5" y="504.8" font-size="11" fill="#9fd4ff">+3V3.24</text>
+<line x1="718.68" y1="520.65" x2="718.68" y2="580.53" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="721.7" y="547.6" font-size="11" fill="#9fd4ff">+3V3.25</text>
+<line x1="517.21" y1="509.48" x2="517.21" y2="507.56" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="520.2" y="505.5" font-size="11" fill="#9fd4ff">+3V3.26</text>
+<line x1="517.21" y1="507.56" x2="524.80" y2="499.96" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="524.0" y="500.8" font-size="11" fill="#9fd4ff">+3V3.27</text>
+<line x1="524.80" y1="499.96" x2="697.99" y2="499.96" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="614.4" y="497.0" font-size="11" fill="#9fd4ff">+3V3.28</text>
+<line x1="697.99" y1="499.96" x2="718.68" y2="520.65" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="711.3" y="507.3" font-size="11" fill="#9fd4ff">+3V3.29</text>
+<line x1="517.21" y1="507.56" x2="499.71" y2="507.56" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="511.5" y="504.6" font-size="11" fill="#9fd4ff">+3V3.30</text>
+<line x1="189.87" y1="199.74" x2="172.29" y2="182.16" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="184.1" y="188.0" font-size="11" fill="#9fd4ff">+3V3.31</text>
+<line x1="172.29" y1="182.16" x2="172.29" y2="164.93" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="175.3" y="170.5" font-size="11" fill="#9fd4ff">+3V3.32</text>
+<line x1="172.29" y1="231.37" x2="172.29" y2="217.32" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="175.3" y="221.3" font-size="11" fill="#9fd4ff">+3V3.33</text>
+<line x1="172.29" y1="217.32" x2="189.87" y2="199.74" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="184.1" y="205.5" font-size="11" fill="#9fd4ff">+3V3.34</text>
+<line x1="189.87" y1="199.74" x2="195.20" y2="199.74" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="195.5" y="196.7" font-size="11" fill="#9fd4ff">+3V3.35</text>
+<line x1="193.79" y1="385.16" x2="193.79" y2="360.67" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="196.8" y="369.9" font-size="11" fill="#9fd4ff">BOOT.0</text>
+<line x1="193.79" y1="360.67" x2="222.87" y2="331.59" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="211.3" y="343.1" font-size="11" fill="#9fd4ff">BOOT.1</text>
+<line x1="222.87" y1="331.59" x2="237.32" y2="331.59" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="233.1" y="328.6" font-size="11" fill="#9fd4ff">BOOT.2</text>
+<line x1="80.49" y1="456.20" x2="93.05" y2="456.20" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="89.8" y="453.2" font-size="11" fill="#9fd4ff">BOOT.3</text>
+<line x1="93.05" y1="456.20" x2="164.09" y2="385.16" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="131.6" y="417.7" font-size="11" fill="#9fd4ff">BOOT.4</text>
+<line x1="164.09" y1="385.16" x2="193.79" y2="385.16" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="181.9" y="382.2" font-size="11" fill="#9fd4ff">BOOT.5</text>
+<line x1="732.67" y1="287.48" x2="742.59" y2="287.48" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="740.6" y="284.5" font-size="11" fill="#9fd4ff">CC1.0</text>
+<line x1="742.59" y1="287.48" x2="744.37" y2="285.70" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="746.5" y="283.6" font-size="11" fill="#9fd4ff">CC1.1</text>
+<line x1="881.57" y1="390.60" x2="881.57" y2="404.69" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="884.6" y="394.6" font-size="11" fill="#9fd4ff">CC1.2</text>
+<line x1="881.57" y1="404.69" x2="873.20" y2="413.07" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="880.4" y="405.9" font-size="11" fill="#9fd4ff">CC1.3</text>
+<line x1="873.20" y1="413.07" x2="857.62" y2="413.07" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="868.4" y="410.1" font-size="11" fill="#9fd4ff">CC1.4</text>
+<line x1="857.62" y1="413.07" x2="856.91" y2="413.79" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="860.3" y="410.4" font-size="11" fill="#9fd4ff">CC1.5</text>
+<line x1="856.91" y1="413.79" x2="851.51" y2="413.79" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="857.2" y="410.8" font-size="11" fill="#9fd4ff">CC1.6</text>
+<line x1="851.51" y1="413.79" x2="850.80" y2="413.07" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="854.2" y="410.4" font-size="11" fill="#9fd4ff">CC1.7</text>
+<line x1="850.80" y1="413.07" x2="834.76" y2="413.07" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="845.8" y="410.1" font-size="11" fill="#9fd4ff">CC1.8</text>
+<line x1="839.62" y1="390.60" x2="839.62" y2="370.39" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="842.6" y="377.5" font-size="11" fill="#9fd4ff">CC2.0</text>
+<line x1="839.62" y1="370.39" x2="816.45" y2="347.23" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="831.0" y="355.8" font-size="11" fill="#9fd4ff">CC2.1</text>
+<line x1="816.45" y1="347.23" x2="767.34" y2="347.23" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="794.9" y="344.2" font-size="11" fill="#9fd4ff">CC2.2</text>
+<line x1="767.34" y1="347.23" x2="708.85" y2="288.74" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="741.1" y="315.0" font-size="11" fill="#9fd4ff">CC2.3</text>
+<line x1="708.85" y1="288.74" x2="708.85" y2="285.70" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="711.8" y="284.2" font-size="11" fill="#9fd4ff">CC2.4</text>
+<line x1="549.00" y1="545.01" x2="538.84" y2="534.84" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="546.9" y="536.9" font-size="11" fill="#9fd4ff">EN.0</text>
+<line x1="538.84" y1="534.84" x2="520.51" y2="534.84" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="532.7" y="531.8" font-size="11" fill="#9fd4ff">EN.1</text>
+<line x1="520.51" y1="534.84" x2="513.66" y2="541.68" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="520.1" y="535.3" font-size="11" fill="#9fd4ff">EN.2</text>
+<line x1="513.66" y1="541.68" x2="513.66" y2="545.01" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="516.7" y="540.3" font-size="11" fill="#9fd4ff">EN.3</text>
+<line x1="513.66" y1="541.68" x2="498.94" y2="526.96" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="509.3" y="531.3" font-size="11" fill="#9fd4ff">EN.4</text>
+<line x1="498.94" y1="526.96" x2="482.06" y2="526.96" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="493.5" y="524.0" font-size="11" fill="#9fd4ff">EN.5</text>
+<line x1="482.06" y1="526.96" x2="468.86" y2="526.96" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="478.5" y="524.0" font-size="11" fill="#9fd4ff">EN.6</text>
+<line x1="468.86" y1="526.96" x2="467.61" y2="525.71" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="471.2" y="523.3" font-size="11" fill="#9fd4ff">EN.7</text>
+<line x1="467.61" y1="525.71" x2="467.61" y2="481.94" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="470.6" y="500.8" font-size="11" fill="#9fd4ff">EN.8</text>
+<line x1="467.61" y1="481.94" x2="314.23" y2="328.56" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="393.9" y="402.3" font-size="11" fill="#9fd4ff">EN.9</text>
+<line x1="314.23" y1="328.56" x2="254.07" y2="328.56" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="287.1" y="325.6" font-size="11" fill="#9fd4ff">EN.10</text>
+<line x1="254.07" y1="328.56" x2="251.75" y2="326.24" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="255.9" y="324.4" font-size="11" fill="#9fd4ff">EN.11</text>
+<line x1="251.75" y1="326.24" x2="251.75" y2="322.39" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="254.8" y="321.3" font-size="11" fill="#9fd4ff">EN.12</text>
+<line x1="251.75" y1="322.39" x2="250.72" y2="321.35" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="254.2" y="318.9" font-size="11" fill="#9fd4ff">EN.13</text>
+<line x1="250.72" y1="321.35" x2="121.33" y2="321.35" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="189.0" y="318.4" font-size="11" fill="#9fd4ff">EN.14</text>
+<line x1="121.33" y1="321.35" x2="93.05" y2="349.64" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="110.2" y="332.5" font-size="11" fill="#9fd4ff">EN.15</text>
+<line x1="93.05" y1="349.64" x2="80.49" y2="349.64" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="89.8" y="346.6" font-size="11" fill="#9fd4ff">EN.16</text>
+<line x1="199.85" y1="219.26" x2="324.11" y2="219.26" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="265.0" y="216.3" font-size="11" fill="#9fd4ff">I2C_SCL.0</text>
+<line x1="324.11" y1="219.26" x2="404.09" y2="299.25" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="367.1" y="256.3" font-size="11" fill="#9fd4ff">I2C_SCL.1</text>
+<line x1="404.09" y1="299.25" x2="404.09" y2="313.69" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="407.1" y="303.5" font-size="11" fill="#9fd4ff">I2C_SCL.2</text>
+<line x1="264.40" y1="219.26" x2="244.37" y2="239.29" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="257.4" y="226.3" font-size="11" fill="#9fd4ff">I2C_SCL.3</text>
+<line x1="244.37" y1="239.29" x2="156.75" y2="239.29" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="203.6" y="236.3" font-size="11" fill="#9fd4ff">I2C_SCL.4</text>
+<line x1="156.75" y1="239.29" x2="119.33" y2="201.87" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="141.0" y="217.6" font-size="11" fill="#9fd4ff">I2C_SCL.5</text>
+<line x1="119.33" y1="201.87" x2="119.33" y2="195.39" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="122.3" y="195.6" font-size="11" fill="#9fd4ff">I2C_SCL.6</text>
+<line x1="421.85" y1="313.69" x2="421.85" y2="299.25" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="424.9" y="303.5" font-size="11" fill="#9fd4ff">I2C_SDA.0</text>
+<line x1="421.85" y1="299.25" x2="313.56" y2="190.96" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="370.7" y="242.1" font-size="11" fill="#9fd4ff">I2C_SDA.1</text>
+<line x1="313.56" y1="190.96" x2="198.66" y2="190.96" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="259.1" y="188.0" font-size="11" fill="#9fd4ff">I2C_SDA.2</text>
+<line x1="198.66" y1="190.96" x2="181.83" y2="174.13" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="193.2" y="179.5" font-size="11" fill="#9fd4ff">I2C_SDA.3</text>
+<line x1="181.83" y1="174.13" x2="181.83" y2="156.29" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="184.8" y="162.2" font-size="11" fill="#9fd4ff">I2C_SDA.4</text>
+<line x1="181.83" y1="156.29" x2="179.71" y2="154.18" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="183.8" y="152.2" font-size="11" fill="#9fd4ff">I2C_SDA.5</text>
+<line x1="179.71" y1="154.18" x2="164.77" y2="154.18" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="175.2" y="151.2" font-size="11" fill="#9fd4ff">I2C_SDA.6</text>
+<line x1="164.77" y1="154.18" x2="162.31" y2="156.64" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="166.5" y="152.4" font-size="11" fill="#9fd4ff">I2C_SDA.7</text>
+<line x1="162.31" y1="156.64" x2="162.31" y2="217.25" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="165.3" y="183.9" font-size="11" fill="#9fd4ff">I2C_SDA.8</text>
+<line x1="162.31" y1="217.25" x2="164.32" y2="219.26" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="166.3" y="215.3" font-size="11" fill="#9fd4ff">I2C_SDA.9</text>
+<line x1="164.77" y1="154.18" x2="145.91" y2="154.18" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="158.3" y="151.2" font-size="11" fill="#9fd4ff">I2C_SDA.10</text>
+<line x1="145.91" y1="154.18" x2="119.33" y2="180.76" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="135.6" y="164.5" font-size="11" fill="#9fd4ff">I2C_SDA.11</text>
+<line x1="119.33" y1="180.76" x2="119.33" y2="184.20" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="122.3" y="179.5" font-size="11" fill="#9fd4ff">I2C_SDA.12</text>
+<line x1="874.58" y1="390.60" x2="874.58" y2="376.49" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="877.6" y="380.5" font-size="11" fill="#9fd4ff">USB_DM_CONN.0</text>
+<line x1="860.60" y1="390.60" x2="860.60" y2="377.74" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="863.6" y="381.2" font-size="11" fill="#9fd4ff">USB_DM_CONN.1</text>
+<line x1="860.60" y1="377.74" x2="861.85" y2="376.49" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="864.2" y="374.1" font-size="11" fill="#9fd4ff">USB_DM_CONN.2</text>
+<line x1="861.85" y1="376.49" x2="874.58" y2="376.49" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="871.2" y="373.5" font-size="11" fill="#9fd4ff">USB_DM_CONN.3</text>
+<line x1="513.48" y1="392.26" x2="513.48" y2="397.27" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="516.5" y="391.8" font-size="11" fill="#9fd4ff">USB_DM_CONN.4</text>
+<line x1="513.48" y1="397.27" x2="554.66" y2="438.44" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="537.1" y="414.9" font-size="11" fill="#9fd4ff">USB_DM_CONN.5</text>
+<line x1="554.66" y1="438.44" x2="798.81" y2="438.44" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="679.7" y="435.4" font-size="11" fill="#9fd4ff">USB_DM_CONN.6</text>
+<line x1="798.81" y1="438.44" x2="798.81" y2="481.38" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="801.8" y="456.9" font-size="11" fill="#9fd4ff">USB_DM_CONN.7</text>
+<line x1="798.81" y1="481.38" x2="806.38" y2="488.95" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="805.6" y="482.2" font-size="11" fill="#9fd4ff">USB_DM_CONN.8</text>
+<line x1="806.38" y1="488.95" x2="848.33" y2="488.95" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="830.4" y="485.9" font-size="11" fill="#9fd4ff">USB_DM_CONN.9</text>
+<line x1="848.33" y1="488.95" x2="917.78" y2="419.50" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="886.1" y="451.2" font-size="11" fill="#9fd4ff">USB_DM_CONN.10</text>
+<line x1="917.78" y1="419.50" x2="917.78" y2="366.30" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="920.8" y="389.9" font-size="11" fill="#9fd4ff">USB_DM_CONN.11</text>
+<line x1="917.78" y1="366.30" x2="910.29" y2="358.81" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="917.0" y="359.6" font-size="11" fill="#9fd4ff">USB_DM_CONN.12</text>
+<line x1="910.29" y1="358.81" x2="892.27" y2="358.81" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="904.3" y="355.8" font-size="11" fill="#9fd4ff">USB_DM_CONN.13</text>
+<line x1="892.27" y1="358.81" x2="874.58" y2="376.49" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="886.4" y="364.7" font-size="11" fill="#9fd4ff">USB_DM_CONN.14</text>
+<line x1="525.59" y1="392.26" x2="525.59" y2="391.04" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="528.6" y="388.7" font-size="11" fill="#9fd4ff">USB_DM_MCU.0</text>
+<line x1="525.59" y1="391.04" x2="514.55" y2="380.00" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="523.1" y="382.5" font-size="11" fill="#9fd4ff">USB_DM_MCU.1</text>
+<line x1="514.55" y1="380.00" x2="511.17" y2="380.00" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="515.9" y="377.0" font-size="11" fill="#9fd4ff">USB_DM_MCU.2</text>
+<line x1="511.17" y1="380.00" x2="496.51" y2="365.34" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="506.8" y="369.7" font-size="11" fill="#9fd4ff">USB_DM_MCU.3</text>
+<line x1="496.51" y1="365.34" x2="496.51" y2="350.60" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="499.5" y="355.0" font-size="11" fill="#9fd4ff">USB_DM_MCU.4</text>
+<line x1="496.51" y1="350.60" x2="495.26" y2="349.35" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="498.9" y="347.0" font-size="11" fill="#9fd4ff">USB_DM_MCU.5</text>
+<line x1="495.26" y1="349.35" x2="482.06" y2="349.35" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="491.7" y="346.4" font-size="11" fill="#9fd4ff">USB_DM_MCU.6</text>
+<line x1="854.21" y1="405.56" x2="854.21" y2="404.69" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="857.2" y="402.1" font-size="11" fill="#9fd4ff">USB_DP_CONN.0</text>
+<line x1="867.59" y1="390.60" x2="867.59" y2="403.44" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="870.6" y="394.0" font-size="11" fill="#9fd4ff">USB_DP_CONN.1</text>
+<line x1="867.59" y1="403.44" x2="866.34" y2="404.69" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="870.0" y="401.1" font-size="11" fill="#9fd4ff">USB_DP_CONN.2</text>
+<line x1="866.34" y1="404.69" x2="854.21" y2="404.69" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="863.3" y="401.7" font-size="11" fill="#9fd4ff">USB_DP_CONN.3</text>
+<line x1="854.21" y1="404.69" x2="853.60" y2="404.09" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="856.9" y="401.4" font-size="11" fill="#9fd4ff">USB_DP_CONN.4</text>
+<line x1="853.60" y1="404.09" x2="853.60" y2="390.60" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="856.6" y="394.3" font-size="11" fill="#9fd4ff">USB_DP_CONN.5</text>
+<line x1="834.33" y1="438.44" x2="834.33" y2="446.05" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="837.3" y="439.2" font-size="11" fill="#9fd4ff">USB_DP_CONN.6</text>
+<line x1="834.33" y1="446.05" x2="835.58" y2="447.30" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="838.0" y="443.7" font-size="11" fill="#9fd4ff">USB_DP_CONN.7</text>
+<line x1="835.58" y1="447.30" x2="837.28" y2="447.30" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="839.4" y="444.3" font-size="11" fill="#9fd4ff">USB_DP_CONN.8</text>
+<line x1="837.28" y1="447.30" x2="840.10" y2="450.12" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="841.7" y="445.7" font-size="11" fill="#9fd4ff">USB_DP_CONN.9</text>
+<line x1="513.48" y1="367.40" x2="513.48" y2="370.42" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="516.5" y="365.9" font-size="11" fill="#9fd4ff">USB_DP_CONN.10</text>
+<line x1="513.48" y1="370.42" x2="526.06" y2="383.00" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="522.8" y="373.7" font-size="11" fill="#9fd4ff">USB_DP_CONN.11</text>
+<line x1="526.06" y1="383.00" x2="772.98" y2="383.00" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="652.5" y="380.0" font-size="11" fill="#9fd4ff">USB_DP_CONN.12</text>
+<line x1="482.06" y1="331.59" x2="496.51" y2="331.59" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="492.3" y="328.6" font-size="11" fill="#9fd4ff">USB_DP_MCU.0</text>
+<line x1="496.51" y1="331.59" x2="525.59" y2="360.67" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="514.0" y="343.1" font-size="11" fill="#9fd4ff">USB_DP_MCU.1</text>
+<line x1="525.59" y1="360.67" x2="525.59" y2="367.40" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="528.6" y="361.0" font-size="11" fill="#9fd4ff">USB_DP_MCU.2</text>
+<line x1="829.69" y1="390.60" x2="829.69" y2="403.54" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="832.7" y="394.1" font-size="11" fill="#9fd4ff">VBUS_5V.0</text>
+<line x1="829.69" y1="403.54" x2="828.53" y2="404.69" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="832.1" y="401.1" font-size="11" fill="#9fd4ff">VBUS_5V.1</text>
+<line x1="828.53" y1="404.69" x2="826.53" y2="406.69" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="830.5" y="402.7" font-size="11" fill="#9fd4ff">VBUS_5V.2</text>
+<line x1="827.48" y1="427.47" x2="827.48" y2="477.32" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="830.5" y="449.4" font-size="11" fill="#9fd4ff">VBUS_5V.3</text>
+<line x1="898.50" y1="390.60" x2="898.50" y2="404.69" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="901.5" y="394.6" font-size="11" fill="#9fd4ff">VBUS_5V.4</text>
+<line x1="898.50" y1="404.69" x2="875.72" y2="427.47" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="890.1" y="413.1" font-size="11" fill="#9fd4ff">VBUS_5V.5</text>
+<line x1="875.72" y1="427.47" x2="827.48" y2="427.47" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="854.6" y="424.5" font-size="11" fill="#9fd4ff">VBUS_5V.6</text>
+<line x1="826.53" y1="406.69" x2="826.53" y2="426.52" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="829.5" y="413.6" font-size="11" fill="#9fd4ff">VBUS_5V.7</text>
+<line x1="826.53" y1="426.52" x2="827.48" y2="427.47" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="830.0" y="424.0" font-size="11" fill="#9fd4ff">VBUS_5V.8</text>
+<line x1="826.53" y1="406.69" x2="732.67" y2="406.69" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="782.6" y="403.7" font-size="11" fill="#9fd4ff">VBUS_5V.9</text>
+<line x1="732.67" y1="406.69" x2="718.68" y2="420.68" stroke="#4cc2ff" stroke-width="2.4" stroke-linecap="round"/>
+<text x="728.7" y="410.7" font-size="11" fill="#9fd4ff">VBUS_5V.10</text>
+<line x1="141.04" y1="211.85" x2="138.28" y2="209.09" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="138.28" y1="209.09" x2="138.28" y2="195.39" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="199.85" y1="231.37" x2="196.03" y2="231.37" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="207.43" y1="377.05" x2="205.90" y2="378.59" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="205.90" y1="378.59" x2="205.90" y2="385.16" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="417.12" y1="544.72" x2="433.24" y2="544.72" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="513.61" y1="507.56" x2="499.71" y2="507.56" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="189.87" y1="199.74" x2="183.05" y2="192.92" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="183.10" y1="206.52" x2="189.87" y2="199.74" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="189.87" y1="199.74" x2="195.20" y2="199.74" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="193.79" y1="379.75" x2="193.79" y2="374.45" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="196.03" y1="358.44" x2="218.83" y2="335.63" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="732.67" y1="287.48" x2="742.59" y2="287.48" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="742.59" y1="287.48" x2="744.37" y2="285.70" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="865.88" y1="413.07" x2="857.62" y2="413.07" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="857.62" y1="413.07" x2="856.91" y2="413.79" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="856.91" y1="413.79" x2="851.51" y2="413.79" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="851.51" y1="413.79" x2="850.80" y2="413.07" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="850.80" y1="413.07" x2="834.76" y2="413.07" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="838.49" y1="369.26" x2="824.79" y2="355.56" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="785.04" y1="347.23" x2="767.34" y2="347.23" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="767.34" y1="347.23" x2="721.26" y2="301.15" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="467.61" y1="518.96" x2="467.61" y2="496.15" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="218.83" y1="321.35" x2="196.03" y2="321.35" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="199.85" y1="219.26" x2="218.83" y2="219.26" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="218.83" y1="239.29" x2="196.03" y2="239.29" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="129.31" y1="211.85" x2="119.33" y2="201.87" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="119.33" y1="201.87" x2="119.33" y2="195.39" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="205.95" y1="190.96" x2="198.66" y2="190.96" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="198.66" y1="190.96" x2="193.65" y2="185.95" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="132.35" y1="167.73" x2="119.33" y2="180.76" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="119.33" y1="180.76" x2="119.33" y2="184.20" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="917.78" y1="373.91" x2="917.78" y2="366.30" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="917.78" y1="366.30" x2="910.29" y2="358.81" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="910.29" y1="358.81" x2="895.23" y2="358.81" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="854.21" y1="405.56" x2="854.21" y2="404.69" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="867.59" y1="401.88" x2="867.59" y2="403.44" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="867.59" y1="403.44" x2="866.34" y2="404.69" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="866.34" y1="404.69" x2="854.21" y2="404.69" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="854.21" y1="404.69" x2="853.60" y2="404.09" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="853.60" y1="404.09" x2="853.60" y2="391.70" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="834.33" y1="438.44" x2="834.33" y2="446.05" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="834.33" y1="446.05" x2="835.58" y2="447.30" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="835.58" y1="447.30" x2="837.28" y2="447.30" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="837.28" y1="447.30" x2="840.10" y2="450.12" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="759.10" y1="383.00" x2="772.98" y2="383.00" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="829.69" y1="391.88" x2="829.69" y2="403.54" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="829.69" y1="403.54" x2="828.53" y2="404.69" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="828.53" y1="404.69" x2="826.53" y2="406.69" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="827.48" y1="427.47" x2="827.48" y2="455.90" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="865.61" y1="427.47" x2="842.80" y2="427.47" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="833.58" y1="427.47" x2="827.48" y2="427.47" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="826.53" y1="406.69" x2="826.53" y2="426.52" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="826.53" y1="426.52" x2="827.48" y2="427.47" stroke="#e5484d" stroke-width="6" stroke-linecap="round" stroke-opacity="0.95"/>
+<line x1="826.53" y1="406.69" x2="780.55" y2="406.69" stroke="#e5484d" stroke-width="10" stroke-linecap="round" stroke-opacity="0.95"/>
+<circle cx="834.76" cy="413.07" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="841.0" y="416.1" font-size="9" fill="#f5c451">via-CC1-0</text>
+<circle cx="732.67" cy="287.48" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="738.9" y="290.5" font-size="9" fill="#f5c451">via-CC1-1</text>
+<circle cx="840.10" cy="450.12" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="846.4" y="453.1" font-size="9" fill="#f5c451">via-USB_DP_CONN-2</text>
+<circle cx="854.21" cy="405.56" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="860.5" y="408.6" font-size="9" fill="#f5c451">via-USB_DP_CONN-3</text>
+<circle cx="772.98" cy="383.00" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="779.2" y="386.0" font-size="9" fill="#f5c451">via-USB_DP_CONN-4</text>
+<circle cx="146.14" cy="185.53" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="152.4" y="188.5" font-size="9" fill="#f5c451">via-GND-5</text>
+<circle cx="195.20" cy="199.74" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="201.5" y="202.7" font-size="9" fill="#f5c451">via-+3V3-6</text>
+<circle cx="207.43" cy="377.05" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="213.7" y="380.1" font-size="9" fill="#f5c451">via-+3V3-7</text>
+<circle cx="417.12" cy="544.72" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="423.4" y="547.7" font-size="9" fill="#f5c451">via-+3V3-8</text>
+<circle cx="903.71" cy="421.57" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="910.0" y="424.6" font-size="9" fill="#f5c451">via-GND-9</text>
+<circle cx="935.00" cy="392.53" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="941.3" y="395.5" font-size="9" fill="#f5c451">via-GND-10</text>
+<circle cx="164.19" cy="136.87" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="170.4" y="139.9" font-size="9" fill="#f5c451">via-GND-11</text>
+<circle cx="154.56" cy="349.64" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="160.8" y="352.6" font-size="9" fill="#f5c451">via-GND-12</text>
+<circle cx="813.66" cy="447.18" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="819.9" y="450.2" font-size="9" fill="#f5c451">via-GND-13</text>
+<circle cx="141.60" cy="438.84" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="147.9" y="441.8" font-size="9" fill="#f5c451">via-GND-14</text>
+<circle cx="499.71" cy="507.56" r="4.26" fill="#f5c451" fill-opacity="0.9" stroke="#0f1419" stroke-width="0.8"/>
+<text x="506.0" y="510.6" font-size="9" fill="#f5c451">via-+3V3-15</text>
+<rect x="12" y="12" width="360" height="86" fill="#0b1016" fill-opacity="0.85" stroke="#33465c"/>
+<text x="20" y="30" font-size="12" fill="#e6edf3">ANALYSIS OVERLAY - synthetic_analysis / not_official_export</text>
+<text x="20" y="48" font-size="11" fill="#9fb3c8">status: fail</text>
+<text x="20" y="64" font-size="11" fill="#9fb3c8">red = uncovered/corridor risk, green = declared reference copper, yellow = vias</text>
+<text x="20" y="80" font-size="11" fill="#9fb3c8">mcu-i2c-s3-20261026 / mcu-i2c-s3-20261026:40b81985cfb4a5ed:2026-10-26T</text>
+<text x="12" y="693.3" font-size="24" fill="#e5484d" fill-opacity="0.14" transform="rotate(-18 12 693.3)">SYNTHETIC_ANALYSIS / NOT_OFFICIAL_EXPORT</text>
+</g>
+</svg>

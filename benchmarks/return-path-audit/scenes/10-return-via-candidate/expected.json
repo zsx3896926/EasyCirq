@@ -1,0 +1,22 @@
+{
+  "name": "10-return-via-candidate",
+  "purpose": "Layer transition with a correctly declared return-via candidate",
+  "tags": [
+    "e3",
+    "via"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E3-310"
+    ],
+    "must_not_include_rules": [
+      "RP-E3-306",
+      "RP-E3-309"
+    ],
+    "require_unknowns": false,
+    "checked_length_min": 50,
+    "checked_length_max": 50
+  },
+  "reasoning": "L1->L4 signal via; reference changes L2 GND -> L3 GND (same net, different plane). The declared return via is buried L2..L3, same net, in the L3 copper island with fill evidence, and sits exactly on the transition point. This is a potential candidate only: the tool must not claim a recovered return path."
+}

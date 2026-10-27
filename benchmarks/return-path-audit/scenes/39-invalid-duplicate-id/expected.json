@@ -1,0 +1,17 @@
+{
+  "name": "39-invalid-duplicate-id",
+  "purpose": "Two objects share an id",
+  "tags": [
+    "input",
+    "invalid"
+  ],
+  "expected": {
+    "overall_status": "input_invalid",
+    "must_include_rules": [],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": null,
+    "checked_length_max": null
+  },
+  "reasoning": "A second signal reuses the id of the first; ambiguous ids are rejected."
+}

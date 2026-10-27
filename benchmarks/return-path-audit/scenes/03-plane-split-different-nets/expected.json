@@ -1,0 +1,20 @@
+{
+  "name": "03-plane-split-different-nets",
+  "purpose": "Trace crosses a GND/P3V3 plane split",
+  "tags": [
+    "e2",
+    "split",
+    "fail"
+  ],
+  "expected": {
+    "overall_status": "fail",
+    "must_include_rules": [
+      "RP-E2-201"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "GND copper ends at x=49.9 and P3V3 copper starts at x=50.1: the trace projection crosses a gap whose two sides are different reference nets. That is a proven plane split crossing (return current must detour), regardless of whether a GND via is nearby."
+}

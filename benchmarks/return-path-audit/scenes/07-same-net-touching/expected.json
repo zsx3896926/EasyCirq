@@ -1,0 +1,21 @@
+{
+  "name": "07-same-net-touching",
+  "purpose": "Two same-net polygons share an edge",
+  "tags": [
+    "e2",
+    "connectivity"
+  ],
+  "expected": {
+    "overall_status": "incomplete",
+    "must_include_rules": [
+      "RP-E2-207"
+    ],
+    "must_not_include_rules": [
+      "RP-E2-206"
+    ],
+    "require_unknowns": true,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "The GND copper is split into two polygons that touch at x=50. Interior seams are not copper boundaries, so coverage/corridor is fine; but geometry alone cannot prove the polygons are electrically joined, so connectivity stays unknown."
+}
