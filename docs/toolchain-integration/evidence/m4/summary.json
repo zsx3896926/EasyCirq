@@ -218,9 +218,15 @@
       "evidence": "pcb/local-edit-summary.json"
     },
     "snapshot": {
-      "status": "BLOCKED",
-      "reason": "EasyEDA tab is hidden; the connector refused to capture a stale canvas (PRECONDITION_REFUSED) instead of faking an image",
-      "fix": "bring the EasyEDA Pro window to the front and re-run pcb.snapshot"
+      "status": "PASS",
+      "file": "20261027-234824-pcb_snapshot-aca7e593.png",
+      "bytes": 144620,
+      "pngDimensions": [
+        1608,
+        714
+      ],
+      "note": "captured after bringing the EDA window forward (user32 ShowWindow/SetForegroundWindow) and re-opening PCB1 so pageVisibility became visible",
+      "evidence": "pcb/pcb-snapshot4.json"
     },
     "export3d": {
       "status": "PASS",
@@ -260,12 +266,11 @@
     "save_confirmed": "PASS (schematic saved:true; PCB save returned ok)",
     "reopen_confirmed": "PASS (doc reload on P1 and PCB1, then fresh readback)",
     "electrical_passed": "PASS (schematic DRC 0 + PCB DRC 0 on fresh readback after route+pour)",
-    "quality_passed": "PARTIAL (DFM 0 errors / 5 warnings: J1 silk rotated, +5V/VIN not poured, 2 thin power tracks; silk text and power pour refinement still open)"
+    "quality_passed": "PARTIAL-PASS: schematic DRC 0, PCB DRC 0, DFM 0 error / 4 warnings, dangling 0, official schematic SVG+PNG and PCB PNG captured; remaining warnings are power-pour/width preferences"
   },
   "limits": [
-    "PCB snapshot image BLOCKED: the EasyEDA PCB tab is hidden; the connector refuses to capture a stale canvas. Bring the PCB tab to the front and re-run pcb.snapshot.",
     "Gerber/drill/CPL remain gui_only - not attempted, not claimed.",
-    "DFM: 4 warnings remain (5V/VIN carried by tracks not pours; 2 power nets under the width spec). 0 errors, 0 dangling.",
+    "DFM: 4 warnings remain (5V/VIN carried by tracks not pours; 2 power nets under the width spec).",
     "3D export is binding-only coverage; model coverage needs independent inspection.",
     "MPN of generic-library LED/switch/header is unknown (system library), recorded as generic."
   ],

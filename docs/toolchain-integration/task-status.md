@@ -148,8 +148,11 @@
 **最终候选回归**：`distribution/verify_vendor.py` → **PASS**；`tools/offline_suite.py` →
 **1838 tests OK**；`go build ./...` + 新增单测（compose pins/deliverables/doctor/connector）全 PASS。
 
-**仍阻塞/未做**：PCB 截图（EasyEDA 的 PCB 标签页仍在后台，工具两次正确拒绝过期画布，需用户手动切前台）；
-Gerber/钻孔/CPL（gui_only，未宣称）；DFM 剩 4 条 WARN（+5V/VIN 未铺铜、2 条电源线偏细）。
+**PCB 截图已解除**：用 user32 把 EDA 窗口恢复到前台并重新 `doc open PCB1` 后 pageVisibility=visible，
+`pcb.snapshot` 成功输出官方 PNG（`evidence/m4/pcb/pcb-snapshot4.json`）。此前两次拒绝是工具在保护"不截过期画布"。
+
+**仍为边界能力（非本目标范围）**：Gerber/钻孔/CPL = `gui_only`（未宣称）；DFM 剩 4 条 WARN
+（+5V/VIN 未铺铜、2 条电源线偏细）；3D 为 binding-only 覆盖。
 
 **已完成补项**：PCB 3D 导出 PASS（board.obj.zip 208,971 B，sha256 `2695098b…`）；dangling 线已清
 （rip-up→定向重布 2/2→铺铜重建→save/reload→DRC 0、dangling=0，WARN 6→4）。

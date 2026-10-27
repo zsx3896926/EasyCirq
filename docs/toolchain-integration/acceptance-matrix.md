@@ -138,7 +138,7 @@ python tools/zhigou_acceptance.py --stage m4 --m4-device R1 --project-dir <设�
 | DFM 检查（收口后） | **0 error / 4 warning**：J1 丝印已修、dangling 已清 0；剩 +5V/VIN 未铺铜与 2 条电源线偏细 | `evidence/m4/pcb/pcb-check-final.json` |
 | 局部改板 D1 +2mm | **PASS**：仅 D1 pose 变化，范围外变化 0；断线→重布线→重铺铜→DRC 0 违规 | `evidence/m4/pcb/local-edit-summary.json`、`edit-drc-3.json` |
 | 原生归档导出（.epro2） | **PASS**：46,838 B，zip 3 entries，CRC OK | `evidence/m4/pcb/project-export.json` |
-| PCB 截图 | **BLOCKED**：两次尝试（含窗口激活）后 EDA 标签页仍 hidden，工具拒绝截过期画布（PRECONDITION_REFUSED）；需用户手动把 PCB 标签页切前台 | `evidence/m4/pcb/pcb-snapshot.json`、`pcb-snapshot2.json` |
+| PCB 官方截图 | **PASS**：窗口前台化 + 重新打开 PCB1 后 pageVisibility=visible，`pcb.snapshot` 成功输出 PNG | `evidence/m4/pcb/pcb-snapshot4.json` |
 | 恢复演练（导入 .epro2 到新工程） | **PASS**：新工程读回 7 网一致 / 9 footprint pose 一致 / 板框一致 / DRC 0 违规 | `evidence/m4/restore/restore-summary.json` |
 | PCB 3D 导出 | **PASS**：官方 get3DFile → board.obj.zip 208,971 B，sha256 `2695098b…`，before/after 读回一致（binding-only 覆盖） | `evidence/m4/pcb/pcb-export-3d.json` |
 | Gerber/钻孔/CPL | **gui_only**（无 typed action），未尝试未宣称 | `evidence/m1/capabilities.json` |
