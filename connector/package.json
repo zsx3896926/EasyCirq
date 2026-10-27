@@ -1,6 +1,6 @@
 {
 	"name": "zhigou-connector",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Zhigou connector extension for EasyEDA Pro (derived from easyeda-agent, MIT).",
 	"author": "zsx3896926",
 	"license": "(MIT AND Apache-2.0)",
