@@ -243,5 +243,33 @@
     "backupRoot": "C:\\\\Users\\\\jlc\\\\work\\\\_skill-backups\\\\zhigou-cutover-20261028",
     "installedDoctorVerdict": "ok",
     "note": "adopt-backed up the old 1.0.1 skill before replacing it; the upstream easyeda-agent skill dirs were moved (not deleted) and the client skill catalog now lists only design-hardware"
+  },
+  "bundle0_2_2": {
+    "bundle": "dist-v4/zhigou-toolchain-0.2.2.zip",
+    "installer": "dist-v4/zhigou-toolchain-installer-0.2.2.zip",
+    "installerSha256": "c70f07aa1ec80935d1afd4624e43e17f76ae3dfa283ad4bc36ee4d73749dadea",
+    "contents": {
+      "connector": {
+        "file": "payload/connector/zhigou-connector_v0.1.2.eext",
+        "version": "0.1.2",
+        "uuid": "cfc96215f0b44005981aa0b641daa89a"
+      },
+      "skill": {
+        "version": "1.0.2",
+        "hasOutlineLesson": true
+      }
+    },
+    "upgradedInstallDir": "C:\\Users\\jlc\\AppData\\Local\\Zhigou",
+    "upgrade": {
+      "from": "0.2.1",
+      "to": "0.2.2",
+      "selfCheck": "ok"
+    },
+    "clientSkills": {
+      "claude": "1.0.2",
+      "codex": "1.0.2",
+      "agents": "1.0.2"
+    },
+    "note": "the 0.2.0/0.2.1 bundles shipped the 0.1.0 connector and the pre-outline skill; 0.2.2 ships connector 0.1.2 (new uuid) plus the footprint-outline lesson"
   }
 }

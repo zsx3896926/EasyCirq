@@ -1,6 +1,6 @@
 # 当前交接（智构 / 自有 EDA 工具链）
 
-> 最后更新：2026-10-28 00:25（客户端已切换到智构单一入口）
+> 最后更新：2026-10-28 01:40（安装目录升级到 0.2.2，bundle 已带 connector 0.1.2 + 封装 outline 经验）
 > 状态真源：本文件 + `docs/toolchain-integration/task-status.md`；详细证据见
 > `docs/toolchain-integration/evidence/`。历史（v1.0.1 发布恢复等）见 git 历史与
 > `docs/releases/`。
@@ -48,6 +48,22 @@ distribution\Install-Zhigou.ps1 install  -Bundle dist-v2\zhigou-toolchain-0.2.1.
 distribution\Install-Zhigou.ps1 upgrade  -Bundle <new>.zip
 distribution\Install-Zhigou.ps1 rollback
 ```
+
+
+## 2026-10-28 01:40 更新：bundle 0.2.2 与回归工程
+
+* 已构建 `dist-v4/zhigou-toolchain-0.2.2.zip`（installer sha256 `c70f07aa…`）：
+  runtime 0.2.2-dev、connector **0.1.2**（新 uuid `cfc96215…`）、skill **1.0.2**
+  （含 `references/pcb-lessons.md` 的"封装内嵌 Board Outline"经验）。
+* 已用统一安装器升级 `%LOCALAPPDATA%\Zhigou`：0.2.1 → **0.2.2**，selfCheck **ok**；
+  安装目录 connector 为 `zhigou-connector_v0.1.2.eext`。
+* 客户端三处 skill 已更新到 1.0.2（含新经验条目）。
+* **回归工程保留**：`outline-foreign-repro-20261028-013032`（SW1 已换成
+  `TS-1187A-B-E-B`/C2885182 同类器件，PCB DRC 0 违规），作为该缺陷的现场案例；
+  不要删除，后续回归/文档引用它。
+* 该缺陷的结论：封装内嵌 Board Outline **不能靠删图元修复**（引擎会重建），
+  正确路径是 诊断（`tools/zhigou_footprint_outline_diagnose.py`）→ `sch replace`
+  换器件/换封装/改库 → save+reload+DRC 复验。详见 `docs/toolchain-integration/outline-foreign.md`。
 
 ## 已知边界（如实，不是掩盖）
 
