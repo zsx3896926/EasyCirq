@@ -1,6 +1,6 @@
 {
   "schema": "zhigou-doctor/v1",
-  "generatedAt": "2026-10-27T13:49:25Z",
+  "generatedAt": "2026-10-27T14:17:11Z",
   "verdict": "degraded",
   "runtime": {
     "name": "zhigou",

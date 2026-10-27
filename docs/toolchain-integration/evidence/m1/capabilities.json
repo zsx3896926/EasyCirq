@@ -1,6 +1,6 @@
 {
   "schema": "zhigou-capabilities/v1",
-  "generatedAt": "2026-10-27T13:49:25Z",
+  "generatedAt": "2026-10-27T14:17:12Z",
   "protocol": {
     "service": "zhigou-agent",
     "wireVersion": "v1",
