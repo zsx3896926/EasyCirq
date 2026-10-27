@@ -1,0 +1,194 @@
+{
+  "schema": "zhigou.electrical-review.input/v1",
+  "design": {
+    "project_id": "r4-supply",
+    "document_id": "P1",
+    "units": {
+      "length": "mil",
+      "voltage": "V",
+      "capacitance": "uF"
+    },
+    "source_type": "synthetic_fixture",
+    "title": "electrical-review benchmark fixture"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "synthetic_fixture",
+      "source": "task-B synthetic fixture"
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "iU1",
+      "ref": "U1",
+      "kind": "ic",
+      "pins": [
+        {
+          "number": "4",
+          "net": "PG"
+        },
+        {
+          "number": "6",
+          "net": "GND",
+          "pads": [
+            "6"
+          ]
+        },
+        {
+          "number": "10",
+          "net": "VIN",
+          "pads": [
+            "10"
+          ]
+        },
+        {
+          "number": "11",
+          "net": "VIN",
+          "pads": [
+            "11"
+          ]
+        },
+        {
+          "number": "12",
+          "net": "VIN",
+          "pads": [
+            "12"
+          ]
+        },
+        {
+          "number": "13",
+          "net": "EN"
+        },
+        {
+          "number": "15",
+          "net": "GND",
+          "pads": [
+            "15"
+          ]
+        },
+        {
+          "number": "16",
+          "net": "GND",
+          "pads": [
+            "16"
+          ]
+        },
+        {
+          "number": "17",
+          "net": "GND",
+          "pads": [
+            "17"
+          ],
+          "name": "EP"
+        }
+      ],
+      "mpn": "TPS62130RGTR",
+      "footprint": {
+        "name": "VQFN-16_RGT",
+        "evidence": [
+          "E1"
+        ]
+      },
+      "mapping_complete": true
+    }
+  ],
+  "connectivity": {
+    "pin_nets": {}
+  },
+  "device_facts": [
+    {
+      "fact_id": "F-TPS62130-PINS",
+      "mpn": "TPS62130RGTR",
+      "manufacturer": "Texas Instruments",
+      "package": "VQFN-16 (RGT)",
+      "revision": "SLVSAG7F",
+      "source": {
+        "kind": "datasheet",
+        "url": "https://www.ti.com/lit/ds/symlink/tps62130.pdf",
+        "revision": "SLVSAG7F (NOVEMBER 2011 - REVISED NOVEMBER 2021)",
+        "retrieved_at": "2026-10-27",
+        "pages": "3, 4",
+        "table": "Table 6-1 Pin Functions; section 7.3 Recommended Operating Conditions",
+        "sha256": "f9b1af285622c0cf1a5991f9641a6e64c5e6d899e52cc0b1632808742019579f"
+      },
+      "applies_to": {
+        "mpn": [
+          "TPS62130RGTR"
+        ],
+        "packages": [
+          "VQFN-16",
+          "RGT"
+        ],
+        "revisions": []
+      },
+      "facts": [
+        {
+          "type": "pin_functions",
+          "value": {
+            "pins": {
+              "4": {
+                "name": "PG",
+                "type": "open_drain"
+              },
+              "6": {
+                "name": "AGND",
+                "type": "ground"
+              },
+              "10": {
+                "name": "AVIN",
+                "type": "power"
+              },
+              "11": {
+                "name": "PVIN",
+                "type": "power"
+              },
+              "12": {
+                "name": "PVIN",
+                "type": "power"
+              },
+              "13": {
+                "name": "EN",
+                "type": "input",
+                "max_v": 17.3
+              },
+              "15": {
+                "name": "PGND",
+                "type": "ground"
+              },
+              "16": {
+                "name": "PGND",
+                "type": "ground"
+              }
+            },
+            "supply": {
+              "min_v": 3.0,
+              "max_v": 17.0,
+              "unit": "V",
+              "conditions": "VIN at AVIN and PVIN"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "intent": {
+    "net_roles": {
+      "GND": "ground",
+      "VIN": "power",
+      "PG": "signal",
+      "EN": "signal"
+    },
+    "supplies": [
+      {
+        "net": "VIN",
+        "min_v": 24,
+        "max_v": 24,
+        "kind": "dc",
+        "evidence": [
+          "E1"
+        ]
+      }
+    ]
+  }
+}

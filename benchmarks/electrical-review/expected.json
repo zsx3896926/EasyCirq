@@ -1,0 +1,846 @@
+{
+  "schema": "zhigou.electrical-review.benchmark-expected/v1",
+  "frozen_on": "2026-10-27",
+  "input_sha256_basis": "raw bytes of cases/<case>/input.json",
+  "cases": {
+    "invalid-contradiction": {
+      "input_sha256": "e3e03bd373dd9d12e13d731b810b8d31ad62578dfd1f7aafeb877774cc41a63f",
+      "input_bytes": 4025,
+      "source_class": "synthetic_invalid_input",
+      "basis": "inline pin net contradicts connectivity.pin_nets",
+      "exit_code": 2,
+      "status": "invalid_input",
+      "totals": {
+        "checked": 0,
+        "satisfied": 0,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 1
+      },
+      "rules": {},
+      "required_findings": []
+    },
+    "invalid-duplicate-ref": {
+      "input_sha256": "75168fa2f79ee9f44868f16ca611909503dd4f5dc4ab60c6c566524f2c4f1c0c",
+      "input_bytes": 3999,
+      "source_class": "synthetic_invalid_input",
+      "basis": "two instances share one designator",
+      "exit_code": 2,
+      "status": "invalid_input",
+      "totals": {
+        "checked": 0,
+        "satisfied": 0,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 1
+      },
+      "rules": {},
+      "required_findings": []
+    },
+    "invalid-nan": {
+      "input_sha256": "66149cdf223fe70154ed2ed24c762dba28b53822c5b50bb8baa8a2d7ef01d4ed",
+      "input_bytes": 1492,
+      "source_class": "synthetic_invalid_input",
+      "basis": "NaN is rejected as non-finite JSON, no PASS reuse",
+      "exit_code": 2,
+      "status": "invalid_input",
+      "totals": {
+        "checked": 0,
+        "satisfied": 0,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 1
+      },
+      "rules": {},
+      "required_findings": []
+    },
+    "invalid-unit": {
+      "input_sha256": "f8fad410e43b92f3036d2701b7b1f0be0152c171c06940c68a99450475015c47",
+      "input_bytes": 1497,
+      "source_class": "synthetic_invalid_input",
+      "basis": "unknown length unit is rejected",
+      "exit_code": 2,
+      "status": "invalid_input",
+      "totals": {
+        "checked": 0,
+        "satisfied": 0,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 1
+      },
+      "rules": {},
+      "required_findings": []
+    },
+    "r1-flying-ok": {
+      "input_sha256": "006ca0aeb61dd234440f2db439fcc4fb63ea2fd41571d98e2c379688df8367b5",
+      "input_bytes": 3999,
+      "source_class": "synthetic_fixture",
+      "basis": "MAX3232 C1 terminals on two distinct partitions",
+      "exit_code": 0,
+      "status": "pass_with_scope",
+      "totals": {
+        "checked": 2,
+        "satisfied": 2,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 1,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R1": {
+          "satisfied": 1
+        },
+        "R2": {
+          "not_applicable": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": []
+    },
+    "r1-flying-short": {
+      "input_sha256": "a8454ff5e33599ea41473b81c7874ddd933360b766c6f59fa53c79e8a18d053a",
+      "input_bytes": 3804,
+      "source_class": "synthetic_fixture",
+      "basis": "both flying-cap terminals were forced onto the same net",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 2,
+        "satisfied": 1,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 1,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R1": {
+          "violations": 1
+        },
+        "R2": {
+          "not_applicable": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R1",
+          "state": "violated",
+          "severity": "hard",
+          "code": "flying_capacitor_shorted"
+        }
+      ]
+    },
+    "r1-flying-unknown-net": {
+      "input_sha256": "40b120e7aee2846e12a89ba13ed1264ae8a18bc7dc9c138decd19ddf0ce451a4",
+      "input_bytes": 3782,
+      "source_class": "synthetic_fixture",
+      "basis": "one terminal net is absent; no proof either way",
+      "exit_code": 3,
+      "status": "review_required",
+      "totals": {
+        "checked": 2,
+        "satisfied": 1,
+        "violations": 0,
+        "unknown": 1,
+        "not_applicable": 1,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R1": {
+          "unknown": 1
+        },
+        "R2": {
+          "not_applicable": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R1",
+          "state": "insufficient",
+          "severity": "review",
+          "code": "terminal_count"
+        }
+      ]
+    },
+    "r1-flying-wrong-net": {
+      "input_sha256": "906e4df086d8a7e23dbd86633cdd6c29635d34d673e2033d9be6284e90bf160b",
+      "input_bytes": 4002,
+      "source_class": "synthetic_fixture",
+      "basis": "C1 pin 2 is on SW but intent requires CN",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 2,
+        "satisfied": 1,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 1,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R1": {
+          "violations": 1
+        },
+        "R2": {
+          "not_applicable": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R1",
+          "state": "violated",
+          "severity": "hard",
+          "code": "endpoint_net_set_mismatch"
+        }
+      ]
+    },
+    "r2-dc-derived-ok": {
+      "input_sha256": "a6dcfd81fd31644e534082f88dbde816176b8a992c7a6238b038bd895347ad36",
+      "input_bytes": 1670,
+      "source_class": "synthetic_fixture",
+      "basis": "DC interval 4.5-5.5 V against 25 V rating",
+      "exit_code": 0,
+      "status": "pass_with_scope",
+      "totals": {
+        "checked": 2,
+        "satisfied": 2,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R2": {
+          "satisfied": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": []
+    },
+    "r2-derating-shortfall": {
+      "input_sha256": "daebde186159b6003cd35f1945a6636c3829228a9c661a4ec20b9ef30036c11b",
+      "input_bytes": 1632,
+      "source_class": "synthetic_fixture",
+      "basis": "25 V * 0.8 = 20 V policy limit, declared stress 21 V",
+      "exit_code": 3,
+      "status": "review_required",
+      "totals": {
+        "checked": 2,
+        "satisfied": 1,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R2": {
+          "violations": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R2",
+          "state": "violated",
+          "severity": "review",
+          "code": "derating_shortfall"
+        }
+      ]
+    },
+    "r2-overvoltage-hard": {
+      "input_sha256": "088a15a2a158e47f92cd2e13357d3584b91d117d5148973469e87fd469261af7",
+      "input_bytes": 1493,
+      "source_class": "synthetic_fixture",
+      "basis": "16 V rated capacitor with 24 V declared differential stress",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 2,
+        "satisfied": 1,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R2": {
+          "violations": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R2",
+          "state": "violated",
+          "severity": "hard",
+          "code": "over_rated_voltage"
+        }
+      ]
+    },
+    "r2-switching-unknown": {
+      "input_sha256": "acec06e35834f9f84cea21998b4935ec97d2add4a156add51df9f9ea92db324d",
+      "input_bytes": 1676,
+      "source_class": "synthetic_fixture",
+      "basis": "one terminal is a switching node; single-ended voltage is not used",
+      "exit_code": 3,
+      "status": "review_required",
+      "totals": {
+        "checked": 2,
+        "satisfied": 1,
+        "violations": 0,
+        "unknown": 1,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R2": {
+          "unknown": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R2",
+          "state": "insufficient",
+          "severity": "review",
+          "code": "stress_non_dc"
+        }
+      ]
+    },
+    "r3-always-closed": {
+      "input_sha256": "ad75727fcf7f7747d69155e1255e2a55741434a7938ad2dfdb7b87c190eb50c1",
+      "input_bytes": 3195,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "ALPS SKHHAKA010: pins 1-2 are one always-closed group",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 1,
+        "satisfied": 0,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R3": {
+          "violations": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R3",
+          "state": "violated",
+          "severity": "hard",
+          "code": "always_closed_pair"
+        }
+      ]
+    },
+    "r3-internal-unknown": {
+      "input_sha256": "cb5a9c46245686f2f608c097b98af7e6a7db6a2d1cdcb2d9f77f9a2430ef9025",
+      "input_bytes": 1294,
+      "source_class": "synthetic_fixture",
+      "basis": "no MPN/internal-structure fact; rule must not guess groups",
+      "exit_code": 3,
+      "status": "review_required",
+      "totals": {
+        "checked": 1,
+        "satisfied": 0,
+        "violations": 0,
+        "unknown": 1,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R3": {
+          "unknown": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R3",
+          "state": "insufficient",
+          "severity": "review",
+          "code": "internal_structure_unknown"
+        }
+      ]
+    },
+    "r3-pressed-power-short": {
+      "input_sha256": "6aa48c460ed91e44d4e0ca2e81e7b836757fc3e49ae62a1ee78cc5c3ac8995b0",
+      "input_bytes": 3191,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "used pins on VIN and GND; pressing would short the rail",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 1,
+        "satisfied": 0,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R3": {
+          "violations": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R3",
+          "state": "violated",
+          "severity": "hard",
+          "code": "pressed_shorts_power_rails"
+        }
+      ]
+    },
+    "r3-switch-ok": {
+      "input_sha256": "3bb4ea1e2adf4f201a0ba8b9ce1bfdfd618606ceaa5ef42cd3795ed5b2053823",
+      "input_bytes": 3186,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "pins 1 and 3 are in different groups and press connects them",
+      "exit_code": 0,
+      "status": "pass_with_scope",
+      "totals": {
+        "checked": 1,
+        "satisfied": 1,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R3": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": []
+    },
+    "r4-open-drain-pullup-ok": {
+      "input_sha256": "eff9c4f1fdfff884e3ae412036d08c7a30988eff470ef6431034db728cf5fb99",
+      "input_bytes": 4578,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "open-drain PG with a resistor to a declared power net",
+      "exit_code": 0,
+      "status": "pass_with_scope",
+      "totals": {
+        "checked": 1,
+        "satisfied": 1,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R4": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": []
+    },
+    "r4-pin-role-conflict": {
+      "input_sha256": "dd6a81331a77bfb68701a1a73700d761ace9db4cef83e4e82fbcc5edf13818b0",
+      "input_bytes": 4266,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "TPS62130 PG is open-drain (SLVSAG7F Table 6-1); intent says push-pull",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 1,
+        "satisfied": 0,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R4": {
+          "violations": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R4",
+          "state": "violated",
+          "severity": "hard",
+          "code": "pin_capability_conflict"
+        }
+      ]
+    },
+    "r4-supply-overvoltage": {
+      "input_sha256": "8d45985528a50e359a78535012e97a6e8282250cd25351a6f642559ab2466d0e",
+      "input_bytes": 4274,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "TPS62130 recommended VIN 3-17 V; declared 24 V",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 2,
+        "satisfied": 0,
+        "violations": 2,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R4": {
+          "violations": 2
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R4",
+          "state": "violated",
+          "severity": "hard",
+          "code": "supply_out_of_range"
+        },
+        {
+          "rule_id": "R4",
+          "state": "violated",
+          "severity": "hard",
+          "code": "supply_out_of_range"
+        }
+      ]
+    },
+    "r5-ams-tab-missing": {
+      "input_sha256": "701d514a85bc5b5e3a86612406d33049f77d5434c446736257e252a33424de20",
+      "input_bytes": 3078,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "AMS1117 SOT-223 datasheet: TAB IS OUTPUT; TAB missing from pin 2",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 3,
+        "satisfied": 2,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R5": {
+          "satisfied": 2,
+          "violations": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R5",
+          "state": "violated",
+          "severity": "hard",
+          "code": "required_pad_missing"
+        }
+      ]
+    },
+    "r5-ams-tab-ok": {
+      "input_sha256": "ef7edfb8bdd9222480101a26adc169af07d4c9d6ff0803ca6734a6af5ac36d8d",
+      "input_bytes": 3093,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "TAB mapped to VOUT pin and VOUT net",
+      "exit_code": 0,
+      "status": "pass_with_scope",
+      "totals": {
+        "checked": 3,
+        "satisfied": 3,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R5": {
+          "satisfied": 3
+        }
+      },
+      "required_findings": []
+    },
+    "r5-exposed-pad-missing": {
+      "input_sha256": "335ca27f3f338b84d3908af4b6aa5ed144c42a012c02e301b44eb0ab01975757",
+      "input_bytes": 3796,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "TPS62130 exposed thermal pad (pin 17) absent from mapping",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 4,
+        "satisfied": 3,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R5": {
+          "satisfied": 3,
+          "violations": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R5",
+          "state": "violated",
+          "severity": "hard",
+          "code": "required_pin_missing"
+        }
+      ]
+    },
+    "r5-exposed-pad-ok": {
+      "input_sha256": "dcf0fd5f432c7edbac36ecf8d03bf0e6694a7c25bcdf0982e6ac87aa019f001b",
+      "input_bytes": 3943,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "EP present and connected to an evidenced ground partition",
+      "exit_code": 0,
+      "status": "pass_with_scope",
+      "totals": {
+        "checked": 4,
+        "satisfied": 4,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R5": {
+          "satisfied": 4
+        }
+      },
+      "required_findings": []
+    },
+    "r5-exposed-pad-wrong-net": {
+      "input_sha256": "2572f0cb31fa0e7ddcc3f160bcb7b951625f310b3b031fe2eaadfb7854223297",
+      "input_bytes": 3968,
+      "source_class": "synthetic_fixture_verified_fact",
+      "basis": "EP exists but its net is a signal, not the required ground",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 4,
+        "satisfied": 3,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R5": {
+          "satisfied": 3,
+          "violations": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R5",
+          "state": "violated",
+          "severity": "hard",
+          "code": "required_pad_wrong_net"
+        }
+      ]
+    },
+    "r5-no-pad-fact": {
+      "input_sha256": "df78123773fcfcf31379ef63745f61282b007af6cfedc0398c5516e6eea1e2c2",
+      "input_bytes": 1842,
+      "source_class": "synthetic_fixture",
+      "basis": "no pad fact means no centre-pad requirement and no pass claim",
+      "exit_code": 4,
+      "status": "incomplete",
+      "totals": {
+        "checked": 0,
+        "satisfied": 0,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {},
+      "required_findings": []
+    },
+    "r6-bulk-exempt": {
+      "input_sha256": "1dc0f7de78cf9676294b680768b0ecf47d8c00ec884c7c2ee18121d4a7e3945c",
+      "input_bytes": 2354,
+      "source_class": "synthetic_fixture",
+      "basis": "bulk capacitor explicitly exempt from local-distance threshold",
+      "exit_code": 0,
+      "status": "pass_with_scope",
+      "totals": {
+        "checked": 1,
+        "satisfied": 1,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 1,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R2": {
+          "not_applicable": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": []
+    },
+    "r6-geometry-missing": {
+      "input_sha256": "4f159b646f6ca0697912fbc6e62bb2e8a84186ef0f7f01520459082b95e9da12",
+      "input_bytes": 2052,
+      "source_class": "synthetic_fixture",
+      "basis": "no pad-level coordinates; body centre is not substituted",
+      "exit_code": 3,
+      "status": "review_required",
+      "totals": {
+        "checked": 1,
+        "satisfied": 0,
+        "violations": 0,
+        "unknown": 1,
+        "not_applicable": 1,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R2": {
+          "not_applicable": 1
+        },
+        "R6": {
+          "unknown": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R6",
+          "state": "insufficient",
+          "severity": "review",
+          "code": "geometry_missing"
+        }
+      ]
+    },
+    "r6-local-ok": {
+      "input_sha256": "d6e64228b2eb00148824f6b97aa0cff95d6270ee9976acadff15ca00bb1873e1",
+      "input_bytes": 2376,
+      "source_class": "synthetic_fixture",
+      "basis": "50 mil pad distance within project 150 mil constraint",
+      "exit_code": 0,
+      "status": "pass_with_scope",
+      "totals": {
+        "checked": 1,
+        "satisfied": 1,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 1,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R2": {
+          "not_applicable": 1
+        },
+        "R6": {
+          "satisfied": 1
+        }
+      },
+      "required_findings": []
+    },
+    "r6-local-too-far": {
+      "input_sha256": "1ba7a3b9b65b555ccdb92b4c592c85aadc9ac7aba50d1248f0b04b0231c73568",
+      "input_bytes": 2378,
+      "source_class": "synthetic_fixture",
+      "basis": "200 mil pad distance > project 150 mil constraint; Euclidean proxy",
+      "exit_code": 3,
+      "status": "review_required",
+      "totals": {
+        "checked": 1,
+        "satisfied": 0,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 1,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R2": {
+          "not_applicable": 1
+        },
+        "R6": {
+          "violations": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R6",
+          "state": "violated",
+          "severity": "review",
+          "code": "local_decoupling_too_far"
+        }
+      ]
+    },
+    "real-mcu-i2c-ams-tab": {
+      "input_sha256": "15d4528f9df403295f80f478d4c98d3a96c767b27529340812ac36be601e92ad",
+      "input_bytes": 4419,
+      "source_class": "real_engineering_read_only_replay_derived",
+      "basis": "frozen mcu-i2c case PCB dump/sch connectivity replayed offline; AMS1117 TAB on +3V3",
+      "exit_code": 0,
+      "status": "pass_with_scope",
+      "totals": {
+        "checked": 3,
+        "satisfied": 3,
+        "violations": 0,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R5": {
+          "satisfied": 3
+        }
+      },
+      "required_findings": []
+    },
+    "real-mcu-i2c-ams-tab-split": {
+      "input_sha256": "f47397e80ea44f2c1ff308131662fb3b75bd25feb5da746fdc52e105fe95e7a3",
+      "input_bytes": 4517,
+      "source_class": "derived_counterexample_mutation",
+      "basis": "counterexample mutation of the real replay: TAB moved to GND, so VOUT mapping misses the required TAB pad",
+      "exit_code": 1,
+      "status": "fail",
+      "totals": {
+        "checked": 3,
+        "satisfied": 2,
+        "violations": 1,
+        "unknown": 0,
+        "not_applicable": 0,
+        "invalid_input": 0
+      },
+      "rules": {
+        "R5": {
+          "satisfied": 2,
+          "violations": 1
+        }
+      },
+      "required_findings": [
+        {
+          "rule_id": "R5",
+          "state": "violated",
+          "severity": "hard",
+          "code": "required_pad_missing"
+        }
+      ]
+    }
+  }
+}

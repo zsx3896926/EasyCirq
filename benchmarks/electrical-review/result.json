@@ -1,0 +1,617 @@
+{
+  "schema": "zhigou.electrical-review.benchmark/v1",
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "eda_calls": 0,
+  "status": "pass",
+  "correctness": {
+    "passed": 31,
+    "total": 31,
+    "cases": [
+      {
+        "case": "invalid-contradiction",
+        "passed": true,
+        "problems": [],
+        "exit_code": 2,
+        "status": "invalid_input",
+        "source_class": "synthetic_invalid_input",
+        "basis": "inline pin net contradicts connectivity.pin_nets",
+        "input_sha256": "e3e03bd373dd9d12e13d731b810b8d31ad62578dfd1f7aafeb877774cc41a63f",
+        "input_bytes": 4025,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.137428,
+          "median_sec": 0.137919,
+          "max_sec": 0.141895
+        },
+        "stderr_tail": "review: connectivity.pin_nets.C1.1: inline pin net contradicts connectivity.pin_nets"
+      },
+      {
+        "case": "invalid-duplicate-ref",
+        "passed": true,
+        "problems": [],
+        "exit_code": 2,
+        "status": "invalid_input",
+        "source_class": "synthetic_invalid_input",
+        "basis": "two instances share one designator",
+        "input_sha256": "75168fa2f79ee9f44868f16ca611909503dd4f5dc4ab60c6c566524f2c4f1c0c",
+        "input_bytes": 3999,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.134858,
+          "median_sec": 0.138072,
+          "max_sec": 0.141047
+        },
+        "stderr_tail": "review: components[1].ref: duplicate designator"
+      },
+      {
+        "case": "invalid-nan",
+        "passed": true,
+        "problems": [],
+        "exit_code": 2,
+        "status": "invalid_input",
+        "source_class": "synthetic_invalid_input",
+        "basis": "NaN is rejected as non-finite JSON, no PASS reuse",
+        "input_sha256": "66149cdf223fe70154ed2ed24c762dba28b53822c5b50bb8baa8a2d7ef01d4ed",
+        "input_bytes": 1492,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.127806,
+          "median_sec": 0.135411,
+          "max_sec": 0.138306
+        },
+        "stderr_tail": "review: non-finite JSON number is not allowed: NaN"
+      },
+      {
+        "case": "invalid-unit",
+        "passed": true,
+        "problems": [],
+        "exit_code": 2,
+        "status": "invalid_input",
+        "source_class": "synthetic_invalid_input",
+        "basis": "unknown length unit is rejected",
+        "input_sha256": "f8fad410e43b92f3036d2701b7b1f0be0152c171c06940c68a99450475015c47",
+        "input_bytes": 1497,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.125079,
+          "median_sec": 0.128502,
+          "max_sec": 0.24706
+        },
+        "stderr_tail": "review: design.units.length: design.units.length: unsupported unit 'furlong'"
+      },
+      {
+        "case": "r1-flying-ok",
+        "passed": true,
+        "problems": [],
+        "exit_code": 0,
+        "status": "pass_with_scope",
+        "source_class": "synthetic_fixture",
+        "basis": "MAX3232 C1 terminals on two distinct partitions",
+        "input_sha256": "006ca0aeb61dd234440f2db439fcc4fb63ea2fd41571d98e2c379688df8367b5",
+        "input_bytes": 3999,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.127087,
+          "median_sec": 0.139511,
+          "max_sec": 0.140695
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "r1-flying-short",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture",
+        "basis": "both flying-cap terminals were forced onto the same net",
+        "input_sha256": "a8454ff5e33599ea41473b81c7874ddd933360b766c6f59fa53c79e8a18d053a",
+        "input_bytes": 3804,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.11918,
+          "median_sec": 0.12141,
+          "max_sec": 0.139174
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r1-flying-unknown-net",
+        "passed": true,
+        "problems": [],
+        "exit_code": 3,
+        "status": "review_required",
+        "source_class": "synthetic_fixture",
+        "basis": "one terminal net is absent; no proof either way",
+        "input_sha256": "40b120e7aee2846e12a89ba13ed1264ae8a18bc7dc9c138decd19ddf0ce451a4",
+        "input_bytes": 3782,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.129237,
+          "median_sec": 0.131345,
+          "max_sec": 0.136758
+        },
+        "stderr_tail": "review: status review_required (无硬性违反，但存在证据不足或项目策略项需要审查。)"
+      },
+      {
+        "case": "r1-flying-wrong-net",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture",
+        "basis": "C1 pin 2 is on SW but intent requires CN",
+        "input_sha256": "906e4df086d8a7e23dbd86633cdd6c29635d34d673e2033d9be6284e90bf160b",
+        "input_bytes": 4002,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.132172,
+          "median_sec": 0.133527,
+          "max_sec": 0.143033
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r2-dc-derived-ok",
+        "passed": true,
+        "problems": [],
+        "exit_code": 0,
+        "status": "pass_with_scope",
+        "source_class": "synthetic_fixture",
+        "basis": "DC interval 4.5-5.5 V against 25 V rating",
+        "input_sha256": "a6dcfd81fd31644e534082f88dbde816176b8a992c7a6238b038bd895347ad36",
+        "input_bytes": 1670,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.130885,
+          "median_sec": 0.133854,
+          "max_sec": 0.13699
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "r2-derating-shortfall",
+        "passed": true,
+        "problems": [],
+        "exit_code": 3,
+        "status": "review_required",
+        "source_class": "synthetic_fixture",
+        "basis": "25 V * 0.8 = 20 V policy limit, declared stress 21 V",
+        "input_sha256": "daebde186159b6003cd35f1945a6636c3829228a9c661a4ec20b9ef30036c11b",
+        "input_bytes": 1632,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.126551,
+          "median_sec": 0.128883,
+          "max_sec": 0.129649
+        },
+        "stderr_tail": "review: status review_required (无硬性违反，但存在证据不足或项目策略项需要审查。)"
+      },
+      {
+        "case": "r2-overvoltage-hard",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture",
+        "basis": "16 V rated capacitor with 24 V declared differential stress",
+        "input_sha256": "088a15a2a158e47f92cd2e13357d3584b91d117d5148973469e87fd469261af7",
+        "input_bytes": 1493,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.12226,
+          "median_sec": 0.125844,
+          "max_sec": 0.128648
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r2-switching-unknown",
+        "passed": true,
+        "problems": [],
+        "exit_code": 3,
+        "status": "review_required",
+        "source_class": "synthetic_fixture",
+        "basis": "one terminal is a switching node; single-ended voltage is not used",
+        "input_sha256": "acec06e35834f9f84cea21998b4935ec97d2add4a156add51df9f9ea92db324d",
+        "input_bytes": 1676,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.119527,
+          "median_sec": 0.120961,
+          "max_sec": 0.123719
+        },
+        "stderr_tail": "review: status review_required (无硬性违反，但存在证据不足或项目策略项需要审查。)"
+      },
+      {
+        "case": "r3-always-closed",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "ALPS SKHHAKA010: pins 1-2 are one always-closed group",
+        "input_sha256": "ad75727fcf7f7747d69155e1255e2a55741434a7938ad2dfdb7b87c190eb50c1",
+        "input_bytes": 3195,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.120679,
+          "median_sec": 0.124737,
+          "max_sec": 0.131416
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r3-internal-unknown",
+        "passed": true,
+        "problems": [],
+        "exit_code": 3,
+        "status": "review_required",
+        "source_class": "synthetic_fixture",
+        "basis": "no MPN/internal-structure fact; rule must not guess groups",
+        "input_sha256": "cb5a9c46245686f2f608c097b98af7e6a7db6a2d1cdcb2d9f77f9a2430ef9025",
+        "input_bytes": 1294,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.136238,
+          "median_sec": 0.138921,
+          "max_sec": 0.141709
+        },
+        "stderr_tail": "review: status review_required (无硬性违反，但存在证据不足或项目策略项需要审查。)"
+      },
+      {
+        "case": "r3-pressed-power-short",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "used pins on VIN and GND; pressing would short the rail",
+        "input_sha256": "6aa48c460ed91e44d4e0ca2e81e7b836757fc3e49ae62a1ee78cc5c3ac8995b0",
+        "input_bytes": 3191,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.134678,
+          "median_sec": 0.143747,
+          "max_sec": 0.147233
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r3-switch-ok",
+        "passed": true,
+        "problems": [],
+        "exit_code": 0,
+        "status": "pass_with_scope",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "pins 1 and 3 are in different groups and press connects them",
+        "input_sha256": "3bb4ea1e2adf4f201a0ba8b9ce1bfdfd618606ceaa5ef42cd3795ed5b2053823",
+        "input_bytes": 3186,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.116105,
+          "median_sec": 0.1171,
+          "max_sec": 0.124117
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "r4-open-drain-pullup-ok",
+        "passed": true,
+        "problems": [],
+        "exit_code": 0,
+        "status": "pass_with_scope",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "open-drain PG with a resistor to a declared power net",
+        "input_sha256": "eff9c4f1fdfff884e3ae412036d08c7a30988eff470ef6431034db728cf5fb99",
+        "input_bytes": 4578,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.113208,
+          "median_sec": 0.114009,
+          "max_sec": 0.118823
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "r4-pin-role-conflict",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "TPS62130 PG is open-drain (SLVSAG7F Table 6-1); intent says push-pull",
+        "input_sha256": "dd6a81331a77bfb68701a1a73700d761ace9db4cef83e4e82fbcc5edf13818b0",
+        "input_bytes": 4266,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.121134,
+          "median_sec": 0.131467,
+          "max_sec": 0.151233
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r4-supply-overvoltage",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "TPS62130 recommended VIN 3-17 V; declared 24 V",
+        "input_sha256": "8d45985528a50e359a78535012e97a6e8282250cd25351a6f642559ab2466d0e",
+        "input_bytes": 4274,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.123848,
+          "median_sec": 0.127359,
+          "max_sec": 0.134618
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r5-ams-tab-missing",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "AMS1117 SOT-223 datasheet: TAB IS OUTPUT; TAB missing from pin 2",
+        "input_sha256": "701d514a85bc5b5e3a86612406d33049f77d5434c446736257e252a33424de20",
+        "input_bytes": 3078,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.129951,
+          "median_sec": 0.130045,
+          "max_sec": 0.133332
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r5-ams-tab-ok",
+        "passed": true,
+        "problems": [],
+        "exit_code": 0,
+        "status": "pass_with_scope",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "TAB mapped to VOUT pin and VOUT net",
+        "input_sha256": "ef7edfb8bdd9222480101a26adc169af07d4c9d6ff0803ca6734a6af5ac36d8d",
+        "input_bytes": 3093,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.129406,
+          "median_sec": 0.137998,
+          "max_sec": 0.139764
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "r5-exposed-pad-missing",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "TPS62130 exposed thermal pad (pin 17) absent from mapping",
+        "input_sha256": "335ca27f3f338b84d3908af4b6aa5ed144c42a012c02e301b44eb0ab01975757",
+        "input_bytes": 3796,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.116389,
+          "median_sec": 0.130162,
+          "max_sec": 0.130773
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r5-exposed-pad-ok",
+        "passed": true,
+        "problems": [],
+        "exit_code": 0,
+        "status": "pass_with_scope",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "EP present and connected to an evidenced ground partition",
+        "input_sha256": "dcf0fd5f432c7edbac36ecf8d03bf0e6694a7c25bcdf0982e6ac87aa019f001b",
+        "input_bytes": 3943,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.10501,
+          "median_sec": 0.116497,
+          "max_sec": 0.121998
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "r5-exposed-pad-wrong-net",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "synthetic_fixture_verified_fact",
+        "basis": "EP exists but its net is a signal, not the required ground",
+        "input_sha256": "2572f0cb31fa0e7ddcc3f160bcb7b951625f310b3b031fe2eaadfb7854223297",
+        "input_bytes": 3968,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.108239,
+          "median_sec": 0.112127,
+          "max_sec": 0.112398
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      },
+      {
+        "case": "r5-no-pad-fact",
+        "passed": true,
+        "problems": [],
+        "exit_code": 4,
+        "status": "incomplete",
+        "source_class": "synthetic_fixture",
+        "basis": "no pad fact means no centre-pad requirement and no pass claim",
+        "input_sha256": "df78123773fcfcf31379ef63745f61282b007af6cfedc0398c5516e6eea1e2c2",
+        "input_bytes": 1842,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.114459,
+          "median_sec": 0.116375,
+          "max_sec": 0.116494
+        },
+        "stderr_tail": "review: status incomplete (输入中没有可被本模块审查的对象或声明。)"
+      },
+      {
+        "case": "r6-bulk-exempt",
+        "passed": true,
+        "problems": [],
+        "exit_code": 0,
+        "status": "pass_with_scope",
+        "source_class": "synthetic_fixture",
+        "basis": "bulk capacitor explicitly exempt from local-distance threshold",
+        "input_sha256": "1dc0f7de78cf9676294b680768b0ecf47d8c00ec884c7c2ee18121d4a7e3945c",
+        "input_bytes": 2354,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.112379,
+          "median_sec": 0.114788,
+          "max_sec": 0.118233
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "r6-geometry-missing",
+        "passed": true,
+        "problems": [],
+        "exit_code": 3,
+        "status": "review_required",
+        "source_class": "synthetic_fixture",
+        "basis": "no pad-level coordinates; body centre is not substituted",
+        "input_sha256": "4f159b646f6ca0697912fbc6e62bb2e8a84186ef0f7f01520459082b95e9da12",
+        "input_bytes": 2052,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.113624,
+          "median_sec": 0.114348,
+          "max_sec": 0.117361
+        },
+        "stderr_tail": "review: status review_required (无硬性违反，但存在证据不足或项目策略项需要审查。)"
+      },
+      {
+        "case": "r6-local-ok",
+        "passed": true,
+        "problems": [],
+        "exit_code": 0,
+        "status": "pass_with_scope",
+        "source_class": "synthetic_fixture",
+        "basis": "50 mil pad distance within project 150 mil constraint",
+        "input_sha256": "d6e64228b2eb00148824f6b97aa0cff95d6270ee9976acadff15ca00bb1873e1",
+        "input_bytes": 2376,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.113975,
+          "median_sec": 0.114313,
+          "max_sec": 0.121686
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "r6-local-too-far",
+        "passed": true,
+        "problems": [],
+        "exit_code": 3,
+        "status": "review_required",
+        "source_class": "synthetic_fixture",
+        "basis": "200 mil pad distance > project 150 mil constraint; Euclidean proxy",
+        "input_sha256": "1ba7a3b9b65b555ccdb92b4c592c85aadc9ac7aba50d1248f0b04b0231c73568",
+        "input_bytes": 2378,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.112969,
+          "median_sec": 0.11755,
+          "max_sec": 0.11775
+        },
+        "stderr_tail": "review: status review_required (无硬性违反，但存在证据不足或项目策略项需要审查。)"
+      },
+      {
+        "case": "real-mcu-i2c-ams-tab",
+        "passed": true,
+        "problems": [],
+        "exit_code": 0,
+        "status": "pass_with_scope",
+        "source_class": "real_engineering_read_only_replay_derived",
+        "basis": "frozen mcu-i2c case PCB dump/sch connectivity replayed offline; AMS1117 TAB on +3V3",
+        "input_sha256": "15d4528f9df403295f80f478d4c98d3a96c767b27529340812ac36be601e92ad",
+        "input_bytes": 4419,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.110425,
+          "median_sec": 0.111748,
+          "max_sec": 0.12083
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "real-mcu-i2c-ams-tab-split",
+        "passed": true,
+        "problems": [],
+        "exit_code": 1,
+        "status": "fail",
+        "source_class": "derived_counterexample_mutation",
+        "basis": "counterexample mutation of the real replay: TAB moved to GND, so VOUT mapping misses the required TAB pad",
+        "input_sha256": "f47397e80ea44f2c1ff308131662fb3b75bd25feb5da746fdc52e105fe95e7a3",
+        "input_bytes": 4517,
+        "timing": {
+          "runs": 3,
+          "min_sec": 0.11827,
+          "median_sec": 0.123775,
+          "max_sec": 0.124372
+        },
+        "stderr_tail": "review: status fail (存在已证明的硬性电气意图违反。)"
+      }
+    ]
+  },
+  "coverage": {
+    "rules": [
+      "R1",
+      "R2",
+      "R3",
+      "R4",
+      "R5",
+      "R6"
+    ],
+    "source_classes": [
+      "derived_counterexample_mutation",
+      "real_engineering_read_only_replay_derived",
+      "synthetic_fixture",
+      "synthetic_fixture_verified_fact",
+      "synthetic_invalid_input"
+    ],
+    "scenario_count": 31,
+    "positive_negative_unknown": {
+      "pass_with_scope": 9,
+      "fail": 11,
+      "review_required": 6,
+      "incomplete": 1,
+      "invalid_input": 4
+    },
+    "real_engineering_inputs": [
+      "real-mcu-i2c-ams-tab"
+    ],
+    "deformations": "covered by unittest suite, not by this CLI driver"
+  },
+  "timing": {
+    "runs_per_case": 3,
+    "statistic": "wall clock of the real CLI subprocess; no cross-version speed claim, no board-layout speed claim",
+    "environment": {
+      "python": "3.13.15",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64"
+    }
+  },
+  "not_covered": [
+    "real EDA CLI/daemon/connector (0 calls by contract)",
+    "native DRC / save-reopen / simulation / physical measurement",
+    "Gerber/CPL/drill, manufacturing DFM, assembly and power-on",
+    "netlist equivalence to the schematic; this module consumes the supplied connectivity as evidence",
+    "high-frequency loop, ESL, EMI and thermal performance"
+  ],
+  "note": "Offline review reliability and execution cost only; the frozen pass cases prove scope-limited rule satisfaction, not a whole board or hardware acceptance."
+}
