@@ -262,6 +262,7 @@ def build(snapshot_path, connectivity_path, designators_path, sheet_path,
 
     components = []
     used_nets = set()
+    envelopes = {}
     for ref, part in parts.items():
         pins = []
         for pin in part.get('pins') or []:
@@ -297,6 +298,25 @@ def build(snapshot_path, connectivity_path, designators_path, sheet_path,
         if not pins:
             blockers.append({'code': 'part_without_pins', 'designator': ref})
         bbox = _bbox(part.get('bbox'), f'{ref}.bbox')
+        # The body bbox is not the room a part needs on the sheet: connector shell
+        # and mounting pins stick out of the body by tens of raw. A page packer
+        # that rows parts by bbox leaves those pins no stub/flag room, and every
+        # autoconnect direction for them is rejected. Publish the pin-inclusive
+        # envelope so a packer can reserve it instead of re-deriving the union.
+        env = [bbox[0], bbox[1], bbox[2], bbox[3]]
+        for pin in pins:
+            env[0] = min(env[0], pin['x'])
+            env[1] = min(env[1], pin['y'])
+            env[2] = max(env[2], pin['x'])
+            env[3] = max(env[3], pin['y'])
+        envelopes[ref] = {
+            'body': {'minX': bbox[0], 'minY': bbox[1], 'maxX': bbox[2], 'maxY': bbox[3]},
+            'envelope': {'minX': env[0], 'minY': env[1], 'maxX': env[2], 'maxY': env[3]},
+            'overhang': {'left': round(bbox[0] - env[0], 3),
+                         'bottom': round(bbox[1] - env[1], 3),
+                         'right': round(env[2] - bbox[2], 3),
+                         'top': round(env[3] - bbox[3], 3)},
+        }
         if 'x' not in part or 'y' not in part:
             raise ValueError(f'{ref} has no stored anchor')
         anchor, anchor_warnings = _normalise_anchor(part, pins)
@@ -414,6 +434,7 @@ def build(snapshot_path, connectivity_path, designators_path, sheet_path,
                    'components_with_text_bbox': len(text_by_parent)},
         'blockers': blockers,
         'warnings': warnings,
+        'envelopes': envelopes,
         'page': {'bbox': sheet_bbox, 'innerBBox': inner_bbox,
                  'titleBlock': title_bbox, 'keepouts': keepouts},
         'provenance': {

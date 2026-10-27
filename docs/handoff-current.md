@@ -1,17 +1,21 @@
-# v1.0.1 publication recovery
+# Round 13 handoff: SkyPilot X1 feedback
 
-- v1.0.0 release exists, tag ce9b289; no installer assets were uploaded.
-- Release run 40463286671 failed in Python 3.10 full tests: adapters.py used a
-  Python 3.12-only nested f-string. Existing PR validation used default newer
-  Python; updater tests on 3.10 did not import the design engine.
-- Fixed fallback text ID formatting without changing its result; added full
-  Python 3.10/3.13 CI. Worktree C:/Users/jlc/work/hds-release-hotfix,
-  branch fix/release-python310. Source version 1.0.1.
-- Recovery workflow builds/tests exact main on four OS/Python combinations,
-  builds clean packages, verifies installed archive smoke, creates draft v1.0.1
-  with complete assets, then publishes latest and marks v1.0.0 superseded.
-  It refuses overwriting existing releases/assets and does not move v1.0.0 tag.
-- Targeted design engine: 73 OK. Local full suite / clean package and exact-head
-  Python 3.10 CI must be verified before final publication completion.
-- No EDA calls or installed user clients changed. Existing live/renderer limits
-  remain as documented. Notes: docs/releases/v1.0.1.md.
+- Baseline: `origin/main` at `9a951ed` (= published v1.0.1, installed on this
+  machine). Source version unchanged at 1.0.1; no release in this round.
+- Branch `feat/feedback-round13-skypilot` in worktree
+  `C:/Users/jlc/work/hds-feedback-r13`.
+- Done: six field lessons from the SkyPilot X1 nine-page schematic written into
+  `references/tool-gotchas.md` (table + §22–§26),
+  `references/schematic-layout-engine.md` (§5, §12),
+  `references/schematic-layout.md` (§3.2); `sch_layout_model.py` now publishes
+  per-part `envelopes` in `model-report.json`; one new unit test.
+- Evidence: `docs/feedback-round13-report.md`. Source task evidence lives
+  outside this repo (`skypilot-x1/build/`), so nothing here replays live
+  connector behaviour.
+- Checks run: full offline suite on Python 3.13 -> 1784 tests OK;
+  `skill_selftest.py` -> 5 PASS / 0 FAIL. Python 3.10 not installed locally
+  (`NOT RUN`); `validate.yml` covers it in CI.
+- Not covered: gate verdict after adding zone frames/title block; queue-exhaustion
+  threshold on other client versions; the 40/45-raw packing margins are A4-specific
+  measurements, not constants.
+- Next: push branch, open PR, watch the validate matrix (3.10 + 3.13).
