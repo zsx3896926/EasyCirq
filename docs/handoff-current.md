@@ -1,10 +1,11 @@
 # 当前交接（Round 12 反馈闭环）
 
-> 写入时间：2026-10-27 12:24 (+08)。本文件只保留当前有效状态；历史细节见
+> 写入时间：2026-10-27 12:33 (+08)。本文件只保留当前有效状态；历史细节见
 > `docs/round12/report.md`、`docs/round12/acceptance-matrix.md`、
 > `docs/round12/offline-vertical-case.md`。本轮已完成五项源码收紧（PCB 写前
 > `before_dump` 门禁、acceptance 契约、电容角色、显式 `simulated`、PCB apply
-> 窗口/文档 UUID 路由），代码/测试/基准提交 `8b7706b`；本文件与文档批次随后提交。
+> 窗口/文档 UUID 路由），代码/测试/基准提交 `8b7706b`；文档批次 `b220bf3`
+> 已推送且 CI 通过，本文件随后更新。
 
 ## 1. 目标与任务表
 
@@ -17,16 +18,15 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `feat/feedback-loop-round12`（已推送） |
-| HEAD（代码/测试/基准） | `8b7706b`（窗口路由 `427a07c`，文档 `0c5eb71`） |
+| HEAD（代码/测试/基准） | `8b7706b`（窗口路由 `427a07c`，文档 `0c5eb71`、`b220bf3`） |
 | 基线 | `origin/main` `1954e15`；PR #30 目标分支已改为 `main` |
-| PR | #30，state OPEN，mergeable MERGEABLE；CI 于本次推送后确认 |
+| PR | #30，state OPEN，mergeable MERGEABLE；`b220bf3` 的 CI 已通过（validate ×2、updater ×2、publish skipping） |
 | 工作树 | `C:/Users/jlc/work/hds-feedback-r12`（隔离 worktree） |
 | 已安装客户端 | 仍 0.9.2；源码 0.9.3 未 bump、未安装、未发 Release |
 
-当前文档批次（本文件、`docs/round12/acceptance-matrix.md`、
-`docs/round12/report.md`、`docs/round12/offline-vertical-case.md`、
-`design-hardware/CHANGELOG.md`）与 `427a07c` 一起构成最终分支；文档提交后工作树
-应为干净。不要清理其他会话的 `.tmp-*`/`None.tmp`。
+当前文档批次与真机验证辅助脚本（`docs/round12/evidence/live-vertical/build_plan.py`，
+只拼 JSON、不调用 EDA）在本文件更新后一并提交；提交后工作树应为干净。不要清理
+其他会话的 `.tmp-*`/`None.tmp`。
 
 ## 3. 已完成 / 进行中
 
@@ -55,6 +55,8 @@
 - 最终报告：`docs/round12/report.md`（已更新）；
 - 离线基准 `tools/feedback_benchmark.py` -> **16/16 PASS**，产物
   `benchmarks/offline-round12/result.json`（simulated host，`real_eda=NOT RUN`）；
+- 真机纵向验证的 plan 组装辅助 `docs/round12/evidence/live-vertical/build_plan.py`
+  （只读 observation/dump/contract 拼 JSON，不调用 EDA；`--help` 已验证）；
 - 三个案例 JSON 的证据路径指向现存基准，证据链闭合。
 
 进行中 / 未开始：
@@ -62,7 +64,8 @@
 - **真实 EDA 纵向验证未开始**：另一个会话 jlc-b9 正在独立副本
   `usb-audio-verify-r12`（P1 `660075c31db6f396`，窗口
   `c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7`）做保存/重开收尾；12:24 我们已回复
-  确认接下来 10 分钟不写 EasyEDA、不切换窗口/文档。窗口释放并确认归属前不抢窗口。
+  确认接下来 10 分钟不写 EasyEDA、不切换窗口/文档；12:33 其状态仍为 busy。
+  窗口释放并确认归属前不抢窗口。
 - **C2 专项 apply 未单独执行**：photo-led C2 分支停在 preview；C2 候选约
   103.16mil，未达到 ≤100mil。
 - 文档批次提交后工作树应为干净（见第 2 节）。
@@ -137,15 +140,14 @@
    manufacturing/physical` 全部 `not_run`；三个案例共享源工程
    `photo-led-pcb-20261026`，按“一个项目三个场景”计数。
 6. **未安装**：客户端仍 0.9.2；源码 0.9.3 未安装、未发 Release。
-7. **PR 未合并**：PR #30（base `main`）待本次推送后的 CI 确认；待真机纵向验证
-   完成或明确记录其未执行后，再决定合并。
+7. **PR 未合并**：PR #30（base `main`）的 `b220bf3` CI 已通过、mergeable
+   MERGEABLE；待真机纵向验证完成或明确记录其未执行后，再决定合并。
 
 ## 8. 下一条具体操作
 
-1. **提交文档批次并推送**：`git add` 五份文档（本文件、验收矩阵、报告、纵向案例、
-   CHANGELOG），提交并推送 `feat/feedback-loop-round12`，确认 CI；用
-   `gh pr edit 30` 更新 PR 描述（16/16、283/1593、`8b7706b`、窗口/文档 UUID
-   路由、verify 事实来源、真机 NOT RUN）。
+1. **文档批次与辅助脚本已提交/推送**（`b220bf3` 及后续文档提交），`b220bf3` CI
+   已通过；PR 描述已更新（16/16、283/1593、`8b7706b`、窗口/文档 UUID 路由、
+   verify 事实来源、真机 NOT RUN）。
 2. **等 jlc-b9 释放窗口**并收到其消息后，重新确认窗口归属与无其他写入者，再新建
    独立工程副本做真机纵向验证：`probe` → `observe`（`--window` + 明确 sch/pcb
    文档 UUID）→ `preview`（`writes_sent=0`）→ dry-run `apply` → `apply --apply`

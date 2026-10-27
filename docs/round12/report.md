@@ -27,7 +27,7 @@
 | C | 分层质量评价 + 候选比较（`evaluate`、`compare_candidates`） | PASS | PASS：`test_feedback_evaluate.py` 65 tests OK；基准 `drc_zero_but_poor`、`cap_roles`、`prettier_but_worse` PASS | BLOCKED（未重跑真实 DRC/check） | `design-hardware/scripts/feedback/evaluate.py`；`tests/test_feedback_evaluate.py`；`copy-pcb-check-before.json`、`copy-sch-score.json` | 已分 bulk / 局部去耦 / 未知三档：bulk 仅 conditional 且不进 `drc_zero_but_quality_issues`，未知角色 `auto_action_allowed=false`；容值解析仍是启发式，需规则/人工复核 |
 | D | 修改契约/差异/不变量/恢复（`build_contract`、`diff_observations`、`check_invariants`、`recover`） | PASS | PASS：`test_feedback_scope.py` 71 OK；基准 `out_of_scope_refused`、`locked_refused`、`stale_baseline`、`partial_recovery`、`acceptance` PASS | BLOCKED（真实越界/并发/部分写未演练） | `design-hardware/scripts/feedback/scope.py`；`tests/test_feedback_scope.py`；验收矩阵第 6–9 行 | 故障注入为 fake；宿主无原子回滚；真实部分写恢复未演练；acceptance 缺计数时判 unknown，不按 0 通过 |
 | E | 案例库/检索/复用 + 验收矩阵 + 基准（`feedback/cases.py`、`cases/index.json`） | PASS | PASS：`test_feedback_cases.py` 44 OK；3 例 validate 通过；case-search 实跑 2 匹配 + 1 拒绝；基准 `case_library` PASS 且覆盖计数 3 cases / 1 project / 3 scenarios；`feedback_benchmark.py` 16/16 | NOT RUN（未做真实复用） | `design-hardware/cases/feedback-r12/*.json`；`design-hardware/cases/index.json`；`benchmarks/offline-round12/result.json`；`docs/round12/acceptance-matrix.md` | 案例最高只有 `structural`；三个案例共享源工程 `photo-led-pcb-20261026`，按“一个项目的三个场景”计数 |
-| F | Skill 正常入口/参考文档/版本（`SKILL.md`、`references/feedback-loop.md`） | PASS（静态） | PASS：`skill_selftest.py` 5 PASS / 0 FAIL / 0 NOT RUN | NOT RUN（客户端仍装 0.9.2，未实测） | `design-hardware/SKILL.md`（未提交修改）；`design-hardware/references/feedback-loop.md`；`design-hardware/scripts/feedback_loop.py` | 未替换用户安装版、未发 Release；新入口在 Claude Code/Codex/WorkBuddy 均未实测 |
+| F | Skill 正常入口/参考文档/版本（`SKILL.md`、`references/feedback-loop.md`） | PASS（静态） | PASS：`skill_selftest.py` 5 PASS / 0 FAIL / 0 NOT RUN | NOT RUN（客户端仍装 0.9.2，未实测） | `design-hardware/SKILL.md`；`design-hardware/references/feedback-loop.md`；`design-hardware/scripts/feedback_loop.py` | 未替换用户安装版、未发 Release；新入口在 Claude Code/Codex/WorkBuddy 均未实测 |
 
 ## 2. 版本与测试快照
 
@@ -57,7 +57,7 @@
 | `python tools/feedback_benchmark.py` | **16/16 PASS** -> `benchmarks/offline-round12/result.json` |
 | `python design-hardware/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN |
 
-全量套件包含反馈测试与仓库其它测试，1589 是本次实跑总数；此前交接里的旧测试
+全量套件包含反馈测试与仓库其它测试，1593 是本次实跑总数；此前交接里的旧测试
 快照已被本轮新增用例取代。
 
 基准 16 个用例：
@@ -126,6 +126,7 @@ PCB 写入的 plan **必须**携带原始实测 dump（`before_dump`，如
 - `docs/round12/acceptance-matrix.md`：12 行验收矩阵；
 - `docs/round12/offline-vertical-case.md`：photo-led 冻结夹具的模拟全链路；
 - `docs/round12/evidence/live-baseline/`：真实只读捕获（PCB dump、check、sch score、DRC、save 回执等）；
+- `docs/round12/evidence/live-vertical/build_plan.py`：真机纵向验证的 plan 组装辅助（只拼 JSON，不调用 EDA；真机尚未执行）；
 - `benchmarks/offline-round12/result.json`：16 个离线基准结果（`real_eda=NOT RUN`）；
 - `tools/feedback_benchmark.py`：离线基准生成器；
 - `tests/test_feedback_{loop,cases,evaluate,observe,scope,cli}.py`：离线测试；
