@@ -94,7 +94,7 @@ categories + 1 standard).
 
 | Requirement | Evidence | Status |
 |---|---|---|
-| per module: normal, no-solution, missing-facts, tolerance boundary | 210 unit tests (23/36/36/26/37/33 + 19 compose) | DONE |
+| per module: normal, no-solution, missing-facts, tolerance boundary | 212 unit tests (25/36/36/26/37/33 + 19 compose) | DONE |
 | expected values independently derived | formula comments; `calculation-review.md` | DONE |
 | ≥24 real CLI scenarios incl. six modules and compose positive/negative | **54** frozen CLI cases (43 `cases/` + 11 `holdout/`), 101 CLI invocations | DONE |
 | frozen input SHA, expected standard value/interval/status/endpoints; post-generate `validate` consistency | every `case.json` has `input_sha256` + expectations; runner validates and recomputes | DONE |

@@ -36,12 +36,13 @@ Statuses: `ready_abstract`, `needs_device_facts`, `unsupported`,
 
 | Check | Result |
 |---|---|
-| circuit-block unit tests (`tests/circuit_blocks`: 7 files) | **210 tests, OK** (LED 23, button 36, open-drain 36, ADC 26, NMOS 37, LDO 33, compose 19) |
-| full repository test suite (`python -m unittest discover -s tests`) | **1993 tests, OK** — the new tests are discovered with the repo's own CI command and nothing existing regressed |
+| circuit-block unit tests (`tests/circuit_blocks`: 7 files) | **212 tests, OK** (LED 25, button 36, open-drain 36, ADC 26, NMOS 37, LDO 33, compose 19) |
+| full repository test suite (`python -m unittest discover -s tests`) | **1995 tests, OK** — the new tests are discovered with the repo's own CI command and nothing existing regressed |
 | frozen CLI benchmark (`benchmarks/circuit-blocks/run_benchmarks.py`) | **54/54 cases passed** (43 `cases/` + 11 `holdout/`), 101 CLI invocations, `real_eda=NOT RUN` |
 | per-case checks | exit code, status, frozen input SHA-256, component values/series/tolerance/binding, ports, nets, endpoint→net, calculation values (1e-9 rel.), `validate --recompute` match, tampered net and tampered component value rejected both with the original hash and with a re-computed hash |
 | determinism | same inputs → identical bytes/hash; unit respelling → same hash; display rename → same topology hash |
 | result self-validation | every `generate` runs `validate_module_result` on its own output; a generator bug raises instead of emitting a plausible result |
+| GitHub Actions on PR #44 | `validate` (Python 3.10 and 3.13, ubuntu) and `updater` (ubuntu + windows) **pass** |
 | timing | median 223 ms, p95 293 ms per CLI invocation (Python 3.13, Windows, cold subprocess each call). This is **generation** time, not board-design speed; no speed-up is claimed. |
 
 Verified device facts (primary manufacturer/standards documents; details in
@@ -97,7 +98,9 @@ example adds an LDO with explicit EN tying and a declared 5 V current boundary.
 - compose mishandled blocks that failed before producing a port table (now
   reported as `unsupported`/`incomplete` instead of `input_invalid`);
 - compose treated an inbound design-port current as demand (now a boundary
-  rating/capability).
+  rating/capability);
+- candidate value lists were hashed in caller order (now normalised to ascending
+  canonical order, so JSON/candidate ordering cannot change a result or hash).
 
 See `calculation-review.md` for the arithmetic review and `acceptance-matrix.md`
 for the requirement-by-requirement evidence table.

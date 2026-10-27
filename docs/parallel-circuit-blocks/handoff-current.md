@@ -9,7 +9,7 @@
   merged). Six modules work end-to-end (`list` → `describe` → `generate` → `validate`,
   plus `compose`): `led_indicator`, `button_input`, `open_drain_pullup`,
   `adc_divider`, `low_side_nmos`, `ldo_supply`.
-- 210 circuit-block tests pass; the full repository suite (1993 tests) passes
+- 212 circuit-block tests pass; the full repository suite (1995 tests) passes
   with the repo's own `python -m unittest discover -s tests`.
 - Frozen CLI benchmark: 54/54 (43 cases + 11 holdouts, 101 CLI calls,
   `real_eda=NOT RUN`).
