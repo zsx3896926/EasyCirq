@@ -1,0 +1,16 @@
+{
+  "schema": "mechanical-layout-benchmark-expected/v1",
+  "case": "snapshot_stale",
+  "command": "audit",
+  "args": [
+    "--snapshot",
+    "benchmarks/mechanical-layout/cases/snapshot_source.txt"
+  ],
+  "exit_code": 2,
+  "status": "invalid",
+  "required_rules": [],
+  "forbidden_rules": [],
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "notes": "hand-derived from geometry/contract; not copied from actual output"
+}

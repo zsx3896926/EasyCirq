@@ -1,0 +1,244 @@
+{
+  "schema": "mechanical-layout/v1",
+  "document": {
+    "id": "holdout_height_unknown",
+    "title": "frozen benchmark holdout_height_unknown",
+    "revision": "frozen-1",
+    "units": "mm",
+    "source": "synthetic benchmark fixture, not a user project",
+    "snapshot": {
+      "id": "holdout_height_unknown",
+      "source": "synthetic benchmark fixture"
+    }
+  },
+  "provenance": [
+    {
+      "id": "P1",
+      "kind": "synthetic",
+      "ref": "benchmark fixture"
+    }
+  ],
+  "board": {
+    "id": "PCB1",
+    "frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": 0.0
+    },
+    "outline": {
+      "outer": [
+        [
+          0,
+          0
+        ],
+        [
+          100.0,
+          0
+        ],
+        [
+          100.0,
+          60.0
+        ],
+        [
+          0,
+          60.0
+        ]
+      ],
+      "holes": []
+    },
+    "thickness": {
+      "nominal": 1.6,
+      "min": 1.5,
+      "max": 1.7
+    }
+  },
+  "components": [
+    {
+      "id": "U1",
+      "side": "top",
+      "pose": {
+        "x": 40.0,
+        "y": 20.0,
+        "rotation_deg": 0
+      },
+      "shape": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          5.0,
+          5.0
+        ]
+      }
+    },
+    {
+      "id": "J1",
+      "side": "top",
+      "locked": true,
+      "pose": {
+        "x": 4.0,
+        "y": 20.0,
+        "rotation_deg": 0
+      },
+      "shape": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          8.0,
+          6.0
+        ]
+      },
+      "height": {
+        "nominal": 3.0,
+        "min": 2.9,
+        "max": 3.1
+      }
+    }
+  ],
+  "holes": [
+    {
+      "id": "H1",
+      "center": [
+        20.0,
+        30.0
+      ],
+      "diameter": {
+        "nominal": 3.2,
+        "min": 3.1,
+        "max": 3.3
+      },
+      "kind": "mounting",
+      "plated": false,
+      "screw": {
+        "diameter": 5.5,
+        "height": 3.0,
+        "side": "top"
+      },
+      "tool": {
+        "kind": "hex_key",
+        "diameter": 4.0,
+        "height": 10.0,
+        "side": "top",
+        "start": {
+          "from": "head_top",
+          "offset": 0
+        }
+      }
+    }
+  ],
+  "interfaces": [
+    {
+      "id": "IF1",
+      "kind": "connector",
+      "component": "J1",
+      "requires_opening": true,
+      "opening": "OP1",
+      "frame": {
+        "origin": [
+          -4.5,
+          0.0,
+          1.5
+        ],
+        "rotation_deg": 180.0
+      },
+      "alignment": {
+        "max_offset": 0.2,
+        "max_angle_deg": 2.0
+      },
+      "plug": {
+        "width": 5.0,
+        "height": 2.0,
+        "length": 8.0,
+        "clearance": 0.3
+      },
+      "cable": {
+        "space": {
+          "kind": "rect",
+          "center": [
+            -18.0,
+            20.0
+          ],
+          "size": [
+            10.0,
+            8.0
+          ]
+        },
+        "z": {
+          "min": -3.0,
+          "max": 6.0
+        },
+        "frame": "world",
+        "modeled": true
+      }
+    }
+  ],
+  "constraints": {
+    "board_edge_margin": 1.0,
+    "fixed": [
+      "U1"
+    ]
+  },
+  "enclosure": {
+    "id": "ENC1",
+    "frame": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation_deg": 0.0
+    },
+    "cavity": {
+      "outer": [
+        [
+          -10.0,
+          -10.0
+        ],
+        [
+          110.0,
+          -10.0
+        ],
+        [
+          110.0,
+          70.0
+        ],
+        [
+          -10.0,
+          70.0
+        ]
+      ]
+    },
+    "z": {
+      "bottom": -8.0,
+      "top": 20.0
+    },
+    "posts": [],
+    "ribs": [],
+    "openings": [
+      {
+        "id": "OP1",
+        "kind": "connector",
+        "frame": {
+          "origin": [
+            -10.0,
+            20.0,
+            1.5
+          ],
+          "rotation_deg": 180.0
+        },
+        "width": 8.0,
+        "height": 4.0,
+        "position_tolerance": 0.2,
+        "angle_tolerance_deg": 2.0
+      }
+    ]
+  }
+}

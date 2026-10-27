@@ -1,0 +1,4 @@
+# Keep the frozen benchmark bytes exact: the runner hashes inputs/expected by
+# SHA-256, so line-ending conversion must not change them on checkout.
+*.json -text
+*.txt -text

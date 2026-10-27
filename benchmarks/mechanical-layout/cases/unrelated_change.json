@@ -1,0 +1,349 @@
+{
+  "schema": "mechanical-layout/v1",
+  "document": {
+    "id": "unrelated_change",
+    "title": "Frozen benchmark: small panel board with one aligned edge connector",
+    "revision": "frozen-1",
+    "units": "mm",
+    "source": "synthetic benchmark fixture, not a user project",
+    "snapshot": {
+      "id": "unrelated_change",
+      "source": "synthetic benchmark fixture"
+    }
+  },
+  "provenance": [
+    {
+      "id": "P1",
+      "kind": "synthetic",
+      "ref": "benchmark fixture",
+      "note": "all dimensions are synthetic; GCT USB4105 body facts only inspire the connector outline"
+    }
+  ],
+  "board": {
+    "id": "PCB1",
+    "frame": {
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation_deg": 0
+    },
+    "outline": {
+      "outer": [
+        [
+          0,
+          0
+        ],
+        [
+          100,
+          0
+        ],
+        [
+          100,
+          60
+        ],
+        [
+          0,
+          60
+        ]
+      ],
+      "holes": [
+        [
+          [
+            40,
+            8
+          ],
+          [
+            45,
+            8
+          ],
+          [
+            45,
+            12
+          ],
+          [
+            40,
+            12
+          ]
+        ]
+      ]
+    },
+    "thickness": {
+      "nominal": 1.6,
+      "min": 1.5,
+      "max": 1.7
+    }
+  },
+  "enclosure": {
+    "id": "ENC1",
+    "frame": {
+      "origin": [
+        0,
+        0,
+        0
+      ],
+      "rotation_deg": 0
+    },
+    "cavity": {
+      "outer": [
+        [
+          -10,
+          -10
+        ],
+        [
+          110,
+          -10
+        ],
+        [
+          110,
+          70
+        ],
+        [
+          -10,
+          70
+        ]
+      ]
+    },
+    "z": {
+      "bottom": -8,
+      "top": 20
+    },
+    "posts": [],
+    "ribs": [],
+    "openings": [
+      {
+        "id": "OP1",
+        "kind": "connector",
+        "frame": {
+          "origin": [
+            -10,
+            30,
+            1.6
+          ],
+          "rotation_deg": 180
+        },
+        "width": 9.4,
+        "height": 4.2,
+        "position_tolerance": 0.3,
+        "angle_tolerance_deg": 2.0
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "J1",
+      "side": "top",
+      "locked": true,
+      "library": {
+        "part": "USB-C receptacle (synthetic)",
+        "vendor": "GCT USB4105 family"
+      },
+      "pose": {
+        "x": 4.47,
+        "y": 30,
+        "rotation_deg": 0
+      },
+      "shape": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          8.94,
+          7.35
+        ]
+      },
+      "height": {
+        "nominal": 3.31,
+        "min": 3.0,
+        "max": 3.4
+      }
+    },
+    {
+      "id": "U1",
+      "side": "top",
+      "pose": {
+        "x": 55,
+        "y": 30,
+        "rotation_deg": 0
+      },
+      "shape": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          5,
+          5
+        ]
+      },
+      "courtyard": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          6,
+          6
+        ]
+      },
+      "height": {
+        "nominal": 1.2,
+        "min": 1.1,
+        "max": 1.3
+      }
+    },
+    {
+      "id": "U9",
+      "side": "top",
+      "pose": {
+        "x": 80.0,
+        "y": 45.0,
+        "rotation_deg": 0
+      },
+      "shape": {
+        "kind": "rect",
+        "center": [
+          0,
+          0
+        ],
+        "size": [
+          3.0,
+          3.0
+        ]
+      },
+      "height": {
+        "nominal": 1.0,
+        "min": 0.9,
+        "max": 1.1
+      }
+    }
+  ],
+  "holes": [
+    {
+      "id": "H1",
+      "center": [
+        20,
+        30
+      ],
+      "diameter": {
+        "nominal": 3.2,
+        "min": 3.1,
+        "max": 3.3
+      },
+      "kind": "mounting",
+      "plated": false,
+      "screw": {
+        "diameter": 5.5,
+        "height": 3.0,
+        "side": "top"
+      },
+      "washer": {
+        "diameter": 7.0,
+        "thickness": 0.5,
+        "side": "top"
+      },
+      "tool": {
+        "kind": "hex_key",
+        "diameter": 4.0,
+        "height": 10.0,
+        "side": "top",
+        "start": {
+          "from": "head_top",
+          "offset": 0
+        }
+      }
+    }
+  ],
+  "interfaces": [
+    {
+      "id": "IF1",
+      "kind": "connector",
+      "component": "J1",
+      "requires_opening": true,
+      "opening": "OP1",
+      "frame": {
+        "origin": [
+          -4.97,
+          0,
+          1.6
+        ],
+        "rotation_deg": 180
+      },
+      "alignment": {
+        "max_offset": 0.3,
+        "max_angle_deg": 2.0
+      },
+      "plug": {
+        "width": 6.5,
+        "height": 2.6,
+        "length": 10.0,
+        "clearance": 0.5
+      },
+      "cable": {
+        "space": {
+          "kind": "rect",
+          "center": [
+            -20,
+            30
+          ],
+          "size": [
+            12,
+            10
+          ]
+        },
+        "z": {
+          "min": -4,
+          "max": 8
+        },
+        "frame": "world",
+        "modeled": true
+      }
+    }
+  ],
+  "constraints": {
+    "board_edge_margin": 1.0,
+    "fixed": [
+      "J1"
+    ],
+    "movable": [
+      "U1"
+    ],
+    "candidate_ranges": [
+      {
+        "object": "U1",
+        "rotations_deg": [
+          0,
+          90
+        ],
+        "positions": [
+          [
+            55,
+            30
+          ],
+          [
+            55,
+            45
+          ],
+          [
+            70,
+            30
+          ]
+        ]
+      }
+    ],
+    "preferences": [
+      {
+        "object": "U1",
+        "position": [
+          55,
+          45
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schema": "mechanical-layout-source-facts/v1",
+  "source_id": "USB-GCT-4105",
+  "part": "USB4105-GF-A",
+  "class": "edge_connector",
+  "manufacturer": "Global Connector Technology (GCT)",
+  "document": "USB Type C Receptacle for USB 2.0, SMT Type, PCB Top Mount - product drawing",
+  "url": "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/5492/USB4105.pdf",
+  "mirror_note": "GCT drawing hosted by Digi-Key; drawing copyright GCT. Product page: https://gct.co/connector/usb4105",
+  "revision": "Drawing revision B3, dated 24/02/23; drawing date 04/10/2019; sheet 1/2",
+  "read_scope": "sheet 1/2 text layer only (mechanical outline + recommended PCB layout + mating view); sheet 2/2 packaging only; drawing graphics not measured pixel-by-pixel",
+  "units": "mm",
+  "tolerances_from_drawing": "X. ±0.38, X.X ±0.30, X.XX ±0.15, X.XXX ±0.10 unless noted",
+  "dimensions": {
+    "body_width_mm": {"nominal": 8.94, "basis": "overall width dimension on sheet 1/2"},
+    "body_depth_mm": {"nominal": 7.35, "basis": "front-to-back overall dimension on sheet 1/2"},
+    "body_height_mm": {"nominal": 3.31, "basis": "profile height above PCB on sheet 1/2"},
+    "shell_width_mm": {"nominal": 8.34, "min": 8.34, "max": 8.40, "basis": "8.34 +0.06/-0.02 on sheet 1/2"},
+    "plug_max_width_mm": {"nominal": 6.5, "basis": "Plug and Receptacle Mating View, 6.5 Max."}
+  },
+  "unresolved": [
+    "exact distance from the mating face to the PCB edge (the drawing marks 'PCB Edge' and '1.85 Min' but the extracted text does not make the attachment unambiguous)",
+    "mating datum location relative to the SMT pads",
+    "plug insertion depth and plug height envelope",
+    "panel-opening recommendation"
+  ],
+  "usage_note": "Synthetic layout fact only: use body width/depth/height as a declared vendor body projection, and the 6.5 mm max plug width as a declared synthetic plug cross-section input after explicitly labelling the height/depth assumptions as synthetic. Do not present this as a user-project measurement or as a full 3D assembly.",
+  "limitations": [
+    "text extraction from a dimensioned drawing does not prove which feature each leader points to; only the clearly named values above were retained",
+    "no CAD model was downloaded; no licence for redistributing the drawing is claimed"
+  ]
+}
