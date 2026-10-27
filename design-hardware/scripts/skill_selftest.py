@@ -544,7 +544,7 @@ def check_case_regression(root, timeout=180):
 
 
 def check_python_compile(root):
-    scripts = sorted((root / "scripts").glob("*.py"))
+    scripts = sorted((root / "scripts").rglob("*.py"))
     if not scripts:
         return _check("python-compile", "FAIL", "no scripts/*.py found")
     failures = []

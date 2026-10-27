@@ -1,0 +1,55 @@
+name: Complete v1.0.1 stable publication
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'design-hardware/.version'
+      - '.github/workflows/release-v1-hotfix.yml'
+permissions:
+  contents: read
+jobs:
+  verify:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        python: ['3.10', '3.13']
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Verify exact hotfix version
+        run: python -c "from pathlib import Path; assert Path('design-hardware/.version').read_text().strip() == '1.0.1'"
+      - run: python -m unittest discover -s tests
+      - run: python design-hardware/scripts/skill_selftest.py --root design-hardware
+      - run: python tools/ecosystem_smoke.py
+  publish:
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - run: python distribution/build_release.py --output dist --require-clean
+      - run: python tools/release_smoke.py --dist dist
+      - name: Publish complete assets without replacing the v1.0.0 tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="v$(cat design-hardware/.version)"
+          test "$TAG" = 'v1.0.1'
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo 'Release already exists; refusing to replace its assets.'
+            exit 1
+          fi
+          gh release create "$TAG" dist/design-hardware-*.zip dist/release.json dist/Manage-Skill.ps1 dist/Manage-Skill.cmd dist/skill_update.py dist/companion_update.py dist/LICENSE dist/NOTICE dist/INSTALL.md dist/SHA256SUMS --target "$GITHUB_SHA" --draft --title '智构 v1.0.1' --notes-file docs/releases/v1.0.1.md
+          gh release edit "$TAG" --draft=false --latest
+          gh release edit v1.0.0 --prerelease --title 'v1.0.0 — superseded by v1.0.1' --notes 'The v1.0.0 tag is preserved. Its asset publication failed due to Python 3.10 syntax incompatibility. Use v1.0.1, which fixes compatibility and includes the complete verified installer assets.'
