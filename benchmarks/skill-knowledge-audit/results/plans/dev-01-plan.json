@@ -1,0 +1,331 @@
+{
+  "active_topics": [
+    "protect.workflow-evidence",
+    "design.gates",
+    "schematic.new",
+    "domain.digital",
+    "domain.analog",
+    "sourcing.part"
+  ],
+  "budget": {
+    "files": 9,
+    "limit_chars": 120000,
+    "required_chars": 76324,
+    "selected_bytes": 150724,
+    "selected_chars": 79674,
+    "status": "within",
+    "token_estimate": {
+      "high": 66395,
+      "low": 39837,
+      "method": "character-class band: ~0.5-0.83 token/char overall (CJK roughly 0.6-1.0 token/char, ASCII roughly 0.25-0.5); not a tokenizer and not an exact Chinese token count"
+    },
+    "uncovered": []
+  },
+  "cache": {
+    "catalog_version": "2026-10-27.1",
+    "hit": [],
+    "invalidated": [],
+    "scope_hash": "459cd1f1d0302532ace29d351424c6a0fb23df39be9b335b2b6e47b6054575d9"
+  },
+  "catalog_version": "2026-10-27.1",
+  "conditional": [
+    {
+      "bytes": 6696,
+      "chars": 3350,
+      "path": "references/part-selection.md",
+      "reasons": [
+        "涉及选型/换料/替代时的装配变体与替代分级"
+      ],
+      "role": "conditional",
+      "sha256": "443596e8298fded75f1c59e08f7c65cd60410506e3943ac7283ffb027eaba13f",
+      "topics": [
+        "sourcing.part"
+      ]
+    }
+  ],
+  "dependencies": [],
+  "excluded": [
+    {
+      "path": "references/jlc-production.md",
+      "reasons": [
+        {
+          "reason": "未要求制造时按需不抢跑",
+          "topic": "schematic.new"
+        }
+      ]
+    },
+    {
+      "path": "references/lcsc-sourcing.md",
+      "reasons": [
+        {
+          "reason": "未要求配单时不要求商城资料",
+          "topic": "schematic.new"
+        }
+      ]
+    },
+    {
+      "path": "references/pcb-execution.md",
+      "reasons": [
+        {
+          "reason": "纯原理图任务不进入 PCB 执行",
+          "topic": "schematic.new"
+        }
+      ]
+    },
+    {
+      "path": "references/pcb-routing-details.md",
+      "reasons": [
+        {
+          "reason": "纯原理图任务不读取布线细节",
+          "topic": "schematic.new"
+        }
+      ]
+    },
+    {
+      "path": "references/pcb-routing-strategy.md",
+      "reasons": [
+        {
+          "reason": "纯原理图任务不读取布线策略",
+          "topic": "schematic.new"
+        }
+      ]
+    },
+    {
+      "path": "references/schematic-layout-engine.md",
+      "reasons": [
+        {
+          "reason": "自动排版引擎仅在明确重排任务时读",
+          "topic": "schematic.new"
+        }
+      ]
+    }
+  ],
+  "execution_contract": {
+    "actions": [
+      "read_eda",
+      "read_skill",
+      "write_eda"
+    ],
+    "approval_gates": [],
+    "autonomous_authorized": true,
+    "decisions_required": [],
+    "eda_required": true,
+    "writes_allowed": true
+  },
+  "intent": {
+    "already_read": [],
+    "autonomous_authorized": true,
+    "budget_chars": 120000,
+    "constraints": [
+      "单页原理图，USB-C 5V 供电",
+      "接一个传感器，具体类型/接口未定",
+      "本轮只要原理图，不要 PCB、BOM 或采购"
+    ],
+    "deliverables": [
+      "schematic"
+    ],
+    "eda_available": true,
+    "notes": "用户只说“帮我画个采集板，接一个传感器”，没有说明温度/称重/模拟/I2C/SPI 等，无法选择领域参考文件。",
+    "schema": "ska-intent/v1",
+    "stage": "schematic",
+    "task_type": "schematic_new",
+    "user_decision_pending": []
+  },
+  "kind": "plan",
+  "next_stage_entry": [],
+  "not_proof": "本结果只证明静态文档结构与引用关系，不证明 Skill 被客户端加载、模型遵守规则、阅读行为改变或硬件设计正确。 计划只说明建议阅读哪些文件，不证明 AI 已加载或遵守；未运行模型，也未调用 EDA。",
+  "ok": true,
+  "optional": [],
+  "protected_constraints": [
+    {
+      "id": "evidence_truthfulness",
+      "reason": "事实状态与证据分级必须适用"
+    },
+    {
+      "id": "target_binding",
+      "reason": "结论必须绑定对象、版本和范围"
+    }
+  ],
+  "required": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "reasons": [
+        "skill entry point; every task starts here"
+      ],
+      "role": "required",
+      "sha256": "2fe4feb283f0904f25f44ce2425c6c3766a0f8b6db45fcbd9d4e2542ff9e486d",
+      "topics": [
+        "always"
+      ]
+    },
+    {
+      "bytes": 3218,
+      "chars": 1258,
+      "path": "references/analog-rf-highspeed.md",
+      "reasons": [
+        "SKILL.md L155 模拟采集/音视频/射频/高速链路"
+      ],
+      "role": "required",
+      "sha256": "f97e0a095818453ac6c59aea8021589b30837cd0736f42e99f1b5d2b7b5229c9",
+      "topics": [
+        "domain.analog"
+      ]
+    },
+    {
+      "bytes": 47186,
+      "chars": 30667,
+      "path": "references/design-gates.md",
+      "reasons": [
+        "涉及 SCH/PCB/交付阶段时必须按 G0–G6 退出证据判断"
+      ],
+      "role": "required",
+      "sha256": "60956d1ebd8fb2b941bc9141d74b55519d58b84ec3644a0a457abdf91b853c01",
+      "topics": [
+        "design.gates"
+      ]
+    },
+    {
+      "bytes": 2620,
+      "chars": 1105,
+      "path": "references/digital.md",
+      "reasons": [
+        "SKILL.md L154 数字与接口专题"
+      ],
+      "role": "required",
+      "sha256": "b6dcd59e42211fceb7fdabe9d6a5057ba8e4d575bd97f0be5baed4a36acd01a2",
+      "topics": [
+        "domain.digital"
+      ]
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "reasons": [
+        "SKILL.md L134: 证据与工程记录；事实状态不可伪造"
+      ],
+      "role": "required",
+      "sha256": "a62dd20adb5548889910c7eb516e9a7e28da91aac91871978686d3019fa0c8ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    },
+    {
+      "bytes": 12479,
+      "chars": 6643,
+      "path": "references/schematic-authoring.md",
+      "reasons": [
+        "SKILL.md L118 新建/增加模块时先读绘图执行方法"
+      ],
+      "role": "required",
+      "sha256": "7283016368fb7beb7c3e704e640fd6bc08e56dff594b3cf6c7781998ca610309",
+      "topics": [
+        "schematic.new"
+      ]
+    },
+    {
+      "bytes": 20689,
+      "chars": 8760,
+      "path": "references/schematic-layout.md",
+      "reasons": [
+        "SKILL.md L122 图面验收标准与 sch_layout_check"
+      ],
+      "role": "required",
+      "sha256": "03875d059855789dcbcc9c65deb59830cbb95b6c9aa00c131d247685b81f683c",
+      "topics": [
+        "schematic.new"
+      ]
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "reasons": [
+        "SKILL.md L134: 内部设计始终遵循工程工作流"
+      ],
+      "role": "required",
+      "sha256": "184dd2773ca82908dcc37f9ad89e66d49d1006dad2d7e31bfda8d26ae94140ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    }
+  ],
+  "schema": "skill-knowledge-audit/v1",
+  "scope_hash": "459cd1f1d0302532ace29d351424c6a0fb23df39be9b335b2b6e47b6054575d9",
+  "selected": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "role": "required"
+    },
+    {
+      "bytes": 3218,
+      "chars": 1258,
+      "path": "references/analog-rf-highspeed.md",
+      "role": "required"
+    },
+    {
+      "bytes": 47186,
+      "chars": 30667,
+      "path": "references/design-gates.md",
+      "role": "required"
+    },
+    {
+      "bytes": 2620,
+      "chars": 1105,
+      "path": "references/digital.md",
+      "role": "required"
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "role": "required"
+    },
+    {
+      "bytes": 12479,
+      "chars": 6643,
+      "path": "references/schematic-authoring.md",
+      "role": "required"
+    },
+    {
+      "bytes": 20689,
+      "chars": 8760,
+      "path": "references/schematic-layout.md",
+      "role": "required"
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "role": "required"
+    },
+    {
+      "bytes": 6696,
+      "chars": 3350,
+      "path": "references/part-selection.md",
+      "role": "conditional"
+    }
+  ],
+  "source": {
+    "duration_ms": 1965.061,
+    "git_sha": "c9836eb29869040aeac245d0d3959021134b7f3e",
+    "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
+    "scanned_at": "2026-10-27T16:41:21+00:00"
+  },
+  "stage": "schematic",
+  "task_type": "schematic_new",
+  "tool": {
+    "name": "skill_knowledge_audit",
+    "version": "0.1.0"
+  },
+  "unknown": [
+    {
+      "code": "domain_unspecified",
+      "reason": "未说明主控/接口/信号域，无法确定数字、模拟或电源专题"
+    }
+  ]
+}

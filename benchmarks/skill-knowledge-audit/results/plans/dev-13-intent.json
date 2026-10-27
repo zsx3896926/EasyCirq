@@ -1,0 +1,22 @@
+{
+  "schema": "ska-intent/v1",
+  "task_type": "pcb_route",
+  "stage": "layout",
+  "autonomous_authorized": false,
+  "eda_available": true,
+  "deliverables": [
+    "pcb",
+    "routing-report"
+  ],
+  "constraints": [
+    "原理图已评审通过；用户要求先确认布局，确认后再开始布线",
+    "两层板，完成布局复核、布线、DRC 与保存重开证据",
+    "不改原理图、不换器件、不做制造交付"
+  ],
+  "user_decision_pending": [
+    "before_route"
+  ],
+  "already_read": [],
+  "budget_chars": 180000,
+  "notes": "用户明确说“先评审，我确认后再布线”，按 L96 只在对应边界等待；计划应包含 before_route 审批门，但不得因此把整个任务变成逐阶段停顿。"
+}
