@@ -76,6 +76,15 @@ distribution\Install-Zhigou.ps1 rollback
 ## 下一条具体操作
 
 1. 若想命令行直接用 `zhigou`：把 `%LOCALAPPDATA%\Zhigou\bin` 加入用户 PATH（或继续用绝对路径）。
+   （本机已追加，回退基线在 `_skill-backups/zhigou-cutover-20261028/user-path-before.txt`。）
 2. 需要正式合并/发版：审阅 PR #36 后由用户决定（不自动合并/发布）。
 3. 新硬件任务：新开 AI 客户端会话，加载 `design-hardware`（1.0.2）；它会用
    `zhigou doctor` + `zhigou capabilities` 做开工预检，再按 M/S 流程推进。
+
+## 待清理（已与用户约定：不单独发版）
+
+- **connector 侧移除 `pcb.outline.foreign.scan` / `pcb.outline.foreign.delete` handlers**
+  （0.1.2 里仍存在，但实测对该缺陷无效：子图元枚举不到、delete 会被引擎重建；
+  运行时 action catalog 已下架，不再作为能力发布）。
+  处理时机：**下次有其它连接器改动时一起做**，随那次一起 bump 版本/换 uuid、重新导入；
+  **不为此单独发版**。清理时同步更新 `docs/toolchain-integration/outline-foreign.md`。
