@@ -29,7 +29,22 @@ python -m annotation_layout verify ../../tests/annotation_layout/fixtures/photo-
 python -m annotation_layout benchmark --suite ../../benchmarks/annotation-layout/cases --repeat 7
 ```
 
-## 2. What was delivered (allowed paths only)
+## 2. M0 baseline (verified on site)
+
+- repository version: `design-hardware/.version` = `1.0.1`; task-fixed base main
+  `9a951edc21481dc3ae91460acc11aa3e08a7be8a` (origin/main advanced independently
+  to `259d438` during the work; the branch remains based on the fixed SHA).
+- existing components studied read-only: `layout_from_easyeda.py`,
+  `layout_from_snapshot.py`, `sch_layout_check.py`, `sch_layout_model.py`,
+  `sch_layout_pipeline.py`, `sch_layout_quality.py`, `sch_visual_audit.py`,
+  `svg_text_bbox.py`; frozen `tests/fixtures/photo-led-v14/` (layout/list/
+  rendered-text/sheet/checker-expected).
+- baseline before changes: full suite `python -m unittest discover -s tests` →
+  1783 tests OK; after this branch: 1869 tests OK (86 new).
+- isolation: independent worktree `hds-al-worktree` and branch
+  `feat/parallel-annotation-layout`; no branch switching, stash, reset, force
+  push, merge, release or install; no EDA/network/global config/process changes.
+## 3. What was delivered (allowed paths only)
 
 | path | content |
 |---|---|
@@ -43,7 +58,7 @@ protocol, distribution, CI, top-level dependency, feedback, compose,
 `design_engine`, `layout_from_easyeda`, `sch_layout_check` or other task directory
 was modified.
 
-## 3. Contract highlights
+## 4. Contract highlights
 
 - Strict versioned JSON (`annotation-layout/v1`) with SHA binding; rejects
   NaN/inf/bool-as-number, duplicate IDs, unknown units/keys, stale source hashes
@@ -64,7 +79,7 @@ was modified.
   before/after findings retained; `plan_verified` only for a clean, measured
   geometry; analysis SVGs are `analysis_not_official_export`.
 
-## 4. Test evidence
+## 5. Test evidence
 
 - `python -m unittest discover -s tests/annotation_layout -p "test_*.py"` →
   **86 tests OK** (≈16 s).
@@ -77,7 +92,7 @@ was modified.
   positive/negative plan cases, scope/freeze, verify/stale, benchmark, convert,
   determinism, no-stale-PASS and usage errors.
 
-## 5. Benchmark (honest summary)
+## 6. Benchmark (honest summary)
 
 Committed run: Windows 11, Python 3.13.15, seed 20261027, 7 repetitions per case,
 same candidate domain for both algorithms.
@@ -95,7 +110,7 @@ whole-board/host round-trip speedup.  Python CLI round trip for a full plan
 (including verification, checker and two SVGs) was 0.18–0.52 s median; EDA
 render/save/reopen/readback are **NOT RUN**.
 
-## 6. Review notes / limitations
+## 7. Review notes / limitations
 
 - Independent review was done from the test and benchmark evidence (single-agent
   environment; no visual renderer): the real plan's after-findings are empty in
@@ -114,12 +129,13 @@ render/save/reopen/readback are **NOT RUN**.
   off; the Lead performed the adversarial checks and recorded them here and in
   the acceptance matrix.
 
-## 7. PR
+## 8. PR
 
 Branch `feat/parallel-annotation-layout`, independent worktree, base main
 `9a951edc21481dc3ae91460acc11aa3e08a7be8a`.  PR #46:
 https://github.com/zsx3896926/hardware-design-skill/pull/46 (commit `a937b43`).
 Not merged, not released, not installed.
+
 
 
 
