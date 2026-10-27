@@ -1,0 +1,324 @@
+{
+  "passed": false,
+  "total": 4,
+  "counts": {
+    "Clearance Error": 4
+  },
+  "violations": [
+    {
+      "rule": "Clearance Error",
+      "objType": "Copper Region(Filled) to TH Pad",
+      "ruleName": "copperThickness1oz",
+      "net": "GND",
+      "x": 1675.09,
+      "y": 846.42,
+      "layer": "Top Layer",
+      "objs": [
+        "2ef187fda2981dfe",
+        "75da81f5df5a9426e18"
+      ],
+      "message": "(GND): e0e0 to ($1N17): D4_1 distance is 8.8mil, should be \u003e= 10mil",
+      "globalIndex": "err4"
+    },
+    {
+      "rule": "Clearance Error",
+      "objType": "Copper Region(Filled) to TH Pad",
+      "ruleName": "copperThickness1oz",
+      "net": "GND",
+      "x": 1545.09,
+      "y": 846.42,
+      "layer": "Top Layer",
+      "objs": [
+        "2ef187fda2981dfe",
+        "75da81f5df5a9426e19"
+      ],
+      "message": "(GND): e0e0 to ($1N18): D4_2 distance is 8.8mil, should be \u003e= 10mil",
+      "globalIndex": "err5"
+    },
+    {
+      "rule": "Clearance Error",
+      "objType": "Copper Region(Filled) to TH Pad",
+      "ruleName": "copperThickness1oz",
+      "net": "GND",
+      "x": 1675.09,
+      "y": 846.42,
+      "layer": "Bottom Layer",
+      "objs": [
+        "6ab0a9d789872c29",
+        "75da81f5df5a9426e18"
+      ],
+      "message": "(GND): e1e1 to ($1N17): D4_1 distance is 8.8mil, should be \u003e= 10mil",
+      "globalIndex": "err6"
+    },
+    {
+      "rule": "Clearance Error",
+      "objType": "Copper Region(Filled) to TH Pad",
+      "ruleName": "copperThickness1oz",
+      "net": "GND",
+      "x": 1545.09,
+      "y": 846.42,
+      "layer": "Bottom Layer",
+      "objs": [
+        "6ab0a9d789872c29",
+        "75da81f5df5a9426e19"
+      ],
+      "message": "(GND): e1e1 to ($1N18): D4_2 distance is 8.8mil, should be \u003e= 10mil",
+      "globalIndex": "err7"
+    }
+  ],
+  "nativeResult": {
+    "passed": false,
+    "violations": [
+      {
+        "count": 4,
+        "list": [
+          {
+            "count": 4,
+            "list": [
+              {
+                "errorObjType": "Copper Region(Filled) to TH Pad",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err4",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0.8839999999999776,
+                    "name": "copperThickness1oz",
+                    "obj1": "2ef187fda2981dfe",
+                    "obj1Suffix": "(GND): e0e0",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "75da81f5df5a9426e18",
+                    "obj2Suffix": "($1N17): D4_1",
+                    "obj2Type": "TH Pad",
+                    "position": {
+                      "x": 167.50898,
+                      "y": 84.642
+                    }
+                  },
+                  "param": {
+                    "minDistance": "8.8mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": "\u003e= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err4",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e0e0",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "($1N17): D4_1",
+                  "typeName": "TH Pad"
+                },
+                "objs": [
+                  "2ef187fda2981dfe",
+                  "75da81f5df5a9426e18"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to TH Pad",
+                "pos": {
+                  "x": 167.50898,
+                  "y": 84.642
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": false
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to TH Pad",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err5",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0.8839999999999918,
+                    "name": "copperThickness1oz",
+                    "obj1": "2ef187fda2981dfe",
+                    "obj1Suffix": "(GND): e0e0",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "75da81f5df5a9426e19",
+                    "obj2Suffix": "($1N18): D4_2",
+                    "obj2Type": "TH Pad",
+                    "position": {
+                      "x": 154.50898,
+                      "y": 84.642
+                    }
+                  },
+                  "param": {
+                    "minDistance": "8.8mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": "\u003e= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err5",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e0e0",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "($1N18): D4_2",
+                  "typeName": "TH Pad"
+                },
+                "objs": [
+                  "2ef187fda2981dfe",
+                  "75da81f5df5a9426e19"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to TH Pad",
+                "pos": {
+                  "x": 154.50898,
+                  "y": 84.642
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": false
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to TH Pad",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err6",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      2
+                    ],
+                    "minDistance": 0.8839999999999776,
+                    "name": "copperThickness1oz",
+                    "obj1": "6ab0a9d789872c29",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "75da81f5df5a9426e18",
+                    "obj2Suffix": "($1N17): D4_1",
+                    "obj2Type": "TH Pad",
+                    "position": {
+                      "x": 167.50898,
+                      "y": 84.642
+                    }
+                  },
+                  "param": {
+                    "minDistance": "8.8mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": "\u003e= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err6",
+                "layer": "Bottom Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "($1N17): D4_1",
+                  "typeName": "TH Pad"
+                },
+                "objs": [
+                  "6ab0a9d789872c29",
+                  "75da81f5df5a9426e18"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to TH Pad",
+                "pos": {
+                  "x": 167.50898,
+                  "y": 84.642
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to TH Pad",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err7",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      2
+                    ],
+                    "minDistance": 0.8839999999999918,
+                    "name": "copperThickness1oz",
+                    "obj1": "6ab0a9d789872c29",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "75da81f5df5a9426e19",
+                    "obj2Suffix": "($1N18): D4_2",
+                    "obj2Type": "TH Pad",
+                    "position": {
+                      "x": 154.50898,
+                      "y": 84.642
+                    }
+                  },
+                  "param": {
+                    "minDistance": "8.8mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": "\u003e= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err7",
+                "layer": "Bottom Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "($1N18): D4_2",
+                  "typeName": "TH Pad"
+                },
+                "objs": [
+                  "6ab0a9d789872c29",
+                  "75da81f5df5a9426e19"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to TH Pad",
+                "pos": {
+                  "x": 154.50898,
+                  "y": 84.642
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              }
+            ],
+            "name": "Copper Region(Filled) to TH Pad",
+            "title": [
+              "Copper Region(Filled)",
+              "to",
+              "TH Pad",
+              "(4)"
+            ]
+          }
+        ],
+        "name": "Clearance Error",
+        "title": [
+          "Clearance Error",
+          "(4)"
+        ]
+      }
+    ]
+  }
+}

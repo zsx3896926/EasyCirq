@@ -1,0 +1,447 @@
+{
+  "report": {
+    "ok": true,
+    "incomplete": false,
+    "coverage": {
+      "complete": true,
+      "componentsInventoryKnown": true,
+      "padsInventoryKnown": true,
+      "componentCount": 19,
+      "totalPads": 47,
+      "knownGeometryPads": 47,
+      "unsupportedGeometryPads": 0,
+      "unknownGeometryPads": 0,
+      "legacyGeometryPads": 0
+    },
+    "overall": 82.1,
+    "verdict": "good",
+    "dimensions": [
+      {
+        "id": "partition",
+        "title": "功能分区",
+        "status": "degraded",
+        "score": 100,
+        "weight": 1.2,
+        "reason": "modules inferred from signal-net connectivity (no spec modules[].parts) — cluster boundaries are a heuristic, not the designer's declared intent; 1 cluster(s) formed; only 1 module was identified — there is no cross-module interleaving to judge; this score reflects intra-module compactness only",
+        "metrics": {
+          "interleavePenalty": 0,
+          "interleavedPairs": 0,
+          "judgedParts": 15,
+          "looseParts": 4,
+          "meanSpreadMil": 756.66,
+          "meanSpreadRatio": 1.39,
+          "moduleCount": 1,
+          "singletonModules": 4,
+          "specDriven": 0,
+          "specMissingParts": 0,
+          "spreadPenalty": 0,
+          "worstOverlapRatio": 0
+        }
+      },
+      {
+        "id": "flow-order",
+        "title": "信号流向",
+        "status": "skipped",
+        "score": 0,
+        "weight": 0.8,
+        "reason": "no S0 spec supplied (--spec) — without a declared flow there is no intent to score the layout against"
+      },
+      {
+        "id": "edge-io",
+        "title": "对外接口与板沿",
+        "status": "scored",
+        "score": 100,
+        "weight": 1.2,
+        "metrics": {
+          "connectors": 1,
+          "edgeBandMil": 300,
+          "edgeConcentration": 1,
+          "external": 1,
+          "groupingCandidates": 1,
+          "internal": 0,
+          "internalOnEdge": 0,
+          "internalOnEdgeSpec": 0,
+          "matingBlocked": 0,
+          "offEdge": 0,
+          "onDominantEdge": 1,
+          "openingInward": 0,
+          "openingSideways": 0,
+          "openingUnknown": 0,
+          "outlinePolygon": 1,
+          "plugConflicts": 0,
+          "plugWidthFallback": 0,
+          "plugWidthUnknown": 0,
+          "strayEdge": 0
+        }
+      },
+      {
+        "id": "protection",
+        "title": "保护件/去耦就近",
+        "status": "degraded",
+        "score": 15,
+        "weight": 1,
+        "reason": "1 protection part(s) (RV1) share no non-GND net with any recognized connector/terminal and are NOT covered by this score — an internal-node clamp, or a port designator this heuristic missed; no protection part (fuse/TVS/ESD/varistor) recognized on a board that has external connectors — the protection half of this dimension is unmeasured",
+        "contributors": [
+          {
+            "designator": "C1",
+            "penalty": 50,
+            "detail": "decoupling: 889.7mil (22.60mm) from the nearest +5V IC pin, budget 100mil"
+          },
+          {
+            "designator": "C2",
+            "penalty": 35,
+            "detail": "decoupling: 150.0mil (3.81mm) from the nearest +5V IC pin, budget 100mil"
+          }
+        ],
+        "findings": [
+          {
+            "type": "decap-too-far",
+            "level": "WARN",
+            "net": "+5V",
+            "designator": "C1",
+            "message": "decoupling cap C1 sits 890mil (22.6mm) from the nearest +5V pin U1.8 — a decap must hug its IC (≤100mil / 2.54mm) [规范 §3.1 去耦电容紧贴IC — pcb-design-rules.md]",
+            "at": {
+              "x": 960.6,
+              "y": 550
+            }
+          },
+          {
+            "type": "decap-too-far",
+            "level": "WARN",
+            "net": "+5V",
+            "designator": "C2",
+            "message": "decoupling cap C2 sits 150mil (3.8mm) from the nearest +5V pin U1.8 — a decap must hug its IC (≤100mil / 2.54mm) [规范 §3.1 去耦电容紧贴IC — pcb-design-rules.md]",
+            "at": {
+              "x": 1350,
+              "y": 1500
+            }
+          },
+          {
+            "type": "protection-unmatched",
+            "level": "INFO",
+            "message": "protection part(s) RV1 could not be paired with a connector/terminal on a shared non-GND net — proximity not scored for them"
+          },
+          {
+            "type": "protection-absent",
+            "level": "INFO",
+            "message": "board has external connector(s) but no protection part (fuse/TVS/ESD) was recognized — this dimension scored on decoupling only [规范 §7.2 保护器件就近端子(ESD 走线≤5mm) — pcb-design-rules.md]"
+          }
+        ],
+        "metrics": {
+          "decapBudgetMil": 100,
+          "decapParts": 2,
+          "decapSubscore": 15,
+          "decapTooFar": 2,
+          "protectionBudgetMil": 250,
+          "protectionJudged": 0,
+          "protectionParts": 1,
+          "protectionTooFar": 0,
+          "protectionUnmatched": 1,
+          "worstDecapDistMil": 889.7,
+          "worstProtectionDistMil": 0
+        }
+      },
+      {
+        "id": "tidy",
+        "title": "齐整度",
+        "status": "scored",
+        "score": 85.2,
+        "weight": 0.5,
+        "reason": "退出加权的子规则：array-irregular（板上没有 ≥3 件成行/成列（同轴 ±2mil）、且含未锁定件的同类阵列）",
+        "contributors": [
+          {
+            "designator": "C1",
+            "penalty": 2.14,
+            "detail": "位号在本体 top 侧，C@top 组多数派是 left"
+          },
+          {
+            "designator": "C4",
+            "penalty": 2.14,
+            "detail": "位号在本体 bottom 侧，C@top 组多数派是 left"
+          },
+          {
+            "designator": "R2",
+            "penalty": 2.14,
+            "detail": "位号在本体 bottom 侧，R@top 组多数派是 right"
+          },
+          {
+            "designator": "R5",
+            "penalty": 2.14,
+            "detail": "位号在本体 bottom 侧，R@top 组多数派是 right"
+          },
+          {
+            "designator": "R6",
+            "penalty": 2.14,
+            "detail": "位号在本体 top 侧，R@top 组多数派是 right"
+          },
+          {
+            "designator": "R7",
+            "penalty": 2.14,
+            "detail": "位号在本体 left 侧，R@top 组多数派是 right"
+          },
+          {
+            "designator": "C2",
+            "penalty": 1.96,
+            "detail": "anchor(1546.8400, 1500.0000) 离最近 5mil 格点 1.8400mil"
+          }
+        ],
+        "findings": [
+          {
+            "type": "off-grid",
+            "level": "WARN",
+            "designator": "C2",
+            "message": "1/18 free component(s) are off the 5mil grid (worst first: C2(1.8400mil)) — sub-mil drift left by auto-place/GUI dragging; `pcb grid-snap --grid 5` fixes it (#153 measured max shift 1.998mil with no new `pcb check` findings). Locked / metric-pitch / mechanical-anchor parts are excluded [约定 §9.1 吸栅——排除公制/锚定件 — pcb-layout-conventions.md]",
+            "at": {
+              "x": 1546.84,
+              "y": 1500
+            }
+          },
+          {
+            "type": "silk-side-inconsistent",
+            "level": "WARN",
+            "layer": 3,
+            "message": "C@top group (n=4): 2 designator(s) sit on a different side than the majority \"left\" — C1(top), C4(bottom). NOTE: `pcb silk-align --side` is a COLLISION-AVOIDANCE tool and its --side is a soft hint (#153 measured 69 parts in, only 10 moved, side distribution unchanged), so this needs `pcb silk-set` per part; re-run `pcb check` afterwards — silk-align has been observed creating fresh silk-over-pad findings [约定 §9.4 丝印——同类件位号放同一相对侧 — pcb-layout-conventions.md]"
+          },
+          {
+            "type": "silk-side-inconsistent",
+            "level": "WARN",
+            "layer": 3,
+            "message": "R@top group (n=7): 4 designator(s) sit on a different side than the majority \"right\" — R2(bottom), R5(bottom), R6(top), R7(left). NOTE: `pcb silk-align --side` is a COLLISION-AVOIDANCE tool and its --side is a soft hint (#153 measured 69 parts in, only 10 moved, side distribution unchanged), so this needs `pcb silk-set` per part; re-run `pcb check` afterwards — silk-align has been observed creating fresh silk-over-pad findings [约定 §9.4 丝印——同类件位号放同一相对侧 — pcb-layout-conventions.md]"
+          }
+        ],
+        "metrics": {
+          "fontSizeOutliers": 0,
+          "gridEligible": 18,
+          "gridMil": 5,
+          "offGridCount": 1,
+          "onGridRatio": 0.944,
+          "rotationKinds": 2,
+          "rotationOddCount": 0,
+          "rotationOutliers": 0,
+          "rotationPopulation": 11,
+          "scoreOffGrid": 94.4,
+          "scoreRotationInconsistent": 100,
+          "scoreSilkSideInconsistent": 45.5,
+          "scoreSilkStyleInconsistent": 100,
+          "silkSideBottom": 6,
+          "silkSideLeft": 5,
+          "silkSideMajorityRatio": 0.455,
+          "silkSideResolved": 11,
+          "silkSideRight": 3,
+          "silkSideTop": 5,
+          "silkTextsStyled": 57,
+          "worstOffGridMil": 1.84
+        }
+      },
+      {
+        "id": "compact",
+        "title": "紧凑度",
+        "status": "degraded",
+        "score": 73.4,
+        "weight": 0.8,
+        "reason": "无 courtyard 数据：用渲染 bbox（含丝印，实测比本体大 40%+）当包络，利用率系统性偏高，拐点为待校准初值",
+        "metrics": {
+          "boardAreaMil2": 8361392.81,
+          "compAreaMil2": 1256890.42,
+          "componentsUnknownSide": 0,
+          "componentsWithoutBBox": 0,
+          "hardCollisions": 0,
+          "medianNeighborGapMil": 38.96,
+          "utilization": 0.15,
+          "utilizationBottom": 0,
+          "utilizationTop": 0.15
+        }
+      },
+      {
+        "id": "rf",
+        "title": "射频",
+        "status": "skipped",
+        "score": 0,
+        "weight": 1,
+        "reason": "no antenna/RF part on the board (device keywords WROOM/WROVER/ANTENNA/2450AT/ANT-SMD or an ANT* designator)"
+      },
+      {
+        "id": "routable",
+        "title": "可布性",
+        "status": "degraded",
+        "score": 84,
+        "weight": 1.5,
+        "reason": "board is already routed (67 track segment(s)) — ratsnest crossings overstate difficulty on a finished board; treat this dimension as relative, not absolute; contributors truncated to the worst 12 (3 more not shown)",
+        "contributors": [
+          {
+            "designator": "U1",
+            "penalty": 4.39,
+            "detail": "靠近 6 处跨网飞线交叉（如 LDR_SIG↔LED_CTRL @(1451,1076)）；离所属信号网重心共 1204mil（最远 LDR_SIG 702mil）"
+          },
+          {
+            "designator": "LDR1",
+            "penalty": 1.78,
+            "detail": "靠近 1 处跨网飞线交叉（如 LDR_SIG↔VREF_2V5 @(1471,1913)）；离所属信号网重心共 2105mil（最远 VREF_2V5 1561mil）"
+          },
+          {
+            "designator": "C4",
+            "penalty": 1.67,
+            "detail": "靠近 3 处跨网飞线交叉（如 LDR_SIG↔LED_CTRL @(1451,1076)）；离所属信号网重心共 161mil（最远 LDR_SIG 161mil）"
+          },
+          {
+            "designator": "R5",
+            "penalty": 1.66,
+            "detail": "靠近 2 处跨网飞线交叉（如 LED_CTRL↔VTH @(1584,1110)）；离所属信号网重心共 1033mil（最远 Q1_B 690mil）"
+          },
+          {
+            "designator": "R4",
+            "penalty": 1.35,
+            "detail": "靠近 2 处跨网飞线交叉（如 LDR_SIG↔LED_CTRL @(1451,1076)）；离所属信号网重心共 506mil（最远 VTH 336mil）"
+          },
+          {
+            "designator": "RV1",
+            "penalty": 0.99,
+            "detail": "靠近 1 处跨网飞线交叉（如 LDR_SIG↔VREF_2V5 @(1471,1913)）；离所属信号网重心共 786mil（最远 VREF_2V5 514mil）"
+          },
+          {
+            "designator": "U2",
+            "penalty": 0.76,
+            "detail": "靠近 1 处跨网飞线交叉（如 Q1_B↔VREF_2V5 @(2240,1190)）；离所属信号网重心共 402mil（最远 VREF_2V5 402mil）"
+          },
+          {
+            "designator": "R1",
+            "penalty": 0.68,
+            "detail": "靠近 1 处跨网飞线交叉（如 Q1_B↔VREF_2V5 @(2240,1190)）；离所属信号网重心共 259mil（最远 VREF_2V5 259mil）"
+          },
+          {
+            "designator": "R2",
+            "penalty": 0.65,
+            "detail": "靠近 1 处跨网飞线交叉（如 LDR_SIG↔VREF_2V5 @(1471,1913)）；离所属信号网重心共 209mil（最远 LDR_SIG 209mil）"
+          },
+          {
+            "designator": "R6",
+            "penalty": 0.61,
+            "detail": "靠近 1 处跨网飞线交叉（如 Q1_B↔VREF_2V5 @(2240,1190)）；离所属信号网重心共 144mil（最远 Q1_B 144mil）"
+          },
+          {
+            "designator": "C3",
+            "penalty": 0.47,
+            "detail": "离所属信号网重心共 791mil（最远 VREF_2V5 791mil）"
+          },
+          {
+            "designator": "Q1",
+            "penalty": 0.32,
+            "detail": "离所属信号网重心共 531mil（最远 Q1_B 394mil）"
+          }
+        ],
+        "findings": [
+          {
+            "type": "ratline-crossing",
+            "level": "WARN",
+            "nets": [
+              "LDR_SIG",
+              "LED_CTRL"
+            ],
+            "message": "LDR_SIG ↔ LED_CTRL ratlines cross 1× — each crossing costs a via or a detour to route",
+            "at": {
+              "x": 1451.42,
+              "y": 1075.79
+            }
+          },
+          {
+            "type": "ratline-crossing",
+            "level": "WARN",
+            "nets": [
+              "LDR_SIG",
+              "U1B_TIE"
+            ],
+            "message": "LDR_SIG ↔ U1B_TIE ratlines cross 1× — each crossing costs a via or a detour to route",
+            "at": {
+              "x": 1466.55,
+              "y": 1350
+            }
+          },
+          {
+            "type": "ratline-crossing",
+            "level": "WARN",
+            "nets": [
+              "LDR_SIG",
+              "VREF_2V5"
+            ],
+            "message": "LDR_SIG ↔ VREF_2V5 ratlines cross 1× — each crossing costs a via or a detour to route",
+            "at": {
+              "x": 1471.26,
+              "y": 1913.25
+            }
+          },
+          {
+            "type": "ratline-crossing",
+            "level": "WARN",
+            "nets": [
+              "LED_CTRL",
+              "VTH"
+            ],
+            "message": "LED_CTRL ↔ VTH ratlines cross 1× — each crossing costs a via or a detour to route",
+            "at": {
+              "x": 1584.38,
+              "y": 1109.59
+            }
+          },
+          {
+            "type": "ratline-crossing",
+            "level": "WARN",
+            "nets": [
+              "Q1_B",
+              "VREF_2V5"
+            ],
+            "message": "Q1_B ↔ VREF_2V5 ratlines cross 1× — each crossing costs a via or a detour to route",
+            "at": {
+              "x": 2240.34,
+              "y": 1189.52
+            }
+          },
+          {
+            "type": "ratsnest-sprawl",
+            "level": "WARN",
+            "message": "ratsnest averages 21% of the board span per signal net (15% is tidy) — related parts are not grouped"
+          }
+        ],
+        "metrics": {
+          "crossPenalty": 10.48,
+          "crossPerNet": 0.56,
+          "crossings": 5,
+          "ratsnestLenMil": 8156.59,
+          "ratsnestPenalty": 5.52,
+          "ratsnestPerNetSpan": 0.21,
+          "referenceSpanMil": 4272.39,
+          "signalNets": 9
+        }
+      },
+      {
+        "id": "clearance",
+        "title": "装配间距",
+        "status": "degraded",
+        "score": 100,
+        "weight": 1.5,
+        "reason": "hand-solder iron-access corridor NOT checked (needs a hand-solder assembly profile) — this score covers pairwise spacing only; gap threshold 6.0mil is below the 7.9mil SMD-to-SMD assembly minimum — only near-touching pairs were caught; pass --min-gap or set a hand-solder profile [规范 §3.4 元件间距 — pcb-design-rules.md]",
+        "metrics": {
+          "accessBlocked": 0,
+          "accessMil": 0,
+          "accessPenalty": 0,
+          "minGapMil": 5.98,
+          "tightPairs": 0,
+          "tightPenalty": 0,
+          "worstGapMil": 8.5
+        }
+      }
+    ],
+    "dimensionScores": {
+      "clearance": 100,
+      "compact": 73.4,
+      "edge-io": 100,
+      "partition": 100,
+      "protection": 15,
+      "routable": 84,
+      "tidy": 85.2
+    },
+    "componentCount": 19,
+    "scoredDims": 7,
+    "skippedDims": 2,
+    "summary": "overall 82.1/100 over 7 dimension(s), 2 skipped (not scored — see reasons)"
+  }
+}

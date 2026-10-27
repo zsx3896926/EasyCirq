@@ -1,0 +1,37 @@
+{
+  "schema": "hds-command-evidence/v1",
+  "label": "doc-list-out",
+  "argv": [
+    "C:/Users/jlc/.local/bin/easyeda.exe",
+    "doc",
+    "ls",
+    "--json",
+    "--window",
+    "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7"
+  ],
+  "exit": 0,
+  "ok": true,
+  "error": null,
+  "payload": {
+    "activeUuid": "49c8e7a5dc2e8f59",
+    "documents": [
+      {
+        "uuid": "49c8e7a5dc2e8f59",
+        "type": "pcb",
+        "name": "PCB1",
+        "parent": "f37160f4acb64e13a80f1eb9c0a67fa3",
+        "active": true
+      },
+      {
+        "uuid": "10f78b14a3282fb6",
+        "type": "schematic",
+        "name": "P1",
+        "parent": "04e04ab9747a2779",
+        "active": false
+      }
+    ]
+  },
+  "body": null,
+  "stdout_sha256": "abccdf679ee04464e1d41fa78d9ec5f86e3d54fbff778d2b016417e520d01277",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

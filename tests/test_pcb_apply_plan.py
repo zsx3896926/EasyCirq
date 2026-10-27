@@ -605,6 +605,18 @@ class ApplyPlanTests(unittest.TestCase):
         self.assertTrue(all(record['status'] == 'applied'
                             for record in report['records']))
 
+    def test_apply_forwards_window_to_the_cli_and_playbook_meta(self):
+        fake = FakeRunner(self)
+        code, report = self.apply_run(self.plan_path, fake,
+                                      '--constraints', str(CONSTRAINTS_PATH),
+                                      '--window', 'win-abc')
+        self.assertEqual(code, 0, report.get('failure'))
+        self.assertEqual(report['status'], 'verified')
+        args = fake.calls[0]['args']
+        self.assertEqual(args[args.index('--window') + 1], 'win-abc')
+        playbook = load(self.playbook_path)
+        self.assertEqual(playbook['meta']['window'], 'win-abc')
+
     def test_apply_verifies_a_real_placement_move(self):
         fake = FakeRunner(self, after=self.planned_dump())
         code, report = self.apply_run(self.plan_path, fake,

@@ -1,0 +1,320 @@
+{
+  "availability": {
+    "components": "available",
+    "copper": "available",
+    "layers": "available",
+    "outline": "available",
+    "routedLines": "available",
+    "rules": "available",
+    "silk": "available"
+  },
+  "bytes": 155911,
+  "capture": {
+    "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+    "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "projectName": "feedback-loop-r12-verify-20261027a",
+    "documentUuid": "49c8e7a5dc2e8f59",
+    "documentType": "pcb",
+    "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3",
+    "startedAt": "2026-10-27T04:36:23.8632747Z",
+    "completedAt": "2026-10-27T04:36:24.0895711Z",
+    "consistency": "sequential-response-boundaries",
+    "identityVerified": true,
+    "requests": [
+      {
+        "action": "pcb.components.list",
+        "requestId": "req_19065",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:23.8632747Z",
+        "completedAt": "2026-10-27T04:36:23.9051444Z",
+        "responseCreatedAt": "2026-10-27T04:36:23.9014781Z",
+        "resultSha256": "16bc21e4b17199ed74acd412fc3cd3aca0dff48bad18389192b9c83fd3ab5769",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2538,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.outline.get",
+        "requestId": "req_19066",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:23.9056613Z",
+        "completedAt": "2026-10-27T04:36:23.9179415Z",
+        "responseCreatedAt": "2026-10-27T04:36:23.9159002Z",
+        "resultSha256": "c8b30468d1631972292dc1245ff5d9c0f557dd94c9d72a343a98395a64142fab",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2539,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.line.list",
+        "requestId": "req_19067",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:23.9179415Z",
+        "completedAt": "2026-10-27T04:36:23.9261137Z",
+        "responseCreatedAt": "2026-10-27T04:36:23.9250241Z",
+        "resultSha256": "311ea6acc169098d42c70175ef5744bd6b4028f7af5598ec009bb1a1ca4b9c04",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2540,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.silk.list",
+        "requestId": "req_19068",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:23.9261137Z",
+        "completedAt": "2026-10-27T04:36:23.9493873Z",
+        "responseCreatedAt": "2026-10-27T04:36:23.9468126Z",
+        "resultSha256": "a0e4e1fdd3b6f114ce004a4364ea1a99afb627c16f8bce49e0a9f249e8ec4fa9",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2541,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.drc.rules",
+        "requestId": "req_19069",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:23.9498975Z",
+        "completedAt": "2026-10-27T04:36:23.9590277Z",
+        "responseCreatedAt": "2026-10-27T04:36:23.9573409Z",
+        "resultSha256": "dbc085c8494d4e445af9d260128a36f285aa8cd789150774ccb5d6eb7946c02f",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2542,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.layers.list",
+        "requestId": "req_19070",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:23.9590277Z",
+        "completedAt": "2026-10-27T04:36:24.0221409Z",
+        "responseCreatedAt": "2026-10-27T04:36:24.0156502Z",
+        "resultSha256": "ea9e6d365d278d2bc10bfc917c5ffb1841e0fcdf64e345c627ac75076253300d",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2543,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.line.list",
+        "requestId": "req_19071",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:24.0221409Z",
+        "completedAt": "2026-10-27T04:36:24.0319021Z",
+        "responseCreatedAt": "2026-10-27T04:36:24.0298125Z",
+        "resultSha256": "311ea6acc169098d42c70175ef5744bd6b4028f7af5598ec009bb1a1ca4b9c04",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2544,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.via.list",
+        "requestId": "req_19072",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:24.0319021Z",
+        "completedAt": "2026-10-27T04:36:24.0417789Z",
+        "responseCreatedAt": "2026-10-27T04:36:24.0402308Z",
+        "resultSha256": "a8c84dbc2671d507a0e54227c11ab54778a7fb729606e89378e36d450a1459e6",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2545,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.pour.list",
+        "requestId": "req_19073",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:24.0417789Z",
+        "completedAt": "2026-10-27T04:36:24.0528883Z",
+        "responseCreatedAt": "2026-10-27T04:36:24.0518638Z",
+        "resultSha256": "19a082cf31245969ee41b8ef912128d36a9308308b42ce8f491b29b0f949e757",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2546,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.poured.list",
+        "requestId": "req_19074",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:24.0528883Z",
+        "completedAt": "2026-10-27T04:36:24.0691875Z",
+        "responseCreatedAt": "2026-10-27T04:36:24.0644292Z",
+        "resultSha256": "dffa60a211cadaf43c3c97b6318536c0ed2747a44cf673522a6855d42b7fd8ac",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2547,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.region.list",
+        "requestId": "req_19075",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:24.0697056Z",
+        "completedAt": "2026-10-27T04:36:24.0784893Z",
+        "responseCreatedAt": "2026-10-27T04:36:24.0774635Z",
+        "resultSha256": "f858a9032a00adb1e2dfffb8d72dc83cfa3c090279c9dbf7324ce67aa2452a78",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2548,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.fill.list",
+        "requestId": "req_19076",
+        "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+        "startedAt": "2026-10-27T04:36:24.0784893Z",
+        "completedAt": "2026-10-27T04:36:24.0895711Z",
+        "responseCreatedAt": "2026-10-27T04:36:24.0885252Z",
+        "resultSha256": "8bdb6ec53684f1db81612149531b86399377ceed20996e358a319cfbd39080e0",
+        "context": {
+          "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+          "projectName": "feedback-loop-r12-verify-20261027a",
+          "documentUuid": "49c8e7a5dc2e8f59",
+          "documentType": "pcb",
+          "tabId": "49c8e7a5dc2e8f59@f37160f4acb64e13a80f1eb9c0a67fa3"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 2549,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      }
+    ]
+  },
+  "capturedAt": "2026-10-27T04:36:23.8632747Z",
+  "kind": "pcb-dump-file",
+  "partial": null,
+  "sha256": "1f239da1141f2961948357d2c8069424362dfbba9b3054836778094f2abe168e",
+  "snapshot": "before.json",
+  "version": 1
+}

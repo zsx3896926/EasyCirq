@@ -1,0 +1,180 @@
+{
+ "schema": "hds-case/v1",
+ "created_at": "2026-10-27T02:59:39.264488Z",
+ "tool_version": "1.0.0",
+ "id": "pcb-decap-c2-local-photo-led",
+ "version": 1,
+ "goal": "在电源区内把去耦电容 C2 移到 U1.8(+5V) 的 100mil 内，只重布 C2 的 +5V/GND 局部短线",
+ "applies_when": {
+  "power_w": {
+   "min": 0,
+   "max": 5
+  },
+  "interfaces": [
+   "KF301-2P",
+   "2-pin-terminal"
+  ],
+  "topologies": [
+   "linear-5v",
+   "comparator-hysteresis"
+  ],
+  "footprints": [
+   "RAD104"
+  ],
+  "layers": [
+   2
+  ],
+  "process": "JLC 2-layer 1.6mm",
+  "tags": [
+   "pcb",
+   "power",
+   "decoupling",
+   "local-edit"
+  ],
+  "device": {
+   "designator": "C2",
+   "value": "100nF",
+   "ic": "LM358P"
+  }
+ },
+ "does_not_apply_when": [
+  "C2 实际是 bulk 电容（≥1µF）而不是去耦电容",
+  "目标板不是 2 层，或 U1 不是 LM358P/DIP-8 同脚位",
+  "C2 的封装不是 RAD104 或引脚间距不同",
+  "电源电流/温升要求超出 5V 小信号板条件",
+  "锁定连接器、板框或安装孔落在可写范围内"
+ ],
+ "inputs": [
+  {
+   "kind": "file",
+   "role": "before-board",
+   "path": "tests/fixtures/feedback/board-before.json",
+   "note": "frozen pcb dump with copper"
+  },
+  {
+   "kind": "file",
+   "role": "before-check",
+   "path": "docs/round12/evidence/live-baseline/copy-pcb-check-before.json"
+  }
+ ],
+ "provenance": {
+  "source_project": "photo-led-pcb-20261026",
+  "source_case": "round12-offline",
+  "artifacts": [
+   "tests/fixtures/feedback/board-before.json",
+   "tests/fixtures/feedback/schematic-before.json",
+   "benchmarks/offline-round12/result.json"
+  ],
+  "verified_at": "2026-10-27",
+  "stale": false
+ },
+ "tool_versions": {
+  "easyeda_host": "4.1.78 (observed, not written)",
+  "easyeda_cli": "1.15.0 (observed) / fake 1.15.0-sim (offline)",
+  "connector": "1.15.0 (observed)",
+  "skill": "0.9.3"
+ },
+ "original_problem": "原生 DRC passed=true total=0，但 pcb check 报告 decap-too-far：C2 距最近的 +5V 引脚 U1.8 150mil（>100mil）；同时 C1(10µF bulk) 890mil 被记录为可接受，因为它是 bulk 而非去耦。该案例证明 DRC 0 不等于工程质量通过。",
+ "method": "观察 dump + check → 只把 C2 与它的 +5V/GND 局部铜作为可写对象 → 预检目标位置/与 U1 本体间距 → 一次受控 apply（move + 局部 track）→ 回读 diff 检查范围外变化=0、J1 锁定/板框/孔位/其他网络不变 → 重新跑 check 确认 C2 距离改善。",
+ "before_after": {
+  "before": "C2 距 U1.8 150mil；DRC 0；C1 bulk 890mil 保留并记录理由",
+  "after": "C2 距 U1.8 ≤100mil（候选位置需真实 DRC 复核）；范围外变化 0；J1/板框/孔位/其他网络不变",
+  "changes": [
+   {
+    "object": "C2",
+    "field": "pose",
+    "before": [
+     1546.84,
+     1500,
+     0
+    ],
+    "after": "scoped candidate"
+   },
+   {
+    "object": "C2/+5V,GND",
+    "field": "local copper",
+    "before": "existing stubs",
+    "after": "replaced local stubs only"
+   }
+  ]
+ },
+ "check_method": [
+  "pcb check decap-too-far before/after",
+  "scope diff: unrelated changes = 0",
+  "locked J1 / outline / holes invariant",
+  "pad-net map invariant",
+  "native DRC (NOT RUN in this round; simulated value is not evidence)"
+ ],
+ "evidence": [
+  {
+   "kind": "file",
+   "role": "benchmark",
+   "path": "benchmarks/offline-round12/result.json"
+  },
+  {
+   "kind": "file",
+   "role": "matrix",
+   "path": "docs/round12/acceptance-matrix.md"
+  },
+  {
+   "kind": "file",
+   "role": "fixture",
+   "path": "tests/fixtures/feedback/board-before.json"
+  }
+ ],
+ "verification_levels": {
+  "structural": {
+   "status": "pass",
+   "evidence": [
+    {
+     "kind": "file",
+     "role": "benchmark",
+     "path": "benchmarks/offline-round12/result.json"
+    },
+    {
+     "kind": "file",
+     "role": "fixture",
+     "path": "tests/fixtures/feedback/board-before.json"
+    }
+   ]
+  },
+  "host_readback": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "erc_drc": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "simulation": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "manufacturing": {
+   "status": "not_run",
+   "evidence": []
+  },
+  "physical": {
+   "status": "not_run",
+   "evidence": []
+  }
+ },
+ "limits": [
+  "真实宿主未执行 move/track/save/reopen；全部 NOT RUN",
+  "PCB 写入需携带原始 pcb dump（plan.before_dump）；只用规范化 observation 重建的铺铜不完整",
+  "候选位置只做结构/范围检查，未在真实 DRC 下复核间距与铜连接",
+  "离线 DRC/check 为模拟值，不能当作 erc_drc 通过"
+ ],
+ "failed_attempts": [
+  "把 C1(10µF bulk) 也搬到 IC 旁会破坏输入储能/纹波条件，已拒绝",
+  "按“所有去耦都必须 ≤100mil”的统一阈值处理 bulk 电容是错误规则"
+ ],
+ "invalidation_conditions": [
+  "C1/C2 的值或封装变化（bulk/去耦角色可能互换）",
+  "U1 或引脚/封装变化",
+  "板层数、电源拓扑或电流范围变化",
+  "J1 锁定状态、板框或孔位变化",
+  "真实 DRC/check 未重跑"
+ ],
+ "source_tier": "project-local"
+}

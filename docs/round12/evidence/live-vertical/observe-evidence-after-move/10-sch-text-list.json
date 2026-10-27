@@ -1,0 +1,100 @@
+{
+  "schema": "hds-command-evidence/v1",
+  "label": "sch-text-list",
+  "argv": [
+    "C:\\Users\\jlc\\.local\\bin\\easyeda.exe",
+    "sch",
+    "text-list",
+    "--window",
+    "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+    "--doc",
+    "10f78b14a3282fb6"
+  ],
+  "exit": 0,
+  "ok": true,
+  "error": null,
+  "payload": {
+    "id": "req_19258",
+    "type": "response",
+    "version": "v1",
+    "windowId": "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+    "createdAt": "2026-10-27T04:38:45.2878311Z",
+    "ok": true,
+    "result": {
+      "count": 4,
+      "scope": "activePage",
+      "texts": [
+        {
+          "bold": false,
+          "color": "#AA00AA",
+          "content": "电源指示",
+          "fontName": null,
+          "fontSize": 20,
+          "italic": false,
+          "primitiveId": "69002724aae78b2f",
+          "rotation": 0,
+          "x": 500,
+          "y": 772
+        },
+        {
+          "bold": false,
+          "color": "#AA00AA",
+          "content": "通道 1：SW1 → LED1",
+          "fontName": null,
+          "fontSize": 20,
+          "italic": false,
+          "primitiveId": "4aec57da4c5c11b4",
+          "rotation": 0,
+          "x": 418,
+          "y": 612
+        },
+        {
+          "bold": false,
+          "color": "#AA00AA",
+          "content": "通道 2：SW2 → LED2",
+          "fontName": null,
+          "fontSize": 20,
+          "italic": false,
+          "primitiveId": "3f1f746d3390ab11",
+          "rotation": 0,
+          "x": 418,
+          "y": 452
+        },
+        {
+          "bold": false,
+          "color": "#AA00AA",
+          "content": "5V 输入 / 反接保护",
+          "fontName": null,
+          "fontSize": 20,
+          "italic": false,
+          "primitiveId": "c2394249fce9c362",
+          "rotation": 0,
+          "x": 78,
+          "y": 692
+        }
+      ]
+    },
+    "context": {
+      "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+      "projectName": "feedback-loop-r12-verify-20261027a",
+      "documentUuid": "10f78b14a3282fb6",
+      "documentType": "schematic",
+      "tabId": "10f78b14a3282fb6@f37160f4acb64e13a80f1eb9c0a67fa3",
+      "pageVisibility": "hidden"
+    },
+    "mutationContext": {
+      "projectUuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+      "projectName": "feedback-loop-r12-verify-20261027a",
+      "documentUuid": "10f78b14a3282fb6",
+      "documentType": "schematic",
+      "tabId": "10f78b14a3282fb6@f37160f4acb64e13a80f1eb9c0a67fa3",
+      "pageVisibility": "hidden"
+    },
+    "mutationContextAvailable": true,
+    "seq": 2680,
+    "seqAbandoned": 0
+  },
+  "body": null,
+  "stdout_sha256": "eeff537b625faf069a26fe8478918ac1fd4561ceba9c7f9f1ad42ea9d93661ec",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

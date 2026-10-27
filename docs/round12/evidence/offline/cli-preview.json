@@ -1,0 +1,126 @@
+{
+  "schema": "hds-preview/v1",
+  "ok": true,
+  "tool_version": "1.0.0",
+  "generated_at": "2026-10-27T03:03:28.309757Z",
+  "contract_id": "cli-text",
+  "plan_kind": "schematic",
+  "document": {
+    "uuid": "sch-sim-0001",
+    "type": "schematic",
+    "name": "P1"
+  },
+  "write_authorized": true,
+  "writes_sent": 0,
+  "steps": [
+    {
+      "id": "move_text-0",
+      "action": "schematic.text.move",
+      "payload": {
+        "moves": [
+          {
+            "primitiveId": "7000fc9074f2508d",
+            "x": 250.0,
+            "y": 778.0
+          }
+        ]
+      },
+      "assert": {
+        "$.verified": "true"
+      },
+      "scope": {
+        "decision": "in_scope",
+        "basis": "object:7000fc9074f2508d"
+      }
+    },
+    {
+      "id": "save",
+      "action": "schematic.save",
+      "payload": {},
+      "assert": {
+        "$.saved": "true"
+      },
+      "scope": {
+        "decision": "in_scope",
+        "basis": "action_allowed"
+      }
+    }
+  ],
+  "step_scope": [
+    {
+      "step_id": "move_text-0",
+      "decision": "in_scope",
+      "basis": "object:7000fc9074f2508d",
+      "op_index": 0
+    },
+    {
+      "step_id": "save",
+      "decision": "in_scope",
+      "basis": "action_allowed",
+      "op_index": null
+    }
+  ],
+  "scope_decisions": [
+    {
+      "step_id": "move_text-0",
+      "decision": "in_scope",
+      "basis": "object:7000fc9074f2508d",
+      "op_index": 0
+    },
+    {
+      "step_id": "save",
+      "decision": "in_scope",
+      "basis": "action_allowed",
+      "op_index": null
+    }
+  ],
+  "actions": [
+    {
+      "index": 0,
+      "raw_index": 0,
+      "op": "move_text",
+      "action": "move_text",
+      "operation_key": "move_text:09b39f906f7b2dc2",
+      "object": "7000fc9074f2508d",
+      "designator": null,
+      "net": null,
+      "scope": {
+        "decision": "in_scope",
+        "basis": "object:7000fc9074f2508d"
+      },
+      "already_applied": false,
+      "document_uuid": "sch-sim-0001"
+    }
+  ],
+  "skipped": [],
+  "baseline": {
+    "expected": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c",
+    "plan": [
+      "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c"
+    ],
+    "observed": "96e97b2d6f0b73ba65f74dbac9048cf160ebd7489bfe66497739711930f7868c"
+  },
+  "scope": {
+    "writable": {
+      "objects": [
+        "7000fc9074f2508d"
+      ],
+      "nets": [],
+      "regions": []
+    },
+    "tolerance": {
+      "position": 0.01,
+      "angle": 1e-06
+    }
+  },
+  "refusals": [],
+  "unknown": [
+    {
+      "field": "locked[0]",
+      "reason": "lock state is not measurable"
+    }
+  ],
+  "notes": [
+    "preview only: no CLI call and no file write were made"
+  ]
+}

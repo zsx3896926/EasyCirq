@@ -1,0 +1,300 @@
+{
+  "schema": "hds-apply/v1",
+  "ok": false,
+  "status": "refused",
+  "tool_version": "1.0.0",
+  "generated_at": "2026-10-27T04:44:58.987460Z",
+  "contract_id": "r12-live-vertical-restore-20261027a",
+  "write_requested": true,
+  "simulated": false,
+  "writes_sent": 0,
+  "call_ok": null,
+  "write_confirmed": null,
+  "save_confirmed": null,
+  "reopen_confirmed": null,
+  "quality_passed": null,
+  "baseline": null,
+  "validation": {
+    "schema": "hds-plan-validation/v1",
+    "ok": true,
+    "failure_class": null,
+    "contract_id": "r12-live-vertical-restore-20261027a",
+    "plan_kind": "pcb",
+    "document": {
+      "uuid": "49c8e7a5dc2e8f59",
+      "type": "pcb",
+      "name": "PCB1"
+    },
+    "flags": {
+      "save": true,
+      "reload": true
+    },
+    "actions": [
+      {
+        "index": 0,
+        "raw_index": 0,
+        "op": "place",
+        "action": "move_component",
+        "operation_key": "place:b7d78c8e19f75355",
+        "object": "D4",
+        "designator": "D4",
+        "net": null,
+        "scope": {
+          "decision": "in_scope",
+          "basis": "object:D4"
+        },
+        "already_applied": false,
+        "document_uuid": "49c8e7a5dc2e8f59"
+      }
+    ],
+    "steps": [
+      {
+        "id": "place-D4",
+        "kind": "run",
+        "target": "pcb modify",
+        "assert": {
+          "$.verified": "true"
+        },
+        "checkpoint": false
+      },
+      {
+        "id": "save",
+        "kind": "action",
+        "target": "pcb.save",
+        "assert": {
+          "$.saved": "true"
+        },
+        "checkpoint": true
+      },
+      {
+        "id": "reload",
+        "kind": "run",
+        "target": "doc reload",
+        "assert": {},
+        "checkpoint": false
+      },
+      {
+        "id": "dump",
+        "kind": "run",
+        "target": "pcb dump",
+        "assert": {},
+        "checkpoint": false
+      }
+    ],
+    "step_scope": [
+      {
+        "step_id": "place-D4",
+        "decision": "in_scope",
+        "basis": "object:D4",
+        "op_index": 0
+      },
+      {
+        "step_id": "save",
+        "decision": "in_scope",
+        "basis": "operation",
+        "op_index": null
+      },
+      {
+        "step_id": "reload",
+        "decision": "in_scope",
+        "basis": "operation",
+        "op_index": null
+      },
+      {
+        "step_id": "dump",
+        "decision": "in_scope",
+        "basis": "operation",
+        "op_index": null
+      }
+    ],
+    "skipped": [],
+    "baseline": {
+      "expected": "96856550a3099966d3e1faf69f5807ca593762f785d5bb1bf4fe581717343cb2",
+      "plan": [
+        "96856550a3099966d3e1faf69f5807ca593762f785d5bb1bf4fe581717343cb2"
+      ],
+      "observed": "96856550a3099966d3e1faf69f5807ca593762f785d5bb1bf4fe581717343cb2"
+    },
+    "target": {
+      "project_uuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+      "documents": [
+        {
+          "uuid": "10f78b14a3282fb6",
+          "type": "schematic",
+          "name": "P1"
+        },
+        {
+          "uuid": "49c8e7a5dc2e8f59",
+          "type": "pcb",
+          "name": "PCB1"
+        }
+      ]
+    },
+    "scope": {
+      "writable": {
+        "objects": [
+          "D4"
+        ],
+        "nets": [],
+        "regions": []
+      },
+      "tolerance": {
+        "position": 0.01,
+        "angle": 1e-06
+      }
+    },
+    "refusals": [],
+    "unknown": [
+      {
+        "field": "locked[0]",
+        "reason": "lock state is not measurable"
+      }
+    ],
+    "notes": [],
+    "writes_sent": 0,
+    "noops": [],
+    "compiled_operations": [
+      {
+        "op": "place",
+        "index": 0,
+        "designator": "D4",
+        "primitive_id": "75da81f5df5a9426",
+        "from": {
+          "x": 1595.0898000000002,
+          "y": 810.0,
+          "rotation": 180.0,
+          "layer": 1
+        },
+        "to": {
+          "x": 1595.0898000000002,
+          "y": 808.74,
+          "rotation": 180.0,
+          "layer": 1
+        },
+        "reason": "restore D4 to the original pose",
+        "inherited": []
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": "place-D4",
+      "kind": "run",
+      "target": "pcb modify",
+      "assert": {
+        "$.verified": "true"
+      },
+      "checkpoint": false,
+      "scope": {
+        "decision": "in_scope",
+        "basis": "object:D4"
+      }
+    },
+    {
+      "id": "save",
+      "kind": "action",
+      "target": "pcb.save",
+      "assert": {
+        "$.saved": "true"
+      },
+      "checkpoint": true,
+      "scope": {
+        "decision": "in_scope",
+        "basis": "operation"
+      }
+    },
+    {
+      "id": "reload",
+      "kind": "run",
+      "target": "doc reload",
+      "assert": {},
+      "checkpoint": false,
+      "scope": {
+        "decision": "in_scope",
+        "basis": "operation"
+      }
+    },
+    {
+      "id": "dump",
+      "kind": "run",
+      "target": "pcb dump",
+      "assert": {},
+      "checkpoint": false,
+      "scope": {
+        "decision": "in_scope",
+        "basis": "operation"
+      }
+    }
+  ],
+  "step_scope": [
+    {
+      "step_id": "place-D4",
+      "decision": "in_scope",
+      "basis": "object:D4",
+      "op_index": 0
+    },
+    {
+      "step_id": "save",
+      "decision": "in_scope",
+      "basis": "operation",
+      "op_index": null
+    },
+    {
+      "step_id": "reload",
+      "decision": "in_scope",
+      "basis": "operation",
+      "op_index": null
+    },
+    {
+      "step_id": "dump",
+      "decision": "in_scope",
+      "basis": "operation",
+      "op_index": null
+    }
+  ],
+  "scope_decisions": [
+    {
+      "step_id": "place-D4",
+      "decision": "in_scope",
+      "basis": "object:D4",
+      "op_index": 0
+    },
+    {
+      "step_id": "save",
+      "decision": "in_scope",
+      "basis": "operation",
+      "op_index": null
+    },
+    {
+      "step_id": "reload",
+      "decision": "in_scope",
+      "basis": "operation",
+      "op_index": null
+    },
+    {
+      "step_id": "dump",
+      "decision": "in_scope",
+      "basis": "operation",
+      "op_index": null
+    }
+  ],
+  "skipped": [],
+  "journal": null,
+  "readback": null,
+  "diff": null,
+  "invariants": null,
+  "failure": {
+    "failure_class": "host_unavailable",
+    "reason": "host_unavailable",
+    "message": "no runner or explicit easyeda path was supplied; refusing to resolve easyeda from PATH"
+  },
+  "unknown": [
+    {
+      "field": "locked[0]",
+      "reason": "lock state is not measurable"
+    }
+  ],
+  "notes": [
+    "refused before any CLI call; writes_sent=0"
+  ]
+}

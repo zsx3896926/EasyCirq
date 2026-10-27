@@ -1,0 +1,30 @@
+{
+  "schema": "hds-command-evidence/v1",
+  "label": "pcb-drc",
+  "argv": [
+    "C:/Users/jlc/.local/bin/easyeda.exe",
+    "pcb",
+    "drc",
+    "--json",
+    "--window",
+    "c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7",
+    "--doc",
+    "49c8e7a5dc2e8f59"
+  ],
+  "exit": 0,
+  "ok": true,
+  "error": null,
+  "payload": {
+    "passed": true,
+    "total": 0,
+    "counts": {},
+    "violations": [],
+    "nativeResult": {
+      "passed": true,
+      "violations": []
+    }
+  },
+  "body": null,
+  "stdout_sha256": "f8161f1adf4cd649b12e7c93f0b5a56dd5c051f47fa63918092a2269e346a9d0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

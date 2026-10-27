@@ -1,0 +1,19 @@
+{
+  "activeUuid": "",
+  "documents": [
+    {
+      "uuid": "49c8e7a5dc2e8f59",
+      "type": "pcb",
+      "name": "PCB1",
+      "parent": "f37160f4acb64e13a80f1eb9c0a67fa3",
+      "active": false
+    },
+    {
+      "uuid": "10f78b14a3282fb6",
+      "type": "schematic",
+      "name": "P1",
+      "parent": "04e04ab9747a2779",
+      "active": false
+    }
+  ]
+}

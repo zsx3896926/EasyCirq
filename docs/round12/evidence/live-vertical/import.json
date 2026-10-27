@@ -1,0 +1,18 @@
+{
+  "id": "req_19048",
+  "ok": true,
+  "result": {
+    "bytes": 63668,
+    "contentVerified": false,
+    "created": true,
+    "friendlyName": "feedback-loop-r12-verify-20261027a",
+    "importOption": "ImportDocument",
+    "sourcePath": "C:\\Users\\jlc\\work\\dual-button-led-night-20261027\\case\\evidence\\case.epro2",
+    "sourceSha256": "3c3d985353553fde412d71065b12fa911180c0a9d79649ac56b67bf81ddb9fc9",
+    "teamUuid": "0d20f286253d4bae9d18fcc726fdf389",
+    "uuid": "f37160f4acb64e13a80f1eb9c0a67fa3",
+    "verified": true
+  },
+  "type": "response",
+  "version": "v1"
+}

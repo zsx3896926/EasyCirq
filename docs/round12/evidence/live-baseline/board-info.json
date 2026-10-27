@@ -1,0 +1,42 @@
+{
+  "id": "req_15925",
+  "type": "response",
+  "version": "v1",
+  "windowId": "5175351c-a00b-4788-a922-2f6e0bd80756",
+  "createdAt": "2026-10-27T01:30:34.1316591Z",
+  "ok": true,
+  "result": {
+    "board": {
+      "name": "Board1",
+      "parentProjectUuid": "e4a2b5aced774684bdd455c9f7a9059d",
+      "pcbName": "PCB1",
+      "pcbUuid": "99b8366b0bdc971f",
+      "schematicName": "5V 光控 LED 板",
+      "schematicUuid": "5ff4d6e7c85dd153"
+    },
+    "linked": true,
+    "pcb": null
+  },
+  "context": {
+    "projectUuid": "e4a2b5aced774684bdd455c9f7a9059d",
+    "projectName": "photo-led-5v-20261026",
+    "documentUuid": "cd008f919db36eba",
+    "documentType": "schematic",
+    "tabId": "cd008f919db36eba@e4a2b5aced774684bdd455c9f7a9059d",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "e4a2b5aced774684bdd455c9f7a9059d",
+    "projectName": "photo-led-5v-20261026",
+    "documentUuid": "cd008f919db36eba",
+    "documentType": "schematic",
+    "tabId": "cd008f919db36eba@e4a2b5aced774684bdd455c9f7a9059d",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 12488,
+  "seqAbandoned": 1,
+  "abandonedIds": [
+    "req_7249"
+  ]
+}
