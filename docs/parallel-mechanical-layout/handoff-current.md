@@ -24,7 +24,8 @@ PR **#51** because the earlier revision listed an intermediate docs commit
 | merged PR #42 head | `317876c0797ad04aaeee7483efb6d5f9c0526f87` |
 | docs correction PR | **#51** — https://github.com/zsx3896926/hardware-design-skill/pull/51 — **OPEN**, not merged by task G |
 | PR #51 head when this note was authored | `60ec52eee87593979954f92cfd18f7a7b201443b` |
-| PR #51 head after the PR link/head update | `fd6847a5dfe8412a7e4d6bbb31815b067c7e9bd7` (docs-only; any later docs commit advances the live head shown on PR #51) |
+| PR #51 head after the PR link/head update | `fd6847a5dfe8412a7e4d6bbb31815b067c7e9bd7` |
+| PR #51 head at this sync (verified with `gh`) | `6d10d3564fd443a56bf858c0be6a7b71f6e68c87` (this sync commit is one docs-only commit ahead; live head on PR #51) |
 
 ## Head reconciliation (verified HEAD vs merged PR head)
 
@@ -73,6 +74,29 @@ discoverable; fix frozen-hash and benchmark portability`, moved the tests to
 `tests/mechanical_layout_tests/` and added `tests/mechanical_layout_tests/__init__.py`.
 That changes the test path and top-level discovery behaviour, but not the
 mechanical-layout package or benchmark cases.
+
+### PR #51 documentation commit sequence (verified with `git log -- <path>`)
+
+PR #51 branch `docs/mechanical-layout-handoff-head` (oldest → newest):
+
+| file | commits on the PR #51 branch |
+|---|---|
+| `handoff-current.md` | `60ec52e` → `fd6847a` → `6d10d35` → this sync commit |
+| `acceptance-matrix.md` | `60ec52e` |
+| `issue-candidates.md` | `60ec52e` |
+
+The earlier integration commit `a575748` also appears before `60ec52e` when these
+paths are logged (it is the merged test-discovery/path change, not part of PR #51).
+Verification command:
+
+```text
+git log --oneline -- docs/parallel-mechanical-layout/handoff-current.md
+git log --oneline -- docs/parallel-mechanical-layout/acceptance-matrix.md
+git log --oneline -- docs/parallel-mechanical-layout/issue-candidates.md
+```
+
+Only `handoff-current.md` changes after `60ec52e`; no other task doc has an
+unrecorded later change.
 
 ## What was delivered
 
