@@ -188,7 +188,7 @@ tests/bringup_planner/
 - 基线：`main@9a951ed`（2026-10-28 复核时 `origin/main` 仍为同一 SHA）
 - 首个实现提交：`c61d62c`（**174 files，44685 insertions**；实现/测试/基准/资料/文档）
 - 文档补充提交：`3bb3496`（4 files，+52/−2；PR 描述与验收数字）
-- PR 总计：**175 files，+44735/−0**
+- PR 文件数：**175 files**（复核时 HEAD `3bb3496` 的 diff 为 +44735/−0；后续文档/状态提交会略增，精确数字以 PR 页面为准）
 - 独立 PR：https://github.com/zsx3896926/hardware-design-skill/pull/39 （OPEN / MERGEABLE；只推送，不合并、不发布、不安装客户端）
 - PR 描述副本：`docs/parallel-bringup-planner/pr-description.md`
 - 交付状态：**待审查**（见 `handoff-current.md`）；最终 HEAD 以 PR 页面为准。
@@ -201,7 +201,7 @@ tests/bringup_planner/
 |---|---|
 | 分支/远端同步 | 本地 HEAD 与 `origin/feat/parallel-bringup-planner` 一致（复核时 `3bb3496`）；`origin/main` 仍为 `9a951ed` |
 | 变更路径 | 175 files，全部位于 4 个允许路径；无 SKILL.md/references/README/CHANGELOG/主 handoff/distribution/CI/其他任务目录 |
-| 越界文件 | 0 |
+| 越界文件 | 0（复核时 HEAD `3bb3496`：175 files / +44735 / −0；精确数字以 PR 页面为准） |
 | PR 状态 | OPEN、MERGEABLE、非 draft；未合并、未发布 |
 | 报告数字 | 172 tests、41/41 基准、30/30 类别、baseline 90 files、11 sources/143 facts/78 paged 均与实测一致 |
 | 已修正笔误 | 首个提交文件数 `172→174`；基准耗时 `17.5→16.9 s`；unverified 表述精确为"fact 级 1 条 + 来源/页码级若干" |

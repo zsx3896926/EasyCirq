@@ -9,7 +9,7 @@
 | **状态** | **待审查（PENDING REVIEW）** — 2026-10-28 复核通过，等待主分支/审查人处理 |
 | PR | https://github.com/zsx3896926/hardware-design-skill/pull/39 （OPEN / MERGEABLE / 非 draft；**未合并、未发布、未安装客户端**） |
 | 复核时 HEAD | `3bb3496e9bb1c4a8e101e3c513bd11de9224f6c0`（本状态提交后以 PR 页面最新 HEAD 为准） |
-| 复核结论 | PR diff 175 files / +44735 / −0，全部位于下方允许路径；无越界文件；报告数字与实测一致（已修正 3 处表述/数字，见 `report.md` §13） |
+| 复核结论 | PR diff 175 files（复核时 `3bb3496`：+44735/−0，精确以 PR 页面为准），全部位于下方允许路径；无越界文件；报告数字与实测一致（已修正 3 处表述/数字，见 `report.md` §13） |
 
 ## 身份与基线
 
