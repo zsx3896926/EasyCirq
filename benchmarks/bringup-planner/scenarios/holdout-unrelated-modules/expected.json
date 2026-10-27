@@ -1,0 +1,28 @@
+{
+  "schema": "bringup-bench-holdout/v1",
+  "id": "holdout-unrelated-modules",
+  "categories": [
+    "holdout",
+    "deformation_unrelated_modules"
+  ],
+  "derivation": "An unrelated UART header, a spare GPIO testpoint and one extra device fact are added; no declared rail, current or safety condition changes. Existing criteria must not regress: the base scope verdict and DAG stay identical, every base step id keeps its status, base gap/unknown codes remain a subset, and the plan hash changes only because new (additional) steps appear. A new step may not silently re-block or re-order an existing branch.",
+  "base": "../normal-mcu-sensor-board",
+  "input": {
+    "file": "input.json",
+    "sha256": "1f93092449542ac52143aa6a7c22c564ef1e24bbb27809fb09063170631ecc84"
+  },
+  "transform": {
+    "file": "transform.json"
+  },
+  "assertions": {
+    "scope_equal_base": true,
+    "dag_order_equal_base": true,
+    "step_ids_superset_of_base": true,
+    "steps_of_base_unchanged": true,
+    "gap_codes_superset_of_base": true,
+    "unknown_codes_superset_of_base": true,
+    "plan_sha256_differs_from_base": true,
+    "base_step_ids_unchanged_count": true
+  },
+  "frozen_from": "hand derivation of the invariance contract (model normalisation / semantic hash / evaluate binding), never copied from CLI output"
+}

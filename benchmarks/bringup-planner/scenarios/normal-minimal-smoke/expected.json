@@ -1,0 +1,119 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "normal-minimal-smoke",
+  "categories": [
+    "normal_low_voltage_small_board",
+    "minimal_input"
+  ],
+  "derivation": "Reduced board (USB power -> LDO 3V3, LED) with every required operation declared and authorised; 2 rails, no analogue input, no low-side load interface besides the LED. Scope supported; DAG order [VIN_5V, VDD_3V3]. Negative control for over-generation: the plan must not invent ADC/bridge/load steps that the input does not declare.",
+  "input": {
+    "file": "input.json",
+    "sha256": "7bc6e93b387a63ffc20356e273ee3caa8e602e41e91f82f487b3d062b402449e"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid",
+      "revision": "rev-2026-10-27-M"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "energize_allowed": true,
+      "dag_order": [
+        "VIN_5V",
+        "VDD_3V3"
+      ],
+      "dag_cycles": [],
+      "dag_acyclic": true,
+      "forbidden_step_prefixes": [
+        "I4-U1_I2C",
+        "I4-U3_ADC",
+        "I4-U4_LOAD"
+      ],
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I4-BUS-J1_USB"
+      ],
+      "steps": {
+        "I1-VIS-001": "ready",
+        "I1-JMP-001": "ready",
+        "I1-OFF-001": "ready",
+        "I1-OFF-DISCHARGE": "ready",
+        "I1-OFF-RES-VDD_3V3": "ready",
+        "I1-OFF-RES-VIN_5V": "ready",
+        "I2-FW-001": "ready",
+        "I2-EXT-USB_DEBUG": "ready",
+        "I2-LOAD-ASM-J2": "ready",
+        "I2-SEQ-VIN_5V": "ready",
+        "I2-SEQ-VDD_3V3": "ready",
+        "I2-CONNECT-ASM-J2": "blocked",
+        "I3-V-VDD_3V3": "ready",
+        "I3-RIPPLE-VDD_3V3": "blocked",
+        "I3-V-VIN_5V": "ready",
+        "I3-RIPPLE-VIN_5V": "blocked",
+        "I3-COMM-J1_USB": "blocked",
+        "I4-BUS-J1_USB": "blocked"
+      },
+      "steps_by_status": {
+        "ready": 13,
+        "blocked": 5
+      },
+      "gap_codes": [
+        "I1_DISCHARGE_PROFILE_UNDECLARED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "unknown_codes": [
+        "I1_SHORT_CHECK_CRITERION_UNDEFINED",
+        "LOAD_DECLARATION_MISSING"
+      ],
+      "equipment_gap_codes": [
+        "PROBE_LOADING_NOT_DECLARED"
+      ],
+      "supply_conflict_codes": [
+        "EXTERNAL_SUPPLY_PATH"
+      ]
+    },
+    "explain": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I4-BUS-J1_USB"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

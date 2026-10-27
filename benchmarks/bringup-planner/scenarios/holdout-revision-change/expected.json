@@ -1,0 +1,34 @@
+{
+  "schema": "bringup-bench-holdout/v1",
+  "id": "holdout-revision-change",
+  "categories": [
+    "holdout",
+    "deformation_revision_change",
+    "stale_revision_result"
+  ],
+  "derivation": "The design revision changes (rev-2026-10-27-A -> rev-2026-10-27-B) with unchanged electrical content. The plan semantic hash includes the revision, so the plan hash MUST change, while scope/DAG/step set must stay identical. An old result record bound to the previous revision/plan hash must be rejected with verdict=INVALID (STALE_REVISION/BINDING_MISMATCH, exit 2); a revision change never reuses an old PASS.",
+  "base": "../normal-mcu-sensor-board",
+  "input": {
+    "file": "input.json",
+    "sha256": "1f93092449542ac52143aa6a7c22c564ef1e24bbb27809fb09063170631ecc84"
+  },
+  "transform": {
+    "file": "transform.json"
+  },
+  "assertions": {
+    "plan_sha256_differs_from_base": true,
+    "scope_equal_base": true,
+    "dag_order_equal_base": true,
+    "step_ids_equal_base": true,
+    "evaluate_stale_results": {
+      "exit_code": 2,
+      "verdict": "INVALID",
+      "hardware_pass": false,
+      "required_any_codes": [
+        "STALE_REVISION",
+        "BINDING_MISMATCH"
+      ]
+    }
+  },
+  "frozen_from": "hand derivation of the invariance contract (model normalisation / semantic hash / evaluate binding), never copied from CLI output"
+}

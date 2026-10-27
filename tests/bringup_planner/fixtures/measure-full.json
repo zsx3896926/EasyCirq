@@ -1,0 +1,502 @@
+{
+  "schema": "bringup-plan-input/v1",
+  "project": {
+    "name": "mcu-sensor-smoke",
+    "revision": "rev-A",
+    "source_snapshot_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "bom_version": "bom-1",
+    "assembly_version": "asm-1",
+    "scope": {
+      "supply_class": "dc_low_voltage",
+      "operations": [
+        "visual_inspection",
+        "deenergized_continuity",
+        "powered_dc_measurement",
+        "digital_interface",
+        "analog_measurement",
+        "low_side_load"
+      ],
+      "notes": "smoke fixture, synthetic design intent"
+    }
+  },
+  "power_domains": [
+    {
+      "id": "VIN_5V",
+      "net": "+5V",
+      "ground_net": "GND",
+      "nominal_v": 5.0,
+      "operating_min_v": 4.5,
+      "operating_max_v": 5.5,
+      "absolute_max_v": 6.0,
+      "source": "J1 USB VBUS",
+      "startup_current": {
+        "value": 0.15,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "static_current": {
+        "value": 0.12,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "runtime_current": {
+        "value": 0.12,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "load": "LDO + MCU module",
+      "protection": {
+        "reverse_blocking": "none"
+      },
+      "removable_load": false
+    },
+    {
+      "id": "VDD_3V3",
+      "net": "+3V3",
+      "ground_net": "GND",
+      "nominal_v": 3.3,
+      "operating_min_v": 3.14,
+      "operating_max_v": 3.46,
+      "absolute_max_v": 4.0,
+      "source": "U2 AMS1117-3.3",
+      "depends_on": [
+        {
+          "domain": "VIN_5V",
+          "reason": "LDO input"
+        }
+      ],
+      "startup_current": {
+        "value": 0.05,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "runtime_current": {
+        "value": 0.04,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "load": "MCU module + sensor",
+      "protection": {
+        "reverse_blocking": "none"
+      }
+    }
+  ],
+  "assemblies": {
+    "dnp": [
+      {
+        "designator": "R7",
+        "part": "0R",
+        "reason": "DNP option"
+      }
+    ],
+    "jumpers": [],
+    "variants": [
+      "variant-A"
+    ],
+    "removable_loads": [
+      {
+        "designator": "J2",
+        "description": "external LED load",
+        "default_connected": false
+      }
+    ],
+    "protection_and_polarity": "D1 series diode on VBUS; check polarity before power",
+    "external_supply_paths": [
+      {
+        "id": "USB_DEBUG",
+        "net": "+5V",
+        "can_backfeed": true,
+        "disconnect_required_for_deenergized_tests": true,
+        "notes": "debug USB can feed VBUS"
+      }
+    ]
+  },
+  "interfaces": [
+    {
+      "id": "J1_USB",
+      "type": "usb",
+      "pins": [
+        {
+          "pin": "A4",
+          "net": "VBUS",
+          "role": "power"
+        },
+        {
+          "pin": "A1",
+          "net": "GND",
+          "role": "ground"
+        },
+        {
+          "pin": "A6",
+          "net": "USB_DP",
+          "role": "signal"
+        },
+        {
+          "pin": "A7",
+          "net": "USB_DN",
+          "role": "signal"
+        }
+      ],
+      "logic_level_v": 3.3,
+      "firmware_prerequisite": "USB-Serial/JTAG firmware not yet flashed",
+      "backfeed_risk": true,
+      "notes": "declared host prerequisite: USB 2.0 host port; USB data lines are differential and are not probed single-ended with an earth-referenced scope."
+    },
+    {
+      "id": "U1_I2C",
+      "type": "i2c",
+      "pins": [
+        {
+          "pin": "17",
+          "net": "I2C_SDA",
+          "role": "signal"
+        },
+        {
+          "pin": "18",
+          "net": "I2C_SCL",
+          "role": "signal"
+        }
+      ],
+      "logic_level_v": 3.3,
+      "firmware_prerequisite": "I2C sensor driver not yet flashed",
+      "notes": "declared: 4.7 kohm pull-ups to +3V3 on SDA/SCL; single master; no other devices on the bus; bus length under 10 cm."
+    },
+    {
+      "id": "LED1",
+      "type": "led",
+      "pins": [
+        {
+          "pin": "1",
+          "net": "LED_ANODE",
+          "role": "signal"
+        },
+        {
+          "pin": "2",
+          "net": "GND",
+          "role": "ground"
+        }
+      ],
+      "logic_level_v": 3.3
+    },
+    {
+      "id": "U3_ADC",
+      "type": "analog_input",
+      "pins": [
+        {
+          "pin": "2",
+          "net": "NTC_NODE",
+          "role": "signal"
+        }
+      ],
+      "logic_level_v": 3.3,
+      "notes": "declared source: NTC divider from +3V3; signal range 0.200..2.800 V; ADC attenuation 11 dB; uncalibrated."
+    },
+    {
+      "id": "U2_DEBUG",
+      "type": "debug",
+      "logic_level_v": 3.3,
+      "firmware_prerequisite": "debug/console firmware not yet flashed",
+      "notes": "declared: SWCLK max 4 MHz, nRST active low, BOOT strapping low selects download mode; keep probe capacitance on these nodes below 12 pF.",
+      "pins": [
+        {
+          "pin": "9",
+          "net": "JTAG_SWCLK",
+          "role": "signal"
+        },
+        {
+          "pin": "10",
+          "net": "JTAG_SWDIO",
+          "role": "signal"
+        },
+        {
+          "pin": "5",
+          "net": "MCU_NRST",
+          "role": "signal"
+        },
+        {
+          "pin": "3",
+          "net": "MCU_BOOT",
+          "role": "signal"
+        }
+      ]
+    },
+    {
+      "id": "U4_UART",
+      "type": "uart",
+      "logic_level_v": 3.3,
+      "firmware_prerequisite": "application console firmware not yet flashed",
+      "notes": "declared host adapter: 3.3 V TTL UART (no RS-232 levels); host terminal 115200 8N1; only one host attached.",
+      "pins": [
+        {
+          "pin": "2",
+          "net": "UART_TX",
+          "role": "signal"
+        },
+        {
+          "pin": "3",
+          "net": "UART_RX",
+          "role": "signal"
+        }
+      ]
+    },
+    {
+      "id": "U5_SPI",
+      "type": "spi",
+      "logic_level_v": 3.3,
+      "firmware_prerequisite": "SPI test firmware not yet flashed",
+      "notes": "declared: single master, CS idle high, 3.3 V logic, short bus (<10 cm), no other devices, no termination declared.",
+      "pins": [
+        {
+          "pin": "1",
+          "net": "SPI_SCLK",
+          "role": "signal"
+        },
+        {
+          "pin": "2",
+          "net": "SPI_MOSI",
+          "role": "signal"
+        },
+        {
+          "pin": "3",
+          "net": "SPI_MISO",
+          "role": "signal"
+        },
+        {
+          "pin": "4",
+          "net": "SPI_CS",
+          "role": "signal"
+        }
+      ]
+    },
+    {
+      "id": "D2_LED",
+      "type": "led",
+      "logic_level_v": 3.3,
+      "notes": "declared load: 330 ohm series resistor from +3V3 to LED; design target 5 mA; LED Vf 2.0 V is a typical value (not guaranteed); device maximum continuous current is not declared.",
+      "pins": [
+        {
+          "pin": "1",
+          "net": "LED2_ANODE",
+          "role": "signal"
+        },
+        {
+          "pin": "2",
+          "net": "GND",
+          "role": "ground"
+        }
+      ]
+    },
+    {
+      "id": "SW1_BTN",
+      "type": "button",
+      "logic_level_v": 3.3,
+      "notes": "declared: 10 kohm pull-up to +3V3, active low; firmware debounce not yet flashed.",
+      "pins": [
+        {
+          "pin": "1",
+          "net": "BTN_NET",
+          "role": "signal"
+        },
+        {
+          "pin": "2",
+          "net": "GND",
+          "role": "ground"
+        }
+      ]
+    },
+    {
+      "id": "U6_LOAD",
+      "type": "load_output",
+      "output_type": "single_ended_ground_referenced",
+      "logic_level_v": 3.3,
+      "notes": "declared load: 47 ohm resistor to GND; design target 70 mA at 3.3 V; device operating limit is not declared; short observation only.",
+      "pins": [
+        {
+          "pin": "1",
+          "net": "LOAD_OUT",
+          "role": "signal"
+        },
+        {
+          "pin": "2",
+          "net": "GND",
+          "role": "ground"
+        }
+      ]
+    }
+  ],
+  "testpoints": [
+    {
+      "id": "TP1",
+      "net": "+5V",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "top left"
+    },
+    {
+      "id": "TP2",
+      "net": "+3V3",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "near U2"
+    },
+    {
+      "id": "TP3",
+      "net": "JTAG_SWCLK",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "debug header"
+    },
+    {
+      "id": "TP4",
+      "net": "MCU_NRST",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "debug header"
+    },
+    {
+      "id": "TP5",
+      "net": "MCU_BOOT",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "debug header"
+    },
+    {
+      "id": "TP6",
+      "net": "NTC_NODE",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "near NTC divider"
+    },
+    {
+      "id": "TP7",
+      "net": "LED2_ANODE",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "near D2"
+    },
+    {
+      "id": "TP8",
+      "net": "LOAD_OUT",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "near load connector"
+    },
+    {
+      "id": "TP9",
+      "net": "BTN_NET",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "near SW1"
+    }
+  ],
+  "equipment": {
+    "supplies": [
+      {
+        "id": "PSU1",
+        "model": "declared-lab-psu",
+        "max_voltage_v": 30,
+        "max_current_a": 2,
+        "current_limit_resolution_a": 0.001,
+        "setpoint_resolution_v": 0.01,
+        "source": "declared"
+      }
+    ],
+    "multimeters": [
+      {
+        "id": "DMM1",
+        "model": "declared-dmm",
+        "dc_voltage_max_v": 1000,
+        "dc_voltage_resolution_v": 0.001,
+        "resistance_max_ohm": 50000000,
+        "diode_mode": true,
+        "source": "declared"
+      }
+    ],
+    "oscilloscopes": [
+      {
+        "id": "SCOPE1",
+        "model": "declared-scope",
+        "bandwidth_mhz": 100,
+        "channels": 4,
+        "grounding": "earth_referenced",
+        "probe": {
+          "type": "10x",
+          "bandwidth_mhz": 100,
+          "max_voltage_v": 300,
+          "capacitance_pf": 12
+        },
+        "max_input_voltage_v": 300,
+        "source": "declared"
+      }
+    ],
+    "electronic_loads": []
+  },
+  "operating_conditions": {
+    "ambient": {
+      "min_c": 15,
+      "max_c": 30
+    },
+    "load": "no external load for first energise",
+    "current_limit_policy": {
+      "value": 0.2,
+      "basis": "project_requirement",
+      "source_ref": "EV-01",
+      "conditions": "first energise only"
+    },
+    "observation_window_s": {
+      "value": 2,
+      "basis": "project_requirement",
+      "source_ref": "EV-01"
+    },
+    "required_states": [
+      "deenergized_verified",
+      "rail_in_range",
+      "no_overheat"
+    ]
+  },
+  "device_facts": [],
+  "user_policy": {
+    "mode": "plan_only",
+    "allowed_operations": [
+      "visual_inspection",
+      "deenergized_continuity",
+      "powered_dc_measurement",
+      "digital_interface",
+      "analog_measurement",
+      "low_side_load"
+    ],
+    "forbidden_operations": [
+      "soldering",
+      "firmware_flashing",
+      "instrument_control"
+    ],
+    "max_input_voltage_v": 12,
+    "max_current_a": 1,
+    "human_confirmation_points": [
+      "before_first_energize"
+    ],
+    "risk_tolerance": "low"
+  },
+  "evidence_sources": [
+    {
+      "id": "EV-01",
+      "kind": "other",
+      "path": "evidence/design-intent.json",
+      "revision": "rev-A",
+      "captured_at": "2026-10-20T08:00:00+08:00",
+      "notes": "declared design intent, not a measurement"
+    }
+  ],
+  "notes": {
+    "task_description": "synthetic smoke fixture for CLI validation"
+  }
+}

@@ -1,0 +1,4 @@
+offline bench fixture evidence
+step: I3-V-VIN_5V
+kind: meter_reading
+NO INSTRUMENT WAS CONNECTED; this text exists only to exercise the evaluator evidence/hash contract.

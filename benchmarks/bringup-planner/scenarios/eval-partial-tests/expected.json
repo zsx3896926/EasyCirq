@@ -1,0 +1,32 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "eval-partial-tests",
+  "categories": [
+    "evaluation_partial",
+    "partial_tests"
+  ],
+  "derivation": "Same frozen plan: the two I1 preconditions pass with real evidence, but the two measurement steps (I2 first energise, I3 rail voltage) are recorded not_run. Contract: missing/not-run steps stay unknown, the completion ratio is reported but never promotes the verdict -> verdict=INCOMPLETE (exit 3, hardware_pass=false) with not_run count >= 2 and at least one pass. It must be neither FAIL (nothing failed) nor PASS.",
+  "input": {
+    "file": "input.json",
+    "sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "evaluate": {
+      "plan_file": "plan.json",
+      "exit_code": 3,
+      "verdict": "INCOMPLETE",
+      "hardware_pass": false,
+      "counts_min": {
+        "not_run": 1,
+        "blocked": 1,
+        "pass": 2
+      }
+    },
+    "not_run_statement": true
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

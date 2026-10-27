@@ -1,0 +1,145 @@
+{
+  "schema": "bringup-result/v1",
+  "generator": "bringup_planner-eval-fixture",
+  "generated_at": "2026-10-20T09:00:00Z",
+  "plan_binding": {
+    "plan_sha256": "90d510fc85110787c832dc277115d84b1b0fc3389cee7cf787cf8a8c9ecfbd3e",
+    "input_sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4",
+    "input_semantic_sha256": "5686a2a59819879f112c179b70b94305dc6e9598c8759b9a2ffad71b775692f9",
+    "revision": "rev-2026-10-27-A",
+    "tool_version": "1.0.0"
+  },
+  "executed_by": "bench fixture operator (offline; no instrument was connected)",
+  "source_kind": "real_measurement",
+  "results": [
+    {
+      "step_id": "I1-VIS-001",
+      "title": "Visual inspection",
+      "group": "I1",
+      "status": "pass",
+      "source": "real_measurement",
+      "instrument": null,
+      "measured": null,
+      "evidence": [
+        {
+          "kind": "visual_check",
+          "path": "I1-VIS-001-visual_check.txt",
+          "sha256": "86b8897953ab04296bb7aa903b438d02778c9410565c6d76525b7bef1008e31f",
+          "description": "offline fixture evidence"
+        }
+      ],
+      "executed_by": "bench fixture operator (offline; no instrument was connected)",
+      "executed_at": "2026-10-20T09:05:00+08:00",
+      "stop_triggered": false,
+      "notes": "",
+      "exceptions": [],
+      "expected": {
+        "quantity": null,
+        "unit": null,
+        "min": null,
+        "max": null,
+        "criterion_status": null
+      }
+    },
+    {
+      "step_id": "I2-SEQ-VIN_5V",
+      "title": "First energise +5V with current limit",
+      "group": "I2",
+      "status": "fail",
+      "source": "real_measurement",
+      "instrument": null,
+      "measured": null,
+      "evidence": [
+        {
+          "kind": "meter_reading",
+          "path": "I2-SEQ-VIN_5V-meter_reading.txt",
+          "sha256": "a3980c01a7bc1362667be513c32db4183150c4b58f41e8ca10ceb3599f34168c",
+          "description": "offline fixture evidence"
+        }
+      ],
+      "executed_by": "bench fixture operator (offline; no instrument was connected)",
+      "executed_at": "2026-10-20T09:05:00+08:00",
+      "stop_triggered": true,
+      "notes": "",
+      "exceptions": [],
+      "expected": {
+        "quantity": "voltage",
+        "unit": "V",
+        "min": 4.75,
+        "max": 5.25,
+        "criterion_status": "defined"
+      }
+    },
+    {
+      "step_id": "I3-V-VIN_5V",
+      "title": "Verify +5V rail after first energise",
+      "group": "I3",
+      "status": "pass",
+      "source": "real_measurement",
+      "instrument": {
+        "model": "declared-dmm",
+        "equipment_id": "DMM1",
+        "settings": {
+          "mode": "dc",
+          "range": "auto"
+        }
+      },
+      "measured": {
+        "quantity": "voltage",
+        "value": 5.0,
+        "unit": "V",
+        "at": "2026-10-20T09:05:00+08:00"
+      },
+      "evidence": [
+        {
+          "kind": "meter_reading",
+          "path": "I3-V-VIN_5V-meter_reading.txt",
+          "sha256": "84f085c39f765224701fb851ee3f39064e54c512cac888461fe04fc0c04a94f9",
+          "description": "offline fixture evidence"
+        }
+      ],
+      "executed_by": "bench fixture operator (offline; no instrument was connected)",
+      "executed_at": "2026-10-20T09:05:00+08:00",
+      "stop_triggered": false,
+      "notes": "",
+      "exceptions": [],
+      "expected": {
+        "quantity": "voltage",
+        "unit": "V",
+        "min": 4.75,
+        "max": 5.25,
+        "criterion_status": "defined"
+      }
+    },
+    {
+      "step_id": "I4-J1_USB-01",
+      "title": "USB connector mechanical continuity check",
+      "group": "I4",
+      "status": "pass",
+      "source": "real_measurement",
+      "instrument": null,
+      "measured": null,
+      "evidence": [
+        {
+          "kind": "visual_check",
+          "path": "I4-J1_USB-01-visual_check.txt",
+          "sha256": "01f16f8eec854ea1942987b533f17acd326e7767bd7bf9036c62a39d1094eca5",
+          "description": "offline fixture evidence"
+        }
+      ],
+      "executed_by": "bench fixture operator (offline; no instrument was connected)",
+      "executed_at": "2026-10-20T09:05:00+08:00",
+      "stop_triggered": false,
+      "notes": "",
+      "exceptions": [],
+      "expected": {
+        "quantity": null,
+        "unit": null,
+        "min": null,
+        "max": null,
+        "criterion_status": null
+      }
+    }
+  ],
+  "notes": "Frozen benchmark fixture: NOT RUN on hardware. No instrument was connected and no board was powered. A PASS here is an evaluator-contract result, not a hardware result."
+}

@@ -1,0 +1,111 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "mcu-sensor-board",
+  "categories": [
+    "case_combination_board",
+    "normal_low_voltage_small_board"
+  ],
+  "derivation": "Combination board 1 (low-voltage MCU sensor board): USB-C 5 V -> AMS1117-3.3 -> +3V3, ESP32-S3-WROOM, SHT40 I2C, NTC ADC input, BOOT button. Design intent derived from the read-only record of design-hardware/cases/mcu-i2c-s3-2026-10-26 (23 parts / 15 nets, USB-C CC 5.1k, SHT40 EP pin NC, no dedicated testpoint, AMS1117 stability NOT VERIFIED). This is synthetic intent: no physical board exists in this workspace and nothing was powered. Scope supported, order [VIN_5V, VDD_3V3]; the +3V3 testpoint is declared reachability_verified=false, so its voltage step must be BLOCKED, and the not-flashed firmware blocks the USB/I2C functional steps. All result records are NOT RUN.",
+  "input": {
+    "file": "input.json",
+    "sha256": "bae2fdfd7b133f3b19ba2c573f376e8f31f02c2b382f2482b298471b49a6d70b"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "plan": {
+      "exit_code": 0,
+      "scope_status": "supported",
+      "energize_allowed": true,
+      "dag_order": [
+        "VIN_5V",
+        "VDD_3V3"
+      ],
+      "dag_cycles": [],
+      "steps_by_status_min": {
+        "blocked": 1
+      },
+      "step_ids": [
+        "I1-VIS-001",
+        "I1-JMP-001",
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE",
+        "I1-OFF-RES-VDD_3V3",
+        "I1-OFF-RES-VIN_5V",
+        "I2-FW-001",
+        "I2-EXT-USB_DEBUG",
+        "I2-LOAD-ASM-J2",
+        "I2-SEQ-VIN_5V",
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-V-VDD_3V3",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-V-VIN_5V",
+        "I3-RIPPLE-VIN_5V",
+        "I3-RST-BOOT_BTN",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-LOAD-BOOT_BTN",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ],
+      "steps": {
+        "I1-VIS-001": "ready",
+        "I1-JMP-001": "ready",
+        "I1-OFF-001": "ready",
+        "I1-OFF-DISCHARGE": "ready",
+        "I1-OFF-RES-VDD_3V3": "blocked",
+        "I1-OFF-RES-VIN_5V": "ready",
+        "I2-FW-001": "ready",
+        "I2-EXT-USB_DEBUG": "ready",
+        "I2-LOAD-ASM-J2": "ready",
+        "I2-SEQ-VIN_5V": "ready",
+        "I2-SEQ-VDD_3V3": "blocked",
+        "I2-CONNECT-ASM-J2": "blocked",
+        "I3-V-VDD_3V3": "ready",
+        "I3-RIPPLE-VDD_3V3": "blocked",
+        "I3-V-VIN_5V": "ready",
+        "I3-RIPPLE-VIN_5V": "blocked",
+        "I3-RST-BOOT_BTN": "blocked",
+        "I3-COMM-J1_USB": "ready",
+        "I3-COMM-U1_I2C": "blocked",
+        "I4-LOAD-BOOT_BTN": "blocked",
+        "I4-BUS-J1_USB": "ready",
+        "I4-BUS-U1_I2C": "blocked",
+        "I4-ANALOG-U3_ADC": "blocked"
+      },
+      "steps_by_status": {
+        "ready": 13,
+        "blocked": 10
+      },
+      "gap_codes": [
+        "I1_DISCHARGE_PROFILE_UNDECLARED",
+        "I1_RAIL_TESTPOINT_MISSING",
+        "TESTPOINT_MISSING"
+      ],
+      "unknown_codes": [
+        "I1_SHORT_CHECK_CRITERION_UNDEFINED"
+      ],
+      "equipment_gap_codes": [
+        "PROBE_LOADING_NOT_DECLARED"
+      ],
+      "supply_conflict_codes": [
+        "EXTERNAL_SUPPLY_PATH"
+      ]
+    },
+    "evaluate": {
+      "exit_code": 3,
+      "verdict": "INCOMPLETE",
+      "hardware_pass": false,
+      "counts_min": {
+        "not_run": 1
+      }
+    },
+    "not_run_statement": true
+  },
+  "not_run_statement": "Synthetic design intent only. No physical board exists, no instrument was connected, no power was applied, no firmware was flashed. Every plan step and result record is NOT RUN. A plan/evaluation pass here is an offline document check and is not a hardware, safety, EMC, thermal or qualification result.",
+  "frozen_from": "hand derivation, never copied from CLI output"
+}
