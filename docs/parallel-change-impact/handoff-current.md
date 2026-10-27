@@ -3,7 +3,23 @@
 ## 状态
 
 - 分支：`feat/parallel-change-impact`（独立 worktree，基线 `main @ 9a951edc21481dc3ae91460acc11aa3e08a7be8a`）
-- 提交：`e90df7c`；独立 PR：#43 https://github.com/zsx3896926/hardware-design-skill/pull/43
+- 远端：`origin/feat/parallel-change-impact`，推送后与本地一致
+  （`git ls-remote` = `03eb094f5bdfa7008ead3192d746bc9f54f0682e`；ahead 0 / behind 0；
+  相对 `origin/main` ahead 2 / behind 0）
+- 功能提交：`e90df7c` — `feat(change-impact): offline ECO change impact analysis and incremental verification planning`
+- 收尾记录提交：`03eb094` — `docs(change-impact): record commit SHA and PR link in report and handoff`
+  （两次提交合计 136 文件、+26094 行，只含本任务四个允许路径）
+- 独立 PR：**#43 OPEN / MERGEABLE / CLEAN（非 draft）**
+  https://github.com/zsx3896926/hardware-design-skill/pull/43
+  （GitHub API 返回的规范地址；匿名 HTTP 校验 `pull/43 → 200`）
+- CI（head `03eb094`）：
+  - `validate (3.10)` — **SUCCESS**
+  - `validate (3.13)` — **SUCCESS**
+  - `updater (ubuntu-latest)` — **SUCCESS**
+  - `updater (windows-latest)` — **SUCCESS**
+  - `publish` — **SKIPPED**（设计如此：仅 release 事件发布，本 PR 不发版）
+- 说明：本文件后续的任何文档更新都会产生新的 docs-only 提交并触发新一轮 CI；
+  PR head 与远端分支以 `origin/feat/parallel-change-impact` 为准。
 - 交付：可运行的离线 ECO 变更影响分析工具 + 231 项测试 + 50 个冻结 CLI 基准 +
   8 份文档；已推送并创建独立 PR（不合并、不发版、不替换安装）
 - 状态语义：`planned_with_scope` / `incomplete` / `no_change` / `input_invalid`；
