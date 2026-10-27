@@ -107,6 +107,21 @@ WorkBuddy/Claude Code/Codex 只是宿主：安装只决定能否加载本Skill�
 
 **预检（唯一入口）**：`zhigou doctor` + `zhigou capabilities`。两者stdout输出JSON、stderr输出人类摘要，非零退出即预检失败。只看doctor的 `verdict/daemon/connector/protocol` 与capabilities逐项 `supported/unsupported/unknown + reason`；不把“装了EDA”或版本号当成可执行，unsupported/unknown 能力不宣称可做。同一预检承担**开工交付能力盘点**：按任务读取 `zhigou capabilities` 中原理图读写/检查/导出、`board.binding`、PCB 同步/层叠/布线/DRC、`save.reload`、BOM、图片/3D、`gerber.export`/`drill.export`/`cpl.export` 等项（当前build若提供 `delivery` 分类则直接读该分类），逐项记录 `已实测 / API存在但未测 / GUI路径 / 需要开发 / 不支持`，写入工程记录；接口存在不等于已验证，缺项不得写成已交付。
 
+**从零建板（新工程）**：没有可复用工程时按固定顺序建，别直接在别人的工程上画：
+
+```text
+zhigou doctor && zhigou capabilities          # 1 预检（非零退出即停）
+zhigou project create --name <工程名> --open   # 2 新工程（独立，不覆盖既有）
+zhigou doc ls                                  # 3 取得页面/PCB 的 UUID
+zhigou doc open <页面名或UUID>                 # 4 必须有活动文档再写，否则报 No active document
+zhigou sch list --include-pins                 # 5 先读后写（空页也要读一次，确认目标）
+...                                            # 6 放置/连线/图签/检查（见下）
+zhigou sch save && zhigou doc reload <页面>    # 7 保存后重开，再回读验证持久化
+```
+
+新建工程后**默认没有活动文档**：不做第 4 步就写，会得到
+`document.current failed: No active document`——这不是工具故障，是目标未绑定。
+
 **目标绑定**：用 `zhigou project info`、`zhigou doc ls` 确认工程/文档身份；写入前用 `--project`/`--doc` 显式绑定，不依赖当前前台焦点；只在已授权副本上写。
 
 **执行闭环**：write → readback → save → reopen。先形成源数据/变更计划，一次只写计划内对象；冲突默认不写；部分成功/超时先查真实状态，禁止整批盲重试。回读用 `zhigou sch read`/`pcb dump` 等 typed 命令；调用成功、写入成功、保存成功、重开后仍存在、质量检查是不同的事实，分开报告，缺一项记为 `NOT RUN`/`unknown`。
