@@ -1,6 +1,6 @@
 {
   "schema": "zhigou-capabilities/v1",
-  "generatedAt": "2026-10-27T14:17:12Z",
+  "generatedAt": "2026-10-27T14:25:23Z",
   "protocol": {
     "service": "zhigou-agent",
     "wireVersion": "v1",
@@ -399,6 +399,131 @@
       "caveats": [
         "等长/调长接口同上：探测不到就明确边界"
       ]
+    }
+  ],
+  "deliverables": [
+    {
+      "id": "schematic.capture",
+      "status": "api_untested",
+      "reason": "typed action 存在，但本版本尚未真机验证；接口存在不等于能力已验证（当前也没有连接器在线）",
+      "actions": [
+        "schematic.component.delete",
+        "schematic.component.modify",
+        "schematic.component.place",
+        "schematic.component.replace",
+        "schematic.component.resolve_lcsc",
+        "schematic.components.list",
+        "schematic.export.netlist",
+        "schematic.netflag.create",
+        "schematic.wire.create"
+      ],
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
+    },
+    {
+      "id": "pcb.sync",
+      "status": "api_untested",
+      "reason": "typed action 存在，但本版本尚未真机验证；接口存在不等于能力已验证（当前也没有连接器在线）",
+      "actions": [
+        "board.copy",
+        "board.create",
+        "board.current",
+        "board.delete",
+        "board.list",
+        "board.new",
+        "board.new_pcb",
+        "board.rebind",
+        "board.rename",
+        "pcb.board.info",
+        "pcb.import_changes"
+      ],
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
+    },
+    {
+      "id": "pcb.stackup",
+      "status": "api_untested",
+      "reason": "typed action 存在，但本版本尚未真机验证；接口存在不等于能力已验证（当前也没有连接器在线）",
+      "actions": [
+        "pcb.stackup.set"
+      ],
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
+    },
+    {
+      "id": "pcb.routing",
+      "status": "api_untested",
+      "reason": "typed action 存在，但本版本尚未真机验证；接口存在不等于能力已验证（当前也没有连接器在线）",
+      "actions": [
+        "pcb.route.auto",
+        "pcb.route.delete",
+        "pcb.route.rip_up",
+        "pcb.route.via_hop",
+        "pcb.track.lock",
+        "pcb.via.create",
+        "pcb.via.list"
+      ],
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
+    },
+    {
+      "id": "pcb.drc",
+      "status": "api_untested",
+      "reason": "typed action 存在，但本版本尚未真机验证；接口存在不等于能力已验证（当前也没有连接器在线）",
+      "actions": [
+        "pcb.drc.check",
+        "pcb.drc.rules",
+        "pcb.drc.rules.set"
+      ],
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
+    },
+    {
+      "id": "export.3d",
+      "status": "api_untested",
+      "reason": "typed action 存在，但本版本尚未真机验证；接口存在不等于能力已验证（当前也没有连接器在线）",
+      "actions": [
+        "library.model3d.copy",
+        "library.model3d.create",
+        "library.model3d.delete",
+        "library.model3d.get",
+        "library.model3d.search",
+        "pcb.export.3d",
+        "pcb.export.3d_shell"
+      ],
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
+    },
+    {
+      "id": "export.bom",
+      "status": "api_untested",
+      "reason": "typed action 存在，但本版本尚未真机验证；接口存在不等于能力已验证（当前也没有连接器在线）",
+      "actions": [
+        "schematic.export.bom"
+      ],
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
+    },
+    {
+      "id": "export.gerber",
+      "status": "gui_only",
+      "reason": "本运行时没有 typed action，只能走官方 GUI 导出 + 人工证据",
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
+    },
+    {
+      "id": "export.drill",
+      "status": "gui_only",
+      "reason": "本运行时没有 typed action，只能走官方 GUI 导出 + 人工证据",
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
+    },
+    {
+      "id": "export.cpl",
+      "status": "gui_only",
+      "reason": "本运行时没有 typed action，只能走官方 GUI 导出 + 人工证据",
+      "hostGuiPath": true,
+      "evidence": "docs/toolchain-integration/evidence/"
     }
   ],
   "notes": [

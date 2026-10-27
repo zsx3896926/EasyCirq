@@ -48,7 +48,27 @@ type capabilitiesReport struct {
 	Host        doctorHost             `json:"host"`
 	Summary     map[string]int         `json:"summary"`
 	Items       []capabilityItem       `json:"items"`
-	Notes       []string               `json:"notes"`
+	// Deliverables answers the task-start question "what can this toolchain
+	// actually deliver for THIS job" with five honest states, never by reading
+	// the EDA version number: measured / api_untested / gui_only /
+	// needs_development / unsupported.
+	Deliverables []deliverableItem    `json:"deliverables"`
+	Notes        []string             `json:"notes"`
+}
+
+// deliverableItem is one deliverable a design task needs (schematic, PCB sync,
+// stackup, routing, DRC, 3D, BOM, Gerber, drill, CPL).
+type deliverableItem struct {
+	ID     string `json:"id"`
+	Status string `json:"status"`
+	Reason string `json:"reason"`
+	// Actions lists the typed actions that back this deliverable (empty when
+	// the toolchain has none, i.e. gui_only / unsupported).
+	Actions []string `json:"actions,omitempty"`
+	// HostPath says whether the official EasyEDA GUI can produce it even if the
+	// toolchain has no typed action (manual export + human evidence).
+	HostPath bool   `json:"hostGuiPath"`
+	Evidence string `json:"evidence"`
 }
 
 type capabilitiesConnector struct {
@@ -232,6 +252,93 @@ func buildCapabilities(actions []protocol.ActionSpec, connectorCount int, report
 	return items
 }
 
+// buildDeliverables maps the typed action catalog onto the deliverables a
+// hardware task needs at kickoff. "api_untested" is the honest default for any
+// deliverable whose actions exist but which has not been proven on a live host
+// yet: an existing API is not a verified capability.
+func buildDeliverables(actions []protocol.ActionSpec, connectorCount int, measured map[string]bool) []deliverableItem {
+	names := make([]string, 0, len(actions))
+	for _, a := range actions {
+		names = append(names, a.Name)
+	}
+	has := func(sub string) bool {
+		for _, n := range names {
+			if strings.Contains(n, sub) {
+				return true
+			}
+		}
+		return false
+	}
+	matching := func(subs ...string) []string {
+		var out []string
+		for _, n := range names {
+			for _, sub := range subs {
+				if strings.Contains(n, sub) {
+					out = append(out, n)
+					break
+				}
+			}
+		}
+		sort.Strings(out)
+		return out
+	}
+	defs := []struct {
+		id       string
+		subs     []string
+		hostPath bool
+		note     string
+	}{
+		{"schematic.capture", []string{"schematic.component", "schematic.wire", "schematic.netflag", "schematic.export.netlist"}, true,
+			"原理图放置/连线/网表导出走 typed action；图面可读性仍需官方导图人工核对"},
+		{"pcb.sync", []string{"board.", "pcb.import_changes"}, true,
+			"原理图→PCB 同步依赖 board 绑定与变更导入动作；同步结果必须回读核对"},
+		{"pcb.stackup", []string{"pcb.stackup"}, true,
+			"层叠读写有动作，但尚未在本版本真机验证；层数/铜厚结论必须来自回读"},
+		{"pcb.routing", []string{"pcb.route", "pcb.track", "pcb.via"}, true,
+			"布线原语存在；不等同于官方自动布线器可用，自动布线能力需真机探测"},
+		{"pcb.drc", []string{"pcb.drc", "pcb.check"}, true,
+			"DRC 必须绑定当前工程/文档+快照，旧 DRC 不能证明新修改"},
+		{"export.3d", []string{"pcb.export.3d", "library.model3d"}, true,
+			"3D 导出动作存在但未真机验证；文件非空且可解析才算交付"},
+		{"export.bom", []string{"schematic.export.bom"}, true,
+			"BOM 导出后仍需 C 号/型号/封装核对与内容检查"},
+		{"export.gerber", []string{"gerber"}, true,
+			"typed action 目录没有 Gerber；只能官方 GUI 导出并落人工证据"},
+		{"export.drill", []string{"drill"}, true,
+			"typed action 目录没有钻孔文件；只能官方 GUI 导出"},
+		{"export.cpl", []string{"cpl", "pick_and_place", "pick-place"}, true,
+			"typed action 目录没有贴装坐标；只能官方 GUI 导出"},
+	}
+	items := make([]deliverableItem, 0, len(defs))
+	for _, d := range defs {
+		matched := matching(d.subs...)
+		item := deliverableItem{ID: d.id, Actions: matched, HostPath: d.hostPath}
+		switch {
+		case len(matched) == 0:
+			item.Status = "unsupported"
+			item.Reason = "本运行时没有对应 typed action；该系统没有这条交付能力（GUI 人工导出属于另一条路径）"
+			if d.hostPath {
+				item.Status = "gui_only"
+				item.Reason = "本运行时没有 typed action，只能走官方 GUI 导出 + 人工证据"
+			}
+		case measured[d.id]:
+			item.Status = "measured"
+			item.Reason = "本版本已在真机验证并留有证据"
+		default:
+			item.Status = "api_untested"
+			item.Reason = "typed action 存在，但本版本尚未真机验证；接口存在不等于能力已验证"
+			if connectorCount == 0 {
+				item.Reason += "（当前也没有连接器在线）"
+			}
+		}
+		item.Evidence = "docs/toolchain-integration/evidence/"
+		_ = has
+		_ = d.note
+		items = append(items, item)
+	}
+	return items
+}
+
 func newCapabilitiesCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 	return &cobra.Command{
 		Use:   "capabilities",
@@ -253,6 +360,10 @@ func newCapabilitiesCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command
 				if it.Status != "supported" {
 					fmt.Fprintf(stderr, "  - %-20s %-11s %s\n", it.ID, it.Status, it.Reason)
 				}
+			}
+			fmt.Fprintln(stderr, "deliverables (task-start check):")
+			for _, d := range rep.Deliverables {
+				fmt.Fprintf(stderr, "  %-18s %-12s %s\n", d.ID, d.Status, d.Reason)
 			}
 			return nil
 		},
@@ -309,9 +420,13 @@ func collectCapabilities(cfg *appConfig) capabilitiesReport {
 	}
 	sort.Strings(rep.Connector.Reported)
 
-	rep.Items = buildCapabilities(protocol.AllActions(), connectorCount, rep.Connector.Reported)
+	actions := protocol.AllActions()
+	rep.Items = buildCapabilities(actions, connectorCount, rep.Connector.Reported)
 	for _, it := range rep.Items {
 		rep.Summary[it.Status]++
 	}
+	// Nothing is "measured" until a live host run records evidence; keep the
+	// empty set explicit so nobody mistakes an existing API for a verified one.
+	rep.Deliverables = buildDeliverables(actions, connectorCount, map[string]bool{})
 	return rep
 }

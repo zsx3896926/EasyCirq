@@ -8,6 +8,15 @@ import (
 // same primitive classes as page.clear and carry the native state of each item.
 // The scene comparison protects geometry/network values; this inventory also
 // binds every deletable object's identity before the first write.
+// schComposeKnownExtraClasses lists primitive classes that a newer host or
+// connector may add to pagePrimitives without changing what page.clear deletes.
+// Each entry documents why the class needs no separate deletion protection.
+var schComposeKnownExtraClasses = map[string]string{
+	// pins are owned by their component rows: component identity is already
+	// bound above, and pin deletion cannot happen without deleting the component.
+	"pins": "additive pin rows owned by components; component identity covers deletion",
+}
+
 func schComposeProtectedPage(result map[string]any) (map[string]any, error) {
 	if result["wiresAvailable"] != true || (result["pinNetsAvailable"] != true && !schComposeZeroDrawing(result)) {
 		return nil, fmt.Errorf("before snapshot lacks complete wire or pin-net evidence")
@@ -28,8 +37,31 @@ func schComposeProtectedPage(result map[string]any) (map[string]any, error) {
 		"attributes": {"X", "Y", "Rotation", "Color", "FontName", "FontSize", "Bold", "Italic", "UnderLine", "AlignMode", "FillColor", "Key", "Value", "KeyVisible", "ValueVisible", "ParentPrimitiveId"},
 		"objects":    {"Content", "StartX", "StartY", "Width", "Height", "Rotation", "Mirror", "FileName"},
 	}
-	if len(page) != len(fields) {
-		return nil, fmt.Errorf("before snapshot pagePrimitives has incomplete class inventory")
+	// Newer hosts/connectors can return ADDITIVE primitive classes that
+	// page.clear does not delete (field report: pagePrimitives.pins from a live
+	// EasyEDA Pro connector). Requiring an exact class count rejected such a
+	// snapshot outright, which broke compose on a host whose page inventory was
+	// otherwise complete. Additive classes are therefore tolerated, but only if
+	// they are on this explicit list and still well-formed — an UNKNOWN class
+	// keeps failing the snapshot, because it could be an identity-bearing object
+	// whose deletion we would not protect. This relaxes the class COUNT, never
+	// the required classes themselves (the loop below still demands all of them).
+	for kind, value := range page {
+		if _, required := fields[kind]; required {
+			continue
+		}
+		if _, known := schComposeKnownExtraClasses[kind]; !known {
+			return nil, fmt.Errorf("before snapshot pagePrimitives.%s is an unrecognized primitive class", kind)
+		}
+		rows, ok := value.([]any)
+		if !ok {
+			return nil, fmt.Errorf("before snapshot pagePrimitives.%s must be an array", kind)
+		}
+		for _, item := range rows {
+			if _, ok := item.(map[string]any); !ok {
+				return nil, fmt.Errorf("before snapshot malformed %s primitive", kind)
+			}
+		}
 	}
 	sets := map[string]map[string]bool{}
 	for kind, required := range fields {
