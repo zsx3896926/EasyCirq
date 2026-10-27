@@ -1,0 +1,71 @@
+{
+  "schema": "circuit-blocks/device-facts/1",
+  "fact_id": "mosfet_ao3400a",
+  "category": "mosfet_n",
+  "mpn": "AO3400A",
+  "manufacturer": "Alpha & Omega Semiconductor (AOS)",
+  "verified": true,
+  "verified_on": "2026-10-27",
+  "conditions": "TA = 25 C unless a fact states its own condition; electrical characteristics at TJ = 25 C unless stated. Facts apply to the AO3400A die in the SOT-23 (3-lead) package.",
+  "sources": [
+    {
+      "document": "AO3400A 30V N-Channel MOSFET datasheet",
+      "doc_id": "AO3400A",
+      "revision": "Rev 3.1, July 2023",
+      "url": "https://www.aosmd.com/pdfs/datasheet/AO3400A.pdf",
+      "accessed": "2026-10-27",
+      "sections": [
+        "Absolute Maximum Ratings (printed p. 1)",
+        "Thermal Characteristics (printed p. 1)",
+        "Electrical Characteristics, STATIC/DYNAMIC/SWITCHING PARAMETERS (printed p. 2)",
+        "Notes A-F (printed pp. 1-2)",
+        "Figure 9 Maximum Forward Biased Safe Operating Area (printed p. 4)"
+      ]
+    }
+  ],
+  "facts": {
+    "vds_max_v": {"value": 30, "unit": "V", "applies_to": "AO3400A, SOT-23", "condition": "absolute maximum drain-source voltage", "source": "AO3400A, Absolute Maximum Ratings (printed p. 1)"},
+    "vgss_max_v": {"value": 12, "unit": "V", "applies_to": "AO3400A, SOT-23", "condition": "absolute maximum gate-source voltage, +/-12 V", "source": "AO3400A, Absolute Maximum Ratings (printed p. 1)"},
+    "id_max_a": {"value": 5.7, "unit": "A", "applies_to": "AO3400A, SOT-23", "condition": "continuous drain current at TA = 25 C, VGS = 10 V, TJ limited; 4.7 A at TA = 70 C; the package is the limiting element", "source": "AO3400A, Absolute Maximum Ratings (printed p. 1)"},
+    "id_pulsed_max_a": {"value": 30, "unit": "A", "applies_to": "AO3400A, SOT-23", "condition": "pulsed drain current, repetitive rating with pulse width limited by TJ(max) = 150 C (note C)", "source": "AO3400A, Absolute Maximum Ratings (printed p. 1)"},
+    "pd_max_w": {"value": 1.4, "unit": "W", "applies_to": "AO3400A, SOT-23", "condition": "power dissipation at TA = 25 C based on TJ(max) = 150 C using the <= 10 s junction-to-ambient thermal resistance (note B); 0.9 W at TA = 70 C", "source": "AO3400A, Absolute Maximum Ratings (printed p. 1) and note B (printed p. 2)"},
+    "rds_on_ohm": [
+      {"vgs_v": 10, "id_a": 5.7, "typ_ohm": 0.018, "max_ohm": 0.0265, "condition": "TJ = 25 C, <300 us pulse, duty cycle <= 0.5 % (note E)", "source": "AO3400A, Electrical Characteristics RDS(ON) (printed p. 2)"},
+      {"vgs_v": 10, "id_a": 5.7, "typ_ohm": 0.028, "max_ohm": 0.038, "condition": "TJ = 125 C (same VGS = 10 V, ID = 5.7 A row)", "source": "AO3400A, Electrical Characteristics RDS(ON) (printed p. 2)"},
+      {"vgs_v": 4.5, "id_a": 5.0, "typ_ohm": 0.019, "max_ohm": 0.032, "condition": "TJ = 25 C, <300 us pulse, duty cycle <= 0.5 % (note E)", "source": "AO3400A, Electrical Characteristics RDS(ON) (printed p. 2)"},
+      {"vgs_v": 2.5, "id_a": 3.0, "typ_ohm": 0.024, "max_ohm": 0.048, "condition": "TJ = 25 C, <300 us pulse, duty cycle <= 0.5 % (note E); this is the lowest VGS at which a maximum RDS(ON) is specified", "source": "AO3400A, Electrical Characteristics RDS(ON) (printed p. 2)"}
+    ],
+    "vgs_th_min_v": {"value": 0.65, "unit": "V", "applies_to": "AO3400A, SOT-23", "condition": "VDS = VGS, ID = 250 uA, TJ = 25 C. WARNING: threshold is the onset of conduction, NOT proof of full enhancement - a module must use RDS(ON) at the actual applied VGS, never VGS(th), as the on-state proof", "source": "AO3400A, Electrical Characteristics VGS(th) (printed p. 2)"},
+    "vgs_th_max_v": {"value": 1.45, "unit": "V", "applies_to": "AO3400A, SOT-23", "condition": "VDS = VGS, ID = 250 uA, TJ = 25 C; typical 1.05 V. WARNING: threshold is not a guarantee that the channel is fully enhanced at a given gate voltage, and VGS(th) falls further at hot (roughly -2 mV/C order); no on-state conclusion may be drawn from it", "source": "AO3400A, Electrical Characteristics VGS(th) (printed p. 2)"},
+    "qg_typ_c": {"value": 0.000000006, "unit": "C", "applies_to": "AO3400A, SOT-23", "condition": "total gate charge Qg at VGS = 4.5 V, VDS = 15 V, ID = 5.7 A; typical 6 nC, maximum 7 nC", "source": "AO3400A, Electrical Characteristics Qg (printed p. 2)"},
+    "qg_max_c": {"value": 0.000000007, "unit": "C", "applies_to": "AO3400A, SOT-23", "condition": "maximum total gate charge at VGS = 4.5 V, VDS = 15 V, ID = 5.7 A", "source": "AO3400A, Electrical Characteristics Qg (printed p. 2)"},
+    "qgs_typ_c": {"value": 0.0000000013, "unit": "C", "applies_to": "AO3400A, SOT-23", "condition": "gate-source charge at VGS = 4.5 V, VDS = 15 V, ID = 5.7 A (1.3 nC typical)", "source": "AO3400A, Electrical Characteristics Qgs (printed p. 2)"},
+    "qgd_typ_c": {"value": 0.0000000018, "unit": "C", "applies_to": "AO3400A, SOT-23", "condition": "gate-drain charge at VGS = 4.5 V, VDS = 15 V, ID = 5.7 A (1.8 nC typical)", "source": "AO3400A, Electrical Characteristics Qgd (printed p. 2)"},
+    "ciss_typ_f": {"value": 0.00000000063, "unit": "F", "applies_to": "AO3400A, SOT-23", "condition": "input capacitance at VGS = 0 V, VDS = 15 V, f = 1 MHz (630 pF typical)", "source": "AO3400A, Electrical Characteristics Ciss (printed p. 2)"},
+    "coss_typ_f": {"value": 0.000000000075, "unit": "F", "applies_to": "AO3400A, SOT-23", "condition": "output capacitance at VGS = 0 V, VDS = 15 V, f = 1 MHz (75 pF typical)", "source": "AO3400A, Electrical Characteristics Coss (printed p. 2)"},
+    "crss_typ_f": {"value": 0.00000000005, "unit": "F", "applies_to": "AO3400A, SOT-23", "condition": "reverse transfer capacitance at VGS = 0 V, VDS = 15 V, f = 1 MHz (50 pF typical)", "source": "AO3400A, Electrical Characteristics Crss (printed p. 2)"},
+    "rg_typ_ohm": {"value": 3, "unit": "ohm", "applies_to": "AO3400A, SOT-23", "condition": "internal gate resistance at VGS = 0 V, VDS = 0 V, f = 1 MHz (minimum 1.5 ohm, maximum 4.5 ohm)", "source": "AO3400A, Electrical Characteristics Rg (printed p. 2)"},
+    "theta_ja_c_per_w": {"value": 125, "unit": "C/W", "applies_to": "AO3400A, SOT-23", "condition": "steady-state maximum junction-to-ambient thermal resistance, device mounted on 1 in^2 FR-4 board with 2 oz copper, still air, TA = 25 C (note A); typical 100 C/W. The <= 10 s value is 90 C/W max (70 C/W typical) and power dissipation is rated using that <= 10 s value", "source": "AO3400A, Thermal Characteristics (printed p. 1) and note A (printed p. 2)"},
+    "theta_ja_10s_c_per_w": {"value": 90, "unit": "C/W", "applies_to": "AO3400A, SOT-23", "condition": "maximum junction-to-ambient thermal resistance for t <= 10 s, 1 in^2 FR-4 2 oz copper, still air (typical 70 C/W); this is the condition used for the PD rating", "source": "AO3400A, Thermal Characteristics (printed p. 1) and note B (printed p. 2)"},
+    "theta_jl_c_per_w": {"value": 80, "unit": "C/W", "applies_to": "AO3400A, SOT-23", "condition": "steady-state maximum junction-to-lead thermal resistance (typical 63 C/W)", "source": "AO3400A, Thermal Characteristics (printed p. 1)"},
+    "tj_max_c": {"value": 150, "unit": "C", "applies_to": "AO3400A, SOT-23", "condition": "maximum operating junction temperature; junction and storage temperature range -55 C to +150 C", "source": "AO3400A, Absolute Maximum Ratings (printed p. 1)"},
+    "body_diode": {"value": "yes - integrated body diode; VSD 0.7 V typical and 1.0 V maximum at IS = 1 A, VGS = 0 V; maximum body-diode continuous current 2 A; trr 8.5 ns typical and Qrr 2.6 nC typical at IF = 5.7 A, dI/dt = 100 A/us", "unit": "1", "applies_to": "AO3400A, SOT-23", "condition": "characterised at TJ = 25 C; body-diode current rating 2 A continuous is below the channel rating", "source": "AO3400A, Electrical Characteristics VSD, IS, trr, Qrr (printed p. 2)"},
+    "vf_body_diode_max_v": {"value": 1.0, "unit": "V", "applies_to": "AO3400A, SOT-23", "condition": "body-diode forward voltage at IS = 1 A, VGS = 0 V (typical 0.7 V)", "source": "AO3400A, Electrical Characteristics VSD (printed p. 2)"},
+    "is_body_diode_max_a": {"value": 2, "unit": "A", "applies_to": "AO3400A, SOT-23", "condition": "maximum body-diode continuous current", "source": "AO3400A, Electrical Characteristics IS (printed p. 2)"},
+    "trr_body_diode_typ_s": {"value": 0.0000000085, "unit": "s", "applies_to": "AO3400A, SOT-23", "condition": "body-diode reverse recovery time typical at IF = 5.7 A, dI/dt = 100 A/us (8.5 ns); Qrr 2.6 nC typical", "source": "AO3400A, Electrical Characteristics trr, Qrr (printed p. 2)"},
+    "soa": {"value": "datasheet provides a forward-bias safe operating area (Figure 9) for TA = 25 C and TJ(max) = 150 C, single pulse, curves at DC/10 s/1 ms/.../10 us; the DC boundary is RDS(ON)-limited at low VDS and thermally limited at high VDS (note F). No unclamped inductive switching (UIS/EAS) rating is given", "unit": "1", "applies_to": "AO3400A, SOT-23", "condition": "single-pulse SOA only; repetitive operation requires the transient thermal impedance curves (Figure 11)", "source": "AO3400A, Figure 9 and note F (printed pp. 2, 4)"},
+    "bvdss_min_v": {"value": 30, "unit": "V", "applies_to": "AO3400A, SOT-23", "condition": "drain-source breakdown voltage at ID = 250 uA, VGS = 0 V", "source": "AO3400A, Electrical Characteristics BVDSS (printed p. 2)"},
+    "idss_max_a": {"value": 0.000001, "unit": "A", "applies_to": "AO3400A, SOT-23", "condition": "zero-gate-voltage drain current at VDS = 30 V, VGS = 0 V, TJ = 25 C (1 uA); 5 uA at TJ = 55 C", "source": "AO3400A, Electrical Characteristics IDSS (printed p. 2)"},
+    "vgss_leakage_max_a": {"value": 0.0000001, "unit": "A", "applies_to": "AO3400A, SOT-23", "condition": "gate-body leakage current at VDS = 0 V, VGS = +/-12 V (100 nA)", "source": "AO3400A, Electrical Characteristics IGSS (printed p. 2)"},
+    "id_on_min_a": {"value": 30, "unit": "A", "applies_to": "AO3400A, SOT-23", "condition": "on-state drain current at VGS = 4.5 V, VDS = 5 V (minimum 30 A)", "source": "AO3400A, Electrical Characteristics ID(ON) (printed p. 2)"},
+    "gfs_typ_s": {"value": 33, "unit": "S", "applies_to": "AO3400A, SOT-23", "condition": "forward transconductance at VDS = 5 V, ID = 5.7 A (33 S typical)", "source": "AO3400A, Electrical Characteristics gFS (printed p. 2)"}
+  },
+  "unknown_facts": [
+    "No maximum RDS(ON) is specified at VGS = 4.5 V or 2.5 V for TJ = 125 C; only the VGS = 10 V row has a 125 C maximum (38 mohm). A hot low-VGS on-resistance can therefore not be read from this datasheet.",
+    "No on-state resistance is specified for VGS below 2.5 V; the transfer characteristic (Figure 2) is typical only. Operation from a 1.8 V logic rail is not characterised by a guaranteed RDS(ON).",
+    "No unclamped inductive switching (UIS) / EAS rating is stated, so inductive-load avalanche behaviour is unverified.",
+    "No gate-charge or switching-loss data is given at VGS = 2.5 V or 10 V drive for the switching times; Qg is specified only at VGS = 4.5 V.",
+    "No junction-to-ambient thermal resistance for an arbitrary user PCB is stated - only the JEDEC/reference 1 in^2 FR-4 2 oz copper board condition; a real board value must be measured or modelled."
+  ],
+  "notes": "Verified against the current AOS datasheet served at the URL above on 2026-10-27 (Rev 3.1, July 2023). The RDS(ON) table in the PDF prints values in mohm (the text layer shows 'mW' because of a font-encoding issue); the ohm values recorded here are the mohm numbers divided by 1000. The four specified points are VGS = 10 V / ID = 5.7 A (26.5 mohm max at 25 C), VGS = 10 V at 125 C (38 mohm max), VGS = 4.5 V / ID = 5 A (32 mohm max) and VGS = 2.5 V / ID = 3 A (48 mohm max). VGS(th) 0.65-1.45 V is a threshold, not a drive requirement: at VGS = 2.5 V the part is specified at a maximum RDS(ON) of 48 mohm, so a low-side switch fed by a 3.3 V GPIO (VGS approx 3.3 V) is inside the characterised range between the 2.5 V and 4.5 V points, but a generator must not interpolate or claim a number the datasheet does not state. Steady-state theta_JA 125 C/W means PD = 1.4 W is only valid with the <= 10 s thermal resistance."
+}

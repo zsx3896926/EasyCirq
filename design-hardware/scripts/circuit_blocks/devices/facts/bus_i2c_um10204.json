@@ -1,0 +1,69 @@
+{
+  "schema": "circuit-blocks/device-facts/1",
+  "fact_id": "bus_i2c_um10204",
+  "category": "bus_spec",
+  "mpn": "N/A (protocol specification, no orderable part)",
+  "manufacturer": "NXP Semiconductors",
+  "verified": true,
+  "verified_on": "2026-10-27",
+  "conditions": "DC and timing limits for Standard-mode (Sm, 100 kbit/s), Fast-mode (Fm, 400 kbit/s) and Fast-mode Plus (Fm+, 1 Mbit/s) I2C-bus devices at VDD = 2 V to 5.5 V unless a fact says otherwise; VIL/VIH levels are referenced to VDD (VIL max = 0.3 VDD, VIH min = 0.7 VDD). Rise/fall times are measured between 30 % and 70 % of VDD (Figure 38). These facts do NOT cover Hs-mode (Table 12), UFm, or SMBus limits.",
+  "sources": [
+    {
+      "document": "UM10204 I2C-bus specification and user manual",
+      "doc_id": "UM10204",
+      "revision": "Rev. 7.0, 1 October 2021 (seventh release)",
+      "url": "https://www.nxp.com/docs/en/user-guide/UM10204.pdf",
+      "accessed": "2026-10-27",
+      "sections": [
+        "Table 10 Characteristics of the SDA and SCL I/O stages (printed p. 43 / 62)",
+        "Table 11 Characteristics of the SDA and SCL bus lines for Standard, Fast, and Fast-mode Plus I2C-bus devices (printed pp. 43-44 / 62)",
+        "Figure 38 Definition of timing for F/S-mode devices (printed p. 45 / 62)",
+        "Section 6.1 Standard-, Fast-, and Fast-mode Plus devices (printed p. 43 / 62)",
+        "Section 7.1 Pull-up resistor sizing (printed p. 50 / 62)"
+      ]
+    }
+  ],
+  "facts": {
+    "rise_time_max_s": {"value": 0.0000003, "unit": "s", "applies_to": "I2C-bus SDA and SCL lines, Fast-mode (400 kbit/s)", "condition": "maximum rise time tr from 0.3 VDD to 0.7 VDD, Cb <= 400 pF, measured 30 %/70 % (Table 11); Standard-mode max is 1000 ns and Fast-mode Plus max is 120 ns - the per-mode keys below are normative, this key is the Fast-mode value", "source": "UM10204, Table 11 (printed p. 43) and Figure 38 (printed p. 45)"},
+    "rise_time_max_s_standard": {"value": 0.000001, "unit": "s", "applies_to": "I2C-bus SDA/SCL, Standard-mode (100 kbit/s)", "condition": "maximum rise time, Cb <= 400 pF, no minimum rise time stated", "source": "UM10204, Table 11 (printed p. 43)"},
+    "rise_time_max_s_fast": {"value": 0.0000003, "unit": "s", "applies_to": "I2C-bus SDA/SCL, Fast-mode (400 kbit/s)", "condition": "maximum rise time, Cb <= 400 pF", "source": "UM10204, Table 11 (printed p. 43)"},
+    "rise_time_max_s_fast_plus": {"value": 0.00000012, "unit": "s", "applies_to": "I2C-bus SDA/SCL, Fast-mode Plus (1 Mbit/s)", "condition": "maximum rise time, Cb <= 550 pF", "source": "UM10204, Table 11 (printed p. 43)"},
+    "rise_time_min_s_fast": {"value": 0.00000002, "unit": "s", "applies_to": "I2C-bus SDA/SCL, Fast-mode (400 kbit/s)", "condition": "minimum rise time 20 ns (Fast-mode only); Standard-mode and Fm+ state no minimum rise time", "source": "UM10204, Table 11 (printed p. 43)"},
+    "fall_time_max_s_standard": {"value": 0.0000003, "unit": "s", "applies_to": "I2C-bus SDA/SCL, Standard-mode (100 kbit/s)", "condition": "maximum fall time tf of the bus lines, Cb <= 400 pF; the output-stage fall time tof is separately limited to 250 ns", "source": "UM10204, Table 11 and Table 10 (printed pp. 43-44)"},
+    "fall_time_max_s_fast": {"value": 0.0000003, "unit": "s", "applies_to": "I2C-bus SDA/SCL, Fast-mode (400 kbit/s)", "condition": "maximum fall time of the bus lines, Cb <= 400 pF; minimum fall time is 20 x (VDD / 5.5 V) ns", "source": "UM10204, Table 11 (printed pp. 43-44)"},
+    "fall_time_max_s_fast_plus": {"value": 0.00000012, "unit": "s", "applies_to": "I2C-bus SDA/SCL, Fast-mode Plus (1 Mbit/s)", "condition": "maximum fall time of the bus lines, Cb <= 550 pF; minimum fall time is 20 x (VDD / 5.5 V) ns (backwards compatibility with Fast-mode)", "source": "UM10204, Table 11 (printed pp. 43-44)"},
+    "fall_time_min_formula": {"value": "20 x (VDD / 5.5 V) ns for Fast-mode and Fast-mode Plus (no minimum for Standard-mode)", "unit": "1", "applies_to": "I2C-bus SDA/SCL, Fast-mode and Fast-mode Plus", "condition": "minimum fall time, measured 70 %/30 % of VDD; the formula scales with the actual VDD", "source": "UM10204, Table 11 (printed pp. 43-44)"},
+    "bus_cap_max_f": {"value": 0.0000000004, "unit": "F", "applies_to": "each I2C-bus line, Standard-mode and Fast-mode", "condition": "maximum capacitive load for each bus line Cb = 400 pF in Standard-mode and Fast-mode; Fast-mode Plus allows 550 pF - the per-mode keys below are normative, this key is the Sm/Fm value", "source": "UM10204, Table 11 (printed p. 43)"},
+    "bus_cap_max_f_standard": {"value": 0.0000000004, "unit": "F", "applies_to": "each I2C-bus line, Standard-mode", "condition": "maximum capacitive load for each bus line, 400 pF", "source": "UM10204, Table 11 (printed p. 43)"},
+    "bus_cap_max_f_fast": {"value": 0.0000000004, "unit": "F", "applies_to": "each I2C-bus line, Fast-mode", "condition": "maximum capacitive load for each bus line, 400 pF", "source": "UM10204, Table 11 (printed p. 43)"},
+    "bus_cap_max_f_fast_plus": {"value": 0.00000000055, "unit": "F", "applies_to": "each I2C-bus line, Fast-mode Plus", "condition": "maximum capacitive load for each bus line, 550 pF", "source": "UM10204, Table 11 (printed p. 43)"},
+    "vol_max_v": {"value": 0.4, "unit": "V", "applies_to": "I2C-bus SDA/SCL output stage (open-drain or open-collector), Standard/Fast/Fast-mode Plus", "condition": "maximum LOW-level output voltage VOL1 at IOL = 3 mA sink current, VDD > 2 V", "source": "UM10204, Table 10 VOL1 (printed p. 43)"},
+    "vol_max_v_at_6ma_fast": {"value": 0.6, "unit": "V", "applies_to": "I2C-bus output stage, Fast-mode", "condition": "maximum LOW-level output voltage 0.6 V at IOL = 6 mA, the current required to drive the full 400 pF bus load at 400 kHz (Table 10 note 4)", "source": "UM10204, Table 10 IOL (printed p. 43) and note 4 (printed pp. 43-44)"},
+    "vol2_max_vdd_ratio": {"value": 0.2, "unit": "1", "applies_to": "I2C-bus output stage, Fast-mode and Fast-mode Plus with VDD <= 2 V", "condition": "maximum LOW-level output voltage VOL2 = 0.2 x VDD at IOL = 2 mA sink current (VDD <= 2 V)", "source": "UM10204, Table 10 VOL2 (printed p. 43)"},
+    "iol_min_a": {"value": 0.003, "unit": "A", "applies_to": "I2C-bus output stage, Standard-mode and Fast-mode", "condition": "minimum LOW-level output sink current at VOL = 0.4 V (VDD > 2 V); Fast-mode additionally needs 6 mA at VOL = 0.6 V for full 400 pF bus load", "source": "UM10204, Table 10 IOL (printed p. 43)"},
+    "iol_min_a_fast_full_load": {"value": 0.006, "unit": "A", "applies_to": "I2C-bus output stage, Fast-mode", "condition": "minimum sink current at VOL = 0.6 V required to drive full bus load (400 pF) at 400 kHz", "source": "UM10204, Table 10 IOL and note 4 (printed pp. 43-44)"},
+    "iol_min_a_fast_plus": {"value": 0.02, "unit": "A", "applies_to": "I2C-bus output stage, Fast-mode Plus", "condition": "minimum LOW-level output sink current at VOL = 0.4 V; Fm+ devices drive 20 mA", "source": "UM10204, Table 10 IOL (printed p. 43)"},
+    "vil_max_vdd_ratio": {"value": 0.3, "unit": "1", "applies_to": "I2C-bus SDA/SCL inputs, Standard/Fast/Fast-mode Plus", "condition": "maximum LOW-level input voltage VIL = 0.3 x VDD (absolute minimum -0.5 V); legacy Standard-mode devices with fixed 1.5 V/3.0 V levels are excluded by note 1", "source": "UM10204, Table 10 VIL (printed p. 43)"},
+    "vih_min_vdd_ratio": {"value": 0.7, "unit": "1", "applies_to": "I2C-bus SDA/SCL inputs, Standard/Fast/Fast-mode Plus", "condition": "minimum HIGH-level input voltage VIH = 0.7 x VDD", "source": "UM10204, Table 10 VIH (printed p. 43)"},
+    "vhys_min_vdd_ratio": {"value": 0.05, "unit": "1", "applies_to": "I2C-bus SDA/SCL inputs, Fast-mode and Fast-mode Plus", "condition": "minimum hysteresis of the Schmitt-trigger inputs 0.05 x VDD; Standard-mode states no hysteresis value", "source": "UM10204, Table 10 Vhys (printed p. 43)"},
+    "noise_margin_low_min_vdd_ratio": {"value": 0.1, "unit": "1", "applies_to": "I2C-bus, each connected device, Standard/Fast/Fast-mode Plus", "condition": "minimum LOW-level noise margin VnL = 0.1 x VDD (including hysteresis)", "source": "UM10204, Table 11 (printed p. 44)"},
+    "noise_margin_high_min_vdd_ratio": {"value": 0.2, "unit": "1", "applies_to": "I2C-bus, each connected device, Standard/Fast/Fast-mode Plus", "condition": "minimum HIGH-level noise margin VnH = 0.2 x VDD (including hysteresis)", "source": "UM10204, Table 11 (printed p. 44)"},
+    "f_scl_max_hz_standard": {"value": 100000, "unit": "Hz", "applies_to": "I2C-bus, Standard-mode", "condition": "maximum SCL clock frequency 100 kbit/s; minimum 0 Hz but the specification notes 10 kHz minimum to prevent bus lock-up", "source": "UM10204, Table 11 (printed p. 43)"},
+    "f_scl_max_hz_fast": {"value": 400000, "unit": "Hz", "applies_to": "I2C-bus, Fast-mode", "condition": "maximum SCL clock frequency 400 kbit/s", "source": "UM10204, Table 11 (printed p. 43)"},
+    "f_scl_max_hz_fast_plus": {"value": 1000000, "unit": "Hz", "applies_to": "I2C-bus, Fast-mode Plus", "condition": "maximum SCL clock frequency 1 Mbit/s", "source": "UM10204, Table 11 (printed p. 43)"},
+    "spike_suppression_max_s": {"value": 0.00000005, "unit": "s", "applies_to": "I2C-bus SDA/SCL inputs, Fast-mode and Fast-mode Plus", "condition": "maximum pulse width of spikes suppressed by the input filter, 50 ns (spikes shorter than this are filtered); Standard-mode states no input-filter value", "source": "UM10204, Table 10 tSP (printed p. 43)"},
+    "pin_cap_max_f": {"value": 0.00000000001, "unit": "F", "applies_to": "I2C-bus SDA/SCL I/O pin, Standard/Fast/Fast-mode Plus", "condition": "maximum capacitance for each I/O pin Ci = 10 pF (special-purpose devices such as switches may exceed this)", "source": "UM10204, Table 10 Ci (printed p. 43)"},
+    "bus_free_time_min_s_standard": {"value": 0.0000047, "unit": "s", "applies_to": "I2C-bus, Standard-mode", "condition": "minimum bus free time tBUF between STOP and START; Fast-mode 1.3 us, Fast-mode Plus 0.5 us", "source": "UM10204, Table 11 (printed p. 43)"},
+    "rp_max_formula": {"value": "Rp(max) = tr / (0.8473 x Cb) for every mode, where tr is the mode's maximum rise time from Table 11 and Cb is the estimated total bus capacitance (0.8473 = t2 - t1 for the 0.3 VDD to 0.7 VDD transition of an RC charge)", "unit": "1", "applies_to": "I2C-bus pull-up resistor sizing, Standard/Fast/Fast-mode Plus", "condition": "first-order RC charge from 0.3 VDD to 0.7 VDD; Section 7.1 equation 1; a real bus with series resistors or non-ideal edges needs a guard band", "source": "UM10204, 7.1 and equation 1 (printed p. 50)"},
+    "rp_min_formula": {"value": "Rp(min) = (VDD - VOL(max)) / IOL where IOL is 3 mA for Standard/Fast-mode and 20 mA for Fast-mode Plus (VOL(max) = 0.4 V)", "unit": "1", "applies_to": "I2C-bus pull-up resistor sizing, Standard/Fast/Fast-mode Plus", "condition": "Section 7.1 equation 2; the resistor must not be so small that a device cannot pull the line below VOL(max)", "source": "UM10204, 7.1 and equation 2 (printed p. 50)"},
+    "rp_min_example_ohm": {"value": 1700, "unit": "ohm", "applies_to": "I2C-bus pull-up resistor, Standard/Fast-mode", "condition": "datasheet worked example: VDD = 5 V +/-10 % (worst case 5.5 V), VOL(max) = 0.4 V at 3 mA => Rp(min) = (5.5 - 0.4) / 0.003 = 1.7 kohm", "source": "UM10204, 7.1 worked example (printed p. 51)"}
+  },
+  "unknown_facts": [
+    "No bus-timing numbers apply to Hs-mode (Table 12) or UltraFast-mode; a design that needs those modes must use Table 12 / the UFm section, not this file.",
+    "The specification gives no numeric maximum for total bus capacitance above which communication is impossible at a given frequency; 400 pF / 550 pF are the specified Cb limits, and Section 7.2 only describes techniques (lower fSCL, stronger drivers, buffers) for exceeding them.",
+    "No single 'guaranteed bus frequency' can be derived from these limits alone: fSCL also depends on tLOW/tHIGH of the slowest connected device, which are per-part datasheet values.",
+    "The capacitance limit for special-purpose devices (multiplexers/switches) may exceed the 10 pF pin value and is not covered here.",
+    "No pull-up resistor tolerance/ESR (self-heating) treatment is given in UM10204; the resistor tolerance and temperature coefficient must come from the resistor datasheet."
+  ],
+  "notes": "Verified against UM10204 Rev. 7.0 (1 October 2021) served at the URL above on 2026-10-27. Revision 7.0 is the current release listed in the document revision history; it renamed master/slave to controller/target and updated Table 5, but the Table 10/Table 11 limits used here are unchanged in substance from Rev. 6. Table 10 is the I/O-stage table (VIL/VIH, VOL1/VOL2, IOL, tof, tSP, Ci) and Table 11 is the bus-line table (fSCL, tr, tf, Cb, timing, noise margins), both on printed pp. 43-44. This file deliberately carries per-mode keys so the open-drain pull-up module can use the coefficient of the actual interface (Standard 1000 ns, Fast 300 ns, Fm+ 120 ns) instead of one universal factor; the un-suffixed rise_time_max_s / bus_cap_max_f / vol_max_v keys are convenience aliases whose conditions state which mode they describe."
+}

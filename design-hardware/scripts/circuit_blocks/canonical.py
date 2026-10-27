@@ -72,6 +72,20 @@ def payload_of(result):
 
 
 def payload_of_design(design):
-    keys = ('schema', 'design_name', 'status', 'status_reasons', 'blocks',
-            'ports', 'nets', 'connections', 'conflicts', 'binding')
-    return {key: design[key] for key in keys if key in design}
+    """Hash-bearing projection of a composed design.
+
+    Instance ``display_name`` and the embedded full block results are excluded:
+    the instance content hashes already pin the actual block content, so renaming
+    an instance does not change the design's topology hash.
+    """
+    keys = ('schema', 'design_name', 'status', 'status_reasons', 'components',
+            'ports', 'nets', 'connections', 'unbound_ports', 'conflicts',
+            'incomplete', 'partition', 'binding')
+    payload = {key: design[key] for key in keys if key in design}
+    payload['instances'] = [{'instance_id': instance.get('instance_id'),
+                             'module_type': instance.get('module_type'),
+                             'template_version': instance.get('template_version'),
+                             'status': instance.get('status'),
+                             'content_hash': instance.get('content_hash')}
+                            for instance in design.get('instances') or []]
+    return payload
