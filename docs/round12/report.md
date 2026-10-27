@@ -10,7 +10,7 @@
   并在响应里核对 context）；本轮只验证了底层只读命令，未实测该 CLI 入口的新观察。
 - 运行反馈测试与全量离线回归：
   `python -m unittest discover -s tests -p 'test_feedback*.py'` -> **247 tests OK**；
-  `python tools/offline_suite.py` -> **1484 tests OK，status=pass**。
+  `python tools/offline_suite.py` -> **1504 tests OK，status=pass**。
 - **不能**宣称已完成真实改板、真实保存/重开、真实 DRC 复验；用户已要求停止真机
   操作，这些项全部 `BLOCKED`/`NOT RUN`。已安装客户端仍是 0.9.2，新入口未在客户端实测。
 
@@ -33,7 +33,7 @@
 |---|---|
 | 源码 Skill 版本 | `0.9.3`（`design-hardware/.version`） |
 | 分支 | `feat/feedback-loop-round12` |
-| 基线 HEAD | `82474b0`（PR #24 分支头部；该提交合入 PR #23 的 gate check-role 修复） |
+| 基线 HEAD | `226bf5a`（PR #24 `feat/offline-toolchain-round11` 当前头部；本轮 rebase 的基线） |
 | 已安装客户端 | 仍 `0.9.2`（本轮未替换） |
 | easyeda CLI / daemon / Connector | `1.15.0` / `1.15.0`（端口 `60832`）/ `1.15.0`（只读探测） |
 | EasyEDA Pro | `4.1.78`（观察到，未写入） |
@@ -50,14 +50,14 @@
 | `tests/test_feedback_scope.py` | 52 tests OK |
 | `tests/test_feedback_cli.py` | 3 tests OK（subprocess 调真实 `feedback_loop.py` 入口，覆盖 observe/intent/evaluate/case-search/loop） |
 | 反馈测试合计 | **247 tests OK** |
-| `python tools/offline_suite.py` | **1484 tests OK，status=pass**，0 failures / 0 errors / 0 skipped / 0 blocked_events |
+| `python tools/offline_suite.py` | **1504 tests OK，status=pass**，0 failures / 0 errors / 0 skipped / 0 blocked_events |
 | `python tools/feedback_benchmark.py` | **13/13 PASS** -> `benchmarks/offline-round12/result.json` |
 | `python design-hardware/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN |
 
 `offline_suite` 的静态 import sweep 已修复：`tools/offline_suite.py` 对子包模块按
-dotted path 导入（顶层脚本仍用 stem），此前的 9 个 `ModuleNotFoundError` 不再出现，
-汇总状态为 `pass`。全量套件包含反馈测试与仓库其它测试，1484 是本次实跑总数；
-此前交接里的 240/243/1481 快照已被本轮新增用例取代。
+dotted path 导入（顶层脚本仍用 stem），此前的包导入错误不再出现，
+汇总状态为 `pass`。全量套件包含反馈测试与仓库其它测试，1504 是本次实跑总数；
+此前交接里的旧测试快照已被本轮新增用例取代。
 
 基准 13 个用例：
 `observe_contract`、`drc_zero_but_poor`、`text_move_vertical`、`pcb_local_apply`、
@@ -99,7 +99,7 @@ python scripts/feedback_loop.py verify --contract contract.json --diff diff.json
 | 层级 | 状态 | 说明 |
 |---|---|---|
 | 代码/契约实现 | PASS | 观察/意图/评价/范围/案例/状态/契约/CLI 模块与单一入口存在，schema/失败类/未知项齐全 |
-| 自动化测试 | PASS | 反馈测试 247 OK；全量离线套件 1484 OK / status=pass；import sweep 已修复 |
+| 自动化测试 | PASS | 反馈测试 247 OK；全量离线套件 1504 OK / status=pass；import sweep 已修复 |
 | 离线验收基准 | PASS（simulated） | `feedback_benchmark.py` 13/13 PASS；`real_eda=NOT RUN` |
 | 模拟宿主纵向链路 | PASS（simulated） | `text_move_vertical` 与 `pcb_local_apply` 均 `verified`；原理图 `reopen_confirmed=null`；C2 专项 apply 未单独执行 |
 | 真实宿主只读 | PASS（有限） | 基线盘点读取了版本、能力、DRC/check、保存回执；无新写入 |
@@ -139,8 +139,8 @@ python scripts/feedback_loop.py verify --contract contract.json --diff diff.json
    `host_readback/erc_drc/simulation/manufacturing/physical` 全部 `not_run`；
    截图/对象级几何/真实 DRC 没有新采集。三个案例共享同一源工程
    `photo-led-pcb-20261026`，不是独立覆盖。
-6. **未安装/未提交**：源码 0.9.3 未替换客户端 0.9.2；本轮所有改动未提交、未推送；
-   `SKILL.md` 修改未在真实客户端触发。
+6. **未安装**：源码 0.9.3 未替换客户端 0.9.2；本轮改动已提交并推送
+   （`ac64052` / PR #30），新 `SKILL.md` 入口未在真实客户端触发。
 7. **文本重叠证据不同快照**：`tests/fixtures/photo-led-acceptance.json` 的标题
    primitiveId/bbox（`e176a846f166e131`，793..805）与案例/score 使用的
    `ed1db1e2379b6cfd`、y=792 不一致；55.01×12.00 只能按估算文本带引用。

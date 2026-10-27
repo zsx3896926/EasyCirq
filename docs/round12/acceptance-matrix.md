@@ -3,9 +3,9 @@
 > 范围：任务书 12 个验收场景。离线状态只引用本轮实际执行过的测试/基准/案例。
 > 基准产物已生成：`python tools/feedback_benchmark.py` -> **13/13 PASS**，
 > `benchmarks/offline-round12/result.json`（`2026-10-27T03:03:47Z`，simulated host，
-> `real_eda=NOT RUN`）。三个案例 JSON 的证据路径指向该现存产物，不再悬空。
+> `real_eda=NOT RUN`）。三个案例 JSON 的证据路径指向该现存产物，证据链闭合。
 > 反馈单元测试 `python -m unittest discover -s tests -p 'test_feedback*.py'` -> **247 OK**；
-> 全量离线套件 `python tools/offline_suite.py` -> **1484 tests OK，status=pass**，
+> 全量离线套件 `python tools/offline_suite.py` -> **1504 tests OK，status=pass**，
 > 0 failures / 0 errors / 0 skipped / 0 blocked_events；`skill_selftest.py` -> 5 PASS。
 > 真机状态按用户“停止真机操作”的事实记录：本轮没有任何真实写入、保存、重开或 DRC 复验。
 > 源码 0.9.3，分支 `feat/feedback-loop-round12`，基线 HEAD `82474b0`；已安装客户端仍 0.9.2，
@@ -33,10 +33,10 @@ DRC 全部未执行。
 ## 汇总
 
 - 离线：12 行均有已执行证据；基准 `13/13 PASS`（含新增 `pcb_local_apply`），反馈单元测试
-  `247 OK`，全量离线套件 `1484 tests OK / status=pass`，Skill 自检 `5 PASS / 0 FAIL / 0 NOT RUN`。
+  `247 OK`，全量离线套件 `1504 tests OK / status=pass`，Skill 自检 `5 PASS / 0 FAIL / 0 NOT RUN`。
 - 真机：除基线只读探测外，全部 BLOCKED / NOT RUN；本轮没有任何真实写入、保存、重开或 DRC 复验。
 - 基准与案例证据链：`tools/feedback_benchmark.py` 与 `benchmarks/offline-round12/result.json`
-  已存在；三个案例 JSON 的证据路径均指向该文件，不再悬空。
+  已存在；三个案例 JSON 的证据路径均指向该文件，证据链闭合。
 - 测试快照：loop 53 / cases 41 / evaluate 57 / observe 41 / scope 52 / cli 3，共 247 OK；
-  `offline_suite` 全量实跑 1484 tests OK（此前 240/243/1481 的快照已被本轮新增用例取代）。
+  `offline_suite` 全量实跑 1504 tests OK（此前交接里的旧测试快照已被本轮新增用例取代）。
 - 案例口径：三个案例共享同一源工程，只能算同一项目的三个场景，不能当作三个独立项目覆盖。

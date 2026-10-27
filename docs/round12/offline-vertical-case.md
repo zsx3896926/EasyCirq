@@ -115,9 +115,9 @@ PCB 局部移动的执行路径由基准用例 `pcb_local_apply` 在模拟宿主
   diff 恰好 1 条范围内变化（文本 `7000fc9074f2508d` 的 x 由 42 改为 250），
   范围外 0；不变量 4 pass + 2 unknown；移动后文本位于 `(250,778)`；
 - **C2 专项 apply 未单独执行**：本文的 C2 分支停在 preview；候选距离约 103.16mil，
-  没有达到 ≤100mil，也没有真实 DRC/铜连接复核。不要再把旧版全链路写成
-  `status=mismatch`——该问题已通过 `before_dump` / 铜层重建修复路径解决，当前基准
-  的 PCB 局部 apply 是 `verified`；
+  没有达到 ≤100mil，也没有真实 DRC/铜连接复核。旧版全链路失败结论已不再适用——
+  该问题已通过 `before_dump` / 铜层重建修复路径解决，当前基准的 PCB 局部 apply
+  是 `verified`；
 - 保存/重开只发生在模拟宿主：`report.save=ok`、`report.reload=ok`，不是真实宿主保存；
 - invariants 总体为 `unknown`（4 pass + 2 unknown），**不是 pass**。
 

@@ -158,7 +158,6 @@ Agent先读取已知客户端/操作系统和可用工具，再发现已配置�
 | 不知道客户端、安装目录或首次接通 | [客户端兼容与首次接通](references/client-compatibility.md)；先跑 `python scripts/doctor_env.py --summary`，按当前客户端逐条判定 |
 | 导入PCB、布局、布线、铜皮、制造输出 | [PCB工程习惯](references/pcb.md) |
 | 真实PCB布局布线、约束/局部模板/候选、逃线迭代、保存重开 | [PCB执行工作流](references/pcb-execution.md)，命令与证据角色见 [PCB命令映射](references/pcb-command-map.json)：放件前 `scripts/pcb_preflight.py`，批量写入 `scripts/pcb_apply_plan.py`，交付前 `scripts/pcb_gate.py`，整案证据 `scripts/pcb_case.py`；先读实测dump与sch引脚。交付逐项核对 [PCB 交付检查清单](assets/pcb-delivery-checklist.md)。 |
-| 真实PCB布局布线、约束/局部模板/候选、逃线迭代、保存重开 | [PCB执行工作流](references/pcb-execution.md)，命令与证据角色见 [PCB命令映射](references/pcb-command-map.json)：放件前 `scripts/pcb_preflight.py`，批量写入 `scripts/pcb_apply_plan.py`，交付前 `scripts/pcb_gate.py`，整案证据 `scripts/pcb_case.py`；先读实测dump与sch引脚 |
 | 观察→局部修改→回读→复验、越界/并发/部分失败恢复、案例检索与复用 | [反馈闭环](references/feedback-loop.md)，运行 `python scripts/feedback_loop.py probe/observe/plan/preview/apply/readback/verify/recover/case-search`；只读命令不写入，未回读不写通过 |
 | 设计审查、故障排查、样机上电 | [审查与验证](references/review.md) |
 | 查询官方资料入口 | [来源导航](references/sources.md) |

@@ -17,7 +17,19 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CLI = ROOT / 'design-hardware' / 'scripts' / 'feedback_loop.py'
 FIXTURES = ROOT / 'tests' / 'fixtures' / 'feedback'
-SHIM = FIXTURES / ('easyeda-fake.cmd' if os.name == 'nt' else 'easyeda-fake.sh')
+def make_shim(directory):
+    """Create an executable shim using the current interpreter."""
+    fake = FIXTURES / 'fake_easyeda.py'
+    if os.name == 'nt':
+        path = Path(directory) / 'easyeda-fake.cmd'
+        path.write_text('@echo off\r\n"%s" "%s" %%*\r\n'
+                        % (sys.executable, fake), encoding='utf-8')
+    else:
+        path = Path(directory) / 'easyeda-fake.sh'
+        path.write_text('#!/bin/sh\nexec "%s" "%s" "$@"\n'
+                        % (sys.executable, fake), encoding='utf-8')
+        path.chmod(0o755)
+    return path
 
 sys.path.insert(0, str(ROOT / 'tests'))
 import feedback_sim as sim  # noqa: E402
@@ -74,11 +86,12 @@ class CliTests(unittest.TestCase):
             temp = Path(temp)
             state_path = temp / 'state.json'
             sim.write_state(state_path, sim.make_state())
+            shim = make_shim(temp)
             env = {'FAKE_EASYEDA_STATE': str(state_path)}
             observation = temp / 'obs.json'
             result = run_cli(['observe', '--window', 'win-sim', '--project',
                               'sim-photo-led', '--sch-doc', 'P1', '--pcb-doc',
-                              'PCB1', '--easyeda', str(SHIM),
+                              'PCB1', '--easyeda', str(shim),
                               '--out', str(observation)], env=env)
             self.assertEqual(result.returncode, 0, result.stderr)
             payload = json.loads(observation.read_text(encoding='utf-8'))

@@ -1,6 +1,6 @@
 # 当前交接（Round 12 反馈闭环）
 
-> 写入时间：2026-10-27 11:09 (+08)。本文件只保留当前有效状态；历史细节见
+> 写入时间：2026-10-27 11:12 (+08)。本文件只保留当前有效状态；历史细节见
 > `docs/round12/report.md`、`docs/round12/acceptance-matrix.md`、
 > `docs/round12/offline-vertical-case.md`。本文档代理本轮只写 4 个文档，
 > 未改代码、测试、schema、`SKILL.md` 或案例。
@@ -16,36 +16,21 @@
 | 项 | 值 |
 |---|---|
 | 分支 | `feat/feedback-loop-round12` |
-| HEAD | `82474b0b70632fd81e5ad75f7f53d17aa8ac8f44`（`82474b0`） |
-| 提交状态 | **本轮未提交、未推送**；以下全部为工作树变更/未跟踪文件 |
+| HEAD | `ac64052`（本轮代码/基准提交；基线 `226bf5a`） |
+| 提交状态 | 代码/基准/案例/测试已提交并推送：`feat/feedback-loop-round12`，PR #30（base 为 `feat/offline-toolchain-round11`）；**本次四份文档更新未提交** |
 | 工作树 | `C:/Users/jlc/work/hds-feedback-r12`（隔离 worktree） |
 
-已跟踪修改：
+当前未提交（本次文档更新，全部为已跟踪修改）：
 
-- `design-hardware/SKILL.md`
 - `docs/handoff-current.md`（本文）
-- `tools/offline_suite.py`（import sweep 改为子包按 dotted path 导入）
+- `docs/round12/acceptance-matrix.md`
+- `docs/round12/offline-vertical-case.md`
+- `docs/round12/report.md`
 
-未跟踪（按类别，不逐个列临时文件）：
-
-- **基准**：`benchmarks/offline-round12/result.json`、`tools/feedback_benchmark.py`
-- **反馈实现**：`design-hardware/scripts/feedback/`（`__init__/observe/intent/evaluate/
-  scope/cases/loop/cli/schemas` 8 个模块）、`design-hardware/scripts/feedback_loop.py`
-- **案例**：`design-hardware/cases/feedback-r12/`（3 个 `hds-case/v1`）、
-  `design-hardware/cases/index.json`
-- **参考文档**：`design-hardware/references/feedback-loop.md`
-- **测试与夹具**：`tests/feedback_sim.py`、`tests/fixtures/feedback/`
-  （`board-before.json`、`schematic-before.json`、`fake_easyeda.py`、
-  `easyeda-fake.cmd`、`easyeda-fake.sh`）、
-  `tests/test_feedback_{loop,cases,evaluate,observe,scope,cli}.py`
-- **Round 12 文档与证据**：`docs/round12/`（baseline-inventory、task-ledger、
-  acceptance-matrix、offline-vertical-case、report、`evidence/live-baseline/`、
-  `scripts/build_cases.py`、`scripts/build_fixtures.py`）
-- **基准运行临时产物**：`.bench-journal.jsonl`、`.bench-partial.jsonl`
-  （`feedback_benchmark.py` 生成，提交时排除，不要误当源码）
-
-交接时工作树根目录没有 `.tmp-*` / `None.tmp`；若其他会话之后创建，**不要擅自删除**。
-提交前先 `git status`，只暂存本轮相关变更。
+代码、基准、案例、测试和其余 Round 12 文档已包含在 `ac64052`；工作树当前没有
+其它未跟踪交付文件。基准临时 journal 已改写到系统临时目录，不再落在仓库根目录。
+若其他会话之后创建 `.tmp-*` / `None.tmp`，**不要擅自删除**。提交前先 `git status`，
+只暂存本轮四份文档。
 
 ## 3. 已完成 / 进行中
 
@@ -74,7 +59,8 @@
 - **真实 EDA 未开始**：用户已停止真机操作；真实写入/保存/重开/DRC 全部未执行。
 - **C2 专项 apply 未单独执行**：photo-led C2 分支停在 preview；C2 候选约 103.16mil，
   未达到 ≤100mil。
-- 文档核对时（11:03）未观察到并发编辑；若其他会话仍在改，先重跑相关测试再提交。
+- 并发代理已在 `ac64052` 提交并推送代码/基准/案例；本次四份文档更新（随代码提交之后的文档修正）
+  尚未提交。
 
 ## 4. 最新测试快照（2026-10-27 11:03 +08，实测）
 
@@ -87,13 +73,13 @@
 | `tests/test_feedback_scope.py` | 52 tests OK |
 | `tests/test_feedback_cli.py` | 3 tests OK（subprocess 调真实 `feedback_loop.py` 入口） |
 | 反馈测试合计 | **247 tests OK** |
-| `python tools/offline_suite.py` | **1484 tests OK，status=pass**，0 failures / 0 errors / 0 skipped / 0 blocked_events |
+| `python tools/offline_suite.py` | **1504 tests OK，status=pass**，0 failures / 0 errors / 0 skipped / 0 blocked_events |
 | `python tools/feedback_benchmark.py` | **13/13 PASS** -> `benchmarks/offline-round12/result.json` |
 | `python design-hardware/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN |
 
 - `offline_suite` 的 import sweep 已修复：子包模块按 dotted path 导入，此前的
-  9 个 `ModuleNotFoundError` 已消失，汇总不再 `status=fail`。
-- 1484 是本次全量实跑总数；此前交接里的 240/243/1481 快照已被本轮新增用例取代。
+  包导入错误已消失，汇总为 `status=pass`。
+- 1504 是本次全量实跑总数；此前交接里的旧测试快照已被本轮新增用例取代。
 - 基准 13 个用例：`observe_contract`、`drc_zero_but_poor`、`text_move_vertical`、
   `pcb_local_apply`、`out_of_scope_refused`、`locked_refused`、`stale_baseline`、
   `partial_recovery`、`wrong_target`、`unknown_drc`、`prettier_but_worse`、
@@ -141,13 +127,13 @@
    physical` 全部 `not_run`。三个案例共享源工程 `photo-led-pcb-20261026`，
    不是独立覆盖。
 6. 已安装客户端仍 0.9.2；源码 0.9.3 的新 `SKILL.md` 入口未在客户端实测。
-7. 本轮所有改动未提交、未推送；HEAD 仍为 `82474b0`。
+7. 本轮改动已提交并推送：`ac64052` / PR #30（base 为 #24 分支，未合并、未发 Release）。
 
 ## 8. 下一条具体操作
 
-1. 提交/推送前先 `git status`，只暂存本轮相关文件；排除 `.bench-*.jsonl` 临时产物，
-   不要清理其他会话的 `.tmp-*`/`None.tmp`，不要动用户 EasyEDA。按项目规则提交并推送
-   当前分支（不合并、不打标签、不创建 Release）。
+1. 提交/推送本次四份文档更新前先 `git status`，只暂存这四份；代码/基准已在
+   `ac64052` 推送，PR #30 已存在，不要重复建 PR、不合并、不打标签、不创建 Release；
+   不要清理其他会话的 `.tmp-*`/`None.tmp`，不要动用户 EasyEDA。
 2. **在用户明确授权下**做真机闭环：`probe` → `observe`（`--window` + 明确 sch/pcb
    文档 UUID）→ `preview`（`writes_sent=0`）→ dry-run `apply` → 真实
    `apply --apply` → `readback` → `verify` → 保存/重开/DRC 复验；每一步保存真实响应
