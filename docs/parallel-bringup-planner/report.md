@@ -198,7 +198,7 @@ tests/bringup_planner_tests/      # 集成合并后路径（原 tests/bringup_pl
 - 基线：`main@9a951ed`；合并后 main 已由其他并行任务推进（证据采集时 worktree HEAD `3f21897`，`origin/main` `acbcc18`）
 - 实现提交：`c61d62c`（174 files / +44685）、`3bb3496`、`d35ff34`、`b407d72`（PR #39 head）
 - **PR #39 已合并**：merge commit `9a4622eb46a8ff3d336729726ab6ed056b5f650a`，`mergedAt=2026-10-27T16:53:24Z`，`mergedBy=zsx3896926`；changedFiles=175、+44762/−0（合并时口径）。**本任务未执行合并、未发布、未安装客户端**
-- 本次证据清单更新 PR：包含 `acceptance-matrix.md` §7、`evidence-m0-m4.json`、`collect_m0_m4_evidence.py`、handoff/report 状态同步；待审查
+- 本次证据清单更新 PR #56 **已合并**：merge commit `11707dea68f387463759c666a8318d7c6ce86482`，`mergedAt=2026-10-27T18:16:15Z`，`mergedBy=zsx3896926`；包含 `acceptance-matrix.md` §7、`evidence-m0-m4.json`、`collect_m0_m4_evidence.py`、handoff/report 状态同步
 - PR 描述副本：`docs/parallel-bringup-planner/pr-description.md`
 
 ## 13. 复核记录（2026-10-28）
@@ -210,7 +210,7 @@ tests/bringup_planner_tests/      # 集成合并后路径（原 tests/bringup_pl
 | 分支/远端同步 | 本地 HEAD 与 `origin/feat/parallel-bringup-planner` 一致（复核时 `3bb3496`）；`origin/main` 仍为 `9a951ed` |
 | 变更路径 | 175 files，全部位于 4 个允许路径；无 SKILL.md/references/README/CHANGELOG/主 handoff/distribution/CI/其他任务目录 |
 | 越界文件 | 0（复核时 HEAD `3bb3496`：175 files / +44735 / −0；精确数字以 PR 页面为准） |
-| PR 状态 | OPEN、MERGEABLE、非 draft；未合并、未发布 |
+| PR 状态 | 复核时（合并前）OPEN、MERGEABLE、非 draft；PR #39 随后已合并，见下一行 |
 | 报告数字 | 172 tests、41/41 基准、30/30 类别、baseline 90 files、11 sources/143 facts/78 paged 均与实测一致 |
 | 已修正笔误 | 首个提交文件数 `172→174`；基准耗时 `17.5→16.9 s`；unverified 表述精确为"fact 级 1 条 + 来源/页码级若干" |
 | 交付状态（2026-10-28） | 已更新 `handoff-current.md` 为 **待审查**（当时 PR 尚未合并） |
