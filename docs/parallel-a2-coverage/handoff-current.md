@@ -4,14 +4,19 @@
   `spike/a2-eda-coverage` @ `C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-a2-worktree`,
   branched from `main @ fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5`.
 - A reference HEAD (read-only): `origin/feat/integrated-eda-toolchain @ dfa8f10d7149df435ab0c0be91edcdcb91990ce1`.
-- PR: **not created** - the task book forbids network use, and pushing was
-  therefore not attempted. The branch is local and ready; the operator can open
-  the PR with the title `spike(a2): official CLI/MCP vs A typed-action coverage`
-  (body: `docs/parallel-a2-coverage/report.md`, do not merge).
-  Follow-up note: PR #36 has since been merged into `main`, so the three-step
-  push / create-PR command list for the residual work lives in
-  `docs/parallel-a2-coverage/pr36-split-runbook.md` (path sets generated in
-  `docs/parallel-a2-coverage/pr-split/`).
+- PR: **draft PR #75** `spike(a2): official CLI/MCP vs A typed-action coverage and thin adapter`
+  - https://github.com/zsx3896926/hardware-design-skill/pull/75
+  - branch `spike/a2-thin-layer`, base `main`, 232 files, +26,470 / -0, draft.
+  - Step 1 (residual manufacture export PR) is **void**: its content was already
+    merged via PR #71 (`feat: 制造导出能力…`, merged 2026-10-28T04:19:45Z); the
+    A branch is now an ancestor of `main`, so `origin/main...origin/feat/integrated-eda-toolchain`
+    has no diff. Nothing was pushed for Step 1.
+  - Step 3 (retire `runtime/connector/protocol`) remains **gated** on an authorized
+    W04/W05/W09 write probe.
+  - The three-step command list is `docs/parallel-a2-coverage/pr36-split-runbook.md`
+    (path sets in `docs/parallel-a2-coverage/pr-split/`; regenerate after ref moves).
+  - The task-book-era note "PR not created (no network)" is superseded by the
+    explicit operator instruction on 2026-10-28 12:2x to push this PR.
 - Exact HEAD: see `git log -1` on the branch (this file is committed with it).
 - Environment: Windows, JLCEDA Pro 4.1.78.34f5b8d9 at
   `C:\Users\jlc\AppData\Local\Programs\LCEDA-Pro\lceda-pro.exe`,
