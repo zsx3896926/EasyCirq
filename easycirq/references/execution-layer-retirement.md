@@ -3,7 +3,7 @@ id: EXEC-LAYER-RETIRE-01
 title: 执行层架构决策：自建 easycirq runtime 的去留（“退 A”分阶段迁移方案）
 last_reviewed: 2026-10-28
 status: draft
-sources: [PR-75, PR-97, release.yml, distribution/build_release.py]
+sources: [PR-75, PR-97, .github/workflows/release.yml, distribution/build_release.py]
 ---
 
 # 执行层架构决策：自建 easycirq runtime 的去留（“退 A”分阶段迁移方案）
@@ -34,9 +34,11 @@ sources: [PR-75, PR-97, release.yml, distribution/build_release.py]
 
 | 备选 | 功能满足 | 关键约束 | 代价（维护/风险/周期/能力） | 排除判据 | 什么条件下重新考虑 |
 |---|---|---|---|---|---|
-| A：保留自建 runtime | 全部现有 `easycirq <cmd>` 面可用 | 自建 ~1700 文件是持续维护负担，且与官方 CLI 重复实现 EDA 执行 | 维护成本持续；官方 CLI 更新不自动跟进 | 官方 CLI 长期缺写通道（当前已局部证到 write probe covered） | 官方 CLI 出现不可接受的能力回退或稳定性问题时 |
+| A：保留自建 runtime | 全部现有 `easycirq <cmd>` 面可用 | 自建执行层 ~1150 个 tracked 文件是持续维护负担，且与官方 CLI 重复实现 EDA 执行 | 维护成本持续；官方 CLI 更新不自动跟进 | 官方 CLI 长期缺写通道（当前已局部证到 write probe covered） | 官方 CLI 出现不可接受的能力回退或稳定性问题时 |
 | B：一次性删除切官方（#97 现状） | 官方 CLI 覆盖“已测”工作流 | medium confidence 不足以支撑不可逆大删；删除面远大于“69 skill 文件 + 24 测试文件” | 一次性切断执行面/installer/release/B1 注入/全套测试；迁移未完成即删 | **证据不足（medium confidence）、迁移未完成、删除面被低估** | 对等证明做到高置信后，作为“清死代码”收尾而非 big-bang |
 | C：分阶段迁移（本记录） | 阶段门禁保证每一级不丢能力 | 需在真实工程上做对等证明；期间双路径并跑 | 短期多一套薄适配层；周期较长 | 无 | 被选方案 |
+
+> 文件数口径：`runtime/` + `connector/` + `protocol/`（另含 `third_party/` 下 1 个已退役 legacy agent 目录）在 main 上合计 **1151** 个 tracked 文件（本记录核实于 2026-10-28）；#75/#97 所称“~1700-file fork”是 PR #36 交付时的 diff 口径，不等于当前这些目录的 tracked 文件数。
 
 ## 4. 被选方案与代价
 
@@ -45,7 +47,7 @@ sources: [PR-75, PR-97, release.yml, distribution/build_release.py]
 - **接受的代价**：双路径并跑期多维护一个薄适配层；退 A 周期拉长；迁移完成前不自删、不回退文档。
 - **假设与有效期**：
   - 官方 `lceda-pro` CLI/MCP 的写通道（W04/W05/W09）在 2026-10-28 之后保持可用（有效期：官方 CLI 每次版本升级需重核）。
-  - 自建 runtime 的 192 个 CLI 条目里，除“已测覆盖”项外没有官方 CLI 拿不到的关键能力（**未证，待对等矩阵补齐**）。
+  - 自建 runtime 的 192 个 CLI 条目（据 #97 口径）里，除“已测覆盖”项外没有官方 CLI 拿不到的关键能力（**未证，待对等矩阵补齐**）。
 - **重评触发**：官方 CLI 版本升级；write probe 或其它 workflow 由 covered 回退；自建 runtime 出现关键 bug 需要立即修；owner 改变产品/交付策略。
 
 ## 5. 分阶段迁移计划（门禁制）
