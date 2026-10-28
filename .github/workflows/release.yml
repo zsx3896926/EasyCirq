@@ -75,7 +75,12 @@ jobs:
         run: tar -czf dist/skills.tar.gz easycirq
 
       - name: Build installer and skill package
-        run: python distribution/build_release.py --output dist --require-clean
+        env:
+          VERSION: ${{ steps.resolve.outputs.version }}
+        run: |
+          python distribution/build_release.py --output dist --require-clean \
+            --runtime-exe dist/easycirq_linux_amd64 \
+            --toolchain-version "$VERSION"
 
       - name: Generate checksums
         run: |
