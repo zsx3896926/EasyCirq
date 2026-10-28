@@ -17,7 +17,7 @@ sources: [PR-75, PR-97, .github/workflows/release.yml, distribution/build_releas
 |---|---|
 | 决策 ID / 标题 | EXEC-LAYER-RETIRE-01 / 自建 easycirq runtime 的去留 |
 | 需求来源 | 复盘 `skill-shortcomings.md`（执行层维护负担）与在途 spike PR #75、删除 PR #97 |
-| 状态 | **draft**（未冻结；冻结条件见 §7）。近端决定（2026-10-28，owner 委托）：**现在不退 A**，维持自建 `easycirq` runtime；退休计划在 S2 对等证明补齐后从 draft 转 frozen 再推进 |
+| 状态 | **draft**（未冻结；冻结条件见 §7）。近端决定（2026-10-28，owner 委托）：**现在不退 A**，维持自建 `easycirq` runtime。**S2 对等证明已于 2026-10-28 通过**（W03 几何读判定为可接受已知限制：几何走官方 GUI / A `pcb dump` 兜底），**计划进入 S3 冻结**；doc 仍 draft（§7 要求 S4 切换全绿后才 frozen） |
 | 冻结条件 | 官方 CLI 在真实工程上完成全部 11 个工作流的对等证明后，才从 draft 转 frozen |
 | 决定人/日期 | 2026-10-28（Agent 记录；owner 决定 go/no-go） |
 | 受影响对象 | `runtime/**`、`connector/**`、`protocol/**`、`distribution/**`、`.github/workflows/release.yml`、`easycirq/**`（SKILL 执行面）、`tests/**`、B1 task-launcher 的 plugin/agent 注入、全套文档与证据 |
@@ -55,28 +55,28 @@ sources: [PR-75, PR-97, .github/workflows/release.yml, distribution/build_releas
 | 阶段 | 动作 | 门禁（满足才进下一阶段） |
 |---|---|---|
 | S1 并行落地 | 把 #75 的薄适配层（`official_cli.py` 等）作为**并行非默认**路径落地，与 `easycirq` runtime 并跑 | 薄适配层可被现有测试/基准驱动 |
-| S2 对等证明 | 用官方 CLI 跑完一个**真实项目**，逐 workflow 补齐对等矩阵（全部 11 个，不只 write probe） | 对等矩阵 0 空档；稳定性/错误处理无 runtime-only 回归 |
-| S3 冻结 | 冻结 `runtime/`：停新功能，仍构建/发布作兜底 | 连续 N 个真实项目无 runtime-only 回归（N 待 owner 定） |
+| S2 对等证明 ✅（2026-10-28 通过） | 用官方 CLI 跑完一个**真实项目**，逐 workflow 补齐对等矩阵（全部 11 个，不只 write probe） | 对等矩阵 0 空档；稳定性/错误处理无 runtime-only 回归 —— **达成，附 1 项可接受限制**：W03 几何读维持 partial，几何走官方 GUI / A `pcb dump` 兜底（见 `docs/toolchain-integration/a2-parity-diff.md` + `a2-official-partial-closure.md`） |
+| S3 冻结 ▶（当前） | 冻结 `runtime/`：停新功能，仍构建/发布作兜底 | 连续 N 个真实项目无 runtime-only 回归（**N 待 owner 定**） |
 | S4 切换 | 文档/installer/tests 切到官方路径；`easycirq` 命令变薄壳或 `easycirq call` 兜底 | 切换后全量 + `offline_suite` 全绿，无断点 |
 | S5 删除 | 这时才把 `runtime/`/`connector/`/`protocol/` 当“清死代码”干净删掉（重做版 #97） | 删除后全量 + `offline_suite` + 发布流水线（skill-only）全绿 |
 
 ## 6. 关键风险与未知（unknown-retained）
 
 - **官方 CLI 版本漂移**：薄适配层依赖第三方 `lceda-pro` CLI/MCP，其升级可能破坏写通道或参数；owner：官方 CLI 每次升级重跑对等矩阵。
-- **能力空档**：自建 runtime 的 192 条目是否被官方 CLI 全覆盖，只有 write probe + 导出已证，其余未证；owner：S2 补齐。
+- **能力空档**：自建 runtime 的 192 条目是否被官方 CLI 全覆盖，S2 已按 11 工作流补齐（A 侧 10/11；官方侧 W02/W06/W07 判定 covered-with-workaround、W03 判定可接受限制）；残留：W03 几何读走官方 GUI、W08 制造导出走官方侧。
 - **删除面被低估**：#97 body 写“69 skill 文件 + 24 测试文件”，但实际还牵连 release 流水线、installer、B1 launcher 注入、全套证据；owner：S5 前重新盘点。
 - **回退不可逆**：删除后若要恢复自建 runtime，代价等于重建；owner：S3 冻结前保留可回退基线。
 
 ## 7. 冻结与重评
 
-- **冻结条件**：S2 对等矩阵 0 空档 + S4 切换全绿之后，本记录从 draft 转 frozen。
+- **冻结条件**：S2 对等矩阵 0 空档（**2026-10-28 已达成**，含 W03「几何走官方 GUI」的可接受限制）+ S4 切换全绿之后，本记录从 draft 转 frozen。
 - **重评触发**：官方 CLI 升级；write probe/对等项回退；owner 改变方向；出现官方 CLI 无法替代的关键能力。
 
 ## 8. 验证与边界
 
 - **已执行**：仓库现状盘点（`runtime/` 1009 文件、`connector/`+`protocol/` 141 文件、release.yml 构建 `runtime/cmd/easycirq`）、在途 PR #75/#97 材料核对。
-- **未执行（NOT RUN）**：真实 EDA 写入回读、真实工程对等矩阵、官方 CLI 稳定性长测、S1–S5 各阶段落地。
-- **结论状态**：**有条件满足 / draft**（方案成立，但门禁证据未集齐）。
+- **未执行（NOT RUN）**：真实工程端到端、官方 CLI 稳定性长测、S1/S3/S4/S5 各阶段落地（S2 已通过，见 §5）。
+- **结论状态**：**S2 已通过、进入 S3（冻结）/ doc 仍 draft**。S2 对等矩阵 0 空档已达成（W03 判定为可接受已知限制）；S3 门禁（N 个真实项目无 runtime-only 回归）的 N 待 owner 定；doc 按 §7 需 S4 切换全绿后才 frozen。
 - **不能证明**：本记录不证明官方 CLI 与自建 runtime 已对等，不证明删除无回退风险，不证明硬件/EDA 工程已验证。
 
 ## 9. 与在途 PR 的关系（2026-10-28 已按“不退 A”收口）
