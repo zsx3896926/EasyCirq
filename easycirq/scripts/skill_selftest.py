@@ -10,6 +10,8 @@ What it checks:
   4. scripts/gate_check.py reproduces cases/temp-alarm-2026-10-24/expected.json
      (executed as a subprocess; gate logic is not duplicated here);
   5. every scripts/*.py compiles with py_compile (no script is executed).
+  6. the SKILL.md §2 PCB capability matrix names only real command-map keys
+     and the edit/delete verbs required by issue #115 are present.
 
 No EDA, no network, no project writes. A pass here does not verify any board,
 any manufacturing file or any physical build.
@@ -578,6 +580,73 @@ def _version(root):
     return _read_text(path).strip() or "unknown"
 
 
+def check_pcb_capability_matrix(root):
+    """SKILL.md §2 PCB capability matrix must name only real command-map keys (#115)."""
+
+    details = []
+    try:
+        skill_text = _read_text(root / "SKILL.md")
+    except OSError as exc:
+        return _check("pcb-capability-matrix", "FAIL", "SKILL.md unreadable", [str(exc)])
+    start = skill_text.find("<!-- PCB 编辑能力矩阵 BEGIN")
+    end = skill_text.find("<!-- PCB 编辑能力矩阵 END")
+    if start == -1 or end == -1 or end <= start:
+        return _check(
+            "pcb-capability-matrix",
+            "FAIL",
+            "PCB capability matrix sentinels not found in SKILL.md",
+            ["expected <!-- PCB 编辑能力矩阵 BEGIN ... END --> in §2"],
+        )
+    block = skill_text[start:end]
+    try:
+        cmap = json.loads(_read_text(root / "references/pcb-command-map.json"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return _check("pcb-capability-matrix", "FAIL", "pcb-command-map.json unreadable", [str(exc)])
+    known = set(cmap.get("commands", {}).keys())
+
+    rows = 0
+    unknown = set()
+    for line in block.splitlines():
+        stripped = line.strip()
+        if not stripped.startswith("|"):
+            continue
+        cells = [cell.strip() for cell in stripped.strip("|").split("|")]
+        if len(cells) < 2:
+            continue
+        if cells[0] == "操作" or cells[0] == "":
+            # header row or separator row
+            continue
+        rows += 1
+        for token in re.findall(r"`([^`]+)`", cells[1]):
+            name = token.strip()
+            if name and name not in known:
+                unknown.add(name)
+
+    if rows == 0:
+        return _check("pcb-capability-matrix", "FAIL", "capability matrix has no rows", [])
+    if rows > 25:
+        details.append(f"matrix has {rows} rows (limit 25)")
+    if unknown:
+        details.append("matrix references unknown command-map keys: " + ", ".join(sorted(unknown)))
+    required_verbs = ["delete", "track-delete", "via-delete", "rip-up", "pour-rebuild", "drc-rules-set"]
+    absent = [verb for verb in required_verbs if verb not in known]
+    if absent:
+        details.append("edit/delete verbs missing from command-map: " + ", ".join(absent))
+    if details:
+        return _check(
+            "pcb-capability-matrix",
+            "FAIL",
+            f"{rows} matrix rows; {len(details)} problem(s)",
+            details,
+        )
+    return _check(
+        "pcb-capability-matrix",
+        "PASS",
+        f"{rows} matrix rows; all referenced commands exist in command-map",
+        sorted(known & set(re.findall(r"`([^`]+)`", block))),
+    )
+
+
 def run_checks(root, timeout=180):
     checks = [
         check_required_files(root),
@@ -585,6 +654,7 @@ def run_checks(root, timeout=180):
         check_gate_naming(root),
         check_case_regression(root, timeout=timeout),
         check_python_compile(root),
+        check_pcb_capability_matrix(root),
     ]
     counts = {"PASS": 0, "FAIL": 0, "NOT RUN": 0}
     for check in checks:

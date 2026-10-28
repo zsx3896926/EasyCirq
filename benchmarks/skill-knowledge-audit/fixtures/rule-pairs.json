@@ -164,7 +164,7 @@
       "b": {
         "text": "简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。",
         "source": "easycirq/SKILL.md",
-        "line": 154
+        "line": 178
       },
       "expected": "code_example",
       "rationale": "a 是 `text` 围栏中的示例命令，演示多模块合批调用形状；b 是选择路径规则。示例命令不是“必须拆模块”的规则，条文与示例的“看似相反”由代码示例身份消解，归 code_example。",
@@ -181,7 +181,7 @@
       "b": {
         "text": "局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。",
         "source": "easycirq/SKILL.md",
-        "line": 144
+        "line": 168
       },
       "expected": "coexist",
       "rationale": "两处都规定“局部直连、跨区/跨页才用标签/端口”；差异只是表达介质（标签 vs 端口）与措辞，方向一致。属重复声明式共存，不是“直连 vs 标签”的真冲突。",
@@ -261,7 +261,7 @@
       "a": {
         "text": "批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。",
         "source": "easycirq/SKILL.md",
-        "line": 154
+        "line": 178
       },
       "b": {
         "text": "- save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。",
