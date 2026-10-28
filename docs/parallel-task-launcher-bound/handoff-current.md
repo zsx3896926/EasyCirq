@@ -127,7 +127,7 @@ $ git diff --name-status origin/main...HEAD        # rebase 后叠加分支（f9
 - Phase 2 真实 EDA 写 **BLOCKED（无授权）**；`limits.timeout_s` 未由 supervisor 强制；
   真实并发未验证。
 - 真实 Windows 独立账号/沙箱隔离 **NOT RUN**（属主线评估）。
-- CI：见 §9（PR #94 与 rebase 分支 push 触发；本交接写作时新 head 的 checks 以 PR/CI 页面为准）。
+- CI：**PR #94 head `58ba19f`（与最新 main `f9aa773` 的合并树）全绿**：`validate (3.10)` PASS（3m58s/2m24s）、`validate (3.13)` PASS（4m20s/3m08s）、`updater` PASS、`publish` skipping；rebase 后叠加分支 push CI（run 40645840280）`success`。
 - 风险：同用户进程隔离有限；HMAC key 仅内存、进程退出后无法离线复验；
   `pass_with_scope` 不是整板验收；B1/A/Skill 版本若变化需重跑本交接命令。
 
@@ -138,7 +138,7 @@ $ git diff --name-status origin/main...HEAD        # rebase 后叠加分支（f9
 ```text
 worktree: default-workspace/hds-tlb-worktree
 branch:   feat/parallel-task-launcher-bound
-HEAD:     兼容修复 head `a0c13bb` + 随后 docs 收口提交（以 `git rev-parse HEAD` 为准）
+HEAD:     兼容修复 head `a0c13bb` + 文档/收口提交 `58ba19f`（CI 绿）+ 其后 docs-only 提交
 diff:     git diff --name-status origin/main...HEAD   # 83 files, all A
 ```
 
@@ -148,7 +148,7 @@ rebase 后的叠加分支：
 worktree: default-workspace/hds-tlb-on-b1
 branch:   feat/parallel-task-launcher-bound-on-main
 base:     origin/main @ f9aa773（B1 PR #74 合并后）
-HEAD:     兼容修复 `9c88def` + 随后 docs 同步提交（以 `git log --oneline -1` 为准）
+HEAD:     兼容修复 `9c88def` + 同步提交；push CI success（run 40645840280）；docs-only 提交后 head 以 `git log --oneline -1` 为准
 diff:     git diff --name-status origin/main...HEAD   # 83 files, all A
 ```
 
