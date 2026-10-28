@@ -1,12 +1,13 @@
 # Zhigou · EasyCirq Connector (EasyEDA Pro extension)
 
+> 中文版：[README.md](README.md)
+
 > In one sentence: **it is a local "network cable"** — it turns the EDA operations that the AI
 > requests on your machine into official EasyEDA Pro API calls. Everything happens locally;
 > nothing goes through the cloud.
 
 For everyone: first-time installers, daily users, troubleshooters and developers.
 
-> 中文版：[README.md](README.md)
 
 ---
 
