@@ -29,7 +29,7 @@
 - 精确 HEAD（自包含分支）：见 §9 的 `git rev-parse HEAD`（收口提交）。
 - 叠加分支：`feat/parallel-task-launcher-bound-on-b1`，worktree `hds-tlb-on-b1`；
   基线 `origin/feat/parallel-task-launcher @ 074bd88`（B1 交付 HEAD）；叠加提交见 §9。
-- **PR：未创建、未合并、未发版**。未 force push，未改他人 worktree。
+- **PR：#94（OPEN，未合并、未发版）**：https://github.com/zsx3896926/EasyCirq/pull/94 ；base `main`，head `feat/parallel-task-launcher-bound`；79 files 全 A（+15607 / -0）。未 force push，未改他人 worktree。
 - 说明：B1 PR #74 未合并，因此本任务不把 PR 基线强行设为未合并分支；提供了可直接
   review 的叠加分支（79 files 全 A vs B1 交付 HEAD）。
 
@@ -119,7 +119,7 @@ $ git diff --name-status 074bd88...HEAD         # 叠加分支 vs B1 交付 HEAD
 - Phase 2 真实 EDA 写 **BLOCKED（无授权）**；`limits.timeout_s` 未由 supervisor 强制
   （launcher 层职责，见 issue-candidates IC-14）；真实并发未验证。
 - 真实 Windows 独立账号/沙箱隔离 **NOT RUN**（属主线评估）。
-- CI 3.10/3.13 **NOT RUN**（未发 PR，CI 未触发；代码保持 3.10 语法）。
+- CI 3.10/3.13：PR #94 已触发；交接时 `validate (3.10)/(3.13)` **queued/pending**（共享 runner 排队），`updater` PASS；本机 3.13 全量 3520 tests OK；35 个新 py 文件已用 `ast.parse(feature_version=(3,10))` 校验语法通过（不等于 3.10 运行通过）。
 - 既有全量套件在运行时追加写 `docs/toolchain-integration/evidence/installer/install-lifecycle.log`
   （已跟踪 evidence 日志）；验证后已还原，交付 diff 不含该文件。
 - 风险：同用户进程隔离有限（防流程不防恶意内核）；HMAC key 仅内存、进程退出后无法离线复验；
@@ -132,7 +132,7 @@ $ git diff --name-status 074bd88...HEAD         # 叠加分支 vs B1 交付 HEAD
 ```text
 worktree: default-workspace/hds-tlb-worktree
 branch:   feat/parallel-task-launcher-bound
-HEAD:     6a9ac09891face9d9eaa21504063d6c3ee0a7338（代码+测试+基准+文档收口提交；其后为 docs-only 收口提交）
+HEAD:     见 PR #94 的 head（`feat/parallel-task-launcher-bound`）；代码/测试/基准/文档主体提交 `6a9ac09`，其后为 docs-only 收口提交（`bd6d73c` 及其后最终文档提交）
 diff:     git diff --name-status origin/main...HEAD   # 79 files, all A
 ```
 
