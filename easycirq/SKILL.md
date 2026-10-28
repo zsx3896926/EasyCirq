@@ -133,6 +133,30 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 - 不静默安装/升级软件或导入插件来绕过故障；需要配置时先给准确诊断与最短操作路径，遵循用户对安装的授权。
 - 本Skill是工程意图与验收的唯一策略源；执行细节服从 `easycirq` 当前 typed 能力与真实回读，不执行用户JS、不下单、不访问网络。能力缺口按 `easycirq capabilities` 记 `NOT RUN`/`unknown`，不发明命令，不用其他执行Skill覆盖本Skill。
 
+<!-- PCB 编辑能力矩阵 BEGIN（第二列命令名必须存在于 references/pcb-command-map.json，由 skill_selftest.py 校验） -->
+### PCB 编辑能力矩阵
+
+写入一律走 `pcb_apply_plan.py` playbook（`place`/`track`/`via`/`pour`）或下述 typed 命令；每次编辑后按“回读方式”列复核，删除或重建铺铜后重新 DRC。命令的完整 argv/回读/校验见 [PCB命令映射](references/pcb-command-map.json)，不要自写同义解析脚本。
+
+| 操作 | 命令（command-map key） | 作用粒度 | 回读方式 |
+|---|---|---|---|
+| 放置器件 | `apply` | 器件（含旋转/层） | `dump` + `pcb list --include-pads` |
+| 走线 | `apply` | 网络/线段 | `track-list` |
+| 过孔 | `apply` | 单个过孔 | `via-list` |
+| 铺铜 | `apply` | 铜区 | `pour-list` |
+| 删除器件 | `delete` | 器件（仅器件） | `pcb list --include-pads` |
+| 删除单段走线 | `track-delete` | 单个 track 段 | `track-list` |
+| 删除单个过孔 | `via-delete` | 单个过孔 | `via-list` |
+| 整网拆线 | `rip-up` | 网络 | `track-list` / `via-list` |
+| 重建铺铜 | `pour-rebuild` | 全板铜 | `pour-list` + DRC |
+| 写入 DRC 规则 | `drc-rules-set` | 全板规则 | `pcb drc-rules` |
+| DRC 汇总 | `drc` | 全板 | `pcb-drc` JSON |
+| 通路证明 | `net-path` | 关键网 | `net-path` 逐对 |
+| 铜岛/碎铜诊断 | `check` | 全板 | `check`（floating-islands / netless-pours） |
+| 交付打包 | `project-export` | 工程 | archive 回执 |
+| 保存/重开 | `save` + `reload` | 工程 | 重开后 `dump` diff |
+<!-- PCB 编辑能力矩阵 END -->
+
 ### 原理图：先生成可复用布局，再执行与验收
 
 **默认画法**：按功能分区组织页面，模块内部走短引线；去耦、反馈、分压、滤波、晶振、保护、启动/复位等“拓扑要直观”的局部电路保留**直连短线**，让读者能顺着线读出分压比、反馈极性和环路；跨功能块、跨页或密集数字信号优先用**有语义的网络标签/端口**，两端留短引线扇出，名称与作用域成对。判据是可跟读性而不是线数：同一功能区内、路径不穿无关对象时直连；必须跨块/跨页、或直连会产生长环线/穿越密集区时用标签；不把每个节点都打标签。正反例见 [原理图排版与看图验收](references/schematic-layout.md) §3。

@@ -8,8 +8,24 @@
   "placeholder_note": "Placeholders are <name>; every command is run as an argv list (never a shell string).",
   "commands": {
     "dump": {
-      "argv": ["easycirq", "pcb", "dump", "--project", "<project>", "--doc", "<doc>", "--include-copper", "--out", "<dump.json>"],
-      "required_flags": ["--project", "--doc", "--include-copper", "--out"],
+      "argv": [
+        "easycirq",
+        "pcb",
+        "dump",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--include-copper",
+        "--out",
+        "<dump.json>"
+      ],
+      "required_flags": [
+        "--project",
+        "--doc",
+        "--include-copper",
+        "--out"
+      ],
       "optional_flags": [],
       "output": {
         "role": "pcb-dump-before | pcb-dump-after-reload | pcb-dump-final",
@@ -26,236 +42,932 @@
       "notes": "Real CLI writes the dump to --out and may print the success line to stderr, so a non-JSON stdout is not a dump failure. PCB must be the foreground document; run doc switch first. Availability categories are read one by one; a missing bbox/pad/copper makes the dump incomplete, never silently signed."
     },
     "save": {
-      "argv": ["easycirq", "pcb", "save", "--project", "<project>", "--doc", "<doc>"],
-      "required_flags": ["--project", "--doc"],
+      "argv": [
+        "easycirq",
+        "pcb",
+        "save",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>"
+      ],
+      "required_flags": [
+        "--project",
+        "--doc"
+      ],
       "optional_flags": [],
       "output": {
         "role": "command record only",
         "format": "json",
         "path": "<case>/logs/*-pcb-save.stdout.txt"
       },
-      "verify": ["result.saved === true"],
+      "verify": [
+        "result.saved === true"
+      ],
       "status": "documented; saved:false (SAVE_UNCONFIRMED) is a failure",
       "notes": "checkpoint:true only marks a journal entry; it never saves. A save that does not confirm saved:true must stop the save/reload proof."
     },
     "reload": {
-      "argv": ["easycirq", "doc", "reload", "<doc>", "--project", "<project>", "--json"],
-      "required_flags": ["--json"],
-      "optional_flags": ["--project", "--window"],
+      "argv": [
+        "easycirq",
+        "doc",
+        "reload",
+        "<doc>",
+        "--project",
+        "<project>",
+        "--json"
+      ],
+      "required_flags": [
+        "--json"
+      ],
+      "optional_flags": [
+        "--project",
+        "--window"
+      ],
       "output": {
         "role": "command record only",
         "format": "json",
         "path": "<case>/logs/*-doc-reload.stdout.txt"
       },
-      "verify": ["result.status === passed", "result.saved !== false", "result.closed !== false"],
+      "verify": [
+        "result.status === passed",
+        "result.saved !== false",
+        "result.closed !== false"
+      ],
       "status": "documented; receipt fields come from the predecessor v1.14 source and must be re-checked with `easycirq <cmd> --help` + `easycirq capabilities`",
       "notes": "doc reload saves first, closes the tab and reopens it; it refreshes the per-document enumeration cache. Without it, DRC/check/readback evidence may be stale. Take a fresh dump after the reload and diff it against the pre-reload dump."
     },
     "drc": {
-      "argv": ["easycirq", "pcb", "drc", "--project", "<project>", "--doc", "<doc>", "--json", "--timeout", "<seconds>"],
-      "required_flags": ["--json"],
-      "optional_flags": ["--timeout", "--project", "--doc"],
+      "argv": [
+        "easycirq",
+        "pcb",
+        "drc",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--json",
+        "--timeout",
+        "<seconds>"
+      ],
+      "required_flags": [
+        "--json"
+      ],
+      "optional_flags": [
+        "--timeout",
+        "--project",
+        "--doc"
+      ],
       "output": {
         "role": "pcb-drc",
         "format": "json",
         "path": "<case>/evidence/pcb-drc-final.json"
       },
-      "verify": ["passed === true", "total === 0", "counts.connection === 0", "violations is empty"],
+      "verify": [
+        "passed === true",
+        "total === 0",
+        "counts.connection === 0",
+        "violations is empty"
+      ],
       "status": "documented and live-used (passed:true/total:0 in both cases)",
       "notes": "The native DRC canvas recompute only finishes with the PCB window in the foreground; a background window times out and must not be retried in a loop. The command exits non-zero when passed:false or the result is inconclusive. Always capture the raw JSON, and run it after the final save/reload (a pre-reload DRC cannot claim final evidence)."
     },
     "check": {
-      "argv": ["easycirq", "pcb", "check", "--project", "<project>", "--doc", "<doc>", "--json"],
-      "required_flags": ["--json"],
-      "optional_flags": ["--project", "--doc"],
+      "argv": [
+        "easycirq",
+        "pcb",
+        "check",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--json"
+      ],
+      "required_flags": [
+        "--json"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
       "output": {
         "role": "pcb-check",
         "format": "json",
         "path": "<case>/evidence/pcb-check-final.json"
       },
-      "verify": ["summary.errors === 0", "every WARN/INFO has a disposition entry", "coverage/incomplete is reported, not assumed complete"],
+      "verify": [
+        "summary.errors === 0",
+        "every WARN/INFO has a disposition entry",
+        "coverage/incomplete is reported, not assumed complete"
+      ],
       "status": "documented and live-used (0 ERROR with 6/13 WARN in the two cases)",
       "notes": "passed:false may mean warnings only; never gate on the boolean alone. Gate on errors plus a disposition file. --strict turns any WARN/ERROR into a non-zero exit and is not used by the case recorder."
     },
     "layout-lint": {
-      "argv": ["easycirq", "pcb", "layout-lint", "--project", "<project>", "--doc", "<doc>", "--json"],
-      "required_flags": ["--json"],
-      "optional_flags": ["--project", "--doc"],
+      "argv": [
+        "easycirq",
+        "pcb",
+        "layout-lint",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--json"
+      ],
+      "required_flags": [
+        "--json"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
       "output": {
         "role": "pcb-layout-lint",
         "format": "json",
         "path": "<case>/evidence/pcb-layout-lint-final.json"
       },
-      "verify": ["report.coverage.complete === true", "report.incomplete !== true", "score and crossingCount captured as measured"],
+      "verify": [
+        "report.coverage.complete === true",
+        "report.incomplete !== true",
+        "score and crossingCount captured as measured"
+      ],
       "status": "documented template; round9 case evidence was missing (scratch only); round10 live regression lint is in docs/round10/regression/liveA|liveB/evidence",
       "notes": "Score/crossings are placement quality, not routing correctness. Coverage incomplete is unmeasured and must not be reported as a pass. Run it after the final dump so the gate can prove it is fresh."
     },
     "net-path": {
-      "argv": ["easycirq", "pcb", "net-path", "--project", "<project>", "--doc", "<doc>", "--from", "<D.PAD>", "--to", "<D.PAD>", "--net", "<NET>", "--json"],
-      "required_flags": ["--from", "--to", "--net", "--json"],
-      "optional_flags": ["--project", "--doc", "--through", "--layer"],
+      "argv": [
+        "easycirq",
+        "pcb",
+        "net-path",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--from",
+        "<D.PAD>",
+        "--to",
+        "<D.PAD>",
+        "--net",
+        "<NET>",
+        "--json"
+      ],
+      "required_flags": [
+        "--from",
+        "--to",
+        "--net",
+        "--json"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc",
+        "--through",
+        "--layer"
+      ],
       "output": {
         "role": "netpath-key-connections",
         "format": "json (one call per pair, aggregated)",
         "path": "<case>/evidence/netpath-key-connections.json"
       },
-      "verify": ["connected === true", "measurementPathKind === exact-centerline", "lengthMil/viaCount/layers/widthsMil captured", "per-row argv retained"],
+      "verify": [
+        "connected === true",
+        "measurementPathKind === exact-centerline",
+        "lengthMil/viaCount/layers/widthsMil captured",
+        "per-row argv retained"
+      ],
       "status": "documented; both cases used per-pair scratch loops",
       "notes": "One call per required DESIGNATOR.PAD pair; the aggregate keeps each argv. Same net name is not connectivity. Pours, fills and PLANE copper are excluded from net-path; GND/power pours need native DRC plus poured-list evidence."
     },
     "sch-read": {
-      "argv": ["easycirq", "sch", "read", "--project", "<project>", "--out", "<sch-read.json>"],
-      "required_flags": ["--project", "--out"],
-      "optional_flags": ["--page"],
+      "argv": [
+        "easycirq",
+        "sch",
+        "read",
+        "--project",
+        "<project>",
+        "--out",
+        "<sch-read.json>"
+      ],
+      "required_flags": [
+        "--project",
+        "--out"
+      ],
+      "optional_flags": [
+        "--page"
+      ],
       "output": {
         "role": "sch-read (optional input) and sch-pcb-compare (derived)",
         "format": "json",
         "path": "<case>/evidence/sch-read.json"
       },
-      "verify": ["components[].pins[].number/name/net present", "compare_sch_pcb reports status=match or match_with_renames", "component and pin counts captured"],
+      "verify": [
+        "components[].pins[].number/name/net present",
+        "compare_sch_pcb reports status=match or match_with_renames",
+        "component and pin counts captured"
+      ],
       "status": "documented; comparison derived by pcb_evidence.compare_sch_pcb",
       "notes": "The schematic must be the active document: doc switch <schematic> before sch read, switch back to the PCB afterwards. Fallback is sch list --include-pins --project <project> --json. Comparison is exact designator+pad-number; combination pads need an explicit alias map instead of being guessed."
     },
     "stage-snapshot": {
-      "argv": ["easycirq", "pcb", "stage-snapshot", "--stage", "<top|bottom>", "--project", "<project>", "--doc", "<doc>"],
-      "required_flags": ["--stage"],
-      "optional_flags": ["--project", "--doc", "--fit-mode"],
+      "argv": [
+        "easycirq",
+        "pcb",
+        "stage-snapshot",
+        "--stage",
+        "<top|bottom>",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>"
+      ],
+      "required_flags": [
+        "--stage"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc",
+        "--fit-mode"
+      ],
       "output": {
         "role": "image-top | image-bottom",
         "format": "png",
         "path": "<case>/evidence/pcb-final-<side>.png"
       },
-      "verify": ["artifact path from result.artifacts[].path", "PNG signature and positive IHDR width/height", "copy into the case directory"],
+      "verify": [
+        "artifact path from result.artifacts[].path",
+        "PNG signature and positive IHDR width/height",
+        "copy into the case directory"
+      ],
       "status": "documented; command existence is probed with --help",
       "notes": "Switch the canvas first with easycirq pcb view-side --side <top|bottom>. When stage-snapshot is unavailable, fall back to easycirq pcb snapshot --fit-mode board. Copy the reported artifact into the case instead of referencing .easycirq/artifacts, so the manifest hash travels with the case."
     },
     "layout-render": {
-      "argv": ["easycirq", "pcb", "layout", "render", "--actual", "--board", "<dump.json>", "--side", "both", "--out", "<svg>"],
-      "required_flags": ["--actual", "--board", "--side", "--out"],
+      "argv": [
+        "easycirq",
+        "pcb",
+        "layout",
+        "render",
+        "--actual",
+        "--board",
+        "<dump.json>",
+        "--side",
+        "both",
+        "--out",
+        "<svg>"
+      ],
+      "required_flags": [
+        "--actual",
+        "--board",
+        "--side",
+        "--out"
+      ],
       "optional_flags": [],
       "output": {
         "role": "actual-svg",
         "format": "svg",
         "path": "<case>/evidence/pcb-final-actual.svg"
       },
-      "verify": ["file contains <svg", "metadata.sourceSha256 equals the sha256 of the measured dump"],
+      "verify": [
+        "file contains <svg",
+        "metadata.sourceSha256 equals the sha256 of the measured dump"
+      ],
       "status": "documented and used by both cases (metadata.sourceSha256 verified)",
       "notes": "Offline actual-geometry aid rendered from the dump; it is not an object-level official fabrication export. A sourceSha256 that does not match the final dump is a stale-binding failure."
     },
     "bom-export": {
-      "argv": ["easycirq", "bom", "export", "--type", "csv", "--enrich=false", "--project", "<project>"],
-      "required_flags": ["--type"],
-      "optional_flags": ["--enrich"],
+      "argv": [
+        "easycirq",
+        "bom",
+        "export",
+        "--type",
+        "csv",
+        "--enrich=false",
+        "--project",
+        "<project>"
+      ],
+      "required_flags": [
+        "--type"
+      ],
+      "optional_flags": [
+        "--enrich"
+      ],
       "output": {
         "role": "bom",
         "format": "csv",
         "path": "<case>/evidence/BOM.csv"
       },
-      "verify": ["result.artifacts[].path reported", "copy into the case", "at least one component row", "Supplier Part / MPN columns inspected separately"],
+      "verify": [
+        "result.artifacts[].path reported",
+        "copy into the case",
+        "at least one component row",
+        "Supplier Part / MPN columns inspected separately"
+      ],
       "status": "documented; bom export has no --out and the artifact path comes from the receipt",
       "notes": "bom export reads the active schematic; switch to the schematic and back to the PCB. --enrich=false keeps the raw export so an enrichment TypeError cannot fail an otherwise valid BOM; C-number enrichment and sourcing checks are a separate step. There is no --out flag: take the path from result.artifacts[].path."
     },
     "project-export": {
-      "argv": ["easycirq", "project", "export", "--project-uuid", "<project-uuid>", "--window", "<window-id>", "--out", "<archive.epro2>"],
-      "required_flags": ["--project-uuid", "--out"],
-      "optional_flags": ["--window"],
+      "argv": [
+        "easycirq",
+        "project",
+        "export",
+        "--project-uuid",
+        "<project-uuid>",
+        "--window",
+        "<window-id>",
+        "--out",
+        "<archive.epro2>"
+      ],
+      "required_flags": [
+        "--project-uuid",
+        "--out"
+      ],
+      "optional_flags": [
+        "--window"
+      ],
       "output": {
         "role": "archive",
         "format": "epro2 (zip)",
         "path": "<case>/evidence/<case-id>.epro2"
       },
-      "verify": ["file exists", "starts with PK\\x03\\x04", "sha256 and bytes recorded", "receipt kept as project-export.json"],
+      "verify": [
+        "file exists",
+        "starts with PK\\x03\\x04",
+        "sha256 and bytes recorded",
+        "receipt kept as project-export.json"
+      ],
       "status": "documented and live-used (three archives in round9)",
       "notes": "The command refuses to overwrite an existing file; the case recorder checks existence first and never overwrites. An earlier case saw 'explicit --window and --project-uuid are required', so pass the measured capture.windowId when it is known. zipIntegrityVerified only proves the container; restoreVerified needs a separate reopen drill."
     },
     "apply": {
-      "argv": ["easycirq", "apply", "<playbook.json>", "--project", "<project>", "--doc", "<doc>"],
-      "required_flags": ["--project", "--doc"],
-      "optional_flags": ["--yes", "--dry-run", "--resume"],
+      "argv": [
+        "easycirq",
+        "apply",
+        "<playbook.json>",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>"
+      ],
+      "required_flags": [
+        "--project",
+        "--doc"
+      ],
+      "optional_flags": [
+        "--yes",
+        "--dry-run",
+        "--resume"
+      ],
       "output": {
         "role": "apply report / journal (pcb_apply_plan.py output)",
         "format": "json + journal.jsonl",
         "path": "<case>/evidence/placement-apply-report.json"
       },
-      "verify": ["--dry-run preflight", "one batch call", "per-step result.verified true", "pcb.save assert saved:true", "fresh dump after the batch"],
+      "verify": [
+        "--dry-run preflight",
+        "one batch call",
+        "per-step result.verified true",
+        "pcb.save assert saved:true",
+        "fresh dump after the batch"
+      ],
       "status": "documented; pcb_apply_plan.py compiles the playbook",
       "notes": "The playbook is a strict sequential queue (action | run | notify) with retry:0 for writes and continueOnError:false. --yes is only for an explicitly authorized confirm step. Save is a real pcb.save step; checkpoint:true never saves. Reload is run doc reload <doc> --json after the save."
     },
     "gate": {
-      "argv": ["python", "<scripts>/pcb_gate.py", "--case", "<case>", "--profile", "full", "--out", "<case>/gate-report.json", "--json"],
-      "required_flags": ["--case", "--profile"],
-      "optional_flags": ["--baseline-manifest", "--key-nets", "--warn-disposition", "--dump-before", "--dump-after", "--constraints", "--plan", "--intent", "--check", "--drc", "--lint", "--netpath", "--sch-pcb", "--sch", "--images", "--out", "--strict-advisory"],
+      "argv": [
+        "python",
+        "<scripts>/pcb_gate.py",
+        "--case",
+        "<case>",
+        "--profile",
+        "full",
+        "--out",
+        "<case>/gate-report.json",
+        "--json"
+      ],
+      "required_flags": [
+        "--case",
+        "--profile"
+      ],
+      "optional_flags": [
+        "--baseline-manifest",
+        "--key-nets",
+        "--warn-disposition",
+        "--dump-before",
+        "--dump-after",
+        "--constraints",
+        "--plan",
+        "--intent",
+        "--check",
+        "--drc",
+        "--lint",
+        "--netpath",
+        "--sch-pcb",
+        "--sch",
+        "--images",
+        "--out",
+        "--strict-advisory"
+      ],
       "output": {
         "role": "gate-report",
         "format": "json (design-engine-pcb-gate/v1)",
         "path": "<case>/gate-report.json"
       },
-      "verify": ["report.status", "report.stages[].status", "exit 0 for pass/pass_with_gaps, 1 for fail/blocked, 2 for input errors"],
+      "verify": [
+        "report.status",
+        "report.stages[].status",
+        "exit 0 for pass/pass_with_gaps, 1 for fail/blocked, 2 for input errors"
+      ],
       "status": "contract-defined; pcb_gate.py is Agent G's deliverable and may be absent while other agents work",
       "notes": "pcb_case invokes it only when the script exists and --no-gate is not set. Its report status is copied into manifest.gate and re-checked by verification. The gate is read-only over the case directory."
     },
     "case": {
-      "argv": ["python", "<scripts>/pcb_case.py", "--case", "<case>", "--project", "<project>", "--doc", "<doc>", "--key-nets", "<key-nets.json>", "--warn-disposition", "<warn-disposition.json>", "--steps", "<step-list>", "--out", "manifest.json", "--json"],
-      "required_flags": ["--case"],
-      "optional_flags": ["--project", "--doc", "--schematic", "--key-nets", "--warn-disposition", "--easycirq", "--steps", "--skip-live", "--no-gate", "--gate-script", "--out", "--archive", "--timeout", "--json"],
+      "argv": [
+        "python",
+        "<scripts>/pcb_case.py",
+        "--case",
+        "<case>",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--key-nets",
+        "<key-nets.json>",
+        "--warn-disposition",
+        "<warn-disposition.json>",
+        "--steps",
+        "<step-list>",
+        "--out",
+        "manifest.json",
+        "--json"
+      ],
+      "required_flags": [
+        "--case"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc",
+        "--schematic",
+        "--key-nets",
+        "--warn-disposition",
+        "--easycirq",
+        "--steps",
+        "--skip-live",
+        "--no-gate",
+        "--gate-script",
+        "--out",
+        "--archive",
+        "--timeout",
+        "--json"
+      ],
       "output": {
         "role": "manifest (design-engine-pcb-case/v1)",
         "format": "json",
         "path": "<case>/manifest.json"
       },
-      "verify": ["artifact sha256/bytes", "source_dump_sha256 binding", "run_after_final_reload", "failures/not_run", "gate status"],
+      "verify": [
+        "artifact sha256/bytes",
+        "source_dump_sha256 binding",
+        "run_after_final_reload",
+        "failures/not_run",
+        "gate status"
+      ],
       "status": "implemented by easycirq/scripts/pcb_case.py",
       "notes": "Live mode runs dump -> save-reload (final dump) -> checks -> images/bom/archive -> gate. --skip-live only assembles and verifies an existing case directory and never calls easycirq. A missing required artifact is not_run; an invalid or failed one is a failure. All writes stay inside the case directory, and the default archive is never overwritten. When --warn-disposition/--key-nets are omitted, evidence/warn-disposition.json and evidence/key-nets.json are auto-discovered from the case."
+    },
+    "delete": {
+      "argv": [
+        "easycirq",
+        "pcb",
+        "delete",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--ids",
+        "<ids>"
+      ],
+      "required_flags": [
+        "--ids"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
+      "output": {
+        "role": "component delete receipt",
+        "format": "json",
+        "path": "<case>/evidence/*-delete.json"
+      },
+      "verify": [
+        "after delete, pcb list --include-pads no longer contains the deleted component ids"
+      ],
+      "status": "documented (components only); re-check argv with easycirq pcb delete --help",
+      "notes": "Delete accepts components only; passing a track/via id is refused (PRECONDITION_REFUSED). For single copper objects use track-delete / via-delete; for a whole net use rip-up --net."
+    },
+    "track-delete": {
+      "argv": [
+        "easycirq",
+        "pcb",
+        "track-delete",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--ids",
+        "<ids>"
+      ],
+      "required_flags": [
+        "--ids"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
+      "output": {
+        "role": "track delete receipt",
+        "format": "json",
+        "path": "<case>/evidence/*-track-delete.json"
+      },
+      "verify": [
+        "after delete, track-list no longer contains the deleted ids"
+      ],
+      "status": "documented; re-check argv with easycirq pcb track-delete --help",
+      "notes": "Single track segments only. Whole-net removal uses rip-up --net, not repeated track-delete."
+    },
+    "via-delete": {
+      "argv": [
+        "easycirq",
+        "pcb",
+        "via-delete",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--ids",
+        "<ids>"
+      ],
+      "required_flags": [
+        "--ids"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
+      "output": {
+        "role": "via delete receipt",
+        "format": "json",
+        "path": "<case>/evidence/*-via-delete.json"
+      },
+      "verify": [
+        "after delete, via-list no longer contains the deleted ids"
+      ],
+      "status": "documented; re-check argv with easycirq pcb via-delete --help",
+      "notes": "Single vias only."
+    },
+    "rip-up": {
+      "argv": [
+        "easycirq",
+        "pcb",
+        "rip-up",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--net",
+        "<net>"
+      ],
+      "required_flags": [
+        "--net"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
+      "output": {
+        "role": "whole-net rip-up receipt",
+        "format": "json",
+        "path": "<case>/evidence/*-rip-up.json"
+      },
+      "verify": [
+        "after rip-up, track-list / via-list show no objects of the net"
+      ],
+      "status": "documented; re-check argv with easycirq pcb rip-up --help",
+      "notes": "Whole-net removal. Scope to the exact net; never used to blanket-clear the board."
+    },
+    "pour-rebuild": {
+      "argv": [
+        "easycirq",
+        "pcb",
+        "pour-rebuild",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>"
+      ],
+      "required_flags": [],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
+      "output": {
+        "role": "pour rebuild receipt",
+        "format": "json",
+        "path": "<case>/evidence/*-pour-rebuild.json"
+      },
+      "verify": [
+        "poured-list / pour-list reflects rebuilt copper",
+        "DRC re-run after rebuild"
+      ],
+      "status": "documented; re-check argv with easycirq pcb pour-rebuild --help",
+      "notes": "After any copper change: apply -> pour-rebuild -> save -> doc reload -> DRC. A DRC run without a pour rebuild is invalid (fake spikes, see agent-collaboration.md)."
+    },
+    "drc-rules-set": {
+      "argv": [
+        "easycirq",
+        "pcb",
+        "drc-rules-set",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--rules",
+        "<rules.json>"
+      ],
+      "required_flags": [
+        "--rules"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
+      "output": {
+        "role": "drc rules write receipt",
+        "format": "json",
+        "path": "<case>/evidence/*-drc-rules-set.json"
+      },
+      "verify": [
+        "pcb drc-rules reads back the written values",
+        "pre-routing and final drc-rules archived by pcb_case"
+      ],
+      "status": "documented; re-check argv with easycirq pcb drc-rules-set --help",
+      "notes": "Record the rules before routing. Never silently relax rules to clear DRC; a relaxation needs a decision/waiver record."
+    },
+    "track-list": {
+      "argv": [
+        "easycirq",
+        "pcb",
+        "track-list",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--json"
+      ],
+      "required_flags": [
+        "--json"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
+      "output": {
+        "role": "track readback",
+        "format": "json",
+        "path": "<case>/evidence/*-track-list.json"
+      },
+      "verify": [
+        "tracks is a list",
+        "ids used by the plan exist after apply / are gone after track-delete"
+      ],
+      "status": "documented; re-check argv with easycirq pcb track-list --help",
+      "notes": "Readback for placed tracks; used to confirm delete and to detect timeout residue."
+    },
+    "via-list": {
+      "argv": [
+        "easycirq",
+        "pcb",
+        "via-list",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--json"
+      ],
+      "required_flags": [
+        "--json"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
+      "output": {
+        "role": "via readback",
+        "format": "json",
+        "path": "<case>/evidence/*-via-list.json"
+      },
+      "verify": [
+        "vias is a list",
+        "ids used by the plan exist after apply / are gone after via-delete"
+      ],
+      "status": "documented; re-check argv with easycirq pcb via-list --help",
+      "notes": "Readback for placed vias (incl. stitch vias)."
+    },
+    "pour-list": {
+      "argv": [
+        "easycirq",
+        "pcb",
+        "pour-list",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>",
+        "--json"
+      ],
+      "required_flags": [
+        "--json"
+      ],
+      "optional_flags": [
+        "--project",
+        "--doc"
+      ],
+      "output": {
+        "role": "copper pour readback",
+        "format": "json",
+        "path": "<case>/evidence/*-pour-list.json"
+      },
+      "verify": [
+        "pours/poured-list is a list",
+        "poured-list polygons present after pour-rebuild"
+      ],
+      "status": "documented; re-check argv with easycirq pcb pour-list --help",
+      "notes": "Readback for copper pours; poured-list is the rebuilt-materialization view."
     }
   },
   "helpers": {
     "doc-switch": {
-      "argv": ["easycirq", "doc", "switch", "<doc-name-or-uuid>", "--project", "<project>"],
-      "required_flags": ["--project"],
-      "output": {"role": "command record only", "format": "json", "path": "<case>/logs/*"},
+      "argv": [
+        "easycirq",
+        "doc",
+        "switch",
+        "<doc-name-or-uuid>",
+        "--project",
+        "<project>"
+      ],
+      "required_flags": [
+        "--project"
+      ],
+      "output": {
+        "role": "command record only",
+        "format": "json",
+        "path": "<case>/logs/*"
+      },
       "notes": "Needed before every PCB command (PCB foreground) and before bom export (schematic foreground). Switch back to the PCB afterwards."
     },
     "doc-ls": {
-      "argv": ["easycirq", "doc", "ls", "--project", "<project>", "--json"],
-      "required_flags": ["--project", "--json"],
-      "output": {"role": "command record only", "format": "json", "path": "<case>/logs/*"},
+      "argv": [
+        "easycirq",
+        "doc",
+        "ls",
+        "--project",
+        "<project>",
+        "--json"
+      ],
+      "required_flags": [
+        "--project",
+        "--json"
+      ],
+      "output": {
+        "role": "command record only",
+        "format": "json",
+        "path": "<case>/logs/*"
+      },
       "notes": "Used when the schematic document name/uuid is not supplied. Parse defensively: look for a document whose type is schematic/sch rather than guessing from position."
     },
     "snapshot-fallback": {
-      "argv": ["easycirq", "pcb", "snapshot", "--fit-mode", "board", "--project", "<project>", "--doc", "<doc>"],
-      "required_flags": ["--fit-mode"],
-      "output": {"role": "image-top | image-bottom", "format": "png", "path": "<case>/evidence/pcb-final-<side>.png"},
+      "argv": [
+        "easycirq",
+        "pcb",
+        "snapshot",
+        "--fit-mode",
+        "board",
+        "--project",
+        "<project>",
+        "--doc",
+        "<doc>"
+      ],
+      "required_flags": [
+        "--fit-mode"
+      ],
+      "output": {
+        "role": "image-top | image-bottom",
+        "format": "png",
+        "path": "<case>/evidence/pcb-final-<side>.png"
+      },
       "notes": "Used only when pcb stage-snapshot --help fails. The resulting PNG is a viewport snapshot, not an object-level export."
     }
   },
   "steps": {
-    "dump": ["doc-switch", "dump"],
-    "save-reload": ["save", "reload", "dump"],
-    "drc": ["drc"],
-    "check": ["check"],
-    "lint": ["layout-lint"],
-    "netpath": ["net-path"],
-    "sch-pcb": ["doc-switch", "sch-read", "doc-switch"],
-    "images": ["stage-snapshot", "layout-render"],
-    "bom": ["doc-switch", "bom-export", "doc-switch"],
-    "archive": ["project-export"],
-    "gate": ["gate"]
+    "dump": [
+      "doc-switch",
+      "dump"
+    ],
+    "save-reload": [
+      "save",
+      "reload",
+      "dump"
+    ],
+    "drc": [
+      "drc"
+    ],
+    "check": [
+      "check"
+    ],
+    "lint": [
+      "layout-lint"
+    ],
+    "netpath": [
+      "net-path"
+    ],
+    "sch-pcb": [
+      "doc-switch",
+      "sch-read",
+      "doc-switch"
+    ],
+    "images": [
+      "stage-snapshot",
+      "layout-render"
+    ],
+    "bom": [
+      "doc-switch",
+      "bom-export",
+      "doc-switch"
+    ],
+    "archive": [
+      "project-export"
+    ],
+    "gate": [
+      "gate"
+    ]
   },
   "roles": {
-    "pcb-dump-before": {"stage": "dump", "description": "fresh measured dump before the save/reload proof"},
-    "pcb-dump-after-reload": {"stage": "save-reload", "description": "fresh measured dump after save + doc reload; the final dump"},
-    "pcb-dump-final": {"stage": "dump", "description": "measured dump used when no dedicated before/reload dump exists"},
-    "save-reload-diff": {"stage": "save-reload", "description": "diff_boards(before, after); match is required for persistence"},
-    "pcb-drc": {"stage": "drc", "description": "raw native DRC JSON; passed:true and total:0"},
-    "pcb-check": {"stage": "check", "description": "raw pcb check JSON; 0 ERROR plus WARN dispositions"},
-    "pcb-layout-lint": {"stage": "lint", "description": "raw layout-lint JSON; coverage.complete required"},
-    "netpath-key-connections": {"stage": "netpath", "description": "aggregated per-pair net-path rows with per-row argv"},
-    "sch-pcb-compare": {"stage": "sch-pcb", "description": "compare_sch_pcb result; status=match or match_with_renames"},
-    "image-top": {"stage": "images", "description": "top PNG copied into the case"},
-    "image-bottom": {"stage": "images", "description": "bottom PNG copied into the case"},
-    "actual-svg": {"stage": "images", "description": "layout render --actual SVG bound by metadata.sourceSha256"},
-    "bom": {"stage": "bom", "description": "raw --enrich=false CSV copied into the case"},
-    "archive": {"stage": "archive", "description": ".epro2 project export, never overwritten"},
-    "gate-report": {"stage": "gate", "description": "pcb_gate.py report (design-engine-pcb-gate/v1)"}
+    "pcb-dump-before": {
+      "stage": "dump",
+      "description": "fresh measured dump before the save/reload proof"
+    },
+    "pcb-dump-after-reload": {
+      "stage": "save-reload",
+      "description": "fresh measured dump after save + doc reload; the final dump"
+    },
+    "pcb-dump-final": {
+      "stage": "dump",
+      "description": "measured dump used when no dedicated before/reload dump exists"
+    },
+    "save-reload-diff": {
+      "stage": "save-reload",
+      "description": "diff_boards(before, after); match is required for persistence"
+    },
+    "pcb-drc": {
+      "stage": "drc",
+      "description": "raw native DRC JSON; passed:true and total:0"
+    },
+    "pcb-check": {
+      "stage": "check",
+      "description": "raw pcb check JSON; 0 ERROR plus WARN dispositions"
+    },
+    "pcb-layout-lint": {
+      "stage": "lint",
+      "description": "raw layout-lint JSON; coverage.complete required"
+    },
+    "netpath-key-connections": {
+      "stage": "netpath",
+      "description": "aggregated per-pair net-path rows with per-row argv"
+    },
+    "sch-pcb-compare": {
+      "stage": "sch-pcb",
+      "description": "compare_sch_pcb result; status=match or match_with_renames"
+    },
+    "image-top": {
+      "stage": "images",
+      "description": "top PNG copied into the case"
+    },
+    "image-bottom": {
+      "stage": "images",
+      "description": "bottom PNG copied into the case"
+    },
+    "actual-svg": {
+      "stage": "images",
+      "description": "layout render --actual SVG bound by metadata.sourceSha256"
+    },
+    "bom": {
+      "stage": "bom",
+      "description": "raw --enrich=false CSV copied into the case"
+    },
+    "archive": {
+      "stage": "archive",
+      "description": ".epro2 project export, never overwritten"
+    },
+    "gate-report": {
+      "stage": "gate",
+      "description": "pcb_gate.py report (design-engine-pcb-gate/v1)"
+    }
   }
 }
