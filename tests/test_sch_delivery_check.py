@@ -8,6 +8,14 @@ VERIFIER = SCRIPTS / "sch_delivery_check.py"
 sys.path.insert(0, str(SCRIPTS))
 import sch_text_audit as _text_audit  # noqa: E402
 
+try:
+    from PIL import Image, ImageDraw
+    HAVE_PIL = True
+except Exception:
+    HAVE_PIL = False
+
+REFERENCE = ROOT / "easycirq" / "assets" / "style-reference" / "esp32-schematic.png"
+
 
 def frame(fid, order, title, purpose, tid, pid):
     return {"id": fid, "order": order, "title": title, "purpose": purpose,
@@ -108,6 +116,44 @@ class DeliveryGate(unittest.TestCase):
             ta = Path(d) / "text.json"; ta.write_text(json.dumps(text_source()), encoding="utf-8")
             code, rep = self.invoke(d, ["--frame-plan", str(fp), "--text-audit", str(ta),
                                         "--require-style", "--skip-layout", "--json"])
+            self.assertEqual(code, 2)
+
+    def _base_args(self, d, style_path):
+        fp = Path(d) / "frame.json"; fp.write_text(json.dumps(frame_plan([
+            frame("a", 1, "输入", "端子与保护", "t1", "p1")])), encoding="utf-8")
+        ta = Path(d) / "text.json"; ta.write_text(json.dumps(text_source()), encoding="utf-8")
+        return ["--frame-plan", str(fp), "--text-audit", str(ta),
+                "--style", str(style_path), "--require-style", "--skip-layout", "--json"]
+
+    @unittest.skipUnless(HAVE_PIL, "Pillow not installed")
+    def test_visual_similarity_good_passes(self):
+        with tempfile.TemporaryDirectory() as d:
+            st = Path(d) / "style.json"; st.write_text(json.dumps(self.style_input()), encoding="utf-8")
+            args = self._base_args(d, st) + ["--visual-similarity", str(REFERENCE)]
+            code, rep = self.invoke(d, args)
+            self.assertEqual(code, 0, rep)
+            self.assertEqual(rep["checks"]["visual_similarity"]["status"], "pass")
+
+    @unittest.skipUnless(HAVE_PIL, "Pillow not installed")
+    def test_visual_similarity_review_does_not_block(self):
+        with tempfile.TemporaryDirectory() as d:
+            st = Path(d) / "style.json"; st.write_text(json.dumps(self.style_input()), encoding="utf-8")
+            square = Path(d) / "square.png"
+            img = Image.new("RGB", (400, 400), "white")
+            draw = ImageDraw.Draw(img)
+            draw.rectangle([20, 20, 180, 180], outline="#00B3B3", width=3)
+            img.save(square)
+            args = self._base_args(d, st) + ["--visual-similarity", str(square)]
+            code, rep = self.invoke(d, args)
+            self.assertEqual(code, 1, rep)
+            self.assertEqual(rep["verdict"], "review")
+
+    @unittest.skipUnless(HAVE_PIL, "Pillow not installed")
+    def test_visual_similarity_missing_candidate_blocks(self):
+        with tempfile.TemporaryDirectory() as d:
+            st = Path(d) / "style.json"; st.write_text(json.dumps(self.style_input()), encoding="utf-8")
+            args = self._base_args(d, st) + ["--visual-similarity", str(Path(d) / "nope.png")]
+            code, rep = self.invoke(d, args)
             self.assertEqual(code, 2)
 
 

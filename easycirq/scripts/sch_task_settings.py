@@ -43,6 +43,9 @@ def main(argv=None) -> int:
     ap.add_argument("--skip-layout", action="store_true")
     ap.add_argument("--require-style", action="store_true", default=True)
     ap.add_argument("--require-visual", action="store_true")
+    ap.add_argument("--visual-similarity", help="exported PNG for the reference similarity check")
+    ap.add_argument("--visual-reference", help="reference image override")
+    ap.add_argument("--visual-side-by-side", help="write the comparison PNG here")
     args = ap.parse_args(argv)
 
     workdir = Path(args.workdir).resolve()
@@ -64,6 +67,12 @@ def main(argv=None) -> int:
         command.append("--require-style")
     if args.require_visual:
         command.append("--require-visual")
+    if args.visual_similarity:
+        command += ["--visual-similarity", str(_abs(workdir, args.visual_similarity))]
+        if args.visual_reference:
+            command += ["--visual-reference", str(_abs(workdir, args.visual_reference))]
+        if args.visual_side_by_side:
+            command += ["--visual-side-by-side", str(_abs(workdir, args.visual_side_by_side))]
 
     settings = {
         "hooks": {

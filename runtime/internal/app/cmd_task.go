@@ -53,7 +53,7 @@ func findSkillScripts() (string, error) {
 
 func newTaskNewCmd(stdout, stderr io.Writer) *cobra.Command {
 	var dir, prompt, client, permissionMode, python, skillScripts string
-	var launch, requireVisual, requireStyle bool
+	var launch, requireVisual, requireStyle, visualSimilarity bool
 	var maxTurns int
 
 	c := &cobra.Command{
@@ -117,6 +117,11 @@ func newTaskNewCmd(stdout, stderr io.Writer) *cobra.Command {
 			if requireVisual {
 				commandParts = append(commandParts, "--require-visual")
 			}
+			if visualSimilarity {
+				commandParts = append(commandParts,
+					"--visual-similarity", fmt.Sprintf(`"%s"`, filepath.Join(absWorkdir, "export.png")),
+					"--visual-side-by-side", fmt.Sprintf(`"%s"`, filepath.Join(absWorkdir, "stage5-side-by-side.png")))
+			}
 			command := strings.Join(commandParts, " ")
 			settings := taskSettings{Hooks: map[string][]taskHookGroup{
 				"Stop": {{Hooks: []taskHook{{Type: "command", Command: command}}}},
@@ -138,6 +143,12 @@ func newTaskNewCmd(stdout, stderr io.Writer) *cobra.Command {
 			visualFlag := ""
 			if requireVisual {
 				visualFlag = " --require-visual"
+			}
+			simFlags := ""
+			if visualSimilarity {
+				simFlags = fmt.Sprintf(` --visual-similarity "%s" --visual-side-by-side "%s"`,
+					filepath.Join(absWorkdir, "export.png"),
+					filepath.Join(absWorkdir, "stage5-side-by-side.png"))
 			}
 			stylePlanPath := filepath.Join(absWorkdir, "style-plan.json")
 			stylePlan := `{
@@ -177,7 +188,7 @@ func newTaskNewCmd(stdout, stderr io.Writer) *cobra.Command {
     %s %s --candidate <export.png> --reference %s --side-by-side %s
 
 ## Stage 6 完整交付门禁
-    %s %s --frame-plan <frame-plan.json> --layout <layout.json> --text-audit <text-audit.json>%s%s --out %s
+    %s %s --frame-plan <frame-plan.json> --layout <layout.json> --text-audit <text-audit.json>%s%s%s --out %s
 `, stylePlanPath,
 				python, filepath.Join(skillScripts, "sch_style_plan_check.py"), stylePlanPath,
 				python, filepath.Join(skillScripts, "sch_style_audit.py"),
@@ -185,7 +196,7 @@ func newTaskNewCmd(stdout, stderr io.Writer) *cobra.Command {
 				filepath.Join(skillRoot, "assets", "style-reference", "esp32-schematic.png"),
 				filepath.Join(absWorkdir, "stage5-side-by-side.png"),
 				python, filepath.Join(skillScripts, "sch_delivery_check.py"),
-				styleFlag, visualFlag, evidence)
+				styleFlag, visualFlag, simFlags, evidence)
 			if err := os.WriteFile(designPlanPath, []byte(designPlan), 0o644); err != nil {
 				return err
 			}
@@ -219,7 +230,7 @@ visual or hardware proof.
 				filepath.Join(skillRoot, "references", "schematic-style.md"),
 				designPlanPath,
 				evidence, python, filepath.Join(skillScripts, "sch_delivery_check.py"),
-				styleFlag, visualFlag, evidence)
+				styleFlag, visualFlag, simFlags, evidence)
 			if err := os.WriteFile(filepath.Join(absWorkdir, "task.md"), []byte(taskDoc), 0o644); err != nil {
 				return err
 			}
@@ -230,6 +241,9 @@ visual or hardware proof.
 			fmt.Fprintf(stdout, "hook       : %s\n", hookPath)
 			if requireStyle {
 				fmt.Fprintln(stdout, "style      : required (sch_style_audit.py; see task.md)")
+			if visualSimilarity {
+				fmt.Fprintln(stdout, "similarity : required (export.png vs reference)")
+			}
 			}
 			fmt.Fprintf(stdout, "style plan : %s\n", stylePlanPath)
 			fmt.Fprintf(stdout, "design flow: %s\n", designPlanPath)
@@ -263,6 +277,7 @@ visual or hardware proof.
 	c.Flags().IntVar(&maxTurns, "max-turns", 12, "turn cap when launching")
 	c.Flags().StringVar(&permissionMode, "permission-mode", "plan", "Claude Code permission mode")
 	c.Flags().BoolVar(&requireVisual, "require-visual", false, "record that SVG evidence is required")
+	c.Flags().BoolVar(&visualSimilarity, "visual-similarity", false, "include the reference side-by-side / similarity check in the delivery gate")
 	c.Flags().BoolVar(&requireStyle, "require-style", true, "require the style audit in the delivery command")
 	c.Flags().StringVar(&python, "python", "", "python executable (default: python on PATH)")
 	c.Flags().StringVar(&skillScripts, "skill-scripts", "", "explicit skill scripts directory (default: auto-detect)")

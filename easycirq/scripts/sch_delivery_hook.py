@@ -58,6 +58,9 @@ def main(argv=None) -> int:
     ap.add_argument("--style")
     ap.add_argument("--official-svg")
     ap.add_argument("--visual-overlay")
+    ap.add_argument("--visual-similarity")
+    ap.add_argument("--visual-reference")
+    ap.add_argument("--visual-side-by-side")
     ap.add_argument("--skip-layout", action="store_true")
     ap.add_argument("--require-style", action="store_true")
     ap.add_argument("--require-visual", action="store_true")
@@ -87,6 +90,9 @@ def main(argv=None) -> int:
             ("--style", args.style),
             ("--official-svg", args.official_svg),
             ("--visual-overlay", args.visual_overlay),
+            ("--visual-similarity", args.visual_similarity),
+            ("--visual-reference", args.visual_reference),
+            ("--visual-side-by-side", args.visual_side_by_side),
         ):
             if value:
                 cmd += [flag, value]
