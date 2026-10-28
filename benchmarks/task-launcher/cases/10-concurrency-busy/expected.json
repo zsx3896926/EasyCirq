@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
   "id": "10-concurrency-busy",
   "description": "Concurrency: a second start while max_concurrent=1 is running gets 429 BUSY.",
   "launcher": {
@@ -32,7 +32,7 @@
     },
     {
       "path": "result.schema",
-      "equals": "zhigou.task-launcher.result/v1"
+      "equals": "easycirq.task-launcher.result/v1"
     },
     {
       "path": "result.status",

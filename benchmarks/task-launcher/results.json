@@ -33,7 +33,7 @@
     {
       "cancel_sent": false,
       "concurrent_start_http_status": null,
-      "description": "Version handshake: request Skill version differs from the checkout Skill .version (easycirq/, legacy design-hardware/).",
+      "description": "Version handshake: request Skill version differs from the checkout Skill .version (easycirq/, legacy easycirq/).",
       "duration_ms": 729,
       "event_count": 0,
       "exit_code": 2,
@@ -209,7 +209,7 @@
     "status": "NOT RUN"
   },
   "real_eda": "NOT RUN",
-  "schema": "zhigou.task-launcher.benchmark/v1",
+  "schema": "easycirq.task-launcher.benchmark/v1",
   "simulated": true,
   "skill_version": "1.0.2",
   "totals": {

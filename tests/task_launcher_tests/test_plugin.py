@@ -43,10 +43,10 @@ from .support import ROOT, SKILL_DIR, SKILL_NAME, SKILL_VERSION, LauncherProcess
 #: Hardcoded identity facts copied from the task book / repository layout.  They
 #: are intentionally *not* imported from ``task_launcher`` so this file pins the
 #: contract even if the implementation constants drift.
-PLUGIN_NAME = "zhigou-design-hardware"
+PLUGIN_NAME = "easycirq-skill"
 PLUGIN_PACKAGE_VERSION = "0.1.0"
 PLUGIN_LICENSE = "Apache-2.0"
-MANIFEST_SCHEMA = "zhigou.task-launcher.plugin-manifest/v1"
+MANIFEST_SCHEMA = "easycirq.task-launcher.plugin-manifest/v1"
 MANIFEST_KEYS = {
     "schema",
     "name",
@@ -203,7 +203,7 @@ class PluginBuildTests(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls) -> None:
-        cls._temp = tempfile.TemporaryDirectory(prefix="zhigou-plugin-build-")
+        cls._temp = tempfile.TemporaryDirectory(prefix="easycirq-plugin-build-")
         cls.addClassCleanup(cls._temp.cleanup)
         cls.out = Path(cls._temp.name) / f"{SKILL_NAME}-plugin"
         completed, document = invoke_build_plugin(cls.out)
@@ -245,7 +245,7 @@ class PluginBuildTests(unittest.TestCase):
         self.assertIsInstance(hooks.get("hooks"), dict, hooks)
 
         mcp = read_json(out / ".mcp.json")
-        self.assertIn("zhigou-offline-audit", mcp.get("mcpServers", {}), mcp)
+        self.assertIn("easycirq-offline-audit", mcp.get("mcpServers", {}), mcp)
 
         # The build must not leak VCS data, caches, logs or bytecode into the plugin.
         for path in out.rglob("*"):
@@ -340,7 +340,7 @@ class PluginBuildTests(unittest.TestCase):
 
 class PluginCliTests(unittest.TestCase):
     def test_build_plugin_cli_succeeds_with_pure_json_stdout(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="zhigou-plugin-cli-") as temp:
+        with tempfile.TemporaryDirectory(prefix="easycirq-plugin-cli-") as temp:
             out = Path(temp) / "plugin"
             completed, document = invoke_build_plugin(out)
             self.assertEqual(completed.returncode, 0, f"{completed.stdout}\n{completed.stderr}")
@@ -358,7 +358,7 @@ class PluginCliTests(unittest.TestCase):
 
 class PluginDeterminismTests(unittest.TestCase):
     def test_two_builds_into_two_directories_are_identical(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="zhigou-plugin-determinism-") as temp:
+        with tempfile.TemporaryDirectory(prefix="easycirq-plugin-determinism-") as temp:
             base = Path(temp)
             first = base / "first"
             second = base / "second"
@@ -384,7 +384,7 @@ class PluginDeterminismTests(unittest.TestCase):
                 )
 
     def test_build_output_is_independent_of_source_file_mtimes(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="zhigou-plugin-mtimes-") as temp:
+        with tempfile.TemporaryDirectory(prefix="easycirq-plugin-mtimes-") as temp:
             base = Path(temp)
             skill_copy = make_skill_copy(base / "skill-copy")
             first_out = base / "first"
@@ -424,7 +424,7 @@ class PluginFailureTests(unittest.TestCase):
         return error
 
     def test_missing_skill_md_fails_cleanly(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="zhigou-plugin-no-skill-md-") as temp:
+        with tempfile.TemporaryDirectory(prefix="easycirq-plugin-no-skill-md-") as temp:
             base = Path(temp)
             skill_dir = make_skill_dir(base, "skill-without-skill-md", skill_md=False, version=SKILL_VERSION)
             out = base / "out"
@@ -434,7 +434,7 @@ class PluginFailureTests(unittest.TestCase):
             self.assertEqual([path.name for path in base.iterdir() if path.name.startswith(".")], [])
 
     def test_missing_or_unreadable_version_fails_cleanly(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="zhigou-plugin-bad-version-") as temp:
+        with tempfile.TemporaryDirectory(prefix="easycirq-plugin-bad-version-") as temp:
             base = Path(temp)
 
             with self.subTest(case="missing"):
@@ -474,7 +474,7 @@ class PluginFailureTests(unittest.TestCase):
             )
 
     def test_non_empty_out_is_refused_without_force(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="zhigou-plugin-non-empty-out-") as temp:
+        with tempfile.TemporaryDirectory(prefix="easycirq-plugin-non-empty-out-") as temp:
             base = Path(temp)
             out = base / "out"
             out.mkdir()
@@ -490,7 +490,7 @@ class PluginFailureTests(unittest.TestCase):
             self.assertEqual([path.name for path in base.iterdir() if path.name.startswith(".")], [])
 
     def test_force_replaces_a_non_empty_out(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="zhigou-plugin-force-out-") as temp:
+        with tempfile.TemporaryDirectory(prefix="easycirq-plugin-force-out-") as temp:
             base = Path(temp)
             out = base / "out"
             out.mkdir()
@@ -510,7 +510,7 @@ class AgentCommandValidationTests(unittest.TestCase):
     """The routing flags are a hard gate: a template dropping one is refused."""
 
     def test_agent_argv_template_without_mcp_config_is_refused(self) -> None:
-        with tempfile.TemporaryDirectory(prefix="zhigou-plugin-argv-template-") as temp:
+        with tempfile.TemporaryDirectory(prefix="easycirq-plugin-argv-template-") as temp:
             template = Path(temp) / "argv-template.json"
             # Valid JSON/argv, but deliberately omits the mandatory --mcp-config.
             template.write_text(

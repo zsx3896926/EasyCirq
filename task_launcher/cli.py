@@ -6,7 +6,7 @@ Commands:
 * ``run``          — execute one ``task.start`` request once, print result JSON;
 * ``health``       — query a running launcher, or diagnose the local install;
 * ``build-plugin`` — build the Claude Code plugin from the repo Skill dir
-  (``easycirq/``; legacy ``design-hardware/``);
+  (``easycirq/``; legacy ``easycirq/``);
 * ``version``      — print launcher/Skill/plugin versions.
 
 Conventions used by the tests and the benchmark:
@@ -347,8 +347,8 @@ def cmd_build_plugin(args: argparse.Namespace) -> int:
 
 
 def _add_launcher_options(parser: argparse.ArgumentParser) -> None:
-    parser.add_argument("--state-dir", help="state directory (default: %%LOCALAPPDATA%%\\zhigou-launcher or ~/.zhigou-launcher)")
-    parser.add_argument("--skill-dir", help="Skill directory (default: <repo>/easycirq, legacy <repo>/design-hardware)")
+    parser.add_argument("--state-dir", help="state directory (default: %%LOCALAPPDATA%%\\easycirq-launcher or ~/.easycirq-launcher)")
+    parser.add_argument("--skill-dir", help="Skill directory (default: <repo>/easycirq, legacy <repo>/easycirq)")
     parser.add_argument("--plugin-dir", help="use a prebuilt plugin directory instead of building one per task")
     parser.add_argument(
         "--plugin-cache-dir",
@@ -372,7 +372,7 @@ def _add_launcher_options(parser: argparse.ArgumentParser) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m task_launcher",
-        description="Zhigou B1 task launcher sidecar (offline PoC, read-only tasks).",
+        description="EasyCirq B1 task launcher sidecar (offline PoC, read-only tasks).",
     )
     parser.add_argument("--version-of-launcher", action="store_true", help=argparse.SUPPRESS)
     sub = parser.add_subparsers(dest="command", required=True)

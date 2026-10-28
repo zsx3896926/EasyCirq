@@ -16,7 +16,7 @@
 | Claude Code CLI | 2.1.303（客户端存在；**本任务没有调用真实模型**，见 §4） |
 | 仓库 | `zsx3896926/EasyCirq`（原 `hardware-design-skill`），worktree `hds-tl-worktree` |
 | 新增路径 | `task_launcher/`、`tests/task_launcher_tests/`、`benchmarks/task-launcher/`、`docs/parallel-task-launcher/`（文件清单与精确数量见 `handoff-current.md`） |
-| Skill 版本 | rebase 后 `easycirq/.version` = `1.0.2`（旧布局 `design-hardware/.version`；版本全部按实际读取，不硬编码） |
+| Skill 版本 | rebase 后 `easycirq/.version` = `1.0.2`（旧布局 `easycirq/.version`；版本全部按实际读取，不硬编码） |
 
 ## 1. 里程碑与真实命令
 
@@ -29,7 +29,7 @@ python -m task_launcher run --request <tmp>/req.json --state-dir <tmp>/state --a
 ```
 
 - `version`：输出 `{launcher:"0.1.0", skill:"1.0.2", skill_name:"easycirq", plugin:"0.1.0", ...}`
-  （Skill 版本以 `easycirq/.version` 为准；旧布局为 `design-hardware/.version`），退出码 0。
+  （Skill 版本以 `easycirq/.version` 为准；旧布局为 `easycirq/.version`），退出码 0。
 - 首个 fake-agent 任务：`status:"completed"`、`exit_code:0`、`real_eda:"NOT RUN"`、`eda_calls:0`、
   `project_writes:0`；工作区证据文件齐全（见 §3）。
 - 早期 smoke 测试：`python -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py"`
@@ -55,9 +55,9 @@ python -m task_launcher run --request <tmp>/req.json --state-dir <tmp>/state --a
   7. `health` CLI 缺 `--plugin-cache-dir` → 已补；
   8. 冻结基准用例把 `toolchain.skill` 硬编码成 `1.0.1` → 改为 `@launcher/@skill/@plugin` 占位符，
      由 runner/测试按安装版本解析（main 上 Skill 升到 1.0.2 后暴露；三个版本不一致 case 保留字面值）。
-  9. **EasyCirq 重命名适配（审计期发现）**：main 把 `design-hardware/` 重命名为 `easycirq/` 后，
+  9. **EasyCirq 重命名适配（审计期发现）**：main 把 `easycirq/` 重命名为 `easycirq/` 后，
      旧硬编码路径让 PR merge-ref 的 14 个测试 import 失败；现改为自动探测（优先 `easycirq/`，
-     回退 `design-hardware/`），plugin 按 frontmatter 名打包 `skills/easycirq/`，routing 规则
+     回退 `easycirq/`），plugin 按 frontmatter 名打包 `skills/easycirq/`，routing 规则
      使用实际 Skill 名，benchmark/测试/文档同步。
 
 ### M3：冻结基准 + stub connector + 文档
@@ -142,7 +142,7 @@ manifest_sha256=E7A9CC644FB31ECAA741A07C2A6B804F3F30AEAC5FEFA6353A572999BE242424
 2. **真实 EDA/daemon/connector 未接入**：Phase 2 集成建议见 `integration-proposal.md`，
    本任务不修改 A 的任何文件。
 3. **Python 3.10 本机不可用**：本机仅 3.13；语法按 3.10 约束编写，最终以 CI 3.10/3.13 matrix 为准。
-4. **真实 MCP 客户端未启动**：`mcp.json` 结构与 `zhigou_mcp` 入口有测试，但没有让真实 Claude
+4. **真实 MCP 客户端未启动**：`mcp.json` 结构与 `easycirq_mcp` 入口有测试，但没有让真实 Claude
    实际拉起 MCP 子进程（真实 Claude NOT RUN）。
 5. **Claude CLI 参数漂移**：本机 2.1.303 `claude --help` 未单列 `--append-system-prompt-file`
    （只在描述中出现 `--append-system-prompt[-file]`），但 CLI 实际接受该参数（仅验证了参数解析）；
@@ -159,15 +159,15 @@ manifest_sha256=E7A9CC644FB31ECAA741A07C2A6B804F3F30AEAC5FEFA6353A572999BE242424
 
 ## 5. EasyCirq 重命名适配（审计期新增）
 
-main 在 #77（`e07dc11`）把仓库/Skill 从 `design-hardware` 重命名为 **EasyCirq**（目录
+main 在 #77（`e07dc11`）把仓库/Skill 从 `easycirq` 重命名为 **EasyCirq**（目录
 `easycirq/`、frontmatter `name: easycirq`）。本 PR 的适配原则（全部在允许路径内）：
 
 | 项 | 处理 |
 |---|---|
-| Skill 目录 | 自动探测：优先 `<repo>/easycirq/`，回退 `<repo>/design-hardware/`；`--skill-dir` 仍可显式指定 |
-| plugin 内的 Skill 目录 | 按 SKILL.md frontmatter 名打包：`skills/easycirq/`（旧布局 `skills/design-hardware/`） |
-| plugin 包名 | **保持 `zhigou-design-hardware` 不变**（launcher 包身份/既有契约；`plugin.json.skill_name` 记录实际 Skill 名） |
-| routing 硬规则 | 规则 1 使用实际 Skill 名（`必须先加载 easycirq Skill，不得跳过`）；旧布局仍生成 `design-hardware` |
+| Skill 目录 | 自动探测：优先 `<repo>/easycirq/`，回退 `<repo>/easycirq/`；`--skill-dir` 仍可显式指定 |
+| plugin 内的 Skill 目录 | 按 SKILL.md frontmatter 名打包：`skills/easycirq/`（旧布局 `skills/easycirq/`） |
+| plugin 包名 | **保持 `easycirq-skill` 不变**（launcher 包身份/既有契约；`plugin.json.skill_name` 记录实际 Skill 名） |
+| routing 硬规则 | 规则 1 使用实际 Skill 名（`必须先加载 easycirq Skill，不得跳过`）；旧布局仍生成 `easycirq` |
 | MCP/自检/benchmark 路径 | 全部走实际 Skill 目录（`easycirq/scripts`） |
 | 测试/文档 | 路径改为 easycirq，同时保留旧布局兼容说明；冻结基准仍可跨重命名运行 |
 

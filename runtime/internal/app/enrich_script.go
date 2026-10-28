@@ -22,7 +22,7 @@ const enrichScriptName = "bom-enrich.py"
 var enrichScriptAsset = skillAsset{
 	name: enrichScriptName,
 	rels: []string{
-		"design-hardware/scripts/" + enrichScriptName,
+		"easycirq/scripts/" + enrichScriptName,
 		"easycirq-agent/scripts/" + enrichScriptName,
 		"easycirq-schematic/scripts/" + enrichScriptName, // pre-merge skill name
 	},

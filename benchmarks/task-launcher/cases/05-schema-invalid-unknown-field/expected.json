@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
   "id": "05-schema-invalid-unknown-field",
   "description": "Schema gate: an unknown top-level field is rejected with 422 UNKNOWN_FIELD.",
   "launcher": {

@@ -1,6 +1,6 @@
 """Build a Claude Code plugin from the repository Skill directory.
 
-The 2026-10 rename moved the Skill from ``design-hardware/`` to ``easycirq/``;
+The 2026-10 rename moved the Skill from ``easycirq/`` to ``easycirq/``;
 the builder copies whatever Skill directory it is pointed at and packages it
 under ``skills/<frontmatter name>/``, so both layouts work.
 
@@ -439,7 +439,7 @@ def build_plugin(skill_dir: Path, out_dir: Path, *, force: bool = False) -> dict
                 "skill_name": identity["name"],
                 "skill_version": identity["version"],
                 "launcher_version": __version__,
-                "description": f"Controlled {identity['name']} Skill loader for the Zhigou task launcher: "
+                "description": f"Controlled {identity['name']} Skill loader for the EasyCirq task launcher: "
                 "read-only EDA review tasks with the offline audit MCP tools.",
                 "license": PLUGIN_LICENSE,
             }

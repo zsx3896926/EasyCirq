@@ -1781,3 +1781,47 @@
 {"at": "2026-10-28T13:06:23", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle j8e16dky\\install"}
 {"at": "2026-10-28T13:06:23", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 6g6rng8z\\install"}
 {"at": "2026-10-28T13:06:23", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 6g6rng8z\\install"}
+{"at": "2026-10-28T14:30:03", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle jcgeao4x\\install"}
+{"at": "2026-10-28T14:30:03", "event": "clean_install_verified", "files": 11}
+{"at": "2026-10-28T14:30:03", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle bsjazg_l\\install"}
+{"at": "2026-10-28T14:30:03", "event": "install", "version": "0.1.0", "status": "already_current", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle bsjazg_l\\install"}
+{"at": "2026-10-28T14:30:03", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle n0cwo1aj\\install"}
+{"at": "2026-10-28T14:30:03", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle n0cwo1aj\\install"}
+{"at": "2026-10-28T14:30:03", "event": "corrupt_bundle_rejected", "kind": "duplicate"}
+{"at": "2026-10-28T14:30:04", "event": "corrupt_bundle_rejected", "kind": "no-manifest"}
+{"at": "2026-10-28T14:30:04", "event": "corrupt_bundle_rejected", "kind": "traversal"}
+{"at": "2026-10-28T14:30:04", "event": "corrupt_bundle_rejected", "kind": "payload"}
+{"at": "2026-10-28T14:30:04", "event": "corrupt_bundle_rejected", "kind": "truncate"}
+{"at": "2026-10-28T14:30:04", "event": "corrupt_bundle_rejected", "kind": "inventory"}
+{"at": "2026-10-28T14:30:04", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle wsgil457\\install"}
+{"at": "2026-10-28T14:30:04", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle wsgil457\\install"}
+{"at": "2026-10-28T14:30:04", "event": "legacy_dirs_untouched", "dirs": ["claude", "codex", "agents"]}
+{"at": "2026-10-28T14:30:04", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle c7708sx7\\install"}
+{"at": "2026-10-28T14:30:04", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle soqatmk8\\install"}
+{"at": "2026-10-28T14:30:04", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 9udwgzlu\\install"}
+{"at": "2026-10-28T14:30:04", "event": "selfcheck_degraded_classified"}
+{"at": "2026-10-28T14:30:04", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle r0tcs3e4\\install"}
+{"at": "2026-10-28T14:30:04", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 68jc3ncb\\install"}
+{"at": "2026-10-28T14:30:05", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle y7ge917w\\install"}
+{"at": "2026-10-28T14:30:05", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle y7ge917w\\install"}
+{"at": "2026-10-28T14:30:05", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle i2gfopzj\\安装 目录\\智构 工具链"}
+{"at": "2026-10-28T14:30:05", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle i2gfopzj\\安装 目录\\智构 工具链"}
+{"at": "2026-10-28T14:30:05", "event": "unicode_space_paths", "install": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle i2gfopzj\\安装 目录\\智构 工具链"}
+{"at": "2026-10-28T14:30:05", "event": "long_deep_path", "length": 95}
+{"at": "2026-10-28T14:30:05", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 6yxq5o8v\\install"}
+{"at": "2026-10-28T14:30:05", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle xb5274pj\\install"}
+{"at": "2026-10-28T14:30:05", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 6551glhs\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 6551glhs\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.2.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 660e2qg5\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle cz46u0ud\\install"}
+{"at": "2026-10-28T14:30:06", "event": "failed_upgrade_preserved_previous", "version": "0.1.0"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 9lkhefdw\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 9lkhefdw\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.3.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle 9lkhefdw\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle ukg70bco\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle ukg70bco\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle we_7q2n9\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle geodyqp7\\install"}
+{"at": "2026-10-28T14:30:06", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle geodyqp7\\install"}
+{"at": "2026-10-28T14:30:07", "event": "install", "version": "0.1.0", "status": "installed", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle clc1r8j3\\install"}
+{"at": "2026-10-28T14:30:07", "event": "install", "version": "0.2.0", "status": "upgraded", "dir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-lifecycle clc1r8j3\\install"}

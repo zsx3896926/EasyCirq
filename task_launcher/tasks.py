@@ -73,7 +73,7 @@ def default_state_dir() -> Path:
         base = os.environ.get("LOCALAPPDATA") or os.environ.get("APPDATA") or str(Path.home())
     else:
         base = str(Path.home())
-    return Path(base) / "zhigou-launcher"
+    return Path(base) / "easycirq-launcher"
 
 
 @dataclass
@@ -81,7 +81,7 @@ class Settings:
     """Configuration of one launcher process."""
 
     state_dir: Path = field(default_factory=default_state_dir)
-    #: The 2026-10 rename moved the Skill from ``design-hardware/`` to
+    #: The 2026-10 rename moved the Skill from ``easycirq/`` to
     #: ``easycirq/``; discover whichever exists instead of hard-coding one name.
     skill_dir: Path = field(default_factory=lambda: plugin.default_skill_dir(PACKAGE_ROOT))
     plugin_dir: Path | None = None
@@ -530,7 +530,7 @@ class TaskManager:
                 skill_name=skill_identity["name"],
             )
             command = {
-                "schema": "zhigou.task-launcher.agent-command/v1",
+                "schema": "easycirq.task-launcher.agent-command/v1",
                 "profile": self._agent_info.kind,
                 "executable": self._agent_info.executable,
                 "version": self._agent_info.version,

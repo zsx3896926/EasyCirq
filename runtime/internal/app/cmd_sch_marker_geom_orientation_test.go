@@ -7,10 +7,10 @@ import (
 )
 
 // TestFlagBodyRotationMatchesOrientationJSON 钉住 Go 侧 flagBodyRotation 与
-// SSOT(design-hardware/references/orientation.json frozenTable)的一致:
+// SSOT(easycirq/references/orientation.json frozenTable)的一致:
 // 真值表分叉 = 生成侧与校验侧再度双盲(2026-08-12 修过一次,倒挂旗全绿两个月)。
 func TestFlagBodyRotationMatchesOrientationJSON(t *testing.T) {
-	raw, err := os.ReadFile("../../../design-hardware/references/orientation.json")
+	raw, err := os.ReadFile("../../../easycirq/references/orientation.json")
 	if err != nil {
 		t.Fatalf("read orientation.json: %v", err)
 	}

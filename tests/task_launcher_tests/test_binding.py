@@ -78,7 +78,7 @@ class BindingTests(LauncherTestCase):
         self.assertIn("127.0.0.1", error["detail"]["allowed"])
 
     def test_port_already_in_use_reports_bind_failed(self) -> None:
-        state_dir = Path(tempfile.mkdtemp(prefix="zhigou-bind-test-"))
+        state_dir = Path(tempfile.mkdtemp(prefix="easycirq-bind-test-"))
         self.addCleanup(shutil.rmtree, state_dir, True)
         holder = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.addCleanup(holder.close)

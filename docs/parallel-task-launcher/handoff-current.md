@@ -2,7 +2,7 @@
 
 - **分支 / worktree / 基线**：`feat/parallel-task-launcher` / `hds-tl-worktree`；
   任务书基线 `0e391e3` → M4 rebase 到 `c54c6fc` → 审计期 main 完成 **EasyCirq 重命名（#77,
-  `e07dc11`，`design-hardware/` → `easycirq/`）**，本分支再次 rebase 到 `origin/main@1701e79`
+  `e07dc11`，`easycirq/` → `easycirq/`）**，本分支再次 rebase 到 `origin/main@1701e79`
   并完成重命名适配。
 - **PR**：#74（OPEN，未合并；本任务不发版）—
   https://github.com/zsx3896926/EasyCirq/pull/74
@@ -39,15 +39,15 @@
 
 ## EasyCirq 重命名适配（审计期）
 
-main 在 #77（`e07dc11`）把仓库/Skill 从 `design-hardware` 重命名为 **EasyCirq**（目录
+main 在 #77（`e07dc11`）把仓库/Skill 从 `easycirq` 重命名为 **EasyCirq**（目录
 `easycirq/`、frontmatter `name: easycirq`）。本分支的适配（全部在允许路径内）：
 
 | 项 | 处理 |
 |---|---|
-| Skill 目录 | 自动探测：优先 `<repo>/easycirq/`，回退 `<repo>/design-hardware/`；`--skill-dir` 仍可显式指定 |
-| plugin 内 Skill 目录 | 按 SKILL.md frontmatter 名打包：`skills/easycirq/`（旧布局 `skills/design-hardware/`） |
-| plugin 包名 | **保持 `zhigou-design-hardware`**（launcher 包身份/既有契约；`plugin.json.skill_name` 记录实际 Skill 名） |
-| routing 硬规则 | 规则 1 使用实际 Skill 名（`必须先加载 easycirq Skill，不得跳过`）；旧布局仍生成 `design-hardware` |
+| Skill 目录 | 自动探测：优先 `<repo>/easycirq/`，回退 `<repo>/easycirq/`；`--skill-dir` 仍可显式指定 |
+| plugin 内 Skill 目录 | 按 SKILL.md frontmatter 名打包：`skills/easycirq/`（旧布局 `skills/easycirq/`） |
+| plugin 包名 | **保持 `easycirq-skill`**（launcher 包身份/既有契约；`plugin.json.skill_name` 记录实际 Skill 名） |
+| routing 硬规则 | 规则 1 使用实际 Skill 名（`必须先加载 easycirq Skill，不得跳过`）；旧布局仍生成 `easycirq` |
 | MCP/自检/benchmark 路径 | 全部走实际 Skill 目录（`easycirq/scripts`） |
 
 ## Issue 回填（15 项）
@@ -99,7 +99,7 @@ main 在 #77（`e07dc11`）把仓库/Skill 从 `design-hardware` 重命名为 **
 - 结果：**628 files / 13,179,534 bytes**；两次构建 manifest（相对路径 + SHA-256 + 大小 + 总大小）
   **一致**，文件树一致；`manifest_sha256=E7A9CC64…BE242424`（因 `.mcp.json` 含安装绝对路径，
   跨机器比较应只看相对结构）。
-- 结构校验：`plugin.json`（`name=zhigou-design-hardware`、`skill_name=easycirq`）/
+- 结构校验：`plugin.json`（`name=easycirq-skill`、`skill_name=easycirq`）/
   `skills/easycirq/SKILL.md`（frontmatter 可解析）/ `.mcp.json` / `hooks/hooks.json` 全部通过；
   不修改仓库 Skill 目录。
 
@@ -145,7 +145,7 @@ benchmark 的 12 个 case 也全部由 stub connector 子进程驱动。
 - 链接审计：文档 + PR 描述链接全部可解析；15 个 issue 链接全部 open；EasyCirq 的 run/job
   链接逐个 `gh api` 校验存在。
 - **审计发现的关键阻塞**：main 已完成 EasyCirq 重命名（#77），旧分支的 PR merge-ref 因
-  `design-hardware/.version` 不存在而 14 个测试 import 失败（CI 红）；已 rebase + 适配重命名，
+  `easycirq/.version` 不存在而 14 个测试 import 失败（CI 红）；已 rebase + 适配重命名，
   本地全量 3428 OK。
 - 与最新 main 合并模拟：`git merge origin/main --no-commit --no-ff` → `Automatic merge went well`
   （无冲突；main 上不存在本任务 4 类路径）。
@@ -170,7 +170,7 @@ benchmark 的 12 个 case 也全部由 stub connector 子进程驱动。
 ## Phase 2 给 A 的下一步（引用 integration-proposal）
 
 见 `docs/parallel-task-launcher/integration-proposal.md`：connector 面板/菜单发
-`zhigou.task-launcher.start/v1`（建议经 daemon 转发，connector 不持有 launcher token）；
+`easycirq.task-launcher.start/v1`（建议经 daemon 转发，connector 不持有 launcher token）；
 daemon 托管/转发 launcher 并把版本握手统一到 versionGate；写门禁（`plan_sha256`/evidence）由 A
 在 Phase 2 决定，**本任务不替 A 决定写门禁**。最小改动清单与冲突提示见该文档 §5。
 

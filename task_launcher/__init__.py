@@ -1,4 +1,4 @@
-"""Zhigou task launcher (B1-LAUNCH) — offline sidecar PoC.
+"""EasyCirq task launcher (B1-LAUNCH) — offline sidecar PoC.
 
 The launcher is the "controlled agent" half of B1: an EDA-side trigger surface
 calls this local HTTP sidecar with a ``task.start`` request, the sidecar builds
@@ -11,13 +11,13 @@ Scope of this PoC:
 * read-only tasks only (``mode == "read_only"``); write mode is refused;
 * no EDA, no daemon, no connector, no network calls are made by the launcher;
 * task state is written below the launcher state directory only
-  (``~/.zhigou-launcher`` or ``%LOCALAPPDATA%\\zhigou-launcher``),
+  (``~/.easycirq-launcher`` or ``%LOCALAPPDATA%\\easycirq-launcher``),
   never into the repository or a project directory;
 * the only agent used by the tests and the benchmark is the bundled fake
   agent; a real Claude Code run is OPTIONAL and reported as ``NOT RUN``
   unless explicitly requested.
 
-Version constants are intentionally independent of the design-hardware Skill
+Version constants are intentionally independent of the easycirq Skill
 version and of the (unmerged) EDA toolchain runtime on the parallel branch.
 """
 
@@ -26,18 +26,18 @@ from __future__ import annotations
 __version__ = "0.1.0"
 
 #: Schema identifier of the trigger-side request (EDA plugin -> launcher).
-START_SCHEMA = "zhigou.task-launcher.start/v1"
+START_SCHEMA = "easycirq.task-launcher.start/v1"
 #: Schema identifier of the terminal result document.
-RESULT_SCHEMA = "zhigou.task-launcher.result/v1"
+RESULT_SCHEMA = "easycirq.task-launcher.result/v1"
 #: Schema identifier of a single streamed event.
-EVENT_SCHEMA = "zhigou.task-launcher.event/v1"
+EVENT_SCHEMA = "easycirq.task-launcher.event/v1"
 #: Schema identifier of the plugin build manifest.
-PLUGIN_MANIFEST_SCHEMA = "zhigou.task-launcher.plugin-manifest/v1"
+PLUGIN_MANIFEST_SCHEMA = "easycirq.task-launcher.plugin-manifest/v1"
 #: Schema identifier of the frozen benchmark result document.
-BENCHMARK_SCHEMA = "zhigou.task-launcher.benchmark/v1"
+BENCHMARK_SCHEMA = "easycirq.task-launcher.benchmark/v1"
 
 #: Local HTTP endpoint. 23121 follows the (unmerged) toolchain's 23111-23120
-#: daemon range on purpose: one port block for "zhigou on the loopback".
+#: daemon range on purpose: one port block for "easycirq on the loopback".
 DEFAULT_HOST = "127.0.0.1"
 DEFAULT_PORT = 23121
 
@@ -58,23 +58,23 @@ MAX_MAX_EVENTS = 100000
 #: in ``plugin.json`` as ``skill_version`` so the two never get confused. That
 #: mapping is what the request's ``toolchain.plugin`` field is compared with.
 #: The plugin package name stays stable across the Skill rename
-#: (design-hardware -> easycirq); the bundled skill directory and the
+#: (easycirq -> easycirq); the bundled skill directory and the
 #: ``skill_version`` follow the actual Skill on disk.
-PLUGIN_NAME = "zhigou-design-hardware"
+PLUGIN_NAME = "easycirq-skill"
 PLUGIN_VERSION = "0.1.0"
 PLUGIN_DESCRIPTION = (
-    "Controlled hardware-design Skill loader for the Zhigou task launcher: "
+    "Controlled hardware-design Skill loader for the EasyCirq task launcher: "
     "read-only EDA review tasks with the offline audit MCP tools."
 )
 PLUGIN_LICENSE = "Apache-2.0"
 #: Skill directory names accepted by the launcher, in preference order.
-#: The 2026-10 rename moved ``design-hardware/`` to ``easycirq/``; both layouts
+#: The 2026-10 rename moved ``easycirq/`` to ``easycirq/``; both layouts
 #: are recognised so the launcher also works on a pre-rename checkout.
-SKILL_DIR_CANDIDATES = ("easycirq", "design-hardware")
+SKILL_DIR_CANDIDATES = ("easycirq",)
 
 #: Name of the offline MCP server mounted into the task (already on main).
-MCP_SERVER_NAME = "zhigou-offline-audit"
-MCP_MODULE = "zhigou_mcp"
+MCP_SERVER_NAME = "easycirq-offline-audit"
+MCP_MODULE = "easycirq_mcp"
 
 #: Read-only tool allow-list handed to the headless agent. No Bash/Write/Edit.
 ALLOWED_TOOLS = (
@@ -82,11 +82,11 @@ ALLOWED_TOOLS = (
     "Read",
     "Glob",
     "Grep",
-    "mcp__zhigou-offline-audit__offline_audit_capabilities",
-    "mcp__zhigou-offline-audit__offline_electrical_review",
-    "mcp__zhigou-offline-audit__offline_return_path_audit",
-    "mcp__zhigou-offline-audit__offline_delivery_inspect",
-    "mcp__zhigou-offline-audit__offline_delivery_audit",
+    "mcp__easycirq-offline-audit__offline_audit_capabilities",
+    "mcp__easycirq-offline-audit__offline_electrical_review",
+    "mcp__easycirq-offline-audit__offline_return_path_audit",
+    "mcp__easycirq-offline-audit__offline_delivery_inspect",
+    "mcp__easycirq-offline-audit__offline_delivery_audit",
 )
 ALLOWED_TOOLS_ARG = ",".join(ALLOWED_TOOLS)
 

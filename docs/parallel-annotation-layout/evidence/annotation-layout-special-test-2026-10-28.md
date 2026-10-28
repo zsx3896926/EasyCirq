@@ -10,7 +10,7 @@
 ## 命令
 
 ```bash
-cd design-hardware/scripts/..
+cd easycirq/scripts/..
 # 或在 worktree 根目录：
 PYTHONDONTWRITEBYTECODE=1 python -m unittest discover -s tests/annotation_layout -p "test_*.py"
 ```

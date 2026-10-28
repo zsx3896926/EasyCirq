@@ -174,7 +174,7 @@ func pinRepairMarkerType(kind string) (string, error) {
 }
 
 // pinRepairStoredRotation mirrors the calibrated stored-rotation truth in
-// design-hardware/references/orientation.json. The generated playbook
+// easycirq/references/orientation.json. The generated playbook
 // already uses this table; the daemon repeats the check so a hand-edited target
 // cannot keep the wire outward while turning the marker body back toward it.
 func pinRepairStoredRotation(kind, direction string) (float64, error) {

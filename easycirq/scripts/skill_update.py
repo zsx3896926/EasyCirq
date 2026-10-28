@@ -18,7 +18,7 @@ import zipfile
 
 NAME = 'easycirq'
 REPO = 'zsx3896926/EasyCirq'
-SCHEMA = 'hardware-skill-release/v1'
+SCHEMA = 'easycirq-release/v1'
 META = '.install.json'
 MAX_ARCHIVE = 64 * 1024 * 1024
 MAX_UNPACKED = 128 * 1024 * 1024
@@ -551,7 +551,7 @@ def main(argv=None):
                                  adopt=a.adopt, repair=a.action == 'repair')
             else:
                 m = latest()  # mutations never trust cached download URLs
-                with tempfile.TemporaryDirectory(prefix='hardware-skill-download-') as tmp:
+                with tempfile.TemporaryDirectory(prefix='easycirq-download-') as tmp:
                     package = Path(tmp) / m['archive']
                     package.write_bytes(download(m['download_url']))
                     result = install(target, package, m, adopt=a.adopt, repair=a.action == 'repair')

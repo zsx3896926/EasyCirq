@@ -9,9 +9,9 @@ task workspace must contain:
   *not* imported from ``task_launcher.routing``, so the test stays independent),
   name the five offline tools and state the read-only / honesty boundary.
 * ``mcp.json`` (task workspace) and ``<workspace>/plugin/.mcp.json`` — must mount
-  the already-merged offline-audit MCP server ``zhigou-offline-audit`` with
-  ``python -m zhigou_mcp`` and a ``PYTHONPATH`` pointing at
-  ``easycirq/scripts`` (legacy ``design-hardware/scripts``).
+  the already-merged offline-audit MCP server ``easycirq-offline-audit`` with
+  ``python -m easycirq_mcp`` and a ``PYTHONPATH`` pointing at
+  ``easycirq/scripts`` (legacy ``easycirq/scripts``).
 * ``agent.command.json`` — the recorded argv must be a list (never a shell
   string), contain ``--plugin-dir`` / ``--append-system-prompt-file`` /
   ``--mcp-config`` / ``--output-format`` with real values, point at a plugin
@@ -54,8 +54,8 @@ REQUIRED_AGENT_FLAGS = (
     "--output-format",
 )
 
-MCP_SERVER_NAME = "zhigou-offline-audit"
-MCP_MODULE = "zhigou_mcp"
+MCP_SERVER_NAME = "easycirq-offline-audit"
+MCP_MODULE = "easycirq_mcp"
 
 
 def read_json(path: Path) -> dict:
