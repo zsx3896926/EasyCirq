@@ -93131,7 +93131,7 @@
           "role_evidence": "",
           "role_section": "PCB经验：解释原因，并落到真实铜与装配",
           "target": "pcb-placement-details.md",
-          "text": "# PCB经验：解释原因，并落到真实铜与装配\r\n\r\n吸收hw-eda-engineer 0.6.0的经验表达，补充已有 [布局细节"
+          "text": "# PCB经验：解释原因，并落到真实铜与装配\r\n\r\n本页补充已有 [布局细节"
         },
         {
           "anchor": null,
@@ -93155,7 +93155,7 @@
           "role_evidence": "",
           "role_section": "PCB经验：解释原因，并落到真实铜与装配",
           "target": "pcb-routing-details.md",
-          "text": "铜与装配\r\n\r\n吸收hw-eda-engineer 0.6.0的经验表达，补充已有 [布局细节](pcb-placement-details.md)、[布线细节"
+          "text": "铜与装配\r\n\r\n本页补充已有 [布局细节](pcb-placement-details.md)、[布线细节"
         },
         {
           "anchor": null,
@@ -93179,7 +93179,7 @@
           "role_evidence": "",
           "role_section": "PCB经验：解释原因，并落到真实铜与装配",
           "target": "manufacturing-details.md",
-          "text": "验表达，补充已有 [布局细节](pcb-placement-details.md)、[布线细节](pcb-routing-details.md) 和 [制造细节"
+          "text": "本页补充已有 [布局细节](pcb-placement-details.md)、[布线细节](pcb-routing-details.md) 和 [制造细节"
         },
         {
           "anchor": null,
@@ -97999,7 +97999,7 @@
           "role_evidence": "",
           "role_section": "原理图经验：从注意事项到可执行检查",
           "target": "schematic-details.md",
-          "text": "经验：从注意事项到可执行检查\r\n\r\n吸收用户提供的hw-eda-engineer 0.6.0经验库，按本Skill的证据边界改写。已有逐项检查仍以 [原理图细节"
+          "text": "经验：从注意事项到可执行检查\r\n\r\n吸收用户提供的经验库，按本Skill的证据边界改写。已有逐项检查仍以 [原理图细节"
         },
         {
           "anchor": null,

@@ -6,7 +6,7 @@
 ## 1. 记录头
 | 字段 | 内容 |
 |---|---|
-| 板名/版本 | zhigou-dual-button-led-eev3-final / rev-a（新基线；原工程已损坏不再使用） |
+| 板名/版本 | easycirq-dual-button-led-eev3-final / rev-a（新基线；原工程已损坏不再使用） |
 | 工程与产物 | eev3-final（uuid `f178aba5…`）；BOM `evidence/eev3/BOM-v3.csv`；Gerber `evidence/eev3/manufacturing/eev3-gerber.zip` |
 | 装配方式 | 手焊单件；无 DNP |
 | 仪器 | 限流直流电源（0–6 V，≥200 mA，带电流显示）、万用表、可选热像仪/点温计 |

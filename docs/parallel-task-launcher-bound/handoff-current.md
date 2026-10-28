@@ -14,7 +14,7 @@
   （`1f964af`）并合入 main。
 - **最终合并**：PR **#74 已于 2026-10-28T06:09:58Z 合并**，merge commit
   **`f9aa7731057535d377246a6f02b37b6ea91a201c`**；最新 `origin/main` 同时包含 rebrand
-  PR #77（`design-hardware/`→`easycirq/`、`zhigou_mcp`→`easycirq_mcp`）与 A 工具链合并。
+  PR #77（`design-hardware/`→`easycirq/`、`easycirq_mcp`→`easycirq_mcp`）与 A 工具链合并。
 - **本任务对 B1 的处理**：不修改 B1 文件；只读复用其文档化 CLI（`build-plugin`）。
   在 B1 交付 HEAD 与合并后的最新 main 上分别做了叠加验证（见 §4）。
 
@@ -76,7 +76,7 @@ $ git diff --name-status origin/main...HEAD        # rebase 后叠加分支（f9
     → exit 0；`skill_name=easycirq`、`skill_dir=<repo>/easycirq`、`agent_ready=true`、
     versions `{skill:1.0.2, plugin:0.1.0, server:0.1.0, backend:fixture-1}`；
     argv 含全部 hardening flag；allow 为
-    `Read,Glob,Grep,Skill(easycirq),mcp__zhigou_bound__*`；不含 token/HMAC；
+    `Read,Glob,Grep,Skill(easycirq),mcp__easycirq_bound__*`；不含 token/HMAC；
   - `probe-b1 --repo-root <hds-tlb-on-b1>` → `available=true, delivered=true, AVAILABLE`。
 - 说明：这是 **artifact-level / 离线** 验证；由 B1 launcher 真实拉起 bound supervisor 的
   端到端与会话仍未运行（B1 的 mcp.json 只挂离线审计 MCP；接入 bound 需 B1 侧最小改动，
@@ -87,7 +87,7 @@ $ git diff --name-status origin/main...HEAD        # rebase 后叠加分支（f9
 2026-10 rebrand 后，本包做了双布局兼容（提交 `9c88def` / 主分支 `a0c13bb`）：
 
 - Skill 检测 `easycirq` / `design-hardware`，检测结果写入 config/settings/argv/routing；
-- 离线引擎 `easycirq_mcp` / `zhigou_mcp` 双探测，按模块选择
+- 离线引擎 `easycirq_mcp` / `easycirq_mcp` 双探测，按模块选择
   `fixtures/inputs_easycirq/`（easycirq schema）或 `fixtures/inputs/`（旧 schema）；
 - hooks 接受两种 Skill 名；`plan --skill-name` 可显式覆盖；
 - 两种布局都缺时如实 `NOT_RUN`/`BACKEND_UNAVAILABLE`。
@@ -190,11 +190,11 @@ python -m unittest discover -s tests
     `report_sha256=c24caaf847f569e82a039a868cb1e141d0f03ea6aded73a28665ed58c1e38cac`、
     `real_eda=NOT RUN`、`eda_calls=0`、`project_writes=0`；
   - stream-json 的 assistant `tool_use` 按序 6 个、无越权工具：
-    `Skill → mcp__zhigou_bound__task_start → snapshot_read → run_offline_audit → evidence_emit → finalize`；
+    `Skill → mcp__easycirq_bound__task_start → snapshot_read → run_offline_audit → evidence_emit → finalize`；
   - supervisor 回执链 5 条（`task_start none` + 4×`read_only`），`result.json` 由 supervisor
     生成、`chain_verified=true`；
   - argv 被 Claude Code 2.1.303 实际接受：`--permission-mode plan`、
-    `--allowedTools "Skill,Read,Glob,Grep,mcp__zhigou_bound__*"`、
+    `--allowedTools "Skill,Read,Glob,Grep,mcp__easycirq_bound__*"`、
     `--settings <bound>/settings.json`、
     `--disallowedTools "Bash,Write,Edit,NotebookEdit,Agent,Task,WebFetch,WebSearch"`。
 - 未验证 / 限制（如实）：

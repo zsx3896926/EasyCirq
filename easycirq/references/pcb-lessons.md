@@ -1,6 +1,6 @@
 # PCB经验：解释原因，并落到真实铜与装配
 
-吸收hw-eda-engineer 0.6.0的经验表达，补充已有 [布局细节](pcb-placement-details.md)、[布线细节](pcb-routing-details.md) 和 [制造细节](manufacturing-details.md) 的应用方法。这里不额外累计为新的检查条目，也不引入固定毫米值、安培值或制造承诺。只有实质相关的卡才加载。
+本页补充已有 [布局细节](pcb-placement-details.md)、[布线细节](pcb-routing-details.md) 和 [制造细节](manufacturing-details.md) 的应用方法。这里不额外累计为新的检查条目，也不引入固定毫米值、安培值或制造承诺。只有实质相关的卡才加载。
 
 ## 放件前与去耦
 

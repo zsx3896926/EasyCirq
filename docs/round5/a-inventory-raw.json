@@ -2151,10 +2151,10 @@
           "evidence": [
             "`find . -name SKILL.md` => 仅 ./design-hardware/SKILL.md；`grep '^name: design-hardware$'` => 唯一命中。",
             "仓库与 git archive 中 `plugin`、`marketplace`、`plugin.json`、`marketplace.json` 均无匹配。",
-            "本机检查：~/.claude/skills、~/.agents/skills 不存在；~/.codex/skills 只有 .system；~/.workbuddy/skills 为空；home 下未发现 design-hardware 或 hw-eda-engineer 安装目录。"
+            "本机检查：~/.claude/skills、~/.agents/skills 不存在；~/.codex/skills 只有 .system；~/.workbuddy/skills 为空；home 下未发现 design-hardware 安装目录。"
           ],
-          "gaps": "README/技术文档提到旧 hw-eda-engineer 已并入，但没有给已安装旧 Skill 的用户卸载或避免双触发的步骤；当前机器未发现旧安装。",
-          "next_action": "可选：在安装章节补充旧 hw-eda-engineer 的迁移/停用说明。",
+          "gaps": "README/技术文档提到已并入，但没有给已安装旧 Skill 的用户卸载或避免双触发的步骤；当前机器未发现旧安装。",
+          "next_action": "可选：在安装章节补充迁移/停用说明。",
           "needs_verification": false
         },
         {
@@ -4483,10 +4483,10 @@
       "evidence": [
         "`find . -name SKILL.md` => 仅 ./design-hardware/SKILL.md；`grep '^name: design-hardware$'` => 唯一命中。",
         "仓库与 git archive 中 `plugin`、`marketplace`、`plugin.json`、`marketplace.json` 均无匹配。",
-        "本机检查：~/.claude/skills、~/.agents/skills 不存在；~/.codex/skills 只有 .system；~/.workbuddy/skills 为空；home 下未发现 design-hardware 或 hw-eda-engineer 安装目录。"
+        "本机检查：~/.claude/skills、~/.agents/skills 不存在；~/.codex/skills 只有 .system；~/.workbuddy/skills 为空；home 下未发现 design-hardware 安装目录。"
       ],
-      "gaps": "README/技术文档提到旧 hw-eda-engineer 已并入，但没有给已安装旧 Skill 的用户卸载或避免双触发的步骤；当前机器未发现旧安装。",
-      "next_action": "可选：在安装章节补充旧 hw-eda-engineer 的迁移/停用说明。",
+      "gaps": "README/技术文档提到已并入，但没有给已安装旧 Skill 的用户卸载或避免双触发的步骤；当前机器未发现旧安装。",
+      "next_action": "可选：在安装章节补充迁移/停用说明。",
       "needs_verification": false,
       "scope": "Skill 包完整性与安装（design-hardware）。只读盘点，未安装。仓库根：C:/Users/jlc/work/hds-round5；当前 HEAD：7a6edb7（feat/round5-release-acceptance，工作树干净）。"
     },

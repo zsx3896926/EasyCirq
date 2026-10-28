@@ -1,4 +1,4 @@
-# 生产档案：zhigou-dual-button-led-eev3-final
+# 生产档案：easycirq-dual-button-led-eev3-final
 
 > 按 `design-hardware/assets/manufacturing-profile.md` 填写。数据来自 eev3-final 工程的真实回读
 > （2026-10-28，pcb drc / layout-lint / pcb check / BOM / 制造导出）。
@@ -6,7 +6,7 @@
 
 ## 任务/渠道/版本
 
-- 工程保存版本：`zhigou-dual-button-led-eev3-final`（uuid `f178aba5a861455b944edb9f8a1a1b65`），
+- 工程保存版本：`easycirq-dual-button-led-eev3-final`（uuid `f178aba5a861455b944edb9f8a1a1b65`），
   从 `eev3-before-dfm-fix.epro2` 恢复；PCB 文档 `56a25fb38c54cb1b`。
 - 交付目标：单件样板（手焊自测），交付级别 = **PCB 候选（DRC 0）**。
 - 渠道/服务：**嘉立创 PCB 打样（默认）+ 自行手焊**；未下 SMT 订单、未选拼板/工艺边。

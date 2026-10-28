@@ -1,12 +1,12 @@
 # eev3 最终验收证据（DRC + BOM）
 
-> 工程：`zhigou-dual-button-led-eev3-20261028`（uuid `b45c9648853446a08f2bf374fa85ee0d`）
-> 基线：从 `zhigou-board.epro2` 重导（原工程与 eev2 副本已损坏，不再使用）
+> 工程：`easycirq-dual-button-led-eev3-20261028`（uuid `b45c9648853446a08f2bf374fa85ee0d`）
+> 基线：从 `easycirq-board.epro2` 重导（原工程与 eev2 副本已损坏，不再使用）
 > 采集时间：2026-10-28 13:12（只读收集，未修改工程）
 
 ## 1. PCB DRC
 
-- 命令：`zhigou pcb drc`（`pcb.drc.check`）
+- 命令：`easycirq pcb drc`（`pcb.drc.check`）
 - 结果：**passed = true，0 violations**（原始回执 `evidence/eev3/pcb-drc.json`）
 - 前提：全部 47 条旧走线删除后由官方路由器 `pcb.route.auto` 全板重布，`pcb.pour.rebuild` 重建两层 GND 铺铜，
   `pcb save → doc reload` 后读取。
@@ -110,10 +110,10 @@ layout-lint 报告 `minGapMil = 5.98`（D1 周边 `LED1_A × LED1_K`，D2 同模
 
 ## 8. DFM 修复尝试与最终基线（2026-10-28 13:16–13:20）
 
-- 备份：`.zhigou/artifacts/eev3-before-dfm-fix.epro2`（49,207 B，导出成功）。
+- 备份：`.easycirq/artifacts/eev3-before-dfm-fix.epro2`（49,207 B，导出成功）。
 - 尝试：J1 位号丝印移回板内（成功）；删除 +5V/GND 走线后用 `route-short --route-power
   --width-power 20` 重布（DRC 仍 0），但引入 `widthMismatches` 4 与 `viaInPad` 1，minGap 仍 5.98。
-- **已回退**：从备份恢复为 `zhigou-dual-button-led-eev3-final`（uuid `f178aba5…`），
+- **已回退**：从备份恢复为 `easycirq-dual-button-led-eev3-final`（uuid `f178aba5…`），
   `pcb drc` = **passed，0 违规**。
 - 最终基线保留原 eev3 状态（DRC 0 + 4 条 DFM WARN）；线宽/过孔/间距修复需人工在 GUI 完成
   （自动重布会在焊盘上放孔并把线宽混接）。

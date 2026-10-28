@@ -6866,11 +6866,11 @@ Agent从工程、既有订单和用户已知目标提取信息，用 [生产档�
 
 - L3 [unknown] [# PCB经验：解释原因，并落到真实铜与装配
 
-吸收hw-eda-engineer 0.6.0的经验表达，补充已有 [布局细节](pcb-placement-details.md) → `references/pcb-placement-details.md` (ok)
+本页补充已有 [布局细节](pcb-placement-details.md) → `references/pcb-placement-details.md` (ok)
 - L3 [unknown] [铜与装配
 
-吸收hw-eda-engineer 0.6.0的经验表达，补充已有 [布局细节](pcb-placement-details.md)、[布线细节](pcb-routing-details.md) → `references/pcb-routing-details.md` (ok)
-- L3 [unknown] [验表达，补充已有 [布局细节](pcb-placement-details.md)、[布线细节](pcb-routing-details.md) 和 [制造细节](manufacturing-details.md) → `references/manufacturing-details.md` (ok)
+本页补充已有 [布局细节](pcb-placement-details.md)、[布线细节](pcb-routing-details.md) → `references/pcb-routing-details.md` (ok)
+- L3 [unknown] [本页补充已有 [布局细节](pcb-placement-details.md)、[布线细节](pcb-routing-details.md) 和 [制造细节](manufacturing-details.md) → `references/manufacturing-details.md` (ok)
 - L17 [example] [一个孔。
 - **怎么查**：查看实际层叠、铜连接和焊盘到参考路径；有瞬态目标时进行匹配的PI分析/测量。关联PL17/18，查 [RP2040原厂布局资料等](design-experience.md) → `references/design-experience.md` (ok)
 - L23 [external_reference] [、屏蔽与禁布依实际结构和原厂布局。
@@ -7238,7 +7238,7 @@ Agent从工程、既有订单和用户已知目标提取信息，用 [生产档�
 
 - L3 [unknown] [经验：从注意事项到可执行检查
 
-吸收用户提供的hw-eda-engineer 0.6.0经验库，按本Skill的证据边界改写。已有逐项检查仍以 [原理图细节](schematic-details.md) → `references/schematic-details.md` (ok)
+吸收用户提供的经验库，按本Skill的证据边界改写。已有逐项检查仍以 [原理图细节](schematic-details.md) → `references/schematic-details.md` (ok)
 - L7 [unknown] [把决定落到元件值、物理脚、网络、装配选项和PCB约束。模块写入后回读这些对象，交付前再查受影响链路。资料缺失记待确认，不按口诀补值。图面仍执行 [排版与看图验收](schematic-layout.md) → `references/schematic-layout.md` (ok)
 - L15 [external_reference] [适配器额定电压
 
