@@ -585,16 +585,20 @@ def spawn_agent(
         raise BoundError("INVALID_CONFIG", "agent argv is invalid", {"problems": problems})
     child_env = build_agent_env(env)
     started = time.time()
-    process = subprocess.Popen(
-        argv,
-        cwd=str(task_dir),
-        env=child_env,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        text=True,
-        encoding="utf-8",
-        errors="replace",
-    )
+    popen_kwargs: dict[str, Any] = {
+        "cwd": str(task_dir),
+        "env": child_env,
+        "stdout": subprocess.PIPE,
+        "stderr": subprocess.PIPE,
+        "text": True,
+        "encoding": "utf-8",
+        "errors": "replace",
+    }
+    if os.name != "nt":
+        # Own session/process group so kill_tree can kill the tree without ever
+        # signalling the supervisor's own process group (the CI hang bug).
+        popen_kwargs["start_new_session"] = True
+    process = subprocess.Popen(argv, **popen_kwargs)
     events: list[dict[str, Any]] = []
     parse_errors: list[dict[str, Any]] = []
     timed_out = False
@@ -668,8 +672,21 @@ def kill_tree(process: subprocess.Popen) -> dict[str, Any]:
         else:
             import signal
 
-            os.killpg(os.getpgid(process.pid), signal.SIGKILL)
-            result.update({"killed": True, "method": "killpg"})
+            # Only signal the child's group if the child leads its own group
+            # (spawn_agent uses start_new_session on POSIX). Otherwise a
+            # killpg(getpgid(child)) would also SIGKILL the supervisor/test
+            # process that shares the group -- the cause of the CI hang.
+            try:
+                child_group = os.getpgid(process.pid)
+            except OSError:
+                child_group = None
+            own_group = os.getpgid(0)
+            if child_group is not None and child_group != own_group:
+                os.killpg(child_group, signal.SIGKILL)
+                result.update({"killed": True, "method": "killpg", "pgid": child_group})
+            else:
+                process.kill()
+                result.update({"killed": True, "method": "process.kill"})
     except Exception as exc:  # pragma: no cover - defensive
         result.update({"killed": False, "method": "failed", "error": str(exc)})
         try:
