@@ -21,8 +21,9 @@ CLI：读取一个 JSON 文件，校验“分层模块树（HMT）+ 相对约束
 | 官方全量（`python -m unittest discover -s tests`） | **Ran 3569 tests in 323.075s — OK (skipped=3)**，exit 0；新测试已被 discovery 发现 |
 | 冻结基准（`python benchmarks/placement-intent/run_benchmark.py`） | **38/38 pass**，exit 0；`simulated:true`、`real_eda="NOT RUN"`、`eda_calls:0`；`--runs 2` 同样 38/38 |
 | Skill 自检（`skill_selftest.py`） | **5 PASS / 0 FAIL**，exit 0 |
+| CI（PR #100 head `a182ae4`） | **全绿**：`validate (3.10)` pass、`validate (3.13)` pass、`updater` ubuntu/windows pass、`publish` skipping |
 | 真实 EDA 调用 | **0**（无 daemon/connector/网络；不写工程） |
-| Python 3.10 / 3.13 | 本机实际 3.13.15；**3.10 仅 CI 验证**（仓库 matrix `3.10`/`3.13`） |
+| Python 3.10 / 3.13 | 本机实际 3.13.15；**3.10 已由 CI（Linux，3.10/3.13 matrix）验证通过** |
 | 清洁 checkout | **PASS**：`git archive` 导出的临时副本上重跑单包 **239 tests OK**、基准 **38/38 pass / exit 0**（见 `report.md` §5） |
 | PR | **#100 OPEN 未合并**：https://github.com/zsx3896926/EasyCirq/pull/100（base `main`、head `feat/parallel-placement-intent`） |
 

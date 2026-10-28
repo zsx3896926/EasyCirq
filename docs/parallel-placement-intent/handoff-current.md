@@ -13,10 +13,11 @@
     其它并行任务，由维护者在合并时 rebase/CI；本分支不再自动追。
 - PR：**#100**（https://github.com/zsx3896926/EasyCirq/pull/100，`OPEN` **未合并**；
   base `main`、head `feat/parallel-placement-intent`；创建时 head `d738e83`）。
-- 精确 HEAD：**`9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`**
-  （代码/测试/基准/结果冻结提交；`d81280c` 为 EasyCirq 布局/命名端口提交，`results.json`
-  的 `implementation.git_commit` 即 `d81280c`。docs 收口提交若晚于该 SHA，以
-  `git rev-parse HEAD` 为准，文档提交不改变产品行为）
+- 精确 HEAD：**`a182ae423d4386cf21ba8532de1738565e5a9617`**（PR #100 当前 head）
+  - 代码/测试/基准/结果冻结提交为 `9b408cf`；`d81280c` 为 EasyCirq 布局/命名端口提交，
+    `results.json.implementation.git_commit` 即 `d81280c`；
+  - `a182ae4` 仅修一处跨平台测试路径字面量（Linux CI 下 `.\valid.json` 不是相对路径），
+    本地与 CI 复跑均通过；docs 收口提交若晚于该 SHA，以 `git rev-parse HEAD` 为准。
 - 允许路径核对（`git diff --name-status origin/main...HEAD`，在最终 docs 提交上实际运行）：
   **79 个新增文件，全部为 `A`**（无 `M`/`D`/`R`），且都在任务书 §3 四个允许路径的新布局
   等价位置内：
@@ -48,10 +49,11 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
 - 全量套件 / Skill 自检：
   - 全量见上（3569 tests OK，skipped=3）
   - `python easycirq/scripts/skill_selftest.py` → **5 PASS, 0 FAIL, 0 NOT RUN**，exit 0
-- 3.10 状态：本机无 3.10（实际 3.13.15）；**3.10 仅 CI**：`.github/workflows/validate.yml`
-  的 matrix `['3.10','3.13']` 在 PR #100 的 head 上验证；CI 结果以 PR checks 为准
-  （创建 PR 后已触发 validate 3.10/3.13 + updater）。
-  当前不写成“已通过”。
+- 3.10 / CI 状态：本机无 3.10（实际 3.13.15）；**CI 已全绿**（PR #100 head `a182ae4`）：
+  `validate (3.10)` pass、`validate (3.13)` pass、`updater (ubuntu-latest)` /
+  `updater (windows-latest)` pass、`publish` skipping。工作流：
+  `.github/workflows/validate.yml`（matrix `['3.10','3.13']`，ubuntu 上跑
+  `python3 -m unittest discover -s tests -v`）。
 - 已知限制 / NOT RUN：
   - bbox = 旋转矩形的轴对齐外接矩形（仅 0/90/180/270），保守近似；
   - 只输出模块相对帧与可选 bbox，**不输出绝对板坐标、不应用放置**；

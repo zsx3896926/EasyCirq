@@ -139,6 +139,11 @@ python easycirq/scripts/skill_selftest.py
    本任务把包、测试、基准（含 38 个 case 的 `input_sha256` 重冻结与 derived 源
    README 新 SHA `0bd97330…e4fb`）、文档端口到新布局；重跑后 239 单包测试与 38/38
    基准仍全绿。`results.json.implementation.git_commit` 记录执行时 HEAD `d81280c`。
+7. **CI 跨平台测试修正（提交 `a182ae4`）**：PR #100 首轮 CI 在 Ubuntu 上 1 个失败——
+   `test_out_equals_input_via_relative_path_is_rejected` 使用 Windows 字面量
+   `.\valid.json`，在 Linux 上它是普通文件名而非 `./` 相对路径，CLI 正确地没有判等；
+   改为平台无关的 `"." + os.sep + "valid.json"` 后，Windows 本地与 Linux CI
+   （3.10/3.13）均通过。实现本身未改（`--out == --input` 检测逻辑正确）。
 
 ## 8. 限制与 NOT RUN
 
@@ -182,5 +187,5 @@ python easycirq/scripts/skill_selftest.py
   无 3.11+ 特性）；**3.10 仅 CI 验证**：仓库 `.github/workflows/validate.yml` 的
   matrix `['3.10', '3.13']` 在 PR HEAD 上运行 `python3 -m unittest discover -s tests -v`。
 - PR **#100** 已创建（OPEN 未合并）：https://github.com/zsx3896926/EasyCirq/pull/100；
-  CI（validate 3.10/3.13 + updater）由 PR 触发，结果以 PR checks 为准；在此之前
-  3.10 状态为 **NOT RUN（仅 CI 待验证）**，不写成“已通过”。
+  **CI 已全绿**（head `a182ae4`）：`validate (3.10)` pass、`validate (3.13)` pass、
+  `updater (ubuntu-latest)`/`updater (windows-latest)` pass、`publish` skipping。
