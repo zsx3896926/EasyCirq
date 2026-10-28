@@ -41,3 +41,9 @@ tests/test_companion_update.py text eol=lf
 
 # Preserve upstream schema/license bytes for recorded provenance hashes.
 easycirq/vendor/easyeda-format/** -text
+
+# B1 task launcher: frozen benchmark, docs and Python sources use LF on every platform.
+benchmarks/task-launcher/** text eol=lf
+docs/parallel-task-launcher/** text eol=lf
+task_launcher/**/*.py text eol=lf
+tests/task_launcher_tests/**/*.py text eol=lf

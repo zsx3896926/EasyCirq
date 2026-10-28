@@ -163,3 +163,21 @@ distribution\Install-EasyCirq.ps1 rollback
 - **G6 阻塞只剩 `sourcing_check`**（库存/价格未核，不伪造时间）；**G6 结论仍 BLOCKED**，
   交付级别不变（PCB 候选 DRC 0）。
 - 注意：验收板板框曾被误设为 2000×1200，已按 dump 原始坐标恢复并 save+reload+DRC 0 复核。
+
+## B1 任务启动器（`easycirq.task-launcher`）只读 PoC — 文档入口
+
+- **状态**：只读 PoC（`mode=read_only`），PR **#74 已合并**；不发版、不改 A 的
+  runtime/connector/daemon。真实 Claude / 真实 EDA / 硬件 = **NOT RUN**
+  （`real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`、`network_calls=0`、`agent="fake"`）。
+- **文档**（`docs/parallel-task-launcher/`）：
+  - `contract.md` — 传输/请求/事件/证据契约；合法请求示例见 §2.1，与任务书的已知差异见 §12.1。
+  - `architecture.md` — 进程模型、模块划分与数据流。
+  - `acceptance-matrix.md` — 验收项 ↔ 实现/测试/证据映射。
+  - `report.md` — 交付报告（范围、结果、限制）。
+  - `integration-proposal.md` — Phase 2 与 daemon/connector 的集成建议（connector 不应持有
+    launcher token，推荐 daemon 转发）。
+  - `issue-candidates.md` — 范围外候选与 issue 映射（#79–#93）。
+  - `handoff-current.md` — B1 交接（分支/PR/测试/基准/CI/NOT RUN）。
+  - `platform-threat-model.md` — 平台验证范围与 token 文件威胁模型（另含任务书 §3.3 示例勘误）。
+- **快速验证**：`python benchmarks/task-launcher/run_benchmark.py`（fake agent + stub connector，
+  12 个 case，离线；CI `benchmark` job 跑同一命令）。
