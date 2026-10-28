@@ -252,7 +252,9 @@
     "stock_checked_at": "",
     "smt_checked_at": "",
     "smt_required": false,
-    "smt_not_required_reason": "单件样板手工焊接，不下 SMT 订单；仍未核商城库存/价格"
+    "smt_not_required_reason": "单件样板手工焊接，不下 SMT 订单",
+    "cnumber_probe": "evidence/gates/sourcing-probe.json",
+    "probe_conclusion": "6 行 BOM 中仅 C2889365（R1/R2）是真实 LCSC 商品页；其余 5 行 Page Not Found，需替换料号后才能核对库存/价格；stock_checked_at 故意留空，不伪造。"
   },
   "decisions": [
     {
@@ -471,5 +473,13 @@
     "制造资料（Gerber/钻孔/CPL）未导出，且本版本无 typed 能力，交付级别止于 PCB 候选",
     "DFM 剩余 4 条警告：+5V/VIN 未铺铜、2 条电源线低于推荐宽度"
   ],
-  "open_items": []
+  "open_items": [
+    {
+      "id": "OI-SOURCING-1",
+      "text": "BOM 5 行使用系统库内部编号（C28105/C9900xxx），无商城订货号；需替换为真实料号后核对库存/价格，G6 sourcing_check 才能闭环。",
+      "blocking": false,
+      "owner": "user",
+      "note": "G6 sourcing_check 自身阻塞；不计入 G0"
+    }
+  ]
 }
