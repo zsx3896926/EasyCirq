@@ -11,8 +11,8 @@
   - 说明：rebase 后验收用的 `git diff --name-status origin/main...HEAD` 三点 diff 的
     merge-base 即 `91b03e5`，diff 只包含本任务新增的 79 个文件。若主分支在评审前继续合并
     其它并行任务，由维护者在合并时 rebase/CI；本分支不再自动追。
-- PR：#**未创建**（本任务规则禁止网络）；分支 `feat/parallel-placement-intent` 待推送，
-  PR 目标 `main`、状态 **OPEN 未合并**。
+- PR：**#100**（https://github.com/zsx3896926/EasyCirq/pull/100，`OPEN` **未合并**；
+  base `main`、head `feat/parallel-placement-intent`；创建时 head `d738e83`）。
 - 精确 HEAD：**`9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`**
   （代码/测试/基准/结果冻结提交；`d81280c` 为 EasyCirq 布局/命名端口提交，`results.json`
   的 `implementation.git_commit` 即 `d81280c`。docs 收口提交若晚于该 SHA，以
@@ -49,7 +49,8 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
   - 全量见上（3569 tests OK，skipped=3）
   - `python easycirq/scripts/skill_selftest.py` → **5 PASS, 0 FAIL, 0 NOT RUN**，exit 0
 - 3.10 状态：本机无 3.10（实际 3.13.15）；**3.10 仅 CI**：`.github/workflows/validate.yml`
-  的 matrix `['3.10','3.13']` 在 PR HEAD 上验证。PR 尚未创建 → CI 结果待推送后确认，
+  的 matrix `['3.10','3.13']` 在 PR #100 的 head 上验证；CI 结果以 PR checks 为准
+  （创建 PR 后已触发 validate 3.10/3.13 + updater）。
   当前不写成“已通过”。
 - 已知限制 / NOT RUN：
   - bbox = 旋转矩形的轴对齐外接矩形（仅 0/90/180/270），保守近似；
@@ -61,7 +62,7 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
     `placement_applied:false`、`routing_verified:false`、`physical_validation:"NOT RUN"`、
     `real_eda:"NOT RUN"`、`eda_calls:0` 在所有 plan/validation 输出中固定保留。
 - 下一步（评审关注点、可选的 MCP/design_engine 适配）：
-  1. 推送分支并创建 PR（目标 `main`，OPEN 未合并，由主维护者评审）；
+  1. **已推送并创建 PR #100**（目标 `main`，OPEN 未合并，由主维护者评审）；后续仅按评审意见小步追加提交；
   2. 评审重点：`docs/parallel-placement-intent/contract.md` 的 v1 收窄口径（anchor）、
      `unknown` 不补齐、`review_required` 不降级；SE(2) 合成/多路径/环的实现与契约一致；
   3. 清洁 checkout 复跑（**已在冻结 HEAD `9b408cf` 上完成**）：`git archive` 导出临时副本后

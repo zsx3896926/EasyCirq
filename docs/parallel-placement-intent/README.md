@@ -24,7 +24,7 @@ CLI：读取一个 JSON 文件，校验“分层模块树（HMT）+ 相对约束
 | 真实 EDA 调用 | **0**（无 daemon/connector/网络；不写工程） |
 | Python 3.10 / 3.13 | 本机实际 3.13.15；**3.10 仅 CI 验证**（仓库 matrix `3.10`/`3.13`） |
 | 清洁 checkout | **PASS**：`git archive` 导出的临时副本上重跑单包 **239 tests OK**、基准 **38/38 pass / exit 0**（见 `report.md` §5） |
-| PR | **未创建**（网络禁用，未 push）；分支 `feat/parallel-placement-intent` 待推送，PR 目标 `main`、OPEN 未合并 |
+| PR | **#100 OPEN 未合并**：https://github.com/zsx3896926/EasyCirq/pull/100（base `main`、head `feat/parallel-placement-intent`） |
 
 `planned_with_scope` 只证明“给定的 HMT/CCG 表示自洽 + 所声明尺寸下推出的相对 bbox”，
 不是已放置、可布通、DRC、保存重开、制造或上电验收。完整记录见

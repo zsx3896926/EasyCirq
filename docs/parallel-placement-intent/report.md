@@ -181,5 +181,6 @@ python easycirq/scripts/skill_selftest.py
 - 代码按要求使用 Python 3.10 语法/标准库（`from __future__ import annotations`，
   无 3.11+ 特性）；**3.10 仅 CI 验证**：仓库 `.github/workflows/validate.yml` 的
   matrix `['3.10', '3.13']` 在 PR HEAD 上运行 `python3 -m unittest discover -s tests -v`。
-- PR 尚未创建（本任务禁止网络），CI 结果需在分支推送/PR 打开后确认；在此之前
+- PR **#100** 已创建（OPEN 未合并）：https://github.com/zsx3896926/EasyCirq/pull/100；
+  CI（validate 3.10/3.13 + updater）由 PR 触发，结果以 PR checks 为准；在此之前
   3.10 状态为 **NOT RUN（仅 CI 待验证）**，不写成“已通过”。
