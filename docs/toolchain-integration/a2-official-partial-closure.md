@@ -18,11 +18,14 @@
 - W02/W06/W07 的“partial”本质是**语义缺口 + 已实现的 workaround**，判定即可关闭，不需要再跑新探针。
 - W03 的“partial”是**几何完整性未证**：官方侧只验证了「能读到 counts/layers」，没有 dump 出 copper 线段/弧/填充/板框的完整几何，也没测单位与锚点约定。要把它从 partial 转 covered，必须跑一次真实的几何 dump 并写一个单位约定 unit test。
 
-## 新探针为何本轮未重跑（诚实记录）
+## W03 几何探针：已实跑，仍被「无 PCB 承载 fixture」卡住（更新 2026-10-28 晚）
 
-- 官方 CLI 已确认可用：`lceda-pro.exe`（JLCEDA Pro 4.1.78.34f5b8d9，222 MB）`--help`/`doctor` 正常。
-- 但官方 `invoke -> eda.*` 需要在 `open --path <disposable>.eprj2 --headless` 的一次性副本上跑；本机 EasyEDA Pro 工程存在其内部数据库（`LCEDA-Pro/database`），工作目录下没有可直接复制的 `.eprj2` 文件，本轮未能构造一次性副本，故未重跑几何 dump。
-- 补 W03 的可行路径：用 A 的 `project export`/`export-source` 取一份 `.epro2/.eprj2` 工程存档 → 官方 `open --path <copy> --headless` → `invoke` dump 几何 → 写单位约定 unit test。
+- 官方 CLI 已实跑确认可用：`lceda-pro.exe`（4.1.78.34f5b8d9）`open --path <copy> --headless` → sessionId → `invoke --session <id> --code "<js>"` → `session close --destroy` 全链路通。
+- 几何 API **存在且解析成功**（方法名正确、小写 `eda.pcb_*`）：`pcb_PrimitiveLine.getAll` / `pcb_PrimitiveArc.getAll` / `pcb_PrimitiveVia.getAll` / `pcb_PrimitiveFill.getAll` / `pcb_PrimitivePoured.getAll`；`dmt_EditorControl.openDocument` + `activateDocument` 的激活流程已从 #75 回执确认。
+- 卡点：几何读必须**先激活 PCB 文档**；但本机可得的 fixture 都没有 PCB 文档——官方 `example-projects/示例工程_*.eprj2`（快速入门/彩色丝印/3D 外壳）实测 `dmt_Pcb.getAllPcbsInfo()` 与 `dmt_Board.getAllBoardsInfo()` 均返回空（**schematic-only，无 Board/PCB**）。
+- 官方 CLI 也**接受 `.epro2`**（A 的 `project export` 格式）——`open --path <x>.epro2 --headless` 成功；但 A 导出的 `.epro2` 在 headless 会话里 PCB 文档树没有 materialize（`getAllPcbsInfo` 仍空），无法承载几何 dump。
+- **结论**：W03 仍 partial，但“能不能 dump 几何”已从“未知”推进为“**API 存在 + 激活流程明确**”，唯一缺的是**一个含 PCB 文档、headless 会话能完整加载的原生 `.eprj2` fixture**（demo 板的原生工程在 EDA 内部 DB，未以散落 `.eprj2` 文件存在）。
+- 补 W03 的最后一步：取一个含 PCB 的 `.eprj2`（从 EasyEDA Pro GUI 把演示板导出为本地 `.eprj2` 文件，或放一个含 PCB 的 `.eprj2` 到工作区）→ 官方 `open --headless` → `openDocument`+`activateDocument` → `pcb_PrimitiveLine/Arc/Via/Fill.getAll` → 写单位/锚点 unit test。
 
 ## 对 S2「0 空档」的净影响
 
@@ -32,5 +35,5 @@
 
 ## 边界 / NOT RUN
 
-- 本轮未重跑官方探针（无一次性工程副本）；判定基于 #75 的已测回执与已实现 workaround。
-- 未做：W03 几何 dump、真实工程端到端、制造导出实跑、硬件实测。
+- 本轮已实跑官方 `open`/`invoke`/`session close` 全链路 + 几何 API 存在性验证；但未完成真实几何 dump（无 PCB 承载 fixture）。
+- 未做：W03 完整几何 dump、真实工程端到端、制造导出实跑、硬件实测。
