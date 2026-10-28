@@ -280,6 +280,12 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    # JSON output may contain Chinese; pipelines must always read UTF-8.
+    for stream in (sys.stdin, sys.stdout):
+        try:
+            stream.reconfigure(encoding="utf-8", newline="\n")  # type: ignore[attr-defined]
+        except (AttributeError, ValueError):
+            pass
     args_list = list(sys.argv[1:] if argv is None else argv)
     if args_list == ["--version"]:
         _print_json({"name": "task_launcher.bound", "version": __version__, "phase": 1})
