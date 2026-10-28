@@ -103,3 +103,14 @@ layout-lint 报告 `minGapMil = 5.98`，低于多数板厂 6 mil 的最小间距
 这来自全板自动布线，属于**制造前必须处理**的一项：人工微调该处走线，或在板厂确认
 5.98 mil 可接受的工艺档位后放行。另外 `outsideOutline` 报告 J1 在板框外（TH 排针逃逸，
 设计使然），其位号丝印同时越界（DFM `silkOffBoard`）。
+
+## 8. DFM 修复尝试与最终基线（2026-10-28 13:16–13:20）
+
+- 备份：`.zhigou/artifacts/eev3-before-dfm-fix.epro2`（49,207 B，导出成功）。
+- 尝试：J1 位号丝印移回板内（成功）；删除 +5V/GND 走线后用 `route-short --route-power
+  --width-power 20` 重布（DRC 仍 0），但引入 `widthMismatches` 4 与 `viaInPad` 1，minGap 仍 5.98。
+- **已回退**：从备份恢复为 `zhigou-dual-button-led-eev3-final`（uuid `f178aba5…`），
+  `pcb drc` = **passed，0 违规**。
+- 最终基线保留原 eev3 状态（DRC 0 + 4 条 DFM WARN）；线宽/过孔/间距修复需人工在 GUI 完成
+  （自动重布会在焊盘上放孔并把线宽混接）。
+- 证据：`evidence/eev3/final-baseline.json`、`dfm-fix-attempt.json`。

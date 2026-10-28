@@ -216,3 +216,23 @@ distribution\Install-Zhigou.ps1 rollback
 - BOM：`evidence/gates/BOM-v3.csv`（6 行含 C 号/型号/厂家，可下单）。
 - 注意：全板重布替换了原手工布线，制造前仍需人工看布局/走线观感；原工程与 eev2 副本已损坏，
   以 eev3 为当前候选。
+
+## 2026-10-28 13:18 DFM 修复尝试与回退
+
+- 备份：`.zhigou/artifacts/eev3-before-dfm-fix.epro2`（49,207 B，导出成功）。
+- 修复尝试：J1 位号丝印移回板内（成功）；删除 10 条 +5V/GND 走线后用 `route-short --route-power
+  --width-power 20` 重布（DRC 仍 0），但引入 `widthMismatches` 4（R1/R2/SW1/SW2 进出线宽 10/20
+  不一致）与 `viaInPad` 1（SW1.2 的 GND 过孔落在焊盘上）；minGap 仍 5.98、crossing 仍 1。
+- 结论：**自动修复线宽/过孔不可靠**，已从备份恢复为 `zhigou-dual-button-led-eev3-final`。
+  保留原 eev3 基线（DRC 0 + 4 条 DFM WARN）；DFM 的线宽/过孔/5.98 间距留给人工在 GUI 里处理。
+- 制造文件（Gerber+钻孔/CPL）已从原 eev3 导出，与保留基线一致。
+
+## 2026-10-28 13:20 最终基线：`zhigou-dual-button-led-eev3-final`
+
+- DFM 修复尝试：丝印移动成功；但线宽加宽（+5V/GND 20 mil）引入 `widthMismatches` 4 与
+  `viaInPad` 1，minGap 仍 5.98 → **已回退**，从 `eev3-before-dfm-fix.epro2`（49,207 B 备份）恢复为
+  `zhigou-dual-button-led-eev3-final`（uuid `f178aba5…`）。
+- 基线状态：PCB DRC **0 违规**；BOM 6 行可下单；制造文件（Gerber+钻孔/CPL）已导出。
+- 遗留（投产前需人工/GUI）：minGap 5.98→≥6、J1 丝印移入、+5V/GND 线宽策略（勿 10/20 混接）、
+  可选 +5V 铺铜、人工走线复核、实物测试 V2–V11。
+- 证据：`evidence/eev3/final-baseline.json`、`dfm-fix-attempt.json`、`eev3-acceptance.md`。
