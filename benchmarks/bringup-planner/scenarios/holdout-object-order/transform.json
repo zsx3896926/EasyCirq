@@ -1,0 +1,4 @@
+{
+  "schema": "bringup-bench-transform/v1",
+  "kind": "reorder_objects"
+}

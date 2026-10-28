@@ -1,0 +1,245 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "bench-board",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "dependencies",
+   "layout_region",
+   "mechanical_anchor"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "bench-board",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "artifact",
+   "dependencies",
+   "layout_region",
+   "mechanical_anchor"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "region:main",
+   "kind": "layout_region",
+   "attributes": {
+    "bbox": [
+     0,
+     0,
+     42,
+     25
+    ],
+    "board": {
+     "outline": [
+      [
+       0,
+       0
+      ],
+      [
+       42,
+       0
+      ],
+      [
+       42,
+       25
+      ],
+      [
+       0,
+       25
+      ]
+     ]
+    }
+   },
+   "baseline_attributes": {
+    "board": {
+     "outline": [
+      [
+       0,
+       0
+      ],
+      [
+       40,
+       0
+      ],
+      [
+       40,
+       25
+      ],
+      [
+       0,
+       25
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "id": "anchor:case",
+   "kind": "mechanical_anchor",
+   "attributes": {
+    "pose": {
+     "x": 0,
+     "y": 0
+    }
+   }
+  },
+  {
+   "id": "art:gerber",
+   "kind": "artifact",
+   "attributes": {
+    "kind": "gerber",
+    "revision": "r2"
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "region:main",
+   "to": "anchor:case",
+   "semantic": "mechanical_constraint",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:2",
+   "from": "region:main",
+   "to": "art:gerber",
+   "semantic": "artifact_source",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "region:main",
+   "attribute": "board.outline",
+   "before": [
+    [
+     0,
+     0
+    ],
+    [
+     40,
+     0
+    ],
+    [
+     40,
+     25
+    ],
+    [
+     0,
+     25
+    ]
+   ],
+   "after": [
+    [
+     0,
+     0
+    ],
+    [
+     42,
+     0
+    ],
+    [
+     42,
+     25
+    ],
+    [
+     0,
+     25
+    ]
+   ],
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:outline",
+   "title": "outline",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "art:gerber",
+     "impact": "manufacturing_output"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:case_clearance",
+   "title": "case clearance",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "anchor:case",
+     "impact": "mechanical_fit"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

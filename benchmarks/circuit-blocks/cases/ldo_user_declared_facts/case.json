@@ -1,0 +1,129 @@
+{
+  "id": "ldo_user_declared_facts",
+  "description": "Caller-declared 1.8 V LDO facts: Tj = 40 + ((5.5-1.764)*0.1 + 5.5*1e-4)*200 = 114.83 C <= 125 C. Facts stay verified=false and the enable/reverse-current facts remain unknown instead of being assumed.",
+  "command": "generate",
+  "module_type": "ldo_supply",
+  "input": {
+    "input_voltage": {
+      "min": 3.0,
+      "max": 5.5
+    },
+    "output_voltage": "1.8V",
+    "load_current": {
+      "min": "1mA",
+      "max": "100mA"
+    },
+    "ambient_temperature": {
+      "min": -40,
+      "max": 40
+    },
+    "device_facts": {
+      "vin_min_v": {
+        "value": {
+          "value": 3.0,
+          "unit": "V"
+        },
+        "condition": "declared operating range"
+      },
+      "vin_max_v": {
+        "value": {
+          "value": 5.5,
+          "unit": "V"
+        },
+        "condition": "declared operating range"
+      },
+      "vout_nom_v": {
+        "value": {
+          "value": 1.8,
+          "unit": "V"
+        },
+        "condition": "fixed variant"
+      },
+      "vout_tol_pct": {
+        "value": {
+          "value": 2,
+          "unit": "%"
+        },
+        "condition": "declared accuracy"
+      },
+      "iout_max_a": {
+        "value": {
+          "value": 0.1,
+          "unit": "A"
+        },
+        "condition": "declared"
+      },
+      "iq_a": {
+        "value": {
+          "value": 0.0001,
+          "unit": "A"
+        },
+        "condition": "declared"
+      },
+      "dropout_v": {
+        "value": {
+          "value": 0.3,
+          "unit": "V"
+        },
+        "condition": "at 100 mA",
+        "load_a": {
+          "value": 0.1,
+          "unit": "A"
+        }
+      },
+      "cin_min_f": {
+        "value": {
+          "value": 1e-06,
+          "unit": "F"
+        },
+        "condition": "ceramic >= 1 uF"
+      },
+      "cout_min_f": {
+        "value": {
+          "value": 1e-06,
+          "unit": "F"
+        },
+        "condition": "ceramic >= 1 uF"
+      },
+      "min_load_a": {
+        "value": {
+          "value": 0,
+          "unit": "A"
+        },
+        "condition": "no minimum load"
+      },
+      "tj_max_c": {
+        "value": {
+          "value": 125,
+          "unit": "degC"
+        },
+        "condition": "recommended max"
+      },
+      "theta_ja_c_per_w": {
+        "value": 200,
+        "condition": "JEDEC 2s2p board"
+      }
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "binding": {
+      "device_fact_verification": "partial"
+    },
+    "components": [
+      {
+        "ref": "C1",
+        "value": 1e-06
+      },
+      {
+        "ref": "C2",
+        "value": 1e-06
+      }
+    ],
+    "calculations": {
+      ".thermal_estimate.result.tj_est_c": 114.83
+    }
+  },
+  "input_sha256": "658c6b51b3a16d98ad4ee1e973ac6c92eb6bc7aa3fdabc4b51214b415fe87e8f"
+}

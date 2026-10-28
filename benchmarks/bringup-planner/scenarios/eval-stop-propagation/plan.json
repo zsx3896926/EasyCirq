@@ -1,0 +1,503 @@
+{
+  "schema": "bringup-plan/v1",
+  "generator": "bringup_planner",
+  "tool_version": "1.0.0",
+  "generated_at": "2026-10-20T09:00:00Z",
+  "input": {
+    "path": null,
+    "sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4",
+    "semantic_sha256": "5686a2a59819879f112c179b70b94305dc6e9598c8759b9a2ffad71b775692f9",
+    "completeness": {
+      "checks": [
+        {
+          "code": "power_domains_declared",
+          "ok": true,
+          "detail": "2 declared"
+        },
+        {
+          "code": "domain.VDD_3V3.nominal",
+          "ok": true,
+          "detail": "nominal voltage declared"
+        },
+        {
+          "code": "domain.VDD_3V3.startup_current",
+          "ok": true,
+          "detail": "startup current known"
+        },
+        {
+          "code": "domain.VDD_3V3.runtime_current",
+          "ok": true,
+          "detail": "runtime current known"
+        },
+        {
+          "code": "domain.VIN_5V.nominal",
+          "ok": true,
+          "detail": "nominal voltage declared"
+        },
+        {
+          "code": "domain.VIN_5V.startup_current",
+          "ok": true,
+          "detail": "startup current known"
+        },
+        {
+          "code": "domain.VIN_5V.runtime_current",
+          "ok": true,
+          "detail": "runtime current known"
+        },
+        {
+          "code": "testpoints_declared",
+          "ok": true,
+          "detail": "3 declared"
+        },
+        {
+          "code": "testpoint.VDD_3V3",
+          "ok": true,
+          "detail": "rail '+3V3' has a declared testpoint"
+        },
+        {
+          "code": "testpoint.VIN_5V",
+          "ok": true,
+          "detail": "rail '+5V' has a declared testpoint"
+        },
+        {
+          "code": "equipment.supply",
+          "ok": true,
+          "detail": "current-limited supply declared"
+        },
+        {
+          "code": "equipment.multimeter",
+          "ok": true,
+          "detail": "multimeter declared"
+        },
+        {
+          "code": "equipment.oscilloscope",
+          "ok": true,
+          "detail": "oscilloscope declared"
+        },
+        {
+          "code": "operating_conditions.current_limit_policy",
+          "ok": true,
+          "detail": "current-limit value has a declared basis"
+        },
+        {
+          "code": "operating_conditions.observation_window",
+          "ok": true,
+          "detail": "observation window has a declared basis"
+        },
+        {
+          "code": "device_facts",
+          "ok": true,
+          "detail": "1 primary-source fact entries"
+        },
+        {
+          "code": "user_policy",
+          "ok": true,
+          "detail": "plan-only policy declared"
+        }
+      ],
+      "known": 17,
+      "total": 17,
+      "ratio": 1.0,
+      "missing": []
+    },
+    "declared_completeness": null
+  },
+  "design": {
+    "project": "bench-eval-base",
+    "revision": "rev-2026-10-27-A",
+    "source_snapshot_hash": "7a7b5fd8a97d538b18e32929bb4021f4c125c3db25c76403970b3ee24652b744",
+    "bom_version": "bom-2026-10-27-1",
+    "assembly_version": "asm-2026-10-27-1"
+  },
+  "scope": {
+    "status": "supported",
+    "supply_class": "dc_low_voltage",
+    "energize_allowed": true,
+    "reasons": [],
+    "required_operations": [
+      "analog_measurement",
+      "deenergized_continuity",
+      "digital_interface",
+      "low_side_load",
+      "powered_dc_measurement",
+      "visual_inspection"
+    ],
+    "declared_operations": [
+      "analog_measurement",
+      "deenergized_continuity",
+      "digital_interface",
+      "low_side_load",
+      "powered_dc_measurement",
+      "visual_inspection"
+    ],
+    "authorized_operations": [
+      "analog_measurement",
+      "deenergized_continuity",
+      "digital_interface",
+      "low_side_load",
+      "powered_dc_measurement",
+      "visual_inspection"
+    ],
+    "voltage_envelope": {
+      "max_operating_v": 5.5,
+      "max_absolute_v": 6.0,
+      "supported_max_operating_v": 30.0,
+      "supported_max_absolute_v": 60.0
+    },
+    "excluded": []
+  },
+  "power_domains": [
+    {
+      "id": "VDD_3V3",
+      "net": "+3V3",
+      "ground_net": "GND",
+      "nominal_v": 3.3,
+      "operating_min_v": 3.14,
+      "operating_max_v": 3.46,
+      "absolute_max_v": 4.0,
+      "source": "U2 AMS1117-3.3",
+      "depends_on": [
+        {
+          "domain": "VIN_5V",
+          "reason": "LDO input"
+        }
+      ],
+      "startup_current": {
+        "value": 0.05,
+        "basis": "project_requirement",
+        "unit": "A",
+        "fact_id": null,
+        "source_ref": "EV-01",
+        "notes": null
+      },
+      "static_current": {
+        "value": 0.04,
+        "basis": "project_requirement",
+        "unit": "A",
+        "fact_id": null,
+        "source_ref": "EV-01",
+        "notes": null
+      },
+      "runtime_current": {
+        "value": 0.04,
+        "basis": "project_requirement",
+        "unit": "A",
+        "fact_id": null,
+        "source_ref": "EV-01",
+        "notes": null
+      },
+      "load": "MCU module + SHT40 sensor",
+      "protection": {
+        "reverse_blocking": "none",
+        "current_limit_a": null,
+        "notes": null
+      },
+      "removable_load": false,
+      "notes": null
+    },
+    {
+      "id": "VIN_5V",
+      "net": "+5V",
+      "ground_net": "GND",
+      "nominal_v": 5.0,
+      "operating_min_v": 4.5,
+      "operating_max_v": 5.5,
+      "absolute_max_v": 6.0,
+      "source": "J1 USB VBUS",
+      "depends_on": [],
+      "startup_current": {
+        "value": 0.15,
+        "basis": "project_requirement",
+        "unit": "A",
+        "fact_id": null,
+        "source_ref": "EV-01",
+        "notes": null
+      },
+      "static_current": {
+        "value": 0.12,
+        "basis": "project_requirement",
+        "unit": "A",
+        "fact_id": null,
+        "source_ref": "EV-01",
+        "notes": null
+      },
+      "runtime_current": {
+        "value": 0.12,
+        "basis": "project_requirement",
+        "unit": "A",
+        "fact_id": null,
+        "source_ref": "EV-01",
+        "notes": null
+      },
+      "load": "LDO + MCU module",
+      "protection": {
+        "reverse_blocking": "none",
+        "current_limit_a": null,
+        "notes": null
+      },
+      "removable_load": false,
+      "notes": null
+    }
+  ],
+  "dag": {
+    "domains": {
+      "nodes": [],
+      "edges": [],
+      "order": [],
+      "cycles": [],
+      "missing_dependencies": [],
+      "self_dependencies": [],
+      "acyclic": true
+    },
+    "steps": {
+      "order": [
+        "I1-VIS-001",
+        "I2-SEQ-VIN_5V",
+        "I3-V-VIN_5V",
+        "I4-J1_USB-01"
+      ],
+      "edges": [],
+      "cycles": [],
+      "missing_prerequisites": [],
+      "acyclic": true
+    }
+  },
+  "supply_conflicts": [],
+  "steps": [
+    {
+      "step_id": "I1-VIS-001",
+      "group": "I1",
+      "title": "Visual inspection",
+      "purpose": "offline evaluator fixture step",
+      "status": "ready",
+      "blocked_reason": null,
+      "missing_information": [],
+      "required": true,
+      "execution": "manual_only",
+      "auto_execute": false,
+      "prerequisites": [],
+      "equipment": [],
+      "wiring": {},
+      "procedure": [
+        "manual instruction: Visual inspection"
+      ],
+      "measurement": null,
+      "expected_behavior": "declared fixture behaviour; no hardware was used",
+      "stop_conditions": [],
+      "failure_branches": [],
+      "required_evidence": [
+        {
+          "kind": "visual_check",
+          "description": "offline fixture evidence for I1-VIS-001 (visual_check)",
+          "verifiable": true,
+          "synthetic_forbidden": true
+        }
+      ],
+      "source_refs": [
+        "EV-01"
+      ],
+      "safety": "manual operation by a competent person; the planner never executes this step",
+      "notes": null,
+      "sequence": 1
+    },
+    {
+      "step_id": "I2-SEQ-VIN_5V",
+      "group": "I2",
+      "title": "First energise +5V with current limit",
+      "purpose": "offline evaluator fixture step",
+      "status": "ready",
+      "blocked_reason": null,
+      "missing_information": [],
+      "required": true,
+      "execution": "manual_only",
+      "auto_execute": false,
+      "prerequisites": [
+        {
+          "kind": "step",
+          "step_id": "I1-VIS-001",
+          "reason": "declared chain in the frozen fixture"
+        }
+      ],
+      "equipment": [
+        {
+          "equipment_id": "DMM1",
+          "capability": "dc_voltage",
+          "settings": {
+            "mode": "dc",
+            "range": "auto"
+          },
+          "verified": true,
+          "detail": null
+        }
+      ],
+      "wiring": {},
+      "procedure": [
+        "manual instruction: First energise +5V with current limit"
+      ],
+      "measurement": {
+        "quantity": "voltage",
+        "range": {
+          "min": 4.75,
+          "max": 5.25,
+          "unit": "V"
+        },
+        "criterion_status": "defined",
+        "basis": "declared design intent (offline fixture)"
+      },
+      "expected_behavior": "declared fixture behaviour; no hardware was used",
+      "stop_conditions": [],
+      "failure_branches": [],
+      "required_evidence": [
+        {
+          "kind": "meter_reading",
+          "description": "offline fixture evidence for I2-SEQ-VIN_5V (meter_reading)",
+          "verifiable": true,
+          "synthetic_forbidden": true
+        }
+      ],
+      "source_refs": [
+        "EV-01"
+      ],
+      "safety": "manual operation by a competent person; the planner never executes this step",
+      "notes": null,
+      "sequence": 2
+    },
+    {
+      "step_id": "I3-V-VIN_5V",
+      "group": "I3",
+      "title": "Verify +5V rail after first energise",
+      "purpose": "offline evaluator fixture step",
+      "status": "ready",
+      "blocked_reason": null,
+      "missing_information": [],
+      "required": true,
+      "execution": "manual_only",
+      "auto_execute": false,
+      "prerequisites": [
+        {
+          "kind": "step",
+          "step_id": "I2-SEQ-VIN_5V",
+          "reason": "declared chain in the frozen fixture"
+        }
+      ],
+      "equipment": [
+        {
+          "equipment_id": "DMM1",
+          "capability": "dc_voltage",
+          "settings": {
+            "mode": "dc",
+            "range": "auto"
+          },
+          "verified": true,
+          "detail": null
+        }
+      ],
+      "wiring": {},
+      "procedure": [
+        "manual instruction: Verify +5V rail after first energise"
+      ],
+      "measurement": {
+        "quantity": "voltage",
+        "range": {
+          "min": 4.75,
+          "max": 5.25,
+          "unit": "V"
+        },
+        "criterion_status": "defined",
+        "basis": "declared design intent (offline fixture)"
+      },
+      "expected_behavior": "declared fixture behaviour; no hardware was used",
+      "stop_conditions": [],
+      "failure_branches": [],
+      "required_evidence": [
+        {
+          "kind": "meter_reading",
+          "description": "offline fixture evidence for I3-V-VIN_5V (meter_reading)",
+          "verifiable": true,
+          "synthetic_forbidden": true
+        }
+      ],
+      "source_refs": [
+        "EV-01"
+      ],
+      "safety": "manual operation by a competent person; the planner never executes this step",
+      "notes": null,
+      "sequence": 3
+    },
+    {
+      "step_id": "I4-J1_USB-01",
+      "group": "I4",
+      "title": "USB connector mechanical continuity check",
+      "purpose": "offline evaluator fixture step",
+      "status": "ready",
+      "blocked_reason": null,
+      "missing_information": [],
+      "required": true,
+      "execution": "manual_only",
+      "auto_execute": false,
+      "prerequisites": [
+        {
+          "kind": "step",
+          "step_id": "I1-VIS-001",
+          "reason": "declared chain in the frozen fixture"
+        }
+      ],
+      "equipment": [],
+      "wiring": {},
+      "procedure": [
+        "manual instruction: USB connector mechanical continuity check"
+      ],
+      "measurement": null,
+      "expected_behavior": "declared fixture behaviour; no hardware was used",
+      "stop_conditions": [],
+      "failure_branches": [],
+      "required_evidence": [
+        {
+          "kind": "visual_check",
+          "description": "offline fixture evidence for I4-J1_USB-01 (visual_check)",
+          "verifiable": true,
+          "synthetic_forbidden": true
+        }
+      ],
+      "source_refs": [
+        "EV-01"
+      ],
+      "safety": "manual operation by a competent person; the planner never executes this step",
+      "notes": null,
+      "sequence": 4
+    }
+  ],
+  "fault_trees": [],
+  "gaps": [],
+  "unknowns": [],
+  "equipment_gaps": [],
+  "summary": {
+    "steps_total": 4,
+    "steps_ready": 4,
+    "steps_blocked": 0,
+    "steps_unsupported": 0,
+    "steps_advisory": 0,
+    "required_steps": 4,
+    "by_status": {
+      "ready": 4
+    },
+    "by_group": {},
+    "gaps": 0,
+    "blocking_gaps": 0,
+    "unknowns": 0,
+    "equipment_gaps": 0,
+    "fault_trees": 0,
+    "scope_status": "supported",
+    "energize_allowed": true
+  },
+  "hashes": {
+    "plan_sha256": "90d510fc85110787c832dc277115d84b1b0fc3389cee7cf787cf8a8c9ecfbd3e",
+    "output_sha256": null
+  },
+  "notes": {
+    "execution": "manual_only",
+    "not_proven": [
+      "frozen evaluator fixture; no board, no instrument, no firmware"
+    ]
+  }
+}

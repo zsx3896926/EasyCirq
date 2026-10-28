@@ -1,0 +1,17 @@
+{
+  "name": "41-invalid-bool-width",
+  "purpose": "Boolean where a width is required",
+  "tags": [
+    "input",
+    "invalid"
+  ],
+  "expected": {
+    "overall_status": "input_invalid",
+    "must_include_rules": [],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": null,
+    "checked_length_max": null
+  },
+  "reasoning": "width=true is a boolean, not a number; Python truthiness must not be accepted."
+}

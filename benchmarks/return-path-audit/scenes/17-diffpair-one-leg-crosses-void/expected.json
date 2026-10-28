@@ -1,0 +1,21 @@
+{
+  "name": "17-diffpair-one-leg-crosses-void",
+  "purpose": "One differential leg crosses a plane void, the other does not",
+  "tags": [
+    "e4",
+    "diffpair",
+    "fail"
+  ],
+  "expected": {
+    "overall_status": "fail",
+    "must_include_rules": [
+      "RP-E2-202",
+      "RP-E4-402"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 120,
+    "checked_length_max": 120
+  },
+  "reasoning": "DP_P at y=40 crosses a hole spanning y=38..42 in the GND plane; DP_N at y=44 stays on solid copper. The pair's return environments differ, which the reference asymmetry check reports independently of any length/skew report."
+}

@@ -1,0 +1,5 @@
+.gitattributes text eol=lf
+# Frozen fixture bytes and upstream real-sample copies must not be EOL-normalised:
+# their sha256 and the recorded content digests depend on exact bytes.
+fixtures/** -text
+real-sample/** -text

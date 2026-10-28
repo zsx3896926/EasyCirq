@@ -1,0 +1,108 @@
+{
+  "id": "btn_3v3_with_rc",
+  "description": "3.3 V pull-up button with a 1 ms RC target: 10k * 100n = 1 ms.",
+  "command": "generate",
+  "module_type": "button_input",
+  "input": {
+    "supply_voltage": {
+      "min": 3.135,
+      "max": 3.465
+    },
+    "v_ih": 2.31,
+    "v_il": 0.99,
+    "logic_source": "datasheet",
+    "input_leakage": "1uA",
+    "variant": "pull_up",
+    "active_level": "low",
+    "series": "E24",
+    "value_range": {
+      "min": "4.7k",
+      "max": "47k"
+    },
+    "resistor_tolerance_pct": 1,
+    "contact": {
+      "current_limit_max": "50mA",
+      "contact_resistance": {
+        "min": 0,
+        "max": 0.1
+      },
+      "bounce_ms": 5,
+      "pin_configuration": "two_terminal_abstract"
+    },
+    "rc_filter": {
+      "target_time_constant": {
+        "nominal": "1ms",
+        "tolerance_pct": 20
+      },
+      "capacitor_series": "E12",
+      "capacitor_tolerance_pct": 10
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 10000,
+        "tolerance_pct": 1
+      },
+      {
+        "ref": "C1",
+        "value": 1e-07
+      },
+      {
+        "ref": "SW1",
+        "kind": "switch"
+      }
+    ],
+    "ports": [
+      "VCC",
+      "GND",
+      "SW_A",
+      "SW_B",
+      "OUT"
+    ],
+    "nets": [
+      "VCC",
+      "GND",
+      "BTN_NODE"
+    ],
+    "endpoints": [
+      [
+        "R1",
+        "1",
+        "VCC"
+      ],
+      [
+        "R1",
+        "2",
+        "BTN_NODE"
+      ],
+      [
+        "SW1",
+        "A",
+        "BTN_NODE"
+      ],
+      [
+        "SW1",
+        "B",
+        "GND"
+      ],
+      [
+        "C1",
+        "1",
+        "BTN_NODE"
+      ],
+      [
+        "C1",
+        "2",
+        "GND"
+      ]
+    ],
+    "calculations": {
+      ".rc_time_constant.result.nominal_s": 0.001
+    }
+  },
+  "input_sha256": "3dcea2f91c7ecb2eaca0b38726a73938f004e724851d90af0e1a940f3e4250ce"
+}

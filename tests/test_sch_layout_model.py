@@ -100,6 +100,18 @@ class BuildModel(unittest.TestCase):
         self.assertEqual(quality['modules'][0]['members'], ['R1', 'C1'])
         self.assertEqual(report['counts']['parts'], 2)
 
+    def test_pin_envelope_includes_pins_outside_body(self):
+        # R1's body spans 92.5..107.5 but its pins sit at 90 and 110: a page
+        # packer that reserves the body bbox leaves them no stub/flag room.
+        source, quality, report = self.build()
+        envelope = report['envelopes']['R1']
+        self.assertEqual(envelope['body']['minX'], 92.5)
+        self.assertEqual(envelope['envelope']['minX'], 90)
+        self.assertEqual(envelope['envelope']['maxX'], 110)
+        self.assertEqual(envelope['overhang']['left'], 2.5)
+        self.assertEqual(envelope['overhang']['right'], 2.5)
+        self.assertEqual(envelope['overhang']['top'], 0)
+
     def test_anchor_off_grid_is_normalised_and_blocked(self):
         source, quality, report = self.build(snap=snapshot(anchor_y=202))
         measured = source['components'][0]['measurement']

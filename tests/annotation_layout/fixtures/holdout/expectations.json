@@ -1,0 +1,39 @@
+{
+  "cases": {
+    "holdout-chain": {
+      "acceptable_statuses": [
+        "planned_clear"
+      ],
+      "max_hard_after": 0,
+      "max_moved": 4,
+      "reason": "pairwise chain can be cleared by moving at most four values"
+    },
+    "holdout-rotated-cn": {
+      "acceptable_statuses": [
+        "planned_clear"
+      ],
+      "max_hard_after": 0,
+      "max_moved": 1,
+      "reason": "one rotated text must move out of the wire"
+    },
+    "holdout-title-zone": {
+      "acceptable_statuses": [
+        "planned_clear"
+      ],
+      "max_hard_after": 0,
+      "max_moved": 2,
+      "reason": "two independent texts, at most one move each"
+    },
+    "holdout-unsupported": {
+      "acceptable_statuses": [
+        "blocked",
+        "partial"
+      ],
+      "max_hard_after": 1,
+      "max_moved": 0,
+      "reason": "net-label anchor separation is unsupported; no geometric fix may be claimed"
+    }
+  },
+  "note": "expectations authored from the scenario design, not back-filled from output; bounds are deliberately loose",
+  "schema": "annotation-layout-holdout-expectations/v1"
+}

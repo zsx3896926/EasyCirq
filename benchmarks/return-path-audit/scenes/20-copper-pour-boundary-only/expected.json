@@ -1,0 +1,22 @@
+{
+  "name": "20-copper-pour-boundary-only",
+  "purpose": "Only a pour boundary is supplied, not actual filled copper",
+  "tags": [
+    "e2",
+    "unknown",
+    "coverage"
+  ],
+  "expected": {
+    "overall_status": "incomplete",
+    "must_include_rules": [
+      "RP-E1-106"
+    ],
+    "must_not_include_rules": [
+      "RP-E2-202"
+    ],
+    "require_unknowns": true,
+    "checked_length_min": 0,
+    "checked_length_max": 0
+  },
+  "reasoning": "availability=pour_boundary with is_actual_fill=false: the design boundary is not proof of filled copper, so no millimetre may be counted as checked and continuity stays unknown."
+}

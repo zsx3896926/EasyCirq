@@ -1,0 +1,30 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "eval-missing-evidence",
+  "categories": [
+    "evaluation_missing_evidence",
+    "missing_evidence"
+  ],
+  "derivation": "Every step claims pass with real_measurement and in-range values, but the step required_evidence lists are not satisfied (no evidence entries and no files). Contract: a pass needs the step required evidence; missing evidence remains unknown, never \"normal\" -> the affected steps cannot pass, so verdict=INCOMPLETE (exit 3, hardware_pass=false) and MISSING_EVIDENCE findings are reported. Not PASS, and not FAIL.",
+  "input": {
+    "file": "input.json",
+    "sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "evaluate": {
+      "plan_file": "plan.json",
+      "exit_code": 3,
+      "verdict": "INCOMPLETE",
+      "hardware_pass": false,
+      "required_finding_codes": [
+        "MISSING_EVIDENCE"
+      ]
+    },
+    "not_run_statement": true
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

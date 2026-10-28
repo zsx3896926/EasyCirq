@@ -1,0 +1,41 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "eval-pass-real-evidence",
+  "categories": [
+    "evaluation_pass",
+    "normal_positive"
+  ],
+  "derivation": "Frozen all-ready evaluator fixture: 4 hand-authored steps (visual inspection, disconnect/discharge, first energise +5 V, +3V3 rail measurement) with defined numeric criteria. Every step is recorded pass with source=real_measurement, executed_by/at, the plan required evidence kinds and evidence files that exist under the evidence root with matching SHA-256. Contract: PASS requires all required in-scope steps to pass with verified real evidence -> verdict=PASS, hardware_pass=true, exit 0. The fixture is NOT a hardware run: no instrument was connected.",
+  "input": {
+    "file": "input.json",
+    "sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "evaluate": {
+      "plan_file": "plan.json",
+      "exit_code": 0,
+      "verdict": "PASS",
+      "hardware_pass": true,
+      "counts_exact": {
+        "failed": 0,
+        "unknown": 0,
+        "not_run": 0,
+        "blocked": 0,
+        "pass": 4,
+        "required_pass": 4
+      },
+      "step_verdicts": {
+        "I1-VIS-001": "pass",
+        "I1-OFF-DISCHARGE": "pass",
+        "I2-SEQ-VIN_5V": "pass",
+        "I3-V-VDD_3V3": "pass"
+      }
+    },
+    "not_run_statement": true
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

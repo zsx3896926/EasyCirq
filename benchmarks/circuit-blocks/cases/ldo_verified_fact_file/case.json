@@ -1,0 +1,59 @@
+{
+  "id": "ldo_verified_fact_file",
+  "description": "TLV75533P from the bundled verified fact file: 4.5..5.5 V in, 3.3 V out, 10..50 mA, -40..85 C. Headroom = 4.5-3.3495 = 1.1505 V vs 0.215 V dropout; Tj = 85 + P*231.1 with P=(5.5-3.2505)*0.05 + 5.5*25uA.",
+  "command": "generate",
+  "module_type": "ldo_supply",
+  "input": {
+    "input_voltage": {
+      "min": 4.5,
+      "max": 5.5
+    },
+    "output_voltage": "3.3V",
+    "load_current": {
+      "min": "10mA",
+      "max": "50mA"
+    },
+    "ambient_temperature": {
+      "min": -40,
+      "max": 85
+    },
+    "device_fact_id": "ldo_tlv75533p"
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "component_counts": 3,
+    "components": [
+      {
+        "ref": "U1",
+        "role": "ldo_regulator",
+        "binding": "unbound"
+      },
+      {
+        "ref": "C1",
+        "value": 1e-06
+      },
+      {
+        "ref": "C2",
+        "value": 1e-06
+      }
+    ],
+    "ports": [
+      "VIN",
+      "VOUT",
+      "GND",
+      "EN"
+    ],
+    "binding": {
+      "device_fact_verification": "partial",
+      "part_binding": "NOT RUN",
+      "library_binding": "NOT RUN",
+      "host_validation": "NOT RUN"
+    },
+    "calculations": {
+      ".headroom.result.margin_v": 0.9355000000000006,
+      ".thermal_estimate.result.tj_est_c": 111.02474875
+    }
+  },
+  "input_sha256": "0242e48b52faa30417d9adcf69ca9133b888e674c40c904342f330c0162d03be"
+}

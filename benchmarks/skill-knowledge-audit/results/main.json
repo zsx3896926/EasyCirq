@@ -1,0 +1,960 @@
+{
+  "catalog_version": "2026-10-27.1",
+  "limitations": [
+    "baseline_all_markdown is a reference strategy (read every .md), not an observed user behavior",
+    "ok/pass does not mean every plan is budget-complete; see budget_incomplete_total and the scenario's expected.required_unknown",
+    "reading bytes are static file sizes; no model tokenizer was run",
+    "less reading does not imply faster drawing; end-to-end model/EDA speed is NOT RUN",
+    "the holdout set was designed by a separate reviewer who did not read the dev set, but this is not a blind test"
+  ],
+  "load_warnings": [],
+  "metrics": {
+    "budget_incomplete_scenarios": [
+      "dev-14",
+      "holdout-02",
+      "holdout-03",
+      "holdout-04"
+    ],
+    "budget_incomplete_total": 4,
+    "duration_ms": 4016.489,
+    "forbidden_actions_total": 0,
+    "forbidden_selected_total": 0,
+    "missing_approval_gates_total": 0,
+    "missing_critical_total": 0,
+    "plan_ok_false_total": 4,
+    "required_recall": 1.0,
+    "stable_scenarios": 20,
+    "unknown_expected_missing_total": 0,
+    "unrelated_bytes_total": 194520
+  },
+  "not_proof": "本结果只证明静态文档结构与引用关系，不证明 Skill 被客户端加载、模型遵守规则、阅读行为改变或硬件设计正确。",
+  "ok": true,
+  "requirements": {
+    "enforced": true,
+    "min_holdout": 4,
+    "min_scenarios": 18
+  },
+  "results": [
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.223,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "20b9272070112099ce4492415bfaac19bd1026db4c6a086f912d0eb6d90b288b",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 6,
+      "scenario": "dev-01",
+      "selected_bytes": 150724,
+      "selected_vs_baseline_ratio": 0.0214,
+      "split": "dev",
+      "stable": true,
+      "title": "Simple new sensor acquisition schematic with unspecified domain",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/analog-rf-highspeed.md",
+        "references/digital.md",
+        "references/part-selection.md"
+      ],
+      "unrelated_bytes": 12534
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.137,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "a794cde531daa51af6ad631921b0f5f7b21b392344afebede7258b24e0aff7b3",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 7,
+      "scenario": "dev-02",
+      "selected_bytes": 144190,
+      "selected_vs_baseline_ratio": 0.0205,
+      "split": "dev",
+      "stable": true,
+      "title": "Dense MCU schematic with USB-C, LDO, I2C sensor and buzzer",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/power.md"
+      ],
+      "unrelated_bytes": 3380
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 1,
+      "duration_ms": 0.244,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": false,
+        "decisions_required": [],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "d8bbdc40689a5b95d05208c208bdb2a5efe028c236e0ad93650fa45a2bfeb752",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 6,
+      "scenario": "dev-03",
+      "selected_bytes": 162322,
+      "selected_vs_baseline_ratio": 0.023,
+      "split": "dev",
+      "stable": true,
+      "title": "Local text reflow of an existing schematic (readability-only edit)",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/part-selection.md",
+        "references/schematic.md"
+      ],
+      "unrelated_bytes": 12052
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.265,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "96f4aaa28bc16e2761651d432866f5b45ae68605d739161257a7455507ba15e7",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 8,
+      "scenario": "dev-04",
+      "selected_bytes": 183800,
+      "selected_vs_baseline_ratio": 0.0261,
+      "split": "dev",
+      "stable": true,
+      "title": "Constrained PCB component move on an existing board",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/design-experience.md"
+      ],
+      "unrelated_bytes": 10166
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.266,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "96f4aaa28bc16e2761651d432866f5b45ae68605d739161257a7455507ba15e7",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 8,
+      "scenario": "dev-05",
+      "selected_bytes": 183800,
+      "selected_vs_baseline_ratio": 0.0261,
+      "split": "dev",
+      "stable": true,
+      "title": "New 2-layer board layout from an approved schematic",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/design-experience.md"
+      ],
+      "unrelated_bytes": 10166
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.27,
+      "execution_contract": {
+        "actions": [
+          "offline_analysis",
+          "read_skill"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": false,
+        "writes_allowed": false
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "2aa3cad3af72eaa3ef0c7572b1bee4e2682fffc8ba3847bd3b45a978e208e4c2",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 8,
+      "scenario": "dev-06",
+      "selected_bytes": 183174,
+      "selected_vs_baseline_ratio": 0.026,
+      "split": "dev",
+      "stable": true,
+      "title": "Four-layer differential board stackup and routing plan (planning only)",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/design-experience.md",
+        "references/pcb-placement-details.md",
+        "references/pcb.md"
+      ],
+      "unrelated_bytes": 23465
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.127,
+      "execution_contract": {
+        "actions": [
+          "offline_analysis",
+          "read_skill"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": false,
+        "decisions_required": [],
+        "eda_required": false,
+        "writes_allowed": false
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "199215b52c1b35b770cd6ff5d4afeb4af6d3cddcb62317a7935421fd06fe7ecd",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 5,
+      "scenario": "dev-07",
+      "selected_bytes": 74321,
+      "selected_vs_baseline_ratio": 0.0105,
+      "split": "dev",
+      "stable": true,
+      "title": "BOM-only sourcing and structure check with unspecified delivery stage",
+      "unknown_expected_missing": [],
+      "unrelated": [],
+      "unrelated_bytes": 0
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.188,
+      "execution_contract": {
+        "actions": [
+          "offline_analysis",
+          "read_skill"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": false,
+        "decisions_required": [],
+        "eda_required": false,
+        "writes_allowed": false
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "d28da5c7119bdedb18951d5e112d524aa380b67eac5d51626475e559356b3b6b",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 4,
+      "scenario": "dev-08",
+      "selected_bytes": 61307,
+      "selected_vs_baseline_ratio": 0.0087,
+      "split": "dev",
+      "stable": true,
+      "title": "Electrical review only of an existing schematic and PCB",
+      "unknown_expected_missing": [],
+      "unrelated": [],
+      "unrelated_bytes": 0
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.265,
+      "execution_contract": {
+        "actions": [
+          "offline_analysis",
+          "read_skill"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": false,
+        "writes_allowed": false
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "6d5b78dca21ac56f7237dbc5bd6a0a96c74915b3cfbb3cdfbf38fe54e539a6f0",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 8,
+      "scenario": "dev-09",
+      "selected_bytes": 142594,
+      "selected_vs_baseline_ratio": 0.0202,
+      "split": "dev",
+      "stable": true,
+      "title": "Delivery and manufacturing audit only (G0-G6 and JLC package)",
+      "unknown_expected_missing": [],
+      "unrelated": [],
+      "unrelated_bytes": 0
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.198,
+      "execution_contract": {
+        "actions": [
+          "offline_analysis",
+          "read_skill"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": false,
+        "writes_allowed": false
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "5ae2d099b87a6cd5c84774b6bf62525cdc66687594e2ff5d8e4e2cfe27952467",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 6,
+      "scenario": "dev-10",
+      "selected_bytes": 116189,
+      "selected_vs_baseline_ratio": 0.0165,
+      "split": "dev",
+      "stable": true,
+      "title": "Offline development when connector/EDA is unavailable",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/schematic-layout.md"
+      ],
+      "unrelated_bytes": 20689
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.223,
+      "execution_contract": {
+        "actions": [
+          "offline_analysis",
+          "read_skill"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": false,
+        "writes_allowed": false
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "ea567d5c93833d8742a5b9849a1b2903097bbdf914c3a6fddd735e73e3ddf48c",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 7,
+      "scenario": "dev-11",
+      "selected_bytes": 151406,
+      "selected_vs_baseline_ratio": 0.0215,
+      "split": "dev",
+      "stable": true,
+      "title": "User explicitly forbids any EDA connection (offline PCB placement plan)",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/design-experience.md"
+      ],
+      "unrelated_bytes": 10166
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.301,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "2a1028dbb9112741b009dde9079565625da4925f9b50f8897ea730aff2f31ef8",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 8,
+      "scenario": "dev-12",
+      "selected_bytes": 200173,
+      "selected_vs_baseline_ratio": 0.0284,
+      "split": "dev",
+      "stable": true,
+      "title": "Autonomous authorization for a complete board (schematic through manufacturing package)",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/jlc-production.md"
+      ],
+      "unrelated_bytes": 6696
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.362,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "wait_user_approval",
+          "write_eda"
+        ],
+        "approval_gates": [
+          "before_route"
+        ],
+        "autonomous_authorized": false,
+        "decisions_required": [
+          {
+            "detail": "用户要求布线边界确认后再继续",
+            "gate": "before_route"
+          }
+        ],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "b750dfcfa4722a3a84246345e01f9a3771f252a81439e3b01904707af95cc321",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 8,
+      "scenario": "dev-13",
+      "selected_bytes": 230934,
+      "selected_vs_baseline_ratio": 0.0328,
+      "split": "dev",
+      "stable": true,
+      "title": "Review-before-continuing boundary: confirm layout before routing",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/design-experience.md",
+        "references/jlc-pcb-rules.md"
+      ],
+      "unrelated_bytes": 15811
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "incomplete",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.385,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "17ed8cec50ddb827e54fa36f63ad4b29dd6e2661dc62b59c7998b79e43b1f133",
+      "plan_ok": false,
+      "required_recall": 1.0,
+      "required_total": 6,
+      "scenario": "dev-14",
+      "selected_bytes": 140810,
+      "selected_vs_baseline_ratio": 0.02,
+      "split": "dev",
+      "stable": true,
+      "title": "Insufficient reading budget: must not trim required documents",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/digital.md"
+      ],
+      "unrelated_bytes": 2620
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 1,
+      "duration_ms": 0.403,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [
+          "scope_change"
+        ],
+        "autonomous_authorized": true,
+        "decisions_required": [
+          {
+            "detail": "新增范围/接口/尺寸/成本目标，需要用户决策",
+            "gate": "scope_change"
+          }
+        ],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "977cd4dce1cc7eb07e4c1a1c2d9ae6db2c56a2a6adebf598fea81d411a8604fa",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 8,
+      "scenario": "dev-15",
+      "selected_bytes": 241107,
+      "selected_vs_baseline_ratio": 0.0342,
+      "split": "dev",
+      "stable": true,
+      "title": "Mid-task scope expansion from RS485 schematic edit to 4-layer differential routing",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/analog-rf-highspeed.md",
+        "references/design-experience.md",
+        "references/digital.md",
+        "references/jlc-pcb-rules.md"
+      ],
+      "unrelated_bytes": 21649
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.155,
+      "execution_contract": {
+        "actions": [
+          "offline_analysis",
+          "read_skill"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": false,
+        "writes_allowed": false
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "4c3590c52b8799311a00083cea7b19c381385152d39bd9b123515c0f2d634ee1",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 5,
+      "scenario": "holdout-01",
+      "selected_bytes": 81996,
+      "selected_vs_baseline_ratio": 0.0116,
+      "split": "holdout",
+      "stable": true,
+      "title": "禁止 EDA 与联网的原理图文档评审",
+      "unknown_expected_missing": [],
+      "unrelated": [],
+      "unrelated_bytes": 0
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "incomplete",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.385,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [
+          "scope_change",
+          "mechanical_change"
+        ],
+        "autonomous_authorized": true,
+        "decisions_required": [
+          {
+            "detail": "新增范围/接口/尺寸/成本目标，需要用户决策",
+            "gate": "scope_change"
+          },
+          {
+            "detail": "机械尺寸/结构变化，需要用户决策",
+            "gate": "mechanical_change"
+          }
+        ],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "a8910bfd93626da1f3f222ea11b857fea5c890a50b2e0fbc83184205a4f14da9",
+      "plan_ok": false,
+      "required_recall": 1.0,
+      "required_total": 5,
+      "scenario": "holdout-02",
+      "selected_bytes": 233554,
+      "selected_vs_baseline_ratio": 0.0331,
+      "split": "holdout",
+      "stable": true,
+      "title": "自主推进中途的范围扩张：加一路 CAN、缩板框、压成本",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "assets/routing-plan.md",
+        "references/design-experience.md",
+        "references/digital.md",
+        "references/jlc-pcb-rules.md",
+        "references/pcb-placement-details.md",
+        "references/pcb-routing-details.md"
+      ],
+      "unrelated_bytes": 38690
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "incomplete",
+      "cache_hit": 0,
+      "cache_invalidated": 2,
+      "duration_ms": 0.339,
+      "execution_contract": {
+        "actions": [
+          "read_eda",
+          "read_skill",
+          "write_eda"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": true,
+        "writes_allowed": true
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "8b1b9769e233c07bd37e5af238e4e5674041402943d5be3547ba8d7181933c65",
+      "plan_ok": false,
+      "required_recall": 1.0,
+      "required_total": 6,
+      "scenario": "holdout-03",
+      "selected_bytes": 117074,
+      "selected_vs_baseline_ratio": 0.0166,
+      "split": "holdout",
+      "stable": true,
+      "title": "Skill 更新后已读缓存过期：只改一处限流电阻",
+      "unknown_expected_missing": [],
+      "unrelated": [],
+      "unrelated_bytes": 0
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "incomplete",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.114,
+      "execution_contract": {
+        "actions": [
+          "offline_analysis",
+          "read_skill"
+        ],
+        "approval_gates": [],
+        "autonomous_authorized": true,
+        "decisions_required": [],
+        "eda_required": false,
+        "writes_allowed": false
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "012f2f57e61b4c06a2ab06e2ca74af641d550e5f058b5763b692b24a100c0dde",
+      "plan_ok": false,
+      "required_recall": 1.0,
+      "required_total": 5,
+      "scenario": "holdout-04",
+      "selected_bytes": 74321,
+      "selected_vs_baseline_ratio": 0.0105,
+      "split": "holdout",
+      "stable": true,
+      "title": "仅 BOM 配单：现货证据缺失与小预算",
+      "unknown_expected_missing": [],
+      "unrelated": [],
+      "unrelated_bytes": 0
+    },
+    {
+      "baseline_all_markdown_bytes": 7049351,
+      "budget_status": "within",
+      "cache_hit": 0,
+      "cache_invalidated": 0,
+      "duration_ms": 0.219,
+      "execution_contract": {
+        "actions": [
+          "offline_analysis",
+          "read_skill"
+        ],
+        "approval_gates": [
+          "missing_evidence"
+        ],
+        "autonomous_authorized": true,
+        "decisions_required": [
+          {
+            "detail": "关键证据缺失，需用户提供或确认降级范围",
+            "gate": "missing_evidence"
+          }
+        ],
+        "eda_required": false,
+        "writes_allowed": false
+      },
+      "forbidden_actions": [],
+      "forbidden_selected": [],
+      "missing_approval_gates": [],
+      "missing_critical": [],
+      "pass": true,
+      "plan_digest": "457898dbca95e79352a3f4ce30f5ac7fcdf1c8176cad86441fc3b4cd69758ec4",
+      "plan_ok": true,
+      "required_recall": 1.0,
+      "required_total": 6,
+      "scenario": "holdout-05",
+      "selected_bytes": 142594,
+      "selected_vs_baseline_ratio": 0.0202,
+      "split": "holdout",
+      "stable": true,
+      "title": "交付审计：制造文件导出不可用，缺证据即停",
+      "unknown_expected_missing": [],
+      "unrelated": [
+        "references/manufacturing-details.md"
+      ],
+      "unrelated_bytes": 6436
+    }
+  ],
+  "scenario_files": [
+    "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\benchmarks\\skill-knowledge-audit\\scenarios"
+  ],
+  "scenarios": {
+    "dev": 15,
+    "failed": 0,
+    "holdout": 5,
+    "passed": 20,
+    "total": 20
+  },
+  "schema": "ska-benchmark-result/v1",
+  "schema_version": "skill-knowledge-audit/v1",
+  "source": {
+    "duration_ms": 4016.489,
+    "git_sha": "c9836eb29869040aeac245d0d3959021134b7f3e",
+    "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
+    "scanned_at": "2026-10-27T16:40:52+00:00"
+  },
+  "split": "all",
+  "tool": {
+    "name": "skill_knowledge_audit",
+    "version": "0.1.0"
+  },
+  "transforms": {
+    "ok": true,
+    "scenario": "dev-01",
+    "transforms": [
+      {
+        "budget_status": "within",
+        "ok": true,
+        "plan_ok": true,
+        "required_missing": [],
+        "selection_changed": false,
+        "transform": "crlf_same_file",
+        "unknown_codes": [
+          "domain_unspecified"
+        ]
+      },
+      {
+        "budget_status": "within",
+        "ok": true,
+        "plan_ok": true,
+        "required_missing": [],
+        "selection_changed": false,
+        "transform": "background_link_added",
+        "unknown_codes": [
+          "domain_unspecified"
+        ]
+      },
+      {
+        "budget_status": "within",
+        "ok": true,
+        "plan_ok": true,
+        "required_missing": [],
+        "selection_changed": false,
+        "transform": "heading_renamed",
+        "unknown_codes": [
+          "domain_unspecified"
+        ]
+      },
+      {
+        "budget_status": "within",
+        "cache_codes": [
+          "already_read_stale"
+        ],
+        "ok": true,
+        "plan_ok": true,
+        "required_missing": [],
+        "selection_changed": false,
+        "transform": "content_hash_changed",
+        "unknown_codes": [
+          "already_read_stale",
+          "domain_unspecified"
+        ]
+      },
+      {
+        "budget_status": "within",
+        "ok": true,
+        "plan_ok": true,
+        "required_missing": [],
+        "selection_changed": false,
+        "transform": "task_synonym",
+        "unknown_codes": [
+          "domain_unspecified"
+        ]
+      },
+      {
+        "budget_status": "incomplete",
+        "ok": true,
+        "plan_ok": false,
+        "required_chars": 75972,
+        "required_missing": [],
+        "selection_changed": true,
+        "status": "incomplete",
+        "transform": "smaller_budget",
+        "uncovered": 9,
+        "unknown_codes": [
+          "budget_insufficient",
+          "domain_unspecified"
+        ]
+      },
+      {
+        "budget_status": "within",
+        "ok": true,
+        "plan_ok": true,
+        "required_missing": [],
+        "selection_changed": false,
+        "transform": "unrelated_external_edit",
+        "unknown_codes": [
+          "domain_unspecified"
+        ]
+      }
+    ]
+  }
+}

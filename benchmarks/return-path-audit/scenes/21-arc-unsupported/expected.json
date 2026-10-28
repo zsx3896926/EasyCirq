@@ -1,0 +1,20 @@
+{
+  "name": "21-arc-unsupported",
+  "purpose": "Path contains an arc segment this version cannot model",
+  "tags": [
+    "e5",
+    "unsupported",
+    "coverage"
+  ],
+  "expected": {
+    "overall_status": "incomplete",
+    "must_include_rules": [
+      "RP-E5-503"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": true,
+    "checked_length_min": 20,
+    "checked_length_max": 20
+  },
+  "reasoning": "One 20 mm straight segment plus a 5 mm arc: the straight part is checked, the arc is declared unsupported and its length stays unknown. The net is incomplete, not pass."
+}

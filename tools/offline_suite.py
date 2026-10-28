@@ -32,7 +32,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPTS = ROOT / 'design-hardware' / 'scripts'
-sys.path.insert(0, str(SCRIPTS))
+# Keep the scripts tree importable without placing it ahead of the tests
+# directory: discovery imports tests/<name> as a top-level package and some
+# tests also import ``tests.<name>`` helpers.
+sys.path.append(str(SCRIPTS))
+sys.path.append(str(ROOT))
 
 import offline_guard  # noqa: E402
 
@@ -159,7 +163,27 @@ def main(argv=None):
             out.parent.mkdir(parents=True, exist_ok=True)
             out.write_text(json.dumps(inv, ensure_ascii=False, indent=2) + '\n',
                            encoding='utf-8')
+        before_sweep = set(sys.modules)
         sweep = [] if args.no_import_sweep else import_sweep()
+        # The sweep imports implementation packages by their dotted names
+        # (e.g. ``annotation_layout``).  Test packages under ``tests/`` use the
+        # same top-level names, so leaving the sweep imports in ``sys.modules``
+        # makes discovery resolve ``tests/<name>`` to the implementation package
+        # and report every test module as ModuleNotFoundError.  Drop only the
+        # modules the sweep added from the scripts tree; discovery must import
+        # the test packages itself.
+        scripts_root = SCRIPTS.resolve()
+        for module_name in list(set(sys.modules) - before_sweep):
+            module = sys.modules.get(module_name)
+            filename = getattr(module, '__file__', None)
+            if not filename:
+                continue
+            try:
+                under_scripts = Path(filename).resolve().is_relative_to(scripts_root)
+            except (OSError, ValueError):
+                under_scripts = False
+            if under_scripts:
+                del sys.modules[module_name]
         loader = unittest.TestLoader()
         suite = loader.discover('tests', pattern=args.pattern)
         stream = sys.stderr if args.out else sys.stdout

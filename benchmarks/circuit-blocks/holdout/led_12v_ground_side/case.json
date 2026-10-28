@@ -1,0 +1,64 @@
+{
+  "id": "led_12v_ground_side",
+  "description": "Holdout: 12 V low-side switch with the ballast on the cathode side. Same current maths as the supply-side holdout; E12 820 ohm.",
+  "command": "generate",
+  "module_type": "led_indicator",
+  "input": {
+    "supply_voltage": {
+      "min": 11.4,
+      "max": 12.6
+    },
+    "led_vf": {
+      "min": 3.0,
+      "max": 3.4
+    },
+    "target_current": "10mA",
+    "max_current": "15mA",
+    "min_current": "6mA",
+    "led_max_current": "30mA",
+    "series": "E12",
+    "resistor_tolerance_pct": 5,
+    "control": "low_side_switch",
+    "resistor_position": "ground_side",
+    "switch_facts": {
+      "sink_current_max": "20mA",
+      "voltage_drop": {
+        "min": 0,
+        "max": 0.2
+      }
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 820
+      }
+    ],
+    "endpoints": [
+      [
+        "D1",
+        "A",
+        "VCC"
+      ],
+      [
+        "D1",
+        "K",
+        "LED_K"
+      ],
+      [
+        "R1",
+        "1",
+        "LED_K"
+      ],
+      [
+        "R1",
+        "2",
+        "SW_NODE"
+      ]
+    ]
+  },
+  "input_sha256": "a19830b63cc8b1bca037a41e1da6f7bb21bbeb3efabdc71f1dda5881c635a367"
+}

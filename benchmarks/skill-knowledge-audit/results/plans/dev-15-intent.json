@@ -1,0 +1,30 @@
+{
+  "schema": "ska-intent/v1",
+  "task_type": "pcb_route",
+  "stage": "route",
+  "autonomous_authorized": true,
+  "eda_available": true,
+  "deliverables": [
+    "pcb",
+    "routing-report",
+    "stackup-decision"
+  ],
+  "constraints": [
+    "原任务：在现有板加一路 RS485 并做原理图局部修改（已进行，范围仅原理图）",
+    "用户中途追加：整板改四层、差分对做等长、完成布局与布线",
+    "新增范围对接口/成本/层叠的影响未确认，原任务授权不自动覆盖新范围"
+  ],
+  "user_decision_pending": [
+    "scope_change"
+  ],
+  "already_read": [
+    {
+      "path": "design-hardware/references/schematic-authoring.md",
+      "sha256": "7283016368fb7beb7c3e704e640fd6bc08e56dff594b3cf6c7781998ca610309",
+      "rules_version": "2026-09-01.0",
+      "scope": "schematic-phase"
+    }
+  ],
+  "budget_chars": 200000,
+  "notes": "任务扩展改变了 scope hash，旧会话缓存（含旧 rules_version 的已读记录）必须失效；新范围需单独决策确认。"
+}

@@ -1,0 +1,20 @@
+{
+  "name": "18-diffpair-asymmetric-transition",
+  "purpose": "Only one differential leg changes layer",
+  "tags": [
+    "e4",
+    "diffpair",
+    "fail"
+  ],
+  "expected": {
+    "overall_status": "fail",
+    "must_include_rules": [
+      "RP-E4-403"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": null,
+    "checked_length_min": 75,
+    "checked_length_max": 75
+  },
+  "reasoning": "DP_P has L1->L4 with a reference change L2 GND -> L3 GND; DP_N stays on L1 referenced to L2. The legs therefore have different reference-plane sets and different transitions."
+}

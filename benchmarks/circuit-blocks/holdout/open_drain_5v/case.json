@@ -1,0 +1,40 @@
+{
+  "id": "open_drain_5v",
+  "description": "Holdout: 5 V bus, Cb 120 pF, custom 10-90 % rise time 500 ns, VOL 0.4 V at 3 mA, 4 mA budget. R_max = 500ns/(ln9*120pF)/1.01 = 1877.6 ohm; R_min = (5.25/3mA)/0.99 = 1767.7 ohm -> only E24 1800 ohm fits.",
+  "command": "generate",
+  "module_type": "open_drain_pullup",
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "bus_spec": "custom",
+    "bus_capacitance": "120pF",
+    "max_rise_time": "500ns",
+    "rise_time_definition": "10_90",
+    "bus_v_il": 0.9,
+    "bus_v_ih": 2.31,
+    "device": {
+      "vol_max": 0.4,
+      "iol": "3mA"
+    },
+    "static_current_budget": "4mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 1800
+      }
+    ],
+    "calculations": {
+      ".legal_interval.result.r_min_ohm": 1767.6767676767677,
+      ".legal_interval.result.r_max_ohm": 1877.5561605339053
+    }
+  },
+  "input_sha256": "4d21c1e2e3e00b5faadbb7b3a1d83364494e8ef7eec6c67b5acd99eeb2d29f4d"
+}

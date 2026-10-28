@@ -1,0 +1,31 @@
+{
+  "id": "ldo_fixed_variant_mismatch",
+  "description": "Requesting 5 V from a 3.3 V fixed device is a proven mismatch, not a feedback-resistor guess.",
+  "command": "generate",
+  "module_type": "ldo_supply",
+  "input": {
+    "input_voltage": {
+      "min": 4.5,
+      "max": 5.5
+    },
+    "output_voltage": "5V",
+    "load_current": {
+      "min": "10mA",
+      "max": "50mA"
+    },
+    "ambient_temperature": {
+      "min": -40,
+      "max": 85
+    },
+    "device_fact_id": "ldo_tlv75533p"
+  },
+  "allow_nonready": false,
+  "expect": {
+    "exit_code": 4,
+    "status": "unsupported",
+    "status_reasons_contains": [
+      "fixed-variant mismatch"
+    ]
+  },
+  "input_sha256": "a201e53d0f01343882df4057cc879edc0b33ac4e446bace020aaa65a7c5f6b89"
+}

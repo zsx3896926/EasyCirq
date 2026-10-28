@@ -1,0 +1,134 @@
+{
+  "schema": "zhigou.electrical-review.input/v1",
+  "design": {
+    "project_id": "r5-ams-ok",
+    "document_id": "P1",
+    "units": {
+      "length": "mil",
+      "voltage": "V",
+      "capacitance": "uF"
+    },
+    "source_type": "synthetic_fixture",
+    "title": "electrical-review benchmark fixture"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "synthetic_fixture",
+      "source": "task-B synthetic fixture"
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "iU2",
+      "ref": "U2",
+      "kind": "ic",
+      "pins": [
+        {
+          "number": "1",
+          "net": "GND",
+          "pads": [
+            "1"
+          ]
+        },
+        {
+          "number": "2",
+          "net": "+3V3",
+          "pads": [
+            "2",
+            "TAB"
+          ]
+        },
+        {
+          "number": "3",
+          "net": "VIN",
+          "pads": [
+            "3"
+          ]
+        }
+      ],
+      "mpn": "AMS1117-3.3",
+      "footprint": {
+        "name": "SOT-223",
+        "evidence": [
+          "E1"
+        ]
+      },
+      "mapping_complete": true
+    }
+  ],
+  "connectivity": {
+    "pin_nets": {}
+  },
+  "device_facts": [
+    {
+      "fact_id": "F-AMS1117-PADS",
+      "mpn": "AMS1117-3.3",
+      "manufacturer": "Advanced Monolithic Systems",
+      "package": "SOT-223",
+      "revision": "AMS1117 datasheet (undated revision on vendor page)",
+      "source": {
+        "kind": "datasheet",
+        "url": "http://www.advanced-monolithic.com/pdf/ds1117.pdf",
+        "revision": "AMS1117 datasheet as retrieved 2026-10-27",
+        "retrieved_at": "2026-10-27",
+        "pages": "1",
+        "table": "PIN CONNECTIONS / SOT-223 Top View (TAB IS OUTPUT)",
+        "sha256": "189a2651878a87d590b768eaa9b44217a3fdf460352ce6ecaff127221282a3f0"
+      },
+      "applies_to": {
+        "mpn": [
+          "AMS1117-3.3"
+        ],
+        "packages": [
+          "SOT-223"
+        ],
+        "revisions": []
+      },
+      "facts": [
+        {
+          "type": "pad_map",
+          "value": {
+            "package": "SOT-223",
+            "pins": [
+              {
+                "pin": "1",
+                "name": "GND/ADJ",
+                "pads": [
+                  "1"
+                ],
+                "required_net_role": "ground"
+              },
+              {
+                "pin": "2",
+                "name": "VOUT",
+                "pads": [
+                  "2",
+                  "TAB"
+                ],
+                "note": "TAB IS OUTPUT: the tab is electrically VOUT"
+              },
+              {
+                "pin": "3",
+                "name": "VIN",
+                "pads": [
+                  "3"
+                ]
+              }
+            ],
+            "notes": [
+              "TAB IS OUTPUT (SOT-223 pin 2)"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "intent": {
+    "net_roles": {
+      "GND": "ground",
+      "+3V3": "power",
+      "VIN": "power"
+    }
+  }
+}

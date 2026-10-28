@@ -1,0 +1,62 @@
+{
+  "args": [],
+  "command": "audit",
+  "content_digest": "4bada170a0db3eaf403d9531342427458784ba257b5cecca758b7458a7e848c4",
+  "declarations": "declarations.json",
+  "expect": {
+    "exit": 0,
+    "no_fail": true,
+    "status": "pass_with_scope"
+  },
+  "files": [
+    {
+      "path": "bom.csv",
+      "sha256": "c9797a993ef92f50d1da95f7d18c8b15170f1aec8674b334e4ef097e0698aee4",
+      "size": 330
+    },
+    {
+      "path": "cpl.csv",
+      "sha256": "027feb7b5e5606c36e2c1fdd875d5ea7a2d69f16543f4f499826a332e1125058",
+      "size": 161
+    },
+    {
+      "path": "gerber/copper_bottom.gbr",
+      "sha256": "c97bab022f42613826d74d19a87689c6e3c0d21f95f13d24610212444078f5c3",
+      "size": 363
+    },
+    {
+      "path": "gerber/copper_top.gbr",
+      "sha256": "feb9ff83048c274f72081458e6d6954aee8752b4edde79ff6e053942fcf42b1b",
+      "size": 363
+    },
+    {
+      "path": "gerber/drill.drl",
+      "sha256": "4dd07ef0f7e604dc32c1d813ed0735199f23d801913362a9dff0911b12030e4e",
+      "size": 182
+    },
+    {
+      "path": "gerber/profile.gbr",
+      "sha256": "21426978fb49d4520d010f7f9c4171f101393296e8c100a765805e2de86ca071",
+      "size": 159
+    },
+    {
+      "path": "gerber/soldermask_bottom.gbr",
+      "sha256": "6b198549bc99dbb6ab4f446de4c8a5f7817fe0d0b70d44e0cce7200f69099060",
+      "size": 255
+    },
+    {
+      "path": "gerber/soldermask_top.gbr",
+      "sha256": "79ecfff53d97a1a36a5381142f3e32777884d55040929ec7ec70d6f569164199",
+      "size": 255
+    }
+  ],
+  "id": "17-coordinate-reference-positive",
+  "input": "input",
+  "input_kind": "files",
+  "notes": null,
+  "profile": "smt-assembly",
+  "reference": "reference.json",
+  "simulated": true,
+  "title": "Independent coordinate reference matches",
+  "touch": null
+}

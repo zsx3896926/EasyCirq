@@ -102,9 +102,11 @@ python design-hardware/scripts/sch_layout_model.py \
 |---|---|
 | `layout-source.json` | `sch layout-plan --zones` 的输入；器件用连接 IR 的 `cmp-*` 稳定 ID |
 | `quality-input.json` | 质量检查输入（页面矩形、位号 bbox、导线、模块） |
-| `model-report.json` | 覆盖、阻塞、警告、输入哈希、纸张来源 |
+| `model-report.json` | 覆盖、阻塞、警告、输入哈希、纸张来源、逐件引脚包络 `envelopes` |
 
 `status=ready` 才继续。`blocked` 时逐条处理，不能把 blocker 当 warning。
+
+`envelopes` 按位号给出 `body`（本体 bbox）、`envelope`（本体与全部引脚端点的并集）和四边 `overhang`。**打包与排页按 `envelope` 留行高和页顶余量**：连接器、排针、晶振的壳脚/固定脚常伸出本体 10–35 raw，按本体算会让这些脚没有合法的出线方向（机理与修法见第 12 节）。`layout-source.json` 仍只放官方 planner 认识的字段，不夹带这一项。
 
 本脚本强制检查：
 
@@ -329,6 +331,8 @@ zhigou sch export-image --project <project> --page <page> --format png --out aft
 
 - **并发写入**：多个会话可同时驱动同一个 EDA 窗口。审计日志出现非本会话的 `group-move/prim-delete/connect` 时，现场已不可信；停写、协调、换独占副本。
 - **写锁**：`sch modify` 失败后连接器可能进入“write/document transition is being verified”，后续读也超时。等待或 `web reload --project <uuid> --doc <uuid>` 恢复；恢复后重新读现场，不复用旧队列。
+- **shelf 行高必须按引脚包络，不能按 bbox**：`layout-sheet-plan --flow z` 与自建打包器只看到器件 bbox，但连接器/排针/晶振的壳脚、固定脚常伸出本体 10–35 raw。行首件的上侧、行内件的下侧因此没有 stub + 标记的空间，`sch autoconnect` 会对这些脚**每个方向**都硬拒（`label leaves the usable sheet area` / `stub crosses a non-target pin`，cost 1e9），表现为“这一页怎么都连不上”，而逐脚看代码却毫无问题。按器件算 `(over_top, over_bot) = 库引脚坐标 − 本体 bbox`，行高 = `over_top + h + over_bot + stub/标记余量 + 行距`，首行另在页顶留同等余量。实测 A4 横向（0..1170 × 0..825 raw，y 向上）可用页顶约 805 raw，端点落在 805 已被判越界；图签 keep-out 在 (468,0)–(1170,198)。
+- **行高正确后仍会剩少量人工微调**：相邻连接器的壳脚标记会在行内互相压住，纯 bbox 打包看不出来；本案例需要 3 条 `(page, designator) → (dx, dy)` 的显式偏移。把这类例外写成带原因注释的表，每次重排后重算 bbox 并检查是否被推出内容区，不要只改坐标不留说明——下一轮会被当成噪声删掉。
 - **网络自动改名**：`web reload`/保存后，EDA 可能把自动网名从 `D1_N1` 改成 `VBUS` 等。模块计划的网名要与新鲜 IR 对齐；跨会话复用旧 JSON 前先 diff 网名。
 - **场景哈希漂移**：官方 `designators verify` 对整页场景做哈希；页面有任何自动保存/属性变化都会拒绝。逐件回读比整页哈希更适合有并发/自动保存的环境。
 - **`layout-score` 不是可读性门**：它可以给失衡页面 94 分；必须跑独立质量检查并看图。

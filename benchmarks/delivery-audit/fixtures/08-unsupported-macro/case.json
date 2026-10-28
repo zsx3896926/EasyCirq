@@ -1,0 +1,55 @@
+{
+  "args": [],
+  "command": "audit",
+  "content_digest": "56bb2ca3e484e576467febd151f5c9ad373517ee997ed2c0e7b02e3152a1803e",
+  "declarations": "declarations.json",
+  "expect": {
+    "exit": 3,
+    "no_fail": true,
+    "rules": {
+      "gerber.unsupported.macro": "unknown"
+    },
+    "status": "incomplete"
+  },
+  "files": [
+    {
+      "path": "gerber/copper_bottom.gbr",
+      "sha256": "c97bab022f42613826d74d19a87689c6e3c0d21f95f13d24610212444078f5c3",
+      "size": 363
+    },
+    {
+      "path": "gerber/copper_top.gbr",
+      "sha256": "34ea441d024220a5afbd970be81213ba50bc0a116ec41b54815a274f46e48417",
+      "size": 376
+    },
+    {
+      "path": "gerber/drill.drl",
+      "sha256": "4dd07ef0f7e604dc32c1d813ed0735199f23d801913362a9dff0911b12030e4e",
+      "size": 182
+    },
+    {
+      "path": "gerber/profile.gbr",
+      "sha256": "21426978fb49d4520d010f7f9c4171f101393296e8c100a765805e2de86ca071",
+      "size": 159
+    },
+    {
+      "path": "gerber/soldermask_bottom.gbr",
+      "sha256": "6b198549bc99dbb6ab4f446de4c8a5f7817fe0d0b70d44e0cce7200f69099060",
+      "size": 255
+    },
+    {
+      "path": "gerber/soldermask_top.gbr",
+      "sha256": "79ecfff53d97a1a36a5381142f3e32777884d55040929ec7ec70d6f569164199",
+      "size": 255
+    }
+  ],
+  "id": "08-unsupported-macro",
+  "input": "input",
+  "input_kind": "files",
+  "notes": null,
+  "profile": "pcb-fabrication",
+  "reference": null,
+  "simulated": true,
+  "title": "Unsupported aperture macro stays incomplete",
+  "touch": null
+}

@@ -1,0 +1,20 @@
+{
+  "schema": "ska-intent/v1",
+  "task_type": "review_only",
+  "stage": "check",
+  "autonomous_authorized": true,
+  "eda_available": false,
+  "deliverables": [
+    "review_findings"
+  ],
+  "constraints": [
+    "用户明确禁止连接或调用 EDA，含只读回读",
+    "不联网",
+    "不修改工程与图纸",
+    "范围不含打板、采购与贴片"
+  ],
+  "user_decision_pending": [],
+  "already_read": [],
+  "budget_chars": 60000,
+  "notes": "用户原话：“我下周要拿去评审，你帮我把这张原理图挑一遍毛病，重点看图面看得清不清、有没有电气问题。别连 EDA，连只读的也别连；也别联网，更不要动我的图。打板、买料、贴片的事都先别管。”"
+}

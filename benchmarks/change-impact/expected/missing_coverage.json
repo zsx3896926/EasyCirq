@@ -1,0 +1,25 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "missing_coverage",
+ "derivation": "the firmware contract is affected but no catalog check covers firmware_compatibility; the plan must report a gap instead of substituting an unrelated electrical check.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "fw:pinmap",
+   "impact": "firmware_compatibility",
+   "confidence_at_least": "possible"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 1,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

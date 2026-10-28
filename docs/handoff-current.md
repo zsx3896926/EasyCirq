@@ -128,3 +128,6 @@ distribution\Install-Zhigou.ps1 rollback
   执行层）、统一安装器步骤、连接器导入/授权/重启、`zhigou doctor` 验证、真机验收范围与
   边界（Gerber gui_only、G6 BLOCKED、实物 NOT RUN）、项目结构与开发者入口；不再指导安装
   上游 `easyeda-agent` Skill/CLI（仅保留为 MIT 来源致谢）。
+
+## 已合并的 main 侧交接：Round 13（SkyPilot X1 反馈）
+

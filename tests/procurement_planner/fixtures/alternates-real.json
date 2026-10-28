@@ -1,0 +1,626 @@
+{
+  "schema": "procurement-input/v1",
+  "project": {
+    "name": "planner-real-alternates",
+    "bom_revision": "rev-ALT",
+    "board_quantity": 3,
+    "allow_zero_boards": false
+  },
+  "evaluation": {
+    "as_of": "2026-10-27T12:00:00+08:00",
+    "freshness": {"max_age_hours": "24"}
+  },
+  "policies": {
+    "attrition": {"ratio": "0", "fixed": 0, "minimum": 0},
+    "substitution": {
+      "enabled": true,
+      "allowed_grades": ["exact_identity", "evidence_supported_candidate"]
+    }
+  },
+  "bom": {
+    "revision": "rev-ALT",
+    "source": "synthetic demand rows; device facts from original manufacturer datasheets",
+    "rows": [
+      {
+        "line_id": "L-PASS",
+        "designators": ["C1"],
+        "qty_per_board": 1,
+        "mpn": "C0603C104K5RACTU",
+        "manufacturer": "KEMET",
+        "supply_ids": {},
+        "footprint": "0603",
+        "package": "0603",
+        "assembly": "smt",
+        "dnp": false,
+        "consigned_qty": 0,
+        "params": {},
+        "unknown_fields": ["dc_bias_derating"],
+        "identity_source": {"kind": "synthetic_fixture", "source": "fixture"}
+      },
+      {
+        "line_id": "L-ACT",
+        "designators": ["U1"],
+        "qty_per_board": 1,
+        "mpn": "TLV3201AIDBVR",
+        "manufacturer": "Texas Instruments",
+        "supply_ids": {},
+        "footprint": "SOT-23-5",
+        "package": "SOT-23-5",
+        "assembly": "smt",
+        "dnp": false,
+        "consigned_qty": 0,
+        "params": {},
+        "unknown_fields": ["thermal_resistance"],
+        "identity_source": {"kind": "synthetic_fixture", "source": "fixture"}
+      }
+    ]
+  },
+  "demand": {
+    "channels": ["lcsc_mall"],
+    "assembly_strategy": "smt",
+    "hand_solder_allowed": false,
+    "self_supply_allowed": false,
+    "due_date": "2026-11-15T00:00:00+08:00",
+    "budget": {"amount": "100.00", "currency": "CNY"},
+    "channel_preference": ["lcsc_mall"]
+  },
+  "supply_snapshots": [],
+  "offers": [],
+  "fees": [],
+  "alternates": [
+    {
+      "alt_id": "ALT-PASS-001",
+      "line_id": "L-PASS",
+      "original": {
+        "mpn": "C0603C104K5RACTU",
+        "manufacturer": "KEMET",
+        "footprint": "0603",
+        "facts": {
+          "family": "passive",
+          "component_kind": "capacitor",
+          "capacitance_f": "0.0000001",
+          "tolerance_percent": "10",
+          "voltage_rating_v": "50",
+          "package": "0603",
+          "temperature_min_c": "-55",
+          "temperature_max_c": "125",
+          "dielectric": "X7R"
+        },
+        "sources": {
+          "component_kind": {
+            "document": "KEMET Surface Mount Multilayer Ceramic Chip Capacitors (SMD MLCCs), X7R Dielectric, 6.3-250 VDC (Commercial Grade)",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "1",
+            "table": "title / Benefits",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "commercial grade X7R series",
+            "accessed_at": "2026-10-27"
+          },
+          "capacitance_f": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "2",
+            "table": "Ordering Information - Capacitance Code",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "code 104 = 10 x 10^4 pF = 100 nF",
+            "accessed_at": "2026-10-27"
+          },
+          "tolerance_percent": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "2",
+            "table": "Ordering Information - Capacitance Tolerance",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "K = +/-10%",
+            "accessed_at": "2026-10-27"
+          },
+          "voltage_rating_v": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "2",
+            "table": "Ordering Information - Rated Voltage (VDC)",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "code 5 = 50 V",
+            "accessed_at": "2026-10-27"
+          },
+          "footprint": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "3",
+            "table": "Dimensions - EIA 0603 / metric 1608 row",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "C-Spec TU = 7 inch reel, unmarked (page 2)",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_min_c": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "1",
+            "table": "Benefits / Overview (X7R -55 C to +125 C)",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "X7R dielectric, capacitance change +/-15%",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_max_c": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "1",
+            "table": "Benefits / Overview (X7R -55 C to +125 C)",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "X7R dielectric",
+            "accessed_at": "2026-10-27"
+          },
+          "dielectric": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "1",
+            "table": "title / Benefits",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "R = X7R in ordering code (page 2)",
+            "accessed_at": "2026-10-27"
+          }
+        }
+      },
+      "candidate": {
+        "mpn": "C0603C104K3RACTU",
+        "manufacturer": "KEMET",
+        "footprint": "0603",
+        "facts": {
+          "family": "passive",
+          "component_kind": "capacitor",
+          "capacitance_f": "0.0000001",
+          "tolerance_percent": "10",
+          "voltage_rating_v": "25",
+          "package": "0603",
+          "temperature_min_c": "-55",
+          "temperature_max_c": "125",
+          "dielectric": "X7R"
+        },
+        "sources": {
+          "component_kind": {
+            "document": "KEMET Surface Mount Multilayer Ceramic Chip Capacitors (SMD MLCCs), X7R Dielectric, 6.3-250 VDC (Commercial Grade)",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "1",
+            "table": "title / Benefits",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "commercial grade X7R series",
+            "accessed_at": "2026-10-27"
+          },
+          "capacitance_f": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "2",
+            "table": "Ordering Information - Capacitance Code",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "code 104 = 100 nF",
+            "accessed_at": "2026-10-27"
+          },
+          "tolerance_percent": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "2",
+            "table": "Ordering Information - Capacitance Tolerance",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "K = +/-10%",
+            "accessed_at": "2026-10-27"
+          },
+          "voltage_rating_v": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "2",
+            "table": "Ordering Information - Rated Voltage (VDC)",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "code 3 = 25 V",
+            "accessed_at": "2026-10-27"
+          },
+          "footprint": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "3",
+            "table": "Dimensions - EIA 0603 / metric 1608 row",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "C-Spec TU = 7 inch reel (page 2)",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_min_c": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "1",
+            "table": "Benefits / Overview",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "X7R dielectric",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_max_c": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "1",
+            "table": "Benefits / Overview",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "X7R dielectric",
+            "accessed_at": "2026-10-27"
+          },
+          "dielectric": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "1",
+            "table": "title / Benefits",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "R = X7R in ordering code (page 2)",
+            "accessed_at": "2026-10-27"
+          }
+        }
+      },
+      "application": {
+        "requirements": {
+          "voltage_rating_v": "50",
+          "tolerance_percent": "10",
+          "temperature_min_c": "-40",
+          "temperature_max_c": "85",
+          "dielectric": "X7R"
+        },
+        "notes": "Board rail is 50 V-rated by design; candidate 25 V is below the original rating."
+      },
+      "evidence": {
+        "footprint": {
+          "source": {
+            "document": "KEMET C1002_X7R datasheet",
+            "revision": "C1002_X7R (2026-09-01)",
+            "page": "3",
+            "table": "Dimensions",
+            "url": "https://content.kemet.com/datasheets/KEM_C1002_X7R_SMD.pdf",
+            "condition": "same EIA 0603 body, 1.60 x 0.80 mm nominal"
+          },
+          "note": "Land-pattern/EDA footprint not verified."
+        }
+      },
+      "approval_scope": "procurement_only",
+      "notes": "Ordering codes are decoded from the manufacturer ordering table; KEMET part-detail pages were not reachable to confirm individual C-Spec existence."
+    },
+    {
+      "alt_id": "ALT-ACT-001",
+      "line_id": "L-ACT",
+      "original": {
+        "mpn": "TLV3201AIDBVR",
+        "manufacturer": "Texas Instruments",
+        "footprint": "SOT-23-5",
+        "facts": {
+          "family": "active",
+          "component_kind": "comparator",
+          "function": "single_channel_comparator",
+          "output_type": "push_pull",
+          "supply_min_v": "2.7",
+          "supply_max_v": "5.5",
+          "pin_count": "5",
+          "package": "SOT-23-5",
+          "propagation_delay_ns": "40",
+          "input_offset_mv": "3",
+          "supply_current_ua": "40",
+          "temperature_min_c": "-40",
+          "temperature_max_c": "125",
+          "pinout": [
+            {"number": "1", "name": "OUT"},
+            {"number": "2", "name": "GND"},
+            {"number": "3", "name": "IN+"},
+            {"number": "4", "name": "IN-"},
+            {"number": "5", "name": "VCC"}
+          ]
+        },
+        "sources": {
+          "component_kind": {
+            "document": "TLV320x 40ns, microPOWER, Push-Pull Output Comparators datasheet",
+            "revision": "SBOS561C, March 2012 - revised May 2024",
+            "page": "1",
+            "table": "1 Features / 3 Description",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "TLV3201 single-channel comparator",
+            "accessed_at": "2026-10-27"
+          },
+          "function": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "1",
+            "table": "3 Description",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "single-channel comparator",
+            "accessed_at": "2026-10-27"
+          },
+          "output_type": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "1",
+            "table": "1 Features (Push-Pull Outputs)",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "push-pull output",
+            "accessed_at": "2026-10-27"
+          },
+          "supply_min_v": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "4",
+            "table": "6.3 Recommended Operating Conditions",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "VS 2.7 V to 5.5 V, -40 C to 125 C",
+            "accessed_at": "2026-10-27"
+          },
+          "supply_max_v": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "4",
+            "table": "6.3 Recommended Operating Conditions",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "VS 2.7 V to 5.5 V",
+            "accessed_at": "2026-10-27"
+          },
+          "footprint": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "3",
+            "table": "5 Pin Configuration and Functions (DBV 5-pin SOT-23)",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "DBV package, 5 pins",
+            "accessed_at": "2026-10-27"
+          },
+          "pin_count": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "3",
+            "table": "5 Pin Configuration and Functions",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "TLV3201 DBV/DCK 5-pin packages",
+            "accessed_at": "2026-10-27"
+          },
+          "propagation_delay_ns": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "1",
+            "table": "1 Features (Low Propagation Delay: 40ns)",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "40 ns feature headline; 6.6 on page 5 gives 47 ns typ low-to-high at 20 mV overdrive / 15 pF, so test conditions must be compared",
+            "accessed_at": "2026-10-27"
+          },
+          "input_offset_mv": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "5",
+            "table": "6.5 Electrical Characteristics: VCC = 5 V",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "VCM = VCC/2, TA = 25 C, max 3 mV",
+            "accessed_at": "2026-10-27"
+          },
+          "supply_current_ua": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "5",
+            "table": "6.5 Electrical Characteristics: VCC = 5 V (IQ)",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "TA = 25 C, typical 40 uA",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_min_c": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "4",
+            "table": "6.3 Recommended Operating Conditions",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "specified temperature -40 C to 125 C",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_max_c": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "4",
+            "table": "6.3 Recommended Operating Conditions",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "specified temperature -40 C to 125 C",
+            "accessed_at": "2026-10-27"
+          },
+          "pinout": {
+            "document": "TLV320x datasheet",
+            "revision": "SBOS561C (May 2024)",
+            "page": "3",
+            "table": "Pin Functions: TLV3201",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "DBV/DCK pin names and numbers",
+            "accessed_at": "2026-10-27"
+          }
+        }
+      },
+      "candidate": {
+        "mpn": "ADCMP600BRJZ-R2",
+        "manufacturer": "Analog Devices",
+        "footprint": "SOT-23-5",
+        "facts": {
+          "family": "active",
+          "component_kind": "comparator",
+          "function": "single_channel_comparator",
+          "output_type": "CMOS-/TTL-compatible output stage",
+          "supply_min_v": "2.5",
+          "supply_max_v": "5.5",
+          "pin_count": "5",
+          "package": "SOT-23-5",
+          "propagation_delay_ns": "3.5",
+          "input_offset_mv": "5",
+          "supply_current_ua": "3000",
+          "temperature_min_c": "-40",
+          "temperature_max_c": "125",
+          "pinout": [
+            {"number": "1", "name": "Q"},
+            {"number": "2", "name": "GND"},
+            {"number": "3", "name": "VP"},
+            {"number": "4", "name": "VN"},
+            {"number": "5", "name": "VCCI/VCCO"}
+          ]
+        },
+        "sources": {
+          "component_kind": {
+            "document": "ADCMP600/ADCMP601/ADCMP602 Rail-to-Rail, Very Fast, 2.5 V to 5.5 V, Single-Supply TTL/CMOS Comparators Data Sheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "1",
+            "table": "title / Features",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "ADCMP600 single comparator",
+            "accessed_at": "2026-10-27"
+          },
+          "function": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "1",
+            "table": "General Description",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "single-supply comparator",
+            "accessed_at": "2026-10-27"
+          },
+          "output_type": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "1",
+            "table": "Features (Low glitch CMOS-/TTL-compatible output stage)",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "output stage has source/sink capability (page 3 DC output characteristics)",
+            "accessed_at": "2026-10-27"
+          },
+          "supply_min_v": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "1",
+            "table": "Features (Fully specified rail to rail at VCC = 2.5 V to 5.5 V)",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "VCC 2.5 V to 5.5 V",
+            "accessed_at": "2026-10-27"
+          },
+          "supply_max_v": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "1",
+            "table": "Features (Fully specified rail to rail at VCC = 2.5 V to 5.5 V)",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "VCC 2.5 V to 5.5 V",
+            "accessed_at": "2026-10-27"
+          },
+          "footprint": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "7",
+            "table": "Table 5 / Figure 3 (5-lead SOT-23 pin configuration)",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "ADCMP600BRJZ 5-lead SOT-23; ordering guide page 16",
+            "accessed_at": "2026-10-27"
+          },
+          "pin_count": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "7",
+            "table": "Table 5 ADCMP600 Pin Function Descriptions",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "5 pins",
+            "accessed_at": "2026-10-27"
+          },
+          "propagation_delay_ns": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "3",
+            "table": "Table 1 Electrical Characteristics - Propagation Delay",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "VOD = 50 mV, VCCO = 2.5 V, typical 3.5 ns",
+            "accessed_at": "2026-10-27"
+          },
+          "input_offset_mv": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "3",
+            "table": "Table 1 Electrical Characteristics - Offset Voltage",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "VCCI = VCCO = 2.5 V, TA = 25 C, +/-5 mV max",
+            "accessed_at": "2026-10-27"
+          },
+          "supply_current_ua": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "4",
+            "table": "Table 1 Electrical Characteristics - Power Supply (IVCC)",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "IVCC 3 mA typ / 3.5 mA max at VCC = 2.5 V; 3.5 mA typ / 4.0 mA max at VCC = 5.5 V",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_min_c": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "1",
+            "table": "Features (-40 C to +125 C operation)",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "-40 C to +125 C",
+            "accessed_at": "2026-10-27"
+          },
+          "temperature_max_c": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "1",
+            "table": "Features (-40 C to +125 C operation)",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "-40 C to +125 C",
+            "accessed_at": "2026-10-27"
+          },
+          "pinout": {
+            "document": "ADCMP600/601/602 datasheet",
+            "revision": "Rev. A, 01/19/2011",
+            "page": "7",
+            "table": "Table 5 ADCMP600 (SOT-23-5 and SC70-5) Pin Function Descriptions",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "Q/VP/VN/VCCI-VCCO pin names",
+            "accessed_at": "2026-10-27"
+          }
+        }
+      },
+      "application": {
+        "requirements": {
+          "supply_voltage_v": "5.0",
+          "temperature_min_c": "-40",
+          "temperature_max_c": "85",
+          "propagation_delay_max_ns": "100",
+          "input_offset_max_mv": "10",
+          "output_type": "push_pull",
+          "pinout_equivalence_required": true
+        },
+        "notes": "Application does not constrain quiescent current or output drive; those remain review items."
+      },
+      "evidence": {
+        "pin_map": {
+          "source": {
+            "document": "TI TLV320x SBOS561C page 3 and ADI ADCMP600 Rev. A page 7",
+            "revision": "SBOS561C (May 2024) / Rev. A (2011-01-19)",
+            "page": "TI 3; ADI 7",
+            "table": "Pin Functions / Table 5",
+            "url": "https://www.ti.com/lit/ds/symlink/tlv3201.pdf",
+            "condition": "functional mapping: Q=OUT, VP=IN+, VN=IN-, VCCI/VCCO=VCC"
+          },
+          "note": "Pin names are not identical; the mapping is a design-review item, not a verified pin-to-pin claim."
+        },
+        "footprint": {
+          "source": {
+            "document": "TI TLV320x SBOS561C page 3 and ADI ADCMP600 Rev. A page 7/16",
+            "revision": "SBOS561C (May 2024) / Rev. A (2011-01-19)",
+            "page": "TI 3; ADI 7, 16",
+            "table": "Pin configuration / ordering guide",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "both are 5-lead SOT-23 variants; land pattern not compared"
+          },
+          "note": "Package outline dimensions/land pattern not compared."
+        },
+        "mode": {
+          "source": {
+            "document": "ADI ADCMP600 Rev. A page 1 / 7",
+            "revision": "Rev. A (2011-01-19)",
+            "page": "1, 7",
+            "table": "Features / Table 5",
+            "url": "https://www.analog.com/media/en/technical-documentation/data-sheets/ADCMP600_601_602.pdf",
+            "condition": "ADCMP600 5-lead version has no shutdown/mode pin; comparator mode is fixed"
+          },
+          "note": "No mode/configuration interface to compare; dynamic behaviour remains review."
+        }
+      },
+      "approval_scope": "design_review_required",
+      "notes": "Pin names differ and quiescent current is ~75x higher; do not treat as drop-in."
+    }
+  ]
+}

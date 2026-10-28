@@ -1,0 +1,42 @@
+{
+  "id": "low_side_nmos_needs_facts",
+  "description": "No fact file and no caller-declared MOSFET facts: the switch must not be invented.",
+  "command": "generate",
+  "module_type": "low_side_nmos",
+  "input": {
+    "load_supply_voltage": {
+      "min": 11.4,
+      "max": 12.6
+    },
+    "load_current_nominal": "0.5A",
+    "load_current_max": "0.8A",
+    "load_inrush_current": "2.5A",
+    "gate_drive_voltage": {
+      "min": 3.135,
+      "max": 3.465
+    },
+    "switching_frequency": "20kHz",
+    "inductive_load": true,
+    "load_inductance": "1mH",
+    "ambient_temperature": {
+      "min": 0,
+      "max": 40
+    },
+    "gate_series": "E24",
+    "gate_resistor_target": {
+      "min": 10,
+      "max": 100
+    },
+    "gate_pulldown_value": "10k",
+    "max_gate_drive_current": "100mA"
+  },
+  "allow_nonready": false,
+  "expect": {
+    "exit_code": 3,
+    "status": "needs_device_facts",
+    "status_reasons_contains": [
+      "MOSFET data is required"
+    ]
+  },
+  "input_sha256": "50d256d5cddd8a2000a7cf80649fa6a30f1a505106a331409fa58047372847c2"
+}

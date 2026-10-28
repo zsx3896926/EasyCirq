@@ -1,0 +1,120 @@
+{
+  "schema": "zhigou.electrical-review.input/v1",
+  "design": {
+    "project_id": "r6-local_decoupling",
+    "document_id": "P1",
+    "units": {
+      "length": "mil",
+      "voltage": "V",
+      "capacitance": "uF"
+    },
+    "source_type": "synthetic_fixture",
+    "title": "electrical-review benchmark fixture"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "synthetic_fixture",
+      "source": "task-B synthetic fixture"
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "iC1",
+      "ref": "C1",
+      "kind": "capacitor",
+      "pins": [
+        {
+          "number": "1",
+          "net": "3V3",
+          "position": {
+            "x": 0,
+            "y": 0
+          }
+        },
+        {
+          "number": "2",
+          "net": "GND",
+          "position": {
+            "x": 0,
+            "y": 50
+          }
+        }
+      ],
+      "mpn": "GRM188R71C104KA01",
+      "value": "100nF",
+      "placement": {
+        "x": 0,
+        "y": 0,
+        "units": "mil"
+      }
+    },
+    {
+      "instance_id": "iU1",
+      "ref": "U1",
+      "kind": "ic",
+      "pins": [
+        {
+          "number": "1",
+          "net": "3V3",
+          "position": {
+            "x": 50,
+            "y": 0
+          }
+        },
+        {
+          "number": "2",
+          "net": "GND",
+          "position": {
+            "x": 50,
+            "y": 50
+          }
+        }
+      ],
+      "mpn": "STM32G030F6P6",
+      "footprint": {
+        "name": "TSSOP-20",
+        "evidence": [
+          "E1"
+        ]
+      }
+    }
+  ],
+  "connectivity": {
+    "pin_nets": {}
+  },
+  "intent": {
+    "net_roles": {
+      "3V3": "power",
+      "GND": "ground"
+    },
+    "capacitor_roles": [
+      {
+        "component": "C1",
+        "role": "local_decoupling",
+        "role_source": "project_constraint",
+        "evidence": [
+          "E1"
+        ]
+      }
+    ],
+    "decoupling_targets": [
+      {
+        "capacitor": "C1",
+        "target_component": "U1",
+        "target_pins": [
+          "1"
+        ],
+        "max_distance": {
+          "value": 150,
+          "unit": "mil"
+        },
+        "basis": "euclidean_proxy",
+        "source": "benchmark project rule",
+        "evidence": [
+          "E1"
+        ]
+      }
+    ]
+  }
+}

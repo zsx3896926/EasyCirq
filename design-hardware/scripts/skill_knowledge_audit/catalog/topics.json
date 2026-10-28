@@ -1,0 +1,1019 @@
+{
+  "schema": "ska-topics/v1",
+  "catalog_version": "2026-10-27.1",
+  "reviewed_at": "2026-10-27",
+  "reviewed_by": "task D lead, static read of baseline 9a951ed; catalog informed by contract, dev scenarios and the holdout acceptance set (holdout is not blind and was not used to hardcode ids/answers)",
+  "review_evidence": "docs/parallel-skill-knowledge-audit/contract.md and rule-review.md",
+  "task_types": [
+    "schematic_new",
+    "schematic_edit",
+    "pcb_layout",
+    "pcb_route",
+    "four_layer_diff",
+    "bom_only",
+    "review_only",
+    "delivery_audit",
+    "offline_dev",
+    "full_product",
+    "knowledge_only"
+  ],
+  "stages": [
+    "read",
+    "requirements",
+    "concept",
+    "schematic",
+    "layout",
+    "route",
+    "check",
+    "delivery",
+    "firmware",
+    "build",
+    "unknown"
+  ],
+  "stage_order": [
+    "read",
+    "requirements",
+    "concept",
+    "schematic",
+    "layout",
+    "route",
+    "check",
+    "delivery",
+    "firmware",
+    "build"
+  ],
+  "unknown_codes": [
+    "task_unknown",
+    "stage_unspecified",
+    "domain_unspecified",
+    "eda_unavailable",
+    "budget_insufficient",
+    "cache_invalidated",
+    "file_missing",
+    "required_dependency_missing",
+    "already_read_stale"
+  ],
+  "approval_gate_tokens": [
+    "before_layout",
+    "before_route",
+    "before_delivery",
+    "before_manufacturing",
+    "scope_change",
+    "interface_change",
+    "cost_change",
+    "mechanical_change",
+    "missing_evidence"
+  ],
+  "task_aliases": {
+    "原理图新建": "schematic_new",
+    "新建原理图": "schematic_new",
+    "原理图修改": "schematic_edit",
+    "局部改图": "schematic_edit",
+    "改图": "schematic_edit",
+    "PCB布局": "pcb_layout",
+    "布局": "pcb_layout",
+    "PCB改线": "pcb_route",
+    "布线": "pcb_route",
+    "走线": "pcb_route",
+    "四层差分": "four_layer_diff",
+    "差分": "four_layer_diff",
+    "仅BOM": "bom_only",
+    "BOM": "bom_only",
+    "配单": "bom_only",
+    "仅评审": "review_only",
+    "评审": "review_only",
+    "检查": "review_only",
+    "仅交付审计": "delivery_audit",
+    "交付审计": "delivery_audit",
+    "制造交付": "delivery_audit",
+    "离线开发": "offline_dev",
+    "离线": "offline_dev",
+    "完整产品": "full_product",
+    "整机": "full_product",
+    "知识问答": "knowledge_only",
+    "schematic": "schematic_new",
+    "pcb_layout": "pcb_layout",
+    "pcb_route": "pcb_route",
+    "bom": "bom_only",
+    "review": "review_only",
+    "delivery": "delivery_audit",
+    "offline": "offline_dev"
+  },
+  "stage_aliases": {
+    "读取": "read",
+    "需求": "requirements",
+    "方案": "concept",
+    "原理图": "schematic",
+    "布局": "layout",
+    "布线": "route",
+    "检查": "check",
+    "交付": "delivery",
+    "固件": "firmware",
+    "制造": "build",
+    "未知": "unknown"
+  },
+  "always": [
+    {
+      "path": "SKILL.md",
+      "role": "required",
+      "reason": "skill entry point; every task starts here"
+    }
+  ],
+  "topics": [
+    {
+      "id": "protect.workflow-evidence",
+      "title": "工程流程与证据真实性保护",
+      "match": {
+        "exclude_task_types": [
+          "knowledge_only"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/workflow.md",
+          "role": "required",
+          "reason": "SKILL.md L134: 内部设计始终遵循工程工作流"
+        },
+        {
+          "path": "references/evidence.md",
+          "role": "required",
+          "reason": "SKILL.md L134: 证据与工程记录；事实状态不可伪造"
+        }
+      ],
+      "protected_constraints": [
+        {
+          "id": "evidence_truthfulness",
+          "reason": "事实状态与证据分级必须适用"
+        },
+        {
+          "id": "target_binding",
+          "reason": "结论必须绑定对象、版本和范围"
+        }
+      ]
+    },
+    {
+      "id": "design.gates",
+      "title": "阶段门禁 G0–G6",
+      "match": {
+        "task_types": [
+          "schematic_new",
+          "schematic_edit",
+          "pcb_layout",
+          "pcb_route",
+          "four_layer_diff",
+          "delivery_audit",
+          "full_product"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/design-gates.md",
+          "role": "required",
+          "reason": "涉及 SCH/PCB/交付阶段时必须按 G0–G6 退出证据判断"
+        }
+      ]
+    },
+    {
+      "id": "schematic.new",
+      "title": "新建原理图",
+      "match": {
+        "task_types": [
+          "schematic_new"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/schematic-authoring.md",
+          "role": "required",
+          "reason": "SKILL.md L118 新建/增加模块时先读绘图执行方法"
+        },
+        {
+          "path": "references/schematic-layout.md",
+          "role": "required",
+          "reason": "SKILL.md L122 图面验收标准与 sch_layout_check"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/pcb-execution.md",
+          "reason": "纯原理图任务不进入 PCB 执行"
+        },
+        {
+          "path": "references/pcb-routing-details.md",
+          "reason": "纯原理图任务不读取布线细节"
+        },
+        {
+          "path": "references/pcb-routing-strategy.md",
+          "reason": "纯原理图任务不读取布线策略"
+        },
+        {
+          "path": "references/jlc-production.md",
+          "reason": "未要求制造时按需不抢跑"
+        },
+        {
+          "path": "references/lcsc-sourcing.md",
+          "reason": "未要求配单时不要求商城资料"
+        },
+        {
+          "path": "references/schematic-layout-engine.md",
+          "reason": "自动排版引擎仅在明确重排任务时读"
+        }
+      ],
+      "unknowns_if_missing_keywords": [
+        {
+          "code": "domain_unspecified",
+          "keywords": [
+            "MCU",
+            "ESP32",
+            "单片机",
+            "SoC",
+            "FPGA",
+            "I2C",
+            "SPI",
+            "UART",
+            "CAN",
+            "RS485",
+            "ADC",
+            "GPIO",
+            "主控",
+            "射频",
+            "天线",
+            "差分",
+            "运放",
+            "传感器型号"
+          ],
+          "reason": "未说明主控/接口/信号域，无法确定数字、模拟或电源专题"
+        }
+      ]
+    },
+    {
+      "id": "schematic.edit.reflow",
+      "title": "已有原理图排版/可读性修改",
+      "match": {
+        "task_types": [
+          "schematic_edit"
+        ],
+        "any_keywords": [
+          "排版",
+          "重排",
+          "可读性",
+          "文字",
+          "标签位置",
+          "字号",
+          "zone",
+          "自动布局",
+          "整理图面"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/schematic-layout-engine.md",
+          "role": "required",
+          "reason": "SKILL.md L158 已有原理图重排/自动布局的任务入口"
+        },
+        {
+          "path": "references/schematic-layout.md",
+          "role": "required",
+          "reason": "排版后仍需图面验收标准"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/pcb-execution.md",
+          "reason": "本文任务不修改 PCB"
+        },
+        {
+          "path": "references/pcb-routing-details.md",
+          "reason": "本文任务不涉及布线"
+        },
+        {
+          "path": "references/lcsc-sourcing.md",
+          "reason": "不涉及选型配单"
+        },
+        {
+          "path": "references/jlc-production.md",
+          "reason": "不涉及制造"
+        },
+        {
+          "path": "references/schematic-benchmarks.md",
+          "reason": "排版基准集是校准资料，不是本任务必读"
+        }
+      ]
+    },
+    {
+      "id": "schematic.edit.local",
+      "title": "已有原理图局部器件/数值修改",
+      "match": {
+        "task_types": [
+          "schematic_edit"
+        ],
+        "none_keywords": [
+          "排版",
+          "重排",
+          "可读性",
+          "文字",
+          "标签位置",
+          "字号",
+          "zone",
+          "自动布局",
+          "整理图面"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/schematic.md",
+          "role": "required",
+          "reason": "SKILL.md L156 绘制/整理/换料/建库时读原理图工程习惯"
+        },
+        {
+          "path": "references/part-selection.md",
+          "role": "required",
+          "reason": "换阻值/换料必须核对完整型号与替代分级"
+        },
+        {
+          "path": "references/design-gates.md",
+          "role": "required",
+          "reason": "实质修改 SCH 需 G2 退出证据"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/pcb-execution.md",
+          "reason": "局部原理图修改不进入 PCB 执行"
+        },
+        {
+          "path": "references/lcsc-sourcing.md",
+          "reason": "未要求商城配单时按需"
+        },
+        {
+          "path": "references/jlc-production.md",
+          "reason": "未要求制造时按需"
+        },
+        {
+          "path": "references/schematic-benchmarks.md",
+          "reason": "基准集不是修改任务必读"
+        },
+        {
+          "path": "references/idea-to-product.md",
+          "reason": "不是完整产品任务"
+        },
+        {
+          "path": "references/product-acceptance.md",
+          "reason": "不是整机验收任务"
+        },
+        {
+          "path": "references/jlc-smt-rules.md",
+          "reason": "未要求贴片"
+        }
+      ]
+    },
+    {
+      "id": "pcb.core",
+      "title": "PCB 布局/布线工程核心",
+      "match": {
+        "task_types": [
+          "pcb_layout",
+          "pcb_route"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/pcb.md",
+          "role": "required",
+          "reason": "SKILL.md L164 导入/布局/布线/铜皮/制造输出读 PCB 工程习惯"
+        },
+        {
+          "path": "references/pcb-placement-details.md",
+          "role": "required",
+          "reason": "SKILL.md L172 PCB 机械约束/关键回路/敏感区与放件"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/schematic-authoring.md",
+          "reason": "本任务不重画原理图"
+        },
+        {
+          "path": "references/schematic-layout-engine.md",
+          "reason": "不涉及原理图重排"
+        },
+        {
+          "path": "references/lcsc-sourcing.md",
+          "reason": "未要求配单"
+        },
+        {
+          "path": "references/jlc-production.md",
+          "reason": "未要求制造时按需"
+        },
+        {
+          "path": "references/part-selection.md",
+          "reason": "未要求换料选型"
+        }
+      ]
+    },
+    {
+      "id": "pcb.execution",
+      "title": "真实 PCB 写入与回读",
+      "match": {
+        "task_types": [
+          "pcb_layout",
+          "pcb_route"
+        ],
+        "eda": "required",
+        "stage_not_in": [
+          "concept",
+          "requirements"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/pcb-execution.md",
+          "role": "required",
+          "reason": "SKILL.md L165/L296 真实 PCB 布局布线任务入口"
+        },
+        {
+          "path": "references/eda-execution.md",
+          "role": "required",
+          "reason": "实际读写 EDA 工程需要先读执行与回读契约"
+        }
+      ],
+      "unknowns_when_eda_missing": [
+        {
+          "code": "eda_unavailable",
+          "reason": "任务是真实 PCB 修改，但当前 EDA 不可用；只能离线分析"
+        }
+      ]
+    },
+    {
+      "id": "route.strategy",
+      "title": "布线与层叠策略",
+      "match": {
+        "task_types": [
+          "pcb_route"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/pcb-routing-strategy.md",
+          "role": "required",
+          "reason": "SKILL.md L200 层数/电源地/布线计划/连接器逃逸"
+        }
+      ]
+    },
+    {
+      "id": "fourlayer.plan",
+      "title": "四层差分板规划",
+      "match": {
+        "task_types": [
+          "four_layer_diff"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/pcb-routing-strategy.md",
+          "role": "required",
+          "reason": "层数选择、参考平面、差分与布线计划"
+        },
+        {
+          "path": "references/pcb-routing-details.md",
+          "role": "required",
+          "reason": "高速/差分/回流与铜区细节"
+        },
+        {
+          "path": "references/analog-rf-highspeed.md",
+          "role": "required",
+          "reason": "SKILL.md L155 高速链路任务入口"
+        },
+        {
+          "path": "references/easyeda-ecosystem.md",
+          "role": "required",
+          "reason": "SKILL.md L22 差分/等长几何取证先读生态工具"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/lcsc-sourcing.md",
+          "reason": "未要求配单"
+        },
+        {
+          "path": "references/part-selection.md",
+          "reason": "未要求选型"
+        },
+        {
+          "path": "references/schematic-layout-engine.md",
+          "reason": "不是原理图排版任务"
+        },
+        {
+          "path": "references/jlc-handoff.md",
+          "reason": "未要求打样交付"
+        },
+        {
+          "path": "references/manufacturing-details.md",
+          "reason": "未进入制造细节"
+        }
+      ]
+    },
+    {
+      "id": "bom.only",
+      "title": "仅 BOM/配单",
+      "match": {
+        "task_types": [
+          "bom_only"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/part-selection.md",
+          "role": "required",
+          "reason": "SKILL.md L145 选型/换料/BOM 任务入口"
+        },
+        {
+          "path": "references/lcsc-sourcing.md",
+          "role": "required",
+          "reason": "SKILL.md L90/L146 商城选型与配单任务入口"
+        }
+      ],
+      "unknowns_if_stage": {
+        "unknown": "stage_unspecified"
+      },
+      "excludes": [
+        {
+          "path": "references/pcb-routing-details.md",
+          "reason": "纯 BOM 不要求布线与热设计细节"
+        },
+        {
+          "path": "references/pcb-routing-strategy.md",
+          "reason": "纯 BOM 不要求布线策略"
+        },
+        {
+          "path": "references/pcb-execution.md",
+          "reason": "纯 BOM 不进入 PCB 执行"
+        },
+        {
+          "path": "references/thermal/topic.md",
+          "reason": "纯 BOM 不要求完整热设计文档"
+        },
+        {
+          "path": "references/schematic-layout-engine.md",
+          "reason": "纯 BOM 不涉及排版"
+        },
+        {
+          "path": "references/schematic-authoring.md",
+          "reason": "纯 BOM 不重画原理图"
+        }
+      ]
+    },
+    {
+      "id": "review.only",
+      "title": "仅评审",
+      "match": {
+        "task_types": [
+          "review_only"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/review.md",
+          "role": "required",
+          "reason": "SKILL.md L167 设计审查/故障排查/样机上电"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/pcb-execution.md",
+          "reason": "评审任务不写工程"
+        },
+        {
+          "path": "references/eda-execution.md",
+          "reason": "评审任务默认只读，不要求连接 EDA"
+        },
+        {
+          "path": "references/feedback-loop.md",
+          "reason": "评审不执行写入闭环"
+        },
+        {
+          "path": "references/lcsc-sourcing.md",
+          "reason": "评审不涉及商城配单"
+        },
+        {
+          "path": "references/jlc-production.md",
+          "reason": "评审不进入生产订单"
+        }
+      ]
+    },
+    {
+      "id": "review.visual",
+      "title": "评审中的图面/可读性检查",
+      "match": {
+        "task_types": [
+          "review_only"
+        ],
+        "any_keywords": [
+          "图面",
+          "可读性",
+          "看懂",
+          "字叠",
+          "遮挡",
+          "原理图评审",
+          "图纸"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/schematic-layout.md",
+          "role": "required",
+          "reason": "评审图面可读性时使用图面验收标准"
+        }
+      ]
+    },
+    {
+      "id": "delivery.audit",
+      "title": "交付/制造审计",
+      "match": {
+        "task_types": [
+          "delivery_audit"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/design-gates.md",
+          "role": "required",
+          "reason": "按 G0–G6 核对退出证据"
+        },
+        {
+          "path": "references/jlc-handoff.md",
+          "role": "required",
+          "reason": "SKILL.md L150 嘉立创 PCB/SMT/手焊交付入口"
+        },
+        {
+          "path": "references/jlc-production.md",
+          "role": "required",
+          "reason": "SKILL.md L147 生产规则接入与订单工艺"
+        },
+        {
+          "path": "references/manufacturing-details.md",
+          "role": "required",
+          "reason": "SKILL.md L174 制造输出/装配/首板细节"
+        },
+        {
+          "path": "assets/pcb-delivery-checklist.md",
+          "role": "required",
+          "reason": "SKILL.md L165 交付逐项检查清单"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/schematic-authoring.md",
+          "reason": "交付审计不重画原理图"
+        },
+        {
+          "path": "references/schematic-layout-engine.md",
+          "reason": "交付审计不做排版"
+        },
+        {
+          "path": "references/pcb-execution.md",
+          "reason": "交付审计只核对证据，不执行写入"
+        },
+        {
+          "path": "references/pcb-routing-strategy.md",
+          "reason": "交付审计不重新规划布线"
+        },
+        {
+          "path": "references/thermal/topic.md",
+          "reason": "仅在热证据缺失时按需"
+        }
+      ]
+    },
+    {
+      "id": "delivery.smt",
+      "title": "SMT/贴片审计",
+      "match": {
+        "task_types": [
+          "delivery_audit"
+        ],
+        "any_keywords": [
+          "SMT",
+          "贴片",
+          "CPL",
+          "钢网",
+          "坐标",
+          "手焊"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/jlc-smt-rules.md",
+          "role": "required",
+          "reason": "涉及贴片/钢网/坐标时核对 SMT 生产规则"
+        }
+      ]
+    },
+    {
+      "id": "offline.dev",
+      "title": "离线开发与连接表",
+      "match": {
+        "task_types": [
+          "offline_dev"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/offline-tools.md",
+          "role": "required",
+          "reason": "SKILL.md L180 离线工具契约"
+        },
+        {
+          "path": "references/offline-regression.md",
+          "role": "required",
+          "reason": "SKILL.md L205 离线回归与冻结基准"
+        },
+        {
+          "path": "references/connectivity.md",
+          "role": "required",
+          "reason": "SKILL.md L151 准备离线连接表或自检"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/eda-execution.md",
+          "reason": "EDA 不可用，不要求连接"
+        },
+        {
+          "path": "references/pcb-execution.md",
+          "reason": "离线任务不进入真实写入"
+        },
+        {
+          "path": "references/feedback-loop.md",
+          "reason": "离线任务不执行写入闭环"
+        },
+        {
+          "path": "references/jlc-handoff.md",
+          "reason": "离线任务不进入打样交付"
+        },
+        {
+          "path": "references/easyeda-ecosystem.md",
+          "reason": "离线任务不调用生态工具"
+        }
+      ],
+      "unknowns": [
+        {
+          "code": "eda_unavailable",
+          "reason": "任务明确处于离线/无 EDA 状态，真实写入与回读 NOT RUN"
+        }
+      ]
+    },
+    {
+      "id": "offline.pcb",
+      "title": "EDA 不可用时的 PCB 离线规划",
+      "match": {
+        "task_types": [
+          "pcb_layout"
+        ],
+        "eda": "forbidden"
+      },
+      "files": [
+        {
+          "path": "references/offline-tools.md",
+          "role": "required",
+          "reason": "只能基于冻结 JSON 做离线分析"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/eda-execution.md",
+          "reason": "用户禁止 EDA 连接"
+        },
+        {
+          "path": "references/pcb-execution.md",
+          "reason": "用户禁止 EDA 连接，不能进入真实写入"
+        },
+        {
+          "path": "references/easyeda-ecosystem.md",
+          "reason": "用户禁止 EDA 连接"
+        },
+        {
+          "path": "references/feedback-loop.md",
+          "reason": "禁止写入，无写入闭环"
+        },
+        {
+          "path": "references/jlc-production.md",
+          "reason": "本任务不进入制造"
+        }
+      ],
+      "unknowns": [
+        {
+          "code": "eda_unavailable",
+          "reason": "用户明确禁止 EDA；计划只含离线分析与候选，不含写工程"
+        }
+      ]
+    },
+    {
+      "id": "full.product",
+      "title": "完整产品/整机",
+      "match": {
+        "task_types": [
+          "full_product"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/design-gates.md",
+          "role": "required",
+          "reason": "完整产品按 G0–G6 分阶段退出"
+        },
+        {
+          "path": "references/agent-collaboration.md",
+          "role": "required",
+          "reason": "SKILL.md L100 多阶段设计需按协作契约组织"
+        },
+        {
+          "path": "references/schematic-authoring.md",
+          "role": "required",
+          "reason": "完整产品含原理图阶段"
+        },
+        {
+          "path": "references/pcb-execution.md",
+          "role": "required",
+          "reason": "完整产品含 PCB 阶段"
+        },
+        {
+          "path": "references/eda-execution.md",
+          "role": "required",
+          "reason": "需要真实读写 EDA 工程"
+        }
+      ],
+      "excludes": [
+        {
+          "path": "references/product-example.md",
+          "reason": "演练示例不是完整产品必读"
+        },
+        {
+          "path": "references/engineering-deepdives/README.md",
+          "reason": "深潜资料非开工必读"
+        },
+        {
+          "path": "references/engineering-deepdives/exercises/README.md",
+          "reason": "审图练习非开工必读"
+        },
+        {
+          "path": "references/schematic-benchmarks.md",
+          "reason": "排版基准集非开工必读"
+        },
+        {
+          "path": "references/simulation-measurement.md",
+          "reason": "仿真与测量按需，不预加载"
+        }
+      ]
+    },
+    {
+      "id": "domain.digital",
+      "title": "数字与接口专题",
+      "match": {
+        "task_types": [
+          "schematic_new",
+          "schematic_edit",
+          "full_product",
+          "pcb_layout",
+          "pcb_route"
+        ],
+        "any_keywords": [
+          "MCU",
+          "ESP32",
+          "单片机",
+          "SoC",
+          "FPGA",
+          "I2C",
+          "SPI",
+          "UART",
+          "CAN",
+          "RS485",
+          "GPIO",
+          "主控",
+          "SWD",
+          "按键"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/digital.md",
+          "role": "required",
+          "reason": "SKILL.md L154 数字与接口专题"
+        }
+      ]
+    },
+    {
+      "id": "domain.power",
+      "title": "电源与功率专题",
+      "match": {
+        "task_types": [
+          "schematic_new",
+          "schematic_edit",
+          "full_product",
+          "pcb_layout",
+          "pcb_route"
+        ],
+        "any_keywords": [
+          "电源",
+          "LDO",
+          "Buck",
+          "Boost",
+          "电池",
+          "供电路径",
+          "功率",
+          "负载开关",
+          "eFuse"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/power.md",
+          "role": "conditional",
+          "reason": "涉及电源树/电池/驱动/保护/发热时按需读取"
+        }
+      ]
+    },
+    {
+      "id": "domain.analog",
+      "title": "模拟与高速专题",
+      "match": {
+        "task_types": [
+          "schematic_new",
+          "schematic_edit",
+          "full_product",
+          "pcb_layout",
+          "pcb_route"
+        ],
+        "any_keywords": [
+          "模拟",
+          "运放",
+          "ADC",
+          "射频",
+          "天线",
+          "高速",
+          "差分",
+          "等长",
+          "阻抗"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/analog-rf-highspeed.md",
+          "role": "required",
+          "reason": "SKILL.md L155 模拟采集/音视频/射频/高速链路"
+        }
+      ]
+    },
+    {
+      "id": "tool.easyeda-ecosystem",
+      "title": "差分/等长几何取证工具",
+      "match": {
+        "task_types": [
+          "pcb_route",
+          "full_product"
+        ],
+        "any_keywords": [
+          "差分",
+          "等长",
+          "四层",
+          "阻抗",
+          "高速"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/easyeda-ecosystem.md",
+          "role": "required",
+          "reason": "SKILL.md L22 涉及差分/等长/批量取证先读生态工具"
+        }
+      ]
+    },
+    {
+      "id": "sourcing.part",
+      "title": "选型与替代",
+      "match": {
+        "task_types": [
+          "schematic_new",
+          "schematic_edit",
+          "full_product"
+        ],
+        "any_keywords": [
+          "选型",
+          "换料",
+          "替换",
+          "替代",
+          "阻值",
+          "容值",
+          "型号",
+          "BOM"
+        ]
+      },
+      "files": [
+        {
+          "path": "references/part-selection.md",
+          "role": "conditional",
+          "reason": "涉及选型/换料/替代时的装配变体与替代分级"
+        }
+      ]
+    }
+  ]
+}

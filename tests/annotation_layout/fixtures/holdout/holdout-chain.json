@@ -1,0 +1,477 @@
+{
+  "checker_context": {},
+  "components": [
+    {
+      "bbox": [
+        114,
+        500,
+        144,
+        524
+      ],
+      "designator": "R1",
+      "id": "C1",
+      "zone_id": "zC"
+    },
+    {
+      "bbox": [
+        148,
+        500,
+        178,
+        524
+      ],
+      "designator": "R2",
+      "id": "C2",
+      "zone_id": "zC"
+    },
+    {
+      "bbox": [
+        182,
+        500,
+        212,
+        524
+      ],
+      "designator": "R3",
+      "id": "C3",
+      "zone_id": "zC"
+    },
+    {
+      "bbox": [
+        216,
+        500,
+        246,
+        524
+      ],
+      "designator": "R4",
+      "id": "C4",
+      "zone_id": "zC"
+    },
+    {
+      "bbox": [
+        250,
+        500,
+        280,
+        524
+      ],
+      "designator": "R5",
+      "id": "C5",
+      "zone_id": "zC"
+    }
+  ],
+  "constraints": {
+    "forbid_component_move": true,
+    "forbid_content_change": true,
+    "forbid_font_change": true,
+    "forbid_net_change": true,
+    "freeze_ids": [],
+    "grid": 5,
+    "label_own_wire_edge_tolerance": 1,
+    "max_candidates_per_annotation": 32,
+    "max_displacement": 80,
+    "max_local_search_steps": 2000,
+    "max_search_states": 20000,
+    "max_total_candidates": 800,
+    "min_text_symbol_gap": 2,
+    "min_text_text_gap": 2,
+    "min_text_wire_clearance": 5,
+    "min_text_wire_gap": 0,
+    "owner_max_distance": 250,
+    "scope": "all",
+    "scope_cluster_ids": [],
+    "self_text_contact_tolerance": 1
+  },
+  "coordinate_system": {
+    "name": "synthetic-raw-y-up",
+    "svg_y_axis": "down",
+    "transform": "screen_y = page_height - raw_y (analysis overlay only)",
+    "y_axis": "up"
+  },
+  "fixed_texts": [],
+  "host": {
+    "capabilities": {
+      "attribute_rotate": "unsupported",
+      "attribute_translate": "supported",
+      "free_text_translate": "unverified",
+      "net_label_detach": "unsupported"
+    },
+    "capability_source": "synthetic_declared",
+    "execution": "not_executed"
+  },
+  "movable_annotations": [
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 80.0,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zC"
+      },
+      "content": "1.0kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          114,
+          530,
+          144,
+          540
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A1",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C1",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 80.0,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zC"
+      },
+      "content": "2.0kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          134,
+          530,
+          164,
+          540
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A2",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C2",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 80.0,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zC"
+      },
+      "content": "3.0kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          182,
+          530,
+          212,
+          540
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A3",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C3",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 80.0,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zC"
+      },
+      "content": "4.0kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          207,
+          530,
+          237,
+          540
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A4",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C4",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    },
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "supported"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": false,
+        "max_displacement": 80.0,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "zC"
+      },
+      "content": "5.0kΩ",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          250,
+          530,
+          280,
+          540
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": "attribute",
+      "id": "A5",
+      "kind": "attribute",
+      "net": null,
+      "owner": {
+        "id": "C5",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "role": "value"
+    }
+  ],
+  "page": {
+    "bbox": [
+      0.0,
+      0.0,
+      1170.0,
+      825.0
+    ],
+    "keepouts": [
+      {
+        "bbox": [
+          900.0,
+          10.0,
+          1160.0,
+          190.0
+        ],
+        "hard": true,
+        "id": "titleBlock",
+        "reason": "synthetic title block"
+      }
+    ],
+    "title_block": {
+      "bbox": [
+        900.0,
+        10.0,
+        1160.0,
+        190.0
+      ],
+      "hard": true,
+      "id": "titleBlock"
+    },
+    "usable_bbox": [
+      10.0,
+      10.0,
+      1160.0,
+      815.0
+    ],
+    "zones": [
+      {
+        "bbox": [
+          40.0,
+          400.0,
+          560.0,
+          790.0
+        ],
+        "hard": false,
+        "id": "zA",
+        "name": "1 upper left",
+        "source": "synthetic_declared"
+      },
+      {
+        "bbox": [
+          600.0,
+          400.0,
+          1130.0,
+          790.0
+        ],
+        "hard": false,
+        "id": "zB",
+        "name": "2 upper right",
+        "source": "synthetic_declared"
+      },
+      {
+        "bbox": [
+          40.0,
+          40.0,
+          560.0,
+          380.0
+        ],
+        "hard": false,
+        "id": "zC",
+        "name": "3 lower left",
+        "source": "synthetic_declared"
+      },
+      {
+        "bbox": [
+          600.0,
+          200.0,
+          1130.0,
+          380.0
+        ],
+        "hard": false,
+        "id": "zD",
+        "name": "4 lower right",
+        "source": "synthetic_declared"
+      }
+    ]
+  },
+  "project": {
+    "name": "synthetic-holdout-chain",
+    "page_id": "page-holdout-chain",
+    "page_name": "P1",
+    "snapshot_sha256": "5566ce2be9e027c8fc4ab7efcd574969c33bb794c889fd372c040e57f7ea609f"
+  },
+  "schema": "annotation-layout/v1",
+  "source": {
+    "adapter": "tests/annotation_layout/build_fixtures.py",
+    "created": "2026-10-27",
+    "files": [],
+    "kind": "synthetic",
+    "notes": "holdout: five overlapping values in a chain across zone zC",
+    "source_commit": "9a951edc21481dc3ae91460acc11aa3e08a7be8a"
+  },
+  "uncertainty": {
+    "bbox_measured": true,
+    "font_metrics_known": false,
+    "notes": [
+      "synthetic geometry; no real EDA snapshot"
+    ],
+    "symbol_outline_approximate": true
+  },
+  "units": {
+    "description": "synthetic raw units; 10 raw = 2.54 mm",
+    "name": "schematic_raw",
+    "raw_per_mm": 3.937007874015748
+  },
+  "wires": []
+}

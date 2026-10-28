@@ -1,0 +1,184 @@
+{
+  "design_name": "ldo_button_led_3v3",
+  "blocks": [
+    {
+      "instance": "ldo",
+      "module_type": "ldo_supply",
+      "display_name": "3.3 V rail",
+      "inputs": {
+        "input_voltage": {
+          "min": 4.5,
+          "max": 5.5
+        },
+        "output_voltage": "3.3V",
+        "load_current": {
+          "min": "10mA",
+          "max": "50mA"
+        },
+        "ambient_temperature": {
+          "min": -40,
+          "max": 85
+        },
+        "device_fact_id": "ldo_tlv75533p"
+      }
+    },
+    {
+      "instance": "btn",
+      "module_type": "button_input",
+      "display_name": "User button",
+      "inputs": {
+        "supply_voltage": {
+          "min": 3.135,
+          "max": 3.465
+        },
+        "v_ih": 2.31,
+        "v_il": 0.99,
+        "logic_source": "datasheet",
+        "input_leakage": "1uA",
+        "variant": "pull_up",
+        "active_level": "low",
+        "series": "E24",
+        "value_range": {
+          "min": "4.7k",
+          "max": "47k"
+        },
+        "resistor_tolerance_pct": 1,
+        "contact": {
+          "current_limit_max": "50mA",
+          "contact_resistance": {
+            "min": 0,
+            "max": 0.1
+          },
+          "bounce_ms": 5,
+          "pin_configuration": "two_terminal_abstract"
+        },
+        "rc_filter": {
+          "target_time_constant": {
+            "nominal": "1ms",
+            "tolerance_pct": 20
+          },
+          "capacitor_series": "E12",
+          "capacitor_tolerance_pct": 10
+        }
+      }
+    },
+    {
+      "instance": "led",
+      "module_type": "led_indicator",
+      "display_name": "Status LED",
+      "inputs": {
+        "supply_voltage": {
+          "min": 4.75,
+          "max": 5.25
+        },
+        "led_vf": {
+          "min": 1.8,
+          "max": 2.2
+        },
+        "target_current": "5mA",
+        "max_current": "8mA",
+        "min_current": "3mA",
+        "led_max_current": "25mA",
+        "series": "E24",
+        "resistor_tolerance_pct": 1,
+        "control": "low_side_switch",
+        "resistor_position": "supply_side",
+        "switch_facts": {
+          "sink_current_max": "10mA",
+          "voltage_drop": {
+            "min": 0,
+            "max": 0.4
+          }
+        }
+      }
+    }
+  ],
+  "connections": [
+    {
+      "a": "ldo.VOUT",
+      "b": "btn.VCC"
+    },
+    {
+      "a": "ldo.EN",
+      "b": "ldo.VIN"
+    }
+  ],
+  "design_ports": [
+    {
+      "id": "VIN_5V",
+      "direction": "input",
+      "role": "power",
+      "voltage": {
+        "min": 4.5,
+        "max": 5.5
+      },
+      "members": [
+        "ldo.VIN",
+        "led.VCC"
+      ],
+      "current": {
+        "min": 0,
+        "max": 0.1
+      },
+      "description": "5 V input rail: feeds the LDO and the LED ballast"
+    },
+    {
+      "id": "GND",
+      "direction": "passive",
+      "role": "ground",
+      "members": [
+        "ldo.GND",
+        "btn.GND",
+        "led.GND"
+      ]
+    },
+    {
+      "id": "BTN_A",
+      "direction": "passive",
+      "role": "switch",
+      "members": [
+        "btn.SW_A"
+      ]
+    },
+    {
+      "id": "BTN_B",
+      "direction": "passive",
+      "role": "switch",
+      "members": [
+        "btn.SW_B"
+      ]
+    },
+    {
+      "id": "BTN_OUT",
+      "direction": "output",
+      "role": "digital",
+      "voltage": {
+        "min": 0,
+        "max": 3.465
+      },
+      "current": {
+        "min": 0,
+        "max": 1e-06
+      },
+      "members": [
+        "btn.OUT"
+      ]
+    },
+    {
+      "id": "LED_DRIVE",
+      "direction": "input",
+      "role": "switch",
+      "voltage": {
+        "min": 0,
+        "max": 0.4
+      },
+      "current": {
+        "min": 0,
+        "max": 0.01
+      },
+      "members": [
+        "led.SW"
+      ]
+    }
+  ]
+}

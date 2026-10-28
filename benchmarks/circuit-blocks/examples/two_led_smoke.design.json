@@ -1,0 +1,51 @@
+{
+  "design_name": "two_led_smoke",
+  "blocks": [
+    {
+      "instance": "pwr_led",
+      "module_type": "led_indicator",
+      "display_name": "Power indicator",
+      "inputs": {
+        "supply_voltage": {"min": 4.75, "max": 5.25},
+        "led_vf": {"min": 1.8, "max": 2.2},
+        "target_current": "3mA",
+        "max_current": "5mA",
+        "led_max_current": "25mA",
+        "series": "E24",
+        "resistor_tolerance_pct": 1,
+        "control": "always_on"
+      }
+    },
+    {
+      "instance": "status_led",
+      "module_type": "led_indicator",
+      "display_name": "Status LED",
+      "inputs": {
+        "supply_voltage": {"min": 4.75, "max": 5.25},
+        "led_vf": {"min": 1.8, "max": 2.2},
+        "target_current": "5mA",
+        "max_current": "8mA",
+        "min_current": "3mA",
+        "led_max_current": "25mA",
+        "series": "E24",
+        "resistor_tolerance_pct": 1,
+        "control": "low_side_switch",
+        "switch_facts": {
+          "sink_current_max": "10mA",
+          "voltage_drop": {"min": 0, "max": 0.4}
+        }
+      }
+    }
+  ],
+  "connections": [],
+  "design_ports": [
+    {"id": "VIN", "direction": "input", "role": "power",
+     "voltage": {"min": 4.75, "max": 5.25},
+     "members": ["pwr_led.VCC", "status_led.VCC"]},
+    {"id": "GND", "direction": "passive", "role": "ground",
+     "members": ["pwr_led.GND", "status_led.GND"]},
+    {"id": "STATUS_SW", "direction": "input", "role": "switch",
+     "current": {"min": 0, "max": 0.01},
+     "members": ["status_led.SW"]}
+  ]
+}

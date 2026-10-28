@@ -1,0 +1,121 @@
+{
+  "schema": "zhigou.electrical-review.input/v1",
+  "design": {
+    "project_id": "r3-ok",
+    "document_id": "P1",
+    "units": {
+      "length": "mil",
+      "voltage": "V",
+      "capacitance": "uF"
+    },
+    "source_type": "synthetic_fixture",
+    "title": "electrical-review benchmark fixture"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "synthetic_fixture",
+      "source": "task-B synthetic fixture"
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "iSW1",
+      "ref": "SW1",
+      "kind": "switch",
+      "pins": [
+        {
+          "number": "1",
+          "net": "EN"
+        },
+        {
+          "number": "2",
+          "net": "EN"
+        },
+        {
+          "number": "3",
+          "net": "GND"
+        },
+        {
+          "number": "4",
+          "net": "GND"
+        }
+      ],
+      "mpn": "SKHHAKA010"
+    }
+  ],
+  "connectivity": {
+    "pin_nets": {}
+  },
+  "device_facts": [
+    {
+      "fact_id": "F-SWITCH-4PIN",
+      "mpn": "SKHHAKA010",
+      "manufacturer": "ALPSALPINE",
+      "package": "SKHH Top push 4-terminal THT",
+      "revision": "ALPS SKHH product page printed 2018-01-17; catalog p.200",
+      "source": {
+        "kind": "datasheet",
+        "url": "http://www.alps.com/prod/info/C/HTML/Tact/SnapIn/SKHH/SKHHAKA010.html",
+        "revision": "ALPS SKHH product page print 2018-01-17; catalog printed p.200",
+        "retrieved_at": "2026-10-27",
+        "pages": "product page print p.3 circuit diagram; catalog p.199-200",
+        "table": "Circuit diagram: 1-2 common, 3-4 common, NO contact between groups",
+        "sha256": "ca5bd4e5d68018b9835dbd40b0ce177d321b95ed6caf560b70db3cb4176e736c",
+        "note": "first-party ALPS PDF mirrored by LCSC (C139754); original URL is the official ALPS product page printed in the footer"
+      },
+      "applies_to": {
+        "mpn": [
+          "SKHHAKA010",
+          "SKHHARA010",
+          "SKHHAJA010",
+          "SKHHALA010",
+          "SKHHAQA010",
+          "SKHHAMA010"
+        ],
+        "packages": [],
+        "revisions": []
+      },
+      "facts": [
+        {
+          "type": "switch_internal_groups",
+          "value": {
+            "always_closed_groups": [
+              [
+                "1",
+                "2"
+              ],
+              [
+                "3",
+                "4"
+              ]
+            ],
+            "pressed_connects_groups": true,
+            "pressed_closes": [],
+            "terminal_numbering": "原厂电路图明确标注 1/2/3/4；不依赖符号左右位置",
+            "note": "Top push type: 1-2 common, 3-4 common, press closes the NO contact between the two groups. Side push type is 2-terminal and must not use this fact."
+          }
+        }
+      ]
+    }
+  ],
+  "intent": {
+    "switch_requirements": [
+      {
+        "component": "SW1",
+        "function": "user button",
+        "used_pins": [
+          "1",
+          "3"
+        ],
+        "evidence": [
+          "E1"
+        ]
+      }
+    ],
+    "net_roles": {
+      "EN": "signal",
+      "GND": "ground"
+    }
+  }
+}

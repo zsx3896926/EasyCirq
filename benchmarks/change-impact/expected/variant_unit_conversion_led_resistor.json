@@ -1,0 +1,37 @@
+{
+ "schema": "hds-change-impact-benchmark-expected/v1",
+ "scenario_id": "variant_unit_conversion_led_resistor",
+ "derivation": "variant of led_resistor_value: variant_unit_conversion must not drop or invent impacts (same must_impact/must_not_impact as the base); re-ordering, synonyms, unit conversion, an unrelated subgraph or cost inflation must not change the analysis, and removing coverage edges must not turn unknown into proven-safe.",
+ "expected_status": "planned_with_scope",
+ "expected_exit": 0,
+ "must_impact": [
+  {
+   "object": "cmp:R1",
+   "impact": "electrical_state",
+   "confidence_at_least": "certain"
+  },
+  {
+   "object": "net:LED_A",
+   "impact": "signal_integrity",
+   "confidence_at_least": "possible"
+  },
+  {
+   "object": "test:led_current",
+   "impact": "test_criterion_change",
+   "confidence_at_least": "possible"
+  }
+ ],
+ "must_not_impact": [],
+ "required_checks": [
+  "chk:led_current"
+ ],
+ "blocked_checks": [],
+ "evidence_status": {},
+ "unknown_codes_required": [],
+ "unknown_codes_forbidden": [],
+ "min_coverage_gaps": 0,
+ "cycles_nonempty": false,
+ "truncated": false,
+ "real_eda": "NOT RUN",
+ "physical_test": "NOT RUN"
+}

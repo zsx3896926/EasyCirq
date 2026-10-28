@@ -1,0 +1,53 @@
+{
+  "id": "low_side_nmos_dc_5v",
+  "description": "Holdout: AO3400A, 12 V DC non-inductive 2 A load driven from 4.5..5.5 V. Drive min 4.5 V selects the 32 mOhm row; P_max=2^2*0.032=0.128 W; Tj=50+0.128*125=66 C; R >= 5.5 V/100 mA = 55 ohm -> E24 56 ohm.",
+  "command": "generate",
+  "module_type": "low_side_nmos",
+  "input": {
+    "device_fact_id": "mosfet_ao3400a",
+    "load_supply_voltage": {
+      "min": 11.4,
+      "max": 12.6
+    },
+    "load_current_nominal": "1.5A",
+    "load_current_max": "2A",
+    "load_inrush_current": "3A",
+    "gate_drive_voltage": {
+      "min": 4.5,
+      "max": 5.5
+    },
+    "dc_operation": true,
+    "inductive_load": false,
+    "ambient_temperature": {
+      "min": 0,
+      "max": 50
+    },
+    "gate_series": "E24",
+    "gate_resistor_target": {
+      "min": 10,
+      "max": 100
+    },
+    "gate_pulldown_value": "10k",
+    "max_gate_drive_current": "100mA"
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 56
+      },
+      {
+        "ref": "R2",
+        "value": 10000
+      }
+    ],
+    "calculations": {
+      ".rds_on_at_drive.result.rds_on_ohm": 0.032,
+      ".conduction_loss.result.power_max_w": 0.128,
+      ".thermal_estimate.result.estimated_tj_degc": 66.0
+    }
+  },
+  "input_sha256": "3e812503600793fd8d495aa87a599677de550208e01ec697484726b0bab3b741"
+}

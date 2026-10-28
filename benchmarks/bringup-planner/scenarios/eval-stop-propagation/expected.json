@@ -1,0 +1,36 @@
+{
+  "schema": "bringup-bench-expectation/v1",
+  "id": "eval-stop-propagation",
+  "categories": [
+    "evaluation_stop",
+    "stop_propagation"
+  ],
+  "derivation": "Frozen dependency chain I1-VIS-001 -> I2-SEQ-VIN_5V -> I3-V-VIN_5V plus an independent I4 branch that only depends on I1. I2 is recorded fail with stop_triggered=true; I3 is recorded pass. Contract: a triggered STOP / failed required step blocks all transitive dependents and any recorded pass in a dependent is invalidated (INVALIDATED_BY_STOP); independent branches continue. verdict=FAIL (exit 1) with failed>=1 and I3 reported as invalidated, not as a surviving pass.",
+  "input": {
+    "file": "input.json",
+    "sha256": "4c52dfb5a6dc9a142fa61a59b20ae6ba10e5b22d862c8ad045428ad69d3dd9a4"
+  },
+  "expect": {
+    "validate": {
+      "exit_code": 0,
+      "status": "valid"
+    },
+    "evaluate": {
+      "plan_file": "plan.json",
+      "exit_code": 1,
+      "verdict": "FAIL",
+      "hardware_pass": false,
+      "counts_min": {
+        "failed": 1
+      },
+      "required_finding_codes": [
+        "INVALIDATED_BY_STOP"
+      ],
+      "step_verdicts": {
+        "I3-V-VIN_5V": "invalidated"
+      }
+    },
+    "not_run_statement": true
+  },
+  "frozen_from": "hand derivation (contract docs + model.py/scope.py/dag.py semantics), never copied from CLI output"
+}

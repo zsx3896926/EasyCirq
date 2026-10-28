@@ -1,0 +1,18 @@
+{
+  "schema": "mechanical-layout-benchmark-expected/v1",
+  "case": "plan_budget",
+  "command": "plan",
+  "args": [
+    "--max-combinations",
+    "2"
+  ],
+  "exit_code": 4,
+  "status": "search_incomplete",
+  "required_rules": [
+    "G5.SEARCH_INCOMPLETE"
+  ],
+  "forbidden_rules": [],
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "notes": "hand-derived from geometry/contract; not copied from actual output"
+}

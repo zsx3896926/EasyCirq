@@ -1,0 +1,49 @@
+{
+  "id": "low_side_nmos_gate_target",
+  "description": "A single-point 47 ohm gate target pins the standard value; the 10 k pulldown is retained for fail-safe gate discharge.",
+  "command": "generate",
+  "module_type": "low_side_nmos",
+  "input": {
+    "device_fact_id": "mosfet_ao3400a",
+    "load_supply_voltage": {
+      "min": 11.4,
+      "max": 12.6
+    },
+    "load_current_nominal": "0.5A",
+    "load_current_max": "0.8A",
+    "load_inrush_current": "2.5A",
+    "gate_drive_voltage": {
+      "min": 3.135,
+      "max": 3.465
+    },
+    "switching_frequency": "20kHz",
+    "inductive_load": true,
+    "load_inductance": "1mH",
+    "ambient_temperature": {
+      "min": 0,
+      "max": 40
+    },
+    "gate_series": "E24",
+    "gate_resistor_target": {
+      "min": 47,
+      "max": 47
+    },
+    "gate_pulldown_value": "10k",
+    "max_gate_drive_current": "100mA"
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 47
+      },
+      {
+        "ref": "R2",
+        "value": 10000
+      }
+    ]
+  },
+  "input_sha256": "8c95eba56282d33e8f7119df9d6f14734c8f80beed42b091b71af2dd7d5b0b7a"
+}

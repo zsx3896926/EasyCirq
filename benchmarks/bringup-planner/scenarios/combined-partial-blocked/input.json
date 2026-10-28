@@ -1,0 +1,395 @@
+{
+  "schema": "bringup-plan-input/v1",
+  "project": {
+    "name": "bench-partial-blocked-board",
+    "revision": "rev-2026-10-27-A",
+    "source_snapshot_hash": "7a7b5fd8a97d538b18e32929bb4021f4c125c3db25c76403970b3ee24652b744",
+    "bom_version": "bom-2026-10-27-1",
+    "assembly_version": "asm-2026-10-27-1",
+    "scope": {
+      "supply_class": "dc_low_voltage",
+      "operations": [
+        "visual_inspection",
+        "deenergized_continuity",
+        "powered_dc_measurement",
+        "digital_interface",
+        "analog_measurement",
+        "low_side_load"
+      ],
+      "notes": "synthetic design intent; no physical board"
+    }
+  },
+  "power_domains": [
+    {
+      "id": "VIN_5V",
+      "net": "+5V",
+      "ground_net": "GND",
+      "nominal_v": 5.0,
+      "operating_min_v": 4.5,
+      "operating_max_v": 5.5,
+      "absolute_max_v": 6.0,
+      "source": "J1 USB VBUS",
+      "startup_current": {
+        "value": 0.15,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "static_current": {
+        "value": 0.12,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "runtime_current": {
+        "value": 0.12,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "load": "LDO + MCU module",
+      "protection": {
+        "reverse_blocking": "none"
+      },
+      "removable_load": false
+    },
+    {
+      "id": "VDD_3V3",
+      "net": "+3V3",
+      "ground_net": "GND",
+      "nominal_v": 3.3,
+      "operating_min_v": 3.14,
+      "operating_max_v": 3.46,
+      "absolute_max_v": 4.0,
+      "source": "U2 AMS1117-3.3",
+      "startup_current": {
+        "basis": "unknown"
+      },
+      "static_current": {
+        "value": 0.04,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "runtime_current": {
+        "value": 0.04,
+        "basis": "project_requirement",
+        "source_ref": "EV-01"
+      },
+      "load": "MCU module + SHT40 sensor",
+      "protection": {
+        "reverse_blocking": "none"
+      },
+      "removable_load": false,
+      "depends_on": [
+        {
+          "domain": "VIN_5V",
+          "reason": "LDO input"
+        }
+      ]
+    }
+  ],
+  "assemblies": {
+    "dnp": [
+      {
+        "designator": "R7",
+        "part": "0R",
+        "reason": "DNP option"
+      }
+    ],
+    "jumpers": [
+      {
+        "id": "JP1",
+        "default_state": "open",
+        "configurations": [
+          {
+            "state": "open",
+            "purpose": "default"
+          },
+          {
+            "state": "closed",
+            "purpose": "current measurement"
+          }
+        ],
+        "required_state_for_test": "open"
+      }
+    ],
+    "variants": [
+      "variant-A"
+    ],
+    "removable_loads": [
+      {
+        "designator": "J2",
+        "description": "external LED load",
+        "default_connected": false
+      }
+    ],
+    "protection_and_polarity": "D1 series diode on VBUS; check polarity before power",
+    "external_supply_paths": [
+      {
+        "id": "USB_DEBUG",
+        "net": "+5V",
+        "can_backfeed": true,
+        "disconnect_required_for_deenergized_tests": true,
+        "notes": "debug USB can feed VBUS"
+      }
+    ]
+  },
+  "interfaces": [
+    {
+      "id": "J1_USB",
+      "type": "usb",
+      "pins": [
+        {
+          "pin": "A4",
+          "net": "VBUS",
+          "role": "power"
+        },
+        {
+          "pin": "A1",
+          "net": "GND",
+          "role": "ground"
+        },
+        {
+          "pin": "A6",
+          "net": "USB_DP",
+          "role": "signal"
+        },
+        {
+          "pin": "A7",
+          "net": "USB_DN",
+          "role": "signal"
+        }
+      ],
+      "logic_level_v": 3.3,
+      "backfeed_risk": true
+    },
+    {
+      "id": "U1_I2C",
+      "type": "i2c",
+      "pins": [
+        {
+          "pin": "17",
+          "net": "I2C_SDA",
+          "role": "signal"
+        },
+        {
+          "pin": "18",
+          "net": "I2C_SCL",
+          "role": "signal"
+        }
+      ],
+      "logic_level_v": 3.3
+    },
+    {
+      "id": "LED1",
+      "type": "led",
+      "pins": [
+        {
+          "pin": "1",
+          "net": "LED_ANODE",
+          "role": "signal"
+        },
+        {
+          "pin": "2",
+          "net": "GND",
+          "role": "ground"
+        }
+      ],
+      "logic_level_v": 3.3
+    },
+    {
+      "id": "U3_ADC",
+      "type": "analog_input",
+      "pins": [
+        {
+          "pin": "2",
+          "net": "NTC_NODE",
+          "role": "signal"
+        }
+      ],
+      "logic_level_v": 3.3
+    },
+    {
+      "id": "U4_LOAD",
+      "type": "load_output",
+      "pins": [
+        {
+          "pin": "3",
+          "net": "LOAD_OUT",
+          "role": "signal"
+        },
+        {
+          "pin": "2",
+          "net": "GND",
+          "role": "ground"
+        }
+      ],
+      "logic_level_v": 3.3
+    },
+    {
+      "id": "U5_BTL",
+      "type": "bridge_output",
+      "output_type": "bridge_tied_load",
+      "pins": [
+        {
+          "pin": "5",
+          "net": "BTL_OUTP",
+          "role": "signal"
+        },
+        {
+          "pin": "6",
+          "net": "BTL_OUTN",
+          "role": "signal"
+        }
+      ],
+      "logic_level_v": 3.3
+    }
+  ],
+  "testpoints": [
+    {
+      "id": "TP1",
+      "net": "+5V",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "top left"
+    },
+    {
+      "id": "TP2",
+      "net": "+3V3",
+      "reference_net": "GND",
+      "contact": "probe_pad",
+      "reachability_verified": true,
+      "location": "near U2"
+    },
+    {
+      "id": "TP3",
+      "net": "LOAD_OUT",
+      "reference_net": "GND",
+      "contact": "header_pin",
+      "reachability_verified": true,
+      "location": "J2 pin 1"
+    }
+  ],
+  "equipment": {
+    "supplies": [
+      {
+        "id": "PSU1",
+        "model": "declared-lab-psu",
+        "max_voltage_v": 30,
+        "max_current_a": 2,
+        "current_limit_resolution_a": 0.001,
+        "setpoint_resolution_v": 0.01,
+        "source": "declared"
+      }
+    ],
+    "multimeters": [
+      {
+        "id": "DMM1",
+        "model": "declared-dmm",
+        "dc_voltage_max_v": 1000,
+        "dc_voltage_resolution_v": 0.001,
+        "resistance_max_ohm": 50000000,
+        "diode_mode": true,
+        "source": "declared"
+      }
+    ],
+    "oscilloscopes": [
+      {
+        "id": "SCOPE1",
+        "model": "declared-scope",
+        "bandwidth_mhz": 20,
+        "channels": 4,
+        "grounding": "earth_referenced",
+        "probe": null,
+        "max_input_voltage_v": 300,
+        "source": "declared"
+      }
+    ],
+    "electronic_loads": []
+  },
+  "operating_conditions": {
+    "ambient": {
+      "min_c": 15,
+      "max_c": 30
+    },
+    "load": "no external load for first energise",
+    "current_limit_policy": {
+      "value": 0.2,
+      "basis": "project_requirement",
+      "source_ref": "EV-01",
+      "conditions": "first energise only"
+    },
+    "observation_window_s": {
+      "value": 2,
+      "basis": "project_requirement",
+      "source_ref": "EV-01"
+    },
+    "required_states": [
+      "deenergized_verified",
+      "rail_in_range",
+      "no_overheat"
+    ]
+  },
+  "device_facts": [
+    {
+      "id": "DF-001",
+      "kind": "device",
+      "device": "CSD17578Q3A",
+      "manufacturer": "Texas Instruments",
+      "document": "CSD17578Q3A 30-V N-Channel NexFET Power MOSFET datasheet",
+      "revision": "SLPS525A",
+      "section": "Absolute Maximum Ratings",
+      "url": "https://www.ti.com/document-viewer/CSD17578Q3A/datasheet",
+      "conditions": "TA = 25 C unless otherwise noted",
+      "facts": [
+        {
+          "key": "VDS",
+          "value": 30,
+          "unit": "V",
+          "qualifier": "absolute maximum, never an operating target",
+          "quote": "VDS | Drain-to-Source Voltage | 30 | V"
+        },
+        {
+          "key": "VGS",
+          "value": 20,
+          "unit": "V",
+          "qualifier": "+/-20 V absolute maximum gate-to-source voltage"
+        }
+      ]
+    }
+  ],
+  "user_policy": {
+    "mode": "plan_only",
+    "allowed_operations": [
+      "visual_inspection",
+      "deenergized_continuity",
+      "powered_dc_measurement",
+      "digital_interface",
+      "analog_measurement",
+      "low_side_load"
+    ],
+    "forbidden_operations": [
+      "soldering",
+      "firmware_flashing",
+      "instrument_control"
+    ],
+    "max_input_voltage_v": 12,
+    "max_current_a": 1,
+    "human_confirmation_points": [
+      "before_first_energize"
+    ],
+    "risk_tolerance": "low"
+  },
+  "evidence_sources": [
+    {
+      "id": "EV-01",
+      "kind": "other",
+      "path": "evidence/design-intent.json",
+      "revision": "rev-2026-10-27-A",
+      "captured_at": "2026-10-20T08:00:00+08:00",
+      "notes": "declared design intent, not a measurement"
+    }
+  ],
+  "notes": {
+    "task_description": "first-article bring-up of a low-voltage MCU sensor board; synthetic design intent, nothing has been powered",
+    "data_status": "synthetic design intent only; no hardware, no instrument, no firmware"
+  }
+}

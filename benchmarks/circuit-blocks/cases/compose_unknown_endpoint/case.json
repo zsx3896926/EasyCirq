@@ -1,0 +1,293 @@
+{
+  "id": "compose_unknown_endpoint",
+  "description": "A design port member naming a block port that does not exist is an input error, not an incomplete design.",
+  "command": "compose",
+  "input": {
+    "design_name": "dual_button_dual_led_5v",
+    "notes": "Quick-start abstract design: two 5 V buttons with RC filtering and two LED indicators, with the MCU-facing signals left as explicit design ports. Not a schematic and not manufacturable.",
+    "blocks": [
+      {
+        "instance": "btn1",
+        "module_type": "button_input",
+        "display_name": "Button 1 (S1)",
+        "inputs": {
+          "supply_voltage": {
+            "min": 4.75,
+            "max": 5.25
+          },
+          "v_ih": 3.5,
+          "v_il": 1.5,
+          "logic_source": "datasheet",
+          "input_leakage": "1uA",
+          "variant": "pull_up",
+          "active_level": "low",
+          "series": "E24",
+          "value_range": {
+            "min": "4.7k",
+            "max": "47k"
+          },
+          "resistor_tolerance_pct": 1,
+          "contact": {
+            "current_limit_max": "50mA",
+            "contact_resistance": {
+              "min": 0,
+              "max": 0.1
+            },
+            "bounce_ms": 5,
+            "pin_configuration": "two_terminal_abstract"
+          },
+          "rc_filter": {
+            "target_time_constant": {
+              "nominal": "1ms",
+              "tolerance_pct": 20
+            },
+            "capacitor_series": "E12",
+            "capacitor_tolerance_pct": 10
+          }
+        }
+      },
+      {
+        "instance": "btn2",
+        "module_type": "button_input",
+        "display_name": "Button 2 (S2)",
+        "inputs": {
+          "supply_voltage": {
+            "min": 4.75,
+            "max": 5.25
+          },
+          "v_ih": 3.5,
+          "v_il": 1.5,
+          "logic_source": "datasheet",
+          "input_leakage": "1uA",
+          "variant": "pull_up",
+          "active_level": "low",
+          "series": "E24",
+          "value_range": {
+            "min": "4.7k",
+            "max": "47k"
+          },
+          "resistor_tolerance_pct": 1,
+          "contact": {
+            "current_limit_max": "50mA",
+            "contact_resistance": {
+              "min": 0,
+              "max": 0.1
+            },
+            "bounce_ms": 5,
+            "pin_configuration": "two_terminal_abstract"
+          },
+          "rc_filter": {
+            "target_time_constant": {
+              "nominal": "1ms",
+              "tolerance_pct": 20
+            },
+            "capacitor_series": "E12",
+            "capacitor_tolerance_pct": 10
+          }
+        }
+      },
+      {
+        "instance": "led1",
+        "module_type": "led_indicator",
+        "display_name": "LED 1 (D1)",
+        "inputs": {
+          "supply_voltage": {
+            "min": 4.75,
+            "max": 5.25
+          },
+          "led_vf": {
+            "min": 1.8,
+            "max": 2.2
+          },
+          "target_current": "5mA",
+          "max_current": "8mA",
+          "min_current": "3mA",
+          "led_max_current": "25mA",
+          "series": "E24",
+          "resistor_tolerance_pct": 1,
+          "control": "low_side_switch",
+          "switch_facts": {
+            "sink_current_max": "10mA",
+            "voltage_drop": {
+              "min": 0,
+              "max": 0.4
+            },
+            "declared_by": "user"
+          }
+        }
+      },
+      {
+        "instance": "led2",
+        "module_type": "led_indicator",
+        "display_name": "LED 2 (D2)",
+        "inputs": {
+          "supply_voltage": {
+            "min": 4.75,
+            "max": 5.25
+          },
+          "led_vf": {
+            "min": 1.8,
+            "max": 2.2
+          },
+          "target_current": "5mA",
+          "max_current": "8mA",
+          "min_current": "3mA",
+          "led_max_current": "25mA",
+          "series": "E24",
+          "resistor_tolerance_pct": 1,
+          "control": "low_side_switch",
+          "switch_facts": {
+            "sink_current_max": "10mA",
+            "voltage_drop": {
+              "min": 0,
+              "max": 0.4
+            },
+            "declared_by": "user"
+          }
+        }
+      }
+    ],
+    "connections": [],
+    "optional_unbound": [],
+    "design_ports": [
+      {
+        "id": "VIN",
+        "direction": "input",
+        "role": "power",
+        "voltage": {
+          "min": 4.75,
+          "max": 5.25
+        },
+        "description": "5 V supply for the buttons and LEDs",
+        "members": [
+          "btn1.VCC",
+          "btn2.VCC",
+          "led1.VCC",
+          "led2.VCC",
+          "ghost.VCC"
+        ]
+      },
+      {
+        "id": "GND",
+        "direction": "passive",
+        "role": "ground",
+        "description": "common ground",
+        "members": [
+          "btn1.GND",
+          "btn2.GND",
+          "led1.GND",
+          "led2.GND"
+        ]
+      },
+      {
+        "id": "BTN1_A",
+        "direction": "passive",
+        "role": "switch",
+        "description": "button 1 contact terminal A",
+        "members": [
+          "btn1.SW_A"
+        ]
+      },
+      {
+        "id": "BTN1_B",
+        "direction": "passive",
+        "role": "switch",
+        "description": "button 1 contact terminal B",
+        "members": [
+          "btn1.SW_B"
+        ]
+      },
+      {
+        "id": "BTN2_A",
+        "direction": "passive",
+        "role": "switch",
+        "description": "button 2 contact terminal A",
+        "members": [
+          "btn2.SW_A"
+        ]
+      },
+      {
+        "id": "BTN2_B",
+        "direction": "passive",
+        "role": "switch",
+        "description": "button 2 contact terminal B",
+        "members": [
+          "btn2.SW_B"
+        ]
+      },
+      {
+        "id": "BTN1_OUT",
+        "direction": "output",
+        "role": "digital",
+        "voltage": {
+          "min": 0,
+          "max": 5.25
+        },
+        "current": {
+          "min": 0,
+          "max": 1e-06
+        },
+        "description": "filtered button 1 signal to the MCU input",
+        "members": [
+          "btn1.OUT"
+        ]
+      },
+      {
+        "id": "BTN2_OUT",
+        "direction": "output",
+        "role": "digital",
+        "voltage": {
+          "min": 0,
+          "max": 5.25
+        },
+        "current": {
+          "min": 0,
+          "max": 1e-06
+        },
+        "description": "filtered button 2 signal to the MCU input",
+        "members": [
+          "btn2.OUT"
+        ]
+      },
+      {
+        "id": "LED1_DRIVE",
+        "direction": "input",
+        "role": "switch",
+        "voltage": {
+          "min": 0,
+          "max": 0.4
+        },
+        "current": {
+          "min": 0,
+          "max": 0.01
+        },
+        "description": "MCU GPIO / low-side switch for LED 1",
+        "members": [
+          "led1.SW"
+        ]
+      },
+      {
+        "id": "LED2_DRIVE",
+        "direction": "input",
+        "role": "switch",
+        "voltage": {
+          "min": 0,
+          "max": 0.4
+        },
+        "current": {
+          "min": 0,
+          "max": 0.01
+        },
+        "description": "MCU GPIO / low-side switch for LED 2",
+        "members": [
+          "led2.SW"
+        ]
+      }
+    ]
+  },
+  "expect": {
+    "exit_code": 2,
+    "status": "input_invalid"
+  },
+  "input_sha256": "e94723a05bfcfb971423b066fc49a56770fce623d66c9f0ff85a86e1865da6e3"
+}

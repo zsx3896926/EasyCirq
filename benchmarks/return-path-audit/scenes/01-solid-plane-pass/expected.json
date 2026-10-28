@@ -1,0 +1,17 @@
+{
+  "name": "01-solid-plane-pass",
+  "purpose": "Solid reference plane under a straight trace",
+  "tags": [
+    "e2",
+    "pass"
+  ],
+  "expected": {
+    "overall_status": "pass_with_scope",
+    "must_include_rules": [],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": 60,
+    "checked_length_max": 60
+  },
+  "reasoning": "The L2 GND polygon covers the whole board, the trace projection plus width/2 plus corridor=0.2 stays >0.3 away from every copper boundary, so no coverage or corridor finding exists and every millimetre of the 60 mm trace is checked."
+}

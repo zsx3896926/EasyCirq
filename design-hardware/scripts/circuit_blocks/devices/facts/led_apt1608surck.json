@@ -1,0 +1,55 @@
+{
+  "schema": "circuit-blocks/device-facts/1",
+  "fact_id": "led_apt1608surck",
+  "category": "led",
+  "mpn": "APT1608SURCK",
+  "manufacturer": "Kingbright",
+  "verified": true,
+  "verified_on": "2026-10-27",
+  "conditions": "TA = 25 C unless a fact states its own condition; test current IF = 20 mA unless stated. Facts apply to the single-colour Hyper Red 1.6 mm x 0.8 mm SMD lamp APT1608SURCK.",
+  "sources": [
+    {
+      "document": "APT1608SURCK 1.6 x 0.8 mm SMD Chip LED Lamp datasheet",
+      "doc_id": "DSAD0926",
+      "revision": "V.22A (Spec No. DSAD0926 / 1203001764, dated 2023-04-08)",
+      "url": "https://www.kingbrightusa.com/images/catalog/SPEC/APT1608SURCK.pdf",
+      "accessed": "2026-10-27",
+      "sections": [
+        "Descriptions / Features / Selection Guide (printed p. 1)",
+        "Absolute Maximum Ratings (printed p. 2)",
+        "Electrical / Optical Characteristics (printed p. 2)",
+        "Notes to Electrical / Optical Characteristics and Rth (printed p. 2)",
+        "Forward Current Derating Curve (printed p. 3)"
+      ]
+    }
+  ],
+  "facts": {
+    "vf_typ_v": {"value": 1.95, "unit": "V", "applies_to": "APT1608SURCK (Hyper Red, AlGaInP)", "condition": "typical forward voltage at IF = 20 mA, TA = 25 C; forward-voltage tolerance +/-0.1 V per datasheet note", "source": "DSAD0926, Electrical / Optical Characteristics (printed p. 2)"},
+    "vf_max_v": {"value": 2.5, "unit": "V", "applies_to": "APT1608SURCK (Hyper Red, AlGaInP)", "condition": "maximum forward voltage at IF = 20 mA, TA = 25 C (plus the stated +/-0.1 V forward-voltage tolerance)", "source": "DSAD0926, Electrical / Optical Characteristics (printed p. 2)"},
+    "i_forward_max_a": {"value": 0.030, "unit": "A", "applies_to": "APT1608SURCK", "condition": "DC forward current absolute maximum (continuous), TA = 25 C; derate above 25 C according to the printed Forward Current Derating Curve", "source": "DSAD0926, Absolute Maximum Ratings (printed p. 2) and derating curve (printed p. 3)"},
+    "i_forward_abs_max_a": {"value": 0.185, "unit": "A", "applies_to": "APT1608SURCK", "condition": "peak forward current absolute maximum, measured at 1/10 duty cycle and 0.1 ms pulse width - a pulsed rating, NOT a continuous rating", "source": "DSAD0926, Absolute Maximum Ratings note 1 (printed p. 2)"},
+    "power_dissipation_max_w": {"value": 0.075, "unit": "W", "applies_to": "APT1608SURCK", "condition": "absolute maximum power dissipation at TA = 25 C", "source": "DSAD0926, Absolute Maximum Ratings (printed p. 2)"},
+    "tj_max_c": {"value": 115, "unit": "C", "applies_to": "APT1608SURCK", "condition": "absolute maximum junction temperature", "source": "DSAD0926, Absolute Maximum Ratings (printed p. 2)"},
+    "t_op_max_c": {"value": 85, "unit": "C", "applies_to": "APT1608SURCK", "condition": "maximum operating (ambient) temperature; operating range -40 C to +85 C", "source": "DSAD0926, Absolute Maximum Ratings (printed p. 2)"},
+    "t_op_min_c": {"value": -40, "unit": "C", "applies_to": "APT1608SURCK", "condition": "minimum operating (ambient) temperature; operating range -40 C to +85 C", "source": "DSAD0926, Absolute Maximum Ratings (printed p. 2)"},
+    "theta_ja_c_per_w": {"value": 480, "unit": "C/W", "applies_to": "APT1608SURCK", "condition": "junction-to-ambient thermal resistance with the LED mounted on FR4, pad size >= 16 mm^2 per pad (datasheet note 2); not a bare-package value", "source": "DSAD0926, Absolute Maximum Ratings Rth JA (printed p. 2)"},
+    "theta_js_c_per_w": {"value": 310, "unit": "C/W", "applies_to": "APT1608SURCK", "condition": "junction-to-solder-point thermal resistance, mounted on FR4 with pad size >= 16 mm^2 per pad", "source": "DSAD0926, Absolute Maximum Ratings Rth JS (printed p. 2)"},
+    "temperature_coefficient_vf": {"value": -0.0019, "unit": "V/C", "applies_to": "APT1608SURCK", "condition": "temperature coefficient of VF at IF = 20 mA over -10 C <= T <= 85 C (-1.9 mV/C typical)", "source": "DSAD0926, Electrical / Optical Characteristics (printed p. 2)"},
+    "temperature_coefficient_lambda_peak": {"value": 0.14, "unit": "nm/C", "applies_to": "APT1608SURCK", "condition": "temperature coefficient of peak wavelength at IF = 20 mA over -10 C <= T <= 85 C", "source": "DSAD0926, Electrical / Optical Characteristics (printed p. 2)"},
+    "package": {"value": "1.6 mm x 0.8 mm SMD chip LED, 0.75 mm thickness (1608 metric / 0603 imperial class), water-clear lens, 2000 pcs per reel, moisture sensitivity level 3, halogen-free, RoHS compliant", "unit": "1", "applies_to": "APT1608SURCK", "condition": "package information and features, printed p. 1", "source": "DSAD0926, Features / Package Information (printed p. 1)"},
+    "colour": {"value": "Hyper Red, AlGaInP on GaAs substrate; peak wavelength 645 nm typical, dominant wavelength 630 nm typical (sorting tolerance +/-1 nm), spectral bandwidth 28 nm at 50 %", "unit": "1", "applies_to": "APT1608SURCK", "condition": "IF = 20 mA, TA = 25 C", "source": "DSAD0926, Descriptions and Electrical / Optical Characteristics (printed pp. 1-2)"},
+    "luminous_intensity_min_mcd": {"value": 120, "unit": "mcd", "applies_to": "APT1608SURCK", "condition": "minimum luminous intensity at IF = 20 mA (typical 230 mcd); luminous intensity tolerance +/-15 %", "source": "DSAD0926, Selection Guide (printed p. 1)"},
+    "viewing_angle_deg": {"value": 120, "unit": "deg", "applies_to": "APT1608SURCK", "condition": "2 x theta 1/2 viewing angle at IF = 20 mA", "source": "DSAD0926, Selection Guide (printed p. 1)"},
+    "reverse_voltage_max_v": {"value": 5, "unit": "V", "applies_to": "APT1608SURCK", "condition": "absolute maximum reverse voltage; reverse leakage current maximum 10 uA at VR = 5 V", "source": "DSAD0926, Absolute Maximum Ratings (printed p. 2) and Electrical / Optical Characteristics (printed p. 2)"},
+    "capacitance_typ_f": {"value": 0.000000000035, "unit": "F", "applies_to": "APT1608SURCK", "condition": "terminal capacitance 35 pF typical (datasheet does not state the test frequency/bias for this row)", "source": "DSAD0926, Electrical / Optical Characteristics (printed p. 2)"},
+    "esd_hbm_v": {"value": 3000, "unit": "V", "applies_to": "APT1608SURCK", "condition": "electrostatic discharge threshold, human body model (minimum 3000 V)", "source": "DSAD0926, Absolute Maximum Ratings (printed p. 2)"}
+  },
+  "unknown_facts": [
+    "vf_min_v: the datasheet gives no minimum forward voltage. It lists a typical 1.95 V and a maximum 2.5 V at 20 mA (plus +/-0.1 V tolerance). A design must not treat 1.95 V as a lower bound; a Vf range must either use the datasheet maximum plus an explicitly declared margin, or be supplied by the caller as a range and marked user_declared.",
+    "No numeric luminous-flux/luminance minimum in lm is stated (intensity is given in mcd at 20 mA with +/-15 % tolerance); a photometric guarantee at other currents is not derivable beyond the printed typical curve.",
+    "The datasheet does not state a reverse-recovery or switching time, and the capacitance row gives no bias/frequency condition, so high-frequency PWM behaviour is uncharacterised.",
+    "The derating curve (permissible forward current vs ambient temperature) is a printed graph only; no numeric derating table is provided, so any current derating above 25 C must be read off the graph and is approximate.",
+    "Long-term lumen maintenance / LM-80 data is not part of this datasheet."
+  ],
+  "notes": "Verified against the current Kingbright spec served at the URL above on 2026-10-27 (Spec No. DSAD0926, Rev V.22A). The www.kingbright.com attachment path for this part returned HTTP 404 at access time; the file used is the spec PDF published on Kingbright USA (the manufacturer's US site) and its footer identifies it as a Kingbright document. This is a Red indicator LED intended for the F1 LED current-limit block: 30 mA DC absolute maximum, 2.5 V maximum Vf at 20 mA, and 75 mW power dissipation mean the resistor worst case must be driven by the datasheet Vf maximum, never the typical. The Vf temperature coefficient (-1.9 mV/C) matters only when the caller supplies a Vf range over temperature."
+}

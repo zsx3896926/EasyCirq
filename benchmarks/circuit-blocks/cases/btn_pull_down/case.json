@@ -1,0 +1,71 @@
+{
+  "id": "btn_pull_down",
+  "description": "Pull-down variant: the contact pulls the node up to VCC and the exposed contact terminals are VCC (SW_A) and BTN_NODE (SW_B).",
+  "command": "generate",
+  "module_type": "button_input",
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "v_ih": 3.5,
+    "v_il": 1.5,
+    "logic_source": "datasheet",
+    "input_leakage": "1uA",
+    "variant": "pull_down",
+    "active_level": "high",
+    "series": "E24",
+    "value_range": {
+      "min": "4.7k",
+      "max": "47k"
+    },
+    "resistor_tolerance_pct": 1,
+    "contact": {
+      "current_limit_max": "50mA",
+      "contact_resistance": {
+        "min": 0,
+        "max": 0.1
+      },
+      "bounce_ms": 5,
+      "pin_configuration": "two_terminal_abstract"
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 47000
+      }
+    ],
+    "nets": [
+      "VCC",
+      "GND",
+      "BTN_NODE"
+    ],
+    "endpoints": [
+      [
+        "R1",
+        "1",
+        "BTN_NODE"
+      ],
+      [
+        "R1",
+        "2",
+        "GND"
+      ],
+      [
+        "SW1",
+        "A",
+        "VCC"
+      ],
+      [
+        "SW1",
+        "B",
+        "BTN_NODE"
+      ]
+    ]
+  },
+  "input_sha256": "747d58ce0b1d01da12ce8781859590e2c9911ddd4c01aa7d37231e62a5e24b57"
+}

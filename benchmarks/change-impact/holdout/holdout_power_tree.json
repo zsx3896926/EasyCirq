@@ -1,0 +1,219 @@
+{
+ "schema": "hds-change-impact-input/v1",
+ "project": {
+  "name": "holdout-power",
+  "id": "PRJ-BENCH"
+ },
+ "baseline": {
+  "project": "holdout-power",
+  "document": "main",
+  "revision": "r1",
+  "content_hash": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "net",
+   "power_domain",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "candidate": {
+  "project": "holdout-power",
+  "document": "main",
+  "revision": "r2",
+  "content_hash": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "source_type": "simulated_synthetic",
+  "snapshot_scope": [
+   "component_instance",
+   "dependencies",
+   "net",
+   "power_domain",
+   "test"
+  ],
+  "missing_fields": [],
+  "complete": true,
+  "notes": "synthetic benchmark snapshot; not a real project"
+ },
+ "objects": [
+  {
+   "id": "pwr:VBAT",
+   "kind": "power_domain",
+   "attributes": {
+    "voltage": {
+     "nominal": 3.6
+    }
+   },
+   "baseline_attributes": {
+    "voltage": {
+     "nominal": 3.7
+    }
+   }
+  },
+  {
+   "id": "net:VBAT",
+   "kind": "net",
+   "attributes": {
+    "name": "VBAT"
+   }
+  },
+  {
+   "id": "cmp:U5",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "BUCK-1V8",
+    "footprint": {
+     "uuid": "fp:qfn16"
+    }
+   }
+  },
+  {
+   "id": "net:1V8",
+   "kind": "net",
+   "attributes": {
+    "name": "1V8"
+   }
+  },
+  {
+   "id": "cmp:U6",
+   "kind": "component_instance",
+   "attributes": {
+    "mpn": "MCU-1V8"
+   }
+  },
+  {
+   "id": "test:brownout",
+   "kind": "test",
+   "attributes": {
+    "criterion": {
+     "v_min": 1.7
+    }
+   }
+  }
+ ],
+ "dependencies": [
+  {
+   "id": "dep:1",
+   "from": "pwr:VBAT",
+   "to": "net:VBAT",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:2",
+   "from": "net:VBAT",
+   "to": "cmp:U5",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:3",
+   "from": "cmp:U5",
+   "to": "net:1V8",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:4",
+   "from": "net:1V8",
+   "to": "cmp:U6",
+   "semantic": "power_supply",
+   "direction": "forward",
+   "certainty": "declared"
+  },
+  {
+   "id": "dep:5",
+   "from": "net:1V8",
+   "to": "test:brownout",
+   "semantic": "test_reference",
+   "direction": "forward",
+   "certainty": "declared"
+  }
+ ],
+ "changes": [
+  {
+   "id": "chg:1",
+   "change_type": "modify",
+   "object": "pwr:VBAT",
+   "attribute": "voltage.nominal",
+   "before": 3.7,
+   "after": 3.6,
+   "authorized": true,
+   "source": {
+    "type": "declared",
+    "ref": "ECO-BENCH"
+   }
+  }
+ ],
+ "constraints": [],
+ "verification_catalog": [
+  {
+   "id": "chk:buck",
+   "title": "buck",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": true,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "cmp:U5",
+     "impact": "power_integrity"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  },
+  {
+   "id": "chk:brownout",
+   "title": "brownout",
+   "kind": "offline",
+   "cost": 0.5,
+   "mandatory": false,
+   "approval": false,
+   "module": "benchmark-catalog",
+   "covers": [
+    {
+     "object": "test:brownout",
+     "impact": "test_criterion_change"
+    }
+   ],
+   "requires": [],
+   "requires_inputs": []
+  }
+ ],
+ "prior_evidence": [],
+ "budget": {
+  "max_depth": 8,
+  "max_paths": 500,
+  "max_cost": 1000
+ },
+ "model_scope": {
+  "declared_kinds": [
+   "artifact",
+   "bom_line",
+   "component_instance",
+   "document",
+   "firmware_contract",
+   "interface",
+   "layout_region",
+   "mechanical_anchor",
+   "net",
+   "pin",
+   "power_domain",
+   "requirement",
+   "test"
+  ],
+  "unknown_objects": [],
+  "dependencies_complete": true,
+  "notes": "synthetic declared graph; not a real project"
+ },
+ "simulated": true,
+ "analysis_time": "2026-01-02T00:00:00Z"
+}

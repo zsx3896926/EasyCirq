@@ -1,0 +1,38 @@
+{
+  "id": "led_point_vf",
+  "description": "A single nominal Vf is not a range; the module must refuse to call it ready and report needs_device_facts.",
+  "command": "generate",
+  "module_type": "led_indicator",
+  "allow_nonready": false,
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "led_vf": 2.0,
+    "target_current": "5mA",
+    "max_current": "8mA",
+    "min_current": "3mA",
+    "led_max_current": "25mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1,
+    "control": "low_side_switch",
+    "resistor_position": "supply_side",
+    "switch_facts": {
+      "sink_current_max": "10mA",
+      "voltage_drop": {
+        "min": 0,
+        "max": 0.4
+      },
+      "declared_by": "user"
+    }
+  },
+  "expect": {
+    "exit_code": 3,
+    "status": "needs_device_facts",
+    "status_reasons_contains": [
+      "range"
+    ]
+  },
+  "input_sha256": "04805539faf5c366edb067b7f0c76a08990a50124c0a6c7e01d2bb028a3b1850"
+}

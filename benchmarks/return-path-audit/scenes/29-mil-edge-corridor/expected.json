@@ -1,0 +1,20 @@
+{
+  "name": "29-mil-edge-corridor",
+  "purpose": "Edge-corridor failure expressed in mil",
+  "tags": [
+    "units",
+    "e2",
+    "corridor"
+  ],
+  "expected": {
+    "overall_status": "review_required",
+    "must_include_rules": [
+      "RP-E2-206"
+    ],
+    "must_not_include_rules": [],
+    "require_unknowns": false,
+    "checked_length_min": 2362.6,
+    "checked_length_max": 2362.6
+  },
+  "reasoning": "Plane height 25.05 mm = 986.22 mil, trace y=25 mm = 984.25 mil: edge distance 1.97 mil vs required width/2+corridor = 3.937+7.874 mil. Unit change must not change the verdict."
+}

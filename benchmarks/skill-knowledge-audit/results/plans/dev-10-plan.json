@@ -1,0 +1,285 @@
+{
+  "active_topics": [
+    "protect.workflow-evidence",
+    "offline.dev"
+  ],
+  "budget": {
+    "files": 7,
+    "limit_chars": 140000,
+    "required_chars": 58791,
+    "selected_bytes": 116189,
+    "selected_chars": 58791,
+    "status": "within",
+    "token_estimate": {
+      "high": 48993,
+      "low": 29396,
+      "method": "character-class band: ~0.5-0.83 token/char overall (CJK roughly 0.6-1.0 token/char, ASCII roughly 0.25-0.5); not a tokenizer and not an exact Chinese token count"
+    },
+    "uncovered": []
+  },
+  "cache": {
+    "catalog_version": "2026-10-27.1",
+    "hit": [],
+    "invalidated": [],
+    "scope_hash": "616e4dc0b54f34a125da42d572a5659f949ce302090e9c05fed6fc2be817e40a"
+  },
+  "catalog_version": "2026-10-27.1",
+  "conditional": [],
+  "dependencies": [
+    {
+      "line": 102,
+      "source": "references/offline-regression.md",
+      "target": "references/schematic-layout.md"
+    }
+  ],
+  "excluded": [
+    {
+      "path": "references/easyeda-ecosystem.md",
+      "reasons": [
+        {
+          "reason": "离线任务不调用生态工具",
+          "topic": "offline.dev"
+        }
+      ]
+    },
+    {
+      "path": "references/eda-execution.md",
+      "reasons": [
+        {
+          "reason": "EDA 不可用，不要求连接",
+          "topic": "offline.dev"
+        }
+      ]
+    },
+    {
+      "path": "references/feedback-loop.md",
+      "reasons": [
+        {
+          "reason": "离线任务不执行写入闭环",
+          "topic": "offline.dev"
+        }
+      ]
+    },
+    {
+      "path": "references/jlc-handoff.md",
+      "reasons": [
+        {
+          "reason": "离线任务不进入打样交付",
+          "topic": "offline.dev"
+        }
+      ]
+    },
+    {
+      "path": "references/pcb-execution.md",
+      "reasons": [
+        {
+          "reason": "离线任务不进入真实写入",
+          "topic": "offline.dev"
+        }
+      ]
+    }
+  ],
+  "execution_contract": {
+    "actions": [
+      "offline_analysis",
+      "read_skill"
+    ],
+    "approval_gates": [],
+    "autonomous_authorized": true,
+    "decisions_required": [],
+    "eda_required": false,
+    "writes_allowed": false
+  },
+  "intent": {
+    "already_read": [],
+    "autonomous_authorized": true,
+    "budget_chars": 140000,
+    "constraints": [
+      "Connector/daemon 当前不可用，不能连接或探测 EDA",
+      "在离线条件下完成连接表、证据解析与设计草案，明确列出未写入项",
+      "不安装或启动新工具，不联网"
+    ],
+    "deliverables": [
+      "offline-analysis",
+      "connectivity-table"
+    ],
+    "eda_available": false,
+    "notes": "连接通道缺失，但可以继续离线规划、连接表检查与文档准备；写入/回读必须标 BLOCKED。",
+    "schema": "ska-intent/v1",
+    "stage": "read",
+    "task_type": "offline_dev",
+    "user_decision_pending": []
+  },
+  "kind": "plan",
+  "next_stage_entry": [],
+  "not_proof": "本结果只证明静态文档结构与引用关系，不证明 Skill 被客户端加载、模型遵守规则、阅读行为改变或硬件设计正确。 计划只说明建议阅读哪些文件，不证明 AI 已加载或遵守；未运行模型，也未调用 EDA。",
+  "ok": true,
+  "optional": [],
+  "protected_constraints": [
+    {
+      "id": "evidence_truthfulness",
+      "reason": "事实状态与证据分级必须适用"
+    },
+    {
+      "id": "target_binding",
+      "reason": "结论必须绑定对象、版本和范围"
+    }
+  ],
+  "required": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "reasons": [
+        "skill entry point; every task starts here"
+      ],
+      "role": "required",
+      "sha256": "2fe4feb283f0904f25f44ce2425c6c3766a0f8b6db45fcbd9d4e2542ff9e486d",
+      "topics": [
+        "always"
+      ]
+    },
+    {
+      "bytes": 3059,
+      "chars": 1379,
+      "path": "references/connectivity.md",
+      "reasons": [
+        "SKILL.md L151 准备离线连接表或自检"
+      ],
+      "role": "required",
+      "sha256": "efb8619e409dfa47bc23b4411f17937f800b9b838f51944e28fa757c795f73de",
+      "topics": [
+        "offline.dev"
+      ]
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "reasons": [
+        "SKILL.md L134: 证据与工程记录；事实状态不可伪造"
+      ],
+      "role": "required",
+      "sha256": "a62dd20adb5548889910c7eb516e9a7e28da91aac91871978686d3019fa0c8ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    },
+    {
+      "bytes": 11686,
+      "chars": 7500,
+      "path": "references/offline-regression.md",
+      "reasons": [
+        "SKILL.md L205 离线回归与冻结基准"
+      ],
+      "role": "required",
+      "sha256": "a4ffcc8063b15e334520c1027c7b77ffecab52bc0015df291d08dd20409cab1c",
+      "topics": [
+        "offline.dev"
+      ]
+    },
+    {
+      "bytes": 22919,
+      "chars": 13261,
+      "path": "references/offline-tools.md",
+      "reasons": [
+        "SKILL.md L180 离线工具契约"
+      ],
+      "role": "required",
+      "sha256": "2f6af80e756f3aac8a93e9a97f6819b56a69bdc1ffb8fbd77bc896f5eaf77b01",
+      "topics": [
+        "offline.dev"
+      ]
+    },
+    {
+      "bytes": 20689,
+      "chars": 8760,
+      "path": "references/schematic-layout.md",
+      "reasons": [
+        "explicit required edge in references/offline-regression.md:102"
+      ],
+      "role": "required",
+      "sha256": "03875d059855789dcbcc9c65deb59830cbb95b6c9aa00c131d247685b81f683c",
+      "topics": [
+        "dependency"
+      ]
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "reasons": [
+        "SKILL.md L134: 内部设计始终遵循工程工作流"
+      ],
+      "role": "required",
+      "sha256": "184dd2773ca82908dcc37f9ad89e66d49d1006dad2d7e31bfda8d26ae94140ac",
+      "topics": [
+        "protect.workflow-evidence"
+      ]
+    }
+  ],
+  "schema": "skill-knowledge-audit/v1",
+  "scope_hash": "616e4dc0b54f34a125da42d572a5659f949ce302090e9c05fed6fc2be817e40a",
+  "selected": [
+    {
+      "bytes": 50163,
+      "chars": 24988,
+      "path": "SKILL.md",
+      "role": "required"
+    },
+    {
+      "bytes": 3059,
+      "chars": 1379,
+      "path": "references/connectivity.md",
+      "role": "required"
+    },
+    {
+      "bytes": 2433,
+      "chars": 917,
+      "path": "references/evidence.md",
+      "role": "required"
+    },
+    {
+      "bytes": 11686,
+      "chars": 7500,
+      "path": "references/offline-regression.md",
+      "role": "required"
+    },
+    {
+      "bytes": 22919,
+      "chars": 13261,
+      "path": "references/offline-tools.md",
+      "role": "required"
+    },
+    {
+      "bytes": 20689,
+      "chars": 8760,
+      "path": "references/schematic-layout.md",
+      "role": "required"
+    },
+    {
+      "bytes": 5240,
+      "chars": 1986,
+      "path": "references/workflow.md",
+      "role": "required"
+    }
+  ],
+  "source": {
+    "duration_ms": 1674.311,
+    "git_sha": "c9836eb29869040aeac245d0d3959021134b7f3e",
+    "root": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-ska-worktree\\design-hardware",
+    "scanned_at": "2026-10-27T16:41:25+00:00"
+  },
+  "stage": "read",
+  "task_type": "offline_dev",
+  "tool": {
+    "name": "skill_knowledge_audit",
+    "version": "0.1.0"
+  },
+  "unknown": [
+    {
+      "code": "eda_unavailable",
+      "reason": "任务明确处于离线/无 EDA 状态，真实写入与回读 NOT RUN"
+    }
+  ]
+}

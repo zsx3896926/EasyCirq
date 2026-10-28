@@ -1,0 +1,119 @@
+{
+  "schema": "zhigou.integration.minimal-board/v1",
+  "kind": "synthetic_minimal_board",
+  "note": "Frozen minimal engineering dataset for interface checks only. It is not a real design, not a verified netlist and not a manufacturing package. Adapters that would consume it do not exist yet (see ../cross-module-contract.md).",
+  "identity": {
+    "project_id": "integration-minimal-board",
+    "display_name": "Minimal USB-C 3V3 LED board (synthetic)",
+    "revision": "rev-A",
+    "snapshot_document_id": "sch:integration-minimal-board:rev-A",
+    "document_kind": "schematic"
+  },
+  "snapshot": {
+    "captured_at": "2026-10-28T00:00:00+00:00",
+    "content_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "content_sha_note": "Deliberately not a hash of a real EDA export: no real export exists for this synthetic fixture. Modules that require a real snapshot hash must reject this fixture instead of assuming validity.",
+    "scope": "declared_subset",
+    "missing_fields": ["real_board_geometry", "pcb_stackup", "copper_geometry"]
+  },
+  "units": {
+    "length": "mm",
+    "voltage": "V",
+    "current": "mA",
+    "resistance": "ohm",
+    "capacitance": "uF"
+  },
+  "components": [
+    {
+      "instance_id": "cmp:U1",
+      "designator": "U1",
+      "kind": "ldo",
+      "mpn": "TLV75533PDBV",
+      "package": "SOT-23-5",
+      "pins": [
+        {"number": "1", "name": "IN", "net": "VIN"},
+        {"number": "2", "name": "GND", "net": "GND"},
+        {"number": "3", "name": "EN", "net": "VIN"},
+        {"number": "4", "name": "NC", "net": null},
+        {"number": "5", "name": "OUT", "net": "VOUT"}
+      ]
+    },
+    {
+      "instance_id": "cmp:R1",
+      "designator": "R1",
+      "kind": "resistor",
+      "mpn": "0402WGF1002TCE",
+      "package": "0402",
+      "value": {"resistance_ohm": "10000"},
+      "pins": [
+        {"number": "1", "name": "1", "net": "VOUT"},
+        {"number": "2", "name": "2", "net": "LED_A"}
+      ]
+    },
+    {
+      "instance_id": "cmp:D1",
+      "designator": "D1",
+      "kind": "led",
+      "mpn": "KT-0603R",
+      "package": "0603",
+      "pins": [
+        {"number": "1", "name": "K", "net": "GND"},
+        {"number": "2", "name": "A", "net": "LED_A"}
+      ]
+    }
+  ],
+  "nets": [
+    {"id": "net:VIN", "name": "VIN", "role": "power", "nominal_voltage_v": "5.0"},
+    {"id": "net:VOUT", "name": "VOUT", "role": "power", "nominal_voltage_v": "3.3"},
+    {"id": "net:GND", "name": "GND", "role": "ground"},
+    {"id": "net:LED_A", "name": "LED_A", "role": "signal"}
+  ],
+  "bom": [
+    {"designators": ["U1"], "mpn": "TLV75533PDBV", "quantity": 1, "channel": "lcsc_mall", "unit_price": "unknown", "stock": "unknown"},
+    {"designators": ["R1"], "mpn": "0402WGF1002TCE", "quantity": 1, "channel": "lcsc_mall", "unit_price": "unknown", "stock": "unknown"},
+    {"designators": ["D1"], "mpn": "KT-0603R", "quantity": 1, "channel": "jlc_smt", "unit_price": "unknown", "stock": "unknown"}
+  ],
+  "change_set": {
+    "change_id": "chg:1",
+    "object": "cmp:R1",
+    "field": "value.resistance_ohm",
+    "before": "10000",
+    "after": "4700",
+    "authorized_scope": ["cmp:R1", "net:LED_A", "cmp:D1"],
+    "reason": "fixture: increase LED current"
+  },
+  "layout_constraints": {
+    "board_outline_mm": {"width": 40.0, "height": 30.0, "thickness": 1.6},
+    "connector": {"instance_id": "cmp:J1", "type": "usb-c-receptacle", "edge": "right", "height_mm": 3.2},
+    "mounting_holes": [{"id": "H1", "diameter_mm": 3.2, "x_mm": 5.0, "y_mm": 5.0}],
+    "keepouts": [{"id": "KO1", "kind": "antenna_keepout", "area_mm": {"x": 0, "y": 0, "w": 10, "h": 10}}],
+    "max_component_height_mm": 5.0
+  },
+  "bringup_expectations": {
+    "rails": [
+      {"id": "VIN", "nominal_v": "5.0", "current_limit_ma": 200},
+      {"id": "VOUT", "nominal_v": "3.3", "current_limit_ma": 100}
+    ],
+    "measurements": [
+      {"id": "m1", "rail": "VOUT", "kind": "voltage", "expected_v": "3.3", "tolerance": "0.1"},
+      {"id": "m2", "rail": "VIN", "kind": "current", "expected_ma": "unknown"}
+    ],
+    "unknowns": [
+      "no real instrument readings exist for this fixture",
+      "LED forward voltage and resistor power are not verified here"
+    ]
+  },
+  "provenance": {
+    "kind": "synthetic_fixture",
+    "author": "main integration session",
+    "created_at": "2026-10-28",
+    "purpose": "freeze one small dataset with the common identity/unit/snapshot/unknown semantics so module adapters can be tested when they exist",
+    "not_claimed": [
+      "netlist correctness",
+      "electrical correctness",
+      "mechanical fit",
+      "manufacturability",
+      "real EDA snapshot binding"
+    ]
+  }
+}

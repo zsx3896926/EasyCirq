@@ -1,0 +1,150 @@
+{
+  "schema": "zhigou.mcp.benchmark/v1",
+  "simulated": true,
+  "offline": true,
+  "real_eda": "NOT RUN",
+  "eda_calls": 0,
+  "network_calls": 0,
+  "server": {
+    "name": "zhigou-offline-audit",
+    "version": "0.1.0"
+  },
+  "protocol": {
+    "requested": "2025-06-18",
+    "negotiated": "2025-06-18"
+  },
+  "correctness": {
+    "passed": 9,
+    "total": 9,
+    "cases": [
+      {
+        "id": "capabilities",
+        "tool": "offline_audit_capabilities",
+        "passed": true,
+        "problems": [],
+        "duration_ms": 0.1,
+        "observed_status": null,
+        "is_error": false,
+        "real_eda": "NOT RUN"
+      },
+      {
+        "id": "electrical_review_summary",
+        "tool": "offline_electrical_review",
+        "passed": true,
+        "problems": [],
+        "duration_ms": 117.2,
+        "observed_status": "pass_with_scope",
+        "is_error": false,
+        "real_eda": "NOT RUN"
+      },
+      {
+        "id": "electrical_review_full",
+        "tool": "offline_electrical_review",
+        "passed": true,
+        "problems": [],
+        "duration_ms": 122.1,
+        "observed_status": "pass_with_scope",
+        "is_error": false,
+        "real_eda": "NOT RUN"
+      },
+      {
+        "id": "electrical_review_invalid_input",
+        "tool": "offline_electrical_review",
+        "passed": true,
+        "problems": [],
+        "duration_ms": 117.0,
+        "observed_status": "invalid_input",
+        "is_error": false,
+        "real_eda": "NOT RUN"
+      },
+      {
+        "id": "return_path_audit_fail",
+        "tool": "offline_return_path_audit",
+        "passed": true,
+        "problems": [],
+        "duration_ms": 1243.7,
+        "observed_status": "fail",
+        "is_error": false,
+        "real_eda": "NOT RUN"
+      },
+      {
+        "id": "delivery_inspect",
+        "tool": "offline_delivery_inspect",
+        "passed": true,
+        "problems": [],
+        "duration_ms": 249.8,
+        "observed_status": "inspected",
+        "is_error": false,
+        "real_eda": "NOT RUN"
+      },
+      {
+        "id": "delivery_audit_incomplete",
+        "tool": "offline_delivery_audit",
+        "passed": true,
+        "problems": [],
+        "duration_ms": 235.7,
+        "observed_status": "incomplete",
+        "is_error": false,
+        "real_eda": "NOT RUN"
+      },
+      {
+        "id": "missing_input",
+        "tool": "offline_electrical_review",
+        "passed": true,
+        "problems": [],
+        "duration_ms": 0.7,
+        "observed_status": null,
+        "is_error": true,
+        "real_eda": "NOT RUN"
+      },
+      {
+        "id": "schema_violation",
+        "tool": "offline_electrical_review",
+        "passed": true,
+        "problems": [],
+        "duration_ms": 0.1,
+        "observed_status": null,
+        "is_error": null,
+        "real_eda": null
+      }
+    ]
+  },
+  "tool_list": {
+    "count": 5,
+    "names": [
+      "offline_electrical_review",
+      "offline_return_path_audit",
+      "offline_delivery_inspect",
+      "offline_delivery_audit",
+      "offline_audit_capabilities"
+    ],
+    "duration_ms": 0.1
+  },
+  "timing": {
+    "total_ms": 2200.7,
+    "init_ms": 76.2,
+    "median_case_ms": 117.2,
+    "max_case_ms": 1243.7,
+    "note": "offline CLI subprocess cost only; not a board-design or EDA speed claim"
+  },
+  "environment": {
+    "python": "3.13.15",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64"
+  },
+  "limits": [
+    "messages are newline-delimited JSON-RPC 2.0 over stdio; MCP Content-Length framing is not implemented",
+    "no real MCP client (Claude Code / Codex / Cursor) was launched; the protocol is exercised by this driver only",
+    "audit modules stay offline; their own scoped NOT RUN limits apply",
+    "report detail=summary omits the full report by design and records its SHA-256 and omission flag"
+  ],
+  "result_envelope": {
+    "status": "pass",
+    "exit_code": 0
+  },
+  "not_proof": [
+    "no EDA/daemon/connector call, host DRC, save/reopen, manufacturing or physical result",
+    "pass_with_scope in an audit payload is not hardware acceptance",
+    "protocol conformance is checked against this driver, not a specific MCP client implementation"
+  ]
+}

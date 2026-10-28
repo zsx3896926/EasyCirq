@@ -1,0 +1,13 @@
+{
+  "schema": "mechanical-layout-benchmark-expected/v1",
+  "case": "duplicate_ids",
+  "command": "audit",
+  "args": [],
+  "exit_code": 2,
+  "status": "invalid",
+  "required_rules": [],
+  "forbidden_rules": [],
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "notes": "hand-derived from geometry/contract; not copied from actual output"
+}

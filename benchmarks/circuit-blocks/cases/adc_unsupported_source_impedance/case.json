@@ -1,0 +1,40 @@
+{
+  "id": "adc_unsupported_source_impedance",
+  "description": "A 10 ohm maximum source impedance cannot be met by a divider that also fits the ratio window -> unsupported.",
+  "command": "generate",
+  "module_type": "adc_divider",
+  "input": {
+    "topology": "divider_to_ground",
+    "input_voltage": {
+      "min": 1,
+      "max": 5
+    },
+    "adc_input_range": {
+      "min": 0,
+      "max": 3.3
+    },
+    "adc_leakage_current": "1uA",
+    "adc_vref": 3.3,
+    "adc_resolution_bits": 12,
+    "adc_reference_tolerance_pct": 0.1,
+    "adc_max_source_impedance": "10",
+    "adc_margin": 0,
+    "adc_sampling": {
+      "sample_time": "2us",
+      "sample_hold_capacitance": "10pF"
+    },
+    "series": "E24",
+    "value_range": {
+      "min": "1k",
+      "max": "100k"
+    },
+    "resistor_tolerance_pct": 1,
+    "objective": "ratio_error"
+  },
+  "allow_nonready": false,
+  "expect": {
+    "exit_code": 4,
+    "status": "unsupported"
+  },
+  "input_sha256": "e83ffa5fc02b983ad12cd17e49440d99cca8d4e71d8fa068083294450baaf2c5"
+}

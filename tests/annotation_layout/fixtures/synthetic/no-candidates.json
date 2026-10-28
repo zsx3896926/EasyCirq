@@ -1,0 +1,190 @@
+{
+  "checker_context": {},
+  "components": [],
+  "constraints": {
+    "forbid_component_move": true,
+    "forbid_content_change": true,
+    "forbid_font_change": true,
+    "forbid_net_change": true,
+    "freeze_ids": [],
+    "grid": 5,
+    "label_own_wire_edge_tolerance": 1,
+    "max_candidates_per_annotation": 32,
+    "max_displacement": 80,
+    "max_local_search_steps": 2000,
+    "max_search_states": 20000,
+    "max_total_candidates": 800,
+    "min_text_symbol_gap": 2,
+    "min_text_text_gap": 2,
+    "min_text_wire_clearance": 5,
+    "min_text_wire_gap": 0,
+    "owner_max_distance": 250,
+    "scope": "all",
+    "scope_cluster_ids": [],
+    "self_text_contact_tolerance": 1
+  },
+  "coordinate_system": {
+    "name": "synthetic-raw-y-up",
+    "svg_y_axis": "down",
+    "transform": "screen_y = page_height - raw_y (analysis overlay only)",
+    "y_axis": "up"
+  },
+  "fixed_texts": [
+    {
+      "bbox": [
+        100,
+        405,
+        140,
+        417
+      ],
+      "content": "blocker",
+      "id": "F1",
+      "kind": "free_text",
+      "measurement": "bbox"
+    }
+  ],
+  "host": {
+    "capabilities": {
+      "attribute_rotate": "unsupported",
+      "attribute_translate": "supported",
+      "free_text_translate": "unverified",
+      "net_label_detach": "unsupported"
+    },
+    "capability_source": "synthetic_declared",
+    "execution": "not_executed"
+  },
+  "movable_annotations": [
+    {
+      "anchor_id": null,
+      "bbox_source": "measured_svg",
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "synthetic_declared",
+        "translate": "unverified"
+      },
+      "constraints": {
+        "allowed_directions": [
+          "left",
+          "right",
+          "up",
+          "down"
+        ],
+        "grid": 5.0,
+        "keep_in_zone": true,
+        "max_displacement": 80.0,
+        "owner_max_distance": 250,
+        "priority": 0,
+        "zone_id": "tiny"
+      },
+      "content": "stuck",
+      "current": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          45,
+          405,
+          115,
+          417
+        ],
+        "font_size": null,
+        "font_source": "unknown",
+        "rotation_deg": null,
+        "rotation_source": "unknown"
+      },
+      "field": null,
+      "id": "A1",
+      "kind": "free_text",
+      "net": null,
+      "owner": {
+        "id": "tiny",
+        "kind": "zone",
+        "requirement": "inside_zone"
+      },
+      "role": "free_text"
+    }
+  ],
+  "page": {
+    "bbox": [
+      0.0,
+      0.0,
+      1170.0,
+      825.0
+    ],
+    "keepouts": [
+      {
+        "bbox": [
+          900.0,
+          10.0,
+          1160.0,
+          190.0
+        ],
+        "hard": true,
+        "id": "titleBlock",
+        "reason": "synthetic title block"
+      }
+    ],
+    "title_block": {
+      "bbox": [
+        900.0,
+        10.0,
+        1160.0,
+        190.0
+      ],
+      "hard": true,
+      "id": "titleBlock"
+    },
+    "usable_bbox": [
+      10.0,
+      10.0,
+      1160.0,
+      815.0
+    ],
+    "zones": [
+      {
+        "bbox": [
+          44.0,
+          404.0,
+          116.0,
+          418.0
+        ],
+        "hard": false,
+        "id": "tiny",
+        "name": "tiny zone",
+        "source": "synthetic_declared"
+      }
+    ]
+  },
+  "project": {
+    "name": "synthetic-no-candidates",
+    "page_id": "page-no-candidates",
+    "page_name": "P1",
+    "snapshot_sha256": "b0f04dafebd17e2ac8ba62d71d0cfa99b7e3d30df85e0b386ce7b37c1a220369"
+  },
+  "schema": "annotation-layout/v1",
+  "source": {
+    "adapter": "tests/annotation_layout/build_fixtures.py",
+    "created": "2026-10-27",
+    "files": [],
+    "kind": "synthetic",
+    "notes": "the declared zone leaves no legal grid translation; expect all_candidates_rejected rather than a fake fix",
+    "source_commit": "9a951edc21481dc3ae91460acc11aa3e08a7be8a"
+  },
+  "uncertainty": {
+    "bbox_measured": true,
+    "font_metrics_known": false,
+    "notes": [
+      "synthetic geometry; no real EDA snapshot"
+    ],
+    "symbol_outline_approximate": true
+  },
+  "units": {
+    "description": "synthetic raw units; 10 raw = 2.54 mm",
+    "name": "schematic_raw",
+    "raw_per_mm": 3.937007874015748
+  },
+  "wires": []
+}

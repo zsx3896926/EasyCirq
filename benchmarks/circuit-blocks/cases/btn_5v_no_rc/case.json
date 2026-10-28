@@ -1,0 +1,45 @@
+{
+  "id": "btn_5v_no_rc",
+  "description": "5 V pull-up without RC: with no RC objective the module takes the largest declared allowed value (47k) that still meets the contact-current and threshold bounds.",
+  "command": "generate",
+  "module_type": "button_input",
+  "input": {
+    "supply_voltage": {
+      "min": 4.75,
+      "max": 5.25
+    },
+    "v_ih": 3.5,
+    "v_il": 1.5,
+    "logic_source": "datasheet",
+    "input_leakage": "1uA",
+    "variant": "pull_up",
+    "active_level": "low",
+    "series": "E24",
+    "value_range": {
+      "min": "4.7k",
+      "max": "47k"
+    },
+    "resistor_tolerance_pct": 1,
+    "contact": {
+      "current_limit_max": "50mA",
+      "contact_resistance": {
+        "min": 0,
+        "max": 0.1
+      },
+      "bounce_ms": 5,
+      "pin_configuration": "two_terminal_abstract"
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 47000
+      }
+    ],
+    "component_counts": 2
+  },
+  "input_sha256": "c2a5e07df43ac561b6d6a128b92f595455f9a74158da96bde1b1da3bc44c63a1"
+}

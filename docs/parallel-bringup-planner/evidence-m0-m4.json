@@ -1,0 +1,256 @@
+{
+  "schema": "bringup-planner-m0-m4-evidence/v1",
+  "captured_at_local": "2026-10-28",
+  "implementation_head": "b407d72f11237001d7c7e1260beb8de770f46f1e",
+  "current_worktree_head": "3f21897d9d1b93b4ac7e2ef523fe923685f59b08",
+  "branch": "docs/bringup-planner-m0-m4-evidence",
+  "start_base": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+  "origin_main_at_capture": "acbcc18c821e08ddff2401015eb7a16eaee733c8",
+  "pr": {
+    "additions": 44762,
+    "baseRefName": "main",
+    "changedFiles": 175,
+    "deletions": 0,
+    "headRefOid": "b407d72f11237001d7c7e1260beb8de770f46f1e",
+    "isDraft": false,
+    "mergeCommit": {
+      "oid": "9a4622eb46a8ff3d336729726ab6ed056b5f650a"
+    },
+    "mergedAt": "2026-10-27T16:53:24Z",
+    "mergedBy": {
+      "id": "U_kgDOFEo5tA",
+      "is_bot": false,
+      "login": "zsx3896926",
+      "name": ""
+    },
+    "number": 39,
+    "state": "MERGED",
+    "url": "https://github.com/zsx3896926/hardware-design-skill/pull/39"
+  },
+  "pr_range": {
+    "base": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "head": "b407d72f11237001d7c7e1260beb8de770f46f1e",
+    "files": 175,
+    "outside_allowed": []
+  },
+  "m1": {
+    "validate": {
+      "status": "valid",
+      "revision": "rev-A",
+      "diagnostics": 1
+    },
+    "plan": {
+      "status": "ok",
+      "scope": "supported",
+      "steps": 20,
+      "ready": 14,
+      "blocked": 6,
+      "plan_sha256": "0e3dbc16f86c0bb533d7a7bc3a19601ee80efa967774177e949c567ad69182e4"
+    },
+    "steps": 20,
+    "fault_trees": 9,
+    "explain": {
+      "status": "ok"
+    }
+  },
+  "cases": {
+    "mcu-sensor-board": {
+      "exit": 0,
+      "scope": "supported",
+      "steps": 23,
+      "ready": 13,
+      "blocked": 10,
+      "plan_sha256": "e22a20bc89cbbc9eeada96204cb406ae4e4ac6d8add82957f663d88a57d59f4f",
+      "fault_trees": 8
+    },
+    "load-control-board": {
+      "exit": 0,
+      "scope": "supported",
+      "steps": 15,
+      "ready": 9,
+      "blocked": 6,
+      "plan_sha256": "2f417fdae9aa579d6aa53e59f4e9161ce9bb6db0942b1e8b2a508d8f55277c78",
+      "fault_trees": 4
+    }
+  },
+  "m2": {
+    "evaluate": {
+      "eval-pass-real-evidence": {
+        "exit": 0,
+        "verdict": "PASS",
+        "hardware_pass": true
+      },
+      "eval-stop-propagation": {
+        "exit": 1,
+        "verdict": "FAIL",
+        "hardware_pass": false
+      },
+      "eval-stale-revision": {
+        "exit": 2,
+        "verdict": "INVALID",
+        "hardware_pass": false
+      },
+      "eval-unit-conflict": {
+        "exit": 2,
+        "verdict": "INVALID",
+        "hardware_pass": false
+      },
+      "eval-missing-evidence": {
+        "exit": 3,
+        "verdict": "INCOMPLETE",
+        "hardware_pass": false
+      },
+      "eval-partial-tests": {
+        "exit": 3,
+        "verdict": "INCOMPLETE",
+        "hardware_pass": false
+      },
+      "eval-synthetic-only": {
+        "exit": 3,
+        "verdict": "SYNTHETIC_ONLY",
+        "hardware_pass": false
+      }
+    },
+    "i1_resistance": {
+      "criterion": "needs_interpretation",
+      "range": null,
+      "prerequisites": [
+        "I1-OFF-001",
+        "I1-OFF-DISCHARGE"
+      ]
+    },
+    "missing_startup": {
+      "exit": 0,
+      "blocked_steps": [
+        "I2-SEQ-VDD_3V3",
+        "I2-CONNECT-ASM-J2",
+        "I3-RIPPLE-VDD_3V3",
+        "I3-RIPPLE-VIN_5V",
+        "I3-COMM-J1_USB",
+        "I3-COMM-U1_I2C",
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC"
+      ],
+      "missing_info_mentions_startup": true,
+      "invented_default_tokens": []
+    },
+    "btl": {
+      "exit": 0,
+      "blocked": [
+        "I4-BUS-J1_USB",
+        "I4-BUS-U1_I2C",
+        "I4-ANALOG-U3_ADC",
+        "I4-BRIDGE-U5_BTL"
+      ],
+      "mentions_differential": true,
+      "equipment_gap_codes": [
+        "PROBE_LOADING_NOT_DECLARED",
+        "DIFFERENTIAL_PROBE_NOT_DECLARED"
+      ]
+    },
+    "unsupported": {
+      "exit": 0,
+      "scope": "needs_specialist",
+      "ready_steps": [],
+      "steps_total": 0
+    },
+    "invalid_semantic": {
+      "exit": 1,
+      "error_codes": [
+        "E_DAG_SELF_DEPENDENCY"
+      ]
+    },
+    "invalid_json": {
+      "exit": 2,
+      "payload": {}
+    },
+    "invalid_plan": {
+      "exit": 2,
+      "plan_exists": false,
+      "invalid_marker": false
+    }
+  },
+  "m3": {
+    "unit_exit": 0,
+    "unit_tail": "----------------------------------------------------------------------\nRan 172 tests in 20.519s\n\nOK\n",
+    "bench_exit": 0,
+    "ok": true,
+    "counts": {
+      "scenarios": 34,
+      "scenario_pass": 34,
+      "holdouts": 5,
+      "holdout_pass": 5,
+      "cases": 2,
+      "case_pass": 2,
+      "total": 41,
+      "total_pass": 41,
+      "categories_required": 30,
+      "categories_covered": 30
+    },
+    "missing_categories": [],
+    "baseline": {
+      "checked": true,
+      "updated": false,
+      "file_count": 90,
+      "mismatches": []
+    },
+    "elapsed_seconds": 18.58,
+    "holdouts": {
+      "holdout-object-order": "pass",
+      "holdout-revision-change": "pass",
+      "holdout-synonym-notes": "pass",
+      "holdout-unit-conversion": "pass",
+      "holdout-unrelated-modules": "pass"
+    },
+    "cases": {
+      "load-control-board": "pass",
+      "mcu-sensor-board": "pass"
+    },
+    "verdicts": [
+      "FAIL",
+      "INCOMPLETE",
+      "INVALID",
+      "PASS",
+      "SYNTHETIC_ONLY"
+    ]
+  },
+  "m4": {
+    "offline_suite": {
+      "exit": 1,
+      "status": "fail",
+      "tests_run": 2147,
+      "failures": 0,
+      "errors": 47,
+      "error_modules": {
+        "change_impact": 9,
+        "circuit_blocks": 7,
+        "delivery_audit": 7,
+        "electrical_review": 5,
+        "procurement_planner": 5,
+        "return_path_audit": 8,
+        "skill_knowledge_audit": 6
+      }
+    },
+    "selftest": {
+      "exit": 0,
+      "tail": "cal\\Programs\\Python\\Python313\\python.exe <worktree>\\design-hardware\\scripts\\gate_check.py --project temp-alarm --project-dir <worktree>\\design-hardware\\cases\\temp-alarm-2026-10-24 --evidence-dir <worktree>\\design-hardware\\cases\\temp-alarm-2026-10-24\\evidence --json --design-state <worktree>\\design-hardware\\cases\\temp-alarm-2026-10-24\\design-state.json --waiver-file <worktree>\\design-hardware\\cases\\temp-alarm-2026-10-24\\waivers.json\n  - exit=1\n  - report schema=design-gate-report/v1\n[PASS] python-compile: 242 script(s) compile with py_compile\n\n5 PASS, 0 FAIL, 0 NOT RUN -> exit 0\n"
+    },
+    "docs": [
+      "acceptance-matrix.md",
+      "contract.md",
+      "handoff-current.md",
+      "integration-proposal.md",
+      "issue-candidates.md",
+      "measurement-policy.md",
+      "pr-description.md",
+      "report.md",
+      "source-register.md",
+      "supported-scope.md"
+    ],
+    "pr_range_audit": {
+      "files": 175,
+      "outside_allowed": []
+    }
+  }
+}

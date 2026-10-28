@@ -1,0 +1,46 @@
+{
+  "id": "led_12v_high_side",
+  "description": "Holdout: 12 V white LED on a high-side switch. Nominal headroom (12-3.2-0.1)=8.7 V; 8.7 V/10 mA = 870 ohm -> nearest feasible E12 is 820 (I_max=(12.6-3.0)/(820*0.95)=12.32 mA <= 15 mA; I_min=(11.4-3.4-0.2)/(820*1.05)=9.06 mA >= 6 mA).",
+  "command": "generate",
+  "module_type": "led_indicator",
+  "input": {
+    "supply_voltage": {
+      "min": 11.4,
+      "max": 12.6
+    },
+    "led_vf": {
+      "min": 3.0,
+      "max": 3.4
+    },
+    "target_current": "10mA",
+    "max_current": "15mA",
+    "min_current": "6mA",
+    "led_max_current": "30mA",
+    "series": "E12",
+    "resistor_tolerance_pct": 5,
+    "control": "high_side_switch",
+    "switch_facts": {
+      "source_current_max": "20mA",
+      "voltage_drop": {
+        "min": 0,
+        "max": 0.2
+      }
+    }
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 820,
+        "series": "E12"
+      }
+    ],
+    "calculations": {
+      ".worst_case_current.result.max_a": 0.012323491655969191,
+      ".worst_case_current.result.min_a": 0.009059233449477351
+    }
+  },
+  "input_sha256": "0caf34276801f5a4a1a585e0644aee0bc44c86ef93c183e216cc2d391a8ec5e7"
+}

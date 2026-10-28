@@ -1,0 +1,60 @@
+{
+  "id": "open_drain_custom_1300",
+  "description": "Custom 3.3 V open-drain bus: 10-90 % rise time 300 ns, Cb 100 pF, VOL 0.4 V at 3 mA, 4 mA static budget. R_max = 300ns/(ln9*100pF)/1.01 = 1351.8 ohm; R_min = (3.465/3mA)/0.99 = 1166.7 ohm; largest E24 inside is 1300 ohm (objective max_resistance).",
+  "command": "generate",
+  "module_type": "open_drain_pullup",
+  "input": {
+    "supply_voltage": {
+      "min": 3.135,
+      "max": 3.465
+    },
+    "bus_spec": "custom",
+    "bus_capacitance": "100pF",
+    "max_rise_time": "300ns",
+    "rise_time_definition": "10_90",
+    "bus_v_il": 0.9,
+    "bus_v_ih": 2.31,
+    "device": {
+      "vol_max": 0.4,
+      "iol": "3mA",
+      "declared_by": "datasheet"
+    },
+    "static_current_budget": "4mA",
+    "series": "E24",
+    "resistor_tolerance_pct": 1
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "components": [
+      {
+        "ref": "R1",
+        "value": 1300,
+        "series": "E24"
+      }
+    ],
+    "ports": [
+      "VCC",
+      "GND",
+      "BUS"
+    ],
+    "endpoints": [
+      [
+        "R1",
+        "1",
+        "VCC"
+      ],
+      [
+        "R1",
+        "2",
+        "BUS"
+      ]
+    ],
+    "calculations": {
+      ".legal_interval.result.r_max_ohm": 1351.8404355844118,
+      ".legal_interval.result.r_min_ohm": 1166.6666666666667,
+      ".worst_case_rise_time.result.rise_time_max_s": 2.8849558700424565e-07
+    }
+  },
+  "input_sha256": "e88c2262336429fd5a23d1ed2b941a7bf56ac0773f7ae7fcbb47fc618a33da7c"
+}

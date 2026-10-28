@@ -1,0 +1,28 @@
+{
+  "args": [],
+  "command": "inspect",
+  "content_digest": "bd21bbc08c590bd757563d30ed30283ed0860fd30a96ccbc7c0717c2da44f884",
+  "declarations": null,
+  "expect": {
+    "error_code": "zip_unsafe_member",
+    "exit": 2,
+    "status": "input_invalid"
+  },
+  "files": [
+    {
+      "path": "bad.zip",
+      "sha256": "acdc3557ac7dab1eae1daa93d97be034c42c1e651293163a0ba1e5997144ef2e",
+      "size": 125
+    }
+  ],
+  "id": "23-zip-traversal",
+  "input": "input/bad.zip",
+  "input_kind": "single",
+  "input_sha256": "bd21bbc08c590bd757563d30ed30283ed0860fd30a96ccbc7c0717c2da44f884",
+  "notes": null,
+  "profile": null,
+  "reference": null,
+  "simulated": true,
+  "title": "ZIP path traversal rejected",
+  "touch": null
+}

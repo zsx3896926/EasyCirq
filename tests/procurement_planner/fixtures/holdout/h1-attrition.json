@@ -1,0 +1,163 @@
+{
+  "schema": "procurement-input/v1",
+  "project": {
+    "name": "unit-test",
+    "bom_revision": "rev-T",
+    "board_quantity": 7,
+    "allow_zero_boards": false
+  },
+  "evaluation": {
+    "as_of": "2026-10-27T12:00:00+08:00",
+    "freshness": {
+      "max_age_hours": "24"
+    }
+  },
+  "policies": {
+    "attrition": {
+      "ratio": "0.05",
+      "fixed": 2,
+      "minimum": 3,
+      "order": [
+        "ratio",
+        "fixed",
+        "minimum"
+      ]
+    },
+    "overbuy": {
+      "max_extra_qty": 50,
+      "max_extra_ratio": "0.20",
+      "allow_price_break_extra": true
+    },
+    "order_policy": "moq_mpq",
+    "substitution": {
+      "enabled": false,
+      "allowed_grades": [
+        "exact_identity",
+        "evidence_supported_candidate"
+      ]
+    },
+    "channel_preference": [
+      "lcsc_mall",
+      "jlc_smt"
+    ]
+  },
+  "bom": {
+    "revision": "rev-T",
+    "source": "synthetic test fixture",
+    "rows": [
+      {
+        "line_id": "L1",
+        "designators": [
+          "R1",
+          "R2",
+          "R3"
+        ],
+        "qty_per_board": 3,
+        "mpn": "R-H1",
+        "manufacturer": "YAGEO",
+        "supply_ids": {
+          "lcsc": "C9001"
+        },
+        "footprint": "R0603",
+        "package": "R0603",
+        "assembly": "smt",
+        "dnp": false,
+        "consigned_qty": 2,
+        "consigned_qualified": true,
+        "params": {},
+        "unknown_fields": [],
+        "identity_source": {
+          "kind": "synthetic_fixture",
+          "source": "test fixture"
+        }
+      }
+    ]
+  },
+  "demand": {
+    "channels": [
+      "lcsc_mall",
+      "jlc_smt"
+    ],
+    "assembly_strategy": "smt",
+    "hand_solder_allowed": false,
+    "self_supply_allowed": true,
+    "due_date": "2026-11-15T00:00:00+08:00",
+    "budget": {
+      "amount": "100.00",
+      "currency": "CNY"
+    },
+    "channel_preference": [
+      "lcsc_mall",
+      "jlc_smt"
+    ]
+  },
+  "supply_snapshots": [
+    {
+      "snapshot_id": "SNAP-H1",
+      "source": "synthetic_fixture",
+      "declared_truth": "synthetic_not_live",
+      "captured_at": "2026-10-27T08:00:00+08:00",
+      "valid_until": "2026-10-28T08:00:00+08:00",
+      "channel": "lcsc_mall",
+      "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "notes": "test fixture"
+    }
+  ],
+  "offers": [
+    {
+      "offer_id": "OF-H1",
+      "supplier": "TEST-SUPPLIER",
+      "channel": "lcsc_mall",
+      "product_id": "C9001",
+      "mpn": "R-H1",
+      "manufacturer": "YAGEO",
+      "footprint": "R0603",
+      "package": "R0603",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "price_mode": "total_tier",
+      "price_tiers": [
+        {
+          "min_qty": 1,
+          "unit_price": "0.2000"
+        },
+        {
+          "min_qty": 50,
+          "unit_price": "0.1500"
+        }
+      ],
+      "price_unit": {
+        "kind": "per_each"
+      },
+      "moq": 10,
+      "mpq": 5,
+      "stock": {
+        "qty": 1000,
+        "status": "in_stock",
+        "reserved": 0,
+        "independent": true,
+        "pool_id": "POOL-OF-H1"
+      },
+      "lead_time": {
+        "kind": "in_stock",
+        "days_min": 0,
+        "days_max": 0
+      },
+      "snapshot_id": "SNAP-H1"
+    }
+  ],
+  "fees": [
+    {
+      "fee_id": "FEE-H1-SHIP",
+      "kind": "shipping",
+      "channel": "lcsc_mall",
+      "basis": "per_order",
+      "currency": "CNY",
+      "tax_basis": "incl",
+      "source": "test fixture",
+      "captured_at": "2026-10-27T08:00:00+08:00",
+      "amount": "5.00"
+    }
+  ],
+  "alternates": []
+}

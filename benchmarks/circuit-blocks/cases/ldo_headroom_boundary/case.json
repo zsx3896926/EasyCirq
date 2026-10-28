@@ -1,0 +1,44 @@
+{
+  "id": "ldo_headroom_boundary",
+  "description": "VIN_min exactly at VOUT_max + dropout (3.3*1.015 + 0.215 = 3.5645 V) is legal; 3.5644 V is rejected.",
+  "command": "generate",
+  "module_type": "ldo_supply",
+  "input": {
+    "input_voltage": {
+      "min": 3.5645,
+      "max": 5.0
+    },
+    "output_voltage": "3.3V",
+    "load_current": {
+      "min": "10mA",
+      "max": "50mA"
+    },
+    "ambient_temperature": {
+      "min": -40,
+      "max": 85
+    },
+    "device_fact_id": "ldo_tlv75533p"
+  },
+  "expect": {
+    "exit_code": 0,
+    "status": "ready_abstract",
+    "calculations": {
+      ".headroom.result.margin_v": 0
+    }
+  },
+  "variants": [
+    {
+      "name": "one_step_below",
+      "patch": {
+        "input_voltage": {
+          "min": 3.5644,
+          "max": 5.0
+        }
+      },
+      "expect": {
+        "status": "unsupported"
+      }
+    }
+  ],
+  "input_sha256": "2fb024cea3e2fc47d4d4b0afd936b70aad270024c3fbb173900e4698ac22d49a"
+}

@@ -1,0 +1,2245 @@
+{
+  "artifacts": {
+    "after_svg": "..\\..\\benchmarks\\annotation-layout\\evidence\\real-plan\\after.svg",
+    "before_svg": "..\\..\\benchmarks\\annotation-layout\\evidence\\real-plan\\before.svg",
+    "plan_json": "..\\..\\benchmarks\\annotation-layout\\evidence\\real-plan\\plan.json",
+    "report_md": "..\\..\\benchmarks\\annotation-layout\\evidence\\real-plan\\report.md",
+    "svg_label": "analysis_not_official_export",
+    "svg_validation": {
+      "after": {
+        "bytes": 37899,
+        "elements": 329,
+        "render_basic_check": "xml+geometry only; raster preview NOT RUN (no rasterizer guaranteed)",
+        "shapes": 327,
+        "status": "ok"
+      },
+      "before": {
+        "bytes": 37330,
+        "elements": 325,
+        "render_basic_check": "xml+geometry only; raster preview NOT RUN (no rasterizer guaranteed)",
+        "shapes": 323,
+        "status": "ok"
+      }
+    }
+  },
+  "changes": [
+    {
+      "after": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          290.0,
+          343.0,
+          311.107666015625,
+          353.0
+        ],
+        "font_size": null,
+        "rotation_deg": null
+      },
+      "before": {
+        "align": "unknown",
+        "anchor": null,
+        "anchor_source": "unknown",
+        "bbox": [
+          290.0,
+          348.0,
+          311.107666015625,
+          358.0
+        ],
+        "font_size": null,
+        "rotation_deg": null
+      },
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "supported"
+      },
+      "content": "10kΩ",
+      "content_sha256": "db0227cd052b63640310251e6f4fdb422c9c61bcce6582d77cdfe025bbb39e6c",
+      "delta": {
+        "displacement": 5.0,
+        "dx": 0.0,
+        "dy": -5.0
+      },
+      "host_probe_required": false,
+      "id": "8bd5a6b179fa7148",
+      "kind": "attribute",
+      "owner": {
+        "id": "4c3b66d17e7f4875",
+        "kind": "component",
+        "requirement": "keep_near"
+      },
+      "protected": {
+        "align": "unchanged",
+        "component_move": "forbidden",
+        "content": "unchanged",
+        "font_size": "unchanged",
+        "net": "unchanged",
+        "owner": "unchanged",
+        "rotation_deg": "unchanged",
+        "wire_change": "forbidden"
+      },
+      "rationale": [
+        "down 5 raw (grid 5)",
+        "rigid bbox translation",
+        "font/rotation/content/net unchanged"
+      ],
+      "role": "value"
+    },
+    {
+      "after": {
+        "align": "center",
+        "anchor": [
+          42.0,
+          771.0
+        ],
+        "anchor_source": "declared",
+        "bbox": [
+          42.0,
+          764.5,
+          289.265625,
+          776.5
+        ],
+        "font_size": 13.0,
+        "rotation_deg": 0.0
+      },
+      "before": {
+        "align": "center",
+        "anchor": [
+          42.0,
+          766.0
+        ],
+        "anchor_source": "declared",
+        "bbox": [
+          42.0,
+          759.5,
+          289.265625,
+          771.5
+        ],
+        "font_size": 13.0,
+        "rotation_deg": 0.0
+      },
+      "capability": {
+        "content_change": "forbidden",
+        "net_change": "forbidden",
+        "resize": "forbidden",
+        "rotate": "fixed",
+        "source": "historical_docs_not_probed",
+        "translate": "unverified"
+      },
+      "content": "GL5528与4.7k分压，C4滤波；光照越强电压越高",
+      "content_sha256": "dfe8227dbbf041d2ad485f8c14e278242f308d4e321dd6c1325c104fd0071294",
+      "delta": {
+        "displacement": 5.0,
+        "dx": 0.0,
+        "dy": 5.0
+      },
+      "host_probe_required": true,
+      "id": "ad6ce27bf74e95f9",
+      "kind": "free_text",
+      "owner": {
+        "id": "df6b35d4cbb8fbdd",
+        "kind": "zone",
+        "requirement": "inside_zone"
+      },
+      "protected": {
+        "align": "unchanged",
+        "component_move": "forbidden",
+        "content": "unchanged",
+        "font_size": "unchanged",
+        "net": "unchanged",
+        "owner": "unchanged",
+        "rotation_deg": "unchanged",
+        "wire_change": "forbidden"
+      },
+      "rationale": [
+        "up 5 raw (grid 5)",
+        "rigid bbox translation",
+        "font/rotation/content/net unchanged"
+      ],
+      "role": "free_text"
+    }
+  ],
+  "constraints": {
+    "forbid_component_move": true,
+    "forbid_content_change": true,
+    "forbid_font_change": true,
+    "forbid_net_change": true,
+    "freeze_ids": [],
+    "grid": 5.0,
+    "label_own_wire_edge_tolerance": 1.0,
+    "max_candidates_per_annotation": 32,
+    "max_displacement": 80.0,
+    "max_local_search_steps": 2000,
+    "max_search_states": 20000,
+    "max_total_candidates": 2000,
+    "min_text_symbol_gap": 2.0,
+    "min_text_text_gap": 2.0,
+    "min_text_wire_clearance": 5.0,
+    "min_text_wire_gap": 0.0,
+    "owner_max_distance": 250.0,
+    "scope": "all",
+    "scope_cluster_ids": [],
+    "self_text_contact_tolerance": 1.0
+  },
+  "geometry": {
+    "bbox_provenance": {
+      "declared": 0,
+      "estimated": 0,
+      "measured_api": 0,
+      "measured_svg": 42
+    },
+    "coordinate_convention": {
+      "name": "easyeda-schematic-raw-y-up",
+      "svg_y_axis": "down",
+      "transform": "source SVG text bbox is flipped once by negating y (svg_y = -raw_y); analysis overlays use screen_y = page_height - raw_y",
+      "y_axis": "up"
+    },
+    "keepouts": [
+      {
+        "bbox": [
+          459.99999999999955,
+          10.0,
+          1160.0,
+          190.0
+        ],
+        "hard": true,
+        "id": "titleBlock",
+        "reason": "title block"
+      }
+    ],
+    "page_bbox": [
+      0.0,
+      0.0,
+      1170.0,
+      825.0
+    ],
+    "title_block": [
+      459.99999999999955,
+      10.0,
+      1160.0,
+      190.0
+    ],
+    "units": {
+      "description": "schematic raw units; 10 raw = 0.1 inch = 2.54 mm",
+      "name": "schematic_raw",
+      "raw_per_mm": 3.937007874016
+    },
+    "usable_bbox": [
+      10.0,
+      10.0,
+      1160.0,
+      815.0
+    ],
+    "zones": [
+      {
+        "bbox": [
+          470.0,
+          575.0,
+          1140.0,
+          805.0
+        ],
+        "hard": false,
+        "id": "038924265735ffcc",
+        "name": "2 供电去耦",
+        "source": "module_frame"
+      },
+      {
+        "bbox": [
+          30.0,
+          30.0,
+          455.0,
+          565.0
+        ],
+        "hard": false,
+        "id": "94055b82f166ad31",
+        "name": "3 阈值迟滞",
+        "source": "module_frame"
+      },
+      {
+        "bbox": [
+          30.0,
+          575.0,
+          455.0,
+          805.0
+        ],
+        "hard": false,
+        "id": "df6b35d4cbb8fbdd",
+        "name": "1 光敏检测",
+        "source": "module_frame"
+      },
+      {
+        "bbox": [
+          470.0,
+          200.0,
+          1140.0,
+          565.0
+        ],
+        "hard": false,
+        "id": "f7266d05fe0dcaff",
+        "name": "4 LED驱动",
+        "source": "module_frame"
+      }
+    ]
+  },
+  "host": {
+    "capabilities": {
+      "attribute_rotate": "unsupported",
+      "attribute_translate": "supported",
+      "free_text_translate": "unverified",
+      "net_label_detach": "unsupported"
+    },
+    "capability_source": "historical_docs_requires_onsite_probe",
+    "execution": "not_executed"
+  },
+  "host_execution": "not_executed",
+  "input": {
+    "canonical_sha256": "207762af8f5b976642c84f69cafe214488f95b9b5035f00ad9deba2c6eb32da9",
+    "coordinate_system": {
+      "name": "easyeda-schematic-raw-y-up",
+      "svg_y_axis": "down",
+      "transform": "source SVG text bbox is flipped once by negating y (svg_y = -raw_y); analysis overlays use screen_y = page_height - raw_y",
+      "y_axis": "up"
+    },
+    "path": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-al-worktree\\tests\\annotation_layout\\fixtures\\photo-led-v14\\input.json",
+    "project": {
+      "name": "photo-led-5v-20261026",
+      "page_id": "cd008f919db36eba",
+      "page_name": "P1",
+      "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184"
+    },
+    "source": {
+      "adapter": "annotation_layout.convert/v1",
+      "created": "2026-10-27",
+      "files": [
+        {
+          "path": "layout.json",
+          "sha256": "3d8442d137ec225cba9ac9fa0d53a6151b47f8d5a8fc4d4d1e993a415e0ede57"
+        },
+        {
+          "path": "list.json",
+          "sha256": "8ba448be502093924ab6e88c80d460f3970609e1f7e7e3ca9ca0bdd651341e6c"
+        },
+        {
+          "path": "rendered-text.json",
+          "sha256": "7afc69837a12daf0d1eb3f404e174ab5ab7fca99730033457d80de3354d0ebed"
+        },
+        {
+          "path": "sheet.json",
+          "sha256": "f5d9d756aa8fc47b13dc190e6423a2be5181b7d309cc6e8e570932b09019e104"
+        }
+      ],
+      "kind": "frozen_fixture",
+      "notes": "photo-led v14 frozen fixture: official EasyEDA 4.1.78 SVG text bbox read, sch list component/page primitives, official-SVG sheet geometry; trimmed, not live",
+      "source_commit": "9a951edc21481dc3ae91460acc11aa3e08a7be8a"
+    },
+    "units": {
+      "description": "schematic raw units; 10 raw = 0.1 inch = 2.54 mm",
+      "name": "schematic_raw",
+      "raw_per_mm": 3.937007874016
+    }
+  },
+  "kind": "annotation-layout-plan",
+  "limitations": [
+    "offline planning only: no EDA call, no host write, no save/reopen, no official export",
+    "text bboxes are measured from the frozen official SVG; glyph rendering is not re-run",
+    "symbol bodies are conservative rectangles; shape-accurate outlines are not checked",
+    "free-text and net-label host capabilities were not probed in this environment",
+    "plan clearance uses the declared constraints; the existing checker is called unchanged, never with edited thresholds or ignore lists",
+    "a search failure is not a proof of mathematical infeasibility"
+  ],
+  "metrics": {
+    "after_hard": 0,
+    "after_soft": 11,
+    "before_hard": 3,
+    "before_soft": 9,
+    "candidates_generated": 640,
+    "candidates_truncated": 1421,
+    "changes": 2,
+    "collision_checks": 5951,
+    "estimated_bbox_annotations": [],
+    "estimated_involved": [],
+    "evaluated_scope": 42,
+    "fixed_violations": 0,
+    "frozen": 0,
+    "frozen_violations": 0,
+    "movable_annotations": 42,
+    "moved_annotations": 2,
+    "total_displacement": 10.0,
+    "unknown": 0,
+    "unrelated_movable_moved": [],
+    "unsupported_annotations": 0
+  },
+  "noop": false,
+  "reasons": {
+    "budget_exhausted": false,
+    "failures": [],
+    "fixed_violations": 0,
+    "frozen_ids": [],
+    "frozen_violations": [],
+    "per_annotation": {},
+    "unsupported": []
+  },
+  "schema": "annotation-layout/v1",
+  "scope": {
+    "frozen_ids": [],
+    "frozen_violations": [],
+    "scope_ids": [
+      "0149dca70e8c886d",
+      "26b89259608f1dd1",
+      "774affad16c0750a",
+      "ad6ce27bf74e95f9",
+      "92426cc054919476",
+      "b8b3c96d57ae8176",
+      "c332e360692d0efa",
+      "bfd7402c5f9688aa",
+      "3ecb90085ef281b7",
+      "af818e7538a1fb79",
+      "eece254e344a87aa",
+      "8aa96c60739365ff",
+      "c6ea3a0edae5cc2d",
+      "590ab99de0d9e06f",
+      "c519f2881e511254",
+      "693091bc56674f7e",
+      "da034d3db36bd426",
+      "041f51defe6d52e9",
+      "c4c4b7f088244440",
+      "9200b084732e3735",
+      "7b26352e1f011376",
+      "0095c02a91718d18",
+      "cf1056241076c58b",
+      "d28a026970f6c8a0",
+      "d7f22814c847069a",
+      "33139676965fdeb1",
+      "a19c5e920fe82a18",
+      "c22eb47ef4e3241f",
+      "97b0c31ba20f6d65",
+      "8bd5a6b179fa7148",
+      "2fa96c1a31147cef",
+      "b6da875b9529e9c3",
+      "1465805a58d844cb",
+      "2447580073c01300",
+      "f6732b9669f70864",
+      "fec54ea118d97336",
+      "3ce62ceb4ff1b84a",
+      "04c1ddd3b2c604be",
+      "823c8f32553ec112",
+      "7f8bc2a1edab995c",
+      "6b1a008e01876ee9",
+      "c237871bb76188b9"
+    ],
+    "unsupported": []
+  },
+  "search": {
+    "budget_exhausted": false,
+    "budget_kind": null,
+    "candidates_generated": 640,
+    "candidates_possible": 2180,
+    "candidates_truncated": 1421,
+    "cluster_sizes": [
+      20
+    ],
+    "clusters": 1,
+    "collision_checks": 0,
+    "freeze_count": 0,
+    "iterations": 1,
+    "local_steps": 0,
+    "states": 642
+  },
+  "status": "planned_clear",
+  "status_detail": {
+    "budget_exhausted": false,
+    "failures": [],
+    "remaining_hard": [],
+    "solver_reasons": {},
+    "solver_status": "planned_clear",
+    "unknown": [],
+    "unsupported": [],
+    "verification_status": "plan_verified"
+  },
+  "tool": {
+    "name": "annotation_layout",
+    "version": "0.1.0"
+  },
+  "uncertainty": {
+    "bbox_measured": true,
+    "font_metrics_known": false,
+    "notes": [
+      "text bboxes are measured from the official EasyEDA 4.1.78 SVG",
+      "symbol bodies are bbox approximations; pin-name/number/outline glyphs are not re-measured",
+      "attribute rotation/alignment/font are not supplied by the retained list read",
+      "free-text move persistence was historically unreliable and is NOT probed here"
+    ],
+    "symbol_outline_approximate": true
+  },
+  "verification": {
+    "checker": {
+      "after": {
+        "blocking_findings": [],
+        "checks_run": [
+          "title_block",
+          "module_frames",
+          "label_anchors",
+          "text_wire_clearance",
+          "net_text_identity",
+          "netflag_orientation",
+          "zone_reading_order",
+          "title_block_duplicate"
+        ],
+        "checks_skipped": [
+          "wire_endpoints_and_pin_nets: policy.wire_endpoint_check false; use the executor connectivity check"
+        ],
+        "counts": {
+          "components": 19,
+          "texts": 136,
+          "wires": 98
+        },
+        "coverage": {
+          "attachment_points": {
+            "measured_pins": 47,
+            "observed": 64,
+            "status": "complete",
+            "total_pins": 47
+          },
+          "components": {
+            "observed": 19,
+            "status": "complete"
+          },
+          "label_anchors": {
+            "observed": 11,
+            "status": "complete"
+          },
+          "module_frames": {
+            "observed": 4,
+            "rectangles": 4,
+            "status": "complete"
+          },
+          "rendered_texts": {
+            "observed": 136,
+            "status": "complete",
+            "unique_ids": 136
+          },
+          "texts": {
+            "estimated": 0,
+            "observed": 136,
+            "rendered": 136,
+            "status": "complete"
+          },
+          "title_block": {
+            "source": "sheet-geometry",
+            "status": "complete"
+          },
+          "wires": {
+            "observed": 98,
+            "status": "complete",
+            "unparsed": 0
+          }
+        },
+        "coverage_status": "complete",
+        "declared_inventory_matches": true,
+        "electrical_verified": false,
+        "findings": [
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "4a615d05024ff911#2"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              230.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "4a615d05024ff911#4"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              195.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "e0d8a52427a6575e#0"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              185.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 5.0,
+            "objects": [
+              "e033e223beb47a2b",
+              "9d6d22315aa61c9f#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 5.0,
+            "objects": [
+              "d10ec9db2cfb5ccc",
+              "ae1cb5da94942e1d#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 4.5,
+            "objects": [
+              "ad6ce27bf74e95f9",
+              "1fa3e4d8816a3e4a#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          }
+        ],
+        "geometry_scope": "Only supplied symbol-body/text rectangles, polylines, page/title/frame bounds and declared attachment/label points. A text owner matching a symbol only reclassifies small edge contact as info; it does not prove the text is legible. title_block_owned only exempts a text from title-block overlap, not from other collision checks.",
+        "informational_findings": [
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "4a615d05024ff911#2"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              230.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "4a615d05024ff911#4"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              195.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "e0d8a52427a6575e#0"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              185.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 5.0,
+            "objects": [
+              "e033e223beb47a2b",
+              "9d6d22315aa61c9f#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 5.0,
+            "objects": [
+              "d10ec9db2cfb5ccc",
+              "ae1cb5da94942e1d#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 4.5,
+            "objects": [
+              "ad6ce27bf74e95f9",
+              "1fa3e4d8816a3e4a#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          }
+        ],
+        "junction_evidence": {
+          "page_id": "cd008f919db36eba",
+          "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+          "source": "easyeda sch read check (photo-led v14, 2026-10-26)"
+        },
+        "label_own_wire_edge_tolerance": 1.0,
+        "net_flag_census": {
+          "+5V": {
+            "0": [
+              "e4b3da002faaf9ab",
+              "674cc4a143c6d79f",
+              "cccdf87e7143c756",
+              "401e6a1d26bdd5d9"
+            ]
+          },
+          "GND": {
+            "0": [
+              "4134efbe9a541b5f",
+              "7664548b77e1aa22",
+              "dde2d137d0b280c9",
+              "307a7b962e4c26bb",
+              "ac5ed85e7b991ffe",
+              "80d39fab91eecb34",
+              "0f221d9c11a0d9d9",
+              "48a667a03c65bb69",
+              "c611656644c2143a",
+              "a67d5d1f1c5774db",
+              "4248038985c33f80"
+            ]
+          },
+          "VREF_2V5": {
+            "0": [
+              "572061d0b641a8eb",
+              "9ec278d54c6b187d"
+            ]
+          }
+        },
+        "no_junction_crossings": 3,
+        "not_checked": [
+          "actual EDA connectivity, pins, NC and junctions",
+          "shape-accurate outlines and intentional overlaps",
+          "missing/stale snapshot objects",
+          "module/title margins beyond supplied frames/orders",
+          "decoupling or PCB electrical distance",
+          "same-net collinear semantics and endpoint junction topology",
+          "frame intent/membership beyond supplied contains",
+          "attachment completeness beyond supplied points",
+          "pin-electrical-type conflicts and netlister rules",
+          "text glyph rendering; measured bboxes are evidence, not a visual PASS"
+        ],
+        "optional_counts": {
+          "attachment_points": 64,
+          "label_anchors": 11,
+          "module_frames": 4,
+          "net_flags": 17,
+          "title_block_owned": 19
+        },
+        "reading_order": {
+          "expected": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "observed": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "ok": true,
+          "rows": [
+            [
+              "df6b35d4cbb8fbdd",
+              "038924265735ffcc"
+            ],
+            [
+              "f7266d05fe0dcaff",
+              "94055b82f166ad31"
+            ]
+          ]
+        },
+        "self_text_contact_tolerance": 1.0,
+        "status": "info_only",
+        "strict_missing": [],
+        "strict_mode": false,
+        "text_classes": {
+          "attribute": 38,
+          "border": 20,
+          "free_text": 4,
+          "netflag": 17,
+          "pin_name": 12,
+          "pin_number": 11,
+          "title_block": 19,
+          "wire_name": 11,
+          "zone_title": 4
+        },
+        "visual_verified": false
+      },
+      "before": {
+        "blocking_findings": [
+          {
+            "code": "bbox_overlap",
+            "objects": [
+              "4c3b66d17e7f4875",
+              "8bd5a6b179fa7148"
+            ],
+            "overlap": [
+              20.5,
+              2.5
+            ],
+            "status": "review_candidate"
+          },
+          {
+            "code": "wire_enters_bbox",
+            "objects": [
+              "1fa3e4d8816a3e4a#0",
+              "ad6ce27bf74e95f9"
+            ],
+            "status": "review_candidate"
+          },
+          {
+            "code": "wire_enters_bbox",
+            "objects": [
+              "1fa3e4d8816a3e4a#1",
+              "ad6ce27bf74e95f9"
+            ],
+            "status": "review_candidate"
+          }
+        ],
+        "checks_run": [
+          "title_block",
+          "module_frames",
+          "label_anchors",
+          "text_wire_clearance",
+          "net_text_identity",
+          "netflag_orientation",
+          "zone_reading_order",
+          "title_block_duplicate"
+        ],
+        "checks_skipped": [
+          "wire_endpoints_and_pin_nets: policy.wire_endpoint_check false; use the executor connectivity check"
+        ],
+        "counts": {
+          "components": 19,
+          "texts": 136,
+          "wires": 98
+        },
+        "coverage": {
+          "attachment_points": {
+            "measured_pins": 47,
+            "observed": 64,
+            "status": "complete",
+            "total_pins": 47
+          },
+          "components": {
+            "observed": 19,
+            "status": "complete"
+          },
+          "label_anchors": {
+            "observed": 11,
+            "status": "complete"
+          },
+          "module_frames": {
+            "observed": 4,
+            "rectangles": 4,
+            "status": "complete"
+          },
+          "rendered_texts": {
+            "observed": 136,
+            "status": "complete",
+            "unique_ids": 136
+          },
+          "texts": {
+            "estimated": 0,
+            "observed": 136,
+            "rendered": 136,
+            "status": "complete"
+          },
+          "title_block": {
+            "source": "sheet-geometry",
+            "status": "complete"
+          },
+          "wires": {
+            "observed": 98,
+            "status": "complete",
+            "unparsed": 0
+          }
+        },
+        "coverage_status": "complete",
+        "declared_inventory_matches": true,
+        "electrical_verified": false,
+        "findings": [
+          {
+            "code": "bbox_overlap",
+            "objects": [
+              "4c3b66d17e7f4875",
+              "8bd5a6b179fa7148"
+            ],
+            "overlap": [
+              20.5,
+              2.5
+            ],
+            "status": "review_candidate"
+          },
+          {
+            "code": "wire_enters_bbox",
+            "objects": [
+              "1fa3e4d8816a3e4a#0",
+              "ad6ce27bf74e95f9"
+            ],
+            "status": "review_candidate"
+          },
+          {
+            "code": "wire_enters_bbox",
+            "objects": [
+              "1fa3e4d8816a3e4a#1",
+              "ad6ce27bf74e95f9"
+            ],
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "4a615d05024ff911#2"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              230.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "4a615d05024ff911#4"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              195.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "e0d8a52427a6575e#0"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              185.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 5.0,
+            "objects": [
+              "e033e223beb47a2b",
+              "9d6d22315aa61c9f#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 5.0,
+            "objects": [
+              "d10ec9db2cfb5ccc",
+              "ae1cb5da94942e1d#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          }
+        ],
+        "geometry_scope": "Only supplied symbol-body/text rectangles, polylines, page/title/frame bounds and declared attachment/label points. A text owner matching a symbol only reclassifies small edge contact as info; it does not prove the text is legible. title_block_owned only exempts a text from title-block overlap, not from other collision checks.",
+        "informational_findings": [
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "4a615d05024ff911#2"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              230.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "4a615d05024ff911#4"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              195.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "different_named_wires_cross",
+            "junction_evidence": "easyeda sch read check (photo-led v14, 2026-10-26)",
+            "objects": [
+              "25209c69b85c07d5#3",
+              "e0d8a52427a6575e#0"
+            ],
+            "page_id": "cd008f919db36eba",
+            "point": [
+              260.0,
+              185.0
+            ],
+            "severity": "info",
+            "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+            "status": "review_candidate"
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 5.0,
+            "objects": [
+              "e033e223beb47a2b",
+              "9d6d22315aa61c9f#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          },
+          {
+            "category": "readability_hint",
+            "code": "text_wire_clearance",
+            "distance": 5.0,
+            "objects": [
+              "d10ec9db2cfb5ccc",
+              "ae1cb5da94942e1d#0"
+            ],
+            "severity": "info",
+            "status": "review_candidate",
+            "threshold": 5.0
+          }
+        ],
+        "junction_evidence": {
+          "page_id": "cd008f919db36eba",
+          "snapshot_sha256": "6bcf62e13964a08db39a5aa83e8ed73dafe662b4053644eddb827ebd15768184",
+          "source": "easyeda sch read check (photo-led v14, 2026-10-26)"
+        },
+        "label_own_wire_edge_tolerance": 1.0,
+        "net_flag_census": {
+          "+5V": {
+            "0": [
+              "e4b3da002faaf9ab",
+              "674cc4a143c6d79f",
+              "cccdf87e7143c756",
+              "401e6a1d26bdd5d9"
+            ]
+          },
+          "GND": {
+            "0": [
+              "4134efbe9a541b5f",
+              "7664548b77e1aa22",
+              "dde2d137d0b280c9",
+              "307a7b962e4c26bb",
+              "ac5ed85e7b991ffe",
+              "80d39fab91eecb34",
+              "0f221d9c11a0d9d9",
+              "48a667a03c65bb69",
+              "c611656644c2143a",
+              "a67d5d1f1c5774db",
+              "4248038985c33f80"
+            ]
+          },
+          "VREF_2V5": {
+            "0": [
+              "572061d0b641a8eb",
+              "9ec278d54c6b187d"
+            ]
+          }
+        },
+        "no_junction_crossings": 3,
+        "not_checked": [
+          "actual EDA connectivity, pins, NC and junctions",
+          "shape-accurate outlines and intentional overlaps",
+          "missing/stale snapshot objects",
+          "module/title margins beyond supplied frames/orders",
+          "decoupling or PCB electrical distance",
+          "same-net collinear semantics and endpoint junction topology",
+          "frame intent/membership beyond supplied contains",
+          "attachment completeness beyond supplied points",
+          "pin-electrical-type conflicts and netlister rules",
+          "text glyph rendering; measured bboxes are evidence, not a visual PASS"
+        ],
+        "optional_counts": {
+          "attachment_points": 64,
+          "label_anchors": 11,
+          "module_frames": 4,
+          "net_flags": 17,
+          "title_block_owned": 19
+        },
+        "reading_order": {
+          "expected": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "observed": [
+            1,
+            2,
+            3,
+            4
+          ],
+          "ok": true,
+          "rows": [
+            [
+              "df6b35d4cbb8fbdd",
+              "038924265735ffcc"
+            ],
+            [
+              "f7266d05fe0dcaff",
+              "94055b82f166ad31"
+            ]
+          ]
+        },
+        "self_text_contact_tolerance": 1.0,
+        "status": "review_required",
+        "strict_missing": [],
+        "strict_mode": false,
+        "text_classes": {
+          "attribute": 38,
+          "border": 20,
+          "free_text": 4,
+          "netflag": 17,
+          "pin_name": 12,
+          "pin_number": 11,
+          "title_block": 19,
+          "wire_name": 11,
+          "zone_title": 4
+        },
+        "visual_verified": false
+      },
+      "brief_after": {
+        "blocking": 0,
+        "checks_run": [
+          "title_block",
+          "module_frames",
+          "label_anchors",
+          "text_wire_clearance",
+          "net_text_identity",
+          "netflag_orientation",
+          "zone_reading_order",
+          "title_block_duplicate"
+        ],
+        "checks_skipped": [
+          "wire_endpoints_and_pin_nets: policy.wire_endpoint_check false; use the executor connectivity check"
+        ],
+        "counts": {
+          "components": 19,
+          "texts": 136,
+          "wires": 98
+        },
+        "coverage_status": "complete",
+        "informational": 6,
+        "status": "info_only"
+      },
+      "brief_before": {
+        "blocking": 3,
+        "checks_run": [
+          "title_block",
+          "module_frames",
+          "label_anchors",
+          "text_wire_clearance",
+          "net_text_identity",
+          "netflag_orientation",
+          "zone_reading_order",
+          "title_block_duplicate"
+        ],
+        "checks_skipped": [
+          "wire_endpoints_and_pin_nets: policy.wire_endpoint_check false; use the executor connectivity check"
+        ],
+        "counts": {
+          "components": 19,
+          "texts": 136,
+          "wires": 98
+        },
+        "coverage_status": "complete",
+        "informational": 5,
+        "status": "review_required"
+      },
+      "introduced": [],
+      "introduced_movable": [],
+      "limitations": [
+        "checker skips wire intrusion/clearance for texts whose owner is a symbol id (attribute texts); the independent recheck still covers them",
+        "symbol bodies are conservative rectangles, not shape-accurate outlines",
+        "checker is geometric only: no rendering, no host readback, no electrical pass",
+        "analysis overlay is not an official EDA export"
+      ],
+      "out_of_scope": [],
+      "reason": null,
+      "remaining": [],
+      "remaining_movable": [],
+      "resolved": [
+        {
+          "code": "bbox_overlap",
+          "objects": [
+            "4c3b66d17e7f4875",
+            "8bd5a6b179fa7148"
+          ],
+          "overlap": [
+            20.5,
+            2.5
+          ],
+          "severity": "hard",
+          "status": "review_candidate"
+        },
+        {
+          "code": "wire_enters_bbox",
+          "objects": [
+            "1fa3e4d8816a3e4a#0",
+            "ad6ce27bf74e95f9"
+          ],
+          "severity": "hard",
+          "status": "review_candidate"
+        },
+        {
+          "code": "wire_enters_bbox",
+          "objects": [
+            "1fa3e4d8816a3e4a#1",
+            "ad6ce27bf74e95f9"
+          ],
+          "severity": "hard",
+          "status": "review_candidate"
+        }
+      ],
+      "status": "ran"
+    },
+    "checks": {
+      "annotation_count": 42,
+      "checker_available": true,
+      "estimated_bbox_annotations": [],
+      "estimated_involved": [],
+      "estimated_moved": [],
+      "moved": 2,
+      "scope_count": 42,
+      "scope_ids": [
+        "0095c02a91718d18",
+        "0149dca70e8c886d",
+        "041f51defe6d52e9",
+        "04c1ddd3b2c604be",
+        "1465805a58d844cb",
+        "2447580073c01300",
+        "26b89259608f1dd1",
+        "2fa96c1a31147cef",
+        "33139676965fdeb1",
+        "3ce62ceb4ff1b84a",
+        "3ecb90085ef281b7",
+        "590ab99de0d9e06f",
+        "693091bc56674f7e",
+        "6b1a008e01876ee9",
+        "774affad16c0750a",
+        "7b26352e1f011376",
+        "7f8bc2a1edab995c",
+        "823c8f32553ec112",
+        "8aa96c60739365ff",
+        "8bd5a6b179fa7148",
+        "9200b084732e3735",
+        "92426cc054919476",
+        "97b0c31ba20f6d65",
+        "a19c5e920fe82a18",
+        "ad6ce27bf74e95f9",
+        "af818e7538a1fb79",
+        "b6da875b9529e9c3",
+        "b8b3c96d57ae8176",
+        "bfd7402c5f9688aa",
+        "c22eb47ef4e3241f",
+        "c237871bb76188b9",
+        "c332e360692d0efa",
+        "c4c4b7f088244440",
+        "c519f2881e511254",
+        "c6ea3a0edae5cc2d",
+        "cf1056241076c58b",
+        "d28a026970f6c8a0",
+        "d7f22814c847069a",
+        "da034d3db36bd426",
+        "eece254e344a87aa",
+        "f6732b9669f70864",
+        "fec54ea118d97336"
+      ]
+    },
+    "classification": [
+      {
+        "after_present": true,
+        "before_present": false,
+        "cause": "introduced",
+        "code": "text_wire_clearance",
+        "objects": [
+          "1fa3e4d8816a3e4a#0",
+          "ad6ce27bf74e95f9"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": false,
+        "cause": "introduced",
+        "code": "text_wire_clearance",
+        "objects": [
+          "1fa3e4d8816a3e4a#1",
+          "ad6ce27bf74e95f9"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": true,
+        "cause": "pre_existing",
+        "code": "text_symbol_clearance",
+        "objects": [
+          "3ecb90085ef281b7",
+          "9b647abbb274d557"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": true,
+        "cause": "pre_existing",
+        "code": "text_text_clearance",
+        "objects": [
+          "041f51defe6d52e9",
+          "da034d3db36bd426"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": true,
+        "cause": "pre_existing",
+        "code": "text_text_clearance",
+        "objects": [
+          "04c1ddd3b2c604be",
+          "3ce62ceb4ff1b84a"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": true,
+        "cause": "pre_existing",
+        "code": "text_text_clearance",
+        "objects": [
+          "33139676965fdeb1",
+          "d7f22814c847069a"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": true,
+        "cause": "pre_existing",
+        "code": "text_text_clearance",
+        "objects": [
+          "693091bc56674f7e",
+          "c519f2881e511254"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": true,
+        "cause": "pre_existing",
+        "code": "text_text_clearance",
+        "objects": [
+          "9200b084732e3735",
+          "c4c4b7f088244440"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": true,
+        "cause": "pre_existing",
+        "code": "text_text_clearance",
+        "objects": [
+          "a19c5e920fe82a18",
+          "c22eb47ef4e3241f"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": true,
+        "cause": "pre_existing",
+        "code": "text_wire_clearance",
+        "objects": [
+          "4a615d05024ff911#2",
+          "92426cc054919476"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": true,
+        "before_present": true,
+        "cause": "pre_existing",
+        "code": "text_wire_clearance",
+        "objects": [
+          "b2ca42f9db7b708a#5",
+          "eece254e344a87aa"
+        ],
+        "severity": "soft",
+        "source": "independent"
+      },
+      {
+        "after_present": false,
+        "before_present": true,
+        "cause": "resolved",
+        "code": "text_symbol_overlap",
+        "objects": [
+          "4c3b66d17e7f4875",
+          "8bd5a6b179fa7148"
+        ],
+        "severity": "hard",
+        "source": "independent"
+      },
+      {
+        "after_present": false,
+        "before_present": true,
+        "cause": "resolved",
+        "code": "text_wire_intrusion",
+        "objects": [
+          "1fa3e4d8816a3e4a#0",
+          "ad6ce27bf74e95f9"
+        ],
+        "severity": "hard",
+        "source": "independent"
+      },
+      {
+        "after_present": false,
+        "before_present": true,
+        "cause": "resolved",
+        "code": "text_wire_intrusion",
+        "objects": [
+          "1fa3e4d8816a3e4a#1",
+          "ad6ce27bf74e95f9"
+        ],
+        "severity": "hard",
+        "source": "independent"
+      },
+      {
+        "after_present": false,
+        "before_present": true,
+        "cause": "resolved",
+        "code": "bbox_overlap",
+        "objects": [
+          "4c3b66d17e7f4875",
+          "8bd5a6b179fa7148"
+        ],
+        "severity": "hard",
+        "source": "checker"
+      },
+      {
+        "after_present": false,
+        "before_present": true,
+        "cause": "resolved",
+        "code": "wire_enters_bbox",
+        "objects": [
+          "1fa3e4d8816a3e4a#0",
+          "ad6ce27bf74e95f9"
+        ],
+        "severity": "hard",
+        "source": "checker"
+      },
+      {
+        "after_present": false,
+        "before_present": true,
+        "cause": "resolved",
+        "code": "wire_enters_bbox",
+        "objects": [
+          "1fa3e4d8816a3e4a#1",
+          "ad6ce27bf74e95f9"
+        ],
+        "severity": "hard",
+        "source": "checker"
+      }
+    ],
+    "electrical_assertion": "electrically, this is a structural assertion only: this plan contains no content/net/wire/component change; host connectivity readback, save/reopen and official export are NOT RUN",
+    "electrical_unchanged": true,
+    "host_execution": "not_executed",
+    "independent": {
+      "after": [
+        {
+          "annotation_ids": [
+            "3ecb90085ef281b7"
+          ],
+          "code": "text_symbol_clearance",
+          "detail": {
+            "distance": 1.5,
+            "threshold": 2.0
+          },
+          "objects": [
+            "3ecb90085ef281b7",
+            "9b647abbb274d557"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "041f51defe6d52e9",
+            "da034d3db36bd426"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "041f51defe6d52e9",
+            "da034d3db36bd426"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "04c1ddd3b2c604be",
+            "3ce62ceb4ff1b84a"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "04c1ddd3b2c604be",
+            "3ce62ceb4ff1b84a"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "33139676965fdeb1",
+            "d7f22814c847069a"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "33139676965fdeb1",
+            "d7f22814c847069a"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "693091bc56674f7e",
+            "c519f2881e511254"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "693091bc56674f7e",
+            "c519f2881e511254"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "9200b084732e3735",
+            "c4c4b7f088244440"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "9200b084732e3735",
+            "c4c4b7f088244440"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "a19c5e920fe82a18",
+            "c22eb47ef4e3241f"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "a19c5e920fe82a18",
+            "c22eb47ef4e3241f"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "ad6ce27bf74e95f9"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 4.5,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "1fa3e4d8816a3e4a#0",
+            "ad6ce27bf74e95f9"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "ad6ce27bf74e95f9"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 4.5,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "1fa3e4d8816a3e4a#1",
+            "ad6ce27bf74e95f9"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "92426cc054919476"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 2.0,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "4a615d05024ff911#2",
+            "92426cc054919476"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "eece254e344a87aa"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 5.0,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "b2ca42f9db7b708a#5",
+            "eece254e344a87aa"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        }
+      ],
+      "before": [
+        {
+          "annotation_ids": [
+            "3ecb90085ef281b7"
+          ],
+          "code": "text_symbol_clearance",
+          "detail": {
+            "distance": 1.5,
+            "threshold": 2.0
+          },
+          "objects": [
+            "3ecb90085ef281b7",
+            "9b647abbb274d557"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "8bd5a6b179fa7148"
+          ],
+          "code": "text_symbol_overlap",
+          "detail": {
+            "overlap": [
+              20.5,
+              2.5
+            ],
+            "own_symbol": true
+          },
+          "objects": [
+            "4c3b66d17e7f4875",
+            "8bd5a6b179fa7148"
+          ],
+          "scope": "movable",
+          "severity": "hard",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "041f51defe6d52e9",
+            "da034d3db36bd426"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "041f51defe6d52e9",
+            "da034d3db36bd426"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "04c1ddd3b2c604be",
+            "3ce62ceb4ff1b84a"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "04c1ddd3b2c604be",
+            "3ce62ceb4ff1b84a"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "33139676965fdeb1",
+            "d7f22814c847069a"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "33139676965fdeb1",
+            "d7f22814c847069a"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "693091bc56674f7e",
+            "c519f2881e511254"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "693091bc56674f7e",
+            "c519f2881e511254"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "9200b084732e3735",
+            "c4c4b7f088244440"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "9200b084732e3735",
+            "c4c4b7f088244440"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "a19c5e920fe82a18",
+            "c22eb47ef4e3241f"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "a19c5e920fe82a18",
+            "c22eb47ef4e3241f"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "92426cc054919476"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 2.0,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "4a615d05024ff911#2",
+            "92426cc054919476"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "eece254e344a87aa"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 5.0,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "b2ca42f9db7b708a#5",
+            "eece254e344a87aa"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "ad6ce27bf74e95f9"
+          ],
+          "code": "text_wire_intrusion",
+          "detail": {
+            "own_wire": false,
+            "segment_index": 0
+          },
+          "objects": [
+            "1fa3e4d8816a3e4a#0",
+            "ad6ce27bf74e95f9"
+          ],
+          "scope": "movable",
+          "severity": "hard",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "ad6ce27bf74e95f9"
+          ],
+          "code": "text_wire_intrusion",
+          "detail": {
+            "own_wire": false,
+            "segment_index": 0
+          },
+          "objects": [
+            "1fa3e4d8816a3e4a#1",
+            "ad6ce27bf74e95f9"
+          ],
+          "scope": "movable",
+          "severity": "hard",
+          "source": "independent"
+        }
+      ],
+      "hard_after": 0,
+      "hard_before": 3,
+      "introduced": [
+        {
+          "annotation_ids": [
+            "ad6ce27bf74e95f9"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 4.5,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "1fa3e4d8816a3e4a#0",
+            "ad6ce27bf74e95f9"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "ad6ce27bf74e95f9"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 4.5,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "1fa3e4d8816a3e4a#1",
+            "ad6ce27bf74e95f9"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        }
+      ],
+      "introduced_movable": [],
+      "out_of_scope": [],
+      "remaining": [
+        {
+          "annotation_ids": [
+            "3ecb90085ef281b7"
+          ],
+          "code": "text_symbol_clearance",
+          "detail": {
+            "distance": 1.5,
+            "threshold": 2.0
+          },
+          "objects": [
+            "3ecb90085ef281b7",
+            "9b647abbb274d557"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "041f51defe6d52e9",
+            "da034d3db36bd426"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "041f51defe6d52e9",
+            "da034d3db36bd426"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "04c1ddd3b2c604be",
+            "3ce62ceb4ff1b84a"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "04c1ddd3b2c604be",
+            "3ce62ceb4ff1b84a"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "33139676965fdeb1",
+            "d7f22814c847069a"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "33139676965fdeb1",
+            "d7f22814c847069a"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "693091bc56674f7e",
+            "c519f2881e511254"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "693091bc56674f7e",
+            "c519f2881e511254"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "9200b084732e3735",
+            "c4c4b7f088244440"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "9200b084732e3735",
+            "c4c4b7f088244440"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "a19c5e920fe82a18",
+            "c22eb47ef4e3241f"
+          ],
+          "code": "text_text_clearance",
+          "detail": {
+            "distance": 0.0,
+            "threshold": 2.0
+          },
+          "objects": [
+            "a19c5e920fe82a18",
+            "c22eb47ef4e3241f"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "92426cc054919476"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 2.0,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "4a615d05024ff911#2",
+            "92426cc054919476"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "eece254e344a87aa"
+          ],
+          "code": "text_wire_clearance",
+          "detail": {
+            "distance": 5.0,
+            "segment_index": 0,
+            "threshold": 5.0
+          },
+          "objects": [
+            "b2ca42f9db7b708a#5",
+            "eece254e344a87aa"
+          ],
+          "scope": "movable",
+          "severity": "soft",
+          "source": "independent"
+        }
+      ],
+      "remaining_movable": [],
+      "resolved": [
+        {
+          "annotation_ids": [
+            "8bd5a6b179fa7148"
+          ],
+          "code": "text_symbol_overlap",
+          "detail": {
+            "overlap": [
+              20.5,
+              2.5
+            ],
+            "own_symbol": true
+          },
+          "objects": [
+            "4c3b66d17e7f4875",
+            "8bd5a6b179fa7148"
+          ],
+          "scope": "movable",
+          "severity": "hard",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "ad6ce27bf74e95f9"
+          ],
+          "code": "text_wire_intrusion",
+          "detail": {
+            "own_wire": false,
+            "segment_index": 0
+          },
+          "objects": [
+            "1fa3e4d8816a3e4a#0",
+            "ad6ce27bf74e95f9"
+          ],
+          "scope": "movable",
+          "severity": "hard",
+          "source": "independent"
+        },
+        {
+          "annotation_ids": [
+            "ad6ce27bf74e95f9"
+          ],
+          "code": "text_wire_intrusion",
+          "detail": {
+            "own_wire": false,
+            "segment_index": 0
+          },
+          "objects": [
+            "1fa3e4d8816a3e4a#1",
+            "ad6ce27bf74e95f9"
+          ],
+          "scope": "movable",
+          "severity": "hard",
+          "source": "independent"
+        }
+      ],
+      "soft_after": 11,
+      "soft_before": 9
+    },
+    "limitations": [
+      "checker skips wire intrusion/clearance for texts whose owner is a symbol id (attribute texts); the independent recheck still covers them",
+      "symbol bodies are conservative rectangles, not shape-accurate outlines",
+      "checker is geometric only: no rendering, no host readback, no electrical pass",
+      "analysis overlay is not an official EDA export"
+    ],
+    "status": "plan_verified"
+  }
+}

@@ -1,0 +1,4 @@
+offline bench fixture evidence
+step: I4-J1_USB-01
+kind: visual_check
+NO INSTRUMENT WAS CONNECTED; this text exists only to exercise the evaluator evidence/hash contract.

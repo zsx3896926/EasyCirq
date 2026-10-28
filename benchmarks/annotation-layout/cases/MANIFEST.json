@@ -1,0 +1,17 @@
+{
+  "cases": {
+    "counterexample.json": "f35e0bd17dc9b010ca3bd042bd417ad91f7506bf744d6b874bdb239119b013c3",
+    "dense.json": "3bdc42bc3cfe563eea2cd28fa68f413e2f5b0d96d1de65b2fcaa105430b596c6",
+    "real-photo-led.json": "329c22279ccca8ef57f7c0411732ccd1c6b2b98963d04fdf591a00613229e609",
+    "text-text.json": "5bfeac4b088694d871d1fcfeb5d78a04732d163cfe2fd0f294a5f45701aa56f9",
+    "text-wire.json": "e1ca29ca0dc49c95b9a13c710c6b7166ef88efb804e28394f776dca6856817af"
+  },
+  "photo_led_src": {
+    "layout.json": "3d8442d137ec225cba9ac9fa0d53a6151b47f8d5a8fc4d4d1e993a415e0ede57",
+    "list.json": "8ba448be502093924ab6e88c80d460f3970609e1f7e7e3ca9ca0bdd651341e6c",
+    "rendered-text.json": "7afc69837a12daf0d1eb3f404e174ab5ab7fca99730033457d80de3354d0ebed",
+    "sheet.json": "f5d9d756aa8fc47b13dc190e6423a2be5181b7d309cc6e8e570932b09019e104"
+  },
+  "real_source": "tests/annotation_layout/fixtures/photo-led-v14",
+  "schema": "annotation-layout-benchmark-cases/v1"
+}

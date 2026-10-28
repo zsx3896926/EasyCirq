@@ -1,0 +1,80 @@
+{
+  "schema": "zhigou.electrical-review.input/v1",
+  "design": {
+    "project_id": "r2-derating",
+    "document_id": "P1",
+    "units": {
+      "length": "mil",
+      "voltage": "V",
+      "capacitance": "uF"
+    },
+    "source_type": "synthetic_fixture",
+    "title": "electrical-review benchmark fixture"
+  },
+  "evidence": [
+    {
+      "id": "E1",
+      "kind": "synthetic_fixture",
+      "source": "task-B synthetic fixture"
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "iC1",
+      "ref": "C1",
+      "kind": "capacitor",
+      "pins": [
+        {
+          "number": "1",
+          "net": "VIN"
+        },
+        {
+          "number": "2",
+          "net": "GND"
+        }
+      ],
+      "mpn": "GRM188R71C104KA01",
+      "value": "100nF",
+      "attributes": {
+        "rated_voltage": {
+          "value": 25.0,
+          "unit": "V",
+          "conditions": "DC rated",
+          "evidence": [
+            "E1"
+          ]
+        },
+        "max_differential_stress": {
+          "value": 21.0,
+          "unit": "V",
+          "basis": "declared worst case",
+          "evidence": [
+            "E1"
+          ]
+        }
+      }
+    }
+  ],
+  "connectivity": {
+    "pin_nets": {}
+  },
+  "intent": {
+    "capacitor_roles": [
+      {
+        "component": "C1",
+        "role": "bulk",
+        "role_source": "user_declaration",
+        "evidence": [
+          "E1"
+        ]
+      }
+    ],
+    "derating": {
+      "max_voltage_fraction": 0.8,
+      "source": "project policy",
+      "evidence": [
+        "E1"
+      ]
+    }
+  }
+}
