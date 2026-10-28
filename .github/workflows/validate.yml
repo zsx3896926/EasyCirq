@@ -28,12 +28,13 @@ jobs:
         run: python benchmarks/task-launcher/run_benchmark.py
   macos-smoke:
     runs-on: macos-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
       - name: Run task launcher suite on macOS
-        run: python3 -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py"
+        run: python3 -X faulthandler -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py" -v
       - name: Run frozen task-launcher benchmark on macOS
-        run: python3 benchmarks/task-launcher/run_benchmark.py
+        run: python3 -X faulthandler benchmarks/task-launcher/run_benchmark.py
