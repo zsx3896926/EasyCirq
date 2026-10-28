@@ -1,0 +1,14 @@
+{
+  "schema": "zhigou.bound.fixture.snapshot/v1",
+  "fixture_version": "fixture-1",
+  "project": {"name": "bound-demo", "revision": "rev-A"},
+  "document": {"kind": "schematic", "id": "doc-1"},
+  "page": {"name": "P1"},
+  "selection": [{"kind": "component", "designator": "U1"}],
+  "missing_fields": ["pcb_geometry", "thermal"],
+  "files_root": "files",
+  "notes": [
+    "synthetic fixture for the B1-Bound offline Phase-1 supervisor;",
+    "no EDA, daemon, connector or network is involved."
+  ]
+}

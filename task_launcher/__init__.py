@@ -76,6 +76,13 @@ SKILL_DIR_CANDIDATES = ("easycirq",)
 MCP_SERVER_NAME = "easycirq-offline-audit"
 MCP_MODULE = "easycirq_mcp"
 
+#: B1-Bound supervisor mounted instead of the offline-audit server when the
+#: launcher runs with ``--bound`` (task O).  The supervisor is the trusted
+#: process that owns read-back, evidence and the final report.
+BOUND_SERVER_NAME = "zhigou_bound"
+BOUND_MODULE = "task_launcher.bound"
+BOUND_SERVE_ARGS = ("-m", "task_launcher.bound", "serve")
+
 #: Read-only tool allow-list handed to the headless agent. No Bash/Write/Edit.
 ALLOWED_TOOLS = (
     "Skill",
@@ -89,6 +96,32 @@ ALLOWED_TOOLS = (
     "mcp__easycirq-offline-audit__offline_delivery_audit",
 )
 ALLOWED_TOOLS_ARG = ",".join(ALLOWED_TOOLS)
+
+#: Capability surface when the B1-Bound supervisor is enabled: only the bound
+#: MCP tools (no direct offline-audit MCP tools), read-only built-ins and the
+#: Skill loader.
+BOUND_ALLOWED_TOOLS = (
+    "Skill",
+    "Read",
+    "Glob",
+    "Grep",
+    "mcp__zhigou_bound__*",
+)
+BOUND_ALLOWED_TOOLS_ARG = ",".join(BOUND_ALLOWED_TOOLS)
+
+#: Tools that must never be available to a bound task (belt-and-braces with
+#: ``--allowedTools``; the supervisor state machine is the real gate).
+DENIED_TOOLS = (
+    "Bash",
+    "Write",
+    "Edit",
+    "NotebookEdit",
+    "Agent",
+    "Task",
+    "WebFetch",
+    "WebSearch",
+)
+DENIED_TOOLS_ARG = ",".join(DENIED_TOOLS)
 
 #: Permission mode used for read-only tasks. `plan` never auto-approves writes.
 PERMISSION_MODE = "plan"
@@ -147,6 +180,13 @@ __all__ = [
     "MCP_MODULE",
     "ALLOWED_TOOLS",
     "ALLOWED_TOOLS_ARG",
+    "BOUND_SERVER_NAME",
+    "BOUND_MODULE",
+    "BOUND_SERVE_ARGS",
+    "BOUND_ALLOWED_TOOLS",
+    "BOUND_ALLOWED_TOOLS_ARG",
+    "DENIED_TOOLS",
+    "DENIED_TOOLS_ARG",
     "PERMISSION_MODE",
     "REAL_EDA",
     "REAL_EDA_SOURCE",
