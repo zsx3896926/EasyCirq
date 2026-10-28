@@ -123,7 +123,7 @@ class OutputFileTests(support.CliTestCase):
         path = self.write_input("valid.json", fixtures.three_layer_case())
         before = path.read_bytes()
         result = self.cli("validate", "--input", "valid.json",
-                          "--out", ".\\valid.json")
+                          "--out", "." + os.sep + "valid.json")
         self.assert_exit(result, 4)
         self.assertEqual(path.read_bytes(), before)
 
