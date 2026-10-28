@@ -16,7 +16,7 @@
 
 | 路径 | 内容 |
 |---|---|
-| `design-hardware/scripts/return_path_audit/` | CLI、严格校验模型、几何内核、E1–E5 检查、报告/原子写、SVG 叠加、来源注册 |
+| `easycirq/scripts/return_path_audit/` | CLI、严格校验模型、几何内核、E1–E5 检查、报告/原子写、SVG 叠加、来源注册 |
 | `tests/return_path_audit/` | 116 个测试：几何、校验、五组行为、CLI 契约、变形、对抗、4 个 holdout、真实快照回放、`.epru` 适配器 |
 | `benchmarks/return-path-audit/` | 45 个冻结场景（含 8 个非法输入）+ 生成器 + runner + result.json + **真实快照回放**（2 层，见 §5.1） |
 | `docs/parallel-return-path-audit/` | 契约、几何支持、来源登记、验收矩阵、本报告、集成建议、交接、issue 候选 |
@@ -83,7 +83,7 @@ missing via、8 类非法输入，以及“固定稀疏采样会漏掉窄缝”�
 
 | 项 | 值 |
 |---|---|
-| 原始快照 | `design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`（真实 `easyeda pcb dump`） |
+| 原始快照 | `easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`（真实 `easyeda pcb dump`） |
 | 工程/快照 | `mcu-i2c-s3-20261026` / `mcu-i2c-s3-20261026:40b81985cfb4a5ed:2026-10-26T13:40:13Z` |
 | 原始字节 SHA256 | `db7521f2883346f0d70126047927f2cf6a61343374c2e0cb71869649aa3a57fe` |
 | 投影 | 真实 BOTTOM GND 实际填充铺铜（1 外环 + 8 孔，圆弧 ≤0.05 mil 离散）→ 参考铜；顶层 12 网 142 段真实走线；16 个真实过孔 |

@@ -8,8 +8,8 @@
 
 | 板 | 工程 / PCB | 真实结果 | 入口 |
 |---|---|---|---|
-| A 5V 光控 LED（THT/混装，90×60mm，4×M3） | `photo-led-pcb-20261026` / `PCB1` `99b8366b0bdc971f` | 19 件/47 焊盘；DRC 0；14/14 关键 net-path；save/reload diff match；丝印 0 压焊盘/越框/倒置 | `design-hardware/cases/photo-led-pcb-2026-10-26/` |
-| B MCU+I²C（ESP32-S3-WROOM-1 + SHT40，SMT，65.79×45mm，2×M2.5） | `mcu-i2c-s3-20261026` / `PCB2` `40b81985cfb4a5ed` | 23 件/15 网/104 脚；DRC 0；15/15 关键 net-path；23/23、104/104 SCH-PCB 0 mismatch；save/reload match | `design-hardware/cases/mcu-i2c-s3-2026-10-26/` |
+| A 5V 光控 LED（THT/混装，90×60mm，4×M3） | `photo-led-pcb-20261026` / `PCB1` `99b8366b0bdc971f` | 19 件/47 焊盘；DRC 0；14/14 关键 net-path；save/reload diff match；丝印 0 压焊盘/越框/倒置 | `easycirq/cases/photo-led-pcb-2026-10-26/` |
+| B MCU+I²C（ESP32-S3-WROOM-1 + SHT40，SMT，65.79×45mm，2×M2.5） | `mcu-i2c-s3-20261026` / `PCB2` `40b81985cfb4a5ed` | 23 件/15 网/104 脚；DRC 0；15/15 关键 net-path；23/23、104/104 SCH-PCB 0 mismatch；save/reload match | `easycirq/cases/mcu-i2c-s3-2026-10-26/` |
 | B 局部改板副本 | `mcu-i2c-s3-edit-20261026` / 同 PCB UUID | 加 C99 100nF；只重布 +3V3/GND；DRC 0；scoped diff unrelated 0；save/reload match | `mcu-i2c-s3-2026-10-26/evidence/edit-*` |
 
 图：

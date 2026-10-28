@@ -19,7 +19,7 @@ import zlib
 os.environ.setdefault('PYTHONIOENCODING', 'utf-8')
 
 ROOT = Path(__file__).resolve().parents[1]
-DH = ROOT / 'design-hardware'
+DH = ROOT / 'easycirq'
 REF = DH / 'references' / 'decisions'
 CASES = REF / 'cases'
 ASSETS = DH / 'assets' / 'decisions'
@@ -79,18 +79,18 @@ LINK_RE = re.compile(r'\[[^\]]+\]\(([^)]+)\)')
 # keyword the sentence relies on. Values were checked by reading the current
 # worktree files, not carried over from another checkout.
 ANCHOR_KEYWORDS = {
-    'design-hardware/references/calculations/analog-adc.md:383-395': ('校准',),
-    'design-hardware/references/design-cards/analog/a05-vref.md:168-177': ('校准',),
-    'design-hardware/references/engineering-deepdives/topics/c1-sensor-to-adc-error-chain.md:179-191': ('校准',),
-    'design-hardware/references/projects/p02-industrial-rs485-analog.md:169-190': ('校准',),
-    'design-hardware/references/projects/p02-industrial-rs485-analog.md:190-207': ('3905',),
-    'design-hardware/references/projects/p02-industrial-rs485-analog.md:405-416': ('GPIO_ISO_EN',),
-    'design-hardware/references/projects/p02-industrial-rs485-analog.md:424-434': ('B6', 'B9'),
-    'design-hardware/references/projects/p02-industrial-rs485-analog.md:360-368': ('iso=0',),
-    'design-hardware/references/projects/p02-industrial-rs485-analog.md:364-365': ('iso=0', 'iso=1'),
-    'design-hardware/references/projects/p02-industrial-rs485-analog.md:370-374': ('25 块',),
-    'design-hardware/references/manufacturing-routes.md:539-562': ('ECO',),
-    'design-hardware/references/project-coherence.md:18-27': ('变更传播',),
+    'easycirq/references/calculations/analog-adc.md:383-395': ('校准',),
+    'easycirq/references/design-cards/analog/a05-vref.md:168-177': ('校准',),
+    'easycirq/references/engineering-deepdives/topics/c1-sensor-to-adc-error-chain.md:179-191': ('校准',),
+    'easycirq/references/projects/p02-industrial-rs485-analog.md:169-190': ('校准',),
+    'easycirq/references/projects/p02-industrial-rs485-analog.md:190-207': ('3905',),
+    'easycirq/references/projects/p02-industrial-rs485-analog.md:405-416': ('GPIO_ISO_EN',),
+    'easycirq/references/projects/p02-industrial-rs485-analog.md:424-434': ('B6', 'B9'),
+    'easycirq/references/projects/p02-industrial-rs485-analog.md:360-368': ('iso=0',),
+    'easycirq/references/projects/p02-industrial-rs485-analog.md:364-365': ('iso=0', 'iso=1'),
+    'easycirq/references/projects/p02-industrial-rs485-analog.md:370-374': ('25 块',),
+    'easycirq/references/manufacturing-routes.md:539-562': ('ECO',),
+    'easycirq/references/project-coherence.md:18-27': ('变更传播',),
     'docs/evidence/f1-2026-10-22/README.md:1-10': ('F1',),
     'docs/evidence/f1-2026-10-22/README.md:1-20': ('F1',),
 }
@@ -244,7 +244,7 @@ def change():
 def passing_verification(**overrides):
     item = {'check': '重验原理图', 'scope': 'schematic', 'result': 'pass',
             'evidence_level': 'E1',
-            'evidence': 'design-hardware/references/projects/p02-industrial-rs485-analog.md:169-190'}
+            'evidence': 'easycirq/references/projects/p02-industrial-rs485-analog.md:169-190'}
     item.update(overrides)
     return item
 
@@ -450,7 +450,7 @@ class ChangeRecord(unittest.TestCase):
         record = change()
         record['verification'][0].update(
             result='pass', evidence_level='E3',
-            evidence='design-hardware/references/projects/p02-industrial-rs485-analog.md:169-190')
+            evidence='easycirq/references/projects/p02-industrial-rs485-analog.md:169-190')
         findings, _ = check.check_change(record)
         self.assertIn('pass_without_e1', codes(findings))
         self.assertNotIn('pass_without_evidence', codes(findings))

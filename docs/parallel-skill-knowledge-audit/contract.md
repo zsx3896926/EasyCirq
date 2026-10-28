@@ -4,7 +4,7 @@
 - 工作树：`hds-ska-worktree`
 - 分支：`feat/parallel-skill-knowledge-audit`
 - 固定基线：`9a951edc21481dc3ae91460acc11aa3e08a7be8a`（main，v1.0.1）
-- 交付目录：`design-hardware/scripts/skill_knowledge_audit/`、
+- 交付目录：`easycirq/scripts/skill_knowledge_audit/`、
   `tests/skill_knowledge_audit/`、`benchmarks/skill-knowledge-audit/`、
   `docs/parallel-skill-knowledge-audit/`
 - 工具版本：`0.1.0`；结构版本：`skill-knowledge-audit/v1`；目录版本：`2026-10-27.1`
@@ -32,7 +32,7 @@
 ## 2. 包与入口
 
 ```
-design-hardware/scripts/skill_knowledge_audit/
+easycirq/scripts/skill_knowledge_audit/
   __init__.py        # 版本、schema 常量
   __main__.py        # python -m skill_knowledge_audit
   cli.py             # argparse 与命令分发
@@ -55,7 +55,7 @@ design-hardware/scripts/skill_knowledge_audit/
 运行方式（包目录需在 `sys.path`；文档给出可复制命令）：
 
 ```
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m skill_knowledge_audit scan --root ..
 python -m skill_knowledge_audit rules --root ..
 python -m skill_knowledge_audit plan --root .. --intent <intent.json> --out <plan.json>
@@ -168,11 +168,11 @@ slug 后缀的显式锚点（如 `#L12` 视为行锚点，单独分类 `line_anc
   "schema":"skill-knowledge-audit/v1","kind":"scan","tool":{"name":"skill_knowledge_audit","version":"0.1.0"},
   "catalog_version":"2026-10-27.1",
   "source":{"root":"...","git_sha":"...","scanned_at":"...","duration_ms":0},
-  "files":[{"path":"design-hardware/SKILL.md","sha256":"...","bytes":0,"chars":0,"lines":0,
+  "files":[{"path":"easycirq/SKILL.md","sha256":"...","bytes":0,"chars":0,"lines":0,
             "title":"...","headings":[{"level":2,"text":"...","line":12,"anchor":"..."}],
             "links":[{"line":14,"column":5,"text":"安装与更新","target":"references/installation-updates.md",
                       "kind":"local_markdown","role":"required_read","role_evidence":"读取",
-                      "resolved":"design-hardware/references/installation-updates.md",
+                      "resolved":"easycirq/references/installation-updates.md",
                       "exists":true,"anchor":null,"anchor_exists":true,
                       "external":false,"in_code_fence":false}],
             "script_refs":[{"line":15,"path":"scripts/skill_update.py","exists":true,"placeholder":false}]}],
@@ -199,7 +199,7 @@ slug 后缀的显式锚点（如 `#L12` 视为行锚点，单独分类 `line_anc
 
 ```json
 {"rule_id":"R-SKILL-001","text":"原文（≤500字符，保留省略标记）",
- "source":{"path":"design-hardware/SKILL.md","line_start":96,"line_end":96,"quote_sha256":"..."},
+ "source":{"path":"easycirq/SKILL.md","line_start":96,"line_end":96,"quote_sha256":"..."},
  "condition":"用户说“确认后再布线”","task_scope":["schematic","pcb"],
  "action":"在对应边界等待用户确认","strength":"must|should|may|unknown",
  "exception":"任务已授权范围内自查并继续","evidence_required":["用户明确要求暂停"],
@@ -275,7 +275,7 @@ ON_DEMAND、DIRECT_WIRE/LABEL、STRICT/PERMISSIVE 等）、任务范围词、阶
  "stage":"read|requirements|concept|schematic|layout|route|check|delivery|firmware|build|unknown",
  "autonomous_authorized":true,"eda_available":false,"deliverables":["schematic"],
  "constraints":["keep mechanical outline"],"user_decision_pending":[],
- "already_read":[{"path":"design-hardware/SKILL.md","sha256":"...","rules_version":"...","scope":"..."}],
+ "already_read":[{"path":"easycirq/SKILL.md","sha256":"...","rules_version":"...","scope":"..."}],
  "budget_chars":120000,"notes":"..."}
 ```
 
@@ -343,8 +343,8 @@ Infinity、负数 → 2。required 超预算时**不裁剪** required，标
 ```json
 {"schema":"ska-scenarios/v1","split":"dev","frozen":{"git_sha":"...","catalog_version":"..."},
  "scenarios":[{"id":"dev-01","title":"...","intent":{...},
-   "expected":{"must_include":["design-hardware/references/evidence.md"],
-               "must_exclude":["design-hardware/references/pcb-routing-details.md"],
+   "expected":{"must_include":["easycirq/references/evidence.md"],
+               "must_exclude":["easycirq/references/pcb-routing-details.md"],
                "may_include":["..."],"required_unknown":["eda_unavailable"],
                "forbidden_plan_actions":["write_eda"],
                "required_approval_gates":[],
@@ -413,7 +413,7 @@ digest 相同）、`duration_ms`。总基准比较“全部可达参考资料”
    `must_include` 缺失、`must_exclude` 命中、禁止动作、缺 unknown/门、
    两次运行不稳定判失败；预算 `incomplete` 由场景 `required_unknown` 决定是否失败
    （holdout-02 的预算缺口已在 `report.md` 作为已知覆盖缺口披露）。
-6. **输出隔离**：CLI 文档与测试/结果均在 `design-hardware` 扫描根之外；
+6. **输出隔离**：CLI 文档与测试/结果均在 `easycirq` 扫描根之外；
    `scan`/`rules`/`plan`/`benchmark` 的 `--out` 与 `--cache-out` 落在根内时
    直接报错（退出 2），因此任意后续扫描都不会读到本任务输出。
 7. **规则证据**：`rules` 每次运行都校验 `catalog/rules.json` 的已审引文与

@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'design-hardware/scripts'))
+sys.path.insert(0, str(ROOT / 'easycirq/scripts'))
 import sch_text_audit as audit
 
 
@@ -38,7 +38,7 @@ class TextAudit(unittest.TestCase):
         self.assertEqual(audit.audit(d)['missing_classes'], ['wire_names'])
         with tempfile.TemporaryDirectory() as folder:
             p = Path(folder) / 'input.json'; p.write_text(json.dumps(d), encoding='utf-8')
-            r = subprocess.run([sys.executable, str(ROOT/'design-hardware/scripts/sch_text_audit.py'), str(p), '--strict'], capture_output=True)
+            r = subprocess.run([sys.executable, str(ROOT/'easycirq/scripts/sch_text_audit.py'), str(p), '--strict'], capture_output=True)
             self.assertEqual(r.returncode, 2)
             self.assertFalse(json.loads(r.stdout)['visual_verified'])
 
@@ -70,7 +70,7 @@ class TextAudit(unittest.TestCase):
                 if kind == 'overlap': d['items'][1]['bbox'] = [5, 0, 15, 10]
                 if kind == 'invalid': d['count'] = 7
                 p.write_text(json.dumps(d), encoding='utf-8')
-                r = subprocess.run([sys.executable, str(ROOT/'design-hardware/scripts/sch_text_audit.py'), str(p), '--strict'], capture_output=True)
+                r = subprocess.run([sys.executable, str(ROOT/'easycirq/scripts/sch_text_audit.py'), str(p), '--strict'], capture_output=True)
                 self.assertEqual(r.returncode, expected)
 
 

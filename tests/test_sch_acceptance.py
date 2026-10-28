@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'design-hardware/scripts'))
+sys.path.insert(0, str(ROOT / 'easycirq/scripts'))
 import layout_from_zhigou as adapter
 import sch_layout_check as check
 import svg_text_bbox
@@ -142,7 +142,7 @@ class Adapter(unittest.TestCase):
                 files[name].write_text(json.dumps(value), encoding='utf-8')
             out = folder / 'layout.json'
             result = subprocess.run([
-                sys.executable, str(ROOT / 'design-hardware/scripts/layout_from_zhigou.py'),
+                sys.executable, str(ROOT / 'easycirq/scripts/layout_from_zhigou.py'),
                 '--list', str(files['list']), '--visible-text', str(files['visible']),
                 '--sheet-geometry', str(files['geometry']),
                 '--rendered-text', str(files['rendered']),
@@ -376,7 +376,7 @@ class AcceptanceChecks(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / 'layout.json'
             source.write_text(json.dumps(data), encoding='utf-8')
-            script = ROOT / 'design-hardware/scripts/sch_layout_check.py'
+            script = ROOT / 'easycirq/scripts/sch_layout_check.py'
             passed = subprocess.run([sys.executable, str(script), str(source)],
                                     capture_output=True)
             self.assertEqual(passed.returncode, 0)

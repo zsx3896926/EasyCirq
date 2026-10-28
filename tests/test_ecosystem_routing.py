@@ -9,7 +9,7 @@ import tempfile
 import unittest
 
 ROOT=Path(__file__).resolve().parents[1]
-SPEC=importlib.util.spec_from_file_location('ecosystem_routing',ROOT/'design-hardware/scripts/ecosystem_routing.py')
+SPEC=importlib.util.spec_from_file_location('ecosystem_routing',ROOT/'easycirq/scripts/ecosystem_routing.py')
 r=importlib.util.module_from_spec(SPEC);SPEC.loader.exec_module(r)
 
 
@@ -174,12 +174,12 @@ class RoutingTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             src=Path(tmp)/'input.json';out=Path(tmp)/'out.json'
             src.write_text(json.dumps(self.data))
-            p=subprocess.run([sys.executable,str(ROOT/'design-hardware/scripts/ecosystem_routing.py'),
+            p=subprocess.run([sys.executable,str(ROOT/'easycirq/scripts/ecosystem_routing.py'),
                               'audit','--input',str(src),'--out',str(out)],capture_output=True)
             self.assertEqual(p.returncode,0,p.stderr)
             self.assertEqual(json.loads(out.read_text())['status'],'pass_geometry_only')
             src.write_text('{')
-            p=subprocess.run([sys.executable,str(ROOT/'design-hardware/scripts/ecosystem_routing.py'),
+            p=subprocess.run([sys.executable,str(ROOT/'easycirq/scripts/ecosystem_routing.py'),
                               'audit','--input',str(src)],capture_output=True)
             self.assertEqual(p.returncode,2)
 

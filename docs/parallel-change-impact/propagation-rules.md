@@ -1,6 +1,6 @@
 # 影响传播规则（J2 `propagate.py`）
 
-本文档描述 `design-hardware/scripts/change_impact/propagate.py` 的实现规则，是
+本文档描述 `easycirq/scripts/change_impact/propagate.py` 的实现规则，是
 `docs/parallel-change-impact/contract.md` §3 `propagate.py` 的展开说明。实现只做
 离线、只读、确定性的推断：不调用 EDA/执行器/仪器，不写设计，不执行输入内容；
 所有结论都必须能追溯到声明的对象、依赖边、变更记录。**没有边不是无影响**：

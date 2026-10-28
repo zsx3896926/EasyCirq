@@ -6,7 +6,7 @@ import unittest
 
 os.environ.setdefault('PYTHONIOENCODING', 'utf-8')
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'design-hardware'
+SKILL = ROOT / 'easycirq'
 sys.path.insert(0, str(SKILL / 'scripts'))
 import netlist_check as netcheck
 import sch_layout_check as layout

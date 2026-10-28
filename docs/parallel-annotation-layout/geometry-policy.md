@@ -2,7 +2,7 @@
 
 Status: implementation policy for `annotation-layout/v1`.  All numbers below are
 read from the input; none is a hidden default that silently overrides a project
-choice.  The existing checker `design-hardware/scripts/sch_layout_check.py` is
+choice.  The existing checker `easycirq/scripts/sch_layout_check.py` is
 never modified, and no threshold is changed to make a plan green.
 
 ## 1. Coordinate conventions

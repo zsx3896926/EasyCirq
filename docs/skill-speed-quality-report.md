@@ -141,7 +141,7 @@ save/reload match、SCH-PCB 与 BOM 共同证明。**不宣称 PNG 字节不变�
 ## 5. 证据与 WARN 处置
 
 - 板 A：6 条 WARN 全部有 disposition（accepted，含理由/复验条件），文件
-  `design-hardware/cases/photo-led-pcb-2026-10-26/evidence/warn-disposition.json`。
+  `easycirq/cases/photo-led-pcb-2026-10-26/evidence/warn-disposition.json`。
 - 板 B：13 WARN + 1 INFO 全部处置，文件同名。
 - 受控板：15 WARN + 1 INFO 全部处置，文件
   `docs/round10/controlledB/evidence/warn-disposition.json`。
@@ -181,7 +181,7 @@ save/reload match、SCH-PCB 与 BOM 共同证明。**不宣称 PNG 字节不变�
 
 ```bash
 # 1) 受控 clean case（当前工程已存在时）
-python design-hardware/scripts/pcb_case.py --case docs/round10/controlledB \
+python easycirq/scripts/pcb_case.py --case docs/round10/controlledB \
   --project mcu-i2c-s3-edit-r10b-20261026 --doc PCB2 \
   --before-dump docs/round10/controlledB/evidence/pcb-dump-before.json \
   --key-nets docs/round10/baseline/key-nets-b2.json \
@@ -190,14 +190,14 @@ python design-hardware/scripts/pcb_case.py --case docs/round10/controlledB \
   --out docs/round10/controlledB/manifest.json --json
 
 # 2) 只跑 gate
-python design-hardware/scripts/pcb_gate.py --case docs/round10/controlledB \
+python easycirq/scripts/pcb_gate.py --case docs/round10/controlledB \
   --profile full --key-nets docs/round10/baseline/key-nets-b2.json \
   --warn-disposition docs/round10/controlledB/evidence/warn-disposition.json \
   --out docs/round10/controlledB/gate-report.json --json
 
 # 3) 全量测试与自检
 python -m unittest discover -s tests
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 ```
 
 **边界**：DRC 0、gate pass 与 case complete 证明列出的设计/证据在给定工程内一致，

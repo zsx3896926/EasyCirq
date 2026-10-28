@@ -11,9 +11,9 @@
 	"license": "MIT",
 	"repository": {
 		"type": "github",
-		"url": "https://github.com/zsx3896926/hardware-design-skill"
+		"url": "https://github.com/zsx3896926/EasyCirq"
 	},
-	"homepage": "https://github.com/zsx3896926/hardware-design-skill",
+	"homepage": "https://github.com/zsx3896926/EasyCirq",
 	"categories": "Other",
 	"keywords": [
 		"agent",

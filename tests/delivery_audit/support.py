@@ -19,7 +19,7 @@ import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 if str(SCRIPTS) not in sys.path:
     sys.path.append(str(SCRIPTS))
 
@@ -30,7 +30,7 @@ def _ensure_subject_package():
     ``python -m unittest discover -s tests`` imports this directory as the
     top-level package``delivery_audit``, which would shadow the package under
     test.  Support is imported before any test imports ``delivery_audit``, so we
-    bind the real package (from ``design-hardware/scripts``) and append this test
+    bind the real package (from ``easycirq/scripts``) and append this test
     directory to its ``__path__`` so discovery can still find test modules.
     """
     tests_dir = Path(__file__).resolve().parent

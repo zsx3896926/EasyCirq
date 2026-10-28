@@ -1,6 +1,6 @@
 # 增量验证计划与候选比较（J4/J5）
 
-本文对应 `design-hardware/scripts/change_impact/verify_plan.py`（J4）与
+本文对应 `easycirq/scripts/change_impact/verify_plan.py`（J4）与
 `compare.py`（J5），是 `contract.md` §3/§4 的实现说明。两者都只做离线、
 只读、确定性推断：不执行检查、不写设计、不调用 EDA/仪器，也不把“计划了”当作
 “验证过”。

@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
-SCRIPT=ROOT/'design-hardware/scripts/sch_recipe.py'
+SCRIPT=ROOT/'easycirq/scripts/sch_recipe.py'
 spec=importlib.util.spec_from_file_location('sch_recipe',SCRIPT)
 mod=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)

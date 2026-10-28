@@ -9,7 +9,7 @@ import unittest
 
 os.environ.setdefault('PYTHONIOENCODING', 'utf-8')
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'design-hardware'
+SKILL = ROOT / 'easycirq'
 SCRIPT = SKILL / 'scripts/calculate.py'
 spec = importlib.util.spec_from_file_location('calc2', SCRIPT)
 calc = importlib.util.module_from_spec(spec)

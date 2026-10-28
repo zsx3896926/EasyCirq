@@ -85,9 +85,9 @@ def build_bundle(dest_dir, version='0.1.0', connector_version='0.1.0', runtime_b
         'payload/licenses/LICENSE': b'Apache-2.0 test license\n',
         'payload/licenses/NOTICE': b'test notice\n',
         'payload/licenses/THIRD-PARTY-NOTICES.md': b'# third party\n',
-        'payload/skill/design-hardware/SKILL.md': b'---\nname: design-hardware\ndescription: test\n---\n',
-        'payload/skill/design-hardware/.version': (skill_version + '\n').encode(),
-        'payload/skill/design-hardware/scripts/helper.py': b'print("helper")\n',
+        'payload/skill/easycirq/SKILL.md': b'---\nname: easycirq\ndescription: test\n---\n',
+        'payload/skill/easycirq/.version': (skill_version + '\n').encode(),
+        'payload/skill/easycirq/scripts/helper.py': b'print("helper")\n',
     }
     payload.update(extra or {})
     files = {k: sha(v) for k, v in payload.items()}
@@ -113,9 +113,9 @@ def build_bundle(dest_dir, version='0.1.0', connector_version='0.1.0', runtime_b
                           'installPath': 'connector/zhigou-connector_v%s.eext' % connector_version,
                           'file': 'zhigou-connector_v%s.eext' % connector_version,
                           'sha256': files['payload/connector/zhigou-connector_v%s.eext' % connector_version]},
-            'skill': {'name': 'design-hardware', 'version': skill_version,
-                      'path': 'payload/skill/design-hardware',
-                      'installPath': 'skill/design-hardware'},
+            'skill': {'name': 'easycirq', 'version': skill_version,
+                      'path': 'payload/skill/easycirq',
+                      'installPath': 'skill/easycirq'},
         },
         'files': files,
     }
@@ -223,7 +223,7 @@ class CleanInstallTests(InstallerTestCase):
         self.assertEqual(r['files'], 11)
         for rel in ('bin/zhigou.exe', 'bin/zhigou-version.json',
                     'connector/zhigou-connector_v0.1.0.eext', 'connector/IMPORT-STEPS.md',
-                    'skill/design-hardware/SKILL.md', 'skill/design-hardware/.version',
+                    'skill/easycirq/SKILL.md', 'skill/easycirq/.version',
                     'licenses/LICENSE', 'licenses/THIRD-PARTY-NOTICES.md', zi.META):
             self.assertTrue((self.install / rel).is_file(), rel)
         meta = self.read_meta()
@@ -348,7 +348,7 @@ class UpgradeRollbackTests(InstallerTestCase):
 class UninstallTests(InstallerTestCase):
     def test_uninstall_removes_only_owned_files(self):
         self.install_bundle('0.1.0')
-        user_file = self.install / 'skill' / 'design-hardware' / 'my-notes.md'
+        user_file = self.install / 'skill' / 'easycirq' / 'my-notes.md'
         user_file.write_text('local note', encoding='utf-8')
         cfg = self.install / 'config' / 'settings.json'
         cfg.parent.mkdir(parents=True, exist_ok=True)
@@ -536,7 +536,7 @@ class SafetyTests(InstallerTestCase):
 class TransactionTests(InstallerTestCase):
     def test_local_modification_blocks_upgrade_until_forced(self):
         self.install_bundle('0.1.0')
-        target = self.install / 'skill' / 'design-hardware' / 'SKILL.md'
+        target = self.install / 'skill' / 'easycirq' / 'SKILL.md'
         target.write_text('locally edited', encoding='utf-8')
         with self.assertRaises(zi.InstallError) as ctx:
             self.install_bundle('0.2.0')
@@ -598,7 +598,7 @@ class ClientSkillTests(InstallerTestCase):
         archive, _, _ = build_bundle(self.bundles, version='0.1.0')
         r = zi.install(install_dir=self.install, archive=archive, state=self.state,
                        home=self.home, client='claude', self_check=False)
-        target = self.home / '.claude' / 'skills' / 'design-hardware'
+        target = self.home / '.claude' / 'skills' / 'easycirq'
         self.assertTrue((target / 'SKILL.md').is_file())
         self.assertTrue((target / '.zhigou-install.json').is_file())
         self.assertEqual(r['clientSkill']['target'], str(target))
@@ -609,7 +609,7 @@ class ClientSkillTests(InstallerTestCase):
         self.assertEqual(un['clientSkill']['removed'], str(target))
 
     def test_unmanaged_skill_is_not_overwritten(self):
-        target = self.home / '.claude' / 'skills' / 'design-hardware'
+        target = self.home / '.claude' / 'skills' / 'easycirq'
         target.mkdir(parents=True)
         (target / 'SKILL.md').write_text('hand made', encoding='utf-8')
         archive, _, _ = build_bundle(self.bundles, version='0.1.0')

@@ -1,6 +1,6 @@
 # 证据失效与复用策略（J3 `evidence.py`）
 
-本文档描述 `design-hardware/scripts/change_impact/evidence.py` 的实现规则，是
+本文档描述 `easycirq/scripts/change_impact/evidence.py` 的实现规则，是
 `docs/parallel-change-impact/contract.md` §2.4/§3 的展开说明。模块只回答一个问题：
 **对于候选版本，之前捕获的验证证据还能否被依赖？如果能，限制是什么？** 它不执行
 检查、不写设计、不调用 EDA/仪器、不联网，也不产生任何新时间戳或宿主回执。

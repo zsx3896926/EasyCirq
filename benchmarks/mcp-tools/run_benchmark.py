@@ -27,7 +27,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 DEFAULT_RESULTS = HERE / "results.json"
 
 B_REAL = ROOT / "benchmarks/electrical-review/cases/real-mcu-i2c-ams-tab/input.json"

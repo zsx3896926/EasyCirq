@@ -1,6 +1,6 @@
 # Zhigou 工具链安装器（安装 / 升级 / 回退 / 卸载）
 
-本文覆盖 `distribution/` 下的统一安装体系：它把 **Skill（design-hardware）+ 运行时（`zhigou.exe` 与构建标识）+ 连接器（`.eext`）** 当作一个整体来安装、升级、回退和卸载。
+本文覆盖 `distribution/` 下的统一安装体系：它把 **Skill（easycirq）+ 运行时（`zhigou.exe` 与构建标识）+ 连接器（`.eext`）** 当作一个整体来安装、升级、回退和卸载。
 
 - 入口（人工）：`distribution/Install-Zhigou.cmd`（双击）或 `Install-Zhigou.ps1`
 - 事务实现：`distribution/zhigou_install.py`（Python 3.10+，仅标准库）
@@ -36,7 +36,7 @@
 | `toolchain-release.json` | 分离式发布清单（版本、兼容矩阵、bundle SHA-256、源提交） |
 | `toolchain-provenance.json` | 构建溯源（源提交、Go 版本、node/npm 版本、每个产物 SHA-256） |
 | `SHA256SUMS` | 上述全部产物的 SHA-256（与旧 Skill 产物共用一份） |
-| `design-hardware-*.zip`、`release.json`、`Manage-Skill.ps1/.cmd`、`skill_update.py`、`companion_update.py`、`LICENSE`、`NOTICE`、`INSTALL.md` | **旧 Skill 安装器契约，保持原样**（CI 发布物） |
+| `easycirq-*.zip`、`release.json`、`Manage-Skill.ps1/.cmd`、`skill_update.py`、`companion_update.py`、`LICENSE`、`NOTICE`、`INSTALL.md` | **旧 Skill 安装器契约，保持原样**（CI 发布物） |
 
 ### 2.2 bundle zip 内部
 
@@ -47,7 +47,7 @@ payload/bin/zhigou-version.json      # 运行时构建标识（版本/SHA/goVers
 payload/connector/<name>_<版本>.eext # 连接器扩展（不自动导入）
 payload/connector/zhigou-connector.manifest.json
 payload/connector/IMPORT-STEPS.md    # 人工导入步骤
-payload/skill/design-hardware/…      # Skill 全量文件
+payload/skill/easycirq/…      # Skill 全量文件
 payload/licenses/{LICENSE,NOTICE,THIRD-PARTY-NOTICES.md,connector__LICENSE,…}
 ```
 
@@ -62,7 +62,7 @@ payload/licenses/{LICENSE,NOTICE,THIRD-PARTY-NOTICES.md,connector__LICENSE,…}
   connector/zhigou-connector_v0.1.0.eext
   connector/IMPORT-STEPS.md
   connector/zhigou-connector.manifest.json
-  skill/design-hardware/…      # 由本工具链拥有的 Skill 副本
+  skill/easycirq/…      # 由本工具链拥有的 Skill 副本
   licenses/…
   config/                      # 可选，用户自建；升级保留、卸载默认保留
 <安装目录同级>/.zhigou-install-state/<hash>/

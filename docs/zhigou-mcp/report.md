@@ -2,7 +2,7 @@
 
 ## 1. What was built
 
-`design-hardware/scripts/zhigou_mcp/` — a stdlib-only MCP stdio server exposing
+`easycirq/scripts/zhigou_mcp/` — a stdlib-only MCP stdio server exposing
 three existing offline audit CLIs as five tools:
 
 * `offline_electrical_review` (task B),

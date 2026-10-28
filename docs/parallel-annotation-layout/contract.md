@@ -8,8 +8,8 @@ vocabulary and the internal module interfaces. It does not claim any host
 - task: 智构 parallel task K — batch annotation avoidance / local relayout planner
 - branch: `feat/parallel-annotation-layout`
 - base main SHA: `9a951edc21481dc3ae91460acc11aa3e08a7be8a` (2026-10-27)
-- package: `design-hardware/scripts/annotation_layout/` (standalone, no deps)
-- delivered paths: `design-hardware/scripts/annotation_layout/`,
+- package: `easycirq/scripts/annotation_layout/` (standalone, no deps)
+- delivered paths: `easycirq/scripts/annotation_layout/`,
   `tests/annotation_layout/`, `benchmarks/annotation-layout/`,
   `docs/parallel-annotation-layout/`
 
@@ -307,8 +307,8 @@ re-read are **NOT RUN**.
 ## 7. CLI contract
 
 Invocation (one of):
-- `cd design-hardware/scripts && python -m annotation_layout ...`
-- `PYTHONPATH=design-hardware/scripts python -m annotation_layout ...`
+- `cd easycirq/scripts && python -m annotation_layout ...`
+- `PYTHONPATH=easycirq/scripts python -m annotation_layout ...`
 
 Commands:
 

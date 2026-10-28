@@ -12,7 +12,7 @@ python benchmarks/delivery-audit/run_benchmarks.py
 ```
 
 本地实测环境：Windows 11、Python 3.13.15（3.10 本地 NOT RUN，只做 3.10 语法检查）。
-PR [#40](https://github.com/zsx3896926/hardware-design-skill/pull/40) 的 CI 已在
+PR [#40](https://github.com/zsx3896926/EasyCirq/pull/40) 的 CI 已在
 `validate (3.10)` 与 `validate (3.13)` 实际运行并全部通过（Linux），可作为 3.10 兼容证据；
 macOS 未验证。
 

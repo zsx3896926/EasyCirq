@@ -14,18 +14,18 @@
 
 | 文件 | 作用 | 关键边界 |
 |---|---|---|
-| `design-hardware/scripts/design_inventory.py` | 设计源 `parts[]` vs 每页 `sch list --include-pins`；缺失/多余/空页/未计划页 + 可选 native check 汇总 | 只比较位号集合；电气正确性需 `--check`，不替代 `sch check` |
-| `design-hardware/scripts/channel_map_check.py` | 参考通道→实例通道的位号/网名映射逐引脚核对；支持设计源与 EDA list | 只证明映射后结构一致，不证明拓扑本身正确 |
-| `design-hardware/scripts/library_precheck.py` | 批量器件身份/值/封装/LCSC/device UUID 覆盖与冲突 | 不查库存/价格/SMT，不证明 footprint/pin-pad |
-| `design-hardware/scripts/eda_cache.py` | 版本化、fail-closed 的 EDA 读取缓存；键=project+document+action+params | 不用于写决策；保存/重开/任何 mutation 后必须换版本标签 |
+| `easycirq/scripts/design_inventory.py` | 设计源 `parts[]` vs 每页 `sch list --include-pins`；缺失/多余/空页/未计划页 + 可选 native check 汇总 | 只比较位号集合；电气正确性需 `--check`，不替代 `sch check` |
+| `easycirq/scripts/channel_map_check.py` | 参考通道→实例通道的位号/网名映射逐引脚核对；支持设计源与 EDA list | 只证明映射后结构一致，不证明拓扑本身正确 |
+| `easycirq/scripts/library_precheck.py` | 批量器件身份/值/封装/LCSC/device UUID 覆盖与冲突 | 不查库存/价格/SMT，不证明 footprint/pin-pad |
+| `easycirq/scripts/eda_cache.py` | 版本化、fail-closed 的 EDA 读取缓存；键=project+document+action+params | 不用于写决策；保存/重开/任何 mutation 后必须换版本标签 |
 
 ### 新增/修改文档
 
-- `design-hardware/references/eda-efficiency.md`：批量执行、检查点/断点、超时对账、
+- `easycirq/references/eda-efficiency.md`：批量执行、检查点/断点、超时对账、
   缓存失效、分区/标题/说明、碰撞治理、阶段验收/停止条件、性能口径、多 Agent
   单写入者与角色计时、实测工具陷阱。
-- `design-hardware/SKILL.md`：新增“批量写入/超时恢复/缓存/通道复用/多 Agent”路由。
-- `design-hardware/references/eda-execution.md`：指向效率文档与新工具，不重复规则。
+- `easycirq/SKILL.md`：新增“批量写入/超时恢复/缓存/通道复用/多 Agent”路由。
+- `easycirq/references/eda-execution.md`：指向效率文档与新工具，不重复规则。
 
 ### 测试
 
@@ -42,7 +42,7 @@ tests/test_eda_cache.py              8
 - 23 个新测试全部通过；
 - `tests/test_skill.py` 11、`tests/test_offline_tools.py` 26、
   `tests/test_project_assets.py` 3 通过；
-- `design-hardware/scripts/skill_selftest.py`：5 PASS / 0 FAIL / 0 NOT RUN。
+- `easycirq/scripts/skill_selftest.py`：5 PASS / 0 FAIL / 0 NOT RUN。
 
 未运行全仓所有测试（NOT RUN）；未重新安装到用户 Skill 目录（不升级用户执行器）。
 
@@ -156,6 +156,6 @@ H4 端接约 53.6% 满度 **CONFIRMED**；H5 PSRAM 100MHz 是 memory clock、
 
 ## 7. PR
 
-https://github.com/zsx3896926/hardware-design-skill/pull/17
+https://github.com/zsx3896926/EasyCirq/pull/17
 （`feat/execution-efficiency-round8` → `main`）。本轮**不合并、不打标签、不发布
 Release、不升级用户执行器**。

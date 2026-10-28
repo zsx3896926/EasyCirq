@@ -8,7 +8,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 FEEDBACK = SCRIPTS / 'feedback'
 sys.path.insert(0, str(SCRIPTS))
 sys.path.insert(0, str(FEEDBACK))

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://github.com/zsx3896926/hardware-design-skill/protocol/schemas/request.schema.json",
+  "$id": "https://github.com/zsx3896926/EasyCirq/protocol/schemas/request.schema.json",
   "title": "request (daemon -> connector)",
   "type": "object",
   "required": [

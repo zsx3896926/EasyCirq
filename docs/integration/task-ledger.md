@@ -55,7 +55,7 @@ purely additive (0 modified/deleted files outside its own trees), verified with
    **0** of their own tests run. Fixed by renaming to `*_tests` packages.
 2. **Cross-package import shadowing (all modules, latent).** `unittest discover -s
    tests` imports each subdirectory as a top-level package. Several new test
-   packages inserted `design-hardware/scripts` at `sys.path[0]`; after the first
+   packages inserted `easycirq/scripts` at `sys.path[0]`; after the first
    one ran, later test packages resolved to the *implementation* package and
    failed to import (33 `ModuleNotFoundError`s in the first integrated run).
    Fixed by moving those insertions to the end of `sys.path` and by loading the C
@@ -68,7 +68,7 @@ purely additive (0 modified/deleted files outside its own trees), verified with
    benchmark case needs `fixtures/27-stale-output-replacement/input/`, which git
    cannot store; a clean checkout crashed in `shutil.copy2`. Fixed in the driver.
 5. **Repository-only links inside the installable Skill.** H's
-   `design-hardware/scripts/procurement_planner/README.md` linked `../../../docs/...`;
+   `easycirq/scripts/procurement_planner/README.md` linked `../../../docs/...`;
    D's scanner correctly flagged the escaping targets. Links degraded to code spans.
 6. **No cross-module adapters.** Verified: producer → consumer probes are rejected
    (see `evidence/integration-verification.json`). Each module's own
@@ -78,7 +78,7 @@ purely additive (0 modified/deleted files outside its own trees), verified with
 
 * **Independently usable (merged, CLI + tests + frozen benchmark):** B, C, D, E, F,
   G, H, I, J, K. Each is a standalone `python -m <module>` CLI under
-  `design-hardware/scripts/`, offline, stdlib-only.
+  `easycirq/scripts/`, offline, stdlib-only.
 * **Not wired into any main workflow:** none of them is referenced from
   `SKILL.md`/references and no producer→consumer adapter exists. Their integration
   proposals are plans, not code.
@@ -102,10 +102,10 @@ purely additive (0 modified/deleted files outside its own trees), verified with
   With task K merged locally on current main: **3230 tests, OK (skipped=2)**, ~308 s;
   CI on `3f21897`, `6f588f4` and `dd69452` push runs: both workflows SUCCESS.
 * Task B benchmark after the LF fix: 31/31 (`real_eda=NOT RUN`, `eda_calls=0`).
-* `design-hardware/scripts/skill_selftest.py`: 5 PASS / 0 FAIL (repository and
+* `easycirq/scripts/skill_selftest.py`: 5 PASS / 0 FAIL (repository and
   installed copy).
-* Packaging: `python distribution/build_release.py` → `design-hardware-1.0.1.zip`,
-  `design-hardware-installer-1.0.1.zip`, `SHA256SUMS`, `release.json` (696 files,
+* Packaging: `python distribution/build_release.py` → `easycirq-1.0.1.zip`,
+  `easycirq-installer-1.0.1.zip`, `SHA256SUMS`, `release.json` (696 files,
   version 1.0.1). No publish/tag.
 * Maintainer offline runner `tools/offline_suite.py` (after integration fix): 3230
   tests, 0 failures, 0 errors, 2 skipped, `status: pass`, offline guard installed;

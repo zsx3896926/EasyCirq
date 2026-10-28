@@ -10,7 +10,7 @@
 
 保留在：
 
-- `design-hardware/cases/dual-button-led-night-20261027/negative-direct-move/board-baseline.json`
+- `easycirq/cases/dual-button-led-night-20261027/negative-direct-move/board-baseline.json`
 - `.../placement-direct-move.json`
 - `.../expected.json`、`README.md`
 

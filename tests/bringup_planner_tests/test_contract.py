@@ -14,7 +14,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 FIXTURES = Path(__file__).resolve().parent / 'fixtures'
 FIXTURE = FIXTURES / 'minimal-input.json'
 sys.path.append(str(SCRIPTS))

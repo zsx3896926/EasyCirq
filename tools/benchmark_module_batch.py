@@ -14,11 +14,11 @@ import time
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'design-hardware/scripts'))
+sys.path.insert(0, str(ROOT / 'easycirq/scripts'))
 import pcb_apply_plan as adapter
 import pcb_cli
 
-FIXTURE = ROOT / 'design-hardware/cases/dual-button-led-night-20261027/negative-direct-move/board-accepted-baseline.json'
+FIXTURE = ROOT / 'easycirq/cases/dual-button-led-night-20261027/negative-direct-move/board-accepted-baseline.json'
 
 
 def benchmark(out_dir, runs=3):
@@ -89,7 +89,7 @@ def benchmark(out_dir, runs=3):
     if not result['same_ordered_mutations']:
         raise RuntimeError('batch changed mutation sequence')
     # Preserve an executable batched dry-run command and its final artifacts.
-    result['dry_run_argv'] = [sys.executable, str(ROOT/'design-hardware/scripts/pcb_apply_plan.py')] + common + [x for p in modules for x in ('--module-plan', str(p))]
+    result['dry_run_argv'] = [sys.executable, str(ROOT/'easycirq/scripts/pcb_apply_plan.py')] + common + [x for p in modules for x in ('--module-plan', str(p))]
     pcb_cli.write_json(str(out/'result.json'), result)
     return result
 

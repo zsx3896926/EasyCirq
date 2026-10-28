@@ -4,7 +4,7 @@ import tempfile
 import unittest
 
 ROOT=Path(__file__).resolve().parents[1]
-spec=importlib.util.spec_from_file_location('minimum_python_selftest', ROOT/'design-hardware/scripts/skill_selftest.py')
+spec=importlib.util.spec_from_file_location('minimum_python_selftest', ROOT/'easycirq/scripts/skill_selftest.py')
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 
 class RecursiveCompileTests(unittest.TestCase):

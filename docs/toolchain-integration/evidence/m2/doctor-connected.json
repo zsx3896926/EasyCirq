@@ -14,29 +14,29 @@
     "onDisk": true
   },
   "skill": {
-    "name": "design-hardware",
+    "name": "easycirq",
     "status": "installed",
     "installed": [
       {
         "client": "codex",
-        "dir": "C:\\Users\\jlc\\.codex\\skills\\design-hardware",
+        "dir": "C:\\Users\\jlc\\.codex\\skills\\easycirq",
         "present": false
       },
       {
         "client": "claude",
-        "dir": "C:\\Users\\jlc\\.claude\\skills\\design-hardware",
+        "dir": "C:\\Users\\jlc\\.claude\\skills\\easycirq",
         "present": true,
         "version": "1.0.1"
       },
       {
         "client": "agents",
-        "dir": "C:\\Users\\jlc\\.agents\\skills\\design-hardware",
+        "dir": "C:\\Users\\jlc\\.agents\\skills\\easycirq",
         "present": true,
         "version": "1.0.1"
       },
       {
         "client": "repo",
-        "dir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\design-hardware",
+        "dir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\easycirq",
         "present": true,
         "version": "1.0.1"
       }
@@ -107,7 +107,7 @@
     {
       "name": "skill",
       "status": "ok",
-      "detail": "design-hardware 已安装（claude 1.0.1, agents 1.0.1, repo 1.0.1）"
+      "detail": "easycirq 已安装（claude 1.0.1, agents 1.0.1, repo 1.0.1）"
     },
     {
       "name": "legacy",

@@ -19,7 +19,7 @@
 ## 2. 架构
 
 ```
-design-hardware/scripts/electrical_review/
+easycirq/scripts/electrical_review/
   __main__.py        python -m electrical_review
   cli.py             validate / review / explain、退出码、原子写
   contract.py        严格输入校验、归一化、网络别名并查集

@@ -20,9 +20,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
-REAL_MCU = ROOT / 'design-hardware' / 'cases' / 'mcu-i2c-s3-2026-10-26'
-REAL_PHOTO = ROOT / 'design-hardware' / 'cases' / 'photo-led-pcb-2026-10-26'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
+REAL_MCU = ROOT / 'easycirq' / 'cases' / 'mcu-i2c-s3-2026-10-26'
+REAL_PHOTO = ROOT / 'easycirq' / 'cases' / 'photo-led-pcb-2026-10-26'
 REAL_KEY_NETS = ROOT / 'docs' / 'round10' / 'baseline' / 'key-nets-b2.json'
 
 sys.path.insert(0, str(SCRIPTS))

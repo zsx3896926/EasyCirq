@@ -24,7 +24,7 @@ benchmark-result.json 为本机实际运行三轮的离线编译统计。双按�
 
 在有连接权限且窗口归属明确的执行环境，先从同一初态建立两个隔离工程。对照原逐对象工作流与 --module-plan 工作流，使用相同最终位置、布线任务和完整验收，记录总耗时、等待、读取/写入、失败及返工。每批后按当前现场重算，不能顺序执行本离线基准的旧计划。
 
-入口和格式见 design-hardware/references/execution-efficiency.md。未替换已安装 Skill，未合并、未发布。
+入口和格式见 easycirq/references/execution-efficiency.md。未替换已安装 Skill，未合并、未发布。
 
 ## 本轮实际检查
 

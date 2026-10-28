@@ -1,7 +1,7 @@
 # Source register — task G vendor mechanical facts
 
 Checked 2026-10-27/28 for this parallel task only. It does **not** modify or
-replace `design-hardware/references/source-register.md`. Only facts actually read
+replace `easycirq/references/source-register.md`. Only facts actually read
 in the opened document are recorded; search snippets, distributor thumbnails and
 unverified forum content are not used as dimensional evidence.
 

@@ -4,17 +4,17 @@
 
 | 项 | 值 |
 |---|---|
-| 仓库 | `https://github.com/zsx3896926/hardware-design-skill` |
+| 仓库 | `https://github.com/zsx3896926/EasyCirq` |
 | 开工 main SHA | `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（`test: make Chinese fixture portable across Windows locales`） |
 | 分支 | `feat/parallel-return-path-audit` |
 | worktree | `hds-rpa-worktree/`（独立 worktree，与其他并行任务隔离） |
-| 基线版本 | `design-hardware/.version` = `1.0.1`（未修改） |
+| 基线版本 | `easycirq/.version` = `1.0.1`（未修改） |
 
 ## 交付内容（仅新增，未改公共文件）
 
 | 路径 | 内容 |
 |---|---|
-| `design-hardware/scripts/return_path_audit/` | 审查器包（CLI/校验/几何/五组检查/报告/SVG/来源） |
+| `easycirq/scripts/return_path_audit/` | 审查器包（CLI/校验/几何/五组检查/报告/SVG/来源） |
 | `tests/return_path_audit/` | 116 个测试（核心/变形/对抗/holdout + 真实快照回放 + .epru 适配器回归） |
 | `benchmarks/return-path-audit/` | 45 个冻结 CLI 场景、生成器、runner、result.json；`real-replay/` 真实 2 层快照回放 + `replay_real_dump.py`；`replay_epru.py` 真实 `.epru`（含四层）只读投影 |
 | `docs/parallel-return-path-audit/` | contract / geometry-support / source-register / acceptance-matrix / report / integration-proposal / handoff / issue-candidates |
@@ -23,7 +23,7 @@
 
 ```bash
 # 1) CLI（必须在该目录，或把该目录加入 PYTHONPATH）
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m return_path_audit validate -i input.json
 python -m return_path_audit audit    -i input.json -o report.json --svg overlay.svg
 python -m return_path_audit explain  --report report.json
@@ -35,7 +35,7 @@ python benchmarks/return-path-audit/run_benchmark.py       # 45 场景
 
 # 3) 真实快照回放（2 层真实板）
 python benchmarks/return-path-audit/replay_real_dump.py \
-  --dump design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json \
+  --dump easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json \
   --signal-layer 1 --reference-layer 2 --units mil --corridor 8 \
   --out benchmarks/return-path-audit/real-replay/real-2layer-mcu-i2c.input.json
 

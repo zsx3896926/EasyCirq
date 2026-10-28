@@ -17,7 +17,7 @@ import tempfile
 from pathlib import Path
 
 W = Path(__file__).resolve().parents[3]
-SCRIPTS = W / 'design-hardware' / 'scripts'
+SCRIPTS = W / 'easycirq' / 'scripts'
 TMP = Path(tempfile.mkdtemp(prefix='bp-m-evidence-'))
 ENV = dict(os.environ)
 ENV['PYTHONPATH'] = str(SCRIPTS)
@@ -70,7 +70,7 @@ run('M0.main_has_docs',
      'HEAD:docs/parallel-bringup-planner/acceptance-matrix.md'])
 run('M0.main_has_scripts',
     ['git', 'cat-file', '-e',
-     'HEAD:design-hardware/scripts/bringup_planner/plan.py'])
+     'HEAD:easycirq/scripts/bringup_planner/plan.py'])
 r = run('M0.pr_state', ['gh', 'pr', 'view', '39', '--json',
                         'number,state,isDraft,mergedAt,mergedBy,mergeCommit,'
                         'headRefOid,baseRefName,url,changedFiles,additions,'
@@ -229,7 +229,7 @@ for line in (r.stdout + r.stderr).splitlines():
         module = line[len('ERROR: '):].split('.')[0].strip()
         module_errors[module] = module_errors.get(module, 0) + 1
 r = run('M4.skill_selftest',
-        [sys.executable, str(W / 'design-hardware' / 'scripts' /
+        [sys.executable, str(W / 'easycirq' / 'scripts' /
                              'skill_selftest.py')])
 m4_selftest_exit = r.returncode
 m4_selftest_tail = (r.stdout + r.stderr)[-900:]
@@ -239,7 +239,7 @@ r = run('M4.pr_range_audit',
 audit_files = [line for line in r.stdout.splitlines() if line.strip()]
 outside = [item for item in audit_files
            if not item.startswith(('benchmarks/bringup-planner/',
-                                   'design-hardware/scripts/bringup_planner/',
+                                   'easycirq/scripts/bringup_planner/',
                                    'docs/parallel-bringup-planner/',
                                    'tests/bringup_planner'))]
 

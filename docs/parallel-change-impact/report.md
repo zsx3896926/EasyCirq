@@ -7,7 +7,7 @@
 
 | 路径 | 内容 |
 |---|---|
-| `design-hardware/scripts/change_impact/` | 工具实现：`__init__`/`__main__`/`cli`/`canonical`/`errors`/`model`/`classify`/`graph`/`propagate`/`evidence`/`verify_plan`/`compare`/`report` |
+| `easycirq/scripts/change_impact/` | 工具实现：`__init__`/`__main__`/`cli`/`canonical`/`errors`/`model`/`classify`/`graph`/`propagate`/`evidence`/`verify_plan`/`compare`/`report` |
 | `tests/change_impact/` | 单元/契约/基准测试（9 个文件，包含共享 fixture 与导入别名包装） |
 | `benchmarks/change-impact/` | 50 个冻结 CLI 场景 + 期望断言 + 生成器 + runner + manifest + README |
 | `docs/parallel-change-impact/` | `contract.md`、`propagation-rules.md`、`evidence-reuse-policy.md`、`verification-selection.md`、`acceptance-matrix.md`、`report.md`、`integration-proposal.md`、`handoff-current.md` |
@@ -95,7 +95,7 @@ python -m change_impact compare   benchmarks/change-impact/compare/compare_two_c
 - 基线：`main @ 9a951edc21481dc3ae91460acc11aa3e08a7be8a`；
 - 分支：`feat/parallel-change-impact`（独立 worktree，未切换他人分支、未
   stash/reset/强推、未混提交）；
-- 提交：`e90df7c`；PR：https://github.com/zsx3896926/hardware-design-skill/pull/43
+- 提交：`e90df7c`；PR：https://github.com/zsx3896926/EasyCirq/pull/43
   （仅创建，不合并、不发版、不替换安装）；
 - 全仓库回归：`python -m unittest discover -s tests`（结果见 PR 前的最终运行）；
 - 未执行：EDA 读/写、宿主 DRC、保存重开、官方导图、烧录、上电、下单、实物测试。

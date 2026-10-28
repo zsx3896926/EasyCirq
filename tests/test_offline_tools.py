@@ -8,7 +8,7 @@ import unittest
 
 os.environ.setdefault('PYTHONIOENCODING','utf-8')
 
-SCRIPTS = Path(__file__).resolve().parents[1] / 'design-hardware' / 'scripts'
+SCRIPTS = Path(__file__).resolve().parents[1] / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 import power_budget as power
 import sch_layout_check as layout

@@ -57,7 +57,7 @@ only; the server never writes next to it and never modifies it.
   "schema": "zhigou.mcp.offline-audit-tool-result/v1",
   "tool": "offline_electrical_review",
   "module": "electrical_review",
-  "command": {"module": "electrical_review", "argv": ["..."], "cwd": "design-hardware/scripts"},
+  "command": {"module": "electrical_review", "argv": ["..."], "cwd": "easycirq/scripts"},
   "exit_code": 0,
   "expected_exits": [0, 1, 2, 3, 4],
   "status": "pass_with_scope",

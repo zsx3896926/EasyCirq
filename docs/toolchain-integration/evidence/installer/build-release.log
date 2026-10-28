@@ -1,11 +1,11 @@
 {
   "output": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist",
   "skill_installer": {
-    "archive": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\design-hardware-1.0.1.zip",
+    "archive": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\easycirq-1.0.1.zip",
     "manifest": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\release.json",
     "version": "1.0.1",
     "files": 674,
-    "installer": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\design-hardware-installer-1.0.1.zip",
+    "installer": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\easycirq-installer-1.0.1.zip",
     "checksums": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\SHA256SUMS"
   },
   "toolchain": {

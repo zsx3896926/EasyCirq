@@ -329,8 +329,8 @@ def infer_role(name: str) -> dict | None
 
 ## 8. 报告与 CLI（Lead 负责）
 
-`python -m delivery_audit <command>`，从 `design-hardware/scripts` 目录运行（包在
-`design-hardware/scripts/delivery_audit/`）。
+`python -m delivery_audit <command>`，从 `easycirq/scripts` 目录运行（包在
+`easycirq/scripts/delivery_audit/`）。
 
 ```
 inspect  --input PATH [--out PATH] [--generated-at ISO8601] [limits]
@@ -366,10 +366,10 @@ limits: --max-files N --max-total-bytes N --max-member-bytes N --max-ratio N
 
 | 路径 | 所有者 |
 |---|---|
-| `design-hardware/scripts/delivery_audit/model.py`、`__init__.py`、`__main__.py`、`cli.py`、`formats.py`、`declarations.py`、`provenance.py`、`layers.py`、`audit.py`、`report.py`、`manifest.py` | Lead |
-| `design-hardware/scripts/delivery_audit/scan.py` | S（scan/安全） |
-| `design-hardware/scripts/delivery_audit/gerber.py`、`drill.py` | G（解析） |
-| `design-hardware/scripts/delivery_audit/bom.py`、`cpl.py`、`assembly.py` | B（BOM/CPL） |
+| `easycirq/scripts/delivery_audit/model.py`、`__init__.py`、`__main__.py`、`cli.py`、`formats.py`、`declarations.py`、`provenance.py`、`layers.py`、`audit.py`、`report.py`、`manifest.py` | Lead |
+| `easycirq/scripts/delivery_audit/scan.py` | S（scan/安全） |
+| `easycirq/scripts/delivery_audit/gerber.py`、`drill.py` | G（解析） |
+| `easycirq/scripts/delivery_audit/bom.py`、`cpl.py`、`assembly.py` | B（BOM/CPL） |
 | `tests/delivery_audit/test_scan.py` | S |
 | `tests/delivery_audit/test_gerber_drill.py` | G |
 | `tests/delivery_audit/test_bom_cpl.py` | B |

@@ -26,7 +26,7 @@ verdict without parsing free-form stdout.
 ## Register it
 
 The server is stdlib-only and starts with `python -m zhigou_mcp`; it must be able
-to import `design-hardware/scripts`, so pass that directory via `PYTHONPATH`.
+to import `easycirq/scripts`, so pass that directory via `PYTHONPATH`.
 Python 3.10+ (only 3.13 was available locally; CI covers 3.10).
 
 Generic MCP client configuration (Claude Code, Cursor, Codex, other MCP clients —
@@ -39,7 +39,7 @@ consult each client's MCP docs for the exact file/command):
       "command": "python",
       "args": ["-m", "zhigou_mcp"],
       "env": {
-        "PYTHONPATH": "<repo>/design-hardware/scripts"
+        "PYTHONPATH": "<repo>/easycirq/scripts"
       }
     }
   }
@@ -50,7 +50,7 @@ Claude Code CLI:
 
 ```shell
 claude mcp add zhigou-offline-audit \
-  --env PYTHONPATH=<repo>/design-hardware/scripts \
+  --env PYTHONPATH=<repo>/easycirq/scripts \
   -- python -m zhigou_mcp
 ```
 

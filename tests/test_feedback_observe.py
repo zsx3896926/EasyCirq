@@ -16,7 +16,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 FIXTURES = ROOT / 'tests' / 'fixtures'
 sys.path.insert(0, str(SCRIPTS))
 sys.path.insert(0, str(ROOT / 'tests'))

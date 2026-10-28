@@ -32,7 +32,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 FIXTURE = Path(__file__).resolve().parent / "fixtures" / "minimal-board" / "board.json"
 EVIDENCE = Path(__file__).resolve().parent / "evidence" / "integration-verification.json"
 
@@ -184,7 +184,7 @@ def main():
 
         rows.append(check_native(
             "D scans the Skill tree read-only", "skill_knowledge_audit",
-            ["scan", "--root", str(ROOT / "design-hardware"),
+            ["scan", "--root", str(ROOT / "easycirq"),
              "--out", str(tmp / "skill-scan.json")]))
 
         # --- gaps: feed a producer's output to a consumer ------------------------

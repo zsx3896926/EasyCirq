@@ -3,7 +3,7 @@
 独立 worktree 分支 `feat/parallel-bringup-planner`，基线 `main@9a951ed`（`9a951edc21481dc3ae91460acc11aa3e08a7be8a`）。只新增/修改允许路径：
 
 ```
-design-hardware/scripts/bringup_planner/
+easycirq/scripts/bringup_planner/
 tests/bringup_planner_tests/
 benchmarks/bringup-planner/
 docs/parallel-bringup-planner/
@@ -13,7 +13,7 @@ docs/parallel-bringup-planner/
 
 ### 交付内容
 
-- **CLI**：`python -m bringup_planner validate | plan | explain | evaluate`（在 `design-hardware/scripts` 下运行）；默认只读输入、只生成文件；JSON/Markdown/空白结果 JSON+CSV 原子写出，stdout/stderr 分离，退出码 0/1/2/3 固定。
+- **CLI**：`python -m bringup_planner validate | plan | explain | evaluate`（在 `easycirq/scripts` 下运行）；默认只读输入、只生成文件；JSON/Markdown/空白结果 JSON+CSV 原子写出，stdout/stderr 分离，退出码 0/1/2/3 固定。
 - **I1 断电检查**：极性/装配/DNP/跳线/连接器方向、外部供电路径断开、放电前提；电阻/二极管档限制说明；无声明判据时不输出通用欧姆阈值。
 - **I2 首次上电**：电源域依赖 DAG 拓扑顺序；限流仅来自声明策略/启动电流/保护，缺依据 BLOCKED（不填 100mA/500mA）；浪涌/重启风险、观察窗口依据、可拆负载/烧录前提分步；STOP 阈值全部溯源。
 - **I3 测量方法**：测点/参考地/工作范围/设备能力；缺带宽/探头能力不宣称波形可测；电压合格≠纹波合格；ADC 读值≠精度；固件/主机前提。
@@ -34,7 +34,7 @@ docs/parallel-bringup-planner/
 | `python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"` | **172 tests OK** |
 | `python benchmarks/bringup-planner/run_benchmark.py --json ...` | **41/41 pass**（34 场景 + 5 holdout + 2 案例），必需类别 30/30 |
 | `python tools/offline_suite.py` | status pass，1783 tests，0 failures/errors |
-| `python design-hardware/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN |
+| `python easycirq/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN |
 
 ### 边界（NOT RUN）
 

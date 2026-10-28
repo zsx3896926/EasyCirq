@@ -3,14 +3,14 @@
 > 本文件只属于任务 C，不修改 `docs/handoff-current.md` 或其它共享交接。
 > 基线：`9a951edc21481dc3ae91460acc11aa3e08a7be8a`（main）。
 > 分支：`feat/parallel-delivery-audit`；worktree：`hds-da-worktree`（不在原 Windows 路径假设内）。
-PR：[#40](https://github.com/zsx3896926/hardware-design-skill/pull/40)（基线提交 `173745a`；不合并/不发布）。
+PR：[#40](https://github.com/zsx3896926/EasyCirq/pull/40)（基线提交 `173745a`；不合并/不发布）。
 
 ## 1. 状态
 
 任务 C 的 M0–M4 已完成实现、测试、冻结基准、文档与独立对抗审查（结果见 `report.md`）。
 未合并、未发布、未安装到用户客户端；真实 EDA 调用 0 次；未上传工程或下单。
 
-三个入口（在 `design-hardware/scripts` 目录运行）：
+三个入口（在 `easycirq/scripts` 目录运行）：
 
 ```bash
 python -m delivery_audit inspect  --input <dir-or.zip> [--out report.json]
@@ -25,7 +25,7 @@ stdout 永远一个 JSON；诊断到 stderr；默认只读输入；报告必须�
 ## 2. 主要文件
 
 ```
-design-hardware/scripts/delivery_audit/   # 独立 Python 包（stdlib only）
+easycirq/scripts/delivery_audit/   # 独立 Python 包（stdlib only）
   __main__.py cli.py audit.py model.py report.py manifest.py
   scan.py formats.py declarations.py provenance.py layers.py coordinates.py
   gerber.py drill.py bom.py cpl.py assembly.py

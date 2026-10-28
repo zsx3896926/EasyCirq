@@ -6,7 +6,7 @@ import sys
 import tempfile
 import unittest
 
-SCRIPTS = Path(__file__).resolve().parents[1] / 'design-hardware/scripts'
+SCRIPTS = Path(__file__).resolve().parents[1] / 'easycirq/scripts'
 sys.path.insert(0, str(SCRIPTS))
 import sch_layout_check as check
 

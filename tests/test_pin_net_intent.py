@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'design-hardware/scripts'))
+sys.path.insert(0, str(ROOT / 'easycirq/scripts'))
 import pin_net_intent_check as check
 
 
@@ -84,7 +84,7 @@ class PinNetIntent(unittest.TestCase):
             a, b = folder / 'intent.json', folder / 'read.json'
             a.write_text(json.dumps(intent()), encoding='utf-8')
             b.write_text(json.dumps(read()), encoding='utf-8')
-            script = ROOT / 'design-hardware/scripts/pin_net_intent_check.py'
+            script = ROOT / 'easycirq/scripts/pin_net_intent_check.py'
             self.assertEqual(subprocess.run([sys.executable, str(script), str(a), str(b)],
                                             capture_output=True).returncode, 0)
             live = read()

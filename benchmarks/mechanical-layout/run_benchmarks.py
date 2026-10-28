@@ -30,7 +30,7 @@ ROOT = Path(__file__).resolve().parents[2]
 BENCH = Path(__file__).resolve().parent
 MANIFEST = BENCH / 'manifest.json'
 RESULTS = BENCH / 'results.json'
-SCRIPT_DIR = ROOT / 'design-hardware' / 'scripts'
+SCRIPT_DIR = ROOT / 'easycirq' / 'scripts'
 
 
 def sha256(path):

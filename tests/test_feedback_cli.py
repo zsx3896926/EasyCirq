@@ -15,7 +15,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / 'design-hardware' / 'scripts' / 'feedback_loop.py'
+CLI = ROOT / 'easycirq' / 'scripts' / 'feedback_loop.py'
 FIXTURES = ROOT / 'tests' / 'fixtures' / 'feedback'
 def make_shim(directory):
     """Create an executable shim using the current interpreter."""
@@ -64,7 +64,7 @@ class CliTests(unittest.TestCase):
             }), encoding='utf-8')
             hits = temp / 'hits.json'
             result = run_cli(['case-search', '--index',
-                              str(ROOT / 'design-hardware' / 'cases' / 'index.json'),
+                              str(ROOT / 'easycirq' / 'cases' / 'index.json'),
                               '--query', str(query), '--out', str(hits)])
             self.assertEqual(result.returncode, 0, result.stderr)
             payload = json.loads(hits.read_text(encoding='utf-8'))

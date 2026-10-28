@@ -8,8 +8,8 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
-SCRIPTS = REPO / "design-hardware" / "scripts"
-SKILL_ROOT = REPO / "design-hardware"
+SCRIPTS = REPO / "easycirq" / "scripts"
+SKILL_ROOT = REPO / "easycirq"
 BENCH = REPO / "benchmarks" / "skill-knowledge-audit"
 
 sys.path.append(str(SCRIPTS))
@@ -23,7 +23,7 @@ def write(path, text):
 
 def make_corpus(tmp):
     """A small Skill-like tree exercising link and anchor edge cases."""
-    root = Path(tmp) / "design-hardware"
+    root = Path(tmp) / "easycirq"
     write(root / "SKILL.md", """---
 name: demo-skill
 description: demo

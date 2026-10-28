@@ -4,7 +4,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 
 spec = importlib.util.spec_from_file_location(
     'sch_frame_meta_check', SCRIPTS / 'sch_frame_meta_check.py')

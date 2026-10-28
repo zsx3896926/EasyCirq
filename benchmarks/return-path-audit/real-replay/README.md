@@ -12,7 +12,7 @@
 
 | 项 | 值 |
 |---|---|
-| 原始快照 | `design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json` |
+| 原始快照 | `easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json` |
 | 工程 | `mcu-i2c-s3-20261026`（document `40b81985cfb4a5ed`） |
 | 回读时间 | 2026-10-26T13:40:13.1380529Z |
 | 原始字节 SHA256 | `db7521f2883346f0d70126047927f2cf6a61343374c2e0cb71869649aa3a57fe` |
@@ -39,10 +39,10 @@
 ```bash
 cd hds-rpa-worktree
 python benchmarks/return-path-audit/replay_real_dump.py \
-  --dump design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json \
+  --dump easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json \
   --signal-layer 1 --reference-layer 2 --units mil --corridor 8 \
   --out benchmarks/return-path-audit/real-replay/real-2layer-mcu-i2c.input.json
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m return_path_audit audit \
   -i ../../benchmarks/return-path-audit/real-replay/real-2layer-mcu-i2c.input.json \
   -o ../../benchmarks/return-path-audit/real-replay/real-2layer-mcu-i2c.report.json \

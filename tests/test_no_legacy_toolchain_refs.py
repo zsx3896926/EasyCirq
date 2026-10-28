@@ -1,7 +1,7 @@
 """Grep-style guard: the skill must not reference the retired easyeda toolchain.
 
 The repository now ships its own execution layer (``zhigou``).  Any live file in
-``design-hardware/`` that still names the old CLI, daemon service, state
+``easycirq/`` that still names the old CLI, daemon service, state
 directory, environment variables or connector is a migration bug, not a
 historical document.  ``tools/toolchain_refs.py`` owns the patterns and the
 allowlist; this test only enforces the policy:
@@ -35,7 +35,7 @@ class LegacyReferenceGuard(unittest.TestCase):
 
     def test_repository_tooling_has_no_actionable_legacy_references(self):
         scopes = tuple(scope for scope in toolchain_refs.INVENTORY_SCOPES
-                       if scope != 'design-hardware')
+                       if scope != 'easycirq')
         rows = toolchain_refs.scan(scopes)
         actionable = [row for row in rows if not row['allowlist_reason']]
         self.assertFalse(
@@ -51,13 +51,13 @@ class LegacyReferenceGuard(unittest.TestCase):
             path = ROOT / prefix.rstrip('/')
             self.assertTrue(path.exists(), 'allowlist path missing: %s' % prefix)
         # Never allowlist the policy entry point or live tooling by accident.
-        for forbidden in ('design-hardware/SKILL.md',
-                          'design-hardware/references/',
-                          'design-hardware/scripts/zhigou_cli.py'):
+        for forbidden in ('easycirq/SKILL.md',
+                          'easycirq/references/',
+                          'easycirq/scripts/zhigou_cli.py'):
             self.assertNotIn(forbidden, toolchain_refs.ALLOWLIST)
 
     def test_skill_entry_names_the_single_preflight(self):
-        entry = (ROOT / 'design-hardware' / 'SKILL.md').read_text(encoding='utf-8')
+        entry = (ROOT / 'easycirq' / 'SKILL.md').read_text(encoding='utf-8')
         self.assertIn('zhigou doctor', entry)
         self.assertIn('zhigou capabilities', entry)
         found = [category for category, pattern in

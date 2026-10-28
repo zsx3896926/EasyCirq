@@ -9,7 +9,7 @@
 
 | 项 | 实测值 | 证据 |
 | --- | --- | --- |
-| 仓库 | `C:\Users\jlc\work\hardware-design-skill`（origin: github.com/zsx3896926/hardware-design-skill） | `git remote -v` |
+| 仓库 | `C:\Users\jlc\work\EasyCirq`（origin: github.com/zsx3896926/EasyCirq） | `git remote -v` |
 | 基线提交 | `origin/main` = `9a951ed`（2026-10-27 15:03） | `git worktree add ... origin/main` |
 | 开发分支/工作树 | `feat/integrated-eda-toolchain` @ `C:\Users\jlc\work\zhigou-toolchain` | 本文件同级 |
 | 用户级规则 | `C:\Users\jlc\.codex\AGENTS.md`（139 行，含"实现→构建→真实路径→证据→修复→重跑"要求） | 已读 |
@@ -29,7 +29,7 @@
 | 阶段 | 状态 | 产物 | 证据 |
 | --- | --- | --- | --- |
 | **M0** 环境/源码/许可/冲突/能力调查 | **完成**（除真机 API 探测） | `environment-baseline.md`、`upstream-analysis.md`、`rule-conflicts.md`、`architecture.md`、`capability-matrix.md`、`third_party/`、`runtime/PROVENANCE.md`、`protocol/` | `evidence/env/`（47 文件）、`evidence/upstream/`（9 文件）、`evidence/skill-audit/`（4 文件）、`evidence/m1/vendor-verify.txt` |
-| **M1** 自有 CLI/daemon/Connector 构建 + 隔离安装 | **完成**（构建、隔离启动、诊断、安装/升级/回退、Skill 单入口迁移均实测）；**连接器真实握手 BLOCKED**（需 EDA 内人工导入） | `runtime/`（构建成功，`zhigou.exe` 0.2.0-dev）、`connector/`（`.eext` 231 KB）、`protocol/schemas/`、`distribution/`（统一安装器）、`design-hardware/`（已迁移到 `zhigou`） | `evidence/m1/*`、`evidence/installer/*`、`evidence/skill-migration/*`、`evidence/runtime-go-test.log`、`evidence/test-failure-diff.txt` |
+| **M1** 自有 CLI/daemon/Connector 构建 + 隔离安装 | **完成**（构建、隔离启动、诊断、安装/升级/回退、Skill 单入口迁移均实测）；**连接器真实握手 BLOCKED**（需 EDA 内人工导入） | `runtime/`（构建成功，`zhigou.exe` 0.2.0-dev）、`connector/`（`.eext` 231 KB）、`protocol/schemas/`、`distribution/`（统一安装器）、`easycirq/`（已迁移到 `zhigou`） | `evidence/m1/*`、`evidence/installer/*`、`evidence/skill-migration/*`、`evidence/runtime-go-test.log`、`evidence/test-failure-diff.txt` |
 | **M2** 独立工程 读取→移动一件→保存→重开→回读 | **PASS（真机）** | 独立新工程 `zhigou-integrated-dual-button-led-20261027`（P1），R1/D1 放置 → D1 +40 raw 移动 → save(saved:true) → close/reopen → 新鲜回读 D1 x=640、R1 不变、primitiveId/device 身份不变、pin-net 不变 | `evidence/m2/summary.json` 及同目录原始 JSON/日志 |
 | **M3** SCH/PCB 读写、批量、检查导出 | **PASS（原理图/PCB 同步/检查/导出真机）** | 9 器件双通道 LED 小板原理图：7 网全部逐脚一致、0 浮空脚、原生 DRC 0 违规、BOM/SVG/PNG 导出；PCB 同步 9 footprint 并经保存+重开+新鲜回读；PCB DRC 因未布局布线而失败（如实记录） | `evidence/m4/summary.json` 及同目录原始响应 |
 | **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **核心链 PASS**：安装/升级/回退 PASS；原理图+PCB 同步、布局 100/100、官方布线 6/6、双层 GND 铺铜、新鲜 PCB DRC **0 违规**、**局部改板 2mm PASS（范围外变化 0）**；**原生归档恢复演练、制造文件导出、DFM 剩余 5 警告 = NOT RUN/未清** | `distribution/`、`tools/zhigou_board_*.py`、`tools/zhigou_pcb_layout.py`、`tools/zhigou_pcb_edit_2mm.py` | `evidence/installer/`、`evidence/m4/`、`evidence/m4/pcb/` |
@@ -51,7 +51,7 @@
    （3.1 MB → 231 KB），附 `LICENSE` + `NOTICE`（含内嵌 Apache-2.0 组件说明）。
 6. **关闭上游自更新路径**：`--auto-update-skill` 默认 false、不注册上游 `update` 命令；
    升级/回退归 `distribution/`。技能数据资产（standard-parts/orientation/sheet-templates/
-   bom-enrich.py）改为从自有 `design-hardware/` 解析。
+   bom-enrich.py）改为从自有 `easycirq/` 解析。
 7. **契约落盘**：`protocol/README.md` + 7 个 JSON Schema + wire version/服务标识常量。
 
 ## 3. 关键路径与依赖
@@ -66,7 +66,7 @@
                                  └─> M4 小板全链 + 局部改板 + 备份恢复演练
                                        └─> M5 独立审查 → 提交推送 → PR
 [并行] distribution/ 安装升级回退（不依赖真机）
-[并行] design-hardware Skill 迁移到 zhigou 单入口（不依赖真机）
+[并行] easycirq Skill 迁移到 zhigou 单入口（不依赖真机）
 ```
 
 ## 4. 当前唯一硬阻塞（已解除，保留记录）
@@ -122,7 +122,7 @@
 | 全仓库离线回归 | `python tools/offline_suite.py` → **1832 tests OK**（29/29 自检）；`skill_selftest.py` → **5 PASS / 0 FAIL**；新增 guard/CLI/安装器测试 **62 passed** | `evidence/skill-migration/offline-suite.exit.txt`、`skill-selftest.log` |
 
 安装目录（默认，已用隔离目录实测）：`%LOCALAPPDATA%\Zhigou\` 下 `bin\zhigou.exe`、
-`connector\zhigou-connector_v0.1.0.eext`（+IMPORT-STEPS.md）、`skill\design-hardware\`、
+`connector\zhigou-connector_v0.1.0.eext`（+IMPORT-STEPS.md）、`skill\easycirq\`、
 `licenses\`、`installation.json`（所有权清单+逐文件 sha256）。
 
 ## 4.3 版本与构建标识（最终候选）
@@ -178,5 +178,5 @@
 
 ## 8. Skill 门禁复核（2026-10-28）
 
-按 `design-hardware` 1.0.2 的 G0–G6 对验收板做了一次独立门禁复核：**G0–G3、G5 PASS，G4 PASS_WITH_WAIVER（+5V/VIN 未铺铜），G6 BLOCKED**（Gerber/钻孔/CPL、工艺档案、库存核对、测试计划缺）。复核中修掉图签越界与缺失功能分区框两处图面问题（`sch check` 3 → 0 findings）。
+按 `easycirq` 1.0.2 的 G0–G6 对验收板做了一次独立门禁复核：**G0–G3、G5 PASS，G4 PASS_WITH_WAIVER（+5V/VIN 未铺铜），G6 BLOCKED**（Gerber/钻孔/CPL、工艺档案、库存核对、测试计划缺）。复核中修掉图签越界与缺失功能分区框两处图面问题（`sch check` 3 → 0 findings）。
 详见 `gate-review.md`，状态文件与报告在 `evidence/gates/`。

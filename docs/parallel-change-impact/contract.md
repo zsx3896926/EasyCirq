@@ -1,6 +1,6 @@
 # ECO 变更影响分析契约（change-impact）
 
-本契约定义 `design-hardware/scripts/change_impact/` 的输入、输出、模块边界与
+本契约定义 `easycirq/scripts/change_impact/` 的输入、输出、模块边界与
 退出语义。工具只做离线、只读、确定性的分析：不调用 EDA/执行器/Connector，
 不写设计，不宣称“已验证/已应用”。所有结论必须可追溯到声明的对象、依赖边、
 变更记录和验证目录条目；缺少数据时输出 `unknown`，不得用空结果代替。
@@ -24,8 +24,8 @@ python -m change_impact compare   COMPARE.json [--output OUT.json]
 python -m change_impact explain   INPUT.json [--object ID] [--change ID] [--format json|human]
 ```
 
-`python -m` 需要 `design-hardware/scripts` 在 `sys.path` 上（仓库内测试通过
-`PYTHONPATH=design-hardware/scripts` 调用；包内 `__main__.py` 也能从脚本目录直接
+`python -m` 需要 `easycirq/scripts` 在 `sys.path` 上（仓库内测试通过
+`PYTHONPATH=easycirq/scripts` 调用；包内 `__main__.py` 也能从脚本目录直接
 运行）。默认只读：不写任何输出文件；`--output` 时才写一份报告。
 
 约定：

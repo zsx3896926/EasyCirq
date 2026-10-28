@@ -17,7 +17,7 @@ import unittest
 os.environ.setdefault("PYTHONIOENCODING", "utf-8")
 
 ROOT = Path(__file__).resolve().parents[1]
-DH = ROOT / "design-hardware"
+DH = ROOT / "easycirq"
 REF = DH / "references" / "decisions"
 CASES = REF / "cases"
 ASSETS = DH / "assets" / "decisions"
@@ -338,7 +338,7 @@ class CaseDocuments(unittest.TestCase):
     def test_e01_is_referenced_as_path_not_link(self):
         text = read_text(F01_CASE)
         self.assertIn("e01-interface-contract.md", text)
-        self.assertNotIn("](design-hardware/references/decisions/e01", text)
+        self.assertNotIn("](easycirq/references/decisions/e01", text)
         self.assertNotIn("](../e01", text)
 
 

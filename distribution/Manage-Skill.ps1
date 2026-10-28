@@ -28,7 +28,7 @@ foreach ($candidate in @('py','python3','python')) {
 if (-not $python) { throw 'Python 3.10+ is required. Install from https://www.python.org/downloads/ and reopen this window.' }
 $manager = Join-Path $PSScriptRoot 'skill_update.py'
 if (-not (Test-Path -LiteralPath $manager)) {
-    $manager = Join-Path $PSScriptRoot '../design-hardware/scripts/skill_update.py'
+    $manager = Join-Path $PSScriptRoot '../easycirq/scripts/skill_update.py'
 }
 if ($Action -eq 'menu') {
     Write-Host '硬件设计 Skill - 安装与更新'

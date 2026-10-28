@@ -41,7 +41,7 @@ runner 行为：
 1. 先校验每个输入与 expected 文件的 SHA-256 与 `manifest.json` 一致（防篡改/
    防漂移）。SHA 基于 **LF 归一化**后的内容计算，因此 Windows（`core.autocrlf`）
    与 Linux 检出结果一致，不会因换行风格误报；
-2. 以 `PYTHONPATH=<repo>/design-hardware/scripts`、`cwd=<repo>` 运行
+2. 以 `PYTHONPATH=<repo>/easycirq/scripts`、`cwd=<repo>` 运行
    `python -m change_impact analyze|compare <input>`；
 3. 断言：退出码、总体状态、`impacted_objects` 的对象/影响/置信度/来源变更、
    `must_not_impact`（不得无依据传播）、`required`/`blocked` 检查、证据状态、

@@ -6,7 +6,7 @@
 ## 1. `ecosystem_routing` 与参考路径的边界（非缺陷，仅为文档缺口）
 
 - 观察：`ecosystem_routing` 输出差分几何/等长结论；其文档已说明
-  “reference plane continuity … absent”（见 `design-hardware/references/ecosystem-routing.md`
+  “reference plane continuity … absent”（见 `easycirq/references/ecosystem-routing.md`
   第 68/94 行附近）。本任务不重复实现其调长能力。
 - 建议（未来）：在 ecosystem-routing 文档中显式交叉引用本审查器的
   `external_reports[]` 只读引用方式，避免使用者把“长度一致”当“回流/阻抗通过”。

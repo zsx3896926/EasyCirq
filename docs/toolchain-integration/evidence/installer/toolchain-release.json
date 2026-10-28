@@ -42,10 +42,10 @@
       "size": 231299
     },
     "skill": {
-      "name": "design-hardware",
+      "name": "easycirq",
       "version": "1.0.1",
-      "path": "payload/skill/design-hardware",
-      "installPath": "skill/design-hardware",
+      "path": "payload/skill/easycirq",
+      "installPath": "skill/easycirq",
       "fileCount": 674
     }
   },

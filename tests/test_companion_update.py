@@ -14,7 +14,7 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 
 import companion_update as c  # noqa: E402
@@ -28,7 +28,7 @@ def doctor_report(*, ready=True, connector='connected', verdict='ok',
         'ready': ready,
         'runtime': {'name': 'zhigou', 'version': '0.2.0-dev', 'onDisk': True,
                     'executable': 'zhigou.exe'},
-        'skill': {'name': 'design-hardware', 'status': 'installed',
+        'skill': {'name': 'easycirq', 'status': 'installed',
                   'installed': []},
         'daemon': {'status': 'running', 'pid': 1, 'port': 23111},
         'connector': {'status': connector,

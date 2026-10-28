@@ -77,7 +77,7 @@
 
 | 证据 | 内容 |
 |---|---|
-| 原始数据 | `design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`（真实 `easyeda pcb dump`，**2 层板**） |
+| 原始数据 | `easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`（真实 `easyeda pcb dump`，**2 层板**） |
 | 投影器 | `benchmarks/return-path-audit/replay_real_dump.py`（只读；圆弧 ≤0.05 mil 离散并声明） |
 | 产物 | `benchmarks/return-path-audit/real-replay/`：input / report / overlay.svg / README |
 | 结果 | `fail`（exit 1）；142 段 / 307.0 mm checked；55 findings（41 error/14 warning）、7 unknown |

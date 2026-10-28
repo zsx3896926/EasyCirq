@@ -13,7 +13,7 @@
 
 | # | 要求 | 落点 | 状态 | 验证方式 |
 | --- | --- | --- | --- | --- |
-| 1 | 默认画法：分区＋短引线＋标签，拓扑型局部电路保留短线直连，跨页用正确作用域端口 | `design-hardware/SKILL.md`、`references/schematic-authoring.md`、`references/schematic-layout.md` | 已纳入（Skill 侧） | guard 测试断言默认规则存在；真机导图复核（BLOCKED 至连接器导入） |
+| 1 | 默认画法：分区＋短引线＋标签，拓扑型局部电路保留短线直连，跨页用正确作用域端口 | `easycirq/SKILL.md`、`references/schematic-authoring.md`、`references/schematic-layout.md` | 已纳入（Skill 侧） | guard 测试断言默认规则存在；真机导图复核（BLOCKED 至连接器导入） |
 | 2 | 先验证代表模块再批量扩展（自主自检，不设审批停顿） | `SKILL.md` 绘图流程、`references/workflow.md` | 已纳入（Skill 侧） | 同上 |
 | 3 | 开工即核对交付能力，五态记录（实测/API 存在未测/GUI 路径/需要开发/不支持） | **运行时**：`zhigou capabilities` 新增 `deliverables[]`（`measured` / `api_untested` / `gui_only` / `needs_development` / `unsupported`）；**Skill**：开工预检必须调用 | **运行时代码已实现并单测**；Skill 引用待纳入 | `go test ./internal/app -run TestDeliverables`；`evidence/m1/capabilities.json` |
 | 4 | 修复 `pagePrimitives.pins` 导致的 compose 拒绝，补夹具与兼容/缺字段负例，不取消完整性检查 | `runtime/internal/app/sch_compose_source_guard.go` + `sch_compose_source_guard_pins_test.go` | **已修复并回归**（5 用例） | `go test ./internal/app -run TestComposeGuard` |

@@ -49,7 +49,7 @@ jobs:
       - name: Match release tag to skill version
         env:
           TAG: ${{ github.event.release.tag_name }}
-        run: test "$TAG" = "v$(cat design-hardware/.version)"
+        run: test "$TAG" = "v$(cat easycirq/.version)"
       - run: python -m unittest discover -s tests
       - run: python distribution/build_release.py --output dist --require-clean
       - run: python tools/release_smoke.py --dist dist
@@ -57,4 +57,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.event.release.tag_name }}
-        run: gh release upload "$TAG" dist/design-hardware-*.zip dist/release.json dist/Manage-Skill.ps1 dist/Manage-Skill.cmd dist/skill_update.py dist/companion_update.py dist/LICENSE dist/NOTICE dist/INSTALL.md dist/SHA256SUMS
+        run: gh release upload "$TAG" dist/easycirq-*.zip dist/release.json dist/Manage-Skill.ps1 dist/Manage-Skill.cmd dist/skill_update.py dist/companion_update.py dist/LICENSE dist/NOTICE dist/INSTALL.md dist/SHA256SUMS

@@ -656,7 +656,7 @@ define: { __CONNECTOR_VERSION__: JSON.stringify(extJson.version ?? '0.0.0-dev') 
 
 | 目录 | 内容 | 关键事实 |
 |---|---|---|
-| `runtime/` | Go module `github.com/zsx3896926/hardware-design-skill/runtime`（`go 1.26.3`） | `cmd/zhigou/main.go` 8 行 wrapper；`internal/**` = 上游 361 个生产 `.go` + **465 个 `_test.go`（保留测试）**；已 patch：`daemon.Service="zhigou-agent"`、端口 `0x5a47/0x5a50`、`version.Name="zhigou"`、`EASYEDA_→ZHIGOU_`、`.easyeda-agent→.zhigou`；`runtime/dist/zhigou.exe` = 24,074,240 B（构建产物，勿入库） |
+| `runtime/` | Go module `github.com/zsx3896926/EasyCirq/runtime`（`go 1.26.3`） | `cmd/zhigou/main.go` 8 行 wrapper；`internal/**` = 上游 361 个生产 `.go` + **465 个 `_test.go`（保留测试）**；已 patch：`daemon.Service="zhigou-agent"`、端口 `0x5a47/0x5a50`、`version.Name="zhigou"`、`EASYEDA_→ZHIGOU_`、`.easyeda-agent→.zhigou`；`runtime/dist/zhigou.exe` = 24,074,240 B（构建产物，勿入库） |
 | `connector/` | 上游 `extension/` 子树 + rebrand | uuid `a6e6b788551945b399e150d80efa6e31`、name `zhigou-connector`、display `Zhigou EDA Connector`、version `0.1.0`、publisher `zsx3896926`、`engines.eda ">=3.2.0"`、`SERVICE_ID="zhigou-agent"`、`DAEMON_PORT=0x5a47`、存储键 `zhigouDaemonPorts`、共享键 `__zhigouTransportRuntime`；`connector/dist/index.js` = 966,729 B；`connector/build/dist/zhigou-connector_v0.1.0.eext` = 3,115,435 B（zip 14 entries，解压 4,282,181 B） |
 | `distribution/` | `rebrand_runtime.py`、`rebrand_connector.py` | **幂等规则表**（每条规则带 note）：把“上游 commit → 我们源码”变成可审计、可重放的变换；支持 `--check` 只报告不写 |
 | `protocol/reference/` | `protocol.md`、`connector-contract.md`、`architecture.md`、`concepts.md`、`upstream-README.md` | 协议参考副本（注意 `connector-contract.md` 端口段是上游旧描述，见 6.6） |
@@ -777,7 +777,7 @@ CI 门禁：`python distribution/rebrand_runtime.py --check && python distributi
 ```
 # 1) Go 运行时
 $env:CGO_ENABLED = 0
-go -C runtime build -trimpath -ldflags "-s -w -X github.com/zsx3896926/hardware-design-skill/runtime/internal/version.Version=$ver" -o dist/zhigou.exe ./cmd/zhigou
+go -C runtime build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=$ver" -o dist/zhigou.exe ./cmd/zhigou
 
 # 2) 连接器（需 npm；产物是 zip 改名的 .eext）
 npm ci      --prefix connector

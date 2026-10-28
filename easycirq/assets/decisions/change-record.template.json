@@ -1,0 +1,44 @@
+{
+  "_template": "Agent 填写，用户不填",
+  "_format": "change-record/v1：四类场景 shunt-change / mcu-package-change / isolation-add / layout-only；等级 2/3/local-only 按 easycirq/references/manufacturing-routes.md:539-562 映射；每个场景必须写 bom_delta（位号/旧值/新值/数量/DNP/原因，未知写待查）；layout-only 写 BOM 不变、CPL/坐标变化、NOT RUN；未执行写 NOT RUN",
+  "change_id": "ECO-<项目>-<序号>",
+  "title": "待查",
+  "date": "YYYY-MM-DD",
+  "status": "draft",
+  "baseline": {
+    "product_baseline": "待查",
+    "eda_baseline": "F1",
+    "eda_baseline_level": "E1",
+    "eda_rerun_this_round": false,
+    "role": "baseline_only"
+  },
+  "changes": [
+    {
+      "change_id": "CHG-01",
+      "scenario": "shunt-change",
+      "level": 2,
+      "from": "待查",
+      "to": "待查",
+      "reason": "待查",
+      "status": "planned",
+      "bom_delta": {
+        "status": "planned",
+        "note": "待查",
+        "items": [
+          {"ref": "待查", "old": "待查", "new": "待查", "qty": "待查", "dnp": "待查", "reason": "待查"}
+        ]
+      }
+    }
+  ],
+  "affected_artifacts": [
+    {"artifact": "schematic", "ref": "待查", "state": "invalidated", "reason": "待查"}
+  ],
+  "netlist_diff": {"status": "NOT RUN", "evidence": "待查"},
+  "batch_scope": {"mode": "unknown", "detail": "待查", "effective_from": "待查", "effective_to": "待查"},
+  "verification": [
+    {"check": "待查", "scope": "待查", "result": "NOT RUN", "evidence_level": "E3", "evidence": ""}
+  ],
+  "rollback": {"plan": "待查", "disposition": "unknown", "reason": "待查"},
+  "approvals": {"engineering": "待查", "manufacturing": "待查", "quality": "待查"},
+  "revision_verified": false
+}

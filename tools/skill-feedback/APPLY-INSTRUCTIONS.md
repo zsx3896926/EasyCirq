@@ -1,6 +1,6 @@
 # Offline feedback migration v2
 
-Run only while the target skills are idle. This repository owns design-hardware;
+Run only while the target skills are idle. This repository owns easycirq;
 the zhigou-agent edits are an anchored migration, not an upstream release.
 Copying this tool alone is insufficient: keep its repository-relative resources.
 
@@ -10,7 +10,7 @@ python tools/skill-feedback/apply-feedback.py --apply <skill-root>
 python tools/skill-feedback/apply-feedback.py --check <skill-root>
 ```
 
-The root must contain zhigou-agent/ and design-hardware/. Check returns 1 for
+The root must contain zhigou-agent/ and easycirq/. Check returns 1 for
 pending changes, 0 for a fully matching patch, 2 for conflict/unknown. Anchors must
 be unique. Unknown existing files and partial patches are refused before writing.
 No requests are made. Direct online selection remains disabled, including when

@@ -9,10 +9,10 @@ import sys
 import tempfile
 
 ROOT=Path(__file__).resolve().parents[1]
-ENTRY=ROOT/'design-hardware/scripts/ecosystem.py'
+ENTRY=ROOT/'easycirq/scripts/ecosystem.py'
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--out',type=Path);p.add_argument('--skill-root',type=Path,default=ROOT/'design-hardware');a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('--out',type=Path);p.add_argument('--skill-root',type=Path,default=ROOT/'easycirq');a=p.parse_args()
     entry=a.skill_root/'scripts/ecosystem.py'
     rows=[]
     def run(case,args,expected_status,exit_code=0):

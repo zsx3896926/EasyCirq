@@ -14,9 +14,9 @@
 用户需求
    │
    ▼
-design-hardware/SKILL.md          ← 唯一的策略层：工程方法、门禁、证据语义、交付规则
-design-hardware/scripts/*.py      ← 策略层配套的离线检查、门禁、反馈闭环（不直接操作 EDA）
-design-hardware/references/*.md   ← 按需加载的工程知识
+easycirq/SKILL.md          ← 唯一的策略层：工程方法、门禁、证据语义、交付规则
+easycirq/scripts/*.py      ← 策略层配套的离线检查、门禁、反馈闭环（不直接操作 EDA）
+easycirq/references/*.md   ← 按需加载的工程知识
    │   调用（JSON stdout / 人类摘要 stderr）
    ▼
 runtime/  (Go)                    ← 自有运行时：CLI `zhigou` + 本机 daemon
@@ -42,7 +42,7 @@ connector/  (TypeScript → .eext)  ← 在 EasyEDA Pro 内运行的唯一一端
 
 | 层 | 目录 | 归属 | 许可 |
 | --- | --- | --- | --- |
-| 策略 | `design-hardware/` | 本项目原创 | Apache-2.0 |
+| 策略 | `easycirq/` | 本项目原创 | Apache-2.0 |
 | 运行时 | `runtime/` | 本项目维护的分支（源自 easyeda-agent v1.15.0, MIT） | MIT（复用部分）+ Apache-2.0（本项目修改） |
 | 契约 | `protocol/` | 本项目 | Apache-2.0（引用上游 MIT 文档已标注） |
 | 连接器 | `connector/` | 本项目维护的分支（源自 easyeda-agent v1.15.0 extension, MIT） | MIT + Apache-2.0 |

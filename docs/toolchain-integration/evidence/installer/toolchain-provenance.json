@@ -34,7 +34,7 @@
       "uuid": "a6e6b788551945b399e150d80efa6e31"
     },
     "skill": {
-      "file": "payload/skill/design-hardware",
+      "file": "payload/skill/easycirq",
       "version": "1.0.1",
       "files": 674
     }

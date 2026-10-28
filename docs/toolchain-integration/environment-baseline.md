@@ -332,7 +332,7 @@ connector LOG: lifecycle registered moduleBootstrapObserved=true activateObserve
 - SKILL.md frontmatter：`name: easyeda-agent`、`license: MIT`、`metadata.author: zhoushoujianwork`、`metadata.version: "1.15.0"`、`metadata.homepage`。
 - 结构：`SKILL.md`、`LICENSE`、`agents/openai.yaml`、`library/modules/*.json`、`references/*.md|json`（含 `environment-setup.md`、`design-flow.md`、`pcb-*.md`、`schematic-*.md`、`fab-rules-jlcpcb.json` 等）、`references/examples/**`、`scripts/*.py|js|sh`。
 - **安装/更新方式**：由 daemon 启动时同步——`easyeda skill --help`：`The daemon syncs installed Skill dirs to its own version on startup`，daemon 命令行带 `--auto-update-skill=true`；另有 `easyeda skill status` / `skill sync [--version X]`。三目录同版 1.15.0、同哈希，印证"一次同步、多客户端分发"。
-- 同级目录另见 `design-hardware`（`.claude`、`.agents` 下各有，`.codex` 下无），说明该机器还有第二个相关 skill 在分发，新工具链命名时应避让 `easyeda-agent` 与 `design-hardware`。
+- 同级目录另见 `easycirq`（`.claude`、`.agents` 下各有，`.codex` 下无），说明该机器还有第二个相关 skill 在分发，新工具链命名时应避让 `easyeda-agent` 与 `easycirq`。
 - `C:\Users\jlc\.codex\skills\.system` 存在（codex 内建）。
 
 **未修改、未删除任何 skill 文件。**

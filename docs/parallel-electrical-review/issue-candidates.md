@@ -6,7 +6,7 @@
 
 ## IC-1 `pin_net_intent_check.py` 对“设计源本身把飞跨电容两端接到同一网”返回 `match`
 
-- 文件：`design-hardware/scripts/pin_net_intent_check.py`
+- 文件：`easycirq/scripts/pin_net_intent_check.py`
 - 现象：当 intent 和宿主回读都把 C1.1/C1.2 放在同一网 `BOOT` 时，工具输出
   `status: "match"`、`findings: []`、exit 0。它证明“实现忠实于设计源”，但无法发现
   “设计源把飞跨电容旁路”这一真实电气错误。
@@ -15,7 +15,7 @@
 ```bash
 # intent_same.json: C1 pins 1/2 -> BOOT ; nets.BOOT=[C1.1,C1.2]
 # read_same.json:   C1 pin 1/2 net BOOT
-python design-hardware/scripts/pin_net_intent_check.py intent_same.json read_same.json
+python easycirq/scripts/pin_net_intent_check.py intent_same.json read_same.json
 # 实际: status=match, findings=[], exit 0
 ```
 
@@ -25,14 +25,14 @@ python design-hardware/scripts/pin_net_intent_check.py intent_same.json read_sam
 
 ## IC-2 `netlist_check.py` 对两端同网电容只给 `建议`，退出码 0
 
-- 文件：`design-hardware/scripts/netlist_check.py`（`same_net_passive` 分支）
+- 文件：`easycirq/scripts/netlist_check.py`（`same_net_passive` 分支）
 - 现象：C1 两端同网时输出 `level=建议, code=same_net_passive`，整体 `status=needs_review`，
   exit 0。它明确写了“不能由此推断电源地短路”，这是合理边界；但该“建议”不会阻断推进，
   也没有角色/耐压/预期网络证据，无法区分“正确的滤波电容两端同网”与“飞跨电容被旁路”。
 - 复现：
 
 ```bash
-python design-hardware/scripts/netlist_check.py same_net.json --json
+python easycirq/scripts/netlist_check.py same_net.json --json
 # 实际: status=needs_review, exit 0, issues[0].code=same_net_passive, level=建议
 ```
 
@@ -41,20 +41,20 @@ python design-hardware/scripts/netlist_check.py same_net.json --json
 
 ## IC-3 局部去耦距离的默认经验阈值容易跨角色误用
 
-- 相关文件：`design-hardware/scripts/design_engine/critical.py`
+- 相关文件：`easycirq/scripts/design_engine/critical.py`
   （`audit_critical(..., decap_limit_mm=2.54, ...)`）、
-  `design-hardware/scripts/feedback/evaluate.py`（`decap-too-far` / `decap-too-far-bulk`）、
-  `design-hardware/scripts/pcb_preflight.py`（`near_pin` 约束）。
+  `easycirq/scripts/feedback/evaluate.py`（`decap-too-far` / `decap-too-far-bulk`）、
+  `easycirq/scripts/pcb_preflight.py`（`near_pin` 约束）。
 - 现象：仓库内已区分 `decap` 与 `bulk` 的反馈类别，但在缺少项目约束时仍存在
-  2.54 mm（100 mil）级默认阈值/经验告警；`design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md`
+  2.54 mm（100 mil）级默认阈值/经验告警；`easycirq/cases/mcu-i2c-s3-2026-10-26/README.md`
   记录“5 条 decap 距离超过 100 mil 经验阈值；保留 WARN 并解释”。这类 WARN 可作为
   布局提示，但不能证明高频回路/ESL/EMI，也不应把 bulk 与 local decoupling 套同一阈值。
 - 复现（只读代码与已有真实案例，无需 EDA）：
 
 ```bash
-grep -n "decap_limit_mm" design-hardware/scripts/design_engine/critical.py
-grep -n "decap-too-far" design-hardware/scripts/feedback/evaluate.py
-grep -n "decap" design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md
+grep -n "decap_limit_mm" easycirq/scripts/design_engine/critical.py
+grep -n "decap-too-far" easycirq/scripts/feedback/evaluate.py
+grep -n "decap" easycirq/cases/mcu-i2c-s3-2026-10-26/README.md
 ```
 
 - 建议：项目约束显式输入阈值与来源；bulk 与 local_decoupling 分开；报告标注

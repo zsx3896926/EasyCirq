@@ -11,7 +11,7 @@ import unittest
 os.environ.setdefault('PYTHONIOENCODING','utf-8')
 
 ROOT=Path(__file__).resolve().parents[1]
-SKILL=ROOT/'design-hardware'
+SKILL=ROOT/'easycirq'
 spec=importlib.util.spec_from_file_location('calc',SKILL/'scripts/calculate.py')
 calc=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(calc)
@@ -19,7 +19,7 @@ spec.loader.exec_module(calc)
 class SkillStructure(unittest.TestCase):
     def test_entry_and_references(self):
         entry=(SKILL/'SKILL.md').read_text(encoding='utf-8')
-        self.assertTrue(entry.startswith('---\nname: design-hardware\n'))
+        self.assertTrue(entry.startswith('---\nname: easycirq\n'))
         self.assertIn('\ndescription: ',entry.split('---',2)[1])
         self.assertLess(len(entry.splitlines()),500)
         for f in SKILL.rglob('*.md'):

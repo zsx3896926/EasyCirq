@@ -2,7 +2,7 @@
 
 ## 仓库/分支
 
-- 仓库：`hardware-design-skill`；worktree：`C:/Users/jlc/work/hds-pcb-round9`
+- 仓库：`EasyCirq`；worktree：`C:/Users/jlc/work/hds-pcb-round9`
 - 分支：`feat/pcb-layout-round9`，已推送；PR **#21**（draft），**stacked on PR #20**（`feat/skill-v0.9-reviewed`）。合并前把 base 切到 main 或等 #20 合入。
 - 提交：`79c2474` 约束/模板/候选/回读；`394f1db` 真实状态+handoff；`830f56d` fabrication 预检；`2061560` template CLI/THT flip；`34f5adb` 丝印 180 修复。
 
@@ -12,7 +12,7 @@
 - `scripts/pcb_apply_plan.py`：校验 → 逐件 typed `pcb modify` → save/reload/fresh dump → scoped diff；默认 dry-run。
 - `references/pcb-execution.md`、`assets/pcb-placement-templates.json`、SKILL 路由、v0.9.1。
 - 测试：`python -m unittest discover -s tests` → **982 tests OK**（25 个 PCB 定向测试）；`skill_selftest` → **5 PASS**。
-- 案例：`design-hardware/cases/photo-led-pcb-2026-10-26/`。
+- 案例：`easycirq/cases/photo-led-pcb-2026-10-26/`。
 
 ## 板 A 真实状态（已完成）
 

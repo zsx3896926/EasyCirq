@@ -180,7 +180,7 @@ Rules:
 A produces `input.json` and runs:
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m annotation_layout validate <input.json>
 ```
 

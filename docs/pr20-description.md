@@ -69,7 +69,7 @@
 
 ```bash
 python -m unittest discover -s tests     # 966 tests OK
-python design-hardware/scripts/skill_selftest.py  # 5 PASS
+python easycirq/scripts/skill_selftest.py  # 5 PASS
 # 每个工程：
 easyeda sch gate --json
 python scripts/pin_net_intent_check.py docs/netlist-intent*.json evidence/read-after-reload.json

@@ -27,7 +27,7 @@
 ## 允许路径（本任务只改这些）
 
 ```
-design-hardware/scripts/bringup_planner/
+easycirq/scripts/bringup_planner/
 tests/bringup_planner_tests/      # 集成合并后由 tests/bringup_planner/ 迁入（集成者处理）
 benchmarks/bringup-planner/
 docs/parallel-bringup-planner/
@@ -37,7 +37,7 @@ docs/parallel-bringup-planner/
 
 ## 交付物
 
-- 可运行 CLI：`python -m bringup_planner validate|plan|explain|evaluate`（在 `design-hardware/scripts` 下运行）
+- 可运行 CLI：`python -m bringup_planner validate|plan|explain|evaluate`（在 `easycirq/scripts` 下运行）
 - 六组能力：I1 断电检查、I2 分域上电/限流、I3 电源/时钟/复位/通信测量、I4 负载/接口模板、I5 有限故障树与 STOP、I6 独立结果评估
 - JSON 契约 + Markdown 检查表 + 空白结果 JSON/CSV + `manifest.json`（哈希/原子写）
 - 两个组合板案例（`benchmarks/bringup-planner/cases/mcu-sensor-board`、`load-control-board`）
@@ -48,7 +48,7 @@ docs/parallel-bringup-planner/
 ## 运行方式
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m bringup_planner validate --input <input.json> --json
 python -m bringup_planner plan --input <input.json> --out <out-dir> --json
 python -m bringup_planner explain --input <input.json> [--step <id>] --json

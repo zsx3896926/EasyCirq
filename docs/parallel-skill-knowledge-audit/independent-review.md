@@ -3,8 +3,8 @@
 - 评阅人：`scenario-holdout`（并行任务 D 的独立队友；**holdout 场景的设计者**）
 - 评阅阶段：分离评阅（separated review），**不是盲测**。设计阶段未读 `dev.json`/`scenarios/README.md`、未写实现；本次作为评阅者首次读实现、基准与报告。
 - 工作树：`hds-ska-worktree`，HEAD `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（`feat/parallel-skill-knowledge-audit`）
-- 环境：Windows，Python 3.13.15；运行设置 `PYTHONDONTWRITEBYTECODE=1`，所有输出只写 `%TEMP%` 或 `%TEMP%` 下的 `design-hardware` 副本；工作树内只新增本文件（`git status --porcelain` 只显示既有未跟踪目录）。
-- 评阅对象（实际读取）：`bench.py`/`plan.py`/`cli.py`/`catalog/topics.json`；`tests/skill_knowledge_audit/{test_benchmark,test_cli}.py`；`scenarios/holdout.json`、`holdout-rationale.md`、`validate_scenarios.py`；`results/main.json`、`results/{scan,rules}.json`、`results/plans/*`；`docs/parallel-skill-knowledge-audit/{contract,cli,source-baseline,report,acceptance-matrix}.md`；`design-hardware/SKILL.md` 及 holdout 期望相关 references。
+- 环境：Windows，Python 3.13.15；运行设置 `PYTHONDONTWRITEBYTECODE=1`，所有输出只写 `%TEMP%` 或 `%TEMP%` 下的 `easycirq` 副本；工作树内只新增本文件（`git status --porcelain` 只显示既有未跟踪目录）。
+- 评阅对象（实际读取）：`bench.py`/`plan.py`/`cli.py`/`catalog/topics.json`；`tests/skill_knowledge_audit/{test_benchmark,test_cli}.py`；`scenarios/holdout.json`、`holdout-rationale.md`、`validate_scenarios.py`；`results/main.json`、`results/{scan,rules}.json`、`results/plans/*`；`docs/parallel-skill-knowledge-audit/{contract,cli,source-baseline,report,acceptance-matrix}.md`；`easycirq/SKILL.md` 及 holdout 期望相关 references。
 - **评阅期间产物在变化（如实记录）**：开始评阅（00:13:52）时 `report.md`/`acceptance-matrix.md` **不存在**，按 Lead 指示用工具 + `results/main.json`；`report.md`（00:20:10）、`acceptance-matrix.md`（00:21:18）、`recommendations.md`、`integration-proposal.md`、`handoff-current.md` 与 `contract.md` 修订（00:21:35，21,181→23,946 B，新增 §10 M1–M3 冻结补充）在评阅过程中出现；`results/main.json` 也被重写（见 F11）。本报告区分"运行当时"与"00:24 后的最终复核"两套数字。
 - 独立性限制：对 holdout 场景本身是**作者自评**；对 `plan.py`/`bench.py`/`topics.json`/基准/报告的评阅独立于实现作者。dev 场景文件未读，但为泄漏/重合核对读取了派生结果 `main.json` 与 `results/plans/dev-07-plan.json`。
 
@@ -25,7 +25,7 @@
 ### 2.1 真实 CLI benchmark（holdout）
 
 ```bash
-# 工作目录：design-hardware/scripts；输出在 %TEMP%
+# 工作目录：easycirq/scripts；输出在 %TEMP%
 python -m skill_knowledge_audit benchmark --root .. --split holdout --out %TEMP%\ska-holdout-<uuid>.json
 ```
 
@@ -43,7 +43,7 @@ python -m skill_knowledge_audit benchmark --root .. --split holdout --out %TEMP%
 | holdout-04 | `c8538134…` | **incomplete** | 74,321 | 0 | offline_analysis, read_skill | — |
 | holdout-05 | `df69f5ea…` | within | 142,594 | 6,436 | offline_analysis, read_skill | missing_evidence |
 
-### 2.2 逐场景 `plan` CLI（工作目录 `design-hardware/scripts`）
+### 2.2 逐场景 `plan` CLI（工作目录 `easycirq/scripts`）
 
 ```bash
 python -m skill_knowledge_audit plan --root .. --intent %TEMP%\<id>-intent.json --out %TEMP%\<id>-plan.json
@@ -62,7 +62,7 @@ python -m skill_knowledge_audit plan --root .. --intent %TEMP%\<id>-intent.json 
 python -m unittest tests.skill_knowledge_audit.test_benchmark   # 9 tests, OK, EXIT=0 (27.3 s)
 python -m unittest tests.skill_knowledge_audit.test_cli         # 8 tests, OK, EXIT=0 (13.4 s)
 python -m unittest discover -s tests/skill_knowledge_audit -t . # 52 tests, OK (skipped=1), 42.0 s  ← 与 report.md 声明一致
-python design-hardware/scripts/skill_selftest.py                # 5 PASS / 0 FAIL / 0 NOT RUN, EXIT=0 ← 与 report.md 一致
+python easycirq/scripts/skill_selftest.py                # 5 PASS / 0 FAIL / 0 NOT RUN, EXIT=0 ← 与 report.md 一致
 ```
 
 ### 2.4 对抗式变异（复制 holdout 到 `%TEMP%`，逐项修改，`--scenarios <temp 文件> --split holdout`）
@@ -84,11 +84,11 @@ python design-hardware/scripts/skill_selftest.py                # 5 PASS / 0 FAI
 - 仅 dev 的临时场景目录：`benchmark --scenarios <tempdir 只含 dev.json>` → `EXIT=0, ok:true, total 15, holdout 0` → holdout/18 下限只在 `--require-holdout`/`--require-18` 下强制（F6）。
 - holdout 变形：`benchmark --root .. --split holdout --transforms --out %TEMP%\…` → `EXIT=0`，`transforms.scenario:"holdout-01"`，7/7 `ok:true`。
 - 边界计划：`schematic_edit` + `eda_available:false` → `EXIT=0, unknown:[]`；`schematic_new` + `eda_available:false` → `EXIT=0, unknown:["domain_unspecified"]`；两者**都没有 `eda_unavailable`**（F1）。`before_route` gate 的计划在 `autonomous_authorized:true/false` 下**都**含 `wait_user_approval`（F4）。
-- 扫描根内输出隔离（contract §10.6 声称"`--out` 若落在根内会自动排除并记录，二次扫描不得自我污染"）：把 `design-hardware` 复制到 `%TEMP%`，`plan --root <副本> --format both --out <副本>\reports\bom-plan.md` → `EXIT=0`；随后 `scan --root <副本>` → `files:310`（基线 309）、`excluded_outputs` **不含** `bom-plan.md`、`bom-plan.md` 被当作源文件扫描 → **该契约声明未实现于 `plan`**（`cli.py:120-138` 只有 `cmd_scan` 传 `exclude_abs`；`cmd_plan`/`cmd_benchmark` 在 `cli.py:141-170,173-208` 未传）。见 F10。
+- 扫描根内输出隔离（contract §10.6 声称"`--out` 若落在根内会自动排除并记录，二次扫描不得自我污染"）：把 `easycirq` 复制到 `%TEMP%`，`plan --root <副本> --format both --out <副本>\reports\bom-plan.md` → `EXIT=0`；随后 `scan --root <副本>` → `files:310`（基线 309）、`excluded_outputs` **不含** `bom-plan.md`、`bom-plan.md` 被当作源文件扫描 → **该契约声明未实现于 `plan`**（`cli.py:120-138` 只有 `cmd_scan` 传 `exclude_abs`；`cmd_plan`/`cmd_benchmark` 在 `cli.py:141-170,173-208` 未传）。见 F10。
 
 ### 2.5 泄漏与来源核查
 
-- 在 `design-hardware/scripts/skill_knowledge_audit/**` 与 `tests/**` 搜索 `holdout-0[1-5]|dev-0[0-9]`：除 `validate_scenarios.py`（只约定 dev id 顺序）、`bench.py/cli.py` 的通用 split 字符串外，**无场景 id**；`test_benchmark.py:39` 也断言包内 `.py` 不含场景 id。
+- 在 `easycirq/scripts/skill_knowledge_audit/**` 与 `tests/**` 搜索 `holdout-0[1-5]|dev-0[0-9]`：除 `validate_scenarios.py`（只约定 dev id 顺序）、`bench.py/cli.py` 的通用 split 字符串外，**无场景 id**；`test_benchmark.py:39` 也断言包内 `.py` 不含场景 id。
 - 搜索 holdout 中文特征短语（"缩板框/限流电阻/配齐/导不出来/上下文很小/别连 EDA/客户要求增加/40×30"）：命中仅为无关的 `docs/round5/*.py` 旧评测脚本与 holdout 自身文档；catalog/实现中无场景措辞。
 - `catalog/topics.json`（1,019 行）通读：关键词均为通用领域词（CAN/贴片/图面/门禁等），无 holdout id/期望清单；但 `topics.json:5` 声明 "reviewed against 20 scenarios"（F9）。
 - 计划重合：20 个场景中 `dev-04=dev-05`、`dev-07=holdout-04`、`dev-09=holdout-05`（digest 相同）；`results/plans/dev-07-plan.json` 与 `holdout-04-plan.json` 的 selected 路径逐一相同（F9）。
@@ -167,7 +167,7 @@ python design-hardware/scripts/skill_selftest.py                # 5 PASS / 0 FAI
 
 - 实测（`%TEMP%` 副本，未改工作树）：`plan --root <copy> --format both --out <copy>\reports\bom-plan.md` → `EXIT=0`；随后 `scan --root <copy>` → `files:310`（基线 309）、`excluded_outputs` 不含该文件、`bom-plan.md` 作为源文件被扫描。
 - 契约冲突：contract §10.6 明确"`--out` 若落在根内会自动排除并记录，二次扫描不得自我污染"；实现只有 `cmd_scan` 传 `exclude_abs`（`cli.py:120-138`），`cmd_plan`/`cmd_benchmark`（`cli.py:141-170,173-208`）未传。`cache-out` 同理未检查（未实测，静态判断）。
-- 影响：若用户按示例把 plan 输出写进 `design-hardware`（并非推荐路径，但契约承诺支持），下一次 `scan`/`plan` 会把该报告当成 Skill 文档，可能引起结论漂移。建议修 `cli`（对 plan/benchmark/cache 输出计算并排除、写入 `excluded_outputs`），或把 §10.6 改成"仅 `scan` 支持"。
+- 影响：若用户按示例把 plan 输出写进 `easycirq`（并非推荐路径，但契约承诺支持），下一次 `scan`/`plan` 会把该报告当成 Skill 文档，可能引起结论漂移。建议修 `cli`（对 plan/benchmark/cache 输出计算并排除、写入 `excluded_outputs`），或把 §10.6 改成"仅 `scan` 支持"。
 
 ### F11（中，冻结产物稳定性）评阅期间 `results/main.json`、`contract.md`、`report.md` 被重写
 
@@ -212,7 +212,7 @@ python design-hardware/scripts/skill_selftest.py                # 5 PASS / 0 FAI
 
 ## 7. Post-review addendum (Lead fixes verified 2026-10-28 00:26–00:30)
 
-> 本节为评阅人在 Lead 修复后追加的复审记录。§1–§6 是首次评阅的原始记录，**保持原样不回写**；本节只更新"修复后实测状态"与最终 verdict。复审命令均只读运行，输出写 `%TEMP%`；输出隔离实验使用 `%TEMP%` 下的 `design-hardware` 副本。
+> 本节为评阅人在 Lead 修复后追加的复审记录。§1–§6 是首次评阅的原始记录，**保持原样不回写**；本节只更新"修复后实测状态"与最终 verdict。复审命令均只读运行，输出写 `%TEMP%`；输出隔离实验使用 `%TEMP%` 下的 `easycirq` 副本。
 
 ### 7.1 复审时间与代码/产物版本
 
@@ -222,7 +222,7 @@ python design-hardware/scripts/skill_selftest.py                # 5 PASS / 0 FAI
 
 ### 7.2 复审命令与结果（exit code 均为实测）
 
-| # | 命令（工作目录 `design-hardware/scripts`） | exit | 关键结果 | 对应发现 |
+| # | 命令（工作目录 `easycirq/scripts`） | exit | 关键结果 | 对应发现 |
 |---|---|---|---|---|
 | 1 | `plan --root .. --task schematic_edit --stage schematic --no-eda --out %TEMP%\…` | **0** | `actions:[offline_analysis, read_skill]`、`eda_required:false`、`writes_allowed:false`、`unknown:["eda_unavailable"]` | **F1 已修** |
 | 2 | `plan --root .. --task schematic_edit --stage schematic --eda --out %TEMP%\…` | **0** | `actions:[read_eda, read_skill, write_eda]`、`eda_required:true`、`writes_allowed:true`、`unknown:[]` | **F1 已修** |

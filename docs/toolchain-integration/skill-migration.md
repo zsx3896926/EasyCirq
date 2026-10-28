@@ -1,7 +1,7 @@
 # Skill migration: upstream `easyeda` toolchain → own `zhigou` execution layer
 
 Branch: `feat/integrated-eda-toolchain`
-Scope of this change: `design-hardware/**`, `tests/**`, `tools/**`, `benchmarks/**`,
+Scope of this change: `easycirq/**`, `tests/**`, `tools/**`, `benchmarks/**`,
 `.github/workflows/**` (no command string there needed to change).
 Read-only by rule and by practice: `runtime/**`, `connector/**`, `distribution/**`,
 `protocol/**`, and docs owned by other agents.
@@ -17,7 +17,7 @@ script, test or tooling file.
 - Old-toolchain references in the scanned tree: **984 before → 69 after, of
   which 0 actionable** (all 69 are allowlisted history/attribution/frozen
   evidence/defensive blocks; see §6).
-- `design-hardware/SKILL.md`: **323 → 315 lines**, and the top-level doc now
+- `easycirq/SKILL.md`: **323 → 315 lines**, and the top-level doc now
   opens the human-facing flow with a single “执行层入口: zhigou” section.
 - Offline suite: **1832 tests, 0 failures, 0 errors, exit 0**.
 - Skill self-test: **5 PASS / 0 FAIL / 0 NOT RUN, exit 0**.
@@ -40,11 +40,11 @@ reopened. That is recorded below as **NOT RUN**, not as a pass.
 | `easyeda-agent-connector` extension | `zhigou-connector` (own uuid; imported by the user in EasyEDA Pro) |
 | load the upstream `easyeda-agent` skill + `easyeda update` | this skill is the only policy source; runtime installed/upgraded from this repo's `distribution/` bundle; `zhigou doctor` verifies |
 | `python scripts/eda_exec.py doctor/read/apply/...` as a second route | not documented as an execution route; all policy points to `zhigou` typed commands |
-| Python resolver `EASYEDA_CLI` → `easyeda` | single resolver in `design-hardware/scripts/zhigou_cli.py`: explicit arg → `ZHIGOU_BIN` → `zhigou` (no machine path) |
+| Python resolver `EASYEDA_CLI` → `easyeda` | single resolver in `easycirq/scripts/zhigou_cli.py`: explicit arg → `ZHIGOU_BIN` → `zhigou` (no machine path) |
 
 ## 3. What changed, by area
 
-### Skill entry (`design-hardware/SKILL.md`)
+### Skill entry (`easycirq/SKILL.md`)
 
 - New §2 **执行层入口: zhigou** replaces the old “check the easyeda-agent skill /
   run easyeda health / use the official CLI adapter” block:
@@ -69,7 +69,7 @@ reopened. That is recorded below as **NOT RUN**, not as a pass.
   list `zhigou` typed commands; the examples row was removed when the Lead
   moved the upstream example copies out of the skill tree (see §7).
 
-### Scripts (`design-hardware/scripts/`)
+### Scripts (`easycirq/scripts/`)
 
 - **New `zhigou_cli.py`** — the only resolver and the only place that knows the
   CLI JSON contracts:
@@ -190,7 +190,7 @@ python tools/offline_suite.py --out docs/toolchain-integration/evidence/skill-mi
 # status=pass, tests_run=1832, failures=0, errors=0, exit 0
 
 # 2. Skill package self-test
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 # 5 PASS, 0 FAIL, 0 NOT RUN -> exit 0
 
 # 3. Targeted pytest for every touched/added test file
@@ -226,10 +226,10 @@ Recorded evidence:
 
 | Location | Rows | Reason |
 |---|---|---|
-| `design-hardware/CHANGELOG.md` | 19 | release history: records what the old toolchain did; rewriting it would falsify history |
-| `design-hardware/cases/**` | 20 | frozen real-run evidence (case READMEs + captured CLI output); not policy |
-| `design-hardware/scripts/offline_guard.py` | 3 | defensive: the offline guard must still refuse to execute a retired `easyeda` binary |
-| `design-hardware/scripts/layout_from_zhigou.py` | 1 | frozen schema string `coordinate_units` is bound into recorded fixture SHA-256 values; changing it invalidates stored evidence |
+| `easycirq/CHANGELOG.md` | 19 | release history: records what the old toolchain did; rewriting it would falsify history |
+| `easycirq/cases/**` | 20 | frozen real-run evidence (case READMEs + captured CLI output); not policy |
+| `easycirq/scripts/offline_guard.py` | 3 | defensive: the offline guard must still refuse to execute a retired `easyeda` binary |
+| `easycirq/scripts/layout_from_zhigou.py` | 1 | frozen schema string `coordinate_units` is bound into recorded fixture SHA-256 values; changing it invalidates stored evidence |
 | `tests/fixtures/photo-led-v14/**`, `tests/fixtures/photo-led-acceptance.json` | 20 | frozen real-measurement fixtures with recorded SHA-256 bindings |
 | `tests/fixtures/zhigou/doctor-*.json` | 6 | faithful capture of real `zhigou doctor` output; its `legacy` field legitimately names the old daemon it detects and never uses |
 
@@ -257,12 +257,12 @@ scanner is written not to flag.
 3. **`distribution/Manage-Skill.ps1`** (owned by another agent) still passes
    `--easyeda`/`--agent-version`; `skill_update.py` accepts them as hidden
    aliases so the wrapper keeps working. No change to `distribution/` was made.
-4. **`design-hardware/scripts/eda_exec.py`** is kept as a legacy offline/JS
+4. **`easycirq/scripts/eda_exec.py`** is kept as a legacy offline/JS
    reconcile module for its own unit tests, but it is no longer referenced by
    `SKILL.md`, `doctor_env.py` or any execution policy. It uses `lceda-pro`
    (the EDA client CLI), not the old `easyeda` tokens, so it does not appear in
    the legacy inventory. Removing it is a separate cleanup decision.
-5. **`design-hardware/references/examples/`** was being moved out to
+5. **`easycirq/references/examples/`** was being moved out to
    `runtime/internal/app/testdata/` by the Lead during this migration.
    This change therefore removes the SKILL.md link to it, re-points
    `assets/scenarios.json` routes to equivalent design cards, and marks the

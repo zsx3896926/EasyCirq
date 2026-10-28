@@ -6,7 +6,7 @@
 ## 最快上手（仓库内）
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 
 # 1. 扫描引用图（JSON + Markdown 索引）
 python -m skill_knowledge_audit scan --root .. \
@@ -29,7 +29,7 @@ python -m skill_knowledge_audit benchmark --root .. \
   --require-18 --require-holdout --transforms
 ```
 
-`--root` 指向 `design-hardware` 目录（含 `SKILL.md`）。不传时按当前目录自动推断。
+`--root` 指向 `easycirq` 目录（含 `SKILL.md`）。不传时按当前目录自动推断。
 `--out` 的父目录必须已存在，且输出必须位于扫描根之外（根内路径直接退出 2，防止
 自我污染）；输出用同目录临时文件 + `os.replace` 原子写入。
 
@@ -73,7 +73,7 @@ skill_knowledge_audit/
   "constraints": ["保留板框与安装孔"],
   "user_decision_pending": ["before_route"],
   "already_read": [
-    {"path": "design-hardware/references/pcb.md",
+    {"path": "easycirq/references/pcb.md",
      "sha256": "<64 hex>", "rules_version": "2026-10-27.1", "scope": "layout"}
   ],
   "budget_chars": 120000,

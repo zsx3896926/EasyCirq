@@ -25,10 +25,10 @@
 
 | 位置 | 内容 |
 |---|---|
-| [tool-gotchas.md](../design-hardware/references/tool-gotchas.md) 总表 + §22–§26 | 五条动作级陷阱的现象/原因/正确动作/证据边界；含队列恢复阶梯与 gate 分类 |
-| [schematic-layout-engine.md](../design-hardware/references/schematic-layout-engine.md) §5、§12 | 行高按引脚包络；`envelopes` 输出；A4 可用页顶 805 raw；人工微调表 |
-| [schematic-layout.md](../design-hardware/references/schematic-layout.md) §3.2 | 模块边界含引脚端点，打包按包络 |
-| `design-hardware/scripts/sch_layout_model.py` | `model-report.json` 新增逐件 `envelopes`（body / envelope / 四边 overhang） |
+| [tool-gotchas.md](../easycirq/references/tool-gotchas.md) 总表 + §22–§26 | 五条动作级陷阱的现象/原因/正确动作/证据边界；含队列恢复阶梯与 gate 分类 |
+| [schematic-layout-engine.md](../easycirq/references/schematic-layout-engine.md) §5、§12 | 行高按引脚包络；`envelopes` 输出；A4 可用页顶 805 raw；人工微调表 |
+| [schematic-layout.md](../easycirq/references/schematic-layout.md) §3.2 | 模块边界含引脚端点，打包按包络 |
+| `easycirq/scripts/sch_layout_model.py` | `model-report.json` 新增逐件 `envelopes`（body / envelope / 四边 overhang） |
 
 `envelopes` 只提供数据，不新增 blocker：缺少它时打包器仍可按同样定义自行求并集；
 `layout-source.json` 不夹带该字段，避免官方 planner 遇到未知键。
@@ -36,7 +36,7 @@
 ## 验证
 
 - 本机 Python 3.13：`python -m unittest discover -s tests` → 1784 tests OK。
-- `design-hardware/scripts/skill_selftest.py` → 5 PASS / 0 FAIL。
+- `easycirq/scripts/skill_selftest.py` → 5 PASS / 0 FAIL。
 - Python 3.10：本机未安装，`NOT RUN`；由 `validate.yml` 矩阵覆盖。
 - 真机行为（连接器队列、web reload、autoconnect 假成功）来自外部会话，本仓库无回放。
 

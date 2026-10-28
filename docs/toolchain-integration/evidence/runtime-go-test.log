@@ -1,5 +1,5 @@
-?   	github.com/zsx3896926/hardware-design-skill/runtime/cmd/zhigou	[no test files]
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/apidoc	0.481s
+?   	github.com/zsx3896926/EasyCirq/runtime/cmd/zhigou	[no test files]
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/apidoc	0.481s
 Error: document.current failed: No active document.
 Usage:
   doc open <name|uuid> [flags]
@@ -795,115 +795,115 @@ Global Flags:
 --- FAIL: TestResolveEnrichScriptPriority (0.08s)
     --- FAIL: TestResolveEnrichScriptPriority/3_installed_skill_dir_is_found_from_an_unrelated_cwd_(#115) (0.02s)
         enrich_script_test.go:85: got "", bom-enrich.py not found — probed:
-              C:\Users\jlc\.claude\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\.codex\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\design-hardware\scripts\bom-enrich.py
+              C:\Users\jlc\.claude\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\.codex\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\design-hardware\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\.agents\skills\design-hardware\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\.agents\skills\design-hardware\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\.agents\skills\easycirq\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\.agents\skills\design-hardware\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\.agents\skills\easycirq\scripts\bom-enrich.py
               C:\Users\jlc\AppData\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\Users\jlc\AppData\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
               C:\Users\jlc\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\Users\jlc\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\.agents\skills\design-hardware\scripts\bom-enrich.py
+              C:\Users\.agents\skills\easycirq\scripts\bom-enrich.py
               C:\Users\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\Users\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\.agents\skills\design-hardware\scripts\bom-enrich.py
+              C:\.agents\skills\easycirq\scripts\bom-enrich.py
               C:\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\design-hardware\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\easycirq\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\design-hardware\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\easycirq\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\zhigou-agent\scripts\bom-enrich.py
               C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
               $PATH/bom-enrich.py
-            pass --script /path/to/bom-enrich.py, set ZHIGOU_SKILLS_DIR to your skills root, or install the skill (`zhigou skill sync --create-missing`); want "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptPriority3414541719\\001\\.claude\\skills\\design-hardware\\scripts\\bom-enrich.py"
+            pass --script /path/to/bom-enrich.py, set ZHIGOU_SKILLS_DIR to your skills root, or install the skill (`zhigou skill sync --create-missing`); want "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptPriority3414541719\\001\\.claude\\skills\\easycirq\\scripts\\bom-enrich.py"
 --- FAIL: TestResolveEnrichScriptNotFoundListsProbedPaths (0.03s)
-    enrich_script_test.go:135: error must mention "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\\001\\.claude\\skills\\design-hardware\\scripts\\bom-enrich.py"; got:
+    enrich_script_test.go:135: error must mention "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\\001\\.claude\\skills\\easycirq\\scripts\\bom-enrich.py"; got:
         bom-enrich.py not found — probed:
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\.claude\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\.codex\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\.claude\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\.codex\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
           C:\Users\jlc\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
           $PATH/bom-enrich.py
         pass --script /path/to/bom-enrich.py, set ZHIGOU_SKILLS_DIR to your skills root, or install the skill (`zhigou skill sync --create-missing`)
-    enrich_script_test.go:135: error must mention "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\\001\\.codex\\skills\\design-hardware\\scripts\\bom-enrich.py"; got:
+    enrich_script_test.go:135: error must mention "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\\001\\.codex\\skills\\easycirq\\scripts\\bom-enrich.py"; got:
         bom-enrich.py not found — probed:
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\.claude\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\.codex\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\.claude\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\.codex\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
           C:\Users\jlc\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\design-hardware\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\easycirq\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\zhigou-agent\scripts\bom-enrich.py
           C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
           $PATH/bom-enrich.py
@@ -2561,30 +2561,30 @@ Flags:
       --report string   separate JSON report; defaults to stdout
 
 FAIL
-FAIL	github.com/zsx3896926/hardware-design-skill/runtime/internal/app	133.165s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks	1.160s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity	1.584s
+FAIL	github.com/zsx3896926/EasyCirq/runtime/internal/app	133.165s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/blocks	1.160s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/connectivity	1.584s
 --- FAIL: TestExplicitSaveHTTPInFlightKeepsNewMutationPending (0.01s)
     autosave_dispatch_test.go:254: explicit save canceled a mutation newer than its request
 --- FAIL: TestExplicitSaveCancelsOnlyConfirmedOlderTarget (0.00s)
     autosave_identity_test.go:115: explicit save canceled a mutation newer than the request
 FAIL
-FAIL	github.com/zsx3896926/hardware-design-skill/runtime/internal/daemon	9.097s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/pcb/svgimport	2.194s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol	1.750s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard	1.997s
+FAIL	github.com/zsx3896926/EasyCirq/runtime/internal/daemon	9.097s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/pcb/svgimport	2.194s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/protocol	1.750s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/schguard	1.997s
 --- FAIL: TestUpdateCLIReplacesBinaryAndVerifiesChecksum (0.01s)
     cli_test.go:122: replacement is not executable (mode -rw-rw-rw-)
 --- FAIL: TestLocalBundleChecksContentsNotMarkers (0.01s)
-    local_test.go:47: unsafe skill entry: design-hardware/references/test.md
+    local_test.go:47: unsafe skill entry: easycirq/references/test.md
 FAIL
-FAIL	github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate	3.266s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/spec	0.854s
-?   	github.com/zsx3896926/hardware-design-skill/runtime/internal/version	[no test files]
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow	1.389s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/enclosure	2.586s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcblayout	2.187s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbmodel	2.170s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbrouting	2.204s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbsolve	0.673s
+FAIL	github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate	3.266s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/spec	0.854s
+?   	github.com/zsx3896926/EasyCirq/runtime/internal/version	[no test files]
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/workflow	1.389s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/enclosure	2.586s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/pcblayout	2.187s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/pcbmodel	2.170s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/pcbrouting	2.204s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/pcbsolve	0.673s
 FAIL

@@ -5,7 +5,7 @@
 - Worktree/branch: `feat/parallel-circuit-blocks`, base main `9a951ed`
   (source version 1.0.1). One independent PR; **not merged, not released, not
   installed**.
-- PR: https://github.com/zsx3896926/hardware-design-skill/pull/44 (open, not
+- PR: https://github.com/zsx3896926/EasyCirq/pull/44 (open, not
   merged). Six modules work end-to-end (`list` → `describe` → `generate` → `validate`,
   plus `compose`): `led_indicator`, `button_input`, `open_drain_pullup`,
   `adc_divider`, `low_side_nmos`, `ldo_supply`.
@@ -33,7 +33,7 @@
 ## Try it
 
 ```powershell
-$env:PYTHONPATH = "design-hardware/scripts"
+$env:PYTHONPATH = "easycirq/scripts"
 python -m circuit_blocks list
 python -m circuit_blocks describe adc_divider
 python -m circuit_blocks generate low_side_nmos --example --summary

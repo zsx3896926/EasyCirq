@@ -7,13 +7,13 @@ its attribution and applicable license. This project is independently maintained
 
 EasyEDA ecosystem integration:
 - Selected easyeda/easyeda-format-skill schemas are redistributed under their
-  original MIT license, retained in design-hardware/vendor/easyeda-format/LICENSE.
+  original MIT license, retained in easycirq/vendor/easyeda-format/LICENSE.
 - Independent adapters and algorithm implementations reference EasyEDA projects
   eext-quick-equal-length, eext-design-rule-generator, eext-batch-data-export,
   eext-ai-reuse-block-placement and easyeda-viewer (Apache-2.0 upstream).
 - API/CLI documentation is indexed from user-provided local sources, not bundled.
 Pinned revisions, source paths and implementation limits are recorded in
-  design-hardware/assets/ecosystem/registry.json and references/ecosystem-*.md.
+  easycirq/assets/ecosystem/registry.json and references/ecosystem-*.md.
 These integrations do not change the licenses of third-party work.
 
 Integrated EDA toolchain (智构自有执行层, from v0.2.0-integrated):

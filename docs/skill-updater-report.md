@@ -4,7 +4,7 @@
 
 版本 0.8.0，基于 main eef9a1b 的 0.7.0（保留并行诊断修复）。
 
-- `design-hardware/scripts/skill_update.py`：托管安装、稳定版检查/升级、修复、回退、恢复、包构建、交互菜单。
+- `easycirq/scripts/skill_update.py`：托管安装、稳定版检查/升级、修复、回退、恢复、包构建、交互菜单。
 - `distribution/Manage-Skill.cmd`：Windows 双击入口，验证 Python 运行时后启动；不依赖 PowerShell 脚本策略。
 - `distribution/Manage-Skill.ps1`：允许 PowerShell 脚本时的参数化入口。
 - `distribution/build_release.py`：生成 391 文件 Skill ZIP、逐文件清单与独立安装器 ZIP。
