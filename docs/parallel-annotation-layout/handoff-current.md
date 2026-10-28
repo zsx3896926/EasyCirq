@@ -172,9 +172,11 @@ without introducing one.
 ## Next steps (for A / next agent)
 
 1. Push the branch and open the independent PR (do not merge/release/install).
-2. A should probe host capabilities on a page copy using
-   `integration-proposal.md` §3, then adapt its snapshot to `annotation-layout/v1`
-   §2, apply one planned attribute translation, save/reopen and read back.
+2. A should probe host capabilities on a page copy using the readiness package:
+   `integration-host-probe.md`, `integration-adapter-contract.md` and
+   `integration-apply-checklist.md`; then adapt its snapshot to
+   `annotation-layout/v1`, apply one planned attribute translation on the copy,
+   save/reopen and read back.
 3. Feed the probe result back into `host.capabilities`; only then consider a
    batch apply.  A plan is a proposal, never a write authorization.
 4. If A integrates, provide a post-apply snapshot so K's `verify` can re-check;
@@ -188,6 +190,7 @@ without introducing one.
   do not delete that folder or the source-hash validation fails (by design).
 - Never edit `tests/fixtures/photo-led-v14/` originals.
 - Keep the package Python 3.10 compatible and dependency-free.
+
 
 
 
