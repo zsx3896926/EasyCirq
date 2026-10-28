@@ -56,7 +56,7 @@ sources: [PR-75, PR-97, .github/workflows/release.yml, distribution/build_releas
 |---|---|---|
 | S1 并行落地 | 把 #75 的薄适配层（`official_cli.py` 等）作为**并行非默认**路径落地，与 `easycirq` runtime 并跑 | 薄适配层可被现有测试/基准驱动 |
 | S2 对等证明 ✅（2026-10-28 通过） | 用官方 CLI 跑完一个**真实项目**，逐 workflow 补齐对等矩阵（全部 11 个，不只 write probe） | 对等矩阵 0 空档；稳定性/错误处理无 runtime-only 回归 —— **达成，附 1 项可接受限制**：W03 几何读维持 partial，几何走官方 GUI / A `pcb dump` 兜底（见 `docs/toolchain-integration/a2-parity-diff.md` + `a2-official-partial-closure.md`） |
-| S3 冻结 ▶（当前） | 冻结 `runtime/`：停新功能，仍构建/发布作兜底 | 连续 N 个真实项目无 runtime-only 回归（**N 待 owner 定**） |
+| S3 冻结 ▶（当前） | 冻结 `runtime/`：停新功能，仍构建/发布作兜底 | 连续 **N=2** 个真实项目无 runtime-only 回归（owner 定，2026-10-28） |
 | S4 切换 | 文档/installer/tests 切到官方路径；`easycirq` 命令变薄壳或 `easycirq call` 兜底 | 切换后全量 + `offline_suite` 全绿，无断点 |
 | S5 删除 | 这时才把 `runtime/`/`connector/`/`protocol/` 当“清死代码”干净删掉（重做版 #97） | 删除后全量 + `offline_suite` + 发布流水线（skill-only）全绿 |
 
@@ -76,7 +76,7 @@ sources: [PR-75, PR-97, .github/workflows/release.yml, distribution/build_releas
 
 - **已执行**：仓库现状盘点（`runtime/` 1009 文件、`connector/`+`protocol/` 141 文件、release.yml 构建 `runtime/cmd/easycirq`）、在途 PR #75/#97 材料核对。
 - **未执行（NOT RUN）**：真实工程端到端、官方 CLI 稳定性长测、S1/S3/S4/S5 各阶段落地（S2 已通过，见 §5）。
-- **结论状态**：**S2 已通过、进入 S3（冻结）/ doc 仍 draft**。S2 对等矩阵 0 空档已达成（W03 判定为可接受已知限制）；S3 门禁（N 个真实项目无 runtime-only 回归）的 N 待 owner 定；doc 按 §7 需 S4 切换全绿后才 frozen。
+- **结论状态**：**S2 已通过、进入 S3（冻结）/ doc 仍 draft**。S2 对等矩阵 0 空档已达成（W03 判定为可接受已知限制）；S3 门禁已定 **N=2**（连续 2 个真实项目无 runtime-only 回归）；doc 按 §7 需 S4 切换全绿后才 frozen。
 - **不能证明**：本记录不证明官方 CLI 与自建 runtime 已对等，不证明删除无回退风险，不证明硬件/EDA 工程已验证。
 
 ## 9. 与在途 PR 的关系（2026-10-28 已按“不退 A”收口）
