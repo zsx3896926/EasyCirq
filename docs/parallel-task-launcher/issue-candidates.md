@@ -29,7 +29,7 @@ A owner 决策，**本任务均未实现**，建议主分支单独跟进。
 | `IC-13` · [#90](https://github.com/zsx3896926/EasyCirq/issues/90) | **结果/状态字段命名不一致**：start 响应 `agent="claude"`，result 中 `agent="claude-code"`；`agent_profile` 另有一套值 | contract.md §1.3.2 / §6.2；`task_launcher/tasks.py` 的映射 | 契约 v2 统一（例如 `agent_profile` 固定 `fake`/`claude`，`agent` 固定 `fake`/`claude-code` 并只出现一次）；或至少在文档显式标注两处差异（本任务已在 contract §6.2 标注，但客户端仍易误用） | 低 | 契约变更 |
 | `IC-14` · [#91](https://github.com/zsx3896926/EasyCirq/issues/91) | **Windows/跨平台验收不完整**：本机只在 Windows + Python 3.13 跑过；token 文件 0600 在 Windows 仅为 best-effort；POSIX `killpg` 路径由 CI 覆盖但尚未跑过 | 本任务环境（Windows 本机、Python 3.13.15）；`tests/task_launcher_tests/support.py` 的 Windows/POSIX 分支；contract.md §8.4 | 合并后确认 CI（ubuntu 3.10/3.13）全绿；补一轮 macOS/Windows 冒烟；token 文件权限按平台写清威胁模型；如需强隔离，改为 daemon 持有 token（见 integration-proposal §3.1） | 中 | 平台验证属 M4/CI 与后续维护 |
 | `IC-15` · [#92](https://github.com/zsx3896926/EasyCirq/issues/92) | **任务书 §3.3 示例本身不合法**：示例 `snapshot_sha256: null` 但 `missing_fields` 未含 `"snapshot_sha256"`，按实现会被 422 | 任务书 `b1-task-launcher-task-book.md` §3.3 示例；contract.md §12.1 第 1 行；`protocol.py` 的 `_validate_context` | 修正任务书示例（或明确“缺失时必须声明”的示例写法），避免后续读者照抄被 422 | 低 | 任务书在仓库外/由任务 owner 维护；本任务用 contract.md 修正版示例替代 |
-| `IC-16` · [#93](https://github.com/zsx3896926/EasyCirq/issues/93) | **A 的全量测试会写仓库内证据文件**：`python -m unittest discover -s tests` 会向已跟踪的 `docs/toolchain-integration/evidence/installer/install-lifecycle.log` 追加约 130 行，导致干净 checkout 的 `git status` 变脏 | 本任务 M4 实测：全量套件后该文件出现 132 行新增（12:01:56 起）；已用 `git checkout --` 在提交前还原 | 建议 A owner 让该测试把日志写到显式 `--evidence-out`/临时目录，或在测试内先备份/恢复；CI 无影响（工作树一次性），但本地开发与“全量套件后 git 必须干净”的检查会受影响 | 中 | 属于 A 的测试与证据约定；本任务不修改 `docs/toolchain-integration/**` |
+| `IC-16` · [#93](https://github.com/zsx3896926/EasyCirq/issues/93) | **A 的全量测试会写仓库内证据文件**：`python -m unittest discover -s tests` 会向已跟踪的 `docs/toolchain-integration/evidence/installer/install-lifecycle.log` 追加约 130 行，导致干净 checkout 的 `git status` 变脏 | 本任务 M4 实测：全量套件后该文件出现 132 行新增（12:01:56 起）；已用 `git checkout --` 在提交前还原 | 建议 A owner 让该测试把日志写到显式 `--evidence-out`/临时目录，或在测试内先备份/恢复；CI 无影响（工作树一次性），但本地开发与“全量套件后 git 必须干净”的检查会受影响 | 中 | 属于 A 的测试与证据约定；**已由 #102 修复**（日志默认写临时目录，`EASYCIRQ_INSTALL_EVIDENCE_LOG` 显式刷新仓库证据） |
 | `IC-17`（已修复，未开 issue） | **冻结用例 toolchain 版本硬编码**（已在本任务修复，记录模式）：原 case 写死 `skill="1.0.1"`，main 升级到 1.0.2 后 5 个 case 失败 | `benchmarks/task-launcher/cases/*/request.json`；`run_benchmark.py::_resolve_toolchain_placeholders`；`tests/task_launcher_tests/support.py::resolve_frozen_case_request` | 保持 `@launcher/@skill/@plugin` 占位符约定；新增 case 不要硬编码版本（版本不一致 case 除外，必须用字面错误值） | 低 | 已在本任务内修复并回归（见 §2） |
 
 ### 1.1 已创建 GitHub issue 索引（2026-10-28）
@@ -53,12 +53,15 @@ A owner 决策，**本任务均未实现**，建议主分支单独跟进。
 | IC-13 | [#90](https://github.com/zsx3896926/EasyCirq/issues/90) `agent`/`agent_profile` 命名统一 | open |
 | IC-14 | [#91](https://github.com/zsx3896926/EasyCirq/issues/91) 跨平台冒烟与 token 权限威胁模型 | open |
 | IC-15 | [#92](https://github.com/zsx3896926/EasyCirq/issues/92) 任务书 §3.3 示例与严格 schema 不一致 | open |
-| IC-16 | [#93](https://github.com/zsx3896926/EasyCirq/issues/93) 全量测试追加写已跟踪证据日志 | open |
+| IC-16 | [#93](https://github.com/zsx3896926/EasyCirq/issues/93) 全量测试追加写已跟踪证据日志 | **closed**（#102，`7fd9e57`） |
 | IC-02 | —（已在 M4 rebase 解决） | closed |
 | IC-17 | —（已在本 PR 修复并回归） | fixed |
 
-> 说明：issue 仅记录范围外后续事项，不改变本 PR「只读 PoC、不合并、不发版」的边界；
-> 真实 Claude / 真实 EDA / 硬件实测仍保持 `NOT RUN`。
+> 说明：issue 仅记录范围外后续事项，不改变 B1 PoC 的只读/不发版边界；真实 Claude / 真实 EDA /
+> 硬件实测仍保持 `NOT RUN`。
+> 状态回填：**IC-16 / #93 已由 #102 修复并关闭**（合并提交 `7fd9e57`）：生命周期 JSONL 记账默认写
+> 临时目录，仅当显式设置 `EASYCIRQ_INSTALL_EVIDENCE_LOG` 时刷新仓库证据；新增防回归测试保证
+> 全量套件后工作树不再变脏。
 
 ---
 
