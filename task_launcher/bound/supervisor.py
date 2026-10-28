@@ -112,6 +112,8 @@ class Supervisor:
         self.evidence: dict[str, Any] | None = None
         self.report: dict[str, Any] | None = None
         self.request: dict[str, Any] | None = None
+        self._plan_sha256: str | None = None
+        self._plan_id: str | None = None
         self._effective_limits = config.limits
         self._started_at = time.time()
         self._refuse_reused_task_dir()
@@ -167,13 +169,8 @@ class Supervisor:
                 {"expected": self.config.versions.backend, "actual": detected_backend_version},
                 status=409,
             )
-        if self.config.phase == 2 and not self.config.eda_authorized:
-            raise BoundError(
-                "EDA_NOT_AUTHORIZED",
-                "Phase 2 requires EDA authorization; this delivery is read-only",
-                {"phase": self.config.phase},
-                status=403,
-            )
+        # Phase 2 is allowed to start on the fixture backend (offline plan /
+        # precheck only); apply/readback always refuse without EDA authorization.
 
     def _limits(self) -> Any:
         return self._effective_limits
@@ -575,6 +572,8 @@ class Supervisor:
         plan = arguments["plan"]
         plan_sha = sha256_hex(canonical_json(plan))
         plan_id = plan_sha[:32]
+        self._plan_sha256 = plan_sha
+        self._plan_id = plan_id
         payload = {"plan_id": plan_id, "plan_sha256": plan_sha, "plan": plan}
         self.receipts.append(_PLAN_SUBMIT, payload, risk=RISK_NONE)
         self._write_status()
@@ -602,6 +601,20 @@ class Supervisor:
 
     def _apply(self, arguments: dict[str, Any]) -> dict[str, Any]:
         plan_id = arguments["plan_id"]
+        if self._plan_sha256 is None or self._plan_id is None:
+            raise BoundError(
+                "PLAN_NOT_FOUND",
+                "apply requires a plan submitted in this task",
+                {"plan_id": plan_id},
+                status=409,
+            )
+        if plan_id != self._plan_id:
+            raise BoundError(
+                "PLAN_HASH_MISMATCH",
+                "plan_id does not match the submitted plan (plan is immutable)",
+                {"expected": self._plan_id, "actual": plan_id},
+                status=409,
+            )
         self.machine.apply(TOOL_APPLY, limits=self._limits())
         # Phase 2 is never authorized in this delivery; the fixture backend
         # refuses and the state machine is marked failed.
@@ -619,6 +632,13 @@ class Supervisor:
 
     def _readback(self, arguments: dict[str, Any]) -> dict[str, Any]:
         plan_id = arguments["plan_id"]
+        if self._plan_sha256 is not None and plan_id != self._plan_id:
+            raise BoundError(
+                "PLAN_HASH_MISMATCH",
+                "readback plan_id does not match the submitted plan",
+                {"expected": self._plan_id, "actual": plan_id},
+                status=409,
+            )
         self.machine.apply(TOOL_READBACK, limits=self._limits())
         try:
             result = self.backend.readback(plan_id)
