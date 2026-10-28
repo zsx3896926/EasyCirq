@@ -2,7 +2,7 @@
 	"name": "zhigou-connector",
 	"uuid": "9511dbc464364e48b6c9047872a82e12",
 	"displayName": "智构 · EasyCirq 连接器",
-	"description": "智构 · EasyCirq EDA connector: bridges the local Zhigou runtime daemon to the official eda.* API over a local WebSocket. Derived from easyeda-agent (MIT) — see NOTICE.",
+	"description": "智构 · EasyCirq 连接器：把本机 zhigou 运行时的绘图/检查请求转成 EasyEDA 官方 eda.* API 调用。仅本机回环（127.0.0.1），不联网、无遥测；需要在扩展设置里允许「外部交互」。用法与排障见 connector/README.md（Derived from easyeda-agent, MIT — see NOTICE）。",
 	"version": "0.1.4",
 	"publisher": "zsx3896926",
 	"engines": {
