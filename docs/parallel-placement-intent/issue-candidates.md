@@ -6,13 +6,13 @@
 
 检查范围：
 
-- `design-hardware/scripts/design_engine/pcb_workflow.py`（`plan_candidates`、
+- `easycirq/scripts/design_engine/pcb_workflow.py`（`plan_candidates`、
   `template_placements`、`bind_template` 等，只读）
-- `design-hardware/scripts/pcb_apply_plan.py`（`merge_module_plans`、`--module-plan`）
-- `design-hardware/scripts/sch_layout_model.py`（`--module-plan`）
-- `design-hardware/assets/pcb-placement-templates.json`
-- `design-hardware/assets/layout-modules/*.module-plan.json`
-- `design-hardware/references/design-engine.md`、`pcb-execution.md`、
+- `easycirq/scripts/pcb_apply_plan.py`（`merge_module_plans`、`--module-plan`）
+- `easycirq/scripts/sch_layout_model.py`（`--module-plan`）
+- `easycirq/assets/pcb-placement-templates.json`
+- `easycirq/assets/layout-modules/*.module-plan.json`
+- `easycirq/references/design-engine.md`、`pcb-execution.md`、
   `offline-regression.md`
 
 ## IC-1 两个同名 “module plan” 格式并存，语义完全不同
@@ -25,9 +25,9 @@
      `placements[]`（含绝对 `x/y/rotation/layer`）+ `base_semantic_sha256` +
      `partial:true`，表达 PCB 绝对位姿批次。
 - 证据：
-  - `design-hardware/scripts/sch_layout_model.py:163-249`（读取 zones/members、校验
+  - `easycirq/scripts/sch_layout_model.py:163-249`（读取 zones/members、校验
     `member_in_two_zones`/缺失/多余位号）；`:462-470`（`--module-plan` 必填）。
-  - `design-hardware/scripts/pcb_apply_plan.py:184-239`（`merge_module_plans` 只接受
+  - `easycirq/scripts/pcb_apply_plan.py:184-239`（`merge_module_plans` 只接受
     `placements`/`base_semantic_sha256`/`partial` 等字段并校验批次一致性）；
     `:1348-1349`（`--module-plan` 可重复一次传入多个 module batch）。
 - 影响：人类/LLM 看到 “module plan” 容易把一种格式传给另一种命令；两者的“模块”
@@ -44,7 +44,7 @@
   `tests/test_pcb_module_batch.py::test_cross_module_collision_refuses`），但**无法
   发现**“两个模块的绝对位姿各自合法、却与上游模板/人工意图的相对关系矛盾”（例如
   模板要求去耦电容在核心下方 300 mil，实际批次放在上方，两者都满足硬几何）。
-- 证据：`design-hardware/scripts/pcb_apply_plan.py:184-239`（只做批次字段一致性，
+- 证据：`easycirq/scripts/pcb_apply_plan.py:184-239`（只做批次字段一致性，
   无相对约束）；`tests/test_pcb_module_batch.py`（覆盖哈希/重叠/scope/project 冲突，
   无相对意图用例）。
 - 影响：模块批次的“意图”只存在于生成它的工具/人脑里，交接后不可复核；出错时只能靠
@@ -60,10 +60,10 @@
   相对量（不随核心旋转），而放置意图 CCG 的边是“`to` 相对 `from`、随 `from` 旋转”
   的节点相对量。把 `frame: board` 模板直接映射成 CCG 边（`from=core`）会丢失语义，
   除非集成层先知道核心的绝对朝向并做换算。
-- 证据：`design-hardware/assets/pcb-placement-templates.json` 的 `note`
+- 证据：`easycirq/assets/pcb-placement-templates.json` 的 `note`
   （"Offsets are relative, in mil, in the template/core frame; they are rotated with
   the core"）与三个模板的 `"frame": "board"`：`connector-protection-core`、
-  `mcu-debug`、`dual-channel-switch-led`；`design-hardware/references/pcb-execution.md`
+  `mcu-debug`、`dual-channel-switch-led`；`easycirq/references/pcb-execution.md`
   §4 绑定规则 4（`frame: core` 随核心旋转；`frame: board` 保持板坐标流向）。
   偏移条目本身只有 `role/dx/dy/rotation/unit`，**没有 per-entry frame 标记**。
 - 影响：集成映射时若不处理 `frame`，会生成“数值对但语义错”的 CCG；本任务不能用
@@ -78,7 +78,7 @@
   相对项全部带 `unit:"mil"`）；放置意图输入用顶层 `units.length` 声明单位、字段名
   带 `_mm` 后缀，并在读入时统一换算成 mm。两者若在适配层混用，容易出现“数值没换算/
   重复换算”的错误，而 JSON 本身不会报错。
-- 证据：`design-hardware/assets/pcb-placement-templates.json` 的 `relative[]`；
+- 证据：`easycirq/assets/pcb-placement-templates.json` 的 `relative[]`；
   `docs/parallel-placement-intent/contract.md` §2.3、§9（单位换算只做一次）。
 - 影响：集成适配层是唯一换算点，缺测试时可能把 400 mil 当 400 mm。
 - 建议（不在本任务范围）：在集成层提供转换函数 + 金标准用例（`400 mil ↔ 10.16 mm`），
@@ -93,7 +93,7 @@
   子项 AABB 的并集；若允许“锚点 = 包络某个角”，则“帧原点”与“包络角点”之间会出现
   循环定义——包络取决于子项位置，子项位置又依赖父帧锚点。
 - 证据：`docs/parallel-placement-intent/contract.md` §1、§4.1（v1 固定 `top-left`）；
-  `design-hardware/scripts/placement_intent/__init__.py` 的
+  `easycirq/scripts/placement_intent/__init__.py` 的
   `SUPPORTED_ANCHORS = ("top-left",)`；`cli.py` 对其它 anchor 返回 exit 4。
 - 影响：v1 的契约是自洽的（固定锚点、bbox 不归一），但如果下游需要 right/bottom/center
   锚点（例如对齐习惯或与宿主坐标约定一致），当前没有可用路径。
@@ -105,7 +105,7 @@
 ## 未越界声明
 
 - 以上事项**未修改** `design_engine/`、`pcb_apply_plan.py`、`sch_layout_model.py`、
-  `assets/`、`references/`、`SKILL.md`、`zhigou_mcp/` 或任何共享入口；也未提交
+  `assets/`、`references/`、`SKILL.md`、`easycirq_mcp/` 或任何共享入口；也未提交
   任何补丁到这些路径。
 - 本任务新增的 `placement_intent` 包与测试/基准/文档均在允许路径内；集成由后续 PR
   实施。

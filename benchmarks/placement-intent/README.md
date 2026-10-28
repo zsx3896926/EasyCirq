@@ -6,7 +6,7 @@
 EDA/daemon/connector/网络、不读 `.epro2`、不写任何工程。
 
 - 契约（权威）：`docs/parallel-placement-intent/contract.md`
-- 实现：`design-hardware/scripts/placement_intent/`（本目录只以子进程调用）
+- 实现：`easycirq/scripts/placement_intent/`（本目录只以子进程调用）
 - 任务书：`placement-intent-task-book.md` §8（冻结基准）、§10（验收）、§13（假通过反例）
 
 ## 1. 复跑命令
@@ -47,7 +47,7 @@ $ python benchmarks/placement-intent/run_benchmark.py --runs 2
 | 文件 | 说明 |
 |---|---|
 | `cases/<name>/input.json` | 冻结输入场景（UTF-8、LF）。部分非法用例保存原始文本（重复 JSON 键、`NaN` 字面量）。 |
-| `expected.json` | `zhigou.placement-intent.benchmark-cases/v1`；每 case：`input_sha256`/`input_bytes`/`source_class`/`basis`（手算或推导）/`command`/`exit_code`/`status`/`required_findings`/`required_unknown_codes`/`required_unknowns`/`assertions`/`forbidden_*`。 |
+| `expected.json` | `easycirq.placement-intent.benchmark-cases/v1`；每 case：`input_sha256`/`input_bytes`/`source_class`/`basis`（手算或推导）/`command`/`exit_code`/`status`/`required_findings`/`required_unknown_codes`/`required_unknowns`/`assertions`/`forbidden_*`。 |
 | `run_benchmark.py` | 真实子进程驱动器；冻结输入 hash、exit/status/finding/unknown/bbox 断言；输出 `results.json`。 |
 | `results.json` | 冻结的运行结果：`simulated:true`、`real_eda:"NOT RUN"`、`eda_calls:0`、`implementation{git_commit,…}`、`correctness{passed,total,cases}`、`coverage`、`timing`、`limits`、`not_covered`。 |
 | `derive_mcu_i2c_plan.py` | `derived-mcu-i2c-plan` 的离线派生脚本（只读源 JSON，不写源目录）。 |
@@ -149,9 +149,9 @@ derived 1、holdout 4（其中 2 个反例）。分布：`planned_with_scope` 6�
 `cases/derived-mcu-i2c-plan/input.json`）。
 
 - 源（真实 SHA-256，冻结写入 `provenance.sources[].sha256`）：
-  - `design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/placement-plan.json`
+  - `easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/placement-plan.json`
     SHA-256 `fdef702e8295a4e506e982dc027747add402cd6793dbed7511f63ea52d5446b3`（7425 B）
-  - `design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md`
+  - `easycirq/cases/mcu-i2c-s3-2026-10-26/README.md`
     SHA-256 `676cbb51ba342325eda5d3ee8e9072f6d9b48e0464074e76c231209b31f41899`
     （板框 2590×1771.7 mil 由该报告引用）
 - 派生逻辑：

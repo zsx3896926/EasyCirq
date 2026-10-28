@@ -12,11 +12,11 @@
 
 | # | 验收项 | 证据（测试/基准/命令） | 结果 |
 |---|---|---|---|
-| A1 | 仅新增允许路径内文件；`git diff --name-status origin/main...HEAD` 全部为 `A` | 提交后运行 `git diff --name-status origin/main...HEAD`；允许路径：`design-hardware/scripts/placement_intent/`、`tests/placement_intent_tests/`、`benchmarks/placement-intent/`、`docs/parallel-placement-intent/` | **PASS**：仅 `A`（详见 `handoff-current.md` §允许路径核对） |
+| A1 | 仅新增允许路径内文件；`git diff --name-status origin/main...HEAD` 全部为 `A` | 提交后运行 `git diff --name-status origin/main...HEAD`；允许路径：`easycirq/scripts/placement_intent/`、`tests/placement_intent_tests/`、`benchmarks/placement-intent/`、`docs/parallel-placement-intent/` | **PASS**：仅 `A`（详见 `handoff-current.md` §允许路径核对） |
 | A2 | 专属测试全绿，测试数 ≥ 50 | `python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.py"` | **PASS**：`Ran 239 tests ... OK`，exit 0（约 46 s） |
 | A3 | 官方全量 `python -m unittest discover -s tests` 全绿（含新测试被发现，无 import 遮蔽/回归） | `python -m unittest discover -s tests` | **PASS**（真实数字见 `report.md` §3） |
 | A4 | 基准 ≥ 20/20、exit 0、`real_eda=NOT RUN`、`eda_calls=0` | `python benchmarks/placement-intent/run_benchmark.py` | **PASS**：38/38，exit 0；`real_eda="NOT RUN"`、`eda_calls=0`、`simulated=true` |
-| A5 | `skill_selftest.py` 5 PASS / 0 FAIL | `python design-hardware/scripts/skill_selftest.py` | **PASS**：`5 PASS, 0 FAIL, 0 NOT RUN -> exit 0` |
+| A5 | `skill_selftest.py` 5 PASS / 0 FAIL | `python easycirq/scripts/skill_selftest.py` | **PASS**：`5 PASS, 0 FAIL, 0 NOT RUN -> exit 0` |
 | A6 | CI（Python 3.10 与 3.13）在 PR HEAD 上全绿 | 仓库 `.github/workflows/validate.yml`（matrix `3.10`/`3.13`）在 PR HEAD 的 `validate` 结果 | **NOT RUN（本机）**：本机只有 3.13.15，3.10 仅能由 CI 验证；PR 打开后由 Lead 确认 CI 结果 |
 | A7 | 清洁 checkout（`git archive` 或新 worktree）可复现测试与基准 | `git archive HEAD \| tar -x -C <临时目录>` 后在临时目录重跑 A2/A4 | **PASS**（见 `report.md` §5；清洁副本与 worktree 结果一致） |
 | A8 | 文档完整，明确 NOT RUN：EDA/宿主 DRC/保存重开/路由/EM 仿真/制造/实物 | 本目录 9 个文件（`contract.md` + 8 个任务文档）+ 每个 plan/validation 输出固定字段 | **PASS**：`not_checked`/`limits`/`real_eda`/`eda_calls`/`placement_applied`/`routing_verified`/`physical_validation` 均在输出与文档中 |
@@ -45,7 +45,7 @@
 | # | 要求 | 证据 | 结果 |
 |---|---|---|---|
 | B1 | `cases/` ≥ 20 个冻结场景（正例/仅约束/矛盾/非法/unknown/变形/holdout） | `benchmarks/placement-intent/cases/` 共 **38** 个；`expected.json` 冻结每个场景的 exit/status/finding/unknown/bbox 容差断言 | **PASS**：38 个 |
-| B2 | 至少 1 个 `derived` 场景（从 `design-hardware/cases/mcu-i2c-s3-2026-10-26/` 只读派生，记录派生脚本/源 SHA-256/单位换算） | `benchmarks/placement-intent/cases/derived-mcu-i2c-plan/` + `derive_mcu_i2c_plan.py`；`provenance.kind="derived"`、`sources[].sha256` 记录源文件哈希；单位 mil→mm | **PASS** |
+| B2 | 至少 1 个 `derived` 场景（从 `easycirq/cases/mcu-i2c-s3-2026-10-26/` 只读派生，记录派生脚本/源 SHA-256/单位换算） | `benchmarks/placement-intent/cases/derived-mcu-i2c-plan/` + `derive_mcu_i2c_plan.py`；`provenance.kind="derived"`、`sources[].sha256` 记录源文件哈希；单位 mil→mm | **PASS** |
 | B3 | 至少 4 个 holdout（独立设计，含 2 个反例） | `holdout-crossmod-identity-rot180`、`holdout-fixed-distance-conflict`（反例）、`holdout-missing-frame`、`holdout-unit-disguise`（反例） | **PASS**：4 个，2 反例 |
 | B4 | `run_benchmark.py` 真实子进程调用 CLI，输出 `results.json`（`simulated:true`、`real_eda:"NOT RUN"`、`eda_calls:0`、逐 case、timing、limits） | `python benchmarks/placement-intent/run_benchmark.py` → `results.json` | **PASS**：`status=pass`、`correctness=38/38`、`simulated=true`、`real_eda="NOT RUN"`、`eda_calls=0`；timing 注明“成本，不是提速声明” |
 | B5 | 100% 可复现（清洁 checkout、Windows/Linux）；换行敏感文件加 `.gitattributes` | `benchmarks/placement-intent/.gitattributes`（`* text eol=lf`）；清洁副本复跑见 `report.md` §5 | **PASS**（Windows 清洁副本）；Linux 由 CI 复跑 |

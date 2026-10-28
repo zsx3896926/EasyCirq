@@ -4,8 +4,8 @@
 The derivation is a pure text transform of two read-only files that already
 live in this repository::
 
-    design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/placement-plan.json
-    design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md
+    easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/placement-plan.json
+    easycirq/cases/mcu-i2c-s3-2026-10-26/README.md
 
 It never reads ``*.epro2``, never starts EDA / daemon / connector, never touches
 the network and never writes into the source case directory.  The only output is
@@ -41,7 +41,7 @@ from pathlib import Path
 
 BENCH = Path(__file__).resolve().parent
 ROOT = BENCH.parents[1]
-SOURCE_CASE = ROOT / "design-hardware" / "cases" / "mcu-i2c-s3-2026-10-26"
+SOURCE_CASE = ROOT / "easycirq" / "cases" / "mcu-i2c-s3-2026-10-26"
 SOURCE_PLAN = SOURCE_CASE / "evidence" / "placement-plan.json"
 SOURCE_README = SOURCE_CASE / "README.md"
 OUTPUT = BENCH / "cases" / "derived-mcu-i2c-plan" / "input.json"
@@ -167,14 +167,14 @@ def build_input():
     plan_sha = sha256_file(SOURCE_PLAN)
     readme_sha = sha256_file(SOURCE_README)
     return {
-        "schema": "zhigou.placement-intent.input/v1",
+        "schema": "easycirq.placement-intent.input/v1",
         "project": {
             "project_id": "mcu-i2c-s3-20261026-derived",
             "revision": "derived-r1",
             "document_id": "placement-plan",
         },
         "snapshot": {
-            "schema": "zhigou.placement-intent.snapshot/v1",
+            "schema": "easycirq.placement-intent.snapshot/v1",
             "captured_at": "2026-10-26T00:00:00+08:00",
             "content_sha256": plan_sha,
             "source_type": "derived",
@@ -195,14 +195,14 @@ def build_input():
             "kind": "derived",
             "sources": [
                 {
-                    "ref": "design-hardware/cases/mcu-i2c-s3-2026-10-26/"
+                    "ref": "easycirq/cases/mcu-i2c-s3-2026-10-26/"
                            "evidence/placement-plan.json",
                     "sha256": plan_sha,
                     "note": "absolute mil placements of 23 designators; "
                             "derived into relative CCG offsets offline",
                 },
                 {
-                    "ref": "design-hardware/cases/mcu-i2c-s3-2026-10-26/"
+                    "ref": "easycirq/cases/mcu-i2c-s3-2026-10-26/"
                            "README.md",
                     "sha256": readme_sha,
                     "note": "board outline 2590 x 1771.7 mil quoted from the "

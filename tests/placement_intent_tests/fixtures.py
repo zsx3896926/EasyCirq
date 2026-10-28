@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import copy
 
-SCHEMA_INPUT = "zhigou.placement-intent.input/v1"
+SCHEMA_INPUT = "easycirq.placement-intent.input/v1"
 SNAPSHOT_SHA = "0123456789abcdef" * 4  # 64 lowercase hex characters
 CAPTURED_AT = "2026-10-27T09:00:00+08:00"
 

@@ -22,7 +22,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 IMPLEMENTATION = SCRIPTS / "placement_intent"
 TOOL_VERSION = "0.1.0"
 
@@ -389,7 +389,7 @@ class CliTestCase(unittest.TestCase):
         self.assertEqual(payload.get("exit_code"), 2,
                          msg="embedded exit_code must be 2\n" + result.context())
         self.assertEqual(payload.get("schema"),
-                         "zhigou.placement-intent.validation/v1",
+                         "easycirq.placement-intent.validation/v1",
                          msg=result.context())
         codes = finding_codes(payload)
         for expected in expected_codes:

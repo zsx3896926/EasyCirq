@@ -89,7 +89,7 @@ def _parse_failure_payloads(what, path, raw, digest, message):
     input_meta = _input_meta(path, raw, digest)
     if what == "validate":
         payload = {
-            "schema": "zhigou.placement-intent.validation/v1",
+            "schema": "easycirq.placement-intent.validation/v1",
             "tool": {"name": TOOL_NAME, "version": TOOL_VERSION,
                      "min_python": "3.10", "deterministic": True},
             "status": "invalid",
@@ -114,7 +114,7 @@ def _parse_failure_payloads(what, path, raw, digest, message):
         }
         return payload, 2
     payload = {
-        "schema": "zhigou.placement-intent.plan/v1",
+        "schema": "easycirq.placement-intent.plan/v1",
         "tool": {"name": TOOL_NAME, "version": TOOL_VERSION,
                  "min_python": "3.10", "deterministic": True},
         "status": "invalid_input",
@@ -231,7 +231,7 @@ def cmd_explain(args):
     raw, digest, input_meta, model, bundle, error = _normalize_pipeline(args.input)
     if error is not None:
         payload = {
-            "schema": "zhigou.placement-intent.explain/v1",
+            "schema": "easycirq.placement-intent.explain/v1",
             "tool": {"name": TOOL_NAME, "version": TOOL_VERSION},
             "input": input_meta,
             "subject": {"type": "unknown", "id": None},
@@ -256,7 +256,7 @@ def cmd_explain(args):
         subject_type = "module"
     if not model.get("ok"):
         payload = {
-            "schema": "zhigou.placement-intent.explain/v1",
+            "schema": "easycirq.placement-intent.explain/v1",
             "tool": {"name": TOOL_NAME, "version": TOOL_VERSION},
             "input": input_meta,
             "subject": {"type": subject_type, "id": subject},

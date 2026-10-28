@@ -19,7 +19,7 @@ class PositiveValidateTests(support.CliTestCase):
         self.assertIs(payload.get("valid"), True)
         self.assertEqual(payload.get("exit_code"), 0)
         self.assertEqual(payload.get("schema"),
-                         "zhigou.placement-intent.validation/v1")
+                         "easycirq.placement-intent.validation/v1")
         self.assertEqual(payload.get("findings"), [])
         self.assertEqual(payload.get("unknowns"), [])
 
@@ -89,7 +89,7 @@ class PositivePlanTests(support.CliTestCase):
     def test_plan_status_and_schema(self):
         _result, payload, _path = self.plan()
         self.assertEqual(payload.get("schema"),
-                         "zhigou.placement-intent.plan/v1")
+                         "easycirq.placement-intent.plan/v1")
         self.assertEqual(payload.get("exit_code"), 0)
         self.assertEqual(payload.get("anchor"), "top-left")
         self.assertEqual(payload.get("rotation_convention"),

@@ -12,11 +12,11 @@ TOOL_NAME = "placement_intent"
 TOOL_VERSION = "0.1.0"
 MIN_PYTHON = (3, 10)
 
-SCHEMA_INPUT = "zhigou.placement-intent.input/v1"
-SCHEMA_VALIDATION = "zhigou.placement-intent.validation/v1"
-SCHEMA_PLAN = "zhigou.placement-intent.plan/v1"
-SCHEMA_EXPLAIN = "zhigou.placement-intent.explain/v1"
-SCHEMA_ERROR = "zhigou.placement-intent.error/v1"
+SCHEMA_INPUT = "easycirq.placement-intent.input/v1"
+SCHEMA_VALIDATION = "easycirq.placement-intent.validation/v1"
+SCHEMA_PLAN = "easycirq.placement-intent.plan/v1"
+SCHEMA_EXPLAIN = "easycirq.placement-intent.explain/v1"
+SCHEMA_ERROR = "easycirq.placement-intent.error/v1"
 
 ROTATIONS = (0, 90, 180, 270)
 ANCHORS = ("top-left", "top-right", "bottom-left", "bottom-right", "center")

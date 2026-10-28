@@ -5,7 +5,7 @@ assertion goes through a real child process::
 
     python -m placement_intent validate|plan|explain --input ...
 
-with ``PYTHONPATH`` pointing at ``design-hardware/scripts`` and
+with ``PYTHONPATH`` pointing at ``easycirq/scripts`` and
 ``PYTHONDONTWRITEBYTECODE=1``.  This avoids the cross-package shadowing problem
 that ``python -m unittest discover -s tests`` has historically hit when a test
 package shares its name with an implementation package (see

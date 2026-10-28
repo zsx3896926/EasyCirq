@@ -39,7 +39,7 @@ CLI：读取一个 JSON 文件，校验“分层模块树（HMT）+ 相对约束
 | `source-review.md` | 论文可借鉴/不可借鉴点、仓库既有 `design_engine` 候选/模板/module-plan 与 `routing_verified=false` 的关系、证书与边界声明 |
 | `acceptance-matrix.md` | 任务书 §10 每条验收 ↔ 测试/基准/命令/真实结果；NOT RUN 单列 |
 | `report.md` | 实际命令、测试数、基准结果、skill_selftest、全量套件、清洁 checkout 复跑、已修问题、限制、真实 vs 合成边界、Python 3.10 说明 |
-| `integration-proposal.md` | 如何接入 `design_engine` module-plan/候选与 `zhigou_mcp` 工具层（本任务**不改**这些文件）；`verdict_class`/NOT RUN 字段映射 |
+| `integration-proposal.md` | 如何接入 `design_engine` module-plan/候选与 `easycirq_mcp` 工具层（本任务**不改**这些文件）；`verdict_class`/NOT RUN 字段映射 |
 | `handoff-current.md` | 交接：分支、PR、精确 HEAD、允许路径核对、命令与结果、文件清单、已知限制、NOT RUN、下一步 |
 | `issue-candidates.md` | 越界但值得主分支处理的事项（模块计划重名、相对意图缺失、`frame: board` 语义、单位换算、多锚点） |
 
@@ -47,18 +47,18 @@ CLI：读取一个 JSON 文件，校验“分层模块树（HMT）+ 相对约束
 
 | 路径 | 内容 |
 |---|---|
-| `design-hardware/scripts/placement_intent/` | stdlib-only 包与 `python -m placement_intent` CLI |
+| `easycirq/scripts/placement_intent/` | stdlib-only 包与 `python -m placement_intent` CLI |
 | `tests/placement_intent_tests/` | 专属测试（子进程调用真实 CLI，不 import 实现；带 `__init__.py`，官方 discover 可识别） |
 | `benchmarks/placement-intent/` | 冻结 CLI 场景（cases + expected.json）、驱动 `run_benchmark.py`、`results.json` |
 | `docs/parallel-placement-intent/` | 本目录 |
 
 ## 命令速查
 
-所有命令在仓库根目录执行；CLI 本身从 `design-hardware/scripts` 运行。
+所有命令在仓库根目录执行；CLI 本身从 `easycirq/scripts` 运行。
 
 ```bash
 # 工具自检
-cd design-hardware/scripts
+cd easycirq/scripts
 PYTHONPATH=. python -m placement_intent --version
 
 # 校验（只读输入；stdout 只有一个 JSON）
@@ -83,7 +83,7 @@ python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.
 python benchmarks/placement-intent/run_benchmark.py
 
 # Skill 自检与全量套件
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 python -m unittest discover -s tests
 ```
 

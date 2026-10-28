@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.placement-intent.input/v1",
+  "schema": "easycirq.placement-intent.input/v1",
   "project": {
     "project_id": "endpoint-unknown",
     "revision": "r1",

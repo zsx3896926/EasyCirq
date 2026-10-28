@@ -8,7 +8,7 @@
 
 | 项 | 值 |
 |---|---|
-| 仓库 | https://github.com/zsx3896926/hardware-design-skill |
+| 仓库 | https://github.com/zsx3896926/EasyCirq |
 | 分支 | `feat/parallel-placement-intent` |
 | worktree | `C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-pi-worktree` |
 | 基线 `origin/main` | `1d1fcbd984d670905cf2fd4c7acf2c89f7e04347`（PR #72 合并后；本分支已 rebase 到该点，ahead 5 / behind 0） |
@@ -36,7 +36,7 @@ python -m unittest discover -s tests
 python benchmarks/placement-intent/run_benchmark.py
 
 # 4) Skill 自检
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 
 # 5) 清洁 checkout 复跑（见 §5）
 git archive HEAD | tar -x -C <临时目录>
@@ -81,7 +81,7 @@ stdout 纯 JSON、`--out` 原子覆盖旧 PASS、`--out`=输入拒绝、`explain
 | `limits` | 冻结合成/派生 JSON 上的 CLI 行为；不是“板可放置”；bbox 是相对 AABB；timing 不是性能声明 |
 | `not_covered` | 真实 EDA、绝对坐标/应用/保存重开、布线/DRC/SI-PI-EM-热、制造/装配/实测、LLM 生成与 ModuPlace 训练、真实 `.epro2` 回读 |
 
-`derived-mcu-i2c-plan`：从仓库冻结工程 `design-hardware/cases/mcu-i2c-s3-2026-10-26/`
+`derived-mcu-i2c-plan`：从仓库冻结工程 `easycirq/cases/mcu-i2c-s3-2026-10-26/`
 的只读数据**离线文本派生**（`derive_mcu_i2c_plan.py`），把 23 个绝对 mil 坐标按功能分成
 5 个块并差分得到相对约束；源无尺寸 → 不声明 `size_mm`，因此全为 `size_unknown`、
 bbox 全 null → `planned_constraints_only`（不冒充 `planned_with_scope`）。
@@ -99,7 +99,7 @@ git archive --format=zip -o <临时目录>/repo.zip HEAD
 cd <临时目录>/repo
 python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.py"
 python benchmarks/placement-intent/run_benchmark.py
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 ```
 
 - 结果：单包 **Ran 239 tests in 42.981s — OK**（exit 0）；基准 **38/38 pass，exit 0**
@@ -111,7 +111,7 @@ python design-hardware/scripts/skill_selftest.py
 
 ## 6. Skill 自检（实际）
 
-`python design-hardware/scripts/skill_selftest.py` → **5 PASS, 0 FAIL, 0 NOT RUN → exit 0**。
+`python easycirq/scripts/skill_selftest.py` → **5 PASS, 0 FAIL, 0 NOT RUN → exit 0**。
 其中包含 `markdown-links`（2068 relative links / 312 Markdown files）与
 `python-compile`（275 scripts compile）；本任务新增文件未破坏自检。
 

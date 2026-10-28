@@ -37,7 +37,7 @@ class VersionAndUsageTests(support.CliTestCase):
         self.assert_exit(result, 4)
         payload = self.payload(result)
         self.assertEqual(payload.get("schema"),
-                         "zhigou.placement-intent.error/v1",
+                         "easycirq.placement-intent.error/v1",
                          msg=result.context())
         self.assertTrue(payload.get("message") or payload.get("error"),
                         msg=result.context())
@@ -99,7 +99,7 @@ class OutputFileTests(support.CliTestCase):
         self.assertTrue(out.is_file())
         written = json.loads(out.read_text(encoding="utf-8"))
         self.assertEqual(written.get("schema"),
-                         "zhigou.placement-intent.validation/v1")
+                         "easycirq.placement-intent.validation/v1")
         self.assertEqual(written.get("status"), "valid")
         self.assertEqual(written["input"]["sha256"], support.sha256_file(path))
         summary = self.payload(result)
@@ -116,7 +116,7 @@ class OutputFileTests(support.CliTestCase):
                          msg="input must not be touched when --out == --input")
         payload = self.payload(result)
         self.assertEqual(payload.get("schema"),
-                         "zhigou.placement-intent.error/v1")
+                         "easycirq.placement-intent.error/v1")
         self.assertEqual(leftover_temp_files(self.tmpdir), [])
 
     def test_out_equals_input_via_relative_path_is_rejected(self):
@@ -146,7 +146,7 @@ class OutputFileTests(support.CliTestCase):
         self.assert_exit(result, 0)
         written = json.loads(out.read_text(encoding="utf-8"))
         self.assertEqual(written.get("schema"),
-                         "zhigou.placement-intent.plan/v1")
+                         "easycirq.placement-intent.plan/v1")
         self.assertEqual(written.get("status"), "planned_with_scope")
         self.assertIn("levels", written)
         self.assertIn("normalized_constraints", written)
@@ -214,7 +214,7 @@ class ExplainTests(support.CliTestCase):
         self.assert_exit(result, 0)
         payload = self.payload(result)
         self.assertEqual(payload.get("schema"),
-                         "zhigou.placement-intent.explain/v1")
+                         "easycirq.placement-intent.explain/v1")
         self.assertEqual(payload.get("status"), "explained")
         subject = payload.get("subject") or {}
         self.assertEqual(subject.get("type"), "constraint")

@@ -75,7 +75,7 @@ Constraint Graph Generation*，Yaohui Han 等，DAC '26，DOI
 ## 4. 架构与文件职责
 
 ```text
-design-hardware/scripts/placement_intent/
+easycirq/scripts/placement_intent/
   __init__.py   工具名/版本/schema 常量、固定 NOT RUN 与 limits 文案、rotations/anchors 常量
   __main__.py   python -m placement_intent 的入口
   cli.py        validate / plan / explain 参数解析、退出码、--out 原子写、stdout 纪律

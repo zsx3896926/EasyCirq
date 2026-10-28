@@ -1,8 +1,8 @@
-# 集成建议：接入 `design_engine` 模块计划/候选与 `zhigou_mcp` 工具层
+# 集成建议：接入 `design_engine` 模块计划/候选与 `easycirq_mcp` 工具层
 
 本文件只给**建议**，不修改任何共享文件。任务 L 的交付是独立 CLI 包
-（`design-hardware/scripts/placement_intent/`）、测试、冻结基准与本目录文档；
-`design_engine`、`pcb_apply_plan.py`、`zhigou_mcp`、`SKILL.md`、`references/*`
+（`easycirq/scripts/placement_intent/`）、测试、冻结基准与本目录文档；
+`design_engine`、`pcb_apply_plan.py`、`easycirq_mcp`、`SKILL.md`、`references/*`
 均**未修改**，由后续集成 PR 实施本文件的方案。
 
 ## 1. 与 `design_engine` 的关系：只做“意图前置校验”，不替代候选/门禁
@@ -30,7 +30,7 @@ pcb_apply_plan --module-plan → validate_placement → typed pcb modify → 回
 `validate_placement` 的硬合法性（板内、同层重叠、固定/锁定、edge、keepout、spacing），
 也不能替代 fresh dump 对照、preflight 或 DRC。它只证明“意图自洽”。
 
-### 1.2 输入映射：module-plan / 模板 → `zhigou.placement-intent.input/v1`
+### 1.2 输入映射：module-plan / 模板 → `easycirq.placement-intent.input/v1`
 
 | placement_intent 字段 | 来源 | 映射注意 |
 |---|---|---|
@@ -86,11 +86,11 @@ stdlib-only、零内部耦合；若需要模板字段，在任务目录/集成�
 - `sibling_overlap` 是**意图层**风险提示，不是 DRC 重叠结论；两者口径不同，报告应
   分别标注来源。
 
-## 2. 与 `zhigou_mcp` 工具层的关系（建议新增 2 个离线工具）
+## 2. 与 `easycirq_mcp` 工具层的关系（建议新增 2 个离线工具）
 
-`docs/zhigou-mcp/` 已合并且**本任务未修改**。建议由后续集成 PR 在
-`design-hardware/scripts/zhigou_mcp/` 中新增两个只读工具，复用既有 stdio JSON-RPC
-协议与 `zhigou.mcp.offline-audit-tool-result/v1` 结果封装。
+`docs/easycirq-mcp/` 已合并且**本任务未修改**。建议由后续集成 PR 在
+`easycirq/scripts/easycirq_mcp/` 中新增两个只读工具，复用既有 stdio JSON-RPC
+协议与 `easycirq.mcp.offline-audit-tool-result/v1` 结果封装。
 
 ### 2.1 工具定义
 
@@ -102,7 +102,7 @@ stdlib-only、零内部耦合；若需要模板字段，在任务目录/集成�
 语义：
 
 - `command.module` = `placement_intent`；`command.argv` 记录实际参数；`cwd` =
-  `design-hardware/scripts`；
+  `easycirq/scripts`；
 - `input_path` 解析规则与既有工具一致（相对仓库根）；输入只读，前后 SHA-256 对比；
 - `anchor` 仅接受 v1 支持的 `top-left`（默认）；传其它合法枚举值会得到模块 exit 4，
   工具应把它映射为 `is_error:true` 的用法错误，而不是静默回退到 `top-left`；
@@ -112,7 +112,7 @@ stdlib-only、零内部耦合；若需要模板字段，在任务目录/集成�
 
 ### 2.2 `verdict_class` 映射（关键：plan 永远不是 pass）
 
-既有 `zhigou_mcp` 的 `verdict_class` 映射针对审查模块（`pass_with_scope` 是唯一
+既有 `easycirq_mcp` 的 `verdict_class` 映射针对审查模块（`pass_with_scope` 是唯一
 `is_pass_with_scope=true` 的状态）。放置意图是**计划**，不是审查通过，因此**不能**
 把 `planned_with_scope` 映射成 `pass_with_scope`。建议新增：
 
@@ -142,7 +142,7 @@ stdlib-only、零内部耦合；若需要模板字段，在任务目录/集成�
 | `unknown_count` / `unknown_items` / `not_checked` / `limits` | 报告 `unknowns` / `not_checked` / `limits` 复制；unknown 最多 50 条并标 `unknown_items_truncated` |
 | `scope_note` | 报告的 `scope_note`（plan）或 `null`（validate） |
 | `summary` | plan：`counts`（modules/components/nodes_with_bbox/unknowns）与 `levels` 数；validate：`counts` 与 `checks` |
-| `report_schema` | `zhigou.placement-intent.plan/v1` 或 `...validation/v1` |
+| `report_schema` | `easycirq.placement-intent.plan/v1` 或 `...validation/v1` |
 | `not_proof` | 固定文案：未应用布局、未验证布线/DRC/SI/PI/EM/热/制造/上电 |
 
 `is_error:true` 只用于工具失败（输入不存在、超时、模块异常退出、报告过大/不可解析）；
@@ -172,13 +172,13 @@ offline_placement_intent_plan     {"input_path": "...", "detail": "full"}
 
 ```diff
 +> **放置意图自洽 ≠ 已放置/可布通。** 模板相对偏移与 module-plan 只表达意图。
-+> 在生成候选前，可先用 `design-hardware/scripts/placement_intent`（离线，0 EDA）
++> 在生成候选前，可先用 `easycirq/scripts/placement_intent`（离线，0 EDA）
 +> 校验 HMT/CCG 是否自洽；其 `planned_with_scope` 只表示意图一致且几何自足，
 +> 仍须 fresh dump、`pcb-check-plan` 硬检查与回读，且 `routing_verified=false`。
 ```
 
 `SKILL.md` 暂不建议改动：本模块尚未接入主流程，接入时由集成 PR 一并更新调用说明与
-边界（`NOT RUN` 口径与 `docs/zhigou-mcp/` 一致）。
+边界（`NOT RUN` 口径与 `docs/easycirq-mcp/` 一致）。
 
 ## 5. 版本与兼容
 

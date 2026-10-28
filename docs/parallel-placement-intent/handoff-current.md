@@ -16,7 +16,7 @@
   **79 个新增文件，全部为 `A`**（无 `M`/`D`/`R`），且都在任务书 §3 的四个允许路径内：
 
 ```text
-A  design-hardware/scripts/placement_intent/**        10 个 .py（包 + CLI）
+A  easycirq/scripts/placement_intent/**        10 个 .py（包 + CLI）
 A  tests/placement_intent_tests/**                    16 个（__init__.py + support.py + fixtures.py + 13 个 test_*.py）
 A  benchmarks/placement-intent/**                     44 个（38 个 cases/*/input.json + 6 个文件：
                                                      expected.json / run_benchmark.py / results.json /
@@ -26,7 +26,7 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
 
   复核命令：`git diff --name-status origin/main...HEAD | Where-Object { $_ -notmatch '^A\s' }`
   应无输出（Linux/macOS 用 `grep -v '^A'`）。未修改 `SKILL.md`、`references/*`、
-  `design_engine`、`zhigou_mcp`、CI、依赖、版本号、LICENSE/NOTICE、README/CHANGELOG、
+  `design_engine`、`easycirq_mcp`、CI、依赖、版本号、LICENSE/NOTICE、README/CHANGELOG、
   主 `docs/handoff-current.md`，也未改其它 `docs/parallel-*`。
 - 测试：命令 / 数量 / 结果
   - `python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.py"`
@@ -41,7 +41,7 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
     `implementation.git_commit=ad0c170…`
 - 全量套件 / Skill 自检：
   - 全量见上（3565 tests OK，skipped=3）
-  - `python design-hardware/scripts/skill_selftest.py` → **5 PASS, 0 FAIL, 0 NOT RUN**，exit 0
+  - `python easycirq/scripts/skill_selftest.py` → **5 PASS, 0 FAIL, 0 NOT RUN**，exit 0
 - 3.10 状态：本机无 3.10（实际 3.13.15）；**3.10 仅 CI**：`.github/workflows/validate.yml`
   的 matrix `['3.10','3.13']` 在 PR HEAD 上验证。PR 尚未创建 → CI 结果待推送后确认，
   当前不写成“已通过”。
@@ -61,7 +61,7 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
   3. 清洁 checkout 复跑（**已在冻结 HEAD `ad0c170` 上完成**）：`git archive` 导出临时副本后
      重跑单包测试 → **239 tests OK**、基准 → **38/38 pass / exit 0**（详见 `report.md` §5）；
   4. 后续集成 PR（本任务**不改**这些文件）：`design_engine` module-plan/候选前置校验、
-     `zhigou_mcp` 新增 `offline_placement_intent_validate` /
+     `easycirq_mcp` 新增 `offline_placement_intent_validate` /
      `offline_placement_intent_plan`（接口与 `verdict_class` 映射见
      `integration-proposal.md`）；
   5. 越界事项见 `issue-candidates.md`（两个 module plan 重名、相对意图校验缺失、
@@ -71,7 +71,7 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
 
 | 路径 | 内容 |
 |---|---|
-| `design-hardware/scripts/placement_intent/`（10 个 .py） | stdlib-only 包与 `python -m placement_intent` CLI |
+| `easycirq/scripts/placement_intent/`（10 个 .py） | stdlib-only 包与 `python -m placement_intent` CLI |
 | `tests/placement_intent_tests/`（`__init__.py` + `support.py` + `fixtures.py` + 13 个 `test_*.py`） | 239 个测试，子进程调用真实 CLI |
 | `benchmarks/placement-intent/`（`cases/` 38 个、`expected.json`、`run_benchmark.py`、`results.json`、`README.md`、`.gitattributes`、`derive_mcu_i2c_plan.py`） | 冻结基准 |
 | `docs/parallel-placement-intent/` | `contract.md`（Lead）+ `README.md`、`design.md`、`source-review.md`、`acceptance-matrix.md`、`report.md`、`integration-proposal.md`、`handoff-current.md`、`issue-candidates.md`（本任务文档负责人） |
@@ -83,13 +83,13 @@ cd <worktree>
 python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.py"
 python -m unittest discover -s tests
 python benchmarks/placement-intent/run_benchmark.py
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 ```
 
 CLI 冒烟：
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 PYTHONPATH=. python -m placement_intent --version          # placement_intent 0.1.0
 PYTHONPATH=. python -m placement_intent validate \
   --input ../../benchmarks/placement-intent/cases/valid-three-modules/input.json
@@ -110,7 +110,7 @@ PYTHONPATH=. python -m placement_intent explain \
 的分层相对布局；所有无法证明的部分保持 unknown。不训练模型、不调用 EDA/联网、不写工程。
 
 ## 契约摘要
-- 输入 `zhigou.placement-intent.input/v1`：project/snapshot/units(mm|mil)/board/
+- 输入 `easycirq.placement-intent.input/v1`：project/snapshot/units(mm|mil)/board/
   modules(HMT)/components/constraints(CCG)/policy/provenance/unknowns；
   严格 JSON（拒绝重复键、NaN/Inf、bool 伪装数字），`additionalProperties:false`。
 - 输出 `validation/v1`、`plan/v1`、`explain/v1`；plan 状态：
@@ -121,7 +121,7 @@ PYTHONPATH=. python -m placement_intent explain \
 - 所有输出固定 `placement_applied:false`、`routing_verified:false`、
   `physical_validation:"NOT RUN"`、`real_eda:"NOT RUN"`、`eda_calls:0`。
 - 只新增允许路径内文件（implementation/tests/benchmarks/docs），未改 SKILL.md/
-  references/design_engine/zhigou_mcp/CI/依赖/版本号。
+  references/design_engine/easycirq_mcp/CI/依赖/版本号。
 
 ## 实际命令与结果（本机 Windows 11 / Python 3.13.15；真实 EDA 调用 0）
 - 单包测试：`python -m unittest discover -s tests/placement_intent_tests -t tests -p "test_*.py"`
@@ -129,7 +129,7 @@ PYTHONPATH=. python -m placement_intent explain \
 - 官方全量：`python -m unittest discover -s tests` → 3565 tests OK (skipped=3)
 - 基准：`python benchmarks/placement-intent/run_benchmark.py` → 38/38 pass，exit 0，
   `simulated:true`、`real_eda:"NOT RUN"`、`eda_calls:0`
-- Skill 自检：`python design-hardware/scripts/skill_selftest.py` → 5 PASS / 0 FAIL
+- Skill 自检：`python easycirq/scripts/skill_selftest.py` → 5 PASS / 0 FAIL
 
 ## NOT RUN
 真实 EDA 读取/修改/保存/重开、宿主 DRC、布线/铜连通、SI/PI/EM/热、制造/装配/上电/

@@ -123,11 +123,11 @@
 |---|---|
 | `placement-intent-task-book.md` | 任务书：目标/非目标/契约/验收/里程碑 |
 | `docs/parallel-placement-intent/contract.md` | 权威输入/输出契约（Lead 维护） |
-| `design-hardware/references/design-engine.md` | `plan_candidates`/模板/候选的既有口径 |
-| `design-hardware/references/pcb-execution.md` | 模板库、候选选择、preflight 门禁 |
-| `design-hardware/references/offline-regression.md` | `routing_verified=false` 与代理指标口径 |
-| `design-hardware/assets/pcb-placement-templates.json` | 相对偏移/旋转/角色绑定的既有表示 |
-| `design-hardware/assets/layout-modules/temperature-alarm.module-plan.json` | 模块计划只含成员、无绝对坐标 |
-| `design-hardware/scripts/design_engine/pcb_workflow.py` | `plan_candidates` 只读理解（未修改） |
-| `docs/zhigou-mcp/` | 已合并的 MCP 工具层口径（本任务不改） |
+| `easycirq/references/design-engine.md` | `plan_candidates`/模板/候选的既有口径 |
+| `easycirq/references/pcb-execution.md` | 模板库、候选选择、preflight 门禁 |
+| `easycirq/references/offline-regression.md` | `routing_verified=false` 与代理指标口径 |
+| `easycirq/assets/pcb-placement-templates.json` | 相对偏移/旋转/角色绑定的既有表示 |
+| `easycirq/assets/layout-modules/temperature-alarm.module-plan.json` | 模块计划只含成员、无绝对坐标 |
+| `easycirq/scripts/design_engine/pcb_workflow.py` | `plan_candidates` 只读理解（未修改） |
+| `docs/easycirq-mcp/` | 已合并的 MCP 工具层口径（本任务不改） |
 | `docs/parallel-electrical-review/` | 既有并行任务的文档风格与验收口径样例 |

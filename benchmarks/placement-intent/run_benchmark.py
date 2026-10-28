@@ -3,7 +3,7 @@
 
 Every case in ``expected.json`` is executed through a real subprocess::
 
-    PYTHONPATH=<repo>/design-hardware/scripts python -m placement_intent
+    PYTHONPATH=<repo>/easycirq/scripts python -m placement_intent
         validate|plan --input cases/<case>/input.json
 
 The driver freezes the input SHA-256, then asserts the exit code, the reported
@@ -34,13 +34,13 @@ from pathlib import Path
 BENCH = Path(__file__).resolve().parent
 ROOT = BENCH.parents[1]
 CASES = BENCH / "cases"
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 DEFAULT_EXPECTED = BENCH / "expected.json"
 DEFAULT_OUT = BENCH / "results.json"
 
 SCHEMA_BY_COMMAND = {
-    "validate": "zhigou.placement-intent.validation/v1",
-    "plan": "zhigou.placement-intent.plan/v1",
+    "validate": "easycirq.placement-intent.validation/v1",
+    "plan": "easycirq.placement-intent.plan/v1",
 }
 ROTATION_TOLERANCE_DEG = 1e-6
 
@@ -507,7 +507,7 @@ def build_report(rows, cases, runs, expected_path):
                                             "incomplete")
                        or row["unknown_codes"]]
     return {
-        "schema": "zhigou.placement-intent.benchmark/v1",
+        "schema": "easycirq.placement-intent.benchmark/v1",
         "simulated": True,
         "real_eda": "NOT RUN",
         "eda_calls": 0,

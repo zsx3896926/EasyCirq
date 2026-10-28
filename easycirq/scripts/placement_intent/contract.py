@@ -1,4 +1,4 @@
-"""Strict normalization and validation of ``zhigou.placement-intent.input/v1``.
+"""Strict normalization and validation of ``easycirq.placement-intent.input/v1``.
 
 The normalizer is deliberately tolerant per-field (it keeps going after an
 error so that a single run reports every problem) but strict per-value: it

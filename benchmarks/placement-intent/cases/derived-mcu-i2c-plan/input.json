@@ -1,12 +1,12 @@
 {
-  "schema": "zhigou.placement-intent.input/v1",
+  "schema": "easycirq.placement-intent.input/v1",
   "project": {
     "project_id": "mcu-i2c-s3-20261026-derived",
     "revision": "derived-r1",
     "document_id": "placement-plan"
   },
   "snapshot": {
-    "schema": "zhigou.placement-intent.snapshot/v1",
+    "schema": "easycirq.placement-intent.snapshot/v1",
     "captured_at": "2026-10-26T00:00:00+08:00",
     "content_sha256": "fdef702e8295a4e506e982dc027747add402cd6793dbed7511f63ea52d5446b3",
     "source_type": "derived",
@@ -822,13 +822,13 @@
     "kind": "derived",
     "sources": [
       {
-        "ref": "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/placement-plan.json",
+        "ref": "easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/placement-plan.json",
         "sha256": "fdef702e8295a4e506e982dc027747add402cd6793dbed7511f63ea52d5446b3",
         "note": "absolute mil placements of 23 designators; derived into relative CCG offsets offline"
       },
       {
-        "ref": "design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md",
-        "sha256": "676cbb51ba342325eda5d3ee8e9072f6d9b48e0464074e76c231209b31f41899",
+        "ref": "easycirq/cases/mcu-i2c-s3-2026-10-26/README.md",
+        "sha256": "0bd973309a1e3ff2c2f3c4085971f5701c9af21dae6e833da3f15d68f716e4fb",
         "note": "board outline 2590 x 1771.7 mil quoted from the case report"
       }
     ],

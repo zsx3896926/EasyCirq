@@ -4,20 +4,20 @@
 自洽，并在输入自足时导出**仅计划**的分层相对布局。它**不写工程、不调用 EDA/daemon/
 connector、不联网、不训练/推理任何模型**。
 
-- 输入 schema：`zhigou.placement-intent.input/v1`
-- 校验输出 schema：`zhigou.placement-intent.validation/v1`
-- 计划输出 schema：`zhigou.placement-intent.plan/v1`
-- 解释输出 schema：`zhigou.placement-intent.explain/v1`
-- 错误输出 schema（仅用法/IO 错误）：`zhigou.placement-intent.error/v1`
+- 输入 schema：`easycirq.placement-intent.input/v1`
+- 校验输出 schema：`easycirq.placement-intent.validation/v1`
+- 计划输出 schema：`easycirq.placement-intent.plan/v1`
+- 解释输出 schema：`easycirq.placement-intent.explain/v1`
+- 错误输出 schema（仅用法/IO 错误）：`easycirq.placement-intent.error/v1`
 - 工具：`placement_intent 0.1.0`，Python ≥ 3.10，仅标准库
-- 入口：`cd design-hardware/scripts && PYTHONPATH=. python -m placement_intent ...`
+- 入口：`cd easycirq/scripts && PYTHONPATH=. python -m placement_intent ...`
 
 本文件是规范。测试与冻结基准只依赖本文件描述的 CLI 行为与 JSON 字段，不导入实现。
 
 ## 1. 命令、输出与退出码
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 PYTHONPATH=. python -m placement_intent validate --input IN.json [--out VALIDATION.json] [--json]
 PYTHONPATH=. python -m placement_intent plan     --input IN.json [--out PLAN.json] [--anchor top-left] [--json]
 PYTHONPATH=. python -m placement_intent explain  --input IN.json [--constraint ID | --module ID] [--anchor top-left] [--json]
@@ -55,14 +55,14 @@ PYTHONPATH=. python -m placement_intent --version
 `incomplete` 只由 `plan` 产生。任何 `unknown`/`review_required`/`incomplete` **不会**
 被 `plan` 提升为 `planned_with_scope`。
 
-## 2. 输入结构 `zhigou.placement-intent.input/v1`
+## 2. 输入结构 `easycirq.placement-intent.input/v1`
 
 顶层对象，`additionalProperties:false`。严格解析：UTF-8（允许 BOM），拒绝重复键、
 `NaN`/`Infinity`、非对象根、结尾多余内容。
 
 | 字段 | 必填 | 类型/约束 | 说明 |
 |---|---|---|---|
-| `schema` | 是 | 常量 `zhigou.placement-intent.input/v1` | |
+| `schema` | 是 | 常量 `easycirq.placement-intent.input/v1` | |
 | `project` | 是 | 对象，见 §2.1 | 身份稳定；位号可变 |
 | `snapshot` | 是 | 对象，见 §2.2 | 上游快照绑定 |
 | `units` | 是 | 对象，见 §2.3 | 长度单位 |
@@ -369,11 +369,11 @@ unknown 条目统一形状（输出字段固定）：
   但会让它的所有祖先模块 bbox 为 `null` 并各自 `size_unknown`。
 - unknown 不参与“补齐”，不会因为其它模块齐全而被丢弃；也不会被降级成 warning。
 
-## 6. `validate` 输出 `zhigou.placement-intent.validation/v1`
+## 6. `validate` 输出 `easycirq.placement-intent.validation/v1`
 
 ```json
 {
-  "schema": "zhigou.placement-intent.validation/v1",
+  "schema": "easycirq.placement-intent.validation/v1",
   "tool": {"name": "placement_intent", "version": "0.1.0", "min_python": "3.10",
            "deterministic": true},
   "status": "valid",
@@ -382,7 +382,7 @@ unknown 条目统一形状（输出字段固定）：
   "project": {"project_id": "demo-3mod", "revision": "r1", "document_id": null},
   "units": {"input_length": "mm", "normalized_length": "mm", "scale_to_mm": 1.0},
   "input": {"path": ".../valid-three-modules.json", "sha256": "<64hex>",
-            "bytes": 1234, "schema": "zhigou.placement-intent.input/v1"},
+            "bytes": 1234, "schema": "easycirq.placement-intent.input/v1"},
   "counts": {"modules": 5, "components": 8, "constraints_input": 8,
              "constraints_normalized": 8, "tree_depth": 2, "errors": 0,
              "reviews": 0, "warnings": 0, "info": 0, "unknowns": 0},
@@ -411,7 +411,7 @@ unknown 条目统一形状（输出字段固定）：
   - `subject`：节点/边 id 或 `null`；`path`：`modules[0].size_mm.w` 形式的输入内位置或 `null`；
     `details`：对象（可为 `{}`）。数组按 `(severity, code, subject, path)` 稳定排序。
 
-## 7. `plan` 输出 `zhigou.placement-intent.plan/v1` 与状态
+## 7. `plan` 输出 `easycirq.placement-intent.plan/v1` 与状态
 
 ### 7.1 状态判定（优先级从高到低）
 
@@ -437,7 +437,7 @@ planned_with_scope     exit 0   以上都没有
 
 ```json
 {
-  "schema": "zhigou.placement-intent.plan/v1",
+  "schema": "easycirq.placement-intent.plan/v1",
   "tool": {"name": "placement_intent", "version": "0.1.0", "min_python": "3.10"},
   "status": "planned_with_scope",
   "exit_code": 0,
@@ -535,14 +535,14 @@ planned_with_scope     exit 0   以上都没有
 - `planned_constraints_only` 下若部分 bbox 可推导，仍输出该 bbox；状态只表示整体信息
   不足以给出完整计划。
 
-## 8. `explain` 输出 `zhigou.placement-intent.explain/v1`
+## 8. `explain` 输出 `easycirq.placement-intent.explain/v1`
 
 只读重放：内部执行 `validate` + 相对帧合成，不写文件。`--constraint ID` 或 `--module ID`
 二选一（同时给出 → exit 4）。都不给时输出总览。
 
 ```json
 {
-  "schema": "zhigou.placement-intent.explain/v1",
+  "schema": "easycirq.placement-intent.explain/v1",
   "tool": {"name": "placement_intent", "version": "0.1.0"},
   "input": {"path": "...", "sha256": "<64hex>", "bytes": 1234},
   "subject": {"type": "constraint", "id": "ccg:2"},
@@ -614,7 +614,7 @@ planned_with_scope     exit 0   以上都没有
 
 ```json
 {
-  "schema": "zhigou.placement-intent.input/v1",
+  "schema": "easycirq.placement-intent.input/v1",
   "project": {"project_id": "demo-3mod", "revision": "r1", "document_id": "sheet-1"},
   "snapshot": {"captured_at": "2026-10-27T09:00:00+08:00",
                "content_sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
@@ -699,7 +699,7 @@ planned_with_scope     exit 0   以上都没有
 
 ```json
 {
-  "schema": "zhigou.placement-intent.plan/v1",
+  "schema": "easycirq.placement-intent.plan/v1",
   "status": "planned_with_scope",
   "exit_code": 0,
   "anchor": "top-left",
@@ -724,7 +724,7 @@ planned_with_scope     exit 0   以上都没有
 
 ```json
 {
-  "schema": "zhigou.placement-intent.explain/v1",
+  "schema": "easycirq.placement-intent.explain/v1",
   "subject": {"type": "constraint", "id": "ccg:3"},
   "status": "explained",
   "constraint": {"id": "ccg:3", "from": "mod:power", "to": "mod:ldo",

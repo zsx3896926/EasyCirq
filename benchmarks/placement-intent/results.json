@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.placement-intent.benchmark/v1",
+  "schema": "easycirq.placement-intent.benchmark/v1",
   "simulated": true,
   "real_eda": "NOT RUN",
   "eda_calls": 0,
@@ -101,7 +101,7 @@
         "status": "planned_constraints_only",
         "expected_status": "planned_constraints_only",
         "source_class": "derived_offline_from_frozen_case",
-        "basis": "从仓库冻结工程 design-hardware/cases/mcu-i2c-s3-2026-10-26 的只读证据离线派生（derive_mcu_i2c_plan.py）：把 placement-plan.json 的 23 个绝对 mil 坐标按功能分成 5 个模块块，差分得到根→块、块→元件的 dx/dy（mil），旋转取源声明的 0/90/180；源文件无尺寸 → 不声明任何 size_mm（不编造），故 23 个元件与 6 个模块均 size_unknown、bbox 全 null（root 优先）→ planned_constraints_only exit 1。手算示例：源坐标 mod:power 锚点=(1950,150) mil → 帧 (49.53,3.81) mm；U2=(900,651) 相对 mcu 锚点 (900,250) → (0,401) mil=(0,10.1854) mm、旋转 180；R90=(350,1250) 相对 sensor 锚点 (250,1250) → (100,0) mil=(2.54,0) mm、旋转 90。provenance.kind=derived，sources[].sha256=placement-plan.json fdef702e…46b3 与 README 676cbb51…1899。这不是真实板回读，未调用 EDA/daemon/connector，未读取 .epro2。",
+        "basis": "从仓库冻结工程 easycirq/cases/mcu-i2c-s3-2026-10-26 的只读证据离线派生（derive_mcu_i2c_plan.py）：把 placement-plan.json 的 23 个绝对 mil 坐标按功能分成 5 个模块块，差分得到根→块、块→元件的 dx/dy（mil），旋转取源声明的 0/90/180；源文件无尺寸 → 不声明任何 size_mm（不编造），故 23 个元件与 6 个模块均 size_unknown、bbox 全 null（root 优先）→ planned_constraints_only exit 1。手算示例：源坐标 mod:power 锚点=(1950,150) mil → 帧 (49.53,3.81) mm；U2=(900,651) 相对 mcu 锚点 (900,250) → (0,401) mil=(0,10.1854) mm、旋转 180；R90=(350,1250) 相对 sensor 锚点 (250,1250) → (100,0) mil=(2.54,0) mm、旋转 90。provenance.kind=derived，sources[].sha256=placement-plan.json fdef702e…46b3 与 README 676cbb51…1899。这不是真实板回读，未调用 EDA/daemon/connector，未读取 .epro2。",
         "input_sha256": "9a3ce46f5d62c0ffd286bd6ce3f67cf15f02ce3e61af44e061807f6cd581c950",
         "input_bytes": 19043,
         "findings": [],
