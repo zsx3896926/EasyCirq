@@ -4,7 +4,7 @@ Status: **instructions for the executor task (A)**, produced by the offline
 annotation-layout task K.  K has **not** called EDA and has **not** executed any
 of these probes.  Nothing in this document is evidence that a host capability
 works; it is the minimum probe plan A must run before applying a planned pose.
-See `integration-proposal.md` for the boundary and consumer contract.
+Short execution version for A: [`integration-probe-quickstart.md`](integration-probe-quickstart.md).  See `integration-proposal.md` for the boundary and consumer contract.
 
 ## 1. Purpose
 
@@ -217,3 +217,4 @@ beside the page snapshot.
    fixed and report `host_capability_unsupported` instead of silently moving it.
 
 Until these exist, K plans remain `only_planned`; no batch apply is authorized.
+
