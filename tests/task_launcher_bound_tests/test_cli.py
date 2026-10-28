@@ -19,14 +19,14 @@ class CliVersionTests(support.BoundTestCase):
 
     def test_version_command_reports_schemas_and_tools(self) -> None:
         document = support.run_cli_json("version")
-        self.assertEqual(document["schema"], "zhigou.bound.version/v1")
+        self.assertEqual(document["schema"], "easycirq.bound.version/v1")
         self.assertEqual(document["mcp_protocol"], support.MCP_PROTOCOL_VERSION)
         self.assertEqual(document["server_name"], support.SERVER_NAME)
         self.assertEqual(tuple(document["phase1_tools"]), support.PHASE1_TOOLS)
         self.assertEqual(tuple(document["phase2_tools"]), support.PHASE2_TOOLS)
         self.assertFalse(document["phase2_enabled"])
-        self.assertEqual(document["schemas"]["report"], "zhigou.bound.report/v1")
-        self.assertEqual(document["schemas"]["receipt"], "zhigou.bound.receipt/v1")
+        self.assertEqual(document["schemas"]["report"], "easycirq.bound.report/v1")
+        self.assertEqual(document["schemas"]["receipt"], "easycirq.bound.receipt/v1")
 
     def test_version_command_is_honest_about_eda(self) -> None:
         document = support.run_cli_json("version")
@@ -48,7 +48,7 @@ class SelftestTests(support.BoundTestCase):
         completed = support.run_cli("selftest", timeout=180)
         self.assertEqual(completed.returncode, 0, completed.stderr)
         document = support.parse_stdout_json(completed)
-        self.assertEqual(document["schema"], "zhigou.bound.selftest/v1")
+        self.assertEqual(document["schema"], "easycirq.bound.selftest/v1")
         self.assertTrue(document["ok"], document.get("checks"))
         self.assertEqual(document["failed"], 0)
         self.assertGreaterEqual(document["passed"], 10)
@@ -83,7 +83,7 @@ class SelftestTests(support.BoundTestCase):
 class ProbeB1Tests(support.BoundTestCase):
     def test_probe_b1_without_repo_is_blocked(self) -> None:
         document = support.run_cli_json("probe-b1")
-        self.assertEqual(document["schema"], "zhigou.bound.b1-probe/v1")
+        self.assertEqual(document["schema"], "easycirq.bound.b1-probe/v1")
         self.assertFalse(document["available"])
         self.assertFalse(document["delivered"])
         self.assertEqual(document["integration_status"], "BLOCKED ON B1")
@@ -98,7 +98,7 @@ class ProbeB1Tests(support.BoundTestCase):
         """
 
         document = support.run_cli_json("probe-b1", "--repo-root", support.WORKTREE)
-        self.assertEqual(document["schema"], "zhigou.bound.b1-probe/v1")
+        self.assertEqual(document["schema"], "easycirq.bound.b1-probe/v1")
         self.assertIsInstance(document["missing"], list)
         self.assertTrue(document["notes"])
         if document["delivered"]:
@@ -159,7 +159,7 @@ class RunCommandTests(support.BoundTestCase):
         completed = harness.run()
         self.assertEqual(completed.returncode, 0, completed.stderr)
         document = support.parse_stdout_json(completed)
-        self.assertEqual(document["schema"], "zhigou.bound.run/v1")
+        self.assertEqual(document["schema"], "easycirq.bound.run/v1")
         self.assertIn("scripted-in-process", document["driver"])
         self.assertIn("not a real Claude run", document["driver"])
         self.assertEqual(document["agent"], "none")
@@ -191,7 +191,7 @@ class RunCommandTests(support.BoundTestCase):
         self.assertEqual(completed.returncode, 1, completed.stderr)
         document = support.parse_stdout_json(completed)
         self.assertFalse(document["ok"])
-        self.assertEqual(document["schema"], "zhigou.bound.cli-error/v1")
+        self.assertEqual(document["schema"], "easycirq.bound.cli-error/v1")
         self.assertIn(document["error"]["code"], ("TASK_CLOSED", "AUDIT_INCOMPLETE"))
         self.assertIn("run failed", completed.stderr)
 

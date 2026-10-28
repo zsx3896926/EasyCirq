@@ -51,12 +51,12 @@ EDA 插件/connector（未来）      B1 launcher（触发面）             本
                                           ▼                             ▼
                                    Claude Code headless（不可信）   冻结 fixture（合成数据）
                                    工具面：Read/Glob/Grep/Skill
-                                          + mcp__zhigou_bound__*
+                                          + mcp__easycirq_bound__*
 ```
 
 | 角色 | 能力 | 可信？ | 代码落点 |
 |---|---|---|---|
-| Agent | 只有 `Read/Glob/Grep/Skill(design-hardware)` + `mcp__zhigou_bound__*`；无 Bash/Write/Edit/Agent/Task/网络 | **不可信** | `task_launcher/bound/__init__.py`（`ALLOWED_AGENT_TOOLS`/`DENIED_AGENT_TOOLS`）、`runner.py`、`settings.py` |
+| Agent | 只有 `Read/Glob/Grep/Skill(design-hardware)` + `mcp__easycirq_bound__*`；无 Bash/Write/Edit/Agent/Task/网络 | **不可信** | `task_launcher/bound/__init__.py`（`ALLOWED_AGENT_TOOLS`/`DENIED_AGENT_TOOLS`）、`runner.py`、`settings.py` |
 | supervisor | 读快照、跑离线审计、写回执/证据/报告、持有 HMAC key | 可信（本地） | `supervisor.py`、`state.py`、`receipts.py`、`backends.py`、`report.py` |
 | launcher/runner | 生成任务目录、`mcp.json`、`settings.json`、argv；不持有 HMAC key | 可信（本地） | `runner.py`、`config.py` |
 | fixture backend | 只读合成 fixture；不调用 EDA/daemon/connector/网络 | 由 supervisor 独占 | `backends.py`（`FixtureBackend`） |
@@ -127,7 +127,7 @@ supervisor 内存（HMAC key）→ 同用户进程/OS → B1/plugin 供应链版
 - **攻击**：模型起子代理/后台任务，子代理继承更宽的工具面或不受 hooks/settings 约束，
   从而获得 Bash/Write 或直连 EDA。
 - **现有防线**：`Agent`、`Task` 同时在 argv `--disallowedTools` 与 `settings.permissions.deny`；
-  `mcp.json` 只挂 `zhigou-bound` 一个 server；hooks（`mark_skill.py`/`require_skill.py`/
+  `mcp.json` 只挂 `easycirq-bound` 一个 server；hooks（`mark_skill.py`/`require_skill.py`/
   `verify_stop.py`）默认不启用，只作质量层（`settings.py` 注释明确“真正门禁在状态机”）。
 - **残余风险**：① 子代理是否继承/合并 deny 未实测；② hook 是否对子代理生效未实测；
   ③ 用户级/项目级 subagent 定义可能引入其它工具；④ 工具名匹配随版本变化。
@@ -249,7 +249,7 @@ supervisor 内存（HMAC key）→ 同用户进程/OS → B1/plugin 供应链版
   写、`_atomic_write_text` 减少半写文件。
 - **残余风险**：Windows 上 `os.chmod(path, 0o600)` 不改 ACL（只影响只读位，`config.write_token_file`
   为“尽力”）；agent 的 `Read/Glob/Grep` 无路径限制，可读同用户可读的任意文件；任务目录在
-  `%LOCALAPPDATA%\zhigou-bound` 或调用方指定路径，无独立低权限账号/AppContainer。
+  `%LOCALAPPDATA%\easycirq-bound` 或调用方指定路径，无独立低权限账号/AppContainer。
 - **覆盖状态**：**明确不覆盖**。这是“防流程不防恶意内核”的核心：本层保证“流程与证据在正常
   路径下不可由模型伪造”，不保证“同用户恶意进程无法伪造一切”。独立账号/沙箱评估列为
   越界建议（`issue-candidates.md` IC-03）。
@@ -258,7 +258,7 @@ supervisor 内存（HMAC key）→ 同用户进程/OS → B1/plugin 供应链版
 
 - **攻击**：Claude Code 可能合并用户级/项目级 MCP server、settings、hooks；攻击者预置一个
   带写能力的 MCP server 或 hook，绕过每任务配置。
-- **现有防线**：每任务 `--mcp-config` + `--settings`，`mcp.json` 只声明 `zhigou-bound`；
+- **现有防线**：每任务 `--mcp-config` + `--settings`，`mcp.json` 只声明 `easycirq-bound`；
   `settings.json` 的 deny 列表覆盖危险工具；hooks 默认关闭。
 - **残余风险**：未加 `--strict-mcp-config`（argv 中不存在），也未验证 `--settings` 是否
   完全隔离用户级设置；`--allowedTools` 的语义随版本变化。均为**未验证**。
@@ -355,7 +355,7 @@ python -m task_launcher.bound plan --request <tmp>\request.json --out <tmp>\task
   “no --plugin-dir … BLOCKED ON B1”。
 - 5 个非秘密产物中均未出现 `task.token` 的值（脚本核对）；`settings.permissions.deny` 含
   `Bash/Write/Edit/NotebookEdit/Agent/Task/WebFetch/WebSearch`；`mcp.json` 只挂
-  `zhigou-bound`，env 仅 `PYTHONPATH/PYTHONIOENCODING`。
+  `easycirq-bound`，env 仅 `PYTHONPATH/PYTHONIOENCODING`。
 - 本机检测到 `claude`（`agent.command.json.claude_exe` 解析到 `...\npm\claude.CMD`），但
   因缺 B1 构建的 plugin 目录，`agent_ready=false`，**未启动任何 Claude 进程**。
 

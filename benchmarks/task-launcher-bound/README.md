@@ -64,13 +64,13 @@ python benchmarks/task-launcher-bound/run_benchmark.py --case readonly-pass --ca
 | 23 | `limits-max-steps` | 任务 limits `max_steps=2` | 第 3 步 `LIMIT_EXCEEDED` |
 | 24 | `abort-then-finalize` | `task_abort` 后收尾 | finalize `TASK_CLOSED`，任务 `CANCELLED`，无报告 |
 
-## `results.json`（`zhigou.bound.benchmark/v1`）
+## `results.json`（`easycirq.bound.benchmark/v1`）
 
 运行后由 `run_benchmark.py` 生成/覆盖，关键字段：
 
 ```json
 {
-  "schema": "zhigou.bound.benchmark/v1",
+  "schema": "easycirq.bound.benchmark/v1",
   "simulated": true,
   "agent": "none",
   "real_eda": "NOT RUN",

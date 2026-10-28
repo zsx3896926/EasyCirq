@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "snapshot-hash-mismatch",
   "description": "The launcher-declared snapshot hash does not match what the supervisor reads: snapshot_read is refused with SNAPSHOT_MISMATCH and the task cannot advance.",
   "setup": {

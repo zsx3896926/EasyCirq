@@ -9,7 +9,7 @@
   - worktree：`C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-pi-worktree`
   - 基线 `origin/main`：`91b03e50127291d40276dd37941065fe42c904a1`（PR #99 合并后，统一品牌为智构 / EasyCirq；本分支已 rebase 到该点，`ahead 7 / behind 0`）
   - **目录/命名适配**：#99 把 `design-hardware/` 重构为 `easycirq/`，schema 命名空间
-    `zhigou.*` 统一为 `easycirq.*`。本分支新增文件已落在新布局的等价允许路径内：
+    `easycirq.*` 统一为 `easycirq.*`。本分支新增文件已落在新布局的等价允许路径内：
     `easycirq/scripts/placement_intent/`、`tests/placement_intent_tests/`、
     `benchmarks/placement-intent/`、`docs/parallel-placement-intent/`。
   - 说明：rebase 后验收用的 `git diff --name-status origin/main...HEAD` 三点 diff 的
@@ -142,7 +142,7 @@ PYTHONPATH=. python -m placement_intent explain \
 
 ## 适配仓库重构（#99）
 本任务书基线使用旧布局/命名；已适配 main 的 #99 重构：
-`design-hardware/` → `easycirq/`、schema 命名空间 `zhigou.*` → `easycirq.*`
+`design-hardware/` → `easycirq/`、schema 命名空间 `easycirq.*` → `easycirq.*`
 （与仓库既有 `easycirq.electrical-review.*` / `easycirq.mcp.*` 一致），
 新增文件全部落在新布局的等价允许路径内。
 

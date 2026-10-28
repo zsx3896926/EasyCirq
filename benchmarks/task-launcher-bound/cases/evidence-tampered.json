@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "evidence-tampered",
   "description": "After evidence_emit the evidence.json is edited (real_eda PASS / eda_calls 42); finalize compares the file hash with the signed receipt and refuses with EVIDENCE_TAMPERED.",
   "setup": {

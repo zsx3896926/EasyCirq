@@ -49,7 +49,7 @@ def build_settings(
         },
         "env": {
             # Phase 1 must not need network; keep the agent env minimal.
-            "ZHIGOU_BOUND_PHASE": "1",
+            "EASYCIRQ_BOUND_PHASE": "1",
         },
     }
     if hooks_enabled:
@@ -117,7 +117,7 @@ def validate_settings(settings: Any, skill_name: str | None = None) -> list[str]
     # With an explicit skill_name, require that exact Skill(...) entry; without
     # one (validation of an arbitrary task settings file), accept either layout.
     expected_tools = (
-        ("Read", "Glob", "Grep", "mcp__zhigou_bound__*")
+        ("Read", "Glob", "Grep", "mcp__easycirq_bound__*")
         if skill_name is None
         else allowed_agent_tools(skill_name)
     )

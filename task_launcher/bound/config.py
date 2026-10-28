@@ -36,9 +36,10 @@ from . import (
     DEFAULT_MAX_TOOL_CALLS,
     DEFAULT_MIN_TOOL_INTERVAL_S,
     DEFAULT_TIMEOUT_S,
-    SUPPORTED_AUDIT_ENGINES,
+    ACCEPTED_AUDIT_ENGINES,
     SUPPORTED_BACKENDS,
     __version__,
+    normalize_audit_engine,
 )
 from .errors import BoundError, INVALID_CONFIG, PATH_OUTSIDE_TASK_DIR
 from .schema import parse_json_strict, validate
@@ -113,7 +114,7 @@ CONFIG_JSON_SCHEMA: dict[str, Any] = {
         "phase": {"type": "integer", "enum": [1, 2]},
         "backend": {"type": "string", "enum": list(SUPPORTED_BACKENDS)},
         "skill_name": {"type": "string", "enum": list(SKILL_NAME_CANDIDATES)},
-        "audit_engine": {"type": "string", "enum": list(SUPPORTED_AUDIT_ENGINES)},
+        "audit_engine": {"type": "string", "enum": list(ACCEPTED_AUDIT_ENGINES)},
         "audit_case": {"type": "string", "enum": ["pass", "fail", "review", "incomplete"]},
         "eda_authorized": {"type": "boolean"},
         "token_sha256": {"type": "string", "pattern": r"[0-9a-f]{64}"},
@@ -239,7 +240,7 @@ class BoundConfig:
             state_root=state_root,
             phase=int(data.get("phase", 1)),
             backend=data.get("backend", BACKEND_FIXTURE),
-            audit_engine=data.get("audit_engine", AUDIT_ENGINE_FIXTURE),
+            audit_engine=normalize_audit_engine(data.get("audit_engine", AUDIT_ENGINE_FIXTURE)),
             audit_case=data.get("audit_case", "pass"),
             eda_authorized=bool(data.get("eda_authorized", False)),
             limits=limits,
@@ -360,13 +361,36 @@ def read_token_file(path: Path) -> str:
         raise BoundError("TOKEN_MISSING", f"cannot read token file: {path}", {"path": str(path)}) from exc
 
 
-def default_state_dir() -> Path:
+#: Canonical state-directory name (``easycirq-bound`` on Windows,
+#: ``.easycirq-bound`` on POSIX).
+STATE_DIR_NAME = "easycirq-bound"
+#: Pre-rename state-directory names, read as a fallback only.
+LEGACY_STATE_DIR_NAME = "zhigou-bound"
+LEGACY_STATE_DIR_NAME_DOT = ".zhigou-bound"
+
+
+def _state_root(name: str) -> Path:
     if os.name == "nt":  # pragma: no cover - platform dependent
         base = os.environ.get("LOCALAPPDATA") or os.environ.get("APPDATA")
         if base:
-            return Path(base) / "zhigou-bound"
-        return Path.home() / "zhigou-bound"
-    return Path.home() / ".zhigou-bound"
+            return Path(base) / name
+        return Path.home() / name
+    return Path.home() / f".{name}"
+
+
+def default_state_dir() -> Path:
+    """Canonical state root, falling back to the pre-rename root when present.
+
+    An install upgraded from ``zhigou`` keeps its tasks under the legacy name;
+    we only prefer it while the new root does not exist yet, so a fresh install
+    never silently writes into the old directory.
+    """
+
+    current = _state_root(STATE_DIR_NAME)
+    legacy = _state_root(LEGACY_STATE_DIR_NAME if os.name == "nt" else LEGACY_STATE_DIR_NAME_DOT.lstrip("."))
+    if not current.exists() and legacy.exists():
+        return legacy
+    return current
 
 
 def task_dir_for(state_root: Path, task_id: str) -> Path:

@@ -42,11 +42,13 @@ from . import (
     SETTINGS_FILE,
     SKILL_NAME,
     SKILL_NAME_CANDIDATES,
-    SUPPORTED_AUDIT_ENGINES,
+    ACCEPTED_AUDIT_ENGINES,
     SUPPORTED_BACKENDS,
     TOKEN_FILE,
     __version__,
+    accepted_schema_ids,
     allowed_agent_tools,
+    normalize_audit_engine,
     normalize_skill_name,
 )
 from .backends import default_fixture_dir
@@ -72,7 +74,7 @@ REQUEST_JSON_SCHEMA: dict[str, Any] = {
     "additionalProperties": False,
     "required": ["schema", "task_id", "client", "goal", "context"],
     "properties": {
-        "schema": {"type": "string", "const": REQUEST_SCHEMA},
+        "schema": {"type": "string", "enum": list(accepted_schema_ids(REQUEST_SCHEMA))},
         "task_id": {"type": "string", "pattern": r"[A-Za-z0-9][A-Za-z0-9._-]{0,63}"},
         "mode": {"type": "string", "enum": ["read_only"]},
         "client": {
@@ -282,7 +284,7 @@ def build_routing_text(
         f"1. 本任务由受控启动器启动；**必须先加载 `{skill_name}` Skill**，不得跳过。",
         "2. 只读任务：不得修改/保存/导出 EDA 工程，不得调用任何写接口；本任务没有 "
         "Bash/Write/Edit/Agent/Task/WebFetch/WebSearch 工具。",
-        "3. 只通过 `mcp__zhigou_bound__*` 工具推进流程，顺序固定："
+        "3. 只通过 `mcp__easycirq_bound__*` 工具推进流程，顺序固定："
         "`task_start → snapshot_read → run_offline_audit → evidence_emit → finalize`。"
         "跳步、乱序、重复都会被 supervisor 以稳定错误码拒绝。",
         "4. 快照由 supervisor 读取，你不能提供快照内容、回执或报告；额外字段会被拒绝。",
@@ -319,9 +321,9 @@ def build_mcp_config(
     python = python_executable or sys.executable
     return {
         "mcpServers": {
-            # Underscore keeps the tool prefix stable: mcp__zhigou_bound__<tool>,
-            # matching the allow-list entry "mcp__zhigou_bound__*".
-            "zhigou_bound": {
+            # Underscore keeps the tool prefix stable: mcp__easycirq_bound__<tool>,
+            # matching the allow-list entry "mcp__easycirq_bound__*".
+            "easycirq_bound": {
                 "type": "stdio",
                 "command": python,
                 "args": [
@@ -415,8 +417,9 @@ def plan_task(
 
     if backend not in SUPPORTED_BACKENDS:
         raise BoundError("BACKEND_UNAVAILABLE", f"unsupported backend {backend!r}", {"backend": backend})
-    if audit_engine not in SUPPORTED_AUDIT_ENGINES:
+    if audit_engine not in ACCEPTED_AUDIT_ENGINES:
         raise BoundError("BACKEND_UNAVAILABLE", f"unsupported audit engine {audit_engine!r}", {"audit_engine": audit_engine})
+    audit_engine = normalize_audit_engine(audit_engine)
     if phase not in (1, 2):
         raise BoundError("PHASE_NOT_ENABLED", f"unsupported phase {phase!r}", {"phase": phase})
     task_dir = Path(task_dir).expanduser()
@@ -521,7 +524,7 @@ def plan_task(
     resolved_claude = shutil.which(claude_exe) or ""
     agent_ready = bool(plugin_dir) and bool(resolved_claude)
     command: dict[str, Any] = {
-        "schema": "zhigou.bound.agent-command/v1",
+        "schema": "easycirq.bound.agent-command/v1",
         "claude_exe": resolved_claude or claude_exe,
         "cwd": str(task_dir),
         "env_whitelist": list(AGENT_ENV_WHITELIST),
@@ -558,7 +561,7 @@ def plan_task(
     )
     summary = {
         "ok": True,
-        "schema": "zhigou.bound.plan/v1",
+        "schema": "easycirq.bound.plan/v1",
         "task_id": request["task_id"],
         "task_dir": str(task_dir),
         "config_path": str(config_path),
@@ -693,7 +696,12 @@ def build_agent_env(overrides: dict[str, str] | None = None) -> dict[str, str]:
     env = {name: os.environ[name] for name in AGENT_ENV_WHITELIST if name in os.environ}
     if overrides:
         for key, value in overrides.items():
-            if key in ("ZHIGOU_BOUND_TOKEN", "ZHIGOU_BOUND_HMAC_KEY"):
+            if key in (
+                "EASYCIRQ_BOUND_TOKEN",
+                "EASYCIRQ_BOUND_HMAC_KEY",
+                "ZHIGOU_BOUND_TOKEN",
+                "ZHIGOU_BOUND_HMAC_KEY",
+            ):
                 continue
             env[key] = value
     return env

@@ -55,7 +55,7 @@ class B1Probe:
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "schema": "zhigou.bound.b1-probe/v1",
+            "schema": "easycirq.bound.b1-probe/v1",
             "repo_root": str(self.repo_root) if self.repo_root else None,
             "available": self.available,
             "delivered": self.delivered,
@@ -72,7 +72,7 @@ def probe_b1(repo_root: Path | str | None) -> B1Probe:
 
     probe = B1Probe(repo_root=Path(repo_root).expanduser() if repo_root else None)
     if probe.repo_root is None:
-        probe.notes.append("no --b1-repo / ZHIGOU_B1_REPO given")
+        probe.notes.append("no --b1-repo / EASYCIRQ_B1_REPO (or legacy ZHIGOU_B1_REPO) given")
         return probe
     root = probe.repo_root
     if not root.is_dir():

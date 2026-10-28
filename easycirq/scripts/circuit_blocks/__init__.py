@@ -1,4 +1,4 @@
-"""Parameterized standard circuit blocks for the 智构 hardware design skill.
+"""Parameterized standard circuit blocks for the EasyCirq skill.
 
 Offline, deterministic generators that turn declared constraints into a
 mathematical + connectivity contract for a small set of recurring circuits.

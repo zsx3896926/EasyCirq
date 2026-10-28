@@ -27,12 +27,12 @@
 - HMAC-SHA256 回执链（`receipts.py`）：canonical JSON、payload/prev/hmac、内存 key、
   磁盘 `receipts.jsonl`；finalize 重新读盘验链并校验 `evidence.json` 哈希。
 - fixture 后端（`backends.py`）：合成快照（含 prompt-injection 文本文件）、四种审计状态；
-  可选 `--audit-engine zhigou_mcp` 调用已合并离线模块（仍 `real_eda=NOT RUN`）。
+  可选 `--audit-engine easycirq_mcp` 调用已合并离线模块（仍 `real_eda=NOT RUN`）。
 - 最终报告（`report.py`）：server 生成 `result.json`，verdict 仅由审计状态映射，
   模型文本不进入 verdict；固定 `real_eda:"NOT RUN"`、`eda_calls:0`、`project_writes:0`。
 - 启动加固（`runner.py`/`settings.py`）：生成 `mcp.json`、`routing.md`、
   `settings.json`（deny: Bash/Write/Edit/NotebookEdit/Agent/Task/WebFetch/WebSearch；
-  allow: Read/Glob/Grep/Skill(design-hardware)/mcp__zhigou_bound__*）、`agent.command.json`
+  allow: Read/Glob/Grep/Skill(design-hardware)/mcp__easycirq_bound__*）、`agent.command.json`
   （argv 参数列表，无 token/HMAC）；hooks 默认关闭、可选启用。
 - B1 接缝（`b1.py`）：只读 probe + 文档化 CLI `build-plugin` 边界（不 import/不修改 B1）。
 
@@ -64,7 +64,7 @@ OK
 - 测试包：`tests/task_launcher_bound_tests/`（`__init__.py` + `support.py` +
   13 个 `test_*.py`：cli / mcp_protocol / schema_strict / state_machine /
   receipts / version_token / audit_reports / launch_config / hooks /
-  paths_injection_repo / limits / phase2 / zhigou_engine）。
+  paths_injection_repo / limits / phase2 / easycirq_engine）。
 - 纪律：全部通过子进程驱动 `python -m task_launcher.bound`（CLI / MCP stdio），
   不在测试进程 import 实现；使用 tempfile，不写仓库；无网络/真实 Claude/EDA。
 
@@ -154,7 +154,7 @@ B1 PR #74 合并（main `f9aa773`）后，把叠加分支 rebase 到最新 main 
 | bound plan | `agent_ready=true`、`skill_name=easycirq`、allow `Skill(easycirq)`、无 token/HMAC |
 | 旧布局回归 | 主交付分支（`acca50d`）208 tests OK / 24/24 / 19/19，`skill_name=design-hardware` |
 
-根因修复：rebrand（`zhigou_mcp`→`easycirq_mcp`、审计输入 schema 变更、Skill 名
+根因修复：rebrand（`easycirq_mcp`→`easycirq_mcp`、审计输入 schema 变更、Skill 名
 `design-hardware`→`easycirq`）使旧代码在新 main 上找不到离线模块/输入；已实现双布局
 检测并新增 `fixtures/inputs_easycirq/` 冻结输入。
 
@@ -164,7 +164,7 @@ B1 PR #74 合并（main `f9aa773`）后，把叠加分支 rebase 到最新 main 
   未提交树 `79496e3`；无 handoff/PR）。详见 `handoff-current.md` §1。
 - **B1 执行期间交付、最终合并**：PR **#74 已于 2026-10-28T06:09:58Z 合并**到 main，
   merge commit **`f9aa773`**；最新 main 同时包含 rebrand PR #77
-  （`design-hardware/`→`easycirq/`、`zhigou_mcp`→`easycirq_mcp`）。
+  （`design-hardware/`→`easycirq/`、`easycirq_mcp`→`easycirq_mcp`）。
 - **rebase 到最新 main 后的重新验证（真实执行）**：把叠加分支
   `feat/parallel-task-launcher-bound-on-b1`（基线 B1 `074bd88`）重命名并
   `git rebase --onto origin/main 074bd88` → 6 个提交干净重放，得到
@@ -177,9 +177,9 @@ B1 PR #74 合并（main `f9aa773`）后，把叠加分支 rebase 到最新 main 
     `skill_dir=<repo>/easycirq`、allow=`Skill(easycirq)`、versions skill=1.0.2；
   - `probe-b1` → `available=true, delivered=true`。
 - **双布局兼容（rebase 必须修复）**：rebrand 导致旧代码在新 main 上无法找到
-  `zhigou_mcp`/旧 schema 输入；已提交 `9c88def`（叠加分支）/ `a0c13bb`（主分支）：
+  `easycirq_mcp`/旧 schema 输入；已提交 `9c88def`（叠加分支）/ `a0c13bb`（主分支）：
   - Skill 检测 `easycirq`/`design-hardware`，写入 config/settings/argv/routing；
-  - 离线引擎 `easycirq_mcp`/`zhigou_mcp` 双探测，按模块选择
+  - 离线引擎 `easycirq_mcp`/`easycirq_mcp` 双探测，按模块选择
     `fixtures/inputs_easycirq/`（easycirq schema）或 `fixtures/inputs/`（旧 schema）；
   - hooks 接受两种 Skill 名；`plan --skill-name` 可显式覆盖；
   - 两种布局都缺时如实 `NOT_RUN`/`BACKEND_UNAVAILABLE`。
@@ -239,11 +239,11 @@ B1 PR #74 合并（main `f9aa773`）后，把叠加分支 rebase 到最新 main 
     `report_sha256=c24caaf847f569e82a039a868cb1e141d0f03ea6aded73a28665ed58c1e38cac`、
     `real_eda=NOT RUN`、`eda_calls=0`、`project_writes=0`；
   - stream-json 的 assistant `tool_use` 按序 6 个、无越权工具：
-    `Skill → mcp__zhigou_bound__task_start → snapshot_read → run_offline_audit → evidence_emit → finalize`；
+    `Skill → mcp__easycirq_bound__task_start → snapshot_read → run_offline_audit → evidence_emit → finalize`；
   - supervisor 回执链 5 条（`task_start none` + 4×`read_only`），`result.json` 由 supervisor
     生成、`chain_verified=true`；
   - argv 被 Claude Code 2.1.303 实际接受：`--permission-mode plan`、
-    `--allowedTools "Skill,Read,Glob,Grep,mcp__zhigou_bound__*"`、
+    `--allowedTools "Skill,Read,Glob,Grep,mcp__easycirq_bound__*"`、
     `--settings <bound>/settings.json`、
     `--disallowedTools "Bash,Write,Edit,NotebookEdit,Agent,Task,WebFetch,WebSearch"`。
 - 未验证 / 限制（如实）：

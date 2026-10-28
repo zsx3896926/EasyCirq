@@ -236,7 +236,7 @@
 
 ## IC-19 A / 官方 CLI 的 Phase 2 后端选型
 
-- **内容**：Phase 2 的真实后端（官方 `lceda-pro` CLI / A 的 zhigou daemon）本交付只有拒绝桩
+- **内容**：Phase 2 的真实后端（官方 `lceda-pro` CLI / A 的 easycirq daemon）本交付只有拒绝桩
   （`backends.OfficialCliBackend`/`ADaemonBackend`），选型取决于 A 的结论与用户授权。需要
   主线决定后端、版本、授权范围与临时工程副本策略，再实现 `apply/readback`。
 - **为什么越界**：依赖 A 的交付与 EDA 授权；本任务只做接口占位与 NOT RUN 记录。

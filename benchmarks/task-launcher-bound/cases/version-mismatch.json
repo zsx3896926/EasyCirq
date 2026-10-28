@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "version-mismatch",
   "description": "task_start presents a modified toolchain skill version; supervisor refuses with VERSION_MISMATCH and the task never reaches a finalizable state.",
   "setup": {

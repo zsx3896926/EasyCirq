@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark/v1",
+  "schema": "easycirq.bound.benchmark/v1",
   "simulated": true,
   "agent": "none",
   "real_eda": "NOT RUN",

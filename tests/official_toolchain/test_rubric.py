@@ -65,7 +65,7 @@ class RubricTests(unittest.TestCase):
 
     def test_rubric_shape_and_condition_keys(self):
         rubric = build_matrix.evaluate_rubric(make_cells({}))
-        self.assertEqual(rubric["schema"], "zhigou.a2-coverage.rubric/v1")
+        self.assertEqual(rubric["schema"], "easycirq.a2-coverage.rubric/v1")
         self.assertEqual(rubric["critical_ids"], list(workflows.CRITICAL_IDS))
         for key in ("a2_conditions", "a1_conditions", "a3_conditions"):
             self.assertIn(key, rubric)

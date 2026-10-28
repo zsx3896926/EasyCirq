@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "receipt-missing-step",
   "description": "After evidence_emit the snapshot_read receipt is deleted from receipts.jsonl; finalize detects the missing/chopped chain and refuses with RECEIPT_MISSING.",
   "setup": {

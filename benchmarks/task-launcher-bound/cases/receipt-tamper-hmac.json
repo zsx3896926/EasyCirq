@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "receipt-tamper-hmac",
   "description": "After evidence_emit an external edit flips a byte of the first receipt HMAC; finalize re-reads receipts.jsonl and refuses with RECEIPT_HMAC_INVALID.",
   "setup": {

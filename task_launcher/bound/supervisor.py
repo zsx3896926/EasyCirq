@@ -91,7 +91,7 @@ from .tools import spec_by_name, specs_for_phase
 
 
 def _log(message: str) -> None:
-    print(f"[zhigou-bound] {message}", file=sys.stderr, flush=True)
+    print(f"[easycirq-bound] {message}", file=sys.stderr, flush=True)
 
 
 class Supervisor:
@@ -247,7 +247,7 @@ class Supervisor:
             "limits": self._effective_limits.to_dict(),
         }
         contract = {
-            "schema": "zhigou.bound.contract/v1",
+            "schema": "easycirq.bound.contract/v1",
             "phase": self.config.phase,
             "read_only": True,
             "tools": [spec.name for spec in specs_for_phase(self.config.phase)],
@@ -389,7 +389,7 @@ class Supervisor:
                 {"problems": chain.problems},
             )
         evidence: dict[str, Any] = {
-            "schema": "zhigou.bound.evidence/v1",
+            "schema": "easycirq.bound.evidence/v1",
             "task_id": self.config.task_id,
             "snapshot": {
                 "source": self.snapshot_dict.get("source"),
@@ -690,7 +690,7 @@ class Supervisor:
 
     def _write_status(self) -> None:
         status = {
-            "schema": "zhigou.bound.status/v1",
+            "schema": "easycirq.bound.status/v1",
             "task_id": self.config.task_id,
             "state": self.machine.state,
             "phase": self.config.phase,
@@ -873,7 +873,7 @@ def _phase_steps(phase: int) -> tuple[Any, ...]:
 def _server_instructions(config: BoundConfig) -> str:
     tools = ", ".join(spec.name for spec in specs_for_phase(config.phase))
     return (
-        "You are inside a Zhigou bound task. The supervisor owns execution, read-back, "
+        "You are inside a EasyCirq bound task. The supervisor owns execution, read-back, "
         f"evidence and the final report. Load the {config.skill_name} Skill first, then call "
         f"the tools in order: {tools}. You cannot skip, reorder or repeat a step; every "
         "refusal carries a stable error code. No Bash/Write/Edit/Agent/Task/network tools "

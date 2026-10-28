@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "phase1-phase2-tools-absent",
   "description": "Phase 1 tool surface exposes only the six read-only tools; calling the Phase 2 apply tool is a protocol-level unknown/unavailable tool (-32602).",
   "setup": {

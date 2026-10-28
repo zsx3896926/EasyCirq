@@ -135,7 +135,7 @@ case 文件：`benchmarks/task-launcher-bound/cases/*.json`（24 个）。
 | Phase 2 真实 EDA 写（plan→apply→readback→finalize、回滚） | **BLOCKED** | 无 EDA 授权、无一次性临时工程副本；`apply/readback` → `EDA_NOT_AUTHORIZED`，任务 FAILED 不可 finalize |
 | 真实 EDA 只读快照 | **NOT RUN** | Phase 1 只用 fixture；`real_eda="NOT RUN"`、`eda_calls=0` |
 | B1 集成（产物级叠加 @ 交付 HEAD 074bd88） | **PASS（离线/产物级）** | 独立 worktree `hds-tlb-on-b1`（based on `origin/feat/parallel-task-launcher @ 074bd88`）：208 tests OK、24/24、19/19；B1 `build-plugin` 627 files/13,165,619 bytes；bound `plan --plugin-dir` `agent_ready=true`、argv 完整、无 token |
-| B1 launcher 真实拉起 bound supervisor 的端到端 | **NOT RUN** | B1 mcp.json 目前只挂 `zhigou-offline-audit`；接入 bound 需 B1 侧最小改动（integration-notes.md）；真实 Claude 未授权 |
+| B1 launcher 真实拉起 bound supervisor 的端到端 | **NOT RUN** | B1 mcp.json 目前只挂 `easycirq-offline-audit`；接入 bound 需 B1 侧最小改动（integration-notes.md）；真实 Claude 未授权 |
 | B1 artifact-level 兼容探针 | **PASS @ caed250（非验收）** | Lead 只读探针：`build-plugin` exit 0 → `plan --plugin-dir` `agent_ready=true`、argv 完整；**不构成 B1 验收**，HEAD 变化需重跑 |
 | 官方全量套件 | **PASS** | `Ran 3520 tests, OK (skipped=3), exit 0`（374.287s）；既有测试会写 `docs/toolchain-integration/evidence/installer/install-lifecycle.log`，Lead 已还原该文件 |
 | 清洁 checkout 复现 / CI 3.10+3.13 | **PASS** | 两个独立 worktree 复跑；PR #94 CI `validate 3.10/3.13 PASS`、`updater PASS`（head `4ec29ee`） |
@@ -154,7 +154,7 @@ test_audit_reports.py        test_cli.py               test_hooks.py
 test_launch_config.py        test_limits.py            test_mcp_protocol.py
 test_paths_injection_repo.py test_phase2.py            test_receipts.py
 test_schema_strict.py        test_state_machine.py     test_version_token.py
-test_zhigou_engine.py
+test_easycirq_engine.py
 ```
 
 ### 7.2 待收口人复核的口径差异（不自行改数）

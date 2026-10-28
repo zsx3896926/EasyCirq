@@ -12,10 +12,10 @@
 
 | 角色 | 能力 | 不可信？ |
 |---|---|---|
-| Agent（Claude Code headless） | 只有 `Read/Glob/Grep/Skill(<detected-skill>)` + `mcp__zhigou_bound__*`；无 Bash/Write/Edit/Agent/Task/网络 | **不可信**：只能“提议”步骤 |
+| Agent（Claude Code headless） | 只有 `Read/Glob/Grep/Skill(<detected-skill>)` + `mcp__easycirq_bound__*`；无 Bash/Write/Edit/Agent/Task/网络 | **不可信**：只能“提议”步骤 |
 | supervisor（本包 MCP stdio server） | 读快照、跑离线审计、写回执/证据/最终报告、持有 HMAC key | 可信 |
 | launcher / runner | 生成任务目录、mcp.json、settings.json、argv；不持有 HMAC key | 可信（本地） |
-| backend | Phase 1 = fixture（+ 可选 zhigou_mcp 离线模块）；真实 EDA 后端 = 占位且拒绝 | 由 supervisor 独占 |
+| backend | Phase 1 = fixture（+ 可选 easycirq_mcp 离线模块）；真实 EDA 后端 = 占位且拒绝 | 由 supervisor 独占 |
 
 - Agent 与 supervisor 只通过 MCP stdio（newline-delimited JSON-RPC 2.0）通信。
 - 任务 token 由 launcher 写文件并传给 supervisor；**agent 不需要持有 token**，也没有
@@ -32,7 +32,7 @@ launcher 用 `python -m task_launcher.bound plan --request <req> --out <task-dir
 | `bound.config.json` | `task_id`、`task_dir`、`token_sha256`、四方版本、limits、backend、phase | 否（只有 token 哈希） |
 | `request.json` | 脱敏后的任务请求 | 否 |
 | `routing.md` | 硬路由文本（先 Skill、只读、工具顺序、版本握手值、结束时用 finalize） | 否 |
-| `mcp.json` | 只挂 `zhigou-bound` supervisor（stdio），env 只含 `PYTHONPATH/PYTHONIOENCODING` | 否（token 是文件路径） |
+| `mcp.json` | 只挂 `easycirq-bound` supervisor（stdio），env 只含 `PYTHONPATH/PYTHONIOENCODING` | 否（token 是文件路径） |
 | `settings.json` | `permissions.deny/allow` + 可选 hooks | 否 |
 | `agent.command.json` | argv（参数列表）、cwd、env 白名单、`agent_ready`、NOT RUN 原因 | 否 |
 | `task.token` | 随机 token（0600 尽力） | 是（仅此文件） |
@@ -41,12 +41,12 @@ launcher 用 `python -m task_launcher.bound plan --request <req> --out <task-dir
 
 ```json
 {
-  "schema": "zhigou.bound.config/v1",
+  "schema": "easycirq.bound.config/v1",
   "task_id": "task-...",
   "task_dir": "<abs>",
   "phase": 1,
   "backend": "fixture",
-  "audit_engine": "fixture | zhigou_mcp",
+  "audit_engine": "fixture | easycirq_mcp",
   "audit_case": "pass | fail | review | incomplete",
   "eda_authorized": false,
   "token_sha256": "<64 hex>",
@@ -116,7 +116,7 @@ Phase 2 + 真实 EDA 后端且无 `eda_authorized` 在配置加载时即拒绝�
 ### 4.1 MCP 协议细节
 
 - `initialize` → `protocolVersion="2025-06-18"`、`capabilities.tools.listChanged=false`、
-  `serverInfo={name:"zhigou-bound-supervisor",version:"0.1.0"}`、`instructions`（流程约束）。
+  `serverInfo={name:"easycirq-bound-supervisor",version:"0.1.0"}`、`instructions`（流程约束）。
 - `notifications/initialized` 等通知：无响应。
 - `ping` → `{}`；`tools/list` → 按 phase 返回工具；`tools/call` → `content[].text` +
   `structuredContent`；拒绝用 `isError:true`+稳定 `code`。
@@ -128,7 +128,7 @@ Phase 2 + 真实 EDA 后端且无 `eda_authorized` 在配置加载时即拒绝�
 
 ```json
 {
-  "schema": "zhigou.bound.receipt/v1",
+  "schema": "easycirq.bound.receipt/v1",
   "task_id": "task-...",
   "step": "snapshot_read",
   "prev_receipt_sha256": "<hex|null>",
@@ -151,14 +151,14 @@ Phase 2 + 真实 EDA 后端且无 `eda_authorized` 在配置加载时即拒绝�
 
 ## 6. 最终报告（server 生成，模型不可写）
 
-`result.json` = `zhigou.bound.report/v1`：
+`result.json` = `easycirq.bound.report/v1`：
 
 ```json
 {
-  "schema": "zhigou.bound.report/v1",
+  "schema": "easycirq.bound.report/v1",
   "generated_by": "supervisor",
   "task": {"task_id": "...", "phase": 1, "verdict": "PASS|FAIL|REVIEW_REQUIRED"},
-  "summary": {"verdict": "...", "audit_status": "pass_with_scope|fail|review_required", "engine": "fixture|zhigou_mcp", ...},
+  "summary": {"verdict": "...", "audit_status": "pass_with_scope|fail|review_required", "engine": "fixture|easycirq_mcp", ...},
   "snapshot": {"source": "fixture", "scope": "full", "snapshot_sha256": "...", "file_count": 3, "missing_fields": [...]},
   "audit": {"status": "...", "checks": [...], "not_checked": [...], "audit_sha256": "...", "report_sha256": "..."},
   "steps": ["task_start","snapshot_read","run_offline_audit","evidence_emit"],
@@ -206,7 +206,7 @@ claude -p <user_prompt>
   --append-system-prompt-file <task>/routing.md
   --settings <task>/settings.json
   --output-format stream-json --verbose
-  --allowedTools "Read,Glob,Grep,Skill(<detected-skill>),mcp__zhigou_bound__*"
+  --allowedTools "Read,Glob,Grep,Skill(<detected-skill>),mcp__easycirq_bound__*"
   --disallowedTools "Bash,Write,Edit,NotebookEdit,Agent,Task,WebFetch,WebSearch"
 ```
 
@@ -237,7 +237,7 @@ JSON（诊断走 stderr）。
 ## 10. NOT RUN 语义
 
 - Phase 1 所有报告固定 `real_eda:"NOT RUN"`、`eda_calls:0`、`project_writes:0`。
-- `zhigou_mcp` 离线审计引擎会真实调用已合并的离线模块（仍非 EDA），若其结果声称
+- `easycirq_mcp` 离线审计引擎会真实调用已合并的离线模块（仍非 EDA），若其结果声称
   `real_eda != "NOT RUN"` 或 `eda_calls != 0`，supervisor 直接拒绝（`EDA_NOT_AUTHORIZED`）。
 - 真实 Claude 冒烟、真实 EDA 写探针：本交付 **NOT RUN**；无用户授权不得执行。
 - `pass_with_scope` 只代表声明范围内未发现缺陷，不是整板/整机验收。
@@ -246,7 +246,7 @@ JSON（诊断走 stderr）。
 ## 11. 双布局兼容（2026-10 rebrand）
 
 仓库在 2026-10 做了 rebrand（PR #77）：`design-hardware/` → `easycirq/`，离线 MCP 模块
-`zhigou_mcp` → `easycirq_mcp`，离线审计输入 schema `zhigou.electrical-review.input/v1`
+`easycirq_mcp` → `easycirq_mcp`，离线审计输入 schema `easycirq.electrical-review.input/v1`
 → `easycirq.electrical-review.input/v1`。本包对两种布局都支持：
 
 - Skill 检测：`detect_skill(repo_root)` 依次探测 `easycirq/` 与 `design-hardware/`
@@ -254,7 +254,7 @@ JSON（诊断走 stderr）。
   `bound.config.json.skill_name`、`settings.json.permissions.allow`、argv
   `--allowedTools` 与 routing.md；
 - 离线引擎：`locate_offline_mcp(repo_root)` 依次探测
-  `easycirq/scripts/easycirq_mcp` 与 `design-hardware/scripts/zhigou_mcp`；
+  `easycirq/scripts/easycirq_mcp` 与 `design-hardware/scripts/easycirq_mcp`；
   `run_offline_audit` 按模块选择冻结输入 `fixtures/inputs_easycirq/` 或
   `fixtures/inputs/`（schema 不同）；
 - hooks/`mark_skill.py` 接受 `design-hardware` 或 `easycirq`；

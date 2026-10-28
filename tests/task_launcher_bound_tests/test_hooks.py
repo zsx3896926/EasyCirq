@@ -85,7 +85,7 @@ class RequireSkillHookTests(HookTestBase):
             {"tool_name": "Skill", "tool_input": {"skill": "design-hardware"}},
         )
         completed = support.run_hook(
-            "require_skill.py", task_dir, {"tool_name": "mcp__zhigou_bound__task_start", "tool_input": {}}
+            "require_skill.py", task_dir, {"tool_name": "mcp__easycirq_bound__task_start", "tool_input": {}}
         )
         self.assertEqual(completed.returncode, 0)
         self.assertEqual(support.hook_output(completed), {})
@@ -95,7 +95,7 @@ class VerifyStopHookTests(HookTestBase):
     def write_status(self, task_dir: "object", state: str, remaining: list) -> None:
         support.write_json(
             task_dir / "status.json",
-            {"schema": "zhigou.bound.status/v1", "state": state, "remaining": remaining},
+            {"schema": "easycirq.bound.status/v1", "state": state, "remaining": remaining},
         )
 
     def test_stop_is_blocked_without_supervisor_status(self) -> None:

@@ -1,6 +1,6 @@
 {
-  "schema": "zhigou.bound.fixture.audit-cases/v1",
-  "source": "synthetic fixture (no EDA); the real offline module is exercised by --audit-engine zhigou_mcp",
+  "schema": "easycirq.bound.fixture.audit-cases/v1",
+  "source": "synthetic fixture (no EDA); the real offline module is exercised by --audit-engine easycirq_mcp",
   "cases": {
     "pass": {
       "status": "pass_with_scope",

@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.fixture.snapshot/v1",
+  "schema": "easycirq.bound.fixture.snapshot/v1",
   "fixture_version": "fixture-1",
   "project": {"name": "bound-demo", "revision": "rev-A"},
   "document": {"kind": "schematic", "id": "doc-1"},

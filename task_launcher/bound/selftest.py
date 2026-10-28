@@ -133,7 +133,7 @@ def _make_supervisor(root: Path, **overrides: Any) -> tuple[Any, BoundConfig, di
 
 def run_selftest() -> dict[str, Any]:
     checker = _Checker()
-    workdir = Path(tempfile.mkdtemp(prefix="zhigou-bound-selftest-"))
+    workdir = Path(tempfile.mkdtemp(prefix="easycirq-bound-selftest-"))
     try:
         # -- receipts / crypto ------------------------------------------
         def canonical_json_stable() -> None:
@@ -333,7 +333,7 @@ def run_selftest() -> dict[str, Any]:
             settings = build_settings(workdir / "settings-task", hooks_enabled=True)
             assert not validate_settings(settings), validate_settings(settings)
             assert "Bash" in settings["permissions"]["deny"]
-            assert "mcp__zhigou_bound__*" in ALLOWED_AGENT_TOOLS
+            assert "mcp__easycirq_bound__*" in ALLOWED_AGENT_TOOLS
             for tool in ("Bash", "Write", "Edit", "Agent", "Task", "WebFetch", "WebSearch"):
                 assert tool in DENIED_AGENT_TOOLS
 

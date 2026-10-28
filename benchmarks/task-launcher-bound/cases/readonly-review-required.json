@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "readonly-review-required",
   "description": "Offline audit status review_required: report demanded, verdict REVIEW_REQUIRED (not silently upgraded to PASS).",
   "setup": {

@@ -1,13 +1,6 @@
 # 变更记录
 
-## 未发布
-
-- 新增离线铜岛诊断 `scripts/power_preflight/islands.py`（`--net` 输出岛/成员/bbox/岛间最近点，铺铜多边形作为成员）与离线补线 `scripts/power_preflight/island_join.py`（同层 A* 连岛，或跨层过孔缝合；输出 `design-engine-pcb-playbook/v1` 供 `pcb_apply_plan`；无安全缝合时如实标 incomplete）；`pcb-execution.md` §7 路由器选择表加一行。新增 `tests/test_island_join.py`。
-- SY8089 块默认电感改为 `ind.2u2_swpa4020`（本板实装 SWPA4020S2R2MT，Isat/Irms 待核），`ind.22uh_1210` 降为备选并注明约 0.77A 不满足 2A；新增 `tests/test_block_parts_verified.py`（块引用 `auto-added` 器件报警）。
-- `gate_check` G5 关键网证明支持 `netpath_fallback`（`{fallback: {connection: 0, copper_ids: [...]}}`，原生 DRC Connection=0 时降级 advisory）；`design-gates.md` 写清该证据格式。
-- `gate_check` G6 增加 `step`（3D/STEP）角色与 `manufacturing_manual_handoff` advisory（`artifacts[].status=manual_handoff`）；Gerber/钻孔/CPL 文案更新为 `pcb.manufacture.*` typed action + GUI 兜底；`manufacturing-package.md` 同步。
-
-## 1.1.0 — 2026-10-28
+## 1.1.0 — 2026-10-29
 
 - **破坏性重命名**：仓库 `hardware-design-skill` → `EasyCirq`；Skill `design-hardware` → `easycirq`；运行时 CLI/二进制 `zhigou` → `easycirq`；环境变量 `ZHIGOU_*` → `EASYCIRQ_*`；状态目录 `~/.zhigou` → `~/.easycirq`；协议服务 `zhigou-agent` → `easycirq-agent`；连接器 `zhigou-connector` → `easycirq-connector`。迁移见 `docs/migration-easycirq.md`。
 
@@ -23,6 +16,11 @@
 - requirements 增加 `interface_pinout`：外接模组/FPC 引脚定义（`{module, model, source, view, status}`），`assumed` 在 G0 只 `warn`、**G6 交付 `BLOCKED`（不可豁免）**；无外接模组写 `not_applicable`+`reason`。新增摄像头 DVP FPC 设计卡 `references/module-cards/camera-dvp-fpc.md`（assumed 模板）；`module-integration.md` §2 的四方对照落到该键。新增 guard `tests/test_interface_pinout.py` 与 gate 契约测试。
 - `design-state.json` 增加 `recovery` 恢复字段（`open_nets`/`last_journal`/`last_backup`/`rejected_options`/`next_action`）；SKILL §4 规定上下文压缩/中断后先读 `project.stage`+`recovery` 再继续、状态缺失或与现场不一致按 `BLOCKED`；`gate_check` G0 校验 `project.stage` 阶段 token 与 `recovery.stage` 一致性。新增 guard `tests/test_recovery_state.py` 与 gate 契约测试。
 - `gate_check` G5 增加 DRC 规则放宽与铺铜新鲜度检查：`stackup.drc_rules_before` vs `routing.drc_rules` 逐项比较（clearance/线宽/过孔/环宽/差分容差），放宽无 `routing.rule_relaxations` 记录 → `BLOCKED`、有记录记 advisory；`routing.pour_rebuilt=false` → `BLOCKED`。design-state 示例同步，新增 gate 契约测试。
+- 新增离线铜岛诊断 `scripts/power_preflight/islands.py`（`--net` 输出岛/成员/bbox/岛间最近点，铺铜多边形作为成员）与离线补线 `scripts/power_preflight/island_join.py`（同层 A* 连岛，或跨层过孔缝合；输出 `design-engine-pcb-playbook/v1` 供 `pcb_apply_plan`；无安全缝合时如实标 incomplete）；`pcb-execution.md` §7 路由器选择表加一行。新增 `tests/test_island_join.py`。
+- SY8089 块默认电感改为 `ind.2u2_swpa4020`（本板实装 SWPA4020S2R2MT，Isat/Irms 待核），`ind.22uh_1210` 降为备选并注明约 0.77A 不满足 2A；新增 `tests/test_block_parts_verified.py`（块引用 `auto-added` 器件报警）。
+- `gate_check` G5 关键网证明支持 `netpath_fallback`（`{fallback: {connection: 0, copper_ids: [...]}}`，原生 DRC Connection=0 时降级 advisory）；`design-gates.md` 写清该证据格式。
+- `gate_check` G6 增加 `step`（3D/STEP）角色与 `manufacturing_manual_handoff` advisory（`artifacts[].status=manual_handoff`）；Gerber/钻孔/CPL 文案更新为 `pcb.manufacture.*` typed action + GUI 兜底；`manufacturing-package.md` 同步。
+- 命名收尾：`task_launcher` bound 的 MCP server 名（`easycirq_bound`）、工具前缀（`mcp__easycirq_bound__*`）与 `easycirq.bound.*` schema、以及 `official_toolchain` 的 `easycirq.a2-coverage.*` schema 统一到 EasyCirq 品牌；旧 `zhigou.*` / `mcp__zhigou_bound__*` / `ZHIGOU_BOUND_*` 仅作为**读取旧数据**的 legacy 兼容保留，不再写出。历史文档与证据保留原名（见 `docs/migration-easycirq.md`）。
 
 ## 1.0.2 — 2026-10-27
 

@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.bound.benchmark.case/v1",
+  "schema": "easycirq.bound.benchmark.case/v1",
   "id": "readonly-incomplete",
   "description": "Offline audit status incomplete: run_offline_audit marks the task INCOMPLETE; evidence_emit and finalize are refused, no report is produced.",
   "setup": {

@@ -193,7 +193,7 @@ Phase 1 的目标形态是：**B1 负责触发与启动，Bound 负责工具面/
 | 需要 B1 接受 | 内容 | 目的 |
 |---|---|---|
 | Bound 任务目录 | 含 `bound.config.json`、`task.token`、`receipts.jsonl`、`evidence.json`、`result.json` 的目录 | supervisor 的 `--config/--token-file` 路径；任务结束产物落点 |
-| `mcp.json` | 只挂 `zhigou-bound`（stdio）的 MCP 配置 | agent 只能通过 Bound supervisor 推进流程 |
+| `mcp.json` | 只挂 `easycirq-bound`（stdio）的 MCP 配置 | agent 只能通过 Bound supervisor 推进流程 |
 | `settings.json` | `permissions.deny/allow`（+ 可选 hooks） | 工具面收窄的第二道（`--allowedTools` 语义随版本变化） |
 | argv / argv 模板 | 含 `--mcp-config/--settings/--append-system-prompt-file/--plugin-dir/--allowedTools/--disallowedTools` 的参数列表 | 不拼 shell；Bound 已生成 `agent.command.json` |
 
@@ -225,8 +225,8 @@ Phase 1 的目标形态是：**B1 负责触发与启动，Bound 负责工具面/
   B1 观察值：`launcher=0.1.0`、`skill=1.0.2`、plugin 版本由 `build-plugin` manifest 决定
   （`task_launcher version` 实测读设计目录时 `plugin=null, plugin_error=plugin_missing`）。
   集成时必须让 **Bound 的 `plugin` 值来自 B1 manifest**，而不是默认值（见 IC-11）。
-- **结果互通**：B1 的 result 文档（`zhigou.task-launcher.result/v1`）与 Bound 的
-  `result.json`（`zhigou.bound.report/v1`）是**两份**；建议 B1 结果中**引用** Bound 报告的
+- **结果互通**：B1 的 result 文档（`easycirq.task-launcher.result/v1`）与 Bound 的
+  `result.json`（`easycirq.bound.report/v1`）是**两份**；建议 B1 结果中**引用** Bound 报告的
   路径/哈希（`report_sha256`）而不是复制其字段，避免出现两个互相矛盾的 verdict。
 - **状态互通**：B1 的任务状态（accepted/running/failed…）与 Bound 状态机
   （CREATED…FINALIZED/FAILED/…）语义不同；集成时只做“外层引用内层”，不要合并状态机。
@@ -259,15 +259,15 @@ B1 文件、不合并 PR、不发版。
 
 ## 6. 兼容注意
 
-1. **命名**：B1 现有 MCP server 是 `zhigou-offline-audit`（`task_launcher/__init__.py`
-   `MCP_SERVER_NAME`）；Bound 的是 `zhigou-bound`（`task_launcher/bound/__init__.py`
-   `SERVER_NAME="zhigou-bound-supervisor"`，`mcp.json` key 为 `zhigou-bound`）。
+1. **命名**：B1 现有 MCP server 是 `easycirq-offline-audit`（`task_launcher/__init__.py`
+   `MCP_SERVER_NAME`）；Bound 的是 `easycirq-bound`（`task_launcher/bound/__init__.py`
+   `SERVER_NAME="easycirq-bound-supervisor"`，`mcp.json` key 为 `easycirq-bound`）。
    集成时不要复用/覆盖对方名字，否则 agent 可能看到两套工具。
 2. **版本**：B1 三方握手（launcher/Skill/plugin）与 Bound 四方握手（skill/plugin/server/
    backend）是两套；`plugin` 版本必须来自 B1 manifest（当前 Bound 默认 `0.1.0`，见 IC-11）；
    `/version` 类命令不要把两套版本混成一个字段。
-3. **目录**：B1 状态目录默认 `%LOCALAPPDATA%\zhigou-launcher`（或 `~/.zhigou-launcher`）；
-   Bound 默认 `%LOCALAPPDATA%\zhigou-bound`（`config.default_state_dir`）。**不要共用状态目录**
+3. **目录**：B1 状态目录默认 `%LOCALAPPDATA%\easycirq-launcher`（或 `~/.easycirq-launcher`）；
+   Bound 默认 `%LOCALAPPDATA%\easycirq-bound`（`config.default_state_dir`）。**不要共用状态目录**
    （token/任务生命周期语义不同）；Bound 任务目录可由 `plan --out/--state-root` 指定。
 4. **包布局**：本分支只有 `task_launcher/bound/`，**没有** `task_launcher/__init__.py`，靠
    Python 3.13 的 namespace package 支持 `python -m task_launcher.bound`（已实测可运行）。
@@ -296,7 +296,7 @@ B1 文件、不合并 PR、不发版。
 - [ ] Bound 侧 `plan --plugin-dir <B1 plugin>` 后 `agent_ready` 依据真实 plugin 存在为 true；
       并不再默认 `plugin_version=0.1.0`（读 manifest）。
 - [ ] 真实 Claude 冒烟（需授权）验证：工具面确无 Bash/Write/子代理；先 Skill；MCP 只挂
-      `zhigou-bound`；Stop 前未 FINALIZED 不给报告；注入不能跳过。**未授权则保持 NOT RUN。**
+      `easycirq-bound`；Stop 前未 FINALIZED 不给报告；注入不能跳过。**未授权则保持 NOT RUN。**
 - [ ] 版本/命名/状态/结果四项对齐（§6），并更新 `contract.md` 与 `integration-notes.md`。
 
 ## 8. 未验证 / 拿不准的地方
@@ -333,11 +333,11 @@ B1 文件、不合并 PR、不发版。
   - `python -m task_launcher.bound plan --request <req> --out <task> --skill-dir design-hardware
     --plugin-dir <tmp> --b1-repo <hds-tlb-on-b1>` → exit 0；`agent_ready=true`；
     `b1={available:true, delivered:true}`；argv 含全部 hardening flag；allow 为
-    `Read,Glob,Grep,Skill(design-hardware),mcp__zhigou_bound__*`；无 token/HMAC 泄漏；
+    `Read,Glob,Grep,Skill(design-hardware),mcp__easycirq_bound__*`；无 token/HMAC 泄漏；
   - `probe-b1 --repo-root <hds-tlb-on-b1>` → `available=true, delivered=true, AVAILABLE`。
 - **仍未验证/未授权**：
   1. 由 B1 launcher 真实拉起 bound supervisor 的端到端会话：**NOT RUN**。B1 的 `mcp.json`
-     目前只挂 `zhigou-offline-audit`；接入 bound 需要 B1 侧接受 bound 生成的
+     目前只挂 `easycirq-offline-audit`；接入 bound 需要 B1 侧接受 bound 生成的
      `mcp.json/settings.json/routing.md/argv` 或提供等价接缝（见本文件 §2/§4 的最小要求）。
   2. 真实 Claude Code 运行：**NOT RUN**（未获授权/费用）。
   3. Phase 2 真实 EDA 写：**BLOCKED**（无 EDA 授权）。
@@ -348,14 +348,14 @@ B1 文件、不合并 PR、不发版。
 ## 10. 收口更新（2026-10-28）：B1 #74 已合并 + rebase 到最新 main
 
 - B1 PR **#74 已合并**（merge commit `f9aa773`），main 同时包含 rebrand PR #77：
-  `design-hardware/`→`easycirq/`、`zhigou_mcp`→`easycirq_mcp`、审计输入 schema
-  `zhigou.electrical-review.input/v1`→`easycirq.electrical-review.input/v1`。
+  `design-hardware/`→`easycirq/`、`easycirq_mcp`→`easycirq_mcp`、审计输入 schema
+  `easycirq.electrical-review.input/v1`→`easycirq.electrical-review.input/v1`。
 - 本包已 rebase：`feat/parallel-task-launcher-bound-on-main`（base `f9aa773`），
   6 个提交干净重放，83 files 全 A。
 - rebase 后必须的兼容修复（真实执行）：
   - 双布局 Skill 检测（`easycirq`/`design-hardware`）并写入
     config/settings/argv/routing；`plan --skill-name` 可覆盖；
-  - 离线引擎 `easycirq_mcp`/`zhigou_mcp` 双探测，按模块选择
+  - 离线引擎 `easycirq_mcp`/`easycirq_mcp` 双探测，按模块选择
     `fixtures/inputs_easycirq/`（新 schema）或 `fixtures/inputs/`（旧 schema）；
   - hooks 接受两种 Skill 名。
 - 复验：新 main 上 208 tests OK、24/24、selftest 19/19、全量 3636 OK(skipped=3)；
