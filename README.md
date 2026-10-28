@@ -8,8 +8,8 @@
 
 | 层 | 是什么 | 位置 |
 |---|---|---|
-| **设计方法层** | `design-hardware` Skill：需求澄清、选型与供应链、工程计算、设计规则、G0–G6 阶段门禁、证据口径、交付话术 | `design-hardware/` |
-| **执行层** | 自有 `zhigou` 工具链：CLI + daemon + 连接器，从本仓库源码构建，在真实嘉立创 EDA 里读写工程 | `runtime/`、`connector/`、`protocol/`、`distribution/` |
+| **设计方法层** | 智构 · EasyCirq Skill（目录 `design-hardware/`）：需求澄清、选型与供应链、工程计算、设计规则、G0–G6 阶段门禁、证据口径、交付话术 | `design-hardware/` |
+| **执行层** | 自有智构 · EasyCirq 工具链（命令 `zhigou`）：CLI + daemon + 连接器，从本仓库源码构建，在真实嘉立创 EDA 里读写工程 | `runtime/`、`connector/`、`protocol/`、`distribution/` |
 
 不依赖上游 `easyeda-agent` 的 Skill 或 CLI（它只作为 MIT 来源保留在 `third_party/`，用于来源追溯）。
 以前"装两个 Skill + 一个插件"的步骤已经不需要了。

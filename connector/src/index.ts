@@ -1,5 +1,5 @@
 /**
- * EasyZhigou Connector — extension entry point.
+ * EasyCirq Connector — extension entry point.
  *
  * Bridges the zhigou-agent Go daemon to the official `eda.*` API over a local
  * WebSocket. On startup it scans ports 23111-23120 (0xEDA0-0xEDA9), validates the daemon
@@ -101,7 +101,7 @@ export function about(): void {
 	}
 
 	eda.sys_Dialog.showInformationMessage(
-		`EasyZhigou Connector v${extensionConfig.version}\n${statusLine}`,
+		`EasyCirq Connector v${extensionConfig.version}\n${statusLine}`,
 		'About',
 	);
 }

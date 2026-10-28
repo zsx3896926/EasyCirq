@@ -8,6 +8,6 @@ var (
 	// ConnectorName/Version identify the in-EDA connector build that this
 	// runtime ships with. Release builds override both via -ldflags so the CLI
 	// and the packaged .eext cannot silently drift apart.
-	ConnectorName    = "zhigou-easycirq-connector"
-	ConnectorVersion = "1.0.0"
+	ConnectorName    = "easycirq-connector"
+	ConnectorVersion = "1.0.3"
 )

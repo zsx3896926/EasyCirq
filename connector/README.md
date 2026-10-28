@@ -24,8 +24,8 @@
 
 ```
 AI 客户端（Claude/Codex 等）
-   └─ design-hardware Skill（设计方法、规则、门禁）
-        └─ zhigou 运行时（本机 CLI + daemon，真正下发动作）
+   └─ 智构 Skill（设计方法、规则、门禁）
+        └─ 智构运行时（本机 CLI + daemon，真正下发动作）
              └─ 本连接器（在 EasyEDA 内部执行 eda.* API）
                   └─ EasyEDA Pro（你看到的画布）
 ```
@@ -37,9 +37,9 @@ AI 客户端（Claude/Codex 等）
 ## 2. 安装前提
 
 - Windows 10/11（已实测），EasyEDA Pro **V4**（实测 4.1.78）；
-- 已用统一安装器装好 zhigou 工具链（默认 `%LOCALAPPDATA%\Zhigou`）；
+- 已用统一安装器装好智构工具链（默认 `%LOCALAPPDATA%\Zhigou`）；
 - 知道 `.eext` 在哪：命令行运行 `zhigou connector path`，或直接看
-  `%LOCALAPPDATA%\Zhigou\connector\zhigou-connector_v<版本>.eext`。
+  `%LOCALAPPDATA%\Zhigou\connector\easycirq-connector_v<版本>.eext`。
 
 ---
 
@@ -49,7 +49,7 @@ AI 客户端（Claude/Codex 等）
 
 1. **完全关闭** EasyEDA Pro（不是最小化；确认进程退出）；
 2. 重新打开 → **设置 → 扩展 → 已安装 → 导入扩展**；
-3. 选择 `zhigou-connector_v<版本>.eext`；
+3. 选择 `easycirq-connector_v<版本>.eext`；
 4. 扩展管理器里找到 **「智构 · EasyCirq 连接器」** → 打开设置/权限 → 勾选
    **「允许外部交互 / Allow external interaction」**（不勾选则连不上，而且 EDA 通常不会提示错误）；
 5. **完全退出并重新启动** EasyEDA Pro；
@@ -123,10 +123,10 @@ EasyEDA 按**扩展 UUID** 识别插件：同 UUID 重新导入时，管理器�
 
 | 项 | 当前值 |
 |---|---|
-| 扩展名 | `zhigou-easycirq-connector` |
+| 扩展名 | `easycirq-connector` |
 | 显示名 | 智构 · EasyCirq 连接器 |
-| 扩展 UUID | `f7880f9da65f42ba8fe657711003c927`（每次升级会换新，见 §5） |
-| 版本 | `1.0.2` |
+| 扩展 UUID | `4c119291f2c4482090a5f54b02a1f1d4`（每次升级会换新，见 §5） |
+| 版本 | `1.0.3` |
 | 依赖服务 | `zhigou-agent`（本工具链 daemon；**不连**旧 `easyeda-agent`） |
 | 端口 | `127.0.0.1:23111-23120`（可用扩展用户配置 `zhigouDaemonPorts` 覆盖） |
 | 协议 | wire `v1`（handshake / register / context / request / response / ping / pong） |
@@ -139,7 +139,7 @@ EasyEDA 按**扩展 UUID** 识别插件：同 UUID 重新导入时，管理器�
 ```bash
 npm install                                # 首次
 npx ts-node ./config/esbuild.prod.ts        # -> dist/index.js（编译期注入版本常量）
-npx ts-node ./build/packaged.ts             # -> build/dist/zhigou-connector_v<ver>.eext
+npx ts-node ./build/packaged.ts             # -> build/dist/easycirq-connector_v<ver>.eext
 npx tsc --noEmit                            # 类型检查
 ```
 

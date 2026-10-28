@@ -1,9 +1,9 @@
 {
-	"name": "zhigou-easycirq-connector",
-	"uuid": "f7880f9da65f42ba8fe657711003c927",
+	"name": "easycirq-connector",
+	"uuid": "4c119291f2c4482090a5f54b02a1f1d4",
 	"displayName": "智构 · EasyCirq 连接器",
-	"description": "智构 · EasyCirq 连接器：把本机 Zhigou 运行时的原理图/PCB 操作请求，转成 EasyEDA Pro 官方 eda.* API 调用；仅在 127.0.0.1 回环通信，不联网、无遥测、不需要账号。首次使用需在扩展设置中允许「外部交互」。详细功能、安装、升级与排障见 README.md，更新记录见 CHANGELOG.md。",
-	"version": "1.0.2",
+	"description": "智构 · EasyCirq 连接器：把本机 EasyCirq 运行时的原理图/PCB 操作请求，转成 EasyEDA Pro 官方 eda.* API 调用；仅在 127.0.0.1 回环通信，不联网、无遥测、不需要账号。首次使用需在扩展设置中允许「外部交互」。详细功能、安装、升级与排障见 README.md，更新记录见 CHANGELOG.md。",
+	"version": "1.0.3",
 	"publisher": "zsx3896926",
 	"engines": {
 		"eda": ">=3.2.0"
@@ -33,8 +33,8 @@
 	"headerMenus": {
 		"home": [
 			{
-				"id": "EDA Agent",
-				"title": "EDA Agent",
+				"id": "EasyCirq",
+				"title": "智构 · EasyCirq",
 				"menuItems": [
 					{
 						"id": "Reconnect",
@@ -53,7 +53,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -61,8 +61,8 @@
 		],
 		"blank": [
 			{
-				"id": "EDA Agent",
-				"title": "EDA Agent",
+				"id": "EasyCirq",
+				"title": "智构 · EasyCirq",
 				"menuItems": [
 					{
 						"id": "Reconnect",
@@ -81,7 +81,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -89,8 +89,8 @@
 		],
 		"sch": [
 			{
-				"id": "EDA Agent",
-				"title": "EDA Agent",
+				"id": "EasyCirq",
+				"title": "智构 · EasyCirq",
 				"menuItems": [
 					{
 						"id": "Reconnect",
@@ -109,7 +109,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -117,8 +117,8 @@
 		],
 		"symbol": [
 			{
-				"id": "EDA Agent",
-				"title": "EDA Agent",
+				"id": "EasyCirq",
+				"title": "智构 · EasyCirq",
 				"menuItems": [
 					{
 						"id": "Reconnect",
@@ -137,7 +137,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -145,8 +145,8 @@
 		],
 		"pcb": [
 			{
-				"id": "EDA Agent",
-				"title": "EDA Agent",
+				"id": "EasyCirq",
+				"title": "智构 · EasyCirq",
 				"menuItems": [
 					{
 						"id": "Reconnect",
@@ -165,7 +165,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -173,8 +173,8 @@
 		],
 		"footprint": [
 			{
-				"id": "EDA Agent",
-				"title": "EDA Agent",
+				"id": "EasyCirq",
+				"title": "智构 · EasyCirq",
 				"menuItems": [
 					{
 						"id": "Reconnect",
@@ -193,7 +193,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]

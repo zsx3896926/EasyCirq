@@ -1,6 +1,6 @@
-![Zhigou · EasyCirq](images/banner.png)
+![EasyCirq](images/banner.png)
 
-# Zhigou · EasyCirq Connector (EasyEDA Pro extension)
+# EasyCirq Connector (EasyEDA Pro extension)
 
 > 中文版：[README.md](README.md)
 >
@@ -25,8 +25,8 @@ The three layers (easy to confuse at first):
 
 ```
 AI client (Claude / Codex, etc.)
-   └─ design-hardware Skill (design method, rules, gates)
-        └─ zhigou runtime (local CLI + daemon; this is what actually sends the actions)
+   └─ EasyCirq Skill (design method, rules, gates)
+        └─ EasyCirq runtime (local CLI + daemon; this is what actually sends the actions)
              └─ this connector (executes eda.* API calls inside EasyEDA)
                   └─ EasyEDA Pro (the canvas you see)
 ```
@@ -38,9 +38,9 @@ The connector only translates between the **bottom two layers**.
 ## 2. Prerequisites
 
 - Windows 10/11 (tested), EasyEDA Pro **V4** (tested 4.1.78);
-- The zhigou toolchain installed with the unified installer (default `%LOCALAPPDATA%\Zhigou`);
+- The EasyCirq toolchain installed with the unified installer (default `%LOCALAPPDATA%\Zhigou`);
 - Know where the `.eext` is: run `zhigou connector path`, or look at
-  `%LOCALAPPDATA%\Zhigou\connector\zhigou-connector_v<version>.eext`.
+  `%LOCALAPPDATA%\Zhigou\connector\easycirq-connector_v<version>.eext`.
 
 ---
 
@@ -50,8 +50,8 @@ The connector only translates between the **bottom two layers**.
 
 1. **Fully exit** EasyEDA Pro (not minimize; confirm the process is gone);
 2. Start it again → **Settings → Extensions → Installed → Import extension**;
-3. Choose `zhigou-connector_v<version>.eext`;
-4. In the extension manager find **"Zhigou · EasyCirq Connector"** → open its settings/permissions →
+3. Choose `easycirq-connector_v<version>.eext`;
+4. In the extension manager find **"EasyCirq Connector"** → open its settings/permissions →
    enable **"Allow external interaction"** (if not enabled, the connector cannot connect, and EDA does not report an error);
 5. **Fully exit and restart** EasyEDA Pro;
 6. Open any project and run `zhigou doctor` from the command line:
@@ -82,7 +82,7 @@ the manager while still loading old code. Therefore this connector **uses a new 
 The correct flow:
 
 1. Close EasyEDA Pro;
-2. Start it again → extension manager → **uninstall the old version** "Zhigou · EasyCirq Connector";
+2. Start it again → extension manager → **uninstall the old version** "EasyCirq Connector";
 3. Import the new `.eext`;
 4. Enable "Allow external interaction" again;
 5. **Fully exit and restart** EDA;
@@ -107,7 +107,7 @@ The correct flow:
 | "Ambiguous window" errors | several EDA windows are open | use `zhigou ... --project <name>` or `--window <id>` |
 | Errors like "page hidden / cannot capture" | the EDA tab is in the background, canvas not repainted | bring the EDA window to the front and retry |
 | Data after an operation looks stale | runtime cache / not saved | the AI runs `save → doc reload → read back`; never trust a single return value |
-| Two "Zhigou · EasyCirq Connector" entries in the manager | the old UUID was not uninstalled | uninstall the old one, keep only the current version |
+| Two "EasyCirq Connector" entries in the manager | the old UUID was not uninstalled | uninstall the old one, keep only the current version |
 
 Logs: `%USERPROFILE%\.zhigou\daemon.log` (connection/request records on the daemon side).
 
@@ -127,10 +127,10 @@ Logs: `%USERPROFILE%\.zhigou\daemon.log` (connection/request records on the daem
 
 | Item | Current value |
 |---|---|
-| Extension name | `zhigou-easycirq-connector` |
-| Display name | Zhigou · EasyCirq Connector |
-| Extension UUID | `f7880f9da65f42ba8fe657711003c927` (changes with every upgrade, see §5) |
-| Version | `1.0.2` |
+| Extension name | `easycirq-connector` |
+| Display name | EasyCirq Connector (zh: 智构 · EasyCirq 连接器) |
+| Extension UUID | `4c119291f2c4482090a5f54b02a1f1d4` (changes with every upgrade, see §5) |
+| Version | `1.0.3` |
 | Required service | `zhigou-agent` (this toolchain's daemon; **not** the old `easyeda-agent`) |
 | Ports | `127.0.0.1:23111-23120` (overridable via the extension user config `zhigouDaemonPorts`) |
 | Protocol | wire `v1` (handshake / register / context / request / response / ping / pong) |
@@ -143,7 +143,7 @@ Logs: `%USERPROFILE%\.zhigou\daemon.log` (connection/request records on the daem
 ```bash
 npm install                                # first time
 npx ts-node ./config/esbuild.prod.ts        # -> dist/index.js (version constant injected at compile time)
-npx ts-node ./build/packaged.ts             # -> build/dist/zhigou-connector_v<ver>.eext
+npx ts-node ./build/packaged.ts             # -> build/dist/easycirq-connector_v<ver>.eext
 npx tsc --noEmit                            # type check
 ```
 
