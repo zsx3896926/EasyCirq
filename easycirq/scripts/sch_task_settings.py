@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 """Generate a per-task Claude Code settings.json that enforces the schematic
-delivery gate via a Stop hook.
+delivery gate via a Stop hook, in trusted re-check mode.
 
-The agent cannot finish a schematic task until it has run
-``sch_delivery_check.py`` and produced a PASS report at ``--evidence``.
-The settings are task-scoped (not global), so they do not alter the customer's
-machine-wide Claude Code config.
+The hook re-runs ``sch_delivery_check.py`` on every Stop against the actual
+input files and overwrites ``--evidence`` with the trusted report, so a
+hand-written PASS cannot satisfy it.
 
 Usage:
-    python sch_task_settings.py --workdir <task> --evidence <task>/delivery.json \
-        --out <task>/settings.json [--hook-log <task>/hook.log]
+    python sch_task_settings.py --workdir <task> --out <task>/settings.json \
+        [--frame-plan frame-plan.json --layout layout.json \
+         --text-audit text-audit.json --style style-input.json] \
+        [--skip-layout] [--require-style] [--require-visual] [--hook-log hook.log]
 """
 from __future__ import annotations
 
@@ -20,30 +21,49 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 HOOK = SCRIPT_DIR / "sch_delivery_hook.py"
+GATE = SCRIPT_DIR / "sch_delivery_check.py"
+
+
+def _abs(workdir: Path, value: str) -> Path:
+    p = Path(value)
+    return (p if p.is_absolute() else workdir / p).resolve()
 
 
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--workdir", required=True)
-    ap.add_argument("--evidence", required=True,
-                    help="absolute path to the delivery report (verdict must be PASS)")
+    ap.add_argument("--evidence", default="delivery.json")
+    ap.add_argument("--frame-plan", default="frame-plan.json")
+    ap.add_argument("--layout", default="layout.json")
+    ap.add_argument("--text-audit", default="text-audit.json")
+    ap.add_argument("--style", default="style-input.json")
     ap.add_argument("--out", default="settings.json")
-    ap.add_argument("--hook-log", help="optional sidecar log for the hook")
+    ap.add_argument("--hook-log", default="hook.log")
     ap.add_argument("--python", default=sys.executable)
+    ap.add_argument("--skip-layout", action="store_true")
+    ap.add_argument("--require-style", action="store_true", default=True)
+    ap.add_argument("--require-visual", action="store_true")
     args = ap.parse_args(argv)
 
     workdir = Path(args.workdir).resolve()
-    evidence = Path(args.evidence)
-    if not evidence.is_absolute():
-        evidence = workdir / evidence
-    evidence = evidence.resolve()
+    workdir.mkdir(parents=True, exist_ok=True)
+    evidence = _abs(workdir, args.evidence)
 
-    command = [args.python, str(HOOK), "--evidence", str(evidence)]
+    command = [args.python, str(HOOK), "--evidence", str(evidence),
+               "--gate", str(GATE),
+               "--frame-plan", str(_abs(workdir, args.frame_plan)),
+               "--text-audit", str(_abs(workdir, args.text_audit)),
+               "--style", str(_abs(workdir, args.style))]
+    if not args.skip_layout:
+        command += ["--layout", str(_abs(workdir, args.layout))]
     if args.hook_log:
-        log = Path(args.hook_log)
-        if not log.is_absolute():
-            log = workdir / log
-        command += ["--log", str(log.resolve())]
+        command += ["--log", str(_abs(workdir, args.hook_log))]
+    if args.skip_layout:
+        command.append("--skip-layout")
+    if args.require_style:
+        command.append("--require-style")
+    if args.require_visual:
+        command.append("--require-visual")
 
     settings = {
         "hooks": {
