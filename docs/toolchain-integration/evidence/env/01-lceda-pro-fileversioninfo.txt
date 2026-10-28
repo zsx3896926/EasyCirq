@@ -1,0 +1,31 @@
+
+FileVersionRaw     : 4.1.78.0
+ProductVersionRaw  : 4.1.78.0
+Comments           : 
+CompanyName        : 深圳嘉立创科技集团股份有限公司
+FileBuildPart      : 78
+FileDescription    : 嘉立创EDA(专业版)
+FileMajorPart      : 4
+FileMinorPart      : 1
+FileName           : C:\Users\jlc\AppData\Local\Programs\lceda-pro\lceda-pro.exe
+FilePrivatePart    : 0
+FileVersion        : 4.1.78
+InternalName       : lceda-pro.exe
+IsDebug            : False
+IsPatched          : False
+IsPrivateBuild     : False
+IsPreRelease       : False
+IsSpecialBuild     : False
+Language           : 英语(美国)
+LegalCopyright     : 嘉立创版权所有
+LegalTrademarks    : 
+OriginalFilename   : lceda-pro.exe
+PrivateBuild       : 
+ProductBuildPart   : 78
+ProductMajorPart   : 4
+ProductMinorPart   : 1
+ProductName        : 嘉立创EDA(专业版)
+ProductPrivatePart : 0
+ProductVersion     : 4.1.78
+SpecialBuild       : 
+

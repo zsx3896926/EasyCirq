@@ -1,0 +1,109 @@
+{
+  "schema": "zhigou-acceptance-selftest/v1",
+  "generatedAt": "2026-10-27T13:43:05Z",
+  "checks": [
+    {
+      "name": "identity_identical",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "checks": {
+          "designator_set": {
+            "ok": true,
+            "detail": {
+              "added": [],
+              "removed": []
+            }
+          },
+          "instance_identity": {
+            "ok": true,
+            "detail": {}
+          },
+          "pin_net": {
+            "ok": true,
+            "detail": {}
+          },
+          "positions": {
+            "ok": true,
+            "detail": {}
+          }
+        },
+        "moved": "R1",
+        "expectedDelta": {
+          "dx": 0.0,
+          "dy": 0.0
+        },
+        "findings": [],
+        "nets": {
+          "before": {
+            "+3V3": 2,
+            "GND": 2
+          },
+          "after": {
+            "+3V3": 2,
+            "GND": 2
+          }
+        }
+      }
+    },
+    {
+      "name": "identity_target_moved_ok",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "identity_unexpected_move",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "identity_non_target_move",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "identity_pin_net_change",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "identity_uniqueid_change",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "pcb_scope_ok",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "pcb_scope_other_moved",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "pcb_scope_copper_changed",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "json_tolerant_parse",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "saved_true_unwrap",
+      "ok": true,
+      "detail": null
+    },
+    {
+      "name": "unwrap_result",
+      "ok": true,
+      "detail": null
+    }
+  ],
+  "counts": {
+    "total": 12,
+    "failed": 0
+  }
+}

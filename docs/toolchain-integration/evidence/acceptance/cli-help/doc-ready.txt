@@ -1,0 +1,28 @@
+Verify that the requested UUID (or the current document when omitted) is
+already active and its complete component list is stable across consecutive
+reads. Every sample checks project/document/type/tab context before and after.
+This command never saves, closes, opens or switches a document. A configured
+--doc cannot cause navigation here. Unknown, drifting or unreadable data fails.
+
+ready:true reports current component-inventory readiness only. It does not
+prove that an earlier timed-out handler finished, that a previous reload
+succeeded, or that nets/wires/geometry persisted. Preserve earlier failures and
+obtain separate full readbacks and a successful save/reload cycle for acceptance.
+
+Usage:
+  zhigou doc ready [uuid] [flags]
+
+Flags:
+  -h, --help               help for ready
+      --json               emit JSON readiness evidence (never a reload success)
+      --timeout duration   total readiness-read budget after window selection (1s to 1m) (default 10s)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID (usually prefer --project)
+

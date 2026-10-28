@@ -1,0 +1,61 @@
+{
+  "schema": "zhigou-outline-foreign-field/v1",
+  "date": "2026-10-28",
+  "environment": {
+    "host": "EasyEDA Pro 4.1.78",
+    "connector": "zhigou-connector 0.1.2 (uuid cfc96215f0b44005981aa0b641daa89a)",
+    "runtime": "zhigou 0.2.2-dev",
+    "project": "outline-foreign-repro-20261028-013032",
+    "device": "C2980113 / YTS1C0172BWJ00 / SW-SMD_2P-YTS1C0172B"
+  },
+  "reproduced": {
+    "pcbDrcPassed": false,
+    "violation": "Board Outline to SMD Pad — Clearance Error in the same footprint",
+    "leafErrors": 4,
+    "affectedPads": 4,
+    "outlineObjectId": "50806a65edafeecee19",
+    "minDistanceMm": 0.0275,
+    "requiredMm": 0.03,
+    "evidence": "04-drc-before.json, 07-dump.json"
+  },
+  "connector_actions_tested": {
+    "pcb.outline.foreign.scan": {
+      "result": "UNUSABLE for this defect class",
+      "why": "the offending object is a component child primitive; pcb_PrimitiveLine/Arc/Polyline.getAll() cannot enumerate it, so the layer-11 scan returns 0 owned primitives even while DRC reports 4 violations. Scan still works correctly for real layer-11 graphics (free outline is reported as free)."
+    },
+    "pcb.outline.foreign.delete": {
+      "result": "NOT RELIABLE",
+      "why": "pcb_PrimitiveLine.delete([id]) returns true, but after pcb save + doc reload the object is present again (getPrimitivesBBox still returns a box for the same id) and DRC reports the same violation → the engine re-materialises the footprint graphic."
+    }
+  },
+  "working_fix": {
+    "path": "component-level replacement, not primitive deletion",
+    "steps": [
+      "python tools/zhigou_footprint_outline_diagnose.py  → names the defective designator, pads and object id",
+      "zhigou sch replace --id <SW1 primitiveId> --lcsc C2885180   (TS-1187A-B-E-B, no embedded outline)",
+      "zhigou doc open <pcb> ; zhigou pcb import-changes",
+      "zhigou pcb save ; zhigou doc reload <pcb> ; zhigou pcb drc"
+    ],
+    "result": {
+      "drcBefore": {
+        "passed": false,
+        "violations": 4
+      },
+      "drcAfter": {
+        "passed": true,
+        "violations": 0
+      }
+    },
+    "evidence": [
+      "14-list.json",
+      "15-replace.json",
+      "16-import2.json",
+      "17-drc-after-replace.json"
+    ]
+  },
+  "product_decision": [
+    "the two connector actions are removed from the runtime action catalog: they must not be advertised as a repair until enumeration/deletion of component-owned board-outline graphics is actually supported by the host API",
+    "the supported path is diagnose + component/footprint-level replacement + save/reload/DCR re-verification, shipped as tools/zhigou_footprint_outline_diagnose.py",
+    "root cause stays in the library footprint; the library should not embed board-outline graphics"
+  ]
+}

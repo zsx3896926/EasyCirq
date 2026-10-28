@@ -6,7 +6,7 @@
 
 | 目的 | 原始入口 |
 |---|---|
-| EasyEDA执行器与安装/命令文档 | https://github.com/zhoushoujianwork/easyeda-agent |
+| 本仓库执行层（zhigou 运行时/连接器/安装包） | 本仓库 `runtime/`、`connector/`、`distribution/`（`INSTALL.md`、`build_release.py`）；命令面用 `zhigou --help`、`zhigou capabilities`、`zhigou api` 离线核对 |
 | EasyEDA官方扩展API | https://prodocs.lceda.cn/ |
 | TI产品手册、参考设计、应用笔记 | https://www.ti.com/ |
 | ADI产品手册、评估板与技术资料 | https://www.analog.com/ |

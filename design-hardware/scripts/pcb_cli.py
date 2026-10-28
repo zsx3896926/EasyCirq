@@ -2,9 +2,9 @@
 """Shared process/JSON helpers for the PCB evidence tools.
 
 This module never writes to an EDA project by itself.  It only runs the
-``easyeda`` CLI (or a fake passed by a test), captures stdout/stderr, parses a
+``zhigou`` CLI (or a fake passed by a test), captures stdout/stderr, parses a
 JSON payload when one is present, and records enough provenance for a case
-manifest.  Every PCB tool accepts ``--easyeda`` so tests never fall back to a
+manifest.  Every PCB tool accepts ``--zhigou`` so tests never fall back to a
 real installed CLI through PATH.
 """
 from __future__ import annotations
@@ -12,18 +12,17 @@ from __future__ import annotations
 import hashlib
 import json
 import os
-import subprocess
 import tempfile
 from datetime import datetime, timezone
 
-import offline_guard
+import zhigou_cli
 
 DEFAULT_TIMEOUT_SEC = 120.0
 
 
-def easyeda_executable(explicit=None):
-    """Return the CLI path/name.  ``EASYEDA_CLI`` is an explicit test seam."""
-    return explicit or os.environ.get('EASYEDA_CLI') or 'easyeda'
+def zhigou_executable(explicit=None):
+    """Return the CLI path/name (``explicit`` -> ``ZHIGOU_BIN`` -> ``zhigou``)."""
+    return zhigou_cli.resolve_bin(explicit)
 
 
 def utc_now():
@@ -78,71 +77,21 @@ def write_text(path, text):
         handle.write(text if text is not None else '')
 
 
-def run(args, *, easyeda=None, timeout=DEFAULT_TIMEOUT_SEC, cwd=None,
+def run(args, *, zhigou=None, timeout=DEFAULT_TIMEOUT_SEC, cwd=None,
         env=None):
-    """Run one CLI command and return a JSON-friendly record.
+    """Run one ``zhigou`` command through the shared resolver.
 
     Never raises for a missing executable, a timeout or non-JSON output: a
     caller deciding pass/fail needs the failure itself, not an exception.
     """
-    argv = [easyeda_executable(easyeda)] + [str(item) for item in args]
-    offline_guard.check_executable(argv, context='pcb_cli.run')
-    started = utc_now()
-    stdout = stderr = ''
-    code = None
-    error = None
-    try:
-        proc = subprocess.run(
-            argv, capture_output=True, text=True, encoding='utf-8',
-            errors='replace', timeout=timeout, cwd=cwd, env=env,
-        )
-        code = proc.returncode
-        stdout = proc.stdout or ''
-        stderr = proc.stderr or ''
-    except subprocess.TimeoutExpired as exc:
-        code = 124
-        stdout = _as_text(exc.stdout)
-        stderr = _as_text(exc.stderr)
-        error = 'timeout after %ss' % timeout
-    except FileNotFoundError as exc:
-        code = 127
-        error = 'executable not found: %s' % exc
-    except OSError as exc:
-        code = 126
-        error = 'could not execute: %s' % exc
-    payload = _parse_payload(stdout)
-    ok = bool(code == 0 and isinstance(payload, dict) and
-              payload.get('ok') is not False)
-    return {
-        'argv': argv,
-        'exit': code,
-        'ok': ok,
-        'error': error,
-        'stdout': stdout,
-        'stderr': stderr,
-        'payload': payload,
-        'started_at': started,
-        'ended_at': utc_now(),
-    }
-
-
-def _as_text(value):
-    if value is None:
-        return ''
-    if isinstance(value, bytes):
-        return value.decode('utf-8', 'replace')
-    return str(value)
+    record = zhigou_cli.run(args, zhigou=zhigou, timeout=timeout, cwd=cwd,
+                            env=env)
+    record['ok'] = payload_ok(record)
+    return record
 
 
 def _parse_payload(text):
-    text = (text or '').strip()
-    if not text:
-        return None
-    try:
-        value = json.loads(text)
-    except json.JSONDecodeError:
-        return None
-    return value if isinstance(value, dict) else None
+    return zhigou_cli.parse_json_payload(text)
 
 
 def result(payload):

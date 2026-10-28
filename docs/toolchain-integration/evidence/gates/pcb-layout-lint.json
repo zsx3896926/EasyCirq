@@ -1,0 +1,2 @@
+PCB layout-lint: score 96/100 (easy): 9 comps, 0 short, 0 overlap, 0 off-board, 0 tight; 4 signal nets, ratsnest 665mil, 1 crossings
+  WARN  crossing   LED1_A × LED1_K @ (30, 277)

@@ -1,0 +1,47 @@
+{
+  "id": "req_208",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:14:45.6369239Z",
+  "ok": true,
+  "result": {
+    "artifactId": "art_bfee39bb-1a4e-4578-95b9-597e3b26822f",
+    "artifactPath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261027-231445-schematic_export-bfee39bb.png",
+    "bytes": 458081,
+    "fileName": "schematic-export.png.png",
+    "format": "png",
+    "scope": "page",
+    "selectedCount": 0
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "artifacts": [
+    {
+      "id": "art_bfee39bb-1a4e-4578-95b9-597e3b26822f",
+      "kind": "schematic_export",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261027-231445-schematic_export-bfee39bb.png",
+      "fileName": "schematic-export.png.png",
+      "mimeType": "image/png",
+      "size": 458081,
+      "sha256": "94d4285907dec69678d152c6c2dc685c612a84ce84b552dc926196950a4ad9e0"
+    }
+  ],
+  "seq": 229,
+  "seqAbandoned": 0
+}

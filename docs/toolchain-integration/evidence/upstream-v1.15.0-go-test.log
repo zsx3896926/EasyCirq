@@ -1,0 +1,2481 @@
+?   	github.com/zhoushoujianwork/easyeda-agent/cmd/easyeda	[no test files]
+ok  	github.com/zhoushoujianwork/easyeda-agent/internal/apidoc	0.465s
+Error: document.current failed: No active document.
+Usage:
+  doc open <name|uuid> [flags]
+
+Examples:
+  easyeda doc open PCB1 --project ceshi
+  easyeda doc open P1 --project ceshi
+  easyeda doc open ESP32-mini-v2 --project hardware
+
+Flags:
+  -h, --help   help for open
+      --json   emit JSON instead of a line
+
+Global Flags:
+      --window string   EasyEDA window ID (usually prefer --project)
+
+Error: --timeout must be between 5s and 10m
+Usage:
+  project find [flags]
+
+Examples:
+  easyeda project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
+
+Flags:
+  -h, --help               help for find
+      --name string        exact project friendly name (required)
+      --team string        exact owning team UUID; scopes inventory to its root folder
+      --timeout duration   total lookup wait budget (5s to 10m); incomplete inventory never proves absence (default 1m30s)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Error: --timeout must be between 5s and 10m
+Usage:
+  project find [flags]
+
+Examples:
+  easyeda project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
+
+Flags:
+  -h, --help               help for find
+      --name string        exact project friendly name (required)
+      --team string        exact owning team UUID; scopes inventory to its root folder
+      --timeout duration   total lookup wait budget (5s to 10m); incomplete inventory never proves absence (default 1m30s)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Error: --timeout must be between 5s and 10m
+Usage:
+  project find [flags]
+
+Examples:
+  easyeda project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
+
+Flags:
+  -h, --help               help for find
+      --name string        exact project friendly name (required)
+      --team string        exact owning team UUID; scopes inventory to its root folder
+      --timeout duration   total lookup wait budget (5s to 10m); incomplete inventory never proves absence (default 1m30s)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Error: --timeout must be between 5s and 10m
+Usage:
+  project find [flags]
+
+Examples:
+  easyeda project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
+
+Flags:
+  -h, --help               help for find
+      --name string        exact project friendly name (required)
+      --team string        exact owning team UUID; scopes inventory to its root folder
+      --timeout duration   total lookup wait budget (5s to 10m); incomplete inventory never proves absence (default 1m30s)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Error: a query is required: easyeda lib search <QUERY> (or --query)
+Usage:
+  lib search [QUERY...] [flags]
+
+Examples:
+  easyeda lib search C25804                    # positional query (words are joined)
+  easyeda lib search 100nF 0402 --limit 5
+  easyeda lib search --query "ESP32-S3-WROOM-1"
+  easyeda lib search --query "100nF 0402" --limit 5
+  easyeda lib search --query C5665              # exact LCSC match (auto-detected)
+  easyeda lib search --query C5665 --allow-fuzzy # keep the fuzzy ranked results
+
+Flags:
+      --allow-fuzzy      keep the fuzzy ranked results even when --query is an LCSC C-number
+      --exact            when --query is an LCSC C-number, only return devices whose LCSC field matches exactly (default for C-numbers)
+  -h, --help             help for search
+      --library string   limit search to one library UUID
+      --limit int        maximum number of results to return (default 10)
+      --query string     search query: MPN, value+package, or component name (alternative to the positional QUERY)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Error: pass the query either positionally or with --query, not both
+Usage:
+  lib search [QUERY...] [flags]
+
+Examples:
+  easyeda lib search C25804                    # positional query (words are joined)
+  easyeda lib search 100nF 0402 --limit 5
+  easyeda lib search --query "ESP32-S3-WROOM-1"
+  easyeda lib search --query "100nF 0402" --limit 5
+  easyeda lib search --query C5665              # exact LCSC match (auto-detected)
+  easyeda lib search --query C5665 --allow-fuzzy # keep the fuzzy ranked results
+
+Flags:
+      --allow-fuzzy      keep the fuzzy ranked results even when --query is an LCSC C-number
+      --exact            when --query is an LCSC C-number, only return devices whose LCSC field matches exactly (default for C-numbers)
+  -h, --help             help for search
+      --library string   limit search to one library UUID
+      --limit int        maximum number of results to return (default 10)
+      --query string     search query: MPN, value+package, or component name (alternative to the positional QUERY)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Error: --out C:\Users\jlc\AppData\Local\Temp\TestPcbEnclosurePlanAndBuildFromBoardSnapshot65133621\001\spec.json already exists; choose a new file
+Usage:
+  plan [flags]
+
+Examples:
+  easyeda pcb enclosure plan --board board.json --models models.json --out spec.json
+  easyeda pcb enclosure plan --board board.json --mode rect --wall 2.4 --top-cutout SW1,SW2 --out spec.json
+
+Flags:
+      --board string            board file from "pcb dump --out" (required)
+      --clearance float         gap between board edge and wall mm (default 0.5)
+      --cutout-margin float     extra size around openings mm (default 0.5)
+      --default-height float    height for parts without a known height mm (default 3)
+      --edge-margin float       max distance from the board edge for a connector opening mm (default 1)
+      --floor float             bottom thickness mm (default 2)
+      --height stringToString   component height overrides in mm, e.g. J1=8.5,U1=0.9 (default [])
+  -h, --help                    help for plan
+      --lid float               top thickness mm (default 2)
+      --mode string             outline: board (follow the board) or rect (its bounding box) (default "board")
+      --models string           output of "pcb 3d models" for component heights
+      --out string              new spec.json path (required)
+      --pillar stringArray      add a screw pillar at board mm coordinates: X,Y[,M3] (repeatable)
+      --resolution float        XY grid in mm (0.02..1) (default 0.1)
+      --screw string            pillar screw when the footprint does not say: M2|M2.5|M3|M4|M5|M6 (default "M3")
+      --slide-side string       side the slide lid comes out of: x-|x+|y-|y+ (default "x+")
+      --snaps string            auto (four lip snaps on split shells without pillars) or none (default "auto")
+      --standoff float          gap between floor and PCB bottom mm (raised for bottom-side parts) (default 3)
+      --thickness float         PCB thickness mm (default 1.6)
+      --top-clearance float     gap above the tallest part mm (default 1)
+      --top-cutout strings      designators that get an opening in the lid (or floor for bottom parts)
+      --type string             split (bottom + top shell) or slide (box + sliding lid, rectangular) (default "split")
+      --wall float              wall thickness mm (default 2)
+
+Error: enclosure checks failed; see C:\Users\jlc\AppData\Local\Temp\TestPcbEnclosurePlanAndBuildFromBoardSnapshot65133621\001\bad\manifest.json
+Usage:
+  build [flags]
+
+Examples:
+  easyeda pcb enclosure build --spec spec.json --out ./enclosure
+
+Flags:
+  -h, --help          help for build
+      --out string    new output directory (required)
+      --spec string   enclosure spec.json (required)
+      --step          also write <part>.step (faceted B-rep, not yet verified in a CAD tool)
+
+Error: escape-plan requires schemaVersion 3, units mil, coordinateSemantic footprint-anchor and routing
+Usage:
+  escape-plan [flags]
+
+Flags:
+      --board string   measured JSON from pcb dump --include-copper
+      --from string    schemaVersion 3 layout intent JSON with routing
+  -h, --help           help for escape-plan
+      --out string     report JSON path; adjacent .svg is the planning preview
+
+Error: output must not overwrite an input file: C:\Users\jlc\AppData\Local\Temp\TestEscapePlanCommandCannotOverwriteInputs2898292364\001\layout.json
+Usage:
+  escape-plan [flags]
+
+Flags:
+      --board string   measured JSON from pcb dump --include-copper
+      --from string    schemaVersion 3 layout intent JSON with routing
+  -h, --help           help for escape-plan
+      --out string     report JSON path; adjacent .svg is the planning preview
+
+Error: output must not overwrite an input file: C:\Users\jlc\AppData\Local\Temp\TestEscapePlanCommandCannotOverwriteInputs2898292364\001\board.json
+Usage:
+  escape-plan [flags]
+
+Flags:
+      --board string   measured JSON from pcb dump --include-copper
+      --from string    schemaVersion 3 layout intent JSON with routing
+  -h, --help           help for escape-plan
+      --out string     report JSON path; adjacent .svg is the planning preview
+
+Error: --out must name a JSON report, not its .svg preview
+Usage:
+  escape-plan [flags]
+
+Flags:
+      --board string   measured JSON from pcb dump --include-copper
+      --from string    schemaVersion 3 layout intent JSON with routing
+  -h, --help           help for escape-plan
+      --out string     report JSON path; adjacent .svg is the planning preview
+
+Error: --width or --height is required (mil; no pixel-to-physical-size assumption)
+Usage:
+  image create [flags]
+
+Examples:
+  easyeda pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+
+Flags:
+      --dry-run          validate locally without EDA calls
+      --file string      PNG/JPEG/SVG source file (required)
+      --height float     physical height (mil)
+  -h, --help             help for create
+      --layer int        reference layer: 13=DOCUMENT only (default 13)
+      --mirror           horizontal mirror
+      --rotation float   rotation (degrees)
+      --width float      physical width (mil; width or height required)
+      --x float          top-left X (mil)
+      --y float          top-left Y (mil)
+
+Error: width/height must be positive finite numbers
+Usage:
+  image create [flags]
+
+Examples:
+  easyeda pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+
+Flags:
+      --dry-run          validate locally without EDA calls
+      --file string      PNG/JPEG/SVG source file (required)
+      --height float     physical height (mil)
+  -h, --help             help for create
+      --layer int        reference layer: 13=DOCUMENT only (default 13)
+      --mirror           horizontal mirror
+      --rotation float   rotation (degrees)
+      --width float      physical width (mil; width or height required)
+      --x float          top-left X (mil)
+      --y float          top-left Y (mil)
+
+Error: width/height must be positive finite numbers
+Usage:
+  image create [flags]
+
+Examples:
+  easyeda pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+
+Flags:
+      --dry-run          validate locally without EDA calls
+      --file string      PNG/JPEG/SVG source file (required)
+      --height float     physical height (mil)
+  -h, --help             help for create
+      --layer int        reference layer: 13=DOCUMENT only (default 13)
+      --mirror           horizontal mirror
+      --rotation float   rotation (degrees)
+      --width float      physical width (mil; width or height required)
+      --x float          top-left X (mil)
+      --y float          top-left Y (mil)
+
+Error: reference pictures require --layer 13 (DOCUMENT)
+Usage:
+  image create [flags]
+
+Examples:
+  easyeda pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+
+Flags:
+      --dry-run          validate locally without EDA calls
+      --file string      PNG/JPEG/SVG source file (required)
+      --height float     physical height (mil)
+  -h, --help             help for create
+      --layer int        reference layer: 13=DOCUMENT only (default 13)
+      --mirror           horizontal mirror
+      --rotation float   rotation (degrees)
+      --width float      physical width (mil; width or height required)
+      --x float          top-left X (mil)
+      --y float          top-left Y (mil)
+
+Error: decode raster image: image: unknown format
+Usage:
+  image create [flags]
+
+Examples:
+  easyeda pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+
+Flags:
+      --dry-run          validate locally without EDA calls
+      --file string      PNG/JPEG/SVG source file (required)
+      --height float     physical height (mil)
+  -h, --help             help for create
+      --layer int        reference layer: 13=DOCUMENT only (default 13)
+      --mirror           horizontal mirror
+      --rotation float   rotation (degrees)
+      --width float      physical width (mil; width or height required)
+      --x float          top-left X (mil)
+      --y float          top-left Y (mil)
+
+Error: image mutation not fully verified (primitiveId=kept-id); read pcb image list before retrying
+Usage:
+  image modify [flags]
+
+Flags:
+      --height float     height (mil)
+  -h, --help             help for modify
+      --id string        embedded-object ID (required)
+      --mirror           horizontal mirror
+      --rotation float   rotation (degrees)
+      --width float      width (mil)
+      --x float          top-left X (mil)
+      --y float          top-left Y (mil)
+
+Error: image mutation not fully verified (primitiveId=); read pcb image list before retrying
+Usage:
+  image create [flags]
+
+Examples:
+  easyeda pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+
+Flags:
+      --dry-run          validate locally without EDA calls
+      --file string      PNG/JPEG/SVG source file (required)
+      --height float     physical height (mil)
+  -h, --help             help for create
+      --layer int        reference layer: 13=DOCUMENT only (default 13)
+      --mirror           horizontal mirror
+      --rotation float   rotation (degrees)
+      --width float      physical width (mil; width or height required)
+      --x float          top-left X (mil)
+      --y float          top-left Y (mil)
+
+Error: --candidates must be between 1 and 3
+Usage:
+  layout-plan [flags]
+
+Examples:
+  easyeda pcb dump --out board.json
+  easyeda pcb layout-plan --from layout.json --board board.json \
+    --module rgb-led --candidates 3 --out candidates/
+
+Flags:
+      --board easyeda pcb dump   measured board JSON from easyeda pcb dump
+      --candidates int           maximum distinct legal candidates to emit (1..3) (default 3)
+      --from string              layout intent JSON (schemaVersion 1 placement, schemaVersion 2 legacy module, or schemaVersion 3 routing/reflow; mil, footprint-anchor)
+  -h, --help                     help for layout-plan
+      --module string            one module id from the layout input
+      --out string               candidate output directory (manifest, JSON, apply playbook and SVG)
+
+Error: candidate provenance does not match the render board/request
+Usage:
+  render [flags]
+
+Flags:
+      --actual                render actual readback only; no candidate, solver, repositioning or live editor access
+      --board string          fresh pcb dump --include-copper JSON
+      --candidate string      candidate JSON or solve report JSON
+      --candidate-id string   candidate id when --candidate is a multi-candidate solve report
+      --from string           optional independent solve request JSON; checks provenance and renders mechanical keepouts
+  -h, --help                  help for render
+      --out string            SVG output path
+      --side string           actual rendering: top, bottom (mirrored assembly view), or both (default "both")
+
+Error: layout check fail: demand a: candidate endpoints differ from measured pads
+Usage:
+  check [flags]
+
+Flags:
+      --board string          fresh pcb dump --include-copper JSON
+      --candidate string      candidate JSON or solve report JSON
+      --candidate-id string   candidate id when --candidate is a multi-candidate solve report
+      --from string           the independent solve request JSON
+  -h, --help                  help for check
+      --out string            independent check report JSON; adjacent SVG is generated
+
+Error: output must not overwrite an input file
+Usage:
+  module-owned [flags]
+
+Flags:
+      --board string       fresh pcb dump --include-copper JSON
+      --candidate string   previously executed module candidate JSON
+  -h, --help               help for module-owned
+      --journal string     complete successful apply journal JSONL for that candidate
+      --out string         output existingObjects JSON array
+
+Error: output already exists: C:\Users\jlc\AppData\Local\Temp\TestTeardropEditCommandsfalse2326110594\001\next.json; choose a new --out
+Usage:
+  teardrop-delete-plan [flags]
+
+Examples:
+  easyeda pcb teardrop-delete-plan --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1
+
+Flags:
+      --apply-doc string       剧本目标 PCB
+      --apply-project string   剧本目标工程
+      --board string           新 pcb dump --include-copper JSON
+      --from string            原 teardrop-plan 或上次修改计划 JSON
+  -h, --help                   help for teardrop-delete-plan
+      --out string             新计划路径（不得已存在）
+
+Error: output already exists: C:\Users\jlc\AppData\Local\Temp\TestTeardropEditCommandstrue763867738\001\next.json; choose a new --out
+Usage:
+  teardrop-modify-plan [flags]
+
+Examples:
+  easyeda pcb teardrop-modify-plan --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1 --length-scale 0.8 --base-scale 0.8
+
+Flags:
+      --apply-doc string       剧本目标 PCB
+      --apply-project string   剧本目标工程
+      --base-scale float       相对默认底边半宽的比例 (0,1] (default 1)
+      --board string           新 pcb dump --include-copper JSON
+      --clearance float        与异网焊盘、走线和过孔的间距，mil；默认使用回读规则 +0.5 (default 6.5)
+      --from string            原 teardrop-plan 或上次修改计划 JSON
+  -h, --help                   help for teardrop-modify-plan
+      --length-scale float     相对默认长度的正比例，受可用空间限制 (default 1)
+      --out string             新计划路径（不得已存在）
+
+Error: planned line 0: matching track "tear0" is locked, invalid or has changed width
+Usage:
+  teardrop-delete-plan [flags]
+
+Examples:
+  easyeda pcb teardrop-delete-plan --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1
+
+Flags:
+      --apply-doc string       剧本目标 PCB
+      --apply-project string   剧本目标工程
+      --board string           新 pcb dump --include-copper JSON
+      --from string            原 teardrop-plan 或上次修改计划 JSON
+  -h, --help                   help for teardrop-delete-plan
+      --out string             新计划路径（不得已存在）
+
+Error: --rewire is only supported by --engine official; template has no safe capture+rewire path and does not allow an already-wired page
+Usage:
+  autolayout [flags]
+
+Examples:
+  easyeda sch autolayout --spec p1-layout.json --dry-run
+  easyeda sch autolayout --spec p1-layout.json --doc P1_MCU_USB_STORAGE --apply
+  easyeda sch autolayout --spec p1-layout.json --json
+  easyeda sch autolayout --engine official --apply             # unwired page: place only
+  easyeda sch autolayout --engine official --apply --rewire    # wired page: layout + rebuild wiring
+
+Flags:
+      --all-pages                 build the scene from all schematic pages (template dry-run only; incompatible with --apply)
+      --apply                     pin one page, require zero connectivity + complete geometry, move/readback/save, and verify any rollback
+      --avoid-titleblock          treat the title block as a hard keep-out (default true)
+      --dry-run                   plan and print proposed coordinates without mutating (default behavior)
+      --engine string             placement engine: template (our spec-driven planner) | official (platform eda.sch_Document.autoLayout fallback) (default "template")
+  -h, --help                      help for autolayout
+      --json                      emit the report as JSON
+      --module-gap float          nominal inter-module breathing room (default 80)
+      --part-gap float            minimum edge-to-edge gap between two parts (default 20)
+      --prefer-vertical           try vertical peripheral placement before horizontal (default true)
+      --preserve-pin-fanout       keep peripherals out of core pin lead-out lanes (default true)
+      --rewire                    official only (not a template override): after layout, delete broken wiring and rebuild it from the pre-run netlist
+      --route-channel-gap float   length of a preserved pin-fanout channel (default 40)
+      --spec string               layout spec JSON file (required for --engine template)
+      --zone-draw                 template --apply: auto-draw functional zone frames + labels from modules[].zone after placement (issue #142; --zone-draw=false to skip) (default true)
+
+warn: 组注册级联清理不可用(schematic page: active document is "unknown", not a schematic)—— 若有陈旧组用 `sch group list` 查、`sch group remove` 清
+warn: 组注册级联清理不可用(schematic page: active document is "unknown", not a schematic)—— 若有陈旧组用 `sch group list` 查、`sch group remove` 清
+warn: 组注册级联清理不可用(schematic page: active document is "unknown", not a schematic)—— 若有陈旧组用 `sch group list` 查、`sch group remove` 清
+warn: 组注册级联清理不可用(schematic page: active document is "unknown", not a schematic)—— 若有陈旧组用 `sch group list` 查、`sch group remove` 清
+warn: 组注册级联清理不可用(schematic page: active document is "unknown", not a schematic)—— 若有陈旧组用 `sch group list` 查、`sch group remove` 清
+warn: 组注册级联清理不可用(schematic page: active document is "unknown", not a schematic)—— 若有陈旧组用 `sch group list` 查、`sch group remove` 清
+warn: 组注册级联清理不可用(schematic page: active document is "unknown", not a schematic)—— 若有陈旧组用 `sch group list` 查、`sch group remove` 清
+Error: exit status 2
+Usage:
+  design-diff <before.json> <after.json> [flags]
+
+Examples:
+  easyeda sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easyeda sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+
+Flags:
+      --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
+      --exit-code         exit 2 when compared design states differ (incomplete evidence always exits 3)
+  -h, --help              help for design-diff
+      --playbook string   compile only owned frame/title changes from first BEFORE plan to second AFTER plan
+
+Error: exit status 3
+Usage:
+  design-diff <before.json> <after.json> [flags]
+
+Examples:
+  easyeda sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easyeda sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+
+Flags:
+      --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
+      --exit-code         exit 2 when compared design states differ (incomplete evidence always exits 3)
+  -h, --help              help for design-diff
+      --playbook string   compile only owned frame/title changes from first BEFORE plan to second AFTER plan
+
+Error: exit status 3
+Usage:
+  design-diff <before.json> <after.json> [flags]
+
+Examples:
+  easyeda sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easyeda sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+
+Flags:
+      --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
+      --exit-code         exit 2 when compared design states differ (incomplete evidence always exits 3)
+  -h, --help              help for design-diff
+      --playbook string   compile only owned frame/title changes from first BEFORE plan to second AFTER plan
+
+Error: input and output files must be distinct: C:\Users\jlc\AppData\Local\Temp\TestSchDesignatorsOutputAliasesRejected3096751740\001\source.json and C:\Users\jlc\AppData\Local\Temp\TestSchDesignatorsOutputAliasesRejected3096751740\001/./source.json refer to the same file
+Usage:
+  designators allocate <full-project-connectivity.json> [flags]
+
+Flags:
+      --changes string    write ordered reference changes to this JSON file
+  -h, --help              help for allocate
+      --out string        allocated connectivity JSON (default: stdout)
+      --prefixes string   JSON map of libraryUuid/deviceUuid to official designator prefix (U or U?)
+
+Error: input and output files must be distinct: C:\Users\jlc\AppData\Local\Temp\TestSchDesignatorsOutputAliasesRejected3096751740\001\source.json and C:\Users\jlc\AppData\Local\Temp\TestSchDesignatorsOutputAliasesRejected3096751740\001\hardlink refer to the same file
+Usage:
+  designators allocate <full-project-connectivity.json> [flags]
+
+Flags:
+      --changes string    write ordered reference changes to this JSON file
+  -h, --help              help for allocate
+      --out string        allocated connectivity JSON (default: stdout)
+      --prefixes string   JSON map of libraryUuid/deviceUuid to official designator prefix (U or U?)
+
+--- FAIL: TestSchDesignatorsOutputAliasesRejected (0.06s)
+    --- FAIL: TestSchDesignatorsOutputAliasesRejected/symlink (0.00s)
+        cmd_sch_designators_test.go:132: symlink C:\Users\jlc\AppData\Local\Temp\TestSchDesignatorsOutputAliasesRejected3096751740\001\source.json C:\Users\jlc\AppData\Local\Temp\TestSchDesignatorsOutputAliasesRejected3096751740\001\symlink: A required privilege is not held by the client.
+Error: repair input SHA mismatch; regenerate the plan from fresh inputs
+Usage:
+  verify [flags]
+
+Flags:
+      --before string       baseline sch list envelope
+      --before-sha string   baseline file SHA-256 recorded by plan
+  -h, --help                help for verify
+      --phase string        before or after
+      --sync-groups         after verification, update this page's local group members/roles
+      --target string       allocated full-project connectivity target
+      --target-sha string   target file SHA-256 recorded by plan
+
+Error: global component unvisited-component is missing from target or duplicated
+Usage:
+  verify [flags]
+
+Flags:
+      --before string       baseline sch list envelope
+      --before-sha string   baseline file SHA-256 recorded by plan
+  -h, --help                help for verify
+      --phase string        before or after
+      --sync-groups         after verification, update this page's local group members/roles
+      --target string       allocated full-project connectivity target
+      --target-sha string   target file SHA-256 recorded by plan
+
+Error: incomplete canonical evidence: /sheet/flow cannot be null
+Usage:
+  layout-sheet-plan [flags]
+
+Flags:
+      --diagnostic    explicitly pack incomplete diagnostics, not a completed layout
+      --flow string   reading flow: z or compact; overrides sheet.flow only when explicitly supplied (default "z")
+      --from string   zone layouts with sheet constraints JSON
+  -h, --help          help for layout-sheet-plan
+      --out string    page plan JSON output
+
+Error: explicit sheet.flow must be z, compact or fixed
+Usage:
+  layout-sheet-plan [flags]
+
+Flags:
+      --diagnostic    explicitly pack incomplete diagnostics, not a completed layout
+      --flow string   reading flow: z or compact; overrides sheet.flow only when explicitly supplied (default "z")
+      --from string   zone layouts with sheet constraints JSON
+  -h, --help          help for layout-sheet-plan
+      --out string    page plan JSON output
+
+Error: explicit sheet.flow must be z, compact or fixed
+Usage:
+  layout-sheet-plan [flags]
+
+Flags:
+      --diagnostic    explicitly pack incomplete diagnostics, not a completed layout
+      --flow string   reading flow: z or compact; overrides sheet.flow only when explicitly supplied (default "z")
+      --from string   zone layouts with sheet constraints JSON
+  -h, --help          help for layout-sheet-plan
+      --out string    page plan JSON output
+
+Error: json: cannot unmarshal bool into Go struct field SchematicRenderInput.sheet.flow of type string
+Usage:
+  layout-sheet-plan [flags]
+
+Flags:
+      --diagnostic    explicitly pack incomplete diagnostics, not a completed layout
+      --flow string   reading flow: z or compact; overrides sheet.flow only when explicitly supplied (default "z")
+      --from string   zone layouts with sheet constraints JSON
+  -h, --help          help for layout-sheet-plan
+      --out string    page plan JSON output
+
+Error: json: cannot unmarshal number into Go struct field SchematicRenderInput.sheet.flow of type string
+Usage:
+  layout-sheet-plan [flags]
+
+Flags:
+      --diagnostic    explicitly pack incomplete diagnostics, not a completed layout
+      --flow string   reading flow: z or compact; overrides sheet.flow only when explicitly supplied (default "z")
+      --from string   zone layouts with sheet constraints JSON
+  -h, --help          help for layout-sheet-plan
+      --out string    page plan JSON output
+
+Error: json: cannot unmarshal object into Go struct field SchematicRenderInput.sheet.flow of type string
+Usage:
+  layout-sheet-plan [flags]
+
+Flags:
+      --diagnostic    explicitly pack incomplete diagnostics, not a completed layout
+      --flow string   reading flow: z or compact; overrides sheet.flow only when explicitly supplied (default "z")
+      --from string   zone layouts with sheet constraints JSON
+  -h, --help          help for layout-sheet-plan
+      --out string    page plan JSON output
+
+Error: --flow must be z or compact
+Usage:
+  layout-sheet-plan [flags]
+
+Flags:
+      --diagnostic    explicitly pack incomplete diagnostics, not a completed layout
+      --flow string   reading flow: z or compact; overrides sheet.flow only when explicitly supplied (default "z")
+      --from string   zone layouts with sheet constraints JSON
+  -h, --help          help for layout-sheet-plan
+      --out string    page plan JSON output
+
+Error: measurements[0].x requires explicit measured evidence
+Usage:
+  lib-layout [flags]
+
+Flags:
+      --from string   canonical connectivity, measured geometry and module layout intent JSON
+  -h, --help          help for lib-layout
+      --out string    write compose source only after complete validation
+
+Error: measurements[0].y requires explicit measured evidence
+Usage:
+  lib-layout [flags]
+
+Flags:
+      --from string   canonical connectivity, measured geometry and module layout intent JSON
+  -h, --help          help for lib-layout
+      --out string    write compose source only after complete validation
+
+Error: measurements[0].rotation requires explicit measured evidence
+Usage:
+  lib-layout [flags]
+
+Flags:
+      --from string   canonical connectivity, measured geometry and module layout intent JSON
+  -h, --help          help for lib-layout
+      --out string    write compose source only after complete validation
+
+Error: measurements[0].mirror requires explicit measured evidence
+Usage:
+  lib-layout [flags]
+
+Flags:
+      --from string   canonical connectivity, measured geometry and module layout intent JSON
+  -h, --help          help for lib-layout
+      --out string    write compose source only after complete validation
+
+Error: measurements[0].bbox requires explicit measured evidence
+Usage:
+  lib-layout [flags]
+
+Flags:
+      --from string   canonical connectivity, measured geometry and module layout intent JSON
+  -h, --help          help for lib-layout
+      --out string    write compose source only after complete validation
+
+Error: measurements[0].pins requires explicit measured evidence
+Usage:
+  lib-layout [flags]
+
+Flags:
+      --from string   canonical connectivity, measured geometry and module layout intent JSON
+  -h, --help          help for lib-layout
+      --out string    write compose source only after complete validation
+
+Error: unresolved: module POWER: local search failed after 1 candidates, 0 backtracks, 0 relocation attempts (branch limit 128; no capacity proof): component cmp-C2 (C2) placement search candidate-budget after 1 candidates: candidate-budget after 1 placement candidates: candidate search budget exhausted: last placement conflict: component cmp-C2 (C2) placement search candidate-budget after 1 candidates: candidate-budget after 1 placement candidates: candidate search budget exhausted
+Usage:
+  lib-layout [flags]
+
+Flags:
+      --from string   canonical connectivity, measured geometry and module layout intent JSON
+  -h, --help          help for lib-layout
+      --out string    write compose source only after complete validation
+
+Error: --with-connectivity 已停用：逐脚 connect_pin 缺少碰撞规划及接线前几何验证，可能短接相邻引脚；请使用 sch lib-layout → sch compose --before <snapshot> --playbook <apply>，materialize 仅用于基础放置
+Usage:
+  materialize <connectivity.json> [flags]
+
+Flags:
+  -h, --help                help for materialize
+      --out string          write playbook to a file instead of stdout
+      --page string         materialize only one page by page name or UUID
+      --with-connectivity   disabled: unsafe per-pin wiring; use sch lib-layout and sch compose
+
+Error: 数据结构校验失败: stable-U2 (U_RF): nonstandard designator; allocate a numbered reference from the official library prefix before placement
+Usage:
+  materialize <connectivity.json> [flags]
+
+Flags:
+  -h, --help                help for materialize
+      --out string          write playbook to a file instead of stdout
+      --page string         materialize only one page by page name or UUID
+      --with-connectivity   disabled: unsafe per-pin wiring; use sch lib-layout and sch compose
+
+Error: 数据结构校验失败: stable-U2 (U_RF): nonstandard designator; allocate a numbered reference from the official library prefix before placement
+Usage:
+  materialize <connectivity.json> [flags]
+
+Flags:
+  -h, --help                help for materialize
+      --out string          write playbook to a file instead of stdout
+      --page string         materialize only one page by page name or UUID
+      --with-connectivity   disabled: unsafe per-pin wiring; use sch lib-layout and sch compose
+
+Error: 数据结构校验失败: stable-U2 (J_PROG_RF): nonstandard designator; allocate a numbered reference from the official library prefix before placement
+Usage:
+  materialize <connectivity.json> [flags]
+
+Flags:
+  -h, --help                help for materialize
+      --out string          write playbook to a file instead of stdout
+      --page string         materialize only one page by page name or UUID
+      --with-connectivity   disabled: unsafe per-pin wiring; use sch lib-layout and sch compose
+
+Error: 数据结构校验失败: stable-U2 (J_PROG_RF): nonstandard designator; allocate a numbered reference from the official library prefix before placement
+Usage:
+  materialize <connectivity.json> [flags]
+
+Flags:
+  -h, --help                help for materialize
+      --out string          write playbook to a file instead of stdout
+      --page string         materialize only one page by page name or UUID
+      --with-connectivity   disabled: unsafe per-pin wiring; use sch lib-layout and sch compose
+
+--- FAIL: TestStripArtifactNesting (0.00s)
+    dispatch_outputdir_test.go:42: rooted pair: got ".", want "\\"
+Error: reopen after close failed for pcb-target (the target tab was closed; reopen completion is unconfirmed and automatic retry was suppressed because the first open may still complete): document.open failed: host open failed — retain this failure and inspect typed connection/context evidence before any further write
+Usage:
+  doc reload [name|uuid] [flags]
+
+Examples:
+  easyeda doc reload                      # reload the active document
+  easyeda doc reload PCB3 --project ceshi # reload a specific PCB
+  easyeda pcb pour-rebuild                # then re-pour under the refreshed rules
+
+Flags:
+  -h, --help   help for reload
+      --json   emit JSON instead of a line
+
+Global Flags:
+      --window string   EasyEDA window ID (usually prefer --project)
+
+Error: no document named or with uuid "missing-target" (run `easyeda doc ls` to see options)
+Usage:
+  doc reload [name|uuid] [flags]
+
+Examples:
+  easyeda doc reload                      # reload the active document
+  easyeda doc reload PCB3 --project ceshi # reload a specific PCB
+  easyeda pcb pour-rebuild                # then re-pour under the refreshed rules
+
+Flags:
+  -h, --help   help for reload
+      --json   emit JSON instead of a line
+
+Global Flags:
+      --window string   EasyEDA window ID (usually prefer --project)
+
+--- FAIL: TestResolveEnrichScriptPriority (0.05s)
+    --- FAIL: TestResolveEnrichScriptPriority/3_installed_skill_dir_is_found_from_an_unrelated_cwd_(#115) (0.00s)
+        enrich_script_test.go:85: got "C:\\Users\\jlc\\.claude\\skills\\easyeda-agent\\scripts\\bom-enrich.py", <nil>; want "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptPriority164936269\\001\\.claude\\skills\\easyeda-agent\\scripts\\bom-enrich.py"
+    --- FAIL: TestResolveEnrichScriptPriority/5_cwd_walk-up_when_no_skill_is_installed (0.01s)
+        enrich_script_test.go:96: got "C:\\Users\\jlc\\.claude\\skills\\easyeda-agent\\scripts\\bom-enrich.py", <nil>; want "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptPriority164936269\\004\\.agents\\skills\\easyeda-agent\\scripts\\bom-enrich.py"
+--- FAIL: TestResolveEnrichScriptNotFoundListsProbedPaths (0.01s)
+    enrich_script_test.go:123: want an error when no copy of the script exists
+Error: --actual cannot be combined with --from, --candidate or --candidate-id
+Usage:
+  render [flags]
+
+Flags:
+      --actual                render actual readback only; no candidate, solver, repositioning or live editor access
+      --board string          fresh pcb dump --include-copper JSON
+      --candidate string      candidate JSON or solve report JSON
+      --candidate-id string   candidate id when --candidate is a multi-candidate solve report
+      --from string           optional independent solve request JSON; checks provenance and renders mechanical keepouts
+  -h, --help                  help for render
+      --out string            SVG output path
+      --side string           actual rendering: top, bottom (mirrored assembly view), or both (default "both")
+
+Error: --actual cannot be combined with --from, --candidate or --candidate-id
+Usage:
+  render [flags]
+
+Flags:
+      --actual                render actual readback only; no candidate, solver, repositioning or live editor access
+      --board string          fresh pcb dump --include-copper JSON
+      --candidate string      candidate JSON or solve report JSON
+      --candidate-id string   candidate id when --candidate is a multi-candidate solve report
+      --from string           optional independent solve request JSON; checks provenance and renders mechanical keepouts
+  -h, --help                  help for render
+      --out string            SVG output path
+      --side string           actual rendering: top, bottom (mirrored assembly view), or both (default "both")
+
+Error: --actual cannot be combined with --from, --candidate or --candidate-id
+Usage:
+  render [flags]
+
+Flags:
+      --actual                render actual readback only; no candidate, solver, repositioning or live editor access
+      --board string          fresh pcb dump --include-copper JSON
+      --candidate string      candidate JSON or solve report JSON
+      --candidate-id string   candidate id when --candidate is a multi-candidate solve report
+      --from string           optional independent solve request JSON; checks provenance and renders mechanical keepouts
+  -h, --help                  help for render
+      --out string            SVG output path
+      --side string           actual rendering: top, bottom (mirrored assembly view), or both (default "both")
+
+Error: --side must be top, bottom or both
+Usage:
+  render [flags]
+
+Flags:
+      --actual                render actual readback only; no candidate, solver, repositioning or live editor access
+      --board string          fresh pcb dump --include-copper JSON
+      --candidate string      candidate JSON or solve report JSON
+      --candidate-id string   candidate id when --candidate is a multi-candidate solve report
+      --from string           optional independent solve request JSON; checks provenance and renders mechanical keepouts
+  -h, --help                  help for render
+      --out string            SVG output path
+      --side string           actual rendering: top, bottom (mirrored assembly view), or both (default "both")
+
+Error: output must not overwrite input C:\Users\jlc\AppData\Local\Temp\TestPCBActualRenderCLISeparationAndNoSourceOverwrite839946920\001\board.json
+Usage:
+  render [flags]
+
+Flags:
+      --actual                render actual readback only; no candidate, solver, repositioning or live editor access
+      --board string          fresh pcb dump --include-copper JSON
+      --candidate string      candidate JSON or solve report JSON
+      --candidate-id string   candidate id when --candidate is a multi-candidate solve report
+      --from string           optional independent solve request JSON; checks provenance and renders mechanical keepouts
+  -h, --help                  help for render
+      --out string            SVG output path
+      --side string           actual rendering: top, bottom (mirrored assembly view), or both (default "both")
+
+Error: --side requires --actual; candidate rendering is unchanged
+Usage:
+  render [flags]
+
+Flags:
+      --actual                render actual readback only; no candidate, solver, repositioning or live editor access
+      --board string          fresh pcb dump --include-copper JSON
+      --candidate string      candidate JSON or solve report JSON
+      --candidate-id string   candidate id when --candidate is a multi-candidate solve report
+      --from string           optional independent solve request JSON; checks provenance and renders mechanical keepouts
+  -h, --help                  help for render
+      --out string            SVG output path
+      --side string           actual rendering: top, bottom (mirrored assembly view), or both (default "both")
+
+Error: layout geometry inspection is incomplete; cannot satisfy --min-score 99.0
+Usage:
+  layout-score [flags]
+
+Examples:
+  # 给当前板打分
+  easyeda pcb layout-score --project ceshi
+
+  # 带 S0 意图（解锁 flow-order 与 internal 连接器判定）
+  easyeda pcb layout-score --spec .easyeda/s0-ceshi.json
+
+  # 只看最弱的两维，带完整归因
+  easyeda pcb layout-score --only tidy,compact --all
+
+  # 离线重放一块已 dump 的板（CI / 金标准回归）
+  easyeda pcb dump --out board.json
+  easyeda pcb layout-score --from board.json --json
+
+  # 当门用（综合分不达标则非零退出）
+  easyeda pcb layout-score --min-score 75
+
+Flags:
+      --all                  list every contributor and finding instead of the top few
+      --from pcb dump        score a snapshot file from pcb dump instead of the live board (offline)
+      --grid float           tidiness grid in mil (default 5 — catches the sub-mil drift auto-place leaves)
+  -h, --help                 help for layout-score
+      --json                 emit the report as JSON
+      --min-gap float        assembly spacing in mil (default: the board's live clearance rule)
+      --min-score float      fail when geometry inspection is incomplete or the weighted overall falls below this
+      --only strings         score only these dimensions (comma-separated)
+      --part strings         聚焦器件(CSV 位号):逐维汇总它的直接扣分/关联提及/blocking/几何现状 —— 整体打分后点名要优化的器件用这个视角
+      --skip strings         skip these dimensions (comma-separated)
+      --spec string          S0 spec JSON — unlocks the intent dimensions (flow-order, internal connectors)
+      --weight stringArray   override a dimension weight, e.g. --weight tidy=1.5 (repeatable)
+
+Error: layout has 1 blocking issue(s)
+Usage:
+  layout-score [flags]
+
+Examples:
+  # 给当前板打分
+  easyeda pcb layout-score --project ceshi
+
+  # 带 S0 意图（解锁 flow-order 与 internal 连接器判定）
+  easyeda pcb layout-score --spec .easyeda/s0-ceshi.json
+
+  # 只看最弱的两维，带完整归因
+  easyeda pcb layout-score --only tidy,compact --all
+
+  # 离线重放一块已 dump 的板（CI / 金标准回归）
+  easyeda pcb dump --out board.json
+  easyeda pcb layout-score --from board.json --json
+
+  # 当门用（综合分不达标则非零退出）
+  easyeda pcb layout-score --min-score 75
+
+Flags:
+      --all                  list every contributor and finding instead of the top few
+      --from pcb dump        score a snapshot file from pcb dump instead of the live board (offline)
+      --grid float           tidiness grid in mil (default 5 — catches the sub-mil drift auto-place leaves)
+  -h, --help                 help for layout-score
+      --json                 emit the report as JSON
+      --min-gap float        assembly spacing in mil (default: the board's live clearance rule)
+      --min-score float      fail when geometry inspection is incomplete or the weighted overall falls below this
+      --only strings         score only these dimensions (comma-separated)
+      --part strings         聚焦器件(CSV 位号):逐维汇总它的直接扣分/关联提及/blocking/几何现状 —— 整体打分后点名要优化的器件用这个视角
+      --skip strings         skip these dimensions (comma-separated)
+      --spec string          S0 spec JSON — unlocks the intent dimensions (flow-order, internal connectors)
+      --weight stringArray   override a dimension weight, e.g. --weight tidy=1.5 (repeatable)
+
+Error: --layer must be a copper layer id (TOP=1, BOTTOM=2, INNER=15..44)
+Usage:
+  pcb net-path [flags]
+
+Examples:
+  easyeda pcb net-path --from C3.1 --through C4.1 --to U2.3 --layer 1
+  easyeda pcb net-path --from U5.6 --to CN1.1 --net CANL --json
+
+Flags:
+      --from string       start pad as DESIGNATOR.PAD (required)
+  -h, --help              help for net-path
+      --json              emit a machine-readable report
+      --layer int         constrain proof to one copper layer (for example 1=TOP); excludes physical vias
+      --net string        assert the expected net name
+      --through strings   ordered intermediate pad(s); repeat or comma-separate
+      --to string         destination pad as DESIGNATOR.PAD (required)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+--- FAIL: TestProjectDrawingsFixtureAndBytePreservation (0.02s)
+    project_drawings_test.go:72: schematic readback: evidence SHA256 mismatch
+--- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings (0.38s)
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/missing_image (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "no such file"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/broken_PNG_pixels (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "corrupt PNG"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/not_SVG (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "SVG root"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/SVG_external_resource (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "external SVG"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/SVG_active_resource (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "active SVG"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/relative_traversal (0.02s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "traversal"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/symlink_source (0.01s)
+        project_drawings_test.go:152: symlink C:\Users\jlc\AppData\Local\Temp\TestProjectDrawingsRejectsInvalidSourcesAndBindingssymlink_sour435068248\001\schematic.svg C:\Users\jlc\AppData\Local\Temp\TestProjectDrawingsRejectsInvalidSourcesAndBindingssymlink_sour435068248\001\link.svg: A required privilege is not held by the client.
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/project_identity (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "identity mismatch"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/document_identity (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "identity mismatch"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/missing_identity (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "nonempty string"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/invalid_time (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "RFC3339"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/identity_unverified (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "not verified"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/capture_identity_mismatch (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "identity mismatch"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/capture_artifact_hash (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "capture artifact SHA256"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/capture_image_invalid (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "image validity"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/candidate_SVG (0.02s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "candidate render"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/actual_missing_metadata (0.02s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "candidate render"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/actual_source_mismatch (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "source hash"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/actual_side_mismatch (0.02s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "side/orientation"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/actual_as_official (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "cannot be labeled official"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/actual_time_mismatch (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "capture time"
+    --- FAIL: TestProjectDrawingsRejectsInvalidSourcesAndBindings/routing_contradiction (0.01s)
+        project_drawings_test.go:220: got schematic readback: evidence SHA256 mismatch, want "routing conflicts"
+--- FAIL: TestProjectDrawingsOutputAliasesAndSymlinks (0.02s)
+    project_drawings_test.go:239: symlink C:\Users\jlc\AppData\Local\Temp\TestProjectDrawingsOutputAliasesAndSymlinks2345192334\001\missing-target C:\Users\jlc\AppData\Local\Temp\TestProjectDrawingsOutputAliasesAndSymlinks2345192334\001\out-link: A required privilege is not held by the client.
+--- FAIL: TestProjectDrawingsOptionalPDFAndSameImage (0.02s)
+    project_drawings_test.go:262: schematic readback: evidence SHA256 mismatch
+Error: schematic readback: evidence SHA256 mismatch
+Usage:
+  project drawings [flags]
+
+Examples:
+  easyeda project drawings --from drawings-spec.json --out ./drawings-r1
+
+Flags:
+      --from string   local schemaVersion 1 drawing specification JSON (required)
+  -h, --help          help for drawings
+      --out string    new output directory; existing paths are never overwritten (required)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+--- FAIL: TestProjectDrawingsCLIHelpAndOffline (0.06s)
+    project_drawings_test.go:288: schematic readback: evidence SHA256 mismatch
+--- FAIL: TestProjectDrawingsActualRendererIntegration (0.02s)
+    project_drawings_test.go:337: schematic readback: evidence SHA256 mismatch
+--- FAIL: TestProjectDrawingsSummarizesLargeLimitationsWithoutLosingManifestEvidence (0.01s)
+    project_drawings_test.go:378: schematic readback: evidence SHA256 mismatch
+Error: sheetBorder.minX must be explicitly provided as a number
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: sheetBorder.minX must be explicitly provided as a number
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: sheetBorder.minY must be explicitly provided as a number
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: sheetBorder.minY must be explicitly provided as a number
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: sheetBorder.maxX must be explicitly provided as a number
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: sheetBorder.maxX must be explicitly provided as a number
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: sheetBorder.maxY must be explicitly provided as a number
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: sheetBorder.maxY must be explicitly provided as a number
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: layout-page requires explicit titleX
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: composition outputs must not overwrite inputs or each other
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: composition outputs must not overwrite inputs or each other
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: composition outputs must not overwrite inputs or each other
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: zone variants requires 1..4 complete alternatives
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: layout-page requires explicit minX
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": showTitle must be a boolean when supplied
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": unknown option "visible"
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": value must be a nonempty string
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock must be a nonempty field map, not null
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "@Page Name" is not an editable text item
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": value must be a nonempty string
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": value must be a nonempty string
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": expected a text string or an object with value and optional boolean showTitle/showValue
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": expected a text string or an object with value and optional boolean showTitle/showValue
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": value must be a nonempty string
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": showValue must be a boolean when supplied
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Border" is not an editable text item
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock must contain at least one editable text field
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": expected a text string or an object with value and optional boolean showTitle/showValue
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": value must be a nonempty string
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name" needs a nonempty value
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: titleBlock field "Name": showValue must be a boolean when supplied
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: action returned ok=false
+schematic.power.connect_pin failed: rejected
+Usage:
+  sch connect [flags]
+
+Examples:
+  easyeda sch connect --pin U1:5 --kind power --net VCC
+  easyeda sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40
+
+Flags:
+      --direction string   visual stub direction (up=higher on canvas, down=lower): up, down, left, right; default with --pin: the pin's measured outward side
+  -h, --help               help for connect
+      --kind string        flag kind (required). Shorthands: gnd→ground, agnd→analog_ground, pgnd→protective_ground, netport→net_port_bi. Canonical: power, ground, analog_ground, protective_ground, protect_ground, net_port_in, net_port_out, net_port_bi, net_label
+      --net string         net name (required)
+      --offset float       wire length in schematic units
+      --pin string         target pin as DESIGNATOR:PIN, e.g. U1:5 (resolved to coordinates; mutually exclusive with --x/--y)
+      --rotation float     flag rotation override in degrees
+      --x float            pin X coordinate (use with --y instead of --pin)
+      --y float            pin Y coordinate (use with --x instead of --pin)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Error: action returned ok=false
+schematic.power.connect_pin failed: rejected
+Usage:
+  sch connect [flags]
+
+Examples:
+  easyeda sch connect --pin U1:5 --kind power --net VCC
+  easyeda sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40
+
+Flags:
+      --direction string   visual stub direction (up=higher on canvas, down=lower): up, down, left, right; default with --pin: the pin's measured outward side
+  -h, --help               help for connect
+      --kind string        flag kind (required). Shorthands: gnd→ground, agnd→analog_ground, pgnd→protective_ground, netport→net_port_bi. Canonical: power, ground, analog_ground, protective_ground, protect_ground, net_port_in, net_port_out, net_port_bi, net_label
+      --net string         net name (required)
+      --offset float       wire length in schematic units
+      --pin string         target pin as DESIGNATOR:PIN, e.g. U1:5 (resolved to coordinates; mutually exclusive with --x/--y)
+      --rotation float     flag rotation override in degrees
+      --x float            pin X coordinate (use with --y instead of --pin)
+      --y float            pin Y coordinate (use with --x instead of --pin)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Error: action returned ok=false
+schematic.power.connect_pin failed: rejected
+Usage:
+  sch connect [flags]
+
+Examples:
+  easyeda sch connect --pin U1:5 --kind power --net VCC
+  easyeda sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40
+
+Flags:
+      --direction string   visual stub direction (up=higher on canvas, down=lower): up, down, left, right; default with --pin: the pin's measured outward side
+  -h, --help               help for connect
+      --kind string        flag kind (required). Shorthands: gnd→ground, agnd→analog_ground, pgnd→protective_ground, netport→net_port_bi. Canonical: power, ground, analog_ground, protective_ground, protect_ground, net_port_in, net_port_out, net_port_bi, net_label
+      --net string         net name (required)
+      --offset float       wire length in schematic units
+      --pin string         target pin as DESIGNATOR:PIN, e.g. U1:5 (resolved to coordinates; mutually exclusive with --x/--y)
+      --rotation float     flag rotation override in degrees
+      --x float            pin X coordinate (use with --y instead of --pin)
+      --y float            pin Y coordinate (use with --x instead of --pin)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Error: --connectivity-edits requires --preserve-instances
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: composition outputs must not overwrite inputs or each other
+Usage:
+  compose [flags]
+
+Flags:
+      --before string               fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires --include-page-primitives for replacement
+      --connectivity-edits string   with --preserve-instances, exact hash-bound JSON pin net/NC delta; missing or stale edits are refused
+      --from string                 authored module composition JSON
+  -h, --help                        help for compose
+      --layout-page string          selected complete layout-sheet-plan page: preserve its geometry, frames and spacing instead of repacking; requires matching source modules and explicit sheetBorder
+      --out string                  write computed composition JSON
+      --playbook string             also write ordered SCH Apply queue
+      --preserve-instances          with --replace, retain exact existing part IDs/properties and rebuild only drawing content
+      --replace                     compile a guarded reset of a differing target, preserving its sheet
+
+Error: schematic.read failed: test read failure
+Usage:
+  connectivity [flags]
+
+Flags:
+      --all-pages     include all schematic pages
+  -h, --help          help for connectivity
+      --page string   switch to and read one page by name or UUID
+
+Error: connectivity snapshot target mismatch: expected project p page b
+Usage:
+  connectivity [flags]
+
+Flags:
+      --all-pages     include all schematic pages
+  -h, --help          help for connectivity
+      --page string   switch to and read one page by name or UUID
+
+Error: connectivity snapshot target mismatch: expected project p page b
+Usage:
+  connectivity [flags]
+
+Flags:
+      --all-pages     include all schematic pages
+  -h, --help          help for connectivity
+      --page string   switch to and read one page by name or UUID
+
+Error: page B: missing pin inventory
+Usage:
+  connectivity [flags]
+
+Flags:
+      --all-pages     include all schematic pages
+  -h, --help          help for connectivity
+      --page string   switch to and read one page by name or UUID
+
+Error: restore original document a: document.open failed: test restore failure
+Usage:
+  connectivity [flags]
+
+Flags:
+      --all-pages     include all schematic pages
+  -h, --help          help for connectivity
+      --page string   switch to and read one page by name or UUID
+
+Error: --playbook must not overwrite either plan or the fresh snapshot
+Usage:
+  design-diff <before.json> <after.json> [flags]
+
+Examples:
+  easyeda sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easyeda sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+
+Flags:
+      --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
+      --exit-code         exit 2 when compared design states differ (incomplete evidence always exits 3)
+  -h, --help              help for design-diff
+      --playbook string   compile only owned frame/title changes from first BEFORE plan to second AFTER plan
+
+Error: frame diff Apply supports only existing frame/title changes; unsupported change /drawing/rowHeight
+Usage:
+  design-diff <before.json> <after.json> [flags]
+
+Examples:
+  easyeda sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easyeda sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+
+Flags:
+      --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
+      --exit-code         exit 2 when compared design states differ (incomplete evidence always exits 3)
+  -h, --help              help for design-diff
+      --playbook string   compile only owned frame/title changes from first BEFORE plan to second AFTER plan
+
+Error: group g1 "POWER" conflicts with --if-absent: complete members, block-id, instance and roles must match
+Usage:
+  group create [flags]
+
+Examples:
+  easyeda sch group create --members R1,C5,U2
+  easyeda sch group create --members U1,C1,C2 --name mcu-core
+  # 手工恢复块溯源(reconcile 需要 --block-id + --roles):
+  easyeda sch group create --members U3,C11,C12 --name "sy8089(U3)" \
+    --block-id block.sy8089_buck --instance U3 --roles BUCK=U3,CIN=C11,COUT=C12
+
+Flags:
+      --block-id sch reconcile   块溯源:这个组实例化自哪个块(如 block.sy8089_buck)— 让 sch reconcile 能机械对账
+  -h, --help                     help for create
+      --if-absent                reuse only an exactly matching named group; conflicting members/provenance fail (requires --name)
+      --instance string          块实例 id(同一实例的多个子群靠它合并对账;需与 --block-id 同用)
+      --members string           member designators — CSV: R1,C5,U2 (required)
+      --name string              optional human-readable group name
+      --roles string             role→位号映射 — CSV: ROLE=R1,LED=LED1(reconcile 必需;需与 --block-id 同用)
+
+Error: --out must not overwrite --from; input, geometry and diagnostic report must be distinct
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: components[0].measurement.mirror requires explicit evidence
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: unresolved: module module-1: candidate search budget exhausted
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: unresolved: U1.1 measured pin differs from canonical IR
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: if any flags in the group [lib zones] are set none of the others can be; [lib zones] were all set
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: if any flags in the group [unbounded net-labels] are set none of the others can be; [net-labels unbounded] were all set
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: zone zone incomplete connectivity: U1.1 does not reach a named wire tree
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: explicit geometry field required: mirror
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: --out must not overwrite input
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: input.coreComponentId requires explicit evidence
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: local search failed after 1 candidates, 0 backtracks, 0 relocation attempts (branch limit 128; no capacity proof): component peripheral (R1) placement search candidate-budget after 1 candidates: candidate-budget after 1 placement candidates: candidate search budget exhausted: last placement conflict: component peripheral (R1) placement search candidate-budget after 1 candidates: candidate-budget after 1 placement candidates: candidate search budget exhausted
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: --report must not overwrite --from; input, geometry and diagnostic report must be distinct
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: --report must not overwrite --from; input, geometry and diagnostic report must be distinct
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+--- FAIL: TestLayoutReportRefusesPathAliasesBeforeWriting (0.14s)
+    sch_layout_report_test.go:238: symlink C:\Users\jlc\AppData\Local\Temp\TestLayoutReportRefusesPathAliasesBeforeWriting2242475869\001 C:\Users\jlc\AppData\Local\Temp\TestLayoutReportRefusesPathAliasesBeforeWriting2242475869\001\linked-dir: A required privilege is not held by the client.
+Error: open C:\Users\jlc\AppData\Local\Temp\TestLayoutReportWriteFailureDoesNotSuppressOriginalFailure1315161334\001\missing-input.json: The system cannot find the file specified.; diagnostic report could not be written: open C:\Users\jlc\AppData\Local\Temp\TestLayoutReportWriteFailureDoesNotSuppressOriginalFailure1315161334\001\missing\report.json: The system cannot find the path specified.
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: variant frame requires explicit titleX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant frame requires explicit titleX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant frame requires explicit titleX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/frame/titleX cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/frame/titleX cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/frame/titleX cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant bounds requires explicit minY
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant bounds requires explicit minY
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant bounds requires explicit minY
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/contentBounds/minY cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/contentBounds/minY cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/contentBounds/minY cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/layout/allowedRotations/core/0 cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/layout/allowedRotations/core/0 cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/layout/allowedRotations/core/0 cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: allowedRotations for core requires 1..4 explicit angles
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: allowedRotations for core requires 1..4 explicit angles
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: allowedRotations for core requires 1..4 explicit angles
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/variants/1/layout/allowedRotations/core/0 cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/variants/1/layout/allowedRotations/core/0 cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: incomplete canonical evidence: /zones/0/variants/1/layout/allowedRotations/core/0 cannot be null
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: allowedRotations for core requires 1..4 explicit angles
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: allowedRotations for core requires 1..4 explicit angles
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: allowedRotations for core requires 1..4 explicit angles
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: candidate search budget exhausted
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: variant geometry: explicit geometry field required: x
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: explicit geometry field required: x
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: explicit geometry field required: x
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: explicit geometry field required: minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: explicit geometry field required: minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: explicit geometry field required: minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: explicit geometry field required: minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: explicit geometry field required: minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant geometry: explicit geometry field required: minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant bounds requires explicit minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant bounds requires explicit minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant bounds requires explicit minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant bounds requires explicit minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant bounds requires explicit minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant bounds requires explicit minX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant frame requires explicit titleX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant frame requires explicit titleX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: variant frame requires explicit titleX
+Usage:
+  layout-render [flags]
+
+Flags:
+      --diagnostic    explicitly render incomplete diagnostics, not a completed layout
+      --from string   layout/diagnostic JSON
+  -h, --help          help for layout-render
+      --out string    SVG output, defaults to stdout
+      --zone string   render a single zone ID
+
+Error: components[0].measurement.mirror requires explicit evidence
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: action returned ok=false
+schematic.component.place failed: connector did not respond
+placement confirmation timed out (request budget 10s). Read back the target page first: the part may already exist; do not blindly place it again.
+Check editor responsiveness and the library UUID. One possible cause is an INSTANCE uuid: the component/symbol/footprint/uniqueId
+fields from `easyeda sch list` are placed-INSTANCE ids and cannot be replayed into `sch place`.
+Get a replayable device uuid first: `easyeda lib search --query "<part>"` → use its `uuid` + `libraryUuid`.
+Usage:
+  sch place [flags]
+
+Examples:
+  easyeda sch place --lib <libraryUuid> --uuid <deviceUuid> --x 100 --y 200
+  easyeda sch place --lib <l> --uuid <u> --x 100 --y 200 --rotation 90 --mirror
+  easyeda sch place --lib <l> --uuid <u> --x 100 --y 200 --designator R12
+
+Flags:
+      --designator string   final designator to assign atomically after placement, e.g. R12 (avoids the place→list→modify round-trip; the response's component.designator reflects the assigned value)
+  -h, --help                help for place
+      --lib string          library UUID (required)
+      --mirror              mirror the component
+      --rotation float      rotation in degrees (0/90/180/270)
+      --uuid string         device UUID within the library (required)
+      --x float             X coordinate
+      --y float             Y coordinate
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+⚠ initial survivor
+Error: --from-svg requires a non-empty file path
+Usage:
+  sch sheet-geometry [flags]
+
+Examples:
+  easyeda sch sheet-geometry
+  easyeda sch sheet-geometry --json
+  easyeda sch sheet-geometry --from-svg sheet.svg --json
+
+Flags:
+      --from-svg string   read exact vectors from an official whole-page SVG; offline, no EDA calls
+  -h, --help              help for sheet-geometry
+      --json              emit the geometry in the {id,type,version,ok,result} envelope (geometry under result)
+
+Global Flags:
+      --window string   EasyEDA window ID
+
+Usage:
+  layout-plan [flags]
+
+Flags:
+      --from string     measured component-set JSON, without Lib metadata
+  -h, --help            help for layout-plan
+      --lib             read canonical lib-layout input and emit local zones without sheet packing; retains identity and connectivity checks
+      --net-labels      explicitly replace inter-component direct wires with same-net labels and real pin leads; unbounded row layout
+      --out string      write local geometry only after validation; defaults to stdout
+      --report string   write separate machine-readable diagnostics, including failed search evidence; failure still exits nonzero
+      --unbounded       expand components into routing columns without region/paper limits; allow X crossings, retain electrical checks
+      --zones           plan explicitly owned per-core zones; unified spacing isolates per-zone budgets
+
+Error: --report must not overwrite --from; input, geometry and diagnostic report must be distinct
+Usage:
+  zone-review [flags]
+
+Examples:
+  easyeda sch zone-review --from zones.json --report review.json
+
+Flags:
+      --from string     layout-plan --zones source JSON (read-only)
+  -h, --help            help for zone-review
+      --report string   separate JSON report; defaults to stdout
+
+FAIL
+FAIL	github.com/zhoushoujianwork/easyeda-agent/internal/app	124.153s
+ok  	github.com/zhoushoujianwork/easyeda-agent/internal/blocks	2.018s
+ok  	github.com/zhoushoujianwork/easyeda-agent/internal/connectivity	2.185s
+--- FAIL: TestExplicitSaveHTTPInFlightKeepsNewMutationPending (0.01s)
+    autosave_dispatch_test.go:254: explicit save canceled a mutation newer than its request
+--- FAIL: TestExplicitSaveCancelsOnlyConfirmedOlderTarget (0.00s)
+    autosave_identity_test.go:115: explicit save canceled a mutation newer than the request
+FAIL
+FAIL	github.com/zhoushoujianwork/easyeda-agent/internal/daemon	8.482s
+ok  	github.com/zhoushoujianwork/easyeda-agent/internal/pcb/svgimport	0.396s
+ok  	github.com/zhoushoujianwork/easyeda-agent/internal/protocol	2.214s
+ok  	github.com/zhoushoujianwork/easyeda-agent/internal/schguard	2.200s
+--- FAIL: TestUpdateCLIReplacesBinaryAndVerifiesChecksum (0.02s)
+    cli_test.go:122: replacement is not executable (mode -rw-rw-rw-)
+--- FAIL: TestLocalBundleChecksContentsNotMarkers (0.01s)
+    local_test.go:47: unsafe skill entry: easyeda-agent/references/test.md
+FAIL
+FAIL	github.com/zhoushoujianwork/easyeda-agent/internal/selfupdate	4.416s
+ok  	github.com/zhoushoujianwork/easyeda-agent/internal/spec	1.180s
+?   	github.com/zhoushoujianwork/easyeda-agent/internal/version	[no test files]
+ok  	github.com/zhoushoujianwork/easyeda-agent/internal/workflow	1.144s
+ok  	github.com/zhoushoujianwork/easyeda-agent/pkg/enclosure	0.909s
+ok  	github.com/zhoushoujianwork/easyeda-agent/pkg/pcblayout	1.249s
+ok  	github.com/zhoushoujianwork/easyeda-agent/pkg/pcbmodel	2.207s
+ok  	github.com/zhoushoujianwork/easyeda-agent/pkg/pcbrouting	1.132s
+ok  	github.com/zhoushoujianwork/easyeda-agent/pkg/pcbsolve	2.499s
+FAIL

@@ -1,0 +1,1 @@
+toolchain_refs --strict exit=0

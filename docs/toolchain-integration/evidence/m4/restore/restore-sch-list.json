@@ -1,0 +1,1391 @@
+{
+  "id": "req_555",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:36:02.3693656Z",
+  "ok": true,
+  "result": {
+    "components": [
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Drawing-Symbol_A4",
+          "uuid": "190b9037ca5a93ed"
+        },
+        "componentType": "sheet",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Dual button LED (5V)",
+          "uuid": "190b9037ca5a93ed"
+        },
+        "mirror": false,
+        "name": "Dual button LED (5V)",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "@Assembly Variant": "Basic",
+          "@Board Name": "Board1",
+          "@Create Date": "2026-10-27",
+          "@Create Time": "23:14:36",
+          "@Page Count": "1",
+          "@Page Name": "P1",
+          "@Page No": "1",
+          "@Project Name": "zhigou-dual-button-led-restore-20261027",
+          "@Schematic Name": "Schematic1",
+          "@Update Date": "2026-10-27",
+          "@Update Time": "23:14:36",
+          "Blade Width": "10",
+          "Border": "1",
+          "Color": "",
+          "Company": "嘉立创EDA",
+          "Description": "2-channel button-to-LED indicator, 5V in, PTC + 100nF",
+          "Drawed": "Zhigou AI",
+          "Height": "825",
+          "Page Size": "A4",
+          "Part Number": "",
+          "Region Start": "1",
+          "Reviewed": "",
+          "Size": "A4",
+          "Title Block": "1",
+          "Title Block Position": "3",
+          "Version": "V1.0",
+          "Width": "1170",
+          "X Region Count": "6",
+          "Y Region Count": "4"
+        },
+        "pins": [],
+        "pinsAvailable": true,
+        "primitiveId": "5b2b2c38c4563fe9",
+        "rotation": 0,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Drawing-Symbol_A4",
+          "uuid": "fb1ae206be9b3710"
+        },
+        "x": 0,
+        "y": 0
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "1*2P卧式排针",
+          "uuid": "83402a42f2782078"
+        },
+        "componentType": "part",
+        "designator": "J1",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "7da6ca4adab84e63a4d8bf11f2bc97bd"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "82acb4c0685a34bd",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "1d4163c7ac5e4bcb8354ec7430dbbe5f"
+          },
+          "lcsc": "C9900024210",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "HDR-SMD_2P-P2.54-V-M_C9900024210",
+          "uuid": "82acb4c0685a34bd"
+        },
+        "manufacturer": "",
+        "manufacturerId": "1*2P卧式排针",
+        "mirror": false,
+        "name": "={Manufacturer Part}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "",
+          "Description": "",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "1*2P卧式排针",
+          "PCB Layer": "Default",
+          "Supplier Footprint": "排针间距: 2.54*2.3"
+        },
+        "pins": [
+          {
+            "net": "VIN",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "1",
+            "pinNumber": "1",
+            "primitiveId": "f4384763f4cf91e7-e5",
+            "rotation": 180,
+            "x": 380,
+            "y": 305
+          },
+          {
+            "net": "GND",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "2",
+            "pinNumber": "2",
+            "primitiveId": "f4384763f4cf91e7-e9",
+            "rotation": 180,
+            "x": 380,
+            "y": 295
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "83402a42f2782078"
+        },
+        "primitiveId": "f4384763f4cf91e7",
+        "rotation": 0,
+        "subPartName": "1*2P卧式排针.1",
+        "supplier": "LCSC",
+        "supplierId": "C9900024210",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "1*2P卧式排针",
+          "uuid": "c2e5e14dfc8d91c0"
+        },
+        "uniqueId": "gge1",
+        "x": 400,
+        "y": 300
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "1.5A快恢复保险丝-1206",
+          "uuid": "8763bc1007ae1592"
+        },
+        "componentType": "part",
+        "designator": "F1",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "e5a3025a5547466d97f96cd3ea06ebf7"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "08c83be7a8888eb6",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "bceff88935294c458669a62ec8559940"
+          },
+          "lcsc": "C9900012139",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "F1206",
+          "uuid": "08c83be7a8888eb6"
+        },
+        "manufacturer": "",
+        "manufacturerId": "1.5A快恢复保险丝-1206",
+        "mirror": false,
+        "name": "={Manufacturer Part}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "",
+          "Description": "",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "1.5A快恢复保险丝-1206",
+          "PCB Layer": "Default",
+          "Supplier Footprint": "F1206"
+        },
+        "pins": [
+          {
+            "net": "+5V",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "2",
+            "pinNumber": "2",
+            "primitiveId": "9a20feed0639a83b-e3",
+            "rotation": 0,
+            "x": 590,
+            "y": 300
+          },
+          {
+            "net": "VIN",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "1",
+            "pinNumber": "1",
+            "primitiveId": "9a20feed0639a83b-e7",
+            "rotation": 180,
+            "x": 530,
+            "y": 300
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "8763bc1007ae1592"
+        },
+        "primitiveId": "9a20feed0639a83b",
+        "rotation": 0,
+        "subPartName": "1.5A快恢复保险丝-1206.1",
+        "supplier": "LCSC",
+        "supplierId": "C9900012139",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "1.5A快恢复保险丝-1206",
+          "uuid": "3f8d3f9ffbaf7de9"
+        },
+        "uniqueId": "gge2",
+        "x": 560,
+        "y": 300
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "100nF/0603/50V",
+          "uuid": "2b2ca7dbb8c6af9a"
+        },
+        "componentType": "part",
+        "designator": "C1",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "811c5a69fad14dfa85c1af699a12c275"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "7eafd3430233d757",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "76d6c29a47804db487f8a92b2621751b"
+          },
+          "lcsc": "C9900013340",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "C0603",
+          "uuid": "7eafd3430233d757"
+        },
+        "manufacturer": "",
+        "manufacturerId": "100nF/0603/50V",
+        "mirror": false,
+        "name": "={Manufacturer Part}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "",
+          "Description": "",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "100nF/0603/50V",
+          "PCB Layer": "Default",
+          "Supplier Footprint": "C0603"
+        },
+        "pins": [
+          {
+            "net": "GND",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "2",
+            "pinNumber": "2",
+            "primitiveId": "24cce2dcd725e98a-e4",
+            "rotation": 180,
+            "x": 540,
+            "y": 460
+          },
+          {
+            "net": "+5V",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "1",
+            "pinNumber": "1",
+            "primitiveId": "24cce2dcd725e98a-e10",
+            "rotation": 0,
+            "x": 580,
+            "y": 460
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "2b2ca7dbb8c6af9a"
+        },
+        "primitiveId": "24cce2dcd725e98a",
+        "rotation": 0,
+        "subPartName": "100NF/0603/50V.1",
+        "supplier": "LCSC",
+        "supplierId": "C9900013340",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "100NF/0603/50V",
+          "uuid": "00f6dfc87a0f0313"
+        },
+        "uniqueId": "gge3",
+        "x": 560,
+        "y": 460
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "0402 ±5% 220Ω",
+          "uuid": "d7c961b6148fe7b8"
+        },
+        "componentType": "part",
+        "designator": "R1",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Value}",
+          "uuid": "f91d6ccebd9d4cc2aac0bcbcc0440856"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "d0771e65476171db",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "df9dfd54cabd403f88cae9927dcd418d"
+          },
+          "lcsc": "C2889365",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "R0402",
+          "uuid": "d0771e65476171db"
+        },
+        "manufacturer": "VO(翔胜)",
+        "manufacturerId": "0402 ±5% 220Ω",
+        "mirror": false,
+        "name": "={Value}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "https://item.szlcsc.com/datasheet/0402%2520%25C2%25B15%2525%2520220%25CE%25A9/3112116.html",
+          "Description": "电阻类型:厚膜电阻;阻值:220Ω;精度:±5%;功率:62.5mW;工作电压:50V;温度系数:±100ppm/℃;",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "厚膜电阻 220Ω ±5% 62.5mW",
+          "Operating Temperature": "-55℃~+155℃",
+          "PCB Layer": "Default",
+          "Power(Watts)": "62.5mW",
+          "Supplier Footprint": "0402",
+          "Temperature Coefficient": "±100ppm/℃",
+          "Tolerance": "±5%",
+          "Type": "厚膜电阻",
+          "Value": "220Ω",
+          "Voltage-Supply(Max)": "50V"
+        },
+        "pins": [
+          {
+            "net": "LED1_A",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "2",
+            "pinNumber": "2",
+            "primitiveId": "8d50a3603383393b-e4",
+            "rotation": 0,
+            "x": 720,
+            "y": 380
+          },
+          {
+            "net": "+5V",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "1",
+            "pinNumber": "1",
+            "primitiveId": "8d50a3603383393b-e8",
+            "rotation": 180,
+            "x": 680,
+            "y": 380
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Value}",
+          "uuid": "d7c961b6148fe7b8"
+        },
+        "primitiveId": "8d50a3603383393b",
+        "rotation": 0,
+        "subPartName": "0402 ±5% 220Ω.1",
+        "supplier": "LCSC",
+        "supplierId": "C2889365",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "0402 ±5% 220Ω",
+          "uuid": "120205d7a3d091c6"
+        },
+        "uniqueId": "gge4",
+        "x": 700,
+        "y": 380
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "0402 ±5% 220Ω",
+          "uuid": "d7c961b6148fe7b8"
+        },
+        "componentType": "part",
+        "designator": "R2",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Value}",
+          "uuid": "f91d6ccebd9d4cc2aac0bcbcc0440856"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "d0771e65476171db",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "df9dfd54cabd403f88cae9927dcd418d"
+          },
+          "lcsc": "C2889365",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "R0402",
+          "uuid": "d0771e65476171db"
+        },
+        "manufacturer": "VO(翔胜)",
+        "manufacturerId": "0402 ±5% 220Ω",
+        "mirror": false,
+        "name": "={Value}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "https://item.szlcsc.com/datasheet/0402%2520%25C2%25B15%2525%2520220%25CE%25A9/3112116.html",
+          "Description": "电阻类型:厚膜电阻;阻值:220Ω;精度:±5%;功率:62.5mW;工作电压:50V;温度系数:±100ppm/℃;",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "厚膜电阻 220Ω ±5% 62.5mW",
+          "Operating Temperature": "-55℃~+155℃",
+          "PCB Layer": "Default",
+          "Power(Watts)": "62.5mW",
+          "Supplier Footprint": "0402",
+          "Temperature Coefficient": "±100ppm/℃",
+          "Tolerance": "±5%",
+          "Type": "厚膜电阻",
+          "Value": "220Ω",
+          "Voltage-Supply(Max)": "50V"
+        },
+        "pins": [
+          {
+            "net": "LED2_A",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "2",
+            "pinNumber": "2",
+            "primitiveId": "2f635929d0b5dcda-e4",
+            "rotation": 0,
+            "x": 720,
+            "y": 560
+          },
+          {
+            "net": "+5V",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "1",
+            "pinNumber": "1",
+            "primitiveId": "2f635929d0b5dcda-e8",
+            "rotation": 180,
+            "x": 680,
+            "y": 560
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Value}",
+          "uuid": "d7c961b6148fe7b8"
+        },
+        "primitiveId": "2f635929d0b5dcda",
+        "rotation": 0,
+        "subPartName": "0402 ±5% 220Ω.1",
+        "supplier": "LCSC",
+        "supplierId": "C2889365",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "0402 ±5% 220Ω",
+          "uuid": "120205d7a3d091c6"
+        },
+        "uniqueId": "gge5",
+        "x": 700,
+        "y": 560
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "发光二极管（黄绿色）",
+          "uuid": "aec154ed89886c35"
+        },
+        "componentType": "part",
+        "designator": "D1",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "e06dd92121cc497db14e35fe109f6aee"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "b9d5c5892c30ca8e",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "81db00a85caf48f6858b0951fa16bbba"
+          },
+          "lcsc": "C28105",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "LED0805-RD",
+          "uuid": "b9d5c5892c30ca8e"
+        },
+        "manufacturer": "",
+        "manufacturerId": "发光二极管（黄绿色）",
+        "mirror": false,
+        "name": "={Manufacturer Part}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "",
+          "Description": "",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "发光二极管（黄绿色）",
+          "PCB Layer": "Default",
+          "Supplier Footprint": "0805"
+        },
+        "pins": [
+          {
+            "net": "LED1_A",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "A",
+            "pinNumber": "2",
+            "primitiveId": "b22c339e6d789f2e-e3",
+            "rotation": 180,
+            "x": 840,
+            "y": 380
+          },
+          {
+            "net": "LED1_K",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "K",
+            "pinNumber": "1",
+            "primitiveId": "b22c339e6d789f2e-e7",
+            "rotation": 0,
+            "x": 880,
+            "y": 380
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "aec154ed89886c35"
+        },
+        "primitiveId": "b22c339e6d789f2e",
+        "rotation": 180,
+        "subPartName": "发光二极管（黄绿色）.1",
+        "supplier": "LCSC",
+        "supplierId": "C28105",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "发光二极管（黄绿色）",
+          "uuid": "b5099a331ecb2801"
+        },
+        "uniqueId": "gge6",
+        "x": 860,
+        "y": 380
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "发光二极管（黄绿色）",
+          "uuid": "aec154ed89886c35"
+        },
+        "componentType": "part",
+        "designator": "D2",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "e06dd92121cc497db14e35fe109f6aee"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "b9d5c5892c30ca8e",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "81db00a85caf48f6858b0951fa16bbba"
+          },
+          "lcsc": "C28105",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "LED0805-RD",
+          "uuid": "b9d5c5892c30ca8e"
+        },
+        "manufacturer": "",
+        "manufacturerId": "发光二极管（黄绿色）",
+        "mirror": false,
+        "name": "={Manufacturer Part}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "",
+          "Description": "",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "发光二极管（黄绿色）",
+          "PCB Layer": "Default",
+          "Supplier Footprint": "0805"
+        },
+        "pins": [
+          {
+            "net": "LED2_A",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "A",
+            "pinNumber": "2",
+            "primitiveId": "0ef8e55049f8f548-e3",
+            "rotation": 180,
+            "x": 839.9999999999999,
+            "y": 560.0000000000001
+          },
+          {
+            "net": "LED2_K",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "K",
+            "pinNumber": "1",
+            "primitiveId": "0ef8e55049f8f548-e7",
+            "rotation": 0,
+            "x": 879.9999999999999,
+            "y": 560.0000000000001
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "aec154ed89886c35"
+        },
+        "primitiveId": "0ef8e55049f8f548",
+        "rotation": 180,
+        "subPartName": "发光二极管（黄绿色）.1",
+        "supplier": "LCSC",
+        "supplierId": "C28105",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "发光二极管（黄绿色）",
+          "uuid": "b5099a331ecb2801"
+        },
+        "uniqueId": "gge7",
+        "x": 860,
+        "y": 560
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "贴片按键ANJIAN_2PIN",
+          "uuid": "f531112fd959cf8a"
+        },
+        "componentType": "part",
+        "designator": "SW1",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "62d91eaa04a14b08a8d160d888e78e41"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "03cac0644648314b",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "cd06963e12f44c6598c9c5907f7a6d96"
+          },
+          "lcsc": "C9900015641",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "SW-SMD_L6.0-W3.6-LS8.0",
+          "uuid": "03cac0644648314b"
+        },
+        "manufacturer": "",
+        "manufacturerId": "贴片按键ANJIAN_2PIN",
+        "mirror": false,
+        "name": "={Manufacturer Part}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "",
+          "Description": "",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "贴片按键ANJIAN_2PIN",
+          "PCB Layer": "Default",
+          "Supplier Footprint": "SMD-2P"
+        },
+        "pins": [
+          {
+            "net": "GND",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "2",
+            "pinNumber": "2",
+            "primitiveId": "98a3b3012d22b45b-e6",
+            "rotation": 0,
+            "x": 1040,
+            "y": 380
+          },
+          {
+            "net": "LED1_K",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "1",
+            "pinNumber": "1",
+            "primitiveId": "98a3b3012d22b45b-e10",
+            "rotation": 180,
+            "x": 1000,
+            "y": 380
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "f531112fd959cf8a"
+        },
+        "primitiveId": "98a3b3012d22b45b",
+        "rotation": 0,
+        "subPartName": "贴片按键ANJIAN_2PIN.1",
+        "supplier": "LCSC",
+        "supplierId": "C9900015641",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "贴片按键ANJIAN_2PIN",
+          "uuid": "79a01c9c1818dc54"
+        },
+        "uniqueId": "gge8",
+        "x": 1020,
+        "y": 380
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "贴片按键ANJIAN_2PIN",
+          "uuid": "f531112fd959cf8a"
+        },
+        "componentType": "part",
+        "designator": "SW2",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "62d91eaa04a14b08a8d160d888e78e41"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "03cac0644648314b",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "cd06963e12f44c6598c9c5907f7a6d96"
+          },
+          "lcsc": "C9900015641",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "SW-SMD_L6.0-W3.6-LS8.0",
+          "uuid": "03cac0644648314b"
+        },
+        "manufacturer": "",
+        "manufacturerId": "贴片按键ANJIAN_2PIN",
+        "mirror": false,
+        "name": "={Manufacturer Part}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "",
+          "Description": "",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "贴片按键ANJIAN_2PIN",
+          "PCB Layer": "Default",
+          "Supplier Footprint": "SMD-2P"
+        },
+        "pins": [
+          {
+            "net": "GND",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "2",
+            "pinNumber": "2",
+            "primitiveId": "acec6a1e885fd721-e6",
+            "rotation": 0,
+            "x": 1040,
+            "y": 560
+          },
+          {
+            "net": "LED2_K",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "1",
+            "pinNumber": "1",
+            "primitiveId": "acec6a1e885fd721-e10",
+            "rotation": 180,
+            "x": 1000,
+            "y": 560
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "f531112fd959cf8a"
+        },
+        "primitiveId": "acec6a1e885fd721",
+        "rotation": 0,
+        "subPartName": "贴片按键ANJIAN_2PIN.1",
+        "supplier": "LCSC",
+        "supplierId": "C9900015641",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "贴片按键ANJIAN_2PIN",
+          "uuid": "79a01c9c1818dc54"
+        },
+        "uniqueId": "gge9",
+        "x": 1020,
+        "y": 560
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "VIN",
+          "uuid": "7f244b0709e18739"
+        },
+        "mirror": false,
+        "name": "VIN",
+        "net": "VIN",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "VIN",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "3028200f29472fa9-e11",
+            "rotation": 0,
+            "x": 360,
+            "y": 305
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "3028200f29472fa9",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7cccc4bad0a107bb"
+        },
+        "x": 360,
+        "y": 305
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "VIN",
+          "uuid": "7f244b0709e18739"
+        },
+        "mirror": false,
+        "name": "VIN",
+        "net": "VIN",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "VIN",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "08dc8a8c687bfe6b-e11",
+            "rotation": 0,
+            "x": 510.00000000000006,
+            "y": 300
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "08dc8a8c687bfe6b",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7cccc4bad0a107bb"
+        },
+        "x": 510,
+        "y": 300
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "+5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "mirror": false,
+        "name": "+5V",
+        "net": "+5V",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "+5V",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "e2d50f3b4c127640-e11",
+            "rotation": 180,
+            "x": 610,
+            "y": 300
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "e2d50f3b4c127640",
+        "rotation": 270,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7cccc4bad0a107bb"
+        },
+        "x": 610,
+        "y": 300
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "+5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "mirror": false,
+        "name": "+5V",
+        "net": "+5V",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "+5V",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "485763294a2e5069-e11",
+            "rotation": 180,
+            "x": 600,
+            "y": 459.9999999999999
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "485763294a2e5069",
+        "rotation": 270,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7cccc4bad0a107bb"
+        },
+        "x": 600,
+        "y": 460
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "+5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "mirror": false,
+        "name": "+5V",
+        "net": "+5V",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "+5V",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "946549fbb0f44aff-e11",
+            "rotation": 0,
+            "x": 660,
+            "y": 380
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "946549fbb0f44aff",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7cccc4bad0a107bb"
+        },
+        "x": 660,
+        "y": 380
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "+5V",
+          "uuid": "7f244b0709e18739"
+        },
+        "mirror": false,
+        "name": "+5V",
+        "net": "+5V",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "Power-5V",
+          "Global Net Name": "+5V",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "57b4816ad14d2ec1-e11",
+            "rotation": 0,
+            "x": 660,
+            "y": 560
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "57b4816ad14d2ec1",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Power-5V",
+          "uuid": "7cccc4bad0a107bb"
+        },
+        "x": 660,
+        "y": 560
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "3cdc251acbc32ce5"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "3cdc251acbc32ce5"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "9c942b676b8552a8-e15",
+            "rotation": 0,
+            "x": 330,
+            "y": 294.99999999999994
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "9c942b676b8552a8",
+        "rotation": 270,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "86756fe76d1379e7"
+        },
+        "x": 330,
+        "y": 295
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "3cdc251acbc32ce5"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "3cdc251acbc32ce5"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "3e90bb7e043751d7-e15",
+            "rotation": 0,
+            "x": 520,
+            "y": 460
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "3e90bb7e043751d7",
+        "rotation": 270,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "86756fe76d1379e7"
+        },
+        "x": 520,
+        "y": 460
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "3cdc251acbc32ce5"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "3cdc251acbc32ce5"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "771f836e5b009612-e15",
+            "rotation": 180,
+            "x": 1060,
+            "y": 380
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "771f836e5b009612",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "86756fe76d1379e7"
+        },
+        "x": 1060,
+        "y": 380
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "3cdc251acbc32ce5"
+        },
+        "componentType": "netflag",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "GND",
+          "uuid": "3cdc251acbc32ce5"
+        },
+        "mirror": false,
+        "name": "GND",
+        "net": "GND",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Description": "",
+          "Global Net Name": "GND",
+          "Relevance": "[]"
+        },
+        "pins": [
+          {
+            "net": null,
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "Pin1",
+            "pinNumber": "1",
+            "primitiveId": "fb68708f0ae4b85c-e15",
+            "rotation": 180,
+            "x": 1060,
+            "y": 560
+          }
+        ],
+        "pinsAvailable": true,
+        "primitiveId": "fb68708f0ae4b85c",
+        "rotation": 90,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Ground-GND",
+          "uuid": "86756fe76d1379e7"
+        },
+        "x": 1060,
+        "y": 560
+      }
+    ],
+    "count": 20,
+    "pinNetsAvailable": true,
+    "wires": []
+  },
+  "context": {
+    "projectUuid": "4f9db8f9cdd743fc9a197589baabf21a",
+    "projectName": "zhigou-dual-button-led-restore-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@4f9db8f9cdd743fc9a197589baabf21a",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "4f9db8f9cdd743fc9a197589baabf21a",
+    "projectName": "zhigou-dual-button-led-restore-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@4f9db8f9cdd743fc9a197589baabf21a",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 474,
+  "seqAbandoned": 0
+}

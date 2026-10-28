@@ -1,0 +1,43 @@
+Patch one placed component. The patch's x/y are the component ANCHOR (footprint
+origin) — usually NOT the bbox center, and the offset rotates with the part.
+
+--center flips the write to CENTER semantics: --x/--y are the DESIRED BBOX
+CENTER; the CLI reads the live rendered bbox (rotation already baked in),
+converts to anchor coordinates, and dispatches the anchor patch. Exact by
+construction — moving never changes the anchor-to-center offset. Because
+ROTATING does change it, --center refuses a patch that also sets rotation:
+rotate first ('--patch {"rotation":…}'), then --center in a second call.
+
+Virtual groups (#173): a patch that changes x/y/rotation/layer of a member of a
+multi-part `pcb group` is refused (it would break the group) — use
+`pcb group move`, or --break-group to override.
+
+Usage:
+  zhigou pcb modify [flags]
+
+Examples:
+  zhigou pcb modify --id <pid> --patch '{"x":1000,"y":2000}'   # x/y = ANCHOR
+  zhigou pcb modify --id <pid> --patch '{"rotation":90,"layer":"bottom"}'   # layer: top|bottom or 1|2, verified by readback
+  zhigou pcb modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
+  zhigou pcb modify --id <pid> --patch '{"locked":false}'      # verified via readback (#174); batches → 'pcb lock'
+  zhigou pcb modify --id <pid> --center --x 1500 --y 2200      # x/y = desired bbox CENTER
+
+Flags:
+      --break-group pcb group   allow repositioning one member of a virtual pcb group (breaks the group's geometry)
+      --center                  interpret --x/--y as the desired BBOX CENTER (converted to anchor via the live bbox)
+  -h, --help                    help for modify
+      --id string               component primitiveId (required)
+      --patch string            JSON patch object, e.g. '{"x":1000,"y":2000}' (x/y = anchor)
+      --patch-file string       UTF-8 JSON patch file (BOM supported; mutually exclusive with --patch)
+      --x float                 desired bbox-center x (mil; with --center)
+      --y float                 desired bbox-center y (mil; with --center)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

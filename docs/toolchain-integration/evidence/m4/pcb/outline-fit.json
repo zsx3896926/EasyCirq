@@ -1,0 +1,37 @@
+{
+  "ok": true,
+  "result": {
+    "allInside": true,
+    "arcs": 0,
+    "bbox": {
+      "maxX": 585.0374999999999,
+      "maxY": 395.867,
+      "minX": -1288.4479999999999,
+      "minY": -395.867
+    },
+    "height": 791.734,
+    "lineWidth": 10,
+    "locked": true,
+    "outlineFormat": "polyline",
+    "outlineId": "b6ad9fd0f87d995b",
+    "outside": [],
+    "radius": null,
+    "segments": 4,
+    "width": 1873.4854999999998,
+    "zoomed": true
+  },
+  "summary": {
+    "margin": 100,
+    "newOutline": {
+      "h": 791.73,
+      "w": 1873.49
+    },
+    "partExtent": {
+      "h": 591.73,
+      "w": 1673.49
+    },
+    "parts": 9,
+    "utilAfterParts": 66.76,
+    "utilBefore": 95.71
+  }
+}

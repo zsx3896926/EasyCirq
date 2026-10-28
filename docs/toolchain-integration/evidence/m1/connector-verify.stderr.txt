@@ -1,0 +1,1 @@
+zhigou connector verify — degraded (eext C:\Users\jlc\work\zhigou-toolchain\connector\build\dist\zhigou-connector_v0.1.0.eext, loaded windows: 0)

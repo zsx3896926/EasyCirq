@@ -443,7 +443,7 @@ def main(argv=None):
     ap.add_argument("--style", choices=("45", "any"), default="45",
                     help="keep the shortcut pass on 45/90 directions")
     ap.add_argument("--max-cells", type=int, default=500000)
-    ap.add_argument("--emit-cli", action="store_true", help="print easyeda commands")
+    ap.add_argument("--emit-cli", action="store_true", help="print zhigou commands")
     ap.add_argument("--emit-doc", default="PCB1")
     ap.add_argument("--verbose", action="store_true", help="print every path point")
     ap.add_argument("--json", dest="out")

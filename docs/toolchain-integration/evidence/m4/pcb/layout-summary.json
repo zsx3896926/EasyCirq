@@ -1,0 +1,92 @@
+[
+  {
+    "designator": "J1",
+    "ok": true,
+    "patch": {
+      "x": -700,
+      "y": 0,
+      "rotation": 90
+    },
+    "error": null
+  },
+  {
+    "designator": "F1",
+    "ok": true,
+    "patch": {
+      "x": -520,
+      "y": 0,
+      "rotation": 0
+    },
+    "error": null
+  },
+  {
+    "designator": "C1",
+    "ok": true,
+    "patch": {
+      "x": -360,
+      "y": 0,
+      "rotation": 0
+    },
+    "error": null
+  },
+  {
+    "designator": "R1",
+    "ok": true,
+    "patch": {
+      "x": -100,
+      "y": 220,
+      "rotation": 0
+    },
+    "error": null
+  },
+  {
+    "designator": "D1",
+    "ok": true,
+    "patch": {
+      "x": 30,
+      "y": 220,
+      "rotation": 0
+    },
+    "error": null
+  },
+  {
+    "designator": "SW1",
+    "ok": true,
+    "patch": {
+      "x": 300,
+      "y": 220,
+      "rotation": 0
+    },
+    "error": null
+  },
+  {
+    "designator": "R2",
+    "ok": true,
+    "patch": {
+      "x": -100,
+      "y": -220,
+      "rotation": 0
+    },
+    "error": null
+  },
+  {
+    "designator": "D2",
+    "ok": true,
+    "patch": {
+      "x": 30,
+      "y": -220,
+      "rotation": 0
+    },
+    "error": null
+  },
+  {
+    "designator": "SW2",
+    "ok": true,
+    "patch": {
+      "x": 300,
+      "y": -220,
+      "rotation": 0
+    },
+    "error": null
+  }
+]

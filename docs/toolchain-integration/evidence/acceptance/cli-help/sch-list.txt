@@ -1,0 +1,39 @@
+List components on the active (or all) schematic page(s).
+
+Each component carries a structured device field {libraryUuid, uuid, name}.
+Use --include-device-identity for replay or composition baselines: raw device.uuid
+may be a 16-character placed-symbol id. Hydration resolves it to a 32-character
+device-library uuid and reports deviceIdentityError if exact identity is unknown.
+The component/symbol/footprint/uniqueId fields are instance identifiers and must
+not be replayed as a device-library uuid. Missing identity is unavailable evidence,
+not permission to substitute a similar symbol.
+
+Usage:
+  zhigou sch list [flags]
+
+Examples:
+  zhigou sch list
+  zhigou sch list --all-pages
+  zhigou sch list --include-bbox
+  zhigou sch list --include-pins
+
+Flags:
+      --all-pages doc switch      list components across all schematic pages (WARNING: non-active pages return shallow data — pins/bbox may be empty; use doc switch to that page for accurate data)
+  -h, --help                      help for list
+      --include-bbox              attach each component's rendered extent {minX,minY,maxX,maxY}
+      --include-device-identity   resolve exact 32-character device-library identity for replay and composition guards (60s request budget)
+      --include-page-primitives   include complete active-page primitive IDs and native drawing state for guarded replacement
+      --include-pins              attach each pin's {pinName,pinNumber,x,y,noConnected,net} — the data plane for routing/connectivity checks (net is the pin's current authoritative net, null when the netlist is unavailable; a part or reuse-block instance absent from the netlist gets netSource=wire-geometry: net from the wire touching the pin, else net=null with netUnresolved naming why; output grows, esp. with --all-pages)
+      --include-wires             include existing wire segment geometry for composition comparison
+      --page string               switch to this page (name|uuid), wait for it to settle, then list — makes the page an explicit parameter instead of relying on the active tab (issue #67)
+      --stay                      with --page, stay on the target page after listing instead of switching back
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

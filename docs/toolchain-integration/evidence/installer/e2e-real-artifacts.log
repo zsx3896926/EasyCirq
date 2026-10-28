@@ -1,0 +1,257 @@
+=== E2E with real artifacts: 2026-10-27T21:47:40.0835724+08:00 ===
+installer zip contents:
+
+  Length Name
+  ------ ----
+     382 Install-Zhigou.cmd
+    6260 Install-Zhigou.ps1
+    4660 INSTALL.md
+     513 SHA256SUMS
+    2205 toolchain-release.json
+   54667 zhigou_install.py
+16017542 zhigou-toolchain-0.2.0.zip
+
+
+--- install ---
+{
+  "status": "installed",
+  "version": "0.2.0",
+  "previousVersion": null,
+  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
+  "files": 685,
+  "backup": null,
+  "preservedConfig": [],
+  "compat": {
+    "status": "ok",
+    "changes": [],
+    "compat": {
+      "cli": "0.2.0",
+      "runtime": "0.2.0",
+      "daemon": "0.2.0",
+      "connector": "0.1.0",
+      "protocol": "zhigou-agent/v1",
+      "eda": ">=3.2.0",
+      "validatedEda": "4.1.78",
+      "minPython": "3.10"
+    }
+  },
+  "clientSkill": null,
+  "selfCheck": {
+    "status": "degraded",
+    "verdict": "degraded",
+    "exitCode": 0,
+    "command": [
+      "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe",
+      "doctor"
+    ],
+    "summary": {
+      "verdict": "degraded",
+      "runtimeVersion": "0.2.0-dev",
+      "runtimeSha256": "7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4",
+      "daemonRunning": null,
+      "daemonPort": 23111,
+      "connectorStatus": "disconnected",
+      "connectedWindows": [],
+      "protocol": {
+        "service": "zhigou-agent",
+        "wireVersion": "v1",
+        "handshake": "daemon→connector {type:handshake,service,version}",
+        "envelopeVersion": "v1"
+      }
+    },
+    "stderr": "zhigou doctor — verdict: degraded\n  runtime   zhigou 0.2.0-dev  (C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe)\n  skill     installed\n  daemon    running pid=49128 port=23111 v0.2.0-dev\n  connector disconnected (0 window(s), expected zhigou-connector v0.1.0)\n  protocol  zhigou-agent wire v1\n  ✓ daemon     v0.2.0-dev 运行在端口 23111\n  ✗ connector  没有 EasyEDA 窗口连上 daemon\n      → 运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA\n  ✓ skill      design-hardware 已安装（claude 1.0.1, agents 1.0.1）\n  ✓ legacy     检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\n  next: 在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载",
+    "stdoutHead": "{\n  \"schema\": \"zhigou-doctor/v1\",\n  \"generatedAt\": \"2026-10-27T13:47:44Z\",\n  \"verdict\": \"degraded\",\n  \"runtime\": {\n    \"name\": \"zhigou\",\n    \"version\": \"0.2.0-dev\",\n    \"executable\": \"C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Temp\\\\zhigou final 安装 目录\\\\bin\\\\zhigou.exe\",\n    \"sha256\": \"7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4\",\n    \"vcsRevision\": \"9a951edc21481dc3ae91460acc11aa3e08a7be8a\",\n    \"vcsTime\": \"2026-10-27T07:03:30Z\",\n    \"vcsModified\": true,\n    \"goVersion\": \"go1.27.3\",\n    \"onDisk\": true\n  },\n  \"skill\": {\n    \"name\": \"design-hardware\",\n    \"status\": \"installed\",\n    \"installed\": [\n      {\n        \"client\": \"codex\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.codex\\\\skills\\\\design-hardware\",\n        \"present\": false\n      },\n      {\n        \"client\": \"claude\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.claude\\\\skills\\\\design-hardware\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"agents\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.agents\\\\skills\\\\design-hardware\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"repo\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\Documents\\\\deepseek-harness\\\\default-workspace\\\\design-hardware\",\n        \"present\": false\n      }\n    ]\n  },\n  \"daemon\": {\n    \"status\": \"running\",\n    \"pid\": 49128,\n    \"port\": 23111,\n    \"version\": \"0.2.0-dev\",\n    \"stateDir\": \"C:\\\\Users\\\\jlc\\\\.zhigou\",\n    \"logPath\": \"C:\\\\Users\\\\jlc\\\\.zhigou\\\\daemon.log\",\n    \"pidFile\": \"C:\\\\Users\\\\jlc\\\\.zhigou\\\\daemon.",
+    "note": "degraded/exit!=0 means the host is unreachable (daemon down or connector not connected); that is reported honestly and is not an installation failure."
+  },
+  "next": [
+    "1) Import the connector into EasyEDA Pro manually: 设置 → 扩展 → 已安装 → 导入扩展",
+    "   file: C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\connector\\zhigou-connector_v0.1.0.eext",
+    "2) Fully quit EasyEDA Pro and relaunch it (the connector loads on startup; no hot reload).",
+    "3) Verify: C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe doctor",
+    "   daemon down / connector disconnected = degraded, not an install failure.",
+    "4) Optional: add C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin to PATH yourself -- this installer never edits PATH."
+  ]
+}
+exit=0
+--- status ---
+{
+  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
+  "stateDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou-final-state",
+  "installed": true,
+  "path": {
+    "onPath": false,
+    "otherZhigouOnPath": [],
+    "verdict": "ok",
+    "note": "Installer never edits PATH; add bin/ yourself if you want the CLI on PATH."
+  },
+  "legacy": {
+    "home": "C:\\Users\\jlc",
+    "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
+    "observed": {
+      "claude": [
+        {
+          "path": "C:\\Users\\jlc\\.claude\\skills\\easyeda-agent",
+          "name": "easyeda-agent"
+        },
+        {
+          "path": "C:\\Users\\jlc\\.claude\\skills\\design-hardware",
+          "name": "design-hardware"
+        }
+      ],
+      "codex": [
+        {
+          "path": "C:\\Users\\jlc\\.agents\\skills\\easyeda-agent",
+          "name": "easyeda-agent"
+        },
+        {
+          "path": "C:\\Users\\jlc\\.agents\\skills\\design-hardware",
+          "name": "design-hardware"
+        },
+        {
+          "path": "C:\\Users\\jlc\\.codex\\skills\\easyeda-agent",
+          "name": "easyeda-agent"
+        }
+      ],
+      "agents": [
+        {
+          "path": "C:\\Users\\jlc\\.agents\\skills\\easyeda-agent",
+          "name": "easyeda-agent"
+        },
+        {
+          "path": "C:\\Users\\jlc\\.agents\\skills\\design-hardware",
+          "name": "design-hardware"
+        }
+      ]
+    },
+    "touched": [],
+    "note": "Read-only probe: this installer never writes to these paths."
+  },
+  "backups": [],
+  "status": "healthy",
+  "verdict": "ok",
+  "version": "0.2.0",
+  "installedAt": "2026-10-27T13:47:41Z",
+  "components": {
+    "runtime": {
+      "name": "zhigou",
+      "version": "0.2.0",
+      "path": "payload/bin/zhigou.exe",
+      "installPath": "bin/zhigou.exe",
+      "identityPath": "payload/bin/zhigou-version.json",
+      "sha256": "7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4",
+      "size": 24074752,
+      "goVersion": "go1.27.3",
+      "builtBy": "reused:C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe"
+    },
+    "connector": {
+      "name": "zhigou-connector",
+      "version": "0.1.0",
+      "uuid": "a6e6b788551945b399e150d80efa6e31",
+      "displayName": "Zhigou EDA Connector",
+      "enginesEda": ">=3.2.0",
+      "path": "payload/connector/zhigou-connector_v0.1.0.eext",
+      "installPath": "connector/zhigou-connector_v0.1.0.eext",
+      "file": "zhigou-connector_v0.1.0.eext",
+      "sha256": "1c6c659b4cf282f57a0752267a7408aedfdd2810fe49c9352ebd17902a2d343b",
+      "size": 231299
+    },
+    "skill": {
+      "name": "design-hardware",
+      "version": "1.0.1",
+      "path": "payload/skill/design-hardware",
+      "installPath": "skill/design-hardware",
+      "fileCount": 674
+    }
+  },
+  "compat": {
+    "cli": "0.2.0",
+    "runtime": "0.2.0",
+    "daemon": "0.2.0",
+    "connector": "0.1.0",
+    "protocol": "zhigou-agent/v1",
+    "eda": ">=3.2.0",
+    "validatedEda": "4.1.78",
+    "minPython": "3.10"
+  },
+  "provenance": {
+    "sourceCommit": "f68fcac2bd44e5628bb2679d51cc07cc9f143887",
+    "sourceDirty": true,
+    "goVersion": "go1.27.3",
+    "goToolchain": null,
+    "nodeVersion": "v24.20.0",
+    "npmVersion": "11.19.0",
+    "runtimeVcsRevision": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "runtimeVcsTime": "2026-10-27T07:03:30Z",
+    "runtimeVcsModified": true,
+    "builder": "distribution/build_release.py",
+    "host": "Windows/11",
+    "pythonVersion": "3.13.15"
+  },
+  "previousVersion": null,
+  "verify": {
+    "status": "healthy",
+    "changed": [],
+    "missing": [],
+    "extra": [],
+    "fileCount": 685
+  },
+  "selfCheck": {
+    "status": "degraded",
+    "verdict": "degraded",
+    "exitCode": 0,
+    "command": [
+      "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe",
+      "doctor"
+    ],
+    "summary": {
+      "verdict": "degraded",
+      "runtimeVersion": "0.2.0-dev",
+      "runtimeSha256": "7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4",
+      "daemonRunning": null,
+      "daemonPort": 23111,
+      "connectorStatus": "disconnected",
+      "connectedWindows": [],
+      "protocol": {
+        "service": "zhigou-agent",
+        "wireVersion": "v1",
+        "handshake": "daemon→connector {type:handshake,service,version}",
+        "envelopeVersion": "v1"
+      }
+    },
+    "stderr": "zhigou doctor — verdict: degraded\n  runtime   zhigou 0.2.0-dev  (C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe)\n  skill     installed\n  daemon    running pid=49128 port=23111 v0.2.0-dev\n  connector disconnected (0 window(s), expected zhigou-connector v0.1.0)\n  protocol  zhigou-agent wire v1\n  ✓ daemon     v0.2.0-dev 运行在端口 23111\n  ✗ connector  没有 EasyEDA 窗口连上 daemon\n      → 运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA\n  ✓ skill      design-hardware 已安装（claude 1.0.1, agents 1.0.1）\n  ✓ legacy     检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\n  next: 在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载",
+    "stdoutHead": "{\n  \"schema\": \"zhigou-doctor/v1\",\n  \"generatedAt\": \"2026-10-27T13:47:44Z\",\n  \"verdict\": \"degraded\",\n  \"runtime\": {\n    \"name\": \"zhigou\",\n    \"version\": \"0.2.0-dev\",\n    \"executable\": \"C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Temp\\\\zhigou final 安装 目录\\\\bin\\\\zhigou.exe\",\n    \"sha256\": \"7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4\",\n    \"vcsRevision\": \"9a951edc21481dc3ae91460acc11aa3e08a7be8a\",\n    \"vcsTime\": \"2026-10-27T07:03:30Z\",\n    \"vcsModified\": true,\n    \"goVersion\": \"go1.27.3\",\n    \"onDisk\": true\n  },\n  \"skill\": {\n    \"name\": \"design-hardware\",\n    \"status\": \"installed\",\n    \"installed\": [\n      {\n        \"client\": \"codex\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.codex\\\\skills\\\\design-hardware\",\n        \"present\": false\n      },\n      {\n        \"client\": \"claude\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.claude\\\\skills\\\\design-hardware\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"agents\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.agents\\\\skills\\\\design-hardware\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"repo\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\Documents\\\\deepseek-harness\\\\default-workspace\\\\design-hardware\",\n        \"present\": false\n      }\n    ]\n  },\n  \"daemon\": {\n    \"status\": \"running\",\n    \"pid\": 49128,\n    \"port\": 23111,\n    \"version\": \"0.2.0-dev\",\n    \"stateDir\": \"C:\\\\Users\\\\jlc\\\\.zhigou\",\n    \"logPath\": \"C:\\\\Users\\\\jlc\\\\.zhigou\\\\daemon.log\",\n    \"pidFile\": \"C:\\\\Users\\\\jlc\\\\.zhigou\\\\daemon.",
+    "note": "degraded/exit!=0 means the host is unreachable (daemon down or connector not connected); that is reported honestly and is not an installation failure."
+  },
+  "history": [
+    {
+      "action": "install",
+      "at": "2026-10-27T13:47:44Z",
+      "from": null,
+      "to": "0.2.0",
+      "backup": null
+    }
+  ],
+  "runtimeReportsVersion": "zhigou 0.2.0-dev"
+}
+--- verify ---
+{
+  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
+  "version": "0.2.0",
+  "status": "healthy",
+  "changed": [],
+  "missing": [],
+  "extra": [],
+  "fileCount": 685
+}
+--- uninstall ---
+{
+  "status": "uninstalled",
+  "version": "0.2.0",
+  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
+  "removedFiles": 685,
+  "kept": [],
+  "clientSkill": null,
+  "stateDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou-final-state",
+  "note": "Only files recorded in installation.json were deleted."
+}
+exit=0

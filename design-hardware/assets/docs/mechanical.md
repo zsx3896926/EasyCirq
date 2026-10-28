@@ -42,12 +42,12 @@
 
 ## 3. 证据与命令边界
 
-- 板框：`easyeda pcb outline-get` 读取真实外形与渲染 bbox；`outline-fit` 只按器件包围盒加边距生成矩形，不能替代目标板框。
-- 安装孔计划：`easyeda pcb mount-holes --dry-run`，默认 Ø3.2 mm（126 mil）、中心内缩 5 mm（197 mil），只生成板框角上的 MULTI-layer 铣槽；**不导入螺钉/安装孔库器件**，需要 PTH 或库封装时另建并单独记录。
+- 板框：`zhigou pcb outline-get` 读取真实外形与渲染 bbox；`outline-fit` 只按器件包围盒加边距生成矩形，不能替代目标板框。
+- 安装孔计划：`zhigou pcb mount-holes --dry-run`，默认 Ø3.2 mm（126 mil）、中心内缩 5 mm（197 mil），只生成板框角上的 MULTI-layer 铣槽；**不导入螺钉/安装孔库器件**，需要 PTH 或库封装时另建并单独记录。
 - 紧固件避让：`mount-holes` 使用 `max(孔半径+40 mil, M3 垫圈/螺钉头半径 118 mil)` 的避让半径，冲突角会 WARN 并跳过，不会强放；用 `--clearance` 覆盖只适用于确认更小的紧固件。
-- 器件高度/占位：`easyeda pcb list --include-bbox`；bbox 是渲染范围，不含线缆、插头和外壳。
-- 层数/板厚：`easyeda pcb layers`、`easyeda pcb stackup show`。
-- 视觉确认：`easyeda pcb snapshot`（需要前台 PCB 窗口；截图只作辅助，尺寸以回读或结构图为准）。
+- 器件高度/占位：`zhigou pcb list --include-bbox`；bbox 是渲染范围，不含线缆、插头和外壳。
+- 层数/板厚：`zhigou pcb layers`、`zhigou pcb stackup show`。
+- 视觉确认：`zhigou pcb snapshot`（需要前台 PCB 窗口；截图只作辅助，尺寸以回读或结构图为准）。
 - 结构模型与首件：STEP/STL/3MF 按当前工具实际支持的格式核对单位、坐标与版本；打印小样或首件后验证插拔、按压、声孔、散热与维修。
 
 ## 4. 机械未决项

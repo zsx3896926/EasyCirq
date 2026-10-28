@@ -1,0 +1,39 @@
+===== easyeda doc --help (exit=0) =====
+Discover every openable document in a window and open or switch between them.
+
+  easyeda doc ls --project <name>                      list all schematic pages + PCBs, ★=active
+  easyeda doc open <name|uuid> --project <name>        open a document (schematic page or PCB)
+  easyeda doc switch <name|uuid> --project <name>      switch to a document (same as open)
+  easyeda doc reload [name|uuid] --project <name>      save, close, and reopen a document
+  easyeda doc ready [uuid] --project <name>            verify current readability without navigation
+
+Context is read live (not the connect-time snapshot), so the active marker
+and `daemon health` reflect the real foreground document. If the project has
+no active editor tab, `doc ls` still uses project inventories and `doc open`
+can recover by UUID, then confirms the new active document with a fresh read.
+
+Usage:
+  easyeda doc [flags]
+  easyeda doc [command]
+
+Available Commands:
+  ls          List all openable documents in the window (★ = active)
+  open        Open a document (schematic page or PCB) by name or uuid
+  ready       Read current document identity and stable component inventory without opening or saving
+  reload      Save + close + reopen a document (default: the active one) — refreshes per-doc engine state
+  source      Inspect and probe the Beta native document source (no new design content)
+  switch      Switch the foreground document by page name, PCB name, or uuid
+
+Flags:
+  -h, --help            help for doc
+      --window string   EasyEDA window ID (usually prefer --project)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda doc [command] --help" for more information about a command.

@@ -1,0 +1,845 @@
+
+===== entry :: cmd/easyeda/main.go : lines 1-11 =====
+    1: package main
+    2: 
+    3: import (
+    4: 	"os"
+    5: 
+    6: 	"github.com/zhoushoujianwork/easyeda-agent/internal/app"
+    7: )
+    8: 
+    9: func main() {
+   10: 	os.Exit(app.Run(os.Args[1:], os.Stdout, os.Stderr))
+   11: }
+
+===== root cmd + flags :: internal/app/app.go : lines 57-96 =====
+   57: func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
+   58: 	cfg := &appConfig{
+   59: 		host:     defaultHost,
+   60: 		ports:    fmt.Sprintf("%d-%d", defaultPortStart, defaultPortEnd),
+   61: 		docCache: &docGuardCache{},
+   62: 	}
+   63: 
+   64: 	root := &cobra.Command{
+   65: 		Use:   "easyeda",
+   66: 		Short: version.Name + " — AI-native EasyEDA Pro automation layer",
+   67: 		// SilenceUsage: don't dump usage on every error.
+   68: 		// SilenceErrors: we handle printing ourselves so we can suppress
+   69: 		// errActionFailed without also suppressing "unknown command" etc.
+   70: 		SilenceUsage:  true,
+   71: 		SilenceErrors: true,
+   72: 		// Setting Version enables `--version`; pre-registering the flag below
+   73: 		// adds the `-v` shorthand. Same output as the `version` subcommand.
+   74: 		Version: version.Version,
+   75: 	}
+   76: 	// Record which subcommand issued the actions (audit attribution only).
+   77: 	root.PersistentPreRun = func(cmd *cobra.Command, _ []string) { cfg.command = cmd.CommandPath() }
+   78: 	root.SetVersionTemplate(version.Name + " {{.Version}}\n")
+   79: 	root.Flags().BoolP("version", "v", false, "print version and exit")
+   80: 
+   81: 	root.PersistentFlags().StringVar(&cfg.host, "host", defaultHost,
+   82: 		"daemon host")
+   83: 	root.PersistentFlags().StringVar(&cfg.ports, "ports",
+   84: 		fmt.Sprintf("%d-%d", defaultPortStart, defaultPortEnd),
+   85: 		"daemon port range (start-end)")
+   86: 	root.PersistentFlags().StringVar(&cfg.project, "project", "",
+   87: 		"route by project name/uuid instead of --window (survives windowId churn)")
+   88: 	root.PersistentFlags().BoolVar(&cfg.skipVersionCheck, "skip-version-check", false,
+   89: 		"deprecated compatibility option; version differences are diagnostic and no longer block actions")
+   90: 	// Compatibility surface for scripts written while stale reads were a hard
+   91: 	// refusal. The daemon now returns the read with staleRisk evidence instead.
+   92: 	root.PersistentFlags().StringVar(&cfg.forceStaleRead, "force-stale-read", "",
+   93: 		"deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back")
+   94: 	root.PersistentFlags().StringVar(&cfg.doc, "doc", "",
+   95: 		"pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race")
+   96: 
+
+===== port consts :: internal/app/dispatch.go : lines 23-52 =====
+   23: const (
+   24: 	defaultHost = "127.0.0.1"
+   25: 	// 0xEDA0-0xEDA9 — "EDA" spelled in hex. Deliberately NOT 49620-49629: that
+   26: 	// range is what the OFFICIAL eext-run-api-gateway ecosystem scans (we had
+   27: 	// copied its convention), so both sides raced to bind the same port.
+   28: 	defaultPortStart = 0xeda0 // 60832
+   29: 	defaultPortEnd   = 0xeda9 // 60841
+   30: )
+   31: 
+   32: // defaultActionTimeout bounds how long the CLI waits for a single /action
+   33: // round-trip before giving up. Most actions return well under a second; a
+   34: // hang here means the connector's underlying eda.* call never settled.
+   35: const defaultActionTimeout = 20 * time.Second
+   36: 
+   37: // Complete snapshots include native attributes, pins, geometry and wiring.
+   38: // HTTP JSON has its own bounded budget (the daemon also indents its envelope);
+   39: // do not silently truncate it at the smaller health-discovery budget.
+   40: const (
+   41: 	actionResponseBodyLimit = 32 << 20
+   42: 	healthResponseBodyLimit = 1 << 20
+   43: )
+   44: 
+   45: func readBoundedResponse(body io.Reader, limit int64) ([]byte, error) {
+   46: 	data, err := io.ReadAll(io.LimitReader(body, limit+1))
+   47: 	if err != nil {
+   48: 		return nil, err
+   49: 	}
+   50: 	if int64(len(data)) > limit {
+   51: 		return nil, fmt.Errorf("response exceeds %d-byte limit; complete response unavailable", limit)
+   52: 	}
+
+===== daemon routes :: internal/daemon/daemon.go : lines 178-211 =====
+  178: // routes builds the HTTP handlers. port is the bound port, reported in /health
+  179: // so callers can confirm which port in the range was selected.
+  180: func (s *Server) routes(port int) *http.ServeMux {
+  181: 	mux := http.NewServeMux()
+  182: 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
+  183: 		if r.Method != http.MethodGet {
+  184: 			w.Header().Set("Allow", http.MethodGet)
+  185: 			http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+  186: 			return
+  187: 		}
+  188: 		w.Header().Set("Content-Type", "application/json")
+  189: 		enc := json.NewEncoder(w)
+  190: 		enc.SetIndent("", "  ")
+  191: 		_ = enc.Encode(health{
+  192: 			PID:         os.Getpid(),
+  193: 			Service:     Service,
+  194: 			Version:     s.opts.Version,
+  195: 			Status:      "ok",
+  196: 			Port:        port,
+  197: 			Windows:     s.hub.listAnnotated(s.opts.Version),
+  198: 			WriteHealth: s.writeHealth.all(),
+  199: 			Autosave:    s.autosave.snapshot(),
+  200: 		})
+  201: 	})
+  202: 	mux.HandleFunc("/eda", s.handleConnect)
+  203: 	mux.HandleFunc("/action", s.handleAction)
+  204: 	// /writeverify is 通道 B of the write-health metric (writehealth.go): a
+  205: 	// command that VERIFIED a write by reading the canvas back posts its verdict
+  206: 	// here. Not a typed action on purpose — the verdict arrives after (and often
+  207: 	// covers many of) the calls it judges, and keeping it daemon-local means the
+  208: 	// connector never needs a rebuild for it.
+  209: 	mux.HandleFunc("/writeverify", s.handleWriteVerify)
+  210: 	return mux
+  211: }
+
+===== daemon listen :: internal/daemon/daemon.go : lines 213-232 =====
+  213: // listen binds the first free port in [PortStart, PortEnd] on Host.
+  214: func (s *Server) listen() (net.Listener, int, error) {
+  215: 	host := s.opts.Host
+  216: 	if host == "" {
+  217: 		host = "127.0.0.1"
+  218: 	}
+  219: 	if s.opts.PortStart <= 0 || s.opts.PortEnd <= 0 || s.opts.PortStart > s.opts.PortEnd {
+  220: 		return nil, 0, fmt.Errorf("invalid port range %d-%d", s.opts.PortStart, s.opts.PortEnd)
+  221: 	}
+  222: 
+  223: 	var lastErr error
+  224: 	for port := s.opts.PortStart; port <= s.opts.PortEnd; port++ {
+  225: 		ln, err := net.Listen("tcp", fmt.Sprintf("%s:%d", host, port))
+  226: 		if err == nil {
+  227: 			return ln, port, nil
+  228: 		}
+  229: 		lastErr = err
+  230: 	}
+  231: 	return nil, 0, fmt.Errorf("no free port in %d-%d: %w", s.opts.PortStart, s.opts.PortEnd, lastErr)
+  232: }
+
+===== ws accept + handshake :: internal/daemon/connect.go : lines 13-62 =====
+   13: // handleConnect accepts the connector WebSocket and runs the read loop until the
+   14: // connection drops or the daemon shuts down.
+   15: func (s *Server) handleConnect(w http.ResponseWriter, r *http.Request) {
+   16: 	ws, err := websocket.Accept(w, r, &websocket.AcceptOptions{
+   17: 		// The daemon is localhost-only; the connector runs inside EasyEDA whose
+   18: 		// origin differs from the daemon host.
+   19: 		// TODO: replace with an explicit origin allowlist once the EasyEDA
+   20: 		// extension origin is known.
+   21: 		InsecureSkipVerify: true,
+   22: 		// EasyEDA's WebSocket client does not interoperate with permessage-deflate
+   23: 		// as negotiated by this library; disable compression for compatibility.
+   24: 		CompressionMode: websocket.CompressionDisabled,
+   25: 	})
+   26: 	if err != nil {
+   27: 		s.logf("connector accept failed from %s: %v", r.RemoteAddr, err)
+   28: 		return
+   29: 	}
+   30: 	// Snapshots and netlist/BOM artifacts are inlined as base64 in response
+   31: 	// frames and routinely exceed coder/websocket's 32 KiB default read limit.
+   32: 	// 32 MiB comfortably covers schematic PNGs and large BOM/netlist files.
+   33: 	ws.SetReadLimit(32 << 20)
+   34: 	s.logf("connector connected from %s", r.RemoteAddr)
+   35: 
+   36: 	// Reads use the daemon's connection context so shutdown unblocks the loop.
+   37: 	ctx := s.connContext(r)
+   38: 	c := newConn(ws, time.Now().UTC())
+   39: 	remote := r.RemoteAddr
+   40: 	origin := r.Header.Get("Origin")
+   41: 	ua := r.Header.Get("User-Agent")
+   42: 	s.logf("connector %s upgraded (origin=%q ua=%q)", remote, origin, ua)
+   43: 	defer func() {
+   44: 		c.disconnect()
+   45: 		s.hub.remove(c.id())
+   46: 		// A reconnected window starts with clean rolling write health (same
+   47: 		// lifetime rule as the stale-read guard: a reload IS the recovery).
+   48: 		s.writeHealth.forget(c.id())
+   49: 		ws.Close(websocket.StatusNormalClosure, "closing")
+   50: 		s.logf("connector %s closed", remote)
+   51: 	}()
+   52: 
+   53: 	// Identify ourselves first so the connector can verify it reached an
+   54: 	// easyeda-agent daemon before it registers.
+   55: 	if err := c.write(ctx, protocol.Handshake{
+   56: 		Type:    protocol.TypeHandshake,
+   57: 		Service: Service,
+   58: 		Version: s.opts.Version,
+   59: 	}); err != nil {
+   60: 		s.logf("handshake write failed to %s: %v", r.RemoteAddr, err)
+   61: 		return
+   62: 	}
+
+===== connector frames :: internal/protocol/connector.go : lines 11-72 =====
+   11: const (
+   12: 	TypeHandshake = "handshake"
+   13: 	TypeRegister  = "register"
+   14: 	TypeContext   = "context"
+   15: 	TypePing      = "ping"
+   16: 	TypePong      = "pong"
+   17: 	TypeRequest   = "request"
+   18: 	TypeResponse  = "response"
+   19: 	TypeLog       = "log"
+   20: )
+   21: 
+   22: // Handshake is sent by the daemon immediately after a connector connects, so the
+   23: // connector can confirm it reached an easyeda-agent daemon (not some other local
+   24: // service) before registering.
+   25: type Handshake struct {
+   26: 	Type    string `json:"type"`
+   27: 	Service string `json:"service"`
+   28: 	Version string `json:"version"`
+   29: }
+   30: 
+   31: // Ping is a liveness probe; the receiver echoes its ID back in a Pong.
+   32: type Ping struct {
+   33: 	Type string `json:"type"`
+   34: 	ID   string `json:"id,omitempty"`
+   35: }
+   36: 
+   37: // Pong answers a Ping, echoing its ID.
+   38: type Pong struct {
+   39: 	Type string `json:"type"`
+   40: 	ID   string `json:"id,omitempty"`
+   41: }
+   42: 
+   43: // Typed peeks only the discriminator of an inbound connector frame so the
+   44: // daemon can decide which concrete struct to decode it into.
+   45: type Typed struct {
+   46: 	Type string `json:"type"`
+   47: }
+   48: 
+   49: // Register is the connector's first frame after the WebSocket opens. It
+   50: // declares the EasyEDA window identity and what the connector can do.
+   51: type Register struct {
+   52: 	Type             string   `json:"type"`
+   53: 	WindowID         string   `json:"windowId"`
+   54: 	ConnectorVersion string   `json:"connectorVersion"`
+   55: 	EasyEDAVersion   string   `json:"easyedaVersion"`
+   56: 	Capabilities     []string `json:"capabilities"`
+   57: }
+   58: 
+   59: // ContextMessage reports the connector's current project/document context. It
+   60: // is sent on connect and whenever the active document changes.
+   61: type ContextMessage struct {
+   62: 	Type         string `json:"type"`
+   63: 	WindowID     string `json:"windowId"`
+   64: 	ProjectUUID  string `json:"projectUuid"`
+   65: 	ProjectName  string `json:"projectName"`
+   66: 	DocumentUUID string `json:"documentUuid"`
+   67: 	DocumentType string `json:"documentType"`
+   68: 	TabID        string `json:"tabId"`
+   69: 	Unit         string `json:"unit"`
+   70: 	// PageVisibility mirrors Context.PageVisibility (heartbeat context frames).
+   71: 	PageVisibility string `json:"pageVisibility,omitempty"`
+   72: }
+
+===== envelope :: internal/protocol/envelope.go : lines 1-60 =====
+    1: package protocol
+    2: 
+    3: import "time"
+    4: 
+    5: type Envelope struct {
+    6: 	ID        string    `json:"id"`
+    7: 	Type      string    `json:"type"`
+    8: 	Version   string    `json:"version"`
+    9: 	WindowID  string    `json:"windowId,omitempty"`
+   10: 	CreatedAt time.Time `json:"createdAt"`
+   11: }
+   12: 
+   13: type Request struct {
+   14: 	Envelope
+   15: 	Action string `json:"action"`
+   16: 	// Project is an optional stable routing hint: a project name or uuid the
+   17: 	// daemon resolves to the current windowId. Use instead of WindowID when the
+   18: 	// ephemeral windowId churns (reconnects) — multi-window/multi-agent routing.
+   19: 	Project string `json:"project,omitempty"`
+   20: 	// OutputDir is the CLI's working directory. The daemon (which has its own,
+   21: 	// different cwd) writes artifacts under <OutputDir>/.easyeda/artifacts so
+   22: 	// screenshots/exports land in the user's project, not the daemon's. Empty for
+   23: 	// callers that don't set it (the daemon then falls back to its ArtifactDir).
+   24: 	OutputDir string `json:"outputDir,omitempty"`
+   25: 	// ForceReason and ForceUnsafe are deprecated wire fields kept so older
+   26: 	// clients can talk to a current daemon. Current dispatch does not treat them
+   27: 	// as permission tokens for routing, stale reads, or workflow stages.
+   28: 	ForceReason string `json:"forceReason,omitempty"`
+   29: 	ForceUnsafe bool   `json:"forceUnsafe,omitempty"`
+   30: 	// TimeoutMs is the caller's round-trip budget. The daemon shortens its own
+   31: 	// connector wait to (TimeoutMs - grace) so the caller receives a structured
+   32: 	// DISPATCH_FAILED instead of a raw HTTP timeout when the connector hangs
+   33: 	// (e.g. DRC recompute on a background window never finishes). 0 = daemon
+   34: 	// default.
+   35: 	TimeoutMs int `json:"timeoutMs,omitempty"`
+   36: 	// ClientID identifies the calling client process for audit attribution and
+   37: 	// the concurrent-writer advisory (issue #108): multiple CLIs/agents can
+   38: 	// drive the same board through one daemon, and without an identity field
+   39: 	// the audit log cannot say WHO replayed a stale plan. The CLI fills it once
+   40: 	// per process as "<hostname>:<pid>[:<EASYEDA_CLIENT_LABEL>]". Optional —
+   41: 	// raw HTTP callers that omit it simply stay unattributed.
+   42: 	ClientID string `json:"clientId,omitempty"`
+   43: 	// Command is the CLI command path that issued the action (e.g.
+   44: 	// "easyeda sch connect"). Audit-only; never consulted for routing or
+   45: 	// permission. Raw HTTP callers may omit it.
+   46: 	Command string         `json:"command,omitempty"`
+   47: 	Payload map[string]any `json:"payload,omitempty"`
+   48: }
+   49: 
+   50: type Response struct {
+   51: 	Envelope
+   52: 	OK      bool           `json:"ok"`
+   53: 	Result  map[string]any `json:"result,omitempty"`
+   54: 	Context *Context       `json:"context,omitempty"`
+   55: 	// MutationContext is the connector's pre-handler sample. It identifies the
+   56: 	// mutation/save target only when MutationContextAvailable is explicitly true;
+   57: 	// otherwise it is diagnostic evidence, never a fallback autosave target.
+   58: 	// Boundary samples cannot detect an ABA page switch during the handler.
+   59: 	MutationContext          *Context   `json:"mutationContext,omitempty"`
+   60: 	MutationContextAvailable *bool      `json:"mutationContextAvailable,omitempty"`
+
+===== action handling :: internal/daemon/dispatch.go : lines 125-169 =====
+  125: // handleAction accepts a typed action request, validates it, answers daemon-local
+  126: // actions directly, and forwards the rest to the target connector.
+  127: func (s *Server) handleAction(w http.ResponseWriter, r *http.Request) {
+  128: 	if r.Method != http.MethodPost {
+  129: 		w.Header().Set("Allow", http.MethodPost)
+  130: 		http.Error(w, "method not allowed", http.StatusMethodNotAllowed)
+  131: 		return
+  132: 	}
+  133: 
+  134: 	var req protocol.Request
+  135: 	if err := json.NewDecoder(http.MaxBytesReader(w, r.Body, actionRequestBodyLimit)).Decode(&req); err != nil {
+  136: 		writeJSON(w, http.StatusBadRequest, errorResponse(req.ID, "BAD_REQUEST", "invalid action request body", err.Error()))
+  137: 		return
+  138: 	}
+  139: 
+  140: 	// Assign a request id up front so every response, including errors, carries one.
+  141: 	if req.ID == "" {
+  142: 		req.ID = s.nextRequestID()
+  143: 	}
+  144: 
+  145: 	if req.Action == "" {
+  146: 		writeJSON(w, http.StatusBadRequest, errorResponse(req.ID, "ACTION_REQUIRED", "action is required", "include an \"action\" field"))
+  147: 		return
+  148: 	}
+  149: 	if !knownActions[req.Action] {
+  150: 		// Audit the rejection: a CLI↔daemon catalog drift (an action the CLI
+  151: 		// ships but the daemon never registered) used to leave NO trace here,
+  152: 		// so `audit-baseline` was blind to the exact failures that matter most.
+  153: 		started := time.Now().UTC()
+  154: 		errResp := errorResponse(req.ID, "UNKNOWN_ACTION", fmt.Sprintf("unknown action: %s", req.Action), "run `easyeda actions` for the supported set")
+  155: 		s.audit.Append(fromResponse(started, &req, &errResp))
+  156: 		writeJSON(w, http.StatusBadRequest, errResp)
+  157: 		return
+  158: 	}
+  159: 
+  160: 	// system.health is answered by the daemon itself; it needs no connector.
+  161: 	if req.Action == "system.health" {
+  162: 		started := time.Now().UTC()
+  163: 		resp := s.systemHealthResponse(req.ID)
+  164: 		s.audit.Append(fromResponse(started, &req, &resp))
+  165: 		writeJSON(w, http.StatusOK, resp)
+  166: 		return
+  167: 	}
+  168: 
+  169: 	// Stable-identity routing: resolve a --project hint to a windowId. The
+
+===== request id + error resp :: internal/daemon/dispatch.go : lines 533-559 =====
+  533: func (s *Server) nextRequestID() string {
+  534: 	return fmt.Sprintf("req_%d", s.reqSeq.Add(1))
+  535: }
+  536: 
+  537: func writeJSON(w http.ResponseWriter, status int, v any) {
+  538: 	w.Header().Set("Content-Type", "application/json")
+  539: 	w.WriteHeader(status)
+  540: 	enc := json.NewEncoder(w)
+  541: 	enc.SetIndent("", "  ")
+  542: 	_ = enc.Encode(v)
+  543: }
+  544: 
+  545: func errorResponse(id, code, message, detail string) protocol.Response {
+  546: 	return protocol.Response{
+  547: 		Envelope: protocol.Envelope{
+  548: 			ID:        id,
+  549: 			Type:      protocol.TypeResponse,
+  550: 			Version:   "v1",
+  551: 			CreatedAt: time.Now().UTC(),
+  552: 		},
+  553: 		OK: false,
+  554: 		Error: &protocol.ErrorInfo{
+  555: 			Code:    code,
+  556: 			Message: message,
+  557: 			Detail:  detail,
+  558: 		},
+  559: 	}
+
+===== queue/pid file :: internal/app/cmd_daemon.go : lines 200-219 =====
+  200: // ── PID file helpers ──────────────────────────────────────────────────────
+  201: 
+  202: // daemonPIDFile returns the path where the daemon records its PID.
+  203: func daemonPIDFile() string {
+  204: 	home, err := os.UserHomeDir()
+  205: 	if err != nil {
+  206: 		return ""
+  207: 	}
+  208: 	return filepath.Join(home, ".easyeda-agent", "daemon.pid")
+  209: }
+  210: 
+  211: // ensurePortAvailable makes the daemon's FIXED port bindable before startup.
+  212: // Behavior (chosen with the user): the daemon uses ONE port and never spills.
+  213: //   - port free                         → proceed.
+  214: //   - held by ANOTHER easyeda daemon    → replace it automatically (safe: it's our
+  215: //     own stale/duplicate service; this is the reliable, port-based successor to
+  216: //     the old PID-file kill).
+  217: //   - held by a FOREIGN process         → never kill it silently. On an interactive
+  218: //     terminal, ask; headless (air / nohup — no TTY), refuse with a clear message
+  219: //     so a second daemon can't quietly spawn on another port.
+
+===== autostart spawn :: internal/app/daemon_autostart.go : lines 29-68 =====
+   29: const daemonStartWait = 15 * time.Second
+   30: 
+   31: func daemonLogPath() string {
+   32: 	home, err := os.UserHomeDir()
+   33: 	if err != nil {
+   34: 		return ""
+   35: 	}
+   36: 	return filepath.Join(home, ".easyeda-agent", "daemon.log")
+   37: }
+   38: 
+   39: var releaseVersionPattern = regexp.MustCompile(`^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$`)
+   40: 
+   41: // autoStartAllowed reports whether a missing daemon may be started implicitly:
+   42: // installed builds only — a tagged release or a local -dev.N bundle. Source
+   43: // builds (git describe "v1.11.0-2-gffac5fe-dirty", "dev") are what `make dev`
+   44: // runs under air; a CLI call during an air rebuild must not race it.
+   45: func autoStartAllowed() bool {
+   46: 	if os.Getenv("EASYEDA_NO_AUTOSTART") != "" {
+   47: 		return false
+   48: 	}
+   49: 	return releaseVersionPattern.MatchString(version.Version) || selfupdate.IsLocalVersion(version.Version)
+   50: }
+   51: 
+   52: // startDaemonBackground spawns `easyeda daemon start` detached (log appended to
+   53: // ~/.easyeda-agent/daemon.log) and waits until /health answers. It returns the
+   54: // port the daemon answered on.
+   55: func startDaemonBackground(cfg *appConfig, stderr io.Writer, extraArgs ...string) (int, error) {
+   56: 	return startDaemonBackgroundFrom(cfg, stderr, "", extraArgs...)
+   57: }
+   58: 
+   59: // startDaemonBackgroundFrom is startDaemonBackground with an explicit binary;
+   60: // "" means this process's own executable. `update` passes the freshly swapped
+   61: // path: after an atomic replace, os.Executable on Linux names the deleted
+   62: // old inode.
+   63: func startDaemonBackgroundFrom(cfg *appConfig, stderr io.Writer, exe string, extraArgs ...string) (int, error) {
+   64: 	portStart, portEnd, err := cfg.portRange()
+   65: 	if err != nil {
+   66: 		return 0, err
+   67: 	}
+   68: 	scan := func() int {
+
+===== transport constants :: extension/src/transport.ts : lines 54-113 =====
+   54: // ─── Configuration ───────────────────────────────────────────────────
+   55: 
+   56: // EasyEDA 3.2.175 can activate the same extension more than once in one app
+   57: // window. eda.sys_WebSocket is shared across those activations, so a fixed id
+   58: // makes each activation close/re-register the other's socket forever. Give each
+   59: // activation its own host-managed socket. The shared runtime below disposes a
+   60: // superseded controller; distinct live registrations remain independently
+   61: // addressable in the daemon, even when they report the same document.
+   62: const WS_ID_BASE = createWebSocketId();
+   63: // 叠加在 PR #154 的 activation-scoped id 之上:即便每个激活已有独立 id,真机 soak
+   64: // 实测(2026-08-04,停 daemon 45s/60s 各一轮)仍会卡死 —— 第二轮 210s 没能自愈,
+   65: // 60832 上持续报 "closed before the connection is established"。activation-scoped
+   66: // 解决的是「多激活互踢」,解决不了「本激活自己的 id 被 EasyEDA 判为 active 后
+   67: // register() 被静默忽略」。连续整轮扫描失败后换一个全新 id 才是逃生口。
+   68: // 阈值从 2 提到 4:一"轮失败"过去是整段 10 端口扫描(~18s),现在是一次 1.7s 的
+   69: // 尝试。沿用 2 会把换 id 的节奏从 ~40s 一次压到 ~4s 一次,在 EasyEDA 共享的 socket
+   70: // 表里堆一串死 id —— 那正是这段逻辑当初要躲的race。4 次失败 + 退避 ≈ 十几秒起,
+   71: // 之后每 4 次 ≈ 40s 一换,和改动前的墙钟压力同量级。
+   72: const WS_ID_ROTATE_AFTER_FAILED_SCANS = 4;
+   73: let wsId: string = WS_ID_BASE;
+   74: let wsIdGeneration = 0;
+   75: // The one port the daemon binds. Not a range start — the daemon never spills
+   76: // (see the file header).
+   77: export const DAEMON_PORT = 0xeda0; // 60832 — "EDA0" in hex
+   78: // End of the range we reserve for ourselves. Nothing scans it by default; it is
+   79: // here as the documented bound for the `daemonPorts` override and as the marker
+   80: // that 60833-60841 stay ours (no official-gateway conflict).
+   81: export const RESERVED_PORT_END = 0xeda9; // 60841
+   82: // ─ Escape hatch ─
+   83: // Pinning is right for the shipped topology (one daemon, one port), NOT a law of
+   84: // physics. A non-standard deployment (several daemons side by side, a port
+   85: // already taken by something else, `easyeda daemon start --ports …`) can point
+   86: // the connector elsewhere by setting this extension user-config key:
+   87: //
+   88: //   eda.sys_Storage.setExtensionUserConfig('daemonPorts', '60832-60841')
+   89: //   eda.sys_Storage.setExtensionUserConfig('daemonPorts', '60840,60832')
+   90: //   eda.sys_Storage.setExtensionUserConfig('daemonPorts', 60900)
+   91: //
+   92: // (run it from `debug.exec_js`, or from the editor's script console). It is read
+   93: // at the START of every attempt, so it takes effect on the next retry — no
+   94: // re-import, no EasyEDA restart. Unset/garbage → the pinned default.
+   95: const STORAGE_KEY_DAEMON_PORTS = 'daemonPorts';
+   96: // Hard cap on an override list: a typo like "1-65535" must not turn reconnect
+   97: // into an unbounded sweep that never comes back. 12 × ~1.7s stays inside the
+   98: // STUCK_CONNECTING_TICKS watchdog bound (~24s), so even a maxed-out override
+   99: // can't be mistaken for a wedged connect flow.
+  100: const MAX_OVERRIDE_PORTS = 12;
+  101: // ─ Backoff ─
+  102: // Retry cadence when nobody answers on the pinned port. The first attempt is
+  103: // immediate; then 0.5s → 1s → 2s → 4s → 8s (capped), each ±25% jitter.
+  104: //
+  105: // Why these numbers: one attempt now costs REGISTER_DELAY_MS + CONNECTION_TIMEOUT_MS
+  106: // ≈ 1.7s (one port, not ten), so the common case this change targets — the daemon
+  107: // restarting under `make dev` — reconnects in ~2-3s: the daemon is back within a
+  108: // second or two and the 0.5s/1s steps land right on top of it. The cap exists for
+  109: // the OTHER case (daemon deliberately stopped for minutes): at 8s the socket
+  110: // churn against EasyEDA's shared id table is ~3x gentler than the old flat 3s,
+  111: // while a daemon started later still auto-connects within ~8s — better than the
+  112: // old 10s slow poll it replaces. Jitter keeps several activations/windows from
+  113: // re-registering in lockstep.
+
+===== transport ws url + handshake :: extension/src/transport.ts : lines 700-769 =====
+  700: 		cancelPendingAttempt = cancel;
+  701: 
+  702: 		// Close any stale connection first. CRITICAL: register() silently ignores
+  703: 		// the new url/callback if a connection with the same id is still "active"
+  704: 		// (per eda.sys_WebSocket docs). close() is async, so registering in the
+  705: 		// same tick leaves the PREVIOUS session's callback bound — it then swallows
+  706: 		// the daemon's pong, the heartbeat times out, and we reconnect forever.
+  707: 		// Wait a beat after close() so EasyEDA fully releases the id first.
+  708: 		closeWebSocket();
+  709: 
+  710: 		const doRegister = (): void => {
+  711: 			if (!isConnectionSessionActive(sessionId)) {
+  712: 				settle(false);
+  713: 				return;
+  714: 			}
+  715: 			handshakeExpiresAt = Date.now() + CONNECTION_TIMEOUT_MS;
+  716: 			timer = armDeadline(CONNECTION_TIMEOUT_MS, () => settle(false));
+  717: 			handshakeVerified = false;
+  718: 			diag(`register port=${port} session=${sessionId}`);
+  719: 
+  720: 			try {
+  721: 				eda.sys_WebSocket.register(
+  722: 					wsId,
+  723: 					`ws://127.0.0.1:${port}/eda`,
+  724: 					async (event: MessageEvent) => {
+  725: 						let msg: InboundFrame;
+  726: 						try {
+  727: 							msg = JSON.parse(event.data) as InboundFrame;
+  728: 						}
+  729: 						catch (err) {
+  730: 							console.error('[easyeda-agent] Failed to parse frame:', err);
+  731: 							return;
+  732: 						}
+  733: 
+  734: 						// A callback left bound from a previous session (id-reuse race).
+  735: 						// Ignore it entirely — it must NOT touch the shared heartbeat
+  736: 						// state, or a stale pong would mask the CURRENT session's
+  737: 						// liveness. The current session's own loop tracks its misses.
+  738: 						if (!isConnectionSessionActive(sessionId) || (settled && !accepted)) {
+  739: 							diag(`onMessage STALE session=${sessionId} type=${msg?.type}`);
+  740: 							return;
+  741: 						}
+  742: 
+  743: 						// Handshake phase.
+  744: 						if (msg.type === 'handshake') {
+  745: 							if (accepted) return; // A duplicate handshake cannot replace the registered window.
+  746: 							if (Date.now() >= handshakeExpiresAt) {
+  747: 								settle(false); // Do not accept late delivery before a throttled timeout callback runs.
+  748: 								return;
+  749: 							}
+  750: 							if ((msg as { service?: string }).service === SERVICE_ID) {
+  751: 								handshakeVerified = true;
+  752: 								windowId = crypto.randomUUID();
+  753: 								lastContextSig = '';
+  754: 								sendRegister();
+  755: 								void sendContext(true);
+  756: 								if (!connectionAnnounced) {
+  757: 									connectionAnnounced = true;
+  758: 									eda.sys_Message.showToastMessage(
+  759: 										`${eda.sys_I18n.text('Connected to easyeda-agent')} (port ${port})`,
+  760: 									);
+  761: 								}
+  762: 								settle(true);
+  763: 							}
+  764: 							else {
+  765: 								console.warn(`[easyeda-agent] Unexpected handshake service "${(msg as { service?: string }).service}"`);
+  766: 								settle(false);
+  767: 							}
+  768: 							return;
+  769: 						}
+
+===== protocol constants :: extension/src/protocol.ts : lines 1-20 =====
+    1: /**
+    2:  * Wire protocol shapes shared between the easyeda-agent Go daemon and this
+    3:  * connector. Field names MUST match `docs/protocol.md`,
+    4:  * `docs/connector-contract.md` and `internal/protocol/envelope.go` exactly.
+    5:  */
+    6: 
+    7: // Replaced at build time by esbuild `define` with extension.json's version
+    8: // (see config/esbuild.common.ts). Falls back for non-esbuild contexts (tsc).
+    9: declare const __CONNECTOR_VERSION__: string;
+   10: export const CONNECTOR_VERSION =
+   11: 	typeof __CONNECTOR_VERSION__ === 'undefined' ? '0.0.0-dev' : __CONNECTOR_VERSION__;
+   12: export const PROTOCOL_VERSION = 'v1';
+   13: export const SERVICE_ID = 'easyeda-agent';
+   14: export const CAPABILITIES = ['schematic.v1', 'pcb.v1'];
+   15: 
+   16: // ─── Daemon → connector frames ───────────────────────────────────────
+   17: 
+   18: export interface HandshakeFrame {
+   19: 	type: 'handshake';
+   20: 	service: string;
+
+===== esbuild config :: extension/config/esbuild.common.ts : lines 10-35 =====
+   10: // so __dirname, not import.meta.)
+   11: const extJson = JSON.parse(
+   12: 	readFileSync(join(__dirname, '..', 'extension.json'), 'utf-8'),
+   13: );
+   14: 
+   15: export default {
+   16: 	entryPoints: {
+   17: 		index: './src/index',
+   18: 	},
+   19: 	entryNames: '[name]',
+   20: 	assetNames: '[name]',
+   21: 	bundle: true, // 用于内部方法调用，请勿修改
+   22: 	minify: false, // 用于内部方法调用，请勿修改
+   23: 	loader: {},
+   24: 	outdir: './dist/',
+   25: 	sourcemap: undefined,
+   26: 	platform: 'browser', // 用于内部方法调用，请勿修改
+   27: 	format: 'iife', // 用于内部方法调用，请勿修改
+   28: 	globalName: 'edaEsbuildExportName', // 用于内部方法调用，请勿修改
+   29: 	treeShaking: true,
+   30: 	ignoreAnnotations: true,
+   31: 	define: {
+   32: 		__CONNECTOR_VERSION__: JSON.stringify(extJson.version ?? '0.0.0-dev'),
+   33: 	},
+   34: 	external: [],
+   35: } satisfies Parameters<(typeof esbuild)['build']>[0];
+
+===== eext zip :: extension/build/packaged.ts : lines 52-94 =====
+   52:  */
+   53: function main() {
+   54: 	if (!testUuid(extensionConfig.uuid)) {
+   55: 		const newExtensionConfig = { ...extensionConfig };
+   56: 		// @ts-expect-error - Removing default property from extension config
+   57: 		delete newExtensionConfig.default;
+   58: 		newExtensionConfig.uuid = fixUuid(extensionConfig.uuid);
+   59: 		fs.writeJsonSync(path.join(__dirname, '../extension.json'), newExtensionConfig, { spaces: '\t', EOL: '\n', encoding: 'utf-8' });
+   60: 	}
+   61: 	const filepathListWithoutFilter = fs.readdirSync(path.join(__dirname, '../'), { encoding: 'utf-8', recursive: true });
+   62: 	const edaignoreListWithoutResolve = multiLineStrToArray(fs.readFileSync(path.join(__dirname, '../.edaignore'), { encoding: 'utf-8' }));
+   63: 	const edaignoreList: Array<string> = [];
+   64: 	for (const edaignoreLine of edaignoreListWithoutResolve) {
+   65: 		if (edaignoreLine.endsWith('/') || edaignoreLine.endsWith('\\')) {
+   66: 			edaignoreList.push(edaignoreLine.slice(0, edaignoreLine.length - 1));
+   67: 		}
+   68: 		else {
+   69: 			edaignoreList.push(edaignoreLine);
+   70: 		}
+   71: 	}
+   72: 	const edaignore = ignore().add(edaignoreList);
+   73: 	const filepathListWithoutResolve = edaignore.filter(filepathListWithoutFilter);
+   74: 	const fileList: Array<string> = [];
+   75: 	const folderList: Array<string> = []; // 无用数据
+   76: 	for (const filepath of filepathListWithoutResolve) {
+   77: 		if (fs.lstatSync(filepath).isFile()) {
+   78: 			fileList.push(filepath.replace(/\\/g, '/'));
+   79: 		}
+   80: 		else {
+   81: 			folderList.push(filepath.replace(/\\/g, '/'));
+   82: 		}
+   83: 	}
+   84: 
+   85: 	const zip = new JSZip();
+   86: 	for (const file of fileList) {
+   87: 		zip.file(file, fs.createReadStream(path.join(__dirname, '../', file)));
+   88: 	}
+   89: 
+   90: 	fs.ensureDirSync(path.join(__dirname, 'dist'));
+   91: 	zip.generateNodeStream({ type: 'nodebuffer', streamFiles: true, compression: 'DEFLATE', compressionOptions: { level: 9 } }).pipe(
+   92: 		fs.createWriteStream(path.join(__dirname, 'dist', `${extensionConfig.name}_v${extensionConfig.version}.eext`)),
+   93: 	);
+   94: }
+
+===== selfupdate urls :: internal/selfupdate/selfupdate.go : lines 28-57 =====
+   28: 
+   29: const (
+   30: 	// RepoSlug is the GitHub owner/repo the release assets live under.
+   31: 	RepoSlug = "zhoushoujianwork/easyeda-agent"
+   32: 	// SkillName is the skill slug (dir name under each client's skills/).
+   33: 	SkillName = "easyeda-agent"
+   34: 	// versionMarker records the installed skill version inside a skill dir.
+   35: 	versionMarker = ".version"
+   36: 	// PreserveEnv, when "1", makes a sync keep existing files (local edits win).
+   37: 	PreserveEnv = "EASYEDA_SKILL_PRESERVE"
+   38: )
+   39: 
+   40: // clientOrder is the deterministic client iteration order.
+   41: var clientOrder = []string{"claude", "codex", "agents"}
+   42: 
+   43: // Endpoint builders, overridable in tests to point at an httptest server.
+   44: var (
+   45: 	tarballURL = func(version string) string {
+   46: 		return fmt.Sprintf("https://github.com/%s/releases/download/v%s/skills.tar.gz", RepoSlug, version)
+   47: 	}
+   48: 	latestAPIURL = func() string {
+   49: 		return fmt.Sprintf("https://api.github.com/repos/%s/releases/latest", RepoSlug)
+   50: 	}
+   51: 	latestWebURL = func() string {
+   52: 		return fmt.Sprintf("https://github.com/%s/releases/latest", RepoSlug)
+   53: 	}
+   54: )
+   55: 
+   56: // SkillTarget is one installed (or installable) skill location.
+   57: type SkillTarget struct {
+
+===== selfupdate startup :: internal/selfupdate/selfupdate.go : lines 703-731 =====
+  703: // StartupSync aligns installed skills with the running released CLI. A pinned
+  704: // installation must remain pinned even when a newer release becomes available.
+  705: // Development builds skip automatic writes. Checking latest only prints a nudge.
+  706: func StartupSync(ctx context.Context, daemonVersion string, logf func(string, ...any)) {
+  707: 	log := func(format string, a ...any) {
+  708: 		if logf != nil {
+  709: 			logf(format, a...)
+  710: 		}
+  711: 	}
+  712: 	if !IsCleanRelease(daemonVersion) || len(Targets(true)) == 0 {
+  713: 		return
+  714: 	}
+  715: 	target := SemverCore(daemonVersion)
+  716: 	res, err := SyncSkills(ctx, SyncOptions{
+  717: 		TargetVersion: target,
+  718: 		Preserve:      PreserveFromEnv(),
+  719: 	}, log)
+  720: 	if err != nil {
+  721: 		log("skill-sync: %v", err)
+  722: 	}
+  723: 	if res.Changed > 0 {
+  724: 		log("skill-sync: refreshed %d skill dir(s) for CLI v%s", res.Changed, target)
+  725: 	}
+  726: 	latest, err := LatestReleaseVersion(ctx)
+  727: 	if err == nil && SemverLess(target, latest) {
+  728: 		log("update available: CLI v%s < latest v%s — run `easyeda update`, then restart the daemon; "+
+  729: 			"the connector .eext still needs a manual re-import (`easyeda update --check` prints the URL)", target, latest)
+  730: 	}
+  731: }
+
+===== update replace :: internal/selfupdate/cli.go : lines 130-169 =====
+  130: //
+  131: // The replacement is a same-directory rename, so it is atomic and never leaves a
+  132: // half-written binary on PATH. A running daemon keeps its old inode — the caller
+  133: // tells the user to restart it.
+  134: func UpdateCLI(ctx context.Context, opts CLIOptions, logf func(string, ...any)) (CLIOutcome, error) {
+  135: 	log := func(format string, a ...any) {
+  136: 		if logf != nil {
+  137: 			logf(format, a...)
+  138: 		}
+  139: 	}
+  140: 	target := SemverCore(opts.TargetVersion)
+  141: 	out := CLIOutcome{From: opts.CurrentVersion, To: target}
+  142: 	if target == "" {
+  143: 		out.Status = "error"
+  144: 		out.Reason = fmt.Sprintf("bad target version %q", opts.TargetVersion)
+  145: 		return out, fmt.Errorf("update cli: %s", out.Reason)
+  146: 	}
+  147: 
+  148: 	path := opts.Path
+  149: 	if path == "" {
+  150: 		p, err := CurrentBinaryPath()
+  151: 		if err != nil {
+  152: 			out.Status = "error"
+  153: 			out.Reason = err.Error()
+  154: 			return out, fmt.Errorf("locate running binary: %w", err)
+  155: 		}
+  156: 		path = p
+  157: 	}
+  158: 	out.Path = path
+  159: 
+  160: 	if !opts.Force {
+  161: 		if !IsCleanRelease(opts.CurrentVersion) {
+  162: 			out.Status = "skipped"
+  163: 			out.Reason = fmt.Sprintf("dev build (%s) — refusing to overwrite; use --force to install v%s anyway",
+  164: 				opts.CurrentVersion, target)
+  165: 			return out, nil
+  166: 		}
+  167: 		if SemverCore(opts.CurrentVersion) == target {
+  168: 			out.Status = "up-to-date"
+  169: 			return out, nil
+
+===== host baseline :: internal/app/host_compatibility.go : lines 10-21 =====
+   10: // EasyEDA Pro V4 is the supported mainline. The editor product version is
+   11: // deliberately kept separate from extension/extension.json's engines.eda:
+   12: // that field describes the extension API engine and is still 3.2 in the
+   13: // official V4 SDK template.
+   14: const (
+   15: 	hostBaselineVersion    = "4.0.0"
+   16: 	hostRecommendedVersion = "4.1.60"
+   17: )
+   18: 
+   19: type hostCompatibilityFinding struct {
+   20: 	WindowID string `json:"windowId,omitempty"`
+   21: 	Version  string `json:"version,omitempty"`
+
+===== debug exec js :: extension/src/actions.ts : lines 15604-15635 =====
+15604: // ─── Debug escape hatch ──────────────────────────────────────────────
+15605: 
+15606: /**
+15607:  * Run arbitrary `eda.*` JavaScript. This is the deliberate escape hatch for
+15608:  * operations that have no typed action yet; the Skill confirmation-gates it.
+15609:  * Repeated debug snippets should be promoted to typed actions over time.
+15610:  */
+15611: const debugExecJs: Handler = async (payload) => {
+15612: 	const code = requireString(payload, 'code');
+15613: 	let fn: (eda: unknown) => Promise<unknown>;
+15614: 	let value: unknown;
+15615: 	try {
+15616: 		const AsyncFunction = Object.getPrototypeOf(async () => {}).constructor as {
+15617: 			new (arg: string, body: string): (eda: unknown) => Promise<unknown>;
+15618: 		};
+15619: 		fn = new AsyncFunction('eda', code);
+15620: 	}
+15621: 	catch (err) {
+15622: 		// Construction has no access to eda and never executes the user's code.
+15623: 		// Do not echo the script: it can contain credentials or private design data.
+15624: 		throw new ActionError(ErrorCodes.PRECONDITION_REFUSED,
+15625: 			'exec_js script could not be compiled; no code was executed. Fix JavaScript syntax and shell/JSON escaping before retrying.',
+15626: 			describeThrown(err));
+15627: 	}
+15628: 	try {
+15629: 		value = await fn(eda);
+15630: 	}
+15631: 	catch (err) {
+15632: 		throw edaError(err, 'exec_js failed.');
+15633: 	}
+15634: 	// Preserve binary results across the JSON/WebSocket transport.  Returning a
+15635: 	// Blob directly causes JSON.stringify to emit `{}` (and using `.text()` can

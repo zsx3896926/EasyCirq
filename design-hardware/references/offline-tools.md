@@ -2,7 +2,7 @@
 
 Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只读本地文件、无网络/EDA/写入；不是绘图前置门禁。先用现有执行器的原生检查，离线工具补充可审查的计算与候选问题，不重复造一个独立EDA验证器。
 
-需要完整离线回归、证据 manifest 绑定、冻结基准或图面叠加图时，先读 [离线回归与基准](offline-regression.md)：仓库根目录 `python tools/offline_suite.py` 在 `HDS_OFFLINE=1` 下拦截真实 `easyeda` 与网络；`python tools/offline_benchmark.py` 生成 correctness/coverage/timing；Skill 目录 `python scripts/sch_visual_audit.py` 输出明确标注的分析叠加图。
+需要完整离线回归、证据 manifest 绑定、冻结基准或图面叠加图时，先读 [离线回归与基准](offline-regression.md)：仓库根目录 `python tools/offline_suite.py` 在 `HDS_OFFLINE=1` 下拦截真实 `zhigou` 与网络；`python tools/offline_benchmark.py` 生成 correctness/coverage/timing；Skill 目录 `python scripts/sch_visual_audit.py` 输出明确标注的分析叠加图。
 
 ## 续航：先换算到电池输入侧
 
@@ -45,7 +45,7 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 | `attachment_points` | 可选、每项`id,x,y,kind`，声明的真实引脚/网络标识/端口/标签连接点；配合`connection_tolerance`检查导线端点悬空与同一连接点多网 |
 | `label_anchors` | 可选、每项`id,net,x,y`；配合`connection_tolerance`检查标签是否落在导线/连接点、标签网名是否与所在导线一致、同点不同网 |
 | `policy.connection_tolerance` | 使用端点/标签检查时必填、正数；单位与坐标一致。未填时这些检查跳过并写入`checks_skipped`，不偷偷用经验默认值 |
-| `policy.wire_endpoint_check` | 可选布尔，默认true。EasyEDA 折线用中间顶点连接时端点检查会产生假悬空；回读适配器设false，连通性以 `easyeda sch check` 为准 |
+| `policy.wire_endpoint_check` | 可选布尔，默认true。EasyEDA 折线用中间顶点连接时端点检查会产生假悬空；回读适配器设false，连通性以 `zhigou sch check` 为准 |
 | `policy.min_text_wire_clearance` | 可选非负值；文字与**非自身**导线距离不超过该值时报告 `text_wire_clearance`（`severity=info`、`category=readability_hint`，不阻塞）。标签所属导线由 `anchor_id` 豁免；引脚名/脚号、符号文字、netflag/图签/边框文字不参与。真正穿入文字框仍由 `wire_enters_bbox` 作为阻塞候选 |
 | `policy.label_own_wire_edge_tolerance` | 默认1.0 raw；只用于**自身导线**：线段进入文字 bbox 但未进入内缩该值的内部时，记 `label_own_wire_edge_contact` info；进入内部仍报 blocking `wire_enters_bbox`。把“归属”当“合法遮挡”会漏掉导线穿过自己网名的情况 |
 | `policy.junction_tolerance` | 默认1.0 raw；`no_junction_crossings` 声明点与真实交点的匹配半径 |
@@ -62,16 +62,16 @@ Agent负责从资料/实际回读整理输入，新手不写JSON。两脚本只�
 
 所有对象ID唯一；矩形坐标必须有限且有序。标签只有锚点没有文本边界时，不得用锚点冒充已检查文字；无法量边界就保持覆盖不足并实际看图。不要为取得工具0退出而删去难处理的对象。
 
-### 从 easyeda-agent v1.15 回读构建输入
+### 从 前代执行器 v1.15 回读构建输入
 
-`layout_from_easyeda.py` 把真实 CLI 响应拼成上述输入，不连 daemon：
+`layout_from_zhigou.py` 把真实 CLI 响应拼成上述输入，不连 daemon：
 
 ```bash
-easyeda sch list --include-bbox --include-pins --include-wires \
+zhigou sch list --include-bbox --include-pins --include-wires \
   --include-page-primitives --page <page> > list.json
-easyeda sch sheet-geometry --from-svg page.svg --json > sheet.json
+zhigou sch sheet-geometry --from-svg page.svg --json > sheet.json
 python scripts/svg_text_bbox.py page.svg --out svg-text.json
-python scripts/layout_from_easyeda.py --list list.json \
+python scripts/layout_from_zhigou.py --list list.json \
   --visible-text visible-text.json --sheet-geometry sheet.json \
   --rendered-text svg-text.json --min-text-wire-clearance 5 \
   --expect-rotation GND=0 --expect-rotation +5V=0 --out layout.json
@@ -82,16 +82,16 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 
 `--out` 以 UTF-8 落盘；不要用 PowerShell `>` 生成证据 JSON（控制台代码页可能写出非 UTF-8）。
 
-- `visible_text.bboxes` 只含自由文字与已显示属性（光控页 72 条），不含符号内脚名/脚号、图框行列号、图签字段和 netflag 网名。`svg_text_bbox.py` 用无头 Chromium 实测官方 SVG 的全部 `<text>`（同页 134 条），输出 SVG 用户坐标；`layout_from_easyeda.py` 翻转为 y-up。
+- `visible_text.bboxes` 只含自由文字与已显示属性（光控页 72 条），不含符号内脚名/脚号、图框行列号、图签字段和 netflag 网名。`svg_text_bbox.py` 用无头 Chromium 实测官方 SVG 的全部 `<text>`（同页 134 条），输出 SVG 用户坐标；`layout_from_zhigou.py` 翻转为 y-up。
 - 适配器按几何与 API 身份分类：`pin_name/pin_number/symbol_text` 归属符号，`netflag` 归属标记，`title_block` 归属图签，`border` 为图框，无法归属的可见文字标 `unowned`。这就是“有显示但 API 列举不到”的孤立文字检测入口。
 - 估算的脚名/脚号标 `measurement=estimated`，coverage 保持 partial；只有全部渲染文字都有实测 bbox 时才允许 `require_rendered_texts` 严格通过。不得把估算框冒充实测。
-- `wire_endpoint_check` 默认关闭：EasyEDA 折线可在中间顶点连接，按首尾端点会误报悬空；连通性使用 `easyeda sch check`/`sch read`，本检查器只负责几何与文字。
+- `wire_endpoint_check` 默认关闭：EasyEDA 折线可在中间顶点连接，按首尾端点会误报悬空；连通性使用 `zhigou sch check`/`sch read`，本检查器只负责几何与文字。
 - `netflag_rotation` 是项目声明的普通符号朝向约定；因引脚方向必须横放的标记用 `allowed` 逐项豁免并看图确认，不能为了全绿机械旋转有特殊用途的符号。
 - 新增候选：`unowned_visible_text`、`unanchored_net_text`、`duplicate_net_text`、`netflag_rotation_outlier`、`netflag_text_vertical`、`zone_reading_order`、`title_block_duplicate_text`、`text_wire_clearance`。`severity=info` 的贴边接触不算阻塞；`--fail-on-info` 可把它们升级为退出1。
 - 导线适配器必须按 `flat-segments` 拆段，不能把无序段列表当折线；否则会从 (430,230) 直接连到 (240,195)，伪造“导线穿 U1 本体”。`wire_name` 文字通过 `anchor_id` 绑定到所属导线；适配器同时把每个 wire-name 文字写入 `label_anchors`，因此 `label_anchors` 覆盖不再只依赖 netport/netlabel 组件。
 - 自身导线豁免是**边缘级**而不是归属级：`anchor_id` 只证明“这条线是它的”，导线若穿进文字主体仍报 `wire_enters_bbox(own_wire=true)`；只有内缩统一容差内不进入时才记 `label_own_wire_edge_contact` info。正反例见 `tests/test_sch_acceptance.py`。
 - 无结点正交交叉 `different_named_wires_cross` 只有在 `no_junction_crossings` 列出该交点、且 `junction_evidence` 指明宿主检查来源时才降为 `severity=info`；没有清单/证据或交点未列出仍 blocking。同向共线重叠 `different_named_wires_collinear_overlap` 始终 blocking。近距贴线 `text_wire_clearance` 是 hint；真正穿字 `wire_enters_bbox`、符号本体重叠 `bbox_overlap` 仍是阻塞候选。报告要分开“真实几何候选”和“可读性提示”，不要把 hint 数量归零当成验收通过。
-- `layout_from_easyeda.py --junction-report` 接受宿主 `sch read`/`sch check` 的已验证无结点 JSON（`verified/source/pageId/snapshotSha256/noJunctionCrossings`，每条含 `x,y,wires` 两个导线 ID）；适配器先算快照哈希，页/哈希/导线 ID 任一不匹配即按 stale evidence 拒绝，不会自行推断结点。没有该输入时交叉保持 blocking。`--page-id` 用于绑定 schematic 页 UUID。
+- `layout_from_zhigou.py --junction-report` 接受宿主 `sch read`/`sch check` 的已验证无结点 JSON（`verified/source/pageId/snapshotSha256/noJunctionCrossings`，每条含 `x,y,wires` 两个导线 ID）；适配器先算快照哈希，页/哈希/导线 ID 任一不匹配即按 stale evidence 拒绝，不会自行推断结点。没有该输入时交叉保持 blocking。`--page-id` 用于绑定 schematic 页 UUID。
 - `pin_net_intent_check.py` 比较设计意图与 `sch read` 的物理引脚连通组：网名可不同
   （`DISCH` vs `$1N117`），但每个意图网络必须恰好等于一个真实网络的引脚集合；
   多脚、少脚、拆网、并网、未声明连接都会列出。极性/功能脚名用 `pinMap` 显式落号。
@@ -107,7 +107,7 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
 重放/换库/批量改属性之后，网表一致不能证明器件身份没变。用
 `python scripts/component_identity_check.py --before before-list.json --after
 after-list.json [--pcb pcb-list.json] --out identity.json` 比较两份
-`easyeda sch list --include-device-identity --include-page-primitives
+`zhigou sch list --include-device-identity --include-page-primitives
 --include-pins --include-wires` 回读：
 
 | 检查 | 判据 |
@@ -135,7 +135,7 @@ SCH↔PCB 绑定均为 NOT RUN（原工程无 PCB 输入）。
 
 ## PCB 实测几何与约束
 
-有真实 `easyeda pcb dump` 与 `sch read` 时，用 `pcb-constraints` / `pcb-check-plan` / `pcb-candidates` / `pcb-escapes` / `pcb-power` / `pcb-diff` 做离线约束、局部模板、候选与回读比较，详见 [PCB执行工作流](pcb-execution.md)。这些命令只读本地 JSON，不连接 EDA；`near_pin` 是 pad 中心距，`pcb-escapes` 是代理预判，二者都不是铜路径/可布通证明。写入必须走 typed `easyeda pcb ...`，保存重开后用 fresh dump 再比较。
+有真实 `zhigou pcb dump` 与 `sch read` 时，用 `pcb-constraints` / `pcb-check-plan` / `pcb-candidates` / `pcb-escapes` / `pcb-power` / `pcb-diff` 做离线约束、局部模板、候选与回读比较，详见 [PCB执行工作流](pcb-execution.md)。这些命令只读本地 JSON，不连接 EDA；`near_pin` 是 pad 中心距，`pcb-escapes` 是代理预判，二者都不是铜路径/可布通证明。写入必须走 typed `zhigou pcb ...`，保存重开后用 fresh dump 再比较。
 
 ## 新增可执行计算与仿真
 

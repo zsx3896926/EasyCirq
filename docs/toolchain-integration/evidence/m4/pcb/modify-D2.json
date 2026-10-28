@@ -1,0 +1,49 @@
+{
+  "id": "req_365",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:22:51.5272752Z",
+  "ok": true,
+  "result": {
+    "applied": [
+      "rotation",
+      "x",
+      "y"
+    ],
+    "component": {
+      "addIntoBom": true,
+      "designator": "D2",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "发光二极管（黄绿色）",
+      "name": "={Manufacturer Part}",
+      "primitiveId": "227ad35d02b19cc0",
+      "rotation": 0,
+      "supplierId": "C28105",
+      "uniqueId": "gge7",
+      "x": 30,
+      "y": -220
+    },
+    "verified": true
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 327,
+  "seqAbandoned": 0
+}

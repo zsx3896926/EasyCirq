@@ -1,0 +1,100 @@
+{
+  "id": "req_116",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:01:10.9418561Z",
+  "ok": true,
+  "result": {
+    "component": {
+      "addIntoBom": true,
+      "addIntoPcb": true,
+      "component": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "发光二极管（黄绿色）",
+        "uuid": "aec154ed89886c35"
+      },
+      "componentType": "part",
+      "designator": "D2",
+      "device": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "={Manufacturer Part}",
+        "uuid": "aec154ed89886c35"
+      },
+      "footprint": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "LED0805-RD",
+        "uuid": "b9d5c5892c30ca8e"
+      },
+      "manufacturer": "",
+      "manufacturerId": "发光二极管（黄绿色）",
+      "mirror": false,
+      "name": "={Manufacturer Part}",
+      "net": "",
+      "otherProperty": {
+        "Datasheet": "",
+        "Description": "",
+        "JLCPCB Part Class": "Extended Part",
+        "LCSC Part Name": "发光二极管（黄绿色）",
+        "PCB Layer": "Default",
+        "Supplier Footprint": "0805"
+      },
+      "primitiveId": "0ef8e55049f8f548",
+      "rotation": 180,
+      "subPartName": "发光二极管（黄绿色）.1",
+      "supplier": "LCSC",
+      "supplierId": "C28105",
+      "symbol": {
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "name": "发光二极管（黄绿色）",
+        "uuid": "b5099a331ecb2801"
+      },
+      "uniqueId": "gge7",
+      "x": 860,
+      "y": 560
+    },
+    "geometryGuard": {
+      "baselineFindings": null,
+      "passed": true,
+      "phase": "readback",
+      "preexistingFindings": 0,
+      "readbackAttempts": 1,
+      "scope": "pin-exit-direction/wire-through-body"
+    },
+    "propertiesBefore": {
+      "Datasheet": "",
+      "Description": "",
+      "JLCPCB Part Class": "Extended Part",
+      "LCSC Part Name": "发光二极管（黄绿色）",
+      "PCB Layer": "Default",
+      "Supplier Footprint": "0805"
+    },
+    "propertiesPreserved": [
+      "PCB Layer",
+      "LCSC Part Name",
+      "Supplier Footprint",
+      "JLCPCB Part Class",
+      "Datasheet",
+      "Description"
+    ]
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 118,
+  "seqAbandoned": 0
+}

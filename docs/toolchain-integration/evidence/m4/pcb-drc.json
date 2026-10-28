@@ -1,0 +1,916 @@
+{
+  "id": "req_233",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:17:04.1100447Z",
+  "ok": true,
+  "result": {
+    "passed": false,
+    "violations": [
+      {
+        "count": 18,
+        "list": [
+          {
+            "count": 4,
+            "doNotTranslate": true,
+            "list": [
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err0",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "GND",
+                    "obj1": "497f4cf91abc9dd5e17",
+                    "obj1Suffix": "(GND): SW1_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 103.07375,
+                      "y": -47.64954
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err0",
+                "isFree": false,
+                "net": "GND",
+                "obj1": {
+                  "suffix": "(GND): SW1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "497f4cf91abc9dd5e17"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|GND",
+                "pos": {
+                  "x": 103.07375,
+                  "y": -47.64954
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err1",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "GND",
+                    "obj1": "50127e06e336ba3be17",
+                    "obj1Suffix": "(GND): SW2_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 103.07375,
+                      "y": -27.27174
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err1",
+                "isFree": false,
+                "net": "GND",
+                "obj1": {
+                  "suffix": "(GND): SW2_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "50127e06e336ba3be17"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|GND",
+                "pos": {
+                  "x": 103.07375,
+                  "y": -27.27174
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err2",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "GND",
+                    "obj1": "6d3ce7ee3af5a731e14",
+                    "obj1Suffix": "(GND): C1_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 34.7988,
+                      "y": -34.79894
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err2",
+                "isFree": false,
+                "net": "GND",
+                "obj1": {
+                  "suffix": "(GND): C1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "6d3ce7ee3af5a731e14"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|GND",
+                "pos": {
+                  "x": 34.7988,
+                  "y": -34.79894
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err3",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "GND",
+                    "obj1": "60d61c60973e7a4ae10",
+                    "obj1Suffix": "(GND): J1_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 15.4212,
+                      "y": -100.72584
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err3",
+                "isFree": false,
+                "net": "GND",
+                "obj1": {
+                  "suffix": "(GND): J1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "60d61c60973e7a4ae10"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|GND",
+                "pos": {
+                  "x": 15.4212,
+                  "y": -100.72584
+                },
+                "ruleName": "Common",
+                "visible": true
+              }
+            ],
+            "name": "GND",
+            "title": "GND (4)",
+            "visible": true
+          },
+          {
+            "count": 4,
+            "doNotTranslate": true,
+            "list": [
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err4",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "+5V",
+                    "obj1": "6d3ce7ee3af5a731e15",
+                    "obj1Suffix": "(+5V): C1_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 29.2868,
+                      "y": -34.79894
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err4",
+                "isFree": false,
+                "net": "+5V",
+                "obj1": {
+                  "suffix": "(+5V): C1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "6d3ce7ee3af5a731e15"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|+5V",
+                "pos": {
+                  "x": 29.2868,
+                  "y": -34.79894
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err5",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "+5V",
+                    "obj1": "e9397ec9dd147b49e13",
+                    "obj1Suffix": "(+5V): R2_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 42.2973,
+                      "y": -27.27174
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err5",
+                "isFree": false,
+                "net": "+5V",
+                "obj1": {
+                  "suffix": "(+5V): R2_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "e9397ec9dd147b49e13"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|+5V",
+                "pos": {
+                  "x": 42.2973,
+                  "y": -27.27174
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err6",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "+5V",
+                    "obj1": "b0070ea40410ec6fe13",
+                    "obj1Suffix": "(+5V): R1_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 42.2973,
+                      "y": -47.64954
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err6",
+                "isFree": false,
+                "net": "+5V",
+                "obj1": {
+                  "suffix": "(+5V): R1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "b0070ea40410ec6fe13"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|+5V",
+                "pos": {
+                  "x": 42.2973,
+                  "y": -47.64954
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err7",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "+5V",
+                    "obj1": "abfedd235896a80be4",
+                    "obj1Suffix": "(+5V): F1_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 37.7318,
+                      "y": -100.72584
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err7",
+                "isFree": false,
+                "net": "+5V",
+                "obj1": {
+                  "suffix": "(+5V): F1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "abfedd235896a80be4"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|+5V",
+                "pos": {
+                  "x": 37.7318,
+                  "y": -100.72584
+                },
+                "ruleName": "Common",
+                "visible": true
+              }
+            ],
+            "name": "+5V",
+            "title": "+5V (4)",
+            "visible": true
+          },
+          {
+            "count": 2,
+            "doNotTranslate": true,
+            "list": [
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err8",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED1_A",
+                    "obj1": "b0070ea40410ec6fe12",
+                    "obj1Suffix": "(LED1_A): R1_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 45.7053,
+                      "y": -47.64954
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err8",
+                "isFree": false,
+                "net": "LED1_A",
+                "obj1": {
+                  "suffix": "(LED1_A): R1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "b0070ea40410ec6fe12"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED1_A",
+                "pos": {
+                  "x": 45.7053,
+                  "y": -47.64954
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err9",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED1_A",
+                    "obj1": "bad74267bbb65498e19",
+                    "obj1Suffix": "(LED1_A): D1_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 63.086,
+                      "y": -47.649139999999996
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err9",
+                "isFree": false,
+                "net": "LED1_A",
+                "obj1": {
+                  "suffix": "(LED1_A): D1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "bad74267bbb65498e19"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED1_A",
+                "pos": {
+                  "x": 63.086,
+                  "y": -47.649139999999996
+                },
+                "ruleName": "Common",
+                "visible": true
+              }
+            ],
+            "name": "LED1_A",
+            "title": "LED1_A (2)",
+            "visible": true
+          },
+          {
+            "count": 2,
+            "doNotTranslate": true,
+            "list": [
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err10",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED1_K",
+                    "obj1": "bad74267bbb65498e20",
+                    "obj1Suffix": "(LED1_K): D1_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 54.42399999999999,
+                      "y": -47.649139999999996
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err10",
+                "isFree": false,
+                "net": "LED1_K",
+                "obj1": {
+                  "suffix": "(LED1_K): D1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "bad74267bbb65498e20"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED1_K",
+                "pos": {
+                  "x": 54.42399999999999,
+                  "y": -47.649139999999996
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err11",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED1_K",
+                    "obj1": "497f4cf91abc9dd5e16",
+                    "obj1Suffix": "(LED1_K): SW1_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 71.97175,
+                      "y": -47.64954
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err11",
+                "isFree": false,
+                "net": "LED1_K",
+                "obj1": {
+                  "suffix": "(LED1_K): SW1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "497f4cf91abc9dd5e16"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED1_K",
+                "pos": {
+                  "x": 71.97175,
+                  "y": -47.64954
+                },
+                "ruleName": "Common",
+                "visible": true
+              }
+            ],
+            "name": "LED1_K",
+            "title": "LED1_K (2)",
+            "visible": true
+          },
+          {
+            "count": 2,
+            "doNotTranslate": true,
+            "list": [
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err12",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED2_A",
+                    "obj1": "e9397ec9dd147b49e12",
+                    "obj1Suffix": "(LED2_A): R2_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 45.7053,
+                      "y": -27.27174
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err12",
+                "isFree": false,
+                "net": "LED2_A",
+                "obj1": {
+                  "suffix": "(LED2_A): R2_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "e9397ec9dd147b49e12"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED2_A",
+                "pos": {
+                  "x": 45.7053,
+                  "y": -27.27174
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err13",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED2_A",
+                    "obj1": "227ad35d02b19cc0e19",
+                    "obj1Suffix": "(LED2_A): D2_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 63.086,
+                      "y": -27.271340000000002
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err13",
+                "isFree": false,
+                "net": "LED2_A",
+                "obj1": {
+                  "suffix": "(LED2_A): D2_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "227ad35d02b19cc0e19"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED2_A",
+                "pos": {
+                  "x": 63.086,
+                  "y": -27.271340000000002
+                },
+                "ruleName": "Common",
+                "visible": true
+              }
+            ],
+            "name": "LED2_A",
+            "title": "LED2_A (2)",
+            "visible": true
+          },
+          {
+            "count": 2,
+            "doNotTranslate": true,
+            "list": [
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err14",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED2_K",
+                    "obj1": "227ad35d02b19cc0e20",
+                    "obj1Suffix": "(LED2_K): D2_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 54.42400000000001,
+                      "y": -27.271340000000002
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err14",
+                "isFree": false,
+                "net": "LED2_K",
+                "obj1": {
+                  "suffix": "(LED2_K): D2_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "227ad35d02b19cc0e20"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED2_K",
+                "pos": {
+                  "x": 54.42400000000001,
+                  "y": -27.271340000000002
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err15",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED2_K",
+                    "obj1": "50127e06e336ba3be16",
+                    "obj1Suffix": "(LED2_K): SW2_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 71.97175,
+                      "y": -27.27174
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err15",
+                "isFree": false,
+                "net": "LED2_K",
+                "obj1": {
+                  "suffix": "(LED2_K): SW2_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "50127e06e336ba3be16"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED2_K",
+                "pos": {
+                  "x": 71.97175,
+                  "y": -27.27174
+                },
+                "ruleName": "Common",
+                "visible": true
+              }
+            ],
+            "name": "LED2_K",
+            "title": "LED2_K (2)",
+            "visible": true
+          },
+          {
+            "count": 2,
+            "doNotTranslate": true,
+            "list": [
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err16",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "VIN",
+                    "obj1": "60d61c60973e7a4ae11",
+                    "obj1Suffix": "(VIN): J1_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 5.421200000000001,
+                      "y": -100.72584
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err16",
+                "isFree": false,
+                "net": "VIN",
+                "obj1": {
+                  "suffix": "(VIN): J1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "60d61c60973e7a4ae11"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|VIN",
+                "pos": {
+                  "x": 5.421200000000001,
+                  "y": -100.72584
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err17",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "VIN",
+                    "obj1": "abfedd235896a80be3",
+                    "obj1Suffix": "(VIN): F1_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 26.3538,
+                      "y": -100.72584
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err17",
+                "isFree": false,
+                "net": "VIN",
+                "obj1": {
+                  "suffix": "(VIN): F1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "abfedd235896a80be3"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|VIN",
+                "pos": {
+                  "x": 26.3538,
+                  "y": -100.72584
+                },
+                "ruleName": "Common",
+                "visible": true
+              }
+            ],
+            "name": "VIN",
+            "title": "VIN (2)",
+            "visible": true
+          }
+        ],
+        "name": "Connection Error",
+        "title": [
+          "Connection Error",
+          "(18)"
+        ],
+        "visible": true
+      }
+    ]
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 248,
+  "seqAbandoned": 0
+}

@@ -1,7 +1,7 @@
 """Offline tests for pcb_case.py.
 
-Every live test drives a fake ``easyeda`` executable (a .cmd on Windows, a .sh
-elsewhere) through ``--easyeda``; nothing here can reach a real EDA CLI.  The
+Every live test drives a fake ``zhigou`` executable (a .cmd on Windows, a .sh
+elsewhere) through ``--zhigou``; nothing here can reach a real EDA CLI.  The
 fake replays a scenario file and logs each argv so step ordering is asserted on
 the real subprocess calls, not on in-process mocks.  ``--skip-live`` tests are
 pure file assembly and make no subprocess calls at all.
@@ -69,11 +69,11 @@ def option(argv, name):
 
 def main():
     argv = sys.argv[1:]
-    log_path = os.environ['FAKE_EASYEDA_LOG']
+    log_path = os.environ['FAKE_ZHIGOU_LOG']
     prior = read_log(log_path)
     with open(log_path, 'a', encoding='utf-8') as handle:
         handle.write(json.dumps(argv) + '\n')
-    with open(os.environ['FAKE_EASYEDA_SCENARIO'], encoding='utf-8') as handle:
+    with open(os.environ['FAKE_ZHIGOU_SCENARIO'], encoding='utf-8') as handle:
         scenario = json.load(handle)
     sig = signature(argv)
     index = sum(1 for call in prior if signature(call) == sig)
@@ -100,7 +100,7 @@ def main():
                                    'sourceSha256': source, 'side': 'both'})
             with open(out, 'w', encoding='utf-8') as handle:
                 handle.write('<svg xmlns="http://www.w3.org/2000/svg">'
-                             '<metadata id="easyeda-actual-readback">%s</metadata>'
+                             '<metadata id="zhigou-actual-readback">%s</metadata>'
                              '</svg>' % metadata)
         elif kind == 'sch':
             with open(out, 'w', encoding='utf-8') as handle:
@@ -113,7 +113,7 @@ def main():
                 handle.write(response.get('text', ''))
     if response.get('artifact'):
         spec = response['artifact']
-        base = os.environ['FAKE_EASYEDA_ARTIFACTS']
+        base = os.environ['FAKE_ZHIGOU_ARTIFACTS']
         os.makedirs(base, exist_ok=True)
         path = os.path.join(base, spec['name'])
         kind = spec.get('kind')
@@ -167,7 +167,7 @@ def _svg(source_sha):
     metadata = json.dumps({'schemaVersion': 1, 'mode': 'actual',
                            'sourceSha256': source_sha, 'side': 'both'})
     return ('<svg xmlns="http://www.w3.org/2000/svg">'
-            '<metadata id="easyeda-actual-readback">%s</metadata></svg>' % metadata)
+            '<metadata id="zhigou-actual-readback">%s</metadata></svg>' % metadata)
 
 
 def _dump(tag=''):
@@ -282,14 +282,14 @@ class CaseTestBase(unittest.TestCase):
     def install_fake(self):
         fake_dir = self.root / 'fake'
         fake_dir.mkdir(exist_ok=True)
-        _write_text(fake_dir / 'fake_easyeda.py', FAKE_IMPL)
+        _write_text(fake_dir / 'fake_zhigou.py', FAKE_IMPL)
         if os.name == 'nt':
-            exe = fake_dir / 'easyeda.cmd'
-            _write_text(exe, '@echo off\r\n"%s" "%%~dp0fake_easyeda.py" %%*\r\n'
+            exe = fake_dir / 'zhigou.cmd'
+            _write_text(exe, '@echo off\r\n"%s" "%%~dp0fake_zhigou.py" %%*\r\n'
                         % sys.executable)
         else:
-            exe = fake_dir / 'easyeda.sh'
-            _write_text(exe, '#!/bin/sh\nexec "%s" "$(dirname "$0")/fake_easyeda.py" "$@"\n'
+            exe = fake_dir / 'zhigou.sh'
+            _write_text(exe, '#!/bin/sh\nexec "%s" "$(dirname "$0")/fake_zhigou.py" "$@"\n'
                         % sys.executable)
             exe.chmod(exe.stat().st_mode | stat.S_IEXEC)
         self.fake_exe = str(exe)
@@ -298,10 +298,10 @@ class CaseTestBase(unittest.TestCase):
         self.artifacts_dir = fake_dir / 'artifacts'
         self.log_path.write_text('', encoding='utf-8')
         self.env = {
-            'FAKE_EASYEDA_SCENARIO': str(self.scenario_path),
-            'FAKE_EASYEDA_LOG': str(self.log_path),
-            'FAKE_EASYEDA_ARTIFACTS': str(self.artifacts_dir),
-            'EASYEDA_CLI': self.fake_exe,
+            'FAKE_ZHIGOU_SCENARIO': str(self.scenario_path),
+            'FAKE_ZHIGOU_LOG': str(self.log_path),
+            'FAKE_ZHIGOU_ARTIFACTS': str(self.artifacts_dir),
+            'ZHIGOU_BIN': self.fake_exe,
         }
         return self.fake_exe
 
@@ -318,7 +318,7 @@ class CaseTestBase(unittest.TestCase):
             'dumps': {'before': before, 'after': after},
             'schematic': schematic,
             'responses': {
-                'version': [{'exit': 0, 'stdout': 'easyeda-agent v1.15.0\n'}],
+                'version': [{'exit': 0, 'stdout': 'zhigou-agent v1.15.0\n'}],
                 'health': [{'exit': 0, 'stdout': ok(
                     {'connectorVersion': '1.15.0'})}],
                 'doc switch': [{'exit': 0, 'stdout': ok({'uuid': 'x'})}],
@@ -373,7 +373,7 @@ class CaseTestBase(unittest.TestCase):
                      'type': 'schematic'}]})}],
                 'pcb view-side': [{'exit': 0, 'stdout': ok({'side': 'x'})}],
                 'pcb stage-snapshot --help': [{
-                    'exit': 0, 'stdout': 'usage: easyeda pcb stage-snapshot\n'}],
+                    'exit': 0, 'stdout': 'usage: zhigou pcb stage-snapshot\n'}],
                 'pcb stage-snapshot': [
                     {'exit': 0, 'artifact': {'name': 'stage-top.png',
                                              'kind': 'png'}},
@@ -397,7 +397,7 @@ class CaseTestBase(unittest.TestCase):
         exe = self.install_fake()
         self.scenario_path.write_text(json.dumps(scenario), encoding='utf-8')
         argv = ['--case', str(self.case), '--project', 'P', '--doc', 'PCB1',
-                '--schematic', 'Schematic1', '--easyeda', exe,
+                '--schematic', 'Schematic1', '--zhigou', exe,
                 '--gate-script', str(self.install_gate_stub()), '--json']
         if key_nets:
             key_path = self.root / 'key-nets.json'
@@ -696,7 +696,7 @@ class LiveTests(CaseTestBase):
         self.assertIn('pcb-dump-after-reload', roles)
         self.assertIn('actual-svg', roles)
         self.assertIn('archive', roles)
-        self.assertEqual(manifest['versions']['easyeda_agent'], '1.15.0')
+        self.assertEqual(manifest['versions']['zhigou_agent'], '1.15.0')
         self.assertEqual(manifest['versions']['connector'], '1.15.0')
 
     def test_live_checks_bind_final_dump(self):

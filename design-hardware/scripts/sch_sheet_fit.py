@@ -9,7 +9,7 @@ script answers two questions before any EDA write:
   1. PREFLIGHT — do the measured zone frames fit the measured sheet at the
      required margin/gap (border inset + title-block keep-out)?
   2. PLACEMENT — if asked, produce a deterministic packed page JSON that
-     `easyeda sch compose --layout-page` accepts.
+     `zhigou sch compose --layout-page` accepts.
 
 Packing is MaxRects (best-short-side-fit) over several deterministic sort
 orders. Compose measures frame clearance including the half-unit stroke: the
@@ -35,7 +35,7 @@ import math
 import sys
 from pathlib import Path
 
-# easyeda composes the sheet preview on the 5-raw anchor grid
+# zhigou composes the sheet preview on the 5-raw anchor grid
 # (schAnchorGrid = 5, plCeil/plFloor inclusive epsilons).
 ANCHOR_GRID = 5.0
 

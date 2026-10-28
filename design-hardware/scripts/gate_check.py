@@ -1293,7 +1293,7 @@ def gate_g2(gate: Gate, ctx):
     if sch_drc is None:
         gate.add("sch_drc_electrical", "fail", "缺少 sch drc 证据。",
                  blocking=True, waivable=False,
-                 next_command="easyeda sch drc --json --project <name> > evidence/sch-drc.json")
+                 next_command="zhigou sch drc --json --project <name> > evidence/sch-drc.json")
         drc = None
     else:
         drc = parse_sch_drc(sch_drc)
@@ -1309,7 +1309,7 @@ def gate_g2(gate: Gate, ctx):
     if sch_check is None:
         gate.add("sch_check_electrical", "fail", "缺少 sch check 证据；无法证明 floating pin/电气检查为 0。",
                  blocking=True, waivable=False,
-                 next_command="easyeda sch check --json --page <page> --project <name> > evidence/sch-check.json")
+                 next_command="zhigou sch check --json --page <page> --project <name> > evidence/sch-check.json")
         check = None
     else:
         check = parse_sch_check(sch_check)
@@ -1346,7 +1346,7 @@ def gate_g2(gate: Gate, ctx):
     else:
         gate.add("netlist_audit", "fail", "缺少计划网表 vs 实际网表的审计证据。",
                  blocking=True, waivable=False,
-                 next_command="easyeda sch connectivity --all-pages > before/after.json；easyeda sch connectivity-diff before.json after.json；写入 schematic.netlist_audit")
+                 next_command="zhigou sch connectivity --all-pages > before/after.json；zhigou sch connectivity-diff before.json after.json；写入 schematic.netlist_audit")
 
     sp_state = state_get(state, "schematic", "single_pin_nets", default=None)
     sp_status, sp_detail = requirement_status(sp_state)
@@ -1368,7 +1368,7 @@ def gate_g2(gate: Gate, ctx):
     else:
         gate.add("single_pin_nets", "fail", "缺少 sch nets 单引脚网审计。",
                  blocking=True, waivable=True,
-                 next_command="easyeda sch nets --all --json --strict --project <name> > evidence/sch-nets.json")
+                 next_command="zhigou sch nets --all --json --strict --project <name> > evidence/sch-nets.json")
 
     tb_state = state_get(state, "schematic", "titleblock", default=None)
     tb_status, tb_detail = requirement_status(tb_state)
@@ -1380,7 +1380,7 @@ def gate_g2(gate: Gate, ctx):
     else:
         gate.add("titleblock", "fail", "图签/版本/板名未记录或 sch check 报告问题。",
                  blocking=True, waivable=True,
-                 next_command="easyeda sch titleblock-get --page <uuid>；把结果写入 schematic.titleblock")
+                 next_command="zhigou sch titleblock-get --page <uuid>；把结果写入 schematic.titleblock")
 
     png_state = state_get(state, "schematic", "png_review", default=None)
     png_status, png_detail = requirement_status(png_state)
@@ -1398,7 +1398,7 @@ def gate_g2(gate: Gate, ctx):
     else:
         gate.add("png_review", "fail", "没有“实际看过原理图 PNG”的记录或文件。",
                  blocking=True, waivable=True,
-                 next_command="easyeda sch export-image --format png --scope page --page <page> -o <file>；看图后写入 schematic.png_review")
+                 next_command="zhigou sch export-image --format png --scope page --page <page> -o <file>；看图后写入 schematic.png_review")
 
     naming = state_get(state, "schematic", "net_naming", default=None)
     naming_status, naming_detail = requirement_status(naming)
@@ -1446,7 +1446,7 @@ def gate_g3(gate: Gate, ctx):
     if lint is None:
         gate.add("layout_lint_score", "fail", "缺少可解析的 PCB layout-lint 证据（注意：原理图 layout-lint 不算）。",
                  blocking=True, waivable=False,
-                 next_command="easyeda pcb layout-lint --json --project <name> > evidence/pcb-layout-lint.json")
+                 next_command="zhigou pcb layout-lint --json --project <name> > evidence/pcb-layout-lint.json")
     else:
         gate.add("layout_lint_score", "pass" if lint["score"] >= ctx["min_score"] else "fail",
                  "layout-lint score=%d (阈值 %d)。" % (lint["score"], ctx["min_score"]),
@@ -1502,7 +1502,7 @@ def gate_g3(gate: Gate, ctx):
     else:
         gate.add("mounting_holes", "fail", "安装孔未记录（数量/直径/内缩）或明确不适用。",
                  blocking=True, waivable=True,
-                 next_command="easyeda pcb mount-holes --dry-run --project <name> > evidence/pcb-mount-holes.json；或写 layout.mounting_holes")
+                 next_command="zhigou pcb mount-holes --dry-run --project <name> > evidence/pcb-mount-holes.json；或写 layout.mounting_holes")
 
     connectors = board["connectors"] if board else []
     ce_state = state_get(state, "layout", "connector_escape", default=None) if state else None
@@ -1618,7 +1618,7 @@ def gate_g4(gate: Gate, ctx):
         else:
             gate.add("drc_rules_recorded", "fail", "未记录布线前的 DRC 规则（clearance/线宽/过孔/net class）。",
                      blocking=True, waivable=True,
-                     next_command="easyeda pcb drc-rules --project <name> > evidence/pcb-drc-rules.json；写入 stackup.drc_rules_recorded")
+                     next_command="zhigou pcb drc-rules --project <name> > evidence/pcb-drc-rules.json；写入 stackup.drc_rules_recorded")
 
     pours_ev = ev.get("pcb_pours")
     pours = parse_pours(pours_ev) if pours_ev is not None else None
@@ -1627,7 +1627,7 @@ def gate_g4(gate: Gate, ctx):
     if not pours or pours.get("count", 0) == 0:
         gate.add("gnd_pours", "fail", "没有铺铜证据。",
                  blocking=True, waivable=False,
-                 next_command="easyeda pcb power-pour --dry-run --project <name>，执行后 easyeda pcb pour-list --net GND --project <name> > evidence/pcb-pours.json")
+                 next_command="zhigou pcb power-pour --dry-run --project <name>，执行后 zhigou pcb pour-list --net GND --project <name> > evidence/pcb-pours.json")
     else:
         gnd = [p for p in pours["pours"] if str(p.get("net") or "").upper().startswith("GND") and p.get("poured", True)]
         layer_names = {str(p.get("layer")) for p in gnd}
@@ -1659,7 +1659,7 @@ def gate_g4(gate: Gate, ctx):
     if vias_ev is None:
         gate.add("via_audit", "fail", "缺少过孔审计证据。",
                  blocking=True, waivable=False,
-                 next_command="easyeda pcb via-list --project <name> > evidence/pcb-vias.json（fresh readback）")
+                 next_command="zhigou pcb via-list --project <name> > evidence/pcb-vias.json（fresh readback）")
     else:
         vias = parse_vias(vias_ev)
         if vias is None:
@@ -1710,7 +1710,7 @@ def gate_g5(gate: Gate, ctx):
     if drc_ev is None:
         gate.add("pcb_drc_passed", "fail", "缺少 pcb drc 证据。",
                  blocking=True, waivable=False,
-                 next_command="easyeda pcb drc --json --timeout 120 --project <name> > evidence/pcb-drc.json")
+                 next_command="zhigou pcb drc --json --timeout 120 --project <name> > evidence/pcb-drc.json")
         drc = None
     else:
         drc = parse_pcb_drc(drc_ev)
@@ -1783,7 +1783,7 @@ def gate_g5(gate: Gate, ctx):
     if missing:
         gate.add("key_net_proofs", "fail", "缺少关键网 net-path 证明: %s。" % ", ".join(missing),
                  blocking=True, waivable=False,
-                 next_command="对每个关键网运行 easyeda pcb net-path --from <pad> --to <pad> --net <net> --json --project <name>")
+                 next_command="对每个关键网运行 zhigou pcb net-path --from <pad> --to <pad> --net <net> --json --project <name>")
     elif key_nets:
         gate.add("key_net_proofs", "pass", "%d 个关键网均有证明。" % len(found), evidence=[x["evidence"] for x in found if x["evidence"]])
 
@@ -1807,7 +1807,7 @@ def gate_g5(gate: Gate, ctx):
     else:
         gate.add("save_reload", "fail", "缺少 save → doc reload → fresh readback 的 match 证据。",
                  blocking=True, waivable=False,
-                 next_command="easyeda pcb save --project <name>；easyeda doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback")
+                 next_command="zhigou pcb save --project <name>；zhigou doc reload --json --project <name> > evidence/doc-reload.json；再做 fresh readback")
 
     lint_ev = ev.get("pcb_layout_lint")
     lint = parse_layout_lint(lint_ev) if lint_ev is not None else None
@@ -1824,7 +1824,7 @@ def gate_g5(gate: Gate, ctx):
     else:
         gate.add("silk_over_pad", "fail", "缺少丝印检查/整理证据。",
                  blocking=True, waivable=True,
-                 next_command="easyeda pcb silk-align --project <name>；回读并写入 routing.silk_align")
+                 next_command="zhigou pcb silk-align --project <name>；回读并写入 routing.silk_align")
 
     rounds = state_get(state, "routing", "drc_rounds", default=None)
     if isinstance(rounds, list) and len(rounds) >= 4:
@@ -1898,7 +1898,7 @@ def gate_g6(gate: Gate, ctx):
     if bom is None:
         gate.add("bom_c_numbers", "fail", "缺少可解析的 BOM CSV。",
                  blocking=True, waivable=False,
-                 next_command="easyeda bom export --type csv --enrich=false --project <name> > BOM.csv")
+                 next_command="zhigou bom export --type csv --enrich=false --project <name> > BOM.csv")
     else:
         gate.add("bom_c_numbers", "fail" if bom["missing_c"] else "pass",
                  "BOM %d 行/%d 件；缺 C 号 %d 行。" % (bom["rows"], bom["total_quantity"], len(bom["missing_c"])),
@@ -1947,7 +1947,7 @@ def gate_g6(gate: Gate, ctx):
     else:
         gate.add("epro2_restore", "fail", "未完成 .epro2 恢复演练（restoreVerified=false/缺失）。",
                  blocking=True, waivable=False,
-                 next_command="easyeda project export --out <file> --project-uuid <uuid>；在副本上重开验证并写入 restore_verified")
+                 next_command="zhigou project export --out <file> --project-uuid <uuid>；在副本上重开验证并写入 restore_verified")
 
     sourcing = state_get(state, "sourcing", default=None) if state else None
     if not isinstance(sourcing, dict):

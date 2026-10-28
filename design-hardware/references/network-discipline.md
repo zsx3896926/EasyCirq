@@ -27,4 +27,4 @@ python scripts/net_discipline_audit.py eda-log --log <local-log> --json
 
 ## 上游补丁
 
-仓库 `tools/skill-feedback/apply-feedback.py` 为维护者提供双 Skill 离线迁移；只在独占副本/停用的目标上运行。它不由 Skill 启动流程自动执行，也不替代正式发行。easyeda-agent 更新可能覆盖本地补丁；上游采纳前需在更新后复查。不要降低或修改版本标识来伪装兼容，也不要把改过的安装内容称为发布者原包。
+仓库 `tools/skill-feedback/apply-feedback.py` 为维护者提供双 Skill 离线迁移；只在独占副本/停用的目标上运行。它不由 Skill 启动流程自动执行，也不替代正式发行。运行时更新可能覆盖本地补丁；上游采纳前需在更新后复查。不要降低或修改版本标识来伪装兼容，也不要把改过的安装内容称为发布者原包。

@@ -1,0 +1,32 @@
+{
+  "schema": "zhigou-toolchain-compat/v1",
+  "name": "zhigou-toolchain",
+  "version": "0.1.0",
+  "protocol": "zhigou-agent/v1",
+  "eda": ">=3.2.0",
+  "validatedEda": "4.1.78",
+  "minPython": "3.10",
+  "skill": {
+    "name": "design-hardware",
+    "dir": "design-hardware"
+  },
+  "runtime": {
+    "sourceDir": "runtime",
+    "buildPackage": "./cmd/zhigou",
+    "exe": "runtime/dist/zhigou.exe"
+  },
+  "connector": {
+    "dir": "connector",
+    "buildDir": "connector/build/dist"
+  },
+  "legal": [
+    "LICENSE",
+    "NOTICE"
+  ],
+  "notes": {
+    "ports": "23111-23120",
+    "stateDir": "~/.zhigou",
+    "artifactsDir": "<project>/.zhigou/artifacts",
+    "connectorImport": "manual only: EasyEDA Pro -> 设置 -> 扩展 -> 已安装 -> 导入扩展, then fully relaunch EasyEDA"
+  }
+}

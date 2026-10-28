@@ -1,0 +1,73 @@
+{
+  "id": "req_373",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:22:51.9108353Z",
+  "ok": true,
+  "result": {
+    "arcs": 0,
+    "bbox": {
+      "maxX": 590.0374999999999,
+      "maxY": 400.867,
+      "minX": -1293.4479999999999,
+      "minY": -400.867
+    },
+    "centerlineBBox": {
+      "maxX": 585.0375,
+      "maxY": 395.867,
+      "minX": -1288.448,
+      "minY": -395.867
+    },
+    "height": 791.734,
+    "legacyArcs": 0,
+    "lineWidth": 10,
+    "locked": true,
+    "nativeArcs": 0,
+    "outline": 1,
+    "outlineFormat": "polyline",
+    "points": [
+      [
+        -1288.448,
+        -395.867
+      ],
+      [
+        -1288.448,
+        395.867
+      ],
+      [
+        585.0375,
+        395.867
+      ],
+      [
+        585.0375,
+        -395.867
+      ]
+    ],
+    "radius": null,
+    "segments": 0,
+    "sourceArcs": 0,
+    "sourceSegments": 4,
+    "width": 1873.4855000000002
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "staleRisk": "PCB was mutated by pcb.outline.set since the last reload — pcb.outline.get (and DRC) may read stale engine state; authoritative workflows should save, run `zhigou doc reload`, then read back; if refresh fails, treat the data as unavailable",
+  "seq": 333,
+  "seqAbandoned": 0
+}

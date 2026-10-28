@@ -1,0 +1,97 @@
+Schematic operations
+
+Usage:
+  zhigou sch [flags]
+  zhigou sch [command]
+
+Available Commands:
+  align               Align parts' rendered bboxes (left|right|top|bottom|centerx|centery) to a reference part
+  apply               Replay a declarative step file (playbook) against EasyEDA
+  attribute-inspect   Inspect one active-page attribute's visibility through three official read paths
+  attribute-move      Move one bound Name/Designator attribute using x/y only
+  autoconnect         Pin-aware planner: auto-pick direction/offset and connect a pin (or batch) to a flag/netport
+  autolayout          Module-aware planner: place parts by module zone with deterministic, lint-clean coordinates
+  autoplace-free      Pack parts into the sheet's blank space (zone-less; keeps other parts fixed)
+  block-apply         Instantiate a circuit block: place its parts, wire internal_nets, bind ports
+  bridge-check        Detect共线合并短路 (bridges) and孤儿桩 (orphans) at wire-tree granularity
+  check               Reconstructed per-item design check the SDK DRC can't itemize
+  clear               Clear the active schematic page (delete all page primitives: components, flags, wires, buses, graphics)
+  clusters            列出 L1 虚拟组(器件 + 它自己的 marker/桩线)并判组间重叠 / 出图纸
+  compose             Compose authored Lib circuits onto one sheet and compile a guarded SCH Apply
+  connect             Stub a wire out of a pin and place a netflag/netport at its far end
+  connectivity        Export layout-independent schematic connectivity IR
+  connectivity-diff   Compare two connectivity snapshots offline
+  design-diff         Compare local schematic identity, connectivity, geometry and complete compose plans
+  designator-geometry Export measured current-page Designator text bboxes (read-only)
+  designators         Allocate official reference numbers and repair placed component bindings
+  destagger           批量消 marker-overlap:换方向/桩长并带桩线一起挪(默认 dry-run;--apply 执行)
+  disconnect          Remove a pin's stub wire and its netflag/netport together (inverse of connect)
+  distribute          Equalize edge-to-edge gaps between parts along one axis (x|y)
+  drc                 Run the official schematic DRC SDK gate (may be boolean/aggregate only)
+  export-image        Render the page — or only the given primitives — to SVG/PNG/PDF
+  extract-layout      Reverse-derive a block's schematic_layout template from a placed instance (issue #140)
+  frame               Apply or verify computed module frames and titles from JSON
+  gate                S5 校验门:按固定顺序跑 layout-lint → check → bridge-check → drc,出一张报告
+  group               Persistent virtual groups (create/list/add/remove/ungroup) — the platform has NO grouping API
+  group-arrange       第二层排布:把虚拟组当刚体,按**跨组信号网**关系铺进图纸可用区(ADR-0003)
+  group-move          Translate components+wires together as one rigid assembly (dx,dy) — by --ids or persistent --group/--groups
+  image               Non-electrical reference images on the schematic (photo/dimension/pinout diagrams, #272)
+  layout-edit         Plan a core-relative move or protected pin-marker repair from retained data
+  layout-lint         Check component placement for bbox overlaps and tight spacing
+  layout-plan         Plan a measured component set offline without Lib or project metadata
+  layout-render       Compile layout JSON to SVG offline (no AI, EDA or diff panels)
+  layout-score        Score schematic layout readability (folded/reversed labels, proximity, chains) with executable fixes
+  layout-sheet-plan   Pack existing zone geometry into sheet previews offline (no Apply)
+  lib-layout          Calculate Lib placement and wiring offline from canonical nets and measured pins
+  list                List components on the active (or all) schematic page(s)
+  materialize         将 1.4 原理图数据转换为器件放置 Apply 队列
+  modify              Modify component position, designator, BOM flags, or custom properties
+  netflag             Create a power/ground/net flag or port
+  netlist             Export schematic netlist as an artifact
+  nets                跨页网名审计:同一条轨被写成多个名字 / 单引脚网(逐页命令看不见的那半)
+  no-connect          Mark (or clear) a pin's no-connect flag (非连接标识)
+  open                Open or activate a schematic page by UUID
+  page-delete         Delete a schematic page (no undo)
+  page-new            Create a new schematic page under a schematic document
+  page-rename         Rename a schematic page
+  pages               List schematic documents and pages in the current project
+  place               Place a component from the device library at coordinates
+  plan                Generate a guarded sch apply playbook for explicit marker additions, including NC-to-connected pins (offline)
+  power-layout        Plan a four-part fixed AMS1117 power circuit offline from measured geometry
+  prim-delete         Delete schematic primitives of ANY type by explicit id
+  read                One-call semantic snapshot of the circuit (components + nets + check)
+  rebind-footprint    Swap a footprint transactionally (candidate create/readback before original delete)
+  rebind-symbol       Swap a symbol transactionally (candidate create/readback before original delete)
+  reconcile           把「接对了没有」变成机械判据:从块库重推应有连接,与活体网表逐条对账
+  rename              Rename a schematic document (the whole sheet, not a single page)
+  replace             Replace a placed component with a different library device (换型号 / 器件标准化)
+  resolve-lcsc        Deterministically resolve placed parts to their device's REAL LCSC C-number (dry-run; --apply writes back)
+  save                Save the active schematic document
+  sheet               Sheet 层操作(三层体系最外层)— tidy 全部功能区依据纸张排布
+  sheet-geometry      Report sheet bounds + title-block keep-out geometry (provenance-tagged)
+  status              原理图进度(S1–S6):逐条从活体推导,不落盘,判不了的明说
+  text-list           List ALL text primitives on the active schematic page (id/content/x/y/…)
+  titleblock          Adjust the focused page's 明细表 (title block): visibility and/or fields
+  titleblock-get      Read a page's 明细表 (title block): show flag + field keys/values
+  wire                Create a schematic wire polyline — ESCAPE HATCH; 常规布线走 `sch autoconnect` / `sch block-apply`
+  zone                功能区层操作(三层体系:Sheet→Zone→Group)— move 整区刚移 / tidy 组间叠加布局
+  zone-arrange        Two-phase deterministic zone layout plan: intra-zone compaction (R1-R5) + edge-affinity multi-shelf packing (A4-only, no mutation)
+  zone-draw           Draw the claimed functional zones as dashed frames + labels on the sheet (--clear removes them)
+  zone-plan           Plan data-driven A4 functional partitions from the live sheet + module bboxes (no mutation)
+  zone-review         只读复核源 JSON 的 zone 归属，提示 AI 决定是否拆分
+  zones               原理图分区认领(S0 modules[].zone → 图纸格位):set / status / clear
+
+Flags:
+  -h, --help            help for sch
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "zhigou sch [command] --help" for more information about a command.
+

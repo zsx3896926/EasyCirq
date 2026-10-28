@@ -1,0 +1,55 @@
+===== easyeda update --help (exit=0) =====
+Bring this installation up to the latest GitHub release.
+
+Covers the two pieces that CAN be updated programmatically:
+  • the easyeda CLI binary itself (downloaded for this platform, sha256-verified
+    when the release publishes checksums.txt, then atomically swapped in place)
+  • the easyeda-agent skill dirs (~/.claude/skills, ~/.codex/skills,
+    and the shared ~/.agents/skills root used by Codex Desktop)
+
+The EasyEDA connector .eext is only REPORTED: a sideloaded extension has no
+in-place auto-update, so a stale connector has to be re-imported by hand
+(marketplace installs update themselves, but lag the CLI).
+
+A dev build (git-describe stamp) is never overwritten without --force.
+If the binary lives in a root-owned dir, re-run with sudo.
+
+Usage:
+  easyeda update [flags]
+
+Aliases:
+  update, upgrade, self-update
+
+Examples:
+  easyeda update                    # CLI + skills → latest
+  easyeda update --check            # report only, change nothing
+  easyeda update --check --exit-code  # exit 10 when explicit install reconciliation finds a difference
+  easyeda update --version 0.25.0   # pin a release
+  easyeda update --skill-only       # leave the binary alone
+  easyeda update --json
+  easyeda update --local-dir ./dist --binary /absolute/path/to/easyeda  # install trusted local dev assets
+  easyeda update --local-dir ./dist --check --exit-code                 # offline, exact local runtime reconciliation
+
+Flags:
+      --binary string      with --local-dir install: absolute destination of the PATH CLI (required)
+      --check              verify target versions and connector compatibility without changing anything
+      --cli-only           update only the CLI binary
+      --client strings     limit skill sync to clients: claude,codex,agents (default: all present)
+      --create-missing     install the skill into a client dir that doesn't exist yet
+      --exit-code          with --check: exit 10 unless ready (local-dir requires exact dev versions and file contents)
+      --force              overwrite a dev build / re-install even when already at the target
+  -h, --help               help for update
+      --json               emit JSON
+      --local-dir string   install/check trusted X.Y.Z-dev.N assets from this local directory; never query GitHub
+      --preserve           skill sync: keep local edits (never overwrite existing files)
+      --restart-daemon     restart an installed daemon still running a different version on the updated binary (background; a make dev daemon is never touched) (default true)
+      --skill-only         update only the skill dirs
+      --version string     pin a release version (default: latest)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions

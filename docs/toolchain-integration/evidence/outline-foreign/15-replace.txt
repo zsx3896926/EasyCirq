@@ -1,0 +1,2 @@
+⚠ Re-placing minted a new primitiveId; wires on the old pins may need re-drawing — run `sch drc` / `sch check` to confirm connectivity.
+⚠ Pin geometry differs from the old device (removed=0, added=0, moved=2) — existing wires will NOT line up; re-wire the affected pins.

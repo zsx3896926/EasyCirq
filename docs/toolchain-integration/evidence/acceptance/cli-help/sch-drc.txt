@@ -1,0 +1,37 @@
+Run the official schematic DRC SDK gate.
+
+Current EasyEDA builds may return only boolean/aggregate data even when the SDK
+type declares verbose per-item detail. The connector normalizes whatever the SDK
+returns, but 'sch drc' must not be treated as the full UI DRC warning list.
+
+Use 'zhigou sch check' for reconstructed per-item warnings such as floating pins
+and net-marker/wire-name mismatches.
+
+Exit code: non-zero ONLY when the fatal count (error + fatal severities) is > 0.
+Warnings alone exit 0, so the design-flow S5 gate can demand "0 fatal" while
+still surfacing warnings for review.
+
+Usage:
+  zhigou sch drc [flags]
+
+Examples:
+  zhigou sch drc
+  zhigou sch drc --strict          # treat warnings as errors (SDK strict mode)
+  zhigou sch drc --json            # normalized SDK result
+  zhigou sch check --json          # reconstructed per-item warnings
+
+Flags:
+  -h, --help      help for drc
+      --json      emit the normalized report in the {id,type,version,ok,result} envelope (report under result)
+      --strict    treat warnings as errors (SDK strict mode)
+      --verbose   also print each violation's raw EDA object
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

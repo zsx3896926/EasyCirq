@@ -32,13 +32,13 @@
 
 ## BOM C 号审计
 
-`easyeda bom export --type csv` 默认会用执行器的 `standard-parts.json` 按 MPN 回填
+`zhigou bom export --type csv` 默认会用执行器的 `standard-parts.json` 按 MPN 回填
 Supplier Part；项目专用料通常不在该表里，结果为 0/N 匹配。把本项目实际使用的
 MPN→C 号整理成 `project-standard-parts.json`，再用 `--parts` 重导出，最后用
 `bom_cnumber_check.py` 做确定性核对：
 
 ```bash
-easyeda bom export --type csv --parts evidence/project-standard-parts.json
+zhigou bom export --type csv --parts evidence/project-standard-parts.json
 python scripts/bom_cnumber_check.py evidence/photo-led-bom.csv \
   --parts evidence/project-standard-parts.json \
   --expect-designator RV1=10kΩ --out bom-check.json

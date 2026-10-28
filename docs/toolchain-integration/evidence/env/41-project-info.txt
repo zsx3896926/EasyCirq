@@ -1,0 +1,40 @@
+CMD: easyeda project info
+STATUS: exit=0
+--- STDOUT ---
+{
+  "id": "req_26444",
+  "type": "response",
+  "version": "v1",
+  "windowId": "8f406ca7-ac3b-4222-a1f8-bb86a40ac24d",
+  "createdAt": "2026-10-27T13:16:53.796219Z",
+  "ok": true,
+  "result": {
+    "description": "Quadcopter flight controller + 4-in-1 ESC, 6S, STM32G474, ICM-42688-P, DPS310",
+    "friendlyName": "SkyPilot-X1",
+    "name": "zsx520bb/SkyPilot-X1",
+    "teamUuid": "0d20f286253d4bae9d18fcc726fdf389",
+    "uuid": "2f08700cd4f94e6e88de521f72db8c3e"
+  },
+  "context": {
+    "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+    "projectName": "SkyPilot-X1",
+    "documentUuid": "9d5b9d544e2a1c5b",
+    "documentType": "schematic",
+    "tabId": "9d5b9d544e2a1c5b@2f08700cd4f94e6e88de521f72db8c3e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "2f08700cd4f94e6e88de521f72db8c3e",
+    "projectName": "SkyPilot-X1",
+    "documentUuid": "9d5b9d544e2a1c5b",
+    "documentType": "schematic",
+    "tabId": "9d5b9d544e2a1c5b@2f08700cd4f94e6e88de521f72db8c3e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 51,
+  "seqAbandoned": 0
+}
+
+--- STDERR ---
+

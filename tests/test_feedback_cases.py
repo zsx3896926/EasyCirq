@@ -52,7 +52,7 @@ def photo_case():
             'verified_at': '2026-10-26T00:00:00Z',
             'stale': False,
         },
-        'tool_versions': {'easyeda': '4.1.78', 'easyeda-agent': '1.15.0'},
+        'tool_versions': {'zhigou': '4.1.78', 'zhigou-agent': '1.15.0'},
         'original_problem': 'Place and route 19 parts on a 90x60mm board '
                             'without collisions or DRC errors.',
         'method': 'Offline placement candidate, then typed apply, router, '
@@ -111,7 +111,7 @@ def mcu_case():
             'verified_at': '2026-10-26T00:00:00Z',
             'stale': False,
         },
-        'tool_versions': {'easyeda': '4.1.78', 'easyeda-agent': '1.15.0'},
+        'tool_versions': {'zhigou': '4.1.78', 'zhigou-agent': '1.15.0'},
         'original_problem': 'Fit MCU, LDO, USB and sensor on a two-layer '
                             'board with an antenna keepout.',
         'method': 'Relational block preflight, placement plan, router, '

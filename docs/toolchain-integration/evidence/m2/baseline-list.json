@@ -1,0 +1,299 @@
+{
+  "id": "req_30",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T14:41:29.5349093Z",
+  "ok": true,
+  "result": {
+    "components": [
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 1170,
+          "maxY": 825,
+          "minX": 0,
+          "minY": 0
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Drawing-Symbol_A4",
+          "uuid": "190b9037ca5a93ed"
+        },
+        "componentType": "sheet",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "",
+          "uuid": "190b9037ca5a93ed"
+        },
+        "mirror": false,
+        "name": "",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "@Assembly Variant": "Basic",
+          "@Board Name": "Board1",
+          "@Create Date": "2026-10-27",
+          "@Create Time": "22:30:07",
+          "@Page Count": "1",
+          "@Page Name": "P1",
+          "@Page No": "1",
+          "@Project Name": "zhigou-integrated-dual-button-led-20261027",
+          "@Schematic Name": "Schematic1",
+          "@Update Date": "2026-10-27",
+          "@Update Time": "22:40:18",
+          "Blade Width": "10",
+          "Border": "1",
+          "Color": "",
+          "Company": "嘉立创EDA",
+          "Description": "",
+          "Drawed": "",
+          "Height": "825",
+          "Page Size": "A4",
+          "Part Number": "",
+          "Region Start": "1",
+          "Reviewed": "",
+          "Size": "A4",
+          "Title Block": "1",
+          "Title Block Position": "3",
+          "Version": "V1.0",
+          "Width": "1170",
+          "X Region Count": "6",
+          "Y Region Count": "4"
+        },
+        "pins": [],
+        "pinsAvailable": true,
+        "primitiveId": "5b2b2c38c4563fe9",
+        "rotation": 0,
+        "subPartName": "pid8a0e77bacb214e",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "Drawing-Symbol_A4",
+          "uuid": "fb1ae206be9b3710"
+        },
+        "x": 0,
+        "y": 0
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 410.5,
+          "maxY": 304.5,
+          "minX": 389.5,
+          "minY": 295.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "0402WGF1001TCE",
+          "uuid": "a8eefcbfaeddd254"
+        },
+        "componentType": "part",
+        "designator": "R1",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Value}",
+          "uuid": "65abbad5fa864933b552e0f016ece0db"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "d0771e65476171db",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "df9dfd54cabd403f88cae9927dcd418d"
+          },
+          "lcsc": "C11702",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "R0402",
+          "uuid": "d0771e65476171db"
+        },
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "0402WGF1001TCE",
+        "mirror": false,
+        "name": "={Value}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "https://item.szlcsc.com/datasheet/0402WGF1001TCE/12256.html",
+          "Description": "电阻类型:厚膜电阻;阻值:1kΩ;精度:±1%;功率:62.5mW;工作电压:50V;温度系数:±100ppm/℃;",
+          "JLCPCB Part Class": "Basic Part",
+          "LCSC Part Name": "厚膜电阻 1kΩ ±1%",
+          "Operating Temperature": "-55℃~+155℃",
+          "PCB Layer": "Default",
+          "Power(Watts)": "62.5mW",
+          "Supplier Footprint": "0402",
+          "Temperature Coefficient": "±100ppm/℃",
+          "Tolerance": "±1%",
+          "Type": "厚膜电阻",
+          "Value": "1kΩ",
+          "Voltage-Supply(Max)": "50V"
+        },
+        "pins": [
+          {
+            "net": "",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "2",
+            "pinNumber": "2",
+            "primitiveId": "dada9640418d0725-e3",
+            "rotation": 0,
+            "x": 420,
+            "y": 300
+          },
+          {
+            "net": "",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "1",
+            "pinNumber": "1",
+            "primitiveId": "dada9640418d0725-e7",
+            "rotation": 180,
+            "x": 380,
+            "y": 300
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Value}",
+          "uuid": "a8eefcbfaeddd254"
+        },
+        "primitiveId": "dada9640418d0725",
+        "rotation": 0,
+        "subPartName": "0402WGF1001TCE.1",
+        "supplier": "LCSC",
+        "supplierId": "C11702",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "0402WGF1001TCE",
+          "uuid": "b3604823c6d4441e"
+        },
+        "uniqueId": "",
+        "x": 400,
+        "y": 300
+      },
+      {
+        "addIntoBom": true,
+        "addIntoPcb": true,
+        "bbox": {
+          "maxX": 610.5,
+          "maxY": 317.5,
+          "minX": 583.5,
+          "minY": 292.5
+        },
+        "component": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "0805 SF-Red",
+          "uuid": "81e43ffb2e34ebf1"
+        },
+        "componentType": "part",
+        "designator": "D1",
+        "device": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "921e712220234b81aea3017074bbe5c2"
+        },
+        "deviceResolution": {
+          "footprintSource": {
+            "instanceUuid": "94866c3f02664d7a",
+            "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+            "sourceKind": "project-epro2",
+            "uuid": "02f36eaf55f14a77a6aca359bd3efeab"
+          },
+          "lcsc": "C9900020303",
+          "sameFootprintUUID": true,
+          "via": "native-device-source"
+        },
+        "footprint": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "LED0805-RD_RED",
+          "uuid": "94866c3f02664d7a"
+        },
+        "manufacturer": "",
+        "manufacturerId": "0805 SF-Red",
+        "mirror": false,
+        "name": "={Manufacturer Part}",
+        "net": "",
+        "netlistAvailable": true,
+        "otherProperty": {
+          "Datasheet": "",
+          "Description": "",
+          "JLCPCB Part Class": "Extended Part",
+          "LCSC Part Name": "0805 SF-Red",
+          "PCB Layer": "Default",
+          "Supplier Footprint": "LED0805RD_RED"
+        },
+        "pins": [
+          {
+            "net": "",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "A",
+            "pinNumber": "2",
+            "primitiveId": "223757a2b7119940-e3",
+            "rotation": 0,
+            "x": 620,
+            "y": 300
+          },
+          {
+            "net": "",
+            "noConnected": false,
+            "otherProperty": {},
+            "pinName": "K",
+            "pinNumber": "1",
+            "primitiveId": "223757a2b7119940-e7",
+            "rotation": 180,
+            "x": 580,
+            "y": 300
+          }
+        ],
+        "pinsAvailable": true,
+        "placedDevice": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "={Manufacturer Part}",
+          "uuid": "81e43ffb2e34ebf1"
+        },
+        "primitiveId": "223757a2b7119940",
+        "rotation": 0,
+        "subPartName": "0805 SF-RED.1",
+        "supplier": "LCSC",
+        "supplierId": "C9900020303",
+        "symbol": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "name": "0805 SF-RED",
+          "uuid": "8c03c9b34d3611e6"
+        },
+        "uniqueId": "",
+        "x": 600,
+        "y": 300
+      }
+    ],
+    "count": 3,
+    "pinNetsAvailable": true,
+    "wires": []
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 29,
+  "seqAbandoned": 0
+}

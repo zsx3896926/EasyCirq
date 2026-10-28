@@ -1,0 +1,10 @@
+sch check: 3 finding(s) — 4 floating pin(s)/2 comp, 0 geom-net mismatch(es), 0 net-marker mismatch(es), 0 multi-net wire(s), 0 wire-crossing(s), 0 wire-over-pin(s), 0 zero-length wire(s), 0 dangling wire(s), 0 duplicate-net-marker(s), 0 titleblock-overlap(s), 0 out-of-sheet, 0 marker-overlap(s), 1 missing-deliverable(partition/titleblock), 0 folded-net-label(s), 0 redundant-net-marker(s), 0 reversed-net-flag(s), 0 polarity-convention outlier(s)
+  WARN   floating-pin       R1  2 个引脚悬空(无导线连接,未打 NC 标识)  [2,1]
+          pin 2 (2)  @(420.00,300.00)
+          pin 1 (1)  @(380.00,300.00)
+  WARN   floating-pin       D1  2 个引脚悬空(无导线连接,未打 NC 标识)  [2,1]
+          pin 2 (A)  @(660.00,300.00)
+          pin 1 (K)  @(620.00,300.00)
+  WARN   missing-titleblock  图签未填:Name(图纸标题)、Drawed(设计者)、Description(图纸说明) — 交付图必须能认领(`sch titleblock --data '{"Name":"…","Drawed":"…"}'`)
+→ floating pins: wire them, or mark the intentional ones NC — the listed pins are exactly what `sch no-connect --designator <REF> --pin <n>[,<n>]` takes
+→ missing-titleblock: 图签必填项空着,交付图必须能认领 — `sch titleblock --data '{"Name":"…","Drawed":"…","Description":"…"}'`

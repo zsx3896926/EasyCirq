@@ -1,0 +1,30 @@
+===== easyeda blocks --help (exit=0) =====
+Query the standard circuit-block library — proven peripheral subcircuits
+(CH340 USB-serial, ESP32 auto-download, XL1509 buck, SP3485 RS-485, CC1101 RF,
+microSD…) whose internal topology is fixed and can be copied verbatim; only the
+boundary nets (ports) get rebound to the host design.
+
+The library is EMBEDDED in the binary, so these commands need no daemon, no open
+EasyEDA window, and no skill files — a bare 'easyeda' install can look blocks up.
+
+Usage:
+  easyeda blocks [flags]
+  easyeda blocks [command]
+
+Available Commands:
+  ls          List blocks (optionally filter by --category / --ready / --draft)
+  search      Find blocks by id/desc/category/port/part (case-insensitive)
+  show        Print a block's full JSON (parts, internal_nets, ports, notes)
+
+Flags:
+  -h, --help   help for blocks
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda blocks [command] --help" for more information about a command.

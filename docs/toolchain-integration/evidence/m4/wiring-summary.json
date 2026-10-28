@@ -1,0 +1,150 @@
+{
+  "flags": [
+    {
+      "ref": "J1",
+      "pin": "1",
+      "kind": "power",
+      "net": "VIN",
+      "ok": true,
+      "skipped": "already on net"
+    },
+    {
+      "ref": "J1",
+      "pin": "2",
+      "kind": "gnd",
+      "net": "GND",
+      "ok": false,
+      "error": null
+    },
+    {
+      "ref": "F1",
+      "pin": "1",
+      "kind": "power",
+      "net": "VIN",
+      "ok": false,
+      "error": null
+    },
+    {
+      "ref": "F1",
+      "pin": "2",
+      "kind": "power",
+      "net": "+5V",
+      "ok": false,
+      "error": null
+    },
+    {
+      "ref": "C1",
+      "pin": "1",
+      "kind": "power",
+      "net": "+5V",
+      "ok": false,
+      "error": null
+    },
+    {
+      "ref": "C1",
+      "pin": "2",
+      "kind": "gnd",
+      "net": "GND",
+      "ok": false,
+      "error": null
+    },
+    {
+      "ref": "R1",
+      "pin": "1",
+      "kind": "power",
+      "net": "+5V",
+      "ok": false,
+      "error": null
+    },
+    {
+      "ref": "R2",
+      "pin": "1",
+      "kind": "power",
+      "net": "+5V",
+      "ok": false,
+      "error": null
+    },
+    {
+      "ref": "SW1",
+      "pin": "2",
+      "kind": "gnd",
+      "net": "GND",
+      "ok": false,
+      "error": null
+    },
+    {
+      "ref": "SW2",
+      "pin": "2",
+      "kind": "gnd",
+      "net": "GND",
+      "ok": false,
+      "error": null
+    }
+  ],
+  "wires": [
+    {
+      "wire": "ch1_r_to_anode",
+      "points": [
+        [
+          720,
+          380
+        ],
+        [
+          840,
+          380
+        ]
+      ],
+      "net": "LED1_A",
+      "ok": true,
+      "error": null
+    },
+    {
+      "wire": "ch1_cathode_to_switch",
+      "points": [
+        [
+          880,
+          380
+        ],
+        [
+          1000,
+          380
+        ]
+      ],
+      "net": "LED1_K",
+      "ok": true,
+      "error": null
+    },
+    {
+      "wire": "ch2_r_to_anode",
+      "points": [
+        [
+          720,
+          560
+        ],
+        [
+          839.9999999999999,
+          560.0000000000001
+        ]
+      ],
+      "net": "LED2_A",
+      "ok": true,
+      "error": null
+    },
+    {
+      "wire": "ch2_cathode_to_switch",
+      "points": [
+        [
+          879.9999999999999,
+          560.0000000000001
+        ],
+        [
+          1000,
+          560
+        ]
+      ],
+      "net": "LED2_K",
+      "ok": true,
+      "error": null
+    }
+  ]
+}

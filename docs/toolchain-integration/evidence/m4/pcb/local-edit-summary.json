@@ -1,0 +1,48 @@
+{
+  "schema": "zhigou-local-edit/v1",
+  "request": "move D1 up by 2 mm (78.74 mil)",
+  "shiftMil": 78.74,
+  "moved": {
+    "before": [
+      30,
+      220,
+      0,
+      1
+    ],
+    "after": [
+      30,
+      298.74,
+      0,
+      1
+    ]
+  },
+  "outOfScopePoseChanges": [],
+  "poseChangeCount": 1,
+  "routedLinesBefore": 36,
+  "routedLinesAfter": 47,
+  "pcbDrcPassed": true,
+  "violations": 0,
+  "saveConfirmed": true,
+  "reopenPerformed": true,
+  "notes": [
+    "moving a footprint does not move its routed copper: the channel track is re-routed after the move and DRC is re-run on a fresh readback",
+    "scope: only D1 pose may change; every other part must stay identical"
+  ],
+  "drcAfterPourRebuild": "edit-drc-3.json",
+  "flow": [
+    "snapshot",
+    "move D1 +78.74 mil",
+    "save",
+    "reload",
+    "dump",
+    "drc (fail: copper clearance)",
+    "autoroute affected nets",
+    "save",
+    "reload",
+    "drc (fail: pour/track clearance)",
+    "pcb.pour.rebuild",
+    "save",
+    "reload",
+    "drc -> PASS 0 violations"
+  ]
+}

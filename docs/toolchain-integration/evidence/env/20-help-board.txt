@@ -1,0 +1,34 @@
+===== easyeda board --help (exit=0) =====
+Manage Boards (板子/组合).
+
+A Board groups exactly one schematic + one PCB — this is how the two are
+kept together (and what `pcb import_changes` follows). Boards are identified
+by NAME, not UUID.
+
+Usage:
+  easyeda board [flags]
+  easyeda board [command]
+
+Available Commands:
+  copy        Copy a Board (its schematic + PCB) into a new Board
+  create      Bind a schematic and/or PCB into a new Board (组合)
+  current     Read the current Board (its bound schematic + PCB)
+  delete      Delete a Board and the schematic + PCB documents it binds (no undo)
+  list        List all Boards in the current project (name + schematic + pcb)
+  new         Create a Board with a new schematic (one page) and a new PCB — works in an empty project
+  rebind      Rebind a Board to the intended schematic + PCB (repair a stale binding)
+  rename      Rename a Board by its current name
+
+Flags:
+  -h, --help            help for board
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda board [command] --help" for more information about a command.

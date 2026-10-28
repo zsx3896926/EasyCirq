@@ -957,7 +957,7 @@ def _summary_counts(summary, diagnostics, prefix='summary'):
 
 
 def parse_pcb_check(payload):
-    """Normalize ``easyeda pcb check --json`` (envelope or result).
+    """Normalize ``zhigou pcb check --json`` (envelope or result).
 
     Summary counters are cross-checked against itemized findings.  A summary
     of ``errors=0`` with an ERROR finding is not clean; it is an inconsistent
@@ -1087,7 +1087,7 @@ def parse_pcb_check(payload):
 
 
 def parse_drc(payload):
-    """Normalize native ``easyeda pcb drc`` output.
+    """Normalize native ``zhigou pcb drc`` output.
 
     A bare ``{"passed": true}`` is not a measurement: the native receipt must
     carry a total or a violations list (or counts) before ``ok`` can be true.
@@ -1213,7 +1213,7 @@ def parse_drc(payload):
 
 
 def parse_layout_lint(payload):
-    """Normalize ``easyeda pcb layout-lint --json``.
+    """Normalize ``zhigou pcb layout-lint --json``.
 
     Fields must be finite numbers (booleans and numeric strings are not
     numbers).  Counts cannot be negative.  If a required field is invalid the

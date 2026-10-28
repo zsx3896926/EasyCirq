@@ -1,0 +1,49 @@
+{
+  "id": "req_337",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:22:50.7267224Z",
+  "ok": true,
+  "result": {
+    "applied": [
+      "rotation",
+      "x",
+      "y"
+    ],
+    "component": {
+      "addIntoBom": true,
+      "designator": "J1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "1*2P卧式排针",
+      "name": "={Manufacturer Part}",
+      "primitiveId": "60d61c60973e7a4a",
+      "rotation": 90,
+      "supplierId": "C9900024210",
+      "uniqueId": "gge1",
+      "x": -700,
+      "y": 0
+    },
+    "verified": true
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 313,
+  "seqAbandoned": 0
+}

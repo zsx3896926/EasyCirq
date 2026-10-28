@@ -5,12 +5,13 @@ Answers, without writing anything:
   - which agent clients are installed and which skill directory they use;
   - whether design-hardware is installed for each client;
   - whether this machine can execute local commands;
-  - whether the JLCEDA Pro CLI and easyeda-agent are present/connected;
-  - whether an authorized project copy is readable (optional).
+  - one toolchain preflight: ``zhigou doctor`` + ``zhigou capabilities``.
 
-It deliberately does not test project writability. Writing requires a separate
-apply on an authorized copy, and "the project opens" must never be reported as
-"the project is writable".
+The executor is the repository's own ``zhigou`` runtime.  There is no second
+execution route and no upstream CLI to detect: ``doctor_env.py`` reports the
+skill/daemon/connector/protocol facts the runtime prints, and it never claims
+the project is writable.  Writing requires a separate authorized apply, and
+"the project opens" must never be reported as "the project is writable".
 """
 from __future__ import annotations
 
@@ -24,7 +25,7 @@ from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(SCRIPT_DIR))
-import eda_exec  # noqa: E402
+import zhigou_cli  # noqa: E402
 
 CLIENTS = [
     {
@@ -54,6 +55,7 @@ CLIENTS = [
 ]
 
 SKILL_NAME = 'design-hardware'
+ZHIGOU_DOCTOR_TIMEOUT_S = 30
 
 
 def _expand(path, cwd):
@@ -179,124 +181,62 @@ def _repo_skill(cwd):
     return {'path': str(candidate), 'present': candidate.is_file()}
 
 
-EASYEDA_HEALTH_TIMEOUT_S = 15
+def _zhigou_probe(exe=None, timeout=ZHIGOU_DOCTOR_TIMEOUT_S):
+    """The single toolchain preflight: ``zhigou doctor`` + ``capabilities``.
 
-
-def _easyeda_probe(command=None, timeout=EASYEDA_HEALTH_TIMEOUT_S):
-    """Probe the easyeda-agent route without starting its daemon.
-
-    A healthy lceda-pro bridge says nothing about the easyeda-agent daemon, so
-    this is reported separately from _eda_probe's lceda-pro result.
+    Both commands are read-only and never start the daemon by themselves; the
+    environment disables autostart so a diagnosis cannot change host state.
     """
-    command = command or shutil.which('easyeda')
-    result = {
+    command = zhigou_cli.resolve_bin(exe)
+    env = dict(os.environ)
+    env.setdefault('ZHIGOU_NO_AUTOSTART', '1')
+    diagnosis = zhigou_cli.doctor(zhigou=exe, timeout=timeout, env=env)
+    negotiation = zhigou_cli.capabilities(zhigou=exe, timeout=timeout, env=env)
+    report = {
         'command': command,
-        'connected': False,
-        'status': 'not_installed',
-        'timeout_s': timeout,
+        'doctor_ok': diagnosis['ok'],
+        'capabilities_ok': negotiation['ok'],
+        'doctor_error': diagnosis.get('error'),
+        'capabilities_error': negotiation.get('error'),
+        'ready': False,
+        'blockers': [],
     }
-    if not command:
-        return result
-    try:
-        proc = subprocess.run(
-            [command, 'health'], capture_output=True, text=True,
-            encoding='utf-8', errors='replace', timeout=timeout)
-    except (OSError, subprocess.SubprocessError) as error:
-        result['status'] = 'unreadable'
-        result['error'] = str(error)
-        return result
-    result['exit_code'] = proc.returncode
-    raw = (proc.stdout or '').strip()
-    if not raw:
-        result['status'] = 'unreadable'
-        result['error'] = 'easyeda health returned no output'
-        return result
-    try:
-        data = json.loads(raw)
-    except json.JSONDecodeError:
-        result['status'] = 'unreadable'
-        result['error'] = 'easyeda health did not return JSON'
-        result['raw'] = raw[:500]
-        return result
-    if not isinstance(data, dict):
-        result['status'] = 'unreadable'
-        result['error'] = 'easyeda health returned non-object JSON'
-        return result
-    result['health'] = data
-    result['status'] = str(data.get('status') or 'unknown')
-    result['host'] = data.get('host')
-    result['ports'] = data.get('ports')
-    found = data.get('found') if isinstance(data.get('found'), dict) else {}
-    raw = found.get('raw') if isinstance(found.get('raw'), dict) else {}
-    result['daemon_status'] = raw.get('status')
-    checks = data.get('checks') if isinstance(data.get('checks'), list) else []
-    result['checks'] = checks
-    result['daemon'] = next(
-        (item for item in checks if isinstance(item, dict) and item.get('name') == 'daemon'),
-        None)
-    if isinstance(result['daemon'], dict) and result['daemon'].get('status'):
-        result['daemon_status'] = result['daemon']['status']
-    # health uses "found" when the daemon is running; the inner raw/check
-    # status carries the real ok/fail result.
-    result['connected'] = result['status'] == 'ok' or (
-        result['status'] == 'found' and result['daemon_status'] == 'ok')
-    return result
-
-
-def _eda_probe(exe=None, project=None, timeout=120000):
-    cli = eda_exec.find_cli(exe)
-    easyeda_command = shutil.which('easyeda')
-    result = {
-        'cli': cli,
-        'easyeda_command': easyeda_command,
-        'easyeda_agent': _easyeda_probe(easyeda_command),
-        'connected': False,
-        'version_match': None,
-        'project_readable': 'not_probed',
-        'timeout_ms': timeout,
-    }
-    if not cli:
-        result['lceda_pro'] = {'connected': False, 'version_match': None}
-        return result
-    try:
-        pro = eda_exec.LcedaPro(cli, timeout_ms=timeout)
-        doctor = pro.doctor()
-        result['connected'] = bool(doctor.get('connected'))
-        result['version_match'] = doctor.get('versionMatch')
-        result['bridge_version'] = doctor.get('bridgeVersion')
-        result['lceda_pro'] = {
-            'connected': result['connected'],
-            'version_match': result['version_match'],
-            'bridge_version': result.get('bridge_version'),
+    if diagnosis['ok']:
+        doctor = diagnosis['report']
+        report['doctor'] = doctor
+        report['runtime'] = doctor['runtime']
+        report['daemon'] = doctor['daemon']
+        report['connector'] = doctor['connector']
+        report['protocol'] = doctor['protocol']
+        report['skill'] = doctor['skill']
+        report['legacy'] = doctor['legacy']
+        report['next_steps'] = doctor['next_steps']
+        report['blockers'].extend(doctor['blockers'])
+    else:
+        report['blockers'].append(diagnosis['error'])
+    if negotiation['ok']:
+        caps = negotiation['report']
+        report['capabilities'] = {
+            'summary': caps['summary'],
+            'unsupported': caps['unsupported'],
+            'unknown': caps['unknown'],
+            'items': {cap_id: {'status': row['status'], 'reason': row['reason']}
+                      for cap_id, row in caps['items'].items()},
         }
-    except eda_exec.EdaError as error:
-        result['error'] = str(error)
-        result['lceda_pro'] = {
-            'connected': False,
-            'version_match': None,
-            'error': str(error),
-        }
-        return result
-    if project and result['connected']:
-        try:
-            session = pro.open_project(project, headless=True)
-            try:
-                probe = pro.invoke(session, eda_exec.PROJECT_PROBE_JS, {})
-                result['project_readable'] = bool(probe.get('project') and probe.get('schematics'))
-                result['project'] = str(Path(project).resolve())
-                result['project_schematics'] = len(probe.get('schematics') or [])
-            finally:
-                eda_exec.close_owned(pro, session)
-        except eda_exec.EdaError as error:
-            result['project_readable'] = False
-            result['project_error'] = str(error)
-    return result
+        report['blockers'].extend(
+            'capability %s is unsupported: %s' % (row['id'], row['reason'])
+            for row in caps['unsupported'])
+    else:
+        report['blockers'].append(negotiation['error'])
+    report['blockers'] = [item for item in report['blockers'] if item]
+    report['ready'] = not report['blockers']
+    return report
 
 
-def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=120000):
+def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=ZHIGOU_DOCTOR_TIMEOUT_S):
     cwd = str(Path(cwd or os.getcwd()).resolve())
     clients = _client_rows(cwd)
-    eda = _eda_probe(exe=exe, project=project, timeout=timeout)
+    zhigou = _zhigou_probe(exe=exe, timeout=timeout)
     active, active_reason, markers = _detect_active_client(clients, requested=client)
     missing = []
     if active is None:
@@ -306,38 +246,9 @@ def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=120000):
             missing.append(f"{active['name']} command not found")
         if not active['installed']:
             missing.append(f"design-hardware is not installed for {active['name']}")
-    easyeda = eda.get('easyeda_agent') or {}
-    lceda_ready = bool(eda['cli'] and eda.get('connected')
-                       and eda.get('version_match') is True)
-    easyeda_ready = bool(easyeda.get('connected'))
-    if not lceda_ready and not easyeda_ready:
-        if not eda['cli']:
-            missing.append('lceda-pro CLI not found')
-        elif not eda['connected']:
-            missing.append('JLCEDA Pro CLI is present but not connected')
-        else:
-            missing.append('JLCEDA Pro CLI version does not match the adapter (versionMatch is not true)')
-        if not easyeda.get('command'):
-            missing.append('easyeda-agent CLI not found')
-        else:
-            missing.append(
-                f"easyeda-agent daemon is not ready (status: {easyeda.get('status') or 'unknown'})")
-    if project and eda.get('project_readable') is not True:
-        missing.append('the authorized project copy is not readable')
-    eda_routes = {
-        'lceda_pro': {
-            'present': bool(eda['cli']),
-            'connected': bool(eda.get('connected')),
-            'version_match': eda.get('version_match'),
-            'ready': lceda_ready,
-        },
-        'easyeda_agent': {
-            'present': bool(easyeda.get('command')),
-            'daemon_status': easyeda.get('status'),
-            'connected': easyeda_ready,
-            'ready': easyeda_ready,
-        },
-    }
+    missing.extend(zhigou['blockers'])
+    if project and (zhigou.get('doctor') or {}).get('daemon', {}).get('status') != 'running':
+        missing.append('the authorized project copy was not probed: the toolchain is not connected')
     active_view = None
     if active is not None:
         active_view = {
@@ -360,31 +271,27 @@ def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=120000):
         },
         'repo_skill': _repo_skill(cwd),
         'clients': clients,
-        'eda': eda,
-        'eda_routes': eda_routes,
+        'zhigou': zhigou,
+        'preflight': {
+            'ready': zhigou['ready'],
+            'blockers': zhigou['blockers'],
+            'not_proven': ['project writability', 'write readback/persistence',
+                           'electrical or manufacturing correctness'],
+        },
         'missing': missing,
         'notes': [
             'status is evaluated for the active client, not for "any client + any install"',
-            'lceda-pro and easyeda-agent are independent EDA routes; a green one does not prove the other is ready',
-            'project_writable is never inferred here; verify it with apply --dry-run/--save on an authorized copy',
+            'zhigou doctor/capabilities is the only toolchain preflight; a missing connector is a host-side blocker, not a skill problem',
+            'project_writable is never inferred here; verify it with an authorized dry-run/apply plus readback',
             'a project may be readable in half-offline mode; full-online conclusions need the user GUI session',
         ],
     }
 
 
 def render_summary(report):
-    eda = report['eda']
-    easyeda = eda.get('easyeda_agent') or {}
-    lceda_ready = bool(eda.get('cli') and eda.get('connected')
-                       and eda.get('version_match') is True)
-    easyeda_ready = bool(easyeda.get('connected'))
-    ready_names = []
-    if lceda_ready:
-        ready_names.append('lceda-pro')
-    if easyeda_ready:
-        ready_names.append('easyeda-agent')
-    route_text = ', '.join(ready_names) if ready_names else 'none'
-    lines = [f"status: {report['status']}  EDA routes ready: {route_text}  cwd: {report['host']['cwd']}"]
+    zhigou = report.get('zhigou') or {}
+    lines = [f"status: {report['status']}  preflight: "
+             f"{'ready' if zhigou.get('ready') else 'blocked'}  cwd: {report['host']['cwd']}"]
     active = report.get('active_client')
     if active:
         lines.append(f"active client: {active['name']} ({active['reason']}) "
@@ -400,26 +307,33 @@ def render_summary(report):
             mark = '*' if item['installed'] else ('+' if item['exists'] else '-')
             lines.append(f"      {mark} {item['scope']}: {item['path']}")
     lines.append('')
-    lines.append(f"- lceda-pro: {eda['cli'] or 'not found'}  "
-                 f"connected: {eda['connected']}  version match: {eda['version_match']}")
-    lines.append(f"- easyeda-agent: {easyeda.get('command') or eda.get('easyeda_command') or 'not found'}  "
-                 f"daemon: {easyeda.get('status') or 'not_probed'}")
-    daemon = easyeda.get('daemon')
-    if isinstance(daemon, dict):
-        detail = daemon.get('detail') or daemon.get('status')
-        if detail:
-            lines.append(f"    daemon check: {detail}")
-    lines.append(f"- EDA ready routes: {route_text}")
-    lines.append("- routes are independent: a healthy lceda-pro does not mean easyeda-agent is ready")
-    if eda.get('project'):
-        lines.append(f"- project readable: {eda['project_readable']}  schematics: {eda.get('project_schematics')}")
+    lines.append(f"- zhigou: {zhigou.get('command') or 'not found'}")
+    if zhigou.get('doctor_ok'):
+        doctor = zhigou.get('doctor') or {}
+        runtime = doctor.get('runtime') or {}
+        daemon = doctor.get('daemon') or {}
+        connector = doctor.get('connector') or {}
+        lines.append(f"    doctor verdict: {doctor.get('verdict')}  "
+                     f"runtime: {runtime.get('version') or 'unknown'}  "
+                     f"daemon: {daemon.get('status') or 'unknown'}  "
+                     f"connector: {connector.get('status') or 'unknown'}")
+    else:
+        lines.append(f"    doctor: NOT RUN ({zhigou.get('doctor_error') or 'unknown error'})")
+    if zhigou.get('capabilities_ok'):
+        summary = (zhigou.get('capabilities') or {}).get('summary') or {}
+        lines.append(f"    capabilities: supported={summary.get('supported')} "
+                     f"unsupported={summary.get('unsupported')} unknown={summary.get('unknown')}")
+    else:
+        lines.append(f"    capabilities: NOT RUN ({zhigou.get('capabilities_error') or 'unknown error'})")
+    for step in zhigou.get('next_steps') or []:
+        lines.append(f"    next: {step}")
     if report['missing']:
         lines.append('')
         lines.append('missing / next:')
         for item in report['missing']:
             lines.append(f"- {item}")
     lines.append('')
-    lines.append('project writability is NOT tested; use apply on an authorized copy.')
+    lines.append('project writability is NOT tested; use an authorized apply plus readback.')
     return '\n'.join(lines)
 
 
@@ -427,14 +341,14 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--cwd', help='workspace to inspect (default: current directory)')
-    parser.add_argument('--project', help='optional authorized .eprj2 copy to probe read-only')
-    parser.add_argument('--exe', help='path to lceda-pro (default: auto-detect)')
+    parser.add_argument('--project', help='optional authorized .eprj2 copy (readability is not probed)')
+    parser.add_argument('--exe', help='path to zhigou (default: ZHIGOU_BIN or PATH)')
     parser.add_argument('--client', default='auto',
                         choices=['auto', 'claude-code', 'codex', 'workbuddy'],
                         help='which client to evaluate (default: detect from environment)')
     parser.add_argument('--summary', action='store_true', help='human-readable summary instead of JSON')
-    parser.add_argument('--timeout', type=int, default=120000,
-                        help='EDA CLI timeout in milliseconds (default 120000)')
+    parser.add_argument('--timeout', type=int, default=ZHIGOU_DOCTOR_TIMEOUT_S,
+                        help='zhigou preflight timeout in seconds (default 30)')
     args = parser.parse_args(argv)
     report = diagnose(cwd=args.cwd, project=args.project, exe=args.exe,
                       client=args.client, timeout=args.timeout)

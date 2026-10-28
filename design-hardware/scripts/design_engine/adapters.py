@@ -105,7 +105,7 @@ def load_json_tolerant(path):
 
 
 def unwrap(value):
-    """Unwrap the easyeda CLI envelope; raise on an explicit failure envelope."""
+    """Unwrap the zhigou CLI envelope; raise on an explicit failure envelope."""
     if isinstance(value, dict) and value.get('ok') is False and 'result' not in value:
         error = value.get('error') or {}
         raise ValueError(f"EDA response failed: {error.get('code', 'unknown')}: {error.get('message', '')}")
@@ -322,7 +322,7 @@ def build_ir(directory, require_geometry=True):
     svg_text = bundle.text('sch-baseline.svg')
 
     if not isinstance(list_value, dict):
-        raise ValueError('sch-list-full.json: expected the easyeda list result object')
+        raise ValueError('sch-list-full.json: expected the zhigou list result object')
     components_raw = list_value.get('components') or []
     attributes_raw = (list_value.get('pagePrimitives') or {}).get('attributes') or []
     parts_raw = [item for item in components_raw if item.get('componentType') == 'part']
@@ -346,7 +346,7 @@ def build_ir(directory, require_geometry=True):
     context = list_envelope.get('context') if isinstance(list_envelope, dict) else {}
     context = context if isinstance(context, dict) else {}
     ir = blank_ir({
-        'adapter': 'easyeda-list-bundle/v1',
+        'adapter': 'zhigou-list-bundle/v1',
         'engine_version': ENGINE_VERSION,
         'project_uuid': context.get('projectUuid') or
         (connectivity_value.get('projectId') if isinstance(connectivity_value, dict) else None),
@@ -648,7 +648,7 @@ def build_ir(directory, require_geometry=True):
                 'body_bbox': list(rect_from_bbox(raw_cluster['body'], f'group[{index}].body'))
                 if raw_cluster.get('body') else None,
                 'members': members,
-                'source': 'easyeda_sch_clusters',
+                'source': 'zhigou_sch_clusters',
                 'declared_zone': False,
                 'native': raw_cluster,
             })

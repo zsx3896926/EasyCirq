@@ -441,27 +441,18 @@ def check_all(target, client, home, refresh=False, exe=None):
         own = check(target, refresh)
     except (UpdateError, OSError, ValueError, KeyError) as e:
         own = {'status': 'unverified', 'message': str(e)}
-    cache = state_dir(target) / 'companion-update-cache.json'
-    dep = None
-    if not refresh and cache.is_file():
-        stored = read_json(cache)
-        if stored.get('client') == client and stored.get('exe') == str(exe) and 0 <= time.time() - stored.get('checked_at', 0) < 86400:
-            dep = stored['result']
-    if dep is None:
-        try:
-            dep = companion_module().check(client, home, exe)
-        except (ImportError, OSError, ValueError) as e:
-            dep = {'status': 'unverified', 'message': str(e)}
-        if dep.get('status') == 'current':
-            cache.parent.mkdir(parents=True, exist_ok=True)
-            write_json(cache, {'client': client, 'exe': str(exe), 'checked_at': time.time(), 'result': dep})
-    return {'status': 'current' if own.get('status') == dep.get('status') == 'current' else 'needs_attention',
-            'design_hardware': own, 'easyeda_agent': dep, 'automatic_install': False}
+    try:
+        dep = companion_module().check(client, home, exe)
+    except (ImportError, OSError, ValueError) as e:
+        dep = {'status': 'unverified', 'message': str(e)}
+    ready = own.get('status') == 'current' and dep.get('status') == 'ready'
+    return {'status': 'current' if ready else 'needs_attention',
+            'design_hardware': own, 'zhigou': dep, 'automatic_install': False}
 
 
 def menu(home=None):
     print('硬件设计 Skill：安装与更新')
-    print('1 安装  2 检查更新  3 升级本Skill  4 安装状态  5 回退  6 修复  7 恢复中断  8 升级EDA执行器')
+    print('1 安装  2 检查更新  3 升级本Skill  4 安装状态  5 回退  6 修复  7 恢复中断  8 检查EDA执行器')
     actions = dict(zip('12345678', ['install', 'check', 'update', 'status', 'rollback', 'repair', 'recover', 'update-agent']))
     action = actions.get(input('操作编号：').strip())
     print('1 Claude Code  2 Codex  3 WorkBuddy')
@@ -505,9 +496,14 @@ def main(argv=None):
     p.add_argument('--manifest', type=Path, help='Detached release.json for archive SHA256 validation')
     p.add_argument('--adopt', action='store_true', help='Explicitly back up and migrate an unmanaged installation')
     p.add_argument('--refresh', action='store_true')
-    p.add_argument('--easyeda', type=Path, help='Explicit easyeda executable for companion updates')
-    p.add_argument('--agent-version', help='Pin a stable easyeda-agent version')
-    p.add_argument('--idle', action='store_true', help='Confirm no EDA task is running before companion upgrade')
+    p.add_argument('--zhigou', type=Path, help='Explicit zhigou executable (test seam)')
+    # Deprecated spelling kept for the distribution/ Manage-Skill wrapper,
+    # which is owned by the release pipeline; both map to the same seam.
+    p.add_argument('--easyeda', dest='zhigou', type=Path,
+                   help=argparse.SUPPRESS)
+    p.add_argument('--agent-version', dest='ignored_agent_version',
+                   help=argparse.SUPPRESS)  # accepted, deliberately unused
+    p.add_argument('--idle', action='store_true', help='Confirm no EDA task is running before a runtime check')
     p.add_argument('--source', type=Path)
     p.add_argument('--output', type=Path)
     p.add_argument('--source-commit', default='unknown')
@@ -532,13 +528,24 @@ def main(argv=None):
             elif a.action == 'check':
                 if not a.client:
                     raise UpdateError('Unified check requires --client')
-                result = check_all(target, a.client, a.home, a.refresh, a.easyeda)
+                result = check_all(target, a.client, a.home, a.refresh, a.zhigou)
             elif a.action == 'update-agent':
                 if not a.client:
-                    raise UpdateError('Companion upgrade requires --client')
-                with locked(target):
-                    result = companion_module().update(a.client, a.home, state_dir(target), a.easyeda, a.agent_version, a.idle)
-                    (state_dir(target) / 'companion-update-cache.json').unlink(missing_ok=True)
+                    raise UpdateError('Runtime check requires --client')
+                # Report-only: the runtime is installed from this repository's
+                # distribution/ bundle.  Never download/replace another component.
+                state = companion_module().check(a.client, a.home, a.zhigou)
+                result = {
+                    'status': state.get('status'),
+                    'updated': False,
+                    'mode': 'report_only',
+                    'runtime': state,
+                    'reason': 'the zhigou runtime is installed from this '
+                              "repository's distribution/ bundle; this skill does "
+                              'not download, replace or restart it',
+                    'next_step': state.get('next_step'),
+                    'automatic_install': False,
+                }
             elif a.package:
                 result = install(target, a.package, read_json(a.manifest) if a.manifest else None,
                                  adopt=a.adopt, repair=a.action == 'repair')
@@ -549,7 +556,7 @@ def main(argv=None):
                     package.write_bytes(download(m['download_url']))
                     result = install(target, package, m, adopt=a.adopt, repair=a.action == 'repair')
         print(json.dumps(result, ensure_ascii=False, indent=2))
-        if a.action == 'update-agent' and result.get('status') not in ('complete', 'already_current'):
+        if a.action == 'update-agent' and result.get('status') != 'ready':
             return 1
         return 0
     except (UpdateError, OSError, ValueError, KeyError, zipfile.BadZipFile) as exc:

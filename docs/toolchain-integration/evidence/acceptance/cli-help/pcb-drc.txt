@@ -1,0 +1,46 @@
+Run PCB DRC on the active PCB and return normalized {passed, violations}.
+
+The native boolean passed verdict controls the exit status in raw and JSON modes.
+passed:false or an unavailable verdict returns nonzero; JSON preserves nativeResult.
+
+This is the PCB counterpart to `zhigou sch drc` (schematic DRC). The two are
+distinct subcommands and route to different documents automatically — pcb.* targets
+the project's PCB window, schematic.* targets the schematic window — so they never
+cross-fire. The PCB must be the active/foreground document.
+
+--json flattens the SDK's nested violation tree into one row per violation
+{rule, objType, ruleName, net, x, y, layer, objs, message} with x/y converted to
+REAL mil (the raw leaves store mil/10). --timeout bounds the wait; a background /
+occluded EasyEDA window never finishes DRC's canvas recompute, so on timeout bring
+the window to the FOREGROUND and run once — do NOT retry in a loop (each retry
+piles another recompute onto the webview and makes it worse).
+
+Both output modes exit non-zero when the native verdict is false or unavailable,
+with the result preserved on stdout. --json also retains the original result in
+nativeResult so unrecognized native detail is not silently discarded. Action or
+response-shape failures preserve the original response instead of a flat report.
+
+Usage:
+  zhigou pcb drc [flags]
+
+Examples:
+  zhigou pcb drc
+  zhigou pcb drc --strict
+  zhigou pcb drc --json                  # flat rows, coordinates in mil
+  zhigou pcb drc --json --timeout 120    # allow a heavy board 2 minutes
+
+Flags:
+  -h, --help          help for drc
+      --json          flat one-row-per-violation JSON, coordinates in mil
+      --strict        treat warnings as errors
+      --timeout int   seconds to wait for the DRC round-trip (default 60)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

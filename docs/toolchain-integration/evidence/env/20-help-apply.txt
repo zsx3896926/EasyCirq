@@ -1,0 +1,34 @@
+===== easyeda apply --help (exit=0) =====
+Execute a playbook (see docs/design-apply-playbook.md) step by step:
+typed actions, CLI subcommands, capture/assert gates, journal + resume.
+Precedence: CLI flag > playbook file > built-in default.
+
+Usage:
+  easyeda apply <playbook.json> [flags]
+
+Examples:
+  easyeda apply sch.playbook.json
+  easyeda apply pcb.playbook.json --project demo2 --var LIB=<uuid>
+  easyeda apply pcb.playbook.json --resume
+  easyeda apply pcb.playbook.json --dry-run
+
+Flags:
+      --doc string         target document to switch to first (overrides meta.doc)
+      --dry-run            validate + print the plan, execute nothing
+      --from string        start at step (id or 1-based index)
+  -h, --help               help for apply
+      --journal string     journal path (default <playbook>.journal.jsonl)
+      --quiet              only print failures and the final summary
+      --resume             skip steps already ok in the journal (restores captured vars)
+      --step-delay float   pause N seconds between steps (demo / recording pacing)
+      --to string          stop after step (id or 1-based index)
+      --var stringArray    override/add a playbook var: KEY=VALUE (repeatable)
+      --window string      EasyEDA window ID (overrides meta.window)
+      --yes                auto-approve confirmation-gated steps
+
+Global Flags:
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions

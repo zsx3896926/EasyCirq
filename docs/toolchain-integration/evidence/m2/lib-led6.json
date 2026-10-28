@@ -1,0 +1,100 @@
+{
+  "id": "req_9",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T14:34:00.2856447Z",
+  "ok": true,
+  "result": {
+    "components": [
+      {
+        "description": "",
+        "footprintName": "LED0805-RD_RED",
+        "lcsc": "C9900020303",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "",
+        "manufacturerId": "0805 SF-Red",
+        "name": "0805 SF-Red",
+        "score": 8,
+        "symbolName": "0805 SF-RED",
+        "uuid": "921e712220234b81aea3017074bbe5c2"
+      },
+      {
+        "description": "",
+        "footprintName": "LED0603-RD_RED",
+        "lcsc": "C9900015761",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "",
+        "manufacturerId": "LED_0603",
+        "name": "LED_0603",
+        "score": 5,
+        "symbolName": "LED_0603",
+        "uuid": "8129980bb65545fba821b4e431b65752"
+      },
+      {
+        "description": "",
+        "footprintName": "LED0603-RD_RED",
+        "lcsc": "C9900005314",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "",
+        "manufacturerId": "红色LED",
+        "name": "红色LED",
+        "score": 5,
+        "symbolName": "红色LED",
+        "uuid": "ef80e73cfff148a4a1e0621b2d81f56e"
+      },
+      {
+        "description": "",
+        "footprintName": "LED0603-RD_RED",
+        "lcsc": "C9900008255",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "",
+        "manufacturerId": "贴片LED",
+        "name": "贴片LED_C9900008255",
+        "score": 5,
+        "symbolName": "贴片LED_C9900008255",
+        "uuid": "b94dc93f494f4017a3d2c25bfdb6cbb2"
+      },
+      {
+        "description": "",
+        "footprintName": "LED0402-RD_RED",
+        "lcsc": "C9900023317",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "",
+        "manufacturerId": "LED0402-红色",
+        "name": "LED0402-红色",
+        "score": 5,
+        "symbolName": "LED0402-红色",
+        "uuid": "b3654c96104c4b77a31e6da613df0d7f"
+      },
+      {
+        "description": "",
+        "footprintName": "LED0603-R-RD_RED",
+        "lcsc": "C9900009051",
+        "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+        "manufacturer": "",
+        "manufacturerId": "0603LED",
+        "name": "0603LED",
+        "score": 5,
+        "symbolName": "0603LED",
+        "uuid": "d053086041244dfea1e9487d1cd44afa"
+      }
+    ],
+    "count": 6,
+    "query": "red LED 0805"
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": false,
+  "mutationContextError": "handler-boundary documentUuid unavailable",
+  "seq": 8,
+  "seqAbandoned": 0
+}

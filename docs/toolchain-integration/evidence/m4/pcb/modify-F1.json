@@ -1,0 +1,49 @@
+{
+  "id": "req_341",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:22:50.8496832Z",
+  "ok": true,
+  "result": {
+    "applied": [
+      "rotation",
+      "x",
+      "y"
+    ],
+    "component": {
+      "addIntoBom": true,
+      "designator": "F1",
+      "layer": 1,
+      "locked": false,
+      "manufacturerId": "1.5A快恢复保险丝-1206",
+      "name": "={Manufacturer Part}",
+      "primitiveId": "abfedd235896a80b",
+      "rotation": 0,
+      "supplierId": "C9900012139",
+      "uniqueId": "gge2",
+      "x": -520,
+      "y": 0
+    },
+    "verified": true
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 315,
+  "seqAbandoned": 0
+}

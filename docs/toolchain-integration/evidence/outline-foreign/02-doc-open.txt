@@ -1,0 +1,6 @@
+{
+  "cmd": "doc open 25f8c74b9ad75916",
+  "exit": 0,
+  "stdout": "✓ opened schematic \"P1\" (25f8c74b9ad75916)\n",
+  "stderr": ""
+}

@@ -1,0 +1,224 @@
+{
+  "id": "req_239",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:19:19.6478738Z",
+  "ok": true,
+  "result": {
+    "components": [
+      {
+        "addIntoBom": true,
+        "availability": {
+          "bbox": "not-requested",
+          "pads": "not-requested"
+        },
+        "captureErrors": {},
+        "designator": "C1",
+        "layer": 1,
+        "locked": false,
+        "manufacturerId": "100nF/0603/50V",
+        "name": "={Manufacturer Part}",
+        "primitiveId": "6d3ce7ee3af5a731",
+        "rotation": 0,
+        "supplierId": "C9900013340",
+        "uniqueId": "gge3",
+        "x": 320.428,
+        "y": -347.98940000000005
+      },
+      {
+        "addIntoBom": true,
+        "availability": {
+          "bbox": "not-requested",
+          "pads": "not-requested"
+        },
+        "captureErrors": {},
+        "designator": "D1",
+        "layer": 1,
+        "locked": false,
+        "manufacturerId": "发光二极管（黄绿色）",
+        "name": "={Manufacturer Part}",
+        "primitiveId": "bad74267bbb65498",
+        "rotation": 0,
+        "supplierId": "C28105",
+        "uniqueId": "gge6",
+        "x": 587.552,
+        "y": -476.4954
+      },
+      {
+        "addIntoBom": true,
+        "availability": {
+          "bbox": "not-requested",
+          "pads": "not-requested"
+        },
+        "captureErrors": {},
+        "designator": "D2",
+        "layer": 1,
+        "locked": false,
+        "manufacturerId": "发光二极管（黄绿色）",
+        "name": "={Manufacturer Part}",
+        "primitiveId": "227ad35d02b19cc0",
+        "rotation": 0,
+        "supplierId": "C28105",
+        "uniqueId": "gge7",
+        "x": 587.552,
+        "y": -272.7174
+      },
+      {
+        "addIntoBom": true,
+        "availability": {
+          "bbox": "not-requested",
+          "pads": "not-requested"
+        },
+        "captureErrors": {},
+        "designator": "F1",
+        "layer": 1,
+        "locked": false,
+        "manufacturerId": "1.5A快恢复保险丝-1206",
+        "name": "={Manufacturer Part}",
+        "primitiveId": "abfedd235896a80b",
+        "rotation": 0,
+        "supplierId": "C9900012139",
+        "uniqueId": "gge2",
+        "x": 320.428,
+        "y": -1007.2584
+      },
+      {
+        "addIntoBom": true,
+        "availability": {
+          "bbox": "not-requested",
+          "pads": "not-requested"
+        },
+        "captureErrors": {},
+        "designator": "J1",
+        "layer": 1,
+        "locked": false,
+        "manufacturerId": "1*2P卧式排针",
+        "name": "={Manufacturer Part}",
+        "primitiveId": "60d61c60973e7a4a",
+        "rotation": 0,
+        "supplierId": "C9900024210",
+        "uniqueId": "gge1",
+        "x": 104.212,
+        "y": -1007.2584
+      },
+      {
+        "addIntoBom": true,
+        "availability": {
+          "bbox": "not-requested",
+          "pads": "not-requested"
+        },
+        "captureErrors": {},
+        "designator": "R1",
+        "layer": 1,
+        "locked": false,
+        "manufacturerId": "0402 ±5% 220Ω",
+        "name": "={Value}",
+        "primitiveId": "b0070ea40410ec6f",
+        "rotation": 0,
+        "supplierId": "C2889365",
+        "uniqueId": "gge4",
+        "x": 440.01300000000003,
+        "y": -476.4954
+      },
+      {
+        "addIntoBom": true,
+        "availability": {
+          "bbox": "not-requested",
+          "pads": "not-requested"
+        },
+        "captureErrors": {},
+        "designator": "R2",
+        "layer": 1,
+        "locked": false,
+        "manufacturerId": "0402 ±5% 220Ω",
+        "name": "={Value}",
+        "primitiveId": "e9397ec9dd147b49",
+        "rotation": 0,
+        "supplierId": "C2889365",
+        "uniqueId": "gge5",
+        "x": 440.01300000000003,
+        "y": -272.7174
+      },
+      {
+        "addIntoBom": true,
+        "availability": {
+          "bbox": "not-requested",
+          "pads": "not-requested"
+        },
+        "captureErrors": {},
+        "designator": "SW1",
+        "layer": 1,
+        "locked": false,
+        "manufacturerId": "贴片按键ANJIAN_2PIN",
+        "name": "={Manufacturer Part}",
+        "primitiveId": "497f4cf91abc9dd5",
+        "rotation": 0,
+        "supplierId": "C9900015641",
+        "uniqueId": "gge8",
+        "x": 875.2275,
+        "y": -476.4954
+      },
+      {
+        "addIntoBom": true,
+        "availability": {
+          "bbox": "not-requested",
+          "pads": "not-requested"
+        },
+        "captureErrors": {},
+        "designator": "SW2",
+        "layer": 1,
+        "locked": false,
+        "manufacturerId": "贴片按键ANJIAN_2PIN",
+        "name": "={Manufacturer Part}",
+        "primitiveId": "50127e06e336ba3b",
+        "rotation": 0,
+        "supplierId": "C9900015641",
+        "uniqueId": "gge9",
+        "x": 875.2275,
+        "y": -272.7174
+      }
+    ],
+    "count": 9,
+    "coverage": {
+      "bbox": {
+        "available": 0,
+        "notRequested": 9,
+        "requested": false,
+        "unavailable": 0
+      },
+      "pads": {
+        "available": 0,
+        "failed": 0,
+        "geometryAvailable": 0,
+        "geometryUnavailable": 0,
+        "notRequested": 9,
+        "observed": 0,
+        "requested": false,
+        "serialized": 0,
+        "unavailable": 0
+      }
+    },
+    "incomplete": false,
+    "partial": false
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 253,
+  "seqAbandoned": 0
+}

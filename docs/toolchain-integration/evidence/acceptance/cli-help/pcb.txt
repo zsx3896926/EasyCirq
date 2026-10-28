@@ -1,0 +1,132 @@
+PCB operations
+
+Usage:
+  zhigou pcb [flags]
+  zhigou pcb [command]
+
+Available Commands:
+  3d                   Inspect and adjust component 3D models on the active PCB
+  add-component        Place + connect ONE footprint on the PCB (the working alternative to import-changes)
+  align                Align components by edge/center (left|right|top|bottom|centerX|centerY)
+  antenna-keepout      Auto-generate the all-layer no-copper keep-out over each RF/antenna part's antenna end
+  arrange              Coarse auto-layout SEED: cluster by shared nets, or pack a grid
+  auto-place           Module-aware auto placement: pull each satellite (cap/R/LED) to the chip pin it connects to
+  autoroute            Auto-route the active PCB with the official EasyEDA router (or an external engine via --router)
+  beautify             Round sharp track corners into arcs (走线美化) on the active PCB
+  board-info           Read the current Board (schematic↔PCB linkage) + PCB info
+  check                DFM audit: acute angles / dangling copper / bad vias / neck-down / 3W coupling (read-only)
+  clear                One-shot PCB reset: components + routing + copper + regions + silk (keeps locked primitives & the board outline)
+  clear-routing        Native clearRouting (@alpha — may be unavailable; prefer rip-up)
+  config               Read and configure real PCB design rules (配置设置)
+  delete               Delete PCB component primitives by id
+  diff-pair            Differential pair constraints (create/list/rename/delete)
+  distribute           Evenly space component centers along an axis (x|y)
+  doc-delete           Delete one exact, unbound PCB document and verify it is gone (no undo)
+  docs                 List PCB documents in the current project (uuid + name)
+  drc                  Run PCB DRC and return normalized violations
+  drc-rules            Read the active PCB's DRC rule configuration without running a check
+  drc-rules-set        Set full PCB rules from JSON, or raise only the pour clearance
+  dump                 Dump the board's read-only geometry to a self-contained JSON snapshot
+  enclosure            Generate a printable two-part enclosure (STL) from a board readback (offline)
+  eq-group             Equal-length net group constraints (create/list/add/delete)
+  escape-plan          Jointly reserve measured pad escape paths offline (no editor writes)
+  export-3d            Export real PCB OBJ/STEP with version-bound readbacks and file integrity checks
+  export-dsn           Export the active PCB as a Specctra DSN (autorouter input)
+  fill                 Net-bound filled region (填充区域 / 异形大块铜): create / list / delete
+  floorplan            Plan ordered functional bands from the S0 signal flow (read-only)
+  grid-snap            Snap component anchors to a grid (PCB data units, mil-scale)
+  group                Persistent VIRTUAL component groups on the active PCB (mode=virtual — not EasyEDA UI groups)
+  image                Manage embedded reference pictures on PCB document layer 13
+  import-autoroute     Import a routed result (Specctra .ses / autoroute .json) into the active PCB
+  import-changes       Sync the schematic netlist/components into the active PCB
+  layer-set            Switch the active/edit PCB layer (id|name|top|bottom|inner1)
+  layer-visibility     Show/hide/focus PCB layers (preset or explicit show/hide)
+  layers               List layers of the active PCB (+ current layer, copper count)
+  layout               Offline PCB placement/routing coordination
+  layout-lint          Score PCB placement quality + predict routability (ratsnest crossings)
+  layout-plan          Generate measured module placement candidates offline (no editor writes)
+  layout-score         Score placement quality across 9 dimensions, with per-component attribution
+  list                 List placed components/footprints on the active PCB
+  lock                 Lock/unlock PCB components (batch, readback-verified)
+  modify               Lay out a PCB component: move/rotate/flip layer/lock/designator
+  module-check         Verify a routed module against fresh before/after copper snapshots and apply journal
+  module-owned         Recover exact old module object ownership offline (no editor writes)
+  mount-holes          Mill M3 corner clearance cutouts (no library component is imported)
+  move                 Translate components by a relative (dx, dy) offset
+  neckdown-plan        Plan narrowing track ends wider than the pad they enter (offline; emits an apply playbook)
+  net-class            Inspect and create persisted EasyEDA PCB net classes
+  net-classes          Print the net-class → spec track-width ladder (signal/power-branch/power-trunk/high-current/gnd)
+  net-path             Prove a pad-to-pad path through listed tracks/arcs/vias (read-only; pours excluded)
+  nets                 List nets on the active PCB (name, length, color)
+  new-board            Create a NEW board (板) with a fresh empty PCB page, bound to an UNBOUND schematic
+  origin               Read or set the PCB canvas/display origin (does not move geometry)
+  outline-clear        Remove the current board outline (BOARD_OUTLINE layer)
+  outline-fit          Resize the board outline to hug the placed parts + a margin (fix low utilization)
+  outline-get          Read the board outline, including true center-line dimensions and rendered bbox
+  outline-round        Set a rounded-rectangle board outline (圆角板框)
+  outline-set          Set the board outline from a closed polygon of points (mil, y-up)
+  place-constrained    Tiered placement: edge-must parts (connectors/module/IPEX) → board edge + locked, then legalize the rest
+  pour                 Create a copper pour (铺铜) from a closed polygon, bound to a net (usually GND)
+  pour-clean           Remove netless copper pours (net:"" dead copper — see `pcb check` netless-pour)
+  pour-delete          Delete copper pour regions by primitiveId
+  pour-fit             Auto-size a GND/power pour to the board outline, inset from the edge
+  pour-list            List copper pours (铺铜), optionally by net
+  pour-rebuild         Re-pour (recompute) all pours after layout/routing changes
+  poured-list          List materialized copper after pour rebuild (exact polygon sources)
+  power-planes         4-layer power distribution: GND 内电层 + power inner plane + via-stitch (fixes 2-layer pour conflict)
+  power-pour           2-layer power distribution: pour GND + each rail's local copper (电源走铺铜块, not thin tracks)
+  refine               Score-driven placement refinement with per-step rollback (dry-run by default)
+  region               Keep-out / rule regions (禁止区域): create / list / delete
+  report               Read-only design report: per-net length, net-class totals, diff-pair skew, equal-length spread
+  rip-up               Rip up routing (delete tracks+vias); --net to scope, omit = all. Outline/locked are safe
+  route                Offline single-layer path solving and independent checking
+  route-critical       P7.0 critical nets first: power copper → diff pairs routed+measured → locked (issue #127)
+  route-short          Self-route the short, clear hops: per-net MST, L-shaped tracks on the pads' layer
+  save                 Save the active PCB document to disk
+  silk-add             Add a free silkscreen string (board marking / credit / note) with config
+  silk-align           Place component designators (位号) and verify measured collisions
+  silk-import-svg      Import an SVG logo/artwork as a FILLED silkscreen graphic
+  silk-label-pads      Label component pads with pin numbers / net names
+  silk-netnames        Auto-generate network-name silkscreen labels in a zone
+  silk-plan            Plan designator positions offline with real text extents and up to two orientations (emits an apply playbook)
+  silk-set             Batch-adjust existing silk: position / rotation / size / text, or align to a reference
+  silk-zone-outline    Auto-draw grouped orthogonal functional-zone outlines on silkscreen
+  slot                 Board cutout / slot (挖槽) — a MULTI-layer fill that mills a hole
+  snapshot             Capture the active PCB canvas as a PNG artifact
+  stackup              Board stackup: copper layer count + inner-layer types (signal/plane)
+  stage                Deprecated PCB checklist records: status / confirm-layout / confirm-outline / reset
+  stage-snapshot       Capture a recording/demo STAGE: board-fitted viewport PNG + data bundle, verified PNG, capture identity and hashed data
+  sync-attrs           Backfill PCB components' empty attribute values from the schematic (器件标准化字段)
+  sync-designators     Repair placeholder PCB designators (U? / C?) from the schematic, matched by uniqueId
+  teardrop-delete-plan 规划线条形泪滴的删除（离线，输出 typed apply 剧本）
+  teardrop-modify-plan 规划线条形泪滴的尺寸修改（离线，输出 typed apply 剧本）
+  teardrop-plan        Plan line-shaped teardrops at track→pad entries (offline; emits an apply playbook)
+  track                Create a copper track (导线) on a layer between two points (mil, y-up)
+  track-delete         Delete specific copper tracks by primitiveId (rip-up is net-scoped; this is surgical)
+  track-list           List copper tracks (导线), optionally by net/layer
+  track-lock           Lock/unlock routed copper (tracks/vias/fills) so the native router + pour-rebuild leave it alone
+  via                  Place a via (过孔) at (x,y) with hole + outer diameter (mil, y-up)
+  via-bond             Assign netless footprint-embedded vias (EPAD thermal vias) the net of the pad they sit in
+  via-delete           Delete specific vias by primitiveId (rip-up is net-scoped; this is surgical)
+  via-fence            Place a perimeter-only via fence around a rectangle
+  via-hop              Route a layer hop: stub→via→hop-track→via→stub (optional bond fills)
+  via-list             List vias (过孔), optionally by net
+  via-stitch           Place a grid of net vias in a rectangle (thermal vias / GND stitching)
+  view-filter          Read PCB canvas filter state (component-attribute write is unsupported)
+  view-side            Switch the PCB view to the top or bottom side (for snapshots)
+  zones                Functional zone claims (S0 modules[].zone → PCB, issue #126): set / status / clear
+
+Flags:
+  -h, --help            help for pcb
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "zhigou pcb [command] --help" for more information about a command.
+

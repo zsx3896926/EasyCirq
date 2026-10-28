@@ -1,7 +1,7 @@
 """Tests for the observation work package (capability probe + contract + cache).
 
 Every test injects a fake runner with the same signature as ``pcb_cli.run``.
-No test resolves ``easyeda`` through PATH, opens a socket or writes outside a
+No test resolves ``zhigou`` through PATH, opens a socket or writes outside a
 temporary directory.
 """
 from __future__ import annotations
@@ -108,7 +108,7 @@ SCH_DRC = {'passed': True, 'nativePassed': True, 'strict': False, 'fatal': 0,
 
 def record(argv, *, exit=0, payload=None, stdout='', stderr='', error=None):
     return {
-        'argv': ['easyeda'] + list(argv),
+        'argv': ['zhigou'] + list(argv),
         'exit': exit,
         'ok': bool(exit == 0 and isinstance(payload, dict) and
                    payload.get('ok') is not False),
@@ -207,7 +207,7 @@ class FakeHost:
             {'uuid': self.pcb_doc, 'type': 'pcb', 'name': 'PCB1'},
         ]
 
-    def __call__(self, args, *, easyeda=None, timeout=120, cwd=None, env=None):
+    def __call__(self, args, *, zhigou=None, timeout=120, cwd=None, env=None):
         args = [str(item) for item in args]
         self.calls.append(args)
         label = self._label(args)
@@ -232,7 +232,7 @@ class FakeHost:
             return record(args, stdout='not json at all')
 
         if label == 'version':
-            return record(args, stdout='easyeda-agent v1.15.0-fake')
+            return record(args, stdout='zhigou-agent v1.15.0-fake')
         if label == 'project-info':
             self.info_calls += 1
             project = self.project

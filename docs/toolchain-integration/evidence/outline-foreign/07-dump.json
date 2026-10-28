@@ -1,0 +1,398 @@
+{
+  "components": [
+    {
+      "primitiveId": "50806a65edafeece",
+      "uniqueId": "gge1",
+      "designator": "SW1",
+      "name": "={Manufacturer Part}",
+      "device": "YTS1C0172BWJ00",
+      "layer": 1,
+      "x": 137.796,
+      "y": -252.9539,
+      "rotation": 0,
+      "bbox": {
+        "minX": -1.7763568394002505e-14,
+        "minY": -334.72790000000003,
+        "maxX": 275.592,
+        "maxY": -196.8504
+      },
+      "pads": [
+        {
+          "primitiveId": "50806a65edafeecee14",
+          "padNumber": "4",
+          "net": "",
+          "layer": 1,
+          "x": 263.8,
+          "y": -287.4,
+          "width": 23.6,
+          "height": 31.5,
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            23.6,
+            31.5,
+            0
+          ],
+          "specialPad": [],
+          "metallization": true,
+          "specialPadPresent": false,
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          }
+        },
+        {
+          "primitiveId": "50806a65edafeecee15",
+          "padNumber": "3",
+          "net": "",
+          "layer": 1,
+          "x": 11.8,
+          "y": -287.4,
+          "width": 23.6,
+          "height": 31.5,
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            23.6,
+            31.5,
+            0
+          ],
+          "specialPad": [],
+          "metallization": true,
+          "specialPadPresent": false,
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          }
+        },
+        {
+          "primitiveId": "50806a65edafeecee16",
+          "padNumber": "2",
+          "net": "",
+          "layer": 1,
+          "x": 227.4,
+          "y": -218.5,
+          "width": 57.1,
+          "height": 43.3,
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            57.1,
+            43.3,
+            0
+          ],
+          "specialPad": [],
+          "metallization": true,
+          "specialPadPresent": false,
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          }
+        },
+        {
+          "primitiveId": "50806a65edafeecee17",
+          "padNumber": "1",
+          "net": "",
+          "layer": 1,
+          "x": 48.2,
+          "y": -218.5,
+          "width": 57.1,
+          "height": 43.3,
+          "rotation": 0,
+          "shape": [
+            "RECT",
+            57.1,
+            43.3,
+            0
+          ],
+          "specialPad": [],
+          "metallization": true,
+          "specialPadPresent": false,
+          "availability": {
+            "hole": "available",
+            "shape": "available",
+            "specialPad": "available"
+          }
+        }
+      ],
+      "availability": {
+        "bbox": "available",
+        "pads": "available"
+      }
+    }
+  ],
+  "componentsAvailability": "available",
+  "silk": [
+    {
+      "ID": "50806a65edafeecee20",
+      "Kind": "attribute",
+      "Key": "Footprint",
+      "Text": "SW-SMD_2P-YTS1C0172B",
+      "Layer": 3,
+      "Mirror": false,
+      "Reverse": false,
+      "Rotation": 0,
+      "FontSize": 45,
+      "CompID": "50806a65edafeece",
+      "CompLayer": 1,
+      "X": 0,
+      "Y": 0,
+      "BBox": null,
+      "fontFamily": "default",
+      "lineWidth": 6,
+      "lineWidthAvailability": "available",
+      "lineWidthSource": "getState_LineWidth",
+      "visible": false,
+      "visibilityAvailability": "available",
+      "visibilitySource": "getState_ValueVisible",
+      "keyVisible": false,
+      "keyVisibilityAvailability": "available",
+      "keyVisibilitySource": "getState_KeyVisible"
+    },
+    {
+      "ID": "50806a65edafeecee21",
+      "Kind": "attribute",
+      "Key": "Designator",
+      "Text": "SW1",
+      "Layer": 3,
+      "Mirror": false,
+      "Reverse": false,
+      "Rotation": 0,
+      "FontSize": 45,
+      "CompID": "50806a65edafeece",
+      "CompLayer": 1,
+      "X": 0,
+      "Y": -191.8504,
+      "BBox": {
+        "MinX": 0,
+        "MinY": -191.8504,
+        "MaxX": 77.2,
+        "MaxY": -146.8504
+      },
+      "fontFamily": "default",
+      "lineWidth": 6,
+      "lineWidthAvailability": "available",
+      "lineWidthSource": "getState_LineWidth",
+      "visible": true,
+      "visibilityAvailability": "available",
+      "visibilitySource": "getState_ValueVisible",
+      "keyVisible": false,
+      "keyVisibilityAvailability": "available",
+      "keyVisibilitySource": "getState_KeyVisible"
+    },
+    {
+      "ID": "50806a65edafeecee0",
+      "Kind": "attribute",
+      "Key": "Device",
+      "Text": "YTS1C0172BWJ00",
+      "Layer": 3,
+      "Mirror": false,
+      "Reverse": false,
+      "Rotation": 0,
+      "FontSize": 45,
+      "CompID": "50806a65edafeece",
+      "CompLayer": 1,
+      "X": 0,
+      "Y": 0,
+      "BBox": null,
+      "fontFamily": "default",
+      "lineWidth": 6,
+      "lineWidthAvailability": "available",
+      "lineWidthSource": "getState_LineWidth",
+      "visible": false,
+      "visibilityAvailability": "available",
+      "visibilitySource": "getState_ValueVisible",
+      "keyVisible": false,
+      "keyVisibilityAvailability": "available",
+      "keyVisibilitySource": "getState_KeyVisible"
+    }
+  ],
+  "copperLayers": 2,
+  "rules": {
+    "clearanceMil": 5.98,
+    "clearanceTrackTrackMil": 4.02,
+    "trackWidthMil": 10,
+    "powerWidthMil": 20,
+    "trackWidthMinMil": 5,
+    "viaDrillMil": 12.01,
+    "viaDiameterMil": 24.02,
+    "copperToEdgeMil": 10,
+    "source": "live"
+  },
+  "routedLines": 0,
+  "partial": [
+    "no board outline drawn yet — edge/off-board dimensions skipped (draw one with `pcb outline-round` / `pcb outline-set`)"
+  ],
+  "capturedAt": "2026-10-27T17:33:35.8431925Z",
+  "semanticSha256": "39d24e57033e1c148c5ee7c05f14e2409328b6f30eca59609eb7f4fefef16df2",
+  "capture": {
+    "windowId": "d2d502e2-fb5c-4e02-b8f3-07f46d992a1e",
+    "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "projectName": "outline-foreign-repro-20261028-013032",
+    "documentUuid": "42142376b58c0e80",
+    "documentType": "pcb",
+    "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2",
+    "startedAt": "2026-10-27T17:33:35.8431925Z",
+    "completedAt": "2026-10-27T17:33:35.967361Z",
+    "consistency": "sequential-response-boundaries",
+    "identityVerified": true,
+    "requests": [
+      {
+        "action": "pcb.components.list",
+        "requestId": "req_4",
+        "windowId": "d2d502e2-fb5c-4e02-b8f3-07f46d992a1e",
+        "startedAt": "2026-10-27T17:33:35.8431925Z",
+        "completedAt": "2026-10-27T17:33:35.8796675Z",
+        "responseCreatedAt": "2026-10-27T17:33:35.876487Z",
+        "resultSha256": "015d791641b8c9f9a6b4657c1c8b099e536dd9831522681f29157ef326f28639",
+        "context": {
+          "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+          "projectName": "outline-foreign-repro-20261028-013032",
+          "documentUuid": "42142376b58c0e80",
+          "documentType": "pcb",
+          "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 59,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.outline.get",
+        "requestId": "req_5",
+        "windowId": "d2d502e2-fb5c-4e02-b8f3-07f46d992a1e",
+        "startedAt": "2026-10-27T17:33:35.8796675Z",
+        "completedAt": "2026-10-27T17:33:35.8864203Z",
+        "responseCreatedAt": "2026-10-27T17:33:35.8848545Z",
+        "resultSha256": "a26839ba69eb2a6baa0ebe1e126d00bb7e1df6fe0691581e21e8a2479f1fe8e9",
+        "context": {
+          "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+          "projectName": "outline-foreign-repro-20261028-013032",
+          "documentUuid": "42142376b58c0e80",
+          "documentType": "pcb",
+          "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 60,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.line.list",
+        "requestId": "req_6",
+        "windowId": "d2d502e2-fb5c-4e02-b8f3-07f46d992a1e",
+        "startedAt": "2026-10-27T17:33:35.8864203Z",
+        "completedAt": "2026-10-27T17:33:35.8916969Z",
+        "responseCreatedAt": "2026-10-27T17:33:35.8906535Z",
+        "resultSha256": "3e1cbb7e2283b7c0baef63908866616c731413c4f78e606b35342f216a671364",
+        "context": {
+          "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+          "projectName": "outline-foreign-repro-20261028-013032",
+          "documentUuid": "42142376b58c0e80",
+          "documentType": "pcb",
+          "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 61,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.silk.list",
+        "requestId": "req_7",
+        "windowId": "d2d502e2-fb5c-4e02-b8f3-07f46d992a1e",
+        "startedAt": "2026-10-27T17:33:35.8916969Z",
+        "completedAt": "2026-10-27T17:33:35.9024704Z",
+        "responseCreatedAt": "2026-10-27T17:33:35.8997779Z",
+        "resultSha256": "c60788c6fd91e52736120efa7d6897fb41f6c5a64aacd77a062c1e40c793182f",
+        "context": {
+          "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+          "projectName": "outline-foreign-repro-20261028-013032",
+          "documentUuid": "42142376b58c0e80",
+          "documentType": "pcb",
+          "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 62,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.drc.rules",
+        "requestId": "req_8",
+        "windowId": "d2d502e2-fb5c-4e02-b8f3-07f46d992a1e",
+        "startedAt": "2026-10-27T17:33:35.9024704Z",
+        "completedAt": "2026-10-27T17:33:35.9155272Z",
+        "responseCreatedAt": "2026-10-27T17:33:35.9110198Z",
+        "resultSha256": "dbc085c8494d4e445af9d260128a36f285aa8cd789150774ccb5d6eb7946c02f",
+        "context": {
+          "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+          "projectName": "outline-foreign-repro-20261028-013032",
+          "documentUuid": "42142376b58c0e80",
+          "documentType": "pcb",
+          "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 63,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      },
+      {
+        "action": "pcb.layers.list",
+        "requestId": "req_9",
+        "windowId": "d2d502e2-fb5c-4e02-b8f3-07f46d992a1e",
+        "startedAt": "2026-10-27T17:33:35.9155272Z",
+        "completedAt": "2026-10-27T17:33:35.967361Z",
+        "responseCreatedAt": "2026-10-27T17:33:35.9635022Z",
+        "resultSha256": "82788987d9e99a55276ecff8271586968a7ce280231693d701c7a748c4ccc9a1",
+        "context": {
+          "projectUuid": "e1aeaefbd5f846d1968e9c23dcf2fef2",
+          "projectName": "outline-foreign-repro-20261028-013032",
+          "documentUuid": "42142376b58c0e80",
+          "documentType": "pcb",
+          "tabId": "42142376b58c0e80@e1aeaefbd5f846d1968e9c23dcf2fef2"
+        },
+        "sequence": {
+          "Known": true,
+          "Seq": 64,
+          "SeqAbandoned": 0,
+          "Unordered": false,
+          "AbandonedIDs": null
+        },
+        "status": "available"
+      }
+    ]
+  },
+  "availability": {
+    "components": "available",
+    "copper": "not-requested",
+    "layers": "available",
+    "outline": "unknown",
+    "routedLines": "available",
+    "rules": "available",
+    "silk": "available"
+  }
+}

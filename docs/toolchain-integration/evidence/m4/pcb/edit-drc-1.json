@@ -1,0 +1,379 @@
+{
+  "id": "req_473",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:28:35.241366Z",
+  "ok": true,
+  "result": {
+    "passed": false,
+    "violations": [
+      {
+        "count": 2,
+        "list": [
+          {
+            "count": 2,
+            "list": [
+              {
+                "errorObjType": "Copper Region(Filled) to SMD Pad",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err0",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "bad74267bbb65498e19",
+                    "obj2Suffix": "(LED1_A): D1_2",
+                    "obj2Type": "SMD Pad",
+                    "position": {
+                      "x": 9.299299999999999,
+                      "y": 32.33505
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err0",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_A): D1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "bad74267bbb65498e19"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to SMD Pad",
+                "pos": {
+                  "x": 9.299299999999999,
+                  "y": 32.33505
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              },
+              {
+                "errorObjType": "Copper Region(Filled) to SMD Pad",
+                "errorType": "Clearance Error",
+                "explanation": {
+                  "errData": {
+                    "clearance": 1,
+                    "errorType": "Safe Spacing",
+                    "globalIndex": "err1",
+                    "isInSameComponent": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "minDistance": 0,
+                    "name": "copperThickness1oz",
+                    "obj1": "ffab33dbe9a3818b",
+                    "obj1Suffix": "(GND): e1e1",
+                    "obj1Type": "Copper Region(Filled)",
+                    "obj2": "bad74267bbb65498e20",
+                    "obj2Suffix": "(LED1_K): D1_1",
+                    "obj2Type": "SMD Pad",
+                    "position": {
+                      "x": 0.6372999999999998,
+                      "y": 32.33505
+                    }
+                  },
+                  "param": {
+                    "minDistance": "0mil",
+                    "obj1": "Object 1",
+                    "obj2": "object 2",
+                    "shouldBe": ">= 10mil",
+                    "type": "ClearanceError"
+                  },
+                  "str": "{obj1} to {obj2} distance is {minDistance}, should be {shouldBe}"
+                },
+                "globalIndex": "err1",
+                "layer": "Top Layer",
+                "obj1": {
+                  "suffix": "(GND): e1e1",
+                  "typeName": "Copper Region(Filled)"
+                },
+                "obj2": {
+                  "suffix": "(LED1_K): D1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "ffab33dbe9a3818b",
+                  "bad74267bbb65498e20"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Clearance Error|_|Copper Region(Filled) to SMD Pad",
+                "pos": {
+                  "x": 0.6372999999999998,
+                  "y": 32.33505
+                },
+                "ruleName": "copperThickness1oz",
+                "ruleTypeName": "Safe Spacing",
+                "visible": true
+              }
+            ],
+            "name": "Copper Region(Filled) to SMD Pad",
+            "title": [
+              "Copper Region(Filled)",
+              "to",
+              "SMD Pad",
+              "(2)"
+            ],
+            "visible": true
+          }
+        ],
+        "name": "Clearance Error",
+        "title": [
+          "Clearance Error",
+          "(2)"
+        ],
+        "visible": true
+      },
+      {
+        "count": 4,
+        "list": [
+          {
+            "count": 2,
+            "doNotTranslate": true,
+            "list": [
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err2",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED1_K",
+                    "obj1": "bad74267bbb65498e20",
+                    "obj1Suffix": "(LED1_K): D1_1",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": -1.3312000000000004,
+                      "y": 29.8744
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err2",
+                "isFree": false,
+                "net": "LED1_K",
+                "obj1": {
+                  "suffix": "(LED1_K): D1_1",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "bad74267bbb65498e20"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED1_K",
+                "pos": {
+                  "x": -1.3312000000000004,
+                  "y": 29.8744
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "Track",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err3",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED1_K",
+                    "obj1": "d461a7a7e3a3a4e9",
+                    "obj1Suffix": "(LED1_K): e19",
+                    "obj1Type": "Track",
+                    "position": {
+                      "x": 0.034499999999999975,
+                      "y": 21.999940000000002
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err3",
+                "isFree": false,
+                "net": "LED1_K",
+                "obj1": {
+                  "suffix": "(LED1_K): e19",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "d461a7a7e3a3a4e9"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED1_K",
+                "pos": {
+                  "x": 0.034499999999999975,
+                  "y": 21.999940000000002
+                },
+                "ruleName": "Common",
+                "visible": true
+              }
+            ],
+            "name": "LED1_K",
+            "title": "LED1_K (2)",
+            "visible": true
+          },
+          {
+            "count": 2,
+            "doNotTranslate": true,
+            "list": [
+              {
+                "errorObjType": "SMD Pad",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err4",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED1_A",
+                    "obj1": "bad74267bbb65498e19",
+                    "obj1Suffix": "(LED1_A): D1_2",
+                    "obj1Type": "SMD Pad",
+                    "position": {
+                      "x": 7.330799999999999,
+                      "y": 29.8744
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err4",
+                "isFree": false,
+                "net": "LED1_A",
+                "obj1": {
+                  "suffix": "(LED1_A): D1_2",
+                  "typeName": "SMD Pad"
+                },
+                "objs": [
+                  "bad74267bbb65498e19"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED1_A",
+                "pos": {
+                  "x": 7.330799999999999,
+                  "y": 29.8744
+                },
+                "ruleName": "Common",
+                "visible": true
+              },
+              {
+                "errorObjType": "Track",
+                "errorType": "Connection Error",
+                "explanation": {
+                  "errData": {
+                    "errorType": "No Connection",
+                    "globalIndex": "err5",
+                    "isFree": false,
+                    "layerIds": [
+                      1
+                    ],
+                    "name": "Common",
+                    "net": "LED1_A",
+                    "obj1": "5fc80957f4abea13",
+                    "obj1Suffix": "(LED1_A): e25",
+                    "obj1Type": "Track",
+                    "position": {
+                      "x": 5.9649849999999995,
+                      "y": 21.999940000000002
+                    }
+                  },
+                  "param": {
+                    "obj1": "Object 1",
+                    "type": "ConnectError"
+                  },
+                  "str": "{obj1} is disconnected from other objects of the same network"
+                },
+                "globalIndex": "err5",
+                "isFree": false,
+                "net": "LED1_A",
+                "obj1": {
+                  "suffix": "(LED1_A): e25",
+                  "typeName": "Track"
+                },
+                "objs": [
+                  "5fc80957f4abea13"
+                ],
+                "parentId": "DRCTab|_|Errors|_|Connection Error|_|LED1_A",
+                "pos": {
+                  "x": 5.9649849999999995,
+                  "y": 21.999940000000002
+                },
+                "ruleName": "Common",
+                "visible": true
+              }
+            ],
+            "name": "LED1_A",
+            "title": "LED1_A (2)",
+            "visible": true
+          }
+        ],
+        "name": "Connection Error",
+        "title": [
+          "Connection Error",
+          "(4)"
+        ],
+        "visible": true
+      }
+    ]
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "seq": 413,
+  "seqAbandoned": 0
+}

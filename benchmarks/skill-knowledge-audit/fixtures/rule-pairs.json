@@ -24,12 +24,12 @@
       "a": {
         "text": "- 局部连接优先直接画线；只有跨区、跨页或长距离才用标签。为减少一条线而增加一串标签，通常让拓扑更难读。",
         "source": "design-hardware/references/schematic-layout.md",
-        "line": 74
+        "line": 81
       },
       "b": {
         "text": "物理脚号顺序不等于原理图阅读顺序。优先使用可信库中已核对的功能分组符号/单元；不能为了好看直接改库脚号、交换引脚或临时重画芯片。既有符号难以直连时用短引线与明确标签化解，不牺牲pin-pad映射。",
         "source": "design-hardware/references/schematic-layout.md",
-        "line": 54
+        "line": 61
       },
       "expected": "default_with_exception",
       "rationale": "a 把“局部直连”设为默认、标签限于跨区/跨页/长距离；b 给出“既有符号难以直连”这一例外，允许短引线+明确标签。b 的例外条件覆盖 a 的局部场景，属于默认+例外，不是相反义务。",
@@ -46,7 +46,7 @@
       "b": {
         "text": "**豁免规则：** score、crossings、overlap/off-board/short 和板框不可豁免；安装孔、连接器逃逸、自动摆放对比、冻结时间可豁免并写明剩余风险。布局冻结后若为了布线移动器件，必须先重开 G3 并作废受影响布线。",
         "source": "design-hardware/references/design-gates.md",
-        "line": 153
+        "line": 157
       },
       "expected": "different_stage",
       "rationale": "a 规定一般任务中“默认继续、只在用户明确要求时在检查点等待”的评审节奏；b 规定“布局冻结后为布线移动器件必须先重开 G3 并作废受影响布线”的阶段顺序。作用阶段词不同（一般检查点 vs 布局冻结后变更），不共享同一触发阶段，属不同阶段而非冲突。",
@@ -124,8 +124,8 @@
       "category": "technical_limit",
       "a": {
         "text": "Gerber、钻孔、CPL 在 easyeda v1.14.0 没有 CLI 或 typed action（官方 `eda.pcb_ManufactureData.getGerberFile` 仍为 beta 且未包装）",
-        "source": "design-hardware/references/design-gates.md",
-        "line": 232
+        "source": "constructed: original quote rewritten by the zhigou migration (2026-10-28)",
+        "line": 234
       },
       "b": {
         "text": "由正在运行的Agent持续推进到任务范围内的真实成果",
@@ -164,7 +164,7 @@
       "b": {
         "text": "简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。",
         "source": "design-hardware/SKILL.md",
-        "line": 130
+        "line": 154
       },
       "expected": "code_example",
       "rationale": "a 是 `text` 围栏中的示例命令，演示多模块合批调用形状；b 是选择路径规则。示例命令不是“必须拆模块”的规则，条文与示例的“看似相反”由代码示例身份消解，归 code_example。",
@@ -176,12 +176,12 @@
       "a": {
         "text": "局部连接优先直接画线；只有跨区、跨页或长距离才用标签。",
         "source": "design-hardware/references/schematic-layout.md",
-        "line": 74
+        "line": 81
       },
       "b": {
         "text": "局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。",
         "source": "design-hardware/SKILL.md",
-        "line": 120
+        "line": 144
       },
       "expected": "coexist",
       "rationale": "两处都规定“局部直连、跨区/跨页才用标签/端口”；差异只是表达介质（标签 vs 端口）与措辞，方向一致。属重复声明式共存，不是“直连 vs 标签”的真冲突。",
@@ -209,13 +209,13 @@
       "category": "different_scope",
       "a": {
         "text": "新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 统一检查本 Skill 与 easyeda-agent 的 CLI/Skill/daemon/Connector（24 小时缓存）",
-        "source": "design-hardware/SKILL.md",
-        "line": 15
+        "source": "constructed: original quote rewritten by the zhigou migration (2026-10-28)",
+        "line": 4
       },
       "b": {
         "text": "纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。",
         "source": "design-hardware/SKILL.md",
-        "line": 104
+        "line": 106
       },
       "expected": "different_scope",
       "rationale": "a 针对“新硬件任务开始前（措辞为‘可用’，may）”，b 针对“纯方案/资料分析任务无需提前连接/安装/探测 EDA”。范围词不相交；即使场景重叠，a 只是可选检查而非义务，不构成相反义务。",
@@ -232,7 +232,7 @@
       "b": {
         "text": "- 缺少执行通道时仍可完成方案、计算或离线规划；明确列出未写入项，不把文本、JSON、图片或探针结果说成用户工程已完成。",
         "source": "design-hardware/SKILL.md",
-        "line": 112
+        "line": 132
       },
       "expected": "coexist",
       "rationale": "表面“缺证据→BLOCKED”对“缺少执行通道仍可继续”；两者方向一致：允许继续可独立完成的工作，同时不得把未做的检查写成通过。属 coexist，不是“严格检查 vs 必须继续”的冲突。",
@@ -248,8 +248,8 @@
       },
       "b": {
         "text": "用户只需说“把画板搭档和 EDA 执行器一起检查/更新”，Agent 负责依次执行，无需用户自己敲两套命令。",
-        "source": "design-hardware/references/installation-updates.md",
-        "line": 104
+        "source": "constructed: original quote rewritten by the zhigou migration (2026-10-28)",
+        "line": 11
       },
       "expected": "default_with_exception",
       "rationale": "b 看似“用户一说就执行更新”；a 用“仅当…且没有进行中的工程任务”限定前提并无条件覆盖 b 的触发场景。按契约第 4 条（一方含“仅当”且覆盖另一方）归 default_with_exception。",
@@ -261,7 +261,7 @@
       "a": {
         "text": "批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。",
         "source": "design-hardware/SKILL.md",
-        "line": 130
+        "line": 154
       },
       "b": {
         "text": "- save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。",

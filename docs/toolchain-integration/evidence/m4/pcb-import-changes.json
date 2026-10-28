@@ -1,0 +1,51 @@
+{
+  "id": "req_211",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:15:44.4346474Z",
+  "ok": true,
+  "result": {
+    "apiTimedOut": false,
+    "board": {
+      "name": "Board1",
+      "pcbUuid": "56a25fb38c54cb1b",
+      "schematicUuid": "9201ea63038ecfef"
+    },
+    "componentsAfter": 9,
+    "componentsBefore": -1,
+    "confirm": "applied",
+    "confirmationClickCount": 1,
+    "createdBoard": false,
+    "duplicateUniqueIds": [],
+    "identityInventoryAvailable": true,
+    "imported": true,
+    "noChanges": false,
+    "partial": false,
+    "reason": null,
+    "verified": true
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "ee9b284771dad29b",
+    "documentType": "schematic",
+    "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": false,
+  "mutationContextError": "handler-boundary documentUuid changed",
+  "warnings": [
+    "connector could not certify mutation/save document identity: handler-boundary documentUuid changed; autosave was not armed"
+  ],
+  "seq": 232,
+  "seqAbandoned": 0
+}

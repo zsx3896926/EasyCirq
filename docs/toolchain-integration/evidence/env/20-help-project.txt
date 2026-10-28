@@ -1,0 +1,31 @@
+===== easyeda project --help (exit=0) =====
+Read EasyEDA project and document context
+
+Usage:
+  easyeda project [flags]
+  easyeda project [command]
+
+Available Commands:
+  create        Create an EasyEDA project container through the official API
+  doc           Read active editor document and schematic page context
+  drawings      Package verified local drawing inputs without accessing EasyEDA
+  export        Export the active project as a native epro2 archive (no overwrite)
+  export-source Export the current project's original .epro2 file through the official read-only API
+  find          Find projects by exact friendly name without opening them
+  import        Import a native project archive as a NEW project (@beta importer; never overwrites)
+  info          Read current EasyEDA project information
+  open          Open a project by --project-uuid, or a legacy document by --uuid
+
+Flags:
+  -h, --help            help for project
+      --window string   EasyEDA window ID
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "60832-60841")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+
+Use "easyeda project [command] --help" for more information about a command.

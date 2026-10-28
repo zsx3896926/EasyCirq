@@ -1,0 +1,4 @@
+✓ POWER → left (3 part(s): C1,F1,J1)
+✓ CH1 → top (3 part(s): D1,R1,SW1)
+✓ CH2 → bottom (3 part(s): D2,R2,SW2)
+已记下 "zhigou-integrated-dual-button-led-20261027" 的分区认领 —— 3 个模块 / 9 件,按页(documentUuid)持久化;消费者只有 `sch autolayout --engine template`(布局前的落位目标格)。分区框与说明读的是**虚拟组**,不读这里;手工搭的页(没有虚拟组)才回落到它

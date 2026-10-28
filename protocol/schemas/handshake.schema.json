@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/zsx3896926/hardware-design-skill/protocol/schemas/handshake.schema.json",
+  "title": "handshake (daemon -> connector)",
+  "type": "object",
+  "required": [
+    "type",
+    "service"
+  ],
+  "properties": {
+    "type": {
+      "const": "handshake"
+    },
+    "service": {
+      "const": "zhigou-agent",
+      "description": "Connectors reject any other service, which is what keeps an upstream easyeda-agent daemon from being used."
+    },
+    "version": {
+      "type": "string",
+      "description": "daemon build version"
+    },
+    "wireVersion": {
+      "const": "v1",
+      "description": "envelope version spoken by this daemon"
+    }
+  },
+  "additionalProperties": true
+}

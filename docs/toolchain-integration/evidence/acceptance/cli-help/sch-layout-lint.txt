@@ -1,0 +1,60 @@
+Check component placement on the schematic for overlaps and tight spacing.
+
+Pulls every component's rendered extent (schematic.components.list --include-bbox)
+and runs these placement checks in Go:
+
+  • overlap          — two component bounding boxes intersect            → ERROR
+  • pin-coincidence  — two pins of DIFFERENT parts land on the same point → ERROR
+  • spacing          — bbox gap is below --min-gap (default 2.54mm)       → WARN
+  • off-grid         — part anchor is not on the 5-unit connection grid   → WARN
+
+Pin coincidence is an implicit short: any wire/stub through the shared point ties
+the two nets together, yet the bboxes may never touch (a small 2-pin part tucked
+against a large one), so bbox-only overlap detection misses it. Pins are compared
+across different components only; a symbol's own pins are expected to sit at fixed
+offsets. Use --pin-eps to treat near-coincident pins (within N mm) as errors too.
+
+Only real parts (componentType "part") are checked by default. The drawing
+sheet / title block (图框) spans the whole page, so including it would false-flag
+an overlap against nearly every component; netflag/netport/netlabel and other
+non-part primitives are likewise excluded. Pass --include-non-parts to score them
+too (e.g. to inspect the sheet bbox).
+
+This is the mechanical ground truth for the place→verify→adjust loop: run it
+after each placement stage, fix every ERROR (move/align/distribute), then re-run.
+Exits non-zero when any overlap is found, so it can gate a workflow. Pass
+--strict to also fail on tight spacing, off-grid anchors, zone violations, or
+components whose anchor/bbox/pin geometry was unavailable, malformed, or came
+from a legacy connector that cannot prove the pin read succeeded. When zone
+claims exist, --strict also fails if the active sheet is unavailable and the
+zone check could not be proven. Strict proof is per active page and real parts:
+combine it with neither --all-pages (inactive-page data is shallow) nor
+--include-non-parts (sheet/markers are not placement bodies).
+
+Usage:
+  zhigou sch layout-lint [flags]
+
+Examples:
+  zhigou sch layout-lint
+  zhigou sch layout-lint --strict
+  zhigou sch layout-lint --min-gap 5.08
+  zhigou sch layout-lint --all-pages --json
+
+Flags:
+      --all-pages doc switch   lint components across all schematic pages (WARNING: non-active pages return shallow data — components with no bbox are SKIPPED from overlap checks, not confirmed clear; use doc switch to that page for accurate linting)
+  -h, --help                   help for layout-lint
+      --include-non-parts      also lint non-part primitives (sheet/title-frame, netflag/netport/…); excluded by default
+      --json                   emit the report as JSON
+      --min-gap float          minimum gap between component bboxes in mm (closer = WARN) (default 2.54)
+      --pin-eps float          max distance in mm for two pins of DIFFERENT components to count as coincident (implicit short → ERROR); 0 = strict equality
+      --strict                 per-active-page proof: also fail on tight/off-grid/zone, invalid or unproven geometry, or unavailable configured zones (incompatible with --all-pages/--include-non-parts)
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

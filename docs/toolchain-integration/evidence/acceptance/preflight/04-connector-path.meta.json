@@ -1,0 +1,20 @@
+{
+  "id": "connector-path",
+  "title": "zhigou connector path (ships-with .eext)",
+  "stage": "preflight",
+  "command": [
+    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "connector",
+    "path"
+  ],
+  "status": "NOT RUN",
+  "exitCode": 0,
+  "durationMs": 54,
+  "generatedAt": "2026-10-27T13:43:17Z",
+  "sha256": {
+    "stdout": "e8f2935e730da43589a8c51bb6351df1c0779f47e531e97aaef00bdf227edbc0",
+    "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "json": "da919ca9e6da815d69dbe9400b96864d14628fa4d6a73d525d9ba806b74a0a28"
+  },
+  "timedOut": false
+}

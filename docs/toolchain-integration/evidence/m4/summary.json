@@ -1,0 +1,338 @@
+{
+  "schema": "zhigou-m4-acceptance-board/v1",
+  "project": "zhigou-integrated-dual-button-led-20261027",
+  "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+  "board": {
+    "name": "Board1",
+    "schematic": "Schematic1 (9201ea63038ecfef)",
+    "pcb": "PCB1 (56a25fb38c54cb1b)"
+  },
+  "schematic": {
+    "parts": 9,
+    "partList": {
+      "J1": "1x2P 2.54 header (5V input)",
+      "F1": "PTC resettable fuse 1.5A 1206",
+      "C1": "100nF 0603 decoupling",
+      "R1": "220R 0402 LED1 limit",
+      "R2": "220R 0402 LED2 limit",
+      "D1": "0805 LED (yellow-green) ch1",
+      "D2": "0805 LED (yellow-green) ch2",
+      "SW1": "2-pin tactile switch ch1",
+      "SW2": "2-pin tactile switch ch2"
+    },
+    "nets": {
+      "VIN": {
+        "expected": [
+          "F1.1",
+          "J1.1"
+        ],
+        "measured": [
+          "F1.1",
+          "J1.1"
+        ],
+        "match": true
+      },
+      "+5V": {
+        "expected": [
+          "C1.1",
+          "F1.2",
+          "R1.1",
+          "R2.1"
+        ],
+        "measured": [
+          "C1.1",
+          "F1.2",
+          "R1.1",
+          "R2.1"
+        ],
+        "match": true
+      },
+      "GND": {
+        "expected": [
+          "C1.2",
+          "J1.2",
+          "SW1.2",
+          "SW2.2"
+        ],
+        "measured": [
+          "C1.2",
+          "J1.2",
+          "SW1.2",
+          "SW2.2"
+        ],
+        "match": true
+      },
+      "LED1_A": {
+        "expected": [
+          "D1.2",
+          "R1.2"
+        ],
+        "measured": [
+          "D1.2",
+          "R1.2"
+        ],
+        "match": true
+      },
+      "LED1_K": {
+        "expected": [
+          "D1.1",
+          "SW1.1"
+        ],
+        "measured": [
+          "D1.1",
+          "SW1.1"
+        ],
+        "match": true
+      },
+      "LED2_A": {
+        "expected": [
+          "D2.2",
+          "R2.2"
+        ],
+        "measured": [
+          "D2.2",
+          "R2.2"
+        ],
+        "match": true
+      },
+      "LED2_K": {
+        "expected": [
+          "D2.1",
+          "SW2.1"
+        ],
+        "measured": [
+          "D2.1",
+          "SW2.1"
+        ],
+        "match": true
+      }
+    },
+    "floatingPins": 0,
+    "saveConfirmed": true,
+    "nativeDrc": {
+      "violations": 0,
+      "passed": true,
+      "evidence": "sch-drc.json"
+    },
+    "checkWarnings": [
+      "missing-partition (functional zone frames not drawn)",
+      "missing-titleblock (fixed: title block set)"
+    ],
+    "titleBlock": {
+      "Name": "Dual button LED (5V)",
+      "Drawed": "Zhigou AI",
+      "Description": "2-channel button-to-LED indicator, 5V in, PTC + 100nF"
+    },
+    "artifacts": {
+      "bomCsv": ".zhigou/artifacts/20261027-231442-schematic_bom-6763ffa4.csv",
+      "svg": ".zhigou/artifacts/20261027-231208-schematic_export-664e661f.svg",
+      "png": ".zhigou/artifacts/20261027-231445-schematic_export-bfee39bb.png (458081 B)"
+    }
+  },
+  "pcb": {
+    "sync": {
+      "imported": true,
+      "verified": true,
+      "components": 9,
+      "note": "handler-boundary identity not certifiable (documentUuid changed) and staleRisk raised; therefore save + doc reload + fresh dump were performed before reading back"
+    },
+    "freshFootprints": 9,
+    "footprints": [
+      "C1",
+      "D1",
+      "D2",
+      "F1",
+      "J1",
+      "R1",
+      "R2",
+      "SW1",
+      "SW2"
+    ],
+    "drc": {
+      "passed": true,
+      "violationCount": 0,
+      "evidence": "pcb/pcb-drc-poured.json"
+    },
+    "layoutAndRouting": "DONE (placement, official route, double-layer GND pour, fresh DRC pass)",
+    "placed": true,
+    "layoutLint": {
+      "score": 100,
+      "short": 0,
+      "overlap": 0,
+      "tight": 0,
+      "ratsnestMil": 628,
+      "evidence": "pcb/pcb-layout-lint2.json"
+    },
+    "outline": {
+      "bbox": [
+        -1293.448,
+        -400.867,
+        590.038,
+        400.867
+      ],
+      "sizeMil": [
+        1883.486,
+        801.734
+      ],
+      "marginMil": 100,
+      "evidence": "pcb/outline-after.json"
+    },
+    "routing": {
+      "engine": "official EasyEDA router",
+      "netsRouted": "6/6",
+      "tracks": 36,
+      "vias": 0,
+      "elapsedMs": 987,
+      "evidence": "pcb/pcb-autoroute.json"
+    },
+    "pour": {
+      "nets": [
+        "GND"
+      ],
+      "layers": [
+        1,
+        2
+      ],
+      "verified": true,
+      "evidence": [
+        "pcb/pour-top.json",
+        "pcb/pour-bottom.json"
+      ]
+    },
+    "dfmCheck": {
+      "issues": 5,
+      "errors": 0,
+      "warnings": 5,
+      "classes": [
+        "silk-flipped designator J1",
+        "power-not-poured +5V/VIN",
+        "width-under-spec +5V (2 tracks)"
+      ],
+      "evidence": "pcb/pcb-check.json"
+    },
+    "localEdit": {
+      "request": "move D1 up 2 mm",
+      "moved": true,
+      "outOfScopeChanges": 0,
+      "drcAfter": "PASS",
+      "evidence": "pcb/local-edit-summary.json"
+    },
+    "snapshot": {
+      "status": "PASS",
+      "file": "20261027-234824-pcb_snapshot-aca7e593.png",
+      "bytes": 144620,
+      "pngDimensions": [
+        1608,
+        714
+      ],
+      "note": "captured after bringing the EDA window forward (user32 ShowWindow/SetForegroundWindow) and re-opening PCB1 so pageVisibility became visible",
+      "evidence": "pcb/pcb-snapshot4.json"
+    },
+    "export3d": {
+      "status": "PASS",
+      "file": ".zhigou/artifacts/pcb-3d/board.obj.zip",
+      "bytes": 208971,
+      "sha256": "2695098b199b99241e2bc78481cdf79fc8befe8c97fdc916387044b82c22d710",
+      "modelCoverage": "binding-only",
+      "notes": "official get3DFile; before/after board readbacks identical (86834 B each); STEP/3D model coverage needs independent inspection",
+      "evidence": "pcb/pcb-export-3d.json"
+    },
+    "dfm": {
+      "errors": 0,
+      "warnings": 4,
+      "classes": [
+        "power-not-poured +5V",
+        "power-not-poured VIN",
+        "width-under-spec +5V",
+        "width-under-spec VIN"
+      ],
+      "danglingAfterCleanup": 0,
+      "evidence": "pcb/pcb-check-final.json"
+    },
+    "danglingCleanup": {
+      "action": "rip-up LED1_A/LED1_K -> autoroute those nets -> pour rebuild -> save/reload/drc",
+      "tracksCreated": 12,
+      "drcPassed": true,
+      "evidence": [
+        "pcb/ripup-led1a.json",
+        "pcb/reroute-led1.json",
+        "pcb/pcb-drc-final.json"
+      ]
+    }
+  },
+  "six_state": {
+    "command_completed": "PASS (schematics placed, wired, title block set, PCB import executed)",
+    "readback_verified": "PASS (schematic nets + fresh PCB dump after reload)",
+    "save_confirmed": "PASS (schematic saved:true; PCB save returned ok)",
+    "reopen_confirmed": "PASS (doc reload on P1 and PCB1, then fresh readback)",
+    "electrical_passed": "PASS (schematic DRC 0 + PCB DRC 0 on fresh readback after route+pour)",
+    "quality_passed": "PARTIAL-PASS: schematic DRC 0, PCB DRC 0, DFM 0 error / 4 warnings, dangling 0, official schematic SVG+PNG and PCB PNG captured; remaining warnings are power-pour/width preferences"
+  },
+  "limits": [
+    "Gerber/drill/CPL remain gui_only - not attempted, not claimed.",
+    "DFM: 4 warnings remain (5V/VIN carried by tracks not pours; 2 power nets under the width spec).",
+    "3D export is binding-only coverage; model coverage needs independent inspection.",
+    "MPN of generic-library LED/switch/header is unknown (system library), recorded as generic."
+  ],
+  "evidence": [
+    "board-list.json",
+    "bom-export.json",
+    "clear-page.json",
+    "connect-C1-1.json",
+    "connect-C1-2.json",
+    "connect-F1-1.json",
+    "connect-F1-2.json",
+    "connect-J1-2.json",
+    "connect-R1-1.json",
+    "connect-R2-1.json",
+    "connect-SW1-2.json",
+    "connect-SW2-2.json",
+    "inspect-list.json",
+    "measured-pins.json",
+    "pcb-drc.json",
+    "pcb-dump.json",
+    "pcb-import-changes.json",
+    "pcb-reload.json",
+    "pcb-save.json",
+    "place-C1.json",
+    "place-D1.json",
+    "place-D2.json",
+    "place-F1.json",
+    "place-J1.json",
+    "place-R1.json",
+    "place-R2.json",
+    "place-SW1.json",
+    "place-SW2.json",
+    "placement-summary.json",
+    "rotate-D1.json",
+    "rotate-D2.json",
+    "rotate-before.json",
+    "sch-check.json",
+    "sch-drc.json",
+    "sch-image-png.json",
+    "sch-image-svg.json",
+    "schematic-verify.json",
+    "titleblock-before.json",
+    "titleblock-set.json",
+    "verify-list.json",
+    "verify-read.json",
+    "verify-reload.json",
+    "verify-save.json",
+    "wire-before.json",
+    "wire-ch1_cathode_to_switch.json",
+    "wire-ch1_r_to_anode.json",
+    "wire-ch2_cathode_to_switch.json",
+    "wire-ch2_r_to_anode.json",
+    "wire-mid.json",
+    "wiring-summary.json"
+  ],
+  "archive": {
+    "format": "EasyEDA native .epro2",
+    "path": ".zhigou/artifacts/zhigou-dual-button-led-board.epro2",
+    "bytes": 46838,
+    "zipEntries": 3,
+    "integrity": "CRC OK",
+    "restoreDrill": "NOT RUN (import into a separate new project not executed)",
+    "evidence": "pcb/project-export.json"
+  }
+}

@@ -1,0 +1,15 @@
+=== Get-NetTCPConnection -OwningProcess 32064 ===
+
+LocalAddress LocalPort RemoteAddress RemotePort       State
+------------ --------- ------------- ----------       -----
+127.0.0.1        60832 0.0.0.0                0      Listen
+127.0.0.1        60832 127.0.0.1          50259 Established
+
+
+=== all LISTEN 60832-60841 ===
+
+LocalAddress LocalPort OwningProcess
+------------ --------- -------------
+127.0.0.1        60832         32064
+
+

@@ -1,0 +1,24 @@
+/.git/
+/.vscode/
+/build/
+/config/
+/node_modules/
+/scripts/
+/src/
+/.edaignore
+/.editorconfig
+/.gitignore
+/.npmrc
+/package-lock.json
+/package.json
+/tsconfig.json
+/tsconfig.tsbuildinfo
+.eslintcache
+debug.log
+ws-file-server.mjs
+# Zhigou: upstream demo media and changelog stay out of the shipped package
+/images/demo-*.png
+/images/demo-*.gif
+/images/access-control-*.png
+/images/access-control-*.gif
+/CODEOWNERS

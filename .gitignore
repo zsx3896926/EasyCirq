@@ -14,3 +14,14 @@ firmware/**/.pio/
 .easyeda/
 
 dist/
+
+# integrated toolchain: build outputs and local runtime state are never committed
+runtime/dist/
+connector/node_modules/
+connector/dist/
+connector/build/dist/
+connector/tsconfig.tsbuildinfo
+node_modules/
+.zhigou/
+# release build outputs (local artifacts only)
+dist-v*/

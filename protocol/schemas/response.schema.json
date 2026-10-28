@@ -1,0 +1,109 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/zsx3896926/hardware-design-skill/protocol/schemas/response.schema.json",
+  "title": "response (connector -> daemon)",
+  "type": "object",
+  "required": [
+    "type",
+    "id",
+    "ok"
+  ],
+  "properties": {
+    "type": {
+      "const": "response"
+    },
+    "id": {
+      "type": "string"
+    },
+    "version": {
+      "const": "v1"
+    },
+    "windowId": {
+      "type": "string"
+    },
+    "ok": {
+      "type": "boolean"
+    },
+    "result": {
+      "type": "object"
+    },
+    "context": {
+      "$ref": "#/definitions/context",
+      "description": "diagnostic only; never a save target"
+    },
+    "mutationContext": {
+      "$ref": "#/definitions/context"
+    },
+    "mutationContextAvailable": {
+      "type": "boolean",
+      "description": "true only when project/document/type matched before and after the handler and optional tab identity is symmetric"
+    },
+    "mutationContextError": {
+      "type": "string"
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "$ref": "artifact.schema.json"
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "error": {
+      "$ref": "error.schema.json"
+    },
+    "seq": {
+      "type": "integer",
+      "description": "actions settled on the connector FIFO after this one; ordering evidence only"
+    },
+    "seqAbandoned": {
+      "type": "integer",
+      "description": "cumulative abandoned actions; any change voids ordering conclusions"
+    },
+    "unordered": {
+      "type": "boolean",
+      "description": "bypass channel; seq is a snapshot and NOT ordering evidence"
+    },
+    "abandonedIds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 32
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "context": {
+      "type": "object",
+      "properties": {
+        "projectUuid": {
+          "type": "string"
+        },
+        "projectName": {
+          "type": "string"
+        },
+        "documentUuid": {
+          "type": "string"
+        },
+        "documentType": {
+          "type": "string"
+        },
+        "tabId": {
+          "type": "string"
+        },
+        "unit": {
+          "type": "string"
+        },
+        "pageVisibility": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

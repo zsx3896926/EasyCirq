@@ -1,0 +1,1 @@
+easyeda-agent v1.15.0

@@ -1,0 +1,10 @@
+PCB layout-lint: score 0/100 (short): 9 comps, 3 short, 4 overlap, 0 off-board, 0 tight; 4 signal nets, ratsnest 428mil, 0 crossings
+  WARN  silk-over-pad silk text Designator "C1" overlaps pad F1.2 — fab clips silk on exposed copper; move it (`pcb silk-align` / `pcb silk-set`) [规范 §11.2 丝印不压焊盘 — pcb-design-rules.md]
+  WARN  silk-over-pad silk text Designator "F1" overlaps pad J1.2 — fab clips silk on exposed copper; move it (`pcb silk-align` / `pcb silk-set`) [规范 §11.2 丝印不压焊盘 — pcb-design-rules.md]
+  ERROR short      D1.2[LED1_A] ↔ SW1.1[LED1_K] on top  (copper overlap 39.4×39.4 mil)
+  ERROR short      D2.2[LED2_A] ↔ SW2.1[LED2_K] on top  (copper overlap 39.4×39.4 mil)
+  ERROR short      F1.1[VIN] ↔ J1.2[GND] on top  (copper overlap 33.4×4.1 mil)
+  ERROR overlap    C1 ↔ F1  (top side, 23.7×35.4 mil)
+  ERROR overlap    D1 ↔ SW1  (top side, 58.0×39.4 mil)
+  ERROR overlap    D2 ↔ SW2  (top side, 58.0×39.4 mil)
+  ERROR overlap    F1 ↔ J1  (top side, 33.4×68.0 mil)

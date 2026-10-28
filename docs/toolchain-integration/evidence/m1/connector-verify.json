@@ -1,0 +1,24 @@
+{
+  "eext": {
+    "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\connector\\build\\dist\\zhigou-connector_v0.1.0.eext",
+    "exists": true,
+    "size": 231299,
+    "sha256": "1c6c659b4cf282f57a0752267a7408aedfdd2810fe49c9352ebd17902a2d343b",
+    "manifest": {
+      "name": "zhigou-connector",
+      "uuid": "a6e6b788551945b399e150d80efa6e31",
+      "displayName": "Zhigou EDA Connector",
+      "version": "0.1.0",
+      "publisher": "zsx3896926",
+      "enginesEda": "\u003e=3.2.0"
+    },
+    "source": "not-found"
+  },
+  "expectedName": "zhigou-connector",
+  "expectedVersion": "0.1.0",
+  "loadedWindows": [],
+  "reason": "没有连接器接入 daemon：要么尚未导入/启用扩展，要么 EasyEDA 未重启",
+  "runtimeVersion": "0.2.0-dev",
+  "schema": "zhigou-connector-verify/v1",
+  "verdict": "degraded"
+}

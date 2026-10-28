@@ -41,6 +41,13 @@
 
 ## 3. 局部用短线，跨区用明确的网名
 
+默认画法是**功能分区 + 短引线 + 清晰网络标签**，判据是“读者能否顺着图看懂电气关系”，不是连线数量：
+
+- **必须直连**：去耦、反馈、分压、滤波、晶振、保护、启动/复位等局部拓扑关键路径；同一功能区内、路径不穿无关对象且能短引线跟读时直连，直连要能读出分压比、反馈极性、参考方向或环路。
+- **优先标签/端口**：跨功能块、跨页、到连接器/远端接口的长信号；密集数字或并行总线；直连会产生长环线、穿越密集区或必须绕过芯片本体时。标签两端留短引线、落在真实连接端点，名称有语义且作用域成对。
+- **禁止的默认做法**：每个节点都打标签把局部拓扑拆成网名列表；为省一条线制造长距绕行；跨页只标一端；用同名标签冒充连通；为对齐交换真实引脚。
+- **不确定时**：拓扑关键且局部可跟读 → 直连；连接跨边界且按名可追踪 → 标签。两种都必须经 pin-net/网表、原生检查和官方导图看图验证，不以“看起来整齐”代替。
+
 | 场景 | 表达方式 | 避免 |
 |---|---|---|
 | 分压、反馈、滤波、保护、晶振、启动/复位外围 | 保留容易跟读的短线和局部支路，器件靠近所属电路 | 用标签拆散每个节点，看不出拓扑 |
@@ -89,7 +96,7 @@
 
 ## 5. Agent执行与闭环验收
 
-按“连接基线 → 模块局部几何 → 页面组合 → 小批写入 → 实际回读 → 导图看图 → 修正”的顺序推进，遵循当前执行器协议。在easyeda-agent提供compose/apply时，把排版决定写回其源数据/规划，再执行并回读；不要在画布上临时整理后让下一次apply覆盖。
+按“连接基线 → 模块局部几何 → 页面组合 → 小批写入 → 实际回读 → 导图看图 → 修正”的顺序推进，遵循当前执行器协议。在zhigou-agent提供compose/apply时，把排版决定写回其源数据/规划，再执行并回读；不要在画布上临时整理后让下一次apply覆盖。
 
 将问题分级处理：先解决连接/身份变化、导线穿件、文字遮脚、越界和交点歧义；再处理跨区长线、外围散落、标题冲突；最后统一对齐与留白。不要为了减少一处留白重排整个正确页面。
 
@@ -108,18 +115,18 @@
 
 图面几何输入还可带 `title_block`、`module_frames`（含 `contains` 成员）、`attachment_points`（真实引脚/标记/端口点）、`label_anchors`（网名标签锚点）与 `policy.connection_tolerance`。对应候选包括：器件/文字压图签、导线穿图签、模块框越页/互相重叠/切器件、成员缺失、导线端点悬空、同一连接点出现多个网络、标签悬空或标签网名与所在导线不符。它们仍只是候选：`attachment_points` 不完整会把正常端点报成悬空，`contains` 只是声明，标签在线上也不证明全页网络正确。`electrical_verified/visual_verified` 始终为false，修复后仍要回读网表并实际导图。
 
-官方CLI可用时，按 [EDA执行](eda-execution.md) 把排版决定落成受控动作并做真实验收：
+`zhigou` 可用时，按 [EDA执行](eda-execution.md) 把排版决定落成受控动作并做真实验收：
 
 ```bash
-python scripts/eda_exec.py read --project <副本> --schematic Demo --page-name P1 --output before.json
-python scripts/eda_exec.py apply --project <副本> --plan tidy.json --dry-run
-python scripts/eda_exec.py apply --project <副本> --plan tidy.json --save
-python scripts/eda_exec.py export --session <id> --schematic Demo --page-name P1 --kind png --output after.png --width 1600
-python scripts/eda_exec.py export --session <id> --schematic Demo --page-name P1 --kind netlist --output after.net
-python scripts/eda_exec.py reopen-check --project <副本> --snapshot after.json --schematic Demo --page-name P1
+zhigou sch read --page P1 --project <副本>
+zhigou apply tidy.playbook.json --dry-run --project <副本>
+zhigou apply tidy.playbook.json --project <副本> --journal evidence/tidy.journal.jsonl
+zhigou sch export-image --format png --scope page --page P1 --output after.png
+zhigou sch export-netlist --output after.net --project <副本>
+zhigou doc reload --project <副本>
 ```
 
-先 `--dry-run` 看冲突，再小批写入；保存只在逐项回读通过后发生；重开比较稳定身份/连接。半离线会话的结论不能写成全在线；没有实际导图/看图时不能宣称“图面已整理完成”。
+具体 flag 以当前 `zhigou <cmd> --help` 为准。先 `--dry-run` 看冲突，再小批写入；保存只在逐项回读通过后发生；重开比较稳定身份/连接。半离线会话的结论不能写成全在线；没有实际导图/看图时不能宣称“图面已整理完成”。
 
 发现问题就修改源布局、重新写入受影响部分，并复查其连接及实际导图。检查器未报错但肉眼仍混乱时不能交付“已整理完成”。工具缺导图/视觉检查能力时列明未完成该项，继续可做的检查，不用DRC、分数、坐标检查或用户“帮忙看一下”冒充看图验收。反复无改善时定位执行器/布局能力限制，留下具体问题位置与接续方案，不无限重试。
 

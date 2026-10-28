@@ -1,0 +1,40 @@
+Render the active schematic page, or ONLY the primitives you name, to
+SVG / PNG / PDF (#166).
+
+Why not a viewport capture (the removed `sch snapshot`): that path is viewport-dependent — a
+backgrounded tab never repaints, so it silently hands back the previous
+full-page frame. This renders the requested primitives directly: no viewport,
+no foreground requirement, no dialog. SVG is vector, so an agent can zoom into
+dense wiring without resampling a blurry screenshot.
+
+--ids selects those primitives and exports just them (the export box shrinks to
+the selection). Without --ids it exports the whole active page.
+
+Usage:
+  zhigou sch export-image [flags]
+
+Examples:
+  zhigou sch export-image --ids id1,id2 --out block.svg
+  zhigou sch export-image --format png --out page.png
+  zhigou sch export-image --scope page --format pdf --page P2 --out p2.pdf
+
+Flags:
+      --format string       svg | png | pdf (default svg)
+  -h, --help                help for export-image
+      --ids string          primitive IDs to export alone — CSV: id1,id2 (omit to export the whole page)
+      --line-width string   Default | Always 1px | Follow the Zoom Change
+  -o, --out string          write the rendered file to this path
+      --page string         schematic page to export (name or uuid)
+      --scope string        selection | page | project (default: selection when --ids given, else page)
+      --stay                with --page: stay on that page instead of restoring the previous one
+      --theme string        Default | White on Black | Black on White
+
+Global Flags:
+      --doc string                pin every mutating action to this schematic page / PCB (uuid or name): the CLI switches to it and confirms via live document.current before editing, refusing rather than land the edit on whatever page is foreground — removes the doc-switch race
+      --force-stale-read string   deprecated compatibility option; stale PCB reads now continue with staleRisk and authoritative workflows still save, reload, then read back
+      --host string               daemon host (default "127.0.0.1")
+      --ports string              daemon port range (start-end) (default "23111-23120")
+      --project string            route by project name/uuid instead of --window (survives windowId churn)
+      --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
+      --window string             EasyEDA window ID
+

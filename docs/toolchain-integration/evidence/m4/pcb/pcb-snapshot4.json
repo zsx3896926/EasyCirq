@@ -1,0 +1,54 @@
+{
+  "id": "req_705",
+  "type": "response",
+  "version": "v1",
+  "windowId": "0656d289-66be-4139-96c9-862d4832a6ef",
+  "createdAt": "2026-10-27T15:48:24.4168558Z",
+  "ok": true,
+  "result": {
+    "artifactId": "art_aca7e593-3eb4-4d43-96cf-7c7c798aad5a",
+    "artifactPath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261027-234824-pcb_snapshot-aca7e593.png",
+    "captureKind": "board-fitted-viewport-png",
+    "capturedAt": "2026-10-27T15:48:24.411Z",
+    "fitApi": "eda.pcb_Document.zoomToBoardOutline",
+    "fitFallbackReason": null,
+    "fitModeApplied": "board",
+    "fitModeRequested": "board",
+    "fitted": true,
+    "objectLevelExport": false,
+    "sha256": null,
+    "stale": false,
+    "staleHint": "EasyEDA may not auto-redraw after API edits. Thread this sha256 back as previousSha256 on the next snapshot to auto-detect a stale frame; judge state by data (pcb list/drc), screenshot for layout only.",
+    "staleRetry": false
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "visible"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "visible"
+  },
+  "mutationContextAvailable": true,
+  "artifacts": [
+    {
+      "id": "art_aca7e593-3eb4-4d43-96cf-7c7c798aad5a",
+      "kind": "pcb_snapshot",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261027-234824-pcb_snapshot-aca7e593.png",
+      "fileName": "pcb-snapshot.png",
+      "mimeType": "image/png",
+      "size": 144620,
+      "sha256": "56932a0122523ecd3861157c4aaec1c3b4989771e16645a7470a0d0029336463"
+    }
+  ],
+  "seq": 604,
+  "seqAbandoned": 0
+}
