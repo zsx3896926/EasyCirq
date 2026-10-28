@@ -114,3 +114,12 @@ layout-lint 报告 `minGapMil = 5.98`，低于多数板厂 6 mil 的最小间距
 - 最终基线保留原 eev3 状态（DRC 0 + 4 条 DFM WARN）；线宽/过孔/间距修复需人工在 GUI 完成
   （自动重布会在焊盘上放孔并把线宽混接）。
 - 证据：`evidence/eev3/final-baseline.json`、`dfm-fix-attempt.json`。
+
+## 9. 丝印修复（只动丝印，不碰走线）与制造文件重导（2026-10-28 13:19）
+
+- 只执行 `pcb silk-set --ids 68c1979920df5098e9 --x -1250 --y -380` 把 J1 位号文字移回板内，
+  未改动任何走线；`pcb save → doc reload` 后 **DRC = passed，0 违规**。
+- DFM 复验：`silkOffBoard` 已消失；剩 3 条 WARN：`powerNotPoured`（+5V）、`widthUnderSpec` ×2
+  （+5V/GND 各 5 条 10 mil 细线）。layout-lint 仍 76（minGap 5.98、1 crossing）。
+- 制造文件按修复后状态**重新导出**并覆盖证据包：Gerber 12 条目（含 `GDD` + `Drill_PTH_Through.DRL`）、
+  CPL 9 行；摘要见 `manufacturing/manufacturing-summary.json`。
