@@ -46,3 +46,24 @@
 4. **实物验证**：打样后的上电、通断、限流、边界测试（V2–V11，全部 NOT RUN）。
 
 一句话：**"电气/工程上可以当基线，投产还差制造文件 + DFM + 人工复核 + 实物验证"。**
+
+## 5. 制造文件（2026-10-28 13:13 只读导出）
+
+| 文件 | 大小 | 内容 |
+|---|---|---|
+| `evidence/eev3/manufacturing/eev3-gerber.zip` | 19483 B | 12 个条目：Gerber_TopLayer.GTL, Gerber_BottomLayer.GBL, Gerber_TopSilkscreenLayer.GTO, Gerber_BottomSilkscreenLayer.GBO, Gerber_TopSolderMaskLayer.GTS, Gerber_BottomSolderMaskLayer.GBS, Gerber_TopPasteMaskLayer.GTP, Gerber_BoardOutlineLayer.GKO, Gerber_DocumentLayer.GDL, Gerber_DrillDrawingLayer.GDD |
+| 其中钻孔 | — | **Gerber_DrillDrawingLayer.GDD, Drill_PTH_Through.DRL**（J1 换 TH 后 PTH 钻孔文件正常产出） |
+| `evidence/eev3/manufacturing/eev3-cpl.csv` | 3406 B | 9 行，表头 18 列（Designator…Rotation/SMD/Type） |
+| `manufacturing-summary.json` | — | 上述产物的层清单/行数/编码记录 |
+
+导出方式：`pcb.manufacture.gerber`（drill=true、drillTable=true）+ `pcb.manufacture.cpl`（csv/mm），
+均为**只读产物导出，未修改工程**。
+
+## 6. 更新后的投产结论
+
+制造文件补齐后，投产前剩余：
+
+1. **DFM/工艺复核**：layout-lint + DFM 规则 + 板厂工艺档案核对（仍需人工/工具复核）；
+2. **人工走线复核**：全板重布结果建议看一眼（电气正确，走向/观感可优化）；
+3. **实物验证**：打样后的上电、通断、限流、边界测试（V2–V11，全部 NOT RUN）；
+4. 钻孔文件已随 Gerber 产出（PTH），若需单独钻孔文件可从 zip 内取 `Drill_PTH_Through.DRL`。
