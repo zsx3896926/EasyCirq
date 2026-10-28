@@ -123,3 +123,14 @@ layout-lint 报告 `minGapMil = 5.98`，低于多数板厂 6 mil 的最小间距
   （+5V/GND 各 5 条 10 mil 细线）。layout-lint 仍 76（minGap 5.98、1 crossing）。
 - 制造文件按修复后状态**重新导出**并覆盖证据包：Gerber 12 条目（含 `GDD` + `Drill_PTH_Through.DRL`）、
   CPL 9 行；摘要见 `manufacturing/manufacturing-summary.json`。
+
+## 10. 生产档案（按 skill 模板）
+
+- 已按 `design-hardware/assets/manufacturing-profile.md` 建立 eev3-final 生产档案：
+  `evidence/eev3/manufacturing-profile.md`。
+- 关键记录：2 层 / 1 oz / 1.6 mm / 47.84×20.36 mm、2 个 PTH 孔（J1）、0 过孔、HASL/绿油；
+  `pcb drc` 0 违规（规则 10 mil）；layout-lint 76（minGap **5.98 mil**、1 crossing）；
+  DFM 3 WARN（+5V 未铺铜、2 组 10 mil 电源线）。
+- **5.98 mil 已按"推荐值边界"记录**（D1 周边 `LED1_A × LED1_K`）：不违反本工程 DRC，
+  但低于嘉立创 6 mil 推荐值 → 待人工微调或向板厂确认，**不私自豁免**。
+- 制造文件 / BOM / 库存与本档案一致；实物测试仍 `NOT RUN`。
