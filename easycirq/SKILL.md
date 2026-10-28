@@ -268,6 +268,8 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 
 分别报告设计核算、连接回读、几何/DRC、仿真与样机实测。不得把总分、退出码、无报错、网名相同或截图漂亮替代电路正确。未经覆盖检查的内容保持待确认。
 
+上下文压缩、配额中断或新会话恢复时，先读 `design-state.json` 的 `project.stage` 与 `recovery`（`open_nets`/`last_journal`/`last_backup`/`rejected_options`/`next_action`）再继续；状态缺失或与现场不一致时按 `BLOCKED` 处理，不凭对话摘要推断。
+
 ## 5. 设计和执行的底线
 
 1. 精确到完整型号/后缀/封装，使用原厂资料与勘误；以适用的推荐工作条件设计，单独检查绝对最大额定值。

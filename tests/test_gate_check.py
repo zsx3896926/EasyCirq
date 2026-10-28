@@ -387,6 +387,47 @@ class FullPassFixture(unittest.TestCase):
         self.assertEqual(statuses(report)['G0_requirements'], 'PASS')
         self.assertEqual(statuses(report)['G6_manufacturing'], 'PASS')
 
+    def check_status(self, report, gate_key, check_id):
+        for item in report['gates']:
+            if item['key'] != gate_key:
+                continue
+            for check in item['checks']:
+                if check['id'] == check_id:
+                    return check['status']
+        return None
+
+    def test_recovery_missing_is_warn_not_blocking(self):
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(statuses(report)['G0_requirements'], 'PASS')
+        self.assertEqual(self.check_status(report, 'G0_requirements',
+                                           'recovery_section'), 'warn')
+
+    def test_recovery_stage_mismatch_is_reported(self):
+        state = json.loads(self.state.read_text(encoding='utf-8'))
+        state['project']['stage'] = 'G0'
+        state['recovery'] = {'stage': 'G1'}
+        write_json(self.state, state)
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(self.check_status(report, 'G0_requirements',
+                                           'recovery_stage_mismatch'), 'warn')
+        self.assertEqual(statuses(report)['G0_requirements'], 'PASS')
+
+    def test_recovery_open_nets_must_be_list(self):
+        state = json.loads(self.state.read_text(encoding='utf-8'))
+        state['recovery'] = {'open_nets': 'not-a-list'}
+        write_json(self.state, state)
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(self.check_status(report, 'G0_requirements',
+                                           'recovery_open_nets'), 'warn')
+
+    def test_unknown_stage_token_is_reported(self):
+        state = json.loads(self.state.read_text(encoding='utf-8'))
+        state['project']['stage'] = 'X9'
+        write_json(self.state, state)
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(self.check_status(report, 'G0_requirements',
+                                           'recovery_stage'), 'warn')
+
     def test_unused_waiver_is_marked(self):
         report = gate.evaluate(args_for(
             self.ev, self.root, self.state,
