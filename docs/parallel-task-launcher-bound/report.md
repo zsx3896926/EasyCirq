@@ -57,7 +57,7 @@ settings-deny-allow、fixture-deterministic、timeout-kill-tree。
 
 ```text
 $ python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"
-Ran 207 tests in 66.417s
+Ran 208 tests in 73.644s
 OK
 ```
 
@@ -97,7 +97,7 @@ $ python design-hardware/scripts/skill_selftest.py
 
 ```text
 $ python -m unittest discover -s tests
-Ran 3519 tests in 361.582s
+Ran 3520 tests in 374.287s
 OK (skipped=3)
 exit 0
 ```
@@ -108,25 +108,36 @@ exit 0
   evidence 日志）。Lead 在验证后已 `git checkout --` 还原该文件，因此本次交付的
   `git diff` 不包含该改动；这属于既有测试的仓库写入行为，不是本任务新增。
 
-## 4. B1 交付状态与兼容性探针
+## 4. B1 交付状态与兼容性验证
 
-- B1_BASE_HEAD：**NOT DELIVERED**。开工时 B1 worktree HEAD=`0e391e3` 且全部交付文件未提交；
-  本报告写作时 B1 出现本地提交 `caed250`，但 `docs/parallel-task-launcher/handoff-current.md`
-  仍缺失、origin 无 `feat/parallel-task-launcher` 分支/PR，B1 docs 仍有未提交修改。
-  详见 `handoff-current.md` §1 与 `integration-notes.md`。
-- `python -m task_launcher.bound probe-b1 --repo-root <hds-tl-worktree>`：
-  `available=true, delivered=false, integration_status="BLOCKED ON B1"`。
-- **只读 artifact-level 兼容性探针（不作为验收基线，B1 HEAD 未冻结）**：
-  1. `cd hds-tl-worktree; python -m task_launcher build-plugin --skill-dir <bound-worktree>/design-hardware --out <temp>/plugin`
-     → exit 0；manifest 13,165,622 bytes；产出 `.claude-plugin/`、`hooks/`、
-     `skills/design-hardware/SKILL.md`、`.mcp.json`、`plugin.manifest.json`。
-  2. `python -m task_launcher.bound plan --request <req> --out <temp>/task --skill-dir design-hardware --plugin-dir <temp>/plugin --b1-repo <hds-tl-worktree>`
-     → exit 0；`agent_ready=true`；argv 含 `-p/--mcp-config/--plugin-dir/
-     --append-system-prompt-file/--settings/--output-format/--allowedTools/--disallowedTools`；
-     `mcp.json` 只挂 `zhigou_bound` stdio supervisor；`settings.json` deny/allow 正确；
-     `agent.command.json` 不含 token/HMAC。
-  - 结论：在观察到的 B1 本地提交 `caed250` 上，产物级兼容性 PASS；**B1 未交付/未冻结，
-    不构成 B1 验收**，真实 Claude 启动仍 NOT RUN。
+- **B1_BASE_HEAD（开工时）**：`NOT DELIVERED`。开工时 B1 worktree HEAD=`0e391e3` 且全部交付文件
+  未提交（未提交树 `79496e3`）。详见 `handoff-current.md` §1。
+- **B1 在任务执行期间交付**：分支 `feat/parallel-task-launcher`（worktree `hds-tl-worktree`），
+  PR **#74（OPEN，未合并）**；交付 HEAD（含仅文档提交）`074bd88`（PR 引用 CI 已验证代码 HEAD
+  `c828ebc`）；`docs/parallel-task-launcher/handoff-current.md` 已出现；origin 已有该分支。
+  B1 交接记录：98 tests OK、全量 3416 tests OK(skipped=3)、基准 12/12、plugin 627 files /
+  13,165,621 bytes、真实 Claude NOT RUN。
+- **叠加验证（本任务，真实执行）**：新建 worktree `hds-tlb-on-b1`，基于
+  `origin/feat/parallel-task-launcher @ 074bd88` 叠加本包 79 个新文件（分支
+  `feat/parallel-task-launcher-bound-on-b1`，叠加提交见 `handoff-current.md`）：
+  - `python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"`
+    → **Ran 208 tests, OK**（65s 级）；
+  - `python benchmarks/task-launcher-bound/run_benchmark.py` → **24/24 passed, exit 0**
+    （`simulated=true`、`real_eda="NOT RUN"`、`eda_calls=0`）；
+  - `python -m task_launcher.bound selftest` → **19/19 pass**；
+  - `python -m task_launcher.bound probe-b1 --repo-root <hds-tlb-on-b1>` →
+    `available=true, delivered=true, integration_status="AVAILABLE"`；
+  - `python -m task_launcher build-plugin --skill-dir design-hardware --out <temp>/plugin`
+    （B1 已交付 HEAD）→ exit 0，627 files / 13,165,619 bytes（本次实测）；
+  - `python -m task_launcher.bound plan --request <req> --out <temp>/task --skill-dir design-hardware
+    --plugin-dir <temp>/plugin --b1-repo <hds-tlb-on-b1>` → exit 0，`agent_ready=true`，
+    argv 含全部 hardening flag（`-p/--mcp-config/--plugin-dir/--append-system-prompt-file/
+    --settings/--output-format/--allowedTools/--disallowedTools`），allow 值为
+    `Read,Glob,Grep,Skill(design-hardware),mcp__zhigou_bound__*`，argv 不含 token。
+- 结论：**产物级/离线叠加验证 PASS @ B1 交付 HEAD 074bd88**。仍 **NOT RUN**：
+  由 B1 launcher 真实拉起本 supervisor 的端到端会话（B1 的 mcp.json 目前只挂
+  `zhigou-offline-audit`，接入 bound 需 B1 侧最小改动，见 `integration-notes.md`）、
+  真实 Claude、真实 EDA。**B1 PR 未合并，本任务未合并任何 PR**。
 
 ## 5. 未运行 / 阻塞（如实记录）
 
@@ -135,7 +146,8 @@ exit 0
 | 真实 Claude Code 冒烟（工具面/子代理/hooks/注入实测） | **NOT RUN** | 需用户明确授权（会产生费用）；本次未授权 |
 | Phase 2 真实 EDA 写（plan→apply→readback→finalize） | **BLOCKED** | 无 EDA 授权、无一次性临时工程副本；apply/readback 一律 `EDA_NOT_AUTHORIZED` |
 | 真实 EDA 只读快照 | **NOT RUN** | Phase 1 只用 fixture；`real_eda=NOT RUN` |
-| B1 集成端到端（真实 B1 launcher 启动本 supervisor） | **BLOCKED ON B1** | B1 无可引用的已交付 HEAD/handoff/PR |
+| B1 产物级叠加（交付 HEAD 074bd88） | **PASS（离线/产物级）** | 208 tests OK、基准 24/24、selftest 19/19、B1 build-plugin + bound plan `agent_ready=true`；见 §4 |
+| B1 launcher 真实拉起 bound supervisor 的端到端 | **NOT RUN** | B1 的 mcp.json 未接 bound（需 B1 侧最小改动，见 integration-notes）；真实 Claude 未授权 |
 | 真实 Windows 沙箱/独立账号隔离 | **NOT RUN** | 属主线/需授权评估（见 issue-candidates） |
 | 3.10 CI | **NOT RUN（本机）** | 本机只有 3.13；代码保持 3.10 语法，靠 CI 验证（未发 PR，CI 未触发） |
 
@@ -151,7 +163,12 @@ exit 0
 
 ## 7. 已知问题/后续建议
 
-- B1 交付后：用其文档化 CLI 构建 plugin，接 `plan --plugin-dir`，并做一次授权后的真实
-  Claude 冒烟（只读）；Phase 2 需 EDA 授权 + 一次性临时工程副本。
+- B1 已交付（PR #74，HEAD 074bd88，未合并）：建议以
+  `feat/parallel-task-launcher-bound-on-b1` 为基础 review 叠加改动；B1 合并后再决定 PR 基线。
+- B1 → bound 的端到端接线（最小改动）：让 B1 launcher 支持把任务的 `mcp.json`/`settings.json`/
+  `routing.md`/argv 交给本包生成，或由 B1 提供"任务目录 + plugin_dir 注入"接缝
+  （详见 `integration-notes.md` §2/§4，不猜 B1 内部接口）。
+- 授权后：真实 Claude 只读冒烟（1 次）→ 记录版本/费用/日志；Phase 2 需 EDA 授权 +
+  一次性临时工程副本。
 - 见 `issue-candidates.md`（IC-01..IC-19）：真实冒烟授权、EDA 写授权、Windows 沙箱、
   并发锁、receipt 长期验签、plugin 版本绑定、MCP/settings 作用域合并等。

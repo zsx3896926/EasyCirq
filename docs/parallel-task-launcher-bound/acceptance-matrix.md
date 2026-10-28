@@ -41,29 +41,29 @@
 
 | # | 检查 | 命令 | 实际结果（Lead 复跑） | 状态 |
 |---|---|---|---|---|
-| 1 | 离线测试 | `python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"` | **Ran 207 tests, OK**（约 66.4s） | **PASS** |
+| 1 | 离线测试 | `python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"` | **Ran 208 tests, OK**（约 73.6s） | **PASS** |
 | 2 | 冻结基准 | `python benchmarks/task-launcher-bound/run_benchmark.py` | **24/24 passed, 0 failed, exit 0**（9.19s）；`results.json`：`simulated=true`、`agent="none"`、`real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`；两次运行忽略时间字段可复现 | **PASS（模拟）** |
 | 3 | 产品自检 | `python -m task_launcher.bound selftest` | **19/19 pass, exit 0**（含 `timeout-kill-tree`） | **PASS（离线）** |
 | 4 | Skill 自检 | `python design-hardware/scripts/skill_selftest.py` | **5 PASS, 0 FAIL, 0 NOT RUN, exit 0** | **PASS** |
 | 5 | 版本/工具面 | `python -m task_launcher.bound version` | exit 0；`0.1.0`、`phase2_enabled=false`、`real_eda="NOT RUN"`、`eda_calls=0` | **PASS** |
-| 6 | 全量官方套件 | `python -m unittest discover -s tests` | **Ran 3519 tests, OK (skipped=3), exit 0**（361.582s） | **PASS** |
-| 7 | B1 集成 | `python -m task_launcher.bound probe-b1 --repo-root <hds-tl-worktree>` | `available=true`、`delivered=false`、`integration_status="BLOCKED ON B1"`；B1 本地提交 `caed250`（未交付/未冻结） | **BLOCKED ON B1** |
+| 6 | 全量官方套件 | `python -m unittest discover -s tests` | **Ran 3520 tests, OK (skipped=3), exit 0**（374.287s） | **PASS** |
+| 7 | B1 集成 | `python -m task_launcher.bound probe-b1 --repo-root <hds-tlb-on-b1>`；叠加 worktree `hds-tlb-on-b1` | **B1 已在任务期间交付**：PR #74（OPEN，未合并），交付 HEAD `074bd88`；本包在 B1 交付 HEAD 上叠加验证：208 tests OK、基准 24/24、selftest 19/19、B1 `build-plugin` exit 0、bound `plan --plugin-dir` `agent_ready=true`、`delivered=true/AVAILABLE`；**B1 launcher 真实拉起 bound 的端到端 NOT RUN**（B1 未接 bound MCP） | **PASS（离线/产物级叠加）** |
 | 8 | 真实 Claude Code | —（未授权） | **NOT RUN**（未获真实模型运行/费用授权；未产生费用） | **NOT RUN** |
 | 9 | 真实 EDA（Phase 1 只读） | — | **NOT RUN**（Phase 1 只用 fixture；所有报告 `real_eda="NOT RUN"`、`eda_calls=0`） | **NOT RUN** |
 | 10 | 真实 EDA（Phase 2 受控写） | —（无授权） | **BLOCKED**；`apply/readback` → `EDA_NOT_AUTHORIZED`，任务 FAILED、不可 finalize | **BLOCKED** |
-| 11 | 允许路径 / 未改 B1 | 提交后 `git diff --name-status origin/main...HEAD` | 尚**未提交**；以 Lead 最终核对为准（目标：全 `A`，仅 4 个允许目录） | **待验证** |
+| 11 | 允许路径 / 未改 B1 | `git diff --name-status origin/main...HEAD` | **79 files，全部 A**（task_launcher/bound 29、tests 15、benchmarks 27、docs 8；无 M/D）；叠加分支 vs B1 `074bd88` 同样 79 all A | **PASS** |
 | 12 | PR / 发版 | — | **未创建 PR、未合并、未发版** | 符合约束（PASS） |
 
 ## 2. 任务书 §8 验收标准 ↔ 证据
 
 | # | 验收标准（B1-Bound 任务书 §8） | 证据（文件/命令） | 实际结果 | 状态 |
 |---|---|---|---|---|
-| 8.1 | 仅新增允许路径；`git diff --name-status origin/main...HEAD` 全 `A`；未改 B1 文件 | `handoff-current.md` §2/§3；`default-workspace/hds-tlb-worktree` 工作树 | 目标新增路径为 `task_launcher/bound/`、`tests/task_launcher_bound_tests/`、`benchmarks/task-launcher-bound/`、`docs/parallel-task-launcher-bound/`；**尚未提交**，以 Lead 最终 `git diff` 核对为准 | **待验证** |
-| 8.2 | `python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"` ≥60 全绿 | `tests/task_launcher_bound_tests/`；Lead 复跑 | **Ran 207 tests, OK**（≥60） | **PASS** |
-| 8.3 | 官方全量 `python -m unittest discover -s tests` 全绿 | 命令同上；`report.md` §3.5 | **Ran 3519 tests, OK (skipped=3), exit 0**（361.582s，含本任务 207 tests） | **PASS** |
+| 8.1 | 仅新增允许路径；`git diff --name-status origin/main...HEAD` 全 `A`；未改 B1 文件 | `handoff-current.md` §3；`git diff --name-status` | **79 files 全部 A**，仅 4 个允许目录（29+15+27+8）；无 M/D；未改 B1/A/runtime/connector/SKILL/CI | **PASS** |
+| 8.2 | `python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"` ≥60 全绿 | `tests/task_launcher_bound_tests/`；Lead 复跑 | **Ran 208 tests, OK**（≥60） | **PASS** |
+| 8.3 | 官方全量 `python -m unittest discover -s tests` 全绿 | 命令同上；`report.md` §3.5 | **Ran 3520 tests, OK (skipped=3), exit 0**（374.287s，含本任务 208 tests） | **PASS** |
 | 8.4 | `run_benchmark.py` ≥12/12，`real_eda=NOT RUN` | `benchmarks/task-launcher-bound/results.json`；Lead 复跑 | **24/24 passed, 0 failed, exit 0**；`real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`、`simulated=true`、`agent="none"` | **PASS（模拟）** |
 | 8.5 | `design-hardware/scripts/skill_selftest.py` 5 PASS | `design-hardware/scripts/skill_selftest.py`；Lead 复跑 | **5 PASS, 0 FAIL, 0 NOT RUN, exit 0** | **PASS** |
-| 8.6 | Phase 1：`serve`（fixture）跑通 `task_start→snapshot→audit→evidence→finalize`；伪造/跳步被拒 | `python -m task_launcher.bound selftest`（19/19）；`run_benchmark.py`（24/24）；`tests/task_launcher_bound_tests/`（207 tests） | 离线/模拟链路通过；稳定错误码覆盖跳步/重复/篡改；**真实 Claude 未运行**，故只算离线证据 | **PASS（离线/模拟）** |
+| 8.6 | Phase 1：`serve`（fixture）跑通 `task_start→snapshot→audit→evidence→finalize`；伪造/跳步被拒 | `python -m task_launcher.bound selftest`（19/19）；`run_benchmark.py`（24/24）；`tests/task_launcher_bound_tests/`（208 tests） | 离线/模拟链路通过；稳定错误码覆盖跳步/重复/篡改；**真实 Claude 未运行**，故只算离线证据 | **PASS（离线/模拟）** |
 | 8.7 | Phase 2：有授权则真实 plan→apply→readback→finalize 冒烟；无授权则明确 `BLOCKED` | 无 EDA 授权；`backends._RealEdaBackendStub`；benchmark `phase2-no-eda-authorization` | **BLOCKED**：`apply/readback` → `EDA_NOT_AUTHORIZED`；Phase 2 未被写成通过 | **BLOCKED** |
 | 8.8 | 真实 Claude 冒烟：有则记录；无则 `NOT RUN`（不得 fake 冒充） | 未授权；`report.md` §5；`handoff-current.md` §6 | **NOT RUN**，无任何真实 Claude 记录 | **NOT RUN** |
 | 8.9 | 清洁 checkout 可复现离线测试/基准；CI 3.10/3.13 绿 | 本机 Python 3.13.15；未发 PR，CI 未触发；本机无 3.10 | 本机 3.13 复跑通过；清洁 checkout 复现与 3.10/CI **未执行** | **待验证** |
@@ -73,7 +73,7 @@
 
 > 测试包：`tests/task_launcher_bound_tests/`（`__init__.py` + `support.py` + 13 个 `test_*.py`；
 > 实际文件清单见 §7.1）。全部通过**子进程**驱动 `python -m task_launcher.bound`，测试进程不
-> import 实现；使用 tempfile；无网络/真实 Claude/EDA。总数以 Lead 最终复跑 **207** 为准（约 66.4s，OK）。
+> import 实现；使用 tempfile；无网络/真实 Claude/EDA。总数以 Lead 最终复跑 **208** 为准（约 73.6s，OK）。
 
 | # | §5.1 要求 | 主要测试/证据文件 | 覆盖内容（依据文件 docstring） | 状态 |
 |---|---|---|---|---|
@@ -132,11 +132,12 @@ case 文件：`benchmarks/task-launcher-bound/cases/*.json`（24 个）。
 | 真实 Claude Code 冒烟（工具面/子代理/hooks/注入实测） | **NOT RUN** | 未获准真实模型运行/费用授权；未产生费用；不得用 fake 冒充（`report.md` §5） |
 | Phase 2 真实 EDA 写（plan→apply→readback→finalize、回滚） | **BLOCKED** | 无 EDA 授权、无一次性临时工程副本；`apply/readback` → `EDA_NOT_AUTHORIZED`，任务 FAILED 不可 finalize |
 | 真实 EDA 只读快照 | **NOT RUN** | Phase 1 只用 fixture；`real_eda="NOT RUN"`、`eda_calls=0` |
-| B1 集成端到端（真实 B1 launcher 启动本 supervisor） | **BLOCKED ON B1** | B1 无 handoff/PR、origin 无分支；`probe-b1`：`available=true, delivered=false`；B1 本地提交 `caed250` 未交付/未冻结 |
+| B1 集成（产物级叠加 @ 交付 HEAD 074bd88） | **PASS（离线/产物级）** | 独立 worktree `hds-tlb-on-b1`（based on `origin/feat/parallel-task-launcher @ 074bd88`）：208 tests OK、24/24、19/19；B1 `build-plugin` 627 files/13,165,619 bytes；bound `plan --plugin-dir` `agent_ready=true`、argv 完整、无 token |
+| B1 launcher 真实拉起 bound supervisor 的端到端 | **NOT RUN** | B1 mcp.json 目前只挂 `zhigou-offline-audit`；接入 bound 需 B1 侧最小改动（integration-notes.md）；真实 Claude 未授权 |
 | B1 artifact-level 兼容探针 | **PASS @ caed250（非验收）** | Lead 只读探针：`build-plugin` exit 0 → `plan --plugin-dir` `agent_ready=true`、argv 完整；**不构成 B1 验收**，HEAD 变化需重跑 |
-| 官方全量套件 | **PASS** | `Ran 3519 tests, OK (skipped=3), exit 0`（361.582s）；既有测试会写 `docs/toolchain-integration/evidence/installer/install-lifecycle.log`，Lead 已还原该文件 |
+| 官方全量套件 | **PASS** | `Ran 3520 tests, OK (skipped=3), exit 0`（374.287s）；既有测试会写 `docs/toolchain-integration/evidence/installer/install-lifecycle.log`，Lead 已还原该文件 |
 | 清洁 checkout 复现 / CI 3.10+3.13 | **待验证** | 本机仅 3.13；未发 PR，CI 未触发 |
-| 允许路径 `git diff --name-status` 全 A | **待验证** | 尚未提交；以 Lead 最终核对为准 |
+| 允许路径 `git diff --name-status` 全 A | **PASS** | 79 files all A（4 个允许目录）；叠加分支 vs B1 `074bd88` 亦 79 all A |
 | Windows 沙箱/独立账号隔离 | **NOT RUN** | 属主线/需授权评估（`issue-candidates.md` IC-03） |
 
 ## 7. 数字一致性与待复核（诚实说明）
@@ -158,13 +159,13 @@ test_zhigou_engine.py
 
 | 项 | 最终数字 | 说明 |
 |---|---|---|
-| 离线测试总数 | **Ran 207 tests, OK**（Lead 最终复跑，2026-10-28，约 66.4s） | 早期 Lead 复跑为 178（测试仍在增补）；最终套件为 13 个 `test_*.py`、207 tests，均以最终复跑为准，`report.md` §3.2 已同步 |
+| 离线测试总数 | **Ran 207 tests, OK**（Lead 最终复跑，2026-10-28，约 66.4s） | 早期 Lead 复跑为 178（测试仍在增补）；最终套件为 13 个 `test_*.py`、208 tests，均以最终复跑为准，`report.md` §3.2 已同步 |
 | 测试文件数 | **13 个 `test_*.py`** | 文件清单见 §7.1；`report.md` §3.2 已同步为 13 |
 | 基准 case 数 | **24**（`results.json.summary.total=24`，目录 24 个 case 文件） | 与 Lead 复跑 24/24 一致 |
-| 全量官方套件 | **Ran 3519 tests, OK (skipped=3), exit 0** | 见 `report.md` §3.5；含本任务 207 tests |
+| 全量官方套件 | **Ran 3520 tests, OK (skipped=3), exit 0** | 见 `report.md` §3.5；含本任务 208 tests |
 
-> 说明：本矩阵的验收结论不依赖早期口径差异——最终 207 ≥60；基准 24/24 ≥12；
-> 自检 19/19；Skill 5 PASS；全量 3519 OK。数字已与 `report.md` 对齐。
+> 说明：本矩阵的验收结论不依赖早期口径差异——最终 208 ≥60；基准 24/24 ≥12；
+> 自检 19/19；Skill 5 PASS；全量 3520 OK。数字已与 `report.md` 对齐。
 
 ## 8. 复跑命令
 
@@ -191,7 +192,7 @@ python -m task_launcher.bound version
 python -m task_launcher.bound probe-b1 `
   --repo-root C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-tl-worktree
 
-# 7) 全量官方套件（3519 tests, OK skipped=3）
+# 7) 全量官方套件（3520 tests, OK skipped=3）
 python -m unittest discover -s tests
 ```
 
