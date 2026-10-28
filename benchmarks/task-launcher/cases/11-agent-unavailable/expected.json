@@ -1,0 +1,83 @@
+{
+  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "id": "11-agent-unavailable",
+  "description": "Agent gate: claude profile with a nonexistent --claude-exe returns 503 AGENT_UNAVAILABLE.",
+  "launcher": {
+    "agent_profile": "claude",
+    "fake_scenario": "stream",
+    "max_concurrent": 1,
+    "claude_exe": "definitely-not-an-installed-claude-exe"
+  },
+  "stub_args": {
+    "poll_interval": 0.05,
+    "timeout": 120.0,
+    "cancel_after_events": 0,
+    "concurrent_task_id": null
+  },
+  "http_status": 503,
+  "final_status": null,
+  "exit_code": 2,
+  "checks": [
+    {
+      "path": "task_id",
+      "equals": null
+    },
+    {
+      "path": "start_http_status",
+      "equals": 503
+    },
+    {
+      "path": "start_status",
+      "equals": null
+    },
+    {
+      "path": "final_status",
+      "equals": null
+    },
+    {
+      "path": "result_http_status",
+      "equals": null
+    },
+    {
+      "path": "result",
+      "equals": null
+    },
+    {
+      "path": "event_count",
+      "equals": 0
+    },
+    {
+      "path": "event_seq_monotonic",
+      "equals": true
+    },
+    {
+      "path": "cancel_sent",
+      "equals": false
+    },
+    {
+      "path": "concurrent_start_http_status",
+      "equals": null
+    },
+    {
+      "path": "error.code",
+      "equals": "AGENT_UNAVAILABLE"
+    },
+    {
+      "path": "real_eda",
+      "equals": "NOT RUN"
+    },
+    {
+      "path": "eda_calls",
+      "equals": 0
+    },
+    {
+      "path": "project_writes",
+      "equals": 0
+    },
+    {
+      "path": "agent",
+      "equals": "fake"
+    }
+  ],
+  "workspace_checks": []
+}
