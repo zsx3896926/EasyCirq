@@ -164,20 +164,91 @@ distribution\Install-EasyCirq.ps1 rollback
   交付级别不变（PCB 候选 DRC 0）。
 - 注意：验收板板框曾被误设为 2000×1200，已按 dump 原始坐标恢复并 save+reload+DRC 0 复核。
 
-## B1 任务启动器（`easycirq.task-launcher`）只读 PoC — 文档入口
+## 2026-10-28 12:40 G6 闭环（sourcing 核对完成）
 
-- **状态**：只读 PoC（`mode=read_only`），PR **#74 已合并**；不发版、不改 A 的
-  runtime/connector/daemon。真实 Claude / 真实 EDA / 硬件 = **NOT RUN**
-  （`real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`、`network_calls=0`、`agent="fake"`）。
-- **文档**（`docs/parallel-task-launcher/`）：
-  - `contract.md` — 传输/请求/事件/证据契约；合法请求示例见 §2.1，与任务书的已知差异见 §12.1。
-  - `architecture.md` — 进程模型、模块划分与数据流。
-  - `acceptance-matrix.md` — 验收项 ↔ 实现/测试/证据映射。
-  - `report.md` — 交付报告（范围、结果、限制）。
-  - `integration-proposal.md` — Phase 2 与 daemon/connector 的集成建议（connector 不应持有
-    launcher token，推荐 daemon 转发）。
-  - `issue-candidates.md` — 范围外候选与 issue 映射（#79–#93）。
-  - `handoff-current.md` — B1 交接（分支/PR/测试/基准/CI/NOT RUN）。
-  - `platform-threat-model.md` — 平台验证范围与 token 文件威胁模型（另含任务书 §3.3 示例勘误）。
-- **快速验证**：`python benchmarks/task-launcher/run_benchmark.py`（fake agent + stub connector，
-  12 个 case，离线；CI `benchmark` job 跑同一命令）。
+- 修好 DSH 的 web-search 后端：profile patch 里把 `web-search-deepseek` 的 baseURL 指到
+  `https://claude.jlcops.com/api/v1`、model 改为 `deepseek-v4.1-flash`（备份
+  `cordis.patch.yml.bak-20261028-123651`）；此前它默认打 `api.deepseek.com`，用代理 key 必然 401。
+- 用修好的搜索 + LCSC 商品页 JSON-LD 做真实核对（`evidence/gates/sourcing-check.json`）：
+  R1/R2（C2889365）可订货但**库存 0**、最小包装 10000；其余 5 行 Page Not Found（系统库内部编号）。
+- `sourcing_check` pass → **G6 PASS**：gate 汇总 **6 PASS / 1 PASS_WITH_WAIVER / 0 BLOCKED**（退出码 0）。
+- 结论仍是**不能下单**：BOM 缺货/无订货号（`OI-SOURCING-2`），需换料后重核；交付级别不升格。
+
+## 2026-10-28 12:55 BOM 换料（部分完成，PCB 待重布）
+
+- 用户确认的 6 行替换：R1/R2→C112291、C1→C125205、D1/D2→C51933311、F1→C845159、
+  SW1/SW2→C49296724、J1→C124375（TH 直插）。
+- 在**干净副本** `zhigou-dual-button-led-eev2-20261028`（从 `zhigou-board.epro2` 导入）上用
+  `schematic.component.modify` 只改 BOM 身份（符号/封装不动），9/9 成功；J1 因无同封装有货的
+  SMD 2P 料号，改为删除+重放 TH 器件（封装 `HDR-TH_2P-P2.54-V-M-1`）。
+- 新 BOM（含 C 号/厂家/MPN）：`evidence/gates/BOM-v2.csv`；记录 `bom-replacement-record.json`。
+- **PCB 未闭环**：J1 换 TH 后 4 处 No Connection（GND: C1_2/J1_2；VIN: J1_1/e26）；
+  `route.auto` 与 `pour.rebuild` 调用成功但未消除，需要手工补 J1/C1 的短线后重跑 DRC。
+- **原验收工程 `zhigou-integrated-dual-button-led-20261027` 被改坏**（原地替换导致原理图连接/网表
+  受损）。恢复方式：用 `zhigou-board.epro2` 重新导入，或在 EDA 中撤销。请勿再引用其当前状态。
+
+## 2026-10-28 12:58 PCB 修复尝试失败（如实）
+
+- 自动补线尝试：`pcb.route.auto`、`pcb.pour.rebuild`（rebuilt 2）都成功调用，但 J1 换 TH 后的
+  No Connection 未消除；随后 `pcb.line.create` 画了 3 条线（VIN J1_1→e26、GND J1_2、GND C1_2），
+  端点没有吸附到焊盘/走线端点，DRC 反而变成 2 条违规、多出悬空段 e52/e53。
+- 因此 **PCB 未闭环**：需在 EDA GUI 里交互式补 J1/C1 两条线（吸附可靠），或
+  `zhigou-board.epro2` 重导基线 + 保留 `BOM-v2.csv` 的料号。
+- BOM 侧不退回：6 行新料号（C112291/C125205/C51933311/C845159/C49296724/C124375）已确认有货，
+  BOM 导出（`evidence/gates/BOM-v2.csv`）可直接用于下单核对。
+
+## 2026-10-28 13:05 PCB 自动补线结论（停止）
+
+- 用真实宿主坐标（`getPrimitivesBBox`）后，J1_1/J1_2 的 No Connection **清零**；
+- 但逃逸走线互相重叠，且剩 1 条 Safe-Spacing（+5V e34 与 GND/VIN 补线间距不足）；
+  按 id 删除没匹配到新线段，重复补线累积 → PCB 当前不可信。
+- 结论：**自动补线（无吸附/无 clearance 预检）不可靠**。建议从 `zhigou-board.epro2`
+  重导 PCB 基线；若保留 TH J1，连接器逃逸布线在 EDA GUI 里做（约 1 分钟）。
+- BOM 不受影响：`evidence/gates/BOM-v2.csv` 六行料号可下单。
+
+## 2026-10-28 13:12 eev3 成功：BOM 换料 + 全板重布 + DRC 0
+
+- 从 `zhigou-board.epro2` 重导基线 → `zhigou-dual-button-led-eev3-20261028`。
+- 8 个器件改 BOM 身份（C112291/C125205/C51933311/C845159/C49296724）+ J1 删除重放为 TH 器件
+  （C124375，封装 HDR-TH_2P-P2.54-V-M-1）→ PCB 同步 imported+verified。
+- **放弃手工补线**：删除全部 47 条旧走线 → `pcb.route.auto` 全板重布 → `pour.rebuild` →
+  `pcb save → doc reload → pcb drc` = **passed，0 违规**。
+- BOM：`evidence/gates/BOM-v3.csv`（6 行含 C 号/型号/厂家，可下单）。
+- 注意：全板重布替换了原手工布线，制造前仍需人工看布局/走线观感；原工程与 eev2 副本已损坏，
+  以 eev3 为当前候选。
+
+## 2026-10-28 13:18 DFM 修复尝试与回退
+
+- 备份：`.zhigou/artifacts/eev3-before-dfm-fix.epro2`（49,207 B，导出成功）。
+- 修复尝试：J1 位号丝印移回板内（成功）；删除 10 条 +5V/GND 走线后用 `route-short --route-power
+  --width-power 20` 重布（DRC 仍 0），但引入 `widthMismatches` 4（R1/R2/SW1/SW2 进出线宽 10/20
+  不一致）与 `viaInPad` 1（SW1.2 的 GND 过孔落在焊盘上）；minGap 仍 5.98、crossing 仍 1。
+- 结论：**自动修复线宽/过孔不可靠**，已从备份恢复为 `zhigou-dual-button-led-eev3-final`。
+  保留原 eev3 基线（DRC 0 + 4 条 DFM WARN）；DFM 的线宽/过孔/5.98 间距留给人工在 GUI 里处理。
+- 制造文件（Gerber+钻孔/CPL）已从原 eev3 导出，与保留基线一致。
+
+## 2026-10-28 13:20 最终基线：`zhigou-dual-button-led-eev3-final`
+
+- DFM 修复尝试：丝印移动成功；但线宽加宽（+5V/GND 20 mil）引入 `widthMismatches` 4 与
+  `viaInPad` 1，minGap 仍 5.98 → **已回退**，从 `eev3-before-dfm-fix.epro2`（49,207 B 备份）恢复为
+  `zhigou-dual-button-led-eev3-final`（uuid `f178aba5…`）。
+- 基线状态：PCB DRC **0 违规**；BOM 6 行可下单；制造文件（Gerber+钻孔/CPL）已导出。
+- 遗留（投产前需人工/GUI）：minGap 5.98→≥6、J1 丝印移入、+5V/GND 线宽策略（勿 10/20 混接）、
+  可选 +5V 铺铜、人工走线复核、实物测试 V2–V11。
+- 证据：`evidence/eev3/final-baseline.json`、`dfm-fix-attempt.json`、`eev3-acceptance.md`。
+
+## 2026-10-28 13:25 eev3 送打样（用户决定，跳过人工复核）
+
+- 用户决定：直接送嘉立创打样，人工走线复核**明确跳过（视为未执行）**。
+- 状态：DRC 0、BOM 6 行可下单、Gerber+钻孔+CPL 已导出、5.98 mil 满足 0.10 mm 工艺下限；
+  DFM 3 WARN 经载流计算判为不必处理（+5V ≈27 mA，10 mil 余量充足）。
+- 后续：打样回来做实物测试 V2–V11（NOT RUN）；任何制造文件变更需重跑 DRC/lint/check 并重导。
+## 2026-10-28 16:05 演示板 peripheral 警告处理
+
+- 已清除冗余的 module claim（sch zones clear，3 个），分区框改由虚拟组驱动：
+  zone-plan 3 分区 clean、zone-draw 3 框保留；peripheral-not-direct 警告消除。
+- 清除后 sch check 报出 2 条历史遗留导线几何 ERROR（D1 附近 wire-through-body）与 2 条
+  sheet 属性 out-of-sheet（平台属性显示位置，工具链无法移动）；sch drc 仍 0。
+- 随后 EDA 事务报 "Schematic has an unknown or non-sync transaction"，导出/读取间歇失败——
+  需在 EDA 里重开工程或重启 EDA 后再复验与导出。
+- 当前演示图仍为 1.0.11 的版本（标题栏已修、三框齐全）。

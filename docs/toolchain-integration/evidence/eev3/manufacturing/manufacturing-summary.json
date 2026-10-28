@@ -1,0 +1,51 @@
+{
+  "gerber": {
+    "file": "eev3-gerber.zip",
+    "bytes": 19489,
+    "entries": 12,
+    "layers": [
+      "Gerber_TopLayer.GTL",
+      "Gerber_BottomLayer.GBL",
+      "Gerber_TopSilkscreenLayer.GTO",
+      "Gerber_BottomSilkscreenLayer.GBO",
+      "Gerber_TopSolderMaskLayer.GTS",
+      "Gerber_BottomSolderMaskLayer.GBS",
+      "Gerber_TopPasteMaskLayer.GTP",
+      "Gerber_BoardOutlineLayer.GKO",
+      "Gerber_DocumentLayer.GDL",
+      "Gerber_DrillDrawingLayer.GDD",
+      "Drill_PTH_Through.DRL"
+    ],
+    "drillFiles": [
+      "Gerber_DrillDrawingLayer.GDD",
+      "Drill_PTH_Through.DRL"
+    ]
+  },
+  "cpl": {
+    "file": "eev3-cpl.csv",
+    "bytes": 3406,
+    "rows": 9,
+    "header": [
+      "Designator",
+      "Device",
+      "Footprint",
+      "Mid X",
+      "Mid Y",
+      "Ref X",
+      "Ref Y",
+      "Pad X",
+      "Pad Y",
+      "Pins",
+      "Layer",
+      "Rotation",
+      "SMD",
+      "Comment",
+      "Value",
+      "Type",
+      "Supplier",
+      "Datasheet"
+    ]
+  },
+  "exported_at": "2026-10-28T13:19:00+08:00",
+  "after": "J1 silkscreen text moved inside the board (pcb silk-set), tracks untouched"
+}

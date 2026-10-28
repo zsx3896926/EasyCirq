@@ -39,7 +39,7 @@
 
 | 规则 | 从 | 到 | 原因 |
 | --- | --- | --- | --- |
-| 模块路径 | `github.com/zhoushoujianwork/easyeda-agent` | `github.com/zsx3896926/EasyCirq/runtime` | 代码归属与导入路径 |
+| 模块路径 | `github.com/zhoushoujianwork/easyeda-agent` | `github.com/zsx3896926/hardware-design-skill/runtime` | 代码归属与导入路径 |
 | 环境变量前缀 | `EASYEDA_*` | `EASYCIRQ_*` | 不与旧工具链共享配置 |
 | 状态目录 | `~/.easyeda-agent` | `~/.easycirq` | pid/log/audit/workflow 隔离 |
 | 服务标识/二进制名 | `easyeda-agent`、`easyeda.exe` | `easycirq-agent`、`easycirq.exe` | handshake 校验 + 进程可辨识 |
@@ -71,7 +71,7 @@
 
 ```powershell
 cd runtime
-go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=<version>" -o dist/easycirq.exe ./cmd/easycirq
+go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/hardware-design-skill/runtime/internal/version.Version=<version>" -o dist/easycirq.exe ./cmd/easycirq
 ```
 
 构建产物内嵌 `vcs.revision`/`vcs.time`/`vcs.modified`，`easycirq doctor` 会把它们报告出来，

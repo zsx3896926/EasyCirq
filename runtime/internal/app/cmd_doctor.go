@@ -464,7 +464,7 @@ func doctorSkillCheck(sk doctorSkill) healthCheck {
 			Detail: fmt.Sprintf("easycirq 已安装（%s）", strings.Join(owners, ", "))}
 	}
 	return healthCheck{Name: "skill", Status: "warn",
-		Detail: "没有找到已安装的 easycirq Skill",
+		Detail: "没有找到已安装的 design-hardware Skill",
 		Fix:    "运行 `distribution/Manage-Skill.ps1 install`（或附带的安装包）安装 Skill；单独运行 easycirq 不会安装它"}
 }
 

@@ -1,0 +1,7 @@
+{
+  "attempt": "2026-10-28 13:16 DFM fixes",
+  "silk": "moved J1 designator text inside the board (pcb silk-set) - success",
+  "power_width": "deleted 10 +5V/GND tracks and re-routed with route-short --route-power --width-power 20 -> DRC still 0, but new DFM warnings appeared: widthMismatches 4 (10 vs 20 mil at R1/R2/SW1/SW2) and viaInPad 1 (SW1.2 GND)",
+  "min_gap": "layout-lint still reports minGapMil 5.98 and 1 crossing; not changed by the fix",
+  "decision": "restored zhigou-dual-button-led-eev3-final from eev3-before-dfm-fix.epro2; the original eev3 baseline (DRC 0 + 4 DFM warnings) is the one to keep. The width/via issues need interactive review, not automated re-routing."
+}

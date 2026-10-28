@@ -9,7 +9,7 @@ Two independent products are produced in one run:
    (SHA-256), the compatibility matrix and the build provenance (source commit,
    Go version, node/npm version, per-artifact hashes).  This is what
    ``distribution/easycirq_install.py`` installs.
-2. **Legacy Skill installer** (unchanged contract) -- ``easycirq-<v>.zip``
+2. **Legacy Skill installer** (unchanged contract) -- ``design-hardware-<v>.zip``
    + ``release.json`` + ``Manage-Skill.ps1/.cmd`` + ``skill_update.py`` +
    ``companion_update.py`` + ``SHA256SUMS``, which the existing CI workflows
    publish and ``easycirq/scripts/skill_update.py`` consumes.

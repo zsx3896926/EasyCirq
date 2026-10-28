@@ -2,7 +2,8 @@
 Copyright (c) 2026 zsx3896926 (this fork and its modifications)
 
 本扩展是 easyeda-agent 连接器扩展的分支（MIT，Copyright (c) 2026 zhoushoujianwork
-and contributors），按 MIT 许可复用并修改。上游来源：
+and contributors），按 MIT 许可复用并修改；发布物元数据 license 以本项目主许可 Apache-2.0
+声明，上游 MIT 版权与许可声明按 MIT 要求在下方保留。上游来源：
   https://github.com/zhoushoujianwork/easyeda-agent
   固定标签 v1.15.0 / 提交 d93d3dd94edd1890557c5b3a5f61756a8d5fef83
 
@@ -19,5 +20,5 @@ and contributors），按 MIT 许可复用并修改。上游来源：
   许可原文见该目录 LICENSE；分发本扩展时一并附带本 NOTICE。
   该组件仅在构建产物 dist/index.js 中以编译形态存在。
 
-图标/图片：images/logo.jpg 沿用上游仓库资源（随上游 MIT 许可），
-其余演示用媒体文件不进入发布包。
+图标/图片：images/logo.png（方形）与 images/banner.png（横幅）为本项目自有品牌图（智构 · EasyCirq，来自项目品牌素材），
+非上游 SDK/平台默认图标，版权归本项目所有；其余演示用媒体文件不进入发布包。

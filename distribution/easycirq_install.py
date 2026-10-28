@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Unified installer/upgrader/rollback/uninstaller for the EasyCirq toolchain.
 
-Installs, in one transaction: the Skill (easycirq), the runtime
+Installs, in one transaction: the Skill (design-hardware), the runtime
 (easycirq.exe + build identity) and the connector .eext (copied into the install
 directory and printed as manual import steps -- never imported into EasyEDA).
 
@@ -637,7 +637,7 @@ def install_skill_copy(source: Path, target: Path, version: str, backup_root: Pa
     try:
         shutil.copytree(source, stage, dirs_exist_ok=True)
         write_json(stage / '.easycirq-install.json',
-                   {'schema': 'easycirq-toolchain-skill/v1', 'name': 'easycirq',
+                   {'schema': 'easycirq-toolchain-skill/v1', 'name': 'design-hardware',
                     'version': version, 'files': payload})
         if target.exists():
             shutil.rmtree(target)

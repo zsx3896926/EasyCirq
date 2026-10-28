@@ -151,7 +151,7 @@ func (a skillAsset) resolve(explicit string) (string, error) {
 var standardPartsAsset = skillAsset{
 	name: "standard-parts.json",
 	rels: []string{
-		"easycirq/references/standard-parts.json",
+		"design-hardware/references/standard-parts.json",
 		"easycirq-agent/references/standard-parts.json",
 		"easycirq-schematic/references/standard-parts.json", // pre-merge skill name
 	},

@@ -1,0 +1,85 @@
+{
+  "schema": "zhigou-bom-replacement/v1",
+  "created_at": "2026-10-28T12:55:00+08:00",
+  "project": "zhigou-dual-button-led-eev2-20261028 (clean copy imported from zhigou-board.epro2)",
+  "method": "schematic.component.modify rewrote supplierId/manufacturer/manufacturerId (symbol+footprint untouched); J1 additionally swapped to the TH device C124375 (delete + re-place) because no in-stock SMD 2P part matched the original footprint",
+  "rows": [
+    {
+      "designators": "R1,R2",
+      "old": "C2889365 (VO 0402 220R, out of stock)",
+      "new": "C112291",
+      "part": "YAGEO RC0402FR-07220RL",
+      "stock": 1045700
+    },
+    {
+      "designators": "C1",
+      "old": "C9900013340 (internal id)",
+      "new": "C125205",
+      "part": "TORCH CT41G-0603-2X1-50V-0.1uF-K(N)",
+      "stock": 148300
+    },
+    {
+      "designators": "D1,D2",
+      "old": "C28105 (internal id)",
+      "new": "C51933311",
+      "part": "Guiguang GL0805YG01",
+      "stock": 198900
+    },
+    {
+      "designators": "F1",
+      "old": "C9900012139 (internal id)",
+      "new": "C845159",
+      "part": "SART S1206-SD-1.5A",
+      "stock": 2935
+    },
+    {
+      "designators": "SW1,SW2",
+      "old": "C9900015641 (internal id)",
+      "new": "C49296724",
+      "part": "XKB TS-1101-C-R",
+      "stock": 2380
+    },
+    {
+      "designators": "J1",
+      "old": "C9900024210 (internal id, SMD 2.54)",
+      "new": "C124375",
+      "part": "Ckmtw B-2100S02P-A110 (TH 2.54 1x2P)",
+      "stock": 121860,
+      "note": "footprint changed HDR-SMD_2P-P2.54-V-M -> HDR-TH_2P-P2.54-V-M-1"
+    }
+  ],
+  "verified": {
+    "schematic": "9/9 devices relabelled; sch drc passed (1 advisory ATTRMATCHCODE); sch check 9 findings: 2 zero-length wires + sheet/titleblock + missing partition frames (copy predates the layout fixes)",
+    "pcb": "import-changes imported+verified 9 components; PCB DRC NOT clean: 4 no-connection (GND: C1_2, J1_2; VIN: J1_1, e26) after the J1 TH swap; route.auto + pour.rebuild ran successfully but did not close them -> requires manual rewire of J1/C1"
+  },
+  "bom": {
+    "file": "evidence/gates/BOM-v2.csv",
+    "note": "exported with --enrich=false; contains C codes, MPNs and manufacturers for all 6 rows"
+  },
+  "honest_status": "RESOLVED on eev3: BOM orderable and PCB DRC 0 (full re-route). Earlier eev2 copy and the original project remain damaged; use eev3 as the current candidate. Full re-route replaces the hand-made routing, so placement/routing still needs a human look before manufacturing.",
+  "repair_attempts": {
+    "at": "2026-10-28T12:57:00+08:00",
+    "tried": [
+      "pcb.route.auto (typed call ok, no effect on the gaps)",
+      "pcb.pour.rebuild (rebuilt 2 pours, gaps remained)",
+      "pcb.line.create x3 (VIN J1_1->e26, GND J1_2, GND C1_2)"
+    ],
+    "outcome": "DRC after repair: 2 violations, more disconnected objects (GND: C1_2/J1_2/e53; VIN: F1_1/J1_1/e26/e52) - the manual track endpoints did not snap onto the pads/track ends, so automated repair made it worse",
+    "conclusion": "Do the J1/C1 rewire interactively in the EDA GUI (snapping is reliable there), or re-import zhigou-board.epro2 as the PCB baseline and keep the BOM-v2 codes."
+  },
+  "pcb_repair_final": {
+    "at": "2026-10-28T13:05:00+08:00",
+    "what_worked": "after using real host coordinates (bbox via getPrimitivesBBox) the no-connection errors dropped to 0: J1_1 VIN and J1_2 GND are connected",
+    "what_broke": "the escape tracks now overlap each other and one Safe-Spacing clearance violation remains (+5V e34 vs my GND/VIN segments); repeated line.create attempts accumulated duplicate tracks because deletion by id did not match the newly created segments",
+    "recommendation": "reset the PCB from zhigou-board.epro2 (clean baseline) and, if the TH J1 is kept, do the connector escape routing interactively in the EDA GUI; the BOM-v2 codes are unaffected and remain orderable"
+  },
+  "eev3": {
+    "project": "zhigou-dual-button-led-eev3-20261028",
+    "method": "baseline import -> BOM identity modify (8 parts) + J1 TH swap -> import-changes -> delete all 47 old tracks -> pcb.route.auto full re-route -> pour rebuild",
+    "drc": {
+      "passed": true,
+      "violations": 0
+    },
+    "bom": "evidence/gates/BOM-v3.csv (C code + MPN + manufacturer per row)"
+  }
+}

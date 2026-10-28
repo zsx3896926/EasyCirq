@@ -9,5 +9,5 @@ var (
 	// runtime ships with. Release builds override both via -ldflags so the CLI
 	// and the packaged .eext cannot silently drift apart.
 	ConnectorName    = "easycirq-connector"
-	ConnectorVersion = "0.1.4"
+	ConnectorVersion = "1.0.3"
 )

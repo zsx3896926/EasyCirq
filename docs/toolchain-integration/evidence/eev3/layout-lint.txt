@@ -1,0 +1,45 @@
+{
+  "report": {
+    "ok": false,
+    "incomplete": false,
+    "coverage": {
+      "complete": true,
+      "componentsInventoryKnown": true,
+      "padsInventoryKnown": true,
+      "componentCount": 9,
+      "totalPads": 18,
+      "knownGeometryPads": 18,
+      "unsupportedGeometryPads": 0,
+      "unknownGeometryPads": 0,
+      "legacyGeometryPads": 0
+    },
+    "score": 76,
+    "verdict": "moderate",
+    "componentCount": 9,
+    "minGapMil": 5.98,
+    "overlaps": null,
+    "outsideOutline": [
+      {
+        "type": "outside-outline",
+        "a": "J1"
+      }
+    ],
+    "tightSpacing": null,
+    "sides": {
+      "top": 9
+    },
+    "signalNets": 4,
+    "ratsnestLenMil": 665.43,
+    "crossingCount": 1,
+    "crossings": [
+      {
+        "netA": "LED1_A",
+        "netB": "LED1_K",
+        "x": 30.21,
+        "y": 277
+      }
+    ],
+    "summary": "score 76/100 (moderate): 9 comps, 0 short, 0 overlap, 1 off-board, 0 tight; 4 signal nets, ratsnest 665mil, 1 crossings"
+  }
+}
+layout not routable-ready: 0 cross-net short, 0 overlap, 1 off-board

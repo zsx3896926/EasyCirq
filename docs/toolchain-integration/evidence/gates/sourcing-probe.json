@@ -1,0 +1,61 @@
+{
+  "schema": "zhigou-sourcing-probe/v1",
+  "probed_at": "2026-10-28T12:30:00+08:00",
+  "method": "direct HTTP GET of https://www.lcsc.com/product-detail/<C>.html and <title> extraction; no stock/price numbers were returned to the crawler (page is JS-rendered), so stock_checked_at is deliberately left empty.",
+  "rows": [
+    {
+      "cnumber": "C2889365",
+      "designators": "R1,R2",
+      "value": "220Ω 0402",
+      "verdict": "real LCSC product page; spec matches BOM",
+      "url": "https://www.lcsc.com/product-detail/C2889365.html",
+      "title": "0402 ±5% 220Ω | Chip Resistor - Surface Mount | VO | LCSC",
+      "exists": true
+    },
+    {
+      "cnumber": "C28105",
+      "designators": "D1,D2",
+      "value": "发光二极管（黄绿色）0805",
+      "verdict": "Page Not Found -> not an LCSC order code",
+      "url": "https://www.lcsc.com/product-detail/C28105.html",
+      "title": "Page Not Found | LCSC",
+      "exists": true
+    },
+    {
+      "cnumber": "C9900013340",
+      "designators": "C1",
+      "value": "100nF/0603/50V",
+      "verdict": "Page Not Found -> system-library internal id",
+      "url": "https://www.lcsc.com/product-detail/C9900013340.html",
+      "title": "Page Not Found | LCSC",
+      "exists": true
+    },
+    {
+      "cnumber": "C9900012139",
+      "designators": "F1",
+      "value": "1.5A 自恢复保险丝 1206",
+      "verdict": "Page Not Found -> system-library internal id",
+      "url": "https://www.lcsc.com/product-detail/C9900012139.html",
+      "title": "Page Not Found | LCSC",
+      "exists": true
+    },
+    {
+      "cnumber": "C9900024210",
+      "designators": "J1",
+      "value": "1x2P 卧式排针",
+      "verdict": "Page Not Found -> system-library internal id",
+      "url": "https://www.lcsc.com/product-detail/C9900024210.html",
+      "title": "Page Not Found | LCSC",
+      "exists": true
+    },
+    {
+      "cnumber": "C9900015641",
+      "designators": "SW1,SW2",
+      "value": "贴片按键 2PIN",
+      "verdict": "Page Not Found -> system-library internal id",
+      "url": "https://www.lcsc.com/product-detail/C9900015641.html",
+      "title": "Page Not Found | LCSC",
+      "exists": true
+    }
+  ]
+}

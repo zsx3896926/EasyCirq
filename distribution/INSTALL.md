@@ -6,8 +6,8 @@
 
 | 你想装什么 | 入口 | 对应产物 |
 |---|---|---|
-| **完整工具链**：Skill（easycirq）+ 运行时（`easycirq.exe`）+ 连接器（`.eext`） | `Install-EasyCirq.cmd` / `Install-EasyCirq.ps1` | `easycirq-toolchain-<版本>.zip` |
-| 只安装 / 只更新 Skill | `Manage-Skill.cmd` / `Manage-Skill.ps1` | `easycirq-<版本>.zip` |
+| **完整工具链**：Skill（design-hardware）+ 运行时（`easycirq.exe`）+ 连接器（`.eext`） | `Install-EasyCirq.cmd` / `Install-EasyCirq.ps1` | `easycirq-toolchain-<版本>.zip` |
+| 只安装 / 只更新 Skill | `Manage-Skill.cmd` / `Manage-Skill.ps1` | `design-hardware-<版本>.zip` |
 
 两条路径可以共存，但**不要对同一个 Skill 目录同时操作**。
 
@@ -22,6 +22,7 @@
 3. 看到 `"status": "installed"`（首次）或 `"status": "upgraded"` 即完成。
 4. **人工导入连接器**（安装器不会自动做，也不修改 EasyEDA 的任何状态）：
    - 打开安装目录（默认 `%LOCALAPPDATA%\EasyCirq`）下的 `connector\IMPORT-STEPS.md`；
+   - 连接器的完整说明（是什么/授权/升级/排障/安全）见随包 `connector\README.md`；
    - EasyEDA Pro → 设置 → 扩展 → 已安装 → 导入扩展 → 选择 `connector\easycirq-connector_<版本>.eext`；
    - 在扩展设置中允许外部交互；
    - **完全退出 EasyEDA Pro 并重新启动**（连接器在启动时加载，不支持热加载）。

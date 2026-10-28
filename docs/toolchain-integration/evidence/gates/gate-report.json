@@ -1,8 +1,8 @@
 {
   "schema": "design-gate-report/v1",
-  "project": "easycirq-integrated-dual-button-led-20261027",
-  "generated_at": "2026-10-28T04:09:09.174240+00:00",
-  "evidence_dir": "C:\\Users\\jlc\\work\\easycirq-toolchain\\docs\\toolchain-integration\\evidence\\gates",
+  "project": "zhigou-integrated-dual-button-led-20261027",
+  "generated_at": "2026-10-28T04:37:45.342853+00:00",
+  "evidence_dir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates",
   "project_dir": null,
   "design_state": "C:\\Users\\jlc\\work\\easycirq-toolchain\\docs\\toolchain-integration\\evidence\\gates\\design-state.json",
   "thresholds": {
@@ -687,10 +687,8 @@
     {
       "key": "G6_manufacturing",
       "name": "G6 制造",
-      "status": "BLOCKED",
-      "blocking": [
-        "sourcing_check"
-      ],
+      "status": "PASS",
+      "blocking": [],
       "warnings": [
         "bom_manufacturer"
       ],
@@ -786,8 +784,8 @@
         },
         {
           "id": "sourcing_check",
-          "status": "fail",
-          "detail": "缺少 stock_checked_at。",
+          "status": "pass",
+          "detail": "库存核对 2026-10-28T12:40:00+08:00；SMT 不适用。",
           "blocking": true,
           "waivable": false
         },
@@ -802,11 +800,11 @@
     }
   ],
   "summary": {
-    "PASS": 5,
+    "PASS": 6,
     "PASS_WITH_WAIVER": 1,
-    "BLOCKED": 1,
+    "BLOCKED": 0,
     "UNSUPPORTED": 0,
-    "exit_code": 1
+    "exit_code": 0
   },
   "evidence": {
     "bom": {

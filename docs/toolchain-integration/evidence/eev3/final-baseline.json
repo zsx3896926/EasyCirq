@@ -1,0 +1,22 @@
+{
+  "final_baseline": {
+    "project": "zhigou-dual-button-led-eev3-final",
+    "uuid": "f178aba5a861455b944edb9f8a1a1b65",
+    "restored_from": "eev3-before-dfm-fix.epro2 (backup taken before the DFM fix attempt)",
+    "drc": {
+      "passed": true,
+      "violations": 0
+    },
+    "bom": "evidence/eev3/BOM-v3.csv (six orderable codes)",
+    "manufacturing": "evidence/eev3/manufacturing/ (Gerber+drill, CPL, summary)",
+    "dfm": "4 warnings (silkOffBoard J1, powerNotPoured +5V, widthUnderSpec x2), layout-lint 76 (minGap 5.98 mil, 1 crossing)",
+    "dfm_fix_attempt": "silk fixed; width/via changes introduced new warnings -> reverted"
+  },
+  "pre_production_items": [
+    "raise minGap 5.98 -> >=6 mil or confirm the fab accepts it",
+    "move J1 silk text inside the board (silk-set works; apply without touching tracks)",
+    "decide width strategy for +5V/GND (do not mix 10/20 mil without transitions)",
+    "optional: +5V pour",
+    "human routing review, then physical validation (V2-V11)"
+  ]
+}

@@ -39,7 +39,7 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 
 	skillsRoot := t.TempDir()
 	envScript := mkScript(t, filepath.Join(skillsRoot, "easycirq-agent", "scripts", "bom-enrich.py"))
-	installed := mkScript(t, filepath.Join(home, ".claude", "skills", "easycirq", "scripts", "bom-enrich.py"))
+	installed := mkScript(t, filepath.Join(home, ".claude", "skills", "design-hardware", "scripts", "bom-enrich.py"))
 
 	// cwd rung: a repo-shaped tree, with cwd a few levels down.
 	repo := t.TempDir()
@@ -125,8 +125,8 @@ func TestResolveEnrichScriptNotFoundListsProbedPaths(t *testing.T) {
 	msg := err.Error()
 	for _, want := range []string{
 		filepath.Join(root, "easycirq-agent", "scripts", "bom-enrich.py"),                      // env rung
-		filepath.Join(home, ".claude", "skills", "easycirq", "scripts", "bom-enrich.py"), // installed rung
-		filepath.Join(home, ".codex", "skills", "easycirq", "scripts", "bom-enrich.py"),
+		filepath.Join(home, ".claude", "skills", "design-hardware", "scripts", "bom-enrich.py"), // installed rung
+		filepath.Join(home, ".codex", "skills", "design-hardware", "scripts", "bom-enrich.py"),
 		"$PATH/bom-enrich.py",
 		"--script",
 		"EASYCIRQ_SKILLS_DIR",
