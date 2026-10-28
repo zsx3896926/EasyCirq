@@ -17,7 +17,7 @@ sources: [PR-75, PR-97, .github/workflows/release.yml, distribution/build_releas
 |---|---|
 | 决策 ID / 标题 | EXEC-LAYER-RETIRE-01 / 自建 easycirq runtime 的去留 |
 | 需求来源 | 复盘 `skill-shortcomings.md`（执行层维护负担）与在途 spike PR #75、删除 PR #97 |
-| 状态 | **draft**（未冻结；冻结条件见 §7） |
+| 状态 | **draft**（未冻结；冻结条件见 §7）。近端决定（2026-10-28，owner 委托）：**现在不退 A**，维持自建 `easycirq` runtime；退休计划在 S2 对等证明补齐后从 draft 转 frozen 再推进 |
 | 冻结条件 | 官方 CLI 在真实工程上完成全部 11 个工作流的对等证明后，才从 draft 转 frozen |
 | 决定人/日期 | 2026-10-28（Agent 记录；owner 决定 go/no-go） |
 | 受影响对象 | `runtime/**`、`connector/**`、`protocol/**`、`distribution/**`、`.github/workflows/release.yml`、`easycirq/**`（SKILL 执行面）、`tests/**`、B1 task-launcher 的 plugin/agent 注入、全套文档与证据 |
@@ -79,10 +79,10 @@ sources: [PR-75, PR-97, .github/workflows/release.yml, distribution/build_releas
 - **结论状态**：**有条件满足 / draft**（方案成立，但门禁证据未集齐）。
 - **不能证明**：本记录不证明官方 CLI 与自建 runtime 已对等，不证明删除无回退风险，不证明硬件/EDA 工程已验证。
 
-## 9. 与在途 PR 的关系
+## 9. 与在途 PR 的关系（2026-10-28 已按“不退 A”收口）
 
-- **#75（spike）**：保留，作为 S2 对等矩阵的证据来源与“为什么退”的决策依据。
-- **#97（删除）**：不开工，降级为“S5 才执行的收尾删除”的 checklist；其“migration pending”与“删除面 69+24”需在 S5 前重写为完整盘点。
+- **#75（spike）**：**已关闭（consumed）**，其证据并入本记录，作为 S2 对等矩阵的证据来源与“为什么退”的决策依据；分支 `spike/a2-thin-layer` 上的材料（`spike/a2-coverage/`、测试、`docs/parallel-a2-coverage/`、证据回执）保留在分支。
+- **#97（删除）**：**已关闭（deferred，非拒绝）**，降级为“S5 才执行的收尾删除”的 checklist；其“migration pending”与“删除面 69+24”需在 S5 前重写为完整盘点。S2 对等证明补齐后可重开。
 
 ## 10. 使用位置
 
