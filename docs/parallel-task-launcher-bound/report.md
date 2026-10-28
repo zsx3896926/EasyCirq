@@ -133,6 +133,11 @@ publish                    skipping
   - 复验：WSL Ubuntu `selftest` **19/19**、bound 测试 **208 tests OK**；Windows 同样
     208 tests OK、基准 24/24、selftest 19/19。
 - 本地已跑：Python 3.13 全量 `3520 tests OK (skipped=3)`；CI 已实际在 3.10/3.13 跑完整套件。
+- **rebase 到最新 main 后的 CI（head `58ba19f`，与 main `f9aa773` 的合并树）**：
+  `validate (3.10)` **PASS**（3m58s / 2m24s）、`validate (3.13)` **PASS**（4m20s / 3m08s）、
+  `updater (ubuntu/windows)` PASS、`publish` skipping；rebase 后叠加分支 push CI
+  （run 40645840280）**success**。即 CI 已在“最新 main（含 B1 #74 与 rebrand）+
+  本任务改动”的合并树上完整通过。
 
 ### 3.7 rebase 到最新 main + 双布局复跑（2026-10-28）
 

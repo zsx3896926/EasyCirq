@@ -53,7 +53,7 @@
 | 10 | 真实 EDA（Phase 2 受控写） | —（无授权） | **BLOCKED**；`apply/readback` → `EDA_NOT_AUTHORIZED`，任务 FAILED、不可 finalize | **BLOCKED** |
 | 11 | 允许路径 / 未改 B1 | `git diff --name-status origin/main...HEAD` | **83 files，全部 A**（task_launcher/bound 29、tests 15、benchmarks 27、docs 8；无 M/D）；叠加分支 vs B1 `074bd88` 同样 79 all A | **PASS** |
 | 12 | PR / 发版 | PR #94 | **PR #94 已创建（OPEN），未合并、未发版**；base main，83 files 全 A；CI 见 §6 | 符合约束（PASS） |
-| 13 | rebase 到最新 main 复验（B1 #74 合并后） | `feat/parallel-task-launcher-bound-on-main`（base `f9aa773`） | 6 提交干净重放；83 files 全 A；208 tests OK、24/24、19/19、全量 3636 OK(skipped=3)；`skill_name=easycirq` | **PASS（离线/模拟）** |
+| 13 | rebase 到最新 main 复验（B1 #74 合并后） | `feat/parallel-task-launcher-bound-on-main`（base `f9aa773`）；PR #94 CI | 6 提交干净重放；83 files 全 A；208 tests OK、24/24、19/19、全量 3636 OK(skipped=3)；`skill_name=easycirq`；叠加分支 push CI success（40645840280）；PR #94 head `58ba19f` 与最新 main 合并树 `validate 3.10/3.13 PASS` | **PASS** |
 | 14 | 双布局兼容（design-hardware ↔ easycirq） | `9c88def`/`a0c13bb`；`fixtures/inputs_easycirq/` | 旧布局 208 OK/24/24/19/19（skill=design-hardware）；新 main 208 OK/24/24/19/19（skill=easycirq）；缺模块时如实 NOT_RUN | **PASS** |
 
 ## 2. 任务书 §8 验收标准 ↔ 证据
