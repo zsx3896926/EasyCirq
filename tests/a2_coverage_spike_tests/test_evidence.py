@@ -108,10 +108,15 @@ class EvidenceTests(unittest.TestCase):
         self.assertGreaterEqual(len(lines), 7)
         import hashlib
 
+        def normalise(data: bytes) -> bytes:
+            # SHA256SUMS is over LF-normalised bytes so Windows CRLF checkouts
+            # and Linux CI agree.
+            return data.replace(b"\r\n", b"\n")
+
         for line in lines:
             digest, rel = line.split("  ", 1)
             data = (EVIDENCE / "a-self-evidence" / rel).read_bytes()
-            self.assertEqual(hashlib.sha256(data).hexdigest(), digest, rel)
+            self.assertEqual(hashlib.sha256(normalise(data)).hexdigest(), digest, rel)
 
     def test_docs_reference_evidence_paths(self):
         for name in ("methodology.md", "decision.md", "report.md", "handoff-current.md"):

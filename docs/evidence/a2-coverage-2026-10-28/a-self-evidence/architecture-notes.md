@@ -7,6 +7,10 @@ isolation notes in `docs/parallel-a-coverage/environment.md`).
 
 ## Copied files and why
 
+`SHA256SUMS.txt` records sha256 over **LF-normalised** bytes, so a Windows CRLF
+checkout and Linux CI produce the same digests (`hash_self_evidence.py`
+regenerates it).
+
 | file | taken from | what it supports |
 | --- | --- | --- |
 | `actions.json` | `docs/toolchain-integration/evidence/m1/actions.json` | 181 typed actions, 9 domains, `mutates`/`needsWindow` flags |
