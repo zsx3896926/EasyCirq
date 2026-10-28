@@ -98,9 +98,26 @@ func newTaskNewCmd(stdout, stderr io.Writer) *cobra.Command {
 			evidence := filepath.Join(absWorkdir, "delivery.json")
 			hookLog := filepath.Join(absWorkdir, "hook.log")
 			hookPath := filepath.Join(skillScripts, "sch_delivery_hook.py")
+			gatePath := filepath.Join(skillScripts, "sch_delivery_check.py")
 
-			command := fmt.Sprintf(`"%s" "%s" --evidence "%s" --log "%s"`,
-				python, hookPath, evidence, hookLog)
+			commandParts := []string{
+				fmt.Sprintf(`"%s"`, python),
+				fmt.Sprintf(`"%s"`, hookPath),
+				"--evidence", fmt.Sprintf(`"%s"`, evidence),
+				"--gate", fmt.Sprintf(`"%s"`, gatePath),
+				"--frame-plan", fmt.Sprintf(`"%s"`, filepath.Join(absWorkdir, "frame-plan.json")),
+				"--layout", fmt.Sprintf(`"%s"`, filepath.Join(absWorkdir, "layout.json")),
+				"--text-audit", fmt.Sprintf(`"%s"`, filepath.Join(absWorkdir, "text-audit.json")),
+				"--style", fmt.Sprintf(`"%s"`, filepath.Join(absWorkdir, "style-input.json")),
+				"--log", fmt.Sprintf(`"%s"`, hookLog),
+			}
+			if requireStyle {
+				commandParts = append(commandParts, "--require-style")
+			}
+			if requireVisual {
+				commandParts = append(commandParts, "--require-visual")
+			}
+			command := strings.Join(commandParts, " ")
 			settings := taskSettings{Hooks: map[string][]taskHookGroup{
 				"Stop": {{Hooks: []taskHook{{Type: "command", Command: command}}}},
 			}}

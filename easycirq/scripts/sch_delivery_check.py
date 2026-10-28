@@ -20,6 +20,7 @@ required input/coverage is missing).
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 import sys
@@ -169,12 +170,31 @@ def main(argv=None) -> int:
     elif verdict == "review":
         next_steps.append("处理上面列出的 review findings 后重跑")
 
+    def _sha256(path):
+        try:
+            return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+        except OSError:
+            return None
+
+    inputs = {}
+    for role, path in (
+        ("frame_plan", args.frame_plan),
+        ("layout", args.layout),
+        ("text_audit", args.text_audit),
+        ("style", args.style),
+        ("official_svg", args.official_svg),
+        ("visual_overlay", args.visual_overlay),
+    ):
+        if path:
+            inputs[role] = {"path": str(path), "sha256": _sha256(path)}
+
     report = {
         "schema": SCHEMA,
         "verdict": verdict,
         "checks": checks,
         "gaps": gaps,
         "next": next_steps,
+        "inputs": inputs,
     }
 
     out = json.dumps(report, ensure_ascii=False, indent=2) + "\n"
@@ -188,3 +208,4 @@ def main(argv=None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
