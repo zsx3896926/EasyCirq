@@ -244,7 +244,7 @@ easycirq sch save && easycirq doc reload <页面>    # 7 保存后重开，再�
 
 - **门禁键**：`G0_requirements`、`G1_function_freeze`、`G2_schematic`、`G3_layout`、`G4_power_ground`、`G5_routing`、`G6_manufacturing`；报告与 `gate_check.py` 使用同一组键，不另造别名。
 - **状态载体**：非平凡项目用 `design-state.json`（模板 [状态示例](assets/design-state.example.json)）记录需求、功能冻结、布局/层叠/布线/制造证据、假设与未决项；小修改可沿用 [工程记录](assets/engineering-notes.md)，不重复建同义文件。
-- **硬规则**：G2 未过不导入/布局 PCB；G3 未过不布线；G5 未过不谈制造；G6 未过不说可打样/可量产。G3 与 G4 是布线的并列前置条件，不能先布完再补声明。
+- **硬规则**：G2 未过不导入/布局 PCB；G3 未过不布线；G5 未过不谈制造；G6 未过不说可打样/可量产。G3 与 G4 是布线的并列前置条件，不能先布完再补声明。G5 内部顺序：平面/铺铜 → 关键信号 → 普通信号 → 缝合线与电源补线（全部信号网 Connection 0 之后），见 [PCB布线策略](references/pcb-routing-strategy.md) §4.2。
 - **离线复核**：`python scripts/gate_check.py --project <name> --evidence-dir <dir> --design-state <file> [--waiver-file <json>]` 只读证据，不连 daemon、不写工程；输出 `PASS / PASS_WITH_WAIVER / BLOCKED / UNSUPPORTED` 与 `next_command`。缺证据判 `BLOCKED`，不默认通过。
 - **豁免**：电气 DRC、网表审计、PCB DRC、关键网证明、保存重载、Gerber/BOM/恢复演练不可豁免；风格警告、安装孔、连接器逃逸、布局冻结、丝印、测试计划等可带理由豁免，必须落盘到 `--waiver-file`（`design-waivers/v1`）并写清范围、剩余风险与复验条件。`PASS_WITH_WAIVER` 不是 `PASS`。
 - **工具边界**：导出能力（Gerber/钻孔/CPL 等）以 `easycirq capabilities` 的逐项状态为准；`unsupported`/`unknown` 时由用户在 EDA GUI 导出并落证据，缺人工证据时 G6 仍 `BLOCKED`。门禁通过只说明列出的检查在给定对象/版本/范围内通过，不证明实物功能。

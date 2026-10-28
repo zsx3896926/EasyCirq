@@ -13,6 +13,8 @@ easycirq project export --out manufacturing/<project>-<rev>.epro2 --project-uuid
 
 v1.14.0 的 `--help` 中没有 Gerber、钻孔、坐标/CPL、装配图的 CLI 子命令，这三类制造文件在能力上属 `UNSUPPORTED`：必须由用户在嘉立创EDA专业版的制造资料导出入口人工导出，并在 manifest 中记录 `GUI 手工导出`、EDA 版本、导出人、时间与 sha256；缺人工证据时 G6 为 `BLOCKED`。不得写成不存在的 `easycirq pcb export-gerber` 之类命令。一次只认一个板版本，换版必须全部重导并更新哈希，不能沿用旧文件。
 
+2026-10-28 复核：v1.14.0 的结论对当时版本仍成立；当前 CLI 仍没有 Gerber、钻孔、CPL 的专用子命令。但当前 `easycirq` 已把官方 `@beta pcb_ManufactureData` 封装为 typed action：`pcb.manufacture.gerber`（`drill=true` 随带钻孔）、`pcb.manufacture.cpl`、`pcb.manufacture.netlist`，可用 `easycirq call <action> --payload ...` 导出并回读 artifact（本机真机 measured，见 `docs/toolchain-integration/capability-matrix.md`）。GUI 手工导出仍是 typed action 不可用或缺人工证据时的兜底；走 typed action 时同样在 manifest 记录 EDA 版本、导出时间与 sha256。3D 用 `easycirq pcb export-3d --format step|obj --out <新目录>`，文件超过 20 MiB 会在传输前被拒绝（一块 4 层 81 件板的 STEP 实测约 32 MB）。此时导出 OBJ 作展示件，STEP 改为 GUI 导出，并在 manifest 记录失败原因与大小。
+
 ## 2. Manifest 模板
 
 清单头（每个板版本一份）：

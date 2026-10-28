@@ -304,6 +304,10 @@ python scripts/pcb_apply_plan.py --dump before.json --plan playbook.json \
 - `pcb-diff`/`diff_boards` 的 `scope` 只允许声明范围内的变化；`unrelated_changes` 非空即 `mismatch`。
 - 局部改板只重布受影响网络/对象，保留无关区域；改封装、移接口、加去耦都按这个边界执行。
 - save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。
+- track/via/pour op 没有 no-op 检测，同一份铜计划执行两次就会叠出重复铜和重叠过孔。中断后拿 fresh `track-list`/`via-list` 按几何比对（网络+层+线宽，端点容差约 1 mil，可反向；过孔按网络+坐标），只把缺失的 op 组成新计划再 apply。PocketCam X1 的 1495 op 计划在第 647 步被 120 s 默认超时打断，按此比对得出 648 已落地、847 缺失，补齐后没有重复铜。
+- `--timeout` 同时限制每一步和整个进程。大批量铜计划按 op 数估算（该板实测量级：约 0.3 s/op 加上 save/reload 余量），或拆成每份不超过 500 op 的计划，每份单独 apply 和回读。
+- 含铜计划在 save/reload 后若报 `mismatch`：先看 diff 的实际类别（`unrelated_changes`、`copper_geometry_changes`、`identity_changes`）。`pcb_workflow` 已按语义签名匹配重开后变化的 primitiveId，纯 ID churn 不会单独构成 mismatch；`--allow-identity-change` 只对 component identity 生效，不是消除走线/过孔 ID 变化的开关。此时不能写 `verified`；按 journal 全部 `confirmed`、save/reload 成功、新增铜几何全部属于计划网络这三条逐项核对，并如实记录 mismatch 的实际类别与范围，不要把原因一律写成“ID 重开不稳定”。
+- 改铜后的固定顺序：apply → `pcb pour-rebuild` → save → `doc reload` → DRC。铺铜没重建时 DRC 会报大量假错误（实测一次 1910 条、一次 375 条，重建后回到真实值）。`pcb via-bond` 只给焊盘内的无网络过孔赋网，不是每次必跑。
 
 ### 9.2 模块布局复用（不复制铜）
 
@@ -330,6 +334,11 @@ python scripts/check_move_clearance.py --dump before.json \
 它只比较**器件本体 bbox**与同面板框/其他器件，输出 `clear|conflict|blocked|invalid_input`；不证明铜间距、走线、丝印、keepout 或 DRC。`conflict` 时不得写入；`clear` 也不是写授权，写完必须 fresh dump + DRC。
 
 真实负例：`cases/dual-button-led-night-20261027/negative-direct-move/` 保留了首次 LED2 直接上移 2 mm 的输入。第一基线 D4 顶部到 R3 底部只有 73.559 mil，+78.74 mil 会重叠 5.181 mil；`pcb-check-plan` 和本工具都必须拒绝它。接受版先下移 D3/D4 30 mil 预留空间，再做同样的 +2 mm 改板。不要把这个返工从报告里删掉，也不要把它写成“任意既有布局都能自主解决冲突”。
+
+### 9.4 DRC 收敛中的删除与补连
+
+- 删除粒度：器件用 `pcb delete --ids`，它只认器件，传走线或过孔 id 会被拒绝（`PRECONDITION_REFUSED`）。单段走线和单个过孔用 `pcb track-delete --ids` / `pcb via-delete --ids`；整个网络才用 `rip-up --net`。删除后重新 `track-list` / `via-list` 确认这些 id 已不存在，不要只看链式命令末尾的 `saved:true`。
+- 重建铺铜并重开后，电源/地焊盘仍报 disconnected 时按顺序排查：(1) 是否是焊盘内过孔，`pcb check` 的 `via-in-pad` 说明它不算连通，改成 dog-bone 短线加过孔；(2) 用 `poured-list` 确认过孔确实落在该网铺铜/平面内；(3) 仍不通，在平面层画一段显式走线，接到 DRC 已判连通的同网过孔，不要再反复等铺铜。PocketCam X1 的 C20.2 就是靠第 (3) 步收敛的；根因未能确定，不写成“DRC 不认铺铜连接”。新增铜先离线算到异网铜的最小间距，低于规则就不写。
 
 ## 10. 交付前门禁 `pcb_gate.py`
 
