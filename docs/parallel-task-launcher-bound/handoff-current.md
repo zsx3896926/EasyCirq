@@ -132,7 +132,7 @@ $ git diff --name-status 074bd88...HEAD         # 叠加分支 vs B1 交付 HEAD
 ```text
 worktree: default-workspace/hds-tlb-worktree
 branch:   feat/parallel-task-launcher-bound
-HEAD:     <以 `git rev-parse HEAD` 为准（本文件所在提交）>
+HEAD:     6a9ac09891face9d9eaa21504063d6c3ee0a7338（代码+测试+基准+文档收口提交；其后为 docs-only 收口提交）
 diff:     git diff --name-status origin/main...HEAD   # 79 files, all A
 ```
 

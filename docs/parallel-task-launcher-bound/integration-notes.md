@@ -312,3 +312,34 @@ B1 文件、不合并 PR、不发版。
 
 > 结论重申：**BLOCKED ON B1**。在 B1 交付可评审 HEAD 之前，本任务不猜接口、不复制、不修改
 > B1；以上集成面只是“文档化的最小要求 + 可选路径”，不是已完成的集成。
+
+## 9. 收口更新（2026-10-28）：B1 已交付 + 叠加验证
+
+> 本节由 Lead 在收口时补充；上文“BLOCKED ON B1”是**开工时**的状态记录，历史保留。
+> 任务执行期间 B1 完成交付，因此集成状态从 BLOCKED 变为“产物级叠加已验证”。
+
+- **B1 交付事实**：分支 `feat/parallel-task-launcher`（worktree `hds-tl-worktree`），
+  PR **#74（OPEN，未合并）**；B1 handoff 记录的 CI 已验证代码 HEAD
+  `c828ebc6a0ee378c7a30ddde963e60225cb460c0`，交付 HEAD（含仅文档提交）
+  **`074bd88`**；`docs/parallel-task-launcher/handoff-current.md` 已存在；origin 已有该分支。
+- **本包叠加验证（真实执行，非推断）**：新建 worktree `hds-tlb-on-b1`，基于
+  `origin/feat/parallel-task-launcher @ 074bd88`，把本包 79 个新文件叠加为
+  `feat/parallel-task-launcher-bound-on-b1`（`git diff --name-status 074bd88...HEAD` 全 A）：
+  - `python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"`
+    → **208 tests OK**；`run_benchmark.py` → **24/24 passed**；`selftest` → **19/19**；
+  - B1 `python -m task_launcher build-plugin --skill-dir design-hardware --out <tmp>` → exit 0，
+    **627 files / 13,165,619 bytes**，`.claude-plugin/plugin.json`、`skills/design-hardware/SKILL.md`、
+    `.mcp.json` 结构通过；
+  - `python -m task_launcher.bound plan --request <req> --out <task> --skill-dir design-hardware
+    --plugin-dir <tmp> --b1-repo <hds-tlb-on-b1>` → exit 0；`agent_ready=true`；
+    `b1={available:true, delivered:true}`；argv 含全部 hardening flag；allow 为
+    `Read,Glob,Grep,Skill(design-hardware),mcp__zhigou_bound__*`；无 token/HMAC 泄漏；
+  - `probe-b1 --repo-root <hds-tlb-on-b1>` → `available=true, delivered=true, AVAILABLE`。
+- **仍未验证/未授权**：
+  1. 由 B1 launcher 真实拉起 bound supervisor 的端到端会话：**NOT RUN**。B1 的 `mcp.json`
+     目前只挂 `zhigou-offline-audit`；接入 bound 需要 B1 侧接受 bound 生成的
+     `mcp.json/settings.json/routing.md/argv` 或提供等价接缝（见本文件 §2/§4 的最小要求）。
+  2. 真实 Claude Code 运行：**NOT RUN**（未获授权/费用）。
+  3. Phase 2 真实 EDA 写：**BLOCKED**（无 EDA 授权）。
+- **结论**：在 B1 交付 HEAD `074bd88` 上，**产物级/离线叠加验证 PASS**；不构成 B1 验收，
+  B1 PR 未合并，本任务未合并 PR、未发版。B1 HEAD 若再变化，需重跑本节命令。
