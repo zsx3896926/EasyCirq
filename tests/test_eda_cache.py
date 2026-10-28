@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "design-hardware" / "scripts" / "eda_cache.py"
+SCRIPT = ROOT / "easycirq" / "scripts" / "eda_cache.py"
 
 
 class EdaCacheCli(unittest.TestCase):

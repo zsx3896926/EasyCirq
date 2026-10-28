@@ -80,7 +80,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // retryableOnFailure lists the ONLY actions the daemon will auto-retry after a

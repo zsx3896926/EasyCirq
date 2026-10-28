@@ -12,7 +12,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/daemon"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/daemon"
 )
 
 func newDaemonStopCmd(cfg *appConfig, stdout io.Writer) *cobra.Command {

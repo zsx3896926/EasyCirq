@@ -1,6 +1,6 @@
 # 并行任务 I 交接（bringup-planner）
 
-> 最后更新：2026-10-28（PR #39 与证据清单更新 PR #56 均已合并；M0–M4 证据见 `acceptance-matrix.md` §7）
+> 最后更新：2026-10-28（PR #39 与证据清单更新 PR #56 均已合并；M0–M4 证据见 `acceptance-matrix.md` §7；最新 main `c54c6fc` 复核：172 tests、41/41 基准、`offline_suite` 3318 tests / 0 errors 全 PASS）
 
 ## 交付状态：均已合并
 
@@ -10,7 +10,8 @@
 | 合并源 HEAD | `b407d72f11237001d7c7e1260beb8de770f46f1e`（PR #39 `headRefOid`；changedFiles=175） |
 | 证据采集 HEAD | `3f21897d9d1b93b4ac7e2ef523fe923685f59b08`（基于合并后 main 的 worktree）；采集时 `origin/main` 已前进到 `acbcc18c…`（其他并行任务） |
 | 证据清单 | `acceptance-matrix.md` §7（逐命令/退出码/摘要/HEAD/PASS-NOT RUN）+ `evidence-m0-m4.json` + 复现脚本 `benchmarks/bringup-planner/tools/collect_m0_m4_evidence.py` |
-| 证据结论 | 本任务软件检查 **33 PASS**；唯一 FAIL 是当前 main 上其他任务测试包导致的 47 个 `offline_suite` discovery errors（`bringup_planner_tests` 0 error，非本任务）；**硬件/仪器动作全部 NOT RUN** |
+| 证据结论 | 本任务软件检查 **33 PASS**（2026-10-28 采集快照；快照中 47 个 `offline_suite` errors 已修复）；最新 main 复核 **172 tests + 41/41 基准 + offline_suite PASS（3318 tests / 0 errors）**；**硬件/仪器动作全部 NOT RUN** |
+| 最新 main 复核 | `c54c6fc`：专属 172 tests OK、冻结基准 41/41、`offline_suite` PASS（3318 tests / 0 failures / 0 errors）；历史 47 errors 仅作采集快照记录 |
 
 ## 身份与基线
 
@@ -26,7 +27,7 @@
 ## 允许路径（本任务只改这些）
 
 ```
-design-hardware/scripts/bringup_planner/
+easycirq/scripts/bringup_planner/
 tests/bringup_planner_tests/      # 集成合并后由 tests/bringup_planner/ 迁入（集成者处理）
 benchmarks/bringup-planner/
 docs/parallel-bringup-planner/
@@ -36,7 +37,7 @@ docs/parallel-bringup-planner/
 
 ## 交付物
 
-- 可运行 CLI：`python -m bringup_planner validate|plan|explain|evaluate`（在 `design-hardware/scripts` 下运行）
+- 可运行 CLI：`python -m bringup_planner validate|plan|explain|evaluate`（在 `easycirq/scripts` 下运行）
 - 六组能力：I1 断电检查、I2 分域上电/限流、I3 电源/时钟/复位/通信测量、I4 负载/接口模板、I5 有限故障树与 STOP、I6 独立结果评估
 - JSON 契约 + Markdown 检查表 + 空白结果 JSON/CSV + `manifest.json`（哈希/原子写）
 - 两个组合板案例（`benchmarks/bringup-planner/cases/mcu-sensor-board`、`load-control-board`）
@@ -47,7 +48,7 @@ docs/parallel-bringup-planner/
 ## 运行方式
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m bringup_planner validate --input <input.json> --json
 python -m bringup_planner plan --input <input.json> --out <out-dir> --json
 python -m bringup_planner explain --input <input.json> [--step <id>] --json
@@ -60,14 +61,14 @@ python -m bringup_planner evaluate --plan <out>/plan.json --results <results.jso
 ```bash
 python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 python benchmarks/bringup-planner/run_benchmark.py --out /tmp/bringup-benchmark.json
-python tools/offline_suite.py          # 仓库离线套件；当前 main 含其他任务测试包，见 §7.5
+python tools/offline_suite.py          # 仓库离线套件；最新 main 已 PASS（3318 tests / 0 errors）
 ```
 
 ## 当前状态
 
 - **实现（PR #39）与证据清单（PR #56）均已合并**；M0–M4 证据见 `acceptance-matrix.md` §7。
 - 证据（2026-10-28）：专属测试 172 PASS；冻结基准 41/41 PASS、类别 30/30；`skill_selftest` 5 PASS；PR #39 范围 175 files、允许路径外 0；硬件/仪器动作全部 **NOT RUN**。逐项见 `acceptance-matrix.md` §7。
-- 仓库 `offline_suite`：在 PR #39 合并 HEAD `b407d72` 上 1783 tests PASS；当前 main 上 47 errors 全部来自其他任务测试包（`bringup_planner_tests` 0 error，见 §7.5 与 `issue-candidates.md` A.6）。
+- 仓库 `offline_suite`：PR #39 合并 HEAD `b407d72` 上 1783 tests PASS；**最新 main（`c54c6fc`）PASS：3318 tests / 0 failures / 0 errors**。2026-10-28 采集快照中曾出现的 47 个跨任务 discovery errors 已由后续集成修复（`issue-candidates.md` A.6）。
 - 评估器 `PASS` 只是离线记录一致性结论；`eval-pass-real-evidence` 是 NO INSTRUMENT CONNECTED 的契约 fixture，不是硬件 PASS。
 - 已知边界：首期只支持低压直流（≤30 V 工作 / ≤60 V 绝对）；市电/高压/电池充放电/射频认证标 unsupported/needs_specialist。
 - 集成建议见 `integration-proposal.md`；未改 A/C/F 代码、不依赖其他会话未合入提交。
@@ -100,7 +101,9 @@ workflow.
 
 `acceptance-matrix.md` §7 now lists every M0–M4 evidence command, exit code, key output,
 HEAD SHA and PASS / NOT RUN status; machine-readable backing is
-`docs/parallel-bringup-planner/evidence-m0-m4.json`, reproducible with
-`benchmarks/bringup-planner/tools/collect_m0_m4_evidence.py`. The only non-PASS row is
-the repo-level `tools/offline_suite.py` on the current main (47 discovery errors from
-other parallel tasks' test packages; the 172 `bringup_planner_tests` are not among them).
+`docs/parallel-bringup-planner/evidence-m0-m4.json` (2026-10-28 historical snapshot),
+reproducible with `benchmarks/bringup-planner/tools/collect_m0_m4_evidence.py`. The
+historical snapshot's only non-PASS row was `tools/offline_suite.py` on main `3f21897`
+(47 discovery errors from other parallel tasks' test packages); that has been fixed —
+on latest main `c54c6fc` the suite passes with 3318 tests / 0 errors and the 172
+`bringup_planner_tests` are included and green.

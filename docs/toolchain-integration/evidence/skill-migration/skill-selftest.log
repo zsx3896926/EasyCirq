@@ -1,6 +1,6 @@
-design-hardware skill self-test 1.0.1
+easycirq skill self-test 1.0.1
 SELF-TEST ONLY — not a hardware verification
-root: C:\Users\jlc\work\zhigou-toolchain\design-hardware
+root: C:\Users\jlc\work\easycirq-toolchain\easycirq
 
 [PASS] required-files: 42 required paths present
   - references/easyeda-ecosystem.md
@@ -21,7 +21,7 @@ root: C:\Users\jlc\work\zhigou-toolchain\design-hardware
   - assets/design-calc.md
   - scripts/gate_check.py
   - scripts/bom_check.py
-  - scripts/layout_from_zhigou.py
+  - scripts/layout_from_easycirq.py
   - scripts/svg_text_bbox.py
   - scripts/pin_net_intent_check.py
   - scripts/pcb_preflight.py
@@ -48,7 +48,7 @@ root: C:\Users\jlc\work\zhigou-toolchain\design-hardware
 [PASS] markdown-links: 2066 relative link(s) in 309 Markdown file(s) resolve
 [PASS] gate-naming: 7 gate keys and 4 status words consistent
 [PASS] case-regression: 7 gate status(es) match expected.json
-  - C:\Users\jlc\AppData\Local\Programs\Python\Python313\python.exe C:\Users\jlc\work\zhigou-toolchain\design-hardware\scripts\gate_check.py --project temp-alarm --project-dir C:\Users\jlc\work\zhigou-toolchain\design-hardware\cases\temp-alarm-2026-10-24 --evidence-dir C:\Users\jlc\work\zhigou-toolchain\design-hardware\cases\temp-alarm-2026-10-24\evidence --json --design-state C:\Users\jlc\work\zhigou-toolchain\design-hardware\cases\temp-alarm-2026-10-24\design-state.json --waiver-file C:\Users\jlc\work\zhigou-toolchain\design-hardware\cases\temp-alarm-2026-10-24\waivers.json
+  - C:\Users\jlc\AppData\Local\Programs\Python\Python313\python.exe C:\Users\jlc\work\easycirq-toolchain\easycirq\scripts\gate_check.py --project temp-alarm --project-dir C:\Users\jlc\work\easycirq-toolchain\easycirq\cases\temp-alarm-2026-10-24 --evidence-dir C:\Users\jlc\work\easycirq-toolchain\easycirq\cases\temp-alarm-2026-10-24\evidence --json --design-state C:\Users\jlc\work\easycirq-toolchain\easycirq\cases\temp-alarm-2026-10-24\design-state.json --waiver-file C:\Users\jlc\work\easycirq-toolchain\easycirq\cases\temp-alarm-2026-10-24\waivers.json
   - exit=1
   - report schema=design-gate-report/v1
 [PASS] python-compile: 105 script(s) compile with py_compile

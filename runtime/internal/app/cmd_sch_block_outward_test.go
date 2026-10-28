@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // esp32s3r8Pins builds the ESP32-S3R8 (QFN-56) symbol as read back live on

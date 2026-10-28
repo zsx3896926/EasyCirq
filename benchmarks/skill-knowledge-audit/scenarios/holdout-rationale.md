@@ -8,15 +8,15 @@
 ## 1. 设计者独立性声明
 
 - **未读** `benchmarks/skill-knowledge-audit/scenarios/dev.json`，**未读** `benchmarks/skill-knowledge-audit/scenarios/README.md`；这两个文件由并行队友编写，本场景集与之没有共享 id、措辞或选择。
-- **未读** `design-hardware/scripts/skill_knowledge_audit/` 的实现代码，**未运行** `plan`/`benchmark` 命令，**未查看** 任何 planner 输出（设计时也不存在可抄的输出）。
-- 场景 id、措辞、任务组合与期望值独立决定，未与 dev 集协调；期望值是按契约 §6–§7 与 `design-hardware/SKILL.md` 的显式触发文本推导的，不是对实现行为的反推。
+- **未读** `easycirq/scripts/skill_knowledge_audit/` 的实现代码，**未运行** `plan`/`benchmark` 命令，**未查看** 任何 planner 输出（设计时也不存在可抄的输出）。
+- 场景 id、措辞、任务组合与期望值独立决定，未与 dev 集协调；期望值是按契约 §6–§7 与 `easycirq/SKILL.md` 的显式触发文本推导的，不是对实现行为的反推。
 - 独立起草完成后，只用仓库内的 `benchmarks/skill-knowledge-audit/scenarios/validate_scenarios.py` 的**通用校验函数**检查过本文件（未读该脚本会加载的 `dev.json`，也未运行它的 `main` 去校验 dev 集），并按其中标注为 Lead-frozen 的**跨集合口径**（always 文档、门禁范围内任务需 `design-gates.md`、门禁 token 命名、`may_include` 上限）做了对齐；这只调整 schema 级口径，没有改动任何场景内容。
 - 因不是盲测，读者不应把本 holdout 当作"实现从未见过"的干净测试；它只是"未针对 dev 调参、未偷看实现"的独立场景集。
 
 ## 2. 派生方法
 
 1. 先读 `docs/parallel-skill-knowledge-audit/contract.md` §6（intent / 计划 / 缓存 / 预算）与 §7（场景 schema 与判定语义），把可用枚举抄成硬约束：`task_type`、`stage`、`unknown.code`、`execution_contract.actions`、`approval_gates`。
-2. 完整读 `design-hardware/SKILL.md`，只从其中**显式触发句**派生任务文档，例如：
+2. 完整读 `easycirq/SKILL.md`，只从其中**显式触发句**派生任务文档，例如：
    - "内部设计始终遵循 [工程工作流] 和 [证据与工程记录]"（`workflow.md`、`evidence.md`）；
    - "设计审查、故障排查、样机上电 → [审查与验证]"（`review.md`）；
    - "验收仍使用 [图面验收标准]"（`schematic-layout.md`）；
@@ -28,7 +28,7 @@
    - §3.2 阶段门禁 G0–G6 与 `design-gates.md`、G6 的 Gerber/钻孔/CPL 只能由用户在 EDA GUI 导出。
 3. 为每个场景选一组彼此不同的自然语言组合（禁止 EDA、冻结原理图、仅 BOM、小预算、缺制造证据），避免"标准教科书式"提问；中文原话 4 个（`holdout-01`、`03`、`04`、`05`），英文工程师口吻 1 个（`holdout-02`），以测试中文/英文同义表达与条件句解析。
 4. 只把**有明确原文依据**的文件放进 `must_include`；把握较低但合理可能被选中的放进 `may_include`（按冻结口径最多 4 个）；跨任务类型明显不该出现的放 `must_exclude`。`required_unknown`/`required_approval_gates` 按契约 §7.1 作为**期望子集**（实际计划多出不判失败），只写与 intent 字段一一对应、可机器判定的项；`required_approval_gates` 的 token 同时写进 `intent.user_decision_pending`，因为冻结口径要求"planner 只复制、不推断"。
-5. 所有路径都用脚本逐条 `os.path.isfile` 校验存在（相对仓库根的 `design-hardware/...`），未引用任何不存在的路径；不写行号、不编造引文。
+5. 所有路径都用脚本逐条 `os.path.isfile` 校验存在（相对仓库根的 `easycirq/...`），未引用任何不存在的路径；不写行号、不编造引文。
 
 ## 3. 逐场景：为什么是公平 holdout
 
@@ -98,7 +98,7 @@
 - **NOT RUN：盲测**。设计者未读 dev 集与实现，但这是分离评阅阶段；不存在"实现完全未见过的场景"这一意义上的盲测保证。
 - **NOT RUN：基准指标**。`selected_bytes`、`unrelated_bytes`、`required_recall`、`stable` 等指标未计算；`max_selected_bytes` 一律为 `null`，表示本阶段不度量。
 - **NOT RUN：dev 集校验**。没有运行 `validate_scenarios.py` 的默认入口（那会校验 `dev.json`），只在自己的临时校验脚本里复用了它的通用 `_check_scenario` 函数来检查 holdout。
-- **未验证：`already_read` 的旧 sha256 不是 git 历史证据**。`holdout-03` 中的两个 sha256 由占位文本的 SHA-256 计算（`design-hardware@0.8.1 snapshot: SKILL.md` 与 `... references/workflow.md`），仅用于构造"旧快照"以触发缓存失效；`rules_version 2026-10-20.1` 也是场景设定值，不是对某个历史发布的取证。仓库当前文件内容与版本未做任何改动。
+- **未验证：`already_read` 的旧 sha256 不是 git 历史证据**。`holdout-03` 中的两个 sha256 由占位文本的 SHA-256 计算（`easycirq@0.8.1 snapshot: SKILL.md` 与 `... references/workflow.md`），仅用于构造"旧快照"以触发缓存失效；`rules_version 2026-10-20.1` 也是场景设定值，不是对某个历史发布的取证。仓库当前文件内容与版本未做任何改动。
 - **未验证：`topics.json` 主题映射**。`must_include` 依据 `SKILL.md` 显式触发句与 references 原文推导，尚未与本任务实际 `catalog/topics.json`（另一并行交付物）对表；按独立性要求没有读取实现与目录文件，因此可能存在"文档有触发句但目录未映射"的差异，需要基准运行时再核对。
 - **未验证：Python 3.10**。本机校验用 Python 3.13.15 完成；场景文件本身是纯 JSON，不依赖运行时语法，但未在 3.10 下重跑校验脚本。
 - **门禁 token 命名已冻结**：contract §10.2 明确使用 `scope_change`（不是 `user_scope_change`）等 9 个 token，且 planner 只复制 `intent.user_decision_pending`、不自行推断。本文件按该冻结口径写 `scope_change`，`holdout-02` 的 `user_decision_pending` 与 `required_approval_gates` 各一处，二者一致；此前的命名歧义已由契约补充说明消除。

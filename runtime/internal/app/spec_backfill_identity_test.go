@@ -14,8 +14,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // 真实脏文件里的页:三页属于当时活着的 ceshi,四页是前几次同名重建的残留。

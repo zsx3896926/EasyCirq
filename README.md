@@ -14,6 +14,8 @@
 不依赖上游 `easyeda-agent` 的 Skill 或 CLI（它只作为 MIT 来源保留在 `third_party/`，用于来源追溯）。
 以前"装两个 Skill + 一个插件"的步骤已经不需要了。
 
+> **2026-10 重命名**：仓库、Skill、CLI 与协议统一更名为 **EasyCirq**（中文名「智构」）。旧安装目录请先迁移；步骤见 [迁移说明](docs/migration-easycirq.md)。
+
 > 首次使用请先读 [安装说明](distribution/INSTALL.md)；本文的"快速开始"是最短路径。
 
 ## 快速开始（Windows，约 10 分钟）
@@ -22,31 +24,31 @@
 
 ### 1. 安装工具链（CLI + daemon + 连接器）
 
-从 [Releases](https://github.com/zsx3896926/hardware-design-skill/releases) 下载 `zhigou-toolchain-0.2.3.zip`，解压后执行：
+从 [Releases](https://github.com/zsx3896926/EasyCirq/releases) 下载 `easycirq-toolchain-0.2.3.zip`，解压后执行：
 
 ```powershell
-# 安装到默认目录 %LOCALAPPDATA%\Zhigou
-powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
-  -Bundle .\zhigou-toolchain-0.2.3.zip -InstallDir "$env:LOCALAPPDATA\Zhigou"
+# 安装到默认目录 %LOCALAPPDATA%\EasyCirq
+powershell -ExecutionPolicy Bypass -File .\Install-EasyCirq.ps1 install `
+  -Bundle .\easycirq-toolchain-0.2.3.zip -InstallDir "$env:LOCALAPPDATA\EasyCirq"
 
-# 把 design-hardware 装进客户端（claude / codex 二选一，可重复执行）
-powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
-  -Bundle .\zhigou-toolchain-0.2.3.zip -SkillClient codex
+# 把 easycirq 装进客户端（claude / codex 二选一，可重复执行）
+powershell -ExecutionPolicy Bypass -File .\Install-EasyCirq.ps1 install `
+  -Bundle .\easycirq-toolchain-0.2.3.zip -SkillClient codex
 
 # 安装后自检：应显示 runtime 0.2.3；连接器未导入时 connector 会是 degraded（正常）
-& "$env:LOCALAPPDATA\Zhigou\bin\zhigou.exe" doctor
+& "$env:LOCALAPPDATA\EasyCirq\bin\easycirq.exe" doctor
 ```
 
-安装器**不会改 PATH**。要直接敲 `zhigou`，自行把 `%LOCALAPPDATA%\Zhigou\bin` 加入用户 PATH；否则用绝对路径。
+安装器**不会改 PATH**。要直接敲 `easycirq`，自行把 `%LOCALAPPDATA%\EasyCirq\bin` 加入用户 PATH；否则用绝对路径。
 
 ### 2. 在 EDA 里导入连接器（只需一次）
 
 1. 完全关闭 EasyEDA Pro；
 2. 重新打开 → **设置 → 扩展 → 导入扩展**，选择
-   `%LOCALAPPDATA%\Zhigou\connector\zhigou-connector_v0.1.3.eext`（`zhigou connector path` 可打印路径）；
+   `%LOCALAPPDATA%\EasyCirq\connector\easycirq-connector_v0.1.3.eext`（`easycirq connector path` 可打印路径）；
 3. 扩展管理器里找到 **「智构 · EasyCirq 连接器」**，打开并勾选 **「允许外部交互」**；
 4. **完全退出并重启** EDA（扩展只在启动时加载）；
-5. 验证：`zhigou doctor` 应显示 `verdict: ok`、`connector 0.1.3 connected`。
+5. 验证：`easycirq doctor` 应显示 `verdict: ok`、`connector 0.1.3 connected`。
 
 > 升级连接器时旧版本要卸载、导入新版本、重新授权并重启——新 uuid 的扩展不会继承旧权限。
 
@@ -59,7 +61,7 @@ powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
 用 USB 供电，温度超过设定值时亮灯并发出声音，先做一块。
 芯片、零件和实现方法请你推荐，优先考虑立创商城与嘉立创制造。
 
-先运行 zhigou doctor 检查执行层，确认当前测试工程，然后在其中完成设计。
+先运行 easycirq doctor 检查执行层，确认当前测试工程，然后在其中完成设计。
 一般技术细节你查资料后决定，非关键细节采用容易实现的方案并简单说明。
 只在缺少会影响功能、供电或尺寸的关键信息时问我，集中一次问清。
 
@@ -72,7 +74,7 @@ powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
 
 | 阶段 | AI 应给你的真实结果 |
 |---|---|
-| 接通检查 | `zhigou doctor` / `capabilities` 的实际状态，读到哪个真实工程 |
+| 接通检查 | `easycirq doctor` / `capabilities` 的实际状态，读到哪个真实工程 |
 | 方案与选型 | 简短方案、关键取舍、为什么这样选 |
 | 画原理图 | 工程里出现真实器件与连线；保存、重开、回读核对 |
 | 做 PCB | 真实板框/器件/走线/铺铜；原生 DRC 结果 |
@@ -98,7 +100,7 @@ powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
 **AI 只给文字、没真的画进 EDA：**
 
 ```text
-请先运行 zhigou doctor 确认连接器和工程，再读取目标工程；
+请先运行 easycirq doctor 确认连接器和工程，再读取目标工程；
 需要真实回执；暂时不能写入时说明具体卡点，不要只在文字里画。
 ```
 
@@ -118,7 +120,7 @@ powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
 
 ## 现在实际验证到了哪里
 
-截至 2026-10-28，证据来自 Windows 11、嘉立创 EDA 专业版 4.1.78、自有 `zhigou` 0.2.3 + 连接器 0.1.3：
+截至 2026-10-28，证据来自 Windows 11、嘉立创 EDA 专业版 4.1.78、自有 `easycirq` 0.2.3 + 连接器 0.1.3：
 
 | 范围 | 结果 | 证据 |
 |---|---|---|
@@ -139,8 +141,8 @@ powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
 ## 项目结构
 
 ```text
-design-hardware/    设计方法 Skill（规则、门禁、参考、脚本）
-runtime/            自有 Go 运行时（zhigou CLI + daemon；上游 easyeda-agent v1.15.0 维护分支）
+easycirq/    设计方法 Skill（规则、门禁、参考、脚本）
+runtime/            自有 Go 运行时（easycirq CLI + daemon；上游 easyeda-agent v1.15.0 维护分支）
 connector/          自有 EDA 扩展（TypeScript，构建为 .eext）
 protocol/           wire v1 协议与 JSON Schema
 distribution/       统一安装器、发布构建、来源校验
@@ -154,24 +156,26 @@ assets/brand/       logo（横版/方形，含原图）
 
 ```powershell
 # 构建运行时与发布包
-cd runtime; go build -o dist\zhigou.exe ./cmd/zhigou
+cd runtime; go build -o dist\easycirq.exe ./cmd/easycirq
 cd ..; python distribution\build_release.py --output dist-v5
 
 # 来源可复现（上游 v1.15.0 解包目录）
 python distribution\verify_vendor.py --upstream <upstream-dir>
 
 # 离线回归 / 安装器用例
+# （生命周期测试默认把 JSONL 记账写临时目录，不修改工作树；刷新仓库证据见
+#   docs/toolchain-integration/evidence/installer/README.md）
 python tools\offline_suite.py
 python -m pytest tests\test_install_lifecycle.py -q
 
 # 门禁复核（需设计证据目录）
-python "$env:USERPROFILE\.agents\skills\design-hardware\scripts\gate_check.py" --help
+python "$env:USERPROFILE\.agents\skills\easycirq\scripts\gate_check.py" --help
 ```
 
 - 交接与状态：[docs/handoff-current.md](docs/handoff-current.md)、[任务状态](docs/toolchain-integration/task-status.md)
 - 架构/能力/验收/门禁：[docs/toolchain-integration/](docs/toolchain-integration/)
-- 设计方法：[SKILL.md](design-hardware/SKILL.md)、[references/eda-execution.md](design-hardware/references/eda-execution.md)
-- 欢迎 [Issue](https://github.com/zsx3896926/hardware-design-skill/issues) / PR，优先提供脱敏的实际任务与复现材料。
+- 设计方法：[SKILL.md](easycirq/SKILL.md)、[references/eda-execution.md](easycirq/references/eda-execution.md)
+- 欢迎 [Issue](https://github.com/zsx3896926/EasyCirq/issues) / PR，优先提供脱敏的实际任务与复现材料。
 
 ## 致谢与许可
 

@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // dispatchTimeout bounds how long the daemon waits for a connector to answer a

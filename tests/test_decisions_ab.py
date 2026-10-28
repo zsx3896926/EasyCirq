@@ -10,7 +10,7 @@ import unittest
 os.environ.setdefault("PYTHONIOENCODING", "utf-8")
 
 ROOT = Path(__file__).resolve().parents[1]
-DH = ROOT / "design-hardware"
+DH = ROOT / "easycirq"
 SCRIPTS = DH / "scripts"
 SCRIPT = SCRIPTS / "pin_plan_check.py"
 ASSETS = DH / "assets" / "decisions"
@@ -673,13 +673,13 @@ OWNED = [
 
 # Hand-checked anchors: every path:start-end in the owned documents must be
 # listed here with one word or phrase that exists inside its target range.
-P01 = "design-hardware/references/projects/p01-low-power-wireless-sensor.md"
+P01 = "easycirq/references/projects/p01-low-power-wireless-sensor.md"
 EXPECTED_KEYWORDS = {
-    ("design-hardware/references/idea-to-product.md", 26, 32): "一份目标，多条任务链",
-    ("design-hardware/references/starter-patterns.md", 5, 14): "最小功能链",
+    ("easycirq/references/idea-to-product.md", 26, 32): "一份目标，多条任务链",
+    ("easycirq/references/starter-patterns.md", 5, 14): "最小功能链",
     (P01, 68, 74): "被淘汰方案",
-    ("design-hardware/references/projects/p02-industrial-rs485-analog.md", 68, 83): "主方案",
-    ("design-hardware/references/manufacturing-routes.md", 140, 170): "备损",
+    ("easycirq/references/projects/p02-industrial-rs485-analog.md", 68, 83): "主方案",
+    ("easycirq/references/manufacturing-routes.md", 140, 170): "备损",
     (P01, 383, 396): "U0TXD",
     (P01, 319, 319): "首发 25 块选 B",
     (P01, 345, 345): "25 块 V1",
@@ -699,10 +699,10 @@ EXPECTED_KEYWORDS = {
     (P01, 84, 84): "ESP32-C3-MINI-1",
     (P01, 259, 279): "逻辑脚",
     (P01, 268, 274): "U0TXD",
-    ("design-hardware/references/module-integration.md", 186, 214): "资源表模板",
-    ("design-hardware/references/module-integration.md", 236, 241): "连接器脚号",
-    ("design-hardware/references/module-integration.md", 196, 206): "冲突类型",
-    ("design-hardware/references/design-cards/power/p06-linear-charger.md", 104, 106):
+    ("easycirq/references/module-integration.md", 186, 214): "资源表模板",
+    ("easycirq/references/module-integration.md", 236, 241): "连接器脚号",
+    ("easycirq/references/module-integration.md", 196, 206): "冲突类型",
+    ("easycirq/references/design-cards/power/p06-linear-charger.md", 104, 106):
         "4.23 V 的 max 已超出",
 }
 
@@ -740,7 +740,7 @@ def line_count(text):
 
 
 def resolve_ref(ref):
-    if ref.startswith("design-hardware/"):
+    if ref.startswith("easycirq/"):
         return ROOT / ref
     return DH / "references" / ref
 

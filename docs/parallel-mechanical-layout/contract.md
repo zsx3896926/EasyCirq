@@ -1,7 +1,7 @@
 # Mechanical layout contract (schema `mechanical-layout/v1`)
 
 Status: task G (parallel mechanical layout planner), first 2D/2.5D implementation.
-This contract is enforced by `design-hardware/scripts/mechanical_layout/model.py`.
+This contract is enforced by `easycirq/scripts/mechanical_layout/model.py`.
 Everything here is offline: no EDA call, no board write, no full 3D CAD.
 
 ## 1. Scope and non-goals
@@ -145,8 +145,8 @@ python -m mechanical_layout plan     -i input.json [--out DIR] [--no-svg]
 python -m mechanical_layout explain  -i input.json --finding F0001 [--report REPORT]
 ```
 
-Run with `PYTHONPATH=design-hardware/scripts` from the repository root, or from
-`design-hardware/scripts`. stdout is machine-readable JSON only; errors are also
+Run with `PYTHONPATH=easycirq/scripts` from the repository root, or from
+`easycirq/scripts`. stdout is machine-readable JSON only; errors are also
 JSON. `plan`/report JSON has no wall-clock timestamp, so identical input bytes
 produce identical bytes.
 

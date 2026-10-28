@@ -27,7 +27,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
 )
 
 // benchSnapshotToCpComps 把板级快照投影成规划器的入参。

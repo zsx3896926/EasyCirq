@@ -21,7 +21,7 @@ EXT_NAME = "easycirq-connector"
 EXT_DISPLAY = "EasyCirq EDA Connector"
 EXT_VERSION = "0.1.0"
 EXT_PUBLISHER = "zsx3896926"
-REPO_URL = "https://github.com/zsx3896926/hardware-design-skill"
+REPO_URL = "https://github.com/zsx3896926/EasyCirq"
 
 RULES: list[tuple[str, str, str]] = [
     ("easyeda-agent", "easycirq-agent", "service id / socket prefix / log prefix"),

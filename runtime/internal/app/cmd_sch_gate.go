@@ -8,7 +8,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
 )
 
 // ── sch gate: the S5 校验门, one command ──────────────────────────────────

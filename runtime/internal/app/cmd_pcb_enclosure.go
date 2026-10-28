@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/enclosure"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/enclosure"
 )
 
 const mmPerMil = 0.0254

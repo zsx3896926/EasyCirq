@@ -6,7 +6,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // ── attach 干线(trunk):外围件用真实导线贴到宿主引脚(2026-10-16)────────────────

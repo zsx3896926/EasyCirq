@@ -8,8 +8,8 @@ import (
 	"io"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 // Run is the main entry point called by main.go.

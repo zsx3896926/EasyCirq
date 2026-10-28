@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // cwReq builds a minimal request for the concurrent-writer state machine.

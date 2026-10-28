@@ -12,7 +12,7 @@ from ska_impl.bench import (load_scenarios, evaluate_plan,
                                         run_benchmark, run_transforms)
 from ska_impl.plan import build_plan, load_catalog
 
-PACKAGE = BENCH.parents[1] / "design-hardware" / "scripts" / "skill_knowledge_audit"
+PACKAGE = BENCH.parents[1] / "easycirq" / "scripts" / "skill_knowledge_audit"
 CATALOG = load_catalog(PACKAGE / "catalog" / "topics.json")
 SCENARIOS, WARNINGS = load_scenarios(BENCH / "scenarios")
 
@@ -32,7 +32,7 @@ class Scenarios(unittest.TestCase):
             expected = scenario["expected"]
             for key in ("must_include", "must_exclude", "may_include"):
                 for path in expected[key]:
-                    rel = path.replace("design-hardware/", "", 1)
+                    rel = path.replace("easycirq/", "", 1)
                     self.assertTrue((SKILL_ROOT / rel).is_file(),
                                     f"{scenario['id']}: missing {path}")
 
@@ -81,7 +81,7 @@ class Benchmark(unittest.TestCase):
     def test_missing_critical_constraint_fails_a_scenario(self):
         scenario = copy.deepcopy(SCENARIOS[0])
         scenario["expected"]["must_include"] = [
-            "design-hardware/references/not-a-real-doc.md"]
+            "easycirq/references/not-a-real-doc.md"]
         plan, context = build_plan(SKILL_ROOT, scenario["intent"], CATALOG)
         metrics = evaluate_plan(
             scenario, plan,
@@ -92,7 +92,7 @@ class Benchmark(unittest.TestCase):
     def test_forbidden_reading_and_action_fail_a_scenario(self):
         scenario = copy.deepcopy(SCENARIOS[0])
         scenario["expected"]["forbidden_plan_actions"] = ["read_skill"]
-        scenario["expected"]["must_exclude"] = ["design-hardware/SKILL.md"]
+        scenario["expected"]["must_exclude"] = ["easycirq/SKILL.md"]
         plan, context = build_plan(SKILL_ROOT, scenario["intent"], CATALOG)
         metrics = evaluate_plan(
             scenario, plan,

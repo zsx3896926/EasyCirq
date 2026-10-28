@@ -87,6 +87,6 @@ go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/hardware-design-skil
 
 * 复用部分继续受上游 MIT 约束：保留 `LICENSE`、`NOTICE` 与版权声明；本项目对其修改
   亦以 MIT 兼容方式提供。
-* 本项目原创的策略层（`design-hardware/`）、契约层（`protocol/`）、安装层
+* 本项目原创的策略层（`easycirq/`）、契约层（`protocol/`）、安装层
   （`distribution/`）与本文件所述新增代码为 Apache-2.0。
 * 不要把根目录主 LICENSE（Apache-2.0）推广到 `runtime/` 内的 MIT 代码。

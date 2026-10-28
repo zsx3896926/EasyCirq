@@ -1,19 +1,19 @@
 {
-  "schema": "zhigou-acceptance/v1",
+  "schema": "easycirq-acceptance/v1",
   "generatedAt": "2026-10-27T13:43:18Z",
   "stage": "all",
   "dryRun": true,
   "cli": {
-    "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
-    "version": "zhigou 0.2.0-dev"
+    "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
+    "version": "easycirq 0.2.0-dev"
   },
   "environment": {
     "platform": "Windows-11-10.0.26200-SP0",
     "python": "3.13.15",
-    "cwd": "C:\\Users\\jlc\\work\\zhigou-toolchain"
+    "cwd": "C:\\Users\\jlc\\work\\easycirq-toolchain"
   },
-  "projectDir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\acceptance",
-  "evidenceDir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\acceptance",
+  "projectDir": "C:\\Users\\jlc\\work\\easycirq-toolchain\\docs\\toolchain-integration\\evidence\\acceptance",
+  "evidenceDir": "C:\\Users\\jlc\\work\\easycirq-toolchain\\docs\\toolchain-integration\\evidence\\acceptance",
   "window": null,
   "preflight": {
     "ready": false,
@@ -23,10 +23,10 @@
     "blockers": [
       "connector.status=disconnected (no EasyEDA window connected)",
       "connector verify verdict=degraded (no loaded connector windows)",
-      "zhigou health reports no connected window"
+      "easycirq health reports no connected window"
     ],
     "nextSteps": [
-      "在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载"
+      "在 EasyEDA Pro 导入自有连接器 easycirq-connector v0.1.0（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载"
     ],
     "capabilities": {
       "unknown": 19,
@@ -61,10 +61,10 @@
     {
       "id": "doctor",
       "stage": "preflight",
-      "title": "zhigou doctor (disk vs running state)",
+      "title": "easycirq doctor (disk vs running state)",
       "status": "PASS",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "doctor"
       ],
       "exitCode": 0,
@@ -81,10 +81,10 @@
     {
       "id": "capabilities",
       "stage": "preflight",
-      "title": "zhigou capabilities (per-item negotiation)",
+      "title": "easycirq capabilities (per-item negotiation)",
       "status": "PASS",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "capabilities"
       ],
       "exitCode": 0,
@@ -101,10 +101,10 @@
     {
       "id": "connector-verify",
       "stage": "preflight",
-      "title": "zhigou connector verify (.eext vs loaded window)",
+      "title": "easycirq connector verify (.eext vs loaded window)",
       "status": "PASS",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "connector",
         "verify"
       ],
@@ -122,10 +122,10 @@
     {
       "id": "connector-path",
       "stage": "preflight",
-      "title": "zhigou connector path (ships-with .eext)",
+      "title": "easycirq connector path (ships-with .eext)",
       "status": "PASS",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "connector",
         "path"
       ],
@@ -139,7 +139,7 @@
       },
       "artifacts": [
         {
-          "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\connector\\build\\dist\\zhigou-connector_v0.1.0.eext",
+          "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\connector\\build\\dist\\easycirq-connector_v0.1.0.eext",
           "size": 231299,
           "sha256": "9b907bf6a409e7bdf6cee169c96d8666191e55057017b2605837236f86c5a9cb"
         }
@@ -149,10 +149,10 @@
     {
       "id": "health",
       "stage": "preflight",
-      "title": "zhigou health (live window context)",
+      "title": "easycirq health (live window context)",
       "status": "PASS",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "health"
       ],
       "exitCode": 0,
@@ -169,10 +169,10 @@
     {
       "id": "version",
       "stage": "preflight",
-      "title": "zhigou version",
+      "title": "easycirq version",
       "status": "PASS",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "version"
       ],
       "exitCode": 0,
@@ -603,7 +603,7 @@
       "title": "schematic DRC (sch drc --json)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "drc",
         "--json"
@@ -622,7 +622,7 @@
       "title": "reconstructed check (sch check --json)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "check",
         "--json"
@@ -641,7 +641,7 @@
       "title": "placement lint (sch layout-lint)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "layout-lint"
       ],
@@ -659,7 +659,7 @@
       "title": "netlist artifact (sch netlist --type protel)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "netlist",
         "--type",
@@ -679,7 +679,7 @@
       "title": "BOM export csv (bom export --type csv)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "bom",
         "export",
         "--type",
@@ -699,7 +699,7 @@
       "title": "schematic image export (sch export-image --format png)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "export-image",
         "--format",
@@ -719,7 +719,7 @@
       "title": "native project archive (project export)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "project",
         "export"
       ],
@@ -737,7 +737,7 @@
       "title": "PCB snapshot (pcb dump --out)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "pcb",
         "dump"
       ],
@@ -755,7 +755,7 @@
       "title": "PCB DRC (pcb drc --json)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "pcb",
         "drc",
         "--json"
@@ -774,7 +774,7 @@
       "title": "PCB DFM check (pcb check --json)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "pcb",
         "check",
         "--json"
@@ -835,7 +835,7 @@
       "title": "schematic DRC (sch drc --json)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "drc",
         "--json"
@@ -854,7 +854,7 @@
       "title": "reconstructed check (sch check --json)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "check",
         "--json"
@@ -873,7 +873,7 @@
       "title": "placement lint (sch layout-lint)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "layout-lint"
       ],
@@ -891,7 +891,7 @@
       "title": "netlist artifact (sch netlist --type protel)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "netlist",
         "--type",
@@ -911,7 +911,7 @@
       "title": "BOM export csv (bom export --type csv)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "bom",
         "export",
         "--type",
@@ -931,7 +931,7 @@
       "title": "schematic image export (sch export-image --format png)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "sch",
         "export-image",
         "--format",
@@ -951,7 +951,7 @@
       "title": "native project archive (project export)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "project",
         "export"
       ],
@@ -969,7 +969,7 @@
       "title": "PCB snapshot (pcb dump --out)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "pcb",
         "dump"
       ],
@@ -987,7 +987,7 @@
       "title": "PCB DRC (pcb drc --json)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "pcb",
         "drc",
         "--json"
@@ -1006,7 +1006,7 @@
       "title": "PCB DFM check (pcb check --json)",
       "status": "NOT RUN",
       "command": [
-        "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+        "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
         "pcb",
         "check",
         "--json"

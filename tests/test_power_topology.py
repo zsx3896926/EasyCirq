@@ -2,7 +2,7 @@ import sys
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
-sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'design-hardware'/'scripts'/'power_preflight'))
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'easycirq'/'scripts'/'power_preflight'))
 import pcbgeom as G
 import topology as T
 import power_path_audit as P

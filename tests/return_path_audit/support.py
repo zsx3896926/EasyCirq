@@ -12,7 +12,7 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 BENCH = ROOT / "benchmarks" / "return-path-audit"
 SNAPSHOT = "snap-test-1"
 RAW_SHA = "a" * 64

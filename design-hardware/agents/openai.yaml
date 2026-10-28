@@ -1,4 +1,0 @@
-interface:
-  display_name: "AI画板搭档"
-  short_description: "配合Agent把自然语言想法推进为可用实物，优先衔接嘉立创设计、购料、制造与功能验证"
-  default_prompt: "请使用 $design-hardware，带我把想法做成能用的东西，尽量在嘉立创生态完成；已有工程能力继续用，并跟进程序、制造装配和实际效果验证。"

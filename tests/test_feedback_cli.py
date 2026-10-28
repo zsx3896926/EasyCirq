@@ -1,7 +1,7 @@
 """End-to-end tests for the stable feedback_loop.py entry point.
 
 The host is the simulated executable from tests/fixtures/feedback; no real
-zhigou binary, daemon or network is used.  These tests exercise the same
+easycirq binary, daemon or network is used.  These tests exercise the same
 argument parsing, JSON output and file writing a user/agent would get.
 """
 from __future__ import annotations
@@ -15,17 +15,17 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-CLI = ROOT / 'design-hardware' / 'scripts' / 'feedback_loop.py'
+CLI = ROOT / 'easycirq' / 'scripts' / 'feedback_loop.py'
 FIXTURES = ROOT / 'tests' / 'fixtures' / 'feedback'
 def make_shim(directory):
     """Create an executable shim using the current interpreter."""
-    fake = FIXTURES / 'fake_zhigou.py'
+    fake = FIXTURES / 'fake_easycirq.py'
     if os.name == 'nt':
-        path = Path(directory) / 'zhigou-fake.cmd'
+        path = Path(directory) / 'easycirq-fake.cmd'
         path.write_text('@echo off\r\n"%s" "%s" %%*\r\n'
                         % (sys.executable, fake), encoding='utf-8')
     else:
-        path = Path(directory) / 'zhigou-fake.sh'
+        path = Path(directory) / 'easycirq-fake.sh'
         path.write_text('#!/bin/sh\nexec "%s" "%s" "$@"\n'
                         % (sys.executable, fake), encoding='utf-8')
         path.chmod(0o755)
@@ -64,7 +64,7 @@ class CliTests(unittest.TestCase):
             }), encoding='utf-8')
             hits = temp / 'hits.json'
             result = run_cli(['case-search', '--index',
-                              str(ROOT / 'design-hardware' / 'cases' / 'index.json'),
+                              str(ROOT / 'easycirq' / 'cases' / 'index.json'),
                               '--query', str(query), '--out', str(hits)])
             self.assertEqual(result.returncode, 0, result.stderr)
             payload = json.loads(hits.read_text(encoding='utf-8'))
@@ -87,11 +87,11 @@ class CliTests(unittest.TestCase):
             state_path = temp / 'state.json'
             sim.write_state(state_path, sim.make_state())
             shim = make_shim(temp)
-            env = {'FAKE_ZHIGOU_STATE': str(state_path)}
+            env = {'FAKE_EASYCIRQ_STATE': str(state_path)}
             observation = temp / 'obs.json'
             result = run_cli(['observe', '--window', 'win-sim', '--project',
                               'sim-photo-led', '--sch-doc', 'P1', '--pcb-doc',
-                              'PCB1', '--zhigou', str(shim),
+                              'PCB1', '--easycirq', str(shim),
                               '--out', str(observation)], env=env)
             self.assertEqual(result.returncode, 0, result.stderr)
             payload = json.loads(observation.read_text(encoding='utf-8'))

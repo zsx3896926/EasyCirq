@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
 )
 
 // trunkTestBlockJSON is an ESP32-like minimum system at half scale: a two-column

@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'design-hardware/scripts'))
+sys.path.insert(0, str(ROOT / 'easycirq/scripts'))
 import bom_cnumber_check as check
 
 BOM = ROOT / 'tests/fixtures/photo-led-bom.csv'
@@ -60,7 +60,7 @@ class BomCnumberCheck(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             target = Path(folder) / 'bad.csv'
             target.write_text('a,b\n', encoding='utf-8')
-            script = ROOT / 'design-hardware/scripts/bom_cnumber_check.py'
+            script = ROOT / 'easycirq/scripts/bom_cnumber_check.py'
             passed = subprocess.run([sys.executable, str(script), str(BOM),
                                      '--parts', str(PARTS),
                                      '--expect-designator', 'RV1=10kΩ'],

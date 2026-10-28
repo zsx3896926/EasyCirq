@@ -6,7 +6,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // Daemon-level concurrent-writer advisory (issue #108).

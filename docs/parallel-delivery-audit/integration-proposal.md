@@ -21,7 +21,7 @@
 
 ## 2. 最小调用示例（A 侧可直接用）
 
-在本仓库 `design-hardware/scripts` 目录（或已安装 Skill 的 scripts 目录）执行：
+在本仓库 `easycirq/scripts` 目录（或已安装 Skill 的 scripts 目录）执行：
 
 ```bash
 # 0) 输入：A 的导出目录（只读），例如 evidence/photo-led-vA/export/
@@ -128,7 +128,7 @@ import subprocess
 import sys
 from pathlib import Path
 
-SCRIPTS = Path("design-hardware/scripts")  # 或安装后的 Skill scripts
+SCRIPTS = Path("easycirq/scripts")  # 或安装后的 Skill scripts
 
 def audit_export(export_dir: Path, declarations: Path, out_dir: Path,
                  profile: str = "pcb-fabrication") -> dict:

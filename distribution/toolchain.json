@@ -7,8 +7,8 @@
   "validatedEda": "4.1.78",
   "minPython": "3.10",
   "skill": {
-    "name": "design-hardware",
-    "dir": "design-hardware"
+    "name": "easycirq",
+    "dir": "easycirq"
   },
   "runtime": {
     "sourceDir": "runtime",

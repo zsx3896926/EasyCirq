@@ -11,7 +11,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
 )
 
 // power-layout is intentionally an offline, narrowly scoped planner. Its input

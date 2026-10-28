@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou-local-edit/v1",
+  "schema": "easycirq-local-edit/v1",
   "request": "move D1 up by 2 mm (78.74 mil)",
   "shiftMil": 78.74,
   "moved": {

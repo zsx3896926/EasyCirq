@@ -1,7 +1,7 @@
 package app_test
 
 import (
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/app"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/app"
 	"testing"
 )
 

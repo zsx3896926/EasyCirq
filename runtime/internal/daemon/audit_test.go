@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // TestAudit_EntryCarriesClientID pins the client-attribution field (issue

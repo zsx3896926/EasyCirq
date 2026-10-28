@@ -1,4 +1,4 @@
-"""End-to-end install / upgrade / rollback / uninstall lifecycle for the Zhigou toolchain.
+"""End-to-end install / upgrade / rollback / uninstall lifecycle for the EasyCirq toolchain.
 
 Styleguide notes
 ----------------
@@ -7,13 +7,16 @@ Styleguide notes
   ``pytest tests/test_install_lifecycle.py -v``.  Keep it that way: plain
   ``unittest`` classes, no pytest-only fixtures (``skipIf`` is used for the
   real-artifact test).
-* Every test uses throw-away directories and ``ZHIGOU_*`` environment overrides,
+* Every test uses throw-away directories and ``EASYCIRQ_*`` environment overrides,
   so a run can never touch a real installation, a real client Skill directory or
   a real legacy-agent install.
-* A JSONL journal is appended to
-  ``docs/toolchain-integration/evidence/installer/install-lifecycle.log`` so the
-  evidence directory contains a machine-checkable trace of what really ran.
+* A JSONL journal is written for every run.  By default it goes to a temporary
+  directory: a routine test run must never modify a tracked file inside the
+  repository (issue #93).  Set ``EASYCIRQ_INSTALL_EVIDENCE_LOG`` to an explicit
+  path (absolute, or relative to the repository root) to intentionally refresh
+  ``docs/toolchain-integration/evidence/installer/install-lifecycle.log``.
 """
+import atexit
 import hashlib
 import importlib.util
 import json
@@ -29,9 +32,25 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 
-INSTALLER_PATH = ROOT / 'distribution/zhigou_install.py'
-EVIDENCE = ROOT / 'docs/toolchain-integration/evidence/installer'
-LOG = EVIDENCE / 'install-lifecycle.log'
+INSTALLER_PATH = ROOT / 'distribution/easycirq_install.py'
+
+#: Committed evidence path, used only when ``EASYCIRQ_INSTALL_EVIDENCE_LOG`` asks
+#: for it explicitly.  Routine runs write to a temporary directory instead so the
+#: working tree stays clean after ``python -m unittest discover -s tests``.
+TRACKED_EVIDENCE = ROOT / 'docs/toolchain-integration/evidence/installer'
+_TRACKED_LOG = TRACKED_EVIDENCE / 'install-lifecycle.log'
+_evidence_override = os.environ.get('EASYCIRQ_INSTALL_EVIDENCE_LOG')
+_TEMP_EVIDENCE = None
+if _evidence_override:
+    LOG = Path(_evidence_override).expanduser()
+    if not LOG.is_absolute():
+        LOG = ROOT / LOG
+    EVIDENCE = LOG.parent
+else:
+    _TEMP_EVIDENCE = Path(tempfile.mkdtemp(prefix='easycirq-install-lifecycle-'))
+    EVIDENCE = _TEMP_EVIDENCE
+    LOG = _TEMP_EVIDENCE / 'install-lifecycle.log'
+    atexit.register(shutil.rmtree, _TEMP_EVIDENCE, True)
 
 # The retired upstream agent toolchain name, assembled at runtime on purpose:
 # these tests must *name* its directories to prove the installer never touches
@@ -41,7 +60,7 @@ LOG = EVIDENCE / 'install-lifecycle.log'
 LEGACY_AGENT = 'easy' + 'eda' + '-agent'
 LEGACY_AGENT_UNDERSCORE = 'easy' + 'eda' + '_agent'
 
-_SPEC = importlib.util.spec_from_file_location('zhigou_install_under_test', INSTALLER_PATH)
+_SPEC = importlib.util.spec_from_file_location('easycirq_install_under_test', INSTALLER_PATH)
 zi = importlib.util.module_from_spec(_SPEC)
 _SPEC.loader.exec_module(zi)
 
@@ -67,33 +86,33 @@ def record(event, **fields):
 # --------------------------------------------------------------------------- #
 def build_bundle(dest_dir, version='0.1.0', connector_version='0.1.0', runtime_bytes=None,
                  skill_version='1.0.1', extra=None, corrupt=None, compat=None,
-                 runtime_version=None, release=True, protocol='zhigou-agent/v1'):
+                 runtime_version=None, release=True, protocol='easycirq-agent/v1'):
     """Create a valid toolchain bundle ZIP; returns (zip_path, release_path, bundle_dict)."""
     dest_dir = Path(dest_dir)
     dest_dir.mkdir(parents=True, exist_ok=True)
-    runtime_bytes = runtime_bytes if runtime_bytes is not None else b'MZ fake zhigou runtime ' + version.encode()
+    runtime_bytes = runtime_bytes if runtime_bytes is not None else b'MZ fake easycirq runtime ' + version.encode()
     skill_version = skill_version
     payload = {
-        'payload/bin/zhigou.exe': runtime_bytes,
-        'payload/bin/zhigou-version.json': json.dumps(
-            {'schema': 'zhigou-runtime-identity/v1', 'name': 'zhigou',
+        'payload/bin/easycirq.exe': runtime_bytes,
+        'payload/bin/easycirq-version.json': json.dumps(
+            {'schema': 'easycirq-runtime-identity/v1', 'name': 'easycirq',
              'version': runtime_version or version}).encode(),
-        'payload/connector/zhigou-connector_v%s.eext' % connector_version: b'PK\x03\x04fake-eext',
+        'payload/connector/easycirq-connector_v%s.eext' % connector_version: b'PK\x03\x04fake-eext',
         'payload/connector/IMPORT-STEPS.md': b'# import steps\n',
-        'payload/connector/zhigou-connector.manifest.json': json.dumps(
-            {'name': 'zhigou-connector', 'version': connector_version}).encode(),
+        'payload/connector/easycirq-connector.manifest.json': json.dumps(
+            {'name': 'easycirq-connector', 'version': connector_version}).encode(),
         'payload/licenses/LICENSE': b'Apache-2.0 test license\n',
         'payload/licenses/NOTICE': b'test notice\n',
         'payload/licenses/THIRD-PARTY-NOTICES.md': b'# third party\n',
-        'payload/skill/design-hardware/SKILL.md': b'---\nname: design-hardware\ndescription: test\n---\n',
-        'payload/skill/design-hardware/.version': (skill_version + '\n').encode(),
-        'payload/skill/design-hardware/scripts/helper.py': b'print("helper")\n',
+        'payload/skill/easycirq/SKILL.md': b'---\nname: easycirq\ndescription: test\n---\n',
+        'payload/skill/easycirq/.version': (skill_version + '\n').encode(),
+        'payload/skill/easycirq/scripts/helper.py': b'print("helper")\n',
     }
     payload.update(extra or {})
     files = {k: sha(v) for k, v in payload.items()}
     bundle = {
-        'schema': 'zhigou-toolchain-bundle/v1',
-        'name': 'zhigou-toolchain',
+        'schema': 'easycirq-toolchain-bundle/v1',
+        'name': 'easycirq-toolchain',
         'version': version,
         'builtAt': '2026-01-01T00:00:00Z',
         'provenance': {'sourceCommit': 'a' * 40, 'sourceDirty': False,
@@ -104,36 +123,36 @@ def build_bundle(dest_dir, version='0.1.0', connector_version='0.1.0', runtime_b
             'connector': connector_version, 'protocol': protocol,
             'eda': '>=3.2.0', 'validatedEda': '4.1.78', 'minPython': '3.10'},
         'components': {
-            'runtime': {'name': 'zhigou', 'version': runtime_version or version,
-                        'path': 'payload/bin/zhigou.exe', 'installPath': 'bin/zhigou.exe',
-                        'sha256': files['payload/bin/zhigou.exe']},
-            'connector': {'name': 'zhigou-connector', 'version': connector_version,
+            'runtime': {'name': 'easycirq', 'version': runtime_version or version,
+                        'path': 'payload/bin/easycirq.exe', 'installPath': 'bin/easycirq.exe',
+                        'sha256': files['payload/bin/easycirq.exe']},
+            'connector': {'name': 'easycirq-connector', 'version': connector_version,
                           'uuid': 'a6e6b788551945b399e150d80efa6e31',
-                          'path': 'payload/connector/zhigou-connector_v%s.eext' % connector_version,
-                          'installPath': 'connector/zhigou-connector_v%s.eext' % connector_version,
-                          'file': 'zhigou-connector_v%s.eext' % connector_version,
-                          'sha256': files['payload/connector/zhigou-connector_v%s.eext' % connector_version]},
-            'skill': {'name': 'design-hardware', 'version': skill_version,
-                      'path': 'payload/skill/design-hardware',
-                      'installPath': 'skill/design-hardware'},
+                          'path': 'payload/connector/easycirq-connector_v%s.eext' % connector_version,
+                          'installPath': 'connector/easycirq-connector_v%s.eext' % connector_version,
+                          'file': 'easycirq-connector_v%s.eext' % connector_version,
+                          'sha256': files['payload/connector/easycirq-connector_v%s.eext' % connector_version]},
+            'skill': {'name': 'easycirq', 'version': skill_version,
+                      'path': 'payload/skill/easycirq',
+                      'installPath': 'skill/easycirq'},
         },
         'files': files,
     }
     if corrupt == 'inventory':
-        bundle['files']['payload/bin/zhigou.exe'] = '0' * 64
-    archive = dest_dir / ('zhigou-toolchain-%s.zip' % version)
+        bundle['files']['payload/bin/easycirq.exe'] = '0' * 64
+    archive = dest_dir / ('easycirq-toolchain-%s.zip' % version)
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED) as z:
         z.writestr('bundle.json', json.dumps(bundle, ensure_ascii=False, indent=2))
         for name, data in payload.items():
             z.writestr(name, data)
         if corrupt == 'payload':  # rewrite one member with different bytes
-            z.writestr('payload/bin/zhigou.exe', b'tampered payload')
+            z.writestr('payload/bin/easycirq.exe', b'tampered payload')
         if corrupt == 'no-manifest':
             pass
         if corrupt == 'traversal':
             z.writestr('payload/../../evil.txt', b'escaped')
         if corrupt == 'duplicate':
-            z.writestr('payload/bin/zhigou.exe', b'duplicate entry')
+            z.writestr('payload/bin/easycirq.exe', b'duplicate entry')
     if corrupt == 'no-manifest':
         with zipfile.ZipFile(archive) as z:
             members = {n: z.read(n) for n in z.namelist() if n != 'bundle.json'}
@@ -146,7 +165,7 @@ def build_bundle(dest_dir, version='0.1.0', connector_version='0.1.0', runtime_b
     release_doc = None
     if release:
         release_doc = {
-            'schema': 'zhigou-toolchain-release/v1', 'name': 'zhigou-toolchain',
+            'schema': 'easycirq-toolchain-release/v1', 'name': 'easycirq-toolchain',
             'version': version, 'archive': archive.name,
             'archive_sha256': sha(archive.read_bytes()), 'compat': bundle['compat'],
             'source_commit': 'a' * 40, 'source_dirty': False,
@@ -162,7 +181,7 @@ class InstallerTestCase(unittest.TestCase):
     """Shared throw-away layout: isolated install/state/home, never the real ones."""
 
     def setUp(self):
-        self._tmp = tempfile.TemporaryDirectory(prefix='zhigou-lifecycle ')
+        self._tmp = tempfile.TemporaryDirectory(prefix='easycirq-lifecycle ')
         self.addCleanup(self._tmp.cleanup)
         self.root = Path(self._tmp.name)
         self.install = self.root / 'install'
@@ -170,15 +189,15 @@ class InstallerTestCase(unittest.TestCase):
         self.home = self.root / 'home'
         self.bundles = self.root / 'bundles'
         self.home.mkdir(parents=True, exist_ok=True)
-        # Prove the ZHIGOU_* overrides drive the defaults (no real dir is ever used).
+        # Prove the EASYCIRQ_* overrides drive the defaults (no real dir is ever used).
         self._env = {zi.ENV_INSTALL_DIR: str(self.install),
                      zi.ENV_STATE_DIR: str(self.state),
                      zi.ENV_HOME: str(self.home),
                      zi.ENV_SKIP_SELF_CHECK: '1',
                      # The self-check legitimately runs read-only
-                     # zhigou version/doctor on the freshly installed binary;
-                     # every mutating zhigou call stays blocked by offline_guard.
-                     'HDS_OFFLINE_ALLOW_ZHIGOU_READONLY': '1'}
+                     # easycirq version/doctor on the freshly installed binary;
+                     # every mutating easycirq call stays blocked by offline_guard.
+                     'HDS_OFFLINE_ALLOW_EASYCIRQ_READONLY': '1'}
         self._saved = {}
         for k, v in self._env.items():
             self._saved[k] = os.environ.get(k)
@@ -221,16 +240,16 @@ class CleanInstallTests(InstallerTestCase):
         self.assertEqual(r['status'], 'installed')
         self.assertEqual(r['version'], '0.1.0')
         self.assertEqual(r['files'], 11)
-        for rel in ('bin/zhigou.exe', 'bin/zhigou-version.json',
-                    'connector/zhigou-connector_v0.1.0.eext', 'connector/IMPORT-STEPS.md',
-                    'skill/design-hardware/SKILL.md', 'skill/design-hardware/.version',
+        for rel in ('bin/easycirq.exe', 'bin/easycirq-version.json',
+                    'connector/easycirq-connector_v0.1.0.eext', 'connector/IMPORT-STEPS.md',
+                    'skill/easycirq/SKILL.md', 'skill/easycirq/.version',
                     'licenses/LICENSE', 'licenses/THIRD-PARTY-NOTICES.md', zi.META):
             self.assertTrue((self.install / rel).is_file(), rel)
         meta = self.read_meta()
         self.assertEqual(meta['schema'], zi.INSTALL_SCHEMA)
         self.assertEqual(meta['version'], '0.1.0')
         self.assertEqual(meta['components']['connector']['uuid'], 'a6e6b788551945b399e150d80efa6e31')
-        self.assertEqual(meta['compat']['protocol'], 'zhigou-agent/v1')
+        self.assertEqual(meta['compat']['protocol'], 'easycirq-agent/v1')
         self.assertEqual(meta['provenance']['sourceCommit'], 'a' * 40)
         self.assertIn('config', 'config')  # config dir is optional/created by the user
         # every recorded file exists with the recorded hash
@@ -348,14 +367,14 @@ class UpgradeRollbackTests(InstallerTestCase):
 class UninstallTests(InstallerTestCase):
     def test_uninstall_removes_only_owned_files(self):
         self.install_bundle('0.1.0')
-        user_file = self.install / 'skill' / 'design-hardware' / 'my-notes.md'
+        user_file = self.install / 'skill' / 'easycirq' / 'my-notes.md'
         user_file.write_text('local note', encoding='utf-8')
         cfg = self.install / 'config' / 'settings.json'
         cfg.parent.mkdir(parents=True, exist_ok=True)
         cfg.write_text('{}', encoding='utf-8')
         r = zi.uninstall(install_dir=self.install, state=self.state, force=True)
         self.assertEqual(r['status'], 'uninstalled')
-        self.assertFalse((self.install / 'bin' / 'zhigou.exe').exists())
+        self.assertFalse((self.install / 'bin' / 'easycirq.exe').exists())
         self.assertFalse((self.install / zi.META).exists())
         # a file the toolchain did not create survives and blocks silent data loss
         self.assertTrue(user_file.exists(), 'unrecorded user file must be kept')
@@ -363,7 +382,7 @@ class UninstallTests(InstallerTestCase):
 
     def test_uninstall_refuses_modified_install_without_force(self):
         self.install_bundle('0.1.0')
-        (self.install / 'bin' / 'zhigou.exe').write_bytes(b'locally patched')
+        (self.install / 'bin' / 'easycirq.exe').write_bytes(b'locally patched')
         with self.assertRaises(zi.InstallError) as ctx:
             zi.uninstall(install_dir=self.install, state=self.state)
         self.assertIn('modified', str(ctx.exception).lower())
@@ -473,15 +492,15 @@ class SafetyTests(InstallerTestCase):
     def test_shadowing_is_reported_not_fixed(self):
         other = self.root / 'other-tools'
         other.mkdir()
-        (other / 'zhigou.exe').write_bytes(b'foreign zhigou')
+        (other / 'easycirq.exe').write_bytes(b'foreign easycirq')
         old_path = os.environ.get('PATH', '')
         os.environ['PATH'] = str(other) + os.pathsep + old_path
         self.addCleanup(os.environ.__setitem__, 'PATH', old_path)
         self.install_bundle('0.1.0')
         st = zi.status(install_dir=self.install, state=self.state, home=self.home)
         self.assertEqual(st['path']['verdict'], 'shadowed')
-        self.assertTrue(st['path']['otherZhigouOnPath'])
-        self.assertTrue((other / 'zhigou.exe').is_file(), 'installer must never delete a PATH binary')
+        self.assertTrue(st['path']['otherEasyCirqOnPath'])
+        self.assertTrue((other / 'easycirq.exe').is_file(), 'installer must never delete a PATH binary')
 
     def test_install_dir_inside_retired_agent_dir_is_refused(self):
         bad = self.root / '.claude' / 'skills' / LEGACY_AGENT / 'toolchain'
@@ -536,7 +555,7 @@ class SafetyTests(InstallerTestCase):
 class TransactionTests(InstallerTestCase):
     def test_local_modification_blocks_upgrade_until_forced(self):
         self.install_bundle('0.1.0')
-        target = self.install / 'skill' / 'design-hardware' / 'SKILL.md'
+        target = self.install / 'skill' / 'easycirq' / 'SKILL.md'
         target.write_text('locally edited', encoding='utf-8')
         with self.assertRaises(zi.InstallError) as ctx:
             self.install_bundle('0.2.0')
@@ -598,9 +617,9 @@ class ClientSkillTests(InstallerTestCase):
         archive, _, _ = build_bundle(self.bundles, version='0.1.0')
         r = zi.install(install_dir=self.install, archive=archive, state=self.state,
                        home=self.home, client='claude', self_check=False)
-        target = self.home / '.claude' / 'skills' / 'design-hardware'
+        target = self.home / '.claude' / 'skills' / 'easycirq'
         self.assertTrue((target / 'SKILL.md').is_file())
-        self.assertTrue((target / '.zhigou-install.json').is_file())
+        self.assertTrue((target / '.easycirq-install.json').is_file())
         self.assertEqual(r['clientSkill']['target'], str(target))
         meta = self.read_meta()
         self.assertEqual(meta['clientSkill']['version'], '1.0.1')
@@ -609,7 +628,7 @@ class ClientSkillTests(InstallerTestCase):
         self.assertEqual(un['clientSkill']['removed'], str(target))
 
     def test_unmanaged_skill_is_not_overwritten(self):
-        target = self.home / '.claude' / 'skills' / 'design-hardware'
+        target = self.home / '.claude' / 'skills' / 'easycirq'
         target.mkdir(parents=True)
         (target / 'SKILL.md').write_text('hand made', encoding='utf-8')
         archive, _, _ = build_bundle(self.bundles, version='0.1.0')
@@ -636,7 +655,7 @@ class SelfCheckTests(InstallerTestCase):
         """Classify a doctor JSON exactly like the real runtime prints it."""
         self.install_bundle('0.1.0')
         fake_stdout = json.dumps({
-            'schema': 'zhigou-doctor/v1', 'verdict': 'degraded',
+            'schema': 'easycirq-doctor/v1', 'verdict': 'degraded',
             'runtime': {'version': '0.1.0-dev', 'sha256': 'b' * 64},
             'daemon': {'status': 'stopped', 'running': False, 'port': 23111},
             'connector': {'status': 'disconnected', 'windows': []},
@@ -646,7 +665,7 @@ class SelfCheckTests(InstallerTestCase):
         class Proc:
             returncode = 1
             stdout = fake_stdout
-            stderr = 'zhigou doctor — verdict: degraded'
+            stderr = 'easycirq doctor — verdict: degraded'
 
         import subprocess as sp
         original = sp.run
@@ -664,10 +683,10 @@ class SelfCheckTests(InstallerTestCase):
     def test_real_bundle_builds_and_installs_with_real_doctor(self):
         """Real-artifact test: builds the actual bundle, installs it, runs the real doctor.
 
-        Skipped on a clean CI checkout where runtime/dist/zhigou.exe or the
+        Skipped on a clean CI checkout where runtime/dist/easycirq.exe or the
         connector .eext has not been built yet.
         """
-        exe = ROOT / 'runtime/dist/zhigou.exe'
+        exe = ROOT / 'runtime/dist/easycirq.exe'
         if not exe.is_file():
             self.skipTest('runtime binary not built in this checkout')
         eext_dir = ROOT / 'connector/build/dist'
@@ -699,6 +718,30 @@ class SelfCheckTests(InstallerTestCase):
         self.assertEqual(status['status'], 'healthy')
         record('real_bundle_install', version=r['version'], self_check=r['selfCheck']['status'],
                verdict=r['selfCheck'].get('verdict'), files=r['files'])
+
+
+class EvidenceLogTests(unittest.TestCase):
+    """The lifecycle journal must not dirty the repository on a routine run (#93)."""
+
+    def setUp(self):
+        if _evidence_override:
+            self.skipTest('EASYCIRQ_INSTALL_EVIDENCE_LOG explicitly overrides the evidence path')
+
+    def test_default_evidence_log_is_outside_the_repository(self):
+        self.assertNotIn(ROOT, LOG.resolve().parents)
+        self.assertFalse(LOG.resolve().is_relative_to(ROOT))
+
+    def test_record_appends_jsonl_to_the_temporary_log(self):
+        record('evidence_log_selftest', value=1)
+        self.assertTrue(LOG.is_file())
+        last = LOG.read_text(encoding='utf-8').splitlines()[-1]
+        self.assertEqual(json.loads(last)['event'], 'evidence_log_selftest')
+
+    def test_tracked_evidence_log_is_not_touched_by_a_routine_run(self):
+        before = _TRACKED_LOG.read_bytes() if _TRACKED_LOG.is_file() else None
+        record('evidence_log_no_repo_write', value=2)
+        after = _TRACKED_LOG.read_bytes() if _TRACKED_LOG.is_file() else None
+        self.assertEqual(before, after)
 
 
 if __name__ == '__main__':

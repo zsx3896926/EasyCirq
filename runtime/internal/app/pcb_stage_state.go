@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // pcb_stage_state.go — CLI adapter over historical internal/workflow records.

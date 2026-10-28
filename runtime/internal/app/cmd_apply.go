@@ -28,8 +28,8 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // ── playbook file model ─────────────────────────────────────────────────────

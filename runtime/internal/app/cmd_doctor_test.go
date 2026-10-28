@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // doctor/capabilities must be truthful even with no host attached: this test
@@ -112,7 +112,7 @@ func TestDoctorVerdictFlagsStalePIDFile(t *testing.T) {
 }
 
 func TestSkillFrontMatterValue(t *testing.T) {
-	text := "---\nname: design-hardware\nversion: 1.2.3\ndescription: x\n---\n# body\n"
+	text := "---\nname: easycirq\nversion: 1.2.3\ndescription: x\n---\n# body\n"
 	if got := skillFrontMatterValue(text, "version"); got != "1.2.3" {
 		t.Fatalf("version = %q", got)
 	}

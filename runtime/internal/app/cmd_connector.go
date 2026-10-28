@@ -16,7 +16,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 // The connector command group owns the in-EDA part of the toolchain from this

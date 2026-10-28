@@ -16,7 +16,7 @@ Design rules (see docs/toolchain-integration/installer.md):
     connected) is reported honestly and is NOT an installation failure.
 
 Python 3.10+, standard library only.  Structure deliberately mirrors
-``design-hardware/scripts/skill_update.py`` (same lock/journal/backup idiom) so
+``easycirq/scripts/skill_update.py`` (same lock/journal/backup idiom) so
 the two updaters behave the same way.
 """
 from __future__ import annotations
@@ -599,7 +599,7 @@ def resolve_skill_target(client, home: Path, skill_root=None) -> Path:
     if client not in CLIENT_ROOTS:
         raise InstallError('Unknown skill client: %r (choose none|%s)'
                            % (client, '|'.join(sorted(CLIENT_ROOTS))))
-    return home / CLIENT_ROOTS[client][0] / 'design-hardware'
+    return home / CLIENT_ROOTS[client][0] / 'easycirq'
 
 
 def install_skill_copy(source: Path, target: Path, version: str, backup_root: Path,
@@ -759,7 +759,7 @@ def install(install_dir=None, archive=None, bundle_manifest=None, expected=None,
                         try:
                             target = resolve_skill_target(client, home, skill_root)
                             pending_skill = install_skill_copy(
-                                install_dir / 'skill/design-hardware', target,
+                                install_dir / 'skill/easycirq', target,
                                 bundle['components']['skill']['version'],
                                 state / 'backups', adopt=adopt)
                             old_meta['clientSkill'] = pending_skill
@@ -835,7 +835,7 @@ def install(install_dir=None, archive=None, bundle_manifest=None, expected=None,
             if client and client != 'none' or skill_root:
                 try:
                     target = resolve_skill_target(client, home, skill_root)
-                    skill_result = install_skill_copy(install_dir / 'skill/design-hardware',
+                    skill_result = install_skill_copy(install_dir / 'skill/easycirq',
                                                       target, bundle['components']['skill']['version'],
                                                       state / 'backups')
                     meta['clientSkill'] = skill_result

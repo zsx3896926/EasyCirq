@@ -43,7 +43,7 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 
 	// cwd rung: a repo-shaped tree, with cwd a few levels down.
 	repo := t.TempDir()
-	cwdScript := mkScript(t, filepath.Join(repo, ".agents", "skills", "design-hardware", "scripts", "bom-enrich.py"))
+	cwdScript := mkScript(t, filepath.Join(repo, ".agents", "skills", "easycirq", "scripts", "bom-enrich.py"))
 	deep := filepath.Join(repo, "a", "b")
 	if err := os.MkdirAll(deep, 0o755); err != nil {
 		t.Fatal(err)

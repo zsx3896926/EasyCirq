@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // --zone 解析已统一走 resolveLayoutZone,用例移植到 sch_layout_objects_test.go。

@@ -9,7 +9,7 @@ import unittest
 
 os.environ.setdefault('PYTHONIOENCODING', 'utf-8')
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / 'design-hardware' / 'scripts' / 'eda_exec.py'
+SCRIPT = ROOT / 'easycirq' / 'scripts' / 'eda_exec.py'
 spec = importlib.util.spec_from_file_location('eda_exec', SCRIPT)
 eda = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(eda)

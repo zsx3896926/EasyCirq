@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.electrical-review.input/v1",
+  "schema": "easycirq.electrical-review.input/v1",
   "design": {
     "project_id": "mcu-i2c-s3-20261026-tab-split-mutation",
     "document_id": "P2",

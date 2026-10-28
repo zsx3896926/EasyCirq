@@ -1,6 +1,6 @@
 # 第 4 轮交付报告：复杂设计中的工程决策能力
 
-日期：2026-10-22。仓库：`zsx3896926/hardware-design-skill`。分支：`feat/engineering-decisions-round4`；PR 分支从 `origin/main` `0fe5cf8` 拉出，只含本轮决策资产。
+日期：2026-10-22。仓库：`zsx3896926/EasyCirq`。分支：`feat/engineering-decisions-round4`；PR 分支从 `origin/main` `0fe5cf8` 拉出，只含本轮决策资产。
 
 ## 1. 十二个工作包状态
 
@@ -55,7 +55,7 @@
 | R4-P5 双销售配置 | G01 | `r4-case-g01-*.md`（constructed） |
 | R4-P6 旧版改型 | I01、L01 | `r4-case-i01-*.md`、`l01-*.md` |
 
-索引：`design-hardware/references/decisions/README.md`；族谱与 canonical facts：`design-hardware/references/decisions/cases/README.md`。
+索引：`easycirq/references/decisions/README.md`；族谱与 canonical facts：`easycirq/references/decisions/cases/README.md`。
 
 ## 5. 计算、工具与人工复核
 

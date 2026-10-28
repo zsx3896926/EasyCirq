@@ -1,10 +1,10 @@
 {
-  "schema": "zhigou-outline-foreign-field/v1",
+  "schema": "easycirq-outline-foreign-field/v1",
   "date": "2026-10-28",
   "environment": {
     "host": "EasyEDA Pro 4.1.78",
-    "connector": "zhigou-connector 0.1.2 (uuid cfc96215f0b44005981aa0b641daa89a)",
-    "runtime": "zhigou 0.2.2-dev",
+    "connector": "easycirq-connector 0.1.2 (uuid cfc96215f0b44005981aa0b641daa89a)",
+    "runtime": "easycirq 0.2.2-dev",
     "project": "outline-foreign-repro-20261028-013032",
     "device": "C2980113 / YTS1C0172BWJ00 / SW-SMD_2P-YTS1C0172B"
   },
@@ -31,10 +31,10 @@
   "working_fix": {
     "path": "component-level replacement, not primitive deletion",
     "steps": [
-      "python tools/zhigou_footprint_outline_diagnose.py  → names the defective designator, pads and object id",
-      "zhigou sch replace --id <SW1 primitiveId> --lcsc C2885180   (TS-1187A-B-E-B, no embedded outline)",
-      "zhigou doc open <pcb> ; zhigou pcb import-changes",
-      "zhigou pcb save ; zhigou doc reload <pcb> ; zhigou pcb drc"
+      "python tools/easycirq_footprint_outline_diagnose.py  → names the defective designator, pads and object id",
+      "easycirq sch replace --id <SW1 primitiveId> --lcsc C2885180   (TS-1187A-B-E-B, no embedded outline)",
+      "easycirq doc open <pcb> ; easycirq pcb import-changes",
+      "easycirq pcb save ; easycirq doc reload <pcb> ; easycirq pcb drc"
     ],
     "result": {
       "drcBefore": {
@@ -55,7 +55,7 @@
   },
   "product_decision": [
     "the two connector actions are removed from the runtime action catalog: they must not be advertised as a repair until enumeration/deletion of component-owned board-outline graphics is actually supported by the host API",
-    "the supported path is diagnose + component/footprint-level replacement + save/reload/DCR re-verification, shipped as tools/zhigou_footprint_outline_diagnose.py",
+    "the supported path is diagnose + component/footprint-level replacement + save/reload/DCR re-verification, shipped as tools/easycirq_footprint_outline_diagnose.py",
     "root cause stays in the library footprint; the library should not embed board-outline graphics"
   ]
 }

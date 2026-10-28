@@ -3,7 +3,7 @@ from pathlib import Path
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'design-hardware'
+SKILL = ROOT / 'easycirq'
 REFS = SKILL / 'references'
 PACK = REFS / 'common-hardware'
 APPS = PACK / 'applications'

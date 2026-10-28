@@ -57,7 +57,7 @@ class SubprocessTests(unittest.TestCase):
     def run_case(self, name):
         item = CASES[name]
         environment = dict(os.environ)
-        environment['PYTHONPATH'] = str(REPO / 'design-hardware' / 'scripts')
+        environment['PYTHONPATH'] = str(REPO / 'easycirq' / 'scripts')
         command = [sys.executable, '-m', 'mechanical_layout', item['command'],
                    '-i', item['input']] + list(item.get('args') or [])
         completed = subprocess.run(command, cwd=str(REPO), env=environment,

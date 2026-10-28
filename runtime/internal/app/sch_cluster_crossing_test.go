@@ -10,7 +10,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
 )
 
 func clusterP2Snapshot(t *testing.T) map[string]any {

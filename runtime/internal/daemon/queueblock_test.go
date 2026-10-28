@@ -6,7 +6,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // clockTracker builds a tracker on a controllable clock so the tests assert the

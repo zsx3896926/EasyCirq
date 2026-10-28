@@ -28,9 +28,9 @@ import (
 
 const (
 	// RepoSlug is the GitHub owner/repo the release assets live under.
-	RepoSlug = "zsx3896926/hardware-design-skill"
+	RepoSlug = "zsx3896926/EasyCirq"
 	// SkillName is the skill slug (dir name under each client's skills/).
-	SkillName = "design-hardware"
+	SkillName = "easycirq"
 	// versionMarker records the installed skill version inside a skill dir.
 	versionMarker = ".version"
 	// PreserveEnv, when "1", makes a sync keep existing files (local edits win).

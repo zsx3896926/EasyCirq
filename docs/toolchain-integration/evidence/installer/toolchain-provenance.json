@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou-toolchain-provenance/v1",
+  "schema": "easycirq-toolchain-provenance/v1",
   "version": "0.2.0",
   "builtAt": "2026-10-27T13:46:46Z",
   "sourceCommit": "f68fcac2bd44e5628bb2679d51cc07cc9f143887",
@@ -16,25 +16,25 @@
   "pythonVersion": "3.13.15",
   "artifacts": {
     "bundle": {
-      "file": "zhigou-toolchain-0.2.0.zip",
+      "file": "easycirq-toolchain-0.2.0.zip",
       "sha256": "d29ab16b2d88227d096221d5711cbb63ed83e53765fc30450ceaf999a9e2e48e",
       "size": 16017542
     },
     "runtime": {
-      "file": "payload/bin/zhigou.exe",
+      "file": "payload/bin/easycirq.exe",
       "sha256": "7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4",
       "size": 24074752,
       "version": "0.2.0"
     },
     "connector": {
-      "file": "zhigou-connector_v0.1.0.eext",
+      "file": "easycirq-connector_v0.1.0.eext",
       "sha256": "1c6c659b4cf282f57a0752267a7408aedfdd2810fe49c9352ebd17902a2d343b",
       "size": 231299,
       "version": "0.1.0",
       "uuid": "a6e6b788551945b399e150d80efa6e31"
     },
     "skill": {
-      "file": "payload/skill/design-hardware",
+      "file": "payload/skill/easycirq",
       "version": "1.0.1",
       "files": 674
     }

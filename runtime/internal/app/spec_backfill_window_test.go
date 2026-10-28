@@ -22,7 +22,7 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // sbwDaemon 是一个最小 daemon 替身:/health 报一个窗口,/action 按动作名回话,

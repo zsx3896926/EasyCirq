@@ -16,8 +16,8 @@ def smoke(dist, previous_dist=None):
     dist = Path(dist).resolve()
     manifest = json.loads((dist / 'release.json').read_text(encoding='utf-8'))
     version = manifest['version']
-    archive = 'design-hardware-' + version + '.zip'
-    installer = 'design-hardware-installer-' + version + '.zip'
+    archive = 'easycirq-' + version + '.zip'
+    installer = 'easycirq-installer-' + version + '.zip'
     names = {archive, installer, 'release.json', 'Manage-Skill.ps1',
              'Manage-Skill.cmd', 'skill_update.py', 'companion_update.py',
              'LICENSE', 'NOTICE', 'INSTALL.md'}

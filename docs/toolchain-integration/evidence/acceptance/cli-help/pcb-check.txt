@@ -13,7 +13,7 @@ Rules:
   • parallel-coupling — different-net traces closer than N×W (3W rule) → WARN
   • netless-pour      — copper pour bound to no net (dead copper)      → WARN
   • via-crosses-plane — a via whose net ≠ an inner PLANE(内电层)'s net → WARN
-                        (anti-pad risk, zhigou/pro-api-sdk#32: a via created
+                        (anti-pad risk, easycirq/pro-api-sdk#32: a via created
                         AFTER the plane exists gets no anti-pad; fix = remove it
                         and route on outer layers, or 'doc reload' + 'pour-rebuild')
   • floating-track-island — a connected GROUP of tracks anchoring to no pad → WARN
@@ -31,13 +31,13 @@ Exit code: 0 by default (informational). --strict exits non-zero on any WARN/ERR
 so it can gate the flow. Arcs are out of scope for v1 (line/via/pad only).
 
 Usage:
-  zhigou pcb check [flags]
+  easycirq pcb check [flags]
 
 Examples:
-  zhigou pcb check
-  zhigou pcb check --json
-  zhigou pcb check --strict
-  zhigou pcb check --coupling-w 2.5
+  easycirq pcb check
+  easycirq pcb check --json
+  easycirq pcb check --strict
+  easycirq pcb check --coupling-w 2.5
 
 Flags:
       --coupling-w float   3W-rule factor: flag different-net parallel traces closer than this × trace width (default 3)

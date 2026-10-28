@@ -33,5 +33,5 @@
 
 1. **已安装副本 ≠ 源码克隆**：安装的是 v1.15.0 发布内容，源码克隆是 v1.14.0 开发快照；不能把源码克隆的条文当成"客户端此刻加载的条文"。
 2. `SKILL.md` 层面差异只有 3 处（version 字符串 + 2 行任务索引），**规则条文本身未变**；真正的内容差异集中在 `references/pcb*.md`、`design-flow.md`、`actions.md` 等执行细节——因此本审计中**凡是"上游规则"都按已安装 v1.15.0 引用，并同时标注源码克隆行号**（两者行号在 SKILL.md 上一致，74 行）。
-3. 用户当前环境里**两份上游 Skill 内容重复**（`~/.codex` 与 `~/.claude` 各一份 v1.15.0），加上我方 `design-hardware`（`~/.agents/skills/design-hardware` v1.0.1，与 worktree 逐行一致），本会话的可用技能清单里 **`design-hardware` 与 `easyeda-agent` 同时出现**——这正是"两套技能同时加载"的现场证据（见主报告 C01）。
+3. 用户当前环境里**两份上游 Skill 内容重复**（`~/.codex` 与 `~/.claude` 各一份 v1.15.0），加上我方 `easycirq`（`~/.agents/skills/easycirq` v1.0.1，与 worktree 逐行一致），本会话的可用技能清单里 **`easycirq` 与 `easyeda-agent` 同时出现**——这正是"两套技能同时加载"的现场证据（见主报告 C01）。
 4. 未运行任何 EDA 命令、未修改任何安装目录；本比对全部为 `Get-FileHash` / `Compare-Object` / 字节读取。

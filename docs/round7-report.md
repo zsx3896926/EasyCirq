@@ -42,17 +42,17 @@
 
 新增：
 
-- `design-hardware/scripts/sch_layout_model.py`：真实快照 + 连接 IR + 位号几何 +
+- `easycirq/scripts/sch_layout_model.py`：真实快照 + 连接 IR + 位号几何 +
   图框 → 校验后的 `layout-plan --zones` 输入；检查覆盖、pin-net、NC、5-grid、
   位号文字、纸张/图签；锚点偏移不合法时归一参考并阻塞。
-- `design-hardware/scripts/sch_layout_quality.py`：独立图面质量检查，覆盖页面失衡、
+- `easycirq/scripts/sch_layout_quality.py`：独立图面质量检查，覆盖页面失衡、
   模块重叠/过近/贴图签/碎片化、文字压符号、导线压字、阅读顺序、标签碎片化。
-- `design-hardware/scripts/sch_layout_pipeline.py`：串联 `layout-plan →
+- `easycirq/scripts/sch_layout_pipeline.py`：串联 `layout-plan →
   layout-sheet-plan → layout-render → quality`，并检查每个 placement 是否为测量的
   刚体平移；锚点被求解器改动时直接报 `geometry-inconsistent`。
-- `design-hardware/assets/layout-modules/temperature-alarm.module-plan.json`：
+- `easycirq/assets/layout-modules/temperature-alarm.module-plan.json`：
   6 区功能模板，无绝对坐标。
-- `design-hardware/references/schematic-layout-engine.md`：调用方式、数据契约、
+- `easycirq/references/schematic-layout-engine.md`：调用方式、数据契约、
   硬门禁、工具陷阱、交付证据。
 - `tests/test_sch_layout_model.py`、`test_sch_layout_quality.py`、
   `test_sch_layout_pipeline.py`：12 个测试。
@@ -182,7 +182,7 @@ fix 与引脚外法线冲突（见 3.5），不执行；剩余是 netport 风格
 ## 7. 提交与证据
 
 - 分支：`feat/sch-layout-engine-round7`；基线 `fe950d3`；提交 `6fcd723`；
-  PR https://github.com/zsx3896926/hardware-design-skill/pull/11；CI 结果见 PR。
+  PR https://github.com/zsx3896926/EasyCirq/pull/11；CI 结果见 PR。
 - 证据目录（仓库外）：
   `C:\Users\jlc\work\temp-alarm-20261024\evidence\round7\final\`（本会话）与
   `...\evidence\round7\verify\`（并行会话最终备份的独立复核）。

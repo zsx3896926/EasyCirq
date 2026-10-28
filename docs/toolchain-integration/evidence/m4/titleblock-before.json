@@ -49,7 +49,7 @@
       "@Project Name": {
         "showTitle": false,
         "showValue": false,
-        "value": "zhigou-integrated-dual-button-led-20261027"
+        "value": "easycirq-integrated-dual-button-led-20261027"
       },
       "@Schematic Name": {
         "showTitle": null,
@@ -176,7 +176,7 @@
   },
   "context": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "ee9b284771dad29b",
     "documentType": "schematic",
     "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -184,7 +184,7 @@
   },
   "mutationContext": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "ee9b284771dad29b",
     "documentType": "schematic",
     "tabId": "ee9b284771dad29b@43ebf71ffd34473f9b08aaa118aa2d5e",

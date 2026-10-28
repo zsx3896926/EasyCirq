@@ -8,8 +8,8 @@ vocabulary and the internal module interfaces. It does not claim any host
 - task: 智构 parallel task K — batch annotation avoidance / local relayout planner
 - branch: `feat/parallel-annotation-layout`
 - base main SHA: `9a951edc21481dc3ae91460acc11aa3e08a7be8a` (2026-10-27)
-- package: `design-hardware/scripts/annotation_layout/` (standalone, no deps)
-- delivered paths: `design-hardware/scripts/annotation_layout/`,
+- package: `easycirq/scripts/annotation_layout/` (standalone, no deps)
+- delivered paths: `easycirq/scripts/annotation_layout/`,
   `tests/annotation_layout/`, `benchmarks/annotation-layout/`,
   `docs/parallel-annotation-layout/`
 
@@ -307,8 +307,8 @@ re-read are **NOT RUN**.
 ## 7. CLI contract
 
 Invocation (one of):
-- `cd design-hardware/scripts && python -m annotation_layout ...`
-- `PYTHONPATH=design-hardware/scripts python -m annotation_layout ...`
+- `cd easycirq/scripts && python -m annotation_layout ...`
+- `PYTHONPATH=easycirq/scripts python -m annotation_layout ...`
 
 Commands:
 
@@ -319,6 +319,8 @@ Commands:
 | `verify INPUT --plan PLAN [--out FILE] [--out-dir DIR]` | independent recheck of a plan | `plan_verified` | not verified | invalid/stale |
 | `benchmark [--suite DIR] [--repeat N] [--out DIR]` | baseline vs improved, actual CLI-equivalent entry | ok | — | invalid |
 | `convert --layout FILE [--list FILE] [--rendered FILE] [--sheet FILE] --out FILE` | frozen fixture -> v1 input | ok | — | invalid |
+| `probe-check RECORD [--out HOST_BLOCK]` | validate an onsite host-probe capability record and derive the input `host` block (read-only, no host execution) | valid record | — | invalid record/IO |
+| `probe-bind INPUT --record RECORD --out INPUT` | bind a valid capability record into a page/snapshot-matching v1 input (read-only apart from the output file) | ok | — | invalid record/mismatch/IO |
 | `version` | tool/schema version JSON | ok | — | — |
 
 Rules:
@@ -375,6 +377,7 @@ Status vocabulary: `planned_clear`, `partial`, `blocked`, `needs_geometry`,
 | `convert.py` | fixtures-bench | frozen photo-led fixture -> v1 input |
 | `benchmark.py` | fixtures-bench | same-domain baseline vs improved measurement |
 | `cli.py` / `__main__.py` | lead | CLI dispatch, IO, exit codes |
+| `probe_record.py` | lead | validate `annotation-layout-host-probe/v1` records and map them to the input host block |
 
 Public functions other modules may rely on:
 
@@ -455,3 +458,5 @@ sections above.
    `counterexample` is faster but moves more objects, so no speedup is claimed
    for it.  Only offline solver work is measured; EDA render/save/reopen/
    readback/whole-board time are **NOT RUN**.
+
+

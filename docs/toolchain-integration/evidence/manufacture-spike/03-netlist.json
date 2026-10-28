@@ -7,13 +7,13 @@
   "ok": true,
   "result": {
     "artifactId": "art_7f530b4c-a59a-4cbf-86d2-0c3be7ff823f",
-    "artifactPath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115445-pcb_netlist-7f530b4c.enet",
+    "artifactPath": "C:\\Users\\jlc\\work\\easycirq-toolchain\\.easycirq\\artifacts\\20261028-115445-pcb_netlist-7f530b4c.enet",
     "capabilityNote": "Uses the official @beta pcb_ManufactureData.getNetlistFile (PCB side).",
     "exportContext": {
       "documentType": "pcb",
       "documentUuid": "56a25fb38c54cb1b",
       "pageVisibility": "hidden",
-      "projectName": "zhigou-integrated-dual-button-led-20261027",
+      "projectName": "easycirq-integrated-dual-button-led-20261027",
       "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
       "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e"
     },
@@ -23,7 +23,7 @@
   },
   "context": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "56a25fb38c54cb1b",
     "documentType": "pcb",
     "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -31,7 +31,7 @@
   },
   "mutationContext": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "56a25fb38c54cb1b",
     "documentType": "pcb",
     "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -42,7 +42,7 @@
     {
       "id": "art_7f530b4c-a59a-4cbf-86d2-0c3be7ff823f",
       "kind": "pcb_netlist",
-      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115445-pcb_netlist-7f530b4c.enet",
+      "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\.easycirq\\artifacts\\20261028-115445-pcb_netlist-7f530b4c.enet",
       "fileName": "acceptance-netlist.enet",
       "mimeType": "text/plain",
       "size": 15749,

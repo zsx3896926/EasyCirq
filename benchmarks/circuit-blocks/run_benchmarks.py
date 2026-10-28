@@ -37,7 +37,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 ENV = dict(os.environ)
 ENV['PYTHONPATH'] = str(SCRIPTS) + os.pathsep + ENV.get('PYTHONPATH', '')
 ENV.setdefault('PYTHONIOENCODING', 'utf-8')

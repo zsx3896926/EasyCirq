@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // docTypeProbeTimeout bounds the one light read taken after a failure.

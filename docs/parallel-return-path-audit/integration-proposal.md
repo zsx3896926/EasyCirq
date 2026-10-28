@@ -4,7 +4,7 @@
 也不依赖任何未合入提交。审查器自身可独立运行：
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m return_path_audit audit -i input.json -o report.json [--svg overlay.svg]
 ```
 

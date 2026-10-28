@@ -1,13 +1,13 @@
-?   	github.com/zsx3896926/hardware-design-skill/runtime/cmd/zhigou	[no test files]
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/apidoc	0.481s
+?   	github.com/zsx3896926/EasyCirq/runtime/cmd/easycirq	[no test files]
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/apidoc	0.481s
 Error: document.current failed: No active document.
 Usage:
   doc open <name|uuid> [flags]
 
 Examples:
-  zhigou doc open PCB1 --project ceshi
-  zhigou doc open P1 --project ceshi
-  zhigou doc open ESP32-mini-v2 --project hardware
+  easycirq doc open PCB1 --project ceshi
+  easycirq doc open P1 --project ceshi
+  easycirq doc open ESP32-mini-v2 --project hardware
 
 Flags:
   -h, --help   help for open
@@ -21,7 +21,7 @@ Usage:
   project find [flags]
 
 Examples:
-  zhigou project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
+  easycirq project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
 
 Flags:
   -h, --help               help for find
@@ -37,7 +37,7 @@ Usage:
   project find [flags]
 
 Examples:
-  zhigou project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
+  easycirq project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
 
 Flags:
   -h, --help               help for find
@@ -53,7 +53,7 @@ Usage:
   project find [flags]
 
 Examples:
-  zhigou project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
+  easycirq project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
 
 Flags:
   -h, --help               help for find
@@ -69,7 +69,7 @@ Usage:
   project find [flags]
 
 Examples:
-  zhigou project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
+  easycirq project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>
 
 Flags:
   -h, --help               help for find
@@ -80,17 +80,17 @@ Flags:
 Global Flags:
       --window string   EasyEDA window ID
 
-Error: a query is required: zhigou lib search <QUERY> (or --query)
+Error: a query is required: easycirq lib search <QUERY> (or --query)
 Usage:
   lib search [QUERY...] [flags]
 
 Examples:
-  zhigou lib search C25804                    # positional query (words are joined)
-  zhigou lib search 100nF 0402 --limit 5
-  zhigou lib search --query "ESP32-S3-WROOM-1"
-  zhigou lib search --query "100nF 0402" --limit 5
-  zhigou lib search --query C5665              # exact LCSC match (auto-detected)
-  zhigou lib search --query C5665 --allow-fuzzy # keep the fuzzy ranked results
+  easycirq lib search C25804                    # positional query (words are joined)
+  easycirq lib search 100nF 0402 --limit 5
+  easycirq lib search --query "ESP32-S3-WROOM-1"
+  easycirq lib search --query "100nF 0402" --limit 5
+  easycirq lib search --query C5665              # exact LCSC match (auto-detected)
+  easycirq lib search --query C5665 --allow-fuzzy # keep the fuzzy ranked results
 
 Flags:
       --allow-fuzzy      keep the fuzzy ranked results even when --query is an LCSC C-number
@@ -108,12 +108,12 @@ Usage:
   lib search [QUERY...] [flags]
 
 Examples:
-  zhigou lib search C25804                    # positional query (words are joined)
-  zhigou lib search 100nF 0402 --limit 5
-  zhigou lib search --query "ESP32-S3-WROOM-1"
-  zhigou lib search --query "100nF 0402" --limit 5
-  zhigou lib search --query C5665              # exact LCSC match (auto-detected)
-  zhigou lib search --query C5665 --allow-fuzzy # keep the fuzzy ranked results
+  easycirq lib search C25804                    # positional query (words are joined)
+  easycirq lib search 100nF 0402 --limit 5
+  easycirq lib search --query "ESP32-S3-WROOM-1"
+  easycirq lib search --query "100nF 0402" --limit 5
+  easycirq lib search --query C5665              # exact LCSC match (auto-detected)
+  easycirq lib search --query C5665 --allow-fuzzy # keep the fuzzy ranked results
 
 Flags:
       --allow-fuzzy      keep the fuzzy ranked results even when --query is an LCSC C-number
@@ -131,8 +131,8 @@ Usage:
   plan [flags]
 
 Examples:
-  zhigou pcb enclosure plan --board board.json --models models.json --out spec.json
-  zhigou pcb enclosure plan --board board.json --mode rect --wall 2.4 --top-cutout SW1,SW2 --out spec.json
+  easycirq pcb enclosure plan --board board.json --models models.json --out spec.json
+  easycirq pcb enclosure plan --board board.json --mode rect --wall 2.4 --top-cutout SW1,SW2 --out spec.json
 
 Flags:
       --board string            board file from "pcb dump --out" (required)
@@ -164,7 +164,7 @@ Usage:
   build [flags]
 
 Examples:
-  zhigou pcb enclosure build --spec spec.json --out ./enclosure
+  easycirq pcb enclosure build --spec spec.json --out ./enclosure
 
 Flags:
   -h, --help          help for build
@@ -217,7 +217,7 @@ Usage:
   image create [flags]
 
 Examples:
-  zhigou pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+  easycirq pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
 
 Flags:
       --dry-run          validate locally without EDA calls
@@ -236,7 +236,7 @@ Usage:
   image create [flags]
 
 Examples:
-  zhigou pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+  easycirq pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
 
 Flags:
       --dry-run          validate locally without EDA calls
@@ -255,7 +255,7 @@ Usage:
   image create [flags]
 
 Examples:
-  zhigou pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+  easycirq pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
 
 Flags:
       --dry-run          validate locally without EDA calls
@@ -274,7 +274,7 @@ Usage:
   image create [flags]
 
 Examples:
-  zhigou pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+  easycirq pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
 
 Flags:
       --dry-run          validate locally without EDA calls
@@ -293,7 +293,7 @@ Usage:
   image create [flags]
 
 Examples:
-  zhigou pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+  easycirq pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
 
 Flags:
       --dry-run          validate locally without EDA calls
@@ -326,7 +326,7 @@ Usage:
   image create [flags]
 
 Examples:
-  zhigou pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
+  easycirq pcb image create --file "module photo.png" --x 1000 --y -1000 --width 600 --dry-run
 
 Flags:
       --dry-run          validate locally without EDA calls
@@ -345,12 +345,12 @@ Usage:
   layout-plan [flags]
 
 Examples:
-  zhigou pcb dump --out board.json
-  zhigou pcb layout-plan --from layout.json --board board.json \
+  easycirq pcb dump --out board.json
+  easycirq pcb layout-plan --from layout.json --board board.json \
     --module rgb-led --candidates 3 --out candidates/
 
 Flags:
-      --board zhigou pcb dump   measured board JSON from zhigou pcb dump
+      --board easycirq pcb dump   measured board JSON from easycirq pcb dump
       --candidates int          maximum distinct legal candidates to emit (1..3) (default 3)
       --from string             layout intent JSON (schemaVersion 1 placement, schemaVersion 2 legacy module, or schemaVersion 3 routing/reflow; mil, footprint-anchor)
   -h, --help                    help for layout-plan
@@ -399,7 +399,7 @@ Usage:
   teardrop-delete-plan [flags]
 
 Examples:
-  zhigou pcb teardrop-delete-plan --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1
+  easycirq pcb teardrop-delete-plan --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1
 
 Flags:
       --apply-doc string       剧本目标 PCB
@@ -414,7 +414,7 @@ Usage:
   teardrop-modify-plan [flags]
 
 Examples:
-  zhigou pcb teardrop-modify-plan --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1 --length-scale 0.8 --base-scale 0.8
+  easycirq pcb teardrop-modify-plan --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1 --length-scale 0.8 --base-scale 0.8
 
 Flags:
       --apply-doc string       剧本目标 PCB
@@ -432,7 +432,7 @@ Usage:
   teardrop-delete-plan [flags]
 
 Examples:
-  zhigou pcb teardrop-delete-plan --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1
+  easycirq pcb teardrop-delete-plan --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1
 
 Flags:
       --apply-doc string       剧本目标 PCB
@@ -447,11 +447,11 @@ Usage:
   autolayout [flags]
 
 Examples:
-  zhigou sch autolayout --spec p1-layout.json --dry-run
-  zhigou sch autolayout --spec p1-layout.json --doc P1_MCU_USB_STORAGE --apply
-  zhigou sch autolayout --spec p1-layout.json --json
-  zhigou sch autolayout --engine official --apply             # unwired page: place only
-  zhigou sch autolayout --engine official --apply --rewire    # wired page: layout + rebuild wiring
+  easycirq sch autolayout --spec p1-layout.json --dry-run
+  easycirq sch autolayout --spec p1-layout.json --doc P1_MCU_USB_STORAGE --apply
+  easycirq sch autolayout --spec p1-layout.json --json
+  easycirq sch autolayout --engine official --apply             # unwired page: place only
+  easycirq sch autolayout --engine official --apply --rewire    # wired page: layout + rebuild wiring
 
 Flags:
       --all-pages                 build the scene from all schematic pages (template dry-run only; incompatible with --apply)
@@ -482,8 +482,8 @@ Usage:
   design-diff <before.json> <after.json> [flags]
 
 Examples:
-  zhigou sch design-diff target-plan.json observed-connectivity.json --exit-code
-  zhigou sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+  easycirq sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easycirq sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
 
 Flags:
       --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
@@ -496,8 +496,8 @@ Usage:
   design-diff <before.json> <after.json> [flags]
 
 Examples:
-  zhigou sch design-diff target-plan.json observed-connectivity.json --exit-code
-  zhigou sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+  easycirq sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easycirq sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
 
 Flags:
       --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
@@ -510,8 +510,8 @@ Usage:
   design-diff <before.json> <after.json> [flags]
 
 Examples:
-  zhigou sch design-diff target-plan.json observed-connectivity.json --exit-code
-  zhigou sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+  easycirq sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easycirq sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
 
 Flags:
       --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
@@ -765,9 +765,9 @@ Usage:
   doc reload [name|uuid] [flags]
 
 Examples:
-  zhigou doc reload                      # reload the active document
-  zhigou doc reload PCB3 --project ceshi # reload a specific PCB
-  zhigou pcb pour-rebuild                # then re-pour under the refreshed rules
+  easycirq doc reload                      # reload the active document
+  easycirq doc reload PCB3 --project ceshi # reload a specific PCB
+  easycirq pcb pour-rebuild                # then re-pour under the refreshed rules
 
 Flags:
   -h, --help   help for reload
@@ -776,14 +776,14 @@ Flags:
 Global Flags:
       --window string   EasyEDA window ID (usually prefer --project)
 
-Error: no document named or with uuid "missing-target" (run `zhigou doc ls` to see options)
+Error: no document named or with uuid "missing-target" (run `easycirq doc ls` to see options)
 Usage:
   doc reload [name|uuid] [flags]
 
 Examples:
-  zhigou doc reload                      # reload the active document
-  zhigou doc reload PCB3 --project ceshi # reload a specific PCB
-  zhigou pcb pour-rebuild                # then re-pour under the refreshed rules
+  easycirq doc reload                      # reload the active document
+  easycirq doc reload PCB3 --project ceshi # reload a specific PCB
+  easycirq pcb pour-rebuild                # then re-pour under the refreshed rules
 
 Flags:
   -h, --help   help for reload
@@ -795,119 +795,119 @@ Global Flags:
 --- FAIL: TestResolveEnrichScriptPriority (0.08s)
     --- FAIL: TestResolveEnrichScriptPriority/3_installed_skill_dir_is_found_from_an_unrelated_cwd_(#115) (0.02s)
         enrich_script_test.go:85: got "", bom-enrich.py not found — probed:
-              C:\Users\jlc\.claude\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\.codex\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\Users\jlc\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\Users\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\design-hardware\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
+              C:\Users\jlc\.claude\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\.codex\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+              C:\Users\jlc\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\Users\jlc\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+              C:\Users\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\Users\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+              C:\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\002\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\easycirq\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+              C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptPriority3414541719\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
               $PATH/bom-enrich.py
-            pass --script /path/to/bom-enrich.py, set ZHIGOU_SKILLS_DIR to your skills root, or install the skill (`zhigou skill sync --create-missing`); want "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptPriority3414541719\\001\\.claude\\skills\\design-hardware\\scripts\\bom-enrich.py"
+            pass --script /path/to/bom-enrich.py, set EASYCIRQ_SKILLS_DIR to your skills root, or install the skill (`easycirq skill sync --create-missing`); want "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptPriority3414541719\\001\\.claude\\skills\\easycirq\\scripts\\bom-enrich.py"
 --- FAIL: TestResolveEnrichScriptNotFoundListsProbedPaths (0.03s)
-    enrich_script_test.go:135: error must mention "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\\001\\.claude\\skills\\design-hardware\\scripts\\bom-enrich.py"; got:
+    enrich_script_test.go:135: error must mention "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\\001\\.claude\\skills\\easycirq\\scripts\\bom-enrich.py"; got:
         bom-enrich.py not found — probed:
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\.claude\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\.codex\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\.claude\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\.codex\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
           $PATH/bom-enrich.py
-        pass --script /path/to/bom-enrich.py, set ZHIGOU_SKILLS_DIR to your skills root, or install the skill (`zhigou skill sync --create-missing`)
-    enrich_script_test.go:135: error must mention "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\\001\\.codex\\skills\\design-hardware\\scripts\\bom-enrich.py"; got:
+        pass --script /path/to/bom-enrich.py, set EASYCIRQ_SKILLS_DIR to your skills root, or install the skill (`easycirq skill sync --create-missing`)
+    enrich_script_test.go:135: error must mention "C:\\Users\\jlc\\AppData\\Local\\Temp\\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\\001\\.codex\\skills\\easycirq\\scripts\\bom-enrich.py"; got:
         bom-enrich.py not found — probed:
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\.claude\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\.codex\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\design-hardware\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\zhigou-agent\scripts\bom-enrich.py
-          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\zhigou-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\003\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\.claude\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\.codex\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\b268\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\go-build2952682401\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\002\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\easycirq\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\easycirq-agent\scripts\bom-enrich.py
+          C:\Users\jlc\AppData\Local\Temp\TestResolveEnrichScriptNotFoundListsProbedPaths700364835\.agents\skills\easycirq-schematic\scripts\bom-enrich.py
           $PATH/bom-enrich.py
-        pass --script /path/to/bom-enrich.py, set ZHIGOU_SKILLS_DIR to your skills root, or install the skill (`zhigou skill sync --create-missing`)
+        pass --script /path/to/bom-enrich.py, set EASYCIRQ_SKILLS_DIR to your skills root, or install the skill (`easycirq skill sync --create-missing`)
 Error: --actual cannot be combined with --from, --candidate or --candidate-id
 Usage:
   render [flags]
@@ -998,20 +998,20 @@ Usage:
 
 Examples:
   # 给当前板打分
-  zhigou pcb layout-score --project ceshi
+  easycirq pcb layout-score --project ceshi
 
   # 带 S0 意图（解锁 flow-order 与 internal 连接器判定）
-  zhigou pcb layout-score --spec .zhigou/s0-ceshi.json
+  easycirq pcb layout-score --spec .easycirq/s0-ceshi.json
 
   # 只看最弱的两维，带完整归因
-  zhigou pcb layout-score --only tidy,compact --all
+  easycirq pcb layout-score --only tidy,compact --all
 
   # 离线重放一块已 dump 的板（CI / 金标准回归）
-  zhigou pcb dump --out board.json
-  zhigou pcb layout-score --from board.json --json
+  easycirq pcb dump --out board.json
+  easycirq pcb layout-score --from board.json --json
 
   # 当门用（综合分不达标则非零退出）
-  zhigou pcb layout-score --min-score 75
+  easycirq pcb layout-score --min-score 75
 
 Flags:
       --all                  list every contributor and finding instead of the top few
@@ -1033,20 +1033,20 @@ Usage:
 
 Examples:
   # 给当前板打分
-  zhigou pcb layout-score --project ceshi
+  easycirq pcb layout-score --project ceshi
 
   # 带 S0 意图（解锁 flow-order 与 internal 连接器判定）
-  zhigou pcb layout-score --spec .zhigou/s0-ceshi.json
+  easycirq pcb layout-score --spec .easycirq/s0-ceshi.json
 
   # 只看最弱的两维，带完整归因
-  zhigou pcb layout-score --only tidy,compact --all
+  easycirq pcb layout-score --only tidy,compact --all
 
   # 离线重放一块已 dump 的板（CI / 金标准回归）
-  zhigou pcb dump --out board.json
-  zhigou pcb layout-score --from board.json --json
+  easycirq pcb dump --out board.json
+  easycirq pcb layout-score --from board.json --json
 
   # 当门用（综合分不达标则非零退出）
-  zhigou pcb layout-score --min-score 75
+  easycirq pcb layout-score --min-score 75
 
 Flags:
       --all                  list every contributor and finding instead of the top few
@@ -1067,8 +1067,8 @@ Usage:
   pcb net-path [flags]
 
 Examples:
-  zhigou pcb net-path --from C3.1 --through C4.1 --to U2.3 --layer 1
-  zhigou pcb net-path --from U5.6 --to CN1.1 --net CANL --json
+  easycirq pcb net-path --from C3.1 --through C4.1 --to U2.3 --layer 1
+  easycirq pcb net-path --from U5.6 --to CN1.1 --net CANL --json
 
 Flags:
       --from string       start pad as DESIGNATOR.PAD (required)
@@ -1138,7 +1138,7 @@ Usage:
   project drawings [flags]
 
 Examples:
-  zhigou project drawings --from drawings-spec.json --out ./drawings-r1
+  easycirq project drawings --from drawings-spec.json --out ./drawings-r1
 
 Flags:
       --from string   local schemaVersion 1 drawing specification JSON (required)
@@ -1625,8 +1625,8 @@ Usage:
   sch connect [flags]
 
 Examples:
-  zhigou sch connect --pin U1:5 --kind power --net VCC
-  zhigou sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40
+  easycirq sch connect --pin U1:5 --kind power --net VCC
+  easycirq sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40
 
 Flags:
       --direction string   visual stub direction (up=higher on canvas, down=lower): up, down, left, right; default with --pin: the pin's measured outward side
@@ -1648,8 +1648,8 @@ Usage:
   sch connect [flags]
 
 Examples:
-  zhigou sch connect --pin U1:5 --kind power --net VCC
-  zhigou sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40
+  easycirq sch connect --pin U1:5 --kind power --net VCC
+  easycirq sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40
 
 Flags:
       --direction string   visual stub direction (up=higher on canvas, down=lower): up, down, left, right; default with --pin: the pin's measured outward side
@@ -1671,8 +1671,8 @@ Usage:
   sch connect [flags]
 
 Examples:
-  zhigou sch connect --pin U1:5 --kind power --net VCC
-  zhigou sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40
+  easycirq sch connect --pin U1:5 --kind power --net VCC
+  easycirq sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40
 
 Flags:
       --direction string   visual stub direction (up=higher on canvas, down=lower): up, down, left, right; default with --pin: the pin's measured outward side
@@ -1768,8 +1768,8 @@ Usage:
   design-diff <before.json> <after.json> [flags]
 
 Examples:
-  zhigou sch design-diff target-plan.json observed-connectivity.json --exit-code
-  zhigou sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+  easycirq sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easycirq sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
 
 Flags:
       --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
@@ -1782,8 +1782,8 @@ Usage:
   design-diff <before.json> <after.json> [flags]
 
 Examples:
-  zhigou sch design-diff target-plan.json observed-connectivity.json --exit-code
-  zhigou sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
+  easycirq sch design-diff target-plan.json observed-connectivity.json --exit-code
+  easycirq sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json
 
 Flags:
       --before string     fresh target sch list snapshot with --include-device-identity --include-bbox --include-pins --include-wires
@@ -1796,10 +1796,10 @@ Usage:
   group create [flags]
 
 Examples:
-  zhigou sch group create --members R1,C5,U2
-  zhigou sch group create --members U1,C1,C2 --name mcu-core
+  easycirq sch group create --members R1,C5,U2
+  easycirq sch group create --members U1,C1,C2 --name mcu-core
   # 手工恢复块溯源(reconcile 需要 --block-id + --roles):
-  zhigou sch group create --members U3,C11,C12 --name "sy8089(U3)" \
+  easycirq sch group create --members U3,C11,C12 --name "sy8089(U3)" \
     --block-id block.sy8089_buck --instance U3 --roles BUCK=U3,CIN=C11,COUT=C12
 
 Flags:
@@ -2494,15 +2494,15 @@ Error: action returned ok=false
 schematic.component.place failed: connector did not respond
 placement confirmation timed out (request budget 10s). Read back the target page first: the part may already exist; do not blindly place it again.
 Check editor responsiveness and the library UUID. One possible cause is an INSTANCE uuid: the component/symbol/footprint/uniqueId
-fields from `zhigou sch list` are placed-INSTANCE ids and cannot be replayed into `sch place`.
-Get a replayable device uuid first: `zhigou lib search --query "<part>"` → use its `uuid` + `libraryUuid`.
+fields from `easycirq sch list` are placed-INSTANCE ids and cannot be replayed into `sch place`.
+Get a replayable device uuid first: `easycirq lib search --query "<part>"` → use its `uuid` + `libraryUuid`.
 Usage:
   sch place [flags]
 
 Examples:
-  zhigou sch place --lib <libraryUuid> --uuid <deviceUuid> --x 100 --y 200
-  zhigou sch place --lib <l> --uuid <u> --x 100 --y 200 --rotation 90 --mirror
-  zhigou sch place --lib <l> --uuid <u> --x 100 --y 200 --designator R12
+  easycirq sch place --lib <libraryUuid> --uuid <deviceUuid> --x 100 --y 200
+  easycirq sch place --lib <l> --uuid <u> --x 100 --y 200 --rotation 90 --mirror
+  easycirq sch place --lib <l> --uuid <u> --x 100 --y 200 --designator R12
 
 Flags:
       --designator string   final designator to assign atomically after placement, e.g. R12 (avoids the place→list→modify round-trip; the response's component.designator reflects the assigned value)
@@ -2523,9 +2523,9 @@ Usage:
   sch sheet-geometry [flags]
 
 Examples:
-  zhigou sch sheet-geometry
-  zhigou sch sheet-geometry --json
-  zhigou sch sheet-geometry --from-svg sheet.svg --json
+  easycirq sch sheet-geometry
+  easycirq sch sheet-geometry --json
+  easycirq sch sheet-geometry --from-svg sheet.svg --json
 
 Flags:
       --from-svg string   read exact vectors from an official whole-page SVG; offline, no EDA calls
@@ -2553,7 +2553,7 @@ Usage:
   zone-review [flags]
 
 Examples:
-  zhigou sch zone-review --from zones.json --report review.json
+  easycirq sch zone-review --from zones.json --report review.json
 
 Flags:
       --from string     layout-plan --zones source JSON (read-only)
@@ -2561,30 +2561,30 @@ Flags:
       --report string   separate JSON report; defaults to stdout
 
 FAIL
-FAIL	github.com/zsx3896926/hardware-design-skill/runtime/internal/app	133.165s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks	1.160s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity	1.584s
+FAIL	github.com/zsx3896926/EasyCirq/runtime/internal/app	133.165s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/blocks	1.160s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/connectivity	1.584s
 --- FAIL: TestExplicitSaveHTTPInFlightKeepsNewMutationPending (0.01s)
     autosave_dispatch_test.go:254: explicit save canceled a mutation newer than its request
 --- FAIL: TestExplicitSaveCancelsOnlyConfirmedOlderTarget (0.00s)
     autosave_identity_test.go:115: explicit save canceled a mutation newer than the request
 FAIL
-FAIL	github.com/zsx3896926/hardware-design-skill/runtime/internal/daemon	9.097s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/pcb/svgimport	2.194s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol	1.750s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard	1.997s
+FAIL	github.com/zsx3896926/EasyCirq/runtime/internal/daemon	9.097s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/pcb/svgimport	2.194s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/protocol	1.750s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/schguard	1.997s
 --- FAIL: TestUpdateCLIReplacesBinaryAndVerifiesChecksum (0.01s)
     cli_test.go:122: replacement is not executable (mode -rw-rw-rw-)
 --- FAIL: TestLocalBundleChecksContentsNotMarkers (0.01s)
-    local_test.go:47: unsafe skill entry: design-hardware/references/test.md
+    local_test.go:47: unsafe skill entry: easycirq/references/test.md
 FAIL
-FAIL	github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate	3.266s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/spec	0.854s
-?   	github.com/zsx3896926/hardware-design-skill/runtime/internal/version	[no test files]
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow	1.389s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/enclosure	2.586s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcblayout	2.187s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbmodel	2.170s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbrouting	2.204s
-ok  	github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbsolve	0.673s
+FAIL	github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate	3.266s
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/spec	0.854s
+?   	github.com/zsx3896926/EasyCirq/runtime/internal/version	[no test files]
+ok  	github.com/zsx3896926/EasyCirq/runtime/internal/workflow	1.389s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/enclosure	2.586s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/pcblayout	2.187s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/pcbmodel	2.170s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/pcbrouting	2.204s
+ok  	github.com/zsx3896926/EasyCirq/runtime/pkg/pcbsolve	0.673s
 FAIL

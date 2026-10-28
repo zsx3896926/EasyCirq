@@ -7,8 +7,8 @@ import (
 	"compress/gzip"
 	"crypto/sha256"
 	"fmt"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -27,7 +27,7 @@ func TestLocalUpdateReadyAndUnknownWindow(t *testing.T) {
 	t.Setenv("CODEX_HOME", "")
 	t.Setenv("CLAUDE_CONFIG_DIR", "")
 	dir := t.TempDir()
-	skill := filepath.Join(home, ".agents/skills/design-hardware")
+	skill := filepath.Join(home, ".agents/skills/easycirq")
 	os.MkdirAll(skill, 0755)
 	doc := []byte("---\nmetadata:\n  version: \"" + v + "\"\n---\n")
 	os.WriteFile(filepath.Join(skill, "SKILL.md"), doc, 0644)
@@ -35,7 +35,7 @@ func TestLocalUpdateReadyAndUnknownWindow(t *testing.T) {
 	var packed, zipped bytes.Buffer
 	gz := gzip.NewWriter(&packed)
 	tw := tar.NewWriter(gz)
-	tw.WriteHeader(&tar.Header{Name: "design-hardware/SKILL.md", Mode: 0644, Size: int64(len(doc)), Typeflag: tar.TypeReg})
+	tw.WriteHeader(&tar.Header{Name: "easycirq/SKILL.md", Mode: 0644, Size: int64(len(doc)), Typeflag: tar.TypeReg})
 	tw.Write(doc)
 	tw.Close()
 	gz.Close()

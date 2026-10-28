@@ -1,6 +1,6 @@
 # Parameterized standard circuit blocks — contract v1
 
-Status: implementation contract for `design-hardware/scripts/circuit_blocks/`.
+Status: implementation contract for `easycirq/scripts/circuit_blocks/`.
 Scope: offline generation of abstract circuits (math + connectivity), **not** an
 EDA executor, not a part-selection service, not a production schematic.
 
@@ -154,7 +154,7 @@ self-validates the result.
 
 For each block `X`:
 
-1. `design-hardware/scripts/circuit_blocks/blocks/<x>.py`
+1. `easycirq/scripts/circuit_blocks/blocks/<x>.py`
 2. `tests/circuit_blocks/test_<x>.py` — at least these cases:
    - normal generation: status, selected standard value, net/endpoint contract,
      recomputed worst case, power/current margins;
@@ -211,7 +211,7 @@ For each block `X`:
 
 ## 9. Verified device facts
 
-`design-hardware/scripts/circuit_blocks/devices/SCHEMA.md` is normative.
+`easycirq/scripts/circuit_blocks/devices/SCHEMA.md` is normative.
 Modules that consume exact-part data accept either a bundled `device_fact_id`
 or caller-declared facts (`devices.user_declared_facts`) which are tagged
 `verified: false`. Never invent an MPN. Facts that are not in a primary
@@ -284,7 +284,7 @@ design.
 ## 12. Running
 
 ```powershell
-$env:PYTHONPATH = "design-hardware/scripts"
+$env:PYTHONPATH = "easycirq/scripts"
 python -m circuit_blocks list
 python -m circuit_blocks describe <module_type>
 python -m circuit_blocks generate <module_type> --example

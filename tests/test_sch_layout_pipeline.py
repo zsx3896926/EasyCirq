@@ -11,7 +11,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 spec = importlib.util.spec_from_file_location('sch_layout_pipeline',
                                               SCRIPTS / 'sch_layout_pipeline.py')
@@ -73,7 +73,7 @@ class PipelineTests(unittest.TestCase):
             report = root / 'report.json'
             source.write_text('{}', encoding='utf-8')
             report.write_text(json.dumps(REPORT), encoding='utf-8')
-            args = ['--zhigou', 'mock-zhigou', '--source', str(source),
+            args = ['--easycirq', 'mock-easycirq', '--source', str(source),
                     '--model-report', str(report), '--out-dir', str(root / 'out')]
             if before is not None:
                 snapshot = root / 'before.json'
@@ -82,7 +82,7 @@ class PipelineTests(unittest.TestCase):
             real_run = subprocess.run
 
             def run(command, **kwargs):
-                if command[0] != 'mock-zhigou':
+                if command[0] != 'mock-easycirq':
                     if quality is None:
                         return real_run(command, **kwargs)
                     code, data = quality

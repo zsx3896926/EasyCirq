@@ -1,11 +1,11 @@
 {
-  "schema": "zhigou-doctor/v1",
+  "schema": "easycirq-doctor/v1",
   "generatedAt": "2026-10-28T02:22:42Z",
   "verdict": "ok",
   "runtime": {
-    "name": "zhigou",
+    "name": "easycirq",
     "version": "0.2.3-dev",
-    "executable": "C:\\Users\\jlc\\AppData\\Local\\Zhigou\\bin\\zhigou.exe",
+    "executable": "C:\\Users\\jlc\\AppData\\Local\\EasyCirq\\bin\\easycirq.exe",
     "sha256": "3badc72479b76bcb4304369f66be964394097ce9130915e5add09e6a4164e2d9",
     "vcsRevision": "fdd4ea02e4afe00b70477a08be510c1d68189b9b",
     "vcsTime": "2026-10-28T02:05:57Z",
@@ -14,30 +14,30 @@
     "onDisk": true
   },
   "skill": {
-    "name": "design-hardware",
+    "name": "easycirq",
     "status": "installed",
     "installed": [
       {
         "client": "codex",
-        "dir": "C:\\Users\\jlc\\.codex\\skills\\design-hardware",
+        "dir": "C:\\Users\\jlc\\.codex\\skills\\easycirq",
         "present": true,
         "version": "1.0.2"
       },
       {
         "client": "claude",
-        "dir": "C:\\Users\\jlc\\.claude\\skills\\design-hardware",
+        "dir": "C:\\Users\\jlc\\.claude\\skills\\easycirq",
         "present": true,
         "version": "1.0.2"
       },
       {
         "client": "agents",
-        "dir": "C:\\Users\\jlc\\.agents\\skills\\design-hardware",
+        "dir": "C:\\Users\\jlc\\.agents\\skills\\easycirq",
         "present": true,
         "version": "1.0.2"
       },
       {
         "client": "repo",
-        "dir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\design-hardware",
+        "dir": "C:\\Users\\jlc\\work\\easycirq-toolchain\\easycirq",
         "present": true,
         "version": "1.0.2"
       }
@@ -48,16 +48,16 @@
     "pid": 22212,
     "port": 23111,
     "version": "0.2.3-dev",
-    "stateDir": "C:\\Users\\jlc\\.zhigou",
-    "logPath": "C:\\Users\\jlc\\.zhigou\\daemon.log",
-    "pidFile": "C:\\Users\\jlc\\.zhigou\\daemon.pid",
+    "stateDir": "C:\\Users\\jlc\\.easycirq",
+    "logPath": "C:\\Users\\jlc\\.easycirq\\daemon.log",
+    "pidFile": "C:\\Users\\jlc\\.easycirq\\daemon.pid",
     "pidFilePid": 22212,
     "pidFileMatches": true
   },
   "connector": {
     "status": "connected",
     "count": 1,
-    "expectedName": "zhigou-connector",
+    "expectedName": "easycirq-connector",
     "expectedVersion": "0.1.3",
     "windows": [
       {
@@ -73,7 +73,7 @@
     ]
   },
   "protocol": {
-    "service": "zhigou-agent",
+    "service": "easycirq-agent",
     "wireVersion": "v1",
     "handshake": "daemon→connector {type:handshake,service,version}",
     "envelopeVersion": "v1"
@@ -109,7 +109,7 @@
     {
       "name": "skill",
       "status": "ok",
-      "detail": "design-hardware 已安装（codex 1.0.2, claude 1.0.2, agents 1.0.2, repo 1.0.2）"
+      "detail": "easycirq 已安装（codex 1.0.2, claude 1.0.2, agents 1.0.2, repo 1.0.2）"
     },
     {
       "name": "legacy",

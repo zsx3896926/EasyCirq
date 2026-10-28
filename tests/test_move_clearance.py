@@ -12,8 +12,8 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
-CASE = ROOT / 'design-hardware' / 'cases' / 'dual-button-led-night-20261027' / 'negative-direct-move'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
+CASE = ROOT / 'easycirq' / 'cases' / 'dual-button-led-night-20261027' / 'negative-direct-move'
 DUMP = CASE / 'board-baseline.json'
 PLAN = CASE / 'placement-direct-move.json'
 

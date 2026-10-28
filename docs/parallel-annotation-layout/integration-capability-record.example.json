@@ -1,0 +1,93 @@
+{
+  "schema": "annotation-layout-host-probe/v1",
+  "project": {
+    "name": "example-project",
+    "page_id": "example-page-id",
+    "snapshot_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "host": {
+    "name": "EasyEDA Pro",
+    "version": "example-version"
+  },
+  "probed_at": "2026-10-28T00:00:00+08:00",
+  "operator": "example-operator",
+  "probes": [
+    {
+      "id": "P0-readback-stability",
+      "result": "supported",
+      "notes": "two reads and save/reopen agreed on IDs, counts and page hash"
+    },
+    {
+      "id": "P1-attribute-translate",
+      "object_id": "example-value-id",
+      "role": "value",
+      "action": {
+        "dx": 5,
+        "dy": 0
+      },
+      "before": {
+        "bbox": [100, 200, 125, 210],
+        "anchor": [100, 200],
+        "content_sha256": "0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "after_immediate": {
+        "bbox": [105, 200, 130, 210]
+      },
+      "after_reopen": {
+        "bbox": [105, 200, 130, 210]
+      },
+      "export_svg_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "ids_stable": true,
+      "result": "supported",
+      "tolerance_raw": 0.5,
+      "notes": "example only; not evidence until run on a disposable copy"
+    },
+    {
+      "id": "P2-free-text-translate",
+      "object_id": "example-free-text-id",
+      "role": "free_text",
+      "action": {
+        "dx": 0,
+        "dy": 5
+      },
+      "before": {
+        "bbox": [50, 300, 170, 312]
+      },
+      "after_immediate": {
+        "bbox": [50, 305, 170, 317]
+      },
+      "after_reopen": null,
+      "ids_stable": null,
+      "result": "unverified",
+      "tolerance_raw": null,
+      "notes": "example only: reopen/export not performed, so not supported"
+    },
+    {
+      "id": "P3-net-label-detach",
+      "object_id": "example-net-label-id",
+      "role": "net_label",
+      "net": "VREF",
+      "anchor_id": "example-wire-id",
+      "action": {
+        "text_only": true
+      },
+      "result": "unsupported",
+      "notes": "example only: host moved/renamed the anchor or net, so K must not move this text"
+    }
+  ],
+  "capabilities": {
+    "attribute_translate": "supported",
+    "free_text_translate": "unverified",
+    "net_label_detach": "unsupported",
+    "attribute_rotate": "unverified"
+  },
+  "capability_source": "onsite_probe_example_2026-10-28",
+  "execution": "not_executed",
+  "not_run": [
+    "EDA batch apply",
+    "production page save/reopen",
+    "whole-board official export",
+    "connectivity regression"
+  ],
+  "notes": "This file is a format example only. K did not run these probes; replace every value with onsite evidence."
+}

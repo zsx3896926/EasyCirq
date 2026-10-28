@@ -2,7 +2,7 @@
 
 日期：2026-10-27
 PR：`#32`（分支 `feat/compose-tooling-r12`）
-Skill：`design-hardware` 0.9.4 工具链；EasyEDA Pro 4.1.78；easyeda-agent 1.15.0
+Skill：`easycirq` 0.9.4 工具链；EasyEDA Pro 4.1.78；easyeda-agent 1.15.0
 窗口：`c3d23f2b-8877-4ff2-b6c5-1849f2ef2dd7`
 
 ## 范围与写入边界

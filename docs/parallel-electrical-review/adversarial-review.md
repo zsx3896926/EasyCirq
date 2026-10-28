@@ -10,7 +10,7 @@
 命令模板（仓库根）：
 
 ```bash
-$env:PYTHONPATH="design-hardware\scripts"
+$env:PYTHONPATH="easycirq\scripts"
 python -m electrical_review review <attack>.json
 ```
 

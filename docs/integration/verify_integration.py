@@ -32,7 +32,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 FIXTURE = Path(__file__).resolve().parent / "fixtures" / "minimal-board" / "board.json"
 EVIDENCE = Path(__file__).resolve().parent / "evidence" / "integration-verification.json"
 
@@ -184,7 +184,7 @@ def main():
 
         rows.append(check_native(
             "D scans the Skill tree read-only", "skill_knowledge_audit",
-            ["scan", "--root", str(ROOT / "design-hardware"),
+            ["scan", "--root", str(ROOT / "easycirq"),
              "--out", str(tmp / "skill-scan.json")]))
 
         # --- gaps: feed a producer's output to a consumer ------------------------
@@ -192,7 +192,7 @@ def main():
             rows.append(check_gap(
                 "F output is not a B input", "circuit_blocks", "electrical_review",
                 ["validate", str(f_result)], tmp,
-                note="B requires zhigou.electrical-review.input/v1 with evidence/fact refs; "
+                note="B requires easycirq.electrical-review.input/v1 with evidence/fact refs; "
                      "F emits an abstract circuit-block result."))
             rows.append(check_gap(
                 "F output is not an E input", "circuit_blocks", "return_path_audit",
@@ -223,7 +223,7 @@ def main():
 
         fixture = json.loads(FIXTURE.read_text(encoding="utf-8"))
         payload = {
-            "schema": "zhigou.integration.verification/v1",
+            "schema": "easycirq.integration.verification/v1",
             "generated_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
             "offline": True,
             "eda_calls": 0,

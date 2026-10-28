@@ -5,8 +5,8 @@ import (
 	"io"
 	"path/filepath"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 func runLocalUpdate(cfg *appConfig, dir, binary string, check, exitCode, jsonOut bool, out io.Writer) error {

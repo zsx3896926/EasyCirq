@@ -1,0 +1,48 @@
+{
+  "graph_id": "IMP-P02-V1.1",
+  "change_id": "ECO-P02-V1.1",
+  "nodes": [
+    {"id": "schematic", "kind": "artifact", "state": "invalidated", "role": "changed", "evidence": "CHG-01/02/03/04", "evidence_level": "E3"},
+    {"id": "netlist", "kind": "artifact", "state": "invalidated", "role": "downstream", "evidence": "需重导", "evidence_level": "E3"},
+    {"id": "pcb", "kind": "artifact", "state": "invalidated", "role": "changed", "evidence": "封装/隔离/重排", "evidence_level": "E3"},
+    {"id": "gerber", "kind": "artifact", "state": "invalidated", "role": "downstream", "evidence": "需重导", "evidence_level": "E3"},
+    {"id": "bom", "kind": "artifact", "state": "invalidated", "role": "downstream", "evidence": "分流/MCU/隔离", "evidence_level": "E3"},
+    {"id": "cpl", "kind": "artifact", "state": "invalidated", "role": "downstream", "evidence": "需重导", "evidence_level": "E3"},
+    {"id": "firmware", "kind": "firmware", "state": "invalidated", "role": "downstream", "evidence": "增益/iso 配置", "evidence_level": "E3"},
+    {"id": "test-plan", "kind": "test", "state": "invalidated", "role": "downstream", "evidence": "复验范围变化", "evidence_level": "E3"},
+    {"id": "production-snapshot", "kind": "production", "state": "invalidated", "role": "downstream", "evidence": "旧快照不得混用", "evidence_level": "E3"},
+    {"id": "enclosure", "kind": "artifact", "state": "unchanged", "role": "unaffected", "evidence": "接口/高度未变；PCB 定稿后复核", "evidence_level": "E3"},
+    {"id": "certification", "kind": "document", "state": "not_applicable", "role": "na", "evidence": "当前无认证", "evidence_level": "E3"},
+    {"id": "f1-baseline", "kind": "baseline", "state": "unchanged", "role": "baseline_only", "evidence": "前轮 E1 原理图基线，本轮未重跑", "evidence_level": "E1"}
+  ],
+  "edges": [
+    {"from": "schematic", "to": "netlist", "relation": "invalidates"},
+    {"from": "schematic", "to": "pcb", "relation": "invalidates"},
+    {"from": "schematic", "to": "bom", "relation": "invalidates"},
+    {"from": "schematic", "to": "firmware", "relation": "invalidates"},
+    {"from": "pcb", "to": "gerber", "relation": "invalidates"},
+    {"from": "pcb", "to": "cpl", "relation": "invalidates"},
+    {"from": "pcb", "to": "test-plan", "relation": "invalidates"},
+    {"from": "bom", "to": "cpl", "relation": "invalidates"},
+    {"from": "bom", "to": "production-snapshot", "relation": "invalidates"},
+    {"from": "firmware", "to": "test-plan", "relation": "invalidates"},
+    {"from": "gerber", "to": "production-snapshot", "relation": "invalidates"},
+    {"from": "cpl", "to": "production-snapshot", "relation": "invalidates"}
+  ],
+  "old_parts": [
+    {"ref": "R_SHUNT-100R", "state": "invalidated", "note": "换分流场景"},
+    {"ref": "U5-MCU", "state": "invalidated", "note": "换封装场景"},
+    {"ref": "U4-RS485", "state": "invalidated", "note": "加隔离场景需重选隔离侧"},
+    {"ref": "U6-REF", "state": "unchanged", "note": "四类场景未要求换基准"},
+    {"ref": "J1-J4", "state": "unchanged", "note": "连接器体系未在四类场景内变更"}
+  ],
+  "batch_scope": {"mode": "not_applicable", "detail": "无出货批次/序列号记录；25 块为计划数量", "effective_from": "待查", "effective_to": "待查"},
+  "evidence": {"eda_baseline": "F1", "eda_baseline_level": "E1", "eda_rerun_this_round": false, "role": "baseline_only", "revision_verified": false},
+  "canonical_facts": [
+    {"id": "CF-01", "statement": "P02 V1 为非隔离；V2 隔离需加数字隔离器与隔离 DC/DC，并改 PCB（等级 3）", "source": "easycirq/references/projects/p02-industrial-rs485-analog.md:360-368"},
+    {"id": "CF-02", "statement": "P02 V1 的 25 块是计划数量，不是已出货批次", "source": "easycirq/references/projects/p02-industrial-rs485-analog.md:370-374"},
+    {"id": "CF-03", "statement": "F1 是前轮 E1 原理图基线：16 器件、93 动作 verified、save true、reopen match；本轮未重跑", "source": "docs/evidence/f1-2026-10-22/README.md:1-10"},
+    {"id": "CF-04", "statement": "仓库无出货批次/序列号记录；V1.1 的批次生效范围未定义", "source": "本案例第 2 节"}
+  ],
+  "rollback": {"plan": "V1.1 未执行；保留 V1 生产快照作为回退基线", "disposition": "not_applicable", "reason": "无在制或出货批次"}
+}

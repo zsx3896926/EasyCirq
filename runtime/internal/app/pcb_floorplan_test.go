@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
 )
 
 // fpBoard 造一块矩形板的快照。

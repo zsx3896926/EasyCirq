@@ -1,15 +1,15 @@
 {
-  "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\connector\\build\\dist\\zhigou-connector_v0.1.0.eext",
+  "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\connector\\build\\dist\\easycirq-connector_v0.1.0.eext",
   "exists": true,
   "size": 231299,
   "sha256": "9b907bf6a409e7bdf6cee169c96d8666191e55057017b2605837236f86c5a9cb",
   "manifest": {
-    "name": "zhigou-connector",
+    "name": "easycirq-connector",
     "uuid": "a6e6b788551945b399e150d80efa6e31",
-    "displayName": "Zhigou EDA Connector",
+    "displayName": "EasyCirq EDA Connector",
     "version": "0.1.0",
     "publisher": "zsx3896926",
     "enginesEda": ">=3.2.0"
   },
-  "source": "C:\\Users\\jlc\\work\\zhigou-toolchain\\connector\\build\\dist"
+  "source": "C:\\Users\\jlc\\work\\easycirq-toolchain\\connector\\build\\dist"
 }

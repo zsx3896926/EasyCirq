@@ -8,7 +8,7 @@ import (
 	"reflect"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 type schLayoutReport struct {

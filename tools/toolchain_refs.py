@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Inventory and guard old external-EDA-toolchain references.
 
-The repository's own execution layer is ``zhigou`` (runtime/, connector/,
+The repository's own execution layer is ``easycirq`` (runtime/, connector/,
 distribution/).  This module is the *scanning* side of the migration: it finds
 references to the former upstream ``easyeda`` toolchain (CLI, daemon service,
 state directory, environment variables, connector, skill name) in a tree, and
@@ -24,7 +24,7 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'design-hardware'
+SKILL = ROOT / 'easycirq'
 
 # Categories are reported separately so an intentional mention (a link to the
 # EasyEDA product documentation, the ``easyeda-format`` vendor schemas) is not
@@ -51,21 +51,21 @@ CATEGORIES = {
 
 # Files that may keep old references, with the reason they are exempt.
 ALLOWLIST = {
-    'design-hardware/CHANGELOG.md': 'release history: records what the old '
+    'easycirq/CHANGELOG.md': 'release history: records what the old '
                                     'toolchain did; rewriting it falsifies history',
-    'design-hardware/NOTICE': 'upstream attribution required by the upstream '
+    'easycirq/NOTICE': 'upstream attribution required by the upstream '
                               'license',
-    'design-hardware/vendor/easyeda-format/': 'vendor copy of the EasyEDA '
+    'easycirq/vendor/easyeda-format/': 'vendor copy of the EasyEDA '
                                               'document format schemas, not the CLI',
-    'design-hardware/cases/': 'frozen evidence captured from real old-toolchain '
+    'easycirq/cases/': 'frozen evidence captured from real old-toolchain '
                               'runs; it is not policy or an executable path',
-    'design-hardware/scripts/offline_guard.py': 'defensive: the offline guard '
+    'easycirq/scripts/offline_guard.py': 'defensive: the offline guard '
                                                 'must still refuse to execute a '
                                                 'legacy easyeda binary',
-    'design-hardware/scripts/skill_update.py': 'legacy dist compatibility: the '
+    'easycirq/scripts/skill_update.py': 'legacy dist compatibility: the '
                                                'release packager still has to '
                                                'recognise old installed names',
-    'design-hardware/scripts/layout_from_zhigou.py': 'frozen schema string: '
+    'easycirq/scripts/layout_from_easycirq.py': 'frozen schema string: '
                                                     '"coordinate_units" text is '
                                                     'bound into recorded fixture '
                                                     'SHA-256 values; changing it '
@@ -75,7 +75,7 @@ ALLOWLIST = {
                                      'provenance text invalidates the evidence',
     'tests/fixtures/photo-led-acceptance.json': 'frozen measurement provenance '
                                                 'referenced by pcb_gate/case tests',
-    'tests/fixtures/zhigou/': 'faithful capture of zhigou doctor/capabilities '
+    'tests/fixtures/easycirq/': 'faithful capture of easycirq doctor/capabilities '
                               'output; the doctor legacy field legitimately names '
                               'the old daemon it detects (never uses it)',
     'benchmarks/': 'frozen benchmark inputs/evidence merged from main: they embed '
@@ -100,8 +100,8 @@ EXCLUDE_FILES = {
 
 # Default scan scope for the guard: the installed skill package only.  The
 # inventory CLI additionally scans the repository tooling that drives it.
-GUARD_SCOPES = ('design-hardware',)
-INVENTORY_SCOPES = ('design-hardware', 'tests', 'tools', 'benchmarks', '.github')
+GUARD_SCOPES = ('easycirq',)
+INVENTORY_SCOPES = ('easycirq', 'tests', 'tools', 'benchmarks', '.github')
 
 
 def allowlisted(rel: str) -> str | None:

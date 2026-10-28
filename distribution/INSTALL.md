@@ -1,5 +1,7 @@
 # 智构 · EasyCirq 工具链 —— 安装说明
 
+> 从旧名称升级：先看 [迁移说明](../docs/migration-easycirq.md)。
+
 本目录（构建产物 `dist/`，或解压后的安装包）同时提供两种安装入口：
 
 | 你想装什么 | 入口 | 对应产物 |
@@ -58,7 +60,7 @@
 命令行：
 
 ```powershell
-python skill_update.py install --client claude --package design-hardware-<版本>.zip --manifest release.json
+python skill_update.py install --client claude --package easycirq-<版本>.zip --manifest release.json
 python skill_update.py status  --client claude
 python skill_update.py rollback --client claude
 ```

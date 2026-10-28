@@ -25,7 +25,10 @@ RUNTIME = REPO / "runtime"
 RULES: list[tuple[str, str, str]] = [
     (
         "github.com/zhoushoujianwork/easyeda-agent",
-        "github.com/zsx3896926/hardware-design-skill/runtime",
+        # Retained for the vendored easyeda-agent provenance checks: the Go
+        # module path is internal and must match the rebrand rules used when
+        # runtime/ was imported. The user-facing project name is EasyCirq.
+        "github.com/zsx3896926/EasyCirq/runtime",
         "Go module path -> our repo module",
     ),
     ("EASYEDA_", "EASYCIRQ_", "environment variable prefix"),

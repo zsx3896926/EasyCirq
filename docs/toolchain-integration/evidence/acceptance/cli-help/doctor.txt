@@ -1,7 +1,7 @@
 Report the installed skill version, the runtime build identity, the actually running daemon, the connector loaded in each EasyEDA window, the wire protocol version both sides speak, and any legacy easyeda-agent process (detected, never used). Disk state and running state are reported separately. Exit code is non-zero when the toolchain cannot reach the host.
 
 Usage:
-  zhigou doctor [flags]
+  easycirq doctor [flags]
 
 Flags:
   -h, --help   help for doctor

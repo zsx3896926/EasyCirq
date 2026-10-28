@@ -1,21 +1,21 @@
 # Round-4 decision assets and tests use LF on every platform.
-design-hardware/references/decisions/** text eol=lf
-design-hardware/assets/decisions/** text eol=lf
-design-hardware/scripts/pin_plan_check.py text eol=lf
-design-hardware/scripts/interface_contract_check.py text eol=lf
-design-hardware/scripts/harness_check.py text eol=lf
-design-hardware/scripts/variant_bom.py text eol=lf
-design-hardware/scripts/decision_record_check.py text eol=lf
-design-hardware/scripts/decision_asset_check.py text eol=lf
+easycirq/references/decisions/** text eol=lf
+easycirq/assets/decisions/** text eol=lf
+easycirq/scripts/pin_plan_check.py text eol=lf
+easycirq/scripts/interface_contract_check.py text eol=lf
+easycirq/scripts/harness_check.py text eol=lf
+easycirq/scripts/variant_bom.py text eol=lf
+easycirq/scripts/decision_record_check.py text eol=lf
+easycirq/scripts/decision_asset_check.py text eol=lf
 tests/test_decisions_*.py text eol=lf
 docs/round4-report.md text eol=lf
 docs/task-ledger-round4.md text eol=lf
 docs/handoff-current.md text eol=lf
 
 # Round-7 design engine, evidence and reports use LF on every platform.
-design-hardware/scripts/design_engine/** text eol=lf
-design-hardware/scripts/design_engine_cli.py text eol=lf
-design-hardware/references/design-engine.md text eol=lf
+easycirq/scripts/design_engine/** text eol=lf
+easycirq/scripts/design_engine_cli.py text eol=lf
+easycirq/references/design-engine.md text eol=lf
 tests/test_design_engine.py text eol=lf
 docs/round7/** text eol=lf
 docs/task-ledger-round7-engine.md text eol=lf
@@ -28,16 +28,22 @@ docs/evidence/round7-apply/**/*.txt text eol=lf
 docs/evidence/round7-apply/**/*.csv text eol=lf
 
 # Updater files are stable across platforms; Windows launchers use CRLF.
-design-hardware/scripts/skill_update.py text eol=lf
-design-hardware/references/installation-updates.md text eol=lf
+easycirq/scripts/skill_update.py text eol=lf
+easycirq/references/installation-updates.md text eol=lf
 distribution/*.py text eol=lf
 distribution/*.cmd text eol=crlf
 distribution/*.ps1 text eol=crlf
 tests/test_skill_update.py text eol=lf
 .github/workflows/skill-updater.yml text eol=lf
 
-design-hardware/scripts/companion_update.py text eol=lf
+easycirq/scripts/companion_update.py text eol=lf
 tests/test_companion_update.py text eol=lf
 
 # Preserve upstream schema/license bytes for recorded provenance hashes.
-design-hardware/vendor/easyeda-format/** -text
+easycirq/vendor/easyeda-format/** -text
+
+# B1 task launcher: frozen benchmark, docs and Python sources use LF on every platform.
+benchmarks/task-launcher/** text eol=lf
+docs/parallel-task-launcher/** text eol=lf
+task_launcher/**/*.py text eol=lf
+tests/task_launcher_tests/**/*.py text eol=lf

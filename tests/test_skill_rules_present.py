@@ -15,7 +15,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'design-hardware'
+SKILL = ROOT / 'easycirq'
 FIELD_LESSONS = ROOT / 'docs' / 'toolchain-integration' / 'field-lessons.md'
 
 
@@ -52,7 +52,7 @@ RULES = {
     '3-delivery-capability-preflight': {
         'files': ['SKILL.md', 'references/workflow.md',
                   'references/schematic-authoring.md'],
-        'groups': [['zhigou capabilities'], ['交付能力'],
+        'groups': [['easycirq capabilities'], ['交付能力'],
                    ['已实测'], ['API存在', 'API 存在'],
                    ['GUI'], ['不支持'],
                    ['接口存在不等于', '接口存在 ≠', '不等于已验证']],
@@ -100,7 +100,7 @@ class FieldLessonsOnDefaultPath(unittest.TestCase):
     def test_skill_entry_carries_the_cross_cutting_rules(self):
         # These must not live only in a reference file the agent might skip.
         entry = text('SKILL.md')
-        for needle in ('功能分区', '短引线', '代表模块', 'zhigou capabilities',
+        for needle in ('功能分区', '短引线', '代表模块', 'easycirq capabilities',
                        '交付能力', '连续 2 次', '整板自主', '浮空', '降低约束'):
             with self.subTest(needle=needle):
                 self.assertIn(needle, entry)
@@ -132,7 +132,7 @@ class FieldLessonsDocument(unittest.TestCase):
     def test_each_mapped_location_exists(self):
         body = FIELD_LESSONS.read_text(encoding='utf-8')
         for rel in sorted(set(re.findall(
-                r'`(design-hardware/[^`:#\s]+)', body))):
+                r'`(easycirq/[^`:#\s]+)', body))):
             with self.subTest(path=rel):
                 self.assertTrue((ROOT / rel).is_file(), rel)
 
@@ -143,7 +143,7 @@ class NoLegacyPreflightWording(unittest.TestCase):
                     'references/client-compatibility.md'):
             with self.subTest(file=rel):
                 body = text(rel)
-                self.assertNotIn('zhigou health', body)
+                self.assertNotIn('easycirq health', body)
 
 
 if __name__ == '__main__':

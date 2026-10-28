@@ -7,19 +7,19 @@
 
 | 项 | 值 |
 |---|---|
-| 仓库 | `https://github.com/zsx3896926/hardware-design-skill`（本地 worktree） |
+| 仓库 | `https://github.com/zsx3896926/EasyCirq`（本地 worktree） |
 | 开工 main SHA | `9a951edc21481dc3ae91460acc11aa3e08a7be8a` |
 | 分支 | `feat/parallel-delivery-audit` |
 | worktree | `hds-da-worktree`（与任务 A/B 隔离） |
 | 提交 | `173745a026a6113416aaa35b730d76c0bd1dfbc2`（本报告后续文档更新提交见 PR） |
-| PR | [#40](https://github.com/zsx3896926/hardware-design-skill/pull/40)（不合并、不发布、不安装到用户客户端） |
+| PR | [#40](https://github.com/zsx3896926/EasyCirq/pull/40)（不合并、不发布、不安装到用户客户端） |
 | 真实 EDA 调用 | **0 次**（未调用 EDA/Connector/daemon/旧执行器） |
 | 网络 | 仅查询/下载官方格式资料与 Apache-2.0 样本（见来源登记）；不抓商城、不连生产系统 |
 
 ## 2. 修改路径（全部在允许范围内）
 
 ```
-design-hardware/scripts/delivery_audit/     # 新增独立包（15 个模块）
+easycirq/scripts/delivery_audit/     # 新增独立包（15 个模块）
 tests/delivery_audit/                        # 新增测试 + 合成夹具 support.py
 benchmarks/delivery-audit/                   # 新增冻结场景、驱动、结果、真实样例
 docs/parallel-delivery-audit/                # 新增契约/来源/支持表/验收/报告/集成/交接
@@ -43,7 +43,7 @@ pcb_gate、design_engine、distribution、CI、顶层依赖、任务 B 的 `elec
 | `python -m compileall` 新增包/测试 | 通过 |
 | `python -m delivery_audit inspect/audit/manifest` 手工 CLI 场景 | 通过（报告 JSON + Markdown） |
 
-Python 3.10 本地执行 **NOT RUN**（本机无 3.10，只做语法检查）；PR [#40](https://github.com/zsx3896926/hardware-design-skill/pull/40) 的 CI `validate (3.10)` 与 `validate (3.13)` 均已通过（2026-10-28，实际运行证据），Linux 覆盖由 CI 提供。macOS 本地/CI 未单独验证。
+Python 3.10 本地执行 **NOT RUN**（本机无 3.10，只做语法检查）；PR [#40](https://github.com/zsx3896926/EasyCirq/pull/40) 的 CI `validate (3.10)` 与 `validate (3.13)` 均已通过（2026-10-28，实际运行证据），Linux 覆盖由 CI 提供。macOS 本地/CI 未单独验证。
 
 ## 4. 三个入口与语义
 

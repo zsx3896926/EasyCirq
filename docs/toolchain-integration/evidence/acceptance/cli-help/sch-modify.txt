@@ -31,13 +31,13 @@ come back in result.propertiesPreserved (+propertiesBefore), and any key the
 platform still dropped is reported in result.notApplied (non-zero exit).
 
 Usage:
-  zhigou sch modify [flags]
+  easycirq sch modify [flags]
 
 Examples:
-  zhigou sch modify --id <primitiveId> --x 150 --y 200
-  zhigou sch modify --id <id> --rotation 90 --designator R12
-  zhigou sch modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
-  zhigou sch modify --id <id> --patch '{"customAttributes":{"Value":"10k"}}'
+  easycirq sch modify --id <primitiveId> --x 150 --y 200
+  easycirq sch modify --id <id> --rotation 90 --designator R12
+  easycirq sch modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
+  easycirq sch modify --id <id> --patch '{"customAttributes":{"Value":"10k"}}'
 
 Flags:
       --designator string   new designator, e.g. R12 (shortcut for --patch '{"designator":…}')

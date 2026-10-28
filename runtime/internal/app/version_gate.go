@@ -7,8 +7,8 @@ import (
 	"os"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 // ── 版本一致性门 (issue #181 复盘第 2 条) ──────────────────────────────────

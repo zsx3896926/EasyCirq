@@ -1,7 +1,7 @@
 Export the active project as a native epro2 archive (no overwrite)
 
 Usage:
-  zhigou project export [flags]
+  easycirq project export [flags]
 
 Flags:
   -h, --help                  help for export

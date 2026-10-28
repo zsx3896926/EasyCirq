@@ -14,8 +14,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 func TestCheckCLIVerdicts(t *testing.T) {
@@ -49,7 +49,7 @@ func TestCheckSkillsReadsVersionMarkers(t *testing.T) {
 	t.Setenv("USERPROFILE", home)
 	t.Setenv("CODEX_HOME", "")
 	t.Setenv("CLAUDE_CONFIG_DIR", "")
-	claude := filepath.Join(home, ".claude", "skills", "design-hardware")
+	claude := filepath.Join(home, ".claude", "skills", "easycirq")
 	if err := os.MkdirAll(claude, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -81,7 +81,7 @@ func TestCheckSkillsRequiresExactVersion(t *testing.T) {
 	t.Setenv("USERPROFILE", home)
 	t.Setenv("CODEX_HOME", "")
 	t.Setenv("CLAUDE_CONFIG_DIR", "")
-	codex := filepath.Join(home, ".codex", "skills", "design-hardware")
+	codex := filepath.Join(home, ".codex", "skills", "easycirq")
 	if err := os.MkdirAll(codex, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -245,7 +245,7 @@ func TestUpdateCheckExitCodeGate(t *testing.T) {
 	t.Setenv("USERPROFILE", home)
 	t.Setenv("CODEX_HOME", "")
 	t.Setenv("CLAUDE_CONFIG_DIR", "")
-	claude := filepath.Join(home, ".claude", "skills", "design-hardware")
+	claude := filepath.Join(home, ".claude", "skills", "easycirq")
 	if err := os.MkdirAll(claude, 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -322,7 +322,7 @@ func TestUpdateFailedCLIDoesNotUpgradeSkill(t *testing.T) {
 	t.Setenv("USERPROFILE", home)
 	t.Setenv("CODEX_HOME", "")
 	t.Setenv("CLAUDE_CONFIG_DIR", "")
-	dir := filepath.Join(home, ".codex", "skills", "design-hardware")
+	dir := filepath.Join(home, ".codex", "skills", "easycirq")
 	if err := os.MkdirAll(dir, 0755); err != nil {
 		t.Fatal(err)
 	}

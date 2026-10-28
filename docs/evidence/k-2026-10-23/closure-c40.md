@@ -17,7 +17,7 @@
 
 > `35+j0` 全部改为“按模组/芯片要求，疑似 S11≤−35 dB，待回读原页”
 
-审计来源：`docs/evidence/common-hardware-2026-10-22/audit/m-wireless-time.md:71` 与 `:446`（M 组审计，审计对象 `C:\Users\jlc\work\hardware-design-skill`，HEAD `0fe5cf8`，2026-10-22）。审计原话（`:446`）：
+审计来源：`docs/evidence/common-hardware-2026-10-22/audit/m-wireless-time.md:71` 与 `:446`（M 组审计，审计对象 `C:\Users\jlc\work\EasyCirq`，HEAD `0fe5cf8`，2026-10-22）。审计原话（`:446`）：
 
 > `w02-antenna.md:90` 已注明来源笔记对“35+j0”的单位/定义记录不完整；`d4-wireless-integration.md:470`、`simulation-measurement.md:80,294,359,668` 仍把它当 ESP32-S3 的 S11 目标。疑似应为“S11 ≤ −35 dB”，必须回读 Espressif RF Tuning 原页后统一；在未确认前，所有文档都应写成“按模组/芯片要求，不能用 35+j0 当门限”。
 

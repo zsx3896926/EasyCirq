@@ -1,4 +1,4 @@
 ✓ daemon    v0.2.0-dev 运行在端口 23111
 ✗ connector 没有 EasyEDA 窗口连上 daemon
-            → 运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA
-未就绪：按 → 的步骤处理后重跑 `zhigou health`。
+            → 运行 `easycirq connector path` 取得本运行时自带的 .eext，按 `easycirq connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA
+未就绪：按 → 的步骤处理后重跑 `easycirq health`。

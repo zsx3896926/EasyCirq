@@ -8,7 +8,7 @@ and what it must probe on the real host before trusting it.
 
 ## 1. Boundary
 
-- K deliverable: `design-hardware/scripts/annotation_layout/` plus
+- K deliverable: `easycirq/scripts/annotation_layout/` plus
   `tests/annotation_layout/`, `benchmarks/annotation-layout/`,
   `docs/parallel-annotation-layout/`.  No changes to `SKILL.md`, existing
   references, runtime/connector/protocol, compose, `design_engine`,
@@ -134,7 +134,7 @@ Before applying any change:
 
 - A builds `annotation-layout/v1` from its own snapshot adapter and calls K as a
   subprocess:
-  `PYTHONPATH=design-hardware/scripts python -m annotation_layout plan INPUT --out out/plan.json`;
+  `PYTHONPATH=easycirq/scripts python -m annotation_layout plan INPUT --out out/plan.json`;
 - A treats `out/plan.json` as a proposal file; it may persist it beside the
   page evidence with the same SHA binding;
 - A returns to K a capability/probe record and, optionally, a post-apply
@@ -150,3 +150,25 @@ movement, attribute rotation/alignment, glyph-level rendering, visual
 acceptance, electrical correctness, or a whole-board speedup.  K's benchmark is
 offline solver work only.  A's own apply/save/reopen/export/connectivity evidence
 is still required before any delivery claim.
+
+## 9. Readiness package (probe → adapter → apply acceptance)
+
+The companion documents make the readiness path executable by A without changing
+K or its allowed paths:
+
+- [`integration-probe-quickstart.md`](integration-probe-quickstart.md) — short, executable version of the probe plan for A;\n- [`integration-host-probe.md`](integration-host-probe.md) — disposable-copy
+  probe plan for attribute/free-text/net-label movement, save/reopen, export,
+  ID stability and the capability-record format;
+- [`integration-adapter-contract.md`](integration-adapter-contract.md) —
+  field-by-field snapshot → `annotation-layout/v1` mapping, text classification,
+  flat-segment handling, checker context, hashing and validation gate;
+- [`integration-apply-checklist.md`](integration-apply-checklist.md) — plan
+  acceptance gate, dry run on a copy, save/reopen/export/checker/connectivity
+  evidence, accept/reject/rollback and evidence record;
+- [`integration-capability-record.example.json`](integration-capability-record.example.json)
+  — format example only (not probe evidence).
+
+A should complete the probe record before applying anything; K continues to
+produce `only_planned` proposals and never treats a plan as a write
+authorization.
+

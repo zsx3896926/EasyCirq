@@ -2,7 +2,7 @@
 
 ## 基线
 
-- 仓库：`zsx3896926/hardware-design-skill`
+- 仓库：`zsx3896926/EasyCirq`
 - 分支：`feat/common-hardware-coverage`
 - 基线：`origin/main` = `0fe5cf8`（2026-10-22 14:19 +0800）
 - 本轮未合并、未打标签、未发布。

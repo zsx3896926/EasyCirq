@@ -22,7 +22,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
 )
 
 // schCluster 是一个 L1 虚拟组。

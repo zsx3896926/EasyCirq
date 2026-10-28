@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
 )
 
 // skillAsset describes one locatable skill file.

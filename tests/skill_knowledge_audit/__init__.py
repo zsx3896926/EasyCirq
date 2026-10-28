@@ -11,7 +11,7 @@ import importlib.util
 import sys
 from pathlib import Path
 
-_SCRIPTS = Path(__file__).resolve().parents[2] / "design-hardware" / "scripts"
+_SCRIPTS = Path(__file__).resolve().parents[2] / "easycirq" / "scripts"
 _PKG = _SCRIPTS / "skill_knowledge_audit"
 if "ska_impl" not in sys.modules:
     _spec = importlib.util.spec_from_file_location(

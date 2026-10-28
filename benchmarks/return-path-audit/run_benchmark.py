@@ -27,7 +27,7 @@ import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 SCENES = Path(__file__).resolve().parent / "scenes"
 
 STATUS_EXIT = {
@@ -209,7 +209,7 @@ def main(argv=None):
         "environment": {
             "python": platform.python_version(),
             "platform": platform.platform(),
-            "cwd": "design-hardware/scripts (subprocess per scene)",
+            "cwd": "easycirq/scripts (subprocess per scene)",
             "command": "python -m return_path_audit audit -i <scene>/input.json -o <tmp>/report.json",
         },
         "runs": max(1, args.runs),

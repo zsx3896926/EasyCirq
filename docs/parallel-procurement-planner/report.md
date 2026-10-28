@@ -4,7 +4,7 @@
 > `hds-pp-worktree`；开工 main SHA：
 > `9a951edc21481dc3ae91460acc11aa3e08a7be8a`。
 > 交付提交 SHA：`29e5b8f08aa8480e403587d1929319eedd38a445`；PR：
-> https://github.com/zsx3896926/hardware-design-skill/pull/41
+> https://github.com/zsx3896926/EasyCirq/pull/41
 > （分支 `feat/parallel-procurement-planner`，未合并、未发版）。
 > 无订单、无库存预留、无商城实时查询、无 EDA 调用、无器件实物验证。
 
@@ -20,7 +20,7 @@
 
 ### M0 基线与隔离
 
-- 读取 `design-hardware/SKILL.md` 相关导航、`references/lcsc-sourcing.md`、
+- 读取 `easycirq/SKILL.md` 相关导航、`references/lcsc-sourcing.md`、
   `selection/replacement-classes.md`、`scripts/bom_check.py`、
   `assets/parts.example.json`、现有 BOM CSV（UTF-16 EasyEDA 导出）。
 - 核对 `git status`、HEAD、worktree；从 main `9a951ed` 创建独立 worktree
@@ -78,7 +78,7 @@ python -m unittest discover -s tests -v
 关键手工演示：
 
 ```powershell
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m procurement_planner plan `
   --input ..\..\tests\procurement_planner\fixtures\basic.json `
   --out $env:TEMP\plan.json --markdown $env:TEMP\plan.md `
@@ -93,7 +93,7 @@ python -m procurement_planner alternates `
 
 | 路径 | 内容 |
 |---|---|
-| `design-hardware/scripts/procurement_planner/` | 包：契约/校验、需求、价格、库存、渠道、替代、规划、报告、CLI |
+| `easycirq/scripts/procurement_planner/` | 包：契约/校验、需求、价格、库存、渠道、替代、规划、报告、CLI |
 | `tests/procurement_planner/` | 78 测试 + basic/真实替代/4 holdout 夹具 |
 | `benchmarks/procurement-planner/` | 冻结基准脚本、expected、result |
 | `docs/parallel-procurement-planner/` | contract/channel/substitution/source-register/acceptance/report/integration/handoff + issue-candidates |

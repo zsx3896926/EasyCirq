@@ -77,12 +77,13 @@
 
 | 证据 | 内容 |
 |---|---|
-| 原始数据 | `design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`（真实 `easyeda pcb dump`，**2 层板**） |
+| 原始数据 | `easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`（真实 `easyeda pcb dump`，**2 层板**） |
 | 投影器 | `benchmarks/return-path-audit/replay_real_dump.py`（只读；圆弧 ≤0.05 mil 离散并声明） |
 | 产物 | `benchmarks/return-path-audit/real-replay/`：input / report / overlay.svg / README |
 | 结果 | `fail`（exit 1）；142 段 / 307.0 mm checked；55 findings（41 error/14 warning）、7 unknown |
 | 回归 | `tests/return_path_audit/test_real_replay.py`（4 tests；真实 dump 缺失时 skip） |
 | 边界 | 仅 2 层；只建模顶层走线；过孔连接证据缺失；**不是四层板验证** |
+| `.epru` 四层（操作型） | `replay_epru.py` 只读解析 EasyEDA Pro 原生备份：4 层/平面网络来自真实铺铜；实测 fail（365 findings，62 处换层参考 GND→3V3）；数据不入仓库；回归 `test_epru_adapter.py` |
 
 ## 8. 未覆盖/未运行
 

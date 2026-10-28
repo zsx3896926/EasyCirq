@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 
 from feedback import cases as case_lib  # noqa: E402
@@ -47,12 +47,12 @@ def photo_case():
         'inputs': ['90x60mm outline', 'J1 power input'],
         'provenance': {
             'source_project': 'photo-led-pcb-20261026',
-            'source_case': 'design-hardware/cases/photo-led-pcb-2026-10-26',
+            'source_case': 'easycirq/cases/photo-led-pcb-2026-10-26',
             'artifacts': ['photo-led-pcb-final.epro2'],
             'verified_at': '2026-10-26T00:00:00Z',
             'stale': False,
         },
-        'tool_versions': {'zhigou': '4.1.78', 'zhigou-agent': '1.15.0'},
+        'tool_versions': {'easycirq': '4.1.78', 'easycirq-agent': '1.15.0'},
         'original_problem': 'Place and route 19 parts on a 90x60mm board '
                             'without collisions or DRC errors.',
         'method': 'Offline placement candidate, then typed apply, router, '
@@ -106,12 +106,12 @@ def mcu_case():
         'inputs': ['65.79x45mm outline', 'USB-C input'],
         'provenance': {
             'source_project': 'mcu-i2c-s3-20261026',
-            'source_case': 'design-hardware/cases/mcu-i2c-s3-2026-10-26',
+            'source_case': 'easycirq/cases/mcu-i2c-s3-2026-10-26',
             'artifacts': ['boardB-final.epro2'],
             'verified_at': '2026-10-26T00:00:00Z',
             'stale': False,
         },
-        'tool_versions': {'zhigou': '4.1.78', 'zhigou-agent': '1.15.0'},
+        'tool_versions': {'easycirq': '4.1.78', 'easycirq-agent': '1.15.0'},
         'original_problem': 'Fit MCU, LDO, USB and sensor on a two-layer '
                             'board with an antenna keepout.',
         'method': 'Relational block preflight, placement plan, router, '

@@ -1,7 +1,7 @@
 # Frozen mechanical-layout benchmark
 
 Offline subprocess benchmark for
-[`mechanical_layout`](../../design-hardware/scripts/mechanical_layout). It runs
+[`mechanical_layout`](../../easycirq/scripts/mechanical_layout). It runs
 the real CLI (`python -m mechanical_layout`) against static JSON documents and
 checks exit code, status and required/forbidden rule IDs.
 
@@ -12,7 +12,7 @@ python benchmarks/mechanical-layout/run_benchmarks.py --case pass_panel
 ```
 
 Run from the repository root. The runner sets
-`PYTHONPATH=design-hardware/scripts` itself. No EDA, network or client is
+`PYTHONPATH=easycirq/scripts` itself. No EDA, network or client is
 contacted.
 
 ## Layout

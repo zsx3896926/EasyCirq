@@ -28,7 +28,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // bapManifest is the command's output: what was built, from which block

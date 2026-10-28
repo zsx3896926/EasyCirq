@@ -13,7 +13,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 // findingFor returns the finding for component (first match) or a zero value.

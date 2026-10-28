@@ -1,10 +1,10 @@
 # 离线电气意图审查：输入/输出契约（v1）
 
 本模块只分析输入 JSON，不修改设计、不联网、不调用 EDA/旧执行器/Connector。
-入口：`design-hardware/scripts/electrical_review`，CLI 为 `python -m electrical_review`。
+入口：`easycirq/scripts/electrical_review`，CLI 为 `python -m electrical_review`。
 
-- 输入 schema：`zhigou.electrical-review.input/v1`
-- 输出 schema：`zhigou.electrical-review.report/v1`
+- 输入 schema：`easycirq.electrical-review.input/v1`
+- 输出 schema：`easycirq.electrical-review.report/v1`
 - 工具版本：`0.1.0`
 - Python 目标：≥3.10；仓库 CI `validate (3.10)` / `validate (3.13)` 已通过（#48、#52 及本
   docs-only PR）。本机直接运行版本为 3.13.15，代码按 3.10 语法编写，见 acceptance.md。
@@ -12,7 +12,7 @@
 ## 1. 命令与退出码
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m electrical_review validate INPUT.json
 python -m electrical_review review INPUT.json [--out REPORT.json]
 python -m electrical_review explain REPORT.json [--finding-id ID] [--rule R1]
@@ -36,7 +36,7 @@ python -m electrical_review explain REPORT.json [--finding-id ID] [--rule R1]
 
 ```jsonc
 {
-  "schema": "zhigou.electrical-review.input/v1",
+  "schema": "easycirq.electrical-review.input/v1",
   "design": {
     "project_id": "工程 ID", "document_id": "页面/文档 ID",
     "title": "可选",

@@ -22,7 +22,7 @@ except ImportError:  # directory-mode discovery (-s tests/return_path_audit)
     import support
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
-DUMP = ROOT / "design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json"
+DUMP = ROOT / "easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json"
 ADAPTER = ROOT / "benchmarks/return-path-audit/replay_real_dump.py"
 
 

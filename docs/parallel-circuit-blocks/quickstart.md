@@ -7,7 +7,7 @@ connectivity contract, not a schematic.
 
 ```powershell
 cd <repo>
-$env:PYTHONPATH = "design-hardware/scripts"   # or: cd design-hardware/scripts
+$env:PYTHONPATH = "easycirq/scripts"   # or: cd easycirq/scripts
 ```
 
 Python 3.10+ with the standard library only.

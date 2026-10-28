@@ -1,9 +1,9 @@
 {
   "id": "connector-path",
-  "title": "zhigou connector path (ships-with .eext)",
+  "title": "easycirq connector path (ships-with .eext)",
   "stage": "preflight",
   "command": [
-    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
     "connector",
     "path"
   ],

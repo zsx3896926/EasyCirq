@@ -3,7 +3,7 @@ package main
 import (
 	"os"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/app"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/app"
 )
 
 func main() {

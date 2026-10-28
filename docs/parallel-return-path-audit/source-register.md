@@ -30,7 +30,7 @@ PDF 返回 `unsupported content type`。因此核验等级必须如实标注：
   [G06]「高速差分、过孔、回流和 ESD 章节」）
 - URL：https://www.ti.com/lit/an/slla414/slla414.pdf
 - 核验：`V2` — HTTP 200，`application/pdf`（正文未解析）；`V3` — 本项目
-  `design-hardware/references/design-experience.md` G06 已登记其支持“高速差分、过孔、回流和 ESD”。
+  `easycirq/references/design-experience.md` G06 已登记其支持“高速差分、过孔、回流和 ESD”。
 - 适用条件：文档面向其所述接口/速率；**不**外推为所有高速接口通用阈值。
 - 支撑：R2（参考平面连续性/回流）、R3（过孔与换层回流）、R4（差分对布局）。
 - 引用页码：**未核验**（本环境无法读取 PDF 正文）。

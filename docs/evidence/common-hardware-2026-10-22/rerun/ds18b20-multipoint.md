@@ -38,15 +38,15 @@
 
 | 文件 | 实际读过的内容 |
 |---|---|
-| `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\common-hardware\a-environment.md` | §A2（第 199–357 行）：结论、证据行、路线表、必查参数、电路组成、参数与算例、逐脚、程序、验证、常见误判、采购、来源与证据；重点第 201–203、219、243、262、280、294–310、332、339–357 行；文件末尾来源表第 1150 行（CHW-S004）。**本报告按 `git show 4c9db61:...` 的版本引用；262/310 与 662a7ab 相同，203/354 在 4c9db61 中没有 d97b6f3 后加的“SKIP ROM/CONVERT T 多点广播”字样。** |
-| `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\source-register.md` | 第 149 行 CHW-S004（**4c9db61 版本**）：DS18B20 `19-7487；Rev 6；7/19`，查阅范围“第 1–4 页：Features、引脚、精度、分辨率、转换时间”，支持“750 ms（12 位）”；**没有** 662a7ab 后加的“Command Set / 多点广播转换”字样 |
-| `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\common-hardware\applications\01-temperature-alarm.md` | 第 22、30 行：DS18B20 作为数字备选、`750 ms 转换` |
-| `C:\Users\jlc\work\hardware-design-skill\docs\common-hardware-report.md` | 第 54、96 行：A 组器件清单、A2 补 DS18B20 温区的记录 |
-| `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\audit\a-environment.md` | A2 缺口分析（约第 73–98 行）：DS18B20 定位为远距离/多点 1-Wire 路线；当时判定 A2 为 missing |
-| `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\blind\B1.md` | §3.1–3.2、§4、§5.1、§6：DS18B20 路线、`12 位 750 ms`、1 Hz 采样、未核对项 |
-| `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\blind\eval.md` | B1 评分（5/5/5/5/5/5）、P1-5（DS18B20 ±0.5 °C 温区未写在 A2 正文）、第 135 行 routing 结论 |
-| `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\README.md` | 第 50 行：A2 补 DS18B20 ±0.5 °C 仅 −10…85 °C 的记录 |
-| `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\rerun\calc.py` | 现有未跟踪的复算脚本；其 `ds18b20_read_time()` 函数与输出（见 §4.8 对账） |
+| `C:\Users\jlc\work\EasyCirq\design-hardware\references\common-hardware\a-environment.md` | §A2（第 199–357 行）：结论、证据行、路线表、必查参数、电路组成、参数与算例、逐脚、程序、验证、常见误判、采购、来源与证据；重点第 201–203、219、243、262、280、294–310、332、339–357 行；文件末尾来源表第 1150 行（CHW-S004）。**本报告按 `git show 4c9db61:...` 的版本引用；262/310 与 662a7ab 相同，203/354 在 4c9db61 中没有 d97b6f3 后加的“SKIP ROM/CONVERT T 多点广播”字样。** |
+| `C:\Users\jlc\work\EasyCirq\design-hardware\references\source-register.md` | 第 149 行 CHW-S004（**4c9db61 版本**）：DS18B20 `19-7487；Rev 6；7/19`，查阅范围“第 1–4 页：Features、引脚、精度、分辨率、转换时间”，支持“750 ms（12 位）”；**没有** 662a7ab 后加的“Command Set / 多点广播转换”字样 |
+| `C:\Users\jlc\work\EasyCirq\design-hardware\references\common-hardware\applications\01-temperature-alarm.md` | 第 22、30 行：DS18B20 作为数字备选、`750 ms 转换` |
+| `C:\Users\jlc\work\EasyCirq\docs\common-hardware-report.md` | 第 54、96 行：A 组器件清单、A2 补 DS18B20 温区的记录 |
+| `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\audit\a-environment.md` | A2 缺口分析（约第 73–98 行）：DS18B20 定位为远距离/多点 1-Wire 路线；当时判定 A2 为 missing |
+| `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\blind\B1.md` | §3.1–3.2、§4、§5.1、§6：DS18B20 路线、`12 位 750 ms`、1 Hz 采样、未核对项 |
+| `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\blind\eval.md` | B1 评分（5/5/5/5/5/5）、P1-5（DS18B20 ±0.5 °C 温区未写在 A2 正文）、第 135 行 routing 结论 |
+| `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\README.md` | 第 50 行：A2 补 DS18B20 ±0.5 °C 仅 −10…85 °C 的记录 |
+| `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\rerun\calc.py` | 现有未跟踪的复算脚本；其 `ds18b20_read_time()` 函数与输出（见 §4.8 对账） |
 | Git 提交 `4c9db61` | `git show --stat 4c9db61` 与 `git show 4c9db61 -- design-hardware/references/common-hardware/a-environment.md`；父提交 `e5094e4` 的第 262 行原文 |
 
 ### 1.2 原厂手册
@@ -474,15 +474,15 @@ reconciled total:          833.792 ms
 
 ### 8.1 仓库文件（固定快照 4c9db61）
 
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\common-hardware\a-environment.md`
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\source-register.md`
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\common-hardware\applications\01-temperature-alarm.md`
-- `C:\Users\jlc\work\hardware-design-skill\docs\common-hardware-report.md`
-- `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\audit\a-environment.md`
-- `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\blind\B1.md`
-- `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\blind\eval.md`
-- `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\README.md`
-- `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\rerun\calc.py`（未跟踪）
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\common-hardware\a-environment.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\source-register.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\common-hardware\applications\01-temperature-alarm.md`
+- `C:\Users\jlc\work\EasyCirq\docs\common-hardware-report.md`
+- `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\audit\a-environment.md`
+- `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\blind\B1.md`
+- `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\blind\eval.md`
+- `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\README.md`
+- `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\rerun\calc.py`（未跟踪）
 
 ### 8.2 原厂资料
 

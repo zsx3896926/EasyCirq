@@ -25,7 +25,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // ── 同一把尺:认框的字符串必须就是画框写下的字符串 ─────────────────────────

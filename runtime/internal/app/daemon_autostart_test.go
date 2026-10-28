@@ -3,7 +3,7 @@ package app
 import (
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 func TestAutoStartAllowedOnlyForReleaseBuildsWithoutOptOut(t *testing.T) {

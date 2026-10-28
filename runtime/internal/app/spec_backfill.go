@@ -47,8 +47,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // specBackfillManualHint 拼「手工同步」那一行提示。

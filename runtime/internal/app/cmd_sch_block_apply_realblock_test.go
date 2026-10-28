@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // ── 真块 origin 回归(issue #180 P0 对抗审查抓到的 blocker)──────────────────

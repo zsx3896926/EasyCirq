@@ -17,8 +17,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 // The doctor command is the single diagnosis entry point of the integrated
@@ -372,9 +372,9 @@ func skillCandidates() []doctorSkillInstall {
 		home = ""
 	}
 	defs := []struct{ client, rel string }{
-		{"codex", filepath.Join(".codex", "skills", "design-hardware")},
-		{"claude", filepath.Join(".claude", "skills", "design-hardware")},
-		{"agents", filepath.Join(".agents", "skills", "design-hardware")},
+		{"codex", filepath.Join(".codex", "skills", "easycirq")},
+		{"claude", filepath.Join(".claude", "skills", "easycirq")},
+		{"agents", filepath.Join(".agents", "skills", "easycirq")},
 	}
 	out := make([]doctorSkillInstall, 0, len(defs)+2)
 	for _, d := range defs {
@@ -385,7 +385,7 @@ func skillCandidates() []doctorSkillInstall {
 		out = append(out, doctorSkillInstall{Client: d.client, Dir: dir})
 	}
 	if wd, err := os.Getwd(); err == nil {
-		out = append(out, doctorSkillInstall{Client: "repo", Dir: filepath.Join(wd, "design-hardware")})
+		out = append(out, doctorSkillInstall{Client: "repo", Dir: filepath.Join(wd, "easycirq")})
 	}
 	for _, extra := range strings.Split(os.Getenv("EASYCIRQ_SKILL_DIRS"), ",") {
 		extra = strings.TrimSpace(extra)
@@ -398,7 +398,7 @@ func skillCandidates() []doctorSkillInstall {
 }
 
 func scanSkillInstalls() doctorSkill {
-	sk := doctorSkill{Name: "design-hardware", Status: "missing"}
+	sk := doctorSkill{Name: "easycirq", Status: "missing"}
 	cands := skillCandidates()
 	installs := make([]doctorSkillInstall, 0, len(cands))
 	for _, c := range cands {
@@ -461,7 +461,7 @@ func doctorSkillCheck(sk doctorSkill) healthCheck {
 			}
 		}
 		return healthCheck{Name: "skill", Status: "ok",
-			Detail: fmt.Sprintf("design-hardware 已安装（%s）", strings.Join(owners, ", "))}
+			Detail: fmt.Sprintf("easycirq 已安装（%s）", strings.Join(owners, ", "))}
 	}
 	return healthCheck{Name: "skill", Status: "warn",
 		Detail: "没有找到已安装的 design-hardware Skill",

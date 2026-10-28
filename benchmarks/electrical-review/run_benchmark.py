@@ -23,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 BENCH = Path(__file__).resolve().parent
 CASES = BENCH / "cases"
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 EXPECTED = BENCH / "expected.json"
 
 
@@ -147,7 +147,7 @@ def main(argv=None):
     rows = [run_case(name, expected[name], args.runs) for name in sorted(names)]
     passed = sum(1 for row in rows if row["passed"])
     report = {
-        "schema": "zhigou.electrical-review.benchmark/v1",
+        "schema": "easycirq.electrical-review.benchmark/v1",
         "simulated": True,
         "real_eda": "NOT RUN",
         "eda_calls": 0,

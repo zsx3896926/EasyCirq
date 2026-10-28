@@ -3,7 +3,7 @@
 - 勘察时间：2026-10-27 21:13 – 21:30 (+08:00)
 - 勘察方式：纯只读。未写入/保存/移动/删除任何 EDA 工程、文档、库；未启停 daemon 与 EasyEDA；未执行任何 place/move/apply/save/export-to-project/import 类命令。
 - 原始证据目录：`evidence/env/`（47 个文件，见文末清单）
-- 目的：为新建的自有工具链（zhigou toolchain）提供"必须对齐的真实基线"，并指出与之隔离时的风险点。
+- 目的：为新建的自有工具链（easycirq toolchain）提供"必须对齐的真实基线"，并指出与之隔离时的风险点。
 
 > **两个必须先知道的结论（与任务书假设不同）：**
 > 1. `easyeda doctor` **不存在**（exit 1，stderr：`unknown command "doctor" for "easyeda"`）。v1.15.0 的健康检查命令是 `easyeda health`（JSON 到 stdout，人读摘要到 **stderr**）。新 CLI 若要做 doctor，需自行定义契约，可对齐 `health` 的 JSON 字段（见 §3.3）。
@@ -332,7 +332,7 @@ connector LOG: lifecycle registered moduleBootstrapObserved=true activateObserve
 - SKILL.md frontmatter：`name: easyeda-agent`、`license: MIT`、`metadata.author: zhoushoujianwork`、`metadata.version: "1.15.0"`、`metadata.homepage`。
 - 结构：`SKILL.md`、`LICENSE`、`agents/openai.yaml`、`library/modules/*.json`、`references/*.md|json`（含 `environment-setup.md`、`design-flow.md`、`pcb-*.md`、`schematic-*.md`、`fab-rules-jlcpcb.json` 等）、`references/examples/**`、`scripts/*.py|js|sh`。
 - **安装/更新方式**：由 daemon 启动时同步——`easyeda skill --help`：`The daemon syncs installed Skill dirs to its own version on startup`，daemon 命令行带 `--auto-update-skill=true`；另有 `easyeda skill status` / `skill sync [--version X]`。三目录同版 1.15.0、同哈希，印证"一次同步、多客户端分发"。
-- 同级目录另见 `design-hardware`（`.claude`、`.agents` 下各有，`.codex` 下无），说明该机器还有第二个相关 skill 在分发，新工具链命名时应避让 `easyeda-agent` 与 `design-hardware`。
+- 同级目录另见 `easycirq`（`.claude`、`.agents` 下各有，`.codex` 下无），说明该机器还有第二个相关 skill 在分发，新工具链命名时应避让 `easyeda-agent` 与 `easycirq`。
 - `C:\Users\jlc\.codex\skills\.system` 存在（codex 内建）。
 
 **未修改、未删除任何 skill 文件。**

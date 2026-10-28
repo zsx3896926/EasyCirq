@@ -1,1 +1,1 @@
-unknown command "current" for "zhigou project"
+unknown command "current" for "easycirq project"

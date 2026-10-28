@@ -12,7 +12,7 @@ def module(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
 A=module('feedback_apply',ROOT/'tools/skill-feedback/apply-feedback.py')
-N=module('feedback_audit',ROOT/'design-hardware/scripts/net_discipline_audit.py')
+N=module('feedback_audit',ROOT/'easycirq/scripts/net_discipline_audit.py')
 
 class FeedbackTests(unittest.TestCase):
     def setUp(self):
@@ -34,32 +34,32 @@ class FeedbackTests(unittest.TestCase):
         self.assertEqual(self.run_cli('--revert').returncode,0)
     def test_crlf_rollback_exact(self):
         for rel,b in self.original.items():(self.root/rel).write_bytes(b.replace(b'\n',b'\r\n'))
-        before=(self.root/'zhigou-agent/scripts/parts-select.py').read_bytes()
+        before=(self.root/'easycirq-agent/scripts/parts-select.py').read_bytes()
         self.assertEqual(self.run_cli('--apply').returncode,0)
-        self.assertIn(b'\r\n', (self.root/'zhigou-agent/scripts/parts-select.py').read_bytes())
+        self.assertIn(b'\r\n', (self.root/'easycirq-agent/scripts/parts-select.py').read_bytes())
         self.assertEqual(self.run_cli('--revert').returncode,0)
-        self.assertEqual((self.root/'zhigou-agent/scripts/parts-select.py').read_bytes(),before)
+        self.assertEqual((self.root/'easycirq-agent/scripts/parts-select.py').read_bytes(),before)
     def test_no_owned_backup_refuses_revert(self):
-        f=self.root/'zhigou-agent/scripts/net-discipline-audit.py';f.write_text('user file')
+        f=self.root/'easycirq-agent/scripts/net-discipline-audit.py';f.write_text('user file')
         self.assertEqual(self.run_cli('--revert').returncode,2);self.assertEqual(f.read_text(),'user file')
     def test_unowned_file_blocks_all_writes(self):
-        f=self.root/'zhigou-agent/scripts/net-discipline-audit.py';f.write_text('user file')
+        f=self.root/'easycirq-agent/scripts/net-discipline-audit.py';f.write_text('user file')
         self.assertEqual(self.run_cli('--apply').returncode,2)
         for rel,b in self.original.items():self.assertEqual((self.root/rel).read_bytes(),b)
     def test_user_edit_blocks_rollback(self):
         self.assertEqual(self.run_cli('--apply').returncode,0)
-        f=self.root/'zhigou-agent/scripts/net-discipline-audit.py';f.write_text('edited')
+        f=self.root/'easycirq-agent/scripts/net-discipline-audit.py';f.write_text('edited')
         self.assertEqual(self.run_cli('--revert').returncode,2);self.assertEqual(f.read_text(),'edited')
     def test_missing_anchor_prevents_any_mutation(self):
-        f=self.root/'design-hardware/SKILL.md';f.write_text('new upstream')
+        f=self.root/'easycirq/SKILL.md';f.write_text('new upstream')
         self.assertEqual(self.run_cli('--apply').returncode,2)
         for rel,b in self.original.items():
             if rel != str(f.relative_to(self.root)):self.assertEqual((self.root/rel).read_bytes(),b)
     def test_ambiguous_anchor(self):
-        f=self.root/'design-hardware/SKILL.md';f.write_text(f.read_text(encoding='utf-8')+f.read_text(encoding='utf-8'),encoding='utf-8')
+        f=self.root/'easycirq/SKILL.md';f.write_text(f.read_text(encoding='utf-8')+f.read_text(encoding='utf-8'),encoding='utf-8')
         self.assertEqual(self.run_cli('--apply').returncode,2)
     def test_partial_marker_refused(self):
-        f=self.root/'zhigou-agent/scripts/parts-select.py';f.write_text(f.read_text()+'\nJLC_DIRECT_GUARD\n')
+        f=self.root/'easycirq-agent/scripts/parts-select.py';f.write_text(f.read_text()+'\nJLC_DIRECT_GUARD\n')
         self.assertEqual(self.run_cli('--apply').returncode,2)
     def test_interrupted_apply_recover(self):
         changes=A.plan(self.root);state={'schema':'skill-feedback/v2','root':str(self.root),'phase':'prepared','files':changes}
@@ -75,14 +75,14 @@ class FeedbackTests(unittest.TestCase):
         state=json.loads(state_path.read_text());self.assertEqual(state['phase'],'applying')
         A.execute(self.root,state,state_path,reverse=True)
         for rel,b in self.original.items():self.assertEqual((self.root/rel).read_bytes(),b)
-        self.assertFalse((self.root/'zhigou-agent/scripts/net-discipline-audit.py').exists())
+        self.assertFalse((self.root/'easycirq-agent/scripts/net-discipline-audit.py').exists())
     def test_recovery_does_not_overwrite_user_edit(self):
         changes=A.plan(self.root);state={'schema':'skill-feedback/v2','root':str(self.root),'phase':'applying','files':changes}
         (self.root/changes[0]['path']).write_text('user edit')
         with self.assertRaises(ValueError):A.execute(self.root,state,Path(self.tmp.name)/'j',reverse=True)
     def test_check_detects_post_apply_drift(self):
         self.assertEqual(self.run_cli('--apply').returncode,0)
-        f=self.root/'zhigou-agent/SKILL.md'
+        f=self.root/'easycirq-agent/SKILL.md'
         f.write_bytes(f.read_bytes()+b'\nchanged\n')
         self.assertEqual(self.run_cli('--check').returncode,2)
     def test_prepared_journal_recovers(self):
@@ -96,12 +96,12 @@ class FeedbackTests(unittest.TestCase):
     def test_guard_rejects_even_inherited_optin(self):
         namespace={'os':__import__('os')}
         import socket
-        with patch.object(socket,'socket',side_effect=AssertionError('network attempted')),patch.dict('os.environ',{'ZHIGOU_ALLOW_DIRECT_JLC_API':'1'}):
+        with patch.object(socket,'socket',side_effect=AssertionError('network attempted')),patch.dict('os.environ',{'EASYCIRQ_ALLOW_DIRECT_JLC_API':'1'}):
             exec(A.PS_FN_NEW,namespace)
             with self.assertRaises(SystemExit) as caught:namespace['jlc_search']('100nF')
         self.assertIn('REFUSED',str(caught.exception))
     def test_audit_source_copies_match(self):
-        a=(ROOT/'design-hardware/scripts/net_discipline_audit.py').read_bytes().replace(b'\r\n',b'\n')
+        a=(ROOT/'easycirq/scripts/net_discipline_audit.py').read_bytes().replace(b'\r\n',b'\n')
         b=(ROOT/'tools/skill-feedback/net-discipline-audit.py').read_bytes().replace(b'\r\n',b'\n')
         self.assertEqual(a,b)
 

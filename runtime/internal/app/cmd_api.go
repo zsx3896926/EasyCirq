@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/apidoc"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/apidoc"
 )
 
 // newApiCmd is the local `eda.*` API discovery surface — no daemon/connector

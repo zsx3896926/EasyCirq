@@ -26,8 +26,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
 )
 
 // Geometry thresholds, all in mil (PCB primitives are native mil — pcb.line.create

@@ -1,6 +1,6 @@
 # A 温度、湿度与环境传感 盘点
 
-> 审计对象：`C:\Users\jlc\work\hardware-design-skill`（HEAD `0fe5cf8`）。
+> 审计对象：`C:\Users\jlc\work\EasyCirq`（HEAD `0fe5cf8`）。
 > 方法：按 `design-hardware/SKILL.md` 按需读取表定位，再用 Grep/Glob 抽查 `design-cards/`、`examples/`、`failures/`、`projects/`、`engineering-deepdives/topics/`、`casebook/`、`selection/`、`calculations/`、`thermal/`、`domain-design-details.md`、`pcb-placement-details.md`、`enclosure-integration.md`、`design-experience.md`；只读相关段落，未全量加载大文件。行号为当前工作区 1 起始行号；路径相对仓库根。
 > 判定口径：只针对本组 7 个主题对照任务书 11 问（用户话术、路线选择、必查参数、电路组成、参数确定、原理图、PCB、程序、验证、常见误判、采购落地）是否够用，不代表仓库其他领域质量。
 > 结论先行：**A 组是“两张有基础的卡（A1/A3 共用 `ANA-10`）+ 一张半成品（A5）+ 四个空白（A2/A4/A6/A7）”。** A1/A3 已有 `ANA-10` 与深潜 `C1` 的电气基础，但 NTC 专项和 RTD 标准/探头仍缺；A2 只有 I²C 总线与地址 strap，没有任何数字温度传感器内容；A4 全库只有 DM22 一句“要冷端补偿”；A5 有布置/接口/项目需求但没有温湿度测量方法；A6/A7 只有 DM24/PL24 的通用布置提示，没有设计内容。

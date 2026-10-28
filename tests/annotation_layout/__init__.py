@@ -4,7 +4,7 @@ The test directory is named ``annotation_layout`` like the shipped package.
 Load the implementation explicitly (see ``_bootstrap.py``) and extend its search
 path with this directory so ``annotation_layout.test_*`` remains discoverable.
 
-This package intentionally does **not** insert ``design-hardware/scripts`` into
+This package intentionally does **not** insert ``easycirq/scripts`` into
 ``sys.path``: doing so while other test packages are being discovered makes
 their top-level names resolve to the implementation packages, which breaks
 their later submodule imports.  Tests that need an implementation import use the

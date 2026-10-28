@@ -14,8 +14,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // specFixture 是一份"手写风格"的 spec:带未知顶层键、未知模块键、非字母序的键序、

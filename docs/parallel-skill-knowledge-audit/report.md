@@ -167,8 +167,8 @@ PR #45 已由维护者于 2026-10-27T16:52:30Z 合并（merge commit `7990cec`�
 
 | 命令 | 结果 |
 |---|---|
-| `python -m skill_knowledge_audit scan --root design-hardware` | exit 0；files 312、links 2,481、errors 0、warnings 16 |
-| `python design-hardware/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN；242 scripts compile |
+| `python -m skill_knowledge_audit scan --root easycirq` | exit 0；files 312、links 2,481、errors 0、warnings 16 |
+| `python easycirq/scripts/skill_selftest.py` | 5 PASS / 0 FAIL / 0 NOT RUN；265 scripts compile |
 | `python -m skill_knowledge_audit benchmark --require-18 --require-holdout --transforms` | exit 0；20/20 通过，recall 1.0、missing_critical 0、forbidden 0、missing unknown 0、stable 20/20、transforms 7/7 |
 | `python -m unittest discover -s tests/skill_knowledge_audit -t .` | 53 tests OK（skipped=1） |
 
@@ -184,7 +184,7 @@ PR #45 已由维护者于 2026-10-27T16:52:30Z 合并（merge commit `7990cec`�
 ## 7. 复现命令
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m skill_knowledge_audit scan --root .. \
   --out ../../benchmarks/skill-knowledge-audit/results/scan.json --format both
 python -m skill_knowledge_audit rules --root .. --strict \
@@ -196,7 +196,7 @@ python -m skill_knowledge_audit benchmark --root .. \
 
 测试：`python -m unittest discover -s tests/skill_knowledge_audit -t .`
 → **53 tests OK**（1 个 Windows 符号链接用例跳过）。
-既有回归：`python design-hardware/scripts/skill_selftest.py` → **5 PASS / 0 FAIL**。
+既有回归：`python easycirq/scripts/skill_selftest.py` → **5 PASS / 0 FAIL**。
 
 ### 冻结产物哈希（2026-10-28 00:41，之后不再改写）
 

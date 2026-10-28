@@ -25,7 +25,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // refineFakePad 是假器件的一个焊盘。dx/dy 是相对 anchor 的偏移 —— 器件被 modify

@@ -14,13 +14,13 @@
 用户需求
    │
    ▼
-design-hardware/SKILL.md          ← 唯一的策略层：工程方法、门禁、证据语义、交付规则
-design-hardware/scripts/*.py      ← 策略层配套的离线检查、门禁、反馈闭环（不直接操作 EDA）
-design-hardware/references/*.md   ← 按需加载的工程知识
+easycirq/SKILL.md          ← 唯一的策略层：工程方法、门禁、证据语义、交付规则
+easycirq/scripts/*.py      ← 策略层配套的离线检查、门禁、反馈闭环（不直接操作 EDA）
+easycirq/references/*.md   ← 按需加载的工程知识
    │   调用（JSON stdout / 人类摘要 stderr）
    ▼
-runtime/  (Go)                    ← 自有运行时：CLI `zhigou` + 本机 daemon
-  cmd/zhigou/main.go              ← 进程入口
+runtime/  (Go)                    ← 自有运行时：CLI `easycirq` + 本机 daemon
+  cmd/easycirq/main.go              ← 进程入口
   internal/app/                   ← cobra 命令面（192 个顶层+子命令入口，181 个 typed action）
   internal/daemon/                ← loopback HTTP + WebSocket 服务、连接注册、队列、写健康
   internal/protocol/              ← 线上契约（envelope、action catalog、错误码、wire version）
@@ -42,7 +42,7 @@ connector/  (TypeScript → .eext)  ← 在 EasyEDA Pro 内运行的唯一一端
 
 | 层 | 目录 | 归属 | 许可 |
 | --- | --- | --- | --- |
-| 策略 | `design-hardware/` | 本项目原创 | Apache-2.0 |
+| 策略 | `easycirq/` | 本项目原创 | Apache-2.0 |
 | 运行时 | `runtime/` | 本项目维护的分支（源自 easyeda-agent v1.15.0, MIT） | MIT（复用部分）+ Apache-2.0（本项目修改） |
 | 契约 | `protocol/` | 本项目 | Apache-2.0（引用上游 MIT 文档已标注） |
 | 连接器 | `connector/` | 本项目维护的分支（源自 easyeda-agent v1.15.0 extension, MIT） | MIT + Apache-2.0 |
@@ -57,16 +57,16 @@ connector/  (TypeScript → .eext)  ← 在 EasyEDA Pro 内运行的唯一一端
 
 | 维度 | 上游 easyeda-agent | 本工具链（智构） | 隔离方式 |
 | --- | --- | --- | --- |
-| 可执行文件 | `easyeda.exe` | `zhigou.exe` | 不同文件名，可并存 |
-| 根命令 | `easyeda` | `zhigou` | cobra `Use` |
-| daemon 服务名 | `easyeda-agent` | `zhigou-agent` | handshake + `/health` 校验 |
+| 可执行文件 | `easyeda.exe` | `easycirq.exe` | 不同文件名，可并存 |
+| 根命令 | `easyeda` | `easycirq` | cobra `Use` |
+| daemon 服务名 | `easyeda-agent` | `easycirq-agent` | handshake + `/health` 校验 |
 | 端口 | 60832–60841（`0xEDA0`–`0xEDA9`） | **23111–23120**（`0x5A47`–`0x5A50`，"ZG"） | 不同端口段，daemon 单实例固定首端口 |
-| 状态目录 | `~/.easyeda-agent` | `~/.zhigou` | pid/log/audit/workflow |
-| 项目产物目录 | `<proj>/.easyeda/artifacts` | `<proj>/.zhigou/artifacts` | 不覆盖旧证据目录 |
-| 环境变量前缀 | `EASYEDA_*` | `ZHIGOU_*` | 互不读取 |
+| 状态目录 | `~/.easyeda-agent` | `~/.easycirq` | pid/log/audit/workflow |
+| 项目产物目录 | `<proj>/.easyeda/artifacts` | `<proj>/.easycirq/artifacts` | 不覆盖旧证据目录 |
+| 环境变量前缀 | `EASYEDA_*` | `EASYCIRQ_*` | 互不读取 |
 | 扩展 UUID | `4dae27407c1d43be98e8e210d45fe587` | `a6e6b788551945b399e150d80efa6e31` | EDA 内视为两个扩展 |
-| 扩展显示名 | EDA Agent Connector | Zhigou EDA Connector | 用户可辨认 |
-| 扩展用户配置键 | `daemonPorts` | `zhigouDaemonPorts` | 不继承上游端口覆盖 |
+| 扩展显示名 | EDA Agent Connector | EasyCirq EDA Connector | 用户可辨认 |
+| 扩展用户配置键 | `daemonPorts` | `easycirqDaemonPorts` | 不继承上游端口覆盖 |
 | 自更新 | 从上游 GitHub Release 下载并替换二进制 | **禁用**（由 `distribution/` 统一升级） | 见 §6 |
 
 端口选择理由：23111 在 Windows 默认临时端口段（49152–65535）之外，避免与客户端
@@ -85,14 +85,14 @@ connector/  (TypeScript → .eext)  ← 在 EasyEDA Pro 内运行的唯一一端
 
 | 帧 | 方向 | 用途 |
 | --- | --- | --- |
-| `handshake` | daemon→connector | 声明 `service:"zhigou-agent"`、`version`；连接器校验后才注册 |
+| `handshake` | daemon→connector | 声明 `service:"easycirq-agent"`、`version`；连接器校验后才注册 |
 | `register` | connector→daemon | `windowId`、`connectorVersion`、`easyedaVersion`、`capabilities[]`、`userAgent` |
 | `context` | connector→daemon | 工程/文档/类型/tab/单位/页面可见性 |
 | `request` | daemon→connector | `id`、`type`、`version`、`action`、`payload`、`windowId`、`timeoutMs` |
 | `response` | connector→daemon | `ok`、`result`、`context`、`mutationContext*`、`artifacts`、`error`、`seq/seqAbandoned/unordered` |
 | `ping`/`pong` | 双向 | 心跳（连接器发起） |
 
-线上版本 `protocol.WireVersion = "v1"`；服务标识 `protocol.ServiceName = "zhigou-agent"`。
+线上版本 `protocol.WireVersion = "v1"`；服务标识 `protocol.ServiceName = "easycirq-agent"`。
 JSON Schema 见 [`protocol/schemas/`](../../protocol/schemas/)，人读契约见
 [`protocol/README.md`](../../protocol/README.md)。
 
@@ -114,7 +114,7 @@ JSON Schema 见 [`protocol/schemas/`](../../protocol/schemas/)，人读契约见
 
 ---
 
-## 4. 能力协商（`zhigou capabilities`）
+## 4. 能力协商（`easycirq capabilities`）
 
 逐项输出 `supported / unsupported / unknown` + 原因 + 模式（`sync` / `sync-long`）+
 是否返回值 + 是否有回读动作 + 是否影响全板。**不按 EDA 版本号推断能力**；
@@ -141,7 +141,7 @@ M1 实测（未接自有连接器时）：19 项 `unknown`（动作存在但无�
 3. 范围明确：局部修改契约 `hds-modification/v1` 由 Skill 的 `feedback_loop.py` 生成，
    runtime 只执行与回读。
 4. 锁与并发：每个目标单写者；`concurrentWriter` 只作提示，不做静默互斥
-   （`internal/daemon/hub.go`、`internal/app/dispatch.go`）。审计日志在 `~/.zhigou/audit/`。
+   （`internal/daemon/hub.go`、`internal/app/dispatch.go`）。审计日志在 `~/.easycirq/audit/`。
 5. 幂等/恢复：请求 `id` + `planned/sent/confirmed/failed/unknown` 任务日志；
    超时后先查请求状态与新鲜快照，禁止盲重试。CLI 返回 0 不等于宿主已确认。
 
@@ -150,17 +150,17 @@ M1 实测（未接自有连接器时）：19 项 `unknown`（动作存在但无�
 ## 6. 构建、版本与自更新
 
 * **运行时**：Go 1.27.3（`go.mod` 声明 `go 1.26.3`，使用 1.27.3 构建）。
-  `go build -trimpath -ldflags "-s -w -X .../internal/version.Version=<ver>" ./cmd/zhigou`。
-  二进制内嵌 `vcs.revision`（见 `zhigou doctor.runtime.vcsRevision`），因此"跑的是不是
+  `go build -trimpath -ldflags "-s -w -X .../internal/version.Version=<ver>" ./cmd/easycirq`。
+  二进制内嵌 `vcs.revision`（见 `easycirq doctor.runtime.vcsRevision`），因此"跑的是不是
   当前源码"可以被外部核对，而不是自述。
 * **连接器**：Node ≥20.17 + npm（esbuild/ts-node/jszip）。
   `npx ts-node ./config/esbuild.prod.ts` → `dist/index.js`；
-  `npx ts-node ./build/packaged.ts` → `build/dist/zhigou-connector_v<ver>.eext`。
+  `npx ts-node ./build/packaged.ts` → `build/dist/easycirq-connector_v<ver>.eext`。
 * **禁用自更新**：上游 `internal/selfupdate` 会在 daemon 启动时从上游 GitHub Release
   同步 skill 并替换二进制。本工具链把升级权收归 `distribution/`：发行构建不启用
   上游仓库地址，daemon 启动的 skill 自动同步不作为安装路径。任何人不得把
   "到上游 Release 下载 easyeda.exe" 当作本工具链的安装步骤。
-* **兼容性判定**：`zhigou doctor` 分别报告 CLI/daemon/connector 版本、协议版本、
+* **兼容性判定**：`easycirq doctor` 分别报告 CLI/daemon/connector 版本、协议版本、
   EDA 版本与兼容性判定；版本不一致是 **degraded** 而不是静默通过。
 
 ---
@@ -169,7 +169,7 @@ M1 实测（未接自有连接器时）：19 项 `unknown`（动作存在但无�
 
 1. **连接器导入是 EDA 内的人工动作**：EasyEDA Pro 只支持 GUI「导入扩展」，
    扩展在启动时加载、不支持热加载；禁止用"磁盘上有文件"证明安装成功。安装器只负责
-   把 `.eext` 放到安装目录并打印步骤，安装成功由 `zhigou doctor` 的真实握手判定。
+   把 `.eext` 放到安装目录并打印步骤，安装成功由 `easycirq doctor` 的真实握手判定。
 2. **Gerber/钻孔/CPL/等长调长**在 typed action 目录中没有对应动作 → `unsupported`；
    制造资料只能走官方 GUI 导出并落人工证据，不能冒充 API 能力。
 3. **原生归档/恢复演练**需要宿主工程级导出，当前记为 NOT RUN 直到有真机证据。

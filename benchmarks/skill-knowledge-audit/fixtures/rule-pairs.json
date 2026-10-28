@@ -11,7 +11,7 @@
       },
       "b": {
         "text": "门禁是**阶段退出证据门，不是审批门**。Agent 在用户已授权的设计/修改范围内自查、记录并继续；门禁不新增等待点，也不要求用户逐项签批。只有用户明确说“先评审 / 这步给我看 / 确认后再布线”时，才在方案、原理图、布局、交付四个可见检查点等待。",
-        "source": "design-hardware/references/design-gates.md",
+        "source": "easycirq/references/design-gates.md",
         "line": 7
       },
       "expected": "true_conflict",
@@ -23,12 +23,12 @@
       "category": "default_with_exception",
       "a": {
         "text": "- 局部连接优先直接画线；只有跨区、跨页或长距离才用标签。为减少一条线而增加一串标签，通常让拓扑更难读。",
-        "source": "design-hardware/references/schematic-layout.md",
+        "source": "easycirq/references/schematic-layout.md",
         "line": 81
       },
       "b": {
         "text": "物理脚号顺序不等于原理图阅读顺序。优先使用可信库中已核对的功能分组符号/单元；不能为了好看直接改库脚号、交换引脚或临时重画芯片。既有符号难以直连时用短引线与明确标签化解，不牺牲pin-pad映射。",
-        "source": "design-hardware/references/schematic-layout.md",
+        "source": "easycirq/references/schematic-layout.md",
         "line": 61
       },
       "expected": "default_with_exception",
@@ -40,12 +40,12 @@
       "category": "different_stage",
       "a": {
         "text": "方案、原理图、布局、交付设为四个可见检查点。默认在任务已授权范围内自查、汇报并继续；用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待。不要把工程检查点一律变成权限停顿点。真正改变已确认接口/尺寸/成本目标、涉及关键未知量时，先处理该决定，同时推进无依赖部分。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 96
       },
       "b": {
         "text": "**豁免规则：** score、crossings、overlap/off-board/short 和板框不可豁免；安装孔、连接器逃逸、自动摆放对比、冻结时间可豁免并写明剩余风险。布局冻结后若为了布线移动器件，必须先重开 G3 并作废受影响布线。",
-        "source": "design-hardware/references/design-gates.md",
+        "source": "easycirq/references/design-gates.md",
         "line": 157
       },
       "expected": "different_stage",
@@ -57,12 +57,12 @@
       "category": "different_scope",
       "a": {
         "text": "完整产品任务以实物是否实现原始用途验收，画完图、买齐料或贴片完成都不是默认终点。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 8
       },
       "b": {
         "text": "- 用户只要求画图、review、换料、PCB或先方案时，仍按该范围交付，不强行追加App、外壳、采购或完整产品开发。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 30
       },
       "expected": "different_scope",
@@ -74,7 +74,7 @@
       "category": "stale_reference",
       "a": {
         "text": "`easyeda pcb layout-lint --gate` 已废弃：它只显示历史阈值，不授权、不阻断布线。",
-        "source": "design-hardware/references/design-gates.md",
+        "source": "easycirq/references/design-gates.md",
         "line": 149
       },
       "b": {
@@ -90,12 +90,12 @@
       "category": "ambiguity",
       "a": {
         "text": "- 问“做个板子”默认推进适合目标的原理图及PCB候选；问“做个设备/实现这个idea”同时建立功能、硬件、程序、结构、制造和验收的适用任务，先给最小可验证方案并继续；“先方案/先别画”只做方案。学习示例板、现成模块拼装、自制PCB分别解释和交付，不擅自把用户要的PCB替换成接线教程。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 42
       },
       "b": {
         "text": "自定义PCB不是所有idea的必经之路：现成模块能更快验证效果时，解释后作为适用路线；用户明确要定制板时保留定制交付，不悄悄换成购买开发板。服务选择围绕功能、成本和交付，不为增加业务环节强推服务。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 84
       },
       "expected": "ambiguity",
@@ -107,12 +107,12 @@
       "category": "user_authorized",
       "a": {
         "text": "在已授权范围自主推进，关键阶段汇报，不逐阶段重复求确认",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 77
       },
       "b": {
         "text": "用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 96
       },
       "expected": "user_authorized",
@@ -124,12 +124,12 @@
       "category": "technical_limit",
       "a": {
         "text": "Gerber、钻孔、CPL 在 easyeda v1.14.0 没有 CLI 或 typed action（官方 `eda.pcb_ManufactureData.getGerberFile` 仍为 beta 且未包装）",
-        "source": "constructed: original quote rewritten by the zhigou migration (2026-10-28)",
+        "source": "constructed: original quote rewritten by the easycirq migration (2026-10-28)",
         "line": 234
       },
       "b": {
         "text": "由正在运行的Agent持续推进到任务范围内的真实成果",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 8
       },
       "expected": "technical_limit",
@@ -141,12 +141,12 @@
       "category": "negation",
       "a": {
         "text": "只有用户明确说“先评审 / 这步给我看 / 确认后再布线”时，才在方案、原理图、布局、交付四个可见检查点等待。",
-        "source": "design-hardware/references/design-gates.md",
+        "source": "easycirq/references/design-gates.md",
         "line": 7
       },
       "b": {
         "text": "不要把工程检查点一律变成权限停顿点。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 96
       },
       "expected": "negation",
@@ -158,12 +158,12 @@
       "category": "code_example",
       "a": {
         "text": "python scripts/pcb_apply_plan.py --dump before.json --module-plan power.json --module-plan channel1.json --module-plan channel2.json --constraints constraints.json --project PROJECT --doc DOC --out-dump after.json --report batch-report.json --playbook-out batch-playbook.json",
-        "source": "design-hardware/references/execution-efficiency.md",
+        "source": "easycirq/references/execution-efficiency.md",
         "line": 33
       },
       "b": {
         "text": "简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 154
       },
       "expected": "code_example",
@@ -175,12 +175,12 @@
       "category": "coexist",
       "a": {
         "text": "局部连接优先直接画线；只有跨区、跨页或长距离才用标签。",
-        "source": "design-hardware/references/schematic-layout.md",
+        "source": "easycirq/references/schematic-layout.md",
         "line": 81
       },
       "b": {
         "text": "局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 144
       },
       "expected": "coexist",
@@ -192,12 +192,12 @@
       "category": "mixed_language_cross_paragraph",
       "a": {
         "text": "`warn` 默认不阻塞，`--strict-advisory` 可把它升级为失败。",
-        "source": "design-hardware/references/design-gates.md",
+        "source": "easycirq/references/design-gates.md",
         "line": 42
       },
       "b": {
         "text": "6. **缺证据就是 `BLOCKED`，不是 `PASS`。**",
-        "source": "design-hardware/references/design-gates.md",
+        "source": "easycirq/references/design-gates.md",
         "line": 63
       },
       "expected": "coexist",
@@ -209,12 +209,12 @@
       "category": "different_scope",
       "a": {
         "text": "新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 统一检查本 Skill 与 easyeda-agent 的 CLI/Skill/daemon/Connector（24 小时缓存）",
-        "source": "constructed: original quote rewritten by the zhigou migration (2026-10-28)",
+        "source": "constructed: original quote rewritten by the easycirq migration (2026-10-28)",
         "line": 4
       },
       "b": {
         "text": "纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 106
       },
       "expected": "different_scope",
@@ -226,12 +226,12 @@
       "category": "coexist",
       "a": {
         "text": "6. **缺证据就是 `BLOCKED`，不是 `PASS`。**",
-        "source": "design-hardware/references/design-gates.md",
+        "source": "easycirq/references/design-gates.md",
         "line": 63
       },
       "b": {
         "text": "- 缺少执行通道时仍可完成方案、计算或离线规划；明确列出未写入项，不把文本、JSON、图片或探针结果说成用户工程已完成。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 132
       },
       "expected": "coexist",
@@ -243,12 +243,12 @@
       "category": "default_with_exception",
       "a": {
         "text": "仅当客户已要求升级、且当前没有正在执行的画板/固件任务时执行升级。",
-        "source": "design-hardware/references/installation-updates.md",
+        "source": "easycirq/references/installation-updates.md",
         "line": 39
       },
       "b": {
         "text": "用户只需说“把画板搭档和 EDA 执行器一起检查/更新”，Agent 负责依次执行，无需用户自己敲两套命令。",
-        "source": "constructed: original quote rewritten by the zhigou migration (2026-10-28)",
+        "source": "constructed: original quote rewritten by the easycirq migration (2026-10-28)",
         "line": 11
       },
       "expected": "default_with_exception",
@@ -260,12 +260,12 @@
       "category": "coexist",
       "a": {
         "text": "批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。",
-        "source": "design-hardware/SKILL.md",
+        "source": "easycirq/SKILL.md",
         "line": 154
       },
       "b": {
         "text": "- save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。",
-        "source": "design-hardware/references/pcb-execution.md",
+        "source": "easycirq/references/pcb-execution.md",
         "line": 306
       },
       "expected": "coexist",

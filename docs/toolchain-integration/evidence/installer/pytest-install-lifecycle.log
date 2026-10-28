@@ -1,7 +1,7 @@
 ============================= test session starts =============================
 platform win32 -- Python 3.13.15, pytest-9.1.1, pluggy-1.7.0 -- C:\Users\jlc\AppData\Local\Programs\Python\Python313\python.exe
 cachedir: .pytest_cache
-rootdir: C:\Users\jlc\work\zhigou-toolchain
+rootdir: C:\Users\jlc\work\easycirq-toolchain
 plugins: anyio-4.15.1
 collecting ... collected 39 items
 
@@ -50,7 +50,7 @@ tests/test_install_lifecycle.py::UpgradeRollbackTests::test_failed_upgrade_leave
 tests/test_install_lifecycle.py::CorruptBundleTests::test_duplicate_entry
 tests/test_install_lifecycle.py::CorruptBundleTests::test_inspect_bundle_reports_corruption
 tests/test_install_lifecycle.py::CorruptBundleTests::test_tampered_payload
-  C:\Users\jlc\AppData\Local\Programs\Python\Python313\Lib\zipfile\__init__.py:1661: UserWarning: Duplicate name: 'payload/bin/zhigou.exe'
+  C:\Users\jlc\AppData\Local\Programs\Python\Python313\Lib\zipfile\__init__.py:1661: UserWarning: Duplicate name: 'payload/bin/easycirq.exe'
     return self._open_to_write(zinfo, force_zip64=force_zip64)
 
 -- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html

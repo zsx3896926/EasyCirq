@@ -1,6 +1,6 @@
 {
   "schema": "design-gate-report/v1",
-  "project": "zhigou-integrated-dual-button-led-20261027",
+  "project": "easycirq-integrated-dual-button-led-20261027",
   "generated_at": "2026-10-27T17:48:10.519182+00:00",
   "evidence_dir": "docs\\toolchain-integration\\evidence\\gates",
   "project_dir": null,
@@ -786,7 +786,7 @@
         {
           "id": "epro2_integrity",
           "status": "pass",
-          "detail": "epro2 zip 完整: C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\zhigou-board.epro2",
+          "detail": "epro2 zip 完整: C:\\Users\\jlc\\work\\easycirq-toolchain\\docs\\toolchain-integration\\evidence\\gates\\easycirq-board.epro2",
           "blocking": true,
           "waivable": false
         },

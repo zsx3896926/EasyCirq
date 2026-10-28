@@ -1,6 +1,6 @@
 # Skill 知识结构扫描索引
 
-- 根目录：`C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-ska-worktree\design-hardware`
+- 根目录：`C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-ska-worktree\easycirq`
 - 基线：`c9836eb29869040aeac245d0d3959021134b7f3e`
 - 工具/目录版本：`0.1.0` / `2026-10-27.1`
 - 文件 309，链接 2480，必读链接 67，错误 0，警告 16
@@ -2948,7 +2948,7 @@ CR2032 不可充电，任何“给纽扣电池充电”的方案都不成立。�
 
 - L90 [external_reference] [出图；计划里的模拟结果不是 EDA 验收。
 
-本仓库已在独立导入副本上验证过 9 个 Name/Designator 移动、保存和重开（见[真实应用（仓库证据）](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/round7/a08-real-apply.md) → `https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/round7/a08-real-apply.md` (external)
+本仓库已在独立导入副本上验证过 9 个 Name/Designator 移动、保存和重开（见[真实应用（仓库证据）](https://github.com/zsx3896926/EasyCirq/blob/main/docs/round7/a08-real-apply.md) → `https://github.com/zsx3896926/EasyCirq/blob/main/docs/round7/a08-real-apply.md` (external)
 
 ### `references/design-experience.md`
 
@@ -3315,7 +3315,7 @@ Contract source reviews pinned on 2026-10-27:
 - L127 [external_reference] [样机/EMC/安规测试的内容，保持 `未执行`。
 - 开源项目的许可未明确时，只做阅读分析，不复制图纸/文件。
 
-历史试答原始记录单独保存在[仓库证据目录](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/README.md) → `https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/README.md` (external)
+历史试答原始记录单独保存在[仓库证据目录](https://github.com/zsx3896926/EasyCirq/blob/main/docs/evidence/deepdives-2026-10-22/README.md) → `https://github.com/zsx3896926/EasyCirq/blob/main/docs/evidence/deepdives-2026-10-22/README.md` (external)
 
 ### `references/engineering-deepdives/action-map.md`
 
@@ -3455,7 +3455,7 @@ Contract source reviews pinned on 2026-10-27:
 独立试答使用[无类型提示输入](blind-prompts.md) → `references/engineering-deepdives/exercises/blind-prompts.md` (ok)
 - L3 [external_reference] [练习使用说明
 
-独立试答使用[无类型提示输入](blind-prompts.md)；带题型的学习版不用于盲判评估。历史试验的输入泄漏与旧评分限制见[试验说明](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/README.md) → `https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/README.md` (external)
+独立试答使用[无类型提示输入](blind-prompts.md)；带题型的学习版不用于盲判评估。历史试验的输入泄漏与旧评分限制见[试验说明](https://github.com/zsx3896926/EasyCirq/blob/main/docs/evidence/deepdives-2026-10-22/README.md) → `https://github.com/zsx3896926/EasyCirq/blob/main/docs/evidence/deepdives-2026-10-22/README.md` (external)
 - L8 [background] [ 对成对案例。目标不是“找错越多越好”，而是学会区分：明确错误、条件风险、有意取舍、看似异常实际合理、信息不足。
 >
 > 题目在 [exercises.md](exercises.md) → `references/engineering-deepdives/exercises/exercises.md` (ok)
@@ -3464,8 +3464,8 @@ Contract source reviews pinned on 2026-10-27:
 > 题目在 [exercises.md](exercises.md)，成对案例在 [paired-cases.md](paired-cases.md) → `references/engineering-deepdives/exercises/paired-cases.md` (ok)
 - L8 [background] [ses.md](exercises.md)，成对案例在 [paired-cases.md](paired-cases.md)，参考答案在 [answers.md](answers.md) → `references/engineering-deepdives/exercises/answers.md` (ok)
 - L30 [external_reference] [写，基于本轮专题与来源）。
-- 独立 Agent 答案文件隔离试答：已运行（2 名 Agent、20 题）；原始回答见 [trial/responses.md](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/responses.md) → `https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/responses.md` (external)
-- L30 [external_reference] [ain/docs/evidence/deepdives-2026-10-22/responses.md)，评分与歧义见 [trial/evaluation.md](https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/evaluation.md) → `https://github.com/zsx3896926/hardware-design-skill/blob/main/docs/evidence/deepdives-2026-10-22/evaluation.md` (external)
+- 独立 Agent 答案文件隔离试答：已运行（2 名 Agent、20 题）；原始回答见 [trial/responses.md](https://github.com/zsx3896926/EasyCirq/blob/main/docs/evidence/deepdives-2026-10-22/responses.md) → `https://github.com/zsx3896926/EasyCirq/blob/main/docs/evidence/deepdives-2026-10-22/responses.md` (external)
+- L30 [external_reference] [ain/docs/evidence/deepdives-2026-10-22/responses.md)，评分与歧义见 [trial/evaluation.md](https://github.com/zsx3896926/EasyCirq/blob/main/docs/evidence/deepdives-2026-10-22/evaluation.md) → `https://github.com/zsx3896926/EasyCirq/blob/main/docs/evidence/deepdives-2026-10-22/evaluation.md` (external)
 - L39 [unknown] [
 每题背后的机制在对应专题展开：
 

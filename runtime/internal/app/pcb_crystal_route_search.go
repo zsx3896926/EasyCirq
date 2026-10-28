@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbrouting"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbrouting"
 )
 
 // Exact supported pad geometry; unknown geometry is never treated as free space.

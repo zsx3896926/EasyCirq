@@ -7,7 +7,7 @@
 
 | 交付 | 位置 |
 |---|---|
-| 可运行 CLI（validate/plan/explain/evaluate） | `design-hardware/scripts/bringup_planner/` |
+| 可运行 CLI（validate/plan/explain/evaluate） | `easycirq/scripts/bringup_planner/` |
 | 六组能力 I1–I6 | `poweroff.py`、`powerup.py`、`measurements.py`、`interface_tests.py`、`faults.py`、`evaluate.py` |
 | 契约/范围/资料/测量纪律/验收/集成/交接文档 | `docs/parallel-bringup-planner/` |
 | 专属测试 172 个 | `tests/bringup_planner_tests/`（集成合并后由 `tests/bringup_planner/` 迁入） |
@@ -64,18 +64,17 @@ python benchmarks/bringup-planner/run_benchmark.py --json --out /tmp/bringup-ben
 python tools/offline_suite.py
 # status: pass, tests_run: 1783, failures: 0, errors: 0
 
-# 当前 main（3f21897，含后续其他并行任务）
+# 最新 main（c54c6fc，含后续其他并行任务；2026-10-28 复跑）
 python tools/offline_suite.py
-# status: fail, tests_run: 2147, failures: 0, errors: 47
-# 47 errors 全部在其他任务测试包（change_impact/circuit_blocks/delivery_audit/
-# electrical_review/procurement_planner/return_path_audit/skill_knowledge_audit）；
-# bringup_planner_tests 的 172 tests 不在错误中。
+# status: pass, tests_run: 3318, failures: 0, errors: 0
+# 2026-10-28 采集快照（3f21897）曾因其他任务测试包出现 47 errors；
+# 后续集成已修复，见 issue-candidates.md A.6 与 acceptance-matrix.md §7.5 M4-5。
 
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 # 5 PASS, 0 FAIL, 0 NOT RUN -> exit 0
 ```
 
-（逐条命令/退出码/摘要见 [`acceptance-matrix.md`](acceptance-matrix.md) §7；跨任务 47 errors 记录于 `issue-candidates.md` A.6，非本任务回归。）
+（逐条命令/退出码/摘要见 [`acceptance-matrix.md`](acceptance-matrix.md) §7；最新 main 的 `offline_suite` 已 PASS，历史 47 errors 仅保留为采集快照记录。）
 
 ### 3.4 CLI 样例（组合板）
 
@@ -166,7 +165,7 @@ python design-hardware/scripts/skill_selftest.py
 ## 10. 复现命令
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m bringup_planner validate --input <input.json> --json
 python -m bringup_planner plan --input <input.json> --out <out-dir> --json
 python -m bringup_planner evaluate --plan <out>/plan.json --results <results.json> \
@@ -176,7 +175,7 @@ cd <repo-root>
 python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 python benchmarks/bringup-planner/run_benchmark.py --json --out /tmp/bench.json
 python tools/offline_suite.py
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 ```
 
 ## 11. 路径与变更核对
@@ -185,7 +184,7 @@ python design-hardware/scripts/skill_selftest.py
 
 ```
 benchmarks/bringup-planner/
-design-hardware/scripts/bringup_planner/
+easycirq/scripts/bringup_planner/
 docs/parallel-bringup-planner/
 tests/bringup_planner_tests/      # 集成合并后路径（原 tests/bringup_planner/）
 ```
@@ -216,4 +215,5 @@ tests/bringup_planner_tests/      # 集成合并后路径（原 tests/bringup_pl
 | 交付状态（2026-10-28） | 已更新 `handoff-current.md` 为 **待审查**（当时 PR 尚未合并） |
 | PR 最终状态（2026-10-28 证据采集） | PR #39 **已由仓库账号 `zsx3896926` 合并**（merge commit `9a4622e`，`mergedAt=2026-10-27T16:53:24Z`）；本任务未执行合并、未发布 |
 | M0–M4 证据清单（2026-10-28） | 逐命令/退出码/摘要/HEAD/PASS-NOT RUN 已写入 [`acceptance-matrix.md`](acceptance-matrix.md) §7；机器证据 [evidence-m0-m4.json](evidence-m0-m4.json)，复现脚本 `benchmarks/bringup-planner/tools/collect_m0_m4_evidence.py` |
-| 证据采集结论 | 33 PASS；唯一 FAIL 为当前 main 上其他任务测试包导致的 47 个 `offline_suite` discovery errors（`bringup_planner_tests` 0 error）；硬件/仪器动作全部 NOT RUN |
+| 证据采集结论 | 33 PASS（2026-10-28 采集快照）；快照中 M4-2 的 47 个 `offline_suite` errors 属其他任务测试包，已由后续集成修复 |
+| 最新 main 复核（`c54c6fc`） | 专属测试 **172 OK**；冻结基准 **41/41**、类别 30/30；`offline_suite` **PASS：3318 tests / 0 failures / 0 errors**；`bringup_planner_tests` 在 discovery 中且全通过；硬件/仪器动作仍全部 NOT RUN |

@@ -53,7 +53,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // schZoneMoveTextPad 是判定「区内 note 文本」时,区内容 bbox 向四周外扩的距离

@@ -1,7 +1,7 @@
 # 高速信号参考平面与回流风险审查 — 输入/输出契约
 
 版本：`return-path-audit-input/v1` → `return-path-audit-report/v1`
-工具：`python -m return_path_audit`（`design-hardware/scripts/return_path_audit/`）
+工具：`python -m return_path_audit`（`easycirq/scripts/return_path_audit/`）
 性质：离线几何/拓扑审查。不调用 EDA、不做电磁场求解、不修改设计。
 
 ## 1. 边界与结论语义
@@ -221,7 +221,7 @@ wrong_net_length` 保留分量），定位信息在 `interval` 与可选 SVG 叠
 ## 5. CLI
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m return_path_audit validate -i input.json [-c constraints.json]
 python -m return_path_audit audit    -i input.json [-c constraints.json] \
        [-o report.json] [--svg overlay.svg]

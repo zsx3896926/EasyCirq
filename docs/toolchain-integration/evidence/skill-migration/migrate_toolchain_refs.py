@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""Mechanical part of the easyeda -> zhigou skill migration.
+"""Mechanical part of the easyeda -> easycirq skill migration.
 
 Run from the repository root:
 
     python docs/toolchain-integration/evidence/skill-migration/migrate_toolchain_refs.py --apply
 
 The script only rewrites the text of files that are *live policy or tooling*
-(design-hardware/, tests/, tools/, benchmarks/, .github/).  Historical records
+(easycirq/, tests/, tools/, benchmarks/, .github/).  Historical records
 (CHANGELOG, NOTICE, cases/ evidence, vendor formats) are intentionally left
 alone: they document what was actually run and must not be rewritten as if the
 old toolchain had never existed.
@@ -22,30 +22,30 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[4]
-SCOPES = ['design-hardware', 'tests', 'tools', 'benchmarks', '.github']
+SCOPES = ['easycirq', 'tests', 'tools', 'benchmarks', '.github']
 SKIP_PARTS = {'node_modules', '__pycache__', '.git'}
 SKIP_REL_PREFIXES = (
-    'design-hardware/CHANGELOG.md',
-    'design-hardware/NOTICE',
-    'design-hardware/LICENSE',
-    'design-hardware/vendor/',
-    'design-hardware/cases/',
+    'easycirq/CHANGELOG.md',
+    'easycirq/NOTICE',
+    'easycirq/LICENSE',
+    'easycirq/vendor/',
+    'easycirq/cases/',
     # Frozen real-measurement fixtures: rewriting provenance invalidates the
     # recorded SHA-256 bindings.
     'tests/fixtures/photo-led-v14/',
     'tests/fixtures/photo-led-acceptance.json',
-    # Faithful captures of zhigou doctor/capabilities output; the doctor's
+    # Faithful captures of easycirq doctor/capabilities output; the doctor's
     # ``legacy`` field legitimately names the old daemon it detects.
-    'tests/fixtures/zhigou/',
+    'tests/fixtures/easycirq/',
     # The scanner spells the legacy tokens in its pattern definitions.
     'tools/toolchain_refs.py',
     'tests/test_no_legacy_toolchain_refs.py',
     # Defensive/compatibility files that must keep a legacy token on purpose:
     # the offline guard refuses old binaries, the release packager accepts the
     # old wrapper flag, and the layout adapter binds a frozen schema string.
-    'design-hardware/scripts/offline_guard.py',
-    'design-hardware/scripts/skill_update.py',
-    'design-hardware/scripts/layout_from_zhigou.py',
+    'easycirq/scripts/offline_guard.py',
+    'easycirq/scripts/skill_update.py',
+    'easycirq/scripts/layout_from_easycirq.py',
 )
 BINARY_SUFFIXES = {
     '.png', '.jpg', '.jpeg', '.gif', '.pdf', '.zip', '.epro2', '.eext',
@@ -56,56 +56,56 @@ BINARY_SUFFIXES = {
 # token.  ``easyeda-format`` / ``easyeda-ecosystem`` / prodocs.easyeda.com are
 # deliberately not matched: they name the EasyEDA product/format, not the CLI.
 REPLACEMENTS = [
-    (re.compile(r'EASYEDA_NO_AUTOSTART'), 'ZHIGOU_NO_AUTOSTART'),
-    (re.compile(r'EASYEDA_CLI'), 'ZHIGOU_BIN'),
-    (re.compile(r'EASYEDA_HEALTH_TIMEOUT_S'), 'ZHIGOU_DOCTOR_TIMEOUT_S'),
+    (re.compile(r'EASYEDA_NO_AUTOSTART'), 'EASYCIRQ_NO_AUTOSTART'),
+    (re.compile(r'EASYEDA_CLI'), 'EASYCIRQ_BIN'),
+    (re.compile(r'EASYEDA_HEALTH_TIMEOUT_S'), 'EASYCIRQ_DOCTOR_TIMEOUT_S'),
     (re.compile(r'EASYEDA_NAMES'), 'EDA_NAMES'),
-    (re.compile(r'FAKE_EASYEDA_'), 'FAKE_ZHIGOU_'),
-    (re.compile(r'EASYEDA_'), 'ZHIGOU_'),
-    (re.compile(r'easyeda-agent'), 'zhigou-agent'),
-    (re.compile(r'easyeda_agent'), 'zhigou_agent'),
-    (re.compile(r'easyeda-connector'), 'zhigou-connector'),
-    (re.compile(r'easyeda_executable'), 'zhigou_executable'),
-    (re.compile(r'easyeda_command'), 'zhigou_command'),
-    (re.compile(r'easyeda_probe'), 'zhigou_probe'),
-    (re.compile(r'easyeda_ready'), 'zhigou_ready'),
-    (re.compile(r'easyeda_name'), 'zhigou_name'),
-    (re.compile(r'easyeda-health'), 'zhigou-health'),
-    (re.compile(r'easyeda-version'), 'zhigou-version'),
-    (re.compile(r'layout_from_easyeda'), 'layout_from_zhigou'),
-    (re.compile(r'to_easyeda_moves'), 'to_zhigou_moves'),
-    (re.compile(r'easyeda-list-bundle'), 'zhigou-list-bundle'),
-    (re.compile(r'easyeda_sch_clusters'), 'zhigou_sch_clusters'),
-    (re.compile(r'easyeda_version_unknown'), 'zhigou_version_unknown'),
-    (re.compile(r'easyeda-actual-readback'), 'zhigou-actual-readback'),
-    (re.compile(r'easyeda-cli'), 'zhigou-cli'),
-    (re.compile(r'easyeda_list'), 'zhigou_list'),
-    (re.compile(r'references_easyeda'), 'references_zhigou'),
+    (re.compile(r'FAKE_EASYEDA_'), 'FAKE_EASYCIRQ_'),
+    (re.compile(r'EASYEDA_'), 'EASYCIRQ_'),
+    (re.compile(r'easyeda-agent'), 'easycirq-agent'),
+    (re.compile(r'easyeda_agent'), 'easycirq_agent'),
+    (re.compile(r'easyeda-connector'), 'easycirq-connector'),
+    (re.compile(r'easyeda_executable'), 'easycirq_executable'),
+    (re.compile(r'easyeda_command'), 'easycirq_command'),
+    (re.compile(r'easyeda_probe'), 'easycirq_probe'),
+    (re.compile(r'easyeda_ready'), 'easycirq_ready'),
+    (re.compile(r'easyeda_name'), 'easycirq_name'),
+    (re.compile(r'easyeda-health'), 'easycirq-health'),
+    (re.compile(r'easyeda-version'), 'easycirq-version'),
+    (re.compile(r'layout_from_easyeda'), 'layout_from_easycirq'),
+    (re.compile(r'to_easyeda_moves'), 'to_easycirq_moves'),
+    (re.compile(r'easyeda-list-bundle'), 'easycirq-list-bundle'),
+    (re.compile(r'easyeda_sch_clusters'), 'easycirq_sch_clusters'),
+    (re.compile(r'easyeda_version_unknown'), 'easycirq_version_unknown'),
+    (re.compile(r'easyeda-actual-readback'), 'easycirq-actual-readback'),
+    (re.compile(r'easyeda-cli'), 'easycirq-cli'),
+    (re.compile(r'easyeda_list'), 'easycirq_list'),
+    (re.compile(r'references_easyeda'), 'references_easycirq'),
     (re.compile(r'_mentions_easyeda'), '_mentions_legacy_eda'),
-    (re.compile(r'mock-easyeda'), 'mock-zhigou'),
-    (re.compile(r'fake-easyeda'), 'fake-zhigou'),
-    (re.compile(r'fake_easyeda'), 'fake_zhigou'),
-    (re.compile(r'easyeda-fake'), 'zhigou-fake'),
-    (re.compile(r'--easyeda'), '--zhigou'),
-    (re.compile(r'\beasyeda='), 'zhigou='),
+    (re.compile(r'mock-easyeda'), 'mock-easycirq'),
+    (re.compile(r'fake-easyeda'), 'fake-easycirq'),
+    (re.compile(r'fake_easyeda'), 'fake_easycirq'),
+    (re.compile(r'easyeda-fake'), 'easycirq-fake'),
+    (re.compile(r'--easyeda'), '--easycirq'),
+    (re.compile(r'\beasyeda='), 'easycirq='),
     # Attribute form (args.easyeda / self.easyeda); URLs such as
     # prodocs.easyeda.com are protected by the ``(?!\.)``.
-    (re.compile(r'\.easyeda(?!\.)(?![A-Za-z0-9_-])'), '.zhigou'),
+    (re.compile(r'\.easyeda(?!\.)(?![A-Za-z0-9_-])'), '.easycirq'),
     # Attribute / path form: args.easyeda, .easyeda/artifacts, .easyeda-agent
-    (re.compile(r'(?<![A-Za-z0-9_-])\.easyeda(?![A-Za-z0-9_-])'), '.zhigou'),
+    (re.compile(r'(?<![A-Za-z0-9_-])\.easyeda(?![A-Za-z0-9_-])'), '.easycirq'),
     # Standalone CLI token in prose, code fences, arrays and file names.
-    (re.compile(r'(?<![A-Za-z0-9_./-])easyeda(?![A-Za-z0-9_/-])'), 'zhigou'),
+    (re.compile(r'(?<![A-Za-z0-9_./-])easyeda(?![A-Za-z0-9_/-])'), 'easycirq'),
 ]
 
 RENAMES = {
-    'design-hardware/scripts/layout_from_easyeda.py':
-        'design-hardware/scripts/layout_from_zhigou.py',
+    'easycirq/scripts/layout_from_easyeda.py':
+        'easycirq/scripts/layout_from_easycirq.py',
     'tests/fixtures/feedback/fake_easyeda.py':
-        'tests/fixtures/feedback/fake_zhigou.py',
+        'tests/fixtures/feedback/fake_easycirq.py',
     'tests/fixtures/feedback/easyeda-fake.cmd':
-        'tests/fixtures/feedback/zhigou-fake.cmd',
+        'tests/fixtures/feedback/easycirq-fake.cmd',
     'tests/fixtures/feedback/easyeda-fake.sh':
-        'tests/fixtures/feedback/zhigou-fake.sh',
+        'tests/fixtures/feedback/easycirq-fake.sh',
 }
 
 

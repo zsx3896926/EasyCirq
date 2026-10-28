@@ -13,7 +13,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/daemon"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/daemon"
 )
 
 // defaultAuditDir mirrors the daemon's write-side resolution

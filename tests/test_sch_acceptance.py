@@ -7,13 +7,13 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'design-hardware/scripts'))
-import layout_from_zhigou as adapter
+sys.path.insert(0, str(ROOT / 'easycirq/scripts'))
+import layout_from_easycirq as adapter
 import sch_layout_check as check
 import svg_text_bbox
 
 
-def zhigou_list():
+def easycirq_list():
     return {
         'count': 3,
         'components': [
@@ -89,7 +89,7 @@ def rendered():
 
 class Adapter(unittest.TestCase):
     def build(self, require_rendered=False):
-        return adapter.convert(zhigou_list(), visible_text(), geometry(), rendered(),
+        return adapter.convert(easycirq_list(), visible_text(), geometry(), rendered(),
                                min_text_wire_clearance=5,
                                expect_rotations={'GND': 0}, require_rendered=require_rendered)
 
@@ -117,7 +117,7 @@ class Adapter(unittest.TestCase):
         self.assertEqual(out['net_flags'][0]['anchor'], [530, 345])
 
     def test_wire_net_name_is_classified(self):
-        listing = zhigou_list()
+        listing = easycirq_list()
         listing['wires'] = [{'primitiveId': 'ws1', 'net': 'LED_CTRL',
                              'rawLine': [700, 700, 760, 700]}]
         listing['pagePrimitives']['wires'].append(
@@ -136,13 +136,13 @@ class Adapter(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             folder = Path(folder)
             files = {}
-            for name, value in (('list', zhigou_list()), ('visible', visible_text()),
+            for name, value in (('list', easycirq_list()), ('visible', visible_text()),
                                 ('geometry', geometry()), ('rendered', rendered())):
                 files[name] = folder / f'{name}.json'
                 files[name].write_text(json.dumps(value), encoding='utf-8')
             out = folder / 'layout.json'
             result = subprocess.run([
-                sys.executable, str(ROOT / 'design-hardware/scripts/layout_from_zhigou.py'),
+                sys.executable, str(ROOT / 'easycirq/scripts/layout_from_easycirq.py'),
                 '--list', str(files['list']), '--visible-text', str(files['visible']),
                 '--sheet-geometry', str(files['geometry']),
                 '--rendered-text', str(files['rendered']),
@@ -292,7 +292,7 @@ class AcceptanceChecks(unittest.TestCase):
         data['page_id'] = 'page-1'
         data['snapshot_sha256'] = digest
         data['junction_evidence'] = {
-            'source': 'zhigou sch check', 'page_id': 'page-1',
+            'source': 'easycirq sch check', 'page_id': 'page-1',
             'snapshot_sha256': digest}
         data['no_junction_crossings'] = [
             {'x': 600, 'y': 320, 'wires': ['w1', 'w2']}]
@@ -301,7 +301,7 @@ class AcceptanceChecks(unittest.TestCase):
                         if finding['code'] == 'different_named_wires_cross')
         self.assertEqual(crossing['severity'], 'info')
         self.assertEqual(crossing['category'], 'readability_hint')
-        self.assertEqual(crossing['junction_evidence'], 'zhigou sch check')
+        self.assertEqual(crossing['junction_evidence'], 'easycirq sch check')
 
     def test_no_junction_points_require_bound_evidence(self):
         data = base_snapshot()
@@ -315,7 +315,7 @@ class AcceptanceChecks(unittest.TestCase):
         data['page_id'] = 'page-1'
         data['snapshot_sha256'] = 'a' * 64
         data['junction_evidence'] = {
-            'source': 'zhigou sch check', 'page_id': 'page-1',
+            'source': 'easycirq sch check', 'page_id': 'page-1',
             'snapshot_sha256': 'a' * 64}
         data['no_junction_crossings'] = [
             {'x': 600, 'y': 320, 'wires': ['w1', 'w9']}]
@@ -327,7 +327,7 @@ class AcceptanceChecks(unittest.TestCase):
         data['page_id'] = 'page-1'
         data['snapshot_sha256'] = 'a' * 64
         data['junction_evidence'] = {
-            'source': 'zhigou sch check', 'page_id': 'page-2',
+            'source': 'easycirq sch check', 'page_id': 'page-2',
             'snapshot_sha256': 'a' * 64}
         data['no_junction_crossings'] = [
             {'x': 600, 'y': 320, 'wires': ['w1', 'w2']}]
@@ -376,7 +376,7 @@ class AcceptanceChecks(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             source = Path(folder) / 'layout.json'
             source.write_text(json.dumps(data), encoding='utf-8')
-            script = ROOT / 'design-hardware/scripts/sch_layout_check.py'
+            script = ROOT / 'easycirq/scripts/sch_layout_check.py'
             passed = subprocess.run([sys.executable, str(script), str(source)],
                                     capture_output=True)
             self.assertEqual(passed.returncode, 0)
@@ -417,7 +417,7 @@ class AcceptanceChecks(unittest.TestCase):
         self.assertEqual(duplicate['content'], 'Claude Code')
 
     def test_adapter_output_is_checker_input(self):
-        out = adapter.convert(zhigou_list(), visible_text(), geometry(), rendered(),
+        out = adapter.convert(easycirq_list(), visible_text(), geometry(), rendered(),
                               min_text_wire_clearance=5,
                               expect_rotations={'GND': 0})
         result = check.analyze(out)

@@ -37,8 +37,8 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 type schGroup = workflow.Group

@@ -4,26 +4,26 @@
 
 | 项 | 值 |
 |---|---|
-| 仓库 | `https://github.com/zsx3896926/hardware-design-skill` |
+| 仓库 | `https://github.com/zsx3896926/EasyCirq` |
 | 开工 main SHA | `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（`test: make Chinese fixture portable across Windows locales`） |
 | 分支 | `feat/parallel-return-path-audit` |
 | worktree | `hds-rpa-worktree/`（独立 worktree，与其他并行任务隔离） |
-| 基线版本 | `design-hardware/.version` = `1.0.1`（未修改） |
+| 基线版本 | `easycirq/.version` = `1.0.1`（未修改） |
 
 ## 交付内容（仅新增，未改公共文件）
 
 | 路径 | 内容 |
 |---|---|
-| `design-hardware/scripts/return_path_audit/` | 审查器包（CLI/校验/几何/五组检查/报告/SVG/来源） |
-| `tests/return_path_audit/` | 110 个测试（核心/变形/对抗/holdout + 真实快照回放回归） |
-| `benchmarks/return-path-audit/` | 45 个冻结 CLI 场景、生成器、runner、result.json；`real-replay/` 真实 2 层快照回放 + `replay_real_dump.py` |
+| `easycirq/scripts/return_path_audit/` | 审查器包（CLI/校验/几何/五组检查/报告/SVG/来源） |
+| `tests/return_path_audit/` | 116 个测试（核心/变形/对抗/holdout + 真实快照回放 + .epru 适配器回归） |
+| `benchmarks/return-path-audit/` | 45 个冻结 CLI 场景、生成器、runner、result.json；`real-replay/` 真实 2 层快照回放 + `replay_real_dump.py`；`replay_epru.py` 真实 `.epru`（含四层）只读投影 |
 | `docs/parallel-return-path-audit/` | contract / geometry-support / source-register / acceptance-matrix / report / integration-proposal / handoff / issue-candidates |
 
 ## 运行方式
 
 ```bash
 # 1) CLI（必须在该目录，或把该目录加入 PYTHONPATH）
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m return_path_audit validate -i input.json
 python -m return_path_audit audit    -i input.json -o report.json --svg overlay.svg
 python -m return_path_audit explain  --report report.json
@@ -33,11 +33,14 @@ python -m unittest discover -s tests -v                    # 全仓（含本包�
 python -m unittest discover -s tests/return_path_audit -v  # 仅本包
 python benchmarks/return-path-audit/run_benchmark.py       # 45 场景
 
-# 3) 真实快照回放（2 层真实板；四层数据到手后用 --stackup-json）
+# 3) 真实快照回放（2 层真实板）
 python benchmarks/return-path-audit/replay_real_dump.py \
-  --dump design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json \
+  --dump easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json \
   --signal-layer 1 --reference-layer 2 --units mil --corridor 8 \
   --out benchmarks/return-path-audit/real-replay/real-2layer-mcu-i2c.input.json
+
+# 4) 真实四层板 .epru / 自动备份 zip（只读；外来文件放 incoming-4layer/）
+python benchmarks/return-path-audit/replay_epru.py --input <board.epru|backup.zip> --out <input.json>
 ```
 
 退出码：0 `pass_with_scope`、1 `fail`、2 `review_required`、3 `incomplete`、
@@ -49,7 +52,7 @@ python benchmarks/return-path-audit/replay_real_dump.py \
 |---|---|
 | 全仓测试 | 见 `report.md`（最终一次运行记录）；本包 110 tests OK，两种发现模式 |
 | 基准 | 45/45 场景通过；无 EDA、无网络 |
-| 真实快照回放 | **2 层真实板 DONE**（`real-replay/`：fail，55 findings，307.0 mm checked）；**真实四层板 NOT AVAILABLE**（本机/仓库均无真实四层快照） |
+| 真实快照回放 | **2 层真实板 DONE**（`real-replay/`：fail，55 findings，307.0 mm checked）；**真实四层板 DONE（操作型）**：本机真实四层 `.epru` 回放 fail，365 findings，88,585 mil checked，62 处 GND→3V3 参考变化（数据不入仓库） |
 | 真实 EDA / 真实四层快照重放 | `NOT RUN`（本任务禁止 EDA；未取得合法真实四层板快照，不伪造） |
 | SI/EMI/阻抗/DRC/制造/功能 | `NOT RUN`（非目标） |
 | 一手资料页码核验 | 部分 `V2/V3`，未核验页/节（环境不能解析 PDF，见 source-register） |

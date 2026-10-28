@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // ── 第二层:组与组之间的排布(ADR-0003)──────────────────────────────────────

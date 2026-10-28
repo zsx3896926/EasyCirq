@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.electrical-review.benchmark/v1",
+  "schema": "easycirq.electrical-review.benchmark/v1",
   "simulated": true,
   "real_eda": "NOT RUN",
   "eda_calls": 0,

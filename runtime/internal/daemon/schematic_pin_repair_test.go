@@ -9,13 +9,13 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
 )
 
 func TestPinRepairStoredRotationMatchesOrientationJSON(t *testing.T) {
-	raw, err := os.ReadFile(filepath.Join("..", "..", "..", "design-hardware", "references", "orientation.json"))
+	raw, err := os.ReadFile(filepath.Join("..", "..", "..", "easycirq", "references", "orientation.json"))
 	if err != nil {
 		t.Fatal(err)
 	}

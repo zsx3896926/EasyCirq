@@ -9,7 +9,7 @@ runner starts a **real subprocess**
 
     python -m bringup_planner validate|plan|explain|evaluate ...
 
-with ``cwd=design-hardware/scripts`` and ``PYTHONPATH=design-hardware/scripts``,
+with ``cwd=easycirq/scripts`` and ``PYTHONPATH=easycirq/scripts``,
 then compares the machine JSON / exit code against the frozen ``expected.json``
 that was hand-derived from the input contract (never copied from CLI output).
 
@@ -57,7 +57,7 @@ from pathlib import Path
 
 BENCH_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = BENCH_ROOT.parent.parent
-SCRIPTS_DIR = REPO_ROOT / 'design-hardware' / 'scripts'
+SCRIPTS_DIR = REPO_ROOT / 'easycirq' / 'scripts'
 SCEN_DIR = BENCH_ROOT / 'scenarios'
 CASES_DIR = BENCH_ROOT / 'cases'
 BASELINE_PATH = BENCH_ROOT / 'baseline.json'

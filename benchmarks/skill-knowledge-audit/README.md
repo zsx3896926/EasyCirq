@@ -32,7 +32,7 @@ results/
 ## 复跑
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m skill_knowledge_audit benchmark --root .. \
   --out ../../benchmarks/skill-knowledge-audit/results/main.json \
   --require-18 --require-holdout --transforms

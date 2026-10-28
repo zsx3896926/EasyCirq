@@ -5,7 +5,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // Daemon-level stale-read advisory.

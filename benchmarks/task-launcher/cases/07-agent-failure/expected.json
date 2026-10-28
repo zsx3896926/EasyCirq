@@ -1,0 +1,126 @@
+{
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
+  "id": "07-agent-failure",
+  "description": "Agent failure: fake agent fail scenario ends the task as failed (stub exit 1).",
+  "launcher": {
+    "agent_profile": "fake",
+    "fake_scenario": "fail",
+    "max_concurrent": 1,
+    "claude_exe": null
+  },
+  "stub_args": {
+    "poll_interval": 0.05,
+    "timeout": 120.0,
+    "cancel_after_events": 0,
+    "concurrent_task_id": null
+  },
+  "http_status": 202,
+  "final_status": "failed",
+  "exit_code": 1,
+  "checks": [
+    {
+      "path": "start_http_status",
+      "equals": 202
+    },
+    {
+      "path": "start_status",
+      "equals": "accepted"
+    },
+    {
+      "path": "result_http_status",
+      "equals": 200
+    },
+    {
+      "path": "result.schema",
+      "equals": "easycirq.task-launcher.result/v1"
+    },
+    {
+      "path": "result.status",
+      "equals": "failed"
+    },
+    {
+      "path": "result.mode",
+      "equals": "read_only"
+    },
+    {
+      "path": "result.agent",
+      "equals": "fake"
+    },
+    {
+      "path": "result.real_eda",
+      "equals": "NOT RUN"
+    },
+    {
+      "path": "result.eda_calls",
+      "equals": 0
+    },
+    {
+      "path": "result.project_writes",
+      "equals": 0
+    },
+    {
+      "path": "result.network_calls",
+      "equals": 0
+    },
+    {
+      "path": "result.cancelled",
+      "equals": false
+    },
+    {
+      "path": "result.timed_out",
+      "equals": false
+    },
+    {
+      "path": "cancel_sent",
+      "equals": false
+    },
+    {
+      "path": "concurrent_start_http_status",
+      "equals": null
+    },
+    {
+      "path": "error",
+      "equals": null
+    },
+    {
+      "path": "event_seq_monotonic",
+      "equals": true
+    },
+    {
+      "path": "real_eda",
+      "equals": "NOT RUN"
+    },
+    {
+      "path": "eda_calls",
+      "equals": 0
+    },
+    {
+      "path": "project_writes",
+      "equals": 0
+    },
+    {
+      "path": "agent",
+      "equals": "fake"
+    }
+  ],
+  "workspace_checks": [
+    {
+      "kind": "event_count_min",
+      "min": 4
+    },
+    {
+      "kind": "event_type_present",
+      "type": "task_finished"
+    },
+    {
+      "kind": "parse_error_count",
+      "equals": 0
+    },
+    {
+      "kind": "result_file_exists"
+    },
+    {
+      "kind": "no_orphan_agent"
+    }
+  ]
+}

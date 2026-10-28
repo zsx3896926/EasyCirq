@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'design-hardware/scripts'))
+sys.path.insert(0, str(ROOT / 'easycirq/scripts'))
 import component_identity_check as identity
 
 
@@ -221,7 +221,7 @@ class IdentityTests(unittest.TestCase):
             after = folder / 'after.json'
             before.write_text(json.dumps(doc((part(), 'R1'))), encoding='utf-8')
             after.write_text(json.dumps(doc((part(), 'R1'))), encoding='utf-8')
-            script = ROOT / 'design-hardware/scripts/component_identity_check.py'
+            script = ROOT / 'easycirq/scripts/component_identity_check.py'
             passed = subprocess.run([sys.executable, str(script), '--before', str(before),
                                      '--after', str(after)], capture_output=True, text=True)
             self.assertEqual(passed.returncode, 0, passed.stdout + passed.stderr)

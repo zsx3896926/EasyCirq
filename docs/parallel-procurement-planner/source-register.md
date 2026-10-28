@@ -128,7 +128,7 @@ python -c "from pypdf import PdfReader; r=PdfReader('ti.pdf'); print(r.pages[3].
 （`ALT-PASS-001`、`ALT-ACT-001`）。运行：
 
 ```powershell
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m procurement_planner alternates `
   --input ..\..\tests\procurement_planner\fixtures\alternates-real.json
 ```

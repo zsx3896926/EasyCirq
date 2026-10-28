@@ -1,0 +1,96 @@
+{
+  "schema": "easycirq.placement-intent.input/v1",
+  "project": {
+    "project_id": "parent-mismatch",
+    "revision": "r1",
+    "document_id": "sheet-1"
+  },
+  "snapshot": {
+    "captured_at": "2026-10-27T09:00:00+08:00",
+    "content_sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "source_type": "synthetic_fixture",
+    "missing_fields": []
+  },
+  "units": {
+    "length": "mm"
+  },
+  "board": {
+    "width_mm": 80.0,
+    "height_mm": 60.0
+  },
+  "modules": [
+    {
+      "id": "mod:root",
+      "parent": null,
+      "children": [
+        "mod:a",
+        "mod:b"
+      ],
+      "components": [],
+      "allowed_rotations": [
+        0
+      ]
+    },
+    {
+      "id": "mod:a",
+      "parent": "mod:root",
+      "children": [],
+      "components": [
+        "cmp:u1"
+      ],
+      "allowed_rotations": [
+        0
+      ]
+    },
+    {
+      "id": "mod:b",
+      "parent": "mod:a",
+      "children": [],
+      "components": [
+        "cmp:u2"
+      ],
+      "allowed_rotations": [
+        0
+      ]
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "cmp:u1",
+      "designator": "U1",
+      "allowed_rotations": [
+        0
+      ],
+      "size_mm": {
+        "w": 4.0,
+        "h": 4.0
+      }
+    },
+    {
+      "instance_id": "cmp:u2",
+      "designator": "U2",
+      "allowed_rotations": [
+        0
+      ],
+      "size_mm": {
+        "w": 4.0,
+        "h": 4.0
+      }
+    }
+  ],
+  "constraints": [],
+  "policy": {
+    "max_depth": 6,
+    "default_allowed_rotations": [
+      0
+    ],
+    "position_tolerance_mm": 1e-06,
+    "weight_epsilon": 1e-09
+  },
+  "provenance": {
+    "kind": "synthetic",
+    "sources": [],
+    "note": "Synthetic placement-intent benchmark fixture; not a real board."
+  },
+  "unknowns": []
+}

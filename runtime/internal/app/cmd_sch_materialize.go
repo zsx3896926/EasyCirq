@@ -9,7 +9,7 @@ import (
 	"os"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
 )
 
 // newSchMaterializeCmd turns a fixed 1.4 connectivity snapshot into a

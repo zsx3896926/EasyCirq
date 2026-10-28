@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
 )
 
 // A deliberately tiny synthetic circuit: one measured core, one two-pin

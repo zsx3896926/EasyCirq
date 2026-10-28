@@ -6,7 +6,7 @@ import subprocess
 import sys
 import unittest
 ROOT=Path(__file__).resolve().parents[1]
-PATH=ROOT/'design-hardware/scripts/ecosystem_reuse.py'
+PATH=ROOT/'easycirq/scripts/ecosystem_reuse.py'
 spec=importlib.util.spec_from_file_location('ecosystem_reuse_test',PATH)
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 FIX=ROOT/'tests/fixtures/ecosystem-capture-reuse'

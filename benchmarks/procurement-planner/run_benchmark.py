@@ -29,7 +29,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 HERE = Path(__file__).resolve().parent
 EXPECTED_PATH = HERE / "expected.json"
 RESULT_PATH = HERE / "result.json"

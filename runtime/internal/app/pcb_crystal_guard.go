@@ -10,7 +10,7 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbrouting"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbrouting"
 )
 
 func validateCrystalGuardSpec(mod pcbLayoutModuleSpec, members, all map[string]boardComp, snap *boardSnapshot) (*pcbCrystalGuardSpec, error) {

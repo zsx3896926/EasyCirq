@@ -10,7 +10,7 @@
   protocol/distribution/更新器/CI/顶层依赖/版本号/LICENSE/NOTICE/README/CHANGELOG/
   docs/handoff-current.md 均未改）
 - 允许范围内新增：
-  - `design-hardware/scripts/electrical_review/`（模块 + CLI）
+  - `easycirq/scripts/electrical_review/`（模块 + CLI）
   - `tests/electrical_review/`（测试与夹具）
   - `benchmarks/electrical-review/`（31 场景冻结基准 + 驱动 + result）
   - `docs/parallel-electrical-review/`（本目录）
@@ -20,7 +20,7 @@
 ## 1. 模块与命令
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m electrical_review validate ../../benchmarks/electrical-review/cases/r1-flying-ok/input.json
 python -m electrical_review review   ../../benchmarks/electrical-review/cases/r2-overvoltage-hard/input.json --out /tmp/report.json
 python -m electrical_review explain  /tmp/report.json --rule R2
@@ -36,7 +36,7 @@ python -m electrical_review explain  /tmp/report.json --rule R2
 | 3 | `review_required` | 无硬违反，但有 unknown/证据不足/策略项 |
 | 4 | `incomplete` | 无 intent、无可审查对象或规则因整段输入缺失未评估 |
 
-输入/报告 schema：`zhigou.electrical-review.input/v1` / `.report/v1`。
+输入/报告 schema：`easycirq.electrical-review.input/v1` / `.report/v1`。
 报告含 `input.sha256`、`input.semantic_sha256`、逐规则 checked/violations/unknown/
 not_applicable/invalid_input、finding 对象/实际值/约束/单位/证据/解释/建议/未验证项，
 并强制列出 `not_checked`；`pass_with_scope` 不等于整板电气/DRC/制造/上电通过。
@@ -153,7 +153,7 @@ CLI 执行成本（约 0.16 s/场景级），**不宣称画板提速**。
    `benchmarks/electrical-review/cases/real-mcu-i2c-ams-tab/input.json`。
 3. **调用点**：代表模块完成、PCB 同步/apply 前；关键电气变更后；交付前证据补充。
    hard finding 阻断相关电气推进；unknown 要求补证据/人工 disposition，不永久锁死全局。
-4. **命令/退出码**：`PYTHONPATH=design-hardware/scripts python -m electrical_review review
+4. **命令/退出码**：`PYTHONPATH=easycirq/scripts python -m electrical_review review
    INPUT --out REPORT`；按 `contract.md` 的 exit 0/1/2/3/4 映射门禁。不要解析 stdout
    作为唯一证据，使用 `--out` 的原子报告。
 5. **不要 cherry-pick 任务 A 未稳定提交**；本 PR 不依赖任务 A 分支。若 observation 字段

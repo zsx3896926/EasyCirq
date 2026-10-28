@@ -30,7 +30,7 @@ design_engine、pcb_gate、runtime、connector、protocol、distribution、CI、
 
 ```json
 {
-  "schema": "zhigou.electrical-review.input/v1",
+  "schema": "easycirq.electrical-review.input/v1",
   "design": {"project_id": "mcu-i2c-s3-20261026", "document_id": "P2",
              "units": {"length": "mil", "voltage": "V", "capacitance": "uF"},
              "source_type": "derived"},
@@ -61,7 +61,7 @@ design_engine、pcb_gate、runtime、connector、protocol、distribution、CI、
 ## 2. 调用契约
 
 ```bash
-PYTHONPATH=design-hardware/scripts python -m electrical_review review INPUT.json \
+PYTHONPATH=easycirq/scripts python -m electrical_review review INPUT.json \
   --out electrical-review-report.json
 ```
 
@@ -70,7 +70,7 @@ PYTHONPATH=design-hardware/scripts python -m electrical_review review INPUT.json
   3 `review_required`；4 `incomplete`。
 - `report.summary.totals` 分 checked/satisfied/violations/unknown/not_applicable/
   invalid_input；`report.status` 与退出码一一对应。
-- `schema` 固定为 `zhigou.electrical-review.input/v1`；报告 `zhigou.electrical-review.report/v1`。
+- `schema` 固定为 `easycirq.electrical-review.input/v1`；报告 `easycirq.electrical-review.report/v1`。
   不兼容变更需升版本号，不静默改语义。
 - 缺少证据的语义：`review_required`/`incomplete`，不是 `pass`；报告 `not_checked` 列出
   本模块不覆盖的 EDA/DRC/波形/铜/热/EMC/制造/上电。
@@ -107,7 +107,7 @@ PYTHONPATH=design-hardware/scripts python -m electrical_review review INPUT.json
 +在网表/连通性检查之后、PCB 同步或关键电气变更之前，运行：
 +
 +```bash
-+PYTHONPATH=design-hardware/scripts python -m electrical_review review <input>.json --out <report>.json
++PYTHONPATH=easycirq/scripts python -m electrical_review review <input>.json --out <report>.json
 +```
 +
 +- 退出码 0=pass_with_scope、1=fail、2=invalid_input、3=review_required、4=incomplete；
@@ -126,7 +126,7 @@ PYTHONPATH=design-hardware/scripts python -m electrical_review review INPUT.json
 +> **连通性/网表一致 ≠ 电气正确。** `pin_net_intent_check.py` 的 `match` 只证明宿主实现
 +> 与 intent 的连接组一致；若 intent 本身把飞跨电容两端接到同一网、把四脚按键的常通组
 +> 当成两个节点、或忽略电容耐压/引脚能力，网表仍会“匹配”。需要设计意图审查时，使用
-+> `design-hardware/scripts/electrical_review`（离线，0 EDA 调用），并按
++> `easycirq/scripts/electrical_review`（离线，0 EDA 调用），并按
 +> `docs/parallel-electrical-review/contract.md` 提供 intent/device_facts。其
 +> `pass_with_scope` 不是整板电气通过。
 ```

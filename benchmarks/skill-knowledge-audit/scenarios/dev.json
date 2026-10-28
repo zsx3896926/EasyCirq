@@ -28,25 +28,25 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/schematic-authoring.md",
-          "design-hardware/references/schematic-layout.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/schematic-authoring.md",
+          "easycirq/references/schematic-layout.md"
         ],
         "must_exclude": [
-          "design-hardware/references/pcb-routing-details.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/jlc-production.md",
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/schematic-layout-engine.md"
+          "easycirq/references/pcb-routing-details.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/jlc-production.md",
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/schematic-layout-engine.md"
         ],
         "may_include": [
-          "design-hardware/references/schematic.md",
-          "design-hardware/references/module-cards.md",
-          "design-hardware/references/domains.md",
-          "design-hardware/references/design-cards/README.md"
+          "easycirq/references/schematic.md",
+          "easycirq/references/module-cards.md",
+          "easycirq/references/domains.md",
+          "easycirq/references/design-cards/README.md"
         ],
         "required_unknown": ["domain_unspecified"],
         "forbidden_plan_actions": ["order_parts"],
@@ -77,26 +77,26 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/schematic-authoring.md",
-          "design-hardware/references/schematic-layout.md",
-          "design-hardware/references/digital.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/schematic-authoring.md",
+          "easycirq/references/schematic-layout.md",
+          "easycirq/references/digital.md"
         ],
         "must_exclude": [
-          "design-hardware/references/pcb-routing-strategy.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/jlc-production.md",
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/schematic-layout-engine.md"
+          "easycirq/references/pcb-routing-strategy.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/jlc-production.md",
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/schematic-layout-engine.md"
         ],
         "may_include": [
-          "design-hardware/references/module-cards.md",
-          "design-hardware/references/schematic.md",
-          "design-hardware/references/part-selection.md",
-          "design-hardware/references/design-cards/README.md"
+          "easycirq/references/module-cards.md",
+          "easycirq/references/schematic.md",
+          "easycirq/references/part-selection.md",
+          "easycirq/references/design-cards/README.md"
         ],
         "required_unknown": [],
         "forbidden_plan_actions": ["order_parts"],
@@ -123,7 +123,7 @@
         "user_decision_pending": [],
         "already_read": [
           {
-            "path": "design-hardware/references/schematic-layout.md",
+            "path": "easycirq/references/schematic-layout.md",
             "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
             "rules_version": "2026-10-27.1",
             "scope": "schematic-readability"
@@ -134,25 +134,25 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/schematic-layout-engine.md",
-          "design-hardware/references/schematic-layout.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/schematic-layout-engine.md",
+          "easycirq/references/schematic-layout.md"
         ],
         "must_exclude": [
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/pcb-routing-details.md",
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/jlc-production.md",
-          "design-hardware/references/schematic-benchmarks.md"
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/pcb-routing-details.md",
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/jlc-production.md",
+          "easycirq/references/schematic-benchmarks.md"
         ],
         "may_include": [
-          "design-hardware/references/schematic-authoring.md",
-          "design-hardware/references/offline-tools.md",
-          "design-hardware/references/feedback-loop.md",
-          "design-hardware/references/design-engine.md"
+          "easycirq/references/schematic-authoring.md",
+          "easycirq/references/offline-tools.md",
+          "easycirq/references/feedback-loop.md",
+          "easycirq/references/design-engine.md"
         ],
         "required_unknown": ["already_read_stale"],
         "forbidden_plan_actions": ["order_parts"],
@@ -183,27 +183,27 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/pcb.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/eda-execution.md",
-          "design-hardware/references/pcb-placement-details.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/pcb.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/eda-execution.md",
+          "easycirq/references/pcb-placement-details.md"
         ],
         "must_exclude": [
-          "design-hardware/references/schematic-authoring.md",
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/jlc-production.md",
-          "design-hardware/references/schematic-layout-engine.md",
-          "design-hardware/references/part-selection.md"
+          "easycirq/references/schematic-authoring.md",
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/jlc-production.md",
+          "easycirq/references/schematic-layout-engine.md",
+          "easycirq/references/part-selection.md"
         ],
         "may_include": [
-          "design-hardware/references/pcb-routing-details.md",
-          "design-hardware/references/pcb-routing-strategy.md",
-          "design-hardware/references/design-engine.md",
-          "design-hardware/references/offline-tools.md"
+          "easycirq/references/pcb-routing-details.md",
+          "easycirq/references/pcb-routing-strategy.md",
+          "easycirq/references/design-engine.md",
+          "easycirq/references/offline-tools.md"
         ],
         "required_unknown": [],
         "forbidden_plan_actions": ["order_parts"],
@@ -234,27 +234,27 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/pcb.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/eda-execution.md",
-          "design-hardware/references/pcb-placement-details.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/pcb.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/eda-execution.md",
+          "easycirq/references/pcb-placement-details.md"
         ],
         "must_exclude": [
-          "design-hardware/references/schematic-authoring.md",
-          "design-hardware/references/schematic-layout-engine.md",
-          "design-hardware/references/part-selection.md",
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/jlc-production.md"
+          "easycirq/references/schematic-authoring.md",
+          "easycirq/references/schematic-layout-engine.md",
+          "easycirq/references/part-selection.md",
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/jlc-production.md"
         ],
         "may_include": [
-          "design-hardware/references/pcb-routing-strategy.md",
-          "design-hardware/assets/routing-plan.md",
-          "design-hardware/references/jlc-pcb-rules.md",
-          "design-hardware/references/design-engine.md"
+          "easycirq/references/pcb-routing-strategy.md",
+          "easycirq/assets/routing-plan.md",
+          "easycirq/references/jlc-pcb-rules.md",
+          "easycirq/references/design-engine.md"
         ],
         "required_unknown": [],
         "forbidden_plan_actions": ["order_parts"],
@@ -285,27 +285,27 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/pcb-routing-strategy.md",
-          "design-hardware/references/pcb-routing-details.md",
-          "design-hardware/references/analog-rf-highspeed.md",
-          "design-hardware/references/easyeda-ecosystem.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/pcb-routing-strategy.md",
+          "easycirq/references/pcb-routing-details.md",
+          "easycirq/references/analog-rf-highspeed.md",
+          "easycirq/references/easyeda-ecosystem.md"
         ],
         "must_exclude": [
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/part-selection.md",
-          "design-hardware/references/schematic-layout-engine.md",
-          "design-hardware/references/jlc-handoff.md",
-          "design-hardware/references/manufacturing-details.md"
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/part-selection.md",
+          "easycirq/references/schematic-layout-engine.md",
+          "easycirq/references/jlc-handoff.md",
+          "easycirq/references/manufacturing-details.md"
         ],
         "may_include": [
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/eda-execution.md",
-          "design-hardware/references/jlc-pcb-rules.md",
-          "design-hardware/assets/routing-plan.md"
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/eda-execution.md",
+          "easycirq/references/jlc-pcb-rules.md",
+          "easycirq/assets/routing-plan.md"
         ],
         "required_unknown": [],
         "forbidden_plan_actions": ["write_eda", "order_parts"],
@@ -336,24 +336,24 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/part-selection.md",
-          "design-hardware/references/lcsc-sourcing.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/part-selection.md",
+          "easycirq/references/lcsc-sourcing.md"
         ],
         "must_exclude": [
-          "design-hardware/references/pcb-routing-details.md",
-          "design-hardware/references/pcb-routing-strategy.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/thermal/topic.md",
-          "design-hardware/references/schematic-layout-engine.md"
+          "easycirq/references/pcb-routing-details.md",
+          "easycirq/references/pcb-routing-strategy.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/thermal/topic.md",
+          "easycirq/references/schematic-layout-engine.md"
         ],
         "may_include": [
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/jlc-handoff.md",
-          "design-hardware/references/jlc-production.md",
-          "design-hardware/references/jlc-smt-rules.md"
+          "easycirq/references/design-gates.md",
+          "easycirq/references/jlc-handoff.md",
+          "easycirq/references/jlc-production.md",
+          "easycirq/references/jlc-smt-rules.md"
         ],
         "required_unknown": ["stage_unspecified"],
         "forbidden_plan_actions": ["write_eda", "order_parts"],
@@ -384,23 +384,23 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/review.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/review.md"
         ],
         "must_exclude": [
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/eda-execution.md",
-          "design-hardware/references/feedback-loop.md",
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/jlc-production.md"
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/eda-execution.md",
+          "easycirq/references/feedback-loop.md",
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/jlc-production.md"
         ],
         "may_include": [
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/schematic-details.md",
-          "design-hardware/references/pcb-lessons.md",
-          "design-hardware/references/pcb-routing-details.md"
+          "easycirq/references/design-gates.md",
+          "easycirq/references/schematic-details.md",
+          "easycirq/references/pcb-lessons.md",
+          "easycirq/references/pcb-routing-details.md"
         ],
         "required_unknown": [],
         "forbidden_plan_actions": ["write_eda", "order_parts"],
@@ -431,27 +431,27 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/jlc-handoff.md",
-          "design-hardware/references/jlc-production.md",
-          "design-hardware/references/manufacturing-details.md",
-          "design-hardware/assets/pcb-delivery-checklist.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/jlc-handoff.md",
+          "easycirq/references/jlc-production.md",
+          "easycirq/references/manufacturing-details.md",
+          "easycirq/assets/pcb-delivery-checklist.md"
         ],
         "must_exclude": [
-          "design-hardware/references/schematic-authoring.md",
-          "design-hardware/references/schematic-layout-engine.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/pcb-routing-strategy.md",
-          "design-hardware/references/thermal/topic.md"
+          "easycirq/references/schematic-authoring.md",
+          "easycirq/references/schematic-layout-engine.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/pcb-routing-strategy.md",
+          "easycirq/references/thermal/topic.md"
         ],
         "may_include": [
-          "design-hardware/references/manufacturing-routes.md",
-          "design-hardware/references/jlc-pcb-rules.md",
-          "design-hardware/references/jlc-smt-rules.md",
-          "design-hardware/references/lcsc-sourcing.md"
+          "easycirq/references/manufacturing-routes.md",
+          "easycirq/references/jlc-pcb-rules.md",
+          "easycirq/references/jlc-smt-rules.md",
+          "easycirq/references/lcsc-sourcing.md"
         ],
         "required_unknown": [],
         "forbidden_plan_actions": ["write_eda", "order_parts"],
@@ -482,25 +482,25 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/offline-tools.md",
-          "design-hardware/references/offline-regression.md",
-          "design-hardware/references/connectivity.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/offline-tools.md",
+          "easycirq/references/offline-regression.md",
+          "easycirq/references/connectivity.md"
         ],
         "must_exclude": [
-          "design-hardware/references/eda-execution.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/feedback-loop.md",
-          "design-hardware/references/jlc-handoff.md",
-          "design-hardware/references/easyeda-ecosystem.md"
+          "easycirq/references/eda-execution.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/feedback-loop.md",
+          "easycirq/references/jlc-handoff.md",
+          "easycirq/references/easyeda-ecosystem.md"
         ],
         "may_include": [
-          "design-hardware/references/client-compatibility.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/installation-updates.md",
-          "design-hardware/references/schematic-authoring.md"
+          "easycirq/references/client-compatibility.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/installation-updates.md",
+          "easycirq/references/schematic-authoring.md"
         ],
         "required_unknown": ["eda_unavailable"],
         "forbidden_plan_actions": ["write_eda", "read_eda", "install"],
@@ -531,26 +531,26 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/pcb.md",
-          "design-hardware/references/pcb-placement-details.md",
-          "design-hardware/references/offline-tools.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/pcb.md",
+          "easycirq/references/pcb-placement-details.md",
+          "easycirq/references/offline-tools.md"
         ],
         "must_exclude": [
-          "design-hardware/references/eda-execution.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/easyeda-ecosystem.md",
-          "design-hardware/references/feedback-loop.md",
-          "design-hardware/references/jlc-production.md"
+          "easycirq/references/eda-execution.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/easyeda-ecosystem.md",
+          "easycirq/references/feedback-loop.md",
+          "easycirq/references/jlc-production.md"
         ],
         "may_include": [
-          "design-hardware/references/offline-regression.md",
-          "design-hardware/references/design-engine.md",
-          "design-hardware/references/connectivity.md",
-          "design-hardware/references/pcb-routing-strategy.md"
+          "easycirq/references/offline-regression.md",
+          "easycirq/references/design-engine.md",
+          "easycirq/references/connectivity.md",
+          "easycirq/references/pcb-routing-strategy.md"
         ],
         "required_unknown": ["eda_unavailable"],
         "forbidden_plan_actions": ["write_eda", "read_eda", "install", "order_parts"],
@@ -581,27 +581,27 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/agent-collaboration.md",
-          "design-hardware/references/schematic-authoring.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/eda-execution.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/agent-collaboration.md",
+          "easycirq/references/schematic-authoring.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/eda-execution.md"
         ],
         "must_exclude": [
-          "design-hardware/references/product-example.md",
-          "design-hardware/references/engineering-deepdives/README.md",
-          "design-hardware/references/engineering-deepdives/exercises/README.md",
-          "design-hardware/references/schematic-benchmarks.md",
-          "design-hardware/references/simulation-measurement.md"
+          "easycirq/references/product-example.md",
+          "easycirq/references/engineering-deepdives/README.md",
+          "easycirq/references/engineering-deepdives/exercises/README.md",
+          "easycirq/references/schematic-benchmarks.md",
+          "easycirq/references/simulation-measurement.md"
         ],
         "may_include": [
-          "design-hardware/references/pcb.md",
-          "design-hardware/references/pcb-routing-strategy.md",
-          "design-hardware/references/schematic-layout.md",
-          "design-hardware/references/idea-to-product.md"
+          "easycirq/references/pcb.md",
+          "easycirq/references/pcb-routing-strategy.md",
+          "easycirq/references/schematic-layout.md",
+          "easycirq/references/idea-to-product.md"
         ],
         "required_unknown": [],
         "forbidden_plan_actions": ["wait_user_approval", "order_parts"],
@@ -632,27 +632,27 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/pcb.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/eda-execution.md",
-          "design-hardware/references/pcb-routing-strategy.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/pcb.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/eda-execution.md",
+          "easycirq/references/pcb-routing-strategy.md"
         ],
         "must_exclude": [
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/part-selection.md",
-          "design-hardware/references/jlc-production.md",
-          "design-hardware/references/schematic-layout-engine.md",
-          "design-hardware/references/feedback-loop.md"
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/part-selection.md",
+          "easycirq/references/jlc-production.md",
+          "easycirq/references/schematic-layout-engine.md",
+          "easycirq/references/feedback-loop.md"
         ],
         "may_include": [
-          "design-hardware/assets/routing-plan.md",
-          "design-hardware/references/pcb-placement-details.md",
-          "design-hardware/references/pcb-routing-details.md",
-          "design-hardware/references/design-engine.md"
+          "easycirq/assets/routing-plan.md",
+          "easycirq/references/pcb-placement-details.md",
+          "easycirq/references/pcb-routing-details.md",
+          "easycirq/references/design-engine.md"
         ],
         "required_unknown": [],
         "forbidden_plan_actions": [],
@@ -683,25 +683,25 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/schematic-authoring.md",
-          "design-hardware/references/schematic-layout.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/schematic-authoring.md",
+          "easycirq/references/schematic-layout.md"
         ],
         "must_exclude": [
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/pcb-routing-details.md",
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/jlc-production.md",
-          "design-hardware/references/thermal/topic.md"
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/pcb-routing-details.md",
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/jlc-production.md",
+          "easycirq/references/thermal/topic.md"
         ],
         "may_include": [
-          "design-hardware/references/schematic.md",
-          "design-hardware/references/design-cards/README.md",
-          "design-hardware/references/domains.md",
-          "design-hardware/references/module-cards.md"
+          "easycirq/references/schematic.md",
+          "easycirq/references/design-cards/README.md",
+          "easycirq/references/domains.md",
+          "easycirq/references/module-cards.md"
         ],
         "required_unknown": ["budget_insufficient"],
         "forbidden_plan_actions": ["order_parts"],
@@ -728,7 +728,7 @@
         "user_decision_pending": ["scope_change"],
         "already_read": [
           {
-            "path": "design-hardware/references/schematic-authoring.md",
+            "path": "easycirq/references/schematic-authoring.md",
             "sha256": "7283016368fb7beb7c3e704e640fd6bc08e56dff594b3cf6c7781998ca610309",
             "rules_version": "2026-09-01.0",
             "scope": "schematic-phase"
@@ -739,27 +739,27 @@
       },
       "expected": {
         "must_include": [
-          "design-hardware/SKILL.md",
-          "design-hardware/references/workflow.md",
-          "design-hardware/references/evidence.md",
-          "design-hardware/references/design-gates.md",
-          "design-hardware/references/pcb-execution.md",
-          "design-hardware/references/eda-execution.md",
-          "design-hardware/references/pcb-routing-strategy.md",
-          "design-hardware/references/easyeda-ecosystem.md"
+          "easycirq/SKILL.md",
+          "easycirq/references/workflow.md",
+          "easycirq/references/evidence.md",
+          "easycirq/references/design-gates.md",
+          "easycirq/references/pcb-execution.md",
+          "easycirq/references/eda-execution.md",
+          "easycirq/references/pcb-routing-strategy.md",
+          "easycirq/references/easyeda-ecosystem.md"
         ],
         "must_exclude": [
-          "design-hardware/references/lcsc-sourcing.md",
-          "design-hardware/references/part-selection.md",
-          "design-hardware/references/jlc-handoff.md",
-          "design-hardware/references/schematic-layout-engine.md",
-          "design-hardware/references/manufacturing-details.md"
+          "easycirq/references/lcsc-sourcing.md",
+          "easycirq/references/part-selection.md",
+          "easycirq/references/jlc-handoff.md",
+          "easycirq/references/schematic-layout-engine.md",
+          "easycirq/references/manufacturing-details.md"
         ],
         "may_include": [
-          "design-hardware/references/pcb.md",
-          "design-hardware/references/pcb-routing-details.md",
-          "design-hardware/assets/routing-plan.md",
-          "design-hardware/references/pcb-placement-details.md"
+          "easycirq/references/pcb.md",
+          "easycirq/references/pcb-routing-details.md",
+          "easycirq/assets/routing-plan.md",
+          "easycirq/references/pcb-placement-details.md"
         ],
         "required_unknown": ["cache_invalidated"],
         "forbidden_plan_actions": ["order_parts"],

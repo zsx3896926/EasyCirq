@@ -11,13 +11,13 @@ import unittest
 os.environ.setdefault('PYTHONIOENCODING','utf-8')
 
 ROOT=Path(__file__).resolve().parents[1]
-SCRIPT=ROOT/'design-hardware/scripts/netlist_check.py'
+SCRIPT=ROOT/'easycirq/scripts/netlist_check.py'
 spec=importlib.util.spec_from_file_location('netcheck',SCRIPT)
 netcheck=importlib.util.module_from_spec(spec);spec.loader.exec_module(netcheck)
 
 class Connectivity(unittest.TestCase):
     def data(self):
-        return json.loads((ROOT/'design-hardware/assets/example-connectivity.json').read_text())
+        return json.loads((ROOT/'easycirq/assets/example-connectivity.json').read_text())
     def codes(self,data):return {i['code'] for i in netcheck.check(data)['issues']}
     def test_fictional_example_and_scope(self):
         r=netcheck.check(self.data())

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Frozen benchmark for the zhigou offline-audit MCP server (stdio).
+"""Frozen benchmark for the easycirq offline-audit MCP server (stdio).
 
 The driver launches the real server exactly like an MCP client, performs the
 initialize/tools/list/tools/call handshake over pipes, and asserts explicit
@@ -9,7 +9,7 @@ checks it performed and any problem found.
 
 Run from the repository root (or anywhere):
     python benchmarks/mcp-tools/run_benchmark.py
-    python benchmarks/mcp-tools/run_benchmark.py --transcript docs/zhigou-mcp/evidence/stdio-transcript.jsonl
+    python benchmarks/mcp-tools/run_benchmark.py --transcript docs/easycirq-mcp/evidence/stdio-transcript.jsonl
 """
 from __future__ import annotations
 
@@ -27,7 +27,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 DEFAULT_RESULTS = HERE / "results.json"
 
 B_REAL = ROOT / "benchmarks/electrical-review/cases/real-mcu-i2c-ams-tab/input.json"
@@ -43,7 +43,7 @@ class Server:
         env["PYTHONPATH"] = str(SCRIPTS)
         env["PYTHONIOENCODING"] = "utf-8"
         self.proc = subprocess.Popen(
-            [sys.executable, "-m", "zhigou_mcp"], cwd=str(SCRIPTS), env=env,
+            [sys.executable, "-m", "easycirq_mcp"], cwd=str(SCRIPTS), env=env,
             stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
             text=True, encoding="utf-8", bufsize=1)
         self.lines: "queue.Queue[str]" = queue.Queue()
@@ -183,7 +183,7 @@ def case_electrical_full(server):
     if payload.get("report_omitted") is not False:
         problems.append("full detail still omitted the report")
     report = payload.get("report") or {}
-    if report.get("schema") != "zhigou.electrical-review.report/v1":
+    if report.get("schema") != "easycirq.electrical-review.report/v1":
         problems.append("unexpected report schema %r" % (report.get("schema"),))
     if report.get("status") != payload.get("status"):
         problems.append("report status differs from payload status")
@@ -300,14 +300,14 @@ def main(argv=None):
     args = parser.parse_args(argv)
 
     started = time.perf_counter()
-    tmp = Path(tempfile.mkdtemp(prefix="zhigou-mcp-bench-"))
+    tmp = Path(tempfile.mkdtemp(prefix="easycirq-mcp-bench-"))
     server = Server()
     rows = []
     try:
         init, init_ms = server.request("initialize", {
             "protocolVersion": PROTOCOL,
             "capabilities": {},
-            "clientInfo": {"name": "zhigou-mcp-benchmark", "version": "0"},
+            "clientInfo": {"name": "easycirq-mcp-benchmark", "version": "0"},
         })
         server.notify("notifications/initialized")
         tools, tools_ms = server.request("tools/list")
@@ -356,13 +356,13 @@ def main(argv=None):
     durations = [row["duration_ms"] for row in rows]
     total_ms = round((time.perf_counter() - started) * 1000.0, 1)
     payload = {
-        "schema": "zhigou.mcp.benchmark/v1",
+        "schema": "easycirq.mcp.benchmark/v1",
         "simulated": True,
         "offline": True,
         "real_eda": "NOT RUN",
         "eda_calls": 0,
         "network_calls": 0,
-        "server": {"name": "zhigou-offline-audit", "version": "0.1.0"},
+        "server": {"name": "easycirq-offline-audit", "version": "0.1.0"},
         "protocol": {
             "requested": PROTOCOL,
             "negotiated": (init.get("result") or {}).get("protocolVersion"),

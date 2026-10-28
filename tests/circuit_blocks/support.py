@@ -15,7 +15,7 @@ from fractions import Fraction
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 BLOCKS = SCRIPTS / 'circuit_blocks'
 FIXTURES = Path(__file__).resolve().parent / 'fixtures'
 

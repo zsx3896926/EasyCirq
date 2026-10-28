@@ -7,7 +7,7 @@
 > 分析方式：**纯静态阅读**（read/grep/glob/PowerShell 列目录与哈希）。本机未安装 Go（`go version` 不可用），因此所有“能编译/能运行/产物大小”类结论标注为 **UNKNOWN**，未对真实 EDA / daemon 做任何启动。
 > 证据目录：`docs/toolchain-integration/evidence/upstream/`
 >
-> **隔离口径（已定稿，2026-10-27）**：端口 **23111-23120（0x5A47-0x5A50）**；service **`zhigou-agent`**；状态目录 **`~/.zhigou`**；产物目录 **`<proj>/.zhigou/artifacts`**；CLI 名 **`zhigou`**；env 前缀 **`ZHIGOU_`**。上游 60832 / `easyeda-agent` / 上游扩展 uuid 与我们是**两套独立标识，可同时运行、互不影响**（详见 §2.2、§4.7）。
+> **隔离口径（已定稿，2026-10-27）**：端口 **23111-23120（0x5A47-0x5A50）**；service **`easycirq-agent`**；状态目录 **`~/.easycirq`**；产物目录 **`<proj>/.easycirq/artifacts`**；CLI 名 **`easycirq`**；env 前缀 **`EASYCIRQ_`**。上游 60832 / `easyeda-agent` / 上游扩展 uuid 与我们是**两套独立标识，可同时运行、互不影响**（详见 §2.2、§4.7）。
 
 ## TL;DR（给决策者的 11 条）
 
@@ -18,10 +18,10 @@
 5. **Envelope**：`{id,type,version,windowId,createdAt}` + `{action,project,outputDir,timeoutMs,clientId,command,payload}` / `{ok,result,context,mutationContext*,artifacts,warnings,error,staleRisk,concurrentWriter,seq,seqAbandoned,unordered,abandonedIds}`；`version` 恒为 `"v1"`，无协商。
 6. **扩展是纯源码仓库**：`extension/dist/`、`node_modules/` 都不入库；`.eext` 由 `build/packaged.ts` 把 extension 根目录（经 `.edaignore` 过滤）打成 **普通 ZIP 改后缀**，内含 `extension.json` + `dist/index.js` + `images/` + README/CHANGELOG/LICENSE 共 14 entries；构建需要 `npm install`（esbuild/ts-node/typescript/jszip…），**上游 tag 里没有预编译 bundle**。本工作树已重建：`dist/index.js` 966,729 B，`.eext` 3,115,435 B（解压 4,282,181 B，其中 3 MB 是 6 张演示图 —— 应排除）。
 7. **扩展身份**：`extension.json` uuid `4dae27407c1d43be98e8e210d45fe587`、name `easyeda-agent-connector`、displayName `EDA Agent Connector`、version `1.14.0`、publisher `zhoushoujian`、`engines.eda ~3.2.0`、entry `./dist/index`。EasyEDA 按 (uuid, version) 去重，**改 uuid 才能与用户已装的上游扩展并存/隔离**。
-8. **配置与状态全部在 `%USERPROFILE%\.easyeda-agent\`**：`daemon.pid`、`daemon.log(.start.lock)`、`audit/<UTC日期>.jsonl`、`workflow/<project>.json`；产物写到 **CLI 当前目录**的 `<project>/.easyeda/artifacts`。**隔离口径（已定稿）**：上游 daemon 占 60832、我们占 **23111-23120（0x5A47-0x5A50）**，service 分别 `easyeda-agent` / `zhigou-agent`，扩展 uuid 不同 → **两套可以同时运行、互不干扰**（不是互踢关系）；状态目录/env 前缀（`.zhigou`、`ZHIGOU_`）仍需改，否则两套会写同一个 `~/.easyeda-agent`。
+8. **配置与状态全部在 `%USERPROFILE%\.easyeda-agent\`**：`daemon.pid`、`daemon.log(.start.lock)`、`audit/<UTC日期>.jsonl`、`workflow/<project>.json`；产物写到 **CLI 当前目录**的 `<project>/.easyeda/artifacts`。**隔离口径（已定稿）**：上游 daemon 占 60832、我们占 **23111-23120（0x5A47-0x5A50）**，service 分别 `easyeda-agent` / `easycirq-agent`，扩展 uuid 不同 → **两套可以同时运行、互不干扰**（不是互踢关系）；状态目录/env 前缀（`.easycirq`、`EASYCIRQ_`）仍需改，否则两套会写同一个 `~/.easyeda-agent`。
 9. **有真实自更新**：`internal/selfupdate` 会从 GitHub Releases 下载 `skills.tar.gz`、`easyeda_<os>_<arch>` 并**原子替换正在运行的 CLI 二进制**（`cli.go:134/305/405`），daemon 启动默认 `--auto-update-skill=true` 会发起 GitHub API 调用（`selfupdate.go:706`，`cmd_daemon.go:110/131`）。**自建前必须禁用**（第 6.4 节）。
 10. **最小可构建 Go 集合 ≈ 418 files / 6.56 MB**，测试另 453 files / 3.93 MB；无 CGO、无 vendor 目录、只有 4 个直接/间接依赖（cobra、pflag、mousetrap、coder/websocket）；`go.mod` 为 `go 1.26.3`，即工具链最低 1.26.3（`GOTOOLCHAIN=auto` 可自动拉取，需联网）。
-11. **本工作树已落地** `runtime/`（module 自有路径、`zhigou-agent`、端口 **23111-23120（已定稿）**、保留 465 个测试）＋ `connector/`（uuid `a6e6b788…`、`zhigou-connector` v0.1.0）＋ `distribution/rebrand_{runtime,connector}.py`（幂等规则脚本，可 `--check`）。**尚未收口**：自更新仍启用/半改、`.eext` 带 3 MB 演示图、缺 upstream provenance 锚点 → 见 **5.6** 的清单；端口口径已定稿（早期草稿值作废，勿再使用）。
+11. **本工作树已落地** `runtime/`（module 自有路径、`easycirq-agent`、端口 **23111-23120（已定稿）**、保留 465 个测试）＋ `connector/`（uuid `a6e6b788…`、`easycirq-connector` v0.1.0）＋ `distribution/rebrand_{runtime,connector}.py`（幂等规则脚本，可 `--check`）。**尚未收口**：自更新仍启用/半改、`.eext` 带 3 MB 演示图、缺 upstream provenance 锚点 → 见 **5.6** 的清单；端口口径已定稿（早期草稿值作废，勿再使用）。
 
 ---
 
@@ -213,7 +213,7 @@ connector 的 `HANDLERS` 表直出 **170** 条（`extension/src/actions.ts:15662
 
 > 单端口策略：CLI 启动 daemon 时把 `PortStart` 与 `PortEnd` 都设成起始端口（`cmd_daemon.go:114-120` 注释 “single fixed port — no spill”），因此**实际部署永远只绑 60832**，`60833-60841` 只是保留位。`listen()` 的“范围扫描”只在直接构造 `daemon.New` 时才会发生（测试/库调用）。
 >
-> **共存性（已定稿）**：我们的 toolchain 把起始端口改为 **23111（0x5A47）**、service 改为 `zhigou-agent`、扩展 uuid 独立 → 与上游 daemon(60832)/上游 connector 是两套标识。**两套 daemon 可以同时运行**（实测 23111 与 60832 同时监听、互不影响），不存在“新链路与旧链路互踢”。`ensurePortAvailable` 只在**同一端口**上按 `/health.service` 判断占用者是不是“自己”，不会去动 60832 上的上游 daemon；反过来上游 CLI 也只扫 60832 段、只认 `easyeda-agent`。
+> **共存性（已定稿）**：我们的 toolchain 把起始端口改为 **23111（0x5A47）**、service 改为 `easycirq-agent`、扩展 uuid 独立 → 与上游 daemon(60832)/上游 connector 是两套标识。**两套 daemon 可以同时运行**（实测 23111 与 60832 同时监听、互不影响），不存在“新链路与旧链路互踢”。`ensurePortAvailable` 只在**同一端口**上按 `/health.service` 判断占用者是不是“自己”，不会去动 60832 上的上游 daemon；反过来上游 CLI 也只扫 60832 段、只认 `easyeda-agent`。
 
 `internal/app/daemon_lifecycle.go:94-114`：`daemon stop` 先 `requireLocalDaemonHost`（仅 loopback：`127.0.0.1`/`::1`/`localhost`，`:53-61`），读 `/health` 的 `service`+`pid` 双重校验（`identifiedDaemonPID`，`:66-92`），再 `termPID`；Windows 下 `termPID` = `os.FindProcess(pid).Kill()`（`daemon_process_windows.go:32-44`），**只杀该 PID，不杀进程树**。停止后 3s 内轮询端口释放。
 
@@ -552,7 +552,7 @@ define: { __CONNECTOR_VERSION__: JSON.stringify(extJson.version ?? '0.0.0-dev') 
    - `JSZip` 把每个文件按 zip 根相对路径写入，`generateNodeStream({type:'nodebuffer', streamFiles:true, compression:'DEFLATE', compressionOptions:{level:9}})` 输出到 `extension/build/dist/<name>_v<version>.eext`（`:85-93`）。
    - **结论：`.eext` 就是普通 ZIP 改扩展名**，无签名、无加密、无 manifest 额外索引；`extension.json` 位于 zip 根。
 4. **`.edaignore`**（`extension/.edaignore`）排除：`/.git/ /.vscode/ /build/ /config/ /node_modules/ /scripts/ /src/ /.edaignore /.editorconfig /.gitignore /.npmrc /package-lock.json /package.json /tsconfig.json /tsconfig.tsbuildinfo .eslintcache debug.log ws-file-server.mjs`。**注意 `/images/`、`README.md`、`CHANGELOG.md` 没有被排除**，所以 `.eext` 实际含 **12 个文件 + 2 个目录项 = 14 entries**：`extension.json`、`dist/index.js`、`images/` 下 7 张图（`logo.jpg` 12,410 B + 6 张演示图共 2,989,773 B）、`README.md`、`CHANGELOG.md`(291,717 B)、`LICENSE`。
-   实测（本工作树重建的 `connector/build/dist/zhigou-connector_v0.1.0.eext`，`System.IO.Compression.ZipFile` 只读枚举）：**zip 3,115,435 B，解压 4,282,181 B，14 entries，其中 `dist/index.js` = 966,729 B**。上游官方 `.eext` 未在 tag 内、未下载（UNKNOWN），但输入相同 → 量级一致。
+   实测（本工作树重建的 `connector/build/dist/easycirq-connector_v0.1.0.eext`，`System.IO.Compression.ZipFile` 只读枚举）：**zip 3,115,435 B，解压 4,282,181 B，14 entries，其中 `dist/index.js` = 966,729 B**。上游官方 `.eext` 未在 tag 内、未下载（UNKNOWN），但输入相同 → 量级一致。
    建议自有构建：`extension.json.images.logo` 只引用 `images/logo.jpg`，所以把 **6 张演示图移出 extension 目录**（或改 `packaged.ts` 白名单），并把 `CHANGELOG.md` 加入 `.edaignore` → `.eext` 可压到 ~1 MB 以内。
 5. **Makefile 目标**（`Makefile`）：
 
@@ -606,15 +606,15 @@ define: { __CONNECTOR_VERSION__: JSON.stringify(extJson.version ?? '0.0.0-dev') 
 | 冲突项 | 上游值 | 必须改成 | 不改的后果 |
 |---|---|---|---|
 | **扩展 uuid** | `4dae27407c1d43be98e8e210d45fe587` | 新 32 位小写 hex（一次性生成，永久固定） | 同名同 uuid 会被 EDA 视为同一扩展/覆盖安装，用户无法并存；卸载上游会连带影响 |
-| **service 标识** | `"easyeda-agent"`（Go `daemon.Service` + TS `SERVICE_ID` + CLI `scanHealth` 硬编码） | `"zhigou-agent"`（三处必须同步） | 我们的 connector 会连上上游 daemon（或反之），互相误认 |
+| **service 标识** | `"easyeda-agent"`（Go `daemon.Service` + TS `SERVICE_ID` + CLI `scanHealth` 硬编码） | `"easycirq-agent"`（三处必须同步） | 我们的 connector 会连上上游 daemon（或反之），互相误认 |
 | **daemon 端口** | 60832（`0xEDA0`）+ 保留 60833-60841 | **`0x5A47-0x5A50`（23111-23120）—— 已定稿** | **端口段/service/扩展 uuid 三重不同 → 两套 daemon 可同时运行，实测 23111 与 60832 同时监听、互不影响**（不存在“必互踢”；`ensurePortAvailable` 只在同端口上按 service 识别，不会误杀异种服务）。用户侧唯一需要操作的是：EDA 内导入自有扩展 + 勾选“允许外部交互” + 完全退出并重启 EDA |
-| **扩展 name/displayName/publisher** | `easyeda-agent-connector` / `EDA Agent Connector` / `zhoushoujian` | `zhigou-connector` / `智构连接器` / 自有 publisher | 菜单与“已安装”列表里两个同名 `EDA Agent` 无法区分 |
+| **扩展 name/displayName/publisher** | `easyeda-agent-connector` / `EDA Agent Connector` / `zhoushoujian` | `easycirq-connector` / `智构连接器` / 自有 publisher | 菜单与“已安装”列表里两个同名 `EDA Agent` 无法区分 |
 | **扩展 version** | `1.14.0`（与上游 CLI 严格同版） | 自有从 `0.1.0` 起 | 与上游版本号混用会导致误判“已是最新” |
 | **菜单 id/title** | `"EDA Agent"`（6 处） | 自有名称 | 两个同名菜单项 |
 | **存储键** | `daemonPorts`、`autoConnectEnabled`（EasyEDA 的 extension user config 按扩展隔离，uuid 变则自动隔离） | 可保留；若想更明确可改前缀 | 若 uuid 未改 → 与上游共享同一配置 |
-| **WS socket id 前缀** | `easyeda-agent-` | `zhigou-` | 同窗口多激活时 id 撞车（概率低但影响重连） |
+| **WS socket id 前缀** | `easyeda-agent-` | `easycirq-` | 同窗口多激活时 id 撞车（概率低但影响重连） |
 | **toast/日志文案** | `Connected to easyeda-agent`、`[easyeda-agent]` | 自有 | 用户混淆，非功能问题 |
-| **`.eext` 文件名** | `easyeda-agent-connector_v1.14.0.eext` | `zhigou-connector_vX.Y.Z.eext`（来自 `extension.json.name`，`packaged.ts:92`） | 分发混淆 |
+| **`.eext` 文件名** | `easyeda-agent-connector_v1.14.0.eext` | `easycirq-connector_vX.Y.Z.eext`（来自 `extension.json.name`，`packaged.ts:92`） | 分发混淆 |
 | **repo/homepage 链接** | 上游 GitHub | 自有 | 用户被引到上游 |
 
 ---
@@ -656,8 +656,8 @@ define: { __CONNECTOR_VERSION__: JSON.stringify(extJson.version ?? '0.0.0-dev') 
 
 | 目录 | 内容 | 关键事实 |
 |---|---|---|
-| `runtime/` | Go module `github.com/zsx3896926/hardware-design-skill/runtime`（`go 1.26.3`） | `cmd/zhigou/main.go` 8 行 wrapper；`internal/**` = 上游 361 个生产 `.go` + **465 个 `_test.go`（保留测试）**；已 patch：`daemon.Service="zhigou-agent"`、端口 `0x5a47/0x5a50`、`version.Name="zhigou"`、`EASYEDA_→ZHIGOU_`、`.easyeda-agent→.zhigou`；`runtime/dist/zhigou.exe` = 24,074,240 B（构建产物，勿入库） |
-| `connector/` | 上游 `extension/` 子树 + rebrand | uuid `a6e6b788551945b399e150d80efa6e31`、name `zhigou-connector`、display `Zhigou EDA Connector`、version `0.1.0`、publisher `zsx3896926`、`engines.eda ">=3.2.0"`、`SERVICE_ID="zhigou-agent"`、`DAEMON_PORT=0x5a47`、存储键 `zhigouDaemonPorts`、共享键 `__zhigouTransportRuntime`；`connector/dist/index.js` = 966,729 B；`connector/build/dist/zhigou-connector_v0.1.0.eext` = 3,115,435 B（zip 14 entries，解压 4,282,181 B） |
+| `runtime/` | Go module `github.com/zsx3896926/EasyCirq/runtime`（`go 1.26.3`） | `cmd/easycirq/main.go` 8 行 wrapper；`internal/**` = 上游 361 个生产 `.go` + **465 个 `_test.go`（保留测试）**；已 patch：`daemon.Service="easycirq-agent"`、端口 `0x5a47/0x5a50`、`version.Name="easycirq"`、`EASYEDA_→EASYCIRQ_`、`.easyeda-agent→.easycirq`；`runtime/dist/easycirq.exe` = 24,074,240 B（构建产物，勿入库） |
+| `connector/` | 上游 `extension/` 子树 + rebrand | uuid `a6e6b788551945b399e150d80efa6e31`、name `easycirq-connector`、display `EasyCirq EDA Connector`、version `0.1.0`、publisher `zsx3896926`、`engines.eda ">=3.2.0"`、`SERVICE_ID="easycirq-agent"`、`DAEMON_PORT=0x5a47`、存储键 `easycirqDaemonPorts`、共享键 `__easycirqTransportRuntime`；`connector/dist/index.js` = 966,729 B；`connector/build/dist/easycirq-connector_v0.1.0.eext` = 3,115,435 B（zip 14 entries，解压 4,282,181 B） |
 | `distribution/` | `rebrand_runtime.py`、`rebrand_connector.py` | **幂等规则表**（每条规则带 note）：把“上游 commit → 我们源码”变成可审计、可重放的变换；支持 `--check` 只报告不写 |
 | `protocol/reference/` | `protocol.md`、`connector-contract.md`、`architecture.md`、`concepts.md`、`upstream-README.md` | 协议参考副本（注意 `connector-contract.md` 端口段是上游旧描述，见 6.6） |
 
@@ -691,7 +691,7 @@ CI 门禁：`python distribution/rebrand_runtime.py --check && python distributi
 | `internal/app/dispatch.go:24` | `defaultHost = "127.0.0.1"` | 保留 |
 | `internal/app/dispatch.go:28` | `defaultPortStart = 0xeda0 // 60832` | **`0x5a47 // 23111`（已定稿）**；保持“单端口”语义 |
 | `internal/app/dispatch.go:29` | `defaultPortEnd = 0xeda9 // 60841` | 同上，**已采用 `0x5a50`（23120）**（仅作为 `--ports` 上界/保留位） |
-| `internal/daemon/daemon.go:19` | `const Service = "easyeda-agent"` | `"zhigou-agent"` |
+| `internal/daemon/daemon.go:19` | `const Service = "easyeda-agent"` | `"easycirq-agent"` |
 | `internal/app/dispatch.go:1407` | `if svc == "easyeda-agent"` | `== daemon.Service`（消除硬编码，改一处即可） |
 | `internal/app/cmd_daemon.go:275` | `return body.Service == daemon.Service` | 已用常量，无需改 |
 | `internal/app/daemon_lifecycle.go:81` | `health.Service != daemon.Service` | 已用常量，无需改 |
@@ -702,16 +702,16 @@ CI 门禁：`python distribution/rebrand_runtime.py --check && python distributi
 
 | 文件:行 | 现状 | 改成 |
 |---|---|---|
-| `internal/app/cmd_daemon.go:208` | `filepath.Join(home, ".easyeda-agent", "daemon.pid")` | `.zhigou`（或 `.zhigou-toolchain`） |
+| `internal/app/cmd_daemon.go:208` | `filepath.Join(home, ".easyeda-agent", "daemon.pid")` | `.easycirq`（或 `.easycirq-toolchain`） |
 | `internal/app/daemon_autostart.go:36` | `filepath.Join(home, ".easyeda-agent", "daemon.log")` | 同上 |
 | `internal/daemon/audit.go:87` | `filepath.Join(home, ".easyeda-agent", "audit")` | 同上 |
 | `internal/app/audit.go:31` | `filepath.Join(home, ".easyeda-agent", "audit")` | 同上（CLI 读侧） |
 | `internal/workflow/workflow.go:737` | `filepath.Join(home, ".easyeda-agent", "workflow")` | 同上 |
-| `.easyeda/artifacts`（4 个非测试文件：`internal/protocol/envelope.go:21`、`internal/daemon/dispatch.go:386,399,401`、`internal/daemon/daemon.go:31`、`internal/app/dispatch.go:1097,1107,1138,1237,1239`） | `<cwd>/.easyeda/artifacts` | `.zhigou/artifacts`（同步改 `stripArtifactNesting` 与注释） |
-| `EASYEDA_*` 14 文件 30 行（`NO_AUTOSTART/CLIENT_LABEL/WORKFLOW_DIR/AUDIT_DIR/SKILLS_DIR/PYTHON/SKIP_VERSION_CHECK/SKILL_PRESERVE/GITHUB_PROXY`） | `EASYEDA_` 前缀 | `ZHIGOU_` 前缀（一次性 sed，含 `docs`/`install.*` 里的说明） |
-| `internal/version/version.go:5-6` | `Name="easyeda-agent"` | `Name="zhigou"` |
-| `internal/app/app.go:65` | `Use: "easyeda"` | `Use: "zhigou"` |
-| 用户可见错误文案里的 `` `easyeda ...` ``（如 `dispatch.go:694,706,1208`、`daemon_autostart.go:104,134`） | easyeda | zhigou（可选，但建议同批） |
+| `.easyeda/artifacts`（4 个非测试文件：`internal/protocol/envelope.go:21`、`internal/daemon/dispatch.go:386,399,401`、`internal/daemon/daemon.go:31`、`internal/app/dispatch.go:1097,1107,1138,1237,1239`） | `<cwd>/.easyeda/artifacts` | `.easycirq/artifacts`（同步改 `stripArtifactNesting` 与注释） |
+| `EASYEDA_*` 14 文件 30 行（`NO_AUTOSTART/CLIENT_LABEL/WORKFLOW_DIR/AUDIT_DIR/SKILLS_DIR/PYTHON/SKIP_VERSION_CHECK/SKILL_PRESERVE/GITHUB_PROXY`） | `EASYEDA_` 前缀 | `EASYCIRQ_` 前缀（一次性 sed，含 `docs`/`install.*` 里的说明） |
+| `internal/version/version.go:5-6` | `Name="easyeda-agent"` | `Name="easycirq"` |
+| `internal/app/app.go:65` | `Use: "easyeda"` | `Use: "easycirq"` |
+| 用户可见错误文案里的 `` `easyeda ...` ``（如 `dispatch.go:694,706,1208`、`daemon_autostart.go:104,134`） | easyeda | easycirq（可选，但建议同批） |
 
 统计（非测试 Go）：`.easyeda-agent` 14 files / 22 lines；`.easyeda/artifacts` 4 files / 10 lines；`EASYEDA_` 14 files / 30 lines；`easyeda-agent` 字面量 137 files / 234 lines；含 `easyeda` 的行 230 files / 1383 lines（**大头是注释/doc string，功能必须改的只有上面几十处**）。
 
@@ -719,7 +719,7 @@ CI 门禁：`python distribution/rebrand_runtime.py --check && python distributi
 
 | 文件:行 | 现状 | 改成 |
 |---|---|---|
-| `extension/extension.json:2` | `"easyeda-agent-connector"` | `"zhigou-connector"` |
+| `extension/extension.json:2` | `"easyeda-agent-connector"` | `"easycirq-connector"` |
 | `extension/extension.json:3` | uuid `4dae27407c1d43be98e8e210d45fe587` | 新 uuid（`node -e "console.log(require('crypto').randomUUID().replaceAll('-',''))"`） |
 | `extension/extension.json:4` | `"EDA Agent Connector"` | `"智构连接器"`（或英文名） |
 | `extension/extension.json:6` | `"1.14.0"` | `"0.1.0"` |
@@ -727,18 +727,18 @@ CI 门禁：`python distribution/rebrand_runtime.py --check && python distributi
 | `extension/extension.json:12-17` | 上游 repo/homepage | 自有 |
 | `extension/extension.json:33-201` | 6 处 `"id"/"title": "EDA Agent"` | `"智构"` |
 | `extension/src/protocol.ts:12` | `PROTOCOL_VERSION='v1'` | `'v1'` 可保留（与 Go envelope 一致即可） |
-| `extension/src/protocol.ts:13` | `SERVICE_ID='easyeda-agent'` | `'zhigou-agent'`（**与 Go `daemon.Service` 必须完全一致**） |
+| `extension/src/protocol.ts:13` | `SERVICE_ID='easyeda-agent'` | `'easycirq-agent'`（**与 Go `daemon.Service` 必须完全一致**） |
 | `extension/src/protocol.ts:14` | `CAPABILITIES=['schematic.v1','pcb.v1']` | 可保留 |
 | `extension/src/transport.ts:77` | `DAEMON_PORT=0xeda0` | **`0x5a47`（23111，已定稿）** |
 | `extension/src/transport.ts:81` | `RESERVED_PORT_END=0xeda9` | **`0x5a50`（23120）** |
 | `extension/src/transport.ts:95` | `'daemonPorts'` | `'daemonPorts'` 可保留 |
 | `extension/src/transport.ts:156` | `'autoConnectEnabled'` | 可保留 |
 | `extension/src/transport.ts:750` | `msg.service === SERVICE_ID` | 自动跟随常量 |
-| `extension/src/transport.ts:758-760,765,730,782,846,855,890` + `header-menu.ts:91` | `easyeda-agent` 文案 | `zhigou` |
-| `extension/src/transport-identity.ts:1` | `SOCKET_ID_PREFIX='easyeda-agent-'` | `'zhigou-'` |
+| `extension/src/transport.ts:758-760,765,730,782,846,855,890` + `header-menu.ts:91` | `easyeda-agent` 文案 | `easycirq` |
+| `extension/src/transport-identity.ts:1` | `SOCKET_ID_PREFIX='easyeda-agent-'` | `'easycirq-'` |
 | `extension/src/index.ts:103-105` | About 文案 | 自有 |
-| `extension/src/actions.ts:504,2324,7791` | 临时文件名 `easyeda-agent-*.epro2` | `zhigou-*.epro2`（可选） |
-| `extension/package.json:2` | `"name": "easyeda-agent-connector"` | `"zhigou-connector"` |
+| `extension/src/actions.ts:504,2324,7791` | 临时文件名 `easyeda-agent-*.epro2` | `easycirq-*.epro2`（可选） |
+| `extension/package.json:2` | `"name": "easyeda-agent-connector"` | `"easycirq-connector"` |
 | `extension/package.json:5` | `"author": "easyeda-agent"` | 自有 |
 | `extension/build/packaged.ts` | 输出名 `<extension.json.name>_v<version>.eext` | 自动跟随 |
 | `extension/.edaignore` | 已排除 `src/build/config/scripts/package.json/package-lock/tsconfig`；**未排除 `/images/`、`README.md`、`CHANGELOG.md`** → 建议：把 6 张演示图移出 extension 目录（保留 `logo.jpg`，否则 `extension.json.images.logo` 断链），`.edaignore` 追加 `CHANGELOG.md` |
@@ -748,9 +748,9 @@ CI 门禁：`python distribution/rebrand_runtime.py --check && python distributi
 | 文件:行 | 改法 |
 |---|---|
 | `Makefile:95`、`:172` | ldflags 里的 module path 改为 `toolchain/go.mod` 的 module（若改 module path） |
-| `Makefile:100,113` | 输出 `bin/zhigou`、包路径 `./cmd/zhigou` |
+| `Makefile:100,113` | 输出 `bin/easycirq`、包路径 `./cmd/easycirq` |
 | `Makefile:132-154,200-218` | `.eext` 名/路径、二进制资产名（若保留 release 流程）；建议整体替换为自有 `scripts/build-*.ps1` |
-| `.air.toml` | `bin = "./bin/zhigou"`、`args_bin = ["daemon","start","--auto-update-skill=false"]` |
+| `.air.toml` | `bin = "./bin/easycirq"`、`args_bin = ["daemon","start","--auto-update-skill=false"]` |
 | `install.ps1` / `install.sh` | 上游仓库/资产名/`.eext` URL/PATH 名；**建议弃用，重写自有安装器** |
 | `README*.md` / `AGENTS.md` / `docs/**`（144 files） | vendoring 时**不带**；需要协议文档只拷 `docs/protocol.md`、`docs/connector-contract.md` 并改写 |
 | `cordis.patch.yml` / `package.json`(root) / `index.js` / `mcp/**` | DSH bundle 相关，**与本 toolchain 无关**，可不 vendor |
@@ -777,22 +777,22 @@ CI 门禁：`python distribution/rebrand_runtime.py --check && python distributi
 ```
 # 1) Go 运行时
 $env:CGO_ENABLED = 0
-go -C runtime build -trimpath -ldflags "-s -w -X github.com/zsx3896926/hardware-design-skill/runtime/internal/version.Version=$ver" -o dist/zhigou.exe ./cmd/zhigou
+go -C runtime build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=$ver" -o dist/easycirq.exe ./cmd/easycirq
 
 # 2) 连接器（需 npm；产物是 zip 改名的 .eext）
 npm ci      --prefix connector
 npm run typecheck --prefix connector
 npm run build      --prefix connector
-# → connector/build/dist/zhigou-connector_v<version>.eext（= ZIP，内含 extension.json + dist/index.js + …）
+# → connector/build/dist/easycirq-connector_v<version>.eext（= ZIP，内含 extension.json + dist/index.js + …）
 
 # 3) 证明“源码 = 上游 + 规则”（建议进 CI）
 python distribution/rebrand_runtime.py --check
 python distribution/rebrand_connector.py --check
 ```
 
-实测（本工作树 2026-10-27）：`runtime/dist/zhigou.exe` = **24,074,240 B**（未剥离符号时的量级；加 `-s -w` 会更小），`connector/dist/index.js` = **966,729 B**，`connector/build/dist/zhigou-connector_v0.1.0.eext` = **3,115,435 B**（14 entries / 解压 4,282,181 B）。
+实测（本工作树 2026-10-27）：`runtime/dist/easycirq.exe` = **24,074,240 B**（未剥离符号时的量级；加 `-s -w` 会更小），`connector/dist/index.js` = **966,729 B**，`connector/build/dist/easycirq-connector_v0.1.0.eext` = **3,115,435 B**（14 entries / 解压 4,282,181 B）。
 
-最小验证（无需 EDA）：`zhigou version`、`zhigou actions`、`zhigou daemon start` + `zhigou health`。**本分析未运行 daemon/EDA**（规则禁止）→ 运行期行为仍为 **UNKNOWN**。
+最小验证（无需 EDA）：`easycirq version`、`easycirq actions`、`easycirq daemon start` + `easycirq health`。**本分析未运行 daemon/EDA**（规则禁止）→ 运行期行为仍为 **UNKNOWN**。
 
 ### 5.6 工作树当前状态 vs 本文清单（2026-10-27 观测，必须收口的差异）
 
@@ -800,16 +800,16 @@ python distribution/rebrand_connector.py --check
 
 | # | 差异 | 证据（本工作树） | 建议 |
 |---|---|---|---|
-| 1 | **自更新仍然启用，且 URL/资产名已被半改坏** | `runtime/internal/selfupdate/selfupdate.go:31` `RepoSlug = "zhoushoujianwork/zhigou-agent"`（脚本把 `easyeda-agent` 全局换成 `zhigou-agent` 的副产物；该 repo 不存在）；`selfupdate/cli.go:78,82` 仍返回 `easyeda_<os>_<arch>` / `easyeda_windows_amd64.exe`（`\beasyeda\b` 词边界匹配不到 `easyeda_...`） | 按 5.4-E **禁用**（删 `update`/`skill` 命令或改 URL builder 返回离线错误），不要留“能编译但永远 404”的半改状态 |
+| 1 | **自更新仍然启用，且 URL/资产名已被半改坏** | `runtime/internal/selfupdate/selfupdate.go:31` `RepoSlug = "zhoushoujianwork/easycirq-agent"`（脚本把 `easyeda-agent` 全局换成 `easycirq-agent` 的副产物；该 repo 不存在）；`selfupdate/cli.go:78,82` 仍返回 `easyeda_<os>_<arch>` / `easyeda_windows_amd64.exe`（`\beasyeda\b` 词边界匹配不到 `easyeda_...`） | 按 5.4-E **禁用**（删 `update`/`skill` 命令或改 URL builder 返回离线错误），不要留“能编译但永远 404”的半改状态 |
 | 2 | **daemon 启动仍默认联网同步 skill** | `runtime/internal/app/cmd_daemon.go:131` `auto-update-skill` 默认 `true`；`:110-112,139-145` 仍调用 `StartupSync` | 默认改 `false` 并删调用（或 `StartupSync` 空实现） |
-| 3 | **`.eext` 里带了 3 MB 演示图 + 285 KB CHANGELOG** | `connector/build/dist/zhigou-connector_v0.1.0.eext` 14 entries 中 6 张 `images/*` 演示图；`images/` 未被 `.edaignore` 排除 | 把演示图移出 `connector/`（保留 `logo.jpg`），`.edaignore` 追加 `CHANGELOG.md` |
+| 3 | **`.eext` 里带了 3 MB 演示图 + 285 KB CHANGELOG** | `connector/build/dist/easycirq-connector_v0.1.0.eext` 14 entries 中 6 张 `images/*` 演示图；`images/` 未被 `.edaignore` 排除 | 把演示图移出 `connector/`（保留 `logo.jpg`），`.edaignore` 追加 `CHANGELOG.md` |
 | 4 | ~~端口取值与早期方案不一致~~ **已解决** | 已定稿并发文统一为 `0x5A47-0x5A50`（23111-23120）；上游 60832 保留给上游、两套并存（实测 23111 与 60832 可同时监听，无互踢） | 文档/安装脚本/健康示例检查是否仍有早期草稿端口残留；不要再改端口 |
 | 5 | **缺少上游 provenance 锚点** | 仓库内 `grep 7cde1ae / v1.14.0 / zhoushoujianwork` 在 `runtime/`、`connector/`、`distribution/` 中无命中（仅 `runtime/internal/selfupdate` 有残留 slug） | 按 5.3 增加 `third_party/easyeda-agent/UPSTREAM.json` + LICENSE/NOTICE（+ 可选源码 tarball） |
-| 6 | **状态目录隔离后根 `.gitignore` 仍写 `.easyeda/`** | 根 `.gitignore` 有 `.easyeda/`（两处）但无 `.zhigou/`；若从仓库根运行 zhigou，产物会落在未忽略的 `.zhigou/` | 追加 `.zhigou/`，并考虑是否保留 `.easyeda/` 兼容行 |
-| 7 | **构建产物混在工作树** | `runtime/dist/zhigou.exe` 24 MB + `zhigou.exe~` 24 MB；`connector/build/dist/*.eext` 3 MB；`connector/node_modules/` 存在 | 确认根 `.gitignore` 的 `dist/` 能覆盖（应能）；`*.exe~`、`node_modules/` 也要忽略；提交前清掉 `~` 备份 |
+| 6 | **状态目录隔离后根 `.gitignore` 仍写 `.easyeda/`** | 根 `.gitignore` 有 `.easyeda/`（两处）但无 `.easycirq/`；若从仓库根运行 easycirq，产物会落在未忽略的 `.easycirq/` | 追加 `.easycirq/`，并考虑是否保留 `.easyeda/` 兼容行 |
+| 7 | **构建产物混在工作树** | `runtime/dist/easycirq.exe` 24 MB + `easycirq.exe~` 24 MB；`connector/build/dist/*.eext` 3 MB；`connector/node_modules/` 存在 | 确认根 `.gitignore` 的 `dist/` 能覆盖（应能）；`*.exe~`、`node_modules/` 也要忽略；提交前清掉 `~` 备份 |
 | 8 | **`runtime/` 保留了上游测试（465 个 `_test.go`）** | 见 5.3 | 建议保留并跑 `go -C runtime test ./...`（离线可跑；与真实 EDA 交互的测试会自行跳过/需环境，详见测试注释） |
 | 9 | **上游已知缺陷被继承** | `schematic.pin.repair_marker` 无 connector handler（1.3） | 要么在 connector 补 handler，要么从 `actions.go`/playbook 里移除，别留“会让单个 playbook 步骤必失败”的 action |
-| 10 | **`version.go` 多出本地字段** | `runtime/internal/version/version.go:11` `ConnectorName = "zhigou-connector"` | 确认所有引用点（`/health`、`update --check`、connector 版本比对）都读它，避免两套常量 |
+| 10 | **`version.go` 多出本地字段** | `runtime/internal/version/version.go:11` `ConnectorName = "easycirq-connector"` | 确认所有引用点（`/health`、`update --check`、connector 版本比对）都读它，避免两套常量 |
 
 > 运行期结论（daemon 启动、端口占用、connector 握手、`.eext` 真机导入）本轮**未验证**——按规则没有启动真实 daemon/EDA；上述均为静态分析与产物只读测量。
 
@@ -851,7 +851,7 @@ go 1.26.3
 已在 5.4-E 列出全部落点。摘要：
 1. `update` 命令会把**正在运行的 exe** 原子替换（`selfupdate/cli.go:405` `replaceBinary`），并默认 `--restart-daemon`（`cmd_update.go:291`）。在“我们自己的 toolchain”里保留这条链路等于把发布权交给上游 GitHub —— **必须改 RepoSlug 或删命令**。
 2. daemon 启动默认联网：`--auto-update-skill=true`（`cmd_daemon.go:131`）→ `runStartupSkillSync`（`:139-145`）→ `StartupSync`（`selfupdate.go:706`）。即使本机没有已装 skill 目录，也会在 `Targets(true)` 为空时提前返回（`:712`）；但一旦用户装过上游 skill，就会下载 `skills.tar.gz` 覆盖 `~/.claude|~/.codex|~/.agents/skills/easyeda-agent`。**这会在用户机器上写入上游内容**，对“自有品牌隔离”是直接冲突。
-   **工作树实测（2026-10-27）**：`runtime/internal/selfupdate/selfupdate.go:31` 已被脚本改成 `RepoSlug = "zhoushoujianwork/zhigou-agent"`（不存在的 repo），`cli.go:78,82` 仍返回 `easyeda_*` 资产名，`cmd_daemon.go:131` 仍默认 `true` → 当前状态是“能编译、但 `update` 永远失败、daemon 启动仍会尝试联网”。按 5.4-E 收口，不要留半改状态。
+   **工作树实测（2026-10-27）**：`runtime/internal/selfupdate/selfupdate.go:31` 已被脚本改成 `RepoSlug = "zhoushoujianwork/easycirq-agent"`（不存在的 repo），`cli.go:78,82` 仍返回 `easyeda_*` 资产名，`cmd_daemon.go:131` 仍默认 `true` → 当前状态是“能编译、但 `update` 永远失败、daemon 启动仍会尝试联网”。按 5.4-E 收口，不要留半改状态。
 3. 构建期无下载：`go:generate` 无命中；`go:embed` 的资源都在仓库内；connector 构建只依赖 npm registry。
 4. 其它网络行为：CLI 只在 `update`/`skill status|sync`/daemon 启动同步时联网；`api`/`blocks` 命令读内嵌数据离线可用。
 
@@ -920,7 +920,7 @@ hostRecommendedVersion = "4.1.60"
 
 ### 6.11 UNKNOWN 清单（必须后续实测）
 
-1. Go 1.26.3 工具链在**目标构建机**是否可获取、`go -C runtime build` 是否零错误（**本分析环境** `go` 不在 PATH，未自行编译；工作树中的 `runtime/dist/zhigou.exe` 由并行任务产出，24,074,240 B，非本分析构建）。
+1. Go 1.26.3 工具链在**目标构建机**是否可获取、`go -C runtime build` 是否零错误（**本分析环境** `go` 不在 PATH，未自行编译；工作树中的 `runtime/dist/easycirq.exe` 由并行任务产出，24,074,240 B，非本分析构建）。
 2. `npm ci` 在干净机器上是否可复现（本工作树 `connector/node_modules` 已存在；`.eext`/`dist/index.js` 大小已实测，见 4.3/5.3）。
 3. `.eext` 在目标 EasyEDA 版本（V3.2.x / V4.x）能否导入、`engines.eda ">=3.2.0"`（已 rebrand 后）是否满足。
 4. EasyEDA 扩展安装目录与卸载行为（仓库无代码可证）。
@@ -965,18 +965,18 @@ hostRecommendedVersion = "4.1.60"
 > 按“一个提交一个主题”排列；每条给出 `文件:行` 与动作。带 ★ 的是**功能必须**，其余是品牌一致性。
 
 **P1 service / 端口（★）**
-1. ★ `internal/daemon/daemon.go:19` `Service = "easyeda-agent"` → `"zhigou-agent"`。
+1. ★ `internal/daemon/daemon.go:19` `Service = "easyeda-agent"` → `"easycirq-agent"`。
 | 2 | ★ `internal/app/dispatch.go:28-29` `0xeda0/0xeda9` → **`0x5a47/0x5a50`（23111/23120，已定稿）**；上游 60832 段由上游 CLI 独占，两套并存。 |
 3. ★ `internal/app/dispatch.go:1407` 硬编码 `"easyeda-agent"` → `daemon.Service`（同时 `:1208`、`daemon_autostart.go:104,134` 的提示文案可留可改）。
-4. ★ `extension/src/protocol.ts:13` `SERVICE_ID='zhigou-agent'`（必须与 1 完全一致）。
+4. ★ `extension/src/protocol.ts:13` `SERVICE_ID='easycirq-agent'`（必须与 1 完全一致）。
 5. ★ `extension/src/transport.ts:77,81` `DAEMON_PORT=0x5a47`、`RESERVED_PORT_END=0x5a50`。
 6. 文案：`internal/app/cmd_daemon.go:64-77`（60832 说明）、`extension/src/transport.ts:2-31` 注释。
 
 **P2 配置目录 / env 前缀（★ 隔离必做）**
-7. ★ `.easyeda-agent` → `.zhigou`：`cmd_daemon.go:208`、`daemon_autostart.go:36`、`daemon/audit.go:87`、`app/audit.go:31`、`workflow.go:737`（另有 9 处注释/帮助文案同步改）。
-8. ★ `.easyeda/artifacts` → `.zhigou/artifacts`：`app/dispatch.go:1097,1107,1138,1237,1239`、`daemon/dispatch.go:386,399,401`、`daemon/daemon.go:31`、`protocol/envelope.go:21`（功能点是 `app/dispatch.go:1240` 的 `outputDir` 与 `daemon/dispatch.go:390` 的 `filepath.Join(..., ".easyeda", "artifacts")`）。
-9. ★ `EASYEDA_` → `ZHIGOU_`（14 文件 30 行；含 5.2 表列出的 9 个生产 env + 安装脚本 env）。
-10. ★ `internal/version/version.go:5` `Name="zhigou"`；`internal/app/app.go:65` `Use:"zhigou"`。
+7. ★ `.easyeda-agent` → `.easycirq`：`cmd_daemon.go:208`、`daemon_autostart.go:36`、`daemon/audit.go:87`、`app/audit.go:31`、`workflow.go:737`（另有 9 处注释/帮助文案同步改）。
+8. ★ `.easyeda/artifacts` → `.easycirq/artifacts`：`app/dispatch.go:1097,1107,1138,1237,1239`、`daemon/dispatch.go:386,399,401`、`daemon/daemon.go:31`、`protocol/envelope.go:21`（功能点是 `app/dispatch.go:1240` 的 `outputDir` 与 `daemon/dispatch.go:390` 的 `filepath.Join(..., ".easyeda", "artifacts")`）。
+9. ★ `EASYEDA_` → `EASYCIRQ_`（14 文件 30 行；含 5.2 表列出的 9 个生产 env + 安装脚本 env）。
+10. ★ `internal/version/version.go:5` `Name="easycirq"`；`internal/app/app.go:65` `Use:"easycirq"`。
 
 **P3 connector 身份（★ 防冲突）**
 11. ★ `extension/extension.json:3` 新 uuid；`:2` name；`:4` displayName；`:6` version=0.1.0；`:7` publisher；`:12-17` 仓库链接；`:33-201` 菜单标题（6 处）。
@@ -992,7 +992,7 @@ hostRecommendedVersion = "4.1.60"
 19. 若保留 update：`cmd_update.go:278-291` 旗标语义 + 资产命名 + `install.*` 全重写。
 
 **P5 品牌一致性（可后置）**
-20. Go 用户可见 `easyeda` 文案（230 文件/1383 行里挑 `fmt.Errorf`/`Long`/`Example`）→ `zhigou`。
+20. Go 用户可见 `easyeda` 文案（230 文件/1383 行里挑 `fmt.Errorf`/`Long`/`Example`）→ `easycirq`。
 21. `Makefile:95,100,113,172,206-212`（ldflags 路径/产物名/资产名）。
 22. `.air.toml`（bin/args）。
 23. 若改 module path：123 文件/161 行 import 一次性 sed + `go.mod:1` + `Makefile` ldflags。

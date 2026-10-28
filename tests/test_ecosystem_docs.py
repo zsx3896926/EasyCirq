@@ -9,7 +9,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware/scripts'
+SCRIPTS = ROOT / 'easycirq/scripts'
 def load(name):
     spec = importlib.util.spec_from_file_location(name, SCRIPTS / (name+'.py'))
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
@@ -78,7 +78,7 @@ class DocsTests(unittest.TestCase):
         self.assertEqual(D.main(['query','--root',str(self.root),'--index',str(bad),'--query','check','--out',str(out)]),2)
         self.assertEqual(json.loads(out.read_text())['status'],'invalid_input')
     def test_vendored_sources_match_recorded_original_bytes(self):
-        root=ROOT/'design-hardware/vendor/easyeda-format'
+        root=ROOT/'easycirq/vendor/easyeda-format'
         meta=json.loads((root/'source.json').read_text(encoding='utf-8'))
         self.assertEqual(meta['license'],'MIT')
         for path,expected in meta['files'].items():

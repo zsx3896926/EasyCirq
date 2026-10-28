@@ -14,7 +14,7 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 
 import companion_update as c  # noqa: E402
@@ -23,17 +23,17 @@ import companion_update as c  # noqa: E402
 def doctor_report(*, ready=True, connector='connected', verdict='ok',
                   blockers=None):
     return {
-        'schema': 'zhigou-doctor/v1',
+        'schema': 'easycirq-doctor/v1',
         'verdict': verdict,
         'ready': ready,
-        'runtime': {'name': 'zhigou', 'version': '0.2.0-dev', 'onDisk': True,
-                    'executable': 'zhigou.exe'},
-        'skill': {'name': 'design-hardware', 'status': 'installed',
+        'runtime': {'name': 'easycirq', 'version': '0.2.0-dev', 'onDisk': True,
+                    'executable': 'easycirq.exe'},
+        'skill': {'name': 'easycirq', 'status': 'installed',
                   'installed': []},
         'daemon': {'status': 'running', 'pid': 1, 'port': 23111},
         'connector': {'status': connector,
                       'count': 1 if connector == 'connected' else 0},
-        'protocol': {'service': 'zhigou-agent'},
+        'protocol': {'service': 'easycirq-agent'},
         'checks': [], 'failed_checks': [],
         'next_steps': ['import the connector'] if connector != 'connected' else [],
         'blockers': list(blockers or ([] if ready else ['connector is disconnected'])),
@@ -52,31 +52,31 @@ class RuntimeCheck(unittest.TestCase):
         self.assertIn('distribution/', result['next_step'])
 
     def test_ready_doctor_reports_ready(self):
-        with mock.patch.object(c, 'executable', return_value='C:/bin/zhigou.exe'), \
-                mock.patch.object(c.zhigou_cli, 'doctor',
+        with mock.patch.object(c, 'executable', return_value='C:/bin/easycirq.exe'), \
+                mock.patch.object(c.easycirq_cli, 'doctor',
                                   return_value={'ok': True,
                                                 'report': doctor_report()}):
             result = c.check('claude', Path.home())
         self.assertEqual(result['status'], 'ready')
-        self.assertEqual(result['runtime']['name'], 'zhigou')
+        self.assertEqual(result['runtime']['name'], 'easycirq')
         self.assertFalse(result['connector_requires_manual_action'])
 
     def test_disconnected_connector_is_attention_and_manual(self):
-        with mock.patch.object(c, 'executable', return_value='C:/bin/zhigou.exe'), \
-                mock.patch.object(c.zhigou_cli, 'doctor',
+        with mock.patch.object(c, 'executable', return_value='C:/bin/easycirq.exe'), \
+                mock.patch.object(c.easycirq_cli, 'doctor',
                                   return_value={'ok': True, 'report': doctor_report(
                                       ready=False, connector='disconnected',
                                       verdict='degraded')}):
             result = c.check('claude', Path.home())
         self.assertEqual(result['status'], 'needs_attention')
         self.assertTrue(result['connector_requires_manual_action'])
-        self.assertIn('zhigou doctor', result['next_step'])
+        self.assertIn('easycirq doctor', result['next_step'])
 
     def test_unreadable_doctor_is_unverified_not_current(self):
-        with mock.patch.object(c, 'executable', return_value='C:/bin/zhigou.exe'), \
-                mock.patch.object(c.zhigou_cli, 'doctor',
+        with mock.patch.object(c, 'executable', return_value='C:/bin/easycirq.exe'), \
+                mock.patch.object(c.easycirq_cli, 'doctor',
                                   return_value={'ok': False, 'report': None,
-                                                'error': 'zhigou doctor exited 127'}):
+                                                'error': 'easycirq doctor exited 127'}):
             result = c.check('claude', Path.home())
         self.assertEqual(result['status'], 'unverified')
         self.assertNotEqual(result['status'], 'current')
@@ -89,21 +89,21 @@ class RuntimeCheck(unittest.TestCase):
             calls.append(kwargs)
             return {'ok': True, 'report': doctor_report()}
 
-        with mock.patch.object(c, 'executable', return_value='C:/bin/zhigou.exe'), \
-                mock.patch.object(c.zhigou_cli, 'doctor', side_effect=fake_doctor):
+        with mock.patch.object(c, 'executable', return_value='C:/bin/easycirq.exe'), \
+                mock.patch.object(c.easycirq_cli, 'doctor', side_effect=fake_doctor):
             c.check('claude', Path.home())
-        self.assertEqual(calls[0]['env']['ZHIGOU_NO_AUTOSTART'], '1')
+        self.assertEqual(calls[0]['env']['EASYCIRQ_NO_AUTOSTART'], '1')
 
     def test_explicit_executable_path_is_used(self):
-        with mock.patch.object(c.zhigou_cli, 'doctor',
+        with mock.patch.object(c.easycirq_cli, 'doctor',
                                return_value={'ok': True,
                                              'report': doctor_report()}) as doctor:
             with tempfile.TemporaryDirectory() as temp:
-                exe = Path(temp) / 'zhigou.exe'
+                exe = Path(temp) / 'easycirq.exe'
                 exe.write_bytes(b'')
                 result = c.check('claude', Path.home(), exe)
         self.assertEqual(result['status'], 'ready')
-        self.assertEqual(doctor.call_args.kwargs['zhigou'], str(exe))
+        self.assertEqual(doctor.call_args.kwargs['easycirq'], str(exe))
 
 
 class UpdateIsRefused(unittest.TestCase):
@@ -130,8 +130,8 @@ class UpdateIsRefused(unittest.TestCase):
         self.assertEqual(result['status'], 'blocked')
 
     def test_update_reports_current_state_without_claiming_success(self):
-        with mock.patch.object(c, 'executable', return_value='C:/bin/zhigou.exe'), \
-                mock.patch.object(c.zhigou_cli, 'doctor',
+        with mock.patch.object(c, 'executable', return_value='C:/bin/easycirq.exe'), \
+                mock.patch.object(c.easycirq_cli, 'doctor',
                                   return_value={'ok': True,
                                                 'report': doctor_report()}):
             result = c.update('claude', Path.home(), Path('C:/tmp/backups'), idle=True)

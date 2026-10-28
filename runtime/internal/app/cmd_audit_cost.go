@@ -32,7 +32,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // auditProbeActions 是上下文探测 —— CLI 每次启动 resolve 窗口/工程时打的那几发。

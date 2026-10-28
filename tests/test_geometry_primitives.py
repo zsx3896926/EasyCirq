@@ -14,7 +14,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 
 import pcb_apply_plan  # noqa: E402
@@ -144,7 +144,7 @@ class ApplyGeometryTests(unittest.TestCase):
         Path(plan).write_text(json.dumps({'ops': ops}), encoding='utf-8')
         code = pcb_apply_plan.main([
             '--dump', dump, '--plan', plan, '--project', 'p', '--doc', 'PCB1',
-            '--out-dump', out, '--report', report, '--zhigou', 'fake-zhigou.exe',
+            '--out-dump', out, '--report', report, '--easycirq', 'fake-easycirq.exe',
         ])
         return code, json.loads(Path(report).read_text(encoding='utf-8'))
 

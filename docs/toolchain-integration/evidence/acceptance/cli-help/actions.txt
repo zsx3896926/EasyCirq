@@ -1,7 +1,7 @@
 Print the typed action catalog as JSON
 
 Usage:
-  zhigou actions [flags]
+  easycirq actions [flags]
 
 Flags:
   -h, --help   help for actions

@@ -25,23 +25,23 @@
 
 ## 2. 本轮新增或深化的高频硬件能力
 
-新增 `design-hardware/references/common-hardware/`：
+新增 `easycirq/references/common-hardware/`：
 
 | 组 | 文件 | 主题 |
 |---|---|---|
-| A 温度/湿度/环境 | [a-environment.md](../design-hardware/references/common-hardware/a-environment.md) | A1 NTC、A2 数字温度、A3 RTD、A4 热电偶、A5 温湿度、A6 气压/高度、A7 气体/空气质量 |
-| B 光/接近/距离/人体 | [b-optics.md](../design-hardware/references/common-hardware/b-optics.md) | B1 环境光、B2 光电二极管 TIA、B3 反射、B4 对射/槽型、B5 PIR、B6 ToF、B7 超声、B8 毫米波 |
-| C 运动/位置/转速 | [c-motion.md](../design-hardware/references/common-hardware/c-motion.md) | C1 加速度、C2 IMU、C3 磁力计、C4 霍尔、C5 编码器、C6 转速、C7 限位/接近 |
-| D 力/压力/液位/流量 | [d-force.md](../design-hardware/references/common-hardware/d-force.md) | D1 称重、D2 模拟压力、D3 数字压力、D4 液位、D5 土壤、D6 脉冲流量、D7 模拟量接口 |
-| E 电压/电流/电能 | [e-measurement.md](../design-hardware/references/common-hardware/e-measurement.md) | E1 电压、E2 低侧、E3 高侧、E4 双向、E5 隔离、E6 电量、E7 多通道 |
-| F 供电入口/保护 | [f-input-protection.md](../design-hardware/references/common-hardware/f-input-protection.md) | F1 USB、F2 USB-C 5V、F3 PD、F4 DC 座/端子、F5 反接、F6 过流、F7 过压、F8 浪涌/热插拔 |
-| G 电源转换 | [g-power-conversion.md](../design-hardware/references/common-hardware/g-power-conversion.md) | G1 LDO、G2 Buck、G3 Boost、G4 Buck-Boost、G5 负压、G6 隔离、G7 负载开关、G8 多路 |
-| H 电池/充电/低功耗 | [h-battery.md](../design-hardware/references/common-hardware/h-battery.md) | H1 一次电池、H2 充电、H3 电源路径、H4 保护、H5 多节、H6 共存、H7 低功耗、H8 低电量 |
-| I 主控/最小系统 | [i-mcu.md](../design-hardware/references/common-hardware/i-mcu.md) | I1 低成本、I2 通用、I3 无线、I4 模拟主控、I5 时钟、I6 复位/看门狗、I7 下载、I8 存储 |
-| J 总线/有线通信 | [j-buses.md](../design-hardware/references/common-hardware/j-buses.md) | J1 I²C、J2 SPI、J3 UART、J4 RS-232、J5 RS-485、J6 CAN、J7 USB、J8 以太网 |
-| K 开关/继电器/电机 | [k-drive.md](../design-hardware/references/common-hardware/k-drive.md) | K1 低侧、K2 高侧、K3 继电器、K4 电磁阀、K5 直流电机、K6 步进、K7 风扇、K8 舵机、K9 加热器 |
-| L 显示/声音/交互 | [l-hmi.md](../design-hardware/references/common-hardware/l-hmi.md) | L1 LED、L2 数码管/矩阵、L3 OLED/LCD、L4 TFT、L5 触摸、L6 按键、L7 旋钮、L8 蜂鸣器、L9 扬声器 |
-| M 无线/时间/隔离 | [m-wireless-time.md](../design-hardware/references/common-hardware/m-wireless-time.md) | M1 Wi-Fi、M2 BLE、M3 Sub-GHz、M4 蜂窝、M5 GNSS、M6 RTC、M7 NFC/RFID、M8 数字隔离 |
+| A 温度/湿度/环境 | [a-environment.md](../easycirq/references/common-hardware/a-environment.md) | A1 NTC、A2 数字温度、A3 RTD、A4 热电偶、A5 温湿度、A6 气压/高度、A7 气体/空气质量 |
+| B 光/接近/距离/人体 | [b-optics.md](../easycirq/references/common-hardware/b-optics.md) | B1 环境光、B2 光电二极管 TIA、B3 反射、B4 对射/槽型、B5 PIR、B6 ToF、B7 超声、B8 毫米波 |
+| C 运动/位置/转速 | [c-motion.md](../easycirq/references/common-hardware/c-motion.md) | C1 加速度、C2 IMU、C3 磁力计、C4 霍尔、C5 编码器、C6 转速、C7 限位/接近 |
+| D 力/压力/液位/流量 | [d-force.md](../easycirq/references/common-hardware/d-force.md) | D1 称重、D2 模拟压力、D3 数字压力、D4 液位、D5 土壤、D6 脉冲流量、D7 模拟量接口 |
+| E 电压/电流/电能 | [e-measurement.md](../easycirq/references/common-hardware/e-measurement.md) | E1 电压、E2 低侧、E3 高侧、E4 双向、E5 隔离、E6 电量、E7 多通道 |
+| F 供电入口/保护 | [f-input-protection.md](../easycirq/references/common-hardware/f-input-protection.md) | F1 USB、F2 USB-C 5V、F3 PD、F4 DC 座/端子、F5 反接、F6 过流、F7 过压、F8 浪涌/热插拔 |
+| G 电源转换 | [g-power-conversion.md](../easycirq/references/common-hardware/g-power-conversion.md) | G1 LDO、G2 Buck、G3 Boost、G4 Buck-Boost、G5 负压、G6 隔离、G7 负载开关、G8 多路 |
+| H 电池/充电/低功耗 | [h-battery.md](../easycirq/references/common-hardware/h-battery.md) | H1 一次电池、H2 充电、H3 电源路径、H4 保护、H5 多节、H6 共存、H7 低功耗、H8 低电量 |
+| I 主控/最小系统 | [i-mcu.md](../easycirq/references/common-hardware/i-mcu.md) | I1 低成本、I2 通用、I3 无线、I4 模拟主控、I5 时钟、I6 复位/看门狗、I7 下载、I8 存储 |
+| J 总线/有线通信 | [j-buses.md](../easycirq/references/common-hardware/j-buses.md) | J1 I²C、J2 SPI、J3 UART、J4 RS-232、J5 RS-485、J6 CAN、J7 USB、J8 以太网 |
+| K 开关/继电器/电机 | [k-drive.md](../easycirq/references/common-hardware/k-drive.md) | K1 低侧、K2 高侧、K3 继电器、K4 电磁阀、K5 直流电机、K6 步进、K7 风扇、K8 舵机、K9 加热器 |
+| L 显示/声音/交互 | [l-hmi.md](../easycirq/references/common-hardware/l-hmi.md) | L1 LED、L2 数码管/矩阵、L3 OLED/LCD、L4 TFT、L5 触摸、L6 按键、L7 旋钮、L8 蜂鸣器、L9 扬声器 |
+| M 无线/时间/隔离 | [m-wireless-time.md](../easycirq/references/common-hardware/m-wireless-time.md) | M1 Wi-Fi、M2 BLE、M3 Sub-GHz、M4 蜂窝、M5 GNSS、M6 RTC、M7 NFC/RFID、M8 数字隔离 |
 
 每个主题固定 12 节：用户会怎么说、路线选择、必查参数、电路组成、参数与算例、原理图与逐脚、PCB、程序、验证、常见误判、采购与落地、来源与证据。组文件头部有“本组怎么用”的话术路由，末尾有来源表与需要同步修正的旧内容。
 
@@ -65,7 +65,7 @@
 | L | Everlight/Kingbright LED、Titan TM1637、Maxim MAX7219、Solomon SSD1306/SH1106、ST ST7789V、FT6236/TTP223、Omron TS-1088、Bourns PEC11R、CUI CEM-1203、Maxim MAX98357A |
 | M | Espressif ESP32-C3-MINI-1、Nordic nRF52840、Semtech SX1268、Quectel EG915N、u-blox MAX-M10S、Maxim DS3231、NXP PN532、TI ISO7721 |
 
-来源登记在 [原始来源登记](../design-hardware/references/source-register.md) 的 `CHW-S001–S255` 段（本轮实际登记 200 条）；每条含文档号/版本、实际查阅范围、支持内容与“不能推广”。商品页、搜索摘要、二手转载不作为已核对正文；本地缓存路径与公开 URL 都在来源表中标明。
+来源登记在 [原始来源登记](../easycirq/references/source-register.md) 的 `CHW-S001–S255` 段（本轮实际登记 200 条）；每条含文档号/版本、实际查阅范围、支持内容与“不能推广”。商品页、搜索摘要、二手转载不作为已核对正文；本地缓存路径与公开 URL 都在来源表中标明。
 
 ## 4. 修正的旧错误与同步范围
 
@@ -89,16 +89,16 @@
 
 ## 5. 可直接用于 Agent 的路由与设计资料
 
-- [常用硬件 README](../design-hardware/references/common-hardware/README.md)：按用户话术（测温/称重/风扇/电池/屏幕）路由到 13 组与 12 个应用。
-- [SKILL.md](../design-hardware/SKILL.md)：按需读取表新增“常用硬件”入口；3.1 节说明与设计卡的分工。
-- [module-cards.md](../design-hardware/references/module-cards.md)：主控/电源/接口/无线/模拟/驱动/HMI/隔离各节补常用硬件链接。
-- [domains.md](../design-hardware/references/domains.md)：新增“日常常用硬件”领域行。
+- [常用硬件 README](../easycirq/references/common-hardware/README.md)：按用户话术（测温/称重/风扇/电池/屏幕）路由到 13 组与 12 个应用。
+- [SKILL.md](../easycirq/SKILL.md)：按需读取表新增“常用硬件”入口；3.1 节说明与设计卡的分工。
+- [module-cards.md](../easycirq/references/module-cards.md)：主控/电源/接口/无线/模拟/驱动/HMI/隔离各节补常用硬件链接。
+- [domains.md](../easycirq/references/domains.md)：新增“日常常用硬件”领域行。
 - 每组头部“本组怎么用”给出用户话术 → 先判断 → 路线 → 主题；组内主题再按 12 节展开。
 - 盲测后修正的 routing：README 增加“ESP32/无线 + 2.4 寸彩屏 + 蜂鸣器”和“门窗开合/干簧/霍尔/纽扣电池”直达行；05 电子秤行改为 `D1 + ANA-09 + I1 + L3 + F2/G1`（E1/E7 仅可选）；08 RS-485 行拆成“无 4–20 mA（默认隔离）”和“带 4–20 mA（加 D7/E5）”；A2 补 DS18B20 ±0.5 °C 仅 −10…85 °C；03 应用增加 ESP32 + 2.4 寸 TFT 变体（≥1 A Buck）。
 
 ## 6. 组合应用成果
 
-12 个组合应用在 [applications/](../design-hardware/references/common-hardware/applications/)：
+12 个组合应用在 [applications/](../easycirq/references/common-hardware/applications/)：
 
 温度过高报警、自动调速风扇、桌面温湿度显示、电池门窗提醒、简易电子秤、水箱液位提醒、设备电流监测、RS-485 采集节点、定时控制装置、土壤监测装置、小型数据记录器、电磁阀控制器。
 

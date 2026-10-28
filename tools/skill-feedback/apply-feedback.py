@@ -8,11 +8,11 @@ of duplicating text. Target edits stay within the skill root; exact backup journ
 stored in a sibling .skill-feedback-state directory.
 
 Targets (relative to the skill root you pass in):
-  zhigou-agent/SKILL.md
-  zhigou-agent/references/environment-setup.md
-  zhigou-agent/scripts/parts-select.py
-  zhigou-agent/scripts/net-discipline-audit.py   (new file)
-  design-hardware/SKILL.md
+  easycirq-agent/SKILL.md
+  easycirq-agent/references/environment-setup.md
+  easycirq-agent/scripts/parts-select.py
+  easycirq-agent/scripts/net-discipline-audit.py   (new file)
+  easycirq/SKILL.md
 
 Usage:
   python apply-feedback.py --check  <skill-root>     # dry run, exit 1 if edits pending
@@ -107,22 +107,22 @@ EA_ENV_ANCHOR = "## 上下文与缓存"
 
 # (relative path, kind, anchor, payload, idempotency marker)
 EDITS = [
-    ("zhigou-agent/SKILL.md", "insert_before", EA_SKILL_ANCHOR_BULLET,
+    ("easycirq-agent/SKILL.md", "insert_before", EA_SKILL_ANCHOR_BULLET,
      EA_SKILL_BULLET, "网络纪律：只经 CLI"),
-    ("zhigou-agent/SKILL.md", "insert_after", EA_SKILL_ANCHOR_ROW,
+    ("easycirq-agent/SKILL.md", "insert_after", EA_SKILL_ANCHOR_ROW,
      EA_SKILL_TABLE_ROW, "418 / “访问被拦截”"),
-    ("zhigou-agent/references/environment-setup.md", "insert_before", EA_ENV_ANCHOR,
+    ("easycirq-agent/references/environment-setup.md", "insert_before", EA_ENV_ANCHOR,
      EA_ENV_SECTION, "## 接口限流与 418（访问被拦截）"),
-    ("zhigou-agent/scripts/parts-select.py", "replace", PS_NOTE_OLD,
+    ("easycirq-agent/scripts/parts-select.py", "replace", PS_NOTE_OLD,
      PS_NOTE_NEW, "DANGER: this is the ONLY code path"),
-    ("zhigou-agent/scripts/parts-select.py", "replace", PS_FN_OLD,
+    ("easycirq-agent/scripts/parts-select.py", "replace", PS_FN_OLD,
      PS_FN_NEW, "JLC_DIRECT_GUARD"),
-    ("zhigou-agent/scripts/parts-select.py", "replace", PS_MAIN_OLD,
+    ("easycirq-agent/scripts/parts-select.py", "replace", PS_MAIN_OLD,
      PS_MAIN_NEW, "reconfigure(encoding='utf-8'"),
-    ("design-hardware/SKILL.md", "insert_before", EA_DH_ANCHOR6, DH_ITEM,
+    ("easycirq/SKILL.md", "insert_before", EA_DH_ANCHOR6, DH_ITEM,
      "查料走平台正常路径"),
 ]
-NEW_FILES = [("zhigou-agent/scripts/net-discipline-audit.py", "net-discipline-audit.py")]
+NEW_FILES = [("easycirq-agent/scripts/net-discipline-audit.py", "net-discipline-audit.py")]
 
 
 STATE_NAME = '.feedback-state.json'
@@ -182,8 +182,8 @@ def plan(root):
         if b'\r\n' in before: text = text.replace('\n', '\r\n')
         after = text.encode('utf8')
         if after != before: result.append({'path': rel, 'before': encode(before), 'after': encode(after)})
-    sources = [('zhigou-agent/scripts/net-discipline-audit.py', Path(__file__).with_name('net-discipline-audit.py')),
-               ('design-hardware/references/network-discipline.md', Path(__file__).resolve().parents[2] / 'design-hardware/references/network-discipline.md')]
+    sources = [('easycirq-agent/scripts/net-discipline-audit.py', Path(__file__).with_name('net-discipline-audit.py')),
+               ('easycirq/references/network-discipline.md', Path(__file__).resolve().parents[2] / 'easycirq/references/network-discipline.md')]
     for rel, source in sources:
         desired = source.read_bytes().replace(b'\r\n', b'\n')
         current = snapshot(target(root, rel))
@@ -195,7 +195,7 @@ def validate_state(root, state):
     if state.get('schema') != 'skill-feedback/v2' or state.get('root') != str(root):
         raise ValueError('state schema/root mismatch')
     seen = set()
-    allowed = {x[0] for x in EDITS} | {'zhigou-agent/scripts/net-discipline-audit.py', 'design-hardware/references/network-discipline.md'}
+    allowed = {x[0] for x in EDITS} | {'easycirq-agent/scripts/net-discipline-audit.py', 'easycirq/references/network-discipline.md'}
     for row in state['files']:
         if row['path'] not in allowed or row['path'] in seen: raise ValueError('invalid state path')
         seen.add(row['path']); target(root, row['path'])
@@ -231,7 +231,7 @@ def main():
     root = Path(args.root).absolute()
     if root.is_symlink() or (hasattr(root, 'is_junction') and root.is_junction()): raise ValueError('root cannot be a link')
     root = root.resolve()
-    if not (root/'zhigou-agent').is_dir() or not (root/'design-hardware').is_dir(): raise ValueError('both skill directories are required')
+    if not (root/'easycirq-agent').is_dir() or not (root/'easycirq').is_dir(): raise ValueError('both skill directories are required')
     state_dir = root.parent / '.skill-feedback-state' / hashlib.sha256(str(root).encode()).hexdigest()[:16]
     state_dir.mkdir(parents=True, exist_ok=True)
     state_path = state_dir / STATE_NAME

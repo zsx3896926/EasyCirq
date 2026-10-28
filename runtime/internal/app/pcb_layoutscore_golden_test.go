@@ -48,7 +48,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
 )
 
 // goldenBoardsDir 是金标准板 fixture 的家。本仓在此之前**零 testdata 目录**

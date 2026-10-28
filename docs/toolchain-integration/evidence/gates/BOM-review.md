@@ -1,6 +1,6 @@
 # BOM 身份核对（验收板）
 
-> 来源：官方 `zhigou bom export --type csv` 的 `BOM.csv`，逐行用 `zhigou lib search <C号>`
+> 来源：官方 `easycirq bom export --type csv` 的 `BOM.csv`，逐行用 `easycirq lib search <C号>`
 > 读库元数据核对厂家/MPN。未把库内部编号当订货型号。
 
 | 位号 | 值/说明 | 封装 | C 号 | BOM 厂家 | BOM MPN | 库厂家 | 库 MPN | 判定 |

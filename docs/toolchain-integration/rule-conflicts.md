@@ -1,6 +1,6 @@
 # 智构 × easyeda-agent：规则级冲突审计（阶段 1：只审计，不改 Skill）
 
-- 审计对象 A（我方，权威）：`C:\Users\jlc\work\zhigou-toolchain\design-hardware`（分支 `feat/integrated-eda-toolchain`，基线 `9a951ed`，`.version`=1.0.1）
+- 审计对象 A（我方，权威）：`C:\Users\jlc\work\easycirq-toolchain\easycirq`（分支 `feat/integrated-eda-toolchain`，基线 `9a951ed`，`.version`=1.0.1）
 - 审计对象 B（上游）：`C:\Users\jlc\work\_round6-scratch\easyeda-agent-src\.agents\skills\easyeda-agent`（v1.14.0 源码快照）+ 已安装 `C:\Users\jlc\.codex\skills\easyeda-agent`、`C:\Users\jlc\.claude\skills\easyeda-agent`（**实际为 v1.15.0**，见 §2.3）
 - 原始清单与逐项证据：`docs/toolchain-integration/evidence/skill-audit/`（`01-our-skill-inventory.md`、`02-upstream-skill-inventory.md`、`03-installed-copies-compare.md`）
 - 本文件只做判定与方案，**未修改任何 Skill / 安装目录 / 上游克隆，未运行任何 EDA 命令**。
@@ -14,9 +14,9 @@
    - 上游把门禁当"报告"（`design-flow.md:18–19`："check/DRC/连接/几何/评分分别报告事实，**不负责许可下一步**"；`design-pre-analysis.md:1`："可选，**不是门禁**"），我方把门禁当"阶段退出证据门"（`SKILL.md:231`：G2 未过不导入/布局 PCB，G3/G4 未过不布线，G5 未过不谈制造）。
    - 上游把**用户确认**设为布线硬前置（`SKILL.md:43–44`、`design-flow.md:95`），我方明确"检查点**不是审批门**"（`SKILL.md:94–96`、`L62`）。
    - 上游整套工作循环自称"独立设计"（`SKILL.md:13–16`），我方定位是"Skill 出政策、执行器只执行"（`SKILL.md:8`、`L114`）。若两者同装，模型会随机遵循其中一套。
-3. **两套技能现在确实同时在客户端可见**：本会话可用技能清单同时列出 `design-hardware` 与 `easyeda-agent`；上游在 `~/.codex` 与 `~/.claude` 各有一份完全相同的 v1.15.0（聚合 SHA256 均为 `15AE1F60…213C75`）。因此"只加载一套"必须由**安装器移除/禁用上游 Skill 目录**落实，不能只靠 SKILL.md 里的措辞。
-4. **真正的阻塞不在 SKILL.md 文档，而在新执行器与"单 Skill"目标的接口**：自研 `runtime/`（vendored Go，rebrand 后二进制 `zhigou`、端口 23111–23120、状态目录 `~/.zhigou`）**仍在 daemon 启动时自动从 `zhoushoujianwork/zhigou-agent` 同步一套名为 `zhigou-agent` 的技能**（`cmd_skill.go:17–22` + `selfupdate.go:31–33`），并硬编码从 `skills/zhigou-agent/references/` 读 4 个数据资产（`standard-parts.json`、`orientation.json`、`sheet-templates.json`、`bom-enrich.py`）——**这 4 个资产我方 `design-hardware/` 一个都没有**。若不在 runtime 侧修改，则要么装出第三套技能、要么 block-apply/朝向/图纸模板/BOM 富化 全部无数据来源（C42、C44）。
-5. **我方 SKILL.md 已 323 行**（非派单说的 231 行），其中 132–207 行的 60+ 行"按需读取表"是长度主因；全文有 12 行含 `easyeda`（共 14 次出现），references 侧 `design-gates.md` 31 处、`pcb-routing-strategy.md` 27 处、`pcb-execution.md` 22 处硬绑上游 CLI —— 改名 `zhigou` 与"单一规则源"的工程量主要在 references，不是 SKILL.md 本身。
+3. **两套技能现在确实同时在客户端可见**：本会话可用技能清单同时列出 `easycirq` 与 `easyeda-agent`；上游在 `~/.codex` 与 `~/.claude` 各有一份完全相同的 v1.15.0（聚合 SHA256 均为 `15AE1F60…213C75`）。因此"只加载一套"必须由**安装器移除/禁用上游 Skill 目录**落实，不能只靠 SKILL.md 里的措辞。
+4. **真正的阻塞不在 SKILL.md 文档，而在新执行器与"单 Skill"目标的接口**：自研 `runtime/`（vendored Go，rebrand 后二进制 `easycirq`、端口 23111–23120、状态目录 `~/.easycirq`）**仍在 daemon 启动时自动从 `zhoushoujianwork/easycirq-agent` 同步一套名为 `easycirq-agent` 的技能**（`cmd_skill.go:17–22` + `selfupdate.go:31–33`），并硬编码从 `skills/easycirq-agent/references/` 读 4 个数据资产（`standard-parts.json`、`orientation.json`、`sheet-templates.json`、`bom-enrich.py`）——**这 4 个资产我方 `easycirq/` 一个都没有**。若不在 runtime 侧修改，则要么装出第三套技能、要么 block-apply/朝向/图纸模板/BOM 富化 全部无数据来源（C42、C44）。
+5. **我方 SKILL.md 已 323 行**（非派单说的 231 行），其中 132–207 行的 60+ 行"按需读取表"是长度主因；全文有 12 行含 `easyeda`（共 14 次出现），references 侧 `design-gates.md` 31 处、`pcb-routing-strategy.md` 27 处、`pcb-execution.md` 22 处硬绑上游 CLI —— 改名 `easycirq` 与"单一规则源"的工程量主要在 references，不是 SKILL.md 本身。
 6. 上游可安全引用的只有**执行器事实**（单位/锚点/`uniqueId` 命名空间/原生 DRC 布尔语义/读取预算/朝向表等 20 项，见 §4.3），且必须带 **MIT + 版本 + 文件:行** 出处；**其工作流、门禁叙事、用户确认停顿、固定阈值不得引用为规则**。
 
 ---
@@ -41,7 +41,7 @@
 | SKILL.md v1.14→v1.15 仅变 version + 2 行任务索引；references 有 12 个文件内容有实质差异（`pcb.md` +7128B 等） | `03-…compare.md §3` |
 | 本机 CLI 实为 `easyeda-agent v1.15.0`；`easyeda doctor` **不存在** | `docs/toolchain-integration/evidence/env/11-cli-version.txt`、`12-cli-doctor.txt` |
 | 我方 SKILL.md `L234` 仍写 "easyeda-agent **v1.14.0** 没有 Gerber CLI" → 与现状不同步 | `SKILL.md:234` |
-| 自研执行器**已落地但在建**：`runtime/`（vendored + rebrand，`dist/zhigou.exe` 23.9MB，mtime 21:22）、`connector/`（`zhigou-connector` uuid `a6e6b788…6e31`，e0.1.0）、`protocol/`；三者均 git 未跟踪，审计期间仍在写入 | `evidence/skill-audit/04-runtime-connector-observation.md`；`git status` |
+| 自研执行器**已落地但在建**：`runtime/`（vendored + rebrand，`dist/easycirq.exe` 23.9MB，mtime 21:22）、`connector/`（`easycirq-connector` uuid `a6e6b788…6e31`，e0.1.0）、`protocol/`；三者均 git 未跟踪，审计期间仍在写入 | `evidence/skill-audit/04-runtime-connector-observation.md`；`git status` |
 
 > **并发提示**：`runtime/`、`connector/`、`protocol/`、`distribution/rebrand_*.py` 在本审计执行期间由并行工作流写入（mtime 21:22）；本文件的 runtime 结论均带"截至 2026-10-27 21:25"时点，定稿后须复核 C42–C46。
 
@@ -49,28 +49,28 @@
 
 ## 3. 冲突表
 
-> 说明：`我方` 指 `design-hardware/`；`上游` 指已安装 `easyeda-agent/`（v1.15.0）。所有"文件:行"均按本机实测行号。
+> 说明：`我方` 指 `easycirq/`；`上游` 指已安装 `easyeda-agent/`（v1.15.0）。所有"文件:行"均按本机实测行号。
 > 实现位置中 `(TBD)` 表示依赖尚未落地的 runtime/安装器结构；本 worktree 目前只有 Skill，没有 runtime 代码。
 
 ### (a) 加载哪一套、以谁为准（规则归属）
 
 | 编号 | 规则来源(文件:行) | 冲突/重叠内容 | 风险 | 决定(智构保留/改造/废弃/引用) | 适用条件 | 技术限制 | 实现位置(新仓库路径) |
 |---|---|---|---|---|---|---|---|
-| C01 | 我方 `SKILL.md:3`（description 写"配合 easyeda-agent 等工具实际绘图"）、`L8`、`L114`；上游 `SKILL.md:2–3`、`agents/openai.yaml:1–5`（default_prompt 让模型"用 $easyeda-agent 设计/重构并施加 strict gates"）；现场证据：本会话技能清单同时含两者、`~/.codex`+`~/.claude` 双份 v1.15.0 | **两套 Skill 同时被客户端发现**，触发词/描述高度重叠（都声称做原理图/PCB 设计） | 同一次请求两套规则竞争；模型按加载序随机择一；我方 G0–G6 可能被上游"checks 不授权"抵消；用户困惑 | **智构保留**（唯一入口）：我方 SKILL 独占政策；上游 Skill 不再作为"技能"安装/加载，只作为 runtime 内部不加载的依赖 | 所有已装客户端的机器 | 客户端技能发现是目录级，SKILL.md 内部无法互斥；必须由安装器删除或禁用 `~/.codex、~/.claude、~/.agents/skills/easyeda-agent` | `installer/ (TBD)`；`design-hardware/SKILL.md:3` 改写描述 |
-| C02 | 我方 `SKILL.md:8`（"此 Skill 是协作与工程方法包；EDA 执行 Skill/CLI/连接器负责实际编辑"）、`L114`（"不覆盖 easyeda-agent…执行细节服从当前工具协议"）；上游 `SKILL.md:13–16`（"依据需求与器件资料**独立设计**；模型可选择器件、功能划分及几何生成方法"）、`design-flow.md:25–28` | 上游把自己写成**设计决策者**（选型/功能划分/几何方法），我方把政策收归 Skill | 选型（立创商城/C 号/替代分级）、布局方法、验收标准出现两套并行版本 | **改造**：智构 Skill 独占设计政策；上游文本降级为"执行器自述"，仅保留其 API 边界 | 全部设计类任务 | 上游 references 仍会被 runtime 安装包携带；需在包内不暴露为技能 | `design-hardware/SKILL.md` 新增"角色契约"段；`references/executor-protocol.md (TBD)` |
+| C01 | 我方 `SKILL.md:3`（description 写"配合 easyeda-agent 等工具实际绘图"）、`L8`、`L114`；上游 `SKILL.md:2–3`、`agents/openai.yaml:1–5`（default_prompt 让模型"用 $easyeda-agent 设计/重构并施加 strict gates"）；现场证据：本会话技能清单同时含两者、`~/.codex`+`~/.claude` 双份 v1.15.0 | **两套 Skill 同时被客户端发现**，触发词/描述高度重叠（都声称做原理图/PCB 设计） | 同一次请求两套规则竞争；模型按加载序随机择一；我方 G0–G6 可能被上游"checks 不授权"抵消；用户困惑 | **智构保留**（唯一入口）：我方 SKILL 独占政策；上游 Skill 不再作为"技能"安装/加载，只作为 runtime 内部不加载的依赖 | 所有已装客户端的机器 | 客户端技能发现是目录级，SKILL.md 内部无法互斥；必须由安装器删除或禁用 `~/.codex、~/.claude、~/.agents/skills/easyeda-agent` | `installer/ (TBD)`；`easycirq/SKILL.md:3` 改写描述 |
+| C02 | 我方 `SKILL.md:8`（"此 Skill 是协作与工程方法包；EDA 执行 Skill/CLI/连接器负责实际编辑"）、`L114`（"不覆盖 easyeda-agent…执行细节服从当前工具协议"）；上游 `SKILL.md:13–16`（"依据需求与器件资料**独立设计**；模型可选择器件、功能划分及几何生成方法"）、`design-flow.md:25–28` | 上游把自己写成**设计决策者**（选型/功能划分/几何方法），我方把政策收归 Skill | 选型（立创商城/C 号/替代分级）、布局方法、验收标准出现两套并行版本 | **改造**：智构 Skill 独占设计政策；上游文本降级为"执行器自述"，仅保留其 API 边界 | 全部设计类任务 | 上游 references 仍会被 runtime 安装包携带；需在包内不暴露为技能 | `easycirq/SKILL.md` 新增"角色契约"段；`references/executor-protocol.md (TBD)` |
 | C03 | 上游 `agents/openai.yaml:5`（"strict layout and electrical gates"）、`SKILL.md:30`（"检查…不作为普通动作许可"）；我方 `scripts/gate_check.py:42–50`、`references/design-gates.md` | 两边都用"gate/strict"字样但语义相反 | 用户与模型对"gate"含义混淆；报告字段可能被张冠李戴 | **引用**（上游 default_prompt 仅作模板线索）；"gate"术语统一到我方 G0–G6/PG1–PG8 | 对齐术语时 | 无 | `references/design-gates.md`（术语表） |
-| C04 | 上游 `SKILL.md:5–8`（author/version/homepage）、`LICENSE`；我方 `.version:1.0.1`、`CHANGELOG.md` | 两个版本号域（Skill 版本 vs 执行器版本）并列且互相引用 | 升级/回退时混用版本；报告写错组件版本 | **改造**：SKILL 只暴露一个 `zhigou version`；两版本映射移入 references | 安装/升级/排障 | 需 runtime 提供统一 `version` 输出 | `references/version-and-install.md (TBD)`；`zhigou CLI (TBD)` |
-| C42 | 自研 runtime：`runtime/internal/app/cmd_skill.go:17–22`（"daemon runs `skill sync` automatically on startup… on by default"）、`runtime/internal/selfupdate/selfupdate.go:31–33`（`RepoSlug="zhoushoujianwork/zhigou-agent"`、`SkillName="zhigou-agent"`）、`runtime/internal/app/cmd_update.go:196–229`（skill 目录同步）；我方 `SKILL.md:8,114`、目标"只加载一套技能" | **运行时会自动安装/同步第三套技能 `zhigou-agent`**（到 `~/.claude、~/.codex、~/.agents/skills/`），且来源是外部仓库的 `skills.tar.gz` | 用户机上出现 `design-hardware` + `zhigou-agent`（+ 残留 `easyeda-agent`）三套；上游规则借我方品牌回流；离线/内网环境下载失败产生噪声 | **废弃**（关闭默认 auto-skill-sync；移除 `skill` 命令的安装能力；安装器绝不创建 `zhigou-agent` 目录） | 出厂默认 | runtime 为 vendored Go 模块，需改 `cmd_skill.go`/`selfupdate`/daemon 启动参数后重建；`skill_asset.resolve` 依赖 `selfupdate.Targets`，改目录名要同步改 §C44 | `runtime/internal/app/cmd_skill.go`、`runtime/internal/selfupdate/selfupdate.go`、`runtime/internal/daemon`（本仓库，在建） |
+| C04 | 上游 `SKILL.md:5–8`（author/version/homepage）、`LICENSE`；我方 `.version:1.0.1`、`CHANGELOG.md` | 两个版本号域（Skill 版本 vs 执行器版本）并列且互相引用 | 升级/回退时混用版本；报告写错组件版本 | **改造**：SKILL 只暴露一个 `easycirq version`；两版本映射移入 references | 安装/升级/排障 | 需 runtime 提供统一 `version` 输出 | `references/version-and-install.md (TBD)`；`easycirq CLI (TBD)` |
+| C42 | 自研 runtime：`runtime/internal/app/cmd_skill.go:17–22`（"daemon runs `skill sync` automatically on startup… on by default"）、`runtime/internal/selfupdate/selfupdate.go:31–33`（`RepoSlug="zhoushoujianwork/easycirq-agent"`、`SkillName="easycirq-agent"`）、`runtime/internal/app/cmd_update.go:196–229`（skill 目录同步）；我方 `SKILL.md:8,114`、目标"只加载一套技能" | **运行时会自动安装/同步第三套技能 `easycirq-agent`**（到 `~/.claude、~/.codex、~/.agents/skills/`），且来源是外部仓库的 `skills.tar.gz` | 用户机上出现 `easycirq` + `easycirq-agent`（+ 残留 `easyeda-agent`）三套；上游规则借我方品牌回流；离线/内网环境下载失败产生噪声 | **废弃**（关闭默认 auto-skill-sync；移除 `skill` 命令的安装能力；安装器绝不创建 `easycirq-agent` 目录） | 出厂默认 | runtime 为 vendored Go 模块，需改 `cmd_skill.go`/`selfupdate`/daemon 启动参数后重建；`skill_asset.resolve` 依赖 `selfupdate.Targets`，改目录名要同步改 §C44 | `runtime/internal/app/cmd_skill.go`、`runtime/internal/selfupdate/selfupdate.go`、`runtime/internal/daemon`（本仓库，在建） |
 
 ### (b) 前置检查与写后验证
 
 | 编号 | 规则来源(文件:行) | 冲突/重叠内容 | 风险 | 决定 | 适用条件 | 技术限制 | 实现位置 |
 |---|---|---|---|---|---|---|---|
-| C05 | 我方 `SKILL.md:231`（"G2 未过不导入/布局 PCB；G3 未过不布线；G5 未过不谈制造；G6 未过不说可打样"）、`gate_check.py:42–50`、`SKILL.md:296`（"preflight 的 `review` 不是通过"）；上游 `design-pre-analysis.md:1–5`（"**可选，不是门禁**…布局智能交给 AI 用数据+截图自调"）、`design-flow.md:18–19`（检查"不负责许可下一步"）、`10-cli--help.txt:33`（`workflow` 已废弃） | **前置门禁是否必需**：我方硬序；上游明确取消 | 若沿用上游默认，会回到"读完直接落坐标、布完再补声明"的返工路径（我方 `design-gates.md:155/181` 有真实反例） | **智构保留**（蓄意差异：门禁是**证据门**不是审批门） | 非平凡项目强制执行；小修改以工程记录代 G0 | 执行器不产出我方证据格式，需适配层把原始回执映射为 evidence JSON | `references/design-gates.md`；`zhigou evidence (TBD)` |
+| C05 | 我方 `SKILL.md:231`（"G2 未过不导入/布局 PCB；G3 未过不布线；G5 未过不谈制造；G6 未过不说可打样"）、`gate_check.py:42–50`、`SKILL.md:296`（"preflight 的 `review` 不是通过"）；上游 `design-pre-analysis.md:1–5`（"**可选，不是门禁**…布局智能交给 AI 用数据+截图自调"）、`design-flow.md:18–19`（检查"不负责许可下一步"）、`10-cli--help.txt:33`（`workflow` 已废弃） | **前置门禁是否必需**：我方硬序；上游明确取消 | 若沿用上游默认，会回到"读完直接落坐标、布完再补声明"的返工路径（我方 `design-gates.md:155/181` 有真实反例） | **智构保留**（蓄意差异：门禁是**证据门**不是审批门） | 非平凡项目强制执行；小修改以工程记录代 G0 | 执行器不产出我方证据格式，需适配层把原始回执映射为 evidence JSON | `references/design-gates.md`；`easycirq evidence (TBD)` |
 | C06 | 我方 `SKILL.md:294`（`apply --dry-run` 只对账）、`L130`（批量默认 dry-run）；上游 `SKILL.md:25–26`（"支持 dry-run 时先检查"）、`pcb.md:49–51`（"先 dump→离线 layout-plan→选择后经 apply 串行写入，禁止现场逐件试摆"） | 写入前干跑：两边都是默认，但企业语义不同（我方把 dry-run 结果当"对账证据"，上游当"预检"） | 低（结论一致）；但"dry-run 通过"是否可计入证据需明确 | **改造**（合并：dry-run 属预检证据，不计入 PASS；写入后必须回读） | 所有写操作 | dry-run 覆盖度由 runtime 决定 | `references/eda-execution.md`；`scripts/pcb_apply_plan.py` |
 | C07 | 我方 `SKILL.md:263`（"`save` 返回成功、截图或离线 JSON 都不能代替重开回读"）、`design-gates.md:59`；上游 `SKILL.md:28–29`（"必须返回布尔 `saved:true`；`saved:false`、缺失或其他类型均为失败"）、`actions.md:84–92` | 写后验证：**重叠但判据不同**——上游把 `saved:true` 当必要条件，我方只否定"返回成功=通过" | 漏掉"返回值类型校验"会放过 `saved:"true"`/缺失字段的场景 | **改造**（取 AND：`saved===true` **且** save→reload→fresh readback 一致才记持久化证据） | 所有落盘验收 | 需 runtime 返回结构化 `saved`；不得用 autosave 替代 | `references/eda-execution.md`；`scripts/feedback/`（verify） |
 | C08 | 我方 `design-gates.md:59`（证据绑定 path/sha256/semantic_sha256/mtime/freshness_basis；早于最终板框或件数不一致 → `STALE_EVIDENCE` 不得作 PASS）；上游 `design-flow.md:150–154`（"`staleRisk` 提示宿主缓存风险，但**不拒绝读取**；即时结果可用于诊断"）、`pcb.md:188–237` | 带 `staleRisk` 的读数**能否当证据** | 用陈旧读数通过 DRC/几何门 → 假 PASS；反之过度保守会阻塞交付 | **智构保留**（诊断可用、证据必须 fresh；吸收"staleRisk 不阻断读取"为执行器事实） | 一切 PASS 判定 | 执行器不输出 `semantic_sha256`，需我方证据层计算 | `scripts/pcb_gate.py`、`scripts/pcb_evidence.py`、`references/design-gates.md` |
-| C09 | 上游 `SKILL.md:43–44`（"完成前按布局规则通过连续两轮自检…**展示最新回读版本并获用户确认后进入整板布线；确认前仅允许规则范围内的电源模块局部连接**"）、`design-flow.md:95,129–133`；我方 `SKILL.md:94–96`（"默认在任务已授权范围内自查、汇报并继续…**不把工程检查点一律变成权限停顿点**"）、`L62`（"不自建额外审批"）、`L77`（"直接改/一直做到 DRC → 自主推进"） | **用户确认是否布线硬前置** | 与用户"直接做到 DRC"的授权直接冲突；每次布局后强制停等，破坏"检查点非审批门"的产品主张 | **废弃**（上游强制确认停顿）；保留"用户说评审/这步给我看时才停" | 用户已授权推进；用户显式要求评审时例外 | 无（纯流程语义） | `design-hardware/SKILL.md` §1 评审节奏 |
+| C09 | 上游 `SKILL.md:43–44`（"完成前按布局规则通过连续两轮自检…**展示最新回读版本并获用户确认后进入整板布线；确认前仅允许规则范围内的电源模块局部连接**"）、`design-flow.md:95,129–133`；我方 `SKILL.md:94–96`（"默认在任务已授权范围内自查、汇报并继续…**不把工程检查点一律变成权限停顿点**"）、`L62`（"不自建额外审批"）、`L77`（"直接改/一直做到 DRC → 自主推进"） | **用户确认是否布线硬前置** | 与用户"直接做到 DRC"的授权直接冲突；每次布局后强制停等，破坏"检查点非审批门"的产品主张 | **废弃**（上游强制确认停顿）；保留"用户说评审/这步给我看时才停" | 用户已授权推进；用户显式要求评审时例外 | 无（纯流程语义） | `easycirq/SKILL.md` §1 评审节奏 |
 | C10 | 上游 `design-flow.md:123–133`（连续两轮自检状态机；任一修正**清零重来**；第 2 轮含 `save→reload→fresh dump→fresh render`）；我方 `SKILL.md:296`、`scripts/pcb_gate.py:60–69`（PG1–PG8 阶段证据，无"连续两轮"语义） | 布局完成证据的**计数规则**：上游"连续两轮无修正"，我方只要求各阶段证据齐 | 首轮带问题、次轮修好仍可能被判"通过" | **改造**（吸收"修正即清零"为 PG2_layout 的证据计数规则） | 有布局阶段的项目 | 需 gate 记录轮次与修正事件 | `scripts/pcb_gate.py`（PG2）+ `references/pcb-execution.md` |
 
 ### (c) 坐标 / 单位 / 旋转
@@ -80,16 +80,16 @@
 | C11 | 我方 `references/design-engine.md:37`（原理图 `sch_unit`=0.01in，100 unit=1in）、`schematic-recipes.md:17`（raw、y-up、5-raw 网格）；上游 `schematic-layout-conventions.md:14–24`（raw=0.01in=0.254mm；硬连接网格 5 raw；整页 10 raw；A4≈1170×825 随 build 变） | 单位/网格约定 | 两处独立表述，版本漂移后可能不一致 | **引用**（上游为执行器 API 事实）+ 我方保留规则表述 | 一切原理图几何 | A4 尺寸不得硬编码（上游已明确随 build 变） | `references/offline-tools.md`、`schematic-recipes.md` |
 | C12 | 我方 `references/pcb-execution.md:38,287`（mil、y-up、`x/y`=footprint anchor）；上游 `pcb.md:34–35`（mil；anchor≠bbox center；`pcb modify --center` 转换；**同一次调用不得同时改旋转**）、`pcb-layout-conventions.md:19–24` | PCB 单位与 MVP 语义 | 旋转与 center 同调会导致偏移（上游 #105 实测） | **改造**（吸收"先旋转、再 center"两段式写入约束） | 有旋转的放件 | 需 runtime 提供 `--center` 等价能力 | `references/pcb-execution.md`、`scripts/pcb_apply_plan.py` |
 | C13 | 上游 `pcb-layout-conventions.md:23`（SMD 默认 25 mil / THT 50 mil / 精密 5 mil 栅格）、`:461`（"旋转 ∈ {0,90,180,270}，无任意角"——**硬规则**）；我方 `references/design-engine.md:145`（`allowed_rotation` 只是可声明的约束类型） | 旋转步进是**全局硬规则**还是**项目级约束** | 无约束时产生任意角 → 贴片漂移/工艺问题；但把 90° 写成物理定律又会压死结构件 | **改造**（默认一律 90° 步进；180/270 需 pin-1/极性或结构理由；例外必须记录，不作"通用常量"） | PCB 放件 | 结构件/连接器可能合法使用特殊角 | `references/pcb-placement-details.md`；`scripts/design_engine_cli.py`（pcb-constraints） |
-| C14 | 上游 `references/orientation.json`（`_doc` + `frozenTable`：power/ground/port × up/left/down/right；记录 2026-06-29 与 2026-08-12 两次现场重校准）；我方 `scripts/sch_layout_check.py:698–716`（消费输入的 `orientation_policy`；**仓库内无该表**，缺表则跳过） | netflag 本体朝向的**单一真源**：上游有一张带校准历史的表；我方检查依赖外部传入 | 无表 → 检查静默跳过（`checks_skipped`），"朝向检查通过"实为未跑；或双方各硬编码一份而漂移 | **引用**（表值 + 校准日期作为执行器事实）+ **改造**（落到我方仓库 `references/orientation.json` 并带 provenance；判定仍由我方执行） | 原理图网标/电源标记 | 表与宿主版本强相关（上游记录 3.2.149/connector 0.24.3），须随宿主重校；runtime 也按该文件名读取（C44） | `design-hardware/references/orientation.json (TBD，MIT 引用)`；`scripts/sch_layout_check.py` |
+| C14 | 上游 `references/orientation.json`（`_doc` + `frozenTable`：power/ground/port × up/left/down/right；记录 2026-06-29 与 2026-08-12 两次现场重校准）；我方 `scripts/sch_layout_check.py:698–716`（消费输入的 `orientation_policy`；**仓库内无该表**，缺表则跳过） | netflag 本体朝向的**单一真源**：上游有一张带校准历史的表；我方检查依赖外部传入 | 无表 → 检查静默跳过（`checks_skipped`），"朝向检查通过"实为未跑；或双方各硬编码一份而漂移 | **引用**（表值 + 校准日期作为执行器事实）+ **改造**（落到我方仓库 `references/orientation.json` 并带 provenance；判定仍由我方执行） | 原理图网标/电源标记 | 表与宿主版本强相关（上游记录 3.2.149/connector 0.24.3），须随宿主重校；runtime 也按该文件名读取（C44） | `easycirq/references/orientation.json (TBD，MIT 引用)`；`scripts/sch_layout_check.py` |
 
 ### (d) 一页 vs 多页、文字重叠、功能分区
 
 | 编号 | 规则来源(文件:行) | 冲突/重叠内容 | 风险 | 决定 | 适用条件 | 技术限制 | 实现位置 |
 |---|---|---|---|---|---|---|---|
-| C15 | 我方 `SKILL.md:120`（"简单工程优先一页，按信号方向组织主链、供电/参考放辅助行"）、`references/schematic-layout.md:11`（页面预算先定）；上游 `schematic-layout-conventions.md:64,77`（"默认先完成一页"；"分页是功能设计决策，不是框尺寸不足时的自动退路"） | 一页优先 | 无实质冲突（表述互补） | **智构保留** | 全部原理图 | 无 | `design-hardware/SKILL.md` §4 |
+| C15 | 我方 `SKILL.md:120`（"简单工程优先一页，按信号方向组织主链、供电/参考放辅助行"）、`references/schematic-layout.md:11`（页面预算先定）；上游 `schematic-layout-conventions.md:64,77`（"默认先完成一页"；"分页是功能设计决策，不是框尺寸不足时的自动退路"） | 一页优先 | 无实质冲突（表述互补） | **智构保留** | 全部原理图 | 无 | `easycirq/SKILL.md` §4 |
 | C16 | 上游 `design-pre-analysis.md:19`（"`Σ主器件bbox+辅助×~80×80+余量`，**>~80 件考虑多页**"）、`pcb-layout-conventions.md:319–320`（实战 82/100/122 件分页）；我方 `schematic-layout.md:11`（"确需拆页时…注明空间/阅读/隔离/独立子系统等具体理由"）、`references/eda-efficiency.md:170`（先按功能分页，再页内分区） | 多页**触发判据**：上游给数量启发式，我方只要求理由+记录 | 两边都无量化阈值 → 新手/模型可能"为省事拆页"或"硬塞一页" | **改造**（把"件数/面积超阈值→**触发评估**"写成启发式，理由与已尝试方案仍必须落记录） | 中大型原理图 | 阈值不是硬门槛，不得反向作为拆页许可 | `references/schematic-layout.md` |
 | C17 | 上游 `schematic-layout-conventions.md:27–59`（九宫格：电源左列、MCU 居中、RF/传感器/IO 右列、大模块角落；real-world overrides 允许 MCU 迁角落）；我方 `SKILL.md:118`（"先排器件/局部导线，再按实际内容生成分区框，**不把器件硬塞进预画的等宽框**"）、`schematic-layout.md:35`（按阅读顺序，电源输入→转换→负载）、`scripts/sch_layout_check.py:718–750`（`zone_reading_order` 以**声明的 order** 为准） | 功能分区：上游给**固定格位**，我方按内容+声明顺序 | 硬套格位会造成绕线与框不匹配；反之缺省又容易"任意摆放" | **废弃**上游格位硬分配；**智构保留**"电源在输入侧、信号单向流"软目标 + 声明式 `order` | 新建/整理原理图 | 上游自身也声明九宫格"不是当前算法"，引用它作硬规则属误用 | `references/schematic-layout.md`；`scripts/sch_layout_check.py` |
-| C18 | 我方 `SKILL.md:122`（`sch_text_audit.py --strict` + `sch_layout_check.py --strict` + **必须看实际官方导出图**）、`schematic-layout.md:15`（停止交付条件：遮脚/遮字/文字相压/导线穿文字…）；上游 `SKILL.md:41`（"最终导图仍须检查全部可见文字，不能由零碰撞推断无叠字"）、`design-flow.md:63`、`schematic-data.md:82–83`（位号不得被遮挡） | 文字重叠验收 | 结论一致 | **智构保留**；上游表述作为**引用支持**（证明该要求有上游同源） | 含可见文字的原理图 | 上游无独立文字审计工具，不能替代我方脚本 | `design-hardware/SKILL.md` §4 |
+| C18 | 我方 `SKILL.md:122`（`sch_text_audit.py --strict` + `sch_layout_check.py --strict` + **必须看实际官方导出图**）、`schematic-layout.md:15`（停止交付条件：遮脚/遮字/文字相压/导线穿文字…）；上游 `SKILL.md:41`（"最终导图仍须检查全部可见文字，不能由零碰撞推断无叠字"）、`design-flow.md:63`、`schematic-data.md:82–83`（位号不得被遮挡） | 文字重叠验收 | 结论一致 | **智构保留**；上游表述作为**引用支持**（证明该要求有上游同源） | 含可见文字的原理图 | 上游无独立文字审计工具，不能替代我方脚本 | `easycirq/SKILL.md` §4 |
 | C19 | 上游 `schematic-layout-conventions.md:66–76`（框=粉色虚线、标题粉色、字高 0.2in=20 raw；包络含必检文字；先最小化框高；距实测内边框≥10 raw；**重复执行不得叠加框**）；我方 `SKILL.md:157`（写 module frame 前跑 `sch_frame_meta_check.py` 补 `order`/`purpose`，**缺 purpose 默认 blocked**）、`schematic-layout.md:39`（"框线可沿项目风格使用，不强迫所有块同尺寸，不在模块外再套多重装饰框"） | 模块框：上游固定样式/字号，我方项目风格自由 + 元数据必填 | 固定样式与项目风格冲突；但"不叠加/包络含文字/最小化框高"是硬几何规则，我方未显式写 | **改造**（保留我方元数据门与风格自由；吸收"包络含必检文字、最小化框高、10 raw 内边框、禁重复叠加"为几何规则） | 有 module frame 的原理图 | 样式参数不能跨项目固化 | `references/schematic-layout.md`；`scripts/sch_frame_meta_check.py`、`sch_layout_check.py` |
 | C20 | 上游 `schematic-layout-conventions.md:119–128`（每个需连接的 pin 必须非零长度引出；**严禁零长度 wire 占位**——实测 204 条 wire 中 149 条零长占位会被 DRC 逐条报错）；我方 `schematic-layout.md:13`（"局部…优先短线"）但无零长禁令 | 零长度导线禁令 | 生成式布局容易产出零长占位 → DRC 噪声成片 | **改造**（吸收为显式检查项 + SKILL 一句话） | 程序化/模板化绘图 | 需在写入计划编译期 assert `(x1,y1)!=(x2,y2)` | `scripts/pcb_apply_plan.py` 同类校验；`scripts/sch_compose_input.py`；`references/schematic-authoring.md` |
 
@@ -109,20 +109,20 @@
 | 编号 | 规则来源(文件:行) | 冲突/重叠内容 | 风险 | 决定 | 适用条件 | 技术限制 | 实现位置 |
 |---|---|---|---|---|---|---|---|
 | C27 | 我方 `SKILL.md:262`（"保留已有正确器件身份、位号、uniqueId、封装绑定、锁定器件和已确认机械约束"）、`scripts/component_identity_check.py:1–17,25–30`（`IDENTITY_KEYS=('libraryUuid','uuid','name')`；输入必须是已落盘读取）；上游 `schematic-data.md:156–159`（不覆盖原生 `uniqueId`，它可能关联 PCB）、`:676–678`（部分实例 `uniqueId` 为空串须原样保留，**重载后宿主可能新铸**）、`:749–755`（实例保全门禁）、`actions.md:108,114`（`replace` 保留 `uniqueId`）、`pcb.md:13–15`（`uniqueId` 与 `primitiveId` 命名空间不同） | 身份保全的**细节深度**：上游给出"空串保留/重载新铸/两套 ID 域"三条实测事实，我方只有原则 | 重放/重排后位号相同但实例被替换（"看起来一样、PCB 关联已断"） | **引用**（三条实测事实）+ **智构保留**（判定与 BOM reason+evidence 要求） | 重排/换料/rebuild 类任务 | 需 runtime 暴露 `uniqueId`/`primitiveId`/库 UUID 三域 | `scripts/component_identity_check.py`；`references/eda-execution.md` |
-| C28 | 我方 `references/eda-execution.md:127`（"**位号唯一性是工程级，不是单页级**"；新增页复用 R1 会跨页冲突；未提供工程清单时 `designator_scope=page` 不得宣称工程级唯一）；上游 `pcb.md:14`（`sync-designators` 按 `uniqueId` 回填、**只动占位符**、每笔回读、修完落 `pcb.save`；手设真实位号绝不覆盖）、`schematic-data.md`（`designators allocate/plan/verify`） | 位号作用域与占位符修复 | 多页新增导致跨页重号；自动回填覆盖用户手设位号 | **智构保留**（工程级唯一）；**引用** `sync-designators` 的"只动占位符"边界 | 多页/新增器件 | 需要全工程扫描能力 | `references/eda-execution.md`；`zhigou` designators 子命令 (TBD) |
+| C28 | 我方 `references/eda-execution.md:127`（"**位号唯一性是工程级，不是单页级**"；新增页复用 R1 会跨页冲突；未提供工程清单时 `designator_scope=page` 不得宣称工程级唯一）；上游 `pcb.md:14`（`sync-designators` 按 `uniqueId` 回填、**只动占位符**、每笔回读、修完落 `pcb.save`；手设真实位号绝不覆盖）、`schematic-data.md`（`designators allocate/plan/verify`） | 位号作用域与占位符修复 | 多页新增导致跨页重号；自动回填覆盖用户手设位号 | **智构保留**（工程级唯一）；**引用** `sync-designators` 的"只动占位符"边界 | 多页/新增器件 | 需要全工程扫描能力 | `references/eda-execution.md`；`easycirq` designators 子命令 (TBD) |
 | C29 | 上游 `part-selection.md:199–233`（站点差异：`deviceUuid` 必须按**当前版本**重解析；写副本，`--out` 必填，**绝不就地覆盖源文件**）；我方 `scripts/component_identity_check.py`（库身份字段比对）、`references/lcsc-sourcing.md:68`（"EDA 库里的 C 号不是当前库存"） | 库身份解析时点 | 用历史 UUID 直接下单/放置 → 错料/封装不符 | **引用**（"按当前版本重解析、只写副本"作为执行器事实） | 换料/建库/跨版本工程 | 依赖商城/库实时数据 | `references/part-selection.md`、`lcsc-sourcing.md` |
 
 ### (g) 安装 / 更新 / doctor / 版本命令命名
 
 | 编号 | 规则来源(文件:行) | 冲突/重叠内容 | 风险 | 决定 | 适用条件 | 技术限制 | 实现位置 |
 |---|---|---|---|---|---|---|---|
-| C30 | 上游：`easyeda [command]` 26 子命令（`evidence/env/10-cli--help.txt:6–33`）、`easyeda health`（`SKILL.md:20`）、`easyeda update`（`environment-setup.md:55–68`）、`easyeda daemon start/stop`（`:274–297`）；我方 `SKILL.md:108`（`easyeda health`）、`L296`（typed `easyeda pcb ...`）、`L288`、`L234`；我方 references 中 `easyeda <cmd>` 计数：`design-gates.md` 31、`pcb-routing-strategy.md` 27、`pcb-execution.md` 22、`schematic-layout-engine.md` 22、`tool-gotchas.md` 15…… | **命令名与入口**：新自研 runtime 应为 `zhigou ...`，但全文仍写 `easyeda` | 用户/模型按上游命令名操作新 runtime → 命令不存在；改名不彻底会长期双轨 | **改造**（SKILL 只写 `zhigou`；`easyeda` 仅出现在"历史/排障/引用"块并标版本）；references 分批替换 | 全部用户可见文档 | 新 runtime 命令面未落地（`zhigou` 全仓仅 3 处品牌提及） | `references/executor-commands.md (TBD)`；`zhigou CLI (TBD)` |
+| C30 | 上游：`easyeda [command]` 26 子命令（`evidence/env/10-cli--help.txt:6–33`）、`easyeda health`（`SKILL.md:20`）、`easyeda update`（`environment-setup.md:55–68`）、`easyeda daemon start/stop`（`:274–297`）；我方 `SKILL.md:108`（`easyeda health`）、`L296`（typed `easyeda pcb ...`）、`L288`、`L234`；我方 references 中 `easyeda <cmd>` 计数：`design-gates.md` 31、`pcb-routing-strategy.md` 27、`pcb-execution.md` 22、`schematic-layout-engine.md` 22、`tool-gotchas.md` 15…… | **命令名与入口**：新自研 runtime 应为 `easycirq ...`，但全文仍写 `easyeda` | 用户/模型按上游命令名操作新 runtime → 命令不存在；改名不彻底会长期双轨 | **改造**（SKILL 只写 `easycirq`；`easyeda` 仅出现在"历史/排障/引用"块并标版本）；references 分批替换 | 全部用户可见文档 | 新 runtime 命令面未落地（`easycirq` 全仓仅 3 处品牌提及） | `references/executor-commands.md (TBD)`；`easycirq CLI (TBD)` |
 | C31 | 我方 `references/installation-updates.md:95–131`（`skill_update.py check/update/status/rollback`；`update-agent --idle`；锁文件 `.hardware-easyeda-update.lock`；备份当前 CLI 与 Skill；"不宣称跨组件原子回退"）、`SKILL.md:14–18`；上游 `environment-setup.md:15–110`（`install.ps1`/`install.sh`、`update --check/--exit-code`、daemon 重启、`.eext` 重导）、`:49–77` | **两套更新器/两套锁/两套备份** | 同一 CLI 被两个协调器替换 → 半升级状态；用户要敲两套命令 | **改造**（单一智构自更新通道；上游更新器降级为"用户手动兜底"引用块） | 安装/升级/回退 | 上游 `update` 仍存在，需在文档中明确"不要用它更新智构" | `scripts/skill_update.py`；`references/version-and-install.md (TBD)` |
-| C32 | 我方 `SKILL.md:18`、`L234`（硬编码 "easyeda-agent v1.14.0"）；实测安装 **v1.15.0**（`env/11-cli-version.txt`）；上游 `environment-setup.md:6–12`（宿主 V4；`hostCompatibility` V3=block/旧V4=warn；`engines.eda ~3.2.0` 是扩展 API 引擎版本，**不得机械改成 4.x**）、`:51–53`（三件套版本对齐） | 版本兼容矩阵**位置与内容** | SKILL 里写死旧版本 → 误判能力缺失/误报不兼容 | **改造**（SKILL 删除具体版本号；新建 `references/version-compat.md`，内容由 `zhigou doctor` 生成/校验） | 能力判断 | 上游关于 `engines.eda` 的解释是可引用事实 | `references/version-compat.md (TBD)`；`zhigou doctor (TBD)` |
-| C33 | 我方 `SKILL.md:110`（`python scripts/doctor_env.py --summary`，四分"存在/连通/可读/可写"）；上游 `SKILL.md:20`（`easyeda health`）+ `update --check --exit-code`；CLI **无 `doctor`**（`env/12-cli-doctor.txt`） | 诊断入口命名分裂 | 用户被要求跑两条不同命令；"没有 doctor"的报错被误读为环境坏 | **智构保留**（统一 `zhigou doctor`，吸收 health 的连通语义与"不测可写性"边界） | 首次接通/故障 | runtime 已实现 `doctor`（`runtime/internal/app/cmd_doctor.go:158–160`，mtime 21:26；输出 runtime/skill/daemon/connector/protocol/host/legacy 七段，verdict `ok / degraded / blocked`，缺件报 blocked/unknown 且**不写宿主**） | `scripts/doctor_env.py` 改为调用方；`runtime/internal/app/cmd_doctor.go` |
-| C43 | runtime `internal/selfupdate/selfupdate.go:31`（`RepoSlug = "zhoushoujianwork/zhigou-agent"`）、`internal/app/version_gate.go:178`、`internal/daemon/hub.go:539`；`internal/selfupdate/cli.go:4,78,82`（发布资产名仍 `easyeda_<os>_<arch>`）；我方 `SKILL.md:15–18`（更新器）、`installation-updates.md:95–131` | **自更新/版本门/发布检查指向外部作者仓库**（不是本仓库） | `zhigou update` 404 或把**上游二进制**装成智构；供应链与信任边界不清；版本门可能永远 warn/block | **改造**（指向本仓库 Releases 或彻底移除自更新，交由安装器/包管理器；资产名改 `zhigou_*`） | 出厂默认 | 需确定发布通道（GitHub Releases vs 离线包）；`rebrand_runtime.py` 规则表未覆盖发布资产名与 owner | `runtime/internal/selfupdate/*`、`internal/app/version_gate.go`、`internal/daemon/hub.go`、`distribution/rebrand_runtime.py` |
-| C44 | runtime `internal/app/skill_asset.go:1–18,47–53,80,143–145`（资产搜索阶梯：显式 flag → `ZHIGOU_SKILLS_DIR/<skill>/…` → `~/.claude、~/.codex、~/.agents/skills/zhigou-agent/…` → 仓库 `.agents/skills/…` 上溯 8 层）、`enrich_script.go:25` 与 `skill_asset.go:154`（已 rebrand 为 `zhigou-agent/references/standard-parts.json`、`zhigou-agent/scripts/bom-enrich.py`，但**仍硬编码 `zhigou-agent` 目录名**、不含我方 `design-hardware`）、`cmd_sch_sheet.go:86`（`sheet-templates.json`）、`cmd_sch_marker_geom_orientation_test.go:13`（读 `zhigou-agent/references/orientation.json`）；我方 `design-hardware/references/` 实测**无** `standard-parts.json`/`orientation.json`/`sheet-templates.json`，`scripts/` 无 `bom-enrich.py` | 运行时对"上游 Skill 目录布局"的**硬编码依赖**，与"我方单一 Skill"目标冲突 | 当前状态下 `sch block-apply`、netflag 朝向、图纸模板、BOM 富化**没有数据来源**；若为迁就 runtime 再装一个 `zhigou-agent` 目录，则违背单 Skill 目标 | **改造**（二选一都必须做）：① 把 4 个资产以 MIT 引用方式纳入我方 `references/`（带 provenance 与版本）；② 扩展资产阶梯认 `design-hardware` 目录名并支持 `ZHIGOU_SKILLS_DIR` 指向我方 skill 根 | 使用 block-apply/朝向检查/图纸模板/BOM 富化的任务 | `go:embed` 不能跨 `..`（上游注释已说明），故这些资产只能落盘在 skill 树，不能进二进制；改目录名要同时改 rels 与测试 | `design-hardware/references/{standard-parts,orientation,sheet-templates}.json`、`design-hardware/scripts/bom-enrich.py`（均 TBD，MIT 引用）；`runtime/internal/app/skill_asset.go`、`internal/selfupdate/selfupdate.go` |
-| C45 | runtime `internal/app/cmd_skill.go:12–40`（`zhigou skill status/sync/--version`、`CODEX_HOME/CLAUDE_CONFIG_DIR`）、`internal/app/cmd_update.go:97–117`（`zhigou update` 同时更新 CLI 与 skills） | 面向用户的命令面里仍保留"管理 easyeda-agent 式技能目录/技能同步" | 用户被引导去 `zhigou skill sync` 安装第二套技能；与"用户只需 `zhigou doctor`"冲突 | **废弃**（用户面移除 `skill` 组；如保留仅作内部命令且不 chain 到 skill 目录） | 出厂默认 | 需同步改 `runtime/internal/app/app.go:97` 的命令注册与帮助文本、`app_test.go:17` 断言 | `runtime/internal/app/{app.go,cmd_skill.go,cmd_update.go}` |
+| C32 | 我方 `SKILL.md:18`、`L234`（硬编码 "easyeda-agent v1.14.0"）；实测安装 **v1.15.0**（`env/11-cli-version.txt`）；上游 `environment-setup.md:6–12`（宿主 V4；`hostCompatibility` V3=block/旧V4=warn；`engines.eda ~3.2.0` 是扩展 API 引擎版本，**不得机械改成 4.x**）、`:51–53`（三件套版本对齐） | 版本兼容矩阵**位置与内容** | SKILL 里写死旧版本 → 误判能力缺失/误报不兼容 | **改造**（SKILL 删除具体版本号；新建 `references/version-compat.md`，内容由 `easycirq doctor` 生成/校验） | 能力判断 | 上游关于 `engines.eda` 的解释是可引用事实 | `references/version-compat.md (TBD)`；`easycirq doctor (TBD)` |
+| C33 | 我方 `SKILL.md:110`（`python scripts/doctor_env.py --summary`，四分"存在/连通/可读/可写"）；上游 `SKILL.md:20`（`easyeda health`）+ `update --check --exit-code`；CLI **无 `doctor`**（`env/12-cli-doctor.txt`） | 诊断入口命名分裂 | 用户被要求跑两条不同命令；"没有 doctor"的报错被误读为环境坏 | **智构保留**（统一 `easycirq doctor`，吸收 health 的连通语义与"不测可写性"边界） | 首次接通/故障 | runtime 已实现 `doctor`（`runtime/internal/app/cmd_doctor.go:158–160`，mtime 21:26；输出 runtime/skill/daemon/connector/protocol/host/legacy 七段，verdict `ok / degraded / blocked`，缺件报 blocked/unknown 且**不写宿主**） | `scripts/doctor_env.py` 改为调用方；`runtime/internal/app/cmd_doctor.go` |
+| C43 | runtime `internal/selfupdate/selfupdate.go:31`（`RepoSlug = "zhoushoujianwork/easycirq-agent"`）、`internal/app/version_gate.go:178`、`internal/daemon/hub.go:539`；`internal/selfupdate/cli.go:4,78,82`（发布资产名仍 `easyeda_<os>_<arch>`）；我方 `SKILL.md:15–18`（更新器）、`installation-updates.md:95–131` | **自更新/版本门/发布检查指向外部作者仓库**（不是本仓库） | `easycirq update` 404 或把**上游二进制**装成智构；供应链与信任边界不清；版本门可能永远 warn/block | **改造**（指向本仓库 Releases 或彻底移除自更新，交由安装器/包管理器；资产名改 `easycirq_*`） | 出厂默认 | 需确定发布通道（GitHub Releases vs 离线包）；`rebrand_runtime.py` 规则表未覆盖发布资产名与 owner | `runtime/internal/selfupdate/*`、`internal/app/version_gate.go`、`internal/daemon/hub.go`、`distribution/rebrand_runtime.py` |
+| C44 | runtime `internal/app/skill_asset.go:1–18,47–53,80,143–145`（资产搜索阶梯：显式 flag → `EASYCIRQ_SKILLS_DIR/<skill>/…` → `~/.claude、~/.codex、~/.agents/skills/easycirq-agent/…` → 仓库 `.agents/skills/…` 上溯 8 层）、`enrich_script.go:25` 与 `skill_asset.go:154`（已 rebrand 为 `easycirq-agent/references/standard-parts.json`、`easycirq-agent/scripts/bom-enrich.py`，但**仍硬编码 `easycirq-agent` 目录名**、不含我方 `easycirq`）、`cmd_sch_sheet.go:86`（`sheet-templates.json`）、`cmd_sch_marker_geom_orientation_test.go:13`（读 `easycirq-agent/references/orientation.json`）；我方 `easycirq/references/` 实测**无** `standard-parts.json`/`orientation.json`/`sheet-templates.json`，`scripts/` 无 `bom-enrich.py` | 运行时对"上游 Skill 目录布局"的**硬编码依赖**，与"我方单一 Skill"目标冲突 | 当前状态下 `sch block-apply`、netflag 朝向、图纸模板、BOM 富化**没有数据来源**；若为迁就 runtime 再装一个 `easycirq-agent` 目录，则违背单 Skill 目标 | **改造**（二选一都必须做）：① 把 4 个资产以 MIT 引用方式纳入我方 `references/`（带 provenance 与版本）；② 扩展资产阶梯认 `easycirq` 目录名并支持 `EASYCIRQ_SKILLS_DIR` 指向我方 skill 根 | 使用 block-apply/朝向检查/图纸模板/BOM 富化的任务 | `go:embed` 不能跨 `..`（上游注释已说明），故这些资产只能落盘在 skill 树，不能进二进制；改目录名要同时改 rels 与测试 | `easycirq/references/{standard-parts,orientation,sheet-templates}.json`、`easycirq/scripts/bom-enrich.py`（均 TBD，MIT 引用）；`runtime/internal/app/skill_asset.go`、`internal/selfupdate/selfupdate.go` |
+| C45 | runtime `internal/app/cmd_skill.go:12–40`（`easycirq skill status/sync/--version`、`CODEX_HOME/CLAUDE_CONFIG_DIR`）、`internal/app/cmd_update.go:97–117`（`easycirq update` 同时更新 CLI 与 skills） | 面向用户的命令面里仍保留"管理 easyeda-agent 式技能目录/技能同步" | 用户被引导去 `easycirq skill sync` 安装第二套技能；与"用户只需 `easycirq doctor`"冲突 | **废弃**（用户面移除 `skill` 组；如保留仅作内部命令且不 chain 到 skill 目录） | 出厂默认 | 需同步改 `runtime/internal/app/app.go:97` 的命令注册与帮助文本、`app_test.go:17` 断言 | `runtime/internal/app/{app.go,cmd_skill.go,cmd_update.go}` |
 
 ### (h) 错误 / 重试策略
 
@@ -136,9 +136,9 @@
 
 | 编号 | 规则来源(文件:行) | 冲突/重叠内容 | 风险 | 决定 | 适用条件 | 技术限制 | 实现位置 |
 |---|---|---|---|---|---|---|---|
-| C37 | 上游 `environment-setup.md:229–247`（`windowId` 非持久、`STALE_WINDOW`/`NO_CONNECTOR`）、`:274–297`（`daemon stop/restart`、PID/端口、`.easyeda-agent` 权限）、`:249–263`（`web reload`/`readbackScope`）、`SKILL.md:20–21`；我方 `SKILL.md:14–18`、`references/installation-updates.md:95–131`、`client-compatibility.md:92–100` | daemon/连接器概念**泄漏到用户面** | 用户被迫理解端口/插件/windowId；"升级失败"被误当"设计失败" | **废弃**（从面向用户文档移除）；**改造**为 runtime 内部 + 一句"未连通时由 `zhigou doctor` 报告" | 全部用户可见文本 | runtime 已隔离服务名/端口/配置目录并**检测旧 daemon**（`cmd_doctor.go:45–49,331–338,474–477`、`internal/protocol/wire.go:11`），但"用户无感"还取决于关掉 C42 的技能同步与 C45 的命令面 | `design-hardware/references/diagnostics-internal.md (TBD)`（不进 SKILL）；`runtime/internal/app/cmd_doctor.go` |
-| C38 | 我方 `references/client-compatibility.md:94–100`（"EDA Agent Connector / easyeda-agent 的扩展装在嘉立创EDA专业版内部…需允许外部交互，再运行 `easyeda health`"）；上游 `environment-setup.md:132–151`（`.eext` 侧载 vs 立创插件市场）；现状：`connector/` 已是自有身份 `zhigou-connector` e0.1.0（uuid `a6e6b788…6e31`，`connector/extension.json:2–8`），但 runtime `cmd_update.go:106` 仍"只报告不部署" | Connector **安装步骤**是否仍由用户做 | 用户要做扩展管理/重导/权限开关，体验与"装一个技能"不符 | **废弃**用户步骤（改为安装器/首次运行静默部署）；**改造** runtime 的"只报告"为"部署+校验+失败给一键诊断" | 新装/升级 | EasyEDA 侧"允许外部交互"权限是否有 API 可自动开启 **UNKNOWN**（上游文档只写手动启用，`environment-setup.md:155–158`） | `installer/ (TBD)`；`runtime/internal/app/cmd_update.go`；`connector/` |
-| C46 | runtime 残留：`internal/selfupdate/cli.go:4,78,82`（资产名 `easyeda_<os>_<arch>`）、`internal/selfupdate/cli_test.go:19–23,305–319`；`internal/app/cmd_sch_marker_geom_orientation_test.go:13`（路径含 `zhigou-agent`）；`distribution/rebrand_runtime.py:25–42` 规则表未覆盖发布资产名/owner/目录名；统计（21:26 复测）：`zhigou-agent` 150 处、`ZHIGOU_` 60 处、`EASYEDA_` 11 处（全是发布资产名）、`easyeda-agent` 7 处（集中在 `cmd_doctor.go` 的旧 daemon 检测与 `protocol/wire.go:11` 隔离注释，属**有意保留**） | rebrand **不完整且不可自动复现**（`--check` 会列出差异） | 环境变量双前缀（用户设 `EASYEDA_SKILLS_DIR` 无效）；文档/提示混用两套名字；rebrand 漂移在后续 vendoring 时复发 | **改造**（补规则：发布资产名、owner、skill 目录名；把 `rebrand_*.py --check` 纳入 CI 门禁） | 每次 vendoring/升级上游基线后 | 需与 C42/C44 的目录改名一起做，否则改一处漏一处 | `distribution/rebrand_runtime.py`、`distribution/rebrand_connector.py`、`runtime/**` |
+| C37 | 上游 `environment-setup.md:229–247`（`windowId` 非持久、`STALE_WINDOW`/`NO_CONNECTOR`）、`:274–297`（`daemon stop/restart`、PID/端口、`.easyeda-agent` 权限）、`:249–263`（`web reload`/`readbackScope`）、`SKILL.md:20–21`；我方 `SKILL.md:14–18`、`references/installation-updates.md:95–131`、`client-compatibility.md:92–100` | daemon/连接器概念**泄漏到用户面** | 用户被迫理解端口/插件/windowId；"升级失败"被误当"设计失败" | **废弃**（从面向用户文档移除）；**改造**为 runtime 内部 + 一句"未连通时由 `easycirq doctor` 报告" | 全部用户可见文本 | runtime 已隔离服务名/端口/配置目录并**检测旧 daemon**（`cmd_doctor.go:45–49,331–338,474–477`、`internal/protocol/wire.go:11`），但"用户无感"还取决于关掉 C42 的技能同步与 C45 的命令面 | `easycirq/references/diagnostics-internal.md (TBD)`（不进 SKILL）；`runtime/internal/app/cmd_doctor.go` |
+| C38 | 我方 `references/client-compatibility.md:94–100`（"EDA Agent Connector / easyeda-agent 的扩展装在嘉立创EDA专业版内部…需允许外部交互，再运行 `easyeda health`"）；上游 `environment-setup.md:132–151`（`.eext` 侧载 vs 立创插件市场）；现状：`connector/` 已是自有身份 `easycirq-connector` e0.1.0（uuid `a6e6b788…6e31`，`connector/extension.json:2–8`），但 runtime `cmd_update.go:106` 仍"只报告不部署" | Connector **安装步骤**是否仍由用户做 | 用户要做扩展管理/重导/权限开关，体验与"装一个技能"不符 | **废弃**用户步骤（改为安装器/首次运行静默部署）；**改造** runtime 的"只报告"为"部署+校验+失败给一键诊断" | 新装/升级 | EasyEDA 侧"允许外部交互"权限是否有 API 可自动开启 **UNKNOWN**（上游文档只写手动启用，`environment-setup.md:155–158`） | `installer/ (TBD)`；`runtime/internal/app/cmd_update.go`；`connector/` |
+| C46 | runtime 残留：`internal/selfupdate/cli.go:4,78,82`（资产名 `easyeda_<os>_<arch>`）、`internal/selfupdate/cli_test.go:19–23,305–319`；`internal/app/cmd_sch_marker_geom_orientation_test.go:13`（路径含 `easycirq-agent`）；`distribution/rebrand_runtime.py:25–42` 规则表未覆盖发布资产名/owner/目录名；统计（21:26 复测）：`easycirq-agent` 150 处、`EASYCIRQ_` 60 处、`EASYEDA_` 11 处（全是发布资产名）、`easyeda-agent` 7 处（集中在 `cmd_doctor.go` 的旧 daemon 检测与 `protocol/wire.go:11` 隔离注释，属**有意保留**） | rebrand **不完整且不可自动复现**（`--check` 会列出差异） | 环境变量双前缀（用户设 `EASYEDA_SKILLS_DIR` 无效）；文档/提示混用两套名字；rebrand 漂移在后续 vendoring 时复发 | **改造**（补规则：发布资产名、owner、skill 目录名；把 `rebrand_*.py --check` 纳入 CI 门禁） | 每次 vendoring/升级上游基线后 | 需与 C42/C44 的目录改名一起做，否则改一处漏一处 | `distribution/rebrand_runtime.py`、`distribution/rebrand_connector.py`、`runtime/**` |
 
 ### (j) 速度 / 效率
 
@@ -157,10 +157,10 @@
 ### 4.1 唯一职责划分（写进 SKILL.md 第 0 节，硬约束）
 
 1. **智构 Skill = 政策唯一来源**：需求澄清、选型与供应链、工程计算、设计规则、阶段门禁、证据口径、交付话术、验收判据，全部由本 Skill 定义。
-2. **`zhigou` runtime/Connector = 唯一执行者**：只负责连接 EDA、执行受控动作、返回原始回执与版本；**不定义设计规则、不定义门禁、不定义验收**。
-3. **唯一用户入口**：用户只说目标；环境自检、升级、排障由 Agent 调 `zhigou doctor` / `zhigou update`，用户不需要理解 daemon/端口/插件/windowId。
+2. **`easycirq` runtime/Connector = 唯一执行者**：只负责连接 EDA、执行受控动作、返回原始回执与版本；**不定义设计规则、不定义门禁、不定义验收**。
+3. **唯一用户入口**：用户只说目标；环境自检、升级、排障由 Agent 调 `easycirq doctor` / `easycirq update`，用户不需要理解 daemon/端口/插件/windowId。
 4. **不得双载**：`easyeda-agent` 不再作为技能安装；其文本只在 `references/` 内作为**执行器事实引用**出现，带版本与行号。
-5. **运行时不装技能**：`zhigou` runtime 只执行，不得在启动/更新时向客户端 skills 目录写入任何技能；数据资产缺口由我方 Skill 提供（`references/` 内），通过显式路径或 `ZHIGOU_SKILLS_DIR` 指向我方 skill 根。
+5. **运行时不装技能**：`easycirq` runtime 只执行，不得在启动/更新时向客户端 skills 目录写入任何技能；数据资产缺口由我方 Skill 提供（`references/` 内），通过显式路径或 `EASYCIRQ_SKILLS_DIR` 指向我方 skill 根。
 
 ### 4.2 必须保留的 12 条不可协商规则（合并后仍是硬规则）
 
@@ -216,18 +216,18 @@
 
 | # | 契约 | 现状 | 需改 |
 |---|---|---|---|
-| R1 | **不写技能目录**：daemon 启动与 `update` 不得向 `~/.claude、~/.codex、~/.agents/skills/` 写 `zhigou-agent` | 默认 `--auto-update-skill` 开启，`SkillName="zhigou-agent"`（`cmd_skill.go:17–22`、`selfupdate.go:33`） | 关默认、删安装路径、`skill` 命令降为内部只读 |
-| R2 | **自更新/版本门指向本仓库且可关闭** | `RepoSlug="zhoushoujianwork/zhigou-agent"`（3 处） | 改 slug 或删除安装能力；发布资产名 `zhigou_<os>_<arch>` |
-| R3 | **技能资产定位认我方目录名** | `skills/zhigou-agent/...`、rels 仍 `easyeda-agent/...` | 支持 `ZHIGOU_SKILLS_DIR` 指向我方 skill 根 + 目录名可配；或资产全部由我方随包提供并用显式 flag |
-| R4 | **四个数据资产随我方 Skill 分发**：`standard-parts.json`、`orientation.json`、`sheet-templates.json`、`bom-enrich.py` | 我方 `design-hardware/` 四个都缺 | 以 MIT 引用方式纳入 `references/`、`scripts/`，文件头带 provenance（C44） |
+| R1 | **不写技能目录**：daemon 启动与 `update` 不得向 `~/.claude、~/.codex、~/.agents/skills/` 写 `easycirq-agent` | 默认 `--auto-update-skill` 开启，`SkillName="easycirq-agent"`（`cmd_skill.go:17–22`、`selfupdate.go:33`） | 关默认、删安装路径、`skill` 命令降为内部只读 |
+| R2 | **自更新/版本门指向本仓库且可关闭** | `RepoSlug="zhoushoujianwork/easycirq-agent"`（3 处） | 改 slug 或删除安装能力；发布资产名 `easycirq_<os>_<arch>` |
+| R3 | **技能资产定位认我方目录名** | `skills/easycirq-agent/...`、rels 仍 `easyeda-agent/...` | 支持 `EASYCIRQ_SKILLS_DIR` 指向我方 skill 根 + 目录名可配；或资产全部由我方随包提供并用显式 flag |
+| R4 | **四个数据资产随我方 Skill 分发**：`standard-parts.json`、`orientation.json`、`sheet-templates.json`、`bom-enrich.py` | 我方 `easycirq/` 四个都缺 | 以 MIT 引用方式纳入 `references/`、`scripts/`，文件头带 provenance（C44） |
 | R5 | **写入校验回执可被我方证据层消费**：`POST /writeverify` + `staleRisk` + `saved` 字段 | 已存在（`write_verify.go`、`writehealth.go`） | 仅需保证字段稳定、可落盘为 evidence JSON；C07/C08 直接消费，不再另造 |
-| R6 | **宿主版本判定可查询**：`hostCompatibility`（baseline 4.0.0 / recommended 4.1.60） | 已存在（`host_compatibility.go`），且 `zhigou doctor` 已给出整机 verdict（`cmd_doctor.go`） | `zhigou doctor` 输出该结论；Skill 不写死版本号（C32） |
-| R7 | **Connector 部署**：安装器/首次运行部署 `zhigou-connector`（uuid `a6e6b788…6e31`）并校验版本 | `connector/` 已自有身份；runtime 只"报告"不部署 | 增加部署+校验；"允许外部交互"若无 API 则降级为用户一次性动作（U7） |
+| R6 | **宿主版本判定可查询**：`hostCompatibility`（baseline 4.0.0 / recommended 4.1.60） | 已存在（`host_compatibility.go`），且 `easycirq doctor` 已给出整机 verdict（`cmd_doctor.go`） | `easycirq doctor` 输出该结论；Skill 不写死版本号（C32） |
+| R7 | **Connector 部署**：安装器/首次运行部署 `easycirq-connector`（uuid `a6e6b788…6e31`）并校验版本 | `connector/` 已自有身份；runtime 只"报告"不部署 | 增加部署+校验；"允许外部交互"若无 API 则降级为用户一次性动作（U7） |
 | R8 | **rebrand 可复现**：`distribution/rebrand_*.py --check` 在 CI 中为 0 差异 | 残留 `EASYEDA_` 11 处、资产名未覆盖（C46） | 补规则 + CI 门禁 |
 
 ---
 
-## 5. `design-hardware/SKILL.md` 重构提案（目标 ≤120 行，本阶段不执行）
+## 5. `easycirq/SKILL.md` 重构提案（目标 ≤120 行，本阶段不执行）
 
 ### 5.1 现状与目标差距
 
@@ -243,11 +243,11 @@
 ### 5.2 目标大纲（行预算合计 ≈112）
 
 ```
-L1-4    frontmatter：name + ≤90 字 description（去掉"配合 easyeda-agent"字样，改为"配合 zhigou 执行器"）
+L1-4    frontmatter：name + ≤90 字 description（去掉"配合 easyeda-agent"字样，改为"配合 easycirq 执行器"）
 L6-9    # AI画板搭档 + 3 句定位（角色分工 / 不伪造 / 默认中文）
-L11-18  §0 角色与契约：智构=政策唯一来源；zhigou=唯一执行者；用户只说目标；不双载 skill（4 条，第 4 条给安装器）
+L11-18  §0 角色与契约：智构=政策唯一来源；easycirq=唯一执行者；用户只说目标；不双载 skill（4 条，第 4 条给安装器）
 L20-27  §1 开始任务：目标复述+1-2 个生活化问题；6 行意图表（方案/画图/改图/布局布线/检查/换料+采购合并）
-L29-36  §2 执行通道：`zhigou doctor` 三态（未连通/只读/可写）；离线仍可交付；不静默安装
+L29-36  §2 执行通道：`easycirq doctor` 三态（未连通/只读/可写）；离线仍可交付；不静默安装
 L38-53  §3 阶段与门禁：S0–S5 一行式；G0–G6 七键表（7 行）；4 条硬规则；不可豁免 1 行；退出码 1 行
 L55-64  §4 原理图：一页优先+分页理由；分区=阅读顺序+声明 order；框几何 4 条；验收三件套；禁改连接
 L66-77  §5 PCB：机械/固定件先锁；关键回路与分区；DRC+铺铜；交付清单；禁止清单（不为清 DRC 删保护等）
@@ -255,7 +255,7 @@ L79-88  §6 身份与证据：5 项身份；save→reopen；freshness；五件�
 L90-97  §7 失败、重试与提速：两次换方法；先回读再续做；合批写入+一次回读；缓存不作证据
 L99-108 §8 交付与话术：新手/工程师；阻断/建议/提示 × 已证实/条件风险/待核实；五级交付级别
 L110-119 §9 按需读取（8 行分组导航 → references/index.md）
-L121    §10 版本与安装（1 行：以 `zhigou doctor` 为准；详见 references/version-and-install.md）
+L121    §10 版本与安装（1 行：以 `easycirq doctor` 为准；详见 references/version-and-install.md）
 ```
 
 ### 5.3 保留 / 删除 / 迁移（逐段）
@@ -267,7 +267,7 @@ L121    §10 版本与安装（1 行：以 `zhigou doctor` 为准；详见 refer
 | L54、L77 | "未回读不写验证通过"、"直接改→自主推进" | 并入 §1/§3 |
 | L94–96 | 评审节奏=四个可见检查点、非审批门 | 压到 2 行（**这是与上游最关键的分歧，必须显式保留**） |
 | L100 | 单一写入者 | 压到 1 行 |
-| L224–234 | G0–G6、硬规则、豁免、工具边界 | **原样保留**，仅把 "easyeda-agent v1.14.0" 改成"由 `zhigou doctor` 报能力" |
+| L224–234 | G0–G6、硬规则、豁免、工具边界 | **原样保留**，仅把 "easyeda-agent v1.14.0" 改成"由 `easycirq doctor` 报能力" |
 | L246–253 | 五状态词 + 分别报告 | 压到 4 行 |
 | L255–272 | 底线 13 条 | 压成 6 条不变量（型号/容差、脚与焊盘、图面服从电气、先源后写、身份/保存、安规与供应链） |
 | L300–323 | 交付格式与话术 | 压到 §8（10 行） |
@@ -292,8 +292,8 @@ L121    §10 版本与安装（1 行：以 `zhigou doctor` 为准；详见 refer
 
 **新建文件（共 10 个，其中 3 个 JSON + 1 个 Python 为 MIT 引用资产）**
 1. `references/index.md` — 读取索引（承接现 L132–207）。
-2. `references/executor-commands.md` — `zhigou` 命令面 + 证据位 + 与旧 `easyeda` 命令的对照（旧命令只作历史/排障，标 v1.15.0）。
-3. `references/version-and-install.md` — 版本域、兼容矩阵、`zhigou update`、回退；删除对 `easyeda update/update-agent` 的用户指引。
+2. `references/executor-commands.md` — `easycirq` 命令面 + 证据位 + 与旧 `easyeda` 命令的对照（旧命令只作历史/排障，标 v1.15.0）。
+3. `references/version-and-install.md` — 版本域、兼容矩阵、`easycirq update`、回退；删除对 `easyeda update/update-agent` 的用户指引。
 4. `references/diagnostics-internal.md` — daemon/Connector/端口/windowId/读取预算（**内部文档，不链接进 SKILL 正文**，仅 Agent 排障时读）。
 5. `references/content-library-boundaries.md` — 设计卡/常用硬件/决策库的 E1/E2/E3 与 D0/D1/D2 边界。
 6. **`references/orientation.json`** — netflag 本体朝向 `frozenTable` + `_doc`，**直接沿用 runtime 期望的文件名**（`cmd_sch_sheet.go`/测试按 `references/orientation.json` 读取），文件头/伴随说明写 MIT 出处、上游版本与校准日期（C14、C44）。
@@ -305,7 +305,7 @@ L121    §10 版本与安装（1 行：以 `zhigou doctor` 为准；详见 refer
 > 8–10 属于"运行时依赖但我方缺失"的资产（C44）；不纳入则相应 runtime 能力不可用，纳入则必须写明来源与许可（上游 bundle 为 MIT，见 `LICENSE:1–3,20–28`），并纳入 `skill_selftest.py` 的必需文件清单。
 
 **改造既有 references（改名/语义对齐，不动内容结论）**
-- `design-gates.md`：把 31 处 `easyeda ...` 命令改成 `zhigou ...`（或标注"等价命令见 executor-commands.md"）；补 `countsAvailable`/`null≠0`（C25）、`saved===true` AND 重开回读（C07）、"lint 只作输入"分层（C22）。
+- `design-gates.md`：把 31 处 `easyeda ...` 命令改成 `easycirq ...`（或标注"等价命令见 executor-commands.md"）；补 `countsAvailable`/`null≠0`（C25）、`saved===true` AND 重开回读（C07）、"lint 只作输入"分层（C22）。
 - `pcb-execution.md`、`pcb-routing-strategy.md`、`schematic-layout-engine.md`、`eda-execution.md`、`tool-gotchas.md`：同批命令替换；`tool-gotchas.md` 保留带版本号的真实故障案例（历史价值）。
 - `installation-updates.md`：删"同时覆盖 easyeda-agent"整节（现 L95–131），迁入版本与安装新文。
 - `client-compatibility.md`：删 Connector 安装步骤（现 §5），改为"由安装器静默部署"。
@@ -332,19 +332,19 @@ L121    §10 版本与安装（1 行：以 `zhigou doctor` 为准；详见 refer
 | 编号 | 事项 | 现状 | 影响 |
 |---|---|---|---|
 | U1 | 派单称 SKILL.md "231 行"，实测 **323 行**（worktree 与已安装副本均 323 行、逐行一致） | 未找到 231 行版本 | 本审计按实际 323 行编号；若存在另一精简分支需重对行号 |
-| U2 | 新 runtime 的**最终命令面与返回 schema**（`zhigou doctor` 是否存在、`skill/update` 是否保留、`writeverify` 是否暴露 CLI） | **部分已知**：`runtime/` 已 vendored（`cmd/zhigou`，26 子命令来自上游 rebrand，`internal/app/app.go:65,97`），但仍在建（untracked、mtime 21:22），且 C42–C46 的修改会改变命令面 | C30/C32/C33 的最终命名与 C05/C08 的证据适配需等 runtime 定稿 |
+| U2 | 新 runtime 的**最终命令面与返回 schema**（`easycirq doctor` 是否存在、`skill/update` 是否保留、`writeverify` 是否暴露 CLI） | **部分已知**：`runtime/` 已 vendored（`cmd/easycirq`，26 子命令来自上游 rebrand，`internal/app/app.go:65,97`），但仍在建（untracked、mtime 21:22），且 C42–C46 的修改会改变命令面 | C30/C32/C33 的最终命名与 C05/C08 的证据适配需等 runtime 定稿 |
 | U3 | 上游 v1.15.0 是否新增 Gerber/钻孔/CPL 的 CLI/typed action | **UNKNOWN**：v1.15.0 references 未见专用命令，`pcb.md:313` 仅把 gerber/pick-and-place/3D 当 artifact；我方 `SKILL.md:234` 的"v1.14.0 无此能力"需按新版本重验 | G6 工具边界可能变化；不得沿用旧结论 |
 | U4 | 当前宿主实际加载的是哪一份上游 Skill（`.codex` / `.claude` / 两者） | **UNKNOWN**：两份内容一致；本会话可用技能清单含 `easyeda-agent`；未读取宿主加载日志 | 卸载策略需覆盖两个目录 |
 | U5 | 本机 `easyeda` CLI 1.15.0 × EasyEDA Pro 4.1.78 的 `hostCompatibility` 实测值 | **UNKNOWN**：任务禁止运行 EDA 命令，未执行 `health` | 版本兼容矩阵条目需实测后写死 |
 | U6 | 上游 `frozenTable` 在 4.1.78 是否仍成立（表基于 3.2.149 / connector 0.24.3 校准） | **UNKNOWN**：无现场重校数据 | C14 的引用必须带"校准日期 + 待复核"标记 |
-| U7 | EasyEDA 的"允许外部交互"权限能否由自有 `zhigou-connector` 自动开启 | **UNKNOWN**：`connector/` 已是自有扩展，但权限开关是宿主侧 UI；上游文档只写手动启用（`environment-setup.md:155–158`） | 决定 C37/C38 能否真正做到"用户零步骤" |
-| U8 | runtime 定稿基线（当前 `runtime/`、`connector/`、`protocol/` 均 untracked，审计期间仍在写） | **UNKNOWN（时点事实）**：mtime 2026-10-27 21:22；`dist/zhigou.exe` 已构建 | C42–C46 的"现状"会变；修复后须复跑本审计 |
+| U7 | EasyEDA 的"允许外部交互"权限能否由自有 `easycirq-connector` 自动开启 | **UNKNOWN**：`connector/` 已是自有扩展，但权限开关是宿主侧 UI；上游文档只写手动启用（`environment-setup.md:155–158`） | 决定 C37/C38 能否真正做到"用户零步骤" |
+| U8 | runtime 定稿基线（当前 `runtime/`、`connector/`、`protocol/` 均 untracked，审计期间仍在写） | **UNKNOWN（时点事实）**：mtime 2026-10-27 21:22；`dist/easycirq.exe` 已构建 | C42–C46 的"现状"会变；修复后须复跑本审计 |
 | U9 | 官方 Gerber/钻孔/CPL 能力在 4.1.78 + 自研 runtime 下是否有 typed 通道（旧结论按 easyeda-agent v1.14.0 写） | **UNKNOWN**：runtime 的 pcb 命令面来自上游 1.15.0 rebrand，未见专用 gerber 子命令 | `SKILL.md:234` 的 G6 工具边界需按新 runtime 重验 |
 
 **阻塞项（需 Lead 或其他角色处理，非本审计可解）**
 1. **runtime 定稿与命令面**（U2/U8）→ 涉及命令名的 4 条（C04/C30/C32/C33）需在 runtime 定稿后回填最终实现路径；C05/C08 的证据格式适配同此。
 2. **runtime 不得装技能 / 不得指向外部仓库 / 资产路径可配**（C42/C43/C44）→ 这是"单 Skill"目标的真正前置条件；属 runtime 改造范围，本审计只能给契约（§4.4 R1–R8）。
-3. **四个数据资产的取舍**（C44）→ 是"引入 MIT 引用资产"还是"改 runtime 找 design-hardware 目录"，需要 Lead 决策（两条路的包体与许可影响不同）。
+3. **四个数据资产的取舍**（C44）→ 是"引入 MIT 引用资产"还是"改 runtime 找 easycirq 目录"，需要 Lead 决策（两条路的包体与许可影响不同）。
 4. **上游 Skill 的卸载/禁用**（C01）→ 属安装器范围；本审计只能给要求，不能实现。
 5. **Connector 静默部署与"允许外部交互"权限**（C37/C38、U7）→ 需 runtime/安装器设计；若无 API 可自动授权，则必须保留"用户一次性动作"并如实写进首次接通流程。
 
@@ -357,5 +357,5 @@ L121    §10 版本与安装（1 行：以 `zhigou doctor` 为准；详见 refer
 | `evidence/skill-audit/01-our-skill-inventory.md` | 我方 SKILL.md 逐段规则表、references 分组、14 个门槛/检查脚本表、agents/cases/assets、10 条不可协商规则 |
 | `evidence/skill-audit/02-upstream-skill-inventory.md` | 上游版本/许可、26 个 CLI 子命令、8 步工作循环、硬规则、安装配置假设、references/scripts 清单、20 条可引用事实、应隐藏的运行时细节 |
 | `evidence/skill-audit/03-installed-copies-compare.md` | 源码 v1.14.0 vs 安装 v1.15.0：版本、哈希、文件数、逐文件差异（158 换行差异 / 12 文本差异 / 4 仅安装有）、两份安装副本一致性 |
-| `evidence/skill-audit/04-runtime-connector-observation.md` | 自研 `runtime/`、`connector/`、`protocol/` 现场（2026-10-27 21:20–21:25）：vendored 与 rebrand 事实、`zhoushoujianwork/zhigou-agent` 指向、daemon 自动同步技能、4 个 skill 资产缺失、`/writeverify` 与 hostCompatibility 能力、残留 `EASYEDA_` 明细 |
+| `evidence/skill-audit/04-runtime-connector-observation.md` | 自研 `runtime/`、`connector/`、`protocol/` 现场（2026-10-27 21:20–21:25）：vendored 与 rebrand 事实、`zhoushoujianwork/easycirq-agent` 指向、daemon 自动同步技能、4 个 skill 资产缺失、`/writeverify` 与 hostCompatibility 能力、残留 `EASYEDA_` 明细 |
 | `evidence/env/10-cli--help.txt`、`11-cli-version.txt`、`12-cli-doctor.txt`、`01-lceda-pro-fileversioninfo.txt` | 已捕获的 CLI 版本/帮助/无 doctor、EDA 4.1.78 |

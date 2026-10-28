@@ -12,8 +12,8 @@ import (
 	"regexp"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 )
 
 // Background daemon start. Before this, first use meant "open a terminal and

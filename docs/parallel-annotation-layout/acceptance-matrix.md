@@ -4,7 +4,7 @@ Scope: offline annotation-pose planner only.  A checked box means the claim is
 backed by a reproducible command/test in this branch, not by an EDA run.  EDA
 apply, save/reopen, official export and connectivity readback remain **NOT RUN**.
 
-Implementation: `design-hardware/scripts/annotation_layout/` ·
+Implementation: `easycirq/scripts/annotation_layout/` ·
 Tests: `tests/annotation_layout/` · Benchmark: `benchmarks/annotation-layout/`
 
 ## 1. Capability matrix (K1–K5)

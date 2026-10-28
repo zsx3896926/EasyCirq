@@ -3,7 +3,7 @@ package app
 import (
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
 )
 
 // Minimal native P2 geometry from one fresh complete snapshot. The two marker
