@@ -386,6 +386,7 @@ def _workspace_problems(
     *,
     temp_root: Path,
     token: str,
+    result: dict | None = None,
 ) -> list[str]:
     problems: list[str] = []
     events_path = workspace / "events.jsonl"
@@ -454,6 +455,11 @@ def _workspace_problems(
             try:
                 received = _read_json(received_path)
             except (OSError, json.JSONDecodeError):
+                if result and result.get("status") == "cancelled":
+                    # A cancel can be delivered before the agent process even
+                    # starts (fast POSIX CI), so there is no recorded pid to
+                    # orphan-check.  Non-cancel cases still assert this evidence.
+                    continue
                 problems.append(f"cannot read agent evidence: {_sanitize(received_path, temp_root)}")
                 continue
             pid = int(received.get("pid") or 0)
@@ -703,7 +709,13 @@ def run_case(
                             )
                     if workspace_checks:
                         problems.extend(
-                            _workspace_problems(workspace, workspace_checks, temp_root=temp_root, token=TOKEN)
+                            _workspace_problems(
+                                workspace,
+                                workspace_checks,
+                                temp_root=temp_root,
+                                token=TOKEN,
+                                result=result,
+                            )
                         )
         elif workspace_checks:
             problems.append("workspace checks are only valid for accepted tasks")
