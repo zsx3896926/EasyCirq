@@ -54,12 +54,12 @@ jobs:
           CONNECTOR_VERSION: ${{ steps.connector.outputs.version }}
         run: |
           set -euo pipefail
-          mkdir -p dist-cli
+          mkdir -p dist
           cd runtime
           for target in windows/amd64 linux/amd64 linux/arm64 darwin/amd64 darwin/arm64; do
             GOOS="${target%/*}"; GOARCH="${target#*/}"
             EXT=""; [ "$GOOS" = "windows" ] && EXT=".exe"
-            OUT="../dist-cli/easycirq_${GOOS}_${GOARCH}${EXT}"
+            OUT="../dist/easycirq_${GOOS}_${GOARCH}${EXT}"
             CGO_ENABLED=0 GOOS="$GOOS" GOARCH="$GOARCH" \
               go build -trimpath \
                 -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=${VERSION} -X github.com/zsx3896926/EasyCirq/runtime/internal/version.ConnectorVersion=${CONNECTOR_VERSION}" \
@@ -68,16 +68,16 @@ jobs:
           cd ..
 
       - name: Build skills tarball
-        run: tar -czf dist-cli/skills.tar.gz easycirq
+        run: tar -czf dist/skills.tar.gz easycirq
 
       - name: Build skill package
-        run: python distribution/build_release.py --output dist-cli --require-clean --skill-only
+        run: python distribution/build_release.py --output dist --require-clean --skill-only
 
       - name: Upload CLI and skill assets
         uses: actions/upload-artifact@v4
         with:
           name: cli-assets
-          path: dist-cli/*
+          path: dist/*
           if-no-files-found: error
 
   toolchain:
@@ -106,19 +106,19 @@ jobs:
           VERSION: ${{ needs.cli.outputs.version }}
         run: |
           $cv = python -c "import json;print(json.load(open('connector/extension.json'))['version'])"
-          mkdir -Force dist-tc | Out-Null
-          go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=$env:VERSION -X github.com/zsx3896926/EasyCirq/runtime/internal/version.ConnectorVersion=$cv" -o dist-tc\easycirq_windows_amd64.exe ./runtime/cmd/easycirq
+          mkdir -Force dist | Out-Null
+          go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=$env:VERSION -X github.com/zsx3896926/EasyCirq/runtime/internal/version.ConnectorVersion=$cv" -o dist\easycirq_windows_amd64.exe ./runtime/cmd/easycirq
 
       - name: Build toolchain installer
         env:
           VERSION: ${{ needs.cli.outputs.version }}
-        run: python distribution/build_release.py --output dist-tc --require-clean --toolchain-only --runtime-exe dist-tc\easycirq_windows_amd64.exe --toolchain-version $env:VERSION
+        run: python distribution/build_release.py --output dist --require-clean --toolchain-only --runtime-exe dist\easycirq_windows_amd64.exe --toolchain-version $env:VERSION
 
       - name: Upload toolchain assets
         uses: actions/upload-artifact@v4
         with:
           name: toolchain-assets
-          path: dist-tc/*
+          path: dist/*
           if-no-files-found: error
 
   publish:
