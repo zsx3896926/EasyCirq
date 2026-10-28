@@ -135,7 +135,7 @@
 
 无论哪种自动布线，采纳前至少完成：
 
-1. `easycirq pcb drc --json` 并读取完整结果，不用截断文件。
+1. `easycirq pcb drc --json` 并读取完整结果，不用截断文件；布线期间用 `python scripts/pcb_evidence.py drc-summary <drc.json>` 汇总（与 `pcb_gate.py` 同一解析器，读取失败会非零退出，不要自写解析器）。
 2. `easycirq pcb check --json` 查 `dangling-end`、`acute-angle`、`width-under-spec`、`power-not-poured` 等。
 3. 关键网逐条 `easycirq pcb net-path`。
 4. `easycirq pcb dump` 回读真实铜与过孔。
