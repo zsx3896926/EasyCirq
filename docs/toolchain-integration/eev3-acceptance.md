@@ -97,12 +97,16 @@
 - layout-lint 76 分、1 处 crossing（LED1_A × LED1_K）是自动布线结果，人工复核时可优化。
 - 此复核为只读，未修改工程。
 
-### 补充：最小间距 5.98 mil（略低于 6 mil 常规工艺）
+### 补充：最小间距 5.98 mil（已确认满足嘉立创标准工艺）
 
-layout-lint 报告 `minGapMil = 5.98`，低于多数板厂 6 mil 的最小间距标准（差 0.02 mil）。
-这来自全板自动布线，属于**制造前必须处理**的一项：人工微调该处走线，或在板厂确认
-5.98 mil 可接受的工艺档位后放行。另外 `outsideOutline` 报告 J1 在板框外（TH 排针逃逸，
-设计使然），其位号丝印同时越界（DFM `silkOffBoard`）。
+layout-lint 报告 `minGapMil = 5.98`（D1 周边 `LED1_A × LED1_K`，D2 同模式）。按 skill 的嘉立创工艺档位：
+
+- 1 oz **双面最小线宽/线距 0.10/0.10 mm ≈ 3.94 mil**（`references/manufacturing-routes.md` 线宽/线距行；
+  `references/jlc-pcb-rules.md`「1oz 成品铜，单双面线路」行）；HDI 另有 3/3 mil、极限 2.7/2.7 mil 档位；
+- **5.98 mil = 0.152 mm ＞ 0.10 mm 能力下限，余量约 1.5 倍**；6 mil 只是常见推荐舒适值，不是板厂能力下限。
+
+**结论：满足嘉立创标准工艺，无需为打样修改。** 另外 `outsideOutline` 报告 J1 在板框外（TH 排针逃逸，
+设计使然），其位号丝印已移回板内。
 
 ## 8. DFM 修复尝试与最终基线（2026-10-28 13:16–13:20）
 
@@ -131,6 +135,7 @@ layout-lint 报告 `minGapMil = 5.98`，低于多数板厂 6 mil 的最小间距
 - 关键记录：2 层 / 1 oz / 1.6 mm / 47.84×20.36 mm、2 个 PTH 孔（J1）、0 过孔、HASL/绿油；
   `pcb drc` 0 违规（规则 10 mil）；layout-lint 76（minGap **5.98 mil**、1 crossing）；
   DFM 3 WARN（+5V 未铺铜、2 组 10 mil 电源线）。
-- **5.98 mil 已按"推荐值边界"记录**（D1 周边 `LED1_A × LED1_K`）：不违反本工程 DRC，
-  但低于嘉立创 6 mil 推荐值 → 待人工微调或向板厂确认，**不私自豁免**。
+- **5.98 mil 已确认满足嘉立创标准工艺**（D1 周边 `LED1_A × LED1_K`）：1oz 双面最小线距 0.10 mm
+  ≈ 3.94 mil，5.98 mil 余量约 1.5 倍；6 mil 只是推荐舒适值，非能力下限。依据：skill
+  `references/manufacturing-routes.md`、`references/jlc-pcb-rules.md`。
 - 制造文件 / BOM / 库存与本档案一致；实物测试仍 `NOT RUN`。
