@@ -120,6 +120,40 @@ reintroduce the same import-time failure for packages discovered later.
 Recommended follow-up (outside this task's allowed paths): load implementations
 via a private alias, use `append`/restore instead of `insert(0, …)`, and pass
 `PYTHONPATH` in subprocess environments for CLI tests.
+## Counterexample move count is expected, not a solver regression
+
+The synthetic `counterexample` case starts with two hard conflicts:
+
+- `A3` (`3k`, bbox y 585–595) overlaps component body `C2` (y 570–590);
+- `A3` overlaps `A4` (`4k`, bbox y 585–595).
+
+Exhaustive enumeration over the declared candidate domains (`A1` 32, `A2` 13,
+`A3` 11, `A4` 25 candidates) finds **zero single-annotation moves that clear all
+hard conflicts**.  A single move cannot work: moving `A3` up 5 raw clears `C2`
+but still overlaps `A4`; moving it up 10–20 raw clears `A4` but enters `A2`
+(y 600–610); moving `A3` left/up-left only increases the `C2` body overlap
+(its `max_displacement` is 20); moving `A4` alone cannot clear `A3`↔`C2`.
+The minimum is therefore **two moves**.
+
+The batch solver's solution is exactly that minimum: `A3` +5 raw and `A4`
+−5 raw (total displacement 10 raw), all hard conflicts cleared.  The naive
+baseline moves only `A3` (+15 raw) and leaves `A2`↔`A3` overlapping, so it ends
+`partial` with one hard conflict.  "Moves more objects" here is the cost of
+actually solving the page, not a regression: the 1-move baseline is not a
+higher-quality solution.
+
+The benchmark still reports `quality_equal_or_better=false` and
+`speedup_claimed=null` for this case because the task's rule is intentionally
+strict: a faster run that does not clear conflicts or moves more objects must
+not claim a speedup.  The improved run does clear conflicts but moves one more
+object than the failing baseline, so it appropriately gets no speedup claim.
+If a future benchmark policy wants a "dominates" gate (strictly fewer hard
+conflicts may justify extra moves), that is a separate policy decision; it still
+must not be labelled a speedup under the current contract.
+
+No code fix is planned for this case.  The fixture and its assertion remain:
+baseline introduces/leaves a hard conflict, batch solver clears all conflicts
+without introducing one.
 ## Known limitations / do not overclaim
 
 - only offline pose planning; host capabilities were not probed; free-text and
@@ -154,6 +188,7 @@ via a private alias, use `append`/restore instead of `insert(0, …)`, and pass
   do not delete that folder or the source-hash validation fails (by design).
 - Never edit `tests/fixtures/photo-led-v14/` originals.
 - Keep the package Python 3.10 compatible and dependency-free.
+
 
 
 
