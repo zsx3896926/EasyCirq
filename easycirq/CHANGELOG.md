@@ -2,7 +2,7 @@
 
 ## 未发布
 
-- 新增离线铜岛诊断 `scripts/power_preflight/islands.py`（`--net` 输出岛/成员/bbox/岛间最近点，铺铜多边形作为成员）与离线补线 `scripts/island_join.py`（同层连岛，输出 `design-engine-pcb-playbook/v1` 供 `pcb_apply_plan`；跨层过孔连岛未实现、如实标 incomplete）；`pcb-execution.md` §7 路由器选择表加一行。新增 `tests/test_island_join.py`。
+- 新增离线铜岛诊断 `scripts/power_preflight/islands.py`（`--net` 输出岛/成员/bbox/岛间最近点，铺铜多边形作为成员）与离线补线 `scripts/power_preflight/island_join.py`（同层 A* 连岛，或跨层过孔缝合；输出 `design-engine-pcb-playbook/v1` 供 `pcb_apply_plan`；无安全缝合时如实标 incomplete）；`pcb-execution.md` §7 路由器选择表加一行。新增 `tests/test_island_join.py`。
 
 ## 1.1.0 — 2026-10-28
 
