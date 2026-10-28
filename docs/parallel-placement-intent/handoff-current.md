@@ -1,7 +1,11 @@
 # 任务 L（PLACE-INTENT）交接
 
-- 分支 / worktree / 基线 `main` SHA：
-  - 分支：`feat/parallel-placement-intent`
+> **状态：已合并到 `main`**（PR #100，merge commit `befc081d777308ca81335a641f4eaf3c32cf124e`，
+> 2026-10-28T06:37:16Z）。特性分支 `feat/parallel-placement-intent` 已删除（远端与本地均无）；
+> 本文件随 main 分发。原先“OPEN 未合并”的表述保留在下方历史记录中。
+
+- 分支 / worktree / 基线 `main` SHA（**合并前**的历史记录）：
+  - 分支：`feat/parallel-placement-intent`（合并后已删除）
   - worktree：`C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-pi-worktree`
   - 基线 `origin/main`：`91b03e50127291d40276dd37941065fe42c904a1`（PR #99 合并后，统一品牌为智构 / EasyCirq；本分支已 rebase 到该点，`ahead 7 / behind 0`）
   - **目录/命名适配**：#99 把 `design-hardware/` 重构为 `easycirq/`，schema 命名空间
@@ -9,16 +13,19 @@
     `easycirq/scripts/placement_intent/`、`tests/placement_intent_tests/`、
     `benchmarks/placement-intent/`、`docs/parallel-placement-intent/`。
   - 说明：rebase 后验收用的 `git diff --name-status origin/main...HEAD` 三点 diff 的
-    merge-base 即 `91b03e5`，diff 只包含本任务新增的 79 个文件。若主分支在评审前继续合并
-    其它并行任务，由维护者在合并时 rebase/CI；本分支不再自动追。
-- PR：**#100**（https://github.com/zsx3896926/EasyCirq/pull/100，`OPEN` **未合并**；
-  base `main`、head `feat/parallel-placement-intent`；创建时 head `d738e83`）。
-- 精确 HEAD：**`a182ae423d4386cf21ba8532de1738565e5a9617`**（PR #100 当前 head）
-  - 代码/测试/基准/结果冻结提交为 `9b408cf`；`d81280c` 为 EasyCirq 布局/命名端口提交，
-    `results.json.implementation.git_commit` 即 `d81280c`；
-  - `a182ae4` 仅修一处跨平台测试路径字面量（Linux CI 下 `.\valid.json` 不是相对路径），
-    本地与 CI 复跑均通过；docs 收口提交若晚于该 SHA，以 `git rev-parse HEAD` 为准。
-- 允许路径核对（`git diff --name-status origin/main...HEAD`，在最终 docs 提交上实际运行）：
+    merge-base 即 `91b03e5`，diff 只包含本任务新增的 79 个文件。
+- PR：**#100 已合并**（https://github.com/zsx3896926/EasyCirq/pull/100）
+  - 合并方式：merge commit；**合并提交 `befc081d777308ca81335a641f4eaf3c32cf124e`**
+    （2026-10-28T06:37:16Z；main 上该合并提交的 CI 为绿）
+  - base `main`、head `feat/parallel-placement-intent`；head 分支已在合并后删除
+    （`git fetch --prune` 显示 `[deleted]`，`git ls-remote --heads origin` 无该分支）
+  - 合并前 PR head：`063bfbf…`；其中代码/测试/基准/结果冻结于 `9b408cf`，
+    `d81280c` 为 EasyCirq 布局/命名端口提交（`results.json.implementation.git_commit`
+    即 `d81280c`）；`a182ae4` 仅修一处跨平台测试路径字面量（Linux CI 下
+    `.\valid.json` 不是相对路径），本地与 CI 复跑均通过。
+- 合并后状态：内容已在 `main`，`git diff --name-status origin/main...HEAD` 现为**空**；
+  PR 期间（合并前）的三点 diff 为 **79 个新增文件、全部 `A`**，见下方“允许路径核对”。
+- 允许路径核对（**合并前 PR head 上**实际运行 `git diff --name-status origin/main...HEAD`）：
   **79 个新增文件，全部为 `A`**（无 `M`/`D`/`R`），且都在任务书 §3 四个允许路径的新布局
   等价位置内：
 
@@ -64,7 +71,8 @@ A  docs/parallel-placement-intent/**                  9 个 .md（contract.md + 
     `placement_applied:false`、`routing_verified:false`、`physical_validation:"NOT RUN"`、
     `real_eda:"NOT RUN"`、`eda_calls:0` 在所有 plan/validation 输出中固定保留。
 - 下一步（评审关注点、可选的 MCP/design_engine 适配）：
-  1. **已推送并创建 PR #100**（目标 `main`，OPEN 未合并，由主维护者评审）；后续仅按评审意见小步追加提交；
+  1. **PR #100 已合并**（merge commit `befc081`），特性分支已删除；任务 L 收口完成；
+     后续变更按下方第 4 条另开集成 PR；
   2. 评审重点：`docs/parallel-placement-intent/contract.md` 的 v1 收窄口径（anchor）、
      `unknown` 不补齐、`review_required` 不降级；SE(2) 合成/多路径/环的实现与契约一致；
   3. 清洁 checkout 复跑（**已在冻结 HEAD `9b408cf` 上完成**）：`git archive` 导出临时副本后
@@ -151,9 +159,14 @@ PYTHONPATH=. python -m placement_intent explain \
 实物、ModuPlace 训练与仿真结论、本机 Python 3.10（仅 CI matrix 验证）。
 `planned_with_scope` 只表示意图自洽 + 几何自足，不表示已放置/可布通。
 
-## 允许路径核对
-`git diff --name-status origin/main...HEAD` 全部为 `A`（仅新增允许路径文件）。
+## 允许路径核对（合并前 PR head）
+
+`git diff --name-status origin/main...HEAD` → **79 个文件全部为 `A`**（仅新增允许路径文件）；
+合并后该 diff 为空（内容已在 `main`）。
 
 ## HEAD
-`9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`
+
+- **合并提交（main）：`befc081d777308ca81335a641f4eaf3c32cf124e`**
+- PR 期间代码/测试/基准/结果冻结 HEAD：`9b408cf9180a44aded543c1ac9c2ae2b7370aa6c`
+- 合并前 PR head（含 docs 收口与 CI 修正）：`063bfbf7d61022d02f6f4a4dffd98ba8388fadd4`
 ```
