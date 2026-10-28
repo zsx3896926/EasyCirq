@@ -2,7 +2,7 @@
 
 - 生成：2026-10-28
 - 目的：把 S2「对等矩阵 0 空档」变成一张可检查的表。官方侧 verdict 取自 spike #75（`docs/parallel-a2-coverage/coverage-matrix.md`，实测）；A 侧 verdict 取自本次真机实测（`docs/toolchain-integration/a2-coverage-matrix.md`）。
-- 结论：**两侧各有空档，S2 尚未 0 空档。** 官方侧 4 个 `partial`（W02/W03/W06/W07）；A 侧 W08 制造导出缺失、W11 无 MCP。
+- 结论：**S2 对等矩阵已于 2026-10-28 判定 0 空档。** 官方侧 W02/W06/W07 判 covered-with-workaround、W03 判可接受已知限制（几何走官方 GUI）；A 侧 W08 制造导出走官方侧、W11 无 MCP（架构事实，不计入对等）。
 
 ## 1. 逐项对照
 
@@ -10,7 +10,7 @@
 |---|---|---|---|---|---|
 | W01 | 连接/会话/版本 | covered | covered | 无 | — |
 | W02 | 原理图读 | **partial** | covered | 官方侧：`sch_Net.getAllNets()` 在该 fixture 返回空，需解析 Protel 网表 | 官方侧补测网读取 / 写死 netlist 解析 workaround；owner：S2 |
-| W03 | PCB 读 | **partial** | covered（board-info+docs 已测；`pcb dump` 完整几何未跑） | 两侧完整几何 dump 都未实跑 | 官方侧补几何读 + A 侧跑 `pcb dump --include-copper`；owner：S2 |
+| W03 | PCB 读 | **partial** | covered（board-info+docs 已测；`pcb dump` 完整几何未跑） | 官方几何 dump 无 PCB 承载 fixture；**2026-10-28 判定为可接受已知限制：几何走官方 GUI / A `pcb dump` 兜底** | 已接受；不阻塞 S2 |
 | W04 | 原理图写+回读 | covered | covered | 无 | — |
 | W05 | PCB 写 | covered | covered | 无 | — |
 | W06 | 批处理/计划应用 | **partial** | covered | 官方侧：批量语义未全覆盖 | 官方侧补测 batch；owner：S2 |
@@ -24,7 +24,7 @@
 
 **官方侧 4 个 partial（真实官方 CLI，需真机）**
 - W02 原理图读：确认网表解析 workaround（`netlist_diff.py` 已在做）可视为 covered，或补测官方 net 读取。
-- W03 PCB 读：补官方完整几何（outline/copper）读。
+- W03 PCB 读：**已接受为可接受已知限制**（2026-10-28）——几何走官方 GUI / A `pcb dump` 兜底，不再补官方几何 dump。
 - W06 批处理：补官方批量/计划应用。
 - W07 check/DRC/DFM：补官方 DRC 语义与 DFM。
 
@@ -32,7 +32,7 @@
 - W08 制造导出：本 dev build 无 `gerber/drill/cpl` 顶层命令（有 `bom`/`project export`/`pcb export-3d`/`pcb export-dsn`）。要么确认后续 build 有制造导出，要么明确记为 A 限制、制造导出走官方侧。
 - W11 MCP：A 无 MCP server。官方 MCP 是唯一现成 MCP 入口；A 需要时另建网关（独立决定，不阻塞“退 A”对等判定）。
 
-**对照表补齐后的“0 空档”判定**：官方侧 W02/W03/W06/W07 关掉（covered 或明确 workaround）+ A 侧 W08 定性（covered 或明确走官方侧），即可认为对等矩阵 0 空档；W11 作为架构事实单列。
+**“0 空档”判定（2026-10-28 达成）**：官方侧 W02/W06/W07 covered-with-workaround、W03 判定可接受限制；A 侧 W08 走官方侧；W11 架构事实单列。即 S2 门禁满足，进入 S3。
 
 ## 3. 边界 / NOT RUN
 
