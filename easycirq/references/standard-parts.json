@@ -603,7 +603,17 @@
       "package": "1210",
       "class": "ind",
       "basic": false,
-      "desc": "auto-added from box-v2 realization 2026-06-26"
+      "desc": "2.2µH NLCV32T-2R2M-PF(1210)；额定电流约 0.77A（待手册终核），不满足 2A buck 默认件，仅作备选。原 auto-added from box-v2 realization 2026-06-26。"
+    },
+    "ind.2u2_swpa4020": {
+      "value": "2.2µH",
+      "mpn": "SWPA4020S2R2MT",
+      "lcsc": "C83423",
+      "deviceUuid": "",
+      "package": "4020",
+      "class": "ind",
+      "basic": false,
+      "desc": "2.2µH SWPA4020S2R2MT(4020)；PocketCam X1 实测实装件；Isat/Irms 待按手册终核。"
     },
     "res.453k_0402__2": {
       "value": "45.3k",

@@ -35,13 +35,16 @@ CLI 版本:        前代执行器 v1.14.0
 | `gerber` | 顶层/底层铜、顶层/底层阻焊、顶层/底层丝印、板框、顶层/底层钢网；单文件或 zip 注明 | GUI 手工导出 | 文件名、层清单、导出时间、EDA 版本、sha256 |
 | `drill` | PTH/NPTH 或合并文件，孔径表与板厚 | GUI 手工导出 | 文件名、孔数、最小孔径、sha256 |
 | `bom` | 可订购 BOM（位号、数量、MPN、厂家、C 号、封装、DNP 标记） | `easycirq bom export --type csv --enrich=false` | 文件名、行数/件数、sha256 |
-| `cpl` | 贴片坐标（designator、x、y、层、旋转）；与当前装配变体一致 | GUI 手工导出 | 文件名、贴装面、件数、sha256 |
+| `cpl` | 贴片坐标（designator、x、y、层、旋转）；与当前装配变体一致 | `easycirq call pcb.manufacture.cpl` 或 GUI 手工导出 | 文件名、贴装面、件数、sha256 |
+| `step` | 3D 模型（STEP；超 20 MiB 回落 OBJ 作展示件、STEP 改 GUI） | `easycirq pcb export-3d --format step|obj` 或 GUI | 文件名、格式、大小、sha256 |
 | `assembly_drawing` | 顶/底装配图：极性、1 脚、DNP、连接器方向 | GUI 打印/导出或 EDA 截图 | 文件名、覆盖面、sha256 |
 | `stackup_process` | 层叠、板厚、铜厚、表面处理、阻焊/丝印、阻抗 | 按 manufacturing-profile 填写 | 文件、与订单页核对日期 |
 | `project_export` | 可重开的 `.epro2` 工程备份 | `easycirq project export` | 路径、sha256、zip 完整性、恢复演练结果 |
 | `manifest` | 本清单的最终版 | 人工汇总 | 版本、生成时间、上表全部哈希 |
 
 `gate_check.py` 只自动核对 `gerber / drill / cpl / bom` 四类核心件；`assembly_drawing`、`stackup_process` 等作为人工证据登记，不能因为脚本没查就省略。
+
+凡 typed action 不可用、只能 GUI 人工导出的文件，在 `manufacturing.artifacts[]` 里给该条加 `"status": "manual_handoff"` 并登记导出人/时间/版本；G6 会把这些记为 `manufacturing_manual_handoff` advisory（区别于缺失导致的 `BLOCKED`）。
 
 ## 3. 嘉立创工艺检查表
 
