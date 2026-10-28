@@ -5,13 +5,12 @@
   branched from `main @ fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5`.
 - A reference HEAD (read-only): `origin/feat/integrated-eda-toolchain @ dfa8f10d7149df435ab0c0be91edcdcb91990ce1`.
 - PR: **draft PR #75** `spike(a2): official CLI/MCP vs A typed-action coverage and thin adapter`
-  - https://github.com/zsx3896926/hardware-design-skill/pull/75
-  - branch `spike/a2-thin-layer`, base `main`, 233 files, +26,516 / -0, draft.
-  - CI at commit `1bbb674`: `validate (3.10)` PASS, `validate (3.13)` PASS,
-    `updater (ubuntu-latest)` PASS, `updater (windows-latest)` PASS, publish skipped.
-    The first CI run was red for two portability bugs (Windows `\` separators in
-    `pr-split/manifest.json`, CRLF-vs-LF hashing of `a-self-evidence`), fixed in
-    `1bbb674` ("posix split manifest paths and LF-normalised hashes").
+  - https://github.com/zsx3896926/EasyCirq/pull/75 (repository renamed from
+    `hardware-design-skill` to `EasyCirq`; old URLs redirect)
+  - branch `spike/a2-thin-layer`, base `main`, 294 files, +30,318 / -0, draft.
+  - CI at commit `40ca891`: validate (3.10/3.13) PASS, updater (ubuntu/windows)
+    PASS. Earlier red runs were portability bugs (Windows paths in the split
+    manifest, CRLF hashing), fixed in `1bbb674`.
   - Step 1 (residual manufacture export PR) is **void**: its content was already
     merged via PR #71 (`feat: 制造导出能力…`, merged 2026-10-28T04:19:45Z); the
     A branch is now an ancestor of `main`, so `origin/main...origin/feat/integrated-eda-toolchain`
