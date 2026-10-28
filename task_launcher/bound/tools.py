@@ -397,10 +397,12 @@ ALL_SPECS: tuple[ToolSpec, ...] = PHASE1_SPECS + PHASE2_SPECS
 
 
 def specs_for_phase(phase: int) -> list[ToolSpec]:
+    """Phase 1 tools are always available; Phase 2 adds the write chain."""
+
     if phase == 1:
         return list(PHASE1_SPECS)
     if phase == 2:
-        return list(PHASE2_SPECS)
+        return list(PHASE1_SPECS) + list(PHASE2_SPECS)
     return []
 
 

@@ -21,7 +21,16 @@ import time
 from pathlib import Path
 
 
+def _force_utf8_stdio() -> None:
+    for stream in (sys.stdin, sys.stdout):
+        try:
+            stream.reconfigure(encoding="utf-8", newline="\n")  # type: ignore[attr-defined]
+        except (AttributeError, ValueError):
+            pass
+
+
 def main(argv: list[str] | None = None) -> int:
+    _force_utf8_stdio()
     parser = argparse.ArgumentParser(add_help=True)
     parser.add_argument("--task-dir", required=True)
     args, _unknown = parser.parse_known_args(argv)

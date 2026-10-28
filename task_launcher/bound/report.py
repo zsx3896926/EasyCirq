@@ -18,7 +18,6 @@ The report always carries the honest boundary fields ``real_eda: "NOT RUN"``,
 
 from __future__ import annotations
 
-import hashlib
 from typing import Any
 
 from . import REPORT_SCHEMA
@@ -117,10 +116,12 @@ def report_sha256(report: dict[str, Any]) -> str:
 
 
 def verify_report(report: dict[str, Any]) -> bool:
+    import hmac
+
     stored = report.get("report_sha256")
     if not isinstance(stored, str):
         return False
-    return hashlib.compare_digest(stored, report_sha256(report)) if hasattr(hashlib, "compare_digest") else stored == report_sha256(report)
+    return hmac.compare_digest(stored, report_sha256(report))
 
 
 def verdict_for_status(status: str) -> str | None:

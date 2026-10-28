@@ -289,7 +289,9 @@ def build_mcp_config(
     python = python_executable or sys.executable
     return {
         "mcpServers": {
-            "zhigou-bound": {
+            # Underscore keeps the tool prefix stable: mcp__zhigou_bound__<tool>,
+            # matching the allow-list entry "mcp__zhigou_bound__*".
+            "zhigou_bound": {
                 "type": "stdio",
                 "command": python,
                 "args": [
@@ -386,6 +388,12 @@ def plan_task(
     if phase not in (1, 2):
         raise BoundError("PHASE_NOT_ENABLED", f"unsupported phase {phase!r}", {"phase": phase})
     task_dir = Path(task_dir).expanduser()
+    if plugin_dir is not None and not Path(plugin_dir).expanduser().is_dir():
+        raise BoundError(
+            "INVALID_CONFIG",
+            f"--plugin-dir is not a directory: {plugin_dir}",
+            {"plugin_dir": str(plugin_dir)},
+        )
     if task_dir.exists() and any(task_dir.iterdir()) and not force:
         raise BoundError(
             "INVALID_CONFIG",
@@ -440,6 +448,9 @@ def plan_task(
             "note": "BLOCKED ON B1" if not b1_probe.delivered else "B1 delivery markers found",
         },
     )
+    # Round-trip through the strict loader so plan-time and serve-time
+    # validation cannot drift (paths, versions, limits, b1 fields).
+    config = BoundConfig.from_dict(config.to_dict())
     config.write(config_path)
     routing_path = task_dir / ROUTING_FILE
     routing_path.write_text(

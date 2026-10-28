@@ -282,7 +282,7 @@ class Supervisor:
         }
 
     def _snapshot_read(self, arguments: dict[str, Any]) -> dict[str, Any]:
-        self.machine.apply(TOOL_SNAPSHOT_READ, limits=self._limits())
+        self.machine.check_tool(TOOL_SNAPSHOT_READ, limits=self._limits())
         scope = arguments["scope"]
         if scope.get("kind") == "selection":
             designators = scope.get("designators") or []
@@ -298,8 +298,6 @@ class Supervisor:
                     {"unexpected": unexpected, "declared": sorted(allowed)},
                 )
         snapshot = self.backend.read_snapshot(scope)
-        self.snapshot = snapshot
-        self.snapshot_dict = snapshot.to_dict()
         declared_hash = ((self.request or {}).get("context") or {}).get("snapshot_sha256")
         checked = False
         if isinstance(declared_hash, str) and len(declared_hash) == 64:
@@ -311,6 +309,9 @@ class Supervisor:
                     status=409,
                 )
             checked = True
+        self.machine.apply(TOOL_SNAPSHOT_READ, limits=self._limits())
+        self.snapshot = snapshot
+        self.snapshot_dict = snapshot.to_dict()
         payload = {
             "snapshot": {
                 "source": snapshot.source,
@@ -337,10 +338,11 @@ class Supervisor:
     def _run_offline_audit(self, arguments: dict[str, Any]) -> dict[str, Any]:
         if self.snapshot is None:
             raise BoundError(NOT_READY, "snapshot_read must succeed before the audit", {"state": self.machine.state})
-        self.machine.apply(TOOL_RUN_OFFLINE_AUDIT, limits=self._limits())
+        self.machine.check_tool(TOOL_RUN_OFFLINE_AUDIT, limits=self._limits())
         detail = arguments.get("detail", "summary")
         checks = arguments.get("checks")
         audit = self.backend.run_offline_audit(self.snapshot, checks=checks, detail=detail)
+        self.machine.apply(TOOL_RUN_OFFLINE_AUDIT, limits=self._limits())
         self.audit = audit
         self.receipts.append(TOOL_RUN_OFFLINE_AUDIT, {"audit": audit}, risk=RISK_READ_ONLY)
         finalizable = audit.get("status") in ("pass_with_scope", "fail", "review_required")
@@ -375,7 +377,7 @@ class Supervisor:
     def _evidence_emit(self, arguments: dict[str, Any]) -> dict[str, Any]:
         if self.audit is None or self.snapshot_dict is None:
             raise BoundError(NOT_READY, "evidence requires snapshot_read and run_offline_audit", {"state": self.machine.state})
-        self.machine.apply(TOOL_EVIDENCE_EMIT, limits=self._limits())
+        self.machine.check_tool(TOOL_EVIDENCE_EMIT, limits=self._limits())
         chain = self.receipts.verify(
             [step for step in ("task_start", "snapshot_read", "run_offline_audit")]
         )
@@ -430,6 +432,7 @@ class Supervisor:
             }
         }
         self.evidence = {"path": str(evidence_path), "sha256": evidence_sha, "document": evidence}
+        self.machine.apply(TOOL_EVIDENCE_EMIT, limits=self._limits())
         self.receipts.append(TOOL_EVIDENCE_EMIT, payload, risk=RISK_READ_ONLY)
         self._write_status()
         return {
