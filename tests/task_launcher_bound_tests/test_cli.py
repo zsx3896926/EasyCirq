@@ -88,14 +88,64 @@ class ProbeB1Tests(support.BoundTestCase):
         self.assertFalse(document["delivered"])
         self.assertEqual(document["integration_status"], "BLOCKED ON B1")
 
-    def test_probe_b1_on_this_checkout_is_blocked(self) -> None:
+    def test_probe_b1_on_this_checkout_is_honest(self) -> None:
+        """The probe must reflect delivery state, not a hard-coded assumption.
+
+        On the self-contained bound branch the B1 handoff is absent
+        (``delivered=false``); on a branch stacked on a delivered B1 HEAD the
+        same probe correctly reports ``AVAILABLE``. Both are honest, so assert
+        the invariant rather than one branch's state.
+        """
+
         document = support.run_cli_json("probe-b1", "--repo-root", support.WORKTREE)
-        self.assertFalse(document["delivered"])
-        self.assertEqual(document["integration_status"], "BLOCKED ON B1")
+        self.assertEqual(document["schema"], "zhigou.bound.b1-probe/v1")
         self.assertIsInstance(document["missing"], list)
         self.assertTrue(document["notes"])
-        joined = " ".join(document["notes"])
-        self.assertIn("BLOCKED ON B1", joined)
+        if document["delivered"]:
+            self.assertEqual(document["integration_status"], "AVAILABLE")
+        else:
+            self.assertEqual(document["integration_status"], "BLOCKED ON B1")
+            self.assertIn("BLOCKED ON B1", " ".join(document["notes"]))
+
+    def test_probe_b1_detects_delivery_markers_in_a_temp_checkout(self) -> None:
+        """Deterministic: fake B1 layout without/with delivery markers."""
+
+        import tempfile
+        from pathlib import Path
+
+        required = (
+            "task_launcher/__init__.py",
+            "task_launcher/cli.py",
+            "task_launcher/plugin.py",
+            "task_launcher/routing.py",
+            "task_launcher/mcpconfig.py",
+            "task_launcher/agent.py",
+        )
+        markers = (
+            "docs/parallel-task-launcher/handoff-current.md",
+            "docs/parallel-task-launcher/acceptance-matrix.md",
+        )
+        with tempfile.TemporaryDirectory(prefix="bound-b1-probe-") as raw:
+            root = Path(raw)
+            for relative in required:
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                if relative.endswith("__init__.py"):
+                    path.write_text('__version__ = "0.1.0"\n', encoding="utf-8")
+                else:
+                    path.write_text("# fake B1 module for probe test\n", encoding="utf-8")
+            pending = support.run_cli_json("probe-b1", "--repo-root", str(root))
+            self.assertTrue(pending["available"])
+            self.assertFalse(pending["delivered"])
+            self.assertEqual(pending["integration_status"], "BLOCKED ON B1")
+            for relative in markers:
+                path = root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("# delivered marker\n", encoding="utf-8")
+            delivered = support.run_cli_json("probe-b1", "--repo-root", str(root))
+            self.assertTrue(delivered["available"])
+            self.assertTrue(delivered["delivered"])
+            self.assertEqual(delivered["integration_status"], "AVAILABLE")
 
     def test_probe_b1_is_read_only(self) -> None:
         before = support.stable_git_status()
