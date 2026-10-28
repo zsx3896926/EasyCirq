@@ -173,11 +173,17 @@ func newTaskNewCmd(stdout, stderr io.Writer) *cobra.Command {
 导出 SVG/PNG，并写 style-input.json 后运行：
     %s %s <style-input.json>
 
+再做参考图并排 + 粗相似度比对（输出并排图给人看）：
+    %s %s --candidate <export.png> --reference %s --side-by-side %s
+
 ## Stage 6 完整交付门禁
     %s %s --frame-plan <frame-plan.json> --layout <layout.json> --text-audit <text-audit.json>%s%s --out %s
 `, stylePlanPath,
 				python, filepath.Join(skillScripts, "sch_style_plan_check.py"), stylePlanPath,
 				python, filepath.Join(skillScripts, "sch_style_audit.py"),
+				python, filepath.Join(skillScripts, "sch_style_visual.py"),
+				filepath.Join(skillRoot, "assets", "style-reference", "esp32-schematic.png"),
+				filepath.Join(absWorkdir, "stage5-side-by-side.png"),
 				python, filepath.Join(skillScripts, "sch_delivery_check.py"),
 				styleFlag, visualFlag, evidence)
 			if err := os.WriteFile(designPlanPath, []byte(designPlan), 0o644); err != nil {

@@ -93,3 +93,17 @@
 - **BLOCKED**：缺分区/分区标题、缺标题栏字段、非法 schema、严重重叠。
 
 风格 PASS 只是“版式合规”，**不是**电气/视觉/实物通过。
+
+## 8. 视觉对比（Stage 5）
+
+导出 PNG 后，用 `scripts/sch_style_visual.py` 与参考图做粗比对，并生成并排图：
+
+```bash
+python scripts/sch_style_visual.py \
+  --candidate export.png \
+  --reference assets/style-reference/esp32-schematic.png \
+  --side-by-side stage5-side-by-side.png
+```
+
+它只做“粗信号”：页面长宽比、色板颜色是否出现、是否空白/过曝、灰度相关与颜色直方图相似度；
+**不是审美评判**。最终仍要人眼看一眼并排图：框是否齐、标题是否大、线是否短、留白是否匀。
