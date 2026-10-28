@@ -1223,6 +1223,33 @@ def _pinout_problems(pinout):
     return problems
 
 
+# ---- DRC rule relaxation ----
+
+_RULE_SMALLER_IS_LOOSER = {
+    'clearance': True, 'track_width': True, 'via_diameter': True,
+    'via_drill': True, 'annular_ring': True, 'diff_tolerance': False,
+}
+
+
+def _relaxed_rule_fields(before, after):
+    """Return [{field, before, after}] where the final rule is looser."""
+    if not isinstance(before, dict) or not isinstance(after, dict):
+        return []
+    relaxed = []
+    for field, smaller_is_looser in _RULE_SMALLER_IS_LOOSER.items():
+        if field not in before or field not in after:
+            continue
+        try:
+            first = float(before[field])
+            second = float(after[field])
+        except (TypeError, ValueError):
+            continue
+        looser = second < first if smaller_is_looser else second > first
+        if looser:
+            relaxed.append({'field': field, 'before': first, 'after': second})
+    return relaxed
+
+
 # ---- G0
 
 
@@ -1943,6 +1970,41 @@ def gate_g5(gate: Gate, ctx):
         gate.add("silk_over_pad", "fail", "缺少丝印检查/整理证据。",
                  blocking=True, waivable=True,
                  next_command="easycirq pcb silk-align --project <name>；回读并写入 routing.silk_align")
+
+    rules_before = state_get(state, "stackup", "drc_rules_before", default=None)
+    rules_final = state_get(state, "routing", "drc_rules", default=None)
+    if isinstance(rules_before, dict) and isinstance(rules_final, dict):
+        relaxed = _relaxed_rule_fields(rules_before, rules_final)
+        relaxations = state_get(state, "routing", "rule_relaxations", default=None)
+        if not isinstance(relaxations, list):
+            relaxations = []
+        covered = {str(r.get("field")) for r in relaxations if isinstance(r, dict)}
+        uncovered = [r for r in relaxed if r["field"] not in covered]
+        if uncovered:
+            gate.add("drc_rule_relaxation", "fail",
+                     "DRC 规则放宽但无决策记录: " + "; ".join(
+                         "%s %s→%s" % (r["field"], r["before"], r["after"]) for r in uncovered),
+                     blocking=True, waivable=False,
+                     next_command="把每处放宽写入 routing.rule_relaxations（field/before/after/reason）")
+        elif relaxed:
+            gate.add("drc_rule_relaxation", "warn",
+                     "DRC 规则已放宽并记录: " + ", ".join(
+                         "%s %s→%s" % (r["field"], r["before"], r["after"]) for r in relaxed),
+                     blocking=False)
+        else:
+            gate.add("drc_rule_relaxation", "pass", "DRC 规则无放宽。")
+    elif rules_before is not None or rules_final is not None:
+        gate.add("drc_rule_relaxation", "warn",
+                 "drc_rules_before 或 drc_rules 不完整，无法比较放宽。", blocking=False)
+
+    rebuilt = state_get(state, "routing", "pour_rebuilt", default=None)
+    if rebuilt is False:
+        gate.add("pour_freshness", "fail",
+                 "最后一次改铜后未重建铺铜；DRC 可能基于 stale 铺铜。",
+                 blocking=True, waivable=False,
+                 next_command="改铜后执行 easycirq pcb pour-rebuild，并把 routing.pour_rebuilt 置 true")
+    elif rebuilt is True:
+        gate.add("pour_freshness", "pass", "铺铜已在改铜后重建。")
 
     rounds = state_get(state, "routing", "drc_rounds", default=None)
     if isinstance(rounds, list) and len(rounds) >= 4:

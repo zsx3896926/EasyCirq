@@ -428,6 +428,45 @@ class FullPassFixture(unittest.TestCase):
         self.assertEqual(self.check_status(report, 'G0_requirements',
                                            'recovery_stage'), 'warn')
 
+    def _set_rules(self, before, after, relaxations=None, pour_rebuilt=None):
+        state = json.loads(self.state.read_text(encoding='utf-8'))
+        state['stackup']['drc_rules_before'] = before
+        state['routing']['drc_rules'] = after
+        if relaxations is not None:
+            state['routing']['rule_relaxations'] = relaxations
+        if pour_rebuilt is not None:
+            state['routing']['pour_rebuilt'] = pour_rebuilt
+        write_json(self.state, state)
+
+    def test_rule_relaxation_without_record_blocks(self):
+        self._set_rules(
+            {'clearance': 6, 'track_width': 5, 'diff_tolerance': 0.254},
+            {'clearance': 4, 'track_width': 5, 'diff_tolerance': 3.81})
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(statuses(report)['G5_routing'], 'BLOCKED')
+        self.assertEqual(self.check_status(report, 'G5_routing',
+                                           'drc_rule_relaxation'), 'fail')
+
+    def test_rule_relaxation_with_record_is_advisory(self):
+        self._set_rules(
+            {'clearance': 6, 'diff_tolerance': 0.254},
+            {'clearance': 4, 'diff_tolerance': 3.81},
+            relaxations=[
+                {'field': 'clearance', 'before': 6, 'after': 4, 'reason': 'x'},
+                {'field': 'diff_tolerance', 'before': 0.254, 'after': 3.81,
+                 'reason': 'USB FS 12 Mbps'}])
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(statuses(report)['G5_routing'], 'PASS')
+        self.assertEqual(self.check_status(report, 'G5_routing',
+                                           'drc_rule_relaxation'), 'warn')
+
+    def test_pour_rebuilt_false_blocks(self):
+        self._set_rules(None, None, pour_rebuilt=False)
+        report = gate.evaluate(args_for(self.ev, self.root, self.state))
+        self.assertEqual(statuses(report)['G5_routing'], 'BLOCKED')
+        self.assertEqual(self.check_status(report, 'G5_routing',
+                                           'pour_freshness'), 'fail')
+
     def test_unused_waiver_is_marked(self):
         report = gate.evaluate(args_for(
             self.ev, self.root, self.state,

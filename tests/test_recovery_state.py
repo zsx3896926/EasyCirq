@@ -37,6 +37,13 @@ class RecoveryStateGuard(unittest.TestCase):
         self.assertIn('按 `BLOCKED` 处理', body)
         self.assertIn('不凭对话摘要推断', body)
 
+    def test_example_carries_rule_relaxation_and_pour_fields(self):
+        data = json.loads(EXAMPLE.read_text(encoding='utf-8'))
+        self.assertIn('drc_rules_before', data['stackup'])
+        self.assertEqual(data['routing']['drc_rules'], {})
+        self.assertEqual(data['routing']['rule_relaxations'], [])
+        self.assertIs(data['routing']['pour_rebuilt'], False)
+
 
 if __name__ == '__main__':
     unittest.main()

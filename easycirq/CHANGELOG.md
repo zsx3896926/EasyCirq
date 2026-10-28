@@ -13,6 +13,7 @@
 - 新增 `references/pcb-4layer-closure.md`（4 层板端到端 12 步闭环配方）；DRC 停止规则合并为 `agent-collaboration.md` §停止规则的唯一定义，补三条：铺铜未重建的 DRC 无效不计轮次、总数变差恢复备份、4 层板出路改为重排局部/重规划逃逸；`pcb.md`、`pcb-routing-strategy.md`、`routing-plan.md`、`design-gates.md` 改为引用。新增 guard `tests/test_pcb_4layer_closure.py`。
 - requirements 增加 `interface_pinout`：外接模组/FPC 引脚定义（`{module, model, source, view, status}`），`assumed` 在 G0 只 `warn`、**G6 交付 `BLOCKED`（不可豁免）**；无外接模组写 `not_applicable`+`reason`。新增摄像头 DVP FPC 设计卡 `references/module-cards/camera-dvp-fpc.md`（assumed 模板）；`module-integration.md` §2 的四方对照落到该键。新增 guard `tests/test_interface_pinout.py` 与 gate 契约测试。
 - `design-state.json` 增加 `recovery` 恢复字段（`open_nets`/`last_journal`/`last_backup`/`rejected_options`/`next_action`）；SKILL §4 规定上下文压缩/中断后先读 `project.stage`+`recovery` 再继续、状态缺失或与现场不一致按 `BLOCKED`；`gate_check` G0 校验 `project.stage` 阶段 token 与 `recovery.stage` 一致性。新增 guard `tests/test_recovery_state.py` 与 gate 契约测试。
+- `gate_check` G5 增加 DRC 规则放宽与铺铜新鲜度检查：`stackup.drc_rules_before` vs `routing.drc_rules` 逐项比较（clearance/线宽/过孔/环宽/差分容差），放宽无 `routing.rule_relaxations` 记录 → `BLOCKED`、有记录记 advisory；`routing.pour_rebuilt=false` → `BLOCKED`。design-state 示例同步，新增 gate 契约测试。
 
 ## 1.0.2 — 2026-10-27
 
