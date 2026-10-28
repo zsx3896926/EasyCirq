@@ -173,3 +173,16 @@ distribution\Install-Zhigou.ps1 rollback
   R1/R2（C2889365）可订货但**库存 0**、最小包装 10000；其余 5 行 Page Not Found（系统库内部编号）。
 - `sourcing_check` pass → **G6 PASS**：gate 汇总 **6 PASS / 1 PASS_WITH_WAIVER / 0 BLOCKED**（退出码 0）。
 - 结论仍是**不能下单**：BOM 缺货/无订货号（`OI-SOURCING-2`），需换料后重核；交付级别不升格。
+
+## 2026-10-28 12:55 BOM 换料（部分完成，PCB 待重布）
+
+- 用户确认的 6 行替换：R1/R2→C112291、C1→C125205、D1/D2→C51933311、F1→C845159、
+  SW1/SW2→C49296724、J1→C124375（TH 直插）。
+- 在**干净副本** `zhigou-dual-button-led-eev2-20261028`（从 `zhigou-board.epro2` 导入）上用
+  `schematic.component.modify` 只改 BOM 身份（符号/封装不动），9/9 成功；J1 因无同封装有货的
+  SMD 2P 料号，改为删除+重放 TH 器件（封装 `HDR-TH_2P-P2.54-V-M-1`）。
+- 新 BOM（含 C 号/厂家/MPN）：`evidence/gates/BOM-v2.csv`；记录 `bom-replacement-record.json`。
+- **PCB 未闭环**：J1 换 TH 后 4 处 No Connection（GND: C1_2/J1_2；VIN: J1_1/e26）；
+  `route.auto` 与 `pour.rebuild` 调用成功但未消除，需要手工补 J1/C1 的短线后重跑 DRC。
+- **原验收工程 `zhigou-integrated-dual-button-led-20261027` 被改坏**（原地替换导致原理图连接/网表
+  受损）。恢复方式：用 `zhigou-board.epro2` 重新导入，或在 EDA 中撤销。请勿再引用其当前状态。

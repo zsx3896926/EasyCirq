@@ -1,0 +1,60 @@
+{
+  "schema": "zhigou-bom-replacement/v1",
+  "created_at": "2026-10-28T12:55:00+08:00",
+  "project": "zhigou-dual-button-led-eev2-20261028 (clean copy imported from zhigou-board.epro2)",
+  "method": "schematic.component.modify rewrote supplierId/manufacturer/manufacturerId (symbol+footprint untouched); J1 additionally swapped to the TH device C124375 (delete + re-place) because no in-stock SMD 2P part matched the original footprint",
+  "rows": [
+    {
+      "designators": "R1,R2",
+      "old": "C2889365 (VO 0402 220R, out of stock)",
+      "new": "C112291",
+      "part": "YAGEO RC0402FR-07220RL",
+      "stock": 1045700
+    },
+    {
+      "designators": "C1",
+      "old": "C9900013340 (internal id)",
+      "new": "C125205",
+      "part": "TORCH CT41G-0603-2X1-50V-0.1uF-K(N)",
+      "stock": 148300
+    },
+    {
+      "designators": "D1,D2",
+      "old": "C28105 (internal id)",
+      "new": "C51933311",
+      "part": "Guiguang GL0805YG01",
+      "stock": 198900
+    },
+    {
+      "designators": "F1",
+      "old": "C9900012139 (internal id)",
+      "new": "C845159",
+      "part": "SART S1206-SD-1.5A",
+      "stock": 2935
+    },
+    {
+      "designators": "SW1,SW2",
+      "old": "C9900015641 (internal id)",
+      "new": "C49296724",
+      "part": "XKB TS-1101-C-R",
+      "stock": 2380
+    },
+    {
+      "designators": "J1",
+      "old": "C9900024210 (internal id, SMD 2.54)",
+      "new": "C124375",
+      "part": "Ckmtw B-2100S02P-A110 (TH 2.54 1x2P)",
+      "stock": 121860,
+      "note": "footprint changed HDR-SMD_2P-P2.54-V-M -> HDR-TH_2P-P2.54-V-M-1"
+    }
+  ],
+  "verified": {
+    "schematic": "9/9 devices relabelled; sch drc passed (1 advisory ATTRMATCHCODE); sch check 9 findings: 2 zero-length wires + sheet/titleblock + missing partition frames (copy predates the layout fixes)",
+    "pcb": "import-changes imported+verified 9 components; PCB DRC NOT clean: 4 no-connection (GND: C1_2, J1_2; VIN: J1_1, e26) after the J1 TH swap; route.auto + pour.rebuild ran successfully but did not close them -> requires manual rewire of J1/C1"
+  },
+  "bom": {
+    "file": "evidence/gates/BOM-v2.csv",
+    "note": "exported with --enrich=false; contains C codes, MPNs and manufacturers for all 6 rows"
+  },
+  "honest_status": "BOM now orderable on paper; PCB needs the J1 TH pad rewire before DRC 0. The ORIGINAL project zhigou-integrated-dual-button-led-20261027 was damaged while trying to replace devices in place (schematic connectivity broken); restore it from zhigou-board.epro2 or undo in EDA."
+}
