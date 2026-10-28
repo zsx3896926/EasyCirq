@@ -1,0 +1,16 @@
+{
+  "schema": "zhigou.bound.fixture.netlist/v1",
+  "project": "bound-demo",
+  "document": "doc-1",
+  "nets": [
+    {"name": "VIN", "nodes": ["U1.1", "C1.1"]},
+    {"name": "GND", "nodes": ["U1.2", "C1.2"]},
+    {"name": "RESET_N", "nodes": ["U1.3", "R1.1"]}
+  ],
+  "components": [
+    {"ref": "U1", "kind": "mcu", "mpn": "SYNTH-MCU-1"},
+    {"ref": "C1", "kind": "capacitor", "mpn": "SYNTH-CAP-25V"},
+    {"ref": "R1", "kind": "resistor", "mpn": "SYNTH-RES-10K"}
+  ],
+  "note": "synthetic fixture data; not a real schematic"
+}

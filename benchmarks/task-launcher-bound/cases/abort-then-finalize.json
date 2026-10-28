@@ -1,0 +1,55 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "abort-then-finalize",
+  "description": "task_abort after task_start cancels the task; finalize is refused with TASK_CLOSED and evidence_emit with NOT_READY; no success report is produced.",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "task_abort",
+      "arguments": {
+        "reason": "benchmark abort: user cancelled the audit"
+      },
+      "expect": {
+        "ok": true,
+        "state": "CANCELLED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "TASK_CLOSED",
+        "state": "CANCELLED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "evidence_emit",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "CANCELLED"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "CANCELLED",
+    "outcome": "CANCELLED (aborted task never finalizes; no report)",
+    "final_state": "CANCELLED",
+    "result_present": false,
+    "receipts_count": 2
+  }
+}

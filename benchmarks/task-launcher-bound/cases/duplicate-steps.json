@@ -1,0 +1,60 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "duplicate-steps",
+  "description": "Repeating task_start and snapshot_read is refused with STEP_ALREADY_DONE (no second signed receipt, no state change).",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "error": "STEP_ALREADY_DONE",
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "ok": true,
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "error": "STEP_ALREADY_DONE",
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "error": "NOT_READY",
+        "state": "SNAPSHOT_READ"
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "REJECTED",
+    "outcome": "REJECTED (duplicate steps refused; exactly one receipt per step)",
+    "final_state": "SNAPSHOT_READ",
+    "result_present": false,
+    "receipts_count": 2
+  }
+}

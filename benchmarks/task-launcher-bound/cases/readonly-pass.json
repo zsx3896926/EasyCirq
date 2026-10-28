@@ -1,0 +1,99 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "readonly-pass",
+  "description": "Phase 1 happy path: task_start -> snapshot_read -> run_offline_audit (pass_with_scope) -> evidence_emit -> finalize. Supervisor report verdict PASS, real_eda NOT RUN, eda_calls 0.",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "valid"
+  },
+  "actions": [
+    {
+      "op": "call",
+      "tool": "task_start",
+      "expect": {
+        "ok": true,
+        "state": "STARTED"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "snapshot_read",
+      "expect": {
+        "ok": true,
+        "state": "SNAPSHOT_READ"
+      }
+    },
+    {
+      "op": "call",
+      "tool": "run_offline_audit",
+      "expect": {
+        "ok": true,
+        "state": "AUDIT_RUN",
+        "structured": {
+          "finalizable": true,
+          "audit.real_eda": "NOT RUN",
+          "audit.eda_calls": 0
+        }
+      }
+    },
+    {
+      "op": "call",
+      "tool": "evidence_emit",
+      "expect": {
+        "ok": true,
+        "state": "EVIDENCE_EMITTED",
+        "structured": {
+          "evidence.real_eda": "NOT RUN",
+          "evidence.eda_calls": 0
+        }
+      }
+    },
+    {
+      "op": "call",
+      "tool": "finalize",
+      "expect": {
+        "ok": true,
+        "state": "FINALIZED",
+        "structured": {
+          "verdict": "PASS",
+          "real_eda": "NOT RUN",
+          "eda_calls": 0,
+          "project_writes": 0
+        }
+      }
+    }
+  ],
+  "expect": {
+    "outcome_class": "PASS",
+    "outcome": "PASS (whole Phase-1 read-only chain accepted, supervisor report PASS)",
+    "final_state": "FINALIZED",
+    "result_present": true,
+    "verdict": "PASS",
+    "receipts_count": 5,
+    "evidence_present": true,
+    "report": {
+      "schema": "zhigou.bound.report/v1",
+      "generated_by": "supervisor",
+      "task.phase": 1,
+      "task.verdict": "PASS",
+      "summary.audit_status": "pass_with_scope",
+      "audit.status": "pass_with_scope",
+      "snapshot.source": "fixture",
+      "snapshot.scope": "full",
+      "snapshot.file_count": 3,
+      "real_eda": "NOT RUN",
+      "eda_calls": 0,
+      "project_writes": 0,
+      "evidence.chain_verified": true,
+      "evidence.receipts_count": 4,
+      "steps": [
+        "task_start",
+        "snapshot_read",
+        "run_offline_audit",
+        "evidence_emit"
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "schema": "zhigou.bound.fixture.constraints/v1",
+  "rules": [
+    {"id": "CAP-DERATING", "description": "ceramic capacitor voltage rating >= 2x rail voltage", "params": {"rail_v": 5.0, "min_ratio": 2.0}},
+    {"id": "RESET-PULLUP", "description": "active-low reset requires a pull-up", "params": {"net": "RESET_N", "min_ohm": 1000}}
+  ],
+  "scope": "fixture-only",
+  "note": "synthetic constraints; not customer data"
+}

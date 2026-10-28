@@ -1,0 +1,26 @@
+{
+  "schema": "zhigou.bound.benchmark.case/v1",
+  "id": "token-invalid",
+  "description": "serve is started with a tampered task.token file: the supervisor refuses before any MCP traffic, prints TOKEN_INVALID and exits 2.",
+  "setup": {
+    "phase": 1,
+    "backend": "fixture",
+    "audit_case": "pass",
+    "token": "invalid"
+  },
+  "actions": [],
+  "expect_startup": {
+    "exit_code": 2,
+    "stderr_contains": [
+      "TOKEN_INVALID"
+    ]
+  },
+  "expect": {
+    "outcome_class": "STARTUP_REJECTED",
+    "outcome": "STARTUP_REJECTED (invalid token; serve exit 2, TOKEN_INVALID)",
+    "result_present": false,
+    "startup_stderr_contains": [
+      "TOKEN_INVALID"
+    ]
+  }
+}
