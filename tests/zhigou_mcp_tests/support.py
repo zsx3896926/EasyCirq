@@ -16,7 +16,7 @@ import threading
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 
 B_REAL = ROOT / "benchmarks/electrical-review/cases/real-mcu-i2c-ams-tab/input.json"
 E_REAL = ROOT / "benchmarks/return-path-audit/real-replay/real-2layer-mcu-i2c.input.json"

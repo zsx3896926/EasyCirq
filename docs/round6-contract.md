@@ -1,7 +1,7 @@
 # 第六轮实现契约（内部）
 
 > 目的：让 `design-gates.md`、`gate_check.py`、`SKILL.md`、回归案例和并行文档使用同一套名字、状态与字段。
-> 本文件是施工契约，不面向用户；最终入口仍是 `design-hardware/SKILL.md`。
+> 本文件是施工契约，不面向用户；最终入口仍是 `easycirq/SKILL.md`。
 
 ## 1. 门禁与状态
 
@@ -215,12 +215,12 @@ python scripts/gate_check.py --project NAME --evidence-dir DIR
 
 主 Agent 独占：
 
-- `design-hardware/SKILL.md`
-- `design-hardware/references/design-gates.md`
-- `design-hardware/scripts/gate_check.py`
+- `easycirq/SKILL.md`
+- `easycirq/references/design-gates.md`
+- `easycirq/scripts/gate_check.py`
 - `tests/test_gate_check.py`
-- `design-hardware/assets/design-state.example.json`
-- `design-hardware/cases/temp-alarm-2026-10-24/**`
+- `easycirq/assets/design-state.example.json`
+- `easycirq/cases/temp-alarm-2026-10-24/**`
 - `docs/round6-contract.md`、`docs/round6-change-plan.md`、`docs/task-ledger-round6.md`
 
 并行 Agent 独占：
@@ -231,7 +231,7 @@ python scripts/gate_check.py --project NAME --evidence-dir DIR
 - D：`references/agent-collaboration.md`、`references/part-selection.md`、`references/lcsc-sourcing.md`、`assets/design-calc.md`
 - E：`assets/docs/manufacturing-package.md`、`assets/docs/verification.md`、`assets/parts.example.json`、`scripts/bom_check.py`、`tests/test_bom_check.py`
 - F：`assets/pinmap.example.json`、`scripts/pin_plan_check.py`、`tests/test_pinmap.py`
-- G：`scripts/skill_selftest.py`、`design-hardware/CHANGELOG.md`、`design-hardware/.version`、`references/beginner-journey.md`
+- G：`scripts/skill_selftest.py`、`easycirq/CHANGELOG.md`、`easycirq/.version`、`references/beginner-journey.md`
 
 所有 Agent：不跑 EDA、不改 `SKILL.md`/`design-gates.md`/`gate_check.py`/`cases`、不提交、不覆盖其他 Agent 的文件。
 

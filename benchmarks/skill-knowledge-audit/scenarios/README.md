@@ -14,7 +14,7 @@ claim is made. Frozen baseline: `git_sha` 9a951edc21481dc3ae91460acc11aa3e08a7be
 Derivation (no planner output copied)
 -------------------------------------
 - Read fully: `docs/parallel-skill-knowledge-audit/contract.md` (§6–§7),
-  `design-hardware/SKILL.md` (esp. L96 checkpoints, L118, L132–L206 按需读取,
+  `easycirq/SKILL.md` (esp. L96 checkpoints, L118, L132–L206 按需读取,
   L134 always rule, L30/L57/L77/L100, L199, L203), and the references actually
   involved: evidence, workflow, interaction, review, agent-collaboration,
   design-gates, schematic-authoring/-layout/-layout-engine, pcb, pcb-execution,

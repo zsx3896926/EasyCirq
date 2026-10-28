@@ -8,7 +8,7 @@ and what it must probe on the real host before trusting it.
 
 ## 1. Boundary
 
-- K deliverable: `design-hardware/scripts/annotation_layout/` plus
+- K deliverable: `easycirq/scripts/annotation_layout/` plus
   `tests/annotation_layout/`, `benchmarks/annotation-layout/`,
   `docs/parallel-annotation-layout/`.  No changes to `SKILL.md`, existing
   references, runtime/connector/protocol, compose, `design_engine`,
@@ -134,7 +134,7 @@ Before applying any change:
 
 - A builds `annotation-layout/v1` from its own snapshot adapter and calls K as a
   subprocess:
-  `PYTHONPATH=design-hardware/scripts python -m annotation_layout plan INPUT --out out/plan.json`;
+  `PYTHONPATH=easycirq/scripts python -m annotation_layout plan INPUT --out out/plan.json`;
 - A treats `out/plan.json` as a proposal file; it may persist it beside the
   page evidence with the same SHA binding;
 - A returns to K a capability/probe record and, optionally, a post-apply

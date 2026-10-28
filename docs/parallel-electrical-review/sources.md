@@ -110,7 +110,7 @@
 
 `real-mcu-i2c-ams-tab` 场景从仓库内冻结证据离线派生：
 
-- `design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`
+- `easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json`
   （SHA-256 `42acfe23ba0b7cb499653b218033b91ca67562b7d88d7fa99d4ee994b0a0c1c4`）；
 - 同目录 `sch-connectivity.json`。
 

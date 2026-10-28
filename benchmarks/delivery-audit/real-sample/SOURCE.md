@@ -96,7 +96,7 @@
 
 ## 6. 只读回放记录（修复后复核；不是 CLI 声明，不是制造结论）
 
-2026-10-27，用本仓库 `design-hardware/scripts/delivery_audit/` 的 `gerber.parse_gerber` 与
+2026-10-27，用本仓库 `easycirq/scripts/delivery_audit/` 的 `gerber.parse_gerber` 与
 `drill.parse_drill` **在只读方式**下解析上述 8 个数据文件（未写任何输入文件、未修改样本、未调用 CLI，
 因此本文件**不**声称运行过 `python -m delivery_audit`）。以下为**实现修复后的复核结果**——它们是
 **解析器 findings**，说明“本工具在真实 Eagle 文件上会看到什么”，不能反过来当作“样本无效”或“设计有问题”：

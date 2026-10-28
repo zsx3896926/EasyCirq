@@ -12,7 +12,7 @@ def module(name,path):
     spec=importlib.util.spec_from_file_location(name,path)
     m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);return m
 A=module('feedback_apply',ROOT/'tools/skill-feedback/apply-feedback.py')
-N=module('feedback_audit',ROOT/'design-hardware/scripts/net_discipline_audit.py')
+N=module('feedback_audit',ROOT/'easycirq/scripts/net_discipline_audit.py')
 
 class FeedbackTests(unittest.TestCase):
     def setUp(self):
@@ -51,12 +51,12 @@ class FeedbackTests(unittest.TestCase):
         f=self.root/'zhigou-agent/scripts/net-discipline-audit.py';f.write_text('edited')
         self.assertEqual(self.run_cli('--revert').returncode,2);self.assertEqual(f.read_text(),'edited')
     def test_missing_anchor_prevents_any_mutation(self):
-        f=self.root/'design-hardware/SKILL.md';f.write_text('new upstream')
+        f=self.root/'easycirq/SKILL.md';f.write_text('new upstream')
         self.assertEqual(self.run_cli('--apply').returncode,2)
         for rel,b in self.original.items():
             if rel != str(f.relative_to(self.root)):self.assertEqual((self.root/rel).read_bytes(),b)
     def test_ambiguous_anchor(self):
-        f=self.root/'design-hardware/SKILL.md';f.write_text(f.read_text(encoding='utf-8')+f.read_text(encoding='utf-8'),encoding='utf-8')
+        f=self.root/'easycirq/SKILL.md';f.write_text(f.read_text(encoding='utf-8')+f.read_text(encoding='utf-8'),encoding='utf-8')
         self.assertEqual(self.run_cli('--apply').returncode,2)
     def test_partial_marker_refused(self):
         f=self.root/'zhigou-agent/scripts/parts-select.py';f.write_text(f.read_text()+'\nJLC_DIRECT_GUARD\n')
@@ -101,7 +101,7 @@ class FeedbackTests(unittest.TestCase):
             with self.assertRaises(SystemExit) as caught:namespace['jlc_search']('100nF')
         self.assertIn('REFUSED',str(caught.exception))
     def test_audit_source_copies_match(self):
-        a=(ROOT/'design-hardware/scripts/net_discipline_audit.py').read_bytes().replace(b'\r\n',b'\n')
+        a=(ROOT/'easycirq/scripts/net_discipline_audit.py').read_bytes().replace(b'\r\n',b'\n')
         b=(ROOT/'tools/skill-feedback/net-discipline-audit.py').read_bytes().replace(b'\r\n',b'\n')
         self.assertEqual(a,b)
 

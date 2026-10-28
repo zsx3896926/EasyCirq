@@ -6,9 +6,9 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
-CASE = ROOT / 'design-hardware' / 'cases' / 'dual-button-led-night-20261027' / 'negative-direct-move'
-TEMPLATES = ROOT / 'design-hardware' / 'assets' / 'pcb-placement-templates.json'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
+CASE = ROOT / 'easycirq' / 'cases' / 'dual-button-led-night-20261027' / 'negative-direct-move'
+TEMPLATES = ROOT / 'easycirq' / 'assets' / 'pcb-placement-templates.json'
 
 
 class DualChannelTemplateTests(unittest.TestCase):

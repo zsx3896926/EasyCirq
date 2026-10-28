@@ -1,7 +1,7 @@
 # Verified device / bus facts — source register
 
 Status: **documentary verification only**. Every number in
-`design-hardware/scripts/circuit_blocks/devices/facts/*.json` was read from a
+`easycirq/scripts/circuit_blocks/devices/facts/*.json` was read from a
 primary manufacturer document or from the standards-body document (NXP UM10204),
 opened directly on **2026-10-27 (Asia/Shanghai)**. Nothing here proves stock,
 footprint/library correctness, pin-map correctness, board behaviour or measured
@@ -238,7 +238,7 @@ being filled in:
 # 2. extract the text layer locally (PyMuPDF) and render the table pages to images
 #    where the text layer scrambles columns; read the pages cited in the table above
 # 3. run the repository loader:
-$env:PYTHONPATH = "design-hardware/scripts"
+$env:PYTHONPATH = "easycirq/scripts"
 python -c "from circuit_blocks.devices import load_fact; print(len(load_fact('ldo_tlv75533p')['facts']))"
 ```
 

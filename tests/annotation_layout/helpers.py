@@ -17,7 +17,7 @@ from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 FIXTURES = HERE / "fixtures"
 SYNTHETIC = FIXTURES / "synthetic"
 HOLDOUT = FIXTURES / "holdout"

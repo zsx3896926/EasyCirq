@@ -3,7 +3,7 @@ import pathlib
 import sys
 import unittest
 
-ROOT = pathlib.Path(__file__).resolve().parents[1] / "design-hardware/scripts/power_preflight"
+ROOT = pathlib.Path(__file__).resolve().parents[1] / "easycirq/scripts/power_preflight"
 sys.path.insert(0, str(ROOT))
 import pcbgeom as G
 from clearance import Obstacles

@@ -39,7 +39,7 @@
 
 | 路径 | 内容 |
 |---|---|
-| `design-hardware/scripts/electrical_review/` | 独立模块与 `python -m electrical_review` CLI |
+| `easycirq/scripts/electrical_review/` | 独立模块与 `python -m electrical_review` CLI |
 | `tests/electrical_review/` | 专属测试与夹具（带 `__init__.py`，既有 discover 可识别） |
 | `benchmarks/electrical-review/` | 31 个冻结 CLI 场景、expected、驱动、result |
 | `docs/parallel-electrical-review/` | 本目录 |
@@ -47,7 +47,7 @@
 ## 入口
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m electrical_review validate INPUT.json
 python -m electrical_review review INPUT.json [--out REPORT.json]
 python -m electrical_review explain REPORT.json [--rule R1]

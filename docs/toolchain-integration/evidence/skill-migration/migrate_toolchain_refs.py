@@ -6,7 +6,7 @@ Run from the repository root:
     python docs/toolchain-integration/evidence/skill-migration/migrate_toolchain_refs.py --apply
 
 The script only rewrites the text of files that are *live policy or tooling*
-(design-hardware/, tests/, tools/, benchmarks/, .github/).  Historical records
+(easycirq/, tests/, tools/, benchmarks/, .github/).  Historical records
 (CHANGELOG, NOTICE, cases/ evidence, vendor formats) are intentionally left
 alone: they document what was actually run and must not be rewritten as if the
 old toolchain had never existed.
@@ -22,14 +22,14 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[4]
-SCOPES = ['design-hardware', 'tests', 'tools', 'benchmarks', '.github']
+SCOPES = ['easycirq', 'tests', 'tools', 'benchmarks', '.github']
 SKIP_PARTS = {'node_modules', '__pycache__', '.git'}
 SKIP_REL_PREFIXES = (
-    'design-hardware/CHANGELOG.md',
-    'design-hardware/NOTICE',
-    'design-hardware/LICENSE',
-    'design-hardware/vendor/',
-    'design-hardware/cases/',
+    'easycirq/CHANGELOG.md',
+    'easycirq/NOTICE',
+    'easycirq/LICENSE',
+    'easycirq/vendor/',
+    'easycirq/cases/',
     # Frozen real-measurement fixtures: rewriting provenance invalidates the
     # recorded SHA-256 bindings.
     'tests/fixtures/photo-led-v14/',
@@ -43,9 +43,9 @@ SKIP_REL_PREFIXES = (
     # Defensive/compatibility files that must keep a legacy token on purpose:
     # the offline guard refuses old binaries, the release packager accepts the
     # old wrapper flag, and the layout adapter binds a frozen schema string.
-    'design-hardware/scripts/offline_guard.py',
-    'design-hardware/scripts/skill_update.py',
-    'design-hardware/scripts/layout_from_zhigou.py',
+    'easycirq/scripts/offline_guard.py',
+    'easycirq/scripts/skill_update.py',
+    'easycirq/scripts/layout_from_zhigou.py',
 )
 BINARY_SUFFIXES = {
     '.png', '.jpg', '.jpeg', '.gif', '.pdf', '.zip', '.epro2', '.eext',
@@ -98,8 +98,8 @@ REPLACEMENTS = [
 ]
 
 RENAMES = {
-    'design-hardware/scripts/layout_from_easyeda.py':
-        'design-hardware/scripts/layout_from_zhigou.py',
+    'easycirq/scripts/layout_from_easyeda.py':
+        'easycirq/scripts/layout_from_zhigou.py',
     'tests/fixtures/feedback/fake_easyeda.py':
         'tests/fixtures/feedback/fake_zhigou.py',
     'tests/fixtures/feedback/easyeda-fake.cmd':

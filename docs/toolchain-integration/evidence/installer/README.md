@@ -39,7 +39,7 @@ Expand-Archive dist\zhigou-toolchain-installer-<版本>.zip -DestinationPath .
 
 - `pytest`：**39 passed**（18.1s）；`unittest`：**39 tests OK**（18.9s）。
 - 发行构建：`zhigou-toolchain-0.2.0.zip`（16,017,542 B，687 文件）+ `zhigou-toolchain-installer-0.2.0.zip`（15,871,702 B）
-  + 旧 Skill 安装器 `design-hardware-installer-1.0.1.zip`（两条路径同一次构建产出）。
+  + 旧 Skill 安装器 `easycirq-installer-1.0.1.zip`（两条路径同一次构建产出）。
 - 兼容矩阵（记录于 bundle/release/installation）：`cli/runtime/daemon=0.2.0`、`connector=0.1.0`、
   `protocol=zhigou-agent/v1`、`eda>=3.2.0`（validated 4.1.78）、`minPython=3.10`。
 - 溯源：`sourceCommit` = `dist/toolchain-provenance.json` 记录值（构建时工作树 dirty，已如实标记
@@ -52,12 +52,12 @@ Expand-Archive dist\zhigou-toolchain-installer-<版本>.zip -DestinationPath .
 
 - 未修改 `runtime/`、`connector/` 源码；仅跑 `connector/` 的 npm 构建（产物写入 `connector/dist`、
   `connector/build/dist`，两者均在 `.gitignore` 内）并复用 `runtime/dist/zhigou.exe`。
-- 未修改 `design-hardware/**`；未改 `docs/toolchain-integration/` 下他人负责的文档
+- 未修改 `easycirq/**`；未改 `docs/toolchain-integration/` 下他人负责的文档
   （`environment-baseline.md`、`rule-conflicts.md`、`upstream-analysis.md`、`architecture.md`、
   `capability-matrix.md`、`task-status.md`、`acceptance-matrix.md`、`performance.md`）。
 - `python -m unittest discover -s tests` 全量跑（1824 tests）时存在 4 项**与本次改动无关**的失败，
   属其它并行任务的在途状态：`test_pcb_preflight.py`（`pcb_cli` 缺 `subprocess` 属性）、
   `test_sch_acceptance_v14.py`（`layout_from_zhigou.convert` 抛 ValueError）、
-  `test_no_legacy_toolchain_refs.py` 的两项（`design-hardware/SKILL.md` 尚未改为 `zhigou doctor`
+  `test_no_legacy_toolchain_refs.py` 的两项（`easycirq/SKILL.md` 尚未改为 `zhigou doctor`
   且其中仍含 `easyeda` 字样；`tests/fixtures/zhigou/doctor-*.json` 含旧名）。
   新增的安装器测试文件已做到对 legacy-reference 扫描 **0 命中**（负向用例用运行时拼接的常量命名旧目录）。

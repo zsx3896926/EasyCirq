@@ -3,7 +3,7 @@
 Post-merge reconciliation dates: 2026-10-28 (PR #42 and the PR #51 follow-up).
 Original branch: `feat/parallel-mechanical-layout` (merged). Original worktree:
 `.agents/worktrees/feat/parallel-mechanical-layout` in the local
-`hardware-design-skill` checkout. Main baseline:
+`EasyCirq` checkout. Main baseline:
 `9a951edc21481dc3ae91460acc11aa3e08a7be8a`.
 
 Task G itself did **not** merge, release or install anything. Pull request #42 and
@@ -17,13 +17,13 @@ merged (`b3ce6fd`), which is recorded below.
 
 | item | value |
 |---|---|
-| merged pull request | **#42** — https://github.com/zsx3896926/hardware-design-skill/pull/42 — **MERGED** by `@zsx3896926` at `2026-10-27T16:52:58Z` |
+| merged pull request | **#42** — https://github.com/zsx3896926/EasyCirq/pull/42 — **MERGED** by `@zsx3896926` at `2026-10-27T16:52:58Z` |
 | merge commit on main | `ecb4c8a8c5774bdbd54b7c16789029b8fe959a82` |
 | original branch | `feat/parallel-mechanical-layout` |
 | main baseline | `9a951edc21481dc3ae91460acc11aa3e08a7be8a` |
 | verified delivery HEAD | `0ff873c7361d653c9f7ad0d35c39f6df60543018` |
 | merged PR #42 head | `317876c0797ad04aaeee7483efb6d5f9c0526f87` |
-| docs correction PR | **#51** — https://github.com/zsx3896926/hardware-design-skill/pull/51 — **MERGED** by `@zsx3896926` at `2026-10-27T17:49:12Z` |
+| docs correction PR | **#51** — https://github.com/zsx3896926/EasyCirq/pull/51 — **MERGED** by `@zsx3896926` at `2026-10-27T17:49:12Z` |
 | PR #51 merged head | `52fdb11d32f33bb494eff0b0ae7abe577f505736` |
 | PR #51 merge commit on main | `b3ce6fd5b09e5d9de4c1989c58626c067253e035` |
 | PR #51 observed heads before merge | `60ec52e` → `fd6847a` → `6d10d35` → `52fdb11` |
@@ -39,7 +39,7 @@ git diff --name-status 0ff873c..317876c
     M   docs/parallel-mechanical-layout/handoff-current.md
 
 git diff --name-only 0ff873c..317876c -- \
-    design-hardware/scripts/mechanical_layout tests/mechanical_layout \
+    easycirq/scripts/mechanical_layout tests/mechanical_layout \
     benchmarks/mechanical-layout
     (empty; tests/mechanical_layout is the historical path at 0ff873c)
 ```
@@ -57,7 +57,7 @@ changed. The earlier revision's statement "PR head at handoff finalization =
 
 | item | value |
 |---|---|
-| PR | https://github.com/zsx3896926/hardware-design-skill/pull/51 |
+| PR | https://github.com/zsx3896926/EasyCirq/pull/51 |
 | state | **MERGED** |
 | merged by | `@zsx3896926` at `2026-10-27T17:49:12Z` |
 | merged head | `52fdb11d32f33bb494eff0b0ae7abe577f505736` |
@@ -138,7 +138,7 @@ unrecorded later change.
 
 ## What was delivered
 
-* Offline Python package `design-hardware/scripts/mechanical_layout/`
+* Offline Python package `easycirq/scripts/mechanical_layout/`
   (`python -m mechanical_layout`): `validate`, `audit`, `plan`, `explain`.
 * G1 board/fixed checks, G2 interface/opening/plug/cable/button/LED checks,
   G3 screw/tool/post/keep-out/insulation checks, G4 2.5D height/interference and
@@ -179,24 +179,24 @@ python benchmarks/mechanical-layout/run_benchmarks.py --holdout
 Representative CLI checks (the same commands used for the acceptance evidence):
 
 ```text
-PYTHONPATH=design-hardware/scripts python -m mechanical_layout audit \
+PYTHONPATH=easycirq/scripts python -m mechanical_layout audit \
     -i benchmarks/mechanical-layout/cases/pass_panel.json --out <dir>
     exit 0; report.json + top.svg + bottom.svg (watermark
     analysis_not_official_export)
 
-PYTHONPATH=design-hardware/scripts python -m mechanical_layout plan \
+PYTHONPATH=easycirq/scripts python -m mechanical_layout plan \
     -i benchmarks/mechanical-layout/cases/pass_panel.json --out <dir>
     exit 0; status candidates_found; candidates are only_planned
 
-PYTHONPATH=design-hardware/scripts python -m mechanical_layout plan \
+PYTHONPATH=easycirq/scripts python -m mechanical_layout plan \
     -i benchmarks/mechanical-layout/cases/plan_budget.json --max-combinations 2
     exit 4; status search_incomplete; G5.SEARCH_INCOMPLETE
 
-PYTHONPATH=design-hardware/scripts python -m mechanical_layout audit \
+PYTHONPATH=easycirq/scripts python -m mechanical_layout audit \
     -i benchmarks/mechanical-layout/cases/invalid_nan.json --out <dir>
     exit 2; report.json status invalid; old PASS replaced, stale SVG removed
 
-PYTHONPATH=design-hardware/scripts python -m mechanical_layout explain \
+PYTHONPATH=easycirq/scripts python -m mechanical_layout explain \
     -i benchmarks/mechanical-layout/cases/opening_misaligned.json --finding F0001
     exit 0; rule G2.OPENING_ALIGN, capability G2
 ```
@@ -276,7 +276,7 @@ Status flags in every report: `simulated: true`, `real_eda: NOT RUN`,
 * **Distribution.** PR #42 was merged to `main` by the repository owner after this
   task's review; task G did not perform that merge and did not release, install or
   deploy the package. The docs-only correction PR **#51**
-  (https://github.com/zsx3896926/hardware-design-skill/pull/51) was also merged by
+  (https://github.com/zsx3896926/EasyCirq/pull/51) was also merged by
   the repository owner as `b3ce6fd5b09e5d9de4c1989c58626c067253e035`. This
   post-merge documentation update is a separate docs-only PR and is not merged by
   task G.
@@ -284,7 +284,7 @@ Status flags in every report: `simulated: true`, `real_eda: NOT RUN`,
 ## Files touched (all inside the allowed isolation paths)
 
 ```text
-design-hardware/scripts/mechanical_layout/**            (new package)
+easycirq/scripts/mechanical_layout/**            (new package)
 tests/mechanical_layout_tests/**                          (current path; moved from the
                                                            historical tests/mechanical_layout/
                                                            at integration commit a575748)
@@ -332,7 +332,7 @@ docs-only PR so the already-merged #51 is not rewritten:
 
 | item | value |
 |---|---|
-| PR #51 | https://github.com/zsx3896926/hardware-design-skill/pull/51 — **MERGED** |
+| PR #51 | https://github.com/zsx3896926/EasyCirq/pull/51 — **MERGED** |
 | merged head | `52fdb11d32f33bb494eff0b0ae7abe577f505736` |
 | merge commit | `b3ce6fd5b09e5d9de4c1989c58626c067253e035` |
 | merged parents | `acbcc18c...` (main) + `52fdb11...` (head) |

@@ -23,7 +23,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 REPO = ROOT.parents[1]
-SCRIPTS = REPO / 'design-hardware' / 'scripts'
+SCRIPTS = REPO / 'easycirq' / 'scripts'
 CONFIDENCE_RANK = {'certain': 2, 'possible': 1, 'unknown': 0}
 
 

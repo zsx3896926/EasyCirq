@@ -5,7 +5,7 @@
 
 ## 1. 已经稳定、可直接消费的接口
 
-- 包位置：`design-hardware/scripts/skill_knowledge_audit/`（仅标准库，只读）。
+- 包位置：`easycirq/scripts/skill_knowledge_audit/`（仅标准库，只读）。
 - 命令：`scan` / `rules` / `plan` / `benchmark`（见 `cli.md`）。
 - 结构版本：`skill-knowledge-audit/v1`；目录版本：`2026-10-27.1`；工具版本：`0.1.0`。
 - 退出码：`0` 成功；`1` 有问题（扫描错误、计划 incomplete、基准失败、strict 夹具失败）；
@@ -24,12 +24,12 @@
 
 ### 2.1 可选：给客户端/安装包加一个薄入口（由 A 或维护者实施）
 
-`python -m skill_knowledge_audit` 要求 `design-hardware/scripts` 在 `PYTHONPATH`/当前目录。
-如果希望从仓库根直接运行，可新增 `design-hardware/scripts/skill_knowledge_audit_cli.py`
+`python -m skill_knowledge_audit` 要求 `easycirq/scripts` 在 `PYTHONPATH`/当前目录。
+如果希望从仓库根直接运行，可新增 `easycirq/scripts/skill_knowledge_audit_cli.py`
 （本任务**没有**创建，因为不在允许目录内）：
 
 ```python
-# proposal only: design-hardware/scripts/skill_knowledge_audit_cli.py
+# proposal only: easycirq/scripts/skill_knowledge_audit_cli.py
 import sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -42,7 +42,7 @@ if __name__ == "__main__":
 这样维护者可在仓库根执行：
 
 ```bash
-python design-hardware/scripts/skill_knowledge_audit_cli.py scan --root design-hardware
+python easycirq/scripts/skill_knowledge_audit_cli.py scan --root easycirq
 ```
 
 不加入客户端运行时默认路径：它面向维护者，不参与普通画板任务。
@@ -57,7 +57,7 @@ python design-hardware/scripts/skill_knowledge_audit_cli.py scan --root design-h
   run: python -m unittest discover -s tests/skill_knowledge_audit -t . -v
 - name: Skill knowledge audit evidence
   run: |
-    cd design-hardware/scripts
+    cd easycirq/scripts
     python -m skill_knowledge_audit scan --root .. \
       --out ../../benchmarks/skill-knowledge-audit/results/ci-scan.json
     python -m skill_knowledge_audit rules --root .. --strict \
@@ -99,7 +99,7 @@ python design-hardware/scripts/skill_knowledge_audit_cli.py scan --root design-h
 
 ## 4. 与任务 A/B/C 的边界
 
-- 本工具不写 `design-hardware/` 源文档；A 若要应用 `recommendations.md` 的改动，
+- 本工具不写 `easycirq/` 源文档；A 若要应用 `recommendations.md` 的改动，
   由 A/维护者分别提交，不能把本分支当补丁直接 cherry-pick 到主 Skill。
 - B/C 的离线审查/交付包结论不依赖本工具；本工具也不依赖 A 的执行器。
 - 本任务未合并、未发布、未安装客户端，不阻塞 A 的稳定提交。

@@ -10,8 +10,8 @@ import unittest
 os.environ.setdefault("PYTHONIOENCODING", "utf-8")
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "design-hardware" / "scripts" / "interface_contract_check.py"
-ASSETS = ROOT / "design-hardware" / "assets" / "decisions"
+SCRIPT = ROOT / "easycirq" / "scripts" / "interface_contract_check.py"
+ASSETS = ROOT / "easycirq" / "assets" / "decisions"
 
 
 def connector():
@@ -405,7 +405,7 @@ class DecisionsAssets(unittest.TestCase):
         self.assertFalse(result["board_verified"])
 
 
-DOCS = ROOT / "design-hardware" / "references" / "decisions"
+DOCS = ROOT / "easycirq" / "references" / "decisions"
 CASES = DOCS / "cases"
 
 

@@ -19,7 +19,7 @@ import unittest
 import zipfile
 from pathlib import Path
 
-from tests.delivery_audit import support  # noqa: F401 - puts design-hardware/scripts on sys.path
+from tests.delivery_audit import support  # noqa: F401 - puts easycirq/scripts on sys.path
 from tests.delivery_audit.support import (
     build_dir,
     build_zip,

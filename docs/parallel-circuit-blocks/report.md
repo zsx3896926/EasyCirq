@@ -13,7 +13,7 @@ merges and conflict checks.
 
 | Piece | Path |
 |---|---|
-| generator package (`python -m circuit_blocks`) | `design-hardware/scripts/circuit_blocks/` |
+| generator package (`python -m circuit_blocks`) | `easycirq/scripts/circuit_blocks/` |
 | six modules | `blocks/led_indicator.py`, `button_input.py`, `open_drain_pullup.py`, `adc_divider.py`, `low_side_nmos.py`, `ldo_supply.py` |
 | core (exact arithmetic, units, intervals, E-series, schema, result envelope, validation, compose, SVG) | `numeric.py`, `units.py`, `ranges.py`, `eseries.py`, `schema.py`, `result.py`, `canvas`-free `compose.py`, `validate.py`, `svg.py`, `cli.py` |
 | verified device facts | `devices/facts/*.json` + `devices/SCHEMA.md` |
@@ -118,7 +118,7 @@ a **proposal** in `integration-proposal.md`, not an edit.
 
 ```powershell
 cd <worktree>
-$env:PYTHONPATH = "design-hardware/scripts"
+$env:PYTHONPATH = "easycirq/scripts"
 python -m circuit_blocks list
 python -m circuit_blocks generate led_indicator --example --summary
 python -m circuit_blocks compose --input benchmarks/circuit-blocks/examples/dual_button_dual_led.design.json
@@ -131,5 +131,5 @@ python benchmarks/circuit-blocks/run_benchmarks.py --json
 - branch: `feat/parallel-circuit-blocks` (worktree separate from the other
   parallel tasks; only the four allowed path groups are modified)
 - commits: see `git log main..HEAD`
-- PR: https://github.com/zsx3896926/hardware-design-skill/pull/44 (open, not
+- PR: https://github.com/zsx3896926/EasyCirq/pull/44 (open, not
   merged, no release, no install; independent review requested)

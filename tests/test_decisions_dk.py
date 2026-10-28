@@ -1,7 +1,7 @@
 """R4-WS3 (D and K) document, asset and independent-recompute tests.
 
 The two-node reference implementation below is written from the circuit
-equations directly.  It deliberately does not import design-hardware/scripts/
+equations directly.  It deliberately does not import easycirq/scripts/
 calculate.py or any other project module.
 """
 
@@ -14,7 +14,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DH = ROOT / "design-hardware"
+DH = ROOT / "easycirq"
 REF = DH / "references" / "decisions"
 CASES = REF / "cases"
 ASSETS = DH / "assets" / "decisions"
@@ -360,7 +360,7 @@ class CaseContentCompleteness(unittest.TestCase):
     def test_d01_path_citations_are_located(self):
         text = read_text(D01_CASE)
         self.assertIn(
-            "`P02`=`design-hardware/references/projects/p02-industrial-rs485-analog.md`",
+            "`P02`=`easycirq/references/projects/p02-industrial-rs485-analog.md`",
             text,
         )
         self.assertIn("C1:179-191", text)

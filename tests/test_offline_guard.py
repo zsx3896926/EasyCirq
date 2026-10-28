@@ -12,7 +12,7 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 
 import offline_guard  # noqa: E402

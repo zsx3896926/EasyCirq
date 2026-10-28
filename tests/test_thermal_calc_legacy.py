@@ -15,7 +15,7 @@ import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-CALC = os.path.join(HERE, "..", "design-hardware", "scripts", "thermal_calc.py")
+CALC = os.path.join(HERE, "..", "easycirq", "scripts", "thermal_calc.py")
 
 
 def run(mode, data):

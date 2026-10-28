@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "design-hardware" / "scripts" / "design_inventory.py"
+SCRIPT = ROOT / "easycirq" / "scripts" / "design_inventory.py"
 
 
 def write(path, data):

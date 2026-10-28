@@ -23,7 +23,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 BENCH = Path(__file__).resolve().parent
 CASES = BENCH / "cases"
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 EXPECTED = BENCH / "expected.json"
 
 

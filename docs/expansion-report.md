@@ -13,18 +13,18 @@
 
 | 内容 | 数量 | 位置 | 结构/验收 |
 |---|---:|---|---|
-| 设计卡 | 60 | `design-hardware/references/design-cards/` | 6 个领域，每张 12 节；E1/E2/E3 证据等级 |
-| 原理图/PCB 范例 | 12 | `design-hardware/references/examples/` | 8 节 + 改前改后说明；标注“未在 EDA 中执行” |
-| 故障与反例 | 22 | `design-hardware/references/failures/` | 现象→工况→假设→区分检查→根因证据→修复→复验→边界；A/B/C/D 证据等级 |
-| 模块组合与接口契约 | 1 份 + 12 个组合失败案例 | `design-hardware/references/module-integration.md` | 电压/门限/状态/复用/连接器/电源/地/固件/机械 |
-| 器件选型与替代 | 6 份 | `design-hardware/references/selection/` | 4 类器件表 + 4 级替代分类 + 商城核对 |
-| 计算手册 | 4 份 | `design-hardware/references/calculations/` | 模型假设、公式/单位、算例、不能证明 |
-| 仿真与测量 | 1 份 | `design-hardware/references/simulation-measurement.md` | 测点/仪器/探头/带宽/停止条件/安全 |
-| 制造与交付 | 3 条路线 | `design-hardware/references/manufacturing-routes.md` | 文件/字段/变体/对账/异常处理 |
-| 项目样本 | 3 个 | `design-hardware/references/projects/` | 11 节；完成级别如实标注 |
-| 任务场景 | 35 个（12 个指定反例） | `design-hardware/assets/scenarios.json`、`references/task-scenarios.md` | 路由/必做/禁止宣称/确定性检查 |
-| 来源登记 | 91 条 | `design-hardware/references/source-register.md` | 版本/页码/查阅范围/不能推广 |
-| 可执行脚本 | +5 模式 +1 仿真 | `design-hardware/scripts/calculate.py`、`rc_settle_sim.py` | 单元测试覆盖正常/边界/无效输入 |
+| 设计卡 | 60 | `easycirq/references/design-cards/` | 6 个领域，每张 12 节；E1/E2/E3 证据等级 |
+| 原理图/PCB 范例 | 12 | `easycirq/references/examples/` | 8 节 + 改前改后说明；标注“未在 EDA 中执行” |
+| 故障与反例 | 22 | `easycirq/references/failures/` | 现象→工况→假设→区分检查→根因证据→修复→复验→边界；A/B/C/D 证据等级 |
+| 模块组合与接口契约 | 1 份 + 12 个组合失败案例 | `easycirq/references/module-integration.md` | 电压/门限/状态/复用/连接器/电源/地/固件/机械 |
+| 器件选型与替代 | 6 份 | `easycirq/references/selection/` | 4 类器件表 + 4 级替代分类 + 商城核对 |
+| 计算手册 | 4 份 | `easycirq/references/calculations/` | 模型假设、公式/单位、算例、不能证明 |
+| 仿真与测量 | 1 份 | `easycirq/references/simulation-measurement.md` | 测点/仪器/探头/带宽/停止条件/安全 |
+| 制造与交付 | 3 条路线 | `easycirq/references/manufacturing-routes.md` | 文件/字段/变体/对账/异常处理 |
+| 项目样本 | 3 个 | `easycirq/references/projects/` | 11 节；完成级别如实标注 |
+| 任务场景 | 35 个（12 个指定反例） | `easycirq/assets/scenarios.json`、`references/task-scenarios.md` | 路由/必做/禁止宣称/确定性检查 |
+| 来源登记 | 91 条 | `easycirq/references/source-register.md` | 版本/页码/查阅范围/不能推广 |
+| 可执行脚本 | +5 模式 +1 仿真 | `easycirq/scripts/calculate.py`、`rc_settle_sim.py` | 单元测试覆盖正常/边界/无效输入 |
 
 ## 3. 合并、修正与删除
 
@@ -42,7 +42,7 @@
 
 ## 4. 来源、查阅范围与许可
 
-- 91 条来源登记在 `design-hardware/references/source-register.md`；每条含标题、发布者、版本/日期、实际查阅范围、支持内容、不能推广的部分和 URL。
+- 91 条来源登记在 `easycirq/references/source-register.md`；每条含标题、发布者、版本/日期、实际查阅范围、支持内容、不能推广的部分和 URL。
 - 主要来源类型：TI/ADI/ST/Espressif/Raspberry Pi/Infineon/Quectel/u-blox/Sitronix/Winbond/Omron/TE 等原厂手册、应用笔记、勘误/作者修订，以及嘉立创/立创商城官方页面。
 - 只做转述和短引用，不打包第三方 PDF、整张图纸或客户工程。各来源许可以发布者条款为准；部分手册标注 Confidential，未复制进仓库。
 - 立创商城商品页/搜索页在 2026-10-20 返回 404/系统异常，未取得可核对的实时字段；新增内容不编造 C 号、价格、库存、MOQ、包装、生命周期或 SMT 状态。
@@ -52,9 +52,9 @@
 ### 已执行
 
 - `python -m unittest discover -s tests -v`：96 项全部通过（2026-10-20），覆盖结构、内部链接、卡片 12 节、范例/故障/项目结构、35 个场景、12 个指定反例、5 个新计算模式、RC 数值仿真。
-- `python design-hardware/scripts/calculate.py ...`：Buck/Boost/ADC 建立/电流采样/PCB 载流算例。
-- `python design-hardware/scripts/rc_settle_sim.py ...`：二阶 RC 采样网络数值仿真，输出 CSV 和 JSON 摘要。
-- `python design-hardware/scripts/netlist_check.py`、`sch_layout_check.py`、`power_budget.py`：在场景/项目样本上运行，记录 `incomplete/target_missed/needs_review` 等真实状态。
+- `python easycirq/scripts/calculate.py ...`：Buck/Boost/ADC 建立/电流采样/PCB 载流算例。
+- `python easycirq/scripts/rc_settle_sim.py ...`：二阶 RC 采样网络数值仿真，输出 CSV 和 JSON 摘要。
+- `python easycirq/scripts/netlist_check.py`、`sch_layout_check.py`、`power_budget.py`：在场景/项目样本上运行，记录 `incomplete/target_missed/needs_review` 等真实状态。
 
 ### 未执行 / 阻塞
 
@@ -77,9 +77,9 @@
 
 ```bash
 python -m unittest discover -s tests -v
-python design-hardware/scripts/calculate.py buck '{"vin_min_V":4.5,"vin_max_V":5.5,"vout_V":3.3,"iout_max_A":2,"fsw_min_Hz":500000,"efficiency":0.9,"ripple_ratio":0.3,"vout_ripple_max_V":0.033}'
-python design-hardware/scripts/rc_settle_sim.py --out rc.csv
-python design-hardware/scripts/netlist_check.py design-hardware/assets/projects/p01-connectivity.json --json
+python easycirq/scripts/calculate.py buck '{"vin_min_V":4.5,"vin_max_V":5.5,"vout_V":3.3,"iout_max_A":2,"fsw_min_Hz":500000,"efficiency":0.9,"ripple_ratio":0.3,"vout_ripple_max_V":0.033}'
+python easycirq/scripts/rc_settle_sim.py --out rc.csv
+python easycirq/scripts/netlist_check.py easycirq/assets/projects/p01-connectivity.json --json
 ```
 
 测试通过只证明这些自动化检查通过，不证明硬件设计已验证。

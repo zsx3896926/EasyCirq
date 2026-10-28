@@ -1,17 +1,17 @@
 legacy easyeda toolchain reference inventory
-scanned scopes: design-hardware, tests, tools, benchmarks, .github
+scanned scopes: easycirq, tests, tools, benchmarks, .github
 categories: bare, cli, connector, env, service, state_dir
 
 total=69 actionable=0 exempt=69
 by category: {"bare": 28, "cli": 23, "service": 18}
 
-=== design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md
+=== easycirq/cases/mcu-i2c-s3-2026-10-26/README.md
     ALLOWLIST: frozen evidence captured from real old-toolchain runs; it is not policy or an executable path
      14 [service] | EDA / 执行器 | EasyEDA Pro 4.1.78；easyeda-agent 1.15.0；Connector 1.15.0 |
-=== design-hardware/cases/photo-led-pcb-2026-10-26/README.md
+=== easycirq/cases/photo-led-pcb-2026-10-26/README.md
     ALLOWLIST: frozen evidence captured from real old-toolchain runs; it is not policy or an executable path
      17 [service] | EDA / 执行器 | EasyEDA Pro 4.1.78；easyeda-agent 1.15.0；Connector 1.15.0 |
-=== design-hardware/cases/temp-alarm-2026-10-24/actual.json
+=== easycirq/cases/temp-alarm-2026-10-24/actual.json
     ALLOWLIST: frozen evidence captured from real old-toolchain runs; it is not policy or an executable path
     553 [cli] "next_command": "easyeda pcb mount-holes --dry-run --project <name> > evidence/pcb-mount-holes.json；或写 layout.mounting_holes"
     553 [bare] "next_command": "easyeda pcb mount-holes --dry-run --project <name> > evidence/pcb-mount-holes.json；或写 layout.mounting_holes"
@@ -29,11 +29,11 @@ by category: {"bare": 28, "cli": 23, "service": 18}
    1190 [bare] "next_command": "easyeda project export --out <file> --project-uuid <uuid>；在副本上重开验证并写入 restore_verified"
    1286 [cli] "stale_risk": "PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data a
    1286 [bare] "stale_risk": "PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data a
-=== design-hardware/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json
+=== easycirq/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json
     ALLOWLIST: frozen evidence captured from real old-toolchain runs; it is not policy or an executable path
     381 [cli] "staleRisk": "PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data as
     381 [bare] "staleRisk": "PCB was mutated by pcb.route.delete since the last reload — pcb.via.list (and DRC) may read stale engine state; authoritative workflows should save, run `easyeda doc reload`, then read back; if refresh fails, treat the data as
-=== design-hardware/CHANGELOG.md
+=== easycirq/CHANGELOG.md
     ALLOWLIST: release history: records what the old toolchain did; rewriting it falsifies history
      36 [service] - 不捆绑 easyeda-agent/Connector；外部工具独立安装、独立版本管理。
      82 [cli] - 当前 Connector 不可用（`easyeda doc ready --json` ->
@@ -49,15 +49,15 @@ by category: {"bare": 28, "cli": 23, "service": 18}
     208 [cli] - 单元测试使用 fake `easyeda`，不调用真实 CLI；round10 的真机验收（A/B 回归与受控 C99 改板）记录在 `docs/skill-speed-quality-report.md`，本轮确实在隔离副本上用真实 `easyeda apply`/DRC/归档跑过。Gerber/CPL 导出仍 `BLOCKED`，不引入外部布线器、不合并 PR、不下单。
     208 [bare] - 单元测试使用 fake `easyeda`，不调用真实 CLI；round10 的真机验收（A/B 回归与受控 C99 改板）记录在 `docs/skill-speed-quality-report.md`，本轮确实在隔离副本上用真实 `easyeda apply`/DRC/归档跑过。Gerber/CPL 导出仍 `BLOCKED`，不引入外部布线器、不合并 PR、不下单。
     208 [bare] - 单元测试使用 fake `easyeda`，不调用真实 CLI；round10 的真机验收（A/B 回归与受控 C99 改板）记录在 `docs/skill-speed-quality-report.md`，本轮确实在隔离副本上用真实 `easyeda apply`/DRC/归档跑过。Gerber/CPL 导出仍 `BLOCKED`，不引入外部布线器、不合并 PR、不下单。
-    213 [service] - 更新检查同时覆盖 design-hardware 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。
+    213 [service] - 更新检查同时覆盖 easycirq 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。
     236 [cli] - **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。
     236 [service] - **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。
     236 [bare] - **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。
     250 [service] - **G0–G6 阶段门禁**：[references/design-gates.md](references/design-gates.md)。每个门禁写目的、必需输入、当前 easyeda-agent v1.14.0 真实命令、退出条件、证据文件、豁免规则与实战反例。
-=== design-hardware/scripts/layout_from_zhigou.py
+=== easycirq/scripts/layout_from_zhigou.py
     ALLOWLIST: frozen schema string: "coordinate_units" text is bound into recorded fixture SHA-256 values; changing it invalidates stored evidence
     602 [service] 'coordinate_units': 'schematic raw units (y-up), from easyeda-agent reads',
-=== design-hardware/scripts/offline_guard.py
+=== easycirq/scripts/offline_guard.py
     ALLOWLIST: defensive: the offline guard must still refuse to execute a legacy easyeda binary
      38 [service] 'easyeda', 'easyeda.exe', 'easyeda.cmd', 'easyeda.bat', 'easyeda-agent',
      38 [bare] 'easyeda', 'easyeda.exe', 'easyeda.cmd', 'easyeda.bat', 'easyeda-agent',

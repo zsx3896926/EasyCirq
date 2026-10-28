@@ -20,7 +20,7 @@ from unittest import mock
 
 os.environ.setdefault('PYTHONIOENCODING', 'utf-8')
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 
 import pcb_case  # noqa: E402
@@ -851,7 +851,7 @@ class GateTests(CaseTestBase):
 
 class CommandMapTests(unittest.TestCase):
     def test_command_map_schema(self):
-        path = ROOT / 'design-hardware' / 'references' / 'pcb-command-map.json'
+        path = ROOT / 'easycirq' / 'references' / 'pcb-command-map.json'
         data = json.loads(path.read_text(encoding='utf-8'))
         self.assertIsInstance(data, dict)
         self.assertIn('version', data)

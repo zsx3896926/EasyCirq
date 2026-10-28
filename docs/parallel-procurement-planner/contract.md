@@ -11,10 +11,10 @@
 
 ## 1. 运行入口
 
-代码位于 `design-hardware/scripts/procurement_planner/`，从该目录运行：
+代码位于 `easycirq/scripts/procurement_planner/`，从该目录运行：
 
 ```powershell
-cd design-hardware/scripts
+cd easycirq/scripts
 
 # 只校验输入（退出码 0=valid，2=input_invalid）
 python -m procurement_planner validate --input ..\..\tests\procurement_planner\fixtures\basic.json

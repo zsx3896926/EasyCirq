@@ -4,7 +4,7 @@
 
 | 项 | 值 |
 |---|---|
-| 仓库 | https://github.com/zsx3896926/hardware-design-skill |
+| 仓库 | https://github.com/zsx3896926/EasyCirq |
 | 固定基线 main SHA | `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（开工时核实） |
 | 最终验收 main SHA | `acbcc18c821e08ddff2401015eb7a16eaee733c8`（含 #48/#52） |
 | 分支 / worktree | 任务 B 分支已由 #48/#52 合入 main；本文件更新于 docs-only worktree |
@@ -21,8 +21,8 @@
 在 worktree 根目录（`docs/` 中的命令均可在仓库根复现）：
 
 ```bash
-# 1) CLI 自检（从 design-hardware/scripts 运行）
-cd design-hardware/scripts
+# 1) CLI 自检（从 easycirq/scripts 运行）
+cd easycirq/scripts
 python -m electrical_review --version
 python -m electrical_review validate ../../benchmarks/electrical-review/cases/r1-flying-ok/input.json
 python -m electrical_review review   ../../benchmarks/electrical-review/cases/r2-overvoltage-hard/input.json --out /tmp/report.json

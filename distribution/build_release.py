@@ -9,10 +9,10 @@ Two independent products are produced in one run:
    (SHA-256), the compatibility matrix and the build provenance (source commit,
    Go version, node/npm version, per-artifact hashes).  This is what
    ``distribution/zhigou_install.py`` installs.
-2. **Legacy Skill installer** (unchanged contract) -- ``design-hardware-<v>.zip``
+2. **Legacy Skill installer** (unchanged contract) -- ``easycirq-<v>.zip``
    + ``release.json`` + ``Manage-Skill.ps1/.cmd`` + ``skill_update.py`` +
    ``companion_update.py`` + ``SHA256SUMS``, which the existing CI workflows
-   publish and ``design-hardware/scripts/skill_update.py`` consumes.
+   publish and ``easycirq/scripts/skill_update.py`` consumes.
 
 Provenance is mandatory for release builds (``--require-clean``), and every
 artifact hash is recorded so an installer can reject a corrupted or mismatched
@@ -42,7 +42,7 @@ PROVENANCE_SCHEMA = 'zhigou-toolchain-provenance/v1'
 TOOLCHAIN_CONFIG = DIST / 'toolchain.json'
 MAX_ZIP = 512 * 1024 * 1024
 
-spec = importlib.util.spec_from_file_location('skill_update', ROOT / 'design-hardware/scripts/skill_update.py')
+spec = importlib.util.spec_from_file_location('skill_update', ROOT / 'easycirq/scripts/skill_update.py')
 updater = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(updater)
 
@@ -316,7 +316,7 @@ def write_third_party_notices(out: Path, cfg, connector, runtime):
         % runtime.get('version'),
         '| Zhigou connector (`%s`) | %s | MIT AND Apache-2.0 | `licenses/connector__LICENSE` |'
         % (connector.get('file'), connector.get('version')),
-        '| design-hardware Skill | %s | Apache-2.0 | `licenses/LICENSE` |' % cfg.get('version'),
+        '| easycirq Skill | %s | Apache-2.0 | `licenses/LICENSE` |' % cfg.get('version'),
         '| Go modules (cobra Apache-2.0; coder/websocket ISC) | build-time | see module licenses | not redistributed separately |',
         '| Node/TypeScript build deps (esbuild MIT, typescript Apache-2.0, jszip MIT, ws MIT) | build-time | see package-lock.json | not redistributed separately |',
         '',
@@ -392,7 +392,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
             encoding='utf-8', newline='\n')
 
         skill = collect_skill(cfg, skill_dir)
-        skill_payload = payload / 'skill' / 'design-hardware'
+        skill_payload = payload / 'skill' / 'easycirq'
         shutil.copytree(Path(skill['dir']), skill_payload,
                         ignore=shutil.ignore_patterns('__pycache__', '*.pyc', '*.pyo'))
         copied = updater.inventory(skill_payload)
@@ -447,8 +447,8 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
                 },
                 'skill': {
                     'name': skill['name'], 'version': skill['version'],
-                    'path': 'payload/skill/design-hardware',
-                    'installPath': 'skill/design-hardware',
+                    'path': 'payload/skill/easycirq',
+                    'installPath': 'skill/easycirq',
                     'fileCount': len(skill['files']),
                 },
             },
@@ -493,7 +493,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
             'connector': {'file': eext_name, 'sha256': connector['sha256'],
                           'size': connector['size'], 'version': connector['version'],
                           'uuid': connector['uuid']},
-            'skill': {'file': 'payload/skill/design-hardware', 'version': skill['version'],
+            'skill': {'file': 'payload/skill/easycirq', 'version': skill['version'],
                       'files': len(skill['files'])},
         },
     })
@@ -543,15 +543,15 @@ def build_skill(output, require_clean=False):
         if require_clean:
             raise RuntimeError('Release builds require Git provenance')
         commit = 'unknown'
-    result = updater.pack(ROOT / 'design-hardware', output, commit)
+    result = updater.pack(ROOT / 'easycirq', output, commit)
     for name in ['Manage-Skill.ps1', 'Manage-Skill.cmd']:
         shutil.copyfile(ROOT / 'distribution' / name, output / name)
-    shutil.copyfile(ROOT / 'design-hardware/scripts/skill_update.py', output / 'skill_update.py')
-    shutil.copyfile(ROOT / 'design-hardware/scripts/companion_update.py', output / 'companion_update.py')
+    shutil.copyfile(ROOT / 'easycirq/scripts/skill_update.py', output / 'skill_update.py')
+    shutil.copyfile(ROOT / 'easycirq/scripts/companion_update.py', output / 'companion_update.py')
     shutil.copyfile(ROOT / 'LICENSE', output / 'LICENSE')
     shutil.copyfile(ROOT / 'NOTICE', output / 'NOTICE')
     shutil.copyfile(ROOT / 'distribution/INSTALL.md', output / 'INSTALL.md')
-    bundle = output / ('design-hardware-installer-' + result['version'] + '.zip')
+    bundle = output / ('easycirq-installer-' + result['version'] + '.zip')
     with zipfile.ZipFile(bundle, 'w', zipfile.ZIP_DEFLATED) as z:
         for name in [Path(result['archive']).name, 'release.json', 'Manage-Skill.ps1', 'Manage-Skill.cmd', 'skill_update.py', 'companion_update.py', 'LICENSE', 'NOTICE', 'INSTALL.md']:
             z.write(output / name, name)

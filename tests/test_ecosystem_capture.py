@@ -8,7 +8,7 @@ import sys
 import tempfile
 import unittest
 ROOT=Path(__file__).resolve().parents[1]
-PATH=ROOT/'design-hardware/scripts/ecosystem_capture.py'
+PATH=ROOT/'easycirq/scripts/ecosystem_capture.py'
 spec=importlib.util.spec_from_file_location('ecosystem_capture_test',PATH)
 m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m)
 FIX=ROOT/'tests/fixtures/ecosystem-capture-reuse/batch-export.json'

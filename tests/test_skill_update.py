@@ -13,7 +13,7 @@ from unittest.mock import patch
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location('skill_update_test', ROOT / 'design-hardware/scripts/skill_update.py')
+SPEC = importlib.util.spec_from_file_location('skill_update_test', ROOT / 'easycirq/scripts/skill_update.py')
 u = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(u)
 
@@ -24,8 +24,8 @@ class UpdaterTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.source = self.root / 'source'
         (self.source / 'scripts').mkdir(parents=True)
-        (self.source / 'SKILL.md').write_text('---\nname: design-hardware\ndescription: test\n---\n', encoding='utf-8')
-        shutil.copyfile(ROOT / 'design-hardware/scripts/skill_update.py', self.source / 'scripts/skill_update.py')
+        (self.source / 'SKILL.md').write_text('---\nname: easycirq\ndescription: test\n---\n', encoding='utf-8')
+        shutil.copyfile(ROOT / 'easycirq/scripts/skill_update.py', self.source / 'scripts/skill_update.py')
         self.target = self.root / 'home' / '.agents' / 'skills' / u.NAME
         self.p1, self.m1 = self.make('0.7.0')
         self.p2, self.m2 = self.make('0.8.0')
@@ -50,7 +50,7 @@ class UpdaterTests(unittest.TestCase):
     def test_unchanged_version_is_idempotent(self):
         self.first()
         self.assertEqual(u.install(self.target, self.p1, self.m1)['status'], 'already_current')
-        self.assertFalse(list(u.state_dir(self.target).glob('.design-hardware-backup-*')))
+        self.assertFalse(list(u.state_dir(self.target).glob('.easycirq-backup-*')))
 
     def test_edited_file_blocks_update_and_rollback(self):
         self.first()
@@ -113,7 +113,7 @@ class UpdaterTests(unittest.TestCase):
         self.assertFalse(self.target.exists())
 
     def test_zip_slip_and_windows_paths_rejected(self):
-        for p in ['../outside', '/absolute', 'C:/windows', 'design-hardware/CON.txt', 'design-hardware/a:b', 'design-hardware/a\\b', 'design-hardware/a./b']:
+        for p in ['../outside', '/absolute', 'C:/windows', 'easycirq/CON.txt', 'easycirq/a:b', 'easycirq/a\\b', 'easycirq/a./b']:
             with self.subTest(p=p):
                 with self.assertRaises(u.UpdateError): u.install(self.target, self.modified_archive(p))
         self.assertFalse((self.root / 'outside').exists())
@@ -142,7 +142,7 @@ class UpdaterTests(unittest.TestCase):
         self.first()
         replace = u.os.replace
         def fail(src, dst):
-            if Path(src).name.startswith('.design-hardware-stage-') and Path(dst) == self.target:
+            if Path(src).name.startswith('.easycirq-stage-') and Path(dst) == self.target:
                 raise OSError('simulated file lock')
             return replace(src, dst)
         with patch.object(u.os, 'replace', side_effect=fail):
@@ -153,8 +153,8 @@ class UpdaterTests(unittest.TestCase):
 
     def test_interrupted_old_rename_recovery(self):
         self.first()
-        backup = u.state_dir(self.target) / '.design-hardware-backup-interrupted'
-        stage = u.state_dir(self.target) / '.design-hardware-stage-interrupted'
+        backup = u.state_dir(self.target) / '.easycirq-backup-interrupted'
+        stage = u.state_dir(self.target) / '.easycirq-stage-interrupted'
         stage.mkdir()
         os.replace(self.target, backup)
         u.write_json(u.paths(self.target)[1], {'target': str(self.target), 'stage': str(stage), 'backup': str(backup)})
@@ -165,7 +165,7 @@ class UpdaterTests(unittest.TestCase):
     def test_interrupted_first_install_can_be_retried(self):
         self.target.parent.mkdir(parents=True)
         u.state_dir(self.target).mkdir(parents=True)
-        stage = u.state_dir(self.target) / '.design-hardware-stage-gone'
+        stage = u.state_dir(self.target) / '.easycirq-stage-gone'
         u.write_json(u.paths(self.target)[1], {'target': str(self.target), 'stage': str(stage), 'backup': None})
         u.recover(self.target)
         self.first()
@@ -199,11 +199,11 @@ class UpdaterTests(unittest.TestCase):
 
     def test_client_detection_preserves_legacy_codex_path(self):
         home = self.root / 'clients'
-        old = home / '.codex/skills/design-hardware'
+        old = home / '.codex/skills/easycirq'
         old.mkdir(parents=True)
         (old / 'SKILL.md').write_text('legacy')
         self.assertEqual(u.choose_target('codex', home), old)
-        new = home / '.agents/skills/design-hardware'
+        new = home / '.agents/skills/easycirq'
         new.mkdir(parents=True)
         (new / 'SKILL.md').write_text('duplicate')
         with self.assertRaises(u.UpdateError): u.choose_target('codex', home)
@@ -292,7 +292,7 @@ class UpdaterTests(unittest.TestCase):
     def test_windows_cmd_installer(self):
         folder = self.p1.parent
         shutil.copyfile(ROOT / 'distribution/Manage-Skill.cmd', folder / 'Manage-Skill.cmd')
-        shutil.copyfile(ROOT / 'design-hardware/scripts/skill_update.py', folder / 'skill_update.py')
+        shutil.copyfile(ROOT / 'easycirq/scripts/skill_update.py', folder / 'skill_update.py')
         env = dict(os.environ, PYTHONIOENCODING='utf-8')
         command = 'cmd /d /s /c \"\"' + str(folder / 'Manage-Skill.cmd') + '\" --home \"' + str(self.root / 'menu home') + '\"\"'
         p = subprocess.run(command,
@@ -300,11 +300,11 @@ class UpdaterTests(unittest.TestCase):
         self.assertEqual(p.returncode, 0, p.stderr + p.stdout)
         self.assertIn('"status": "installed"', p.stdout)
         self.assertIn('硬件设计 Skill', p.stdout)
-        target = self.root / 'menu home/.claude/skills/design-hardware'
+        target = self.root / 'menu home/.claude/skills/easycirq'
         self.assertEqual(u.status(target)['version'], '0.7.0')
 
     def test_cli_real_subprocess_install_and_status(self):
-        script = ROOT / 'design-hardware/scripts/skill_update.py'
+        script = ROOT / 'easycirq/scripts/skill_update.py'
         for client in ['claude', 'codex', 'workbuddy']:
             args = [sys.executable, str(script), 'install', '--client', client, '--home', str(self.root / 'cli'), '--package', str(self.p1), '--manifest', str(self.p1.parent / 'release.json')]
             p = subprocess.run(args, capture_output=True, text=True)

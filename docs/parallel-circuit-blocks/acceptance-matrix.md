@@ -11,7 +11,7 @@ Baseline: main `9a951edc21481dc3ae91460acc11aa3e08a7be8a`, branch
 
 | Requirement | Evidence | Status |
 |---|---|---|
-| only `design-hardware/scripts/circuit_blocks/`, `tests/circuit_blocks/`, `benchmarks/circuit-blocks/`, `docs/parallel-circuit-blocks/` touched | `git diff --stat main...HEAD` in `report.md`; final diff-scope check | DONE |
+| only `easycirq/scripts/circuit_blocks/`, `tests/circuit_blocks/`, `benchmarks/circuit-blocks/`, `docs/parallel-circuit-blocks/` touched | `git diff --stat main...HEAD` in `report.md`; final diff-scope check | DONE |
 | no edit to SKILL.md, references, README/CHANGELOG/version, main handoff, runtime/connector/protocol, distribution, CI, top-level deps, feedback, compose, design_engine, ecosystem, other parallel dirs | same diff check | DONE |
 | independent worktree, branch, recorded base SHA | `git worktree list`; base SHA above | DONE |
 | no EDA call (not even read-only), old CLI, connector, window switch, global config, process kill | no such command was issued; tool transcripts | DONE |

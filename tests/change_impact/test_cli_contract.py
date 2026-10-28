@@ -12,7 +12,7 @@ from pathlib import Path
 from . import _fixtures as fx
 
 REPO = Path(__file__).resolve().parents[2]
-SCRIPTS = REPO / 'design-hardware' / 'scripts'
+SCRIPTS = REPO / 'easycirq' / 'scripts'
 
 
 def env(**overrides):

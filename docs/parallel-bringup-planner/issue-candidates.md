@@ -6,8 +6,8 @@
 ## A. 建议主分支集成时处理（本任务禁止修改）
 
 1. **SKILL.md / README 路由入口**
-   `design-hardware/SKILL.md` 与 README 目前没有 `bringup_planner` 的入口。建议主分支在"审查与验证 / 上电计划"相关路由中加一行：
-   `python scripts/bringup_planner/../`（实际命令：在 `design-hardware/scripts` 下 `python -m bringup_planner plan --input <input.json> --out <dir>`），并链接 `docs/parallel-bringup-planner/contract.md`。
+   `easycirq/SKILL.md` 与 README 目前没有 `bringup_planner` 的入口。建议主分支在"审查与验证 / 上电计划"相关路由中加一行：
+   `python scripts/bringup_planner/../`（实际命令：在 `easycirq/scripts` 下 `python -m bringup_planner plan --input <input.json> --out <dir>`），并链接 `docs/parallel-bringup-planner/contract.md`。
    本任务明确禁止修改 SKILL.md/README，故仅提供命令与文档。
 2. **仓库离线套件纳管（已由集成合并处理，保留说明）**
    集成合并（`integrate/parallel-round1`）已把测试目录从 `tests/bringup_planner/` 迁到 `tests/bringup_planner_tests/` 并加 `__init__.py`，官方 `tools/offline_suite.py` 现在能发现全部 172 tests（本任务实现未改）。当前专属入口：`python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"`（172 tests OK）。**后续状态：**其他并行任务测试包导致的 discovery errors 已在后续 main 修复（截至 `c54c6fc`，`tools/offline_suite.py` PASS：3318 tests / 0 failures / 0 errors），见 A.6。
@@ -21,7 +21,7 @@
 4. **A / C / F 集成**
    按 `docs/parallel-bringup-planner/integration-proposal.md` 由对应任务实施：A 导出工程意图/BOM/测点 → 输入 JSON；F 提供计算结果作为 `basis:"calculation"` 依据；C 把 plan/results-template/evaluation 纳入交付包并交叉引用哈希。本任务未改对方代码、不依赖其未合入提交。
 5. **benchmark 与安装包边界**
-   仓库约定安装包不含 `tests/`/`benchmarks/`，因此 `bringup_planner` 作为 `design-hardware/scripts/` 内模块会进入 Skill 包；场景与基准只在仓库开发环境。若发布流程需要排除大型 device-facts（132 KB）或冻结场景，由 distribution 负责（本任务禁止改 distribution）。
+   仓库约定安装包不含 `tests/`/`benchmarks/`，因此 `bringup_planner` 作为 `easycirq/scripts/` 内模块会进入 Skill 包；场景与基准只在仓库开发环境。若发布流程需要排除大型 device-facts（132 KB）或冻结场景，由 distribution 负责（本任务禁止改 distribution）。
 6. **离线套件跨任务回归（2026-10-28 采集；已在后续 main 修复）**
    `python tools/offline_suite.py` 在 PR #39 合并源 `b407d72` 上 PASS（1783 tests / 0 failures / 0 errors）；在 2026-10-28 证据采集时的 main `3f21897` 上曾为 FAIL：2147 tests / 0 failures / **47 errors**，错误全部来自其他任务新增测试包的发现方式（`change_impact` 9、`circuit_blocks` 7、`delivery_audit` 7、`electrical_review` 5、`procurement_planner` 5、`return_path_audit` 8、`skill_knowledge_audit` 6），本任务 `tests/bringup_planner_tests` 172 tests 不在错误中。**后续集成已修复：**截至最新 main `c54c6fc` 复跑为 PASS：**3318 tests / 0 failures / 0 errors**，本任务 172 tests 在 discovery 中且全通过。此条保留为历史记录，无需再处理。
 

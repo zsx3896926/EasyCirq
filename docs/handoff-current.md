@@ -8,7 +8,7 @@
 ## 目标与结果
 
 把 EDA 执行层纳入本仓库：自有 CLI/daemon/Connector 可从本仓库构建、隔离安装、真实握手；
-设计规则只由 `design-hardware` 一个 Skill 管理；安装/诊断/升级/回退统一入口。
+设计规则只由 `easycirq` 一个 Skill 管理；安装/诊断/升级/回退统一入口。
 **M0–M4 核心链已在 EasyEDA Pro 4.1.78 真机验收通过**（详见 task-status 与 acceptance-matrix）；
 PR #36 已创建（草稿，未合并、未打标签、未发布）。
 
@@ -20,16 +20,16 @@ PR #36 已创建（草稿，未合并、未打标签、未发布）。
 | 运行时（已安装） | `%LOCALAPPDATA%\Zhigou\bin\zhigou.exe` 0.2.1 | 统一安装器安装，`zhigou doctor` = **ok** |
 | daemon | pid 19464，`127.0.0.1:23111`，service `zhigou-agent` | 与旧 easyeda-agent（60832）并存、互不干扰 |
 | Connector | `zhigou-connector 0.1.0`，uuid `a6e6b788…` | 已在 EasyEDA Pro 4.1.78 内导入并握手 |
-| Skill | `design-hardware` **1.0.2** | 已装到 `.claude / .codex / .agents` 三处客户端目录 |
+| Skill | `easycirq` **1.0.2** | 已装到 `.claude / .codex / .agents` 三处客户端目录 |
 | 旧上游 Skill | 已停用（移出客户端，未删除） | 备份：`C:\Users\jlc\work\_skill-backups\zhigou-cutover-20261028\` |
 
-客户端 skill 目录现状（已验证）：`design-hardware=1.0.2`、`easyeda-agent=absent`（三处一致）；
-客户端 skill 目录中已只列出 `design-hardware`（描述指向 `zhigou` 执行层）。
+客户端 skill 目录现状（已验证）：`easycirq=1.0.2`、`easyeda-agent=absent`（三处一致）；
+客户端 skill 目录中已只列出 `easycirq`（描述指向 `zhigou` 执行层）。
 
 ## 分支与提交
 
 - 工作树：`C:\Users\jlc\work\zhigou-toolchain`，分支 `feat/integrated-eda-toolchain`
-- PR：<https://github.com/zsx3896926/hardware-design-skill/pull/36>（草稿）
+- PR：<https://github.com/zsx3896926/EasyCirq/pull/36>（草稿）
 - 构建产物 `dist-v2/` 已 gitignore；仓库内不留 15 MB 二进制
 
 ## 常用入口
@@ -67,7 +67,7 @@ distribution\Install-Zhigou.ps1 rollback
 
 ## 门禁复核状态（2026-10-28，skill 流程）
 
-- 验收板 `zhigou-integrated-dual-button-led-20261027` 已按 `design-hardware` 1.0.2 做 G0–G6 复核：
+- 验收板 `zhigou-integrated-dual-button-led-20261027` 已按 `easycirq` 1.0.2 做 G0–G6 复核：
   **G0–G3、G5 PASS；G4 PASS_WITH_WAIVER（+5V/VIN 未铺铜）；G6 BLOCKED**（5 PASS / 1 WAIVED / 1 BLOCKED）。
 - 交付级别：**PCB 候选（PCB DRC 0）**，未升格；实物功能 NOT RUN。
 - G6 仅剩 4 项阻塞：`gerber_files`、`drill_files`、`cpl_files`（本版本 gui_only）+
@@ -90,7 +90,7 @@ distribution\Install-Zhigou.ps1 rollback
 1. 若想命令行直接用 `zhigou`：把 `%LOCALAPPDATA%\Zhigou\bin` 加入用户 PATH（或继续用绝对路径）。
    （本机已追加，回退基线在 `_skill-backups/zhigou-cutover-20261028/user-path-before.txt`。）
 2. 需要正式合并/发版：审阅 PR #36 后由用户决定（不自动合并/发布）。
-3. 新硬件任务：新开 AI 客户端会话，加载 `design-hardware`（1.0.2）；它会用
+3. 新硬件任务：新开 AI 客户端会话，加载 `easycirq`（1.0.2）；它会用
    `zhigou doctor` + `zhigou capabilities` 做开工预检，再按 M/S 流程推进。
 
 ## 待清理（已与用户约定：不单独发版）
@@ -107,12 +107,12 @@ distribution\Install-Zhigou.ps1 rollback
   `assets/brand/`（`source/` 原图、`logo-horizontal-1200.png`、`logo-square-512.png`、
   `logo-square-128.png`）；连接器图标 `connector/images/logo.jpg` 已换为方形版（512 JPG）。
   README 顶部使用横版。
-- **显示名**：统一为「智构 · EasyCirq」——README 标题、`design-hardware/SKILL.md`
+- **显示名**：统一为「智构 · EasyCirq」——README 标题、`easycirq/SKILL.md`
   （description 前缀 + H1）、根 `NOTICE`、`connector/extension.json` 的 `displayName`、
   连接器 README/NOTICE、`distribution/INSTALL.md`、`Install-Zhigou.ps1` 文案、
   handoff/task-status/architecture/protocol/gate-review 标题。
 - **技术标识未改**：`zhigou` CLI、服务名 `zhigou-agent`、端口 23111–23120、`~/.zhigou`、
-  包名 `zhigou-connector`、`design-hardware` 目录名、`ZHIGOU_` env、uuid 之外的路径均保持。
+  包名 `zhigou-connector`、`easycirq` 目录名、`ZHIGOU_` env、uuid 之外的路径均保持。
 - **连接器 0.1.3**：新 uuid `7b3c1e5a9d2f4c6b8e0a1f2d3c4b5a69`；`displayName` 与 logo 更新；
   **同时移除此前下架的两个 `pcb.outline.foreign.scan/delete` handlers**（兑现"下次连接器
   改动一起清"的约定）。
@@ -124,7 +124,7 @@ distribution\Install-Zhigou.ps1 rollback
   `schematic.v1`/`pcb.v1`），daemon **0.2.3**；调用 `pcb.outline.foreign.scan` 返回
   `UNKNOWN_ACTION`，证明旧 handlers 已不在新包中。证据：
   `docs/toolchain-integration/evidence/installer/rebrand-{doctor,health,action-absence}.json`。
-- **README 已按当前架构重写（2026-10-28）**：单入口（`design-hardware` + 自有 `zhigou`
+- **README 已按当前架构重写（2026-10-28）**：单入口（`easycirq` + 自有 `zhigou`
   执行层）、统一安装器步骤、连接器导入/授权/重启、`zhigou doctor` 验证、真机验收范围与
   边界（Gerber gui_only、G6 BLOCKED、实物 NOT RUN）、项目结构与开发者入口；不再指导安装
   上游 `easyeda-agent` Skill/CLI（仅保留为 MIT 来源致谢）。

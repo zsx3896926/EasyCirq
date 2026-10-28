@@ -10,13 +10,13 @@
    "service": 18
   },
   "by_file": {
-   "design-hardware/CHANGELOG.md": 19,
-   "design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md": 1,
-   "design-hardware/cases/photo-led-pcb-2026-10-26/README.md": 1,
-   "design-hardware/cases/temp-alarm-2026-10-24/actual.json": 16,
-   "design-hardware/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json": 2,
-   "design-hardware/scripts/layout_from_zhigou.py": 1,
-   "design-hardware/scripts/offline_guard.py": 3,
+   "easycirq/CHANGELOG.md": 19,
+   "easycirq/cases/mcu-i2c-s3-2026-10-26/README.md": 1,
+   "easycirq/cases/photo-led-pcb-2026-10-26/README.md": 1,
+   "easycirq/cases/temp-alarm-2026-10-24/actual.json": 16,
+   "easycirq/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json": 2,
+   "easycirq/scripts/layout_from_zhigou.py": 1,
+   "easycirq/scripts/offline_guard.py": 3,
    "tests/fixtures/photo-led-acceptance.json": 1,
    "tests/fixtures/photo-led-v14/checker-expected.json": 14,
    "tests/fixtures/photo-led-v14/junction-report.json": 2,
@@ -27,7 +27,7 @@
  },
  "rows": [
   {
-   "path": "design-hardware/cases/mcu-i2c-s3-2026-10-26/README.md",
+   "path": "easycirq/cases/mcu-i2c-s3-2026-10-26/README.md",
    "line": 14,
    "category": "service",
    "match": "easyeda-agent",
@@ -35,7 +35,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/photo-led-pcb-2026-10-26/README.md",
+   "path": "easycirq/cases/photo-led-pcb-2026-10-26/README.md",
    "line": 17,
    "category": "service",
    "match": "easyeda-agent",
@@ -43,7 +43,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 553,
    "category": "cli",
    "match": "easyeda",
@@ -51,7 +51,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 553,
    "category": "bare",
    "match": "easyeda",
@@ -59,7 +59,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 622,
    "category": "cli",
    "match": "easyeda",
@@ -67,7 +67,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 622,
    "category": "bare",
    "match": "easyeda",
@@ -75,7 +75,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 682,
    "category": "cli",
    "match": "easyeda",
@@ -83,7 +83,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 682,
    "category": "bare",
    "match": "easyeda",
@@ -91,7 +91,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1034,
    "category": "cli",
    "match": "easyeda",
@@ -99,7 +99,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1034,
    "category": "bare",
    "match": "easyeda",
@@ -107,7 +107,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1050,
    "category": "cli",
    "match": "easyeda",
@@ -115,7 +115,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1050,
    "category": "cli",
    "match": "easyeda",
@@ -123,7 +123,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1050,
    "category": "bare",
    "match": "easyeda",
@@ -131,7 +131,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1050,
    "category": "bare",
    "match": "easyeda",
@@ -139,7 +139,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1190,
    "category": "cli",
    "match": "easyeda",
@@ -147,7 +147,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1190,
    "category": "bare",
    "match": "easyeda",
@@ -155,7 +155,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1286,
    "category": "cli",
    "match": "easyeda",
@@ -163,7 +163,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/actual.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/actual.json",
    "line": 1286,
    "category": "bare",
    "match": "easyeda",
@@ -171,7 +171,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json",
    "line": 381,
    "category": "cli",
    "match": "easyeda",
@@ -179,7 +179,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json",
+   "path": "easycirq/cases/temp-alarm-2026-10-24/evidence/pcb-vias.json",
    "line": 381,
    "category": "bare",
    "match": "easyeda",
@@ -187,7 +187,7 @@
    "allowlist_reason": "frozen evidence captured from real old-toolchain runs; it is not policy or an executable path"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 36,
    "category": "service",
    "match": "easyeda-agent",
@@ -195,7 +195,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 82,
    "category": "cli",
    "match": "easyeda",
@@ -203,7 +203,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 82,
    "category": "bare",
    "match": "easyeda",
@@ -211,7 +211,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 103,
    "category": "service",
    "match": "easyeda-agent",
@@ -219,7 +219,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 111,
    "category": "bare",
    "match": "easyeda",
@@ -227,7 +227,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 159,
    "category": "cli",
    "match": "easyeda",
@@ -235,7 +235,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 159,
    "category": "bare",
    "match": "easyeda",
@@ -243,7 +243,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 197,
    "category": "bare",
    "match": "easyeda",
@@ -251,7 +251,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 198,
    "category": "bare",
    "match": "easyeda",
@@ -259,7 +259,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 202,
    "category": "cli",
    "match": "easyeda",
@@ -267,7 +267,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 202,
    "category": "bare",
    "match": "easyeda",
@@ -275,7 +275,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 208,
    "category": "cli",
    "match": "easyeda",
@@ -283,7 +283,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 208,
    "category": "bare",
    "match": "easyeda",
@@ -291,7 +291,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 208,
    "category": "bare",
    "match": "easyeda",
@@ -299,15 +299,15 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 213,
    "category": "service",
    "match": "easyeda-agent",
-   "text": "- 更新检查同时覆盖 design-hardware 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。",
+   "text": "- 更新检查同时覆盖 easycirq 与 easyeda-agent CLI/Skill/daemon/Connector，分别报告状态。",
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 236,
    "category": "cli",
    "match": "easyeda",
@@ -315,7 +315,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 236,
    "category": "service",
    "match": "easyeda-agent",
@@ -323,7 +323,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 236,
    "category": "bare",
    "match": "easyeda",
@@ -331,7 +331,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/CHANGELOG.md",
+   "path": "easycirq/CHANGELOG.md",
    "line": 250,
    "category": "service",
    "match": "easyeda-agent",
@@ -339,7 +339,7 @@
    "allowlist_reason": "release history: records what the old toolchain did; rewriting it falsifies history"
   },
   {
-   "path": "design-hardware/scripts/layout_from_zhigou.py",
+   "path": "easycirq/scripts/layout_from_zhigou.py",
    "line": 602,
    "category": "service",
    "match": "easyeda-agent",
@@ -347,7 +347,7 @@
    "allowlist_reason": "frozen schema string: \"coordinate_units\" text is bound into recorded fixture SHA-256 values; changing it invalidates stored evidence"
   },
   {
-   "path": "design-hardware/scripts/offline_guard.py",
+   "path": "easycirq/scripts/offline_guard.py",
    "line": 38,
    "category": "service",
    "match": "easyeda-agent",
@@ -355,7 +355,7 @@
    "allowlist_reason": "defensive: the offline guard must still refuse to execute a legacy easyeda binary"
   },
   {
-   "path": "design-hardware/scripts/offline_guard.py",
+   "path": "easycirq/scripts/offline_guard.py",
    "line": 38,
    "category": "bare",
    "match": "easyeda",
@@ -363,7 +363,7 @@
    "allowlist_reason": "defensive: the offline guard must still refuse to execute a legacy easyeda binary"
   },
   {
-   "path": "design-hardware/scripts/offline_guard.py",
+   "path": "easycirq/scripts/offline_guard.py",
    "line": 39,
    "category": "service",
    "match": "easyeda-agent",

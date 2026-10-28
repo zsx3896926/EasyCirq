@@ -2,7 +2,7 @@
 
 Because ``python -m unittest discover -s tests`` imports this directory under
 the top-level name ``change_impact``, the implementation package (also called
-``change_impact``, under ``design-hardware/scripts``) would be shadowed.  The
+``change_impact``, under ``easycirq/scripts``) would be shadowed.  The
 implementation is therefore loaded once under the explicit alias
 ``change_impact_impl`` and the test modules import from that alias::
 
@@ -18,7 +18,7 @@ import importlib.util
 import sys
 from pathlib import Path
 
-SCRIPTS = Path(__file__).resolve().parents[2] / 'design-hardware' / 'scripts'
+SCRIPTS = Path(__file__).resolve().parents[2] / 'easycirq' / 'scripts'
 IMPLEMENTATION = SCRIPTS / 'change_impact'
 
 if str(SCRIPTS) not in sys.path:

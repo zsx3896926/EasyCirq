@@ -7,7 +7,7 @@
 
 | 交付 | 位置 |
 |---|---|
-| 可运行 CLI（validate/plan/explain/evaluate） | `design-hardware/scripts/bringup_planner/` |
+| 可运行 CLI（validate/plan/explain/evaluate） | `easycirq/scripts/bringup_planner/` |
 | 六组能力 I1–I6 | `poweroff.py`、`powerup.py`、`measurements.py`、`interface_tests.py`、`faults.py`、`evaluate.py` |
 | 契约/范围/资料/测量纪律/验收/集成/交接文档 | `docs/parallel-bringup-planner/` |
 | 专属测试 172 个 | `tests/bringup_planner_tests/`（集成合并后由 `tests/bringup_planner/` 迁入） |
@@ -70,7 +70,7 @@ python tools/offline_suite.py
 # 2026-10-28 采集快照（3f21897）曾因其他任务测试包出现 47 errors；
 # 后续集成已修复，见 issue-candidates.md A.6 与 acceptance-matrix.md §7.5 M4-5。
 
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 # 5 PASS, 0 FAIL, 0 NOT RUN -> exit 0
 ```
 
@@ -165,7 +165,7 @@ python design-hardware/scripts/skill_selftest.py
 ## 10. 复现命令
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m bringup_planner validate --input <input.json> --json
 python -m bringup_planner plan --input <input.json> --out <out-dir> --json
 python -m bringup_planner evaluate --plan <out>/plan.json --results <results.json> \
@@ -175,7 +175,7 @@ cd <repo-root>
 python -m unittest discover -s tests/bringup_planner_tests -p "test_*.py"
 python benchmarks/bringup-planner/run_benchmark.py --json --out /tmp/bench.json
 python tools/offline_suite.py
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 ```
 
 ## 11. 路径与变更核对
@@ -184,7 +184,7 @@ python design-hardware/scripts/skill_selftest.py
 
 ```
 benchmarks/bringup-planner/
-design-hardware/scripts/bringup_planner/
+easycirq/scripts/bringup_planner/
 docs/parallel-bringup-planner/
 tests/bringup_planner_tests/      # 集成合并后路径（原 tests/bringup_planner/）
 ```

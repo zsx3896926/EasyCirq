@@ -1,6 +1,6 @@
 # 几何支持范围与算法说明（v1）
 
-工具：`design-hardware/scripts/return_path_audit/`（`python -m return_path_audit`）
+工具：`easycirq/scripts/return_path_audit/`（`python -m return_path_audit`）
 性质：离线、纯标准库、几何/拓扑审查。无 EDA、无场求解、无浮点“近似求交冒充可靠结果”。
 
 ## 1. 支持的几何

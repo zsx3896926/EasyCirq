@@ -6,7 +6,7 @@ import unittest
 
 os.environ.setdefault('PYTHONIOENCODING', 'utf-8')
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'design-hardware'
+SKILL = ROOT / 'easycirq'
 DATA = json.loads((SKILL / 'assets/scenarios.json').read_text(encoding='utf-8'))
 sys.path.insert(0, str(SKILL / 'scripts'))
 import calculate as calc

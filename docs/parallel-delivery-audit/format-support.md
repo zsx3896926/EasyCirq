@@ -3,7 +3,7 @@
 > 性质：能力/边界说明，不是规范译文，也不是“已通过”声明。与 `contract.md` §7 对齐；
 > `contract.md` 冻结接口，本文件只描述**当前实现**实际做了什么、没做什么、证据在哪。
 > 核对日期：2026-10-27。路径均相对本仓库根目录：
-> 实现 `design-hardware/scripts/delivery_audit/`；夹具 `benchmarks/delivery-audit/fixtures/`；
+> 实现 `easycirq/scripts/delivery_audit/`；夹具 `benchmarks/delivery-audit/fixtures/`；
 > 真实样本 `benchmarks/delivery-audit/real-sample/`（来源与哈希见其 `SOURCE.md`）；
 > 来源与许可见 `docs/parallel-delivery-audit/source-register.md`（`FMT-Sxx`/`MFG-Sxx`）。
 > 本 worker 只写本文件、`source-register.md` 与 `real-sample/**`；**未修改任何代码/测试/夹具**。
@@ -55,7 +55,7 @@
 
 ## 4. Gerber（RS-274X/X2）能力矩阵
 
-依据：`design-hardware/scripts/delivery_audit/gerber.py`（单遍状态机 + `%...%` 块/`*` 词命令切分）、
+依据：`easycirq/scripts/delivery_audit/gerber.py`（单遍状态机 + `%...%` 块/`*` 词命令切分）、
 契约 §7.1、Ucamco *Gerber Layer Format Specification* Rev 2026.05（`FMT-S01`；分节引用为其 PDF 页码）。
 “证据”列的 `§` 是规范节号，`gerber.py::函数` 是实现位置。
 

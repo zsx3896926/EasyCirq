@@ -25,9 +25,9 @@
       "license": "MIT",
       "repository": {
         "type": "github",
-        "url": "https://github.com/zsx3896926/hardware-design-skill"
+        "url": "https://github.com/zsx3896926/EasyCirq"
       },
-      "homepage": "https://github.com/zsx3896926/hardware-design-skill",
+      "homepage": "https://github.com/zsx3896926/EasyCirq",
       "categories": "Other",
       "keywords": [
         "agent",
@@ -231,9 +231,9 @@
     "installDir": "C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Zhigou",
     "installedVersion": "0.2.1",
     "clients": {
-      ".claude/skills/design-hardware": "1.0.2",
-      ".codex/skills/design-hardware": "1.0.2",
-      ".agents/skills/design-hardware": "1.0.2"
+      ".claude/skills/easycirq": "1.0.2",
+      ".codex/skills/easycirq": "1.0.2",
+      ".agents/skills/easycirq": "1.0.2"
     },
     "legacySkillDisabled": [
       ".claude/skills/easyeda-agent",
@@ -242,7 +242,7 @@
     ],
     "backupRoot": "C:\\\\Users\\\\jlc\\\\work\\\\_skill-backups\\\\zhigou-cutover-20261028",
     "installedDoctorVerdict": "ok",
-    "note": "adopt-backed up the old 1.0.1 skill before replacing it; the upstream easyeda-agent skill dirs were moved (not deleted) and the client skill catalog now lists only design-hardware"
+    "note": "adopt-backed up the old 1.0.1 skill before replacing it; the upstream easyeda-agent skill dirs were moved (not deleted) and the client skill catalog now lists only easycirq"
   },
   "bundle0_2_2": {
     "bundle": "dist-v4/zhigou-toolchain-0.2.2.zip",

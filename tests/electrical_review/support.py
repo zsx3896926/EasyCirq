@@ -7,7 +7,7 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 PACKAGE_DIR = SCRIPTS / "electrical_review"
 ALIAS = "electrical_review_impl"
 

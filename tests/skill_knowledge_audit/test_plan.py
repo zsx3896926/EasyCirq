@@ -13,7 +13,7 @@ from ska_impl.plan import (build_plan, load_catalog, normalise_intent,
                                        write_cache)
 from ska_impl.scan import scan_root
 
-CATALOG = load_catalog(Path(__file__).resolve().parents[2] / "design-hardware"
+CATALOG = load_catalog(Path(__file__).resolve().parents[2] / "easycirq"
                        / "scripts" / "skill_knowledge_audit" / "catalog"
                        / "topics.json")
 SCAN = scan_root(SKILL_ROOT)
@@ -152,7 +152,7 @@ class CacheAndUnknowns(unittest.TestCase):
         plan = plan_for({
             "task_type": "schematic_edit", "stage": "schematic",
             "already_read": [{
-                "path": "design-hardware/references/evidence.md",
+                "path": "easycirq/references/evidence.md",
                 "sha256": "0" * 64,
                 "rules_version": CATALOG["catalog_version"],
                 "scope": "probe",
@@ -168,7 +168,7 @@ class CacheAndUnknowns(unittest.TestCase):
         plan = plan_for({
             "task_type": "pcb_route", "stage": "route",
             "already_read": [{
-                "path": "design-hardware/references/evidence.md",
+                "path": "easycirq/references/evidence.md",
                 "sha256": sha,
                 "rules_version": "2026-01-01.0",
                 "scope": "old",
@@ -181,7 +181,7 @@ class CacheAndUnknowns(unittest.TestCase):
         intent = {
             "task_type": "bom_only", "stage": "read",
             "already_read": [{
-                "path": "design-hardware/references/evidence.md",
+                "path": "easycirq/references/evidence.md",
                 "sha256": hashlib.sha256(
                     (SKILL_ROOT / "references" / "evidence.md").read_bytes()
                 ).hexdigest(),

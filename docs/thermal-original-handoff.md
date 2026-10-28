@@ -1,7 +1,7 @@
 # 交接：板级热设计专题包
 
 > 日期：2026-10-20
-> 分支/worktree：`feat/topic-board-thermal`，位于 `C:\Users\jlc\work\hardware-design-skill-thermal`（从 `d8ade34` 创建）
+> 分支/worktree：`feat/topic-board-thermal`，位于 `C:\Users\jlc\work\EasyCirq-thermal`（从 `d8ade34` 创建）
 > 交付范围：只新增 `topics/board-thermal-design/`；未修改公共 `SKILL.md`、`README.md`、公共索引、其他专题文件或共享脚本。
 
 ## 1. 本轮新增内容
@@ -96,10 +96,10 @@
 
 ## 4. 并行工作与工作区隔离说明（重要）
 
-本轮开始时，仓库 `C:\Users\jlc\work\hardware-design-skill` 的 `topics/` 下有其他并行 AI 的未提交产物；在我写入 `topics/board-thermal-design/` 后，该目录被其他进程删除/替换为 `topics/passive-components/`。为避免继续互相覆盖，我改用 **git worktree**：
+本轮开始时，仓库 `C:\Users\jlc\work\EasyCirq` 的 `topics/` 下有其他并行 AI 的未提交产物；在我写入 `topics/board-thermal-design/` 后，该目录被其他进程删除/替换为 `topics/passive-components/`。为避免继续互相覆盖，我改用 **git worktree**：
 
-- 主工作树：`C:\Users\jlc\work\hardware-design-skill`（分支 `feat/engineering-content-expansion`，含其他 AI 的未提交修改）。
-- 本专题工作树：`C:\Users\jlc\work\hardware-design-skill-thermal`（分支 `feat/topic-board-thermal`，从 `d8ade34` 创建）。
+- 主工作树：`C:\Users\jlc\work\EasyCirq`（分支 `feat/engineering-content-expansion`，含其他 AI 的未提交修改）。
+- 本专题工作树：`C:\Users\jlc\work\EasyCirq-thermal`（分支 `feat/topic-board-thermal`，从 `d8ade34` 创建）。
 - 本专题的所有文件只存在于后者的 `topics/board-thermal-design/`。
 - 我没有修改主工作树的 `calculate.py` 或其他未提交文件；主工作树中 `calculate.py` 的 buck/boost/adc_settle/current_sense/wire 改动是其他会话的，未纳入本专题。
 

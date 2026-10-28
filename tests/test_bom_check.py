@@ -9,8 +9,8 @@ import unittest
 os.environ.setdefault("PYTHONIOENCODING", "utf-8")
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "design-hardware" / "scripts" / "bom_check.py"
-EXAMPLE = ROOT / "design-hardware" / "assets" / "parts.example.json"
+SCRIPT = ROOT / "easycirq" / "scripts" / "bom_check.py"
+EXAMPLE = ROOT / "easycirq" / "assets" / "parts.example.json"
 
 
 def part(**overrides):

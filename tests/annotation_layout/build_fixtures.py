@@ -7,7 +7,7 @@ same package version must reproduce the same bytes (timings are not embedded).
 
 Run from the repository root with::
 
-    PYTHONPATH=design-hardware/scripts python tests/annotation_layout/build_fixtures.py
+    PYTHONPATH=easycirq/scripts python tests/annotation_layout/build_fixtures.py
 
 It also searches a small deterministic space for two illustrative cases:
 * a case where the naive baseline leaves a hard conflict but the batch solver
@@ -25,7 +25,7 @@ from pathlib import Path
 from typing import Any, Dict, Iterable, List, Mapping, Optional, Sequence, Tuple
 
 ROOT = Path(__file__).resolve().parents[2]
-SCRIPTS = ROOT / "design-hardware" / "scripts"
+SCRIPTS = ROOT / "easycirq" / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 
 from annotation_layout.baseline import solve_baseline  # noqa: E402

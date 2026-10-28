@@ -10,7 +10,7 @@ import unittest
 
 os.environ.setdefault('PYTHONIOENCODING', 'utf-8')
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 
 from design_engine import ENGINE_VERSION, IR_SCHEMA

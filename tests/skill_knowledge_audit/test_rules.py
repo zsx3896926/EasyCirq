@@ -14,7 +14,7 @@ from ska_impl.rules import (
     load_rules_catalog, run_rules, verify_catalog_evidence,
 )
 
-PACKAGE = REPO / "design-hardware" / "scripts" / "skill_knowledge_audit"
+PACKAGE = REPO / "easycirq" / "scripts" / "skill_knowledge_audit"
 RULES_CATALOG = PACKAGE / "catalog" / "rules.json"
 FIXTURES = BENCH / "fixtures" / "rule-pairs.json"
 

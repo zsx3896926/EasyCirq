@@ -22,7 +22,7 @@
 
 | 事实 | 证据 |
 |---|---|
-| 模块路径已改为我们仓库 | `runtime/go.mod:1` `module github.com/zsx3896926/hardware-design-skill/runtime`；`go 1.26.3` |
+| 模块路径已改为我们仓库 | `runtime/go.mod:1` `module github.com/zsx3896926/EasyCirq/runtime`；`go 1.26.3` |
 | 二进制名 = `zhigou` | `runtime/cmd/zhigou/main.go`；`runtime/internal/version/version.go:7` `Name = "zhigou"` |
 | 状态目录 = `~/.zhigou`、环境变量前缀 `ZHIGOU_` | `distribution/rebrand_runtime.py:31–37`（规则表） |
 | daemon 端口段 = 23111–23120 | `runtime/internal/daemon/doc.go:3`；`distribution/rebrand_runtime.py:38–41` |
@@ -32,7 +32,7 @@
 | **daemon 启动默认自动同步技能** | `internal/app/cmd_skill.go:17–22`（"The daemon runs `skill sync` automatically on startup (daemon start --auto-update-skill, on by default)"） |
 | CLI 暴露 `skill status/sync` 与 `update` 命令面 | `internal/app/cmd_skill.go:28–40`；`internal/app/cmd_update.go:97–117` |
 | `update` 只"报告" connector，不部署 | `internal/app/cmd_update.go:106`（"The EasyEDA connector .eext is only REPORTED"） |
-| 运行时读取 **skill 树内数据资产**（硬编码 `zhigou-agent` 目录名） | `internal/app/skill_asset.go:1–18,47–53,80,143–145`：`ZHIGOU_SKILLS_DIR/<skill>/…` → `~/.claude、~/.codex、~/.agents/skills/zhigou-agent/…` → 仓库 `.agents/skills/...` 向上 8 层；已 rebrand 为 `zhigou-agent/references/standard-parts.json`（`skill_asset.go:154`）与 `zhigou-agent/scripts/bom-enrich.py`（`enrich_script.go:25`），但**仍硬编码 `zhigou-agent` 这一目录名**，不含我方 `design-hardware` |
+| 运行时读取 **skill 树内数据资产**（硬编码 `zhigou-agent` 目录名） | `internal/app/skill_asset.go:1–18,47–53,80,143–145`：`ZHIGOU_SKILLS_DIR/<skill>/…` → `~/.claude、~/.codex、~/.agents/skills/zhigou-agent/…` → 仓库 `.agents/skills/...` 向上 8 层；已 rebrand 为 `zhigou-agent/references/standard-parts.json`（`skill_asset.go:154`）与 `zhigou-agent/scripts/bom-enrich.py`（`enrich_script.go:25`），但**仍硬编码 `zhigou-agent` 这一目录名**，不含我方 `easycirq` |
 | 运行时测试直接读 `../../.agents/skills/zhigou-agent/references/orientation.json` | `internal/app/cmd_sch_marker_geom_orientation_test.go:13` |
 | 图纸模板来自 skill 树 | `internal/app/cmd_sch_sheet.go:86`（`.../references/sheet-templates.json`） |
 | 写入健康回执：CLI 向 daemon `POST /writeverify` | `internal/app/write_verify.go:13,35,100`；`internal/daemon/daemon.go:204–209`；`internal/daemon/writehealth.go:39,652` |
@@ -61,7 +61,7 @@ internal/selfupdate/cli.go:4,78,82                            release asset 命�
 ## 5. 对我们的直接影响（结论，供主报告 C42–C46 使用）
 
 1. **会装出第三套技能**：`daemon start` 默认 `--auto-update-skill`，从 `zhoushoujianwork/zhigou-agent` 的 `skills.tar.gz` 同步出 `~/.claude|.codex|.agents/skills/zhigou-agent`。这与"只加载一套 Skill"目标直接冲突，且来源是外部仓库。
-2. **运行时能力依赖"上游 Skill 布局"**：`standard-parts.json`、`orientation.json`、`sheet-templates.json`、`bom-enrich.py` 四个资产在我方 `design-hardware/` 中**一个都没有**（已逐一 `Test-Path` 确认 False），而 `skill_asset.resolve` 只认 `skills/zhigou-agent` 目录名 → block-apply / netflag 朝向 / 图纸模板 / BOM 富化 当前**没有数据来源**。
+2. **运行时能力依赖"上游 Skill 布局"**：`standard-parts.json`、`orientation.json`、`sheet-templates.json`、`bom-enrich.py` 四个资产在我方 `easycirq/` 中**一个都没有**（已逐一 `Test-Path` 确认 False），而 `skill_asset.resolve` 只认 `skills/zhigou-agent` 目录名 → block-apply / netflag 朝向 / 图纸模板 / BOM 富化 当前**没有数据来源**。
 3. **自更新链路不可用**：`zhigou update`、版本门、daemon 发布检查都指向 `zhoushoujianwork/zhigou-agent`（非本仓库、疑似不存在）。
 4. **写入校验已内置**：CLI 的 `POST /writeverify` 与 `staleRisk`/健康回执可直接作为我方"保存→回读"证据链的原始输入，避免另造一套。
 5. **Connector 已自有身份**，但 `.eext` 部署与"允许外部交互"仍需宿主侧动作，runtime 目前只报告不部署。

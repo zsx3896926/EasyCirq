@@ -9,7 +9,7 @@ import unittest
 os.environ.setdefault("PYTHONIOENCODING", "utf-8")
 
 ROOT = Path(__file__).resolve().parents[1]
-DH = ROOT / "design-hardware"
+DH = ROOT / "easycirq"
 SCRIPT = DH / "scripts" / "pin_plan_check.py"
 EXAMPLE = DH / "assets" / "pinmap.example.json"
 

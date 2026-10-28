@@ -1,6 +1,6 @@
-# 我方 Skill 原始清单（design-hardware / 智构）
+# 我方 Skill 原始清单（easycirq / 智构）
 
-审计对象：`C:\Users\jlc\work\zhigou-toolchain\design-hardware`（本 worktree，权威）
+审计对象：`C:\Users\jlc\work\zhigou-toolchain\easycirq`（本 worktree，权威）
 分支 `feat/integrated-eda-toolchain`，基线 commit `9a951ed`（from origin/main）。
 本文件只做摘录与定位，不改变任何规则语义。
 
@@ -8,10 +8,10 @@
 
 | 项 | 值 | 证据 |
 |---|---|---|
-| `.version` | `1.0.1` | `design-hardware/.version` |
+| `.version` | `1.0.1` | `easycirq/.version` |
 | `SKILL.md` 行数/字节 | **323 行 / 50163 字节** | `Get-Content`/文件长度实测（派单说明写作 231 行，与实际不符，见主报告 §7 UNKNOWN-1） |
 | `SKILL.md` SHA256 | `2FE4FEB283F0904F25F44CE2425C6C3766A0F8B6DB45FCBD9D4E2542FF9E486D` | `Get-FileHash -Algorithm SHA256` |
-| 已安装副本 | `C:\Users\jlc\.agents\skills\design-hardware`，323 行、`.version`=1.0.1、`SKILL.md` 逐行内容相同（仅 CRLF→LF；多出 `.install.json`） | 逐行 `Compare-Object` + 首字节比对（repo `2D,2D,2D,0D,0A`；inst `2D,2D,2D,0A`） |
+| 已安装副本 | `C:\Users\jlc\.agents\skills\easycirq`，323 行、`.version`=1.0.1、`SKILL.md` 逐行内容相同（仅 CRLF→LF；多出 `.install.json`） | 逐行 `Compare-Object` + 首字节比对（repo `2D,2D,2D,0D,0A`；inst `2D,2D,2D,0A`） |
 | 文件总数 | 545（repo） / 546（inst，多 `.install.json`） | 递归计数 |
 | references | 顶层 66 个 `.md`/`.json`，含子目录合计 **280 个文件** | 目录统计 |
 | assets | 顶层 22 项，子目录 9 组（`docs`5/`decisions`25/…） | 目录统计 |
@@ -24,7 +24,7 @@
 
 | 行 | 段落 | 承载的规则 |
 |---|---|---|
-| 1–4 | frontmatter | `name: design-hardware`；description 定义触发面（含"配合 easyeda-agent 等工具"——与上游绑定，见 C27/C31） |
+| 1–4 | frontmatter | `name: easycirq`；description 定义触发面（含"配合 easyeda-agent 等工具"——与上游绑定，见 C27/C31） |
 | 6–10 | 定位 | Skill=协作/工程方法包；执行器负责实际编辑；安装 Skill ≠ 获得 EDA 能力；默认中文 |
 | 12–18 | 安装与更新 | `skill_update.py check`"统一检查本 Skill **与 easyeda-agent** 的 CLI/Skill/daemon/Connector"；24h 缓存；不静默覆盖；升级须 idle；`update-agent --idle`；不宣称跨组件原子回退 |
 | 20–23 | EasyEDA 生态工具接入 | `ecosystem.py registry/run`；唯一写入者；离线导入/审核不另开桥接器；差分几何通过 ≠ 阻抗/DRC 通过 |

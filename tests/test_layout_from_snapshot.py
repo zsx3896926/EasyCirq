@@ -8,7 +8,7 @@ import unittest
 
 os.environ.setdefault('PYTHONIOENCODING', 'utf-8')
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / 'design-hardware' / 'scripts' / 'layout_from_snapshot.py'
+SCRIPT = ROOT / 'easycirq' / 'scripts' / 'layout_from_snapshot.py'
 spec = importlib.util.spec_from_file_location('layout_from_snapshot', SCRIPT)
 mod = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(mod)
@@ -81,7 +81,7 @@ class LayoutFromSnapshot(unittest.TestCase):
         self.assertEqual(out['coverage']['components']['status'], 'absent')
         self.assertEqual(out['coverage']['texts']['status'], 'absent')
         self.assertEqual(out['coverage']['components']['missing'], 1)
-        sys.path.insert(0, str(ROOT / 'design-hardware' / 'scripts'))
+        sys.path.insert(0, str(ROOT / 'easycirq' / 'scripts'))
         import sch_layout_check
         result = sch_layout_check.analyze(out)
         self.assertEqual(result['status'], 'incomplete')

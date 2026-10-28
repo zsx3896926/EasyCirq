@@ -23,7 +23,7 @@
 ## 2. 文件位置
 
 ```
-design-hardware/scripts/procurement_planner/     # 包（__main__ / cli / model / planner / ...）
+easycirq/scripts/procurement_planner/     # 包（__main__ / cli / model / planner / ...）
 tests/procurement_planner/                       # 78 个测试 + fixtures（含 4 holdout）
 benchmarks/procurement-planner/                  # run_benchmark.py, expected.json, result.json
 docs/parallel-procurement-planner/               # 8 份文档 + issue-candidates + 来源研究日志
@@ -41,7 +41,7 @@ python -m unittest discover -s tests/procurement_planner -t tests -p "test_*.py"
 python benchmarks/procurement-planner/run_benchmark.py --check --write-result
 
 # 3) 手工演示
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m procurement_planner plan `
   --input ..\..\tests\procurement_planner\fixtures\basic.json `
   --out $env:TEMP\plan.json --markdown $env:TEMP\plan.md `

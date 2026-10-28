@@ -5,7 +5,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / 'design-hardware' / 'scripts' / 'netlist_diff.py'
+SCRIPT = ROOT / 'easycirq' / 'scripts' / 'netlist_diff.py'
 spec = importlib.util.spec_from_file_location('netlist_diff', SCRIPT)
 netlist_diff = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(netlist_diff)

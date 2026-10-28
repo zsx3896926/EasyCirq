@@ -7,7 +7,7 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 import sys
 sys.path.insert(0, str(SCRIPTS))
 
@@ -28,7 +28,7 @@ def doctor_report(*, ready=True, connector='connected', verdict='ok',
         'ready': ready,
         'runtime': {'name': 'zhigou', 'version': '0.2.0-dev', 'onDisk': True,
                     'executable': 'zhigou.exe'},
-        'skill': {'name': 'design-hardware', 'status': 'installed',
+        'skill': {'name': 'easycirq', 'status': 'installed',
                   'installed': []},
         'daemon': {'status': daemon, 'pid': 1, 'port': 23111},
         'connector': {'status': connector,
@@ -101,9 +101,9 @@ class ClientDetection(unittest.TestCase):
     def test_repo_skill_detection(self):
         with tempfile.TemporaryDirectory() as temp:
             self.assertFalse(doctor._repo_skill(temp)['present'])
-            skill = Path(temp) / 'design-hardware' / 'SKILL.md'
+            skill = Path(temp) / 'easycirq' / 'SKILL.md'
             skill.parent.mkdir(parents=True)
-            skill.write_text('---\nname: design-hardware\n---\n', encoding='utf-8')
+            skill.write_text('---\nname: easycirq\n---\n', encoding='utf-8')
             self.assertTrue(doctor._repo_skill(temp)['present'])
 
     def test_client_rows_include_expected_user_and_project_dirs(self):
@@ -114,7 +114,7 @@ class ClientDetection(unittest.TestCase):
         for row in rows:
             scopes = {item['scope'] for item in row['skill_dirs']}
             self.assertEqual(scopes, {'user', 'project'})
-            self.assertTrue(all('design-hardware' not in item['path'] for item in row['skill_dirs']))
+            self.assertTrue(all('easycirq' not in item['path'] for item in row['skill_dirs']))
 
     def test_summary_never_claims_writability(self):
         report = {
@@ -135,9 +135,9 @@ class ClientDetection(unittest.TestCase):
 
     def test_installed_skill_is_detected_in_temp_skill_dir(self):
         with tempfile.TemporaryDirectory() as temp:
-            skill = Path(temp) / '.claude' / 'skills' / 'design-hardware' / 'SKILL.md'
+            skill = Path(temp) / '.claude' / 'skills' / 'easycirq' / 'SKILL.md'
             skill.parent.mkdir(parents=True)
-            skill.write_text('---\nname: design-hardware\n---\n', encoding='utf-8')
+            skill.write_text('---\nname: easycirq\n---\n', encoding='utf-8')
             original = doctor.CLIENTS
             try:
                 doctor.CLIENTS = [{

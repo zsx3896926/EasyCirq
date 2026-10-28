@@ -1,11 +1,13 @@
 # 智构 · EasyCirq 工具链 —— 安装说明
 
+> 从旧 `design-hardware` 升级：先看 [迁移说明](../docs/migration-easycirq.md)。
+
 本目录（构建产物 `dist/`，或解压后的安装包）同时提供两种安装入口：
 
 | 你想装什么 | 入口 | 对应产物 |
 |---|---|---|
-| **完整工具链**：Skill（design-hardware）+ 运行时（`zhigou.exe`）+ 连接器（`.eext`） | `Install-Zhigou.cmd` / `Install-Zhigou.ps1` | `zhigou-toolchain-<版本>.zip` |
-| 只安装 / 只更新 Skill | `Manage-Skill.cmd` / `Manage-Skill.ps1` | `design-hardware-<版本>.zip` |
+| **完整工具链**：Skill（easycirq）+ 运行时（`zhigou.exe`）+ 连接器（`.eext`） | `Install-Zhigou.cmd` / `Install-Zhigou.ps1` | `zhigou-toolchain-<版本>.zip` |
+| 只安装 / 只更新 Skill | `Manage-Skill.cmd` / `Manage-Skill.ps1` | `easycirq-<版本>.zip` |
 
 两条路径可以共存，但**不要对同一个 Skill 目录同时操作**。
 
@@ -57,7 +59,7 @@
 命令行：
 
 ```powershell
-python skill_update.py install --client claude --package design-hardware-<版本>.zip --manifest release.json
+python skill_update.py install --client claude --package easycirq-<版本>.zip --manifest release.json
 python skill_update.py status  --client claude
 python skill_update.py rollback --client claude
 ```

@@ -25,7 +25,7 @@
     },
     "number": 39,
     "state": "MERGED",
-    "url": "https://github.com/zsx3896926/hardware-design-skill/pull/39"
+    "url": "https://github.com/zsx3896926/EasyCirq/pull/39"
   },
   "pr_range": {
     "base": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
@@ -234,7 +234,7 @@
     },
     "selftest": {
       "exit": 0,
-      "tail": "cal\\Programs\\Python\\Python313\\python.exe <worktree>\\design-hardware\\scripts\\gate_check.py --project temp-alarm --project-dir <worktree>\\design-hardware\\cases\\temp-alarm-2026-10-24 --evidence-dir <worktree>\\design-hardware\\cases\\temp-alarm-2026-10-24\\evidence --json --design-state <worktree>\\design-hardware\\cases\\temp-alarm-2026-10-24\\design-state.json --waiver-file <worktree>\\design-hardware\\cases\\temp-alarm-2026-10-24\\waivers.json\n  - exit=1\n  - report schema=design-gate-report/v1\n[PASS] python-compile: 242 script(s) compile with py_compile\n\n5 PASS, 0 FAIL, 0 NOT RUN -> exit 0\n"
+      "tail": "cal\\Programs\\Python\\Python313\\python.exe <worktree>\\easycirq\\scripts\\gate_check.py --project temp-alarm --project-dir <worktree>\\easycirq\\cases\\temp-alarm-2026-10-24 --evidence-dir <worktree>\\easycirq\\cases\\temp-alarm-2026-10-24\\evidence --json --design-state <worktree>\\easycirq\\cases\\temp-alarm-2026-10-24\\design-state.json --waiver-file <worktree>\\easycirq\\cases\\temp-alarm-2026-10-24\\waivers.json\n  - exit=1\n  - report schema=design-gate-report/v1\n[PASS] python-compile: 242 script(s) compile with py_compile\n\n5 PASS, 0 FAIL, 0 NOT RUN -> exit 0\n"
     },
     "docs": [
       "acceptance-matrix.md",

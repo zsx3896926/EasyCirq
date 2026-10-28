@@ -21,7 +21,7 @@ import tempfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 sys.path.insert(0, str(ROOT / 'tests'))
 
@@ -311,12 +311,12 @@ def case_prettier_but_worse():
 
 
 def case_case_library():
-    index = cases.load_index(ROOT / 'design-hardware' / 'cases' / 'index.json')
+    index = cases.load_index(ROOT / 'easycirq' / 'cases' / 'index.json')
     query = schemas.new_case_query(layers=2, interfaces=['KF301-2P'],
                                    verification_level_min='structural')
     found = cases.search(index, query)
     coverage = cases.search(index, {})['library']
-    case = json.loads((ROOT / 'design-hardware' / 'cases' / 'feedback-r12' /
+    case = json.loads((ROOT / 'easycirq' / 'cases' / 'feedback-r12' /
                        'pcb-decap-c2-local-photo-led.json').read_text(
                            encoding='utf-8'))
     reuse = cases.reuse_check(case, {

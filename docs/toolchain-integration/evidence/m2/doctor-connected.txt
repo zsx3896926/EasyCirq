@@ -8,5 +8,5 @@ zhigou doctor — verdict: ok
   ✓ daemon     v0.2.1-dev 运行在端口 23111
   ✓ connector  1 个窗口已连接（连接器 v0.1.0）
   ✓ project    SkyPilot-X1（当前 schematic），标签页在后台（操作照常；仅 PCB 画布截图需切到前台）
-  ✓ skill      design-hardware 已安装（claude 1.0.1, agents 1.0.1, repo 1.0.1）
+  ✓ skill      easycirq 已安装（claude 1.0.1, agents 1.0.1, repo 1.0.1）
   ✓ legacy     检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）

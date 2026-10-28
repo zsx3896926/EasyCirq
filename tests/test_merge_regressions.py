@@ -5,7 +5,7 @@ import unittest
 
 ROOT=Path(__file__).resolve().parents[1]
 def module(name):
-    spec=importlib.util.spec_from_file_location(name,ROOT/'design-hardware/scripts'/f'{name}.py')
+    spec=importlib.util.spec_from_file_location(name,ROOT/'easycirq/scripts'/f'{name}.py')
     result=importlib.util.module_from_spec(spec); spec.loader.exec_module(result); return result
 calc=module('calculate'); rc=module('rc_settle_sim'); thermal=module('thermal_calc')
 

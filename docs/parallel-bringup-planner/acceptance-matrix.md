@@ -61,7 +61,7 @@
 
 | 案例 | 内容 | 证据边界 |
 |---|---|---|
-| `cases/mcu-sensor-board/` | 低压 USB 5V → LDO 3V3 → MCU + I2C 传感器 + 模拟输入；引用 `design-hardware/cases/mcu-i2c-s3-2026-10-26` 的**只读设计信息** | 合成设计意图；未打样/未贴片/未上电，NOT RUN |
+| `cases/mcu-sensor-board/` | 低压 USB 5V → LDO 3V3 → MCU + I2C 传感器 + 模拟输入；引用 `easycirq/cases/mcu-i2c-s3-2026-10-26` 的**只读设计信息** | 合成设计意图；未打样/未贴片/未上电，NOT RUN |
 | `cases/load-control-board/` | 低压负载控制/低边驱动 + 按键/LED；引用 photo-led/temp-alarm 案例的**只读信息** | 同上；不声称实物功能已验证 |
 
 组合案例用于检查多域、多接口、负载与固件前提在同一计划中的排序与阻断传播；不是实物验收。
@@ -105,8 +105,8 @@ python tools/offline_suite.py        # 仓库既有离线套件（不得因本�
 | M0-2 | `git rev-parse 9a951ed`；`git rev-parse origin/main` | 0 | 开工基线 `9a951ed…`；采集时 `origin/main=acbcc18…`（PR #39 合并后其他并行任务继续推进） | `3f21897` | PASS |
 | M0-3 | `git status --short` | 0 | 空（采集前工作区干净） | `3f21897` | PASS |
 | M0-4 | `git worktree list` | 0 | 独立 worktree（`hds-bp-evidence` / 原 `hds-bp-worktree`），未混用他人分支 | `3f21897` | PASS |
-| M0-5 | `git diff --name-only 9a951ed...b407d72` | 0 | **175 files**；允许路径外 **0**；四目录：`design-hardware/scripts/bringup_planner/`、`tests/bringup_planner/`（合并前路径）、`benchmarks/bringup-planner/`、`docs/parallel-bringup-planner/` | `b407d72`（PR #39） | PASS |
-| M0-6 | `git cat-file -e HEAD:docs/parallel-bringup-planner/acceptance-matrix.md`；`…:design-hardware/scripts/bringup_planner/plan.py` | 0 | 合并后 main 同时包含文档与实现脚本（18 个 bringup_planner 脚本） | `3f21897` | PASS |
+| M0-5 | `git diff --name-only 9a951ed...b407d72` | 0 | **175 files**；允许路径外 **0**；四目录：`easycirq/scripts/bringup_planner/`、`tests/bringup_planner/`（合并前路径）、`benchmarks/bringup-planner/`、`docs/parallel-bringup-planner/` | `b407d72`（PR #39） | PASS |
+| M0-6 | `git cat-file -e HEAD:docs/parallel-bringup-planner/acceptance-matrix.md`；`…:easycirq/scripts/bringup_planner/plan.py` | 0 | 合并后 main 同时包含文档与实现脚本（18 个 bringup_planner 脚本） | `3f21897` | PASS |
 | M0-7 | `gh pr view 39 --json …` | 0 | `state=MERGED`；`mergedAt=2026-10-27T16:53:24Z`；`mergedBy=zsx3896926`；`mergeCommit=9a4622e…`；`changedFiles=175`；`+44762/−0`；非 draft | PR 元数据 | PASS（外部合并） |
 
 ### 7.2 M1 核心 CLI（validate / plan / explain）
@@ -153,7 +153,7 @@ python tools/offline_suite.py        # 仓库既有离线套件（不得因本�
 |---|---|---|---|---|---|
 | M4-1 | `python tools/offline_suite.py`（PR #39 合并源） | 0 | `status=pass`；1783 tests；0 failures / 0 errors / 0 blocked events | `b407d72` | PASS |
 | M4-2 | `python tools/offline_suite.py`（2026-10-28 采集快照 `3f21897`） | 1 | 历史快照：`status=fail`；2147 tests；0 failures；**47 errors**（全部来自其他任务测试包：`change_impact` 9、`circuit_blocks` 7、`delivery_audit` 7、`electrical_review` 5、`procurement_planner` 5、`return_path_audit` 8、`skill_knowledge_audit` 6；**`bringup_planner_tests` 0 error**）。**该状态已由后续集成修复，最新 main 见 M4-5** | `3f21897` | 历史 FAIL（当时外部原因，已修复） |
-| M4-3 | `python design-hardware/scripts/skill_selftest.py` | 0 | `5 PASS, 0 FAIL, 0 NOT RUN -> exit 0`（python-compile 242 scripts） | `3f21897` | PASS |
+| M4-3 | `python easycirq/scripts/skill_selftest.py` | 0 | `5 PASS, 0 FAIL, 0 NOT RUN -> exit 0`（python-compile 242 scripts） | `3f21897` | PASS |
 | M4-4 | 检查 `docs/parallel-bringup-planner/` 产物 | 0 | 10 个 Markdown 文档 + `evidence-m0-m4.json` 均在；PR 范围审计 175 files / 允许路径外 0 | `3f21897` | PASS |
 | M4-5 | `python tools/offline_suite.py`（最新 main） | 0 | `status=pass`；**3318 tests**；0 failures / 0 errors / 0 blocked events；`bringup_planner_tests` 172 tests 包含在 discovery 中且全通过 | `c54c6fc` | PASS |
 

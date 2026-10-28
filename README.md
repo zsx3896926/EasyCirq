@@ -8,11 +8,13 @@
 
 | 层 | 是什么 | 位置 |
 |---|---|---|
-| **设计方法层** | `design-hardware` Skill：需求澄清、选型与供应链、工程计算、设计规则、G0–G6 阶段门禁、证据口径、交付话术 | `design-hardware/` |
+| **设计方法层** | `easycirq` Skill：需求澄清、选型与供应链、工程计算、设计规则、G0–G6 阶段门禁、证据口径、交付话术 | `easycirq/` |
 | **执行层** | 自有 `zhigou` 工具链：CLI + daemon + 连接器，从本仓库源码构建，在真实嘉立创 EDA 里读写工程 | `runtime/`、`connector/`、`protocol/`、`distribution/` |
 
 不依赖上游 `easyeda-agent` 的 Skill 或 CLI（它只作为 MIT 来源保留在 `third_party/`，用于来源追溯）。
 以前"装两个 Skill + 一个插件"的步骤已经不需要了。
+
+> **2026-10 重命名**：仓库 `hardware-design-skill` → **EasyCirq**；Skill 目录/命令 `design-hardware` → **`easycirq`**。旧安装目录请先迁移；步骤见 [迁移说明](docs/migration-easycirq.md)。
 
 > 首次使用请先读 [安装说明](distribution/INSTALL.md)；本文的"快速开始"是最短路径。
 
@@ -22,14 +24,14 @@
 
 ### 1. 安装工具链（CLI + daemon + 连接器）
 
-从 [Releases](https://github.com/zsx3896926/hardware-design-skill/releases) 下载 `zhigou-toolchain-0.2.3.zip`，解压后执行：
+从 [Releases](https://github.com/zsx3896926/EasyCirq/releases) 下载 `zhigou-toolchain-0.2.3.zip`，解压后执行：
 
 ```powershell
 # 安装到默认目录 %LOCALAPPDATA%\Zhigou
 powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
   -Bundle .\zhigou-toolchain-0.2.3.zip -InstallDir "$env:LOCALAPPDATA\Zhigou"
 
-# 把 design-hardware 装进客户端（claude / codex 二选一，可重复执行）
+# 把 easycirq 装进客户端（claude / codex 二选一，可重复执行）
 powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
   -Bundle .\zhigou-toolchain-0.2.3.zip -SkillClient codex
 
@@ -139,7 +141,7 @@ powershell -ExecutionPolicy Bypass -File .\Install-Zhigou.ps1 install `
 ## 项目结构
 
 ```text
-design-hardware/    设计方法 Skill（规则、门禁、参考、脚本）
+easycirq/    设计方法 Skill（规则、门禁、参考、脚本）
 runtime/            自有 Go 运行时（zhigou CLI + daemon；上游 easyeda-agent v1.15.0 维护分支）
 connector/          自有 EDA 扩展（TypeScript，构建为 .eext）
 protocol/           wire v1 协议与 JSON Schema
@@ -165,13 +167,13 @@ python tools\offline_suite.py
 python -m pytest tests\test_install_lifecycle.py -q
 
 # 门禁复核（需设计证据目录）
-python "$env:USERPROFILE\.agents\skills\design-hardware\scripts\gate_check.py" --help
+python "$env:USERPROFILE\.agents\skills\easycirq\scripts\gate_check.py" --help
 ```
 
 - 交接与状态：[docs/handoff-current.md](docs/handoff-current.md)、[任务状态](docs/toolchain-integration/task-status.md)
 - 架构/能力/验收/门禁：[docs/toolchain-integration/](docs/toolchain-integration/)
-- 设计方法：[SKILL.md](design-hardware/SKILL.md)、[references/eda-execution.md](design-hardware/references/eda-execution.md)
-- 欢迎 [Issue](https://github.com/zsx3896926/hardware-design-skill/issues) / PR，优先提供脱敏的实际任务与复现材料。
+- 设计方法：[SKILL.md](easycirq/SKILL.md)、[references/eda-execution.md](easycirq/references/eda-execution.md)
+- 欢迎 [Issue](https://github.com/zsx3896926/EasyCirq/issues) / PR，优先提供脱敏的实际任务与复现材料。
 
 ## 致谢与许可
 

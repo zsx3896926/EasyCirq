@@ -30,7 +30,7 @@ from pathlib import Path
 from types import SimpleNamespace
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 BENCH = ROOT / 'benchmarks' / 'offline-round11'
 sys.path.insert(0, str(SCRIPTS))
 
@@ -50,7 +50,7 @@ from design_engine.pcb_workflow import (compile_constraints, load_templates,
 from design_engine import placement as placement_engine  # noqa: E402
 
 FIXTURES = ROOT / 'tests' / 'fixtures'
-PHOTO_CASE = ROOT / 'design-hardware' / 'cases' / 'photo-led-pcb-2026-10-26'
+PHOTO_CASE = ROOT / 'easycirq' / 'cases' / 'photo-led-pcb-2026-10-26'
 PHOTO_EVIDENCE = PHOTO_CASE / 'evidence'
 PHOTO_DUMP = FIXTURES / 'photo-led-pcb-board.json'
 PHOTO_INTENT = FIXTURES / 'photo-led-pcb-intent.json'
@@ -218,8 +218,8 @@ def check_candidates(expected):
                     'bytes': PHOTO_DUMP.stat().st_size},
                    {'path': str(PHOTO_INTENT.relative_to(ROOT)),
                     'bytes': PHOTO_INTENT.stat().st_size},
-                   {'path': 'design-hardware/assets/pcb-placement-templates.json',
-                    'bytes': (ROOT / 'design-hardware/assets/pcb-placement-templates.json').stat().st_size}])
+                   {'path': 'easycirq/assets/pcb-placement-templates.json',
+                    'bytes': (ROOT / 'easycirq/assets/pcb-placement-templates.json').stat().st_size}])
 
 
 def check_structures(expected):
@@ -267,8 +267,8 @@ def check_structures(expected):
               {'path': str((BENCH / 'cases' / 'ldo-caps-intent.json')
                            .relative_to(ROOT)),
                'bytes': (BENCH / 'cases' / 'ldo-caps-intent.json').stat().st_size},
-              {'path': 'design-hardware/assets/pcb-placement-templates.json',
-               'bytes': (ROOT / 'design-hardware/assets/pcb-placement-templates.json').stat().st_size}]
+              {'path': 'easycirq/assets/pcb-placement-templates.json',
+               'bytes': (ROOT / 'easycirq/assets/pcb-placement-templates.json').stat().st_size}]
     return result('candidates_structures', passed_all,
                   {'structures': rows}, inputs)
 

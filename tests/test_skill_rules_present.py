@@ -15,7 +15,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILL = ROOT / 'design-hardware'
+SKILL = ROOT / 'easycirq'
 FIELD_LESSONS = ROOT / 'docs' / 'toolchain-integration' / 'field-lessons.md'
 
 
@@ -132,7 +132,7 @@ class FieldLessonsDocument(unittest.TestCase):
     def test_each_mapped_location_exists(self):
         body = FIELD_LESSONS.read_text(encoding='utf-8')
         for rel in sorted(set(re.findall(
-                r'`(design-hardware/[^`:#\s]+)', body))):
+                r'`(easycirq/[^`:#\s]+)', body))):
             with self.subTest(path=rel):
                 self.assertTrue((ROOT / rel).is_file(), rel)
 

@@ -9,12 +9,12 @@ four source files keep their own SHA binding.
 Regenerate after changing the builder/package:
 
 ```bash
-PYTHONPATH=design-hardware/scripts python tests/annotation_layout/build_fixtures.py
+PYTHONPATH=easycirq/scripts python tests/annotation_layout/build_fixtures.py
 ```
 
 ## Synthetic cases (16)
 
-CLI: `cd design-hardware/scripts && python -m annotation_layout plan ../../tests/annotation_layout/fixtures/synthetic/<name>.json`
+CLI: `cd easycirq/scripts && python -m annotation_layout plan ../../tests/annotation_layout/fixtures/synthetic/<name>.json`
 
 | file | geometry | expected CLI result | why |
 |---|---|---|---|

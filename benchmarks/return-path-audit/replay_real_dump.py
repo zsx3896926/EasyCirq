@@ -21,7 +21,7 @@ Honesty rules enforced by this adapter:
 
 Usage:
   python benchmarks/return-path-audit/replay_real_dump.py \
-      --dump design-hardware/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json \
+      --dump easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/pcb-dump-final.json \
       --signal-layer 1 --reference-layer 2 --units mil --corridor 8 \
       --out benchmarks/return-path-audit/real-replay/real-2layer-mcu-i2c.input.json
 """

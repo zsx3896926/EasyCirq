@@ -1,7 +1,7 @@
 # 首板测试计划生成器输入/输出契约（bringup-planner v1）
 
 > 状态：并行任务 I 的冻结契约。工具只做**离线计划生成与结果评估**，不连接仪器、不执行 shell、不烧录、不上电、不调用 EDA。
-> 代码入口：`design-hardware/scripts/bringup_planner/`；运行方式见 [`report.md`](report.md) 与 [快速开始](#12-快速开始)。
+> 代码入口：`easycirq/scripts/bringup_planner/`；运行方式见 [`report.md`](report.md) 与 [快速开始](#12-快速开始)。
 
 ## 1. 目的与边界
 
@@ -14,7 +14,7 @@
 ## 2. CLI
 
 ```bash
-# 在 design-hardware/scripts 目录下运行（或把该目录加入 PYTHONPATH）
+# 在 easycirq/scripts 目录下运行（或把该目录加入 PYTHONPATH）
 python -m bringup_planner validate --input plan-input.json [--json]
 python -m bringup_planner plan     --input plan-input.json --out out/ [--json]
 python -m bringup_planner explain  --input plan-input.json [--step STEP_ID] [--json]
@@ -228,7 +228,7 @@ python -m bringup_planner evaluate --plan out/plan.json --results results.json \
 ## 12. 快速开始
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m bringup_planner validate --input ../../benchmarks/bringup-planner/cases/mcu-sensor-board/input.json
 python -m bringup_planner plan --input ../../benchmarks/bringup-planner/cases/mcu-sensor-board/input.json --out ../../.bringup-out/mcu
 python -m bringup_planner explain --input ... --step I2-SEQ-VIN_5V

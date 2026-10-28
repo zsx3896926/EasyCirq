@@ -45,7 +45,7 @@ adapter from any producer to any consumer; see
 1. `tests/mechanical_layout` → `tests/mechanical_layout_tests` (+ `__init__.py`) and
    `tests/bringup_planner` → `tests/bringup_planner_tests` (+ `__init__.py`), so the
    official CI discovery actually runs 144 + 172 tests.
-2. New test packages that inserted `design-hardware/scripts` at `sys.path[0]` now
+2. New test packages that inserted `easycirq/scripts` at `sys.path[0]` now
    append it; C's test support loads its implementation package explicitly. This
    removes the cross-package `ModuleNotFoundError` chain produced when several
    parallel test packages coexist (integrated run went from 33 import errors to 0).
@@ -53,7 +53,7 @@ adapter from any producer to any consumer; see
    input directory that git cannot store (case 27 now passes in a clean checkout).
 4. `benchmarks/bringup-planner/.gitattributes`: pin LF so the frozen SHA-256 baseline
    reproduces on Windows and Linux; working-tree files renormalized.
-5. `design-hardware/scripts/procurement_planner/README.md`: repository-only links no
+5. `easycirq/scripts/procurement_planner/README.md`: repository-only links no
    longer escape the installable Skill root (found by D's scanner).
 6. Documentation path updates for the renamed test directories + a short integration
    note appended to G's and I's own handoffs (their historical statements remain,
@@ -122,5 +122,5 @@ adapter from any producer to any consumer; see
    port/fact mapping), J→module check selection (needs a command/rule id map), then
    G/K→A (needs A merged plus a plan adapter with re-audit).
 5. Before a release: run the full CI matrix on the exact candidate, `tools/offline_suite.py`,
-   `design-hardware/scripts/skill_selftest.py`, the distribution build and an install
+   `easycirq/scripts/skill_selftest.py`, the distribution build and an install
    smoke test on a clean machine, and record the python 3.10 runtime result.

@@ -9,7 +9,7 @@ with this test directory so discovery can still import
 
 Important: this module must not mutate ``sys.path``.  The repository test suite
 discovers several task packages whose top-level names also exist under
-``design-hardware/scripts``; inserting that directory at ``sys.path[0]`` while a
+``easycirq/scripts``; inserting that directory at ``sys.path[0]`` while a
 package is imported makes later test packages resolve to their implementations
 instead of their test directories (import-time ``ModuleNotFoundError``).  See
 ``docs/parallel-annotation-layout/handoff-current.md``.
@@ -21,7 +21,7 @@ import sys
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-SCRIPTS = HERE.parents[1] / "design-hardware" / "scripts"
+SCRIPTS = HERE.parents[1] / "easycirq" / "scripts"
 IMPLEMENTATION = SCRIPTS / "annotation_layout"
 
 

@@ -41,7 +41,7 @@
 
 ### 2.1 新增
 
-- `design-hardware/references/engineering-deepdives/`：
+- `easycirq/references/engineering-deepdives/`：
   - `README.md`：按症状/器件/阶段导航；与设计卡、故障库、组合契约、测量、热专题的分工。
   - `sources.md`：D-S 来源 + 25 个 OSHW 项目/许可/提交/查阅范围台账。
   - `action-map.md`：24 条“触发→读取→动作→预期证据→失败后继续”。
@@ -164,5 +164,5 @@
 
 - 分支：`feat/engineering-deepdives`
 - 提交：`4dace97372a419b5fe1a9fa1a96f2a5d02560a3b`（本报告随该提交；后续仅文档更新会追加提交）
-- PR：https://github.com/zsx3896926/hardware-design-skill/pull/3
+- PR：https://github.com/zsx3896926/EasyCirq/pull/3
 - CI：`validate` 通过（108 个 unittest，2 次检查均 pass）

@@ -4,7 +4,7 @@
 
 - 评审基线：`origin/main` `066a74b`（PR #22 后，0.9.2）。
 - 分支：`feat/offline-toolchain-round11`；worktree `C:/Users/jlc/work/hds-offline-r11`。
-- 代码提交：`6bbc761`；最终候选：`8c7f318`（合并 576bc0e）（含 PR #23 check-role 修复与 PR #25 强校验/负例资产）；PR #24 https://github.com/zsx3896926/hardware-design-skill/pull/24
+- 代码提交：`6bbc761`；最终候选：`8c7f318`（合并 576bc0e）（含 PR #23 check-role 修复与 PR #25 强校验/负例资产）；PR #24 https://github.com/zsx3896926/EasyCirq/pull/24
 - **真实 EDA 调用：0 次**。未启动/连接 EasyEDA，未调用 `easyeda`（含 health/help/read/export），未访问本机服务/WebSocket/连接器，未修改工程或已安装执行器。
 
 ## 2. 已复现并修复的缺陷
@@ -57,7 +57,7 @@
 - 基线段：`python -m unittest discover -s tests` → **1121 tests OK**（改动前）。
 - 最终全量：**1257 tests OK**。
 - `python tools/offline_suite.py`：**1257 tests OK**；导入扫描 72 modules，0 blocked / 0 error / 0 system_exit。
-- `python design-hardware/scripts/skill_selftest.py`：**5 PASS / 0 FAIL / 0 NOT RUN**。
+- `python easycirq/scripts/skill_selftest.py`：**5 PASS / 0 FAIL / 0 NOT RUN**。
 - 基准：**9/9 pass**（`benchmarks/offline-round11/result.json`，`--runs 3`）：
 
 | 用例 | min (s) | median (s) | 输入字节 |
@@ -92,7 +92,7 @@
 ## 9. PR
 
 - 分支：`feat/offline-toolchain-round11`
-- PR：https://github.com/zsx3896926/hardware-design-skill/pull/24（#24）
+- PR：https://github.com/zsx3896926/EasyCirq/pull/24（#24）
 - 代码提交：`6bbc761`；PR head 随文档提交前进；未合并、未发 Release、未替换已安装 Skill
 
 

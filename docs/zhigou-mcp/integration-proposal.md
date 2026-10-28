@@ -12,12 +12,12 @@ Under the offline-review section, add:
 
 ```markdown
 涉及离线审查（电气意图、回流/参考平面、交付包）时，可走本仓库的 MCP 工具服务器：
-`python -m zhigou_mcp`（需 PYTHONPATH=design-hardware/scripts）。它只读、离线，
+`python -m zhigou_mcp`（需 PYTHONPATH=easycirq/scripts）。它只读、离线，
 不调用 EDA；`pass_with_scope` 仅覆盖声明输入，unknown/review_required 需人工处置。
 不要把本服务器与官方 `lceda-pro --mcp`（真实 EDA 执行）混为一谈。
 ```
 
-Add to [references/offline-tools.md](../../design-hardware/references/offline-tools.md)
+Add to [references/offline-tools.md](../../easycirq/references/offline-tools.md)
 or a new `references/offline-audit-mcp.md`:
 
 * tool list and the `detail=summary|full` convention;

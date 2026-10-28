@@ -6,7 +6,7 @@
 
 用户负责说想实现什么，Agent 负责推荐方案、查资料、选型核算、连接已配置的 EDA 工具、实际绘图和检查。本 Skill 是 Agent 的方法包，本身不是独立应用，也不会自动获得你电脑、设备或商家账户的控制权限。
 
-**Skill 名称：** `design-hardware` · **许可：** MIT · **主要语言：** 中文
+**Skill 名称：** `easycirq` · **许可：** MIT · **主要语言：** 中文
 
 > 这是一套 Agent Skill，不是 EDA 软件或自动布线器。操作真实编辑器还需要已配置的 EDA 执行工具；可使用官方 `lceda-pro` CLI（本仓库提供受控适配器 `scripts/eda_exec.py`），或使用 [easyeda-agent](https://github.com/zhoushoujianwork/easyeda-agent) 等执行 Skill。本项目独立维护，不代表嘉立创或其他工具厂商。程序与实物任务仍需匹配工具链、设备、制造与测试条件。
 
@@ -27,7 +27,7 @@
 
 **局部任务照常：** 只review、只画图、先方案或改PCB时不强行扩展为完整产品开发。现成模块能更快验证用途时可提出路线，但用户明确要定制板时保留定制交付。
 
-详见 [想法到实物](../design-hardware/references/idea-to-product.md)、[程序与联调](../design-hardware/references/firmware-bringup.md) 和 [功能验收](../design-hardware/references/product-acceptance.md)。
+详见 [想法到实物](../easycirq/references/idea-to-product.md)、[程序与联调](../easycirq/references/firmware-bringup.md) 和 [功能验收](../easycirq/references/product-acceptance.md)。
 
 ## 可以做什么
 
@@ -50,13 +50,13 @@
 
 | 内容 | 条目 | 典型细节 |
 |---|---:|---|
-| [原理图](../design-hardware/references/schematic-details.md) | 45 | 库脚映射、上电/掉电反灌、启动默认态、接口角色、NC与装配变体 |
-| [PCB布局](../design-hardware/references/pcb-placement-details.md) | 32 | 插拔/壳体、去耦回路、采样位置、开关节点、传感器与天线 |
-| [布线与铺铜](../design-hardware/references/pcb-routing-details.md) | 35 | 完整载流路径、Kelvin、参考层/回流、差分/过孔、铜区重算 |
-| [制造与首板](../design-hardware/references/manufacturing-details.md) | 30 | 封装/孔/阻焊/钢网、坐标旋转、同版制造包、首板供电与测试 |
-| [12类领域易漏项](../design-hardware/references/domain-design-details.md) | 48 | 主控/高速、电源/电池、驱动/采集、工业/USB、无线/音视频、照明与特殊工艺 |
+| [原理图](../easycirq/references/schematic-details.md) | 45 | 库脚映射、上电/掉电反灌、启动默认态、接口角色、NC与装配变体 |
+| [PCB布局](../easycirq/references/pcb-placement-details.md) | 32 | 插拔/壳体、去耦回路、采样位置、开关节点、传感器与天线 |
+| [布线与铺铜](../easycirq/references/pcb-routing-details.md) | 35 | 完整载流路径、Kelvin、参考层/回流、差分/过孔、铜区重算 |
+| [制造与首板](../easycirq/references/manufacturing-details.md) | 30 | 封装/孔/阻焊/钢网、坐标旋转、同版制造包、首板供电与测试 |
+| [12类领域易漏项](../easycirq/references/domain-design-details.md) | 48 | 主控/高速、电源/电池、驱动/采集、工业/USB、无线/音视频、照明与特殊工艺 |
 
-[经验与来源记录](../design-hardware/references/design-experience.md)区分实际看过的图纸、作者修订记录、官方指南与仅入口资料，注明适用条件和未读取范围。结合SparkFun、Arduino、ODrive、Crazyflie、Raspberry Pi、立创开发板等资料，按具体器件与工艺重新核对；不是照抄整板，也没有遍历所有开源作品。
+[经验与来源记录](../easycirq/references/design-experience.md)区分实际看过的图纸、作者修订记录、官方指南与仅入口资料，注明适用条件和未读取范围。结合SparkFun、Arduino、ODrive、Crazyflie、Raspberry Pi、立创开发板等资料，按具体器件与工艺重新核对；不是照抄整板，也没有遍历所有开源作品。
 
 条目不是190条固定参数或认证规则：Agent按任务选择，落实设计与工具约束并回读/复验。经验继续积累到工程记录；经授权、脱敏和核对后再沉淀到共享Skill，不自动公开客户工程。不用经验数量代替真实工程和实物验收。
 
@@ -66,31 +66,31 @@
 
 | 内容 | 规模 | 入口 | 用来决定什么 |
 |---|---:|---|---|
-| 可复用电路设计卡 | 60张 | [设计卡库](../design-hardware/references/design-cards/README.md) | LDO/Buck/Boost/充电/保护、MCU最小系统、I²C/SPI/RS-485/CAN/USB/以太网、分压/运放/ADC/基准/电流采样/4-20mA、低侧/高侧/继电器/半桥/H桥/LED/加热、Wi-Fi/天线/显示/音频/Flash/SD |
-| 原理图与PCB局部范例 | 12组 | [范例库](../design-hardware/references/examples/README.md) | 模块内部怎么摆、哪些保留局部短线、哪些用标签、关键回路/回流/常见错误 |
-| 模块组合与接口契约 | 1份 + 12个组合失败案例 | [组合与接口契约](../design-hardware/references/module-integration.md) | 两个模块单独正常、组合后为什么失效 |
-| 器件选型与替代 | 4类器件表 + 4级替代分类 | [选型资料](../design-hardware/references/selection/README.md) | 必看参数、推荐/绝对最大、典型/保证值、封装热装配、商城检索与替代判定 |
-| 故障与反例库 | 33个分级案例（含构造案例） | [故障库](../design-hardware/references/failures/README.md) | 现象→工况→假设→区分检查→根因证据→修复→复验→边界 |
-| 带条件计算手册 | 4份 + 5个新脚本模式 | [计算手册](../design-hardware/references/calculations/README.md) | 电源预算/瞬态/热、电感、MOS、ADC建立、运放、电流采样、续航、载流/压降、传输线条件 |
-| 仿真与测量 | 1份 + 1个可执行数值仿真 | [仿真与测量](../design-hardware/references/simulation-measurement.md) | 模型/激励/观察量/通过标准、测点/探头/带宽/停止条件 |
-| 制造与交付路线 | 3条 | [制造与交付路线](../design-hardware/references/manufacturing-routes.md) | 商城购料自焊、嘉立创PCB+SMT、板+固件/结构+整机验收 |
-| 完整项目样本 | 4个 | [项目样本](../design-hardware/references/projects/README.md) | 需求/验收、架构、选型、计算、连接基线、布局草案、BOM、固件、首板测试；P04 有真实EDA原理图证据 |
-| 真实EDA执行与回读 | 1个适配器 + 2份证据 | [EDA执行](../design-hardware/references/eda-execution.md) | 工具存在/连通/工程可读/可写分层诊断；器件/属性/导线/端口/保存/导出/重开；PCB未实现 |
-| 原理图排版基准 | 8类 | [排版基准](../design-hardware/references/schematic-benchmarks.md) | 故意有缺陷的离线几何快照、预期候选、真实导图检查方法；不是8张真机图 |
-| 任务场景与反例 | 47个（含12个指定反例） | [任务场景](../design-hardware/references/task-scenarios.md) | 新手/工程师、从零/改板/换料/整理/排障的可检查路径 |
-| 工程设计决策库 | 12份参考+13个案例+14个模板+6个检查脚本 | [设计决策库](../design-hardware/references/decisions/README.md) | 架构为何值得、资源冲突、状态转换、接口逐条、容差角点、线束/变体、校准/变更/复用/资产有效性 |
+| 可复用电路设计卡 | 60张 | [设计卡库](../easycirq/references/design-cards/README.md) | LDO/Buck/Boost/充电/保护、MCU最小系统、I²C/SPI/RS-485/CAN/USB/以太网、分压/运放/ADC/基准/电流采样/4-20mA、低侧/高侧/继电器/半桥/H桥/LED/加热、Wi-Fi/天线/显示/音频/Flash/SD |
+| 原理图与PCB局部范例 | 12组 | [范例库](../easycirq/references/examples/README.md) | 模块内部怎么摆、哪些保留局部短线、哪些用标签、关键回路/回流/常见错误 |
+| 模块组合与接口契约 | 1份 + 12个组合失败案例 | [组合与接口契约](../easycirq/references/module-integration.md) | 两个模块单独正常、组合后为什么失效 |
+| 器件选型与替代 | 4类器件表 + 4级替代分类 | [选型资料](../easycirq/references/selection/README.md) | 必看参数、推荐/绝对最大、典型/保证值、封装热装配、商城检索与替代判定 |
+| 故障与反例库 | 33个分级案例（含构造案例） | [故障库](../easycirq/references/failures/README.md) | 现象→工况→假设→区分检查→根因证据→修复→复验→边界 |
+| 带条件计算手册 | 4份 + 5个新脚本模式 | [计算手册](../easycirq/references/calculations/README.md) | 电源预算/瞬态/热、电感、MOS、ADC建立、运放、电流采样、续航、载流/压降、传输线条件 |
+| 仿真与测量 | 1份 + 1个可执行数值仿真 | [仿真与测量](../easycirq/references/simulation-measurement.md) | 模型/激励/观察量/通过标准、测点/探头/带宽/停止条件 |
+| 制造与交付路线 | 3条 | [制造与交付路线](../easycirq/references/manufacturing-routes.md) | 商城购料自焊、嘉立创PCB+SMT、板+固件/结构+整机验收 |
+| 完整项目样本 | 4个 | [项目样本](../easycirq/references/projects/README.md) | 需求/验收、架构、选型、计算、连接基线、布局草案、BOM、固件、首板测试；P04 有真实EDA原理图证据 |
+| 真实EDA执行与回读 | 1个适配器 + 2份证据 | [EDA执行](../easycirq/references/eda-execution.md) | 工具存在/连通/工程可读/可写分层诊断；器件/属性/导线/端口/保存/导出/重开；PCB未实现 |
+| 原理图排版基准 | 8类 | [排版基准](../easycirq/references/schematic-benchmarks.md) | 故意有缺陷的离线几何快照、预期候选、真实导图检查方法；不是8张真机图 |
+| 任务场景与反例 | 47个（含12个指定反例） | [任务场景](../easycirq/references/task-scenarios.md) | 新手/工程师、从零/改板/换料/整理/排障的可检查路径 |
+| 工程设计决策库 | 12份参考+13个案例+14个模板+6个检查脚本 | [设计决策库](../easycirq/references/decisions/README.md) | 架构为何值得、资源冲突、状态转换、接口逐条、容差角点、线束/变体、校准/变更/复用/资产有效性 |
 
 **内容库的边界：**
 
 - 设计卡用 `E1/E2/E3` 标注证据等级；`E2/E3` 的具体阻容、脚号、层数和线宽必须按当前型号手册重新核对。卡片数量、场景数量和脚本退出码都不等于真实工程验证。
 - 故障案例区分作者已证实、原厂/可复现资料、工程推断和未证实；论坛回复不会被写成定论。
-- 2026-10-20 尝试访问立创商城商品页/搜索页时返回 404/系统异常，因此新增内容不编造 C 号、价格、库存、MOQ、包装、生命周期或 SMT 可贴状态；这些字段一律 `待查`，按 [选型资料](../design-hardware/references/selection/lcsc-verification.md) 的方法实时核对。
+- 2026-10-20 尝试访问立创商城商品页/搜索页时返回 404/系统异常，因此新增内容不编造 C 号、价格、库存、MOQ、包装、生命周期或 SMT 可贴状态；这些字段一律 `待查`，按 [选型资料](../easycirq/references/selection/lcsc-verification.md) 的方法实时核对。
 - 2026-10-21/22 已在本机嘉立创EDA专业版 4.1.78 上完成真实原理图读写/回读/保存/重开/导图/网表（半离线会话）；F1 有真实 EDA 原理图证据。仍未完成 PCB、DRC/ERC、制造、烧录或样机实测；没有 SPICE 仿真。可执行仿真只有 `scripts/rc_settle_sim.py`（自研二阶 RC 数值模型，不是 SPICE）；`assets/simulation/rc_sample.cir` 是标注 `NOT RUN` 的 SPICE 计划。
 - 新增内容已接入结构、链接、计算、场景和反例测试；测试通过只证明这些自动化检查通过，不证明硬件设计已验证。
 
 ## 板级热设计与合并复核
 
-新增 [热设计专题](../design-hardware/references/thermal/topic.md)、[11组热算例](../design-hardware/references/thermal/cases.md) 与离线热计算器，覆盖功耗、热指标、稳态/瞬态、PCB/外壳及测量。专题已纳入Skill安装目录与CI，来源编号仅在专题内有效。
+新增 [热设计专题](../easycirq/references/thermal/topic.md)、[11组热算例](../easycirq/references/thermal/cases.md) 与离线热计算器，覆盖功耗、热指标、稳态/瞬态、PCB/外壳及测量。专题已纳入Skill安装目录与CI，来源编号仅在专题内有效。
 
 本次合并同时修正了原扩充稿中电气接线、保护阈值、热模型、采样建立与计算边界问题，具体范围见 [合并复核记录](../docs/merge-review.md)。场景文件的自动检查只验证目录/路由及部分确定性计算，不等于47个Agent任务已真实执行，更不等于EDA或样机验收。
 
@@ -98,16 +98,16 @@
 
 设计阶段就按实际生产路线核对厂规，保留原有选型、商城配单和原理图/PCB能力：
 
-- [生产规则流程](../design-hardware/references/jlc-production.md)：Agent维护工艺档案，记录官方条件、项目设计值和实际检查结果；不让新手填工艺表。
-- [PCB规则](../design-hardware/references/jlc-pcb-rules.md)：按层数/铜厚/材料核对线宽间距、孔/环宽/填孔、阻焊、板边/槽、叠层阻抗和特殊工艺。
-- [SMT规则](../design-hardware/references/jlc-smt-rules.md)：按当前服务核对工艺边、Mark、拼板、装配间隔、回流/清洗、来料以及同版BOM/坐标和厂方DFM意见。
+- [生产规则流程](../easycirq/references/jlc-production.md)：Agent维护工艺档案，记录官方条件、项目设计值和实际检查结果；不让新手填工艺表。
+- [PCB规则](../easycirq/references/jlc-pcb-rules.md)：按层数/铜厚/材料核对线宽间距、孔/环宽/填孔、阻焊、板边/槽、叠层阻抗和特殊工艺。
+- [SMT规则](../easycirq/references/jlc-smt-rules.md)：按当前服务核对工艺边、Mark、拼板、装配间隔、回流/清洗、来料以及同版BOM/坐标和厂方DFM意见。
 - 实际执行器支持的约束写入EDA后回读；工具不能覆盖的条件单独复核。改工艺/服务时重查受影响项，保留更严格的有效规则。
 
 2026-10-20已读取官方工艺表及相关专题；少量条件数值作为查询快照，生产前重查实际订单。旧新页面冲突、不同服务和FPC条件分开处理，不以能力极限当默认设计值。此能力是Skill工作流接入，未新增板厂/SMT API，也未对任何实际用户板完成厂方签核或下单。
 
 ## 原理图与 PCB 机制卡
 
-保留以前全部能力与190条检查，新增按需读取的 [原理图机制卡](../design-hardware/references/schematic-lessons.md) 和 [PCB机制卡](../design-hardware/references/pcb-lessons.md)：按“适用条件与原因、设计动作、怎么查”解释热插拔过冲、整板低功耗、ADC分压、Type-C取电、I2C等效上拉、去耦回路、USB触点汇合、散热焊盘、载流和同版制造包等问题。
+保留以前全部能力与190条检查，新增按需读取的 [原理图机制卡](../easycirq/references/schematic-lessons.md) 和 [PCB机制卡](../easycirq/references/pcb-lessons.md)：按“适用条件与原因、设计动作、怎么查”解释热插拔过冲、整板低功耗、ADC分压、Type-C取电、I2C等效上拉、去耦回路、USB触点汇合、散热焊盘、载流和同版制造包等问题。
 
 Agent在模块写入前选择适用项，写入后回读，交付前复核；新手无须理解或逐项批准内部检查。机制卡展开已有检查并补充易漏原因，不重复累计条数。固定阻值/间距、全系列统一启动电路、所有散热片接地等建议改为依据具体器件与工况；未合入的旧脚本不因新文档引用而成为可用能力。
 
@@ -115,11 +115,11 @@ Agent在模块写入前选择适用项，写入后回读，交付前复核；新
 
 以下内容与本 Skill 一同维护，按当前工程边界组织：
 
-- [8种起步方案](../design-hardware/references/starter-patterns.md)：灯/指示器、温湿度、开发板、电池电源、低压开关、USB键盘、RS485采集和电机小车；提供功能骨架，不照抄固定芯片/阻容值。
-- [外壳协同](../design-hardware/references/enclosure-integration.md)：板框、孔、接口、插拔空间、天线/传感器、材料与加工文件一起核对。
-- [项目关联记录](../design-hardware/references/project-coherence.md)：图纸、BOM、实际物理脚/GPIO、固件、外壳、制造和测试对应；沿用现有格式，不强制新手维护JSON。
-- [分层排障](../design-hardware/references/troubleshooting.md)：从实际日志定位连接、图面、电气、制造、烧录与实物问题，不见到相似网名就自动合并。
-- [完整案例演练](../design-hardware/references/product-example.md)：从花盆缺水提醒目标推进至实物验收，修正了两节AA经LDO维持3.3V、拔出探头代替真实土壤校准等不可靠做法。
+- [8种起步方案](../easycirq/references/starter-patterns.md)：灯/指示器、温湿度、开发板、电池电源、低压开关、USB键盘、RS485采集和电机小车；提供功能骨架，不照抄固定芯片/阻容值。
+- [外壳协同](../easycirq/references/enclosure-integration.md)：板框、孔、接口、插拔空间、天线/传感器、材料与加工文件一起核对。
+- [项目关联记录](../easycirq/references/project-coherence.md)：图纸、BOM、实际物理脚/GPIO、固件、外壳、制造和测试对应；沿用现有格式，不强制新手维护JSON。
+- [分层排障](../easycirq/references/troubleshooting.md)：从实际日志定位连接、图面、电气、制造、烧录与实物问题，不见到相似网名就自动合并。
+- [完整案例演练](../easycirq/references/product-example.md)：从花盆缺水提醒目标推进至实物验收，修正了两节AA经LDO维持3.3V、拔出探头代替真实土壤校准等不可靠做法。
 - 两个重新实现的可选离线辅助：电池侧状态续航估算，以及带文本边界/覆盖范围的原理图几何检查。Agent准备输入，不是每次画板的强制步骤。
 
 ## 没用过 EDA？这样开始
@@ -127,7 +127,7 @@ Agent在模块写入前选择适用项，写入后回读，交付前复核；新
 首次需要在支持本机工具的 Agent 中安装本 Skill，并接通 EDA 执行工具。你可以先对 Agent 说：
 
 ```text
-我没用过EDA，请使用 design-hardware 带我做。
+我没用过EDA，请使用 easycirq 带我做。
 先检查我电脑还缺什么；你能做的自己做，需要我操作时一次告诉我一步。
 我想做一个花盆土干了能给手机发提醒的小东西。
 ```
@@ -143,7 +143,7 @@ Agent 会先讲清楚推荐路线，只问影响方案的关键问题，比如�
 已有经验的工程师可以直接说：
 
 ```text
-请使用 design-hardware，读取当前工程，将这一路传感器改为4-20mA输入。
+请使用 easycirq，读取当前工程，将这一路传感器改为4-20mA输入。
 保留接口和板框，完成原理图与PCB修改，检查后保存并列出待测项，不用讲入门。
 ```
 
@@ -168,7 +168,7 @@ Agent会按实际任务处理：
 
 不把旧库存/搜索缓存当实时保证，不编造C号或商品链接，不承诺固定优惠或交期。缺报价不填0；尚未登录、上传或下单会如实报告。需要面板/外壳等其他服务时再按真实需求衔接。
 
-业务依据与边界见 [立创商城配单](../design-hardware/references/lcsc-sourcing.md)、[嘉立创实物交付](../design-hardware/references/jlc-handoff.md) 和 [官方来源](../design-hardware/references/sources.md)。本仓库提供Agent流程，不内置商城/SMT账户连接或未公开采购API。
+业务依据与边界见 [立创商城配单](../easycirq/references/lcsc-sourcing.md)、[嘉立创实物交付](../easycirq/references/jlc-handoff.md) 和 [官方来源](../easycirq/references/sources.md)。本仓库提供Agent流程，不内置商城/SMT账户连接或未公开采购API。
 
 ## 协作方式
 
@@ -181,33 +181,33 @@ Agent会按实际任务处理：
 以下供 Agent 或需要自行配置的用户参考。Agent 应先检查已有什么，不要让用户重复安装。具体客户端版本和包格式以当前界面为准。
 
 
-点击本页面 **Code → Download ZIP**，解压后找到 `design-hardware` 目录。复制时保留整个目录，不要只复制 `SKILL.md`。
+点击本页面 **Code → Download ZIP**，解压后找到 `easycirq` 目录。复制时保留整个目录，不要只复制 `SKILL.md`。
 
 也可以使用 Git：
 
 ```bash
-git clone https://github.com/zsx3896926/hardware-design-skill.git
+git clone https://github.com/zsx3896926/EasyCirq.git
 ```
 
 ### Claude Code
 
-将 `design-hardware` 整个目录复制到用户技能目录：
+将 `easycirq` 整个目录复制到用户技能目录：
 
-- Windows：`%USERPROFILE%\.claude\skills\design-hardware`
-- macOS / Linux：`~/.claude/skills/design-hardware`
+- Windows：`%USERPROFILE%\.claude\skills\easycirq`
+- macOS / Linux：`~/.claude/skills/easycirq`
 
-重新加载客户端，在对话中明确要求使用 `design-hardware`。配置了自定义用户目录时，以客户端实际配置为准。
+重新加载客户端，在对话中明确要求使用 `easycirq`。配置了自定义用户目录时，以客户端实际配置为准。
 
 ### Codex
 
-将 `design-hardware` 复制到 `~/.codex/skills/`。使用其他技能发现目录或自定义配置时，以客户端实际文档为准。重新加载客户端，使用 `$design-hardware` 调用。
+将 `easycirq` 复制到 `~/.codex/skills/`。使用其他技能发现目录或自定义配置时，以客户端实际文档为准。重新加载客户端，使用 `$easycirq` 调用。
 
 ### WorkBuddy
 
-在技能页面使用“添加技能 / 上传技能”导入本地技能包并启用。用本仓库的 `design-hardware` 目录制作当前客户端要求的本地包，保留 `SKILL.md` 和相对引用目录；包格式与入口层级以当前导入界面要求为准。
+在技能页面使用“添加技能 / 上传技能”导入本地技能包并启用。用本仓库的 `easycirq` 目录制作当前客户端要求的本地包，保留 `SKILL.md` 和相对引用目录；包格式与入口层级以当前导入界面要求为准。
 
 ```text
-请使用 design-hardware，先检查能否读取当前工程、执行本机命令，
+请使用 easycirq，先检查能否读取当前工程、执行本机命令，
 以及通过 easyeda-agent 连接嘉立创 EDA。先报告连接状态，再执行设计任务。
 ```
 
@@ -220,16 +220,16 @@ WorkBuddy 是支持 Skill 与本机执行能力的候选宿主；**尚未完成�
 需要嘉立创EDA专业版及官方 CLI。先诊断，不要直接写工程：
 
 ```bash
-python design-hardware/scripts/eda_exec.py doctor
-python design-hardware/scripts/eda_exec.py doctor --project /path/to/authorized-copy.eprj2
-python design-hardware/scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo --page-name P1
-python design-hardware/scripts/eda_exec.py apply --project /path/to/copy.eprj2 --plan plan.json --dry-run
-python design-hardware/scripts/eda_exec.py apply --project /path/to/copy.eprj2 --plan plan.json --save
-python design-hardware/scripts/eda_exec.py export --session <id> --kind png --output page.png --width 1600
-python design-hardware/scripts/eda_exec.py reopen-check --project /path/to/copy.eprj2 --snapshot snapshot.json
+python easycirq/scripts/eda_exec.py doctor
+python easycirq/scripts/eda_exec.py doctor --project /path/to/authorized-copy.eprj2
+python easycirq/scripts/eda_exec.py read --project /path/to/copy.eprj2 --schematic Demo --page-name P1
+python easycirq/scripts/eda_exec.py apply --project /path/to/copy.eprj2 --plan plan.json --dry-run
+python easycirq/scripts/eda_exec.py apply --project /path/to/copy.eprj2 --plan plan.json --save
+python easycirq/scripts/eda_exec.py export --session <id> --kind png --output page.png --width 1600
+python easycirq/scripts/eda_exec.py reopen-check --project /path/to/copy.eprj2 --snapshot snapshot.json
 ```
 
-它只发送本文件定义的受控动作（器件/位号/导线/电源标记/网络端口），不执行用户JS、不下单、不访问网络。`doctor` 只诊断；`apply --dry-run` 只对账；有冲突默认不写；`save` 只在逐项回读通过后发生；`reopen-check` 验证持久化。详细契约与能力矩阵见 [EDA执行](../design-hardware/references/eda-execution.md)。
+它只发送本文件定义的受控动作（器件/位号/导线/电源标记/网络端口），不执行用户JS、不下单、不访问网络。`doctor` 只诊断；`apply --dry-run` 只对账；有冲突默认不写；`save` 只在逐项回读通过后发生；`reopen-check` 验证持久化。详细契约与能力矩阵见 [EDA执行](../easycirq/references/eda-execution.md)。
 
 **路线二：easyeda-agent 等执行 Skill**
 
@@ -239,7 +239,7 @@ python design-hardware/scripts/eda_exec.py reopen-check --project /path/to/copy.
 easyeda health
 ```
 
-两套 Skill 配合：`design-hardware` 负责工程方法、设计意图和验收；执行器负责按当前协议执行 EDA 动作。不要用本技能覆盖其原有 Skill。两条路线都以实际回读、保存和重开为准，不以“命令返回成功”代替设计正确。
+两套 Skill 配合：`easycirq` 负责工程方法、设计意图和验收；执行器负责按当前协议执行 EDA 动作。不要用本技能覆盖其原有 Skill。两条路线都以实际回读、保存和重开为准，不以“命令返回成功”代替设计正确。
 
 ## 真实 EDA 执行闭环（2026-10-21/22）
 
@@ -247,7 +247,7 @@ easyeda health
 
 - **执行闭环**：读取工程 → 计划对账 → 创建器件/电源标记/网络端口/导线 → 逐项回读 → 保存 → 关闭重开比对 → 导出 PNG/Protel 网表。证据：[执行闭环](../docs/evidence/eda-2026-10-21/README.md)。
 - **F1 原理图**：rev3 共 21 个真实库器件、5V/3V3/GND、USB-C CC、EN/RST/IO0、TXD/RXD、LED；重排后网表与 golden `f1-rev3b.net` 逐字节一致，save true、reopen match。证据：[F1 rev3](../docs/evidence/f1-b-2026-10-22/README.md)。
-- **实测到的执行器边界**：`openDocument` 不保证激活，导出跟随活动文档；错误激活会导出旧页/工程级网表；创建后修改位号有异步延迟；同网多段线会被编辑器合并/重排；跨页位号必须唯一。这些已写入 [EDA执行](../design-hardware/references/eda-execution.md) 和代码注释。
+- **实测到的执行器边界**：`openDocument` 不保证激活，导出跟随活动文档；错误激活会导出旧页/工程级网表；创建后修改位号有异步延迟；同网多段线会被编辑器合并/重排；跨页位号必须唯一。这些已写入 [EDA执行](../easycirq/references/eda-execution.md) 和代码注释。
 - **当时未做**：全在线GUI复验、F1 实际 PCB、DRC/ERC、制造DFM/Gerber/BOM/坐标、商城实时库存/价格、打样/SMT、烧录、样机功能/热/EMC/安规。F1 图面当时仍拥挤；后续 round7 已补 temp-alarm 的 PCB 设计层，制造/实物仍未完成。
 
 ## 常用需求
@@ -268,7 +268,7 @@ Agent 应读取可用信息，必要时索取产品型号/链接/铭牌等可观
 **从零画原理图**
 
 ```text
-使用 design-hardware 和 easyeda-agent，画一块 ESP32 控制板的原理图。
+使用 easycirq 和 easyeda-agent，画一块 ESP32 控制板的原理图。
 USB 5V供电，需要一路I2C传感器、下载调试接口和LED。
 核对供电、启动与引脚，再实际绘制并检查保存。本次只做原理图。
 ```
@@ -276,7 +276,7 @@ USB 5V供电，需要一路I2C传感器、下载调试接口和LED。
 **沿用既有 PCB**
 
 ```text
-使用 design-hardware，优化当前PCB布局布线。
+使用 easycirq，优化当前PCB布局布线。
 保留板框、安装孔、连接器位置和锁定器件，优先解决电源回路、回流和丝印问题。
 完成后报告实际未布线、DRC与未覆盖项，不要无目的整体重排。
 ```
@@ -284,18 +284,18 @@ USB 5V供电，需要一路I2C传感器、下载调试接口和LED。
 **整理画得太乱的原理图**
 
 ```text
-使用 design-hardware 和 easyeda-agent，整理当前原理图，让电路连接图容易读。
+使用 easycirq 和 easyeda-agent，整理当前原理图，让电路连接图容易读。
 保持所有器件、脚号、数值、网络、NC和PCB绑定不变。
 按功能分区，减少跨区长线，保留局部电路，整理文字和标题。
 整理前后核对连接，导出实际整页和局部图检查，修复遮挡、歧义和越界后保存。
 ```
 
-排版方法参考实际查看的SparkFun ESP32系列与Arduino UNO原理图，详见 [排版与看图验收](../design-hardware/references/schematic-layout.md)。这些是Agent的执行与验收要求，不能替代绘图工具能力，也不代表已修改easyeda-agent的自动布局算法。
+排版方法参考实际查看的SparkFun ESP32系列与Arduino UNO原理图，详见 [排版与看图验收](../easycirq/references/schematic-layout.md)。这些是Agent的执行与验收要求，不能替代绘图工具能力，也不代表已修改easyeda-agent的自动布局算法。
 
 **只检查**
 
 ```text
-使用 design-hardware 检查当前原理图与PCB。
+使用 easycirq 检查当前原理图与PCB。
 按已证实缺陷、条件性风险、待实测和优化建议分别报告，附位置、证据和处理建议。
 先不要修改工程。
 ```
@@ -303,7 +303,7 @@ USB 5V供电，需要一路I2C传感器、下载调试接口和LED。
 ## 内容结构
 
 ```text
-design-hardware/
+easycirq/
   SKILL.md                    主入口与工程师交互方式
   agents/openai.yaml          客户端展示信息
   references/                 按任务读取的工程工作流与专业参考
@@ -338,24 +338,24 @@ design-hardware/
 计算工具支持 LED 限流、无负载分压、I2C 上拉范围、LDO 压差/功耗初算，以及 Buck/Boost CCM 功率级、SAR ADC 建立、电流采样误差预算和 PCB 铜线载流压降。输入全部用 SI 单位，不访问网络、不写工程、不调用 EDA。运行以下命令查看输入字段：
 
 ```bash
-python design-hardware/scripts/calculate.py --help
+python easycirq/scripts/calculate.py --help
 ```
 
 计算工具是可选辅助，不是绘图的强制前置。其简化模型不能代替稳定性、热、EMC、信号完整性或板级验证。
 
-离线连接表工具按完整物理引脚ID集合核对连接与NC、重复位号、显式上拉要求和装配状态；单脚网络/相似名称只提示核查，不自动合并或改线。输入格式及边界见 [连接表契约](../design-hardware/references/connectivity.md)。
+离线连接表工具按完整物理引脚ID集合核对连接与NC、重复位号、显式上拉要求和装配状态；单脚网络/相似名称只提示核查，不自动合并或改线。输入格式及边界见 [连接表契约](../easycirq/references/connectivity.md)。
 
 ```bash
-python design-hardware/scripts/netlist_check.py design-hardware/assets/example-connectivity.json --json
+python easycirq/scripts/netlist_check.py easycirq/assets/example-connectivity.json --json
 ```
 
 示例使用虚构器件，不能拿来画真实电路。退出0仅表示输入中未发现结构阻断，缺失引脚表会单列覆盖不足；该工具不证明电源地无短路、去耦充分、额定满足或真实EDA连通。
 
-续航与图面辅助的字段、单位和覆盖范围见 [离线工具契约](../design-hardware/references/offline-tools.md)。以下是虚构算例，不表示硬件参数或电路已经验证：
+续航与图面辅助的字段、单位和覆盖范围见 [离线工具契约](../easycirq/references/offline-tools.md)。以下是虚构算例，不表示硬件参数或电路已经验证：
 
 ```bash
-python design-hardware/scripts/power_budget.py design-hardware/assets/example-power-budget.json
-python design-hardware/scripts/sch_layout_check.py design-hardware/assets/example-layout.json
+python easycirq/scripts/power_budget.py easycirq/assets/example-power-budget.json
+python easycirq/scripts/sch_layout_check.py easycirq/assets/example-layout.json
 ```
 
 续航不默认可用容量折扣，不能混用负载端电流与电池容量；零耗电不报告无限寿命。几何检查的0退出不表示电气/图面通过，缺文字边界和实际对象时保持未覆盖；仍需要EDA回读、官方检查和实际导图复核。输入契约与来稿同名脚本不同，不能直接混用旧JSON。

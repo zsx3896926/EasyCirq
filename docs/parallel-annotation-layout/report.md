@@ -20,7 +20,7 @@ Commands:
 
 ```bash
 # from the repository root
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m annotation_layout validate ../../tests/annotation_layout/fixtures/photo-led-v14/input.json
 python -m annotation_layout plan ../../tests/annotation_layout/fixtures/photo-led-v14/input.json \
   --out-dir ../../benchmarks/annotation-layout/evidence/real-plan
@@ -31,7 +31,7 @@ python -m annotation_layout benchmark --suite ../../benchmarks/annotation-layout
 
 ## 2. M0 baseline (verified on site)
 
-- repository version: `design-hardware/.version` = `1.0.1`; task-fixed base main
+- repository version: `easycirq/.version` = `1.0.1`; task-fixed base main
   `9a951edc21481dc3ae91460acc11aa3e08a7be8a` (origin/main advanced independently
   to `259d438` during the work; the branch remains based on the fixed SHA).
 - existing components studied read-only: `layout_from_easyeda.py`,
@@ -48,7 +48,7 @@ python -m annotation_layout benchmark --suite ../../benchmarks/annotation-layout
 
 | path | content |
 |---|---|
-| `design-hardware/scripts/annotation_layout/` | shipped package: `model`, `geometry`, `schema`, `conflicts`, `candidates`, `solver`, `baseline`, `planner`, `verify`, `svg_analysis`, `report`, `convert`, `benchmark`, `io_util`, `cli`, `__main__` |
+| `easycirq/scripts/annotation_layout/` | shipped package: `model`, `geometry`, `schema`, `conflicts`, `candidates`, `solver`, `baseline`, `planner`, `verify`, `svg_analysis`, `report`, `convert`, `benchmark`, `io_util`, `cli`, `__main__` |
 | `tests/annotation_layout/` | 86 tests: schema/geometry, conflicts/candidates, solver/baseline, independent verification, SVG, 36 CLI scenarios (≥50 real subprocess invocations), metamorphic, 4 holdouts, counterexample, benchmark, convert; fixtures with SHA manifest |
 | `benchmarks/annotation-layout/` | real + 4 synthetic cases, SHA manifests, actual-CLI wrapper, committed `result.json`, generated Markdown report, `command.txt`, README |
 | `docs/parallel-annotation-layout/` | this report + contract, geometry/solver policy, benchmark report, acceptance matrix, integration proposal, handoff, issue candidates |
@@ -135,7 +135,7 @@ CI at PR time: branch-level validate (Python 3.10/3.13) and updater
 `delivery_audit`, `procurement_planner` and `skill_knowledge_audit` tests.  Root
 cause investigated: `unittest discover -s tests` imports `tests/<name>` as a
 top-level package; several task test bootstraps (including this branch's former
-`tests/annotation_layout/__init__.py`) put `design-hardware/scripts` first on
+`tests/annotation_layout/__init__.py`) put `easycirq/scripts` first on
 `sys.path` at import time, so later test packages resolve to the implementation
 package and their `test_*` submodules cannot be found.  This branch's test
 bootstrap was fixed to stop mutating `sys.path` (private explicit loading
@@ -150,7 +150,7 @@ Full evidence and reproduction probes are in
 
 Branch `feat/parallel-annotation-layout`, independent worktree, base main
 `9a951edc21481dc3ae91460acc11aa3e08a7be8a`.  PR #46:
-https://github.com/zsx3896926/hardware-design-skill/pull/46 (commit `a937b43`).
+https://github.com/zsx3896926/EasyCirq/pull/46 (commit `a937b43`).
 Not merged, not released, not installed.
 
 

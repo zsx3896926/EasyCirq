@@ -14,11 +14,11 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "design-hardware" / "scripts" / "decision_asset_check.py"
-REGISTER = ROOT / "design-hardware" / "references" / "source-register.md"
-DECISIONS = ROOT / "design-hardware" / "references" / "decisions"
+SCRIPT = ROOT / "easycirq" / "scripts" / "decision_asset_check.py"
+REGISTER = ROOT / "easycirq" / "references" / "source-register.md"
+DECISIONS = ROOT / "easycirq" / "references" / "decisions"
 CASES = DECISIONS / "cases"
-ASSETS = ROOT / "design-hardware" / "assets" / "decisions"
+ASSETS = ROOT / "easycirq" / "assets" / "decisions"
 
 J01_REF = DECISIONS / "j01-module-reuse.md"
 J01_CASE = CASES / "r4-case-j01-charger-power-path-reuse.md"
@@ -35,8 +35,8 @@ COLUMNS = [
     "contract_ref", "conflict_id", "conflict_summary", "affected_assets",
     "resolution", "recheck_trigger",
 ]
-A01_REF_PATH = "design-hardware/references/decisions/a01-architecture-decision.md"
-A01_CASE_PATH = "design-hardware/references/decisions/cases/r4-case-a01-requirement-change.md"
+A01_REF_PATH = "easycirq/references/decisions/a01-architecture-decision.md"
+A01_CASE_PATH = "easycirq/references/decisions/cases/r4-case-a01-requirement-change.md"
 GROUPS = [
     "function",
     "interface",
@@ -189,7 +189,7 @@ class IndexCheckerFixtures(unittest.TestCase):
 
     def test_contract_ref_must_be_reference(self):
         third = row(id="R4-TPL-X", kind="template",
-                    path="design-hardware/assets/decisions/asset-index.template.md")
+                    path="easycirq/assets/decisions/asset-index.template.md")
         result = run_cli(render([row(), second_row(contract_ref="R4-TPL-X"), third]))
         self.assertEqual(result.returncode, 1)
         self.assertIn("contract_ref_not_reference", codes(result))
@@ -225,7 +225,7 @@ class IndexCheckerFixtures(unittest.TestCase):
 
     def test_missing_path_exits_one(self):
         result = run_cli(render([
-            row(path="design-hardware/references/decisions/nope.md"),
+            row(path="easycirq/references/decisions/nope.md"),
             second_row(),
         ]))
         self.assertEqual(result.returncode, 1)
@@ -265,7 +265,7 @@ class IndexCheckerFixtures(unittest.TestCase):
         self.assertEqual(payload(result)["status"], "invalid_input")
 
     def test_missing_source_register_exits_two(self):
-        result = run_cli(register=ROOT / "design-hardware" / "no-such-register.md")
+        result = run_cli(register=ROOT / "easycirq" / "no-such-register.md")
         self.assertEqual(result.returncode, 2)
         self.assertEqual(payload(result)["status"], "invalid_input")
 
@@ -348,7 +348,7 @@ class DecisionDocuments(unittest.TestCase):
         self.assertIn("PWR-S05", text)
 
     def test_section_nine_has_two_existing_paths(self):
-        pattern = re.compile(r"design-hardware/[^\s`：；]+?:\d+-\d+")
+        pattern = re.compile(r"easycirq/[^\s`：；]+?:\d+-\d+")
         for path in (J01_REF, L01_REF):
             body = section(path.read_text(encoding="utf-8"),
                            "## 9. 与现有资产的分工")

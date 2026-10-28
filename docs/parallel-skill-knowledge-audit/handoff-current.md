@@ -7,7 +7,7 @@
 
 | 路径 | 内容 |
 |---|---|
-| `design-hardware/scripts/skill_knowledge_audit/` | 只读 CLI：scan/rules/plan/benchmark + catalog |
+| `easycirq/scripts/skill_knowledge_audit/` | 只读 CLI：scan/rules/plan/benchmark + catalog |
 | `tests/skill_knowledge_audit/` | 53 个 unittest（含负例、变形、真实基线只读断言） |
 | `benchmarks/skill-knowledge-audit/` | 15 dev + 5 holdout 场景、16 对规则夹具、真实结果与计划样例 |
 | `docs/parallel-skill-knowledge-audit/` | 契约、基线、规则审查、建议、集成、验收、报告、CLI 文档、本交接 |
@@ -38,7 +38,7 @@
 
 ### 2.1 合并后主线复核（2026-10-28，`1f3abee`，312 文件）
 
-- 其他并行集成在 `design-hardware/scripts/` 新增 3 个 `.md`，扫描为
+- 其他并行集成在 `easycirq/scripts/` 新增 3 个 `.md`，扫描为
   **312 文件 / 2,481 链接 / errors 0 / warnings 16**；这些是脚本说明文档，
   不在任务阅读目录映射中。
 - `skill_selftest.py`：**5 PASS / 0 FAIL / 0 NOT RUN**，265 scripts compile。
@@ -53,7 +53,7 @@
 ## 3. 复跑
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m skill_knowledge_audit scan --root .. \
   --out ../../benchmarks/skill-knowledge-audit/results/scan.json --format both
 python -m skill_knowledge_audit rules --root .. --strict \
@@ -66,7 +66,7 @@ python -m skill_knowledge_audit benchmark --root .. \
 ```bash
 cd <repo root>
 python -m unittest discover -s tests/skill_knowledge_audit -t . -v
-python design-hardware/scripts/skill_selftest.py
+python easycirq/scripts/skill_selftest.py
 ```
 
 ## 4. 已知限制 / 不要过度声称
@@ -100,7 +100,7 @@ python design-hardware/scripts/skill_selftest.py
   单独 PR 指向最新 main；不修改代码、不合并、不发布。
 - 主提交：`91d7aa92bddc2da16de02d20808eb25c526c6bab`
   （`feat(skill-audit): add read-only knowledge audit and minimal reading planner`）。
-- PR #45：https://github.com/zsx3896926/hardware-design-skill/pull/45
-- 后续文档 PR：https://github.com/zsx3896926/hardware-design-skill/pull/53
+- PR #45：https://github.com/zsx3896926/EasyCirq/pull/45
+- 后续文档 PR：https://github.com/zsx3896926/EasyCirq/pull/53
   （仅同步 312 文件复核实测到本报告/交接，不改代码与冻结结果）。
 

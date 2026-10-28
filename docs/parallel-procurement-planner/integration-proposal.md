@@ -116,7 +116,7 @@ F 生成的“参数要求”可以直接映射为替代候选的 `application.r
 ## 5. 公共修改建议（未执行，见 issue-candidates.md）
 
 - `SKILL.md`：在“商城配单/采购”入口增加本规划器的一句话导航与命令示例。
-- `design-hardware/references/lcsc-sourcing.md` 或 `selection/`：指向本任务的
+- `easycirq/references/lcsc-sourcing.md` 或 `selection/`：指向本任务的
   `docs/parallel-procurement-planner/contract.md`，避免重复写采购算法。
 - 文档索引/README：登记本任务 docs 目录；是否纳入需维护者决定。
 - `.gitattributes`：如维护者希望本目录强制 LF，可新增一条（本任务未改）。

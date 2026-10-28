@@ -11,7 +11,7 @@ import unittest
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
-spec=importlib.util.spec_from_file_location('ecosystem_files',ROOT/'design-hardware/scripts/ecosystem_files.py')
+spec=importlib.util.spec_from_file_location('ecosystem_files',ROOT/'easycirq/scripts/ecosystem_files.py')
 f=importlib.util.module_from_spec(spec);spec.loader.exec_module(f)
 
 
@@ -105,7 +105,7 @@ class FileTests(unittest.TestCase):
         self.assertTrue((self.root/'hds-viewer-adapter.js').is_file())
     def test_real_cli(self):
         p=self.root/'line.json';p.write_text('{}')
-        result=subprocess.run([sys.executable,str(ROOT/'design-hardware/scripts/ecosystem_files.py'),'validate','--doc','PCB','--type','LINE','--input',str(p)],capture_output=True,text=True)
+        result=subprocess.run([sys.executable,str(ROOT/'easycirq/scripts/ecosystem_files.py'),'validate','--doc','PCB','--type','LINE','--input',str(p)],capture_output=True,text=True)
         self.assertEqual(result.returncode,1);self.assertFalse(json.loads(result.stdout)['valid'])
     @unittest.skipUnless(shutil.which('node'),'Node unavailable')
     def test_viewer_bridge_origin_source_and_annotation_binding(self):
@@ -130,7 +130,7 @@ host.location.origin='http://localhost:9000';assert.throws(()=>a.exportAnnotatio
 """
         program=self.root/'viewer-protocol-test.js'
         program.write_text(script,encoding='utf-8')
-        r=subprocess.run(['node',str(program),str(ROOT/'design-hardware/assets/ecosystem-viewer/adapter.js')],capture_output=True,text=True)
+        r=subprocess.run(['node',str(program),str(ROOT/'easycirq/assets/ecosystem-viewer/adapter.js')],capture_output=True,text=True)
         self.assertEqual(r.returncode,0,r.stderr)
 
 

@@ -88,7 +88,7 @@ result.  Any object with `unsupported` remains fixed in K plans.
 ## 3. Validate the adapted input
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python -m annotation_layout validate <input.json>
 ```
 

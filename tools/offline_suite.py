@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run the hardware-design-skill test suite with a real-EDA fail-closed guard.
+"""Run the EasyCirq test suite with a real-EDA fail-closed guard.
 
 Usage (from the repository root or any directory):
   python tools/offline_suite.py
@@ -31,7 +31,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 # Keep the scripts tree importable without placing it ahead of the tests
 # directory: discovery imports tests/<name> as a top-level package and some
 # tests also import ``tests.<name>`` helpers.

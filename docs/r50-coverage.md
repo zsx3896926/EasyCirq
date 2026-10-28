@@ -51,7 +51,7 @@
 | R44 | 视觉检查（原理图 PNG、PCB render） | G2 `png_review`；G3/G5 渲染/看图 | `tool-gotchas.md`（snapshot 前台）、`design-gates.md` §7 |
 | R45 | 变更影响/回归案例 | G1 `change_impact` | `cases/temp-alarm-2026-10-24/change-log.md`、`design-gates.md` §6 |
 | R46 | 门禁可执行（design-state + gate_check） | `G0`–`G6` 四结论 | `scripts/gate_check.py`、`tests/test_gate_check.py` |
-| R47 | 执行器边界（design-hardware vs easyeda-agent） | SKILL §2/§6；门禁只读证据 | `SKILL.md`、`design-gates.md`、`eda-execution.md` |
+| R47 | 执行器边界（easycirq vs easyeda-agent） | SKILL §2/§6；门禁只读证据 | `SKILL.md`、`design-gates.md`、`eda-execution.md` |
 | R48 | 横向检查（装配/可测试/机械/热/丝印/制造包） | G3/G6 + 5 份模板 | `assets/docs/*.md` |
 | R49 | 项目状态载体（状态/决策/假设/风险/BOM/DRC 集中） | `design-state.json` | `assets/design-state.example.json`、`design-gates.md` §13.3 |
 | R50 | Skill 自检（链接/命名/案例/脚本） | `skill_selftest.py` | `scripts/skill_selftest.py`、`tests/test_skill.py` |

@@ -22,7 +22,7 @@ python tools/offline_benchmark.py --runs 3 \
 | 用例 | 来源 | 预期依据 |
 |---|---|---|
 | `source_hashes` | `expected.json.sources` | 每个真实/合成输入的实际 SHA-256 必须等于冻结值 |
-| `gate_photo_regression` | `design-hardware/cases/photo-led-pcb-2026-10-26/`（只读） | round10 真实证据；regression profile 的 pass_with_gaps 与阶段状态人工核对 |
+| `gate_photo_regression` | `easycirq/cases/photo-led-pcb-2026-10-26/`（只读） | round10 真实证据；regression profile 的 pass_with_gaps 与阶段状态人工核对 |
 | `sch_visual_photo` | `tests/fixtures/photo-led-v14/layout.json`（真实 v14 回读派生） | fixture README 记录的 1 个 bbox_overlap + 2 个 wire_enters_bbox；3 个有结点证据交叉 + 2 个近距文字为 info |
 | `candidates_photo_full` | `templates/photo-led-pcb-intent.json` + 真实板 dump；冻结 `candidates.json` | 修改前 selected/hard/HPWL/面积，容差 0.02 |
 | `candidates_structures` | photo 的 interface-protection-core / transistor-load-return + `cases/ldo-caps-*` | 模板角色、实测 body 尺寸与硬过滤结果独立推导 |

@@ -2,7 +2,7 @@
 
 > 输入：[13 份分组审计](evidence/common-hardware-2026-10-22/audit/)（a-environment … m-wireless-time）。
 > 审计对象：本仓库，基线 `origin/main` = `0fe5cf8`，2026-10-22。
-> 本文件是开工盘点记录；实际写作按 `design-hardware/references/common-hardware/` 的 13 个组文件执行，不另建 28 张提升卡（避免同一电路多份近似文档）。
+> 本文件是开工盘点记录；实际写作按 `easycirq/references/common-hardware/` 的 13 个组文件执行，不另建 28 张提升卡（避免同一电路多份近似文档）。
 > 判定口径：`adequate` 已足够、可直接引用；`partial` 有基础但缺本主题具体内容；`missing` 没有本主题内容。判定与动作均按审计原文汇总，本文件不重新评级。
 > “本轮”指本次 `common-hardware` 内容写作与旧内容修正轮；二轮范例/故障卡另列。
 

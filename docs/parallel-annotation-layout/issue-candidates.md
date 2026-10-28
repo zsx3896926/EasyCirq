@@ -8,7 +8,7 @@ that stays inside the K planner's own fixtures/tests.
 
 ## 1. Checker skips wire checks for symbol-owned attribute text
 
-**Component:** `design-hardware/scripts/sch_layout_check.py`, wire loop
+**Component:** `easycirq/scripts/sch_layout_check.py`, wire loop
 (`for obj in symbols + texts: if obj.get('owner') in symbol_ids or kind in
 marker_text: continue`).
 
@@ -20,7 +20,7 @@ silent.
 **Reproduction (no EDA):**
 
 ```bash
-cd design-hardware/scripts
+cd easycirq/scripts
 python - <<'PY'
 import json
 from annotation_layout.schema import load_input
@@ -129,9 +129,9 @@ reported, never "fixed" by breaking the anchor.
 
 **Effect:** `python -m unittest discover -s tests` imports `tests/<name>` as a
 top-level package.  Any test module that does
-`sys.path.insert(0, "design-hardware/scripts")` while discovery is still running
+`sys.path.insert(0, "easycirq/scripts")` while discovery is still running
 changes resolution for every later package: a later `tests/<name>` whose name
-also exists under `design-hardware/scripts` is imported from the implementation
+also exists under `easycirq/scripts` is imported from the implementation
 instead, and discovery then cannot find `<name>.test_*` → import-time
 `ModuleNotFoundError`.  On the PR #46 merge ref this produced 42 errors across
 `change_impact` (9), `return_path_audit` (8), `circuit_blocks` (7),

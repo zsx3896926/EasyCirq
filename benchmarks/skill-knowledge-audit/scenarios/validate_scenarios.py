@@ -105,9 +105,9 @@ GATE_TOKENS = [
 ]
 # contract.md §6.2 item 1 + Lead decision: always protection documents
 ALWAYS_INCLUDE = [
-    "design-hardware/SKILL.md",
-    "design-hardware/references/workflow.md",
-    "design-hardware/references/evidence.md",
+    "easycirq/SKILL.md",
+    "easycirq/references/workflow.md",
+    "easycirq/references/evidence.md",
 ]
 # Lead decision: design-gates.md required for schematic/PCB/layout/route/delivery
 DESIGN_GATES_REQUIRED_TYPES = {
@@ -156,7 +156,7 @@ def _resolve_relative_path(root: Path, value: str) -> Path | None:
         return None
     if "\\" in value or value.startswith("/") or value.startswith("../") or ".." in value.split("/"):
         return None
-    if not value.startswith("design-hardware/"):
+    if not value.startswith("easycirq/"):
         return None
     candidate = (root / value).resolve()
     try:
@@ -273,8 +273,8 @@ def _check_scenario(
                 f"{where}.expected.must_include: expected {MUST_INCLUDE_MIN}-{MUST_INCLUDE_MAX} files, "
                 f"got {len(must)}"
             )
-        if "design-hardware/SKILL.md" not in must:
-            errors.append(f"{where}.expected.must_include: missing entry document design-hardware/SKILL.md")
+        if "easycirq/SKILL.md" not in must:
+            errors.append(f"{where}.expected.must_include: missing entry document easycirq/SKILL.md")
         if task_type in TASK_TYPES:
             for always in ALWAYS_INCLUDE[1:]:
                 if always not in must:
@@ -282,7 +282,7 @@ def _check_scenario(
                         f"{where}.expected.must_include: missing always document {always}"
                     )
             if task_type in DESIGN_GATES_REQUIRED_TYPES and (
-                "design-hardware/references/design-gates.md" not in must
+                "easycirq/references/design-gates.md" not in must
             ):
                 errors.append(
                     f"{where}.expected.must_include: missing design-gates.md for {task_type}"
@@ -440,10 +440,10 @@ def main(argv: list[str] | None = None) -> int:
     root = args.root.resolve()
     if not root.is_dir():
         return emit(False, [f"input: worktree root is not a directory: {root}"], 2)
-    if not (root / "design-hardware" / "SKILL.md").is_file():
+    if not (root / "easycirq" / "SKILL.md").is_file():
         return emit(
             False,
-            [f"input: worktree root does not contain design-hardware/SKILL.md: {root}"],
+            [f"input: worktree root does not contain easycirq/SKILL.md: {root}"],
             2,
         )
 

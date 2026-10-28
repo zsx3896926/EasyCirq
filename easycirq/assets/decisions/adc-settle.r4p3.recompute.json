@@ -1,0 +1,222 @@
+{
+  "schema_version": 1,
+  "id": "adc-settle.r4p3.recompute",
+  "title": "P02 4.4 ADC 建立值的二阶闭式重算",
+  "project": "R4-P3",
+  "parent": "P02",
+  "evidence": "E3",
+  "execution": "OFFLINE_PLANNING",
+  "hardware_execution": "NOT RUN",
+  "board_verified": false,
+  "last_reviewed": "2026-10-22",
+  "sources": ["ANA-S02", "ANA-S03"],
+  "model": {
+    "name": "two_node_rc_closed_form",
+    "description": "Source Vs -- Rs -- node A -- Rw -- node B; Cext from A to ground; Csample from B to ground; both capacitors start at zero; ideal full-scale step; constant R and C.",
+    "rate_definitions": "u=1/(Rs*Cext), v=1/(Rw*Cext), w=1/(Rw*Cs); l1=(u+v+w+sqrt((u+v+w)^2-4*u*w))/2; l2=(u+v+w-sqrt((u+v+w)^2-4*u*w))/2",
+    "residual_formula": "residual(t)=(l1*exp(-l2*t)-l2*exp(-l1*t))/(l1-l2)",
+    "assumptions": [
+      "Both capacitors have zero initial voltage; this is not a MUX precharge or channel-switch state.",
+      "The source is an ideal full-scale step with zero output impedance beyond Rs.",
+      "No switch charge injection, leakage, dielectric absorption or noise.",
+      "The reported residual is a settling-model result, not total ADC accuracy."
+    ]
+  },
+  "canonicalization": {
+    "payload_scope": ["model", "recompute_cases"],
+    "method": "payload={\"model\": model, \"recompute_cases\": recompute_cases}; json.dumps(payload, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode('utf-8'); SHA-256",
+    "sha256": "d1a135c4e175e527b94d1edf52754e80de82f6b74a124e64cdf77543f59fbb4b"
+  },
+  "single_pole_proxy": {
+    "name": "single_pole_tau_proxy",
+    "formula": "residual(t)=exp(-t/((Rs+Rw)*(Cext+Cs)))",
+    "note": "Screening proxy only; it is not the two-node residual and must not be quoted as a pointwise bound."
+  },
+  "p02_claims": [
+    {
+      "id": "direct-unbuffered",
+      "where": "easycirq/references/projects/p02-industrial-rs485-analog.md:190-201",
+      "claimed_error_lsb": 3905,
+      "claimed_decision": "fail",
+      "method_identified": "single_pole_proxy",
+      "note": "P02 table prints Rs=1100 ohm and tau=210 us; with Rw=1000 ohm, Cext=100 nF, Cs=5 pF, t=10 us this reproduces 3905.5 LSB on a 4096-code scale."
+    },
+    {
+      "id": "buffered-1nF",
+      "where": "easycirq/references/projects/p02-industrial-rs485-analog.md:196-197",
+      "claimed_error_lsb": 0.524,
+      "claimed_decision": "fail-marginal",
+      "method_identified": "single_pole_proxy",
+      "note": "P02 table prints Rs=110 ohm and Cext=1 nF; with Rw=1000 ohm, Cs=5 pF, t=10 us the single-pole proxy gives 0.5239 LSB."
+    }
+  ],
+  "recompute_cases": [
+    {
+      "id": "direct-unbuffered",
+      "parameters": {
+        "r_source_ohm": 1100,
+        "r_switch_ohm": 1000,
+        "c_ext_F": 1e-7,
+        "c_sample_F": 5e-12,
+        "t_sample_s": 1e-5,
+        "bits": 12,
+        "vref_V": 2.5
+      },
+      "single_pole": {
+        "tau_s": 0.0002100105,
+        "residual_fraction": 0.953499224953518,
+        "error_lsb": 3905.53282540961
+      },
+      "two_node": {
+        "residual_fraction": 0.9131463692332005,
+        "error_lsb": 3740.247528379189,
+        "status": "fail"
+      },
+      "difference": {
+        "error_lsb": -165.28529703042068,
+        "percent": -4.232080599990494,
+        "cause": "The two-node slow mode is dominated by Rs*Cext (about 110 us), not by the single-pole (Rs+Rw)*(Cext+Cs) proxy (about 210 us)."
+      },
+      "decision": "fail",
+      "decision_basis": "3740 LSB is far above 0.5 LSB; the buffer-required conclusion is unchanged, but the quoted number must be the two-node 3740 LSB, not 3905 LSB."
+    },
+    {
+      "id": "buffered-1nF",
+      "parameters": {
+        "r_source_ohm": 110,
+        "r_switch_ohm": 1000,
+        "c_ext_F": 1e-9,
+        "c_sample_F": 5e-12,
+        "t_sample_s": 1e-5,
+        "bits": 12,
+        "vref_V": 2.5
+      },
+      "single_pole": {
+        "tau_s": 1.11555e-6,
+        "residual_fraction": 0.00012790943690142088,
+        "error_lsb": 0.5239170535482199
+      },
+      "two_node": {
+        "residual_fraction": 5.5507350836187175e-40,
+        "error_lsb": 2.2735810902502267e-36,
+        "status": "pass"
+      },
+      "difference": {
+        "error_lsb": -0.5239170535482199,
+        "percent": -100.0,
+        "cause": "The two-node slow rate is about 9.04e6 1/s (tau about 0.111 us); 10 us is about 90 slow time constants, so the single-pole 0.524 LSB is a proxy artifact."
+      },
+      "decision": "conditional",
+      "decision_basis": "The 0.524 LSB marginal-fail claim is refuted as a single-pole proxy result. The two-node model passes, but actual ADC Csh/Rsw, charge injection and MUX state are not modeled; keep 470 pF as the conservative selection and verify on bench."
+    },
+    {
+      "id": "buffered-470pF-2us",
+      "parameters": {
+        "r_source_ohm": 110,
+        "r_switch_ohm": 1000,
+        "c_ext_F": 4.7e-10,
+        "c_sample_F": 5e-12,
+        "t_sample_s": 2e-6,
+        "bits": 12,
+        "vref_V": 2.5
+      },
+      "single_pole": {
+        "tau_s": 5.2725e-7,
+        "residual_fraction": 0.02252190357329078,
+        "error_lsb": 92.24971703619903
+      },
+      "two_node": {
+        "residual_fraction": 2.7407009934332904e-17,
+        "error_lsb": 1.1225911269102758e-13,
+        "status": "pass"
+      },
+      "difference": {
+        "error_lsb": -92.24971703619892,
+        "percent": -99.99999999999987,
+        "cause": "The two-node slow rate is about 1.99e7 1/s (tau about 50 ns), about 10.5x faster than the single-pole proxy tau of 0.527 us; the proxy overstates the residual at short t_ACQ."
+      },
+      "decision": "conditional",
+      "decision_basis": "The single-pole proxy gives 92.25 LSB at 2 us, but the two-node model gives 1.12e-13 LSB; the proxy is not a pointwise bound. Keep the level for the bench experiment only; no adopt."
+    },
+    {
+      "id": "buffered-470pF-5us",
+      "parameters": {
+        "r_source_ohm": 110,
+        "r_switch_ohm": 1000,
+        "c_ext_F": 4.7e-10,
+        "c_sample_F": 5e-12,
+        "t_sample_s": 5e-6,
+        "bits": 12,
+        "vref_V": 2.5
+      },
+      "single_pole": {
+        "tau_s": 5.2725e-7,
+        "residual_fraction": 7.612244635586571e-5,
+        "error_lsb": 0.31179754027362594
+      },
+      "two_node": {
+        "residual_fraction": 3.3884726641106725e-42,
+        "error_lsb": 1.3879184032197315e-38,
+        "status": "pass"
+      },
+      "difference": {
+        "error_lsb": -0.31179754027362594,
+        "percent": -100.0,
+        "cause": "The two-node slow rate is about 1.99e7 1/s (tau about 50 ns); 5 us is about 99 slow time constants, so the single-pole 0.312 LSB is a proxy artifact."
+      },
+      "decision": "conditional",
+      "decision_basis": "The two-node model passes at 5 us, but actual ADC Csh/Rsw, charge injection and MUX state are not modeled; keep 470 pF and verify on bench."
+    },
+    {
+      "id": "buffered-470pF-10us",
+      "parameters": {
+        "r_source_ohm": 110,
+        "r_switch_ohm": 1000,
+        "c_ext_F": 4.7e-10,
+        "c_sample_F": 5e-12,
+        "t_sample_s": 1e-5,
+        "bits": 12,
+        "vref_V": 2.5
+      },
+      "single_pole": {
+        "tau_s": 5.2725e-7,
+        "residual_fraction": 5.794626839201652e-9,
+        "error_lsb": 2.3734791533369966e-5
+      },
+      "two_node": {
+        "residual_fraction": 1.0396995796060192e-83,
+        "error_lsb": 4.258609478066255e-80,
+        "status": "pass"
+      },
+      "difference": {
+        "error_lsb": -2.3734791533369966e-5,
+        "percent": -100.0,
+        "cause": "The two-node slow rate is about 1.99e7 1/s (tau about 50 ns); 10 us is about 198 slow time constants, so the single-pole 2.37e-5 LSB is a proxy artifact."
+      },
+      "decision": "conditional",
+      "decision_basis": "The 10 us working point passes in the two-node model but remains conditional until bench data; keep 470 pF."
+    }
+  ],
+  "independent_check": {
+    "method": "rk4",
+    "case": {
+      "r_source_ohm": 1000,
+      "r_switch_ohm": 1000,
+      "c_ext_F": 1e-9,
+      "c_sample_F": 1e-9,
+      "t_sample_s": 1e-5,
+      "bits": 12
+    },
+    "dt_s": 1e-10,
+    "error_lsb": 105.19447165261134,
+    "note": "Independent numerical integration in the test must agree with the closed form; it is not a hardware measurement."
+  },
+  "not_checked": [
+    "Actual ADC Csh and Rsw; the values 5 pF and 1000 ohm are model assumptions.",
+    "MUX channel-to-channel charge sharing and channel sequence.",
+    "Switch charge injection, input leakage, dielectric absorption and noise.",
+    "Bench step response, temperature sweep and batch consistency.",
+    "Total ADC accuracy, INL/DNL, reference droop and calibration uncertainty.",
+    "The 470 pF cases are model predictions; they are not bench evidence for 2/5/10 us."
+  ]
+}

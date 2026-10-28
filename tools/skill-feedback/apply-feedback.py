@@ -12,7 +12,7 @@ Targets (relative to the skill root you pass in):
   zhigou-agent/references/environment-setup.md
   zhigou-agent/scripts/parts-select.py
   zhigou-agent/scripts/net-discipline-audit.py   (new file)
-  design-hardware/SKILL.md
+  easycirq/SKILL.md
 
 Usage:
   python apply-feedback.py --check  <skill-root>     # dry run, exit 1 if edits pending
@@ -119,7 +119,7 @@ EDITS = [
      PS_FN_NEW, "JLC_DIRECT_GUARD"),
     ("zhigou-agent/scripts/parts-select.py", "replace", PS_MAIN_OLD,
      PS_MAIN_NEW, "reconfigure(encoding='utf-8'"),
-    ("design-hardware/SKILL.md", "insert_before", EA_DH_ANCHOR6, DH_ITEM,
+    ("easycirq/SKILL.md", "insert_before", EA_DH_ANCHOR6, DH_ITEM,
      "查料走平台正常路径"),
 ]
 NEW_FILES = [("zhigou-agent/scripts/net-discipline-audit.py", "net-discipline-audit.py")]
@@ -183,7 +183,7 @@ def plan(root):
         after = text.encode('utf8')
         if after != before: result.append({'path': rel, 'before': encode(before), 'after': encode(after)})
     sources = [('zhigou-agent/scripts/net-discipline-audit.py', Path(__file__).with_name('net-discipline-audit.py')),
-               ('design-hardware/references/network-discipline.md', Path(__file__).resolve().parents[2] / 'design-hardware/references/network-discipline.md')]
+               ('easycirq/references/network-discipline.md', Path(__file__).resolve().parents[2] / 'easycirq/references/network-discipline.md')]
     for rel, source in sources:
         desired = source.read_bytes().replace(b'\r\n', b'\n')
         current = snapshot(target(root, rel))
@@ -195,7 +195,7 @@ def validate_state(root, state):
     if state.get('schema') != 'skill-feedback/v2' or state.get('root') != str(root):
         raise ValueError('state schema/root mismatch')
     seen = set()
-    allowed = {x[0] for x in EDITS} | {'zhigou-agent/scripts/net-discipline-audit.py', 'design-hardware/references/network-discipline.md'}
+    allowed = {x[0] for x in EDITS} | {'zhigou-agent/scripts/net-discipline-audit.py', 'easycirq/references/network-discipline.md'}
     for row in state['files']:
         if row['path'] not in allowed or row['path'] in seen: raise ValueError('invalid state path')
         seen.add(row['path']); target(root, row['path'])
@@ -231,7 +231,7 @@ def main():
     root = Path(args.root).absolute()
     if root.is_symlink() or (hasattr(root, 'is_junction') and root.is_junction()): raise ValueError('root cannot be a link')
     root = root.resolve()
-    if not (root/'zhigou-agent').is_dir() or not (root/'design-hardware').is_dir(): raise ValueError('both skill directories are required')
+    if not (root/'zhigou-agent').is_dir() or not (root/'easycirq').is_dir(): raise ValueError('both skill directories are required')
     state_dir = root.parent / '.skill-feedback-state' / hashlib.sha256(str(root).encode()).hexdigest()[:16]
     state_dir.mkdir(parents=True, exist_ok=True)
     state_path = state_dir / STATE_NAME

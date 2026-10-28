@@ -6,7 +6,7 @@
 - **交付已合并**：PR **#43 MERGED**，合并人 `zsx3896926`，
   合并时间 `2026-10-27T16:50:12Z`，合并提交
   `259d438c257815ce65b137a80f34a45c71ce982b`（合并时 head `2eec288`）
-  https://github.com/zsx3896926/hardware-design-skill/pull/43
+  https://github.com/zsx3896926/EasyCirq/pull/43
   （GitHub API 返回的规范地址；匿名 HTTP 校验 `pull/43 → 200`）
 - 进入 main 的提交：
   - `e90df7c` — `feat(change-impact): offline ECO change impact analysis and incremental verification planning`
@@ -36,7 +36,7 @@
 
 ```bash
 cd <repo>
-export PYTHONPATH=$PWD/design-hardware/scripts     # Windows: $env:PYTHONPATH="$PWD\design-hardware\scripts"
+export PYTHONPATH=$PWD/easycirq/scripts     # Windows: $env:PYTHONPATH="$PWD\easycirq\scripts"
 
 # 1) 只校验输入模型（不给影响结论）
 python -m change_impact validate benchmarks/change-impact/scenarios/power_5v_to_3v3.json
@@ -76,7 +76,7 @@ python -m change_impact compare benchmarks/change-impact/compare/compare_two_can
 ## 文件清单（仅本任务允许路径）
 
 ```text
-design-hardware/scripts/change_impact/
+easycirq/scripts/change_impact/
   __init__.py __main__.py cli.py canonical.py errors.py model.py classify.py
   graph.py propagate.py evidence.py verify_plan.py compare.py report.py
 tests/change_impact/

@@ -1,6 +1,6 @@
 # 交付审计冻结基准（delivery-audit）
 
-用途：对 `design-hardware/scripts/delivery_audit` 的真实 CLI 做可重放回归。每个场景都是
+用途：对 `easycirq/scripts/delivery_audit` 的真实 CLI 做可重放回归。每个场景都是
 一个冻结的输入目录/文件 + 声明 + 预期退出码/状态/规则，驱动会实际执行
 `python -m delivery_audit ...`，不调用单元函数替代 CLI。
 

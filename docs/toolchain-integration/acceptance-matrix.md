@@ -23,7 +23,7 @@
 | A5 | `zhigou capabilities` 能力协商 | PASS | PASS — 实跑，逐项 reason | PASS — 无连接器时 19 unknown / 5 unsupported | NOT RUN | `evidence/m1/capabilities.json`、`evidence/acceptance/preflight/capabilities.json` | 仅在 connected 后才可能变 supported；不按 EDA 版本推断 |
 | A6 | `zhigou connector path/verify` 与 `.eext` 构建 | PASS | PASS — 包结构/大小/sha256 可核对 | NOT RUN — 导入是 EDA 内人工动作，CLI 无法代做 | NOT RUN | `evidence/m1/connector-path.json`、`evidence/m1/connector-verify.json`、`evidence/acceptance/preflight/connector-path.json` | `.eext` 仅在 EDA 启动时从 IndexedDB 加载，无 CLI 安装通道 |
 | A7 | 连接器 ↔ daemon 握手（protocol v1） | PASS — 协议常量/schema 已落盘 | NOT RUN — 无宿主可握手 | BLOCKED — 连接器未导入 | NOT RUN | `evidence/m1/connector-verify.json`、`evidence/acceptance/preflight/connector-verify.json`、`protocol/` | 解锁需：导入 `.eext` + 允许外部交互 + 重启 EDA（见 `task-status.md` §4） |
-| A8 | 技能迁移为 zhigou 单入口（`design-hardware`） | PASS — doctor 报 design-hardware 1.0.1 | PASS — doctor skill 段 | NOT RUN — 未在客户端会话中加载验证 | NOT RUN | `evidence/m1/doctor.json`（`skill.installed`）、`evidence/skill-migration/` | `zhigou-agent` 技能目录不存在；SKILL.md 仍有旧称谓（见 §F） |
+| A8 | 技能迁移为 zhigou 单入口（`easycirq`） | PASS — doctor 报 easycirq 1.0.1 | PASS — doctor skill 段 | NOT RUN — 未在客户端会话中加载验证 | NOT RUN | `evidence/m1/doctor.json`（`skill.installed`）、`evidence/skill-migration/` | `zhigou-agent` 技能目录不存在；SKILL.md 仍有旧称谓（见 §F） |
 
 ## B. 原理图（SCH）
 
@@ -82,13 +82,13 @@
 | C | 6 | 0 | 12 | 6 |
 | D | 11 | 3 | 24 | 6 |
 
-## F. 与 `design-hardware/SKILL.md` 的映射与缺口（本矩阵视角）
+## F. 与 `easycirq/SKILL.md` 的映射与缺口（本矩阵视角）
 
 | 项 | 现状 | 缺口/冲突 |
 | --- | --- | --- |
 | 阶段映射 | SKILL 用 G0–G6 + S0–S5；本矩阵用 M2/M3/M4 | 缺一张显式映射：M2 ≈ G2/S3（原理图证据门）、M3 ≈ G5/G6 的导出与检查面、M4 ≈ G3/G5 的局部改板与重开证据。**建议**：`SKILL.md` 阶段门禁引用本矩阵的 M 阶段证据文件名，或反之；当前两套编号并行 |
 | Gerber/钻孔/CPL | SKILL.md L234 写"在 `zhigou-agent v1.14.0` 没有 CLI/typed action" | **版本身份错误**：现实是 `zhigou 0.2.0-dev`，不存在 `zhigou-agent v1.14.0`；应改为"`zhigou capabilities` 报 `gerber/drill/cpl.export=unsupported`，只能 GUI 人工导出" |
-| 执行器称谓 | SKILL.md L15/L108/L114 仍称"`zhigou-agent` 的 Skill / 使用 zhigou-agent 时读取其 Skill" | 架构是**单一技能**（`design-hardware`），`~/.codex、~/.claude、~/.agents/skills/zhigou-agent` 均不存在；"读取其 Skill"已无对象，且 runtime 不自我更新技能 |
+| 执行器称谓 | SKILL.md L15/L108/L114 仍称"`zhigou-agent` 的 Skill / 使用 zhigou-agent 时读取其 Skill" | 架构是**单一技能**（`easycirq`），`~/.codex、~/.claude、~/.agents/skills/zhigou-agent` 均不存在；"读取其 Skill"已无对象，且 runtime 不自我更新技能 |
 | 升级语义 | SKILL.md L15 把"本 Skill 与 `zhigou-agent` 的 CLI/Skill/daemon/Connector"一起检查 | 与 runtime 现状不符：runtime 的 `skill sync`/`update` 已不再安装技能（`--auto-update-skill` 默认关）；升级由 `distribution/` 负责。`scripts/skill_update.py` 仍保留 `update-agent` 与 `--easyeda` 隐藏别名 |
 | 验收口径 | SKILL 要求"未回读不写通过"，本矩阵 M2 six-state 正是其落地 | 缺"六态"命名与 SKILL 用语映射；建议 SKILL 引用 `tools/zhigou_acceptance.py` 的六态字段名 |
 | 真机阻塞传播 | SKILL G6 要求制造证据 | 连接器未导入时，G2–G6 的宿主依赖项应显示 `BLOCKED` 而非"待确认"，否则用户会误以为可以直接开画 |

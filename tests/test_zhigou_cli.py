@@ -14,7 +14,7 @@ from pathlib import Path
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'design-hardware' / 'scripts'
+SCRIPTS = ROOT / 'easycirq' / 'scripts'
 FIXTURES = ROOT / 'tests' / 'fixtures' / 'zhigou'
 sys.path.insert(0, str(SCRIPTS))
 
