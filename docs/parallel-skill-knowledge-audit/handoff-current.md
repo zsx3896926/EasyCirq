@@ -41,7 +41,8 @@
 - 其他并行集成在 `design-hardware/scripts/` 新增 3 个 `.md`，扫描为
   **312 文件 / 2,481 链接 / errors 0 / warnings 16**；这些是脚本说明文档，
   不在任务阅读目录映射中。
-- `skill_selftest.py`：**5 PASS / 0 FAIL / 0 NOT RUN**，242 scripts compile。
+- `skill_selftest.py`：**5 PASS / 0 FAIL / 0 NOT RUN**，259 scripts compile
+  （复核时 `1f3abee` 为 242；后续并行集成增加至 259，当前 main 实测）。
 - benchmark：**20/20 通过**（15 dev + 5 holdout），recall **1.0**、
   missing_critical **0**、forbidden **0**、missing unknown **0**、stable **20/20**、
   transforms **7/7**；20 个场景 `plan_digest` 与 309 文件冻结结果逐一相同。
