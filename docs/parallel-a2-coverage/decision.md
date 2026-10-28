@@ -110,7 +110,16 @@ plausible.
 
 ## 5. PR #36 split recommendation (do not merge on our behalf)
 
-The A branch is one 1,700-file PR mixing four separable concerns. Recommended
+> **State update after the evidence run (2026-10-28, later):** PR #36 has since
+> been **merged** into `main` (`Merge pull request #36 ...`), so `main` now
+> contains `runtime/`, `connector/` and `protocol/`; the A branch moved to
+> `3c93015` with a **25-file** residual delta (manufacture exports). The split
+> below is therefore a historical reference, not three PRs to open today. The
+> executable command list for what is actionable now is
+> [`pr36-split-runbook.md`](pr36-split-runbook.md) (with generated path sets in
+> `pr-split/`).
+
+The A branch was one 1,700-file PR mixing four separable concerns. Recommended
 split, in merge order:
 
 1. **PR-1 "docs + offline methodology"** (small, no EDA):

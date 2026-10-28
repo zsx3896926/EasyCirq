@@ -8,6 +8,10 @@
   therefore not attempted. The branch is local and ready; the operator can open
   the PR with the title `spike(a2): official CLI/MCP vs A typed-action coverage`
   (body: `docs/parallel-a2-coverage/report.md`, do not merge).
+  Follow-up note: PR #36 has since been merged into `main`, so the three-step
+  push / create-PR command list for the residual work lives in
+  `docs/parallel-a2-coverage/pr36-split-runbook.md` (path sets generated in
+  `docs/parallel-a2-coverage/pr-split/`).
 - Exact HEAD: see `git log -1` on the branch (this file is committed with it).
 - Environment: Windows, JLCEDA Pro 4.1.78.34f5b8d9 at
   `C:\Users\jlc\AppData\Local\Programs\LCEDA-Pro\lceda-pro.exe`,

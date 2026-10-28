@@ -1,6 +1,6 @@
 # A2 coverage matrix: official lceda-pro CLI/MCP vs A typed action
 
-- generated: 2026-10-28T11:59:43+08:00
+- generated: 2026-10-28T12:13:08+08:00
 - evidence: `docs/evidence/a2-coverage-2026-10-28/`
 - baseline main: `fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5`
 - A reference (read-only): `origin/feat/integrated-eda-toolchain @ dfa8f10d7149df435ab0c0be91edcdcb91990ce1 (read-only)`

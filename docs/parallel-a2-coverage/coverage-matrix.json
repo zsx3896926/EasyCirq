@@ -1,6 +1,6 @@
 {
   "schema": "zhigou.a2-coverage.matrix/v1",
-  "generated_at": "2026-10-28T11:59:43+08:00",
+  "generated_at": "2026-10-28T12:13:08+08:00",
   "evidence_date": "2026-10-28",
   "baseline_main": "fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5",
   "a_reference": "origin/feat/integrated-eda-toolchain @ dfa8f10d7149df435ab0c0be91edcdcb91990ce1 (read-only)",
@@ -827,7 +827,7 @@
   },
   "rubric": {
     "schema": "zhigou.a2-coverage.rubric/v1",
-    "generated_at": "2026-10-28T11:59:43+08:00",
+    "generated_at": "2026-10-28T12:13:08+08:00",
     "critical_ids": [
       "W02",
       "W04",
