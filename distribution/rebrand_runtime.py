@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebrand the vendored easyeda-agent Go runtime into the Zhigou runtime.
+"""Rebrand the vendored easyeda-agent Go runtime into the EasyCirq runtime.
 
 This script is idempotent and records every textual rule it applies so the
 transformation from the pinned upstream commit to our source tree is auditable.
@@ -28,13 +28,13 @@ RULES: list[tuple[str, str, str]] = [
         "github.com/zsx3896926/hardware-design-skill/runtime",
         "Go module path -> our repo module",
     ),
-    ("EASYEDA_", "ZHIGOU_", "environment variable prefix"),
-    (".easyeda-agent", ".zhigou", "daemon state dir ~/.zhigou"),
-    ("easyeda-agent", "zhigou-agent", "service identity / binary name"),
-    ("easyeda.exe", "zhigou.exe", "windows binary name"),
-    (".easyeda/artifacts", ".zhigou/artifacts", "per-project artifact dir"),
-    (".easyeda/stages", ".zhigou/stages", "per-project stage dir"),
-    ('".easyeda"', '".zhigou"', "Go string literal of the artifact dir segment"),
+    ("EASYEDA_", "EASYCIRQ_", "environment variable prefix"),
+    (".easyeda-agent", ".easycirq", "daemon state dir ~/.easycirq"),
+    ("easyeda-agent", "easycirq-agent", "service identity / binary name"),
+    ("easyeda.exe", "easycirq.exe", "windows binary name"),
+    (".easyeda/artifacts", ".easycirq/artifacts", "per-project artifact dir"),
+    (".easyeda/stages", ".easycirq/stages", "per-project stage dir"),
+    ('".easyeda"', '".easycirq"', "Go string literal of the artifact dir segment"),
     ("0xeda0", "0x5a47", "daemon port start 60832 -> 23111 (Z/G)"),
     ("0xeda9", "0x5a50", "daemon port end 60841 -> 23120"),
     ("60832", "23111", "daemon port literal"),
@@ -50,7 +50,7 @@ def transform(text: str) -> str:
     for old, new, _note in RULES:
         text = text.replace(old, new)
     # Remaining standalone `easyeda` words are CLI/help/example text.
-    text = WORD_RE.sub("zhigou", text)
+    text = WORD_RE.sub("easycirq", text)
     return text.replace(PLACEHOLDER, "easyeda.com")
 
 
@@ -78,11 +78,11 @@ def main() -> int:
             if not args.check:
                 path.write_text(updated, encoding="utf-8", newline="\n")
 
-    # version.Name must read "zhigou" (the replacement above leaves zhigou-agent).
+    # version.Name must read "easycirq" (the replacement above leaves easycirq-agent).
     version_go = RUNTIME / "internal" / "version" / "version.go"
     if version_go.exists():
         text = version_go.read_text(encoding="utf-8")
-        fixed = text.replace('Name    = "zhigou-agent"', 'Name    = "zhigou"')
+        fixed = text.replace('Name    = "easycirq-agent"', 'Name    = "easycirq"')
         if fixed != text:
             changed.append(str(version_go.relative_to(REPO)) + " (version.Name)")
             if not args.check:

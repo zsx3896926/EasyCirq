@@ -15,8 +15,8 @@ import (
 )
 
 // Service is the identity string the connector and CLI use to confirm they are
-// talking to an zhigou-agent daemon rather than some other local server.
-const Service = "zhigou-agent"
+// talking to an easycirq-agent daemon rather than some other local server.
+const Service = "easycirq-agent"
 
 // Options configures a daemon Server.
 type Options struct {
@@ -28,12 +28,12 @@ type Options struct {
 	// ArtifactDir is the FALLBACK directory for inline artifact bytes from the
 	// connector, used only when a request carries no outputDir. The CLI sends its
 	// own working directory as outputDir, so artifacts normally land in
-	// <cwd>/.zhigou/artifacts (see artifactDir). Defaults to "artifacts"
+	// <cwd>/.easycirq/artifacts (see artifactDir). Defaults to "artifacts"
 	// (relative to the daemon's working directory) when empty.
 	ArtifactDir string
 
 	// AuditDir is where per-day JSONL action logs are appended. Defaults to
-	// ~/.zhigou/audit/ when empty.
+	// ~/.easycirq/audit/ when empty.
 	AuditDir string
 
 	// AutosaveDebounce, when > 0, enables daemon-level debounced autosave: after a

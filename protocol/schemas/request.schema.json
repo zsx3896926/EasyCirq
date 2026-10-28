@@ -22,7 +22,7 @@
     },
     "action": {
       "type": "string",
-      "description": "typed action name from `zhigou actions`"
+      "description": "typed action name from `easycirq actions`"
     },
     "payload": {
       "type": "object"

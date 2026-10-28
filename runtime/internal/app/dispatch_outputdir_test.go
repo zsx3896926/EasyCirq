@@ -7,15 +7,15 @@ import (
 )
 
 // TestStripArtifactNesting: the outputDir sent to the daemon must never point
-// INSIDE a .zhigou/artifacts tree — a drifted cwd used to make the daemon
-// nest .zhigou/artifacts/.zhigou/artifacts/… one level deeper per call.
+// INSIDE a .easycirq/artifacts tree — a drifted cwd used to make the daemon
+// nest .easycirq/artifacts/.easycirq/artifacts/… one level deeper per call.
 // 1-level and 3-level nested inputs must normalize to the SAME target.
 func TestStripArtifactNesting(t *testing.T) {
 	sep := string(filepath.Separator)
 	root := filepath.Join(sep+"home", "me", "proj")
-	one := filepath.Join(root, ".zhigou", "artifacts")
+	one := filepath.Join(root, ".easycirq", "artifacts")
 	three := filepath.Join(root,
-		".zhigou", "artifacts", ".zhigou", "artifacts", ".zhigou", "artifacts")
+		".easycirq", "artifacts", ".easycirq", "artifacts", ".easycirq", "artifacts")
 
 	if got := stripArtifactNesting(one); got != root {
 		t.Errorf("1-level nesting: got %q, want %q", got, root)
@@ -32,13 +32,13 @@ func TestStripArtifactNesting(t *testing.T) {
 	if got := stripArtifactNesting(root); got != root {
 		t.Errorf("normal path changed: got %q, want %q", got, root)
 	}
-	// A lone .zhigou (no artifacts child segment) is NOT stripped.
-	cfgDir := filepath.Join(root, ".zhigou")
+	// A lone .easycirq (no artifacts child segment) is NOT stripped.
+	cfgDir := filepath.Join(root, ".easycirq")
 	if got := stripArtifactNesting(cfgDir); got != cfgDir {
-		t.Errorf(".zhigou without artifacts stripped: got %q, want %q", got, cfgDir)
+		t.Errorf(".easycirq without artifacts stripped: got %q, want %q", got, cfgDir)
 	}
 	// Degenerate: the pair at the filesystem root must not panic or return "".
-	if got := stripArtifactNesting(filepath.Join(sep+".zhigou", "artifacts")); got != sep {
+	if got := stripArtifactNesting(filepath.Join(sep+".easycirq", "artifacts")); got != sep {
 		t.Errorf("rooted pair: got %q, want %q", got, sep)
 	}
 }
@@ -58,8 +58,8 @@ func TestResolveOutputDir(t *testing.T) {
 	}
 	// cwd inside a nested artifact tree → stripped first, then anchored: the
 	// nested 1-level and 3-level cases land on the SAME directory.
-	one := filepath.Join(projRoot, ".zhigou", "artifacts")
-	three := filepath.Join(projRoot, ".zhigou", "artifacts", ".zhigou", "artifacts", ".zhigou", "artifacts")
+	one := filepath.Join(projRoot, ".easycirq", "artifacts")
+	three := filepath.Join(projRoot, ".easycirq", "artifacts", ".easycirq", "artifacts", ".easycirq", "artifacts")
 	g1, g3 := resolveOutputDir(one, isRoot), resolveOutputDir(three, isRoot)
 	if g1 != projRoot || g3 != projRoot || g1 != g3 {
 		t.Errorf("nested: got %q / %q, want both %q", g1, g3, projRoot)
@@ -77,7 +77,7 @@ func TestResolveOutputDir(t *testing.T) {
 
 // TestArtifactOutputDirLive: run against the real repo cwd — this test file
 // lives under the module, so the marker walk-up must find a root that carries
-// .git or go.mod, and the result must never contain a .zhigou/artifacts pair.
+// .git or go.mod, and the result must never contain a .easycirq/artifacts pair.
 func TestArtifactOutputDirLive(t *testing.T) {
 	dir, ok := artifactOutputDir()
 	if !ok {
@@ -86,7 +86,7 @@ func TestArtifactOutputDirLive(t *testing.T) {
 	if !dirHasProjectMarker(dir) {
 		t.Errorf("resolved dir %q has no project marker", dir)
 	}
-	if strings.Contains(dir, filepath.Join(".zhigou", "artifacts")) {
+	if strings.Contains(dir, filepath.Join(".easycirq", "artifacts")) {
 		t.Errorf("resolved dir %q still inside an artifact tree", dir)
 	}
 }

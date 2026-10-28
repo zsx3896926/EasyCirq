@@ -23,7 +23,7 @@ func runLocalUpdate(cfg *appConfig, dir, binary string, check, exitCode, jsonOut
 			return fmt.Errorf("local installation prints backup paths; --json is check-only")
 		}
 		if binary == "" {
-			return fmt.Errorf("local installation requires --binary /absolute/path/to/zhigou")
+			return fmt.Errorf("local installation requires --binary /absolute/path/to/easycirq")
 		}
 		if err := b.Install(binary, out); err != nil {
 			return err

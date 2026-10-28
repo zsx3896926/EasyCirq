@@ -56,7 +56,7 @@ func explainDocTypeMismatch(ctx context.Context, req *protocol.Request, resp *pr
 		original += " — " + resp.Error.Detail
 	}
 	resp.Error.Message = fmt.Sprintf("%s needs a %s document, but the foreground document is %s %s. "+
-		"Retry with --doc set to the target %s name or uuid (list them with `zhigou doc ls`), or run `zhigou doc switch` to it first.",
+		"Retry with --doc set to the target %s name or uuid (list them with `easycirq doc ls`), or run `easycirq doc switch` to it first.",
 		req.Action, want, got, strconv.Quote(uuid), want)
 	resp.Error.Detail = "original error: " + original
 	if !mutatesAction[req.Action] {

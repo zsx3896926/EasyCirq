@@ -33,7 +33,7 @@ func TestSchClearAndExportSendHeavyBudgets(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/health":
-			_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[{"windowId":"w1"}]}`))
+			_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[{"windowId":"w1"}]}`))
 		case "/action":
 			var body struct {
 				Action    string `json:"action"`

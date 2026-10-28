@@ -12,7 +12,7 @@ import (
 //
 // After a PCB mutation (rip-up / route / delete / via / track / pour edits) the
 // per-document engine state serves STALE data to list/DRC reads until the
-// document is reloaded (`zhigou doc reload`) — observed repeatedly on real
+// document is reloaded (`easycirq doc reload`) — observed repeatedly on real
 // boards. Until now this was enforced only by the agent remembering rule 5,
 // helped along by a non-blocking `staleRisk` advisory this guard attached to the
 // response.
@@ -188,6 +188,6 @@ func (g *staleGuard) observe(req *protocol.Request, resp *protocol.Response) {
 // CLI can deduplicate identical warnings within one composite command.
 func staleRiskMessage(mutation, read string) string {
 	return fmt.Sprintf(
-		"PCB was mutated by %s since the last reload — %s (and DRC) may read stale engine state; authoritative workflows should save, run `zhigou doc reload`, then read back; if refresh fails, treat the data as unavailable",
+		"PCB was mutated by %s since the last reload — %s (and DRC) may read stale engine state; authoritative workflows should save, run `easycirq doc reload`, then read back; if refresh fails, treat the data as unavailable",
 		mutation, read)
 }

@@ -1,5 +1,5 @@
 // Package apidoc embeds a searchable index of the official `eda.*` API surface,
-// generated from @jlceda/pro-api-types (see gen.py). It powers `zhigou api
+// generated from @jlceda/pro-api-types (see gen.py). It powers `easycirq api
 // search/ls`, the self-discovery loop for "what eda.* call do I need" when
 // scoping a new typed action or a debug.exec_js snippet.
 package apidoc

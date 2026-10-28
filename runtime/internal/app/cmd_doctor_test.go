@@ -133,7 +133,7 @@ func TestReadConnectorManifestFromEext(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	manifest := `{"name":"zhigou-connector","uuid":"a6e6b788551945b399e150d80efa6e31","version":"0.1.0","displayName":"d","publisher":"p","engines":{"eda":">=3.2.0"}}`
+	manifest := `{"name":"easycirq-connector","uuid":"a6e6b788551945b399e150d80efa6e31","version":"0.1.0","displayName":"d","publisher":"p","engines":{"eda":">=3.2.0"}}`
 	if _, err := w.Write([]byte(manifest)); err != nil {
 		t.Fatal(err)
 	}
@@ -147,7 +147,7 @@ func TestReadConnectorManifestFromEext(t *testing.T) {
 	if err != nil {
 		t.Fatalf("readConnectorManifest: %v", err)
 	}
-	if m.Name != "zhigou-connector" || m.Version != "0.1.0" {
+	if m.Name != "easycirq-connector" || m.Version != "0.1.0" {
 		t.Fatalf("unexpected manifest: %+v", m)
 	}
 	if m.EngineEDA != ">=3.2.0" {

@@ -47,7 +47,7 @@ type connectorArtifact struct {
 func newConnectorCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "connector",
-		Short: "Locate, inspect and verify the Zhigou connector .eext",
+		Short: "Locate, inspect and verify the EasyCirq connector .eext",
 	}
 	cmd.AddCommand(
 		newConnectorPathCmd(stdout),
@@ -59,17 +59,17 @@ func newConnectorCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 
 func connectorSearchPaths() []string {
 	var out []string
-	if p := strings.TrimSpace(os.Getenv("ZHIGOU_CONNECTOR_EEXT")); p != "" {
+	if p := strings.TrimSpace(os.Getenv("EASYCIRQ_CONNECTOR_EEXT")); p != "" {
 		out = append(out, p)
 	}
 	if exe, err := os.Executable(); err == nil {
 		dir := filepath.Dir(exe)
-		// Installed layout: <install>/bin/zhigou.exe + <install>/connector/*.eext
+		// Installed layout: <install>/bin/easycirq.exe + <install>/connector/*.eext
 		out = append(out,
 			filepath.Join(dir, "..", "connector"),
 			filepath.Join(dir, "connector"),
 		)
-		// Development layout: <repo>/runtime/dist/zhigou.exe + <repo>/connector/build/dist
+		// Development layout: <repo>/runtime/dist/easycirq.exe + <repo>/connector/build/dist
 		out = append(out,
 			filepath.Join(dir, "..", "..", "connector", "build", "dist"),
 			filepath.Join(dir, "..", "..", "..", "connector", "build", "dist"),
@@ -174,7 +174,7 @@ func newConnectorVerifyCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Comm
 		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			report := map[string]any{
-				"schema":          "zhigou-connector-verify/v1",
+				"schema":          "easycirq-connector-verify/v1",
 				"expectedName":    expectedConnectorName,
 				"expectedVersion": expectedConnectorVersion,
 				"runtimeVersion":  version.Version,
@@ -189,7 +189,7 @@ func newConnectorVerifyCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Comm
 				enc := json.NewEncoder(stdout)
 				enc.SetIndent("", "  ")
 				_ = enc.Encode(report)
-				fmt.Fprintln(stderr, "zhigou connector verify — blocked: .eext not found")
+				fmt.Fprintln(stderr, "easycirq connector verify — blocked: .eext not found")
 				return errActionFailed
 			}
 			art.Path = path
@@ -244,7 +244,7 @@ func newConnectorVerifyCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Comm
 			if err := enc.Encode(report); err != nil {
 				return err
 			}
-			fmt.Fprintf(stderr, "zhigou connector verify — %s (eext %s, loaded windows: %d)\n",
+			fmt.Fprintf(stderr, "easycirq connector verify — %s (eext %s, loaded windows: %d)\n",
 				verdict, path, len(loaded))
 			if verdict == "blocked" {
 				return errActionFailed
@@ -266,11 +266,11 @@ func newConnectorInstallStepsCmd(stdout io.Writer) *cobra.Command {
 				"2. 打开 EasyEDA Pro → 「设置 / 扩展」→「导入扩展」，选择: " + path,
 				"3. 打开扩展管理器 → 选中 " + expectedConnectorName + " → 允许「外部交互 / Allow external interaction」",
 				"4. 重新启动 EasyEDA Pro，打开工程",
-				"5. 回到命令行运行 `zhigou doctor`：connector 状态应为 connected，且 connectorVersion 为 " + expectedConnectorVersion,
+				"5. 回到命令行运行 `easycirq doctor`：connector 状态应为 connected，且 connectorVersion 为 " + expectedConnectorVersion,
 				"注意：导入是 EDA 内的显式人工动作，本工具链不会、也不应该替你点击；导入后以真实握手而非磁盘文件判断安装成功。",
 			}
 			out := map[string]any{
-				"schema":    "zhigou-connector-install-steps/v1",
+				"schema":    "easycirq-connector-install-steps/v1",
 				"eext":      path,
 				"name":      expectedConnectorName,
 				"version":   expectedConnectorVersion,

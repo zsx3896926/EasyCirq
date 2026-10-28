@@ -17,12 +17,12 @@ import (
 )
 
 // Background daemon start. Before this, first use meant "open a terminal and
-// keep `zhigou daemon start` running in the foreground" — the hardest setup
+// keep `easycirq daemon start` running in the foreground" — the hardest setup
 // step for people and impossible for an agent whose shell blocks on it.
 //
 // Auto-start is skipped for dev builds (make dev runs the daemon under air;
 // a CLI call during an air rebuild must not race it) and with
-// ZHIGOU_NO_AUTOSTART=1. Two CLI processes starting at once would otherwise
+// EASYCIRQ_NO_AUTOSTART=1. Two CLI processes starting at once would otherwise
 // let the second daemon "replace" the first, so a lock file serializes the
 // spawn and the holder re-scans before spawning.
 
@@ -33,7 +33,7 @@ func daemonLogPath() string {
 	if err != nil {
 		return ""
 	}
-	return filepath.Join(home, ".zhigou", "daemon.log")
+	return filepath.Join(home, ".easycirq", "daemon.log")
 }
 
 var releaseVersionPattern = regexp.MustCompile(`^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$`)
@@ -43,14 +43,14 @@ var releaseVersionPattern = regexp.MustCompile(`^v?(0|[1-9][0-9]*)\.(0|[1-9][0-9
 // builds (git describe "v1.11.0-2-gffac5fe-dirty", "dev") are what `make dev`
 // runs under air; a CLI call during an air rebuild must not race it.
 func autoStartAllowed() bool {
-	if os.Getenv("ZHIGOU_NO_AUTOSTART") != "" {
+	if os.Getenv("EASYCIRQ_NO_AUTOSTART") != "" {
 		return false
 	}
 	return releaseVersionPattern.MatchString(version.Version) || selfupdate.IsLocalVersion(version.Version)
 }
 
-// startDaemonBackground spawns `zhigou daemon start` detached (log appended to
-// ~/.zhigou/daemon.log) and waits until /health answers. It returns the
+// startDaemonBackground spawns `easycirq daemon start` detached (log appended to
+// ~/.easycirq/daemon.log) and waits until /health answers. It returns the
 // port the daemon answered on.
 func startDaemonBackground(cfg *appConfig, stderr io.Writer, extraArgs ...string) (int, error) {
 	return startDaemonBackgroundFrom(cfg, stderr, "", extraArgs...)
@@ -101,7 +101,7 @@ func startDaemonBackgroundFrom(cfg *appConfig, stderr io.Writer, exe string, ext
 		if p := waitUp(); p != 0 {
 			return p, nil
 		}
-		return 0, fmt.Errorf("another zhigou process is starting the daemon but it did not come up; see %s", logPath)
+		return 0, fmt.Errorf("another easycirq process is starting the daemon but it did not come up; see %s", logPath)
 	}
 	f.Close()
 	defer os.Remove(lock)
@@ -119,7 +119,7 @@ func startDaemonBackgroundFrom(cfg *appConfig, stderr io.Writer, exe string, ext
 	}
 	defer logf.Close()
 	// Same host/ports as the caller: a spawned daemon on the default port would
-	// "replace" whatever zhigou daemon already holds it.
+	// "replace" whatever easycirq daemon already holds it.
 	args := append([]string{"daemon", "start", "--host", cfg.host, "--ports", cfg.ports}, extraArgs...)
 	cmd := exec.Command(exe, args...)
 	fmt.Fprintf(logf, "\n=== %s background start: %s %v ===\n", time.Now().Format(time.RFC3339), exe, args)
@@ -131,7 +131,7 @@ func startDaemonBackgroundFrom(cfg *appConfig, stderr io.Writer, exe string, ext
 	pid := cmd.Process.Pid
 	_ = cmd.Process.Release()
 	if p := waitUp(); p != 0 {
-		fmt.Fprintf(stderr, "↻ zhigou daemon 已在后台启动（pid %d，端口 %d，日志 %s）\n", pid, p, logPath)
+		fmt.Fprintf(stderr, "↻ easycirq daemon 已在后台启动（pid %d，端口 %d，日志 %s）\n", pid, p, logPath)
 		return p, nil
 	}
 	return 0, fmt.Errorf("daemon (pid %d) did not answer /health within %s; see %s", pid, daemonStartWait, logPath)

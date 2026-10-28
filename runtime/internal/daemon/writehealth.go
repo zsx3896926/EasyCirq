@@ -744,7 +744,7 @@ func (t *writeHealthTracker) annotateDegraded(req *protocol.Request, resp *proto
 	case requestMutates(req):
 		advice += " — this write may have LANDED despite the failure (假失败定律): verify with a light read before resending, and do NOT blind-retry"
 	default:
-		advice += " — insert a light read + short pause before retrying; consider `zhigou doc reload` if this persists"
+		advice += " — insert a light read + short pause before retrying; consider `easycirq doc reload` if this persists"
 	}
 	if len(h.DegradedActions) > 0 {
 		advice += fmt.Sprintf(". Worst road(s): %s", strings.Join(h.DegradedActions, ", "))

@@ -29,7 +29,7 @@ that text, visibility, style and parent remain unchanged. Stale or incomplete
 state is refused. Partial writes retain evidence and are never retried. Follow
 with official image review and explicit save/reload/fresh readback; this command
 does not prove visual clearance or persistence.`,
-		Example: "  zhigou sch attribute-move --from move.json --project tracker --doc <page-uuid>",
+		Example: "  easycirq sch attribute-move --from move.json --project tracker --doc <page-uuid>",
 		Args:    cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if strings.TrimSpace(from) == "" {

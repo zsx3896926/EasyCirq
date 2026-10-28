@@ -26,7 +26,7 @@ func isolate(t *testing.T) (home string) {
 	t.Helper()
 	home = t.TempDir()
 	t.Setenv("HOME", home)
-	t.Setenv("ZHIGOU_SKILLS_DIR", "")
+	t.Setenv("EASYCIRQ_SKILLS_DIR", "")
 	t.Setenv("PATH", "")
 	t.Chdir(t.TempDir())
 	return home
@@ -38,7 +38,7 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 	home := isolate(t)
 
 	skillsRoot := t.TempDir()
-	envScript := mkScript(t, filepath.Join(skillsRoot, "zhigou-agent", "scripts", "bom-enrich.py"))
+	envScript := mkScript(t, filepath.Join(skillsRoot, "easycirq-agent", "scripts", "bom-enrich.py"))
 	installed := mkScript(t, filepath.Join(home, ".claude", "skills", "design-hardware", "scripts", "bom-enrich.py"))
 
 	// cwd rung: a repo-shaped tree, with cwd a few levels down.
@@ -52,7 +52,7 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 	explicit := mkScript(t, filepath.Join(t.TempDir(), "custom-enrich.py"))
 
 	t.Run("1 explicit --script wins over everything", func(t *testing.T) {
-		t.Setenv("ZHIGOU_SKILLS_DIR", skillsRoot)
+		t.Setenv("EASYCIRQ_SKILLS_DIR", skillsRoot)
 		got, err := resolveEnrichScript(explicit)
 		if err != nil || got != explicit {
 			t.Fatalf("got %q, %v; want %q", got, err, explicit)
@@ -60,7 +60,7 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 	})
 
 	t.Run("1b explicit --script that does not exist is a hard error", func(t *testing.T) {
-		t.Setenv("ZHIGOU_SKILLS_DIR", skillsRoot) // a valid fallback exists…
+		t.Setenv("EASYCIRQ_SKILLS_DIR", skillsRoot) // a valid fallback exists…
 		missing := filepath.Join(t.TempDir(), "typo.py")
 		got, err := resolveEnrichScript(missing)
 		if err == nil {
@@ -71,8 +71,8 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 		}
 	})
 
-	t.Run("2 ZHIGOU_SKILLS_DIR beats the installed skill dir", func(t *testing.T) {
-		t.Setenv("ZHIGOU_SKILLS_DIR", skillsRoot)
+	t.Run("2 EASYCIRQ_SKILLS_DIR beats the installed skill dir", func(t *testing.T) {
+		t.Setenv("EASYCIRQ_SKILLS_DIR", skillsRoot)
 		got, err := resolveEnrichScript("")
 		if err != nil || got != envScript {
 			t.Fatalf("got %q, %v; want %q", got, err, envScript)
@@ -98,13 +98,13 @@ func TestResolveEnrichScriptPriority(t *testing.T) {
 	})
 }
 
-// TestResolveEnrichScriptPreMergeSkillName: an old zhigou-schematic install
+// TestResolveEnrichScriptPreMergeSkillName: an old easycirq-schematic install
 // still resolves (the pre-merge skill name).
 func TestResolveEnrichScriptPreMergeSkillName(t *testing.T) {
 	isolate(t)
 	root := t.TempDir()
-	want := mkScript(t, filepath.Join(root, "zhigou-schematic", "scripts", "bom-enrich.py"))
-	t.Setenv("ZHIGOU_SKILLS_DIR", root)
+	want := mkScript(t, filepath.Join(root, "easycirq-schematic", "scripts", "bom-enrich.py"))
+	t.Setenv("EASYCIRQ_SKILLS_DIR", root)
 	got, err := resolveEnrichScript("")
 	if err != nil || got != want {
 		t.Fatalf("got %q, %v; want %q", got, err, want)
@@ -116,7 +116,7 @@ func TestResolveEnrichScriptPreMergeSkillName(t *testing.T) {
 func TestResolveEnrichScriptNotFoundListsProbedPaths(t *testing.T) {
 	home := isolate(t)
 	root := t.TempDir()
-	t.Setenv("ZHIGOU_SKILLS_DIR", root)
+	t.Setenv("EASYCIRQ_SKILLS_DIR", root)
 
 	_, err := resolveEnrichScript("")
 	if err == nil {
@@ -124,12 +124,12 @@ func TestResolveEnrichScriptNotFoundListsProbedPaths(t *testing.T) {
 	}
 	msg := err.Error()
 	for _, want := range []string{
-		filepath.Join(root, "zhigou-agent", "scripts", "bom-enrich.py"),                      // env rung
+		filepath.Join(root, "easycirq-agent", "scripts", "bom-enrich.py"),                      // env rung
 		filepath.Join(home, ".claude", "skills", "design-hardware", "scripts", "bom-enrich.py"), // installed rung
 		filepath.Join(home, ".codex", "skills", "design-hardware", "scripts", "bom-enrich.py"),
 		"$PATH/bom-enrich.py",
 		"--script",
-		"ZHIGOU_SKILLS_DIR",
+		"EASYCIRQ_SKILLS_DIR",
 	} {
 		if !strings.Contains(msg, want) {
 			t.Errorf("error must mention %q; got:\n%s", want, msg)

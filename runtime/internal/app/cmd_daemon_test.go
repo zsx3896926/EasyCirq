@@ -39,7 +39,7 @@ func TestEnsurePortAvailable_FreePort(t *testing.T) {
 	}
 }
 
-// A FOREIGN process on the port (not an zhigou daemon) must be REFUSED headless
+// A FOREIGN process on the port (not an easycirq daemon) must be REFUSED headless
 // (go test has no TTY), and must NOT be killed.
 func TestEnsurePortAvailable_ForeignHeadlessRefuses(t *testing.T) {
 	ln, err := net.Listen("tcp", "127.0.0.1:0")
@@ -52,7 +52,7 @@ func TestEnsurePortAvailable_ForeignHeadlessRefuses(t *testing.T) {
 	if err := ensurePortAvailable("127.0.0.1", port, io.Discard); err == nil {
 		t.Fatal("expected refusal for a foreign process holding the port (headless)")
 	}
-	// The foreign listener must still be alive — we never kill non-zhigou procs.
+	// The foreign listener must still be alive — we never kill non-easycirq procs.
 	if portFree("127.0.0.1", port) {
 		t.Error("foreign listener must NOT have been killed/freed")
 	}

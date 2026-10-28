@@ -39,6 +39,6 @@ func termPID(pid int) error {
 	}
 	defer proc.Release()
 	// Windows does not support Unix SIGTERM/Signal(0). Kill only this verified
-	// daemon process, never its process tree or every process named zhigou.exe.
+	// daemon process, never its process tree or every process named easycirq.exe.
 	return proc.Kill()
 }

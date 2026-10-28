@@ -30,8 +30,8 @@ or native DRC. No daemon, connector, editor writes or additional CLI is needed.
 Reports are written even for rejected candidates and incomplete searches; only
 pass exits zero. A same-name SVG preview is always rendered beside the JSON.
 Check verifies provenance and geometry without rerunning solve.`,
-			Example: `  zhigou pcb route solve --board board.json --from request.json --out plan.json
-  zhigou pcb route check --board board.json --from request.json --plan plan.json --out check.json`,
+			Example: `  easycirq pcb route solve --board board.json --from request.json --out plan.json
+  easycirq pcb route check --board board.json --from request.json --plan plan.json --out check.json`,
 			RunE: func(cmd *cobra.Command, _ []string) error {
 				if boardPath == "" || fromPath == "" || outPath == "" || mode == "check" && planPath == "" {
 					return fmt.Errorf("--board, --from, --out and (for check) --plan are required")

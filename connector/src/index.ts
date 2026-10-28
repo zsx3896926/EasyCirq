@@ -1,9 +1,9 @@
 /**
  * EasyCirq Connector — extension entry point.
  *
- * Bridges the zhigou-agent Go daemon to the official `eda.*` API over a local
+ * Bridges the easycirq-agent Go daemon to the official `eda.*` API over a local
  * WebSocket. On startup it scans ports 23111-23120 (0xEDA0-0xEDA9), validates the daemon
- * handshake (service "zhigou-agent"), registers a windowId, sends context, and
+ * handshake (service "easycirq-agent"), registers a windowId, sends context, and
  * keeps a heartbeat. Incoming `request` frames are dispatched to typed actions
  * (see ./actions) and answered with `response` frames.
  *

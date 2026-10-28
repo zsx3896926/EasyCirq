@@ -1,6 +1,6 @@
 package app
 
-// cmd_pcb_layoutscore.go — `zhigou pcb layout-score` 的 CLI 层：取数、组装、渲染。
+// cmd_pcb_layoutscore.go — `easycirq pcb layout-score` 的 CLI 层：取数、组装、渲染。
 //
 // 纯核在 pcb_layoutscore.go（analyzeLayoutScore），各维实现在 pcb_score_*.go。
 // 这一层只做三件事：把板拉成快照（或从文件读回）、把 S0 spec 读进来、把报告渲染成
@@ -52,16 +52,16 @@ func newPcbLayoutScoreCmd(cfg *appConfig, window *string, stdout, stderr io.Writ
 			"coverage/incomplete 报告库存缺测、未知/不支持的焊盘几何和旧宽高近似。\n" +
 			"普通诊断仍输出分数；显式 --min-score 对必要覆盖不完整返回非零。",
 		Example: "  # 给当前板打分\n" +
-			"  zhigou pcb layout-score --project ceshi\n\n" +
+			"  easycirq pcb layout-score --project ceshi\n\n" +
 			"  # 带 S0 意图（解锁 flow-order 与 internal 连接器判定）\n" +
-			"  zhigou pcb layout-score --spec .zhigou/s0-ceshi.json\n\n" +
+			"  easycirq pcb layout-score --spec .easycirq/s0-ceshi.json\n\n" +
 			"  # 只看最弱的两维，带完整归因\n" +
-			"  zhigou pcb layout-score --only tidy,compact --all\n\n" +
+			"  easycirq pcb layout-score --only tidy,compact --all\n\n" +
 			"  # 离线重放一块已 dump 的板（CI / 金标准回归）\n" +
-			"  zhigou pcb dump --out board.json\n" +
-			"  zhigou pcb layout-score --from board.json --json\n\n" +
+			"  easycirq pcb dump --out board.json\n" +
+			"  easycirq pcb layout-score --from board.json --json\n\n" +
 			"  # 当门用（综合分不达标则非零退出）\n" +
-			"  zhigou pcb layout-score --min-score 75",
+			"  easycirq pcb layout-score --min-score 75",
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			opts := layoutScoreOpts{
@@ -119,7 +119,7 @@ func newPcbLayoutScoreCmd(cfg *appConfig, window *string, stdout, stderr io.Writ
 							fmt.Fprintf(stderr, "❌ spec %s: %s\n", i.Field, i.Message)
 						}
 					}
-					return fmt.Errorf("S0 spec has errors; fix it or run `zhigou spec validate %s`", specPath)
+					return fmt.Errorf("S0 spec has errors; fix it or run `easycirq spec validate %s`", specPath)
 				}
 				for _, i := range issues {
 					if i.Level == "WARN" {

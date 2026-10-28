@@ -30,7 +30,7 @@ Relative source paths are resolved beside the spec and cannot contain '..'.
 The output directory must not exist; its parent must exist. Source symlinks,
 external SVG resources, malformed images and mismatched evidence are rejected.`,
 		Args:    cobra.NoArgs,
-		Example: "  zhigou project drawings --from drawings-spec.json --out ./drawings-r1",
+		Example: "  easycirq project drawings --from drawings-spec.json --out ./drawings-r1",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if from == "" || out == "" {
 				return fmt.Errorf("--from and --out are required")

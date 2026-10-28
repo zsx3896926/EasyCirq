@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Rebrand the vendored easyeda-agent Connector extension into Zhigou's connector.
+"""Rebrand the vendored easyeda-agent Connector extension into EasyCirq's connector.
 
 Idempotent. Only touches ``connector/``. Every rule is recorded so the
 transformation from the pinned upstream commit is auditable.
@@ -17,21 +17,21 @@ REPO = Path(__file__).resolve().parent.parent
 CONNECTOR = REPO / "connector"
 
 EXT_UUID = "a6e6b788551945b399e150d80efa6e31"
-EXT_NAME = "zhigou-connector"
-EXT_DISPLAY = "Zhigou EDA Connector"
+EXT_NAME = "easycirq-connector"
+EXT_DISPLAY = "EasyCirq EDA Connector"
 EXT_VERSION = "0.1.0"
 EXT_PUBLISHER = "zsx3896926"
 REPO_URL = "https://github.com/zsx3896926/hardware-design-skill"
 
 RULES: list[tuple[str, str, str]] = [
-    ("easyeda-agent", "zhigou-agent", "service id / socket prefix / log prefix"),
+    ("easyeda-agent", "easycirq-agent", "service id / socket prefix / log prefix"),
     ("0xeda0", "0x5a47", "daemon port start 60832 -> 23111"),
     ("0xeda9", "0x5a50", "daemon port end 60841 -> 23120"),
     ("60832", "23111", "daemon port literal"),
     ("60841", "23120", "daemon port literal (end)"),
-    ("'daemonPorts'", "'zhigouDaemonPorts'", "extension user-config key isolation"),
-    ("__easyedaAgentTransportRuntime", "__zhigouTransportRuntime", "shared runtime key isolation"),
-    ("EDA Agent", "Zhigou", "in-EDA menu title"),
+    ("'daemonPorts'", "'easycirqDaemonPorts'", "extension user-config key isolation"),
+    ("__easyedaAgentTransportRuntime", "__easycirqTransportRuntime", "shared runtime key isolation"),
+    ("EDA Agent", "EasyCirq", "in-EDA menu title"),
 ]
 
 TEXT_SUFFIXES = {".ts", ".mts", ".js", ".mjs", ".json", ".md", ".yml", ".yaml"}
@@ -55,7 +55,7 @@ def rewrite_manifest() -> dict:
     data["version"] = EXT_VERSION
     data["publisher"] = EXT_PUBLISHER
     data["description"] = (
-        "Zhigou (智构) EDA connector: bridges the local Zhigou runtime daemon to the "
+        "EasyCirq (智构) EDA connector: bridges the local EasyCirq runtime daemon to the "
         "official eda.* API over a local WebSocket. Derived from easyeda-agent "
         "(MIT) — see NOTICE."
     )
@@ -65,12 +65,12 @@ def rewrite_manifest() -> dict:
     data["homepage"] = REPO_URL
     for menu_group in data.get("headerMenus", {}).values():
         for menu in menu_group:
-            if menu.get("id") == "Zhigou" or menu.get("title") == "Zhigou":
-                menu["id"] = "Zhigou"
-                menu["title"] = "Zhigou"
+            if menu.get("id") == "EasyCirq" or menu.get("title") == "EasyCirq":
+                menu["id"] = "EasyCirq"
+                menu["title"] = "EasyCirq"
             for item in menu.get("menuItems", []):
                 if item.get("title") == "About...":
-                    item["title"] = "About Zhigou..."
+                    item["title"] = "About EasyCirq..."
     path.write_text(
         json.dumps(data, ensure_ascii=False, indent="\t") + "\n", encoding="utf-8", newline="\n"
     )
@@ -83,7 +83,7 @@ def rewrite_package_json() -> None:
     data["name"] = EXT_NAME
     data["version"] = EXT_VERSION
     data["description"] = (
-        "Zhigou connector extension for EasyEDA Pro (derived from easyeda-agent, MIT)."
+        "EasyCirq connector extension for EasyEDA Pro (derived from easyeda-agent, MIT)."
     )
     data["author"] = EXT_PUBLISHER
     path.write_text(

@@ -56,7 +56,7 @@ func newSbwDaemon(t *testing.T, projectResp string) (*appConfig, *sbwDaemon) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		switch r.URL.Path {
 		case "/health":
-			_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[{"windowId":"w1"}]}`))
+			_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[{"windowId":"w1"}]}`))
 		case "/action":
 			var body struct {
 				Action string `json:"action"`
@@ -251,12 +251,12 @@ func TestBapBackfillSpec_UnresolvableProjectHintIsRunnable(t *testing.T) {
 // TestSpecBackfillManualHint_NeverEmitsEmptyPlaceholder 是同一条判据的纯函数版:
 // 提示语存在的唯一理由是给人照抄,拼不出真名字就必须换一种说法。
 func TestSpecBackfillManualHint_NeverEmitsEmptyPlaceholder(t *testing.T) {
-	withName := specBackfillManualHint(".zhigou/s0.json", "ceshi")
+	withName := specBackfillManualHint(".easycirq/s0.json", "ceshi")
 	if !strings.Contains(withName, "--project ceshi --write") {
 		t.Fatalf("有工程名时该给出可直接照抄的命令:%s", withName)
 	}
 	for _, project := range []string{"", "   "} {
-		got := specBackfillManualHint(".zhigou/s0.json", project)
+		got := specBackfillManualHint(".easycirq/s0.json", project)
 		if strings.Contains(got, "--project  ") || strings.Contains(got, "--project --write") ||
 			strings.HasSuffix(strings.TrimSpace(got), "--project") {
 			t.Fatalf("project=%q 时拼出了空占位符:%s", project, got)

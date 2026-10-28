@@ -43,7 +43,7 @@ matches. Use fresh EDA readback and frame check/export-image to verify the edito
 
 Exit codes: 0 comparison completed; 2 different with --exit-code; 3 wrong target
 or incomplete canonical evidence; 1 malformed input or operational error.`,
-		Example: "  zhigou sch design-diff target-plan.json observed-connectivity.json --exit-code\n  zhigou sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json",
+		Example: "  easycirq sch design-diff target-plan.json observed-connectivity.json --exit-code\n  easycirq sch design-diff before-plan.json after-plan.json --before fresh.json --playbook frame-diff-apply.json",
 		Args:    cobra.ExactArgs(2),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if (playbookPath == "") != (beforePath == "") {

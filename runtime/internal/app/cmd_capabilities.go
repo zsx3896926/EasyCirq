@@ -356,7 +356,7 @@ func newCapabilitiesCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command
 			if err := enc.Encode(rep); err != nil {
 				return fmt.Errorf("encode capabilities: %w", err)
 			}
-			fmt.Fprintf(stderr, "zhigou capabilities — %d supported / %d unknown / %d unsupported\n",
+			fmt.Fprintf(stderr, "easycirq capabilities — %d supported / %d unknown / %d unsupported\n",
 				rep.Summary["supported"], rep.Summary["unknown"], rep.Summary["unsupported"])
 			for _, it := range rep.Items {
 				if it.Status != "supported" {
@@ -374,7 +374,7 @@ func newCapabilitiesCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command
 
 func collectCapabilities(cfg *appConfig) capabilitiesReport {
 	rep := capabilitiesReport{
-		Schema:      "zhigou-capabilities/v1",
+		Schema:      "easycirq-capabilities/v1",
 		GeneratedAt: time.Now().UTC().Format(time.RFC3339),
 		Protocol: doctorProtocol{
 			Service:         protocol.ServiceName,

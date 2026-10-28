@@ -105,13 +105,13 @@ type refineLoopDaemon struct {
 func newRefineLoopDaemon(t *testing.T, comps []*refineFakeComp) (*appConfig, *refineLoopDaemon, func()) {
 	t.Helper()
 	// workflow 状态重定向到临时目录：resolveStageProject/loadPcbStageState 这条
-	// 分支要真跑，但绝不能读写真用户的 ~/.zhigou/workflow。
+	// 分支要真跑，但绝不能读写真用户的 ~/.easycirq/workflow。
 	t.Setenv(workflow.EnvDir, t.TempDir())
 
 	d := &refineLoopDaemon{comps: comps}
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", func(w http.ResponseWriter, _ *http.Request) {
-		fmt.Fprint(w, `{"service":"zhigou-agent","status":"ok","windows":[{"windowId":"w1","context":{"projectName":"refinetest"}}]}`)
+		fmt.Fprint(w, `{"service":"easycirq-agent","status":"ok","windows":[{"windowId":"w1","context":{"projectName":"refinetest"}}]}`)
 	})
 	mux.HandleFunc("/action", func(w http.ResponseWriter, r *http.Request) {
 		var req struct {

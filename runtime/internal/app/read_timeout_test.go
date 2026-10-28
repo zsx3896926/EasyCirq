@@ -40,7 +40,7 @@ func TestReadBudgetOnWire(t *testing.T) {
 			got := 0
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				if r.URL.Path == "/health" {
-					_, _ = w.Write([]byte(`{"service":"zhigou-agent"}`))
+					_, _ = w.Write([]byte(`{"service":"easycirq-agent"}`))
 					return
 				}
 				var req struct {
@@ -71,7 +71,7 @@ func TestDocGuardReadsBackAfterFailedOpen(t *testing.T) {
 			opens, readbacks := 0, 0
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				if r.URL.Path == "/health" {
-					_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[{"windowId":"w1"}]}`))
+					_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[{"windowId":"w1"}]}`))
 					return
 				}
 				var req struct {

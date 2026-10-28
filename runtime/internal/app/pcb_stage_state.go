@@ -15,7 +15,7 @@ import (
 // Stages, persistence, readiness calculations, and fingerprints live in
 // internal/workflow. State is global per project and remains readable by the
 // legacy `workflow` / `pcb stage` commands; it no longer authorizes or blocks
-// typed actions. The old cwd-relative .zhigou/pcb-stage file remains a fallback.
+// typed actions. The old cwd-relative .easycirq/pcb-stage file remains a fallback.
 //
 // Explicit stage commands can still compare fingerprints stored at confirm time
 // with live placement/outline geometry for historical reporting.
@@ -92,7 +92,7 @@ func resolveStageProject(cfg *appConfig, window string) (string, error) {
 // than failing. Costs one light `project.current` read — the same probe the
 // daemon uses for liveness — even when --project already pinned the key.
 //
-// Callers that must stay strictly OFFLINE (`zhigou spec backfill --project X`)
+// Callers that must stay strictly OFFLINE (`easycirq spec backfill --project X`)
 // keep using resolveStageProject and fall back to State.ProjectUUID for scoping.
 func resolveStageIdentity(cfg *appConfig, window string) (key, uuid string, err error) {
 	if strings.TrimSpace(cfg.project) != "" {

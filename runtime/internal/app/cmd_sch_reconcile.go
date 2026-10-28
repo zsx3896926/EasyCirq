@@ -259,7 +259,7 @@ func newSchReconcileCmd(cfg *appConfig, window *string, stdout, stderr io.Writer
 有差异时非零退出,可直接当门禁。手工搭的组没有拓扑来源,会如实列出「对不了账」,
 不会假装通过。`,
 		Args:    cobra.NoArgs,
-		Example: `  zhigou sch reconcile\n  zhigou sch reconcile --json`,
+		Example: `  easycirq sch reconcile\n  easycirq sch reconcile --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runSchReconcile(cfg, *window, asJSON, stdout, stderr)
 		},

@@ -449,9 +449,9 @@ recorded by document UUID in the project workflow state; re-running redraws
 (old frames verified removed first) and --clear deletes them without touching
 another page or user graphics. Draw/clear explicitly saves the schematic.
 Use the global --doc <page> selector for multi-page projects.`,
-		Example: `  zhigou sch zones set --spec s0.json --project ceshi
-  zhigou sch zone-draw --doc P1_MCU --font-size 14 --project ceshi
-  zhigou sch zone-draw --doc P1_MCU --clear --project ceshi`,
+		Example: `  easycirq sch zones set --spec s0.json --project ceshi
+  easycirq sch zone-draw --doc P1_MCU --font-size 14 --project ceshi
+  easycirq sch zone-draw --doc P1_MCU --clear --project ceshi`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// Partition mode (issue #149): whole-sheet data-driven functional partitions
 			// via the planner + per-page frame persistence, instead of the fixed

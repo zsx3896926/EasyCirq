@@ -26,10 +26,10 @@ func newEditorCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 			"panels through the official panel control. UI only — the project is untouched.\n" +
 			"The SDK has no open/closed getter, so the result reports the call that was\n" +
 			"made and each panel's lock (pin) state; a locked panel is reported, never\n" +
-			"unlocked. Pair with `zhigou view fit` to centre the design afterwards.",
+			"unlocked. Pair with `easycirq view fit` to centre the design afterwards.",
 		Args: cobra.NoArgs,
-		Example: `  zhigou editor panels --left closed --right closed && zhigou view fit
-  zhigou editor panels --left open --right open`,
+		Example: `  easycirq editor panels --left closed --right closed && easycirq view fit
+  easycirq editor panels --left open --right open`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			payload := map[string]any{}
 			for flag, value := range map[string]string{"left": left, "right": right} {

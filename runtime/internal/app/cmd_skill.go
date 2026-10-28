@@ -14,8 +14,8 @@ import (
 )
 
 // newSkillCmd returns the "skill" subcommand group — inspect and update the
-// locally-installed zhigou-agent skill dirs (~/.claude/skills/zhigou-agent,
-// ~/.codex/skills/zhigou-agent and ~/.agents/skills/zhigou-agent). The daemon
+// locally-installed easycirq-agent skill dirs (~/.claude/skills/easycirq-agent,
+// ~/.codex/skills/easycirq-agent and ~/.agents/skills/easycirq-agent). The daemon
 // runs `skill sync` automatically on startup (daemon start --auto-update-skill,
 // on by default); these commands are
 // the manual, self-describing surface for the same machinery.
@@ -26,14 +26,14 @@ import (
 func newSkillCmd(stdout, stderr io.Writer) *cobra.Command {
 	s := &cobra.Command{
 		Use:   "skill",
-		Short: "Inspect and update the locally-installed zhigou-agent skill dirs",
-		Long: "Inspect and update the zhigou-agent skill installed for your AI clients.\n\n" +
-			"  zhigou skill status                 show installed skill dirs + versions vs latest release\n" +
-			"  zhigou skill sync                   update present skill dirs to the latest release\n" +
-			"  zhigou skill sync --version 0.9.0   pin a specific version\n\n" +
+		Short: "Inspect and update the locally-installed easycirq-agent skill dirs",
+		Long: "Inspect and update the easycirq-agent skill installed for your AI clients.\n\n" +
+			"  easycirq skill status                 show installed skill dirs + versions vs latest release\n" +
+			"  easycirq skill sync                   update present skill dirs to the latest release\n" +
+			"  easycirq skill sync --version 0.9.0   pin a specific version\n\n" +
 			"The daemon syncs installed Skill dirs to its own version on startup; development builds skip writes.\n" +
 			"CODEX_HOME / CLAUDE_CONFIG_DIR override the default client config roots.\n" +
-			"To update the CLI binary as well, use `zhigou update` (skill sync included).\n" +
+			"To update the CLI binary as well, use `easycirq update` (skill sync included).\n" +
 			"The connector .eext is NOT covered here (no sideload auto-update) — the daemon\n" +
 			"logs a re-import notice when it detects a stale connector.",
 	}
@@ -85,7 +85,7 @@ func newSkillStatusCmd(stdout, stderr io.Writer) *cobra.Command {
 			if rep.Latest != "" {
 				fmt.Fprintf(stdout, "Latest: v%s", rep.Latest)
 				if selfupdate.IsCleanRelease(version.Version) && selfupdate.SemverLess(version.Version, rep.Latest) {
-					fmt.Fprint(stdout, "  (CLI behind — run `zhigou update`)")
+					fmt.Fprint(stdout, "  (CLI behind — run `easycirq update`)")
 				}
 				fmt.Fprintln(stdout)
 			} else {
@@ -131,10 +131,10 @@ func newSkillSyncCmd(stdout, stderr io.Writer) *cobra.Command {
 			"--preserve to keep local edits and the previous version marker (mixed content), and\n" +
 			"--version to pin a specific release instead of latest.",
 		Args: cobra.NoArgs,
-		Example: `  zhigou skill sync
-  zhigou skill sync --version 0.9.0
-  zhigou skill sync --client claude --preserve
-  zhigou skill sync --create-missing`,
+		Example: `  easycirq skill sync
+  easycirq skill sync --version 0.9.0
+  easycirq skill sync --client claude --preserve
+  easycirq skill sync --create-missing`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := selfupdate.ValidateClients(normalizeClients(clients)); err != nil {
 				return err

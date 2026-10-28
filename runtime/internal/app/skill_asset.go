@@ -5,7 +5,7 @@ package app
 //
 // Two different assets now need this: bom-enrich.py (issue #115) and
 // standard-parts.json (the role-id → deviceUuid bridge `sch block-apply` needs
-// to place a block's parts). Both live under .agents/skills/zhigou-agent/, both must be
+// to place a block's parts). Both live under .agents/skills/easycirq-agent/, both must be
 // findable from WHEREVER the agent runs the CLI (a project dir, /tmp, $HOME), and
 // both have the same fallback ladder — so the ladder lives here once instead of
 // being copied per asset.
@@ -44,11 +44,11 @@ type skillAsset struct {
 //
 //  1. explicit (the --flag) — used if it exists, hard error if it doesn't (a typo
 //     must not silently fall through to some other copy);
-//  2. $ZHIGOU_SKILLS_DIR/<skill>/… — the deployment override;
+//  2. $EASYCIRQ_SKILLS_DIR/<skill>/… — the deployment override;
 //  3. the INSTALLED skill dirs (~/.claude/…, ~/.codex/…, ~/.agents/…),
-//     resolved via selfupdate.Targets so this never drifts from `zhigou skill
+//     resolved via selfupdate.Targets so this never drifts from `easycirq skill
 //     status` / `skill sync`;
-//  4. .agents/skills/ walked up from the running binary (dev: ./bin/zhigou);
+//  4. .agents/skills/ walked up from the running binary (dev: ./bin/easycirq);
 //  5. .agents/skills/ walked up from the working directory;
 //  6. the bare name on $PATH (executables only).
 //
@@ -77,7 +77,7 @@ func (a skillAsset) resolve(explicit string) (string, error) {
 	}
 
 	// 2. Explicit skills-root override.
-	if root := strings.TrimSpace(os.Getenv("ZHIGOU_SKILLS_DIR")); root != "" {
+	if root := strings.TrimSpace(os.Getenv("EASYCIRQ_SKILLS_DIR")); root != "" {
 		for _, rel := range a.rels {
 			if c := filepath.Join(root, filepath.FromSlash(rel)); hit(c) {
 				return c, nil
@@ -85,7 +85,7 @@ func (a skillAsset) resolve(explicit string) (string, error) {
 		}
 	}
 
-	// 3. Installed skill dirs (each Target.Dir is …/skills/zhigou-agent).
+	// 3. Installed skill dirs (each Target.Dir is …/skills/easycirq-agent).
 	// rels are skills-root-relative, so strip the leading skill-name segment.
 	for _, t := range selfupdate.Targets(false) {
 		for _, rel := range a.rels {
@@ -116,7 +116,7 @@ func (a skillAsset) resolve(explicit string) (string, error) {
 		return "", false
 	}
 	if exe, err := os.Executable(); err == nil {
-		// Resolve symlinks: a /usr/local/bin/zhigou symlinked into the repo's
+		// Resolve symlinks: a /usr/local/bin/easycirq symlinked into the repo's
 		// bin/ should walk up the REPO, not /usr/local.
 		if real, rerr := filepath.EvalSymlinks(exe); rerr == nil {
 			exe = real
@@ -141,7 +141,7 @@ func (a skillAsset) resolve(explicit string) (string, error) {
 	}
 
 	return "", fmt.Errorf("%s not found — probed:\n  %s\npass %s /path/to/%s, "+
-		"set ZHIGOU_SKILLS_DIR to your skills root, or install the skill (`zhigou skill sync --create-missing`)",
+		"set EASYCIRQ_SKILLS_DIR to your skills root, or install the skill (`easycirq skill sync --create-missing`)",
 		a.name, strings.Join(probed, "\n  "), a.flagHint, a.name)
 }
 
@@ -152,8 +152,8 @@ var standardPartsAsset = skillAsset{
 	name: "standard-parts.json",
 	rels: []string{
 		"design-hardware/references/standard-parts.json",
-		"zhigou-agent/references/standard-parts.json",
-		"zhigou-schematic/references/standard-parts.json", // pre-merge skill name
+		"easycirq-agent/references/standard-parts.json",
+		"easycirq-schematic/references/standard-parts.json", // pre-merge skill name
 	},
 	flagHint: "--parts",
 }

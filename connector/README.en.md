@@ -55,9 +55,9 @@ The connector only translates between the **bottom two layers**.
 ## 2. Prerequisites
 
 - Windows 10/11 (tested), EasyEDA Pro **V4** (tested 4.1.78);
-- The EasyCirq toolchain installed with the unified installer (default `%LOCALAPPDATA%\Zhigou`);
-- Know where the `.eext` is: run `zhigou connector path`, or look at
-  `%LOCALAPPDATA%\Zhigou\connector\easycirq-connector_v<version>.eext`.
+- The EasyCirq toolchain installed with the unified installer (default `%LOCALAPPDATA%\EasyCirq`);
+- Know where the `.eext` is: run `easycirq connector path`, or look at
+  `%LOCALAPPDATA%\EasyCirq\connector\easycirq-connector_v<version>.eext`.
 
 ---
 
@@ -71,7 +71,7 @@ The connector only translates between the **bottom two layers**.
 4. In the extension manager find **"EasyCirq Connector"** → open its settings/permissions →
    enable **"Allow external interaction"** (if not enabled, the connector cannot connect, and EDA does not report an error);
 5. **Fully exit and restart** EasyEDA Pro;
-6. Open any project and run `zhigou doctor` from the command line:
+6. Open any project and run `easycirq doctor` from the command line:
    - `connector.status = connected` → success;
    - `degraded` with "connector not connected" → re-check steps 4 and 5 (permission and restart).
 
@@ -84,10 +84,10 @@ The connector only translates between the **bottom two layers**.
 ## 4. Daily use (you barely touch it)
 
 - After EasyEDA Pro starts, the connector connects to the local daemon automatically; it disconnects when EDA closes;
-- You just describe requirements to the AI; the AI drives `zhigou`; the connector works silently in the background;
+- You just describe requirements to the AI; the AI drives `easycirq`; the connector works silently in the background;
 - You do **not** need to start the connector manually every time, but the daemon must be online
-  (`zhigou daemon start`, or the background service from the installer; `zhigou doctor` reports daemon status);
-- With multiple EasyEDA windows open, `zhigou` will ask for `--window` or `--project` to pick the target —
+  (`easycirq daemon start`, or the background service from the installer; `easycirq doctor` reports daemon status);
+- With multiple EasyEDA windows open, `easycirq` will ask for `--window` or `--project` to pick the target —
   that is a guard against writing to the wrong window, not a fault.
 
 ---
@@ -103,9 +103,9 @@ The correct flow:
 3. Import the new `.eext`;
 4. Enable "Allow external interaction" again;
 5. **Fully exit and restart** EDA;
-6. `zhigou doctor` must show the connector version = expected version and status `connected`.
+6. `easycirq doctor` must show the connector version = expected version and status `connected`.
 
-> Upgrade note: the installer and `zhigou doctor` show the expected connector version. If it does not match,
+> Upgrade note: the installer and `easycirq doctor` show the expected connector version. If it does not match,
 > follow the flow above; do not just overwrite-import (it may keep old code).
 >
 > Uninstall: remove the extension in the extension manager. It does not touch your projects and does not
@@ -117,16 +117,16 @@ The correct flow:
 
 | Symptom | Most likely cause | Fix |
 |---|---|---|
-| `zhigou doctor` shows connector not connected / windows 0 | daemon not running | `zhigou daemon start`, then retry |
+| `easycirq doctor` shows connector not connected / windows 0 | daemon not running | `easycirq daemon start`, then retry |
 | Cannot connect although the daemon is running | "External interaction" not enabled | enable it in extension settings → fully restart EDA |
 | Still no connection after enabling | EDA did not really restart (process still alive) | confirm the process exited, then reopen |
-| `zhigou doctor` reports a connector version mismatch | old version is loaded in EDA | uninstall old → import new → restart (see §5) |
-| "Ambiguous window" errors | several EDA windows are open | use `zhigou ... --project <name>` or `--window <id>` |
+| `easycirq doctor` reports a connector version mismatch | old version is loaded in EDA | uninstall old → import new → restart (see §5) |
+| "Ambiguous window" errors | several EDA windows are open | use `easycirq ... --project <name>` or `--window <id>` |
 | Errors like "page hidden / cannot capture" | the EDA tab is in the background, canvas not repainted | bring the EDA window to the front and retry |
 | Data after an operation looks stale | runtime cache / not saved | the AI runs `save → doc reload → read back`; never trust a single return value |
 | Two "EasyCirq Connector" entries in the manager | the old UUID was not uninstalled | uninstall the old one, keep only the current version |
 
-Logs: `%USERPROFILE%\.zhigou\daemon.log` (connection/request records on the daemon side).
+Logs: `%USERPROFILE%\.easycirq\daemon.log` (connection/request records on the daemon side).
 
 ---
 
@@ -146,10 +146,10 @@ Logs: `%USERPROFILE%\.zhigou\daemon.log` (connection/request records on the daem
 |---|---|
 | Extension name | `easycirq-connector` |
 | Display name | EasyCirq Connector (zh: 智构 · EasyCirq 连接器) |
-| Extension UUID | `a511f06c16e04ce6a6a0d12f7f3835fe` (changes with every upgrade, see §5) |
-| Version | `1.0.5` |
-| Required service | `zhigou-agent` (internal id of this toolchain's daemon; **not** the old `easyeda-agent`) |
-| Ports | `127.0.0.1:23111-23120` (overridable via the extension user config `zhigouDaemonPorts`) |
+| Extension UUID | `70209f0dd9b945c0840ae95215ec7c34` (changes with every upgrade, see §5) |
+| Version | `1.0.6` |
+| Required service | `easycirq-agent` (internal id of this toolchain's daemon; **not** the old `easyeda-agent`) |
+| Ports | `127.0.0.1:23111-23120` (overridable via the extension user config `easycirqDaemonPorts`) |
 | Protocol | wire `v1` (handshake / register / context / request / response / ping / pong) |
 | Host requirement | EasyEDA Pro `>= 3.2.0` (tested 4.1.78) |
 
@@ -172,9 +172,9 @@ npx tsc --noEmit                            # type check
    may keep the old payload;
 3. `.eext` = zip (`extension.json` + `dist/index.js` + `images/` + license files);
 4. The runtime's `runtime/internal/version/version.go` `ConnectorVersion` must be updated too,
-   otherwise `zhigou doctor` reports a version mismatch;
-5. After release, always smoke-test on a real host: import → authorize → restart → `zhigou doctor` +
-   one `zhigou call`.
+   otherwise `easycirq doctor` reports a version mismatch;
+5. After release, always smoke-test on a real host: import → authorize → restart → `easycirq doctor` +
+   one `easycirq call`.
 
 Sources: `docs/toolchain-integration/` (capability matrix, field lessons); upstream provenance and licenses
 are recorded in `NOTICE`.

@@ -6,7 +6,7 @@ import { createWebSocketId } from './transport-identity';
 
 test('WebSocket ids are activation-scoped and keep the diagnostic prefix', () => {
 	const ids = ['activation-a', 'activation-b'].map((id) => createWebSocketId(() => id));
-	assert.deepEqual(ids, ['zhigou-agent-activation-a', 'zhigou-agent-activation-b']);
+	assert.deepEqual(ids, ['easycirq-agent-activation-a', 'easycirq-agent-activation-b']);
 	assert.notEqual(ids[0], ids[1]);
 });
 

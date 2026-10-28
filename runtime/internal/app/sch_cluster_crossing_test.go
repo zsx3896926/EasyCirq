@@ -132,7 +132,7 @@ func TestSchClustersCommandsUseOneCompleteSnapshot(t *testing.T) {
 			reads := 0
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				if r.URL.Path == "/health" {
-					io.WriteString(w, `{"service":"zhigou-agent","windows":[]}`)
+					io.WriteString(w, `{"service":"easycirq-agent","windows":[]}`)
 					return
 				}
 				if r.URL.Path != "/action" {
@@ -264,7 +264,7 @@ func TestSchClustersStrictOmittedRawSegmentIsBlocked(t *testing.T) {
 	// is harmlessly handled by the local HTTP fixture.
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			io.WriteString(w, `{"service":"zhigou-agent","windows":[]}`)
+			io.WriteString(w, `{"service":"easycirq-agent","windows":[]}`)
 			return
 		}
 		json.NewEncoder(w).Encode(map[string]any{"ok": false, "error": map[string]any{"code": "FIXTURE_NO_CONTEXT", "message": "no group metadata"}})
@@ -300,7 +300,7 @@ func TestSchClustersStrictUnknownInventoryBlocksEvenWithoutCollisions(t *testing
 			tc.mutate(raw)
 			srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 				if r.URL.Path == "/health" {
-					io.WriteString(w, `{"service":"zhigou-agent","windows":[]}`)
+					io.WriteString(w, `{"service":"easycirq-agent","windows":[]}`)
 					return
 				}
 				var req struct {

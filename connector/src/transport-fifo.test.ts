@@ -80,7 +80,7 @@ test('transport:同 tick 到达的动作按到达顺序串行,响应带顺序证
 	assert.ok(capturedOnMessage, 'transport 从未调用 eda.sys_WebSocket.register()');
 	const onMessage = capturedOnMessage;
 
-	onMessage({ data: JSON.stringify({ type: 'handshake', service: 'zhigou-agent' }) });
+	onMessage({ data: JSON.stringify({ type: 'handshake', service: 'easycirq-agent' }) });
 	await sleep(50);
 	sent.length = 0;
 	events.length = 0;
@@ -133,7 +133,7 @@ test('transport:源码 roundtrip 超时响应后仍阻塞后续写入,旁路诊�
 	for (let i = 0; i < 100 && !capturedOnMessage; i++) await sleep(20);
 	assert.ok(capturedOnMessage);
 	const onMessage = capturedOnMessage as (event: { data: string }) => void;
-	onMessage({ data: JSON.stringify({ type: 'handshake', service: 'zhigou-agent' }) });
+	onMessage({ data: JSON.stringify({ type: 'handshake', service: 'easycirq-agent' }) });
 	await sleep(50);
 	sent.length = 0;
 	events.length = 0;

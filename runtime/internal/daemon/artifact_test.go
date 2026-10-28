@@ -31,7 +31,7 @@ func TestArtifactFileName(t *testing.T) {
 func TestArtifactDir(t *testing.T) {
 	s := &Server{opts: Options{ArtifactDir: "/cfg/dir"}}
 	// CLI cwd wins → hidden subdir
-	if got := s.artifactDir("/home/me/proj"); got != filepath.Join("/home/me/proj", ".zhigou", "artifacts") {
+	if got := s.artifactDir("/home/me/proj"); got != filepath.Join("/home/me/proj", ".easycirq", "artifacts") {
 		t.Errorf("cwd case: %q", got)
 	}
 	// no cwd → configured dir

@@ -14,7 +14,7 @@ import (
 // readback, yet the tree still showed the PCB, schematic and both pages). The
 // pro-api-types SDK (0.4.25) exposes no tree/document-list refresh, so a
 // verified document delete is followed by the same save → page reload →
-// restore → readback flow as `zhigou web reload`.
+// restore → readback flow as `easycirq web reload`.
 
 // treeRefreshTimeout bounds the reload, reconnect and readback after a delete.
 const treeRefreshTimeout = 30 * time.Second

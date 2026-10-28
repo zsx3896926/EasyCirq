@@ -183,8 +183,8 @@ func schPageFitAdvice(f schPageFit) string {
 	switch f.Verdict {
 	case schFitNeedsMove:
 		return fmt.Sprintf("%s 的尺寸(%.0f×%.0f)在本页放得下(可用 %.0f×%.0f),"+
-			"只是**位置**压着纸边或图签 —— 挪一挪就能解:`zhigou sch group-move --group <组> --dx … --dy …`,"+
-			"或整页重排 `zhigou sch zone-arrange --apply`。",
+			"只是**位置**压着纸边或图签 —— 挪一挪就能解:`easycirq sch group-move --group <组> --dx … --dy …`,"+
+			"或整页重排 `easycirq sch zone-arrange --apply`。",
 			who, f.W, f.H, f.UsableW, f.UsableH)
 	case schFitTooBig:
 		gauge := "实测"
@@ -217,10 +217,10 @@ func schPageFitAdvice(f schPageFit) string {
 		// had been thrown sideways; packed, the same block fits a quarter page).
 		return fmt.Sprintf("%s %s %.0f×%.0f —— %s。"+
 			"整组再挪、再压 `--per-row`、再调 margin/gutter 都只改位置,不会让组框变小,别重试同一条命令。"+
-			"先分清是哪一种:`zhigou sch clusters` 看组内各件是否贴着锚件 —— "+
-			"若外围摊开撑大了组框,这是摆放问题:重新落块或 `zhigou sch zone-arrange --apply` 收拢;"+
+			"先分清是哪一种:`easycirq sch clusters` 看组内各件是否贴着锚件 —— "+
+			"若外围摊开撑大了组框,这是摆放问题:重新落块或 `easycirq sch zone-arrange --apply` 收拢;"+
 			"若各件已贴紧而本体与标签本身就超出(A4-only,不换纸):"+
-			"① 让它独占一页 —— `zhigou sch page-new --schematic <原理图UUID>` 后在新页 `block-apply`;"+
+			"① 让它独占一页 —— `easycirq sch page-new --schematic <原理图UUID>` 后在新页 `block-apply`;"+
 			"② 继续分页 —— 把本页其余模块搬到新页,腾出整幅给它。",
 			who, gauge, f.W, f.H, short)
 	}

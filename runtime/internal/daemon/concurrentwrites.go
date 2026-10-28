@@ -37,7 +37,7 @@ import (
 // smoke: same label, new pid, spurious warning on every mutating step). The
 // guard therefore compares SESSION identity (see sessionKey): hostname+label
 // when a label is present, hostname alone when not. Consequences, deliberate:
-//   - two sessions with different ZHIGOU_CLIENT_LABEL values warn — this is
+//   - two sessions with different EASYCIRQ_CLIENT_LABEL values warn — this is
 //     the issue-#108 mechanism (label your background agents);
 //   - one labeled session warns against an unlabeled one (keys differ);
 //   - two UNLABELED processes on the same host never warn: one-shot processes

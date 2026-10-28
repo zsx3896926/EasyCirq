@@ -1,6 +1,6 @@
 package app
 
-// cmd_pcb_floorplan.go — `zhigou pcb floorplan`：从 S0 的 flow 推出布局骨架。
+// cmd_pcb_floorplan.go — `easycirq pcb floorplan`：从 S0 的 flow 推出布局骨架。
 //
 // 范围声明（诚实优先于好看）：这一版是**只读规划器**。它产出有序功能带 + 该钉边的
 // 连接器目标点，供人审阅和后续消费；它**不搬器件**。真正落笔仍走 place-constrained
@@ -39,10 +39,10 @@ func newPcbFloorplanCmd(cfg *appConfig, window *string, stdout, stderr io.Writer
 			"**只读**：本命令不搬器件。它给出的是布局骨架，落笔仍走 `pcb place-constrained`。\n\n" +
 			"方向不强制：板子从右到左走 电源→天线 与从左到右一样好。已有器件分布更接近\n" +
 			"反向时按反向切带（输出 reversed=true），不会把一块本来就摆对的板翻过来重排。",
-		Example: "  zhigou pcb floorplan --spec .zhigou/s0-ceshi.json\n" +
-			"  zhigou pcb floorplan --spec s0.json --json\n" +
-			"  zhigou pcb floorplan --spec s0.json --from board.json   # 离线\n" +
-			"  zhigou pcb floorplan --spec s0.json --margin 200        # 小板收窄留白",
+		Example: "  easycirq pcb floorplan --spec .easycirq/s0-ceshi.json\n" +
+			"  easycirq pcb floorplan --spec s0.json --json\n" +
+			"  easycirq pcb floorplan --spec s0.json --from board.json   # 离线\n" +
+			"  easycirq pcb floorplan --spec s0.json --margin 200        # 小板收窄留白",
 		Args: cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, _ []string) error {
 			if specPath == "" {
@@ -63,7 +63,7 @@ func newPcbFloorplanCmd(cfg *appConfig, window *string, stdout, stderr io.Writer
 						fmt.Fprintf(stderr, "❌ spec %s: %s\n", i.Field, i.Message)
 					}
 				}
-				return fmt.Errorf("S0 spec has errors; run `zhigou spec validate %s`", specPath)
+				return fmt.Errorf("S0 spec has errors; run `easycirq spec validate %s`", specPath)
 			}
 
 			var snap *boardSnapshot

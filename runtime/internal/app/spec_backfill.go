@@ -61,12 +61,12 @@ import (
 // (`--window <id>`,与 block-apply 的路由方式一致)。
 func specBackfillManualHint(path, project string) string {
 	if p := strings.TrimSpace(project); p != "" {
-		return fmt.Sprintf("手工同步:zhigou spec backfill %s --project %s --write", path, p)
+		return fmt.Sprintf("手工同步:easycirq spec backfill %s --project %s --write", path, p)
 	}
-	return fmt.Sprintf("手工同步:工程名 = `zhigou project info --window <id>` 里的 friendlyName"+
-		"(或 `zhigou health` 里那个窗口的 projectName),拿到后跑 "+
-		"`zhigou spec backfill %s --project <工程名> --write`;"+
-		"也可以直接把窗口给它:`zhigou spec backfill %s --window <id> --write`", path, path)
+	return fmt.Sprintf("手工同步:工程名 = `easycirq project info --window <id>` 里的 friendlyName"+
+		"(或 `easycirq health` 里那个窗口的 projectName),拿到后跑 "+
+		"`easycirq spec backfill %s --project <工程名> --write`;"+
+		"也可以直接把窗口给它:`easycirq spec backfill %s --window <id> --write`", path, path)
 }
 
 // specBackfillChange 是一个模块的回填结果。

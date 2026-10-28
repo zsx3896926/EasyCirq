@@ -6,7 +6,7 @@ package app
 // native teardrop object has no public eda.* create API (checked 0.4.25 types and
 // the live Web 4.1.78 runtime), so the teardrop here is ordinary net-bound copper
 // — the "线条形状泪滴" an exam allows. Both read a fresh `pcb dump --include-copper`
-// and emit a plan plus an `zhigou apply` playbook of typed pcb.route.delete /
+// and emit a plan plus an `easycirq apply` playbook of typed pcb.route.delete /
 // pcb.line.create steps; run it, then pour-rebuild → save → reload → DRC.
 
 import (
@@ -716,9 +716,9 @@ func newPcbTeardropEditCmd(stdout io.Writer, modify bool) *cobra.Command {
 同网、同层、同宽的完整线或连续碎段必须唯一覆盖旧几何；锁定、缺段或漂移时拒绝。
 修改按当前焊盘/主走线的默认几何乘比例重算，只重建旧计划的入口，保持线宽。
 length-scale > 0，base-scale 在 (0,1]；长度仍受走线空间限制，底边仍检查轮廓和间距。
-输出计划和 .playbook.json，不写 EDA。保持板未变再 zhigou apply，随后重铺铜、保存、重载、回读与 DRC。
+输出计划和 .playbook.json，不写 EDA。保持板未变再 easycirq apply，随后重铺铜、保存、重载、回读与 DRC。
 多步剧本不是事务；中途失败先回读，禁止盲目重放。原生 TEARDROP 对象不在本命令范围。`,
-		Example: "  zhigou pcb " + name + " --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1",
+		Example: "  easycirq pcb " + name + " --board fresh.json --from tear.json --out next.json --apply-project ceshi --apply-doc PCB1",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			playbook, err := teardropOutputPaths(out, board, from)
 			if err != nil {
@@ -834,10 +834,10 @@ a --width stretch from the pad to --extra mil beyond the pad edge plus the origi
 width for the rest. Fine-pitch pads (0.4 mm QFN, 7.9 mil) make an exam rule such as
 "track not wider than its pad" fail for 10/20 mil power traces; this fixes only the
 pad entry. Locked tracks are reported, never changed. Writes <out> (plan) and
-<out>.playbook.json; run 'zhigou apply' on it, then pour-rebuild, save, reload and
+<out>.playbook.json; run 'easycirq apply' on it, then pour-rebuild, save, reload and
 DRC. The new width must satisfy the net's track rule minimum.`,
 		Args:    cobra.NoArgs,
-		Example: `  zhigou pcb neckdown-plan --board board.json --width 8 --out neck.json --apply-project ceshi --apply-doc PCB1`,
+		Example: `  easycirq pcb neckdown-plan --board board.json --width 8 --out neck.json --apply-project ceshi --apply-doc PCB1`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			tracks, pads, _, _, err := load(board)
 			if err != nil {
@@ -893,8 +893,8 @@ reload and DRC. Only unambiguous entries get one: along an axis, through a pad
 side, and the pad's only track. --remove-from <earlier plan> instead emits a
 playbook deleting that plan's lines (and the pieces the host split them into).`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou pcb teardrop-plan --board board.json --exclude-net RF_ANT --out tear.json --apply-project ceshi --apply-doc PCB1
-  zhigou pcb teardrop-plan --board board.json --remove-from tear.json --out untear.json --apply-project ceshi --apply-doc PCB1`,
+		Example: `  easycirq pcb teardrop-plan --board board.json --exclude-net RF_ANT --out tear.json --apply-project ceshi --apply-doc PCB1
+  easycirq pcb teardrop-plan --board board.json --remove-from tear.json --out untear.json --apply-project ceshi --apply-doc PCB1`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			tracks, pads, vias, b, err := load(tBoard)
 			if err != nil {

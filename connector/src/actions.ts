@@ -519,7 +519,7 @@ const projectExportSource: Handler = async (payload) => {
 		const before = await withTimeout(eda.dmt_Project.getCurrentProjectInfo(), 7000,
 			'project source getCurrentProjectInfo timed out before export after 7000ms');
 		if (!before || before.uuid !== uuid) throw new ActionError(ErrorCodes.INVALID_STATE, 'Current project UUID does not match the requested project.');
-		file = await withTimeout(eda.sys_FileManager.getProjectFile('zhigou-agent-project.epro2', undefined, 'epro2'), 15000,
+		file = await withTimeout(eda.sys_FileManager.getProjectFile('easycirq-agent-project.epro2', undefined, 'epro2'), 15000,
 			'project source getProjectFile timed out after 15000ms');
 		const after = await withTimeout(eda.dmt_Project.getCurrentProjectInfo(), 7000,
 			'project source getCurrentProjectInfo timed out after export after 7000ms');
@@ -2298,7 +2298,7 @@ async function readCurrentNativePageAttributes(): Promise<Map<string, NativeSche
 	if (typeof eda.sys_FileManager?.getProjectFile !== 'function') throw new Error('Official native project export is unavailable for attribute visibility recovery.');
 	const before = await readResponseContext();
 	if (!before.projectUuid || !before.documentUuid || before.documentType !== 'schematic') throw new Error('Current schematic identity is unavailable for native attribute recovery.');
-	const file = await withTimeout(eda.sys_FileManager.getProjectFile('zhigou-agent-attribute-source.epro2', undefined, 'epro2'), 15000,
+	const file = await withTimeout(eda.sys_FileManager.getProjectFile('easycirq-agent-attribute-source.epro2', undefined, 'epro2'), 15000,
 		'Native attribute project export timed out after 15000ms');
 	const after = await readResponseContext();
 	if (after.projectUuid !== before.projectUuid || after.documentUuid !== before.documentUuid || after.documentType !== before.documentType || after.tabId !== before.tabId) {
@@ -7786,7 +7786,7 @@ async function loadNativeFootprintInventory(expectedContext?: { projectUuid?: st
 			// The SDK's document-footprint API returns [] in schematic editors.
 			// The official current-project epro2 archive retains DOCHEAD/META.source.
 			if (typeof eda.sys_FileManager?.getProjectFile !== 'function') return { error: `official footprint source inventory unavailable; project export unavailable${documentError ? ` (${documentError})` : ''}` };
-			const archive = await withTimeout(eda.sys_FileManager.getProjectFile('zhigou-agent-identity.epro2', undefined, 'epro2'), 10000, 'identity getProjectFile timed out after 10000ms');
+			const archive = await withTimeout(eda.sys_FileManager.getProjectFile('easycirq-agent-identity.epro2', undefined, 'epro2'), 10000, 'identity getProjectFile timed out after 10000ms');
 			if (!archive) return { error: 'official project export did not return a source archive' };
 			const sourceText = await withTimeout(readProjectNativeSourceArchive(archive), 7000, 'identity source archive decoding timed out after 7000ms');
 			entries = projectFootprintSourceInventory(sourceText, before.documentUuid);

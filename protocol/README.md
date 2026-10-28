@@ -9,12 +9,12 @@
 | 项 | 值 | 说明 |
 | --- | --- | --- |
 | `wireVersion` | `v1` | 每个 request/response envelope 的 `version` 字段 |
-| `service` | `zhigou-agent` | daemon 在 `handshake` 帧里声明；连接器校验后才注册 |
+| `service` | `easycirq-agent` | daemon 在 `handshake` 帧里声明；连接器校验后才注册 |
 | 传输 | WebSocket，`ws://127.0.0.1:<port>/eda` | 端口段 23111–23120，仅本机 |
 | 心跳 | 连接器 `ping` / daemon `pong` | 3s 间隔，连续缺失触发重连 |
 | 大小/超时 | 单帧上限由 daemon 读取边界控制；请求带 `timeoutMs` | 超时不得盲重试 |
 
-`handshake` 校验是隔离的关键：旧 daemon 说 `easyeda-agent`，本工具链说 `zhigou-agent`，
+`handshake` 校验是隔离的关键：旧 daemon 说 `easyeda-agent`，本工具链说 `easycirq-agent`，
 连接器只认后者，因此两套工具链同机运行不会互相接管。
 
 ## 帧

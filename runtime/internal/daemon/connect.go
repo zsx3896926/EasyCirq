@@ -51,7 +51,7 @@ func (s *Server) handleConnect(w http.ResponseWriter, r *http.Request) {
 	}()
 
 	// Identify ourselves first so the connector can verify it reached an
-	// zhigou-agent daemon before it registers.
+	// easycirq-agent daemon before it registers.
 	if err := c.write(ctx, protocol.Handshake{
 		Type:    protocol.TypeHandshake,
 		Service: Service,

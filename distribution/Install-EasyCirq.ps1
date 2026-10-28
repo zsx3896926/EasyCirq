@@ -23,7 +23,7 @@
   智构 · EasyCirq 工具链统一安装器（Skill + 运行时 + 连接器）。
 
 .DESCRIPTION
-  入口包装：只负责参数校验、中文/空格路径传递与调用 distribution/zhigou_install.py。
+  入口包装：只负责参数校验、中文/空格路径传递与调用 distribution/easycirq_install.py。
   它不做任何文件写入本身——所有事务（锁、备份、回滚、清单校验）由 Python 实现。
 
   安全边界：
@@ -33,17 +33,17 @@
     * 卸载只删除 installation.json 记录的本工具链文件。
 
 .EXAMPLE
-  .\Install-Zhigou.ps1 install -Bundle .\dist\zhigou-toolchain-0.2.0.zip
+  .\Install-EasyCirq.ps1 install -Bundle .\dist\easycirq-toolchain-0.2.0.zip
 .EXAMPLE
-  .\Install-Zhigou.ps1 status
+  .\Install-EasyCirq.ps1 status
 .EXAMPLE
-  .\Install-Zhigou.ps1 rollback
+  .\Install-EasyCirq.ps1 rollback
 #>
 $ErrorActionPreference = 'Stop'
 $env:PYTHONIOENCODING = 'utf-8'
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 
-$installer = Join-Path $PSScriptRoot 'zhigou_install.py'
+$installer = Join-Path $PSScriptRoot 'easycirq_install.py'
 
 function Find-Python {
     foreach ($candidate in @('py', 'python3', 'python')) {
@@ -103,12 +103,12 @@ if ($Action -in @('install', 'upgrade') -and -not $Bundle) {
         catch { Write-Warning "toolchain-release.json 无法解析，改为按文件名查找安装包：$($_.Exception.Message)" }
     }
     if (-not $Bundle) {
-        $found = Get-ChildItem -LiteralPath $PSScriptRoot -Filter 'zhigou-toolchain-*.zip' -ErrorAction SilentlyContinue |
+        $found = Get-ChildItem -LiteralPath $PSScriptRoot -Filter 'easycirq-toolchain-*.zip' -ErrorAction SilentlyContinue |
             Sort-Object LastWriteTime -Descending | Select-Object -First 1
         if ($found) { $Bundle = $found.FullName }
     }
     if (-not $Bundle) {
-        throw '未找到安装包：请把 zhigou-toolchain-<版本>.zip 与本脚本放在同一目录，或用 -Bundle 指定完整路径。'
+        throw '未找到安装包：请把 easycirq-toolchain-<版本>.zip 与本脚本放在同一目录，或用 -Bundle 指定完整路径。'
     }
 }
 if ($Action -in @('install', 'upgrade')) {

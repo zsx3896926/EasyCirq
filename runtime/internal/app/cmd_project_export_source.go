@@ -21,8 +21,8 @@ func newProjectExportSourceCmd(cfg *appConfig, stdout, stderr io.Writer, window 
 		Short: "Export the current project's original .epro2 file through the official read-only API",
 		Long:  "Export the native project archive as an unmodified artifact. The expected current project UUID is checked before and after export. This command does not interpret the archive or claim to measure a schematic sheet's inner border or title block. The official getter requires project-download permission. Files over 8 MiB are refused before transfer.",
 		Args:  cobra.NoArgs,
-		Example: `  zhigou project export-source --uuid <current-project-uuid> --window <window-id>
-  zhigou project export-source --uuid <current-project-uuid> --out project.epro2`,
+		Example: `  easycirq project export-source --uuid <current-project-uuid> --window <window-id>
+  easycirq project export-source --uuid <current-project-uuid> --out project.epro2`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if uuid == "" {
 				return fmt.Errorf("--uuid is required")

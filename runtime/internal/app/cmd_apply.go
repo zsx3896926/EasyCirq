@@ -1,6 +1,6 @@
 package app
 
-// zhigou apply — declarative playbook replay (docs/design-apply-playbook.md).
+// easycirq apply — declarative playbook replay (docs/design-apply-playbook.md).
 //
 // A playbook is a JSON file of ordered steps. Each step is exactly one of:
 //   action: a typed daemon action (validated against the protocol catalog)
@@ -130,10 +130,10 @@ func newApplyCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 		Long: `Execute a playbook (see docs/design-apply-playbook.md) step by step:
 typed actions, CLI subcommands, capture/assert gates, journal + resume.
 Precedence: CLI flag > playbook file > built-in default.`,
-		Example: `  zhigou apply sch.playbook.json
-  zhigou apply pcb.playbook.json --project demo2 --var LIB=<uuid>
-  zhigou apply pcb.playbook.json --resume
-  zhigou apply pcb.playbook.json --dry-run`,
+		Example: `  easycirq apply sch.playbook.json
+  easycirq apply pcb.playbook.json --project demo2 --var LIB=<uuid>
+  easycirq apply pcb.playbook.json --resume
+  easycirq apply pcb.playbook.json --dry-run`,
 		Args: cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
 			pb, raw, err := loadPlaybook(args[0])
@@ -1002,7 +1002,7 @@ func (r *applyRunner) execute() error {
 			if r.pb.RequireFullExecution {
 				fmt.Fprintf(r.stderr, "  journal: %s\n  先回读实际状态,重新生成计划并完整执行 sch apply;此队列禁止 --resume/--from/--to 跳过校验。\n", r.journalPath)
 			} else {
-				fmt.Fprintf(r.stderr, "  journal: %s\n  修复后续跑: zhigou sch apply %s --resume\n", r.journalPath, r.pbPath)
+				fmt.Fprintf(r.stderr, "  journal: %s\n  修复后续跑: easycirq sch apply %s --resume\n", r.journalPath, r.pbPath)
 				if !r.isReadOnly(s, catalog) {
 					fmt.Fprintf(r.stderr, "  ⚠ 变更类步骤失败/超时:变更可能已生效——先读回校验,再决定恢复步骤\n")
 				}

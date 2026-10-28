@@ -27,8 +27,8 @@ func newDebugCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 			Use:   "exec",
 			Short: "Run raw eda.* JavaScript in the connector (escape hatch)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou debug exec --code "return eda.getProjectInfo()"
-  zhigou debug exec --timeout 60 --code "const f = await eda.sch_ManufactureData.getNetlistFile('netlist.json'); return f && await f.text()"`,
+			Example: `  easycirq debug exec --code "return eda.getProjectInfo()"
+  easycirq debug exec --timeout 60 --code "const f = await eda.sch_ManufactureData.getNetlistFile('netlist.json'); return f && await f.text()"`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if code == "" {
 					return fmt.Errorf("--code is required")

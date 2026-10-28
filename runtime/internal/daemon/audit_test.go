@@ -18,7 +18,7 @@ func TestAudit_EntryCarriesClientID(t *testing.T) {
 		Envelope: protocol.Envelope{ID: "req_1", WindowID: "w1"},
 		Action:   "pcb.via.create",
 		ClientID: "mikas-mbp:12345:e2e-regression",
-		Command:  "zhigou pcb via",
+		Command:  "easycirq pcb via",
 	}
 	resp := &protocol.Response{OK: true}
 	started := time.Date(2026, 7, 15, 12, 0, 0, 0, time.UTC)
@@ -43,8 +43,8 @@ func TestAudit_EntryCarriesClientID(t *testing.T) {
 	if got := row["clientId"]; got != "mikas-mbp:12345:e2e-regression" {
 		t.Errorf("audit row clientId = %v, want mikas-mbp:12345:e2e-regression", got)
 	}
-	if got := row["command"]; got != "zhigou pcb via" {
-		t.Errorf("audit row command = %v, want zhigou pcb via", got)
+	if got := row["command"]; got != "easycirq pcb via" {
+		t.Errorf("audit row command = %v, want easycirq pcb via", got)
 	}
 	if got := row["action"]; got != "pcb.via.create" {
 		t.Errorf("audit row action = %v, want pcb.via.create", got)
@@ -76,7 +76,7 @@ func TestAudit_NoClientIDOmitted(t *testing.T) {
 }
 
 // TestAudit_TestRunNeverWritesRealLog pins issue #159: a Server built without
-// an AuditDir must not append to the user's real ~/.zhigou/audit while
+// an AuditDir must not append to the user's real ~/.easycirq/audit while
 // under `go test`. Fixture rows (fake windows "w1"/"w2", project "motobox")
 // had been landing there and were later read back as genuine field failures.
 func TestAudit_TestRunNeverWritesRealLog(t *testing.T) {
@@ -90,8 +90,8 @@ func TestAudit_TestRunNeverWritesRealLog(t *testing.T) {
 	}
 	w.Append(auditEntry{Timestamp: time.Now().UTC(), Action: "schematic.components.list"})
 
-	if _, err := os.Stat(filepath.Join(home, ".zhigou")); !os.IsNotExist(err) {
-		t.Fatalf("test run created %s/.zhigou (err=%v), want untouched", home, err)
+	if _, err := os.Stat(filepath.Join(home, ".easycirq")); !os.IsNotExist(err) {
+		t.Fatalf("test run created %s/.easycirq (err=%v), want untouched", home, err)
 	}
 }
 
@@ -105,13 +105,13 @@ func TestAudit_ServerWithoutAuditDirIsDisabled(t *testing.T) {
 	s := New(Options{})
 	s.audit.Append(auditEntry{Timestamp: time.Now().UTC(), Action: "pcb.via.create", WindowID: "w1"})
 
-	if _, err := os.Stat(filepath.Join(home, ".zhigou")); !os.IsNotExist(err) {
+	if _, err := os.Stat(filepath.Join(home, ".easycirq")); !os.IsNotExist(err) {
 		t.Fatalf("New(Options{}) wrote an audit log under %s, want none", home)
 	}
 }
 
-// TestAudit_EnvDirOverride pins ZHIGOU_AUDIT_DIR (same convention as
-// ZHIGOU_WORKFLOW_DIR), and that an explicit dir still wins over it.
+// TestAudit_EnvDirOverride pins EASYCIRQ_AUDIT_DIR (same convention as
+// EASYCIRQ_WORKFLOW_DIR), and that an explicit dir still wins over it.
 func TestAudit_EnvDirOverride(t *testing.T) {
 	envDir := t.TempDir()
 	t.Setenv(EnvAuditDir, envDir)

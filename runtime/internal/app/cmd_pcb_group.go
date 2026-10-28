@@ -5,7 +5,7 @@ package app
 // 平台墙(与原理图侧同一结论,3.2.121 / 3.2.149 两次探测):官方扩展 API 没有任何
 // 器件编组接口 —— api-index 里全部 `*Group*` 命中都是 DRC 约束域(等长网络组、
 // 焊盘对组),UI 里建的「组合」对扩展完全不可见,扩展建的组 UI 里也看不见。所以
-// zhigou-agent 自己持久化这层关系,**所有输出都标 `mode: "virtual"`**,绝不宣称
+// easycirq-agent 自己持久化这层关系,**所有输出都标 `mode: "virtual"`**,绝不宣称
 // 支持原生 UI 编组。
 //
 // 存储与原理图组同一张表:workflow.State.GroupsByPage,键是 **PCB documentUuid**
@@ -38,7 +38,7 @@ import (
 )
 
 // pcbGroupMode is stamped on every pcb group output: the relation lives in
-// zhigou-agent's workflow state, NOT in the EasyEDA document.
+// easycirq-agent's workflow state, NOT in the EasyEDA document.
 const pcbGroupMode = "virtual"
 
 // breakGroupFlagHelp is the shared --break-group text of the per-part layout ops.
@@ -289,7 +289,7 @@ func pinPcbDocument(cfg *appConfig, window string) (*appConfig, string, string, 
 	}
 	docUUID, err := currentDocumentUUIDOfType(&local, win, "pcb")
 	if err != nil {
-		return nil, "", "", fmt.Errorf("pcb document: %w — switch to the PCB first (`zhigou doc switch <pcb>`)", err)
+		return nil, "", "", fmt.Errorf("pcb document: %w — switch to the PCB first (`easycirq doc switch <pcb>`)", err)
 	}
 	local.doc = docUUID
 	return &local, win, docUUID, nil
@@ -504,9 +504,9 @@ func newPcbGroupCmd(cfg *appConfig, window *string, stdout, stderr io.Writer) *c
 
 The platform wall: the EasyEDA extension API exposes NO component-grouping call
 (every *Group* API is a DRC net/pad-pair group), and groups made in the UI are
-invisible to extensions. So zhigou-agent persists the relation itself, keyed by
+invisible to extensions. So easycirq-agent persists the relation itself, keyed by
 the ACTIVE PCB's documentUuid in the project workflow state (the same table as
-schematic groups, ~/.zhigou/workflow/<project>.json). Every output says
+schematic groups, ~/.easycirq/workflow/<project>.json). Every output says
 mode=virtual: these groups do NOT appear in the EasyEDA UI, and UI groups are
 NOT read here.
 
@@ -554,8 +554,8 @@ v1 limits: no group rotation; tracks/vias are NOT carried by a group move.`,
 			Use:   "create",
 			Short: "Create a virtual group (id auto-assigned g1, g2, …) on the active PCB",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb group create --designators H3,H4 --name mount-pair
-  zhigou pcb group create --ids <pid1>,<pid2>`,
+			Example: `  easycirq pcb group create --designators H3,H4 --name mount-pair
+  easycirq pcb group create --ids <pid1>,<pid2>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				pinned, win, docUUID, project, st, groups, err := loadPcbGroupsContext(cfg, *window)
 				if err != nil {
@@ -594,8 +594,8 @@ v1 limits: no group rotation; tracks/vias are NOT carried by a group move.`,
 			Use:   "list",
 			Short: "List the active PCB's virtual groups; members absent from the board are marked stale",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou pcb group list
-  zhigou pcb group list --json`,
+			Example: `  easycirq pcb group list
+  easycirq pcb group list --json`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				pinned, win, docUUID, project, _, groups, err := loadPcbGroupsContext(cfg, *window)
 				if err != nil {
@@ -686,7 +686,7 @@ v1 limits: no group rotation; tracks/vias are NOT carried by a group move.`,
 			Use:     "add",
 			Short:   "Add members to an existing virtual group",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb group add --group g1 --designators C6,C7`,
+			Example: `  easycirq pcb group add --group g1 --designators C6,C7`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				pinned, win, docUUID, _, st, groups, err := loadPcbGroupsContext(cfg, *window)
 				if err != nil {
@@ -720,7 +720,7 @@ v1 limits: no group rotation; tracks/vias are NOT carried by a group move.`,
 			Use:     "remove",
 			Short:   "Remove members from a virtual group (an emptied group is deleted)",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb group remove --group g1 --designators C6`,
+			Example: `  easycirq pcb group remove --group g1 --designators C6`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				_, _, docUUID, _, st, groups, err := loadPcbGroupsContext(cfg, *window)
 				if err != nil {
@@ -759,7 +759,7 @@ v1 limits: no group rotation; tracks/vias are NOT carried by a group move.`,
 			Use:     "ungroup",
 			Short:   "Dissolve a virtual group (relation only — no component is touched)",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou pcb group ungroup --group g1`,
+			Example: `  easycirq pcb group ungroup --group g1`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				_, _, docUUID, _, st, groups, err := loadPcbGroupsContext(cfg, *window)
 				if err != nil {
@@ -802,8 +802,8 @@ with the per-member report.
 v1 scope: translation only — group ROTATION is not supported yet. Tracks and
 vias are NOT carried: re-route (or rip-up first) connections of moved members.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou pcb group move --group g1 --dx 100 --dy 0
-  zhigou pcb group move --group mount-pair --dx -50 --dy 25 --json`,
+			Example: `  easycirq pcb group move --group g1 --dx 100 --dy 0
+  easycirq pcb group move --group mount-pair --dx -50 --dy 25 --json`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if !cmd.Flags().Changed("dx") && !cmd.Flags().Changed("dy") {
 					return fmt.Errorf("at least one of --dx / --dy is required")

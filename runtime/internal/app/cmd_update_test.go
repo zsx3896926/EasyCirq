@@ -147,7 +147,7 @@ func fakeDaemon(t *testing.T, payload string) (host string, port int) {
 }
 
 func TestProbeConnectorFlagsStaleConnector(t *testing.T) {
-	host, port := fakeDaemon(t, `{"service":"zhigou-agent","version":"v0.26.0","status":"ok",
+	host, port := fakeDaemon(t, `{"service":"easycirq-agent","version":"v0.26.0","status":"ok",
 	  "windows":[{"windowId":"w1","connectorVersion":"0.25.1"},{"windowId":"w2","connectorVersion":"0.26.0"}]}`)
 	cfg := &appConfig{host: host, ports: fmt.Sprintf("%d-%d", port, port)}
 
@@ -167,7 +167,7 @@ func TestProbeConnectorFlagsStaleConnector(t *testing.T) {
 }
 
 func TestProbeConnectorAcceptsPatchDriftWithinCompatibilityLine(t *testing.T) {
-	host, port := fakeDaemon(t, `{"service":"zhigou-agent","version":"v1.4.8","status":"ok",
+	host, port := fakeDaemon(t, `{"service":"easycirq-agent","version":"v1.4.8","status":"ok",
 	  "windows":[{"windowId":"w1","connectorVersion":"1.4.6"},{"windowId":"w2","connectorVersion":"1.4.8"}]}`)
 	cfg := &appConfig{host: host, ports: fmt.Sprintf("%d-%d", port, port)}
 
@@ -191,7 +191,7 @@ func TestProbeConnectorAcceptsPatchDriftWithinCompatibilityLine(t *testing.T) {
 }
 
 func TestVersionGateBlocksMismatchedDaemonAndAheadConnector(t *testing.T) {
-	host, port := fakeDaemon(t, `{"service":"zhigou-agent","version":"v0.25.0","status":"ok",
+	host, port := fakeDaemon(t, `{"service":"easycirq-agent","version":"v0.25.0","status":"ok",
 	  "windows":[{"windowId":"w1","connectorVersion":"0.27.0"}]}`)
 	cfg := &appConfig{host: host, ports: fmt.Sprintf("%d-%d", port, port)}
 	rep := updateReport{

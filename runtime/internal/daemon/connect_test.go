@@ -473,8 +473,8 @@ func TestActionArtifactPersisted(t *testing.T) {
 		t.Fatalf("persisted bytes mismatch: %q", string(got))
 	}
 
-	// Lands in the CLI cwd's hidden .zhigou/artifacts dir...
-	wantDir := filepath.Join(outDir, ".zhigou", "artifacts")
+	// Lands in the CLI cwd's hidden .easycirq/artifacts dir...
+	wantDir := filepath.Join(outDir, ".easycirq", "artifacts")
 	if dir := filepath.Dir(a.Path); dir != wantDir {
 		t.Fatalf("artifact dir = %s, want %s", dir, wantDir)
 	}

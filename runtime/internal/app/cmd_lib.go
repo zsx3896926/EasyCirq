@@ -70,9 +70,9 @@ device get before placing it. Personal settings and the panel's currently
 selected model are not read. Missing source/schema or HTTP refusal is an error;
 the command never substitutes LCSC search or an old bundled catalogue.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou lib common list --window <id> --category "安装器件"
-  zhigou lib common list --window <id> --category "安装器件" --query M3
-  zhigou lib device get --window <id> --library <libraryUuid> --uuid <deviceUuid>`,
+			Example: `  easycirq lib common list --window <id> --category "安装器件"
+  easycirq lib common list --window <id> --category "安装器件" --query M3
+  easycirq lib device get --window <id> --library <libraryUuid> --uuid <deviceUuid>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				for key, value := range map[string]string{"category": category, "group": group, "query": query} {
@@ -101,12 +101,12 @@ the command never substitutes LCSC search or an old bundled catalogue.`,
 			Use:   "search [QUERY...]",
 			Short: "Search the EasyEDA device library by MPN, value+package, or name",
 			Args:  cobra.ArbitraryArgs,
-			Example: `  zhigou lib search C25804                    # positional query (words are joined)
-  zhigou lib search 100nF 0402 --limit 5
-  zhigou lib search --query "ESP32-S3-WROOM-1"
-  zhigou lib search --query "100nF 0402" --limit 5
-  zhigou lib search --query C5665              # exact LCSC match (auto-detected)
-  zhigou lib search --query C5665 --allow-fuzzy # keep the fuzzy ranked results`,
+			Example: `  easycirq lib search C25804                    # positional query (words are joined)
+  easycirq lib search 100nF 0402 --limit 5
+  easycirq lib search --query "ESP32-S3-WROOM-1"
+  easycirq lib search --query "100nF 0402" --limit 5
+  easycirq lib search --query C5665              # exact LCSC match (auto-detected)
+  easycirq lib search --query C5665 --allow-fuzzy # keep the fuzzy ranked results`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if len(args) > 0 {
 					if query != "" {
@@ -115,7 +115,7 @@ the command never substitutes LCSC search or an old bundled catalogue.`,
 					query = strings.Join(args, " ")
 				}
 				if query == "" {
-					return fmt.Errorf("a query is required: zhigou lib search <QUERY> (or --query)")
+					return fmt.Errorf("a query is required: easycirq lib search <QUERY> (or --query)")
 				}
 				if exact && allowFuzzy {
 					return fmt.Errorf("--exact and --allow-fuzzy are mutually exclusive")
@@ -154,9 +154,9 @@ the command never substitutes LCSC search or an old bundled catalogue.`,
 			Use:   "by-lcsc",
 			Short: "Resolve LCSC C-numbers directly to device-library identity (libraryUuid + uuid)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou lib by-lcsc --lcsc C6186
-  zhigou lib by-lcsc --lcsc C6186 --lcsc C9900163599
-  zhigou lib by-lcsc --lcsc C6186,C9900163599`,
+			Example: `  easycirq lib by-lcsc --lcsc C6186
+  easycirq lib by-lcsc --lcsc C6186 --lcsc C9900163599
+  easycirq lib by-lcsc --lcsc C6186,C9900163599`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if len(lcsc) == 0 {
 					return fmt.Errorf("--lcsc is required (one or more LCSC C-numbers)")
@@ -224,8 +224,8 @@ func newLibraryFootprintCmd(cfg *appConfig, stdout, stderr io.Writer, window *st
 			Use:   "create",
 			Short: "Create an empty footprint asset and verify it by readback",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou lib footprint create --name MY_SOT23
-  zhigou lib footprint create --name MY_SOT23 --scope project`,
+			Example: `  easycirq lib footprint create --name MY_SOT23
+  easycirq lib footprint create --name MY_SOT23 --scope project`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if name == "" {
 					return fmt.Errorf("--name is required")
@@ -291,7 +291,7 @@ func newLibraryFootprintCmd(cfg *appConfig, stdout, stderr io.Writer, window *st
 			Use:     "build",
 			Short:   "Author pad/line geometry in an existing footprint from a JSON spec",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou lib footprint build --uuid <fp> --library <lib> --spec footprint.json`,
+			Example: `  easycirq lib footprint build --uuid <fp> --library <lib> --spec footprint.json`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if uuid == "" || libraryUUID == "" || specPath == "" {
 					return fmt.Errorf("--uuid, --library and --spec are required")
@@ -323,7 +323,7 @@ func newLibraryFootprintCmd(cfg *appConfig, stdout, stderr io.Writer, window *st
 			Use:   "region",
 			Short: "Add a saved rule/keep-out region inside a writable non-system footprint",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou lib footprint region --uuid <copy> --library <lib> \
+			Example: `  easycirq lib footprint region --uuid <copy> --library <lib> \
     --points '[[0,0],[1200,0],[1200,900],[0,900]]' --rule no-components --name LCD_BODY`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if uuid == "" || libraryUUID == "" || pointsJSON == "" {
@@ -531,7 +531,7 @@ func newLibraryDeviceCmd(cfg *appConfig, stdout, stderr io.Writer, window *strin
 		var addBOM, addPCB bool
 		c := &cobra.Command{
 			Use: "create", Short: "Create a Device bound to an existing symbol and optional footprint", Args: cobra.NoArgs,
-			Example: `  zhigou lib device create --name MY_PART \
+			Example: `  easycirq lib device create --name MY_PART \
     --symbol-uuid <uuid> --symbol-library <lib> \
     --footprint-uuid <uuid> --footprint-library <lib> --designator U`,
 			RunE: func(cmd *cobra.Command, args []string) error {

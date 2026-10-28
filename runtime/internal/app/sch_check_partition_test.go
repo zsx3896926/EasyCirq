@@ -311,7 +311,7 @@ func newPartitionCheckFake(t *testing.T, texts []map[string]any) *appConfig {
 	f := &partitionCheckFake{texts: texts}
 	mux := http.NewServeMux()
 	mux.HandleFunc("/health", func(w http.ResponseWriter, _ *http.Request) {
-		fmt.Fprint(w, `{"service":"zhigou-agent","status":"ok","windows":[{"windowId":"w1","context":{"projectName":"parttest"}}]}`)
+		fmt.Fprint(w, `{"service":"easycirq-agent","status":"ok","windows":[{"windowId":"w1","context":{"projectName":"parttest"}}]}`)
 	})
 	mux.HandleFunc("/action", func(w http.ResponseWriter, r *http.Request) {
 		var req struct {

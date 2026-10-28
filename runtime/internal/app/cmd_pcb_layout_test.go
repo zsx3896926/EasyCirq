@@ -232,7 +232,7 @@ func testPCBRouteFeedbackArtifacts(t *testing.T, name string) {
 		t.Fatal(err)
 	}
 	dir := t.TempDir()
-	if root := os.Getenv("ZHIGOU_PCB_SOLVE_ARTIFACT_DIR"); root != "" {
+	if root := os.Getenv("EASYCIRQ_PCB_SOLVE_ARTIFACT_DIR"); root != "" {
 		dir = filepath.Join(root, name)
 		if err := os.MkdirAll(dir, 0o755); err != nil {
 			t.Fatal(err)

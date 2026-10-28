@@ -1,4 +1,4 @@
-// Package selfupdate keeps the locally-installed zhigou-agent skill directories
+// Package selfupdate keeps the locally-installed easycirq-agent skill directories
 // (~/.claude, ~/.codex and the shared ~/.agents skill roots) in sync with a
 // released version, so a user upgrading the CLI never has to hand-copy the skill.
 //
@@ -34,7 +34,7 @@ const (
 	// versionMarker records the installed skill version inside a skill dir.
 	versionMarker = ".version"
 	// PreserveEnv, when "1", makes a sync keep existing files (local edits win).
-	PreserveEnv = "ZHIGOU_SKILL_PRESERVE"
+	PreserveEnv = "EASYCIRQ_SKILL_PRESERVE"
 )
 
 // clientOrder is the deterministic client iteration order.
@@ -384,7 +384,7 @@ func checksumHex(body []byte) string {
 }
 
 // fetchSkillTree downloads skills.tar.gz for the version and extracts it to a
-// temp dir, returning the path to the extracted `zhigou-agent/` root plus a
+// temp dir, returning the path to the extracted `easycirq-agent/` root plus a
 // cleanup func.
 func fetchSkillTree(ctx context.Context, version string) (root string, cleanup func(), err error) {
 	url := tarballURL(version)
@@ -401,7 +401,7 @@ func fetchSkillTree(ctx context.Context, version string) (root string, cleanup f
 		return "", func() {}, fmt.Errorf("skills.tar.gz exceeds 64 MiB")
 	}
 
-	tmp, err := os.MkdirTemp("", "zhigou-skill-*")
+	tmp, err := os.MkdirTemp("", "easycirq-skill-*")
 	if err != nil {
 		return "", func() {}, err
 	}
@@ -545,7 +545,7 @@ func materialize(src, dst string, preserve bool, version string) error {
 	if err := os.MkdirAll(parent, 0755); err != nil {
 		return err
 	}
-	stage, err := os.MkdirTemp(parent, ".zhigou-skill-stage-*")
+	stage, err := os.MkdirTemp(parent, ".easycirq-skill-stage-*")
 	if err != nil {
 		return err
 	}
@@ -570,7 +570,7 @@ func materialize(src, dst string, preserve bool, version string) error {
 	if !existed {
 		return os.Rename(stage, dst)
 	}
-	backup, err := os.MkdirTemp(parent, ".zhigou-skill-backup-*")
+	backup, err := os.MkdirTemp(parent, ".easycirq-skill-backup-*")
 	if err != nil {
 		return err
 	}
@@ -640,7 +640,7 @@ func copyFile(src, dst string, mode os.FileMode) error {
 	return out.Close()
 }
 
-// PreserveFromEnv reports whether ZHIGOU_SKILL_PRESERVE requests preserve mode.
+// PreserveFromEnv reports whether EASYCIRQ_SKILL_PRESERVE requests preserve mode.
 func PreserveFromEnv() bool {
 	return os.Getenv(PreserveEnv) == "1"
 }
@@ -725,7 +725,7 @@ func StartupSync(ctx context.Context, daemonVersion string, logf func(string, ..
 	}
 	latest, err := LatestReleaseVersion(ctx)
 	if err == nil && SemverLess(target, latest) {
-		log("update available: CLI v%s < latest v%s — run `zhigou update`, then restart the daemon; "+
-			"the connector .eext still needs a manual re-import (`zhigou update --check` prints the URL)", target, latest)
+		log("update available: CLI v%s < latest v%s — run `easycirq update`, then restart the daemon; "+
+			"the connector .eext still needs a manual re-import (`easycirq update --check` prints the URL)", target, latest)
 	}
 }

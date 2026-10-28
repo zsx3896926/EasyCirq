@@ -70,7 +70,7 @@ func TestPcbImageMutationVerificationAndPayload(t *testing.T) {
 		}
 		srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 			if r.URL.Path == "/health" {
-				fmt.Fprint(w, `{"service":"zhigou-agent","windows":[{"windowId":"w1"}]}`)
+				fmt.Fprint(w, `{"service":"easycirq-agent","windows":[{"windowId":"w1"}]}`)
 				return
 			}
 			json.NewDecoder(r.Body).Decode(&got)

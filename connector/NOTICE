@@ -8,12 +8,12 @@ and contributors），按 MIT 许可复用并修改；发布物元数据 license
   固定标签 v1.15.0 / 提交 d93d3dd94edd1890557c5b3a5f61756a8d5fef83
 
 修改内容（相对上游）：
-- 扩展标识：name=zhigou-connector、uuid=a6e6b788551945b399e150d80efa6e31、
-  displayName=Zhigou EDA Connector、publisher=zsx3896926
-- 服务标识：SERVICE_ID=zhigou-agent（拒绝连接旧 easyeda-agent daemon）
+- 扩展标识：name=easycirq-connector、uuid=a6e6b788551945b399e150d80efa6e31、
+  displayName=EasyCirq EDA Connector、publisher=zsx3896926
+- 服务标识：SERVICE_ID=easycirq-agent（拒绝连接旧 easyeda-agent daemon）
 - daemon 端口：23111-23120（0x5A47-0x5A50）
-- 扩展用户配置键：zhigouDaemonPorts（不继承上游 daemonPorts 覆盖）
-- 菜单/日志/临时文件前缀改为 Zhigou / zhigou
+- 扩展用户配置键：easycirqDaemonPorts（不继承上游 daemonPorts 覆盖）
+- 菜单/日志/临时文件前缀改为 EasyCirq / easycirq
 
 内嵌第三方组件：
 - connector/src/beautify/* 源自 Easy_EDA_PCB_Beautify（Apache-2.0），

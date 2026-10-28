@@ -17,7 +17,7 @@ import (
 )
 
 // defaultAuditDir mirrors the daemon's write-side resolution
-// (daemon.EnvAuditDir, else ~/.zhigou/audit) so reads always land where
+// (daemon.EnvAuditDir, else ~/.easycirq/audit) so reads always land where
 // the writes went — an env override that only one side honoured would silently
 // show an empty log.
 func defaultAuditDir() string {
@@ -28,7 +28,7 @@ func defaultAuditDir() string {
 	if err != nil || home == "" {
 		home = os.Getenv("HOME")
 	}
-	return filepath.Join(home, ".zhigou", "audit")
+	return filepath.Join(home, ".easycirq", "audit")
 }
 
 // newAuditCmd returns the "audit" subcommand group.
@@ -52,9 +52,9 @@ func newAuditTailCmd(stdout, stderr io.Writer) *cobra.Command {
 		Use:   "tail",
 		Short: "Show the most recent dispatches from the JSONL audit log",
 		Args:  cobra.NoArgs,
-		Example: `  zhigou audit tail
-  zhigou audit tail -n 50
-  zhigou audit tail --dir /path/to/audit`,
+		Example: `  easycirq audit tail
+  easycirq audit tail -n 50
+  easycirq audit tail --dir /path/to/audit`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if dir == "" {
 				dir = defaultAuditDir()
@@ -72,7 +72,7 @@ func newAuditTailCmd(stdout, stderr io.Writer) *cobra.Command {
 	}
 
 	cmd.Flags().IntVarP(&n, "lines", "n", 20, "number of lines to show")
-	cmd.Flags().StringVar(&dir, "dir", "", "audit log directory (default ~/.zhigou/audit)")
+	cmd.Flags().StringVar(&dir, "dir", "", "audit log directory (default ~/.easycirq/audit)")
 	return cmd
 }
 

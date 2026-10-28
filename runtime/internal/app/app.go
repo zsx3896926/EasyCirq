@@ -62,7 +62,7 @@ func newRootCmd(stdout, stderr io.Writer) *cobra.Command {
 	}
 
 	root := &cobra.Command{
-		Use:   "zhigou",
+		Use:   "easycirq",
 		Short: version.Name + " — AI-native EasyEDA Pro automation layer",
 		// SilenceUsage: don't dump usage on every error.
 		// SilenceErrors: we handle printing ourselves so we can suppress
@@ -178,8 +178,8 @@ func newNotifyCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 as each stage passes so the user can watch progress live — "完成 X,下一步 Y".
 type ∈ info | success | warn | error | question.`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou notify --message "完成 布局,下一步 布线" --type success
-  zhigou notify --message "DRC 未通过,需修复" --type error --duration 5`,
+		Example: `  easycirq notify --message "完成 布局,下一步 布线" --type success
+  easycirq notify --message "DRC 未通过,需修复" --type error --duration 5`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			payload := map[string]any{"message": message}
 			if typ != "" {
@@ -223,9 +223,9 @@ func newCallCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 		Use:   "call <action>",
 		Short: "Generic escape hatch: call any typed action directly",
 		Args:  cobra.ExactArgs(1),
-		Example: `  zhigou call system.health
-  zhigou call schematic.components.list --window win-1
-  zhigou call schematic.component.place --payload '{"libraryUuid":"...","uuid":"...","x":100,"y":200}'`,
+		Example: `  easycirq call system.health
+  easycirq call schematic.components.list --window win-1
+  easycirq call schematic.component.place --payload '{"libraryUuid":"...","uuid":"...","x":100,"y":200}'`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			action := args[0]
 

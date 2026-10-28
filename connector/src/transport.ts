@@ -1,5 +1,5 @@
 /**
- * WebSocket transport between this connector and the zhigou-agent Go daemon.
+ * WebSocket transport between this connector and the easycirq-agent Go daemon.
  *
  * Adapted from the proven `eext-run-api-gateway` transport: port-scan +
  * handshake validation + register + heartbeat + auto-reconnect, all over
@@ -7,7 +7,7 @@
  * dispatch (see ./actions).
  *
  *   ┌──────────────┐   WebSocket    ┌──────────────────┐
- *   │ zhigou-agent │ ◄───────────► │  this connector   │
+ *   │ easycirq-agent │ ◄───────────► │  this connector   │
  *   │  Go daemon    │ 127.0.0.1     │  (EasyEDA Pro)    │
  *   │               │      :23111   │                   │
  *   └──────────────┘                └──────────────────┘
@@ -85,14 +85,14 @@ export const RESERVED_PORT_END = 0x5a50; // 23120
 // already taken by something else, `easyeda daemon start --ports …`) can point
 // the connector elsewhere by setting this extension user-config key:
 //
-//   eda.sys_Storage.setExtensionUserConfig('zhigouDaemonPorts', '23111-23120')
-//   eda.sys_Storage.setExtensionUserConfig('zhigouDaemonPorts', '60840,23111')
-//   eda.sys_Storage.setExtensionUserConfig('zhigouDaemonPorts', 60900)
+//   eda.sys_Storage.setExtensionUserConfig('easycirqDaemonPorts', '23111-23120')
+//   eda.sys_Storage.setExtensionUserConfig('easycirqDaemonPorts', '60840,23111')
+//   eda.sys_Storage.setExtensionUserConfig('easycirqDaemonPorts', 60900)
 //
 // (run it from `debug.exec_js`, or from the editor's script console). It is read
 // at the START of every attempt, so it takes effect on the next retry — no
 // re-import, no EasyEDA restart. Unset/garbage → the pinned default.
-const STORAGE_KEY_DAEMON_PORTS = 'zhigouDaemonPorts';
+const STORAGE_KEY_DAEMON_PORTS = 'easycirqDaemonPorts';
 // Hard cap on an override list: a typo like "1-65535" must not turn reconnect
 // into an unbounded sweep that never comes back. 12 × ~1.7s stays inside the
 // STUCK_CONNECTING_TICKS watchdog bound (~24s), so even a maxed-out override
@@ -154,7 +154,7 @@ const STUCK_CONNECTING_TICKS = 8; // ~24s @ 3s/tick
 // is cancelled in settle() so a completed/aborted attempt never re-registers.
 const REGISTER_DELAY_MS = 200;
 const STORAGE_KEY_AUTO_CONNECT = 'autoConnectEnabled';
-const SHARED_RUNTIME_KEY = '__zhigouTransportRuntime';
+const SHARED_RUNTIME_KEY = '__easycirqTransportRuntime';
 const SHARED_RUNTIME_IMPLEMENTATION = `${CONNECTOR_VERSION}:cross-eval-v1`;
 type TransportStartSource = 'activate' | 'bootstrap';
 
@@ -579,7 +579,7 @@ export function deactivate(): void {
 
 /**
  * Try the daemon port(s), register a WebSocket, and keep the one whose daemon
- * sends a valid `handshake` (service === "zhigou-agent").
+ * sends a valid `handshake` (service === "easycirq-agent").
  *
  * @param force - bypass the backoff gate (explicit reconnect, window wake, or a
  *   retry timer firing at its own deadline)
@@ -727,7 +727,7 @@ function tryConnectToPort(port: number, sessionId: number): Promise<boolean> {
 							msg = JSON.parse(event.data) as InboundFrame;
 						}
 						catch (err) {
-							console.error('[zhigou-agent] Failed to parse frame:', err);
+							console.error('[easycirq-agent] Failed to parse frame:', err);
 							return;
 						}
 
@@ -756,13 +756,13 @@ function tryConnectToPort(port: number, sessionId: number): Promise<boolean> {
 								if (!connectionAnnounced) {
 									connectionAnnounced = true;
 									eda.sys_Message.showToastMessage(
-										`${eda.sys_I18n.text('Connected to zhigou-agent')} (port ${port})`,
+										`${eda.sys_I18n.text('Connected to easycirq-agent')} (port ${port})`,
 									);
 								}
 								settle(true);
 							}
 							else {
-								console.warn(`[zhigou-agent] Unexpected handshake service "${(msg as { service?: string }).service}"`);
+								console.warn(`[easycirq-agent] Unexpected handshake service "${(msg as { service?: string }).service}"`);
 								settle(false);
 							}
 							return;
@@ -779,7 +779,7 @@ function tryConnectToPort(port: number, sessionId: number): Promise<boolean> {
 			}
 			catch (err) {
 				// register() throws when external-interaction permission is disabled.
-				console.error('[zhigou-agent] Failed to register WebSocket:', err);
+				console.error('[easycirq-agent] Failed to register WebSocket:', err);
 				settle(false);
 			}
 		};
@@ -845,7 +845,7 @@ async function sendContext(force = false): Promise<void> {
 		sendFrame(frame);
 	}
 	catch (err) {
-		console.warn('[zhigou-agent] Failed to build context frame:', err);
+		console.warn('[easycirq-agent] Failed to build context frame:', err);
 	}
 }
 
@@ -854,7 +854,7 @@ function sendFrame(frame: unknown): void {
 		eda.sys_WebSocket.send(wsId, JSON.stringify(frame));
 	}
 	catch (err) {
-		console.error('[zhigou-agent] Failed to send frame:', err);
+		console.error('[easycirq-agent] Failed to send frame:', err);
 	}
 }
 
@@ -889,7 +889,7 @@ function sendFrame(frame: unknown): void {
  */
 function diag(msg: string): void {
 	try {
-		eda.sys_Log.add(`[zhigou-agent] ${msg}`);
+		eda.sys_Log.add(`[easycirq-agent] ${msg}`);
 	}
 	catch { /* log panel unavailable — never let diagnostics break transport */ }
 	try {

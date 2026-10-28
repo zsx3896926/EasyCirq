@@ -1353,7 +1353,7 @@ func findNetlessPours(pours []pcbPourP) []pcbCheckFinding {
 }
 
 // ── R12: via crossing an inner PLANE (内电层) on a foreign net ──────────────
-// Official defect zhigou/pro-api-sdk#32: once an inner layer is 内电层/PLANE, a
+// Official defect easycirq/pro-api-sdk#32: once an inner layer is 内电层/PLANE, a
 // via created AFTERWARDS on a different net does NOT get an anti-pad cut into
 // the negative plane — DRC reports Plane Zone to Via + Hole to Plane Zone, and
 // `pour-rebuild` alone does not repair it. The via list exposes no anti-pad or
@@ -1432,7 +1432,7 @@ func findViaCrossesPlane(vias []pcbViaP, planes []pcbPlaneLayer) []pcbCheckFindi
 			out = append(out, pcbCheckFinding{
 				Type: "via-crosses-plane", Level: "WARN", Net: v.Net, Layer: pl.Layer,
 				Primitives: []string{v.ID}, At: &pcbXY{round2(v.X), round2(v.Y)},
-				Message: fmt.Sprintf("via (net %s) crosses inner PLANE %s (net %s) — a via created after the plane existed gets NO anti-pad (zhigou/pro-api-sdk#32; DRC: Plane Zone to Via / Hole to Plane Zone); prefer removing it and routing on outer layers, or `zhigou doc reload` then `pcb pour-rebuild`, then confirm with `pcb drc`",
+				Message: fmt.Sprintf("via (net %s) crosses inner PLANE %s (net %s) — a via created after the plane existed gets NO anti-pad (easycirq/pro-api-sdk#32; DRC: Plane Zone to Via / Hole to Plane Zone); prefer removing it and routing on outer layers, or `easycirq doc reload` then `pcb pour-rebuild`, then confirm with `pcb drc`",
 					vnet, name, strings.Join(pl.Nets, ",")),
 			})
 		}
@@ -1550,7 +1550,7 @@ func findNetlessViaInPad(pads []pcbPadP, vias []pcbViaP) []pcbCheckFinding {
 			Type: "netless-via-in-pad", Level: "WARN", Net: a.Net,
 			Designator: a.Designator, Primitives: []string{a.ViaID},
 			At: &pcbXY{round2(a.X), round2(a.Y)},
-			Message: fmt.Sprintf("netless via inside pad %s.%s (net %s) — an embedded (EPAD thermal) via that never bonds to its plane and trips native DRC; fix `zhigou pcb via-bond` (re-run after every doc reload — the platform re-materializes these netless, live-verified #118)",
+			Message: fmt.Sprintf("netless via inside pad %s.%s (net %s) — an embedded (EPAD thermal) via that never bonds to its plane and trips native DRC; fix `easycirq pcb via-bond` (re-run after every doc reload — the platform re-materializes these netless, live-verified #118)",
 				a.Designator, a.PadNumber, a.Net),
 		})
 	}

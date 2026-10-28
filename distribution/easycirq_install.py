@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Unified installer/upgrader/rollback/uninstaller for the Zhigou toolchain.
+"""Unified installer/upgrader/rollback/uninstaller for the EasyCirq toolchain.
 
 Installs, in one transaction: the Skill (design-hardware), the runtime
-(zhigou.exe + build identity) and the connector .eext (copied into the install
+(easycirq.exe + build identity) and the connector .eext (copied into the install
 directory and printed as manual import steps -- never imported into EasyEDA).
 
 Design rules (see docs/toolchain-integration/installer.md):
@@ -12,7 +12,7 @@ Design rules (see docs/toolchain-integration/installer.md):
     with SHA-256), so uninstall only deletes files this toolchain owns.
   * Upgrades back up the previous version first and roll back automatically if
     the swap or the post-install self-check fails.
-  * ``zhigou doctor`` is diagnostic: "degraded" (daemon down / connector not
+  * ``easycirq doctor`` is diagnostic: "degraded" (daemon down / connector not
     connected) is reported honestly and is NOT an installation failure.
 
 Python 3.10+, standard library only.  Structure deliberately mirrors
@@ -36,21 +36,21 @@ import tempfile
 import time
 import zipfile
 
-BUNDLE_SCHEMA = 'zhigou-toolchain-bundle/v1'
-INSTALL_SCHEMA = 'zhigou-toolchain-install/v1'
-RELEASE_SCHEMA = 'zhigou-toolchain-release/v1'
-NAME = 'zhigou-toolchain'
+BUNDLE_SCHEMA = 'easycirq-toolchain-bundle/v1'
+INSTALL_SCHEMA = 'easycirq-toolchain-install/v1'
+RELEASE_SCHEMA = 'easycirq-toolchain-release/v1'
+NAME = 'easycirq-toolchain'
 META = 'installation.json'
-STATE_PREFIX = '.zhigou-install-state'
+STATE_PREFIX = '.easycirq-install-state'
 MAX_ARCHIVE = 512 * 1024 * 1024
 MAX_UNPACKED = 1024 * 1024 * 1024
 MAX_ENTRIES = 20001
 
-ENV_INSTALL_DIR = 'ZHIGOU_INSTALL_DIR'
-ENV_STATE_DIR = 'ZHIGOU_STATE_DIR'
-ENV_HOME = 'ZHIGOU_HOME'
-ENV_CLIENT_ROOT = 'ZHIGOU_CLIENT_ROOT'
-ENV_SKIP_SELF_CHECK = 'ZHIGOU_INSTALL_SKIP_SELF_CHECK'
+ENV_INSTALL_DIR = 'EASYCIRQ_INSTALL_DIR'
+ENV_STATE_DIR = 'EASYCIRQ_STATE_DIR'
+ENV_HOME = 'EASYCIRQ_HOME'
+ENV_CLIENT_ROOT = 'EASYCIRQ_CLIENT_ROOT'
+ENV_SKIP_SELF_CHECK = 'EASYCIRQ_INSTALL_SKIP_SELF_CHECK'
 
 CLIENT_ROOTS = {
     'claude': ['.claude/skills'],
@@ -126,8 +126,8 @@ def default_install_dir() -> Path:
         return Path(env).expanduser()
     if os.name == 'nt':
         base = os.environ.get('LOCALAPPDATA') or str(Path.home() / 'AppData/Local')
-        return Path(base) / 'Zhigou'
-    return Path.home() / '.local/share/zhigou'
+        return Path(base) / 'EasyCirq'
+    return Path.home() / '.local/share/easycirq'
 
 
 def state_dir_for(install_dir: Path, explicit=None) -> Path:
@@ -378,7 +378,7 @@ def verify_tree(root: Path, meta: dict) -> dict:
     changed = sorted(p for p, sha in expected.items() if actual.get(p) != sha)
     missing = sorted(set(expected) - set(actual))
     extra = sorted(set(actual) - set(expected))
-    version_file = Path(root) / 'bin/zhigou-version.json'
+    version_file = Path(root) / 'bin/easycirq-version.json'
     if version_file.is_file():
         recorded = read_json(version_file).get('version')
         if recorded != meta['version']:
@@ -391,7 +391,7 @@ def verify_tree(root: Path, meta: dict) -> dict:
 
 def validate_install_meta(m) -> None:
     if not isinstance(m, dict) or m.get('schema') != INSTALL_SCHEMA:
-        raise InstallError('Not a managed Zhigou installation (missing/invalid %s)' % META)
+        raise InstallError('Not a managed EasyCirq installation (missing/invalid %s)' % META)
     semver(m.get('version'))
     files = m.get('files')
     if not isinstance(files, dict) or not files:
@@ -400,7 +400,7 @@ def validate_install_meta(m) -> None:
         safe_name(path)
         if not re.fullmatch('[a-f0-9]{64}', str(sha)):
             raise InstallError('Invalid inventory hash for %s' % path)
-    if 'bin/zhigou.exe' not in files:
+    if 'bin/easycirq.exe' not in files:
         raise InstallError('Installation record is missing the runtime binary')
 
 
@@ -415,7 +415,7 @@ def read_install(install_dir: Path):
 # isolation / safety probes
 # --------------------------------------------------------------------------- #
 def path_shadowing(install_dir: Path) -> dict:
-    """Report (never modify) whether another `zhigou` wins on PATH."""
+    """Report (never modify) whether another `easycirq` wins on PATH."""
     bin_dir = (install_dir / 'bin')
     entries = []
     for raw in os.environ.get('PATH', '').split(os.pathsep):
@@ -425,14 +425,14 @@ def path_shadowing(install_dir: Path) -> dict:
             resolved = Path(raw).resolve()
         except OSError:
             resolved = Path(raw)
-        for exe in ('zhigou.exe', 'zhigou'):
+        for exe in ('easycirq.exe', 'easycirq'):
             candidate = resolved / exe
             if candidate.is_file():
                 entries.append(str(candidate))
     ours = str(bin_dir.resolve()) if bin_dir.exists() else str(bin_dir)
     others = [e for e in entries if Path(e).parent.resolve() != Path(ours)]
     return {'onPath': any(Path(e).parent.resolve() == Path(ours) for e in entries),
-            'otherZhigouOnPath': others,
+            'otherEasyCirqOnPath': others,
             'verdict': 'ok' if not others else 'shadowed',
             'note': 'Installer never edits PATH; add bin/ yourself if you want the CLI on PATH.'}
 
@@ -442,7 +442,7 @@ def legacy_dirs(home: Path, install_dir: Path) -> dict:
     found = {}
     for client, roots in CLIENT_ROOTS.items():
         for rel in roots:
-            for legacy in ('easyeda-agent', 'design-hardware', 'zhigou-agent'):
+            for legacy in ('easyeda-agent', 'design-hardware', 'easycirq-agent'):
                 p = home / rel / legacy
                 if p.exists():
                     found.setdefault(client, []).append({'path': str(p), 'name': legacy})
@@ -525,10 +525,10 @@ def _locked(install_dir: Path, state: Path):
 
 
 # --------------------------------------------------------------------------- #
-# self-check (zhigou doctor) -- diagnostic only
+# self-check (easycirq doctor) -- diagnostic only
 # --------------------------------------------------------------------------- #
 def run_self_check(install_dir: Path, isolate_home=None, timeout=60) -> dict:
-    exe = install_dir / 'bin' / 'zhigou.exe'
+    exe = install_dir / 'bin' / 'easycirq.exe'
     if not exe.is_file():
         return {'status': 'unavailable', 'reason': 'runtime binary missing', 'verdict': None}
     env = dict(os.environ)
@@ -608,7 +608,7 @@ def install_skill_copy(source: Path, target: Path, version: str, backup_root: Pa
     target = Path(os.path.abspath(target))
     if target.exists() and (target / 'easyeda-agent').exists():
         raise InstallError('Refusing to touch a path containing easyeda-agent: %s' % target)
-    skill_meta = target / '.zhigou-install.json'
+    skill_meta = target / '.easycirq-install.json'
     payload = {}
     for p in sorted(source.rglob('*')):
         if p.is_file():
@@ -633,11 +633,11 @@ def install_skill_copy(source: Path, target: Path, version: str, backup_root: Pa
         shutil.copytree(target, backup)
     stage = None
     backup_root.mkdir(parents=True, exist_ok=True)
-    stage = Path(tempfile.mkdtemp(prefix='.zhigou-skill-stage-', dir=str(backup_root)))
+    stage = Path(tempfile.mkdtemp(prefix='.easycirq-skill-stage-', dir=str(backup_root)))
     try:
         shutil.copytree(source, stage, dirs_exist_ok=True)
-        write_json(stage / '.zhigou-install.json',
-                   {'schema': 'zhigou-toolchain-skill/v1', 'name': 'design-hardware',
+        write_json(stage / '.easycirq-install.json',
+                   {'schema': 'easycirq-toolchain-skill/v1', 'name': 'design-hardware',
                     'version': version, 'files': payload})
         if target.exists():
             shutil.rmtree(target)
@@ -879,7 +879,7 @@ def _next_steps(install_dir: Path, bundle: dict) -> list:
         '1) Import the connector into EasyEDA Pro manually: 设置 → 扩展 → 已安装 → 导入扩展',
         '   file: %s' % eext,
         '2) Fully quit EasyEDA Pro and relaunch it (the connector loads on startup; no hot reload).',
-        '3) Verify: %s doctor' % (install_dir / 'bin' / 'zhigou.exe'),
+        '3) Verify: %s doctor' % (install_dir / 'bin' / 'easycirq.exe'),
         '   daemon down / connector disconnected = degraded, not an install failure.',
         '4) Optional: add %s to PATH yourself -- this installer never edits PATH.'
         % (install_dir / 'bin'),
@@ -991,7 +991,7 @@ def uninstall(install_dir=None, state=None, force=False, purge_state=False,
         skill_result = None
         if meta.get('clientSkill'):
             target = Path(meta['clientSkill'].get('target', ''))
-            if target.is_dir() and (target / '.zhigou-install.json').is_file():
+            if target.is_dir() and (target / '.easycirq-install.json').is_file():
                 shutil.rmtree(target)
                 skill_result = {'removed': str(target)}
             else:
@@ -1029,7 +1029,7 @@ def status(install_dir=None, state=None, home=None) -> dict:
         'verify': report, 'selfCheck': meta.get('selfCheck'),
         'history': meta.get('history', [])[:5],
     })
-    exe = install_dir / 'bin' / 'zhigou.exe'
+    exe = install_dir / 'bin' / 'easycirq.exe'
     if exe.is_file():
         try:
             out = subprocess.run([str(exe), 'version'], capture_output=True, text=True,
@@ -1105,13 +1105,13 @@ def main(argv=None) -> int:
     p.add_argument('--release', type=Path, help='Detached release.json for outer SHA256 validation')
     p.add_argument('--install-dir', type=Path)
     p.add_argument('--state-dir', type=Path)
-    p.add_argument('--home', type=Path, help='Client home for Skill targets (defaults to ZHIGOU_HOME/home)')
+    p.add_argument('--home', type=Path, help='Client home for Skill targets (defaults to EASYCIRQ_HOME/home)')
     p.add_argument('--skill-client', default='none', choices=['none', *sorted(CLIENT_ROOTS)],
                    help='Also copy the Skill into that client skill root (default: none)')
     p.add_argument('--skill-root', type=Path, help='Explicit Skill target directory (tests/advanced)')
     p.add_argument('--force', action='store_true', help='Back up and overwrite local modifications')
     p.add_argument('--adopt', action='store_true', help='Take over an existing unmanaged directory')
-    p.add_argument('--no-self-check', action='store_true', help='Skip the post-install zhigou doctor run')
+    p.add_argument('--no-self-check', action='store_true', help='Skip the post-install easycirq doctor run')
     p.add_argument('--self-check-home', type=Path, help='HOME override for the isolated doctor run')
     p.add_argument('--dry-run', action='store_true')
     p.add_argument('--allow-downgrade', action='store_true')

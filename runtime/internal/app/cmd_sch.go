@@ -31,8 +31,8 @@ func placeUUIDHint(timeout time.Duration) error {
 	return fmt.Errorf(
 		"placement confirmation timed out (request budget %s). Read back the target page first: the part may already exist; do not blindly place it again.\n"+
 			"Check editor responsiveness and the library UUID. One possible cause is an INSTANCE uuid: the component/symbol/footprint/uniqueId\n"+
-			"fields from `zhigou sch list` are placed-INSTANCE ids and cannot be replayed into `sch place`.\n"+
-			"Get a replayable device uuid first: `zhigou lib search --query \"<part>\"` → use its `uuid` + `libraryUuid`.",
+			"fields from `easycirq sch list` are placed-INSTANCE ids and cannot be replayed into `sch place`.\n"+
+			"Get a replayable device uuid first: `easycirq lib search --query \"<part>\"` → use its `uuid` + `libraryUuid`.",
 		timeout,
 	)
 }
@@ -65,7 +65,7 @@ func rebindDispatchError(err error) error {
 		return err
 	}
 	return fmt.Errorf(
-		"%w\nrebind confirmation timed out. The handler or an EasyEDA library/create call may still settle late. Do not blindly retry and do not run PCB import-changes. First run a fresh `zhigou sch list --include-device-identity` on the target page and reconcile the original primitiveId, any replacement instance, and the exact uniqueId.",
+		"%w\nrebind confirmation timed out. The handler or an EasyEDA library/create call may still settle late. Do not blindly retry and do not run PCB import-changes. First run a fresh `easycirq sch list --include-device-identity` on the target page and reconcile the original primitiveId, any replacement instance, and the exact uniqueId.",
 		err,
 	)
 }
@@ -163,7 +163,7 @@ func newSchCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 			Use:     "open",
 			Short:   "Open or activate a schematic page by UUID",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou sch open --page 6b3a2f01-...`,
+			Example: `  easycirq sch open --page 6b3a2f01-...`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if page == "" {
 					return fmt.Errorf("--page is required")
@@ -184,8 +184,8 @@ func newSchCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 			Use:   "titleblock-get",
 			Short: "Read a page's 明细表 (title block): show flag + field keys/values",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou sch titleblock-get
-  zhigou sch titleblock-get --page <pageUuid>`,
+			Example: `  easycirq sch titleblock-get
+  easycirq sch titleblock-get --page <pageUuid>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				var payload map[string]any
 				if page != "" {
@@ -227,11 +227,11 @@ Field attribute visibility is separate from the title block's overall --show/--h
 
 The title block CANNOT set paper size. EasyEDA Pro exposes no set-paper-size API,
 and Size / Width / Height / "Page Size" are not title-block items. Run
-` + "`zhigou sch titleblock-get`" + ` first to see the keys this page actually has.`,
+` + "`easycirq sch titleblock-get`" + ` first to see the keys this page actually has.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch titleblock --show
-  zhigou sch titleblock --hide
-  zhigou sch titleblock --data '{"Title":{"value":"电源模块"},"Designer":{"value":"Mika"}}'`,
+			Example: `  easycirq sch titleblock --show
+  easycirq sch titleblock --hide
+  easycirq sch titleblock --data '{"Title":{"value":"电源模块"},"Designer":{"value":"Mika"}}'`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if show && hide {
 					return fmt.Errorf("--show and --hide are mutually exclusive")
@@ -317,7 +317,7 @@ and Size / Width / Height / "Page Size" are not title-block items. Run
 						for _, k := range uk {
 							names = append(names, fmt.Sprint(k))
 						}
-						msg += fmt.Sprintf(" — %s are not title-block items on this page (the title block cannot set paper size; run `zhigou sch titleblock-get` for the available keys)", strings.Join(names, ", "))
+						msg += fmt.Sprintf(" — %s are not title-block items on this page (the title block cannot set paper size; run `easycirq sch titleblock-get` for the available keys)", strings.Join(names, ", "))
 					}
 					return fmt.Errorf("%s", msg)
 				}
@@ -343,7 +343,7 @@ and Size / Width / Height / "Page Size" are not title-block items. Run
 			Use:     "page-new",
 			Short:   "Create a new schematic page under a schematic document",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou sch page-new --schematic <schematicUuid>`,
+			Example: `  easycirq sch page-new --schematic <schematicUuid>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if schUuid == "" {
 					return fmt.Errorf("--schematic is required")
@@ -364,7 +364,7 @@ and Size / Width / Height / "Page Size" are not title-block items. Run
 			Use:     "page-rename",
 			Short:   "Rename a schematic page",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou sch page-rename --page <pageUuid> --name "电源"`,
+			Example: `  easycirq sch page-rename --page <pageUuid> --name "电源"`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if page == "" {
 					return fmt.Errorf("--page is required")
@@ -389,7 +389,7 @@ and Size / Width / Height / "Page Size" are not title-block items. Run
 			Use:     "page-delete",
 			Short:   "Delete a schematic page (no undo)",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou sch page-delete --page <pageUuid>`,
+			Example: `  easycirq sch page-delete --page <pageUuid>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if page == "" {
 					return fmt.Errorf("--page is required")
@@ -429,9 +429,9 @@ and Size / Width / Height / "Page Size" are not title-block items. Run
 			Use:   "clear",
 			Short: "Clear the active schematic page (delete all page primitives: components, flags, wires, buses, graphics)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou sch clear                      # clear the page, keep the sheet/title block (图框)
-  zhigou sch clear --dry-run            # report what would be deleted, delete nothing
-  zhigou sch clear --no-preserve-sheet  # also delete the sheet/title block`,
+			Example: `  easycirq sch clear                      # clear the page, keep the sheet/title block (图框)
+  easycirq sch clear --dry-run            # report what would be deleted, delete nothing
+  easycirq sch clear --no-preserve-sheet  # also delete the sheet/title block`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				var protected []string
 				if preserveParts {
@@ -529,8 +529,8 @@ and Size / Width / Height / "Page Size" are not title-block items. Run
 落位复用已验证的刚体平移(删净→modify→一遍性重连→电气自检),所以排完之后
 网表逐引脚不变。放不下就明确报错(拆页),不硬塞、不溢出图纸。`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch group-arrange --dry-run    # 只看计划(耦合强度 + 落位)
-  zhigou sch group-arrange              # 执行`,
+			Example: `  easycirq sch group-arrange --dry-run    # 只看计划(耦合强度 + 落位)
+  easycirq sch group-arrange              # 执行`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runGroupArrange(cfg, window, gap, dryRun, annotate, stdout, stderr)
 			},
@@ -549,7 +549,7 @@ and Size / Width / Height / "Page Size" are not title-block items. Run
 			Use:     "rename",
 			Short:   "Rename a schematic document (the whole sheet, not a single page)",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou sch rename --schematic <schematicUuid> --name "主原理图"`,
+			Example: `  easycirq sch rename --schematic <schematicUuid> --name "主原理图"`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if schUuid == "" {
 					return fmt.Errorf("--schematic is required")
@@ -584,10 +584,10 @@ device-library uuid and reports deviceIdentityError if exact identity is unknown
 The component/symbol/footprint/uniqueId fields are instance identifiers and must
 not be replayed as a device-library uuid. Missing identity is unavailable evidence,
 not permission to substitute a similar symbol.`,
-			Example: `  zhigou sch list
-  zhigou sch list --all-pages
-  zhigou sch list --include-bbox
-  zhigou sch list --include-pins`,
+			Example: `  easycirq sch list
+  easycirq sch list --all-pages
+  easycirq sch list --include-bbox
+  easycirq sch list --include-pins`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if page != "" && allPages {
 					return fmt.Errorf("--page and --all-pages are mutually exclusive")
@@ -653,7 +653,7 @@ get(id), and get(id).toAsync().reset(). The result reports exact types and value
 undefined is unreadable and does not become a default. Current document identity
 is checked before and after. This diagnostic never modifies the design and does
 not relax guarded page replacement or clear.`,
-			Example: `  zhigou sch attribute-inspect --id <primitiveId> --project <project> --doc <page-uuid>`,
+			Example: `  easycirq sch attribute-inspect --id <primitiveId> --project <project> --doc <page-uuid>`,
 			Args:    cobra.NoArgs,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if strings.TrimSpace(primitiveID) == "" {
@@ -680,9 +680,9 @@ not relax guarded page replacement or clear.`,
 			Args:  cobra.NoArgs,
 			Long: `Place a device/component from the EasyEDA device library at coordinates.
 
---uuid MUST be a device-library uuid (from ` + "`zhigou lib search`" + `), NOT one of
+--uuid MUST be a device-library uuid (from ` + "`easycirq lib search`" + `), NOT one of
 the uuid-looking fields ` + "`component`/`symbol`/`footprint`/`uniqueId`" + ` that
-` + "`zhigou sch list`" + ` reports — those are placed-INSTANCE ids and are not valid
+` + "`easycirq sch list`" + ` reports — those are placed-INSTANCE ids and are not valid
 ` + "`sch place`" + ` inputs. Passing an instance uuid makes the EasyEDA API hang; this
 command fails fast after a short timeout with a hint instead of stalling.
 
@@ -691,9 +691,9 @@ side right after create, so you skip the place→` + "`sch list`" + `→` + "`sc
 and the coordinate-based primitiveId re-matching that batch placement otherwise
 needs. The response's ` + "`primitiveId`" + ` and ` + "`component.designator`" + ` reflect the
 final placed state.`,
-			Example: `  zhigou sch place --lib <libraryUuid> --uuid <deviceUuid> --x 100 --y 200
-  zhigou sch place --lib <l> --uuid <u> --x 100 --y 200 --rotation 90 --mirror
-  zhigou sch place --lib <l> --uuid <u> --x 100 --y 200 --designator R12`,
+			Example: `  easycirq sch place --lib <libraryUuid> --uuid <deviceUuid> --x 100 --y 200
+  easycirq sch place --lib <l> --uuid <u> --x 100 --y 200 --rotation 90 --mirror
+  easycirq sch place --lib <l> --uuid <u> --x 100 --y 200 --designator R12`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if lib == "" {
 					return fmt.Errorf("--lib is required")
@@ -770,10 +770,10 @@ silently wipe all custom properties. The connector now reads the existing
 custom properties and re-writes them in the same modify call; preserved keys
 come back in result.propertiesPreserved (+propertiesBefore), and any key the
 platform still dropped is reported in result.notApplied (non-zero exit).`,
-			Example: `  zhigou sch modify --id <primitiveId> --x 150 --y 200
-  zhigou sch modify --id <id> --rotation 90 --designator R12
-  zhigou sch modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
-  zhigou sch modify --id <id> --patch '{"customAttributes":{"Value":"10k"}}'`,
+			Example: `  easycirq sch modify --id <primitiveId> --x 150 --y 200
+  easycirq sch modify --id <id> --rotation 90 --designator R12
+  easycirq sch modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
+  easycirq sch modify --id <id> --patch '{"customAttributes":{"Value":"10k"}}'`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if id == "" {
 					return fmt.Errorf("--id is required")
@@ -854,11 +854,11 @@ designator/uniqueId/position/props. Imported devices with an empty libraryUuid a
 reverse-looked-up in the project library first.
 
 NOTE: re-placing mints a NEW primitiveId; wires on the old pins may need re-drawing —
-run ` + "`zhigou sch drc`" + ` / ` + "`zhigou sch check`" + ` after to confirm connectivity.
+run ` + "`easycirq sch drc`" + ` / ` + "`easycirq sch check`" + ` after to confirm connectivity.
 On timeout, do not retry or run PCB import-changes until a fresh schematic read reconciles
 the original, replacement, and exact uniqueId.`,
-			Example: `  zhigou sch rebind-footprint --id <primitiveId> --footprint QFN-32_L5.0-W5.0
-  zhigou sch rebind-footprint --id <id> --footprint-uuid <u> --footprint-lib <l>`,
+			Example: `  easycirq sch rebind-footprint --id <primitiveId> --footprint QFN-32_L5.0-W5.0
+  easycirq sch rebind-footprint --id <id> --footprint-uuid <u> --footprint-lib <l>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if id == "" {
 					return fmt.Errorf("--id is required")
@@ -908,11 +908,11 @@ designator/uniqueId/position/props. Imported devices with an empty libraryUuid a
 reverse-looked-up in the project library first.
 
 NOTE: re-placing mints a NEW primitiveId; wires on the old pins may need re-drawing —
-run ` + "`zhigou sch drc`" + ` / ` + "`zhigou sch check`" + ` after to confirm connectivity.
+run ` + "`easycirq sch drc`" + ` / ` + "`easycirq sch check`" + ` after to confirm connectivity.
 On timeout, do not retry or run PCB import-changes until a fresh schematic read reconciles
 the original, replacement, and exact uniqueId.`,
-			Example: `  zhigou sch rebind-symbol --id <primitiveId> --symbol ESP32-S3
-  zhigou sch rebind-symbol --id <id> --symbol-uuid <u> --symbol-lib <l>`,
+			Example: `  easycirq sch rebind-symbol --id <primitiveId> --symbol ESP32-S3
+  easycirq sch rebind-symbol --id <id> --symbol-uuid <u> --symbol-lib <l>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if id == "" {
 					return fmt.Errorf("--id is required")
@@ -969,11 +969,11 @@ full identity.
 
 The result includes a pinDiff (removed/added/moved pins by pinNumber, compared
 at the identical placement pose). A non-empty pinDiff means existing wires will
-NOT line up — re-wire the affected pins, then run ` + "`zhigou sch drc`" + ` /
-` + "`zhigou sch check`" + ` to confirm connectivity.`,
-			Example: `  zhigou sch replace --id <primitiveId> --lcsc C14663
-  zhigou sch replace --id <id> --device-uuid <u> --device-lib <l>
-  zhigou sch replace --id <id> --query "CL05B104KO5NNNC" --keep-properties`,
+NOT line up — re-wire the affected pins, then run ` + "`easycirq sch drc`" + ` /
+` + "`easycirq sch check`" + ` to confirm connectivity.`,
+			Example: `  easycirq sch replace --id <primitiveId> --lcsc C14663
+  easycirq sch replace --id <id> --device-uuid <u> --device-lib <l>
+  easycirq sch replace --id <id> --query "CL05B104KO5NNNC" --keep-properties`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if id == "" {
 					return fmt.Errorf("--id is required")
@@ -1009,7 +1009,7 @@ NOT line up — re-wire the affected pins, then run ` + "`zhigou sch drc`" + ` /
 		}
 		c.Flags().StringVar(&id, "id", "", "placed component primitive ID (required)")
 		c.Flags().StringVar(&lcsc, "lcsc", "", "target LCSC C-number (must resolve uniquely, e.g. C14663)")
-		c.Flags().StringVar(&deviceUUID, "device-uuid", "", "target device-library uuid (from `zhigou lib search` / `lib by-lcsc`)")
+		c.Flags().StringVar(&deviceUUID, "device-uuid", "", "target device-library uuid (from `easycirq lib search` / `lib by-lcsc`)")
 		c.Flags().StringVar(&deviceLib, "device-lib", "", "target device library UUID (required with --device-uuid)")
 		c.Flags().StringVar(&query, "query", "", "target device name (must match uniquely; ambiguity errors out with candidates)")
 		c.Flags().BoolVar(&keepProperties, "keep-properties", false, "also carry the OLD component's custom attributes (otherProperty) onto the replacement")
@@ -1028,9 +1028,9 @@ NOT line up — re-wire the affected pins, then run ` + "`zhigou sch drc`" + ` /
 			Use:   "prim-delete",
 			Short: "Delete schematic primitives of ANY type by explicit id",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou sch prim-delete --ids id1,id2   # delete these (any primitive type)
-  zhigou sch prim-delete --ids <partId>  # a deleted part takes its own stub wires/flags with it
-  zhigou sch prim-delete --ids <partId> --no-cascade`,
+			Example: `  easycirq sch prim-delete --ids id1,id2   # delete these (any primitive type)
+  easycirq sch prim-delete --ids <partId>  # a deleted part takes its own stub wires/flags with it
+  easycirq sch prim-delete --ids <partId> --no-cascade`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				// No implicit "delete the current selection": the canvas
 				// selection may be the user's, and that path skipped the sheet
@@ -1129,10 +1129,10 @@ instead of being silently applied.
 real C# (the platform defaults it to the subPartName, #157) — the one-command
 version of a whole-board supplierId repair. Multi-page projects: run per page
 (--page or doc switch); only the active page is scanned.`,
-			Example: `  zhigou sch resolve-lcsc                 # dry-run report
-  zhigou sch resolve-lcsc --apply         # write resolved C#s back
-  zhigou sch resolve-lcsc --page P2 --apply
-  zhigou sch resolve-lcsc --id <primitiveId>`,
+			Example: `  easycirq sch resolve-lcsc                 # dry-run report
+  easycirq sch resolve-lcsc --apply         # write resolved C#s back
+  easycirq sch resolve-lcsc --page P2 --apply
+  easycirq sch resolve-lcsc --id <primitiveId>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if page != "" {
 					scope, err := switchToPage(cfg, window, page)
@@ -1177,9 +1177,9 @@ zone-draw labels without the ` + "`debug exec`" + ` escape hatch (#156).
 
 Page-lazy-load law: only the active page's texts are returned — pass --page (or
 ` + "`doc switch`" + `) per page to sweep a multi-page project.`,
-			Example: `  zhigou sch text-list
-  zhigou sch text-list --page P2
-  zhigou sch text-list | jq -r '.result.texts[] | "\(.primitiveId)\t\(.content)"'`,
+			Example: `  easycirq sch text-list
+  easycirq sch text-list --page P2
+  easycirq sch text-list | jq -r '.result.texts[] | "\(.primitiveId)\t\(.content)"'`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if page != "" {
 					scope, err := switchToPage(cfg, window, page)
@@ -1223,8 +1223,8 @@ Page-lazy-load law: only the active page's texts are returned — pass --page (o
 			Long: `手工画一条导线折线。**这是逃生口,不是常规布线手段。**
 
 常规布线请走:
-  • ` + "`zhigou sch autoconnect`" + ` — 电源/地/netport 短桩(按真实几何打分选方向+桩长)
-  • ` + "`zhigou sch block-apply`" + ` — 整块落地(自带 netlist 对账门)
+  • ` + "`easycirq sch autoconnect`" + ` — 电源/地/netport 短桩(按真实几何打分选方向+桩长)
+  • ` + "`easycirq sch block-apply`" + ` — 整块落地(自带 netlist 对账门)
 
 本命令主要用于 ` + "`sch group-move`" + ` 刚体平移半途失败后的残局修复
 (导线无 modify-in-place,只能删除+重建;重建中断就要手工补齐剩余段)。
@@ -1237,11 +1237,11 @@ Page-lazy-load law: only the active page's texts are returned — pass --page (o
 
 所以手工画多网信号线时:每个网分配**独立的竖线通道 x**(互不重叠,避开已有
 netflag 桩线占用的 x),把所有引脚点当作**点障碍**绕行,画完必须跑
-` + "`zhigou sch bridge-check`" + ` + ` + "`zhigou sch read`" + ` 逐网对账。`,
+` + "`easycirq sch bridge-check`" + ` + ` + "`easycirq sch read`" + ` 逐网对账。`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch wire --points '[[100,200],[100,300]]'        # nested pairs
-  zhigou sch wire --points '[100,200,100,300]'            # flat (also accepted)
-  zhigou sch wire --points '[[100,200],[100,300]]' --net VCC`,
+			Example: `  easycirq sch wire --points '[[100,200],[100,300]]'        # nested pairs
+  easycirq sch wire --points '[100,200,100,300]'            # flat (also accepted)
+  easycirq sch wire --points '[[100,200],[100,300]]' --net VCC`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if pointsJSON == "" {
 					return fmt.Errorf("--points is required")
@@ -1267,7 +1267,7 @@ netflag 桩线占用的 x),把所有引脚点当作**点障碍**绕行,画完必
 				// 手画线是合并短路的主要来源(#170):落线成功不等于网络正确,而
 				// `sch check` 抓不到网络归属错误。提示走能抓到的那两个判据。
 				fmt.Fprintln(stderr, "提示: 手工画线可能被 EasyEDA 与共线导线自动合并成多网短路(sch check 不报)。"+
-					"跑 `zhigou sch bridge-check` + `zhigou sch read` 逐网对账确认。")
+					"跑 `easycirq sch bridge-check` + `easycirq sch read` 逐网对账确认。")
 				return nil
 			},
 		}
@@ -1308,7 +1308,7 @@ unit — internal relative layout is untouched, only the whole assembly shifts b
            not a stub — it is left in place and reported.
 
 There is no EasyEDA grouping API to persist against (probed 3.2.121: zero
-group/parent surface), so --group reads zhigou-agent's own page-scoped store.
+group/parent surface), so --group reads easycirq-agent's own page-scoped store.
 
 --group runs a COMPLETENESS PRECHECK and refuses over half-moving: a wire whose
 own LINE passes through a member pin (perpendicular offset ≤1 unit) but whose
@@ -1329,9 +1329,9 @@ Wires have no modify-in-place, so each is deleted and recreated at the shifted
 endpoints (net/color/width/lineType preserved) — a wire's primitiveId CHANGES;
 pull fresh ids before any follow-up mutation on it.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch group-move --ids idComp1,idWire1,idWire2 --dx 200 --dy 0
-  zhigou sch group-move --group g1 --dx 100 --dy 0   # members + stubs + flags auto-expanded
-  zhigou sch group-move --groups g2,g3 --dx 0 --dy -80   # 同块多子组:一次内核调用整体移动`,
+			Example: `  easycirq sch group-move --ids idComp1,idWire1,idWire2 --dx 200 --dy 0
+  easycirq sch group-move --group g1 --dx 100 --dy 0   # members + stubs + flags auto-expanded
+  easycirq sch group-move --groups g2,g3 --dx 0 --dy -80   # 同块多子组:一次内核调用整体移动`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				var groupRefs []string
 				if groupRef != "" {
@@ -1428,8 +1428,8 @@ pull fresh ids before any follow-up mutation on it.`,
 			Use:   "netflag",
 			Short: "Create a power/ground/net flag or port",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou sch netflag --kind power --net VCC --x 100 --y 200
-  zhigou sch netflag --kind gnd --net GND --x 100 --y 100 --rotation 180`,
+			Example: `  easycirq sch netflag --kind power --net VCC --x 100 --y 200
+  easycirq sch netflag --kind gnd --net GND --x 100 --y 100 --rotation 180`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if kind == "" {
 					return fmt.Errorf("--kind is required")
@@ -1470,8 +1470,8 @@ pull fresh ids before any follow-up mutation on it.`,
 			Use:   "connect",
 			Short: "Stub a wire out of a pin and place a netflag/netport at its far end",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou sch connect --pin U1:5 --kind power --net VCC
-  zhigou sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40`,
+			Example: `  easycirq sch connect --pin U1:5 --kind power --net VCC
+  easycirq sch connect --x 100 --y 200 --kind gnd --net GND --direction down --offset 40`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if kind == "" {
 					return fmt.Errorf("--kind is required")
@@ -1546,9 +1546,9 @@ pull fresh ids before any follow-up mutation on it.`,
 			Use:   "disconnect",
 			Short: "Remove a pin's stub wire and its netflag/netport together (inverse of connect)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou sch disconnect --pin U1:5
-  zhigou sch disconnect --flag-id <flagPrimitiveId>
-  zhigou sch disconnect --wire-id <wirePrimitiveId>`,
+			Example: `  easycirq sch disconnect --pin U1:5
+  easycirq sch disconnect --flag-id <flagPrimitiveId>
+  easycirq sch disconnect --wire-id <wirePrimitiveId>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				payload := map[string]any{}
 				if pin != "" {
@@ -1592,9 +1592,9 @@ pull fresh ids before any follow-up mutation on it.`,
 			Use:   "no-connect",
 			Short: "Mark (or clear) a pin's no-connect flag (非连接标识)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou sch no-connect --designator U1 --pin 23
-  zhigou sch no-connect --designator U1 --pin 23,24,25
-  zhigou sch no-connect --designator U1 --pin 23 --clear`,
+			Example: `  easycirq sch no-connect --designator U1 --pin 23
+  easycirq sch no-connect --designator U1 --pin 23,24,25
+  easycirq sch no-connect --designator U1 --pin 23 --clear`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if designator == "" {
 					return fmt.Errorf("--designator is required")
@@ -1652,17 +1652,17 @@ Current EasyEDA builds may return only boolean/aggregate data even when the SDK
 type declares verbose per-item detail. The connector normalizes whatever the SDK
 returns, but 'sch drc' must not be treated as the full UI DRC warning list.
 
-Use 'zhigou sch check' for reconstructed per-item warnings such as floating pins
+Use 'easycirq sch check' for reconstructed per-item warnings such as floating pins
 and net-marker/wire-name mismatches.
 
 Exit code: non-zero ONLY when the fatal count (error + fatal severities) is > 0.
 Warnings alone exit 0, so the design-flow S5 gate can demand "0 fatal" while
 still surfacing warnings for review.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch drc
-  zhigou sch drc --strict          # treat warnings as errors (SDK strict mode)
-  zhigou sch drc --json            # normalized SDK result
-  zhigou sch check --json          # reconstructed per-item warnings`,
+			Example: `  easycirq sch drc
+  easycirq sch drc --strict          # treat warnings as errors (SDK strict mode)
+  easycirq sch drc --json            # normalized SDK result
+  easycirq sch check --json          # reconstructed per-item warnings`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runSchDrc(cfg, window, strict, verbose, asJSON, stdout, stderr)
 			},
@@ -1705,9 +1705,9 @@ exits non-zero when there are any findings, to use it as a gate.
 other sch commands emit; the findings are under result.findings (v0.10.0+;
 prior versions emitted a bare {passed,summary,findings}).`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch check
-  zhigou sch check --json
-  zhigou sch check --strict      # non-zero exit if any findings`,
+			Example: `  easycirq sch check
+  easycirq sch check --json
+  easycirq sch check --strict      # non-zero exit if any findings`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if page != "" && allPages {
 					return fmt.Errorf("--page and --all-pages are mutually exclusive")
@@ -1775,9 +1775,9 @@ NOTE: --all-pages reads non-active pages shallowly (same limit as 'sch check' /
 'sch list' — pins may be empty), so cross-page trees can be under-reported; switch
 to a page for authoritative results.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch bridge-check
-  zhigou sch bridge-check --json
-  zhigou sch bridge-check --all-pages`,
+			Example: `  easycirq sch bridge-check
+  easycirq sch bridge-check --json
+  easycirq sch bridge-check --all-pages`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runSchBridgeCheck(cfg, window, allPages, asJSON, stdout, stderr)
 			},
@@ -1805,9 +1805,9 @@ Pin→net comes from the official manufacture netlist (same source as 'sch check
 so it's authoritative, not geometry-guessed. Use --no-check to skip the design
 check for a faster read.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch read
-  zhigou sch read --all-pages
-  zhigou sch read --no-check`,
+			Example: `  easycirq sch read
+  easycirq sch read --all-pages
+  easycirq sch read --no-check`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if page != "" && allPages {
 					return fmt.Errorf("--page and --all-pages are mutually exclusive")
@@ -1894,10 +1894,10 @@ zone check could not be proven. Strict proof is per active page and real parts:
 combine it with neither --all-pages (inactive-page data is shallow) nor
 --include-non-parts (sheet/markers are not placement bodies).`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch layout-lint
-  zhigou sch layout-lint --strict
-  zhigou sch layout-lint --min-gap 5.08
-  zhigou sch layout-lint --all-pages --json`,
+			Example: `  easycirq sch layout-lint
+  easycirq sch layout-lint --strict
+  easycirq sch layout-lint --min-gap 5.08
+  easycirq sch layout-lint --all-pages --json`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				return runLayoutLint(cfg, window, minGap, pinEps, allPages, asJSON, includeNonParts, strict, stdout, stderr)
 			},
@@ -1953,9 +1953,9 @@ and page identity separately. Supports one untransformed rectangular sheet and
 one rectangular title table; missing or ambiguous geometry fails closed.
 Bounds follow vector centerlines; add stroke clearance in layout parameters.`,
 			Args: cobra.NoArgs,
-			Example: `  zhigou sch sheet-geometry
-  zhigou sch sheet-geometry --json
-  zhigou sch sheet-geometry --from-svg sheet.svg --json`,
+			Example: `  easycirq sch sheet-geometry
+  easycirq sch sheet-geometry --json
+  easycirq sch sheet-geometry --from-svg sheet.svg --json`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if cmd.Flags().Changed("from-svg") {
 					if strings.TrimSpace(fromSVG) == "" {
@@ -2000,8 +2000,8 @@ Bounds follow vector centerlines; add stroke clearance in layout parameters.`,
 			Use:   "netlist",
 			Short: "Export schematic netlist as an artifact",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou sch netlist
-  zhigou sch netlist --type kicad`,
+			Example: `  easycirq sch netlist
+  easycirq sch netlist --type kicad`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				var payload map[string]any
 				if netlistType != "" {
@@ -2034,9 +2034,9 @@ dense wiring without resampling a blurry screenshot.
 
 --ids selects those primitives and exports just them (the export box shrinks to
 the selection). Without --ids it exports the whole active page.`,
-			Example: `  zhigou sch export-image --ids id1,id2 --out block.svg
-  zhigou sch export-image --format png --out page.png
-  zhigou sch export-image --scope page --format pdf --page P2 --out p2.pdf`,
+			Example: `  easycirq sch export-image --ids id1,id2 --out block.svg
+  easycirq sch export-image --format png --out page.png
+  easycirq sch export-image --scope page --format pdf --page P2 --out p2.pdf`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if page != "" {
 					scopeRes, err := switchToPage(cfg, window, page)
@@ -2106,7 +2106,7 @@ the selection). Without --ids it exports the whole active page.`,
 	sch.AddCommand(newSchZonePlanCmd(cfg, &window, stdout, stderr))
 	sch.AddCommand(newSchZoneArrangeCmd(cfg, &window, stdout, stderr))
 	// 持久化编组(用户点名;#173 的 sch 侧):平台无编组 API(真机探测坐实),
-	// zhigou-agent 自己按 documentUuid 持久化组关系,group-move / align /
+	// easycirq-agent 自己按 documentUuid 持久化组关系,group-move / align /
 	// distribute / autolayout 消费。
 	sch.AddCommand(newSchGroupCmd(cfg, &window, stdout, stderr))
 	// ── 三层布局体系(docs/cli/schematic.md):Zone 层命令族 ──

@@ -16,11 +16,11 @@ import (
 
 func TestAssetName(t *testing.T) {
 	cases := map[[2]string]string{
-		{"darwin", "arm64"}:  "zhigou_darwin_arm64",
-		{"darwin", "amd64"}:  "zhigou_darwin_amd64",
-		{"linux", "amd64"}:   "zhigou_linux_amd64",
-		{"linux", "arm64"}:   "zhigou_linux_arm64",
-		{"windows", "amd64"}: "zhigou_windows_amd64.exe",
+		{"darwin", "arm64"}:  "easycirq_darwin_arm64",
+		{"darwin", "amd64"}:  "easycirq_darwin_amd64",
+		{"linux", "amd64"}:   "easycirq_linux_amd64",
+		{"linux", "arm64"}:   "easycirq_linux_arm64",
+		{"windows", "amd64"}: "easycirq_windows_amd64.exe",
 	}
 	for in, want := range cases {
 		got, err := AssetName(in[0], in[1])
@@ -83,7 +83,7 @@ func stubVerify(t *testing.T, err error) {
 // installedBinary writes a fake current binary and returns its path.
 func installedBinary(t *testing.T, content string) string {
 	t.Helper()
-	path := filepath.Join(t.TempDir(), "zhigou")
+	path := filepath.Join(t.TempDir(), "easycirq")
 	if err := os.WriteFile(path, []byte(content), 0o755); err != nil {
 		t.Fatal(err)
 	}
@@ -302,27 +302,27 @@ func TestUpdateCLIBadTargetVersion(t *testing.T) {
 
 func TestFetchChecksumParsesShasumFormat(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, _ *http.Request) {
-		fmt.Fprintf(w, "%s  zhigou_linux_amd64\n%s  *zhigou_darwin_arm64\nnot-a-line\n", strings.Repeat("a", 64), strings.Repeat("b", 64))
+		fmt.Fprintf(w, "%s  easycirq_linux_amd64\n%s  *easycirq_darwin_arm64\nnot-a-line\n", strings.Repeat("a", 64), strings.Repeat("b", 64))
 	}))
 	defer srv.Close()
 	old := checksumsURL
 	checksumsURL = func(string) string { return srv.URL }
 	defer func() { checksumsURL = old }()
 
-	got, err := fetchChecksum(context.Background(), "0.26.0", "zhigou_darwin_arm64")
+	got, err := fetchChecksum(context.Background(), "0.26.0", "easycirq_darwin_arm64")
 	if err != nil {
 		t.Fatalf("fetchChecksum: %v", err)
 	}
 	if got != strings.Repeat("b", 64) {
 		t.Errorf("checksum=%q want 64 b characters", got)
 	}
-	if _, err := fetchChecksum(context.Background(), "0.26.0", "zhigou_windows_amd64.exe"); err == nil {
+	if _, err := fetchChecksum(context.Background(), "0.26.0", "easycirq_windows_amd64.exe"); err == nil {
 		t.Error("a missing asset entry must fail verification")
 	}
 }
 
 // assertNoLeftovers fails if a partial download survived in the install dir —
-// a stray .zhigou-update-* file next to the binary would be confusing at best.
+// a stray .easycirq-update-* file next to the binary would be confusing at best.
 func assertNoLeftovers(t *testing.T, dir string) {
 	t.Helper()
 	entries, err := os.ReadDir(dir)
@@ -341,10 +341,10 @@ func TestVerifyBinaryRequiresExactVersion(t *testing.T) {
 		output string
 		ok     bool
 	}{
-		{"zhigou-agent v1.4.2\n", true}, {"zhigou-agent 1.4.2", true},
-		{"zhigou-agent v1.4.20", false}, {"zhigou-agent v11.4.2", false},
-		{"zhigou-agent v1.4.2-1-g123", false}, {"wrong-app 1.4.2", false},
-		{"old output\nzhigou-agent v1.4.2", false},
+		{"easycirq-agent v1.4.2\n", true}, {"easycirq-agent 1.4.2", true},
+		{"easycirq-agent v1.4.20", false}, {"easycirq-agent v11.4.2", false},
+		{"easycirq-agent v1.4.2-1-g123", false}, {"wrong-app 1.4.2", false},
+		{"old output\neasycirq-agent v1.4.2", false},
 	} {
 		if got := validVersionOutput(tc.output, "1.4.2"); got != tc.ok {
 			t.Errorf("output %q: got %v, want %v", tc.output, got, tc.ok)

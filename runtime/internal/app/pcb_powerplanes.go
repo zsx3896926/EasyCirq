@@ -51,7 +51,7 @@ func runPowerPlanes(cfg *appConfig, window string, gndLayer, powerLayer int, gnd
 	targetLayers := liveLayers
 	if liveLayers < 4 {
 		if !allowStackupChange {
-			return fmt.Errorf("power-planes needs >=4 copper layers but the board has %d — refusing to re-stack it; use `zhigou pcb power-pour` for a 2-layer board. If the design explicitly requires an upgrade, use `zhigou pcb power-planes --allow-stackup-change` or `zhigou pcb stackup set --layers 4`", liveLayers)
+			return fmt.Errorf("power-planes needs >=4 copper layers but the board has %d — refusing to re-stack it; use `easycirq pcb power-pour` for a 2-layer board. If the design explicitly requires an upgrade, use `easycirq pcb power-planes --allow-stackup-change` or `easycirq pcb stackup set --layers 4`", liveLayers)
 		}
 		targetLayers = 4
 	}

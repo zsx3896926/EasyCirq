@@ -19,7 +19,7 @@ func newDaemonStopCmd(cfg *appConfig, stdout io.Writer) *cobra.Command {
 	return &cobra.Command{
 		Use: "stop", Short: "Stop the identified local daemon on --ports' first port",
 		Long: "Stop the identified local daemon. Save documents first. A daemon restart does not cancel in-flight editor actions. Refuses remote hosts, unidentified processes and unreadable health responses. Stop make dev in its own terminal to prevent it restarting the daemon.",
-		Args: cobra.NoArgs, Example: "  zhigou daemon stop\n  zhigou daemon stop --ports 23111-23111",
+		Args: cobra.NoArgs, Example: "  easycirq daemon stop\n  easycirq daemon stop --ports 23111-23111",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			port, _, err := cfg.portRange()
 			if err != nil {
@@ -36,7 +36,7 @@ func newDaemonRestartCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Comman
 	c.Use = "restart"
 	c.Short = "Stop the local daemon, then start this CLI version in the foreground"
 	c.Long = "Save readable documents first; restarting does not cancel editor actions. Stops only an identified local daemon, then starts this binary with the supplied start flags (blocks until SIGINT/SIGTERM). Startup flags are not inherited from the old process.\n\n" + c.Long
-	c.Example = "  zhigou daemon restart --auto-update-skill=false\n  zhigou daemon restart --autosave-debounce 5s"
+	c.Example = "  easycirq daemon restart --auto-update-skill=false\n  easycirq daemon restart --autosave-debounce 5s"
 	c.RunE = func(cmd *cobra.Command, args []string) error {
 		port, _, err := cfg.portRange()
 		if err != nil {
@@ -79,7 +79,7 @@ func identifiedDaemonPID(host string, port int) (int, error) {
 		PID     int    `json:"pid"`
 	}
 	if resp.StatusCode != http.StatusOK || json.NewDecoder(io.LimitReader(resp.Body, 4<<20)).Decode(&health) != nil || health.Service != daemon.Service {
-		return fail("listener is not an identified zhigou daemon")
+		return fail("listener is not an identified easycirq daemon")
 	}
 	pid := health.PID
 	if pid == 0 {

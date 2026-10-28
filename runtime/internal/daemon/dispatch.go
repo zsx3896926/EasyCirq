@@ -151,7 +151,7 @@ func (s *Server) handleAction(w http.ResponseWriter, r *http.Request) {
 		// ships but the daemon never registered) used to leave NO trace here,
 		// so `audit-baseline` was blind to the exact failures that matter most.
 		started := time.Now().UTC()
-		errResp := errorResponse(req.ID, "UNKNOWN_ACTION", fmt.Sprintf("unknown action: %s", req.Action), "run `zhigou actions` for the supported set")
+		errResp := errorResponse(req.ID, "UNKNOWN_ACTION", fmt.Sprintf("unknown action: %s", req.Action), "run `easycirq actions` for the supported set")
 		s.audit.Append(fromResponse(started, &req, &errResp))
 		writeJSON(w, http.StatusBadRequest, errResp)
 		return
@@ -180,7 +180,7 @@ func (s *Server) handleAction(w http.ResponseWriter, r *http.Request) {
 		}
 		if !found {
 			started := time.Now().UTC()
-			errResp := errorResponse(req.ID, "NO_CONNECTOR", fmt.Sprintf("no connected window for project %q", req.Project), "open the project in EasyEDA (connector enabled), or run `zhigou health`")
+			errResp := errorResponse(req.ID, "NO_CONNECTOR", fmt.Sprintf("no connected window for project %q", req.Project), "open the project in EasyEDA (connector enabled), or run `easycirq health`")
 			s.audit.Append(fromResponse(started, &req, &errResp))
 			writeJSON(w, http.StatusServiceUnavailable, errResp)
 			return
@@ -207,7 +207,7 @@ func (s *Server) handleAction(w http.ResponseWriter, r *http.Request) {
 				detail += fmt.Sprintf(" Retired context: project=%s (%s), document=%s (%s).", prev.ProjectName, prev.ProjectUUID, prev.DocumentUUID, prev.DocumentType)
 			}
 		case req.WindowID != "":
-			detail = fmt.Sprintf("no connector registered for window %q, and no window is connected at all — check `zhigou health`", req.WindowID)
+			detail = fmt.Sprintf("no connector registered for window %q, and no window is connected at all — check `easycirq health`", req.WindowID)
 		case liveCount > 1:
 			code = "AMBIGUOUS_WINDOW"
 			message = fmt.Sprintf("%d connector windows are connected; the target is ambiguous", liveCount)
@@ -383,11 +383,11 @@ func (s *Server) handleAction(w http.ResponseWriter, r *http.Request) {
 
 // artifactDir picks where to persist artifacts. The CLI sends its own working
 // directory (outputDir) so files land in the user's project under a hidden
-// .zhigou/artifacts dir — not the daemon's cwd. Callers that don't send one
+// .easycirq/artifacts dir — not the daemon's cwd. Callers that don't send one
 // (tests, raw HTTP) fall back to the configured ArtifactDir, then "artifacts".
 func (s *Server) artifactDir(outputDir string) string {
 	if outputDir != "" {
-		return filepath.Join(stripArtifactNesting(outputDir), ".zhigou", "artifacts")
+		return filepath.Join(stripArtifactNesting(outputDir), ".easycirq", "artifacts")
 	}
 	if s.opts.ArtifactDir != "" {
 		return s.opts.ArtifactDir
@@ -396,9 +396,9 @@ func (s *Server) artifactDir(outputDir string) string {
 }
 
 // stripArtifactNesting truncates a path to just BEFORE its first
-// ".zhigou/artifacts" segment pair, making artifactDir's Join idempotent: an
+// ".easycirq/artifacts" segment pair, making artifactDir's Join idempotent: an
 // outputDir that already points INSIDE an artifact tree (a CLI whose cwd
-// drifted there) used to grow .zhigou/artifacts/.zhigou/artifacts/… one
+// drifted there) used to grow .easycirq/artifacts/.easycirq/artifacts/… one
 // level per call. A path without the pair is returned cleaned but otherwise
 // unchanged. The CLI applies the same normalization before sending outputDir
 // (internal/app dispatch.go) — this is the daemon-side defense for raw
@@ -408,7 +408,7 @@ func stripArtifactNesting(p string) string {
 	sep := string(filepath.Separator)
 	segs := strings.Split(clean, sep)
 	for i := 0; i+1 < len(segs); i++ {
-		if segs[i] == ".zhigou" && segs[i+1] == "artifacts" {
+		if segs[i] == ".easycirq" && segs[i+1] == "artifacts" {
 			trimmed := strings.Join(segs[:i], sep)
 			if trimmed == "" {
 				if filepath.IsAbs(clean) {
@@ -567,7 +567,7 @@ func ambiguousProjectDetail(candidates []Window) string {
 		parts = append(parts, fmt.Sprintf("%s [host=%s doc=%s]", w.WindowID, w.Host.Kind, w.Context.DocumentType))
 	}
 	if len(parts) == 0 {
-		return "pass --window to pick one (see `zhigou health`)"
+		return "pass --window to pick one (see `easycirq health`)"
 	}
 	return "pass --window to pick one: " + strings.Join(parts, ", ")
 }

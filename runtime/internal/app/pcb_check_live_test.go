@@ -41,7 +41,7 @@ func newClearanceCheckFixture(t *testing.T, foreignPadY float64, mutate ...func(
 	}
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[{"windowId":"w1"}]}`))
+			_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[{"windowId":"w1"}]}`))
 			return
 		}
 		var request struct {

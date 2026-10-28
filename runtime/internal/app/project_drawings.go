@@ -535,7 +535,7 @@ func drawingsSVGMetadata(data []byte) (*drawingsActualMetadata, error) {
 				if strings.Contains(val, "url(") && !strings.Contains(val, "url(#") {
 					return nil, fmt.Errorf("external SVG style resource is unsupported")
 				}
-				if a.Name.Local == "id" && a.Value == "zhigou-actual-readback" && t.Name.Local == "metadata" {
+				if a.Name.Local == "id" && a.Value == "easycirq-actual-readback" && t.Name.Local == "metadata" {
 					isMeta = true
 				}
 			}

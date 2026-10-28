@@ -2,7 +2,7 @@ package version
 
 // Version is overridden at build time via -ldflags for release builds.
 var (
-	Name    = "zhigou"
+	Name    = "easycirq"
 	Version = "dev"
 
 	// ConnectorName/Version identify the in-EDA connector build that this
