@@ -323,6 +323,32 @@ def run_selftest() -> dict[str, Any]:
             assert audit["real_eda"] == "NOT RUN" and audit["eda_calls"] == 0
 
         checker.run("fixture-deterministic", fixture_deterministic)
+
+        def timeout_kill_tree() -> None:
+            # Simulated agent: a harmless sleep process, killed by the runner's
+            # process-tree kill (the real Claude spawn is NOT RUN in Phase 1).
+            import subprocess as _subprocess
+            import sys as _sys
+            import time as _time
+
+            from .runner import kill_tree
+
+            process = _subprocess.Popen(
+                [_sys.executable, "-c", "import time; time.sleep(30)"],
+                stdout=_subprocess.DEVNULL,
+                stderr=_subprocess.DEVNULL,
+            )
+            _time.sleep(0.2)
+            result = kill_tree(process)
+            try:
+                process.wait(timeout=10)
+            finally:
+                if process.poll() is None:
+                    process.kill()
+            assert result.get("killed") is True, result
+            assert process.poll() is not None, "kill-tree left the process running"
+
+        checker.run("timeout-kill-tree", timeout_kill_tree)
     finally:
         shutil.rmtree(workdir, ignore_errors=True)
 
