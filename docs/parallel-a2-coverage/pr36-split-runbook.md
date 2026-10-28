@@ -95,6 +95,7 @@ gh pr create --base main --draft `
 
 ```powershell
 # 门禁：没有授权写探针的 PASS 证据时，禁止执行本步
+# 2026-10-28 已满足：write-probe-passed.json 存在（W04/W05/W09 covered）
 $probe = Get-ChildItem "$A2\docs\evidence\a2-coverage-*\write-probe-passed.json" -ErrorAction SilentlyContinue
 if (-not $probe) { throw "写探针未通过（W04/W05/W09 仍为 blocked），禁止开启退役 PR" }
 

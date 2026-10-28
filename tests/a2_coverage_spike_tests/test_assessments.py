@@ -58,17 +58,22 @@ class AssessmentTests(unittest.TestCase):
                 self.assertGreaterEqual(len(wf["a"]["blockers"]), 1)
                 self.assertTrue(wf["notes"].strip())
 
-    def test_write_cells_are_blocked_not_covered(self):
-        for wid in ("W04", "W05"):
-            self.assertEqual(self.by_id[wid]["official"]["status"], "blocked")
-            self.assertEqual(self.by_id[wid]["official"]["steps"], 0)
-        self.assertEqual(self.by_id["W09"]["official"]["status"], "partial")
-        self.assertTrue(any("save" in c.lower() for c in self.by_id["W09"]["official"]["commands"]))
+    def test_write_cells_are_covered_after_authorized_probe(self):
+        for wid in ("W04", "W05", "W09"):
+            cell = self.by_id[wid]["official"]
+            self.assertEqual(cell["status"], "covered", wid)
+            self.assertGreater(cell["steps"], 0, wid)
+            self.assertTrue(
+                any("write-probe" in path or "write-probe-passed" in path for path in cell["evidence"]),
+                wid,
+            )
+        self.assertIn("AUTHORIZED", self.data["isolation"]["design_writes"])
+        self.assertTrue(self.data["isolation"]["write_probe"]["source_unchanged"])
 
     def test_isolation_declaration(self):
         isolation = self.data["isolation"]
         self.assertIs(isolation["user_session_touched"], False)
-        self.assertIn("NOT AUTHORIZED", isolation["design_writes"])
+        self.assertIn("AUTHORIZED", isolation["design_writes"])
         self.assertIs(isolation["project_unchanged_after_probe"], True)
         self.assertIn("quickstart", isolation["fixture_copy"])
 

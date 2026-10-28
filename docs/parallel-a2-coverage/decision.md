@@ -1,8 +1,11 @@
 # Decision memo: A1 / A2 / A3 (provisional)
 
-**Status: `decision-provisional`** - no final A1/A2/A3 may be issued because the
-write-critical cells (W04, W05, W09-save) are unmeasured (no write authorization).
-This file records the evidence-based provisional lean only.
+**Status: `decision-provisional`** - the authorized write probe on 2026-10-28 closed
+W04/W05/W09 (they are `covered` with save/reopen/readback receipts). No final
+A1/A2/A3 is issued yet because the three remaining critical cells are `partial`
+(thin-wrapper scope: W02 net reads, W06 batch plan, W07 DRC/DFM shaping), so the
+A2 ">=7/8 covered" condition is not met. This file records the evidence-based
+provisional lean only.
 
 - Date: 2026-10-28
 - Evidence: `docs/evidence/a2-coverage-2026-10-28/` (matrix: `coverage-matrix.md`)
@@ -18,15 +21,16 @@ issued. The rubric returns `incomplete` because:
 
 | critical cell | status | why |
 | --- | --- | --- |
-| W04 schematic write | `blocked` | design-content write probes were not authorized |
-| W05 PCB write | `blocked` | same |
+| W04 schematic write | `covered` | authorized probe: device + wire + net label + net flag + save + readback |
+| W05 PCB write | `covered` | authorized probe: importChanges + move + save + reopen pose check |
+| W09 save/reopen | `covered` | authorized probe: save -> close --destroy -> reopen -> readback; source untouched |
 | W02 schematic read | `partial` | net API returns empty; netlist text is the fallback |
-| W06 batch | `partial` | read batching measured, write batching not run |
-| W07 DRC/DFM | `partial` | DRC receipts work but the return shape is undocumented and DFM has no official equivalent |
-| W09 save/reopen | `partial` | close/reopen and non-mutation proven; save persistence not run |
+| W06 batch | `partial` | read batching measured; a typed batch/journal plan is still wrapper work |
+| W07 DRC/DFM | `partial` | DRC receipts work but the shapes are undocumented and DFM has no official equivalent |
 
-Covered critical cells: W08 (export, with real artifacts) and W11 (MCP).
-Non-critical: W01 and W10 covered; W03 partial.
+Covered critical cells: W04, W05, W08 (export, real artifacts), W09, W11 (MCP).
+Non-critical: W01 and W10 covered; W03 partial. No critical cell is blocked or
+not-run any more, so the decision moved from "missing evidence" to "wrapper scope".
 
 ## 2. Evidence-based facts that drive the lean
 
@@ -45,7 +49,27 @@ Non-critical: W01 and W10 covered; W03 partial.
    queryable with no session and no network - a much better model-facing
    discovery surface than a hand-maintained typed catalog.
 
-**Official route has real defects that need a wrapper**
+**Official writes are real (authorized probe, 2026-10-28)**
+
+1. A device was placed from the system library (`lib_Device.search('0402')` +
+   `sch_PrimitiveComponent.create`), a wire/`net label`/net flag were created,
+   `save` returned true, and readback went from 58 to 60 components and 34 to 35
+   wires (`write-probe/raw/W04*`).
+2. `importChanges(false)` returned true, a PCB component (DC1) was moved
+   +50/+50, `pcb_Document.save()` returned true, and after reopening the copy the
+   pose matched within 2 raw units (`W05-pcb-write`, `W09-readback`).
+3. `save -> session close --destroy -> reopen -> readback` found the net flag,
+   wire, placed device and moved PCB component again; the copy's sha256 changed
+   from `824f6dcc...` to `4be11c20...` while the read-only source fixture stayed
+   byte-identical (`write-probe-passed.json`).
+4. Quirks that a wrapper must encode: creating from an existing component/symbol
+   identity hangs (>90 s, 3 attempts); `getAllPinsByPrimitiveId` on a freshly
+   created async component blocked one 240 s invoke; `createNetLabel` returned
+   `null` while persisting (readback via `sch_PrimitiveAttribute.getAll` is the
+   only truth); a single long JS program can hit `REQUEST_TIMEOUT` and discard
+   everything, so the probe runs one short invoke per write step.
+
+
 
 1. `open` returns `ok:true` before the project loads; `getReadyState()` still
    says `notLoaded` when `getCurrentProjectInfo()` is already populated. A
@@ -88,25 +112,27 @@ value with a thin local layer (`spike/a2-coverage/` is the seed):
 - netlist-based net truth and export relay (base64 -> file + sha256);
 - offline `doc api` catalog snapshot so the model never guesses method names.
 
-Remaining gaps that still argue for keeping something from A are limited to:
-typed write plans with per-action journaling (W04-W06) and a typed DFM audit
-(W07). Both are <=2 workflows, which keeps A2's "thin wrapper" condition
-plausible.
+Remaining critical gaps are thin-wrapper scope, not missing host capability:
+W02 net reads are already closed offline by the Protel-netlist parser
+(`netlist_diff.py`); W06 needs a batch plan/journal (the CLI has none); W07 needs
+shaping of the DRC receipts and a decision on DFM (A's rebuild-based check has no
+official equivalent). That is 2-3 wrapper workflows, which keeps A2's "thin
+wrapper" condition plausible.
 
 ## 4. What would overturn this lean
 
-- **Toward A1**: an authorized write probe shows that official writes in
-  4.1.78 are unreliable under load (async commit drops, importChanges no-op in
-  half-offline, save not persisting on reopen, silent false booleans) such that
-  a thin wrapper cannot enforce single-writer/rollback - i.e. W04/W05/W09-save
-  come back `partial` with no feasible thin fix.
-- **Toward A3**: the authorized write probe passes cleanly for W04/W05/W09
-  (save+reopen+readback) and W02 net reading is fixed by netlist parsing; then
-  official covers >=7/8 critical and A's remaining value is negligible.
+- **Toward A1**: the thin wrapper for W06/W07 proves unacceptable (e.g. DRC
+  receipts are too unstable to gate on, or batch/journal semantics cannot be
+  enforced without a daemon) while A's typed check/batch actions are clearly
+  better; then keep A for the remaining gap instead of retiring it.
+- **Toward A3**: the W02 netlist parser + Skill-side DFM are accepted as the
+  wrapper, and the remaining W06/W07 gaps are judged negligible; official then
+  covers 5/8 critical with 3 wrapper closures, and A's retention cost (1,700-file
+  PR history, Go fork, manual connector import) dominates.
 - **Toward "A2 plus keep distribution"**: if install/upgrade/branding (A's
   `distribution/`) is still wanted, keep it without runtime/connector.
-- Confidence is **low** until W04/W05/W09-save are measured on a disposable,
-  authorized project.
+- Confidence is **medium** now that the write path is proven; the remaining
+  uncertainty is wrapper quality (W06/W07), not host capability.
 
 ## 5. PR #36 split recommendation (do not merge on our behalf)
 
@@ -151,3 +177,21 @@ write probe closes W04/W05/W09.
   refusal, plan/readback receipts, timeout -> readback (never blind retry), and
   an explicit `--headless`/`--destroy` session policy. The official CLI alone is
   not safe enough for unattended writes.
+
+## 7. Authorized write probe record (2026-10-28)
+
+| item | value |
+| --- | --- |
+| authorization | `docs/evidence/a2-coverage-2026-10-28/write-probe/authorization.json` (granted_by `jlc`, scope W04/W05/W09, project_root under `%TEMP%`) |
+| runner | `spike/a2-coverage/probe_writes.py` (refuses without authorization; temp copy only; user session untouched) |
+| temp project | `C:\Users\jlc\AppData\Local\Temp\a2-write-probe-20261028\run-20261028-125326\a2write-run-20261028-125326.eprj2` |
+| marker | `docs/evidence/a2-coverage-2026-10-28/write-probe-passed.json` (all checks true) |
+| W04 | device placed (system-library `0402`), wire + net label + net flag, save true, readback 58->60 components / 34->35 wires |
+| W05 | `importChanges(true)`, DC1 moved +50/+50, save true, reopen pose match within 2 raw units |
+| W09 | save -> close --destroy -> reopen readback: flag/wire/device/PCB pose persisted; copy sha256 `824f6dcc...` -> `4be11c20...`; source fixture unchanged |
+| failures kept | `write-probe/attempt1/` (single 240 s invoke timed out) and `attempt2/` (net label return value null) |
+| cleanup | delete `%TEMP%\a2-write-probe-20261028\` after review |
+
+This closes the Step 3 gate in `pr36-split-runbook.md`: the retire PR may now be
+opened, but the A1/A2/A3 decision itself remains provisional because W02/W06/W07
+are wrapper work.

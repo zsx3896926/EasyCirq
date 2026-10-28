@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"schematicActivated":true,"importRes":true,"importErr":null,"pcbActivated":true,"componentCount":33,"target":{"primitiveId":"e0","designator":"DC1","x":466.1575,"y":-1950.7677,"rotation":0},"expected":{"designator":"DC1","x":516.1575,"y":-1900.7677},"moveRes":{"x":516.1575,"y":-1900.7677},"moveErr":null,"found":{"designator":"DC1","x":516.1575,"y":-1900.7677},"lastFound":{"designator":"DC1","x":516.1575,"y":-1900.7677},"saveRes":true,"saveErr":null},"logs":[],"durationMs":13957}

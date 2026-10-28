@@ -3,33 +3,42 @@
   "id": "W05",
   "side": "official",
   "title": "PCB write",
-  "status": "blocked",
+  "status": "covered",
   "commands": [
-    "invoke -> eda.sch_Document.importChanges",
-    "invoke -> eda.pcb_PrimitiveComponent.modify",
-    "invoke -> eda.pcb_Document.save",
-    "invoke -> readback"
+    "invoke -> eda.sch_Document.importChanges(false)",
+    "invoke -> eda.pcb_PrimitiveComponent.getAll()",
+    "invoke -> eda.pcb_PrimitiveComponent.modify(primitiveId, {x+50, y+50})",
+    "invoke -> eda.pcb_Document.save()",
+    "invoke -> readback: pcb_PrimitiveComponent.getAll() by designator"
   ],
-  "steps": 0,
-  "exit_codes": [],
+  "steps": 5,
+  "exit_codes": [
+    0
+  ],
   "evidence": [
-    "docs/evidence/a2-coverage-2026-10-28/api/PCB_Document.importChanges.json",
-    "docs/evidence/a2-coverage-2026-10-28/api/PCB_Document.save.json",
-    "docs/evidence/a2-coverage-2026-10-28/api/PCB_PrimitiveComponent.modify.json"
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W05-pcb-write.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-readback.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/write-probe-run.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe-passed.json"
   ],
   "observations": [
-    "Static surface: importChanges, PCB primitive modify/delete, PCB_Document.save and an official autoRouting entry point exist.",
-    "No write was executed (no authorization); the repository's own notes say importChanges returned true but materialized nothing in half-offline mode."
+    "importChanges(false) returned true and materialised the schematic onto the PCB copy.",
+    "Moved an existing PCB component (DC1) by +50/+50 raw units via pcb_PrimitiveComponent.modify; immediate readback found the same designator at the new pose.",
+    "pcb_Document.save() returned true; after session close + reopen, the DC1 pose matched the saved pose within 2 raw units.",
+    "The PCB layer/net/component read surface used for readback was already measured in W03."
   ],
   "risks": [
-    "importChanges may silently no-op in half-offline mode",
-    "single-writer / ordering / undo semantics are absent at the CLI layer",
-    "no write probe means persistence is unproven"
+    "importChanges is a whole-schematic rebuild of the PCB, not a minimal diff",
+    "no undo; a wrong move is only recoverable by re-editing",
+    "primitiveId is session-scoped: locate by designator after reopen",
+    "save true is not persistence: the reopen readback is the evidence"
   ],
   "measured": {
-    "steps": 0,
-    "js_lines": 0,
-    "exit_codes": [],
-    "duration_ms": 0.0
+    "steps": 1,
+    "js_lines": 69,
+    "exit_codes": [
+      0
+    ],
+    "duration_ms": 14700.6
   }
 }

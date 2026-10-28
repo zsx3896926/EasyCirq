@@ -33,9 +33,12 @@ Verdict per workflow: `official_sufficient`, `a_required`, `both_needed`,
 2. Only `origin:"cli"` sessions opened by this spike were driven; the single
    `origin:"user"` window was recorded before/after and never activated,
    reloaded or closed.
-3. Design-content writes (place/wire/importChanges/save) were **not
-   authorized**, so they were not attempted. Cells that depend on them are
-   `blocked (authorization)`.
+3. The first phase was read-only: design-content writes were not authorized, so
+   they were not attempted and the affected cells stayed `blocked`.
+   **Later (same day) the operator explicitly authorized W04/W05/W09**; the
+   authorized probe (`probe_writes.py`) enforced the authorization file, wrote
+   only a disposable `%TEMP%` copy, ran one short invoke per write step, and
+   required readback + a `write-probe-passed.json` marker.
 4. No extension install/uninstall, no network, no A branch checkout/modification,
    no merge/release, no writes outside the four allowed paths.
 5. Session hygiene: `session close --session <id> --destroy` after every probe;
@@ -92,9 +95,11 @@ Computed by `spike/a2-coverage/build_matrix.py::evaluate_rubric`:
 
 ## 7. Known limits of this spike
 
-- No write probe -> W04, W05 and W09-save are unproven; A cannot be run on this
-  host (no Go; connector only in the user's window). The decision is therefore
-  **provisional**.
+- Writes: W04/W05/W09 are no longer unproven - the authorized probe on a
+  disposable copy turned them to `covered` (save/reopen/readback receipts). A
+  cannot be run on this host (no Go; connector only in the user's window), so the
+  A column stays static and the decision is **provisional** because W02/W06/W07
+  are wrapper scope, not measured host gaps.
 - Only one fixture (a vendor sample). Complex designs (multi-page, multi-board,
   high-speed) were not exercised.
 - The A side is static knowledge; A's later self-claimed M2-M4 PASS was not

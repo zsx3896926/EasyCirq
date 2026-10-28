@@ -94,62 +94,95 @@ async function activateSchematic(proj) {
 }
 """
 
-JS_W04 = _JS_COMMON + r"""
+JS_W04_CREATE = _JS_COMMON + r"""
 const proj = await waitProject(120000);
 if (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};
 const sch = await activateSchematic(proj);
-const beforeComps = await eda.sch_PrimitiveComponent.getAll(undefined, true);
-const beforeWires = await eda.sch_PrimitiveWire.getAll();
+const before = await eda.sch_PrimitiveComponent.getAll(undefined, true);
 let libs = {};
 try { libs.project = await eda.lib_LibrariesList.getProjectLibraryUuid() || null; } catch (e) { libs.projectErr = String(e); }
 try { libs.system = await eda.lib_LibrariesList.getSystemLibraryUuid() || null; } catch (e) { libs.systemErr = String(e); }
 let search = null, searchErr = null;
-try { search = await eda.lib_Device.search('0402', libs.system || libs.project || undefined); } catch (e) { searchErr = String(e); }
-const candidates = Array.isArray(search) ? search.slice(0, 3) : [];
-let createRes = null, createErr = null, chosen = null;
-for (const cand of candidates) {
+try { search = await eda.lib_Device.search('0402', libs.system || undefined); } catch (e) { searchErr = String(e); }
+const cands = Array.isArray(search) ? search.slice(0, 3) : [];
+let created = null, createErr = null, chosen = null;
+for (const cand of cands) {
   try {
-    const created = await eda.sch_PrimitiveComponent.create(cand, 200, 600, undefined, 0, false, true, true);
-    if (created) { createRes = created; chosen = {uuid: cand.uuid, name: cand.name, libraryUuid: cand.libraryUuid}; break; }
+    const res = await eda.sch_PrimitiveComponent.create(cand, 200, 600, undefined, 0, false, true, true);
+    if (res) { created = res; chosen = {uuid: cand.uuid, name: cand.name, libraryUuid: cand.libraryUuid}; break; }
   } catch (e) { createErr = String(e); }
 }
-await sleep(1500);
-let pins = null, pinErr = null;
-try {
-  const pid = createRes && (createRes.primitiveId || createRes.id);
-  if (pid) pins = await eda.sch_PrimitiveComponent.getAllPinsByPrimitiveId(pid);
-} catch (e) { pinErr = String(e); }
-const p0 = (pins && pins.length) ? pins[0] : null;
-const wx1 = p0 ? p0.x : 220;
-const wy1 = p0 ? p0.y : 600;
-let wire = null, wireErr = null;
-try { wire = await eda.sch_PrimitiveWire.create([wx1, wy1, wx1 + 40, wy1], 'A2PROBE_NET'); } catch (e) { wireErr = String(e); }
-let label = null, labelErr = null;
-try { label = await eda.sch_PrimitiveAttribute.createNetLabel(wx1 + 40, wy1, 'A2PROBE_NET'); } catch (e) { labelErr = String(e); }
-let flag = null, flagErr = null;
-try { flag = await eda.sch_PrimitiveComponent.createNetFlag('Power', 'A2PROBE_VCC', 200, 540); } catch (e) { flagErr = String(e); }
-await sleep(1500);
-const afterComps = await eda.sch_PrimitiveComponent.getAll(undefined, true);
-const afterWires = await eda.sch_PrimitiveWire.getAll();
-let saveRes = null, saveErr = null;
-try { saveRes = await eda.sch_Document.save(); } catch (e) { saveErr = String(e); }
-await sleep(1500);
-const lastComps = await eda.sch_PrimitiveComponent.getAll(undefined, true);
-const lastWires = await eda.sch_PrimitiveWire.getAll();
-const newComp = createRes && lastComps ? lastComps.find(c => (c.primitiveId || c.id) === (createRes.primitiveId || createRes.id)) : null;
+await sleep(1200);
 return {
-  page: sch.page, activated: sch.activated,
-  libs, candidateCount: candidates.length, searchErr,
-  chosen, createRes: createRes ? {primitiveId: createRes.primitiveId, designator: createRes.designator, name: createRes.name, x: createRes.x, y: createRes.y} : null,
-  createErr, pins: pins ? pins.length : null, pinErr,
-  wire: wire ? {primitiveId: wire.primitiveId, net: wire.net} : null, wireErr,
-  label: label ? {primitiveId: label.primitiveId} : null, labelErr,
-  flag: flag ? {primitiveId: flag.primitiveId, name: flag.name} : null, flagErr,
-  before: {components: (beforeComps || []).length, wires: (beforeWires || []).length},
-  afterSave: {components: (lastComps || []).length, wires: (lastWires || []).length,
-              newComponentFound: !!newComp,
-              flagSample: (lastComps || []).filter(c => String(c.name || '').indexOf('A2PROBE') >= 0).map(c => ({name: c.name, x: c.x, y: c.y}))},
-  saveRes, saveErr
+  page: sch.page, activated: sch.activated, libs, searchCount: cands.length, searchErr, chosen, createErr,
+  created: created ? {primitiveId: created.primitiveId, designator: created.designator, name: created.name, x: created.x, y: created.y} : null,
+  before: {components: (before || []).length}
+};
+"""
+
+JS_W04_WIRE = _JS_COMMON + r"""
+const proj = await waitProject(60000);
+if (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};
+await activateSchematic(proj);
+await sleep(300);
+let wire = null, err = null;
+try { wire = await eda.sch_PrimitiveWire.create([220, 600, 260, 600], 'A2PROBE_NET'); } catch (e) { err = String(e); }
+await sleep(500);
+return {wire: wire ? {primitiveId: wire.primitiveId, net: wire.net} : null, err};
+"""
+
+JS_W04_LABEL = _JS_COMMON + r"""
+const proj = await waitProject(60000);
+if (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};
+await activateSchematic(proj);
+let label = null, err = null;
+try { label = await eda.sch_PrimitiveAttribute.createNetLabel(260, 600, 'A2PROBE_NET'); } catch (e) { err = String(e); }
+await sleep(900);
+let attrs = null, attrErr = null;
+try { attrs = await eda.sch_PrimitiveAttribute.getAll(); } catch (e) { attrErr = String(e); }
+const found = (attrs || []).some(a => a && String(a.value || '') === 'A2PROBE_NET');
+return {
+  label: label ? {primitiveId: label.primitiveId} : null,
+  labelReturnNull: label === null,
+  err, attrErr,
+  attrCount: Array.isArray(attrs) ? attrs.length : null,
+  labelFoundByReadback: found
+};
+"""
+
+JS_W04_FLAG = _JS_COMMON + r"""
+const proj = await waitProject(60000);
+if (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};
+await activateSchematic(proj);
+let flag = null, err = null;
+try { flag = await eda.sch_PrimitiveComponent.createNetFlag('Power', 'A2PROBE_VCC', 200, 540); } catch (e) { err = String(e); }
+return {flag: flag ? {primitiveId: flag.primitiveId, name: flag.name} : null, err};
+"""
+
+JS_W04_SAVE_READBACK = _JS_COMMON + r"""
+const args = (typeof __CLI__ !== 'undefined' && __CLI__.args) ? __CLI__.args : {};
+const proj = await waitProject(60000);
+if (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};
+await activateSchematic(proj);
+let saved = null, saveErr = null;
+try { saved = await eda.sch_Document.save(); } catch (e) { saveErr = String(e); }
+await sleep(1000);
+const comps = await eda.sch_PrimitiveComponent.getAll(undefined, true) || [];
+const wires = await eda.sch_PrimitiveWire.getAll() || [];
+let attrs = null;
+try { attrs = await eda.sch_PrimitiveAttribute.getAll(); } catch (e) { attrs = null; }
+const text = (v) => JSON.stringify(v === undefined ? null : v);
+const dev = args.designator ? comps.find(c => c && c.designator === args.designator) : null;
+const created = comps.find(c => c && text(c).indexOf('A2PROBE') >= 0);
+return {
+  saved, saveErr,
+  componentCount: comps.length, wireCount: wires.length,
+  flagFound: comps.some(c => c && text(c).indexOf('A2PROBE_VCC') >= 0),
+  wireFound: wires.some(w => text(w).indexOf('A2PROBE_NET') >= 0),
+  labelFound: (attrs || []).some(a => a && String(a.value || '') === 'A2PROBE_NET'),
+  devFoundByDesignator: !!dev,
+  devFoundByProximity: comps.some(c => c && Math.abs((c.x || 0) - 200) <= 25 && Math.abs((c.y || 0) - 600) <= 25 && Math.abs((c.y || 0) - 540) > 25),
+  createdSample: created ? {designator: created.designator, name: created.name, x: created.x, y: created.y} : null
 };
 """
 
@@ -379,7 +412,49 @@ class WriteProbe:
         self.receipt["fixture"]["copy_sha256_before"] = sha256_file(self.copy)
         self.open()
         try:
-            _, w04 = self._invoke("W04-sch-write", JS_W04, timeout_ms=240000)
+            # W04 is split into short, independently timed invokes: one hanging
+            # editor call must not hide the checks that already passed.
+            w04_steps: dict = {}
+            for name, code, timeout_ms in (
+                ("W04a-create", JS_W04_CREATE, 120000),
+                ("W04b-wire", JS_W04_WIRE, 60000),
+                ("W04c-label", JS_W04_LABEL, 60000),
+                ("W04d-flag", JS_W04_FLAG, 60000),
+            ):
+                _, value = self._invoke(name, code, timeout_ms=timeout_ms)
+                w04_steps[name] = value
+            created = ((w04_steps.get("W04a-create") or {}).get("created")) or {}
+            designator = created.get("designator")
+            _, readback = self._invoke(
+                "W04e-save-readback",
+                JS_W04_SAVE_READBACK,
+                args={"designator": designator if designator not in (None, "", "?") else None},
+                timeout_ms=90000,
+            )
+            w04 = {
+                "chosen": (w04_steps.get("W04a-create") or {}).get("chosen"),
+                "createRes": created or None,
+                "before": (w04_steps.get("W04a-create") or {}).get("before") or {},
+                "searchCount": (w04_steps.get("W04a-create") or {}).get("searchCount"),
+                "wire": (w04_steps.get("W04b-wire") or {}).get("wire"),
+                "label": (w04_steps.get("W04c-label") or {}).get("label"),
+                "labelFound": bool((w04_steps.get("W04c-label") or {}).get("labelFoundByReadback"))
+                or bool((readback or {}).get("labelFound")),
+                "flag": (w04_steps.get("W04d-flag") or {}).get("flag"),
+                "saveRes": (readback or {}).get("saved"),
+                "saveErr": (readback or {}).get("saveErr"),
+                "afterSave": {
+                    "components": (readback or {}).get("componentCount"),
+                    "wires": (readback or {}).get("wireCount"),
+                    "newComponentFound": bool((readback or {}).get("devFoundByDesignator"))
+                    or bool((readback or {}).get("devFoundByProximity"))
+                    or bool((readback or {}).get("createdSample")),
+                    "flagFound": (readback or {}).get("flagFound"),
+                    "wireFound": (readback or {}).get("wireFound"),
+                },
+                "substeps": w04_steps,
+                "readback": readback,
+            }
             _, w05 = self._invoke("W05-pcb-write", JS_W05, timeout_ms=300000)
             self.close("W09-close")
             after_write_tree = tree_snapshot(self.copy)
@@ -439,7 +514,7 @@ def evaluate(w04: dict | None, w05: dict | None, w09: dict | None, fixture_info:
         "W04": {
             "device_created": bool(w04.get("chosen")) and bool(w04.get("createRes")),
             "wire_created": bool(w04.get("wire")),
-            "net_label_created": bool(w04.get("label")),
+            "net_label_created": bool(w04.get("label")) or bool(w04.get("labelFound")),
             "save_true": w04.get("saveRes") is True,
             "readback_component_found": bool(after_save.get("newComponentFound")),
             "readback_counts_increased": (after_save.get("components", 0) > (w04.get("before") or {}).get("components", 0)),

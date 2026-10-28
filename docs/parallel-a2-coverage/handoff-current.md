@@ -29,9 +29,10 @@
   `%TEMP%\a2-spike-20261028-1050\fixture\a2spike-quickstart.eprj2`
   (sha256 `824f6dcc...`). Authorization: **no design-write authorization**;
   write cells are `blocked`.
-- Official CLI real coverage: W01, W02 (partial), W03 (partial), W06 (partial),
-  W07 (partial), W08 (covered), W09 (reopen only; save blocked), W10, W11.
-  Receipts: `docs/evidence/a2-coverage-2026-10-28/raw/`, `api/`, `mcp-tools.json`.
+- Official CLI real coverage: W01, W02 (partial), W03 (partial), W04, W05,
+  W06 (partial), W07 (partial), W08, W09, W10, W11.
+  Receipts: `docs/evidence/a2-coverage-2026-10-28/raw/`, `api/`,
+  `write-probe/`, `mcp-tools.json`.
 - A side: **static only** (action catalog + A's own self-evidence under
   `a-self-evidence/`). A could not be run: no Go toolchain, and the A connector
   only exists in the user's GUI window while this spike may only drive
@@ -41,7 +42,10 @@
   netlist); `sys_FileSystem` is permission-gated (base64 relay used);
   `REQUEST_TIMEOUT` can leave unknown side effects; no official DFM audit;
   no typed batch/journal; `doc api` has no write session so W04/W05 unproven.
-- Decision: **incomplete (provisional)**, lean **A2**, confidence **low**.
+- Decision: **incomplete (provisional)**, lean **A2**, confidence **medium**.
+  W04/W05/W09 are now `covered` by an authorized disposable-copy write probe
+  (`write-probe-passed.json`); the remaining critical gaps are wrapper scope
+  (W02 net parsing, W06 batch plan, W07 DRC/DFM shaping).
   Evidence: `coverage-matrix.md` / `rubric.json` / `decision.md`.
   Counterexamples that would flip it are listed in `decision.md` §4.
 - #36 split (3):
@@ -53,9 +57,12 @@
 - B1 Phase 2: use the official CLI/MCP as the execution backend; B1 must still
   implement its own write gate (session guard, load poll, plan/readback,
   timeout->readback, export relay).
-- NOT RUN / BLOCKED: W04/W05 writes, W09 save, write batching (no authorization);
-  `--mcp http`; `doc external/format`; library/3D/panel surfaces; PCB geometry
-  dumps; A build/run; any network.
+- NOT RUN / BLOCKED: W06 write batching; `--mcp http`; `doc external/format`;
+  library/3D/panel surfaces; PCB geometry dumps; A build/run; any network.
+  W04/W05/W09 writes are DONE (authorized probe, disposable `%TEMP%` copy;
+  marker `docs/evidence/a2-coverage-2026-10-28/write-probe-passed.json`).
+  Step 3's gate in `pr36-split-runbook.md` is satisfied; the A1/A2/A3 decision
+  itself is still provisional because of the W02/W06/W07 wrapper gaps.
 - Verification: new offline package 54 tests OK; full `python -m unittest
   discover -s tests` 3311 tests OK (2 skipped); `skill_selftest.py` 5 PASS;
   `run_spike.py --offline` regenerates the matrix without EDA/network.

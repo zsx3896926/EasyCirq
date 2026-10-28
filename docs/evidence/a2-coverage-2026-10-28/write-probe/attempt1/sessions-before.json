@@ -1,0 +1,25 @@
+{
+  "ok": true,
+  "value": [
+    {
+      "sessionId": "2d8e1a8d-e905-4eeb-896f-e8cbc6e7f798",
+      "renderId": 2,
+      "status": "alive",
+      "headless": false,
+      "origin": "user",
+      "path": null,
+      "title": "manufacture-drill-repro-20261028-120350 | 嘉立创EDA(专业版) - V4.1.78"
+    },
+    {
+      "sessionId": "f178a1bd-4461-4e86-a363-fcdab382cec8",
+      "renderId": 3,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-spike-20261028-1050\\fixture\\a2spike-quickstart.eprj2",
+      "title": null
+    }
+  ],
+  "logs": [],
+  "durationMs": 1
+}

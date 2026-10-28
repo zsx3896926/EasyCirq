@@ -1,6 +1,6 @@
 {
   "schema": "zhigou.a2-coverage.rubric/v1",
-  "generated_at": "2026-10-28T12:13:08+08:00",
+  "generated_at": "2026-10-28T12:57:09+08:00",
   "critical_ids": [
     "W02",
     "W04",
@@ -13,25 +13,21 @@
   ],
   "counts": {
     "covered": [
+      "W04",
+      "W05",
       "W08",
+      "W09",
       "W11"
     ],
     "partial": [
       "W02",
       "W06",
-      "W07",
-      "W09"
+      "W07"
     ],
     "unsupported": [],
-    "blocked": [
-      "W04",
-      "W05"
-    ],
+    "blocked": [],
     "not_run": [],
-    "unresolved_critical": [
-      "W04",
-      "W05"
-    ]
+    "unresolved_critical": []
   },
   "a2_conditions": {
     "official_covered_at_least_7_of_8": false,
@@ -56,12 +52,13 @@
   "provisional_lean": "A2",
   "lean_basis": [
     "official MCP entry works (W11 covered)",
-    "official reads/checks/exports are real for W01/W02/W03/W07/W08/W10/W11",
-    "the remaining critical gaps are exactly the un-authorized write cells (W04/W05) and save/reopen persistence (W09-save)",
+    "official write/save/reopen proof exists for W04/W05/W09 (authorized disposable-copy probe)",
+    "the remaining critical gaps are thin-wrapper scope (W02 net reads, W06 batch plan, W07 DRC/DFM shaping), not missing host capability",
     "A cannot be independently exercised on this host (no Go build; connector only in the user window)"
   ],
   "missing_evidence": [
-    "W04: official status is 'blocked' - an authorized write probe on a disposable project is required",
-    "W05: official status is 'blocked' - an authorized write probe on a disposable project is required"
+    "W02: official status is 'partial' - the remaining gap must be closed (or accepted) by the thin wrapper",
+    "W06: official status is 'partial' - the remaining gap must be closed (or accepted) by the thin wrapper",
+    "W07: official status is 'partial' - the remaining gap must be closed (or accepted) by the thin wrapper"
   ]
 }

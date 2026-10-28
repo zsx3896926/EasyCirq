@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"获取器件的所有属性","visibility":"beta","params":[{"name":"deviceUuid","type":"string","description":"器件 UUID","required":true},{"name":"libraryUuid","type":"string","required":false}],"returns":{"type":"ILIB_DeviceItem","description":"器件属性"},"isAsync":true},"logs":[],"durationMs":210}

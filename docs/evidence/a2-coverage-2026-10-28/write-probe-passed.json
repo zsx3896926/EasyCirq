@@ -1,0 +1,55 @@
+{
+  "schema": "zhigou.a2-coverage.write-probe-passed/v1",
+  "generated_at": "2026-10-28T12:54:18+08:00",
+  "authorization": {
+    "granted_by": "jlc",
+    "granted_at": "2026-10-28T04:39:43.556247+00:00",
+    "scope": [
+      "W04",
+      "W05",
+      "W09"
+    ],
+    "project_root": "C:/Users/jlc/AppData/Local/Temp/a2-write-probe-20261028",
+    "authorization_file_sha256": "92ad57ef48b26d7e6c0a939ed7ba0cb67132f7deb380493448fd1fea0a5b53ed"
+  },
+  "scope": [
+    "W04",
+    "W05",
+    "W09"
+  ],
+  "checks": {
+    "W04": {
+      "device_created": true,
+      "wire_created": true,
+      "net_label_created": true,
+      "save_true": true,
+      "readback_component_found": true,
+      "readback_counts_increased": true
+    },
+    "W05": {
+      "import_changes_returned": true,
+      "component_moved": true,
+      "move_delta_ok": true,
+      "save_true": true
+    },
+    "W09": {
+      "net_flag_persisted": true,
+      "wire_persisted": true,
+      "device_persisted": true,
+      "pcb_pose_persisted": true,
+      "project_file_changed": true
+    },
+    "passed": {
+      "W04": true,
+      "W05": true,
+      "W09": true
+    },
+    "all_passed": true
+  },
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/write-probe-run.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/authorization.json"
+  ],
+  "temp_project": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125326\\a2write-run-20261028-125326.eprj2",
+  "cleanup": "delete C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125326 after review"
+}
