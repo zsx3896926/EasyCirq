@@ -124,5 +124,7 @@ distribution\Install-Zhigou.ps1 rollback
   `schematic.v1`/`pcb.v1`），daemon **0.2.3**；调用 `pcb.outline.foreign.scan` 返回
   `UNKNOWN_ACTION`，证明旧 handlers 已不在新包中。证据：
   `docs/toolchain-integration/evidence/installer/rebrand-{doctor,health,action-absence}.json`。
-- **遗留**：README 正文仍保留 v1.0.1 时代的「安装 easyeda-agent 及其 Skill」长文（已加
-  顶部架构更新提示），待按当前单入口架构重写。
+- **README 已按当前架构重写（2026-10-28）**：单入口（`design-hardware` + 自有 `zhigou`
+  执行层）、统一安装器步骤、连接器导入/授权/重启、`zhigou doctor` 验证、真机验收范围与
+  边界（Gerber gui_only、G6 BLOCKED、实物 NOT RUN）、项目结构与开发者入口；不再指导安装
+  上游 `easyeda-agent` Skill/CLI（仅保留为 MIT 来源致谢）。
