@@ -860,7 +860,10 @@ class CommandMapTests(unittest.TestCase):
         self.assertEqual(data['schema'], 'design-engine-pcb-command-map/v1')
         required = {'dump', 'save', 'reload', 'drc', 'check', 'layout-lint',
                     'net-path', 'sch-read', 'stage-snapshot', 'layout-render',
-                    'bom-export', 'project-export', 'apply', 'gate', 'case'}
+                    'bom-export', 'project-export', 'apply', 'gate', 'case',
+                    'delete', 'track-delete', 'via-delete', 'rip-up',
+                    'pour-rebuild', 'drc-rules-set', 'track-list', 'via-list',
+                    'pour-list'}
         self.assertEqual(required, set(data['commands']))
         for name, command in data['commands'].items():
             with self.subTest(command=name):
