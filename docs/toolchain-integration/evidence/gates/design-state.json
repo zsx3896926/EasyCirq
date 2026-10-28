@@ -219,8 +219,9 @@
   "manufacturing": {
     "artifacts": [],
     "profile": {
-      "status": "pending",
-      "detail": "未建立嘉立创工艺档案；交付级别止于 PCB 候选"
+      "status": "verified",
+      "path": "manufacturing-profile.md",
+      "detail": "两层 FR-4/1oz/1.6mm，HASL 无铅/绿油白字，单片手焊，无过孔；板厂规则为条件快照，下单前重查"
     },
     "project_export": {
       "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\zhigou-board.epro2",
@@ -229,10 +230,11 @@
       "restore_detail": "导入独立新工程 zhigou-dual-button-led-restore-20261027 后回读：7 网一致、9 footprint pose 一致、板框一致、PCB DRC 0（evidence/m4/restore/restore-summary.json）"
     },
     "test_plan": {
-      "path": "",
-      "status": "pending",
-      "detail": "未编写正式测试计划；实物功能 NOT RUN"
-    }
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\test-plan.md",
+      "status": "verified",
+      "detail": "V1 EDA 检查已 PASS；V2–V11 实物项全部 NOT RUN（未上电/未手焊）"
+    },
+    "artifacts_note": "Gerber/钻孔/CPL 尚未导出：本版本 typed 能力不支持，需 EDA GUI 导出；步骤与登记要求见 manufacturing-export-checklist.md"
   },
   "sourcing": {
     "stock_checked_at": "",
@@ -258,9 +260,12 @@
   ],
   "bom": {
     "file": "BOM.csv",
-    "rows": 9,
+    "rows": 6,
     "total_quantity": 9,
-    "missing_c": 0
+    "missing_c": 0,
+    "missing_mpn": 0,
+    "missing_manufacturer": 5,
+    "identity_review": "BOM-review.md"
   },
   "pcb": {
     "components": 9,
@@ -404,6 +409,36 @@
         "sha256": "7e76767a4567411f64a7b6d73888bd7d65122bcd2aec665409e2a320068eb9b7",
         "command": "zhigou project export --out <epro2>",
         "captured_at": "2026-10-27T23:49:00Z"
+      },
+      {
+        "role": "bom_review",
+        "path": "evidence/gates/BOM-review.md",
+        "command": "offline authoring (no host access)",
+        "captured_at": "2026-10-28T10:05:00Z"
+      },
+      {
+        "role": "manufacturing_profile",
+        "path": "evidence/gates/manufacturing-profile.md",
+        "command": "offline authoring (no host access)",
+        "captured_at": "2026-10-28T10:05:00Z"
+      },
+      {
+        "role": "test_plan",
+        "path": "evidence/gates/test-plan.md",
+        "command": "offline authoring (no host access)",
+        "captured_at": "2026-10-28T10:05:00Z"
+      },
+      {
+        "role": "manufacturing_export_checklist",
+        "path": "evidence/gates/manufacturing-export-checklist.md",
+        "command": "offline authoring (no host access)",
+        "captured_at": "2026-10-28T10:05:00Z"
+      },
+      {
+        "role": "sourcing_checklist",
+        "path": "evidence/gates/sourcing-checklist.md",
+        "command": "offline authoring (no host access)",
+        "captured_at": "2026-10-28T10:05:00Z"
       }
     ]
   },

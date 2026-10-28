@@ -1,10 +1,10 @@
 {
   "schema": "design-gate-report/v1",
   "project": "zhigou-integrated-dual-button-led-20261027",
-  "generated_at": "2026-10-27T17:48:10.519182+00:00",
-  "evidence_dir": "docs\\toolchain-integration\\evidence\\gates",
+  "generated_at": "2026-10-28T02:03:19.770777+00:00",
+  "evidence_dir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates",
   "project_dir": null,
-  "design_state": "docs\\toolchain-integration\\evidence\\gates\\design-state.json",
+  "design_state": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\design-state.json",
   "thresholds": {
     "min_layout_score": 60,
     "max_crossings": 8
@@ -191,7 +191,7 @@
           "evidence": [
             {
               "role": "sch_drc",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\sch-drc.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\sch-drc.json",
               "sha256": "b4fef88a7425121b2854f57e78cd2c6f6145d339da44cac2451571f61d92c38c",
               "mtime": "2026-10-27T17:45:05.772446+00:00",
               "size": 120,
@@ -221,7 +221,7 @@
           "evidence": [
             {
               "role": "sch_check",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\sch-check.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\sch-check.json",
               "sha256": "99eaac17a5e7b8292ad0029aa2ac5cac52748c570cfce8a4ba85664cb52907de",
               "mtime": "2026-10-27T17:45:06.982254+00:00",
               "size": 469,
@@ -293,7 +293,7 @@
           "evidence": [
             {
               "role": "schematic_png",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\schematic-page.png",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\schematic-page.png",
               "sha256": "de07d95cbce54055cd6c378e1d64265da928f497728e156fe3cd66eeb7a14c37",
               "mtime": "2026-10-27T17:45:10.309526+00:00",
               "size": 472600,
@@ -339,7 +339,7 @@
           "evidence": [
             {
               "role": "pcb_layout_lint",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-layout-lint.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-layout-lint.json",
               "sha256": "d32ba41ffee5f93c1418eb03b938065fff4ff8aa22a52ae3ece9f28836e3f804",
               "mtime": "2026-10-27T17:46:17.651553+00:00",
               "size": 181,
@@ -371,7 +371,7 @@
           "evidence": [
             {
               "role": "pcb_layout_lint",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-layout-lint.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-layout-lint.json",
               "sha256": "d32ba41ffee5f93c1418eb03b938065fff4ff8aa22a52ae3ece9f28836e3f804",
               "mtime": "2026-10-27T17:46:17.651553+00:00",
               "size": 181,
@@ -392,7 +392,7 @@
           "evidence": [
             {
               "role": "pcb_layout_lint",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-layout-lint.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-layout-lint.json",
               "sha256": "d32ba41ffee5f93c1418eb03b938065fff4ff8aa22a52ae3ece9f28836e3f804",
               "mtime": "2026-10-27T17:46:17.651553+00:00",
               "size": 181,
@@ -413,7 +413,7 @@
           "evidence": [
             {
               "role": "pcb_board",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-dump.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-dump.json",
               "sha256": "26ad15f86633332446e78ae41765a849a3c558bba3079c91eaad6509bec63a4d",
               "mtime": "2026-10-27T17:46:15.338370+00:00",
               "size": 43940,
@@ -508,7 +508,7 @@
           "evidence": [
             {
               "role": "pcb_pours",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-pours.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-pours.json",
               "sha256": "2e3ed2232e34974e6c754767abd2a7b50882d4af10d14f5386bc4c90ea53620b",
               "mtime": "2026-10-27T17:46:17.828401+00:00",
               "size": 1877,
@@ -529,7 +529,7 @@
           "evidence": [
             {
               "role": "pcb_board",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-dump.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-dump.json",
               "sha256": "26ad15f86633332446e78ae41765a849a3c558bba3079c91eaad6509bec63a4d",
               "mtime": "2026-10-27T17:46:15.338370+00:00",
               "size": 43940,
@@ -550,7 +550,7 @@
           "evidence": [
             {
               "role": "pcb_vias",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-vias.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-vias.json",
               "sha256": "037ef2d150fe38481933c9e1f63c42385f509f749bb405335bf6dc4e3d836027",
               "mtime": "2026-10-27T17:46:18.026672+00:00",
               "size": 917,
@@ -571,7 +571,7 @@
           "evidence": [
             {
               "role": "pcb_check",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-check.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-check.json",
               "sha256": "5ae878c6896a1d45d197d3de2b4bbfe63f8a030030153b7e98a7160ead876d09",
               "mtime": "2026-10-27T15:45:58.496452+00:00",
               "size": 1629,
@@ -609,7 +609,7 @@
           "evidence": [
             {
               "role": "pcb_drc",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-drc-final.json",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-drc-final.json",
               "sha256": "465f6431e431af4afd444ffe78340aead1e108c7240e1d68dab5f73302628104",
               "mtime": "2026-10-27T17:46:17.246260+00:00",
               "size": 927,
@@ -692,9 +692,7 @@
         "gerber_files",
         "drill_files",
         "cpl_files",
-        "manufacturing_profile",
-        "sourcing_check",
-        "test_plan"
+        "sourcing_check"
       ],
       "warnings": [
         "bom_manufacturer"
@@ -740,7 +738,7 @@
           "evidence": [
             {
               "role": "bom",
-              "path": "docs\\toolchain-integration\\evidence\\gates\\BOM.csv",
+              "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\BOM.csv",
               "sha256": "fcfa3eb41f20b0cf96305bc2ea4823cd63e71da683ed3b185f7ef5d8423f9652",
               "mtime": "2026-10-27T15:14:42.292644+00:00",
               "size": 1020,
@@ -777,11 +775,10 @@
         },
         {
           "id": "manufacturing_profile",
-          "status": "fail",
-          "detail": "缺少嘉立创工艺/层叠/铜厚/阻焊/表面处理档案。",
+          "status": "pass",
+          "detail": "工艺档案: verified",
           "blocking": true,
-          "waivable": false,
-          "next_command": "按 assets/manufacturing-profile.md 填写并写入 manufacturing.profile"
+          "waivable": false
         },
         {
           "id": "epro2_integrity",
@@ -806,11 +803,10 @@
         },
         {
           "id": "test_plan",
-          "status": "fail",
-          "detail": "缺少实物测试计划（上电/阈值/边界/失效）。",
+          "status": "pass",
+          "detail": "测试计划: C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\test-plan.md",
           "blocking": true,
-          "waivable": true,
-          "next_command": "按 assets/docs/verification.md 写测试计划并登记"
+          "waivable": false
         }
       ]
     }
@@ -825,7 +821,7 @@
   "evidence": {
     "bom": {
       "role": "bom",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\BOM.csv",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\BOM.csv",
       "sha256": "fcfa3eb41f20b0cf96305bc2ea4823cd63e71da683ed3b185f7ef5d8423f9652",
       "mtime": "2026-10-27T15:14:42.292644+00:00",
       "size": 1020,
@@ -837,7 +833,7 @@
     },
     "net_path": {
       "role": "net_path",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\net-path-vin.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\net-path-vin.json",
       "sha256": "95a7a734ffa711dcba4fa0ac26fdd45c6330634ab0461c83354a4138e6e2a68d",
       "mtime": "2026-10-27T17:47:02.466341+00:00",
       "size": 5101,
@@ -849,7 +845,7 @@
     },
     "pcb_board": {
       "role": "pcb_board",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-dump.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-dump.json",
       "sha256": "26ad15f86633332446e78ae41765a849a3c558bba3079c91eaad6509bec63a4d",
       "mtime": "2026-10-27T17:46:15.338370+00:00",
       "size": 43940,
@@ -861,7 +857,7 @@
     },
     "pcb_check": {
       "role": "pcb_check",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-check.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-check.json",
       "sha256": "5ae878c6896a1d45d197d3de2b4bbfe63f8a030030153b7e98a7160ead876d09",
       "mtime": "2026-10-27T15:45:58.496452+00:00",
       "size": 1629,
@@ -873,7 +869,7 @@
     },
     "pcb_drc": {
       "role": "pcb_drc",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-drc-final.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-drc-final.json",
       "sha256": "465f6431e431af4afd444ffe78340aead1e108c7240e1d68dab5f73302628104",
       "mtime": "2026-10-27T17:46:17.246260+00:00",
       "size": 927,
@@ -885,7 +881,7 @@
     },
     "pcb_layout_lint": {
       "role": "pcb_layout_lint",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-layout-lint.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-layout-lint.json",
       "sha256": "d32ba41ffee5f93c1418eb03b938065fff4ff8aa22a52ae3ece9f28836e3f804",
       "mtime": "2026-10-27T17:46:17.651553+00:00",
       "size": 181,
@@ -897,7 +893,7 @@
     },
     "pcb_pours": {
       "role": "pcb_pours",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-pours.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-pours.json",
       "sha256": "2e3ed2232e34974e6c754767abd2a7b50882d4af10d14f5386bc4c90ea53620b",
       "mtime": "2026-10-27T17:46:17.828401+00:00",
       "size": 1877,
@@ -909,7 +905,7 @@
     },
     "pcb_vias": {
       "role": "pcb_vias",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-vias.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-vias.json",
       "sha256": "037ef2d150fe38481933c9e1f63c42385f509f749bb405335bf6dc4e3d836027",
       "mtime": "2026-10-27T17:46:18.026672+00:00",
       "size": 917,
@@ -921,7 +917,7 @@
     },
     "project_export": {
       "role": "project_export",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\project-export.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\project-export.json",
       "sha256": "5199c8e32f68f9a154e89ddf0b0b94c2d227ab45544f5d1fcf853cc98b2ae87c",
       "mtime": "2026-10-27T15:31:02.113947+00:00",
       "size": 442,
@@ -933,7 +929,7 @@
     },
     "reopen_check": {
       "role": "reopen_check",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\pcb-reopen-readback.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\pcb-reopen-readback.json",
       "sha256": "31ae761091bd58fae448dd3739962a8e62b7e5a923dfdf200a085951f822ae0a",
       "mtime": "2026-10-27T17:46:14.799432+00:00",
       "size": 66,
@@ -945,7 +941,7 @@
     },
     "sch_check": {
       "role": "sch_check",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\sch-check.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\sch-check.json",
       "sha256": "99eaac17a5e7b8292ad0029aa2ac5cac52748c570cfce8a4ba85664cb52907de",
       "mtime": "2026-10-27T17:45:06.982254+00:00",
       "size": 469,
@@ -957,7 +953,7 @@
     },
     "sch_drc": {
       "role": "sch_drc",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\sch-drc.json",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\sch-drc.json",
       "sha256": "b4fef88a7425121b2854f57e78cd2c6f6145d339da44cac2451571f61d92c38c",
       "mtime": "2026-10-27T17:45:05.772446+00:00",
       "size": 120,
@@ -969,7 +965,7 @@
     },
     "schematic_png": {
       "role": "schematic_png",
-      "path": "docs\\toolchain-integration\\evidence\\gates\\schematic-page.png",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\gates\\schematic-page.png",
       "sha256": "de07d95cbce54055cd6c378e1d64265da928f497728e156fe3cd66eeb7a14c37",
       "mtime": "2026-10-27T17:45:10.309526+00:00",
       "size": 472600,
