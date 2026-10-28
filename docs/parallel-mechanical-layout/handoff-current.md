@@ -1,16 +1,17 @@
 # Handoff — task G (parallel mechanical layout planner)
 
-Post-merge reconciliation date: 2026-10-28. Original branch:
-`feat/parallel-mechanical-layout` (merged). Original worktree:
+Post-merge reconciliation dates: 2026-10-28 (PR #42 and the PR #51 follow-up).
+Original branch: `feat/parallel-mechanical-layout` (merged). Original worktree:
 `.agents/worktrees/feat/parallel-mechanical-layout` in the local
 `hardware-design-skill` checkout. Main baseline:
 `9a951edc21481dc3ae91460acc11aa3e08a7be8a`.
 
-Task G itself did **not** merge, release or install anything. Pull request #42 was
-merged afterwards by the repository owner; that merge is observed/monitored here,
-not an action of this task. This document is corrected by the docs-only follow-up
-PR **#51** because the earlier revision listed an intermediate docs commit
-(`cb6e563`) as the PR head and omitted the actual merged head (`317876c`).
+Task G itself did **not** merge, release or install anything. Pull request #42 and
+the docs-only follow-up PR #51 were merged afterwards by the repository owner; both
+merges are observed/monitored here, not actions of this task. The earlier revision
+was corrected by PR #51 because it listed an intermediate docs commit (`cb6e563`) as
+the PR head and omitted the actual merged head (`317876c`). PR #51 itself is now also
+merged (`b3ce6fd`), which is recorded below.
 
 ## Delivery identifiers
 
@@ -22,10 +23,11 @@ PR **#51** because the earlier revision listed an intermediate docs commit
 | main baseline | `9a951edc21481dc3ae91460acc11aa3e08a7be8a` |
 | verified delivery HEAD | `0ff873c7361d653c9f7ad0d35c39f6df60543018` |
 | merged PR #42 head | `317876c0797ad04aaeee7483efb6d5f9c0526f87` |
-| docs correction PR | **#51** — https://github.com/zsx3896926/hardware-design-skill/pull/51 — **OPEN**, not merged by task G |
-| PR #51 head when this note was authored | `60ec52eee87593979954f92cfd18f7a7b201443b` |
-| PR #51 head after the PR link/head update | `fd6847a5dfe8412a7e4d6bbb31815b067c7e9bd7` |
-| PR #51 head at this sync (verified with `gh`) | `6d10d3564fd443a56bf858c0be6a7b71f6e68c87` (this sync commit is one docs-only commit ahead; live head on PR #51) |
+| docs correction PR | **#51** — https://github.com/zsx3896926/hardware-design-skill/pull/51 — **MERGED** by `@zsx3896926` at `2026-10-27T17:49:12Z` |
+| PR #51 merged head | `52fdb11d32f33bb494eff0b0ae7abe577f505736` |
+| PR #51 merge commit on main | `b3ce6fd5b09e5d9de4c1989c58626c067253e035` |
+| PR #51 observed heads before merge | `60ec52e` → `fd6847a` → `6d10d35` → `52fdb11` |
+| post-merge docs PR | branch `docs/mechanical-layout-post-merge`, open; head SHA on that PR page (this document records the merged state, not its own head) |
 
 ## Head reconciliation (verified HEAD vs merged PR head)
 
@@ -50,6 +52,36 @@ Therefore the 144-test and 34/34 + 4/4 benchmark results obtained at `0ff873c`
 remain valid for the merged head `317876c`: no package, test or benchmark bytes
 changed. The earlier revision's statement "PR head at handoff finalization =
 `cb6e563`" was stale; the actual merged PR head is `317876c`.
+
+### PR #51 post-merge status (verified with `gh` on 2026-10-28)
+
+| item | value |
+|---|---|
+| PR | https://github.com/zsx3896926/hardware-design-skill/pull/51 |
+| state | **MERGED** |
+| merged by | `@zsx3896926` at `2026-10-27T17:49:12Z` |
+| merged head | `52fdb11d32f33bb494eff0b0ae7abe577f505736` |
+| merge commit | `b3ce6fd5b09e5d9de4c1989c58626c067253e035` |
+| merge parents | `acbcc18c...` (main) + `52fdb11...` (PR #51 head) |
+| changed files | 3 documentation files only: `handoff-current.md`, `acceptance-matrix.md`, `issue-candidates.md`; +123/−43 |
+| code/test/benchmark/CI changes | none |
+
+After the merge, on the exact merged head `52fdb11`:
+
+```text
+python -m unittest discover -s tests/mechanical_layout_tests -t tests/mechanical_layout_tests
+    Ran 144 tests in 0.909s
+    OK
+
+python benchmarks/mechanical-layout/run_benchmarks.py
+    34/34 passed
+
+python benchmarks/mechanical-layout/run_benchmarks.py --holdout
+    4/4 passed
+```
+
+The benchmark run only rewrote wall-clock timings in `results*.json`; those local
+changes were reverted, so the merged tree and this docs-only follow-up are clean.
 
 ## Commit sequence (verified against actual `git log`)
 
@@ -77,13 +109,19 @@ mechanical-layout package or benchmark cases.
 
 ### PR #51 documentation commit sequence (verified with `git log -- <path>`)
 
-PR #51 branch `docs/mechanical-layout-handoff-head` (oldest → newest):
+PR #51 branch `docs/mechanical-layout-handoff-head` (oldest → newest; now merged):
 
 | file | commits on the PR #51 branch |
 |---|---|
-| `handoff-current.md` | `60ec52e` → `fd6847a` → `6d10d35` → this sync commit |
+| `handoff-current.md` | `60ec52e` → `fd6847a` → `6d10d35` → `52fdb11` |
 | `acceptance-matrix.md` | `60ec52e` |
 | `issue-candidates.md` | `60ec52e` |
+
+PR #51 was merged on `main` as:
+
+```text
+b3ce6fd Merge pull request #51 from zsx3896926/docs/mechanical-layout-handoff-head
+```
 
 The earlier integration commit `a575748` also appears before `60ec52e` when these
 paths are logged (it is the merged test-discovery/path change, not part of PR #51).
@@ -95,7 +133,7 @@ git log --oneline -- docs/parallel-mechanical-layout/acceptance-matrix.md
 git log --oneline -- docs/parallel-mechanical-layout/issue-candidates.md
 ```
 
-Only `handoff-current.md` changes after `60ec52e`; no other task doc has an
+Only `handoff-current.md` changed after `60ec52e`; no other task doc has an
 unrecorded later change.
 
 ## What was delivered
@@ -237,9 +275,11 @@ Status flags in every report: `simulated: true`, `real_eda: NOT RUN`,
   nothing about routing quality or electrical correctness.
 * **Distribution.** PR #42 was merged to `main` by the repository owner after this
   task's review; task G did not perform that merge and did not release, install or
-  deploy the package. The docs-only correction is PR **#51**
-  (https://github.com/zsx3896926/hardware-design-skill/pull/51), which remains open
-  and is not merged by task G.
+  deploy the package. The docs-only correction PR **#51**
+  (https://github.com/zsx3896926/hardware-design-skill/pull/51) was also merged by
+  the repository owner as `b3ce6fd5b09e5d9de4c1989c58626c067253e035`. This
+  post-merge documentation update is a separate docs-only PR and is not merged by
+  task G.
 
 ## Files touched (all inside the allowed isolation paths)
 
@@ -277,9 +317,28 @@ moved to `tests/mechanical_layout_tests/` with an `__init__.py` package marker, 
 official CI discovery now runs all 144 tests. The mechanical-layout package,
 benchmark cases and runner are unchanged by that move.
 
-This docs-only correction is PR **#51** (branch `docs/mechanical-layout-handoff-head`).
-It fixes three documentation defects from the merge: a duplicated `tests` path suffix
-in path strings, an outdated "PR head at handoff finalization" value, and the missing
+This docs-only correction is PR **#51** (branch `docs/mechanical-layout-handoff-head`),
+merged on `main` as `b3ce6fd5b09e5d9de4c1989c58626c067253e035`. It fixed three
+documentation defects from the PR #42 merge: a duplicated `tests` path suffix in path
+strings, an outdated "PR head at handoff finalization" value, and the missing
 `verified HEAD` vs `merged PR head` reconciliation. Nothing here is a claim that the
 planner was wired into the main schematic/PCB workflow; it remains an independent
-capability and no board was changed. PR #51 is open and was not merged by task G.
+capability and no board was changed.
+
+## Post-merge documentation update (this PR)
+
+This section records the PR #51 merge itself. It is intentionally a separate,
+docs-only PR so the already-merged #51 is not rewritten:
+
+| item | value |
+|---|---|
+| PR #51 | https://github.com/zsx3896926/hardware-design-skill/pull/51 — **MERGED** |
+| merged head | `52fdb11d32f33bb494eff0b0ae7abe577f505736` |
+| merge commit | `b3ce6fd5b09e5d9de4c1989c58626c067253e035` |
+| merged parents | `acbcc18c...` (main) + `52fdb11...` (head) |
+| merged by | `@zsx3896926` at `2026-10-27T17:49:12Z` |
+| change scope | 3 documentation files only; +123/−43; no code, test, benchmark or CI change |
+| post-merge tests | 144 tests OK on the merged head `52fdb11`; benchmarks 34/34 and 4/4 passed |
+
+The live head of this post-merge docs PR is shown on its PR page; this document does
+not claim its own commit hash.
