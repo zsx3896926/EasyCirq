@@ -57,6 +57,7 @@
     "power_ground_strategy": {"status": "pending"},
     "inner_layers": [],
     "drc_rules_recorded": false,
+    "drc_rules_before": {},
     "rules_verified_at": ""
   },
   "routing": {
@@ -66,7 +67,10 @@
     "save_reload": {"status": "pending"},
     "silk_align": {"status": "pending"},
     "drc_rounds": [],
-    "stop_rule_triggered": false
+    "stop_rule_triggered": false,
+    "drc_rules": {},
+    "rule_relaxations": [],
+    "pour_rebuilt": false
   },
   "manufacturing": {
     "artifacts": [],
