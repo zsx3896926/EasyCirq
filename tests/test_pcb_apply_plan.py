@@ -839,7 +839,7 @@ class ApplyPlanTests(unittest.TestCase):
         fake = FakeRunner(self, after=after)
         code, report = self.apply_run(plan, fake)
         self.assertEqual(code, 0, report.get('failure'))
-        self.assertEqual(report['status'], 'verified')
+        self.assertEqual(report['status'], 'verified_geometry')
         self.assertTrue(report['diff']['copper_changes'])
         self.assertEqual(report['diff']['unrelated_changes'], [])
 
@@ -860,7 +860,7 @@ class ApplyPlanTests(unittest.TestCase):
         code, report = self.apply_run(plan, fake_allowed,
                                       '--allow-identity-change')
         self.assertEqual(code, 0, report.get('failure'))
-        self.assertEqual(report['status'], 'verified')
+        self.assertEqual(report['status'], 'verified_geometry')
 
     def test_copper_plan_unrelated_change_is_a_mismatch(self):
         plan = self.write_plan(self.playbook_plan([self.track()]))
@@ -905,6 +905,118 @@ class ApplyPlanTests(unittest.TestCase):
         self.assertFalse(pcb_apply_plan.expected_placement_diff(
             {'status': 'mismatch', 'identity_changes': [], 'copper_changes': [],
              'unrelated_changes': []}))
+
+    # -- copper dedup (--skip-existing) and geometry acceptance -----------
+
+    def test_skip_existing_drops_copper_already_in_dump(self):
+        after = copy.deepcopy(self.dump)
+        after['copper']['lines'] = [{
+            'primitiveId': 'line-1', 'net': 'GND', 'layer': 1,
+            'lineWidth': 10, 'startX': 1000, 'startY': 1000,
+            'endX': 1200, 'endY': 1000}]
+        after['copper']['vias'] = [{
+            'primitiveId': 'via-1', 'net': 'GND', 'x': 1500, 'y': 1000,
+            'diameter': 24, 'holeDiameter': 12}]
+        dump_path = self.write_plan(after, 'existing.json')
+        plan = self.write_plan(self.playbook_plan([self.track(), self.via()]))
+        code, report, fake = self.dry_run(plan, '--skip-existing',
+                                          dump=dump_path)
+        self.assertEqual(code, 0)
+        self.assertEqual(report['status'], 'no_op')
+        self.assertEqual(fake.calls, [])
+        self.assertEqual({item.get('op') for item in report['plan']['noops']
+                          if 'copper' in item.get('reason', '')},
+                         {'track', 'via'})
+
+    def test_skip_existing_keeps_missing_copper(self):
+        dump_path = self.write_plan(copy.deepcopy(self.dump), 'empty.json')
+        plan = self.write_plan(self.playbook_plan([self.track(), self.via()]))
+        code, report, fake = self.dry_run(plan, '--skip-existing',
+                                          dump=dump_path)
+        self.assertEqual(code, 0)
+        self.assertEqual(report['status'], 'dry_run')
+        self.assertEqual(report['playbook']['counts']['track'], 1)
+        self.assertEqual(report['playbook']['counts']['via'], 1)
+
+    def test_skip_existing_drops_only_present_copper(self):
+        after = copy.deepcopy(self.dump)
+        after['copper']['lines'] = [{
+            'primitiveId': 'line-1', 'net': 'GND', 'layer': 1,
+            'lineWidth': 10, 'startX': 1000, 'startY': 1000,
+            'endX': 1200, 'endY': 1000}]
+        dump_path = self.write_plan(after, 'partial.json')
+        plan = self.write_plan(self.playbook_plan([self.track(), self.via()]))
+        code, report, fake = self.dry_run(plan, '--skip-existing',
+                                          dump=dump_path)
+        self.assertEqual(code, 0)
+        self.assertEqual(report['status'], 'dry_run')
+        self.assertEqual(report['playbook']['counts']['track'], 0)
+        self.assertEqual(report['playbook']['counts']['via'], 1)
+
+    def test_auto_timeout_scales_with_op_count(self):
+        plan = self.write_plan(self.playbook_plan(
+            [self.track() for _ in range(500)]))
+        code, report, fake = self.dry_run(plan, '--auto-timeout')
+        self.assertEqual(code, 0)
+        playbook = load(self.playbook_path)
+        # 500 ops -> ceil(500 * 0.3) + 30 = 180 s (floor 120 s)
+        self.assertEqual(playbook['defaults']['timeoutSec'], 180)
+        self.assertTrue(any('timeoutSec=180' in note
+                            for note in report['notes']))
+
+    def test_auto_timeout_floors_at_default(self):
+        plan = self.write_plan(self.playbook_plan([self.track()]))
+        code, report, fake = self.dry_run(plan, '--auto-timeout')
+        self.assertEqual(code, 0)
+        playbook = load(self.playbook_path)
+        self.assertEqual(playbook['defaults']['timeoutSec'], 120)
+
+    def test_copper_added_outside_plan_is_a_mismatch(self):
+        plan = self.write_plan(self.playbook_plan([self.track()]))
+        after = copy.deepcopy(self.dump)
+        after['copper']['lines'] = [{
+            'primitiveId': 'line-new', 'net': 'GND', 'layer': 1,
+            'lineWidth': 10, 'startX': 2000, 'startY': 2000,
+            'endX': 2100, 'endY': 2000}]
+        fake = FakeRunner(self, after=after)
+        code, report = self.apply_run(plan, fake)
+        self.assertEqual(code, 1)
+        self.assertEqual(report['status'], 'mismatch')
+        self.assertFalse(report['diff_accepted'])
+        self.assertTrue(any('outside the plan' in problem
+                            for problem in report['failure']['problems']))
+
+    def test_via_and_pour_additions_in_plan_are_verified_geometry(self):
+        plan = self.write_plan(self.playbook_plan([self.via(), self.pour()]))
+        after = copy.deepcopy(self.dump)
+        after['copper']['vias'] = [{
+            'primitiveId': 'via-new', 'net': 'GND', 'x': 1500, 'y': 1000,
+            'diameter': 24, 'holeDiameter': 12}]
+        after['copper']['pours'] = [{
+            'primitiveId': 'pour-new', 'net': 'GND', 'layer': 2,
+            'fillMethod': 'solid',
+            'points': [[1000, 900], [1400, 900], [1400, 1300], [1000, 1300]]}]
+        fake = FakeRunner(self, after=after)
+        code, report = self.apply_run(plan, fake)
+        self.assertEqual(code, 0, report.get('failure'))
+        self.assertEqual(report['status'], 'verified_geometry')
+
+    def test_unexpected_copper_removal_is_a_mismatch(self):
+        plan = self.write_plan(self.playbook_plan([self.track()]))
+        # before already has a line on GND that disappears in ``after``.
+        before = copy.deepcopy(self.dump)
+        before['copper']['lines'] = [{
+            'primitiveId': 'line-old', 'net': 'GND', 'layer': 1,
+            'lineWidth': 10, 'startX': 3000, 'startY': 1000,
+            'endX': 3100, 'endY': 1000}]
+        after = copy.deepcopy(self.dump)
+        fake = FakeRunner(self, after=after)
+        code, report = self.apply_run(plan, fake, dump=self.write_plan(
+            before, 'before.json'))
+        self.assertEqual(code, 1)
+        self.assertEqual(report['status'], 'mismatch')
+        self.assertTrue(any('unexpected copper change' in problem
+                            for problem in report['failure']['problems']))
 
     # -- real fake executable (no PATH resolution) -----------------------
 

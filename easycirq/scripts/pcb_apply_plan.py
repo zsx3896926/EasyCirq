@@ -1232,6 +1232,290 @@ def evaluate_diff(diff, scope, has_copper, allow_identity_change):
 
 
 # ---------------------------------------------------------------------------
+# copper dedup (--skip-existing) and geometry acceptance
+# ---------------------------------------------------------------------------
+
+_COPPER_TOL_MIL = 1.0
+
+
+def _float_or_none(value):
+    try:
+        result = float(value)
+        return result if math.isfinite(result) else None
+    except (TypeError, ValueError):
+        return None
+
+
+def _dump_copper(raw_dump):
+    copper = (raw_dump or {}).get('copper') or {}
+    return {
+        'track': copper.get('lines') or [],
+        'via': copper.get('vias') or [],
+        'pour': copper.get('pours') or [],
+    }
+
+
+def _points_close(first, second, tol=_COPPER_TOL_MIL):
+    return math.hypot(first[0] - second[0], first[1] - second[1]) <= tol
+
+
+def _segment_close(first, second, tol=_COPPER_TOL_MIL):
+    (a0, a1), (b0, b1) = first, second
+    return (_points_close(a0, b0, tol) and _points_close(a1, b1, tol)) or \
+           (_points_close(a0, b1, tol) and _points_close(a1, b0, tol))
+
+
+def _polygon_close(first, second, tol=_COPPER_TOL_MIL):
+    if len(first) != len(second):
+        return False
+    used = [False] * len(second)
+    for point in first:
+        matched = False
+        for index, candidate in enumerate(second):
+            if not used[index] and _points_close(point, candidate, tol):
+                used[index] = True
+                matched = True
+                break
+        if not matched:
+            return False
+    return True
+
+
+def _track_op_exists(op, items):
+    segments = list(zip(op['points'], op['points'][1:]))
+    dump_segments = []
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        if str(op.get('net')) != str(item.get('net')):
+            continue
+        if _float_or_none(item.get('layer')) != op['layer']:
+            continue
+        width = _float_or_none(item.get('lineWidth'))
+        if width is not None and abs(width - op['width_mil']) > _COPPER_TOL_MIL:
+            continue
+        start = (_float_or_none(item.get('startX')),
+                 _float_or_none(item.get('startY')))
+        end = (_float_or_none(item.get('endX')),
+               _float_or_none(item.get('endY')))
+        if None in start or None in end:
+            continue
+        dump_segments.append((start, end))
+    return all(any(_segment_close(segment, dump_segment)
+                   for dump_segment in dump_segments)
+               for segment in segments)
+
+
+def _via_op_exists(op, items):
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        if str(op.get('net')) != str(item.get('net')):
+            continue
+        x = _float_or_none(item.get('x'))
+        y = _float_or_none(item.get('y'))
+        if x is None or y is None:
+            continue
+        if not _points_close((op['x'], op['y']), (x, y)):
+            continue
+        diameter = _float_or_none(item.get('diameter'))
+        if diameter is not None and \
+                abs(diameter - op['diameter_mil']) > _COPPER_TOL_MIL:
+            continue
+        hole = _float_or_none(item.get('holeDiameter'))
+        if hole is not None and abs(hole - op['hole_mil']) > _COPPER_TOL_MIL:
+            continue
+        return True
+    return False
+
+
+def _pour_op_exists(op, items):
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        if str(op.get('net')) != str(item.get('net')):
+            continue
+        if _float_or_none(item.get('layer')) != op['layer']:
+            continue
+        raw_points = item.get('points')
+        if not isinstance(raw_points, list) or len(raw_points) != len(op['points']):
+            continue
+        item_points = []
+        for point in raw_points:
+            if not (isinstance(point, (list, tuple)) and len(point) == 2):
+                item_points = None
+                break
+            x = _float_or_none(point[0])
+            y = _float_or_none(point[1])
+            if x is None or y is None:
+                item_points = None
+                break
+            item_points.append((x, y))
+        if item_points and _polygon_close(op['points'], item_points):
+            return True
+    return False
+
+
+def _drop_existing_copper(ops, raw_dump, noops):
+    """Drop copper ops whose geometry is already present in the dump.
+
+    Used by ``--skip-existing`` so a re-run (or a resume from a fresh dump)
+    only writes the missing copper instead of stacking duplicates.
+    """
+    dump_copper = _dump_copper(raw_dump)
+    kept = []
+    for op in ops:
+        if op['op'] not in COPPER_OPS:
+            kept.append(op)
+            continue
+        if op['op'] == 'track':
+            exists = _track_op_exists(op, dump_copper['track'])
+        elif op['op'] == 'via':
+            exists = _via_op_exists(op, dump_copper['via'])
+        else:
+            exists = _pour_op_exists(op, dump_copper['pour'])
+        if exists:
+            noops.append({
+                'op': op['op'], 'index': op['index'], 'net': op.get('net'),
+                'reason': 'copper already present in the measured board '
+                          '(deduplicated by --skip-existing); no write is needed',
+            })
+        else:
+            kept.append(op)
+    return kept
+
+
+def copper_item_in_plan(kind, item, ops):
+    """True when a diff-reported added copper item matches a plan op."""
+    if kind == 'track_added':
+        net = item.get('net')
+        layer = _float_or_none(item.get('layer'))
+        width = _float_or_none(item.get('lineWidth'))
+        start = (_float_or_none(item.get('startX')),
+                 _float_or_none(item.get('startY')))
+        end = (_float_or_none(item.get('endX')),
+               _float_or_none(item.get('endY')))
+        if None in start or None in end:
+            return False
+        for op in ops:
+            if op.get('op') != 'track':
+                continue
+            if str(op.get('net')) != str(net):
+                continue
+            if layer is not None and layer != op['layer']:
+                continue
+            if width is not None and \
+                    abs(width - op['width_mil']) > _COPPER_TOL_MIL:
+                continue
+            if any(_segment_close(segment, (start, end))
+                   for segment in zip(op['points'], op['points'][1:])):
+                return True
+        return False
+    if kind == 'via_added':
+        net = item.get('net')
+        x = _float_or_none(item.get('x'))
+        y = _float_or_none(item.get('y'))
+        if x is None or y is None:
+            return False
+        diameter = _float_or_none(item.get('diameter'))
+        hole = _float_or_none(item.get('holeDiameter'))
+        for op in ops:
+            if op.get('op') != 'via':
+                continue
+            if str(op.get('net')) != str(net):
+                continue
+            if not _points_close((op['x'], op['y']), (x, y)):
+                continue
+            if diameter is not None and \
+                    abs(diameter - op['diameter_mil']) > _COPPER_TOL_MIL:
+                continue
+            if hole is not None and abs(hole - op['hole_mil']) > _COPPER_TOL_MIL:
+                continue
+            return True
+        return False
+    if kind == 'pour_added':
+        net = item.get('net')
+        layer = _float_or_none(item.get('layer'))
+        raw_points = item.get('points')
+        if not isinstance(raw_points, list):
+            return False
+        item_points = []
+        for point in raw_points:
+            if not (isinstance(point, (list, tuple)) and len(point) == 2):
+                return False
+            x = _float_or_none(point[0])
+            y = _float_or_none(point[1])
+            if x is None or y is None:
+                return False
+            item_points.append((x, y))
+        for op in ops:
+            if op.get('op') != 'pour':
+                continue
+            if str(op.get('net')) != str(net):
+                continue
+            if layer is not None and layer != op['layer']:
+                continue
+            if _polygon_close(op['points'], item_points):
+                return True
+        return False
+    return False
+
+
+def copper_additions_outside_plan(diff, after, ops):
+    problems = []
+    added_by_key = {}
+    for change in diff.get('copper_changes') or []:
+        kind = str(change.get('kind') or '')
+        pid = change.get('primitive_id')
+        if kind.endswith('_added') and pid:
+            added_by_key.setdefault(kind, set()).add(str(pid))
+    if not added_by_key:
+        return problems
+    copper = (after or {}).get('copper') or {}
+    key_map = {'track_added': 'lines', 'via_added': 'vias',
+               'pour_added': 'pours'}
+    for kind, pids in added_by_key.items():
+        key = key_map.get(kind)
+        if not key:
+            continue
+        for item in copper.get(key) or []:
+            if not isinstance(item, dict):
+                continue
+            if str(item.get('primitiveId')) not in pids:
+                continue
+            if not copper_item_in_plan(kind, item, ops):
+                problems.append('copper added outside the plan: %s %s'
+                                % (kind, item.get('primitiveId')))
+    return problems
+
+
+def evaluate_copper_diff(diff, after, scope, ops, allow_identity_change):
+    """Return (accepted, problems) for a copper plan's diff boundaries.
+
+    Copper additions are tolerated only when their geometry is inside the
+    planned ops (ID-insensitive); an added net/layer/width/geometry outside the
+    plan, or an unexpected removal/change, is a mismatch.
+    """
+    problems = []
+    if diff.get('unrelated_changes'):
+        problems.append('changes outside the declared scope: %d' %
+                        len(diff['unrelated_changes']))
+    if diff.get('identity_changes') and not allow_identity_change:
+        problems.append('identity changes require --allow-identity-change')
+    designators = set(scope.get('designators') or [])
+    for change in diff.get('geometry_changes') or []:
+        if change.get('designator') not in designators:
+            problems.append('geometry change outside scope.designators: %r' %
+                            (change.get('designator') or change.get('kind')))
+    for change in diff.get('copper_changes') or []:
+        kind = str(change.get('kind') or '')
+        if not kind.endswith('_added'):
+            problems.append('unexpected copper change: %s' % kind)
+    problems.extend(copper_additions_outside_plan(diff, after, ops))
+    return not problems, problems
+
+
+# ---------------------------------------------------------------------------
 # report assembly
 # ---------------------------------------------------------------------------
 
@@ -1370,6 +1654,13 @@ def main(argv=None):
                         help='validate only the listed designators')
     parser.add_argument('--allow-identity-change', action='store_true',
                         help='allow in-scope identity changes for copper plans')
+    parser.add_argument('--skip-existing', action='store_true',
+                        help='drop copper ops whose geometry is already in the '
+                             'measured dump (resume/idempotent re-run; only '
+                             'missing copper is written)')
+    parser.add_argument('--auto-timeout', action='store_true',
+                        help='scale the per-step/process timeout by op count '
+                             '(0.3 s/op + 30 s margin, floor 120 s)')
     parser.add_argument('--apply', action='store_true',
                         help='perform the playbook writes (default dry-run)')
     parser.add_argument('--yes', action='store_true',
@@ -1427,6 +1718,10 @@ def main(argv=None):
                                  '{"ops":[...]} required')
         scope = _normalize_scope(plan.get('scope') if isinstance(plan, dict) else None,
                                  ops)
+        if args.skip_existing:
+            ops = _drop_existing_copper(ops, dump, noops)
+            scope = _normalize_scope(
+                plan.get('scope') if isinstance(plan, dict) else None, ops)
     except (PlanInputError, ValueError, TypeError, KeyError, IndexError) as exc:
         report = _base_report(args, plan_kind, plan, [], [], {}, False,
                               playbook_path, journal_path, empty_check)
@@ -1437,6 +1732,10 @@ def main(argv=None):
 
     partial = bool(args.partial or
                    (isinstance(plan, dict) and plan.get('partial')))
+    if args.auto_timeout:
+        timeout_sec = max(int(pcb_cli.DEFAULT_TIMEOUT_SEC),
+                          int(math.ceil(len(ops) * 0.3)) + 30)
+        args.timeout = float(timeout_sec)
     try:
         base_sha = _plan_base_sha(plan)
     except PlanInputError as exc:
@@ -1655,8 +1954,12 @@ def main(argv=None):
     diff = diff_boards(dump, after, scope)
     report['diff'] = diff
     has_copper = any(op['op'] in COPPER_OPS for op in ops)
-    accepted, diff_problems = evaluate_diff(diff, scope, has_copper,
-                                            args.allow_identity_change)
+    if has_copper:
+        accepted, diff_problems = evaluate_copper_diff(
+            diff, after, scope, ops, args.allow_identity_change)
+    else:
+        accepted, diff_problems = evaluate_diff(diff, scope, False,
+                                                args.allow_identity_change)
     report['diff_accepted'] = accepted
     if not accepted:
         report['status'] = 'mismatch'
@@ -1665,9 +1968,14 @@ def main(argv=None):
         _emit(report, args)
         return 1
 
-    report['status'] = 'verified'
-    report['notes'].append('verified by apply(journal) + fresh dump + independent '
-                           'scoped diff; save/reload/dump evidence is in this report')
+    report['status'] = 'verified_geometry' if has_copper else 'verified'
+    report['notes'].append(
+        'verified by apply(journal) + fresh dump + independent scoped diff; '
+        'save/reload/dump evidence is in this report'
+        if not has_copper else
+        'verified_geometry by apply(journal) + fresh dump + independent scoped '
+        'diff (copper additions matched the plan geometry, ID-insensitive); '
+        'save/reload/dump evidence is in this report')
     _emit(report, args)
     return 0
 

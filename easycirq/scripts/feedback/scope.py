@@ -4817,7 +4817,7 @@ def _apply_pcb(contract, plan, validation, fresh, document, *,
             payload['write_confirmed'] = True
         if isinstance(report, dict):
             report_status = _text(report.get('status'))
-            if report_status == 'verified':
+            if report_status in ('verified', 'verified_geometry'):
                 payload['status'] = 'verified'
                 payload['ok'] = True
             elif report_status == 'no_op':

@@ -296,7 +296,7 @@ python scripts/pcb_apply_plan.py --dump before.json --plan playbook.json \
 6. `--apply`：只执行一次 `easycirq apply <playbook> --project <name> --doc <PCB>`（`--yes` 只在显式授权时传），随后校验 journal、out-dump 存在且可解析。journal 每步状态为 `planned|sent|confirmed|failed|unknown`；`unknown` 表示已发出但无确认。报告 `recovery.safe_to_retry=false`，必须先取 fresh dump；不把已发出当已生效。
 7. 独立 `diff_boards`：纯 place 要求 `status in (match, changed)` 且 `identity_changes/copper_changes/unrelated_changes` 为空；含 track/via/pour 时 `unrelated_changes` 必须为空、`copper_changes` 允许、`identity_changes` 仅 `--allow-identity-change`、`geometry_changes` 必须在 scope.designators 内。
 
-报告 schema `design-engine-pcb-apply-plan/v1`，`status=dry_run|no_op|refused|invalid_input|unverified|mismatch|verified`，记录 playbook 路径/SHA/步骤、journal states、`recovery`、save/reload、out-dump SHA、diff、argv 与版本；`transaction.atomic_rollback=false`，不宣称事务回滚。退出码：`dry_run|no_op|verified`→0；`refused|unverified|mismatch`→1；`invalid_input`（计划/dump/scope 无法解释）→2。报告原子写入（临时文件 + `os.replace`），半份 JSON 不会被后续当成完整证据。
+报告 schema `design-engine-pcb-apply-plan/v1`，`status=dry_run|no_op|refused|invalid_input|unverified|mismatch|verified|verified_geometry`，记录 playbook 路径/SHA/步骤、journal states、`recovery`、save/reload、out-dump SHA、diff、argv 与版本；`transaction.atomic_rollback=false`，不宣称事务回滚。退出码：`dry_run|no_op|verified|verified_geometry`→0；`refused|unverified|mismatch`→1；`invalid_input`（计划/dump/scope 无法解释）→2。报告原子写入（临时文件 + `os.replace`），半份 JSON 不会被后续当成完整证据。
 
 - 写入前 fresh dump；primitiveId 过期/几何变化则拒绝旧计划。
 - 超时/部分失败先回读，禁止盲目重放；重复执行只能补差异，不能重复创建。
@@ -304,9 +304,10 @@ python scripts/pcb_apply_plan.py --dump before.json --plan playbook.json \
 - `pcb-diff`/`diff_boards` 的 `scope` 只允许声明范围内的变化；`unrelated_changes` 非空即 `mismatch`。
 - 局部改板只重布受影响网络/对象，保留无关区域；改封装、移接口、加去耦都按这个边界执行。
 - save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。
-- track/via/pour op 没有 no-op 检测，同一份铜计划执行两次就会叠出重复铜和重叠过孔。中断后拿 fresh `track-list`/`via-list` 按几何比对（网络+层+线宽，端点容差约 1 mil，可反向；过孔按网络+坐标），只把缺失的 op 组成新计划再 apply。PocketCam X1 的 1495 op 计划在第 647 步被 120 s 默认超时打断，按此比对得出 648 已落地、847 缺失，补齐后没有重复铜。
-- `--timeout` 同时限制每一步和整个进程。大批量铜计划按 op 数估算（该板实测量级：约 0.3 s/op 加上 save/reload 余量），或拆成每份不超过 500 op 的计划，每份单独 apply 和回读。
-- 含铜计划在 save/reload 后若报 `mismatch`：先看 diff 的实际类别（`unrelated_changes`、`copper_geometry_changes`、`identity_changes`）。`pcb_workflow` 已按语义签名匹配重开后变化的 primitiveId，纯 ID churn 不会单独构成 mismatch；`--allow-identity-change` 只对 component identity 生效，不是消除走线/过孔 ID 变化的开关。此时不能写 `verified`；按 journal 全部 `confirmed`、save/reload 成功、新增铜几何全部属于计划网络这三条逐项核对，并如实记录 mismatch 的实际类别与范围，不要把原因一律写成“ID 重开不稳定”。
+- track/via/pour op 没有 no-op 检测，同一份铜计划执行两次就会叠出重复铜和重叠过孔。用 `--skip-existing` 只提交缺失 op：它把每个 track/via/pour 按（网络、层、线宽/直径、端点 ±1 mil、可反向 / 坐标 / 多边形）与最新 dump 按几何比对，已存在的记为 noop、不写入；中断后拿 fresh dump 重跑同一计划即可续传，不再叠铜。PocketCam X1 的 1495 op 计划在第 647 步被 120 s 默认超时打断，按此比对得出 648 已落地、847 缺失，补齐后没有重复铜。
+- `--timeout` 同时限制每一步和整个进程。大批量铜计划按 op 数估算（该板实测量级：约 0.3 s/op 加上 save/reload 余量），或用 `--auto-timeout` 自动按 op 数缩放（0.3 s/op + 30 s 余量，下限 120 s），或拆成每份不超过 500 op 的计划，每份单独 apply 和回读。
+- 含铜计划在 save/reload 后若报 `mismatch`：先看 diff 的实际类别（`unrelated_changes`、`copper_changes`、`copper_geometry_changes`、`identity_changes`）。`pcb_workflow` 已按语义签名匹配重开后变化的 primitiveId，纯 ID churn 不会单独构成 mismatch；`--allow-identity-change` 只对 component identity 生效，不是消除走线/过孔 ID 变化的开关。此时不能写 `verified`；按 journal 全部 `confirmed`、save/reload 成功、新增铜几何全部属于计划网络这三条逐项核对，并如实记录 mismatch 的实际类别与范围，不要把原因一律写成“ID 重开不稳定”。
+- 含铜计划验收成功时状态是 `verified_geometry`（不是 `verified`）：新增铜的几何（ID 无关）全部落在计划 op 内、无计划外新增/删除/改动，才返回 0；计划外新增铜判 `mismatch`。
 - 改铜后的固定顺序：apply → `pcb pour-rebuild` → save → `doc reload` → DRC。铺铜没重建时 DRC 会报大量假错误（实测一次 1910 条、一次 375 条，重建后回到真实值）。`pcb via-bond` 只给焊盘内的无网络过孔赋网，不是每次必跑。
 - 布线期间读 DRC 只用 `python scripts/pcb_evidence.py drc-summary <drc.json> [--json]`，不自写解析器。它复用 `pcb_gate.py` 的同一份 `parse_drc`，一次给出 total、按规则/按网计数、连接违例与断开的焊盘/网；`passed` 不是布尔、缺 total、计数自相矛盾或文件不可读时非零退出（读取失败不能当通过），`total=0` 才是干净结果。PocketCam X1 会话里自写解析器两次把实际的 61、74 条打印成 0 条。
 
