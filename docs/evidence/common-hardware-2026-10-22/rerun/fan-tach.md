@@ -1,6 +1,6 @@
 # 风扇 TACH 接口复核（固定快照 4c9db61）
 
-- 仓库：`C:\Users\jlc\work\hardware-design-skill`
+- 仓库：`C:\Users\jlc\work\EasyCirq`
 - 固定快照：`4c9db61628e4a83f01acad1c53ea5c0665182325`（`4c9db61`）
 - 复核日期：2026-10-22
 - 任务：3.3 V MCU 读取 Intel 4 线风扇 TACH，上拉到 3.3 V 还是 12 V；5.25 V 限制指什么；给出符合规范的接口电路与依据。

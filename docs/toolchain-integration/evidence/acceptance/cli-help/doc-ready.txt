@@ -10,7 +10,7 @@ succeeded, or that nets/wires/geometry persisted. Preserve earlier failures and
 obtain separate full readbacks and a successful save/reload cycle for acceptance.
 
 Usage:
-  zhigou doc ready [uuid] [flags]
+  easycirq doc ready [uuid] [flags]
 
 Flags:
   -h, --help               help for ready

@@ -1,7 +1,7 @@
 Read current EasyEDA project information
 
 Usage:
-  zhigou project info [flags]
+  easycirq project info [flags]
 
 Flags:
   -h, --help   help for info

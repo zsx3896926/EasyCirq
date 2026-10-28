@@ -9,13 +9,13 @@ not be replayed as a device-library uuid. Missing identity is unavailable eviden
 not permission to substitute a similar symbol.
 
 Usage:
-  zhigou sch list [flags]
+  easycirq sch list [flags]
 
 Examples:
-  zhigou sch list
-  zhigou sch list --all-pages
-  zhigou sch list --include-bbox
-  zhigou sch list --include-pins
+  easycirq sch list
+  easycirq sch list --all-pages
+  easycirq sch list --include-bbox
+  easycirq sch list --include-pins
 
 Flags:
       --all-pages doc switch      list components across all schematic pages (WARNING: non-active pages return shallow data — pins/bbox may be empty; use doc switch to that page for accurate data)

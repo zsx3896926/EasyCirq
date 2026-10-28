@@ -22,6 +22,6 @@ connector/dist/
 connector/build/dist/
 connector/tsconfig.tsbuildinfo
 node_modules/
-.zhigou/
+.easycirq/
 # release build outputs (local artifacts only)
 dist-v*/

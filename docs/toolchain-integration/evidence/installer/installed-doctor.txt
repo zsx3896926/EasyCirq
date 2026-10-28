@@ -1,12 +1,12 @@
-zhigou doctor — verdict: ok
-  runtime   zhigou 0.2.1-dev  (C:\Users\jlc\AppData\Local\Zhigou\bin\zhigou.exe)
+easycirq doctor — verdict: ok
+  runtime   easycirq 0.2.1-dev  (C:\Users\jlc\AppData\Local\EasyCirq\bin\easycirq.exe)
   skill     installed
   daemon    running pid=19464 port=23111 v0.2.1-dev
-  connector connected (1 window(s), expected zhigou-connector v0.1.0)
+  connector connected (1 window(s), expected easycirq-connector v0.1.0)
   host      EasyEDA Pro 4.1.78 ()
-  protocol  zhigou-agent wire v1
+  protocol  easycirq-agent wire v1
   ✓ daemon     v0.2.1-dev 运行在端口 23111
   ✓ connector  1 个窗口已连接（连接器 v0.1.0）
-  ✓ project    zhigou-integrated-dual-button-led-20261027（当前 pcb）
+  ✓ project    easycirq-integrated-dual-button-led-20261027（当前 pcb）
   ✓ skill      easycirq 已安装（codex 1.0.2, claude 1.0.2, agents 1.0.2, repo 1.0.2）
   ✓ legacy     检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）

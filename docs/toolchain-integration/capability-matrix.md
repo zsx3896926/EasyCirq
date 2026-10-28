@@ -1,10 +1,10 @@
 # 能力矩阵（Capability matrix）
 
-生成方式：`zhigou capabilities`（机器可读 JSON）+ `zhigou actions`（typed action 目录）。
+生成方式：`easycirq capabilities`（机器可读 JSON）+ `easycirq actions`（typed action 目录）。
 本文件是**M1 实测快照**，不是设计目标；随代码与真机状态更新。
 
 * 生成时间：2026-10-27（M1，自有 daemon 运行、自有连接器尚未导入 EDA）
-* 运行时：`zhigou 0.2.0-dev`，源提交 `9a951ed`（工作区有未提交改动，见 `doctor.runtime.vcsModified`）
+* 运行时：`easycirq 0.2.0-dev`，源提交 `9a951ed`（工作区有未提交改动，见 `doctor.runtime.vcsModified`）
 * 连接器状态：disconnected（0 窗口）→ 因此所有"动作存在"的能力只能是 `unknown`
 * 原始证据：`evidence/m1/capabilities.json`、`evidence/m1/actions.json`
 

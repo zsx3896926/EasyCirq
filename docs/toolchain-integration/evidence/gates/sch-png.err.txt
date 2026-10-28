@@ -1,1 +1,1 @@
-📎 artifact saved: C:\Users\jlc\work\zhigou-toolchain\.zhigou\artifacts\20261028-014510-schematic_export-be89f54b.png
+📎 artifact saved: C:\Users\jlc\work\easycirq-toolchain\.easycirq\artifacts\20261028-014510-schematic_export-be89f54b.png

@@ -4,10 +4,10 @@
   "ports": "23111-23120",
   "found": {
     "port": 23111,
-    "service": "zhigou-agent",
+    "service": "easycirq-agent",
     "raw": {
       "pid": 22212,
-      "service": "zhigou-agent",
+      "service": "easycirq-agent",
       "version": "0.2.3-dev",
       "status": "ok",
       "port": 23111,
@@ -85,7 +85,7 @@
       "detail": "版本一致性:未判定(dev 构建或无连接器上报版本)"
     },
     {
-      "name": "zhigou",
+      "name": "easycirq",
       "status": "ok",
       "detail": "EasyEDA 宿主:V4 主线（推荐基线 4.1.60）"
     },

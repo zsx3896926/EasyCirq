@@ -1,9 +1,9 @@
 {
   "id": "health",
-  "title": "zhigou health (live window context)",
+  "title": "easycirq health (live window context)",
   "stage": "preflight",
   "command": [
-    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
     "health"
   ],
   "status": "NOT RUN",

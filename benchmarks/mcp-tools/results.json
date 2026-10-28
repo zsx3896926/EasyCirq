@@ -1,12 +1,12 @@
 {
-  "schema": "zhigou.mcp.benchmark/v1",
+  "schema": "easycirq.mcp.benchmark/v1",
   "simulated": true,
   "offline": true,
   "real_eda": "NOT RUN",
   "eda_calls": 0,
   "network_calls": 0,
   "server": {
-    "name": "zhigou-offline-audit",
+    "name": "easycirq-offline-audit",
     "version": "0.1.0"
   },
   "protocol": {

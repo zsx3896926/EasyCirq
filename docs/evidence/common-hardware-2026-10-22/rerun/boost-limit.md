@@ -1,6 +1,6 @@
 # TPS61023 3.3 V→5 V/0.5 A：占空比、纹波、开关峰值与谷值限流复核
 
-- 仓库：`C:\Users\jlc\work\hardware-design-skill`
+- 仓库：`C:\Users\jlc\work\EasyCirq`
 - 固定快照：`4c9db61628e4a83f01acad1c53ea5c0665182325`
 - 复核日期：2026-10-22
 - 约束：只读仓库，未修改、未暂存、未提交任何仓库文件；计算只依据仓库现有内容和 TI 原厂手册。
@@ -524,11 +524,11 @@ IOUT(LC) = (1−D)·ILIM + (1−D)·ΔIL/2
 
 ### 12.2 仓库文件（快照 `4c9db61`）
 
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\design-cards\power\p03-boost.md`
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\common-hardware\g-power-conversion.md`
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\calculations\power-thermal.md`
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\source-register.md`
-- `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\audit\g-converters.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\design-cards\power\p03-boost.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\common-hardware\g-power-conversion.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\calculations\power-thermal.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\source-register.md`
+- `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\audit\g-converters.md`
 
 ### 12.3 历史底稿与中间文件（scratch，非仓库）
 

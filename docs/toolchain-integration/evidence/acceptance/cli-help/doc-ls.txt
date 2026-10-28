@@ -1,7 +1,7 @@
 List all openable documents in the window (★ = active)
 
 Usage:
-  zhigou doc ls [flags]
+  easycirq doc ls [flags]
 
 Flags:
   -h, --help   help for ls

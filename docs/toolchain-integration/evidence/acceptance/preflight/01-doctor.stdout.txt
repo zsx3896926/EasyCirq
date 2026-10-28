@@ -1,11 +1,11 @@
 {
-  "schema": "zhigou-doctor/v1",
+  "schema": "easycirq-doctor/v1",
   "generatedAt": "2026-10-27T13:43:17Z",
   "verdict": "degraded",
   "runtime": {
-    "name": "zhigou",
+    "name": "easycirq",
     "version": "0.2.0-dev",
-    "executable": "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "executable": "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
     "sha256": "7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4",
     "vcsRevision": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
     "vcsTime": "2026-10-27T07:03:30Z",
@@ -36,7 +36,7 @@
       },
       {
         "client": "repo",
-        "dir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\docs\\toolchain-integration\\evidence\\acceptance\\easycirq",
+        "dir": "C:\\Users\\jlc\\work\\easycirq-toolchain\\docs\\toolchain-integration\\evidence\\acceptance\\easycirq",
         "present": false
       }
     ]
@@ -46,20 +46,20 @@
     "pid": 49128,
     "port": 23111,
     "version": "0.2.0-dev",
-    "stateDir": "C:\\Users\\jlc\\.zhigou",
-    "logPath": "C:\\Users\\jlc\\.zhigou\\daemon.log",
-    "pidFile": "C:\\Users\\jlc\\.zhigou\\daemon.pid",
+    "stateDir": "C:\\Users\\jlc\\.easycirq",
+    "logPath": "C:\\Users\\jlc\\.easycirq\\daemon.log",
+    "pidFile": "C:\\Users\\jlc\\.easycirq\\daemon.pid",
     "pidFilePid": 49128,
     "pidFileMatches": true
   },
   "connector": {
     "status": "disconnected",
     "count": 0,
-    "expectedName": "zhigou-connector",
+    "expectedName": "easycirq-connector",
     "expectedVersion": "0.1.0"
   },
   "protocol": {
-    "service": "zhigou-agent",
+    "service": "easycirq-agent",
     "wireVersion": "v1",
     "handshake": "daemon→connector {type:handshake,service,version}",
     "envelopeVersion": "v1"
@@ -83,7 +83,7 @@
       "name": "connector",
       "status": "fail",
       "detail": "没有 EasyEDA 窗口连上 daemon",
-      "fix": "运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA"
+      "fix": "运行 `easycirq connector path` 取得本运行时自带的 .eext，按 `easycirq connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA"
     },
     {
       "name": "skill",
@@ -97,6 +97,6 @@
     }
   ],
   "nextSteps": [
-    "在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载"
+    "在 EasyEDA Pro 导入自有连接器 easycirq-connector v0.1.0（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载"
   ]
 }

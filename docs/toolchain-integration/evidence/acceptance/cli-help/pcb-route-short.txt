@@ -16,13 +16,13 @@ Track width is by net class: power/ground nets (VCC/VDD/3V3/GND…) get --width-
 overrides both. Corners default to 90° L; --corner 45 chamfers them, --corner round
 emits a chord-approximated fillet (native arcs do not commit on this build).
 
-  zhigou pcb route-short --project ceshi --dry-run            # print the plan, draw nothing
-  zhigou pcb route-short --project ceshi                      # draw with class widths + 90° corners
-  zhigou pcb route-short --project ceshi --corner 45          # chamfered corners
-  zhigou pcb route-short --project ceshi --width-power 25     # fatter power tracks
+  easycirq pcb route-short --project ceshi --dry-run            # print the plan, draw nothing
+  easycirq pcb route-short --project ceshi                      # draw with class widths + 90° corners
+  easycirq pcb route-short --project ceshi --corner 45          # chamfered corners
+  easycirq pcb route-short --project ceshi --width-power 25     # fatter power tracks
 
 Usage:
-  zhigou pcb route-short [flags]
+  easycirq pcb route-short [flags]
 
 Flags:
       --corner string         corner style: 90 (L), 45 (chamfer), round (chord fillet) (default "90")

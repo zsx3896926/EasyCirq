@@ -1,9 +1,9 @@
-# Zhigou 工具链安装器（安装 / 升级 / 回退 / 卸载）
+# EasyCirq 工具链安装器（安装 / 升级 / 回退 / 卸载）
 
-本文覆盖 `distribution/` 下的统一安装体系：它把 **Skill（easycirq）+ 运行时（`zhigou.exe` 与构建标识）+ 连接器（`.eext`）** 当作一个整体来安装、升级、回退和卸载。
+本文覆盖 `distribution/` 下的统一安装体系：它把 **Skill（easycirq）+ 运行时（`easycirq.exe` 与构建标识）+ 连接器（`.eext`）** 当作一个整体来安装、升级、回退和卸载。
 
-- 入口（人工）：`distribution/Install-Zhigou.cmd`（双击）或 `Install-Zhigou.ps1`
-- 事务实现：`distribution/zhigou_install.py`（Python 3.10+，仅标准库）
+- 入口（人工）：`distribution/Install-EasyCirq.cmd`（双击）或 `Install-EasyCirq.ps1`
+- 事务实现：`distribution/easycirq_install.py`（Python 3.10+，仅标准库）
 - 发行构建：`distribution/build_release.py`
 - 生命周期测试：`tests/test_install_lifecycle.py`
 - 运行证据：`docs/toolchain-integration/evidence/installer/`
@@ -17,10 +17,10 @@
 | 约束 | 实现方式 |
 |---|---|
 | 不写入用户既有 `easyeda-agent` 目录 | `guard_install_dir()` 命中 `easyeda-agent` / `easyedas_agent` / `zhoushoujianwork` 字样直接拒绝；安装器全程只**读**这些目录（`legacy` 探针） |
-| 不删除旧 easyeda-agent / 旧 Skill | 安装器只删自己 `installation.json` 里记录的文件；客户端 Skill 目录只在"由本工具链创建"（存在 `.zhigou-install.json`）时才更新/删除 |
+| 不删除旧 easyeda-agent / 旧 Skill | 安装器只删自己 `installation.json` 里记录的文件；客户端 Skill 目录只在"由本工具链创建"（存在 `.easycirq-install.json`）时才更新/删除 |
 | 不覆盖 PATH 中同名命令 | 从不调用 `setx`/注册表/`PATH` 写入；`status` 只**报告** `shadowed`，不修复 |
 | 不自动导入 EDA 扩展 | `.eext` 只复制到安装目录并打印导入步骤；不改 EasyEDA 的扩展状态/IndexedDB |
-| 不启动/停止用户 EDA 或旧 daemon | 安装器不执行 `daemon start/stop`、不杀进程；自检只跑只读的 `zhigou doctor` |
+| 不启动/停止用户 EDA 或旧 daemon | 安装器不执行 `daemon start/stop`、不杀进程；自检只跑只读的 `easycirq doctor` |
 | 不覆盖本地修改 | 升级/卸载前逐文件比对 SHA-256；有改动则拒绝并提示 `--force`（`--force` 会先备份） |
 
 ---
@@ -31,8 +31,8 @@
 
 | 文件 | 说明 |
 |---|---|
-| `zhigou-toolchain-installer-<版本>.zip` | **给用户的一个包**：内含 bundle + 入口脚本 + 说明 + 内层 `SHA256SUMS` |
-| `zhigou-toolchain-<版本>.zip` | 工具链 bundle 本体（`bundle.json` + `payload/`） |
+| `easycirq-toolchain-installer-<版本>.zip` | **给用户的一个包**：内含 bundle + 入口脚本 + 说明 + 内层 `SHA256SUMS` |
+| `easycirq-toolchain-<版本>.zip` | 工具链 bundle 本体（`bundle.json` + `payload/`） |
 | `toolchain-release.json` | 分离式发布清单（版本、兼容矩阵、bundle SHA-256、源提交） |
 | `toolchain-provenance.json` | 构建溯源（源提交、Go 版本、node/npm 版本、每个产物 SHA-256） |
 | `SHA256SUMS` | 上述全部产物的 SHA-256（与旧 Skill 产物共用一份） |
@@ -42,30 +42,30 @@
 
 ```
 bundle.json                          # 清单：文件 SHA-256、兼容矩阵、组件、provenance
-payload/bin/zhigou.exe               # 运行时
-payload/bin/zhigou-version.json      # 运行时构建标识（版本/SHA/goVersion/vcsRevision）
+payload/bin/easycirq.exe               # 运行时
+payload/bin/easycirq-version.json      # 运行时构建标识（版本/SHA/goVersion/vcsRevision）
 payload/connector/<name>_<版本>.eext # 连接器扩展（不自动导入）
-payload/connector/zhigou-connector.manifest.json
+payload/connector/easycirq-connector.manifest.json
 payload/connector/IMPORT-STEPS.md    # 人工导入步骤
 payload/skill/easycirq/…      # Skill 全量文件
 payload/licenses/{LICENSE,NOTICE,THIRD-PARTY-NOTICES.md,connector__LICENSE,…}
 ```
 
-### 2.3 安装后目录（默认 `%LOCALAPPDATA%\Zhigou`）
+### 2.3 安装后目录（默认 `%LOCALAPPDATA%\EasyCirq`）
 
 ```
 <安装目录>/
   installation.json            # 本工具链的所有权清单：version/files{rel→sha256}/components/compat/
                                # provenance/history/backups/clientSkill/selfCheck
-  bin/zhigou.exe
-  bin/zhigou-version.json
-  connector/zhigou-connector_v0.1.0.eext
+  bin/easycirq.exe
+  bin/easycirq-version.json
+  connector/easycirq-connector_v0.1.0.eext
   connector/IMPORT-STEPS.md
-  connector/zhigou-connector.manifest.json
+  connector/easycirq-connector.manifest.json
   skill/easycirq/…      # 由本工具链拥有的 Skill 副本
   licenses/…
   config/                      # 可选，用户自建；升级保留、卸载默认保留
-<安装目录同级>/.zhigou-install-state/<hash>/
+<安装目录同级>/.easycirq-install-state/<hash>/
   update.lock  transaction.json
   backups/backup-<版本>-<时间戳>/   # 升级前的完整快照（含 _backup.json 标记）
 ```
@@ -80,11 +80,11 @@ payload/licenses/{LICENSE,NOTICE,THIRD-PARTY-NOTICES.md,connector__LICENSE,…}
 
 ```powershell
 # 1. 解压整个安装包目录（不要只解压里面的 zip）
-Expand-Archive .\zhigou-toolchain-installer-0.2.0.zip -DestinationPath .\zhigou-setup
+Expand-Archive .\easycirq-toolchain-installer-0.2.0.zip -DestinationPath .\easycirq-setup
 
-# 2. 双击 zhigou-setup\Install-Zhigou.cmd，选 1（安装或升级）
+# 2. 双击 easycirq-setup\Install-EasyCirq.cmd，选 1（安装或升级）
 #    或者命令行：
-.\zhigou-setup\Install-Zhigou.ps1 install
+.\easycirq-setup\Install-EasyCirq.ps1 install
 
 # 3. 人工把连接器装进 EasyEDA（安装器不会自动做）
 #    打开安装目录下 connector\IMPORT-STEPS.md 按步骤：
@@ -92,14 +92,14 @@ Expand-Archive .\zhigou-toolchain-installer-0.2.0.zip -DestinationPath .\zhigou-
 #    → 完全退出 EasyEDA 并重新启动（启动时加载，无热加载）
 
 # 4. 自检
-& "$env:LOCALAPPDATA\Zhigou\bin\zhigou.exe" doctor
+& "$env:LOCALAPPDATA\EasyCirq\bin\easycirq.exe" doctor
 #    verdict=ok 表示宿主可达；degraded 表示 daemon 未起或连接器未连（不是安装失败）
 ```
 
 想把 CLI 加进 PATH（可选，安装器不会改）：
 
 ```powershell
-$env:PATH = "$env:LOCALAPPDATA\Zhigou\bin;$env:PATH"   # 仅当前会话
+$env:PATH = "$env:LOCALAPPDATA\EasyCirq\bin;$env:PATH"   # 仅当前会话
 ```
 
 ---
@@ -109,7 +109,7 @@ $env:PATH = "$env:LOCALAPPDATA\Zhigou\bin;$env:PATH"   # 仅当前会话
 ### 4.1 PowerShell 入口
 
 ```powershell
-Install-Zhigou.ps1 <action> [参数]
+Install-EasyCirq.ps1 <action> [参数]
 ```
 
 | action | 作用 | 常用参数 |
@@ -128,13 +128,13 @@ Install-Zhigou.ps1 <action> [参数]
 ### 4.2 Python CLI（等价，便于自动化/CI）
 
 ```powershell
-py -3 distribution\zhigou_install.py install  --bundle <zip> [--release <json>] [--install-dir <dir>]
-py -3 distribution\zhigou_install.py status   [--install-dir <dir>]
-py -3 distribution\zhigou_install.py verify   [--install-dir <dir>]
-py -3 distribution\zhigou_install.py rollback [--to <版本>] [--backup <目录>]
-py -3 distribution\zhigou_install.py uninstall [--force] [--purge-state]
-py -3 distribution\zhigou_install.py inspect-bundle --bundle <zip>
-py -3 distribution\zhigou_install.py recover
+py -3 distribution\easycirq_install.py install  --bundle <zip> [--release <json>] [--install-dir <dir>]
+py -3 distribution\easycirq_install.py status   [--install-dir <dir>]
+py -3 distribution\easycirq_install.py verify   [--install-dir <dir>]
+py -3 distribution\easycirq_install.py rollback [--to <版本>] [--backup <目录>]
+py -3 distribution\easycirq_install.py uninstall [--force] [--purge-state]
+py -3 distribution\easycirq_install.py inspect-bundle --bundle <zip>
+py -3 distribution\easycirq_install.py recover
 ```
 
 约定与 `easyeda` CLI 一致：**成功 JSON 走 stdout，错误 JSON 走 stderr 且退出码 2**；`status/verify` 退出码 0 不代表宿主可达，只代表文件一致。
@@ -143,11 +143,11 @@ py -3 distribution\zhigou_install.py recover
 
 | 变量 | 作用 |
 |---|---|
-| `ZHIGOU_INSTALL_DIR` | 默认安装目录 |
-| `ZHIGOU_STATE_DIR` | 默认状态/备份目录（锁、journal、backups） |
-| `ZHIGOU_HOME` | 客户端 home（Skill 目标与自检 HOME 覆盖） |
-| `ZHIGOU_CLIENT_ROOT` | 显式 Skill 目标目录（保留给测试/高级用法） |
-| `ZHIGOU_INSTALL_SKIP_SELF_CHECK=1` | 跳过安装后的 `zhigou doctor`（仅诊断，跳过不影响正确性） |
+| `EASYCIRQ_INSTALL_DIR` | 默认安装目录 |
+| `EASYCIRQ_STATE_DIR` | 默认状态/备份目录（锁、journal、backups） |
+| `EASYCIRQ_HOME` | 客户端 home（Skill 目标与自检 HOME 覆盖） |
+| `EASYCIRQ_CLIENT_ROOT` | 显式 Skill 目标目录（保留给测试/高级用法） |
+| `EASYCIRQ_INSTALL_SKIP_SELF_CHECK=1` | 跳过安装后的 `easycirq doctor`（仅诊断，跳过不影响正确性） |
 
 显式命令行参数 > 环境变量 > 默认值。
 
@@ -166,14 +166,14 @@ py -3 distribution\zhigou_install.py recover
 5. 把旧安装整体快照到 `backups/backup-<旧版本>-pre-<新版本>/`，写 `transaction.json`。
 6. 原子替换：旧目录 → `displaced-*`，`stage` → 安装目录，再整体校验新目录。
 7. 任何一步异常 → 自动把 `displaced` 换回，旧版本继续可用。
-8. 跑 `zhigou doctor`（可用 `--no-self-check` 跳过）：`ok` / `degraded` 都算安装成功，`unavailable`（无法执行）单独如实记录。
+8. 跑 `easycirq doctor`（可用 `--no-self-check` 跳过）：`ok` / `degraded` 都算安装成功，`unavailable`（无法执行）单独如实记录。
 9. 追加 `history`（action/at/from/to/backup），清 journal。
 
 ### 5.2 回退
 
 ```powershell
-.\Install-Zhigou.ps1 rollback                # 最近一次备份
-.\Install-Zhigou.ps1 rollback -To 0.1.0      # 指定版本
+.\Install-EasyCirq.ps1 rollback                # 最近一次备份
+.\Install-EasyCirq.ps1 rollback -To 0.1.0      # 指定版本
 ```
 
 - 回退是"再换一次目录"，同样走 journal；**被替换下来的版本不删除**（保留在 `rolledback-*`），便于再回退或取证。
@@ -189,20 +189,20 @@ py -3 distribution\zhigou_install.py recover
 ## 6. 卸载
 
 ```powershell
-.\Install-Zhigou.ps1 uninstall                 # 保留 config/ 与备份
-.\Install-Zhigou.ps1 uninstall -PurgeState     # 连 config/ 与备份一起删
+.\Install-EasyCirq.ps1 uninstall                 # 保留 config/ 与备份
+.\Install-EasyCirq.ps1 uninstall -PurgeState     # 连 config/ 与备份一起删
 ```
 
 - 只删 `installation.json.files` 里列出的文件；**无法识别的用户文件会保留**，并让目录无法被自动删除（避免静默丢数据）。
 - 默认保留 `config/`（用户设置）与状态目录里的备份；`--purge-state` 才清。
-- 如果安装时用 `--skill-client` 往客户端目录复制过 Skill，卸载会删掉**它自己创建的那份**（依据 `.zhigou-install.json`）。
+- 如果安装时用 `--skill-client` 往客户端目录复制过 Skill，卸载会删掉**它自己创建的那份**（依据 `.easycirq-install.json`）。
 - 文件被改过时拒绝删除，除非 `--force`。
 
 ---
 
 ## 7. 安装后自检（doctor）语义
 
-`zhigou doctor` 输出 JSON（stdout）+ 人读摘要（stderr），安装器把结果分四类：
+`easycirq doctor` 输出 JSON（stdout）+ 人读摘要（stderr），安装器把结果分四类：
 
 | status | 含义 | 是否算安装失败 |
 |---|---|---|
@@ -221,7 +221,7 @@ py -3 distribution\zhigou_install.py recover
 
 ```json
 {"cli":"0.2.0","runtime":"0.2.0","daemon":"0.2.0","connector":"0.1.0",
- "protocol":"zhigou-agent/v1","eda":">=3.2.0","validatedEda":"4.1.78","minPython":"3.10"}
+ "protocol":"easycirq-agent/v1","eda":">=3.2.0","validatedEda":"4.1.78","minPython":"3.10"}
 ```
 
 构建期强制校验（`build_release.py`）：
@@ -229,7 +229,7 @@ py -3 distribution\zhigou_install.py recover
 - 运行时自报版本必须等于 bundle 版本（除非显式 `--toolchain-version` 且一致）；
 - 连接器 UUID 必须是 32 位 hex；`.eext` 的 `extension.json` 必须含 `name/uuid/version`。
 
-安装期强制校验（`zhigou_install.py`）：同一套规则再验一遍，并对 `components.*.path` 是否在文件清单内、清单是否越界（必须 `payload/` 前缀）做检查。
+安装期强制校验（`easycirq_install.py`）：同一套规则再验一遍，并对 `components.*.path` 是否在文件清单内、清单是否越界（必须 `payload/` 前缀）做检查。
 
 升级时 `compat` 有变化会写进 `compat.changes`（例如 `connector: 0.1.0 -> 0.2.0`），`status=changed` 但不阻断。
 
@@ -263,7 +263,7 @@ npx ts-node ./build/packaged.ts          # 打包 build/dist/<name>_<ver>.eext
 
 **记录的溯源信息**（`toolchain-provenance.json` 与 bundle 内 `provenance`）：`sourceCommit`、`sourceDirty`、`goVersion`（优先取二进制自报，其次取 `go version`）、`nodeVersion`/`npmVersion`、`runtimeVcsRevision/vcsTime/vcsModified`、`builder`、`host`、`pythonVersion`，以及 `artifacts.{bundle,runtime,connector,skill}.sha256`。
 
-> 本机没有 `go` 时：`--skip-runtime-build`（复用 `runtime/dist/zhigou.exe`）或 `--runtime-exe`。此时 `goVersion` 仍从二进制 `doctor` 的 `runtime.goVersion` 读取，来源字段记为 `reused:<路径>`，不会伪造成"本次编译"。
+> 本机没有 `go` 时：`--skip-runtime-build`（复用 `runtime/dist/easycirq.exe`）或 `--runtime-exe`。此时 `goVersion` 仍从二进制 `doctor` 的 `runtime.goVersion` 读取，来源字段记为 `reused:<路径>`，不会伪造成"本次编译"。
 
 ---
 
@@ -272,7 +272,7 @@ npx ts-node ./build/packaged.ts          # 打包 build/dist/<name>_<ver>.eext
 | 现象 / 消息 | 原因 | 处理 |
 |---|---|---|
 | `Python 3.10+ required` | 没装 Python 或太旧 | 装 Python 3.10+ 后重开窗口 |
-| `An install needs --bundle <zip>` | 没给安装包且目录里没有 | 把 `zhigou-toolchain-<版本>.zip` 放到脚本同目录，或 `-Bundle` 指定 |
+| `An install needs --bundle <zip>` | 没给安装包且目录里没有 | 把 `easycirq-toolchain-<版本>.zip` 放到脚本同目录，或 `-Bundle` 指定 |
 | `Bundle archive SHA256 does not match release.json` | 包被改过/下错版本 | 重新获取安装包，别手工改 release.json |
 | `Corrupt bundle payload (SHA256 mismatch)` | 包损坏 | 重新构建/重新下载 |
 | `Duplicate, directory or symlink entry in bundle` | 包被恶意或错误打包 | 拒绝使用，重新构建 |
@@ -285,10 +285,10 @@ npx ts-node ./build/packaged.ts          # 打包 build/dist/<name>_<ver>.eext
 | `No backup available to roll back to` | 只有一次安装，没产生备份 | 正常；重新安装目标版本 |
 | `Cannot move … ([WinError 5]/[WinError 32])` | 文件被杀软/索引器占用 | 安装器已自动重试多次；仍失败则等几秒再试，或把安装目录加入杀软排除 |
 | `Install path contains a symlink/junction` | 安装路径含 junction | 换真实目录 |
-| `Refusing to install into a path that belongs to easyeda-agent` | 目标路径命中 `easyeda-agent` | 换 `-InstallDir`（默认 `%LOCALAPPDATA%\Zhigou`） |
+| `Refusing to install into a path that belongs to easyeda-agent` | 目标路径命中 `easyeda-agent` | 换 `-InstallDir`（默认 `%LOCALAPPDATA%\EasyCirq`） |
 | `uninstall … modified …` | 卸载前发现文件被改 | 备份后 `-Force` |
-| doctor `degraded` | daemon 未起 / EDA 未重启 / 连接器未连 | 不是安装失败；按 `IMPORT-STEPS.md` 导入并重启 EDA，或 `zhigou daemon start` |
-| `status.path.verdict = shadowed` | PATH 里有另一个 `zhigou.exe` | 安装器不改 PATH；自己调整 PATH 顺序 |
+| doctor `degraded` | daemon 未起 / EDA 未重启 / 连接器未连 | 不是安装失败；按 `IMPORT-STEPS.md` 导入并重启 EDA，或 `easycirq daemon start` |
+| `status.path.verdict = shadowed` | PATH 里有另一个 `easycirq.exe` | 安装器不改 PATH；自己调整 PATH 顺序 |
 
 ---
 
@@ -350,16 +350,16 @@ py -3 -m unittest tests.test_install_lifecycle -v
 
 ## 隔离安装验证（2026-10-28）
 
-`dist-v2/zhigou-toolchain-0.2.1.zip`（由 `distribution/build_release.py --skip-runtime-build`
-从当前工作树构建）在独立目录 `zhigou-isolated` 安装并验证：
+`dist-v2/easycirq-toolchain-0.2.1.zip`（由 `distribution/build_release.py --skip-runtime-build`
+从当前工作树构建）在独立目录 `easycirq-isolated` 安装并验证：
 
 - 安装退出码 0；`installation.json` 记录 561 个文件、组件 `runtime + connector + skill`；
-- 隔离运行时 `zhigou 0.2.1-dev` 可执行，`zhigou connector path` 读到随包 `.eext`
-  （`zhigou-connector 0.1.0`，uuid `a6e6b788…`，231,299 B）；
-- 包内 skill 版本 **1.0.2**（迁移后的单一 `zhigou` 入口版本），不是旧的 1.0.1；
+- 隔离运行时 `easycirq 0.2.1-dev` 可执行，`easycirq connector path` 读到随包 `.eext`
+  （`easycirq-connector 0.1.0`，uuid `a6e6b788…`，231,299 B）；
+- 包内 skill 版本 **1.0.2**（迁移后的单一 `easycirq` 入口版本），不是旧的 1.0.1；
 - 证据：`evidence/installer/isolated-install.json`。
 
-**Windows PowerShell 5.1 编码修复**：`Install-Zhigou.ps1` 含中文提示，PS 5.1 默认按
+**Windows PowerShell 5.1 编码修复**：`Install-EasyCirq.ps1` 含中文提示，PS 5.1 默认按
 ANSI 读取无 BOM 的 UTF-8 脚本会解析失败（`Unexpected token`）。已为脚本加 UTF-8 BOM，
-`powershell -File distribution\Install-Zhigou.ps1 status` 现可正常输出 JSON。
-`Install-Zhigou.cmd` 的 pwsh→powershell 回退路径随之可用。
+`powershell -File distribution\Install-EasyCirq.ps1 status` 现可正常输出 JSON。
+`Install-EasyCirq.cmd` 的 pwsh→powershell 回退路径随之可用。

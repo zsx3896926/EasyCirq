@@ -52,7 +52,7 @@
   },
   "context": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "56a25fb38c54cb1b",
     "documentType": "pcb",
     "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
@@ -60,14 +60,14 @@
   },
   "mutationContext": {
     "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
-    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "projectName": "easycirq-integrated-dual-button-led-20261027",
     "documentUuid": "56a25fb38c54cb1b",
     "documentType": "pcb",
     "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
     "pageVisibility": "hidden"
   },
   "mutationContextAvailable": true,
-  "staleRisk": "PCB was mutated by pcb.outline.set since the last reload — pcb.outline.get (and DRC) may read stale engine state; authoritative workflows should save, run `zhigou doc reload`, then read back; if refresh fails, treat the data as unavailable",
+  "staleRisk": "PCB was mutated by pcb.outline.set since the last reload — pcb.outline.get (and DRC) may read stale engine state; authoritative workflows should save, run `easycirq doc reload`, then read back; if refresh fails, treat the data as unavailable",
   "seq": 333,
   "seqAbandoned": 0
 }

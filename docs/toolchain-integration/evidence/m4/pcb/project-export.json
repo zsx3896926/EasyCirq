@@ -4,7 +4,7 @@
   "result": {
     "bytes": 46838,
     "format": "epro2",
-    "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\zhigou-dual-button-led-board.epro2",
+    "path": "C:\\Users\\jlc\\work\\easycirq-toolchain\\.easycirq\\artifacts\\easycirq-dual-button-led-board.epro2",
     "restoreVerified": false,
     "sha256": "7e76767a4567411f64a7b6d73888bd7d65122bcd2aec665409e2a320068eb9b7",
     "uuid": "43ebf71ffd34473f9b08aaa118aa2d5e",

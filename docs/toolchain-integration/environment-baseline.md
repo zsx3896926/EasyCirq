@@ -3,7 +3,7 @@
 - 勘察时间：2026-10-27 21:13 – 21:30 (+08:00)
 - 勘察方式：纯只读。未写入/保存/移动/删除任何 EDA 工程、文档、库；未启停 daemon 与 EasyEDA；未执行任何 place/move/apply/save/export-to-project/import 类命令。
 - 原始证据目录：`evidence/env/`（47 个文件，见文末清单）
-- 目的：为新建的自有工具链（zhigou toolchain）提供"必须对齐的真实基线"，并指出与之隔离时的风险点。
+- 目的：为新建的自有工具链（easycirq toolchain）提供"必须对齐的真实基线"，并指出与之隔离时的风险点。
 
 > **两个必须先知道的结论（与任务书假设不同）：**
 > 1. `easyeda doctor` **不存在**（exit 1，stderr：`unknown command "doctor" for "easyeda"`）。v1.15.0 的健康检查命令是 `easyeda health`（JSON 到 stdout，人读摘要到 **stderr**）。新 CLI 若要做 doctor，需自行定义契约，可对齐 `health` 的 JSON 字段（见 §3.3）。

@@ -258,7 +258,7 @@
         "status": "ok"
       },
       {
-        "module": "layout_from_zhigou",
+        "module": "layout_from_easycirq",
         "status": "ok"
       },
       {
@@ -422,7 +422,7 @@
         "status": "ok"
       },
       {
-        "module": "zhigou_cli",
+        "module": "easycirq_cli",
         "status": "ok"
       }
     ]
@@ -432,7 +432,7 @@
     "flag_counts": {
       "writes_files": 44,
       "no_main_guard": 43,
-      "references_zhigou_cli": 23,
+      "references_easycirq_cli": 23,
       "may_run_cli_or_network": 12
     }
   },

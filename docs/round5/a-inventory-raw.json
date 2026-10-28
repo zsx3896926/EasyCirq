@@ -2,8 +2,8 @@
   "root": "C:/Users/jlc/work/hds-round5",
   "inventory": [
     {
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）",
-      "summary": "基线核对通过：C:/Users/jlc/work/hds-round5 的 HEAD=7a6edb7b5a44e8e87a578f18402a85410642cc1f，与 origin/main、GitHub refs/heads/main 完全一致，工作区干净，分支相对 main ahead=0/behind=0；该提交仅改 docs/handoff-current.md，validate CI（run 39783476929）success。\n\nPR：共 9 个，8 MERGED（#1/#2/#3/#5/#6/#7/#8/#9，所有 merge commit 都是 origin/main 祖先），1 CLOSED 草稿（#4，未合入，评论明确由 #8 接替），0 OPEN；当前 feat/round5-release-acceptance 没有 PR。\n\nCI：13 个远端分支最新 run 全部 success，main 最近 15 次 run 全部 success；5 次 failure 全是 PR #5 的中间 pull_request run，已被最终 success 取代；workflow 仅跑 unittest，main 无分支保护/required checks。\n\nWorktree：8 个，7 个干净；共享检出 C:/Users/jlc/work/hardware-design-skill 仍在已合并的 feat/common-hardware-coverage（8595fe2，落后 main 18），有 36 个从未提交的决策资产文件；本地 main d8ade34 落后 origin/main 50。\n\n未合入远端分支 3 个：cross-client-round3（PR #4 关闭，3 ahead，保存 main 仍在引用的旧 F1 证据）、engineering-decisions-round4（5 ahead，决策库内容等同已合并 #6，1 个 2d6a3ea 未入 main）、rev3-relayout（#8 已合并于 28a608f，但 tip 7a0f069 的 1 个 docs 提交未入 main）。未打 tag、无 release；docs 仍有多处「未合并」陈述与当前状态冲突，且 main 的 client-env README 指向只在 PR #4 分支存在的 docs/evidence/f1-relayout-2026-10-22/，构成断链。",
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）",
+      "summary": "基线核对通过：C:/Users/jlc/work/hds-round5 的 HEAD=7a6edb7b5a44e8e87a578f18402a85410642cc1f，与 origin/main、GitHub refs/heads/main 完全一致，工作区干净，分支相对 main ahead=0/behind=0；该提交仅改 docs/handoff-current.md，validate CI（run 39783476929）success。\n\nPR：共 9 个，8 MERGED（#1/#2/#3/#5/#6/#7/#8/#9，所有 merge commit 都是 origin/main 祖先），1 CLOSED 草稿（#4，未合入，评论明确由 #8 接替），0 OPEN；当前 feat/round5-release-acceptance 没有 PR。\n\nCI：13 个远端分支最新 run 全部 success，main 最近 15 次 run 全部 success；5 次 failure 全是 PR #5 的中间 pull_request run，已被最终 success 取代；workflow 仅跑 unittest，main 无分支保护/required checks。\n\nWorktree：8 个，7 个干净；共享检出 C:/Users/jlc/work/EasyCirq 仍在已合并的 feat/common-hardware-coverage（8595fe2，落后 main 18），有 36 个从未提交的决策资产文件；本地 main d8ade34 落后 origin/main 50。\n\n未合入远端分支 3 个：cross-client-round3（PR #4 关闭，3 ahead，保存 main 仍在引用的旧 F1 证据）、engineering-decisions-round4（5 ahead，决策库内容等同已合并 #6，1 个 2d6a3ea 未入 main）、rev3-relayout（#8 已合并于 28a608f，但 tip 7a0f069 的 1 个 docs 提交未入 main）。未打 tag、无 release；docs 仍有多处「未合并」陈述与当前状态冲突，且 main 的 client-env README 指向只在 PR #4 分支存在的 docs/evidence/f1-relayout-2026-10-22/，构成断链。",
       "findings": [
         {
           "id": "GIT-01",
@@ -15,7 +15,7 @@
             "`git status --porcelain=v1 -b` -> `## feat/round5-release-acceptance...origin/main`，无文件条目；`git rev-list --count origin/main..HEAD`=0，`HEAD..origin/main`=0",
             "`git ls-remote origin refs/heads/main` -> 7a6edb7b5a44e8e87a578f18402a85410642cc1f；`gh repo view` -> defaultBranchRef=main",
             "`git show --stat 7a6edb7` -> 仅 docs/handoff-current.md，+6/-2",
-            "`gh api repos/zsx3896926/hardware-design-skill/commits/7a6edb7b5a44e8e87a578f18402a85410642cc1f/check-runs` -> validate success，completed 2026-10-22T13:03:23Z"
+            "`gh api repos/zsx3896926/EasyCirq/commits/7a6edb7b5a44e8e87a578f18402a85410642cc1f/check-runs` -> validate success，completed 2026-10-22T13:03:23Z"
           ],
           "gaps": "未验证 handoff 中 495 项 unittest 的数字本身（不属于 Git/PR/CI 范围）。",
           "next_action": "以 7a6edb7 作为第 5 轮基线；若后续 origin/main 前进，先重新核对基线再引用。",
@@ -60,7 +60,7 @@
           "status": "DONE",
           "evidence": [
             "`gh run list --branch main --limit 100 --json conclusion` -> success=15，failure=0",
-            "逐分支 `gh api repos/zsx3896926/hardware-design-skill/actions/runs?branch=<b>&per_page=1` -> 13/13 conclusion=success（含 main 7a6edb7、rev3-relayout 7a0f069、cross-client-round3 d1e5d1a）",
+            "逐分支 `gh api repos/zsx3896926/EasyCirq/actions/runs?branch=<b>&per_page=1` -> 13/13 conclusion=success（含 main 7a6edb7、rev3-relayout 7a0f069、cross-client-round3 d1e5d1a）",
             "`gh run list --limit 100 --json conclusion,headBranch,event` -> failure=5，全部 headBranch=feat/common-hardware-coverage、event=pull_request（39780908679、39781156764、39781344849、39781381879、39781434174）",
             "最终 PR #5 run 39781661341 -> success，sha=8595fe2221edf5cb04a5f1db2b02d0c1b7bc37d5，event=pull_request",
             "`gh api .../commits/7a6edb7.../check-runs` -> validate success；`gh pr view <n> --json statusCheckRollup` -> 每个 PR 2 个 validate check，全部 SUCCESS",
@@ -76,8 +76,8 @@
           "claim": "main 没有分支保护或 required status checks；baseline 7a6edb7 以及 0fe5cf8/a2fc97a/f0068c8 均为直接 push，未关联 PR。",
           "status": "PARTIAL",
           "evidence": [
-            "`gh api repos/zsx3896926/hardware-design-skill/branches/main/protection` -> HTTP 404 'Branch not protected'",
-            "`gh api repos/zsx3896926/hardware-design-skill/commits/7a6edb7b5a44e8e87a578f18402a85410642cc1f/pulls` -> NO-ASSOCIATED-PR；0fe5cf8、a2fc97a、f0068c8 同样",
+            "`gh api repos/zsx3896926/EasyCirq/branches/main/protection` -> HTTP 404 'Branch not protected'",
+            "`gh api repos/zsx3896926/EasyCirq/commits/7a6edb7b5a44e8e87a578f18402a85410642cc1f/pulls` -> NO-ASSOCIATED-PR；0fe5cf8、a2fc97a、f0068c8 同样",
             "`git log --first-parent --no-merges d8ade34..origin/main` -> 6 个直接提交：7a6edb7、0fe5cf8、a2fc97a、f0068c8、4bac85c、3a339f1"
           ],
           "gaps": "仓库内未找到「main 必须 required checks」的政策文本；无法判断是有意放宽还是漏配。",
@@ -90,8 +90,8 @@
           "claim": "8 个 worktree 全部存在，HEAD 与各自本地分支一致；无 prunable worktree；除共享检出外均干净。",
           "status": "DONE",
           "evidence": [
-            "`git worktree list --porcelain` -> hardware-design-skill、-r3、-research、-thermal、hds-round3、hds-round3-int、hds-round4、hds-round5 共 8 个",
-            "`git -C <each> status --porcelain=v1 -b` -> 7 个只有分支行；hardware-design-skill 有 36 个未跟踪文件（见 GIT-07）",
+            "`git worktree list --porcelain` -> EasyCirq、-r3、-research、-thermal、hds-round3、hds-round3-int、hds-round4、hds-round5 共 8 个",
+            "`git -C <each> status --porcelain=v1 -b` -> 7 个只有分支行；EasyCirq 有 36 个未跟踪文件（见 GIT-07）",
             "`git worktree prune --dry-run -v` -> 无输出（无 prunable 条目）",
             "各 worktree HEAD：shared 8595fe2、r3 d1e5d1a、research 85e7c7e、thermal 9d76dcd、round3 d27fb1d、round3int 7a0f069、round4 28e322a、round5 7a6edb7；均与对应本地分支一致"
           ],
@@ -102,10 +102,10 @@
         {
           "id": "GIT-07",
           "title": "共享检出仍在已合并旧分支，且有 36 个从未提交的决策文件",
-          "claim": "C:/Users/jlc/work/hardware-design-skill 停在已合并的 feat/common-hardware-coverage（8595fe2，落后 main 18），并有 36 个从未提交的决策资产文件；这些文件与 main 及旧 round4 分支均不同，属于孤立未跟踪工作。",
+          "claim": "C:/Users/jlc/work/EasyCirq 停在已合并的 feat/common-hardware-coverage（8595fe2，落后 main 18），并有 36 个从未提交的决策资产文件；这些文件与 main 及旧 round4 分支均不同，属于孤立未跟踪工作。",
           "status": "STALE",
           "evidence": [
-            "`git -C C:/Users/jlc/work/hardware-design-skill status --porcelain=v1 -b` -> `## feat/common-hardware-coverage...origin/feat/common-hardware-coverage` + 36 个 `??`",
+            "`git -C C:/Users/jlc/work/EasyCirq status --porcelain=v1 -b` -> `## feat/common-hardware-coverage...origin/feat/common-hardware-coverage` + 36 个 `??`",
             "`git -C ... status --porcelain=v1 -uall | wc -l` -> 36（15 assets + 16 references + 2 scripts + 3 tests）",
             "`git rev-list --count 8595fe2..origin/main` -> 18；`git branch -r --merged origin/main` 包含 origin/feat/common-hardware-coverage",
             "`git ls-tree -r --name-only origin/main design-hardware/assets/decisions | wc -l`=25，工作区 15；references 27 vs 16",
@@ -237,7 +237,7 @@
         "docs/round4-report.md",
         "docs/merge-review.md",
         ".github/workflows/validate.yml",
-        "C:/Users/jlc/work/hardware-design-skill",
+        "C:/Users/jlc/work/EasyCirq",
         "C:/Users/jlc/work/hds-round3-int"
       ]
     },
@@ -1527,7 +1527,7 @@
             "git ls-files | grep -Ei '\\.(csv|xlsx|zip|gbr|drl)$|bom|cpl|manifest' 只得到 design-hardware/assets/decisions/variant-bom.template.json、design-hardware/scripts/variant_bom.py、design-hardware/references/failures/f19-bom-cpl-dnp.md；仓库无实际 BOM/CPL/Gerber/manifest 数据文件。",
             "docs/evidence/f1-2026-10-22/README.md:83 明确“未做PCB、BOM/坐标、DFM、打样/SMT”；docs/evidence/f1-rev3-layout-2026-10-22/README.md:108 明确“未做…PCB、制造资料”。",
             "docs/task-ledger-round3.md:221-222,235：F-01 无 BOM 生成能力；F-02 草稿 11 行/16 位号；F-15 仓库无 BOM/CPL/Gerber/manifest 数据文件。",
-            "历史 rev1 导出 C:/Users/jlc/work/hw-eda-round3/f1-bom.csv 与 relayout 副本 C:/Users/jlc/work/hardware-design-skill-r3/docs/evidence/f1-relayout-2026-10-22/bom.csv 的 SHA256 均为 b98e6c3a09400a1e2a5d1a938b71fd8665b8c3edbc64a2d5416b194c709fd302，内容仍是 C101/C103 的 16 位号；f1-bom-draft.csv 为 11 行/16 位号。"
+            "历史 rev1 导出 C:/Users/jlc/work/hw-eda-round3/f1-bom.csv 与 relayout 副本 C:/Users/jlc/work/EasyCirq-r3/docs/evidence/f1-relayout-2026-10-22/bom.csv 的 SHA256 均为 b98e6c3a09400a1e2a5d1a938b71fd8665b8c3edbc64a2d5416b194c709fd302，内容仍是 C101/C103 的 16 位号；f1-bom-draft.csv 为 11 行/16 位号。"
           ],
           "gaps": "当前 21 器件 BOM 未生成（NOT RUN）；无 DNP/变体/替代/自备料字段；无同版 BOM/PCB/坐标绑定；旧 BOM 未标“作废”。",
           "next_action": "从 rev3 保存版本导出或生成 21 位号（13 个料号行）BOM，保留原始版本与 SHA256，旧 BOM 标“作废”，动态字段写“待查”。",
@@ -1651,7 +1651,7 @@
     },
     {
       "scope": "三客户端与新手指引证据",
-      "summary": "盘点范围：Claude Code / Codex / WorkBuddy 三客户端与新手指引证据；未重跑任何客户端流程，只读取仓库证据、scratch 产物和本机 Claude 会话 transcript。总体：Claude Code 与 Codex 的 Skill 发现、工程读取、最小写入、回读、保存、重开均有 2026-10-22 同日可复核证据（Claude 三个 session transcript + Codex 两份 jsonl + 快照），但都在旧 worktree `hds-round3-int-scratch` / `hardware-design-skill-r3`，未入仓；测试读取的 SKILL.md 是 30,538 字节旧版，当前 HEAD 为 33,643 字节。WorkBuddy 在 CLI 被 `/login` 阻塞，GUI 未验证，`design-hardware` 未安装到 `~/.workbuddy/skills`。三客户端都没有“从零完整项目”证据；所有 EDA 写入为 `lceda-pro` CLI 半离线（`online:false` / `half_offline:true`），无 GUI 全在线验收。新手指引只有文档、35 个场景（8 个 beginner）和结构/确定性测试，真实新手路径 E1–E5 / K-07 仍 NOT RUN。仓库内 `docs/evidence/client-invocation-2026-10-22/README.md` 与 `docs/handoff-current.md` 的“只完成 Skill 发现 / Codex 沙箱阻塞”结论已被 20:59–21:01 的 scratch 写流程推翻，标 STALE。",
+      "summary": "盘点范围：Claude Code / Codex / WorkBuddy 三客户端与新手指引证据；未重跑任何客户端流程，只读取仓库证据、scratch 产物和本机 Claude 会话 transcript。总体：Claude Code 与 Codex 的 Skill 发现、工程读取、最小写入、回读、保存、重开均有 2026-10-22 同日可复核证据（Claude 三个 session transcript + Codex 两份 jsonl + 快照），但都在旧 worktree `hds-round3-int-scratch` / `EasyCirq-r3`，未入仓；测试读取的 SKILL.md 是 30,538 字节旧版，当前 HEAD 为 33,643 字节。WorkBuddy 在 CLI 被 `/login` 阻塞，GUI 未验证，`design-hardware` 未安装到 `~/.workbuddy/skills`。三客户端都没有“从零完整项目”证据；所有 EDA 写入为 `lceda-pro` CLI 半离线（`online:false` / `half_offline:true`），无 GUI 全在线验收。新手指引只有文档、35 个场景（8 个 beginner）和结构/确定性测试，真实新手路径 E1–E5 / K-07 仍 NOT RUN。仓库内 `docs/evidence/client-invocation-2026-10-22/README.md` 与 `docs/handoff-current.md` 的“只完成 Skill 发现 / Codex 沙箱阻塞”结论已被 20:59–21:01 的 scratch 写流程推翻，标 STALE。",
       "findings": [
         {
           "id": "CC-1",
@@ -1705,15 +1705,15 @@
         {
           "id": "ENV-0",
           "title": "client-env：宿主/版本/EDA 可识别，但用户级安装、实际注入与工程可写性未证明",
-          "claim": "`docs/evidence/client-env-2026-10-22/doctor-env.json` / `.txt` 于 `C:/Users/jlc/work/hardware-design-skill-r3` 运行，status=incomplete，原因 `design-hardware is not installed in any detected skill directory`。检测到 Claude Code 2.1.303、Codex CLI 0.163.0-alpha.10.2、WorkBuddy（file present，缓存版本 5.8.3-wb...）、嘉立创EDA专业版 4.1.78.34f5b8d9；EDA `connected:true`、`version_match:true`、`project_readable:\"not_probed\"`、`easyeda` 命令不存在。`project-install-check.txt` 在临时项目 `.claude/skills` 下得到 status=ok / Claude Code skill installed，但只是项目级格式检查，不是实际注入。当前磁盘：`~/.claude/skills` 与 `~/.agents/skills` 不存在；`~/.codex/skills` 只有 `.system`；`~/.workbuddy/skills` 只有 migration JSON；用户级均未安装 design-hardware。",
+          "claim": "`docs/evidence/client-env-2026-10-22/doctor-env.json` / `.txt` 于 `C:/Users/jlc/work/EasyCirq-r3` 运行，status=incomplete，原因 `design-hardware is not installed in any detected skill directory`。检测到 Claude Code 2.1.303、Codex CLI 0.163.0-alpha.10.2、WorkBuddy（file present，缓存版本 5.8.3-wb...）、嘉立创EDA专业版 4.1.78.34f5b8d9；EDA `connected:true`、`version_match:true`、`project_readable:\"not_probed\"`、`easyeda` 命令不存在。`project-install-check.txt` 在临时项目 `.claude/skills` 下得到 status=ok / Claude Code skill installed，但只是项目级格式检查，不是实际注入。当前磁盘：`~/.claude/skills` 与 `~/.agents/skills` 不存在；`~/.codex/skills` 只有 `.system`；`~/.workbuddy/skills` 只有 migration JSON；用户级均未安装 design-hardware。",
           "status": "PARTIAL",
           "evidence": [
-            "`docs/evidence/client-env-2026-10-22/doctor-env.txt`：status incomplete；cwd `C:/Users/jlc/work/hardware-design-skill-r3`；Claude Code 2.1.303；Codex 0.163.0-alpha.10.2；WorkBuddy file present；EDA connected True / version match True；easyeda not found",
+            "`docs/evidence/client-env-2026-10-22/doctor-env.txt`：status incomplete；cwd `C:/Users/jlc/work/EasyCirq-r3`；Claude Code 2.1.303；Codex 0.163.0-alpha.10.2；WorkBuddy file present；EDA connected True / version match True；easyeda not found",
             "`docs/evidence/client-env-2026-10-22/doctor-env.json`：eda.bridge_version=4.1.78.34f5b8d9；project_readable=not_probed；三个客户端 installed=false；sha256=59ae19a571df80978af119fea0a67e931e63010816f62b67c21c37eb72791c50",
             "`docs/evidence/client-env-2026-10-22/project-install-check.txt`：status ok；Claude Code skill installed in temp project `.claude/skills`；EDA connected True；sha256=098f252b73ceaf3278b975530762bf82de96a236af4493ef1d189ce55e7416d4",
             "当前磁盘实测：`C:/Users/jlc/.claude/skills` 不存在；`C:/Users/jlc/.agents/skills` 不存在；`C:/Users/jlc/.codex/skills` 只有 `.system`；`C:/Users/jlc/.workbuddy/skills` 只有 3 个 migration JSON（2026-10-22 检查）"
           ],
-          "gaps": "doctor 证据来自旧 checkout `hardware-design-skill-r3`，不是当前 `hds-round5`；只证明目录/命令/版本存在，不证明用户级安装或新会话注入；`project_writable=not_tested`；WorkBuddy GUI 导入/刷新未验证；Codex Desktop 与 CLI 是否共享注入未验证。",
+          "gaps": "doctor 证据来自旧 checkout `EasyCirq-r3`，不是当前 `hds-round5`；只证明目录/命令/版本存在，不证明用户级安装或新会话注入；`project_writable=not_tested`；WorkBuddy GUI 导入/刷新未验证；Codex Desktop 与 CLI 是否共享注入未验证。",
           "next_action": "在目标客户端选择用户级或项目级其中一处安装（避免重复技能），新开会话确认实际加载；用当前 HEAD 重跑 `doctor_env.py --summary` 并保存 cwd/HEAD/日期；工程可写性用授权副本 `apply --dry-run` + 一次可回滚 `apply` 验证。",
           "needs_verification": true
         },
@@ -2414,12 +2414,12 @@
         "`git status --porcelain=v1 -b` -> `## feat/round5-release-acceptance...origin/main`，无文件条目；`git rev-list --count origin/main..HEAD`=0，`HEAD..origin/main`=0",
         "`git ls-remote origin refs/heads/main` -> 7a6edb7b5a44e8e87a578f18402a85410642cc1f；`gh repo view` -> defaultBranchRef=main",
         "`git show --stat 7a6edb7` -> 仅 docs/handoff-current.md，+6/-2",
-        "`gh api repos/zsx3896926/hardware-design-skill/commits/7a6edb7b5a44e8e87a578f18402a85410642cc1f/check-runs` -> validate success，completed 2026-10-22T13:03:23Z"
+        "`gh api repos/zsx3896926/EasyCirq/commits/7a6edb7b5a44e8e87a578f18402a85410642cc1f/check-runs` -> validate success，completed 2026-10-22T13:03:23Z"
       ],
       "gaps": "未验证 handoff 中 495 项 unittest 的数字本身（不属于 Git/PR/CI 范围）。",
       "next_action": "以 7a6edb7 作为第 5 轮基线；若后续 origin/main 前进，先重新核对基线再引用。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-02",
@@ -2437,7 +2437,7 @@
       "gaps": "10 个已合并/接替分支仍保留在远端，未删除；#5 在 `git log --merges` 中没有 'Merge pull request #5' 提交，只能通过 #7 的 97b1afa 追溯。",
       "next_action": "以 #6/#7/#8/#9 为最终集成路径；#4 仅作历史证据，不再合入；发布说明不要依赖 'Merge pull request #5' 这一提交标题。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-03",
@@ -2453,7 +2453,7 @@
       "gaps": "合并后分支均未删除；feat/engineering-decisions-round4、feat/round3-engineering、feat/topic-board-thermal 没有独立 PR（见 GIT-14）。",
       "next_action": "以 main（7a6edb7）为唯一主线；未合入 3 分支按 GIT-10/GIT-11/GIT-12 处置；已合并分支仅作历史引用。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-04",
@@ -2462,7 +2462,7 @@
       "status": "DONE",
       "evidence": [
         "`gh run list --branch main --limit 100 --json conclusion` -> success=15，failure=0",
-        "逐分支 `gh api repos/zsx3896926/hardware-design-skill/actions/runs?branch=<b>&per_page=1` -> 13/13 conclusion=success（含 main 7a6edb7、rev3-relayout 7a0f069、cross-client-round3 d1e5d1a）",
+        "逐分支 `gh api repos/zsx3896926/EasyCirq/actions/runs?branch=<b>&per_page=1` -> 13/13 conclusion=success（含 main 7a6edb7、rev3-relayout 7a0f069、cross-client-round3 d1e5d1a）",
         "`gh run list --limit 100 --json conclusion,headBranch,event` -> failure=5，全部 headBranch=feat/common-hardware-coverage、event=pull_request（39780908679、39781156764、39781344849、39781381879、39781434174）",
         "最终 PR #5 run 39781661341 -> success，sha=8595fe2221edf5cb04a5f1db2b02d0c1b7bc37d5，event=pull_request",
         "`gh api .../commits/7a6edb7.../check-runs` -> validate success；`gh pr view <n> --json statusCheckRollup` -> 每个 PR 2 个 validate check，全部 SUCCESS",
@@ -2471,7 +2471,7 @@
       "gaps": "CI 只覆盖 unittest；不包含安装、真实 EDA、制造产物或界面检查。",
       "next_action": "发布验收引用 baseline run 39783476929（7a6edb7）与最终 PR run 39781661341/39782789238/39782883063；不要把 5 次中间失败写成当前红灯。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-05",
@@ -2479,14 +2479,14 @@
       "claim": "main 没有分支保护或 required status checks；baseline 7a6edb7 以及 0fe5cf8/a2fc97a/f0068c8 均为直接 push，未关联 PR。",
       "status": "PARTIAL",
       "evidence": [
-        "`gh api repos/zsx3896926/hardware-design-skill/branches/main/protection` -> HTTP 404 'Branch not protected'",
-        "`gh api repos/zsx3896926/hardware-design-skill/commits/7a6edb7b5a44e8e87a578f18402a85410642cc1f/pulls` -> NO-ASSOCIATED-PR；0fe5cf8、a2fc97a、f0068c8 同样",
+        "`gh api repos/zsx3896926/EasyCirq/branches/main/protection` -> HTTP 404 'Branch not protected'",
+        "`gh api repos/zsx3896926/EasyCirq/commits/7a6edb7b5a44e8e87a578f18402a85410642cc1f/pulls` -> NO-ASSOCIATED-PR；0fe5cf8、a2fc97a、f0068c8 同样",
         "`git log --first-parent --no-merges d8ade34..origin/main` -> 6 个直接提交：7a6edb7、0fe5cf8、a2fc97a、f0068c8、4bac85c、3a339f1"
       ],
       "gaps": "仓库内未找到「main 必须 required checks」的政策文本；无法判断是有意放宽还是漏配。",
       "next_action": "发布前在 GitHub 为 main 配置 required check（validate），或把「无分支保护、存在直接 push」明确写为发布限制。",
       "needs_verification": true,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-06",
@@ -2494,23 +2494,23 @@
       "claim": "8 个 worktree 全部存在，HEAD 与各自本地分支一致；无 prunable worktree；除共享检出外均干净。",
       "status": "DONE",
       "evidence": [
-        "`git worktree list --porcelain` -> hardware-design-skill、-r3、-research、-thermal、hds-round3、hds-round3-int、hds-round4、hds-round5 共 8 个",
-        "`git -C <each> status --porcelain=v1 -b` -> 7 个只有分支行；hardware-design-skill 有 36 个未跟踪文件（见 GIT-07）",
+        "`git worktree list --porcelain` -> EasyCirq、-r3、-research、-thermal、hds-round3、hds-round3-int、hds-round4、hds-round5 共 8 个",
+        "`git -C <each> status --porcelain=v1 -b` -> 7 个只有分支行；EasyCirq 有 36 个未跟踪文件（见 GIT-07）",
         "`git worktree prune --dry-run -v` -> 无输出（无 prunable 条目）",
         "各 worktree HEAD：shared 8595fe2、r3 d1e5d1a、research 85e7c7e、thermal 9d76dcd、round3 d27fb1d、round3int 7a0f069、round4 28e322a、round5 7a6edb7；均与对应本地分支一致"
       ],
       "gaps": "research worktree 的本地 tip 85e7c7e 比 origin/feat/engineering-deepdives 9227068 落后 6 个提交（已由 PR #3 合入的旧 tip）；未逐一确认这些 worktree 是否仍被其他会话使用。",
       "next_action": "盘点阶段保持只读；不要在其他 worktree 提交、 rebase 或清理。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-07",
       "title": "共享检出仍在已合并旧分支，且有 36 个从未提交的决策文件",
-      "claim": "C:/Users/jlc/work/hardware-design-skill 停在已合并的 feat/common-hardware-coverage（8595fe2，落后 main 18），并有 36 个从未提交的决策资产文件；这些文件与 main 及旧 round4 分支均不同，属于孤立未跟踪工作。",
+      "claim": "C:/Users/jlc/work/EasyCirq 停在已合并的 feat/common-hardware-coverage（8595fe2，落后 main 18），并有 36 个从未提交的决策资产文件；这些文件与 main 及旧 round4 分支均不同，属于孤立未跟踪工作。",
       "status": "STALE",
       "evidence": [
-        "`git -C C:/Users/jlc/work/hardware-design-skill status --porcelain=v1 -b` -> `## feat/common-hardware-coverage...origin/feat/common-hardware-coverage` + 36 个 `??`",
+        "`git -C C:/Users/jlc/work/EasyCirq status --porcelain=v1 -b` -> `## feat/common-hardware-coverage...origin/feat/common-hardware-coverage` + 36 个 `??`",
         "`git -C ... status --porcelain=v1 -uall | wc -l` -> 36（15 assets + 16 references + 2 scripts + 3 tests）",
         "`git rev-list --count 8595fe2..origin/main` -> 18；`git branch -r --merged origin/main` 包含 origin/feat/common-hardware-coverage",
         "`git ls-tree -r --name-only origin/main design-hardware/assets/decisions | wc -l`=25，工作区 15；references 27 vs 16",
@@ -2520,7 +2520,7 @@
       "gaps": "无法确认这些未跟踪文件是否仍被另一会话需要；它们从未进入任何提交，随时可能丢失或被 `git add .` 误提交。",
       "next_action": "由该 worktree 负责人确认归属：需要则提交到独立分支，不需要则移出；清理前不要在该 worktree 执行 `git add -A`，也不要直接切到 main/rebase。",
       "needs_verification": true,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-08",
@@ -2536,7 +2536,7 @@
       "gaps": "未审计所有脚本/文档是否仍以裸 `main` 作为比较基线；已发现 docs 使用 0fe5cf8、dc62f20、d8ade34、4bac85c 等历史基线（见 GIT-13）。",
       "next_action": "所有发布/比较命令显式使用 `origin/main` 或 7a6edb7；需要本地 main 时另行 fast-forward，本轮不动分支。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-09",
@@ -2552,7 +2552,7 @@
       "gaps": "本轮尚无提交，PR 未创建属盘点阶段预期；但 upstream 指向 main 是配置风险，显式 `git push origin HEAD:main` 会直接推主线。",
       "next_action": "有提交后使用 `git push -u origin feat/round5-release-acceptance` 建立同名远端分支，再开 PR；禁止 `git push origin HEAD:main`。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-10",
@@ -2569,7 +2569,7 @@
       "gaps": "该 docs 提交是否仍需并入 main 未决策；main 的 client-invocation README 仍是旧版，缺少 Claude/Codex 完整写入流程记录，main handoff 仍写三客户端完整流程未完成。",
       "next_action": "若证据有效，从 7a0f069 开新 PR 或 cherry-pick 到 round5 分支；否则在 handoff 标注该证据仅存于 feat/rev3-relayout。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-11",
@@ -2586,7 +2586,7 @@
       "gaps": "未全量搜索其他只在关闭分支存在的证据路径；已搜 `f1-relayout-2026-10-22`，main 中仅此一处引用。",
       "next_action": "把 client-env README 的链接改为 ../f1-rev3-layout-2026-10-22/；若必须保留旧证据，将其纳入 main 或明确标注仅存于 PR #4 分支。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-12",
@@ -2603,7 +2603,7 @@
       "gaps": "2d6a3ea 是否有 main 未覆盖的独有能力未做代码级比对；docs/evidence/common-hardware-2026-10-22/eda/README.md:21 仍把它写成当前执行桥来源。",
       "next_action": "在文档中标记该分支为 superseded；若需确认 2d6a3ea 的能力，另开代码对比任务；更新 eda README 的工具来源描述。",
       "needs_verification": true,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-13",
@@ -2620,7 +2620,7 @@
       "gaps": "未逐份改写历史报告；历史小节是否保留原样属于文档政策，但单独摘录会误导。docs/evidence/common-hardware-2026-10-22/rerun/README.md 的「不合并 PR #5」是当时范围声明，不计为状态错误。",
       "next_action": "更新 common-hardware 证据 README 为「PR #5 已合并（经 #7），无 tag/release」；eda README 改为工具改动已随 main 合入；handoff 历史小节加「已合并」标记。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "GIT-14",
@@ -2637,7 +2637,7 @@
       "gaps": "thermal 的等价评审只能从 docs/merge-review.md 文字记录推断，无法从 PR/CI 复核；round3 内容经 PR #9 的 integrate 分支进入 main。",
       "next_action": "发布说明不要声称所有合入都有独立 PR 评审；如需完整审计链，补充 thermal/round3 与其集成 PR（#1/#9）的对应记录。",
       "needs_verification": false,
-      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/hardware-design-skill，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
+      "scope": "Git/PR/CI 真实状态盘点（2026-10-22 第 5 轮，仓库 zsx3896926/EasyCirq，worktree C:/Users/jlc/work/hds-round5；只读核对，未改动任何分支）"
     },
     {
       "id": "handoff-pr-merge",
@@ -3917,7 +3917,7 @@
         "git ls-files | grep -Ei '\\.(csv|xlsx|zip|gbr|drl)$|bom|cpl|manifest' 只得到 design-hardware/assets/decisions/variant-bom.template.json、design-hardware/scripts/variant_bom.py、design-hardware/references/failures/f19-bom-cpl-dnp.md；仓库无实际 BOM/CPL/Gerber/manifest 数据文件。",
         "docs/evidence/f1-2026-10-22/README.md:83 明确“未做PCB、BOM/坐标、DFM、打样/SMT”；docs/evidence/f1-rev3-layout-2026-10-22/README.md:108 明确“未做…PCB、制造资料”。",
         "docs/task-ledger-round3.md:221-222,235：F-01 无 BOM 生成能力；F-02 草稿 11 行/16 位号；F-15 仓库无 BOM/CPL/Gerber/manifest 数据文件。",
-        "历史 rev1 导出 C:/Users/jlc/work/hw-eda-round3/f1-bom.csv 与 relayout 副本 C:/Users/jlc/work/hardware-design-skill-r3/docs/evidence/f1-relayout-2026-10-22/bom.csv 的 SHA256 均为 b98e6c3a09400a1e2a5d1a938b71fd8665b8c3edbc64a2d5416b194c709fd302，内容仍是 C101/C103 的 16 位号；f1-bom-draft.csv 为 11 行/16 位号。"
+        "历史 rev1 导出 C:/Users/jlc/work/hw-eda-round3/f1-bom.csv 与 relayout 副本 C:/Users/jlc/work/EasyCirq-r3/docs/evidence/f1-relayout-2026-10-22/bom.csv 的 SHA256 均为 b98e6c3a09400a1e2a5d1a938b71fd8665b8c3edbc64a2d5416b194c709fd302，内容仍是 C101/C103 的 16 位号；f1-bom-draft.csv 为 11 行/16 位号。"
       ],
       "gaps": "当前 21 器件 BOM 未生成（NOT RUN）；无 DNP/变体/替代/自备料字段；无同版 BOM/PCB/坐标绑定；旧 BOM 未标“作废”。",
       "next_action": "从 rev3 保存版本导出或生成 21 位号（13 个料号行）BOM，保留原始版本与 SHA256，旧 BOM 标“作废”，动态字段写“待查”。",
@@ -4077,15 +4077,15 @@
     {
       "id": "ENV-0",
       "title": "client-env：宿主/版本/EDA 可识别，但用户级安装、实际注入与工程可写性未证明",
-      "claim": "`docs/evidence/client-env-2026-10-22/doctor-env.json` / `.txt` 于 `C:/Users/jlc/work/hardware-design-skill-r3` 运行，status=incomplete，原因 `design-hardware is not installed in any detected skill directory`。检测到 Claude Code 2.1.303、Codex CLI 0.163.0-alpha.10.2、WorkBuddy（file present，缓存版本 5.8.3-wb...）、嘉立创EDA专业版 4.1.78.34f5b8d9；EDA `connected:true`、`version_match:true`、`project_readable:\"not_probed\"`、`easyeda` 命令不存在。`project-install-check.txt` 在临时项目 `.claude/skills` 下得到 status=ok / Claude Code skill installed，但只是项目级格式检查，不是实际注入。当前磁盘：`~/.claude/skills` 与 `~/.agents/skills` 不存在；`~/.codex/skills` 只有 `.system`；`~/.workbuddy/skills` 只有 migration JSON；用户级均未安装 design-hardware。",
+      "claim": "`docs/evidence/client-env-2026-10-22/doctor-env.json` / `.txt` 于 `C:/Users/jlc/work/EasyCirq-r3` 运行，status=incomplete，原因 `design-hardware is not installed in any detected skill directory`。检测到 Claude Code 2.1.303、Codex CLI 0.163.0-alpha.10.2、WorkBuddy（file present，缓存版本 5.8.3-wb...）、嘉立创EDA专业版 4.1.78.34f5b8d9；EDA `connected:true`、`version_match:true`、`project_readable:\"not_probed\"`、`easyeda` 命令不存在。`project-install-check.txt` 在临时项目 `.claude/skills` 下得到 status=ok / Claude Code skill installed，但只是项目级格式检查，不是实际注入。当前磁盘：`~/.claude/skills` 与 `~/.agents/skills` 不存在；`~/.codex/skills` 只有 `.system`；`~/.workbuddy/skills` 只有 migration JSON；用户级均未安装 design-hardware。",
       "status": "PARTIAL",
       "evidence": [
-        "`docs/evidence/client-env-2026-10-22/doctor-env.txt`：status incomplete；cwd `C:/Users/jlc/work/hardware-design-skill-r3`；Claude Code 2.1.303；Codex 0.163.0-alpha.10.2；WorkBuddy file present；EDA connected True / version match True；easyeda not found",
+        "`docs/evidence/client-env-2026-10-22/doctor-env.txt`：status incomplete；cwd `C:/Users/jlc/work/EasyCirq-r3`；Claude Code 2.1.303；Codex 0.163.0-alpha.10.2；WorkBuddy file present；EDA connected True / version match True；easyeda not found",
         "`docs/evidence/client-env-2026-10-22/doctor-env.json`：eda.bridge_version=4.1.78.34f5b8d9；project_readable=not_probed；三个客户端 installed=false；sha256=59ae19a571df80978af119fea0a67e931e63010816f62b67c21c37eb72791c50",
         "`docs/evidence/client-env-2026-10-22/project-install-check.txt`：status ok；Claude Code skill installed in temp project `.claude/skills`；EDA connected True；sha256=098f252b73ceaf3278b975530762bf82de96a236af4493ef1d189ce55e7416d4",
         "当前磁盘实测：`C:/Users/jlc/.claude/skills` 不存在；`C:/Users/jlc/.agents/skills` 不存在；`C:/Users/jlc/.codex/skills` 只有 `.system`；`C:/Users/jlc/.workbuddy/skills` 只有 3 个 migration JSON（2026-10-22 检查）"
       ],
-      "gaps": "doctor 证据来自旧 checkout `hardware-design-skill-r3`，不是当前 `hds-round5`；只证明目录/命令/版本存在，不证明用户级安装或新会话注入；`project_writable=not_tested`；WorkBuddy GUI 导入/刷新未验证；Codex Desktop 与 CLI 是否共享注入未验证。",
+      "gaps": "doctor 证据来自旧 checkout `EasyCirq-r3`，不是当前 `hds-round5`；只证明目录/命令/版本存在，不证明用户级安装或新会话注入；`project_writable=not_tested`；WorkBuddy GUI 导入/刷新未验证；Codex Desktop 与 CLI 是否共享注入未验证。",
       "next_action": "在目标客户端选择用户级或项目级其中一处安装（避免重复技能），新开会话确认实际加载；用当前 HEAD 重跑 `doctor_env.py --summary` 并保存 cwd/HEAD/日期；工程可写性用授权副本 `apply --dry-run` + 一次可回滚 `apply` 验证。",
       "needs_verification": true,
       "scope": "三客户端与新手指引证据"
@@ -4727,16 +4727,16 @@
       "corrected_status": "DONE",
       "reason": "逐条复现了声称证据，且全部对应当前线上状态与当前 HEAD（本地 origin/main = 7a6edb7b5a44e8e87a578f18402a85410642cc1f = GitHub commits/main，2026-10-22T13:03:04Z），未被后续提交取代。第一，classic branch protection API 返回 404 {\"message\":\"Branch not protected\"}，branches/main 返回 protected:false；repo rulesets 与 rules/branches/main 均为空，GraphQL branchProtectionRules.totalCount=0、rulesets.totalCount=0，说明不仅无经典分支保护，也没有任何 required status checks（用户自有仓库，无组织级 ruleset；.github/workflows/validate.yml 虽存在但未被设为必需检查）。第二，git log --first-parent --no-merges d8ade34..origin/main 恰好 6 个提交：7a6edb7、0fe5cf8、a2fc97a、f0068c8、4bac85c、3a339f1；六者均为单父提交、均包含在 origin/main。commits/{sha}/pulls 对全部六个 SHA 返回空数组；用已知 PR 提交做对照（313929e -> PR #9、28a608f -> PR #8）证明该端点有效，空结果不是权限或查询失效。gh pr list --state all 的 #1–#9（#4 为 CLOSED）中没有任何 PR 的 headRefOid 或 mergeCommit 命中这六个 SHA，排除 rebase/squash 合并未关联的可能。events API 还直接记录了 refs/heads/main 的两次直接 PushEvent（before=d8ade34 -> after=3a339f1；before=3a339f1 -> after=4bac85c），独立佐证直接推送。第三，docs/round3/coverage-review.md:35-36 的历史记录（origin/main=0fe5cf8，dc62f20..origin/main 为 0fe5cf8/a2fc97a/f0068c8 三个 docs-only 提交）与当前 git 历史一致，无矛盾。结论：声明中的两项事实（无保护/无必需检查；四个具名提交及另外两个提交均为直接提交、无关联 PR）均有当前可复核的真实 API 与 git 证据，且比声称范围更完整；该条是事实性盘点，原 PARTIAL 低估了证据完整度，应按声明文本判为 DONE。需要说明的边界：当前仓库确实未启用 main 保护（protected:false），本结论只证明\"无保护、基线为直接提交\"这一事实成立；若任务书另有\"必须启用保护/强制 PR\"的整改验收项，那属于另一条验收要求，不能反向把本事实声明降为 PARTIAL。复核过程只读，工作区保持干净（git status --porcelain 无输出）。",
       "evidence_checked": [
-        "gh api repos/zsx3896926/hardware-design-skill/branches/main/protection -> HTTP 404 {\"message\":\"Branch not protected\"}（exit 1）",
-        "gh api repos/zsx3896926/hardware-design-skill/branches/main -> {\"commit\":\"7a6edb7b5a44e8e87a578f18402a85410642cc1f\",\"name\":\"main\",\"protected\":false}",
-        "gh api repos/zsx3896926/hardware-design-skill/rulesets -> []；gh api .../rules/branches/main -> []",
+        "gh api repos/zsx3896926/EasyCirq/branches/main/protection -> HTTP 404 {\"message\":\"Branch not protected\"}（exit 1）",
+        "gh api repos/zsx3896926/EasyCirq/branches/main -> {\"commit\":\"7a6edb7b5a44e8e87a578f18402a85410642cc1f\",\"name\":\"main\",\"protected\":false}",
+        "gh api repos/zsx3896926/EasyCirq/rulesets -> []；gh api .../rules/branches/main -> []",
         "gh api graphql -> defaultBranchRef.target.oid=7a6edb7b5a44e8e87a578f18402a85410642cc1f，branchProtectionRules.totalCount=0，rulesets.totalCount=0",
-        "gh api repos/zsx3896926/hardware-design-skill/commits/{7a6edb7b5a44e8e87a578f18402a85410642cc1f,0fe5cf80ab0dd8196c900ed9878bad40d4f6c8b9,a2fc97a5e74dfb35a3620cb2391e9011e3d4cc6f,f0068c8e0207ae22b28749b5ef0b934798160f85,4bac85ca3ecc1257fd29841e6be8384fc12fd17c,3a339f1bb645db4d086204525fdff7c744003ff1}/pulls -> 全部 []",
-        "gh api repos/zsx3896926/hardware-design-skill/commits/313929e/pulls -> 9；commits/28a608f/pulls -> 8（端点敏感性对照）",
-        "gh pr list --repo zsx3896926/hardware-design-skill --state all --limit 50 --json number,state,headRefOid,mergeCommit -> 9 个 PR，无 headRefOid/mergeCommit 命中 7a6edb7/0fe5cf8/a2fc97a/f0068c8/4bac85c/3a339f1",
+        "gh api repos/zsx3896926/EasyCirq/commits/{7a6edb7b5a44e8e87a578f18402a85410642cc1f,0fe5cf80ab0dd8196c900ed9878bad40d4f6c8b9,a2fc97a5e74dfb35a3620cb2391e9011e3d4cc6f,f0068c8e0207ae22b28749b5ef0b934798160f85,4bac85ca3ecc1257fd29841e6be8384fc12fd17c,3a339f1bb645db4d086204525fdff7c744003ff1}/pulls -> 全部 []",
+        "gh api repos/zsx3896926/EasyCirq/commits/313929e/pulls -> 9；commits/28a608f/pulls -> 8（端点敏感性对照）",
+        "gh pr list --repo zsx3896926/EasyCirq --state all --limit 50 --json number,state,headRefOid,mergeCommit -> 9 个 PR，无 headRefOid/mergeCommit 命中 7a6edb7/0fe5cf8/a2fc97a/f0068c8/4bac85c/3a339f1",
         "git log --first-parent --no-merges --format='%h %ad %s' --date=iso d8ade34..origin/main -> 6 个：7a6edb7、0fe5cf8、a2fc97a、f0068c8、4bac85c、3a339f1",
         "git cat-file -p 六个提交 -> 均只有一个 parent；git branch -r --contains 六个提交 -> 均含 origin/HEAD -> origin/main、origin/main",
-        "gh api repos/zsx3896926/hardware-design-skill/events -> refs/heads/main PushEvent：before=d8ade34 -> after=3a339f1，before=3a339f1 -> after=4bac85c",
+        "gh api repos/zsx3896926/EasyCirq/events -> refs/heads/main PushEvent：before=d8ade34 -> after=3a339f1，before=3a339f1 -> after=4bac85c",
         "docs/round3/coverage-review.md:35-36 -> origin/main=0fe5cf80ab0dd8196c900ed9878bad40d4f6c8b9；git log --oneline dc62f20..origin/main -> 3 commits (0fe5cf8, a2fc97a, f0068c8)",
         ".github/workflows/validate.yml -> name: Validate skill，on: push/pull_request；未在任何 protection/ruleset 中登记为 required check",
         "git status --porcelain -> 无输出（复核过程只读，工作区干净）；git rev-parse HEAD -> 7a6edb7"
@@ -4748,14 +4748,14 @@
       "corrected_status": "STALE",
       "reason": "状态 STALE 的核心事实成立，但声明对 36 个文件的描述有实质偏差，需按复核结果修正。当前共享检出 HEAD=8595fe2（feat/common-hardware-coverage），与 origin 同名分支同点；该分支已随 97b1afa（parents 8595fe2、bcf889e）→39c708a（PR #7）进入 origin/main，`git rev-list --count 8595fe2..origin/main`=18；`status --porcelain=v1 -b` 仅有 36 个 `??`、无 tracked 修改，`-uall` 计数 36（15 assets + 16 references + 2 scripts + 3 tests），与声称一致。因此“共享检出停在已合并旧分支、有 36 个未跟踪决策文件”成立，STALE（分支已被 main 取代）不改。但逐文件 `git hash-object` 与 origin/main、origin/feat/engineering-decisions-round4、origin/feat/engineering-decisions-round4-pr 比较后：9 个文件与 main 字节完全相同（adc-settle.r4p3.recompute.json、change-impact-graph.r4p6.example.json、change-impact-graph.template.json、experiment-record.template.md、module-reuse-record.template.md、tolerance-budget.template.md、cases/r4-case-k01-acquisition-single-variable.md、d01-tolerance-and-worst-case.md、k01-controlled-experiment.md）；另 2 个（cases/r4-case-d01-acquisition-tolerance.md、tests/test_decisions_dk.py）与 758b166/2d70d22 字节相同。`git log --all --find-object` 证实 11 个 blob 已存在于提交，真正从未出现在任何提交的只有 25 个。故“36 个从未提交”“与 main 及旧 round4 分支均不同”“孤立未跟踪工作”不成立：它们主要是 19:37–19:38 round4 提交与 20:43 PR #6 合并之前的早期草稿，其中 9 个的内容已在 main。mtime 实测为 2026-10-22 16:55:10–18:29:33，而非 17:40–18:16；全部早于上述提交与 bcf889e（PR #6 merge，20:43:08）。“抽样 5 个均 DIFF”未给出文件清单、无法按原样复现，全量比较存在 9 个 SAME。复核期间未修改任何文件。",
       "evidence_checked": [
-        "git -C C:/Users/jlc/work/hardware-design-skill status --porcelain=v1 -b -> `## feat/common-hardware-coverage...origin/feat/common-hardware-coverage`，36 个 `??`，无 tracked 修改",
+        "git -C C:/Users/jlc/work/EasyCirq status --porcelain=v1 -b -> `## feat/common-hardware-coverage...origin/feat/common-hardware-coverage`，36 个 `??`，无 tracked 修改",
         "git -C ... status --porcelain=v1 -uall | wc -l -> 36；目录分布 15 assets + 16 references + 2 scripts + 3 tests；清单与声称的 decisions 目录、decision_record_check.py、pin_plan_check.py、test_decisions_ab/dk/hi.py 一致",
         "git -C ... rev-parse --short HEAD -> 8595fe2；git rev-list --count 8595fe2..origin/main -> 18；git merge-base --is-ancestor 8595fe2 origin/main -> YES；git branch -r --merged origin/main 包含 origin/feat/common-hardware-coverage",
         "git log -1 39c708a -> 2026-10-22 20:57:21 Merge pull request #7（parents bcf889e,97b1afa）；git log -1 97b1afa -> parents 8595fe2,bcf889e，确认旧分支已入 main",
         "git ls-tree -r --name-only origin/main design-hardware/assets/decisions | wc -l -> 25；references/decisions -> 27；工作区对应为 15 与 16",
         "逐文件 git hash-object 与 origin/main、origin/feat/engineering-decisions-round4、origin/feat/engineering-decisions-round4-pr 的 blob 比较 -> 9 个 SAME、27 个 DIFF；git log --all --find-object=<blob> -> 11 个文件命中提交（9 个 main + r4-case-d01 + test_decisions_dk），25 个 0 命中",
         "stat -c '%y %n' 36 个文件 -> 2026-10-22 16:55:10 至 18:29:33（声称 17:40–18:16 不符）；git log -1 bcf889e -> 2026-10-22 20:43:08 Merge PR #6；758b166 -> 19:38:18；2d70d22 -> 19:37:44",
-        "git worktree list -> C:/Users/jlc/work/hardware-design-skill 8595fe2 [feat/common-hardware-coverage]；git status 复核前后一致，未修改文件"
+        "git worktree list -> C:/Users/jlc/work/EasyCirq 8595fe2 [feat/common-hardware-coverage]；git status 复核前后一致，未修改文件"
       ]
     },
     {
@@ -5557,14 +5557,14 @@
       "claim_id": "ENV-0",
       "verdict": "CONFIRMED",
       "corrected_status": "PARTIAL",
-      "reason": "逐条复核后未发现可推翻之处。(1) 三个证据文件均存在于仓库当前 HEAD（7a6edb7），由 28a608f 提交且此后无改动；doctor-env.json 与 project-install-check.txt 的 sha256 与声明完全一致（59ae19a5.../098f252b...），内容与声明逐项相符。(2) 证据由真实探测生成而非 mock：doctor_env.py 通过 subprocess 实测客户端版本、文件系统实测技能目录、eda_exec.LcedaPro.doctor() 实测 EDA 桥接；证据 JSON 的模式（无 active_client、missing 消息 \"not installed in any detected skill directory\"）与声明所述运行位置 C:/Users/jlc/work/hardware-design-skill-r3 的旧版脚本（doctor_env.py:190）一致，该目录及其 SKILL.md 实测存在，声明未隐瞒来源。(3) 当前磁盘实测与声明完全一致：~/.claude/skills 与 ~/.agents/skills 不存在；~/.codex/skills 仅含 .system/；~/.workbuddy/skills 仅含 3 个 migration JSON；claude 仍为 2.1.303，lceda-pro.exe/WorkBuddy.exe 存在，easyeda 不在 PATH。(4) 声明没有把\"格式检查/API 成功\"夸大为\"功能可用\"：明确 project_readable=not_probed、工程可写性未测、project-install-check 仅项目级格式检查（evidence README 亦如此定性）；WorkBuddy 5.8.3 另有注册表/文件 ProductVersion 佐证。PARTIAL 判定准确：宿主/版本/EDA 识别有当前可复核证据，而用户级安装、实际注入与工程可写性确未证明（同日 client-invocation 证据亦确认用户级安装仍未执行）。",
+      "reason": "逐条复核后未发现可推翻之处。(1) 三个证据文件均存在于仓库当前 HEAD（7a6edb7），由 28a608f 提交且此后无改动；doctor-env.json 与 project-install-check.txt 的 sha256 与声明完全一致（59ae19a5.../098f252b...），内容与声明逐项相符。(2) 证据由真实探测生成而非 mock：doctor_env.py 通过 subprocess 实测客户端版本、文件系统实测技能目录、eda_exec.LcedaPro.doctor() 实测 EDA 桥接；证据 JSON 的模式（无 active_client、missing 消息 \"not installed in any detected skill directory\"）与声明所述运行位置 C:/Users/jlc/work/EasyCirq-r3 的旧版脚本（doctor_env.py:190）一致，该目录及其 SKILL.md 实测存在，声明未隐瞒来源。(3) 当前磁盘实测与声明完全一致：~/.claude/skills 与 ~/.agents/skills 不存在；~/.codex/skills 仅含 .system/；~/.workbuddy/skills 仅含 3 个 migration JSON；claude 仍为 2.1.303，lceda-pro.exe/WorkBuddy.exe 存在，easyeda 不在 PATH。(4) 声明没有把\"格式检查/API 成功\"夸大为\"功能可用\"：明确 project_readable=not_probed、工程可写性未测、project-install-check 仅项目级格式检查（evidence README 亦如此定性）；WorkBuddy 5.8.3 另有注册表/文件 ProductVersion 佐证。PARTIAL 判定准确：宿主/版本/EDA 识别有当前可复核证据，而用户级安装、实际注入与工程可写性确未证明（同日 client-invocation 证据亦确认用户级安装仍未执行）。",
       "evidence_checked": [
         "docs/evidence/client-env-2026-10-22/doctor-env.json（内容逐项比对 + sha256=59ae19a571df80978af119fea0a67e931e63010816f62b67c21c37eb72791c50 实测一致）",
         "docs/evidence/client-env-2026-10-22/doctor-env.txt（内容与声明一致）",
         "docs/evidence/client-env-2026-10-22/project-install-check.txt（内容比对 + sha256=098f252b73ceaf3278b975530762bf82de96a236af4493ef1d189ce55e7416d4 实测一致）",
         "docs/evidence/client-env-2026-10-22/README.md（对'格式检查而非实际注入'的定性与该文件一致）",
         "design-hardware/scripts/doctor_env.py @ HEAD（真实探测实现，非字符串断言；现行版 schema 与证据不同，证实证据产自旧版脚本）",
-        "C:/Users/jlc/work/hardware-design-skill-r3/design-hardware/scripts/doctor_env.py:190（含与证据一致的 missing 消息；r3 SKILL.md 存在）",
+        "C:/Users/jlc/work/EasyCirq-r3/design-hardware/scripts/doctor_env.py:190（含与证据一致的 missing 消息；r3 SKILL.md 存在）",
         "git log：证据目录仅 d1e5d1a/28a608f 两提交涉及，HEAD 7a6edb7 未改动；git diff HEAD -- docs/evidence/ 为空",
         "实测磁盘（2026-10-22）：~/.claude/skills、~/.agents/skills 不存在；~/.codex/skills 仅 .system/；~/.workbuddy/skills 仅 3 个 migration JSON",
         "实测命令：claude.CMD --version=2.1.303；lceda-pro.exe、WorkBuddy.exe 存在；where.exe easyeda 未找到",

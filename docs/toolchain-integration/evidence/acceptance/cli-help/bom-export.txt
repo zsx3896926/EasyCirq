@@ -8,12 +8,12 @@ binary) and best-effort: if it fails the exported file is left un-enriched and
 a warning is printed, but the export itself still succeeds.
 
 Usage:
-  zhigou bom export [flags]
+  easycirq bom export [flags]
 
 Examples:
-  zhigou bom export --type csv
-  zhigou bom export --type csv --enrich=false
-  zhigou bom export --type xlsx --columns '["designator","value","footprint","lcsc"]'
+  easycirq bom export --type csv
+  easycirq bom export --type csv --enrich=false
+  easycirq bom export --type xlsx --columns '["designator","value","footprint","lcsc"]'
 
 Flags:
       --columns string    JSON array of column names, e.g. '["designator","value"]'

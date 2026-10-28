@@ -8,11 +8,11 @@
 
 | 项 | 现场值 |
 |---|---|
-| 仓库 | `C:/Users/jlc/work/hardware-design-skill`（主工作树） |
+| 仓库 | `C:/Users/jlc/work/EasyCirq`（主工作树） |
 | 本轮 worktree | `C:/Users/jlc/work/hds-feedback-r12` |
 | 分支 | `feat/feedback-loop-round12` |
 | 基线 HEAD | `82474b0`（PR #24 `feat/offline-toolchain-round11` 头部） |
-| 远端 | `https://github.com/zsx3896926/hardware-design-skill` |
+| 远端 | `https://github.com/zsx3896926/EasyCirq` |
 | 其他未合并 PR | #24（离线证据/门禁）、#23（gate check 角色） |
 | Skill 版本 | `0.9.3`（`design-hardware/.version`） |
 | 已安装客户端 | 仍 0.9.2（本轮不替换用户安装版、不发 Release） |

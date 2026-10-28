@@ -1,12 +1,12 @@
 {
-  "schema": "zhigou-restore-drill/v1",
+  "schema": "easycirq-restore-drill/v1",
   "archive": {
-    "path": ".zhigou/artifacts/zhigou-dual-button-led-board.epro2",
+    "path": ".easycirq/artifacts/easycirq-dual-button-led-board.epro2",
     "bytes": 46838,
     "sha256": "7e76767a4567411f64a7b6d73888bd7d65122bcd2aec665409e2a320068eb9b7"
   },
   "restoreProject": {
-    "name": "zhigou-dual-button-led-restore-20261027",
+    "name": "easycirq-dual-button-led-restore-20261027",
     "uuid": "4f9db8f9cdd743fc9a197589baabf21a",
     "opened": true
   },

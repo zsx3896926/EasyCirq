@@ -30,7 +30,7 @@ Integrated EDA toolchain (智构自有执行层, from v0.2.0-integrated):
 - connector/src/beautify/* embeds Easy_EDA_PCB_Beautify (Apache-2.0); its license
   text is retained at connector/src/beautify/LICENSE and its attribution ships
   inside the packaged connector (connector/NOTICE).
-- Zhigou-specific additions (zhigou doctor / capabilities / connector commands,
+- EasyCirq-specific additions (easycirq doctor / capabilities / connector commands,
   protocol schemas, distribution integration, docs/toolchain-integration/) are
   Apache-2.0, like the rest of the project-owned content.
 - Source anchors: third_party/easyeda-agent/UPSTREAM.json (per-file SHA-256 of the

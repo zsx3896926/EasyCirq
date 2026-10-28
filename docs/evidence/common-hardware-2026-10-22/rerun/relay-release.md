@@ -2,7 +2,7 @@
 
 > 任务：12 V 继电器线圈 `R=400 Ω`、`L=0.5 H`，用 1N4148 仅续流，继电器机械释放时间 max 5 ms，系统要求 5 ms 内释放。求线圈电流到零时间、系统总释放时间，判断 5 ms 目标是否可达；再算二极管 + 24 V 稳压管的线圈时间与系统总时间。
 >
-> 复核对象：`C:\Users\jlc\work\hardware-design-skill`，固定提交 `4c9db61`（`fix(common-hardware): correct five audited engineering conclusions`）。本次没有修改仓库文件。
+> 复核对象：`C:\Users\jlc\work\EasyCirq`，固定提交 `4c9db61`（`fix(common-hardware): correct five audited engineering conclusions`）。本次没有修改仓库文件。
 >
 > 快照完整性说明：运行期间仓库 HEAD 因其他会话推进到 `662a7ab`（其间新增 `d97b6f3`、`662a7ab`）。已用 `git diff 4c9db61..HEAD` 核对：继电器相关文件（`d03-relay.md`、应用 09/06、E1、F14、`docs/common-hardware-report.md`、`docs/common-hardware-gap-analysis.md`）无差异；`k-drive.md` 仅风扇 tach 一行变化，继电器 K3 段落未变。因此本文引用的继电器内容与 `4c9db61` 一致。
 >
@@ -24,36 +24,36 @@
 
 ### 1.1 仓库文件（快照 4c9db61）
 
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\common-hardware\k-drive.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\common-hardware\k-drive.md`
   - K3 继电器 §必查参数（约 L220）：G5LE-1 动作 10 ms max、释放 5 ms max；
   - K3 §参数与算例（L228–232）：`L=0.5 H`、`R=400 Ω`、`I0=30 mA`、`V_F=0.7 V`，`τ=1.25 ms`，仅二极管 `3.62 ms`，二极管+24 V 稳压管 `0.50 ms`；
   - K3 §验证（L256）：“释放时间=线圈衰减+机械释放”；
   - K3 §来源与证据（L274、L814，CHW-S200）；
   - K3 §需要同步修正（L836–839，第 1–5 条与继电器相关项）。
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\design-cards\drive\d03-relay.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\design-cards\drive\d03-relay.md`
   - §4 第 2 步（L109）：RL 解公式与 `V_rev` 定义；
   - §5 完整算例（L132–149）：给定条件、仅二极管、二极管+24 V 稳压管、`V_DS` 与稳压管功率；
   - §5 候选选择/结论（L165–174）；
   - §12 来源（L267–269，DRV-S04/DRV-S10）。
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\engineering-deepdives\topics\e1-inductive-load-energy-path.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\engineering-deepdives\topics\e1-inductive-load-energy-path.md`
   - §2.2（L95–111）：`L·ΔI/V` 线性式为什么在仅二极管时严重高估，RL 解与“到 zero / 到 must-release”的区别；
   - §5.1（L260–271）：钳位方案表与“释放不是电流到零”；
   - §6.1（L299–351）：12 V/100 mA 构造算例的完整代入。
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\failures\f14-relay-flyback.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\failures\f14-relay-flyback.md`
   - L46：仍建议用 `Δt ≈ L × ΔI / V`（忽略线圈电阻）比较钳位方式（本次发现的残留不一致，见 §8.2）。
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\common-hardware\applications\09-timer-control.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\common-hardware\applications\09-timer-control.md`
   - L81：同一 0.5 H/400 Ω 算例，`3.62 ms`、`0.50 ms`、加机械 5 ms 后 `8.6 ms`/`5.5 ms`。
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\common-hardware\applications\06-water-level-alarm.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\common-hardware\applications\06-water-level-alarm.md`
   - L100：5 V/70 Ω、`L=0.5 H` 的释放时间算例，同样采用“线圈衰减 + 机械 5 ms”口径。
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\source-register.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\source-register.md`
   - L301：CHW-S200，Omron G5LE，Cat. No. K100-E1-08，4 页，注明“线圈电阻/must-operate 未在本 4 页摘要中给出”。
-- `C:\Users\jlc\work\hardware-design-skill\design-hardware\references\common-hardware\README.md`
+- `C:\Users\jlc\work\EasyCirq\design-hardware\references\common-hardware\README.md`
   - L11：证据等级定义（E1 本次核对原厂资料；E2 通用方法/具体值待核；E3 离线分析/推断）。
-- `C:\Users\jlc\work\hardware-design-skill\docs\common-hardware-report.md`
+- `C:\Users\jlc\work\EasyCirq\docs\common-hardware-report.md`
   - L80：旧结论“D03 仅二极管 3.62 ms（满足 5 ms，旧结论‘淘汰’不成立）”（未同步，见 §8.2）。
-- `C:\Users\jlc\work\hardware-design-skill\docs\common-hardware-gap-analysis.md`
+- `C:\Users\jlc\work\EasyCirq\docs\common-hardware-gap-analysis.md`
   - L465–466：C13/C14，历史缺口记录“仅二极管 21.4 ms 错误；到零约 3.6 ms；按 must-release 重算”。
-- `C:\Users\jlc\work\hardware-design-skill\docs\evidence\common-hardware-2026-10-22\audit\k-drive.md`
+- `C:\Users\jlc\work\EasyCirq\docs\evidence\common-hardware-2026-10-22\audit\k-drive.md`
   - L164–165、L521–522：审计保留的原始错误（21.4 ms、0.607 ms）与 RL 修正说明。
 
 ### 1.2 原厂资料（本次下载并实际读取）

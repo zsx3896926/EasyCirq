@@ -484,7 +484,7 @@
   "total": 16
  },
  "limits": [
-  "simulated host only; real zhigou calls are 0",
+  "simulated host only; real easycirq calls are 0",
   "mock save/reopen is not host persistence evidence",
   "ERC/DRC values are canned and are not real DRC"
  ]

@@ -1,4 +1,4 @@
-# 智构 · EasyCirq G0–G6 门禁复核：`zhigou-integrated-dual-button-led-20261027`
+# 智构 · EasyCirq G0–G6 门禁复核：`easycirq-integrated-dual-button-led-20261027`
 
 > 按 `easycirq` 1.0.2 的 [阶段门禁](../references/design-gates.md) 执行，离线复核工具
 > `scripts/gate_check.py`（只读证据，不连 daemon、不写工程）。
@@ -44,7 +44,7 @@
 | G3 布局 | `pcb-layout-lint.json`（score 96，crossings 1，0 overlap）、`pcb-dump.json`(9 件)、outline 实测 | layout-lint 晚于最终 dump、组件数一致 |
 | G4 电源地 | `pcb-pours.json`（GND 双层 count=2）、`pcb-vias.json`(0)、`pcb-check.json` | **PASS_WITH_WAIVER**：`power-not-poured` 2 条（+5V/VIN 走线未铺铜），理由：9–14 mA 由 10 mil 走线承载 |
 | G5 布线 | `pcb-drc-final.json`(passed 0)、6 条 `net-path-*.json`(connected=true)、`pcb-reopen-readback.json` | 7 个关键网均有证明；GND 由双层铺铜（net-path 不覆盖 pours）+ DRC 0 |
-| G6 制造 | `BOM.csv` + `BOM-review.md`、`zhigou-board.epro2`(sha256+恢复演练)、`manufacturing-profile.md`、`test-plan.md`、两份清单 | **BLOCKED**，剩余 4 项见 §4 |
+| G6 制造 | `BOM.csv` + `BOM-review.md`、`easycirq-board.epro2`(sha256+恢复演练)、`manufacturing-profile.md`、`test-plan.md`、两份清单 | **BLOCKED**，剩余 4 项见 §4 |
 
 ## 4. G6：本轮已自动补齐 vs 仍阻塞
 
@@ -54,7 +54,7 @@
 |---|---|---|
 | 生产档案（层叠/铜厚/板厚/表面处理/手焊/拼板/规则落实） | `manufacturing-profile.md`，`manufacturing.profile: verified` | pass（条件快照，下单前需重查板厂规则） |
 | **实物测试计划** | `test-plan.md`：V1 EDA 检查已 PASS；V2–V11 上电/通断/极性/反接/短路/欠压/丝印，全部 `NOT RUN`，含判定数字与仪器要求；`manufacturing.test_plan: verified` | pass（计划存在；实物未执行） |
-| **BOM 身份核对** | `BOM-review.md`：6 行逐行用 `zhigou lib search` 核对库元数据。R1/R2（`C2889365`，VO 翔胜，0402 220Ω）厂家+MPN 齐全可直接订货；**5 行为系统库内部编号**（`C9900xxx`/`C28105`），厂家/MPN 需替换或商城确认 | 已核对；`bom_manufacturer` 仍 warn（5 行缺厂家），不阻塞 |
+| **BOM 身份核对** | `BOM-review.md`：6 行逐行用 `easycirq lib search` 核对库元数据。R1/R2（`C2889365`，VO 翔胜，0402 220Ω）厂家+MPN 齐全可直接订货；**5 行为系统库内部编号**（`C9900xxx`/`C28105`），厂家/MPN 需替换或商城确认 | 已核对；`bom_manufacturer` 仍 warn（5 行缺厂家），不阻塞 |
 | 制造资料导出步骤 | `manufacturing-export-checklist.md`（Gerber/钻孔/CPL 的 GUI 步骤、命名、校验与 state 登记方法） | 待执行 |
 | 物料核对清单 | `sourcing-checklist.md`（6 行 C 号、需核字段、商城入口、查询时间留空） | 待人工/联网 |
 
@@ -80,7 +80,7 @@
 
 ```powershell
 python "$env:USERPROFILE\.agents\skills\easycirq\scripts\gate_check.py" `
-  --project zhigou-integrated-dual-button-led-20261027 `
+  --project easycirq-integrated-dual-button-led-20261027 `
   --evidence-dir docs/toolchain-integration/evidence/gates `
   --design-state docs/toolchain-integration/evidence/gates/design-state.json `
   --waiver "G4:pcb_check_power:+5V/VIN 各 2-4 pad，9-14 mA 级电流由 10 mil 走线承载，DFM width 提示为推荐值；剩余风险已记录在 risks" `
@@ -105,7 +105,7 @@ python "$env:USERPROFILE\.agents\skills\easycirq\scripts\gate_check.py" `
 | 交付级别 | **PCB 候选（PCB DRC 0）** —— 未升格、未宣称可打样 |
 | 剩余阻塞 | `gerber_files`、`drill_files`、`cpl_files`、`sourcing_check`（4 项，全部需 GUI 或实时联网） |
 | 已就绪待执行 | `manufacturing-export-checklist.md`（导出步骤）、`sourcing-checklist.md`（物料核对）、`test-plan.md`（实物测试，全部 NOT RUN） |
-| 证据索引 | `evidence/gates/`：`design-state.json`、`gate-report.json`、`BOM.csv`+`BOM-review.md`、`zhigou-board.epro2`、6 条 `net-path-*.json`、最终板 dump/DRC/lint/pours/vias、图签与分区框证据 |
+| 证据索引 | `evidence/gates/`：`design-state.json`、`gate-report.json`、`BOM.csv`+`BOM-review.md`、`easycirq-board.epro2`、6 条 `net-path-*.json`、最终板 dump/DRC/lint/pours/vias、图签与分区框证据 |
 
 **解锁后如何收尾**：按 `manufacturing-export-checklist.md` 导出 Gerber/钻孔/CPL 并登记
 `design-state.manufacturing.artifacts`，按 `sourcing-checklist.md` 核对物料并把时间写入

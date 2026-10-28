@@ -1,8 +1,8 @@
 {
-  "schema": "zhigou-capabilities/v1",
+  "schema": "easycirq-capabilities/v1",
   "generatedAt": "2026-10-27T14:25:23Z",
   "protocol": {
-    "service": "zhigou-agent",
+    "service": "easycirq-agent",
     "wireVersion": "v1",
     "handshake": "daemon→connector {type:handshake,service,version}",
     "envelopeVersion": "v1"

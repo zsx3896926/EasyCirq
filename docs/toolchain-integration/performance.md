@@ -56,13 +56,13 @@
 - B1 与 B2 不得合并成"平均速度"；两者验收范围不同（B1 含全板读取与导出，B2 只改一件）。
 - 不得把"离线 JSON 处理耗时"与"EDA 内真实读写"相加后声称是 EDA 性能。
 
-## 4. 记录方式（`tools/zhigou_acceptance.py` 已实现）
+## 4. 记录方式（`tools/easycirq_acceptance.py` 已实现）
 
 脚本每执行一条命令写入三份证据：`*.cmd`（argv/cwd）、`*.stdout.txt`/`*.stderr.txt`、`*.meta.json`（退出码、`durationMs`、sha256、`timedOut`）。整轮汇总在 `summary.json`：
 
 ```json
 {
-  "schema": "zhigou-acceptance/v1",
+  "schema": "easycirq-acceptance/v1",
   "stage": "m4",
   "timing": {"totalMs": 0, "cliCalls": 0, "cliMs": 0, "overheadMs": 0},
   "steps": [{"id": "m4-move", "durationMs": 0, "artifacts": [{"path": "...", "size": 0, "sha256": "..."}]}]
@@ -86,8 +86,8 @@ print("calls:", s["timing"]["cliCalls"], "cli:", s["timing"]["cliMs"], "overhead
 
 | 输入 | 位置 |
 | --- | --- |
-| runtime 二进制 sha256 | `zhigou doctor` → `runtime.sha256`（`evidence/acceptance/preflight/doctor.json`） |
-| 连接器 `.eext` sha256 | `zhigou connector path` → `sha256`（`preflight/connector-path.json`） |
+| runtime 二进制 sha256 | `easycirq doctor` → `runtime.sha256`（`evidence/acceptance/preflight/doctor.json`） |
+| 连接器 `.eext` sha256 | `easycirq connector path` → `sha256`（`preflight/connector-path.json`） |
 | 工程归档 sha256 | `steps[]` 中 `m3-archive`/`m4-archive` 的 `artifacts[].sha256`（导出后即是本轮基线） |
 | 基线/结束 dump sha256 | `m4-pcb-baseline` / `m4-pcb-after` 的 `artifacts[].sha256` |
 | EDA 宿主版本 | `preflight/doctor.json` → `host.*`（连接后）/`health.json` |
@@ -103,7 +103,7 @@ print("calls:", s["timing"]["cliCalls"], "cli:", s["timing"]["cliMs"], "overhead
 | 导出产物大小/哈希 | **unknown** | 无产物，不估算 |
 | 脚本自身开销（preflight，6 次只读调用） | 已测（仅本机、仅诊断） | 见下，**不得当作 EDA 性能** |
 
-已测到的**脚本/harness 开销**（2026-10-27，`zhigou 0.2.0-dev`，无连接器）：
+已测到的**脚本/harness 开销**（2026-10-27，`easycirq 0.2.0-dev`，无连接器）：
 
 | 轮次 | 命令数 | `cliMs` | `totalMs` | `overheadMs` |
 | --- | ---: | ---: | ---: | ---: |
@@ -116,11 +116,11 @@ print("calls:", s["timing"]["cliCalls"], "cli:", s["timing"]["cliMs"], "overhead
 
 ```powershell
 # B1：在全新导入的工程副本上跑整板链（3 轮）
-python tools/zhigou_acceptance.py --stage all --project-dir <新副本工作区> `
+python tools/easycirq_acceptance.py --stage all --project-dir <新副本工作区> `
   --evidence-dir docs/toolchain-integration/evidence/acceptance/perf-b1 --json
 
 # B2：同一副本上的局部修改（3 轮；--m4-device 必须固定）
-python tools/zhigou_acceptance.py --stage m4 --m4-device R1 --project-dir <同一副本工作区> `
+python tools/easycirq_acceptance.py --stage m4 --m4-device R1 --project-dir <同一副本工作区> `
   --evidence-dir docs/toolchain-integration/evidence/acceptance/perf-b2 --json
 ```
 
