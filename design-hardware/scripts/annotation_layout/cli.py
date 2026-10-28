@@ -241,6 +241,60 @@ def command_convert(args: argparse.Namespace) -> int:
     return 0
 
 
+def command_probe_check(args: argparse.Namespace) -> int:
+    from .probe_record import (
+        PROBE_SCHEMA,
+        ProbeRecordError,
+        read_and_validate,
+        write_host_block,
+    )
+    record = Path(args.record)
+    out = Path(args.out) if args.out else None
+    if out is not None and not _ensure_distinct(record, out):
+        return 2
+    try:
+        result = read_and_validate(record)
+    except (InputError, OSError, ProbeRecordError) as exc:
+        reasons = getattr(exc, "reasons", None) or [str(exc)]
+        payload = {
+            "status": "invalid",
+            "schema": PROBE_SCHEMA,
+            "tool": TOOL_NAME,
+            "tool_version": TOOL_VERSION,
+            "errors": list(reasons),
+            "warnings": [],
+            "host_block": None,
+            "host_execution": "not_executed",
+        }
+        if out is not None:
+            try:
+                from .io_util import write_json_atomic
+                write_json_atomic(out, {"status": "invalid", "errors": list(reasons)})
+            except OSError as write_exc:
+                _diag(f"cannot write invalid probe output {out}: {write_exc}")
+        _emit(payload)
+        for reason in reasons:
+            _diag(str(reason))
+        return 2
+    payload = {
+        "status": result["status"],
+        "schema": PROBE_SCHEMA,
+        "tool": TOOL_NAME,
+        "tool_version": TOOL_VERSION,
+        **{key: result[key] for key in (
+            "errors", "warnings", "counts", "capabilities",
+            "capability_source", "host_block", "record_sha256")},
+        "host_execution": "not_executed",
+    }
+    if out is not None:
+        try:
+            write_host_block(result, out)
+        except OSError as exc:
+            return _fail(f"cannot write host block {out}: {exc}")
+    _emit(payload)
+    return 0 if result["status"] == "valid" else 2
+
+
 def command_benchmark(args: argparse.Namespace) -> int:
     from .benchmark import run_benchmark
     from .io_util import write_json_atomic, write_text_atomic
@@ -332,6 +386,13 @@ def build_parser() -> argparse.ArgumentParser:
     convert.add_argument("--copy-sources", action="store_true")
     convert.add_argument("--quiet", action="store_true")
     convert.set_defaults(func=command_convert)
+
+    probe = sub.add_parser(
+        "probe-check",
+        help="validate an onsite host-probe capability record and derive the host block")
+    probe.add_argument("record", help="annotation-layout-host-probe/v1 JSON file")
+    probe.add_argument("--out", help="write the derived host block (or invalid marker)")
+    probe.set_defaults(func=command_probe_check)
 
     version = sub.add_parser("version", help="print schema/tool version")
     version.set_defaults(func=command_version)

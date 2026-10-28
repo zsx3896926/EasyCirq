@@ -46,6 +46,14 @@ FIXED_ROLES = ("zone_title", "pin_name", "pin_number", "symbol_text", "netflag",
 ALL_ROLES = ROLES + FIXED_ROLES
 
 CAPABILITIES = ("supported", "unverified", "unsupported")
+HOST_CAPABILITY_KEYS = (
+    "attribute_translate",
+    "free_text_translate",
+    "net_label_detach",
+    "attribute_rotate",
+    "attribute_align",
+    "free_text_align",
+)
 DIRECTIONS = ("right", "left", "up", "down")
 
 SEVERITY_HARD = "hard"

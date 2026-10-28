@@ -319,6 +319,7 @@ Commands:
 | `verify INPUT --plan PLAN [--out FILE] [--out-dir DIR]` | independent recheck of a plan | `plan_verified` | not verified | invalid/stale |
 | `benchmark [--suite DIR] [--repeat N] [--out DIR]` | baseline vs improved, actual CLI-equivalent entry | ok | — | invalid |
 | `convert --layout FILE [--list FILE] [--rendered FILE] [--sheet FILE] --out FILE` | frozen fixture -> v1 input | ok | — | invalid |
+| `probe-check RECORD [--out HOST_BLOCK]` | validate an onsite host-probe capability record and derive the input `host` block (read-only, no host execution) | valid record | — | invalid record/IO |
 | `version` | tool/schema version JSON | ok | — | — |
 
 Rules:
@@ -375,6 +376,7 @@ Status vocabulary: `planned_clear`, `partial`, `blocked`, `needs_geometry`,
 | `convert.py` | fixtures-bench | frozen photo-led fixture -> v1 input |
 | `benchmark.py` | fixtures-bench | same-domain baseline vs improved measurement |
 | `cli.py` / `__main__.py` | lead | CLI dispatch, IO, exit codes |
+| `probe_record.py` | lead | validate `annotation-layout-host-probe/v1` records and map them to the input host block |
 
 Public functions other modules may rely on:
 
@@ -455,3 +457,4 @@ sections above.
    `counterexample` is faster but moves more objects, so no speedup is claimed
    for it.  Only offline solver work is measured; EDA render/save/reopen/
    readback/whole-board time are **NOT RUN**.
+
