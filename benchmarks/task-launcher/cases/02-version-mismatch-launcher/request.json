@@ -7,8 +7,8 @@
   },
   "toolchain": {
     "launcher": "0.0.9",
-    "skill": "1.0.1",
-    "plugin": "0.1.0"
+    "skill": "@skill",
+    "plugin": "@plugin"
   },
   "mode": "read_only",
   "context": {

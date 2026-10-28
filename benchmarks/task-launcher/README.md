@@ -48,6 +48,12 @@ once, not once per case. The temporary tree is removed at the end.
 ## Case layout
 
 `cases/<id>/request.json` is a real `zhigou.task-launcher.start/v1` request.
+Its `toolchain` uses the placeholders `@launcher` / `@skill` / `@plugin` instead of
+hard-coded versions: the runner resolves them to the launcher/Skill/plugin
+versions of the installation under test, so a Skill version bump on `main` does
+not silently invalidate the frozen benchmark. The three deliberate
+`version-mismatch` cases keep their literal wrong version (they must still get
+`409 VERSION_MISMATCH`).
 `cases/<id>/expected.json` is declarative:
 
 ```json
@@ -163,7 +169,7 @@ only the `duration_ms` / `elapsed_ms` fields vary between runs):
   "hardware_test": "NOT RUN",
   "agent": "fake",
   "launcher_version": "0.1.0",
-  "skill_version": "1.0.1",
+  "skill_version": "1.0.2",
   "plugin_version": "0.1.0",
   "limits": {"case_timeout_s": 180.0, "launcher_start_timeout_s": 120.0, "...": "..."},
   "cases": [
@@ -172,7 +178,7 @@ only the `duration_ms` / `elapsed_ms` fields vary between runs):
       "description": "...",
       "passed": true,
       "problems": [],
-      "duration_ms": 3360,
+      "duration_ms": 3337,
       "exit_code": 0,
       "start_http_status": 202,
       "final_status": "completed",
@@ -183,7 +189,7 @@ only the `duration_ms` / `elapsed_ms` fields vary between runs):
     }
   ],
   "totals": {"passed": 12, "total": 12},
-  "elapsed_ms": 30274,
+  "elapsed_ms": 28851,
   "real_claude": {"status": "NOT RUN", "requested": false, "reason": "...", "cases": []},
   "not_run": ["real_eda", "real_claude", "hardware_test", "network_calls"],
   "not_proof": ["..."]

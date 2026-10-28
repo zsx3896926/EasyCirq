@@ -7,7 +7,7 @@
 | 项 | 取值 |
 |---|---|
 | launcher 版本 | `task_launcher.__version__ = "0.1.0"` |
-| Skill 版本 | `design-hardware/.version`（当前仓库为 `1.0.1`） |
+| Skill 版本 | `design-hardware/.version`（当前仓库为 `1.0.2`） |
 | plugin 包版本 | `PLUGIN_VERSION = "0.1.0"`，`plugin.json.skill_version` 承载 Skill 版本 |
 | 请求 schema | `zhigou.task-launcher.start/v1` |
 | 事件 schema | `zhigou.task-launcher.event/v1` |
@@ -61,7 +61,7 @@
 
   ```json
   {"event":"listening","url":"http://127.0.0.1:23121","host":"127.0.0.1","port":23121,
-   "pid":1234,"version":"0.1.0","skill_version":"1.0.1","plugin_version":"0.1.0",
+   "pid":1234,"version":"0.1.0","skill_version":"1.0.2","plugin_version":"0.1.0",
    "state_dir":"...","token_file":".../launcher.token","agent_profile":"fake",
    "agent_available":true,"max_concurrent_tasks":1,"mode":"read_only","real_eda":"NOT RUN"}
   ```
@@ -273,7 +273,7 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
   "schema": "zhigou.task-launcher.start/v1",
   "task_id": "task-20261028-001",
   "client": {"name": "easyeda-pro-stub", "version": "0.0.0"},
-  "toolchain": {"launcher": "0.1.0", "skill": "1.0.1", "plugin": "0.1.0"},
+  "toolchain": {"launcher": "0.1.0", "skill": "1.0.2", "plugin": "0.1.0"},
   "mode": "read_only",
   "context": {
     "project": {"name": "demo", "revision": "rev-A"},
@@ -556,11 +556,11 @@ POST /task/start (202)
 | 参与方 | 期望值来源 | 请求字段 | 当前仓库取值 |
 |---|---|---|---|
 | launcher | `task_launcher.__version__` | `toolchain.launcher` | `0.1.0` |
-| Skill | `<skill-dir>/.version`（默认 `design-hardware/.version`） | `toolchain.skill` | `1.0.1` |
+| Skill | `<skill-dir>/.version`（默认 `design-hardware/.version`） | `toolchain.skill` | `1.0.2` |
 | plugin | 生成的 plugin manifest `version`；`--plugin-dir` 时读预构建 manifest | `toolchain.plugin` | `0.1.0` |
 
 **版本映射**：plugin **包版本**由 launcher 拥有（`PLUGIN_VERSION = 0.1.0`）；被带入的 Skill 版本
-放在同一份 `plugin.json` 的 `skill_version` 字段（默认构建时 = Skill 的 `.version`，当前 `1.0.1`）。
+放在同一份 `plugin.json` 的 `skill_version` 字段（默认构建时 = Skill 的 `.version`，当前 `1.0.2`）。
 两者不得混用：请求里的 `toolchain.plugin` 比的是**包版本**，`skill_version` 另做一致性检查
 （§5.3 最后一行）。
 
@@ -569,7 +569,7 @@ POST /task/start (202)
 - 请求的 `toolchain` 三个字段都必填，且必须首先是合法点分版本（否则 `422 INVALID_FORMAT`）；
   语法合法但语义不一致 → `409 VERSION_MISMATCH`。
 - 比较是**字符串精确相等**，不做 semver 排序/范围匹配：只有逐字相同的版本串才通过
-  （例如 `1.0.1-rc1` 必须两侧都写 `1.0.1-rc1` 才相等；`v1.0.1` 与 `1.0.1` 不相等）。
+  （例如 `1.0.2-rc1` 必须两侧都写 `1.0.2-rc1` 才相等；`v1.0.2` 与 `1.0.2` 不相等）。
 - 每次 `start` 都重新读取本地实测值（Skill 读 `.version`，plugin 读 manifest 或取
   `PLUGIN_VERSION`），**不使用默认版本放行**。
 - 本地 Skill 版本不可读/格式非法、或预构建 plugin 缺失/损坏 → 直接拒绝（§5.3），
@@ -684,11 +684,11 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
   "started_at": "2026-10-28T02:58:24.000Z",
   "finished_at": "2026-10-28T02:58:24.400Z",
   "launcher_version": "0.1.0",
-  "skill_version": "1.0.1",
+  "skill_version": "1.0.2",
   "plugin": {
     "name": "zhigou-design-hardware",
     "version": "0.1.0",
-    "skill_version": "1.0.1",
+    "skill_version": "1.0.2",
     "dir": "<state>/tasks/task-20261028-001/plugin",
     "file_count": 622,
     "total_bytes": 13000000,
@@ -867,9 +867,11 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
 ## 10. 与 Phase 2 / A 分支的边界
 
-- 本任务**不修改** `runtime/`、`connector/`、`protocol/`，不 import A 的代码，不启动真实
-  daemon/connector；分支从 `main`（`0e391e3`）拉出，只新增 `task_launcher/`、
-  `tests/task_launcher_tests/`、`benchmarks/task-launcher/`、`docs/parallel-task-launcher/`。
+- 本任务**不修改** `runtime/`、`connector/`、`protocol/`、`distribution/`，不 import A 的代码，
+  不启动真实 daemon/connector。分支从任务书基线 `main@0e391e3` 拉出，随后 rebase 到
+  `origin/main@c54c6fc`（A 工具链已随 PR #36 合入 main）；相对 main 只新增
+  `task_launcher/`、`tests/task_launcher_tests/`、`benchmarks/task-launcher/`、
+  `docs/parallel-task-launcher/`，`git diff --name-status origin/main...HEAD` 全部为 `A`。
 - 本契约的 API 命名与 A 既有 wire 概念（handshake / request / response / 错误码）对齐，
   目标是 Phase 2 直接复用而不是重写：connector 菜单把 `task.start` 发给本机 launcher
   （或先给 daemon 再转发）；launcher 逻辑后续可迁入 `runtime/`；版本握手可统一到 daemon 的

@@ -18,28 +18,25 @@ from __future__ import annotations
 
 import json
 import os
+import shutil
 import socket
 import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
-from .support import ROOT, LauncherTestCase, base_request, write_request
+from .support import (
+    ROOT,
+    LauncherTestCase,
+    resolve_frozen_case_request,
+)
 
 BENCHMARK_CASES = ROOT / "benchmarks" / "task-launcher" / "cases"
 CASE_SCHEMA = "zhigou.task-launcher.benchmark-case/v1"
 START_SCHEMA = "zhigou.task-launcher.start/v1"
 RESULT_SCHEMA = "zhigou.task-launcher.result/v1"
 STUB_SCHEMA = "zhigou.task-launcher.stub-result/v1"
-
-
-def frozen_case_request(case_id: str) -> Path:
-    """Path to a frozen benchmark case request (the same file run_benchmark uses)."""
-
-    path = BENCHMARK_CASES / case_id / "request.json"
-    if not path.is_file():  # pragma: no cover - benchmark cases are frozen inputs
-        raise unittest.SkipTest(f"frozen benchmark case is missing: {path}")
-    return path
 
 
 def stub_environment() -> dict:
@@ -94,6 +91,13 @@ def run_stub(
 
 class StubConnectorTests(LauncherTestCase):
     # -- helpers -----------------------------------------------------------
+    def case_request(self, case_id: str) -> Path:
+        """Resolved copy of a frozen case request (toolchain placeholders filled)."""
+
+        target = Path(tempfile.mkdtemp(prefix="zhigou-stub-case-"))
+        self.addCleanup(shutil.rmtree, target, True)
+        return resolve_frozen_case_request(case_id, target)
+
     def parse_single_json(self, completed: subprocess.CompletedProcess) -> dict:
         """Assert that stdout is exactly one JSON document and return it."""
 
@@ -113,7 +117,7 @@ class StubConnectorTests(LauncherTestCase):
     # -- happy path --------------------------------------------------------
     def test_happy_path_from_frozen_case_completes_and_replays_all_events(self) -> None:
         launcher = self.make_launcher(fake_scenario="stream")
-        completed = run_stub(launcher.base_url, frozen_case_request("01-happy-read-only"), token_file=launcher.token_file)
+        completed = run_stub(launcher.base_url, self.case_request("01-happy-read-only"), token_file=launcher.token_file)
 
         self.assertEqual(completed.returncode, 0, f"stderr:\n{completed.stderr}")
         summary = self.parse_single_json(completed)
@@ -145,7 +149,7 @@ class StubConnectorTests(LauncherTestCase):
     # -- task failure ------------------------------------------------------
     def test_agent_failure_exits_1_with_failed_status(self) -> None:
         launcher = self.make_launcher(fake_scenario="fail")
-        completed = run_stub(launcher.base_url, frozen_case_request("07-agent-failure"), token_file=launcher.token_file)
+        completed = run_stub(launcher.base_url, self.case_request("07-agent-failure"), token_file=launcher.token_file)
 
         self.assertEqual(completed.returncode, 1, f"stderr:\n{completed.stderr}")
         summary = self.parse_single_json(completed)
@@ -161,7 +165,7 @@ class StubConnectorTests(LauncherTestCase):
         launcher = self.make_launcher(fake_scenario="slow")
         completed = run_stub(
             launcher.base_url,
-            frozen_case_request("09-cancel-mid-run"),
+            self.case_request("09-cancel-mid-run"),
             "--cancel-after-events",
             "1",
             token_file=launcher.token_file,
@@ -182,7 +186,7 @@ class StubConnectorTests(LauncherTestCase):
             free_port = int(sock.getsockname()[1])
         completed = run_stub(
             f"http://127.0.0.1:{free_port}",
-            frozen_case_request("01-happy-read-only"),
+            self.case_request("01-happy-read-only"),
             token="unused-but-required-token",
         )
 
@@ -196,7 +200,7 @@ class StubConnectorTests(LauncherTestCase):
         launcher = self.make_launcher(fake_scenario="stream")
         completed = run_stub(
             launcher.base_url,
-            frozen_case_request("01-happy-read-only"),
+            self.case_request("01-happy-read-only"),
             token="definitely-the-wrong-token",
         )
 
@@ -212,7 +216,7 @@ class StubConnectorTests(LauncherTestCase):
         launcher = self.make_launcher(fake_scenario="stream")
         completed = run_stub(
             launcher.base_url,
-            frozen_case_request("05-schema-invalid-unknown-field"),
+            self.case_request("05-schema-invalid-unknown-field"),
             token_file=launcher.token_file,
         )
 

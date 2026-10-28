@@ -14,16 +14,16 @@
 | 项 | 取值 |
 |---|---|
 | worktree | `C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-tl-worktree` |
-| 分支 / HEAD | `feat/parallel-task-launcher` / `0e391e3`（任务书基线） |
-| 当前 `origin/main` | `acca50d`（PR #36 已将 A 工具链合入 main；本分支基线早于该合并，见 §1 第 1 行与 §6） |
+| 分支 / HEAD | `feat/parallel-task-launcher`；任务书基线 `0e391e3`，M4 rebase 到 `origin/main@c54c6fc` 后的 commit（精确 HEAD 见 `handoff-current.md`） |
+| 当前 `origin/main` | `c54c6fc`（PR #36 已将 A 工具链合入 main；本分支已 rebase 到该 main，见 §1 第 1 行与 §6） |
 | 本机 Python | `3.13.15`（Windows；CI 另有 3.10/3.13，见 §1 第 9 行） |
-| 任务启动器套件 | `python -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py"` → **98 tests OK，约 115.5 s**（Lead 实测） |
-| 官方全量套件 | `python -m unittest discover -s tests` → **见 report.md（Lead M4 实测，待填）** |
-| 冻结基准 | `python benchmarks/task-launcher/run_benchmark.py` → **12/12 passed，`elapsed_ms=23260`（约 23.3 s）**；结果 `benchmarks/task-launcher/results.json` |
+| 任务启动器套件 | `python -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py"` → **98 tests OK，约 112 s**（rebase 后 Lead 实测） |
+| 官方全量套件 | `python -m unittest discover -s tests` → **3416 tests OK (skipped=3)，414.7 s**（rebase 后 Lead 实测） |
+| 冻结基准 | `python benchmarks/task-launcher/run_benchmark.py` → **12/12 passed，`elapsed_ms=28851`（约 28.9 s）**，`skill_version=1.0.2`；结果 `benchmarks/task-launcher/results.json` |
 | stub connector e2e | `python -m unittest tests.task_launcher_tests.test_stub_connector` → **7 tests OK**（Lead 实测） |
-| Skill 自检 | `python design-hardware/scripts/skill_selftest.py` → **见 report.md（Lead M4 实测，待填）** |
+| Skill 自检 | `python design-hardware/scripts/skill_selftest.py` → **5 PASS / 0 FAIL / 0 NOT RUN**（rebase 后 Lead 实测） |
 | 真实 Claude | **NOT RUN**（本任务没有调用任何真实模型） |
-| 基准文件时间 | `results.json` 由 Lead 于本机实测生成（2026-10-28 11:41:16，6903 字节）；重跑会更新该文件 |
+| 基准文件时间 | `results.json` 由 Lead 于本机实测生成（2026-10-28 12:11:43，6903 字节；仅 `duration_ms`/`elapsed_ms` 随运行变化）；重跑会更新该文件 |
 
 测试全部通过**子进程**驱动真实 launcher（`tests/task_launcher_tests/support.py` 启动
 `python -m task_launcher serve`），不把实现 import 进测试进程；不调用真实 EDA/daemon/connector/
@@ -35,21 +35,22 @@
 
 | # | 验收项（任务书 §7） | 证据 | 观察结果 | 状态 |
 |---|---|---|---|---|
-| 1 | 只新增允许路径；`git diff --name-status origin/main...HEAD` 全部 `A` | 当前 `git status --short`：仅 `task_launcher/`、`tests/task_launcher_tests/`、`benchmarks/task-launcher/`、`docs/parallel-task-launcher/` 未跟踪新增；`git diff --name-only` 为空（无 tracked 修改） | 工作区只有 4 个允许路径新增；HEAD 仍为任务书基线 `0e391e3`；`origin/main` 已到 `acca50d`（A 已合入），**提交/PR 前需以 3-dot diff 复核并决定是否 rebase**，PR 与 diff 记录由 M4 落 `report.md` | ⏳ M4 提交后复核 |
-| 2 | 任务启动器套件全绿、≥45 tests | 套件命令（§0） | **98 tests OK**（约 115.5 s），超过 45 的要求 | ✅（Lead 实测） |
-| 3 | 官方全量 `python -m unittest discover -s tests` 全绿且发现新测试 | 官方命令（§0） | 见 report.md（Lead M4 实测） | ⏳ 见 report.md |
+| 1 | 只新增允许路径；`git diff --name-status origin/main...HEAD` 全部 `A` | `git diff --name-status origin/main...HEAD`；`git status --short` | **全部为 `A`（新增）**，无 `M/D`；相对 `origin/main@c54c6fc` 只新增 `task_launcher/`、`tests/task_launcher_tests/`、`benchmarks/task-launcher/`、`docs/parallel-task-launcher/`；未修改 A/runtime/connector/SKILL/分发/CI | ✅（M4 实测） |
+| 2 | 任务启动器套件全绿、≥45 tests | 套件命令（§0） | **98 tests OK**（约 112 s），超过 45 的要求 | ✅（Lead 实测） |
+| 3 | 官方全量 `python -m unittest discover -s tests` 全绿且发现新测试 | 官方命令（§0） | **3416 tests OK (skipped=3)，414.7 s**（含本任务 98 个测试；rebase 后） | ✅（Lead 实测） |
 | 4 | 冻结基准 ≥10/10，`real_eda=NOT RUN`、`eda_calls=0` | 基准命令 + `benchmarks/task-launcher/results.json` | **12/12 passed**，`simulated=true`、`real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`、`network_calls=0`、`agent="fake"`（§3） | ✅（Lead 实测） |
-| 5 | `design-hardware/scripts/skill_selftest.py` 5 PASS / 0 FAIL | 自检命令（§0） | 见 report.md（Lead M4 实测，待填） | ⏳ 见 report.md |
+| 5 | `design-hardware/scripts/skill_selftest.py` 5 PASS / 0 FAIL | 自检命令（§0） | **5 PASS / 0 FAIL / 0 NOT RUN**，退出码 0（rebase 后） | ✅（Lead 实测） |
 | 6 | `build-plugin --skill-dir design-hardware --out <tmp>` 成功；两次 manifest 一致；结构校验通过 | `tests/task_launcher_tests/test_plugin.py`：`PluginBuildTests`(5)、`PluginCliTests`(1)、`PluginDeterminismTests`(2)、`PluginFailureTests`(4)；独立命令见 task_launcher/README.md | 测试覆盖：结构、manifest 哈希、两次构建一致、mtime 无关、缺 SKILL.md/版本失败、非空 out 拒绝/`--force`、CLI 纯 JSON；独立命令结果见 report.md | ✅ 测试覆盖 / ⏳ 命令见 report.md |
 | 7 | stub connector 端到端，start→events→result 退出码正确 | `test_stub_connector.py`：`StubConnectorTests`(7) | **7 tests OK**：成功 0、失败/超时/取消 1、协议错误 2、错误 token 2、schema 拒绝 2 | ✅（Lead 实测） |
 | 8 | 可选真实 Claude：本机可用则跑 1 次只读任务并记录，否则 NOT RUN | 无真实调用（本任务范围外） | **NOT RUN**；未记录任何真实模型输出 | ⛔ NOT RUN |
-| 9 | 清洁 checkout 可复现测试/基准；CI 3.10/3.13 在 PR HEAD 全绿 | `.github/workflows/validate.yml`（matrix `3.10`/`3.13`，ubuntu-latest，`python3 -m unittest discover -s tests -v`） | 本机 3.13.15 套件全绿；清洁 checkout 复跑与 CI 结果由 M4/PR 记录（见 report.md） | ⏳ 待 M4/PR |
-| 10 | 未修改 A/runtime/connector/SKILL/分发/CI；未合并 PR、未发版 | `git status`/`git diff`；本分支基线 `0e391e3` 的树里没有 `runtime/`、`connector/`、`protocol/`；根目录仅原有目录 + 新 `task_launcher/` | 未修改任何既有文件；未 `git commit`、未建 PR、未发版（由 M4 执行） | ✅ 范围 / ⏳ M4 收尾 |
+| 9 | 清洁 checkout 可复现测试/基准；CI 3.10/3.13 在 PR HEAD 全绿 | `.github/workflows/validate.yml`（matrix `3.10`/`3.13`，ubuntu-latest，`python3 -m unittest discover -s tests -v`） | 本机 3.13.15 全量套件全绿；清洁 checkout 的独立 worktree 复跑见 `handoff-current.md`；CI 结果见 PR 检查（以 PR HEAD 为准） | ✅ 本机 / ⏳ CI |
+| 10 | 未修改 A/runtime/connector/SKILL/分发/CI；未合并 PR、未发版 | `git diff --name-status origin/main...HEAD`；`git status` | 相对 main 仅新增 4 类允许路径；未修改任何既有文件（全量套件运行时 A 测试会向 `docs/toolchain-integration/evidence/installer/install-lifecycle.log` 追加日志，提交前已 `git checkout --` 还原，见 IC-16）；PR 保持 OPEN、未合并、未发版 | ✅（M4 实测） |
 
-> 第 1 行的基线说明：任务书给出的 base 是 `0e391e3`，但本 worktree 的 `origin/main` 引用已推进到
-> `acca50d`（`Merge pull request #36 ... feat/integrated-eda-toolchain`）。`git diff --name-status
-> origin/main...HEAD`（三点）的 merge-base 仍是 `0e391e3`，提交后应只显示本次新增文件；PR 前是否
-> rebase/merge 最新 main 由 Lead 在 M4 决定。
+> 基线说明：任务书给出的 base 是 `0e391e3`；开工期间 A 工具链随 PR #36 合入 `origin/main`。
+> M4 已 rebase 到 `origin/main@c54c6fc`，因此 `git diff --name-status origin/main...HEAD` 的
+> merge-base 就是当前 main，diff 只显示本任务新增文件（全部 `A`）。
+> 三个故意的版本不一致 case 使用字面错误版本；其余用例的 `toolchain` 使用
+> `@launcher/@skill/@plugin` 占位符，由 runner 按安装版本解析（Skill 已在 main 上升级到 1.0.2）。
 
 ---
 
