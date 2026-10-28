@@ -148,7 +148,7 @@ EasyEDA 按**扩展 UUID** 识别插件：同 UUID 重新导入时，管理器�
 | 扩展名 | `easycirq-connector` |
 | 显示名 | 智构 · EasyCirq 连接器 |
 | 扩展 UUID | `ef77a1878ae54dcf88f56436ee3dc5c6`（每次升级会换新，见 §5） |
-| 版本 | `1.0.18` |
+| 版本 | `1.0.19` |
 | 依赖服务 | `easycirq-agent` |
 | 端口 | `127.0.0.1:23111-23120`（可用扩展用户配置 `easycirqDaemonPorts` 覆盖） |
 | 协议 | wire `v1`（handshake / register / context / request / response / ping / pong） |
