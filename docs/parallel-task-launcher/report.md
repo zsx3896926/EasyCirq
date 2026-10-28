@@ -117,7 +117,8 @@ manifest_sha256=8CAE7A7C8CA636C36B88CB242D7DA6EBE74C984F7788131491025184EE39B6AE
 | stub e2e | `python -m unittest tests.task_launcher_tests.test_stub_connector` | **7 tests OK** |
 | Skill 自检 | `python design-hardware/scripts/skill_selftest.py` | **5 PASS / 0 FAIL** |
 | plugin 构建 | `python -m task_launcher build-plugin --skill-dir design-hardware --out <tmp>` | 627 files / 13,165,621 bytes；两次 manifest 一致 |
-| 清洁 checkout | 本分支 commit 的独立 worktree（见 handoff） | 见 `handoff-current.md` |
+| 清洁 checkout | 独立 worktree `hds-tl-clean`（detached at `c828ebc`，无未跟踪文件） | **98 tests OK，93.1 s**；基准 **12/12 passed，32.7 s**（重跑只更新 `results.json` 的耗时字段） |
+| CI | PR #74 的 `Validate skill` matrix（ubuntu-latest） | **3.10 pass 3m14s / 3.13 pass 2m45s**（run `40632025926`，commit `c828ebc`） |
 
 ## 3. fake vs 真实边界
 

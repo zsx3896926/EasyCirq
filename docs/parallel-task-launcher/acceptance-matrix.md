@@ -43,7 +43,7 @@
 | 6 | `build-plugin --skill-dir design-hardware --out <tmp>` 成功；两次 manifest 一致；结构校验通过 | `tests/task_launcher_tests/test_plugin.py`：`PluginBuildTests`(5)、`PluginCliTests`(1)、`PluginDeterminismTests`(2)、`PluginFailureTests`(4)；独立命令见 task_launcher/README.md | 测试覆盖：结构、manifest 哈希、两次构建一致、mtime 无关、缺 SKILL.md/版本失败、非空 out 拒绝/`--force`、CLI 纯 JSON；独立命令结果见 report.md | ✅ 测试覆盖 / ⏳ 命令见 report.md |
 | 7 | stub connector 端到端，start→events→result 退出码正确 | `test_stub_connector.py`：`StubConnectorTests`(7) | **7 tests OK**：成功 0、失败/超时/取消 1、协议错误 2、错误 token 2、schema 拒绝 2 | ✅（Lead 实测） |
 | 8 | 可选真实 Claude：本机可用则跑 1 次只读任务并记录，否则 NOT RUN | 无真实调用（本任务范围外） | **NOT RUN**；未记录任何真实模型输出 | ⛔ NOT RUN |
-| 9 | 清洁 checkout 可复现测试/基准；CI 3.10/3.13 在 PR HEAD 全绿 | `.github/workflows/validate.yml`（matrix `3.10`/`3.13`，ubuntu-latest，`python3 -m unittest discover -s tests -v`） | 本机 3.13.15 全量套件全绿；清洁 checkout 的独立 worktree 复跑见 `handoff-current.md`；CI 结果见 PR 检查（以 PR HEAD 为准） | ✅ 本机 / ⏳ CI |
+| 9 | 清洁 checkout 可复现测试/基准；CI 3.10/3.13 在 PR HEAD 全绿 | `python -m unittest discover -s tests`（`.github/workflows/validate.yml` matrix `3.10`/`3.13`）；独立 worktree `hds-tl-clean` | 清洁 checkout（detached at `c828ebc`，无未跟踪文件）：任务套件 **98 tests OK，93.1 s**、基准 **12/12，32.7 s**；本机 3.13.15 全量 **3416 OK**；CI `validate (3.10)` pass 3m14s、`validate (3.13)` pass 2m45s（run `40632025926`，PR #74 全绿） | ✅（本机 + CI） |
 | 10 | 未修改 A/runtime/connector/SKILL/分发/CI；未合并 PR、未发版 | `git diff --name-status origin/main...HEAD`；`git status` | 相对 main 仅新增 4 类允许路径；未修改任何既有文件（全量套件运行时 A 测试会向 `docs/toolchain-integration/evidence/installer/install-lifecycle.log` 追加日志，提交前已 `git checkout --` 还原，见 IC-16）；PR 保持 OPEN、未合并、未发版 | ✅（M4 实测） |
 
 > 基线说明：任务书给出的 base 是 `0e391e3`；开工期间 A 工具链随 PR #36 合入 `origin/main`。
