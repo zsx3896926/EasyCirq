@@ -173,3 +173,34 @@ python -m unittest discover -s tests
 4. 主线跟进 `issue-candidates.md`：token Windows ACL、receipt 长期验签、任务目录并发锁、
    `--force` 抹证据风险、stdio 行上限、stderr UTF-8、plugin manifest 版本绑定、
    MCP/settings/hooks 作用域合并、超时强制等。
+
+
+## 补记：真实 Claude Code 冒烟（2026-10-28，网关模型）
+
+> 本补记更新正文中“真实 Claude 冒烟 NOT RUN”的结论：**端到端 wiring 已实测通过**，
+> 但必须如实说明——本机 `claude`（2.1.303）不是 Anthropic Claude 模型，而是
+> `Claude Code CLI + deepseek-v4.1-flash @ https://claude.jlcops.com/api`（JLC 网关；
+> `~/.claude/settings.json` 把 opus/sonnet/haiku 全部映射为 deepseek-v4.1-flash）。
+> 因此记录为 **model=deepseek-flash（网关 deepseek-v4.1-flash），NOT Anthropic Claude**。
+
+- 命令：`python -m task_launcher run --request <req> --state-dir <tmp> --bound --agent-profile claude --claude-exe claude`
+- 结果：
+  - B1 result：`status=completed`，exit 0，duration 36.05s，2362 events；
+  - `bound.gate=enforced`、`state=FINALIZED`、`verdict=PASS`、
+    `report_sha256=c24caaf847f569e82a039a868cb1e141d0f03ea6aded73a28665ed58c1e38cac`、
+    `real_eda=NOT RUN`、`eda_calls=0`、`project_writes=0`；
+  - stream-json 的 assistant `tool_use` 按序 6 个、无越权工具：
+    `Skill → mcp__zhigou_bound__task_start → snapshot_read → run_offline_audit → evidence_emit → finalize`；
+  - supervisor 回执链 5 条（`task_start none` + 4×`read_only`），`result.json` 由 supervisor
+    生成、`chain_verified=true`；
+  - argv 被 Claude Code 2.1.303 实际接受：`--permission-mode plan`、
+    `--allowedTools "Skill,Read,Glob,Grep,mcp__zhigou_bound__*"`、
+    `--settings <bound>/settings.json`、
+    `--disallowedTools "Bash,Write,Edit,NotebookEdit,Agent,Task,WebFetch,WebSearch"`。
+- 未验证 / 限制（如实）：
+  - **不是 Anthropic Claude**；B1 `model_used` 字段为 `unknown`（launcher 不解析网关模型名），
+    stream-json assistant model 为 `deepseek-flash`；
+  - 费用未记录（网关计费未知）；
+  - `real_eda=NOT RUN`；Phase 2 真实 EDA 写仍 **BLOCKED**；
+  - 子代理/prompt injection 的主动对抗未在本次会话专门注入攻击（工具面已收窄到 6 个工具，
+    本次无任何越权工具调用）。
