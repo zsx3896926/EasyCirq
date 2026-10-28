@@ -40,10 +40,35 @@ from .state import AUDIT_RUN, CREATED, SNAPSHOT_READ, STARTED, TaskMachine
 from .supervisor import make_supervisor
 
 
+def _process_gone(pid: int) -> bool:
+    """Best-effort liveness check used by the kill-tree self-check."""
+
+    import os
+    import subprocess
+
+    if os.name == "nt":  # pragma: no cover - platform dependent
+        completed = subprocess.run(
+            ["tasklist", "/FI", f"PID eq {pid}", "/NH"],
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+        output = (completed.stdout or "").strip()
+        if not output or "No tasks" in output or "INFO:" in output:
+            return True
+        return str(pid) not in output
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return True
+    except PermissionError:  # pragma: no cover - process exists, not ours
+        return False
+    return False
+
+
 class _Checker:
     def __init__(self) -> None:
         self.checks: list[dict[str, Any]] = []
-
     def run(self, name: str, func: Any) -> None:
         try:
             func()
@@ -325,19 +350,38 @@ def run_selftest() -> dict[str, Any]:
         checker.run("fixture-deterministic", fixture_deterministic)
 
         def timeout_kill_tree() -> None:
-            # Simulated agent: a harmless sleep process, killed by the runner's
-            # process-tree kill (the real Claude spawn is NOT RUN in Phase 1).
+            # Simulated agent: a harmless sleep process that also starts a
+            # grandchild; the runner must kill the whole tree without ever
+            # signalling the supervisor's own process group (POSIX bug fixed:
+            # killpg on a shared group used to kill this very process).
+            import os as _os
             import subprocess as _subprocess
             import sys as _sys
             import time as _time
 
             from .runner import kill_tree
 
-            process = _subprocess.Popen(
-                [_sys.executable, "-c", "import time; time.sleep(30)"],
-                stdout=_subprocess.DEVNULL,
-                stderr=_subprocess.DEVNULL,
+            child_code = (
+                "import subprocess, sys, time\n"
+                "grandchild = subprocess.Popen("
+                "[sys.executable, '-c', 'import time; time.sleep(30)'])\n"
+                "print(grandchild.pid, flush=True)\n"
+                "time.sleep(30)\n"
             )
+            popen_kwargs: dict[str, object] = {
+                "stdin": _subprocess.DEVNULL,
+                "stdout": _subprocess.PIPE,
+                "stderr": _subprocess.DEVNULL,
+                "text": True,
+            }
+            if _os.name != "nt":
+                popen_kwargs["start_new_session"] = True
+            process = _subprocess.Popen(
+                [_sys.executable, "-c", child_code],  # type: ignore[arg-type]
+                **popen_kwargs,  # type: ignore[arg-type]
+            )
+            assert process.stdout is not None
+            grandchild_pid = int(process.stdout.readline().strip())
             _time.sleep(0.2)
             result = kill_tree(process)
             try:
@@ -347,6 +391,13 @@ def run_selftest() -> dict[str, Any]:
                     process.kill()
             assert result.get("killed") is True, result
             assert process.poll() is not None, "kill-tree left the process running"
+            # The grandchild must disappear too (no orphan), with a bounded wait.
+            deadline = _time.time() + 5.0
+            while _time.time() < deadline:
+                if _process_gone(grandchild_pid):
+                    return
+                _time.sleep(0.1)
+            raise AssertionError(f"kill-tree left an orphan grandchild pid={grandchild_pid}")
 
         checker.run("timeout-kill-tree", timeout_kill_tree)
     finally:
