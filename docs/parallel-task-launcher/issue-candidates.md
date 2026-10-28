@@ -39,26 +39,29 @@ A owner 决策，**本任务均未实现**，建议主分支单独跟进。
 
 | IC | GitHub Issue | 状态 |
 |---|---|---|
-| IC-01 | [#79](https://github.com/zsx3896926/EasyCirq/issues/79) Claude Code CLI 参数兼容性探测 | open |
-| IC-03 | [#80](https://github.com/zsx3896926/EasyCirq/issues/80) CI 增加冻结基准 job | open |
-| IC-04 | [#81](https://github.com/zsx3896926/EasyCirq/issues/81) `.gitattributes` 补 LF 规则 | open |
-| IC-05 | [#82](https://github.com/zsx3896926/EasyCirq/issues/82) docs 索引/handoff 增加 B1 入口 | open |
-| IC-06 | [#83](https://github.com/zsx3896926/EasyCirq/issues/83) 任务注册表 list/prune/复用语义 | open |
-| IC-07 | [#84](https://github.com/zsx3896926/EasyCirq/issues/84) `max_events` 超限 kill 详情 | open |
-| IC-08 | [#85](https://github.com/zsx3896926/EasyCirq/issues/85) `/health` ok/degraded 统一 | open |
-| IC-09 | [#86](https://github.com/zsx3896926/EasyCirq/issues/86) 非 GET/POST 动词返回 JSON | open |
-| IC-10 | [#87](https://github.com/zsx3896926/EasyCirq/issues/87) `MAX_EVENTS_EXCEEDED` 保留码处理 | open |
-| IC-11 | [#88](https://github.com/zsx3896926/EasyCirq/issues/88) env-gated 真实 Claude 只读验收 | open |
-| IC-12 | [#89](https://github.com/zsx3896926/EasyCirq/issues/89) `mcp.json` command 可解析解释器 | open |
-| IC-13 | [#90](https://github.com/zsx3896926/EasyCirq/issues/90) `agent`/`agent_profile` 命名统一 | open |
-| IC-14 | [#91](https://github.com/zsx3896926/EasyCirq/issues/91) 跨平台冒烟与 token 权限威胁模型 | open |
-| IC-15 | [#92](https://github.com/zsx3896926/EasyCirq/issues/92) 任务书 §3.3 示例与严格 schema 不一致 | open |
+| IC-01 | [#79](https://github.com/zsx3896926/EasyCirq/issues/79) Claude Code CLI 参数兼容性探测 | **closed**（#107，`96c0c79`） |
+| IC-03 | [#80](https://github.com/zsx3896926/EasyCirq/issues/80) CI 增加冻结基准 job | **closed**（#106，`d460354`） |
+| IC-04 | [#81](https://github.com/zsx3896926/EasyCirq/issues/81) `.gitattributes` 补 LF 规则 | **closed**（#106，`d460354`） |
+| IC-05 | [#82](https://github.com/zsx3896926/EasyCirq/issues/82) docs 索引/handoff 增加 B1 入口 | **closed**（#106，`d460354`） |
+| IC-06 | [#83](https://github.com/zsx3896926/EasyCirq/issues/83) 任务注册表 list/prune/复用语义 | **closed**（#107，`96c0c79`） |
+| IC-07 | [#84](https://github.com/zsx3896926/EasyCirq/issues/84) `max_events` 超限 kill 详情 | **closed**（#107，`96c0c79`） |
+| IC-08 | [#85](https://github.com/zsx3896926/EasyCirq/issues/85) `/health` ok/degraded 统一 | **closed**（#107，`96c0c79`） |
+| IC-09 | [#86](https://github.com/zsx3896926/EasyCirq/issues/86) 非 GET/POST 动词返回 JSON | **closed**（#107，`96c0c79`） |
+| IC-10 | [#87](https://github.com/zsx3896926/EasyCirq/issues/87) `MAX_EVENTS_EXCEEDED` 保留码处理 | **closed**（#107，`96c0c79`） |
+| IC-11 | [#88](https://github.com/zsx3896926/EasyCirq/issues/88) env-gated 真实 Claude 只读验收 | **closed**（#107，`96c0c79`） |
+| IC-12 | [#89](https://github.com/zsx3896926/EasyCirq/issues/89) `mcp.json` command 可解析解释器 | **closed**（#107，`96c0c79`） |
+| IC-13 | [#90](https://github.com/zsx3896926/EasyCirq/issues/90) `agent`/`agent_profile` 命名统一 | **closed**（#107，`96c0c79`） |
+| IC-14 | [#91](https://github.com/zsx3896926/EasyCirq/issues/91) 跨平台冒烟与 token 权限威胁模型 | **open**（部分交付：#106 文档；macOS/ACL 加固 NOT RUN） |
+| IC-15 | [#92](https://github.com/zsx3896926/EasyCirq/issues/92) 任务书 §3.3 示例与严格 schema 不一致 | **closed**（#106，`d460354`） |
 | IC-16 | [#93](https://github.com/zsx3896926/EasyCirq/issues/93) 全量测试追加写已跟踪证据日志 | **closed**（#102，`7fd9e57`） |
 | IC-02 | —（已在 M4 rebase 解决） | closed |
 | IC-17 | —（已在本 PR 修复并回归） | fixed |
 
 > 说明：issue 仅记录范围外后续事项，不改变 B1 PoC 的只读/不发版边界；真实 Claude / 真实 EDA /
 > 硬件实测仍保持 `NOT RUN`。
+> 状态回填（后续批次）：**IC-01、IC-03～IC-13、IC-15 已由 #107 / #106 修复并关闭**；
+> **IC-14 / #91 仅部分交付**（#106 提供平台/token 威胁模型文档；macOS 冒烟与 Windows ACL 加固
+> 仍为 `NOT RUN`，issue 保持 open）。
 > 状态回填：**IC-16 / #93 已由 #102 修复并关闭**（合并提交 `7fd9e57`）：生命周期 JSONL 记账默认写
 > 临时目录，仅当显式设置 `EASYCIRQ_INSTALL_EVIDENCE_LOG` 时刷新仓库证据；新增防回归测试保证
 > 全量套件后工作树不再变脏。
