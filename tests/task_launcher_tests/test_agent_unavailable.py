@@ -28,7 +28,8 @@ class AgentUnavailableTests(LauncherTestCase):
 
         status, health = launcher.health()
         self.assertEqual(status, 200, health)
-        self.assertEqual(health["status"], "ok")
+        self.assertEqual(health["status"], "degraded")
+        self.assertIn("agent_unavailable", health["degraded_reasons"])
         self.assertEqual(health["tasks_running"], 0)
 
         task_id = "task-agent-unavailable"

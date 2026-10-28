@@ -125,6 +125,54 @@ def _probe_version(executable: str) -> str | None:
     return token or first[:64]
 
 
+def probe_cli_routing_support(executable: str) -> dict:
+    """Offline probe of the Claude Code CLI routing flags (IC-01).
+
+    Only ``--version`` and ``--help`` are executed: nothing is sent to a model
+    and no network is needed.  The launcher requires
+    ``--append-system-prompt-file``; some CLI versions only list
+    ``--append-system-prompt`` in ``--help`` (2.1.303 does) while still accepting
+    the ``-file`` variant, so a listed fallback keeps the probe green but is
+    reported separately for diagnostics.
+    """
+
+    result: dict = {
+        "checked": True,
+        "executable": executable,
+        "version": _probe_version(executable),
+        "help_lists_routing_flag_file": None,
+        "help_lists_routing_flag": None,
+        "fallback_available": None,
+        "ok": False,
+        "reason": None,
+    }
+    try:
+        completed = subprocess.run(
+            [executable, "--help"],
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+            errors="replace",
+            timeout=MAX_AGENT_VERSION_TIMEOUT_S,
+        )
+    except (OSError, subprocess.SubprocessError) as exc:
+        result["reason"] = f"help_unavailable:{type(exc).__name__}"
+        return result
+    text = "\n".join(part for part in (completed.stdout or "", completed.stderr or "") if part)
+    lists_file = "--append-system-prompt-file" in text
+    lists_base = "--append-system-prompt" in text or "append-system-prompt[-file]" in text
+    result["help_lists_routing_flag_file"] = lists_file
+    result["help_lists_routing_flag"] = lists_base
+    result["fallback_available"] = lists_base and not lists_file
+    if lists_file or lists_base:
+        result["ok"] = True
+        result["reason"] = None
+    else:
+        result["reason"] = "routing_flag_not_listed"
+    return result
+
+
 def resolve_agent(profile: str, claude_exe: str | None) -> AgentProfileInfo:
     """Resolve the agent executable or return an unavailable profile."""
 

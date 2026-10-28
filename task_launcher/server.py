@@ -84,6 +84,20 @@ class LauncherRequestHandler(BaseHTTPRequestHandler):
     def do_POST(self) -> None:  # noqa: N802 - stdlib name
         self._dispatch("POST")
 
+    def do_DELETE(self) -> None:  # noqa: N802 - stdlib name
+        self._dispatch("DELETE")
+
+    def do_PUT(self) -> None:  # noqa: N802 - stdlib name
+        self._dispatch("PUT")
+
+    def do_PATCH(self) -> None:  # noqa: N802 - stdlib name
+        self._dispatch("PATCH")
+
+    def do_HEAD(self) -> None:  # noqa: N802 - stdlib name
+        # Same JSON diagnostics as GET, but without a response body (IC-09).
+        self._head_response = True
+        self._dispatch("HEAD")
+
     # -- dispatch ----------------------------------------------------------
     def _dispatch(self, method: str) -> None:
         try:
@@ -110,6 +124,13 @@ class LauncherRequestHandler(BaseHTTPRequestHandler):
             return
 
         self._require_auth()
+
+        if path == "/tasks":
+            if method != "GET":
+                self._method_not_allowed()
+            status_filter = self._status_param(split.query)
+            self._send_json(200, self.server.manager.list_tasks(status_filter))
+            return
 
         if path == "/task/start":
             if method != "POST":
@@ -147,9 +168,12 @@ class LauncherRequestHandler(BaseHTTPRequestHandler):
 
         match = TASK_ID_PATH_RE.match(path)
         if match:
+            task_id = self._task_id(match.group(1))
+            if method == "DELETE":
+                self._send_json(200, self.server.manager.delete_task(task_id))
+                return
             if method != "GET":
                 self._method_not_allowed()
-            task_id = self._task_id(match.group(1))
             task = self.server.manager.get_task(task_id)
             self._send_json(200, task.to_status_dict())
             return
@@ -228,16 +252,33 @@ class LauncherRequestHandler(BaseHTTPRequestHandler):
             )
         return since
 
+    @staticmethod
+    def _status_param(query: str) -> str | None:
+        values = parse_qs(query, keep_blank_values=True)
+        status = values.get("status", [None])[0]
+        if status is None:
+            return None
+        status = status.strip()
+        if not status:
+            raise LauncherError(
+                "INVALID_REQUEST",
+                "query parameter 'status' must be a non-empty task status",
+                {"status": status},
+            )
+        return status
+
     def _send_json(self, status: int, payload: Any) -> None:
         body = json.dumps(payload, ensure_ascii=False, sort_keys=False).encode("utf-8")
+        head_only = bool(getattr(self, "_head_response", False))
         try:
             self.send_response(status)
             self.send_header("Content-Type", "application/json; charset=utf-8")
-            self.send_header("Content-Length", str(len(body)))
+            self.send_header("Content-Length", "0" if head_only else str(len(body)))
             self.send_header("Cache-Control", "no-store")
             self.end_headers()
-            self.wfile.write(body)
-            self.wfile.flush()
+            if not head_only:
+                self.wfile.write(body)
+                self.wfile.flush()
         except (BrokenPipeError, ConnectionResetError):  # pragma: no cover
             pass
 

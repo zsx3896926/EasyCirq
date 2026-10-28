@@ -11,7 +11,7 @@ The fake agent:
   variables — this is how tests assert what the agent really received;
 * streams newline-delimited ``stream-json`` events on stdout;
 * supports the scenarios ``stream`` (default), ``slow``, ``stuck``, ``badjson``
-  and ``fail`` (selected with ``--scenario`` or ``EASYCIRQ_FAKE_SCENARIO``).
+  and ``fail`` / ``spam`` (selected with ``--scenario`` or ``EASYCIRQ_FAKE_SCENARIO``).
 
 It can never be mistaken for a real model run: every result it prints carries
 ``"model": "fake"`` and the launcher records ``agent: "fake"``.
@@ -25,7 +25,7 @@ import sys
 import time
 from pathlib import Path
 
-SCENARIOS = ("stream", "slow", "stuck", "badjson", "fail")
+SCENARIOS = ("stream", "slow", "stuck", "badjson", "fail", "spam")
 DEFAULT_SCENARIO = "stream"
 
 #: Environment variables copied into ``agent.received.json`` for assertions.
@@ -154,6 +154,14 @@ def run(argv: list[str]) -> int:
         deadline = time.time() + 600
         while time.time() < deadline:
             time.sleep(0.5)
+        return 0
+
+    if scenario == "spam":
+        # IC-07/IC-10: fast event flood so the launcher's max_events cap and
+        # process-tree kill path are exercised deterministically.
+        for index in range(160):
+            _emit(_assistant_event(f"spam event {index}", index))
+        _emit(_result_event(True, "FAKE AGENT spam finished"))
         return 0
 
     if scenario == "badjson":

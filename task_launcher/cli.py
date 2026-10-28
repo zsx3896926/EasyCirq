@@ -92,11 +92,15 @@ def _settings(args: argparse.Namespace) -> Settings:
         agent_argv_template=Path(args.agent_argv_template).resolve()
         if getattr(args, "agent_argv_template", None)
         else None,
+        mcp_python=getattr(args, "mcp_python", None),
+        task_ttl_s=int(getattr(args, "task_ttl_s", 0) or 0),
         host=getattr(args, "host", DEFAULT_HOST),
         port=getattr(args, "port", DEFAULT_PORT),
     )
     if settings.max_concurrent < 1:
         raise LauncherError("INVALID_REQUEST", "--max-concurrent must be >= 1", {"value": settings.max_concurrent})
+    if settings.task_ttl_s < 0:
+        raise LauncherError("INVALID_REQUEST", "--task-ttl-s must be >= 0", {"value": settings.task_ttl_s})
     return settings.resolved()
 
 
@@ -199,17 +203,8 @@ def cmd_health(args: argparse.Namespace) -> int:
         settings = _settings(args)
         manager = TaskManager(settings)
         document = manager.health()
-        document["agent"] = manager.agent_info().to_dict()
         document["skill_dir"] = str(settings.skill_dir)
-        versions = manager.live_versions()
-        healthy = (
-            manager.agent_info().available
-            and versions.skill is not None
-            and versions.plugin is not None
-            and versions.plugin_error is None
-            and versions.skill_error is None
-        )
-        document["status"] = "ok" if healthy else "degraded"
+        healthy = document.get("status") == "ok"
         _print_json(document)
         return EXIT_OK if healthy else EXIT_HEALTH_FAILURE
     except LauncherError as exc:
@@ -366,6 +361,16 @@ def _add_launcher_options(parser: argparse.ArgumentParser) -> None:
         choices=FAKE_SCENARIOS,
         default=DEFAULT_FAKE_SCENARIO,
         help="fake agent scenario (test/benchmark only)",
+    )
+    parser.add_argument(
+        "--mcp-python",
+        help="interpreter written into mcp.json (default: this launcher's Python; IC-12)",
+    )
+    parser.add_argument(
+        "--task-ttl-s",
+        type=int,
+        default=0,
+        help="delete terminal tasks (registry + workspace) after N seconds; 0 = keep until restart (IC-06)",
     )
 
 
