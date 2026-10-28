@@ -1,0 +1,120 @@
+{
+  "schema": "zhigou-doctor/v1",
+  "generatedAt": "2026-10-28T02:22:42Z",
+  "verdict": "ok",
+  "runtime": {
+    "name": "zhigou",
+    "version": "0.2.3-dev",
+    "executable": "C:\\Users\\jlc\\AppData\\Local\\Zhigou\\bin\\zhigou.exe",
+    "sha256": "3badc72479b76bcb4304369f66be964394097ce9130915e5add09e6a4164e2d9",
+    "vcsRevision": "fdd4ea02e4afe00b70477a08be510c1d68189b9b",
+    "vcsTime": "2026-10-28T02:05:57Z",
+    "vcsModified": true,
+    "goVersion": "go1.27.3",
+    "onDisk": true
+  },
+  "skill": {
+    "name": "design-hardware",
+    "status": "installed",
+    "installed": [
+      {
+        "client": "codex",
+        "dir": "C:\\Users\\jlc\\.codex\\skills\\design-hardware",
+        "present": true,
+        "version": "1.0.2"
+      },
+      {
+        "client": "claude",
+        "dir": "C:\\Users\\jlc\\.claude\\skills\\design-hardware",
+        "present": true,
+        "version": "1.0.2"
+      },
+      {
+        "client": "agents",
+        "dir": "C:\\Users\\jlc\\.agents\\skills\\design-hardware",
+        "present": true,
+        "version": "1.0.2"
+      },
+      {
+        "client": "repo",
+        "dir": "C:\\Users\\jlc\\work\\zhigou-toolchain\\design-hardware",
+        "present": true,
+        "version": "1.0.2"
+      }
+    ]
+  },
+  "daemon": {
+    "status": "running",
+    "pid": 22212,
+    "port": 23111,
+    "version": "0.2.3-dev",
+    "stateDir": "C:\\Users\\jlc\\.zhigou",
+    "logPath": "C:\\Users\\jlc\\.zhigou\\daemon.log",
+    "pidFile": "C:\\Users\\jlc\\.zhigou\\daemon.pid",
+    "pidFilePid": 22212,
+    "pidFileMatches": true
+  },
+  "connector": {
+    "status": "connected",
+    "count": 1,
+    "expectedName": "zhigou-connector",
+    "expectedVersion": "0.1.3",
+    "windows": [
+      {
+        "windowId": "cfa8e8d9-2c8e-488a-a214-e8156a2cb541",
+        "connectorVersion": "0.1.3",
+        "easyedaVersion": "4.1.78",
+        "capabilities": [
+          "schematic.v1",
+          "pcb.v1"
+        ],
+        "connectedAt": "2026-10-28T02:22:22.4262797Z"
+      }
+    ]
+  },
+  "protocol": {
+    "service": "zhigou-agent",
+    "wireVersion": "v1",
+    "handshake": "daemon→connector {type:handshake,service,version}",
+    "envelopeVersion": "v1"
+  },
+  "host": {
+    "easyedaVersion": "4.1.78"
+  },
+  "legacy": {
+    "ports": "60832-60841",
+    "detected": true,
+    "service": "easyeda-agent",
+    "port": 60832,
+    "used": false,
+    "note": "legacy upstream easyeda-agent daemon; detected only, never used by this runtime"
+  },
+  "checks": [
+    {
+      "name": "daemon",
+      "status": "ok",
+      "detail": "v0.2.3-dev 运行在端口 23111"
+    },
+    {
+      "name": "connector",
+      "status": "ok",
+      "detail": "1 个窗口已连接（连接器 v0.1.3）"
+    },
+    {
+      "name": "project",
+      "status": "warn",
+      "detail": "窗口 cfa8e8d9-2c8e-488a-a214-e8156a2cb541 没有打开工程",
+      "fix": "在 EasyEDA 里打开要操作的工程"
+    },
+    {
+      "name": "skill",
+      "status": "ok",
+      "detail": "design-hardware 已安装（codex 1.0.2, claude 1.0.2, agents 1.0.2, repo 1.0.2）"
+    },
+    {
+      "name": "legacy",
+      "status": "ok",
+      "detail": "检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）"
+    }
+  ]
+}

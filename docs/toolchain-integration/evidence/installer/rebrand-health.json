@@ -1,0 +1,105 @@
+{
+  "status": "found",
+  "host": "127.0.0.1",
+  "ports": "23111-23120",
+  "found": {
+    "port": 23111,
+    "service": "zhigou-agent",
+    "raw": {
+      "pid": 22212,
+      "service": "zhigou-agent",
+      "version": "0.2.3-dev",
+      "status": "ok",
+      "port": 23111,
+      "windows": [
+        {
+          "windowId": "cfa8e8d9-2c8e-488a-a214-e8156a2cb541",
+          "connectorVersion": "0.1.3",
+          "easyedaVersion": "4.1.78",
+          "capabilities": [
+            "schematic.v1",
+            "pcb.v1"
+          ],
+          "host": {
+            "kind": "electron",
+            "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) JLCEDAPro/4.1.78.34f5b8d9 Chrome/146.0.7680.188 Electron/41.2.1-jlc-sa-win-x64.6 Safari/537.36"
+          },
+          "context": {
+            "pageVisibility": "hidden"
+          },
+          "connectedAt": "2026-10-28T02:22:22.4262797Z",
+          "lastSeen": "2026-10-28T02:22:41.4900075Z"
+        }
+      ]
+    }
+  },
+  "versionGate": {
+    "cli": "0.2.3-dev",
+    "daemon": "0.2.3-dev",
+    "connectors": [
+      "0.1.3"
+    ],
+    "verdict": "skipped",
+    "findings": [
+      {
+        "component": "daemon",
+        "version": "0.2.3-dev",
+        "severity": "skipped",
+        "reason": "dev 构建(CLI v0.2.3-dev / daemon v0.2.3-dev),git-describe 戳不代表真实代码水位,不做硬判定"
+      },
+      {
+        "component": "connector",
+        "version": "0.1.3",
+        "severity": "skipped",
+        "reason": "CLI v0.2.3-dev 或连接器 v0.1.3 非 clean release tag,不做硬判定"
+      }
+    ]
+  },
+  "hostCompatibility": {
+    "baseline": "4.0.0",
+    "recommended": "4.1.60",
+    "verdict": "ok",
+    "findings": [
+      {
+        "windowId": "cfa8e8d9-2c8e-488a-a214-e8156a2cb541",
+        "version": "4.1.78",
+        "severity": "ok",
+        "reason": "EasyEDA Pro 4.1.78 满足 V4 主线基线"
+      }
+    ]
+  },
+  "checks": [
+    {
+      "name": "daemon",
+      "status": "ok",
+      "detail": "v0.2.3-dev 运行在端口 23111"
+    },
+    {
+      "name": "connector",
+      "status": "ok",
+      "detail": "1 个窗口已连接（连接器 v0.1.3）"
+    },
+    {
+      "name": "versions",
+      "status": "ok",
+      "detail": "版本一致性:未判定(dev 构建或无连接器上报版本)"
+    },
+    {
+      "name": "zhigou",
+      "status": "ok",
+      "detail": "EasyEDA 宿主:V4 主线（推荐基线 4.1.60）"
+    },
+    {
+      "name": "project",
+      "status": "warn",
+      "detail": "窗口 cfa8e8d9-2c8e-488a-a214-e8156a2cb541 没有打开工程",
+      "fix": "在 EasyEDA 里打开要操作的工程"
+    }
+  ],
+  "checked": [
+    {
+      "port": 23111,
+      "status": "ok"
+    }
+  ]
+}

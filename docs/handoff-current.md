@@ -119,8 +119,10 @@ distribution\Install-Zhigou.ps1 rollback
 - **产物**：`dist-v5/zhigou-toolchain-0.2.3.zip`（runtime 0.2.3-dev + connector 0.1.3 +
   skill 1.0.2 品牌版）；安装目录已升级 **0.2.3**（selfCheck degraded，原因见下）；客户端
   三处 skill 已更新（description 含品牌）。
-- **需要一次人工动作**：EDA 里当前是 0.1.2（uuid `cfc96215…`）。请在扩展管理器**卸载旧
-  连接器**，导入 `%LOCALAPPDATA%\Zhigou\connector\zhigou-connector_v0.1.3.eext`，允许
-  「外部交互」，**完全退出并重启** EDA；之后 `zhigou doctor` 应回到 ok。
+- **已完成（2026-10-28T02:22Z）**：EDA 已卸载 0.1.2、导入 0.1.3（新 uuid）并授予「外部交互」；
+  `zhigou doctor` **verdict: ok**，connector **0.1.3 connected**（EDA 4.1.78，caps
+  `schematic.v1`/`pcb.v1`），daemon **0.2.3**；调用 `pcb.outline.foreign.scan` 返回
+  `UNKNOWN_ACTION`，证明旧 handlers 已不在新包中。证据：
+  `docs/toolchain-integration/evidence/installer/rebrand-{doctor,health,action-absence}.json`。
 - **遗留**：README 正文仍保留 v1.0.1 时代的「安装 easyeda-agent 及其 Skill」长文（已加
   顶部架构更新提示），待按当前单入口架构重写。
