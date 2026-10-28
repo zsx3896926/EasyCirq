@@ -30,6 +30,8 @@ from pathlib import Path
 
 #: Root of the checkout that contains ``task_launcher/bound``.
 WORKTREE = Path(__file__).resolve().parents[2]
+#: 2026-10 rebrand: the Skill directory/name is easycirq on new main, design-hardware on old checkouts.
+SKILL_NAME = "easycirq" if (WORKTREE / "easycirq" / ".version").exists() else "design-hardware"
 
 REQUEST_SCHEMA = "zhigou.bound.request/v1"
 MCP_PROTOCOL_VERSION = "2025-06-18"
@@ -59,7 +61,7 @@ ALLOWED_AGENT_TOOLS = (
     "Read",
     "Glob",
     "Grep",
-    "Skill(design-hardware)",
+    f"Skill({SKILL_NAME})",
     "mcp__zhigou_bound__*",
 )
 

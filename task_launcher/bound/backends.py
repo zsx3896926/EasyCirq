@@ -44,6 +44,15 @@ from .receipts import canonical_json, sha256_hex
 SNAPSHOT_SCHEMA = "zhigou.bound.snapshot/v1"
 AUDIT_SCHEMA = "zhigou.bound.audit/v1"
 
+#: Repository layouts / module names for the merged offline MCP layer.  The
+#: 2026-10 rebrand moved ``design-hardware/scripts/zhigou_mcp`` to
+#: ``easycirq/scripts/easycirq_mcp``; both are accepted (old PRs still use the
+#: former, current main uses the latter).
+OFFLINE_MCP_CANDIDATES = (
+    ("easycirq", "easycirq_mcp"),
+    ("design-hardware", "zhigou_mcp"),
+)
+
 #: Statuses surfaced by the merged offline-audit modules (verbatim).
 AUDIT_STATUSES = ("pass_with_scope", "fail", "review_required", "incomplete", "invalid_input")
 #: Statuses that allow ``finalize`` to produce a report.
@@ -277,28 +286,35 @@ class FixtureBackend(EdaBackend):
 
     # -- real merged offline module (optional, still no EDA) ---------------
     def _run_zhigou_mcp_audit(self, snapshot: Snapshot, *, detail: str) -> dict[str, Any]:
-        input_path = self.fixture_dir / "inputs" / f"{self.audit_case}.json"
+        # The merged module renamed its input schema in the 2026-10 rebrand
+        # (zhigou.electrical-review.input/v1 -> easycirq...); keep one frozen
+        # input set per layout so both checkouts audit real fixtures.
+        located_before = locate_offline_mcp(self.repo_root)
+        input_subdir = "inputs_easycirq" if (located_before and located_before[1] == "easycirq_mcp") else "inputs"
+        input_path = self.fixture_dir / input_subdir / f"{self.audit_case}.json"
         if not input_path.is_file():
             raise BoundError(
                 BACKEND_UNAVAILABLE,
                 f"offline audit input fixture missing: {input_path}",
                 {"path": str(input_path)},
             )
-        scripts_dir = None
-        if self.repo_root is not None:
-            scripts_dir = self.repo_root / "design-hardware" / "scripts"
-        if scripts_dir is None or not (scripts_dir / "zhigou_mcp").is_dir():
+        located = locate_offline_mcp(self.repo_root)
+        if located is None:
             raise BoundError(
                 NOT_RUN,
-                "zhigou_mcp offline audit module is not available in this checkout",
+                "offline audit MCP module is not available in this checkout "
+                "(looked for easycirq_mcp / zhigou_mcp)",
                 {"repo_root": str(self.repo_root) if self.repo_root else None},
             )
+        scripts_dir, module_name = located
         inserted = str(scripts_dir)
         added = inserted not in sys.path
         if added:
             sys.path.insert(0, inserted)
         try:
-            from zhigou_mcp.tools import call_tool  # type: ignore import-not-found
+            import importlib
+
+            call_tool = importlib.import_module(f"{module_name}.tools").call_tool
 
             started = time.time()
             result = call_tool(
@@ -338,6 +354,7 @@ class FixtureBackend(EdaBackend):
             "schema": AUDIT_SCHEMA,
             "engine": AUDIT_ENGINE_ZHIGOU_MCP,
             "module": structured.get("module"),
+            "offline_mcp_module": module_name,
             "tool": structured.get("tool"),
             "status": status,
             "verdict_class": structured.get("verdict_class"),
@@ -426,6 +443,19 @@ class OfficialCliBackend(_RealEdaBackendStub):
 class ADaemonBackend(_RealEdaBackendStub):
     def __init__(self) -> None:
         super().__init__(BACKEND_A_DAEMON)
+
+
+def locate_offline_mcp(repo_root: Path | None) -> tuple[Path, str] | None:
+    """Find the merged offline MCP scripts dir/module for either repo layout."""
+
+    if repo_root is None:
+        return None
+    root = Path(repo_root)
+    for directory, module_name in OFFLINE_MCP_CANDIDATES:
+        scripts_dir = root / directory / "scripts"
+        if (scripts_dir / module_name).is_dir():
+            return scripts_dir, module_name
+    return None
 
 
 def make_backend(config: Any) -> EdaBackend:

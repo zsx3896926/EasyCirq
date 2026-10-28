@@ -36,7 +36,10 @@ from . import (
     REPORT_SCHEMA,
     REQUEST_SCHEMA,
     SERVER_NAME,
+    SKILL_NAME,
+    SKILL_NAME_CANDIDATES,
     __version__,
+    allowed_agent_tools,
 )
 from .b1 import probe_b1
 from .backends import default_fixture_dir
@@ -52,7 +55,7 @@ from .errors import (
     BoundError,
 )
 from .receipts import canonical_json
-from .runner import load_request, plan_task
+from .runner import detect_skill, load_request, plan_task
 from .selftest import run_selftest
 from .supervisor import make_supervisor, run_serve
 
@@ -89,6 +92,7 @@ def _error_document(exc: BoundError) -> dict[str, Any]:
 # version
 # ---------------------------------------------------------------------------
 def cmd_version(_: argparse.Namespace) -> int:
+    _, detected_skill, _ = detect_skill(Path(__file__).resolve().parents[2])
     _print_json(
         {
             "schema": "zhigou.bound.version/v1",
@@ -106,9 +110,11 @@ def cmd_version(_: argparse.Namespace) -> int:
             "phase1_tools": list(PHASE1_TOOLS),
             "phase2_tools": list(PHASE2_TOOLS),
             "phase2_enabled": False,
+            "skill_name": detected_skill,
+            "skill_name_candidates": list(SKILL_NAME_CANDIDATES),
             "real_eda": "NOT RUN",
             "eda_calls": 0,
-            "allowed_agent_tools": list(ALLOWED_AGENT_TOOLS),
+            "allowed_agent_tools": list(allowed_agent_tools(detected_skill)),
             "denied_agent_tools": list(DENIED_AGENT_TOOLS),
         }
     )
@@ -126,6 +132,7 @@ def cmd_plan(args: argparse.Namespace) -> int:
             task_dir=Path(args.out),
             skill_dir=Path(args.skill_dir) if args.skill_dir else None,
             skill_version=args.skill_version,
+            skill_name=args.skill_name,
             plugin_version=args.plugin_version,
             plugin_dir=Path(args.plugin_dir) if args.plugin_dir else None,
             repo_root=Path(args.repo_root) if args.repo_root else None,
@@ -255,6 +262,11 @@ def build_parser() -> argparse.ArgumentParser:
     plan.add_argument("--out", required=True, help="task directory (must be empty unless --force)")
     plan.add_argument("--skill-dir", help="design-hardware Skill directory (reads .version)")
     plan.add_argument("--skill-version", help="override the detected Skill version")
+    plan.add_argument(
+        "--skill-name",
+        choices=list(SKILL_NAME_CANDIDATES),
+        help="Skill name bound in the allow-list (default: detected from --skill-dir or repo layout)",
+    )
     plan.add_argument("--plugin-version", default="0.1.0")
     plan.add_argument("--plugin-dir", help="prebuilt Claude Code plugin directory")
     plan.add_argument("--repo-root", help="repository root (default: this checkout)")

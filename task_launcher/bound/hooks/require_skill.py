@@ -54,8 +54,8 @@ def main(argv: list[str] | None = None) -> int:
             "hookEventName": "PreToolUse",
             "permissionDecision": "deny",
             "permissionDecisionReason": (
-                "本任务必须先加载 design-hardware Skill（PostToolUse marker 缺失）。"
-                "请先调用 Skill(design-hardware)，再使用其他工具。"
+                "本任务必须先加载 design-hardware/easycirq Skill（PostToolUse marker 缺失）。"
+                "请先调用 Skill(design-hardware 或 easycirq)，再使用其他工具。"
             ),
         }
     }

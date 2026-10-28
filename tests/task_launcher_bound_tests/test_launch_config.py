@@ -25,7 +25,7 @@ class SettingsTests(support.BoundTestCase):
         self.assertEqual(set(allow), set(support.ALLOWED_AGENT_TOOLS))
         for tool in ("Bash", "Write", "Edit", "Agent", "Task", "WebFetch", "WebSearch"):
             self.assertNotIn(tool, allow)
-        self.assertIn("Skill(design-hardware)", allow)
+        self.assertIn(f"Skill({support.SKILL_NAME})", allow)
         self.assertIn("mcp__zhigou_bound__*", allow)
 
     def test_settings_default_mode_and_env_are_minimal(self) -> None:
@@ -244,7 +244,7 @@ class PlanArtifactTests(support.BoundTestCase):
     def test_routing_md_contains_the_hard_rules(self) -> None:
         harness = self.harness()
         routing = support.read_text(harness.task_dir / "routing.md")
-        self.assertIn("design-hardware", routing)
+        self.assertIn(support.SKILL_NAME, routing)
         self.assertIn("task_start", routing)
         self.assertIn("snapshot_read", routing)
         self.assertIn("finalize", routing)

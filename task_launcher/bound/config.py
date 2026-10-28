@@ -28,6 +28,8 @@ from typing import Any
 
 from . import (
     AUDIT_ENGINE_FIXTURE,
+    SKILL_NAME,
+    SKILL_NAME_CANDIDATES,
     BACKEND_FIXTURE,
     CONFIG_SCHEMA,
     DEFAULT_MAX_STEPS,
@@ -110,6 +112,7 @@ CONFIG_JSON_SCHEMA: dict[str, Any] = {
         "state_root": {"type": "string", "minLength": 1},
         "phase": {"type": "integer", "enum": [1, 2]},
         "backend": {"type": "string", "enum": list(SUPPORTED_BACKENDS)},
+        "skill_name": {"type": "string", "enum": list(SKILL_NAME_CANDIDATES)},
         "audit_engine": {"type": "string", "enum": list(SUPPORTED_AUDIT_ENGINES)},
         "audit_case": {"type": "string", "enum": ["pass", "fail", "review", "incomplete"]},
         "eda_authorized": {"type": "boolean"},
@@ -159,6 +162,7 @@ class BoundConfig:
     task_dir: Path
     token_sha256: str
     versions: Versions
+    skill_name: str = SKILL_NAME
     state_root: Path | None = None
     phase: int = 1
     backend: str = BACKEND_FIXTURE
@@ -185,6 +189,7 @@ class BoundConfig:
             "eda_authorized": self.eda_authorized,
             "token_sha256": self.token_sha256,
             "versions": self.versions.to_dict(),
+            "skill_name": self.skill_name,
             "limits": self.limits.to_dict(),
             "b1": dict(self.b1),
         }
@@ -230,6 +235,7 @@ class BoundConfig:
             task_dir=task_dir,
             token_sha256=data["token_sha256"],
             versions=Versions.from_dict(data["versions"]),
+            skill_name=data.get("skill_name", SKILL_NAME),
             state_root=state_root,
             phase=int(data.get("phase", 1)),
             backend=data.get("backend", BACKEND_FIXTURE),

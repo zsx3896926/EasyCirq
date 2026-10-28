@@ -41,10 +41,13 @@ from . import (
     ROUTING_FILE,
     SETTINGS_FILE,
     SKILL_NAME,
+    SKILL_NAME_CANDIDATES,
     SUPPORTED_AUDIT_ENGINES,
     SUPPORTED_BACKENDS,
     TOKEN_FILE,
     __version__,
+    allowed_agent_tools,
+    normalize_skill_name,
 )
 from .backends import default_fixture_dir
 from .b1 import probe_b1
@@ -222,12 +225,39 @@ def detect_skill_version(skill_dir: Path | None) -> str:
     return "unknown"
 
 
+def detect_skill(repo_root: Path | None) -> tuple[Path | None, str, str]:
+    """Resolve the Skill directory/name/version for either repo layout.
+
+    Supports the 2026-10 rebrand (``design-hardware/`` -> ``easycirq/``).
+    Returns ``(None, legacy_name, "unknown")`` when no Skill checkout is found.
+    """
+
+    if repo_root is not None:
+        root = Path(repo_root)
+        for candidate in SKILL_NAME_CANDIDATES:
+            skill_dir = root / candidate
+            if (skill_dir / "SKILL.md").is_file() or (skill_dir / ".version").is_file():
+                try:
+                    version = detect_skill_version(skill_dir)
+                except BoundError:
+                    version = "unknown"
+                return skill_dir, candidate, version
+    return None, SKILL_NAME, "unknown"
+
+
+def skill_name_from_dir(skill_dir: Path | None) -> str:
+    if skill_dir is None:
+        return SKILL_NAME
+    return normalize_skill_name(Path(skill_dir).name)
+
+
 def build_routing_text(
     request: dict[str, Any],
     *,
     task_id: str,
     phase: int = 1,
     versions: dict[str, Any] | None = None,
+    skill_name: str = SKILL_NAME,
 ) -> str:
     goal = request.get("goal") or {}
     context = request.get("context") or {}
@@ -249,7 +279,7 @@ def build_routing_text(
         "",
         "## 硬规则（不可跳过）",
         "",
-        f"1. 本任务由受控启动器启动；**必须先加载 `{SKILL_NAME}` Skill**，不得跳过。",
+        f"1. 本任务由受控启动器启动；**必须先加载 `{skill_name}` Skill**，不得跳过。",
         "2. 只读任务：不得修改/保存/导出 EDA 工程，不得调用任何写接口；本任务没有 "
         "Bash/Write/Edit/Agent/Task/WebFetch/WebSearch 工具。",
         "3. 只通过 `mcp__zhigou_bound__*` 工具推进流程，顺序固定："
@@ -320,6 +350,7 @@ def build_agent_argv(
     routing_file: Path,
     settings_file: Path,
     plugin_dir: Path,
+    skill_name: str = SKILL_NAME,
 ) -> list[str]:
     return [
         claude_exe,
@@ -337,7 +368,7 @@ def build_agent_argv(
         "stream-json",
         "--verbose",
         "--allowedTools",
-        ",".join(ALLOWED_AGENT_TOOLS),
+        ",".join(allowed_agent_tools(skill_name)),
         "--disallowedTools",
         ",".join(DENIED_AGENT_TOOLS),
     ]
@@ -365,6 +396,7 @@ def plan_task(
     task_dir: Path,
     skill_dir: Path | None = None,
     skill_version: str | None = None,
+    skill_name: str | None = None,
     plugin_version: str = "0.1.0",
     plugin_dir: Path | None = None,
     repo_root: Path | None = None,
@@ -409,13 +441,21 @@ def plan_task(
                 _shutil.rmtree(child)
             else:
                 child.unlink()
+    resolved_repo_root = Path(repo_root).expanduser() if repo_root else Path(__file__).resolve().parents[2]
+    if skill_dir is not None:
+        resolved_skill_dir = Path(skill_dir).expanduser()
+        resolved_skill_name = normalize_skill_name(skill_name or skill_name_from_dir(resolved_skill_dir))
+        resolved_skill_version = skill_version or detect_skill_version(resolved_skill_dir)
+    else:
+        resolved_skill_dir, detected_name, detected_version = detect_skill(resolved_repo_root)
+        resolved_skill_name = normalize_skill_name(skill_name or detected_name)
+        resolved_skill_version = skill_version or detected_version
     request_path = task_dir / REQUEST_FILE
     request_path.write_text(
         json.dumps(request, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",
         newline="\n",
     )
-    resolved_skill_version = skill_version or detect_skill_version(skill_dir)
     token = generate_token()
     token_file = task_dir / TOKEN_FILE
     write_token_file(token_file, token)
@@ -426,6 +466,7 @@ def plan_task(
         task_id=request["task_id"],
         task_dir=task_dir,
         token_sha256=hash_token(token),
+        skill_name=resolved_skill_name,
         versions=Versions(
             skill=resolved_skill_version,
             plugin=plugin_version,
@@ -440,7 +481,7 @@ def plan_task(
         eda_authorized=False,
         limits=Limits.from_dict(request.get("limits") or {}),
         plugin_dir=Path(plugin_dir).expanduser() if plugin_dir else None,
-        repo_root=Path(repo_root).expanduser() if repo_root else Path(__file__).resolve().parents[2],
+        repo_root=resolved_repo_root,
         fixture_dir=fixtures_dir,
         b1={
             "available": b1_probe.available,
@@ -459,6 +500,7 @@ def plan_task(
             task_id=request["task_id"],
             phase=phase,
             versions=config.versions.to_dict(),
+            skill_name=config.skill_name,
         ),
         encoding="utf-8",
         newline="\n",
@@ -474,7 +516,7 @@ def plan_task(
         encoding="utf-8",
         newline="\n",
     )
-    settings = build_settings(task_dir, hooks_enabled=hooks_enabled)
+    settings = build_settings(task_dir, hooks_enabled=hooks_enabled, skill_name=config.skill_name)
     write_settings(task_dir / SETTINGS_FILE, settings)
     resolved_claude = shutil.which(claude_exe) or ""
     agent_ready = bool(plugin_dir) and bool(resolved_claude)
@@ -499,6 +541,7 @@ def plan_task(
             routing_file=routing_path,
             settings_file=task_dir / SETTINGS_FILE,
             plugin_dir=Path(plugin_dir).expanduser(),
+            skill_name=config.skill_name,
         )
         problems = validate_agent_argv(command["argv"])
         if problems:
@@ -530,6 +573,8 @@ def plan_task(
             TOKEN_FILE,
         ],
         "versions": config.versions.to_dict(),
+        "skill_name": config.skill_name,
+        "skill_dir": str(resolved_skill_dir) if resolved_skill_dir else None,
         "limits": config.limits.to_dict(),
         "backend": backend,
         "audit_engine": audit_engine,

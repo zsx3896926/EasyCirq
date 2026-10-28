@@ -14,7 +14,14 @@ import sys
 from pathlib import Path
 from typing import Any
 
-from . import ALLOWED_AGENT_TOOLS, DENIED_AGENT_TOOLS
+from . import (
+    ALLOWED_AGENT_TOOLS,
+    DENIED_AGENT_TOOLS,
+    SKILL_NAME,
+    SKILL_NAME_CANDIDATES,
+    allowed_agent_tools,
+    normalize_skill_name,
+)
 
 #: Hint for the documentation: permissions.deny names are tool names / rules,
 #: not shell globs.
@@ -30,13 +37,14 @@ def build_settings(
     task_dir: Path,
     *,
     hooks_enabled: bool = False,
+    skill_name: str = SKILL_NAME,
 ) -> dict[str, Any]:
     """Build the per-task settings document (no secrets)."""
 
     settings: dict[str, Any] = {
         "permissions": {
             "deny": list(DENIED_AGENT_TOOLS),
-            "allow": list(ALLOWED_AGENT_TOOLS),
+            "allow": list(allowed_agent_tools(skill_name)),
             "defaultMode": "default",
         },
         "env": {
@@ -85,7 +93,7 @@ def build_settings(
     return settings
 
 
-def validate_settings(settings: Any) -> list[str]:
+def validate_settings(settings: Any, skill_name: str | None = None) -> list[str]:
     """Return a list of structural problems (empty means valid)."""
 
     problems: list[str] = []
@@ -106,9 +114,23 @@ def validate_settings(settings: Any) -> list[str]:
     for tool in ("Bash", "Write", "Edit", "Agent", "Task", "WebFetch", "WebSearch"):
         if tool not in deny:
             problems.append(f"permissions.deny must contain {tool}")
-    for expected in ALLOWED_AGENT_TOOLS:
+    # With an explicit skill_name, require that exact Skill(...) entry; without
+    # one (validation of an arbitrary task settings file), accept either layout.
+    expected_tools = (
+        ("Read", "Glob", "Grep", "mcp__zhigou_bound__*")
+        if skill_name is None
+        else allowed_agent_tools(skill_name)
+    )
+    for expected in expected_tools:
         if expected not in allow:
             problems.append(f"permissions.allow is missing {expected}")
+    # Tolerate the other Skill name (transitional repos may have either one);
+    # the plan/argv path always uses the detected name.
+    skill_entries = [entry for entry in allow if isinstance(entry, str) and entry.startswith("Skill(")]
+    if len(skill_entries) != 1:
+        problems.append("permissions.allow must contain exactly one Skill(...) entry")
+    elif not any(entry == f"Skill({name})" for entry in skill_entries for name in SKILL_NAME_CANDIDATES):
+        problems.append(f"permissions.allow Skill entry is not one of {SKILL_NAME_CANDIDATES}")
     if "Bash" in allow:
         problems.append("permissions.allow must not contain Bash")
     hooks = settings.get("hooks")
