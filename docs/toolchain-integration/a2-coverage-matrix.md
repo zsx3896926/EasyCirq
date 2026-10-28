@@ -25,10 +25,10 @@
 | W02 | 原理图读 | **covered** | `sch read` ok：**25 组件 / 7 网络 / netlist 可用 / 几何设计检查**（单调用含 floating pins） |
 | W03 | PCB 读 | **covered** | `pcb board-info`（Board1 已 link，PCB1）+ `pcb docs`（1 块板） |
 | W04 | 原理图写 + 回读 | **covered** | `sch place` 0402 → `ok:true`；readback 1→2 组件；`sch connect` 触发 pin-exit-direction 几何守卫（fail-closed，符合预期） |
-| W05 | PCB 写 | **not_run**（见 §4） | 未执行，需在一次性副本上做 |
-| W06 | 批处理/计划应用 | **not_run**（见 §4） | `apply` playbook 未执行 |
+| W05 | PCB 写 | **covered** | `pcb add-component`（0402 到 PCB1）→ `ok:true`，`bindingVerified:true`、padCount 2、designator U1、uniqueId gge1 |
+| W06 | 批处理/计划应用 | **covered** | `sch apply` playbook（`{version,meta,steps[{run:"sch place",flags}]}`）→ exit 0；readback 2→3 组件 |
 | W07 | 检查/DRC/DFM | **covered** | `sch check`（2 out-of-sheet WARN，0 floating）+ `pcb check`（0 track/0 via/18 pad，ERROR=0 WARN=3 power-not-poured） |
-| W08 | 导出 | **partial** | `bom export --type csv` 产出 CSV（307 B）；参数口径需再核（`--format` 非法，应为 `--type`） |
+| W08 | 导出 | **covered** | `bom export --type csv --enrich=false` → exit 0，CSV 工件落盘；`project export --out <x>.epro2` → 14747 B 归档 |
 | W09 | 保存/重开/陈旧 | **covered** | `doc reload` → saved→closed→reopened；readback 仍是 2 组件（写入持久化） |
 | W10 | 错误/权限/边界 | **covered** | `sch read --bogus-flag` → `unknown flag`，exit 1（干净报错） |
 | W11 | MCP 入口 | **unsupported** | A 无 MCP server（CLI+daemon+connector 架构），已知结论不变 |
@@ -41,15 +41,14 @@
 
 ## 4. 还差什么（S2 剩余）
 
-- **W05（PCB 写）、W06（apply playbook）**：需在一次性项目副本上做（本次 W04 已在新建项目 `A2-W04-probe-*` 上验证了 sch 写路径；PCB 写与 playbook 未跑）。
-- **W08（导出）**：`bom export` 参数口径再核 + `project export`（epro2）补一条。
 - **W11（MCP）**：A 无 MCP，属架构事实；是否补一个 MCP 网关是独立决定，不在“对等”范围。
+- **探针工程清理**：`A2-W04-probe-194219`（zsx520bb 工作区）CLI 无 `project delete` 子命令，需在 EasyEDA 桌面/网页端一键删除（本记录已用 `project export` 导出其 epro2 存档，删除无信息损失）。
 
 ## 5. 边界 / NOT RUN
 
 - 本记录只证明 A 侧在本机 live 且上述工作流实测通过；**未**做官方 `lceda-pro` CLI/MCP 与 A 的逐项等价比对（官方侧仍以 spike #75 的 `covered/partial` 矩阵为准）。
 - 写探针只在**新建的一次性项目**上进行，未触碰“演示板 20261028”。
-- 未做：真实制造/打样/上电；W05/W06/W08 完整回执。
+- 未做：真实制造/打样/上电。
 
 ## 6. 对“退 A”决策的影响
 
