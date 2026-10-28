@@ -931,7 +931,7 @@ def load_supervisor_config(path: Path) -> BoundConfig:
 def _force_utf8_stdio() -> None:
     """MCP is UTF-8 over pipes; Windows console code pages must not leak in."""
 
-    for stream in (sys.stdin, sys.stdout):
+    for stream in (sys.stdin, sys.stdout, sys.stderr):
         try:
             stream.reconfigure(encoding="utf-8", newline="\n")  # type: ignore[attr-defined]
         except (AttributeError, ValueError):  # pragma: no cover - replaced streams
