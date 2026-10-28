@@ -131,3 +131,21 @@ distribution\Install-Zhigou.ps1 rollback
 
 ## 已合并的 main 侧交接：Round 13（SkyPilot X1 反馈）
 
+## 2026-10-28 制造导出 spike：Gerber/CPL/网表/3D 真机通过
+
+- 连接器 **0.1.4**（uuid `9511dbc464364e48b6c9047872a82e12`）新增三个 typed action：
+  `pcb.manufacture.gerber`、`pcb.manufacture.cpl`、`pcb.manufacture.netlist`，
+  均封装官方 `@beta pcb_ManufactureData` API，产物作为 artifact 回读校验。
+- 真机结果（验收板 `zhigou-integrated-dual-button-led-20261027`，连接器 0.1.4）：
+  - Gerber：12,169 B zip，**9 层**（GTL/GBL/GTO/GBO/GTS/GBS/GTP/GKO/GDL）+ 下单必读；
+    **无 drill 文件**——本板 0 过孔，含孔板路径未验证
+  - CPL：3,238 B，UTF-16 TSV，**9 行 = 9 器件**（表头 18 列）
+  - 网表（PCB 侧）：15,749 B / 542 行（JLCEDA 格式；原理图侧 getNetlistFile 仍返回 no file）
+  - 3D：OBJ 209,014 B；STEP 5,030,129 B（ISO-10303-21，真实网格）
+- 能力模型：`gerber.export`/`cpl.export` 从 unsupported → **supported**；
+  `export.gerber`/`export.cpl`/`export.3d` deliverables → **measured**（证据清单见
+  `runtime/internal/app/capability_measured.go`）；`drill.export` 保持 unsupported。
+- G6：阻塞从 4 项降到 **2 项**（`drill_files`：0 孔不适用；`sourcing_check`：未核库存）。
+  gerber/cpl 产物已放 `evidence/gates/manufacturing/` 并登记 `manufacturing.artifacts`。
+- 注意：EDA 里旧的 0.1.3 扩展仍在加载（两个窗口），建议卸载只留 0.1.4；
+  安装包/安装目录尚未更新到 0.1.4（下次构建 bundle 时一并带上）。

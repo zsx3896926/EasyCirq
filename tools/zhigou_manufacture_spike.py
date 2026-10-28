@@ -19,10 +19,14 @@ REPO = pathlib.Path(r"C:\Users\jlc\work\zhigou-toolchain")
 Z = REPO / "runtime/dist/zhigou.exe"
 EVID = REPO / "docs/toolchain-integration/evidence/manufacture-spike"
 PROJECT_UUID = "43ebf71ffd34473f9b08aaa118aa2d5e"  # zhigou-integrated-dual-button-led-20261027
+WIN = ""  # target window that runs connector 0.1.4 (set by main)
 
 
 def run(*args, timeout=300):
-    return subprocess.run([str(Z), *args], capture_output=True, text=True,
+    cmd = [str(Z), *args]
+    if WIN and "--window" not in args and "--project" not in args:
+        cmd += ["--window", WIN]
+    return subprocess.run(cmd, capture_output=True, text=True,
                           encoding="utf-8", errors="replace", timeout=timeout)
 
 
@@ -46,9 +50,12 @@ def connector_version():
     try:
         d = json.loads(proc.stdout)
     except Exception:
-        return None
+        return None, None
     ws = ((d.get("found") or {}).get("raw") or {}).get("windows") or []
-    return ws[0].get("connectorVersion") if ws else None
+    for w in ws:
+        if str(w.get("connectorVersion")) == "0.1.4":
+            return "0.1.4", w.get("windowId")
+    return (ws[0].get("connectorVersion") if ws else None), (ws[0].get("windowId") if ws else None)
 
 
 def latest_artifact(kind: str, after: float):
@@ -66,13 +73,15 @@ def latest_artifact(kind: str, after: float):
 
 
 def main() -> int:
+    global WIN
     EVID.mkdir(parents=True, exist_ok=True)
-    ver = connector_version()
-    print("connector:", ver)
-    if ver != "0.1.4":
+    ver, win = connector_version()
+    print("connector:", ver, "| window:", win)
+    if ver != "0.1.4" or not win:
         print("BLOCKED: connector 0.1.4 is not loaded (got %r). Import the 0.1.4 .eext and restart EDA." % ver)
         (EVID / "BLOCKED.txt").write_text("connector %r, expected 0.1.4" % ver, encoding="utf-8")
         return 2
+    WIN = win
 
     # activate the acceptance board PCB
     print(run("call", "project.open", "--payload",
@@ -101,8 +110,9 @@ def main() -> int:
         if art and zipfile.is_zipfile(art):
             with zipfile.ZipFile(art) as z:
                 names = z.namelist()
-                gbr = [n for n in names if n.lower().endswith(".gbr")]
-                drl = [n for n in names if n.lower().endswith(".drl") or "drill" in n.lower()]
+                gbr = [n for n in names if n.lower().endswith(
+                    (".gbr", ".gtl", ".gbl", ".gto", ".gbo", ".gts", ".gbs", ".gtp", ".gko", ".gdl", ".g1", ".g2"))]
+                drl = [n for n in names if n.lower().endswith((".drl", ".xln", ".drill")) or "drill" in n.lower()]
                 info.update({"entries": len(names), "gerberLayers": sorted(gbr), "drillFiles": sorted(drl),
                              "totalUncompressed": sum(z.getinfo(n).file_size for n in names)})
                 (EVID / "01-gerber-listing.json").write_text(
@@ -122,16 +132,17 @@ def main() -> int:
         info = {"size": (cpl.get("result") or {}).get("size"), "file": art.name if art else None}
         if art:
             raw = art.read_bytes()
-            for enc in ("utf-8-sig", "utf-8", "gbk"):
-                try:
-                    text = raw.decode(enc)
-                    break
-                except UnicodeDecodeError:
-                    continue
+            if raw[:2] in (b"\xff\xfe", b"\xfe\xff"):
+                enc = "utf-16"
             else:
-                text = raw.decode("utf-8", errors="replace")
-            rows = list(csv.reader(io.StringIO(text)))
-            info.update({"encoding": enc, "rows": len(rows) - 1 if rows else 0, "header": rows[0] if rows else []})
+                enc = "utf-8-sig"
+            try:
+                text = raw.decode(enc)
+            except UnicodeDecodeError:
+                enc = "gbk"
+                text = raw.decode("gbk", errors="replace")
+            rows = list(csv.reader(text.splitlines()))
+            info.update({"encoding": enc, "rows": len(rows) - 1 if rows else 0, "header": rows[0] if rows else [], "designators": [r[0] for r in rows[1:12] if r]})
         results["cpl"] = info
         print("cpl:", json.dumps(info, ensure_ascii=False)[:400])
     else:
@@ -165,8 +176,14 @@ def main() -> int:
             art = latest_artifact("pcb_3d", t0)
             info = {"size": (three.get("result") or {}).get("size"), "file": art.name if art else None}
             if art:
-                raw = art.read_bytes()[:200]
-                info["head"] = raw.decode("utf-8", errors="replace") if ftype == "obj" else raw[:80].hex()
+                raw = art.read_bytes()
+                if ftype == "obj":
+                    head = raw[:400].decode("utf-8", errors="replace")
+                    info["head"] = head[:200]
+                    info["objVertices"] = sum(1 for line in raw[:200000].splitlines() if line.startswith(b"v "))
+                else:
+                    info["head"] = raw[:200].decode("utf-8", errors="replace").strip()
+                    info["isStep"] = b"ISO-10303-21" in raw[:500]
             results[f"3d_{ftype}"] = info
             print(f"3d {ftype}:", json.dumps({k: info[k] for k in ("size", "file")}, ensure_ascii=False))
         else:

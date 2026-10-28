@@ -156,17 +156,17 @@ func buildCapabilityDefs() []capabilityDef {
 		{id: "gerber.export", match: func(s protocol.ActionSpec) bool {
 			return hasAny(s, "gerber")
 		}, note: []string{
-			"当前 typed action 目录没有 Gerber 导出；制造资料只能走官方 GUI 导出并落人工证据，不能冒充 API 能力",
+			"官方 @beta pcb_ManufactureData.getGerberFile 已封装为 pcb.manufacture.gerber；默认=编辑器一键导出（含钻孔层），产物作为 artifact 回读校验；2026-10-28 真机验证 9 层 Gerber zip",
 		}},
 		{id: "drill.export", match: func(s protocol.ActionSpec) bool {
 			return hasAny(s, "drill")
 		}, note: []string{
-			"当前 typed action 目录没有钻孔文件导出；同上",
+			"没有独立的钻孔文件 action；Gerber 导出参数已包含金属化/非金属化钻孔信息，本板为 0 过孔未产生 drill 文件，含孔板能力未验证，按未宣称处理",
 		}},
 		{id: "cpl.export", match: func(s protocol.ActionSpec) bool {
 			return hasAny(s, "cpl", "pick_and_place", "pick-place", "placement")
 		}, note: []string{
-			"当前 typed action 目录没有 CPL/贴装坐标导出；同上",
+			"官方 @beta pcb_ManufactureData.getPickAndPlaceFile 已封装为 pcb.manufacture.cpl；2026-10-28 真机验证 9 行（UTF-16 TSV，与 BOM 器件数一致）",
 		}},
 		{id: "archive.backup", match: func(s protocol.ActionSpec) bool {
 			return hasAny(s, "backup", "archive")
@@ -299,15 +299,15 @@ func buildDeliverables(actions []protocol.ActionSpec, connectorCount int, measur
 		{"pcb.drc", []string{"pcb.drc", "pcb.check"}, true,
 			"DRC 必须绑定当前工程/文档+快照，旧 DRC 不能证明新修改"},
 		{"export.3d", []string{"pcb.export.3d", "library.model3d"}, true,
-			"3D 导出动作存在但未真机验证；文件非空且可解析才算交付"},
+			"3D 导出已真机验证：OBJ 209 KB / STEP 5.0 MB（ISO-10303-21），但模型纳入范围仍需独立检查"},
 		{"export.bom", []string{"schematic.export.bom"}, true,
 			"BOM 导出后仍需 C 号/型号/封装核对与内容检查"},
 		{"export.gerber", []string{"gerber"}, true,
-			"typed action 目录没有 Gerber；只能官方 GUI 导出并落人工证据"},
+			"已封装 @beta getGerberFile；真机产物为 9 层 Gerber zip（含板框/阻焊/钢网/丝印/文档层），需人工核对层与单位"},
 		{"export.drill", []string{"drill"}, true,
-			"typed action 目录没有钻孔文件；只能官方 GUI 导出"},
+			"无独立 drill action；钻孔信息随 Gerber 参数导出，本板 0 过孔未产生 drill 文件，含孔板未验证"},
 		{"export.cpl", []string{"cpl", "pick_and_place", "pick-place"}, true,
-			"typed action 目录没有贴装坐标；只能官方 GUI 导出"},
+			"已封装 @beta getPickAndPlaceFile；真机产物 9 行与 BOM 一致，旋转/单位仍需人工核对"},
 	}
 	items := make([]deliverableItem, 0, len(defs))
 	for _, d := range defs {
@@ -425,8 +425,9 @@ func collectCapabilities(cfg *appConfig) capabilitiesReport {
 	for _, it := range rep.Items {
 		rep.Summary[it.Status]++
 	}
-	// Nothing is "measured" until a live host run records evidence; keep the
-	// empty set explicit so nobody mistakes an existing API for a verified one.
-	rep.Deliverables = buildDeliverables(actions, connectorCount, map[string]bool{})
+	// "measured" is driven by a small evidence-backed list (capability_measured.go),
+	// never by the mere existence of an action. export.drill stays unmeasured while
+	// the with-vias path has no real-host evidence.
+	rep.Deliverables = buildDeliverables(actions, connectorCount, measuredDeliverables())
 	return rep
 }

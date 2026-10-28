@@ -58,12 +58,18 @@
 | 制造资料导出步骤 | `manufacturing-export-checklist.md`（Gerber/钻孔/CPL 的 GUI 步骤、命名、校验与 state 登记方法） | 待执行 |
 | 物料核对清单 | `sourcing-checklist.md`（6 行 C 号、需核字段、商城入口、查询时间留空） | 待人工/联网 |
 
-**仍阻塞（4 项，全部需要 GUI 或实时联网）**
+**仍阻塞（2 项；2026-10-28 制造导出 spike 后更新）**
 
 | 阻塞项 | 原因 | 解除条件 |
 |---|---|---|
-| `gerber_files` / `drill_files` / `cpl_files` | 本版本 typed 能力 `gui_only`（action catalog 无 gerber/drill/cpl），不得用占位文件冒充 | 按 `manufacturing-export-checklist.md` 在 EDA GUI 导出，登记 `manufacturing.artifacts` 后重跑 gate |
+| `drill_files` | 本板 **0 过孔**，没有钻孔文件可导出；`pcb_ManufactureData.getGerberFile` 的钻孔信息参数存在，但含孔板未验证，不宣称 | 在含过孔/插脚孔的板上复跑 `pcb.manufacture.gerber`（drill=true），确认 zip 内出现 drill 文件并登记；或先给 gate 增加"0 孔板 `not_applicable`"判定 |
 | `sourcing_check` | 缺 `sourcing.stock_checked_at`：未查库存/价格，不伪造时间 | 按 `sourcing-checklist.md` 实时核对后写入查询时间与结果 |
+
+> 2026-10-28 更新：`gerber_files` 与 `cpl_files` 已通过官方 @beta 导出能力解除——
+> `pcb.manufacture.gerber` 产出 9 层 Gerber zip（含板框/阻焊/钢网/丝印/文档层），
+> `pcb.manufacture.cpl` 产出 UTF-16 TSV 共 9 行（与 BOM 器件数一致），
+> 产物已登记到 `manufacturing.artifacts` 并复跑 gate。证据：
+> `evidence/manufacture-spike/`、`evidence/gates/manufacturing/`。
 
 ## 5. 复跑方式
 

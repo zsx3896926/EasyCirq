@@ -1,0 +1,14 @@
+{
+  "entries": [
+    "Gerber_TopLayer.GTL",
+    "Gerber_BottomLayer.GBL",
+    "Gerber_TopSilkscreenLayer.GTO",
+    "Gerber_BottomSilkscreenLayer.GBO",
+    "Gerber_TopSolderMaskLayer.GTS",
+    "Gerber_BottomSolderMaskLayer.GBS",
+    "Gerber_TopPasteMaskLayer.GTP",
+    "Gerber_BoardOutlineLayer.GKO",
+    "Gerber_DocumentLayer.GDL",
+    "PCB下单必读.txt"
+  ]
+}

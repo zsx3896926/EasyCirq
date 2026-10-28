@@ -1,0 +1,58 @@
+{
+  "id": "req_43",
+  "type": "response",
+  "version": "v1",
+  "windowId": "ad820fe5-8b65-47a3-a60b-e996d7507ddf",
+  "createdAt": "2026-10-28T03:54:44.8515624Z",
+  "ok": true,
+  "result": {
+    "artifactId": "art_2f435b2c-1b35-4f7c-99d8-868a9742f80e",
+    "artifactPath": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115444-pcb_cpl-2f435b2c",
+    "capabilityNote": "Uses the official @beta pcb_ManufactureData.getPickAndPlaceFile. Rows/rotations must be checked against the BOM before assembly.",
+    "exportContext": {
+      "documentType": "pcb",
+      "documentUuid": "56a25fb38c54cb1b",
+      "pageVisibility": "hidden",
+      "projectName": "zhigou-integrated-dual-button-led-20261027",
+      "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+      "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e"
+    },
+    "fileName": "acceptance-cpl",
+    "format": "cpl-csv",
+    "size": 3238,
+    "unit": "mm"
+  },
+  "context": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContext": {
+    "projectUuid": "43ebf71ffd34473f9b08aaa118aa2d5e",
+    "projectName": "zhigou-integrated-dual-button-led-20261027",
+    "documentUuid": "56a25fb38c54cb1b",
+    "documentType": "pcb",
+    "tabId": "56a25fb38c54cb1b@43ebf71ffd34473f9b08aaa118aa2d5e",
+    "pageVisibility": "hidden"
+  },
+  "mutationContextAvailable": true,
+  "artifacts": [
+    {
+      "id": "art_2f435b2c-1b35-4f7c-99d8-868a9742f80e",
+      "kind": "pcb_cpl",
+      "path": "C:\\Users\\jlc\\work\\zhigou-toolchain\\.zhigou\\artifacts\\20261028-115444-pcb_cpl-2f435b2c",
+      "fileName": "acceptance-cpl",
+      "mimeType": "text/csv",
+      "size": 3238,
+      "sha256": "16914f321c2476df80b1e3195e32fc21f625f27a130dcbe15c365dd135d13163"
+    }
+  ],
+  "warnings": [
+    "Beta API: verify CPL row count, rotation convention and units against the BOM."
+  ],
+  "seq": 33,
+  "seqAbandoned": 0
+}
