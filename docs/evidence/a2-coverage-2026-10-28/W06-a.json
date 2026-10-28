@@ -1,0 +1,24 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W06",
+  "side": "a",
+  "title": "batch / plan application",
+  "status": "static",
+  "actions": [
+    "typed batch/module plan actions",
+    "per-request id + planned/sent/confirmed/failed/unknown task log (~/.zhigou/audit)",
+    "concurrentWriter hint + single-writer discipline"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/doctor.json"
+  ],
+  "observations": [
+    "A's daemon keeps a task log with request ids and states, which is a real advantage for resumable batches; the CLI has nothing comparable.",
+    "Not run by this spike."
+  ],
+  "blockers": [
+    "not run by this spike",
+    "no independent receipt"
+  ]
+}

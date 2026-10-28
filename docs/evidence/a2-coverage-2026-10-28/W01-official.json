@@ -1,0 +1,52 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W01",
+  "side": "official",
+  "title": "connect / session / version",
+  "status": "covered",
+  "commands": [
+    "lceda-pro --help",
+    "lceda-pro doctor",
+    "lceda-pro open --path <temp-copy>.eprj2 --headless",
+    "lceda-pro session list",
+    "lceda-pro session close --session <id> --destroy"
+  ],
+  "steps": 7,
+  "exit_codes": [
+    0
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/raw/W01-doctor.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W01-help.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W01-open.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W01-wait-project.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W01-sessions-before.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W01-sessions-after-open.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/sessions-before.json",
+    "docs/evidence/a2-coverage-2026-10-28/sessions-after.json",
+    "docs/evidence/a2-coverage-2026-10-28/extensions-headless.json"
+  ],
+  "observations": [
+    "doctor: connected=true, versionMatch=true, resultChannel=true, bridgeVersion=4.1.78.34f5b8d9, exit 0.",
+    "--help first line is 'JLCEDA Pro 4.1.78.34f5b8d9'; commands: activate/open/stop/doctor/session/invoke/functions/doc + --mcp.",
+    "open --headless returns a sessionId in about 1 s, but the project keeps loading afterwards: polling getCurrentProjectInfo() needed ~3.9 s.",
+    "getReadyState() still returned 'notLoaded' after getCurrentProjectInfo() already returned the full project tree, so it cannot be used as a load gate.",
+    "There was exactly one origin=user session before and after the run; this spike only drove origin=cli sessions opened by itself.",
+    "A bare headless editor exposes 0 installed extensions; the fixture session exposes 3 (eext-common, zsxedahelper, dix) and none of them is the A connector.",
+    "open --path with a non-existent project path returns ok:true with a sessionId but creates/loads no project; ok:true is a transport-level statement."
+  ],
+  "risks": [
+    "ok:true/exit 0 only means the call ran, not that the business state is correct",
+    "a CLI-opened window leaks unless session close --destroy is used",
+    "CLI sessions are half-offline by design (isHalfOfflineMode=true), not a full-online acceptance",
+    "PowerShell cannot capture this program's stdout with $x = & ... or > file; pipes/Start-Process are required"
+  ],
+  "measured": {
+    "steps": 6,
+    "js_lines": 18,
+    "exit_codes": [
+      0
+    ],
+    "duration_ms": 11229.4
+  }
+}

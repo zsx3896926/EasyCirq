@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"原理图 & 符号 / 网络类","visibility":"public","methods":[{"name":"getCurrentProjectAllNets","comment":"获取当前工程下所有网络的详细信息","visibility":"alpha"},{"name":"getAllNets","comment":"获取所有网络的详细信息","visibility":"alpha"},{"name":"getNet","comment":"获取指定网络的详细信息","visibility":"alpha"},{"name":"getAllNetsName","comment":"获取所有网络的网络名称","visibility":"alpha"}],"callPath":"sch_Net"},"logs":[],"durationMs":201}

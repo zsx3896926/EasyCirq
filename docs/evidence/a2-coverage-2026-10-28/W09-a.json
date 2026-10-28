@@ -1,0 +1,27 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W09",
+  "side": "a",
+  "title": "save / reopen / stale",
+  "status": "static",
+  "actions": [
+    "zhigou sch save",
+    "zhigou pcb save",
+    "zhigou doc reload",
+    "zhigou doc ready",
+    "fresh dump readback"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/acceptance-README.md",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+  ],
+  "observations": [
+    "A defines six-state evidence (command_completed / readback_verified / save_confirmed / reopen_confirmed / electrical_passed / quality_passed) and claims save/reopen PASS on its own board.",
+    "A documents saved:true != persisted explicitly; the official route needs the same discipline encoded by us."
+  ],
+  "blockers": [
+    "not run by this spike",
+    "no independent receipt"
+  ]
+}

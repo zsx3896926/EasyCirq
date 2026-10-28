@@ -1,0 +1,27 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W07",
+  "side": "a",
+  "title": "check / DRC / DFM",
+  "status": "static",
+  "actions": [
+    "zhigou sch drc",
+    "zhigou sch check",
+    "zhigou sch layout-lint",
+    "zhigou pcb drc",
+    "zhigou pcb check"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/acceptance-README.md",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+  ],
+  "observations": [
+    "A self-evidence claims native schematic DRC PASS (0 violations) and PCB DRC 0 violations plus a DFM audit with 0 errors / 4 warnings on its M4 board.",
+    "A's check actions return typed receipts with counts and scope, which formats better than the raw official arrays."
+  ],
+  "blockers": [
+    "not run by this spike",
+    "no independent receipt"
+  ]
+}

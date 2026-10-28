@@ -1,0 +1,18 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W11",
+  "side": "a",
+  "title": "MCP entry",
+  "status": "unsupported",
+  "actions": [],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+  ],
+  "observations": [
+    "A ships a CLI + daemon + WebSocket connector; it does not expose an MCP server, so B1 cannot use A as an MCP backend without writing a gateway.",
+    "The repository already has an unrelated offline-audit MCP server (docs/zhigou-mcp) that never touches EDA."
+  ],
+  "blockers": [
+    "no MCP implementation in A"
+  ]
+}

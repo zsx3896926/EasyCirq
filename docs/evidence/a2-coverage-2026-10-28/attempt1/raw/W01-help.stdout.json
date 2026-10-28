@@ -1,0 +1,36 @@
+
+JLCEDA Pro 4.1.78.34f5b8d9
+
+Usage:
+  lceda-pro <command> [options]
+  lceda-pro [global flags]
+
+Commands:
+  activate          Bring the server window up and focus it
+  open              Open a project and return its session id; .eprj3 folder projects stay in two-way sync with the editor (disk edits reload automatically, editor saves land on disk automatically); without --path open a bare editor (visible window; --headless for a hidden render)
+  stop              Gracefully stop the server
+  doctor            Probe the endpoint and report its identity
+  session/          Manage sessions (every editor window has one: opened by this CLI, or opened by the user in the GUI)
+    list            List sessions (each with origin cli/user, the project path and the window title)
+    close           Close any session. For CLI-opened visible windows it ends the session but leaves the window open and usable (pass --destroy to close the window too); windows the user opened are destroyed (the session ends; use `session abort` to also drop it from the list)
+    abort           Force-kill a session (last resort; unsaved edits in its window are lost): closes the window even when visible and removes the session from the list; works on windows the user opened too (the only way to drop a stuck one); prefer `session close`
+  invoke            Invoke a registered function by extension id + name (source runs on the editor command space; omit extUuid to run with independent script permission). ok:true means the code ran, not that the operation succeeded
+  functions         List extensions known to the session (editor command space extension index)
+  doc/              Query the editor API reference (eda / external / format)
+    api             Query the eda namespace (static editor API) progressively (surface / class / method)
+    external        Query the external namespace (extension-injected API; requires a session) progressively (group / interface)
+    format          Query the format namespace (design format reference) progressively (surface / type)
+
+Global flags:
+  --help              Show help for any command:
+    lceda-pro <command> --help
+  --search <query>    Fuzzy-search commands when unsure of the name:
+    lceda-pro --search <query>
+  --mcp stdio|http    Start MCP server (details: lceda-pro --mcp --help):
+    lceda-pro --mcp http --port 3030
+
+Invocation notes:
+  PowerShell does not capture the stdout of this program. Do not use:
+    $x = & lceda-pro --help      -> empty
+    & lceda-pro --help > out.txt -> empty file
+  Use a pipe (`| Out-String`) or Start-Process -Wait -RedirectStandardOutput instead.

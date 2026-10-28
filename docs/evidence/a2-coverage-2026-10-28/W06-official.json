@@ -1,0 +1,41 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W06",
+  "side": "official",
+  "title": "batch / plan application",
+  "status": "partial",
+  "commands": [
+    "10 x lceda-pro invoke (separate round-trips)",
+    "1 x lceda-pro invoke with a 10-read JS batch",
+    "lceda-pro invoke --timeout 3000 (timeout semantics)"
+  ],
+  "steps": 3,
+  "exit_codes": [
+    0,
+    3
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/raw/W06-batched-read.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W10-timeout.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/probe-run.json"
+  ],
+  "observations": [
+    "Measured CLI round-trip cost: 10 separate invokes took 10,082.7 ms (about 1,008 ms each); one invoke doing the same 10 reads took 995.6 ms.",
+    "Batching inside one JS program is about 10x cheaper than one invoke per action, so the model should compose a plan per invoke instead of calling one invoke per object.",
+    "There is no typed batch/transaction semantics: each invoke is an independent program; on timeout the CLI reports REQUEST_TIMEOUT and says the code may still be running and its result is discarded.",
+    "Write batching could not be measured (no authorization)."
+  ],
+  "risks": [
+    "timeout leaves unknown state; blind retry can duplicate creates",
+    "no per-action journal/idempotency key at the CLI layer",
+    "long JS programs are opaque to review and hard to resume"
+  ],
+  "measured": {
+    "steps": 1,
+    "js_lines": 12,
+    "exit_codes": [
+      0
+    ],
+    "duration_ms": 994.3
+  }
+}

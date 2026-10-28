@@ -1,0 +1,2001 @@
+{
+  "started_at": "2026-10-28T11:01:27+08:00",
+  "steps": [
+    {
+      "name": "W01-doctor",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "doctor"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1104.1,
+      "json_ok": true,
+      "stdout_file": "raw/W01-doctor.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W01-sessions-before",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "session",
+        "list"
+      ],
+      "exit_code": 0,
+      "duration_ms": 946.2,
+      "json_ok": true,
+      "stdout_file": "raw/W01-sessions-before.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W01-open",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "open",
+        "--path",
+        "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-spike-20261028-1050\\fixture\\a2spike-quickstart.eprj2",
+        "--headless"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1785.8,
+      "json_ok": true,
+      "stdout_file": "raw/W01-open.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W01-sessions-after-open",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "session",
+        "list"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1189.6,
+      "json_ok": true,
+      "stdout_file": "raw/W01-sessions-after-open.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W01-help",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "--help"
+      ],
+      "exit_code": 0,
+      "duration_ms": 975.8,
+      "json_ok": false,
+      "stdout_file": "raw/W01-help.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W02-project-tree",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nconst proj = await eda.dmt_Project.getCurrentProjectInfo();\nconst boards = (proj && proj.data) ? proj.data : [];\nreturn {\n  project: proj ? {uuid: proj.uuid, friendlyName: proj.friendlyName, name: proj.name, teamUuid: proj.teamUuid} : null,\n  boards: boards.map(b => ({\n    name: b.name,\n    boardType: b.itemType,\n    schematic: b.schematic ? {uuid: b.schematic.uuid, name: b.schematic.name,\n      pages: (b.schematic.page || []).map(p => ({uuid: p.uuid, name: p.name}))} : null,\n    pcb: b.pcb ? {uuid: b.pcb.uuid, name: b.pcb.name} : null\n  }))\n};\n",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1326.8,
+      "json_ok": true,
+      "stdout_file": "raw/W02-project-tree.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W02-sch-read",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nfunction firstBoard(proj) { return (proj && proj.data && proj.data.length) ? proj.data[0] : null; }\nconst proj = await eda.dmt_Project.getCurrentProjectInfo();\nconst board = firstBoard(proj);\nconst sch = board && board.schematic ? board.schematic : null;\nconst page = sch && sch.page && sch.page.length ? sch.page[0] : null;\nlet docHandle = null, activated = false, readyByUuid = null, readyByTab = null, openErr = null;\nif (page) {\n  try {\n    docHandle = await eda.dmt_EditorControl.openDocument(page.uuid);\n    activated = await eda.dmt_EditorControl.activateDocument(docHandle);\n    readyByUuid = await eda.dmt_EditorControl.waitForDocumentReady(page.uuid, 10000);\n    readyByTab = await eda.dmt_EditorControl.waitForDocumentReady(docHandle, 10000);\n  } catch (e) { openErr = String(e); }\n}\nlet components = null, compErr = null;\ntry { components = await eda.sch_PrimitiveComponent.getAll(undefined, true); } catch (e) { compErr = String(e); }\nlet nets = null, netErr = null;\ntry { nets = await eda.sch_Net.getAllNets(); } catch (e) { netErr = String(e); }\nlet wires = null, wireErr = null;\ntry { wires = await eda.sch_PrimitiveWire.getAll(); } catch (e) { wireErr = String(e); }\nlet pins = null, pinErr = null;\ntry {\n  const comp = (components || [])[0];\n  if (comp) {\n    const id = comp.primitiveId || comp.id || comp.uuid;\n    pins = await eda.sch_PrimitiveComponent.getAllPinsByPrimitiveId(id);\n  }\n} catch (e) { pinErr = String(e); }\nconst compCompact = (components || []).map(c => ({\n  primitiveId: c.primitiveId, designator: c.designator, name: c.name,\n  component: c.component, symbol: c.symbol, footprint: c.footprint,\n  x: c.x, y: c.y, rotation: c.rotation, mirror: c.mirror,\n  addIntoBom: c.addIntoBom, addIntoPcb: c.addIntoPcb, supplierId: c.supplierId\n}));\nreturn {\n  page: page ? {uuid: page.uuid, name: page.name} : null,\n  docHandle, activated, readyByUuid, readyByTab, openErr,\n  componentCount: (components || []).length, compErr,\n  netCount: (nets || []).length, netErr,\n  wireCount: (wires || []).length, wireErr,\n  pinCount: (pins || []).length, pinErr,\n  components: compCompact,\n  nets,\n  wires,\n  pins\n};\n",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1498.4,
+      "json_ok": true,
+      "stdout_file": "raw/W02-sch-read.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W08-netlist-string",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nconst netlistType = (typeof ESYS_NetlistType !== 'undefined') ? ESYS_NetlistType.PROTEL2 : 'Protel2';\nlet netlist = null, err = null;\ntry { netlist = await eda.sch_Netlist.getNetlist(netlistType); } catch (e) { err = String(e); }\nreturn {netlistType: String(netlistType), netlist, err};\n",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1217.2,
+      "json_ok": true,
+      "stdout_file": "raw/W08-netlist-string.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W08-netlist-file",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nlet file = null, text = null, err = null;\ntry {\n  file = await eda.sch_ManufactureData.getNetlistFile('a2spike.net', (typeof ESYS_NetlistType !== 'undefined') ? ESYS_NetlistType.PROTEL2 : 'Protel2');\n  if (file) text = await file.text();\n} catch (e) { err = String(e); }\nreturn {fileName: file ? file.name : null, size: file ? file.size : null, text, err};\n",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1285.2,
+      "json_ok": true,
+      "stdout_file": "raw/W08-netlist-file.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W08-bom",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nlet file = null, text = null, err = null;\ntry {\n  file = await eda.sch_ManufactureData.getBomFile('a2spike-bom.csv', 'csv');\n  if (file) text = await file.text();\n} catch (e) { err = String(e); }\nreturn {fileName: file ? file.name : null, size: file ? file.size : null, text, err};\n",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1293.7,
+      "json_ok": true,
+      "stdout_file": "raw/W08-bom.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W08-png",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nfunction b64(buf) {\n  const bytes = new Uint8Array(buf);\n  let bin = '';\n  const chunk = 0x8000;\n  for (let i = 0; i < bytes.length; i += chunk) {\n    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));\n  }\n  return btoa(bin);\n}\nlet file = null, data = null, err = null;\ntry {\n  file = await eda.sch_ManufactureData.getPngFile('a2spike-page.png');\n  if (file) data = b64(await file.arrayBuffer());\n} catch (e) { err = String(e); }\nreturn {fileName: file ? file.name : null, size: file ? file.size : null, base64: data, err};\n",
+        "--timeout",
+        "180000"
+      ],
+      "exit_code": 3,
+      "duration_ms": 180929.1,
+      "json_ok": true,
+      "stdout_file": "raw/W08-png.stdout.json",
+      "stderr_file": "raw/W08-png.stderr.txt"
+    },
+    {
+      "name": "W08-gerber",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nfunction b64(buf) {\n  const bytes = new Uint8Array(buf);\n  let bin = '';\n  const chunk = 0x8000;\n  for (let i = 0; i < bytes.length; i += chunk) {\n    bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));\n  }\n  return btoa(bin);\n}\nlet file = null, data = null, err = null;\ntry {\n  file = await eda.pcb_ManufactureData.getGerberFile('a2spike-gerber.zip');\n  if (file) data = b64(await file.arrayBuffer());\n} catch (e) { err = String(e); }\nreturn {fileName: file ? file.name : null, size: file ? file.size : null, base64: data, err};\n",
+        "--timeout",
+        "240000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 973.3,
+      "json_ok": true,
+      "stdout_file": "raw/W08-gerber.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W08-cpl",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nlet file = null, text = null, err = null;\ntry {\n  file = await eda.pcb_ManufactureData.getPickAndPlaceFile('a2spike-cpl.csv', 'csv', 'mm');\n  if (file) text = await file.text();\n} catch (e) { err = String(e); }\nreturn {fileName: file ? file.name : null, size: file ? file.size : null, text, err};\n",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1022.7,
+      "json_ok": true,
+      "stdout_file": "raw/W08-cpl.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W03-pcb-read",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nfunction firstBoard(proj) { return (proj && proj.data && proj.data.length) ? proj.data[0] : null; }\nconst proj = await eda.dmt_Project.getCurrentProjectInfo();\nconst board = firstBoard(proj);\nconst pcb = board && board.pcb ? board.pcb : null;\nlet docHandle = null, activated = false, ready = null, openErr = null;\nif (pcb) {\n  try {\n    docHandle = await eda.dmt_EditorControl.openDocument(pcb.uuid);\n    activated = await eda.dmt_EditorControl.activateDocument(docHandle);\n    ready = await eda.dmt_EditorControl.waitForDocumentReady(docHandle, 15000);\n  } catch (e) { openErr = String(e); }\n}\nlet pcbs = null, pErr = null;\ntry { pcbs = await eda.dmt_Pcb.getAllPcbsInfo(); } catch (e) { pErr = String(e); }\nlet layers = null, lErr = null;\ntry { layers = await eda.pcb_Layer.getAllLayers(); } catch (e) { lErr = String(e); }\nlet copperLayers = null, cErr = null;\ntry { copperLayers = await eda.pcb_Layer.getTheNumberOfCopperLayers(); } catch (e) { cErr = String(e); }\nlet nets = null, nErr = null;\ntry { nets = await eda.pcb_Net.getAllNets(); } catch (e) { nErr = String(e); }\nlet components = null, pkErr = null;\ntry { components = await eda.pcb_PrimitiveComponent.getAll(); } catch (e) { pkErr = String(e); }\nreturn {\n  pcb: pcb ? {uuid: pcb.uuid, name: pcb.name} : null,\n  docHandle, activated, ready, openErr,\n  pcbCount: (pcbs || []).length, pErr,\n  layerCount: (layers || []).length, lErr,\n  copperLayers, cErr,\n  netCount: (nets || []).length, nErr,\n  componentCount: (components || []).length, pkErr,\n  layers,\n  nets,\n  components\n};\n",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 6691.0,
+      "json_ok": true,
+      "stdout_file": "raw/W03-pcb-read.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W07-sch-drc",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nconst strict = false, userInterface = false, verbose = true;\nlet passed = null, err = null;\ntry { passed = await eda.sch_Drc.check(strict, userInterface, verbose); } catch (e) { err = String(e); }\nreturn {passed, err};\n",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1061.6,
+      "json_ok": true,
+      "stdout_file": "raw/W07-sch-drc.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W07-pcb-drc",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "\nlet passed = null, err = null, rt = null;\ntry { passed = await eda.pcb_Drc.check(false, false, true); } catch (e) { err = String(e); }\ntry { rt = await eda.pcb_Drc.getRealTimeDrcStatus(); } catch (e) { rt = 'err:' + String(e); }\nreturn {passed, err, realTimeStatus: rt};\n",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 3922.3,
+      "json_ok": true,
+      "stdout_file": "raw/W07-pcb-drc.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W06-batched-read",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "const out = [];\nout.push(await eda.sch_Net.getAllNetsName());\nout.push(await eda.sch_Net.getAllNetsName());\nout.push(await eda.sch_Net.getAllNetsName());\nout.push(await eda.sch_Net.getAllNetsName());\nout.push(await eda.sch_Net.getAllNetsName());\nout.push(await eda.sch_Net.getAllNetsName());\nout.push(await eda.sch_Net.getAllNetsName());\nout.push(await eda.sch_Net.getAllNetsName());\nout.push(await eda.sch_Net.getAllNetsName());\nout.push(await eda.sch_Net.getAllNetsName());\nreturn out.length;",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 993.9,
+      "json_ok": true,
+      "stdout_file": "raw/W06-batched-read.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W10-bad-session",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "00000000-0000-0000-0000-000000000000",
+        "--code",
+        "return {t: 1};",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 3,
+      "duration_ms": 951.3,
+      "json_ok": true,
+      "stdout_file": "raw/W10-bad-session.stdout.json",
+      "stderr_file": "raw/W10-bad-session.stderr.txt"
+    },
+    {
+      "name": "W10-bad-args",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "return {t: 1};",
+        "--args",
+        "[1,2]"
+      ],
+      "exit_code": 1,
+      "duration_ms": 739.8,
+      "json_ok": true,
+      "stdout_file": "raw/W10-bad-args.stdout.json",
+      "stderr_file": "raw/W10-bad-args.stderr.txt"
+    },
+    {
+      "name": "W10-bad-doc-api",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "doc",
+        "api",
+        "--class-name",
+        "DMT_NotARealClass"
+      ],
+      "exit_code": 1,
+      "duration_ms": 1002.0,
+      "json_ok": true,
+      "stdout_file": "raw/W10-bad-doc-api.stdout.json",
+      "stderr_file": "raw/W10-bad-doc-api.stderr.txt"
+    },
+    {
+      "name": "W10-thrown",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "throw new Error('a2spike-intentional-throw');",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 1,
+      "duration_ms": 973.7,
+      "json_ok": true,
+      "stdout_file": "raw/W10-thrown.stdout.json",
+      "stderr_file": "raw/W10-thrown.stderr.txt"
+    },
+    {
+      "name": "W10-permission",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "let p = null, e = null; try { p = await eda.sys_FileSystem.getProjectsPaths(); } catch (x) { e = String(x); } return {p, e};",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 969.5,
+      "json_ok": true,
+      "stdout_file": "raw/W10-permission.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W10-timeout",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "await new Promise(() => {}); return 1;",
+        "--timeout",
+        "3000"
+      ],
+      "exit_code": 3,
+      "duration_ms": 3695.4,
+      "json_ok": true,
+      "stdout_file": "raw/W10-timeout.stdout.json",
+      "stderr_file": "raw/W10-timeout.stderr.txt"
+    },
+    {
+      "name": "W10-wrong-document",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "let r = null, e = null; try { r = await eda.dmt_EditorControl.activateDocument('deadbeef@deadbeef'); } catch (x) { e = String(x); } return {r, e};",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 861.2,
+      "json_ok": true,
+      "stdout_file": "raw/W10-wrong-document.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W09-session-close",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "session",
+        "close",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--destroy"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1082.5,
+      "json_ok": true,
+      "stdout_file": "raw/W09-session-close.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W09-reopen",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "open",
+        "--path",
+        "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-spike-20261028-1050\\fixture\\a2spike-quickstart.eprj2",
+        "--headless"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1553.3,
+      "json_ok": true,
+      "stdout_file": "raw/W09-reopen.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W09-reopen-tree",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "36b91f41-7b9f-45ee-a946-5069999c674e",
+        "--code",
+        "\nconst proj = await eda.dmt_Project.getCurrentProjectInfo();\nconst boards = (proj && proj.data) ? proj.data : [];\nreturn {\n  project: proj ? {uuid: proj.uuid, friendlyName: proj.friendlyName, name: proj.name, teamUuid: proj.teamUuid} : null,\n  boards: boards.map(b => ({\n    name: b.name,\n    boardType: b.itemType,\n    schematic: b.schematic ? {uuid: b.schematic.uuid, name: b.schematic.name,\n      pages: (b.schematic.page || []).map(p => ({uuid: p.uuid, name: p.name}))} : null,\n    pcb: b.pcb ? {uuid: b.pcb.uuid, name: b.pcb.name} : null\n  }))\n};\n",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 2322.3,
+      "json_ok": true,
+      "stdout_file": "raw/W09-reopen-tree.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W99-session-close",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "session",
+        "close",
+        "--session",
+        "36b91f41-7b9f-45ee-a946-5069999c674e",
+        "--destroy"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1069.9,
+      "json_ok": true,
+      "stdout_file": "raw/W99-session-close.stdout.json",
+      "stderr_file": null
+    },
+    {
+      "name": "W99-sessions-after",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "session",
+        "list"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1059.5,
+      "json_ok": true,
+      "stdout_file": "raw/W99-sessions-after.stdout.json",
+      "stderr_file": null
+    }
+  ],
+  "doctor": {
+    "ok": true,
+    "value": {
+      "endpoint": "JLCEDAProa0c9c6ce",
+      "connected": true,
+      "bridgeVersion": "4.1.78.34f5b8d9",
+      "versionMatch": true,
+      "resultChannel": true
+    },
+    "logs": [],
+    "durationMs": 58
+  },
+  "sessions_after_open": {
+    "user_count": 1,
+    "cli_count": 3,
+    "ours": [
+      {
+        "sessionId": "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "renderId": 5,
+        "status": "alive",
+        "headless": true,
+        "origin": "cli",
+        "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-spike-20261028-1050\\fixture\\a2spike-quickstart.eprj2",
+        "title": "JLCEDA Pro"
+      }
+    ],
+    "user_sessions": [
+      {
+        "sessionId": "eb818679-ca93-40ff-b816-9853a328a517",
+        "renderId": 2,
+        "status": "alive",
+        "headless": false,
+        "origin": "user",
+        "path": null,
+        "title": "嘉立创EDA(专业版) - V4.1.78"
+      }
+    ]
+  },
+  "version_first_line": "JLCEDA Pro 4.1.78.34f5b8d9",
+  "project_tree": {
+    "project": null,
+    "boards": []
+  },
+  "schematic_read": {
+    "page": null,
+    "componentCount": 0,
+    "netCount": 0,
+    "wireCount": 0,
+    "pinCount": 0,
+    "readiness": {
+      "readyByUuid": null,
+      "readyByTab": null,
+      "activated": false
+    },
+    "errors": {
+      "compErr": null,
+      "netErr": null,
+      "wireErr": null,
+      "pinErr": null,
+      "openErr": null
+    },
+    "sampleComponents": [],
+    "samplePins": [],
+    "sampleNets": [],
+    "sampleWires": []
+  },
+  "exports": {
+    "netlist_string": {
+      "error": null
+    },
+    "netlist_file": {
+      "error": null
+    },
+    "bom": {
+      "error": null
+    },
+    "png": {
+      "error": null
+    },
+    "gerber": {
+      "error": null
+    },
+    "cpl": {
+      "error": null
+    }
+  },
+  "pcb_read": {
+    "pcb": {
+      "uuid": "b2f4d387989c4c63ac68533b05f0eee3",
+      "name": "PCB"
+    },
+    "pcbCount": 1,
+    "layerCount": 289,
+    "copperLayers": 2,
+    "netCount": 17,
+    "componentCount": 33,
+    "activated": true,
+    "ready": false,
+    "errors": {
+      "pErr": null,
+      "lErr": null,
+      "cErr": null,
+      "nErr": null,
+      "pkErr": null,
+      "openErr": null
+    },
+    "layers": [
+      {
+        "id": 1,
+        "name": "Top Layer",
+        "type": "SIGNAL",
+        "color": "#ff0000",
+        "transparency": 0,
+        "inactiveColor": "#ff0000",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 2,
+        "name": "Bottom Layer",
+        "type": "SIGNAL",
+        "color": "#0000ff",
+        "transparency": 0,
+        "inactiveColor": "#0000ff",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 3,
+        "name": "Top Silkscreen Layer",
+        "type": "SILKSCREEN",
+        "color": "#ffcc00",
+        "transparency": 0,
+        "inactiveColor": "#ffcc00",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 4,
+        "name": "Bottom Silkscreen Layer",
+        "type": "SILKSCREEN",
+        "color": "#66cc33",
+        "transparency": 0,
+        "inactiveColor": "#66cc33",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 5,
+        "name": "Top Solder Mask Layer",
+        "type": "SOLDER_MASK",
+        "color": "#800080",
+        "transparency": 30,
+        "inactiveColor": "#800080",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 6,
+        "name": "Bottom Solder Mask Layer",
+        "type": "SOLDER_MASK",
+        "color": "#aa00ff",
+        "transparency": 30,
+        "inactiveColor": "#aa00ff",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 7,
+        "name": "Top Paste Mask Layer",
+        "type": "PASTE_MASK",
+        "color": "#808080",
+        "transparency": 0,
+        "inactiveColor": "#808080",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 8,
+        "name": "Bottom Paste Mask Layer",
+        "type": "PASTE_MASK",
+        "color": "#800000",
+        "transparency": 0,
+        "inactiveColor": "#800000",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 9,
+        "name": "Top Assembly Layer",
+        "type": "ASSEMBLY",
+        "color": "#33cc99",
+        "transparency": 0,
+        "inactiveColor": "#33cc99",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 10,
+        "name": "Bottom Assembly Layer",
+        "type": "ASSEMBLY",
+        "color": "#5555ff",
+        "transparency": 0,
+        "inactiveColor": "#5555ff",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 11,
+        "name": "Board Outline Layer",
+        "type": "OTHER",
+        "color": "#ff00ff",
+        "transparency": 0,
+        "inactiveColor": "#ff00ff",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 12,
+        "name": "Multi-Layer",
+        "type": "OTHER",
+        "color": "#c0c0c0",
+        "transparency": 0,
+        "inactiveColor": "#c0c0c0",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 13,
+        "name": "Document Layer",
+        "type": "OTHER",
+        "color": "#ffffff",
+        "transparency": 0,
+        "inactiveColor": "#ffffff",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 14,
+        "name": "Mechanical Layer",
+        "type": "OTHER",
+        "color": "#f022f0",
+        "transparency": 0,
+        "inactiveColor": "#f022f0",
+        "inactiveTransparency": 50,
+        "layerStatus": 1,
+        "locked": false
+      },
+      {
+        "id": 15,
+        "name": "Inner1",
+        "type": "SIGNAL",
+        "color": "#999966",
+        "transparency": 0,
+        "inactiveColor": "#999966",
+        "inactiveTransparency": 50,
+        "layerStatus": 0,
+        "locked": false
+      },
+      {
+        "id": 16,
+        "name": "Inner2",
+        "type": "SIGNAL",
+        "color": "#008000",
+        "transparency": 0,
+        "inactiveColor": "#008000",
+        "inactiveTransparency": 50,
+        "layerStatus": 0,
+        "locked": false
+      },
+      {
+        "id": 17,
+        "name": "Inner3",
+        "type": "SIGNAL",
+        "color": "#00ff00",
+        "transparency": 0,
+        "inactiveColor": "#007f00",
+        "inactiveTransparency": 50,
+        "layerStatus": 0,
+        "locked": false
+      },
+      {
+        "id": 18,
+        "name": "Inner4",
+        "type": "SIGNAL",
+        "color": "#bc8e00",
+        "transparency": 0,
+        "inactiveColor": "#5e4700",
+        "inactiveTransparency": 50,
+        "layerStatus": 0,
+        "locked": false
+      },
+      {
+        "id": 19,
+        "name": "Inner5",
+        "type": "SIGNAL",
+        "color": "#70dbfa",
+        "transparency": 0,
+        "inactiveColor": "#39503f",
+        "inactiveTransparency": 50,
+        "layerStatus": 0,
+        "locked": false
+      },
+      {
+        "id": 20,
+        "name": "Inner6",
+        "type": "SIGNAL",
+        "color": "#00cc66",
+        "transparency": 0,
+        "inactiveColor": "#006633",
+        "inactiveTransparency": 50,
+        "layerStatus": 0,
+        "locked": false
+      }
+    ],
+    "nets": [
+      {
+        "net": "GND",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 0
+      },
+      {
+        "net": "VCC",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 3131.58294083353
+      },
+      {
+        "net": "VCC_IN",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 2021.8555098431248
+      },
+      {
+        "net": "$1N6954",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 250
+      },
+      {
+        "net": "$1N13796",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 314.94650000000036
+      },
+      {
+        "net": "$1N13327",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 246.0629999999999
+      },
+      {
+        "net": "$1N15740",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 589.6806589465538
+      },
+      {
+        "net": "$1N15445",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 903.1757323843281
+      },
+      {
+        "net": "$1N15475",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 698.6816333687898
+      },
+      {
+        "net": "$1N10436",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 1500.3502687097598
+      },
+      {
+        "net": "$1N14821",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 808.6977999999997
+      },
+      {
+        "net": "VO1",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 1850.7032575512799
+      },
+      {
+        "net": "VO2",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 501.90859999999986
+      },
+      {
+        "net": "$1N22192",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 2005.393201128586
+      },
+      {
+        "net": "$1N23204",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 209.9400858008676
+      },
+      {
+        "net": "$1N9962",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 192.12600000000023
+      },
+      {
+        "net": "$1N10660",
+        "color": {
+          "r": 0,
+          "g": 0,
+          "b": 0,
+          "alpha": 1
+        },
+        "length": 0
+      }
+    ],
+    "components": [
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 466.1575,
+        "y": -1950.7677,
+        "rotation": 0,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "DC005-T20",
+            "source": "",
+            "uuid": "89d274450d804193a8b3479f450ef9b0"
+          }
+        },
+        "primitiveId": "e0",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "be803d51752f48988f8df53da0c50e9c",
+          "name": "DC-IN-TH_DC005-T20"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "d478d899928747a3aafbc5cb270e0ff3",
+          "name": "DC-IN-TH_DC005-T20"
+        },
+        "designator": "DC1",
+        "pads": [
+          {
+            "primitiveId": "e14",
+            "net": "VCC_IN",
+            "padNumber": "1"
+          },
+          {
+            "primitiveId": "e15",
+            "net": "GND",
+            "padNumber": "2"
+          },
+          {
+            "primitiveId": "e16",
+            "net": "GND",
+            "padNumber": "3"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge1",
+        "manufacturer": "SOFNG(硕方)",
+        "manufacturerId": "DC005-T20",
+        "supplier": "LCSC",
+        "supplierId": "C111567",
+        "otherProperty": {
+          "Footprint": "DC-IN-TH_DC005-T20",
+          "LCSC Part Name": "外径:6.3mm B级 全铜",
+          "Supplier Footprint": "插件",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20170519/1495157966733.pdf",
+          "3D Model": "d478d899928747a3aafbc5cb270e0ff3",
+          "3D Model Title": "DC-IN-TH_DC005-T20",
+          "3D Model Transform": "557.1,366.1,0,0,0,0,-133.3,85.6,-157.5",
+          "Connector Type": "DC电源插座",
+          "Mounting Style": "弯插",
+          "Inside Contact Diameter": "-",
+          "Outside Contact Diameter": "6.3mm",
+          "Current Rating (Max)": "3A",
+          "Voltage Rating (Max)": "30V",
+          "Operating Temperature Range": "-10℃~+60℃",
+          "Description": "连接器类型:DC电源插座;安装方式:弯插;触点内径:-;触点外径:6.3mm;额定电流:3A;额定电压:30V;工作温度范围:-10℃~+60℃;"
+        }
+      },
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 540.1575,
+        "y": -596.8677,
+        "rotation": -90,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "1N4148TR",
+            "source": "",
+            "uuid": "5c2b97ef7f4040c0857f48d7bcce6dee"
+          }
+        },
+        "primitiveId": "e26",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "a0dc422ae734465abe307a4f9ff0b2c4",
+          "name": "DO-35_BD2.0-L4.2-P8.20-D0.5-RD"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "6e6fa891745c42b796728c269d94cdcf",
+          "name": "DO-35_D1.9-L3.9-P8.2"
+        },
+        "designator": "D1",
+        "pads": [
+          {
+            "primitiveId": "e6",
+            "net": "VCC_IN",
+            "padNumber": "2"
+          },
+          {
+            "primitiveId": "e7",
+            "net": "VCC",
+            "padNumber": "1"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge2",
+        "manufacturer": "onsemi(安森美)",
+        "manufacturerId": "1N4148TR",
+        "supplier": "LCSC",
+        "supplierId": "C84410",
+        "otherProperty": {
+          "Footprint": "DO-35_BD2.0-L4.2-P8.20-D0.5-RD",
+          "LCSC Part Name": "100V 200mA 4ns",
+          "Supplier Footprint": "DO-35",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20161024/1477288632860.pdf",
+          "3D Model": "6e6fa891745c42b796728c269d94cdcf",
+          "3D Model Title": "DO-35_D1.9-L3.9-P8.2",
+          "3D Model Transform": "342.5,74.8,0,0,0,0,-0.2,1.2,-137.8",
+          "Diode Configuration": "-",
+          "Power Dissipation": "500mW",
+          "Reverse Voltage (Vr)": "100V",
+          "Average Rectified Current (Io)": "200mA",
+          "Forward Voltage (Vf@If)": "1V@10mA",
+          "Reverse Leakage Current": "5A@75V",
+          "Reverse Recovery Time (trr)": "4ns",
+          "Operating Temperature": "-55~+175@(Tj)",
+          "Description": "二极管配置:-;功率:500mW;直流反向耐压(Vr):100V;平均整流电流(Io):200mA;正向压降(Vf):1V@10mA;反向电流(Ir):5A@75V;反向恢复时间(trr):4ns;工作温度:-55~+175@(Tj);"
+        }
+      },
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 240.1575,
+        "y": -856.6677,
+        "rotation": 90,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "DB301V-5.0-2P-BU-P",
+            "source": "",
+            "uuid": "240cb7a3ff874f708b6d8c80ecd9d047"
+          }
+        },
+        "primitiveId": "e28",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "f442fbf6202a42499ef0e57244a4305b",
+          "name": "CONN-TH_2P-P5.00_DB301V-5.0-2P-BU-P"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "b7594aac05b54d8687096b3bc433b18f",
+          "name": "CONN-TH_2P-P5.00_DB301V-5.0-2P-BU-P"
+        },
+        "designator": "U1",
+        "pads": [
+          {
+            "primitiveId": "e12",
+            "net": "GND",
+            "padNumber": "1"
+          },
+          {
+            "primitiveId": "e13",
+            "net": "VCC_IN",
+            "padNumber": "2"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge3",
+        "manufacturer": "DIBO(地博电气)",
+        "manufacturerId": "DB301V-5.0-2P-BU-P",
+        "supplier": "LCSC",
+        "supplierId": "C430621",
+        "otherProperty": {
+          "Footprint": "CONN-TH_2P-P5.00_DB301V-5.0-2P-BU-P",
+          "LCSC Part Name": "5mm 排数:1 每排P数:2 直针",
+          "Supplier Footprint": "P=5mm",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20191217/C430621_0E4ACE8E676D4E51FA492CCC12678E45.pdf",
+          "3D Model": "b7594aac05b54d8687096b3bc433b18f",
+          "3D Model Title": "CONN-TH_2P-P5.00_DB301V-5.0-2P-BU-P",
+          "3D Model Transform": "417.3,299.2,0,0,0,0,11.8,-27.6,-137.8",
+          "Pitch": "5mm",
+          "Number of Rows": "1",
+          "Number of PINs Per Row": "2",
+          "Mounting Style": "直针",
+          "Current Rating (Max)": "17.5A",
+          "Voltage Rating (Max)": "250V",
+          "Wire Gauge - AWG": "14~22",
+          "Wire Gauge - mm?": "0.75~1.5",
+          "Operating Temperature Range": "-30~+120",
+          "Color": "蓝色",
+          "Description": "间距:5mm;排数:1;每排PIN数:2;安装方式:直针;额定电流:17.5A;额定电压:250V;线规 - AWG:14~22;线规 - mm?:0.75~1.5;工作温度范围:-30~+120;颜色:蓝色;"
+        }
+      },
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 540.1575,
+        "y": -1251.5677,
+        "rotation": -90,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "MFR-25JT-52-1K",
+            "source": "",
+            "uuid": "86dd9a2dbe4c41f8b3e4a1c0390d5adc"
+          }
+        },
+        "primitiveId": "e30",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "9f45bf75e2eb4dbc95753d25b7fa9eca",
+          "name": "RES-TH_BD2.2-L6.5-P10.50-D0.6"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "b909c601053f4d6186ab8392cbab0ca9",
+          "name": "RES-TH_BD2.2-L6.5-P10.50"
+        },
+        "designator": "R1",
+        "pads": [
+          {
+            "primitiveId": "e3",
+            "net": "VCC_IN",
+            "padNumber": "1"
+          },
+          {
+            "primitiveId": "e4",
+            "net": "$1N6954",
+            "padNumber": "2"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge4",
+        "manufacturer": "YAGEO(国巨)",
+        "manufacturerId": "MFR-25JT-52-1K",
+        "supplier": "LCSC",
+        "supplierId": "C176465",
+        "otherProperty": {
+          "Footprint": "RES-TH_BD2.2-L6.5-P10.50-D0.6",
+          "LCSC Part Name": "1k ±5% 250mW",
+          "Supplier Footprint": "轴向引线",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20180412/C176465_B1D61A567F5A7ED09D93828451981E7D.pdf",
+          "3D Model": "b909c601053f4d6186ab8392cbab0ca9",
+          "3D Model Title": "RES-TH_BD2.2-L6.5-P10.50",
+          "3D Model Transform": "431.1,91.3,0,0,0,0,0,0,-137.8",
+          "Type": "金属膜电阻",
+          "Value": "1k",
+          "Tolerance": "±5%",
+          "Power(Watts)": "250mW",
+          "Operating Temperature Range": "-",
+          "Description": "电阻类型:金属膜电阻;阻值:1k;精度:±5%;功率:250mW;工作温度范围:-;"
+        }
+      },
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 1830.7087,
+        "y": -1190.952,
+        "rotation": 90,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "MFR0W4F2002A50",
+            "source": "",
+            "uuid": "85b13c07732d4ad8956323c1aba5f7cf"
+          }
+        },
+        "primitiveId": "e32",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "9f45bf75e2eb4dbc95753d25b7fa9eca",
+          "name": "RES-TH_BD2.2-L6.5-P10.50-D0.6"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "b909c601053f4d6186ab8392cbab0ca9",
+          "name": "RES-TH_BD2.2-L6.5-P10.50"
+        },
+        "designator": "R2",
+        "pads": [
+          {
+            "primitiveId": "e3",
+            "net": "$1N13796",
+            "padNumber": "1"
+          },
+          {
+            "primitiveId": "e4",
+            "net": "$1N13327",
+            "padNumber": "2"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge5",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "MFR0W4F2002A50",
+        "supplier": "LCSC",
+        "supplierId": "C58594",
+        "otherProperty": {
+          "Footprint": "RES-TH_BD2.2-L6.5-P10.50-D0.6",
+          "LCSC Part Name": "20k ±1% 250mW",
+          "Supplier Footprint": "轴向引线",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20170615/1497511037942.pdf",
+          "3D Model": "b909c601053f4d6186ab8392cbab0ca9",
+          "3D Model Title": "RES-TH_BD2.2-L6.5-P10.50",
+          "3D Model Transform": "431.1,91.3,0,0,0,0,0,0,-137.8",
+          "Type": "金属膜电阻",
+          "Value": "20k",
+          "Tolerance": "±1%",
+          "Power(Watts)": "250mW",
+          "Temperature Coefficient": "±50ppm/",
+          "Operating Temperature Range": "-",
+          "Description": "电阻类型:金属膜电阻;阻值:20k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;"
+        }
+      },
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 1830.7087,
+        "y": -1761.8182,
+        "rotation": 90,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "MFR0W4F1003A50",
+            "source": "",
+            "uuid": "b0e2974d320447ca86031a5c5ccccd64"
+          }
+        },
+        "primitiveId": "e34",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "2b2837e84daf46f5b522540c6e8c5ea5",
+          "name": "RES-TH_BD2.5-L6.5-P10.50-D0.6"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "8e6c7ee8323443d1ab8f0504b6353c8c",
+          "name": "RES-TH_D2.3-L6.5-P10.50"
+        },
+        "designator": "R3",
+        "pads": [
+          {
+            "primitiveId": "e5",
+            "net": "GND",
+            "padNumber": "1"
+          },
+          {
+            "primitiveId": "e6",
+            "net": "$1N13796",
+            "padNumber": "2"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge6",
+        "manufacturer": "UNI-ROYAL(厚声)",
+        "manufacturerId": "MFR0W4F1003A50",
+        "supplier": "LCSC",
+        "supplierId": "C58597",
+        "otherProperty": {
+          "Footprint": "RES-TH_BD2.5-L6.5-P10.50-D0.6",
+          "LCSC Part Name": "100k ±1% 250mW",
+          "Supplier Footprint": "轴向引线",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20170615/1497511038881.pdf",
+          "3D Model": "8e6c7ee8323443d1ab8f0504b6353c8c",
+          "3D Model Title": "RES-TH_D2.3-L6.5-P10.50",
+          "3D Model Transform": "431.1015,91.3384,0,0,0,0,0.197,0,-137.795",
+          "Type": "金属膜电阻",
+          "Value": "100k",
+          "Tolerance": "±1%",
+          "Power(Watts)": "250mW",
+          "Temperature Coefficient": "±50ppm/",
+          "Operating Temperature Range": "-",
+          "Description": "电阻类型:金属膜电阻;阻值:100k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;"
+        }
+      },
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 2746.0631000000003,
+        "y": -931.1465,
+        "rotation": 90,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "MFR-25FTE52-47K",
+            "source": "",
+            "uuid": "ffe3f847f4bb490aabeba509eb3ca063"
+          }
+        },
+        "primitiveId": "e36",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "45295100e30f4263a94c5e0c59377dab",
+          "name": "RES-TH_BD2.4-L6.3-P10.30-D0.6"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "463263665006444ab7a47bd11b0cf956",
+          "name": "RES-TH_BD2.4-L6.3-P10.30-D0.6"
+        },
+        "designator": "R6",
+        "pads": [
+          {
+            "primitiveId": "e5",
+            "net": "$1N15740",
+            "padNumber": "1"
+          },
+          {
+            "primitiveId": "e6",
+            "net": "GND",
+            "padNumber": "2"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge7",
+        "manufacturer": "YAGEO(国巨)",
+        "manufacturerId": "MFR-25FTE52-47K",
+        "supplier": "LCSC",
+        "supplierId": "C173021",
+        "otherProperty": {
+          "Footprint": "RES-TH_BD2.4-L6.3-P10.30-D0.6",
+          "LCSC Part Name": "47k ±1% 250mW",
+          "Supplier Footprint": "轴向引线",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20180420/C173021_7AD4F1B81C478ED33B405AE8A1C191A6.pdf",
+          "3D Model": "463263665006444ab7a47bd11b0cf956",
+          "3D Model Title": "RES-TH_BD2.4-L6.3-P10.30-D0.6",
+          "3D Model Transform": "427.165,94.32816,0,0,0,0,0,0,-196.85",
+          "Type": "金属膜电阻",
+          "Value": "47k",
+          "Tolerance": "±1%",
+          "Power(Watts)": "250mW",
+          "Temperature Coefficient": "±50ppm/",
+          "Operating Temperature Range": "-",
+          "Description": "电阻类型:金属膜电阻;阻值:47k;精度:±1%;功率:250mW;温度系数:±50ppm/;工作温度范围:-;"
+        }
+      },
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 1988.189,
+        "y": -1194.8378,
+        "rotation": 90,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "MF1/4W ±1% 16K STB5",
+            "source": "",
+            "uuid": "f86280bab0bc4450884ee0d54599e7da"
+          }
+        },
+        "primitiveId": "e38",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "45295100e30f4263a94c5e0c59377dab",
+          "name": "RES-TH_BD2.4-L6.3-P10.30-D0.6"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "463263665006444ab7a47bd11b0cf956",
+          "name": "RES-TH_BD2.4-L6.3-P10.30-D0.6"
+        },
+        "designator": "R7",
+        "pads": [
+          {
+            "primitiveId": "e5",
+            "net": "$1N15445",
+            "padNumber": "1"
+          },
+          {
+            "primitiveId": "e6",
+            "net": "$1N15475",
+            "padNumber": "2"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge8",
+        "manufacturer": "VO(翔胜)",
+        "manufacturerId": "MF1/4W ±1% 16K STB5",
+        "supplier": "LCSC",
+        "supplierId": "C337151",
+        "otherProperty": {
+          "Footprint": "RES-TH_BD2.4-L6.3-P10.30-D0.6",
+          "LCSC Part Name": "16k ±1% 250mW",
+          "Supplier Footprint": "轴向引线",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20181224/C337151_F9580EBD41013FCE755A16D7F2B5866E.pdf",
+          "3D Model": "463263665006444ab7a47bd11b0cf956",
+          "3D Model Title": "RES-TH_BD2.4-L6.3-P10.30-D0.6",
+          "3D Model Transform": "427.165,94.32816,0,0,0,0,0,0,-196.85",
+          "Type": "金属膜电阻",
+          "Value": "16k",
+          "Tolerance": "±1%",
+          "Power(Watts)": "250mW",
+          "Temperature Coefficient": "±350ppm/",
+          "Overload Voltage (Max)": "250V",
+          "Operating Temperature Range": "-55~+155",
+          "Description": "电阻类型:金属膜电阻;阻值:16k;精度:±1%;功率:250mW;温度系数:±350ppm/;最大工作电压:250V;工作温度范围:-55~+155;"
+        }
+      },
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 915.3544,
+        "y": -894.0945,
+        "rotation": 180,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "3296W-1-103",
+            "source": "",
+            "uuid": "6b938e0c345546099423042c7641bc1d"
+          }
+        },
+        "primitiveId": "e40",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "3a83d1c96d514487b5ee10a92bba063c",
+          "name": "RES-ADJ-TH_3296W"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "3664f7b541aa4725a8b6d3b7a961f078",
+          "name": "RES-ADJ-TH_3296W"
+        },
+        "designator": "R8",
+        "pads": [
+          {
+            "primitiveId": "e4",
+            "net": "$1N10436",
+            "padNumber": "2"
+          },
+          {
+            "primitiveId": "e5",
+            "net": "$1N10436",
+            "padNumber": "1"
+          },
+          {
+            "primitiveId": "e6",
+            "net": "VCC",
+            "padNumber": "3"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge9",
+        "manufacturer": "BOCHEN(博晨)",
+        "manufacturerId": "3296W-1-103",
+        "supplier": "LCSC",
+        "supplierId": "C330432",
+        "otherProperty": {
+          "Footprint": "RES-ADJ-TH_3296W",
+          "LCSC Part Name": "10k ±10%",
+          "Supplier Footprint": "插件",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20181127/C330432_1E3D0FAFEECED03876733B6304362580.pdf",
+          "3D Model": "3664f7b541aa4725a8b6d3b7a961f078",
+          "3D Model Title": "RES-ADJ-TH_3296W",
+          "3D Model Transform": "374,189,0,90,0,0,0,0,-137.8",
+          "Value": "10k",
+          "Tolerance": "±10%",
+          "Temperature Coefficient": "±250ppm/",
+          "Description": "阻值:10k;精度:±10%;温度系数:±250ppm/;"
+        }
+      },
+      {
+        "async": true,
+        "primitiveType": "Component",
+        "layer": 1,
+        "x": 2275.1969,
+        "y": -1968.504,
+        "rotation": -90,
+        "primitiveLock": false,
+        "addIntoBom": true,
+        "component": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": {
+            "name": "3296W-1-101LF",
+            "source": "",
+            "uuid": "db33986ea5754d0ab471e6c8b6951e96"
+          }
+        },
+        "primitiveId": "e42",
+        "footprint": {
+          "libraryUuid": "843fd42bc6b8e1ef0d13ae05b106bf303b549dcae63ce70f3882ef21f21cadcf",
+          "uuid": "3a83d1c96d514487b5ee10a92bba063c",
+          "name": "RES-ADJ-TH_3296W"
+        },
+        "model3D": {
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87",
+          "uuid": "3664f7b541aa4725a8b6d3b7a961f078",
+          "name": "RES-ADJ-TH_3296W"
+        },
+        "designator": "R10",
+        "pads": [
+          {
+            "primitiveId": "e4",
+            "net": "$1N14821",
+            "padNumber": "2"
+          },
+          {
+            "primitiveId": "e5",
+            "net": "GND",
+            "padNumber": "1"
+          },
+          {
+            "primitiveId": "e6",
+            "net": "$1N14821",
+            "padNumber": "3"
+          }
+        ],
+        "name": "",
+        "uniqueId": "gge10",
+        "manufacturer": "BOURNS",
+        "manufacturerId": "3296W-1-101LF",
+        "supplier": "LCSC",
+        "supplierId": "C83688",
+        "otherProperty": {
+          "Footprint": "RES-ADJ-TH_3296W",
+          "LCSC Part Name": "100 ±10%",
+          "Supplier Footprint": "3296W",
+          "JLCPCB Part Class": "Extended Part",
+          "Datasheet": "https://atta.szlcsc.com/upload/public/pdf/source/20160920/1474356682992.pdf",
+          "3D Model": "3664f7b541aa4725a8b6d3b7a961f078",
+          "3D Model Title": "RES-ADJ-TH_3296W",
+          "3D Model Transform": "374,189,0,90,0,0,0,0,-137.8",
+          "Value": "100",
+          "Tolerance": "±10%",
+          "Temperature Coefficient": "±100ppm/",
+          "Description": "阻值:100;精度:±10%;温度系数:±100ppm/;"
+        }
+      }
+    ]
+  },
+  "checks": {
+    "schematic": {
+      "passed": null,
+      "err": "Error: Error: SCH_DrcUtil: doctype(3) not support check sch drc"
+    },
+    "pcb": {
+      "passed": [
+        {
+          "name": "Netlist Error",
+          "list": [
+            {
+              "name": "Netlist Error",
+              "list": [
+                {
+                  "visible": true,
+                  "errorType": "Netlist Error",
+                  "errorObjType": "Netlist Error",
+                  "ruleName": "Import Changes",
+                  "ruleTypeName": "Import Changes",
+                  "obj1": {
+                    "typeName": "Schematic Netlist",
+                    "suffix": ""
+                  },
+                  "obj2": {
+                    "typeName": "PCB Netlist",
+                    "suffix": ""
+                  },
+                  "objs": [
+                    "err0"
+                  ],
+                  "explanation": {
+                    "str": "PCB and schematic netlist does not match. You can click on the rule name \"Import Changes\" to view the difference.",
+                    "param": {}
+                  },
+                  "globalIndex": "err0",
+                  "parentId": "DRCTab|_|Errors|_|Netlist Error|_|Netlist Error"
+                }
+              ],
+              "count": 1,
+              "title": [
+                "Netlist Error",
+                "(1)"
+              ],
+              "visible": true
+            }
+          ],
+          "visible": true,
+          "count": 1,
+          "title": [
+            "Netlist Error",
+            "(1)"
+          ]
+        }
+      ],
+      "err": null,
+      "realTimeStatus": false
+    }
+  },
+  "batch_cost": {
+    "separate_calls": 10,
+    "separate_total_ms": 9734.1,
+    "separate_per_call_ms": 973.4,
+    "batched_calls": 1,
+    "batched_total_ms": 995.0,
+    "batched_value": 10,
+    "batched_exit_code": 0
+  },
+  "errors": {
+    "bad_session": {
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "00000000-0000-0000-0000-000000000000",
+        "--code",
+        "return {t: 1};",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 3,
+      "duration_ms": 951.3,
+      "stdout_json": {
+        "ok": false,
+        "error": {
+          "code": "SESSION_NOT_FOUND",
+          "message": "session '00000000-0000-0000-0000-000000000000' does not exist"
+        }
+      },
+      "stdout_json_error": null,
+      "stdout_bytes": 125,
+      "stderr": "SESSION_NOT_FOUND: session '00000000-0000-0000-0000-000000000000' does not exist\n"
+    },
+    "bad_args": {
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "return {t: 1};",
+        "--args",
+        "[1,2]"
+      ],
+      "exit_code": 1,
+      "duration_ms": 739.8,
+      "stdout_json": {
+        "ok": false,
+        "error": {
+          "code": "INVALID_ARGS",
+          "message": "--args must be a JSON object"
+        }
+      },
+      "stdout_json_error": null,
+      "stdout_bytes": 87,
+      "stderr": "INVALID_ARGS: --args must be a JSON object\n"
+    },
+    "bad_doc_api": {
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "doc",
+        "api",
+        "--class-name",
+        "DMT_NotARealClass"
+      ],
+      "exit_code": 1,
+      "duration_ms": 1002.0,
+      "stdout_json": {
+        "ok": false,
+        "error": {
+          "code": "DOC_QUERY_FAILED",
+          "message": "[help] eda 命名空间下不存在类型：DMT_NotARealClass"
+        }
+      },
+      "stdout_json_error": null,
+      "stdout_bytes": 124,
+      "stderr": "DOC_QUERY_FAILED: [help] eda 命名空间下不存在类型：DMT_NotARealClass\n"
+    },
+    "thrown": {
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "--code",
+        "throw new Error('a2spike-intentional-throw');",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 1,
+      "duration_ms": 973.7,
+      "stdout_json": {
+        "ok": false,
+        "error": {
+          "code": "EXECUTION_ERROR",
+          "message": "a2spike-intentional-throw"
+        }
+      },
+      "stdout_json_error": null,
+      "stdout_bytes": 87,
+      "stderr": "EXECUTION_ERROR: a2spike-intentional-throw\n"
+    },
+    "permission": {
+      "p": null,
+      "e": "Error: 错误：未启用扩展和独立脚本的外部交互权限！"
+    },
+    "timeout": {
+      "receipt": {
+        "argv": [
+          "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+          "invoke",
+          "--session",
+          "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+          "--code",
+          "await new Promise(() => {}); return 1;",
+          "--timeout",
+          "3000"
+        ],
+        "exit_code": 3,
+        "duration_ms": 3695.4,
+        "stdout_json": {
+          "ok": false,
+          "error": {
+            "code": "REQUEST_TIMEOUT",
+            "message": "invoke timed out after 2750ms (budget 3000ms; gave up waiting; the code may still be running in the render, and its result will be discarded)"
+          }
+        },
+        "stdout_json_error": null,
+        "stdout_bytes": 203,
+        "stderr": "REQUEST_TIMEOUT: invoke timed out after 2750ms (budget 3000ms; gave up waiting; the code may still be running in the render, and its result will be discarded)\n"
+      },
+      "wall_ms": 3705.7
+    },
+    "wrong_document": {
+      "r": false,
+      "e": null
+    }
+  },
+  "mcp": {
+    "exe": "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+    "transport": "stdio",
+    "framing": "newline",
+    "steps": [],
+    "initialize": {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {
+        "protocolVersion": "2025-06-18",
+        "capabilities": {
+          "tools": {}
+        },
+        "serverInfo": {
+          "name": "JLCEDA Pro",
+          "version": "4.1.78.34f5b8d9"
+        }
+      }
+    },
+    "server_info": {
+      "name": "JLCEDA Pro",
+      "version": "4.1.78.34f5b8d9"
+    },
+    "protocol_version": "2025-06-18",
+    "capabilities": {
+      "tools": {}
+    },
+    "tools_list": {
+      "jsonrpc": "2.0",
+      "id": 2,
+      "result": {
+        "tools": [
+          {
+            "name": "lceda-pro.help",
+            "description": "ALWAYS call this FIRST when interacting with a CLI capability. Returns available subcommands, their purpose, input schemas, and usage examples. After understanding via mcli.help, use mcli.discover to find specific commands or mcli.call to execute them.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Optional command path like 'github' or 'github.issue'. Omit to see top-level."
+                }
+              }
+            }
+          },
+          {
+            "name": "lceda-pro.discover",
+            "description": "Search for commands by keyword AFTER using mcli.help to understand the tool. Returns matching command paths and summaries. Use mcli.help first for overview, then discover to find specifics, then mcli.call to execute.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "query": {
+                  "type": "string",
+                  "description": "Search query"
+                },
+                "limit": {
+                  "type": "number",
+                  "description": "Max results (default 10)"
+                }
+              },
+              "required": [
+                "query"
+              ]
+            }
+          },
+          {
+            "name": "lceda-pro.call",
+            "description": "Execute a registered command. Returns real data (search results, page content, etc.). Call mcli.help FIRST for overview, optionally mcli.discover to find commands, then mcli.call to fulfill user requests.",
+            "inputSchema": {
+              "type": "object",
+              "properties": {
+                "path": {
+                  "type": "string",
+                  "description": "Command path like 'github.issue.close' or 'search'"
+                },
+                "input": {
+                  "type": "object",
+                  "additionalProperties": true,
+                  "description": "Command input parameters"
+                }
+              },
+              "required": [
+                "path"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "tool_names": [
+      "lceda-pro.help",
+      "lceda-pro.discover",
+      "lceda-pro.call"
+    ],
+    "chosen_tool": "lceda-pro.help",
+    "tools_call": {
+      "jsonrpc": "2.0",
+      "id": 3,
+      "result": {
+        "isError": false,
+        "content": [
+          {
+            "type": "text",
+            "text": "{\n  \"name\": \"JLCEDA Pro\",\n  \"summary\": \"\",\n  \"children\": [\n    {\n      \"path\": \"activate\",\n      \"summary\": \"Bring the server window up and focus it\"\n    },\n    {\n      \"path\": \"open\",\n      \"summary\": \"Open a project and return its session id; .eprj3 folder projects stay in two-way sync with the editor (disk edits reload automatically, editor saves land on disk automatically); without --path open a bare editor (visible window; --headless for a hidden render)\"\n    },\n    {\n      \"path\": \"stop\",\n      \"summary\": \"Gracefully stop the server\"\n    },\n    {\n      \"path\": \"doctor\",\n      \"summary\": \"Probe the endpoint and report its identity\"\n    },\n    {\n      \"path\": \"session\",\n      \"summary\": \"List sessions (each with origin cli/user, the project path and the window title)\"\n    },\n    {\n      \"path\": \"invoke\",\n      \"summary\": \"Invoke a registered function by extension id + name (source runs on the editor command space; omit extUuid to run with independent script permission). ok:true means the code ran, not that the operation succeeded\"\n    },\n    {\n      \"path\": \"functions\",\n      \"summary\": \"List extensions known to the session (editor command space extension index)\"\n    },\n    {\n      \"path\": \"doc\",\n      \"summary\": \"Query the eda namespace (static editor API) progressively (surface / class / method)\"\n    }\n  ]\n}"
+          }
+        ]
+      }
+    },
+    "stderr_tail": [],
+    "duration_ms": 784.8,
+    "transcript_lines": 7
+  },
+  "reopen": {
+    "session_closed": {
+      "ok": true,
+      "value": {
+        "sessionId": "faff71aa-86a1-4b8e-ae40-5d683c73a143",
+        "status": "closed",
+        "headless": true
+      },
+      "logs": [],
+      "durationMs": 7
+    },
+    "reopened_session": "36b91f41-7b9f-45ee-a946-5069999c674e",
+    "tree": {
+      "project": null,
+      "boards": []
+    },
+    "fixture_before": {
+      "a2spike-quickstart.eprj2": {
+        "bytes": 6135808,
+        "sha256": "824f6dcc41f6eb4918024a4d86e2b35248436b11bdad60aaa4d1693cb4d90fe0"
+      }
+    },
+    "fixture_after": {
+      "a2spike-quickstart.eprj2": {
+        "bytes": 6135808,
+        "sha256": "824f6dcc41f6eb4918024a4d86e2b35248436b11bdad60aaa4d1693cb4d90fe0"
+      }
+    },
+    "fixture_diff": {
+      "added": [],
+      "removed": [],
+      "changed": [],
+      "unchanged_count": 1
+    }
+  },
+  "finished_at": "2026-10-28T11:05:23+08:00"
+}

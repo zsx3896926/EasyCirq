@@ -1,0 +1,841 @@
+{
+  "captured_at": "2026-10-28T11:42:26+08:00",
+  "exe": "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+  "classes": {
+    "DMT_Project": {
+      "file": "api/DMT_Project.json",
+      "exit_code": 0,
+      "method_count": 14,
+      "methods": [
+        "openProject",
+        "createProject",
+        "modifyProjectFriendlyName",
+        "modifyProjectDescription",
+        "modifyProjectCollaborationMode",
+        "moveProject",
+        "moveProjectToFolder",
+        "copyProject",
+        "getAllProjectsUuid",
+        "getProjectInfo",
+        "getCurrentProjectInfo",
+        "deleteProject",
+        "waitForReady",
+        "getReadyState"
+      ],
+      "sha256": "e4b53d9c4d11f8b3dcec8936d2503363eafeb22abe4b37bb901ef9e4cd86c74f"
+    },
+    "DMT_Schematic": {
+      "file": "api/DMT_Schematic.json",
+      "exit_code": 0,
+      "method_count": 17,
+      "methods": [
+        "createSchematic",
+        "createSchematicPage",
+        "modifySchematicName",
+        "modifySchematicPageName",
+        "modifySchematicPageTitleBlock",
+        "copySchematic",
+        "copySchematicPage",
+        "getSchematicInfo",
+        "getSchematicPageInfo",
+        "getAllSchematicsInfo",
+        "getAllSchematicPagesInfo",
+        "getCurrentSchematicAllSchematicPagesInfo",
+        "getCurrentSchematicInfo",
+        "getCurrentSchematicPageInfo",
+        "reorderSchematicPages",
+        "deleteSchematic",
+        "deleteSchematicPage"
+      ],
+      "sha256": "c08971b0b82cb45898e69d53feae62e5b5efe66d67691065e612681e16c21efe"
+    },
+    "DMT_Pcb": {
+      "file": "api/DMT_Pcb.json",
+      "exit_code": 0,
+      "method_count": 7,
+      "methods": [
+        "createPcb",
+        "modifyPcbName",
+        "copyPcb",
+        "getPcbInfo",
+        "getAllPcbsInfo",
+        "getCurrentPcbInfo",
+        "deletePcb"
+      ],
+      "sha256": "a4de406751e55ab81ffceea22d549e32465ea0ef8584a89fd2fe484ce9c9f343"
+    },
+    "DMT_Board": {
+      "file": "api/DMT_Board.json",
+      "exit_code": 0,
+      "method_count": 7,
+      "methods": [
+        "createBoard",
+        "modifyBoardName",
+        "copyBoard",
+        "getBoardInfo",
+        "getAllBoardsInfo",
+        "getCurrentBoardInfo",
+        "deleteBoard"
+      ],
+      "sha256": "1559bc3d57eda5adb513c5a11be72e5e70911fba3d3ee201b463b838a37c84ac"
+    },
+    "DMT_EditorControl": {
+      "file": "api/DMT_EditorControl.json",
+      "exit_code": 0,
+      "method_count": 22,
+      "methods": [
+        "openDocument",
+        "openLibraryDocument",
+        "closeDocument",
+        "getSplitScreenTree",
+        "getSplitScreenIdByTabId",
+        "getTabsBySplitScreenId",
+        "createSplitScreen",
+        "moveDocumentToSplitScreen",
+        "activateDocument",
+        "activateSplitScreen",
+        "tileAllDocumentToSplitScreen",
+        "mergeAllDocumentFromSplitScreen",
+        "getCurrentRenderedAreaImage",
+        "zoomToRegion",
+        "zoomTo",
+        "zoomToAllPrimitives",
+        "zoomToSelectedPrimitives",
+        "zoom",
+        "generateIndicatorMarkers",
+        "removeIndicatorMarkers",
+        "waitForDocumentReady",
+        "getDocumentReadyState"
+      ],
+      "sha256": "164b721d669d140ee6174df3baf77205bb693ce152224d3d8124eacb7ef147d9"
+    },
+    "SCH_Document": {
+      "file": "api/SCH_Document.json",
+      "exit_code": 0,
+      "method_count": 9,
+      "methods": [
+        "importChanges",
+        "save",
+        "navigateToCoordinates",
+        "navigateToRegion",
+        "getPrimitiveAtPoint",
+        "getPrimitivesInRegion",
+        "getCurrentFilterConfiguration",
+        "autoRouting",
+        "autoLayout"
+      ],
+      "sha256": "a8ff39fc38b64f4ea2e8ebd0e5fa39bbb64377750dd11c4e5d0c8742f233602c"
+    },
+    "SCH_Drc": {
+      "file": "api/SCH_Drc.json",
+      "exit_code": 0,
+      "method_count": 1,
+      "methods": [
+        "check"
+      ],
+      "sha256": "effd49bd3ac6ee18712471e086e514f39e1bfb40372cdb0bf2ace2cb81737f4e"
+    },
+    "SCH_ManufactureData": {
+      "file": "api/SCH_ManufactureData.json",
+      "exit_code": 0,
+      "method_count": 13,
+      "methods": [
+        "getAssemblyVariantsConfigs",
+        "getBomTemplates",
+        "uploadBomTemplateFile",
+        "getBomTemplateFile",
+        "deleteBomTemplate",
+        "getBomFile",
+        "getNetlistFile",
+        "getSimulationNetlistFile",
+        "getExportDocumentFile",
+        "placeComponentsOrder",
+        "placeSmtComponentsOrder",
+        "getPngFile",
+        "getSvgFile"
+      ],
+      "sha256": "2158bff3176c44eace35e6b24c31f15f65ded458f42dd9faafc4a1ef0dab3a4d"
+    },
+    "SCH_PrimitiveComponent": {
+      "file": "api/SCH_PrimitiveComponent.json",
+      "exit_code": 0,
+      "method_count": 22,
+      "methods": [
+        "setNetFlagComponentUuid_Power",
+        "setNetFlagComponentUuid_Ground",
+        "setNetFlagComponentUuid_AnalogGround",
+        "setNetFlagComponentUuid_ProtectGround",
+        "setNetPortComponentUuid_IN",
+        "setNetPortComponentUuid_OUT",
+        "setNetPortComponentUuid_BI",
+        "create",
+        "createNetFlag",
+        "createNetPort",
+        "createShortCircuitFlag",
+        "createCbbSymbol",
+        "placeCbbSchematicPage",
+        "delete",
+        "modify",
+        "get",
+        "getAllPrimitiveId",
+        "getAll",
+        "getAllPinsByPrimitiveId",
+        "placeComponentWithMouse",
+        "placeSymbolWithMouse",
+        "getAllPropertyNames"
+      ],
+      "sha256": "9ff4f68bc859bd01ba40d84305fd9bd27e916ca2f486499687eed9af5a990def"
+    },
+    "SCH_PrimitiveWire": {
+      "file": "api/SCH_PrimitiveWire.json",
+      "exit_code": 0,
+      "method_count": 6,
+      "methods": [
+        "create",
+        "delete",
+        "modify",
+        "get",
+        "getAllPrimitiveId",
+        "getAll"
+      ],
+      "sha256": "10250da4c3b118ed826307efaaa96b955ca40facb3298036ddd6b3e78d1a3579"
+    },
+    "SCH_Net": {
+      "file": "api/SCH_Net.json",
+      "exit_code": 0,
+      "method_count": 4,
+      "methods": [
+        "getCurrentProjectAllNets",
+        "getAllNets",
+        "getNet",
+        "getAllNetsName"
+      ],
+      "sha256": "d835fd9382e6378068d1bb6e0c5511efd71a23daf3e9609bd51e673ad8026f0b"
+    },
+    "SCH_Netlist": {
+      "file": "api/SCH_Netlist.json",
+      "exit_code": 0,
+      "method_count": 2,
+      "methods": [
+        "getNetlist",
+        "setNetlist"
+      ],
+      "sha256": "12140013b60d7af313125bdc742840adfbab16ad389b2f46014b854228620d96"
+    },
+    "PCB_Document": {
+      "file": "api/PCB_Document.json",
+      "exit_code": 0,
+      "method_count": 26,
+      "methods": [
+        "importChanges",
+        "importAutoRouteJsonFile",
+        "importAutoRouteSesFile",
+        "importAutoLayoutJsonFile",
+        "save",
+        "getCalculatingRatlineStatus",
+        "startCalculatingRatline",
+        "stopCalculatingRatline",
+        "convertCanvasOriginToDataOrigin",
+        "convertDataOriginToCanvasOrigin",
+        "getCanvasOrigin",
+        "setCanvasOrigin",
+        "navigateToCoordinates",
+        "navigateToRegion",
+        "getPrimitiveAtPoint",
+        "getPrimitivesInRegion",
+        "zoomToBoardOutline",
+        "getCurrentFilterConfiguration",
+        "clearRouting",
+        "autoRouting",
+        "autoLayout",
+        "startAutoRouting",
+        "startAutoLayout",
+        "getAutoJobStatus",
+        "cancelAutoJob",
+        "getAutoJobLog"
+      ],
+      "sha256": "7381aa042aa1597148418eee383eff9b5e6222aedfa5911f82695eb57edb8189"
+    },
+    "PCB_Drc": {
+      "file": "api/PCB_Drc.json",
+      "exit_code": 0,
+      "method_count": 45,
+      "methods": [
+        "check",
+        "getRealTimeDrcStatus",
+        "startRealTimeDrc",
+        "stopRealTimeDrc",
+        "getCurrentRuleConfigurationName",
+        "getCurrentRuleConfiguration",
+        "getRuleConfiguration",
+        "getAllRuleConfigurations",
+        "saveRuleConfiguration",
+        "renameRuleConfiguration",
+        "deleteRuleConfiguration",
+        "getDefaultRuleConfigurationName",
+        "setAsDefaultRuleConfiguration",
+        "overwriteCurrentRuleConfiguration",
+        "getNetRules",
+        "overwriteNetRules",
+        "getNetByNetRules",
+        "overwriteNetByNetRules",
+        "getRegionRules",
+        "overwriteRegionRules",
+        "createNetClass",
+        "deleteNetClass",
+        "modifyNetClassName",
+        "addNetToNetClass",
+        "removeNetFromNetClass",
+        "getAllNetClasses",
+        "createDifferentialPair",
+        "deleteDifferentialPair",
+        "modifyDifferentialPairName",
+        "modifyDifferentialPairPositiveNet",
+        "modifyDifferentialPairNegativeNet",
+        "getAllDifferentialPairs",
+        "createEqualLengthNetGroup",
+        "deleteEqualLengthNetGroup",
+        "modifyEqualLengthNetGroupName",
+        "addNetToEqualLengthNetGroup",
+        "removeNetFromEqualLengthNetGroup",
+        "getAllEqualLengthNetGroups",
+        "createPadPairGroup",
+        "deletePadPairGroup",
+        "modifyPadPairGroupName",
+        "addPadPairToPadPairGroup",
+        "removePadPairFromPadPairGroup",
+        "getAllPadPairGroups",
+        "getPadPairGroupMinWireLength"
+      ],
+      "sha256": "7909e818f99edfe5e5d848001a748ca5328f8db431f4cc69102727a36113b39f"
+    },
+    "PCB_ManufactureData": {
+      "file": "api/PCB_ManufactureData.json",
+      "exit_code": 0,
+      "method_count": 31,
+      "methods": [
+        "getGerberFile",
+        "get3DFile",
+        "get3DShellFile",
+        "getPickAndPlaceFile",
+        "getFlyingProbeTestFile",
+        "getBomTemplates",
+        "uploadBomTemplateFile",
+        "getBomTemplateFile",
+        "deleteBomTemplate",
+        "getBomFile",
+        "getTestPointFile",
+        "getNetlistFile",
+        "getDxfFile",
+        "getPdfFile",
+        "getIpcD356AFile",
+        "getIpc2581CFile",
+        "getOpenDatabaseDoublePlusFile",
+        "getInteractiveBomFile",
+        "getDsnFile",
+        "getAutoRouteJsonFile",
+        "getAutoRouteJsonFileForJRouter",
+        "getAutoLayoutJsonFile",
+        "getAltiumDesignerFile",
+        "getPadsFile",
+        "getPcbInfoFile",
+        "getIdxFile",
+        "placeComponentsOrder",
+        "placeSmtComponentsOrder",
+        "placePcbOrder",
+        "place3DShellOrder",
+        "getManufactureData"
+      ],
+      "sha256": "29ab919da961079b46fa45d2b131cb0bfe0fe79c9c1b748167d367e64ffcd62e"
+    },
+    "PCB_PrimitiveComponent": {
+      "file": "api/PCB_PrimitiveComponent.json",
+      "exit_code": 0,
+      "method_count": 10,
+      "methods": [
+        "create",
+        "delete",
+        "modify",
+        "get",
+        "getAllPrimitiveId",
+        "getAll",
+        "getAllPinsByPrimitiveId",
+        "placeComponentWithMouse",
+        "placeFootprintWithMouse",
+        "getAllPropertyNames"
+      ],
+      "sha256": "8d3e9e7b0fbb91b7df36d91d53391f2be43dd8f9e4334177807af24e0c65d5f3"
+    },
+    "PCB_Layer": {
+      "file": "api/PCB_Layer.json",
+      "exit_code": 0,
+      "method_count": 26,
+      "methods": [
+        "getCurrentLayer",
+        "selectLayer",
+        "setLayerVisible",
+        "setLayerInvisible",
+        "lockLayer",
+        "unlockLayer",
+        "setTheNumberOfCopperLayers",
+        "getTheNumberOfCopperLayers",
+        "setLayerColorConfiguration",
+        "setInactiveLayerTransparency",
+        "setPcbType",
+        "addCustomLayer",
+        "removeLayer",
+        "modifyLayer",
+        "getAllLayers",
+        "setInactiveLayerDisplayMode",
+        "getCurrentPhysicalStackingConfigurationName",
+        "getCurrentPhysicalStackingConfiguration",
+        "getPhysicalStackingConfiguration",
+        "getAllPhysicalStackingConfigurations",
+        "savePhysicalStackingConfiguration",
+        "renamePhysicalStackingConfiguration",
+        "deletePhysicalStackingConfiguration",
+        "getDefaultPhysicalStackingConfigurationName",
+        "setAsDefaultPhysicalStackingConfiguration",
+        "overwriteCurrentPhysicalStackingConfiguration"
+      ],
+      "sha256": "afdee9b76c3d8f18c1554414323ce7e861648112f644b1f66155f3938d1c4f9f"
+    },
+    "PCB_Net": {
+      "file": "api/PCB_Net.json",
+      "exit_code": 0,
+      "method_count": 16,
+      "methods": [
+        "getAllNets",
+        "getNet",
+        "getAllNetsName",
+        "getAllNetName",
+        "getNetLength",
+        "getNetColor",
+        "setNetColor",
+        "getAllPrimitivesByNet",
+        "selectNet",
+        "unselectNet",
+        "unselectAllNets",
+        "highlightNet",
+        "unhighlightNet",
+        "unhighlightAllNets",
+        "getNetlist",
+        "setNetlist"
+      ],
+      "sha256": "86210ae2c01a16bb90bc71a7dc7effc6e6ac3720feb8081368efac7778126d75"
+    },
+    "SYS_FileSystem": {
+      "file": "api/SYS_FileSystem.json",
+      "exit_code": 0,
+      "method_count": 18,
+      "methods": [
+        "getExtensionFile",
+        "openReadFileDialog",
+        "openReadFolderDialog",
+        "openReadFilePathDialog",
+        "openReadFolderPathDialog",
+        "saveFile",
+        "readFileFromFileSystem",
+        "saveFileToFileSystem",
+        "listFilesOfFileSystem",
+        "deleteFileInFileSystem",
+        "createDirectoryInFileSystem",
+        "existsPathInFileSystem",
+        "getEdaPath",
+        "getDocumentsPath",
+        "getLibrariesPaths",
+        "getProjectsPaths",
+        "createObjectURL",
+        "revokeObjectURL"
+      ],
+      "sha256": "e2da902b52ef4e40bc7fcd5ae7b63e05450493dee517742b361723f601aeec64"
+    },
+    "SYS_Environment": {
+      "file": "api/SYS_Environment.json",
+      "exit_code": 0,
+      "method_count": 14,
+      "methods": [
+        "isWeb",
+        "isClient",
+        "isEasyEDAProEdition",
+        "isJLCEDAProEdition",
+        "isProPrivateEdition",
+        "isOnlineMode",
+        "isHalfOfflineMode",
+        "isOfflineMode",
+        "getEditorCurrentVersion",
+        "isEditorCurrentVersionGreaterThanOrEqual",
+        "isEditorCurrentVersionLessThanOrEqual",
+        "getEditorCompliedDate",
+        "getUserInfo",
+        "setKeepProjectHasOnlyOneBoard"
+      ],
+      "sha256": "d085c3a91413790ac46bf2f70a9a3a11402798d9c2ffb9814cbb22b9118093cc"
+    }
+  },
+  "methods": {
+    "DMT_Project.createProject": {
+      "file": "api/DMT_Project.createProject.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "string | undefined",
+      "params": [
+        "projectFriendlyName",
+        "projectName",
+        "teamUuid",
+        "folderUuid",
+        "description",
+        "collaborationMode",
+        "fileFormat"
+      ],
+      "visibility": "beta"
+    },
+    "DMT_Project.openProject": {
+      "file": "api/DMT_Project.openProject.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "boolean",
+      "params": [
+        "projectUuid"
+      ],
+      "visibility": "public"
+    },
+    "DMT_Project.getCurrentProjectInfo": {
+      "file": "api/DMT_Project.getCurrentProjectInfo.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "IDMT_ProjectItem",
+      "params": [],
+      "visibility": "public"
+    },
+    "DMT_Project.getReadyState": {
+      "file": "api/DMT_Project.getReadyState.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "EDMT_ProjectReadyState",
+      "params": [],
+      "visibility": "alpha"
+    },
+    "DMT_Schematic.createSchematic": {
+      "file": "api/DMT_Schematic.createSchematic.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "string | undefined",
+      "params": [
+        "boardName"
+      ],
+      "visibility": "beta"
+    },
+    "DMT_Schematic.createSchematicPage": {
+      "file": "api/DMT_Schematic.createSchematicPage.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "string | undefined",
+      "params": [
+        "schematicUuid"
+      ],
+      "visibility": "beta"
+    },
+    "DMT_Pcb.createPcb": {
+      "file": "api/DMT_Pcb.createPcb.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "string | undefined",
+      "params": [
+        "boardName"
+      ],
+      "visibility": "public"
+    },
+    "DMT_Board.createBoard": {
+      "file": "api/DMT_Board.createBoard.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "string | undefined",
+      "params": [
+        "schematicUuid",
+        "pcbUuid"
+      ],
+      "visibility": "beta"
+    },
+    "DMT_EditorControl.openDocument": {
+      "file": "api/DMT_EditorControl.openDocument.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "string | undefined",
+      "params": [
+        "documentUuid",
+        "splitScreenId"
+      ],
+      "visibility": "public"
+    },
+    "DMT_EditorControl.activateDocument": {
+      "file": "api/DMT_EditorControl.activateDocument.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "boolean",
+      "params": [
+        "tabId"
+      ],
+      "visibility": "public"
+    },
+    "DMT_EditorControl.waitForDocumentReady": {
+      "file": "api/DMT_EditorControl.waitForDocumentReady.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "boolean",
+      "params": [
+        "documentUuidOrTabId",
+        "timeoutMs"
+      ],
+      "visibility": "alpha"
+    },
+    "SCH_Document.save": {
+      "file": "api/SCH_Document.save.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "boolean",
+      "params": [],
+      "visibility": "public"
+    },
+    "SCH_PrimitiveComponent.create": {
+      "file": "api/SCH_PrimitiveComponent.create.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "ISCH_PrimitiveComponent",
+      "params": [
+        "component",
+        "x",
+        "y",
+        "subPartName",
+        "rotation",
+        "mirror",
+        "addIntoBom",
+        "addIntoPcb"
+      ],
+      "visibility": "beta"
+    },
+    "SCH_PrimitiveComponent.modify": {
+      "file": "api/SCH_PrimitiveComponent.modify.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "ISCH_PrimitiveComponent",
+      "params": [
+        "primitiveId",
+        "property"
+      ],
+      "visibility": "beta"
+    },
+    "SCH_PrimitiveComponent.createNetFlag": {
+      "file": "api/SCH_PrimitiveComponent.createNetFlag.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "ISCH_PrimitiveComponent",
+      "params": [
+        "identification",
+        "net",
+        "x",
+        "y",
+        "rotation",
+        "mirror"
+      ],
+      "visibility": "beta"
+    },
+    "SCH_PrimitiveWire.create": {
+      "file": "api/SCH_PrimitiveWire.create.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "ISCH_PrimitiveWire",
+      "params": [
+        "line",
+        "net",
+        "color",
+        "lineWidth",
+        "lineType"
+      ],
+      "visibility": "beta"
+    },
+    "SCH_PrimitiveAttribute.createNetLabel": {
+      "file": "api/SCH_PrimitiveAttribute.createNetLabel.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "ISCH_PrimitiveAttribute",
+      "params": [
+        "x",
+        "y",
+        "net"
+      ],
+      "visibility": "beta"
+    },
+    "SCH_Drc.check": {
+      "file": "api/SCH_Drc.check.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "boolean",
+      "params": [
+        "strict",
+        "userInterface",
+        "includeVerboseError"
+      ],
+      "visibility": "beta"
+    },
+    "SCH_ManufactureData.getNetlistFile": {
+      "file": "api/SCH_ManufactureData.getNetlistFile.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "File | undefined",
+      "params": [
+        "fileName",
+        "netlistType"
+      ],
+      "visibility": "beta"
+    },
+    "SCH_ManufactureData.getBomFile": {
+      "file": "api/SCH_ManufactureData.getBomFile.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "File | undefined",
+      "params": [
+        "fileName",
+        "fileType",
+        "template",
+        "filterOptions",
+        "statistics",
+        "property",
+        "columns",
+        "assemblyVariantsConfig"
+      ],
+      "visibility": "beta"
+    },
+    "SCH_ManufactureData.getPngFile": {
+      "file": "api/SCH_ManufactureData.getPngFile.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "File | undefined",
+      "params": [
+        "fileName",
+        "resolution"
+      ],
+      "visibility": "beta"
+    },
+    "PCB_Document.importChanges": {
+      "file": "api/PCB_Document.importChanges.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "boolean",
+      "params": [
+        "uuid",
+        "force"
+      ],
+      "visibility": "public"
+    },
+    "PCB_Document.save": {
+      "file": "api/PCB_Document.save.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "boolean",
+      "params": [],
+      "visibility": "public"
+    },
+    "PCB_PrimitiveComponent.modify": {
+      "file": "api/PCB_PrimitiveComponent.modify.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "IPCB_PrimitiveComponent",
+      "params": [
+        "primitiveId",
+        "property"
+      ],
+      "visibility": "beta"
+    },
+    "PCB_Document.autoRouting": {
+      "file": "api/PCB_Document.autoRouting.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "IPCB_AutoRoutingResult",
+      "params": [
+        "props"
+      ],
+      "visibility": "beta"
+    },
+    "PCB_Drc.check": {
+      "file": "api/PCB_Drc.check.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "boolean",
+      "params": [
+        "strict",
+        "userInterface",
+        "includeVerboseError"
+      ],
+      "visibility": "beta"
+    },
+    "PCB_ManufactureData.getGerberFile": {
+      "file": "api/PCB_ManufactureData.getGerberFile.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "File | undefined",
+      "params": [
+        "fileName",
+        "colorSilkscreen",
+        "unit",
+        "digitalFormat",
+        "other",
+        "layers",
+        "objects"
+      ],
+      "visibility": "beta"
+    },
+    "PCB_ManufactureData.getPickAndPlaceFile": {
+      "file": "api/PCB_ManufactureData.getPickAndPlaceFile.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "File | undefined",
+      "params": [
+        "fileName",
+        "fileType",
+        "unit"
+      ],
+      "visibility": "beta"
+    },
+    "PCB_ManufactureData.get3DFile": {
+      "file": "api/PCB_ManufactureData.get3DFile.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "File | undefined",
+      "params": [
+        "fileName",
+        "fileType",
+        "element",
+        "modelMode",
+        "autoGenerateModels"
+      ],
+      "visibility": "beta"
+    },
+    "SYS_FileSystem.getProjectsPaths": {
+      "file": "api/SYS_FileSystem.getProjectsPaths.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "Array<string>",
+      "params": [],
+      "visibility": "beta"
+    },
+    "SYS_FileSystem.saveFileToFileSystem": {
+      "file": "api/SYS_FileSystem.saveFileToFileSystem.json",
+      "exit_code": 0,
+      "ok": true,
+      "returns": "boolean",
+      "params": [
+        "uri",
+        "fileData",
+        "fileName"
+      ],
+      "visibility": "beta"
+    }
+  },
+  "class_list": {
+    "file": "api/class-list.json",
+    "exit_code": 0,
+    "type_count": 388,
+    "sha256": "de986739a8cfc4379cbcae9351d7ca546648cff189d4cd7738c2633481d72883"
+  }
+}

@@ -1,0 +1,1 @@
+INVALID_ARGS: --args must be a JSON object

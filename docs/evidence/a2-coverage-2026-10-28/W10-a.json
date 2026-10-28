@@ -1,0 +1,22 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W10",
+  "side": "a",
+  "title": "error / permission / boundary",
+  "status": "static",
+  "actions": [
+    "typed preconditions/refusals",
+    "stable error codes NO_CONNECTOR / STALE_WINDOW / AMBIGUOUS_* / PRECONDITION_REFUSED / ACTION_ABANDONED / REQUEST_TIMEOUT-equivalent"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/doctor.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/acceptance-README.md"
+  ],
+  "observations": [
+    "A protocol defines stable error classes and states that ACTION_ABANDONED may still land later, which is the same hazard the official REQUEST_TIMEOUT has.",
+    "Not run by this spike."
+  ],
+  "blockers": [
+    "not run by this spike"
+  ]
+}

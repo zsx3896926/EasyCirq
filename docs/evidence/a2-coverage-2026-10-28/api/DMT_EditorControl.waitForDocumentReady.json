@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"等待文档就绪","remarks":"阻塞等待指定文档可操作（数据加载完成）后再返回，避免在文档未就绪时发起读写导致静默失败或 `create` 挂起；\n超过 `timeoutMs` 仍未就绪时返回 `false`","visibility":"alpha","params":[{"name":"documentUuidOrTabId","type":"string","description":"文档 UUID 或标签页 ID","required":true},{"name":"timeoutMs","type":"number","description":"最长等待时间（毫秒），缺省为 60000","required":false}],"returns":{"type":"boolean","description":"文档是否已在超时前就绪"},"isAsync":true},"logs":[],"durationMs":193}

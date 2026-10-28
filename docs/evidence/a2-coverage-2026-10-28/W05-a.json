@@ -1,0 +1,28 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W05",
+  "side": "a",
+  "title": "PCB write",
+  "status": "static",
+  "actions": [
+    "zhigou pcb import_changes",
+    "zhigou pcb modify",
+    "zhigou pcb place",
+    "zhigou pcb track",
+    "zhigou pcb via",
+    "zhigou pcb save",
+    "zhigou pcb route.auto"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+  ],
+  "observations": [
+    "A catalog has 58 PCB write actions plus typed route/pour/drc helpers and claims a real M4 board build (layout, autoroute 6/6, pours, DRC 0).",
+    "A's typed write actions are a real cost advantage over hand-written JS for PCB."
+  ],
+  "blockers": [
+    "not run by this spike",
+    "no independent receipt"
+  ]
+}

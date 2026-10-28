@@ -1,0 +1,38 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W04",
+  "side": "official",
+  "title": "schematic write + readback",
+  "status": "blocked",
+  "commands": [
+    "invoke -> eda.sch_PrimitiveComponent.create",
+    "invoke -> eda.sch_PrimitiveWire.create",
+    "invoke -> eda.sch_PrimitiveAttribute.createNetLabel",
+    "invoke -> eda.sch_Document.save",
+    "invoke -> readback"
+  ],
+  "steps": 0,
+  "exit_codes": [],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveComponent.create.json",
+    "docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveWire.create.json",
+    "docs/evidence/a2-coverage-2026-10-28/api/SCH_Document.save.json",
+    "docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveAttribute.createNetLabel.json"
+  ],
+  "observations": [
+    "The typed write surface exists in the static API catalog (create/modify/delete/netflag/netport, wire create, save) with documented async conventions.",
+    "No write was executed: design-content write probes were not authorized for this session, so no receipt can support a covered/partial status.",
+    "Known 4.1.78 frictions from the repository's own adapter notes (eda-execution.md) still apply: new primitives commit asynchronously, property edits can be dropped, and ok:true does not mean the business operation succeeded."
+  ],
+  "risks": [
+    "hand-written JS per operation, no typed contract, no idempotency guarantees",
+    "async commit timing requires waits + readback; a naive model call will report false success",
+    "no write probe means persistence is unproven"
+  ],
+  "measured": {
+    "steps": 0,
+    "js_lines": 0,
+    "exit_codes": [],
+    "duration_ms": 0.0
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W08",
+  "side": "a",
+  "title": "export",
+  "status": "unsupported",
+  "actions": [
+    "zhigou sch export netlist",
+    "zhigou sch export bom",
+    "zhigou sch export image",
+    "zhigou bom export",
+    "gerber/drill/cpl: no typed action"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/capabilities.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/architecture-notes.md"
+  ],
+  "observations": [
+    "A catalog: 3 export actions only; capabilities reports gerber.export/drill.export/cpl.export = unsupported (0 actions).",
+    "A self-evidence itself records Gerber/drill/CPL as gui_only and not claimed.",
+    "A project.export (native archive) is a capability the official CLI lacks at the same level, but it is not part of W08's manufacturing exports."
+  ],
+  "blockers": [
+    "not run by this spike",
+    "typed catalog genuinely lacks gerber/drill/cpl"
+  ]
+}

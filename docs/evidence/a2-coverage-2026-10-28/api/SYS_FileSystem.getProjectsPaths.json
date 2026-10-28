@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"获取工程目录路径","remarks":"注意 1：本接口仅半、全离线客户端有效，在浏览器环境内调用将始终 `throw Error`\n\n注意 2：本接口需要使用者启用扩展的外部交互权限，如若未启用将始终 `throw Error`","visibility":"beta","params":[],"returns":{"type":"Array<string>","description":"工程目录路径数组"},"isAsync":true},"logs":[],"durationMs":166}

@@ -1,0 +1,43 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W09",
+  "side": "official",
+  "title": "save / reopen / stale",
+  "status": "partial",
+  "commands": [
+    "invoke -> save (NOT RUN, no authorization)",
+    "lceda-pro session close --session <id> --destroy",
+    "lceda-pro open --path <same copy> --headless",
+    "re-read project tree + counts"
+  ],
+  "steps": 3,
+  "exit_codes": [
+    0
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/raw/W09-session-close.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen-wait.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen-tree.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/project-before.json",
+    "docs/evidence/a2-coverage-2026-10-28/project-after.json"
+  ],
+  "observations": [
+    "Close/reopen works: the reopened session returned the same project uuid, same board/schematic/PCB uuids and the same tree.",
+    "Fixture hash was unchanged before/after the whole probe (1 file, sha256 824f6dcc...), proving the read/export probes did not mutate the project.",
+    "Save persistence is NOT RUN (authorization); without it a save -> reopen -> readback chain cannot be claimed."
+  ],
+  "risks": [
+    "saved:true may still need reopen to prove persistence",
+    "stale-read detection is caller-side only at the CLI layer (no staleRisk field seen)",
+    ".eprj2 -> .eprj3 conversion on save could change file layout; unmeasured"
+  ],
+  "measured": {
+    "steps": 4,
+    "js_lines": 30,
+    "exit_codes": [
+      0
+    ],
+    "duration_ms": 10255.6
+  }
+}

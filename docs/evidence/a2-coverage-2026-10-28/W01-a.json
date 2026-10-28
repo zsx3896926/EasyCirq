@@ -1,0 +1,29 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W01",
+  "side": "a",
+  "title": "connect / session / version",
+  "status": "static",
+  "actions": [
+    "zhigou doctor",
+    "zhigou capabilities",
+    "zhigou health",
+    "zhigou connector verify",
+    "handshake/register frames (protocol v1, service zhigou-agent, ws://127.0.0.1:23111-23120)"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/doctor.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/capabilities.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/task-status.md"
+  ],
+  "observations": [
+    "A self-evidence (M1, A branch): doctor verdict=degraded, connector disconnected, capabilities 0 supported / 19 unknown / 5 unsupported.",
+    "A self-evidence (task-status): connector import was completed later by the operator; M2-M4 are claimed PASS on a dedicated project, but our spike did not run any A command.",
+    "A isolates by service name/ports/state dir; its process model adds a daemon + WebSocket + extension that must be imported by hand and only loads at EDA startup."
+  ],
+  "blockers": [
+    "Go toolchain is not installed on this host, so the A branch cannot be built to run (task book section 12 forbids installing Go).",
+    "The A connector lives only inside the user's GUI session; CLI-opened sessions list 0 extensions, so any A run would target the user's window - forbidden by task book section 4.2.",
+    "A exposes no MCP server; a gateway would have to be written."
+  ]
+}

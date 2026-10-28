@@ -1,0 +1,51 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W08",
+  "side": "official",
+  "title": "export",
+  "status": "covered",
+  "commands": [
+    "invoke -> eda.sch_Netlist.getNetlist(Protel2)",
+    "invoke -> eda.sch_ManufactureData.getNetlistFile",
+    "invoke -> eda.sch_ManufactureData.getBomFile(csv)",
+    "invoke -> eda.sch_ManufactureData.getPngFile",
+    "invoke -> eda.sch_ManufactureData.getGerberFile? (PCB_ManufactureData.getGerberFile)",
+    "invoke -> eda.pcb_ManufactureData.getPickAndPlaceFile(csv)"
+  ],
+  "steps": 5,
+  "exit_codes": [
+    0
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/raw/W08-netlist-string.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W08-netlist-file.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W08-bom.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W08-png.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W08-gerber.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W08-cpl.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/artifacts/schematic.net",
+    "docs/evidence/a2-coverage-2026-10-28/artifacts/bom.csv",
+    "docs/evidence/a2-coverage-2026-10-28/artifacts/page.png",
+    "docs/evidence/a2-coverage-2026-10-28/artifacts/gerber.zip",
+    "docs/evidence/a2-coverage-2026-10-28/artifacts/cpl.csv"
+  ],
+  "observations": [
+    "Real artifacts produced: Protel netlist 38,568 B sha256 7bb9874d..., BOM CSV 1,957 B, PNG 712,074 B (PNG magic), Gerber zip 1,292,203 B (zip magic), pick-and-place CSV 8,433 B.",
+    "Gerber and CPL are available through the official API (PCB_ManufactureData.getGerberFile / getPickAndPlaceFile); A's capability matrix lists gerber/drill/cpl as unsupported.",
+    "File objects cannot be written to disk with the independent-script permission: eda.sys_FileSystem.* throws until external-interaction permission is enabled. The workaround used here is to read the File in JS, base64 it through the invoke result and write the bytes from Python (PNG 712 KB relayed fine).",
+    "The CLI appends the requested extension even when the name already has one ('a2spike.net.net', 'a2spike-bom.csv.csv', 'a2spike-page.png.png')."
+  ],
+  "risks": [
+    "binary relay through JSON/base64 is awkward for large files and has no path/sha contract",
+    "file naming quirk breaks naive automation",
+    "Gerber layer/object selection defaults must be reviewed before production use"
+  ],
+  "measured": {
+    "steps": 8,
+    "js_lines": 96,
+    "exit_codes": [
+      0
+    ],
+    "duration_ms": 19838.8
+  }
+}

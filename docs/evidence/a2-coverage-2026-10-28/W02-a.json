@@ -1,0 +1,26 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W02",
+  "side": "a",
+  "title": "schematic read",
+  "status": "static",
+  "actions": [
+    "zhigou sch read",
+    "zhigou sch list",
+    "zhigou sch connectivity",
+    "zhigou sch nets",
+    "schematic.designators.list / attribute.inspect / visible_text.bboxes"
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/actions.json",
+    "docs/evidence/a2-coverage-2026-10-28/a-self-evidence/acceptance-README.md"
+  ],
+  "observations": [
+    "A catalog has 15 schematic read actions (including connectivity and nets) but the acceptance matrix marks every real-host row BLOCKED at M1; later self-evidence claims M2 PASS.",
+    "A's net/pin read is a typed action with declared readback semantics, which would remove the netlist-parsing step - but we have no independent A receipt."
+  ],
+  "blockers": [
+    "not run by this spike (no Go build; connector only in the user's window)",
+    "A self-evidence is not our measurement and cannot upgrade this cell beyond static"
+  ]
+}

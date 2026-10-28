@@ -1,0 +1,45 @@
+{
+  "schema": "zhigou.a2-coverage.workflow-cell/v1",
+  "id": "W02",
+  "side": "official",
+  "title": "schematic read",
+  "status": "partial",
+  "commands": [
+    "invoke -> eda.dmt_Project.getCurrentProjectInfo",
+    "invoke -> eda.dmt_EditorControl.openDocument/activateDocument",
+    "invoke -> eda.sch_PrimitiveComponent.getAll(undefined, true)",
+    "invoke -> eda.sch_PrimitiveComponent.getAllPinsByPrimitiveId(id)",
+    "invoke -> eda.sch_PrimitiveWire.getAll()",
+    "invoke -> eda.sch_Net.getAllNets()/getAllNetsName()/getCurrentProjectAllNets()",
+    "invoke -> eda.sch_Netlist.getNetlist(Protel2)"
+  ],
+  "steps": 5,
+  "exit_codes": [
+    0
+  ],
+  "evidence": [
+    "docs/evidence/a2-coverage-2026-10-28/raw/W02-activate-sch.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W02-sch-read.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/raw/W02-nets-retry.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/artifacts/schematic.net"
+  ],
+  "observations": [
+    "Read 58 schematic components (designator/component/symbol/footprint/x/y/rotation/mirror/supplierId) and 34 wires with real geometry; pins returned actual x/y, pinNumber, pinType, noConnected.",
+    "waitForDocumentReady() returned false for both the page uuid and the tab handle even though the page was activated and components were readable; it is not a usable readiness gate.",
+    "sch_Net.getAllNets(), getAllNetsName() and getCurrentProjectAllNets() all returned [] on a loaded project whose Protel netlist is 34,413 bytes, so the typed net API cannot be the source of truth; parsing the netlist text is required.",
+    "Component read required allSchematicPages=true to see the whole design; per-page reads follow the active document."
+  ],
+  "risks": [
+    "net enumeration API returns empty on this fixture/version - silent data loss if trusted",
+    "background/inactive pages return shallow data; explicit page activation is required",
+    "text objects and title-block content were not probed in this run"
+  ],
+  "measured": {
+    "steps": 3,
+    "js_lines": 85,
+    "exit_codes": [
+      0
+    ],
+    "duration_ms": 5012.3
+  }
+}
