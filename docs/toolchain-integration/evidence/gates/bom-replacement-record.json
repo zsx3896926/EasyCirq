@@ -56,7 +56,7 @@
     "file": "evidence/gates/BOM-v2.csv",
     "note": "exported with --enrich=false; contains C codes, MPNs and manufacturers for all 6 rows"
   },
-  "honest_status": "BOM: orderable (all six rows have C code/MPN/manufacturer). PCB: NOT closed - J1 TH swap left gaps; automated repair attempts failed, interactive rewire or baseline restore required. Original acceptance project was damaged by the first in-place attempt.",
+  "honest_status": "BOM: orderable (BOM-v2.csv, six rows with C code/MPN/manufacturer). PCB: automated repair is NOT reliable - no-connection errors were cleared but duplicate tracks and one clearance violation remain; reset from the .epro2 baseline and finish the J1 escape routing in the GUI. Original acceptance project remains damaged.",
   "repair_attempts": {
     "at": "2026-10-28T12:57:00+08:00",
     "tried": [
@@ -66,5 +66,11 @@
     ],
     "outcome": "DRC after repair: 2 violations, more disconnected objects (GND: C1_2/J1_2/e53; VIN: F1_1/J1_1/e26/e52) - the manual track endpoints did not snap onto the pads/track ends, so automated repair made it worse",
     "conclusion": "Do the J1/C1 rewire interactively in the EDA GUI (snapping is reliable there), or re-import zhigou-board.epro2 as the PCB baseline and keep the BOM-v2 codes."
+  },
+  "pcb_repair_final": {
+    "at": "2026-10-28T13:05:00+08:00",
+    "what_worked": "after using real host coordinates (bbox via getPrimitivesBBox) the no-connection errors dropped to 0: J1_1 VIN and J1_2 GND are connected",
+    "what_broke": "the escape tracks now overlap each other and one Safe-Spacing clearance violation remains (+5V e34 vs my GND/VIN segments); repeated line.create attempts accumulated duplicate tracks because deletion by id did not match the newly created segments",
+    "recommendation": "reset the PCB from zhigou-board.epro2 (clean baseline) and, if the TH J1 is kept, do the connector escape routing interactively in the EDA GUI; the BOM-v2 codes are unaffected and remain orderable"
   }
 }

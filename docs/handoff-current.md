@@ -196,3 +196,12 @@ distribution\Install-Zhigou.ps1 rollback
   `zhigou-board.epro2` 重导基线 + 保留 `BOM-v2.csv` 的料号。
 - BOM 侧不退回：6 行新料号（C112291/C125205/C51933311/C845159/C49296724/C124375）已确认有货，
   BOM 导出（`evidence/gates/BOM-v2.csv`）可直接用于下单核对。
+
+## 2026-10-28 13:05 PCB 自动补线结论（停止）
+
+- 用真实宿主坐标（`getPrimitivesBBox`）后，J1_1/J1_2 的 No Connection **清零**；
+- 但逃逸走线互相重叠，且剩 1 条 Safe-Spacing（+5V e34 与 GND/VIN 补线间距不足）；
+  按 id 删除没匹配到新线段，重复补线累积 → PCB 当前不可信。
+- 结论：**自动补线（无吸附/无 clearance 预检）不可靠**。建议从 `zhigou-board.epro2`
+  重导 PCB 基线；若保留 TH J1，连接器逃逸布线在 EDA GUI 里做（约 1 分钟）。
+- BOM 不受影响：`evidence/gates/BOM-v2.csv` 六行料号可下单。
