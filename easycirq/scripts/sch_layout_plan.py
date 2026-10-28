@@ -39,6 +39,16 @@ for _s in (sys.stdout, sys.stderr):
 
 SCHEMA = "easycirq-sch-layout/v1"
 INPUT_SCHEMA = "easycirq-sch-layout-plan/v1"
+DEFAULT_ENVELOPES = Path(__file__).resolve().parent.parent / "assets" / "block-envelopes.json"
+
+
+def load_envelopes(path=None):
+    """Load measured block envelopes (easycirq-block-envelopes/v1)."""
+    p = Path(path) if path else DEFAULT_ENVELOPES
+    data = json.loads(p.read_text(encoding="utf-8"))
+    if data.get("schema") != "easycirq-block-envelopes/v1":
+        raise ValueError("unsupported envelopes schema: %r" % data.get("schema"))
+    return data.get("blocks") or {}
 
 
 def _overlap(a, b):
@@ -104,7 +114,7 @@ def _shelf_pack(blocks, regions, gap):
     return placements
 
 
-def plan(spec):
+def plan(spec, envelopes=None):
     if not isinstance(spec, dict) or spec.get("schema") != INPUT_SCHEMA:
         raise ValueError("schema must be %s" % INPUT_SCHEMA)
     page = spec.get("page") or {}
@@ -123,8 +133,14 @@ def plan(spec):
         raise ValueError("blocks must be a non-empty list")
     for b in blocks:
         env = b.get("envelope") or {}
+        if not (isinstance(env.get("w"), (int, float)) and isinstance(env.get("h"), (int, float))):
+            measured = (envelopes or {}).get(b.get("id"))
+            if isinstance(measured, dict) and isinstance(measured.get("w"), (int, float)) \
+                    and isinstance(measured.get("h"), (int, float)):
+                b["envelope"] = {"w": measured["w"], "h": measured["h"]}
+                env = b["envelope"]
         if not isinstance(env.get("w"), (int, float)) or not isinstance(env.get("h"), (int, float)):
-            raise ValueError("block %r needs envelope {w,h}" % b.get("id"))
+            raise ValueError("block %r needs envelope {w,h} (no measured entry found)" % b.get("id"))
 
     page_w, page_h, margin = page["width"], page["height"], page["margin"]
     regions = _regions(page, title_block)
@@ -217,12 +233,14 @@ def plan(spec):
 def main(argv=None):
     ap = argparse.ArgumentParser(description="Plan a schematic layout from measured block envelopes")
     ap.add_argument("spec", help="easycirq-sch-layout-plan/v1 JSON")
+    ap.add_argument("--envelopes", help="measured block envelopes JSON (default assets/block-envelopes.json)")
     ap.add_argument("--document-id", help="record documentId in the plan output")
     ap.add_argument("--out", help="write plan JSON here")
     args = ap.parse_args(argv)
     try:
         spec = json.loads(Path(args.spec).read_text(encoding="utf-8"))
-        report = plan(spec)
+        envelopes = load_envelopes(args.envelopes) if args.envelopes or spec.get("blocks") else {}
+        report = plan(spec, envelopes)
         if args.document_id:
             report["documentId"] = args.document_id
     except (OSError, ValueError) as exc:
