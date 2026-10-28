@@ -52,7 +52,7 @@
 | 9 | 真实 EDA（Phase 1 只读） | — | **NOT RUN**（Phase 1 只用 fixture；所有报告 `real_eda="NOT RUN"`、`eda_calls=0`） | **NOT RUN** |
 | 10 | 真实 EDA（Phase 2 受控写） | —（无授权） | **BLOCKED**；`apply/readback` → `EDA_NOT_AUTHORIZED`，任务 FAILED、不可 finalize | **BLOCKED** |
 | 11 | 允许路径 / 未改 B1 | `git diff --name-status origin/main...HEAD` | **79 files，全部 A**（task_launcher/bound 29、tests 15、benchmarks 27、docs 8；无 M/D）；叠加分支 vs B1 `074bd88` 同样 79 all A | **PASS** |
-| 12 | PR / 发版 | — | **未创建 PR、未合并、未发版** | 符合约束（PASS） |
+| 12 | PR / 发版 | PR #94 | **PR #94 已创建（OPEN），未合并、未发版**；base main，79 files 全 A；CI 见 §6 | 符合约束（PASS） |
 
 ## 2. 任务书 §8 验收标准 ↔ 证据
 
@@ -66,7 +66,7 @@
 | 8.6 | Phase 1：`serve`（fixture）跑通 `task_start→snapshot→audit→evidence→finalize`；伪造/跳步被拒 | `python -m task_launcher.bound selftest`（19/19）；`run_benchmark.py`（24/24）；`tests/task_launcher_bound_tests/`（208 tests） | 离线/模拟链路通过；稳定错误码覆盖跳步/重复/篡改；**真实 Claude 未运行**，故只算离线证据 | **PASS（离线/模拟）** |
 | 8.7 | Phase 2：有授权则真实 plan→apply→readback→finalize 冒烟；无授权则明确 `BLOCKED` | 无 EDA 授权；`backends._RealEdaBackendStub`；benchmark `phase2-no-eda-authorization` | **BLOCKED**：`apply/readback` → `EDA_NOT_AUTHORIZED`；Phase 2 未被写成通过 | **BLOCKED** |
 | 8.8 | 真实 Claude 冒烟：有则记录；无则 `NOT RUN`（不得 fake 冒充） | 未授权；`report.md` §5；`handoff-current.md` §6 | **NOT RUN**，无任何真实 Claude 记录 | **NOT RUN** |
-| 8.9 | 清洁 checkout 可复现离线测试/基准；CI 3.10/3.13 绿 | 本机 Python 3.13.15；未发 PR，CI 未触发；本机无 3.10 | 本机 3.13 复跑通过；清洁 checkout 复现与 3.10/CI **未执行** | **待验证** |
+| 8.9 | 清洁 checkout 可复现离线测试/基准；CI 3.10/3.13 绿 | 本机 Python 3.13.15；PR #94 CI | 本机 3.13 全量 3520 OK；PR #94 触发 CI：`updater` PASS、`validate (3.10)/(3.13)` 交接时 **queued/pending**；3.10 仅语法校验（35 py files） | **部分**（CI 未出绿） |
 | 8.10 | 未合并 PR、未发版、未改 A/B1 交付文件 | `handoff-current.md` §2/§6；本任务无 git 操作 | **未创建/未合并 PR、未发版**；B1 文件未由本任务修改（B1 自身工作树状态见 §1 #7）；A/runtime/connector/SKILL/CI 未改 | 符合约束（PASS） |
 
 ## 3. 测试要求 §5.1（14 类）↔ 证据
@@ -136,7 +136,7 @@ case 文件：`benchmarks/task-launcher-bound/cases/*.json`（24 个）。
 | B1 launcher 真实拉起 bound supervisor 的端到端 | **NOT RUN** | B1 mcp.json 目前只挂 `zhigou-offline-audit`；接入 bound 需 B1 侧最小改动（integration-notes.md）；真实 Claude 未授权 |
 | B1 artifact-level 兼容探针 | **PASS @ caed250（非验收）** | Lead 只读探针：`build-plugin` exit 0 → `plan --plugin-dir` `agent_ready=true`、argv 完整；**不构成 B1 验收**，HEAD 变化需重跑 |
 | 官方全量套件 | **PASS** | `Ran 3520 tests, OK (skipped=3), exit 0`（374.287s）；既有测试会写 `docs/toolchain-integration/evidence/installer/install-lifecycle.log`，Lead 已还原该文件 |
-| 清洁 checkout 复现 / CI 3.10+3.13 | **待验证** | 本机仅 3.13；未发 PR，CI 未触发 |
+| 清洁 checkout 复现 / CI 3.10+3.13 | **待验证/排队** | 本机仅 3.13；PR #94 已触发 CI：`updater` PASS、`validate (3.10)/(3.13)` queued/pending；3.10 仅语法校验 |
 | 允许路径 `git diff --name-status` 全 A | **PASS** | 79 files all A（4 个允许目录）；叠加分支 vs B1 `074bd88` 亦 79 all A |
 | Windows 沙箱/独立账号隔离 | **NOT RUN** | 属主线/需授权评估（`issue-candidates.md` IC-03） |
 

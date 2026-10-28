@@ -108,6 +108,21 @@ exit 0
   evidence 日志）。Lead 在验证后已 `git checkout --` 还原该文件，因此本次交付的
   `git diff` 不包含该改动；这属于既有测试的仓库写入行为，不是本任务新增。
 
+### 3.6 CI（PR #94）
+
+```text
+$ gh pr checks 94 --repo zsx3896926/EasyCirq
+updater (ubuntu-latest)    pass     54s
+updater (windows-latest)   pass     2m40s
+validate (3.10)            pending  (queued; shared runner backlog)
+validate (3.13)            pending  (queued; shared runner backlog)
+```
+
+- PR: https://github.com/zsx3896926/EasyCirq/pull/94 （OPEN，未合并；79 files 全 A，+15607/-0）
+- CI 状态如实记录：`updater` 已 PASS，`validate` 在交接时仍在队列；**不写成 CI 绿**。
+- 本地已跑：Python 3.13 全量 `3520 tests OK (skipped=3)`；新代码 35 个 py 文件已用
+  `ast.parse(feature_version=(3,10))` 验证语法（非 3.10 运行验证）。
+
 ## 4. B1 交付状态与兼容性验证
 
 - **B1_BASE_HEAD（开工时）**：`NOT DELIVERED`。开工时 B1 worktree HEAD=`0e391e3` 且全部交付文件
@@ -149,7 +164,7 @@ exit 0
 | B1 产物级叠加（交付 HEAD 074bd88） | **PASS（离线/产物级）** | 208 tests OK、基准 24/24、selftest 19/19、B1 build-plugin + bound plan `agent_ready=true`；见 §4 |
 | B1 launcher 真实拉起 bound supervisor 的端到端 | **NOT RUN** | B1 的 mcp.json 未接 bound（需 B1 侧最小改动，见 integration-notes）；真实 Claude 未授权 |
 | 真实 Windows 沙箱/独立账号隔离 | **NOT RUN** | 属主线/需授权评估（见 issue-candidates） |
-| 3.10 CI | **NOT RUN（本机）** | 本机只有 3.13；代码保持 3.10 语法，靠 CI 验证（未发 PR，CI 未触发） |
+| 3.10/3.13 CI（PR #94） | **QUEUED/PENDING** | PR #94 已触发 `validate (3.10)/(3.13)` 与 `updater`；交接时 `updater` PASS、`validate` 仍在共享 runner 队列；本机 3.13 全量 3520 OK；35 个新 py 文件已通过 3.10 语法解析 |
 
 ## 6. 限制与诚实声明
 
