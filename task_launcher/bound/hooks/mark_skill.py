@@ -42,13 +42,13 @@ def main(argv: list[str] | None = None) -> int:
         payload = {}
     tool_name = payload.get("tool_name", "")
     tool_input = payload.get("tool_input") or {}
-    skill = tool_input.get("skill") or tool_input.get("name") or ""
-    if tool_name == "Skill" and "design-hardware" in str(skill):
+    skill = str(tool_input.get("skill") or tool_input.get("name") or "")
+    if tool_name == "Skill" and ("design-hardware" in skill or "easycirq" in skill):
         marker = task_dir / "skill.marker"
         marker.write_text(
             json.dumps(
                 {
-                    "skill": "design-hardware",
+                    "skill": "easycirq" if "easycirq" in skill else "design-hardware",
                     "marked_at": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
                     "tool_name": tool_name,
                 },

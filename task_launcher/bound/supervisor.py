@@ -44,6 +44,7 @@ from . import (
     RISK_READ_ONLY,
     SERVER_NAME,
     SKILL_NAME,
+    allowed_agent_tools,
     STATUS_FILE,
     TOOL_APPLY,
     TOOL_EVIDENCE_EMIT,
@@ -250,9 +251,9 @@ class Supervisor:
             "phase": self.config.phase,
             "read_only": True,
             "tools": [spec.name for spec in specs_for_phase(self.config.phase)],
-            "allowed_agent_tools": list(_allowed_agent_tools()),
+            "allowed_agent_tools": list(allowed_agent_tools(self.config.skill_name)),
             "denied_agent_tools": list(_denied_agent_tools()),
-            "skill_name": SKILL_NAME,
+            "skill_name": self.config.skill_name,
             "required_order": [step.tool for step in _phase_steps(self.config.phase)],
             "real_eda": "NOT RUN",
             "eda_calls": 0,
@@ -873,7 +874,7 @@ def _server_instructions(config: BoundConfig) -> str:
     tools = ", ".join(spec.name for spec in specs_for_phase(config.phase))
     return (
         "You are inside a Zhigou bound task. The supervisor owns execution, read-back, "
-        "evidence and the final report. Load the design-hardware Skill first, then call "
+        f"evidence and the final report. Load the {config.skill_name} Skill first, then call "
         f"the tools in order: {tools}. You cannot skip, reorder or repeat a step; every "
         "refusal carries a stable error code. No Bash/Write/Edit/Agent/Task/network tools "
         "exist in this task. Never claim a result the supervisor did not return."

@@ -62,8 +62,39 @@ SERVER_NAME = "zhigou-bound-supervisor"
 #: MCP protocol revision implemented by the stdio server.
 MCP_PROTOCOL_VERSION = "2025-06-18"
 
-#: Embedded Skill name that must be loaded for a bound task.
+#: Embedded Skill that must be loaded for a bound task.  The 2026-10 rebrand
+#: moved ``design-hardware/`` to ``easycirq/`` (Skill name ``easycirq``); the
+#: layer accepts both layouts and records which one the checkout actually has.
+SKILL_NAME_CANDIDATES = ("easycirq", "design-hardware")
+#: Legacy default, kept so old checkouts and B1-compatible text still resolve.
 SKILL_NAME = "design-hardware"
+
+
+def normalize_skill_name(name: str | None) -> str:
+    """Return a supported Skill name; unknown/None falls back to the legacy one."""
+
+    if isinstance(name, str) and name in SKILL_NAME_CANDIDATES:
+        return name
+    return SKILL_NAME
+
+
+def allowed_agent_tools(skill_name: str | None = None) -> tuple[str, ...]:
+    """The read-only capability surface, binding the detected Skill name."""
+
+    resolved = normalize_skill_name(skill_name)
+    return (
+        "Read",
+        "Glob",
+        "Grep",
+        f"Skill({resolved})",
+        "mcp__zhigou_bound__*",
+    )
+
+
+#: Legacy constant (design-hardware bound); runtime call sites use
+#: :func:`allowed_agent_tools` with the detected Skill name.
+ALLOWED_AGENT_TOOLS = allowed_agent_tools(SKILL_NAME)
+
 
 #: MCP tool names — Phase 1 (read-only binding).
 TOOL_TASK_START = "task_start"
@@ -92,14 +123,8 @@ ALL_TOOLS = PHASE1_TOOLS + PHASE2_TOOLS
 #: Agent capability surface. The list is written both to the Claude Code argv
 #: (``--allowedTools``) and to ``settings.json``; the deny list is a separate
 #: belt-and-braces measure because ``--allowedTools`` is only pre-approval in
-#: some Claude Code versions.
-ALLOWED_AGENT_TOOLS = (
-    "Read",
-    "Glob",
-    "Grep",
-    f"Skill({SKILL_NAME})",
-    "mcp__zhigou_bound__*",
-)
+#: some Claude Code versions.  The Skill entry is bound per task by
+#: :func:`allowed_agent_tools` (design-hardware / easycirq rename).
 DENIED_AGENT_TOOLS = (
     "Bash",
     "Write",
