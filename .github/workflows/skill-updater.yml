@@ -33,7 +33,7 @@ jobs:
         run: python tools/release_smoke.py --dist dist
       - uses: actions/upload-artifact@v4
         with:
-          name: hardware-skill-installer-${{ matrix.os }}
+          name: easycirq-installer-${{ matrix.os }}
           path: dist/*
   publish:
     if: github.event_name == 'release' && !github.event.release.prerelease

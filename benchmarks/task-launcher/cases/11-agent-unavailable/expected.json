@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
   "id": "11-agent-unavailable",
   "description": "Agent gate: claude profile with a nonexistent --claude-exe returns 503 AGENT_UNAVAILABLE.",
   "launcher": {

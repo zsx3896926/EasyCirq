@@ -35,7 +35,7 @@ EVIDENCE_FILES = (
 
 class PathsTests(LauncherTestCase):
     def _temp_root(self) -> Path:
-        root = Path(tempfile.mkdtemp(prefix="zhigou-paths-test-"))
+        root = Path(tempfile.mkdtemp(prefix="easycirq-paths-test-"))
         self.addCleanup(shutil.rmtree, root, True)
         return root
 
@@ -112,7 +112,7 @@ class PathsTests(LauncherTestCase):
         received = read_json(workspace / "agent.received.json")
         self.assertIn(prompt, received["argv"])
         self.assertEqual(received["argv"].count(prompt), 1)
-        self.assertEqual(received["env"]["ZHIGOU_TASK_ID"], task_id)
+        self.assertEqual(received["env"]["EASYCIRQ_TASK_ID"], task_id)
         self.assertEqual(received["model"], "fake")
         self.assertEqual(received["real_eda"], "NOT RUN")
 

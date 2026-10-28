@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.start/v1",
+  "schema": "easycirq.task-launcher.start/v1",
   "task_id": "bench-10-concurrency-busy",
   "client": {
     "name": "easyeda-pro-stub",

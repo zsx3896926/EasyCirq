@@ -1,7 +1,7 @@
 {
-  "schema": "zhigou.task-launcher.benchmark-case/v1",
+  "schema": "easycirq.task-launcher.benchmark-case/v1",
   "id": "03-version-mismatch-skill",
-  "description": "Version handshake: request Skill version differs from the checkout Skill .version (easycirq/, legacy design-hardware/).",
+  "description": "Version handshake: request Skill version differs from the checkout Skill .version (easycirq/, legacy easycirq/).",
   "launcher": {
     "agent_profile": "fake",
     "fake_scenario": "stream",

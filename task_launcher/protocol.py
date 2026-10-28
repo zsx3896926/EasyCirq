@@ -92,7 +92,7 @@ HTTP_STATUS = {
 #: contract (and in the docs) because the real-world failure it addresses is
 #: "two copies of the Skill/plugin installed side by side".
 VERSION_HINT = (
-    "统一安装版本：确认 Skill（当前 easycirq，旧名 design-hardware）、task_launcher 与生成的 "
+    "统一安装版本：确认 Skill（当前 easycirq，旧名 easycirq）、task_launcher 与生成的 "
     "Claude Code plugin 来自同一次安装/构建；重装 plugin 或使用 --plugin-dir 指向匹配版本。"
 )
 
@@ -435,7 +435,7 @@ def _validate_limits(value: Any, path: str) -> dict:
 
 
 def parse_start_request(data: bytes) -> dict:
-    """Parse and validate a ``zhigou.task-launcher.start/v1`` request.
+    """Parse and validate a ``easycirq.task-launcher.start/v1`` request.
 
     Returns a normalised dict (defaults applied, unknown fields absent).
     Raises :class:`LauncherError` on any violation.

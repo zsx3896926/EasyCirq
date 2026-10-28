@@ -15,7 +15,7 @@ import (
 )
 
 func TestPinRepairStoredRotationMatchesOrientationJSON(t *testing.T) {
-	raw, err := os.ReadFile(filepath.Join("..", "..", "..", "design-hardware", "references", "orientation.json"))
+	raw, err := os.ReadFile(filepath.Join("..", "..", "..", "easycirq", "references", "orientation.json"))
 	if err != nil {
 		t.Fatal(err)
 	}

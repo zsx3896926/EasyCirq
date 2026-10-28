@@ -7,11 +7,11 @@
 | 项 | 取值 |
 |---|---|
 | launcher 版本 | `task_launcher.__version__ = "0.1.0"` |
-| Skill 版本 | `easycirq/.version`（当前仓库为 `1.0.2`；旧布局 `design-hardware/.version`） |
+| Skill 版本 | `easycirq/.version`（当前仓库为 `1.0.2`；旧布局 `easycirq/.version`） |
 | plugin 包版本 | `PLUGIN_VERSION = "0.1.0"`，`plugin.json.skill_version` 承载 Skill 版本 |
-| 请求 schema | `zhigou.task-launcher.start/v1` |
-| 事件 schema | `zhigou.task-launcher.event/v1` |
-| 结果 schema | `zhigou.task-launcher.result/v1` |
+| 请求 schema | `easycirq.task-launcher.start/v1` |
+| 事件 schema | `easycirq.task-launcher.event/v1` |
+| 结果 schema | `easycirq.task-launcher.result/v1` |
 | 唯一模式 | `mode = "read_only"`（写模式在 Phase 2，本 PoC 拒绝） |
 
 本文档**不预填**测试数、基准通过数或耗时：可执行断言见 `tests/task_launcher_tests/`，
@@ -52,8 +52,8 @@
   不写入 argv、子进程环境、日志、工作区证据或结果。
 - **恒定时间比较**：`hmac.compare_digest`；缺失/错误 token → `401 UNAUTHORIZED`。
   **鉴权先于路由与方法判定**：受保护路径即使方法错误或路径不存在，未带有效 token 也是 `401`。
-- **状态目录**：默认 Windows `%LOCALAPPDATA%\zhigou-launcher`（回退 `%APPDATA%`/用户目录），
-  其他平台 `~/.zhigou-launcher`；`--state-dir` 覆盖。启动器和任务**只写该目录**。
+- **状态目录**：默认 Windows `%LOCALAPPDATA%\easycirq-launcher`（回退 `%APPDATA%`/用户目录），
+  其他平台 `~/.easycirq-launcher`；`--state-dir` 覆盖。启动器和任务**只写该目录**。
 - **响应**：JSON（UTF-8，`Content-Type: application/json; charset=utf-8`，
   `Cache-Control: no-store`），HTTP/1.1。成功与失败都是 JSON 文档；失败为 §1.2 错误封装。
 - **`serve` 启动行**：stdout 只打印**一行** JSON（绑定成功后立即打印，之后不再写 stdout；
@@ -110,7 +110,7 @@
 | `INVALID_FORMAT` | 422 | 格式/枚举错误（`task_id`、版本、枚举、URL 中的 id；`since` 用 `INVALID_REQUEST`） |
 | `VALUE_OUT_OF_RANGE` | 422 | 整数越界、字符串超长、数组超元素数 |
 | `EMPTY_REQUIRED` | 422 | 必填字符串为空或全空白 |
-| `UNSUPPORTED_SCHEMA` | 422 | `schema` 不等于 `zhigou.task-launcher.start/v1` |
+| `UNSUPPORTED_SCHEMA` | 422 | `schema` 不等于 `easycirq.task-launcher.start/v1` |
 | `MISSING_SNAPSHOT_DECLARATION` | 422 | `snapshot_sha256` 为 null/缺失但未在 `missing_fields` 声明 |
 | `WRITE_MODE_NOT_SUPPORTED` | 422 | `mode != "read_only"` |
 | `TASK_EXISTS` | 409 | `task_id` 在本进程内已存在（含终态任务） |
@@ -258,19 +258,19 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 | `--concurrent-task-id` | — | 基准辅助：并发再 start 一个任务并记录 HTTP 状态（预期 429） |
 
 退出码：任务 `completed` → `0`；任务失败/超时/取消 → `1`；协议或传输错误 → `2`。
-摘要 schema 为 `zhigou.task-launcher.stub-result/v1`，含 `start_http_status`、`final_status`、
+摘要 schema 为 `easycirq.task-launcher.stub-result/v1`，含 `start_http_status`、`final_status`、
 `event_count`、`event_seq_monotonic`、`cancel_sent`、`concurrent_start_http_status`、
 `result`、`real_eda`、`eda_calls`、`project_writes`、`agent`。
 
 ---
 
-## 2. `task.start` 请求（`zhigou.task-launcher.start/v1`）
+## 2. `task.start` 请求（`easycirq.task-launcher.start/v1`）
 
 ### 2.1 合法示例
 
 ```json
 {
-  "schema": "zhigou.task-launcher.start/v1",
+  "schema": "easycirq.task-launcher.start/v1",
   "task_id": "task-20261028-001",
   "client": {"name": "easyeda-pro-stub", "version": "0.0.0"},
   "toolchain": {"launcher": "0.1.0", "skill": "1.0.2", "plugin": "0.1.0"},
@@ -299,7 +299,7 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 
 | 字段 | 必填 | 类型 | 约束 | 默认 |
 |---|---|---|---|---|
-| `schema` | 是 | string | 必须等于 `zhigou.task-launcher.start/v1` | — |
+| `schema` | 是 | string | 必须等于 `easycirq.task-launcher.start/v1` | — |
 | `task_id` | 是 | string | `^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$`（1–64 字符） | — |
 | `client` | 是 | object | 见 §2.3 | — |
 | `toolchain` | 是 | object | 见 §2.3 | — |
@@ -387,7 +387,7 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 11. **HTTP 细节**：`Content-Length` 必填（不支持 chunked，缺失 → `400 INVALID_JSON`）；
     `Content-Type` 若出现则必须是 `application/json`（可带参数），否则 `400 INVALID_REQUEST`。
 12. **前向兼容**：因为未知字段被拒绝，给本 schema 增加可选字段属于**破坏性变更**；
-    需要时发布 `zhigou.task-launcher.start/v2`，并让旧客户端得到 `422 UNSUPPORTED_SCHEMA`。
+    需要时发布 `easycirq.task-launcher.start/v2`，并让旧客户端得到 `422 UNSUPPORTED_SCHEMA`。
 
 ### 2.5 校验顺序与错误映射
 
@@ -418,7 +418,7 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 
 ```json
 {
-  "schema": "zhigou.task-launcher.event/v1",
+  "schema": "easycirq.task-launcher.event/v1",
   "seq": 1,
   "ts": "2026-10-28T02:58:24.123Z",
   "type": "task_accepted",
@@ -430,7 +430,7 @@ CLI/客户端专用错误码（**不在 HTTP API 的 `error.code` 集合中**）
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
-| `schema` | string | 恒为 `zhigou.task-launcher.event/v1` |
+| `schema` | string | 恒为 `easycirq.task-launcher.event/v1` |
 | `seq` | integer | 从 `1` 开始，**严格单调 +1**，无空洞 |
 | `ts` | string | ISO-8601 UTC，毫秒精度，`Z` 结尾 |
 | `type` | string | 见 §3.2 |
@@ -556,15 +556,15 @@ POST /task/start (202)
 | 参与方 | 期望值来源 | 请求字段 | 当前仓库取值 |
 |---|---|---|---|
 | launcher | `task_launcher.__version__` | `toolchain.launcher` | `0.1.0` |
-| Skill | `<skill-dir>/.version`（默认 `easycirq/.version`，旧布局 `design-hardware/.version`） | `toolchain.skill` | `1.0.2` |
+| Skill | `<skill-dir>/.version`（默认 `easycirq/.version`，旧布局 `easycirq/.version`） | `toolchain.skill` | `1.0.2` |
 | plugin | 生成的 plugin manifest `version`；`--plugin-dir` 时读预构建 manifest | `toolchain.plugin` | `0.1.0` |
 
 **版本映射**：plugin **包版本**由 launcher 拥有（`PLUGIN_VERSION = 0.1.0`）；被带入的 Skill 版本
 放在同一份 `plugin.json` 的 `skill_version` 字段（默认构建时 = Skill 的 `.version`，当前 `1.0.2`）。
 两者不得混用：请求里的 `toolchain.plugin` 比的是**包版本**，`skill_version` 另做一致性检查
-（§5.3 最后一行）。plugin 包名固定 `zhigou-design-hardware`（launcher 包身份，跨 EasyCirq 重命名
+（§5.3 最后一行）。plugin 包名固定 `easycirq-skill`（launcher 包身份，跨 EasyCirq 重命名
 保持稳定）；plugin 内 `skills/` 下的目录名跟随 Skill frontmatter（当前 `easycirq`，旧布局
-`design-hardware`）。
+`easycirq`）。
 
 ### 5.2 比较语义
 
@@ -593,7 +593,7 @@ POST /task/start (202)
 所有握手失败都附带修复建议 `hint`（固定文案）：
 
 ```text
-统一安装版本：确认 Skill（当前 easycirq，旧名 design-hardware）、task_launcher 与生成的 Claude Code plugin 来自同一次安装/构建；重装 plugin 或使用 --plugin-dir 指向匹配版本。
+统一安装版本：确认 Skill（当前 easycirq，旧名 easycirq）、task_launcher 与生成的 Claude Code plugin 来自同一次安装/构建；重装 plugin 或使用 --plugin-dir 指向匹配版本。
 ```
 
 握手失败发生在任务目录创建之前：**不会**留下 `tasks/<id>/`，也不会启动 Agent。
@@ -603,7 +603,7 @@ POST /task/start (202)
 
 ---
 
-## 6. 结果文档（`zhigou.task-launcher.result/v1`）
+## 6. 结果文档（`easycirq.task-launcher.result/v1`）
 
 ### 6.1 可用条件
 
@@ -615,7 +615,7 @@ POST /task/start (202)
 
 | 字段 | 类型 | 说明 |
 |---|---|---|
-| `schema` | string | `zhigou.task-launcher.result/v1` |
+| `schema` | string | `easycirq.task-launcher.result/v1` |
 | `task_id` | string | |
 | `status` | string | `completed`/`failed`/`timeout`/`cancelled` |
 | `mode` | string | `read_only` |
@@ -672,7 +672,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
 ```json
 {
-  "schema": "zhigou.task-launcher.result/v1",
+  "schema": "easycirq.task-launcher.result/v1",
   "task_id": "task-20261028-001",
   "status": "completed",
   "mode": "read_only",
@@ -688,7 +688,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
   "launcher_version": "0.1.0",
   "skill_version": "1.0.2",
   "plugin": {
-    "name": "zhigou-design-hardware",
+    "name": "easycirq-skill",
     "version": "0.1.0",
     "skill_version": "1.0.2",
     "dir": "<state>/tasks/task-20261028-001/plugin",
@@ -723,7 +723,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 ### 7.1 目录布局（只写 state dir）
 
 ```text
-<state-dir>/                                  # 默认 %LOCALAPPDATA%\zhigou-launcher 或 ~/.zhigou-launcher
+<state-dir>/                                  # 默认 %LOCALAPPDATA%\easycirq-launcher 或 ~/.easycirq-launcher
 ├── launcher.token                            # 生成的 Bearer token（--token-file 可改路径）
 ├── plugin-cache/
 │   └── <plugin_version>-<launcher_version>-<fingerprint[:20]>/
@@ -757,7 +757,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 | `routing.md` | 由请求生成的强制路由文本 | 五条硬规则见 §8.2，测试逐条断言 |
 | `routing.summary.json` | `{rules, tools, mode, real_eda}` | `rules` 为五条规则 id，`tools` 为五个离线工具名 |
 | `mcp.json` | MCP 配置 | 见 §8.2 |
-| `agent.command.json` | `{schema:"zhigou.task-launcher.agent-command/v1", profile, executable, version, argv, cwd, env, env_keys, required_flags, required_flags_present:true, token_included:false}` | `env` 已白名单化（§8.1），`argv` 为列表 |
+| `agent.command.json` | `{schema:"easycirq.task-launcher.agent-command/v1", profile, executable, version, argv, cwd, env, env_keys, required_flags, required_flags_present:true, token_included:false}` | `env` 已白名单化（§8.1），`argv` 为列表 |
 | `events.jsonl` | 每行一个事件 | 追加即 flush；与 events API 同源 |
 | `agent.stdout.log` / `agent.stderr.log` | 原始输出 | spawn 前先创建空文件；stderr 单流写满 8 MiB（`MAX_LOG_BYTES`）后停止写日志 |
 | `plugin/` | 由缓存硬链接或复制而来 | 内含 `plugin.manifest.json`（相对路径 + SHA-256 + size + 汇总） |
@@ -768,7 +768,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
 - 拒绝的 start（schema/握手/BUSY/Agent 不可用）**不留下任务目录**：创建失败时目录会被清理。
 - 任务运行只写 `<state-dir>/`（`tasks/<task_id>/` 与首次构建时的 `plugin-cache/`）；不写仓库、
-  Skill 目录或客户工程（测试用目录快照对比 `easycirq/`（旧布局 `design-hardware/`）前后变化）。
+  Skill 目录或客户工程（测试用目录快照对比 `easycirq/`（旧布局 `easycirq/`）前后变化）。
 - 工作区内不出现 token 或 `Bearer` 头（`agent.command.json` 的 `token_included` 恒 `false`，
   测试逐个文件断言）。
 - plugin 缓存以 Skill 指纹为 key，同一 launcher 进程只构建一次并复用；每个任务把缓存
@@ -794,7 +794,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
   `PATH`、`PATHEXT`、`SYSTEMROOT`、`SYSTEMDRIVE`、`WINDIR`、`COMSPEC`、`TEMP`、`TMP`、
   `HOME`、`USERPROFILE`、`LANG`、`LC_ALL`、`LC_CTYPE`、`TZ`、`PYTHONIOENCODING`、`PYTHONUTF8`；
   再注入 `PYTHONPATH`（仓库根）、`PYTHONIOENCODING=utf-8`、`PYTHONUTF8=1`、
-  `ZHIGOU_TASK_ID`、`ZHIGOU_MODE`、`ZHIGOU_STATE_DIR`，fake 额外 `ZHIGOU_FAKE_SCENARIO`。
+  `EASYCIRQ_TASK_ID`、`EASYCIRQ_MODE`、`EASYCIRQ_STATE_DIR`，fake 额外 `EASYCIRQ_FAKE_SCENARIO`。
   **token 不在任何环境变量中**。
 - spawn 细节：`stdin=DEVNULL`、stdout/stderr 管道、UTF-8 文本、独立进程组/会话（§4.3）。
 
@@ -806,7 +806,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
 | id | 必须出现的文本 |
 |---|---|
-| `rule-1-load-skill` | `必须先加载 <skill-name> Skill，不得跳过`（当前 easycirq；旧布局 design-hardware） |
+| `rule-1-load-skill` | `必须先加载 <skill-name> Skill，不得跳过`（当前 easycirq；旧布局 easycirq） |
 | `rule-2-read-only` | `只读任务：不得修改/保存/导出 EDA 工程，不得调用任何写接口` |
 | `rule-3-tools` | `未知/缺测必须如实报告，不得用默认值或猜测补全` |
 | `rule-4-verdicts` | `离线检查 / 真实 EDA / 硬件实测` |
@@ -814,13 +814,13 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
   路由文本还包含本任务上下文（工程/文档/图页/选区（最多列前 20 项）/快照/缺测字段）、
   用户目标与执行限制，并明确 `real_eda=NOT RUN`。
-- `mcp.json` 只挂一个 stdio MCP server `zhigou-offline-audit`
-  （`python -m zhigou_mcp`，`PYTHONPATH=<skill>/scripts` 的绝对正斜杠路径）；
+- `mcp.json` 只挂一个 stdio MCP server `easycirq-offline-audit`
+  （`python -m easycirq_mcp`，`PYTHONPATH=<skill>/scripts` 的绝对正斜杠路径）；
   五个只读工具：`offline_audit_capabilities`、`offline_electrical_review`、
   `offline_return_path_audit`、`offline_delivery_inspect`、`offline_delivery_audit`。
   MCP server 由 Agent 作为子进程启动，launcher 既不启动也不与它通信。
 - 权限模式固定 `plan`（不会自动批准写操作）；`--allowedTools` 逗号分隔白名单：
-  `Skill,Read,Glob,Grep` + 上述五个 `mcp__zhigou-offline-audit__*` 只读工具（无 Bash/Write/Edit）。
+  `Skill,Read,Glob,Grep` + 上述五个 `mcp__easycirq-offline-audit__*` 只读工具（无 Bash/Write/Edit）。
 
 ### 8.3 资源与进程上限
 
@@ -855,7 +855,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 1. 每个任务的事件 `seq` 从 1 开始、严格 +1；`GET events?since=N` 只返回 `seq > N`。
 2. `events.jsonl` 的行与 events API 返回的事件同源同序（重启后 API 不再提供）。
 3. 工作区、`agent.command.json`、`result.json` 中不出现 token / `Bearer` 字符串。
-4. 任务运行不改变仓库与 `easycirq/`（旧布局 `design-hardware/`）文件（目录快照前后一致）。
+4. 任务运行不改变仓库与 `easycirq/`（旧布局 `easycirq/`）文件（目录快照前后一致）。
 5. 结果中 `real_eda == "NOT RUN"`、`eda_calls == 0`、`project_writes == 0`、
    `network_calls == 0`、`hardware_test == "NOT RUN"`。
 6. Agent argv 是字符串列表，且包含四个强制参数；`-p` 后是单个 `user_prompt` 参数。
@@ -872,7 +872,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 - 本任务**不修改** `runtime/`、`connector/`、`protocol/`、`distribution/`，不 import A 的代码，
   不启动真实 daemon/connector。分支从任务书基线 `main@0e391e3` 拉出，随后 rebase 到
   `origin/main@1701e79`（A 工具链 #36 与 EasyCirq 重命名 #77 均已合入 main）；
-  skill 目录重命名（`design-hardware/` → `easycirq/`）已适配；相对 main 只新增
+  skill 目录重命名（`easycirq/` → `easycirq/`）已适配；相对 main 只新增
   `task_launcher/`、`tests/task_launcher_tests/`、`benchmarks/task-launcher/`、
   `docs/parallel-task-launcher/`，`git diff --name-status origin/main...HEAD` 全部为 `A`。
 - 本契约的 API 命名与 A 既有 wire 概念（handshake / request / response / 错误码）对齐，

@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.start/v1",
+  "schema": "easycirq.task-launcher.start/v1",
   "task_id": "bench-04-version-mismatch-plugin",
   "client": {
     "name": "easyeda-pro-stub",

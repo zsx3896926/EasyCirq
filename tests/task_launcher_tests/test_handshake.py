@@ -22,7 +22,7 @@ from .support import (
 
 FRONTMATTER = (
     "---\n"
-    "name: design-hardware\n"
+    "name: easycirq\n"
     "description: synthetic Skill used by the task_launcher handshake tests\n"
     "---\n\n"
     "# Synthetic Skill\n"
@@ -51,7 +51,7 @@ def make_prebuilt_plugin(
     *,
     version: str = PLUGIN_VERSION,
     skill_version: str = SKILL_VERSION,
-    name: str = "zhigou-design-hardware",
+    name: str = "easycirq-skill",
     complete: bool = True,
     corrupt_json: bool = False,
 ) -> Path:
@@ -76,16 +76,16 @@ def make_prebuilt_plugin(
         skill_dir = plugin / "skills" / SKILL_NAME
         skill_dir.mkdir(parents=True)
         (skill_dir / "SKILL.md").write_text(
-            FRONTMATTER.replace("design-hardware", SKILL_NAME), encoding="utf-8", newline="\n"
+            FRONTMATTER.replace("easycirq", SKILL_NAME), encoding="utf-8", newline="\n"
         )
         (skill_dir / ".version").write_text(skill_version + "\n", encoding="utf-8", newline="\n")
         (plugin / ".mcp.json").write_text(
             json.dumps(
                 {
                     "mcpServers": {
-                        "zhigou-offline-audit": {
+                        "easycirq-offline-audit": {
                             "command": "python",
-                            "args": ["-m", "zhigou_mcp"],
+                            "args": ["-m", "easycirq_mcp"],
                             "env": {"PYTHONPATH": str(skill_dir.parent)},
                         }
                     }
@@ -101,7 +101,7 @@ def make_prebuilt_plugin(
 
 class HandshakeTests(unittest.TestCase):
     def setUp(self) -> None:
-        self._tmp = tempfile.TemporaryDirectory(prefix="zhigou-handshake-")
+        self._tmp = tempfile.TemporaryDirectory(prefix="easycirq-handshake-")
         self.addCleanup(self._tmp.cleanup)
         self.tmp = Path(self._tmp.name)
         self._launchers: list[LauncherProcess] = []

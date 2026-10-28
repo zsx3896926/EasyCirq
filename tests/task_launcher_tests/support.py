@@ -29,11 +29,11 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
-#: The 2026-10 rename moved the Skill from ``design-hardware/`` to ``easycirq/``;
+#: The 2026-10 rename moved the Skill from ``easycirq/`` to ``easycirq/``;
 #: tests follow whatever the checkout actually contains.
 SKILL_DIR = ROOT / "easycirq"
 if not (SKILL_DIR / "SKILL.md").is_file():
-    SKILL_DIR = ROOT / "design-hardware"
+    SKILL_DIR = ROOT / "easycirq"
 SKILL_NAME = SKILL_DIR.name
 TESTS_DIR = Path(__file__).resolve().parent
 
@@ -41,10 +41,10 @@ TESTS_DIR = Path(__file__).resolve().parent
 #: ~13 MB / 622 files; rebuilding it per launcher process would dominate the
 #: suite wall time.  The cache key includes the Skill fingerprint, so a stale
 #: entry can never be used for a changed Skill.
-PLUGIN_CACHE = Path(tempfile.gettempdir()) / "zhigou-launcher-test-plugin-cache"
+PLUGIN_CACHE = Path(tempfile.gettempdir()) / "easycirq-launcher-test-plugin-cache"
 
-START_SCHEMA = "zhigou.task-launcher.start/v1"
-RESULT_SCHEMA = "zhigou.task-launcher.result/v1"
+START_SCHEMA = "easycirq.task-launcher.start/v1"
+RESULT_SCHEMA = "easycirq.task-launcher.result/v1"
 LAUNCHER_VERSION = "0.1.0"
 SKILL_VERSION = (SKILL_DIR / ".version").read_text(encoding="utf-8").strip()
 PLUGIN_VERSION = "0.1.0"
@@ -61,7 +61,7 @@ def base_request(
     plugin_version: str | None = None,
     launcher_version: str = LAUNCHER_VERSION,
 ) -> dict:
-    """A valid ``zhigou.task-launcher.start/v1`` request for tests."""
+    """A valid ``easycirq.task-launcher.start/v1`` request for tests."""
 
     return {
         "schema": START_SCHEMA,
@@ -191,7 +191,7 @@ class LauncherProcess:
     ) -> None:
         self._temp_root = None
         if state_dir is None:
-            self._temp_root = Path(tempfile.mkdtemp(prefix="zhigou-launcher-test-"))
+            self._temp_root = Path(tempfile.mkdtemp(prefix="easycirq-launcher-test-"))
             state_dir = self._temp_root / "state"
         self.state_dir = Path(state_dir)
         self.state_dir.mkdir(parents=True, exist_ok=True)

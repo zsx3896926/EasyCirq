@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou.task-launcher.start/v1",
+  "schema": "easycirq.task-launcher.start/v1",
   "task_id": "bench-06-write-mode-refused",
   "client": {
     "name": "easyeda-pro-stub",

@@ -67,7 +67,7 @@ class LauncherHTTPServer(ThreadingHTTPServer):
 
 class LauncherRequestHandler(BaseHTTPRequestHandler):
     server: LauncherHTTPServer
-    server_version = f"zhigou-task-launcher/{__version__}"
+    server_version = f"easycirq-task-launcher/{__version__}"
     sys_version = ""
     protocol_version = "HTTP/1.1"
 

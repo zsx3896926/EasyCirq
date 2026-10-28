@@ -33,10 +33,10 @@ from .support import (
 )
 
 BENCHMARK_CASES = ROOT / "benchmarks" / "task-launcher" / "cases"
-CASE_SCHEMA = "zhigou.task-launcher.benchmark-case/v1"
-START_SCHEMA = "zhigou.task-launcher.start/v1"
-RESULT_SCHEMA = "zhigou.task-launcher.result/v1"
-STUB_SCHEMA = "zhigou.task-launcher.stub-result/v1"
+CASE_SCHEMA = "easycirq.task-launcher.benchmark-case/v1"
+START_SCHEMA = "easycirq.task-launcher.start/v1"
+RESULT_SCHEMA = "easycirq.task-launcher.result/v1"
+STUB_SCHEMA = "easycirq.task-launcher.stub-result/v1"
 
 
 def stub_environment() -> dict:
@@ -94,7 +94,7 @@ class StubConnectorTests(LauncherTestCase):
     def case_request(self, case_id: str) -> Path:
         """Resolved copy of a frozen case request (toolchain placeholders filled)."""
 
-        target = Path(tempfile.mkdtemp(prefix="zhigou-stub-case-"))
+        target = Path(tempfile.mkdtemp(prefix="easycirq-stub-case-"))
         self.addCleanup(shutil.rmtree, target, True)
         return resolve_frozen_case_request(case_id, target)
 
