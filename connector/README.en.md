@@ -127,8 +127,8 @@ Logs: `%USERPROFILE%\.zhigou\daemon.log` (connection/request records on the daem
 |---|---|
 | Extension name | `zhigou-easycirq-connector` |
 | Display name | Zhigou · EasyCirq Connector |
-| Extension UUID | `e5f3a3c5193c4b4b8c319188737c0e4f` (changes with every upgrade, see §5) |
-| Version | `1.0.0` |
+| Extension UUID | `bdd302b9b78942bbb6a65f7b8fb02fa7` (changes with every upgrade, see §5) |
+| Version | `1.0.1` |
 | Required service | `zhigou-agent` (this toolchain's daemon; **not** the old `easyeda-agent`) |
 | Ports | `127.0.0.1:23111-23120` (overridable via the extension user config `zhigouDaemonPorts`) |
 | Protocol | wire `v1` (handshake / register / context / request / response / ping / pong) |
@@ -164,6 +164,8 @@ are recorded in `NOTICE`.
 
 ## 10. License
 
-- Upstream `easyeda-agent` connector: MIT (Copyright (c) 2026 zhoushoujianwork and contributors);
-- Modifications in this project: Apache-2.0.
+- This extension release is distributed under **Apache-2.0** (the project's main license);
+- Upstream `easyeda-agent` connector code is MIT (Copyright (c) 2026 zhoushoujianwork and
+  contributors); its copyright and permission notice is retained in `NOTICE` as MIT requires,
+  and the embedded component (`src/beautify/*`) is also Apache-2.0;
 - This extension is an independently maintained fork and is not an official JLC product.

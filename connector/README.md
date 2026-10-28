@@ -123,8 +123,8 @@ EasyEDA 按**扩展 UUID** 识别插件：同 UUID 重新导入时，管理器�
 |---|---|
 | 扩展名 | `zhigou-easycirq-connector` |
 | 显示名 | 智构 · EasyCirq 连接器 |
-| 扩展 UUID | `e5f3a3c5193c4b4b8c319188737c0e4f`（每次升级会换新，见 §5） |
-| 版本 | `1.0.0` |
+| 扩展 UUID | `bdd302b9b78942bbb6a65f7b8fb02fa7`（每次升级会换新，见 §5） |
+| 版本 | `1.0.1` |
 | 依赖服务 | `zhigou-agent`（本工具链 daemon；**不连**旧 `easyeda-agent`） |
 | 端口 | `127.0.0.1:23111-23120`（可用扩展用户配置 `zhigouDaemonPorts` 覆盖） |
 | 协议 | wire `v1`（handshake / register / context / request / response / ping / pong） |
@@ -157,6 +157,7 @@ npx tsc --noEmit                            # 类型检查
 
 ## 10. 许可
 
-- 上游 `easyeda-agent` 连接器：MIT（Copyright (c) 2026 zhoushoujianwork and contributors）；
-- 本项目修改部分：Apache-2.0。
+- 本扩展发布物按 **Apache-2.0**（本项目主许可）分发；
+- 上游 `easyeda-agent` 连接器代码为 MIT（Copyright (c) 2026 zhoushoujianwork and contributors），
+  其版权与许可声明按 MIT 要求保留在 `NOTICE` 中；内嵌组件（`src/beautify/*`）同为 Apache-2.0；
 - 本扩展是独立维护的分支，非嘉立创官方产品。
