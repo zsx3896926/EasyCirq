@@ -1,8 +1,8 @@
-![智构 · EasyCirq](https://raw.githubusercontent.com/zsx3896926/EasyCirq/d4c85f462a6563e37f49b4ede996d07368825018/connector/images/banner.png)
+![智构 · EasyCirq](https://raw.githubusercontent.com/zsx3896926/EasyCirq/main/connector/images/banner.png)
 
 # 智构 · EasyCirq 连接器（EasyEDA Pro 扩展）
 
-> English: [README.en.md](https://github.com/zsx3896926/EasyCirq/blob/d4c85f462a6563e37f49b4ede996d07368825018/connector/README.en.md)
+> English: [README.en.md](https://github.com/zsx3896926/EasyCirq/blob/main/connector/README.en.md)
 >
 > 一句话：**它是一根“本地网线”**——把 AI 在你电脑上发出的 EDA 操作请求，
 > 转换成嘉立创 EDA 专业版（EasyEDA Pro）的官方 API 调用；操作只在你本机发生，不经过云端。
@@ -16,11 +16,11 @@
 
 以下截图来自本项目的真实工程（智构 · EasyCirq 生成的 5V 双按键双 LED 指示板）：
 
-![原理图](https://raw.githubusercontent.com/zsx3896926/EasyCirq/d4c85f462a6563e37f49b4ede996d07368825018/connector/images/showcase-schematic.png)
+![原理图](https://raw.githubusercontent.com/zsx3896926/EasyCirq/main/connector/images/showcase-schematic.png)
 
-![PCB](https://raw.githubusercontent.com/zsx3896926/EasyCirq/d4c85f462a6563e37f49b4ede996d07368825018/connector/images/showcase-pcb.png)
+![PCB](https://raw.githubusercontent.com/zsx3896926/EasyCirq/main/connector/images/showcase-pcb.png)
 
-![流程演示](https://raw.githubusercontent.com/zsx3896926/EasyCirq/d4c85f462a6563e37f49b4ede996d07368825018/connector/images/showcase.gif)
+![流程演示](https://raw.githubusercontent.com/zsx3896926/EasyCirq/main/connector/images/showcase.gif)
 
 - 原理图与 PCB 均由 AI 通过本连接器在 EasyEDA Pro 内实际绘制；
 - PCB 检查通过（DRC 0 违规），BOM 6 行可下单，Gerber/钻孔/CPL 已导出；
@@ -142,7 +142,7 @@ EasyEDA 按**扩展 UUID** 识别插件：同 UUID 重新导入时，管理器�
 | 扩展名 | `easycirq-connector` |
 | 显示名 | 智构 · EasyCirq 连接器 |
 | 扩展 UUID | `ef77a1878ae54dcf88f56436ee3dc5c6`（每次升级会换新，见 §5） |
-| 版本 | `1.0.15` |
+| 版本 | `1.0.16` |
 | 依赖服务 | `easycirq-agent`（智构工具链 daemon 的内部标识；**不连**旧 `easyeda-agent`） |
 | 端口 | `127.0.0.1:23111-23120`（可用扩展用户配置 `easycirqDaemonPorts` 覆盖） |
 | 协议 | wire `v1`（handshake / register / context / request / response / ping / pong） |
