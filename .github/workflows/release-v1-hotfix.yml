@@ -1,11 +1,8 @@
 name: Complete v1.0.1 stable publication
+# One-off v1.0.1 publication workflow. Keep it manual: a push trigger on
+# easycirq/.version would try to publish future versions with v1.0.1 assets.
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'easycirq/.version'
-      - '.github/workflows/release-v1-hotfix.yml'
-      - 'tests/test_network_feedback.py'
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
