@@ -25,6 +25,7 @@ from .model import (
     Constraints,
     CoordinateSystem,
     FixedText,
+    HOST_CAPABILITY_KEYS,
     Host,
     Input,
     InputError,
@@ -872,8 +873,7 @@ def _host(v: _Validator, value: Any) -> Optional[Host]:
     if not isinstance(raw_capabilities, dict):
         v.fail("host.capabilities: object required")
     else:
-        allowed = {"attribute_translate", "free_text_translate", "net_label_detach",
-                   "attribute_rotate", "attribute_align", "free_text_align"}
+        allowed = set(HOST_CAPABILITY_KEYS)
         for key, raw in raw_capabilities.items():
             if key not in allowed:
                 v.fail(f"host.capabilities: unknown capability {key!r}")

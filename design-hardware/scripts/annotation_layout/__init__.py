@@ -23,6 +23,7 @@ Modules:
     svg_analysis analysis-only before/after overlays
     report      machine JSON and short Markdown report
     convert     frozen photo-led fixture -> v1 input
+    probe_record validate onsite host-probe records and derive the host block
     benchmark   same-domain baseline vs improved measurement
     cli         command-line dispatch, atomic UTF-8 IO
 """
