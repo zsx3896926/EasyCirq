@@ -1,8 +1,37 @@
-# Changelog — Zhigou EDA Connector
+# Changelog
 
-## 0.1.0 (2026-10-27)
+本文件记录「智构 · EasyCirq 连接器」的版本更新情况。
 
-- 从 easyeda-agent v1.15.0 连接器扩展分支：自有扩展标识（uuid/name/displayName/publisher）。
-- 服务标识改为 `zhigou-agent`，daemon 端口改为 23111-23120，与上游工具链完全隔离。
-- 扩展用户配置键改为 `zhigouDaemonPorts`；菜单与日志前缀改为 Zhigou。
-- 发布包剔除上游演示媒体与上游 CHANGELOG，附 `NOTICE`（含内嵌 Apache-2.0 组件说明）。
+## [1.0.0] - 2026-10-28
+
+首个 EDA 扩展市场版本（市场合规改造）：
+
+- 扩展标识更新：`name` = `zhigou-easycirq-connector`，`uuid` = `e5f3a3c5193c4b4b8c319188737c0e4f`（每次发版换新 UUID，避免旧代码残留）
+- 完善扩展清单：名称、唯一标识、显示名、描述、版本、许可证、仓库、类别（categories）、图标、入口（entry）
+- 自定义品牌图标（512×512，1:1，PNG/JPEG 合规，非 SDK 默认 Logo）
+- 新增 `CHANGELOG.md`，重写 `README.md` / `README.en.md`（功能说明、安装、授权、升级、排障、安全）
+- 许可证表述与上游一致：MIT（上游 easyeda-agent）+ Apache-2.0（本项目修改）
+- 功能与协议行为与 0.1.4 一致：本机 WebSocket 桥接、typed action、身份/产物回传
+
+## [0.1.4] - 2026-10-27
+
+- 新增 PCB 制造导出动作：Gerber/钻孔、贴装坐标（CPL）、网表
+- 修复 drill 导出对"0 孔板"的误报
+- 品牌重命名：显示名改为「智构 · EasyCirq 连接器」
+
+## [0.1.3] - 2026-10-27
+
+- 品牌重命名（显示名、UUID 更新）
+- 原理图/PCB 检查动作增强
+
+## [0.1.2] - 2026-10-27
+
+- 修复封装内嵌 BOARD_OUTLINE 图形导致的操作阻断
+
+## [0.1.1] - 2026-10-26
+
+- 初始内部版本：连接器与运行时握手、基础原理图/PCB 动作
+
+## [0.1.0] - 2026-10-26
+
+- 首个内部构建（派生自 easyeda-agent 1.15.0，MIT）

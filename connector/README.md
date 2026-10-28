@@ -121,10 +121,10 @@ EasyEDA 按**扩展 UUID** 识别插件：同 UUID 重新导入时，管理器�
 
 | 项 | 当前值 |
 |---|---|
-| 扩展名 | `zhigou-connector` |
+| 扩展名 | `zhigou-easycirq-connector` |
 | 显示名 | 智构 · EasyCirq 连接器 |
-| 扩展 UUID | `9511dbc464364e48b6c9047872a82e12`（每次升级会换新，见 §5） |
-| 版本 | `0.1.4` |
+| 扩展 UUID | `e5f3a3c5193c4b4b8c319188737c0e4f`（每次升级会换新，见 §5） |
+| 版本 | `1.0.0` |
 | 依赖服务 | `zhigou-agent`（本工具链 daemon；**不连**旧 `easyeda-agent`） |
 | 端口 | `127.0.0.1:23111-23120`（可用扩展用户配置 `zhigouDaemonPorts` 覆盖） |
 | 协议 | wire `v1`（handshake / register / context / request / response / ping / pong） |

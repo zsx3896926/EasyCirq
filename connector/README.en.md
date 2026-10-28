@@ -125,10 +125,10 @@ Logs: `%USERPROFILE%\.zhigou\daemon.log` (connection/request records on the daem
 
 | Item | Current value |
 |---|---|
-| Extension name | `zhigou-connector` |
+| Extension name | `zhigou-easycirq-connector` |
 | Display name | Zhigou · EasyCirq Connector |
-| Extension UUID | `9511dbc464364e48b6c9047872a82e12` (changes with every upgrade, see §5) |
-| Version | `0.1.4` |
+| Extension UUID | `e5f3a3c5193c4b4b8c319188737c0e4f` (changes with every upgrade, see §5) |
+| Version | `1.0.0` |
 | Required service | `zhigou-agent` (this toolchain's daemon; **not** the old `easyeda-agent`) |
 | Ports | `127.0.0.1:23111-23120` (overridable via the extension user config `zhigouDaemonPorts`) |
 | Protocol | wire `v1` (handshake / register / context / request / response / ping / pong) |

@@ -1,14 +1,14 @@
 {
-	"name": "zhigou-connector",
-	"uuid": "9511dbc464364e48b6c9047872a82e12",
+	"name": "zhigou-easycirq-connector",
+	"uuid": "e5f3a3c5193c4b4b8c319188737c0e4f",
 	"displayName": "智构 · EasyCirq 连接器",
-	"description": "智构 · EasyCirq 连接器：把本机 zhigou 运行时的绘图/检查请求转成 EasyEDA 官方 eda.* API 调用。仅本机回环（127.0.0.1），不联网、无遥测；需要在扩展设置里允许「外部交互」。用法与排障见 connector/README.md（Derived from easyeda-agent, MIT — see NOTICE）。",
-	"version": "0.1.4",
+	"description": "智构 · EasyCirq 连接器：把本机 Zhigou 运行时的原理图/PCB 操作请求，转成 EasyEDA Pro 官方 eda.* API 调用；仅在 127.0.0.1 回环通信，不联网、无遥测、不需要账号。首次使用需在扩展设置中允许「外部交互」。详细功能、安装、升级与排障见 README.md，更新记录见 CHANGELOG.md。",
+	"version": "1.0.0",
 	"publisher": "zsx3896926",
 	"engines": {
 		"eda": ">=3.2.0"
 	},
-	"license": "MIT",
+	"license": "MIT AND Apache-2.0",
 	"repository": {
 		"type": "github",
 		"url": "https://github.com/zsx3896926/hardware-design-skill"
