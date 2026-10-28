@@ -1,3 +1,5 @@
+![Zhigou · EasyCirq](images/banner.png)
+
 # Zhigou · EasyCirq Connector (EasyEDA Pro extension)
 
 > 中文版：[README.md](README.md)
@@ -127,8 +129,8 @@ Logs: `%USERPROFILE%\.zhigou\daemon.log` (connection/request records on the daem
 |---|---|
 | Extension name | `zhigou-easycirq-connector` |
 | Display name | Zhigou · EasyCirq Connector |
-| Extension UUID | `bdd302b9b78942bbb6a65f7b8fb02fa7` (changes with every upgrade, see §5) |
-| Version | `1.0.1` |
+| Extension UUID | `f7880f9da65f42ba8fe657711003c927` (changes with every upgrade, see §5) |
+| Version | `1.0.2` |
 | Required service | `zhigou-agent` (this toolchain's daemon; **not** the old `easyeda-agent`) |
 | Ports | `127.0.0.1:23111-23120` (overridable via the extension user config `zhigouDaemonPorts`) |
 | Protocol | wire `v1` (handshake / register / context / request / response / ping / pong) |

@@ -1,3 +1,5 @@
+![智构 · EasyCirq](images/banner.png)
+
 # 智构 · EasyCirq 连接器（EasyEDA Pro 扩展）
 
 > English: [README.en.md](README.en.md)
@@ -123,8 +125,8 @@ EasyEDA 按**扩展 UUID** 识别插件：同 UUID 重新导入时，管理器�
 |---|---|
 | 扩展名 | `zhigou-easycirq-connector` |
 | 显示名 | 智构 · EasyCirq 连接器 |
-| 扩展 UUID | `bdd302b9b78942bbb6a65f7b8fb02fa7`（每次升级会换新，见 §5） |
-| 版本 | `1.0.1` |
+| 扩展 UUID | `f7880f9da65f42ba8fe657711003c927`（每次升级会换新，见 §5） |
+| 版本 | `1.0.2` |
 | 依赖服务 | `zhigou-agent`（本工具链 daemon；**不连**旧 `easyeda-agent`） |
 | 端口 | `127.0.0.1:23111-23120`（可用扩展用户配置 `zhigouDaemonPorts` 覆盖） |
 | 协议 | wire `v1`（handshake / register / context / request / response / ping / pong） |

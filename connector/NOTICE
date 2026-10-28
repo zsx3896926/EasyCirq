@@ -20,5 +20,5 @@ and contributors），按 MIT 许可复用并修改；发布物元数据 license
   许可原文见该目录 LICENSE；分发本扩展时一并附带本 NOTICE。
   该组件仅在构建产物 dist/index.js 中以编译形态存在。
 
-图标/图片：images/logo.png 为本项目自有品牌图（智构 · EasyCirq，512×512 PNG），
+图标/图片：images/logo.png（方形）与 images/banner.png（横幅）为本项目自有品牌图（智构 · EasyCirq，来自项目品牌素材），
 非上游 SDK/平台默认图标，版权归本项目所有；其余演示用媒体文件不进入发布包。
