@@ -1,0 +1,838 @@
+{
+  "schema": "easycirq.placement-intent.input/v1",
+  "project": {
+    "project_id": "mcu-i2c-s3-20261026-derived",
+    "revision": "derived-r1",
+    "document_id": "placement-plan"
+  },
+  "snapshot": {
+    "schema": "easycirq.placement-intent.snapshot/v1",
+    "captured_at": "2026-10-26T00:00:00+08:00",
+    "content_sha256": "fdef702e8295a4e506e982dc027747add402cd6793dbed7511f63ea52d5446b3",
+    "source_type": "derived",
+    "missing_fields": []
+  },
+  "units": {
+    "length": "mil"
+  },
+  "board": {
+    "width_mm": 2590.0,
+    "height_mm": 1771.7
+  },
+  "modules": [
+    {
+      "id": "mod:board",
+      "name": "mcu-i2c-s3-2026-10-26 (derived functional blocks)",
+      "parent": null,
+      "children": [
+        "mod:usb",
+        "mod:power",
+        "mod:mcu",
+        "mod:sensor",
+        "mod:ui"
+      ],
+      "components": [],
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "id": "mod:usb",
+      "name": "USB-C input, ESD and CC pulldowns",
+      "parent": "mod:board",
+      "children": [],
+      "components": [
+        "cmp:J1",
+        "cmp:D1",
+        "cmp:D2",
+        "cmp:R1",
+        "cmp:R2"
+      ],
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "id": "mod:power",
+      "name": "3V3 LDO and its input/output capacitors",
+      "parent": "mod:board",
+      "children": [],
+      "components": [
+        "cmp:U1",
+        "cmp:C2",
+        "cmp:C3",
+        "cmp:C1"
+      ],
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "id": "mod:mcu",
+      "name": "ESP32-S3-WROOM-1 module and its local support parts",
+      "parent": "mod:board",
+      "children": [],
+      "components": [
+        "cmp:U2",
+        "cmp:R92",
+        "cmp:R93",
+        "cmp:C4",
+        "cmp:C6",
+        "cmp:C5",
+        "cmp:R3"
+      ],
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "id": "mod:sensor",
+      "name": "SHT40 sensor and its I2C pull-ups",
+      "parent": "mod:board",
+      "children": [],
+      "components": [
+        "cmp:U90",
+        "cmp:C90",
+        "cmp:R90",
+        "cmp:R91"
+      ],
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "id": "mod:ui",
+      "name": "BOOT/RESET buttons and the boot pull-up",
+      "parent": "mod:board",
+      "children": [],
+      "components": [
+        "cmp:SW1",
+        "cmp:SW2",
+        "cmp:R4"
+      ],
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "cmp:J1",
+      "designator": "J1",
+      "allowed_rotations": [
+        0,
+        180
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:D1",
+      "designator": "D1",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:D2",
+      "designator": "D2",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:R1",
+      "designator": "R1",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:R2",
+      "designator": "R2",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:U1",
+      "designator": "U1",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:C2",
+      "designator": "C2",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:C3",
+      "designator": "C3",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:C1",
+      "designator": "C1",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:U2",
+      "designator": "U2",
+      "allowed_rotations": [
+        0,
+        180
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:R92",
+      "designator": "R92",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:R93",
+      "designator": "R93",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:C4",
+      "designator": "C4",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:C6",
+      "designator": "C6",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:C5",
+      "designator": "C5",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:R3",
+      "designator": "R3",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:U90",
+      "designator": "U90",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:C90",
+      "designator": "C90",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:R90",
+      "designator": "R90",
+      "allowed_rotations": [
+        0,
+        90
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:R91",
+      "designator": "R91",
+      "allowed_rotations": [
+        0,
+        90
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:SW1",
+      "designator": "SW1",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:SW2",
+      "designator": "SW2",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    },
+    {
+      "instance_id": "cmp:R4",
+      "designator": "R4",
+      "allowed_rotations": [
+        0
+      ],
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      }
+    }
+  ],
+  "constraints": [
+    {
+      "id": "ccg:m-usb",
+      "from": "mod:board",
+      "to": "mod:usb",
+      "dx_mm": 1900,
+      "dy_mm": 650,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived from the minimum x/y of the block members (mil)"
+    },
+    {
+      "id": "ccg:c-J1",
+      "from": "mod:usb",
+      "to": "cmp:J1",
+      "dx_mm": 420,
+      "dy_mm": 235,
+      "rotation_deg": 180,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-D1",
+      "from": "mod:usb",
+      "to": "cmp:D1",
+      "dx_mm": 250,
+      "dy_mm": 0,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-D2",
+      "from": "mod:usb",
+      "to": "cmp:D2",
+      "dx_mm": 350,
+      "dy_mm": 0,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-R1",
+      "from": "mod:usb",
+      "to": "cmp:R1",
+      "dx_mm": 100,
+      "dy_mm": 430,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-R2",
+      "from": "mod:usb",
+      "to": "cmp:R2",
+      "dx_mm": 0,
+      "dy_mm": 430,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:m-power",
+      "from": "mod:board",
+      "to": "mod:power",
+      "dx_mm": 1950,
+      "dy_mm": 150,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived from the minimum x/y of the block members (mil)"
+    },
+    {
+      "id": "ccg:c-U1",
+      "from": "mod:power",
+      "to": "cmp:U1",
+      "dx_mm": 150,
+      "dy_mm": 300,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-C2",
+      "from": "mod:power",
+      "to": "cmp:C2",
+      "dx_mm": 0,
+      "dy_mm": 550,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-C3",
+      "from": "mod:power",
+      "to": "cmp:C3",
+      "dx_mm": 0,
+      "dy_mm": 100,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-C1",
+      "from": "mod:power",
+      "to": "cmp:C1",
+      "dx_mm": 150,
+      "dy_mm": 0,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:m-mcu",
+      "from": "mod:board",
+      "to": "mod:mcu",
+      "dx_mm": 900,
+      "dy_mm": 250,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived from the minimum x/y of the block members (mil)"
+    },
+    {
+      "id": "ccg:c-U2",
+      "from": "mod:mcu",
+      "to": "cmp:U2",
+      "dx_mm": 0,
+      "dy_mm": 401,
+      "rotation_deg": 180,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-R92",
+      "from": "mod:mcu",
+      "to": "cmp:R92",
+      "dx_mm": 450,
+      "dy_mm": 600,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-R93",
+      "from": "mod:mcu",
+      "to": "cmp:R93",
+      "dx_mm": 450,
+      "dy_mm": 530,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-C4",
+      "from": "mod:mcu",
+      "to": "cmp:C4",
+      "dx_mm": 480,
+      "dy_mm": 0,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-C6",
+      "from": "mod:mcu",
+      "to": "cmp:C6",
+      "dx_mm": 460,
+      "dy_mm": 200,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-C5",
+      "from": "mod:mcu",
+      "to": "cmp:C5",
+      "dx_mm": 450,
+      "dy_mm": 100,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-R3",
+      "from": "mod:mcu",
+      "to": "cmp:R3",
+      "dx_mm": 550,
+      "dy_mm": 100,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:m-sensor",
+      "from": "mod:board",
+      "to": "mod:sensor",
+      "dx_mm": 250,
+      "dy_mm": 1250,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived from the minimum x/y of the block members (mil)"
+    },
+    {
+      "id": "ccg:c-U90",
+      "from": "mod:sensor",
+      "to": "cmp:U90",
+      "dx_mm": 0,
+      "dy_mm": 100,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-C90",
+      "from": "mod:sensor",
+      "to": "cmp:C90",
+      "dx_mm": 150,
+      "dy_mm": 170,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-R90",
+      "from": "mod:sensor",
+      "to": "cmp:R90",
+      "dx_mm": 100,
+      "dy_mm": 0,
+      "rotation_deg": 90,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-R91",
+      "from": "mod:sensor",
+      "to": "cmp:R91",
+      "dx_mm": 200,
+      "dy_mm": 0,
+      "rotation_deg": 90,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:m-ui",
+      "from": "mod:board",
+      "to": "mod:ui",
+      "dx_mm": 200,
+      "dy_mm": 600,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived from the minimum x/y of the block members (mil)"
+    },
+    {
+      "id": "ccg:c-SW1",
+      "from": "mod:ui",
+      "to": "cmp:SW1",
+      "dx_mm": 0,
+      "dy_mm": 0,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-SW2",
+      "from": "mod:ui",
+      "to": "cmp:SW2",
+      "dx_mm": 0,
+      "dy_mm": 300,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    },
+    {
+      "id": "ccg:c-R4",
+      "from": "mod:ui",
+      "to": "cmp:R4",
+      "dx_mm": 250,
+      "dy_mm": 200,
+      "rotation_deg": 0,
+      "weight": 1.0,
+      "source": {
+        "kind": "derived",
+        "ref": "placement-plan.json#placements"
+      },
+      "note": "derived absolute mil coordinate minus block anchor"
+    }
+  ],
+  "policy": {
+    "max_depth": 6,
+    "default_allowed_rotations": [
+      0,
+      90,
+      180,
+      270
+    ],
+    "position_tolerance_mm": 1e-06,
+    "weight_epsilon": 1e-09
+  },
+  "provenance": {
+    "kind": "derived",
+    "sources": [
+      {
+        "ref": "easycirq/cases/mcu-i2c-s3-2026-10-26/evidence/placement-plan.json",
+        "sha256": "fdef702e8295a4e506e982dc027747add402cd6793dbed7511f63ea52d5446b3",
+        "note": "absolute mil placements of 23 designators; derived into relative CCG offsets offline"
+      },
+      {
+        "ref": "easycirq/cases/mcu-i2c-s3-2026-10-26/README.md",
+        "sha256": "0bd973309a1e3ff2c2f3c4085971f5701c9af21dae6e833da3f15d68f716e4fb",
+        "note": "board outline 2590 x 1771.7 mil quoted from the case report"
+      }
+    ],
+    "note": "Offline derivation for the placement-intent benchmark. NOT a real board read: no EDA/daemon/connector call, no .epro2 read, no size_mm is declared because the source has no footprint sizes. planned_constraints_only with size_unknown is the expected, honest outcome."
+  },
+  "unknowns": []
+}
