@@ -105,9 +105,10 @@ jobs:
         env:
           VERSION: ${{ needs.cli.outputs.version }}
         run: |
-          $cv = python -c "import json;print(json.load(open('connector/extension.json'))['version'])"
+          $cv = python -c "import json,io;print(json.load(io.open('connector/extension.json',encoding='utf-8'))['version'])"
           mkdir -Force dist | Out-Null
-          go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=$env:VERSION -X github.com/zsx3896926/EasyCirq/runtime/internal/version.ConnectorVersion=$cv" -o dist\easycirq_windows_amd64.exe ./runtime/cmd/easycirq
+          Set-Location runtime
+          go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=$env:VERSION -X github.com/zsx3896926/EasyCirq/runtime/internal/version.ConnectorVersion=$cv" -o ../dist/easycirq_windows_amd64.exe ./cmd/easycirq
 
       - name: Build toolchain installer
         env:
