@@ -146,8 +146,8 @@ Logs: `%USERPROFILE%\.easycirq\daemon.log` (connection/request records on the da
 |---|---|
 | Extension name | `easycirq-connector` |
 | Display name | EasyCirq Connector (zh: 智构 · EasyCirq 连接器) |
-| Extension UUID | `70209f0dd9b945c0840ae95215ec7c34` (changes with every upgrade, see §5) |
-| Version | `1.0.6` |
+| Extension UUID | `ee74adcf27a643eb80653fb7a84bdefb` (changes with every upgrade, see §5) |
+| Version | `1.0.7` |
 | Required service | `easycirq-agent` (internal id of this toolchain's daemon; **not** the old `easyeda-agent`) |
 | Ports | `127.0.0.1:23111-23120` (overridable via the extension user config `easycirqDaemonPorts`) |
 | Protocol | wire `v1` (handshake / register / context / request / response / ping / pong) |
