@@ -1,6 +1,6 @@
 # I 常见主控与最小系统 盘点
 
-> 审计对象：`C:\Users\jlc\work\hardware-design-skill`，2026-10-22。只读审计，未改仓库文件。
+> 审计对象：`C:\Users\jlc\work\EasyCirq`，2026-10-22。只读审计，未改仓库文件。
 > 判定口径：`adequate` 已足够可直接引用；`partial` 有基础但缺本主题具体内容；`missing` 没有。
 > 动作口径：`reuse` 引用 + 极短补充；`supplement` 在现有卡上补缺口；`new` 新写。
 > 对照 11 问：用户话术、路线选择、必查参数、电路组成、参数确定、原理图、PCB、程序、验证、常见误判、采购落地。

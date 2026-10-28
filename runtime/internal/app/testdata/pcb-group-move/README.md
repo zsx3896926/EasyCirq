@@ -34,7 +34,7 @@
 在本目录运行（输出路径可替换）：
 
 ```bash
-zhigou pcb layout-plan --board board.json --from layout.json \
+easycirq pcb layout-plan --board board.json --from layout.json \
   --module established-group --candidates 3 --out /tmp/pcb-group-move
 ```
 

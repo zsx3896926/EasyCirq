@@ -81,10 +81,10 @@
 自带板框图形**，不是布线问题。不要为了消告警去改网络/删器件/放宽规则。
 
 **处置（2026-10-28 真机实测）**：
-1. 运行 `python tools/zhigou_footprint_outline_diagnose.py` 点名器件、焊盘与对象 id；
+1. 运行 `python tools/easycirq_footprint_outline_diagnose.py` 点名器件、焊盘与对象 id；
 2. 该子图元**枚举不到也删不掉**（删除返回成功但 save+reload 后引擎重建），所以**不要**
    尝试"删除图元"来修复；
-3. 正确修复是器件/封装级：`zhigou sch replace --id <primitiveId> --lcsc <无内嵌 outline 的同类器件>`
+3. 正确修复是器件/封装级：`easycirq sch replace --id <primitiveId> --lcsc <无内嵌 outline 的同类器件>`
    （或 `sch rebind-footprint` 换封装、或改库删除图形）；
 4. 必须 `pcb save → doc reload → pcb drc` 复验（实测 4 条违规 → 0）。
 

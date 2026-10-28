@@ -3,13 +3,13 @@ installer zip contents:
 
   Length Name
   ------ ----
-     382 Install-Zhigou.cmd
-    6260 Install-Zhigou.ps1
+     382 Install-EasyCirq.cmd
+    6260 Install-EasyCirq.ps1
     4660 INSTALL.md
      513 SHA256SUMS
     2205 toolchain-release.json
-   54667 zhigou_install.py
-16017542 zhigou-toolchain-0.2.0.zip
+   54667 easycirq_install.py
+16017542 easycirq-toolchain-0.2.0.zip
 
 
 --- install ---
@@ -17,7 +17,7 @@ installer zip contents:
   "status": "installed",
   "version": "0.2.0",
   "previousVersion": null,
-  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
+  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录",
   "files": 685,
   "backup": null,
   "preservedConfig": [],
@@ -29,7 +29,7 @@ installer zip contents:
       "runtime": "0.2.0",
       "daemon": "0.2.0",
       "connector": "0.1.0",
-      "protocol": "zhigou-agent/v1",
+      "protocol": "easycirq-agent/v1",
       "eda": ">=3.2.0",
       "validatedEda": "4.1.78",
       "minPython": "3.10"
@@ -41,7 +41,7 @@ installer zip contents:
     "verdict": "degraded",
     "exitCode": 0,
     "command": [
-      "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe",
+      "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录\\bin\\easycirq.exe",
       "doctor"
     ],
     "summary": {
@@ -53,40 +53,40 @@ installer zip contents:
       "connectorStatus": "disconnected",
       "connectedWindows": [],
       "protocol": {
-        "service": "zhigou-agent",
+        "service": "easycirq-agent",
         "wireVersion": "v1",
         "handshake": "daemon→connector {type:handshake,service,version}",
         "envelopeVersion": "v1"
       }
     },
-    "stderr": "zhigou doctor — verdict: degraded\n  runtime   zhigou 0.2.0-dev  (C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe)\n  skill     installed\n  daemon    running pid=49128 port=23111 v0.2.0-dev\n  connector disconnected (0 window(s), expected zhigou-connector v0.1.0)\n  protocol  zhigou-agent wire v1\n  ✓ daemon     v0.2.0-dev 运行在端口 23111\n  ✗ connector  没有 EasyEDA 窗口连上 daemon\n      → 运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA\n  ✓ skill      easycirq 已安装（claude 1.0.1, agents 1.0.1）\n  ✓ legacy     检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\n  next: 在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载",
-    "stdoutHead": "{\n  \"schema\": \"zhigou-doctor/v1\",\n  \"generatedAt\": \"2026-10-27T13:47:44Z\",\n  \"verdict\": \"degraded\",\n  \"runtime\": {\n    \"name\": \"zhigou\",\n    \"version\": \"0.2.0-dev\",\n    \"executable\": \"C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Temp\\\\zhigou final 安装 目录\\\\bin\\\\zhigou.exe\",\n    \"sha256\": \"7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4\",\n    \"vcsRevision\": \"9a951edc21481dc3ae91460acc11aa3e08a7be8a\",\n    \"vcsTime\": \"2026-10-27T07:03:30Z\",\n    \"vcsModified\": true,\n    \"goVersion\": \"go1.27.3\",\n    \"onDisk\": true\n  },\n  \"skill\": {\n    \"name\": \"easycirq\",\n    \"status\": \"installed\",\n    \"installed\": [\n      {\n        \"client\": \"codex\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.codex\\\\skills\\\\easycirq\",\n        \"present\": false\n      },\n      {\n        \"client\": \"claude\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.claude\\\\skills\\\\easycirq\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"agents\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.agents\\\\skills\\\\easycirq\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"repo\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\Documents\\\\deepseek-harness\\\\default-workspace\\\\easycirq\",\n        \"present\": false\n      }\n    ]\n  },\n  \"daemon\": {\n    \"status\": \"running\",\n    \"pid\": 49128,\n    \"port\": 23111,\n    \"version\": \"0.2.0-dev\",\n    \"stateDir\": \"C:\\\\Users\\\\jlc\\\\.zhigou\",\n    \"logPath\": \"C:\\\\Users\\\\jlc\\\\.zhigou\\\\daemon.log\",\n    \"pidFile\": \"C:\\\\Users\\\\jlc\\\\.zhigou\\\\daemon.",
+    "stderr": "easycirq doctor — verdict: degraded\n  runtime   easycirq 0.2.0-dev  (C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录\\bin\\easycirq.exe)\n  skill     installed\n  daemon    running pid=49128 port=23111 v0.2.0-dev\n  connector disconnected (0 window(s), expected easycirq-connector v0.1.0)\n  protocol  easycirq-agent wire v1\n  ✓ daemon     v0.2.0-dev 运行在端口 23111\n  ✗ connector  没有 EasyEDA 窗口连上 daemon\n      → 运行 `easycirq connector path` 取得本运行时自带的 .eext，按 `easycirq connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA\n  ✓ skill      easycirq 已安装（claude 1.0.1, agents 1.0.1）\n  ✓ legacy     检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\n  next: 在 EasyEDA Pro 导入自有连接器 easycirq-connector v0.1.0（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载",
+    "stdoutHead": "{\n  \"schema\": \"easycirq-doctor/v1\",\n  \"generatedAt\": \"2026-10-27T13:47:44Z\",\n  \"verdict\": \"degraded\",\n  \"runtime\": {\n    \"name\": \"easycirq\",\n    \"version\": \"0.2.0-dev\",\n    \"executable\": \"C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Temp\\\\easycirq final 安装 目录\\\\bin\\\\easycirq.exe\",\n    \"sha256\": \"7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4\",\n    \"vcsRevision\": \"9a951edc21481dc3ae91460acc11aa3e08a7be8a\",\n    \"vcsTime\": \"2026-10-27T07:03:30Z\",\n    \"vcsModified\": true,\n    \"goVersion\": \"go1.27.3\",\n    \"onDisk\": true\n  },\n  \"skill\": {\n    \"name\": \"easycirq\",\n    \"status\": \"installed\",\n    \"installed\": [\n      {\n        \"client\": \"codex\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.codex\\\\skills\\\\easycirq\",\n        \"present\": false\n      },\n      {\n        \"client\": \"claude\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.claude\\\\skills\\\\easycirq\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"agents\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.agents\\\\skills\\\\easycirq\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"repo\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\Documents\\\\deepseek-harness\\\\default-workspace\\\\easycirq\",\n        \"present\": false\n      }\n    ]\n  },\n  \"daemon\": {\n    \"status\": \"running\",\n    \"pid\": 49128,\n    \"port\": 23111,\n    \"version\": \"0.2.0-dev\",\n    \"stateDir\": \"C:\\\\Users\\\\jlc\\\\.easycirq\",\n    \"logPath\": \"C:\\\\Users\\\\jlc\\\\.easycirq\\\\daemon.log\",\n    \"pidFile\": \"C:\\\\Users\\\\jlc\\\\.easycirq\\\\daemon.",
     "note": "degraded/exit!=0 means the host is unreachable (daemon down or connector not connected); that is reported honestly and is not an installation failure."
   },
   "next": [
     "1) Import the connector into EasyEDA Pro manually: 设置 → 扩展 → 已安装 → 导入扩展",
-    "   file: C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\connector\\zhigou-connector_v0.1.0.eext",
+    "   file: C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录\\connector\\easycirq-connector_v0.1.0.eext",
     "2) Fully quit EasyEDA Pro and relaunch it (the connector loads on startup; no hot reload).",
-    "3) Verify: C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe doctor",
+    "3) Verify: C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录\\bin\\easycirq.exe doctor",
     "   daemon down / connector disconnected = degraded, not an install failure.",
-    "4) Optional: add C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin to PATH yourself -- this installer never edits PATH."
+    "4) Optional: add C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录\\bin to PATH yourself -- this installer never edits PATH."
   ]
 }
 exit=0
 --- status ---
 {
-  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
-  "stateDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou-final-state",
+  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录",
+  "stateDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-final-state",
   "installed": true,
   "path": {
     "onPath": false,
-    "otherZhigouOnPath": [],
+    "otherEasyCirqOnPath": [],
     "verdict": "ok",
     "note": "Installer never edits PATH; add bin/ yourself if you want the CLI on PATH."
   },
   "legacy": {
     "home": "C:\\Users\\jlc",
-    "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
+    "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录",
     "observed": {
       "claude": [
         {
@@ -133,25 +133,25 @@ exit=0
   "installedAt": "2026-10-27T13:47:41Z",
   "components": {
     "runtime": {
-      "name": "zhigou",
+      "name": "easycirq",
       "version": "0.2.0",
-      "path": "payload/bin/zhigou.exe",
-      "installPath": "bin/zhigou.exe",
-      "identityPath": "payload/bin/zhigou-version.json",
+      "path": "payload/bin/easycirq.exe",
+      "installPath": "bin/easycirq.exe",
+      "identityPath": "payload/bin/easycirq-version.json",
       "sha256": "7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4",
       "size": 24074752,
       "goVersion": "go1.27.3",
-      "builtBy": "reused:C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe"
+      "builtBy": "reused:C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe"
     },
     "connector": {
-      "name": "zhigou-connector",
+      "name": "easycirq-connector",
       "version": "0.1.0",
       "uuid": "a6e6b788551945b399e150d80efa6e31",
-      "displayName": "Zhigou EDA Connector",
+      "displayName": "EasyCirq EDA Connector",
       "enginesEda": ">=3.2.0",
-      "path": "payload/connector/zhigou-connector_v0.1.0.eext",
-      "installPath": "connector/zhigou-connector_v0.1.0.eext",
-      "file": "zhigou-connector_v0.1.0.eext",
+      "path": "payload/connector/easycirq-connector_v0.1.0.eext",
+      "installPath": "connector/easycirq-connector_v0.1.0.eext",
+      "file": "easycirq-connector_v0.1.0.eext",
       "sha256": "1c6c659b4cf282f57a0752267a7408aedfdd2810fe49c9352ebd17902a2d343b",
       "size": 231299
     },
@@ -168,7 +168,7 @@ exit=0
     "runtime": "0.2.0",
     "daemon": "0.2.0",
     "connector": "0.1.0",
-    "protocol": "zhigou-agent/v1",
+    "protocol": "easycirq-agent/v1",
     "eda": ">=3.2.0",
     "validatedEda": "4.1.78",
     "minPython": "3.10"
@@ -200,7 +200,7 @@ exit=0
     "verdict": "degraded",
     "exitCode": 0,
     "command": [
-      "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe",
+      "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录\\bin\\easycirq.exe",
       "doctor"
     ],
     "summary": {
@@ -212,14 +212,14 @@ exit=0
       "connectorStatus": "disconnected",
       "connectedWindows": [],
       "protocol": {
-        "service": "zhigou-agent",
+        "service": "easycirq-agent",
         "wireVersion": "v1",
         "handshake": "daemon→connector {type:handshake,service,version}",
         "envelopeVersion": "v1"
       }
     },
-    "stderr": "zhigou doctor — verdict: degraded\n  runtime   zhigou 0.2.0-dev  (C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录\\bin\\zhigou.exe)\n  skill     installed\n  daemon    running pid=49128 port=23111 v0.2.0-dev\n  connector disconnected (0 window(s), expected zhigou-connector v0.1.0)\n  protocol  zhigou-agent wire v1\n  ✓ daemon     v0.2.0-dev 运行在端口 23111\n  ✗ connector  没有 EasyEDA 窗口连上 daemon\n      → 运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA\n  ✓ skill      easycirq 已安装（claude 1.0.1, agents 1.0.1）\n  ✓ legacy     检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\n  next: 在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载",
-    "stdoutHead": "{\n  \"schema\": \"zhigou-doctor/v1\",\n  \"generatedAt\": \"2026-10-27T13:47:44Z\",\n  \"verdict\": \"degraded\",\n  \"runtime\": {\n    \"name\": \"zhigou\",\n    \"version\": \"0.2.0-dev\",\n    \"executable\": \"C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Temp\\\\zhigou final 安装 目录\\\\bin\\\\zhigou.exe\",\n    \"sha256\": \"7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4\",\n    \"vcsRevision\": \"9a951edc21481dc3ae91460acc11aa3e08a7be8a\",\n    \"vcsTime\": \"2026-10-27T07:03:30Z\",\n    \"vcsModified\": true,\n    \"goVersion\": \"go1.27.3\",\n    \"onDisk\": true\n  },\n  \"skill\": {\n    \"name\": \"easycirq\",\n    \"status\": \"installed\",\n    \"installed\": [\n      {\n        \"client\": \"codex\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.codex\\\\skills\\\\easycirq\",\n        \"present\": false\n      },\n      {\n        \"client\": \"claude\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.claude\\\\skills\\\\easycirq\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"agents\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.agents\\\\skills\\\\easycirq\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"repo\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\Documents\\\\deepseek-harness\\\\default-workspace\\\\easycirq\",\n        \"present\": false\n      }\n    ]\n  },\n  \"daemon\": {\n    \"status\": \"running\",\n    \"pid\": 49128,\n    \"port\": 23111,\n    \"version\": \"0.2.0-dev\",\n    \"stateDir\": \"C:\\\\Users\\\\jlc\\\\.zhigou\",\n    \"logPath\": \"C:\\\\Users\\\\jlc\\\\.zhigou\\\\daemon.log\",\n    \"pidFile\": \"C:\\\\Users\\\\jlc\\\\.zhigou\\\\daemon.",
+    "stderr": "easycirq doctor — verdict: degraded\n  runtime   easycirq 0.2.0-dev  (C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录\\bin\\easycirq.exe)\n  skill     installed\n  daemon    running pid=49128 port=23111 v0.2.0-dev\n  connector disconnected (0 window(s), expected easycirq-connector v0.1.0)\n  protocol  easycirq-agent wire v1\n  ✓ daemon     v0.2.0-dev 运行在端口 23111\n  ✗ connector  没有 EasyEDA 窗口连上 daemon\n      → 运行 `easycirq connector path` 取得本运行时自带的 .eext，按 `easycirq connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA\n  ✓ skill      easycirq 已安装（claude 1.0.1, agents 1.0.1）\n  ✓ legacy     检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）\n  next: 在 EasyEDA Pro 导入自有连接器 easycirq-connector v0.1.0（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载",
+    "stdoutHead": "{\n  \"schema\": \"easycirq-doctor/v1\",\n  \"generatedAt\": \"2026-10-27T13:47:44Z\",\n  \"verdict\": \"degraded\",\n  \"runtime\": {\n    \"name\": \"easycirq\",\n    \"version\": \"0.2.0-dev\",\n    \"executable\": \"C:\\\\Users\\\\jlc\\\\AppData\\\\Local\\\\Temp\\\\easycirq final 安装 目录\\\\bin\\\\easycirq.exe\",\n    \"sha256\": \"7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4\",\n    \"vcsRevision\": \"9a951edc21481dc3ae91460acc11aa3e08a7be8a\",\n    \"vcsTime\": \"2026-10-27T07:03:30Z\",\n    \"vcsModified\": true,\n    \"goVersion\": \"go1.27.3\",\n    \"onDisk\": true\n  },\n  \"skill\": {\n    \"name\": \"easycirq\",\n    \"status\": \"installed\",\n    \"installed\": [\n      {\n        \"client\": \"codex\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.codex\\\\skills\\\\easycirq\",\n        \"present\": false\n      },\n      {\n        \"client\": \"claude\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.claude\\\\skills\\\\easycirq\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"agents\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\.agents\\\\skills\\\\easycirq\",\n        \"present\": true,\n        \"version\": \"1.0.1\"\n      },\n      {\n        \"client\": \"repo\",\n        \"dir\": \"C:\\\\Users\\\\jlc\\\\Documents\\\\deepseek-harness\\\\default-workspace\\\\easycirq\",\n        \"present\": false\n      }\n    ]\n  },\n  \"daemon\": {\n    \"status\": \"running\",\n    \"pid\": 49128,\n    \"port\": 23111,\n    \"version\": \"0.2.0-dev\",\n    \"stateDir\": \"C:\\\\Users\\\\jlc\\\\.easycirq\",\n    \"logPath\": \"C:\\\\Users\\\\jlc\\\\.easycirq\\\\daemon.log\",\n    \"pidFile\": \"C:\\\\Users\\\\jlc\\\\.easycirq\\\\daemon.",
     "note": "degraded/exit!=0 means the host is unreachable (daemon down or connector not connected); that is reported honestly and is not an installation failure."
   },
   "history": [
@@ -231,11 +231,11 @@ exit=0
       "backup": null
     }
   ],
-  "runtimeReportsVersion": "zhigou 0.2.0-dev"
+  "runtimeReportsVersion": "easycirq 0.2.0-dev"
 }
 --- verify ---
 {
-  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
+  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录",
   "version": "0.2.0",
   "status": "healthy",
   "changed": [],
@@ -247,11 +247,11 @@ exit=0
 {
   "status": "uninstalled",
   "version": "0.2.0",
-  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou final 安装 目录",
+  "installDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq final 安装 目录",
   "removedFiles": 685,
   "kept": [],
   "clientSkill": null,
-  "stateDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\zhigou-final-state",
+  "stateDir": "C:\\Users\\jlc\\AppData\\Local\\Temp\\easycirq-final-state",
   "note": "Only files recorded in installation.json were deleted."
 }
 exit=0

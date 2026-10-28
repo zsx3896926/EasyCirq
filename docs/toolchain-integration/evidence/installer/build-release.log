@@ -1,15 +1,15 @@
 {
-  "output": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist",
+  "output": "C:\\Users\\jlc\\work\\easycirq-toolchain\\dist",
   "skill_installer": {
-    "archive": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\easycirq-1.0.1.zip",
-    "manifest": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\release.json",
+    "archive": "C:\\Users\\jlc\\work\\easycirq-toolchain\\dist\\easycirq-1.0.1.zip",
+    "manifest": "C:\\Users\\jlc\\work\\easycirq-toolchain\\dist\\release.json",
     "version": "1.0.1",
     "files": 674,
-    "installer": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\easycirq-installer-1.0.1.zip",
-    "checksums": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\SHA256SUMS"
+    "installer": "C:\\Users\\jlc\\work\\easycirq-toolchain\\dist\\easycirq-installer-1.0.1.zip",
+    "checksums": "C:\\Users\\jlc\\work\\easycirq-toolchain\\dist\\SHA256SUMS"
   },
   "toolchain": {
-    "archive": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\zhigou-toolchain-0.2.0.zip",
+    "archive": "C:\\Users\\jlc\\work\\easycirq-toolchain\\dist\\easycirq-toolchain-0.2.0.zip",
     "sha256": "d29ab16b2d88227d096221d5711cbb63ed83e53765fc30450ceaf999a9e2e48e",
     "size": 16017542,
     "version": "0.2.0",
@@ -19,7 +19,7 @@
       "runtime": "0.2.0",
       "daemon": "0.2.0",
       "connector": "0.1.0",
-      "protocol": "zhigou-agent/v1",
+      "protocol": "easycirq-agent/v1",
       "eda": ">=3.2.0",
       "validatedEda": "4.1.78",
       "minPython": "3.10"
@@ -38,7 +38,7 @@
       "host": "Windows/11",
       "pythonVersion": "3.13.15"
     },
-    "installer": "C:\\Users\\jlc\\work\\zhigou-toolchain\\dist\\zhigou-toolchain-installer-0.2.0.zip",
+    "installer": "C:\\Users\\jlc\\work\\easycirq-toolchain\\dist\\easycirq-toolchain-installer-0.2.0.zip",
     "installerSha256": "e295391987ae621d1414ccaa18a931a0c4d7d0e4ba8c27d893cbde6cf84c35ae"
   }
 }

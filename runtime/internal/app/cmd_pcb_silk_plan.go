@@ -6,7 +6,7 @@ package app
 // This plans every designator from a fresh dump with the real text bbox, allows
 // a second orientation (90°, the exam's "≤ 2 directions"), keeps each label off
 // pads, component bodies and other labels, and closer to its own part than to
-// any other, then emits an `zhigou apply` playbook of typed pcb.silk.set writes.
+// any other, then emits an `easycirq apply` playbook of typed pcb.silk.set writes.
 // Measured on Web 4.1.78: the stored X/Y is the bbox's bottom-left anchor; at
 // 90° the box is [X−h, X] × [Y, Y+w].
 
@@ -243,7 +243,7 @@ as obstacles where they are). Writes <out> and <out>.playbook.json of typed
 pcb.silk.set steps; apply, then save, reload and check (pcb check silk rules,
 pcb layout-lint) on fresh geometry.`,
 		Args:    cobra.NoArgs,
-		Example: `  zhigou pcb silk-plan --board board.json --allow-90 --out silk.json --apply-project ceshi --apply-doc PCB1`,
+		Example: `  easycirq pcb silk-plan --board board.json --allow-90 --out silk.json --apply-project ceshi --apply-doc PCB1`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			b, err := loadBoardSnapshotPath(board)
 			if err != nil {

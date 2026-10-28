@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcblayout"
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbmodel"
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbsolve"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcblayout"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbmodel"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbsolve"
 )
 
 func solveCLISnapshot(t *testing.T) boardSnapshot {
@@ -232,7 +232,7 @@ func testPCBRouteFeedbackArtifacts(t *testing.T, name string) {
 		t.Fatal(err)
 	}
 	dir := t.TempDir()
-	if root := os.Getenv("ZHIGOU_PCB_SOLVE_ARTIFACT_DIR"); root != "" {
+	if root := os.Getenv("EASYCIRQ_PCB_SOLVE_ARTIFACT_DIR"); root != "" {
 		dir = filepath.Join(root, name)
 		if err := os.MkdirAll(dir, 0o755); err != nil {
 			t.Fatal(err)

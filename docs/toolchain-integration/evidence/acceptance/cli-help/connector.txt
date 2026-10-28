@@ -1,8 +1,8 @@
-Locate, inspect and verify the Zhigou connector .eext
+Locate, inspect and verify the EasyCirq connector .eext
 
 Usage:
-  zhigou connector [flags]
-  zhigou connector [command]
+  easycirq connector [flags]
+  easycirq connector [command]
 
 Available Commands:
   install-steps Print the exact manual steps to load the connector into EasyEDA Pro
@@ -20,5 +20,5 @@ Global Flags:
       --project string            route by project name/uuid instead of --window (survives windowId churn)
       --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
 
-Use "zhigou connector [command] --help" for more information about a command.
+Use "easycirq connector [command] --help" for more information about a command.
 

@@ -7,8 +7,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbmodel"
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbrouting"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbmodel"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbrouting"
 )
 
 func routeCandidates(ctx context.Context, board pcbmodel.Board, req RoutingRequest, d Demand, selected []pcbrouting.JointCandidate, remaining int, observe func(Conflict)) ([]pcbrouting.JointCandidate, int, string, error) {

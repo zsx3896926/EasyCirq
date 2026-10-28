@@ -1,6 +1,6 @@
 # L 显示、声音、按键与交互 盘点
 
-> 审计对象：`C:\Users\jlc\work\hardware-design-skill`（分支 `feat/eda-schematic-quality`，HEAD `0fe5cf8`）。
+> 审计对象：`C:\Users\jlc\work\EasyCirq`（分支 `feat/eda-schematic-quality`，HEAD `0fe5cf8`）。
 > 方法：按 `SKILL.md` 按需读取表定位，再用 Grep 抽查；只读相关段落，未全量加载大文件。
 > 证据口径沿 `references/evidence.md`：判定只针对"本组 11 问是否够用"，不代表仓库其他领域质量。
 > 行号均为当前工作区文件的 1 起始行号；路径相对仓库根。

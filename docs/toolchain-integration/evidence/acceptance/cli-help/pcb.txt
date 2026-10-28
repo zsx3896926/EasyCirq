@@ -1,8 +1,8 @@
 PCB operations
 
 Usage:
-  zhigou pcb [flags]
-  zhigou pcb [command]
+  easycirq pcb [flags]
+  easycirq pcb [command]
 
 Available Commands:
   3d                   Inspect and adjust component 3D models on the active PCB
@@ -128,5 +128,5 @@ Global Flags:
       --project string            route by project name/uuid instead of --window (survives windowId churn)
       --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
 
-Use "zhigou pcb [command] --help" for more information about a command.
+Use "easycirq pcb [command] --help" for more information about a command.
 

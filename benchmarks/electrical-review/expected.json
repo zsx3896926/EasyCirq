@@ -1,10 +1,10 @@
 {
-  "schema": "zhigou.electrical-review.benchmark-expected/v1",
+  "schema": "easycirq.electrical-review.benchmark-expected/v1",
   "frozen_on": "2026-10-27",
   "input_sha256_basis": "raw bytes of cases/<case>/input.json",
   "cases": {
     "invalid-contradiction": {
-      "input_sha256": "db6d9ff223a6fc492b628409d1925aa6d607423f58fb8183db3bf82419b274cd",
+      "input_sha256": "b3e26010afddf0db7b2e8845d57a2a2f22dbb065d6ddd6f3fe44292b8bd2c953",
       "input_bytes": 4025,
       "source_class": "synthetic_invalid_input",
       "basis": "inline pin net contradicts connectivity.pin_nets",
@@ -22,7 +22,7 @@
       "required_findings": []
     },
     "invalid-duplicate-ref": {
-      "input_sha256": "d3f2798e815a4b99ddc6aae4bff4670e266115ddd73ee3786f26107dd062a767",
+      "input_sha256": "8248479f5fa4fed0ff83e8c00a650959b39f906ddcbff88dcf382ee1025f399f",
       "input_bytes": 3999,
       "source_class": "synthetic_invalid_input",
       "basis": "two instances share one designator",
@@ -40,7 +40,7 @@
       "required_findings": []
     },
     "invalid-nan": {
-      "input_sha256": "0231f690fdb50125ecb27868b8e3bd184b4f8a8b739d28c27c70bbe9c650ba02",
+      "input_sha256": "6929051e2d271bb4d2320657862f98b952e9e2e7ef7e78ab48754805d4cf7d22",
       "input_bytes": 1492,
       "source_class": "synthetic_invalid_input",
       "basis": "NaN is rejected as non-finite JSON, no PASS reuse",
@@ -58,7 +58,7 @@
       "required_findings": []
     },
     "invalid-unit": {
-      "input_sha256": "4c7895e6179a617d37b08e639eeb51f4764386b767178ac8235ce6fafcf6e4b1",
+      "input_sha256": "41582318271fe8f68e4de3053e6e9dc59948ddd69d464767f5696ce28864d10e",
       "input_bytes": 1497,
       "source_class": "synthetic_invalid_input",
       "basis": "unknown length unit is rejected",
@@ -76,7 +76,7 @@
       "required_findings": []
     },
     "r1-flying-ok": {
-      "input_sha256": "55c6ae8d8af053c5123db0a766745ada8e2da9dc5ba48b41be61f1a4d916a935",
+      "input_sha256": "deb9fa9f8a1db66a8454adced0eb59c6c5cdf4a2efd592cbd9aea779d7d6a244",
       "input_bytes": 3999,
       "source_class": "synthetic_fixture",
       "basis": "MAX3232 C1 terminals on two distinct partitions",
@@ -104,7 +104,7 @@
       "required_findings": []
     },
     "r1-flying-short": {
-      "input_sha256": "d9f238da963c2f5af5616963bb0f00707fa8b543bcf96c61ac27bd3dd39a1a9d",
+      "input_sha256": "cfb678318c8fe365cc84885eb5ce3929b925386a45d706477f3755199e18b402",
       "input_bytes": 3804,
       "source_class": "synthetic_fixture",
       "basis": "both flying-cap terminals were forced onto the same net",
@@ -139,7 +139,7 @@
       ]
     },
     "r1-flying-unknown-net": {
-      "input_sha256": "1a9baf10e18229eccf3df0a2c0c1cee1227cb2ed8674950125ee8fb0663f6475",
+      "input_sha256": "0758cab0cecec14f92bf0fc638c8374fce8912d7ccac49fc09828e7c79873796",
       "input_bytes": 3782,
       "source_class": "synthetic_fixture",
       "basis": "one terminal net is absent; no proof either way",
@@ -174,7 +174,7 @@
       ]
     },
     "r1-flying-wrong-net": {
-      "input_sha256": "17cc3f704b3651142578b71c03cafa840b6d3d4db997cd927f36910201b870b4",
+      "input_sha256": "e0c1e264bdac9f002b67793b787f59920b9e9dda6575d57324232bd47e4c041c",
       "input_bytes": 4002,
       "source_class": "synthetic_fixture",
       "basis": "C1 pin 2 is on SW but intent requires CN",
@@ -209,7 +209,7 @@
       ]
     },
     "r2-dc-derived-ok": {
-      "input_sha256": "afbe3148b57795844de6343b28b18cfab85c0375f0912d993ae7a3dbc40d15b1",
+      "input_sha256": "1b27d027ce4f4c965dc5fbe713caf7ad7fed44bb8e975b9d5337c83308f10224",
       "input_bytes": 1670,
       "source_class": "synthetic_fixture",
       "basis": "DC interval 4.5-5.5 V against 25 V rating",
@@ -234,7 +234,7 @@
       "required_findings": []
     },
     "r2-derating-shortfall": {
-      "input_sha256": "fd72e9ccf73bbfb03db0d5d0ca3e2175af96f4feb549ec1021df761857106b57",
+      "input_sha256": "04959cd127203eb724322c92a48047d675778b21f9016aba5ffac70a2a5c8ef5",
       "input_bytes": 1632,
       "source_class": "synthetic_fixture",
       "basis": "25 V * 0.8 = 20 V policy limit, declared stress 21 V",
@@ -266,7 +266,7 @@
       ]
     },
     "r2-overvoltage-hard": {
-      "input_sha256": "be5aa1f6c36ffaffade80e3ae99eb1b3dfb203b2ad3c82e32e0df83deea7a483",
+      "input_sha256": "e39c6d5658a565c6e13b494fc41d79a0dbf2aa082eb0a66cbf953f1996fedd31",
       "input_bytes": 1493,
       "source_class": "synthetic_fixture",
       "basis": "16 V rated capacitor with 24 V declared differential stress",
@@ -298,7 +298,7 @@
       ]
     },
     "r2-switching-unknown": {
-      "input_sha256": "32f7f5ae7b48541f2475ef936cde866ae15158a944c8f6db48e5022e5a8a3183",
+      "input_sha256": "148aa707462aff56fb46bac082741db13005043c3433a293774c0881bd5c4b20",
       "input_bytes": 1676,
       "source_class": "synthetic_fixture",
       "basis": "one terminal is a switching node; single-ended voltage is not used",
@@ -330,7 +330,7 @@
       ]
     },
     "r3-always-closed": {
-      "input_sha256": "460ab4fe754e8f8c79d616f51c0d01ef1e05806647a31339d3beb7cb8e88f27b",
+      "input_sha256": "5c2c43cd3e7e23e3d84fc2597b4892bebfdfaea6d9e4a3daaadbd271fc50b873",
       "input_bytes": 3195,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "ALPS SKHHAKA010: pins 1-2 are one always-closed group",
@@ -359,7 +359,7 @@
       ]
     },
     "r3-internal-unknown": {
-      "input_sha256": "6c905fb907ecec60c1d37672c14f90a340c16940cab3e4a34232a523e3403c55",
+      "input_sha256": "9955ee5123b5933877642e90d6ba78a8db4a941b7b2f24f654a7f8d54f6e09ed",
       "input_bytes": 1294,
       "source_class": "synthetic_fixture",
       "basis": "no MPN/internal-structure fact; rule must not guess groups",
@@ -388,7 +388,7 @@
       ]
     },
     "r3-pressed-power-short": {
-      "input_sha256": "74140d5c9c1c24bd61264a4dc7f0e369a8343625ea4cc1a8f35848d0bb9e0b86",
+      "input_sha256": "7af903562e441dfea7e8c32ff3624998eae4bcb8dba556d9bc57c615f665699e",
       "input_bytes": 3191,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "used pins on VIN and GND; pressing would short the rail",
@@ -417,7 +417,7 @@
       ]
     },
     "r3-switch-ok": {
-      "input_sha256": "89bd29925813c0de539723f4f24d3c6e8b3e4906c1033063d0dd42cfa4f92bc4",
+      "input_sha256": "88d9e54104621854ad87204774c458aab1debaf51fe52d9e2b6f57d8ff553dcc",
       "input_bytes": 3186,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "pins 1 and 3 are in different groups and press connects them",
@@ -439,7 +439,7 @@
       "required_findings": []
     },
     "r4-open-drain-pullup-ok": {
-      "input_sha256": "456b3b9c6fc000a5797754d2c33b4f51af46115a9fde2826dc38e0dbdc4c5658",
+      "input_sha256": "799d5c77d0e401b52d0be6da3fa75e2311b8bdb84ec37448cf09125f52be1abd",
       "input_bytes": 4578,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "open-drain PG with a resistor to a declared power net",
@@ -461,7 +461,7 @@
       "required_findings": []
     },
     "r4-pin-role-conflict": {
-      "input_sha256": "9f5db4a631f17d5b283868f8cd44d6b0dec5a7e70a9ccfdab493655bfce3b561",
+      "input_sha256": "f97181759c94dfebf78956828ccdd98e7e61b158c7f0de9db71c0111885c09e6",
       "input_bytes": 4266,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "TPS62130 PG is open-drain (SLVSAG7F Table 6-1); intent says push-pull",
@@ -490,7 +490,7 @@
       ]
     },
     "r4-supply-overvoltage": {
-      "input_sha256": "5911814c014df38fefd72d97169448220c2bb1fbfc466b36be77488ae4791cd1",
+      "input_sha256": "99c98a947c4ba9536e7f4ee1b91e473b577e4ffb076cfb0ff9cc8fdefd85cf44",
       "input_bytes": 4274,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "TPS62130 recommended VIN 3-17 V; declared 24 V",
@@ -525,7 +525,7 @@
       ]
     },
     "r5-ams-tab-missing": {
-      "input_sha256": "aeb6bcd817b259b0f5ec0792877070b0c4ebce80c048de690f06bffe453dc8f2",
+      "input_sha256": "cb232ace5d20f4bb7159010e3c9f4457be2401ef3962d3fa8f375d832e87c01d",
       "input_bytes": 3078,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "AMS1117 SOT-223 datasheet: TAB IS OUTPUT; TAB missing from pin 2",
@@ -555,7 +555,7 @@
       ]
     },
     "r5-ams-tab-ok": {
-      "input_sha256": "234691c8d87dd13e7f5978ee738413b59c7ccb0b623a602074a86e5877030c9a",
+      "input_sha256": "8ee449beda346e520156ea0707faae9e7baf7707add58ead3ceb40b5a48e784c",
       "input_bytes": 3093,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "TAB mapped to VOUT pin and VOUT net",
@@ -577,7 +577,7 @@
       "required_findings": []
     },
     "r5-exposed-pad-missing": {
-      "input_sha256": "d22e4f1936dd7cf1916350a364054a0e9158a6c1b246f5605b2c483a9c1a5840",
+      "input_sha256": "1d0fe365331b06e5194fee467cec1fc81914db97624019a173efa090405c1053",
       "input_bytes": 3796,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "TPS62130 exposed thermal pad (pin 17) absent from mapping",
@@ -607,7 +607,7 @@
       ]
     },
     "r5-exposed-pad-ok": {
-      "input_sha256": "1f8ebfd6cba8c5446d1b7f7a7b7dfeda22ab95a7969dab1197da0b2496a86549",
+      "input_sha256": "f8c5da0de855254b750933752ddfe920cf8fb5a8d11560de7853b6c727d6a88f",
       "input_bytes": 3943,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "EP present and connected to an evidenced ground partition",
@@ -629,7 +629,7 @@
       "required_findings": []
     },
     "r5-exposed-pad-wrong-net": {
-      "input_sha256": "cda9be5025a20f1d44efdaba6d9544547f7a80ca87f49b0654d2dfee3a381bc4",
+      "input_sha256": "6e6bd8299b3ab6b8fe007512a3afc3a4a83a0377b783742c82158912e341d4d7",
       "input_bytes": 3968,
       "source_class": "synthetic_fixture_verified_fact",
       "basis": "EP exists but its net is a signal, not the required ground",
@@ -659,7 +659,7 @@
       ]
     },
     "r5-no-pad-fact": {
-      "input_sha256": "67f3ab6b552e61c7ca04a109d5a1de885d89569d7aaf996cf44d6533bca2bdbb",
+      "input_sha256": "b5fb51522b1dab40a8428017ccb981889377206f7004f59e43c65ec840890bd1",
       "input_bytes": 1842,
       "source_class": "synthetic_fixture",
       "basis": "no pad fact means no centre-pad requirement and no pass claim",
@@ -677,7 +677,7 @@
       "required_findings": []
     },
     "r6-bulk-exempt": {
-      "input_sha256": "62b53d950fef6f613f113f734dd9ce572d9f13fc75085f718f1990fb5e66d63b",
+      "input_sha256": "c8b0ac2561fab2c61cac42122e8d4f8d18e7c0cddb452b7734f341ae7ac92c3c",
       "input_bytes": 2354,
       "source_class": "synthetic_fixture",
       "basis": "bulk capacitor explicitly exempt from local-distance threshold",
@@ -702,7 +702,7 @@
       "required_findings": []
     },
     "r6-geometry-missing": {
-      "input_sha256": "eaa3dc14842d3d1628fea3240381c20c18fff8d70197e3b03384a7c60d3507ac",
+      "input_sha256": "dca7de10ea5e04068fdd8d99d7b1fef7a83d9ec35f106d5de2d467bcaa31f432",
       "input_bytes": 2052,
       "source_class": "synthetic_fixture",
       "basis": "no pad-level coordinates; body centre is not substituted",
@@ -734,7 +734,7 @@
       ]
     },
     "r6-local-ok": {
-      "input_sha256": "6d88cdeece8d2984b2db48b640ceca5faf015e7eb6812df76a9923dda7e548fb",
+      "input_sha256": "6397ac6d596ef62dec7241fcf0c16668bd06a9ea1272f6ee4e7f936fd226f0f1",
       "input_bytes": 2376,
       "source_class": "synthetic_fixture",
       "basis": "50 mil pad distance within project 150 mil constraint",
@@ -759,7 +759,7 @@
       "required_findings": []
     },
     "r6-local-too-far": {
-      "input_sha256": "051f625b7533890847d23cb67ea1ccc2a53f4186eeb208fc38770961d35b7fa0",
+      "input_sha256": "6534aa7af37cddef1cee7a50703a20094198fa90c81c044a776733dd7bc6edc7",
       "input_bytes": 2378,
       "source_class": "synthetic_fixture",
       "basis": "200 mil pad distance > project 150 mil constraint; Euclidean proxy",
@@ -791,7 +791,7 @@
       ]
     },
     "real-mcu-i2c-ams-tab": {
-      "input_sha256": "e73c0b353abb2443fe5fa1954b3dee592fde2751a9e110c79aa2cfb3dd393deb",
+      "input_sha256": "b67b90e6a56d757d163f18a6bdd1f19bd939163b259e904955d3268a439d2fb0",
       "input_bytes": 4419,
       "source_class": "real_engineering_read_only_replay_derived",
       "basis": "frozen mcu-i2c case PCB dump/sch connectivity replayed offline; AMS1117 TAB on +3V3",
@@ -813,7 +813,7 @@
       "required_findings": []
     },
     "real-mcu-i2c-ams-tab-split": {
-      "input_sha256": "7af48ff5887acb34e374b5829c705aa9584e3c297b114212e8781e452eea8e53",
+      "input_sha256": "53aca65ff1f326d0cdf823fe9637a6de056c8a857abdeefd2746649a5a8724f8",
       "input_bytes": 4517,
       "source_class": "derived_counterexample_mutation",
       "basis": "counterexample mutation of the real replay: TAB moved to GND, so VOUT mapping misses the required TAB pad",

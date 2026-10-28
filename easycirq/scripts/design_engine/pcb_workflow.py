@@ -1,10 +1,10 @@
-"""PCB engineering workflow over a measured ``zhigou pcb dump``.
+"""PCB engineering workflow over a measured ``easycirq pcb dump``.
 
 This module is deliberately offline and stdlib-only.  It consumes the same
 measured geometry that the executor uses (component anchor/bbox/pads, outline,
 copper) and produces checks, constraint compilations, local placement
 templates, candidates and readback diffs.  It never talks to EDA and never
-writes a project; the typed executor remains ``zhigou pcb ...`` / ``apply``.
+writes a project; the typed executor remains ``easycirq pcb ...`` / ``apply``.
 
 The central rule is fail-closed: a missing bbox, pad, net or board outline is
 reported as ``incomplete``/``unmeasured`` and never converted into a pass.

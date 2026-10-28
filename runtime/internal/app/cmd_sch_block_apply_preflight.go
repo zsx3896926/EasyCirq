@@ -11,7 +11,7 @@ import (
 // library before the first component lands on the canvas.
 //
 // standard-parts.json ships deviceUuids resolved against one EasyEDA site. On a
-// different site (lceda.cn vs @@ZHIGOU_DOT_COM@@) those uuids resolve to nothing, and
+// different site (lceda.cn vs @@EASYCIRQ_DOT_COM@@) those uuids resolve to nothing, and
 // block-apply used to discover that one placement at a time: the first place
 // failed, the run entered the adoption/rollback path, and the report named a
 // single role even though every part in the block was equally unresolvable. The
@@ -112,7 +112,7 @@ func bapUnresolvedDevicesError(bad []bapUnresolvedDevice, total int, partsPath s
 	}
 	if len(bad) == total {
 		b.WriteString("\nEVERY device failed, which is the signature of a parts file resolved against a\n" +
-			"different EasyEDA site (lceda.cn vs @@ZHIGOU_DOT_COM@@): the uuids are real, just not here.\n")
+			"different EasyEDA site (lceda.cn vs @@EASYCIRQ_DOT_COM@@): the uuids are real, just not here.\n")
 	}
 	// The remedy must be a command that exists: lib by-lcsc takes --lcsc and
 	// nothing else, so hand over the C-numbers already collected here instead of
@@ -130,14 +130,14 @@ func bapUnresolvedDevicesError(bad []bapUnresolvedDevice, total int, partsPath s
 	}
 	if len(numbers) > 0 {
 		fmt.Fprintf(&b, "\nResolve these C-numbers against the site you are on and write the returned\n"+
-			"libraryUuid/uuid back into %s:\n  zhigou lib by-lcsc --lcsc %s\n",
+			"libraryUuid/uuid back into %s:\n  easycirq lib by-lcsc --lcsc %s\n",
 			bapPartsFileLabel(partsPath), strings.Join(numbers, ","))
 	}
 	if len(noLCSC) > 0 {
-		fmt.Fprintf(&b, "\nNo LCSC number in the parts file for: %s - look those up with `zhigou lib search`\n"+
+		fmt.Fprintf(&b, "\nNo LCSC number in the parts file for: %s - look those up with `easycirq lib search`\n"+
 			"and fill in both the LCSC number and the new uuid.\n", strings.Join(noLCSC, ", "))
 	}
-	fmt.Fprintf(&b, "\nThen: zhigou sch block-apply <block> --parts %s\n", bapPartsFileLabel(partsPath))
+	fmt.Fprintf(&b, "\nThen: easycirq sch block-apply <block> --parts %s\n", bapPartsFileLabel(partsPath))
 	return fmt.Errorf("%s", strings.TrimRight(b.String(), "\n"))
 }
 

@@ -14,7 +14,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // qtestSummary 造一份最小可用的质量快照。

@@ -13,7 +13,7 @@ package app
 //
 // on every Windows machine, with the BOM silently left without C-numbers.
 //
-// So the interpreter is resolved once, here: $ZHIGOU_PYTHON, then
+// So the interpreter is resolved once, here: $EASYCIRQ_PYTHON, then
 // python3 → python → py -3. On Windows every candidate is probed by actually
 // running it, so the Store stub fails and the ladder falls through. On
 // macOS/Linux a python3 found on PATH is used as before with no probe —
@@ -30,10 +30,10 @@ import (
 )
 
 // envPython overrides interpreter discovery with an explicit executable
-// (a venv python, a pinned 3.11, …). Same contract as ZHIGOU_SKILLS_DIR /
+// (a venv python, a pinned 3.11, …). Same contract as EASYCIRQ_SKILLS_DIR /
 // FREEROUTING_CMD elsewhere in this package: set-but-unusable is a hard error,
 // never a silent fall-through to some other interpreter.
-const envPython = "ZHIGOU_PYTHON"
+const envPython = "EASYCIRQ_PYTHON"
 
 // pythonCandidate is one interpreter to try: an executable name resolved
 // through PATH plus any leading args (the `py` launcher needs -3).

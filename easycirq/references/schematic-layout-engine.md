@@ -41,22 +41,22 @@
 每次重排前先保存同一时刻的完整证据。缺少任一项都不要开始写入。
 
 ```bash
-zhigou doc ls --project <project>
-zhigou sch sheet-geometry --project <project> --doc <page-uuid> --json
-zhigou sch sheet-geometry --from-svg <page.svg> --json      # 精确内框/图签
-zhigou sch list --project <project> --page <page-uuid> \
+easycirq doc ls --project <project>
+easycirq sch sheet-geometry --project <project> --doc <page-uuid> --json
+easycirq sch sheet-geometry --from-svg <page.svg> --json      # 精确内框/图签
+easycirq sch list --project <project> --page <page-uuid> \
   --include-device-identity --include-bbox --include-pins \
   --include-wires --include-page-primitives > page-before.json
-zhigou sch connectivity --project <project> --page <page-uuid> > connectivity-before.json
-zhigou sch designator-geometry --project <project> --doc <page-uuid> --out designators-before.json
-zhigou sch check --project <project> --page <page-uuid> --json > check-before.json
-zhigou sch export-image --project <project> --page <page-uuid> --format svg --out before.svg
-zhigou sch export-image --project <project> --page <page-uuid> --format png --out before.png
+easycirq sch connectivity --project <project> --page <page-uuid> > connectivity-before.json
+easycirq sch designator-geometry --project <project> --doc <page-uuid> --out designators-before.json
+easycirq sch check --project <project> --page <page-uuid> --json > check-before.json
+easycirq sch export-image --project <project> --page <page-uuid> --format svg --out before.svg
+easycirq sch export-image --project <project> --page <page-uuid> --format png --out before.png
 ```
 
 工程级的备份优先用 `project export --window <id> --project-uuid <uuid> --out <new.epro2>`；它不覆盖已有文件。记录 SHA-256。
 
-**并发规则**：同一个工程副本同一时间只允许一个写入者。开工前查 `zhigou audit tail`，确认没有其他会话正在写；发现漂移立即停写，不要用 `--resume` 跳过守卫。
+**并发规则**：同一个工程副本同一时间只允许一个写入者。开工前查 `easycirq audit tail`，确认没有其他会话正在写；发现漂移立即停写，不要用 `--resume` 跳过守卫。
 
 ## 4. 功能模块计划
 
@@ -120,7 +120,7 @@ python easycirq/scripts/sch_layout_model.py \
 ## 6. 区内布局与连线
 
 ```bash
-zhigou sch layout-plan --zones --from out/model/layout-source.json \
+easycirq sch layout-plan --zones --from out/model/layout-source.json \
   --out out/zones-geom.json --report out/layout-report.json
 ```
 
@@ -155,7 +155,7 @@ python easycirq/scripts/sch_sheet_fit.py \
   --out-page page-packed.json --fixed mcu:20,240
 
 # 官方合页（shelf 打包）
-zhigou sch layout-sheet-plan --from render-input.json --out pages.json --flow z
+easycirq sch layout-sheet-plan --from render-input.json --out pages.json --flow z
 ```
 
 预检规则：
@@ -175,7 +175,7 @@ zhigou sch layout-sheet-plan --from render-input.json --out pages.json --flow z
 ## 8. 候选复核（离线）
 
 ```bash
-zhigou sch layout-render --from page.json --out layout.svg
+easycirq sch layout-render --from page.json --out layout.svg
 python easycirq/scripts/sch_layout_quality.py planned-quality-input.json
 ```
 
@@ -222,11 +222,11 @@ python easycirq/scripts/sch_compose_input.py \
 - `--connection-mode net-labels` 只在明确选择标签连接时使用；默认 `direct`。
 
 ```bash
-zhigou sch compose --from composition.json --layout-page page.json \
+easycirq sch compose --from composition.json --layout-page page.json \
   --out compose-plan.json --before page-before.json \
   --replace --preserve-instances --playbook apply.json
-zhigou sch apply apply.json --dry-run
-zhigou sch apply apply.json --yes
+easycirq sch apply apply.json --dry-run
+easycirq sch apply apply.json --yes
 ```
 
 ### 9.1 稳定 ID 绑定（preserve-instances 的前置条件）
@@ -280,7 +280,7 @@ python easycirq/scripts/sch_bind_component_ids.py \
 `sch zone-arrange` / `sch zone relayout --apply` 会先扫掉区内导线再重建。实测在 10-raw 间距的密集 USB 区失败于 `pin-exit-direction`，J2/R8/R9 的连接已被破坏，工具明确提示 `Mutation may have landed. No automatic rollback.`。
 
 - 不要把 `zone relayout --apply` 当“小步安全操作”；它和整页 compose 一样是破坏性写入。
-- 运行前必须已导出 `.epro2` 完整备份，并确认没有其他写入者（`zhigou audit tail`）。
+- 运行前必须已导出 `.epro2` 完整备份，并确认没有其他写入者（`easycirq audit tail`）。
 - 失败后立即停写，不要继续 autoconnect 或重放快照。恢复流程：
   1. 保存/关闭当前窗口，确保没有未决写入；
   2. 用 `project import`（或 GUI 导入）把开工前的 `.epro2` 作为**新工程**导入，不覆盖原工程；
@@ -294,11 +294,11 @@ python easycirq/scripts/sch_bind_component_ids.py \
 ## 10. 写入后复核
 
 ```bash
-zhigou sch save --project <project> --doc <page>
-zhigou sch connectivity --project <project> --page <page> > connectivity-after.json
-zhigou sch gate --project <project>
-zhigou sch export-image --project <project> --page <page> --format svg --out after.svg
-zhigou sch export-image --project <project> --page <page> --format png --out after.png
+easycirq sch save --project <project> --doc <page>
+easycirq sch connectivity --project <project> --page <page> > connectivity-after.json
+easycirq sch gate --project <project>
+easycirq sch export-image --project <project> --page <page> --format svg --out after.svg
+easycirq sch export-image --project <project> --page <page> --format png --out after.png
 ```
 
 硬验收：

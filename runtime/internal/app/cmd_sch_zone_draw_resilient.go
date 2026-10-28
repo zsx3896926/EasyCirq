@@ -29,7 +29,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // zoneAnchorEps 是「画布上已有的框是否就是当前 plan 要画的框」的坐标判定容差。

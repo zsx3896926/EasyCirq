@@ -241,7 +241,7 @@ func TestSchAdoptUncertainGuidanceIsRunnable(t *testing.T) {
 	var b strings.Builder
 	schAdoptUncertainGuidance(&b, schAdoptRequest{Designator: "C8", X: 440, Y: 535}, []string{"u3-id"})
 	out := b.String()
-	for _, want := range []string{"zhigou sch save", "zhigou sch list", "zhigou sch prim-delete --ids", "(440,535)", "u3-id"} {
+	for _, want := range []string{"easycirq sch save", "easycirq sch list", "easycirq sch prim-delete --ids", "(440,535)", "u3-id"} {
 		if !strings.Contains(out, want) {
 			t.Fatalf("guidance must contain %q:\n%s", want, out)
 		}
@@ -251,7 +251,7 @@ func TestSchAdoptUncertainGuidanceIsRunnable(t *testing.T) {
 	if strings.Contains(noEvidence.String(), "证据") {
 		t.Fatalf("no missing probe → no evidence line:\n%s", noEvidence.String())
 	}
-	if !strings.Contains(noEvidence.String(), "zhigou sch list") {
+	if !strings.Contains(noEvidence.String(), "easycirq sch list") {
 		t.Fatalf("the runnable steps must still be printed:\n%s", noEvidence.String())
 	}
 }
@@ -269,7 +269,7 @@ func newFakeAdoptDaemon(t *testing.T, frames [][]map[string]any) (*appConfig, fu
 	calls := 0
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[]}`))
+			_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[]}`))
 			return
 		}
 		i := calls
@@ -327,7 +327,7 @@ func TestBapAdoptAfterPlaceFailureStaysUncertainOnAPersistentlyStaleRead(t *test
 	if !strings.Contains(out, "adopt ?") {
 		t.Fatalf("uncertain must be marked as such on stderr:\n%s", out)
 	}
-	for _, want := range []string{"zhigou sch save", "zhigou sch list", "prim-delete", "u3-id"} {
+	for _, want := range []string{"easycirq sch save", "easycirq sch list", "prim-delete", "u3-id"} {
 		if !strings.Contains(out, want) {
 			t.Fatalf("guidance must contain %q:\n%s", want, out)
 		}
@@ -363,7 +363,7 @@ func TestSchAdoptResidueGuidanceIsRunnable(t *testing.T) {
 	var b strings.Builder
 	schAdoptResidueGuidance(&b, []string{"id-1", "id-2"})
 	out := b.String()
-	if !strings.Contains(out, "zhigou sch prim-delete --ids id-1,id-2") {
+	if !strings.Contains(out, "easycirq sch prim-delete --ids id-1,id-2") {
 		t.Fatalf("guidance must carry a runnable command:\n%s", out)
 	}
 	if !strings.Contains(out, "wedge") {

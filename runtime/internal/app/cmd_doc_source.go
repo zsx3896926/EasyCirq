@@ -318,7 +318,7 @@ func newDocSourceCmd(cfg *appConfig, window *string, stdout io.Writer) *cobra.Co
 	get := &cobra.Command{
 		Use: "get", Short: "Read exact-target raw source to a new SHA-256-bound snapshot",
 		Args:    cobra.NoArgs,
-		Example: "  zhigou doc source get --window W --project-uuid P --document-uuid D --out before.json",
+		Example: "  easycirq doc source get --window W --project-uuid P --document-uuid D --out before.json",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if err := sourceTargetArgs(cfg, *window, project, doc); err != nil {
 				return err
@@ -357,7 +357,7 @@ func newDocSourceCmd(cfg *appConfig, window *string, stdout io.Writer) *cobra.Co
 		Use: "roundtrip", Short: "Write only unchanged fresh source once; inspect immediate equality",
 		Long:    "Probe the official Beta source setter using only the unchanged fresh source bound to a saved snapshot.\nDefault exact comparison checks every byte. Experimental dochead-volatile-v1 ignores only the three observed SCH_PAGE DOCHEAD value spans; every other byte remains exact.\nOnly complete fresh source reaches the setter: no new design content, automatic retry, rollback, save or reload. Use a dedicated Web test document.\nverified only means immediate equality under the stated comparison; save/reload and object/connectivity checks remain separate.",
 		Args:    cobra.NoArgs,
-		Example: "  zhigou doc source roundtrip --window W --from before.json --out dry-run.json --dry-run\n  zhigou doc source roundtrip --window W --from before.json --out roundtrip.json",
+		Example: "  easycirq doc source roundtrip --window W --from before.json --out dry-run.json --dry-run\n  easycirq doc source roundtrip --window W --from before.json --out roundtrip.json",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			snapshot, err := readDocumentSourceSnapshot(from)
 			if err != nil {

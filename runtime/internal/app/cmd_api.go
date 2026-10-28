@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/apidoc"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/apidoc"
 )
 
 // newApiCmd is the local `eda.*` API discovery surface — no daemon/connector
@@ -41,9 +41,9 @@ func newApiSearchCmd(stdout io.Writer) *cobra.Command {
 		Use:   "search <query>",
 		Short: "Rank eda.* methods matching all query terms (name/namespace/summary)",
 		Args:  cobra.MinimumNArgs(1),
-		Example: `  zhigou api search dsn
-  zhigou api search netflag create
-  zhigou api search 自动布线 --json`,
+		Example: `  easycirq api search dsn
+  easycirq api search netflag create
+  easycirq api search 自动布线 --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			hits := apidoc.Search(strings.Join(args, " "), limit)
 			if asJSON {
@@ -71,9 +71,9 @@ func newApiLsCmd(stdout io.Writer) *cobra.Command {
 		Use:   "ls [namespace-filter]",
 		Short: "List eda.* namespaces (optionally filtered by substring)",
 		Args:  cobra.MaximumNArgs(1),
-		Example: `  zhigou api ls
-  zhigou api ls pcb
-  zhigou api ls sch --json`,
+		Example: `  easycirq api ls
+  easycirq api ls pcb
+  easycirq api ls sch --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			filter := ""
 			if len(args) == 1 {
@@ -100,8 +100,8 @@ func newApiShowCmd(stdout, stderr io.Writer) *cobra.Command {
 		Use:   "show <namespace>",
 		Short: "List all methods of one eda.* namespace",
 		Args:  cobra.ExactArgs(1),
-		Example: `  zhigou api show eda.sch_PrimitiveComponent
-  zhigou api show pcb_ManufactureData`,
+		Example: `  easycirq api show eda.sch_PrimitiveComponent
+  easycirq api show pcb_ManufactureData`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			ns := args[0]
 			if !strings.HasPrefix(ns, "eda.") {
@@ -112,7 +112,7 @@ func newApiShowCmd(stdout, stderr io.Writer) *cobra.Command {
 				return writeJSON(stdout, methods)
 			}
 			if len(methods) == 0 {
-				fmt.Fprintf(stderr, "no namespace %q (try `zhigou api ls`)\n", ns)
+				fmt.Fprintf(stderr, "no namespace %q (try `easycirq api ls`)\n", ns)
 				return errActionFailed
 			}
 			fmt.Fprintf(stdout, "%s — %d method(s)\n\n", ns, len(methods))

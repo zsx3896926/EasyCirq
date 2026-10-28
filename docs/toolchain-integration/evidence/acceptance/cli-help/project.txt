@@ -1,8 +1,8 @@
 Read EasyEDA project and document context
 
 Usage:
-  zhigou project [flags]
-  zhigou project [command]
+  easycirq project [flags]
+  easycirq project [command]
 
 Available Commands:
   create        Create an EasyEDA project container through the official API
@@ -27,5 +27,5 @@ Global Flags:
       --project string            route by project name/uuid instead of --window (survives windowId churn)
       --skip-version-check        deprecated compatibility option; version differences are diagnostic and no longer block actions
 
-Use "zhigou project [command] --help" for more information about a command.
+Use "easycirq project [command] --help" for more information about a command.
 

@@ -104,7 +104,7 @@ def stage(upstream: Path, work: Path) -> Path:
     for name in ("go.mod", "go.sum", "LICENSE", "NOTICE"):
         shutil.copy2(upstream / name, work / "runtime" / name)
     # cmd package rename
-    (work / "runtime" / "cmd" / "easyeda").rename(work / "runtime" / "cmd" / "zhigou")
+    (work / "runtime" / "cmd" / "easyeda").rename(work / "runtime" / "cmd" / "easycirq")
     shutil.copytree(upstream / "extension", work / "connector")
 
     for script in ("rebrand_runtime.py", "rebrand_connector.py"):
@@ -137,7 +137,7 @@ def main() -> int:
         print(f"upstream tree not found: {upstream}", file=sys.stderr)
         return 2
 
-    generated_root = Path(tempfile.mkdtemp(prefix="zhigou-vendor-"))
+    generated_root = Path(tempfile.mkdtemp(prefix="easycirq-vendor-"))
     try:
         stage(upstream, generated_root)
         report = {"upstreamTag": UPSTREAM_TAG, "upstreamCommit": UPSTREAM_COMMIT,

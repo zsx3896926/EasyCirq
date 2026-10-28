@@ -3,7 +3,7 @@ Run PCB DRC on the active PCB and return normalized {passed, violations}.
 The native boolean passed verdict controls the exit status in raw and JSON modes.
 passed:false or an unavailable verdict returns nonzero; JSON preserves nativeResult.
 
-This is the PCB counterpart to `zhigou sch drc` (schematic DRC). The two are
+This is the PCB counterpart to `easycirq sch drc` (schematic DRC). The two are
 distinct subcommands and route to different documents automatically — pcb.* targets
 the project's PCB window, schematic.* targets the schematic window — so they never
 cross-fire. The PCB must be the active/foreground document.
@@ -21,13 +21,13 @@ nativeResult so unrecognized native detail is not silently discarded. Action or
 response-shape failures preserve the original response instead of a flat report.
 
 Usage:
-  zhigou pcb drc [flags]
+  easycirq pcb drc [flags]
 
 Examples:
-  zhigou pcb drc
-  zhigou pcb drc --strict
-  zhigou pcb drc --json                  # flat rows, coordinates in mil
-  zhigou pcb drc --json --timeout 120    # allow a heavy board 2 minutes
+  easycirq pcb drc
+  easycirq pcb drc --strict
+  easycirq pcb drc --json                  # flat rows, coordinates in mil
+  easycirq pcb drc --json --timeout 120    # allow a heavy board 2 minutes
 
 Flags:
   -h, --help          help for drc

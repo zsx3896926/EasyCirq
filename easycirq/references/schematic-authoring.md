@@ -18,7 +18,7 @@
 
 ### 1.1 开工交付能力盘点（默认步骤）
 
-新任务开始画图前，用一次 `zhigou doctor` + `zhigou capabilities` 同时完成执行层与**交付能力**盘点；不是等交付阶段才问“能不能导出”。按任务读取对应能力项（当前build若已提供 `delivery` 分类则整组读取），逐项落进工程记录，标签只用这五类：
+新任务开始画图前，用一次 `easycirq doctor` + `easycirq capabilities` 同时完成执行层与**交付能力**盘点；不是等交付阶段才问“能不能导出”。按任务读取对应能力项（当前build若已提供 `delivery` 分类则整组读取），逐项落进工程记录，标签只用这五类：
 
 | 交付环节 | 相关能力 id（示例） | 记录标签 |
 |---|---|---|
@@ -105,11 +105,11 @@ EasyEDA 会为已命名网络在导线上画网名，netflag/netport 的网名�
 官方导出 SVG 后先测全部渲染文字，再构建严格几何输入：
 
 ```bash
-zhigou sch list --include-bbox --include-pins --include-wires \
+easycirq sch list --include-bbox --include-pins --include-wires \
   --include-page-primitives --page <page> > list.json
-zhigou sch sheet-geometry --from-svg page.svg --json > sheet.json
+easycirq sch sheet-geometry --from-svg page.svg --json > sheet.json
 python scripts/svg_text_bbox.py page.svg --out svg-text.json
-python scripts/layout_from_zhigou.py --list list.json \
+python scripts/layout_from_easycirq.py --list list.json \
   --visible-text visible-text.json --sheet-geometry sheet.json \
   --rendered-text svg-text.json --min-text-wire-clearance 5 \
   --expect-rotation GND=0 --expect-rotation +5V=0 --out layout.json
@@ -118,7 +118,7 @@ python scripts/pin_net_intent_check.py docs/netlist-intent.json sch-read.json \
   --out pin-net-diff.json
 ```
 
-`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `zhigou sch read`，不比较
+`pin_net_intent_check.py` 按物理引脚连通组比较设计意图与 `easycirq sch read`，不比较
 网名拼写；极性器件的功能脚名用组件内 `pinMap` 落到实际脚号，缺映射按输入无效处理，
 不猜脚号。
 

@@ -124,7 +124,7 @@
       "category": "technical_limit",
       "a": {
         "text": "Gerber、钻孔、CPL 在 easyeda v1.14.0 没有 CLI 或 typed action（官方 `eda.pcb_ManufactureData.getGerberFile` 仍为 beta 且未包装）",
-        "source": "constructed: original quote rewritten by the zhigou migration (2026-10-28)",
+        "source": "constructed: original quote rewritten by the easycirq migration (2026-10-28)",
         "line": 234
       },
       "b": {
@@ -209,7 +209,7 @@
       "category": "different_scope",
       "a": {
         "text": "新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 统一检查本 Skill 与 easyeda-agent 的 CLI/Skill/daemon/Connector（24 小时缓存）",
-        "source": "constructed: original quote rewritten by the zhigou migration (2026-10-28)",
+        "source": "constructed: original quote rewritten by the easycirq migration (2026-10-28)",
         "line": 4
       },
       "b": {
@@ -248,7 +248,7 @@
       },
       "b": {
         "text": "用户只需说“把画板搭档和 EDA 执行器一起检查/更新”，Agent 负责依次执行，无需用户自己敲两套命令。",
-        "source": "constructed: original quote rewritten by the zhigou migration (2026-10-28)",
+        "source": "constructed: original quote rewritten by the easycirq migration (2026-10-28)",
         "line": 11
       },
       "expected": "default_with_exception",

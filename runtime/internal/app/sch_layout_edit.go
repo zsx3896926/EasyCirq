@@ -7,8 +7,8 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/schguard"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/schguard"
 )
 
 type schematicLayoutEditContext struct {

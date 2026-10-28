@@ -12,7 +12,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
 )
 
 // partScoreTestComp 造一个「中心在 (cx,cy)、渲染 bbox 为 w×h」的器件。

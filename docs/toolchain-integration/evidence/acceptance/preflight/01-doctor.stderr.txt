@@ -1,12 +1,12 @@
-zhigou doctor — verdict: degraded
-  runtime   zhigou 0.2.0-dev  (C:\Users\jlc\work\zhigou-toolchain\runtime\dist\zhigou.exe)
+easycirq doctor — verdict: degraded
+  runtime   easycirq 0.2.0-dev  (C:\Users\jlc\work\easycirq-toolchain\runtime\dist\easycirq.exe)
   skill     installed
   daemon    running pid=49128 port=23111 v0.2.0-dev
-  connector disconnected (0 window(s), expected zhigou-connector v0.1.0)
-  protocol  zhigou-agent wire v1
+  connector disconnected (0 window(s), expected easycirq-connector v0.1.0)
+  protocol  easycirq-agent wire v1
   ✓ daemon     v0.2.0-dev 运行在端口 23111
   ✗ connector  没有 EasyEDA 窗口连上 daemon
-      → 运行 `zhigou connector path` 取得本运行时自带的 .eext，按 `zhigou connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA
+      → 运行 `easycirq connector path` 取得本运行时自带的 .eext，按 `easycirq connector install-steps` 在 EasyEDA Pro 导入，开启「允许外部交互」并重启 EasyEDA
   ✓ skill      easycirq 已安装（claude 1.0.1, agents 1.0.1）
   ✓ legacy     检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）
-  next: 在 EasyEDA Pro 导入自有连接器 zhigou-connector v0.1.0（`zhigou connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载
+  next: 在 EasyEDA Pro 导入自有连接器 easycirq-connector v0.1.0（`easycirq connector path` 可打印 .eext 路径），然后在扩展设置中允许外部交互，并重启 EasyEDA 使其加载

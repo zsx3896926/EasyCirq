@@ -13,14 +13,14 @@ multi-part `pcb group` is refused (it would break the group) — use
 `pcb group move`, or --break-group to override.
 
 Usage:
-  zhigou pcb modify [flags]
+  easycirq pcb modify [flags]
 
 Examples:
-  zhigou pcb modify --id <pid> --patch '{"x":1000,"y":2000}'   # x/y = ANCHOR
-  zhigou pcb modify --id <pid> --patch '{"rotation":90,"layer":"bottom"}'   # layer: top|bottom or 1|2, verified by readback
-  zhigou pcb modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
-  zhigou pcb modify --id <pid> --patch '{"locked":false}'      # verified via readback (#174); batches → 'pcb lock'
-  zhigou pcb modify --id <pid> --center --x 1500 --y 2200      # x/y = desired bbox CENTER
+  easycirq pcb modify --id <pid> --patch '{"x":1000,"y":2000}'   # x/y = ANCHOR
+  easycirq pcb modify --id <pid> --patch '{"rotation":90,"layer":"bottom"}'   # layer: top|bottom or 1|2, verified by readback
+  easycirq pcb modify --id <id> --patch-file patch.json    # PowerShell-safe UTF-8 JSON
+  easycirq pcb modify --id <pid> --patch '{"locked":false}'      # verified via readback (#174); batches → 'pcb lock'
+  easycirq pcb modify --id <pid> --center --x 1500 --y 2200      # x/y = desired bbox CENTER
 
 Flags:
       --break-group pcb group   allow repositioning one member of a virtual pcb group (breaks the group's geometry)

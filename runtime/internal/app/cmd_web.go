@@ -24,7 +24,7 @@ func newWebCmd(cfg *appConfig, stdout io.Writer) *cobra.Command {
 		Use:     "reload",
 		Short:   "Save the active document, refresh the whole Web page, and verify reconnect",
 		Long:    "Save the exact active document, schedule a full browser-page refresh through the typed connector, then wait for a NEW connector registration in the same project. If the host restores a different document, one typed document.open may restore the requested document. Success requires consecutive fresh object reads matching the saved component ID baseline, stable object state, and a final document.current check. An empty baseline needs a longer stable-empty observation and proves only empty-page routing. Other open documents must already be saved. Unlike doc reload, this restarts the Web editor and connector runtime. The JSON result includes elapsed milliseconds; timeout is a failure, never a success receipt.",
-		Example: "  zhigou web reload --project <project-uuid> --doc <document-uuid> --timeout 30s",
+		Example: "  easycirq web reload --project <project-uuid> --doc <document-uuid> --timeout 30s",
 		Args:    cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cfg.project == "" || cfg.doc == "" {

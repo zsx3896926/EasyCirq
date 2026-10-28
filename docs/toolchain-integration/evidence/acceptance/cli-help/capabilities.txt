@@ -1,7 +1,7 @@
 Report each capability separately with a reason, never derived from the EDA version number alone. Items whose actions exist but whose official host support must be probed are reported as unknown rather than supported.
 
 Usage:
-  zhigou capabilities [flags]
+  easycirq capabilities [flags]
 
 Flags:
   -h, --help   help for capabilities

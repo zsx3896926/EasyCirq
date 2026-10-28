@@ -137,8 +137,8 @@ recognized only at the arc endpoints exposed by pcb.line.list. Unsupported pad
 geometry, unavailable arc readback, and overlapping primitives that make an ordered
 topology ambiguous return unknown/error instead of PASS.`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou pcb net-path --from C3.1 --through C4.1 --to U2.3 --layer 1
-  zhigou pcb net-path --from U5.6 --to CN1.1 --net CANL --json`,
+		Example: `  easycirq pcb net-path --from C3.1 --through C4.1 --to U2.3 --layer 1
+  easycirq pcb net-path --from U5.6 --to CN1.1 --net CANL --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if cmd.Flags().Changed("layer") {
 				if !netPathCopperLayer(layer) {

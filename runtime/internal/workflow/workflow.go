@@ -10,10 +10,10 @@
 //     after any placement/outline mutation (catalog-driven, like autosave).
 //
 // State lives per project at Dir()/<key>.json — a global directory
-// (~/.zhigou/workflow by default, ZHIGOU_WORKFLOW_DIR to override), NOT
+// (~/.easycirq/workflow by default, EASYCIRQ_WORKFLOW_DIR to override), NOT
 // the CLI's cwd, so the gate cannot be blinded by running the CLI from a
 // different directory. The pre-#98 cwd-relative location
-// (<cwd>/.zhigou/pcb-stage/<key>.json) is read as a legacy fallback and
+// (<cwd>/.easycirq/pcb-stage/<key>.json) is read as a legacy fallback and
 // migrates to the global path on the next save.
 package workflow
 
@@ -221,7 +221,7 @@ type State struct {
 	// (sch side of issue #173). The platform has NO grouping API — probed live on
 	// EasyEDA Pro 3.2.121: `eda.*` exposes no generic group calls, and a placed
 	// sch_PrimitiveComponent instance's 70 methods/props carry zero group/parent
-	// fields (native UI groups are invisible to extensions) — so zhigou-agent
+	// fields (native UI groups are invisible to extensions) — so easycirq-agent
 	// persists the relation itself and layout actions consume it. The struct is
 	// deliberately NOT sch-named: a PCB document's UUID can key its own groups
 	// here when #173 lands.
@@ -722,10 +722,10 @@ func (s *State) InvalidateFrom(from Stage, cause string) []Stage {
 // ── storage ────────────────────────────────────────────────────────────────
 
 // EnvDir overrides the state directory (tests, sandboxes).
-const EnvDir = "ZHIGOU_WORKFLOW_DIR"
+const EnvDir = "EASYCIRQ_WORKFLOW_DIR"
 
-// Dir is the global state root: ZHIGOU_WORKFLOW_DIR, else
-// ~/.zhigou/workflow (the same tree the daemon audit log uses).
+// Dir is the global state root: EASYCIRQ_WORKFLOW_DIR, else
+// ~/.easycirq/workflow (the same tree the daemon audit log uses).
 func Dir() string {
 	if d := strings.TrimSpace(os.Getenv(EnvDir)); d != "" {
 		return d
@@ -734,7 +734,7 @@ func Dir() string {
 	if err != nil || home == "" {
 		home = os.Getenv("HOME")
 	}
-	return filepath.Join(home, ".zhigou", "workflow")
+	return filepath.Join(home, ".easycirq", "workflow")
 }
 
 var sanitizeRe = regexp.MustCompile(`[^a-zA-Z0-9._-]+`)
@@ -757,7 +757,7 @@ func Path(project string) string {
 
 // legacyPath is the pre-global (cwd-relative) location PR #98 used.
 func legacyPath(project string) string {
-	return filepath.Join(".zhigou", "pcb-stage", SanitizeKey(project)+".json")
+	return filepath.Join(".easycirq", "pcb-stage", SanitizeKey(project)+".json")
 }
 
 // Load reads the state; a missing file yields a fresh imported state rather
@@ -941,7 +941,7 @@ func CheckRouteGate(s *State, force, forceUnsafe bool, reason string) Gate {
 			return Gate{
 				Allowed: false, Missing: missing, Audited: true,
 				Message: "routing blocked: --force cannot bypass an UNCONFIRMED mechanical skeleton (neither placement_confirmed nor outline_confirmed is set — issue #132). " +
-					"Confirm layout (`zhigou pcb stage confirm-layout`) + outline (`zhigou pcb stage confirm-outline`), " +
+					"Confirm layout (`easycirq pcb stage confirm-layout`) + outline (`easycirq pcb stage confirm-outline`), " +
 					"or escalate deliberately with `--force-unsafe <reason>`.",
 			}
 		}
@@ -958,8 +958,8 @@ func CheckRouteGate(s *State, force, forceUnsafe bool, reason string) Gate {
 	return Gate{
 		Allowed: false, Missing: missing,
 		Message: "routing blocked: missing " + strings.Join(missing, ", ") +
-			". Confirm layout (`zhigou pcb stage confirm-layout`), outline (`zhigou pcb stage confirm-outline`) " +
-			"and pass the routability gate (`zhigou pcb layout-lint --gate`), or override with `--force <reason>`" +
+			". Confirm layout (`easycirq pcb stage confirm-layout`), outline (`easycirq pcb stage confirm-outline`) " +
+			"and pass the routability gate (`easycirq pcb layout-lint --gate`), or override with `--force <reason>`" +
 			" (--force-unsafe <reason> if even the mechanical skeleton is unconfirmed).",
 	}
 }

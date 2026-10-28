@@ -4,11 +4,11 @@
     "platform": "win32",
     "os_name": "nt",
     "python": "3.13.15",
-    "cwd": "C:\\Users\\jlc\\work\\hardware-design-skill-r3",
+    "cwd": "C:\\Users\\jlc\\work\\EasyCirq-r3",
     "can_run_local_commands": true
   },
   "repo_skill": {
-    "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\design-hardware\\SKILL.md",
+    "path": "C:\\Users\\jlc\\work\\EasyCirq-r3\\design-hardware\\SKILL.md",
     "present": true
   },
   "clients": [
@@ -25,7 +25,7 @@
         },
         {
           "scope": "project",
-          "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\.claude\\skills",
+          "path": "C:\\Users\\jlc\\work\\EasyCirq-r3\\.claude\\skills",
           "exists": false,
           "installed": false
         }
@@ -53,13 +53,13 @@
         },
         {
           "scope": "project",
-          "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\.agents\\skills",
+          "path": "C:\\Users\\jlc\\work\\EasyCirq-r3\\.agents\\skills",
           "exists": false,
           "installed": false
         },
         {
           "scope": "project",
-          "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\.codex\\skills",
+          "path": "C:\\Users\\jlc\\work\\EasyCirq-r3\\.codex\\skills",
           "exists": false,
           "installed": false
         }
@@ -81,7 +81,7 @@
         },
         {
           "scope": "project",
-          "path": "C:\\Users\\jlc\\work\\hardware-design-skill-r3\\.workbuddy\\skills",
+          "path": "C:\\Users\\jlc\\work\\EasyCirq-r3\\.workbuddy\\skills",
           "exists": false,
           "installed": false
         }

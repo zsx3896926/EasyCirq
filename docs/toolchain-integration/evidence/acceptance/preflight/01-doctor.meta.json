@@ -1,9 +1,9 @@
 {
   "id": "doctor",
-  "title": "zhigou doctor (disk vs running state)",
+  "title": "easycirq doctor (disk vs running state)",
   "stage": "preflight",
   "command": [
-    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
     "doctor"
   ],
   "status": "NOT RUN",

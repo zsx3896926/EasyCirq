@@ -9,6 +9,6 @@ __all__ = ["SCHEMA_INPUT", "SCHEMA_REPORT", "TOOL_VERSION"]
 
 TOOL_NAME = "electrical_review"
 TOOL_VERSION = "0.1.0"
-SCHEMA_INPUT = "zhigou.electrical-review.input/v1"
-SCHEMA_REPORT = "zhigou.electrical-review.report/v1"
+SCHEMA_INPUT = "easycirq.electrical-review.input/v1"
+SCHEMA_REPORT = "easycirq.electrical-review.report/v1"
 MIN_PYTHON = (3, 10)

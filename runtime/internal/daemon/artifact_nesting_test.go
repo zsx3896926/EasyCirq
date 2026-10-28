@@ -7,14 +7,14 @@ import (
 
 // TestArtifactDirIdempotent: artifactDir must be IDEMPOTENT over its own
 // output — an outputDir already pointing at (or nested inside) a
-// .zhigou/artifacts tree must normalize back to the project root before the
+// .easycirq/artifacts tree must normalize back to the project root before the
 // Join, or every dispatch cycle grows the tree one level deeper
-// (.zhigou/artifacts/.zhigou/artifacts/… — observed 4 levels in the wild).
+// (.easycirq/artifacts/.easycirq/artifacts/… — observed 4 levels in the wild).
 func TestArtifactDirIdempotent(t *testing.T) {
 	s := &Server{}
 	sep := string(filepath.Separator)
 	root := filepath.Join(sep+"home", "me", "proj")
-	want := filepath.Join(root, ".zhigou", "artifacts")
+	want := filepath.Join(root, ".easycirq", "artifacts")
 
 	// Clean cwd → unchanged behavior.
 	if got := s.artifactDir(root); got != want {
@@ -26,7 +26,7 @@ func TestArtifactDirIdempotent(t *testing.T) {
 	}
 	// 3-level nested input → still the same target.
 	three := filepath.Join(root,
-		".zhigou", "artifacts", ".zhigou", "artifacts", ".zhigou", "artifacts")
+		".easycirq", "artifacts", ".easycirq", "artifacts", ".easycirq", "artifacts")
 	if got := s.artifactDir(three); got != want {
 		t.Errorf("3-level nested: got %q, want %q", got, want)
 	}

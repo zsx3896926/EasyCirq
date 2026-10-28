@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // These are connector-wait budgets, not the HTTP round trip. Keep the current

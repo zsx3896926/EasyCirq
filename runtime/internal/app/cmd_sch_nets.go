@@ -1,6 +1,6 @@
 package app
 
-// cmd_sch_nets.go — `zhigou sch nets`:**跨页**网名审计。
+// cmd_sch_nets.go — `easycirq sch nets`:**跨页**网名审计。
 //
 // 立项现场(2026-08-16 esp32Mini E2E #2):电源块落地出 `+3V3`/`+5V`,而 MCU 块与
 // CH340 块要的是 `3V3`/`5V` —— 四页板子上,主控和它的稳压器**根本没连在一起**。
@@ -255,9 +255,9 @@ CH340 块要的是 ` + "`3V3`/`5V`" + ` —— 主控和它的稳压器根本没
 
 修法:` + "`sch block-apply … --bind <端口>=<统一网名>`" + `;S0 阶段就该定下全工程网名表。`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou sch nets --project ceshi
-  zhigou sch nets --project ceshi --strict
-  zhigou sch nets --project ceshi --all --json`,
+		Example: `  easycirq sch nets --project ceshi
+  easycirq sch nets --project ceshi --strict
+  easycirq sch nets --project ceshi --all --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return runSchNets(cfg, *window, strict, asJSON, listAll, stdout, stderr)
 		},

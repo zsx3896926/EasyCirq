@@ -5,7 +5,7 @@ package app
 // tied to concrete evidence; see docs/toolchain-integration/evidence/.
 //
 // 2026-10-28, EasyEDA Pro 4.1.78 + connector 0.1.4, acceptance board
-// (zhigou-integrated-dual-button-led-20261027), evidence under
+// (easycirq-integrated-dual-button-led-20261027), evidence under
 // docs/toolchain-integration/evidence/manufacture-spike/:
 //   - export.gerber: 9-layer Gerber zip (GTL/GBL/GTO/GBO/GTS/GBS/GTP/GKO/GDL), artifact inspected
 //   - export.cpl:    UTF-16 TSV, 9 rows matching the 9-device BOM

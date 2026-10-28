@@ -16,7 +16,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // isolateConvergeLedger 把台账目录钉到临时目录 —— 单测绝不碰真实 HOME。

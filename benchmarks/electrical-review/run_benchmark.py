@@ -147,7 +147,7 @@ def main(argv=None):
     rows = [run_case(name, expected[name], args.runs) for name in sorted(names)]
     passed = sum(1 for row in rows if row["passed"])
     report = {
-        "schema": "zhigou.electrical-review.benchmark/v1",
+        "schema": "easycirq.electrical-review.benchmark/v1",
         "simulated": True,
         "real_eda": "NOT RUN",
         "eda_calls": 0,

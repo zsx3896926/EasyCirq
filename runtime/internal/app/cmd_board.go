@@ -29,7 +29,7 @@ func newBoardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 		Use:     "list",
 		Short:   "List all Boards in the current project (name + schematic + pcb)",
 		Args:    cobra.NoArgs,
-		Example: `  zhigou board list`,
+		Example: `  easycirq board list`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return dispatch(cfg, "board.list", window, nil, stdout, stderr)
 		},
@@ -41,7 +41,7 @@ func newBoardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 		Use:     "current",
 		Short:   "Read the current Board (its bound schematic + PCB)",
 		Args:    cobra.NoArgs,
-		Example: `  zhigou board current`,
+		Example: `  easycirq board current`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return dispatch(cfg, "board.current", window, nil, stdout, stderr)
 		},
@@ -55,8 +55,8 @@ func newBoardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 			Use:   "create",
 			Short: "Bind a schematic and/or PCB into a new Board (组合)",
 			Args:  cobra.NoArgs,
-			Example: `  zhigou board create --schematic <schUuid> --pcb <pcbUuid>
-  zhigou board create --schematic <schUuid>`,
+			Example: `  easycirq board create --schematic <schUuid> --pcb <pcbUuid>
+  easycirq board create --schematic <schUuid>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if schUuid == "" && pcbUuid == "" {
 					return fmt.Errorf("pass at least one of --schematic / --pcb")
@@ -90,8 +90,8 @@ func newBoardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 				"Any failed step deletes what this call created; success requires the new\n" +
 				"Board, page and PCB in a fresh readback (verified; otherwise non-zero exit).",
 			Args: cobra.NoArgs,
-			Example: `  zhigou board new --project <projectUuid>
-  zhigou board new --project <projectUuid> --name 主板`,
+			Example: `  easycirq board new --project <projectUuid>
+  easycirq board new --project <projectUuid> --name 主板`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if cfg.project == "" {
 					return fmt.Errorf("--project <exact project UUID> is required")
@@ -115,7 +115,7 @@ func newBoardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 			Use:     "rename",
 			Short:   "Rename a Board by its current name",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou board rename --name "Board1" --new "电源板"`,
+			Example: `  easycirq board rename --name "Board1" --new "电源板"`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if name == "" {
 					return fmt.Errorf("--name is required")
@@ -140,7 +140,7 @@ func newBoardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 			Use:     "copy",
 			Short:   "Copy a Board (its schematic + PCB) into a new Board",
 			Args:    cobra.NoArgs,
-			Example: `  zhigou board copy --name "Board1"`,
+			Example: `  easycirq board copy --name "Board1"`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if name == "" {
 					return fmt.Errorf("--name is required")
@@ -173,11 +173,11 @@ func newBoardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 				"this interrupts whoever is looking at the editor, and other open documents\n" +
 				"must already be saved. The outcome is reported as treeRefreshed/treeRefresh;\n" +
 				"a failed refresh never turns the verified delete into a failure.\n" +
-				"--no-tree-refresh skips it (then `zhigou web reload` refreshes later).",
+				"--no-tree-refresh skips it (then `easycirq web reload` refreshes later).",
 			Args: cobra.NoArgs,
-			Example: `  zhigou board delete --name "Board1_1" --dry-run   # list the documents first
-  zhigou board delete --name "Board1_1"
-  zhigou board delete --name "Board1_1" --keep-documents   # unbind only`,
+			Example: `  easycirq board delete --name "Board1_1" --dry-run   # list the documents first
+  easycirq board delete --name "Board1_1"
+  easycirq board delete --name "Board1_1" --keep-documents   # unbind only`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if name == "" {
 					return fmt.Errorf("--name is required")
@@ -214,8 +214,8 @@ func newBoardCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 				"bound to --schematic (+ --pcb), rolling back on failure. A schematic can\n" +
 				"belong to only one Board, so pass --force to move one already bound elsewhere.",
 			Args: cobra.NoArgs,
-			Example: `  zhigou board rebind --schematic <schUuid> --pcb <pcbUuid>
-  zhigou board rebind --name "Board1" --schematic <schUuid> --pcb <pcbUuid>`,
+			Example: `  easycirq board rebind --schematic <schUuid> --pcb <pcbUuid>
+  easycirq board rebind --name "Board1" --schematic <schUuid> --pcb <pcbUuid>`,
 			RunE: func(cmd *cobra.Command, args []string) error {
 				if schUuid == "" {
 					return fmt.Errorf("--schematic is required")

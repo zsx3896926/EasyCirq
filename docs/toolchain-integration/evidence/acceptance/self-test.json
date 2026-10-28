@@ -1,5 +1,5 @@
 {
-  "schema": "zhigou-acceptance-selftest/v1",
+  "schema": "easycirq-acceptance-selftest/v1",
   "generatedAt": "2026-10-27T13:43:05Z",
   "checks": [
     {

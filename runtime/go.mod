@@ -1,4 +1,4 @@
-module github.com/zsx3896926/hardware-design-skill/runtime
+module github.com/zsx3896926/EasyCirq/runtime
 
 go 1.26.3
 

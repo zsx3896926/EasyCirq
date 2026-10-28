@@ -4,7 +4,7 @@ import (
 	"context"
 	"math"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbrouting"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbrouting"
 )
 
 // Lexicographic visibility optimization: first fewest real direction changes,

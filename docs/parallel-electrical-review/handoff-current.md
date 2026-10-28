@@ -36,7 +36,7 @@ python -m electrical_review explain  /tmp/report.json --rule R2
 | 3 | `review_required` | 无硬违反，但有 unknown/证据不足/策略项 |
 | 4 | `incomplete` | 无 intent、无可审查对象或规则因整段输入缺失未评估 |
 
-输入/报告 schema：`zhigou.electrical-review.input/v1` / `.report/v1`。
+输入/报告 schema：`easycirq.electrical-review.input/v1` / `.report/v1`。
 报告含 `input.sha256`、`input.semantic_sha256`、逐规则 checked/violations/unknown/
 not_applicable/invalid_input、finding 对象/实际值/约束/单位/证据/解释/建议/未验证项，
 并强制列出 `not_checked`；`pass_with_scope` 不等于整板电气/DRC/制造/上电通过。

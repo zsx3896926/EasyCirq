@@ -1,9 +1,9 @@
 package daemon
 
-import "github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+import "github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 
 // Workflow stage files are retained for historical reporting and compatibility
-// with `zhigou workflow` / `zhigou pcb stage`. They are no longer an
+// with `easycirq workflow` / `easycirq pcb stage`. They are no longer an
 // authorization mechanism for typed actions. These no-op hooks intentionally
 // remain source-compatible with older integrations while dispatch proceeds from
 // live document evidence.

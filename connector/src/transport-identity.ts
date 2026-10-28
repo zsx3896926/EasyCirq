@@ -1,4 +1,4 @@
-const SOCKET_ID_PREFIX = 'zhigou-agent-';
+const SOCKET_ID_PREFIX = 'easycirq-agent-';
 
 function randomActivationToken(): string {
 	if (typeof globalThis.crypto?.randomUUID === 'function') {

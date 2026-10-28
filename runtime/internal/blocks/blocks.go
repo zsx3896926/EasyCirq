@@ -1,8 +1,8 @@
 // Package blocks embeds the standard circuit-block library (电路块库) into the
-// binary so `zhigou blocks ls/show/search` works anywhere the CLI is installed —
+// binary so `easycirq blocks ls/show/search` works anywhere the CLI is installed —
 // no skill files, no GitHub checkout. The data/ dir IS the single source-of-truth
 // (community contributes one block per file here; go:embed compiles it in). The
-// skill ships no block JSON — it queries via the `zhigou blocks` CLI instead.
+// skill ships no block JSON — it queries via the `easycirq blocks` CLI instead.
 package blocks
 
 import (

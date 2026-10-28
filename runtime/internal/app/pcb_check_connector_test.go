@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
 )
 
 // mkBoardConn 造一个居中于 (cx,cy)、渲染 bbox 为 w×h 的已放置连接器。

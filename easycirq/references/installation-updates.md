@@ -94,26 +94,26 @@ WorkBuddy 官方市场介绍不单独证明本地目录规则，路径另有本�
 
 ## EDA 执行层：安装、升级与检查
 
-执行层是**本仓库自带**的 `zhigou` 运行时（`runtime/`、`connector/`），随
-`distribution/` 构建的 `zhigou-toolchain-<version>.zip` 一起安装，不是外部上游组件。
+执行层是**本仓库自带**的 `easycirq` 运行时（`runtime/`、`connector/`），随
+`distribution/` 构建的 `easycirq-toolchain-<version>.zip` 一起安装，不是外部上游组件。
 本 Skill 不从任何第三方 release 页下载 CLI/daemon/连接器，也不在 Skill 内替换执行层文件。
 
 - 安装/升级执行层：使用本仓库 `distribution/` 的发布包与 `Manage-Skill.cmd`/安装器；
   升级会替换运行时与连接器版本，需要重开 EasyEDA 以加载新扩展。
-- 只读检查：`zhigou doctor`（runtime/daemon/connector/protocol/checks/next steps）与
-  `zhigou capabilities`（逐能力状态+原因）。二者都不写工程；检查不启动 daemon。
+- 只读检查：`easycirq doctor`（runtime/daemon/connector/protocol/checks/next steps）与
+  `easycirq capabilities`（逐能力状态+原因）。二者都不写工程；检查不启动 daemon。
 - 本 Skill 的 `skill_update.py check` 分别报告本 Skill 版本与执行层状态；
   `update-agent` 只做**只读报告**，明确写出“执行层由 distribution/ 安装”，不会下载或替换。
 - 连接器是侧载扩展，没有原地自动更新：版本变化后由用户在 EasyEDA 扩展管理里重新导入，
   不要宣称全链条无感升级。
 - 两套更新不是原子事务：本 Skill 的 rollback 只回退自身，不回退运行时。
-  执行层故障时保留安装包与 `zhigou doctor` 输出，Agent 先对账再按发布说明恢复，不能整批盲重试。
+  执行层故障时保留安装包与 `easycirq doctor` 输出，Agent 先对账再按发布说明恢复，不能整批盲重试。
 - 执行层 ready 只表示 doctor 的组件对账通过，不等于当前硬件设计已验证，也不证明任意新版
   与本 Skill 全部功能兼容。协调器不升级 AI 宿主、模型服务或嘉立创 EDA 本体。
 
 ```text
 python <实际安装目录>/scripts/skill_update.py check --client codex
 python <实际安装目录>/scripts/skill_update.py update-agent --client codex --idle   # 只读报告
-zhigou doctor
-zhigou capabilities
+easycirq doctor
+easycirq capabilities
 ```

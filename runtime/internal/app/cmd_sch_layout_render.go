@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
 )
 
 func newSchLayoutRenderCmd(stdout io.Writer) *cobra.Command {
@@ -26,8 +26,8 @@ All zone-level variants are checked, including unselected ones and in diagnostic
 --zone validates references and variants in the full input, then renders standalone detail
 without sheet placement constraints (not an entire-page validation).
 
-  zhigou sch layout-render --from geometry.json --out layout.svg
-  zhigou sch layout-render --from geometry.json --zone supply --out supply.svg`, Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
+  easycirq sch layout-render --from geometry.json --out layout.svg
+  easycirq sch layout-render --from geometry.json --zone supply --out supply.svg`, Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) error {
 		if from == "" {
 			return fmt.Errorf("--from required")
 		}

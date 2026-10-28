@@ -1,0 +1,409 @@
+{
+  "schema": "easycirq-capabilities/v1",
+  "generatedAt": "2026-10-27T14:01:26Z",
+  "protocol": {
+    "service": "easycirq-agent",
+    "wireVersion": "v1",
+    "handshake": "daemon→connector {type:handshake,service,version}",
+    "envelopeVersion": "v1"
+  },
+  "connector": {
+    "status": "disconnected",
+    "count": 0
+  },
+  "host": {},
+  "summary": {
+    "unknown": 19,
+    "unsupported": 5
+  },
+  "items": [
+    {
+      "id": "schematic.read",
+      "status": "unknown",
+      "reason": "动作目录里有 15 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync-long",
+      "returnsResult": true,
+      "readback": false,
+      "wholeBoardImpact": false,
+      "actionCount": 15,
+      "sampleActions": [
+        "schematic.attribute.inspect",
+        "schematic.bridgeCheck",
+        "schematic.check",
+        "schematic.components.list",
+        "schematic.designators.list",
+        "schematic.drc.check"
+      ]
+    },
+    {
+      "id": "schematic.write",
+      "status": "unknown",
+      "reason": "动作目录里有 26 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 26,
+      "sampleActions": [
+        "schematic.attribute.move",
+        "schematic.component.delete",
+        "schematic.component.modify",
+        "schematic.component.place",
+        "schematic.component.replace",
+        "schematic.component.resolve_lcsc"
+      ]
+    },
+    {
+      "id": "schematic.check",
+      "status": "unknown",
+      "reason": "动作目录里有 2 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync-long",
+      "returnsResult": true,
+      "readback": false,
+      "wholeBoardImpact": false,
+      "actionCount": 2,
+      "sampleActions": [
+        "schematic.check",
+        "schematic.drc.check"
+      ]
+    },
+    {
+      "id": "schematic.export",
+      "status": "unknown",
+      "reason": "动作目录里有 3 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 3,
+      "sampleActions": [
+        "schematic.export.bom",
+        "schematic.export.image",
+        "schematic.export.netlist"
+      ]
+    },
+    {
+      "id": "pcb.read",
+      "status": "unknown",
+      "reason": "动作目录里有 27 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync-long",
+      "returnsResult": true,
+      "readback": false,
+      "wholeBoardImpact": false,
+      "actionCount": 27,
+      "sampleActions": [
+        "pcb.board.info",
+        "pcb.components.list",
+        "pcb.config.get",
+        "pcb.constraint.list",
+        "pcb.documents.list",
+        "pcb.drc.check"
+      ]
+    },
+    {
+      "id": "pcb.write",
+      "status": "unknown",
+      "reason": "动作目录里有 58 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync-long",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": true,
+      "actionCount": 58,
+      "sampleActions": [
+        "pcb.add_component",
+        "pcb.align",
+        "pcb.beautify",
+        "pcb.clear_routing",
+        "pcb.component.attrs_backfill",
+        "pcb.component.delete"
+      ]
+    },
+    {
+      "id": "pcb.route",
+      "status": "unknown",
+      "reason": "动作目录里有 5 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync-long",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": true,
+      "actionCount": 5,
+      "sampleActions": [
+        "pcb.import_autoroute",
+        "pcb.route.auto",
+        "pcb.route.delete",
+        "pcb.route.rip_up",
+        "pcb.route.via_hop"
+      ],
+      "caveats": [
+        "typed 布线动作是受控原语/求解器入口；官方自动布线器是否存在需真机探测"
+      ]
+    },
+    {
+      "id": "pcb.pour",
+      "status": "unknown",
+      "reason": "动作目录里有 5 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync-long",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": true,
+      "actionCount": 5,
+      "sampleActions": [
+        "pcb.pour.create",
+        "pcb.pour.delete",
+        "pcb.pour.list",
+        "pcb.pour.rebuild",
+        "pcb.poured.list"
+      ]
+    },
+    {
+      "id": "pcb.drc",
+      "status": "unknown",
+      "reason": "动作目录里有 3 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync-long",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 3,
+      "sampleActions": [
+        "pcb.drc.check",
+        "pcb.drc.rules",
+        "pcb.drc.rules.set"
+      ]
+    },
+    {
+      "id": "bom.export",
+      "status": "unknown",
+      "reason": "动作目录里有 1 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": false,
+      "wholeBoardImpact": false,
+      "actionCount": 1,
+      "sampleActions": [
+        "schematic.export.bom"
+      ]
+    },
+    {
+      "id": "image.export",
+      "status": "unknown",
+      "reason": "动作目录里有 2 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 2,
+      "sampleActions": [
+        "pcb.snapshot",
+        "schematic.export.image"
+      ]
+    },
+    {
+      "id": "project.read",
+      "status": "unknown",
+      "reason": "动作目录里有 4 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 4,
+      "sampleActions": [
+        "project.current",
+        "project.export",
+        "project.export_source",
+        "project.find"
+      ]
+    },
+    {
+      "id": "project.export",
+      "status": "unknown",
+      "reason": "动作目录里有 2 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 2,
+      "sampleActions": [
+        "project.export",
+        "project.export_source"
+      ]
+    },
+    {
+      "id": "library.read",
+      "status": "unknown",
+      "reason": "动作目录里有 8 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 8,
+      "sampleActions": [
+        "library.common.list",
+        "library.device.get",
+        "library.footprint.get",
+        "library.list",
+        "library.model3d.get",
+        "library.model3d.search"
+      ]
+    },
+    {
+      "id": "library.write",
+      "status": "unknown",
+      "reason": "动作目录里有 14 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 14,
+      "sampleActions": [
+        "library.device.create",
+        "library.device.delete",
+        "library.device.set_model3d",
+        "library.footprint.build",
+        "library.footprint.copy",
+        "library.footprint.create"
+      ]
+    },
+    {
+      "id": "board.binding",
+      "status": "unknown",
+      "reason": "动作目录里有 10 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 10,
+      "sampleActions": [
+        "board.copy",
+        "board.create",
+        "board.current",
+        "board.delete",
+        "board.list",
+        "board.new"
+      ]
+    },
+    {
+      "id": "document.control",
+      "status": "unknown",
+      "reason": "动作目录里有 9 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 9,
+      "sampleActions": [
+        "document.close",
+        "document.current",
+        "document.open",
+        "document.source.get",
+        "document.source.roundtrip",
+        "editor.panels"
+      ]
+    },
+    {
+      "id": "save.reload",
+      "status": "unknown",
+      "reason": "动作目录里有 3 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 3,
+      "sampleActions": [
+        "pcb.save",
+        "schematic.save",
+        "system.page_reload"
+      ],
+      "caveats": [
+        "save 返回成功不等于已持久化；必须 save → 重新打开 → 新鲜回读"
+      ]
+    },
+    {
+      "id": "gerber.export",
+      "status": "unsupported",
+      "reason": "运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用",
+      "mode": "sync",
+      "returnsResult": false,
+      "readback": false,
+      "wholeBoardImpact": false,
+      "actionCount": 0,
+      "caveats": [
+        "当前 typed action 目录没有 Gerber 导出；制造资料只能走官方 GUI 导出并落人工证据，不能冒充 API 能力"
+      ]
+    },
+    {
+      "id": "drill.export",
+      "status": "unsupported",
+      "reason": "运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用",
+      "mode": "sync",
+      "returnsResult": false,
+      "readback": false,
+      "wholeBoardImpact": false,
+      "actionCount": 0,
+      "caveats": [
+        "当前 typed action 目录没有钻孔文件导出；同上"
+      ]
+    },
+    {
+      "id": "cpl.export",
+      "status": "unsupported",
+      "reason": "运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用",
+      "mode": "sync",
+      "returnsResult": false,
+      "readback": false,
+      "wholeBoardImpact": false,
+      "actionCount": 0,
+      "caveats": [
+        "当前 typed action 目录没有 CPL/贴装坐标导出；同上"
+      ]
+    },
+    {
+      "id": "archive.backup",
+      "status": "unsupported",
+      "reason": "运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用",
+      "mode": "sync",
+      "returnsResult": false,
+      "readback": false,
+      "wholeBoardImpact": false,
+      "actionCount": 0,
+      "caveats": [
+        "原生归档/恢复演练需要宿主工程级导出；目录里没有 backup 动作时按 NOT RUN 记录"
+      ]
+    },
+    {
+      "id": "diffpair.routing",
+      "status": "unknown",
+      "reason": "动作目录里有 3 个 typed action，但当前没有连接器连接，无法与宿主协商",
+      "mode": "sync",
+      "returnsResult": true,
+      "readback": true,
+      "wholeBoardImpact": false,
+      "actionCount": 3,
+      "sampleActions": [
+        "pcb.differential_pair.create",
+        "pcb.differential_pair.delete",
+        "pcb.differential_pair.rename"
+      ],
+      "caveats": [
+        "官方差分对接口是否存在需真机探测；不存在时只能做离线建议，不得宣称已布线"
+      ]
+    },
+    {
+      "id": "length.tuning",
+      "status": "unsupported",
+      "reason": "运行时 typed action 目录中没有对应动作：该能力在本工具链里没有实现，必须记为 unsupported，不能用宿主版本号推断为可用",
+      "mode": "sync",
+      "returnsResult": false,
+      "readback": false,
+      "wholeBoardImpact": false,
+      "actionCount": 0,
+      "caveats": [
+        "等长/调长接口同上：探测不到就明确边界"
+      ]
+    }
+  ],
+  "notes": [
+    "supported = typed action 存在且连接器已连接；不等于该动作在当前宿主上必然成功。",
+    "每次写入仍必须：目标一致 → 基线新鲜 → 写入 → 回读 → 保存 → 重开验证。",
+    "unsupported 不会被自动降级成“暂不可用”：它表示本工具链没有该能力。"
+  ]
+}

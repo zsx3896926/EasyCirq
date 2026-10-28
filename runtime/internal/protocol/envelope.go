@@ -18,7 +18,7 @@ type Request struct {
 	// ephemeral windowId churns (reconnects) — multi-window/multi-agent routing.
 	Project string `json:"project,omitempty"`
 	// OutputDir is the CLI's working directory. The daemon (which has its own,
-	// different cwd) writes artifacts under <OutputDir>/.zhigou/artifacts so
+	// different cwd) writes artifacts under <OutputDir>/.easycirq/artifacts so
 	// screenshots/exports land in the user's project, not the daemon's. Empty for
 	// callers that don't set it (the daemon then falls back to its ArtifactDir).
 	OutputDir string `json:"outputDir,omitempty"`
@@ -37,11 +37,11 @@ type Request struct {
 	// the concurrent-writer advisory (issue #108): multiple CLIs/agents can
 	// drive the same board through one daemon, and without an identity field
 	// the audit log cannot say WHO replayed a stale plan. The CLI fills it once
-	// per process as "<hostname>:<pid>[:<ZHIGOU_CLIENT_LABEL>]". Optional —
+	// per process as "<hostname>:<pid>[:<EASYCIRQ_CLIENT_LABEL>]". Optional —
 	// raw HTTP callers that omit it simply stay unattributed.
 	ClientID string `json:"clientId,omitempty"`
 	// Command is the CLI command path that issued the action (e.g.
-	// "zhigou sch connect"). Audit-only; never consulted for routing or
+	// "easycirq sch connect"). Audit-only; never consulted for routing or
 	// permission. Raw HTTP callers may omit it.
 	Command string         `json:"command,omitempty"`
 	Payload map[string]any `json:"payload,omitempty"`

@@ -54,7 +54,7 @@ by category: {"bare": 28, "cli": 23, "service": 18}
     236 [service] - **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。
     236 [bare] - **doctor_env 双路线诊断**：`lceda-pro` 与 `easyeda-agent` 分开报告；任一绿色不再代表另一条路线就绪；新增 easyeda health 解析与回归测试，识别 `found`（内层 daemon `ok`）为已连接。
     250 [service] - **G0–G6 阶段门禁**：[references/design-gates.md](references/design-gates.md)。每个门禁写目的、必需输入、当前 easyeda-agent v1.14.0 真实命令、退出条件、证据文件、豁免规则与实战反例。
-=== easycirq/scripts/layout_from_zhigou.py
+=== easycirq/scripts/layout_from_easycirq.py
     ALLOWLIST: frozen schema string: "coordinate_units" text is bound into recorded fixture SHA-256 values; changing it invalidates stored evidence
     602 [service] 'coordinate_units': 'schematic raw units (y-up), from easyeda-agent reads',
 === easycirq/scripts/offline_guard.py
@@ -90,13 +90,13 @@ by category: {"bare": 28, "cli": 23, "service": 18}
       2 [service] "coordinate_units": "schematic raw units (y-up), from easyeda-agent reads",
    4457 [cli] "source": "easyeda sch read check (photo-led v14, 2026-10-26)",
    4457 [bare] "source": "easyeda sch read check (photo-led v14, 2026-10-26)",
-=== tests/fixtures/zhigou/doctor-connected.json
-    ALLOWLIST: faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)
+=== tests/fixtures/easycirq/doctor-connected.json
+    ALLOWLIST: faithful capture of easycirq doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)
      86 [service] "service": "easyeda-agent",
      89 [service] "note": "legacy upstream easyeda-agent daemon; detected only, never used by this runtime"
     110 [service] "detail": "检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）"
-=== tests/fixtures/zhigou/doctor-degraded.json
-    ALLOWLIST: faithful capture of zhigou doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)
+=== tests/fixtures/easycirq/doctor-degraded.json
+    ALLOWLIST: faithful capture of easycirq doctor/capabilities output; the doctor legacy field legitimately names the old daemon it detects (never uses it)
      72 [service] "service": "easyeda-agent",
      75 [service] "note": "legacy upstream easyeda-agent daemon; detected only, never used by this runtime"
      97 [service] "detail": "检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）"

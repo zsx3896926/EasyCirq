@@ -91,10 +91,10 @@ Every report needs explicit markers (`real_eda: NOT RUN|...`, `simulated: true`,
 
 | module | schema / status | identity | units | snapshot binding | unknown | plan vs execution |
 |---|---|---|---|---|---|---|
-| B `electrical_review` | `zhigou.electrical-review.input/v1`, `.report/v1` | `project`, component `instance_id`, ref | per-field `unit` | `input.sha256` + `semantic_sha256` | `review_required`/`incomplete` statuses, per-rule unknown | report only; no write |
+| B `electrical_review` | `easycirq.electrical-review.input/v1`, `.report/v1` | `project`, component `instance_id`, ref | per-field `unit` | `input.sha256` + `semantic_sha256` | `review_required`/`incomplete` statuses, per-rule unknown | report only; no write |
 | E `return_path_audit` | `return-path-audit-report/v1` | layer/via/net ids | `units.mil|mm` declared | `input_sha256` in report | unknown for arcs/unsupported geometry; `recovered_return_path` always false | report + analysis SVG only |
 | G `mechanical_layout` | own `report`/`plan` JSON | object ids, datums | mm canonical, mil conversion | source snapshot fields | `review` status, missing geometry → unknown | `only_planned`, `executable:false` |
-| F `circuit_blocks` | `zhigou.circuit-blocks.*` abstract result | module instance id, ports | SI strings | no snapshot (abstract) | `unknown_ids`, `ready_abstract` ≠ bound | abstract design only |
+| F `circuit_blocks` | `easycirq.circuit-blocks.*` abstract result | module instance id, ports | SI strings | no snapshot (abstract) | `unknown_ids`, `ready_abstract` ≠ bound | abstract design only |
 | J `change_impact` | `hds-change-impact-*/v1` | typed object ids (`cmp:`, `net:`) | per-change units | `baseline`/`candidate` content_hash + revision | `incomplete`, `possible`, unknown_objects | verification plan only |
 | H `procurement_planner` | `procurement-input/v1` | MPN/designator identity | money as strings + currency | `evaluation.as_of`, snapshot kind | `planned_with_unknowns`, unknown stock/price | order plan only, not an order |
 | I `bringup_planner` | `bringup-plan-input/v1`, `bringup-plan/v1` | plan/input/revision/tool_version binding | units per measurement | raw+semantic sha, revision | `INCOMPLETE`, `SYNTHETIC_ONLY` | human-executable steps; PASS only for real evidence |

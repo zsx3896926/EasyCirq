@@ -10,8 +10,8 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcblayout"
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbmodel"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcblayout"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbmodel"
 )
 
 // This requirement is deliberately independent of layout.json: shrinking the

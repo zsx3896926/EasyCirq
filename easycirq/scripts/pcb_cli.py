@@ -2,9 +2,9 @@
 """Shared process/JSON helpers for the PCB evidence tools.
 
 This module never writes to an EDA project by itself.  It only runs the
-``zhigou`` CLI (or a fake passed by a test), captures stdout/stderr, parses a
+``easycirq`` CLI (or a fake passed by a test), captures stdout/stderr, parses a
 JSON payload when one is present, and records enough provenance for a case
-manifest.  Every PCB tool accepts ``--zhigou`` so tests never fall back to a
+manifest.  Every PCB tool accepts ``--easycirq`` so tests never fall back to a
 real installed CLI through PATH.
 """
 from __future__ import annotations
@@ -15,14 +15,14 @@ import os
 import tempfile
 from datetime import datetime, timezone
 
-import zhigou_cli
+import easycirq_cli
 
 DEFAULT_TIMEOUT_SEC = 120.0
 
 
-def zhigou_executable(explicit=None):
-    """Return the CLI path/name (``explicit`` -> ``ZHIGOU_BIN`` -> ``zhigou``)."""
-    return zhigou_cli.resolve_bin(explicit)
+def easycirq_executable(explicit=None):
+    """Return the CLI path/name (``explicit`` -> ``EASYCIRQ_BIN`` -> ``easycirq``)."""
+    return easycirq_cli.resolve_bin(explicit)
 
 
 def utc_now():
@@ -77,21 +77,21 @@ def write_text(path, text):
         handle.write(text if text is not None else '')
 
 
-def run(args, *, zhigou=None, timeout=DEFAULT_TIMEOUT_SEC, cwd=None,
+def run(args, *, easycirq=None, timeout=DEFAULT_TIMEOUT_SEC, cwd=None,
         env=None):
-    """Run one ``zhigou`` command through the shared resolver.
+    """Run one ``easycirq`` command through the shared resolver.
 
     Never raises for a missing executable, a timeout or non-JSON output: a
     caller deciding pass/fail needs the failure itself, not an exception.
     """
-    record = zhigou_cli.run(args, zhigou=zhigou, timeout=timeout, cwd=cwd,
+    record = easycirq_cli.run(args, easycirq=easycirq, timeout=timeout, cwd=cwd,
                             env=env)
     record['ok'] = payload_ok(record)
     return record
 
 
 def _parse_payload(text):
-    return zhigou_cli.parse_json_payload(text)
+    return easycirq_cli.parse_json_payload(text)
 
 
 def result(payload):

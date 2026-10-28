@@ -6,7 +6,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/pkg/pcbrouting"
+	"github.com/zsx3896926/EasyCirq/runtime/pkg/pcbrouting"
 )
 
 // PCB identities and units belong to the host adapter, not the search package.

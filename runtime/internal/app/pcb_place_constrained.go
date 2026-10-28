@@ -7,7 +7,7 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // pcb_place_constrained.go — constraint-driven TIERED placement (daemon-side).

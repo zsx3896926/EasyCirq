@@ -8,7 +8,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // cmd_workflow.go — compatibility viewer/recorder for the former project-level
@@ -32,7 +32,7 @@ actions run from live project data regardless of these records. Mutations no
 longer cascade through confirmations, and legacy --force options are no-ops.
 Use connectivity, geometric checks, DRC and save/reload/readback as evidence.
 
-State lives at ~/.zhigou/workflow/<project>.json (ZHIGOU_WORKFLOW_DIR
+State lives at ~/.easycirq/workflow/<project>.json (EASYCIRQ_WORKFLOW_DIR
 to override). Existing scripts may inspect or append it; ` + "`status`" + ` and
 ` + "`advance`" + ` describe only the deprecated checklist and do not control
 other commands.`,
@@ -87,35 +87,35 @@ func pullWorkflowFacts(cfg *appConfig, window string) (workflowFacts, error) {
 func workflowNext(st *pcbStageState, f workflowFacts) (next, why string) {
 	switch {
 	case st.Assembly == nil:
-		return "zhigou pcb stage set-assembly --profile hand-solder|reflow",
+		return "easycirq pcb stage set-assembly --profile hand-solder|reflow",
 			"assembly profile not set (P2 precondition, issue #99)"
 	case f.Reachable && f.Components == 0:
-		return "zhigou pcb import-changes",
+		return "easycirq pcb import-changes",
 			"the PCB has no components yet (P1)"
 	case !st.Has(stagePlacementConfirmed):
 		if st.Layout == nil || st.Layout.TightPairs != 0 || st.Layout.AccessBlocked != 0 {
-			return "zhigou pcb layout-lint --gate",
+			return "easycirq pcb layout-lint --gate",
 				"legacy P2 record has no compatible layout diagnostic snapshot"
 		}
-		return "zhigou pcb stage confirm-layout --note \"...\"",
+		return "easycirq pcb stage confirm-layout --note \"...\"",
 			"legacy P2 placement record is absent (does not block PCB actions)"
 	case f.Reachable && f.OutlineSegs == 0:
-		return "zhigou pcb outline-fit",
+		return "easycirq pcb outline-fit",
 			"no board outline yet (P3)"
 	case !st.Has(stageOutlineConfirmed):
-		return "zhigou pcb stage confirm-outline --note \"...\"",
+		return "easycirq pcb stage confirm-outline --note \"...\"",
 			"legacy P3 outline record is absent (does not block PCB actions)"
 	case !st.Has(stagePreRoutePassed):
-		return "zhigou pcb layout-lint --gate",
+		return "easycirq pcb layout-lint --gate",
 			"legacy P6 diagnostic record is absent (does not block routing)"
 	case f.RoutedLines == 0:
-		return "zhigou pcb route-short   (or autoroute)",
+		return "easycirq pcb route-short   (or autoroute)",
 			"legacy checklist reached the routing step (P7; diagnostic only)"
 	case !st.Has(stagePostRouteChecked):
-		return "zhigou workflow advance   (runs the pcb-check gate)",
+		return "easycirq workflow advance   (runs the pcb-check gate)",
 			"board is routed but the post-route check gate (布完必查) has not passed (P7.9): ERRORs + power-not-poured + width-under-spec must be zero"
 	default:
-		return "zhigou pcb silk-align && pcb drc && pcb save   (P9/P10 delivery)",
+		return "easycirq pcb silk-align && pcb drc && pcb save   (P9/P10 delivery)",
 			"post-route check passed — proceed to silkscreen / native DRC / save / export"
 	}
 }
@@ -267,7 +267,7 @@ func newWorkflowInitCmd(cfg *appConfig, window *string, stdout, stderr io.Writer
 		Long: `Create a fresh compatibility record for the project (or wipe an existing
 one back to 'imported'). This does not initialize, authorize or reset the board.`,
 		Args:    cobra.NoArgs,
-		Example: `  zhigou workflow init --project ceshi`,
+		Example: `  easycirq workflow init --project ceshi`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			project := stageKeyBestEffort(cfg, *window)
 			if strings.TrimSpace(project) == "" {
@@ -317,8 +317,8 @@ never as a drop to 0 (没测≠没变). Quality findings are advisory only and
 never affect the exit code. Use it whenever you (or anyone) edited outside
 the historical checklist.`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou workflow status --project ceshi
-  zhigou workflow status --project ceshi --reconcile`,
+		Example: `  easycirq workflow status --project ceshi
+  easycirq workflow status --project ceshi --reconcile`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			project, uuid, _ := resolveStageIdentity(cfg, *window)
 			if strings.TrimSpace(project) == "" {
@@ -429,7 +429,7 @@ authorize or refuse any layout, outline, routing or typed action.
 Use direct factual checks for new automation rather than this compatibility exit
 code.`,
 		Args:    cobra.NoArgs,
-		Example: `  zhigou workflow advance --project ceshi`,
+		Example: `  easycirq workflow advance --project ceshi`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			project, err := resolveStageProject(cfg, *window)
 			if err != nil {
@@ -528,8 +528,8 @@ func newWorkflowConfirmCmd(cfg *appConfig, window *string, stdout, stderr io.Wri
 		Use:   "confirm <layout|outline>",
 		Short: "Record a historical layout/outline checklist entry (no execution permission)",
 		Args:  cobra.ExactArgs(1),
-		Example: `  zhigou workflow confirm layout --project ceshi --note "USB-C out, antenna top"
-  zhigou workflow confirm outline --project ceshi --note "40×25mm"`,
+		Example: `  easycirq workflow confirm layout --project ceshi --note "USB-C out, antenna top"
+  easycirq workflow confirm outline --project ceshi --note "40×25mm"`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			switch strings.ToLower(strings.TrimSpace(args[0])) {
 			case "layout":
@@ -555,7 +555,7 @@ func newWorkflowResetCmd(cfg *appConfig, window *string, stdout io.Writer) *cobr
 		Short:   "Clear deprecated checklist entries (or --all)",
 		Long:    "Clear only the historical workflow record. This does not change, reset or unlock the PCB.",
 		Args:    cobra.NoArgs,
-		Example: `  zhigou workflow reset --all --project ceshi`,
+		Example: `  easycirq workflow reset --all --project ceshi`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			st, err := loadPcbStageState(stageKeyBestEffort(cfg, *window))
 			if err != nil {

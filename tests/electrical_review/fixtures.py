@@ -254,7 +254,7 @@ def five_volt_cap(ref="C1", ident="iC1", net_a="VIN", net_b="GND",
 
 def case_r1_ok():
     return {
-        "schema": "zhigou.electrical-review.input/v1",
+        "schema": "easycirq.electrical-review.input/v1",
         "design": design("r1-ok"),
         "evidence": [evidence()],
         "components": [
@@ -318,7 +318,7 @@ def case_r1_unknown():
 
 def case_r2_overvoltage():
     return {
-        "schema": "zhigou.electrical-review.input/v1",
+        "schema": "easycirq.electrical-review.input/v1",
         "design": design("r2-overvoltage"),
         "evidence": [evidence()],
         "components": [five_volt_cap("C1", "iC1", "VIN", "GND", rated=16.0,
@@ -343,7 +343,7 @@ def case_r2_derating():
 
 def case_r2_unknown_switching():
     data = {
-        "schema": "zhigou.electrical-review.input/v1",
+        "schema": "easycirq.electrical-review.input/v1",
         "design": design("r2-switching"),
         "evidence": [evidence()],
         "components": [five_volt_cap("C1", "iC1", "SW", "GND", rated=16.0,
@@ -378,7 +378,7 @@ def case_r2_dc_ok():
 
 def switch_case(used, nets, project, fact=True, roles=None):
     data = {
-        "schema": "zhigou.electrical-review.input/v1",
+        "schema": "easycirq.electrical-review.input/v1",
         "design": design(project),
         "evidence": [evidence()],
         "components": [component(
@@ -436,7 +436,7 @@ def tps_components(ep_net="GND", ep_pads=("17",), mapping_complete=True):
 
 def case_r4_pin_role():
     return {
-        "schema": "zhigou.electrical-review.input/v1",
+        "schema": "easycirq.electrical-review.input/v1",
         "design": design("r4-pin-role"),
         "evidence": [evidence()],
         "components": [tps_components()],
@@ -472,7 +472,7 @@ def case_r4_open_drain_pullup():
 
 def case_r5_ep_missing():
     return {
-        "schema": "zhigou.electrical-review.input/v1",
+        "schema": "easycirq.electrical-review.input/v1",
         "design": design("r5-ep-missing"),
         "evidence": [evidence()],
         "components": [tps_components(ep_net=None)],
@@ -509,7 +509,7 @@ def ams_component(tab=True):
 
 def case_r5_ams_tab_missing():
     return {
-        "schema": "zhigou.electrical-review.input/v1",
+        "schema": "easycirq.electrical-review.input/v1",
         "design": design("r5-ams-missing"),
         "evidence": [evidence()],
         "components": [ams_component(tab=False)],
@@ -536,7 +536,7 @@ def r6_case(role, distance_mil, positions=True, bulk_constraint=False):
         ic_pins[0]["position"] = {"x": distance_mil, "y": 0}
         ic_pins[1]["position"] = {"x": distance_mil, "y": 50}
     data = {
-        "schema": "zhigou.electrical-review.input/v1",
+        "schema": "easycirq.electrical-review.input/v1",
         "design": design("r6-" + role),
         "evidence": [evidence()],
         "components": [
@@ -582,7 +582,7 @@ def case_r6_missing_geometry():
 
 def case_r5_no_fact():
     return {
-        "schema": "zhigou.electrical-review.input/v1",
+        "schema": "easycirq.electrical-review.input/v1",
         "design": design("r5-no-fact"),
         "evidence": [evidence()],
         "components": [tps_components(ep_net=None)],

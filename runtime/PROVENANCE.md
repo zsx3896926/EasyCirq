@@ -23,7 +23,7 @@
 
 | 路径 | 文件数 | 说明 |
 | --- | ---: | --- |
-| `runtime/cmd/easyeda/` → `runtime/cmd/zhigou/` | 1 | 进程入口 |
+| `runtime/cmd/easyeda/` → `runtime/cmd/easycirq/` | 1 | 进程入口 |
 | `runtime/internal/**` | 909 | 命令面、daemon、协议、执行实现（含上游自带测试） |
 | `runtime/pkg/**` | 86 | PCB 布局/布线/模型/求解辅助包 |
 | `runtime/go.mod` `go.sum` | 2 | 依赖锁定：`github.com/spf13/cobra v1.10.2`、`github.com/coder/websocket v1.8.15`（及其间接依赖） |
@@ -39,24 +39,24 @@
 
 | 规则 | 从 | 到 | 原因 |
 | --- | --- | --- | --- |
-| 模块路径 | `github.com/zhoushoujianwork/easyeda-agent` | `github.com/zsx3896926/hardware-design-skill/runtime` | 代码归属与导入路径 |
-| 环境变量前缀 | `EASYEDA_*` | `ZHIGOU_*` | 不与旧工具链共享配置 |
-| 状态目录 | `~/.easyeda-agent` | `~/.zhigou` | pid/log/audit/workflow 隔离 |
-| 服务标识/二进制名 | `easyeda-agent`、`easyeda.exe` | `zhigou-agent`、`zhigou.exe` | handshake 校验 + 进程可辨识 |
-| 项目产物目录 | `.easyeda/artifacts`、`.easyeda/stages` | `.zhigou/artifacts`、`.zhigou/stages` | 旧证据目录不覆盖 |
+| 模块路径 | `github.com/zhoushoujianwork/easyeda-agent` | `github.com/zsx3896926/EasyCirq/runtime` | 代码归属与导入路径 |
+| 环境变量前缀 | `EASYEDA_*` | `EASYCIRQ_*` | 不与旧工具链共享配置 |
+| 状态目录 | `~/.easyeda-agent` | `~/.easycirq` | pid/log/audit/workflow 隔离 |
+| 服务标识/二进制名 | `easyeda-agent`、`easyeda.exe` | `easycirq-agent`、`easycirq.exe` | handshake 校验 + 进程可辨识 |
+| 项目产物目录 | `.easyeda/artifacts`、`.easyeda/stages` | `.easycirq/artifacts`、`.easycirq/stages` | 旧证据目录不覆盖 |
 | daemon 端口 | `0xEDA0–0xEDA9`（60832–60841） | `0x5A47–0x5A50`（23111–23120） | 与旧 daemon 并存且互不接管 |
-| 根命令 | `easyeda` | `zhigou` | 产品入口唯一 |
-| 版本名 | `easyeda-agent` | `zhigou` | `zhigou version` |
+| 根命令 | `easyeda` | `easycirq` | 产品入口唯一 |
+| 版本名 | `easyeda-agent` | `easycirq` | `easycirq version` |
 
 ## 4. 本项目对运行时的实质修改（非机械改名的部分）
 
 | 文件 | 修改 | 目的 |
 | --- | --- | --- |
-| `internal/protocol/wire.go` | **新增**：`WireVersion="v1"`、`ServiceName="zhigou-agent"` | 线上契约的显式版本与服务身份，连接器据此拒绝连错 daemon |
+| `internal/protocol/wire.go` | **新增**：`WireVersion="v1"`、`ServiceName="easycirq-agent"` | 线上契约的显式版本与服务身份，连接器据此拒绝连错 daemon |
 | `internal/version/version.go` | 新增 `ConnectorName`/`ConnectorVersion` | CLI 与随包 `.eext` 版本不允许静默漂移 |
-| `internal/app/cmd_doctor.go` | **新增**：`zhigou doctor` | 统一诊断入口；磁盘状态与运行状态分开报告，`legacy` 段检测旧 daemon 且标注 `used:false` |
-| `internal/app/cmd_capabilities.go` | **新增**：`zhigou capabilities` | 逐项 supported/unsupported/unknown + 原因 + 模式/回读/全板影响 |
-| `internal/app/cmd_connector.go` | **新增**：`zhigou connector path|verify|install-steps` | 定位/校验随包 `.eext`，打印导入步骤；不假装能代替 EDA 内人工导入 |
+| `internal/app/cmd_doctor.go` | **新增**：`easycirq doctor` | 统一诊断入口；磁盘状态与运行状态分开报告，`legacy` 段检测旧 daemon 且标注 `used:false` |
+| `internal/app/cmd_capabilities.go` | **新增**：`easycirq capabilities` | 逐项 supported/unsupported/unknown + 原因 + 模式/回读/全板影响 |
+| `internal/app/cmd_connector.go` | **新增**：`easycirq connector path|verify|install-steps` | 定位/校验随包 `.eext`，打印导入步骤；不假装能代替 EDA 内人工导入 |
 | `internal/app/cmd_doctor_test.go` | **新增**：单测 | 固化"无连接器不得 supported""无动作不得 supported""缺 daemon 判 blocked"等语义 |
 | `internal/app/app.go` | 注册三个新命令 | 入口暴露 |
 | `internal/app/health_checks.go` | 连接器修复建议改为指向本项目 `.eext` 与安装步骤 | 不再引导用户去上游发行页 |
@@ -71,10 +71,10 @@
 
 ```powershell
 cd runtime
-go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/hardware-design-skill/runtime/internal/version.Version=<version>" -o dist/zhigou.exe ./cmd/zhigou
+go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=<version>" -o dist/easycirq.exe ./cmd/easycirq
 ```
 
-构建产物内嵌 `vcs.revision`/`vcs.time`/`vcs.modified`，`zhigou doctor` 会把它们报告出来，
+构建产物内嵌 `vcs.revision`/`vcs.time`/`vcs.modified`，`easycirq doctor` 会把它们报告出来，
 因此"跑的是不是当前源码"可以外部核对。
 
 ## 6. 来源可复现性验证

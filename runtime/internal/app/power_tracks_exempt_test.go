@@ -3,7 +3,7 @@ package app
 import (
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // TestSplitPowerNotPoured is the #114 gate criterion, table-driven: a power net

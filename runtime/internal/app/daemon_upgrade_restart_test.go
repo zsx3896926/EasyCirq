@@ -8,7 +8,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
 )
 
 // Only installed builds are replaced, and only by a newer installed CLI: a
@@ -73,7 +73,7 @@ func TestShouldRestartDaemonAfterUpdate(t *testing.T) {
 // one's fresh replacement, so the live version is re-read right before stopping.
 func TestRestartInstalledDaemonSkipsWhenAlreadyReplaced(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		_, _ = w.Write([]byte(`{"service":"zhigou-agent","version":"v1.13.0","windows":[]}`))
+		_, _ = w.Write([]byte(`{"service":"easycirq-agent","version":"v1.13.0","windows":[]}`))
 	}))
 	defer srv.Close()
 	host, portStr, _ := strings.Cut(strings.TrimPrefix(srv.URL, "http://"), ":")

@@ -29,7 +29,7 @@ func newProjectCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 				Short:   "Find projects by exact friendly name without opening them",
 				Long:    "Read official project UUIDs and project info. With --team, the API inventories that team's root folder only. An empty or incomplete enumeration reports unknown, not absent; absence is only established within a complete team-root inventory.",
 				Args:    cobra.NoArgs,
-				Example: `  zhigou project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>`,
+				Example: `  easycirq project find --window <window-id> --name "AT32F415 demo" --team <team-uuid>`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					if friendlyName == "" {
 						return fmt.Errorf("--name is required")
@@ -58,7 +58,7 @@ func newProjectCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 				Use:     "create",
 				Short:   "Create an EasyEDA project container through the official API",
 				Args:    cobra.NoArgs,
-				Example: `  zhigou project create --name "AT32F415 demo" --open`,
+				Example: `  easycirq project create --name "AT32F415 demo" --open`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					if friendlyName == "" {
 						return fmt.Errorf("--name is required")
@@ -116,7 +116,7 @@ func newProjectCmd(cfg *appConfig, stdout, stderr io.Writer) *cobra.Command {
 				Use:     "open",
 				Short:   "Open a project by --project-uuid, or a legacy document by --uuid",
 				Args:    cobra.NoArgs,
-				Example: `  zhigou project open --uuid 6b3a2f01-...`,
+				Example: `  easycirq project open --uuid 6b3a2f01-...`,
 				RunE: func(cmd *cobra.Command, args []string) error {
 					if projectUUID != "" {
 						if uuid != "" {

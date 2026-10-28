@@ -25,7 +25,7 @@ from design_engine.critical import audit_critical
 from design_engine.geometry import (SCH_UNIT_TO_MM, bbox_dict, parse_svg_texts,
                                     rect_rotate, text_bbox, transform_local_to_world)
 from design_engine.ir import blank_ir, read_ir, summary, validate_ir, write_ir
-from design_engine.labels import plan_label_moves, to_zhigou_moves, verify_plan
+from design_engine.labels import plan_label_moves, to_easycirq_moves, verify_plan
 from design_engine.gerber import audit_layers, parse_drill, parse_gerber
 from design_engine.manufacturing import audit_package
 from design_engine.pack import pack_modules
@@ -272,7 +272,7 @@ class RealBundleTests(unittest.TestCase):
         verification = verify_plan(self.ir, self.plan)
         self.assertEqual(verification['status'], 'match')
         self.assertEqual(verification['issues'], [])
-        moves = to_zhigou_moves(self.plan, self.ir)
+        moves = to_easycirq_moves(self.plan, self.ir)
         self.assertEqual(len(moves), len(self.plan['operations']))
         for document in moves:
             self.assertEqual(document['projectUuid'], '7985fed220664da5a84e8c72ec3c9486')

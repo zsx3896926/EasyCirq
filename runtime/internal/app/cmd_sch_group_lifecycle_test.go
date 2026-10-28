@@ -5,7 +5,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 // ── ADR-0003 第一步:归组即封刚体,清页即作废组表 ─────────────────────────────

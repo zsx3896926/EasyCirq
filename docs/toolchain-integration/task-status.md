@@ -11,7 +11,7 @@
 | --- | --- | --- |
 | 仓库 | `C:\Users\jlc\work\EasyCirq`（origin: github.com/zsx3896926/EasyCirq） | `git remote -v` |
 | 基线提交 | `origin/main` = `9a951ed`（2026-10-27 15:03） | `git worktree add ... origin/main` |
-| 开发分支/工作树 | `feat/integrated-eda-toolchain` @ `C:\Users\jlc\work\zhigou-toolchain` | 本文件同级 |
+| 开发分支/工作树 | `feat/integrated-eda-toolchain` @ `C:\Users\jlc\work\easycirq-toolchain` | 本文件同级 |
 | 用户级规则 | `C:\Users\jlc\.codex\AGENTS.md`（139 行，含"实现→构建→真实路径→证据→修复→重跑"要求） | 已读 |
 | EasyEDA Pro | **4.1.78**（build 4.1.78.34f5b8d9，Electron 41.2.1-jlc-sa） | `environment-baseline.md` |
 | 已装连接器 | 上游 `easyeda-agent-connector` **1.15.0**（uuid `4dae27407c1d43be98e8e210d45fe587`） | `environment-baseline.md` |
@@ -29,10 +29,10 @@
 | 阶段 | 状态 | 产物 | 证据 |
 | --- | --- | --- | --- |
 | **M0** 环境/源码/许可/冲突/能力调查 | **完成**（除真机 API 探测） | `environment-baseline.md`、`upstream-analysis.md`、`rule-conflicts.md`、`architecture.md`、`capability-matrix.md`、`third_party/`、`runtime/PROVENANCE.md`、`protocol/` | `evidence/env/`（47 文件）、`evidence/upstream/`（9 文件）、`evidence/skill-audit/`（4 文件）、`evidence/m1/vendor-verify.txt` |
-| **M1** 自有 CLI/daemon/Connector 构建 + 隔离安装 | **完成**（构建、隔离启动、诊断、安装/升级/回退、Skill 单入口迁移均实测）；**连接器真实握手 BLOCKED**（需 EDA 内人工导入） | `runtime/`（构建成功，`zhigou.exe` 0.2.0-dev）、`connector/`（`.eext` 231 KB）、`protocol/schemas/`、`distribution/`（统一安装器）、`easycirq/`（已迁移到 `zhigou`） | `evidence/m1/*`、`evidence/installer/*`、`evidence/skill-migration/*`、`evidence/runtime-go-test.log`、`evidence/test-failure-diff.txt` |
-| **M2** 独立工程 读取→移动一件→保存→重开→回读 | **PASS（真机）** | 独立新工程 `zhigou-integrated-dual-button-led-20261027`（P1），R1/D1 放置 → D1 +40 raw 移动 → save(saved:true) → close/reopen → 新鲜回读 D1 x=640、R1 不变、primitiveId/device 身份不变、pin-net 不变 | `evidence/m2/summary.json` 及同目录原始 JSON/日志 |
+| **M1** 自有 CLI/daemon/Connector 构建 + 隔离安装 | **完成**（构建、隔离启动、诊断、安装/升级/回退、Skill 单入口迁移均实测）；**连接器真实握手 BLOCKED**（需 EDA 内人工导入） | `runtime/`（构建成功，`easycirq.exe` 0.2.0-dev）、`connector/`（`.eext` 231 KB）、`protocol/schemas/`、`distribution/`（统一安装器）、`easycirq/`（已迁移到 `easycirq`） | `evidence/m1/*`、`evidence/installer/*`、`evidence/skill-migration/*`、`evidence/runtime-go-test.log`、`evidence/test-failure-diff.txt` |
+| **M2** 独立工程 读取→移动一件→保存→重开→回读 | **PASS（真机）** | 独立新工程 `easycirq-integrated-dual-button-led-20261027`（P1），R1/D1 放置 → D1 +40 raw 移动 → save(saved:true) → close/reopen → 新鲜回读 D1 x=640、R1 不变、primitiveId/device 身份不变、pin-net 不变 | `evidence/m2/summary.json` 及同目录原始 JSON/日志 |
 | **M3** SCH/PCB 读写、批量、检查导出 | **PASS（原理图/PCB 同步/检查/导出真机）** | 9 器件双通道 LED 小板原理图：7 网全部逐脚一致、0 浮空脚、原生 DRC 0 违规、BOM/SVG/PNG 导出；PCB 同步 9 footprint 并经保存+重开+新鲜回读；PCB DRC 因未布局布线而失败（如实记录） | `evidence/m4/summary.json` 及同目录原始响应 |
-| **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **核心链 PASS**：安装/升级/回退 PASS；原理图+PCB 同步、布局 100/100、官方布线 6/6、双层 GND 铺铜、新鲜 PCB DRC **0 违规**、**局部改板 2mm PASS（范围外变化 0）**；**原生归档恢复演练、制造文件导出、DFM 剩余 5 警告 = NOT RUN/未清** | `distribution/`、`tools/zhigou_board_*.py`、`tools/zhigou_pcb_layout.py`、`tools/zhigou_pcb_edit_2mm.py` | `evidence/installer/`、`evidence/m4/`、`evidence/m4/pcb/` |
+| **M4** 完整小板 + 局部修改 + 备份恢复 + 统一安装升级回退 | **核心链 PASS**：安装/升级/回退 PASS；原理图+PCB 同步、布局 100/100、官方布线 6/6、双层 GND 铺铜、新鲜 PCB DRC **0 违规**、**局部改板 2mm PASS（范围外变化 0）**；**原生归档恢复演练、制造文件导出、DFM 剩余 5 警告 = NOT RUN/未清** | `distribution/`、`tools/easycirq_board_*.py`、`tools/easycirq_pcb_layout.py`、`tools/easycirq_pcb_edit_2mm.py` | `evidence/installer/`、`evidence/m4/`、`evidence/m4/pcb/` |
 | **M5** 独立审查/反例/最终候选重跑/提交 PR | **大部分完成**：最终候选重跑（vendoring PASS、离线 1838 tests OK、Go 关键测试 OK）；反例证据（无活动文档拒绝写入、后台标签页拒绝截图、未知 pagePrimitives 类拒绝、错工程/无连接器拒绝）；PR #36 已建 | `evidence/final-vendor-verify.txt`、`evidence/final-offline-suite.log` | PCB 截图与恢复后的 3D/Gerber 导出仍缺 |
 
 ## 2. 已完成的关键实现
@@ -40,12 +40,12 @@
 1. **运行时来源可复现**：`runtime/` = 上游 v1.15.0 源码 + `distribution/rebrand_runtime.py`
    （机械重命名）+ §4 列出的 8 处实质修改；`distribution/verify_vendor.py` 从上游归档
    重新推导并逐文件比对 → **PASS**（`evidence/m1/vendor-verify.txt`）。
-2. **隔离**：服务名 `zhigou-agent`、端口 23111–23120、状态目录 `~/.zhigou`、产物
-   `<proj>/.zhigou/artifacts`、env 前缀 `ZHIGOU_`、扩展 uuid `a6e6b788…`。实测新旧 daemon
+2. **隔离**：服务名 `easycirq-agent`、端口 23111–23120、状态目录 `~/.easycirq`、产物
+   `<proj>/.easycirq/artifacts`、env 前缀 `EASYCIRQ_`、扩展 uuid `a6e6b788…`。实测新旧 daemon
    同时监听、互不影响。
-3. **统一诊断入口**：`zhigou doctor`（磁盘 vs 运行分离、legacy 检测 `used:false`、
+3. **统一诊断入口**：`easycirq doctor`（磁盘 vs 运行分离、legacy 检测 `used:false`、
    pid 文件不一致报警、verdict ok/degraded/blocked、nextSteps）。
-4. **能力协商**：`zhigou capabilities` 逐项 supported/unsupported/unknown + 原因 + 模式 +
+4. **能力协商**：`easycirq capabilities` 逐项 supported/unsupported/unknown + 原因 + 模式 +
    回读 + 全板影响；无连接器时 19 项 unknown、5 项 unsupported（Gerber/钻孔/CPL/归档/等长）。
 5. **连接器交付**：自有 uuid/名称/端口/配置键；打包剔除上游演示媒体与上游 CHANGELOG
    （3.1 MB → 231 KB），附 `LICENSE` + `NOTICE`（含内嵌 Apache-2.0 组件说明）。
@@ -66,23 +66,23 @@
                                  └─> M4 小板全链 + 局部改板 + 备份恢复演练
                                        └─> M5 独立审查 → 提交推送 → PR
 [并行] distribution/ 安装升级回退（不依赖真机）
-[并行] easycirq Skill 迁移到 zhigou 单入口（不依赖真机）
+[并行] easycirq Skill 迁移到 easycirq 单入口（不依赖真机）
 ```
 
 ## 4. 当前唯一硬阻塞（已解除，保留记录）
 
-**已于 2026-10-27 22:25 由用户完成导入**：`zhigou doctor` 显示 `connector connected (1 window, zhigou-connector 0.1.0)`、`verdict: ok`，
-`zhigou health` 报告 EasyEDA Pro 4.1.78 与 `capabilities: schematic.v1, pcb.v1`。以下步骤保留作重装/排障参考。
+**已于 2026-10-27 22:25 由用户完成导入**：`easycirq doctor` 显示 `connector connected (1 window, easycirq-connector 0.1.0)`、`verdict: ok`，
+`easycirq health` 报告 EasyEDA Pro 4.1.78 与 `capabilities: schematic.v1, pcb.v1`。以下步骤保留作重装/排障参考。
 
 最小所需动作（一次，约 1 分钟）：
 
 1. 关闭所有 EasyEDA Pro 窗口；
 2. 打开 EasyEDA Pro →「设置 / 扩展」→「导入扩展」→ 选择
-   `C:\Users\jlc\work\zhigou-toolchain\connector\build\dist\zhigou-connector_v0.1.0.eext`
-   （或安装后的 `zhigou connector path` 输出路径）；
-3. 扩展管理器 → **Zhigou EDA Connector** → 允许「外部交互 / Allow external interaction」；
+   `C:\Users\jlc\work\easycirq-toolchain\connector\build\dist\easycirq-connector_v0.1.0.eext`
+   （或安装后的 `easycirq connector path` 输出路径）；
+3. 扩展管理器 → **EasyCirq EDA Connector** → 允许「外部交互 / Allow external interaction」；
 4. 重启 EasyEDA Pro，打开要操作的工程；
-5. 运行 `zhigou doctor`，确认 `connector.status=connected`、`connectorVersion=0.1.0`。
+5. 运行 `easycirq doctor`，确认 `connector.status=connected`、`connectorVersion=0.1.0`。
 
 完成后的自动化验证脚本已就绪（见 `docs/toolchain-integration/acceptance-matrix.md`
 与 `runtime/` 的 doctor/capabilities 输出），无需再依赖任何人工步骤。
@@ -117,28 +117,28 @@
 
 | 能力 | 实测结果 | 证据 |
 | --- | --- | --- |
-| 统一安装/升级/回退/卸载 | **39 个生命周期用例全通过**（干净安装、幂等重装、升级、回退、卸载、中文+空格路径、7 类损坏包、PATH 不被改、旧 easyeda-agent 目录哈希与 mtime 不变、lock/journal 恢复、`--require-clean` 脏树拒绝、真实产物构建+安装+`zhigou doctor`） | `evidence/installer/pytest-install-lifecycle.log`、`unittest-install-lifecycle.log`、`e2e-real-artifacts.log` |
-| Skill 单入口迁移 | 旧工具链引用清零（保留 1 处历史说明 allowlist）；`zhigou doctor`/`capabilities` 成为唯一前置；新增 guard 测试防止旧 CLI/状态目录/env 回流 | `docs/toolchain-integration/skill-migration.md`、`evidence/skill-migration/inventory-post-migration.txt` |
+| 统一安装/升级/回退/卸载 | **39 个生命周期用例全通过**（干净安装、幂等重装、升级、回退、卸载、中文+空格路径、7 类损坏包、PATH 不被改、旧 easyeda-agent 目录哈希与 mtime 不变、lock/journal 恢复、`--require-clean` 脏树拒绝、真实产物构建+安装+`easycirq doctor`） | `evidence/installer/pytest-install-lifecycle.log`、`unittest-install-lifecycle.log`、`e2e-real-artifacts.log` |
+| Skill 单入口迁移 | 旧工具链引用清零（保留 1 处历史说明 allowlist）；`easycirq doctor`/`capabilities` 成为唯一前置；新增 guard 测试防止旧 CLI/状态目录/env 回流 | `docs/toolchain-integration/skill-migration.md`、`evidence/skill-migration/inventory-post-migration.txt` |
 | 全仓库离线回归 | `python tools/offline_suite.py` → **1832 tests OK**（29/29 自检）；`skill_selftest.py` → **5 PASS / 0 FAIL**；新增 guard/CLI/安装器测试 **62 passed** | `evidence/skill-migration/offline-suite.exit.txt`、`skill-selftest.log` |
 
-安装目录（默认，已用隔离目录实测）：`%LOCALAPPDATA%\Zhigou\` 下 `bin\zhigou.exe`、
-`connector\zhigou-connector_v0.1.0.eext`（+IMPORT-STEPS.md）、`skill\easycirq\`、
+安装目录（默认，已用隔离目录实测）：`%LOCALAPPDATA%\EasyCirq\` 下 `bin\easycirq.exe`、
+`connector\easycirq-connector_v0.1.0.eext`（+IMPORT-STEPS.md）、`skill\easycirq\`、
 `licenses\`、`installation.json`（所有权清单+逐文件 sha256）。
 
 ## 4.3 版本与构建标识（最终候选）
 
 | 项 | 值 |
 | --- | --- |
-| CLI/daemon | `zhigou 0.2.0-dev`（构建自本仓库，二进制内嵌 `vcs.revision`） |
-| 连接器 | `zhigou-connector 0.1.0`，`.eext` sha256 `9b907bf6…`（231,299 B） |
+| CLI/daemon | `easycirq 0.2.0-dev`（构建自本仓库，二进制内嵌 `vcs.revision`） |
+| 连接器 | `easycirq-connector 0.1.0`，`.eext` sha256 `9b907bf6…`（231,299 B） |
 | 上游基线 | easyeda-agent `v1.15.0` / `d93d3dd`（MIT） |
-| 协议 | `zhigou-agent` / wire `v1` |
+| 协议 | `easycirq-agent` / wire `v1` |
 | 来源复现 | `distribution/verify_vendor.py` → **PASS**（`evidence/m1/vendor-verify.txt`；白名单外文件零差异） |
 
 ## 7. 恢复演练与最终回归（2026-10-27 23:45）
 
 **原生归档恢复演练（PASS）**：`.epro2`（46,838 B，CRC OK）→ `project import` 到独立新工程
-`zhigou-dual-button-led-restore-20261027`（uuid `4f9db8f9…`，verified）→ 打开后回读：
+`easycirq-dual-button-led-restore-20261027`（uuid `4f9db8f9…`，verified）→ 打开后回读：
 原理图 **7 网与源完全一致、0 浮空**；PCB **9 footprint、poses 与归档时完全一致、板框一致、PCB DRC 0 违规**。
 证据：`evidence/m4/restore/restore-summary.json`。
 
@@ -174,7 +174,7 @@
 
 1. Lead：把本分支（`feat/integrated-eda-toolchain`）提交并推送，创建 PR（不合并/不发布）。
 2. 用户：执行 §4 的一次性 GUI 导入。
-3. Lead（导入后自动执行）：`zhigou doctor` → 独立工程 M2 链 → M3 → M4 → 更新验收矩阵证据。
+3. Lead（导入后自动执行）：`easycirq doctor` → 独立工程 M2 链 → M3 → M4 → 更新验收矩阵证据。
 
 ## 8. Skill 门禁复核（2026-10-28）
 

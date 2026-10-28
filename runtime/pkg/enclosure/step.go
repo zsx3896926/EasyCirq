@@ -30,8 +30,8 @@ func (p Part) STEP(name string) ([]byte, error) {
 	}
 	vecs := func(v vec) string { return num(v[0]) + "," + num(v[1]) + "," + num(v[2]) }
 	label := strings.ReplaceAll(name, "'", "")
-	fmt.Fprintf(&b, "ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('zhigou-agent enclosure %s'),'2;1');\n", label)
-	fmt.Fprintf(&b, "FILE_NAME('%s.step','',(''),(''),'zhigou-agent','zhigou-agent','');\n", label)
+	fmt.Fprintf(&b, "ISO-10303-21;\nHEADER;\nFILE_DESCRIPTION(('easycirq-agent enclosure %s'),'2;1');\n", label)
+	fmt.Fprintf(&b, "FILE_NAME('%s.step','',(''),(''),'easycirq-agent','easycirq-agent','');\n", label)
 	b.WriteString("FILE_SCHEMA(('AUTOMOTIVE_DESIGN { 1 0 10303 214 1 1 1 1 }'));\nENDSEC;\nDATA;\n")
 	appCtx := ent("APPLICATION_CONTEXT('automotive design')")
 	ent("APPLICATION_PROTOCOL_DEFINITION('international standard','automotive_design',2000,#%d)", appCtx)

@@ -9,7 +9,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/blocks"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/blocks"
 )
 
 // ── 关系约束布局求解器(issue #180 P2,纯函数层)────────────────────────────

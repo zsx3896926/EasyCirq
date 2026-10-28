@@ -41,4 +41,4 @@ python tools/offline_benchmark.py --runs 3 \
 
 ## 未覆盖
 
-真实 `zhigou` CLI/daemon/连接器、原生 DRC/check/lint、Gerber/CPL/钻孔、板厂 DFM、实际布线完成、铺铜连通、热/EMC/安规、固件、实物功能、官方导图人工视觉签核、无字体环境的字形渲染。离线基准通过不等于硬件或生产可用。
+真实 `easycirq` CLI/daemon/连接器、原生 DRC/check/lint、Gerber/CPL/钻孔、板厂 DFM、实际布线完成、铺铜连通、热/EMC/安规、固件、实物功能、官方导图人工视觉签核、无字体环境的字形渲染。离线基准通过不等于硬件或生产可用。

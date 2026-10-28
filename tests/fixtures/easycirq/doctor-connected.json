@@ -1,0 +1,115 @@
+{
+  "schema": "easycirq-doctor/v1",
+  "generatedAt": "2026-10-27T13:48:53Z",
+  "verdict": "ok",
+  "runtime": {
+    "name": "easycirq",
+    "version": "0.2.0-dev",
+    "executable": "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
+    "sha256": "7bd59af3799482ddabfa1a7c89c0c35c1b252f435c16132ffe14f455309457f4",
+    "vcsRevision": "9a951edc21481dc3ae91460acc11aa3e08a7be8a",
+    "vcsTime": "2026-10-27T07:03:30Z",
+    "vcsModified": true,
+    "goVersion": "go1.27.3",
+    "onDisk": true
+  },
+  "skill": {
+    "name": "easycirq",
+    "status": "installed",
+    "installed": [
+      {
+        "client": "codex",
+        "dir": "C:\\Users\\jlc\\.codex\\skills\\easycirq",
+        "present": false
+      },
+      {
+        "client": "claude",
+        "dir": "C:\\Users\\jlc\\.claude\\skills\\easycirq",
+        "present": true,
+        "version": "1.0.1"
+      },
+      {
+        "client": "agents",
+        "dir": "C:\\Users\\jlc\\.agents\\skills\\easycirq",
+        "present": true,
+        "version": "1.0.1"
+      },
+      {
+        "client": "repo",
+        "dir": "C:\\Users\\jlc\\work\\easycirq-toolchain\\easycirq",
+        "present": true,
+        "version": "1.0.1"
+      }
+    ]
+  },
+  "daemon": {
+    "status": "running",
+    "pid": 49128,
+    "port": 23111,
+    "version": "0.2.0-dev",
+    "stateDir": "C:\\Users\\jlc\\.easycirq",
+    "logPath": "C:\\Users\\jlc\\.easycirq\\daemon.log",
+    "pidFile": "C:\\Users\\jlc\\.easycirq\\daemon.pid",
+    "pidFilePid": 49128,
+    "pidFileMatches": true
+  },
+  "connector": {
+    "status": "connected",
+    "count": 1,
+    "expectedName": "easycirq-connector",
+    "expectedVersion": "0.1.0"
+  },
+  "protocol": {
+    "service": "easycirq-agent",
+    "wireVersion": "v1",
+    "handshake": "daemon→connector {type:handshake,service,version}",
+    "envelopeVersion": "v1"
+  },
+  "host": {
+    "windowId": "fixture-window",
+    "connectorVersion": "0.1.0",
+    "easyedaVersion": "4.1.78",
+    "capabilities": [
+      "schematic.read"
+    ],
+    "hostKind": "client",
+    "projectUuid": "fixture-project",
+    "projectName": "fixture",
+    "documentUuid": "fixture-doc",
+    "documentType": "schematic",
+    "pageVisibility": "visible",
+    "connectedAt": "2026-10-27T13:48:53Z"
+  },
+  "legacy": {
+    "ports": "60832-60841",
+    "detected": true,
+    "service": "easyeda-agent",
+    "port": 60832,
+    "used": false,
+    "note": "legacy upstream easyeda-agent daemon; detected only, never used by this runtime"
+  },
+  "checks": [
+    {
+      "name": "daemon",
+      "status": "ok",
+      "detail": "v0.2.0-dev 运行在端口 23111"
+    },
+    {
+      "name": "connector",
+      "status": "ok",
+      "detail": "fixture connector connected"
+    },
+    {
+      "name": "skill",
+      "status": "ok",
+      "detail": "easycirq 已安装（claude 1.0.1, agents 1.0.1, repo 1.0.1）"
+    },
+    {
+      "name": "legacy",
+      "status": "ok",
+      "detail": "检测到旧 easyeda-agent daemon（127.0.0.1:60832），本工具链不使用它（端口/服务名/配置目录均已隔离）"
+    }
+  ],
+  "nextSteps": [],
+  "_fixture": "synthetic: same schema as easycirq doctor on a connected host"
+}

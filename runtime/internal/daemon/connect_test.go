@@ -17,7 +17,7 @@ import (
 
 	"github.com/coder/websocket"
 	"github.com/coder/websocket/wsjson"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // startDaemon runs a daemon on a free port and returns its host:port and a
@@ -473,8 +473,8 @@ func TestActionArtifactPersisted(t *testing.T) {
 		t.Fatalf("persisted bytes mismatch: %q", string(got))
 	}
 
-	// Lands in the CLI cwd's hidden .zhigou/artifacts dir...
-	wantDir := filepath.Join(outDir, ".zhigou", "artifacts")
+	// Lands in the CLI cwd's hidden .easycirq/artifacts dir...
+	wantDir := filepath.Join(outDir, ".easycirq", "artifacts")
 	if dir := filepath.Dir(a.Path); dir != wantDir {
 		t.Fatalf("artifact dir = %s, want %s", dir, wantDir)
 	}

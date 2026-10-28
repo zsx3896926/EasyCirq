@@ -736,7 +736,7 @@ var titleBlockRequired = []struct{ Key, Label string }{
 //     `sch titleblock --data …` 填得进去,提示照给。
 //   - 页上**根本没有这个明细项**(图签模板不带它) → `titleblock-key-absent`(info)。
 //     写入侧会明确拒绝它:schTitleBlockPatch 对不在 titleBlockData 里的 key 返回
-//     「这些明细项当前页没有:… —— 先跑 `zhigou sch titleblock-get` 看可用 key」。
+//     「这些明细项当前页没有:… —— 先跑 `easycirq sch titleblock-get` 看可用 key」。
 //     此前两处读的是同一份 titleBlockData,却只有写入侧看 key 在不在:缺项被
 //     valueOf 当成空值,于是 check 要求填一个 CLI 自己必定拒写的项,
 //     `sch gate --strict` 因此恒为 FAIL,且没有任何命令能解除。

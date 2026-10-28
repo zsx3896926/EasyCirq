@@ -11,7 +11,7 @@ import (
 	"time"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // ── autoconnect orchestration (I/O side; the scorer in cmd_sch_autoconnect.go is pure) ──
@@ -336,7 +336,7 @@ func resolvePinCoord(scene acScene, ref string) (acPin, error) {
 				return acPin{}, fmt.Errorf("%s", offPageHint(ref, comp))
 			}
 		}
-		return acPin{}, fmt.Errorf("no pin %q found (component %q not placed, or pin number/name mismatch — check `zhigou sch list --include-pins`)", ref, desig)
+		return acPin{}, fmt.Errorf("no pin %q found (component %q not placed, or pin number/name mismatch — check `easycirq sch list --include-pins`)", ref, desig)
 	default:
 		nums := make([]string, 0, len(matches))
 		for _, m := range matches {
@@ -361,9 +361,9 @@ func offPageHint(ref string, comp acComponent) string {
 		if comp.PageName != "" {
 			where = fmt.Sprintf("%s (%s)", comp.PageName, comp.PageUuid)
 		}
-		return fmt.Sprintf("%s: %s — switch to it first: `zhigou doc switch %s`. Note: --all-pages only widens candidate scoring, it does NOT build wires across pages.", base, where, comp.PageUuid)
+		return fmt.Sprintf("%s: %s — switch to it first: `easycirq doc switch %s`. Note: --all-pages only widens candidate scoring, it does NOT build wires across pages.", base, where, comp.PageUuid)
 	}
-	return fmt.Sprintf("%s — switch to that page first with `zhigou doc switch <page>` (see `zhigou doc ls`). Note: --all-pages only widens candidate scoring, it does NOT build wires across pages.", base)
+	return fmt.Sprintf("%s — switch to that page first with `easycirq doc switch <page>` (see `easycirq doc ls`). Note: --all-pages only widens candidate scoring, it does NOT build wires across pages.", base)
 }
 
 // acRunOpts 汇集一次 autoconnect 运行的开关位。加新开关时在这里加字段,而不是
@@ -946,10 +946,10 @@ A pin already on the target net is SKIPPED (already-connected), so re-running th
 same spec never stacks duplicate flags+wires. A pin on a DIFFERENT net is an error
 unless you pass --replace, which deletes the old flag+wire and reconnects.`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou sch autoconnect --pin U1:41 --kind gnd --net GND
-  zhigou sch autoconnect --x 720 --y 670 --kind gnd --net GND
-  zhigou sch autoconnect --pin U1:3V3 --kind power --net +3V3 --dry-run
-  zhigou sch autoconnect --spec p1-connect.json --json`,
+		Example: `  easycirq sch autoconnect --pin U1:41 --kind gnd --net GND
+  easycirq sch autoconnect --x 720 --y 670 --kind gnd --net GND
+  easycirq sch autoconnect --pin U1:3V3 --kind power --net +3V3 --dry-run
+  easycirq sch autoconnect --spec p1-connect.json --json`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			rules := defaultAutoconnectRules()
 			if cmd.Flags().Changed("avoid-titleblock") {

@@ -12,7 +12,7 @@ import (
 
 	"github.com/coder/websocket"
 	"github.com/coder/websocket/wsjson"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // Window is a read-only snapshot of a connected EasyEDA window, used by /health
@@ -554,7 +554,7 @@ func staleConnectorNotice(connector, daemon string) string {
 }
 
 // releaseRepoSlug is the GitHub owner/repo that ships the connector .eext.
-const releaseRepoSlug = "zhoushoujianwork/zhigou-agent"
+const releaseRepoSlug = "zhoushoujianwork/easycirq-agent"
 
 // isCleanRelease reports whether v is a bare release tag (vX.Y.Z with no
 // pre-release/build suffix) — i.e. its semver core is the whole string.

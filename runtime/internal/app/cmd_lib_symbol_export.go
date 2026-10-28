@@ -20,8 +20,8 @@ func newLibrarySymbolExportSourceCmd(cfg *appConfig, stdout, stderr io.Writer, w
 		Short: "Export a symbol's original .elibz2 file through the official read-only API",
 		Long:  "Export the native symbol file as an unmodified artifact. This command does not decode the file or claim to measure a schematic sheet's inner border or title block. The official getter may require library-download permission. Files over 8 MiB are refused before transfer.",
 		Args:  cobra.NoArgs,
-		Example: `  zhigou lib symbol export-source --uuid <sheet-symbol-uuid> --library <library-uuid>
-  zhigou lib symbol export-source --uuid <sheet-symbol-uuid> --library <library-uuid> --out sheet-symbol.elibz2`,
+		Example: `  easycirq lib symbol export-source --uuid <sheet-symbol-uuid> --library <library-uuid>
+  easycirq lib symbol export-source --uuid <sheet-symbol-uuid> --library <library-uuid> --out sheet-symbol.elibz2`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if uuid == "" || libraryUUID == "" {
 				return fmt.Errorf("--uuid and --library are required")

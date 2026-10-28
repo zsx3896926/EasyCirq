@@ -6,7 +6,7 @@ wss.on('connection', ws => {
     try {
       const req = JSON.parse(msg.toString());
       if (req.action === 'getFile') {
-        const bytes = readFileSync('/Users/mikas/github/zhigou-agent/extension/dist/index.js');
+        const bytes = readFileSync('/Users/mikas/github/easycirq-agent/extension/dist/index.js');
         ws.send(JSON.stringify({ content: bytes.toString('base64') }));
       }
     } catch(e){ ws.send(JSON.stringify({error:String(e)})); }

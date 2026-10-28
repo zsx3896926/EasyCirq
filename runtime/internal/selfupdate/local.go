@@ -69,11 +69,11 @@ func ReadLocalBundle(dir string) (*LocalBundle, error) {
 		}
 		return b, nil
 	}
-	b := &LocalBundle{Skill: map[string][]byte{}, Connector: filepath.Join(dir, "zhigou-agent-connector.eext")}
+	b := &LocalBundle{Skill: map[string][]byte{}, Connector: filepath.Join(dir, "easycirq-agent-connector.eext")}
 	if b.Binary, err = read(asset); err != nil {
 		return nil, err
 	}
-	connector, err := read("zhigou-agent-connector.eext")
+	connector, err := read("easycirq-agent-connector.eext")
 	if err != nil {
 		return nil, err
 	}
@@ -212,7 +212,7 @@ func (b *LocalBundle) Install(binary string, log io.Writer) (retErr error) {
 	if p, err := filepath.EvalSymlinks(binary); err == nil {
 		binary = p
 	}
-	stage, err := os.CreateTemp(filepath.Dir(binary), ".zhigou-local-*")
+	stage, err := os.CreateTemp(filepath.Dir(binary), ".easycirq-local-*")
 	if err != nil {
 		return err
 	}
@@ -231,11 +231,11 @@ func (b *LocalBundle) Install(binary string, log io.Writer) (retErr error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	output, err := exec.CommandContext(ctx, stageName, "--version").Output()
-	if err != nil || strings.TrimSpace(string(output)) != "zhigou-agent v"+b.Version {
+	if err != nil || strings.TrimSpace(string(output)) != "easycirq-agent v"+b.Version {
 		return fmt.Errorf("local CLI execution/version check failed: %v", err)
 	}
 	if _, err = os.Stat(binary); err == nil {
-		backup, e := os.CreateTemp(filepath.Dir(binary), ".zhigou-backup-*")
+		backup, e := os.CreateTemp(filepath.Dir(binary), ".easycirq-backup-*")
 		if e != nil {
 			return e
 		}
@@ -265,7 +265,7 @@ func (b *LocalBundle) Install(binary string, log io.Writer) (retErr error) {
 		if p, e := filepath.EvalSymlinks(dir); e == nil {
 			dir = p
 		}
-		backup, e := os.MkdirTemp(filepath.Dir(dir), ".zhigou-local-backup-*")
+		backup, e := os.MkdirTemp(filepath.Dir(dir), ".easycirq-local-backup-*")
 		if e != nil {
 			return e
 		}
@@ -273,7 +273,7 @@ func (b *LocalBundle) Install(binary string, log io.Writer) (retErr error) {
 			return e
 		}
 		fmt.Fprintf(log, "Skill backup: %s\n", backup)
-		src, e := os.MkdirTemp(filepath.Dir(dir), ".zhigou-local-source-*")
+		src, e := os.MkdirTemp(filepath.Dir(dir), ".easycirq-local-source-*")
 		if e != nil {
 			return e
 		}

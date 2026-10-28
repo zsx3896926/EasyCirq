@@ -17,12 +17,12 @@ document afterward and reports it as "activeRestored", so the ★ does not drift
 (issue #67).
 
 Usage:
-  zhigou doc reload [name|uuid] [flags]
+  easycirq doc reload [name|uuid] [flags]
 
 Examples:
-  zhigou doc reload                      # reload the active document
-  zhigou doc reload PCB3 --project ceshi # reload a specific PCB
-  zhigou pcb pour-rebuild                # then re-pour under the refreshed rules
+  easycirq doc reload                      # reload the active document
+  easycirq doc reload PCB3 --project ceshi # reload a specific PCB
+  easycirq pcb pour-rebuild                # then re-pour under the refreshed rules
 
 Flags:
   -h, --help   help for reload

@@ -1,6 +1,6 @@
 # B 光、接近、距离与人体检测 盘点
 
-> 审计对象：`C:\Users\jlc\work\hardware-design-skill`（HEAD `0fe5cf8`）。
+> 审计对象：`C:\Users\jlc\work\EasyCirq`（HEAD `0fe5cf8`）。
 > 方法：按 `SKILL.md` 按需读取表定位，再用 Grep 抽查 `design-cards/`、`selection/`、`engineering-deepdives/`、`pcb-placement-details.md`、`domain-design-details.md`、`enclosure-integration.md` 等；只读相关段落，未全量加载大文件。
 > 判定口径：只针对本组 8 个主题的“11 问 + 来源”是否够用，不代表仓库其他领域质量。行号为当前工作区 1 起始行号；路径相对仓库根。
 > 结论先行：**B 组是明显的空白组。** 60 张设计卡中没有任何光学/接近/测距/人体检测卡；现有内容只有通用模拟采集链（ANA-01/02/04）、运放高源阻抗的一行提示（C3）、选型表里一行“磁/光/proximity”，以及 Feather Sense 案例中 APDS-9960 的 BOM/网表观察。B1/B2 可“复用+补”，B3–B8 需要新写。

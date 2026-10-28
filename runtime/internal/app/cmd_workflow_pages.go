@@ -1,6 +1,6 @@
 package app
 
-// cmd_workflow_pages.go — `zhigou workflow pages`:工程状态里逐页记账的归属表。
+// cmd_workflow_pages.go — `easycirq workflow pages`:工程状态里逐页记账的归属表。
 //
 // ## 它解决的是什么
 //
@@ -30,7 +30,7 @@ import (
 	"strings"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/workflow"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/workflow"
 )
 
 func newWorkflowPagesCmd(cfg *appConfig, window *string, stdout, stderr io.Writer) *cobra.Command {
@@ -59,9 +59,9 @@ func newWorkflowPagesCmd(cfg *appConfig, window *string, stdout, stderr io.Write
 --prune 删掉已判为 foreign 的那些页的全部记账。这是唯一的删除入口 —— 判定层
 永远只收窄不删除。`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou workflow pages --project ceshi
-  zhigou workflow pages --project ceshi --reap
-  zhigou workflow pages --project ceshi --prune`,
+		Example: `  easycirq workflow pages --project ceshi
+  easycirq workflow pages --project ceshi --reap
+  easycirq workflow pages --project ceshi --prune`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			project, liveUUID, rerr := resolveStageIdentity(cfg, *window)
 			if rerr != nil {
@@ -165,10 +165,10 @@ func newWorkflowPagesCmd(cfg *appConfig, window *string, stdout, stderr io.Write
 			}
 			if len(foreign) > 0 && !prune {
 				fmt.Fprintf(stdout, "\n%d 页已证明属于别的工程 —— **不参与**跨页匹配(spec 回填 / 分区打分)。\n"+
-					"数据仍在文件里;确认要清掉:`zhigou workflow pages --project %s --prune`\n", len(foreign), project)
+					"数据仍在文件里;确认要清掉:`easycirq workflow pages --project %s --prune`\n", len(foreign), project)
 			}
 			if n := len(st.UnownedPages()); n > 0 && !reap {
-				hint := "`zhigou workflow pages --project " + project + " --reap`(需要连着窗口)"
+				hint := "`easycirq workflow pages --project " + project + " --reap`(需要连着窗口)"
 				fmt.Fprintf(stdout, "\n%d 页没有归属戳(升级前写的旧记账),它们照常参与跨页匹配。\n"+
 					"若这个工程被同名删除重建过,用 %s 拿真实页表核销一次。\n", n, hint)
 			}

@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/protocol"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/protocol"
 )
 
 // 连接器 FIFO 队首堵塞 —— 从「每条命令白烧 18 秒」变成「当场说清楚」。

@@ -22,7 +22,7 @@ func newFakeBatchDaemon(t *testing.T) (*appConfig, func()) {
 	t.Helper()
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[]}`))
+			_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[]}`))
 			return
 		}
 		if r.URL.Path != "/action" {
@@ -174,7 +174,7 @@ func TestAutoconnect_BatchStubsAreMutuallyExclusive(t *testing.T) {
 func TestAutoconnect_BatchRegistersPredictedMarkerBBox(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[]}`))
+			_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[]}`))
 			return
 		}
 		var req struct {
@@ -257,7 +257,7 @@ func TestAutoconnect_BatchRegistersPredictedMarkerBBox(t *testing.T) {
 func TestAutoconnect_BatchStubAllBlockedFailsLoud(t *testing.T) {
 	srv := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[]}`))
+			_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[]}`))
 			return
 		}
 		var req struct {

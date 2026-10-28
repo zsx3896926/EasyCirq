@@ -1,12 +1,12 @@
 List placed components/footprints on the active PCB
 
 Usage:
-  zhigou pcb list [flags]
+  easycirq pcb list [flags]
 
 Examples:
-  zhigou pcb list
-  zhigou pcb list --include-bbox
-  zhigou pcb list --layer TOP --include-pads
+  easycirq pcb list
+  easycirq pcb list --include-bbox
+  easycirq pcb list --layer TOP --include-pads
 
 Flags:
   -h, --help           help for list

@@ -3,7 +3,7 @@ package app
 import (
 	"testing"
 
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/spec"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/spec"
 )
 
 // TestZoneVocabularyMatchesSpecPackage 钉住跨包词汇一致性。

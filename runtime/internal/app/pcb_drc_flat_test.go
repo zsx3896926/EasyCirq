@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-// Real leaves captured from ~/.zhigou/audit (esp32MiniRequire probe
+// Real leaves captured from ~/.easycirq/audit (esp32MiniRequire probe
 // rounds) — the panel's actual nested shape, one leaf per error class.
 const drcResultFixture = `{
   "passed": false,

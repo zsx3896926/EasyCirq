@@ -15,7 +15,7 @@
 | --- | --- | --- | --- | --- |
 | 1 | 默认画法：分区＋短引线＋标签，拓扑型局部电路保留短线直连，跨页用正确作用域端口 | `easycirq/SKILL.md`、`references/schematic-authoring.md`、`references/schematic-layout.md` | 已纳入（Skill 侧） | guard 测试断言默认规则存在；真机导图复核（BLOCKED 至连接器导入） |
 | 2 | 先验证代表模块再批量扩展（自主自检，不设审批停顿） | `SKILL.md` 绘图流程、`references/workflow.md` | 已纳入（Skill 侧） | 同上 |
-| 3 | 开工即核对交付能力，五态记录（实测/API 存在未测/GUI 路径/需要开发/不支持） | **运行时**：`zhigou capabilities` 新增 `deliverables[]`（`measured` / `api_untested` / `gui_only` / `needs_development` / `unsupported`）；**Skill**：开工预检必须调用 | **运行时代码已实现并单测**；Skill 引用待纳入 | `go test ./internal/app -run TestDeliverables`；`evidence/m1/capabilities.json` |
+| 3 | 开工即核对交付能力，五态记录（实测/API 存在未测/GUI 路径/需要开发/不支持） | **运行时**：`easycirq capabilities` 新增 `deliverables[]`（`measured` / `api_untested` / `gui_only` / `needs_development` / `unsupported`）；**Skill**：开工预检必须调用 | **运行时代码已实现并单测**；Skill 引用待纳入 | `go test ./internal/app -run TestDeliverables`；`evidence/m1/capabilities.json` |
 | 4 | 修复 `pagePrimitives.pins` 导致的 compose 拒绝，补夹具与兼容/缺字段负例，不取消完整性检查 | `runtime/internal/app/sch_compose_source_guard.go` + `sch_compose_source_guard_pins_test.go` | **已修复并回归**（5 用例） | `go test ./internal/app -run TestComposeGuard` |
 | 5 | 失败预算：同类连续 2 次必须换诊断、禁止原样重试；阶段预算触发换已验证路径 | `SKILL.md`、`references/feedback-loop.md`、`references/tool-gotchas.md` | 已纳入（Skill 侧） | guard 测试；真机由验收脚本记录重试次数 |
 | 6 | 统一自主执行规则：授权整板后布局自检+记录即可继续布线 | `SKILL.md` 评审节奏、`references/interaction.md` | 已纳入（Skill 侧） | guard 测试 |
@@ -59,6 +59,6 @@ compose 的来源快照校验用 `len(page) != len(required)` 比较**类数量*
 | --- | --- |
 | 规则进入实际默认执行路径 | Skill 侧修改默认流程段落（不是附录）；运行时侧 `capabilities.deliverables` 直接出现在开工预检输出里 |
 | 协议修复进入代码并有回归 | 已修 + 5 个 Go 用例（兼容/缺类/未知类/畸形/旧快照） |
-| 用新任务证明代表模块策略、标签画法、能力预检生效 | 真机验收脚本 `tools/zhigou_acceptance.py` 已把能力预检设为硬前置；代表模块与标签画法的"生效"需连接器导入后由 M2/M3 证据证明 —— 当前 **BLOCKED**，不冒充 |
+| 用新任务证明代表模块策略、标签画法、能力预检生效 | 真机验收脚本 `tools/easycirq_acceptance.py` 已把能力预检设为硬前置；代表模块与标签画法的"生效"需连接器导入后由 M2/M3 证据证明 —— 当前 **BLOCKED**，不冒充 |
 | 分别报告耗时、返工、图面与电气结果 | `docs/toolchain-integration/performance.md` 定义基准；真机数据待 M2–M4 |
 | 不以文档数量/测试数量代表体验改善 | 本文件只记录落点与验证手段；体验改善以真机 M2–M4 的耗时/返工/图面/电气结果判定 |

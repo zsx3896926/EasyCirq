@@ -447,7 +447,7 @@ def check_all(target, client, home, refresh=False, exe=None):
         dep = {'status': 'unverified', 'message': str(e)}
     ready = own.get('status') == 'current' and dep.get('status') == 'ready'
     return {'status': 'current' if ready else 'needs_attention',
-            'design_hardware': own, 'zhigou': dep, 'automatic_install': False}
+            'design_hardware': own, 'easycirq': dep, 'automatic_install': False}
 
 
 def menu(home=None):
@@ -496,10 +496,10 @@ def main(argv=None):
     p.add_argument('--manifest', type=Path, help='Detached release.json for archive SHA256 validation')
     p.add_argument('--adopt', action='store_true', help='Explicitly back up and migrate an unmanaged installation')
     p.add_argument('--refresh', action='store_true')
-    p.add_argument('--zhigou', type=Path, help='Explicit zhigou executable (test seam)')
+    p.add_argument('--easycirq', type=Path, help='Explicit easycirq executable (test seam)')
     # Deprecated spelling kept for the distribution/ Manage-Skill wrapper,
     # which is owned by the release pipeline; both map to the same seam.
-    p.add_argument('--easyeda', dest='zhigou', type=Path,
+    p.add_argument('--easyeda', dest='easycirq', type=Path,
                    help=argparse.SUPPRESS)
     p.add_argument('--agent-version', dest='ignored_agent_version',
                    help=argparse.SUPPRESS)  # accepted, deliberately unused
@@ -528,19 +528,19 @@ def main(argv=None):
             elif a.action == 'check':
                 if not a.client:
                     raise UpdateError('Unified check requires --client')
-                result = check_all(target, a.client, a.home, a.refresh, a.zhigou)
+                result = check_all(target, a.client, a.home, a.refresh, a.easycirq)
             elif a.action == 'update-agent':
                 if not a.client:
                     raise UpdateError('Runtime check requires --client')
                 # Report-only: the runtime is installed from this repository's
                 # distribution/ bundle.  Never download/replace another component.
-                state = companion_module().check(a.client, a.home, a.zhigou)
+                state = companion_module().check(a.client, a.home, a.easycirq)
                 result = {
                     'status': state.get('status'),
                     'updated': False,
                     'mode': 'report_only',
                     'runtime': state,
-                    'reason': 'the zhigou runtime is installed from this '
+                    'reason': 'the easycirq runtime is installed from this '
                               "repository's distribution/ bundle; this skill does "
                               'not download, replace or restart it',
                     'next_step': state.get('next_step'),

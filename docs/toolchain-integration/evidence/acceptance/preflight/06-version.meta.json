@@ -1,9 +1,9 @@
 {
   "id": "version",
-  "title": "zhigou version",
+  "title": "easycirq version",
   "stage": "preflight",
   "command": [
-    "C:\\Users\\jlc\\work\\zhigou-toolchain\\runtime\\dist\\zhigou.exe",
+    "C:\\Users\\jlc\\work\\easycirq-toolchain\\runtime\\dist\\easycirq.exe",
     "version"
   ],
   "status": "NOT RUN",

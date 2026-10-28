@@ -1,8 +1,8 @@
 {
-  "schema": "zhigou-toolchain-compat/v1",
-  "name": "zhigou-toolchain",
+  "schema": "easycirq-toolchain-compat/v1",
+  "name": "easycirq-toolchain",
   "version": "0.1.0",
-  "protocol": "zhigou-agent/v1",
+  "protocol": "easycirq-agent/v1",
   "eda": ">=3.2.0",
   "validatedEda": "4.1.78",
   "minPython": "3.10",
@@ -12,8 +12,8 @@
   },
   "runtime": {
     "sourceDir": "runtime",
-    "buildPackage": "./cmd/zhigou",
-    "exe": "runtime/dist/zhigou.exe"
+    "buildPackage": "./cmd/easycirq",
+    "exe": "runtime/dist/easycirq.exe"
   },
   "connector": {
     "dir": "connector",
@@ -25,8 +25,8 @@
   ],
   "notes": {
     "ports": "23111-23120",
-    "stateDir": "~/.zhigou",
-    "artifactsDir": "<project>/.zhigou/artifacts",
+    "stateDir": "~/.easycirq",
+    "artifactsDir": "<project>/.easycirq/artifacts",
     "connectorImport": "manual only: EasyEDA Pro -> 设置 -> 扩展 -> 已安装 -> 导入扩展, then fully relaunch EasyEDA"
   }
 }

@@ -116,7 +116,7 @@ adapter from any producer to any consumer; see
 2. Ask A's owner to rebase on current `main`, split the runtime/connector vendoring
    from the core-installer changes, fix the updater job and complete the manual
    connector import before requesting review.
-3. Someone who owns the EDA window should run A's `tools/zhigou_acceptance.py` and
+3. Someone who owns the EDA window should run A's `tools/easycirq_acceptance.py` and
    record real M2–M4 evidence; this integration session intentionally did not.
 4. If cross-module automation is wanted, build adapters in this order: F→B (needs
    port/fact mapping), J→module check selection (needs a command/rule id map), then

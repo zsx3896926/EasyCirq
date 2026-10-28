@@ -11,12 +11,12 @@ dense wiring without resampling a blurry screenshot.
 the selection). Without --ids it exports the whole active page.
 
 Usage:
-  zhigou sch export-image [flags]
+  easycirq sch export-image [flags]
 
 Examples:
-  zhigou sch export-image --ids id1,id2 --out block.svg
-  zhigou sch export-image --format png --out page.png
-  zhigou sch export-image --scope page --format pdf --page P2 --out p2.pdf
+  easycirq sch export-image --ids id1,id2 --out block.svg
+  easycirq sch export-image --format png --out page.png
+  easycirq sch export-image --scope page --format pdf --page P2 --out p2.pdf
 
 Flags:
       --format string       svg | png | pdf (default svg)

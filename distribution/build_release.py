@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
-"""Build the Zhigou release artifacts, without publishing.
+"""Build the EasyCirq release artifacts, without publishing.
 
 Two independent products are produced in one run:
 
-1. **Unified toolchain bundle** (default) -- ``zhigou-toolchain-<version>.zip``
-   containing the runtime (``zhigou.exe`` + build identity), the connector
+1. **Unified toolchain bundle** (default) -- ``easycirq-toolchain-<version>.zip``
+   containing the runtime (``easycirq.exe`` + build identity), the connector
    ``.eext`` and the Skill, plus a ``bundle.json`` with the file inventory
    (SHA-256), the compatibility matrix and the build provenance (source commit,
    Go version, node/npm version, per-artifact hashes).  This is what
-   ``distribution/zhigou_install.py`` installs.
+   ``distribution/easycirq_install.py`` installs.
 2. **Legacy Skill installer** (unchanged contract) -- ``easycirq-<v>.zip``
    + ``release.json`` + ``Manage-Skill.ps1/.cmd`` + ``skill_update.py`` +
    ``companion_update.py`` + ``SHA256SUMS``, which the existing CI workflows
@@ -36,9 +36,9 @@ import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 DIST = ROOT / 'distribution'
-BUNDLE_SCHEMA = 'zhigou-toolchain-bundle/v1'
-RELEASE_SCHEMA = 'zhigou-toolchain-release/v1'
-PROVENANCE_SCHEMA = 'zhigou-toolchain-provenance/v1'
+BUNDLE_SCHEMA = 'easycirq-toolchain-bundle/v1'
+RELEASE_SCHEMA = 'easycirq-toolchain-release/v1'
+PROVENANCE_SCHEMA = 'easycirq-toolchain-provenance/v1'
 TOOLCHAIN_CONFIG = DIST / 'toolchain.json'
 MAX_ZIP = 512 * 1024 * 1024
 
@@ -112,7 +112,7 @@ def load_toolchain_config(path=TOOLCHAIN_CONFIG):
     if not path.is_file():
         raise RuntimeError('Missing compatibility config: %s' % path)
     cfg = json.loads(path.read_text(encoding='utf-8'))
-    if cfg.get('schema') != 'zhigou-toolchain-compat/v1':
+    if cfg.get('schema') != 'easycirq-toolchain-compat/v1':
         raise RuntimeError('Unsupported %s schema' % path)
     return cfg
 
@@ -175,7 +175,7 @@ def _copy_binary(src: Path, dest: Path, attempts=4):
 
 def build_runtime(out_dir: Path, cfg, runtime_exe=None, skip_build=False, go_hint=None):
     """Produce the runtime binary; returns identity dict."""
-    target = out_dir / 'zhigou.exe'
+    target = out_dir / 'easycirq.exe'
     out_dir.mkdir(parents=True, exist_ok=True)
     source_dir = ROOT / cfg['runtime']['sourceDir']
     go, go_version = find_go([go_hint] if go_hint else None)
@@ -187,7 +187,7 @@ def build_runtime(out_dir: Path, cfg, runtime_exe=None, skip_build=False, go_hin
         _copy_binary(exe, target)
         origin = 'reused:' + str(exe)
     elif skip_build:
-        default_exe = ROOT / cfg['runtime'].get('exe', 'runtime/dist/zhigou.exe')
+        default_exe = ROOT / cfg['runtime'].get('exe', 'runtime/dist/easycirq.exe')
         if not default_exe.is_file():
             raise RuntimeError('No runtime available: --skip-runtime-build needs '
                                '%s to exist, or pass --runtime-exe' % default_exe)
@@ -199,7 +199,7 @@ def build_runtime(out_dir: Path, cfg, runtime_exe=None, skip_build=False, go_hin
                            'to reuse an existing binary.')
     else:
         cmd = [go, 'build', '-trimpath', '-buildvcs=true', '-o', str(target),
-               cfg['runtime'].get('buildPackage', './cmd/zhigou')]
+               cfg['runtime'].get('buildPackage', './cmd/easycirq')]
         proc = run(cmd, cwd=source_dir)
         if proc.returncode != 0:
             raise RuntimeError('go build failed:\n%s\n%s' % (proc.stdout[-3000:], proc.stderr[-3000:]))
@@ -304,7 +304,7 @@ def legal_files(cfg):
 
 def write_third_party_notices(out: Path, cfg, connector, runtime):
     lines = [
-        '# Third-party notices for the Zhigou toolchain bundle',
+        '# Third-party notices for the EasyCirq toolchain bundle',
         '',
         'This bundle redistributes the components below. Full license texts are in the',
         '`licenses/` directory next to this file. Nothing here is an official JLC /',
@@ -312,9 +312,9 @@ def write_third_party_notices(out: Path, cfg, connector, runtime):
         '',
         '| Component | Version | License | Bundled license text |',
         '|---|---|---|---|',
-        '| Zhigou runtime (`zhigou.exe`) | %s | Apache-2.0 (see NOTICE) | `licenses/LICENSE`, `licenses/NOTICE` |'
+        '| EasyCirq runtime (`easycirq.exe`) | %s | Apache-2.0 (see NOTICE) | `licenses/LICENSE`, `licenses/NOTICE` |'
         % runtime.get('version'),
-        '| Zhigou connector (`%s`) | %s | MIT AND Apache-2.0 | `licenses/connector__LICENSE` |'
+        '| EasyCirq connector (`%s`) | %s | MIT AND Apache-2.0 | `licenses/connector__LICENSE` |'
         % (connector.get('file'), connector.get('version')),
         '| easycirq Skill | %s | Apache-2.0 | `licenses/LICENSE` |' % cfg.get('version'),
         '| Go modules (cobra Apache-2.0; coder/websocket ISC) | build-time | see module licenses | not redistributed separately |',
@@ -340,7 +340,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
     explicit_version = version
     prov = source_provenance(require_clean)
 
-    with tempfile.TemporaryDirectory(prefix='zhigou-bundle-') as tmp:
+    with tempfile.TemporaryDirectory(prefix='easycirq-bundle-') as tmp:
         tmp = Path(tmp)
         payload = tmp / 'payload'
         (payload / 'bin').mkdir(parents=True)
@@ -364,8 +364,8 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
                 print('warning: could not read the runtime version; falling back to %r from %s'
                       % (cfg['version'], TOOLCHAIN_CONFIG.name), file=sys.stderr)
 
-        (payload / 'bin' / 'zhigou-version.json').write_text(json.dumps({
-            'schema': 'zhigou-runtime-identity/v1', 'name': 'zhigou', 'version': version,
+        (payload / 'bin' / 'easycirq-version.json').write_text(json.dumps({
+            'schema': 'easycirq-runtime-identity/v1', 'name': 'easycirq', 'version': version,
             'builtAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
             'sha256': runtime['sha256'], 'size': runtime['size'],
             'goVersion': runtime.get('goVersion'), 'vcsRevision': runtime.get('vcsRevision'),
@@ -378,15 +378,15 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
         _copy_binary(Path(connector['path']), payload / 'connector' / eext_name)
         if sha256_file(payload / 'connector' / eext_name) != connector['sha256']:
             raise RuntimeError('Connector .eext changed while packaging; rerun the build')
-        (payload / 'connector' / 'zhigou-connector.manifest.json').write_text(
+        (payload / 'connector' / 'easycirq-connector.manifest.json').write_text(
             json.dumps(connector['manifest'], ensure_ascii=False, indent=2) + '\n',
             encoding='utf-8', newline='\n')
         (payload / 'connector' / 'IMPORT-STEPS.md').write_text(
-            '# 导入 Zhigou 连接器到 EasyEDA Pro\n\n'
+            '# 导入 EasyCirq 连接器到 EasyEDA Pro\n\n'
             '1. 打开嘉立创EDA专业版 → 设置 → 扩展 → 已安装 → 导入扩展。\n'
             '2. 选择本目录下的 `%s`（UUID `%s`，版本 %s）。\n'
             '3. **完全退出并重新启动** EasyEDA Pro（连接器在启动时加载，不支持热加载）。\n'
-            '4. 校验：`zhigou connector verify`；`zhigou doctor` 中 connector 应显示已连接。\n\n'
+            '4. 校验：`easycirq connector verify`；`easycirq doctor` 中 connector 应显示已连接。\n\n'
             '> 安装器不会自动导入该扩展，也不会修改 EasyEDA 的扩展状态。\n'
             % (eext_name, connector['uuid'], connector['version']),
             encoding='utf-8', newline='\n')
@@ -415,7 +415,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
             'minPython': cfg.get('minPython', '3.10'),
         }
         bundle = {
-            'schema': BUNDLE_SCHEMA, 'name': 'zhigou-toolchain', 'version': version,
+            'schema': BUNDLE_SCHEMA, 'name': 'easycirq-toolchain', 'version': version,
             'builtAt': time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime()),
             'provenance': dict(prov, goVersion=runtime.get('goVersion'),
                                goToolchain=runtime.get('goToolchain'),
@@ -430,10 +430,10 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
             'compat': compat,
             'components': {
                 'runtime': {
-                    'name': 'zhigou', 'version': version,
-                    'path': 'payload/bin/zhigou.exe',
-                    'installPath': 'bin/zhigou.exe',
-                    'identityPath': 'payload/bin/zhigou-version.json',
+                    'name': 'easycirq', 'version': version,
+                    'path': 'payload/bin/easycirq.exe',
+                    'installPath': 'bin/easycirq.exe',
+                    'identityPath': 'payload/bin/easycirq-version.json',
                     'sha256': runtime['sha256'], 'size': runtime['size'],
                     'goVersion': runtime.get('goVersion'), 'builtBy': runtime.get('builtBy'),
                 },
@@ -462,7 +462,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
         (tmp / 'bundle.json').write_text(json.dumps(bundle, ensure_ascii=False, indent=2) + '\n',
                                          encoding='utf-8', newline='\n')
 
-        archive = output / ('zhigou-toolchain-%s.zip' % version)
+        archive = output / ('easycirq-toolchain-%s.zip' % version)
         if archive.exists():
             archive.unlink()
         with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
@@ -473,7 +473,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
             raise RuntimeError('Bundle exceeds the size limit')
 
     release = {
-        'schema': RELEASE_SCHEMA, 'name': 'zhigou-toolchain', 'version': version,
+        'schema': RELEASE_SCHEMA, 'name': 'easycirq-toolchain', 'version': version,
         'builtAt': bundle['builtAt'], 'archive': archive.name,
         'archive_sha256': sha256_file(archive), 'compat': compat,
         'source_commit': prov['sourceCommit'], 'source_dirty': prov['sourceDirty'],
@@ -488,7 +488,7 @@ def build_toolchain(output: Path, cfg, version=None, require_clean=False, runtim
         'artifacts': {
             'bundle': {'file': archive.name, 'sha256': release['archive_sha256'],
                        'size': archive.stat().st_size},
-            'runtime': {'file': 'payload/bin/zhigou.exe', 'sha256': runtime['sha256'],
+            'runtime': {'file': 'payload/bin/easycirq.exe', 'sha256': runtime['sha256'],
                         'size': runtime['size'], 'version': runtime_version},
             'connector': {'file': eext_name, 'sha256': connector['sha256'],
                           'size': connector['size'], 'version': connector['version'],
@@ -566,22 +566,22 @@ def build_skill(output, require_clean=False):
     return result
 
 
-INSTALLER_ENTRY_FILES = ['Install-Zhigou.ps1', 'Install-Zhigou.cmd', 'zhigou_install.py', 'INSTALL.md']
+INSTALLER_ENTRY_FILES = ['Install-EasyCirq.ps1', 'Install-EasyCirq.cmd', 'easycirq_install.py', 'INSTALL.md']
 
 
 def build_installer_zip(output: Path, info: dict) -> Path:
     """Package the bundle plus its entry scripts as one customer-facing ZIP.
 
-    Layout (extract the whole folder, then double-click ``Install-Zhigou.cmd``):
-        zhigou-toolchain-<v>.zip     the bundle itself
+    Layout (extract the whole folder, then double-click ``Install-EasyCirq.cmd``):
+        easycirq-toolchain-<v>.zip     the bundle itself
         toolchain-release.json       detached manifest (SHA256 + compat matrix)
-        Install-Zhigou.ps1 / .cmd    entry point
-        zhigou_install.py            transactional installer
+        Install-EasyCirq.ps1 / .cmd    entry point
+        easycirq_install.py            transactional installer
         INSTALL.md                   instructions
         SHA256SUMS                   hashes of everything above
     """
     output = Path(output)
-    name = 'zhigou-toolchain-installer-%s.zip' % info['version']
+    name = 'easycirq-toolchain-installer-%s.zip' % info['version']
     target = output / name
     if target.exists():
         target.unlink()
@@ -656,8 +656,8 @@ if __name__ == '__main__':
     p.add_argument('--toolchain-only', action='store_true', help='Unified toolchain bundle only')
     p.add_argument('--require-toolchain', action='store_true', help='Fail if the bundle cannot be built')
     p.add_argument('--toolchain-version', help='Bundle version (default: distribution/toolchain.json)')
-    p.add_argument('--runtime-exe', type=Path, help='Reuse this prebuilt zhigou.exe instead of go build')
-    p.add_argument('--skip-runtime-build', action='store_true', help='Reuse runtime/dist/zhigou.exe')
+    p.add_argument('--runtime-exe', type=Path, help='Reuse this prebuilt easycirq.exe instead of go build')
+    p.add_argument('--skip-runtime-build', action='store_true', help='Reuse runtime/dist/easycirq.exe')
     p.add_argument('--go', help='Explicit go executable')
     p.add_argument('--connector-build', choices=['auto', 'always', 'never'], default='auto')
     p.add_argument('--connector-eext', type=Path, help='Reuse this .eext instead of building')

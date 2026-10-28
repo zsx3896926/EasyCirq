@@ -7,8 +7,8 @@ import (
 	"compress/gzip"
 	"crypto/sha256"
 	"fmt"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/selfupdate"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/version"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/selfupdate"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/version"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -58,7 +58,7 @@ func TestLocalUpdateReadyAndUnknownWindow(t *testing.T) {
 		t.Fatal(e)
 	}
 	var sums strings.Builder
-	for name, data := range map[string][]byte{asset: bin, "skills.tar.gz": packed.Bytes(), "zhigou-agent-connector.eext": zipped.Bytes()} {
+	for name, data := range map[string][]byte{asset: bin, "skills.tar.gz": packed.Bytes(), "easycirq-agent-connector.eext": zipped.Bytes()} {
 		os.WriteFile(filepath.Join(dir, name), data, 0644)
 		fmt.Fprintf(&sums, "%x  %s\n", sha256.Sum256(data), name)
 	}
@@ -68,7 +68,7 @@ func TestLocalUpdateReadyAndUnknownWindow(t *testing.T) {
 		if unknown {
 			windows += `,{"connectorVersion":""}`
 		}
-		host, port := fakeDaemon(t, `{"service":"zhigou-agent","status":"ok","version":"v1.4.9-dev.1","windows":[`+windows+`]}`)
+		host, port := fakeDaemon(t, `{"service":"easycirq-agent","status":"ok","version":"v1.4.9-dev.1","windows":[`+windows+`]}`)
 		cfg := &appConfig{host: host, ports: fmt.Sprintf("%d-%d", port, port)}
 		var out bytes.Buffer
 		e := runLocalUpdate(cfg, dir, "", true, true, true, &out)
@@ -115,8 +115,8 @@ func TestLocalRuntimeExactAndReconnect(t *testing.T) {
 func TestLocalUpdateRejectsMixedModesWithoutNetwork(t *testing.T) {
 	for _, args := range [][]string{
 		{"update", "--local-dir", "/missing", "--version", "1.4.8"},
-		{"update", "--local-dir", "/missing", "--check", "--binary", "/tmp/zhigou"},
-		{"update", "--binary", "/tmp/zhigou"},
+		{"update", "--local-dir", "/missing", "--check", "--binary", "/tmp/easycirq"},
+		{"update", "--binary", "/tmp/easycirq"},
 		{"update", "--local-dir", "/missing", "--client", "agents"},
 	} {
 		var out bytes.Buffer

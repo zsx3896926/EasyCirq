@@ -1,12 +1,12 @@
 # 智构 · EasyCirq 工具链 —— 安装说明
 
-> 从旧 `design-hardware` 升级：先看 [迁移说明](../docs/migration-easycirq.md)。
+> 从旧名称升级：先看 [迁移说明](../docs/migration-easycirq.md)。
 
 本目录（构建产物 `dist/`，或解压后的安装包）同时提供两种安装入口：
 
 | 你想装什么 | 入口 | 对应产物 |
 |---|---|---|
-| **完整工具链**：Skill（easycirq）+ 运行时（`zhigou.exe`）+ 连接器（`.eext`） | `Install-Zhigou.cmd` / `Install-Zhigou.ps1` | `zhigou-toolchain-<版本>.zip` |
+| **完整工具链**：Skill（easycirq）+ 运行时（`easycirq.exe`）+ 连接器（`.eext`） | `Install-EasyCirq.cmd` / `Install-EasyCirq.ps1` | `easycirq-toolchain-<版本>.zip` |
 | 只安装 / 只更新 Skill | `Manage-Skill.cmd` / `Manage-Skill.ps1` | `easycirq-<版本>.zip` |
 
 两条路径可以共存，但**不要对同一个 Skill 目录同时操作**。
@@ -17,18 +17,18 @@
 
 ## A. 安装完整工具链（推荐）
 
-1. 双击 `Install-Zhigou.cmd`。
-2. 选 `1`（安装或升级）。安装器会自动在同目录查找 `zhigou-toolchain-<版本>.zip`，并用 `toolchain-release.json` 校验它。
+1. 双击 `Install-EasyCirq.cmd`。
+2. 选 `1`（安装或升级）。安装器会自动在同目录查找 `easycirq-toolchain-<版本>.zip`，并用 `toolchain-release.json` 校验它。
 3. 看到 `"status": "installed"`（首次）或 `"status": "upgraded"` 即完成。
 4. **人工导入连接器**（安装器不会自动做，也不修改 EasyEDA 的任何状态）：
-   - 打开安装目录（默认 `%LOCALAPPDATA%\Zhigou`）下的 `connector\IMPORT-STEPS.md`；
-   - EasyEDA Pro → 设置 → 扩展 → 已安装 → 导入扩展 → 选择 `connector\zhigou-connector_<版本>.eext`；
+   - 打开安装目录（默认 `%LOCALAPPDATA%\EasyCirq`）下的 `connector\IMPORT-STEPS.md`；
+   - EasyEDA Pro → 设置 → 扩展 → 已安装 → 导入扩展 → 选择 `connector\easycirq-connector_<版本>.eext`；
    - 在扩展设置中允许外部交互；
    - **完全退出 EasyEDA Pro 并重新启动**（连接器在启动时加载，不支持热加载）。
 5. 自检：
 
    ```powershell
-   & "$env:LOCALAPPDATA\Zhigou\bin\zhigou.exe" doctor
+   & "$env:LOCALAPPDATA\EasyCirq\bin\easycirq.exe" doctor
    ```
 
    `verdict: ok` 表示宿主可达；`degraded` 表示 daemon 未运行或连接器未连接——**这不是安装失败**。
@@ -36,12 +36,12 @@
 命令行等价用法：
 
 ```powershell
-.\Install-Zhigou.ps1 install        # 安装/升级（同一条幂等路径）
-.\Install-Zhigou.ps1 status         # 状态 + 文件校验 + PATH 影子检测 + 遗留目录观测
-.\Install-Zhigou.ps1 verify         # 只校验文件哈希
-.\Install-Zhigou.ps1 rollback       # 回退到上一次备份（-To <版本> 指定）
-.\Install-Zhigou.ps1 uninstall      # 卸载（默认保留用户 config/ 与备份）
-.\Install-Zhigou.ps1 inspect-bundle -Bundle .\zhigou-toolchain-0.2.0.zip
+.\Install-EasyCirq.ps1 install        # 安装/升级（同一条幂等路径）
+.\Install-EasyCirq.ps1 status         # 状态 + 文件校验 + PATH 影子检测 + 遗留目录观测
+.\Install-EasyCirq.ps1 verify         # 只校验文件哈希
+.\Install-EasyCirq.ps1 rollback       # 回退到上一次备份（-To <版本> 指定）
+.\Install-EasyCirq.ps1 uninstall      # 卸载（默认保留用户 config/ 与备份）
+.\Install-EasyCirq.ps1 inspect-bundle -Bundle .\easycirq-toolchain-0.2.0.zip
 ```
 
 常用参数：`-InstallDir <目录>`、`-StateDir <目录>`、`-SkillClient claude|codex|agents`（额外把 Skill 复制进客户端目录；默认只装进安装目录）、`-Force`（先备份再覆盖本地修改）、`-DryRun`。
@@ -81,7 +81,7 @@ python skill_update.py rollback --client claude
 | 现象 | 处理 |
 |---|---|
 | `Python 3.10+ required` | 安装 Python 3.10+ 后重开窗口 |
-| `未找到安装包` / `An install needs --bundle` | 把 `zhigou-toolchain-<版本>.zip` 放回本目录，或用 `-Bundle` 指定完整路径 |
+| `未找到安装包` / `An install needs --bundle` | 把 `easycirq-toolchain-<版本>.zip` 放回本目录，或用 `-Bundle` 指定完整路径 |
 | doctor 显示 `degraded` | 不是安装失败：启动 daemon，或在 EasyEDA 导入连接器后完全重启 EDA |
 
 完整故障速查表见仓库 `docs/toolchain-integration/installer.md` 第 10 节。

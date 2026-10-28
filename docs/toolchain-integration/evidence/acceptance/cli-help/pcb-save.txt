@@ -1,7 +1,7 @@
 Save the active PCB document to disk
 
 Usage:
-  zhigou pcb save [flags]
+  easycirq pcb save [flags]
 
 Flags:
   -h, --help   help for save

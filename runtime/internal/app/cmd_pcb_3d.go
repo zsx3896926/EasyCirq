@@ -45,8 +45,8 @@ exporter uses for placeholders. summary counts bound/unbound/unknown; an
 unreadable component counts as unknown and is never dropped. --missing keeps
 only components that are not bound (summary stays whole-board).`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou pcb 3d models --project ceshi
-  zhigou pcb 3d models --missing --project ceshi`,
+		Example: `  easycirq pcb 3d models --project ceshi
+  easycirq pcb 3d models --missing --project ceshi`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if !missing {
 				return dispatch(cfg, "pcb.model3d.list", *window, map[string]any{}, stdout, stderr)
@@ -101,8 +101,8 @@ placement (see pcb 3d models). The write re-asserts the designator, never
 writes projected keys, and fails as partial if any other attribute changed in
 the fresh readback. --dry-run prints before/after without writing.`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou pcb 3d transform --ref J1 --offset-z -3 --dry-run --project ceshi --doc PCB1
-  zhigou pcb 3d transform --ref ANT1 --rotate-x 180 --project ceshi --doc PCB1`,
+		Example: `  easycirq pcb 3d transform --ref J1 --offset-z -3 --dry-run --project ceshi --doc PCB1
+  easycirq pcb 3d transform --ref ANT1 --rotate-x 180 --project ceshi --doc PCB1`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			payload, err := transformPayload(cmd, ref, unit, dryRun, values)
 			if err != nil {
@@ -160,7 +160,7 @@ lib device set-model3d for that). The current placement is kept, so review
 size/offset afterwards with pcb 3d models / pcb 3d transform. Verified by the
 instance's model readback; --dry-run shows the change without writing.`,
 		Args:    cobra.NoArgs,
-		Example: `  zhigou pcb 3d bind --ref U1 --model <modelUuid> --model-library <libraryUuid> --dry-run --project ceshi --doc PCB1`,
+		Example: `  easycirq pcb 3d bind --ref U1 --model <modelUuid> --model-library <libraryUuid> --dry-run --project ceshi --doc PCB1`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if strings.TrimSpace(ref) == "" || strings.TrimSpace(model) == "" || strings.TrimSpace(library) == "" {
 				return fmt.Errorf("--ref, --model and --model-library are required")
@@ -188,7 +188,7 @@ create shell geometry, so a board without one fails with a clear error.
 Read-only. Requires --window; --out must be a new file. Size and SHA-256 of
 the written file are checked against the transferred artifact.`,
 		Args:    cobra.NoArgs,
-		Example: `  zhigou pcb 3d export-shell --format stl --window <id> --out ./shell.stl`,
+		Example: `  easycirq pcb 3d export-shell --format stl --window <id> --out ./shell.stl`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if *window == "" || out == "" {
 				return fmt.Errorf("--window and --out are required")

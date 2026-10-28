@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Inventory and guard old external-EDA-toolchain references.
 
-The repository's own execution layer is ``zhigou`` (runtime/, connector/,
+The repository's own execution layer is ``easycirq`` (runtime/, connector/,
 distribution/).  This module is the *scanning* side of the migration: it finds
 references to the former upstream ``easyeda`` toolchain (CLI, daemon service,
 state directory, environment variables, connector, skill name) in a tree, and
@@ -65,7 +65,7 @@ ALLOWLIST = {
     'easycirq/scripts/skill_update.py': 'legacy dist compatibility: the '
                                                'release packager still has to '
                                                'recognise old installed names',
-    'easycirq/scripts/layout_from_zhigou.py': 'frozen schema string: '
+    'easycirq/scripts/layout_from_easycirq.py': 'frozen schema string: '
                                                     '"coordinate_units" text is '
                                                     'bound into recorded fixture '
                                                     'SHA-256 values; changing it '
@@ -75,7 +75,7 @@ ALLOWLIST = {
                                      'provenance text invalidates the evidence',
     'tests/fixtures/photo-led-acceptance.json': 'frozen measurement provenance '
                                                 'referenced by pcb_gate/case tests',
-    'tests/fixtures/zhigou/': 'faithful capture of zhigou doctor/capabilities '
+    'tests/fixtures/easycirq/': 'faithful capture of easycirq doctor/capabilities '
                               'output; the doctor legacy field legitimately names '
                               'the old daemon it detects (never uses it)',
     'benchmarks/': 'frozen benchmark inputs/evidence merged from main: they embed '

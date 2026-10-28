@@ -1,6 +1,6 @@
 # 我方 Skill 原始清单（easycirq / 智构）
 
-审计对象：`C:\Users\jlc\work\zhigou-toolchain\easycirq`（本 worktree，权威）
+审计对象：`C:\Users\jlc\work\easycirq-toolchain\easycirq`（本 worktree，权威）
 分支 `feat/integrated-eda-toolchain`，基线 commit `9a951ed`（from origin/main）。
 本文件只做摘录与定位，不改变任何规则语义。
 

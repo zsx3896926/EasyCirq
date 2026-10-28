@@ -1,31 +1,50 @@
-# 从 design-hardware 迁移到 EasyCirq
+# 迁移到 EasyCirq（统一命名）
 
-2026-10-28 起：
+2026-10-28 起，项目统一为：**中文名「智构」，英文名「EasyCirq」**。不再使用旧英文名
+`zhigou`、`design-hardware` 或 `hardware-design-skill`。
 
-- GitHub 仓库：`zsx3896926/hardware-design-skill` → **`zsx3896926/EasyCirq`**（旧链接自动跳转）。
-- Skill 目录/名称：`design-hardware` → **`easycirq`**；客户端里的命令：`/design-hardware` → **`/easycirq`**。
-- 安装目录：`.../skills/design-hardware` → **`.../skills/easycirq`**。
-- 发行包：旧 `design-hardware-<version>.zip` / `design-hardware-installer-<version>.zip`；
-  新包为 `easycirq-<version>.zip` / `easycirq-installer-<version>.zip`。
-- 未改：`zhigou` 运行时命令、连接器、协议、版本号；`runtime/` 内部 Go module 路径保留旧值，
-  仅用于 vendored 来源校验，不影响使用；`docs/evidence/` 等历史证据保留原样。
+## 名称对照
 
-## 升级步骤（Claude Code / Codex / WorkBuddy）
+| 旧 | 新 |
+|---|---|
+| 仓库 `hardware-design-skill` | 仓库 **EasyCirq** |
+| Skill 目录/名称 `design-hardware` | **`easycirq`**（客户端命令 `/easycirq`） |
+| 运行时命令 `zhigou` / `zhigou.exe` | **`easycirq` / `easycirq.exe`** |
+| 环境变量 `ZHIGOU_*` | **`EASYCIRQ_*`** |
+| 状态目录 `~/.zhigou` | **`~/.easycirq`** |
+| 协议服务名 `zhigou-agent` | **`easycirq-agent`** |
+| MCP 服务 `zhigou-offline-audit` | **`easycirq-offline-audit`** |
+| 连接器 `zhigou-connector` | **`easycirq-connector`**（UUID 不变） |
+| 工具链包 `zhigou-toolchain-*` | **`easycirq-toolchain-*`** |
 
-1. 先关闭所有 AI 客户端会话。
-2. 备份你的工程；不要备份客户端里的旧 Skill 目录。
-3. 按新版安装说明安装 `easycirq`（推荐完整工具链安装器，或 `Manage-Skill` 只更新 Skill）。
-4. 新会话里确认 `/easycirq` 可用、自检 5 PASS。
-5. **确认新版本正常后**，再删除旧目录：
+中文显示名统一为 **智构**，英文显示名统一为 **EasyCirq**（例如「智构 · EasyCirq 连接器」）。
+
+## 升级步骤（Windows，Claude Code / Codex / WorkBuddy）
+
+1. 关闭所有 AI 客户端、嘉立创 EDA 和后台 daemon。
+2. 备份工程；不要备份客户端里的旧 Skill 目录。
+3. 把旧状态目录改名（保留历史审计/daemon 数据）：
+   ```powershell
+   if (Test-Path "$env:USERPROFILE\.zhigou") { Rename-Item "$env:USERPROFILE\.zhigou" ".easycirq" }
+   ```
+4. 安装新的 EasyCirq 工具链（完整安装器或 `Manage-Skill`），确认：
+   ```powershell
+   easycirq --version
+   easycirq doctor
+   ```
+5. 在 EDA 里移除旧连接器，重新导入新的 `easycirq-connector`，并勾选「允许外部交互」。
+6. 新会话确认 `/easycirq` 可用；旧 Skill 目录在确认新版本正常后删除：
    - `~/.claude/skills/design-hardware`
    - `~/.agents/skills/design-hardware`
    - `~/.codex/skills/design-hardware`
    - `~/.workbuddy/skills/design-hardware`
-   只删你实际安装过的那个；不要删用户工程。
-6. 如果同时存在新旧两份，AI 可能同时看到两个 Skill；请只保留 `easycirq`。
+7. 你自己的脚本/CI 里同步替换：`zhigou` → `easycirq`，`ZHIGOU_*` → `EASYCIRQ_*`，
+   `~/.zhigou` → `~/.easycirq`。
 
-## 注意
+## 说明
 
-- 已有会话里的 `/design-hardware` 历史记录不会自动改名；新会话使用 `/easycirq`。
-- 旧 release 资产仍可下载；新版本请使用 EasyCirq 命名的资产。
-- 本仓库改名不影响 EDA 工程、Connector 导入或 `~/.zhigou` 状态目录。
+- 这是**破坏性重命名**：不保留 `zhigou` 命令别名，也不保留旧协议服务名。
+- 旧安装不会自动删除；新安装使用 `easycirq` 目录，避免和新版同时加载。
+- `runtime/` 内部仍保留上游 `easyeda-agent` 的 MIT 来源标识与第三方许可，这是法律归属，
+  不属于本项目品牌；新代码/文档的品牌名已统一。
+- `docs/evidence/` 等历史证据保留原始记录，旧名称仅作为历史事实存在。

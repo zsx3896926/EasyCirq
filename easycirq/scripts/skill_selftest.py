@@ -72,7 +72,7 @@ REQUIRED_FILES = [
     "assets/design-calc.md",
     "scripts/gate_check.py",
     "scripts/bom_check.py",
-    "scripts/layout_from_zhigou.py",
+    "scripts/layout_from_easycirq.py",
     "scripts/svg_text_bbox.py",
     "scripts/pin_net_intent_check.py",
     "scripts/pcb_preflight.py",

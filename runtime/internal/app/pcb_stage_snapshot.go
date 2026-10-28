@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// newPcbStageSnapshotCmd builds `zhigou pcb stage-snapshot` — the recording /
+// newPcbStageSnapshotCmd builds `easycirq pcb stage-snapshot` — the recording /
 // demo stage capture that issue #32 asked for.
 //
 // WHY a dedicated command: for engineering validation we judge state by DATA
@@ -53,9 +53,9 @@ unavailable instead of falling back to GUI operation. The default --fit-mode
 board uses pcb_Document.zoomToBoardOutline before capture. This is not the editor
 menu's object-level Copy-as-PNG/SVG export, which public eda.* does not expose.`,
 		Args: cobra.NoArgs,
-		Example: `  zhigou pcb stage-snapshot --project ceshi --stage "P7 routing"
-  PREV=$(zhigou pcb stage-snapshot --stage P6 --out ./rec | jq -r .sha256)
-  zhigou pcb stage-snapshot --stage P7 --out ./rec --previous-sha256 "$PREV"`,
+		Example: `  easycirq pcb stage-snapshot --project ceshi --stage "P7 routing"
+  PREV=$(easycirq pcb stage-snapshot --stage P6 --out ./rec | jq -r .sha256)
+  easycirq pcb stage-snapshot --stage P7 --out ./rec --previous-sha256 "$PREV"`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if strings.TrimSpace(stage) == "" {
 				return fmt.Errorf("--stage is required (e.g. --stage \"P7 routing\")")
@@ -75,7 +75,7 @@ menu's object-level Copy-as-PNG/SVG export, which public eda.* does not expose.`
 		},
 	}
 	c.Flags().StringVar(&stage, "stage", "", "stage label, e.g. \"P7 routing\" (required)")
-	c.Flags().StringVar(&outDir, "out", "", "output root (default ./.zhigou/stages)")
+	c.Flags().StringVar(&outDir, "out", "", "output root (default ./.easycirq/stages)")
 	c.Flags().StringVar(&fitMode, "fit-mode", "board", "viewport fit: board | all | none (default board)")
 	c.Flags().BoolVar(&noFit, "no-fit", false, "legacy alias for --fit-mode none")
 	c.Flags().StringVar(&previousSha, "previous-sha256", "", "legacy opt-in duplicate-image gate; identical pixels alone do not prove stale capture")
@@ -119,7 +119,7 @@ func outDirOrDefault(out string) string {
 	if strings.TrimSpace(out) != "" {
 		return out
 	}
-	return filepath.Join(".zhigou", "stages")
+	return filepath.Join(".easycirq", "stages")
 }
 
 var stageSanitizeRe = regexp.MustCompile(`[^a-zA-Z0-9._-]+`)

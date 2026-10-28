@@ -1,7 +1,7 @@
 {
-	"name": "zhigou-connector",
+	"name": "easycirq-connector",
 	"version": "0.1.4",
-	"description": "Zhigou connector extension for EasyEDA Pro (derived from easyeda-agent, MIT).",
+	"description": "EasyCirq connector extension for EasyEDA Pro (derived from easyeda-agent, MIT).",
 	"author": "zsx3896926",
 	"license": "(MIT AND Apache-2.0)",
 	"private": true,

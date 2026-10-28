@@ -302,8 +302,8 @@ or --break-group to override).
 
 Dry-run by default; --apply moves via schematic.component.modify and re-checks
 overlap among the moved parts.`,
-		Example: `  zhigou sch align --designators C1,C2,C3 --mode centerx --project ceshi
-  zhigou sch align --designators U1,C1 --mode top --ref U1 --apply`,
+		Example: `  easycirq sch align --designators C1,C2,C3 --mode centerx --project ceshi
+  easycirq sch align --designators U1,C1 --mode top --ref U1 --apply`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// ADR-0004 Decision 4: dry-run(默认档)必须纯计算 —— 机械保证。
 			if !apply {
@@ -358,8 +358,8 @@ or --break-group to override).
 
 Dry-run by default; --apply moves via schematic.component.modify and re-checks
 overlap among the moved parts.`,
-		Example: `  zhigou sch distribute --designators C1,C2,C3,C4 --axis x --project ceshi
-  zhigou sch distribute --designators C1,C2,C3 --axis y --gap 20 --apply`,
+		Example: `  easycirq sch distribute --designators C1,C2,C3,C4 --axis x --project ceshi
+  easycirq sch distribute --designators C1,C2,C3 --axis y --gap 20 --apply`,
 		RunE: func(cmd *cobra.Command, args []string) error {
 			// ADR-0004 Decision 4: dry-run(默认档)必须纯计算 —— 机械保证。
 			if !apply {

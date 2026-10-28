@@ -2,7 +2,7 @@ package app
 
 import (
 	"encoding/json"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
 	"io"
 	"os"
 	"path/filepath"

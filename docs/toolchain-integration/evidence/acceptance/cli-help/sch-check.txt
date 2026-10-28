@@ -19,12 +19,12 @@ other sch commands emit; the findings are under result.findings (v0.10.0+;
 prior versions emitted a bare {passed,summary,findings}).
 
 Usage:
-  zhigou sch check [flags]
+  easycirq sch check [flags]
 
 Examples:
-  zhigou sch check
-  zhigou sch check --json
-  zhigou sch check --strict      # non-zero exit if any findings
+  easycirq sch check
+  easycirq sch check --json
+  easycirq sch check --strict      # non-zero exit if any findings
 
 Flags:
       --all-pages doc switch   check components across all schematic pages (WARNING: non-active pages return shallow data — pins/bbox may be empty; use doc switch to that page for accurate data)

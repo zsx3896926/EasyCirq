@@ -69,7 +69,7 @@ func captureFixture(t *testing.T, mutate func(string, map[string]any)) *appConfi
 	n := 0
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path == "/health" {
-			_, _ = w.Write([]byte(`{"service":"zhigou-agent","windows":[{"windowId":"window"}]}`))
+			_, _ = w.Write([]byte(`{"service":"easycirq-agent","windows":[{"windowId":"window"}]}`))
 			return
 		}
 		var req struct {

@@ -1,6 +1,6 @@
 {
   "_doc": [
-    "Curated STANDARD PARTS for the zhigou library-first workflow (器件标准化).",
+    "Curated STANDARD PARTS for the easycirq library-first workflow (器件标准化).",
     "Place from here FIRST — it is deterministic, BOM-ready, and LCSC-orderable. Fall back",
     "to schematic.library.search only for a category not listed here. Each part places via",
     "schematic.component.place with { libraryUuid, uuid: deviceUuid }. The lcsc field is the",

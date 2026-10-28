@@ -1,6 +1,6 @@
 """Grep-style guard: the skill must not reference the retired easyeda toolchain.
 
-The repository now ships its own execution layer (``zhigou``).  Any live file in
+The repository now ships its own execution layer (``easycirq``).  Any live file in
 ``easycirq/`` that still names the old CLI, daemon service, state
 directory, environment variables or connector is a migration bug, not a
 historical document.  ``tools/toolchain_refs.py`` owns the patterns and the
@@ -8,8 +8,8 @@ allowlist; this test only enforces the policy:
 
 * no *actionable* reference may remain (exempt files are listed with a reason);
 * the allowlist must stay narrow (only history/attribution/defensive files);
-* the skill entry point must name the single preflight (``zhigou doctor`` +
-  ``zhigou capabilities``).
+* the skill entry point must name the single preflight (``easycirq doctor`` +
+  ``easycirq capabilities``).
 """
 import sys
 import unittest
@@ -53,18 +53,18 @@ class LegacyReferenceGuard(unittest.TestCase):
         # Never allowlist the policy entry point or live tooling by accident.
         for forbidden in ('easycirq/SKILL.md',
                           'easycirq/references/',
-                          'easycirq/scripts/zhigou_cli.py'):
+                          'easycirq/scripts/easycirq_cli.py'):
             self.assertNotIn(forbidden, toolchain_refs.ALLOWLIST)
 
     def test_skill_entry_names_the_single_preflight(self):
         entry = (ROOT / 'easycirq' / 'SKILL.md').read_text(encoding='utf-8')
-        self.assertIn('zhigou doctor', entry)
-        self.assertIn('zhigou capabilities', entry)
+        self.assertIn('easycirq doctor', entry)
+        self.assertIn('easycirq capabilities', entry)
         found = [category for category, pattern in
                  toolchain_refs.CATEGORIES.items() if pattern.search(entry)]
         self.assertEqual(found, [], 'SKILL.md carries legacy tokens: %s' % found)
         # health is a daemon detail, not the agent's preflight entry.
-        self.assertNotIn('zhigou health', entry)
+        self.assertNotIn('easycirq health', entry)
 
 
 class GuardDetectsRegressions(unittest.TestCase):

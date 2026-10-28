@@ -8,7 +8,7 @@ import (
 	"path/filepath"
 
 	"github.com/spf13/cobra"
-	"github.com/zsx3896926/hardware-design-skill/runtime/internal/connectivity"
+	"github.com/zsx3896926/EasyCirq/runtime/internal/connectivity"
 )
 
 func newSchLayoutPlanCmd(stdout io.Writer) *cobra.Command {
@@ -80,7 +80,7 @@ Output contains independent local layouts/contentBounds and compact frame plans,
 not whole-page packing or rendered frames. Add identity/sheet evidence before compose/Apply.
 
 Example:
-  zhigou sch layout-plan --from measured-set.json --out local-geometry.json --report report.json`, Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) (runErr error) {
+  easycirq sch layout-plan --from measured-set.json --out local-geometry.json --report report.json`, Args: cobra.NoArgs, RunE: func(cmd *cobra.Command, args []string) (runErr error) {
 		if from == "" {
 			return fmt.Errorf("--from is required")
 		}

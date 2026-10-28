@@ -1,8 +1,8 @@
 {
-	"name": "zhigou-connector",
+	"name": "easycirq-connector",
 	"uuid": "9511dbc464364e48b6c9047872a82e12",
 	"displayName": "智构 · EasyCirq 连接器",
-	"description": "智构 · EasyCirq EDA connector: bridges the local Zhigou runtime daemon to the official eda.* API over a local WebSocket. Derived from easyeda-agent (MIT) — see NOTICE.",
+	"description": "智构 · EasyCirq EDA connector: bridges the local EasyCirq runtime daemon to the official eda.* API over a local WebSocket. Derived from easyeda-agent (MIT) — see NOTICE.",
 	"version": "0.1.4",
 	"publisher": "zsx3896926",
 	"engines": {
@@ -53,7 +53,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -81,7 +81,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -109,7 +109,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -137,7 +137,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -165,7 +165,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]
@@ -193,7 +193,7 @@
 					},
 					{
 						"id": "About",
-						"title": "About Zhigou...",
+						"title": "About EasyCirq...",
 						"registerFn": "about"
 					}
 				]

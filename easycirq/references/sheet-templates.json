@@ -1,12 +1,12 @@
 {
   "_doc": [
-    "Sheet -> title-block keep-out RATIO table for the zhigou placement/routing planners.",
+    "Sheet -> title-block keep-out RATIO table for the easycirq placement/routing planners.",
     "EasyEDA Pro exposes NO set-paper-size API and NO separate bbox for the 图框/明细表 (title block),",
     "so the keep-out is DERIVED: read the live sheet bbox (componentType == 'sheet'), match a template",
     "by ASPECT RATIO (the API exposes no reliable template id), then carve a corner sub-rect by ratio.",
     "",
     "RUNTIME AUTHORITY is the Go table `sheetTemplates` in internal/app/cmd_sch_sheet.go and the CLI",
-    "`zhigou sch sheet-geometry --json`. This JSON is the human/skill-readable mirror — keep the two in",
+    "`easycirq sch sheet-geometry --json`. This JSON is the human/skill-readable mirror — keep the two in",
     "sync. Planners should CALL the CLI (it tags provenance + warnings), not read these numbers directly.",
     "Editing THIS file does NOT change runtime behavior — to change a template, change the Go table",
     "(cmd_sch_sheet.go) first, then mirror it here.",
