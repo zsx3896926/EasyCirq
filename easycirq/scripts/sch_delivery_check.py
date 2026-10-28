@@ -34,6 +34,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 FRAME_META = SCRIPT_DIR / "sch_frame_meta_check.py"
 LAYOUT = SCRIPT_DIR / "sch_layout_check.py"
 TEXT_AUDIT = SCRIPT_DIR / "sch_text_audit.py"
+STYLE = SCRIPT_DIR / "sch_style_audit.py"
 
 SCHEMA = "easycirq-sch-delivery/v1"
 
@@ -65,6 +66,9 @@ def main(argv=None) -> int:
     ap.add_argument("--frame-plan", help="design-engine-sch-frame-plan/v1 JSON")
     ap.add_argument("--layout", help="schematic snapshot JSON for sch_layout_check.py")
     ap.add_argument("--text-audit", help="measured visible-text JSON for sch_text_audit.py")
+    ap.add_argument("--style", help="easycirq-sch-style-input/v1 JSON for sch_style_audit.py")
+    ap.add_argument("--require-style", action="store_true",
+                    help="require the style audit to run and pass")
     ap.add_argument("--official-svg", help="official exported schematic SVG (evidence only)")
     ap.add_argument("--visual-overlay", help="sch_visual_audit.py overlay SVG (evidence only)")
     ap.add_argument("--skip-layout", action="store_true",
@@ -82,6 +86,7 @@ def main(argv=None) -> int:
         "frame_meta": {"provided": bool(args.frame_plan), "exit": None, "status": None},
         "layout": {"provided": bool(args.layout), "exit": None, "status": None},
         "text_audit": {"provided": bool(args.text_audit), "exit": None, "status": None},
+        "style": {"provided": bool(args.style), "exit": None, "status": None},
         "visual": {
             "official_svg": _file_status(args.official_svg),
             "visual_overlay": _file_status(args.visual_overlay),
@@ -126,6 +131,18 @@ def main(argv=None) -> int:
             if payload.get("missing_classes"):
                 gaps.append("text coverage missing: %s" % ", ".join(payload["missing_classes"]))
 
+    if args.style:
+        code, payload, _ = _run([str(STYLE), args.style])
+        checks["style"]["exit"] = code
+        checks["style"]["report"] = payload
+        if payload and isinstance(payload, dict):
+            checks["style"]["status"] = payload.get("verdict")
+            checks["style"]["score"] = payload.get("score")
+            for p in payload.get("problems") or []:
+                gaps.append("style: %s" % p.get("message"))
+    elif args.require_style:
+        gaps.append("style input not provided (--require-style)")
+
     if args.require_visual:
         for key in ("official_svg", "visual_overlay"):
             st = checks["visual"][key]
@@ -133,11 +150,12 @@ def main(argv=None) -> int:
                 gaps.append("%s is required and missing" % key)
 
     exits = [checks["frame_meta"].get("exit"), checks["layout"].get("exit"),
-             checks["text_audit"].get("exit")]
+             checks["text_audit"].get("exit"), checks["style"].get("exit")]
     exits = [e for e in exits if e is not None]
 
     if any(e is None for e in [checks["frame_meta"]["exit"], checks["text_audit"]["exit"]]) \
-            or (not args.layout and not args.skip_layout):
+            or (not args.layout and not args.skip_layout) \
+            or (args.require_style and not args.style):
         verdict = "blocked"
     elif any(e == 2 for e in exits):
         verdict = "blocked"

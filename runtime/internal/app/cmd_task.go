@@ -53,7 +53,7 @@ func findSkillScripts() (string, error) {
 
 func newTaskNewCmd(stdout, stderr io.Writer) *cobra.Command {
 	var dir, prompt, client, permissionMode, python, skillScripts string
-	var launch, requireVisual bool
+	var launch, requireVisual, requireStyle bool
 	var maxTurns int
 
 	c := &cobra.Command{
@@ -113,7 +113,24 @@ func newTaskNewCmd(stdout, stderr io.Writer) *cobra.Command {
 				return err
 			}
 
+			skillRoot := filepath.Dir(skillScripts)
+			styleFlag := ""
+			if requireStyle {
+				styleFlag = " --style <style-input.json> --require-style"
+			}
+			visualFlag := ""
+			if requireVisual {
+				visualFlag = " --require-visual"
+			}
 			taskDoc := fmt.Sprintf(`# EasyCirq enforced schematic task
+
+Reference look (open it before drawing):
+
+    %s
+
+Style rules:
+
+    %s
 
 The Stop hook blocks this task from finishing until a PASS report exists at:
 
@@ -121,11 +138,15 @@ The Stop hook blocks this task from finishing until a PASS report exists at:
 
 Run the delivery gate and write the report:
 
-    %s %s --frame-plan <frame-plan.json> --layout <layout.json> --text-audit <text-audit.json> [--require-visual] --out %s
+    %s %s --frame-plan <frame-plan.json> --layout <layout.json> --text-audit <text-audit.json>%s%s --out %s
 
-PASS is a structural acceptance (framed zones with order/purpose + owned,
-non-overlapping labels); it is not electrical/visual/hardware proof.
-`, evidence, python, filepath.Join(skillScripts, "sch_delivery_check.py"), evidence)
+PASS is a structural + style acceptance (framed zones with order/purpose,
+palette/typography, owned non-overlapping labels); it is not electrical,
+visual or hardware proof.
+`, filepath.Join(skillRoot, "assets", "style-reference", "esp32-schematic.png"),
+				filepath.Join(skillRoot, "references", "schematic-style.md"),
+				evidence, python, filepath.Join(skillScripts, "sch_delivery_check.py"),
+				styleFlag, visualFlag, evidence)
 			if err := os.WriteFile(filepath.Join(absWorkdir, "task.md"), []byte(taskDoc), 0o644); err != nil {
 				return err
 			}
@@ -134,6 +155,9 @@ non-overlapping labels); it is not electrical/visual/hardware proof.
 			fmt.Fprintf(stdout, "settings   : %s\n", settingsPath)
 			fmt.Fprintf(stdout, "delivery   : %s\n", evidence)
 			fmt.Fprintf(stdout, "hook       : %s\n", hookPath)
+			if requireStyle {
+				fmt.Fprintln(stdout, "style      : required (sch_style_audit.py; see task.md)")
+			}
 			if requireVisual {
 				fmt.Fprintln(stdout, "visual     : required (add --require-visual to the delivery check)")
 			}
@@ -164,6 +188,7 @@ non-overlapping labels); it is not electrical/visual/hardware proof.
 	c.Flags().IntVar(&maxTurns, "max-turns", 12, "turn cap when launching")
 	c.Flags().StringVar(&permissionMode, "permission-mode", "plan", "Claude Code permission mode")
 	c.Flags().BoolVar(&requireVisual, "require-visual", false, "record that SVG evidence is required")
+	c.Flags().BoolVar(&requireStyle, "require-style", true, "require the style audit in the delivery command")
 	c.Flags().StringVar(&python, "python", "", "python executable (default: python on PATH)")
 	c.Flags().StringVar(&skillScripts, "skill-scripts", "", "explicit skill scripts directory (default: auto-detect)")
 	return c
