@@ -1,12 +1,12 @@
 # 并行任务 I 交接（bringup-planner）
 
-> 最后更新：2026-10-28（PR #39 已合并；M0–M4 证据清单已补，见 `acceptance-matrix.md` §7）
+> 最后更新：2026-10-28（PR #39 与证据清单更新 PR #56 均已合并；M0–M4 证据见 `acceptance-matrix.md` §7）
 
-## 交付状态：已合并 + 证据清单待审查
+## 交付状态：均已合并
 
 | 项 | 值 |
 |---|---|
-| **状态** | **已合并（PR #39）** — merge commit `9a4622eb46a8ff3d336729726ab6ed056b5f650a`，`mergedAt=2026-10-27T16:53:24Z`，由仓库账号 `zsx3896926` 合并；**本任务未执行合并、未发布、未安装客户端**。本次证据清单更新 PR 待审查 |
+| **状态** | **均已合并** — 实现 PR #39（merge commit `9a4622eb46a8ff3d336729726ab6ed056b5f650a`，`mergedAt=2026-10-27T16:53:24Z`）与证据清单 PR #56（merge commit `11707dea68f387463759c666a8318d7c6ce86482`，`mergedAt=2026-10-27T18:16:15Z`）均由仓库账号 `zsx3896926` 合并；**本任务未执行合并、未发布、未安装客户端** |
 | 合并源 HEAD | `b407d72f11237001d7c7e1260beb8de770f46f1e`（PR #39 `headRefOid`；changedFiles=175） |
 | 证据采集 HEAD | `3f21897d9d1b93b4ac7e2ef523fe923685f59b08`（基于合并后 main 的 worktree）；采集时 `origin/main` 已前进到 `acbcc18c…`（其他并行任务） |
 | 证据清单 | `acceptance-matrix.md` §7（逐命令/退出码/摘要/HEAD/PASS-NOT RUN）+ `evidence-m0-m4.json` + 复现脚本 `benchmarks/bringup-planner/tools/collect_m0_m4_evidence.py` |
@@ -18,10 +18,10 @@
 |---|---|
 | 任务 | 智构并行任务 I：首板上电、功能测试与故障定位计划生成器 |
 | worktree | 实现：`C:/Users/jlc/Documents/deepseek-harness/default-workspace/hds-bp-worktree`；证据更新：`hds-bp-evidence` |
-| 分支 | 实现：`feat/parallel-bringup-planner`（已合并）；证据更新：`docs/bringup-planner-m0-m4-evidence` |
+| 分支 | 实现：`feat/parallel-bringup-planner`（已合并）；证据更新：`docs/bringup-planner-m0-m4-evidence`（已合并） |
 | 基线 main | `9a951edc21481dc3ae91460acc11aa3e08a7be8a`（`test: make Chinese fixture portable across Windows locales`） |
 | 基线 remote | `origin/main` 同 SHA（开工时核对）；合并后已由其他并行任务推进 |
-| 提交/PR | 实现提交 `c61d62c`/`3bb3496`/`d35ff34`/`b407d72`；PR #39 已合并（commit `9a4622e`）；证据清单更新 PR 见仓库 PR 列表（待审查）；**不合并、不发布、不安装客户端** |
+| 提交/PR | 实现提交 `c61d62c`/`3bb3496`/`d35ff34`/`b407d72`；PR #39 已合并（`9a4622e`）；证据清单 PR #56 已合并（`11707dea`）；**不合并、不发布、不安装客户端** |
 
 ## 允许路径（本任务只改这些）
 
@@ -65,7 +65,7 @@ python tools/offline_suite.py          # 仓库离线套件；当前 main 含其
 
 ## 当前状态
 
-- **实现已合并（PR #39，merge commit `9a4622e`）；M0–M4 证据清单已补，更新 PR 待审查。**
+- **实现（PR #39）与证据清单（PR #56）均已合并**；M0–M4 证据见 `acceptance-matrix.md` §7。
 - 证据（2026-10-28）：专属测试 172 PASS；冻结基准 41/41 PASS、类别 30/30；`skill_selftest` 5 PASS；PR #39 范围 175 files、允许路径外 0；硬件/仪器动作全部 **NOT RUN**。逐项见 `acceptance-matrix.md` §7。
 - 仓库 `offline_suite`：在 PR #39 合并 HEAD `b407d72` 上 1783 tests PASS；当前 main 上 47 errors 全部来自其他任务测试包（`bringup_planner_tests` 0 error，见 §7.5 与 `issue-candidates.md` A.6）。
 - 评估器 `PASS` 只是离线记录一致性结论；`eval-pass-real-evidence` 是 NO INSTRUMENT CONNECTED 的契约 fixture，不是硬件 PASS。
