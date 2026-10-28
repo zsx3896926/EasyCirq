@@ -74,6 +74,9 @@ jobs:
       - name: Build skills tarball
         run: tar -czf dist/skills.tar.gz easycirq
 
+      - name: Install connector build dependencies
+        run: npm ci --prefix connector
+
       - name: Build installer and skill package
         env:
           VERSION: ${{ steps.resolve.outputs.version }}
