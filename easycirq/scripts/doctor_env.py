@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Cross-client environment diagnosis for the design-hardware skill.
+"""Cross-client environment diagnosis for the easycirq skill.
 
 Answers, without writing anything:
   - which agent clients are installed and which skill directory they use;
-  - whether design-hardware is installed for each client;
+  - whether easycirq is installed for each client;
   - whether this machine can execute local commands;
   - whether the JLCEDA Pro CLI and easyeda-agent are present/connected;
   - whether an authorized project copy is readable (optional).
@@ -53,7 +53,7 @@ CLIENTS = [
     },
 ]
 
-SKILL_NAME = 'design-hardware'
+SKILL_NAME = 'easycirq'
 
 
 def _expand(path, cwd):
@@ -305,7 +305,7 @@ def diagnose(cwd=None, project=None, exe=None, client='auto', timeout=120000):
         if not active['command']:
             missing.append(f"{active['name']} command not found")
         if not active['installed']:
-            missing.append(f"design-hardware is not installed for {active['name']}")
+            missing.append(f"easycirq is not installed for {active['name']}")
     easyeda = eda.get('easyeda_agent') or {}
     lceda_ready = bool(eda['cli'] and eda.get('connected')
                        and eda.get('version_match') is True)

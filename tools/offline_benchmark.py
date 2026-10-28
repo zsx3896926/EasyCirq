@@ -483,7 +483,7 @@ def main(argv=None):
         pass
     real_eda_attempts = [
         item for item in audit_events
-        if 'zhigou' in json.dumps(item, ensure_ascii=False).lower() or
+        if 'easyeda' in json.dumps(item, ensure_ascii=False).lower() or
         'lceda-pro' in json.dumps(item, ensure_ascii=False).lower()
     ]
     shutil.rmtree(os.path.dirname(audit_path), ignore_errors=True)

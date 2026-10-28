@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Offline stage-gate checker for the design-hardware skill.
+"""Offline stage-gate checker for the easycirq skill.
 
 Reads evidence files and an optional design-state.json. It never connects to
 EDA, never reads the live project and never writes to a project.

@@ -37,11 +37,11 @@ python <skill>/scripts/eda_exec.py doctor
 ## 手动安装（备用）
 
 ```powershell
-Copy-Item -Recurse -Force .\easycirq "$HOME\.claude\skills\design-hardware"
+Copy-Item -Recurse -Force .\easycirq "$HOME\.claude\skills\easycirq"
 ```
 
-Codex 用 `$HOME\.agents\skills\design-hardware`，WorkBuddy 用
-`$HOME\.workbuddy\skills\design-hardware`。只装一处，避免重复技能。
+Codex 用 `$HOME\.agents\skills\easycirq`，WorkBuddy 用
+`$HOME\.workbuddy\skills\easycirq`。只装一处，避免重复技能。
 
 ## 限制
 

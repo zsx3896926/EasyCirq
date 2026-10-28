@@ -15,7 +15,6 @@ SCRIPTS = ROOT / 'easycirq' / 'scripts'
 sys.path.insert(0, str(SCRIPTS))
 
 import pcb_cli
-import zhigou_cli
 import pcb_preflight
 
 _SENTINEL = object()
@@ -659,7 +658,7 @@ class PreflightTests(unittest.TestCase):
     def test_preflight_makes_no_eda_calls(self):
         with mock.patch.object(pcb_cli, 'run',
                                side_effect=AssertionError('EDA call attempted')), \
-                mock.patch.object(zhigou_cli.subprocess, 'run',
+                mock.patch.object(pcb_cli.subprocess, 'run',
                                   side_effect=AssertionError('subprocess attempted')):
             code, output = self.run_main(self.argv(
                 plan=ready_plan(), intent=ready_intent()))

@@ -294,7 +294,7 @@ def _git_head(repo_root):
 
 
 def _skill_version(repo_root):
-    path = os.path.join(repo_root, 'design-hardware', '.version')
+    path = os.path.join(repo_root, 'easycirq', '.version')
     try:
         with open(path, encoding='utf-8-sig') as handle:
             return handle.read().strip() or None

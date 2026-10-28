@@ -1,6 +1,6 @@
 """Negative tests for the offline guard.
 
-A test that accidentally resolves a real ``zhigou`` binary or opens a network
+A test that accidentally resolves a real ``easyeda`` binary or opens a network
 connection must fail immediately, not silently reach the local EDA daemon.
 """
 import os
@@ -40,43 +40,43 @@ class GuardTests(unittest.TestCase):
 
     def test_pcb_cli_refuses_real_easyeda(self):
         with self.assertRaises(offline_guard.OfflineViolation):
-            pcb_cli.run(['version'], zhigou='zhigou')
+            pcb_cli.run(['version'], easyeda='easyeda')
 
     def test_subprocess_guard_refuses_real_easyeda(self):
         import subprocess
         with self.assertRaises(offline_guard.OfflineViolation):
-            subprocess.run(['zhigou', 'version'], capture_output=True)
+            subprocess.run(['easyeda', 'version'], capture_output=True)
 
     def test_popen_guard_refuses_real_easyeda(self):
         import subprocess
         with self.assertRaises(offline_guard.OfflineViolation):
-            subprocess.Popen(['zhigou', 'version'])
+            subprocess.Popen(['easyeda', 'version'])
 
     def test_windows_wrappers_and_executable_kwarg_are_checked(self):
         import subprocess
         with self.assertRaises(offline_guard.OfflineViolation):
-            offline_guard.check_executable(['cmd', '/c', 'zhigou', 'version'])
+            offline_guard.check_executable(['cmd', '/c', 'easyeda', 'version'])
         with self.assertRaises(offline_guard.OfflineViolation):
             offline_guard.check_executable(
-                ['powershell', '-Command', 'zhigou version'])
+                ['powershell', '-Command', 'easyeda version'])
         with self.assertRaises(offline_guard.OfflineViolation):
             offline_guard.check_command_string(
                 '"C:/Program Files/LCEda/lceda-pro.exe" version')
         with self.assertRaises(offline_guard.OfflineViolation):
             subprocess.run(['cmd', '/c', 'echo', 'x'],
-                           executable='zhigou.exe', capture_output=True)
+                           executable='easyeda.exe', capture_output=True)
 
     def test_marked_fake_executable_is_allowed(self):
         fake_dir = Path(self.tmp.name) / 'fake'
         fake_dir.mkdir()
-        fake = fake_dir / ('zhigou-fake.cmd' if os.name == 'nt'
-                           else 'zhigou-fake.sh')
+        fake = fake_dir / ('easyeda-fake.cmd' if os.name == 'nt'
+                           else 'easyeda-fake.sh')
         fake.write_text('HDS_FAKE_CLI=1\n', encoding='utf-8')
         self.assertTrue(offline_guard.is_fake_executable(str(fake)))
         self.assertTrue(offline_guard.check_executable([str(fake)]))
 
     def test_unmarked_file_named_easyeda_is_refused(self):
-        fake = Path(self.tmp.name) / 'zhigou.exe'
+        fake = Path(self.tmp.name) / 'easyeda.exe'
         fake.write_text('not a fake marker', encoding='utf-8')
         with self.assertRaises(offline_guard.OfflineViolation):
             offline_guard.check_executable([str(fake)])
@@ -86,7 +86,7 @@ class GuardTests(unittest.TestCase):
             offline_guard.check_command_string(
                 '"C:/tools/easyeda.exe" pcb dump --project p')
         with self.assertRaises(offline_guard.OfflineViolation):
-            offline_guard.check_command_string('cd /tmp && zhigou version')
+            offline_guard.check_command_string('cd /tmp && easyeda version')
 
     def test_network_connect_is_blocked(self):
         sock = socket.socket()

@@ -73,7 +73,7 @@ class PipelineTests(unittest.TestCase):
             report = root / 'report.json'
             source.write_text('{}', encoding='utf-8')
             report.write_text(json.dumps(REPORT), encoding='utf-8')
-            args = ['--zhigou', 'mock-zhigou', '--source', str(source),
+            args = ['--easyeda', 'mock-easyeda', '--source', str(source),
                     '--model-report', str(report), '--out-dir', str(root / 'out')]
             if before is not None:
                 snapshot = root / 'before.json'
@@ -82,7 +82,7 @@ class PipelineTests(unittest.TestCase):
             real_run = subprocess.run
 
             def run(command, **kwargs):
-                if command[0] != 'mock-zhigou':
+                if command[0] != 'mock-easyeda':
                     if quality is None:
                         return real_run(command, **kwargs)
                     code, data = quality

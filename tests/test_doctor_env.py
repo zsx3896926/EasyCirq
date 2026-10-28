@@ -7,11 +7,10 @@ import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPTS = ROOT / 'easycirq' / 'scripts'
-import sys
-sys.path.insert(0, str(SCRIPTS))
-
-import doctor_env as doctor
+SCRIPT = ROOT / 'easycirq' / 'scripts' / 'doctor_env.py'
+spec = importlib.util.spec_from_file_location('doctor_env', SCRIPT)
+doctor = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(doctor)
 
 
 def client_row(name, installed=True, command='cmd'):
@@ -20,83 +19,55 @@ def client_row(name, installed=True, command='cmd'):
             'ready': bool(command) and installed, 'reload': '', 'source': ''}
 
 
-def doctor_report(*, ready=True, connector='connected', verdict='ok',
-                  daemon='running', blockers=None):
-    return {
-        'schema': 'zhigou-doctor/v1',
-        'verdict': verdict,
-        'ready': ready,
-        'runtime': {'name': 'zhigou', 'version': '0.2.0-dev', 'onDisk': True,
-                    'executable': 'zhigou.exe'},
-        'skill': {'name': 'easycirq', 'status': 'installed',
-                  'installed': []},
-        'daemon': {'status': daemon, 'pid': 1, 'port': 23111},
-        'connector': {'status': connector,
-                      'count': 1 if connector == 'connected' else 0},
-        'protocol': {'service': 'zhigou-agent', 'wireVersion': 'v1'},
-        'checks': [],
-        'failed_checks': [],
-        'next_steps': ['import the connector'],
-        'blockers': list(blockers or ([] if ready else ['not ready'])),
-        'legacy': {'detected': False, 'service': None, 'used': False},
-    }
+def eda(connected=True, version_match=True, project_readable='not_probed'):
+    return {'cli': 'lceda-pro', 'easyeda_command': None, 'connected': connected,
+            'version_match': version_match, 'project_readable': project_readable,
+            'timeout_ms': 120000}
 
 
-def capabilities_report(*, supported=('schematic.read',), unsupported=(),
-                        unknown=()):
-    items = {}
-    for cap in supported:
-        items[cap] = {'status': 'supported', 'reason': 'ok'}
-    for cap in unsupported:
-        items[cap] = {'status': 'unsupported', 'reason': 'host does not expose it'}
-    for cap in unknown:
-        items[cap] = {'status': 'unknown', 'reason': 'connector not negotiated'}
-    return {
-        'schema': 'zhigou-capabilities/v1',
-        'connected': True,
-        'summary': {'supported': len(supported), 'unsupported': len(unsupported),
-                    'unknown': len(unknown)},
-        'items': items,
-        'supported': list(supported),
-        'unsupported': [{'id': cap, 'reason': 'host does not expose it'}
-                        for cap in unsupported],
-        'unknown': [{'id': cap, 'reason': 'connector not negotiated'}
-                    for cap in unknown],
-        'protocol': {'service': 'zhigou-agent'},
-        'connector': {'status': 'connected', 'count': 1, 'reported': []},
-        'notes': [],
-    }
-
-
-class ClientDetection(unittest.TestCase):
+class DoctorEnv(unittest.TestCase):
     def test_active_client_is_evaluated_not_any_installed_client(self):
         rows = [client_row('Claude Code', installed=False),
                 client_row('Codex', installed=True),
                 client_row('WorkBuddy', installed=True)]
         with mock.patch.dict(os.environ, {'CLAUDECODE': '1'}, clear=True), \
                 mock.patch.object(doctor, '_client_rows', return_value=rows), \
-                mock.patch.object(doctor, '_zhigou_probe',
-                                  return_value={'ready': True, 'blockers': [],
-                                                'doctor_ok': True,
-                                                'capabilities_ok': True}):
+                mock.patch.object(doctor, '_eda_probe', return_value=eda()):
             report = doctor.diagnose(client='auto')
         self.assertEqual(report['status'], 'incomplete')
         self.assertEqual(report['active_client']['name'], 'Claude Code')
         self.assertTrue(any('not installed for Claude Code' in item for item in report['missing']))
 
-    def test_ready_toolchain_still_requires_the_active_client_install(self):
+    def test_version_mismatch_and_unreadable_project_are_not_ok(self):
         rows = [client_row('Claude Code', installed=True),
                 client_row('Codex', installed=False),
                 client_row('WorkBuddy', installed=False)]
         with mock.patch.dict(os.environ, {'CLAUDECODE': '1'}, clear=True), \
                 mock.patch.object(doctor, '_client_rows', return_value=rows), \
-                mock.patch.object(doctor, '_zhigou_probe',
-                                  return_value={'ready': True, 'blockers': [],
-                                                'doctor_ok': True,
-                                                'capabilities_ok': True}):
-            report = doctor.diagnose(client='auto')
+                mock.patch.object(doctor, '_eda_probe',
+                                  return_value=eda(version_match=False, project_readable=False)):
+            report = doctor.diagnose(client='auto', project='copy.eprj2')
+        self.assertEqual(report['status'], 'incomplete')
+        self.assertTrue(any('version does not match' in item for item in report['missing']))
+        self.assertTrue(any('not readable' in item for item in report['missing']))
+
+    def test_timeout_is_forwarded_to_eda_probe(self):
+        rows = [client_row('Claude Code', installed=True),
+                client_row('Codex', installed=False),
+                client_row('WorkBuddy', installed=False)]
+        calls = []
+
+        def probe(**kwargs):
+            calls.append(kwargs)
+            return eda()
+
+        with mock.patch.dict(os.environ, {'CLAUDECODE': '1'}, clear=True), \
+                mock.patch.object(doctor, '_client_rows', return_value=rows), \
+                mock.patch.object(doctor, '_eda_probe', side_effect=probe):
+            report = doctor.diagnose(client='auto', timeout=4321)
+        self.assertEqual(calls[0]['timeout'], 4321)
+        self.assertEqual(report['eda']['timeout_ms'], 120000)
         self.assertEqual(report['status'], 'ok')
-        self.assertTrue(report['preflight']['ready'])
 
     def test_repo_skill_detection(self):
         with tempfile.TemporaryDirectory() as temp:
@@ -121,16 +92,12 @@ class ClientDetection(unittest.TestCase):
             'status': 'incomplete',
             'host': {'cwd': 'X'},
             'clients': [],
-            'zhigou': {'command': None, 'doctor_ok': False,
-                       'capabilities_ok': False,
-                       'doctor_error': 'not found',
-                       'capabilities_error': 'not found',
-                       'ready': False, 'blockers': ['not found']},
-            'missing': ['zhigou not found'],
+            'eda': {'cli': None, 'connected': False, 'version_match': None,
+                    'easyeda_command': None},
+            'missing': ['lceda-pro CLI not found'],
         }
         text = doctor.render_summary(report)
         self.assertIn('NOT tested', text)
-        self.assertIn('doctor: NOT RUN', text)
         self.assertNotIn('writable: true', text.lower())
 
     def test_installed_skill_is_detected_in_temp_skill_dir(self):
@@ -150,72 +117,123 @@ class ClientDetection(unittest.TestCase):
         self.assertTrue(rows[0]['installed'])
 
 
-class ZhigouProbe(unittest.TestCase):
-    def test_ready_toolchain_requires_doctor_and_capabilities(self):
-        with mock.patch.object(doctor.zhigou_cli, 'doctor',
-                               return_value={'ok': True, 'report': doctor_report()}), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
-                                  return_value={'ok': True,
-                                                'report': capabilities_report()}):
-            report = doctor._zhigou_probe()
-        self.assertTrue(report['ready'])
-        self.assertEqual(report['doctor']['verdict'], 'ok')
-        self.assertEqual(report['connector']['status'], 'connected')
+class EasyEdaProbe(unittest.TestCase):
+    def test_health_ok_is_reported_as_connected(self):
+        payload = json.dumps({
+            'status': 'ok', 'host': '127.0.0.1', 'ports': '60832-60841',
+            'checks': [{'name': 'daemon', 'status': 'ok'}],
+        })
+        proc = mock.Mock(returncode=0, stdout=payload, stderr='')
+        with mock.patch.object(doctor.shutil, 'which', return_value='easyeda'), \
+                mock.patch.object(doctor.subprocess, 'run', return_value=proc) as run:
+            result = doctor._easyeda_probe()
+        self.assertTrue(result['connected'])
+        self.assertEqual(result['status'], 'ok')
+        self.assertEqual(result['daemon']['status'], 'ok')
+        run.assert_called_once_with(
+            ['easyeda', 'health'], capture_output=True, text=True,
+            encoding='utf-8', errors='replace',
+            timeout=doctor.EASYEDA_HEALTH_TIMEOUT_S)
 
-    def test_missing_connector_is_a_blocker_not_ready(self):
-        broken = doctor_report(ready=False, connector='disconnected',
-                               verdict='degraded',
-                               blockers=['connector is disconnected'])
-        with mock.patch.object(doctor.zhigou_cli, 'doctor',
-                               return_value={'ok': True, 'report': broken}), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
-                                  return_value={'ok': True,
-                                                'report': capabilities_report(
-                                                    supported=(),
-                                                    unknown=('schematic.write',))}):
-            report = doctor._zhigou_probe()
-        self.assertFalse(report['ready'])
-        self.assertTrue(any('connector' in item for item in report['blockers']))
+    def test_health_found_with_ok_daemon_is_connected(self):
+        payload = json.dumps({
+            'status': 'found',
+            'found': {'raw': {'status': 'ok', 'version': 'v1.14.0'}},
+            'checks': [{'name': 'daemon', 'status': 'ok', 'detail': 'running'}],
+        })
+        proc = mock.Mock(returncode=0, stdout=payload, stderr='')
+        with mock.patch.object(doctor.shutil, 'which', return_value='easyeda'), \
+                mock.patch.object(doctor.subprocess, 'run', return_value=proc):
+            result = doctor._easyeda_probe()
+        self.assertTrue(result['connected'])
+        self.assertEqual(result['status'], 'found')
+        self.assertEqual(result['daemon_status'], 'ok')
 
-    def test_doctor_failure_is_reported_as_not_run(self):
-        with mock.patch.object(doctor.zhigou_cli, 'doctor',
-                               return_value={'ok': False, 'report': None,
-                                             'error': 'zhigou doctor exited 127'}), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
-                                  return_value={'ok': False, 'report': None,
-                                                'error': 'zhigou capabilities exited 127'}):
-            report = doctor._zhigou_probe()
-        self.assertFalse(report['ready'])
-        self.assertIn('127', ' '.join(report['blockers']))
+    def test_health_not_found_is_not_connected(self):
+        payload = json.dumps({
+            'status': 'not_found',
+            'checks': [{'name': 'daemon', 'status': 'fail', 'detail': 'no daemon'}],
+        })
+        proc = mock.Mock(returncode=1, stdout=payload, stderr='')
+        with mock.patch.object(doctor.shutil, 'which', return_value='easyeda'), \
+                mock.patch.object(doctor.subprocess, 'run', return_value=proc):
+            result = doctor._easyeda_probe()
+        self.assertFalse(result['connected'])
+        self.assertEqual(result['status'], 'not_found')
+        self.assertEqual(result['daemon']['status'], 'fail')
 
-    def test_unsupported_capability_blocks_preflight(self):
-        with mock.patch.object(doctor.zhigou_cli, 'doctor',
-                               return_value={'ok': True, 'report': doctor_report()}), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
-                                  return_value={'ok': True, 'report': capabilities_report(
-                                      unsupported=('pcb.route',))}):
-            report = doctor._zhigou_probe()
-        self.assertFalse(report['ready'])
-        self.assertTrue(any('pcb.route' in item for item in report['blockers']))
+    def test_health_bad_json_is_unreadable(self):
+        proc = mock.Mock(returncode=0, stdout='not json', stderr='')
+        with mock.patch.object(doctor.shutil, 'which', return_value='easyeda'), \
+                mock.patch.object(doctor.subprocess, 'run', return_value=proc):
+            result = doctor._easyeda_probe()
+        self.assertFalse(result['connected'])
+        self.assertEqual(result['status'], 'unreadable')
+        self.assertIn('did not return JSON', result['error'])
 
-    def test_preflight_disables_daemon_autostart(self):
-        calls = []
+    def test_missing_easyeda_command_is_not_installed(self):
+        with mock.patch.object(doctor.shutil, 'which', return_value=None):
+            result = doctor._easyeda_probe()
+        self.assertFalse(result['connected'])
+        self.assertEqual(result['status'], 'not_installed')
 
-        def fake_doctor(**kwargs):
-            calls.append(kwargs)
-            return {'ok': True, 'report': doctor_report()}
 
-        def fake_capabilities(**kwargs):
-            calls.append(kwargs)
-            return {'ok': True, 'report': capabilities_report()}
+class RouteSeparation(unittest.TestCase):
+    def test_summary_never_uses_one_green_for_both_routes(self):
+        report = {
+            'status': 'ok', 'host': {'cwd': 'X'}, 'clients': [], 'missing': [],
+            'eda': {
+                'cli': 'lceda-pro', 'connected': True, 'version_match': True,
+                'easyeda_command': 'easyeda',
+                'easyeda_agent': {
+                    'command': 'easyeda', 'connected': False, 'status': 'not_found',
+                    'daemon': {'name': 'daemon', 'status': 'fail', 'detail': 'no daemon'},
+                },
+            },
+        }
+        text = doctor.render_summary(report)
+        self.assertIn('- lceda-pro:', text)
+        self.assertIn('- easyeda-agent:', text)
+        self.assertIn('daemon: not_found', text)
+        self.assertIn('EDA ready routes: lceda-pro', text)
+        self.assertNotIn('- EDA connected: True', text)
 
-        with mock.patch.object(doctor.zhigou_cli, 'doctor', side_effect=fake_doctor), \
-                mock.patch.object(doctor.zhigou_cli, 'capabilities',
-                                  side_effect=fake_capabilities):
-            doctor._zhigou_probe()
-        self.assertTrue(calls)
-        for call in calls:
-            self.assertEqual(call['env']['ZHIGOU_NO_AUTOSTART'], '1')
+    def test_easyeda_route_can_be_ready_without_lceda(self):
+        rows = [client_row('Claude Code', installed=True),
+                client_row('Codex', installed=False),
+                client_row('WorkBuddy', installed=False)]
+        eda_report = {
+            'cli': None, 'connected': False, 'version_match': None,
+            'project_readable': 'not_probed', 'easyeda_command': 'easyeda',
+            'easyeda_agent': {'command': 'easyeda', 'connected': True, 'status': 'ok'},
+        }
+        with mock.patch.dict(os.environ, {'CLAUDECODE': '1'}, clear=True), \
+                mock.patch.object(doctor, '_client_rows', return_value=rows), \
+                mock.patch.object(doctor, '_eda_probe', return_value=eda_report):
+            report = doctor.diagnose(client='auto')
+        self.assertEqual(report['status'], 'ok')
+        self.assertTrue(report['eda_routes']['easyeda_agent']['ready'])
+        self.assertFalse(report['eda_routes']['lceda_pro']['ready'])
+
+    def test_no_ready_route_is_incomplete_and_names_both(self):
+        rows = [client_row('Claude Code', installed=True),
+                client_row('Codex', installed=False),
+                client_row('WorkBuddy', installed=False)]
+        eda_report = {
+            'cli': 'lceda-pro', 'connected': False, 'version_match': None,
+            'project_readable': 'not_probed', 'easyeda_command': 'easyeda',
+            'easyeda_agent': {'command': 'easyeda', 'connected': False,
+                              'status': 'not_found'},
+        }
+        with mock.patch.dict(os.environ, {'CLAUDECODE': '1'}, clear=True), \
+                mock.patch.object(doctor, '_client_rows', return_value=rows), \
+                mock.patch.object(doctor, '_eda_probe', return_value=eda_report):
+            report = doctor.diagnose(client='auto')
+        self.assertEqual(report['status'], 'incomplete')
+        self.assertTrue(any('JLCEDA Pro CLI is present but not connected' in item
+                            for item in report['missing']))
+        self.assertTrue(any('easyeda-agent daemon is not ready' in item
+                            for item in report['missing']))
 
 
 if __name__ == '__main__':

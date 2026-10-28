@@ -1,7 +1,7 @@
 # Offline feedback migration v2
 
-Run only while the target skills are idle. This repository owns easycirq;
-the zhigou-agent edits are an anchored migration, not an upstream release.
+Run only while the target skills are idle. This repository owns design-hardware;
+the easyeda-agent edits are an anchored migration, not an upstream release.
 Copying this tool alone is insufficient: keep its repository-relative resources.
 
 ```
@@ -10,11 +10,11 @@ python tools/skill-feedback/apply-feedback.py --apply <skill-root>
 python tools/skill-feedback/apply-feedback.py --check <skill-root>
 ```
 
-The root must contain zhigou-agent/ and easycirq/. Check returns 1 for
+The root must contain easyeda-agent/ and design-hardware/. Check returns 1 for
 pending changes, 0 for a fully matching patch, 2 for conflict/unknown. Anchors must
 be unique. Unknown existing files and partial patches are refused before writing.
 No requests are made. Direct online selection remains disabled, including when
-ZHIGOU_ALLOW_DIRECT_JLC_API=1 is inherited.
+EASYEDA_ALLOW_DIRECT_JLC_API=1 is inherited.
 
 Original bytes and candidate bytes are journaled under the root parent's
 .skill-feedback-state/<root-id>/. Preserve this private backup; do not publish it.

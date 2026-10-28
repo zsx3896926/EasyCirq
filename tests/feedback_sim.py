@@ -3,7 +3,7 @@
 The host state is built from the frozen fixtures under
 ``tests/fixtures/feedback``.  Every response carries ``simulated: true``; a
 mock save is never evidence of a real host save, and no test in this module may
-resolve the real ``zhigou`` executable.
+resolve the real ``easyeda`` executable.
 """
 from __future__ import annotations
 
@@ -18,9 +18,9 @@ FIXTURES = ROOT / 'tests' / 'fixtures' / 'feedback'
 EVIDENCE = ROOT / 'docs' / 'round12' / 'evidence' / 'live-baseline'
 
 _spec = importlib.util.spec_from_file_location(
-    'fake_zhigou', FIXTURES / 'fake_zhigou.py')
-fake_zhigou = importlib.util.module_from_spec(_spec)
-_spec.loader.exec_module(fake_zhigou)
+    'fake_easyeda', FIXTURES / 'fake_easyeda.py')
+fake_easyeda = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(fake_easyeda)
 
 
 def _load(path):
@@ -79,9 +79,9 @@ class FakeRunner:
         self.state['_path'] = state.get('_path')
         self.calls = []
 
-    def __call__(self, args, *, zhigou=None, timeout=120, cwd=None, env=None):
+    def __call__(self, args, *, easyeda=None, timeout=120, cwd=None, env=None):
         argv = [str(item) for item in args]
-        code, text = fake_zhigou.dispatch(list(argv), self.state)
+        code, text = fake_easyeda.dispatch(list(argv), self.state)
         try:
             payload = json.loads(text) if text.strip().startswith('{') else None
         except json.JSONDecodeError:
@@ -89,10 +89,10 @@ class FakeRunner:
         if payload is not None and payload.get('simulated'):
             # Persist simulated mutations when the caller supplied a path.
             if self.state.get('_path'):
-                fake_zhigou.save_state(self.state['_path'], self.state)
-        self.calls.append({'argv': ['zhigou'] + argv, 'exit': code})
+                fake_easyeda.save_state(self.state['_path'], self.state)
+        self.calls.append({'argv': ['easyeda'] + argv, 'exit': code})
         return {
-            'argv': ['zhigou'] + argv,
+            'argv': ['easyeda'] + argv,
             'exit': code,
             'ok': bool(code == 0 and isinstance(payload, dict) and
                        payload.get('ok') is not False),
@@ -100,8 +100,8 @@ class FakeRunner:
             'stdout': text,
             'stderr': '',
             'payload': payload,
-            'started_at': fake_zhigou.now(),
-            'ended_at': fake_zhigou.now(),
+            'started_at': fake_easyeda.now(),
+            'ended_at': fake_easyeda.now(),
         }
 
 

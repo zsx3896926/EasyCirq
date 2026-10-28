@@ -1,7 +1,7 @@
 """End-to-end tests for the stable feedback_loop.py entry point.
 
 The host is the simulated executable from tests/fixtures/feedback; no real
-zhigou binary, daemon or network is used.  These tests exercise the same
+easyeda binary, daemon or network is used.  These tests exercise the same
 argument parsing, JSON output and file writing a user/agent would get.
 """
 from __future__ import annotations
@@ -19,13 +19,13 @@ CLI = ROOT / 'easycirq' / 'scripts' / 'feedback_loop.py'
 FIXTURES = ROOT / 'tests' / 'fixtures' / 'feedback'
 def make_shim(directory):
     """Create an executable shim using the current interpreter."""
-    fake = FIXTURES / 'fake_zhigou.py'
+    fake = FIXTURES / 'fake_easyeda.py'
     if os.name == 'nt':
-        path = Path(directory) / 'zhigou-fake.cmd'
+        path = Path(directory) / 'easyeda-fake.cmd'
         path.write_text('@echo off\r\n"%s" "%s" %%*\r\n'
                         % (sys.executable, fake), encoding='utf-8')
     else:
-        path = Path(directory) / 'zhigou-fake.sh'
+        path = Path(directory) / 'easyeda-fake.sh'
         path.write_text('#!/bin/sh\nexec "%s" "%s" "$@"\n'
                         % (sys.executable, fake), encoding='utf-8')
         path.chmod(0o755)
@@ -87,11 +87,11 @@ class CliTests(unittest.TestCase):
             state_path = temp / 'state.json'
             sim.write_state(state_path, sim.make_state())
             shim = make_shim(temp)
-            env = {'FAKE_ZHIGOU_STATE': str(state_path)}
+            env = {'FAKE_EASYEDA_STATE': str(state_path)}
             observation = temp / 'obs.json'
             result = run_cli(['observe', '--window', 'win-sim', '--project',
                               'sim-photo-led', '--sch-doc', 'P1', '--pcb-doc',
-                              'PCB1', '--zhigou', str(shim),
+                              'PCB1', '--easyeda', str(shim),
                               '--out', str(observation)], env=env)
             self.assertEqual(result.returncode, 0, result.stderr)
             payload = json.loads(observation.read_text(encoding='utf-8'))

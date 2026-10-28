@@ -118,7 +118,7 @@ class CompanionTests(unittest.TestCase):
 
     def test_own_release_failure_does_not_hide_companion_check(self):
         stub=unittest.mock.Mock();stub.check.return_value={'status':'current'}
-        target=self.home/'.claude/skills/design-hardware'
+        target=self.home/'.claude/skills/easycirq'
         with patch.object(u,'check',side_effect=OSError('no formal release')),patch.object(u,'companion_module',return_value=stub):
             r=u.check_all(target,'claude',self.home,refresh=True)
         self.assertEqual(r['design_hardware']['status'],'unverified')
@@ -126,14 +126,14 @@ class CompanionTests(unittest.TestCase):
 
     def test_cli_partial_dependency_upgrade_has_nonzero_exit(self):
         stub=unittest.mock.Mock();stub.update.return_value={'status':'needs_attention'}
-        target=self.home/'.claude/skills/design-hardware'
+        target=self.home/'.claude/skills/easycirq'
         with patch.object(u,'companion_module',return_value=stub):
             result=u.main(['update-agent','--client','claude','--home',str(self.home),'--target',str(target),'--idle'])
         self.assertEqual(result,1)
 
     def test_check_all_never_installs(self):
         stub=unittest.mock.Mock();stub.check.return_value={'status':'needs_attention'}
-        target=self.home/'.claude/skills/design-hardware'
+        target=self.home/'.claude/skills/easycirq'
         with patch.object(u,'check',return_value={'status':'update_available'}),patch.object(u,'companion_module',return_value=stub):
             r=u.check_all(target,'claude',self.home,refresh=True)
         stub.update.assert_not_called();self.assertFalse(r['automatic_install'])

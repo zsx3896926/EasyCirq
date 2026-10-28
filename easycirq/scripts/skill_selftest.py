@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Read-only self-test for the design-hardware skill package.
+"""Read-only self-test for the easycirq skill package.
 
 What it checks:
   1. required files exist (gate docs, templates, scripts, regression case);
-  2. every relative Markdown link in design-hardware/**/*.md resolves;
+  2. every relative Markdown link in easycirq/**/*.md resolves;
   3. gate keys G0_requirements..G6_manufacturing and the four status words
      are consistent across SKILL.md, references/design-gates.md and
      scripts/gate_check.py;
@@ -606,7 +606,7 @@ def run_checks(root, timeout=180):
 
 
 def _print_human(report, quiet=False):
-    print(f"design-hardware skill self-test {report['skill_version']}")
+    print(f"easycirq skill self-test {report['skill_version']}")
     print(report["selftest_only"])
     print(f"root: {report['skill_root']}")
     print()
@@ -625,12 +625,12 @@ def _print_human(report, quiet=False):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(
-        description="Read-only self-test for the design-hardware skill package."
+        description="Read-only self-test for the easycirq skill package."
     )
     parser.add_argument(
         "--root",
         default=None,
-        help="design-hardware directory (default: parent of this script directory)",
+        help="easycirq directory (default: parent of this script directory)",
     )
     parser.add_argument("--json", action="store_true", help="emit one JSON report")
     parser.add_argument("--quiet", action="store_true", help="human summary without details")

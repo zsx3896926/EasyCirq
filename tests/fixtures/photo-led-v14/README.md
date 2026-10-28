@@ -11,10 +11,10 @@ Files:
 - `list.json`: `sch list --include-bbox --include-pins --include-wires
   --include-page-primitives`, trimmed to the fields the adapter consumes
   (components/pins/otherProperty, page texts/wires/rectangles).  The 1072
-  page attributes are omitted; they are not needed by `layout_from_zhigou.py`.
+  page attributes are omitted; they are not needed by `layout_from_easyeda.py`.
 - `rendered-text.json`: `svg_text_bbox.py` measurement of all 136 rendered
   `<text>` elements (bbox y is SVG-style negative; the adapter flips it once).
-- `sheet.json`: `zhigou sch sheet-geometry --from-svg` result (offline).
+- `sheet.json`: `easyeda sch sheet-geometry --from-svg` result (offline).
 - `junction-report.json`: host `sch read` verified no-junction crossings, each
   bound to the page `cd008f919db36eba`, this snapshot's SHA-256 and the two wire
   IDs at the crossing.  The adapter refuses a report whose page/hash or wire IDs

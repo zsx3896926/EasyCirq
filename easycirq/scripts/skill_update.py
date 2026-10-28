@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Transactional installer/updater for design-hardware; Python 3.10+, stdlib only."""
+"""Transactional installer/updater for easycirq; Python 3.10+, stdlib only."""
 from __future__ import annotations
 import argparse
 from contextlib import contextmanager
@@ -16,7 +16,7 @@ import time
 import urllib.request
 import zipfile
 
-NAME = 'design-hardware'
+NAME = 'easycirq'
 REPO = 'zsx3896926/hardware-design-skill'
 SCHEMA = 'hardware-skill-release/v1'
 META = '.install.json'
@@ -67,7 +67,7 @@ def is_link(p):
 def checked_target(target):
     p = Path(os.path.abspath(target))
     if p.name != NAME:
-        raise UpdateError('Target directory must be named design-hardware')
+        raise UpdateError('Target directory must be named easycirq')
     for a in [p, *p.parents]:
         if (a.exists() or a.is_symlink()) and is_link(a):
             raise UpdateError('Symlink/junction target refused: ' + str(a))
@@ -113,7 +113,7 @@ def verify(root, m):
             {'changed_or_missing': changed[:15], 'extra': extra[:15]}))
     if (Path(root) / '.version').read_text(encoding='utf-8').strip() != m['version']:
         raise UpdateError('Version does not match manifest')
-    if not re.search(r'^name:\s*design-hardware\s*$', (Path(root) / 'SKILL.md').read_text(encoding='utf-8'), re.M):
+    if not re.search(r'^name:\s*easycirq\s*$', (Path(root) / 'SKILL.md').read_text(encoding='utf-8'), re.M):
         raise UpdateError('Wrong SKILL.md name')
 
 def discover(home):
@@ -130,7 +130,7 @@ def choose_target(client, home):
 
 def state_dir(target):
     # Keep backups outside every client's skill discovery root, avoiding duplicate skills.
-    root = target.parent.parent / '.hardware-design-skill-state' / digest(str(target).encode())[:16]
+    root = target.parent.parent / '.easycirq-state' / digest(str(target).encode())[:16]
     for p in [root, *root.parents]:
         if (p.exists() or p.is_symlink()) and is_link(p):
             raise UpdateError('State directory contains a symlink/junction')

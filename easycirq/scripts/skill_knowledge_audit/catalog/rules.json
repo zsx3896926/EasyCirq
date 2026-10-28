@@ -9,7 +9,7 @@
       "rule_id": "R-SKILL-001",
       "text": "方案、原理图、布局、交付设为四个可见检查点。默认在任务已授权范围内自查、汇报并继续；用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待。不要把工程检查点一律变成权限停顿点。真正改变已确认接口/尺寸/成本目标、涉及关键未知量时，先处理该决定，同时推进无依赖部分。",
       "source": {
-        "path": "design-hardware/SKILL.md",
+        "path": "easycirq/SKILL.md",
         "line_start": 96,
         "line_end": 96
       },
@@ -41,7 +41,7 @@
       "rule_id": "R-SKILL-002",
       "text": "用户已要求设计/修改时，常规选型、读取、计算、绘图和检查属于任务范围；沿用宿主的实际权限要求，不自建额外审批。",
       "source": {
-        "path": "design-hardware/SKILL.md",
+        "path": "easycirq/SKILL.md",
         "line_start": 62,
         "line_end": 62
       },
@@ -73,7 +73,7 @@
       "rule_id": "R-GATE-003",
       "text": "门禁是**阶段退出证据门，不是审批门**：在用户已授权的设计/修改范围内自查、记录并继续，不新增等待点；只有证据缺失或门禁失败时停住依赖链路。G0–G6 是 S1–S5 的退出条件，不是第二套流程；定义、命令、证据与豁免见 [阶段门禁](references/design-gates.md)。",
       "source": {
-        "path": "design-hardware/SKILL.md",
+        "path": "easycirq/SKILL.md",
         "line_start": 226,
         "line_end": 226
       },
@@ -105,7 +105,7 @@
       "rule_id": "R-GATE-004",
       "text": "门禁是**阶段退出证据门，不是审批门**。Agent 在用户已授权的设计/修改范围内自查、记录并继续；门禁不新增等待点，也不要求用户逐项签批。只有用户明确说“先评审 / 这步给我看 / 确认后再布线”时，才在方案、原理图、布局、交付四个可见检查点等待。",
       "source": {
-        "path": "design-hardware/references/design-gates.md",
+        "path": "easycirq/references/design-gates.md",
         "line_start": 7,
         "line_end": 7
       },
@@ -137,7 +137,7 @@
       "rule_id": "R-GATE-005",
       "text": "6. **缺证据就是 `BLOCKED`，不是 `PASS`。** 未运行、未导出、未回读的检查保持 `待确认`；报告写 `NOT RUN`，不写“应该没问题”。",
       "source": {
-        "path": "design-hardware/references/design-gates.md",
+        "path": "easycirq/references/design-gates.md",
         "line_start": 63,
         "line_end": 63
       },
@@ -169,7 +169,7 @@
       "rule_id": "R-READ-006",
       "text": "内部设计始终遵循 [工程工作流](references/workflow.md) 和 [证据与工程记录](references/evidence.md)，内容由Agent消化，不要求用户读完。按任务加载：",
       "source": {
-        "path": "design-hardware/SKILL.md",
+        "path": "easycirq/SKILL.md",
         "line_start": 134,
         "line_end": 134
       },
@@ -201,7 +201,7 @@
       "rule_id": "R-EXEC-007",
       "text": "批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。",
       "source": {
-        "path": "design-hardware/SKILL.md",
+        "path": "easycirq/SKILL.md",
         "line_start": 130,
         "line_end": 130
       },
@@ -233,7 +233,7 @@
       "rule_id": "R-EXEC-008",
       "text": "- 小任务、现成完整计划：直接使用现有 `--plan`，不要额外拆模块。",
       "source": {
-        "path": "design-hardware/references/execution-efficiency.md",
+        "path": "easycirq/references/execution-efficiency.md",
         "line_start": 5,
         "line_end": 5
       },
@@ -262,7 +262,7 @@
       "rule_id": "R-START-009",
       "text": "新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 统一检查本 Skill 与 easyeda-agent 的 CLI/Skill/daemon/Connector（24 小时缓存）；",
       "source": {
-        "path": "design-hardware/SKILL.md",
+        "path": "easycirq/SKILL.md",
         "line_start": 15,
         "line_end": 15
       },
@@ -292,7 +292,7 @@
       "rule_id": "R-START-010",
       "text": "纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。",
       "source": {
-        "path": "design-hardware/SKILL.md",
+        "path": "easycirq/SKILL.md",
         "line_start": 104,
         "line_end": 104
       },
@@ -323,7 +323,7 @@
       "rule_id": "R-LAY-011",
       "text": "局部连接优先直接画线；只有跨区、跨页或长距离才用标签。",
       "source": {
-        "path": "design-hardware/references/schematic-layout.md",
+        "path": "easycirq/references/schematic-layout.md",
         "line_start": 74,
         "line_end": 74
       },
@@ -352,7 +352,7 @@
       "rule_id": "R-LAY-012",
       "text": "既有符号难以直连时用短引线与明确标签化解，不牺牲pin-pad映射。",
       "source": {
-        "path": "design-hardware/references/schematic-layout.md",
+        "path": "easycirq/references/schematic-layout.md",
         "line_start": 54,
         "line_end": 54
       },
@@ -394,12 +394,12 @@
       "resolution": "无需改规则；在布局冻结变更说明中注明这是 G3 重开而非审批门，避免被读成强制等待",
       "evidence": [
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 96,
           "quote": "方案、原理图、布局、交付设为四个可见检查点。默认在任务已授权范围内自查、汇报并继续；用户说“先评审”“这步给我看”“确认后再布线”时，在对应边界等待。不要把工程检查点一律变成权限停顿点。真正改变已确认接口/尺寸/成本目标、涉及关键未知量时，先处理该决定，同时推进无依赖部分。"
         },
         {
-          "path": "design-hardware/references/design-gates.md",
+          "path": "easycirq/references/design-gates.md",
           "line": 153,
           "quote": "**豁免规则：** score、crossings、overlap/off-board/short 和板框不可豁免；安装孔、连接器逃逸、自动摆放对比、冻结时间可豁免并写明剩余风险。布局冻结后若为了布线移动器件，必须先重开 G3 并作废受影响布线。"
         }
@@ -421,12 +421,12 @@
       "resolution": "保持 may；计划中纯分析不产生 install/network 动作，实际读写工程前再检查",
       "evidence": [
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 15,
           "quote": "新硬件任务开始前可用当前安装目录的 `scripts/skill_update.py check` 统一检查本 Skill 与 easyeda-agent 的 CLI/Skill/daemon/Connector（24 小时缓存）；"
         },
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 104,
           "quote": "纯方案/资料分析任务无需提前连接、安装或探测EDA；准备实际读写工程或用户要求接通环境时，再执行本节。"
         }
@@ -447,12 +447,12 @@
       "resolution": "保留一处为正文，另一处改链接，减少重复阅读（proposal P-06）",
       "evidence": [
         {
-          "path": "design-hardware/references/schematic-layout.md",
+          "path": "easycirq/references/schematic-layout.md",
           "line": 74,
           "quote": "- 局部连接优先直接画线；只有跨区、跨页或长距离才用标签。为减少一条线而增加一串标签，通常让拓扑更难读。"
         },
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 120,
           "quote": "简单工程优先一页，按信号方向组织主链、把供电/参考放辅助行；局部反馈、分压、滤波和去耦保留可追踪导线，跨区信号才考虑端口。已有工程保留器件身份与连接，按受影响模块修正；一次候选失败先读取具体冲突，同一失败机制重复两次就换布局方法或记录能力缺口，不继续盲改坐标。"
         }
@@ -474,12 +474,12 @@
       "resolution": "无需改规则；可把例外合并到同一条（proposal P-06）",
       "evidence": [
         {
-          "path": "design-hardware/references/schematic-layout.md",
+          "path": "easycirq/references/schematic-layout.md",
           "line": 74,
           "quote": "- 局部连接优先直接画线；只有跨区、跨页或长距离才用标签。为减少一条线而增加一串标签，通常让拓扑更难读。"
         },
         {
-          "path": "design-hardware/references/schematic-layout.md",
+          "path": "easycirq/references/schematic-layout.md",
           "line": 54,
           "quote": "物理脚号顺序不等于原理图阅读顺序。优先使用可信库中已核对的功能分组符号/单元；不能为了好看直接改库脚号、交换引脚或临时重画芯片。既有符号难以直连时用短引线与明确标签化解，不牺牲pin-pad映射。"
         }
@@ -500,12 +500,12 @@
       "resolution": "无需改规则；在 BLOCKED 说明中补一句“只影响依赖链路”即可（P-07）",
       "evidence": [
         {
-          "path": "design-hardware/references/design-gates.md",
+          "path": "easycirq/references/design-gates.md",
           "line": 63,
           "quote": "6. **缺证据就是 `BLOCKED`，不是 `PASS`。** 未运行、未导出、未回读的检查保持 `待确认`；报告写 `NOT RUN`，不写“应该没问题”。"
         },
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 112,
           "quote": "- 缺少执行通道时仍可完成方案、计算或离线规划；明确列出未写入项，不把文本、JSON、图片或探针结果说成用户工程已完成。"
         }
@@ -524,12 +524,12 @@
       "resolution": "增加定义：仅当用户拒绝模块路线或明说定制/画板时按定制板推进（P-03）",
       "evidence": [
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 42,
           "quote": "- 问“做个板子”默认推进适合目标的原理图及PCB候选；问“做个设备/实现这个idea”同时建立功能、硬件、程序、结构、制造和验收的适用任务，先给最小可验证方案并继续；“先方案/先别画”只做方案。学习示例板、现成模块拼装、自制PCB分别解释和交付，不擅自把用户要的PCB替换成接线教程。"
         },
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 84,
           "quote": "自定义PCB不是所有idea的必经之路：现成模块能更快验证效果时，解释后作为适用路线；用户明确要定制板时保留定制交付，不悄悄换成购买开发板。服务选择围绕功能、成本和交付，不为增加业务环节强推服务。"
         }
@@ -550,12 +550,12 @@
       "resolution": "无需改规则；可在 L134 明说“仅这两份始终读”以降低误读",
       "evidence": [
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 134,
           "quote": "内部设计始终遵循 [工程工作流](references/workflow.md) 和 [证据与工程记录](references/evidence.md)，内容由Agent消化，不要求用户读完。按任务加载："
         },
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 132,
           "quote": "## 3. 按需读取，不加载规则百科"
         }
@@ -576,12 +576,12 @@
       "resolution": "明确“新决定=改变已确认接口/尺寸/成本/范围”，不属于检查点等待（P-04）",
       "evidence": [
         {
-          "path": "design-hardware/references/design-gates.md",
+          "path": "easycirq/references/design-gates.md",
           "line": 7,
           "quote": "门禁是**阶段退出证据门，不是审批门**。Agent 在用户已授权的设计/修改范围内自查、记录并继续；门禁不新增等待点，也不要求用户逐项签批。只有用户明确说“先评审 / 这步给我看 / 确认后再布线”时，才在方案、原理图、布局、交付四个可见检查点等待。"
         },
         {
-          "path": "design-hardware/references/interaction.md",
+          "path": "easycirq/references/interaction.md",
           "line": 30,
           "quote": "只有用户要求分阶段确认，或真正需要新决定时才等待。用户只说“先方案”时严格不画图；用户要求“直接做完”时不要在四个点各问一次许可。"
         }
@@ -600,12 +600,12 @@
       "resolution": "无需改规则；计划层按 task_type 区分，不把整机验收强加给局部任务",
       "evidence": [
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 8,
           "quote": "让用户描述想实现的效果，由正在运行的Agent持续推进到任务范围内的真实成果；完整产品任务以实物是否实现原始用途验收，画完图、买齐料或贴片完成都不是默认终点。此Skill是Agent的协作与工程方法包；Agent负责读信息、问关键问题、推荐选择、调用工具、处理失败和交付，EDA执行Skill/CLI/连接器负责实际编辑。安装此Skill本身不会获得本机访问、EDA连接、软件安装或制造下单能力。"
         },
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 30,
           "quote": "- 用户只要求画图、review、换料、PCB或先方案时，仍按该范围交付，不强行追加App、外壳、采购或完整产品开发。"
         }
@@ -626,12 +626,12 @@
       "resolution": "无需改规则；保持例外与 unverified 条款并列可检索",
       "evidence": [
         {
-          "path": "design-hardware/SKILL.md",
+          "path": "easycirq/SKILL.md",
           "line": 130,
           "quote": "多个独立 PCB 放置模块来自同一实测快照时，按 [批量执行与提速](references/execution-efficiency.md) 使用 `pcb_apply_plan.py --module-plan ... --module-plan ...`：一次读取/标准化、联合检查模块与固定对象，再生成一次 apply 和保存重载链。简单整板已有单个计划时继续用 `--plan`，无需为合批拆模块。批次间有依赖、需观察中间结果或源快照变化时重新采集并分批；不能为提速跳过身份、连接、DRC 或最终保存重开。只读分析复用冻结快照，写入后旧快照失效，不按每颗器件重复探测。原理图沿用 compose/现有模板路径，不用 PCB 放置批处理冒充原理图或布线完成。"
         },
         {
-          "path": "design-hardware/references/pcb-execution.md",
+          "path": "easycirq/references/pcb-execution.md",
           "line": 306,
           "quote": "- save/reload/journal/dump 任一失败都只能报 `unverified`，不能写 `verified`。"
         }
