@@ -31,6 +31,8 @@ from . import (
     AGENT_PROFILE_CLAUDE,
     AGENT_PROFILE_FAKE,
     ALLOWED_TOOLS_ARG,
+    BOUND_ALLOWED_TOOLS_ARG,
+    DENIED_TOOLS_ARG,
     FAKE_AGENT_VERSION,
     PERMISSION_MODE,
 )
@@ -42,6 +44,13 @@ REQUIRED_AGENT_FLAGS = (
     "--append-system-prompt-file",
     "--mcp-config",
     "--output-format",
+)
+
+#: Extra flags required only when the B1-Bound supervisor is mounted.
+BOUND_REQUIRED_FLAGS = (
+    "--settings",
+    "--disallowedTools",
+    "--allowedTools",
 )
 
 #: Environment variables inherited by the agent.  Everything else is dropped so
@@ -227,6 +236,7 @@ def build_agent_argv(
     scenario: str | None = None,
     template: list[str] | None = None,
     template_path: Path | None = None,
+    bound: dict | None = None,
 ) -> list[str]:
     """Build the agent argv (list, never a shell string) and validate it."""
 
@@ -243,7 +253,9 @@ def build_agent_argv(
             "{task_dir}": str(task_dir),
             "{task_id}": task_id,
             "{scenario}": scenario or "",
-            "{allowed_tools}": ALLOWED_TOOLS_ARG,
+            "{allowed_tools}": BOUND_ALLOWED_TOOLS_ARG if bound else ALLOWED_TOOLS_ARG,
+            "{disallowed_tools}": DENIED_TOOLS_ARG if bound else "",
+            "{settings}": str(bound["settings_file"]) if bound else "",
             "{permission_mode}": PERMISSION_MODE,
         }
         argv = _substitute(template, values)
@@ -269,12 +281,21 @@ def build_agent_argv(
             "--permission-mode",
             PERMISSION_MODE,
             "--allowedTools",
-            ALLOWED_TOOLS_ARG,
+            BOUND_ALLOWED_TOOLS_ARG if bound else ALLOWED_TOOLS_ARG,
             "--add-dir",
             str(task_dir),
             "--scenario",
             scenario or "stream",
         ]
+        if bound:
+            argv.extend(
+                [
+                    "--settings",
+                    str(bound["settings_file"]),
+                    "--disallowedTools",
+                    DENIED_TOOLS_ARG,
+                ]
+            )
     else:
         argv = [
             executable,
@@ -292,11 +313,28 @@ def build_agent_argv(
             "--permission-mode",
             PERMISSION_MODE,
             "--allowedTools",
-            ALLOWED_TOOLS_ARG,
+            BOUND_ALLOWED_TOOLS_ARG if bound else ALLOWED_TOOLS_ARG,
             "--add-dir",
             str(task_dir),
         ]
+        if bound:
+            argv.extend(
+                [
+                    "--settings",
+                    str(bound["settings_file"]),
+                    "--disallowedTools",
+                    DENIED_TOOLS_ARG,
+                ]
+            )
     validate_agent_argv(argv)
+    if bound:
+        missing = [flag for flag in BOUND_REQUIRED_FLAGS if flag not in argv]
+        if missing:
+            raise LauncherError(
+                "AGENT_COMMAND_INVALID",
+                "bound agent argv is missing hardening flags",
+                {"missing_flags": missing, "required_flags": list(BOUND_REQUIRED_FLAGS)},
+            )
     return argv
 
 

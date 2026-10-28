@@ -74,7 +74,16 @@ SKILL_DIR_CANDIDATES = ("easycirq", "design-hardware")
 
 #: Name of the offline MCP server mounted into the task (already on main).
 MCP_SERVER_NAME = "zhigou-offline-audit"
-MCP_MODULE = "zhigou_mcp"
+#: The 2026-10 rebrand renamed the module `zhigou_mcp` -> `easycirq_mcp`.
+#: Both are accepted; ``mcpconfig.detect_mcp_module()`` picks the one that
+#: actually exists in the mounted Skill scripts directory.
+MCP_MODULE_CANDIDATES = ("easycirq_mcp", "zhigou_mcp")
+MCP_MODULE = "zhigou_mcp"  # legacy default kept for callers/tests
+
+#: B1-Bound supervisor mounted alongside (or instead of) the offline audit MCP.
+BOUND_SERVER_NAME = "zhigou_bound"
+BOUND_MODULE = "task_launcher.bound"
+BOUND_SERVE_ARGS = ("-m", "task_launcher.bound", "serve")
 
 #: Read-only tool allow-list handed to the headless agent. No Bash/Write/Edit.
 ALLOWED_TOOLS = (
@@ -89,6 +98,32 @@ ALLOWED_TOOLS = (
     "mcp__zhigou-offline-audit__offline_delivery_audit",
 )
 ALLOWED_TOOLS_ARG = ",".join(ALLOWED_TOOLS)
+
+#: Capability surface when the B1-Bound supervisor is enabled: only the bound
+#: MCP tools are exposed (no direct offline-audit MCP tools), plus read-only
+#: built-ins and the Skill loader.
+BOUND_ALLOWED_TOOLS = (
+    "Skill",
+    "Read",
+    "Glob",
+    "Grep",
+    "mcp__zhigou_bound__*",
+)
+BOUND_ALLOWED_TOOLS_ARG = ",".join(BOUND_ALLOWED_TOOLS)
+
+#: Tools that must never be available to a bound task (belt-and-braces with
+#: ``--allowedTools``; the supervisor is still the real gate).
+DENIED_TOOLS = (
+    "Bash",
+    "Write",
+    "Edit",
+    "NotebookEdit",
+    "Agent",
+    "Task",
+    "WebFetch",
+    "WebSearch",
+)
+DENIED_TOOLS_ARG = ",".join(DENIED_TOOLS)
 
 #: Permission mode used for read-only tasks. `plan` never auto-approves writes.
 PERMISSION_MODE = "plan"

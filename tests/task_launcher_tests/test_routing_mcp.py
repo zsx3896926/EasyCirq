@@ -55,7 +55,19 @@ REQUIRED_AGENT_FLAGS = (
 )
 
 MCP_SERVER_NAME = "zhigou-offline-audit"
-MCP_MODULE = "zhigou_mcp"
+#: The 2026-10 rebrand renamed the module; assert the one that exists on disk.
+MCP_MODULE_CANDIDATES = ("easycirq_mcp", "zhigou_mcp")
+
+
+def _detected_mcp_module() -> str:
+    scripts = SKILL_DIR / "scripts"
+    for candidate in MCP_MODULE_CANDIDATES:
+        if (scripts / candidate).is_dir():
+            return candidate
+    return "zhigou_mcp"
+
+
+MCP_MODULE = _detected_mcp_module()
 
 
 def read_json(path: Path) -> dict:

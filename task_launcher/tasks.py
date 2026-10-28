@@ -33,7 +33,9 @@ from pathlib import Path
 from typing import Any
 
 from . import (
+    AGENT_PROFILE_CLAUDE,
     AGENT_PROFILE_FAKE,
+    BOUND_SERVER_NAME,
     DEFAULT_FAKE_SCENARIO,
     DEFAULT_HOST,
     DEFAULT_PORT,
@@ -91,6 +93,10 @@ class Settings:
     max_concurrent: int = 1
     fake_scenario: str = DEFAULT_FAKE_SCENARIO
     agent_argv_template: Path | None = None
+    #: Mount the B1-Bound supervisor (task_launcher.bound) instead of the
+    #: direct offline-audit MCP server, and require its FINALIZED report for
+    #: real-agent tasks. Disabled by default so B1-only checkouts keep working.
+    bound_enabled: bool = False
     host: str = DEFAULT_HOST
     port: int = DEFAULT_PORT
 
@@ -188,6 +194,7 @@ class Task:
         self.agent_info: dict = {}
         self.plugin_info: dict = {}
         self.skill_version: str | None = None
+        self.bound: dict | None = None
         self.spawn_error: str | None = None
         self.kill_info: dict | None = None
         self._events_file = self.workspace / "events.jsonl"
@@ -262,6 +269,94 @@ class Task:
 # ---------------------------------------------------------------------------
 # manager
 # ---------------------------------------------------------------------------
+
+
+
+
+# ---------------------------------------------------------------------------
+# B1-Bound bridge
+# ---------------------------------------------------------------------------
+
+
+def _bound_request_from(request: dict) -> dict:
+    """Map a B1 ``task.start`` request onto the bound plan request schema."""
+
+    context = dict(request.get("context") or {})
+    missing = list(context.get("missing_fields") or [])
+    if context.get("snapshot_sha256") is None and "snapshot_sha256" not in missing:
+        missing.append("snapshot_sha256")
+    context["missing_fields"] = missing
+    # The B1 schema allows selection entries without a designator; the bound
+    # snapshot scope needs one. Drop those entries instead of inventing an id.
+    selection = [
+        {"kind": item["kind"], "designator": item["designator"]}
+        for item in (context.get("selection") or [])
+        if item.get("designator")
+    ]
+    if selection:
+        context["selection"] = selection
+    else:
+        context.pop("selection", None)
+    limits = request.get("limits") or {}
+    bound_limits = {}
+    if "timeout_s" in limits:
+        bound_limits["timeout_s"] = int(limits["timeout_s"])
+    return {
+        "schema": "zhigou.bound.request/v1",
+        "task_id": request["task_id"],
+        "mode": "read_only",
+        "client": request.get("client") or {"name": "task-launcher", "version": __version__},
+        "goal": request.get("goal") or {"user_prompt": "read-only review", "intent": "inspect"},
+        "context": context,
+        "limits": bound_limits,
+    }
+
+
+def _read_bound_result(bound: dict) -> dict:
+    """Read the supervisor-authored status/report for one bound task."""
+
+    bound_dir = Path(bound["task_dir"])
+    status_path = bound_dir / "status.json"
+    report_path = bound_dir / "result.json"
+    meta: dict[str, Any] = {
+        "task_dir": str(bound_dir),
+        "status_path": str(status_path),
+        "report_path": str(report_path),
+        "state": "MISSING",
+        "finalized": False,
+        "verdict": None,
+        "report_sha256": None,
+        "real_eda": None,
+        "eda_calls": None,
+        "project_writes": None,
+    }
+    try:
+        if status_path.is_file():
+            meta["state"] = str(json.loads(status_path.read_text(encoding="utf-8")).get("state", "UNKNOWN"))
+    except (OSError, json.JSONDecodeError):
+        meta["state"] = "UNREADABLE"
+    try:
+        if report_path.is_file():
+            report = json.loads(report_path.read_text(encoding="utf-8"))
+            task_block = report.get("task") or {}
+            meta.update(
+                {
+                    "verdict": task_block.get("verdict"),
+                    "report_sha256": report.get("report_sha256"),
+                    "real_eda": report.get("real_eda"),
+                    "eda_calls": report.get("eda_calls"),
+                    "project_writes": report.get("project_writes"),
+                    "generated_by": report.get("generated_by"),
+                }
+            )
+    except (OSError, json.JSONDecodeError):
+        meta["state"] = "UNREADABLE"
+    meta["finalized"] = bool(
+        meta["state"] == "FINALIZED"
+        and meta.get("generated_by") == "supervisor"
+        and meta.get("verdict") in ("PASS", "FAIL", "REVIEW_REQUIRED")
+    )
+    return meta
 
 
 class TaskManager:
@@ -457,7 +552,8 @@ class TaskManager:
         try:
             task.open_events()
             skill_identity = plugin.read_skill_identity(self.settings.skill_dir)
-            self._write_request_evidence(task, skill_identity["name"])
+            bound_info = self._prepare_bound(task)
+            self._write_request_evidence(task, skill_identity["name"], bound_info)
             plugin_dir = workspace / "plugin"
             try:
                 if self.settings.plugin_dir is not None:
@@ -519,6 +615,7 @@ class TaskManager:
                 scenario=scenario,
                 template=self._argv_template,
                 template_path=self.settings.agent_argv_template,
+                bound=bound_info,
             )
             env = agent_mod.build_agent_env(
                 dict(os.environ),
@@ -541,6 +638,14 @@ class TaskManager:
                 "required_flags": list(agent_mod.REQUIRED_AGENT_FLAGS),
                 "required_flags_present": True,
                 "token_included": False,
+                "bound": None if bound_info is None else {
+                    "enabled": True,
+                    "server": bound_info["server"],
+                    "config_path": bound_info["config_path"],
+                    "token_file": bound_info["token_file"],
+                    "settings_file": bound_info["settings_file"],
+                    "versions": bound_info["versions"],
+                },
             }
             self._write_json(workspace / "agent.command.json", command)
             self._write_log_files(workspace)
@@ -578,19 +683,126 @@ class TaskManager:
             newline="\n",
         )
 
-    def _write_request_evidence(self, task: Task, skill_name: str) -> None:
+    def _write_request_evidence(self, task: Task, skill_name: str, bound: dict | None = None) -> None:
         request_document = dict(task.request)
         request_document["_received_at"] = task.created_at
         self._write_json(task.workspace / "request.json", sanitize(request_document))
         self._write_json(task.workspace / "context.json", sanitize(task.request["context"]))
-        (task.workspace / "routing.md").write_text(
-            routing.build_routing_text(task.request, skill_name=skill_name), encoding="utf-8", newline="\n"
+        routing_text = routing.build_routing_text(task.request, skill_name=skill_name)
+        if bound is not None:
+            bound_routing = Path(bound["routing_file"])
+            if bound_routing.is_file():
+                routing_text += (
+                    "\n\n<!-- B1-Bound supervisor contract (generated by task_launcher.bound plan) -->\n\n"
+                    + bound_routing.read_text(encoding="utf-8")
+                )
+        (task.workspace / "routing.md").write_text(routing_text, encoding="utf-8", newline="\n")
+        mcpconfig.write_mcp_config(
+            task.workspace / "mcp.json",
+            self.settings.skill_dir / "scripts",
+            bound=None if bound is None else {
+                "config_path": bound["config_path"],
+                "token_file": bound["token_file"],
+                "repo_root": bound["repo_root"],
+            },
         )
-        mcpconfig.write_mcp_config(task.workspace / "mcp.json", self.settings.skill_dir / "scripts")
         self._write_json(
             task.workspace / "routing.summary.json",
             routing.routing_summary(task.request, skill_name=skill_name),
         )
+
+    def _prepare_bound(self, task: Task) -> dict | None:
+        """Generate the per-task bound supervisor artifacts and remember them."""
+
+        if not self.settings.bound_enabled:
+            return None
+        bound_dir = task.workspace / "bound"
+        # The bound plan refuses a non-empty output directory, so the request
+        # file lives beside it and the planner owns the whole bound/ directory.
+        request_path = task.workspace / "bound.request.json"
+        bound_request = _bound_request_from(task.request)
+        request_path.write_text(
+            json.dumps(bound_request, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+            newline="\n",
+        )
+        argv = [
+            sys.executable,
+            "-m",
+            "task_launcher.bound",
+            "plan",
+            "--request",
+            str(request_path),
+            "--out",
+            str(bound_dir),
+            "--skill-dir",
+            str(self.settings.skill_dir),
+            "--repo-root",
+            str(PACKAGE_ROOT),
+        ]
+        try:
+            completed = subprocess.run(
+                argv,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+                timeout=120,
+                cwd=str(PACKAGE_ROOT),
+            )
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise LauncherError(
+                "BOUND_PLAN_FAILED",
+                "B1-Bound supervisor artifacts could not be generated",
+                {"reason": f"{type(exc).__name__}: {exc}"},
+            ) from None
+        if completed.returncode != 0:
+            raise LauncherError(
+                "BOUND_PLAN_FAILED",
+                "task_launcher.bound plan failed",
+                {
+                    "exit_code": completed.returncode,
+                    "stdout_tail": completed.stdout[-800:],
+                    "stderr_tail": completed.stderr[-800:],
+                },
+            )
+        try:
+            plan = json.loads(completed.stdout)
+        except json.JSONDecodeError:
+            raise LauncherError(
+                "BOUND_PLAN_FAILED",
+                "task_launcher.bound plan did not print a JSON summary",
+                {"stdout_tail": completed.stdout[-800:]},
+            ) from None
+        config_path = bound_dir / "bound.config.json"
+        try:
+            config = json.loads(config_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            raise LauncherError(
+                "BOUND_PLAN_FAILED",
+                "bound.config.json is missing or unreadable after plan",
+                {"path": str(config_path)},
+            ) from None
+        info = {
+            "enabled": True,
+            "task_dir": str(bound_dir),
+            "config_path": str(config_path),
+            "token_file": str(bound_dir / "task.token"),
+            "settings_file": str(bound_dir / "settings.json"),
+            "routing_file": str(bound_dir / "routing.md"),
+            "mcp_file": str(bound_dir / "mcp.json"),
+            "repo_root": str(PACKAGE_ROOT),
+            "versions": config.get("versions") or {},
+            "server": BOUND_SERVER_NAME,
+            "plan": {
+                "skill_name": plan.get("skill_name"),
+                "skill_version": (plan.get("versions") or {}).get("skill"),
+                "backend": plan.get("backend"),
+            },
+        }
+        task.bound = info
+        task.add_event("bound_prepared", **{key: info[key] for key in ("task_dir", "server")})
+        return info
 
     @staticmethod
     def _write_log_files(workspace: Path) -> None:
@@ -652,6 +864,7 @@ class TaskManager:
             status = TASK_COMPLETED
         else:
             status = TASK_FAILED
+        status = self._apply_bound_gate(task, status)
         if status == TASK_TIMEOUT:
             exit_code = None
         task.finished_at = iso_now()
@@ -723,6 +936,39 @@ class TaskManager:
             except OSError:
                 pass
 
+    # -- bound gate / result ------------------------------------------------
+    def _apply_bound_gate(self, task: Task, status: str) -> str:
+        """Require the supervisor's FINALIZED report for real-agent bound tasks.
+
+        The fake agent does not spawn MCP servers, so the gate is only enforced
+        for the real Claude profile; the supervisor metadata is still recorded
+        for every bound task. This is what turns "agent exited 0" into "the
+        supervisor signed the evidence chain".
+        """
+
+        if task.bound is None:
+            return status
+        meta = _read_bound_result(task.bound)
+        task.bound["result"] = meta
+        if task.agent_info.get("profile") != AGENT_PROFILE_CLAUDE:
+            return status
+        if not meta.get("finalized"):
+            task.add_event(
+                "bound_gate_failed",
+                state=meta.get("state"),
+                verdict=meta.get("verdict"),
+                reason="supervisor_not_finalized",
+            )
+            return TASK_FAILED
+        if meta.get("real_eda") not in (None, "NOT RUN") or int(meta.get("eda_calls") or 0) != 0:
+            task.add_event(
+                "bound_honesty_violation",
+                real_eda=meta.get("real_eda"),
+                eda_calls=meta.get("eda_calls"),
+            )
+            return TASK_FAILED
+        return status
+
     # -- result ------------------------------------------------------------
     def _finalize(self, task: Task, status: str, exit_code: int | None, duration_s: float) -> None:
         # The terminal event is appended before the result is built so that
@@ -765,6 +1011,27 @@ class TaskManager:
                 "plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明的是注入与工具可见",
             ],
         }
+        if task.bound is not None:
+            bound_meta = task.bound.get("result") or _read_bound_result(task.bound)
+            result["bound"] = {
+                "enabled": True,
+                "server": task.bound.get("server"),
+                "task_dir": task.bound.get("task_dir"),
+                "config_path": task.bound.get("config_path"),
+                "versions": task.bound.get("versions"),
+                "state": bound_meta.get("state"),
+                "finalized": bool(bound_meta.get("finalized")),
+                "verdict": bound_meta.get("verdict"),
+                "report_sha256": bound_meta.get("report_sha256"),
+                "real_eda": bound_meta.get("real_eda"),
+                "eda_calls": bound_meta.get("eda_calls"),
+                "project_writes": bound_meta.get("project_writes"),
+                "gate": (
+                    "enforced"
+                    if task.agent_info.get("profile") == AGENT_PROFILE_CLAUDE
+                    else "not_enforced_fake_agent"
+                ),
+            }
         if task.spawn_error:
             result["spawn_error"] = task.spawn_error
         task.result = result
