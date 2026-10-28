@@ -335,8 +335,8 @@ py -3 -m unittest tests.test_install_lifecycle -v
 
 证据文件：
 
-- `docs/toolchain-integration/evidence/installer/pytest-install-lifecycle.log` —— 完整 pytest 输出
-- `docs/toolchain-integration/evidence/installer/install-lifecycle.log` —— 每个用例的 JSONL 记账（安装/校验/回退/损坏包拒绝等事件）
+- `docs/toolchain-integration/evidence/installer/pytest-install-lifecycle.log` —— 完整 pytest 输出（人工重新生成）
+- `docs/toolchain-integration/evidence/installer/install-lifecycle.log` —— 每个用例的 JSONL 记账（安装/校验/回退/损坏包拒绝等事件）；**常规测试默认写临时目录，不再修改该文件**，仅在显式设置 `EASYCIRQ_INSTALL_EVIDENCE_LOG` 时刷新（见 issue #93）
 
 ---
 

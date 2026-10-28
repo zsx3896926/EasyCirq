@@ -1,6 +1,6 @@
 # Frozen benchmark: `task-launcher` (B1-LAUNCH)
 
-Offline, deterministic, end-to-end benchmark of the Zhigou task launcher:
+Offline, deterministic, end-to-end benchmark of the EasyCirq task launcher:
 
 ```text
 trigger surface (stub connector)  ->  launcher HTTP sidecar  ->  fake agent
@@ -140,7 +140,7 @@ Always-enforced invariants (independent of `expected.json`):
 | --- | --- | --- |
 | `01-happy-read-only` | happy path, fake agent `stream` | 202, `completed`, exit 0 |
 | `02-version-mismatch-launcher` | launcher version handshake | 409 `VERSION_MISMATCH`, exit 2 |
-| `03-version-mismatch-skill` | Skill version handshake (`easycirq/.version`, legacy `design-hardware/.version`) | 409 `VERSION_MISMATCH`, exit 2 |
+| `03-version-mismatch-skill` | Skill version handshake (`easycirq/.version`, legacy `easycirq/.version`) | 409 `VERSION_MISMATCH`, exit 2 |
 | `04-version-mismatch-plugin` | plugin package version handshake | 409 `VERSION_MISMATCH`, exit 2 |
 | `05-schema-invalid-unknown-field` | strict request schema | 422 `UNKNOWN_FIELD`, exit 2 |
 | `06-write-mode-refused` | read-only write gate (`mode="write"`) | 422 `WRITE_MODE_NOT_SUPPORTED`, exit 2 |

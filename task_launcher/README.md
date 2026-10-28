@@ -62,7 +62,7 @@ python -m task_launcher run --request benchmarks/task-launcher/cases/happy-read-
 | `server.py` | 本地 HTTP JSON API（仅 loopback、Bearer token、事件轮询、取消） |
 | `tasks.py` | 任务生命周期、状态机、工作区证据、事件 `seq`、超时/取消、结果 |
 | `agent.py` | 固定 argv 模板、环境白名单、spawn、stream-json 行解析、进程树终止 |
-| `plugin.py` | 从 Skill 目录（`easycirq/`；旧布局 `design-hardware/`）组装 Claude Code plugin（确定性 manifest、缓存、按任务物化） |
+| `plugin.py` | 从 Skill 目录（`easycirq/`；旧布局 `easycirq/`）组装 Claude Code plugin（确定性 manifest、缓存、按任务物化） |
 | `routing.py` | 生成强制路由 `routing.md`（5 条硬规则，测试逐条断言） |
 | `mcpconfig.py` | 生成 `mcp.json`（挂 `easycirq_mcp` 离线审计工具） |
 | `fake_agent.py` | 测试/基准用假 Agent（stream/slow/stuck/badjson/fail 场景） |

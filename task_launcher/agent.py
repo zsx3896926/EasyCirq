@@ -319,12 +319,12 @@ def build_agent_env(
     env["PYTHONPATH"] = str(package_root)
     env["PYTHONIOENCODING"] = "utf-8"
     env["PYTHONUTF8"] = "1"
-    env["ZHIGOU_TASK_ID"] = task_id
-    env["ZHIGOU_MODE"] = mode
-    env["ZHIGOU_STATE_DIR"] = str(state_dir)
-    env["ZHIGOU_SKILL_NAME"] = skill_name
+    env["EASYCIRQ_TASK_ID"] = task_id
+    env["EASYCIRQ_MODE"] = mode
+    env["EASYCIRQ_STATE_DIR"] = str(state_dir)
+    env["EASYCIRQ_SKILL_NAME"] = skill_name
     if scenario:
-        env["ZHIGOU_FAKE_SCENARIO"] = scenario
+        env["EASYCIRQ_FAKE_SCENARIO"] = scenario
     return env
 
 

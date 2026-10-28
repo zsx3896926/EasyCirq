@@ -47,7 +47,7 @@
 | 10 | 未修改 A/runtime/connector/SKILL/分发/CI；未合并 PR、未发版 | `git diff --name-status origin/main...HEAD`；`git status` | 相对 EasyCirq main 仅新增 4 类允许路径；每个 commit 逐个复核；未修改任何既有文件（全量套件在 A 测试中会追加写 toolchain 证据日志，提交前还原，见 IC-16）；PR 保持 OPEN、未合并、未发版 | ✅（M4 + 审计实测） |
 
 > 基线说明：任务书 baseline 是 `0e391e3`；开工后 main 先合入 A 工具链（#36），随后完成
-> EasyCirq 重命名（#77，`design-hardware/` → `easycirq/`）。本分支已 rebase 到
+> EasyCirq 重命名（#77，`easycirq/` → `easycirq/`）。本分支已 rebase 到
 > `origin/main@1701e79` 并适配重命名，因此 `git diff --name-status origin/main...HEAD`
 > 的 merge-base 就是当前 main，diff 只显示本任务新增文件（全部 `A`）。
 > 三个故意的版本不一致 case 使用字面错误版本；其余用例的 `toolchain` 使用

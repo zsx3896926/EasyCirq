@@ -1,6 +1,6 @@
 # B1 架构：EDA 触发面 + 受控启动器 + 受控 Agent
 
-**状态：PoC（只读，独立组件）。** 本文说明 B1「让模型必须走 easycirq Skill 流程（旧名 design-hardware）」的
+**状态：PoC（只读，独立组件）。** 本文说明 B1「让模型必须走 easycirq Skill 流程（旧名 easycirq）」的
 三层架构、机制为什么成立、真实 Agent 与 fake Agent 的边界，以及与 A 分支
 （`feat/integrated-eda-toolchain`，daemon/connector）的 Phase 2 关系。
 
@@ -12,7 +12,7 @@
 
 ## 1. 要解决的问题
 
-客户用 AI 客户端（Claude Code / Codex 等）画板时，模型经常**不加载 easycirq Skill**（旧名 design-hardware），
+客户用 AI 客户端（Claude Code / Codex 等）画板时，模型经常**不加载 easycirq Skill**（旧名 easycirq），
 于是跳过“先读协作方法、只读边界、离线审计工具、结论分层”的流程。上一轮结论：
 
 1. Skill 是**软机制**：由模型按 `description` 自行决定是否加载，写不进运行时；
@@ -93,7 +93,7 @@ launcher 拥有 Agent 的命令行，因此可以把“路由”变成**启动�
 
 | 注入点 | CLI 参数 | 生成物/来源 | 作用 | 能证明 | 不能证明 |
 |---|---|---|---|---|---|
-| Skill 随任务加载 | `--plugin-dir <task>/plugin` | `plugin.py` 从 `easycirq/`（旧布局 `design-hardware/`）**只读复制**组装，含 `SKILL.md`、`.version`、`references/`、`scripts/`、`assets/`、`.mcp.json`、`plugin.json`、`hooks.json` | 不依赖客户全局安装；版本随任务确定 | plugin 目录存在且结构合法 | 模型真的加载了 Skill |
+| Skill 随任务加载 | `--plugin-dir <task>/plugin` | `plugin.py` 从 `easycirq/`（旧布局 `easycirq/`）**只读复制**组装，含 `SKILL.md`、`.version`、`references/`、`scripts/`、`assets/`、`.mcp.json`、`plugin.json`、`hooks.json` | 不依赖客户全局安装；版本随任务确定 | plugin 目录存在且结构合法 | 模型真的加载了 Skill |
 | 硬路由 prompt | `--append-system-prompt-file <task>/routing.md` | `routing.py` 按任务生成：五条硬规则 + 工程/文档/选区/快照上下文 + 用户目标 + 限制 | 把“先加载 Skill / 只读 / 用离线工具 / 结论分层 / 结束清单”写进 system prompt | prompt 已注入（文件存在且被 argv 引用） | 模型一定遵守 |
 | 只读工具面 | `--mcp-config <task>/mcp.json` + `--allowedTools <白名单>` | `mcpconfig.py` 挂 `easycirq-offline-audit`（`python -m easycirq_mcp`），五个离线审计工具 | 模型能直接调用离线审计工具，而不是盲跑 shell | MCP 配置已挂载、工具在 allowedTools 中 | 工具调用结果等于硬件/整板通过 |
 | 固定 argv（无 shell） | `-p <user_prompt>`、`--output-format stream-json`、`--verbose`、`--permission-mode plan`、`--add-dir <task>` | `agent.py` 组装 argv 列表并校验 | `user_prompt` 是单个参数；行为可审计、事件可回放；替换模板缺任一强制参数即拒绝启动 | 实际启动参数与记录一致（fake agent 的 `agent.received.json` 可验证；真实 Agent 无等价自证） | 模型输出内容正确 |
@@ -108,7 +108,7 @@ launcher 拥有 Agent 的命令行，因此可以把“路由”变成**启动�
   `--allowedTools` 只含 `Skill/Read/Glob/Grep` 与五个 `mcp__easycirq-offline-audit__*` 只读工具
   （无 Bash/Write/Edit）。
 - **版本映射**：plugin 包版本 `0.1.0` 由 launcher 拥有，`plugin.json.skill_version` 承载
-  `easycirq/.version`（当前 `1.0.2`；旧布局 `design-hardware/.version`），请求的 `toolchain` 三方逐字比对，
+  `easycirq/.version`（当前 `1.0.2`；旧布局 `easycirq/.version`），请求的 `toolchain` 三方逐字比对，
   不一致即 `409 VERSION_MISMATCH`（见 contract §5）。
 - **缓存与物化**：plugin 按 Skill 指纹缓存（同一 launcher 进程只构建一次），每任务物化到
   `tasks/<id>/plugin/`（同卷硬链接/跨卷复制；体量见 `task_launcher/README.md`），
@@ -154,7 +154,7 @@ launcher 拥有 Agent 的命令行，因此可以把“路由”变成**启动�
 ### 6.1 当前状态（本任务只读、不改 A）
 
 - 基线：本分支从任务书基线 `main@0e391e3` 拉出；随后 A 工具链随 PR #36 合入
-  `origin/main`，main 又完成 EasyCirq 重命名（#77：`design-hardware/` → `easycirq/`）。
+  `origin/main`，main 又完成 EasyCirq 重命名（#77：`easycirq/` → `easycirq/`）。
   M4/审计已把本分支 **rebase 到 `origin/main@1701e79`** 并完成重命名适配。本任务只新增 `task_launcher/`、`tests/task_launcher_tests/`、
   `benchmarks/task-launcher/`、`docs/parallel-task-launcher/` 四类路径；对 A 的目录
   （`runtime/`、`connector/`、`protocol/`、`distribution/`，rebase 后已在工作树中）

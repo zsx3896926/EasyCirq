@@ -108,7 +108,7 @@ class WorkspaceTests(unittest.TestCase):
         self.assertTrue((self.workspace / "plugin" / ".claude-plugin" / "plugin.json").is_file())
         env_keys = set(command["env"])
         self.assertNotIn("LAUNCHER_TOKEN", env_keys)
-        self.assertTrue({"ZHIGOU_TASK_ID", "ZHIGOU_MODE", "PYTHONPATH"} <= env_keys)
+        self.assertTrue({"EASYCIRQ_TASK_ID", "EASYCIRQ_MODE", "PYTHONPATH"} <= env_keys)
 
     def test_agent_received_the_expected_command(self) -> None:
         received = self.read("agent.received.json")
@@ -124,8 +124,8 @@ class WorkspaceTests(unittest.TestCase):
             self.assertIn(flag, received_argv)
         self.assertIn("stream-json", received_argv)
         env = received["env"]
-        self.assertEqual(env.get("ZHIGOU_TASK_ID"), self.task_id)
-        self.assertEqual(env.get("ZHIGOU_MODE"), "read_only")
+        self.assertEqual(env.get("EASYCIRQ_TASK_ID"), self.task_id)
+        self.assertEqual(env.get("EASYCIRQ_MODE"), "read_only")
         self.assertIn("PYTHONPATH", env)
         self.assertNotIn(self.launcher.token, json.dumps(received, ensure_ascii=False))
 

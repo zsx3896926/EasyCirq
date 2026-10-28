@@ -13,7 +13,7 @@ A owner 决策，**本任务均未实现**，建议主分支单独跟进。
 
 | ID | 事项 | 证据 | 建议 | 优先级 | 为何不在本任务 |
 |---|---|---|---|---|---|
-| `IC-01` · [#79](https://github.com/zsx3896926/EasyCirq/issues/79) | **Claude Code CLI 参数漂移**：`--append-system-prompt-file` 未在 2.1.303 的 `claude --help` 中单列（仅以 `--append-system-prompt[-file]` 出现在 `--bare` 描述里），但本机实测 CLI 接受该参数 | `task_launcher/README.md`「已知限制」；contract.md §11 的本机核对记录；本机 `claude --version` = `2.1.303`；`claude --append-system-prompt-file <file> --version` 退出码 0（仅参数解析） | 启动器增加**启动前兼容性探测**（`claude --version` + 参数可用性），失败时 health 报 degraded 并给明确修复建议；在 `easycirq/references/client-compatibility.md`（旧布局 `design-hardware/`） 记录已验证版本区间；上游若移除该参数，改用 `--append-system-prompt` 或版本化模板 | 高 | 涉及 CI/客户端兼容文档与 Skill 参考文件，超出允许路径；当前四个强制参数已由测试断言（`agent.py::REQUIRED_AGENT_FLAGS` + argv 模板拒绝用例） |
+| `IC-01` · [#79](https://github.com/zsx3896926/EasyCirq/issues/79) | **Claude Code CLI 参数漂移**：`--append-system-prompt-file` 未在 2.1.303 的 `claude --help` 中单列（仅以 `--append-system-prompt[-file]` 出现在 `--bare` 描述里），但本机实测 CLI 接受该参数 | `task_launcher/README.md`「已知限制」；contract.md §11 的本机核对记录；本机 `claude --version` = `2.1.303`；`claude --append-system-prompt-file <file> --version` 退出码 0（仅参数解析） | 启动器增加**启动前兼容性探测**（`claude --version` + 参数可用性），失败时 health 报 degraded 并给明确修复建议；在 `easycirq/references/client-compatibility.md`（旧布局 `easycirq/`） 记录已验证版本区间；上游若移除该参数，改用 `--append-system-prompt` 或版本化模板 | 高 | 涉及 CI/客户端兼容文档与 Skill 参考文件，超出允许路径；当前四个强制参数已由测试断言（`agent.py::REQUIRED_AGENT_FLAGS` + argv 模板拒绝用例） |
 | `IC-02`（已关闭，未开 issue） | **基线漂移（已在 M4 处理，保留记录）**：任务书假设 A 分支未合并（§1.3 记 HEAD `dfa8f10`），但开工期间 A 工具链随 PR #36 合入 `origin/main`；本分支原基于 `0e391e3` | `git log --oneline origin/main`（`c54c6fc` / `acca50d Merge pull request #36 ...`）；`git merge-base` 原为 `0e391e3` | **已解决**：本分支先 rebase 到 `c54c6fc`（A 工具链合入），审计期又 rebase 到 `origin/main@1701e79`
 并适配 EasyCirq 重命名（#77）；`git diff --name-status origin/main...HEAD` 仍为 65 个文件全部 `A`；`architecture.md` §6.1、`contract.md` §10、`integration-proposal.md`、`acceptance-matrix.md` 的基线措辞已同步。后续 PR 前如 main 再推进，重复同样流程 | 高（已关闭） | 分支基线、PR 流程与文档措辞由 Lead M4 统一处理 |
 | `IC-03` · [#80](https://github.com/zsx3896926/EasyCirq/issues/80) | **CI 不跑冻结基准**：`.github/workflows/validate.yml` 只执行 `python3 -m unittest discover -s tests -v`（3.10/3.13），`benchmarks/task-launcher/run_benchmark.py` 不在 CI 中 | `.github/workflows/validate.yml`；`benchmarks/task-launcher/results.json` | 合并后在 CI 增加独立 job（建议 3.13，ubuntu）跑 `python benchmarks/task-launcher/run_benchmark.py`，把 `results.json` 与退出码作为门禁；`real_claude` 默认 `NOT RUN`，可用 `--real-claude` 仅做标记 | 中 | `.github/**` 在本任务禁止修改 |
@@ -87,5 +87,5 @@ A owner 决策，**本任务均未实现**，建议主分支单独跟进。
   integration-proposal.md §6）。
 - **不要用 fake agent 结果冒充真实模型验证**，也不要把 `real_eda="NOT RUN"` 改写成通过。
 - **不要把 launcher 契约复制进 A 的 `protocol/`** 形成第二份真源；A 侧只做转发/适配。
-- **不要在本次 PR 里顺带改** `.github/**`、`docs/handoff-current.md`、`easycirq/**`（旧布局 `design-hardware/**`）、
+- **不要在本次 PR 里顺带改** `.github/**`、`docs/handoff-current.md`、`easycirq/**`（旧布局 `easycirq/**`）、
   `runtime/**`、`connector/**`、`protocol/**`、`distribution/**`（允许路径外）。

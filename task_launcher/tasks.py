@@ -81,7 +81,7 @@ class Settings:
     """Configuration of one launcher process."""
 
     state_dir: Path = field(default_factory=default_state_dir)
-    #: The 2026-10 rename moved the Skill from ``design-hardware/`` to
+    #: The 2026-10 rename moved the Skill from ``easycirq/`` to
     #: ``easycirq/``; discover whichever exists instead of hard-coding one name.
     skill_dir: Path = field(default_factory=lambda: plugin.default_skill_dir(PACKAGE_ROOT))
     plugin_dir: Path | None = None

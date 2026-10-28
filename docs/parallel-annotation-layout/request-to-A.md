@@ -20,7 +20,7 @@ K 的离线标注规划与 probe 接入链路已合入 main（当前 main=697d51
 1. 复制 docs/parallel-annotation-layout/integration-capability-record.example.json，填入真实证据。
    - execution 必须为 not_executed
    - capability_source 用 onsite_probe_<date>_<page_id>
-2. 自检命令（在 design-hardware/scripts 下）：
+2. 自检命令（在 easycirq/scripts 下）：
    python -m annotation_layout probe-check <你的 capability-record.json 路径> --out <host-block.json>
    exit 0 且 stdout 的 status=valid 才继续；把 stdout JSON（尤其 warnings）一并回传。
    若 exit 2，按 errors 修 record，不要绕开。

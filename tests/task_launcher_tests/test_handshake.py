@@ -22,7 +22,7 @@ from .support import (
 
 FRONTMATTER = (
     "---\n"
-    "name: design-hardware\n"
+    "name: easycirq\n"
     "description: synthetic Skill used by the task_launcher handshake tests\n"
     "---\n\n"
     "# Synthetic Skill\n"
@@ -76,7 +76,7 @@ def make_prebuilt_plugin(
         skill_dir = plugin / "skills" / SKILL_NAME
         skill_dir.mkdir(parents=True)
         (skill_dir / "SKILL.md").write_text(
-            FRONTMATTER.replace("design-hardware", SKILL_NAME), encoding="utf-8", newline="\n"
+            FRONTMATTER.replace("easycirq", SKILL_NAME), encoding="utf-8", newline="\n"
         )
         (skill_dir / ".version").write_text(skill_version + "\n", encoding="utf-8", newline="\n")
         (plugin / ".mcp.json").write_text(

@@ -257,7 +257,7 @@ def _print_json(document: Any) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m task_launcher.stub_connector",
-        description="Stub EDA connector for the Zhigou task launcher (offline demo/benchmark driver).",
+        description="Stub EDA connector for the EasyCirq task launcher (offline demo/benchmark driver).",
     )
     parser.add_argument("--base-url", default="http://127.0.0.1:23121")
     parser.add_argument("--token", help="bearer token")

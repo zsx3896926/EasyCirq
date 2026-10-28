@@ -1,4 +1,4 @@
-"""Zhigou task launcher (B1-LAUNCH) — offline sidecar PoC.
+"""EasyCirq task launcher (B1-LAUNCH) — offline sidecar PoC.
 
 The launcher is the "controlled agent" half of B1: an EDA-side trigger surface
 calls this local HTTP sidecar with a ``task.start`` request, the sidecar builds
@@ -17,7 +17,7 @@ Scope of this PoC:
   agent; a real Claude Code run is OPTIONAL and reported as ``NOT RUN``
   unless explicitly requested.
 
-Version constants are intentionally independent of the design-hardware Skill
+Version constants are intentionally independent of the easycirq Skill
 version and of the (unmerged) EDA toolchain runtime on the parallel branch.
 """
 
@@ -58,19 +58,19 @@ MAX_MAX_EVENTS = 100000
 #: in ``plugin.json`` as ``skill_version`` so the two never get confused. That
 #: mapping is what the request's ``toolchain.plugin`` field is compared with.
 #: The plugin package name stays stable across the Skill rename
-#: (design-hardware -> easycirq); the bundled skill directory and the
+#: (easycirq -> easycirq); the bundled skill directory and the
 #: ``skill_version`` follow the actual Skill on disk.
 PLUGIN_NAME = "easycirq-design-hardware"
 PLUGIN_VERSION = "0.1.0"
 PLUGIN_DESCRIPTION = (
-    "Controlled hardware-design Skill loader for the Zhigou task launcher: "
+    "Controlled hardware-design Skill loader for the EasyCirq task launcher: "
     "read-only EDA review tasks with the offline audit MCP tools."
 )
 PLUGIN_LICENSE = "Apache-2.0"
 #: Skill directory names accepted by the launcher, in preference order.
-#: The 2026-10 rename moved ``design-hardware/`` to ``easycirq/``; both layouts
+#: The 2026-10 rename moved ``easycirq/`` to ``easycirq/``; both layouts
 #: are recognised so the launcher also works on a pre-rename checkout.
-SKILL_DIR_CANDIDATES = ("easycirq", "design-hardware")
+SKILL_DIR_CANDIDATES = ("easycirq",)
 
 #: Name of the offline MCP server mounted into the task (already on main).
 MCP_SERVER_NAME = "easycirq-offline-audit"

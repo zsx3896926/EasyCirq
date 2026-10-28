@@ -544,7 +544,7 @@ def main(argv=None):
                                  adopt=a.adopt, repair=a.action == 'repair')
             else:
                 m = latest()  # mutations never trust cached download URLs
-                with tempfile.TemporaryDirectory(prefix='hardware-skill-download-') as tmp:
+                with tempfile.TemporaryDirectory(prefix='easycirq-download-') as tmp:
                     package = Path(tmp) / m['archive']
                     package.write_bytes(download(m['download_url']))
                     result = install(target, package, m, adopt=a.adopt, repair=a.action == 'repair')

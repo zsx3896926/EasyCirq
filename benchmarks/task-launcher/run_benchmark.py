@@ -60,7 +60,7 @@ LAUNCHER_VERSION = "0.1.0"
 PLUGIN_VERSION = "0.1.0"
 SKILL_DIR = ROOT / "easycirq"
 if not (SKILL_DIR / "SKILL.md").is_file():
-    SKILL_DIR = ROOT / "design-hardware"
+    SKILL_DIR = ROOT / "easycirq"
 SKILL_VERSION = (SKILL_DIR / ".version").read_text(encoding="utf-8").strip()
 
 #: Frozen case requests use placeholders instead of hard-coded versions, so a
@@ -808,7 +808,7 @@ def _write_results(path: Path, document: dict) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python benchmarks/task-launcher/run_benchmark.py",
-        description="Frozen offline benchmark for the Zhigou B1 task launcher (fake agent + stub connector).",
+        description="Frozen offline benchmark for the EasyCirq B1 task launcher (fake agent + stub connector).",
     )
     parser.add_argument(
         "--real-claude",

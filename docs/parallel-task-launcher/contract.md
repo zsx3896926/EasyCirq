@@ -7,7 +7,7 @@
 | 项 | 取值 |
 |---|---|
 | launcher 版本 | `task_launcher.__version__ = "0.1.0"` |
-| Skill 版本 | `easycirq/.version`（当前仓库为 `1.0.2`；旧布局 `design-hardware/.version`） |
+| Skill 版本 | `easycirq/.version`（当前仓库为 `1.0.2`；旧布局 `easycirq/.version`） |
 | plugin 包版本 | `PLUGIN_VERSION = "0.1.0"`，`plugin.json.skill_version` 承载 Skill 版本 |
 | 请求 schema | `easycirq.task-launcher.start/v1` |
 | 事件 schema | `easycirq.task-launcher.event/v1` |
@@ -556,7 +556,7 @@ POST /task/start (202)
 | 参与方 | 期望值来源 | 请求字段 | 当前仓库取值 |
 |---|---|---|---|
 | launcher | `task_launcher.__version__` | `toolchain.launcher` | `0.1.0` |
-| Skill | `<skill-dir>/.version`（默认 `easycirq/.version`，旧布局 `design-hardware/.version`） | `toolchain.skill` | `1.0.2` |
+| Skill | `<skill-dir>/.version`（默认 `easycirq/.version`，旧布局 `easycirq/.version`） | `toolchain.skill` | `1.0.2` |
 | plugin | 生成的 plugin manifest `version`；`--plugin-dir` 时读预构建 manifest | `toolchain.plugin` | `0.1.0` |
 
 **版本映射**：plugin **包版本**由 launcher 拥有（`PLUGIN_VERSION = 0.1.0`）；被带入的 Skill 版本
@@ -564,7 +564,7 @@ POST /task/start (202)
 两者不得混用：请求里的 `toolchain.plugin` 比的是**包版本**，`skill_version` 另做一致性检查
 （§5.3 最后一行）。plugin 包名固定 `easycirq-design-hardware`（launcher 包身份，跨 EasyCirq 重命名
 保持稳定）；plugin 内 `skills/` 下的目录名跟随 Skill frontmatter（当前 `easycirq`，旧布局
-`design-hardware`）。
+`easycirq`）。
 
 ### 5.2 比较语义
 
@@ -593,7 +593,7 @@ POST /task/start (202)
 所有握手失败都附带修复建议 `hint`（固定文案）：
 
 ```text
-统一安装版本：确认 Skill（当前 easycirq，旧名 design-hardware）、task_launcher 与生成的 Claude Code plugin 来自同一次安装/构建；重装 plugin 或使用 --plugin-dir 指向匹配版本。
+统一安装版本：确认 Skill（当前 easycirq，旧名 easycirq）、task_launcher 与生成的 Claude Code plugin 来自同一次安装/构建；重装 plugin 或使用 --plugin-dir 指向匹配版本。
 ```
 
 握手失败发生在任务目录创建之前：**不会**留下 `tasks/<id>/`，也不会启动 Agent。
@@ -768,7 +768,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
 - 拒绝的 start（schema/握手/BUSY/Agent 不可用）**不留下任务目录**：创建失败时目录会被清理。
 - 任务运行只写 `<state-dir>/`（`tasks/<task_id>/` 与首次构建时的 `plugin-cache/`）；不写仓库、
-  Skill 目录或客户工程（测试用目录快照对比 `easycirq/`（旧布局 `design-hardware/`）前后变化）。
+  Skill 目录或客户工程（测试用目录快照对比 `easycirq/`（旧布局 `easycirq/`）前后变化）。
 - 工作区内不出现 token 或 `Bearer` 头（`agent.command.json` 的 `token_included` 恒 `false`，
   测试逐个文件断言）。
 - plugin 缓存以 Skill 指纹为 key，同一 launcher 进程只构建一次并复用；每个任务把缓存
@@ -794,7 +794,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
   `PATH`、`PATHEXT`、`SYSTEMROOT`、`SYSTEMDRIVE`、`WINDIR`、`COMSPEC`、`TEMP`、`TMP`、
   `HOME`、`USERPROFILE`、`LANG`、`LC_ALL`、`LC_CTYPE`、`TZ`、`PYTHONIOENCODING`、`PYTHONUTF8`；
   再注入 `PYTHONPATH`（仓库根）、`PYTHONIOENCODING=utf-8`、`PYTHONUTF8=1`、
-  `ZHIGOU_TASK_ID`、`ZHIGOU_MODE`、`ZHIGOU_STATE_DIR`，fake 额外 `ZHIGOU_FAKE_SCENARIO`。
+  `EASYCIRQ_TASK_ID`、`EASYCIRQ_MODE`、`EASYCIRQ_STATE_DIR`，fake 额外 `EASYCIRQ_FAKE_SCENARIO`。
   **token 不在任何环境变量中**。
 - spawn 细节：`stdin=DEVNULL`、stdout/stderr 管道、UTF-8 文本、独立进程组/会话（§4.3）。
 
@@ -806,7 +806,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
 | id | 必须出现的文本 |
 |---|---|
-| `rule-1-load-skill` | `必须先加载 <skill-name> Skill，不得跳过`（当前 easycirq；旧布局 design-hardware） |
+| `rule-1-load-skill` | `必须先加载 <skill-name> Skill，不得跳过`（当前 easycirq；旧布局 easycirq） |
 | `rule-2-read-only` | `只读任务：不得修改/保存/导出 EDA 工程，不得调用任何写接口` |
 | `rule-3-tools` | `未知/缺测必须如实报告，不得用默认值或猜测补全` |
 | `rule-4-verdicts` | `离线检查 / 真实 EDA / 硬件实测` |
@@ -855,7 +855,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 1. 每个任务的事件 `seq` 从 1 开始、严格 +1；`GET events?since=N` 只返回 `seq > N`。
 2. `events.jsonl` 的行与 events API 返回的事件同源同序（重启后 API 不再提供）。
 3. 工作区、`agent.command.json`、`result.json` 中不出现 token / `Bearer` 字符串。
-4. 任务运行不改变仓库与 `easycirq/`（旧布局 `design-hardware/`）文件（目录快照前后一致）。
+4. 任务运行不改变仓库与 `easycirq/`（旧布局 `easycirq/`）文件（目录快照前后一致）。
 5. 结果中 `real_eda == "NOT RUN"`、`eda_calls == 0`、`project_writes == 0`、
    `network_calls == 0`、`hardware_test == "NOT RUN"`。
 6. Agent argv 是字符串列表，且包含四个强制参数；`-p` 后是单个 `user_prompt` 参数。
@@ -872,7 +872,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 - 本任务**不修改** `runtime/`、`connector/`、`protocol/`、`distribution/`，不 import A 的代码，
   不启动真实 daemon/connector。分支从任务书基线 `main@0e391e3` 拉出，随后 rebase 到
   `origin/main@1701e79`（A 工具链 #36 与 EasyCirq 重命名 #77 均已合入 main）；
-  skill 目录重命名（`design-hardware/` → `easycirq/`）已适配；相对 main 只新增
+  skill 目录重命名（`easycirq/` → `easycirq/`）已适配；相对 main 只新增
   `task_launcher/`、`tests/task_launcher_tests/`、`benchmarks/task-launcher/`、
   `docs/parallel-task-launcher/`，`git diff --name-status origin/main...HEAD` 全部为 `A`。
 - 本契约的 API 命名与 A 既有 wire 概念（handshake / request / response / 错误码）对齐，

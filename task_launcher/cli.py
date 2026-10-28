@@ -6,7 +6,7 @@ Commands:
 * ``run``          — execute one ``task.start`` request once, print result JSON;
 * ``health``       — query a running launcher, or diagnose the local install;
 * ``build-plugin`` — build the Claude Code plugin from the repo Skill dir
-  (``easycirq/``; legacy ``design-hardware/``);
+  (``easycirq/``; legacy ``easycirq/``);
 * ``version``      — print launcher/Skill/plugin versions.
 
 Conventions used by the tests and the benchmark:
@@ -372,7 +372,7 @@ def _add_launcher_options(parser: argparse.ArgumentParser) -> None:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python -m task_launcher",
-        description="Zhigou B1 task launcher sidecar (offline PoC, read-only tasks).",
+        description="EasyCirq B1 task launcher sidecar (offline PoC, read-only tasks).",
     )
     parser.add_argument("--version-of-launcher", action="store_true", help=argparse.SUPPRESS)
     sub = parser.add_subparsers(dest="command", required=True)

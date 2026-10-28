@@ -18,7 +18,7 @@ from . import REAL_EDA, SKILL_DIR_CANDIDATES
 
 #: Substrings that MUST appear in every generated routing.md.  Each tuple is
 #: (rule id, marker template).  ``{skill}`` is the actual mounted Skill name
-#: (``easycirq`` after the 2026-10 rename, ``design-hardware`` on a legacy
+#: (``easycirq`` after the 2026-10 rename, ``easycirq`` on a legacy
 #: checkout); tests assert the resolved strings.
 RULE_MARKER_TEMPLATES = (
     ("rule-1-load-skill", "必须先加载 {skill} Skill，不得跳过"),
@@ -82,7 +82,7 @@ def build_routing_text(request: dict, skill_name: str | None = None) -> str:
 
     The text is deliberately explicit and repetitive: this prompt is the hard
     mechanism, not documentation for a human.  ``skill_name`` is the Skill name
-    actually mounted through the plugin (``easycirq`` today, ``design-hardware``
+    actually mounted through the plugin (``easycirq`` today, ``easycirq``
     on a legacy checkout), so the mandatory "load the Skill" rule names the file
     that exists.
     """
@@ -93,8 +93,8 @@ def build_routing_text(request: dict, skill_name: str | None = None) -> str:
     timeout_s = limits.get("timeout_s", 180)
     legacy_note = (
         []
-        if skill == "design-hardware"
-        else ["（本仓库 2026-10 起把 `design-hardware` 重命名为 EasyCirq；旧安装可能仍显示旧名。）", ""]
+        if skill == "easycirq"
+        else ["（本仓库 2026-10 起把 `easycirq` 重命名为 EasyCirq；旧安装可能仍显示旧名。）", ""]
     )
     lines = [
         "# 智构受控任务路由（由 task_launcher 注入，优先级高于模型自行判断）",

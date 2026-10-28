@@ -2,7 +2,7 @@
 
 - **分支 / worktree / 基线**：`feat/parallel-task-launcher` / `hds-tl-worktree`；
   任务书基线 `0e391e3` → M4 rebase 到 `c54c6fc` → 审计期 main 完成 **EasyCirq 重命名（#77,
-  `e07dc11`，`design-hardware/` → `easycirq/`）**，本分支再次 rebase 到 `origin/main@1701e79`
+  `e07dc11`，`easycirq/` → `easycirq/`）**，本分支再次 rebase 到 `origin/main@1701e79`
   并完成重命名适配。
 - **PR**：#74（OPEN，未合并；本任务不发版）—
   https://github.com/zsx3896926/EasyCirq/pull/74
@@ -39,7 +39,7 @@
 
 ## EasyCirq 重命名适配（审计期）
 
-main 在 #77（`e07dc11`）把仓库/Skill 从 `design-hardware` 重命名为 **EasyCirq**（目录
+main 在 #77（`e07dc11`）把仓库/Skill 从 `easycirq` 重命名为 **EasyCirq**（目录
 `easycirq/`、frontmatter `name: easycirq`）。本分支的适配（全部在允许路径内）：
 
 | 项 | 处理 |
@@ -145,7 +145,7 @@ benchmark 的 12 个 case 也全部由 stub connector 子进程驱动。
 - 链接审计：文档 + PR 描述链接全部可解析；15 个 issue 链接全部 open；EasyCirq 的 run/job
   链接逐个 `gh api` 校验存在。
 - **审计发现的关键阻塞**：main 已完成 EasyCirq 重命名（#77），旧分支的 PR merge-ref 因
-  `design-hardware/.version` 不存在而 14 个测试 import 失败（CI 红）；已 rebase + 适配重命名，
+  `easycirq/.version` 不存在而 14 个测试 import 失败（CI 红）；已 rebase + 适配重命名，
   本地全量 3428 OK。
 - 与最新 main 合并模拟：`git merge origin/main --no-commit --no-ff` → `Automatic merge went well`
   （无冲突；main 上不存在本任务 4 类路径）。

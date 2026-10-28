@@ -11,7 +11,7 @@ The fake agent:
   variables — this is how tests assert what the agent really received;
 * streams newline-delimited ``stream-json`` events on stdout;
 * supports the scenarios ``stream`` (default), ``slow``, ``stuck``, ``badjson``
-  and ``fail`` (selected with ``--scenario`` or ``ZHIGOU_FAKE_SCENARIO``).
+  and ``fail`` (selected with ``--scenario`` or ``EASYCIRQ_FAKE_SCENARIO``).
 
 It can never be mistaken for a real model run: every result it prints carries
 ``"model": "fake"`` and the launcher records ``agent: "fake"``.
@@ -29,7 +29,7 @@ SCENARIOS = ("stream", "slow", "stuck", "badjson", "fail")
 DEFAULT_SCENARIO = "stream"
 
 #: Environment variables copied into ``agent.received.json`` for assertions.
-RECORDED_ENV_PREFIXES = ("ZHIGOU_",)
+RECORDED_ENV_PREFIXES = ("EASYCIRQ_",)
 RECORDED_ENV_NAMES = ("PYTHONPATH", "PYTHONIOENCODING", "PYTHONUTF8")
 
 
@@ -55,7 +55,7 @@ def _prompt(argv: list[str]) -> str:
 
 
 def _scenario(argv: list[str]) -> str:
-    value = _arg_value(argv, "--scenario") or os.environ.get("ZHIGOU_FAKE_SCENARIO") or DEFAULT_SCENARIO
+    value = _arg_value(argv, "--scenario") or os.environ.get("EASYCIRQ_FAKE_SCENARIO") or DEFAULT_SCENARIO
     return value if value in SCENARIOS else DEFAULT_SCENARIO
 
 
@@ -165,7 +165,7 @@ def run(argv: list[str]) -> int:
         return 0
 
     delay = 0.3 if scenario == "slow" else 0.02
-    skill_name = os.environ.get("ZHIGOU_SKILL_NAME") or "easycirq"
+    skill_name = os.environ.get("EASYCIRQ_SKILL_NAME") or "easycirq"
     steps = [
         f"加载 {skill_name} Skill（fake）。",
         f"只读任务：mode=read_only；用户请求长度 {len(prompt)} 字符。",

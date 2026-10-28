@@ -29,11 +29,11 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
-#: The 2026-10 rename moved the Skill from ``design-hardware/`` to ``easycirq/``;
+#: The 2026-10 rename moved the Skill from ``easycirq/`` to ``easycirq/``;
 #: tests follow whatever the checkout actually contains.
 SKILL_DIR = ROOT / "easycirq"
 if not (SKILL_DIR / "SKILL.md").is_file():
-    SKILL_DIR = ROOT / "design-hardware"
+    SKILL_DIR = ROOT / "easycirq"
 SKILL_NAME = SKILL_DIR.name
 TESTS_DIR = Path(__file__).resolve().parent
 
