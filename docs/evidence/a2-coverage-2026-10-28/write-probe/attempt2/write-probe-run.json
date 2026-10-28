@@ -1,0 +1,718 @@
+{
+  "schema": "zhigou.a2-coverage.write-probe/v1",
+  "started_at": "2026-10-28T12:51:37+08:00",
+  "authorization": {
+    "granted_by": "jlc",
+    "granted_at": "2026-10-28T04:39:43.556247+00:00",
+    "scope": [
+      "W04",
+      "W05",
+      "W09"
+    ],
+    "project_root": "C:/Users/jlc/AppData/Local/Temp/a2-write-probe-20261028",
+    "authorization_file_sha256": "92ad57ef48b26d7e6c0a939ed7ba0cb67132f7deb380493448fd1fea0a5b53ed"
+  },
+  "fixture": {
+    "source_sha256": "824f6dcc41f6eb4918024a4d86e2b35248436b11bdad60aaa4d1693cb4d90fe0",
+    "copy": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125136\\a2write-run-20261028-125136.eprj2",
+    "copy_sha256_before": "824f6dcc41f6eb4918024a4d86e2b35248436b11bdad60aaa4d1693cb4d90fe0",
+    "copy_sha256_after_write": "7beaddc97e50e41f8704027cbd087de3265ec930d06050b0e2c7af527a332a70",
+    "copy_sha256_after": "7beaddc97e50e41f8704027cbd087de3265ec930d06050b0e2c7af527a332a70",
+    "tree_diff": {
+      "added": [],
+      "removed": [],
+      "changed": [
+        "a2write-run-20261028-125136.eprj2"
+      ],
+      "unchanged_count": 0
+    },
+    "source_sha256_after": "824f6dcc41f6eb4918024a4d86e2b35248436b11bdad60aaa4d1693cb4d90fe0",
+    "source_unchanged": true
+  },
+  "steps": [
+    {
+      "name": "W00-open",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "open",
+        "--path",
+        "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125136\\a2write-run-20261028-125136.eprj2",
+        "--headless"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1483.1,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W00-open.stdout.json"
+    },
+    {
+      "name": "W00-sessions-after-open",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "session",
+        "list"
+      ],
+      "exit_code": 0,
+      "duration_ms": 967.5,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W00-sessions-after-open.stdout.json"
+    },
+    {
+      "name": "W04a-create",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "fb612a13-0d62-4984-9549-488661778221",
+        "--code",
+        "\nfunction sleep(ms) { return new Promise(r => setTimeout(r, ms)); }\nasync function waitProject(timeoutMs) {\n  const t0 = Date.now();\n  let proj = null;\n  while (Date.now() - t0 < timeoutMs) {\n    proj = await eda.dmt_Project.getCurrentProjectInfo();\n    if (proj && proj.data && proj.data.length) return proj;\n    await sleep(500);\n  }\n  return proj;\n}\nasync function activateSchematic(proj) {\n  const board = proj.data[0];\n  const page = board.schematic && board.schematic.page && board.schematic.page[0];\n  if (!page) return { page: null, tabId: null };\n  const tabId = await eda.dmt_EditorControl.openDocument(page.uuid);\n  const activated = await eda.dmt_EditorControl.activateDocument(tabId);\n  const t0 = Date.now();\n  while (Date.now() - t0 < 45000) {\n    const comps = await eda.sch_PrimitiveComponent.getAll(undefined, true);\n    if (comps && comps.length) break;\n    await sleep(500);\n  }\n  return { page: {uuid: page.uuid, name: page.name}, tabId, activated };\n}\n\nconst proj = await waitProject(120000);\nif (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};\nconst sch = await activateSchematic(proj);\nconst before = await eda.sch_PrimitiveComponent.getAll(undefined, true);\nlet libs = {};\ntry { libs.project = await eda.lib_LibrariesList.getProjectLibraryUuid() || null; } catch (e) { libs.projectErr = String(e); }\ntry { libs.system = await eda.lib_LibrariesList.getSystemLibraryUuid() || null; } catch (e) { libs.systemErr = String(e); }\nlet search = null, searchErr = null;\ntry { search = await eda.lib_Device.search('0402', libs.system || undefined); } catch (e) { searchErr = String(e); }\nconst cands = Array.isArray(search) ? search.slice(0, 3) : [];\nlet created = null, createErr = null, chosen = null;\nfor (const cand of cands) {\n  try {\n    const res = await eda.sch_PrimitiveComponent.create(cand, 200, 600, undefined, 0, false, true, true);\n    if (res) { created = res; chosen = {uuid: cand.uuid, name: cand.name, libraryUuid: cand.libraryUuid}; break; }\n  } catch (e) { createErr = String(e); }\n}\nawait sleep(1200);\nreturn {\n  page: sch.page, activated: sch.activated, libs, searchCount: cands.length, searchErr, chosen, createErr,\n  created: created ? {primitiveId: created.primitiveId, designator: created.designator, name: created.name, x: created.x, y: created.y} : null,\n  before: {components: (before || []).length}\n};\n",
+        "--timeout",
+        "120000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 9091.1,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04a-create.stdout.json"
+    },
+    {
+      "name": "W04b-wire",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "fb612a13-0d62-4984-9549-488661778221",
+        "--code",
+        "\nfunction sleep(ms) { return new Promise(r => setTimeout(r, ms)); }\nasync function waitProject(timeoutMs) {\n  const t0 = Date.now();\n  let proj = null;\n  while (Date.now() - t0 < timeoutMs) {\n    proj = await eda.dmt_Project.getCurrentProjectInfo();\n    if (proj && proj.data && proj.data.length) return proj;\n    await sleep(500);\n  }\n  return proj;\n}\nasync function activateSchematic(proj) {\n  const board = proj.data[0];\n  const page = board.schematic && board.schematic.page && board.schematic.page[0];\n  if (!page) return { page: null, tabId: null };\n  const tabId = await eda.dmt_EditorControl.openDocument(page.uuid);\n  const activated = await eda.dmt_EditorControl.activateDocument(tabId);\n  const t0 = Date.now();\n  while (Date.now() - t0 < 45000) {\n    const comps = await eda.sch_PrimitiveComponent.getAll(undefined, true);\n    if (comps && comps.length) break;\n    await sleep(500);\n  }\n  return { page: {uuid: page.uuid, name: page.name}, tabId, activated };\n}\n\nconst proj = await waitProject(60000);\nif (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};\nawait activateSchematic(proj);\nawait sleep(300);\nlet wire = null, err = null;\ntry { wire = await eda.sch_PrimitiveWire.create([220, 600, 260, 600], 'A2PROBE_NET'); } catch (e) { err = String(e); }\nawait sleep(500);\nreturn {wire: wire ? {primitiveId: wire.primitiveId, net: wire.net} : null, err};\n",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1951.2,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04b-wire.stdout.json"
+    },
+    {
+      "name": "W04c-label",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "fb612a13-0d62-4984-9549-488661778221",
+        "--code",
+        "\nfunction sleep(ms) { return new Promise(r => setTimeout(r, ms)); }\nasync function waitProject(timeoutMs) {\n  const t0 = Date.now();\n  let proj = null;\n  while (Date.now() - t0 < timeoutMs) {\n    proj = await eda.dmt_Project.getCurrentProjectInfo();\n    if (proj && proj.data && proj.data.length) return proj;\n    await sleep(500);\n  }\n  return proj;\n}\nasync function activateSchematic(proj) {\n  const board = proj.data[0];\n  const page = board.schematic && board.schematic.page && board.schematic.page[0];\n  if (!page) return { page: null, tabId: null };\n  const tabId = await eda.dmt_EditorControl.openDocument(page.uuid);\n  const activated = await eda.dmt_EditorControl.activateDocument(tabId);\n  const t0 = Date.now();\n  while (Date.now() - t0 < 45000) {\n    const comps = await eda.sch_PrimitiveComponent.getAll(undefined, true);\n    if (comps && comps.length) break;\n    await sleep(500);\n  }\n  return { page: {uuid: page.uuid, name: page.name}, tabId, activated };\n}\n\nconst proj = await waitProject(60000);\nif (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};\nawait activateSchematic(proj);\nlet label = null, err = null;\ntry { label = await eda.sch_PrimitiveAttribute.createNetLabel(260, 600, 'A2PROBE_NET'); } catch (e) { err = String(e); }\nreturn {label: label ? {primitiveId: label.primitiveId} : null, err};\n",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1085.8,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04c-label.stdout.json"
+    },
+    {
+      "name": "W04d-flag",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "fb612a13-0d62-4984-9549-488661778221",
+        "--code",
+        "\nfunction sleep(ms) { return new Promise(r => setTimeout(r, ms)); }\nasync function waitProject(timeoutMs) {\n  const t0 = Date.now();\n  let proj = null;\n  while (Date.now() - t0 < timeoutMs) {\n    proj = await eda.dmt_Project.getCurrentProjectInfo();\n    if (proj && proj.data && proj.data.length) return proj;\n    await sleep(500);\n  }\n  return proj;\n}\nasync function activateSchematic(proj) {\n  const board = proj.data[0];\n  const page = board.schematic && board.schematic.page && board.schematic.page[0];\n  if (!page) return { page: null, tabId: null };\n  const tabId = await eda.dmt_EditorControl.openDocument(page.uuid);\n  const activated = await eda.dmt_EditorControl.activateDocument(tabId);\n  const t0 = Date.now();\n  while (Date.now() - t0 < 45000) {\n    const comps = await eda.sch_PrimitiveComponent.getAll(undefined, true);\n    if (comps && comps.length) break;\n    await sleep(500);\n  }\n  return { page: {uuid: page.uuid, name: page.name}, tabId, activated };\n}\n\nconst proj = await waitProject(60000);\nif (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};\nawait activateSchematic(proj);\nlet flag = null, err = null;\ntry { flag = await eda.sch_PrimitiveComponent.createNetFlag('Power', 'A2PROBE_VCC', 200, 540); } catch (e) { err = String(e); }\nreturn {flag: flag ? {primitiveId: flag.primitiveId, name: flag.name} : null, err};\n",
+        "--timeout",
+        "60000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 2006.1,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04d-flag.stdout.json"
+    },
+    {
+      "name": "W04e-save-readback",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "fb612a13-0d62-4984-9549-488661778221",
+        "--code",
+        "\nfunction sleep(ms) { return new Promise(r => setTimeout(r, ms)); }\nasync function waitProject(timeoutMs) {\n  const t0 = Date.now();\n  let proj = null;\n  while (Date.now() - t0 < timeoutMs) {\n    proj = await eda.dmt_Project.getCurrentProjectInfo();\n    if (proj && proj.data && proj.data.length) return proj;\n    await sleep(500);\n  }\n  return proj;\n}\nasync function activateSchematic(proj) {\n  const board = proj.data[0];\n  const page = board.schematic && board.schematic.page && board.schematic.page[0];\n  if (!page) return { page: null, tabId: null };\n  const tabId = await eda.dmt_EditorControl.openDocument(page.uuid);\n  const activated = await eda.dmt_EditorControl.activateDocument(tabId);\n  const t0 = Date.now();\n  while (Date.now() - t0 < 45000) {\n    const comps = await eda.sch_PrimitiveComponent.getAll(undefined, true);\n    if (comps && comps.length) break;\n    await sleep(500);\n  }\n  return { page: {uuid: page.uuid, name: page.name}, tabId, activated };\n}\n\nconst args = (typeof __CLI__ !== 'undefined' && __CLI__.args) ? __CLI__.args : {};\nconst proj = await waitProject(60000);\nif (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};\nawait activateSchematic(proj);\nlet saved = null, saveErr = null;\ntry { saved = await eda.sch_Document.save(); } catch (e) { saveErr = String(e); }\nawait sleep(1000);\nconst comps = await eda.sch_PrimitiveComponent.getAll(undefined, true) || [];\nconst wires = await eda.sch_PrimitiveWire.getAll() || [];\nconst text = (v) => JSON.stringify(v === undefined ? null : v);\nconst dev = args.designator ? comps.find(c => c && c.designator === args.designator) : null;\nconst created = comps.find(c => c && text(c).indexOf('A2PROBE') >= 0);\nreturn {\n  saved, saveErr,\n  componentCount: comps.length, wireCount: wires.length,\n  flagFound: comps.some(c => c && text(c).indexOf('A2PROBE_VCC') >= 0),\n  wireFound: wires.some(w => text(w).indexOf('A2PROBE_NET') >= 0),\n  devFoundByDesignator: !!dev,\n  devFoundByProximity: comps.some(c => c && Math.abs((c.x || 0) - 200) <= 25 && Math.abs((c.y || 0) - 600) <= 25 && Math.abs((c.y || 0) - 540) > 25),\n  createdSample: created ? {designator: created.designator, name: created.name, x: created.x, y: created.y} : null\n};\n",
+        "--args",
+        "{\"designator\": \"U?\"}",
+        "--timeout",
+        "90000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 2551.1,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04e-save-readback.stdout.json"
+    },
+    {
+      "name": "W05-pcb-write",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "fb612a13-0d62-4984-9549-488661778221",
+        "--code",
+        "\nfunction sleep(ms) { return new Promise(r => setTimeout(r, ms)); }\nasync function waitProject(timeoutMs) {\n  const t0 = Date.now();\n  let proj = null;\n  while (Date.now() - t0 < timeoutMs) {\n    proj = await eda.dmt_Project.getCurrentProjectInfo();\n    if (proj && proj.data && proj.data.length) return proj;\n    await sleep(500);\n  }\n  return proj;\n}\nasync function activateSchematic(proj) {\n  const board = proj.data[0];\n  const page = board.schematic && board.schematic.page && board.schematic.page[0];\n  if (!page) return { page: null, tabId: null };\n  const tabId = await eda.dmt_EditorControl.openDocument(page.uuid);\n  const activated = await eda.dmt_EditorControl.activateDocument(tabId);\n  const t0 = Date.now();\n  while (Date.now() - t0 < 45000) {\n    const comps = await eda.sch_PrimitiveComponent.getAll(undefined, true);\n    if (comps && comps.length) break;\n    await sleep(500);\n  }\n  return { page: {uuid: page.uuid, name: page.name}, tabId, activated };\n}\n\nconst proj = await waitProject(120000);\nif (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};\nconst board = proj.data[0];\nconst sch = await activateSchematic(proj);\nawait sleep(800);\nlet importRes = null, importErr = null;\ntry { importRes = await eda.sch_Document.importChanges(false); } catch (e) { importErr = String(e); }\nawait sleep(3000);\nconst pcb = board.pcb;\nif (!pcb) return {fatal: 'project has no PCB'};\nconst pcbTab = await eda.dmt_EditorControl.openDocument(pcb.uuid);\nconst pcbActivated = await eda.dmt_EditorControl.activateDocument(pcbTab);\nconst t0 = Date.now();\nlet comps = [];\nwhile (Date.now() - t0 < 60000) {\n  comps = await eda.pcb_PrimitiveComponent.getAll();\n  if (comps && comps.length) break;\n  await sleep(500);\n}\nconst designatorOf = (c) => c && (c.designator || c.name || null);\nconst target = (comps || []).find(c => designatorOf(c) && designatorOf(c) !== '?') || null;\nlet expected = null, moveRes = null, moveErr = null;\nif (target) {\n  expected = {designator: designatorOf(target), x: (target.x || 0) + 50, y: (target.y || 0) + 50};\n  try { moveRes = await eda.pcb_PrimitiveComponent.modify(target.primitiveId, {x: expected.x, y: expected.y}); } catch (e) { moveErr = String(e); }\n}\nawait sleep(1200);\nconst after = await eda.pcb_PrimitiveComponent.getAll();\nconst found = expected ? (after || []).find(c => designatorOf(c) === expected.designator) : null;\nlet saveRes = null, saveErr = null;\ntry { saveRes = await eda.pcb_Document.save(); } catch (e) { saveErr = String(e); }\nawait sleep(1500);\nconst last = await eda.pcb_PrimitiveComponent.getAll();\nconst lastFound = expected ? (last || []).find(c => designatorOf(c) === expected.designator) : null;\nreturn {\n  schematicActivated: sch.activated, importRes, importErr,\n  pcbActivated, componentCount: (comps || []).length,\n  target: target ? {primitiveId: target.primitiveId, designator: designatorOf(target), x: target.x, y: target.y, rotation: target.rotation} : null,\n  expected,\n  moveRes: moveRes ? {x: moveRes.x, y: moveRes.y} : null, moveErr,\n  found: found ? {designator: designatorOf(found), x: found.x, y: found.y} : null,\n  lastFound: lastFound ? {designator: designatorOf(lastFound), x: lastFound.x, y: lastFound.y} : null,\n  saveRes, saveErr\n};\n",
+        "--timeout",
+        "300000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 14533.0,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W05-pcb-write.stdout.json"
+    },
+    {
+      "name": "W09-close",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "session",
+        "close",
+        "--session",
+        "fb612a13-0d62-4984-9549-488661778221",
+        "--destroy"
+      ],
+      "exit_code": 0,
+      "duration_ms": 809.1,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-close.stdout.json"
+    },
+    {
+      "name": "W09-reopen",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "open",
+        "--path",
+        "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125136\\a2write-run-20261028-125136.eprj2",
+        "--headless"
+      ],
+      "exit_code": 0,
+      "duration_ms": 1304.6,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-reopen.stdout.json"
+    },
+    {
+      "name": "W09-readback",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "invoke",
+        "--session",
+        "3173870f-2820-4fe9-891a-8c38abb26732",
+        "--code",
+        "\nfunction sleep(ms) { return new Promise(r => setTimeout(r, ms)); }\nasync function waitProject(timeoutMs) {\n  const t0 = Date.now();\n  let proj = null;\n  while (Date.now() - t0 < timeoutMs) {\n    proj = await eda.dmt_Project.getCurrentProjectInfo();\n    if (proj && proj.data && proj.data.length) return proj;\n    await sleep(500);\n  }\n  return proj;\n}\nasync function activateSchematic(proj) {\n  const board = proj.data[0];\n  const page = board.schematic && board.schematic.page && board.schematic.page[0];\n  if (!page) return { page: null, tabId: null };\n  const tabId = await eda.dmt_EditorControl.openDocument(page.uuid);\n  const activated = await eda.dmt_EditorControl.activateDocument(tabId);\n  const t0 = Date.now();\n  while (Date.now() - t0 < 45000) {\n    const comps = await eda.sch_PrimitiveComponent.getAll(undefined, true);\n    if (comps && comps.length) break;\n    await sleep(500);\n  }\n  return { page: {uuid: page.uuid, name: page.name}, tabId, activated };\n}\n\nconst args = (typeof __CLI__ !== 'undefined' && __CLI__.args) ? __CLI__.args : {};\nconst proj = await waitProject(120000);\nif (!proj || !proj.data || !proj.data.length) return {fatal: 'project not loaded'};\nconst board = proj.data[0];\nconst sch = await activateSchematic(proj);\nconst comps = await eda.sch_PrimitiveComponent.getAll(undefined, true) || [];\nconst wires = await eda.sch_PrimitiveWire.getAll() || [];\nconst text = (v) => JSON.stringify(v === undefined ? null : v);\nconst flagFound = comps.some(c => c && (text(c).indexOf(args.vcc || 'A2PROBE_VCC') >= 0));\nconst wireFound = wires.some(w => text(w).indexOf(args.net || 'A2PROBE_NET') >= 0);\nconst devFound = comps.some(c => c && Math.abs((c.x || 0) - (args.deviceX || 200)) <= 80 && Math.abs((c.y || 0) - (args.deviceY || 600)) <= 80);\nconst pcb = board.pcb;\nlet pcbResult = null;\nif (pcb) {\n  const pcbTab = await eda.dmt_EditorControl.openDocument(pcb.uuid);\n  await eda.dmt_EditorControl.activateDocument(pcbTab);\n  const t0 = Date.now();\n  let pcbs = [];\n  while (Date.now() - t0 < 60000) {\n    pcbs = await eda.pcb_PrimitiveComponent.getAll();\n    if (pcbs && pcbs.length) break;\n    await sleep(500);\n  }\n  const designatorOf = (c) => c && (c.designator || c.name || null);\n  const found = pcbs.find(c => designatorOf(c) === args.pcbDesignator);\n  pcbResult = {componentCount: pcbs.length, designator: args.pcbDesignator,\n               found: found ? {designator: designatorOf(found), x: found.x, y: found.y} : null};\n}\nreturn {projectUuid: proj.uuid, flagFound, wireFound, devFound,\n        componentCount: comps.length, wireCount: wires.length, pcb: pcbResult};\n",
+        "--args",
+        "{\"net\": \"A2PROBE_NET\", \"vcc\": \"A2PROBE_VCC\", \"deviceX\": 200, \"deviceY\": 600, \"pcbDesignator\": \"DC1\"}",
+        "--timeout",
+        "180000"
+      ],
+      "exit_code": 0,
+      "duration_ms": 11625.1,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-readback.stdout.json"
+    },
+    {
+      "name": "W99-close",
+      "argv": [
+        "C:\\Users\\jlc\\AppData\\Local\\Programs\\LCEDA-Pro\\lceda-pro.exe",
+        "session",
+        "close",
+        "--session",
+        "3173870f-2820-4fe9-891a-8c38abb26732",
+        "--destroy"
+      ],
+      "exit_code": 0,
+      "duration_ms": 880.7,
+      "json_ok": true,
+      "stdout_file": "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W99-close.stdout.json"
+    }
+  ],
+  "checks": {
+    "W04": {
+      "device_created": true,
+      "wire_created": true,
+      "net_label_created": false,
+      "save_true": true,
+      "readback_component_found": true,
+      "readback_counts_increased": true
+    },
+    "W05": {
+      "import_changes_returned": true,
+      "component_moved": true,
+      "move_delta_ok": true,
+      "save_true": true
+    },
+    "W09": {
+      "net_flag_persisted": true,
+      "wire_persisted": true,
+      "device_persisted": true,
+      "pcb_pose_persisted": true,
+      "project_file_changed": true
+    },
+    "passed": {
+      "W04": false,
+      "W05": true,
+      "W09": true
+    },
+    "all_passed": false
+  },
+  "w04": {
+    "chosen": {
+      "uuid": "1e1c274d9d4046159ea8529969176d13",
+      "name": "0402",
+      "libraryUuid": "0819f05c4eef4c71ace90d822a990e87"
+    },
+    "createRes": {
+      "primitiveId": "744247fef1283782",
+      "designator": "U?",
+      "name": "={Manufacturer Part}",
+      "x": 200,
+      "y": 600
+    },
+    "before": {
+      "components": 58
+    },
+    "searchCount": 3,
+    "wire": {
+      "primitiveId": "dc96501bd1cbc190",
+      "net": "A2PROBE_NET"
+    },
+    "label": null,
+    "flag": {
+      "primitiveId": "fd912ec1e6cc5198",
+      "name": "A2PROBE_VCC"
+    },
+    "saveRes": true,
+    "saveErr": null,
+    "afterSave": {
+      "components": 60,
+      "wires": 35,
+      "newComponentFound": true,
+      "flagFound": true,
+      "wireFound": true
+    },
+    "substeps": {
+      "W04a-create": {
+        "page": {
+          "uuid": "1a9f744ca59348a3bb31b1ffbdf8c491",
+          "name": "P1"
+        },
+        "activated": true,
+        "libs": {
+          "project": "project",
+          "system": "0819f05c4eef4c71ace90d822a990e87"
+        },
+        "searchCount": 3,
+        "searchErr": null,
+        "chosen": {
+          "uuid": "1e1c274d9d4046159ea8529969176d13",
+          "name": "0402",
+          "libraryUuid": "0819f05c4eef4c71ace90d822a990e87"
+        },
+        "createErr": null,
+        "created": {
+          "primitiveId": "744247fef1283782",
+          "designator": "U?",
+          "name": "={Manufacturer Part}",
+          "x": 200,
+          "y": 600
+        },
+        "before": {
+          "components": 58
+        }
+      },
+      "W04b-wire": {
+        "wire": {
+          "primitiveId": "dc96501bd1cbc190",
+          "net": "A2PROBE_NET"
+        },
+        "err": null
+      },
+      "W04c-label": {
+        "label": null,
+        "err": null
+      },
+      "W04d-flag": {
+        "flag": {
+          "primitiveId": "fd912ec1e6cc5198",
+          "name": "A2PROBE_VCC"
+        },
+        "err": null
+      }
+    },
+    "readback": {
+      "saved": true,
+      "saveErr": null,
+      "componentCount": 60,
+      "wireCount": 35,
+      "flagFound": true,
+      "wireFound": true,
+      "devFoundByDesignator": true,
+      "devFoundByProximity": true,
+      "createdSample": {
+        "name": "A2PROBE_VCC",
+        "x": 200,
+        "y": 540
+      }
+    }
+  },
+  "w05": {
+    "schematicActivated": true,
+    "importRes": true,
+    "importErr": null,
+    "pcbActivated": true,
+    "componentCount": 33,
+    "target": {
+      "primitiveId": "e0",
+      "designator": "DC1",
+      "x": 466.1575,
+      "y": -1950.7677,
+      "rotation": 0
+    },
+    "expected": {
+      "designator": "DC1",
+      "x": 516.1575,
+      "y": -1900.7677
+    },
+    "moveRes": {
+      "x": 516.1575,
+      "y": -1900.7677
+    },
+    "moveErr": null,
+    "found": {
+      "designator": "DC1",
+      "x": 516.1575,
+      "y": -1900.7677
+    },
+    "lastFound": {
+      "designator": "DC1",
+      "x": 516.1575,
+      "y": -1900.7677
+    },
+    "saveRes": true,
+    "saveErr": null
+  },
+  "w09": {
+    "projectUuid": "7e705495a4900da909748a91b0cb7eb52e84fcb584a5cbca06a616ad6f5334fb",
+    "flagFound": true,
+    "wireFound": true,
+    "devFound": true,
+    "componentCount": 60,
+    "wireCount": 35,
+    "pcb": {
+      "componentCount": 33,
+      "designator": "DC1",
+      "found": {
+        "designator": "DC1",
+        "x": 516.1575,
+        "y": -1900.7677
+      }
+    }
+  },
+  "finished_at": "2026-10-28T12:52:28+08:00",
+  "sessions": {
+    "before": {
+      "user": [
+        "2d8e1a8d-e905-4eeb-896f-e8cbc6e7f798"
+      ],
+      "cli": [
+        "f178a1bd-4461-4e86-a363-fcdab382cec8",
+        "2b83ff64-d3ac-4171-be9d-68732a229926",
+        "4658477a-b6d4-4429-96ae-adf2642b1803",
+        "f5f0fb30-7300-4f10-9ad3-0f6a753a50b0",
+        "5903cfdd-45ff-4c92-8043-21999cea86c3",
+        "e7746de7-e9aa-49d3-a82b-fbd2bf81ffa9",
+        "14c19669-4d15-46c7-a484-810f70e125f7",
+        "009d1ea0-1eb6-407e-89fc-efba2d65e080",
+        "35320feb-710f-4629-a6ed-0db3abed5ff5",
+        "b629708b-70e6-4933-834e-31d6cf7e68cf",
+        "d85cc02f-8176-4a99-9b48-affdf080ad56",
+        "87cab946-98e0-4a2c-8da6-6abcaa750f4a"
+      ],
+      "raw": {
+        "ok": true,
+        "value": [
+          {
+            "sessionId": "2d8e1a8d-e905-4eeb-896f-e8cbc6e7f798",
+            "renderId": 2,
+            "status": "alive",
+            "headless": false,
+            "origin": "user",
+            "path": null,
+            "title": "zhigou-dual-button-led-eev2-20261028 | 嘉立创EDA(专业版) - V4.1.78"
+          },
+          {
+            "sessionId": "f178a1bd-4461-4e86-a363-fcdab382cec8",
+            "renderId": 3,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-spike-20261028-1050\\fixture\\a2spike-quickstart.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "2b83ff64-d3ac-4171-be9d-68732a229926",
+            "renderId": 4,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-123950\\a2write-run-20261028-123950.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "4658477a-b6d4-4429-96ae-adf2642b1803",
+            "renderId": 5,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-123950\\a2write-run-20261028-123950.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "f5f0fb30-7300-4f10-9ad3-0f6a753a50b0",
+            "renderId": 6,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\A_search\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "5903cfdd-45ff-4c92-8043-21999cea86c3",
+            "renderId": 7,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\B_create_searchitem\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "e7746de7-e9aa-49d3-a82b-fbd2bf81ffa9",
+            "renderId": 8,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\C1_create_existing_component\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "14c19669-4d15-46c7-a484-810f70e125f7",
+            "renderId": 9,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\C2_create_project_lib\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "009d1ea0-1eb6-407e-89fc-efba2d65e080",
+            "renderId": 10,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\C3_create_symbol\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "35320feb-710f-4629-a6ed-0db3abed5ff5",
+            "renderId": 11,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\D_netflag\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "b629708b-70e6-4933-834e-31d6cf7e68cf",
+            "renderId": 12,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\E_wire\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "d85cc02f-8176-4a99-9b48-affdf080ad56",
+            "renderId": 13,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\F_netlabel\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "87cab946-98e0-4a2c-8da6-6abcaa750f4a",
+            "renderId": 14,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\G_save\\probe.eprj2",
+            "title": null
+          }
+        ],
+        "logs": [],
+        "durationMs": 0
+      }
+    },
+    "after": {
+      "user": [
+        "2d8e1a8d-e905-4eeb-896f-e8cbc6e7f798"
+      ],
+      "cli": [
+        "f178a1bd-4461-4e86-a363-fcdab382cec8",
+        "2b83ff64-d3ac-4171-be9d-68732a229926",
+        "4658477a-b6d4-4429-96ae-adf2642b1803",
+        "f5f0fb30-7300-4f10-9ad3-0f6a753a50b0",
+        "5903cfdd-45ff-4c92-8043-21999cea86c3",
+        "e7746de7-e9aa-49d3-a82b-fbd2bf81ffa9",
+        "14c19669-4d15-46c7-a484-810f70e125f7",
+        "009d1ea0-1eb6-407e-89fc-efba2d65e080",
+        "35320feb-710f-4629-a6ed-0db3abed5ff5",
+        "b629708b-70e6-4933-834e-31d6cf7e68cf",
+        "d85cc02f-8176-4a99-9b48-affdf080ad56",
+        "87cab946-98e0-4a2c-8da6-6abcaa750f4a",
+        "fb612a13-0d62-4984-9549-488661778221",
+        "3173870f-2820-4fe9-891a-8c38abb26732"
+      ],
+      "raw": {
+        "ok": true,
+        "value": [
+          {
+            "sessionId": "2d8e1a8d-e905-4eeb-896f-e8cbc6e7f798",
+            "renderId": 2,
+            "status": "alive",
+            "headless": false,
+            "origin": "user",
+            "path": null,
+            "title": "zhigou-dual-button-led-eev2-20261028 | 嘉立创EDA(专业版) - V4.1.78"
+          },
+          {
+            "sessionId": "f178a1bd-4461-4e86-a363-fcdab382cec8",
+            "renderId": 3,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-spike-20261028-1050\\fixture\\a2spike-quickstart.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "2b83ff64-d3ac-4171-be9d-68732a229926",
+            "renderId": 4,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-123950\\a2write-run-20261028-123950.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "4658477a-b6d4-4429-96ae-adf2642b1803",
+            "renderId": 5,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-123950\\a2write-run-20261028-123950.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "f5f0fb30-7300-4f10-9ad3-0f6a753a50b0",
+            "renderId": 6,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\A_search\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "5903cfdd-45ff-4c92-8043-21999cea86c3",
+            "renderId": 7,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\B_create_searchitem\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "e7746de7-e9aa-49d3-a82b-fbd2bf81ffa9",
+            "renderId": 8,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\C1_create_existing_component\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "14c19669-4d15-46c7-a484-810f70e125f7",
+            "renderId": 9,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\C2_create_project_lib\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "009d1ea0-1eb6-407e-89fc-efba2d65e080",
+            "renderId": 10,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\C3_create_symbol\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "35320feb-710f-4629-a6ed-0db3abed5ff5",
+            "renderId": 11,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\D_netflag\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "b629708b-70e6-4933-834e-31d6cf7e68cf",
+            "renderId": 12,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\E_wire\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "d85cc02f-8176-4a99-9b48-affdf080ad56",
+            "renderId": 13,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\F_netlabel\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "87cab946-98e0-4a2c-8da6-6abcaa750f4a",
+            "renderId": 14,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\G_save\\probe.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "fb612a13-0d62-4984-9549-488661778221",
+            "renderId": 15,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125136\\a2write-run-20261028-125136.eprj2",
+            "title": null
+          },
+          {
+            "sessionId": "3173870f-2820-4fe9-891a-8c38abb26732",
+            "renderId": 16,
+            "status": "closed",
+            "headless": true,
+            "origin": "cli",
+            "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125136\\a2write-run-20261028-125136.eprj2",
+            "title": null
+          }
+        ],
+        "logs": [],
+        "durationMs": 0
+      }
+    }
+  }
+}

@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"title":"获取工程库的 UUID","remarks":"在未打开工程的情况下调用将返回 `undefined`","visibility":"public","params":[],"returns":{"type":"string | undefined","description":"工程库的 UUID"},"isAsync":true},"logs":[],"durationMs":162}

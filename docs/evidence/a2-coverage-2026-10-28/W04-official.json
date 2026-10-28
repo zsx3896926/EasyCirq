@@ -3,36 +3,51 @@
   "id": "W04",
   "side": "official",
   "title": "schematic write + readback",
-  "status": "blocked",
+  "status": "covered",
   "commands": [
-    "invoke -> eda.sch_PrimitiveComponent.create",
-    "invoke -> eda.sch_PrimitiveWire.create",
-    "invoke -> eda.sch_PrimitiveAttribute.createNetLabel",
-    "invoke -> eda.sch_Document.save",
-    "invoke -> readback"
+    "invoke -> eda.lib_Device.search('0402', systemLibraryUuid)",
+    "invoke -> eda.sch_PrimitiveComponent.create(searchItem, 200, 600)",
+    "invoke -> eda.sch_PrimitiveWire.create([220,600,260,600], 'A2PROBE_NET')",
+    "invoke -> eda.sch_PrimitiveAttribute.createNetLabel(260, 600, 'A2PROBE_NET')",
+    "invoke -> eda.sch_PrimitiveComponent.createNetFlag('Power', 'A2PROBE_VCC', 200, 540)",
+    "invoke -> eda.sch_Document.save()",
+    "invoke -> readback: sch_PrimitiveComponent.getAll / sch_PrimitiveWire.getAll / sch_PrimitiveAttribute.getAll"
   ],
-  "steps": 0,
-  "exit_codes": [],
+  "steps": 7,
+  "exit_codes": [
+    0
+  ],
   "evidence": [
-    "docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveComponent.create.json",
-    "docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveWire.create.json",
-    "docs/evidence/a2-coverage-2026-10-28/api/SCH_Document.save.json",
-    "docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveAttribute.createNetLabel.json"
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04a-create.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04b-wire.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04c-label.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04d-flag.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04e-save-readback.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/write-probe-run.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe-passed.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/authorization.json"
   ],
   "observations": [
-    "The typed write surface exists in the static API catalog (create/modify/delete/netflag/netport, wire create, save) with documented async conventions.",
-    "No write was executed: design-content write probes were not authorized for this session, so no receipt can support a covered/partial status.",
-    "Known 4.1.78 frictions from the repository's own adapter notes (eda-execution.md) still apply: new primitives commit asynchronously, property edits can be dropped, and ok:true does not mean the business operation succeeded."
+    "Placed a real device from the system library (search '0402' -> item uuid 1e1c274d..., create returned primitiveId 744247fef1283782, designator 'U?'), then created wire A2PROBE_NET, net label A2PROBE_NET, net flag A2PROBE_VCC and saved (save -> true).",
+    "Readback after save: components 58 -> 60 (device + net flag), wires 34 -> 35, flag found by name, label found via sch_PrimitiveAttribute.getAll (value A2PROBE_NET), device found by proximity.",
+    "createNetLabel returned null while the attribute was actually persisted: the only reliable check is a readback through sch_PrimitiveAttribute.getAll.",
+    "Creating a component from an existing component/symbol identity (libraryUuid empty or 'project', symbol uuid) hung >90 s three times; only the library-search-item path is usable in 4.1.78 half-offline mode.",
+    "sch_PrimitiveComponent.getAllPinsByPrimitiveId on a freshly created async component blocked one 240 s invoke, so the wire is a standalone segment at fixed coordinates instead of a pin-attached wire.",
+    "Each write is an independent invoke (create/wire/label/flag/save/readback) because a single long program can hit REQUEST_TIMEOUT and discard its result, hiding the steps that already succeeded."
   ],
   "risks": [
-    "hand-written JS per operation, no typed contract, no idempotency guarantees",
-    "async commit timing requires waits + readback; a naive model call will report false success",
-    "no write probe means persistence is unproven"
+    "device creation must go through a library search item; identity-based create hangs",
+    "pin lookup on a not-yet-committed component can hang; wait or avoid",
+    "createNetLabel create return value is unreliable (null on success)",
+    "ok:true only means the code ran; every write needs a fresh readback",
+    "no typed idempotency: repeated create makes duplicates"
   ],
   "measured": {
-    "steps": 0,
-    "js_lines": 0,
-    "exit_codes": [],
-    "duration_ms": 0.0
+    "steps": 5,
+    "js_lines": 202,
+    "exit_codes": [
+      0
+    ],
+    "duration_ms": 16609.1
   }
 }

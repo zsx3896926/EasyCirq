@@ -67,7 +67,7 @@ Sessions after the probe: the same user session is still `alive`; every
 
 | item | decision |
 | --- | --- |
-| design-content write probes (W04/W05/W09-save) | **NOT AUTHORIZED** -> cells `blocked (authorization)`, no write was attempted |
+| design-content write probes (W04/W05/W09) | first phase **NOT AUTHORIZED** (cells were `blocked`); **later authorized by `jlc`** and executed on a disposable `%TEMP%` copy only - see §6.1 and `write-probe-passed.json` |
 | project creation | not used against the user's project tree; a **vendor sample copy** under `%TEMP%` was opened |
 | user window (activate/refresh/close) | never touched; only `origin:"cli"` headless sessions were driven |
 | extension install/uninstall | none performed |
@@ -75,10 +75,12 @@ Sessions after the probe: the same user session is still `alive`; every
 | A branch | read-only static reading; not checked out, not modified, not used as base |
 | repo / PR | no merge, no release, no changes outside the allowed paths |
 
-Write authorization was never granted in this session, so the task book's
-fallback applies: deliver **offline/provisional** conclusions and mark the
-write cells `BLOCKED`. No receipt in this directory was fabricated: every
-JSON under `raw/` is the unedited stdout/stderr of a real CLI call.
+The first phase delivered **offline/provisional** conclusions with the write cells
+`BLOCKED`, per the task-book fallback. Afterwards the operator explicitly
+authorized W04/W05/W09 and the probe ran (see §6.1); every remaining `NOT RUN`
+item is listed in `report.md` §4. No receipt in this directory was fabricated:
+every JSON under `raw/` and `write-probe/raw/` is the unedited stdout/stderr of a
+real CLI call.
 
 ## 6. Fixture project (disposable, in the system temp dir)
 
@@ -95,6 +97,16 @@ JSON under `raw/` is the unedited stdout/stderr of a real CLI call.
 - Cleanup: temp project stays under `%TEMP%\a2-spike-20261028-1050\`
   (not in the repo); delete that directory to clean up. Only receipts/hashes
   were copied into `docs/evidence/`.
+
+### 6.1 Authorized write probe copy (2026-10-28)
+
+After an explicit operator authorization, `spike/a2-coverage/probe_writes.py`
+copied the same fixture again to
+`%TEMP%\a2-write-probe-20261028\run-20261028-125326\` and performed W04/W05/W09
+there. The source fixture hash did not change; the copy hash changed from
+`824f6dcc...` to `4be11c20...`; the run wrote only `origin:"cli"` sessions and
+closed them with `--destroy`. The temporary copy is kept for review and can be
+deleted with the whole `%TEMP%\a2-write-probe-20261028\` directory.
 
 The earlier attempt also created a throw-away project through
 `eda.dmt_Project.createProject` inside the client's `APP_PROJECT_DIR`

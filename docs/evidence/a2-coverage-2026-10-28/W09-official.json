@@ -3,41 +3,45 @@
   "id": "W09",
   "side": "official",
   "title": "save / reopen / stale",
-  "status": "partial",
+  "status": "covered",
   "commands": [
-    "invoke -> save (NOT RUN, no authorization)",
+    "invoke -> sch_Document.save() and pcb_Document.save()",
     "lceda-pro session close --session <id> --destroy",
     "lceda-pro open --path <same copy> --headless",
-    "re-read project tree + counts"
+    "invoke -> readback: project uuid + schematic flag/wire/device + PCB designator pose",
+    "sha256 of the project file before/after"
   ],
-  "steps": 3,
+  "steps": 5,
   "exit_codes": [
     0
   ],
   "evidence": [
-    "docs/evidence/a2-coverage-2026-10-28/raw/W09-session-close.stdout.json",
-    "docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen.stdout.json",
-    "docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen-wait.stdout.json",
-    "docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen-tree.stdout.json",
-    "docs/evidence/a2-coverage-2026-10-28/project-before.json",
-    "docs/evidence/a2-coverage-2026-10-28/project-after.json"
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04e-save-readback.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-close.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-reopen.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-readback.stdout.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/project-before.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/project-after.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe/write-probe-run.json",
+    "docs/evidence/a2-coverage-2026-10-28/write-probe-passed.json"
   ],
   "observations": [
-    "Close/reopen works: the reopened session returned the same project uuid, same board/schematic/PCB uuids and the same tree.",
-    "Fixture hash was unchanged before/after the whole probe (1 file, sha256 824f6dcc...), proving the read/export probes did not mutate the project.",
-    "Save persistence is NOT RUN (authorization); without it a save -> reopen -> readback chain cannot be claimed."
+    "After close --destroy and reopen of the same copy, the project uuid was stable and the net flag A2PROBE_VCC, the wire A2PROBE_NET, the placed device and the moved PCB component (DC1 +50/+50) were all found again.",
+    "The project file sha256 changed from 824f6dcc... (source copy) to 4be11c20... after the writes, proving the save reached disk.",
+    "The source fixture stayed byte-identical (sha256 unchanged) - all writes happened on the temp copy only.",
+    "Primitive ids are not stable across sessions; the reopen readback matches by net name/designator/proximity, not by primitiveId."
   ],
   "risks": [
-    "saved:true may still need reopen to prove persistence",
-    "stale-read detection is caller-side only at the CLI layer (no staleRisk field seen)",
-    ".eprj2 -> .eprj3 conversion on save could change file layout; unmeasured"
+    "saved:true still requires the reopen readback before claiming persistence",
+    "no stale-read token from the CLI: freshness is caller-managed",
+    "reopen timing needs the same project-load poll as W01"
   ],
   "measured": {
-    "steps": 4,
-    "js_lines": 30,
+    "steps": 7,
+    "js_lines": 85,
     "exit_codes": [
       0
     ],
-    "duration_ms": 10255.6
+    "duration_ms": 24424.0
   }
 }

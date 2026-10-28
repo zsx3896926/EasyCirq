@@ -1,0 +1,2 @@
+
+{"ok":true,"value":{"projectUuid":"ec5cbfcca28c532b931c30b5221b754ca89a7f82c5dfae5c4ed660e33294703c","flagFound":true,"wireFound":true,"devFound":true,"componentCount":60,"wireCount":35,"pcb":{"componentCount":33,"designator":"DC1","found":{"designator":"DC1","x":516.1575,"y":-1900.7677}}},"logs":[],"durationMs":10927}

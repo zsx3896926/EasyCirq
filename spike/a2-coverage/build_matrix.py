@@ -223,12 +223,20 @@ def evaluate_rubric(cells: dict) -> dict:
         read_side_ok = len(covered) + len(partial) >= 4
         if w11 == "covered" and read_side_ok:
             lean = "A2"
-            lean_basis = [
-                "official MCP entry works (W11 covered)",
-                "official reads/checks/exports are real for W01/W02/W03/W07/W08/W10/W11",
-                "the remaining critical gaps are exactly the un-authorized write cells (W04/W05) and save/reopen persistence (W09-save)",
-                "A cannot be independently exercised on this host (no Go build; connector only in the user window)",
-            ]
+            if unresolved:
+                lean_basis = [
+                    "official MCP entry works (W11 covered)",
+                    "official reads/checks/exports are real for W01/W02/W03/W07/W08/W10/W11",
+                    "the remaining critical gaps are exactly the un-authorized write cells (W04/W05) and save/reopen persistence (W09-save)",
+                    "A cannot be independently exercised on this host (no Go build; connector only in the user window)",
+                ]
+            else:
+                lean_basis = [
+                    "official MCP entry works (W11 covered)",
+                    "official write/save/reopen proof exists for W04/W05/W09 (authorized disposable-copy probe)",
+                    "the remaining critical gaps are thin-wrapper scope (W02 net reads, W06 batch plan, W07 DRC/DFM shaping), not missing host capability",
+                    "A cannot be independently exercised on this host (no Go build; connector only in the user window)",
+                ]
         else:
             lean = "A1"
             lean_basis = ["official route lacks a usable MCP entry or enough read coverage"]
@@ -255,6 +263,10 @@ def evaluate_rubric(cells: dict) -> dict:
         "missing_evidence": [
             f"{wid}: official status is '{cells[wid]['official']}' - an authorized write probe on a disposable project is required"
             for wid in unresolved
+        ]
+        + [
+            f"{wid}: official status is 'partial' - the remaining gap must be closed (or accepted) by the thin wrapper"
+            for wid in partial
         ],
     }
 
@@ -441,7 +453,10 @@ def load_all(date: str):
     definition_problems = validate_definition()
     probe_run_path = evidence_dir(date) / "probe-run.json"
     probe_run = read_json(probe_run_path) if probe_run_path.is_file() else {"steps": []}
-    measured = extract_measured(probe_run)
+    write_run_path = evidence_dir(date) / "write-probe" / "write-probe-run.json"
+    write_run = read_json(write_run_path) if write_run_path.is_file() else {"steps": []}
+    combined_steps = [*probe_run.get("steps", []), *write_run.get("steps", [])]
+    measured = extract_measured({"steps": combined_steps, "mcp": probe_run.get("mcp")})
     return assessments, measured, problems + definition_problems
 
 

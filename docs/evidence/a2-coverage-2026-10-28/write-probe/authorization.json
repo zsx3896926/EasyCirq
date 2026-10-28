@@ -1,0 +1,15 @@
+{
+  "schema": "zhigou.a2-coverage.write-authorization/v1",
+  "granted_by": "jlc",
+  "granted_at": "2026-10-28T04:39:43.556247+00:00",
+  "granted_via": "session reply 2026-10-28 12:4x (explicit authorization)",
+  "scope": [
+    "W04",
+    "W05",
+    "W09"
+  ],
+  "fixture_source": "C:/Users/jlc/AppData/Local/Temp/a2-spike-20261028-1050/fixture/a2spike-quickstart.eprj2",
+  "project_root": "C:/Users/jlc/AppData/Local/Temp/a2-write-probe-20261028",
+  "expires_at": "2026-10-29T04:39:43.556247+00:00",
+  "notes": "one-time disposable-project write probe; user window untouched; retries within this grant allowed"
+}

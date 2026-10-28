@@ -20,10 +20,11 @@ does not modify `design-hardware/**`, `runtime/**`, `connector/**` or `protocol/
 
 ## Status of the conclusion
 
-`decision-provisional`: W04/W05/W09-save were not measured because
-design-content write probes were not authorized in that session. The matrix
-records `blocked (authorization)`; a final A1/A2/A3 needs one authorized write
-probe on a disposable project.
+`decision-provisional` with medium confidence: the authorized write probe on
+2026-10-28 turned **W04/W05/W09 to `covered`** (disposable `%TEMP%` copy,
+save/reopen/readback, marker `write-probe-passed.json`; source fixture
+unchanged). The remaining critical gaps are thin-wrapper scope (W02 net reads,
+W06 batch plan, W07 DRC/DFM shaping), so no final A1/A2/A3 is claimed yet.
 
 ## Acceptance
 

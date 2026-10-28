@@ -79,18 +79,26 @@ class EvidenceTests(unittest.TestCase):
         self.assertEqual(gerber["value"]["returns"]["type"], "File | undefined")
         self.assertTrue(index["methods"]["PCB_Document.importChanges"]["ok"])
 
-    def test_blocked_write_cells_are_honest(self):
-        w04 = load("W04-official.json")
-        w05 = load("W05-official.json")
-        self.assertEqual(w04["status"], "blocked")
-        self.assertEqual(w05["status"], "blocked")
-        self.assertEqual(w04["measured"]["steps"], 0)
-        self.assertTrue(any("not authorized" in obs.lower() for obs in w04["observations"]))
-        self.assertTrue(any("no write was executed" in obs.lower() for obs in w05["observations"]))
-        # W09 must not claim a save
-        w09 = load("W09-official.json")
-        self.assertEqual(w09["status"], "partial")
-        self.assertTrue(any("NOT RUN" in c for c in w09["commands"]))
+    def test_authorized_write_probe_marker(self):
+        marker = load("write-probe-passed.json")
+        self.assertEqual(marker["schema"], "zhigou.a2-coverage.write-probe-passed/v1")
+        self.assertEqual(marker["authorization"]["granted_by"], "jlc")
+        self.assertEqual(set(marker["scope"]), {"W04", "W05", "W09"})
+        self.assertTrue(marker["checks"]["all_passed"])
+        for workflow in ("W04", "W05", "W09"):
+            self.assertTrue(marker["checks"]["passed"][workflow], workflow)
+        run = load("write-probe/write-probe-run.json")
+        self.assertTrue(run["fixture"]["source_unchanged"])
+        self.assertEqual(run["fixture"]["source_sha256"], run["fixture"]["source_sha256_after"])
+        self.assertNotEqual(run["fixture"]["copy_sha256_before"], run["fixture"]["copy_sha256_after"])
+        self.assertTrue(run["checks"]["all_passed"])
+
+    def test_write_probe_attempts_preserved(self):
+        for attempt in ("attempt1", "attempt2"):
+            path = EVIDENCE / "write-probe" / attempt / "write-probe-run.json"
+            self.assertTrue(path.is_file(), path)
+            payload = json.loads(path.read_text(encoding="utf-8"))
+            self.assertFalse((payload.get("checks") or {}).get("all_passed", False), attempt)
 
     def test_attempt1_preserved(self):
         attempt1 = EVIDENCE / "attempt1" / "probe-run.json"

@@ -1,0 +1,169 @@
+{
+  "ok": true,
+  "value": [
+    {
+      "sessionId": "2d8e1a8d-e905-4eeb-896f-e8cbc6e7f798",
+      "renderId": 2,
+      "status": "alive",
+      "headless": false,
+      "origin": "user",
+      "path": null,
+      "title": "zhigou-dual-button-led-eev2-20261028 | 嘉立创EDA(专业版) - V4.1.78"
+    },
+    {
+      "sessionId": "f178a1bd-4461-4e86-a363-fcdab382cec8",
+      "renderId": 3,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-spike-20261028-1050\\fixture\\a2spike-quickstart.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "2b83ff64-d3ac-4171-be9d-68732a229926",
+      "renderId": 4,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-123950\\a2write-run-20261028-123950.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "4658477a-b6d4-4429-96ae-adf2642b1803",
+      "renderId": 5,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-123950\\a2write-run-20261028-123950.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "f5f0fb30-7300-4f10-9ad3-0f6a753a50b0",
+      "renderId": 6,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\A_search\\probe.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "5903cfdd-45ff-4c92-8043-21999cea86c3",
+      "renderId": 7,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\B_create_searchitem\\probe.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "e7746de7-e9aa-49d3-a82b-fbd2bf81ffa9",
+      "renderId": 8,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\C1_create_existing_component\\probe.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "14c19669-4d15-46c7-a484-810f70e125f7",
+      "renderId": 9,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\C2_create_project_lib\\probe.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "009d1ea0-1eb6-407e-89fc-efba2d65e080",
+      "renderId": 10,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\C3_create_symbol\\probe.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "35320feb-710f-4629-a6ed-0db3abed5ff5",
+      "renderId": 11,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\D_netflag\\probe.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "b629708b-70e6-4933-834e-31d6cf7e68cf",
+      "renderId": 12,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\E_wire\\probe.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "d85cc02f-8176-4a99-9b48-affdf080ad56",
+      "renderId": 13,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\F_netlabel\\probe.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "87cab946-98e0-4a2c-8da6-6abcaa750f4a",
+      "renderId": 14,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag\\G_save\\probe.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "fb612a13-0d62-4984-9549-488661778221",
+      "renderId": 15,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125136\\a2write-run-20261028-125136.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "3173870f-2820-4fe9-891a-8c38abb26732",
+      "renderId": 16,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125136\\a2write-run-20261028-125136.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "786decef-de24-4850-a409-78c5d811724f",
+      "renderId": 17,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\diag-label\\label.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "c7370cf2-0ac0-4b71-8edc-95394b2e50e8",
+      "renderId": 18,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125326\\a2write-run-20261028-125326.eprj2",
+      "title": null
+    },
+    {
+      "sessionId": "cecb0d51-3b86-40d3-9de3-01eff802fc05",
+      "renderId": 19,
+      "status": "closed",
+      "headless": true,
+      "origin": "cli",
+      "path": "C:\\Users\\jlc\\AppData\\Local\\Temp\\a2-write-probe-20261028\\run-20261028-125326\\a2write-run-20261028-125326.eprj2",
+      "title": null
+    }
+  ],
+  "logs": [],
+  "durationMs": 0
+}

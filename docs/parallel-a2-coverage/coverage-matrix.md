@@ -1,6 +1,6 @@
 # A2 coverage matrix: official lceda-pro CLI/MCP vs A typed action
 
-- generated: 2026-10-28T12:13:08+08:00
+- generated: 2026-10-28T12:57:09+08:00
 - evidence: `docs/evidence/a2-coverage-2026-10-28/`
 - baseline main: `fd4499cd3c98dc66c96bb38a703ce562e1c3dbe5`
 - A reference (read-only): `origin/feat/integrated-eda-toolchain @ dfa8f10d7149df435ab0c0be91edcdcb91990ce1 (read-only)`
@@ -14,12 +14,12 @@ Status vocabulary: `covered` / `partial` / `unsupported` / `blocked` / `not_run`
 | W01 | connect / session / version | **covered** | static | no | official_sufficient | `docs/evidence/a2-coverage-2026-10-28/raw/W01-doctor.stdout.json` |
 | W02 | schematic read | **partial** | static | yes | official_sufficient | `docs/evidence/a2-coverage-2026-10-28/raw/W02-activate-sch.stdout.json` |
 | W03 | PCB read | **partial** | static | no | official_sufficient | `docs/evidence/a2-coverage-2026-10-28/raw/W03-activate-pcb.stdout.json` |
-| W04 | schematic write + readback | **blocked** | static | yes | unclear | `docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveComponent.create.json` |
-| W05 | PCB write | **blocked** | static | yes | unclear | `docs/evidence/a2-coverage-2026-10-28/api/PCB_Document.importChanges.json` |
+| W04 | schematic write + readback | **covered** | static | yes | official_sufficient | `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04a-create.stdout.json` |
+| W05 | PCB write | **covered** | static | yes | official_sufficient | `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W05-pcb-write.stdout.json` |
 | W06 | batch / plan application | **partial** | static | yes | both_needed | `docs/evidence/a2-coverage-2026-10-28/raw/W06-batched-read.stdout.json` |
 | W07 | check / DRC / DFM | **partial** | static | yes | both_needed | `docs/evidence/a2-coverage-2026-10-28/raw/W07-sch-drc.stdout.json` |
 | W08 | export | **covered** | unsupported | yes | official_sufficient | `docs/evidence/a2-coverage-2026-10-28/raw/W08-netlist-string.stdout.json` |
-| W09 | save / reopen / stale | **partial** | static | yes | unclear | `docs/evidence/a2-coverage-2026-10-28/raw/W09-session-close.stdout.json` |
+| W09 | save / reopen / stale | **covered** | static | yes | official_sufficient | `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04e-save-readback.stdout.json` |
 | W10 | error / permission / boundary | **covered** | static | no | official_sufficient | `docs/evidence/a2-coverage-2026-10-28/raw/W10-bad-session.stdout.json` |
 | W11 | MCP entry | **covered** | unsupported | yes | official_sufficient | `docs/evidence/a2-coverage-2026-10-28/mcp-tools.json` |
 
@@ -98,44 +98,52 @@ Evidence: `docs/evidence/a2-coverage-2026-10-28/raw/W03-activate-pcb.stdout.json
 
 ### W04 - schematic write + readback (critical)
 
-- official: **blocked** (measured steps=0, js_lines=0, exit=[], scope=static-catalog)
+- official: **covered** (measured steps=5, js_lines=202, exit=[0], scope=real-run)
 - A: **static** (scope=static)
-- verdict: `unclear`
-- official commands: `invoke -> eda.sch_PrimitiveComponent.create`; `invoke -> eda.sch_PrimitiveWire.create`; `invoke -> eda.sch_PrimitiveAttribute.createNetLabel`; `invoke -> eda.sch_Document.save`; `invoke -> readback`
-- official observation: The typed write surface exists in the static API catalog (create/modify/delete/netflag/netport, wire create, save) with documented async conventions.
-- official observation: No write was executed: design-content write probes were not authorized for this session, so no receipt can support a covered/partial status.
-- official observation: Known 4.1.78 frictions from the repository's own adapter notes (eda-execution.md) still apply: new primitives commit asynchronously, property edits can be dropped, and ok:true does not mean the business operation succeeded.
-- official risk: hand-written JS per operation, no typed contract, no idempotency guarantees
-- official risk: async commit timing requires waits + readback; a naive model call will report false success
-- official risk: no write probe means persistence is unproven
+- verdict: `official_sufficient`
+- official commands: `invoke -> eda.lib_Device.search('0402', systemLibraryUuid)`; `invoke -> eda.sch_PrimitiveComponent.create(searchItem, 200, 600)`; `invoke -> eda.sch_PrimitiveWire.create([220,600,260,600], 'A2PROBE_NET')`; `invoke -> eda.sch_PrimitiveAttribute.createNetLabel(260, 600, 'A2PROBE_NET')`; `invoke -> eda.sch_PrimitiveComponent.createNetFlag('Power', 'A2PROBE_VCC', 200, 540)`; `invoke -> eda.sch_Document.save()`; `invoke -> readback: sch_PrimitiveComponent.getAll / sch_PrimitiveWire.getAll / sch_PrimitiveAttribute.getAll`
+- official observation: Placed a real device from the system library (search '0402' -> item uuid 1e1c274d..., create returned primitiveId 744247fef1283782, designator 'U?'), then created wire A2PROBE_NET, net label A2PROBE_NET, net flag A2PROBE_VCC and saved (save -> true).
+- official observation: Readback after save: components 58 -> 60 (device + net flag), wires 34 -> 35, flag found by name, label found via sch_PrimitiveAttribute.getAll (value A2PROBE_NET), device found by proximity.
+- official observation: createNetLabel returned null while the attribute was actually persisted: the only reliable check is a readback through sch_PrimitiveAttribute.getAll.
+- official observation: Creating a component from an existing component/symbol identity (libraryUuid empty or 'project', symbol uuid) hung >90 s three times; only the library-search-item path is usable in 4.1.78 half-offline mode.
+- official observation: sch_PrimitiveComponent.getAllPinsByPrimitiveId on a freshly created async component blocked one 240 s invoke, so the wire is a standalone segment at fixed coordinates instead of a pin-attached wire.
+- official observation: Each write is an independent invoke (create/wire/label/flag/save/readback) because a single long program can hit REQUEST_TIMEOUT and discard its result, hiding the steps that already succeeded.
+- official risk: device creation must go through a library search item; identity-based create hangs
+- official risk: pin lookup on a not-yet-committed component can hang; wait or avoid
+- official risk: createNetLabel create return value is unreliable (null on success)
+- official risk: ok:true only means the code ran; every write needs a fresh readback
+- official risk: no typed idempotency: repeated create makes duplicates
 - A actions: `zhigou sch place`; `zhigou sch modify`; `zhigou sch connect`; `zhigou sch netflag`; `zhigou sch no-connect`; `zhigou sch save`
 - A observation: A catalog has 26 schematic write actions and its self-evidence claims a real schematic write/save/reopen chain (M2-M4).
 - A observation: A typed action removes the JS-authoring and readback-batching burden; this is the strongest non-replaceable argument for A.
 - A blocker: not run by this spike (no Go build, connector in user window only)
 - A blocker: no independent receipt
-- notes: This is the decisive unmeasured cell: official coverage cannot be established without an authorized write probe on a disposable temp project.
+- notes: Authorized write probe passed on a disposable %TEMP% copy: device/wire/net label/net flag + save + readback. Identity-based create hangs; use library search items.
 
-Evidence: `docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveComponent.create.json`, `docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveWire.create.json`, `docs/evidence/a2-coverage-2026-10-28/api/SCH_Document.save.json`, `docs/evidence/a2-coverage-2026-10-28/api/SCH_PrimitiveAttribute.createNetLabel.json`
+Evidence: `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04a-create.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04b-wire.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04c-label.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04d-flag.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04e-save-readback.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/write-probe-run.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe-passed.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/authorization.json`
 
 ### W05 - PCB write (critical)
 
-- official: **blocked** (measured steps=0, js_lines=0, exit=[], scope=static-catalog)
+- official: **covered** (measured steps=1, js_lines=69, exit=[0], scope=real-run)
 - A: **static** (scope=static)
-- verdict: `unclear`
-- official commands: `invoke -> eda.sch_Document.importChanges`; `invoke -> eda.pcb_PrimitiveComponent.modify`; `invoke -> eda.pcb_Document.save`; `invoke -> readback`
-- official observation: Static surface: importChanges, PCB primitive modify/delete, PCB_Document.save and an official autoRouting entry point exist.
-- official observation: No write was executed (no authorization); the repository's own notes say importChanges returned true but materialized nothing in half-offline mode.
-- official risk: importChanges may silently no-op in half-offline mode
-- official risk: single-writer / ordering / undo semantics are absent at the CLI layer
-- official risk: no write probe means persistence is unproven
+- verdict: `official_sufficient`
+- official commands: `invoke -> eda.sch_Document.importChanges(false)`; `invoke -> eda.pcb_PrimitiveComponent.getAll()`; `invoke -> eda.pcb_PrimitiveComponent.modify(primitiveId, {x+50, y+50})`; `invoke -> eda.pcb_Document.save()`; `invoke -> readback: pcb_PrimitiveComponent.getAll() by designator`
+- official observation: importChanges(false) returned true and materialised the schematic onto the PCB copy.
+- official observation: Moved an existing PCB component (DC1) by +50/+50 raw units via pcb_PrimitiveComponent.modify; immediate readback found the same designator at the new pose.
+- official observation: pcb_Document.save() returned true; after session close + reopen, the DC1 pose matched the saved pose within 2 raw units.
+- official observation: The PCB layer/net/component read surface used for readback was already measured in W03.
+- official risk: importChanges is a whole-schematic rebuild of the PCB, not a minimal diff
+- official risk: no undo; a wrong move is only recoverable by re-editing
+- official risk: primitiveId is session-scoped: locate by designator after reopen
+- official risk: save true is not persistence: the reopen readback is the evidence
 - A actions: `zhigou pcb import_changes`; `zhigou pcb modify`; `zhigou pcb place`; `zhigou pcb track`; `zhigou pcb via`; `zhigou pcb save`; `zhigou pcb route.auto`
 - A observation: A catalog has 58 PCB write actions plus typed route/pour/drc helpers and claims a real M4 board build (layout, autoroute 6/6, pours, DRC 0).
 - A observation: A's typed write actions are a real cost advantage over hand-written JS for PCB.
 - A blocker: not run by this spike
 - A blocker: no independent receipt
-- notes: Same decisive gap as W04.
+- notes: Authorized write probe passed: importChanges + move + save + reopen pose check on a disposable copy.
 
-Evidence: `docs/evidence/a2-coverage-2026-10-28/api/PCB_Document.importChanges.json`, `docs/evidence/a2-coverage-2026-10-28/api/PCB_Document.save.json`, `docs/evidence/a2-coverage-2026-10-28/api/PCB_PrimitiveComponent.modify.json`
+Evidence: `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W05-pcb-write.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-readback.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/write-probe-run.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe-passed.json`
 
 ### W06 - batch / plan application (critical)
 
@@ -206,24 +214,25 @@ Evidence: `docs/evidence/a2-coverage-2026-10-28/raw/W08-netlist-string.stdout.js
 
 ### W09 - save / reopen / stale (critical)
 
-- official: **partial** (measured steps=4, js_lines=30, exit=[0], scope=real-run)
+- official: **covered** (measured steps=7, js_lines=85, exit=[0], scope=real-run)
 - A: **static** (scope=static)
-- verdict: `unclear`
-- official commands: `invoke -> save (NOT RUN, no authorization)`; `lceda-pro session close --session <id> --destroy`; `lceda-pro open --path <same copy> --headless`; `re-read project tree + counts`
-- official observation: Close/reopen works: the reopened session returned the same project uuid, same board/schematic/PCB uuids and the same tree.
-- official observation: Fixture hash was unchanged before/after the whole probe (1 file, sha256 824f6dcc...), proving the read/export probes did not mutate the project.
-- official observation: Save persistence is NOT RUN (authorization); without it a save -> reopen -> readback chain cannot be claimed.
-- official risk: saved:true may still need reopen to prove persistence
-- official risk: stale-read detection is caller-side only at the CLI layer (no staleRisk field seen)
-- official risk: .eprj2 -> .eprj3 conversion on save could change file layout; unmeasured
+- verdict: `official_sufficient`
+- official commands: `invoke -> sch_Document.save() and pcb_Document.save()`; `lceda-pro session close --session <id> --destroy`; `lceda-pro open --path <same copy> --headless`; `invoke -> readback: project uuid + schematic flag/wire/device + PCB designator pose`; `sha256 of the project file before/after`
+- official observation: After close --destroy and reopen of the same copy, the project uuid was stable and the net flag A2PROBE_VCC, the wire A2PROBE_NET, the placed device and the moved PCB component (DC1 +50/+50) were all found again.
+- official observation: The project file sha256 changed from 824f6dcc... (source copy) to 4be11c20... after the writes, proving the save reached disk.
+- official observation: The source fixture stayed byte-identical (sha256 unchanged) - all writes happened on the temp copy only.
+- official observation: Primitive ids are not stable across sessions; the reopen readback matches by net name/designator/proximity, not by primitiveId.
+- official risk: saved:true still requires the reopen readback before claiming persistence
+- official risk: no stale-read token from the CLI: freshness is caller-managed
+- official risk: reopen timing needs the same project-load poll as W01
 - A actions: `zhigou sch save`; `zhigou pcb save`; `zhigou doc reload`; `zhigou doc ready`; `fresh dump readback`
 - A observation: A defines six-state evidence (command_completed / readback_verified / save_confirmed / reopen_confirmed / electrical_passed / quality_passed) and claims save/reopen PASS on its own board.
 - A observation: A documents saved:true != persisted explicitly; the official route needs the same discipline encoded by us.
 - A blocker: not run by this spike
 - A blocker: no independent receipt
-- notes: Reopen is proven; persistence is not. This is the second decisive unmeasured cell.
+- notes: Authorized write probe passed: save -> close --destroy -> reopen -> readback on a disposable copy; source fixture untouched.
 
-Evidence: `docs/evidence/a2-coverage-2026-10-28/raw/W09-session-close.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen-wait.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/raw/W09-reopen-tree.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/project-before.json`, `docs/evidence/a2-coverage-2026-10-28/project-after.json`
+Evidence: `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W04e-save-readback.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-close.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-reopen.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/raw/W09-readback.stdout.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/project-before.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/project-after.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe/write-probe-run.json`, `docs/evidence/a2-coverage-2026-10-28/write-probe-passed.json`
 
 ### W10 - error / permission / boundary (non-critical)
 
@@ -270,10 +279,10 @@ Evidence: `docs/evidence/a2-coverage-2026-10-28/mcp-tools.json`, `docs/evidence/
 
 - decision: **incomplete** (provisional: missing evidence)
 - provisional lean: **A2** (confidence: low)
-- covered critical: W08, W11
-- partial critical: W02, W06, W07, W09
-- blocked critical: W04, W05
-- unresolved: W04, W05
+- covered critical: W04, W05, W08, W09, W11
+- partial critical: W02, W06, W07
+- blocked critical: -
+- unresolved: -
 
 A2 conditions:
 - official_covered_at_least_7_of_8: False
@@ -282,5 +291,6 @@ A2 conditions:
 - a_retirement_does_not_break_b1_or_skill: unknown (not measured)
 
 Missing evidence:
-- W04: official status is 'blocked' - an authorized write probe on a disposable project is required
-- W05: official status is 'blocked' - an authorized write probe on a disposable project is required
+- W02: official status is 'partial' - the remaining gap must be closed (or accepted) by the thin wrapper
+- W06: official status is 'partial' - the remaining gap must be closed (or accepted) by the thin wrapper
+- W07: official status is 'partial' - the remaining gap must be closed (or accepted) by the thin wrapper

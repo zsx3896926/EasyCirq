@@ -38,8 +38,11 @@ class MatrixTests(unittest.TestCase):
         self.assertGreater(self.measured["W01"]["js_lines"], 0)
         self.assertGreater(self.measured["W02"]["js_lines"], 0)
         self.assertGreaterEqual(self.measured["W11"]["steps"], 3)
-        self.assertEqual(self.measured["W04"]["steps"], 0)
-        self.assertEqual(self.measured["W05"]["js_lines"], 0)
+        self.assertGreaterEqual(self.measured["W04"]["steps"], 5)
+        self.assertGreater(self.measured["W04"]["js_lines"], 0)
+        self.assertGreaterEqual(self.measured["W05"]["steps"], 1)
+        self.assertGreater(self.measured["W05"]["js_lines"], 0)
+        self.assertGreaterEqual(self.measured["W09"]["steps"], 3)
 
     def test_w10_exit_codes_show_failures(self):
         self.assertIn(1, self.measured["W10"]["exit_codes"])
@@ -61,10 +64,11 @@ class MatrixTests(unittest.TestCase):
     def test_evidence_scope_classification(self):
         scopes = {r["id"]: r["official"]["evidence_scope"] for r in self.matrix["workflows"]}
         self.assertEqual(scopes["W01"], "real-run")
+        self.assertEqual(scopes["W04"], "real-run")
+        self.assertEqual(scopes["W05"], "real-run")
         self.assertEqual(scopes["W08"], "real-run")
+        self.assertEqual(scopes["W09"], "real-run")
         self.assertEqual(scopes["W11"], "real-run")
-        self.assertEqual(scopes["W04"], "static-catalog")
-        self.assertEqual(scopes["W05"], "static-catalog")
 
     def test_markdown_contains_every_row_and_status(self):
         self.assertIn("| ID | workflow | official | A | critical | verdict |", self.markdown)
@@ -93,12 +97,14 @@ class MatrixTests(unittest.TestCase):
                 self.assertEqual(payload["schema"], "zhigou.a2-coverage.workflow-cell/v1")
                 self.assertEqual(payload["id"], wid)
 
-    def test_current_evidence_is_provisional(self):
+    def test_current_evidence_is_provisional_with_wrapper_gaps(self):
         rubric = json.loads((DOCS / "rubric.json").read_text(encoding="utf-8"))
         self.assertEqual(rubric["decision"], "incomplete")
         self.assertTrue(rubric["provisional"])
         self.assertEqual(rubric["provisional_lean"], "A2")
-        self.assertEqual(set(rubric["counts"]["unresolved_critical"]), {"W04", "W05"})
+        self.assertEqual(rubric["counts"]["unresolved_critical"], [])
+        self.assertEqual(set(rubric["counts"]["covered"]), {"W04", "W05", "W08", "W09", "W11"})
+        self.assertEqual(set(rubric["counts"]["partial"]), {"W02", "W06", "W07"})
 
     def test_markdown_has_no_placeholders(self):
         for token in ("TODO", "TBD", "{{", "None"):
