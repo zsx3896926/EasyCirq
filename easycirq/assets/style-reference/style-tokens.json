@@ -1,0 +1,40 @@
+{
+  "schema": "easycirq-sch-style-tokens/v1",
+  "note": "Machine-readable style tokens for the EasyCirq schematic look; keep references/schematic-style.md in sync.",
+  "sheet": {
+    "size": "A4",
+    "orientation": "landscape",
+    "width_mm": 297,
+    "height_mm": 210,
+    "grid_mil": 10
+  },
+  "palette": {
+    "zone_border": ["#00B3B3", "#C800C8", "#0066CC", "#009944", "#E07800"],
+    "text": {
+      "net_power": "#CC0000",
+      "net_ground": "#0000CC",
+      "net_signal": "#000000",
+      "value": "#000000",
+      "note": "#666666",
+      "zone_title": "#000000"
+    },
+    "extra_allowed": ["#000000", "#FFFFFF", "#666666"]
+  },
+  "typography": {
+    "zone_title": {"min": 12, "max": 18},
+    "net_label": {"min": 8, "max": 10},
+    "value": {"min": 7, "max": 9},
+    "note": {"min": 6, "max": 8}
+  },
+  "layout": {
+    "min_zones": 2,
+    "page_margin_mm": 5,
+    "zone_min_gap_mm": 3,
+    "zone_min_padding_mm": 2,
+    "zone_area_ratio": [0.25, 0.8],
+    "text_overlap_tolerance_mm": 0
+  },
+  "title_block": {
+    "required_fields": ["project", "version", "date", "sheet", "page", "size"]
+  }
+}
