@@ -12,7 +12,7 @@
     "network access",
     "real hardware measurement"
   ],
-  "generated_at": "2026-10-28T04:28:50Z",
+  "generated_at": "2026-10-28T04:43:39Z",
   "runtime": {
     "python_version": "3.13.15",
     "python_implementation": "CPython",
@@ -222,7 +222,7 @@
         "startup_exit_code": null,
         "snapshot_files": []
       },
-      "duration_ms": 329.0,
+      "duration_ms": 393.3,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -289,7 +289,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 344.1,
+      "duration_ms": 385.3,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -336,7 +336,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 323.2,
+      "duration_ms": 392.7,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -393,7 +393,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 319.6,
+      "duration_ms": 387.3,
       "planned_task_limits": {
         "max_steps": 2,
         "max_tool_calls": 128,
@@ -450,7 +450,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 344.7,
+      "duration_ms": 390.8,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 2,
@@ -493,7 +493,7 @@
         "startup_exit_code": null,
         "snapshot_files": []
       },
-      "duration_ms": 303.7,
+      "duration_ms": 393.6,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -550,7 +550,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 332.2,
+      "duration_ms": 369.2,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -607,7 +607,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 372.2,
+      "duration_ms": 382.4,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -664,7 +664,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 395.5,
+      "duration_ms": 376.2,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -711,7 +711,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 359.0,
+      "duration_ms": 403.4,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -746,7 +746,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 335.2,
+      "duration_ms": 429.5,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -803,7 +803,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 330.4,
+      "duration_ms": 375.8,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -838,7 +838,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 325.7,
+      "duration_ms": 415.4,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -873,7 +873,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 302.1,
+      "duration_ms": 376.9,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -920,7 +920,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 340.7,
+      "duration_ms": 347.5,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -967,7 +967,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 303.8,
+      "duration_ms": 352.9,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -1014,7 +1014,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 322.4,
+      "duration_ms": 345.6,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -1061,7 +1061,7 @@
           "files/untrusted_injection_note.md"
         ]
       },
-      "duration_ms": 309.2,
+      "duration_ms": 350.0,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -1124,7 +1124,7 @@
         "startup_exit_code": null,
         "snapshot_files": []
       },
-      "duration_ms": 313.6,
+      "duration_ms": 337.2,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -1197,7 +1197,7 @@
         "startup_exit_code": null,
         "snapshot_files": []
       },
-      "duration_ms": 312.8,
+      "duration_ms": 360.0,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -1260,7 +1260,7 @@
         "startup_exit_code": null,
         "snapshot_files": []
       },
-      "duration_ms": 312.4,
+      "duration_ms": 423.1,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -1291,7 +1291,7 @@
         "startup_exit_code": 2,
         "snapshot_files": []
       },
-      "duration_ms": 318.7,
+      "duration_ms": 353.2,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -1322,7 +1322,7 @@
         "startup_exit_code": 2,
         "snapshot_files": []
       },
-      "duration_ms": 288.8,
+      "duration_ms": 323.1,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
@@ -1395,7 +1395,7 @@
         "startup_exit_code": null,
         "snapshot_files": []
       },
-      "duration_ms": 327.8,
+      "duration_ms": 344.8,
       "planned_task_limits": {
         "max_steps": 64,
         "max_tool_calls": 128,
