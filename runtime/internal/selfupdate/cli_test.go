@@ -341,10 +341,10 @@ func TestVerifyBinaryRequiresExactVersion(t *testing.T) {
 		output string
 		ok     bool
 	}{
-		{"easycirq-agent v1.4.2\n", true}, {"easycirq-agent 1.4.2", true},
-		{"easycirq-agent v1.4.20", false}, {"easycirq-agent v11.4.2", false},
-		{"easycirq-agent v1.4.2-1-g123", false}, {"wrong-app 1.4.2", false},
-		{"old output\neasycirq-agent v1.4.2", false},
+		{"easycirq v1.4.2\n", true}, {"easycirq 1.4.2", true},
+		{"easycirq v1.4.20", false}, {"easycirq v11.4.2", false},
+		{"easycirq v1.4.2-1-g123", false}, {"wrong-app 1.4.2", false},
+		{"old output\neasycirq v1.4.2", false},
 	} {
 		if got := validVersionOutput(tc.output, "1.4.2"); got != tc.ok {
 			t.Errorf("output %q: got %v, want %v", tc.output, got, tc.ok)

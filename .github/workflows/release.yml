@@ -1,0 +1,126 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to build (must equal easycirq/.version), e.g. 1.1.0'
+        required: true
+        default: '1.1.0'
+      create_release:
+        description: 'Create a draft GitHub release from the built assets'
+        type: boolean
+        default: false
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: resolve
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "release" ]; then
+            V="${GITHUB_REF_NAME#v}"
+          else
+            V="${{ inputs.version }}"
+          fi
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+
+      - name: Read connector version
+        id: connector
+        run: |
+          echo "version=$(python -c "import json;print(json.load(open('connector/extension.json'))['version'])")" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: runtime/go.mod
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Build CLI binaries
+        env:
+          VERSION: ${{ steps.resolve.outputs.version }}
+          CONNECTOR_VERSION: ${{ steps.connector.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          cd runtime
+          for target in windows/amd64 linux/amd64 linux/arm64 darwin/amd64 darwin/arm64; do
+            GOOS="${target%/*}"; GOARCH="${target#*/}"
+            EXT=""; [ "$GOOS" = "windows" ] && EXT=".exe"
+            OUT="../dist/easycirq_${GOOS}_${GOARCH}${EXT}"
+            CGO_ENABLED=0 GOOS="$GOOS" GOARCH="$GOARCH" \
+              go build -trimpath \
+                -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=${VERSION} -X github.com/zsx3896926/EasyCirq/runtime/internal/version.ConnectorVersion=${CONNECTOR_VERSION}" \
+                -o "$OUT" ./cmd/easycirq
+          done
+          cd ..
+
+      - name: Build skills tarball
+        run: tar -czf dist/skills.tar.gz easycirq
+
+      - name: Build installer and skill package
+        run: python distribution/build_release.py --output dist --require-clean
+
+      - name: Generate checksums
+        run: |
+          cd dist
+          sha256sum * > checksums.txt
+
+      - name: Upload release assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-assets
+          path: dist/*
+          if-no-files-found: error
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'release' || (github.event_name == 'workflow_dispatch' && inputs.create_release == true)
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-assets
+          path: dist
+
+      - name: Resolve version
+        id: resolve
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "release" ]; then
+            echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "version=${{ inputs.version }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create draft release or upload assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.resolve.outputs.version }}
+        run: |
+          if [ "$GITHUB_EVENT_NAME" = "release" ]; then
+            gh release upload "v${VERSION}" dist/* --clobber
+          else
+            gh release create "v${VERSION}" dist/* --target "$GITHUB_SHA" \
+              --draft --title "EasyCirq v${VERSION}" \
+              --notes-file "docs/releases/v${VERSION}.md"
+          fi

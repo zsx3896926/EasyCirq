@@ -71,7 +71,7 @@
 
 ```powershell
 cd runtime
-go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/hardware-design-skill/runtime/internal/version.Version=<version>" -o dist/easycirq.exe ./cmd/easycirq
+go build -trimpath -ldflags "-s -w -X github.com/zsx3896926/EasyCirq/runtime/internal/version.Version=<version>" -o dist/easycirq.exe ./cmd/easycirq
 ```
 
 构建产物内嵌 `vcs.revision`/`vcs.time`/`vcs.modified`，`easycirq doctor` 会把它们报告出来，

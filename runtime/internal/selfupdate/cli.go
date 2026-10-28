@@ -66,7 +66,7 @@ var verifyBinary = func(ctx context.Context, path, want string) error {
 
 func validVersionOutput(output, want string) bool {
 	got := strings.TrimSpace(output)
-	return got == "easycirq-agent v"+want || got == "easycirq-agent "+want
+	return got == "easycirq v"+want || got == "easycirq "+want
 }
 
 // AssetName maps a Go platform onto the release asset name published by

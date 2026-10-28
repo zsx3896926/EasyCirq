@@ -24,16 +24,16 @@
 
 ### 1. 安装工具链（CLI + daemon + 连接器）
 
-从 [Releases](https://github.com/zsx3896926/EasyCirq/releases) 下载 `easycirq-toolchain-0.2.3.zip`，解压后执行：
+从 [Releases](https://github.com/zsx3896926/EasyCirq/releases) 下载 `easycirq-toolchain-1.1.0.zip`，解压后执行：
 
 ```powershell
 # 安装到默认目录 %LOCALAPPDATA%\EasyCirq
 powershell -ExecutionPolicy Bypass -File .\Install-EasyCirq.ps1 install `
-  -Bundle .\easycirq-toolchain-0.2.3.zip -InstallDir "$env:LOCALAPPDATA\EasyCirq"
+  -Bundle .\easycirq-toolchain-1.1.0.zip -InstallDir "$env:LOCALAPPDATA\EasyCirq"
 
 # 把 easycirq 装进客户端（claude / codex 二选一，可重复执行）
 powershell -ExecutionPolicy Bypass -File .\Install-EasyCirq.ps1 install `
-  -Bundle .\easycirq-toolchain-0.2.3.zip -SkillClient codex
+  -Bundle .\easycirq-toolchain-1.1.0.zip -SkillClient codex
 
 # 安装后自检：应显示 runtime 0.2.3；连接器未导入时 connector 会是 degraded（正常）
 & "$env:LOCALAPPDATA\EasyCirq\bin\easycirq.exe" doctor

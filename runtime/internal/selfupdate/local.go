@@ -231,7 +231,7 @@ func (b *LocalBundle) Install(binary string, log io.Writer) (retErr error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	output, err := exec.CommandContext(ctx, stageName, "--version").Output()
-	if err != nil || strings.TrimSpace(string(output)) != "easycirq-agent v"+b.Version {
+	if err != nil || (strings.TrimSpace(string(output)) != "easycirq v"+b.Version && strings.TrimSpace(string(output)) != "easycirq "+b.Version) {
 		return fmt.Errorf("local CLI execution/version check failed: %v", err)
 	}
 	if _, err = os.Stat(binary); err == nil {

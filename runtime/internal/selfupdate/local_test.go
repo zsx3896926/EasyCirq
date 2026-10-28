@@ -25,7 +25,7 @@ func localFixture(t *testing.T, v string, evil bool) string {
 	w.Close()
 	asset, _ := AssetName(runtime.GOOS, runtime.GOARCH)
 	files := map[string][]byte{
-		asset:                          []byte("#!/bin/sh\necho 'easycirq-agent v" + v + "'\n"),
+		asset:                          []byte("#!/bin/sh\necho 'easycirq " + v + "'\n"),
 		"easycirq-agent-connector.eext": z.Bytes(),
 		"skills.tar.gz":                makeVersionedTarball(t, v, map[string]string{"SKILL.md": "guide", "references/test.md": "expected"}, evil),
 	}
@@ -125,7 +125,7 @@ func TestLocalInstallBackupsAndRealBytes(t *testing.T) {
 	if string(old) != "original" {
 		t.Fatal("lost Skill backup")
 	}
-	b.Binary = []byte("#!/bin/sh\necho 'easycirq-agent v1.4.8'\n")
+	b.Binary = []byte("#!/bin/sh\necho 'easycirq 1.4.8'\n")
 	if e = b.Install(bin, io.Discard); e == nil {
 		t.Fatal("installed incorrectly versioned executable")
 	}
