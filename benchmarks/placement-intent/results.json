@@ -5,7 +5,7 @@
   "eda_calls": 0,
   "status": "pass",
   "implementation": {
-    "git_commit": "706c39c61c43303d5b54df93dee6d584521a92fa",
+    "git_commit": "54a9c5bfa9327da557f4d5507b791b08c67597f9",
     "git_branch": "feat/parallel-placement-intent",
     "tracked_worktree_dirty": false,
     "note": "HEAD at which the real CLI subprocesses were executed; null outside a git work tree. Untracked benchmark files are not counted as dirty."
@@ -36,9 +36,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.185736,
-          "median_sec": 0.185736,
-          "max_sec": 0.185736
+          "min_sec": 0.251176,
+          "median_sec": 0.251176,
+          "max_sec": 0.251176
         },
         "stderr_tail": "plan: status planned_constraints_only"
       },
@@ -60,9 +60,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.175913,
-          "median_sec": 0.175913,
-          "max_sec": 0.175913
+          "min_sec": 0.229055,
+          "median_sec": 0.229055,
+          "max_sec": 0.229055
         },
         "stderr_tail": "plan: status planned_constraints_only"
       },
@@ -86,9 +86,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.172189,
-          "median_sec": 0.172189,
-          "max_sec": 0.172189
+          "min_sec": 0.182493,
+          "median_sec": 0.182493,
+          "max_sec": 0.182493
         },
         "stderr_tail": "plan: status planned_constraints_only"
       },
@@ -139,9 +139,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 1.404861,
-          "median_sec": 1.404861,
-          "max_sec": 1.404861
+          "min_sec": 0.577688,
+          "median_sec": 0.577688,
+          "max_sec": 0.577688
         },
         "stderr_tail": "plan: status planned_constraints_only"
       },
@@ -166,9 +166,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.156992,
-          "median_sec": 0.156992,
-          "max_sec": 0.156992
+          "min_sec": 0.187885,
+          "median_sec": 0.187885,
+          "max_sec": 0.187885
         },
         "stderr_tail": ""
       },
@@ -193,9 +193,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.151413,
-          "median_sec": 0.151413,
-          "max_sec": 0.151413
+          "min_sec": 0.178422,
+          "median_sec": 0.178422,
+          "max_sec": 0.178422
         },
         "stderr_tail": "plan: status review_required"
       },
@@ -221,9 +221,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.162417,
-          "median_sec": 0.162417,
-          "max_sec": 0.162417
+          "min_sec": 0.192869,
+          "median_sec": 0.192869,
+          "max_sec": 0.192869
         },
         "stderr_tail": "plan: status planned_constraints_only"
       },
@@ -248,9 +248,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.19226,
-          "median_sec": 0.19226,
-          "max_sec": 0.19226
+          "min_sec": 0.314748,
+          "median_sec": 0.314748,
+          "max_sec": 0.314748
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -297,9 +297,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.164926,
-          "median_sec": 0.164926,
-          "max_sec": 0.164926
+          "min_sec": 0.192031,
+          "median_sec": 0.192031,
+          "max_sec": 0.192031
         },
         "stderr_tail": "validate: invalid input (5 error finding(s))"
       },
@@ -324,9 +324,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.170497,
-          "median_sec": 0.170497,
-          "max_sec": 0.170497
+          "min_sec": 0.173726,
+          "median_sec": 0.173726,
+          "max_sec": 0.173726
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -351,9 +351,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.155088,
-          "median_sec": 0.155088,
-          "max_sec": 0.155088
+          "min_sec": 0.197804,
+          "median_sec": 0.197804,
+          "max_sec": 0.197804
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -378,9 +378,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.146929,
-          "median_sec": 0.146929,
-          "max_sec": 0.146929
+          "min_sec": 0.17946,
+          "median_sec": 0.17946,
+          "max_sec": 0.17946
         },
         "stderr_tail": "validate: duplicate JSON key: revision"
       },
@@ -405,9 +405,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.153124,
-          "median_sec": 0.153124,
-          "max_sec": 0.153124
+          "min_sec": 0.202576,
+          "median_sec": 0.202576,
+          "max_sec": 0.202576
         },
         "stderr_tail": "validate: non-finite JSON number is not allowed: NaN"
       },
@@ -436,9 +436,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.155251,
-          "median_sec": 0.155251,
-          "max_sec": 0.155251
+          "min_sec": 0.183713,
+          "median_sec": 0.183713,
+          "max_sec": 0.183713
         },
         "stderr_tail": "validate: invalid input (2 error finding(s))"
       },
@@ -467,9 +467,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.150142,
-          "median_sec": 0.150142,
-          "max_sec": 0.150142
+          "min_sec": 0.208006,
+          "median_sec": 0.208006,
+          "max_sec": 0.208006
         },
         "stderr_tail": "validate: invalid input (2 error finding(s))"
       },
@@ -494,9 +494,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.151024,
-          "median_sec": 0.151024,
-          "max_sec": 0.151024
+          "min_sec": 0.23899,
+          "median_sec": 0.23899,
+          "max_sec": 0.23899
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -530,9 +530,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.148782,
-          "median_sec": 0.148782,
-          "max_sec": 0.148782
+          "min_sec": 0.183012,
+          "median_sec": 0.183012,
+          "max_sec": 0.183012
         },
         "stderr_tail": "validate: invalid input (2 error finding(s))"
       },
@@ -557,9 +557,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.158116,
-          "median_sec": 0.158116,
-          "max_sec": 0.158116
+          "min_sec": 0.174241,
+          "median_sec": 0.174241,
+          "max_sec": 0.174241
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -584,9 +584,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.154404,
-          "median_sec": 0.154404,
-          "max_sec": 0.154404
+          "min_sec": 0.19328,
+          "median_sec": 0.19328,
+          "max_sec": 0.19328
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -611,9 +611,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.154454,
-          "median_sec": 0.154454,
-          "max_sec": 0.154454
+          "min_sec": 0.192031,
+          "median_sec": 0.192031,
+          "max_sec": 0.192031
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -640,9 +640,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.166036,
-          "median_sec": 0.166036,
-          "max_sec": 0.166036
+          "min_sec": 0.181286,
+          "median_sec": 0.181286,
+          "max_sec": 0.181286
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -669,9 +669,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.162757,
-          "median_sec": 0.162757,
-          "max_sec": 0.162757
+          "min_sec": 0.183358,
+          "median_sec": 0.183358,
+          "max_sec": 0.183358
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -703,9 +703,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.166906,
-          "median_sec": 0.166906,
-          "max_sec": 0.166906
+          "min_sec": 0.175285,
+          "median_sec": 0.175285,
+          "max_sec": 0.175285
         },
         "stderr_tail": "validate: invalid input (2 error finding(s))"
       },
@@ -732,9 +732,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.172428,
-          "median_sec": 0.172428,
-          "max_sec": 0.172428
+          "min_sec": 0.182254,
+          "median_sec": 0.182254,
+          "max_sec": 0.182254
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -763,9 +763,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.182934,
-          "median_sec": 0.182934,
-          "max_sec": 0.182934
+          "min_sec": 0.189806,
+          "median_sec": 0.189806,
+          "max_sec": 0.189806
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -792,9 +792,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.172122,
-          "median_sec": 0.172122,
-          "max_sec": 0.172122
+          "min_sec": 0.203331,
+          "median_sec": 0.203331,
+          "max_sec": 0.203331
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -825,9 +825,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.18158,
-          "median_sec": 0.18158,
-          "max_sec": 0.18158
+          "min_sec": 0.206964,
+          "median_sec": 0.206964,
+          "max_sec": 0.206964
         },
         "stderr_tail": "validate: invalid input (2 error finding(s))"
       },
@@ -858,9 +858,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.172796,
-          "median_sec": 0.172796,
-          "max_sec": 0.172796
+          "min_sec": 0.198596,
+          "median_sec": 0.198596,
+          "max_sec": 0.198596
         },
         "stderr_tail": "validate: invalid input (2 error finding(s))"
       },
@@ -891,9 +891,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.186153,
-          "median_sec": 0.186153,
-          "max_sec": 0.186153
+          "min_sec": 0.193567,
+          "median_sec": 0.193567,
+          "max_sec": 0.193567
         },
         "stderr_tail": "validate: invalid input (2 error finding(s))"
       },
@@ -920,9 +920,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.200701,
-          "median_sec": 0.200701,
-          "max_sec": 0.200701
+          "min_sec": 0.198345,
+          "median_sec": 0.198345,
+          "max_sec": 0.198345
         },
         "stderr_tail": "validate: invalid input (1 error finding(s))"
       },
@@ -947,9 +947,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.401385,
-          "median_sec": 0.401385,
-          "max_sec": 0.401385
+          "min_sec": 0.180497,
+          "median_sec": 0.180497,
+          "max_sec": 0.180497
         },
         "stderr_tail": "plan: status review_required"
       },
@@ -974,9 +974,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.161752,
-          "median_sec": 0.161752,
-          "max_sec": 0.161752
+          "min_sec": 0.19198,
+          "median_sec": 0.19198,
+          "max_sec": 0.19198
         },
         "stderr_tail": "plan: status review_required"
       },
@@ -1002,9 +1002,9 @@
         ],
         "timing": {
           "runs": 1,
-          "min_sec": 0.183732,
-          "median_sec": 0.183732,
-          "max_sec": 0.183732
+          "min_sec": 0.178797,
+          "median_sec": 0.178797,
+          "max_sec": 0.178797
         },
         "stderr_tail": "plan: status planned_constraints_only"
       },
@@ -1029,9 +1029,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.176282,
-          "median_sec": 0.176282,
-          "max_sec": 0.176282
+          "min_sec": 0.189158,
+          "median_sec": 0.189158,
+          "max_sec": 0.189158
         },
         "stderr_tail": ""
       },
@@ -1051,9 +1051,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.181884,
-          "median_sec": 0.181884,
-          "max_sec": 0.181884
+          "min_sec": 0.20358,
+          "median_sec": 0.20358,
+          "max_sec": 0.20358
         },
         "stderr_tail": ""
       },
@@ -1073,9 +1073,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.161744,
-          "median_sec": 0.161744,
-          "max_sec": 0.161744
+          "min_sec": 0.206884,
+          "median_sec": 0.206884,
+          "max_sec": 0.206884
         },
         "stderr_tail": ""
       },
@@ -1095,9 +1095,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.155917,
-          "median_sec": 0.155917,
-          "max_sec": 0.155917
+          "min_sec": 0.209091,
+          "median_sec": 0.209091,
+          "max_sec": 0.209091
         },
         "stderr_tail": ""
       },
@@ -1117,9 +1117,9 @@
         "unknown_codes": [],
         "timing": {
           "runs": 1,
-          "min_sec": 0.151241,
-          "median_sec": 0.151241,
-          "max_sec": 0.151241
+          "min_sec": 0.226377,
+          "median_sec": 0.226377,
+          "max_sec": 0.226377
         },
         "stderr_tail": ""
       }
