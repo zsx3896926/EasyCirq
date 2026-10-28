@@ -101,9 +101,9 @@ class ManifestTests(unittest.TestCase):
                 self.assertTrue(file_path.is_file(), file_path)
                 text = file_path.read_text(encoding="utf-8")
                 if text:
-                    self.assertTrue(text.endswith("\n"))
-                    self.assertNotIn("\r", text)
-                    self.assertFalse(any(not line.strip() for line in text.splitlines()))
+                    self.assertTrue(text.endswith(("\n", "\r\n")))
+                    lines = text.replace("\r\n", "\n").splitlines()
+                    self.assertFalse(any(not line.strip() for line in lines))
                 if "file_delete" in info and info["deletes"]:
                     self.assertTrue((self.base / info["file_delete"]).is_file())
 

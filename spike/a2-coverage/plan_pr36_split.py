@@ -155,7 +155,7 @@ def _manifest_set(out_dir: Path, name: str, entries: list[tuple[str, str]]) -> d
     for suffix in ("paths", "delete"):
         file_path = out_dir / f"{name}-{suffix}.txt"
         info[f"sha256_{suffix}"] = sha256_list_file(file_path)
-        info[f"file_{suffix}"] = str(file_path.relative_to(REPO))
+        info[f"file_{suffix}"] = file_path.relative_to(REPO).as_posix()
     return info
 
 
@@ -247,7 +247,7 @@ def generate(args: argparse.Namespace) -> int:
     )
     manifest["sets"]["retire"] = {
         "paths": len(retire_paths),
-        "file_paths": str((retire_dir / "retire-paths.txt").relative_to(REPO)),
+        "file_paths": (retire_dir / "retire-paths.txt").relative_to(REPO).as_posix(),
         "sha256_paths": sha256_list_file(retire_dir / "retire-paths.txt"),
         "note": "deletion scope for the A2 retire PR; gated by the authorized write probe",
     }
