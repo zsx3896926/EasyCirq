@@ -81,7 +81,9 @@ class Settings:
     """Configuration of one launcher process."""
 
     state_dir: Path = field(default_factory=default_state_dir)
-    skill_dir: Path = field(default_factory=lambda: PACKAGE_ROOT / "design-hardware")
+    #: The 2026-10 rename moved the Skill from ``design-hardware/`` to
+    #: ``easycirq/``; discover whichever exists instead of hard-coding one name.
+    skill_dir: Path = field(default_factory=lambda: plugin.default_skill_dir(PACKAGE_ROOT))
     plugin_dir: Path | None = None
     plugin_cache_dir: Path | None = None
     agent_profile: str = AGENT_PROFILE_FAKE
@@ -454,7 +456,8 @@ class TaskManager:
         task = Task(task_id, request, workspace)
         try:
             task.open_events()
-            self._write_request_evidence(task)
+            skill_identity = plugin.read_skill_identity(self.settings.skill_dir)
+            self._write_request_evidence(task, skill_identity["name"])
             plugin_dir = workspace / "plugin"
             try:
                 if self.settings.plugin_dir is not None:
@@ -470,6 +473,7 @@ class TaskManager:
                     task.plugin_info = {
                         "name": metadata.get("name", PLUGIN_NAME),
                         "version": metadata["version"],
+                        "skill_name": metadata.get("skill_name"),
                         "skill_version": metadata.get("skill_version"),
                         "dir": str(plugin_dir),
                         "prebuilt": True,
@@ -481,6 +485,7 @@ class TaskManager:
                     task.plugin_info = {
                         "name": manifest["name"],
                         "version": manifest["version"],
+                        "skill_name": manifest.get("skill_name"),
                         "skill_version": manifest["skill_version"],
                         "dir": str(plugin_dir),
                         "file_count": manifest["file_count"],
@@ -522,6 +527,7 @@ class TaskManager:
                 scenario=scenario,
                 state_dir=self.settings.state_dir,
                 package_root=PACKAGE_ROOT,
+                skill_name=skill_identity["name"],
             )
             command = {
                 "schema": "zhigou.task-launcher.agent-command/v1",
@@ -572,16 +578,19 @@ class TaskManager:
             newline="\n",
         )
 
-    def _write_request_evidence(self, task: Task) -> None:
+    def _write_request_evidence(self, task: Task, skill_name: str) -> None:
         request_document = dict(task.request)
         request_document["_received_at"] = task.created_at
         self._write_json(task.workspace / "request.json", sanitize(request_document))
         self._write_json(task.workspace / "context.json", sanitize(task.request["context"]))
         (task.workspace / "routing.md").write_text(
-            routing.build_routing_text(task.request), encoding="utf-8", newline="\n"
+            routing.build_routing_text(task.request, skill_name=skill_name), encoding="utf-8", newline="\n"
         )
         mcpconfig.write_mcp_config(task.workspace / "mcp.json", self.settings.skill_dir / "scripts")
-        self._write_json(task.workspace / "routing.summary.json", routing.routing_summary(task.request))
+        self._write_json(
+            task.workspace / "routing.summary.json",
+            routing.routing_summary(task.request, skill_name=skill_name),
+        )
 
     @staticmethod
     def _write_log_files(workspace: Path) -> None:

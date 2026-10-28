@@ -14,16 +14,16 @@
 | 项 | 取值 |
 |---|---|
 | worktree | `C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-tl-worktree` |
-| 分支 / HEAD | `feat/parallel-task-launcher`；任务书基线 `0e391e3`，M4 rebase 到 `origin/main@c54c6fc` 后的 commit（精确 HEAD 见 `handoff-current.md`） |
-| 当前 `origin/main` | `c54c6fc`（PR #36 已将 A 工具链合入 main；本分支已 rebase 到该 main，见 §1 第 1 行与 §6） |
+| 分支 / HEAD | `feat/parallel-task-launcher`；任务书基线 `0e391e3` → rebase 到 `origin/main@1701e79`（EasyCirq 重命名后的 main）后的 HEAD（精确值见 `handoff-current.md`） |
+| 当前 `origin/main` | `1701e79`（含 EasyCirq 重命名 #77；审计期间 main 已前进，见 handoff） |
 | 本机 Python | `3.13.15`（Windows；CI 另有 3.10/3.13，见 §1 第 9 行） |
-| 任务启动器套件 | `python -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py"` → **98 tests OK，约 112 s**（rebase 后 Lead 实测） |
-| 官方全量套件 | `python -m unittest discover -s tests` → **3416 tests OK (skipped=3)，414.7 s**（rebase 后 Lead 实测） |
-| 冻结基准 | `python benchmarks/task-launcher/run_benchmark.py` → **12/12 passed，`elapsed_ms=28851`（约 28.9 s）**，`skill_version=1.0.2`；结果 `benchmarks/task-launcher/results.json` |
+| 任务启动器套件 | `python -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py"` → **98 tests OK，约 97 s**（EasyCirq main 基线 Lead 实测） |
+| 官方全量套件 | `python -m unittest discover -s tests` → **3428 tests OK (skipped=3)，354.9 s**（EasyCirq main 基线 Lead 实测；干净 PYTHONIOENCODING 环境） |
+| 冻结基准 | `python benchmarks/task-launcher/run_benchmark.py` → **12/12 passed，`elapsed_ms=25797`（约 25.8 s）**，`skill_version=1.0.2`；结果 `benchmarks/task-launcher/results.json` |
 | stub connector e2e | `python -m unittest tests.task_launcher_tests.test_stub_connector` → **7 tests OK**（Lead 实测） |
-| Skill 自检 | `python design-hardware/scripts/skill_selftest.py` → **5 PASS / 0 FAIL / 0 NOT RUN**（rebase 后 Lead 实测） |
+| Skill 自检 | `python easycirq/scripts/skill_selftest.py` → **5 PASS / 0 FAIL / 0 NOT RUN**（EasyCirq main 后 Lead 实测） |
 | 真实 Claude | **NOT RUN**（本任务没有调用任何真实模型） |
-| 基准文件时间 | `results.json` 由 Lead 于本机实测生成（2026-10-28 12:11:43，6903 字节；仅 `duration_ms`/`elapsed_ms` 随运行变化）；重跑会更新该文件 |
+| 基准文件时间 | `results.json` 由 Lead 于本机实测生成（2026-10-28 13:0x，约 6.9 KB；仅 `duration_ms`/`elapsed_ms` 随运行变化）；重跑会更新该文件 |
 
 测试全部通过**子进程**驱动真实 launcher（`tests/task_launcher_tests/support.py` 启动
 `python -m task_launcher serve`），不把实现 import 进测试进程；不调用真实 EDA/daemon/connector/
@@ -35,22 +35,23 @@
 
 | # | 验收项（任务书 §7） | 证据 | 观察结果 | 状态 |
 |---|---|---|---|---|
-| 1 | 只新增允许路径；`git diff --name-status origin/main...HEAD` 全部 `A` | `git diff --name-status origin/main...HEAD`；`git status --short` | **全部为 `A`（新增）**，无 `M/D`；相对 `origin/main@c54c6fc` 只新增 `task_launcher/`、`tests/task_launcher_tests/`、`benchmarks/task-launcher/`、`docs/parallel-task-launcher/`；未修改 A/runtime/connector/SKILL/分发/CI | ✅（M4 实测） |
-| 2 | 任务启动器套件全绿、≥45 tests | 套件命令（§0） | **98 tests OK**（约 112 s），超过 45 的要求 | ✅（Lead 实测） |
-| 3 | 官方全量 `python -m unittest discover -s tests` 全绿且发现新测试 | 官方命令（§0） | **3416 tests OK (skipped=3)，414.7 s**（含本任务 98 个测试；rebase 后） | ✅（Lead 实测） |
+| 1 | 只新增允许路径；`git diff --name-status origin/main...HEAD` 全部 `A` | `git diff --name-status origin/main...HEAD`；`git status --short` | **全部为 `A`（新增）**，无 `M/D`；逐 commit 复核；相对 `origin/main@1701e79`（EasyCirq main）只新增 `task_launcher/`、`tests/task_launcher_tests/`、`benchmarks/task-launcher/`、`docs/parallel-task-launcher/`；未修改 A/runtime/connector/SKILL/分发/CI | ✅（M4 + 审计实测） |
+| 2 | 任务启动器套件全绿、≥45 tests | 套件命令（§0） | **98 tests OK**（约 97 s），超过 45 的要求 | ✅（Lead 实测） |
+| 3 | 官方全量 `python -m unittest discover -s tests` 全绿且发现新测试 | 官方命令（§0） | **3428 tests OK (skipped=3)，354.9 s**（含本任务 98 个测试；EasyCirq main 基线） | ✅（Lead 实测） |
 | 4 | 冻结基准 ≥10/10，`real_eda=NOT RUN`、`eda_calls=0` | 基准命令 + `benchmarks/task-launcher/results.json` | **12/12 passed**，`simulated=true`、`real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`、`network_calls=0`、`agent="fake"`（§3） | ✅（Lead 实测） |
-| 5 | `design-hardware/scripts/skill_selftest.py` 5 PASS / 0 FAIL | 自检命令（§0） | **5 PASS / 0 FAIL / 0 NOT RUN**，退出码 0（rebase 后） | ✅（Lead 实测） |
-| 6 | `build-plugin --skill-dir design-hardware --out <tmp>` 成功；两次 manifest 一致；结构校验通过 | `tests/task_launcher_tests/test_plugin.py`：`PluginBuildTests`(5)、`PluginCliTests`(1)、`PluginDeterminismTests`(2)、`PluginFailureTests`(4)；独立命令见 task_launcher/README.md | 测试覆盖：结构、manifest 哈希、两次构建一致、mtime 无关、缺 SKILL.md/版本失败、非空 out 拒绝/`--force`、CLI 纯 JSON；独立命令结果见 report.md | ✅ 测试覆盖 / ⏳ 命令见 report.md |
+| 5 | `easycirq/scripts/skill_selftest.py` 5 PASS / 0 FAIL | 自检命令（§0） | **5 PASS / 0 FAIL / 0 NOT RUN**，退出码 0（EasyCirq main 后） | ✅（Lead 实测） |
+| 6 | `build-plugin --skill-dir easycirq --out <tmp>` 成功；两次 manifest 一致；结构校验通过 | `tests/task_launcher_tests/test_plugin.py`：`PluginBuildTests`(5)、`PluginCliTests`(1)、`PluginDeterminismTests`(2)、`PluginFailureTests`(4)；独立命令见 task_launcher/README.md | 测试覆盖：结构、manifest 哈希、两次构建一致、mtime 无关、缺 SKILL.md/版本失败、非空 out 拒绝/`--force`、CLI 纯 JSON；独立命令结果见 report.md（628 files / 13,179,534 bytes，两次 manifest 一致） | ✅（测试 + 实测） |
 | 7 | stub connector 端到端，start→events→result 退出码正确 | `test_stub_connector.py`：`StubConnectorTests`(7) | **7 tests OK**：成功 0、失败/超时/取消 1、协议错误 2、错误 token 2、schema 拒绝 2 | ✅（Lead 实测） |
 | 8 | 可选真实 Claude：本机可用则跑 1 次只读任务并记录，否则 NOT RUN | 无真实调用（本任务范围外） | **NOT RUN**；未记录任何真实模型输出 | ⛔ NOT RUN |
-| 9 | 清洁 checkout 可复现测试/基准；CI 3.10/3.13 在 PR HEAD 全绿 | `python -m unittest discover -s tests`（`.github/workflows/validate.yml` matrix `3.10`/`3.13`）；独立 worktree `hds-tl-clean` | 清洁 checkout（detached at `c828ebc`，无未跟踪文件）：任务套件 **98 tests OK，93.1 s**、基准 **12/12，32.7 s**；本机 3.13.15 全量 **3416 OK**；CI `validate (3.10)` pass 3m14s、`validate (3.13)` pass 2m45s（run `40632025926`，PR #74 全绿） | ✅（本机 + CI） |
-| 10 | 未修改 A/runtime/connector/SKILL/分发/CI；未合并 PR、未发版 | `git diff --name-status origin/main...HEAD`；`git status` | 相对 main 仅新增 4 类允许路径；未修改任何既有文件（全量套件运行时 A 测试会向 `docs/toolchain-integration/evidence/installer/install-lifecycle.log` 追加日志，提交前已 `git checkout --` 还原，见 IC-16）；PR 保持 OPEN、未合并、未发版 | ✅（M4 实测） |
+| 9 | 清洁 checkout 可复现测试/基准；CI 3.10/3.13 在 PR HEAD 全绿 | `python -m unittest discover -s tests`（`.github/workflows/validate.yml` matrix `3.10`/`3.13`）；独立 worktree `hds-tl-clean` | 清洁 checkout（审计修复后的新 HEAD，见 handoff）：任务套件 **98 tests OK**、基准 **12/12**；本机全量 **3428 OK**；CI（EasyCirq 重命名后 HEAD）见 handoff/PR checks | ⏳ 见 handoff / CI |
+| 10 | 未修改 A/runtime/connector/SKILL/分发/CI；未合并 PR、未发版 | `git diff --name-status origin/main...HEAD`；`git status` | 相对 EasyCirq main 仅新增 4 类允许路径；每个 commit 逐个复核；未修改任何既有文件（全量套件在 A 测试中会追加写 toolchain 证据日志，提交前还原，见 IC-16）；PR 保持 OPEN、未合并、未发版 | ✅（M4 + 审计实测） |
 
-> 基线说明：任务书给出的 base 是 `0e391e3`；开工期间 A 工具链随 PR #36 合入 `origin/main`。
-> M4 已 rebase 到 `origin/main@c54c6fc`，因此 `git diff --name-status origin/main...HEAD` 的
-> merge-base 就是当前 main，diff 只显示本任务新增文件（全部 `A`）。
+> 基线说明：任务书 baseline 是 `0e391e3`；开工后 main 先合入 A 工具链（#36），随后完成
+> EasyCirq 重命名（#77，`design-hardware/` → `easycirq/`）。本分支已 rebase 到
+> `origin/main@1701e79` 并适配重命名，因此 `git diff --name-status origin/main...HEAD`
+> 的 merge-base 就是当前 main，diff 只显示本任务新增文件（全部 `A`）。
 > 三个故意的版本不一致 case 使用字面错误版本；其余用例的 `toolchain` 使用
-> `@launcher/@skill/@plugin` 占位符，由 runner 按安装版本解析（Skill 已在 main 上升级到 1.0.2）。
+> `@launcher/@skill/@plugin` 占位符，由 runner 按安装版本解析（Skill 版本 1.0.2）。
 
 ---
 
@@ -62,7 +63,7 @@
 | 2 | 版本握手：skill 不一致 → 409；plugin 缺失/损坏 → 拒绝；一致 → 接受 | `test_handshake.py::HandshakeTests`(12) | 02、03、04 | 覆盖 `version_mismatch`（三方各自）、`skill_version_unreadable`、`plugin_missing`、`plugin_manifest_invalid`、`plugin_skill_version_mismatch`、预构建 plugin 可用；409 时不留下任务目录 |
 | 3 | happy path（fake agent）：start → 事件轮询（seq 单调、可重放）→ result `completed`、`real_eda:"NOT RUN"`、`eda_calls:0`、`project_writes:0` | `test_smoke.py::SmokeTests`(5)、`test_workspace.py::WorkspaceTests`(9) | 01 | 结果 schema/字段、409 `RESULT_NOT_READY`、事件顺序与证据文件均断言 |
 | 4 | routing/plugin/mcp 参数：fake agent 记录 argv/env；四个强制参数；routing 五条规则；mcp 挂 `zhigou-offline-audit`；plugin 结构/版本正确 | `test_routing_mcp.py::RoutingAndMcpTests`(5)、`test_plugin.py`（13）、`test_workspace.py::WorkspaceTests` | 01（workspace_checks：`agent_command_required_flags`） | `--plugin-dir`/`--append-system-prompt-file`/`--mcp-config`/`--output-format`、`--allowedTools`、routing 五个 marker、`.mcp.json` 均断言 |
-| 5 | 任务工作区：request/context/routing/mcp/command/events/stdout/stderr/result 落盘；无 token；不写仓库；不写工程 | `test_workspace.py::WorkspaceTests`(9)、`test_paths.py::PathsTests`(3) | 01、07、12 | 逐文件存在性/内容断言；token 与 `Bearer` 不出现在工作区；`design-hardware/` 前后快照一致；workspace 在 state dir 下 |
+| 5 | 任务工作区：request/context/routing/mcp/command/events/stdout/stderr/result 落盘；无 token；不写仓库；不写工程 | `test_workspace.py::WorkspaceTests`(9)、`test_paths.py::PathsTests`(3) | 01、07、12 | 逐文件存在性/内容断言；token 与 `Bearer` 不出现在工作区；`easycirq/` 前后快照一致；workspace 在 state dir 下 |
 | 6 | 超时/取消：fake agent 卡住 → `timeout`、杀进程树、无孤儿；cancel 中途生效 | `test_timeout_cancel.py::TimeoutTests`(1)、`CancelTests`(3) | 08、09 | `timeout_s=10` 实测；`result.kill` 记录实际 method（基准 08 另断言 `killed=true`）；`pid_alive` 校验无孤儿；cancel 后 `cancelled`；终态 cancel → 409；未知任务 → 404 |
 | 7 | 并发：第二个 start → 429 `BUSY`；结束后可再启动 | `test_concurrency.py::ConcurrencyTests`(3)、`test_smoke.py::SmokeTests::test_second_task_is_busy` | 10 | 429 + `BUSY`；槽位释放后可再跑；`--max-concurrent 2` 可同时跑两个 |
 | 8 | 鉴权：无/错 token → 401；`/health` 可不鉴权 | `test_smoke.py::SmokeTests`（`test_start_requires_bearer_token`、`test_health_needs_no_token`）、`test_stub_connector.py`（wrong token） | — | 401 `UNAUTHORIZED`；`GET /health` 无 token 返回 200；stub 错 token 退出 2 |
@@ -94,7 +95,7 @@
 | `05-schema-invalid-unknown-field` | 未知顶层字段 | 422 / — / 2 | passed，422 `UNKNOWN_FIELD` | 15 |
 | `06-write-mode-refused` | `mode=write` | 422 / — / 2 | passed，422 `WRITE_MODE_NOT_SUPPORTED` | 15 |
 | `07-agent-failure` | fake agent `fail` 场景 | 202 / `failed` / 1 | passed，`final_status=failed`，`exit_code=1`，9 events | 26 |
-| `08-timeout-stuck` | `stuck` 场景 + `timeout_s=10` | 202 / `timeout` / 1 | passed，`timeout`，`result.exit_code=null`，`result.kill.killed=true`，5 events，耗时 11216 ms | 27 |
+| `08-timeout-stuck` | `stuck` 场景 + `timeout_s=10` | 202 / `timeout` / 1 | passed，`timeout`，`result.exit_code=null`，`result.kill.killed=true`，5 events，耗时 11686 ms | 27 |
 | `09-cancel-mid-run` | 观察到第一个事件后 cancel | 202 / `cancelled` / 1 | passed，`cancelled`，`cancel_sent=true`，5 events | 25 |
 | `10-concurrency-busy` | 第二个 start 在 `max_concurrent=1` 时 | 202 / `completed` / 0（并发 start 期望 429） | passed，`concurrent_start_http_status=429`，8 events | 25 |
 | `11-agent-unavailable` | claude profile + 不存在的 `--claude-exe` | 503 / — / 2 | passed，503 `AGENT_UNAVAILABLE` | 15 |
@@ -140,7 +141,7 @@ stream-json 鲁棒性），不是工程正确性。
 | 真实 Claude Code 只读任务 | **NOT RUN** | 本任务没有调用真实模型；`--agent-profile claude` 通道仅有代码路径与 503 门禁测试，无真实输出 |
 | 真实 EDA / daemon / connector / 网络 | **NOT RUN** | 基准与测试均不调用；`real_eda="NOT RUN"`、`eda_calls=0`、`network_calls=0` |
 | 硬件实测 / DRC / 制造 | **NOT RUN** | 不在本任务范围 |
-| `python design-hardware/scripts/skill_selftest.py` | ⏳ 见 report.md | Lead M4 实跑待填 |
+| `python easycirq/scripts/skill_selftest.py` | ⏳ 见 report.md | Lead M4 实跑待填 |
 | `python -m unittest discover -s tests`（官方全量） | ⏳ 见 report.md | Lead M4 实跑待填 |
 | 清洁 checkout 复现 | ⏳ 待 M4 | 需独立目录重新克隆/检出后跑套件+基准 |
 | CI 3.10 / 3.13 | ⏳ 待 PR | `.github/workflows/validate.yml` 已有 3.10/3.13 matrix；新测试/基准尚未在该 CI 跑过；**基准不在现有 CI 流程内**（见 issue-candidates.md） |
@@ -153,7 +154,7 @@ stream-json 鲁棒性），不是工程正确性。
 
 ## 6. 数字口径（避免误读）
 
-- `98 tests OK / ~115.5 s`、`12/12 / ~23.3 s`、`7 tests OK` 都是**本机单次运行**结果，不是性能
+- `98 tests OK / ~97 s`、`12/12 / ~25.8 s`、`7 tests OK` 都是**本机单次运行**结果，不是性能
   基准或稳定性承诺；换机器/预热/杀软会影响耗时。
 - 所有"通过"只说明**契约行为**（HTTP/schema/版本门禁/状态机/事件/证据/安全不变量）通过，
   不说明任何 EDA 工程、板卡或硬件正确。

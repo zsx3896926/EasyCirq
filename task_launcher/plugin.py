@@ -1,4 +1,8 @@
-"""Build a Claude Code plugin from the repository's ``design-hardware/`` Skill.
+"""Build a Claude Code plugin from the repository Skill directory.
+
+The 2026-10 rename moved the Skill from ``design-hardware/`` to ``easycirq/``;
+the builder copies whatever Skill directory it is pointed at and packages it
+under ``skills/<frontmatter name>/``, so both layouts work.
 
 The plugin is what makes "the Skill travels with the task" true: a headless
 agent started with ``--plugin-dir <task>/plugin`` loads this Skill without the
@@ -31,12 +35,11 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from . import (
-    PLUGIN_DESCRIPTION,
     PLUGIN_LICENSE,
     PLUGIN_MANIFEST_SCHEMA,
     PLUGIN_NAME,
-    PLUGIN_SKILL_DIR,
     PLUGIN_VERSION,
+    SKILL_DIR_CANDIDATES,
     __version__,
 )
 from . import mcpconfig
@@ -152,15 +155,26 @@ def _read_skill_identity(skill_dir: Path) -> dict:
     description = front.get("description", "")
     if not name or not SKILL_NAME_RE.match(name):
         raise PluginError("skill_frontmatter_invalid", "SKILL.md frontmatter 'name' is missing or invalid", {"name": name})
-    if name != PLUGIN_SKILL_DIR:
-        raise PluginError(
-            "skill_name_mismatch",
-            f"SKILL.md frontmatter name must be {PLUGIN_SKILL_DIR!r}, got {name!r}",
-            {"expected": PLUGIN_SKILL_DIR, "received": name},
-        )
     if not description.strip():
         raise PluginError("skill_frontmatter_invalid", "SKILL.md frontmatter 'description' is empty")
     return {"name": name, "description": description, "version": _read_skill_version(skill_dir)}
+
+
+def default_skill_dir(base: Path) -> Path:
+    """Locate the Skill directory below ``base`` (``easycirq`` then legacy name)."""
+
+    base = Path(base)
+    for name in SKILL_DIR_CANDIDATES:
+        candidate = base / name
+        if (candidate / "SKILL.md").is_file():
+            return candidate
+    return base / SKILL_DIR_CANDIDATES[0]
+
+
+def read_skill_identity(skill_dir: Path) -> dict:
+    """Public wrapper: read frontmatter name/description and ``.version``."""
+
+    return _read_skill_identity(Path(skill_dir))
 
 
 # ---------------------------------------------------------------------------
@@ -259,18 +273,26 @@ def validate_plugin_dir(plugin_dir: Path) -> list[str]:
         if document.get("license") != PLUGIN_LICENSE:
             problems.append("plugin.json license must be Apache-2.0")
 
-    skill_md = plugin_dir / "skills" / PLUGIN_SKILL_DIR / "SKILL.md"
-    if not skill_md.is_file():
-        problems.append("skills/design-hardware/SKILL.md is missing")
+    skills_root = plugin_dir / "skills"
+    skill_dirs = sorted(path for path in skills_root.iterdir() if path.is_dir()) if skills_root.is_dir() else []
+    if len(skill_dirs) != 1:
+        problems.append(f"skills/ must contain exactly one Skill directory, found {len(skill_dirs)}")
     else:
-        try:
-            front = parse_frontmatter(skill_md.read_text(encoding="utf-8"))
-            if front.get("name") != PLUGIN_SKILL_DIR:
-                problems.append("packaged SKILL.md frontmatter name is not design-hardware")
-            if not front.get("description", "").strip():
-                problems.append("packaged SKILL.md frontmatter description is empty")
-        except (PluginError, UnicodeDecodeError, OSError) as exc:
-            problems.append(f"packaged SKILL.md frontmatter is invalid: {exc}")
+        skill_root = skill_dirs[0]
+        skill_md = skill_root / "SKILL.md"
+        if not skill_md.is_file():
+            problems.append(f"skills/{skill_root.name}/SKILL.md is missing")
+        else:
+            try:
+                front = parse_frontmatter(skill_md.read_text(encoding="utf-8"))
+                if front.get("name") != skill_root.name:
+                    problems.append(
+                        f"packaged SKILL.md frontmatter name {front.get('name')!r} != directory {skill_root.name!r}"
+                    )
+                if not front.get("description", "").strip():
+                    problems.append("packaged SKILL.md frontmatter description is empty")
+            except (PluginError, UnicodeDecodeError, OSError) as exc:
+                problems.append(f"packaged SKILL.md frontmatter is invalid: {exc}")
 
     mcp_path = plugin_dir / ".mcp.json"
     try:
@@ -414,15 +436,17 @@ def build_plugin(skill_dir: Path, out_dir: Path, *, force: bool = False) -> dict
             {
                 "name": PLUGIN_NAME,
                 "version": PLUGIN_VERSION,
+                "skill_name": identity["name"],
                 "skill_version": identity["version"],
                 "launcher_version": __version__,
-                "description": PLUGIN_DESCRIPTION,
+                "description": f"Controlled {identity['name']} Skill loader for the Zhigou task launcher: "
+                "read-only EDA review tasks with the offline audit MCP tools.",
                 "license": PLUGIN_LICENSE,
             }
         )
         _dump_json(temp / ".claude-plugin" / "plugin.json", plugin_json)
 
-        dest_root = temp / "skills" / PLUGIN_SKILL_DIR
+        dest_root = temp / "skills" / identity["name"]
         dest_root.mkdir(parents=True, exist_ok=True)
         for source, relative in _iter_skill_files(skill_dir):
             target = dest_root / relative

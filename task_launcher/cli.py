@@ -5,7 +5,8 @@ Commands:
 * ``serve``        — run the local HTTP sidecar (default ``127.0.0.1:23121``);
 * ``run``          — execute one ``task.start`` request once, print result JSON;
 * ``health``       — query a running launcher, or diagnose the local install;
-* ``build-plugin`` — build the Claude Code plugin from ``design-hardware/``;
+* ``build-plugin`` — build the Claude Code plugin from the repo Skill dir
+  (``easycirq/``; legacy ``design-hardware/``);
 * ``version``      — print launcher/Skill/plugin versions.
 
 Conventions used by the tests and the benchmark:
@@ -81,7 +82,7 @@ def _state_dir(value: str | None) -> Path:
 def _settings(args: argparse.Namespace) -> Settings:
     settings = Settings(
         state_dir=_state_dir(getattr(args, "state_dir", None)),
-        skill_dir=Path(args.skill_dir).resolve() if getattr(args, "skill_dir", None) else PACKAGE_ROOT / "design-hardware",
+        skill_dir=Path(args.skill_dir).resolve() if getattr(args, "skill_dir", None) else plugin_mod.default_skill_dir(PACKAGE_ROOT),
         plugin_dir=Path(args.plugin_dir).resolve() if getattr(args, "plugin_dir", None) else None,
         plugin_cache_dir=Path(args.plugin_cache_dir).resolve() if getattr(args, "plugin_cache_dir", None) else None,
         agent_profile=getattr(args, "agent_profile", "fake"),
@@ -131,8 +132,13 @@ def _read_skill_version(skill_dir: Path) -> tuple[str | None, str | None]:
 
 
 def _version_document(args: argparse.Namespace) -> dict:
-    skill_dir = Path(args.skill_dir).resolve() if args.skill_dir else PACKAGE_ROOT / "design-hardware"
+    skill_dir = Path(args.skill_dir).resolve() if args.skill_dir else plugin_mod.default_skill_dir(PACKAGE_ROOT)
     skill_version, skill_error = _read_skill_version(skill_dir)
+    skill_name = skill_dir.name
+    try:
+        skill_name = plugin_mod.read_skill_identity(skill_dir)["name"]
+    except plugin_mod.PluginError:
+        pass
     plugin_version: str | None = PLUGIN_VERSION
     plugin_skill_version: str | None = skill_version
     plugin_error: str | None = None
@@ -147,6 +153,8 @@ def _version_document(args: argparse.Namespace) -> dict:
     return {
         "launcher": __version__,
         "skill": skill_version,
+        "skill_name": skill_name,
+        "skill_dir": str(skill_dir),
         "skill_error": skill_error,
         "plugin": plugin_version,
         "plugin_skill_version": plugin_skill_version,
@@ -316,7 +324,7 @@ def cmd_run(args: argparse.Namespace) -> int:
 
 
 def cmd_build_plugin(args: argparse.Namespace) -> int:
-    skill_dir = Path(args.skill_dir).resolve() if args.skill_dir else PACKAGE_ROOT / "design-hardware"
+    skill_dir = Path(args.skill_dir).resolve() if args.skill_dir else plugin_mod.default_skill_dir(PACKAGE_ROOT)
     out_dir = Path(args.out)
     try:
         manifest = plugin_mod.build_plugin_or_error(skill_dir, out_dir, force=args.force)
@@ -340,7 +348,7 @@ def cmd_build_plugin(args: argparse.Namespace) -> int:
 
 def _add_launcher_options(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--state-dir", help="state directory (default: %%LOCALAPPDATA%%\\zhigou-launcher or ~/.zhigou-launcher)")
-    parser.add_argument("--skill-dir", help="design-hardware Skill directory (default: <repo>/design-hardware)")
+    parser.add_argument("--skill-dir", help="Skill directory (default: <repo>/easycirq, legacy <repo>/design-hardware)")
     parser.add_argument("--plugin-dir", help="use a prebuilt plugin directory instead of building one per task")
     parser.add_argument(
         "--plugin-cache-dir",

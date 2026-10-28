@@ -57,14 +57,20 @@ MAX_MAX_EVENTS = 100000
 #: launcher (`PLUGIN_VERSION`); the bundled Skill version is carried next to it
 #: in ``plugin.json`` as ``skill_version`` so the two never get confused. That
 #: mapping is what the request's ``toolchain.plugin`` field is compared with.
+#: The plugin package name stays stable across the Skill rename
+#: (design-hardware -> easycirq); the bundled skill directory and the
+#: ``skill_version`` follow the actual Skill on disk.
 PLUGIN_NAME = "zhigou-design-hardware"
 PLUGIN_VERSION = "0.1.0"
 PLUGIN_DESCRIPTION = (
-    "Controlled design-hardware Skill loader for the Zhigou task launcher: "
+    "Controlled hardware-design Skill loader for the Zhigou task launcher: "
     "read-only EDA review tasks with the offline audit MCP tools."
 )
 PLUGIN_LICENSE = "Apache-2.0"
-PLUGIN_SKILL_DIR = "design-hardware"
+#: Skill directory names accepted by the launcher, in preference order.
+#: The 2026-10 rename moved ``design-hardware/`` to ``easycirq/``; both layouts
+#: are recognised so the launcher also works on a pre-rename checkout.
+SKILL_DIR_CANDIDATES = ("easycirq", "design-hardware")
 
 #: Name of the offline MCP server mounted into the task (already on main).
 MCP_SERVER_NAME = "zhigou-offline-audit"
@@ -136,7 +142,7 @@ __all__ = [
     "PLUGIN_VERSION",
     "PLUGIN_DESCRIPTION",
     "PLUGIN_LICENSE",
-    "PLUGIN_SKILL_DIR",
+    "SKILL_DIR_CANDIDATES",
     "MCP_SERVER_NAME",
     "MCP_MODULE",
     "ALLOWED_TOOLS",

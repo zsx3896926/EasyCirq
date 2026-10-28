@@ -11,7 +11,7 @@ task workspace must contain:
 * ``mcp.json`` (task workspace) and ``<workspace>/plugin/.mcp.json`` — must mount
   the already-merged offline-audit MCP server ``zhigou-offline-audit`` with
   ``python -m zhigou_mcp`` and a ``PYTHONPATH`` pointing at
-  ``design-hardware/scripts``.
+  ``easycirq/scripts`` (legacy ``design-hardware/scripts``).
 * ``agent.command.json`` — the recorded argv must be a list (never a shell
   string), contain ``--plugin-dir`` / ``--append-system-prompt-file`` /
   ``--mcp-config`` / ``--output-format`` with real values, point at a plugin
@@ -26,12 +26,12 @@ import json
 import unittest
 from pathlib import Path
 
-from .support import ROOT, SKILL_DIR, LauncherProcess, base_request
+from .support import ROOT, SKILL_DIR, SKILL_NAME, LauncherProcess, base_request
 
 #: The five normative rules of task book §3.8, hardcoded verbatim (markdown
 #: emphasis markers stripped).  Deliberately not imported from the implementation.
 REQUIRED_ROUTING_RULES = (
-    "必须先加载 design-hardware Skill，不得跳过",
+    f"必须先加载 {SKILL_NAME} Skill，不得跳过",
     "只读任务：不得修改/保存/导出 EDA 工程，不得调用任何写接口",
     "未知/缺测必须如实报告，不得用默认值或猜测补全",
     "离线检查 / 真实 EDA / 硬件实测",
@@ -102,7 +102,7 @@ class RoutingAndMcpTests(unittest.TestCase):
             str(self.workspace.resolve()).lower().startswith(str(ROOT.resolve()).lower()),
             self.workspace,
         )
-        self.assertIn("design-hardware", routing)
+        self.assertIn(SKILL_NAME, routing)
 
     def test_routing_md_documents_tool_scope_and_honesty_boundary(self) -> None:
         routing = (self.workspace / "routing.md").read_text(encoding="utf-8")
@@ -139,7 +139,7 @@ class RoutingAndMcpTests(unittest.TestCase):
         self.assertEqual(
             normalize_path(pythonpath),
             (SKILL_DIR / "scripts").resolve().as_posix(),
-            "task mcp.json PYTHONPATH must point at design-hardware/scripts",
+            f"task mcp.json PYTHONPATH must point at {SKILL_NAME}/scripts",
         )
         self.assertTrue(Path(pythonpath).is_dir(), pythonpath)
 
@@ -161,8 +161,8 @@ class RoutingAndMcpTests(unittest.TestCase):
         self.assertTrue(pythonpath)
         normalized = normalize_path(pythonpath)
         self.assertTrue(
-            normalized.endswith("design-hardware/scripts"),
-            f"plugin .mcp.json PYTHONPATH does not point at design-hardware/scripts: {pythonpath}",
+            normalized.endswith(f"{SKILL_NAME}/scripts"),
+            f"plugin .mcp.json PYTHONPATH does not point at {SKILL_NAME}/scripts: {pythonpath}",
         )
         self.assertEqual(normalized, (SKILL_DIR / "scripts").resolve().as_posix())
         self.assertTrue(Path(pythonpath).is_dir(), pythonpath)
@@ -187,7 +187,7 @@ class RoutingAndMcpTests(unittest.TestCase):
         plugin_dir = Path(argv[argv.index("--plugin-dir") + 1])
         self.assertTrue(plugin_dir.is_dir(), f"--plugin-dir does not exist: {plugin_dir}")
         self.assertTrue((plugin_dir / ".claude-plugin" / "plugin.json").is_file())
-        self.assertTrue((plugin_dir / "skills" / "design-hardware" / "SKILL.md").is_file())
+        self.assertTrue((plugin_dir / "skills" / SKILL_NAME / "SKILL.md").is_file())
         self.assertEqual(
             plugin_dir.resolve(),
             (self.workspace / "plugin").resolve(),

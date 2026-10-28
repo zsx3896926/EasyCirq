@@ -165,8 +165,9 @@ def run(argv: list[str]) -> int:
         return 0
 
     delay = 0.3 if scenario == "slow" else 0.02
+    skill_name = os.environ.get("ZHIGOU_SKILL_NAME") or "easycirq"
     steps = [
-        "加载 design-hardware Skill（fake）。",
+        f"加载 {skill_name} Skill（fake）。",
         f"只读任务：mode=read_only；用户请求长度 {len(prompt)} 字符。",
         "结论分层：离线检查=完成；真实 EDA=NOT RUN；硬件实测=NOT RUN。",
     ]

@@ -58,7 +58,10 @@ RESULT_SCHEMA = "zhigou.task-launcher.result/v1"
 
 LAUNCHER_VERSION = "0.1.0"
 PLUGIN_VERSION = "0.1.0"
-SKILL_VERSION = (ROOT / "design-hardware" / ".version").read_text(encoding="utf-8").strip()
+SKILL_DIR = ROOT / "easycirq"
+if not (SKILL_DIR / "SKILL.md").is_file():
+    SKILL_DIR = ROOT / "design-hardware"
+SKILL_VERSION = (SKILL_DIR / ".version").read_text(encoding="utf-8").strip()
 
 #: Frozen case requests use placeholders instead of hard-coded versions, so a
 #: Skill version bump on main does not break the benchmark.  Deliberately
@@ -321,7 +324,7 @@ def _launcher_argv(
         "--state-dir",
         str(state_dir),
         "--skill-dir",
-        str(ROOT / "design-hardware"),
+        str(SKILL_DIR),
         "--agent-profile",
         str(launcher_config.get("agent_profile", "fake")),
         "--fake-scenario",

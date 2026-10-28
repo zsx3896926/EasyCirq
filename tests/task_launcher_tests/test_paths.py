@@ -17,7 +17,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from .support import ROOT, LauncherTestCase, base_request, read_json
+from .support import ROOT, SKILL_NAME, LauncherTestCase, base_request, read_json
 
 EVIDENCE_FILES = (
     "request.json",
@@ -118,7 +118,7 @@ class PathsTests(LauncherTestCase):
 
         # Chinese text survives the stream-json -> log pipeline as UTF-8.
         stdout_log = (workspace / "agent.stdout.log").read_text(encoding="utf-8")
-        self.assertIn("加载 design-hardware Skill（fake）。", stdout_log)
+        self.assertIn(f"加载 {SKILL_NAME} Skill（fake）。", stdout_log)
 
 
 if __name__ == "__main__":

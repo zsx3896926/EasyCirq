@@ -2,14 +2,14 @@
 
 Everything here drives the real CLI in a subprocess::
 
-    python -m task_launcher build-plugin --skill-dir design-hardware --out <dir>
+    python -m task_launcher build-plugin --skill-dir easycirq --out <dir>
 
 The implementation is never imported in-process, so the tests verify the public
 entry point (argument parsing, exit codes, stdout JSON) and the on-disk contract
 the launcher/agent depend on:
 
 * the plugin structure Claude Code needs (``.claude-plugin/plugin.json``,
-  ``skills/design-hardware/{SKILL.md,.version,references,scripts,assets}``,
+  ``skills/<skill-name>/{SKILL.md,.version,references,scripts,assets}`` (``easycirq`` today),
   ``.mcp.json``, ``hooks/hooks.json``);
 * the manifest identity/count/bytes and a per-file SHA-256 + size that matches
   the bytes on disk;
@@ -38,7 +38,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from .support import ROOT, SKILL_DIR, SKILL_VERSION, LauncherProcess, base_request
+from .support import ROOT, SKILL_DIR, SKILL_NAME, SKILL_VERSION, LauncherProcess, base_request
 
 #: Hardcoded identity facts copied from the task book / repository layout.  They
 #: are intentionally *not* imported from ``task_launcher`` so this file pins the
@@ -71,8 +71,8 @@ REQUIRED_PLUGIN_FILES = (
     ".claude-plugin/plugin.json",
     ".mcp.json",
     "hooks/hooks.json",
-    "skills/design-hardware/SKILL.md",
-    "skills/design-hardware/.version",
+    f"skills/{SKILL_NAME}/SKILL.md",
+    f"skills/{SKILL_NAME}/.version",
 )
 #: The manifest lists every built file except itself.
 MANIFEST_FILE = "plugin.manifest.json"
@@ -205,7 +205,7 @@ class PluginBuildTests(unittest.TestCase):
     def setUpClass(cls) -> None:
         cls._temp = tempfile.TemporaryDirectory(prefix="zhigou-plugin-build-")
         cls.addClassCleanup(cls._temp.cleanup)
-        cls.out = Path(cls._temp.name) / "design-hardware-plugin"
+        cls.out = Path(cls._temp.name) / f"{SKILL_NAME}-plugin"
         completed, document = invoke_build_plugin(cls.out)
         if completed.returncode != 0 or "manifest" not in document:
             raise AssertionError(
@@ -223,13 +223,13 @@ class PluginBuildTests(unittest.TestCase):
             self.assertTrue((out / relative).is_file(), f"missing plugin file: {relative}")
         self.assertTrue((out / MANIFEST_FILE).is_file(), "missing plugin.manifest.json")
 
-        skill_root = out / "skills" / "design-hardware"
+        skill_root = out / "skills" / SKILL_NAME
         for directory in ("references", "scripts", "assets"):
             subdir = skill_root / directory
-            self.assertTrue(subdir.is_dir(), f"missing plugin directory: skills/design-hardware/{directory}")
+            self.assertTrue(subdir.is_dir(), f"missing plugin directory: skills/{SKILL_NAME}/{directory}")
             self.assertTrue(
                 any(path.is_file() for path in subdir.rglob("*")),
-                f"skills/design-hardware/{directory} is empty",
+                f"skills/{SKILL_NAME}/{directory} is empty",
             )
 
         self.assertEqual(
@@ -269,7 +269,7 @@ class PluginBuildTests(unittest.TestCase):
             self.assertIn(key, plugin_json)
 
     def test_packaged_skill_md_frontmatter(self) -> None:
-        packaged = (self.out / "skills" / "design-hardware" / "SKILL.md").read_text(encoding="utf-8")
+        packaged = (self.out / "skills" / SKILL_NAME / "SKILL.md").read_text(encoding="utf-8")
         # The plugin carries a byte-faithful copy of the Skill entry point.
         self.assertEqual(packaged, (SKILL_DIR / "SKILL.md").read_text(encoding="utf-8"))
 
@@ -286,7 +286,7 @@ class PluginBuildTests(unittest.TestCase):
                 continue
             key, _, value = line.partition(":")
             front[key.strip()] = value.strip().strip('"').strip("'")
-        self.assertEqual(front.get("name"), "design-hardware")
+        self.assertEqual(front.get("name"), SKILL_NAME)
         self.assertTrue(front.get("description", "").strip(), "SKILL.md description is empty")
 
     def test_manifest_schema_counts_and_totals(self) -> None:
@@ -331,9 +331,9 @@ class PluginBuildTests(unittest.TestCase):
         for relative in REQUIRED_PLUGIN_FILES:
             self.assertIn(relative, present)
         for prefix in (
-            "skills/design-hardware/references/",
-            "skills/design-hardware/scripts/",
-            "skills/design-hardware/assets/",
+            f"skills/{SKILL_NAME}/references/",
+            f"skills/{SKILL_NAME}/scripts/",
+            f"skills/{SKILL_NAME}/assets/",
         ):
             self.assertTrue(any(path.startswith(prefix) for path in paths), f"manifest has no {prefix}* files")
 
@@ -353,7 +353,7 @@ class PluginCliTests(unittest.TestCase):
             self.assertIn("manifest", parsed)
             self.assertEqual(read_json(out / "plugin.manifest.json"), parsed["manifest"])
             self.assertTrue((out / ".claude-plugin" / "plugin.json").is_file())
-            self.assertTrue((out / "skills" / "design-hardware" / "SKILL.md").is_file())
+            self.assertTrue((out / "skills" / SKILL_NAME / "SKILL.md").is_file())
 
 
 class PluginDeterminismTests(unittest.TestCase):

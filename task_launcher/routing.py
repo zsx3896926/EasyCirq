@@ -14,17 +14,29 @@ from __future__ import annotations
 
 from typing import Any
 
-from . import REAL_EDA
+from . import REAL_EDA, SKILL_DIR_CANDIDATES
 
 #: Substrings that MUST appear in every generated routing.md.  Each tuple is
-#: (rule id, marker).  Tests assert all of them; docs refer to the same ids.
-REQUIRED_RULE_MARKERS = (
-    ("rule-1-load-skill", "必须先加载 design-hardware Skill，不得跳过"),
+#: (rule id, marker template).  ``{skill}`` is the actual mounted Skill name
+#: (``easycirq`` after the 2026-10 rename, ``design-hardware`` on a legacy
+#: checkout); tests assert the resolved strings.
+RULE_MARKER_TEMPLATES = (
+    ("rule-1-load-skill", "必须先加载 {skill} Skill，不得跳过"),
     ("rule-2-read-only", "只读任务：不得修改/保存/导出 EDA 工程，不得调用任何写接口"),
     ("rule-3-tools", "未知/缺测必须如实报告，不得用默认值或猜测补全"),
     ("rule-4-verdicts", "离线检查 / 真实 EDA / 硬件实测"),
     ("rule-5-final-report", "读了哪些资料、跑了哪些工具、结果、未知项、未运行项"),
 )
+
+
+def required_rule_markers(skill_name: str) -> list[tuple[str, str]]:
+    """Return the five normative markers for a given Skill name."""
+
+    return [(rule_id, template.format(skill=skill_name)) for rule_id, template in RULE_MARKER_TEMPLATES]
+
+
+#: Backwards-compatible default (matches the current EasyCirq Skill name).
+REQUIRED_RULE_MARKERS = tuple(required_rule_markers(SKILL_DIR_CANDIDATES[0]))
 
 #: The only tools the agent may rely on for this PoC.
 OFFLINE_TOOL_NAMES = (
@@ -65,20 +77,30 @@ def _context_lines(request: dict) -> list[str]:
     return lines
 
 
-def build_routing_text(request: dict) -> str:
+def build_routing_text(request: dict, skill_name: str | None = None) -> str:
     """Return the full routing prompt for one task.
 
     The text is deliberately explicit and repetitive: this prompt is the hard
-    mechanism, not documentation for a human.
+    mechanism, not documentation for a human.  ``skill_name`` is the Skill name
+    actually mounted through the plugin (``easycirq`` today, ``design-hardware``
+    on a legacy checkout), so the mandatory "load the Skill" rule names the file
+    that exists.
     """
 
+    skill = skill_name or SKILL_DIR_CANDIDATES[0]
     goal = request.get("goal") or {}
     limits = request.get("limits") or {}
     timeout_s = limits.get("timeout_s", 180)
+    legacy_note = (
+        []
+        if skill == "design-hardware"
+        else ["（本仓库 2026-10 起把 `design-hardware` 重命名为 EasyCirq；旧安装可能仍显示旧名。）", ""]
+    )
     lines = [
         "# 智构受控任务路由（由 task_launcher 注入，优先级高于模型自行判断）",
         "",
-        "本任务由受控启动器启动；**必须先加载 design-hardware Skill，不得跳过。**",
+        f"本任务由受控启动器启动；**必须先加载 {skill} Skill，不得跳过。**",
+        *legacy_note,
         "Skill 已通过 `--plugin-dir` 挂载到本任务，不要假设客户全局安装过该 Skill，",
         "不要因为模型认为“不需要”而不加载。",
         "",
@@ -127,17 +149,19 @@ def build_routing_text(request: dict) -> str:
     return "\n".join(lines)
 
 
-def routing_markers() -> list[tuple[str, str]]:
-    """Expose the normative markers (used by the acceptance matrix/tests)."""
+def routing_markers(skill_name: str | None = None) -> list[tuple[str, str]]:
+    """Expose the normative markers for a Skill name (acceptance matrix/tests)."""
 
-    return list(REQUIRED_RULE_MARKERS)
+    return required_rule_markers(skill_name or SKILL_DIR_CANDIDATES[0])
 
 
-def routing_summary(request: dict) -> dict[str, Any]:
+def routing_summary(request: dict, skill_name: str | None = None) -> dict[str, Any]:
     """Machine-readable summary of what was injected, stored with the task."""
 
+    skill = skill_name or SKILL_DIR_CANDIDATES[0]
     return {
-        "rules": [rule_id for rule_id, _ in REQUIRED_RULE_MARKERS],
+        "skill_name": skill,
+        "rules": [rule_id for rule_id, _ in required_rule_markers(skill)],
         "tools": list(OFFLINE_TOOL_NAMES),
         "mode": request.get("mode"),
         "real_eda": REAL_EDA,

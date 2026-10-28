@@ -14,6 +14,7 @@ from pathlib import Path
 
 from .support import (
     PLUGIN_VERSION,
+    SKILL_NAME,
     SKILL_VERSION,
     LauncherProcess,
     base_request,
@@ -72,9 +73,11 @@ def make_prebuilt_plugin(
         newline="\n",
     )
     if complete:
-        skill_dir = plugin / "skills" / "design-hardware"
+        skill_dir = plugin / "skills" / SKILL_NAME
         skill_dir.mkdir(parents=True)
-        (skill_dir / "SKILL.md").write_text(FRONTMATTER, encoding="utf-8", newline="\n")
+        (skill_dir / "SKILL.md").write_text(
+            FRONTMATTER.replace("design-hardware", SKILL_NAME), encoding="utf-8", newline="\n"
+        )
         (skill_dir / ".version").write_text(skill_version + "\n", encoding="utf-8", newline="\n")
         (plugin / ".mcp.json").write_text(
             json.dumps(

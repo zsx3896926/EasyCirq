@@ -308,6 +308,7 @@ def build_agent_env(
     scenario: str | None,
     state_dir: Path,
     package_root: Path,
+    skill_name: str = "easycirq",
 ) -> dict[str, str]:
     """Return the whitelisted child environment (never contains the token)."""
 
@@ -321,6 +322,7 @@ def build_agent_env(
     env["ZHIGOU_TASK_ID"] = task_id
     env["ZHIGOU_MODE"] = mode
     env["ZHIGOU_STATE_DIR"] = str(state_dir)
+    env["ZHIGOU_SKILL_NAME"] = skill_name
     if scenario:
         env["ZHIGOU_FAKE_SCENARIO"] = scenario
     return env

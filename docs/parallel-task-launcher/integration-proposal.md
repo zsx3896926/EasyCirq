@@ -7,10 +7,10 @@ A 工具链（`runtime/`、`connector/`、`protocol/`、`distribution/`）的 Ph
 - 一侧契约（launcher 侧）：[contract.md](contract.md)；架构关系：[architecture.md](architecture.md)。
 - 验收状态：[acceptance-matrix.md](acceptance-matrix.md)；范围外事项：[issue-candidates.md](issue-candidates.md)。
 
-> 基线与事实说明：任务书假设 A 分支未合并；实际 `origin/main` 已推进到 `c54c6fc`
-> （PR #36 `feat/integrated-eda-toolchain` 合入 A 工具链），`runtime/`、`connector/`、
-> `protocol/`、`distribution/` 均在 main。本建议按 **main 上的 A 代码** 写；本分支已从任务书
-> 基线 `0e391e3` rebase 到 `origin/main@c54c6fc`，只新增 launcher 的 4 类路径，不触碰 A。
+> 基线与事实说明：任务书假设 A 分支未合并；实际 `origin/main` 已包含 A 工具链（#36）与
+> EasyCirq 重命名（#77：`design-hardware/` → `easycirq/`，当前审计基线 `1701e79`）。
+> 本建议按 **main 上的 A 代码** 写；本分支已 rebase 到 `origin/main@1701e79` 并适配重命名，
+> 只新增 launcher 的 4 类路径，不触碰 A。
 
 ---
 

@@ -1,10 +1,10 @@
 """Generation and validation of ``mcp.json`` for one task.
 
 The task agent gets the already-merged offline-audit MCP server
-(``design-hardware/scripts/zhigou_mcp``) mounted explicitly with
-``--mcp-config``.  It is a **stdio** child process started by the agent, so the
-launcher only writes a configuration file; it never starts the server itself and
-never talks to it.
+(``easycirq/scripts/zhigou_mcp``; legacy checkouts use ``design-hardware/scripts``)
+mounted explicitly with ``--mcp-config``.  It is a **stdio** child process started
+by the agent, so the launcher only writes a configuration file; it never starts
+the server itself and never talks to it.
 
 The ``PYTHONPATH`` points at the Skill's ``scripts`` directory, which is where
 ``python -m zhigou_mcp`` is importable from.  It is resolved to a forward-slash

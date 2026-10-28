@@ -140,7 +140,7 @@ Always-enforced invariants (independent of `expected.json`):
 | --- | --- | --- |
 | `01-happy-read-only` | happy path, fake agent `stream` | 202, `completed`, exit 0 |
 | `02-version-mismatch-launcher` | launcher version handshake | 409 `VERSION_MISMATCH`, exit 2 |
-| `03-version-mismatch-skill` | Skill version handshake (`design-hardware/.version`) | 409 `VERSION_MISMATCH`, exit 2 |
+| `03-version-mismatch-skill` | Skill version handshake (`easycirq/.version`, legacy `design-hardware/.version`) | 409 `VERSION_MISMATCH`, exit 2 |
 | `04-version-mismatch-plugin` | plugin package version handshake | 409 `VERSION_MISMATCH`, exit 2 |
 | `05-schema-invalid-unknown-field` | strict request schema | 422 `UNKNOWN_FIELD`, exit 2 |
 | `06-write-mode-refused` | read-only write gate (`mode="write"`) | 422 `WRITE_MODE_NOT_SUPPORTED`, exit 2 |
@@ -178,7 +178,7 @@ only the `duration_ms` / `elapsed_ms` fields vary between runs):
       "description": "...",
       "passed": true,
       "problems": [],
-      "duration_ms": 3337,
+      "duration_ms": 2606,
       "exit_code": 0,
       "start_http_status": 202,
       "final_status": "completed",
@@ -189,7 +189,7 @@ only the `duration_ms` / `elapsed_ms` fields vary between runs):
     }
   ],
   "totals": {"passed": 12, "total": 12},
-  "elapsed_ms": 28851,
+  "elapsed_ms": 25797,
   "real_claude": {"status": "NOT RUN", "requested": false, "reason": "...", "cases": []},
   "not_run": ["real_eda", "real_claude", "hardware_test", "network_calls"],
   "not_proof": ["..."]

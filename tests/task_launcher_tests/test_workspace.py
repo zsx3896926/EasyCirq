@@ -14,6 +14,7 @@ from pathlib import Path
 from .support import (
     ROOT,
     SKILL_DIR,
+    SKILL_NAME,
     LauncherProcess,
     base_request,
     repo_file_snapshot,
@@ -133,12 +134,12 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(
             set(after) - set(self.before),
             set(),
-            "a task wrote new files into design-hardware/",
+            f"a task wrote new files into {SKILL_NAME}/",
         )
         self.assertEqual(
             {path: after[path] for path in self.before if path in after},
             self.before,
-            "a task modified files under design-hardware/",
+            f"a task modified files under {SKILL_NAME}/",
         )
 
     def test_result_json_matches_the_api(self) -> None:
@@ -165,7 +166,7 @@ class WorkspaceTests(unittest.TestCase):
         self.assertEqual(context["document"]["kind"], "schematic")
         self.assertIn("snapshot_sha256", context["missing_fields"])
         routing = (self.workspace / "routing.md").read_text(encoding="utf-8")
-        self.assertIn("design-hardware", routing)
+        self.assertIn(SKILL_NAME, routing)
         self.assertIn("只读任务", routing)
         mcp = self.read("mcp.json")
         self.assertIn("zhigou-offline-audit", mcp["mcpServers"])

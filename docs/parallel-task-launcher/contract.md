@@ -7,7 +7,7 @@
 | 项 | 取值 |
 |---|---|
 | launcher 版本 | `task_launcher.__version__ = "0.1.0"` |
-| Skill 版本 | `design-hardware/.version`（当前仓库为 `1.0.2`） |
+| Skill 版本 | `easycirq/.version`（当前仓库为 `1.0.2`；旧布局 `design-hardware/.version`） |
 | plugin 包版本 | `PLUGIN_VERSION = "0.1.0"`，`plugin.json.skill_version` 承载 Skill 版本 |
 | 请求 schema | `zhigou.task-launcher.start/v1` |
 | 事件 schema | `zhigou.task-launcher.event/v1` |
@@ -556,13 +556,15 @@ POST /task/start (202)
 | 参与方 | 期望值来源 | 请求字段 | 当前仓库取值 |
 |---|---|---|---|
 | launcher | `task_launcher.__version__` | `toolchain.launcher` | `0.1.0` |
-| Skill | `<skill-dir>/.version`（默认 `design-hardware/.version`） | `toolchain.skill` | `1.0.2` |
+| Skill | `<skill-dir>/.version`（默认 `easycirq/.version`，旧布局 `design-hardware/.version`） | `toolchain.skill` | `1.0.2` |
 | plugin | 生成的 plugin manifest `version`；`--plugin-dir` 时读预构建 manifest | `toolchain.plugin` | `0.1.0` |
 
 **版本映射**：plugin **包版本**由 launcher 拥有（`PLUGIN_VERSION = 0.1.0`）；被带入的 Skill 版本
 放在同一份 `plugin.json` 的 `skill_version` 字段（默认构建时 = Skill 的 `.version`，当前 `1.0.2`）。
 两者不得混用：请求里的 `toolchain.plugin` 比的是**包版本**，`skill_version` 另做一致性检查
-（§5.3 最后一行）。
+（§5.3 最后一行）。plugin 包名固定 `zhigou-design-hardware`（launcher 包身份，跨 EasyCirq 重命名
+保持稳定）；plugin 内 `skills/` 下的目录名跟随 Skill frontmatter（当前 `easycirq`，旧布局
+`design-hardware`）。
 
 ### 5.2 比较语义
 
@@ -591,7 +593,7 @@ POST /task/start (202)
 所有握手失败都附带修复建议 `hint`（固定文案）：
 
 ```text
-统一安装版本：确认 design-hardware Skill、task_launcher 与生成的 Claude Code plugin 来自同一次安装/构建；重装 plugin 或使用 --plugin-dir 指向匹配版本。
+统一安装版本：确认 Skill（当前 easycirq，旧名 design-hardware）、task_launcher 与生成的 Claude Code plugin 来自同一次安装/构建；重装 plugin 或使用 --plugin-dir 指向匹配版本。
 ```
 
 握手失败发生在任务目录创建之前：**不会**留下 `tasks/<id>/`，也不会启动 Agent。
@@ -690,8 +692,8 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
     "version": "0.1.0",
     "skill_version": "1.0.2",
     "dir": "<state>/tasks/task-20261028-001/plugin",
-    "file_count": 622,
-    "total_bytes": 13000000,
+    "file_count": 628,
+    "total_bytes": 13179534,
     "prebuilt": false,
     "materialized": "hardlink",
     "cache_dir": "<state>/plugin-cache/0.1.0-0.1.0-<fingerprint20>"
@@ -726,7 +728,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 ├── plugin-cache/
 │   └── <plugin_version>-<launcher_version>-<fingerprint[:20]>/
 │       ├── .claude-plugin/plugin.json
-│       ├── skills/design-hardware/...        # SKILL.md、.version、references/、scripts/、assets/ ...
+│       ├── skills/<skill-name>/...           # SKILL.md、.version、references/、scripts/、assets/ ...（当前 easycirq）
 │       ├── .mcp.json
 │       ├── hooks/hooks.json
 │       └── plugin.manifest.json
@@ -766,7 +768,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
 - 拒绝的 start（schema/握手/BUSY/Agent 不可用）**不留下任务目录**：创建失败时目录会被清理。
 - 任务运行只写 `<state-dir>/`（`tasks/<task_id>/` 与首次构建时的 `plugin-cache/`）；不写仓库、
-  Skill 目录或客户工程（测试用目录快照对比 `design-hardware/` 前后变化）。
+  Skill 目录或客户工程（测试用目录快照对比 `easycirq/`（旧布局 `design-hardware/`）前后变化）。
 - 工作区内不出现 token 或 `Bearer` 头（`agent.command.json` 的 `token_included` 恒 `false`，
   测试逐个文件断言）。
 - plugin 缓存以 Skill 指纹为 key，同一 launcher 进程只构建一次并复用；每个任务把缓存
@@ -804,7 +806,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
 | id | 必须出现的文本 |
 |---|---|
-| `rule-1-load-skill` | `必须先加载 design-hardware Skill，不得跳过` |
+| `rule-1-load-skill` | `必须先加载 <skill-name> Skill，不得跳过`（当前 easycirq；旧布局 design-hardware） |
 | `rule-2-read-only` | `只读任务：不得修改/保存/导出 EDA 工程，不得调用任何写接口` |
 | `rule-3-tools` | `未知/缺测必须如实报告，不得用默认值或猜测补全` |
 | `rule-4-verdicts` | `离线检查 / 真实 EDA / 硬件实测` |
@@ -853,7 +855,7 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 1. 每个任务的事件 `seq` 从 1 开始、严格 +1；`GET events?since=N` 只返回 `seq > N`。
 2. `events.jsonl` 的行与 events API 返回的事件同源同序（重启后 API 不再提供）。
 3. 工作区、`agent.command.json`、`result.json` 中不出现 token / `Bearer` 字符串。
-4. 任务运行不改变仓库与 `design-hardware/` 文件（目录快照前后一致）。
+4. 任务运行不改变仓库与 `easycirq/`（旧布局 `design-hardware/`）文件（目录快照前后一致）。
 5. 结果中 `real_eda == "NOT RUN"`、`eda_calls == 0`、`project_writes == 0`、
    `network_calls == 0`、`hardware_test == "NOT RUN"`。
 6. Agent argv 是字符串列表，且包含四个强制参数；`-p` 后是单个 `user_prompt` 参数。
@@ -869,7 +871,8 @@ plugin/system prompt 已挂载不等于模型一定读取了 Skill；能证明�
 
 - 本任务**不修改** `runtime/`、`connector/`、`protocol/`、`distribution/`，不 import A 的代码，
   不启动真实 daemon/connector。分支从任务书基线 `main@0e391e3` 拉出，随后 rebase 到
-  `origin/main@c54c6fc`（A 工具链已随 PR #36 合入 main）；相对 main 只新增
+  `origin/main@1701e79`（A 工具链 #36 与 EasyCirq 重命名 #77 均已合入 main）；
+  skill 目录重命名（`design-hardware/` → `easycirq/`）已适配；相对 main 只新增
   `task_launcher/`、`tests/task_launcher_tests/`、`benchmarks/task-launcher/`、
   `docs/parallel-task-launcher/`，`git diff --name-status origin/main...HEAD` 全部为 `A`。
 - 本契约的 API 命名与 A 既有 wire 概念（handshake / request / response / 错误码）对齐，

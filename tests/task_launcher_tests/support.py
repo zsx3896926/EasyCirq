@@ -29,7 +29,12 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[2]
-SKILL_DIR = ROOT / "design-hardware"
+#: The 2026-10 rename moved the Skill from ``design-hardware/`` to ``easycirq/``;
+#: tests follow whatever the checkout actually contains.
+SKILL_DIR = ROOT / "easycirq"
+if not (SKILL_DIR / "SKILL.md").is_file():
+    SKILL_DIR = ROOT / "design-hardware"
+SKILL_NAME = SKILL_DIR.name
 TESTS_DIR = Path(__file__).resolve().parent
 
 #: Shared plugin build cache for the whole test session.  The plugin tree is
@@ -475,6 +480,7 @@ def repo_file_snapshot(paths: list[Path]) -> dict:
 __all__ = [
     "ROOT",
     "SKILL_DIR",
+    "SKILL_NAME",
     "PLUGIN_CACHE",
     "START_SCHEMA",
     "RESULT_SCHEMA",
