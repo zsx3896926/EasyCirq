@@ -52,6 +52,16 @@ class LayoutPlan(unittest.TestCase):
             self.assertTrue(zx1 <= x1 and zy1 <= y1 and zx2 >= x2 and zy2 >= y2, p)
             self.assertGreaterEqual(zy2, y2 + 34, "zone must leave title clearance above block")
 
+    def test_frames_do_not_overlap_each_other(self):
+        code, rep = self.run_plan(spec())
+        frames = rep["frames"]
+        for i in range(len(frames)):
+            for j in range(i + 1, len(frames)):
+                a, b = frames[i]["rect"], frames[j]["rect"]
+                ox = max(0, min(a["maxX"], b["maxX"]) - max(a["minX"], b["minX"]))
+                oy = max(0, min(a["maxY"], b["maxY"]) - max(a["minY"], b["minY"]))
+                self.assertEqual(ox * oy, 0, "zones overlap: %s %s" % (a, b))
+
     def test_too_many_blocks_blocked(self):
         blocks = [{"id": "b%d" % i, "title": "块 %d" % i,
                    "envelope": {"w": 560, "h": 340}} for i in range(6)]
