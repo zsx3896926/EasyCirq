@@ -78,7 +78,7 @@ python tools/offline_suite.py        # 仓库既有离线套件（不得因本�
 判定：
 
 - 本机实测（2026-10-28，逐条证据见 §7）：34 个标准场景 + 5 个 holdout + 2 个组合案例全部通过（41/41），必需类别覆盖 30/30；专属测试 172 个通过；`skill_selftest.py` 5 PASS。
-- 仓库 `tools/offline_suite.py`：在 PR #39 合并 HEAD `b407d72` 上 1783 tests / 0 failures / 0 errors（PASS）；在当前 main（含后续其他并行任务）上 2147 tests / 47 errors，**全部来自其他任务的测试包**（`change_impact`/`circuit_blocks`/`delivery_audit` 等），`bringup_planner_tests` 的 172 tests 不在错误中（详见 §7.5 与 `issue-candidates.md` A.6）。
+- 仓库 `tools/offline_suite.py`：在 PR #39 合并 HEAD `b407d72` 上 1783 tests / 0 failures / 0 errors（PASS）；**最新 main（截至 `c54c6fc`，含其他并行任务）已 PASS：3318 tests / 0 failures / 0 errors**。§7.5 的 M4-2 是 2026-10-28 采集快照（当时 47 个跨任务 errors），已由后续集成修复；最新复跑见 M4-5 与 `issue-candidates.md` A.6。
 
 - 每个场景真实启动 `python -m bringup_planner validate|plan|explain|evaluate` 子进程；记录实际退出码、计划哈希、DAG order/cycles、步骤 ID/状态、gap/unknown/equipment_gap codes、评估 verdict。
 - `expected.json` 为手工推导后冻结的预期（输入 SHA 一并冻结）；实际不一致即失败，不允许按场景 ID 改判。
@@ -152,9 +152,10 @@ python tools/offline_suite.py        # 仓库既有离线套件（不得因本�
 | # | 命令 | 退出码 | 关键输出摘要 | 对应 HEAD | 结论 |
 |---|---|---|---|---|---|
 | M4-1 | `python tools/offline_suite.py`（PR #39 合并源） | 0 | `status=pass`；1783 tests；0 failures / 0 errors / 0 blocked events | `b407d72` | PASS |
-| M4-2 | `python tools/offline_suite.py`（当前 main，含后续并行任务） | 1 | `status=fail`；2147 tests；0 failures；**47 errors**。错误全部来自其他任务测试包：`change_impact` 9、`circuit_blocks` 7、`delivery_audit` 7、`electrical_review` 5、`procurement_planner` 5、`return_path_audit` 8、`skill_knowledge_audit` 6；**`bringup_planner_tests` 0 error** | `3f21897` | **FAIL（外部原因，非本任务）** |
+| M4-2 | `python tools/offline_suite.py`（2026-10-28 采集快照 `3f21897`） | 1 | 历史快照：`status=fail`；2147 tests；0 failures；**47 errors**（全部来自其他任务测试包：`change_impact` 9、`circuit_blocks` 7、`delivery_audit` 7、`electrical_review` 5、`procurement_planner` 5、`return_path_audit` 8、`skill_knowledge_audit` 6；**`bringup_planner_tests` 0 error**）。**该状态已由后续集成修复，最新 main 见 M4-5** | `3f21897` | 历史 FAIL（当时外部原因，已修复） |
 | M4-3 | `python design-hardware/scripts/skill_selftest.py` | 0 | `5 PASS, 0 FAIL, 0 NOT RUN -> exit 0`（python-compile 242 scripts） | `3f21897` | PASS |
 | M4-4 | 检查 `docs/parallel-bringup-planner/` 产物 | 0 | 10 个 Markdown 文档 + `evidence-m0-m4.json` 均在；PR 范围审计 175 files / 允许路径外 0 | `3f21897` | PASS |
+| M4-5 | `python tools/offline_suite.py`（最新 main） | 0 | `status=pass`；**3318 tests**；0 failures / 0 errors / 0 blocked events；`bringup_planner_tests` 172 tests 包含在 discovery 中且全通过 | `c54c6fc` | PASS |
 
 ### 7.6 仪器 / 上电 / 烧录 / EDA（NOT RUN）
 
@@ -169,8 +170,8 @@ python tools/offline_suite.py        # 仓库既有离线套件（不得因本�
 
 ### 7.7 结论与备注
 
-- 本任务范围内软件证据：**33 项 PASS**、**1 项 FAIL（M4-2，外部任务测试包导致，非本任务回归）**、**6 类硬件/仪器动作 NOT RUN**。逐项见 7.1–7.6；机器可读证据见 `evidence-m0-m4.json`。
+- 本任务范围内软件证据：**34 项 PASS**（含最新 main 复跑 M4-5）、**0 项当前 FAIL**；M4-2 是 2026-10-28 采集快照的外部 FAIL，已由后续集成修复。**6 类硬件/仪器动作 NOT RUN**。逐项见 7.1–7.6；机器可读证据见 `evidence-m0-m4.json`（历史采集快照，不含 M4-5 复跑）。
 - `eval-pass-real-evidence` 的 PASS 是**评估器契约 fixture**（证据文件明确写有 "NO INSTRUMENT WAS CONNECTED"），只证明评估器在"真实测量声明+证据"下的一致性判定，**不是**真实上电/功能 PASS。
 - **已知契约措辞差异（M2-7）：** 畸形 JSON 时 `plan` 退出 2 且不写计划，但未写 `input-invalid.json`；`input-invalid.json` 目前只在"可解析但 schema 非法"的文档路径写出。已在 `issue-candidates.md` B.4 记录，未在本任务中改实现。
-- **跨任务回归（M4-2）：** 当前 main 的 47 个 offline_suite errors 来自其他并行任务新增的测试包发现方式；`bringup_planner_tests` 172 tests 全通过。已写入 `issue-candidates.md` A.6，交由对应任务/集成者修复。
+- **跨任务回归（M4-2 → M4-5）：** 2026-10-28 采集快照中 `offline_suite` 的 47 个 errors 来自其他并行任务的测试包发现方式；后续集成已修复。最新 main `c54c6fc` 复跑 `offline_suite` 为 **PASS：3318 tests / 0 errors**，`bringup_planner_tests` 172 tests 全通过。`issue-candidates.md` A.6 已标记为“已修复”，无需再处理。
 - 采集时 `origin/main` 持续前进（`acbcc18…`）；本清单的 HEAD 列固定为实际运行所用的 worktree HEAD `3f21897`，PR 范围审计固定为 `9a951ed...b407d72`。
