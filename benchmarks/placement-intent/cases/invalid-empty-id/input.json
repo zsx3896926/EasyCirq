@@ -1,0 +1,92 @@
+{
+  "schema": "zhigou.placement-intent.input/v1",
+  "project": {
+    "project_id": "empty-id",
+    "revision": "r1",
+    "document_id": "sheet-1"
+  },
+  "snapshot": {
+    "captured_at": "2026-10-27T09:00:00+08:00",
+    "content_sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "source_type": "synthetic_fixture",
+    "missing_fields": []
+  },
+  "units": {
+    "length": "mm"
+  },
+  "board": {
+    "width_mm": 80.0,
+    "height_mm": 60.0
+  },
+  "modules": [
+    {
+      "id": "mod:root",
+      "parent": null,
+      "children": [
+        ""
+      ],
+      "components": [],
+      "allowed_rotations": [
+        0
+      ]
+    },
+    {
+      "id": "",
+      "parent": "mod:root",
+      "children": [],
+      "components": [
+        "cmp:u1"
+      ],
+      "allowed_rotations": [
+        0
+      ]
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "cmp:u1",
+      "designator": "U1",
+      "allowed_rotations": [
+        0
+      ],
+      "size_mm": {
+        "w": 10.0,
+        "h": 10.0
+      }
+    }
+  ],
+  "constraints": [
+    {
+      "id": "ccg:1",
+      "from": "mod:root",
+      "to": "",
+      "dx_mm": 1.0,
+      "dy_mm": 2.0,
+      "rotation_deg": 0,
+      "weight": 0.9
+    },
+    {
+      "id": "ccg:2",
+      "from": "",
+      "to": "cmp:u1",
+      "dx_mm": 0.0,
+      "dy_mm": 0.0,
+      "rotation_deg": 0,
+      "weight": 0.9
+    }
+  ],
+  "policy": {
+    "max_depth": 6,
+    "default_allowed_rotations": [
+      0
+    ],
+    "position_tolerance_mm": 1e-06,
+    "weight_epsilon": 1e-09
+  },
+  "provenance": {
+    "kind": "synthetic",
+    "sources": [],
+    "note": "Synthetic placement-intent benchmark fixture; not a real board."
+  },
+  "unknowns": []
+}

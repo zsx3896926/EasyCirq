@@ -1,0 +1,153 @@
+{
+  "schema": "zhigou.placement-intent.input/v1",
+  "project": {
+    "project_id": "rot90-bbox",
+    "revision": "r1",
+    "document_id": "sheet-1"
+  },
+  "snapshot": {
+    "captured_at": "2026-10-27T09:00:00+08:00",
+    "content_sha256": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef",
+    "source_type": "synthetic_fixture",
+    "missing_fields": []
+  },
+  "units": {
+    "length": "mm"
+  },
+  "board": {
+    "width_mm": 40.0,
+    "height_mm": 30.0
+  },
+  "modules": [
+    {
+      "id": "mod:root",
+      "parent": null,
+      "children": [
+        "mod:spinner",
+        "mod:plain"
+      ],
+      "components": [],
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ]
+    },
+    {
+      "id": "mod:spinner",
+      "parent": "mod:root",
+      "children": [],
+      "components": [
+        "cmp:u1"
+      ],
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "size_mm": {
+        "w": 3.0,
+        "h": 2.0
+      }
+    },
+    {
+      "id": "mod:plain",
+      "parent": "mod:root",
+      "children": [],
+      "components": [
+        "cmp:u2"
+      ],
+      "allowed_rotations": [
+        0
+      ],
+      "size_mm": {
+        "w": 4.0,
+        "h": 4.0
+      }
+    }
+  ],
+  "components": [
+    {
+      "instance_id": "cmp:u1",
+      "designator": "U1",
+      "allowed_rotations": [
+        0,
+        90,
+        180,
+        270
+      ],
+      "size_mm": {
+        "w": 3.0,
+        "h": 2.0
+      }
+    },
+    {
+      "instance_id": "cmp:u2",
+      "designator": "U2",
+      "allowed_rotations": [
+        0
+      ],
+      "size_mm": {
+        "w": 4.0,
+        "h": 4.0
+      }
+    }
+  ],
+  "constraints": [
+    {
+      "id": "ccg:1",
+      "from": "mod:root",
+      "to": "mod:spinner",
+      "dx_mm": 2.0,
+      "dy_mm": 0.0,
+      "rotation_deg": 90,
+      "weight": 0.9
+    },
+    {
+      "id": "ccg:2",
+      "from": "mod:spinner",
+      "to": "cmp:u1",
+      "dx_mm": 0.0,
+      "dy_mm": 0.0,
+      "rotation_deg": 0,
+      "weight": 0.9
+    },
+    {
+      "id": "ccg:3",
+      "from": "mod:root",
+      "to": "mod:plain",
+      "dx_mm": 10.0,
+      "dy_mm": 0.0,
+      "rotation_deg": 0,
+      "weight": 0.9
+    },
+    {
+      "id": "ccg:4",
+      "from": "mod:plain",
+      "to": "cmp:u2",
+      "dx_mm": 0.0,
+      "dy_mm": 0.0,
+      "rotation_deg": 0,
+      "weight": 0.9
+    }
+  ],
+  "policy": {
+    "max_depth": 6,
+    "default_allowed_rotations": [
+      0,
+      90,
+      180,
+      270
+    ],
+    "position_tolerance_mm": 1e-06,
+    "weight_epsilon": 1e-09
+  },
+  "provenance": {
+    "kind": "synthetic",
+    "sources": [],
+    "note": "Synthetic placement-intent benchmark fixture; not a real board."
+  },
+  "unknowns": []
+}

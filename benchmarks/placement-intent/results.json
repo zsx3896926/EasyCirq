@@ -1,0 +1,1206 @@
+{
+  "schema": "zhigou.placement-intent.benchmark/v1",
+  "simulated": true,
+  "real_eda": "NOT RUN",
+  "eda_calls": 0,
+  "status": "pass",
+  "implementation": {
+    "git_commit": "706c39c61c43303d5b54df93dee6d584521a92fa",
+    "git_branch": "feat/parallel-placement-intent",
+    "tracked_worktree_dirty": false,
+    "note": "HEAD at which the real CLI subprocesses were executed; null outside a git work tree. Untracked benchmark files are not counted as dirty."
+  },
+  "correctness": {
+    "passed": 38,
+    "total": 38,
+    "cases": [
+      {
+        "case": "constraints-empty",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 1,
+        "status": "planned_constraints_only",
+        "expected_status": "planned_constraints_only",
+        "source_class": "synthetic_fixture",
+        "basis": "constraints=[]：constraints_empty（impact=constraints_only）+ 每个与根不连通的节点各 no_constraint（block、cmp:u1）。元件尺寸已知，故 cmp:u1 的自身 bbox={0,0,5,4} 仍输出；但 block 与子项跨 CCG 分量 → bbox=null、root bbox=null，绝不猜原点 → planned_constraints_only。",
+        "input_sha256": "878fd71a02bb340cdf3952f56c9d6295d0cd624ce1af6ea52743676d3cd04e66",
+        "input_bytes": 1529,
+        "findings": [],
+        "unknown_codes": [
+          "constraints_empty",
+          "no_constraint",
+          "no_constraint",
+          "size_unknown",
+          "size_unknown"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.185736,
+          "median_sec": 0.185736,
+          "max_sec": 0.185736
+        },
+        "stderr_tail": "plan: status planned_constraints_only"
+      },
+      {
+        "case": "constraints-only-board",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 1,
+        "status": "planned_constraints_only",
+        "expected_status": "planned_constraints_only",
+        "source_class": "synthetic_fixture",
+        "basis": "两侧尺寸齐全、帧可算、bbox 可推导：block={0,0,5,4}；root = block 帧(2,3)+{0,0,5,4} = {2,3,5,4}。但 board 缺失 → board_unknown（impact=constraints_only），不把“无板框”当成通过 → planned_constraints_only，bbox 仍输出（可推导的部分不因板框缺失变空）。",
+        "input_sha256": "70bc5ef979af91ade5e27cd69a625b8f08edfce816ffde219d9592b49560360e",
+        "input_bytes": 1806,
+        "findings": [],
+        "unknown_codes": [
+          "board_unknown"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.175913,
+          "median_sec": 0.175913,
+          "max_sec": 0.175913
+        },
+        "stderr_tail": "plan: status planned_constraints_only"
+      },
+      {
+        "case": "constraints-only-size",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 1,
+        "status": "planned_constraints_only",
+        "expected_status": "planned_constraints_only",
+        "source_class": "synthetic_fixture",
+        "basis": "cmp:U1 缺 size_mm：元件 bbox=null 且 size_unknown（impact=constraints_only）；block 的子项 bbox 未知 → block bbox=null 并 size_unknown；root 的子树未知 → root bbox=null。帧仍可算（边缘齐全），但绝不用默认尺寸补 bbox → planned_constraints_only（不是 planned_with_scope）。",
+        "input_sha256": "118a1a5c5de07203ee5fc8cd4f8a44b6d761720f15baa6b3e76707aebdc1aa21",
+        "input_bytes": 1804,
+        "findings": [],
+        "unknown_codes": [
+          "size_unknown",
+          "size_unknown",
+          "size_unknown"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.172189,
+          "median_sec": 0.172189,
+          "max_sec": 0.172189
+        },
+        "stderr_tail": "plan: status planned_constraints_only"
+      },
+      {
+        "case": "derived-mcu-i2c-plan",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 1,
+        "status": "planned_constraints_only",
+        "expected_status": "planned_constraints_only",
+        "source_class": "derived_offline_from_frozen_case",
+        "basis": "从仓库冻结工程 design-hardware/cases/mcu-i2c-s3-2026-10-26 的只读证据离线派生（derive_mcu_i2c_plan.py）：把 placement-plan.json 的 23 个绝对 mil 坐标按功能分成 5 个模块块，差分得到根→块、块→元件的 dx/dy（mil），旋转取源声明的 0/90/180；源文件无尺寸 → 不声明任何 size_mm（不编造），故 23 个元件与 6 个模块均 size_unknown、bbox 全 null（root 优先）→ planned_constraints_only exit 1。手算示例：源坐标 mod:power 锚点=(1950,150) mil → 帧 (49.53,3.81) mm；U2=(900,651) 相对 mcu 锚点 (900,250) → (0,401) mil=(0,10.1854) mm、旋转 180；R90=(350,1250) 相对 sensor 锚点 (250,1250) → (100,0) mil=(2.54,0) mm、旋转 90。provenance.kind=derived，sources[].sha256=placement-plan.json fdef702e…46b3 与 README 676cbb51…1899。这不是真实板回读，未调用 EDA/daemon/connector，未读取 .epro2。",
+        "input_sha256": "9a3ce46f5d62c0ffd286bd6ce3f67cf15f02ce3e61af44e061807f6cd581c950",
+        "input_bytes": 19043,
+        "findings": [],
+        "unknown_codes": [
+          "overlap_not_checked",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 1.404861,
+          "median_sec": 1.404861,
+          "max_sec": 1.404861
+        },
+        "stderr_tail": "plan: status planned_constraints_only"
+      },
+      {
+        "case": "holdout-crossmod-identity-rot180",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 0,
+        "status": "planned_with_scope",
+        "expected_status": "planned_with_scope",
+        "source_class": "holdout_independent",
+        "basis": "独立 holdout（非契约示例）：跨模块环 root→spin→leaf→root 的旋转 180+0+180=360≡0，平移 (4,3)+R(180)(0,0)+R(180)(4,3) = (4,3)+(-4,-3)=(0,0) → 恒等环，仅 info constraint_cycle_identity。手算 bbox：u1={0,0,3,2}；leaf=同 {0,0,3,2}；spin 相对帧 0 → {0,0,3,2}；root：spin bbox 绕原点转 180 → x[-3,0] y[-2,0]，平移到 (4,3) → {1,1,3,2}；均被声明尺寸包住、无重叠 → planned_with_scope。",
+        "input_sha256": "923e9b0e9a7dfb7274d93b3f16adc5763f7d70199feb4dab6a21cbda1525b7b2",
+        "input_bytes": 2530,
+        "findings": [
+          [
+            "constraint_cycle_identity",
+            "info"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.156992,
+          "median_sec": 0.156992,
+          "max_sec": 0.156992
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "holdout-fixed-distance-conflict",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 1,
+        "status": "review_required",
+        "expected_status": "review_required",
+        "source_class": "holdout_counterexample",
+        "basis": "独立 holdout 反例：两个 fixed 节点都声明位置。声明距离 = 10.5 mm，而 CCG 合成距离 = 10.0 mm，差 0.5 mm > position_tolerance_mm=1e-6 → fixed_conflict（review）→ review_required exit 1。旋转声明 0 与合成 0 一致，因此这里只可能是相对距离冲突；不能被四舍五入/近似吞掉。",
+        "input_sha256": "1baae3dc2ef85ffb8f51c3ce024d80f0bccc92aff854a45d3425d38a9ead513c",
+        "input_bytes": 2938,
+        "findings": [
+          [
+            "fixed_conflict",
+            "review"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.151413,
+          "median_sec": 0.151413,
+          "max_sec": 0.151413
+        },
+        "stderr_tail": "plan: status review_required"
+      },
+      {
+        "case": "holdout-missing-frame",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 1,
+        "status": "planned_constraints_only",
+        "expected_status": "planned_constraints_only",
+        "source_class": "holdout_independent",
+        "basis": "独立 holdout：所有尺寸齐全，但 mod:orphan 与 cmp:u2 没有任何 CCG 边、与根不连通 → 各自 no_constraint，帧保持 unknown；orphan 的子项跨分量 → orphan bbox=null + size_unknown；root 因 orphan bbox 未知 → bbox=null。mod:known 子树齐全 → bbox={0,0,4,2} 仍输出。缺帧不能靠“尺寸齐全”补成 planned_with_scope → planned_constraints_only exit 1。",
+        "input_sha256": "365bb3fd6584131c622d68bd9c360e36d10624164c089a634a300b2ed3d345b7",
+        "input_bytes": 2325,
+        "findings": [],
+        "unknown_codes": [
+          "no_constraint",
+          "no_constraint",
+          "overlap_not_checked",
+          "size_unknown",
+          "size_unknown"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.162417,
+          "median_sec": 0.162417,
+          "max_sec": 0.162417
+        },
+        "stderr_tail": "plan: status planned_constraints_only"
+      },
+      {
+        "case": "holdout-unit-disguise",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "holdout_counterexample",
+        "basis": "独立 holdout 反例：units.length=\"MM\"（大写）不是白名单 mm/mil。枚举严格区分大小写；若实现把 \"MM\" 猜成 mm 就会把缺单位变成通过 → 必须 enum_invalid，exit 2。",
+        "input_sha256": "d2edf73ebc15970f85d18c2fc03274f9040c8403217baacbb4101f2e69b7ed4e",
+        "input_bytes": 1738,
+        "findings": [
+          [
+            "enum_invalid",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.19226,
+          "median_sec": 0.19226,
+          "max_sec": 0.19226
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-empty-id",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "模块 id 为空字符串（引用同步改空以隔离错误）→ empty_string，exit 2。",
+        "input_sha256": "45ca709c7a1d87f9d9c0ee1a44c9a1690cba235aebb2484f344c9228be7b2803",
+        "input_bytes": 1701,
+        "findings": [
+          [
+            "component_unassigned",
+            "error"
+          ],
+          [
+            "empty_string",
+            "error"
+          ],
+          [
+            "empty_string",
+            "error"
+          ],
+          [
+            "empty_string",
+            "error"
+          ],
+          [
+            "empty_string",
+            "error"
+          ],
+          [
+            "empty_leaf",
+            "warning"
+          ]
+        ],
+        "unknown_codes": [
+          "constraints_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.164926,
+          "median_sec": 0.164926,
+          "max_sec": 0.164926
+        },
+        "stderr_tail": "validate: invalid input (5 error finding(s))"
+      },
+      {
+        "case": "invalid-endpoint-unknown",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "边端点 mod:ghost 既不是模块也不是元件 → constraint_endpoint_unknown，exit 2。",
+        "input_sha256": "9894c31660ffebf156a937aecd8f2a57f9b92703e952b8b4fd75bde0c25058dd",
+        "input_bytes": 1742,
+        "findings": [
+          [
+            "constraint_endpoint_unknown",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.170497,
+          "median_sec": 0.170497,
+          "max_sec": 0.170497
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-extra-field",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "顶层 additionalProperties:false：未知字段 notes → unknown_property，exit 2。",
+        "input_sha256": "e43bd2ba92c5dba5127fae0aa377bc7154568c5dabafcc957118a1b2c1249171",
+        "input_bytes": 1780,
+        "findings": [
+          [
+            "unknown_property",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.155088,
+          "median_sec": 0.155088,
+          "max_sec": 0.155088
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-json-duplicate-key",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "严格解析必须拒绝重复 JSON 键（契约 §3）：project.revision 出现两次 → json_duplicate_key，exit 2 / status=invalid；不得“后者覆盖前者”后照常通过。",
+        "input_sha256": "1e85d7f085a4c90c24795beaabfef7d719dff1b18182fda117e70ef6950cc5c9",
+        "input_bytes": 1750,
+        "findings": [
+          [
+            "json_duplicate_key",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.146929,
+          "median_sec": 0.146929,
+          "max_sec": 0.146929
+        },
+        "stderr_tail": "validate: duplicate JSON key: revision"
+      },
+      {
+        "case": "invalid-json-nan",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "行内的 NaN 字面量不是合法 JSON number（契约 §3）→ json_invalid，exit 2；不得被 float()/json 宽松解析吞成可通过的数字。",
+        "input_sha256": "8d684d8b50d7c0b4207fd2a9d13dfacb6dbb9c6e56a3c0568f80948303c3c4e0",
+        "input_bytes": 1736,
+        "findings": [
+          [
+            "json_invalid",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.153124,
+          "median_sec": 0.153124,
+          "max_sec": 0.153124
+        },
+        "stderr_tail": "validate: non-finite JSON number is not allowed: NaN"
+      },
+      {
+        "case": "invalid-missing-required",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "units 是必填字段；缺失 → missing_required，exit 2。长度字段带 _mm 后缀也不能当作已声明单位（不猜 mm）。",
+        "input_sha256": "2361c929b5eac91046b1ae441ff4d853af7908d7c9f6ad447296ca5e73871249",
+        "input_bytes": 1704,
+        "findings": [
+          [
+            "missing_required",
+            "error"
+          ],
+          [
+            "type_mismatch",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.155251,
+          "median_sec": 0.155251,
+          "max_sec": 0.155251
+        },
+        "stderr_tail": "validate: invalid input (2 error finding(s))"
+      },
+      {
+        "case": "invalid-multipath-mismatch",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "root→a=(10,0)，root→b=(0,10)，a→b=(5,0)：经 a 的路径给 b=(15,0)，与直接路径 (0,10) 不一致 → constraint_path_mismatch（同环还会报 constraint_cycle_nonidentity），exit 2；不得只取一条路径。",
+        "input_sha256": "8f8245e456af5351feff5991e088731324faa1fc11992f955eb6457428b17943",
+        "input_bytes": 2600,
+        "findings": [
+          [
+            "constraint_cycle_nonidentity",
+            "error"
+          ],
+          [
+            "constraint_path_mismatch",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.150142,
+          "median_sec": 0.150142,
+          "max_sec": 0.150142
+        },
+        "stderr_tail": "validate: invalid input (2 error finding(s))"
+      },
+      {
+        "case": "invalid-negative-weight",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "weight 必须 >0；-0.5 越界 → number_out_of_range，exit 2。",
+        "input_sha256": "96c5f6065296b29ea0cf88091cbe9ed42061878b544b5f884297ba9bf50ee15f",
+        "input_bytes": 1741,
+        "findings": [
+          [
+            "number_out_of_range",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.151024,
+          "median_sec": 0.151024,
+          "max_sec": 0.151024
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-nonidentity-cycle",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "环 root→a→b→root 合成平移 (10,0)+(0,5)+(-10,0)=(0,5) ≠ (0,0)（旋转 0）→ constraint_cycle_nonidentity + constraint_path_mismatch，exit 2；非恒等环不得被忽略。",
+        "input_sha256": "fd59a892186e5f08122c56c209bd39d42854d7a8a2b6c4e296f80e564372627c",
+        "input_bytes": 2071,
+        "findings": [
+          [
+            "constraint_cycle_nonidentity",
+            "error"
+          ],
+          [
+            "constraint_path_mismatch",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "no_constraint",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.148782,
+          "median_sec": 0.148782,
+          "max_sec": 0.148782
+        },
+        "stderr_tail": "validate: invalid input (2 error finding(s))"
+      },
+      {
+        "case": "invalid-rotation-enum",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "rotation_deg 只允许 0/90/180/270；45 在枚举外 → enum_invalid，exit 2。",
+        "input_sha256": "06eb1b7905fda5e7fb37018ebf228e0f597abc67e8b4d13ced1a4543bd0c0ad2",
+        "input_bytes": 1738,
+        "findings": [
+          [
+            "enum_invalid",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.158116,
+          "median_sec": 0.158116,
+          "max_sec": 0.158116
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-same-pair-conflict",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "同一 (from,to) 两条边偏移不同（(1,2) vs (2,2)）→ constraint_duplicate_conflict，exit 2；不得去重/择一/取平均。",
+        "input_sha256": "cae1456971f9e89ed394fd0e51f2d47afb3c8ecb9750f8cddd761f7dfb9b8e1c",
+        "input_bytes": 1913,
+        "findings": [
+          [
+            "constraint_duplicate_conflict",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.154404,
+          "median_sec": 0.154404,
+          "max_sec": 0.154404
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-self-loop",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "CCG 边 from==to（mod:root→mod:root）→ constraint_self_loop，exit 2。",
+        "input_sha256": "50a1cff1e32372f0a7cb985990b870f63502427fe909b9f7ad0a6275e7c8e2c2",
+        "input_bytes": 1734,
+        "findings": [
+          [
+            "constraint_self_loop",
+            "error"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.154454,
+          "median_sec": 0.154454,
+          "max_sec": 0.154454
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-tree-component-duplicate",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "cmp:u1 同时出现在 mod:a 与 mod:b 两个叶子里 → component_duplicate_membership，exit 2。",
+        "input_sha256": "38dd2c095cab0a701c5ae726123c02b35afecea634b52dd87b8f9feca92d0f45",
+        "input_bytes": 1594,
+        "findings": [
+          [
+            "component_duplicate_membership",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "constraints_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.166036,
+          "median_sec": 0.166036,
+          "max_sec": 0.166036
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-tree-component-unassigned",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "cmp:u2 未出现在任何叶子模块的 components 中 → component_unassigned，exit 2；每个元件必须且只能归属一个叶子。",
+        "input_sha256": "0733fa4c776edf159fb0fe1a8fcf61fea7e1aef990f58de2f78eee71bb80298e",
+        "input_bytes": 1579,
+        "findings": [
+          [
+            "component_unassigned",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "constraints_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.162757,
+          "median_sec": 0.162757,
+          "max_sec": 0.162757
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-tree-cycle",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "从根可达的 children 环 root→a→b→a（b.children 指回 a）→ tree_cycle，exit 2；环不能被 DFS 静默截断。",
+        "input_sha256": "06901af71ceebd797e7337f63fa70dfffd5e3bb2f44ef24b4028d76859da5ad5",
+        "input_bytes": 1381,
+        "findings": [
+          [
+            "tree_cycle",
+            "error"
+          ],
+          [
+            "tree_parent_mismatch",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "constraints_empty",
+          "design_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.166906,
+          "median_sec": 0.166906,
+          "max_sec": 0.166906
+        },
+        "stderr_tail": "validate: invalid input (2 error finding(s))"
+      },
+      {
+        "case": "invalid-tree-depth",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "policy.max_depth=2；mod:c 深度=3 → tree_depth_exceeded，exit 2；深度上限不允许被实现放宽。",
+        "input_sha256": "9eb75b1d9ee7103f7e17e98863b1415f49373b4fc77719e4727efc6139c1b102",
+        "input_bytes": 1743,
+        "findings": [
+          [
+            "tree_depth_exceeded",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "constraints_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.172428,
+          "median_sec": 0.172428,
+          "max_sec": 0.172428
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-tree-multiple-roots",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "两个 parent=null 的根（mod:root-a、mod:root-b）→ tree_multiple_roots，exit 2；根必须恰好一个。",
+        "input_sha256": "bae355a8f8b7a839f9787a714e2270e010d727f98ae48eb4ba1d51a877d46bdc",
+        "input_bytes": 1730,
+        "findings": [
+          [
+            "tree_multiple_roots",
+            "error"
+          ],
+          [
+            "empty_leaf",
+            "warning"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.182934,
+          "median_sec": 0.182934,
+          "max_sec": 0.182934
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-tree-no-root",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "父指针 mod:a→mod:b→mod:a 成环，没有任何 parent=null 的根 → tree_no_root，exit 2。",
+        "input_sha256": "8ebf2b6cfbfed9f6cdae2b0631f8c2d8a7102f98f204e1a3ff0138faf105fa36",
+        "input_bytes": 1575,
+        "findings": [
+          [
+            "tree_no_root",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "constraints_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.172122,
+          "median_sec": 0.172122,
+          "max_sec": 0.172122
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "invalid-tree-nonleaf-components",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "非叶子模块 mod:a（有 children）却列 components → non_leaf_components，exit 2。",
+        "input_sha256": "a34985bea4e4101705018ddd503a4b84fe4446cbefa114e3b971fb3ddde1294d",
+        "input_bytes": 1776,
+        "findings": [
+          [
+            "component_unassigned",
+            "error"
+          ],
+          [
+            "non_leaf_components",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "constraints_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.18158,
+          "median_sec": 0.18158,
+          "max_sec": 0.18158
+        },
+        "stderr_tail": "validate: invalid input (2 error finding(s))"
+      },
+      {
+        "case": "invalid-tree-parent-mismatch",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "mod:a 的 children 不含 mod:b，而 parent 却声明为 mod:a；同时 mod:root 的 children 含 mod:b 但 mod:b.parent=mod:a → tree_parent_mismatch，exit 2。",
+        "input_sha256": "74f48e0c9838906bc65561c55685964817cbcb45f69b0adb9bcf58b5e0ffa512",
+        "input_bytes": 1767,
+        "findings": [
+          [
+            "tree_parent_mismatch",
+            "error"
+          ],
+          [
+            "tree_parent_mismatch",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "constraints_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.172796,
+          "median_sec": 0.172796,
+          "max_sec": 0.172796
+        },
+        "stderr_tail": "validate: invalid input (2 error finding(s))"
+      },
+      {
+        "case": "invalid-tree-unreachable",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "唯一根 mod:root 之外，mod:a↔mod:b 父指针成环、且不在根 children 下 → 两节点均从根不可达 → tree_unreachable（各一条），exit 2；不得当作合法子树。",
+        "input_sha256": "7bc95fee98fdb900a1328243f27992d003b9e6eb681f759d451a25c97cd75d2e",
+        "input_bytes": 1567,
+        "findings": [
+          [
+            "tree_unreachable",
+            "error"
+          ],
+          [
+            "tree_unreachable",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "constraints_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.186153,
+          "median_sec": 0.186153,
+          "max_sec": 0.186153
+        },
+        "stderr_tail": "validate: invalid input (2 error finding(s))"
+      },
+      {
+        "case": "invalid-type",
+        "passed": true,
+        "problems": [],
+        "command": "validate",
+        "exit_code": 2,
+        "status": "invalid",
+        "expected_status": "invalid",
+        "source_class": "synthetic_invalid_input",
+        "basis": "modules 必须是数组，给了对象 → type_mismatch，exit 2。",
+        "input_sha256": "48127a903ff2218d0206d07934cdba4492843e82588f96df10d5484b0bec2392",
+        "input_bytes": 1371,
+        "findings": [
+          [
+            "type_mismatch",
+            "error"
+          ]
+        ],
+        "unknown_codes": [
+          "design_empty"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.200701,
+          "median_sec": 0.200701,
+          "max_sec": 0.200701
+        },
+        "stderr_tail": "validate: invalid input (1 error finding(s))"
+      },
+      {
+        "case": "review-fixed-conflict",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 1,
+        "status": "review_required",
+        "expected_status": "review_required",
+        "source_class": "synthetic_fixture",
+        "basis": "mod:spin 声明 fixed 且 board.fixed_positions_mm 声明 rotation=0，但 CCG 合成旋转为 180（root→spin rotation_deg=180）→ fixed_conflict（severity=review）→ review_required exit 1；validate 仍合法（exit 0）。bbox：spin={0,0,4,3} 绕原点转 180 后平移到 (4,3) → {0,0,4,3}；root 同。",
+        "input_sha256": "7da1ca92d3c62bb968aa546953e73bf35a905677a140a52eee07dfdc06aa3a1f",
+        "input_bytes": 2092,
+        "findings": [
+          [
+            "fixed_conflict",
+            "review"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.401385,
+          "median_sec": 0.401385,
+          "max_sec": 0.401385
+        },
+        "stderr_tail": "plan: status review_required"
+      },
+      {
+        "case": "review-sibling-overlap",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 1,
+        "status": "review_required",
+        "expected_status": "review_required",
+        "source_class": "synthetic_fixture",
+        "basis": "mod:a 帧(0,0) 与 mod:b 帧(5,5) 各 10x10：交叠 5x5=25 mm² > position_tolerance_mm² → sibling_overlap（severity=review）→ review_required exit 1；重叠绝不能算 pass，也不是 invalid。root bbox = 并 = {0,0,15,15}。",
+        "input_sha256": "b1c008baba3f00a90d3c33368db061d9be397a8350c14481c0f2b783ad5ad378",
+        "input_bytes": 2631,
+        "findings": [
+          [
+            "sibling_overlap",
+            "review"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.161752,
+          "median_sec": 0.161752,
+          "max_sec": 0.161752
+        },
+        "stderr_tail": "plan: status review_required"
+      },
+      {
+        "case": "unknown-propagation",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 1,
+        "status": "planned_constraints_only",
+        "expected_status": "planned_constraints_only",
+        "source_class": "synthetic_fixture",
+        "basis": "显式 unknowns[] 必须原样搬运为 declared_unknown（origin=input），且不能被其它模块的完备信息吞掉：mod:good 子树尺寸齐全 → bbox={0,0,4,2}；mod:bad 的 U2 缺尺寸 → bad bbox=null + size_unknown，root bbox=null；声明未知项 thermal_profile 仍出现 → planned_constraints_only（unknown 优先于 planned_with_scope）。",
+        "input_sha256": "2ce016df75067c34a5c2b2333505c563163963eb6bc98c02fdd68c99c8ed84ac",
+        "input_bytes": 2725,
+        "findings": [],
+        "unknown_codes": [
+          "declared_unknown",
+          "overlap_not_checked",
+          "size_unknown",
+          "size_unknown",
+          "size_unknown"
+        ],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.183732,
+          "median_sec": 0.183732,
+          "max_sec": 0.183732
+        },
+        "stderr_tail": "plan: status planned_constraints_only"
+      },
+      {
+        "case": "valid-identity-cycle",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 0,
+        "status": "planned_with_scope",
+        "expected_status": "planned_with_scope",
+        "source_class": "synthetic_fixture",
+        "basis": "环 root→a→b→root 的合成：平移 (5,0)+(0,3)+(-5,-3)=(0,0)，旋转 0+0+0=0，在 position_tolerance_mm=1e-6 内为恒等 → 只记 info constraint_cycle_identity，不改变状态。bbox 手算：b(U1 在 0,0)={0,0,2,2}；a = b 帧(0,3)+{0,0,2,2} = {0,3,2,2}；root = a 帧(5,0) 平移后 {5,3,2,2}；无重叠、尺寸包住 → planned_with_scope。",
+        "input_sha256": "9f84debc806a1bd9b1ae26b871fda6b3640ab9eeed123ff8f8412ef35dba5dbf",
+        "input_bytes": 2422,
+        "findings": [
+          [
+            "constraint_cycle_identity",
+            "info"
+          ]
+        ],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.176282,
+          "median_sec": 0.176282,
+          "max_sec": 0.176282
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "valid-mil-units",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 0,
+        "status": "planned_with_scope",
+        "expected_status": "planned_with_scope",
+        "source_class": "synthetic_fixture",
+        "basis": "units=mil，所有长度按 1 mil = 0.0254 mm 规范化：root 帧=0；block 帧=(1000,500) mil=(25.4,12.7) mm；u1 帧=(100,50) mil=(2.54,1.27) mm。bbox(mm)：u1={0,0,10.16,5.08}；block={2.54,1.27,10.16,5.08}；root = block 帧(25.4,12.7)+block bbox = {27.94,13.97,10.16,5.08}；声明尺寸(15.24x10.16 / 38.1x25.4)包住各自 bbox → planned_with_scope。",
+        "input_sha256": "6c19f9bca5b9e2b6fd3bf087c9daf4b342b31d061e9acdb5474779bfcde4d531",
+        "input_bytes": 1889,
+        "findings": [],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.181884,
+          "median_sec": 0.181884,
+          "max_sec": 0.181884
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "valid-mm-equivalent",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 0,
+        "status": "planned_with_scope",
+        "expected_status": "planned_with_scope",
+        "source_class": "synthetic_fixture",
+        "basis": "与 valid-mil-units 是同一几何的 mm 写法（1000 mil=25.4 mm、500 mil=12.7 mm、100 mil=2.54 mm、50 mil=1.27 mm、400x200 mil=10.16x5.08 mm、600x400 mil=15.24x10.16 mm）。期望规范化结果与 mil 版在 position_tolerance_mm=1e-6 内完全一致（同 bbox/帧/约束值）→ planned_with_scope；单位换算只在读入时做一次。",
+        "input_sha256": "f8dd7d536c289fd3a3a5a80026c0d1e8859227a08769221be3dbe27810abbacc",
+        "input_bytes": 1879,
+        "findings": [],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.161744,
+          "median_sec": 0.161744,
+          "max_sec": 0.161744
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "valid-rot90",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 0,
+        "status": "planned_with_scope",
+        "expected_status": "planned_with_scope",
+        "source_class": "synthetic_fixture",
+        "basis": "spinner 的父相对帧 = (2,0)、旋转 90°；其自身 bbox={0,0,3,2}。绕原点逆时针 90°：角点 (0,0),(3,0),(0,2),(3,2) → (0,0),(0,3),(-2,0),(-2,3)，AABB x[-2,0] y[0,3]，平移到 (2,0) 得 {0,0,2,3}；plain 帧 (10,0) 无旋转 → {10,0,4,4}；root bbox = 并 = {0,0,14,4}。root 未声明 size_mm（§7.2 允许由子项推导，Lead 裁定不产生 size_unknown），无越界、无重叠 → planned_with_scope。",
+        "input_sha256": "78d37f4b7b9d5678a3ed1c29b79ed1f31a88c52f3ce260c60339142d457473bd",
+        "input_bytes": 2741,
+        "findings": [],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.155917,
+          "median_sec": 0.155917,
+          "max_sec": 0.155917
+        },
+        "stderr_tail": ""
+      },
+      {
+        "case": "valid-three-modules",
+        "passed": true,
+        "problems": [],
+        "command": "plan",
+        "exit_code": 0,
+        "status": "planned_with_scope",
+        "expected_status": "planned_with_scope",
+        "source_class": "synthetic_fixture",
+        "basis": "契约 §11.1 夹具；按 §7.2 自底向上手算：mod:ldo = U1(1,1,3x3) ∪ C1(5,1,1x2) ∪ C2(1,4,1x2) = {x:1,y:1,w:5,h:5}；mod:power = ldo 帧(3,2)+{1,1,5,5} = {4,3,5,5}；mod:sense = U2(1,1,4x4) ∪ R1(6,1,1x2) = {1,1,6,4}；mod:board = power 帧(5,5)+{4,3,5,5} 与 sense 帧(25,5)+{1,1,6,4} 的并 = {9,6,23,7}；所有声明尺寸包住推导 bbox，兄弟 AABB 无正面积交叠；8 条边单路径、无环、旋转 0 均在 [0] 内，板框已知 → planned_with_scope。",
+        "input_sha256": "3d0f06a88f1f3a49911fbff15157b63b1c94462f094aac12a4f885f756051533",
+        "input_bytes": 4856,
+        "findings": [],
+        "unknown_codes": [],
+        "timing": {
+          "runs": 1,
+          "min_sec": 0.151241,
+          "median_sec": 0.151241,
+          "max_sec": 0.151241
+        },
+        "stderr_tail": ""
+      }
+    ]
+  },
+  "coverage": {
+    "scenario_count": 38,
+    "expected_path": "C:\\Users\\jlc\\Documents\\deepseek-harness\\default-workspace\\hds-pi-worktree\\benchmarks\\placement-intent\\expected.json",
+    "source_classes": [
+      "derived_offline_from_frozen_case",
+      "holdout_counterexample",
+      "holdout_independent",
+      "synthetic_fixture",
+      "synthetic_invalid_input"
+    ],
+    "scenario_categories": {
+      "constraints_only": 3,
+      "derived": 1,
+      "holdout": 4,
+      "invalid_input": 22,
+      "review_required": 2,
+      "positive": 6
+    },
+    "status_distribution": {
+      "planned_constraints_only": 6,
+      "planned_with_scope": 6,
+      "review_required": 3,
+      "invalid": 23
+    },
+    "positive_negative_unknown": {
+      "positive_planned_with_scope": 6,
+      "non_pass_or_unknown_bearing": 17,
+      "invalid_input": 0,
+      "review_required": 3,
+      "planned_constraints_only": 6,
+      "incomplete": 0
+    },
+    "derived_cases": [
+      "derived-mcu-i2c-plan"
+    ],
+    "holdout_cases": [
+      "holdout-crossmod-identity-rot180",
+      "holdout-fixed-distance-conflict",
+      "holdout-missing-frame",
+      "holdout-unit-disguise"
+    ],
+    "counterexample_holdouts": [
+      "holdout-fixed-distance-conflict",
+      "holdout-unit-disguise"
+    ],
+    "positive_cases": [
+      "holdout-crossmod-identity-rot180",
+      "valid-identity-cycle",
+      "valid-mil-units",
+      "valid-mm-equivalent",
+      "valid-rot90",
+      "valid-three-modules"
+    ]
+  },
+  "timing": {
+    "runs_per_case": 1,
+    "statistic": "wall clock of the real `python -m placement_intent` subprocess (startup included); recorded as cost only -- no speed-up claim and no board-layout timing claim",
+    "environment": {
+      "python": "3.13.15",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "machine": "AMD64"
+    }
+  },
+  "limits": [
+    "the benchmark proves CLI behaviour on frozen synthetic/derived JSON inputs only; it does not prove a board is placeable",
+    "bbox assertions are module-relative axis-aligned envelopes of rotated rectangles (0/90/180/270 only)",
+    "timing numbers are machine-specific cost measurements, not a performance claim",
+    "expected values were derived from docs/parallel-placement-intent/contract.md by hand; running the CLI is verification, not the source of truth"
+  ],
+  "not_covered": [
+    "real EDA CLI/daemon/connector (0 calls by contract)",
+    "absolute board coordinates, placement application, save/reopen",
+    "routing/copper connectivity, host DRC, SI/PI/EM/thermal",
+    "manufacturing (Gerber/drill/CPL), assembly and physical test",
+    "LLM generation of HMT/CCG and the ModuPlace training pipeline (not part of this PoC)",
+    "real .epro2 readback; the derived case is an offline text derivation of a frozen evidence JSON"
+  ],
+  "note": "Offline placement-intent conformance and execution cost only. planned_with_scope means the supplied HMT/CCG is self-consistent and scoped bboxes were derived; it is not a final placement and not proof of routability."
+}
