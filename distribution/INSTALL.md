@@ -20,6 +20,7 @@
 3. 看到 `"status": "installed"`（首次）或 `"status": "upgraded"` 即完成。
 4. **人工导入连接器**（安装器不会自动做，也不修改 EasyEDA 的任何状态）：
    - 打开安装目录（默认 `%LOCALAPPDATA%\Zhigou`）下的 `connector\IMPORT-STEPS.md`；
+   - 连接器的完整说明（是什么/授权/升级/排障/安全）见随包 `connector\README.md`；
    - EasyEDA Pro → 设置 → 扩展 → 已安装 → 导入扩展 → 选择 `connector\zhigou-connector_<版本>.eext`；
    - 在扩展设置中允许外部交互；
    - **完全退出 EasyEDA Pro 并重新启动**（连接器在启动时加载，不支持热加载）。
