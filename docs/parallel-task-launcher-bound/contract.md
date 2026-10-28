@@ -12,7 +12,7 @@
 
 | 角色 | 能力 | 不可信？ |
 |---|---|---|
-| Agent（Claude Code headless） | 只有 `Read/Glob/Grep/Skill(design-hardware)` + `mcp__zhigou_bound__*`；无 Bash/Write/Edit/Agent/Task/网络 | **不可信**：只能“提议”步骤 |
+| Agent（Claude Code headless） | 只有 `Read/Glob/Grep/Skill(<detected-skill>)` + `mcp__zhigou_bound__*`；无 Bash/Write/Edit/Agent/Task/网络 | **不可信**：只能“提议”步骤 |
 | supervisor（本包 MCP stdio server） | 读快照、跑离线审计、写回执/证据/最终报告、持有 HMAC key | 可信 |
 | launcher / runner | 生成任务目录、mcp.json、settings.json、argv；不持有 HMAC key | 可信（本地） |
 | backend | Phase 1 = fixture（+ 可选 zhigou_mcp 离线模块）；真实 EDA 后端 = 占位且拒绝 | 由 supervisor 独占 |
@@ -206,7 +206,7 @@ claude -p <user_prompt>
   --append-system-prompt-file <task>/routing.md
   --settings <task>/settings.json
   --output-format stream-json --verbose
-  --allowedTools "Read,Glob,Grep,Skill(design-hardware),mcp__zhigou_bound__*"
+  --allowedTools "Read,Glob,Grep,Skill(<detected-skill>),mcp__zhigou_bound__*"
   --disallowedTools "Bash,Write,Edit,NotebookEdit,Agent,Task,WebFetch,WebSearch"
 ```
 
@@ -241,3 +241,26 @@ JSON（诊断走 stderr）。
   `real_eda != "NOT RUN"` 或 `eda_calls != 0`，supervisor 直接拒绝（`EDA_NOT_AUTHORIZED`）。
 - 真实 Claude 冒烟、真实 EDA 写探针：本交付 **NOT RUN**；无用户授权不得执行。
 - `pass_with_scope` 只代表声明范围内未发现缺陷，不是整板/整机验收。
+
+
+## 11. 双布局兼容（2026-10 rebrand）
+
+仓库在 2026-10 做了 rebrand（PR #77）：`design-hardware/` → `easycirq/`，离线 MCP 模块
+`zhigou_mcp` → `easycirq_mcp`，离线审计输入 schema `zhigou.electrical-review.input/v1`
+→ `easycirq.electrical-review.input/v1`。本包对两种布局都支持：
+
+- Skill 检测：`detect_skill(repo_root)` 依次探测 `easycirq/` 与 `design-hardware/`
+  （存在 `SKILL.md` 或 `.version`），把检测到的 **skill name** 写入
+  `bound.config.json.skill_name`、`settings.json.permissions.allow`、argv
+  `--allowedTools` 与 routing.md；
+- 离线引擎：`locate_offline_mcp(repo_root)` 依次探测
+  `easycirq/scripts/easycirq_mcp` 与 `design-hardware/scripts/zhigou_mcp`；
+  `run_offline_audit` 按模块选择冻结输入 `fixtures/inputs_easycirq/` 或
+  `fixtures/inputs/`（schema 不同）；
+- hooks/`mark_skill.py` 接受 `design-hardware` 或 `easycirq`；
+- `plan --skill-name` 可显式覆盖检测结果（取值 `easycirq` / `design-hardware`）；
+- 两者都缺失时如实 `NOT_RUN`/`BACKEND_UNAVAILABLE`，不伪造 EDA。
+
+在旧布局 checkout 上 `python -m task_launcher.bound version` 报
+`skill_name=design-hardware`、allow=`Skill(design-hardware)`；在新 main 上为
+`easycirq`、`Skill(easycirq)`。

@@ -47,18 +47,20 @@
 | 4 | Skill 自检 | `python design-hardware/scripts/skill_selftest.py` | **5 PASS, 0 FAIL, 0 NOT RUN, exit 0** | **PASS** |
 | 5 | 版本/工具面 | `python -m task_launcher.bound version` | exit 0；`0.1.0`、`phase2_enabled=false`、`real_eda="NOT RUN"`、`eda_calls=0` | **PASS** |
 | 6 | 全量官方套件 | `python -m unittest discover -s tests` | **Ran 3520 tests, OK (skipped=3), exit 0**（374.287s） | **PASS** |
-| 7 | B1 集成 | `python -m task_launcher.bound probe-b1 --repo-root <hds-tlb-on-b1>`；叠加 worktree `hds-tlb-on-b1` | **B1 已在任务期间交付**：PR #74（OPEN，未合并），交付 HEAD `074bd88`；本包在 B1 交付 HEAD 上叠加验证：208 tests OK、基准 24/24、selftest 19/19、B1 `build-plugin` exit 0、bound `plan --plugin-dir` `agent_ready=true`、`delivered=true/AVAILABLE`；**B1 launcher 真实拉起 bound 的端到端 NOT RUN**（B1 未接 bound MCP） | **PASS（离线/产物级叠加）** |
+| 7 | B1 集成 | `python -m task_launcher.bound probe-b1 --repo-root <hds-tlb-on-b1>`；叠加 worktree `hds-tlb-on-b1` | **B1 已合并**：PR #74 于 2026-10-28T06:09:58Z 合并（merge commit `f9aa773`）；本包 rebase 到最新 main 并复验：208 tests OK、基准 24/24、selftest 19/19、全量 3636 OK(skipped=3)、B1 `build-plugin --skill-dir easycirq` 628 files、bound `plan` `skill_name=easycirq`/`agent_ready=true`；**B1 launcher 真实拉起 bound 的端到端 NOT RUN**（B1 未接 bound MCP） | **PASS（离线/产物级叠加）** |
 | 8 | 真实 Claude Code | —（未授权） | **NOT RUN**（未获真实模型运行/费用授权；未产生费用） | **NOT RUN** |
 | 9 | 真实 EDA（Phase 1 只读） | — | **NOT RUN**（Phase 1 只用 fixture；所有报告 `real_eda="NOT RUN"`、`eda_calls=0`） | **NOT RUN** |
 | 10 | 真实 EDA（Phase 2 受控写） | —（无授权） | **BLOCKED**；`apply/readback` → `EDA_NOT_AUTHORIZED`，任务 FAILED、不可 finalize | **BLOCKED** |
-| 11 | 允许路径 / 未改 B1 | `git diff --name-status origin/main...HEAD` | **79 files，全部 A**（task_launcher/bound 29、tests 15、benchmarks 27、docs 8；无 M/D）；叠加分支 vs B1 `074bd88` 同样 79 all A | **PASS** |
-| 12 | PR / 发版 | PR #94 | **PR #94 已创建（OPEN），未合并、未发版**；base main，79 files 全 A；CI 见 §6 | 符合约束（PASS） |
+| 11 | 允许路径 / 未改 B1 | `git diff --name-status origin/main...HEAD` | **83 files，全部 A**（task_launcher/bound 29、tests 15、benchmarks 27、docs 8；无 M/D）；叠加分支 vs B1 `074bd88` 同样 79 all A | **PASS** |
+| 12 | PR / 发版 | PR #94 | **PR #94 已创建（OPEN），未合并、未发版**；base main，83 files 全 A；CI 见 §6 | 符合约束（PASS） |
+| 13 | rebase 到最新 main 复验（B1 #74 合并后） | `feat/parallel-task-launcher-bound-on-main`（base `f9aa773`） | 6 提交干净重放；83 files 全 A；208 tests OK、24/24、19/19、全量 3636 OK(skipped=3)；`skill_name=easycirq` | **PASS（离线/模拟）** |
+| 14 | 双布局兼容（design-hardware ↔ easycirq） | `9c88def`/`a0c13bb`；`fixtures/inputs_easycirq/` | 旧布局 208 OK/24/24/19/19（skill=design-hardware）；新 main 208 OK/24/24/19/19（skill=easycirq）；缺模块时如实 NOT_RUN | **PASS** |
 
 ## 2. 任务书 §8 验收标准 ↔ 证据
 
 | # | 验收标准（B1-Bound 任务书 §8） | 证据（文件/命令） | 实际结果 | 状态 |
 |---|---|---|---|---|
-| 8.1 | 仅新增允许路径；`git diff --name-status origin/main...HEAD` 全 `A`；未改 B1 文件 | `handoff-current.md` §3；`git diff --name-status` | **79 files 全部 A**，仅 4 个允许目录（29+15+27+8）；无 M/D；未改 B1/A/runtime/connector/SKILL/CI | **PASS** |
+| 8.1 | 仅新增允许路径；`git diff --name-status origin/main...HEAD` 全 `A`；未改 B1 文件 | `handoff-current.md` §3；`git diff --name-status` | **83 files 全部 A**，仅 4 个允许目录（33+15+27+8）；无 M/D；未改 B1/A/runtime/connector/SKILL/CI | **PASS** |
 | 8.2 | `python -m unittest discover -s tests/task_launcher_bound_tests -t tests -p "test_*.py"` ≥60 全绿 | `tests/task_launcher_bound_tests/`；Lead 复跑 | **Ran 208 tests, OK**（≥60） | **PASS** |
 | 8.3 | 官方全量 `python -m unittest discover -s tests` 全绿 | 命令同上；`report.md` §3.5 | **Ran 3520 tests, OK (skipped=3), exit 0**（374.287s，含本任务 208 tests） | **PASS** |
 | 8.4 | `run_benchmark.py` ≥12/12，`real_eda=NOT RUN` | `benchmarks/task-launcher-bound/results.json`；Lead 复跑 | **24/24 passed, 0 failed, exit 0**；`real_eda="NOT RUN"`、`eda_calls=0`、`project_writes=0`、`simulated=true`、`agent="none"` | **PASS（模拟）** |
@@ -137,7 +139,7 @@ case 文件：`benchmarks/task-launcher-bound/cases/*.json`（24 个）。
 | B1 artifact-level 兼容探针 | **PASS @ caed250（非验收）** | Lead 只读探针：`build-plugin` exit 0 → `plan --plugin-dir` `agent_ready=true`、argv 完整；**不构成 B1 验收**，HEAD 变化需重跑 |
 | 官方全量套件 | **PASS** | `Ran 3520 tests, OK (skipped=3), exit 0`（374.287s）；既有测试会写 `docs/toolchain-integration/evidence/installer/install-lifecycle.log`，Lead 已还原该文件 |
 | 清洁 checkout 复现 / CI 3.10+3.13 | **PASS** | 两个独立 worktree 复跑；PR #94 CI `validate 3.10/3.13 PASS`、`updater PASS`（head `4ec29ee`） |
-| 允许路径 `git diff --name-status` 全 A | **PASS** | 79 files all A（4 个允许目录）；叠加分支 vs B1 `074bd88` 亦 79 all A |
+| 允许路径 `git diff --name-status` 全 A | **PASS** | 83 files all A（4 个允许目录）；叠加分支 vs B1 `074bd88` 亦 79 all A |
 | Windows 沙箱/独立账号隔离 | **NOT RUN** | 属主线/需授权评估（`issue-candidates.md` IC-03） |
 
 ## 7. 数字一致性与待复核（诚实说明）
