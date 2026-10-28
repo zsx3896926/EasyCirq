@@ -303,9 +303,12 @@ def apply(args: argparse.Namespace) -> int:
     deletes = _read_list(delete_file) if delete_file.is_file() else []
 
     # The source ref to restore from: history sets use the historical A tip,
-    # current sets use the live refs recorded in the manifest.
+    # current sets use the live refs recorded in the manifest (or an explicit
+    # --source-ref, which is safer when the branch has moved since generation).
     manifest = json.loads((out_dir / "manifest.json").read_text(encoding="utf-8"))
-    if name.startswith("history-"):
+    if args.source_ref:
+        ref = args.source_ref
+    elif name.startswith("history-"):
         ref = manifest["refs"]["history_ref"]["sha"]
     elif name == "residual":
         ref = manifest["refs"]["a_branch"]["sha"]
@@ -346,10 +349,11 @@ def main(argv: list[str] | None = None) -> int:
     gen.add_argument("--thin-exclude-evidence", action="store_true")
     gen.set_defaults(func=generate)
 
-    app = sub.add_parser("apply", help="materialise one set into a worktree")
-    app.add_argument("--set", required=True)
-    app.add_argument("--worktree", required=True)
-    app.add_argument("--out", default=str(DEFAULT_OUT))
+    apply = sub.add_parser("apply", help="materialise one set into a worktree")
+    apply.add_argument("--set", required=True)
+    apply.add_argument("--worktree", required=True)
+    apply.add_argument("--source-ref", default=None, help="restore from this ref instead of the manifest sha")
+    apply.add_argument("--out", default=str(DEFAULT_OUT))
     app.set_defaults(func=apply)
 
     args = parser.parse_args(argv)

@@ -75,7 +75,7 @@ gh pr create --base main --draft `
 git -C $Repo worktree add "$Repo\..\hds-pr-thin-layer" -b spike/a2-thin-layer origin/main
 cd "$Repo\..\hds-pr-thin-layer"
 
-python $Planner apply --set thin-layer --worktree .
+python $Planner apply --set thin-layer --worktree . --source-ref spike/a2-eda-coverage
 git add -A
 git status --short          # 必须全部是 "A "（新增）；出现 M/D 立即停止排查
 git diff --cached --stat

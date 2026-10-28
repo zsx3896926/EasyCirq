@@ -5,7 +5,7 @@ Add the A2 coverage spike as reviewable, offline-verifiable material:
 - `spike/a2-coverage/` - thin official-CLI adapter (`official_cli.py`,
   `probe_official.py`, `mcp_stdio.py`), workflow definitions, matrix generator,
   PR-split planner;
-- `tests/a2_coverage_spike_tests/` - 59 offline tests (no EDA/network);
+- `tests/a2_coverage_spike_tests/` - 65 offline tests (no EDA/network);
 - `docs/parallel-a2-coverage/` - environment, methodology, 11-workflow coverage
   matrix, rubric and provisional decision;
 - `docs/evidence/a2-coverage-2026-10-28/` - receipts (raw CLI JSON, API catalog,
