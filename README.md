@@ -1,4 +1,10 @@
-# AI 画板搭档 · Hardware Design Skill
+<img src="assets/brand/logo-horizontal-1200.png" alt="智构 · EasyCirq" width="520">
+
+# 智构 · EasyCirq
+
+**AI 画板搭档 · Hardware Design Skill**
+
+> **2026-10 架构更新**：本项目已整合自有执行层（`runtime/` + `connector/` + `zhigou` CLI），设计规则与执行由智构单入口管理。下文“安装 easyeda-agent 及其 Skill”的步骤仅适用于 v1.0.1 及更早版本；当前安装请用 `distribution/INSTALL.md`（统一安装器）。
 
 **说出你想做什么，让 AI 帮你选零件、画原理图和 PCB，一步步做出能用的小装置。**
 

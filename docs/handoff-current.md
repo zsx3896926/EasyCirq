@@ -1,4 +1,4 @@
-# 当前交接（智构 / 自有 EDA 工具链）
+# 当前交接（智构 · EasyCirq / 自有 EDA 工具链）
 
 > 最后更新：2026-10-28 01:40（安装目录升级到 0.2.2，bundle 已带 connector 0.1.2 + 封装 outline 经验）
 > 状态真源：本文件 + `docs/toolchain-integration/task-status.md`；详细证据见
@@ -100,3 +100,27 @@ distribution\Install-Zhigou.ps1 rollback
   运行时 action catalog 已下架，不再作为能力发布）。
   处理时机：**下次有其它连接器改动时一起做**，随那次一起 bump 版本/换 uuid、重新导入；
   **不为此单独发版**。清理时同步更新 `docs/toolchain-integration/outline-foreign.md`。
+
+## 2026-10-28 品牌切换：智构 · EasyCirq
+
+- **Logo**：全项目换为用户提供的两张图（横版 + 方形）。原图与派生尺寸在
+  `assets/brand/`（`source/` 原图、`logo-horizontal-1200.png`、`logo-square-512.png`、
+  `logo-square-128.png`）；连接器图标 `connector/images/logo.jpg` 已换为方形版（512 JPG）。
+  README 顶部使用横版。
+- **显示名**：统一为「智构 · EasyCirq」——README 标题、`design-hardware/SKILL.md`
+  （description 前缀 + H1）、根 `NOTICE`、`connector/extension.json` 的 `displayName`、
+  连接器 README/NOTICE、`distribution/INSTALL.md`、`Install-Zhigou.ps1` 文案、
+  handoff/task-status/architecture/protocol/gate-review 标题。
+- **技术标识未改**：`zhigou` CLI、服务名 `zhigou-agent`、端口 23111–23120、`~/.zhigou`、
+  包名 `zhigou-connector`、`design-hardware` 目录名、`ZHIGOU_` env、uuid 之外的路径均保持。
+- **连接器 0.1.3**：新 uuid `7b3c1e5a9d2f4c6b8e0a1f2d3c4b5a69`；`displayName` 与 logo 更新；
+  **同时移除此前下架的两个 `pcb.outline.foreign.scan/delete` handlers**（兑现"下次连接器
+  改动一起清"的约定）。
+- **产物**：`dist-v5/zhigou-toolchain-0.2.3.zip`（runtime 0.2.3-dev + connector 0.1.3 +
+  skill 1.0.2 品牌版）；安装目录已升级 **0.2.3**（selfCheck degraded，原因见下）；客户端
+  三处 skill 已更新（description 含品牌）。
+- **需要一次人工动作**：EDA 里当前是 0.1.2（uuid `cfc96215…`）。请在扩展管理器**卸载旧
+  连接器**，导入 `%LOCALAPPDATA%\Zhigou\connector\zhigou-connector_v0.1.3.eext`，允许
+  「外部交互」，**完全退出并重启** EDA；之后 `zhigou doctor` 应回到 ok。
+- **遗留**：README 正文仍保留 v1.0.1 时代的「安装 easyeda-agent 及其 Skill」长文（已加
+  顶部架构更新提示），待按当前单入口架构重写。

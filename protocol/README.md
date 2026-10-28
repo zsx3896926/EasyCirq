@@ -1,4 +1,4 @@
-# 智构工具链契约（protocol）
+# 智构 · EasyCirq 工具链契约（protocol）
 
 本目录是 Skill ↔ 运行时 ↔ 连接器之间**线上契约的唯一真源**。JSON Schema 用于校验，
 `README.md` 用于人读；`reference/` 是从上游 easyeda-agent（MIT, v1.15.0）引用的原始契约

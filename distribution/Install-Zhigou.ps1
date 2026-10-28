@@ -20,7 +20,7 @@
 )
 <#
 .SYNOPSIS
-  Zhigou 工具链统一安装器（Skill + 运行时 + 连接器）。
+  智构 · EasyCirq 工具链统一安装器（Skill + 运行时 + 连接器）。
 
 .DESCRIPTION
   入口包装：只负责参数校验、中文/空格路径传递与调用 distribution/zhigou_install.py。
@@ -59,7 +59,7 @@ function Find-Python {
 }
 
 if ($Action -eq 'menu') {
-    Write-Host '智构 Zhigou 工具链 - 安装 / 升级 / 回退 / 卸载'
+    Write-Host '智构 · EasyCirq 工具链 - 安装 / 升级 / 回退 / 卸载'
     Write-Host '  1 安装或升级   2 查看状态   3 校验文件   4 回退   5 卸载   6 查看安装包信息   7 恢复中断'
     $map = @{ '1' = 'install'; '2' = 'status'; '3' = 'verify'; '4' = 'rollback'; '5' = 'uninstall'; '6' = 'inspect-bundle'; '7' = 'recover' }
     $Action = $map[(Read-Host '输入操作编号')]

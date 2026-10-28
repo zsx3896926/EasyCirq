@@ -1,4 +1,4 @@
-# G0–G6 门禁复核：`zhigou-integrated-dual-button-led-20261027`
+# 智构 · EasyCirq G0–G6 门禁复核：`zhigou-integrated-dual-button-led-20261027`
 
 > 按 `design-hardware` 1.0.2 的 [阶段门禁](../references/design-gates.md) 执行，离线复核工具
 > `scripts/gate_check.py`（只读证据，不连 daemon、不写工程）。

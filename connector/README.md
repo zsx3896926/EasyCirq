@@ -1,4 +1,4 @@
-# Zhigou EDA Connector（智构 EDA 连接器）
+# 智构 · EasyCirq EDA Connector（连接器扩展）
 
 EasyEDA Pro（嘉立创EDA专业版）内运行的连接器扩展：把本机 Zhigou 运行时 daemon 的
 typed action 请求翻译成官方 `eda.*` API 调用，并把结果、身份证据与产物回传给 daemon。
