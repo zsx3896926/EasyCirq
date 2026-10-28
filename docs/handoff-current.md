@@ -205,3 +205,14 @@ distribution\Install-Zhigou.ps1 rollback
 - 结论：**自动补线（无吸附/无 clearance 预检）不可靠**。建议从 `zhigou-board.epro2`
   重导 PCB 基线；若保留 TH J1，连接器逃逸布线在 EDA GUI 里做（约 1 分钟）。
 - BOM 不受影响：`evidence/gates/BOM-v2.csv` 六行料号可下单。
+
+## 2026-10-28 13:12 eev3 成功：BOM 换料 + 全板重布 + DRC 0
+
+- 从 `zhigou-board.epro2` 重导基线 → `zhigou-dual-button-led-eev3-20261028`。
+- 8 个器件改 BOM 身份（C112291/C125205/C51933311/C845159/C49296724）+ J1 删除重放为 TH 器件
+  （C124375，封装 HDR-TH_2P-P2.54-V-M-1）→ PCB 同步 imported+verified。
+- **放弃手工补线**：删除全部 47 条旧走线 → `pcb.route.auto` 全板重布 → `pour.rebuild` →
+  `pcb save → doc reload → pcb drc` = **passed，0 违规**。
+- BOM：`evidence/gates/BOM-v3.csv`（6 行含 C 号/型号/厂家，可下单）。
+- 注意：全板重布替换了原手工布线，制造前仍需人工看布局/走线观感；原工程与 eev2 副本已损坏，
+  以 eev3 为当前候选。

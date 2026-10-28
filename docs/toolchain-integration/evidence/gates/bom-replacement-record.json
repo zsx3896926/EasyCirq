@@ -56,7 +56,7 @@
     "file": "evidence/gates/BOM-v2.csv",
     "note": "exported with --enrich=false; contains C codes, MPNs and manufacturers for all 6 rows"
   },
-  "honest_status": "BOM: orderable (BOM-v2.csv, six rows with C code/MPN/manufacturer). PCB: automated repair is NOT reliable - no-connection errors were cleared but duplicate tracks and one clearance violation remain; reset from the .epro2 baseline and finish the J1 escape routing in the GUI. Original acceptance project remains damaged.",
+  "honest_status": "RESOLVED on eev3: BOM orderable and PCB DRC 0 (full re-route). Earlier eev2 copy and the original project remain damaged; use eev3 as the current candidate. Full re-route replaces the hand-made routing, so placement/routing still needs a human look before manufacturing.",
   "repair_attempts": {
     "at": "2026-10-28T12:57:00+08:00",
     "tried": [
@@ -72,5 +72,14 @@
     "what_worked": "after using real host coordinates (bbox via getPrimitivesBBox) the no-connection errors dropped to 0: J1_1 VIN and J1_2 GND are connected",
     "what_broke": "the escape tracks now overlap each other and one Safe-Spacing clearance violation remains (+5V e34 vs my GND/VIN segments); repeated line.create attempts accumulated duplicate tracks because deletion by id did not match the newly created segments",
     "recommendation": "reset the PCB from zhigou-board.epro2 (clean baseline) and, if the TH J1 is kept, do the connector escape routing interactively in the EDA GUI; the BOM-v2 codes are unaffected and remain orderable"
+  },
+  "eev3": {
+    "project": "zhigou-dual-button-led-eev3-20261028",
+    "method": "baseline import -> BOM identity modify (8 parts) + J1 TH swap -> import-changes -> delete all 47 old tracks -> pcb.route.auto full re-route -> pour rebuild",
+    "drc": {
+      "passed": true,
+      "violations": 0
+    },
+    "bom": "evidence/gates/BOM-v3.csv (C code + MPN + manufacturer per row)"
   }
 }
