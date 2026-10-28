@@ -163,6 +163,8 @@ cd ..; python distribution\build_release.py --output dist-v5
 python distribution\verify_vendor.py --upstream <upstream-dir>
 
 # 离线回归 / 安装器用例
+# （生命周期测试默认把 JSONL 记账写临时目录，不修改工作树；刷新仓库证据见
+#   docs/toolchain-integration/evidence/installer/README.md）
 python tools\offline_suite.py
 python -m pytest tests\test_install_lifecycle.py -q
 

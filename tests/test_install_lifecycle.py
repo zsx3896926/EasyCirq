@@ -10,10 +10,13 @@ Styleguide notes
 * Every test uses throw-away directories and ``EASYCIRQ_*`` environment overrides,
   so a run can never touch a real installation, a real client Skill directory or
   a real legacy-agent install.
-* A JSONL journal is appended to
-  ``docs/toolchain-integration/evidence/installer/install-lifecycle.log`` so the
-  evidence directory contains a machine-checkable trace of what really ran.
+* A JSONL journal is written for every run.  By default it goes to a temporary
+  directory: a routine test run must never modify a tracked file inside the
+  repository (issue #93).  Set ``EASYCIRQ_INSTALL_EVIDENCE_LOG`` to an explicit
+  path (absolute, or relative to the repository root) to intentionally refresh
+  ``docs/toolchain-integration/evidence/installer/install-lifecycle.log``.
 """
+import atexit
 import hashlib
 import importlib.util
 import json
@@ -30,8 +33,24 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[1]
 
 INSTALLER_PATH = ROOT / 'distribution/easycirq_install.py'
-EVIDENCE = ROOT / 'docs/toolchain-integration/evidence/installer'
-LOG = EVIDENCE / 'install-lifecycle.log'
+
+#: Committed evidence path, used only when ``EASYCIRQ_INSTALL_EVIDENCE_LOG`` asks
+#: for it explicitly.  Routine runs write to a temporary directory instead so the
+#: working tree stays clean after ``python -m unittest discover -s tests``.
+TRACKED_EVIDENCE = ROOT / 'docs/toolchain-integration/evidence/installer'
+_TRACKED_LOG = TRACKED_EVIDENCE / 'install-lifecycle.log'
+_evidence_override = os.environ.get('EASYCIRQ_INSTALL_EVIDENCE_LOG')
+_TEMP_EVIDENCE = None
+if _evidence_override:
+    LOG = Path(_evidence_override).expanduser()
+    if not LOG.is_absolute():
+        LOG = ROOT / LOG
+    EVIDENCE = LOG.parent
+else:
+    _TEMP_EVIDENCE = Path(tempfile.mkdtemp(prefix='easycirq-install-lifecycle-'))
+    EVIDENCE = _TEMP_EVIDENCE
+    LOG = _TEMP_EVIDENCE / 'install-lifecycle.log'
+    atexit.register(shutil.rmtree, _TEMP_EVIDENCE, True)
 
 # The retired upstream agent toolchain name, assembled at runtime on purpose:
 # these tests must *name* its directories to prove the installer never touches
@@ -699,6 +718,30 @@ class SelfCheckTests(InstallerTestCase):
         self.assertEqual(status['status'], 'healthy')
         record('real_bundle_install', version=r['version'], self_check=r['selfCheck']['status'],
                verdict=r['selfCheck'].get('verdict'), files=r['files'])
+
+
+class EvidenceLogTests(unittest.TestCase):
+    """The lifecycle journal must not dirty the repository on a routine run (#93)."""
+
+    def setUp(self):
+        if _evidence_override:
+            self.skipTest('EASYCIRQ_INSTALL_EVIDENCE_LOG explicitly overrides the evidence path')
+
+    def test_default_evidence_log_is_outside_the_repository(self):
+        self.assertNotIn(ROOT, LOG.resolve().parents)
+        self.assertFalse(LOG.resolve().is_relative_to(ROOT))
+
+    def test_record_appends_jsonl_to_the_temporary_log(self):
+        record('evidence_log_selftest', value=1)
+        self.assertTrue(LOG.is_file())
+        last = LOG.read_text(encoding='utf-8').splitlines()[-1]
+        self.assertEqual(json.loads(last)['event'], 'evidence_log_selftest')
+
+    def test_tracked_evidence_log_is_not_touched_by_a_routine_run(self):
+        before = _TRACKED_LOG.read_bytes() if _TRACKED_LOG.is_file() else None
+        record('evidence_log_no_repo_write', value=2)
+        after = _TRACKED_LOG.read_bytes() if _TRACKED_LOG.is_file() else None
+        self.assertEqual(before, after)
 
 
 if __name__ == '__main__':
