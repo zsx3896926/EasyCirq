@@ -1,5 +1,14 @@
 # 变更记录
 
+## 未发布
+
+- 把 PocketCam X1（4 层、81 件）整板闭环的布线与收敛教训写进默认路径，见 `docs/toolchain-integration/pocketcam-x1-lessons.md`。
+- 布线顺序统一：平面/铺铜先定，缝合线与电源补线放到所有信号网 Connection 0 之后；`routing-plan.md`、`pcb-routing-strategy.md`、`pcb-execution.md` 与 `SKILL.md` 不再互相矛盾。
+- 更正 `pcb autoroute` 说明：默认是官方路由器，Freerouting 只是 `--router` 回退；补上超时表现（不保证无残留）、分批上限，以及 `--timeout` 只约束官方路由、`--raw` DSN 导出会丢禁布区的限定。
+- `pcb_apply_plan` 使用说明补充：铜计划不去重、`--timeout` 按 op 数估算、重开后 `mismatch` 按 diff 实际类别核对记录（不把原因一律归为 primitiveId）、改铜后先重建铺铜再 DRC。
+- 新增删除粒度、重建铺铜后焊盘仍断开的处理、细间距 FPC 先离线逃逸规划再提交锁定、差分对容差按速率定、DRC 归零后的 DFM 收尾、3D 导出超限的回落。
+- 新增 guard `tests/test_pcb_closure_rules_present.py`。
+
 ## 1.0.2 — 2026-10-27
 
 - 把 GameForge-X1 实战教训落进默认执行路径（用户提供的 8 条编号要求；第 4 条未在需求中给出，按缺失记录，见 `docs/toolchain-integration/field-lessons.md`）。

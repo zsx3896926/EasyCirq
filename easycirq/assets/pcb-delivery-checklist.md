@@ -28,6 +28,7 @@
 - [ ] 铺铜：真实 rebuild；检查孤岛、细颈、热焊盘、边界材料化铜；全局铺铜变化与器件移动分列。
 - [ ] 丝印：位号/极性/接口方向/5V/GND/功能名清楚；不压焊盘、不越板框、不上下颠倒。
 - [ ] 原生 DRC 0；`pcb check` ERROR 0，WARN 逐条处置（规则、适用性、计算或证据），不把 WARN 静默清零。
+- [ ] DRC 归零后做 DFM 收尾：RF 模组的天线禁铜区覆盖所有铜层和内电层，`pcb check` 的 `antenna-keepout` 为 0；按 `dangling-end` / `floating-track-island` 给出的 id 用 `track-delete` 清掉悬空铜；修锐角与线宽突变；改完 `pour-rebuild`，DRC 回到 0 再出图。
 - [ ] `pcb layout-lint` coverage complete，score/crossings/overlap/off-board 达标。
 - [ ] SCH↔PCB 组件/封装/pad-net 一致；保存→重开→fresh dump 的 identity/geometry/copper/unrelated 均为 0（编辑模式按 scope 解释）。
 - [ ] `pcb_gate --profile full` 8/8 pass；缺证据只能 blocked/not_run，不能写 pass。
