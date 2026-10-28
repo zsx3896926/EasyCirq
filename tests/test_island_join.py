@@ -103,12 +103,31 @@ class IslandJoinTests(unittest.TestCase):
         r = J.join_plan(b, 'P', width=10)
         self.assertEqual(r['status'], 'no_join_needed')
 
-    def test_cross_layer_no_shared_layer_is_incomplete(self):
+    def test_cross_layer_stitches_with_via(self):
         b = G.Board(dump(lines=[
             line('a', 'P', 1, 0, 0, 100, 0),
-            line('b', 'P', 2, 0, 0, 100, 0)]))
+            line('b', 'P', 2, 300, 0, 400, 0)]))
         r = J.join_plan(b, 'P', width=10)
-        self.assertEqual(r['status'], 'incomplete')
+        self.assertEqual(r['status'], 'plan', r)
+        ops = r['ops']
+        self.assertTrue(any(o['op'] == 'via' for o in ops), ops)
+        self.assertTrue(any(o['op'] == 'track' for o in ops), ops)
+        via_op = next(o for o in ops if o['op'] == 'via')
+        self.assertEqual(set(via_op['layers']), {1, 2})
+        self.assertEqual(via_op['net'], 'P')
+
+    def test_existing_via_dedup(self):
+        b = G.Board(dump(vias=[via('v', 'P', 100, 0, layers=(1, 2))]))
+        found = J._existing_via(b, 'P', 100, 0, (1, 2), tol=10)
+        self.assertIsNotNone(found)
+        self.assertEqual(found['id'], 'v')
+        self.assertIsNone(J._existing_via(b, 'P', 150, 0, (1, 2), tol=10))
+        self.assertIsNone(J._existing_via(b, 'Q', 100, 0, (1, 2), tol=10))
+
+    def test_via_center_rejects_foreign_via(self):
+        b = G.Board(dump(vias=[via('v', 'Q', 0, 0, layers=(1, 2))]))
+        self.assertFalse(J._via_center_ok(b, 'P', 0, 0, clr=6))
+        self.assertTrue(J._via_center_ok(b, 'P', 500, 500, clr=6))
 
 
 if __name__ == '__main__':
