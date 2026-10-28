@@ -46,7 +46,7 @@
       "b": {
         "text": "**豁免规则：** score、crossings、overlap/off-board/short 和板框不可豁免；安装孔、连接器逃逸、自动摆放对比、冻结时间可豁免并写明剩余风险。布局冻结后若为了布线移动器件，必须先重开 G3 并作废受影响布线。",
         "source": "easycirq/references/design-gates.md",
-        "line": 157
+        "line": 160
       },
       "expected": "different_stage",
       "rationale": "a 规定一般任务中“默认继续、只在用户明确要求时在检查点等待”的评审节奏；b 规定“布局冻结后为布线移动器件必须先重开 G3 并作废受影响布线”的阶段顺序。作用阶段词不同（一般检查点 vs 布局冻结后变更），不共享同一触发阶段，属不同阶段而非冲突。",

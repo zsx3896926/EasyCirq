@@ -18,7 +18,8 @@
     "firmware": {"status": "pending"},
     "threshold_interaction": {"status": "pending"},
     "alarm_behavior": {"status": "pending"},
-    "environment_accuracy": {"status": "pending"}
+    "environment_accuracy": {"status": "pending"},
+    "interface_pinout": {"status": "pending"}
   },
   "function_freeze": {
     "status": "not-frozen",
