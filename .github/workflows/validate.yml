@@ -43,6 +43,6 @@ jobs:
         run: >-
           python3 -X faulthandler -m unittest -v
           task_launcher_tests.test_binding.BindingTests.test_default_binding_is_loopback_and_ready_line_is_usable
-          task_launcher_tests.test_timeout_cancel.TimeoutCancelTests.test_stuck_agent_times_out_and_leaves_no_orphan
+          task_launcher_tests.test_timeout_cancel.TimeoutTests.test_stuck_agent_times_out_and_leaves_no_orphan
           task_launcher_tests.test_token_acl.PosixTokenModeTests.test_generated_token_file_is_0600
           task_launcher_tests.test_health_degraded.HealthTests.test_claude_probe_lists_routing_flag
