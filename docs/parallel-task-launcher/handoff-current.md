@@ -6,10 +6,10 @@
   并完成重命名适配。
 - **PR**：#74（OPEN，未合并；本任务不发版）—
   https://github.com/zsx3896926/EasyCirq/pull/74
-- **HEAD 说明**：审计期间分支被 rebase + 适配重命名，历史 commit 哈希随之变化；此前 CI 全绿记录
-  对应 rebase 前的 commit（`c6caa43` 等）。最终 head 与 CI 以
-  `gh pr view 74 --json headRefOid` / PR #74 checks 为准；本文件所在 commit 为审计修复的
-  最新仅文档/适配提交（见下节）。
+- **最新已推送 HEAD（本次文档回填前）**：`1f964af07bcba51cb4682af8c0502a04df98d7b3`
+  （审计期完成 rebase 到 EasyCirq main + 重命名适配；CI 与清洁 checkout 均在该 HEAD 验证）。
+  本文件是之后的仅文档回填提交，PR head 会比它多一个仅文档 commit；最终 head 与 CI 以
+  `gh pr view 74 --json headRefOid` / PR #74 checks 为准。
 - **允许路径核对**：`git diff --name-status origin/main...HEAD` → **65 个文件，全部为 `A`**：
   `benchmarks/task-launcher/`（27）、`docs/parallel-task-launcher/`（7）、
   `task_launcher/`（15）、`tests/task_launcher_tests/`（16）；无 `M/D`。7 个 commit 逐个
@@ -32,9 +32,9 @@
 | plugin 构建确定性 | ✅ **628 files / 13,179,534 bytes**；两次 manifest/文件树一致；`skills/easycirq/` | `python -m task_launcher build-plugin …` |
 | stub connector e2e | ✅ 退出码 0/1/2 按契约；7 tests OK；12 个基准 case 均由 stub 驱动 | `test_stub_connector.py`、benchmark |
 | Skill 自检 | ✅ **5 PASS / 0 FAIL / 0 NOT RUN** | `python easycirq/scripts/skill_selftest.py` |
-| 清洁 checkout 复现 | ⏳ 审计适配后的新 HEAD 复跑（见下节/PR） | 独立 worktree，无未跟踪文件 |
+| 清洁 checkout 复现 | ✅ 独立 worktree（detached at `1f964af`，无未跟踪文件）：套件 **98 tests OK/94.1 s**、基准 **12/12/23.9 s**、自检 **5 PASS** | `hds-tl-clean2`（已清理） |
 | Issue 回填 | ✅ 15 个 issue（#79–#93）已创建并回填 `issue-candidates.md` §1.1；IC-02/IC-17 未开 | 本文件「Issue 回填」+ issue-candidates.md |
-| CI 3.10/3.13 | ⏳ EasyCirq 重命名后的 HEAD 重跑（rebase 前 commit 曾全绿，见下节） | PR #74 checks |
+| CI 3.10/3.13 | ✅ `1f964af` 的 `validate (3.10)`/`(3.13)` 全绿 + `updater` pass（见下节） | PR #74 checks |
 | 真实 Claude / EDA / 硬件 | ⛔ **NOT RUN**（不调用真实模型/网络/EDA，未伪造） | result/benchmark 字段 |
 
 ## EasyCirq 重命名适配（审计期）
@@ -78,8 +78,9 @@ main 在 #77（`e07dc11`）把仓库/Skill 从 `design-hardware` 重命名为 **
   → **3428 tests OK (skipped=3)，354.9 s**（本机 Windows 11 / Python 3.13.15，干净
   `PYTHONIOENCODING` 环境；若 shell 强制 `PYTHONIOENCODING=utf-8`，A 的
   `test_skill_update` 可能因 GBK 解码失败，与本任务代码无关）。
-- 清洁 checkout 复现：审计适配后的新 HEAD 独立 worktree 复跑（快照/命令见 PR/报告；两节数字以
-  复跑记录为准）。
+- 清洁 checkout 复现（独立 worktree `hds-tl-clean2`，detached at `1f964af`，无未跟踪文件）：
+  套件 **98 tests OK，94.1 s**；基准 **12/12 passed，23.9 s**；自检 **5 PASS**。
+  基准重跑只更新 `results.json` 的 `duration_ms/elapsed_ms`。
 
 ## 基准
 
@@ -123,18 +124,19 @@ benchmark 的 12 个 case 也全部由 stub connector 子进程驱动。
   `3.10`/`3.13`，ubuntu-latest，`python3 -m unittest discover -s tests -v`）。
 - CI（PR #74 checks）：审计适配后重跑结果见 PR checks（rebase + 重命名后新旧 commit 哈希不同）。
 
-## CI 状态（历史 + 最新）
+## CI 状态（PR #74）
 
-审计修复前的 CI 全绿记录（commit `c828ebc`、`074bd88`、`c6caa43`，均在 rebase 前的历史中；
-EasyCirq 重命名适配后分支被 rebase，PR checks 会针对新 HEAD 重跑）：
+**最终 HEAD `1f964af`（EasyCirq main 基线）：全绿**
 
-| commit（rebase 前历史） | job | 结果 |
+| job | 结果 | run / job |
 |---|---|---|
-| `c828ebc` | `validate (3.10)` / `(3.13)` | pass 3m14s / 2m45s |
-| `074bd88` | `validate (3.10)` / `(3.13)` | pass 3m17s / 2m46s |
-| `c6caa43` | `validate (3.10)` / `(3.13)` | pass 3m14s / 2m21s（push）+ 2m20s / 2m35s（PR） |
+| `validate (3.10)` | **pass** 2m25s（push）/ 2m50s（PR） | [40638161844 / 122649853374](https://github.com/zsx3896926/EasyCirq/actions/runs/40638161844/job/122649853374) · [40638165621 / 122649865929](https://github.com/zsx3896926/EasyCirq/actions/runs/40638165621/job/122649865929) |
+| `validate (3.13)` | **pass** 2m59s（push）/ 3m22s（PR） | [40638161844 / 122649853608](https://github.com/zsx3896926/EasyCirq/actions/runs/40638161844/job/122649853608) · [40638165621 / 122649865502](https://github.com/zsx3896926/EasyCirq/actions/runs/40638165621/job/122649865502) |
+| `updater (ubuntu/windows)` | pass 1m9s / 2m47s | run `40638165820` |
+| `publish` | skipping（不发版） | run `40638165820` |
 
-最新 HEAD（EasyCirq 重命名适配后）：以 PR #74 checks 为准（见下节回填）。
+历史（rebase 前）CI 全绿记录保留在 git 历史中（`c828ebc`/`074bd88`/`c6caa43`）；因 rebase +
+重命名适配，其 commit 哈希不再对应当前分支。
 
 ## 审计记录（PR #74）
 

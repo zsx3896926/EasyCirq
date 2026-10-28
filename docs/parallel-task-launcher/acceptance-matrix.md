@@ -14,8 +14,8 @@
 | 项 | 取值 |
 |---|---|
 | worktree | `C:\Users\jlc\Documents\deepseek-harness\default-workspace\hds-tl-worktree` |
-| 分支 / HEAD | `feat/parallel-task-launcher`；任务书基线 `0e391e3` → rebase 到 `origin/main@1701e79`（EasyCirq 重命名后的 main）后的 HEAD（精确值见 `handoff-current.md`） |
-| 当前 `origin/main` | `1701e79`（含 EasyCirq 重命名 #77；审计期间 main 已前进，见 handoff） |
+| 分支 / HEAD | `feat/parallel-task-launcher`；任务书基线 `0e391e3` → rebase 到 `origin/main@91b03e5` 后的 HEAD `1f964af07bcba51cb4682af8c0502a04df98d7b3`（本文件回填前的 PR head） |
+| 当前 `origin/main` | `91b03e5`（含 A 工具链 #36、EasyCirq 重命名 #77、品牌统一 #99） |
 | 本机 Python | `3.13.15`（Windows；CI 另有 3.10/3.13，见 §1 第 9 行） |
 | 任务启动器套件 | `python -m unittest discover -s tests/task_launcher_tests -t tests -p "test_*.py"` → **98 tests OK，约 97 s**（EasyCirq main 基线 Lead 实测） |
 | 官方全量套件 | `python -m unittest discover -s tests` → **3428 tests OK (skipped=3)，354.9 s**（EasyCirq main 基线 Lead 实测；干净 PYTHONIOENCODING 环境） |
@@ -43,7 +43,7 @@
 | 6 | `build-plugin --skill-dir easycirq --out <tmp>` 成功；两次 manifest 一致；结构校验通过 | `tests/task_launcher_tests/test_plugin.py`：`PluginBuildTests`(5)、`PluginCliTests`(1)、`PluginDeterminismTests`(2)、`PluginFailureTests`(4)；独立命令见 task_launcher/README.md | 测试覆盖：结构、manifest 哈希、两次构建一致、mtime 无关、缺 SKILL.md/版本失败、非空 out 拒绝/`--force`、CLI 纯 JSON；独立命令结果见 report.md（628 files / 13,179,534 bytes，两次 manifest 一致） | ✅（测试 + 实测） |
 | 7 | stub connector 端到端，start→events→result 退出码正确 | `test_stub_connector.py`：`StubConnectorTests`(7) | **7 tests OK**：成功 0、失败/超时/取消 1、协议错误 2、错误 token 2、schema 拒绝 2 | ✅（Lead 实测） |
 | 8 | 可选真实 Claude：本机可用则跑 1 次只读任务并记录，否则 NOT RUN | 无真实调用（本任务范围外） | **NOT RUN**；未记录任何真实模型输出 | ⛔ NOT RUN |
-| 9 | 清洁 checkout 可复现测试/基准；CI 3.10/3.13 在 PR HEAD 全绿 | `python -m unittest discover -s tests`（`.github/workflows/validate.yml` matrix `3.10`/`3.13`）；独立 worktree `hds-tl-clean` | 清洁 checkout（审计修复后的新 HEAD，见 handoff）：任务套件 **98 tests OK**、基准 **12/12**；本机全量 **3428 OK**；CI（EasyCirq 重命名后 HEAD）见 handoff/PR checks | ⏳ 见 handoff / CI |
+| 9 | 清洁 checkout 可复现测试/基准；CI 3.10/3.13 在 PR HEAD 全绿 | `python -m unittest discover -s tests`（`.github/workflows/validate.yml` matrix `3.10`/`3.13`）；独立 worktree `hds-tl-clean` | 清洁 checkout（独立 worktree，detached at `1f964af`，无未跟踪文件）：任务套件 **98 tests OK/94.1 s**、基准 **12/12/23.9 s**、自检 **5 PASS**；CI `1f964af`：`validate (3.10)` pass 2m25s/2m50s、`validate (3.13)` pass 2m59s/3m22s；PR #74 全绿 | ✅（本机 + CI） |
 | 10 | 未修改 A/runtime/connector/SKILL/分发/CI；未合并 PR、未发版 | `git diff --name-status origin/main...HEAD`；`git status` | 相对 EasyCirq main 仅新增 4 类允许路径；每个 commit 逐个复核；未修改任何既有文件（全量套件在 A 测试中会追加写 toolchain 证据日志，提交前还原，见 IC-16）；PR 保持 OPEN、未合并、未发版 | ✅（M4 + 审计实测） |
 
 > 基线说明：任务书 baseline 是 `0e391e3`；开工后 main 先合入 A 工具链（#36），随后完成

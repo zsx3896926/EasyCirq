@@ -2,8 +2,8 @@
 
 - 分支：`feat/parallel-task-launcher`
 - 基线演进：任务书基线 `main@0e391e3` → M4 rebase 到 `main@c54c6fc`（A 工具链已合入）→
-  **审计期间 main 完成 EasyCirq 重命名（#77, `e07dc11`）并前进到 `1701e79`，本分支已再次 rebase
-  到 `origin/main@1701e79` 并完成重命名适配**（见 §6）。PR 合并前若 main 再前进，按同样流程复核。
+  **审计期 main 完成 EasyCirq 重命名（#77）并继续前进，本分支最终 rebase 到
+  `origin/main@91b03e5` 并完成重命名适配**（见 §5）。PR 合并前若 main 再前进，按同样流程复核。
 - 本报告只记录**实际执行过的命令与结果**；没有执行的项目一律标 `NOT RUN`，没有把 fake agent
   的结果写成真实模型验证。
 
@@ -93,7 +93,7 @@ real_claude: NOT RUN
 ### M4：rebase、清洁 checkout、全量套件、自检、PR
 
 - rebase：`git fetch origin && git rebase origin/main` → 两次 rebase 均 `Successfully rebased`
-  （先到 `c54c6fc`，审计期再到 `1701e79`，含 EasyCirq 重命名）；允许路径与文件数不变。
+  （先到 `c54c6fc`，审计期再到 `1701e79`/`91b03e5`，含 EasyCirq 重命名与品牌统一）；允许路径与文件数不变。
 - 允许路径复核：`git diff --name-status origin/main...HEAD` → 全部 `A`，无 `M/D`（精确文件数见
   `handoff-current.md`）。
 - 官方全量套件（含本任务 98 个测试，EasyCirq main 基线）：**3428 tests OK (skipped=3)，354.9 s**。
@@ -119,8 +119,8 @@ manifest_sha256=E7A9CC644FB31ECAA741A07C2A6B804F3F30AEAC5FEFA6353A572999BE242424
 | stub e2e | `python -m unittest tests.task_launcher_tests.test_stub_connector` | **7 tests OK** |
 | Skill 自检 | `python easycirq/scripts/skill_selftest.py` | **5 PASS / 0 FAIL** |
 | plugin 构建 | `python -m task_launcher build-plugin --out <tmp>`（默认自动探测 Skill 目录） | 628 files / 13,179,534 bytes；两次 manifest 一致 |
-| 清洁 checkout | 独立 worktree（detached at 新 HEAD，无未跟踪文件） | 见 `handoff-current.md`（审计修复后复跑） |
-| CI | PR #74 的 `Validate skill` matrix（ubuntu-latest） | 见 `handoff-current.md`（EasyCirq 重命名后的最终 HEAD） |
+| 清洁 checkout | 独立 worktree `hds-tl-clean2`（detached at `1f964af`，无未跟踪文件） | **98 tests OK/94.1 s**；基准 **12/12/23.9 s**；自检 **5 PASS**（重跑只更新耗时字段） |
+| CI | PR #74 的 `Validate skill` matrix（ubuntu-latest） | **`1f964af` 全绿**：3.10 pass 2m25s/2m50s，3.13 pass 2m59s/3m22s；updater pass；publish skipping |
 
 ## 3. fake vs 真实边界
 
