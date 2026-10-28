@@ -56,5 +56,15 @@
     "file": "evidence/gates/BOM-v2.csv",
     "note": "exported with --enrich=false; contains C codes, MPNs and manufacturers for all 6 rows"
   },
-  "honest_status": "BOM now orderable on paper; PCB needs the J1 TH pad rewire before DRC 0. The ORIGINAL project zhigou-integrated-dual-button-led-20261027 was damaged while trying to replace devices in place (schematic connectivity broken); restore it from zhigou-board.epro2 or undo in EDA."
+  "honest_status": "BOM: orderable (all six rows have C code/MPN/manufacturer). PCB: NOT closed - J1 TH swap left gaps; automated repair attempts failed, interactive rewire or baseline restore required. Original acceptance project was damaged by the first in-place attempt.",
+  "repair_attempts": {
+    "at": "2026-10-28T12:57:00+08:00",
+    "tried": [
+      "pcb.route.auto (typed call ok, no effect on the gaps)",
+      "pcb.pour.rebuild (rebuilt 2 pours, gaps remained)",
+      "pcb.line.create x3 (VIN J1_1->e26, GND J1_2, GND C1_2)"
+    ],
+    "outcome": "DRC after repair: 2 violations, more disconnected objects (GND: C1_2/J1_2/e53; VIN: F1_1/J1_1/e26/e52) - the manual track endpoints did not snap onto the pads/track ends, so automated repair made it worse",
+    "conclusion": "Do the J1/C1 rewire interactively in the EDA GUI (snapping is reliable there), or re-import zhigou-board.epro2 as the PCB baseline and keep the BOM-v2 codes."
+  }
 }

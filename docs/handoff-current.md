@@ -186,3 +186,13 @@ distribution\Install-Zhigou.ps1 rollback
   `route.auto` 与 `pour.rebuild` 调用成功但未消除，需要手工补 J1/C1 的短线后重跑 DRC。
 - **原验收工程 `zhigou-integrated-dual-button-led-20261027` 被改坏**（原地替换导致原理图连接/网表
   受损）。恢复方式：用 `zhigou-board.epro2` 重新导入，或在 EDA 中撤销。请勿再引用其当前状态。
+
+## 2026-10-28 12:58 PCB 修复尝试失败（如实）
+
+- 自动补线尝试：`pcb.route.auto`、`pcb.pour.rebuild`（rebuilt 2）都成功调用，但 J1 换 TH 后的
+  No Connection 未消除；随后 `pcb.line.create` 画了 3 条线（VIN J1_1→e26、GND J1_2、GND C1_2），
+  端点没有吸附到焊盘/走线端点，DRC 反而变成 2 条违规、多出悬空段 e52/e53。
+- 因此 **PCB 未闭环**：需在 EDA GUI 里交互式补 J1/C1 两条线（吸附可靠），或
+  `zhigou-board.epro2` 重导基线 + 保留 `BOM-v2.csv` 的料号。
+- BOM 侧不退回：6 行新料号（C112291/C125205/C51933311/C845159/C49296724/C124375）已确认有货，
+  BOM 导出（`evidence/gates/BOM-v2.csv`）可直接用于下单核对。
