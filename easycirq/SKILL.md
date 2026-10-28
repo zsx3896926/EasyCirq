@@ -17,6 +17,7 @@ description: 智构 · EasyCirq —— 配合AI Agent把自然语言idea推进�
 - **R9（资产恰好 1 个，且先声明）**：数值核算、选型、BOM、制造门禁（含“能不能下单”）、从零设计、改板/变更影响类任务，**回答开头先写一行「依据：<资产名>」**，然后必须实际使用**恰好 1 个** Skill 资产：**1 次脚本运行**（如 `scripts/calculate.py`、`scripts/power_budget.py`）**或 1 篇对应设计卡/清单/变更卡**（如 `references/design-cards/power/p01-ldo.md`、`assets/pcb-delivery-checklist.md`、`references/decisions/i01-change-impact.md`）。**禁止**先 `--help` 再运行、禁止连跑多个计算器/多个卡片、禁止用模板占位参数反复试算——参数一次给全。路径不确定时最多先用 1 次 `ls` 确认目录（计入 R3 预算），再读正确路径；同一资产只算 1 个。
 - **R10（EDA 最多 1 次，且不读别人的工程）**：整个任务最多 1 次 `easycirq` 命令，且**只允许** `easycirq doctor`（或 `capabilities`，二选一）。**用户没有点名工程时，即使 EDA 里已打开工程也不得读取**（不许 `project info` / `doc ls` / `sch read` / `pcb dump`），按“没有工程”处理并请用户确认。
 - **R11（单命令 ≤60 s）**：任何一条命令都设 60 s 超时；超时/失败就记录现状并继续或转 `NOT RUN`，**不要重试**。
+- **R12（先版式后器件）**：画或改原理图时，先在 `style-plan.json` 定好图纸模板、分区框（位置/大小/标题/order/purpose/配色）与标题栏，并用 `scripts/sch_style_plan_check.py` 通过；**未通过不得开始写器件、连线或 EDA 写入**。风格规范见 `references/schematic-style.md`，参考样例 `assets/style-reference/esp32-schematic.png`。
 - **交互**：本客户端可能禁用 `AskUserQuestion` 等交互工具；需要提问时**直接用可见文字提问**。
 
 
