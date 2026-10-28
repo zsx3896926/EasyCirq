@@ -207,13 +207,13 @@ G3 与 G4 是并列前置条件：布线必须在两者都满足后开始，不�
 | `routing_plan` | 计划 | 阅读 [布线计划](../assets/routing-plan.md) | `routing.plan` | 层/通道/过孔/net class/顺序/停止条件齐全 | 缺失 → `BLOCKED`（不可豁免） |
 | `save_reload` | 持久化 | `easycirq pcb save`；`easycirq doc reload`；再 `pcb dump`/`pcb drc` 回读 | `reopen_check` 或 `routing.save_reload` | 重载后对象与 DRC 结论 match | `save` 返回成功不算；缺回读 → `BLOCKED`（不可豁免） |
 | `silk_over_pad` | 丝印 | `easycirq pcb silk-align`；`pcb dump`/`layout-lint` | `silk_align` | 0 处丝印压焊盘，或已整理并回读 | 缺失 → `BLOCKED`（可豁免） |
-| `stop_rule` | DRC 轮次 | 状态文件 `routing.drc_rounds` | `drc_rounds`、`stop_rule_triggered` | 未出现连续 3 轮改善 <30%；触发时已停止并记录重排/改 4 层/拆页/如实报告 | 轮次不足只给 advisory `warn`；触发未处理 → `BLOCKED`（可豁免） |
+| `stop_rule` | DRC 轮次 | 状态文件 `routing.drc_rounds` | `drc_rounds`、`stop_rule_triggered` | 未出现连续 3 轮改善 <30%；触发时已停止并记录结构决定（唯一定义见 [agent-collaboration](agent-collaboration.md) §停止规则，4 层出路见 [PCB 4 层闭环](pcb-4layer-closure.md)） | 轮次不足只给 advisory `warn`；触发未处理 → `BLOCKED`（可豁免） |
 
 `pcb net-path` 只证明已列出的走线铜（线段/弧/过孔/焊盘），不覆盖铺铜、平面和填充区域。仅靠铺铜连接的 GND 不要放进 `key_nets` 的 `net-path` 清单，应以 `pcb drc` 的 Connection 结论加 `pour-list` 回读证明；`net-path` 失败也不等于全板断连。
 
 **退出条件：** `pcb drc` `passed:true` 且 0 Connection、关键网逐条证明、保存重载 match、丝印与停止规则有记录。满足后进入 S5。
 
-**豁免规则：** PCB DRC、Connection、关键网证明、保存重载、布线计划不可豁免；丝印和停止规则可豁免，但停止规则触发时不能只豁免数字，必须记录结构决定（重排/4 层/拆页/如实报告）。
+**豁免规则：** PCB DRC、Connection、关键网证明、保存重载、布线计划不可豁免；丝印和停止规则可豁免，但停止规则触发时不能只豁免数字，必须记录结构决定（2 层：重排/改 4 层/拆页/如实报告；4 层：重排局部/重规划逃逸/拆板/如实报告，见 [agent-collaboration](agent-collaboration.md) §停止规则）。
 
 **真实反例：** DRC 完整序列为 93 → 50 → 31 → 28 → 23 → 31 → 28 → 22 → 16 → 18，不是单调下降，最终 18 比上一轮 16 更差；18 条中 6 条在 J1 的 VBUS(D1_N1)、CC1(D1_N3)、CC2(D1_N4) 焊盘行。只贴最后一轮会漏掉平台期与回升；G5 要求 `passed:true` 且 0 Connection，而不是“看起来在下降”。
 

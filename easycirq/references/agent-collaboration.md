@@ -63,14 +63,20 @@
 
 ## 停止规则（DRC 平台期）
 
+这是全库唯一的 DRC 停止规则定义；`pcb.md`、`pcb-routing-strategy.md`、`routing-plan.md`、`design-gates.md` 只引用本段，不另写第二套循环。
+
 同一布局、同一网络优先级下，连续 3 轮 `pcb drc --json` 的违规总数改善都小于 30%，即触发停止规则：
 
 - 改善率按 `(上一轮总数 − 本轮总数) / 上一轮总数` 计算；总数持平或上升按 0% 处理。
-- 触发后停止在同一布局上继续挪线、挪过孔、改单条 track；从以下结构方案中选择并记录理由：重排布局（回到 G3）、改 4 层（回到 G4 叠层决策）、拆页/拆板，或如实报告 `BLOCKED` 并列出未收敛项。
+- 只统计“有效”轮次：改铜后必须先 `pcb pour-rebuild` → `save` → `doc reload` 再 DRC；铺铜未重建的 DRC 结果标 `invalid`，不计入轮次，也不作为“变差/平台期”的依据（假暴涨不算收敛失败）。
+- 触发后停止在同一布局上继续挪线、挪过孔、改单条 track，并记录结构决定：
+  - 2 层板：重排布局（回到 G3）、改 4 层（回到 G4 叠层决策）、拆页/拆板，或如实报告 `BLOCKED` 并列出未收敛项。
+  - 4 层板：已经 4 层时“改 4 层”无意义，出路改为重排局部区域（回到 G3 的局部重排）、重新规划逃逸（回到 G4 逃逸计划），或拆板；同样可如实报告 `BLOCKED`。
+- 任何一轮总数高于上一轮（有效轮次），立即恢复上一轮备份（`design-state` 的 `last_backup` 或工程 `.epro2`），不回退就继续。
 - 每轮 DRC 前先 `pcb save` → `doc reload` → 重新回读，避免拿旧回执比较；轮次写入 `routing.drc_rounds`，触发写 `stop_rule_triggered:true`。
 - 停止规则不取消关键网证明：DRC 数字下降不等于连接正确，仍需 G5 的 `net-path` 与保存重载证据。
 
-方法细节与 2 层/4 层取舍见 [PCB 布线策略](pcb-routing-strategy.md)。
+4 层板端到端顺序见 [PCB 4 层闭环](pcb-4layer-closure.md)；方法细节与 2 层/4 层取舍见 [PCB 布线策略](pcb-routing-strategy.md)。
 
 ## 证据协议
 

@@ -10,6 +10,7 @@
 - 新增 guard `tests/test_pcb_closure_rules_present.py`。
 - 新增 DRC 轻量入口 `python scripts/pcb_evidence.py drc-summary <drc.json> [--json]`：复用 `pcb_gate.py` 的 `parse_drc`，输出 total/按规则/按网/断开焊盘；`passed` 非布尔、缺 total、计数矛盾按读取失败非零退出。布线期读 DRC 只允许用该入口（`pcb-execution.md`、`pcb-routing-strategy.md`）。
 - `pcb_apply_plan` 增加 `--skip-existing`：track/via/pour 按几何（±1 mil、可反向）与最新 dump 比对，已存在记 noop 只补缺失（续传/重跑不叠铜）；含铜验收成功时报告状态为 `verified_geometry`（新增铜几何都落在计划内，ID 无关），计划外新增铜判 `mismatch`；新增 `--auto-timeout` 按 op 数缩放超时（0.3 s/op + 30 s 余量，下限 120 s）。
+- 新增 `references/pcb-4layer-closure.md`（4 层板端到端 12 步闭环配方）；DRC 停止规则合并为 `agent-collaboration.md` §停止规则的唯一定义，补三条：铺铜未重建的 DRC 无效不计轮次、总数变差恢复备份、4 层板出路改为重排局部/重规划逃逸；`pcb.md`、`pcb-routing-strategy.md`、`routing-plan.md`、`design-gates.md` 改为引用。新增 guard `tests/test_pcb_4layer_closure.py`。
 
 ## 1.0.2 — 2026-10-27
 
